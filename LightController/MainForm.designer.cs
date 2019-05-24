@@ -1,4 +1,6 @@
-﻿namespace LightController
+﻿using System.Windows.Forms;
+
+namespace LightController
 {
 	partial class MainForm
 	{
@@ -28,7 +30,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+			this.comComboBox = new System.Windows.Forms.ComboBox();
 			this.openComButton = new System.Windows.Forms.Button();
 			this.newFileButton = new System.Windows.Forms.Button();
 			this.openFileButton = new System.Windows.Forms.Button();
@@ -40,23 +44,24 @@
 			this.sceneSetButton = new System.Windows.Forms.Button();
 			this.oneKeyButton = new System.Windows.Forms.Button();
 			this.backupButton = new System.Windows.Forms.Button();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.lightsListView = new System.Windows.Forms.ListView();
+			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.SuspendLayout();
 			// 
-			// comboBox1
+			// comComboBox
 			// 
-			this.comboBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(11, 10);
-			this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(121, 28);
-			this.comboBox1.TabIndex = 0;
-			this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+			this.comComboBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.comComboBox.FormattingEnabled = true;
+			this.comComboBox.Location = new System.Drawing.Point(11, 10);
+			this.comComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.comComboBox.Name = "comComboBox";
+			this.comComboBox.Size = new System.Drawing.Size(121, 28);
+			this.comComboBox.TabIndex = 0;
+			this.comComboBox.SelectedIndexChanged += new System.EventHandler(this.comComboBox_SelectedIndexChanged);
 			// 
 			// openComButton
 			// 
@@ -68,7 +73,7 @@
 			this.openComButton.TabIndex = 1;
 			this.openComButton.Text = "打开串口";
 			this.openComButton.UseVisualStyleBackColor = true;
-			this.openComButton.Click += new System.EventHandler(this.button1_Click);
+			this.openComButton.Click += new System.EventHandler(this.openCOMbutton_Click);
 			// 
 			// newFileButton
 			// 
@@ -126,7 +131,7 @@
 			this.exitButton.TabIndex = 6;
 			this.exitButton.Text = "退出";
 			this.exitButton.UseVisualStyleBackColor = true;
-			this.exitButton.Click += new System.EventHandler(this.button6_Click);
+			this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
 			// 
 			// lightEditButton
 			// 
@@ -183,16 +188,6 @@
 			this.backupButton.Text = "备份";
 			this.backupButton.UseVisualStyleBackColor = true;
 			// 
-			// pictureBox1
-			// 
-			this.pictureBox1.BackColor = System.Drawing.Color.Ivory;
-			this.pictureBox1.Location = new System.Drawing.Point(11, 45);
-			this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(1126, 187);
-			this.pictureBox1.TabIndex = 7;
-			this.pictureBox1.TabStop = false;
-			// 
 			// saveFileDialog
 			// 
 			this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
@@ -212,12 +207,49 @@
 			this.skinEngine1.SerialNumber = "";
 			this.skinEngine1.SkinFile = null;
 			// 
+			// lightsListView
+			// 
+			this.lightsListView.BackColor = System.Drawing.Color.Snow;
+			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lightType});
+			this.lightsListView.LargeImageList = this.LargeImageList;
+			this.lightsListView.Location = new System.Drawing.Point(11, 53);
+			this.lightsListView.MultiSelect = false;
+			this.lightsListView.Name = "lightsListView";
+			this.lightsListView.Size = new System.Drawing.Size(1140, 162);
+			this.lightsListView.SmallImageList = this.LargeImageList;
+			this.lightsListView.TabIndex = 7;
+			this.lightsListView.UseCompatibleStateImageBehavior = false;
+			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
+			// 
+			// lightType
+			// 
+			this.lightType.Text = "LightType";
+			// 
+			// LargeImageList
+			// 
+			this.LargeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("LargeImageList.ImageStream")));
+			this.LargeImageList.TransparentColor = System.Drawing.Color.Transparent;
+			this.LargeImageList.Images.SetKeyName(0, "RGB.ico");
+			this.LargeImageList.Images.SetKeyName(1, "XY轴.ico");
+			this.LargeImageList.Images.SetKeyName(2, "对焦.ico");
+			this.LargeImageList.Images.SetKeyName(3, "虹膜.ico");
+			this.LargeImageList.Images.SetKeyName(4, "混色.ico");
+			this.LargeImageList.Images.SetKeyName(5, "棱镜.ico");
+			this.LargeImageList.Images.SetKeyName(6, "频闪.ico");
+			this.LargeImageList.Images.SetKeyName(7, "速度.ico");
+			this.LargeImageList.Images.SetKeyName(8, "调光.ico");
+			this.LargeImageList.Images.SetKeyName(9, "图案.ico");
+			this.LargeImageList.Images.SetKeyName(10, "图案自转.ico");
+			this.LargeImageList.Images.SetKeyName(11, "未知.ico");
+			this.LargeImageList.Images.SetKeyName(12, "颜色.ico");
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1163, 562);
-			this.Controls.Add(this.pictureBox1);
+			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.exitButton);
 			this.Controls.Add(this.backupButton);
 			this.Controls.Add(this.oneKeyButton);
@@ -229,21 +261,20 @@
 			this.Controls.Add(this.lightEditButton);
 			this.Controls.Add(this.newFileButton);
 			this.Controls.Add(this.openComButton);
-			this.Controls.Add(this.comboBox1);
+			this.Controls.Add(this.comComboBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Text = "智控配置";
 			this.Load += new System.EventHandler(this.Form1_Load);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.ComboBox comComboBox;
 		private System.Windows.Forms.Button openComButton;
 		private System.Windows.Forms.Button newFileButton;
 		private System.Windows.Forms.Button openFileButton;
@@ -255,10 +286,15 @@
 		private System.Windows.Forms.Button sceneSetButton;
 		private System.Windows.Forms.Button oneKeyButton;
 		private System.Windows.Forms.Button backupButton;
-		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine1;
+
+		// 2019.5.23 : 添加listView 来存放加载的灯具列表
+		private ListView lightsListView;
+		public ListViewItem[] lightItems;
+		private ColumnHeader lightType;
+		private ImageList LargeImageList;
 	}
 }
 

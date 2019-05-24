@@ -13,6 +13,7 @@
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
+			System.Console.WriteLine("lightastform is dispose");
 			if (disposing && (components != null))
 			{
 				components.Dispose();
@@ -30,8 +31,8 @@
 		{
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
+			this.enterButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.lightCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.startCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			((System.ComponentModel.ISupportInitialize)(this.lightCountNumericUpDown)).BeginInit();
@@ -56,27 +57,27 @@
 			this.label2.TabIndex = 0;
 			this.label2.Text = "起始灯具地址";
 			// 
-			// button1
+			// enterButton
 			// 
-			this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-			this.button1.Location = new System.Drawing.Point(28, 126);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(94, 34);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "确定";
-			this.button1.UseVisualStyleBackColor = false;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.enterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+			this.enterButton.Location = new System.Drawing.Point(28, 126);
+			this.enterButton.Name = "enterButton";
+			this.enterButton.Size = new System.Drawing.Size(94, 34);
+			this.enterButton.TabIndex = 2;
+			this.enterButton.Text = "确定";
+			this.enterButton.UseVisualStyleBackColor = false;
+			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
-			// button2
+			// cancelButton
 			// 
-			this.button2.BackColor = System.Drawing.SystemColors.Info;
-			this.button2.Location = new System.Drawing.Point(182, 126);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(100, 34);
-			this.button2.TabIndex = 2;
-			this.button2.Text = "取消";
-			this.button2.UseVisualStyleBackColor = false;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.cancelButton.BackColor = System.Drawing.SystemColors.Info;
+			this.cancelButton.Location = new System.Drawing.Point(182, 126);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(100, 34);
+			this.cancelButton.TabIndex = 2;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = false;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// lightCountNumericUpDown
 			// 
@@ -121,8 +122,8 @@
 			this.ClientSize = new System.Drawing.Size(309, 188);
 			this.Controls.Add(this.startCountNumericUpDown);
 			this.Controls.Add(this.lightCountNumericUpDown);
-			this.Controls.Add(this.button2);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Name = "LightsAstForm";
@@ -138,8 +139,8 @@
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button enterButton;
+		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.NumericUpDown lightCountNumericUpDown;
 		private System.Windows.Forms.NumericUpDown startCountNumericUpDown;
 	}

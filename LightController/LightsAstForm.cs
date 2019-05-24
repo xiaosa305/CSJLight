@@ -18,12 +18,13 @@ namespace LightController
 		private string lightName; // 厂商名
 		private string lightType;  //灯型号
 		private string lightAddr; // 地址 ： 由【初始地址 + "-" + （初始地址+通道数）】组成
-		private int lightCount;
-		private int endNum;
+		private string lightPic; //灯的图片地址
+		private int lightCount;    // 灯具的通道数
 
 		private int startNum; // 新建灯具的起始地址
+		private int endNum; // 灯具的结束地址。
 
-		public LightsAstForm(LightsForm lightsForm, string lightPath,int startNum)
+		public LightsAstForm(LightsForm lightsForm, string lightPath, int startNum)
 		{
 			InitializeComponent();
 
@@ -32,55 +33,38 @@ namespace LightController
 
 			this.startCountNumericUpDown.Minimum = startNum;
 			this.startCountNumericUpDown.Value = startNum;
-			
+
 			readFile(lightPath);
 
 		}
 		// 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
-		public void readFile(string lightPath) {
+		private void readFile(string lightPath) {
 			string[] lines = File.ReadAllLines(lightPath);
 			lightCount = int.Parse(lines[3].Substring(6));
 			lightName = lines[4].Substring(5);
 			lightType = lines[1].Substring(5);
+			lightPic = lines[2].Substring(4);
+		}
+
+		//　辅助方法：通过startNum来计算endNum和lightAddr;
+		private void calcEndAddr() {
 			this.startNum = int.Parse(this.startCountNumericUpDown.Value.ToString());
 			this.endNum = startNum + lightCount - 1;
-
 			lightAddr = startNum + "-" + endNum;
+		}		
 
-		}
 
-
-		private void textBox2_TextChanged(object sender, EventArgs e)
+		private void enterButton_Click(object sender, EventArgs e)
 		{
-			TextBox textBox = (TextBox)sender;
-			try
-			{
-				int textBoxNum = int.Parse(textBox.Text);
-				if (textBoxNum < 0)
-				{
-					MessageBox.Show("通道地址编号不得小于0");
-					return;
-				}
-				
-			}
-			catch (Exception ex)
-			{
-
-				textBox.Text = "";
-				MessageBox.Show("地址编号只能是数字");
-				//TODO ：在下方提示该处只能输入数字 
-			}
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			lightsForm.AddListView(lightName,lightType,lightAddr);
+			calcEndAddr();
+			lightsForm.AddListView(lightName, lightType, lightAddr,lightPic,endNum);
 			this.Close();
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Hide();
+			this.Close();
 		}
+		
 	}
 }

@@ -12,27 +12,35 @@ namespace LightController
 {
 	public partial class LightsForm : Form
 	{
-		public LightsForm()
+		private MainForm mainForm;		
+		//每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
+		private int minNum = 1; 
+
+
+		public LightsForm(MainForm mainForm,List<LightAst> lightAstList)
 		{
 			InitializeComponent();
-		}
 
+			this.mainForm = mainForm;
+			if (lightAstList != null && lightAstList.Count > 0) {
+
+				this.lightAstList = lightAstList; 
+			}			
+
+		}
+		
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
-			//TreeNode treeNode = new TreeNode();
+			// 1. 生成左边的灯具列表，树状形式
 			string path = @"C:\Temp\LightLibrary";
-			if (Directory.Exists(path)) {
-				
+			if (Directory.Exists(path)) {				
 				string[] dirs = Directory.GetDirectories(path);
-
-
 				foreach (string dir in dirs)
 				{
 					DirectoryInfo di = new DirectoryInfo(dir);
-					//Console.WriteLine(di.Name);
 					TreeNode treeNode = new TreeNode(di.Name);
 					
-					//TODO 由ini文件生成子节点
+					//由ini文件生成子节点
 					FileInfo[] files = di.GetFiles();
 					foreach (FileInfo file in files)
 					{
@@ -46,52 +54,63 @@ namespace LightController
 					}
 					this.treeView1.Nodes.Add(treeNode);
 				}
-				treeView1.ExpandAll();				
+				treeView1.ExpandAll();
 			}
-		}
 
-		private LightsAstForm lightsAstForm;
-		private void button2_Click(object sender, EventArgs e)
+			// 2.载入lightAstList到右边的框中
+			
+
+		}
+				
+		private List<LightAst> lightAstList = new List<LightAst>(); 
+
+		private void addLightButton_Click(object sender, EventArgs e)
 		{
 			if (treeView1.SelectedNode == null)
 			{
 				MessageBox.Show("请先选择灯具！");
-			}
-			else {
+			}else {
 				string fullPath = @"C:\Temp\LightLibrary\" + treeView1.SelectedNode.FullPath + ".ini";
-				LightsAstForm  lightsAstForm = new LightsAstForm(this,fullPath,10);
+				LightsAstForm  lightsAstForm = new LightsAstForm(this,fullPath,minNum);
 				lightsAstForm.ShowDialog();				
-
-				//MessageBox.Show(fullPath);
 			}
 			
 		}
 
-		internal void AddListView(string lightName, string lightType, string lightAddr)
+		internal void AddListView(string lightName, string lightType, string lightAddr,string lightPic,int endNum)
 		{
-			this.lightsListView.BeginUpdate();
-
-			ListViewItem item = new ListViewItem(lightAddr);
-			item.SubItems.Add(lightName);
+			// 新增时，1.直接往listView加数据，
+			ListViewItem item = new ListViewItem(lightName);
 			item.SubItems.Add(lightType);
-			//Random rd = new Random();
-			//item.ImageIndex = rd.Next(0, 6);
-			item.ImageIndex = 1;
-
+			item.SubItems.Add(lightAddr);
+			// 若lightPic不在imageList中，则设置默认图片
+			if ( ! this.largeImageList.Images.ContainsKey(lightPic))
+			{
+				lightPic = "未知.ico";
+			}
+			item.ImageKey = lightPic;
 
 			lightsListView.Items.Add(item);
-			
 
-			this.lightsListView.EndUpdate();
+			// 2.往lightAstList添加新的数据
+			lightAstList.Add(new LightAst() { LightAddr = lightAddr, LightName = lightName, LightType = lightType,LightPic = lightPic } );
+					   
+			// 3.设置minNum的值 
+			minNum = endNum + 1;			
+		}	
 
-			this.lightsListView.View = System.Windows.Forms.View.Details;
-
-			Console.WriteLine("SIZE : " + lightsListView.Items.Count);
-		}
-
-		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
+		private void deleteLightButton_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void enterButton_Click(object sender, EventArgs e)
+		{
+			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
+			mainForm.AddLights(lightAstList);
+			// 2.关闭窗口（资源还未释放）
+			this.Hide();
+			mainForm.Activate();
 		}
 
 		private void LargeIconButton_Click(object sender, EventArgs e)
@@ -103,5 +122,7 @@ namespace LightController
 		{
 			lightsListView.View = View.SmallIcon;
 		}
+
+		
 	}
 }

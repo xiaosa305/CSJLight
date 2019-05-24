@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IrisSkin4">
-      <HintPath>..\..\..\..\Desktop\IrisSkin4\IrisSkin4.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\skins\IrisSkin4\IrisSkin4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,12 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataWrapper.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

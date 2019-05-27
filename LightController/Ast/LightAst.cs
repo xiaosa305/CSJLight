@@ -7,6 +7,7 @@ namespace LightController
 {
 	public class LightAst
 	{
+		public String LightPath { get; set; }
 		public string LightName { get; set; }
 		public string LightType { get; set; }
 		public string LightAddr { get; set; }
@@ -18,7 +19,10 @@ namespace LightController
 
 
 		}
-	
 
+		public override string ToString()
+		{
+			return LightName + ":" + LightType + ":" + LightAddr + ":" + LightPic;
+		}
 	}
 }

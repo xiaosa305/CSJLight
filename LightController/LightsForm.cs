@@ -23,10 +23,8 @@ namespace LightController
 
 			this.mainForm = mainForm;
 			if (lightAstList != null && lightAstList.Count > 0) {
-
 				this.lightAstList = lightAstList; 
 			}			
-
 		}
 		
 		private void LightsForm_Load(object sender, EventArgs e)
@@ -73,11 +71,10 @@ namespace LightController
 				string fullPath = @"C:\Temp\LightLibrary\" + treeView1.SelectedNode.FullPath + ".ini";
 				LightsAstForm  lightsAstForm = new LightsAstForm(this,fullPath,minNum);
 				lightsAstForm.ShowDialog();				
-			}
-			
+			}			
 		}
 
-		internal void AddListView(string lightName, string lightType, string lightAddr,string lightPic,int endNum)
+		internal void AddListView(String lightPath,string lightName, string lightType, string lightAddr,string lightPic,int endNum)
 		{
 			// 新增时，1.直接往listView加数据，
 			ListViewItem item = new ListViewItem(lightName);
@@ -93,7 +90,7 @@ namespace LightController
 			lightsListView.Items.Add(item);
 
 			// 2.往lightAstList添加新的数据
-			lightAstList.Add(new LightAst() { LightAddr = lightAddr, LightName = lightName, LightType = lightType,LightPic = lightPic } );
+			lightAstList.Add(new LightAst() { LightAddr = lightAddr, LightName = lightName, LightType = lightType,LightPic = lightPic,LightPath = lightPath } );
 					   
 			// 3.设置minNum的值 
 			minNum = endNum + 1;			
@@ -113,15 +110,7 @@ namespace LightController
 			mainForm.Activate();
 		}
 
-		private void LargeIconButton_Click(object sender, EventArgs e)
-		{
-			lightsListView.View = View.LargeIcon;
-		}
-
-		private void smallIconButton_Click(object sender, EventArgs e)
-		{
-			lightsListView.View = View.SmallIcon;
-		}
+		
 
 		
 	}

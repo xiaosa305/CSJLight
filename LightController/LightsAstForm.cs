@@ -57,7 +57,7 @@ namespace LightController
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			calcEndAddr();
-			lightsForm.AddListView(lightName, lightType, lightAddr,lightPic,endNum);
+			lightsForm.AddListView(lightPath,lightName, lightType, lightAddr,lightPic,endNum);
 			this.Close();
 		}
 
@@ -65,6 +65,10 @@ namespace LightController
 		{
 			this.Close();
 		}
-		
+
+		private void LightsAstForm_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

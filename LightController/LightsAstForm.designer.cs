@@ -13,7 +13,7 @@
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			System.Console.WriteLine("lightastform is dispose");
+			//System.Console.WriteLine("lightastform is dispose");
 			if (disposing && (components != null))
 			{
 				components.Dispose();
@@ -128,6 +128,7 @@
 			this.Controls.Add(this.label1);
 			this.Name = "LightsAstForm";
 			this.Text = "添加灯具选项";
+			this.Load += new System.EventHandler(this.LightsAstForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.lightCountNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).EndInit();
 			this.ResumeLayout(false);

@@ -15,6 +15,12 @@ namespace LightController
 {
 	public partial class MainForm : Form
 	{
+		// 只能有一个lightsForm，在点击编辑灯具时（未生成过或已被销毁）新建，或在Hide时显示
+		private LightsForm lightsForm; 
+		private List<LightAst> lightAstList;
+
+
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -60,8 +66,7 @@ namespace LightController
 
 		private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("成功打开文件:"+openFileDialog.FileName);		
-
+			MessageBox.Show("成功打开文件:"+openFileDialog.FileName);	
 			// 简单读取文本文件
 			FileStream file = (FileStream)openFileDialog.OpenFile();	
 			// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
@@ -94,22 +99,24 @@ namespace LightController
 
 		}
 
-		private LightsForm lightsForm;
+
 		private void lightEditButton_Click(object sender, EventArgs e)
 		{
 			if (lightsForm == null || lightsForm.IsDisposed) {
-				// MessageBox.Show("该资源已被Dispose");
-
 				lightsForm = new LightsForm(this,lightAstList);
 			}			
 			lightsForm.Show();
 		}
 
-		private List<LightAst> lightAstList;
+		
 		internal void AddLights(List<LightAst> lightAstList)
 		{
+			// 1.成功编辑灯具列表后，将这个列表放到主界面来
+			this.lightAstList = lightAstList; 
+
+			// 2.旧的先删除，再将新的加入到lightAstList中；（此过程中，并没有比较的过程，直接操作）
 			lightsListView.Items.Clear();
-			foreach (LightAst la in lightAstList)
+			foreach (LightAst la in this.lightAstList)
 			{
 				Console.WriteLine(la.LightPic);
 				ListViewItem light = new ListViewItem(
@@ -124,11 +131,23 @@ namespace LightController
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			try {
-				//MessageBox.Show(lightsListView.SelectedItems[0].ToString());
+				int lightIndex = lightsListView.SelectedIndices[0];
+				LightAst light = lightAstList[lightIndex];
+				generateLightData(light);								
 			}catch(Exception ex)
 			{
 				//MessageBox.Show(ex.Message);
 			}
+		}
+
+		// 5.24 此方法用于生成light通道的数据；
+		// 1.通过lightAst的某些数据，来读取数据库中是否有相关记录；
+		// 2.若有则使用*.ini的通道设置+数据库的数据; 
+		// 3.若无则只需载入*.ini的相关数据
+		private void generateLightData(LightAst light)
+		{
+			
+
 		}
 	}
 }

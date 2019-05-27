@@ -15,7 +15,7 @@ namespace LightController
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			System.Console.WriteLine("lightForm is dispose");
+			//System.Console.WriteLine("lightForm is dispose");
 			this.Hide();
 
 			//if (disposing && (components != null))
@@ -44,8 +44,6 @@ namespace LightController
 			this.LightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LightAddr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.largeImageList = new System.Windows.Forms.ImageList(this.components);
-			this.LargeIconButton = new System.Windows.Forms.Button();
-			this.smallIconButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// addLightButton
@@ -138,37 +136,11 @@ namespace LightController
 			this.largeImageList.Images.SetKeyName(11, "未知.ico");
 			this.largeImageList.Images.SetKeyName(12, "颜色.ico");
 			// 
-			// LargeIconButton
-			// 
-			this.LargeIconButton.Font = new System.Drawing.Font("隶书", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.LargeIconButton.Location = new System.Drawing.Point(386, 276);
-			this.LargeIconButton.Name = "LargeIconButton";
-			this.LargeIconButton.Size = new System.Drawing.Size(97, 50);
-			this.LargeIconButton.TabIndex = 6;
-			this.LargeIconButton.Text = "大图标";
-			this.LargeIconButton.UseVisualStyleBackColor = true;
-			this.LargeIconButton.Visible = false;
-			this.LargeIconButton.Click += new System.EventHandler(this.LargeIconButton_Click);
-			// 
-			// smallIconButton
-			// 
-			this.smallIconButton.Font = new System.Drawing.Font("仿宋", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.smallIconButton.Location = new System.Drawing.Point(386, 332);
-			this.smallIconButton.Name = "smallIconButton";
-			this.smallIconButton.Size = new System.Drawing.Size(97, 50);
-			this.smallIconButton.TabIndex = 6;
-			this.smallIconButton.Text = "小图标";
-			this.smallIconButton.UseVisualStyleBackColor = true;
-			this.smallIconButton.Visible = false;
-			this.smallIconButton.Click += new System.EventHandler(this.smallIconButton_Click);
-			// 
 			// LightsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(996, 636);
-			this.Controls.Add(this.smallIconButton);
-			this.Controls.Add(this.LargeIconButton);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.treeView1);
 			this.Controls.Add(this.enterButton);
@@ -190,8 +162,6 @@ namespace LightController
 		private System.Windows.Forms.ColumnHeader LigntName;
 		private System.Windows.Forms.ColumnHeader LightType;
 		private ImageList largeImageList;
-		private Button LargeIconButton;
-		private Button smallIconButton;
 		private ColumnHeader LightAddr;
 	}
 }

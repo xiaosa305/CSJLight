@@ -18,25 +18,45 @@ namespace SQLAst
 
 		public Program()
 		{
-			createNewDatabase();
-			connectToDatabase();
-			createTable();
+			//createNewDatabase();
+			connectToDatabase("123456");
+			//addPassword();
+			//createTable();
 			fillTable();
 			printHighscores();
+
+			//connectToDatabase("123456");
+			//deletePassword();
+
 		}
 
 		//创建一个空的数据库
 		void createNewDatabase()
 		{
-			SQLiteConnection.CreateFile("C:\\sqlite3\\myDatabase.sqlite");
+			SQLiteConnection.CreateFile("C:\\sqlite3\\myDB527.sqlite");
+
 		}
 
 		//创建一个连接到指定数据库
-		void connectToDatabase()
+		void connectToDatabase(string password)
 		{
-			m_dbConnection = new SQLiteConnection("Data Source=C:\\sqlite3\\myDatabase.sqlite");
+			string conSql = "Data Source=C:\\sqlite3\\myDB527.sqlite";
+			if (password != null && password.Trim().Length > 0) {
+				conSql += ";password=" + password;
+			}
+
+			m_dbConnection = new SQLiteConnection(conSql);
 			m_dbConnection.Open();
 		}
+
+		//Dickov: 为数据库加密
+		void addPassword() {
+			m_dbConnection.ChangePassword("123456");
+		}
+		void deletePassword() {
+			m_dbConnection.ChangePassword("");
+		}
+
 
 		//在指定数据库中创建一个table
 		void createTable()

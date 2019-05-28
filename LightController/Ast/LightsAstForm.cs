@@ -27,10 +27,9 @@ namespace LightController
 		public LightsAstForm(LightsForm lightsForm, string lightPath, int startNum)
 		{
 			InitializeComponent();
-
 			this.lightsForm = lightsForm;
-			this.lightPath = lightPath;
 
+			this.lightPath = lightPath;
 			this.startCountNumericUpDown.Minimum = startNum;
 			this.startCountNumericUpDown.Value = startNum;
 
@@ -40,20 +39,20 @@ namespace LightController
 		// 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
 		private void readFile(string lightPath) {
 			string[] lines = File.ReadAllLines(lightPath);
-			lightCount = int.Parse(lines[3].Substring(6));
-			lightName = lines[4].Substring(5);
-			lightType = lines[1].Substring(5);
-			lightPic = lines[2].Substring(4);
+			this.lightCount = int.Parse(lines[3].Substring(6));
+			this.lightName = lines[4].Substring(5);
+			this.lightType = lines[1].Substring(5);
+			this.lightPic = lines[2].Substring(4);
 		}
 
 		//　辅助方法：通过startNum来计算endNum和lightAddr;
 		private void calcEndAddr() {
 			this.startNum = int.Parse(this.startCountNumericUpDown.Value.ToString());
 			this.endNum = startNum + lightCount - 1;
-			lightAddr = startNum + "-" + endNum;
+			this.lightAddr = startNum + "-" + endNum;
 		}		
 
-
+		// 点击确认键后，再去计算开始通道值、结束值和地址值(string)等数据
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			calcEndAddr();
@@ -66,9 +65,6 @@ namespace LightController
 			this.Close();
 		}
 
-		private void LightsAstForm_Load(object sender, EventArgs e)
-		{
-
-		}
+		
 	}
 }

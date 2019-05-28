@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace LightController
+{
+	public partial class NewForm : Form
+	{
+		private	MainForm mainForm;
+		public NewForm(MainForm mainForm)
+		{
+			this.mainForm = mainForm;
+			InitializeComponent();
+		}
+
+		private void enterButton_Click(object sender, EventArgs e)
+		{
+			string s = textBox1.Text;		   
+			if (!String.IsNullOrEmpty(s))
+			{
+				string directoryPath = "C:\\Temp\\LightProject\\" + s;
+				DirectoryInfo di = new DirectoryInfo(directoryPath);
+				if (di.Exists)
+				{
+					MessageBox.Show("这个名称已经被使用了，请使用其他名称。");
+					return;
+				}
+				else
+				{
+					// 1.由新建时取的项目名，来新建相关文件夹
+					di.Create();
+					// 2.将相关global.ini和data.db3拷贝到文件夹内-->或者新建一个数据库文件	
+
+
+
+
+					MessageBox.Show("成功新建项目");
+					this.Dispose();
+				}
+			}
+			else
+			{
+				MessageBox.Show("请输入项目名");
+				return;
+			}
+		}
+
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+		}
+	}
+}

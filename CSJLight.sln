@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightController", "LightCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLAst", "SQLAst\SQLAst.csproj", "{ACF9E138-3420-4D68-9178-CBFB48B13324}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormTest", "WinFormTest\WinFormTest.csproj", "{CAFAFE4F-04F9-41D7-A03A-E058E68DD2C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{ACF9E138-3420-4D68-9178-CBFB48B13324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACF9E138-3420-4D68-9178-CBFB48B13324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACF9E138-3420-4D68-9178-CBFB48B13324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAFAFE4F-04F9-41D7-A03A-E058E68DD2C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAFAFE4F-04F9-41D7-A03A-E058E68DD2C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAFAFE4F-04F9-41D7-A03A-E058E68DD2C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAFAFE4F-04F9-41D7-A03A-E058E68DD2C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

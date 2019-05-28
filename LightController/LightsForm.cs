@@ -55,7 +55,7 @@ namespace LightController
 				treeView1.ExpandAll();
 			}
 
-			// 2.载入lightAstList到右边的框中
+			//TODO 2.载入lightAstList到右边的框中
 			
 
 		}
@@ -80,6 +80,7 @@ namespace LightController
 			ListViewItem item = new ListViewItem(lightName);
 			item.SubItems.Add(lightType);
 			item.SubItems.Add(lightAddr);
+
 			// 若lightPic不在imageList中，则设置默认图片
 			if ( ! this.largeImageList.Images.ContainsKey(lightPic))
 			{
@@ -110,8 +111,9 @@ namespace LightController
 			mainForm.Activate();
 		}
 
-		
+		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
+		{
 
-		
+		}
 	}
 }

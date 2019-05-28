@@ -102,6 +102,7 @@ namespace LightController
 			this.lightsListView.TabIndex = 5;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
 			this.lightsListView.View = System.Windows.Forms.View.Details;
+			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
 			// 
 			// LigntName
 			// 

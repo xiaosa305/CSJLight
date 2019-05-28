@@ -440,7 +440,6 @@ namespace LightEditor
 
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
 		{
-
 			// 如果资源是第一次生成：应该设一些默认值
 			//wsForm.setTongdaoCount(int.Parse(countComboBox.SelectedItem.ToString()));
 

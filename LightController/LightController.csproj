@@ -48,6 +48,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>LightController.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
@@ -81,8 +84,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\DataBaseHelper.cs" />
     <Compile Include="Ast\LightAst.cs" />
     <Compile Include="Ast\DataWrapper.cs" />
+    <Compile Include="Ast\MD5Ast.cs" />
     <Compile Include="Ast\NewForm.cs">
       <SubType>Form</SubType>
     </Compile>

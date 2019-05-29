@@ -12,6 +12,10 @@ using System.IO;
 using Microsoft.VisualBasic;
 using System.Collections;
 using LightEditor;
+using SQLAst;
+using System.Data.SQLite;
+using DMX512;
+using LightController.Ast;
 
 namespace LightController
 {
@@ -27,7 +31,7 @@ namespace LightController
 		// private bool isNew = true;
 		// 点击保存后|刚打开一个文件时，这个属性就设为true;如果对内容稍有变动，则设为false
 		private bool isSaved = false;
-
+		public string dbFile;
 
 			   
 		public MainForm()
@@ -203,12 +207,103 @@ namespace LightController
 			
 		}
 
+		public DBWrapper allData; 
+		List<DB_Light> lightList = new List<DB_Light>();
+		List<DB_StepCount> stepCountList= new List<DB_StepCount>();
+		List<DB_Value> valueList = new List<DB_Value>();   
+
+
 		// 保存需要进行的操作：
-		// 3.将lightAstList添加到light表中
-		// 4.将步数、素材、value表的数据都填进各自的表中
+		// 1.将lightAstList添加到light表中
+		// 2.将步数、素材、value表的数据都填进各自的表中
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-			
+			//MessageBox.Show(lightAstList.Count.ToString());
+
+			dbFile = @"C:\\Temp\\testDB.db3";
+			SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
+			sqlHelper.Connect();
+
+			// 设置数据库密码
+			// sqlHelper.ChangePassword(MD5Ast.MD5(dbFile));
+
+			//向数据库中user表中插入了一条(name = "马兆瑞"，age = 21)的记录
+			//string insert_sql = "insert into user(name,age) values(?,?)";        //插入的SQL语句(带参数)
+			//SQLiteParameter[] para = new SQLiteParameter[2];                        //构造并绑定参数
+			//para[0] = new SQLiteParameter("name", "马朝旭");
+			//para[1] = new SQLiteParameter("age", 21);
+
+			//int ret = sqlHelper.ExecuteNonQuery(insert_sql, para); //返回影响的行数
+
+			//// 查询表数据，并放到实体类中
+			string select_sql = "select * from Light";                            //查询的SQL语句
+			DataTable dt = sqlHelper.ExecuteDataTable(select_sql, null);               //执行查询操作,结果存放在dt中
+			if (dt != null)
+			{
+				foreach (DataRow dr in dt.Rows) {
+					object[] lightValues = dr.ItemArray;
+					DB_Light light = new DB_Light();
+					light.LightNo = Convert.ToInt32( lightValues.GetValue(0) );
+					light.Name = (string)(lightValues.GetValue(1));
+					light.Type = (string)(lightValues.GetValue(2));
+					light.Pic = (string)(lightValues.GetValue(3));
+					light.StartID = Convert.ToInt32(lightValues.GetValue(4));
+					light.Count = Convert.ToInt32(lightValues.GetValue(5));
+					lightList.Add(light);
+				}
+			}
+			else {
+				Console.WriteLine("Light表没有数据");
+			}
+
+			select_sql = "select * from stepCount";
+			dt = sqlHelper.ExecuteDataTable(select_sql, null);
+			if (dt != null)
+			{
+				foreach (DataRow dr in dt.Rows)
+				{
+					object[] stepValues = dr.ItemArray;
+					DB_StepCount stepCount = new DB_StepCount();
+					stepCount.LightIndex = Convert.ToInt32(stepValues.GetValue(0));
+					stepCount.Frame = Convert.ToInt32(stepValues.GetValue(1));
+					stepCount.Mode = Convert.ToInt32(stepValues.GetValue(2));
+					stepCount.StepCount = Convert.ToInt32(stepValues.GetValue(3));
+					stepCountList.Add(stepCount);
+				}
+			}
+			else
+			{
+				Console.WriteLine("stepCount表没有数据");
+			}
+
+			select_sql = "select * from value";
+			dt = sqlHelper.ExecuteDataTable(select_sql, null);
+			if (dt != null)
+			{
+				foreach (DataColumn dc in dt.Columns) {
+					Console.WriteLine(dc.ColumnName);
+				}
+				foreach (DataRow dr in dt.Rows)
+				{
+					object[] values = dr.ItemArray;
+					DB_Value val = new DB_Value();
+					val.LightIndex = Convert.ToInt32(values.GetValue(0));
+					val.Frame = Convert.ToInt32(values.GetValue(1));
+					val.Step = Convert.ToInt32(values.GetValue(2));
+					val.Mode = Convert.ToInt32(values.GetValue(3));
+					val.Value1 = Convert.ToInt32(values.GetValue(4));
+					val.Value2 = Convert.ToInt32(values.GetValue(5));
+					val.Value3 = Convert.ToInt32(values.GetValue(6));
+					val.LightID = Convert.ToInt32(values.GetValue(7));
+					valueList.Add(val);
+				}
+			}
+			else
+			{
+				Console.WriteLine("value表没有数据");
+			}
+			allData = new DBWrapper(lightList,stepCountList,valueList);
+
 		}
 
 		private void lightEditButton_Click(object sender, EventArgs e)
@@ -295,20 +390,20 @@ namespace LightController
 				//{
 				//	MessageBox.Show("打开的ini文件的count值与实际值不符合");
 				//}
-				DataWrapper[] dataWrappers = new DataWrapper[tongdaoCount2];
+				TongdaoWrapper[] dataWrappers = new TongdaoWrapper[tongdaoCount2];
 				for (int i = 0; i < tongdaoCount2; i++)
 				{
 					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));					
-					dataWrappers[i] = new DataWrapper(tongdaoName, initNum, address);
+					dataWrappers[i] = new TongdaoWrapper(tongdaoName, initNum, address);
 				}
 				this.ShowVScrollBars(dataWrappers);
 			}
 			file.Close();
 		}
 
-		private void ShowVScrollBars(DataWrapper[] dataWrappers) {
+		private void ShowVScrollBars(TongdaoWrapper[] dataWrappers) {
 						
 			Console.WriteLine(dataWrappers.Length.ToString());
 			// 1.每次更换灯具，都先清空通道
@@ -322,7 +417,7 @@ namespace LightController
 			// 2.将dataWrappers的内容渲染到起VScrollBar中
 			for (int i = 0; i < dataWrappers.Length; i++)
 			{
-				DataWrapper dataWrapper = dataWrappers[i];
+				TongdaoWrapper dataWrapper = dataWrappers[i];
 				this.labels[i].Text = dataWrapper.TongdaoName;
 				this.valueLabels[i].Text = dataWrapper.InitNum.ToString();
 				this.vScrollBars[i].Value = dataWrapper.InitNum;

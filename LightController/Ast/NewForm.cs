@@ -22,6 +22,10 @@ namespace LightController
 		public NewForm(MainForm mainForm)
 		{
 			this.mainForm = mainForm;
+			
+			this.StartPosition = FormStartPosition.Manual;
+			this.Location = new Point(mainForm.Location.X + 200 , mainForm.Location.Y + 200);
+
 			InitializeComponent();
 		}
 
@@ -47,23 +51,7 @@ namespace LightController
 					File.Copy(sourcePath + @"\data.db3", directoryPath + @"\data");
 					File.Copy(sourcePath + @"\global.ini", directoryPath + @"\global.ini");
 
-					SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
-					sqlHelper.Connect();
-
-					// sqlHelper.ChangePassword(MD5Ast.MD5(dbFile));
-					
-					//向数据库中user表中插入了一条(name = "马兆瑞"，age = 21)的记录
-					string insert_sql = "insert into user(name,age) values(?,?)";        //插入的SQL语句(带参数)
-					SQLiteParameter[] para = new SQLiteParameter[2];                        //构造并绑定参数
-					para[0] = new SQLiteParameter("name", "马朝旭");
-					para[1] = new SQLiteParameter("age", 21); 
-
-					int ret = sqlHelper.ExecuteNonQuery(insert_sql, para); //返回影响的行数
-
-					// 查询并输入表数据
-					string select_sql = "select * from user";                            //查询的SQL语句
-					DataTable dt = sqlHelper.ExecuteDataTable(select_sql, null);               //执行查询操作,结果存放在dt中
-					Console.WriteLine("++++" + dt.ToString());
+					this.mainForm.dbFile = dbFile;
 
 					MessageBox.Show("成功新建项目");
 					this.Dispose();

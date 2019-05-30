@@ -33,11 +33,16 @@ namespace LightController
 		private bool isSaved = false;
 		public string dbFile;
 
-			   
+		public DBWrapper allData;
+		List<DB_Light> lightList = new List<DB_Light>();
+		List<DB_StepCount> stepCountList = new List<DB_StepCount>();
+		List<DB_Value> valueList = new List<DB_Value>();
+
+
 		public MainForm()
 		{
 			InitializeComponent();
-			this.skinEngine1.SkinFile = Application.StartupPath + @"\Vista2_color7.ssk";
+			this.skinEngine1.SkinFile = Application.StartupPath + @"\MacOS.ssk";
 		}	
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -207,11 +212,7 @@ namespace LightController
 			
 		}
 
-		public DBWrapper allData; 
-		List<DB_Light> lightList = new List<DB_Light>();
-		List<DB_StepCount> stepCountList= new List<DB_StepCount>();
-		List<DB_Value> valueList = new List<DB_Value>();   
-
+		 
 
 		// 保存需要进行的操作：
 		// 1.将lightAstList添加到light表中
@@ -280,9 +281,6 @@ namespace LightController
 			dt = sqlHelper.ExecuteDataTable(select_sql, null);
 			if (dt != null)
 			{
-				foreach (DataColumn dc in dt.Columns) {
-					Console.WriteLine(dc.ColumnName);
-				}
 				foreach (DataRow dr in dt.Rows)
 				{
 					object[] values = dr.ItemArray;
@@ -338,14 +336,16 @@ namespace LightController
 			if (lightsListView.SelectedIndices.Count > 0) {
 				int lightIndex = lightsListView.SelectedIndices[0];
 				LightAst light = lightAstList[lightIndex];
-				generateLightData(light);								
+				generateLightData(light);			
 			}
 		}
 
-		// 5.24 此方法用于生成light通道的数据；
-		// 1.通过lightAst的某些数据，来读取数据库中是否有相关记录；
-		// 2.若有则使用*.ini的通道设置+数据库的数据; 
-		// 3.若无则只需载入*.ini的相关数据
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="light"></param>
 		private void generateLightData(LightAst light)
 		{
 			this.tongdaoGroupBox.Show();			
@@ -374,9 +374,9 @@ namespace LightController
 			//this.typeTextBox.Text = lineList[1].ToString().Substring(5);
 			//this.picTextBox.Enabled = false;
 			//this.picTextBox.Text = lineList[2].ToString().Substring(4);
-			//string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取 
-			//														// 此处请注意：并不是用SelectedText，而是直接设Text
-			//this.countComboBox.Text = selectItem;
+			//string selectItem = lineList[3].ToString().Substring(6);
+
+			//this.countComboBox.Text = selectItem;	// 此处请注意：并不是用SelectedText，而是直接设Text
 			//this.tongdaoCount = int.Parse(selectItem);
 			//this.nameTextBox.Enabled = false;
 			//this.nameTextBox.Text = lineList[4].ToString().Substring(5);
@@ -427,9 +427,6 @@ namespace LightController
 				valueLabels[i].Show();
 			}
 		}
-
-
-
 		
 	}
 }

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLAst", "SQLAst\SQLAst.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormTest", "WinFormTest\WinFormTest.csproj", "{CAFAFE4F-04F9-41D7-A03A-E058E68DD2C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernateSQLiteDemo", "..\NHibernateSQLiteDemo\NHibernateSQLiteDemo\NHibernateSQLiteDemo.csproj", "{0C4DB5DF-07C9-4A11-8FF6-D509765EC654}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernateSQLiteDemo", "NHibernateSQLiteDemo\NHibernateSQLiteDemo.csproj", "{0C4DB5DF-07C9-4A11-8FF6-D509765EC654}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

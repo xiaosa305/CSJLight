@@ -7,12 +7,13 @@ namespace DMX512
 {
     public class DB_Light
     {
-        public int LightNo { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public string Pic { get; set; }
-        public int StartID { get; set; }
-        public int Count { get; set; }
+		public virtual int LightId { get; set; }
+        public virtual int LightNo { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Type { get; set; }
+        public virtual string Pic { get; set; }
+        public virtual int StartID { get; set; }
+        public virtual int Count { get; set; }
 
 		public override string ToString()
 		{

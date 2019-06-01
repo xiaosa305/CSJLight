@@ -155,6 +155,14 @@ namespace LightController
 			labels[31] = label32;
 		}
 
+		internal void BuildProject(string dbFile)
+		{
+			this.dbFile = dbFile;
+			this.lightEditButton.Enabled = true;
+			this.globleSetButton.Enabled = true;
+
+		}
+
 		private void openCOMbutton_Click(object sender, EventArgs e)
 		{
 			//TODO：打开串口，并将剩下几个按钮设成enable
@@ -219,6 +227,12 @@ namespace LightController
 		// 2.将步数、素材、value表的数据都填进各自的表中
 		private void saveButton_Click(object sender, EventArgs e)
 		{
+			
+		}
+
+
+		private void helpNoUse() {
+
 			//MessageBox.Show(lightAstList.Count.ToString());
 
 			dbFile = @"C:\\Temp\\testDB.db3";
@@ -241,10 +255,11 @@ namespace LightController
 			DataTable dt = sqlHelper.ExecuteDataTable(select_sql, null);               //执行查询操作,结果存放在dt中
 			if (dt != null)
 			{
-				foreach (DataRow dr in dt.Rows) {
+				foreach (DataRow dr in dt.Rows)
+				{
 					object[] lightValues = dr.ItemArray;
 					DB_Light light = new DB_Light();
-					light.LightNo = Convert.ToInt32( lightValues.GetValue(0) );
+					light.LightNo = Convert.ToInt32(lightValues.GetValue(0));
 					light.Name = (string)(lightValues.GetValue(1));
 					light.Type = (string)(lightValues.GetValue(2));
 					light.Pic = (string)(lightValues.GetValue(3));
@@ -253,7 +268,8 @@ namespace LightController
 					lightList.Add(light);
 				}
 			}
-			else {
+			else
+			{
 				Console.WriteLine("Light表没有数据");
 			}
 
@@ -300,9 +316,43 @@ namespace LightController
 			{
 				Console.WriteLine("value表没有数据");
 			}
-			allData = new DBWrapper(lightList,stepCountList,valueList);
+			allData = new DBWrapper(lightList, stepCountList, valueList);
 
 		}
+
+		private void helpHibernate() {
+
+			DB_Light light = new DB_Light()
+			{
+				LightNo = 300,
+				Name = "OUP3",
+				Type = "XDD3",
+				Pic = "3.bmp",
+				StartID = 300,
+				Count = 3
+			};
+
+			LightDAO<DB_Light> lightDAO = new LightDAO<DB_Light>(@"C:\Temp\test.db3");
+
+			// CRUD : 1.增 2.查 3.改 4.删
+			//lightDAO.Save(light);
+			//DB_Light light2 = lightDAO.Get(2);
+			//light2.Name = "Nice too mee you";
+			//lightDAO.Update(light2);
+			//lightDAO.Delete(light2);
+
+			IList<DB_Light> lightList = lightDAO.GetAll();
+			foreach (var eachLight in lightList)
+			{
+				Console.WriteLine(eachLight);
+			}
+
+			Console.WriteLine();
+
+
+
+		}
+
 
 		private void lightEditButton_Click(object sender, EventArgs e)
 		{
@@ -405,7 +455,6 @@ namespace LightController
 
 		private void ShowVScrollBars(TongdaoWrapper[] dataWrappers) {
 						
-			Console.WriteLine(dataWrappers.Length.ToString());
 			// 1.每次更换灯具，都先清空通道
 			for (int i = dataWrappers.Length; i < 32; i++)
 			{

@@ -51,11 +51,12 @@ namespace LightController
 					File.Copy(sourcePath + @"\data.db3", directoryPath + @"\data");
 					File.Copy(sourcePath + @"\global.ini", directoryPath + @"\global.ini");
 
-					this.mainForm.dbFile = dbFile;
-
+					
+					mainForm.BuildProject(dbFile);
 					MessageBox.Show("成功新建项目");
 					this.Dispose();
 				}
+				
 			}
 			else
 			{

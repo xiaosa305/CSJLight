@@ -38,11 +38,18 @@ namespace LightController
 		List<DB_StepCount> stepCountList = new List<DB_StepCount>();
 		List<DB_Value> valueList = new List<DB_Value>();
 
+		// 数据库连接
+		private LightDAO<DB_Light> lightDAO;
+
 
 		public MainForm()
 		{
 			InitializeComponent();
 			this.skinEngine1.SkinFile = Application.StartupPath + @"\MacOS.ssk";
+
+			
+
+
 		}	
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -219,19 +226,27 @@ namespace LightController
 			newForm.ShowDialog();
 			
 		}
-
 		 
 
 		// 保存需要进行的操作：
-		// 1.将lightAstList添加到light表中
+		// 1.将lightAstList添加到light表中 --> 分新建还是打开文件来说
 		// 2.将步数、素材、value表的数据都填进各自的表中
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-			
-		}
+			lightDAO = new LightDAO<DB_Light>(dbFile);
+			lightDAO.CreateSchema(true,true);
+
+			foreach (LightAst la in lightAstList)
+			{
+				DB_Light light = GenerateLight(la);
+				lightList.Add(light);
+				lightDAO.Save(light);
+			}		
+
+	}
 
 
-		private void helpNoUse() {
+		private void helpNDBC() {
 
 			//MessageBox.Show(lightAstList.Count.ToString());
 
@@ -352,8 +367,7 @@ namespace LightController
 
 
 		}
-
-
+		
 		private void lightEditButton_Click(object sender, EventArgs e)
 		{
 			if (lightsForm == null || lightsForm.IsDisposed) {
@@ -371,7 +385,7 @@ namespace LightController
 			lightsListView.Items.Clear();
 			foreach (LightAst la in this.lightAstList)
 			{
-				Console.WriteLine(la.LightPic);
+				//Console.WriteLine(la.LightPic);
 				ListViewItem light = new ListViewItem(
 					la.LightName + ":" + la.LightType
 					//+"("+la.LightAddr+")"
@@ -440,23 +454,23 @@ namespace LightController
 				//{
 				//	MessageBox.Show("打开的ini文件的count值与实际值不符合");
 				//}
-				TongdaoWrapper[] dataWrappers = new TongdaoWrapper[tongdaoCount2];
+				TongdaoWrapper[] tongdaoWrappers = new TongdaoWrapper[tongdaoCount2];
 				for (int i = 0; i < tongdaoCount2; i++)
 				{
 					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));					
-					dataWrappers[i] = new TongdaoWrapper(tongdaoName, initNum, address);
+					tongdaoWrappers[i] = new TongdaoWrapper(tongdaoName, initNum, address);
 				}
-				this.ShowVScrollBars(dataWrappers);
+				this.ShowVScrollBars(tongdaoWrappers);
 			}
 			file.Close();
 		}
 
-		private void ShowVScrollBars(TongdaoWrapper[] dataWrappers) {
+		private void ShowVScrollBars(TongdaoWrapper[] tongdaoWrappers) {
 						
 			// 1.每次更换灯具，都先清空通道
-			for (int i = dataWrappers.Length; i < 32; i++)
+			for (int i = tongdaoWrappers.Length; i < 32; i++)
 			{
 				vScrollBars[i].Visible = false;
 				valueLabels[i].Visible = false; 
@@ -464,9 +478,9 @@ namespace LightController
 			}
 
 			// 2.将dataWrappers的内容渲染到起VScrollBar中
-			for (int i = 0; i < dataWrappers.Length; i++)
+			for (int i = 0; i < tongdaoWrappers.Length; i++)
 			{
-				TongdaoWrapper dataWrapper = dataWrappers[i];
+				TongdaoWrapper dataWrapper = tongdaoWrappers[i];
 				this.labels[i].Text = dataWrapper.TongdaoName;
 				this.valueLabels[i].Text = dataWrapper.InitNum.ToString();
 				this.vScrollBars[i].Value = dataWrapper.InitNum;
@@ -476,6 +490,23 @@ namespace LightController
 				valueLabels[i].Show();
 			}
 		}
-		
+
+		/// <summary>
+		///  使用LightAst生成DB_Light
+		/// </summary>
+		/// <param name="la"></param>
+		/// <returns></returns>
+		private DB_Light GenerateLight(LightAst la)
+		{
+			return new DB_Light()
+			{
+				LightNo = la.StartNum,
+				StartID = la.StartNum,
+				Name = la.LightName,
+				Type = la.LightType,
+				Pic = la.LightPic
+			};
+			
+		}
 	}
 }

@@ -16,8 +16,8 @@ namespace LightController
 
 		// 此三个属性，每个灯都不一样，在灯库编辑时添加
 		public string LightAddr { get; set; }
-		public int startNum { get; set; }
-		public int endNum { get; set; }
+		public int StartNum { get; set; }
+		public int EndNum { get; set; }
 		
 	
 		public override string ToString()

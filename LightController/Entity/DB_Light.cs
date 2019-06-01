@@ -22,7 +22,6 @@ namespace DMX512
 				+ "Type:" + Type + "\n"
 				+ "Pic:" + Pic + "\n"
 				+ "Count:" + Count;
-
 		}
 	}
 }

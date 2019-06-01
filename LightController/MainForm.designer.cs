@@ -41,9 +41,7 @@ namespace LightController
 			this.exitButton = new System.Windows.Forms.Button();
 			this.lightEditButton = new System.Windows.Forms.Button();
 			this.globleSetButton = new System.Windows.Forms.Button();
-			this.sceneSetButton = new System.Windows.Forms.Button();
 			this.oneKeyButton = new System.Windows.Forms.Button();
-			this.backupButton = new System.Windows.Forms.Button();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
@@ -183,7 +181,7 @@ namespace LightController
 			// newFileButton
 			// 
 			this.newFileButton.Enabled = false;
-			this.newFileButton.Location = new System.Drawing.Point(241, 8);
+			this.newFileButton.Location = new System.Drawing.Point(240, 8);
 			this.newFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.newFileButton.Name = "newFileButton";
 			this.newFileButton.Size = new System.Drawing.Size(54, 32);
@@ -195,7 +193,7 @@ namespace LightController
 			// openFileButton
 			// 
 			this.openFileButton.Enabled = false;
-			this.openFileButton.Location = new System.Drawing.Point(300, 8);
+			this.openFileButton.Location = new System.Drawing.Point(299, 8);
 			this.openFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.openFileButton.Name = "openFileButton";
 			this.openFileButton.Size = new System.Drawing.Size(54, 32);
@@ -206,7 +204,7 @@ namespace LightController
 			// 
 			// saveButton
 			// 
-			this.saveButton.Location = new System.Drawing.Point(360, 8);
+			this.saveButton.Location = new System.Drawing.Point(358, 8);
 			this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(54, 32);
@@ -218,7 +216,7 @@ namespace LightController
 			// saveAsButton
 			// 
 			this.saveAsButton.Enabled = false;
-			this.saveAsButton.Location = new System.Drawing.Point(420, 8);
+			this.saveAsButton.Location = new System.Drawing.Point(417, 8);
 			this.saveAsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveAsButton.Name = "saveAsButton";
 			this.saveAsButton.Size = new System.Drawing.Size(54, 32);
@@ -241,7 +239,7 @@ namespace LightController
 			// lightEditButton
 			// 
 			this.lightEditButton.Enabled = false;
-			this.lightEditButton.Location = new System.Drawing.Point(479, 8);
+			this.lightEditButton.Location = new System.Drawing.Point(476, 8);
 			this.lightEditButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.lightEditButton.Name = "lightEditButton";
 			this.lightEditButton.Size = new System.Drawing.Size(83, 32);
@@ -253,7 +251,7 @@ namespace LightController
 			// globleSetButton
 			// 
 			this.globleSetButton.Enabled = false;
-			this.globleSetButton.Location = new System.Drawing.Point(567, 8);
+			this.globleSetButton.Location = new System.Drawing.Point(564, 8);
 			this.globleSetButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.globleSetButton.Name = "globleSetButton";
 			this.globleSetButton.Size = new System.Drawing.Size(83, 32);
@@ -261,38 +259,16 @@ namespace LightController
 			this.globleSetButton.Text = "全局设置";
 			this.globleSetButton.UseVisualStyleBackColor = true;
 			// 
-			// sceneSetButton
-			// 
-			this.sceneSetButton.Enabled = false;
-			this.sceneSetButton.Location = new System.Drawing.Point(655, 8);
-			this.sceneSetButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.sceneSetButton.Name = "sceneSetButton";
-			this.sceneSetButton.Size = new System.Drawing.Size(82, 32);
-			this.sceneSetButton.TabIndex = 3;
-			this.sceneSetButton.Text = "场景设置";
-			this.sceneSetButton.UseVisualStyleBackColor = true;
-			// 
 			// oneKeyButton
 			// 
 			this.oneKeyButton.Enabled = false;
-			this.oneKeyButton.Location = new System.Drawing.Point(739, 8);
+			this.oneKeyButton.Location = new System.Drawing.Point(652, 8);
 			this.oneKeyButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.oneKeyButton.Name = "oneKeyButton";
 			this.oneKeyButton.Size = new System.Drawing.Size(82, 32);
 			this.oneKeyButton.TabIndex = 4;
 			this.oneKeyButton.Text = "一键配置";
 			this.oneKeyButton.UseVisualStyleBackColor = true;
-			// 
-			// backupButton
-			// 
-			this.backupButton.Enabled = false;
-			this.backupButton.Location = new System.Drawing.Point(826, 8);
-			this.backupButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.backupButton.Name = "backupButton";
-			this.backupButton.Size = new System.Drawing.Size(58, 32);
-			this.backupButton.TabIndex = 5;
-			this.backupButton.Text = "备份";
-			this.backupButton.UseVisualStyleBackColor = true;
 			// 
 			// saveFileDialog
 			// 
@@ -1494,10 +1470,8 @@ namespace LightController
 			this.Controls.Add(this.tongdaoGroupBox);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.exitButton);
-			this.Controls.Add(this.backupButton);
 			this.Controls.Add(this.oneKeyButton);
 			this.Controls.Add(this.saveAsButton);
-			this.Controls.Add(this.sceneSetButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.globleSetButton);
 			this.Controls.Add(this.openFileButton);
@@ -1529,9 +1503,7 @@ namespace LightController
 		private System.Windows.Forms.Button exitButton;
 		private System.Windows.Forms.Button lightEditButton;
 		private System.Windows.Forms.Button globleSetButton;
-		private System.Windows.Forms.Button sceneSetButton;
 		private System.Windows.Forms.Button oneKeyButton;
-		private System.Windows.Forms.Button backupButton;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine1;

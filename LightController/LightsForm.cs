@@ -74,7 +74,8 @@ namespace LightController
 			}			
 		}
 
-		internal void AddListView(String lightPath,string lightName, string lightType, string lightAddr,string lightPic,int endNum)
+		internal void AddListView(String lightPath,string lightName, string lightType, 
+					string lightAddr,string lightPic,int startNum,int endNum,int lightCount)
 		{
 			// 新增时，1.直接往listView加数据，
 			ListViewItem item = new ListViewItem(lightName);
@@ -91,7 +92,16 @@ namespace LightController
 			lightsListView.Items.Add(item);
 
 			// 2.往lightAstList添加新的数据
-			lightAstList.Add(new LightAst() { LightAddr = lightAddr, LightName = lightName, LightType = lightType,LightPic = lightPic,LightPath = lightPath } );
+			lightAstList.Add(new LightAst() {
+				LightAddr = lightAddr,
+				LightName = lightName,
+				LightType = lightType,
+				LightPic = lightPic,
+				LightPath = lightPath,
+				StartNum = startNum,
+				EndNum = endNum,
+				Count  = lightCount
+			} );
 					   
 			// 3.设置minNum的值 
 			minNum = endNum + 1;			

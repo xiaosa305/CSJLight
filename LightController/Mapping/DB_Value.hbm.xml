@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+      assembly="LightController" namespace="DMX512">
+  <class name="DB_Value" table="Value">       
+    <composite-id name="PK" class="DB_ValuePK"> 
+      <!-- PK应该是主类中，主键的字段名 -->
+      <key-property name="LightIndex" column="LightIndex" />
+      <key-property name="Frame" column="frame" />
+      <key-property name="Mode" column="mode"  />
+      <key-property name="Step" column="step"  />
+      <key-property name="LightID" column="LightID"  />
+    </composite-id>       
+    <property name="Value1" column="value1" not-null="true"/>
+    <property name="Value2" column="value2" not-null="true"/>
+    <property name="Value3" column="value3" not-null="true"/>
+  </class>
+</hibernate-mapping>

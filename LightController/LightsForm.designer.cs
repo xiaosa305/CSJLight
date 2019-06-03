@@ -95,9 +95,9 @@ namespace LightController
 			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Right;
 			this.lightsListView.GridLines = true;
 			this.lightsListView.LargeImageList = this.largeImageList;
-			this.lightsListView.Location = new System.Drawing.Point(540, 0);
+			this.lightsListView.Location = new System.Drawing.Point(526, 0);
 			this.lightsListView.Name = "lightsListView";
-			this.lightsListView.Size = new System.Drawing.Size(456, 636);
+			this.lightsListView.Size = new System.Drawing.Size(470, 636);
 			this.lightsListView.SmallImageList = this.largeImageList;
 			this.lightsListView.TabIndex = 5;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;

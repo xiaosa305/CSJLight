@@ -40,7 +40,7 @@ namespace LightController
 
 		// 数据库连接
 		private LightDAO<DB_Light> lightDAO;
-
+		private StepCountDAO<DB_StepCount> stepDAO;
 
 		public MainForm()
 		{
@@ -214,6 +214,11 @@ namespace LightController
 			MessageBox.Show(fileText);
 		}
 
+		/// <summary>
+		/// 另存为才需要打开这个对话框
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
 		{
 
@@ -235,15 +240,31 @@ namespace LightController
 		{
 			lightDAO = new LightDAO<DB_Light>(dbFile);
 			lightDAO.CreateSchema(true,true);
+			//stepDAO = new StepCountDAO<DB_StepCount>(dbFile);
 
 			foreach (LightAst la in lightAstList)
 			{
 				DB_Light light = GenerateLight(la);
 				lightList.Add(light);
 				lightDAO.Save(light);
-			}		
+			}
 
-	}
+			//DB_StepCount sc = new DB_StepCount() {
+			//	PK = new DB_StepCountPK()
+			//	{
+			//		LightIndex = 1,
+			//		Frame = 2,
+			//		Mode = 1
+			//	},
+			//	 StepCount = 4 
+			//};
+			//stepDAO.Save(sc);
+			//IList<DB_StepCount> scList = stepDAO.GetAll();
+			//DB_StepCount sc2 = scList[0];
+			//Console.WriteLine("");
+
+
+		}
 
 
 		private void helpNDBC() {
@@ -295,11 +316,15 @@ namespace LightController
 				foreach (DataRow dr in dt.Rows)
 				{
 					object[] stepValues = dr.ItemArray;
+					DB_StepCountPK pk = new DB_StepCountPK();
+					pk.LightIndex = Convert.ToInt32(stepValues.GetValue(0));
+					pk.Frame = Convert.ToInt32(stepValues.GetValue(1));
+					pk.Mode = Convert.ToInt32(stepValues.GetValue(2));
+
 					DB_StepCount stepCount = new DB_StepCount();
-					stepCount.LightIndex = Convert.ToInt32(stepValues.GetValue(0));
-					stepCount.Frame = Convert.ToInt32(stepValues.GetValue(1));
-					stepCount.Mode = Convert.ToInt32(stepValues.GetValue(2));
 					stepCount.StepCount = Convert.ToInt32(stepValues.GetValue(3));
+					stepCount.PK = pk;
+
 					stepCountList.Add(stepCount);
 				}
 			}
@@ -315,15 +340,20 @@ namespace LightController
 				foreach (DataRow dr in dt.Rows)
 				{
 					object[] values = dr.ItemArray;
+
+					DB_ValuePK pk = new DB_ValuePK();
+					pk.LightIndex = Convert.ToInt32(values.GetValue(0));
+					pk.Frame = Convert.ToInt32(values.GetValue(1));
+					pk.Step = Convert.ToInt32(values.GetValue(2));
+					pk.Mode = Convert.ToInt32(values.GetValue(3));
+					pk.LightID = Convert.ToInt32(values.GetValue(7));
+
 					DB_Value val = new DB_Value();
-					val.LightIndex = Convert.ToInt32(values.GetValue(0));
-					val.Frame = Convert.ToInt32(values.GetValue(1));
-					val.Step = Convert.ToInt32(values.GetValue(2));
-					val.Mode = Convert.ToInt32(values.GetValue(3));
+					val.PK = pk;
 					val.Value1 = Convert.ToInt32(values.GetValue(4));
 					val.Value2 = Convert.ToInt32(values.GetValue(5));
 					val.Value3 = Convert.ToInt32(values.GetValue(6));
-					val.LightID = Convert.ToInt32(values.GetValue(7));
+					
 					valueList.Add(val);
 				}
 			}
@@ -388,7 +418,7 @@ namespace LightController
 				//Console.WriteLine(la.LightPic);
 				ListViewItem light = new ListViewItem(
 					la.LightName + ":" + la.LightType
-					//+"("+la.LightAddr+")"
+					//+"("+la.LightAddr+")" //是否保存占用通道地址
 					,la.LightPic
 				);			
 				lightsListView.Items.Add(light);				
@@ -504,7 +534,8 @@ namespace LightController
 				StartID = la.StartNum,
 				Name = la.LightName,
 				Type = la.LightType,
-				Pic = la.LightPic
+				Pic = la.LightPic,
+				Count  = la.Count
 			};
 			
 		}

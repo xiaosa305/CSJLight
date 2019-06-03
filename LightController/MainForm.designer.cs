@@ -223,6 +223,7 @@ namespace LightController
 			this.saveAsButton.TabIndex = 5;
 			this.saveAsButton.Text = "另存";
 			this.saveAsButton.UseVisualStyleBackColor = true;
+			this.saveAsButton.Visible = false;
 			// 
 			// exitButton
 			// 
@@ -298,7 +299,7 @@ namespace LightController
 			this.lightsListView.Location = new System.Drawing.Point(11, 53);
 			this.lightsListView.MultiSelect = false;
 			this.lightsListView.Name = "lightsListView";
-			this.lightsListView.Size = new System.Drawing.Size(1140, 162);
+			this.lightsListView.Size = new System.Drawing.Size(1430, 162);
 			this.lightsListView.SmallImageList = this.LargeImageList;
 			this.lightsListView.TabIndex = 7;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
@@ -336,7 +337,7 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.comboBox1);
 			this.tongdaoGroupBox.Location = new System.Drawing.Point(11, 221);
 			this.tongdaoGroupBox.Name = "tongdaoGroupBox";
-			this.tongdaoGroupBox.Size = new System.Drawing.Size(1141, 739);
+			this.tongdaoGroupBox.Size = new System.Drawing.Size(1430, 739);
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
@@ -1466,7 +1467,7 @@ namespace LightController
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1164, 961);
+			this.ClientSize = new System.Drawing.Size(1453, 961);
 			this.Controls.Add(this.tongdaoGroupBox);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.exitButton);

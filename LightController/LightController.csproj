@@ -118,6 +118,7 @@
     <Compile Include="Ast\DataBaseHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
+    <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
@@ -135,7 +136,9 @@
       <DependentUpon>LightsAstForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity\DB_Light.cs" />
+    <Compile Include="Entity\DB_StepCountPK.cs" />
     <Compile Include="Entity\DB_StepCount.cs" />
+    <Compile Include="Entity\DB_ValuePK.cs" />
     <Compile Include="Entity\DB_Value.cs" />
     <Compile Include="LightsForm.cs">
       <SubType>Form</SubType>
@@ -206,6 +209,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mapping\DB_StepCount.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mapping\DB_Value.hbm.xml">
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Source\IrisSkin4.dll" />
     <Content Include="Source\System.Data.SQLite.dll" />

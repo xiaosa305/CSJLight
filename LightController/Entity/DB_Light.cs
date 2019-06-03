@@ -7,8 +7,7 @@ namespace DMX512
 {
     public class DB_Light
     {
-		public virtual int LightId { get; set; }
-        public virtual int LightNo { get; set; }
+		public virtual int LightNo { get; set; }
         public virtual string Name { get; set; }
         public virtual string Type { get; set; }
         public virtual string Pic { get; set; }

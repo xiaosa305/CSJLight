@@ -388,8 +388,7 @@ namespace LightEditor
 			tongdaoEditButton.Show();
 			generateButton.Hide();
 		}
-
-
+		
 
 		// 辅助方法：用来显示不同的通道页；通道调整条，同时也使其对应的两个标签可见
 		private void ShowVScrollBars() {			

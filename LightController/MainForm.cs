@@ -39,28 +39,28 @@ namespace LightController
 		List<DB_Value> valueList = new List<DB_Value>();
 
 		// 数据库连接
-		private LightDAO<DB_Light> lightDAO;
-		private StepCountDAO<DB_StepCount> stepDAO;
+		private LightDAO lightDAO;
+		private StepCountDAO stepCountDAO;
+		private ValueDAO valueDAO;
+		private bool addPassword = false;
+		
 
 		public MainForm()
 		{
 			InitializeComponent();
 			this.skinEngine1.SkinFile = Application.StartupPath + @"\MacOS.ssk";
-
-			
-
-
 		}	
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			//TODO
+			//TODO : 动态加载可用的串口
 			string[] comList = { "COM1", "COM2" } ;
 			foreach (string com in comList) {
 				comComboBox.Items.Add(com);
 			}
 
-			comboBox1.SelectedIndex = 0;
+			modeComboBox.SelectedIndex = 0;
+			frameComboBox.SelectedIndex = 0;
 
 			vScrollBars[0] = vScrollBar1;
 			vScrollBars[1] = vScrollBar2;
@@ -94,6 +94,12 @@ namespace LightController
 			vScrollBars[29] = vScrollBar30;
 			vScrollBars[30] = vScrollBar31;
 			vScrollBars[31] = vScrollBar32;
+
+			// 为所有滚动条添加监听器
+			foreach (var vsBar in vScrollBars)
+			{
+				vsBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			}
 
 			valueLabels[0] = valueLabel1;
 			valueLabels[1] = valueLabel2;
@@ -162,6 +168,11 @@ namespace LightController
 			labels[31] = label32;
 		}
 
+		/// <summary>
+		/// 这个方法用来设置一些内容；
+		/// 会被NewForm调用，并从中获取dbFile的值
+		/// </summary>
+		/// <param name="dbFile"></param>
 		internal void BuildProject(string dbFile)
 		{
 			this.dbFile = dbFile;
@@ -238,27 +249,36 @@ namespace LightController
 		// 2.将步数、素材、value表的数据都填进各自的表中
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-			lightDAO = new LightDAO<DB_Light>(dbFile);
-			lightDAO.CreateSchema(true,true);
-			//stepDAO = new StepCountDAO<DB_StepCount>(dbFile);
+			// 1.先判断是否有灯具数据；若无，则直接停止
+			if (lightAstList == null || lightAstList.Count == 0)			{
+				MessageBox.Show("当前并没有灯具数据，无法保存！");
+				return;
+			}
 
+			// 2.保存灯具数据；有几个灯具就保存几个； 最好用SaveOrUpload方法；
+			lightDAO = new LightDAO(dbFile,addPassword);	
+			foreach (LightAst la in lightAstList)
+			{ 
+				DB_Light light = GenerateLight(la);
+				lightList.Add(light);
+				lightDAO.SaveOrUpdate(light); 
+			}
+			// 测试代码
 			foreach (LightAst la in lightAstList)
 			{
 				DB_Light light = GenerateLight(la);
-				lightList.Add(light);
-				lightDAO.Save(light);
+				light.Pic = "UPDATE"; 
+				lightDAO.SaveOrUpdate(light);
 			}
 
-			//DB_StepCount sc = new DB_StepCount() {
-			//	PK = new DB_StepCountPK()
-			//	{
-			//		LightIndex = 1,
-			//		Frame = 2,
-			//		Mode = 1
-			//	},
-			//	 StepCount = 4 
-			//};
-			//stepDAO.Save(sc);
+			// 3.保存步数信息：针对每个灯具，保存其相关的步数情况; 
+			// 且应该有个 List存放每一步的临时存放的步数信息。
+			stepCountDAO = new StepCountDAO(dbFile, addPassword);
+
+
+			// 4.存放相应的每一步每一通道的值，记录数据到db.Value表中
+			valueDAO = new ValueDAO(dbFile, addPassword); 
+
 			//IList<DB_StepCount> scList = stepDAO.GetAll();
 			//DB_StepCount sc2 = scList[0];
 			//Console.WriteLine("");
@@ -377,7 +397,7 @@ namespace LightController
 				Count = 3
 			};
 
-			LightDAO<DB_Light> lightDAO = new LightDAO<DB_Light>(@"C:\Temp\test.db3");
+			LightDAO lightDAO = new LightDAO(@"C:\Temp\test.db3",true);
 
 			// CRUD : 1.增 2.查 3.改 4.删
 			//lightDAO.Save(light);
@@ -430,11 +450,11 @@ namespace LightController
 			if (lightsListView.SelectedIndices.Count > 0) {
 				int lightIndex = lightsListView.SelectedIndices[0];
 				LightAst light = lightAstList[lightIndex];
+				lightValueLabel.Text = light.LightName + ":" + light.LightType	+ "(" +light.LightAddr +")";
 				generateLightData(light);			
 			}
 		}
-
-
+		
 
 		/// <summary>
 		/// 
@@ -513,7 +533,7 @@ namespace LightController
 				TongdaoWrapper dataWrapper = tongdaoWrappers[i];
 				this.labels[i].Text = dataWrapper.TongdaoName;
 				this.valueLabels[i].Text = dataWrapper.InitNum.ToString();
-				this.vScrollBars[i].Value = dataWrapper.InitNum;
+				this.vScrollBars[i].Value = 255 - dataWrapper.InitNum;
 
 				vScrollBars[i].Show();
 				labels[i].Show();
@@ -536,8 +556,30 @@ namespace LightController
 				Type = la.LightType,
 				Pic = la.LightPic,
 				Count  = la.Count
-			};
+			};			
+		}
+
+		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			//MessageBox.Show(modeComboBox.SelectedIndex+"");
+		}
+
+		
+		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
+		{
+			VScrollBar vsBar = (VScrollBar)sender;				
 			
+			//《LightEditor》 method：
+			string vScrollBarName = ((VScrollBar)sender).Name;
+			Console.WriteLine(vScrollBarName); 
+			// 方法：替换掉非数字的字符串;(另一个方法，截取“_”之前,“Bar”之后的字符串也可以)
+			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace(vScrollBarName, @"[^0-9]+", "");
+			// 处理labelIndex,将取出的数字-1；即可得到数组下标
+			int labelIndex = int.Parse(labelIndexStr) - 1;
+			valueLabels[labelIndex].Text = (255 - vScrollBars[labelIndex].Value).ToString();
+
+			// old method：通过反射获取当前方法名称(类似于vScrollBar1_Scroll)；然后再一个个对应
+			//ChangeValueLabel(System.Reflection.MethodBase.GetCurrentMethod().Name);
 		}
 	}
 }

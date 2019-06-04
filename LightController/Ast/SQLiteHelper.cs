@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SQLite;
+using LightController.Ast;
 
 namespace SQLAst
 {
@@ -198,7 +199,20 @@ namespace SQLAst
 				}
 			}
 
-			public static void Main()
+
+		/// <summary>
+		/// 为SQLite数据库设置密码
+		/// </summary>
+		/// <param name="password"></param>
+		public static void SetPassword(string dbFile)
+		{
+			SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
+			sqlHelper.Connect();
+			sqlHelper.ChangePassword(MD5Ast.MD5("Dickov" + dbFile));
+			sqlHelper.DisConnect();
+		}
+
+		public static void Main()
 			{
 				SQLiteHelper helper = new SQLiteHelper("C:\\sqlite3\\myDB527.db", "123456");     //连接到数据库,连接密码为123456
 																						 //bool ch = helper.ChangePassword("654321");                            //将密码修改为：654321

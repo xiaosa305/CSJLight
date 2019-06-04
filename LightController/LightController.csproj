@@ -115,18 +115,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\DataBaseHelper.cs" />
+    <Compile Include="Ast\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
+    <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Ast\MD5Ast.cs" />
-    <Compile Include="Ast\NewForm.cs">
+    <Compile Include="NewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ast\NewForm.Designer.cs">
+    <Compile Include="NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Ast\LightsAstForm.cs">
@@ -154,7 +155,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Ast\NewForm.resx">
+    <EmbeddedResource Include="NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ast\LightsAstForm.resx">

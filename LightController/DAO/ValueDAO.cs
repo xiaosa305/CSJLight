@@ -9,12 +9,12 @@ using DMX512;
 
 namespace LightController.Ast
 {
-	public class StepCountDAO: BaseDAO<DB_StepCount>
+	public class ValueDAO: BaseDAO<DB_Value>
 	{
-		public StepCountDAO(String dbFile,bool addPassword):base(dbFile,addPassword)
+		public ValueDAO(String dbFile, bool addPassword) : base(dbFile, addPassword)
 		{
 			
 		}
-		
+
 	}
 }

@@ -2,6 +2,7 @@
 using NHibernate.Cfg;
 using NHibernate.Criterion;
 using NHibernate.Tool.hbm2ddl;
+using SQLAst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,16 @@ namespace LightController.Ast
 		protected Configuration config;
 		protected ISessionFactory sessionFactory;
 
-		public BaseDAO(string dbFile)
+		public BaseDAO(string dbFile, bool addPassword)
 		{
 			config = new Configuration().Configure();
-			config.SetProperty("connection.connection_string", @"Data Source=" + dbFile);
+			if (addPassword)
+			{
+				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Ast.MD5("Dickov" + dbFile));
+			}
+			else {
+				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile);
+			}
 			sessionFactory = config.BuildSessionFactory();
 		}
 
@@ -28,6 +35,8 @@ namespace LightController.Ast
 		{
 			new SchemaExport(config).Create(ifPrint, ifDeleteOld);
 		}
+
+
 
 		/// <summary>
 		/// 获取当前session
@@ -55,34 +64,32 @@ namespace LightController.Ast
 		/// 
 		public void Action(string method, T obj)
 		{
-
 			using (var session = sessionFactory.OpenSession())
 			{
-				if (method.Equals("Save") || method.Equals("Update") || method.Equals("Delete"))
-					using (var tx = session.BeginTransaction())
-					{
-						try
-						{
-							switch (method)
-							{
-								case "Save": session.Save(obj); break;
-								case "Update": session.Update(obj); break;
-								case "Delete": session.Delete(obj); break;
-							}
-							tx.Commit();
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine(ex.Message);
-							tx.Rollback();
-						}
-					}
-				else
+				using (var tx = session.BeginTransaction())
 				{
-					Console.WriteLine("方法名出错");
+					try
+					{
+						switch (method)
+						{
+							case "Save": session.Save(obj); break;
+							case "Update": session.Update(obj); break;
+							case "Delete": session.Delete(obj); break;
+							case "SaveOrUpdate": session.SaveOrUpdate(obj);break;
+							default:Console.WriteLine("方法名出错");break;
+						}
+						tx.Commit();
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine(ex.Message);
+						tx.Rollback();
+					}
 				}
+				
 			}
 		}
+		
 
 
 		/// <summary>
@@ -91,6 +98,15 @@ namespace LightController.Ast
 		public void Save(T obj)
 		{
 			Action("Save", obj);
+		}
+
+		/// <summary>
+		///  执行SaveOrUpdate操作：新的就save，旧的就update
+		/// </summary>
+		/// <param name="obj"></param>
+		public void SaveOrUpdate(T obj)
+		{
+			Action("SaveOrUpdate", obj);
 		}
 
 		/// <summary>
@@ -131,5 +147,7 @@ namespace LightController.Ast
 				return session.CreateCriteria(typeof(T)).List<T>();
 			}
 		}
+
+		
 	}
 }

@@ -117,7 +117,7 @@ namespace LightController
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
 			mainForm.AddLights(lightAstList);
 			// 2.关闭窗口（资源还未释放）
-			this.Hide();
+			this.Dispose();
 			mainForm.Activate();
 		}
 

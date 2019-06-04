@@ -50,8 +50,10 @@ namespace LightController
 					string dbFile = directoryPath + @"\data";
 					File.Copy(sourcePath + @"\data.db3", directoryPath + @"\data");
 					File.Copy(sourcePath + @"\global.ini", directoryPath + @"\global.ini");
-
 					
+					// 添加密码 -- 正式使用时添加，测试时就不要加了。
+					// SQLiteHelper.SetPassword(dbFile);
+
 					mainForm.BuildProject(dbFile);
 					MessageBox.Show("成功新建项目");
 					this.Dispose();

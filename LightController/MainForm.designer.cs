@@ -49,6 +49,8 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
+			this.lightValueLabel = new System.Windows.Forms.Label();
+			this.lightLabel = new System.Windows.Forms.Label();
 			this.tongdaoGroupBox2 = new System.Windows.Forms.GroupBox();
 			this.valueLabel32 = new System.Windows.Forms.Label();
 			this.label32 = new System.Windows.Forms.Label();
@@ -147,9 +149,9 @@ namespace LightController
 			this.vScrollBar5 = new System.Windows.Forms.VScrollBar();
 			this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
 			this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-			this.comboBox3 = new System.Windows.Forms.ComboBox();
-			this.comboBox2 = new System.Windows.Forms.ComboBox();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.groupComboBox = new System.Windows.Forms.ComboBox();
+			this.frameComboBox = new System.Windows.Forms.ComboBox();
+			this.modeComboBox = new System.Windows.Forms.ComboBox();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoGroupBox2.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -330,17 +332,37 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.tongdaoGroupBox.Controls.Add(this.lightValueLabel);
+			this.tongdaoGroupBox.Controls.Add(this.lightLabel);
 			this.tongdaoGroupBox.Controls.Add(this.tongdaoGroupBox2);
 			this.tongdaoGroupBox.Controls.Add(this.tongdaoGroupBox1);
-			this.tongdaoGroupBox.Controls.Add(this.comboBox3);
-			this.tongdaoGroupBox.Controls.Add(this.comboBox2);
-			this.tongdaoGroupBox.Controls.Add(this.comboBox1);
+			this.tongdaoGroupBox.Controls.Add(this.groupComboBox);
+			this.tongdaoGroupBox.Controls.Add(this.frameComboBox);
+			this.tongdaoGroupBox.Controls.Add(this.modeComboBox);
 			this.tongdaoGroupBox.Location = new System.Drawing.Point(11, 221);
 			this.tongdaoGroupBox.Name = "tongdaoGroupBox";
 			this.tongdaoGroupBox.Size = new System.Drawing.Size(1430, 739);
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
+			// 
+			// lightValueLabel
+			// 
+			this.lightValueLabel.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightValueLabel.Location = new System.Drawing.Point(96, 23);
+			this.lightValueLabel.Name = "lightValueLabel";
+			this.lightValueLabel.Size = new System.Drawing.Size(210, 15);
+			this.lightValueLabel.TabIndex = 12;
+			this.lightValueLabel.Text = "       ";
+			// 
+			// lightLabel
+			// 
+			this.lightLabel.AutoSize = true;
+			this.lightLabel.Location = new System.Drawing.Point(7, 24);
+			this.lightLabel.Name = "lightLabel";
+			this.lightLabel.Size = new System.Drawing.Size(82, 15);
+			this.lightLabel.TabIndex = 11;
+			this.lightLabel.Text = "当前灯具：";
 			// 
 			// tongdaoGroupBox2
 			// 
@@ -1435,33 +1457,61 @@ namespace LightController
 			this.vScrollBar1.Name = "vScrollBar1";
 			this.vScrollBar1.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar1.TabIndex = 0;
+			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
-			// comboBox3
+			// groupComboBox
 			// 
-			this.comboBox3.FormattingEnabled = true;
-			this.comboBox3.Location = new System.Drawing.Point(261, 25);
-			this.comboBox3.Name = "comboBox3";
-			this.comboBox3.Size = new System.Drawing.Size(121, 23);
-			this.comboBox3.TabIndex = 0;
+			this.groupComboBox.FormattingEnabled = true;
+			this.groupComboBox.Location = new System.Drawing.Point(555, 24);
+			this.groupComboBox.Name = "groupComboBox";
+			this.groupComboBox.Size = new System.Drawing.Size(121, 23);
+			this.groupComboBox.TabIndex = 0;
+			this.groupComboBox.Visible = false;
 			// 
-			// comboBox2
+			// frameComboBox
 			// 
-			this.comboBox2.FormattingEnabled = true;
-			this.comboBox2.Location = new System.Drawing.Point(134, 24);
-			this.comboBox2.Name = "comboBox2";
-			this.comboBox2.Size = new System.Drawing.Size(121, 23);
-			this.comboBox2.TabIndex = 0;
+			this.frameComboBox.FormattingEnabled = true;
+			this.frameComboBox.Items.AddRange(new object[] {
+            "标准",
+            "动感",
+            "商务",
+            "抒情",
+            "清洁",
+            "柔和",
+            "激情",
+            "明亮",
+            "浪漫",
+            "演出",
+            "暂停",
+            "全关",
+            "全开",
+            "全开关",
+            "电影",
+            "备用1",
+            "备用2",
+            "备用3",
+            "备用4",
+            "备用5",
+            "备用6",
+            "摇麦",
+            "喝彩",
+            "倒彩"});
+			this.frameComboBox.Location = new System.Drawing.Point(350, 24);
+			this.frameComboBox.Name = "frameComboBox";
+			this.frameComboBox.Size = new System.Drawing.Size(89, 23);
+			this.frameComboBox.TabIndex = 0;
 			// 
-			// comboBox1
+			// modeComboBox
 			// 
-			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Items.AddRange(new object[] {
+			this.modeComboBox.FormattingEnabled = true;
+			this.modeComboBox.Items.AddRange(new object[] {
             "常规模式",
             "声控模式"});
-			this.comboBox1.Location = new System.Drawing.Point(7, 25);
-			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(121, 23);
-			this.comboBox1.TabIndex = 0;
+			this.modeComboBox.Location = new System.Drawing.Point(445, 24);
+			this.modeComboBox.Name = "modeComboBox";
+			this.modeComboBox.Size = new System.Drawing.Size(104, 23);
+			this.modeComboBox.TabIndex = 0;
+			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
 			// 
 			// MainForm
 			// 
@@ -1487,6 +1537,7 @@ namespace LightController
 			this.Text = "智控配置";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.tongdaoGroupBox.ResumeLayout(false);
+			this.tongdaoGroupBox.PerformLayout();
 			this.tongdaoGroupBox2.ResumeLayout(false);
 			this.tongdaoGroupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -1515,9 +1566,9 @@ namespace LightController
 		private ColumnHeader lightType;
 		private ImageList LargeImageList;
 		private GroupBox tongdaoGroupBox;
-		private ComboBox comboBox3;
-		private ComboBox comboBox2;
-		private ComboBox comboBox1;
+		private ComboBox groupComboBox;
+		private ComboBox frameComboBox;
+		private ComboBox modeComboBox;
 		private GroupBox tongdaoGroupBox1;
 		public Label valueLabel16;
 		public Label valueLabel15;
@@ -1620,8 +1671,8 @@ namespace LightController
 		public Label[] labels = new Label[32];
 		public Label[] valueLabels = new Label[32];
 		public VScrollBar[] vScrollBars = new VScrollBar[32];
-
-
+		private Label lightValueLabel;
+		private Label lightLabel;
 	}
 }
 

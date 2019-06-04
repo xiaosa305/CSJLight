@@ -11,8 +11,6 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.VisualBasic;
 using System.Collections;
-using LightEditor;
-using SQLAst;
 using System.Data.SQLite;
 using DMX512;
 using LightController.Ast;
@@ -43,7 +41,10 @@ namespace LightController
 		private StepCountDAO stepCountDAO;
 		private ValueDAO valueDAO;
 		private bool ifEncrypt = false;
-		
+
+		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一个 步（通道列表）
+		private List<LightData> lightDataList = new List<LightData>();
+		private int selectLightIndex ;
 
 		public MainForm()
 		{
@@ -94,13 +95,7 @@ namespace LightController
 			vScrollBars[29] = vScrollBar30;
 			vScrollBars[30] = vScrollBar31;
 			vScrollBars[31] = vScrollBar32;
-
-			// 为所有滚动条添加监听器
-			foreach (var vsBar in vScrollBars)
-			{
-				vsBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			}			
-
+					
 			labels[0] = label1;
 			labels[1] = label2;
 			labels[2] = label3;
@@ -251,13 +246,15 @@ namespace LightController
 		private void saveButton_Click(object sender, EventArgs e)
 		{
 			// 1.先判断是否有灯具数据；若无，则直接停止
-			if (lightAstList == null || lightAstList.Count == 0)			{
+			if (lightAstList == null || lightAstList.Count == 0){
 				MessageBox.Show("当前并没有灯具数据，无法保存！");
 				return;
 			}
 
 			// 2.保存灯具数据；有几个灯具就保存几个； 最好用SaveOrUpload方法；
-			lightDAO = new LightDAO(dbFile,ifEncrypt);	
+			lightDAO = new LightDAO(dbFile,ifEncrypt);
+			// lightDAO.CreateSchema(true, true);
+
 			foreach (LightAst la in lightAstList)
 			{ 
 				DB_Light light = GenerateLight(la);
@@ -284,141 +281,10 @@ namespace LightController
 			//DB_StepCount sc2 = scList[0];
 			//Console.WriteLine("");
 
-
 		}
 
 
-		private void helpNDBC() {
-
-			//MessageBox.Show(lightAstList.Count.ToString());
-
-			dbFile = @"C:\\Temp\\testDB.db3";
-			SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
-			sqlHelper.Connect();
-
-			// 设置数据库密码
-			// sqlHelper.ChangePassword(MD5Ast.MD5(dbFile));
-
-			//向数据库中user表中插入了一条(name = "马兆瑞"，age = 21)的记录
-			//string insert_sql = "insert into user(name,age) values(?,?)";        //插入的SQL语句(带参数)
-			//SQLiteParameter[] para = new SQLiteParameter[2];                        //构造并绑定参数
-			//para[0] = new SQLiteParameter("name", "马朝旭");
-			//para[1] = new SQLiteParameter("age", 21);
-
-			//int ret = sqlHelper.ExecuteNonQuery(insert_sql, para); //返回影响的行数
-
-			//// 查询表数据，并放到实体类中
-			string select_sql = "select * from Light";                            //查询的SQL语句
-			DataTable dt = sqlHelper.ExecuteDataTable(select_sql, null);               //执行查询操作,结果存放在dt中
-			if (dt != null)
-			{
-				foreach (DataRow dr in dt.Rows)
-				{
-					object[] lightValues = dr.ItemArray;
-					DB_Light light = new DB_Light();
-					light.LightNo = Convert.ToInt32(lightValues.GetValue(0));
-					light.Name = (string)(lightValues.GetValue(1));
-					light.Type = (string)(lightValues.GetValue(2));
-					light.Pic = (string)(lightValues.GetValue(3));
-					light.StartID = Convert.ToInt32(lightValues.GetValue(4));
-					light.Count = Convert.ToInt32(lightValues.GetValue(5));
-					lightList.Add(light);
-				}
-			}
-			else
-			{
-				Console.WriteLine("Light表没有数据");
-			}
-
-			select_sql = "select * from stepCount";
-			dt = sqlHelper.ExecuteDataTable(select_sql, null);
-			if (dt != null)
-			{
-				foreach (DataRow dr in dt.Rows)
-				{
-					object[] stepValues = dr.ItemArray;
-					DB_StepCountPK pk = new DB_StepCountPK();
-					pk.LightIndex = Convert.ToInt32(stepValues.GetValue(0));
-					pk.Frame = Convert.ToInt32(stepValues.GetValue(1));
-					pk.Mode = Convert.ToInt32(stepValues.GetValue(2));
-
-					DB_StepCount stepCount = new DB_StepCount();
-					stepCount.StepCount = Convert.ToInt32(stepValues.GetValue(3));
-					stepCount.PK = pk;
-
-					stepCountList.Add(stepCount);
-				}
-			}
-			else
-			{
-				Console.WriteLine("stepCount表没有数据");
-			}
-
-			select_sql = "select * from value";
-			dt = sqlHelper.ExecuteDataTable(select_sql, null);
-			if (dt != null)
-			{
-				foreach (DataRow dr in dt.Rows)
-				{
-					object[] values = dr.ItemArray;
-
-					DB_ValuePK pk = new DB_ValuePK();
-					pk.LightIndex = Convert.ToInt32(values.GetValue(0));
-					pk.Frame = Convert.ToInt32(values.GetValue(1));
-					pk.Step = Convert.ToInt32(values.GetValue(2));
-					pk.Mode = Convert.ToInt32(values.GetValue(3));
-					pk.LightID = Convert.ToInt32(values.GetValue(7));
-
-					DB_Value val = new DB_Value();
-					val.PK = pk;
-					val.Value1 = Convert.ToInt32(values.GetValue(4));
-					val.Value2 = Convert.ToInt32(values.GetValue(5));
-					val.Value3 = Convert.ToInt32(values.GetValue(6));
-					
-					valueList.Add(val);
-				}
-			}
-			else
-			{
-				Console.WriteLine("value表没有数据");
-			}
-			allData = new DBWrapper(lightList, stepCountList, valueList);
-
-		}
-
-		private void helpHibernate() {
-
-			DB_Light light = new DB_Light()
-			{
-				LightNo = 300,
-				Name = "OUP3",
-				Type = "XDD3",
-				Pic = "3.bmp",
-				StartID = 300,
-				Count = 3
-			};
-
-			LightDAO lightDAO = new LightDAO(@"C:\Temp\test.db3",true);
-
-			// CRUD : 1.增 2.查 3.改 4.删
-			//lightDAO.Save(light);
-			//DB_Light light2 = lightDAO.Get(2);
-			//light2.Name = "Nice too mee you";
-			//lightDAO.Update(light2);
-			//lightDAO.Delete(light2);
-
-			IList<DB_Light> lightList = lightDAO.GetAll();
-			foreach (var eachLight in lightList)
-			{
-				Console.WriteLine(eachLight);
-			}
-
-			Console.WriteLine();
-
-
-
-		}
-		
+	
 		private void lightEditButton_Click(object sender, EventArgs e)
 		{
 			if (lightsForm == null || lightsForm.IsDisposed) {
@@ -442,83 +308,83 @@ namespace LightController
 					//+"("+la.LightAddr+")" //是否保存占用通道地址
 					,la.LightPic
 				);			
-				lightsListView.Items.Add(light);				
+				lightsListView.Items.Add(light);
+				lightDataList.Add( new LightData() );
 			}
 		}
 
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (lightsListView.SelectedIndices.Count > 0) {
-				int lightIndex = lightsListView.SelectedIndices[0];
-				LightAst light = lightAstList[lightIndex];
-				lightValueLabel.Text = light.LightName + ":" + light.LightType	+ "(" +light.LightAddr +")";
-				generateLightData(light);			
+				selectLightIndex = lightsListView.SelectedIndices[0];
+				LightAst light = lightAstList[selectLightIndex];
+
+				lightValueLabel.Text = light.LightName + ":" + light.LightType	+ "(" +light.LightAddr +")";								
+				generateLightData(light);
 			}
 		}
-		
+
 
 		/// <summary>
-		/// 
+		/// 这个方法应该需要分许多步骤：
+		/// 0.先查看当前内存是否已有此数据 
+		/// 1.若还未有，则取出相关的ini进行渲染
+		/// 2.若内存内 或 数据库内已有相关数据，则使用这个数据。
 		/// </summary>
-		/// <param name="light"></param>
-		private void generateLightData(LightAst light)
+		/// <param name="la"></param>
+		private void generateLightData(LightAst la)
 		{
-			this.tongdaoGroupBox.Show();			
-						
-			FileStream file = new FileStream(light.LightPath, FileMode.Open);
-			// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
-			StreamReader reader = new StreamReader(file, Encoding.UTF8);
-			string s = "";
-			ArrayList lineList = new ArrayList();
-			int lineCount = 0;
-			while ((s = reader.ReadLine()) != null)
-			{
-				lineList.Add(s);
-				lineCount++;
-			}			
-			if (lineCount < 5)
-			{
-				MessageBox.Show("Dickov：打开的ini文件格式有误");
-				return;
-			}
+			//1.让tongdaoGroupBox显示出来
+			this.tongdaoGroupBox.Show();
 
-			//this.isGenerated = true;
-			//this.isSaved = true;
-
-			//this.typeTextBox.Enabled = false;
-			//this.typeTextBox.Text = lineList[1].ToString().Substring(5);
-			//this.picTextBox.Enabled = false;
-			//this.picTextBox.Text = lineList[2].ToString().Substring(4);
-			//string selectItem = lineList[3].ToString().Substring(6);
-
-			//this.countComboBox.Text = selectItem;	// 此处请注意：并不是用SelectedText，而是直接设Text
-			//this.tongdaoCount = int.Parse(selectItem);
-			//this.nameTextBox.Enabled = false;
-			//this.nameTextBox.Text = lineList[4].ToString().Substring(5);
-			//this.editGroupBox.Show();
+			//2.判断是不是已经有stepMode了
+			
 
 
-			if (lineCount > 5)
-			{
-				int tongdaoCount2 = (lineCount - 6) / 3;
-				//if (tongdaoCount2 != tongdaoCount)
-				//{
-				//	MessageBox.Show("打开的ini文件的count值与实际值不符合");
-				//}
-				TongdaoWrapper[] tongdaoWrappers = new TongdaoWrapper[tongdaoCount2];
-				for (int i = 0; i < tongdaoCount2; i++)
+			using(FileStream file = new FileStream(la.LightPath, FileMode.Open) ){ 
+				// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
+				StreamReader reader = new StreamReader(file, Encoding.UTF8);
+				string s = "";
+				ArrayList lineList = new ArrayList();
+				int lineCount = 0;
+				while ((s = reader.ReadLine()) != null)
 				{
-					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
-					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));					
-					tongdaoWrappers[i] = new TongdaoWrapper(tongdaoName, initNum, address);
+					lineList.Add(s);
+					lineCount++;
 				}
-				this.ShowVScrollBars(tongdaoWrappers);
+				// 当行数小于5行时，这个文件肯定是错的
+				if (lineCount < 5)
+				{
+					MessageBox.Show("Dickov：打开的ini文件格式有误！");
+					return;
+				}else
+				{
+					int tongdaoCount2 = (lineCount - 6) / 3;
+					int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
+					if (tongdaoCount2 != tongdaoCount)
+					{
+						MessageBox.Show("Dickov：打开的ini文件的count值与实际值不符合！");
+						return;
+					}
+					
+					TongdaoWrapper[] tongdaoWrappers = new TongdaoWrapper[tongdaoCount];
+					for (int i = 0; i < tongdaoCount; i++)
+					{
+						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
+						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
+						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
+						tongdaoWrappers[i] = new TongdaoWrapper()
+						{
+							TongdaoName = tongdaoName,
+							ScrollValue = initNum
+						};
+					}
+					this.ShowVScrollBars(tongdaoWrappers, la.StartNum);
+				}
 			}
-			file.Close();
 		}
 
-		private void ShowVScrollBars(TongdaoWrapper[] tongdaoWrappers) {
+		private void ShowVScrollBars(TongdaoWrapper[] tongdaoWrappers,int startNum) {
 						
 			// 1.每次更换灯具，都先清空通道
 			for (int i = tongdaoWrappers.Length; i < 32; i++)
@@ -531,10 +397,11 @@ namespace LightController
 			// 2.将dataWrappers的内容渲染到起VScrollBar中
 			for (int i = 0; i < tongdaoWrappers.Length; i++)
 			{
-				TongdaoWrapper dataWrapper = tongdaoWrappers[i];
-				this.labels[i].Text = dataWrapper.TongdaoName;
-				this.valueNumericUpDowns[i].Text = dataWrapper.InitNum.ToString();
-				this.vScrollBars[i].Value = dataWrapper.InitNum;
+				TongdaoWrapper tongdaoWrapper = tongdaoWrappers[i];
+
+				this.labels[i].Text = (startNum+i) + "\n\n-\n " + tongdaoWrapper.TongdaoName;
+				this.valueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();
+				this.vScrollBars[i].Value = tongdaoWrapper.ScrollValue;
 
 				vScrollBars[i].Show();
 				labels[i].Show();
@@ -625,6 +492,145 @@ namespace LightController
 			if (!( (e.KeyChar >= '0') && (e.KeyChar <= '9')	)) {
 				MessageBox.Show("请输入整数");
 			}
+		}		
+		
+		private void newStepButton_Click(object sender, EventArgs e)
+		{
+			
 		}
+
+		private void helpNDBC()
+		{
+
+			//MessageBox.Show(lightAstList.Count.ToString());
+
+			dbFile = @"C:\\Temp\\testDB.db3";
+			SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
+			sqlHelper.Connect();
+
+			// 设置数据库密码
+			// sqlHelper.ChangePassword(MD5Ast.MD5(dbFile));
+
+			//向数据库中user表中插入了一条(name = "马兆瑞"，age = 21)的记录
+			//string insert_sql = "insert into user(name,age) values(?,?)";        //插入的SQL语句(带参数)
+			//SQLiteParameter[] para = new SQLiteParameter[2];                        //构造并绑定参数
+			//para[0] = new SQLiteParameter("name", "马朝旭");
+			//para[1] = new SQLiteParameter("age", 21);
+
+			//int ret = sqlHelper.ExecuteNonQuery(insert_sql, para); //返回影响的行数
+
+			//// 查询表数据，并放到实体类中
+			string select_sql = "select * from Light";                            //查询的SQL语句
+			DataTable dt = sqlHelper.ExecuteDataTable(select_sql, null);               //执行查询操作,结果存放在dt中
+			if (dt != null)
+			{
+				foreach (DataRow dr in dt.Rows)
+				{
+					object[] lightValues = dr.ItemArray;
+					DB_Light light = new DB_Light();
+					light.LightNo = Convert.ToInt32(lightValues.GetValue(0));
+					light.Name = (string)(lightValues.GetValue(1));
+					light.Type = (string)(lightValues.GetValue(2));
+					light.Pic = (string)(lightValues.GetValue(3));
+					light.StartID = Convert.ToInt32(lightValues.GetValue(4));
+					light.Count = Convert.ToInt32(lightValues.GetValue(5));
+					lightList.Add(light);
+				}
+			}
+			else
+			{
+				Console.WriteLine("Light表没有数据");
+			}
+
+			select_sql = "select * from stepCount";
+			dt = sqlHelper.ExecuteDataTable(select_sql, null);
+			if (dt != null)
+			{
+				foreach (DataRow dr in dt.Rows)
+				{
+					object[] stepValues = dr.ItemArray;
+					DB_StepCountPK pk = new DB_StepCountPK();
+					pk.LightIndex = Convert.ToInt32(stepValues.GetValue(0));
+					pk.Frame = Convert.ToInt32(stepValues.GetValue(1));
+					pk.Mode = Convert.ToInt32(stepValues.GetValue(2));
+
+					DB_StepCount stepCount = new DB_StepCount();
+					stepCount.StepCount = Convert.ToInt32(stepValues.GetValue(3));
+					stepCount.PK = pk;
+
+					stepCountList.Add(stepCount);
+				}
+			}
+			else
+			{
+				Console.WriteLine("stepCount表没有数据");
+			}
+
+			select_sql = "select * from value";
+			dt = sqlHelper.ExecuteDataTable(select_sql, null);
+			if (dt != null)
+			{
+				foreach (DataRow dr in dt.Rows)
+				{
+					object[] values = dr.ItemArray;
+
+					DB_ValuePK pk = new DB_ValuePK();
+					pk.LightIndex = Convert.ToInt32(values.GetValue(0));
+					pk.Frame = Convert.ToInt32(values.GetValue(1));
+					pk.Step = Convert.ToInt32(values.GetValue(2));
+					pk.Mode = Convert.ToInt32(values.GetValue(3));
+					pk.LightID = Convert.ToInt32(values.GetValue(7));
+
+					DB_Value val = new DB_Value();
+					val.PK = pk;
+					val.ScrollValue = Convert.ToInt32(values.GetValue(4));
+					val.StepTime = Convert.ToInt32(values.GetValue(5));
+					val.ChangeMode = Convert.ToInt32(values.GetValue(6));
+
+					valueList.Add(val);
+				}
+			}
+			else
+			{
+				Console.WriteLine("value表没有数据");
+			}
+			allData = new DBWrapper(lightList, stepCountList, valueList);
+
+		}
+
+		private void helpHibernate()
+		{
+
+			DB_Light light = new DB_Light()
+			{
+				LightNo = 300,
+				Name = "OUP3",
+				Type = "XDD3",
+				Pic = "3.bmp",
+				StartID = 300,
+				Count = 3
+			};
+
+			LightDAO lightDAO = new LightDAO(@"C:\Temp\test.db3", true);
+
+			// CRUD : 1.增 2.查 3.改 4.删
+			//lightDAO.Save(light);
+			//DB_Light light2 = lightDAO.Get(2);
+			//light2.Name = "Nice too mee you";
+			//lightDAO.Update(light2);
+			//lightDAO.Delete(light2);
+
+			IList<DB_Light> lightList = lightDAO.GetAll();
+			foreach (var eachLight in lightList)
+			{
+				Console.WriteLine(eachLight);
+			}
+
+			Console.WriteLine();
+
+
+
+		}
+
 	}
 }

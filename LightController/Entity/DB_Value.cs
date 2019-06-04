@@ -9,9 +9,9 @@ namespace DMX512
     {
 		public virtual DB_ValuePK PK { get; set; }
 
-        public virtual int Value1 { get; set; }
-        public virtual int Value2 { get; set; }
-        public virtual int Value3 { get; set; }
+		public virtual int ScrollValue { get; set; }
+        public virtual int StepTime { get; set; }
+        public virtual int ChangeMode { get; set; }
 			   
 
 		// Dickov ： 最初的重写ToString()，暂时保留，但最后应该用不到

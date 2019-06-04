@@ -237,14 +237,14 @@ namespace LightEditor
 					if (tongdaoCount2 != tongdaoCount) {
 						MessageBox.Show("打开的ini文件的count值与实际值不符合");
 					}
-					dataWrappers = new DataWrapper[tongdaoCount2];
+					dataWrappers = new TongdaoWrapper[tongdaoCount2];
 					//MessageBox.Show("共有"+tongdaoCount+"个通道");
 					for (int i=0; i < tongdaoCount2; i++) {
 						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
 						//MessageBox.Show(tongdaoName+" | "+initNum+" | "+address);
-						dataWrappers[i] = new DataWrapper(tongdaoName, initNum, address);
+						dataWrappers[i] = new TongdaoWrapper(tongdaoName, initNum, address);
 					}
 					this.ShowVScrollBars();
 				}
@@ -460,7 +460,7 @@ namespace LightEditor
 			
 			for (int i = 0; i < tongdaoCount; i++)
 			{
-				DataWrapper dataWrapper = dataWrappers[i];
+				TongdaoWrapper dataWrapper = dataWrappers[i];
 				this.labels[i].Text = dataWrapper.TongdaoName;
 				this.valueLabels[i].Text = dataWrapper.InitNum.ToString();
 				this.vScrollBars[i].Value = dataWrapper.InitNum;

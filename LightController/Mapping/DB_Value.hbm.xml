@@ -10,8 +10,8 @@
       <key-property name="Step" column="step"  />
       <key-property name="LightID" column="LightID"  />
     </composite-id>       
-    <property name="Value1" column="value1" not-null="true"/>
-    <property name="Value2" column="value2" not-null="true"/>
-    <property name="Value3" column="value3" not-null="true"/>
+    <property name="ScrollValue" column="ScrollValue" not-null="true"/>
+    <property name="StepTime" column="StepTime" not-null="true"/>
+    <property name="ChangeMode" column="ChangeMode" not-null="true"/>
   </class>
 </hibernate-mapping>

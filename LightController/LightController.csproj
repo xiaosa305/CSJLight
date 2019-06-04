@@ -59,10 +59,16 @@
     <ManifestKeyFile>LightController_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
@@ -115,25 +121,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\LightData.cs" />
     <Compile Include="Ast\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
+    <Compile Include="Ast\StepAst.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Ast\MD5Ast.cs" />
-    <Compile Include="NewForm.cs">
+    <Compile Include="Form\NewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewForm.Designer.cs">
+    <Compile Include="Form\NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ast\LightsAstForm.cs">
+    <Compile Include="Form\LightsAstForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ast\LightsAstForm.designer.cs">
+    <Compile Include="Form\LightsAstForm.designer.cs">
       <DependentUpon>LightsAstForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity\DB_Light.cs" />
@@ -141,30 +149,30 @@
     <Compile Include="Entity\DB_StepCount.cs" />
     <Compile Include="Entity\DB_ValuePK.cs" />
     <Compile Include="Entity\DB_Value.cs" />
-    <Compile Include="LightsForm.cs">
+    <Compile Include="Form\LightsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LightsForm.designer.cs">
+    <Compile Include="Form\LightsForm.designer.cs">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Form\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.designer.cs">
+    <Compile Include="Form\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="NewForm.resx">
+    <EmbeddedResource Include="Form\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ast\LightsAstForm.resx">
+    <EmbeddedResource Include="Form\LightsAstForm.resx">
       <DependentUpon>LightsAstForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LightsForm.resx">
+    <EmbeddedResource Include="Form\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Form\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -177,8 +185,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="App.config" />
-    <None Include="LightController_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -2,7 +2,6 @@
 using NHibernate.Cfg;
 using NHibernate.Criterion;
 using NHibernate.Tool.hbm2ddl;
-using SQLAst;
 using System;
 using System.Collections.Generic;
 using System.Linq;

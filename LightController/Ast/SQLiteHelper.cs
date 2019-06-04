@@ -6,7 +6,7 @@ using System.Data;
 using System.Data.SQLite;
 using LightController.Ast;
 
-namespace SQLAst
+namespace LightController.Ast
 {
 	
 

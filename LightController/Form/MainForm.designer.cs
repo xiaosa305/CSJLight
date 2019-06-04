@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using LightController.Ast;
+using System.Windows.Forms;
 
 namespace LightController
 {
@@ -49,6 +50,12 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
+			this.label33 = new System.Windows.Forms.Label();
+			this.nextStepButton = new System.Windows.Forms.Button();
+			this.deleteStepButton = new System.Windows.Forms.Button();
+			this.backStepButton = new System.Windows.Forms.Button();
+			this.insertStepButton = new System.Windows.Forms.Button();
+			this.newStepButton = new System.Windows.Forms.Button();
 			this.lightValueLabel = new System.Windows.Forms.Label();
 			this.lightLabel = new System.Windows.Forms.Label();
 			this.tongdaoGroupBox2 = new System.Windows.Forms.GroupBox();
@@ -365,6 +372,12 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.tongdaoGroupBox.Controls.Add(this.label33);
+			this.tongdaoGroupBox.Controls.Add(this.nextStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.deleteStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.backStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.insertStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.newStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.lightValueLabel);
 			this.tongdaoGroupBox.Controls.Add(this.lightLabel);
 			this.tongdaoGroupBox.Controls.Add(this.tongdaoGroupBox2);
@@ -378,6 +391,63 @@ namespace LightController
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
+			// 
+			// label33
+			// 
+			this.label33.AutoSize = true;
+			this.label33.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label33.Location = new System.Drawing.Point(1227, 125);
+			this.label33.Name = "label33";
+			this.label33.Size = new System.Drawing.Size(39, 20);
+			this.label33.TabIndex = 15;
+			this.label33.Text = "0/0";
+			// 
+			// nextStepButton
+			// 
+			this.nextStepButton.Location = new System.Drawing.Point(1305, 116);
+			this.nextStepButton.Name = "nextStepButton";
+			this.nextStepButton.Size = new System.Drawing.Size(89, 32);
+			this.nextStepButton.TabIndex = 14;
+			this.nextStepButton.Text = "下一步";
+			this.nextStepButton.UseVisualStyleBackColor = true;
+			// 
+			// deleteStepButton
+			// 
+			this.deleteStepButton.Location = new System.Drawing.Point(1305, 63);
+			this.deleteStepButton.Name = "deleteStepButton";
+			this.deleteStepButton.Size = new System.Drawing.Size(89, 32);
+			this.deleteStepButton.TabIndex = 14;
+			this.deleteStepButton.Text = "删除步";
+			this.deleteStepButton.UseVisualStyleBackColor = true;
+			// 
+			// backStepButton
+			// 
+			this.backStepButton.Location = new System.Drawing.Point(1095, 116);
+			this.backStepButton.Name = "backStepButton";
+			this.backStepButton.Size = new System.Drawing.Size(89, 32);
+			this.backStepButton.TabIndex = 13;
+			this.backStepButton.Text = "上一步";
+			this.backStepButton.UseVisualStyleBackColor = true;
+			// 
+			// insertStepButton
+			// 
+			this.insertStepButton.Location = new System.Drawing.Point(1200, 63);
+			this.insertStepButton.Name = "insertStepButton";
+			this.insertStepButton.Size = new System.Drawing.Size(89, 32);
+			this.insertStepButton.TabIndex = 14;
+			this.insertStepButton.Text = "插入步";
+			this.insertStepButton.UseVisualStyleBackColor = true;
+			this.insertStepButton.Visible = false;
+			// 
+			// newStepButton
+			// 
+			this.newStepButton.Location = new System.Drawing.Point(1095, 63);
+			this.newStepButton.Name = "newStepButton";
+			this.newStepButton.Size = new System.Drawing.Size(89, 32);
+			this.newStepButton.TabIndex = 13;
+			this.newStepButton.Text = "新建步";
+			this.newStepButton.UseVisualStyleBackColor = true;
+			this.newStepButton.Click += new System.EventHandler(this.newStepButton_Click);
 			// 
 			// lightValueLabel
 			// 
@@ -461,7 +531,7 @@ namespace LightController
 			this.numericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown32.Location = new System.Drawing.Point(983, 265);
 			this.numericUpDown32.Name = "numericUpDown32";
-			this.numericUpDown32.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown32.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown32.TabIndex = 11;
 			// 
 			// label32
@@ -481,24 +551,25 @@ namespace LightController
 			this.numericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown31.Location = new System.Drawing.Point(919, 265);
 			this.numericUpDown31.Name = "numericUpDown31";
-			this.numericUpDown31.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown31.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown31.TabIndex = 11;
 			// 
 			// vScrollBar17
 			// 
-			this.vScrollBar17.Location = new System.Drawing.Point(42, 35);
+			this.vScrollBar17.Location = new System.Drawing.Point(41, 35);
 			this.vScrollBar17.Maximum = 264;
 			this.vScrollBar17.Name = "vScrollBar17";
 			this.vScrollBar17.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar17.TabIndex = 0;
 			this.vScrollBar17.Visible = false;
+			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown30
 			// 
 			this.numericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown30.Location = new System.Drawing.Point(855, 265);
 			this.numericUpDown30.Name = "numericUpDown30";
-			this.numericUpDown30.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown30.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown30.TabIndex = 11;
 			// 
 			// label31
@@ -518,58 +589,61 @@ namespace LightController
 			this.numericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown29.Location = new System.Drawing.Point(792, 265);
 			this.numericUpDown29.Name = "numericUpDown29";
-			this.numericUpDown29.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown29.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown29.TabIndex = 11;
 			// 
 			// vScrollBar18
 			// 
-			this.vScrollBar18.Location = new System.Drawing.Point(106, 35);
+			this.vScrollBar18.Location = new System.Drawing.Point(105, 35);
 			this.vScrollBar18.Maximum = 264;
 			this.vScrollBar18.Name = "vScrollBar18";
 			this.vScrollBar18.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar18.TabIndex = 0;
 			this.vScrollBar18.Visible = false;
+			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown28
 			// 
 			this.numericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown28.Location = new System.Drawing.Point(728, 265);
 			this.numericUpDown28.Name = "numericUpDown28";
-			this.numericUpDown28.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown28.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown28.TabIndex = 11;
 			// 
 			// vScrollBar19
 			// 
-			this.vScrollBar19.Location = new System.Drawing.Point(170, 35);
+			this.vScrollBar19.Location = new System.Drawing.Point(169, 35);
 			this.vScrollBar19.Maximum = 264;
 			this.vScrollBar19.Name = "vScrollBar19";
 			this.vScrollBar19.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar19.TabIndex = 0;
 			this.vScrollBar19.Visible = false;
+			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown27
 			// 
 			this.numericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown27.Location = new System.Drawing.Point(663, 265);
 			this.numericUpDown27.Name = "numericUpDown27";
-			this.numericUpDown27.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown27.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown27.TabIndex = 11;
 			// 
 			// vScrollBar20
 			// 
-			this.vScrollBar20.Location = new System.Drawing.Point(234, 35);
+			this.vScrollBar20.Location = new System.Drawing.Point(233, 35);
 			this.vScrollBar20.Maximum = 264;
 			this.vScrollBar20.Name = "vScrollBar20";
 			this.vScrollBar20.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar20.TabIndex = 0;
 			this.vScrollBar20.Visible = false;
+			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown26
 			// 
 			this.numericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown26.Location = new System.Drawing.Point(599, 265);
 			this.numericUpDown26.Name = "numericUpDown26";
-			this.numericUpDown26.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown26.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown26.TabIndex = 11;
 			// 
 			// label30
@@ -589,41 +663,43 @@ namespace LightController
 			this.numericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown25.Location = new System.Drawing.Point(536, 265);
 			this.numericUpDown25.Name = "numericUpDown25";
-			this.numericUpDown25.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown25.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown25.TabIndex = 11;
 			// 
 			// vScrollBar21
 			// 
-			this.vScrollBar21.Location = new System.Drawing.Point(298, 35);
+			this.vScrollBar21.Location = new System.Drawing.Point(297, 35);
 			this.vScrollBar21.Maximum = 264;
 			this.vScrollBar21.Name = "vScrollBar21";
 			this.vScrollBar21.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar21.TabIndex = 0;
 			this.vScrollBar21.Visible = false;
+			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown24
 			// 
 			this.numericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown24.Location = new System.Drawing.Point(471, 265);
 			this.numericUpDown24.Name = "numericUpDown24";
-			this.numericUpDown24.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown24.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown24.TabIndex = 11;
 			// 
 			// vScrollBar22
 			// 
-			this.vScrollBar22.Location = new System.Drawing.Point(362, 35);
+			this.vScrollBar22.Location = new System.Drawing.Point(361, 35);
 			this.vScrollBar22.Maximum = 264;
 			this.vScrollBar22.Name = "vScrollBar22";
 			this.vScrollBar22.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar22.TabIndex = 0;
 			this.vScrollBar22.Visible = false;
+			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown23
 			// 
 			this.numericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown23.Location = new System.Drawing.Point(408, 265);
 			this.numericUpDown23.Name = "numericUpDown23";
-			this.numericUpDown23.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown23.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown23.TabIndex = 11;
 			// 
 			// label29
@@ -643,58 +719,61 @@ namespace LightController
 			this.numericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown22.Location = new System.Drawing.Point(344, 265);
 			this.numericUpDown22.Name = "numericUpDown22";
-			this.numericUpDown22.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown22.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown22.TabIndex = 11;
 			// 
 			// vScrollBar23
 			// 
-			this.vScrollBar23.Location = new System.Drawing.Point(426, 35);
+			this.vScrollBar23.Location = new System.Drawing.Point(425, 35);
 			this.vScrollBar23.Maximum = 264;
 			this.vScrollBar23.Name = "vScrollBar23";
 			this.vScrollBar23.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar23.TabIndex = 0;
 			this.vScrollBar23.Visible = false;
+			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown21
 			// 
 			this.numericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown21.Location = new System.Drawing.Point(282, 265);
 			this.numericUpDown21.Name = "numericUpDown21";
-			this.numericUpDown21.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown21.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown21.TabIndex = 11;
 			// 
 			// vScrollBar24
 			// 
-			this.vScrollBar24.Location = new System.Drawing.Point(490, 35);
+			this.vScrollBar24.Location = new System.Drawing.Point(489, 35);
 			this.vScrollBar24.Maximum = 264;
 			this.vScrollBar24.Name = "vScrollBar24";
 			this.vScrollBar24.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar24.TabIndex = 0;
 			this.vScrollBar24.Visible = false;
+			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown20
 			// 
 			this.numericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown20.Location = new System.Drawing.Point(215, 265);
 			this.numericUpDown20.Name = "numericUpDown20";
-			this.numericUpDown20.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown20.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown20.TabIndex = 11;
 			// 
 			// vScrollBar25
 			// 
-			this.vScrollBar25.Location = new System.Drawing.Point(554, 35);
+			this.vScrollBar25.Location = new System.Drawing.Point(553, 35);
 			this.vScrollBar25.Maximum = 264;
 			this.vScrollBar25.Name = "vScrollBar25";
 			this.vScrollBar25.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar25.TabIndex = 0;
 			this.vScrollBar25.Visible = false;
+			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown19
 			// 
 			this.numericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown19.Location = new System.Drawing.Point(151, 265);
 			this.numericUpDown19.Name = "numericUpDown19";
-			this.numericUpDown19.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown19.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown19.TabIndex = 11;
 			// 
 			// label28
@@ -714,43 +793,46 @@ namespace LightController
 			this.numericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown18.Location = new System.Drawing.Point(87, 265);
 			this.numericUpDown18.Name = "numericUpDown18";
-			this.numericUpDown18.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown18.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown18.TabIndex = 11;
 			// 
 			// vScrollBar26
 			// 
-			this.vScrollBar26.Location = new System.Drawing.Point(618, 35);
+			this.vScrollBar26.Location = new System.Drawing.Point(617, 35);
 			this.vScrollBar26.Maximum = 264;
 			this.vScrollBar26.Name = "vScrollBar26";
 			this.vScrollBar26.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar26.TabIndex = 0;
 			this.vScrollBar26.Visible = false;
+			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// numericUpDown17
 			// 
 			this.numericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown17.Location = new System.Drawing.Point(23, 265);
 			this.numericUpDown17.Name = "numericUpDown17";
-			this.numericUpDown17.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown17.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown17.TabIndex = 11;
 			// 
 			// vScrollBar27
 			// 
-			this.vScrollBar27.Location = new System.Drawing.Point(682, 35);
+			this.vScrollBar27.Location = new System.Drawing.Point(681, 35);
 			this.vScrollBar27.Maximum = 264;
 			this.vScrollBar27.Name = "vScrollBar27";
 			this.vScrollBar27.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar27.TabIndex = 0;
 			this.vScrollBar27.Visible = false;
+			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar28
 			// 
-			this.vScrollBar28.Location = new System.Drawing.Point(746, 35);
+			this.vScrollBar28.Location = new System.Drawing.Point(745, 35);
 			this.vScrollBar28.Maximum = 264;
 			this.vScrollBar28.Name = "vScrollBar28";
 			this.vScrollBar28.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar28.TabIndex = 0;
 			this.vScrollBar28.Visible = false;
+			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// label27
 			// 
@@ -766,30 +848,33 @@ namespace LightController
 			// 
 			// vScrollBar29
 			// 
-			this.vScrollBar29.Location = new System.Drawing.Point(810, 35);
+			this.vScrollBar29.Location = new System.Drawing.Point(809, 35);
 			this.vScrollBar29.Maximum = 264;
 			this.vScrollBar29.Name = "vScrollBar29";
 			this.vScrollBar29.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar29.TabIndex = 0;
 			this.vScrollBar29.Visible = false;
+			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar30
 			// 
-			this.vScrollBar30.Location = new System.Drawing.Point(874, 35);
+			this.vScrollBar30.Location = new System.Drawing.Point(873, 35);
 			this.vScrollBar30.Maximum = 264;
 			this.vScrollBar30.Name = "vScrollBar30";
 			this.vScrollBar30.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar30.TabIndex = 0;
 			this.vScrollBar30.Visible = false;
+			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar31
 			// 
-			this.vScrollBar31.Location = new System.Drawing.Point(938, 35);
+			this.vScrollBar31.Location = new System.Drawing.Point(937, 35);
 			this.vScrollBar31.Maximum = 264;
 			this.vScrollBar31.Name = "vScrollBar31";
 			this.vScrollBar31.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar31.TabIndex = 0;
 			this.vScrollBar31.Visible = false;
+			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// label26
 			// 
@@ -805,12 +890,13 @@ namespace LightController
 			// 
 			// vScrollBar32
 			// 
-			this.vScrollBar32.Location = new System.Drawing.Point(1002, 35);
+			this.vScrollBar32.Location = new System.Drawing.Point(1001, 35);
 			this.vScrollBar32.Maximum = 264;
 			this.vScrollBar32.Name = "vScrollBar32";
 			this.vScrollBar32.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar32.TabIndex = 0;
 			this.vScrollBar32.Visible = false;
+			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// label17
 			// 
@@ -1386,6 +1472,7 @@ namespace LightController
 			this.vScrollBar16.Name = "vScrollBar16";
 			this.vScrollBar16.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar16.TabIndex = 0;
+			this.vScrollBar16.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar12
 			// 
@@ -1394,6 +1481,7 @@ namespace LightController
 			this.vScrollBar12.Name = "vScrollBar12";
 			this.vScrollBar12.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar12.TabIndex = 0;
+			this.vScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar8
 			// 
@@ -1402,6 +1490,7 @@ namespace LightController
 			this.vScrollBar8.Name = "vScrollBar8";
 			this.vScrollBar8.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar8.TabIndex = 0;
+			this.vScrollBar8.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar4
 			// 
@@ -1410,6 +1499,7 @@ namespace LightController
 			this.vScrollBar4.Name = "vScrollBar4";
 			this.vScrollBar4.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar4.TabIndex = 0;
+			this.vScrollBar4.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar15
 			// 
@@ -1418,6 +1508,7 @@ namespace LightController
 			this.vScrollBar15.Name = "vScrollBar15";
 			this.vScrollBar15.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar15.TabIndex = 0;
+			this.vScrollBar15.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar11
 			// 
@@ -1426,6 +1517,7 @@ namespace LightController
 			this.vScrollBar11.Name = "vScrollBar11";
 			this.vScrollBar11.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar11.TabIndex = 0;
+			this.vScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar14
 			// 
@@ -1434,6 +1526,7 @@ namespace LightController
 			this.vScrollBar14.Name = "vScrollBar14";
 			this.vScrollBar14.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar14.TabIndex = 0;
+			this.vScrollBar14.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar10
 			// 
@@ -1442,6 +1535,7 @@ namespace LightController
 			this.vScrollBar10.Name = "vScrollBar10";
 			this.vScrollBar10.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar10.TabIndex = 0;
+			this.vScrollBar10.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar7
 			// 
@@ -1450,6 +1544,7 @@ namespace LightController
 			this.vScrollBar7.Name = "vScrollBar7";
 			this.vScrollBar7.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar7.TabIndex = 0;
+			this.vScrollBar7.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar13
 			// 
@@ -1458,6 +1553,7 @@ namespace LightController
 			this.vScrollBar13.Name = "vScrollBar13";
 			this.vScrollBar13.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar13.TabIndex = 0;
+			this.vScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar6
 			// 
@@ -1466,6 +1562,7 @@ namespace LightController
 			this.vScrollBar6.Name = "vScrollBar6";
 			this.vScrollBar6.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar6.TabIndex = 0;
+			this.vScrollBar6.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar9
 			// 
@@ -1474,6 +1571,7 @@ namespace LightController
 			this.vScrollBar9.Name = "vScrollBar9";
 			this.vScrollBar9.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar9.TabIndex = 0;
+			this.vScrollBar9.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar3
 			// 
@@ -1482,6 +1580,7 @@ namespace LightController
 			this.vScrollBar3.Name = "vScrollBar3";
 			this.vScrollBar3.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar3.TabIndex = 0;
+			this.vScrollBar3.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar5
 			// 
@@ -1490,6 +1589,7 @@ namespace LightController
 			this.vScrollBar5.Name = "vScrollBar5";
 			this.vScrollBar5.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar5.TabIndex = 0;
+			this.vScrollBar5.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar2
 			// 
@@ -1498,6 +1598,7 @@ namespace LightController
 			this.vScrollBar2.Name = "vScrollBar2";
 			this.vScrollBar2.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar2.TabIndex = 0;
+			this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// vScrollBar1
 			// 
@@ -1651,6 +1752,8 @@ namespace LightController
 		private ComboBox frameComboBox;
 		private ComboBox modeComboBox;
 		private GroupBox tongdaoGroupBox1;
+
+		// 通道区
 		public Label label16;
 		public Label label15;
 		public Label label14;
@@ -1750,13 +1853,24 @@ namespace LightController
 		private NumericUpDown numericUpDown2;
 		private NumericUpDown numericUpDown1;
 
+		// 步数调节区
+		private Label lightValueLabel;
+		private Label lightLabel;
+		private Button insertStepButton;
+		private Button newStepButton;
+		private Button deleteStepButton;
+		private Label label33;
+		private Button nextStepButton;
+		private Button backStepButton;
+
 
 		public Label[] labels = new Label[32];
 		public VScrollBar[] vScrollBars = new VScrollBar[32];
 		public NumericUpDown[] valueNumericUpDowns = new NumericUpDown[32];
-		private Label lightValueLabel;
-		private Label lightLabel;
-		
+
+		// 一个记录所有Step的数组
+		public StepAst[,] stepList = new StepAst[24,2];
+				
 	}
 }
 

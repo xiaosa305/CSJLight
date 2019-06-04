@@ -139,7 +139,7 @@ namespace LightEditor
 					{
 						string tongdaoName = textBoxes[j * 2].Tag.ToString();
 						int initValue = int.Parse(textBoxes[j * 2 + 1].Text.ToString());
-						mainForm.dataWrappers[i] = new DataWrapper(tongdaoName, initValue, i + 1);
+						mainForm.dataWrappers[i] = new TongdaoWrapper(tongdaoName, initValue, i + 1);
 						break; //跳出里面的for
 					}
 				}
@@ -155,7 +155,7 @@ namespace LightEditor
 			if (mainForm.dataWrappers == null || mainForm.dataWrappers.Length == 0 ) 
 			{
 				// MessageBox.Show("dataWrappers为空");
-				mainForm.dataWrappers = new DataWrapper[tongdaoCount];
+				mainForm.dataWrappers = new TongdaoWrapper[tongdaoCount];
 				for (int i = 0; i < newTongdaoCount; i++)
 				{
 					this.textBoxes[i * 2].Text = (i + 1).ToString();
@@ -173,7 +173,7 @@ namespace LightEditor
 				for (int i = 0; i < textBoxes.Length; i = i + 2)
 				{
 					
-					foreach (DataWrapper wrapper in mainForm.dataWrappers)
+					foreach (TongdaoWrapper wrapper in mainForm.dataWrappers)
 					{
 						// 注意Tag默认不是string，是object
 						if (textBoxes[i].Tag.ToString() == wrapper.TongdaoName)

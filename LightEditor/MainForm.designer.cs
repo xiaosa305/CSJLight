@@ -1842,7 +1842,7 @@ namespace LightEditor
 		// 打开文件 或 保存文件 后，将isSaved设成true；这个吧变量决定是否填充*.ini内[data]内容
 		public bool isSaved = false ; 
 
-		public DataWrapper[] dataWrappers;
+		public TongdaoWrapper[] dataWrappers;
 		private OpenFileDialog openFileDialog;
 		public int tongdaoCount;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine2;

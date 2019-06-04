@@ -52,37 +52,37 @@ namespace LightController
 			this.lightValueLabel = new System.Windows.Forms.Label();
 			this.lightLabel = new System.Windows.Forms.Label();
 			this.tongdaoGroupBox2 = new System.Windows.Forms.GroupBox();
-			this.valueLabel32 = new System.Windows.Forms.Label();
+			this.numericUpDown32 = new System.Windows.Forms.NumericUpDown();
 			this.label32 = new System.Windows.Forms.Label();
-			this.valueLabel31 = new System.Windows.Forms.Label();
+			this.numericUpDown31 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar17 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel30 = new System.Windows.Forms.Label();
-			this.valueLabel29 = new System.Windows.Forms.Label();
+			this.numericUpDown30 = new System.Windows.Forms.NumericUpDown();
 			this.label31 = new System.Windows.Forms.Label();
-			this.valueLabel28 = new System.Windows.Forms.Label();
+			this.numericUpDown29 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar18 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel27 = new System.Windows.Forms.Label();
+			this.numericUpDown28 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar19 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel26 = new System.Windows.Forms.Label();
+			this.numericUpDown27 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar20 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel25 = new System.Windows.Forms.Label();
+			this.numericUpDown26 = new System.Windows.Forms.NumericUpDown();
 			this.label30 = new System.Windows.Forms.Label();
-			this.valueLabel24 = new System.Windows.Forms.Label();
+			this.numericUpDown25 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar21 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel23 = new System.Windows.Forms.Label();
+			this.numericUpDown24 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar22 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel22 = new System.Windows.Forms.Label();
+			this.numericUpDown23 = new System.Windows.Forms.NumericUpDown();
 			this.label29 = new System.Windows.Forms.Label();
-			this.valueLabel21 = new System.Windows.Forms.Label();
+			this.numericUpDown22 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar23 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel20 = new System.Windows.Forms.Label();
+			this.numericUpDown21 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar24 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel19 = new System.Windows.Forms.Label();
+			this.numericUpDown20 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar25 = new System.Windows.Forms.VScrollBar();
-			this.valueLabel18 = new System.Windows.Forms.Label();
+			this.numericUpDown19 = new System.Windows.Forms.NumericUpDown();
 			this.label28 = new System.Windows.Forms.Label();
-			this.valueLabel17 = new System.Windows.Forms.Label();
+			this.numericUpDown18 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar26 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown17 = new System.Windows.Forms.NumericUpDown();
 			this.vScrollBar27 = new System.Windows.Forms.VScrollBar();
 			this.vScrollBar28 = new System.Windows.Forms.VScrollBar();
 			this.label27 = new System.Windows.Forms.Label();
@@ -101,22 +101,22 @@ namespace LightController
 			this.label24 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
 			this.tongdaoGroupBox1 = new System.Windows.Forms.GroupBox();
-			this.valueLabel16 = new System.Windows.Forms.Label();
-			this.valueLabel15 = new System.Windows.Forms.Label();
-			this.valueLabel14 = new System.Windows.Forms.Label();
-			this.valueLabel13 = new System.Windows.Forms.Label();
-			this.valueLabel12 = new System.Windows.Forms.Label();
-			this.valueLabel11 = new System.Windows.Forms.Label();
-			this.valueLabel10 = new System.Windows.Forms.Label();
-			this.valueLabel9 = new System.Windows.Forms.Label();
-			this.valueLabel8 = new System.Windows.Forms.Label();
-			this.valueLabel7 = new System.Windows.Forms.Label();
-			this.valueLabel6 = new System.Windows.Forms.Label();
-			this.valueLabel5 = new System.Windows.Forms.Label();
-			this.valueLabel4 = new System.Windows.Forms.Label();
-			this.valueLabel3 = new System.Windows.Forms.Label();
-			this.valueLabel2 = new System.Windows.Forms.Label();
-			this.valueLabel1 = new System.Windows.Forms.Label();
+			this.numericUpDown16 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown15 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown14 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown13 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown12 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown11 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown10 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.label16 = new System.Windows.Forms.Label();
 			this.label15 = new System.Windows.Forms.Label();
 			this.label14 = new System.Windows.Forms.Label();
@@ -154,7 +154,39 @@ namespace LightController
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoGroupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown30)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown29)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown28)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown27)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown26)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown25)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown23)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown21)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown20)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).BeginInit();
 			this.tongdaoGroupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown16)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown15)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown14)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown12)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// comComboBox
@@ -206,6 +238,7 @@ namespace LightController
 			// 
 			// saveButton
 			// 
+			this.saveButton.Enabled = false;
 			this.saveButton.Location = new System.Drawing.Point(358, 8);
 			this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveButton.Name = "saveButton";
@@ -367,37 +400,37 @@ namespace LightController
 			// tongdaoGroupBox2
 			// 
 			this.tongdaoGroupBox2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel32);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown32);
 			this.tongdaoGroupBox2.Controls.Add(this.label32);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel31);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown31);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar17);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel30);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel29);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown30);
 			this.tongdaoGroupBox2.Controls.Add(this.label31);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel28);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown29);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar18);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel27);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown28);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar19);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel26);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown27);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar20);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel25);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown26);
 			this.tongdaoGroupBox2.Controls.Add(this.label30);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel24);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown25);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar21);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel23);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown24);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar22);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel22);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown23);
 			this.tongdaoGroupBox2.Controls.Add(this.label29);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel21);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown22);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar23);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel20);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown21);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar24);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel19);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown20);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar25);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel18);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown19);
 			this.tongdaoGroupBox2.Controls.Add(this.label28);
-			this.tongdaoGroupBox2.Controls.Add(this.valueLabel17);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown18);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar26);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown17);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar27);
 			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar28);
 			this.tongdaoGroupBox2.Controls.Add(this.label27);
@@ -423,15 +456,13 @@ namespace LightController
 			this.tongdaoGroupBox2.TabIndex = 10;
 			this.tongdaoGroupBox2.TabStop = false;
 			// 
-			// valueLabel32
+			// numericUpDown32
 			// 
-			this.valueLabel32.Location = new System.Drawing.Point(998, 285);
-			this.valueLabel32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel32.Name = "valueLabel32";
-			this.valueLabel32.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel32.TabIndex = 11;
-			this.valueLabel32.Text = "0";
-			this.valueLabel32.Visible = false;
+			this.numericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown32.Location = new System.Drawing.Point(983, 265);
+			this.numericUpDown32.Name = "numericUpDown32";
+			this.numericUpDown32.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown32.TabIndex = 11;
 			// 
 			// label32
 			// 
@@ -445,15 +476,13 @@ namespace LightController
 			this.label32.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label32.Visible = false;
 			// 
-			// valueLabel31
+			// numericUpDown31
 			// 
-			this.valueLabel31.Location = new System.Drawing.Point(934, 285);
-			this.valueLabel31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel31.Name = "valueLabel31";
-			this.valueLabel31.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel31.TabIndex = 11;
-			this.valueLabel31.Text = "0";
-			this.valueLabel31.Visible = false;
+			this.numericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown31.Location = new System.Drawing.Point(919, 265);
+			this.numericUpDown31.Name = "numericUpDown31";
+			this.numericUpDown31.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown31.TabIndex = 11;
 			// 
 			// vScrollBar17
 			// 
@@ -464,25 +493,13 @@ namespace LightController
 			this.vScrollBar17.TabIndex = 0;
 			this.vScrollBar17.Visible = false;
 			// 
-			// valueLabel30
+			// numericUpDown30
 			// 
-			this.valueLabel30.Location = new System.Drawing.Point(870, 285);
-			this.valueLabel30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel30.Name = "valueLabel30";
-			this.valueLabel30.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel30.TabIndex = 11;
-			this.valueLabel30.Text = "0";
-			this.valueLabel30.Visible = false;
-			// 
-			// valueLabel29
-			// 
-			this.valueLabel29.Location = new System.Drawing.Point(806, 285);
-			this.valueLabel29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel29.Name = "valueLabel29";
-			this.valueLabel29.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel29.TabIndex = 11;
-			this.valueLabel29.Text = "0";
-			this.valueLabel29.Visible = false;
+			this.numericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown30.Location = new System.Drawing.Point(855, 265);
+			this.numericUpDown30.Name = "numericUpDown30";
+			this.numericUpDown30.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown30.TabIndex = 11;
 			// 
 			// label31
 			// 
@@ -496,15 +513,13 @@ namespace LightController
 			this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label31.Visible = false;
 			// 
-			// valueLabel28
+			// numericUpDown29
 			// 
-			this.valueLabel28.Location = new System.Drawing.Point(742, 285);
-			this.valueLabel28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel28.Name = "valueLabel28";
-			this.valueLabel28.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel28.TabIndex = 11;
-			this.valueLabel28.Text = "0";
-			this.valueLabel28.Visible = false;
+			this.numericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown29.Location = new System.Drawing.Point(792, 265);
+			this.numericUpDown29.Name = "numericUpDown29";
+			this.numericUpDown29.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown29.TabIndex = 11;
 			// 
 			// vScrollBar18
 			// 
@@ -515,15 +530,13 @@ namespace LightController
 			this.vScrollBar18.TabIndex = 0;
 			this.vScrollBar18.Visible = false;
 			// 
-			// valueLabel27
+			// numericUpDown28
 			// 
-			this.valueLabel27.Location = new System.Drawing.Point(678, 285);
-			this.valueLabel27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel27.Name = "valueLabel27";
-			this.valueLabel27.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel27.TabIndex = 11;
-			this.valueLabel27.Text = "0";
-			this.valueLabel27.Visible = false;
+			this.numericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown28.Location = new System.Drawing.Point(728, 265);
+			this.numericUpDown28.Name = "numericUpDown28";
+			this.numericUpDown28.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown28.TabIndex = 11;
 			// 
 			// vScrollBar19
 			// 
@@ -534,15 +547,13 @@ namespace LightController
 			this.vScrollBar19.TabIndex = 0;
 			this.vScrollBar19.Visible = false;
 			// 
-			// valueLabel26
+			// numericUpDown27
 			// 
-			this.valueLabel26.Location = new System.Drawing.Point(614, 285);
-			this.valueLabel26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel26.Name = "valueLabel26";
-			this.valueLabel26.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel26.TabIndex = 11;
-			this.valueLabel26.Text = "0";
-			this.valueLabel26.Visible = false;
+			this.numericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown27.Location = new System.Drawing.Point(663, 265);
+			this.numericUpDown27.Name = "numericUpDown27";
+			this.numericUpDown27.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown27.TabIndex = 11;
 			// 
 			// vScrollBar20
 			// 
@@ -553,15 +564,13 @@ namespace LightController
 			this.vScrollBar20.TabIndex = 0;
 			this.vScrollBar20.Visible = false;
 			// 
-			// valueLabel25
+			// numericUpDown26
 			// 
-			this.valueLabel25.Location = new System.Drawing.Point(550, 285);
-			this.valueLabel25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel25.Name = "valueLabel25";
-			this.valueLabel25.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel25.TabIndex = 11;
-			this.valueLabel25.Text = "0";
-			this.valueLabel25.Visible = false;
+			this.numericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown26.Location = new System.Drawing.Point(599, 265);
+			this.numericUpDown26.Name = "numericUpDown26";
+			this.numericUpDown26.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown26.TabIndex = 11;
 			// 
 			// label30
 			// 
@@ -575,15 +584,13 @@ namespace LightController
 			this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label30.Visible = false;
 			// 
-			// valueLabel24
+			// numericUpDown25
 			// 
-			this.valueLabel24.Location = new System.Drawing.Point(486, 285);
-			this.valueLabel24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel24.Name = "valueLabel24";
-			this.valueLabel24.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel24.TabIndex = 11;
-			this.valueLabel24.Text = "0";
-			this.valueLabel24.Visible = false;
+			this.numericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown25.Location = new System.Drawing.Point(536, 265);
+			this.numericUpDown25.Name = "numericUpDown25";
+			this.numericUpDown25.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown25.TabIndex = 11;
 			// 
 			// vScrollBar21
 			// 
@@ -594,15 +601,13 @@ namespace LightController
 			this.vScrollBar21.TabIndex = 0;
 			this.vScrollBar21.Visible = false;
 			// 
-			// valueLabel23
+			// numericUpDown24
 			// 
-			this.valueLabel23.Location = new System.Drawing.Point(422, 285);
-			this.valueLabel23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel23.Name = "valueLabel23";
-			this.valueLabel23.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel23.TabIndex = 11;
-			this.valueLabel23.Text = "0";
-			this.valueLabel23.Visible = false;
+			this.numericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown24.Location = new System.Drawing.Point(471, 265);
+			this.numericUpDown24.Name = "numericUpDown24";
+			this.numericUpDown24.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown24.TabIndex = 11;
 			// 
 			// vScrollBar22
 			// 
@@ -613,15 +618,13 @@ namespace LightController
 			this.vScrollBar22.TabIndex = 0;
 			this.vScrollBar22.Visible = false;
 			// 
-			// valueLabel22
+			// numericUpDown23
 			// 
-			this.valueLabel22.Location = new System.Drawing.Point(358, 285);
-			this.valueLabel22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel22.Name = "valueLabel22";
-			this.valueLabel22.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel22.TabIndex = 11;
-			this.valueLabel22.Text = "0";
-			this.valueLabel22.Visible = false;
+			this.numericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown23.Location = new System.Drawing.Point(408, 265);
+			this.numericUpDown23.Name = "numericUpDown23";
+			this.numericUpDown23.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown23.TabIndex = 11;
 			// 
 			// label29
 			// 
@@ -635,15 +638,13 @@ namespace LightController
 			this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label29.Visible = false;
 			// 
-			// valueLabel21
+			// numericUpDown22
 			// 
-			this.valueLabel21.Location = new System.Drawing.Point(294, 285);
-			this.valueLabel21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel21.Name = "valueLabel21";
-			this.valueLabel21.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel21.TabIndex = 11;
-			this.valueLabel21.Text = "0";
-			this.valueLabel21.Visible = false;
+			this.numericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown22.Location = new System.Drawing.Point(344, 265);
+			this.numericUpDown22.Name = "numericUpDown22";
+			this.numericUpDown22.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown22.TabIndex = 11;
 			// 
 			// vScrollBar23
 			// 
@@ -654,15 +655,13 @@ namespace LightController
 			this.vScrollBar23.TabIndex = 0;
 			this.vScrollBar23.Visible = false;
 			// 
-			// valueLabel20
+			// numericUpDown21
 			// 
-			this.valueLabel20.Location = new System.Drawing.Point(230, 285);
-			this.valueLabel20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel20.Name = "valueLabel20";
-			this.valueLabel20.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel20.TabIndex = 11;
-			this.valueLabel20.Text = "0";
-			this.valueLabel20.Visible = false;
+			this.numericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown21.Location = new System.Drawing.Point(282, 265);
+			this.numericUpDown21.Name = "numericUpDown21";
+			this.numericUpDown21.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown21.TabIndex = 11;
 			// 
 			// vScrollBar24
 			// 
@@ -673,15 +672,13 @@ namespace LightController
 			this.vScrollBar24.TabIndex = 0;
 			this.vScrollBar24.Visible = false;
 			// 
-			// valueLabel19
+			// numericUpDown20
 			// 
-			this.valueLabel19.Location = new System.Drawing.Point(166, 285);
-			this.valueLabel19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel19.Name = "valueLabel19";
-			this.valueLabel19.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel19.TabIndex = 11;
-			this.valueLabel19.Text = "0";
-			this.valueLabel19.Visible = false;
+			this.numericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown20.Location = new System.Drawing.Point(215, 265);
+			this.numericUpDown20.Name = "numericUpDown20";
+			this.numericUpDown20.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown20.TabIndex = 11;
 			// 
 			// vScrollBar25
 			// 
@@ -692,15 +689,13 @@ namespace LightController
 			this.vScrollBar25.TabIndex = 0;
 			this.vScrollBar25.Visible = false;
 			// 
-			// valueLabel18
+			// numericUpDown19
 			// 
-			this.valueLabel18.Location = new System.Drawing.Point(102, 285);
-			this.valueLabel18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel18.Name = "valueLabel18";
-			this.valueLabel18.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel18.TabIndex = 11;
-			this.valueLabel18.Text = "0";
-			this.valueLabel18.Visible = false;
+			this.numericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown19.Location = new System.Drawing.Point(151, 265);
+			this.numericUpDown19.Name = "numericUpDown19";
+			this.numericUpDown19.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown19.TabIndex = 11;
 			// 
 			// label28
 			// 
@@ -714,15 +709,13 @@ namespace LightController
 			this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label28.Visible = false;
 			// 
-			// valueLabel17
+			// numericUpDown18
 			// 
-			this.valueLabel17.Location = new System.Drawing.Point(38, 285);
-			this.valueLabel17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel17.Name = "valueLabel17";
-			this.valueLabel17.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel17.TabIndex = 11;
-			this.valueLabel17.Text = "0";
-			this.valueLabel17.Visible = false;
+			this.numericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown18.Location = new System.Drawing.Point(87, 265);
+			this.numericUpDown18.Name = "numericUpDown18";
+			this.numericUpDown18.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown18.TabIndex = 11;
 			// 
 			// vScrollBar26
 			// 
@@ -732,6 +725,14 @@ namespace LightController
 			this.vScrollBar26.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar26.TabIndex = 0;
 			this.vScrollBar26.Visible = false;
+			// 
+			// numericUpDown17
+			// 
+			this.numericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown17.Location = new System.Drawing.Point(23, 265);
+			this.numericUpDown17.Name = "numericUpDown17";
+			this.numericUpDown17.Size = new System.Drawing.Size(43, 22);
+			this.numericUpDown17.TabIndex = 11;
 			// 
 			// vScrollBar27
 			// 
@@ -922,22 +923,22 @@ namespace LightController
 			// tongdaoGroupBox1
 			// 
 			this.tongdaoGroupBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel16);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel15);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel14);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel13);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel12);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel11);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel10);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel9);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel8);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel7);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel6);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel5);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel4);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel3);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel2);
-			this.tongdaoGroupBox1.Controls.Add(this.valueLabel1);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown16);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown15);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown14);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown13);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown12);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown11);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown10);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown9);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown8);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown7);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown6);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown5);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown4);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown3);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown2);
+			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown1);
 			this.tongdaoGroupBox1.Controls.Add(this.label16);
 			this.tongdaoGroupBox1.Controls.Add(this.label15);
 			this.tongdaoGroupBox1.Controls.Add(this.label14);
@@ -978,165 +979,213 @@ namespace LightController
 			this.tongdaoGroupBox1.TabIndex = 9;
 			this.tongdaoGroupBox1.TabStop = false;
 			// 
-			// valueLabel16
+			// numericUpDown16
 			// 
-			this.valueLabel16.Location = new System.Drawing.Point(999, 286);
-			this.valueLabel16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel16.Name = "valueLabel16";
-			this.valueLabel16.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel16.TabIndex = 11;
-			this.valueLabel16.Text = "0";
-			this.valueLabel16.Visible = false;
+			this.numericUpDown16.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown16.Location = new System.Drawing.Point(982, 268);
+			this.numericUpDown16.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown16.Name = "numericUpDown16";
+			this.numericUpDown16.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown16.TabIndex = 11;
 			// 
-			// valueLabel15
+			// numericUpDown15
 			// 
-			this.valueLabel15.Location = new System.Drawing.Point(935, 286);
-			this.valueLabel15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel15.Name = "valueLabel15";
-			this.valueLabel15.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel15.TabIndex = 11;
-			this.valueLabel15.Text = "0";
-			this.valueLabel15.Visible = false;
+			this.numericUpDown15.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown15.Location = new System.Drawing.Point(918, 268);
+			this.numericUpDown15.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown15.Name = "numericUpDown15";
+			this.numericUpDown15.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown15.TabIndex = 11;
 			// 
-			// valueLabel14
+			// numericUpDown14
 			// 
-			this.valueLabel14.Location = new System.Drawing.Point(871, 286);
-			this.valueLabel14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel14.Name = "valueLabel14";
-			this.valueLabel14.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel14.TabIndex = 11;
-			this.valueLabel14.Text = "0";
-			this.valueLabel14.Visible = false;
+			this.numericUpDown14.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown14.Location = new System.Drawing.Point(854, 268);
+			this.numericUpDown14.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown14.Name = "numericUpDown14";
+			this.numericUpDown14.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown14.TabIndex = 11;
 			// 
-			// valueLabel13
+			// numericUpDown13
 			// 
-			this.valueLabel13.Location = new System.Drawing.Point(807, 286);
-			this.valueLabel13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel13.Name = "valueLabel13";
-			this.valueLabel13.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel13.TabIndex = 11;
-			this.valueLabel13.Text = "0";
-			this.valueLabel13.Visible = false;
+			this.numericUpDown13.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown13.Location = new System.Drawing.Point(791, 268);
+			this.numericUpDown13.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown13.Name = "numericUpDown13";
+			this.numericUpDown13.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown13.TabIndex = 11;
 			// 
-			// valueLabel12
+			// numericUpDown12
 			// 
-			this.valueLabel12.Location = new System.Drawing.Point(743, 286);
-			this.valueLabel12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel12.Name = "valueLabel12";
-			this.valueLabel12.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel12.TabIndex = 11;
-			this.valueLabel12.Text = "0";
-			this.valueLabel12.Visible = false;
+			this.numericUpDown12.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown12.Location = new System.Drawing.Point(727, 268);
+			this.numericUpDown12.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown12.Name = "numericUpDown12";
+			this.numericUpDown12.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown12.TabIndex = 11;
 			// 
-			// valueLabel11
+			// numericUpDown11
 			// 
-			this.valueLabel11.Location = new System.Drawing.Point(679, 286);
-			this.valueLabel11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel11.Name = "valueLabel11";
-			this.valueLabel11.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel11.TabIndex = 11;
-			this.valueLabel11.Text = "0";
-			this.valueLabel11.Visible = false;
+			this.numericUpDown11.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown11.Location = new System.Drawing.Point(662, 268);
+			this.numericUpDown11.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown11.Name = "numericUpDown11";
+			this.numericUpDown11.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown11.TabIndex = 11;
 			// 
-			// valueLabel10
+			// numericUpDown10
 			// 
-			this.valueLabel10.Location = new System.Drawing.Point(615, 286);
-			this.valueLabel10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel10.Name = "valueLabel10";
-			this.valueLabel10.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel10.TabIndex = 11;
-			this.valueLabel10.Text = "0";
-			this.valueLabel10.Visible = false;
+			this.numericUpDown10.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown10.Location = new System.Drawing.Point(598, 268);
+			this.numericUpDown10.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown10.Name = "numericUpDown10";
+			this.numericUpDown10.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown10.TabIndex = 11;
 			// 
-			// valueLabel9
+			// numericUpDown9
 			// 
-			this.valueLabel9.Location = new System.Drawing.Point(551, 286);
-			this.valueLabel9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel9.Name = "valueLabel9";
-			this.valueLabel9.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel9.TabIndex = 11;
-			this.valueLabel9.Text = "0";
-			this.valueLabel9.Visible = false;
+			this.numericUpDown9.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown9.Location = new System.Drawing.Point(535, 268);
+			this.numericUpDown9.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown9.Name = "numericUpDown9";
+			this.numericUpDown9.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown9.TabIndex = 11;
 			// 
-			// valueLabel8
+			// numericUpDown8
 			// 
-			this.valueLabel8.Location = new System.Drawing.Point(487, 286);
-			this.valueLabel8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel8.Name = "valueLabel8";
-			this.valueLabel8.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel8.TabIndex = 11;
-			this.valueLabel8.Text = "0";
-			this.valueLabel8.Visible = false;
+			this.numericUpDown8.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown8.Location = new System.Drawing.Point(470, 268);
+			this.numericUpDown8.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown8.Name = "numericUpDown8";
+			this.numericUpDown8.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown8.TabIndex = 11;
 			// 
-			// valueLabel7
+			// numericUpDown7
 			// 
-			this.valueLabel7.Location = new System.Drawing.Point(423, 286);
-			this.valueLabel7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel7.Name = "valueLabel7";
-			this.valueLabel7.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel7.TabIndex = 11;
-			this.valueLabel7.Text = "0";
-			this.valueLabel7.Visible = false;
+			this.numericUpDown7.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown7.Location = new System.Drawing.Point(407, 268);
+			this.numericUpDown7.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown7.Name = "numericUpDown7";
+			this.numericUpDown7.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown7.TabIndex = 11;
 			// 
-			// valueLabel6
+			// numericUpDown6
 			// 
-			this.valueLabel6.Location = new System.Drawing.Point(359, 286);
-			this.valueLabel6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel6.Name = "valueLabel6";
-			this.valueLabel6.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel6.TabIndex = 11;
-			this.valueLabel6.Text = "0";
-			this.valueLabel6.Visible = false;
+			this.numericUpDown6.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown6.Location = new System.Drawing.Point(343, 268);
+			this.numericUpDown6.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown6.Name = "numericUpDown6";
+			this.numericUpDown6.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown6.TabIndex = 11;
 			// 
-			// valueLabel5
+			// numericUpDown5
 			// 
-			this.valueLabel5.Location = new System.Drawing.Point(295, 286);
-			this.valueLabel5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel5.Name = "valueLabel5";
-			this.valueLabel5.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel5.TabIndex = 11;
-			this.valueLabel5.Text = "0";
-			this.valueLabel5.Visible = false;
+			this.numericUpDown5.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown5.Location = new System.Drawing.Point(281, 268);
+			this.numericUpDown5.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown5.Name = "numericUpDown5";
+			this.numericUpDown5.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown5.TabIndex = 11;
 			// 
-			// valueLabel4
+			// numericUpDown4
 			// 
-			this.valueLabel4.Location = new System.Drawing.Point(231, 286);
-			this.valueLabel4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel4.Name = "valueLabel4";
-			this.valueLabel4.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel4.TabIndex = 11;
-			this.valueLabel4.Text = "0";
-			this.valueLabel4.Visible = false;
+			this.numericUpDown4.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown4.Location = new System.Drawing.Point(214, 268);
+			this.numericUpDown4.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown4.Name = "numericUpDown4";
+			this.numericUpDown4.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown4.TabIndex = 11;
 			// 
-			// valueLabel3
+			// numericUpDown3
 			// 
-			this.valueLabel3.Location = new System.Drawing.Point(167, 286);
-			this.valueLabel3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel3.Name = "valueLabel3";
-			this.valueLabel3.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel3.TabIndex = 11;
-			this.valueLabel3.Text = "0";
-			this.valueLabel3.Visible = false;
+			this.numericUpDown3.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown3.Location = new System.Drawing.Point(150, 268);
+			this.numericUpDown3.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown3.Name = "numericUpDown3";
+			this.numericUpDown3.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown3.TabIndex = 11;
 			// 
-			// valueLabel2
+			// numericUpDown2
 			// 
-			this.valueLabel2.Location = new System.Drawing.Point(103, 286);
-			this.valueLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel2.Name = "valueLabel2";
-			this.valueLabel2.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel2.TabIndex = 11;
-			this.valueLabel2.Text = "0";
-			this.valueLabel2.Visible = false;
+			this.numericUpDown2.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown2.Location = new System.Drawing.Point(86, 268);
+			this.numericUpDown2.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown2.Name = "numericUpDown2";
+			this.numericUpDown2.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown2.TabIndex = 11;
 			// 
-			// valueLabel1
+			// numericUpDown1
 			// 
-			this.valueLabel1.Location = new System.Drawing.Point(39, 286);
-			this.valueLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.valueLabel1.Name = "valueLabel1";
-			this.valueLabel1.Size = new System.Drawing.Size(35, 23);
-			this.valueLabel1.TabIndex = 11;
-			this.valueLabel1.Text = "0";
-			this.valueLabel1.Visible = false;
+			this.numericUpDown1.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown1.Location = new System.Drawing.Point(22, 268);
+			this.numericUpDown1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Name = "numericUpDown1";
+			this.numericUpDown1.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown1.TabIndex = 11;
 			// 
 			// label16
 			// 
@@ -1539,7 +1588,39 @@ namespace LightController
 			this.tongdaoGroupBox.ResumeLayout(false);
 			this.tongdaoGroupBox.PerformLayout();
 			this.tongdaoGroupBox2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown30)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown29)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown28)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown27)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown26)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown25)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown23)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown21)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown20)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).EndInit();
 			this.tongdaoGroupBox1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown16)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown15)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown14)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown12)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -1570,22 +1651,6 @@ namespace LightController
 		private ComboBox frameComboBox;
 		private ComboBox modeComboBox;
 		private GroupBox tongdaoGroupBox1;
-		public Label valueLabel16;
-		public Label valueLabel15;
-		public Label valueLabel14;
-		public Label valueLabel13;
-		public Label valueLabel12;
-		public Label valueLabel11;
-		public Label valueLabel10;
-		public Label valueLabel9;
-		public Label valueLabel8;
-		public Label valueLabel7;
-		public Label valueLabel6;
-		public Label valueLabel5;
-		public Label valueLabel4;
-		public Label valueLabel3;
-		public Label valueLabel2;
-		public Label valueLabel1;
 		public Label label16;
 		public Label label15;
 		public Label label14;
@@ -1619,36 +1684,20 @@ namespace LightController
 		public VScrollBar vScrollBar2;
 		public VScrollBar vScrollBar1;
 		private GroupBox tongdaoGroupBox2;
-		public Label valueLabel32;
 		public Label label32;
-		public Label valueLabel31;
 		public VScrollBar vScrollBar17;
-		public Label valueLabel30;
-		public Label valueLabel29;
 		public Label label31;
-		public Label valueLabel28;
 		public VScrollBar vScrollBar18;
-		public Label valueLabel27;
 		public VScrollBar vScrollBar19;
-		public Label valueLabel26;
 		public VScrollBar vScrollBar20;
-		public Label valueLabel25;
 		public Label label30;
-		public Label valueLabel24;
 		public VScrollBar vScrollBar21;
-		public Label valueLabel23;
 		public VScrollBar vScrollBar22;
-		public Label valueLabel22;
 		public Label label29;
-		public Label valueLabel21;
 		public VScrollBar vScrollBar23;
-		public Label valueLabel20;
 		public VScrollBar vScrollBar24;
-		public Label valueLabel19;
 		public VScrollBar vScrollBar25;
-		public Label valueLabel18;
 		public Label label28;
-		public Label valueLabel17;
 		public VScrollBar vScrollBar26;
 		public VScrollBar vScrollBar27;
 		public VScrollBar vScrollBar28;
@@ -1668,11 +1717,46 @@ namespace LightController
 		public Label label24;
 		public Label label18;
 
+		private NumericUpDown numericUpDown32;
+		private NumericUpDown numericUpDown31;
+		private NumericUpDown numericUpDown30;
+		private NumericUpDown numericUpDown29;
+		private NumericUpDown numericUpDown28;
+		private NumericUpDown numericUpDown27;
+		private NumericUpDown numericUpDown26;
+		private NumericUpDown numericUpDown25;
+		private NumericUpDown numericUpDown24;
+		private NumericUpDown numericUpDown23;
+		private NumericUpDown numericUpDown22;
+		private NumericUpDown numericUpDown21;
+		private NumericUpDown numericUpDown20;
+		private NumericUpDown numericUpDown19;
+		private NumericUpDown numericUpDown18;
+		private NumericUpDown numericUpDown17;
+		private NumericUpDown numericUpDown16;
+		private NumericUpDown numericUpDown15;
+		private NumericUpDown numericUpDown14;
+		private NumericUpDown numericUpDown13;
+		private NumericUpDown numericUpDown12;
+		private NumericUpDown numericUpDown11;
+		private NumericUpDown numericUpDown10;
+		private NumericUpDown numericUpDown9;
+		private NumericUpDown numericUpDown8;
+		private NumericUpDown numericUpDown7;
+		private NumericUpDown numericUpDown6;
+		private NumericUpDown numericUpDown5;
+		private NumericUpDown numericUpDown4;
+		private NumericUpDown numericUpDown3;
+		private NumericUpDown numericUpDown2;
+		private NumericUpDown numericUpDown1;
+
+
 		public Label[] labels = new Label[32];
-		public Label[] valueLabels = new Label[32];
 		public VScrollBar[] vScrollBars = new VScrollBar[32];
+		public NumericUpDown[] valueNumericUpDowns = new NumericUpDown[32];
 		private Label lightValueLabel;
 		private Label lightLabel;
+		
 	}
 }
 

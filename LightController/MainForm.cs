@@ -42,7 +42,7 @@ namespace LightController
 		private LightDAO lightDAO;
 		private StepCountDAO stepCountDAO;
 		private ValueDAO valueDAO;
-		private bool addPassword = false;
+		private bool ifEncrypt = false;
 		
 
 		public MainForm()
@@ -99,40 +99,7 @@ namespace LightController
 			foreach (var vsBar in vScrollBars)
 			{
 				vsBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			}
-
-			valueLabels[0] = valueLabel1;
-			valueLabels[1] = valueLabel2;
-			valueLabels[2] = valueLabel3;
-			valueLabels[3] = valueLabel4;
-			valueLabels[4] = valueLabel5;
-			valueLabels[5] = valueLabel6;
-			valueLabels[6] = valueLabel7;
-			valueLabels[7] = valueLabel8;
-			valueLabels[8] = valueLabel9;
-			valueLabels[9] = valueLabel10;
-			valueLabels[10] = valueLabel11;
-			valueLabels[11] = valueLabel12;
-			valueLabels[12] = valueLabel13;
-			valueLabels[13] = valueLabel14;
-			valueLabels[14] = valueLabel15;
-			valueLabels[15] = valueLabel16;
-			valueLabels[16] = valueLabel17;
-			valueLabels[17] = valueLabel18;
-			valueLabels[18] = valueLabel19;
-			valueLabels[19] = valueLabel20;
-			valueLabels[20] = valueLabel21;
-			valueLabels[21] = valueLabel22;
-			valueLabels[22] = valueLabel23;
-			valueLabels[23] = valueLabel24;
-			valueLabels[24] = valueLabel25;
-			valueLabels[25] = valueLabel26;
-			valueLabels[26] = valueLabel27;
-			valueLabels[27] = valueLabel28;
-			valueLabels[28] = valueLabel29;
-			valueLabels[29] = valueLabel30;
-			valueLabels[30] = valueLabel31;
-			valueLabels[31] = valueLabel32;
+			}			
 
 			labels[0] = label1;
 			labels[1] = label2;
@@ -166,6 +133,40 @@ namespace LightController
 			labels[29] = label30;
 			labels[30] = label31;
 			labels[31] = label32;
+
+			valueNumericUpDowns[0] = numericUpDown1;
+			valueNumericUpDowns[1] = numericUpDown2;
+			valueNumericUpDowns[2] = numericUpDown3;
+			valueNumericUpDowns[3] = numericUpDown4;
+			valueNumericUpDowns[4] = numericUpDown5;
+			valueNumericUpDowns[5] = numericUpDown6;
+			valueNumericUpDowns[6] = numericUpDown7;
+			valueNumericUpDowns[7] = numericUpDown8;
+			valueNumericUpDowns[8] = numericUpDown9;
+			valueNumericUpDowns[9] = numericUpDown10;
+			valueNumericUpDowns[10] = numericUpDown11;
+			valueNumericUpDowns[11] = numericUpDown12;
+			valueNumericUpDowns[12] = numericUpDown13;
+			valueNumericUpDowns[13] = numericUpDown14;
+			valueNumericUpDowns[14] = numericUpDown15;
+			valueNumericUpDowns[15] = numericUpDown16;
+			valueNumericUpDowns[16] = numericUpDown17;
+			valueNumericUpDowns[17] = numericUpDown18;
+			valueNumericUpDowns[18] = numericUpDown19;
+			valueNumericUpDowns[19] = numericUpDown20;
+			valueNumericUpDowns[20] = numericUpDown21;
+			valueNumericUpDowns[21] = numericUpDown22;
+			valueNumericUpDowns[22] = numericUpDown23;
+			valueNumericUpDowns[23] = numericUpDown24;
+			valueNumericUpDowns[24] = numericUpDown25;
+			valueNumericUpDowns[25] = numericUpDown26;
+			valueNumericUpDowns[26] = numericUpDown27;
+			valueNumericUpDowns[27] = numericUpDown28;
+			valueNumericUpDowns[28] = numericUpDown29;
+			valueNumericUpDowns[29] = numericUpDown30;
+			valueNumericUpDowns[30] = numericUpDown31;
+			valueNumericUpDowns[31] = numericUpDown32;
+
 		}
 
 		/// <summary>
@@ -186,8 +187,8 @@ namespace LightController
 			//TODO：打开串口，并将剩下几个按钮设成enable
 			//MessageBox.Show(button1.Enabled.ToString());
 			newFileButton.Enabled = true;
-			openFileButton.Enabled = true;		
-
+			openFileButton.Enabled = true;
+			saveButton.Enabled = true ;
 		}
 
 		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -256,7 +257,7 @@ namespace LightController
 			}
 
 			// 2.保存灯具数据；有几个灯具就保存几个； 最好用SaveOrUpload方法；
-			lightDAO = new LightDAO(dbFile,addPassword);	
+			lightDAO = new LightDAO(dbFile,ifEncrypt);	
 			foreach (LightAst la in lightAstList)
 			{ 
 				DB_Light light = GenerateLight(la);
@@ -273,11 +274,11 @@ namespace LightController
 
 			// 3.保存步数信息：针对每个灯具，保存其相关的步数情况; 
 			// 且应该有个 List存放每一步的临时存放的步数信息。
-			stepCountDAO = new StepCountDAO(dbFile, addPassword);
+			stepCountDAO = new StepCountDAO(dbFile, ifEncrypt);
 
 
 			// 4.存放相应的每一步每一通道的值，记录数据到db.Value表中
-			valueDAO = new ValueDAO(dbFile, addPassword); 
+			valueDAO = new ValueDAO(dbFile, ifEncrypt); 
 
 			//IList<DB_StepCount> scList = stepDAO.GetAll();
 			//DB_StepCount sc2 = scList[0];
@@ -477,7 +478,7 @@ namespace LightController
 			}			
 			if (lineCount < 5)
 			{
-				MessageBox.Show("打开的ini文件格式有误");
+				MessageBox.Show("Dickov：打开的ini文件格式有误");
 				return;
 			}
 
@@ -523,7 +524,7 @@ namespace LightController
 			for (int i = tongdaoWrappers.Length; i < 32; i++)
 			{
 				vScrollBars[i].Visible = false;
-				valueLabels[i].Visible = false; 
+				valueNumericUpDowns[i].Visible = false; 
 				labels[i].Visible = false;
 			}
 
@@ -532,12 +533,12 @@ namespace LightController
 			{
 				TongdaoWrapper dataWrapper = tongdaoWrappers[i];
 				this.labels[i].Text = dataWrapper.TongdaoName;
-				this.valueLabels[i].Text = dataWrapper.InitNum.ToString();
-				this.vScrollBars[i].Value = 255 - dataWrapper.InitNum;
+				this.valueNumericUpDowns[i].Text = dataWrapper.InitNum.ToString();
+				this.vScrollBars[i].Value = dataWrapper.InitNum;
 
 				vScrollBars[i].Show();
 				labels[i].Show();
-				valueLabels[i].Show();
+				valueNumericUpDowns[i].Show();
 			}
 		}
 
@@ -564,22 +565,66 @@ namespace LightController
 			//MessageBox.Show(modeComboBox.SelectedIndex+"");
 		}
 
-		
+		/// <summary>
+		///  用户移动滚轴时发生
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
 		{
-			VScrollBar vsBar = (VScrollBar)sender;				
-			
-			//《LightEditor》 method：
-			string vScrollBarName = ((VScrollBar)sender).Name;
-			Console.WriteLine(vScrollBarName); 
-			// 方法：替换掉非数字的字符串;(另一个方法，截取“_”之前,“Bar”之后的字符串也可以)
-			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace(vScrollBarName, @"[^0-9]+", "");
-			// 处理labelIndex,将取出的数字-1；即可得到数组下标
-			int labelIndex = int.Parse(labelIndexStr) - 1;
-			valueLabels[labelIndex].Text = (255 - vScrollBars[labelIndex].Value).ToString();
+			// 正常方法:可通过比对vsBar与vsBars的index的值，若是同一个，则取出index
+			int index = getIndexNum( ((VScrollBar)sender).Name);
+			valueNumericUpDowns[index].Text = vScrollBars[index].Value.ToString();
+		}
 
-			// old method：通过反射获取当前方法名称(类似于vScrollBar1_Scroll)；然后再一个个对应
-			//ChangeValueLabel(System.Reflection.MethodBase.GetCurrentMethod().Name);
+		/// <summary>
+		///  textBox发生变化时发生
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueTextBox_TextChanged(object sender, EventArgs e)
+		{
+			//// 1.先验证参数值是不是正确的
+			//TextBox tb = (TextBox)sender;
+			//int index = getIndexNum(tb.Name);
+			//int tempValue = vScrollBars[index].Value;
+			//int value = 0;
+			//try {
+			//	value = int.Parse(tb.Text);
+			//	if (value > 255) {
+			//		value = 255;					
+			//	}
+			//	tb.Text = tempValue.ToString();
+			//} catch (Exception ex) {
+			//	Console.WriteLine("Dickov:" + ex.Message);
+			//	tb.Text = tempValue.ToString();
+			//	value = tempValue ; 				
+			//}
+
+			//// 2.调整相应的vScrollBar的数值
+			
+			//vScrollBars[index].Value = value; 
+		}
+
+		/// <summary>
+		///  辅助方法：将一个形如“单词串+数字”的字符串，提取其数字值,再将这个数字减一，即可得到index值
+		/// </summary>
+		private int getIndexNum(String senderName) {
+
+			//《LightEditor》 method：取出触发的sender的Name，对其进行操作
+			// 1.替换掉非数字的字符串;(另一个方法，截取“_”之前,“Bar”之后的字符串也可以)
+			// 2.将取出的数字-1；即可得到数组下标
+			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace( senderName,  @"[^0-9]+", "");		
+			int numIndex = int.Parse(labelIndexStr) - 1;
+
+			return numIndex;
+		}
+
+		private void valueTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!( (e.KeyChar >= '0') && (e.KeyChar <= '9')	)) {
+				MessageBox.Show("请输入整数");
+			}
 		}
 	}
 }

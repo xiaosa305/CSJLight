@@ -1650,6 +1650,7 @@ namespace LightController
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(89, 23);
 			this.frameComboBox.TabIndex = 0;
+			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 			// 
 			// modeComboBox
 			// 

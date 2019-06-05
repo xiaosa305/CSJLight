@@ -44,7 +44,11 @@ namespace LightController
 
 		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一个 步（通道列表）
 		private List<LightData> lightDataList = new List<LightData>();
-		private int selectLightIndex ;
+		
+		private int selectedLightIndex ; 
+		private int frame = 0; // 0-23 表示24种场景
+		private int mode = 0;  // 0-1 表示常规程序和音频程序
+
 
 		public MainForm()
 		{
@@ -280,10 +284,8 @@ namespace LightController
 			//IList<DB_StepCount> scList = stepDAO.GetAll();
 			//DB_StepCount sc2 = scList[0];
 			//Console.WriteLine("");
-
 		}
-
-
+		
 	
 		private void lightEditButton_Click(object sender, EventArgs e)
 		{
@@ -292,7 +294,11 @@ namespace LightController
 			}			
 			lightsForm.Show();
 		}
-				
+
+		/// <summary>
+		///  操作所有灯具，一并清空后，再赋新值
+		/// </summary>
+		/// <param name="lightAstList"></param>
 		internal void AddLights(List<LightAst> lightAstList)
 		{
 			// 1.成功编辑灯具列表后，将这个列表放到主界面来
@@ -300,9 +306,10 @@ namespace LightController
 
 			// 2.旧的先删除，再将新的加入到lightAstList中；（此过程中，并没有比较的过程，直接操作）
 			lightsListView.Items.Clear();
+			lightDataList.Clear();
+
 			foreach (LightAst la in this.lightAstList)
-			{
-				//Console.WriteLine(la.LightPic);
+			{				
 				ListViewItem light = new ListViewItem(
 					la.LightName + ":" + la.LightType
 					//+"("+la.LightAddr+")" //是否保存占用通道地址
@@ -313,17 +320,15 @@ namespace LightController
 			}
 		}
 
+
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			// 必须判断这个字段(Count)，否则会报异常
 			if (lightsListView.SelectedIndices.Count > 0) {
-				selectLightIndex = lightsListView.SelectedIndices[0];
-				LightAst light = lightAstList[selectLightIndex];
-
-				lightValueLabel.Text = light.LightName + ":" + light.LightType	+ "(" +light.LightAddr +")";								
-				generateLightData(light);
+				selectedLightIndex = lightsListView.SelectedIndices[0];
+				generateLightData();
 			}
 		}
-
 
 		/// <summary>
 		/// 这个方法应该需要分许多步骤：
@@ -332,16 +337,56 @@ namespace LightController
 		/// 2.若内存内 或 数据库内已有相关数据，则使用这个数据。
 		/// </summary>
 		/// <param name="la"></param>
-		private void generateLightData(LightAst la)
+		private void generateLightData()
 		{
+			LightAst lightAst = lightAstList[selectedLightIndex];
+			lightValueLabel.Text = lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")";
+
 			//1.让tongdaoGroupBox显示出来
 			this.tongdaoGroupBox.Show();
 
 			//2.判断是不是已经有stepMode了
+			// ①若无，则生成数据，并hideAllTongdao-->因为刚创建，肯定没有步			
+			LightData lightData = lightDataList[selectedLightIndex];
+			if (lightData.StepMode == null)
+			{
+				Console.WriteLine("Dickov:开始生成模板文件");
+				lightData.StepMode = generateStepMode(lightAst);
+				hideAllTongdao();
+			}
+			// ②若有，还需判断该LightData的StepList[frame,mode]是不是为null
+			else
+			{
+				if (lightData.StepList[frame, mode].StepList.Count == 0) {
+					hideAllTongdao();
+				}
+
+
+
+
+			}
 			
 
+		}
 
-			using(FileStream file = new FileStream(la.LightPath, FileMode.Open) ){ 
+		private void hideAllTongdao()
+		{
+			for (int i = 0; i < 32; i++) {
+				valueNumericUpDowns[i].Visible = false;
+				labels[i].Visible = false;
+				vScrollBars[i].Visible = false;
+			}
+		}
+
+		/// <summary>
+		/// 生成模板Step --》 之后每新建一步，都复制模板step的数据。
+		/// </summary>
+		/// <param name="lightAst"></param>
+		/// <returns></returns>
+		private StepAst generateStepMode(LightAst lightAst)
+		{
+			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
+			{
 				// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
 				StreamReader reader = new StreamReader(file, Encoding.UTF8);
 				string s = "";
@@ -352,50 +397,47 @@ namespace LightController
 					lineList.Add(s);
 					lineCount++;
 				}
-				// 当行数小于5行时，这个文件肯定是错的
+				// 当行数小于5行时，这个文件肯定是错的;最少需要5行(实际上真实数据至少9行: [set]+4+[data]+3 ）
 				if (lineCount < 5)
 				{
-					MessageBox.Show("Dickov：打开的ini文件格式有误！");
-					return;
-				}else
+					MessageBox.Show("Dickov：打开的ini文件格式有误，无法生成StepAst！");
+					return null;
+				}
+				else
 				{
 					int tongdaoCount2 = (lineCount - 6) / 3;
 					int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
 					if (tongdaoCount2 != tongdaoCount)
 					{
-						MessageBox.Show("Dickov：打开的ini文件的count值与实际值不符合！");
-						return;
+						MessageBox.Show("Dickov：打开的ini文件的count值与实际值不符合，无法生成StepAst！");
+						return null;
 					}
-					
-					TongdaoWrapper[] tongdaoWrappers = new TongdaoWrapper[tongdaoCount];
+
+					List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
 					for (int i = 0; i < tongdaoCount; i++)
 					{
 						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-						tongdaoWrappers[i] = new TongdaoWrapper()
-						{
-							TongdaoName = tongdaoName,
-							ScrollValue = initNum
-						};
+						tongdaoList.Add(new TongdaoWrapper(){ TongdaoName = tongdaoName, ScrollValue = initNum } );
 					}
-					this.ShowVScrollBars(tongdaoWrappers, la.StartNum);
+					return new StepAst() { TongdaoList = tongdaoList ,IsSaved = false };
 				}
 			}
 		}
 
-		private void ShowVScrollBars(TongdaoWrapper[] tongdaoWrappers,int startNum) {
-						
+		/// <summary>
+		/// 通过传来的数值，生成通道列表的数据
+		/// </summary>
+		/// <param name="tongdaoWrappers"></param>
+		/// <param name="startNum"></param>
+		private void ShowVScrollBars(List<TongdaoWrapper> tongdaoWrappers,int startNum) {
+
 			// 1.每次更换灯具，都先清空通道
-			for (int i = tongdaoWrappers.Length; i < 32; i++)
-			{
-				vScrollBars[i].Visible = false;
-				valueNumericUpDowns[i].Visible = false; 
-				labels[i].Visible = false;
-			}
+			hideAllTongdao();
 
 			// 2.将dataWrappers的内容渲染到起VScrollBar中
-			for (int i = 0; i < tongdaoWrappers.Length; i++)
+			for (int i = 0; i < tongdaoWrappers.Count; i++)
 			{
 				TongdaoWrapper tongdaoWrapper = tongdaoWrappers[i];
 
@@ -427,10 +469,7 @@ namespace LightController
 			};			
 		}
 
-		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			//MessageBox.Show(modeComboBox.SelectedIndex+"");
-		}
+		
 
 		/// <summary>
 		///  用户移动滚轴时发生
@@ -487,16 +526,68 @@ namespace LightController
 			return numIndex;
 		}
 
+		/// <summary>
+		/// 每次按下按钮时，验证输入的是否是整数（不带“.”或其他字符，只有0-9）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void valueTextBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (!( (e.KeyChar >= '0') && (e.KeyChar <= '9')	)) {
 				MessageBox.Show("请输入整数");
 			}
+			
 		}		
 		
 		private void newStepButton_Click(object sender, EventArgs e)
 		{
+			LightData lightData = lightDataList[selectedLightIndex];
+			StepAst stepMode = lightData.StepMode;
+			//StepAst stepAst = lightData.StepList[frame, mode];			
 			
+			//// 只有stepList[x,y]为空时，需生成一个stepAst，并将stepList[x,y]指向它，否则stepList[frame,mode]就是等价的
+			//if (stepAst == null) {
+			//	stepAst = new StepAst()
+			//	{
+			//		TongdaoList = generateTongdaoList(stepMode.TongdaoList),
+			//		IsSaved = false
+			//	};
+			//	lightData.StepList[frame, mode] = stepAst;
+			//}
+			
+
+			//this.ShowVScrollBars(stepAst.TongdaoList , 1);
+		}
+
+		private List<TongdaoWrapper> generateTongdaoList(List<TongdaoWrapper> oldTongdaoList)
+		{
+			// 方法1:这个方法能保证，肯定生成的是【非引用】类型的数据
+			List<TongdaoWrapper> newList = new List<TongdaoWrapper>();
+			foreach (TongdaoWrapper item in oldTongdaoList)
+			{
+				newList.Add(new TongdaoWrapper()
+					{
+						StepTime = 32,
+						TongdaoName = item.TongdaoName,
+						ScrollValue = item.ScrollValue
+					}
+				);
+			}
+
+			// 方法2:用内置方法,来回转化，无法保证是非引用数据 --》经过测试：确定是相同数据
+			//TongdaoWrapper[] temp = new TongdaoWrapper[oldTongdaoList.Count];
+			//oldTongdaoList.CopyTo(temp);
+			//List<TongdaoWrapper> newList = temp.ToList<TongdaoWrapper>();
+
+			// 测试方法：是不是同一个数据： 结论 方法2是同一个数据！
+			//for (int i = 0; i < newList.Count; i++)
+			//{
+			//	if (newList[i] == oldTongdaoList[i]) {
+			//		MessageBox.Show("Dickov:新旧是同一个");
+			//	}
+			//}
+
+			return newList;
 		}
 
 		private void helpNDBC()
@@ -632,5 +723,14 @@ namespace LightController
 
 		}
 
+		private void frameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			frame = frameComboBox.SelectedIndex; 
+		}
+
+		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			mode = modeComboBox.SelectedIndex;
+		}
 	}
 }

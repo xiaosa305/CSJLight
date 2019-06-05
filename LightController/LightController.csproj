@@ -125,6 +125,7 @@
     <Compile Include="Ast\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
+    <Compile Include="Ast\StepAstList.cs" />
     <Compile Include="Ast\StepAst.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />

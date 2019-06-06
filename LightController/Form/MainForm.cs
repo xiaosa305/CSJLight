@@ -43,7 +43,7 @@ namespace LightController
 		private bool ifEncrypt = false;
 
 		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一个 步（通道列表）
-		private List<LightData> lightDataList = new List<LightData>();
+		private List<LightWrapper> lightDataList = new List<LightWrapper>();
 		
 		private int selectedLightIndex ; 
 		private int frame = 0; // 0-23 表示24种场景
@@ -316,7 +316,7 @@ namespace LightController
 					,la.LightPic
 				);			
 				lightsListView.Items.Add(light);
-				lightDataList.Add( new LightData() );
+				lightDataList.Add( new LightWrapper() );
 			}
 		}
 
@@ -346,8 +346,8 @@ namespace LightController
 			this.tongdaoGroupBox.Show();
 
 			//2.判断是不是已经有stepMode了
-			// ①若无，则生成数据，并hideAllTongdao-->因为刚创建，肯定没有步			
-			LightData lightData = lightDataList[selectedLightIndex];
+			// ①若无，则生成数据，并hideAllTongdao-->因为刚创建，肯定没有可用的步	
+			LightWrapper lightData = lightDataList[selectedLightIndex];
 			if (lightData.StepMode == null)
 			{
 				Console.WriteLine("Dickov:开始生成模板文件");
@@ -355,20 +355,34 @@ namespace LightController
 				hideAllTongdao();
 			}
 			// ②若有，还需判断该LightData的StepList[frame,mode]是不是为null
+			// 若是null，则说明该FM下，并未有步数，hideAllTongdao
+			// 若不为null，则说明已有数据，
 			else
 			{
-				if (lightData.StepList[frame, mode].StepList.Count == 0) {
+				LightStepWrapper stepList = lightData.LightStepWrapperList[frame, mode];
+				// 为空或StepList数量是0
+				if ( stepList == null ||  stepList.StepWrapperList.Count == 0)
+				{
 					hideAllTongdao();
+					showStepLabel(0, 0);
 				}
-
-
-
-
+				else // stepList != null && stepList.StepList.Count>0 : 也就是已经有值了
+				{
+					int recentStep = stepList.RecentStep;
+					int totalStep = stepList.TotalStep; 
+					StepWrapper stepAst = stepList.StepWrapperList[recentStep-1];
+					
+					ShowVScrollBars(stepAst.TongdaoList, 1);
+					showStepLabel(recentStep, totalStep);
+				}
 			}
 			
 
 		}
 
+		/// <summary>
+		/// 无条件隐藏所有通道
+		/// </summary>
 		private void hideAllTongdao()
 		{
 			for (int i = 0; i < 32; i++) {
@@ -378,12 +392,16 @@ namespace LightController
 			}
 		}
 
+		private void showStepLabel(int recentStep,int totalStep) {
+			stepLabel.Text = recentStep + "/" + totalStep ;
+		}
+
 		/// <summary>
 		/// 生成模板Step --》 之后每新建一步，都复制模板step的数据。
 		/// </summary>
 		/// <param name="lightAst"></param>
 		/// <returns></returns>
-		private StepAst generateStepMode(LightAst lightAst)
+		private StepWrapper generateStepMode(LightAst lightAst)
 		{
 			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
 			{
@@ -421,7 +439,7 @@ namespace LightController
 						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
 						tongdaoList.Add(new TongdaoWrapper(){ TongdaoName = tongdaoName, ScrollValue = initNum } );
 					}
-					return new StepAst() { TongdaoList = tongdaoList ,IsSaved = false };
+					return new StepWrapper() { TongdaoList = tongdaoList ,IsSaved = false };
 				}
 			}
 		}
@@ -541,24 +559,48 @@ namespace LightController
 		
 		private void newStepButton_Click(object sender, EventArgs e)
 		{
-			LightData lightData = lightDataList[selectedLightIndex];
-			StepAst stepMode = lightData.StepMode;
-			//StepAst stepAst = lightData.StepList[frame, mode];			
-			
-			//// 只有stepList[x,y]为空时，需生成一个stepAst，并将stepList[x,y]指向它，否则stepList[frame,mode]就是等价的
-			//if (stepAst == null) {
-			//	stepAst = new StepAst()
-			//	{
-			//		TongdaoList = generateTongdaoList(stepMode.TongdaoList),
-			//		IsSaved = false
-			//	};
-			//	lightData.StepList[frame, mode] = stepAst;
-			//}
-			
+			LightWrapper lightData = lightDataList[selectedLightIndex];
+			StepWrapper stepMode = lightData.StepMode;
 
-			//this.ShowVScrollBars(stepAst.TongdaoList , 1);
+			// 如果此值为空，则创建之
+			if (lightData.LightStepWrapperList[frame, mode] == null)
+			{
+				lightData.LightStepWrapperList[frame, mode] = new LightStepWrapper()
+				{
+					StepWrapperList = new List<StepWrapper>()
+				};
+			}
+
+			// 验证是否超过两种mode自己的步数限制
+			if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32 ) {
+				MessageBox.Show("常规程序最多不超过32步");
+				return;
+			}
+			if (mode == 1 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 48 ) {
+				MessageBox.Show("音频程序最多不超过48步");
+				return;
+			}
+
+			//TODO 若通过步数验证，则新建步，并将stepLabel切换成最新的标签
+
+			StepWrapper	newStep = new StepWrapper()
+			{
+					TongdaoList = generateTongdaoList(stepMode.TongdaoList),
+					IsSaved = false
+			};
+			lightData.LightStepWrapperList[frame, mode].AddStep(newStep);			
+
+			this.ShowVScrollBars(newStep.TongdaoList , 1);
+			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].RecentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
+
 		}
 
+
+		/// <summary>
+		/// 通过模板的通道数据，生成新的非引用(要摆脱与StepMode的关系)的tongdaoList
+		/// </summary>
+		/// <param name="oldTongdaoList"></param>
+		/// <returns></returns>
 		private List<TongdaoWrapper> generateTongdaoList(List<TongdaoWrapper> oldTongdaoList)
 		{
 			// 方法1:这个方法能保证，肯定生成的是【非引用】类型的数据
@@ -573,7 +615,6 @@ namespace LightController
 					}
 				);
 			}
-
 			// 方法2:用内置方法,来回转化，无法保证是非引用数据 --》经过测试：确定是相同数据
 			//TongdaoWrapper[] temp = new TongdaoWrapper[oldTongdaoList.Count];
 			//oldTongdaoList.CopyTo(temp);
@@ -586,7 +627,6 @@ namespace LightController
 			//		MessageBox.Show("Dickov:新旧是同一个");
 			//	}
 			//}
-
 			return newList;
 		}
 
@@ -731,6 +771,11 @@ namespace LightController
 		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			mode = modeComboBox.SelectedIndex;
+		}
+
+		private void stepLabel_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

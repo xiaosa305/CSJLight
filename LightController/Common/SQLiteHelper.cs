@@ -208,7 +208,7 @@ namespace LightController.Ast
 		{
 			SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
 			sqlHelper.Connect();
-			sqlHelper.ChangePassword(MD5Ast.MD5("Dickov" + dbFile));
+			sqlHelper.ChangePassword(MD5Helper.MD5("Dickov" + dbFile));
 			sqlHelper.DisConnect();
 		}
 

@@ -19,7 +19,7 @@ namespace LightController.Ast
 			config = new Configuration().Configure();
 			if (addPassword)
 			{
-				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Ast.MD5("Dickov" + dbFile));
+				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5("Dickov" + dbFile));
 			}
 			else {
 				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile);

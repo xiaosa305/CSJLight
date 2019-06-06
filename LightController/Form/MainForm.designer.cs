@@ -50,7 +50,6 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
-			this.label33 = new System.Windows.Forms.Label();
 			this.nextStepButton = new System.Windows.Forms.Button();
 			this.deleteStepButton = new System.Windows.Forms.Button();
 			this.backStepButton = new System.Windows.Forms.Button();
@@ -159,6 +158,7 @@ namespace LightController
 			this.groupComboBox = new System.Windows.Forms.ComboBox();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
+			this.stepLabel = new System.Windows.Forms.Label();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoGroupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
@@ -372,7 +372,7 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
-			this.tongdaoGroupBox.Controls.Add(this.label33);
+			this.tongdaoGroupBox.Controls.Add(this.stepLabel);
 			this.tongdaoGroupBox.Controls.Add(this.nextStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.deleteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.backStepButton);
@@ -391,16 +391,6 @@ namespace LightController
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
-			// 
-			// label33
-			// 
-			this.label33.AutoSize = true;
-			this.label33.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label33.Location = new System.Drawing.Point(1227, 125);
-			this.label33.Name = "label33";
-			this.label33.Size = new System.Drawing.Size(39, 20);
-			this.label33.TabIndex = 15;
-			this.label33.Text = "0/0";
 			// 
 			// nextStepButton
 			// 
@@ -1664,6 +1654,17 @@ namespace LightController
 			this.modeComboBox.TabIndex = 0;
 			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
 			// 
+			// stepLabel
+			// 
+			this.stepLabel.AutoSize = true;
+			this.stepLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.stepLabel.Location = new System.Drawing.Point(1227, 125);
+			this.stepLabel.Name = "stepLabel";
+			this.stepLabel.Size = new System.Drawing.Size(39, 20);
+			this.stepLabel.TabIndex = 15;
+			this.stepLabel.Text = "0/0";
+			this.stepLabel.Click += new System.EventHandler(this.stepLabel_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1860,7 +1861,6 @@ namespace LightController
 		private Button insertStepButton;
 		private Button newStepButton;
 		private Button deleteStepButton;
-		private Label label33;
 		private Button nextStepButton;
 		private Button backStepButton;
 
@@ -1870,8 +1870,8 @@ namespace LightController
 		public NumericUpDown[] valueNumericUpDowns = new NumericUpDown[32];
 
 		// 一个记录所有Step的数组
-		public StepAst[,] stepList = new StepAst[24,2];
-				
+		public StepWrapper[,] stepList = new StepWrapper[24,2];
+		private Label stepLabel;
 	}
 }
 

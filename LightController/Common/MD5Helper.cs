@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace LightController.Ast
 {
-	class MD5Ast
+	class MD5Helper
 	{
 		public static string MD5(string inputString) {
 

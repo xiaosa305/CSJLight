@@ -121,18 +121,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\LightData.cs" />
-    <Compile Include="Ast\SQLiteHelper.cs" />
+    <Compile Include="Ast\LightWrapper.cs" />
+    <Compile Include="Common\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
-    <Compile Include="Ast\StepAstList.cs" />
-    <Compile Include="Ast\StepAst.cs" />
+    <Compile Include="Ast\LightStepWrapper.cs" />
+    <Compile Include="Ast\StepWrapper.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
-    <Compile Include="Ast\MD5Ast.cs" />
+    <Compile Include="Common\MD5Helper.cs" />
     <Compile Include="Form\NewForm.cs">
       <SubType>Form</SubType>
     </Compile>

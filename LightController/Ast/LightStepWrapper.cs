@@ -10,15 +10,15 @@ namespace LightController.Ast
 	/// </summary>
 	public class LightStepWrapper
 	{
-		public int RecentStep { get; set; }
+		public int CurrentStep { get; set; }
 		public int TotalStep { get; set; } 
 		public List<StepWrapper> StepWrapperList { get; set; }
 
-		// 将验证步骤放在这里
+		// 添加步的行为放在这里:总数加1，而CurrentStep切换到最后一步
 		public void AddStep(StepWrapper stepWrapper) {
 			StepWrapperList.Add(stepWrapper);
-			RecentStep ++;
-			TotalStep++; 
+			TotalStep++;
+			CurrentStep = TotalStep;
 		}
 
 	}

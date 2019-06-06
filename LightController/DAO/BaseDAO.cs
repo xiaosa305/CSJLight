@@ -35,6 +35,8 @@ namespace LightController.Ast
 			new SchemaExport(config).Create(ifPrint, ifDeleteOld);
 		}
 
+		
+
 
 
 		/// <summary>
@@ -77,7 +79,9 @@ namespace LightController.Ast
 							case "SaveOrUpdate": session.SaveOrUpdate(obj);break;
 							default:Console.WriteLine("方法名出错");break;
 						}
+
 						tx.Commit();
+
 					}
 					catch (Exception ex)
 					{
@@ -85,10 +89,8 @@ namespace LightController.Ast
 						tx.Rollback();
 					}
 				}
-				
 			}
-		}
-		
+		}	
 
 
 		/// <summary>
@@ -136,7 +138,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		///  获取所有
+		///  获取所有T对象
 		/// </summary>
 		/// <returns></returns>
 		public IList<T> GetAll()

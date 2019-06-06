@@ -68,10 +68,13 @@ namespace LightController
 			if (treeView1.SelectedNode == null)
 			{
 				MessageBox.Show("请先选择灯具！");
-			}else {
-				string fullPath = @"C:\Temp\LightLibrary\" + treeView1.SelectedNode.FullPath + ".ini";
-				LightsAstForm  lightsAstForm = new LightsAstForm(this,fullPath,minNum);
-				lightsAstForm.ShowDialog();				
+			} else {
+				if (treeView1.SelectedNode.Parent != null)
+				{
+					string fullPath = @"C:\Temp\LightLibrary\" + treeView1.SelectedNode.FullPath + ".ini";
+					LightsAstForm lightsAstForm = new LightsAstForm(this, fullPath, minNum);
+					lightsAstForm.ShowDialog();
+				}
 			}			
 		}
 

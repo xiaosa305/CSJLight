@@ -20,7 +20,7 @@ namespace LightController
 	public partial class MainForm : Form
 	{
 		// 只能有一个lightsForm，在点击编辑灯具时（未生成过或已被销毁）新建，或在Hide时显示
-		private LightsForm lightsForm; 
+		private LightsForm lightsForm;
 		private List<LightAst> lightAstList;
 
 		// 辅助的变量
@@ -28,7 +28,7 @@ namespace LightController
 		// 点击新建后，点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
 		// private bool isNew = true;
 		// 点击保存后|刚打开一个文件时，这个属性就设为true;如果对内容稍有变动，则设为false
-		private bool isSaved = false;
+		//private bool isSaved = false;
 		public string dbFile;
 
 		public DBWrapper allData;
@@ -40,12 +40,12 @@ namespace LightController
 		private LightDAO lightDAO;
 		private StepCountDAO stepCountDAO;
 		private ValueDAO valueDAO;
-		private bool ifEncrypt = false;
+		private bool ifEncrypt = false; //是否加密
 
-		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一个 步（通道列表）
-		private List<LightWrapper> lightDataList = new List<LightWrapper>();
-		
-		private int selectedLightIndex ; 
+		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一步（通道列表）
+		private List<LightWrapper> lightWrapperList = new List<LightWrapper>();
+
+		private int selectedLightIndex; //选择的灯具的index
 		private int frame = 0; // 0-23 表示24种场景
 		private int mode = 0;  // 0-1 表示常规程序和音频程序
 
@@ -54,13 +54,14 @@ namespace LightController
 		{
 			InitializeComponent();
 			this.skinEngine1.SkinFile = Application.StartupPath + @"\MacOS.ssk";
-		}	
+		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			//TODO : 动态加载可用的串口
-			string[] comList = { "COM1", "COM2" } ;
-			foreach (string com in comList) {
+			string[] comList = { "COM1", "COM2" };
+			foreach (string com in comList)
+			{
 				comComboBox.Items.Add(com);
 			}
 
@@ -99,7 +100,7 @@ namespace LightController
 			vScrollBars[29] = vScrollBar30;
 			vScrollBars[30] = vScrollBar31;
 			vScrollBars[31] = vScrollBar32;
-					
+
 			labels[0] = label1;
 			labels[1] = label2;
 			labels[2] = label3;
@@ -173,11 +174,25 @@ namespace LightController
 		/// 会被NewForm调用，并从中获取dbFile的值
 		/// </summary>
 		/// <param name="dbFile"></param>
-		internal void BuildProject(string dbFile)
+		internal void BuildProject(string dbFile,string projectName)
 		{
 			this.dbFile = dbFile;
+			this.projectLabel.Text = "当前工程：" + projectName; 
+
 			this.lightEditButton.Enabled = true;
 			this.globleSetButton.Enabled = true;
+
+			// 创建数据库:
+			// 因为是新建，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；为了新建数据库，将lightDAO指向新的对象
+			lightDAO = null;
+			lightDAO = new LightDAO(dbFile, false);
+			lightDAO.CreateSchema(true,true);
+
+			stepCountDAO = null;
+			valueDAO = null;
+			
+
+			
 
 		}
 
@@ -187,13 +202,14 @@ namespace LightController
 			//MessageBox.Show(button1.Enabled.ToString());
 			newFileButton.Enabled = true;
 			openFileButton.Enabled = true;
-			saveButton.Enabled = true ;
+			saveButton.Enabled = true;
 		}
 
 		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			//MessageBox.Show(comboBox1.SelectedItem.ToString()); 
-			if (comComboBox.SelectedItem.ToString() != "") {
+			if (comComboBox.SelectedItem.ToString() != "")
+			{
 				openComButton.Enabled = true;
 			}
 		}
@@ -205,20 +221,20 @@ namespace LightController
 
 		private void openButton_Click(object sender, EventArgs e)
 		{
-			openFileDialog.ShowDialog();			
+			openFileDialog.ShowDialog();
 		}
 
 		private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("成功打开文件:"+openFileDialog.FileName);	
+			MessageBox.Show("成功打开文件:" + openFileDialog.FileName);
 			// 简单读取文本文件
-			FileStream file = (FileStream)openFileDialog.OpenFile();	
+			FileStream file = (FileStream)openFileDialog.OpenFile();
 			// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
-			StreamReader sr = new StreamReader(file,Encoding.Default);
+			StreamReader sr = new StreamReader(file, Encoding.Default);
 			string fileName = file.Name;
-			fileName = fileName.Substring(fileName.LastIndexOf("\\")+1);
-			string s,fileText = fileName + "\n";
-			while (( s = sr.ReadLine()) != null)
+			fileName = fileName.Substring(fileName.LastIndexOf("\\") + 1);
+			string s, fileText = fileName + "\n";
+			while ((s = sr.ReadLine()) != null)
 			{
 				fileText += "\n" + s;
 			}
@@ -240,9 +256,9 @@ namespace LightController
 		{
 			NewForm newForm = new NewForm(this);
 			newForm.ShowDialog();
-			
+
 		}
-		 
+
 
 		// 保存需要进行的操作：
 		// 1.将lightAstList添加到light表中 --> 分新建还是打开文件来说
@@ -250,48 +266,123 @@ namespace LightController
 		private void saveButton_Click(object sender, EventArgs e)
 		{
 			// 1.先判断是否有灯具数据；若无，则直接停止
-			if (lightAstList == null || lightAstList.Count == 0){
+			if (lightAstList == null || lightAstList.Count == 0)
+			{
 				MessageBox.Show("当前并没有灯具数据，无法保存！");
 				return;
 			}
 
-			// 2.保存灯具数据；有几个灯具就保存几个； 最好用SaveOrUpload方法；
-			lightDAO = new LightDAO(dbFile,ifEncrypt);
-			// lightDAO.CreateSchema(true, true);
+			// 2.保存各项数据
+			saveAllLights();
+			saveAllStepCounts();
+			saveAllValues();
+			MessageBox.Show("成功保存");
+		}
 
-			foreach (LightAst la in lightAstList)
-			{ 
-				DB_Light light = GenerateLight(la);
-				lightList.Add(light);
-				lightDAO.SaveOrUpdate(light); 
+		/// <summary>
+		///  保存灯具数据；有几个灯具就保存几个； 最好用SaveOrUpload方法；
+		/// </summary>
+		private void saveAllLights()
+		{
+			if (lightDAO == null) { 
+				lightDAO = new LightDAO(dbFile, ifEncrypt);
 			}
-			// 测试代码
 			foreach (LightAst la in lightAstList)
 			{
 				DB_Light light = GenerateLight(la);
-				light.Pic = "UPDATE"; 
+				lightList.Add(light);
 				lightDAO.SaveOrUpdate(light);
 			}
-
-			// 3.保存步数信息：针对每个灯具，保存其相关的步数情况; 
-			// 且应该有个 List存放每一步的临时存放的步数信息。
-			stepCountDAO = new StepCountDAO(dbFile, ifEncrypt);
-
-
-			// 4.存放相应的每一步每一通道的值，记录数据到db.Value表中
-			valueDAO = new ValueDAO(dbFile, ifEncrypt); 
-
-			//IList<DB_StepCount> scList = stepDAO.GetAll();
-			//DB_StepCount sc2 = scList[0];
-			//Console.WriteLine("");
 		}
-		
-	
+
+		/// <summary>
+		/// 保存步数信息：针对每个灯具，保存其相关的步数情况; 
+		/// </summary>
+		private void saveAllStepCounts()
+		{
+			if(stepCountDAO == null){
+				stepCountDAO = new StepCountDAO(dbFile, ifEncrypt);
+			}
+			
+			// 取出每个灯具
+			foreach (LightWrapper lightTemp in lightWrapperList)
+			{
+				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];
+				// 取出灯具的每个常规场景(24种），并将它们保存起来
+				// TODO: 声控场景待做
+				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
+				for (int cg = 0; cg < 24; cg++)
+				{
+					LightStepWrapper lsTemp = lswl[cg, 0];
+					if (lsTemp != null)
+					{
+						DB_StepCount stepCount = new DB_StepCount()
+						{
+							StepCount = lsTemp.TotalStep,
+							PK = new DB_StepCountPK()
+							{
+								Frame = cg,
+								Mode = 0,
+								LightIndex = light.LightNo
+							}
+						};
+						stepCountDAO.SaveOrUpdate(stepCount);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 存放相应的每一步每一通道的值，记录数据到db.Value表中
+		/// </summary>
+		private void saveAllValues()
+		{
+			if(valueDAO == null) { 
+				valueDAO = new ValueDAO(dbFile, ifEncrypt);
+			}
+
+			foreach (LightWrapper lightTemp in lightWrapperList)
+			{
+				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];
+				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;				
+				for (int cg = 0; cg < 24; cg++)
+				{
+					LightStepWrapper lightStep = lswl[cg, 0];
+					if (lightStep != null && lightStep.TotalStep > 0) { //只有不为null，才可能有需要保存的数据
+						List<StepWrapper> stepList = lightStep.StepWrapperList;
+						foreach (StepWrapper step in stepList)
+						{
+							int stepIndex = stepList.IndexOf(step) + 1;
+							for (int tongdaoIndex=0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++ ) {
+								TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
+								DB_Value valueTemp = new DB_Value()
+								{
+									ChangeMode = tongdao.ChangeMode,
+									ScrollValue = tongdao.ScrollValue,
+									StepTime = tongdao.StepTime,
+									PK = new DB_ValuePK() {
+										Frame = cg,
+										Mode = 0,
+										LightID = light.LightNo + tongdaoIndex,
+										LightIndex = light.LightNo,
+										Step = stepIndex
+									 }
+								};
+								valueDAO.SaveOrUpdate(valueTemp);
+							}
+						}
+					}
+				}
+			}
+
+		}
+
 		private void lightEditButton_Click(object sender, EventArgs e)
 		{
-			if (lightsForm == null || lightsForm.IsDisposed) {
-				lightsForm = new LightsForm(this,lightAstList);
-			}			
+			if (lightsForm == null || lightsForm.IsDisposed)
+			{
+				lightsForm = new LightsForm(this, lightAstList);
+			}
 			lightsForm.Show();
 		}
 
@@ -302,21 +393,21 @@ namespace LightController
 		internal void AddLights(List<LightAst> lightAstList)
 		{
 			// 1.成功编辑灯具列表后，将这个列表放到主界面来
-			this.lightAstList = lightAstList; 
+			this.lightAstList = lightAstList;
 
 			// 2.旧的先删除，再将新的加入到lightAstList中；（此过程中，并没有比较的过程，直接操作）
 			lightsListView.Items.Clear();
-			lightDataList.Clear();
+			lightWrapperList.Clear();
 
 			foreach (LightAst la in this.lightAstList)
-			{				
+			{
 				ListViewItem light = new ListViewItem(
 					la.LightName + ":" + la.LightType
 					//+"("+la.LightAddr+")" //是否保存占用通道地址
-					,la.LightPic
-				);			
+					, la.LightPic
+				);
 				lightsListView.Items.Add(light);
-				lightDataList.Add( new LightWrapper() );
+				lightWrapperList.Add(new LightWrapper());
 			}
 		}
 
@@ -324,7 +415,8 @@ namespace LightController
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 必须判断这个字段(Count)，否则会报异常
-			if (lightsListView.SelectedIndices.Count > 0) {
+			if (lightsListView.SelectedIndices.Count > 0)
+			{
 				selectedLightIndex = lightsListView.SelectedIndices[0];
 				generateLightData();
 			}
@@ -346,38 +438,45 @@ namespace LightController
 			this.tongdaoGroupBox.Show();
 
 			//2.判断是不是已经有stepMode了
-			// ①若无，则生成数据，并hideAllTongdao-->因为刚创建，肯定没有可用的步	
-			LightWrapper lightData = lightDataList[selectedLightIndex];
-			if (lightData.StepMode == null)
+			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
+			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			if (lightWrapper.StepMode == null)
 			{
 				Console.WriteLine("Dickov:开始生成模板文件");
-				lightData.StepMode = generateStepMode(lightAst);
+				lightWrapper.StepMode = generateStepMode(lightAst);
+				showStepLabel(0, 0);
 				hideAllTongdao();
 			}
-			// ②若有，还需判断该LightData的StepList[frame,mode]是不是为null
+			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
 			// 若是null，则说明该FM下，并未有步数，hideAllTongdao
 			// 若不为null，则说明已有数据，
 			else
 			{
-				LightStepWrapper stepList = lightData.LightStepWrapperList[frame, mode];
-				// 为空或StepList数量是0
-				if ( stepList == null ||  stepList.StepWrapperList.Count == 0)
-				{
-					hideAllTongdao();
-					showStepLabel(0, 0);
-				}
-				else // stepList != null && stepList.StepList.Count>0 : 也就是已经有值了
-				{
-					int recentStep = stepList.RecentStep;
-					int totalStep = stepList.TotalStep; 
-					StepWrapper stepAst = stepList.StepWrapperList[recentStep-1];
-					
-					ShowVScrollBars(stepAst.TongdaoList, 1);
-					showStepLabel(recentStep, totalStep);
-				}
+				changeFrameMode();
 			}
-			
 
+
+		}
+
+		private void changeFrameMode()
+		{
+			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightStepWrapper stepList = lightWrapper.LightStepWrapperList[frame, mode];
+			// 为空或StepList数量是0
+			if (stepList == null || stepList.StepWrapperList.Count == 0)
+			{
+				hideAllTongdao();
+				showStepLabel(0, 0);
+			}
+			else // stepList != null && stepList.StepList.Count>0 : 也就是已经有值了
+			{
+				int recentStep = stepList.CurrentStep;
+				int totalStep = stepList.TotalStep;
+				StepWrapper stepAst = stepList.StepWrapperList[recentStep - 1];
+
+				ShowVScrollBars(stepAst.TongdaoList, 1);
+				showStepLabel(recentStep, totalStep);
+			}
 		}
 
 		/// <summary>
@@ -385,15 +484,17 @@ namespace LightController
 		/// </summary>
 		private void hideAllTongdao()
 		{
-			for (int i = 0; i < 32; i++) {
+			for (int i = 0; i < 32; i++)
+			{
 				valueNumericUpDowns[i].Visible = false;
 				labels[i].Visible = false;
 				vScrollBars[i].Visible = false;
 			}
 		}
 
-		private void showStepLabel(int recentStep,int totalStep) {
-			stepLabel.Text = recentStep + "/" + totalStep ;
+		private void showStepLabel(int recentStep, int totalStep)
+		{
+			stepLabel.Text = recentStep + "/" + totalStep;
 		}
 
 		/// <summary>
@@ -437,9 +538,9 @@ namespace LightController
 						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-						tongdaoList.Add(new TongdaoWrapper(){ TongdaoName = tongdaoName, ScrollValue = initNum } );
+						tongdaoList.Add(new TongdaoWrapper() { TongdaoName = tongdaoName, ScrollValue = initNum });
 					}
-					return new StepWrapper() { TongdaoList = tongdaoList ,IsSaved = false };
+					return new StepWrapper() { TongdaoList = tongdaoList, IsSaved = false };
 				}
 			}
 		}
@@ -449,7 +550,8 @@ namespace LightController
 		/// </summary>
 		/// <param name="tongdaoWrappers"></param>
 		/// <param name="startNum"></param>
-		private void ShowVScrollBars(List<TongdaoWrapper> tongdaoWrappers,int startNum) {
+		private void ShowVScrollBars(List<TongdaoWrapper> tongdaoWrappers, int startNum)
+		{
 
 			// 1.每次更换灯具，都先清空通道
 			hideAllTongdao();
@@ -459,7 +561,7 @@ namespace LightController
 			{
 				TongdaoWrapper tongdaoWrapper = tongdaoWrappers[i];
 
-				this.labels[i].Text = (startNum+i) + "\n\n-\n " + tongdaoWrapper.TongdaoName;
+				this.labels[i].Text = (startNum + i) + "\n\n-\n " + tongdaoWrapper.TongdaoName;
 				this.valueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();
 				this.vScrollBars[i].Value = tongdaoWrapper.ScrollValue;
 
@@ -483,23 +585,33 @@ namespace LightController
 				Name = la.LightName,
 				Type = la.LightType,
 				Pic = la.LightPic,
-				Count  = la.Count
-			};			
+				Count = la.Count
+			};
 		}
 
-		
+
 
 		/// <summary>
-		///  用户移动滚轴时发生
+		///  用户移动滚轴时发生：1.调节相关的numericUpDown; 2.放进相关的step中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
 		{
-			// 正常方法:可通过比对vsBar与vsBars的index的值，若是同一个，则取出index
-			int index = getIndexNum( ((VScrollBar)sender).Name);
+			// 1.先找出相同的index，然后把滚动条的值赋给NumericUpDown
+			int index = getIndexNum(((VScrollBar)sender).Name);
 			valueNumericUpDowns[index].Text = vScrollBars[index].Value.ToString();
+
+			//TODO 2.一个方法：将light、frame、mode 都取出来，
+			// 然后recentStep，这样就能取出一个步数，使用取出的index，给stepWrapperList赋值
+
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[index].ScrollValue = vScrollBars[index].Value;
+
+
 		}
+
+
 
 		/// <summary>
 		///  textBox发生变化时发生
@@ -526,19 +638,20 @@ namespace LightController
 			//}
 
 			//// 2.调整相应的vScrollBar的数值
-			
+
 			//vScrollBars[index].Value = value; 
 		}
 
 		/// <summary>
 		///  辅助方法：将一个形如“单词串+数字”的字符串，提取其数字值,再将这个数字减一，即可得到index值
 		/// </summary>
-		private int getIndexNum(String senderName) {
+		private int getIndexNum(String senderName)
+		{
 
 			//《LightEditor》 method：取出触发的sender的Name，对其进行操作
 			// 1.替换掉非数字的字符串;(另一个方法，截取“_”之前,“Bar”之后的字符串也可以)
 			// 2.将取出的数字-1；即可得到数组下标
-			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace( senderName,  @"[^0-9]+", "");		
+			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace(senderName, @"[^0-9]+", "");
 			int numIndex = int.Parse(labelIndexStr) - 1;
 
 			return numIndex;
@@ -551,15 +664,16 @@ namespace LightController
 		/// <param name="e"></param>
 		private void valueTextBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if (!( (e.KeyChar >= '0') && (e.KeyChar <= '9')	)) {
+			if (!((e.KeyChar >= '0') && (e.KeyChar <= '9')))
+			{
 				MessageBox.Show("请输入整数");
 			}
-			
-		}		
-		
+
+		}
+
 		private void newStepButton_Click(object sender, EventArgs e)
 		{
-			LightWrapper lightData = lightDataList[selectedLightIndex];
+			LightWrapper lightData = lightWrapperList[selectedLightIndex];
 			StepWrapper stepMode = lightData.StepMode;
 
 			// 如果此值为空，则创建之
@@ -572,26 +686,29 @@ namespace LightController
 			}
 
 			// 验证是否超过两种mode自己的步数限制
-			if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32 ) {
+			if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32)
+			{
 				MessageBox.Show("常规程序最多不超过32步");
 				return;
 			}
-			if (mode == 1 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 48 ) {
+			if (mode == 1 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 48)
+			{
 				MessageBox.Show("音频程序最多不超过48步");
 				return;
 			}
 
 			//TODO 若通过步数验证，则新建步，并将stepLabel切换成最新的标签
 
-			StepWrapper	newStep = new StepWrapper()
+			StepWrapper newStep = new StepWrapper()
 			{
-					TongdaoList = generateTongdaoList(stepMode.TongdaoList),
-					IsSaved = false
+				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
+				IsSaved = false
 			};
-			lightData.LightStepWrapperList[frame, mode].AddStep(newStep);			
+			// 调用包装类内部的方法
+			lightData.LightStepWrapperList[frame, mode].AddStep(newStep);
 
-			this.ShowVScrollBars(newStep.TongdaoList , 1);
-			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].RecentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
+			this.ShowVScrollBars(newStep.TongdaoList, 1);
+			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].CurrentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
 
 		}
 
@@ -608,11 +725,11 @@ namespace LightController
 			foreach (TongdaoWrapper item in oldTongdaoList)
 			{
 				newList.Add(new TongdaoWrapper()
-					{
-						StepTime = 32,
-						TongdaoName = item.TongdaoName,
-						ScrollValue = item.ScrollValue
-					}
+				{
+					StepTime = 32,
+					TongdaoName = item.TongdaoName,
+					ScrollValue = item.ScrollValue
+				}
 				);
 			}
 			// 方法2:用内置方法,来回转化，无法保证是非引用数据 --》经过测试：确定是相同数据
@@ -763,19 +880,132 @@ namespace LightController
 
 		}
 
-		private void frameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		private void frameModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			frame = frameComboBox.SelectedIndex; 
-		}
-
-		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
+			frame = frameComboBox.SelectedIndex;
 			mode = modeComboBox.SelectedIndex;
+			if (lightAstList != null && lightAstList.Count > 0)
+			{
+				changeFrameMode();
+			}
 		}
 
-		private void stepLabel_Click(object sender, EventArgs e)
+
+		/// <summary>
+		///  点击上一步的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void backStepButton_Click(object sender, EventArgs e)
+		{
+			int currentStepValue = getCurrentStepValue();
+			if (currentStepValue > 1)
+			{
+				chooseStep(currentStepValue - 1);
+			}
+			else
+			{
+				MessageBox.Show("当前已是第一步");
+			}
+
+		}
+
+		/// <summary>
+		/// 点击下一步的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void nextStepButton_Click(object sender, EventArgs e)
+		{
+			int currentStepValue = getCurrentStepValue();
+			int totalStepValue = getTotalStepValue();
+
+			if (currentStepValue < totalStepValue)
+			{
+				chooseStep(currentStepValue + 1);
+			}
+			else
+			{
+				MessageBox.Show("当前已是最大步");
+			}
+		}
+
+		/// <summary>
+		/// 辅助： 这个方法，抽象了【选择某一个指定步数后，统一的操作，NextStep和BackStep应该都使用这个方法】
+		/// </summary>
+		private void chooseStep(int stepValue)
 		{
 
+			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
+
+			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepValue - 1];
+			lightStepWrapper.CurrentStep = stepValue;
+
+			this.ShowVScrollBars(stepWrapper.TongdaoList, 1);
+			this.showStepLabel(stepValue, lightStepWrapper.TotalStep);
+
 		}
+
+		/// <summary>
+		/// 辅助：这个方法直接取出当前步
+		/// </summary>
+		/// <returns></returns>
+		private StepWrapper getCurrentStepWrapper()
+		{
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			StepWrapper step = light.StepWrapperList[light.CurrentStep - 1];
+			return step;
+		}
+
+		/// <summary>
+		///  辅助：取出当前步的currentStep值
+		/// </summary>
+		/// <returns></returns>
+		private int getCurrentStepValue()
+		{
+			int currentStepValue = getCurrentLightStepWrapper().CurrentStep;
+			return currentStepValue;
+		}
+
+		/// <summary>
+		///  辅助：取出当前步的totalStep值
+		/// </summary>
+		/// <returns></returns>
+		private int getTotalStepValue()
+		{
+			int totalStepValue = getCurrentLightStepWrapper().TotalStep;
+			return totalStepValue;
+		}
+
+		/// <summary>
+		///  辅助：取出选定灯具、Frame、Mode 的 所有步数集合
+		/// </summary>
+		/// <returns></returns>
+		private LightStepWrapper getCurrentLightStepWrapper()
+		{
+			LightWrapper light = lightWrapperList[selectedLightIndex];
+			LightStepWrapper lightStepWrapper = light.LightStepWrapperList[frame, mode];
+
+			//若为空，则立刻创建一个
+			if (lightStepWrapper == null)
+			{
+				lightStepWrapper = new LightStepWrapper()
+				{
+					StepWrapperList = new List<StepWrapper>()
+				};
+				light.LightStepWrapperList[frame, mode] = lightStepWrapper;
+			};
+
+			return lightStepWrapper;
+		}
+
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			Console.WriteLine(lightWrapperList );
+			Console.WriteLine(lightWrapperList);
+
+		}
+
+		
 	}
 }

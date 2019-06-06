@@ -50,6 +50,8 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
+			this.testButton = new System.Windows.Forms.Button();
+			this.stepLabel = new System.Windows.Forms.Label();
 			this.nextStepButton = new System.Windows.Forms.Button();
 			this.deleteStepButton = new System.Windows.Forms.Button();
 			this.backStepButton = new System.Windows.Forms.Button();
@@ -158,7 +160,7 @@ namespace LightController
 			this.groupComboBox = new System.Windows.Forms.ComboBox();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
-			this.stepLabel = new System.Windows.Forms.Label();
+			this.projectLabel = new System.Windows.Forms.Label();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoGroupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
@@ -200,7 +202,7 @@ namespace LightController
 			// 
 			this.comComboBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(11, 10);
+			this.comComboBox.Location = new System.Drawing.Point(13, 14);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.comComboBox.Name = "comComboBox";
 			this.comComboBox.Size = new System.Drawing.Size(121, 28);
@@ -210,7 +212,7 @@ namespace LightController
 			// openComButton
 			// 
 			this.openComButton.Enabled = false;
-			this.openComButton.Location = new System.Drawing.Point(143, 8);
+			this.openComButton.Location = new System.Drawing.Point(145, 12);
 			this.openComButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.openComButton.Name = "openComButton";
 			this.openComButton.Size = new System.Drawing.Size(92, 32);
@@ -222,7 +224,7 @@ namespace LightController
 			// newFileButton
 			// 
 			this.newFileButton.Enabled = false;
-			this.newFileButton.Location = new System.Drawing.Point(240, 8);
+			this.newFileButton.Location = new System.Drawing.Point(242, 12);
 			this.newFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.newFileButton.Name = "newFileButton";
 			this.newFileButton.Size = new System.Drawing.Size(54, 32);
@@ -234,7 +236,7 @@ namespace LightController
 			// openFileButton
 			// 
 			this.openFileButton.Enabled = false;
-			this.openFileButton.Location = new System.Drawing.Point(299, 8);
+			this.openFileButton.Location = new System.Drawing.Point(301, 12);
 			this.openFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.openFileButton.Name = "openFileButton";
 			this.openFileButton.Size = new System.Drawing.Size(54, 32);
@@ -246,7 +248,7 @@ namespace LightController
 			// saveButton
 			// 
 			this.saveButton.Enabled = false;
-			this.saveButton.Location = new System.Drawing.Point(358, 8);
+			this.saveButton.Location = new System.Drawing.Point(360, 12);
 			this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(54, 32);
@@ -258,7 +260,7 @@ namespace LightController
 			// saveAsButton
 			// 
 			this.saveAsButton.Enabled = false;
-			this.saveAsButton.Location = new System.Drawing.Point(417, 8);
+			this.saveAsButton.Location = new System.Drawing.Point(419, 12);
 			this.saveAsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveAsButton.Name = "saveAsButton";
 			this.saveAsButton.Size = new System.Drawing.Size(54, 32);
@@ -270,7 +272,7 @@ namespace LightController
 			// exitButton
 			// 
 			this.exitButton.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.exitButton.Location = new System.Drawing.Point(889, 7);
+			this.exitButton.Location = new System.Drawing.Point(1346, 10);
 			this.exitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.exitButton.Name = "exitButton";
 			this.exitButton.Size = new System.Drawing.Size(95, 32);
@@ -282,7 +284,7 @@ namespace LightController
 			// lightEditButton
 			// 
 			this.lightEditButton.Enabled = false;
-			this.lightEditButton.Location = new System.Drawing.Point(476, 8);
+			this.lightEditButton.Location = new System.Drawing.Point(1035, 10);
 			this.lightEditButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.lightEditButton.Name = "lightEditButton";
 			this.lightEditButton.Size = new System.Drawing.Size(83, 32);
@@ -294,7 +296,7 @@ namespace LightController
 			// globleSetButton
 			// 
 			this.globleSetButton.Enabled = false;
-			this.globleSetButton.Location = new System.Drawing.Point(564, 8);
+			this.globleSetButton.Location = new System.Drawing.Point(1123, 10);
 			this.globleSetButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.globleSetButton.Name = "globleSetButton";
 			this.globleSetButton.Size = new System.Drawing.Size(83, 32);
@@ -305,7 +307,7 @@ namespace LightController
 			// oneKeyButton
 			// 
 			this.oneKeyButton.Enabled = false;
-			this.oneKeyButton.Location = new System.Drawing.Point(652, 8);
+			this.oneKeyButton.Location = new System.Drawing.Point(1211, 10);
 			this.oneKeyButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.oneKeyButton.Name = "oneKeyButton";
 			this.oneKeyButton.Size = new System.Drawing.Size(82, 32);
@@ -372,6 +374,7 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.tongdaoGroupBox.Controls.Add(this.testButton);
 			this.tongdaoGroupBox.Controls.Add(this.stepLabel);
 			this.tongdaoGroupBox.Controls.Add(this.nextStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.deleteStepButton);
@@ -392,6 +395,29 @@ namespace LightController
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
 			// 
+			// testButton
+			// 
+			this.testButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+			this.testButton.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.testButton.ForeColor = System.Drawing.Color.Coral;
+			this.testButton.Location = new System.Drawing.Point(1184, 464);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(210, 264);
+			this.testButton.TabIndex = 16;
+			this.testButton.Text = "测试按钮";
+			this.testButton.UseVisualStyleBackColor = false;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
+			// 
+			// stepLabel
+			// 
+			this.stepLabel.AutoSize = true;
+			this.stepLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.stepLabel.Location = new System.Drawing.Point(1227, 125);
+			this.stepLabel.Name = "stepLabel";
+			this.stepLabel.Size = new System.Drawing.Size(39, 20);
+			this.stepLabel.TabIndex = 15;
+			this.stepLabel.Text = "0/0";
+			// 
 			// nextStepButton
 			// 
 			this.nextStepButton.Location = new System.Drawing.Point(1305, 116);
@@ -400,6 +426,7 @@ namespace LightController
 			this.nextStepButton.TabIndex = 14;
 			this.nextStepButton.Text = "下一步";
 			this.nextStepButton.UseVisualStyleBackColor = true;
+			this.nextStepButton.Click += new System.EventHandler(this.nextStepButton_Click);
 			// 
 			// deleteStepButton
 			// 
@@ -418,6 +445,7 @@ namespace LightController
 			this.backStepButton.TabIndex = 13;
 			this.backStepButton.Text = "上一步";
 			this.backStepButton.UseVisualStyleBackColor = true;
+			this.backStepButton.Click += new System.EventHandler(this.backStepButton_Click);
 			// 
 			// insertStepButton
 			// 
@@ -1640,7 +1668,7 @@ namespace LightController
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(89, 23);
 			this.frameComboBox.TabIndex = 0;
-			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
+			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameModeComboBox_SelectedIndexChanged);
 			// 
 			// modeComboBox
 			// 
@@ -1652,24 +1680,23 @@ namespace LightController
 			this.modeComboBox.Name = "modeComboBox";
 			this.modeComboBox.Size = new System.Drawing.Size(104, 23);
 			this.modeComboBox.TabIndex = 0;
-			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
+			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.frameModeComboBox_SelectedIndexChanged);
 			// 
-			// stepLabel
+			// projectLabel
 			// 
-			this.stepLabel.AutoSize = true;
-			this.stepLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.stepLabel.Location = new System.Drawing.Point(1227, 125);
-			this.stepLabel.Name = "stepLabel";
-			this.stepLabel.Size = new System.Drawing.Size(39, 20);
-			this.stepLabel.TabIndex = 15;
-			this.stepLabel.Text = "0/0";
-			this.stepLabel.Click += new System.EventHandler(this.stepLabel_Click);
+			this.projectLabel.AutoSize = true;
+			this.projectLabel.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.projectLabel.Location = new System.Drawing.Point(486, 17);
+			this.projectLabel.Name = "projectLabel";
+			this.projectLabel.Size = new System.Drawing.Size(0, 17);
+			this.projectLabel.TabIndex = 9;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1453, 961);
+			this.Controls.Add(this.projectLabel);
 			this.Controls.Add(this.tongdaoGroupBox);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.exitButton);
@@ -1725,6 +1752,7 @@ namespace LightController
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -1872,6 +1900,8 @@ namespace LightController
 		// 一个记录所有Step的数组
 		public StepWrapper[,] stepList = new StepWrapper[24,2];
 		private Label stepLabel;
+		private Button testButton;
+		private Label projectLabel;
 	}
 }
 

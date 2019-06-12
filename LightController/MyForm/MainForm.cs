@@ -14,6 +14,7 @@ using System.Collections;
 using System.Data.SQLite;
 using DMX512;
 using LightController.Ast;
+using LightController.MyForm;
 
 namespace LightController
 {
@@ -1002,13 +1003,25 @@ namespace LightController
 			return lightStepWrapper;
 		}
 
-		private void testButton_Click(object sender, EventArgs e)
+		
+
+		private void globleSetButton_Click(object sender, EventArgs e)
 		{
-			Console.WriteLine(lightWrapperList );
-			Console.WriteLine(lightWrapperList);
+			GlobalSetForm gsForm = new GlobalSetForm(this);
+			gsForm.ShowDialog();
 
 		}
 
-		
+
+		/// <summary>
+		///  点击测试按钮后，会执行这个操作：将各种临时测试的操作放在这里
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			this.globleSetButton.Enabled = true;
+
+		}
 	}
 }

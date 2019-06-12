@@ -17,30 +17,34 @@ using LightController.Ast;
 
 namespace LightController
 {
-	public partial class MainForm : Form
+	public partial class MainForm :  System.Windows.Forms.Form
 	{
 		// 只能有一个lightsForm，在点击编辑灯具时（未生成过或已被销毁）新建，或在Hide时显示
 		private LightsForm lightsForm;
 		private List<LightAst> lightAstList;
 
-		// 辅助的变量
-		// private string projectName; 
+		// 辅助的变量：
+
 		// 点击新建后，点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
 		// private bool isNew = true;
+
 		// 点击保存后|刚打开一个文件时，这个属性就设为true;如果对内容稍有变动，则设为false
 		//private bool isSaved = false;
-		public string dbFile;
 
+		// 数据库连接
+		// 数据库地址：每个项目都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
+		public string dbFile;
+		private bool ifEncrypt = false; //是否加密
+
+		private LightDAO lightDAO;
+		private StepCountDAO stepCountDAO;
+		private ValueDAO valueDAO;		
+
+		// 这几个数据 ，能存放所有数据库数据
 		public DBWrapper allData;
 		List<DB_Light> lightList = new List<DB_Light>();
 		List<DB_StepCount> stepCountList = new List<DB_StepCount>();
 		List<DB_Value> valueList = new List<DB_Value>();
-
-		// 数据库连接
-		private LightDAO lightDAO;
-		private StepCountDAO stepCountDAO;
-		private ValueDAO valueDAO;
-		private bool ifEncrypt = false; //是否加密
 
 		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一步（通道列表）
 		private List<LightWrapper> lightWrapperList = new List<LightWrapper>();
@@ -48,7 +52,6 @@ namespace LightController
 		private int selectedLightIndex; //选择的灯具的index
 		private int frame = 0; // 0-23 表示24种场景
 		private int mode = 0;  // 0-1 表示常规程序和音频程序
-
 
 		public MainForm()
 		{

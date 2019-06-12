@@ -11,7 +11,7 @@ using LightController.Ast;
 
 namespace LightController
 {
-	public partial class LightsForm : Form
+	public partial class LightsForm : System.Windows.Forms.Form
 	{
 		private MainForm mainForm;		
 		//每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1

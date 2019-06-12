@@ -133,16 +133,16 @@
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
-    <Compile Include="Form\NewForm.cs">
+    <Compile Include="MyForm\NewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\NewForm.Designer.cs">
+    <Compile Include="MyForm\NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form\LightsAstForm.cs">
+    <Compile Include="MyForm\LightsAstForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\LightsAstForm.designer.cs">
+    <Compile Include="MyForm\LightsAstForm.designer.cs">
       <DependentUpon>LightsAstForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity\DB_Light.cs" />
@@ -150,30 +150,30 @@
     <Compile Include="Entity\DB_StepCount.cs" />
     <Compile Include="Entity\DB_ValuePK.cs" />
     <Compile Include="Entity\DB_Value.cs" />
-    <Compile Include="Form\LightsForm.cs">
+    <Compile Include="MyForm\LightsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\LightsForm.designer.cs">
+    <Compile Include="MyForm\LightsForm.designer.cs">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form\MainForm.cs">
+    <Compile Include="MyForm\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\MainForm.designer.cs">
+    <Compile Include="MyForm\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form\NewForm.resx">
+    <EmbeddedResource Include="MyForm\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\LightsAstForm.resx">
+    <EmbeddedResource Include="MyForm\LightsAstForm.resx">
       <DependentUpon>LightsAstForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\LightsForm.resx">
+    <EmbeddedResource Include="MyForm\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\MainForm.resx">
+    <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

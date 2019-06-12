@@ -83,37 +83,37 @@
 			// 
 			this.lightCountNumericUpDown.Location = new System.Drawing.Point(150, 30);
 			this.lightCountNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+			1,
+			0,
+			0,
+			0});
 			this.lightCountNumericUpDown.Name = "lightCountNumericUpDown";
 			this.lightCountNumericUpDown.Size = new System.Drawing.Size(132, 25);
 			this.lightCountNumericUpDown.TabIndex = 3;
 			this.lightCountNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.lightCountNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+			1,
+			0,
+			0,
+			0});
 			// 
 			// startCountNumericUpDown
 			// 
 			this.startCountNumericUpDown.Location = new System.Drawing.Point(150, 69);
 			this.startCountNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+			1,
+			0,
+			0,
+			0});
 			this.startCountNumericUpDown.Name = "startCountNumericUpDown";
 			this.startCountNumericUpDown.Size = new System.Drawing.Size(132, 25);
 			this.startCountNumericUpDown.TabIndex = 3;
 			this.startCountNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.startCountNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+			1,
+			0,
+			0,
+			0});
 			// 
 			// LightsAstForm
 			// 

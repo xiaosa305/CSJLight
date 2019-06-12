@@ -12,10 +12,11 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using LightController.Ast;
 using System.Data.SQLite;
+ 
 
 namespace LightController
 {
-	public partial class NewForm : Form
+	public partial class NewForm :Form
 	{
 		private	MainForm mainForm;
 		public NewForm(MainForm mainForm)

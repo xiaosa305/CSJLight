@@ -89,9 +89,9 @@ namespace LightController
 			// 
 			this.lightsListView.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.LigntName,
-            this.LightType,
-            this.LightAddr});
+			this.LigntName,
+			this.LightType,
+			this.LightAddr});
 			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Right;
 			this.lightsListView.GridLines = true;
 			this.lightsListView.LargeImageList = this.largeImageList;

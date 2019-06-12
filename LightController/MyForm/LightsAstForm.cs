@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace LightController
 {
-	public partial class LightsAstForm : Form
+	public partial class LightsAstForm : System.Windows.Forms.Form
 	{
 		public LightsForm lightsForm; // 存储一个对LightsForm的引用
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using System.Data.SQLite;
 using LightController.Ast;
+using System.Windows.Forms;
 
 namespace LightController.Ast
 {
@@ -49,6 +50,7 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
+					Console.WriteLine("Dickov:" + ex.Message);
 					return false;
 				}
 			}
@@ -63,7 +65,8 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
-					return false;
+				Console.WriteLine("Dickov:" + ex.Message);
+				return false;
 				}
 			}
 
@@ -81,7 +84,8 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
-					return false;
+				Console.WriteLine("Dickov:" + ex.Message);
+				return false;
 				}
 			}
 
@@ -109,7 +113,8 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
-					return null;
+				Console.WriteLine("Dickov:" + ex.Message);
+				return null;
 				}
 			}
 
@@ -140,6 +145,7 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
+					Console.WriteLine("Dickov:" + ex.Message);
 					affectRows = -1;
 				}
 				return affectRows;
@@ -158,6 +164,7 @@ namespace LightController.Ast
 				}
 				catch (System.Data.SQLite.SQLiteException ex)
 				{
+					Console.WriteLine("Dickov:" + ex.Message);
 					return false;
 				}
 
@@ -171,7 +178,7 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
-
+					Console.WriteLine("Dickov:" + ex.Message);
 				}
 			}
 
@@ -183,7 +190,7 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
-
+					Console.WriteLine("Dickov:" + ex.Message);
 				}
 			}
 
@@ -195,7 +202,7 @@ namespace LightController.Ast
 				}
 				catch (SQLiteException ex)
 				{
-
+					Console.WriteLine("Dickov:" + ex.Message);
 				}
 			}
 

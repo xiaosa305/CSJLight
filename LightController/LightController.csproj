@@ -122,6 +122,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\LightWrapper.cs" />
+    <Compile Include="Common\IniFileAst.cs" />
+    <Compile Include="Common\MathAst.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />

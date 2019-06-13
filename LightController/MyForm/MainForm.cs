@@ -24,17 +24,21 @@ namespace LightController
 		private LightsForm lightsForm;
 		private List<LightAst> lightAstList;
 
+		// 只能有一个GlobalSetForm，在点击全局设置时新建(为生成过或已被销毁)，或在Hide时显示
+		private GlobalSetForm globalSetForm; 
+
 		// 辅助的变量：
 
 		// 点击新建后，点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
-		// private bool isNew = true;
+		private bool isNew = true;
 
 		// 点击保存后|刚打开一个文件时，这个属性就设为true;如果对内容稍有变动，则设为false
 		//private bool isSaved = false;
+		public string globalIniFilePath;
 
 		// 数据库连接
 		// 数据库地址：每个项目都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
-		public string dbFile;
+		public string dbFilePath;
 		private bool ifEncrypt = false; //是否加密
 
 		private LightDAO lightDAO;
@@ -177,11 +181,13 @@ namespace LightController
 		/// 这个方法用来设置一些内容；
 		/// 会被NewForm调用，并从中获取dbFile的值
 		/// </summary>
-		/// <param name="dbFile"></param>
-		internal void BuildProject(string dbFile,string projectName)
+		/// <param name="dbFilePath"></param>
+		internal void BuildProject(string globalIniFilePath,string dbFilePath,string projectName)
 		{
-			this.dbFile = dbFile;
-			this.projectLabel.Text = "当前工程：" + projectName; 
+			this.globalIniFilePath = globalIniFilePath;
+			this.dbFilePath = dbFilePath;
+			this.projectLabel.Text = "当前工程：" + projectName;
+			this.isNew = true;
 
 			this.lightEditButton.Enabled = true;
 			this.globleSetButton.Enabled = true;
@@ -189,8 +195,8 @@ namespace LightController
 			// 创建数据库:
 			// 因为是新建，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；为了新建数据库，将lightDAO指向新的对象
 			lightDAO = null;
-			lightDAO = new LightDAO(dbFile, false);
-			lightDAO.CreateSchema(true,true);
+			lightDAO = new LightDAO(dbFilePath, false);
+			//lightDAO.CreateSchema(true,true);
 
 			stepCountDAO = null;
 			valueDAO = null;
@@ -289,7 +295,7 @@ namespace LightController
 		private void saveAllLights()
 		{
 			if (lightDAO == null) { 
-				lightDAO = new LightDAO(dbFile, ifEncrypt);
+				lightDAO = new LightDAO(dbFilePath, ifEncrypt);
 			}
 			foreach (LightAst la in lightAstList)
 			{
@@ -305,7 +311,7 @@ namespace LightController
 		private void saveAllStepCounts()
 		{
 			if(stepCountDAO == null){
-				stepCountDAO = new StepCountDAO(dbFile, ifEncrypt);
+				stepCountDAO = new StepCountDAO(dbFilePath, ifEncrypt);
 			}
 			
 			// 取出每个灯具
@@ -342,7 +348,7 @@ namespace LightController
 		private void saveAllValues()
 		{
 			if(valueDAO == null) { 
-				valueDAO = new ValueDAO(dbFile, ifEncrypt);
+				valueDAO = new ValueDAO(dbFilePath, ifEncrypt);
 			}
 
 			foreach (LightWrapper lightTemp in lightWrapperList)
@@ -387,7 +393,7 @@ namespace LightController
 			{
 				lightsForm = new LightsForm(this, lightAstList);
 			}
-			lightsForm.Show();
+			lightsForm.ShowDialog();
 		}
 
 		/// <summary>
@@ -756,8 +762,8 @@ namespace LightController
 
 			//MessageBox.Show(lightAstList.Count.ToString());
 
-			dbFile = @"C:\\Temp\\testDB.db3";
-			SQLiteHelper sqlHelper = new SQLiteHelper(dbFile);
+			dbFilePath = @"C:\\Temp\\testDB.db3";
+			SQLiteHelper sqlHelper = new SQLiteHelper(dbFilePath);
 			sqlHelper.Connect();
 
 			// 设置数据库密码
@@ -1007,8 +1013,12 @@ namespace LightController
 
 		private void globleSetButton_Click(object sender, EventArgs e)
 		{
-			GlobalSetForm gsForm = new GlobalSetForm(this);
-			gsForm.ShowDialog();
+			if (globalSetForm == null || globalSetForm.IsDisposed)
+			{
+				
+				globalSetForm = new GlobalSetForm(this, globalIniFilePath, isNew);
+			}
+			globalSetForm.ShowDialog();
 
 		}
 
@@ -1021,7 +1031,7 @@ namespace LightController
 		private void testButton_Click(object sender, EventArgs e)
 		{
 			this.globleSetButton.Enabled = true;
-
+			this.isNew = false ;
 		}
 	}
 }

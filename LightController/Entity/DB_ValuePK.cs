@@ -7,10 +7,11 @@ namespace DMX512
 {
     public class DB_ValuePK
     {
-		public virtual int LightIndex { get; set; }
+		public virtual int LightIndex { get; set;}
         public virtual int Frame { get; set; }
         public virtual int Step { get; set; }
         public virtual int Mode { get; set; }
+		// 这个对象，指向的是这个通道的地址，LightID = LightIndex+tongdaoIndex
         public virtual int LightID { get ; set; }
 
 		/// <summary>
@@ -40,7 +41,6 @@ namespace DMX512
 		{
 			return base.GetHashCode();
 		}
-
 
 	}
 }

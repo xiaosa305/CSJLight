@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LightController.Ast
 {
@@ -21,7 +22,8 @@ namespace LightController.Ast
 			{
 				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5("Dickov" + dbFile));
 			}
-			else {
+			else
+			{
 				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile);
 			}
 			sessionFactory = config.BuildSessionFactory();
@@ -34,8 +36,6 @@ namespace LightController.Ast
 		{
 			new SchemaExport(config).Create(ifPrint, ifDeleteOld);
 		}
-
-		
 
 
 
@@ -76,8 +76,8 @@ namespace LightController.Ast
 							case "Save": session.Save(obj); break;
 							case "Update": session.Update(obj); break;
 							case "Delete": session.Delete(obj); break;
-							case "SaveOrUpdate": session.SaveOrUpdate(obj);break;
-							default:Console.WriteLine("方法名出错");break;
+							case "SaveOrUpdate": session.SaveOrUpdate(obj); break;
+							default: Console.WriteLine("方法名出错"); break;
 						}
 
 						tx.Commit();
@@ -90,7 +90,7 @@ namespace LightController.Ast
 					}
 				}
 			}
-		}	
+		}
 
 
 		/// <summary>
@@ -149,6 +149,29 @@ namespace LightController.Ast
 			}
 		}
 
-		
+		public void SaveAll(List<T> objList) {
+			using (var session = sessionFactory.OpenSession())
+			{
+				using (var tx = session.BeginTransaction())
+				{
+					try
+					{
+						foreach (T obj in objList)
+						{
+							session.SaveOrUpdate(obj);
+						}
+						tx.Commit();
+						//MessageBox.Show("Dickov:成功保存所有("+typeof(T)+")到数据库中");
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine(ex.Message);
+						tx.Rollback();
+					}
+				}
+			}
+		}
+
+
 	}
 }

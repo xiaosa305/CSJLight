@@ -28,7 +28,6 @@ namespace LightController
 		private GlobalSetForm globalSetForm; 
 
 		// 辅助的变量：
-
 		// 点击新建后，点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
 		private bool isNew = true;
 
@@ -196,14 +195,10 @@ namespace LightController
 			// 因为是新建，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；为了新建数据库，将lightDAO指向新的对象
 			lightDAO = null;
 			lightDAO = new LightDAO(dbFilePath, false);
-			//lightDAO.CreateSchema(true,true);
+			lightDAO.CreateSchema(true,true);
 
 			stepCountDAO = null;
 			valueDAO = null;
-			
-
-			
-
 		}
 
 		private void openCOMbutton_Click(object sender, EventArgs e)
@@ -231,7 +226,7 @@ namespace LightController
 
 		private void openButton_Click(object sender, EventArgs e)
 		{
-			openFileDialog.ShowDialog();
+			openFileDialog.ShowDialog(this);
 		}
 
 		private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -265,7 +260,7 @@ namespace LightController
 		private void newButton_Click(object sender, EventArgs e)
 		{
 			NewForm newForm = new NewForm(this);
-			newForm.ShowDialog();
+			newForm.ShowDialog(this);
 
 		}
 
@@ -297,12 +292,15 @@ namespace LightController
 			if (lightDAO == null) { 
 				lightDAO = new LightDAO(dbFilePath, ifEncrypt);
 			}
+			// 将传送所有的DB_Light给DAO,让它进行数据的保存
+
+			lightList.Clear();
 			foreach (LightAst la in lightAstList)
 			{
-				DB_Light light = GenerateLight(la);
-				lightList.Add(light);
-				lightDAO.SaveOrUpdate(light);
+				DB_Light light = LightAst.GenerateLight(la);
+				this.lightList.Add(light);		
 			}
+			lightDAO.SaveAll( lightList );
 		}
 
 		/// <summary>
@@ -313,33 +311,40 @@ namespace LightController
 			if(stepCountDAO == null){
 				stepCountDAO = new StepCountDAO(dbFilePath, ifEncrypt);
 			}
-			
-			// 取出每个灯具
+
+			// 保存所有步骤前，先清空stepCountList
+			stepCountList.Clear();
+			// 取出每个灯具,填入stepCountList中
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
-				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];
-				// 取出灯具的每个常规场景(24种），并将它们保存起来
-				// TODO: 声控场景待做
+				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];				
 				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
-				for (int cg = 0; cg < 24; cg++)
+
+				// 取出灯具的每个常规场景(24种），并将它们保存起来
+				for (int frame = 0; frame < 24; frame ++)
 				{
-					LightStepWrapper lsTemp = lswl[cg, 0];
-					if (lsTemp != null)
+					for (int mode = 0; mode < 2; mode ++)
 					{
-						DB_StepCount stepCount = new DB_StepCount()
+						LightStepWrapper lsTemp = lswl[frame, mode];
+						if (lsTemp != null)
 						{
-							StepCount = lsTemp.TotalStep,
-							PK = new DB_StepCountPK()
+							DB_StepCount stepCount = new DB_StepCount()
 							{
-								Frame = cg,
-								Mode = 0,
-								LightIndex = light.LightNo
-							}
-						};
-						stepCountDAO.SaveOrUpdate(stepCount);
+								StepCount = lsTemp.TotalStep,
+								PK = new DB_StepCountPK()
+								{
+									Frame = frame,
+									Mode = mode,
+									LightIndex = light.LightNo
+								}
+							};
+							stepCountList.Add(stepCount);
+						}
 					}
 				}
 			}
+			stepCountDAO.SaveAll(stepCountList);
+			
 		}
 
 		/// <summary>
@@ -351,38 +356,49 @@ namespace LightController
 				valueDAO = new ValueDAO(dbFilePath, ifEncrypt);
 			}
 
+
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
 				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];
-				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;				
-				for (int cg = 0; cg < 24; cg++)
+				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
+
+				// 同样如果要做彻底保存，需要先清空valueList
+				valueList.Clear();
+				for (int frame = 0; frame < 24; frame++)
 				{
-					LightStepWrapper lightStep = lswl[cg, 0];
-					if (lightStep != null && lightStep.TotalStep > 0) { //只有不为null，才可能有需要保存的数据
-						List<StepWrapper> stepList = lightStep.StepWrapperList;
-						foreach (StepWrapper step in stepList)
-						{
-							int stepIndex = stepList.IndexOf(step) + 1;
-							for (int tongdaoIndex=0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++ ) {
-								TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
-								DB_Value valueTemp = new DB_Value()
+					for (int mode = 0; mode < 2; mode++)
+					{
+						LightStepWrapper lightStep = lswl[frame, mode];
+						if (lightStep != null && lightStep.TotalStep > 0)
+						{  //只有不为null，才可能有需要保存的数据
+							List<StepWrapper> stepList = lightStep.StepWrapperList;
+							foreach (StepWrapper step in stepList)
+							{
+								int stepIndex = stepList.IndexOf(step) + 1;
+								for (int tongdaoIndex = 0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++)
 								{
-									ChangeMode = tongdao.ChangeMode,
-									ScrollValue = tongdao.ScrollValue,
-									StepTime = tongdao.StepTime,
-									PK = new DB_ValuePK() {
-										Frame = cg,
-										Mode = 0,
-										LightID = light.LightNo + tongdaoIndex,
-										LightIndex = light.LightNo,
-										Step = stepIndex
-									 }
-								};
-								valueDAO.SaveOrUpdate(valueTemp);
+									TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
+									DB_Value valueTemp = new DB_Value()
+									{
+										ChangeMode = tongdao.ChangeMode,
+										ScrollValue = tongdao.ScrollValue,
+										StepTime = tongdao.StepTime,
+										PK = new DB_ValuePK()
+										{
+											Frame = frame,
+											Mode = mode,
+											LightID = light.LightNo + tongdaoIndex,
+											LightIndex = light.LightNo,
+											Step = stepIndex
+										}
+									};
+									valueList.Add(valueTemp);
+								}
 							}
 						}
 					}
 				}
+				valueDAO.SaveAll(valueList);
 			}
 
 		}
@@ -393,7 +409,7 @@ namespace LightController
 			{
 				lightsForm = new LightsForm(this, lightAstList);
 			}
-			lightsForm.ShowDialog();
+			lightsForm.ShowDialog(this);
 		}
 
 		/// <summary>
@@ -579,25 +595,7 @@ namespace LightController
 				labels[i].Show();
 				valueNumericUpDowns[i].Show();
 			}
-		}
-
-		/// <summary>
-		///  使用LightAst生成DB_Light
-		/// </summary>
-		/// <param name="la"></param>
-		/// <returns></returns>
-		private DB_Light GenerateLight(LightAst la)
-		{
-			return new DB_Light()
-			{
-				LightNo = la.StartNum,
-				StartID = la.StartNum,
-				Name = la.LightName,
-				Type = la.LightType,
-				Pic = la.LightPic,
-				Count = la.Count
-			};
-		}
+		}	
 
 
 
@@ -1018,7 +1016,7 @@ namespace LightController
 				
 				globalSetForm = new GlobalSetForm(this, globalIniFilePath, isNew);
 			}
-			globalSetForm.ShowDialog();
+			globalSetForm.ShowDialog(this);
 
 		}
 

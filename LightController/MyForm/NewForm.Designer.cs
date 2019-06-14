@@ -77,11 +77,13 @@
 			this.AcceptButton = this.enterButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(359, 155);
+			this.ClientSize = new System.Drawing.Size(353, 155);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MinimizeBox = false;
 			this.Name = "NewForm";
 			this.Text = "新建工程";
 			this.ResumeLayout(false);

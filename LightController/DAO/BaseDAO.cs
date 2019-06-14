@@ -149,6 +149,10 @@ namespace LightController.Ast
 			}
 		}
 
+		/// <summary>
+		/// 保存所有传进来的T
+		/// </summary>
+		/// <param name="objList"></param>
 		public void SaveAll(List<T> objList) {
 			using (var session = sessionFactory.OpenSession())
 			{

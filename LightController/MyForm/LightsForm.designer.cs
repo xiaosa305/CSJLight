@@ -80,18 +80,22 @@ namespace LightController
 			// 
 			// treeView1
 			// 
-			this.treeView1.Location = new System.Drawing.Point(0, 1);
+			this.treeView1.BackColor = System.Drawing.SystemColors.WindowText;
+			this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.treeView1.ForeColor = System.Drawing.Color.OldLace;
+			this.treeView1.Location = new System.Drawing.Point(0, 0);
 			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(347, 634);
+			this.treeView1.Size = new System.Drawing.Size(347, 636);
 			this.treeView1.TabIndex = 3;
 			// 
 			// lightsListView
 			// 
-			this.lightsListView.BackColor = System.Drawing.SystemColors.InactiveBorder;
+			this.lightsListView.BackColor = System.Drawing.SystemColors.ScrollBar;
 			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.LigntName,
-			this.LightType,
-			this.LightAddr});
+            this.LigntName,
+            this.LightType,
+            this.LightAddr});
 			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Right;
 			this.lightsListView.GridLines = true;
 			this.lightsListView.LargeImageList = this.largeImageList;

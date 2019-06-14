@@ -60,11 +60,8 @@ namespace LightController
 		public MainForm()
 		{
 			InitializeComponent();
-			this.skinEngine1.SkinFile = Application.StartupPath + @"\MacOS.ssk";
-		}
+			//this.skinEngine1.SkinFile = Application.StartupPath + @"\MacOS.ssk";
 
-		private void Form1_Load(object sender, EventArgs e)
-		{
 			//TODO : 动态加载可用的串口
 			string[] comList = { "COM1", "COM2" };
 			foreach (string com in comList)
@@ -174,22 +171,94 @@ namespace LightController
 			valueNumericUpDowns[30] = numericUpDown31;
 			valueNumericUpDowns[31] = numericUpDown32;
 
+			this.stepNumericUpDowns[0] = numericUpDown33;
+			this.stepNumericUpDowns[1] = numericUpDown34;
+			this.stepNumericUpDowns[2] = numericUpDown35;
+			this.stepNumericUpDowns[3] = numericUpDown36;
+			this.stepNumericUpDowns[4] = numericUpDown37;
+			this.stepNumericUpDowns[5] = numericUpDown38;
+			this.stepNumericUpDowns[6] = numericUpDown39;
+			this.stepNumericUpDowns[7] = numericUpDown40;
+			this.stepNumericUpDowns[8] = numericUpDown41;
+			this.stepNumericUpDowns[9] = numericUpDown42;
+			this.stepNumericUpDowns[10] = numericUpDown43;
+			this.stepNumericUpDowns[11] = numericUpDown44;
+			this.stepNumericUpDowns[12] = numericUpDown45;
+			this.stepNumericUpDowns[13] = numericUpDown46;
+			this.stepNumericUpDowns[14] = numericUpDown47;
+			this.stepNumericUpDowns[15] = numericUpDown48;
+			this.stepNumericUpDowns[16] = numericUpDown49;
+			this.stepNumericUpDowns[17] = numericUpDown50;
+			this.stepNumericUpDowns[18] = numericUpDown51;
+			this.stepNumericUpDowns[19] = numericUpDown52;
+			this.stepNumericUpDowns[20] = numericUpDown53;
+			this.stepNumericUpDowns[21] = numericUpDown54;
+			this.stepNumericUpDowns[22] = numericUpDown55;
+			this.stepNumericUpDowns[23] = numericUpDown56;
+			this.stepNumericUpDowns[24] = numericUpDown57;
+			this.stepNumericUpDowns[25] = numericUpDown58;
+			this.stepNumericUpDowns[26] = numericUpDown59;
+			this.stepNumericUpDowns[27] = numericUpDown60;
+			this.stepNumericUpDowns[28] = numericUpDown61;
+			this.stepNumericUpDowns[29] = numericUpDown62;
+			this.stepNumericUpDowns[30] = numericUpDown63;
+			this.stepNumericUpDowns[31] = numericUpDown64;
+
+			this.changeModeComboBoxes[0] = changeModeComboBox1;
+			this.changeModeComboBoxes[1] = changeModeComboBox2;
+			this.changeModeComboBoxes[2] = changeModeComboBox3;
+			this.changeModeComboBoxes[3] = changeModeComboBox4;
+			this.changeModeComboBoxes[4] = changeModeComboBox5;
+			this.changeModeComboBoxes[5] = changeModeComboBox6;
+			this.changeModeComboBoxes[6] = changeModeComboBox7;
+			this.changeModeComboBoxes[7] = changeModeComboBox8;
+			this.changeModeComboBoxes[8] = changeModeComboBox9;
+			this.changeModeComboBoxes[9] = changeModeComboBox10;
+			this.changeModeComboBoxes[10] = changeModeComboBox11;
+			this.changeModeComboBoxes[11] = changeModeComboBox12;
+			this.changeModeComboBoxes[12] = changeModeComboBox13;
+			this.changeModeComboBoxes[13] = changeModeComboBox14;
+			this.changeModeComboBoxes[14] = changeModeComboBox15;
+			this.changeModeComboBoxes[15] = changeModeComboBox16;
+			this.changeModeComboBoxes[16] = changeModeComboBox17;
+			this.changeModeComboBoxes[17] = changeModeComboBox18;
+			this.changeModeComboBoxes[18] = changeModeComboBox19;
+			this.changeModeComboBoxes[19] = changeModeComboBox20;
+			this.changeModeComboBoxes[20] = changeModeComboBox21;
+			this.changeModeComboBoxes[21] = changeModeComboBox22;
+			this.changeModeComboBoxes[22] = changeModeComboBox23;
+			this.changeModeComboBoxes[23] = changeModeComboBox24;
+			this.changeModeComboBoxes[24] = changeModeComboBox25;
+			this.changeModeComboBoxes[25] = changeModeComboBox26;
+			this.changeModeComboBoxes[26] = changeModeComboBox27;
+			this.changeModeComboBoxes[27] = changeModeComboBox28;
+			this.changeModeComboBoxes[28] = changeModeComboBox29;
+			this.changeModeComboBoxes[29] = changeModeComboBox30;
+			this.changeModeComboBoxes[30] = changeModeComboBox31;
+			this.changeModeComboBoxes[31] = changeModeComboBox32;
+		}
+
+		private void Form1_Load(object sender, EventArgs e)
+		{
+			
+
 		}
 
 		/// <summary>
-		/// 这个方法用来设置一些内容；
-		/// 会被NewForm调用，并从中获取dbFile的值
+		/// 这个方法用来设置一些内容;
+		/// 会被NewForm调用，并从中获取dbFilePath和projectName的值；
+		/// 并初始化几个DAO组件
 		/// </summary>
 		/// <param name="dbFilePath"></param>
 		internal void BuildProject(string globalIniFilePath,string dbFilePath,string projectName)
 		{
 			this.globalIniFilePath = globalIniFilePath;
 			this.dbFilePath = dbFilePath;
-			this.projectLabel.Text = "当前工程：" + projectName;
+			this.Text = "智控配置(当前工程:" + projectName+")";
 			this.isNew = true;
 
-			this.lightEditButton.Enabled = true;
-			this.globleSetButton.Enabled = true;
+			this.lightsEditToolStripMenuItem1.Enabled = true;
+			this.globalSetToolStripMenuItem.Enabled = true;
 
 			// 创建数据库:
 			// 因为是新建，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；为了新建数据库，将lightDAO指向新的对象
@@ -199,17 +268,35 @@ namespace LightController
 
 			stepCountDAO = null;
 			valueDAO = null;
+
+			enableSave();
 		}
 
+		/// <summary>
+		/// 这个方法，一般在新建或者打开项目后使用，作用是让两个保存按键可用
+		/// </summary>
+		private void enableSave() {
+			saveButton.Enabled = true;
+			saveAsButton.Enabled = true;
+		}
+
+		/// <summary>
+		/// 待完成：打开串口后的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void openCOMbutton_Click(object sender, EventArgs e)
 		{
 			//TODO：打开串口，并将剩下几个按钮设成enable
-			//MessageBox.Show(button1.Enabled.ToString());
 			newFileButton.Enabled = true;
 			openFileButton.Enabled = true;
-			saveButton.Enabled = true;
 		}
 
+		/// <summary>
+		///  当COM下拉框选择内容后，按钮才可使用
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			//MessageBox.Show(comboBox1.SelectedItem.ToString()); 
@@ -219,18 +306,35 @@ namespace LightController
 			}
 		}
 
+		/// <summary>
+		///  彻底退出应用，结束所有线程
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void exitButton_Click(object sender, EventArgs e)
-		{
+		{			
 			System.Environment.Exit(0);
 		}
 
+		/// <summary>
+		/// 待完成：点击打开按钮后的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void openButton_Click(object sender, EventArgs e)
 		{
+			//TODO: 打开按钮点击后的操作
 			openFileDialog.ShowDialog(this);
 		}
 
+		/// <summary>
+		/// 待完成：打开文件对话框选择文件后的操作;
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
 		{
+			//TODO : 打开文件对话框选择文件后的操作
 			MessageBox.Show("成功打开文件:" + openFileDialog.FileName);
 			// 简单读取文本文件
 			FileStream file = (FileStream)openFileDialog.OpenFile();
@@ -247,16 +351,20 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 另存为才需要打开这个对话框
+		/// 待完成：另存为才需要打开这个对话框
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
 		{
-
+			//TODO
 		}
 
-		// 新建工程：新建一个NewForm，并ShowDialog
+		/// <summary>
+		/// 新建工程：新建一个NewForm，并ShowDialog
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void newButton_Click(object sender, EventArgs e)
 		{
 			NewForm newForm = new NewForm(this);
@@ -265,9 +373,13 @@ namespace LightController
 		}
 
 
-		// 保存需要进行的操作：
-		// 1.将lightAstList添加到light表中 --> 分新建还是打开文件来说
-		// 2.将步数、素材、value表的数据都填进各自的表中
+		/// <summary>
+		/// 保存需要进行的操作：
+		/// 1.将lightAstList添加到light表中 --> 分新建或打开文件两种情况
+		/// 2.将步数、素材、value表的数据都填进各自的表中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
 		{
 			// 1.先判断是否有灯具数据；若无，则直接停止
@@ -356,7 +468,6 @@ namespace LightController
 				valueDAO = new ValueDAO(dbFilePath, ifEncrypt);
 			}
 
-
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
 				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];
@@ -403,14 +514,6 @@ namespace LightController
 
 		}
 
-		private void lightEditButton_Click(object sender, EventArgs e)
-		{
-			if (lightsForm == null || lightsForm.IsDisposed)
-			{
-				lightsForm = new LightsForm(this, lightAstList);
-			}
-			lightsForm.ShowDialog(this);
-		}
 
 		/// <summary>
 		///  操作所有灯具，一并清空后，再赋新值
@@ -458,6 +561,8 @@ namespace LightController
 		private void generateLightData()
 		{
 			LightAst lightAst = lightAstList[selectedLightIndex];
+			
+			// 显示选中灯的部分信息在label中
 			lightValueLabel.Text = lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")";
 
 			//1.让tongdaoGroupBox显示出来
@@ -465,6 +570,9 @@ namespace LightController
 
 			//2.判断是不是已经有stepMode了
 			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
+			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
+			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
+			//			若不为null，则说明已有数据，
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
 			if (lightWrapper.StepMode == null)
 			{
@@ -472,22 +580,21 @@ namespace LightController
 				lightWrapper.StepMode = generateStepMode(lightAst);
 				showStepLabel(0, 0);
 				hideAllTongdao();
-			}
-			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
-			// 若是null，则说明该FM下，并未有步数，hideAllTongdao
-			// 若不为null，则说明已有数据，
+			}			
 			else
 			{
 				changeFrameMode();
 			}
-
-
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		private void changeFrameMode()
 		{
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
 			LightStepWrapper stepList = lightWrapper.LightStepWrapperList[frame, mode];
+
 			// 为空或StepList数量是0
 			if (stepList == null || stepList.StepWrapperList.Count == 0)
 			{
@@ -498,26 +605,35 @@ namespace LightController
 			{
 				int recentStep = stepList.CurrentStep;
 				int totalStep = stepList.TotalStep;
-				StepWrapper stepAst = stepList.StepWrapperList[recentStep - 1];
 
+				StepWrapper stepAst = stepList.StepWrapperList[recentStep - 1];
 				ShowVScrollBars(stepAst.TongdaoList, 1);
+
 				showStepLabel(recentStep, totalStep);
 			}
 		}
 
 		/// <summary>
-		/// 无条件隐藏所有通道
+		/// 隐藏所有通道:包含五个部分
 		/// </summary>
 		private void hideAllTongdao()
 		{
+			//TODO : 隐藏所有通道功能待完善
 			for (int i = 0; i < 32; i++)
 			{
 				valueNumericUpDowns[i].Visible = false;
 				labels[i].Visible = false;
 				vScrollBars[i].Visible = false;
+				changeModeComboBoxes[i].Visible = false ;
+				stepNumericUpDowns[i].Visible = false;
 			}
 		}
 
+		/// <summary>
+		///  辅助方法：用来显示stepLabel-->当前步/总步数
+		/// </summary>
+		/// <param name="recentStep"></param>
+		/// <param name="totalStep"></param>
 		private void showStepLabel(int recentStep, int totalStep)
 		{
 			stepLabel.Text = recentStep + "/" + totalStep;
@@ -590,10 +706,14 @@ namespace LightController
 				this.labels[i].Text = (startNum + i) + "\n\n-\n " + tongdaoWrapper.TongdaoName;
 				this.valueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();
 				this.vScrollBars[i].Value = tongdaoWrapper.ScrollValue;
+				this.changeModeComboBoxes[i].SelectedIndex = tongdaoWrapper.ChangeMode;
+				this.stepNumericUpDowns[i].Text = tongdaoWrapper.StepTime.ToString();
 
-				vScrollBars[i].Show();
-				labels[i].Show();
-				valueNumericUpDowns[i].Show();
+				this.vScrollBars[i].Show();
+				this.labels[i].Show();
+				this.valueNumericUpDowns[i].Show();
+				this.changeModeComboBoxes[i].Show();
+				this.stepNumericUpDowns[i].Show();
 			}
 		}	
 
@@ -1008,7 +1128,13 @@ namespace LightController
 		}
 
 		
-
+		/// <summary>
+		/// 全局变量按钮点击后的操作：
+		/// 1.如果未建立，则传配置文件地址及是否新建两个属性
+		/// 2.已建立form,则直接打开
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void globleSetButton_Click(object sender, EventArgs e)
 		{
 			if (globalSetForm == null || globalSetForm.IsDisposed)
@@ -1016,20 +1142,45 @@ namespace LightController
 				
 				globalSetForm = new GlobalSetForm(this, globalIniFilePath, isNew);
 			}
-			globalSetForm.ShowDialog(this);
+			globalSetForm.ShowDialog();
 
 		}
 
 
 		/// <summary>
-		///  点击测试按钮后，会执行这个操作：将各种临时测试的操作放在这里
+		///  点击测试按钮后，会执行这个操作：将各种临时操作或测试操作放在这里
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			this.globleSetButton.Enabled = true;
+			this.globalSetToolStripMenuItem.Enabled = true;
 			this.isNew = false ;
 		}
+
+		/// <summary>
+		///  点击菜单栏中灯具编辑时的动作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightsEditToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if (lightsForm == null || lightsForm.IsDisposed)
+			{
+				lightsForm = new LightsForm(this, lightAstList);
+			}
+			lightsForm.ShowDialog();
+		}
+		
+		/// <summary>
+		///  点击灯库编辑时，可以打开另外一个软件LightEditor
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightLibraryToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//TODO
+		}
+		
 	}
 }

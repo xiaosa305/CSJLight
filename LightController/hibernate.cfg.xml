@@ -19,7 +19,6 @@
       <!-- 输出并格式化sql语句-->
       <property name="show_sql">false</property>
       <property name="format_sql">false</property>
-
       <mapping assembly="LightController" />
       
      

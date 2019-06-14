@@ -25,38 +25,49 @@ namespace LightController
 			this.mainForm = mainForm;
 			if (lightAstList != null && lightAstList.Count > 0) {
 				this.lightAstList = lightAstList; 
-			}			
-		}
-		
-		private void LightsForm_Load(object sender, EventArgs e)
-		{
+			}
+
 			// 1. 生成左边的灯具列表，树状形式
 			string path = @"C:\Temp\LightLibrary";
-			if (Directory.Exists(path)) {				
+			if (Directory.Exists(path))
+			{
 				string[] dirs = Directory.GetDirectories(path);
 				foreach (string dir in dirs)
 				{
 					DirectoryInfo di = new DirectoryInfo(dir);
 					TreeNode treeNode = new TreeNode(di.Name);
-					
+
 					//由ini文件生成子节点
 					FileInfo[] files = di.GetFiles();
 					foreach (FileInfo file in files)
 					{
 						string fileName = file.Name;
-						if (fileName.EndsWith(".ini")) {
+						if (fileName.EndsWith(".ini"))
+						{
 							TreeNode node = new TreeNode(
-								fileName.Substring( 0,  fileName.IndexOf(".") )
+								fileName.Substring(0, fileName.IndexOf("."))
 							);
 							treeNode.Nodes.Add(node);
 						}
 					}
 					this.treeView1.Nodes.Add(treeNode);
 				}
-				treeView1.ExpandAll();
+				this.treeView1.ExpandAll();
 			}
 
 			//TODO 2.载入lightAstList到右边的框中
+			// 只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
+			if (lightAstList != null && lightAstList.Count > 0) {
+
+
+
+			}
+
+		}
+
+		private void LightsForm_Load(object sender, EventArgs e)
+		{
+			
 			
 
 		}

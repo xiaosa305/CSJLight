@@ -11,9 +11,12 @@ namespace LightController.Ast
 	{
 		public string TongdaoName { get; set; }
 		public int Address { get; set; }
-		public int ScrollValue { get; set; }
-		public int ChangeMode { get; set; }
-		public int StepTime { get; set; }
 
+		// 调节杆的值 --》两种方法改变：1拉杆 2.填值
+		public int ScrollValue { get; set; }
+		// 变化模式：跳变0；渐变1
+		public int ChangeMode { get; set; }
+		// 步时间：某内部时间因子的倍数
+		public int StepTime { get; set; }
 	}
 }

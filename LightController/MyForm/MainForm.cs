@@ -15,6 +15,7 @@ using System.Data.SQLite;
 using DMX512;
 using LightController.Ast;
 using LightController.MyForm;
+using LightController.Common;
 
 namespace LightController
 {
@@ -680,7 +681,13 @@ namespace LightController
 						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-						tongdaoList.Add(new TongdaoWrapper() { TongdaoName = tongdaoName, ScrollValue = initNum });
+						tongdaoList.Add(new TongdaoWrapper() {
+							TongdaoName = tongdaoName,
+							ScrollValue = initNum,
+							StepTime = 10,
+							ChangeMode = 0,
+							Address = address
+						});
 					}
 					return new StepWrapper() { TongdaoList = tongdaoList, IsSaved = false };
 				}
@@ -719,85 +726,7 @@ namespace LightController
 
 
 
-		/// <summary>
-		///  用户移动滚轴时发生：1.调节相关的numericUpDown; 2.放进相关的step中
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
-		{
-			// 1.先找出相同的index，然后把滚动条的值赋给NumericUpDown
-			int index = getIndexNum(((VScrollBar)sender).Name);
-			valueNumericUpDowns[index].Text = vScrollBars[index].Value.ToString();
-
-			//TODO 2.一个方法：将light、frame、mode 都取出来，
-			// 然后recentStep，这样就能取出一个步数，使用取出的index，给stepWrapperList赋值
-
-			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[index].ScrollValue = vScrollBars[index].Value;
-
-
-		}
-
-
-
-		/// <summary>
-		///  textBox发生变化时发生
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void valueTextBox_TextChanged(object sender, EventArgs e)
-		{
-			//// 1.先验证参数值是不是正确的
-			//TextBox tb = (TextBox)sender;
-			//int index = getIndexNum(tb.Name);
-			//int tempValue = vScrollBars[index].Value;
-			//int value = 0;
-			//try {
-			//	value = int.Parse(tb.Text);
-			//	if (value > 255) {
-			//		value = 255;					
-			//	}
-			//	tb.Text = tempValue.ToString();
-			//} catch (Exception ex) {
-			//	Console.WriteLine("Dickov:" + ex.Message);
-			//	tb.Text = tempValue.ToString();
-			//	value = tempValue ; 				
-			//}
-
-			//// 2.调整相应的vScrollBar的数值
-
-			//vScrollBars[index].Value = value; 
-		}
-
-		/// <summary>
-		///  辅助方法：将一个形如“单词串+数字”的字符串，提取其数字值,再将这个数字减一，即可得到index值
-		/// </summary>
-		private int getIndexNum(String senderName)
-		{
-
-			//《LightEditor》 method：取出触发的sender的Name，对其进行操作
-			// 1.替换掉非数字的字符串;(另一个方法，截取“_”之前,“Bar”之后的字符串也可以)
-			// 2.将取出的数字-1；即可得到数组下标
-			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace(senderName, @"[^0-9]+", "");
-			int numIndex = int.Parse(labelIndexStr) - 1;
-
-			return numIndex;
-		}
-
-		/// <summary>
-		/// 每次按下按钮时，验证输入的是否是整数（不带“.”或其他字符，只有0-9）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void valueTextBox_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (!((e.KeyChar >= '0') && (e.KeyChar <= '9')))
-			{
-				MessageBox.Show("请输入整数");
-			}
-
-		}
+		
 
 		private void newStepButton_Click(object sender, EventArgs e)
 		{
@@ -854,9 +783,10 @@ namespace LightController
 			{
 				newList.Add(new TongdaoWrapper()
 				{
-					StepTime = 32,
+					StepTime = item.StepTime,
 					TongdaoName = item.TongdaoName,
-					ScrollValue = item.ScrollValue
+					ScrollValue = item.ScrollValue,
+					ChangeMode = item.ChangeMode
 				}
 				);
 			}
@@ -1156,6 +1086,7 @@ namespace LightController
 		{
 			this.globalSetToolStripMenuItem.Enabled = true;
 			this.isNew = false ;
+			
 		}
 
 		/// <summary>
@@ -1181,6 +1112,78 @@ namespace LightController
 		{
 			//TODO
 		}
+
+
+		/// <summary>
+		///  用户移动滚轴时发生：1.调节相关的numericUpDown; 2.放进相关的step中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueVScrollBar_Scroll(object sender, ScrollEventArgs e)
+		{
+			// 1.先找出对应vScrollBars的index 
+			int index = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
+
+			//2.把滚动条的值赋给valueNumericUpDowns
+			valueNumericUpDowns[index].Text = vScrollBars[index].Value.ToString();
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[index].ScrollValue = vScrollBars[index].Value;
+		}
+
+		/// <summary>
+		/// 调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			// 1. 找出对应的index
+			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+
+			// 2.调整相应的vScrollBar的数值
+			vScrollBars[index].Value = Decimal.ToInt32( valueNumericUpDowns[index].Value ) ;
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[index].ScrollValue = vScrollBars[index].Value;
+
+		}
+
+
+
+		/// <summary>
+		///  每个通道对应的变化模式下拉框，值改变后，对应的tongdaoWrapper也应该设置参数 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void changeModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应changeModeComboBoxes的index
+			int index = MathAst.getIndexNum(((ComboBox)sender).Name , -1);
+			
+			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex ;
+
+		}
+
+		/// <summary>
+		/// 每个通道对应的"步时间"值变化后，对应的tongdaoWrapper也改变参数
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void stepNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
+			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+
+			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[index].StepTime = Decimal.ToInt32(stepNumericUpDowns[index].Value);			
+		}
+
 		
 	}
 }

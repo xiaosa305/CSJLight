@@ -673,6 +673,7 @@ namespace LightController
 			this.numericUpDown32.Name = "numericUpDown32";
 			this.numericUpDown32.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown32.TabIndex = 11;
+			this.numericUpDown32.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// tongdaoValueLabel2
 			// 
@@ -695,6 +696,7 @@ namespace LightController
 			this.changeModeComboBox32.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox32.TabIndex = 12;
 			this.changeModeComboBox32.Visible = false;
+			this.changeModeComboBox32.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// stepTimeLabel2
 			// 
@@ -717,6 +719,7 @@ namespace LightController
 			this.changeModeComboBox31.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox31.TabIndex = 12;
 			this.changeModeComboBox31.Visible = false;
+			this.changeModeComboBox31.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown64
 			// 
@@ -731,6 +734,7 @@ namespace LightController
 			this.numericUpDown64.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown64.TabIndex = 11;
 			this.numericUpDown64.Visible = false;
+			this.numericUpDown64.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox30
 			// 
@@ -744,6 +748,7 @@ namespace LightController
 			this.changeModeComboBox30.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox30.TabIndex = 12;
 			this.changeModeComboBox30.Visible = false;
+			this.changeModeComboBox30.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// label32
 			// 
@@ -769,6 +774,7 @@ namespace LightController
 			this.changeModeComboBox29.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox29.TabIndex = 12;
 			this.changeModeComboBox29.Visible = false;
+			this.changeModeComboBox29.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown31
 			// 
@@ -777,6 +783,7 @@ namespace LightController
 			this.numericUpDown31.Name = "numericUpDown31";
 			this.numericUpDown31.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown31.TabIndex = 11;
+			this.numericUpDown31.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox28
 			// 
@@ -790,6 +797,7 @@ namespace LightController
 			this.changeModeComboBox28.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox28.TabIndex = 12;
 			this.changeModeComboBox28.Visible = false;
+			this.changeModeComboBox28.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown63
 			// 
@@ -804,6 +812,7 @@ namespace LightController
 			this.numericUpDown63.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown63.TabIndex = 11;
 			this.numericUpDown63.Visible = false;
+			this.numericUpDown63.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox27
 			// 
@@ -817,6 +826,7 @@ namespace LightController
 			this.changeModeComboBox27.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox27.TabIndex = 12;
 			this.changeModeComboBox27.Visible = false;
+			this.changeModeComboBox27.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// vScrollBar17
 			// 
@@ -826,7 +836,7 @@ namespace LightController
 			this.vScrollBar17.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar17.TabIndex = 0;
 			this.vScrollBar17.Visible = false;
-			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// changeModeComboBox26
 			// 
@@ -840,6 +850,7 @@ namespace LightController
 			this.changeModeComboBox26.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox26.TabIndex = 12;
 			this.changeModeComboBox26.Visible = false;
+			this.changeModeComboBox26.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown30
 			// 
@@ -848,6 +859,7 @@ namespace LightController
 			this.numericUpDown30.Name = "numericUpDown30";
 			this.numericUpDown30.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown30.TabIndex = 11;
+			this.numericUpDown30.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox25
 			// 
@@ -861,6 +873,7 @@ namespace LightController
 			this.changeModeComboBox25.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox25.TabIndex = 12;
 			this.changeModeComboBox25.Visible = false;
+			this.changeModeComboBox25.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown62
 			// 
@@ -875,6 +888,7 @@ namespace LightController
 			this.numericUpDown62.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown62.TabIndex = 11;
 			this.numericUpDown62.Visible = false;
+			this.numericUpDown62.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox24
 			// 
@@ -888,6 +902,7 @@ namespace LightController
 			this.changeModeComboBox24.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox24.TabIndex = 12;
 			this.changeModeComboBox24.Visible = false;
+			this.changeModeComboBox24.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// label31
 			// 
@@ -913,6 +928,7 @@ namespace LightController
 			this.changeModeComboBox23.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox23.TabIndex = 12;
 			this.changeModeComboBox23.Visible = false;
+			this.changeModeComboBox23.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown29
 			// 
@@ -921,6 +937,7 @@ namespace LightController
 			this.numericUpDown29.Name = "numericUpDown29";
 			this.numericUpDown29.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown29.TabIndex = 11;
+			this.numericUpDown29.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox22
 			// 
@@ -934,6 +951,7 @@ namespace LightController
 			this.changeModeComboBox22.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox22.TabIndex = 12;
 			this.changeModeComboBox22.Visible = false;
+			this.changeModeComboBox22.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown61
 			// 
@@ -948,6 +966,7 @@ namespace LightController
 			this.numericUpDown61.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown61.TabIndex = 11;
 			this.numericUpDown61.Visible = false;
+			this.numericUpDown61.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox21
 			// 
@@ -961,6 +980,7 @@ namespace LightController
 			this.changeModeComboBox21.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox21.TabIndex = 12;
 			this.changeModeComboBox21.Visible = false;
+			this.changeModeComboBox21.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// vScrollBar18
 			// 
@@ -970,7 +990,7 @@ namespace LightController
 			this.vScrollBar18.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar18.TabIndex = 0;
 			this.vScrollBar18.Visible = false;
-			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// changeModeComboBox20
 			// 
@@ -984,6 +1004,7 @@ namespace LightController
 			this.changeModeComboBox20.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox20.TabIndex = 12;
 			this.changeModeComboBox20.Visible = false;
+			this.changeModeComboBox20.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown28
 			// 
@@ -992,6 +1013,7 @@ namespace LightController
 			this.numericUpDown28.Name = "numericUpDown28";
 			this.numericUpDown28.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown28.TabIndex = 11;
+			this.numericUpDown28.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox19
 			// 
@@ -1005,6 +1027,7 @@ namespace LightController
 			this.changeModeComboBox19.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox19.TabIndex = 12;
 			this.changeModeComboBox19.Visible = false;
+			this.changeModeComboBox19.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown60
 			// 
@@ -1019,6 +1042,7 @@ namespace LightController
 			this.numericUpDown60.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown60.TabIndex = 11;
 			this.numericUpDown60.Visible = false;
+			this.numericUpDown60.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox18
 			// 
@@ -1032,6 +1056,7 @@ namespace LightController
 			this.changeModeComboBox18.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox18.TabIndex = 12;
 			this.changeModeComboBox18.Visible = false;
+			this.changeModeComboBox18.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// vScrollBar19
 			// 
@@ -1041,7 +1066,7 @@ namespace LightController
 			this.vScrollBar19.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar19.TabIndex = 0;
 			this.vScrollBar19.Visible = false;
-			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// changeModeComboBox17
 			// 
@@ -1055,6 +1080,7 @@ namespace LightController
 			this.changeModeComboBox17.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox17.TabIndex = 12;
 			this.changeModeComboBox17.Visible = false;
+			this.changeModeComboBox17.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown27
 			// 
@@ -1063,6 +1089,7 @@ namespace LightController
 			this.numericUpDown27.Name = "numericUpDown27";
 			this.numericUpDown27.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown27.TabIndex = 11;
+			this.numericUpDown27.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown59
 			// 
@@ -1077,6 +1104,7 @@ namespace LightController
 			this.numericUpDown59.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown59.TabIndex = 11;
 			this.numericUpDown59.Visible = false;
+			this.numericUpDown59.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar20
 			// 
@@ -1086,7 +1114,7 @@ namespace LightController
 			this.vScrollBar20.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar20.TabIndex = 0;
 			this.vScrollBar20.Visible = false;
-			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown26
 			// 
@@ -1095,6 +1123,7 @@ namespace LightController
 			this.numericUpDown26.Name = "numericUpDown26";
 			this.numericUpDown26.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown26.TabIndex = 11;
+			this.numericUpDown26.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown58
 			// 
@@ -1109,6 +1138,7 @@ namespace LightController
 			this.numericUpDown58.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown58.TabIndex = 11;
 			this.numericUpDown58.Visible = false;
+			this.numericUpDown58.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// label30
 			// 
@@ -1129,6 +1159,7 @@ namespace LightController
 			this.numericUpDown25.Name = "numericUpDown25";
 			this.numericUpDown25.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown25.TabIndex = 11;
+			this.numericUpDown25.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown57
 			// 
@@ -1143,6 +1174,7 @@ namespace LightController
 			this.numericUpDown57.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown57.TabIndex = 11;
 			this.numericUpDown57.Visible = false;
+			this.numericUpDown57.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar21
 			// 
@@ -1152,7 +1184,7 @@ namespace LightController
 			this.vScrollBar21.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar21.TabIndex = 0;
 			this.vScrollBar21.Visible = false;
-			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown24
 			// 
@@ -1161,6 +1193,7 @@ namespace LightController
 			this.numericUpDown24.Name = "numericUpDown24";
 			this.numericUpDown24.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown24.TabIndex = 11;
+			this.numericUpDown24.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown56
 			// 
@@ -1175,6 +1208,7 @@ namespace LightController
 			this.numericUpDown56.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown56.TabIndex = 11;
 			this.numericUpDown56.Visible = false;
+			this.numericUpDown56.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar22
 			// 
@@ -1184,7 +1218,7 @@ namespace LightController
 			this.vScrollBar22.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar22.TabIndex = 0;
 			this.vScrollBar22.Visible = false;
-			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown23
 			// 
@@ -1193,6 +1227,7 @@ namespace LightController
 			this.numericUpDown23.Name = "numericUpDown23";
 			this.numericUpDown23.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown23.TabIndex = 11;
+			this.numericUpDown23.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown55
 			// 
@@ -1207,6 +1242,7 @@ namespace LightController
 			this.numericUpDown55.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown55.TabIndex = 11;
 			this.numericUpDown55.Visible = false;
+			this.numericUpDown55.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// label29
 			// 
@@ -1227,6 +1263,7 @@ namespace LightController
 			this.numericUpDown22.Name = "numericUpDown22";
 			this.numericUpDown22.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown22.TabIndex = 11;
+			this.numericUpDown22.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown54
 			// 
@@ -1241,6 +1278,7 @@ namespace LightController
 			this.numericUpDown54.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown54.TabIndex = 11;
 			this.numericUpDown54.Visible = false;
+			this.numericUpDown54.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar23
 			// 
@@ -1250,7 +1288,7 @@ namespace LightController
 			this.vScrollBar23.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar23.TabIndex = 0;
 			this.vScrollBar23.Visible = false;
-			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown21
 			// 
@@ -1259,6 +1297,7 @@ namespace LightController
 			this.numericUpDown21.Name = "numericUpDown21";
 			this.numericUpDown21.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown21.TabIndex = 11;
+			this.numericUpDown21.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown53
 			// 
@@ -1273,6 +1312,7 @@ namespace LightController
 			this.numericUpDown53.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown53.TabIndex = 11;
 			this.numericUpDown53.Visible = false;
+			this.numericUpDown53.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar24
 			// 
@@ -1282,7 +1322,7 @@ namespace LightController
 			this.vScrollBar24.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar24.TabIndex = 0;
 			this.vScrollBar24.Visible = false;
-			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown20
 			// 
@@ -1291,6 +1331,7 @@ namespace LightController
 			this.numericUpDown20.Name = "numericUpDown20";
 			this.numericUpDown20.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown20.TabIndex = 11;
+			this.numericUpDown20.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown52
 			// 
@@ -1305,6 +1346,7 @@ namespace LightController
 			this.numericUpDown52.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown52.TabIndex = 11;
 			this.numericUpDown52.Visible = false;
+			this.numericUpDown52.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar25
 			// 
@@ -1314,7 +1356,7 @@ namespace LightController
 			this.vScrollBar25.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar25.TabIndex = 0;
 			this.vScrollBar25.Visible = false;
-			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown19
 			// 
@@ -1323,6 +1365,7 @@ namespace LightController
 			this.numericUpDown19.Name = "numericUpDown19";
 			this.numericUpDown19.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown19.TabIndex = 11;
+			this.numericUpDown19.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown51
 			// 
@@ -1337,6 +1380,7 @@ namespace LightController
 			this.numericUpDown51.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown51.TabIndex = 11;
 			this.numericUpDown51.Visible = false;
+			this.numericUpDown51.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// label28
 			// 
@@ -1357,6 +1401,7 @@ namespace LightController
 			this.numericUpDown18.Name = "numericUpDown18";
 			this.numericUpDown18.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown18.TabIndex = 11;
+			this.numericUpDown18.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown50
 			// 
@@ -1371,6 +1416,7 @@ namespace LightController
 			this.numericUpDown50.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown50.TabIndex = 11;
 			this.numericUpDown50.Visible = false;
+			this.numericUpDown50.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar26
 			// 
@@ -1380,7 +1426,7 @@ namespace LightController
 			this.vScrollBar26.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar26.TabIndex = 0;
 			this.vScrollBar26.Visible = false;
-			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown17
 			// 
@@ -1389,6 +1435,7 @@ namespace LightController
 			this.numericUpDown17.Name = "numericUpDown17";
 			this.numericUpDown17.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown17.TabIndex = 11;
+			this.numericUpDown17.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown49
 			// 
@@ -1403,6 +1450,7 @@ namespace LightController
 			this.numericUpDown49.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown49.TabIndex = 11;
 			this.numericUpDown49.Visible = false;
+			this.numericUpDown49.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar27
 			// 
@@ -1412,7 +1460,7 @@ namespace LightController
 			this.vScrollBar27.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar27.TabIndex = 0;
 			this.vScrollBar27.Visible = false;
-			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar28
 			// 
@@ -1422,7 +1470,7 @@ namespace LightController
 			this.vScrollBar28.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar28.TabIndex = 0;
 			this.vScrollBar28.Visible = false;
-			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// label27
 			// 
@@ -1444,7 +1492,7 @@ namespace LightController
 			this.vScrollBar29.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar29.TabIndex = 0;
 			this.vScrollBar29.Visible = false;
-			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar30
 			// 
@@ -1454,7 +1502,7 @@ namespace LightController
 			this.vScrollBar30.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar30.TabIndex = 0;
 			this.vScrollBar30.Visible = false;
-			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar31
 			// 
@@ -1464,7 +1512,7 @@ namespace LightController
 			this.vScrollBar31.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar31.TabIndex = 0;
 			this.vScrollBar31.Visible = false;
-			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// label26
 			// 
@@ -1486,7 +1534,7 @@ namespace LightController
 			this.vScrollBar32.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar32.TabIndex = 0;
 			this.vScrollBar32.Visible = false;
-			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// label17
 			// 
@@ -1729,6 +1777,7 @@ namespace LightController
 			this.changeModeComboBox16.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox16.TabIndex = 12;
 			this.changeModeComboBox16.Visible = false;
+			this.changeModeComboBox16.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox15
 			// 
@@ -1742,6 +1791,7 @@ namespace LightController
 			this.changeModeComboBox15.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox15.TabIndex = 12;
 			this.changeModeComboBox15.Visible = false;
+			this.changeModeComboBox15.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox14
 			// 
@@ -1755,6 +1805,7 @@ namespace LightController
 			this.changeModeComboBox14.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox14.TabIndex = 12;
 			this.changeModeComboBox14.Visible = false;
+			this.changeModeComboBox14.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox13
 			// 
@@ -1768,6 +1819,7 @@ namespace LightController
 			this.changeModeComboBox13.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox13.TabIndex = 12;
 			this.changeModeComboBox13.Visible = false;
+			this.changeModeComboBox13.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox12
 			// 
@@ -1781,6 +1833,7 @@ namespace LightController
 			this.changeModeComboBox12.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox12.TabIndex = 12;
 			this.changeModeComboBox12.Visible = false;
+			this.changeModeComboBox12.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox11
 			// 
@@ -1794,6 +1847,7 @@ namespace LightController
 			this.changeModeComboBox11.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox11.TabIndex = 12;
 			this.changeModeComboBox11.Visible = false;
+			this.changeModeComboBox11.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox10
 			// 
@@ -1807,6 +1861,7 @@ namespace LightController
 			this.changeModeComboBox10.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox10.TabIndex = 12;
 			this.changeModeComboBox10.Visible = false;
+			this.changeModeComboBox10.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox9
 			// 
@@ -1820,6 +1875,7 @@ namespace LightController
 			this.changeModeComboBox9.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox9.TabIndex = 12;
 			this.changeModeComboBox9.Visible = false;
+			this.changeModeComboBox9.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox8
 			// 
@@ -1833,6 +1889,7 @@ namespace LightController
 			this.changeModeComboBox8.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox8.TabIndex = 12;
 			this.changeModeComboBox8.Visible = false;
+			this.changeModeComboBox8.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox7
 			// 
@@ -1846,6 +1903,7 @@ namespace LightController
 			this.changeModeComboBox7.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox7.TabIndex = 12;
 			this.changeModeComboBox7.Visible = false;
+			this.changeModeComboBox7.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox6
 			// 
@@ -1859,6 +1917,7 @@ namespace LightController
 			this.changeModeComboBox6.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox6.TabIndex = 12;
 			this.changeModeComboBox6.Visible = false;
+			this.changeModeComboBox6.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox5
 			// 
@@ -1872,6 +1931,7 @@ namespace LightController
 			this.changeModeComboBox5.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox5.TabIndex = 12;
 			this.changeModeComboBox5.Visible = false;
+			this.changeModeComboBox5.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox4
 			// 
@@ -1885,6 +1945,7 @@ namespace LightController
 			this.changeModeComboBox4.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox4.TabIndex = 12;
 			this.changeModeComboBox4.Visible = false;
+			this.changeModeComboBox4.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox3
 			// 
@@ -1898,6 +1959,7 @@ namespace LightController
 			this.changeModeComboBox3.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox3.TabIndex = 12;
 			this.changeModeComboBox3.Visible = false;
+			this.changeModeComboBox3.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox2
 			// 
@@ -1911,6 +1973,7 @@ namespace LightController
 			this.changeModeComboBox2.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox2.TabIndex = 12;
 			this.changeModeComboBox2.Visible = false;
+			this.changeModeComboBox2.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// changeModeComboBox1
 			// 
@@ -1924,6 +1987,7 @@ namespace LightController
 			this.changeModeComboBox1.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox1.TabIndex = 12;
 			this.changeModeComboBox1.Visible = false;
+			this.changeModeComboBox1.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
 			// 
 			// numericUpDown48
 			// 
@@ -1938,6 +2002,7 @@ namespace LightController
 			this.numericUpDown48.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown48.TabIndex = 11;
 			this.numericUpDown48.Visible = false;
+			this.numericUpDown48.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown16
 			// 
@@ -1951,6 +2016,7 @@ namespace LightController
 			this.numericUpDown16.Name = "numericUpDown16";
 			this.numericUpDown16.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown16.TabIndex = 11;
+			this.numericUpDown16.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown47
 			// 
@@ -1965,6 +2031,7 @@ namespace LightController
 			this.numericUpDown47.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown47.TabIndex = 11;
 			this.numericUpDown47.Visible = false;
+			this.numericUpDown47.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown15
 			// 
@@ -1978,6 +2045,7 @@ namespace LightController
 			this.numericUpDown15.Name = "numericUpDown15";
 			this.numericUpDown15.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown15.TabIndex = 11;
+			this.numericUpDown15.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown46
 			// 
@@ -1992,6 +2060,7 @@ namespace LightController
 			this.numericUpDown46.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown46.TabIndex = 11;
 			this.numericUpDown46.Visible = false;
+			this.numericUpDown46.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown14
 			// 
@@ -2005,6 +2074,7 @@ namespace LightController
 			this.numericUpDown14.Name = "numericUpDown14";
 			this.numericUpDown14.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown14.TabIndex = 11;
+			this.numericUpDown14.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown45
 			// 
@@ -2019,6 +2089,7 @@ namespace LightController
 			this.numericUpDown45.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown45.TabIndex = 11;
 			this.numericUpDown45.Visible = false;
+			this.numericUpDown45.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown13
 			// 
@@ -2032,6 +2103,7 @@ namespace LightController
 			this.numericUpDown13.Name = "numericUpDown13";
 			this.numericUpDown13.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown13.TabIndex = 11;
+			this.numericUpDown13.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown44
 			// 
@@ -2046,6 +2118,7 @@ namespace LightController
 			this.numericUpDown44.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown44.TabIndex = 11;
 			this.numericUpDown44.Visible = false;
+			this.numericUpDown44.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown12
 			// 
@@ -2059,6 +2132,7 @@ namespace LightController
 			this.numericUpDown12.Name = "numericUpDown12";
 			this.numericUpDown12.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown12.TabIndex = 11;
+			this.numericUpDown12.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown43
 			// 
@@ -2073,6 +2147,7 @@ namespace LightController
 			this.numericUpDown43.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown43.TabIndex = 11;
 			this.numericUpDown43.Visible = false;
+			this.numericUpDown43.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown11
 			// 
@@ -2086,6 +2161,7 @@ namespace LightController
 			this.numericUpDown11.Name = "numericUpDown11";
 			this.numericUpDown11.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown11.TabIndex = 11;
+			this.numericUpDown11.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown42
 			// 
@@ -2100,6 +2176,7 @@ namespace LightController
 			this.numericUpDown42.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown42.TabIndex = 11;
 			this.numericUpDown42.Visible = false;
+			this.numericUpDown42.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown10
 			// 
@@ -2113,6 +2190,7 @@ namespace LightController
 			this.numericUpDown10.Name = "numericUpDown10";
 			this.numericUpDown10.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown10.TabIndex = 11;
+			this.numericUpDown10.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown41
 			// 
@@ -2127,6 +2205,7 @@ namespace LightController
 			this.numericUpDown41.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown41.TabIndex = 11;
 			this.numericUpDown41.Visible = false;
+			this.numericUpDown41.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown9
 			// 
@@ -2140,6 +2219,7 @@ namespace LightController
 			this.numericUpDown9.Name = "numericUpDown9";
 			this.numericUpDown9.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown9.TabIndex = 11;
+			this.numericUpDown9.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown40
 			// 
@@ -2154,6 +2234,7 @@ namespace LightController
 			this.numericUpDown40.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown40.TabIndex = 11;
 			this.numericUpDown40.Visible = false;
+			this.numericUpDown40.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown8
 			// 
@@ -2167,6 +2248,7 @@ namespace LightController
 			this.numericUpDown8.Name = "numericUpDown8";
 			this.numericUpDown8.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown8.TabIndex = 11;
+			this.numericUpDown8.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown39
 			// 
@@ -2181,6 +2263,7 @@ namespace LightController
 			this.numericUpDown39.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown39.TabIndex = 11;
 			this.numericUpDown39.Visible = false;
+			this.numericUpDown39.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown7
 			// 
@@ -2194,6 +2277,7 @@ namespace LightController
 			this.numericUpDown7.Name = "numericUpDown7";
 			this.numericUpDown7.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown7.TabIndex = 11;
+			this.numericUpDown7.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown38
 			// 
@@ -2208,6 +2292,7 @@ namespace LightController
 			this.numericUpDown38.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown38.TabIndex = 11;
 			this.numericUpDown38.Visible = false;
+			this.numericUpDown38.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown6
 			// 
@@ -2221,6 +2306,7 @@ namespace LightController
 			this.numericUpDown6.Name = "numericUpDown6";
 			this.numericUpDown6.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown6.TabIndex = 11;
+			this.numericUpDown6.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown37
 			// 
@@ -2235,6 +2321,7 @@ namespace LightController
 			this.numericUpDown37.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown37.TabIndex = 11;
 			this.numericUpDown37.Visible = false;
+			this.numericUpDown37.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown5
 			// 
@@ -2248,6 +2335,7 @@ namespace LightController
 			this.numericUpDown5.Name = "numericUpDown5";
 			this.numericUpDown5.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown5.TabIndex = 11;
+			this.numericUpDown5.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown36
 			// 
@@ -2262,6 +2350,7 @@ namespace LightController
 			this.numericUpDown36.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown36.TabIndex = 11;
 			this.numericUpDown36.Visible = false;
+			this.numericUpDown36.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown4
 			// 
@@ -2275,6 +2364,7 @@ namespace LightController
 			this.numericUpDown4.Name = "numericUpDown4";
 			this.numericUpDown4.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown4.TabIndex = 11;
+			this.numericUpDown4.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown35
 			// 
@@ -2289,6 +2379,7 @@ namespace LightController
 			this.numericUpDown35.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown35.TabIndex = 11;
 			this.numericUpDown35.Visible = false;
+			this.numericUpDown35.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown3
 			// 
@@ -2302,6 +2393,7 @@ namespace LightController
 			this.numericUpDown3.Name = "numericUpDown3";
 			this.numericUpDown3.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown3.TabIndex = 11;
+			this.numericUpDown3.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown34
 			// 
@@ -2316,6 +2408,7 @@ namespace LightController
 			this.numericUpDown34.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown34.TabIndex = 11;
 			this.numericUpDown34.Visible = false;
+			this.numericUpDown34.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown2
 			// 
@@ -2329,6 +2422,7 @@ namespace LightController
 			this.numericUpDown2.Name = "numericUpDown2";
 			this.numericUpDown2.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown2.TabIndex = 11;
+			this.numericUpDown2.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown33
 			// 
@@ -2343,6 +2437,7 @@ namespace LightController
 			this.numericUpDown33.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown33.TabIndex = 11;
 			this.numericUpDown33.Visible = false;
+			this.numericUpDown33.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown1
 			// 
@@ -2356,6 +2451,7 @@ namespace LightController
 			this.numericUpDown1.Name = "numericUpDown1";
 			this.numericUpDown1.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown1.TabIndex = 11;
+			this.numericUpDown1.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// label16
 			// 
@@ -2556,7 +2652,7 @@ namespace LightController
 			this.vScrollBar16.Name = "vScrollBar16";
 			this.vScrollBar16.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar16.TabIndex = 0;
-			this.vScrollBar16.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar16.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar12
 			// 
@@ -2565,7 +2661,7 @@ namespace LightController
 			this.vScrollBar12.Name = "vScrollBar12";
 			this.vScrollBar12.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar12.TabIndex = 0;
-			this.vScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar8
 			// 
@@ -2574,7 +2670,7 @@ namespace LightController
 			this.vScrollBar8.Name = "vScrollBar8";
 			this.vScrollBar8.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar8.TabIndex = 0;
-			this.vScrollBar8.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar8.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar4
 			// 
@@ -2583,7 +2679,7 @@ namespace LightController
 			this.vScrollBar4.Name = "vScrollBar4";
 			this.vScrollBar4.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar4.TabIndex = 0;
-			this.vScrollBar4.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar4.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar15
 			// 
@@ -2592,7 +2688,7 @@ namespace LightController
 			this.vScrollBar15.Name = "vScrollBar15";
 			this.vScrollBar15.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar15.TabIndex = 0;
-			this.vScrollBar15.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar15.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar11
 			// 
@@ -2601,7 +2697,7 @@ namespace LightController
 			this.vScrollBar11.Name = "vScrollBar11";
 			this.vScrollBar11.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar11.TabIndex = 0;
-			this.vScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar14
 			// 
@@ -2610,7 +2706,7 @@ namespace LightController
 			this.vScrollBar14.Name = "vScrollBar14";
 			this.vScrollBar14.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar14.TabIndex = 0;
-			this.vScrollBar14.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar14.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar10
 			// 
@@ -2619,7 +2715,7 @@ namespace LightController
 			this.vScrollBar10.Name = "vScrollBar10";
 			this.vScrollBar10.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar10.TabIndex = 0;
-			this.vScrollBar10.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar10.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar7
 			// 
@@ -2628,7 +2724,7 @@ namespace LightController
 			this.vScrollBar7.Name = "vScrollBar7";
 			this.vScrollBar7.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar7.TabIndex = 0;
-			this.vScrollBar7.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar7.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar13
 			// 
@@ -2637,7 +2733,7 @@ namespace LightController
 			this.vScrollBar13.Name = "vScrollBar13";
 			this.vScrollBar13.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar13.TabIndex = 0;
-			this.vScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar6
 			// 
@@ -2646,7 +2742,7 @@ namespace LightController
 			this.vScrollBar6.Name = "vScrollBar6";
 			this.vScrollBar6.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar6.TabIndex = 0;
-			this.vScrollBar6.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar6.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar9
 			// 
@@ -2655,7 +2751,7 @@ namespace LightController
 			this.vScrollBar9.Name = "vScrollBar9";
 			this.vScrollBar9.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar9.TabIndex = 0;
-			this.vScrollBar9.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar9.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar3
 			// 
@@ -2664,7 +2760,7 @@ namespace LightController
 			this.vScrollBar3.Name = "vScrollBar3";
 			this.vScrollBar3.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar3.TabIndex = 0;
-			this.vScrollBar3.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar3.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar5
 			// 
@@ -2673,7 +2769,7 @@ namespace LightController
 			this.vScrollBar5.Name = "vScrollBar5";
 			this.vScrollBar5.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar5.TabIndex = 0;
-			this.vScrollBar5.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar5.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar2
 			// 
@@ -2682,7 +2778,7 @@ namespace LightController
 			this.vScrollBar2.Name = "vScrollBar2";
 			this.vScrollBar2.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar2.TabIndex = 0;
-			this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar1
 			// 
@@ -2691,7 +2787,7 @@ namespace LightController
 			this.vScrollBar1.Name = "vScrollBar1";
 			this.vScrollBar1.Size = new System.Drawing.Size(24, 153);
 			this.vScrollBar1.TabIndex = 0;
-			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// groupComboBox
 			// 

@@ -31,6 +31,9 @@ namespace LightController
 		// 辅助的变量：
 		// 点击新建后，点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
 		private bool isNew = true;
+		// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
+		private bool isInit = false;
+
 
 		// 点击保存后|刚打开一个文件时，这个属性就设为true;如果对内容稍有变动，则设为false
 		//private bool isSaved = false;
@@ -73,104 +76,106 @@ namespace LightController
 			modeComboBox.SelectedIndex = 0;
 			frameComboBox.SelectedIndex = 0;
 
-			vScrollBars[0] = vScrollBar1;
-			vScrollBars[1] = vScrollBar2;
-			vScrollBars[2] = vScrollBar3;
-			vScrollBars[3] = vScrollBar4;
-			vScrollBars[4] = vScrollBar5;
-			vScrollBars[5] = vScrollBar6;
-			vScrollBars[6] = vScrollBar7;
-			vScrollBars[7] = vScrollBar8;
-			vScrollBars[8] = vScrollBar9;
-			vScrollBars[9] = vScrollBar10;
-			vScrollBars[10] = vScrollBar11;
-			vScrollBars[11] = vScrollBar12;
-			vScrollBars[12] = vScrollBar13;
-			vScrollBars[13] = vScrollBar14;
-			vScrollBars[14] = vScrollBar15;
-			vScrollBars[15] = vScrollBar16;
-			vScrollBars[16] = vScrollBar17;
-			vScrollBars[17] = vScrollBar18;
-			vScrollBars[18] = vScrollBar19;
-			vScrollBars[19] = vScrollBar20;
-			vScrollBars[20] = vScrollBar21;
-			vScrollBars[21] = vScrollBar22;
-			vScrollBars[22] = vScrollBar23;
-			vScrollBars[23] = vScrollBar24;
-			vScrollBars[24] = vScrollBar25;
-			vScrollBars[25] = vScrollBar26;
-			vScrollBars[26] = vScrollBar27;
-			vScrollBars[27] = vScrollBar28;
-			vScrollBars[28] = vScrollBar29;
-			vScrollBars[29] = vScrollBar30;
-			vScrollBars[30] = vScrollBar31;
-			vScrollBars[31] = vScrollBar32;
+			#region 将同类属性填入数组，方便操作
 
-			labels[0] = label1;
-			labels[1] = label2;
-			labels[2] = label3;
-			labels[3] = label4;
-			labels[4] = label5;
-			labels[5] = label6;
-			labels[6] = label7;
-			labels[7] = label8;
-			labels[8] = label9;
-			labels[9] = label10;
-			labels[10] = label11;
-			labels[11] = label12;
-			labels[12] = label13;
-			labels[13] = label14;
-			labels[14] = label15;
-			labels[15] = label16;
-			labels[16] = label17;
-			labels[17] = label18;
-			labels[18] = label19;
-			labels[19] = label20;
-			labels[20] = label21;
-			labels[21] = label22;
-			labels[22] = label23;
-			labels[23] = label24;
-			labels[24] = label25;
-			labels[25] = label26;
-			labels[26] = label27;
-			labels[27] = label28;
-			labels[28] = label29;
-			labels[29] = label30;
-			labels[30] = label31;
-			labels[31] = label32;
+			this.vScrollBars[0] = vScrollBar1;
+			this.vScrollBars[1] = vScrollBar2;
+			this.vScrollBars[2] = vScrollBar3;
+			this.vScrollBars[3] = vScrollBar4;
+			this.vScrollBars[4] = vScrollBar5;
+			this.vScrollBars[5] = vScrollBar6;
+			this.vScrollBars[6] = vScrollBar7;
+			this.vScrollBars[7] = vScrollBar8;
+			this.vScrollBars[8] = vScrollBar9;
+			this.vScrollBars[9] = vScrollBar10;
+			this.vScrollBars[10] = vScrollBar11;
+			this.vScrollBars[11] = vScrollBar12;
+			this.vScrollBars[12] = vScrollBar13;
+			this.vScrollBars[13] = vScrollBar14;
+			this.vScrollBars[14] = vScrollBar15;
+			this.vScrollBars[15] = vScrollBar16;
+			this.vScrollBars[16] = vScrollBar17;
+			this.vScrollBars[17] = vScrollBar18;
+			this.vScrollBars[18] = vScrollBar19;
+			this.vScrollBars[19] = vScrollBar20;
+			this.vScrollBars[20] = vScrollBar21;
+			this.vScrollBars[21] = vScrollBar22;
+			this.vScrollBars[22] = vScrollBar23;
+			this.vScrollBars[23] = vScrollBar24;
+			this.vScrollBars[24] = vScrollBar25;
+			this.vScrollBars[25] = vScrollBar26;
+			this.vScrollBars[26] = vScrollBar27;
+			this.vScrollBars[27] = vScrollBar28;
+			this.vScrollBars[28] = vScrollBar29;
+			this.vScrollBars[29] = vScrollBar30;
+			this.vScrollBars[30] = vScrollBar31;
+			this.vScrollBars[31] = vScrollBar32;
 
-			valueNumericUpDowns[0] = numericUpDown1;
-			valueNumericUpDowns[1] = numericUpDown2;
-			valueNumericUpDowns[2] = numericUpDown3;
-			valueNumericUpDowns[3] = numericUpDown4;
-			valueNumericUpDowns[4] = numericUpDown5;
-			valueNumericUpDowns[5] = numericUpDown6;
-			valueNumericUpDowns[6] = numericUpDown7;
-			valueNumericUpDowns[7] = numericUpDown8;
-			valueNumericUpDowns[8] = numericUpDown9;
-			valueNumericUpDowns[9] = numericUpDown10;
-			valueNumericUpDowns[10] = numericUpDown11;
-			valueNumericUpDowns[11] = numericUpDown12;
-			valueNumericUpDowns[12] = numericUpDown13;
-			valueNumericUpDowns[13] = numericUpDown14;
-			valueNumericUpDowns[14] = numericUpDown15;
-			valueNumericUpDowns[15] = numericUpDown16;
-			valueNumericUpDowns[16] = numericUpDown17;
-			valueNumericUpDowns[17] = numericUpDown18;
-			valueNumericUpDowns[18] = numericUpDown19;
-			valueNumericUpDowns[19] = numericUpDown20;
-			valueNumericUpDowns[20] = numericUpDown21;
-			valueNumericUpDowns[21] = numericUpDown22;
-			valueNumericUpDowns[22] = numericUpDown23;
-			valueNumericUpDowns[23] = numericUpDown24;
-			valueNumericUpDowns[24] = numericUpDown25;
-			valueNumericUpDowns[25] = numericUpDown26;
-			valueNumericUpDowns[26] = numericUpDown27;
-			valueNumericUpDowns[27] = numericUpDown28;
-			valueNumericUpDowns[28] = numericUpDown29;
-			valueNumericUpDowns[29] = numericUpDown30;
-			valueNumericUpDowns[30] = numericUpDown31;
-			valueNumericUpDowns[31] = numericUpDown32;
+			this.labels[0] = label1;
+			this.labels[1] = label2;
+			this.labels[2] = label3;
+			this.labels[3] = label4;
+			this.labels[4] = label5;
+			this.labels[5] = label6;
+			this.labels[6] = label7;
+			this.labels[7] = label8;
+			this.labels[8] = label9;
+			this.labels[9] = label10;
+			this.labels[10] = label11;
+			this.labels[11] = label12;
+			this.labels[12] = label13;
+			this.labels[13] = label14;
+			this.labels[14] = label15;
+			this.labels[15] = label16;
+			this.labels[16] = label17;
+			this.labels[17] = label18;
+			this.labels[18] = label19;
+			this.labels[19] = label20;
+			this.labels[20] = label21;
+			this.labels[21] = label22;
+			this.labels[22] = label23;
+			this.labels[23] = label24;
+			this.labels[24] = label25;
+			this.labels[25] = label26;
+			this.labels[26] = label27;
+			this.labels[27] = label28;
+			this.labels[28] = label29;
+			this.labels[29] = label30;
+			this.labels[30] = label31;
+			this.labels[31] = label32;
+
+			this.valueNumericUpDowns[0] = numericUpDown1;
+			this.valueNumericUpDowns[1] = numericUpDown2;
+			this.valueNumericUpDowns[2] = numericUpDown3;
+			this.valueNumericUpDowns[3] = numericUpDown4;
+			this.valueNumericUpDowns[4] = numericUpDown5;
+			this.valueNumericUpDowns[5] = numericUpDown6;
+			this.valueNumericUpDowns[6] = numericUpDown7;
+			this.valueNumericUpDowns[7] = numericUpDown8;
+			this.valueNumericUpDowns[8] = numericUpDown9;
+			this.valueNumericUpDowns[9] = numericUpDown10;
+			this.valueNumericUpDowns[10] = numericUpDown11;
+			this.valueNumericUpDowns[11] = numericUpDown12;
+			this.valueNumericUpDowns[12] = numericUpDown13;
+			this.valueNumericUpDowns[13] = numericUpDown14;
+			this.valueNumericUpDowns[14] = numericUpDown15;
+			this.valueNumericUpDowns[15] = numericUpDown16;
+			this.valueNumericUpDowns[16] = numericUpDown17;
+			this.valueNumericUpDowns[17] = numericUpDown18;
+			this.valueNumericUpDowns[18] = numericUpDown19;
+			this.valueNumericUpDowns[19] = numericUpDown20;
+			this.valueNumericUpDowns[20] = numericUpDown21;
+			this.valueNumericUpDowns[21] = numericUpDown22;
+			this.valueNumericUpDowns[22] = numericUpDown23;
+			this.valueNumericUpDowns[23] = numericUpDown24;
+			this.valueNumericUpDowns[24] = numericUpDown25;
+			this.valueNumericUpDowns[25] = numericUpDown26;
+			this.valueNumericUpDowns[26] = numericUpDown27;
+			this.valueNumericUpDowns[27] = numericUpDown28;
+			this.valueNumericUpDowns[28] = numericUpDown29;
+			this.valueNumericUpDowns[29] = numericUpDown30;
+			this.valueNumericUpDowns[30] = numericUpDown31;
+			this.valueNumericUpDowns[31] = numericUpDown32;
 
 			this.stepNumericUpDowns[0] = numericUpDown33;
 			this.stepNumericUpDowns[1] = numericUpDown34;
@@ -237,6 +242,10 @@ namespace LightController
 			this.changeModeComboBoxes[29] = changeModeComboBox30;
 			this.changeModeComboBoxes[30] = changeModeComboBox31;
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
+
+			#endregion
+
+			this.isInit = true;
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -324,7 +333,6 @@ namespace LightController
 		/// <param name="e"></param>
 		private void openButton_Click(object sender, EventArgs e)
 		{
-			//TODO: 打开按钮点击后的操作
 			openFileDialog.ShowDialog(this);
 		}
 
@@ -628,6 +636,15 @@ namespace LightController
 				changeModeComboBoxes[i].Visible = false ;
 				stepNumericUpDowns[i].Visible = false;
 			}
+						
+			tongdaoValueLabel.Visible = false;
+			tongdaoValueLabel.Visible = false;
+			changeModeLabel.Visible = false;
+			changeModeLabel2.Visible = false;
+			stepTimeLabel.Visible = false;
+			stepTimeLabel2.Visible = false;
+
+
 		}
 
 		/// <summary>
@@ -722,12 +739,27 @@ namespace LightController
 				this.changeModeComboBoxes[i].Show();
 				this.stepNumericUpDowns[i].Show();
 			}
+
+			// 3.标签的显示
+			// 若通道总数大于16，显示下面的标签
+			if( tongdaoWrappers.Count > 16){				
+				tongdaoValueLabel2.Visible = true;				
+				changeModeLabel2.Visible = true;				
+				stepTimeLabel2.Visible = true;
+			} // 若通道总数<=16 且 >0，则显示上面的标签
+			else 	if (tongdaoWrappers.Count > 0) {
+				stepTimeLabel.Visible = true;
+				changeModeLabel.Visible = true;
+				tongdaoValueLabel.Visible = true;
+			}
 		}	
 
-
-
 		
-
+		/// <summary>
+		/// 新建步的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void newStepButton_Click(object sender, EventArgs e)
 		{
 			LightWrapper lightData = lightWrapperList[selectedLightIndex];
@@ -938,10 +970,68 @@ namespace LightController
 
 		}
 
-		private void frameModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		/// <summary>
+		///  场景改变后，调用这个方法
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void frameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			frame = frameComboBox.SelectedIndex;
+			frame = frameComboBox.SelectedIndex;	
+
+			if (lightAstList != null && lightAstList.Count > 0)
+			{
+				changeFrameMode();
+			}
+
+			
+		}
+
+		/// <summary>
+		/// 改变常规或声控模式后才需要进行某些操作
+		/// 1.改label的text ；2.改changeModeComboBoxes的列表
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
 			mode = modeComboBox.SelectedIndex;
+			// 若模式为声控模式
+			// 1.改变几个label的Text; 
+			// 2.改变跳变渐变-->是否声控；
+			// 3.所有步时间值的调节，改为enabled=false
+			if (isInit) { 
+				if (mode == 1)
+				{
+					changeModeLabel.Text = "是否声控";
+					changeModeLabel2.Text = "是否声控";
+					
+					for (int i = 0; i < 32; i++)
+					{
+						this.changeModeComboBoxes[i].Items.Clear();
+						this.changeModeComboBoxes[i].Items.AddRange(new object[] {
+						"否",
+						"是"});
+						this.stepNumericUpDowns[i].Enabled = false;
+					}
+					
+
+				}
+				else //mode=0
+				{
+					changeModeLabel.Text = "变化方式";
+					changeModeLabel2.Text = "变化方式";				
+					for (int i = 0; i < 32; i++)
+					{
+						this.changeModeComboBoxes[i].Items.Clear();
+						this.changeModeComboBoxes[i].Items.AddRange(new object[] {
+								"跳变",
+								"渐变"});
+						this.stepNumericUpDowns[i].Enabled = false;
+					}
+				}
+			}
+
 			if (lightAstList != null && lightAstList.Count > 0)
 			{
 				changeFrameMode();
@@ -995,7 +1085,6 @@ namespace LightController
 		{
 
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepValue - 1];
 			lightStepWrapper.CurrentStep = stepValue;
 
@@ -1003,7 +1092,29 @@ namespace LightController
 			this.showStepLabel(stepValue, lightStepWrapper.TotalStep);
 
 		}
+		
+		/// <summary>
+		///  辅助：取出选定灯具、Frame、Mode 的 所有步数集合
+		/// </summary>
+		/// <returns></returns>
+		private LightStepWrapper getCurrentLightStepWrapper()
+		{
+			LightWrapper light = lightWrapperList[selectedLightIndex];
+			LightStepWrapper lightStepWrapper = light.LightStepWrapperList[frame, mode];
 
+			//若为空，则立刻创建一个
+			if (lightStepWrapper == null)
+			{
+				lightStepWrapper = new LightStepWrapper()
+				{
+					StepWrapperList = new List<StepWrapper>()
+				};
+				light.LightStepWrapperList[frame, mode] = lightStepWrapper;
+			};
+
+			return lightStepWrapper;
+		}
+		
 		/// <summary>
 		/// 辅助：这个方法直接取出当前步
 		/// </summary>
@@ -1035,28 +1146,7 @@ namespace LightController
 			return totalStepValue;
 		}
 
-		/// <summary>
-		///  辅助：取出选定灯具、Frame、Mode 的 所有步数集合
-		/// </summary>
-		/// <returns></returns>
-		private LightStepWrapper getCurrentLightStepWrapper()
-		{
-			LightWrapper light = lightWrapperList[selectedLightIndex];
-			LightStepWrapper lightStepWrapper = light.LightStepWrapperList[frame, mode];
-
-			//若为空，则立刻创建一个
-			if (lightStepWrapper == null)
-			{
-				lightStepWrapper = new LightStepWrapper()
-				{
-					StepWrapperList = new List<StepWrapper>()
-				};
-				light.LightStepWrapperList[frame, mode] = lightStepWrapper;
-			};
-
-			return lightStepWrapper;
-		}
-
+	
 		
 		/// <summary>
 		/// 全局变量按钮点击后的操作：

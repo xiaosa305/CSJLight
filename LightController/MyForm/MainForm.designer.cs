@@ -665,6 +665,7 @@ namespace LightController
 			this.changeModeLabel2.Size = new System.Drawing.Size(67, 15);
 			this.changeModeLabel2.TabIndex = 17;
 			this.changeModeLabel2.Text = "变化方式";
+			this.changeModeLabel2.Visible = false;
 			// 
 			// numericUpDown32
 			// 
@@ -683,6 +684,7 @@ namespace LightController
 			this.tongdaoValueLabel2.Size = new System.Drawing.Size(68, 15);
 			this.tongdaoValueLabel2.TabIndex = 15;
 			this.tongdaoValueLabel2.Text = "通 道 值";
+			this.tongdaoValueLabel2.Visible = false;
 			// 
 			// changeModeComboBox32
 			// 
@@ -706,6 +708,7 @@ namespace LightController
 			this.stepTimeLabel2.Size = new System.Drawing.Size(68, 15);
 			this.stepTimeLabel2.TabIndex = 16;
 			this.stepTimeLabel2.Text = "步 时 间";
+			this.stepTimeLabel2.Visible = false;
 			// 
 			// changeModeComboBox31
 			// 
@@ -1746,6 +1749,7 @@ namespace LightController
 			this.changeModeLabel.Size = new System.Drawing.Size(67, 15);
 			this.changeModeLabel.TabIndex = 14;
 			this.changeModeLabel.Text = "变化方式";
+			this.changeModeLabel.Visible = false;
 			// 
 			// tongdaoValueLabel
 			// 
@@ -1755,6 +1759,7 @@ namespace LightController
 			this.tongdaoValueLabel.Size = new System.Drawing.Size(68, 15);
 			this.tongdaoValueLabel.TabIndex = 13;
 			this.tongdaoValueLabel.Text = "通 道 值";
+			this.tongdaoValueLabel.Visible = false;
 			// 
 			// stepTimeLabel
 			// 
@@ -1764,6 +1769,7 @@ namespace LightController
 			this.stepTimeLabel.Size = new System.Drawing.Size(68, 15);
 			this.stepTimeLabel.TabIndex = 13;
 			this.stepTimeLabel.Text = "步 时 间";
+			this.stepTimeLabel.Visible = false;
 			// 
 			// changeModeComboBox16
 			// 
@@ -2830,7 +2836,7 @@ namespace LightController
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(89, 23);
 			this.frameComboBox.TabIndex = 0;
-			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameModeComboBox_SelectedIndexChanged);
+			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 			// 
 			// modeComboBox
 			// 
@@ -2842,7 +2848,7 @@ namespace LightController
 			this.modeComboBox.Name = "modeComboBox";
 			this.modeComboBox.Size = new System.Drawing.Size(104, 23);
 			this.modeComboBox.TabIndex = 0;
-			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.frameModeComboBox_SelectedIndexChanged);
+			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
 			// 
 			// mainMenuStrip
 			// 

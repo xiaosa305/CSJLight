@@ -15,10 +15,10 @@ namespace LightController
 	{
 		private MainForm mainForm;		
 		//每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
-		private int minNum = 1; 
+		private int minNum = 1;
+		private IList<LightAst> lightAstList = new List<LightAst>();
 
-
-		public LightsForm(MainForm mainForm,List<LightAst> lightAstList)
+		public LightsForm(MainForm mainForm,IList<LightAst> lightAstList)
 		{
 			InitializeComponent();
 
@@ -72,7 +72,7 @@ namespace LightController
 
 		}
 				
-		private List<LightAst> lightAstList = new List<LightAst>(); 
+		
 
 		private void addLightButton_Click(object sender, EventArgs e)
 		{
@@ -130,7 +130,7 @@ namespace LightController
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
-			mainForm.AddLights(lightAstList);
+			mainForm.AddLightAstList(lightAstList);
 			// 2.关闭窗口（资源还未释放）
 			this.Dispose();
 			mainForm.Activate();

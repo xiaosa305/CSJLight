@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\LightWrapper.cs" />
+    <Compile Include="Common\DBGetter.cs" />
     <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\MathAst.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
@@ -170,6 +171,12 @@
     <Compile Include="MyForm\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\OpenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\OpenForm.Designer.cs">
+      <DependentUpon>OpenForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\QDTestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\OpenForm.resx">
+      <DependentUpon>OpenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>

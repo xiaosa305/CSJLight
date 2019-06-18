@@ -41,7 +41,6 @@ namespace LightController
 			this.saveAsButton = new System.Windows.Forms.Button();
 			this.oneKeyButton = new System.Windows.Forms.Button();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.lightsListView = new System.Windows.Forms.ListView();
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -384,16 +383,7 @@ namespace LightController
 			this.oneKeyButton.TabIndex = 4;
 			this.oneKeyButton.Text = "一键配置";
 			this.oneKeyButton.UseVisualStyleBackColor = true;
-			// 
-			// saveFileDialog
-			// 
-			this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
-			// 
-			// openFileDialog
-			// 
-			this.openFileDialog.FileName = "LightControllerTest_ANSI.txt";
-			this.openFileDialog.Filter = "文本文件(*.txt)|*.txt|图片文件(*.png)|*.png";
-			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+			
 			// 
 			// skinEngine1
 			// 
@@ -3013,7 +3003,6 @@ namespace LightController
 		private System.Windows.Forms.Button saveAsButton;
 		private System.Windows.Forms.Button oneKeyButton;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog;
-		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 
 		// 2019.5.23 : 添加listView 来存放加载的灯具列表
@@ -3213,8 +3202,6 @@ namespace LightController
 		private Button deleteStepButton;
 		private Button nextStepButton;
 		private Button backStepButton;
-		
-
 
 
 		private MenuStrip mainMenuStrip;
@@ -3226,14 +3213,8 @@ namespace LightController
 
 		// 一个记录所有Step的数组
 
-
-
 		public StepWrapper[,] stepList = new StepWrapper[24, 2];
 		private Label stepLabel;
-
-
-		
-
 
 		
 		private Label modeChooseLabel;

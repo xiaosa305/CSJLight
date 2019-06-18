@@ -27,8 +27,6 @@ namespace LightController.Ast
 			return LightName + ":" + LightType + ":" + LightAddr + ":" + LightPic + ":" + Count;
 		}
 
-
-
 		/// <summary>
 		///  内置静态辅助方法 : 使用LightAst生成DB_Light
 		/// </summary>
@@ -44,6 +42,25 @@ namespace LightController.Ast
 				Type = la.LightType,
 				Pic = la.LightPic,
 				Count = la.Count
+			};
+		}
+
+		public static LightAst GenerateLightAst(DB_Light light)
+		{
+			int endNum = light.StartID + light.Count - 1;
+			string lightAddr = light.StartID + "-" + endNum;
+			string path = @"C:\Temp\LightLibrary\" + light.Name + "\\" + light.Type + ".ini";
+
+			return new LightAst()
+			{
+				StartNum = light.StartID,
+				EndNum = endNum,
+				LightName = light.Name,
+				LightType = light.Type,
+				LightPic = light.Pic,
+				Count = light.Count,
+				LightAddr = lightAddr,
+				LightPath = path
 			};
 		}
 	}

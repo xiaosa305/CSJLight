@@ -153,7 +153,7 @@ namespace LightController.Ast
 		/// 保存所有传进来的T
 		/// </summary>
 		/// <param name="objList"></param>
-		public void SaveAll(List<T> objList) {
+		public void SaveAll(IList<T> objList) {
 			using (var session = sessionFactory.OpenSession())
 			{
 				using (var tx = session.BeginTransaction())

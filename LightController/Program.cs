@@ -1,5 +1,6 @@
 ﻿using DMX512;
 using LightController.Ast;
+using LightController.Common;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
@@ -24,7 +25,7 @@ namespace LightController
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainForm());
-
+						
 		}
 	}
 }

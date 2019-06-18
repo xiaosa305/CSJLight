@@ -8,15 +8,15 @@ namespace LightController.Ast
 {
 	public class DBWrapper
 	{
-		public DBWrapper(List<DB_Light> lightList, List<DB_StepCount> stepCountList, List<DB_Value> valueList)
-		{
-			LightList = lightList;
-			StepCountList = stepCountList;
-			ValueList = valueList;
-		}
+		public IList<DB_Light> lightList { get; set; }
+		public IList<DB_StepCount> stepCountList { get; set; }
+		public IList<DB_Value> valueList{ get; set; }
 
-		public List<DB_Light> LightList { get; set; }
-		public List<DB_StepCount> StepCountList { get; set; }
-		public List<DB_Value> ValueList { get; set; }
+		public DBWrapper(IList<DB_Light> lightList, IList<DB_StepCount> stepCountList, IList<DB_Value> valueList)
+		{
+				this.lightList =lightList;
+				this.stepCountList =stepCountList;
+				this.valueList = valueList;
+		}
 	}
 }

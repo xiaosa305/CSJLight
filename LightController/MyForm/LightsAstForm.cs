@@ -65,6 +65,9 @@ namespace LightController
 			this.Close();
 		}
 
-		
+		private void startCountNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

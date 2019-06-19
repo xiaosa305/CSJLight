@@ -336,27 +336,10 @@ namespace LightController
 						int lightIndex = sc.PK.LightIndex;
 						int stepCount = sc.StepCount;
 
-						for (int step = 1; step <= stepCount; step++) {
-							IList <DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode,step);
-							List < TongdaoWrapper > tongdaoList = new List<TongdaoWrapper>();
-							for(int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
-							{
-								DB_Value value = stepValueList[tdIndex];
-								TongdaoWrapper td = new TongdaoWrapper()
-								{
-									TongdaoName = stepMode.TongdaoList[tdIndex].TongdaoName,
-									Address = stepMode.TongdaoList[tdIndex].Address,
-									StepTime = value.StepTime,
-									ChangeMode = value.ChangeMode,
-									ScrollValue = value.ScrollValue
-								};
-								tongdaoList.Add(td);
-							}
-							StepWrapper stepWrapper = new StepWrapper()
-								{
-									IsSaved = true,
-									TongdaoList = tongdaoList
-								};
+						for (int step = 1; step <= stepCount; step++)
+						{
+							IList<DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode, step);
+							StepWrapper stepWrapper = generateStepWrapper(stepMode, stepValueList);							
 							if (lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] == null)
 							{
 								lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
@@ -366,6 +349,38 @@ namespace LightController
 					}
 				}
 			}
+
+			MessageBox.Show("成功打开工程");
+		}
+
+
+		/// <summary>
+		///  由 步数模板 和 步数值集合 来生成某一步的StepWrapper
+		/// </summary>
+		/// <param name="stepMode">模板Step</param>
+		/// <param name="stepValueList">从数据库读取的相同lightIndex、frame、mode、step的数值集合：即某一步的通道值列表</param>
+		/// <returns></returns>
+		private StepWrapper generateStepWrapper(StepWrapper stepMode, IList<DB_Value> stepValueList)
+		{
+			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
+			for (int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
+			{							
+				DB_Value value = stepValueList[tdIndex];
+				TongdaoWrapper td = new TongdaoWrapper()
+				{
+					TongdaoName = stepMode.TongdaoList[tdIndex].TongdaoName,
+					Address = stepMode.TongdaoList[tdIndex].Address,
+					StepTime = value.StepTime,
+					ChangeMode = value.ChangeMode,
+					ScrollValue = value.ScrollValue
+				};
+				tongdaoList.Add(td);			   
+			}
+			return new StepWrapper()
+			{
+				IsSaved = true,
+				TongdaoList = tongdaoList
+			};
 		}
 
 		/// <summary>
@@ -394,6 +409,10 @@ namespace LightController
 			stepCountList = null;
 			stepList = null;
 			valueList = null;
+
+			lightsListView.Clear();
+			tongdaoGroupBox.Hide();
+
 		}
 
 		/// <summary>

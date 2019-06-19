@@ -10,7 +10,10 @@ namespace LightController.Ast
 	/// </summary>
 	public class StepWrapper
 	{
+		// 暂时是冗余字段
 		public bool IsSaved { get; set; }
+		
+		// 
 		public List<TongdaoWrapper> TongdaoList { get; set; }
 
 	}

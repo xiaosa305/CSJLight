@@ -16,10 +16,12 @@ namespace LightController.Ast
 
 		// 添加步的行为放在这里:总数加1，而CurrentStep切换到最后一步
 		public void AddStep(StepWrapper stepWrapper) {
+			if (StepWrapperList == null) {
+				StepWrapperList = new List<StepWrapper>();
+			}
 			StepWrapperList.Add(stepWrapper);
 			TotalStep++;
 			CurrentStep = TotalStep;
 		}
-
 	}
 }

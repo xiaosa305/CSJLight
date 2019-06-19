@@ -48,12 +48,11 @@ namespace LightController
 		private StepCountDAO stepCountDAO;
 		private ValueDAO valueDAO;
 
-		// 这几个数据 ，能存放所有数据库数据
-		
+		// 这几个数据 ，存放着所有数据库数据		
 		public IList<DB_Light> lightList = new List<DB_Light>();
 		public IList<DB_StepCount> stepCountList = new List<DB_StepCount>();
 		public IList<DB_Value> valueList = new List<DB_Value>();
-		private DBWrapper allData ;
+		//private DBWrapper allData ;
 
 		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一步（通道列表）
 		private IList<LightWrapper> lightWrapperList = new List<LightWrapper>();
@@ -308,7 +307,6 @@ namespace LightController
 		/// <param name="directoryPath"></param>
 		internal void OpenProject(string projectName)
 		{
-
 			BuildProject(projectName, false);
 
 			// 清空所有list
@@ -321,9 +319,53 @@ namespace LightController
 
 			lightAstList = reCreatelightAstList(lightList) ;
 			AddLightAstList(lightAstList);
-			
-			
 
+			// 针对每个lightWrapper，获取其已有步数的场景和模式
+			for (int lightListIndex = 0; lightListIndex < lightList.Count; lightListIndex++)
+			{				
+				IList<DB_StepCount> scList = stepCountDAO.getStepCountList(lightList[lightListIndex].LightNo);
+				
+				if (scList != null && scList.Count > 0) {
+					// 只要有步数的，优先生成StepMode
+					StepWrapper stepMode = generateStepMode(lightAstList[lightListIndex]);
+					lightWrapperList[lightListIndex].StepMode = stepMode;
+					foreach (DB_StepCount sc in scList)
+					{
+						int frame = sc.PK.Frame;
+						int mode = sc.PK.Mode;
+						int lightIndex = sc.PK.LightIndex;
+						int stepCount = sc.StepCount;
+
+						for (int step = 1; step <= stepCount; step++) {
+							IList <DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode,step);
+							List < TongdaoWrapper > tongdaoList = new List<TongdaoWrapper>();
+							for(int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
+							{
+								DB_Value value = stepValueList[tdIndex];
+								TongdaoWrapper td = new TongdaoWrapper()
+								{
+									TongdaoName = stepMode.TongdaoList[tdIndex].TongdaoName,
+									Address = stepMode.TongdaoList[tdIndex].Address,
+									StepTime = value.StepTime,
+									ChangeMode = value.ChangeMode,
+									ScrollValue = value.ScrollValue
+								};
+								tongdaoList.Add(td);
+							}
+							StepWrapper stepWrapper = new StepWrapper()
+								{
+									IsSaved = true,
+									TongdaoList = tongdaoList
+								};
+							if (lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] == null)
+							{
+								lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
+							}
+							lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+						}
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -658,6 +700,7 @@ namespace LightController
 			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
 			//			若不为null，则说明已有数据，
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+
 			if (lightWrapper.StepMode == null)
 			{
 				Console.WriteLine("Dickov:开始生成模板文件");

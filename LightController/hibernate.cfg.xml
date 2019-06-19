@@ -17,10 +17,9 @@
       <property name="dialect">NHibernate.Dialect.SQLiteDialect</property>
       <property name="query.substitutions">true=1;false=0</property>
       <!-- 输出并格式化sql语句-->
-      <property name="show_sql">true</property>
-      <property name="format_sql">true</property>
-      <mapping assembly="LightController" />
-      
+      <property name="show_sql">false</property>
+      <property name="format_sql">false</property>
+      <mapping assembly="LightController" />     
      
     </session-factory>
   </hibernate-configuration>

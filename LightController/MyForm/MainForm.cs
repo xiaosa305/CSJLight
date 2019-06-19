@@ -316,9 +316,13 @@ namespace LightController
 			lightList = getLightList();
 			stepCountList = getStepCountList();
 			valueList = getValueList();
-
+			
+			// 通过lightList填充lightAstList
 			lightAstList = reCreatelightAstList(lightList) ;
 			AddLightAstList(lightAstList);
+
+			//填充lightsForm
+			lightsForm = new LightsForm(this, lightAstList);
 
 			// 针对每个lightWrapper，获取其已有步数的场景和模式
 			for (int lightListIndex = 0; lightListIndex < lightList.Count; lightListIndex++)
@@ -349,7 +353,6 @@ namespace LightController
 					}
 				}
 			}
-
 			MessageBox.Show("成功打开工程");
 		}
 
@@ -409,7 +412,6 @@ namespace LightController
 			stepCountList = null;
 			stepList = null;
 			valueList = null;
-
 			lightsListView.Clear();
 			tongdaoGroupBox.Hide();
 

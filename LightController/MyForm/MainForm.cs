@@ -766,7 +766,6 @@ namespace LightController
 		/// </summary>
 		private void hideAllTongdao()
 		{
-			//TODO : 隐藏所有通道功能待完善
 			for (int i = 0; i < 32; i++)
 			{
 				valueNumericUpDowns[i].Visible = false;
@@ -782,7 +781,6 @@ namespace LightController
 			changeModeLabel2.Visible = false;
 			stepTimeLabel.Visible = false;
 			stepTimeLabel2.Visible = false;
-
 
 		}
 
@@ -925,8 +923,7 @@ namespace LightController
 				return;
 			}
 
-			//TODO 若通过步数验证，则新建步，并将stepLabel切换成最新的标签
-
+			//若通过步数验证，则新建步，并将stepLabel切换成最新的标签
 			StepWrapper newStep = new StepWrapper()
 			{
 				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
@@ -1197,15 +1194,15 @@ namespace LightController
 			}
 			lightsForm.ShowDialog();
 		}
-		
+
 		/// <summary>
-		///  点击灯库编辑时，可以打开另外一个软件LightEditor
+		///  TODO 点击灯库编辑时，可以打开另外一个软件LightEditor
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lightLibraryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//TODO
+			
 		}
 
 		/// <summary>

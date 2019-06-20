@@ -50,8 +50,7 @@ namespace LightController
 				}
 				this.treeView1.ExpandAll();
 			}
-
-			//TODO 2.载入lightAstList到右边的框中
+						
 			// 只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
 			if (lightAstList != null && lightAstList.Count > 0) {
 				this.lightAstList = lightAstList;
@@ -141,10 +140,6 @@ namespace LightController
 			item.ImageKey = lightPic;
 			lightsListView.Items.Add(item);
 		}
-
-
-
-
 
 		/// <summary>
 		/// TODO : 删除灯具的操作

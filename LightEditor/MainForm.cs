@@ -454,16 +454,14 @@ namespace LightEditor
 				
 		}
 
-		//TODO：通过注入值后的dataWrappers,为vScrollBars赋值；
+		//通过注入值后的dataWrappers,为vScrollBars赋值；
 		public void generateVScrollBars(int tongdaoCount)
-		{
-			
+		{			
 			for (int i = 0; i < tongdaoCount; i++)
 			{
-				TongdaoWrapper dataWrapper = dataWrappers[i];
-				this.labels[i].Text = dataWrapper.TongdaoName;
-				this.valueLabels[i].Text = dataWrapper.InitNum.ToString();
-				this.vScrollBars[i].Value = dataWrapper.InitNum;
+				this.labels[i].Text = dataWrappers[i].TongdaoName;
+				this.valueLabels[i].Text = dataWrappers[i].InitNum.ToString();
+				this.vScrollBars[i].Value = dataWrappers[i].InitNum;
 			}
 		}
 

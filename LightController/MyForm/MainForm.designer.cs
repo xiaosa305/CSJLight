@@ -233,6 +233,9 @@ namespace LightController
 			this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyStepButton = new System.Windows.Forms.Button();
+			this.pasteStepButton = new System.Windows.Forms.Button();
+			this.aboutStepButton = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoGroupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
@@ -329,7 +332,7 @@ namespace LightController
 			// newFileButton
 			// 
 			this.newFileButton.Enabled = false;
-			this.newFileButton.Location = new System.Drawing.Point(501, 57);
+			this.newFileButton.Location = new System.Drawing.Point(553, 57);
 			this.newFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.newFileButton.Name = "newFileButton";
 			this.newFileButton.Size = new System.Drawing.Size(92, 65);
@@ -341,7 +344,7 @@ namespace LightController
 			// openFileButton
 			// 
 			this.openFileButton.Enabled = false;
-			this.openFileButton.Location = new System.Drawing.Point(607, 57);
+			this.openFileButton.Location = new System.Drawing.Point(659, 57);
 			this.openFileButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.openFileButton.Name = "openFileButton";
 			this.openFileButton.Size = new System.Drawing.Size(92, 65);
@@ -353,7 +356,7 @@ namespace LightController
 			// saveButton
 			// 
 			this.saveButton.Enabled = false;
-			this.saveButton.Location = new System.Drawing.Point(713, 57);
+			this.saveButton.Location = new System.Drawing.Point(765, 57);
 			this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(92, 65);
@@ -365,7 +368,7 @@ namespace LightController
 			// saveAsButton
 			// 
 			this.saveAsButton.Enabled = false;
-			this.saveAsButton.Location = new System.Drawing.Point(819, 57);
+			this.saveAsButton.Location = new System.Drawing.Point(871, 57);
 			this.saveAsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveAsButton.Name = "saveAsButton";
 			this.saveAsButton.Size = new System.Drawing.Size(92, 65);
@@ -383,7 +386,6 @@ namespace LightController
 			this.oneKeyButton.TabIndex = 4;
 			this.oneKeyButton.Text = "一键配置";
 			this.oneKeyButton.UseVisualStyleBackColor = true;
-			
 			// 
 			// skinEngine1
 			// 
@@ -442,6 +444,9 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.deleteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.backStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.insertStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.aboutStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.newStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.lightValueLabel);
 			this.tongdaoGroupBox.Controls.Add(this.lightLabel);
@@ -2894,6 +2899,38 @@ namespace LightController
 			this.ExitToolStripMenuItem.Text = "退出程序";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.exitButton_Click);
 			// 
+			// copyStepButton
+			// 
+			this.copyStepButton.Enabled = false;
+			this.copyStepButton.Location = new System.Drawing.Point(37, 194);
+			this.copyStepButton.Name = "copyStepButton";
+			this.copyStepButton.Size = new System.Drawing.Size(89, 32);
+			this.copyStepButton.TabIndex = 13;
+			this.copyStepButton.Text = "复制步";
+			this.copyStepButton.UseVisualStyleBackColor = true;
+			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
+			// 
+			// pasteStepButton
+			// 
+			this.pasteStepButton.Enabled = false;
+			this.pasteStepButton.Location = new System.Drawing.Point(142, 194);
+			this.pasteStepButton.Name = "pasteStepButton";
+			this.pasteStepButton.Size = new System.Drawing.Size(89, 32);
+			this.pasteStepButton.TabIndex = 13;
+			this.pasteStepButton.Text = "粘贴步";
+			this.pasteStepButton.UseVisualStyleBackColor = true;
+			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
+			// 
+			// aboutStepButton
+			// 
+			this.aboutStepButton.Location = new System.Drawing.Point(247, 194);
+			this.aboutStepButton.Name = "aboutStepButton";
+			this.aboutStepButton.Size = new System.Drawing.Size(89, 32);
+			this.aboutStepButton.TabIndex = 13;
+			this.aboutStepButton.Text = "待定步";
+			this.aboutStepButton.UseVisualStyleBackColor = true;
+			this.aboutStepButton.Click += new System.EventHandler(this.newStepButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -3219,6 +3256,9 @@ namespace LightController
 		
 		private Label modeChooseLabel;
 		private Label frameChooseLabel;
+		private Button aboutStepButton;
+		private Button pasteStepButton;
+		private Button copyStepButton;
 	}
 }
 

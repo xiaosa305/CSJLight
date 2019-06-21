@@ -74,7 +74,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// TODO 删除项目功能；后期可能不保留
+		/// 删除项目功能；后期可能不保留
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -88,7 +88,7 @@ namespace LightController.MyForm
 			// 2.删除目录
 			di.Delete(true);
 
-			// 3.删除treeView1.SelectedNode
+			// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
 			treeView1.SelectedNode.Remove();
 			ifJustDelete = true;
 		}
@@ -101,6 +101,7 @@ namespace LightController.MyForm
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
-		}		
+		}
+		
 	}
 }

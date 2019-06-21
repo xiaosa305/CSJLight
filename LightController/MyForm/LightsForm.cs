@@ -49,6 +49,7 @@ namespace LightController
 					this.treeView1.Nodes.Add(treeNode);
 				}
 				this.treeView1.ExpandAll();
+				
 			}
 						
 			// 只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边

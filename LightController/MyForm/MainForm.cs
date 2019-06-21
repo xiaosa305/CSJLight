@@ -1406,5 +1406,27 @@ namespace LightController
 		//}
 
 		#endregion
+
+
+		private StepWrapper tempStep;
+		/// <summary>
+		/// 复制步：从项目中选择当前灯的当前步，（若当前步无法选择：灯还未生成步）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void copyStepButton_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		/// <summary>
+		/// 粘帖步：从复制的步拷贝到当前步
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void pasteStepButton_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

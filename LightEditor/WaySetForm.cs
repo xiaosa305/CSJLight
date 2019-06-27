@@ -122,7 +122,7 @@ namespace LightEditor
 		private void confirmButton_Click(object sender, EventArgs e)
 		{   
 			setDataWrappers();
-			mainForm.generateVScrollBars(newTongdaoCount);
+			mainForm.generateVScrollBars();
 
 			//关闭窗口(隐藏即可)
 			this.Hide();
@@ -139,7 +139,7 @@ namespace LightEditor
 					{
 						string tongdaoName = textBoxes[j * 2].Tag.ToString();
 						int initValue = int.Parse(textBoxes[j * 2 + 1].Text.ToString());
-						mainForm.dataWrappers[i] = new TongdaoWrapper(tongdaoName, initValue, i + 1);
+						mainForm.tongdaoList[i] = new TongdaoWrapper(tongdaoName, initValue, i + 1 ,initValue);
 						break; //跳出里面的for
 					}
 				}
@@ -152,10 +152,10 @@ namespace LightEditor
 		internal void setTongdaoCount(int tongdaoCount)	{
 			// 只有dataWrappers为空时，按照通道Count的数量来生成数据;并生成dataWrappers数据
 			newTongdaoCount = tongdaoCount;
-			if (mainForm.dataWrappers == null || mainForm.dataWrappers.Length == 0 ) 
+			if (mainForm.tongdaoList == null || mainForm.tongdaoList.Count == 0 ) 
 			{
 				// MessageBox.Show("dataWrappers为空");
-				mainForm.dataWrappers = new TongdaoWrapper[tongdaoCount];
+				mainForm.tongdaoList = new List<TongdaoWrapper>();
 				for (int i = 0; i < newTongdaoCount; i++)
 				{
 					this.textBoxes[i * 2].Text = (i + 1).ToString();
@@ -173,13 +173,13 @@ namespace LightEditor
 				for (int i = 0; i < textBoxes.Length; i = i + 2)
 				{
 					
-					foreach (TongdaoWrapper wrapper in mainForm.dataWrappers)
+					foreach (TongdaoWrapper wrapper in mainForm.tongdaoList)
 					{
 						// 注意Tag默认不是string，是object
 						if (textBoxes[i].Tag.ToString() == wrapper.TongdaoName)
 						{
 							textBoxes[i].Text = wrapper.Address.ToString();
-							textBoxes[i + 1].Text = wrapper.InitNum.ToString();
+							textBoxes[i + 1].Text = wrapper.InitValue.ToString();
 							//MessageBox.Show("textBoxes["+ i +"].Text = "+wrapper.Address.ToString());
 							//MessageBox.Show("textBoxes["+ (i + 1) +"].Text = "+ wrapper.InitNum.ToString());
 							break;
@@ -222,6 +222,7 @@ namespace LightEditor
 			catch (Exception ex) {
 
 				textBox.Text = "";
+				MessageBox.Show("Dickov:" + ex.Message);
 				//TODO ：在下方提示该处只能输入数字 
 			}
 		}

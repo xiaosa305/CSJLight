@@ -1416,7 +1416,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void copyStepButton_Click(object sender, EventArgs e)
 		{
-
+			tempStep = getCurrentStepWrapper();
 		}
 
 		/// <summary>
@@ -1426,7 +1426,8 @@ namespace LightController
 		/// <param name="e"></param>
 		private void pasteStepButton_Click(object sender, EventArgs e)
 		{
-
+			StepWrapper swNow= getCurrentStepWrapper(); 
+			swNow = tempStep;
 		}
 	}
 }

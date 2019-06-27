@@ -53,6 +53,9 @@ namespace LightController
 			this.deleteStepButton = new System.Windows.Forms.Button();
 			this.backStepButton = new System.Windows.Forms.Button();
 			this.insertStepButton = new System.Windows.Forms.Button();
+			this.aboutStepButton = new System.Windows.Forms.Button();
+			this.pasteStepButton = new System.Windows.Forms.Button();
+			this.copyStepButton = new System.Windows.Forms.Button();
 			this.newStepButton = new System.Windows.Forms.Button();
 			this.lightValueLabel = new System.Windows.Forms.Label();
 			this.lightLabel = new System.Windows.Forms.Label();
@@ -233,9 +236,6 @@ namespace LightController
 			this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.copyStepButton = new System.Windows.Forms.Button();
-			this.pasteStepButton = new System.Windows.Forms.Button();
-			this.aboutStepButton = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoGroupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
@@ -529,6 +529,36 @@ namespace LightController
 			this.insertStepButton.Text = "插入步";
 			this.insertStepButton.UseVisualStyleBackColor = true;
 			this.insertStepButton.Visible = false;
+			// 
+			// aboutStepButton
+			// 
+			this.aboutStepButton.Location = new System.Drawing.Point(247, 194);
+			this.aboutStepButton.Name = "aboutStepButton";
+			this.aboutStepButton.Size = new System.Drawing.Size(89, 32);
+			this.aboutStepButton.TabIndex = 13;
+			this.aboutStepButton.Text = "待定步";
+			this.aboutStepButton.UseVisualStyleBackColor = true;
+			this.aboutStepButton.Click += new System.EventHandler(this.newStepButton_Click);
+			// 
+			// pasteStepButton
+			// 
+			this.pasteStepButton.Location = new System.Drawing.Point(142, 194);
+			this.pasteStepButton.Name = "pasteStepButton";
+			this.pasteStepButton.Size = new System.Drawing.Size(89, 32);
+			this.pasteStepButton.TabIndex = 13;
+			this.pasteStepButton.Text = "粘贴步";
+			this.pasteStepButton.UseVisualStyleBackColor = true;
+			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
+			// 
+			// copyStepButton
+			// 
+			this.copyStepButton.Location = new System.Drawing.Point(37, 194);
+			this.copyStepButton.Name = "copyStepButton";
+			this.copyStepButton.Size = new System.Drawing.Size(89, 32);
+			this.copyStepButton.TabIndex = 13;
+			this.copyStepButton.Text = "复制步";
+			this.copyStepButton.UseVisualStyleBackColor = true;
+			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
 			// 
 			// newStepButton
 			// 
@@ -2898,38 +2928,6 @@ namespace LightController
 			this.ExitToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.ExitToolStripMenuItem.Text = "退出程序";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.exitButton_Click);
-			// 
-			// copyStepButton
-			// 
-			this.copyStepButton.Enabled = false;
-			this.copyStepButton.Location = new System.Drawing.Point(37, 194);
-			this.copyStepButton.Name = "copyStepButton";
-			this.copyStepButton.Size = new System.Drawing.Size(89, 32);
-			this.copyStepButton.TabIndex = 13;
-			this.copyStepButton.Text = "复制步";
-			this.copyStepButton.UseVisualStyleBackColor = true;
-			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
-			// 
-			// pasteStepButton
-			// 
-			this.pasteStepButton.Enabled = false;
-			this.pasteStepButton.Location = new System.Drawing.Point(142, 194);
-			this.pasteStepButton.Name = "pasteStepButton";
-			this.pasteStepButton.Size = new System.Drawing.Size(89, 32);
-			this.pasteStepButton.TabIndex = 13;
-			this.pasteStepButton.Text = "粘贴步";
-			this.pasteStepButton.UseVisualStyleBackColor = true;
-			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
-			// 
-			// aboutStepButton
-			// 
-			this.aboutStepButton.Location = new System.Drawing.Point(247, 194);
-			this.aboutStepButton.Name = "aboutStepButton";
-			this.aboutStepButton.Size = new System.Drawing.Size(89, 32);
-			this.aboutStepButton.TabIndex = 13;
-			this.aboutStepButton.Text = "待定步";
-			this.aboutStepButton.UseVisualStyleBackColor = true;
-			this.aboutStepButton.Click += new System.EventHandler(this.newStepButton_Click);
 			// 
 			// MainForm
 			// 

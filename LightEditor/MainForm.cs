@@ -7,34 +7,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using System.IO;
 using System.Threading;
 using System.Collections;
-
+using LightEditor.Common;
 
 namespace LightEditor
 {
 	public partial class MainForm : Form
 	{
 		private WaySetForm wsForm;
+		public bool isGenerated = false;
+		// 打开文件 或 保存文件 后，将isSaved设成true；这个吧变量决定是否填充*.ini内[data]内容
+		public bool isSaved = false;
+		// private WaySetForm2 wsForm2;
 
 		public MainForm()
 		{
-			InitializeComponent();
-			
-			this.skinEngine2.SkinFile = Application.StartupPath + @"\Vista2_color7.ssk";
+			InitializeComponent();			
+			//this.skinEngine2.SkinFile = Application.StartupPath + @"\Vista2_color7.ssk";
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			//skinEngine1.SkinFile = @"C:\Users\Dickov\Desktop\皮肤控件\皮肤\MacOS\MacOS.ssk";
-			// 先将几个vScrollBar加入数组吧;
-
-			//写几个辅助方法：可自动生成语句
-			//for (int i = 0; i < 32; i++)Console.WriteLine("vScrollBar[" + i + "]=vScrollBar" + (i + 1) + ";");
-			//for (int i = 0; i < 32; i++) Console.WriteLine("valueLabels[" + i + "]=valueLabel" + (i + 1) + ";");
-			//for (int i = 0; i < 32; i++) Console.WriteLine("labels[" + i + "]=label" + (i + 1) + ";");
+			
+			#region 初始化几个数组
 
 			vScrollBars[0] = vScrollBar1;
 			vScrollBars[1] = vScrollBar2;
@@ -139,7 +137,8 @@ namespace LightEditor
 			{
 				countComboBox.Items.Add(i);
 			}
-			//countComboBox.SelectedItem = 1;
+
+			#endregion
 
 		}
 
@@ -152,7 +151,7 @@ namespace LightEditor
 			//this.Enabled = true;
 		}
 
-		private void NewLightButton_Click(object sender, EventArgs e)
+		private void newLightButton_Click(object sender, EventArgs e)
 		{
 			if (editGroupBox.Visible)
 			{
@@ -165,7 +164,7 @@ namespace LightEditor
 				if (dr == DialogResult.OK)
 				{
 					countComboBox.SelectedIndex = -1;
-					dataWrappers = null;
+					tongdaoList = null;
 					nameTextBox.Enabled = true;
 					nameTextBox.Text = "";
 					typeTextBox.Enabled = true;
@@ -190,71 +189,77 @@ namespace LightEditor
 
 		private void openFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			//MessageBox.Show("成功打开工程文件:" + openFileDialog.FileName);
-			string fsFileName = openFileDialog.FileName;
-			string iniFileName = fsFileName.Substring(0, fsFileName.LastIndexOf(".FS"));
-			iniFileName += ".ini";
-
+			string iniFileName = openFileDialog.FileName;	
 			// 简单读取文本文件-->打开ini文件
-			try
+			
+			FileStream file = new FileStream(iniFileName, FileMode.Open);
+			// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
+			StreamReader reader = new StreamReader(file, Encoding.UTF8);
+			string s = "";
+			ArrayList lineList = new ArrayList();
+			int lineCount = 0;
+			while ((s = reader.ReadLine()) != null)
 			{
-				FileStream file = new FileStream(iniFileName, FileMode.Open);
-				// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
-				StreamReader reader = new StreamReader(file, Encoding.UTF8);
-				string s = "";
-				ArrayList lineList = new ArrayList();
-				int lineCount = 0;
-				while ((s = reader.ReadLine()) != null)
-				{
-					lineList.Add(s);
-					lineCount++;
-				}
-
-				//MessageBox.Show("TotalLineCount:" + lineCount);
-				if (lineCount < 5) {
-					MessageBox.Show("打开的ini文件格式有误");
-					return;
-				}
-
-				this.isGenerated = true;
-				this.isSaved = true;
-
-				this.typeTextBox.Enabled = false;
-				this.typeTextBox.Text = lineList[1].ToString().Substring(5);
-				this.picTextBox.Enabled = false;
-				this.picTextBox.Text = lineList[2].ToString().Substring(4);
-				string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取 
-				// 此处请注意：并不是用SelectedText，而是直接设Text
-				this.countComboBox.Text = selectItem;
-				this.tongdaoCount = int.Parse(selectItem);
-				this.nameTextBox.Enabled = false;
-				this.nameTextBox.Text = lineList[4].ToString().Substring(5);
-				this.editGroupBox.Show();
-								
-
-				if (lineCount > 5) {
-					int tongdaoCount2 = (lineCount - 6) / 3;
-					if (tongdaoCount2 != tongdaoCount) {
-						MessageBox.Show("打开的ini文件的count值与实际值不符合");
-					}
-					dataWrappers = new TongdaoWrapper[tongdaoCount2];
-					//MessageBox.Show("共有"+tongdaoCount+"个通道");
-					for (int i=0; i < tongdaoCount2; i++) {
-						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
-						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-						//MessageBox.Show(tongdaoName+" | "+initNum+" | "+address);
-						dataWrappers[i] = new TongdaoWrapper(tongdaoName, initNum, address);
-					}
-					this.ShowVScrollBars();
-				}
-				this.generateButton.Hide();
-				this.tongdaoEditButton.Show();
+				lineList.Add(s);
+				lineCount++;
 			}
-			catch (FileNotFoundException fnfe) {
-				MessageBox.Show("未找到相关的ini文件");
-			}	
 
+			if (lineCount < 5) {
+				MessageBox.Show("打开的ini文件格式有误");
+				return;
+			}
+
+			this.isGenerated = true;
+			this.isSaved = true;
+
+			this.typeTextBox.Enabled = false;
+			this.typeTextBox.Text = lineList[1].ToString().Substring(5);
+			this.picTextBox.Enabled = false;
+			this.picTextBox.Text = lineList[2].ToString().Substring(4);
+			string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取 
+			// 此处请注意：并不是用SelectedText，而是直接设Text
+			this.countComboBox.Text = selectItem;
+			this.tongdaoCount = int.Parse(selectItem);
+			this.nameTextBox.Enabled = false;
+			this.nameTextBox.Text = lineList[4].ToString().Substring(5);
+			this.editGroupBox.Show();								
+
+			if (lineCount > 5) {
+				// 先通过tongdaoCount2,将ini已有的数据，添加进tongdaoList中
+				int tongdaoCount2 = (lineCount - 6) / 3;
+				tongdaoList = new List<TongdaoWrapper>();
+				for (int i = 0; i < tongdaoCount2; i++)
+				{
+					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
+					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
+					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
+					tongdaoList.Add(new TongdaoWrapper(tongdaoName, initNum, address,initNum));
+				}
+				// 当小于设定值时，应该输出错误信息，并调用generateTongdaoList()方法：多出的通道设初值
+				if (tongdaoCount2 < tongdaoCount)
+				{
+					MessageBox.Show("记录的tongdao信息小于所需信息");
+					this.generateTongdaoList();
+				}				
+						
+			}
+			this.NewShowVScrollBars();
+			this.showTongdaoButton(true);
+			
+			reader.Close();
+			file.Close();
+			
+
+		}
+
+		/// <summary>
+		///  通过改变通道List，来重新渲染tdPanel（注意：tongdaoCount不会发生变化）
+		/// </summary>
+		/// <param name="tongdaoList"></param>
+		internal void SetTongdaoList(List<TongdaoWrapper> tongdaoList)
+		{
+			this.tongdaoList = tongdaoList;
+			this.NewShowVScrollBars();
 		}
 
 		private void saveLightButton_Click(object sender, EventArgs e)
@@ -287,17 +292,7 @@ namespace LightEditor
 			}
 
 			string fileName = "C:\\Temp\\LightLibrary\\" + name + "\\" + type;
-
-			// 记得要关闭输出流；如果没有关闭或Flush()，将无法写入
-			// 测试代码
-			//StreamWriter writer = new StreamWriter(fileName + ".FS");
-			//writer.WriteLine("12");
-			//writer.Flush();
-
-			using (StreamWriter fsWriter = new StreamWriter(fileName + ".FS"))
-			{
-				fsWriter.WriteLine("12");
-			}
+					
 			using (StreamWriter iniWriter = new StreamWriter(fileName + ".ini"))
 			{
 				// 写[set]的数据
@@ -311,26 +306,23 @@ namespace LightEditor
 				if (isGenerated)
 				{
 					iniWriter.WriteLine("[Data]");
-					for (int i = 0; i < dataWrappers.Length; i++)
+					for (int i = 0; i < tongdaoList.Count; i++)
 					{
 						// 未满10的前面加0
 						string index = (i < 9) ? ("0" + (i+1) ) : ("" + (i+1) );
-						iniWriter.WriteLine(index + "A=" + dataWrappers[i].TongdaoName);
-						iniWriter.WriteLine(index + "B=" + dataWrappers[i].InitNum);
-						iniWriter.WriteLine(index + "C=" + dataWrappers[i].Address);
+						iniWriter.WriteLine(index + "A=" + tongdaoList[i].TongdaoName);
+						iniWriter.WriteLine(index + "B=" + tongdaoList[i].InitValue);
+						iniWriter.WriteLine(index + "C=" + tongdaoList[i].Address);
 					}
 				}
-
 			}
 			MessageBox.Show("已成功保存。");
 
 		}
 
-		private void ExitButton_Click(object sender, EventArgs e)
+		private void exitButton_Click(object sender, EventArgs e)
 		{
-
-			System.Environment.Exit(0);
-			
+			System.Environment.Exit(0);			
 		}
 
 		private void pictureBox_Click(object sender, EventArgs e)
@@ -360,6 +352,10 @@ namespace LightEditor
 			picTextBox.Text = shortFileName;
 		}
 				
+		/// <summary>
+		///  辅助方法：检查通道数下拉框是否已经被勾选，1若是则设置tongdaoCount ; 2否则返回false
+		/// </summary>
+		/// <returns></returns>
 		private bool CheckCountComboBox()
 		{
 			if (countComboBox.Text == "" || countComboBox.SelectedIndex == -1)
@@ -374,6 +370,13 @@ namespace LightEditor
 			
 		}
 
+		/// <summary>
+		///  点击生成按钮后的操作：
+		///  1.检查通道数 ；
+		///  2.检查若通过，则生成默认通道列表		
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void generateButton_Click(object sender, EventArgs e)
 		{
 			//如果检查通道为false(未选择)，此时!false=true,方法不再运行。 
@@ -381,31 +384,54 @@ namespace LightEditor
 			{
 				return;
 			}
-
-			isGenerated = true;
-			ShowVScrollBars();
-			//显示按钮
-			tongdaoEditButton.Show();
-			generateButton.Hide();
-		}
-		
-
-		// 辅助方法：用来显示不同的通道页；通道调整条，同时也使其对应的两个标签可见
-		private void ShowVScrollBars() {			
 			
-			//dataWrappers = new DataWrapper[tongdaoCount];
-			//类单例模式:当Form还未生成（或被右上角点击后默认Dispose()）时，生成一个，否则用旧的 
-			if (wsForm == null || wsForm.IsDisposed)
+			isGenerated = true;
+			showTongdaoButton(true);
+
+			generateTongdaoList();
+			NewShowVScrollBars();			
+		}
+
+		/// <summary>
+		///  显示通道编辑按钮(true)或生成(false)按钮（二选一）
+		/// </summary>
+		/// <param name="showEditButton"></param>
+		private void showTongdaoButton(bool showEditButton) {
+			//显示《通道编辑》按钮
+			if (showEditButton)
 			{
-				wsForm = new WaySetForm(this);
-			}
+				tongdaoEditButton.Show();
+				generateButton.Hide();
+			}//显示《生成》按钮
+			else {
+				tongdaoEditButton.Hide();
+				generateButton.Show();
+			}				
+		}
+				
+		/// <summary>
+		///  (新）辅助方法：
+		///  1.将tongdaoList渲染进下拉条组中
+		///  2.先隐藏所有，再显示当前数量的下拉条
+		///  3.根据通道数，显示相应的GroupBox
+		/// </summary> 
+		private void NewShowVScrollBars()
+		{
+			// 1.tongdaoList的数据渲染进各个通道显示项(label+valueLabel+vScrollBar)中
+			generateVScrollBars();
 
-			/// 1.如果dataWrapper尚未有值(新建灯),则传入tongdaoCount,由wsForm生成默认值，再回调生成dataWrappers
-			/// 2.如果dataWrapper已经有值(打开灯.ini),则将该数据填进wsForm的textBoxes
-			wsForm.setTongdaoCount(tongdaoCount);
-			// 由dataWrappers生成vScrollBars
-			generateVScrollBars(tongdaoCount);
+			// 2.显示所需通道（groupBox+通道）
+			showNeedTDs();			
+		}
 
+		/// <summary>
+		///  显示
+		///  1.tongdaoCount数量的通道(nameLabel+vscrollbar+valueLabel)
+		///  2.所需的通道groupBox
+		/// </summary>
+		private void showNeedTDs() {
+
+			// 1.显示tongdaoCount数量的通道
 			for (int i = tongdaoCount; i < 32; i++)
 			{
 				vScrollBars[i].Visible = false;
@@ -419,52 +445,116 @@ namespace LightEditor
 				valueLabels[i].Show();
 			}
 
-			// 切换是否显示通道滚动条页
-			tongdaoGroupBox1.Show();
-			if (tongdaoCount > 16)
+			// 2.按需显示通道GroupBox
+			if (tongdaoCount > 0 && tongdaoCount <= 16)
 			{
-				tongdaoGroupBox2.Show();
-			}
-			else {
+				tongdaoGroupBox1.Show();
 				tongdaoGroupBox2.Hide();
 			}
+			else if (tongdaoCount > 16 && tongdaoCount <= 32)
+			{
+				tongdaoGroupBox1.Show();
+				tongdaoGroupBox2.Show();
+			}
+			else if (tongdaoCount == 0)
+			{
+				tongdaoGroupBox1.Hide();
+				tongdaoGroupBox2.Hide();
+			}
+			else
+			{
+				MessageBox.Show("Dickov:TongdaoCount错误！");
+			}
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：用于生成默认的tongdaoList（由tongdaoCount决定）
+		/// 1.若之前列表为空，则从头开始添加列表数据
+		/// 2.若之前列表已有数据，
+		///   ①当tongdaoCount > tongdaoList.Count，添加新的数据到列表中去.
+		///   ②当tongdaoCount <= tongdaoList.Count，不进行任何操作(数据仍放在tongdaoList中）
+		/// </summary>
+		private void generateTongdaoList()
+		{
+			if (tongdaoList == null || tongdaoList.Count == 0)
+			{
+				tongdaoList = new List<TongdaoWrapper>();
+				for (int i = 0; i < tongdaoCount; i++)
+				{
+					int j = i + 1;
+					tongdaoList.Add(new TongdaoWrapper("通道" + j, 0, j ,0));
+				}
+			}
+			else {
+				if (tongdaoCount > tongdaoList.Count) {
+					for (int i = tongdaoList.Count; i < tongdaoCount; i++)
+					{
+						int j = i + 1;
+						tongdaoList.Add(new TongdaoWrapper("通道" + j, 0, j, 0));
+					}
+				}
+			}
+		}
+				
+		/// <summary>
+		///  通道数下拉框更改后，进行的操作：
+		///  1.修改tongdaoCount的值为选中值；
+		///  2.显示《生成》按钮，隐藏《通道编辑》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void countComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (isGenerated) {
-				ShowVScrollBars();
+				int newTongdaoCount = int.Parse(countComboBox.SelectedItem.ToString());
+				if (newTongdaoCount != tongdaoCount)
+				{
+					tongdaoCount = newTongdaoCount;
+					showTongdaoButton(false);
+				}
 			}				
 		}
 
+		/// <summary>
+		///  通道编辑按钮点击后的操作：
+		///  1. 生成一个新的的WaySetForm2，并将tongdaoList的数据渲染进这个form中
+		///  2.显示这个form
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
-		{
-			// 如果资源是第一次生成：应该设一些默认值
-			//wsForm.setTongdaoCount(int.Parse(countComboBox.SelectedItem.ToString()));
-
-			// 如果不是第一次生成： -->读取ini内配置；若加了通道，则追加到顺延的textBox中
-			if (!CheckCountComboBox()) {
-				return;
-			}
-			
-			wsForm.setTongdaoCount(int.Parse(countComboBox.SelectedItem.ToString()));
-			wsForm.Show();
-			wsForm.Activate();
-				
-				
+		{				
+			WaySetForm2 wsf = new WaySetForm2(this);
+			wsf.ShowDialog();				
 		}
-
-		//通过注入值后的dataWrappers,为vScrollBars赋值；
-		public void generateVScrollBars(int tongdaoCount)
-		{			
+		
+		/// <summary>
+		/// 辅助方法：通过注入值后的tongdaoList,为vScrollBars赋值；
+		/// </summary>
+		/// <param name="tongdaoCount"></param>
+		public void generateVScrollBars()
+		{				
 			for (int i = 0; i < tongdaoCount; i++)
 			{
-				this.labels[i].Text = dataWrappers[i].TongdaoName;
-				this.valueLabels[i].Text = dataWrappers[i].InitNum.ToString();
-				this.vScrollBars[i].Value = dataWrappers[i].InitNum;
+				this.labels[i].Text = tongdaoList[i].TongdaoName;
+				this.valueLabels[i].Text = tongdaoList[i].CurrentValue.ToString();
+				this.vScrollBars[i].Value = tongdaoList[i].CurrentValue;
 			}
 		}
 
+		/// <summary>
+		///  通用的方法：通过sender获取被滑动的滚动条，然后给它的值标签赋值
+		/// </summary>
+		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
+		{
+			int labelIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,  -1 );
+			valueLabels[labelIndex].Text = vScrollBars[labelIndex].Value.ToString();
+
+			tongdaoList[labelIndex].CurrentValue = vScrollBars[labelIndex].Value;
+		}
+
+
+		#region 先不管的几个方法
 		private void kg1Button_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("开光1");
@@ -497,7 +587,7 @@ namespace LightEditor
 
 		private void blueButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("蓝");
+			MessageBox.Show("蓝");			
 		}
 
 		private void zeroButton_Click(object sender, EventArgs e)
@@ -541,25 +631,56 @@ namespace LightEditor
 			//	tongdaoGroupBox2.Hide();
 			//	tongdaoGroupBox1.Show();
 			//}
-
-
 		}
-		
-		// 通用的方法：通过sender获取被滑动的滚动条，然后给它的值标签赋值
-		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
+
+		/// <summary>
+		/// (已过时) 辅助方法：用来显示不同的通道页；通道调整条，同时也使其对应的两个标签可见
+		/// </summary>
+		[Obsolete]
+		private void ShowVScrollBars()
 		{
-			//new method：
-			string vScrollBarName =((VScrollBar)sender).Name;
-			// 方法：替换掉非数字的字符串;(另一个方法，截取“_”之前,“Bar”之后的字符串也可以)
-			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace(vScrollBarName, @"[^0-9]+", "");
-			// 处理labelIndex,将取出的数字-1
-			int labelIndex = int.Parse(labelIndexStr) - 1;
-			valueLabels[labelIndex].Text = vScrollBars[labelIndex].Value.ToString();
 
-			// old method：通过反射获取当前方法名称(类似于vScrollBar1_Scroll)；然后再一个个对应
-			//ChangeValueLabel(System.Reflection.MethodBase.GetCurrentMethod().Name);
+			//dataWrappers = new DataWrapper[tongdaoCount];
+			//类单例模式:当Form还未生成（或被右上角点击后默认Dispose()）时，生成一个，否则用旧的 
+			if (wsForm == null || wsForm.IsDisposed)
+			{
+				wsForm = new WaySetForm(this);
+			}
+
+			/// 1.如果dataWrapper尚未有值(新建灯),则传入tongdaoCount,由wsForm生成默认值，再回调生成dataWrappers
+			/// 2.如果dataWrapper已经有值(打开灯.ini),则将该数据填进wsForm的textBoxes
+			wsForm.setTongdaoCount(tongdaoCount);
+			// 由dataWrappers生成vScrollBars
+			generateVScrollBars();
+
+			for (int i = tongdaoCount; i < 32; i++)
+			{
+				vScrollBars[i].Visible = false;
+				labels[i].Visible = false;
+				valueLabels[i].Visible = false;
+			}
+			for (int i = 0; i < tongdaoCount; i++)
+			{
+				vScrollBars[i].Show();
+				labels[i].Show();
+				valueLabels[i].Show();
+			}
+
+			// 切换是否显示通道滚动条页
+			tongdaoGroupBox1.Show();
+			if (tongdaoCount > 16)
+			{
+				tongdaoGroupBox2.Show();
+			}
+			else
+			{
+				tongdaoGroupBox2.Hide();
+			}
 		}
 
-		
+		#endregion
+
+
+
 	}
 }

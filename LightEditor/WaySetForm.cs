@@ -5,232 +5,265 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LightEditor
 {
 	public partial class WaySetForm : Form
 	{
-		// 传入一个对主Form的引用
-		public MainForm mainForm;
+		private int tongdaoCount;
+		private List<TongdaoWrapper> tongdaoList;
+		private MainForm mainForm; 
 
+		/// <summary>
+		///  初始化，并将mainForm（及其相关内容）也传进来；并显示tdPanel相关数据
+		/// </summary>
+		/// <param name="mainForm"></param>
 		public WaySetForm(MainForm mainForm)
 		{
 			this.mainForm = mainForm;
+			this.tongdaoCount = mainForm.tongdaoCount;
+			this.tongdaoList = mainForm.tongdaoList;
+				
 			InitializeComponent();
-			SelfInitializeComponent();
-		}
 
-		// 自定义添加辅助组件
-		private void SelfInitializeComponent()
+			#region 初始化几个通道值数组
+			tdLabels[0] = tdLabel1;
+			tdLabels[1] = tdLabel2;
+			tdLabels[2] = tdLabel3;
+			tdLabels[3] = tdLabel4;
+			tdLabels[4] = tdLabel5;
+			tdLabels[5] = tdLabel6;
+			tdLabels[6] = tdLabel7;
+			tdLabels[7] = tdLabel8;
+			tdLabels[8] = tdLabel9;
+			tdLabels[9] = tdLabel10;
+			tdLabels[10] = tdLabel11;
+			tdLabels[11] = tdLabel12;
+			tdLabels[12] = tdLabel13;
+			tdLabels[13] = tdLabel14;
+			tdLabels[14] = tdLabel15;
+			tdLabels[15] = tdLabel16;
+			tdLabels[16] = tdLabel17;
+			tdLabels[17] = tdLabel18;
+			tdLabels[18] = tdLabel19;
+			tdLabels[19] = tdLabel20;
+			tdLabels[20] = tdLabel21;
+			tdLabels[21] = tdLabel22;
+			tdLabels[22] = tdLabel23;
+			tdLabels[23] = tdLabel24;
+			tdLabels[24] = tdLabel25;
+			tdLabels[25] = tdLabel26;
+			tdLabels[26] = tdLabel27;
+			tdLabels[27] = tdLabel28;
+			tdLabels[28] = tdLabel29;
+			tdLabels[29] = tdLabel30;
+			tdLabels[30] = tdLabel31;
+			tdLabels[31] = tdLabel32;
+
+
+			tdTextBoxes[0] = textBox1;
+			tdTextBoxes[1] = textBox2;
+			tdTextBoxes[2] = textBox3;
+			tdTextBoxes[3] = textBox4;
+			tdTextBoxes[4] = textBox5;
+			tdTextBoxes[5] = textBox6;
+			tdTextBoxes[6] = textBox7;
+			tdTextBoxes[7] = textBox8;
+			tdTextBoxes[8] = textBox9;
+			tdTextBoxes[9] = textBox10;
+			tdTextBoxes[10] = textBox11;
+			tdTextBoxes[11] = textBox12;
+			tdTextBoxes[12] = textBox13;
+			tdTextBoxes[13] = textBox14;
+			tdTextBoxes[14] = textBox15;
+			tdTextBoxes[15] = textBox16;
+			tdTextBoxes[16] = textBox17;
+			tdTextBoxes[17] = textBox18;
+			tdTextBoxes[18] = textBox19;
+			tdTextBoxes[19] = textBox20;
+			tdTextBoxes[20] = textBox21;
+			tdTextBoxes[21] = textBox22;
+			tdTextBoxes[22] = textBox23;
+			tdTextBoxes[23] = textBox24;
+			tdTextBoxes[24] = textBox25;
+			tdTextBoxes[25] = textBox26;
+			tdTextBoxes[26] = textBox27;
+			tdTextBoxes[27] = textBox28;
+			tdTextBoxes[28] = textBox29;
+			tdTextBoxes[29] = textBox30;
+			tdTextBoxes[30] = textBox31;
+			tdTextBoxes[31] = textBox32;
+
+
+			tdNumericUpDowns[0] = numericUpDown1;
+			tdNumericUpDowns[1] = numericUpDown2;
+			tdNumericUpDowns[2] = numericUpDown3;
+			tdNumericUpDowns[3] = numericUpDown4;
+			tdNumericUpDowns[4] = numericUpDown5;
+			tdNumericUpDowns[5] = numericUpDown6;
+			tdNumericUpDowns[6] = numericUpDown7;
+			tdNumericUpDowns[7] = numericUpDown8;
+			tdNumericUpDowns[8] = numericUpDown9;
+			tdNumericUpDowns[9] = numericUpDown10;
+			tdNumericUpDowns[10] = numericUpDown11;
+			tdNumericUpDowns[11] = numericUpDown12;
+			tdNumericUpDowns[12] = numericUpDown13;
+			tdNumericUpDowns[13] = numericUpDown14;
+			tdNumericUpDowns[14] = numericUpDown15;
+			tdNumericUpDowns[15] = numericUpDown16;
+			tdNumericUpDowns[16] = numericUpDown17;
+			tdNumericUpDowns[17] = numericUpDown18;
+			tdNumericUpDowns[18] = numericUpDown19;
+			tdNumericUpDowns[19] = numericUpDown20;
+			tdNumericUpDowns[20] = numericUpDown21;
+			tdNumericUpDowns[21] = numericUpDown22;
+			tdNumericUpDowns[22] = numericUpDown23;
+			tdNumericUpDowns[23] = numericUpDown24;
+			tdNumericUpDowns[24] = numericUpDown25;
+			tdNumericUpDowns[25] = numericUpDown26;
+			tdNumericUpDowns[26] = numericUpDown27;
+			tdNumericUpDowns[27] = numericUpDown28;
+			tdNumericUpDowns[28] = numericUpDown29;
+			tdNumericUpDowns[29] = numericUpDown30;
+			tdNumericUpDowns[30] = numericUpDown31;
+			tdNumericUpDowns[31] = numericUpDown32;
+
+			#endregion
+
+			hideAllTongdao();
+			generateTongdaoList();			
+
+		}		
+
+		/// <summary>
+		/// 辅助方法：隐藏所有的通道
+		/// </summary>
+		private void hideAllTongdao()
 		{
-			this.textBoxes[0] = _01ztg1TextBox1;
-			this.textBoxes[1] = _01ztg1TextBox2;
-			this.textBoxes[2] = _02ps1TextBox1;
-			this.textBoxes[3] = _02ps1TextBox2;
-			this.textBoxes[4] = _03tap1TextBox1;
-			this.textBoxes[5] = _03tap1TextBox2;
-			this.textBoxes[6] = _04taxz1TextBox1;
-			this.textBoxes[7] = _04taxz1TextBox2;
-			this.textBoxes[8] = _05ysp1TextBox1;
-			this.textBoxes[9] = _05ysp1TextBox2;
-			this.textBoxes[10] = _06red1TextBox1;
-			this.textBoxes[11] = _06red1TextBox2;
-			this.textBoxes[12] = _07green1TextBox1;
-			this.textBoxes[13] = _07green1TextBox2;
-			this.textBoxes[14] = _08blue1TextBox1;
-			this.textBoxes[15] = _08blue1TextBox2;
-			this.textBoxes[16] = _09white1TextBox1;
-			this.textBoxes[17] = _09white1TextBox2;
-			this.textBoxes[18] = _10xTextBox1;
-			this.textBoxes[19] = _10xTextBox2;
-			this.textBoxes[20] = _11yTextBox1;
-			this.textBoxes[21] = _11yTextBox2;
-			this.textBoxes[22] = _12xwTextBox1;
-			this.textBoxes[23] = _12xwTextBox2;
-			this.textBoxes[24] = _13ywTextBox1;
-			this.textBoxes[25] = _13ywTextBox2;
-			this.textBoxes[26] = _14xyTextBox1;
-			this.textBoxes[27] = _14xyTextBox2;
-			this.textBoxes[28] = _15gjfdTextBox1;
-			this.textBoxes[29] = _15gjfdTextBox2;
-			this.textBoxes[30] = _16gjsdTextBox1;
-			this.textBoxes[31] = _16gjsdTextBox2;
-			this.textBoxes[32] = _17gnTextBox1;
-			this.textBoxes[33] = _17gnTextBox2;
-			this.textBoxes[34] = _18msTextBox1;
-			this.textBoxes[35] = _18msTextBox2;
-			this.textBoxes[36] = _19zzTextBox1;
-			this.textBoxes[37] = _19zzTextBox2;
-			this.textBoxes[38] = _20fwTextBox1;
-			this.textBoxes[39] = _20fwTextBox2;
-			this.textBoxes[40] = _21xg1TextBox1;
-			this.textBoxes[41] = _21xg1TextBox2;
-			this.textBoxes[42] = _22xg2TextBox1;
-			this.textBoxes[43] = _22xg2TextBox2;
-			this.textBoxes[44] = _23ztg2TextBox1;
-			this.textBoxes[45] = _23ztg2TextBox2;
-			this.textBoxes[46] = _24ps2TextBox1;
-			this.textBoxes[47] = _24ps2TextBox2;
-			this.textBoxes[48] = _25tap2TextBox1;
-			this.textBoxes[49] = _25tap2TextBox2;
-			this.textBoxes[50] = _26taxz2TextBox1;
-			this.textBoxes[51] = _26taxz2TextBox2;
-			this.textBoxes[52] = _27ysp2TextBox1;
-			this.textBoxes[53] = _27ysp2TextBox2;
-			this.textBoxes[54] = _28red2TextBox1;
-			this.textBoxes[55] = _28red2TextBox2;
-			this.textBoxes[56] = _29green2TextBox1;
-			this.textBoxes[57] = _29green2TextBox2;
-			this.textBoxes[58] = _30blue2TextBox1;
-			this.textBoxes[59] = _30blue2TextBox2;
-			this.textBoxes[60] = _31white2TextBox1;
-			this.textBoxes[61] = _31white2TextBox2;
-			this.textBoxes[62] = _32ljTextBox1;
-			this.textBoxes[63] = _32ljTextBox2;
-			this.textBoxes[64] = _33ljxzTextBox1;
-			this.textBoxes[65] = _33ljxzTextBox2;
-			this.textBoxes[66] = _34whTextBox1;
-			this.textBoxes[67] = _34whTextBox2;
-			this.textBoxes[68] = _35sfTextBox1;
-			this.textBoxes[69] = _35sfTextBox2;
-			this.textBoxes[70] = _36jjTextBox1;
-			this.textBoxes[71] = _36jjTextBox2;
-			this.textBoxes[72] = _37gqTextBox1;
-			this.textBoxes[73] = _37gqTextBox2;
-			this.textBoxes[74] = _38maxVolumeTextBox1;
-			this.textBoxes[75] = _38maxVolumnTextBox2;
-			this.textBoxes[76] = _39minVolumeTextBox1;
-			this.textBoxes[77] = _39minVolumeTextBox2;
-			this.textBoxes[78] = _40maxICTextBox1;
-			this.textBoxes[79] = _40maxICTextBox2;
-			this.textBoxes[80] = _41speedTextBox1;
-			this.textBoxes[81] = _41speedTextBox2;
-			this.textBoxes[82] = _42other1TextBox1;
-			this.textBoxes[83] = _42other1TextBox2;
-			this.textBoxes[84] = _43other2TextBox1;
-			this.textBoxes[85] = _43other2TextBox2;
-			this.textBoxes[86] = _44other3TextBox1;
-			this.textBoxes[87] = _44other3TextBox2;
-			
+			for (int i = 0; i < 32; i++)
+			{
+				this.tdLabels[i].Visible = false ;
+				this.tdTextBoxes[i].Visible = false;
+				this.tdNumericUpDowns[i].Visible = false;
+			}
 		}
 
-
-
-		/// 主要需要验证
-		private void confirmButton_Click(object sender, EventArgs e)
-		{   
-			setDataWrappers();
-			mainForm.generateVScrollBars();
-
-			//关闭窗口(隐藏即可)
-			this.Hide();
-		}
-
-		/// 在新建或更改灯的数据值时，调用这个方法
-		private void setDataWrappers()
+		/// <summary>
+		///  辅助方法：通过tongdaoCount和tongdaoList，将数据填入tdPanel中，并显示对应数量的通道
+		/// </summary>
+		private void generateTongdaoList()
 		{
-			for (int i = 0; i < newTongdaoCount; i++)
+			for (int i = 0; i < tongdaoCount; i++)
 			{
-				for (int j = 0; j < newTongdaoCount; j++)
-				{
-					if (int.Parse(textBoxes[j * 2].Text) == (i + 1))
-					{
-						string tongdaoName = textBoxes[j * 2].Tag.ToString();
-						int initValue = int.Parse(textBoxes[j * 2 + 1].Text.ToString());
-						mainForm.tongdaoList[i] = new TongdaoWrapper(tongdaoName, initValue, i + 1 ,initValue);
-						break; //跳出里面的for
-					}
-				}
+				this.tdTextBoxes[i].Text = tongdaoList[i].TongdaoName;
+				this.tdNumericUpDowns[i].Value = tongdaoList[i].InitValue;
+
+				this.tdLabels[i].Show();
+				this.tdTextBoxes[i].Show();
+				this.tdNumericUpDowns[i].Show();
 			}
 		}
-
-		/// 这个方法-->
-		/// 1.如果dataWrapper尚未有值(新建灯),则传入tongdaoCount,由wsForm生成默认值，再回调生成dataWrappers
-		/// 2.如果dataWrapper已经有值(打开灯.ini),则将该数据填进wsForm的textBoxes
-		internal void setTongdaoCount(int tongdaoCount)	{
-			// 只有dataWrappers为空时，按照通道Count的数量来生成数据;并生成dataWrappers数据
-			newTongdaoCount = tongdaoCount;
-			if (mainForm.tongdaoList == null || mainForm.tongdaoList.Count == 0 ) 
-			{
-				// MessageBox.Show("dataWrappers为空");
-				mainForm.tongdaoList = new List<TongdaoWrapper>();
-				for (int i = 0; i < newTongdaoCount; i++)
-				{
-					this.textBoxes[i * 2].Text = (i + 1).ToString();
-					this.textBoxes[i * 2 + 1].Text = "0";
-				}
-				setDataWrappers();
-			}
-			// 若dataWrappers不是为空，则按里面的数据来安排
-			else {
-				// 清空所有输入框
-				foreach (TextBox textBox in textBoxes)
-				{
-					textBox.Text = "";
-				}
-				for (int i = 0; i < textBoxes.Length; i = i + 2)
-				{
-					
-					foreach (TongdaoWrapper wrapper in mainForm.tongdaoList)
-					{
-						// 注意Tag默认不是string，是object
-						if (textBoxes[i].Tag.ToString() == wrapper.TongdaoName)
-						{
-							textBoxes[i].Text = wrapper.Address.ToString();
-							textBoxes[i + 1].Text = wrapper.InitValue.ToString();
-							//MessageBox.Show("textBoxes["+ i +"].Text = "+wrapper.Address.ToString());
-							//MessageBox.Show("textBoxes["+ (i + 1) +"].Text = "+ wrapper.InitNum.ToString());
-							break;
-						}
-						
-					}
-				}
-			}
-		}
-
-	
-
-		// 当form真正显示时，此方法才会运行；即new时不允许，Show()时运行
-		private void WaySetForm_Load(object sender, EventArgs e)
-		{
-			// 只有真正渲染form时，才能对这些textBox进行操作（添加事件）
-			for (int i = 0; i < 87; i = i + 2)
-			{
-				this.textBoxes[i].TextChanged += new System.EventHandler(this.LeftTextBox_TextChanged);
-				this.textBoxes[i + 1].TextChanged += new System.EventHandler(this.RightTextBox_TextChanged);
-			}
-		}
-
-
-		private void LeftTextBox_TextChanged(object sender, EventArgs e)
-		{
-			TextBox textBox = (TextBox)sender;
-			try
-			{
-				int textBoxNum = int.Parse(textBox.Text); 
-				if (textBoxNum < 0)
-				{
-					MessageBox.Show("通道地址编号不得小于0");
-					return;
-				}
-				if (textBoxNum > newTongdaoCount) {
-					MessageBox.Show("通道地址编号不得大于通道数量");
-				}
-			}
-			catch (Exception ex) {
-
-				textBox.Text = "";
-				MessageBox.Show("Dickov:" + ex.Message);
-				//TODO ：在下方提示该处只能输入数字 
-			}
-		}
-			
 		
-		private void RightTextBox_TextChanged(object sender, EventArgs e)
+		/// <summary>
+		///  双击把右侧选择的通道名称值填入左侧选择的文本框中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void nameListBox_DoubleClick(object sender, EventArgs e)
 		{
-			//MessageBox.Show("右值改动");
+			if (selectedTextBox != null)
+			{
+				selectedTextBox.Text = (nameListBox.Text);
+			}
+			else {
+				MessageBox.Show("请先选择通道名称文本框！");
+			}			
+		}
+		
+		/// <summary>
+		/// 辅助变量，用来记录鼠标选择的textBox
+		/// </summary>
+		private TextBox selectedTextBox = null;
+		/// <summary>
+		/// 鼠标点击tdTextBox后，更改selectedTextBox
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTextBox_MouseClick(object sender, MouseEventArgs e)
+		{		
+			selectedTextBox = ((TextBox)sender);
+		}
+
+		/// <summary>
+		///  TODO: 当鼠标点击tdPanel框内时，将selectedTextBox置空
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdPanel_MouseClick(object sender, MouseEventArgs e)
+		{			
+			//selectedTextBox = null;
+		}
+
+		/// <summary>
+		/// TODO：点击重置后的操作：将所有的通道数据重设为mainForm的tongdaoList内的值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void resetButton_Click(object sender, EventArgs e)
+		{
+			this.tongdaoCount = mainForm.tongdaoCount;
+			this.tongdaoList = mainForm.tongdaoList ;
+			generateTongdaoList();
+		}
+
+		/// <summary>
+		/// 点击确认按钮后：
+		/// 1. 确认操作；
+		/// 2.关闭窗口
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void enterButton_Click(object sender, EventArgs e)
+		{
+			enterAndApply();
+			this.Dispose();			
+		}
+
+		/// <summary>
+		///  点击应用后:确认操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param
+		private void applyButton_Click(object sender, EventArgs e)
+		{
+			enterAndApply();
+		}
+
+		/// <summary>
+		/// 辅助方法：确认操作(《应用》《确认》按钮通用
+		/// 1. 先检查所有的 tdTextBoxes.Text是不是为空,并设置tongdaoList的相应数据(只改tongdaoName和initValue)
+		/// 2.设置tongdaoList到mainForm中
+		/// </summary>
+		private void enterAndApply() {
+			// 1.逐一检查textBoxes值;同时设置tongdaoList值
+			for (int i = 0; i < tongdaoCount; i++)
+			{
+				if (tdTextBoxes[i].Text == null || tdTextBoxes[i].Text.Trim() == "")
+				{
+					MessageBox.Show("Dickov:通道名称不得为空");
+					break;
+				}
+				else
+				{
+					tongdaoList[i].TongdaoName = tdTextBoxes[i].Text.Trim();
+					tongdaoList[i].InitValue = Decimal.ToInt16(tdNumericUpDowns[i].Value);
+				}
+			}
+
+			// 2.设置tongdaoList到mainForm中；
+			mainForm.SetTongdaoList(this.tongdaoList);
+
 		}
 	}
 }

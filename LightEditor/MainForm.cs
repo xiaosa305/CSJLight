@@ -15,12 +15,10 @@ using LightEditor.Common;
 namespace LightEditor
 {
 	public partial class MainForm : Form
-	{
-		private WaySetForm wsForm;
+	{		
 		public bool isGenerated = false;
 		// 打开文件 或 保存文件 后，将isSaved设成true；这个吧变量决定是否填充*.ini内[data]内容
-		public bool isSaved = false;
-		// private WaySetForm2 wsForm2;
+		public bool isSaved = false;	
 
 		public MainForm()
 		{
@@ -506,25 +504,21 @@ namespace LightEditor
 		private void countComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (isGenerated) {
-				int newTongdaoCount = int.Parse(countComboBox.SelectedItem.ToString());
-				if (newTongdaoCount != tongdaoCount)
-				{
-					tongdaoCount = newTongdaoCount;
-					showTongdaoButton(false);
-				}
+				tongdaoCount = int.Parse(countComboBox.SelectedItem.ToString());
+				showTongdaoButton(false);				
 			}				
 		}
 
 		/// <summary>
 		///  通道编辑按钮点击后的操作：
-		///  1. 生成一个新的的WaySetForm2，并将tongdaoList的数据渲染进这个form中
+		///  1. 生成一个新的的WaySetForm，并将tongdaoList的数据渲染进这个form中
 		///  2.显示这个form
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
 		{				
-			WaySetForm2 wsf = new WaySetForm2(this);
+			WaySetForm wsf = new WaySetForm(this);
 			wsf.ShowDialog();				
 		}
 		
@@ -543,7 +537,7 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  通用的方法：通过sender获取被滑动的滚动条，然后给它的值标签赋值
+		///  通用的方法：通过sender获取被滑动的滚动条，然后给它的值标签赋值，并更改相应的tongdaoList值
 		/// </summary>
 		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
 		{
@@ -552,44 +546,12 @@ namespace LightEditor
 
 			tongdaoList[labelIndex].CurrentValue = vScrollBars[labelIndex].Value;
 		}
-
-
-		#region 先不管的几个方法
-		private void kg1Button_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("开光1");
-		}
-
-		private void gg1Button_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("关光1");
-		}
-
-		private void kg2Button_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("开光2");
-		}
-
-		private void gg2Button_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("关光2");
-		}
-
-		private void redButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("红");
-		}
-
-		private void greenButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("绿");
-		}
-
-		private void blueButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("蓝");			
-		}
-
+			   	
+		/// <summary>
+		///  点击《全部归零》后：所有TongdaoList的CurrentValue=0
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void zeroButton_Click(object sender, EventArgs e)
 		{
 			DialogResult dr = MessageBox.Show("确定把所有数值归零吗？",
@@ -598,89 +560,35 @@ namespace LightEditor
 				MessageBoxIcon.Question);  
 			if (dr == DialogResult.OK)
 			{
-				for (int i = 0; i < 32; i++)
+				for (int i = 0; i < tongdaoList.Count; i++)
 				{
 					vScrollBars[i].Value = 0;
 					valueLabels[i].Text = "0";
+					tongdaoList[i].CurrentValue = 0;
 				}
-			}
-			//MessageBox.Show("归零");
-		}
-
-		private void xzButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("X轴中位");
-		}
-
-		private void yzButton_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Y轴中位");
-		}
-		
-		private void changePageButton_Click(object sender, EventArgs e)
-		{
-
-			//if (tongdaoGroupBox1.Visible == true)
-			//{
-			//	MessageBox.Show("tongdao1可见");
-			//	tongdaoGroupBox1.Hide();
-			//	tongdaoGroupBox2.Show();
-			//}
-			//else {
-			//	MessageBox.Show("tongdao1不可见");
-			//	tongdaoGroupBox2.Hide();
-			//	tongdaoGroupBox1.Show();
-			//}
+			}			
 		}
 
 		/// <summary>
-		/// (已过时) 辅助方法：用来显示不同的通道页；通道调整条，同时也使其对应的两个标签可见
+		/// 点击《设初始值》后：所有TongdaoList的CurrentValue=InitValue
 		/// </summary>
-		[Obsolete]
-		private void ShowVScrollBars()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setInitButton_Click(object sender, EventArgs e)
 		{
-
-			//dataWrappers = new DataWrapper[tongdaoCount];
-			//类单例模式:当Form还未生成（或被右上角点击后默认Dispose()）时，生成一个，否则用旧的 
-			if (wsForm == null || wsForm.IsDisposed)
+			DialogResult dr = MessageBox.Show("确定把所有数值设为默认值吗？",
+				"",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Question);
+			if (dr == DialogResult.OK)
 			{
-				wsForm = new WaySetForm(this);
-			}
-
-			/// 1.如果dataWrapper尚未有值(新建灯),则传入tongdaoCount,由wsForm生成默认值，再回调生成dataWrappers
-			/// 2.如果dataWrapper已经有值(打开灯.ini),则将该数据填进wsForm的textBoxes
-			wsForm.setTongdaoCount(tongdaoCount);
-			// 由dataWrappers生成vScrollBars
-			generateVScrollBars();
-
-			for (int i = tongdaoCount; i < 32; i++)
-			{
-				vScrollBars[i].Visible = false;
-				labels[i].Visible = false;
-				valueLabels[i].Visible = false;
-			}
-			for (int i = 0; i < tongdaoCount; i++)
-			{
-				vScrollBars[i].Show();
-				labels[i].Show();
-				valueLabels[i].Show();
-			}
-
-			// 切换是否显示通道滚动条页
-			tongdaoGroupBox1.Show();
-			if (tongdaoCount > 16)
-			{
-				tongdaoGroupBox2.Show();
-			}
-			else
-			{
-				tongdaoGroupBox2.Hide();
+				for (int i = 0; i < tongdaoList.Count; i++)
+				{
+					vScrollBars[i].Value = tongdaoList[i].InitValue;
+					valueLabels[i].Text = tongdaoList[i].InitValue.ToString();
+					tongdaoList[i].CurrentValue = tongdaoList[i].InitValue;
+				}
 			}
 		}
-
-		#endregion
-
-
-
 	}
 }

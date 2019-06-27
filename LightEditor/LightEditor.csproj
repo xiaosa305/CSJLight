@@ -82,14 +82,8 @@
     <Compile Include="WaySetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WaySetForm.designer.cs">
+    <Compile Include="WaySetForm.Designer.cs">
       <DependentUpon>WaySetForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WaySetForm2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WaySetForm2.Designer.cs">
-      <DependentUpon>WaySetForm2.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -105,9 +99,6 @@
     </Compile>
     <EmbeddedResource Include="WaySetForm.resx">
       <DependentUpon>WaySetForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WaySetForm2.resx">
-      <DependentUpon>WaySetForm2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

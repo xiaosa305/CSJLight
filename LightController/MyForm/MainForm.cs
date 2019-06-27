@@ -823,7 +823,7 @@ namespace LightController
 				{
 					int tongdaoCount2 = (lineCount - 6) / 3;
 					int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
-					if (tongdaoCount2 != tongdaoCount)
+					if (tongdaoCount2 < tongdaoCount)
 					{
 						MessageBox.Show("Dickov：打开的ini文件的count值与实际值不符合，无法生成StepAst！");
 						return null;

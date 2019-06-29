@@ -28,7 +28,7 @@ namespace LightEditor
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			//skinEngine1.SkinFile = @"C:\Users\Dickov\Desktop\皮肤控件\皮肤\MacOS\MacOS.ssk";
+			skinEngine2.SkinFile = @"C:\Users\Dickov\Desktop\皮肤控件\皮肤\MacOS\MacOS.ssk";
 			
 			#region 初始化几个数组
 
@@ -213,7 +213,13 @@ namespace LightEditor
 			this.typeTextBox.Enabled = false;
 			this.typeTextBox.Text = lineList[1].ToString().Substring(5);
 			this.picTextBox.Enabled = false;
-			this.picTextBox.Text = lineList[2].ToString().Substring(4);
+			string imagePath = lineList[2].ToString().Substring(4);
+			if (imagePath != null && !imagePath.Trim().Equals(""))
+			{
+				this.setImage("C:\\Temp\\LightPic\\" + imagePath); 
+			}
+			
+
 			string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取 
 			// 此处请注意：并不是用SelectedText，而是直接设Text
 			this.countComboBox.Text = selectItem;
@@ -329,25 +335,33 @@ namespace LightEditor
 
 		}
 
+		/// <summary>
+		///  打开图片对话框，选择图片后的操作：调用相关方法，设置两个值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void openImageDialog_FileOk(object sender, CancelEventArgs e) {
 
-			string fileName = openImageDialog.FileName;
-			string shortFileName = fileName.Substring(fileName.LastIndexOf("\\") + 1);
+			string imagePath = openImageDialog.FileName;
+			setImage(imagePath);
+
+		}
+		/// <summary>
+		/// 通过图片路径，改变image相关的两个内容
+		/// </summary>
+		/// <param name="imagePathName"></param>
+		private void setImage(string imagePath) {
+			string shortFileName = imagePath.Substring(imagePath.LastIndexOf("\\") + 1);
 			// 从本地目录加载图片			
-			openPictureBox.Image = Image.FromFile(fileName);
-
-			// 从网络加载图片（测试用）
-			//fileName = @"https://www.zzhaoxing.com/cwzz/html/images/y2.jpg";
-			//try
-			//{
-			//	openPictureBox.Image = Image.FromStream(
-			//		System.Net.WebRequest.Create(fileName).GetResponse().GetResponseStream());
-			//}
-			//catch (Exception ex) {
-			//	MessageBox.Show("无法加载图片，可能是图片地址有误");
-			//}
-
-			picTextBox.Text = shortFileName;
+			FileInfo imageFileInfo = new FileInfo(imagePath);
+			if (imageFileInfo.Exists)
+			{
+				openPictureBox.Image = Image.FromFile(imagePath);
+				picTextBox.Text = shortFileName;
+			}
+			else {
+				MessageBox.Show("未找到图片");
+			}			
 		}
 				
 		/// <summary>

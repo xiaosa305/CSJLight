@@ -39,6 +39,7 @@ namespace LightEditor
 			this.saveLightButton = new System.Windows.Forms.Button();
 			this.exitButton = new System.Windows.Forms.Button();
 			this.lightTestGroupBox = new System.Windows.Forms.GroupBox();
+			this.setInitButton = new System.Windows.Forms.Button();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.tongdaoEditButton = new System.Windows.Forms.Button();
 			this.generateButton = new System.Windows.Forms.Button();
@@ -152,7 +153,6 @@ namespace LightEditor
 			this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.skinEngine2 = new Sunisoft.IrisSkin.SkinEngine();
-			this.setInitButton = new System.Windows.Forms.Button();
 			this.editGroupBox = new System.Windows.Forms.GroupBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.lightTestGroupBox.SuspendLayout();
@@ -185,10 +185,10 @@ namespace LightEditor
 			// 
 			// newLightButton
 			// 
-			this.newLightButton.Location = new System.Drawing.Point(333, 11);
+			this.newLightButton.Location = new System.Drawing.Point(304, 23);
 			this.newLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.newLightButton.Name = "newLightButton";
-			this.newLightButton.Size = new System.Drawing.Size(132, 70);
+			this.newLightButton.Size = new System.Drawing.Size(132, 58);
 			this.newLightButton.TabIndex = 2;
 			this.newLightButton.Text = "新建灯具";
 			this.newLightButton.UseVisualStyleBackColor = true;
@@ -196,10 +196,10 @@ namespace LightEditor
 			// 
 			// openLightButton
 			// 
-			this.openLightButton.Location = new System.Drawing.Point(487, 11);
+			this.openLightButton.Location = new System.Drawing.Point(467, 23);
 			this.openLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.openLightButton.Name = "openLightButton";
-			this.openLightButton.Size = new System.Drawing.Size(132, 70);
+			this.openLightButton.Size = new System.Drawing.Size(132, 58);
 			this.openLightButton.TabIndex = 3;
 			this.openLightButton.Text = "打开灯具";
 			this.openLightButton.UseVisualStyleBackColor = true;
@@ -207,10 +207,10 @@ namespace LightEditor
 			// 
 			// saveLightButton
 			// 
-			this.saveLightButton.Location = new System.Drawing.Point(640, 11);
+			this.saveLightButton.Location = new System.Drawing.Point(630, 23);
 			this.saveLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveLightButton.Name = "saveLightButton";
-			this.saveLightButton.Size = new System.Drawing.Size(132, 70);
+			this.saveLightButton.Size = new System.Drawing.Size(132, 58);
 			this.saveLightButton.TabIndex = 4;
 			this.saveLightButton.Text = "保存灯具";
 			this.saveLightButton.UseVisualStyleBackColor = true;
@@ -218,10 +218,10 @@ namespace LightEditor
 			// 
 			// exitButton
 			// 
-			this.exitButton.Location = new System.Drawing.Point(960, 11);
+			this.exitButton.Location = new System.Drawing.Point(950, 23);
 			this.exitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.exitButton.Name = "exitButton";
-			this.exitButton.Size = new System.Drawing.Size(132, 70);
+			this.exitButton.Size = new System.Drawing.Size(132, 58);
 			this.exitButton.TabIndex = 5;
 			this.exitButton.Text = "退出";
 			this.exitButton.UseVisualStyleBackColor = true;
@@ -236,14 +236,25 @@ namespace LightEditor
 			this.lightTestGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.lightTestGroupBox.Name = "lightTestGroupBox";
 			this.lightTestGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.lightTestGroupBox.Size = new System.Drawing.Size(523, 159);
+			this.lightTestGroupBox.Size = new System.Drawing.Size(524, 159);
 			this.lightTestGroupBox.TabIndex = 10;
 			this.lightTestGroupBox.TabStop = false;
 			this.lightTestGroupBox.Text = "灯具测试";
 			// 
+			// setInitButton
+			// 
+			this.setInitButton.Location = new System.Drawing.Point(25, 96);
+			this.setInitButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.setInitButton.Name = "setInitButton";
+			this.setInitButton.Size = new System.Drawing.Size(100, 29);
+			this.setInitButton.TabIndex = 0;
+			this.setInitButton.Text = "设为初始值";
+			this.setInitButton.UseVisualStyleBackColor = true;
+			this.setInitButton.Click += new System.EventHandler(this.setInitButton_Click);
+			// 
 			// zeroButton
 			// 
-			this.zeroButton.Location = new System.Drawing.Point(13, 24);
+			this.zeroButton.Location = new System.Drawing.Point(25, 50);
 			this.zeroButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.zeroButton.Name = "zeroButton";
 			this.zeroButton.Size = new System.Drawing.Size(100, 29);
@@ -416,11 +427,12 @@ namespace LightEditor
 			this.tongdaoGroupBox2.Controls.Add(this.label23);
 			this.tongdaoGroupBox2.Controls.Add(this.label24);
 			this.tongdaoGroupBox2.Controls.Add(this.label18);
+			this.tongdaoGroupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tongdaoGroupBox2.Location = new System.Drawing.Point(3, 325);
 			this.tongdaoGroupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.tongdaoGroupBox2.Name = "tongdaoGroupBox2";
 			this.tongdaoGroupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox2.Size = new System.Drawing.Size(1064, 319);
+			this.tongdaoGroupBox2.Size = new System.Drawing.Size(1052, 319);
 			this.tongdaoGroupBox2.TabIndex = 9;
 			this.tongdaoGroupBox2.TabStop = false;
 			this.tongdaoGroupBox2.Visible = false;
@@ -476,7 +488,6 @@ namespace LightEditor
 			this.valueLabel30.Text = "0";
 			this.valueLabel30.Visible = false;
 			// 
-
 			// valueLabel29
 			// 
 			this.valueLabel29.Location = new System.Drawing.Point(806, 285);
@@ -924,7 +935,7 @@ namespace LightEditor
 			// 
 			// tongdaoGroupBox1
 			// 
-			this.tongdaoGroupBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
+			this.tongdaoGroupBox1.BackColor = System.Drawing.Color.MediumTurquoise;
 			this.tongdaoGroupBox1.Controls.Add(this.valueLabel16);
 			this.tongdaoGroupBox1.Controls.Add(this.valueLabel15);
 			this.tongdaoGroupBox1.Controls.Add(this.valueLabel14);
@@ -973,11 +984,12 @@ namespace LightEditor
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar5);
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar2);
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar1);
+			this.tongdaoGroupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tongdaoGroupBox1.Location = new System.Drawing.Point(3, 2);
 			this.tongdaoGroupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.tongdaoGroupBox1.Name = "tongdaoGroupBox1";
 			this.tongdaoGroupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox1.Size = new System.Drawing.Size(1064, 319);
+			this.tongdaoGroupBox1.Size = new System.Drawing.Size(1052, 319);
 			this.tongdaoGroupBox1.TabIndex = 8;
 			this.tongdaoGroupBox1.TabStop = false;
 			this.tongdaoGroupBox1.Visible = false;
@@ -1480,7 +1492,8 @@ namespace LightEditor
 			// 
 			// openImageDialog
 			// 
-			this.openImageDialog.Filter = "图片文件(*.bmp)|*.bmp";
+			this.openImageDialog.Filter = "BMP文件(*.bmp)|*.bmp|JPG文件(*.jpg)|*.jpg|图标文件(*.ico)|*.ico";
+			this.openImageDialog.InitialDirectory = "C:\\Temp\\LightPic";
 			this.openImageDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openImageDialog_FileOk);
 			// 
 			// openFileDialog
@@ -1499,17 +1512,6 @@ namespace LightEditor
 			this.skinEngine2.SerialNumber = "";
 			this.skinEngine2.SkinFile = null;
 			// 
-			// setInitButton
-			// 
-			this.setInitButton.Location = new System.Drawing.Point(13, 70);
-			this.setInitButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.setInitButton.Name = "setInitButton";
-			this.setInitButton.Size = new System.Drawing.Size(100, 29);
-			this.setInitButton.TabIndex = 0;
-			this.setInitButton.Text = "设为初始值";
-			this.setInitButton.UseVisualStyleBackColor = true;
-			this.setInitButton.Click += new System.EventHandler(this.setInitButton_Click);
-			// 
 			// editGroupBox
 			// 
 			this.editGroupBox.AutoSize = true;
@@ -1527,11 +1529,11 @@ namespace LightEditor
 			this.editGroupBox.Controls.Add(this.countComboBox);
 			this.editGroupBox.Controls.Add(this.nameLabel);
 			this.editGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.editGroupBox.Location = new System.Drawing.Point(0, 101);
+			this.editGroupBox.Location = new System.Drawing.Point(10, 97);
 			this.editGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.editGroupBox.Name = "editGroupBox";
 			this.editGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.editGroupBox.Size = new System.Drawing.Size(1104, 561);
+			this.editGroupBox.Size = new System.Drawing.Size(1084, 561);
 			this.editGroupBox.TabIndex = 6;
 			this.editGroupBox.TabStop = false;
 			this.editGroupBox.Visible = false;
@@ -1543,7 +1545,7 @@ namespace LightEditor
 			this.flowLayoutPanel1.Controls.Add(this.tongdaoGroupBox2);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 208);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(1092, 330);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(1080, 330);
 			this.flowLayoutPanel1.TabIndex = 7;
 			// 
 			// MainForm
@@ -1566,6 +1568,7 @@ namespace LightEditor
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
+			this.Padding = new System.Windows.Forms.Padding(10, 3, 10, 4);
 			this.Text = "灯库编辑工具";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.lightTestGroupBox.ResumeLayout(false);

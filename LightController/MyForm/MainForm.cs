@@ -16,6 +16,7 @@ using DMX512;
 using LightController.Ast;
 using LightController.MyForm;
 using LightController.Common;
+using LightController.Tools;
 
 namespace LightController
 {
@@ -76,6 +77,7 @@ namespace LightController
 
 			modeComboBox.SelectedIndex = 0;
 			frameComboBox.SelectedIndex = 0;
+			cmComboBox.SelectedIndex = 0;
 
 			#region 将同类属性填入数组，方便操作
 
@@ -1020,6 +1022,14 @@ namespace LightController
 						"是"});
 						this.stepNumericUpDowns[i].Enabled = false;
 					}
+					changeModeButton.Text = "统一声控";
+
+					cmComboBox.Items.Clear();
+					cmComboBox.Items.AddRange(new object[] {
+						"否",
+						"是"}
+					);
+					cmComboBox.SelectedIndex = 0;
 				}
 				else //mode=0
 				{
@@ -1033,6 +1043,13 @@ namespace LightController
 								"渐变"});
 						this.stepNumericUpDowns[i].Enabled = true;
 					}
+					changeModeButton.Text = "统一跳渐变";
+
+					cmComboBox.Items.Clear();
+					cmComboBox.Items.AddRange(new object[] {
+								"跳变",
+								"渐变"});
+					cmComboBox.SelectedIndex = 0;
 				}
 			}
 
@@ -1255,6 +1272,15 @@ namespace LightController
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex ;
 
+			// 3.（6.29修改）若当前模式是声控模式：
+			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
+			if (mode == 1) {
+				
+
+
+
+			}
+
 		}
 
 		/// <summary>
@@ -1272,6 +1298,69 @@ namespace LightController
 			step.TongdaoList[index].StepTime = Decimal.ToInt32(stepNumericUpDowns[index].Value);			
 		}
 
+		private StepWrapper tempStep;
+		/// <summary>
+		/// 复制步：从项目中选择当前灯的当前步，（若当前步无法选择：灯还未生成步）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void copyStepButton_Click(object sender, EventArgs e)
+		{
+			tempStep = getCurrentStepWrapper();
+		}
+
+		/// <summary>
+		/// 粘帖步：从复制的步拷贝到当前步
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void pasteStepButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper swNow= getCurrentStepWrapper(); 
+			swNow = tempStep;
+		}
+
+		private void previewButton_Click(object sender, EventArgs e)
+		{
+			DBGetter dbGetter = new DBGetter(dbFilePath, false);
+			DBWrapper dbWrapper = dbGetter.getAll();
+			DMX512Play dMX512Play = DMX512Play.GetInstance();
+			dMX512Play.Preview(dbWrapper, 0);
+		}
+
+		private void stopReviewButton_Click(object sender, EventArgs e)
+		{
+			DMX512Play dMX512Play = DMX512Play.GetInstance();
+			dMX512Play.EndPreview();
+		}
+
+		/// <summary>
+		///  统一跳渐变按钮点击后操作:所有当前步的跳变都设为选定值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void	changeModeButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper step = getCurrentStepWrapper();
+			for (int i = 0; i < step.TongdaoList.Count; i++)
+			{
+				changeModeComboBoxes[i].SelectedIndex = cmComboBox.SelectedIndex;
+			}
+		}
+
+		/// <summary>
+		/// 统一步时间按钮点击后操作:所有当前步的步时间都设为选定值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void steptimeSetButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper step = getCurrentStepWrapper();
+			for (int i = 0; i < step.TongdaoList.Count; i++)
+			{
+				stepNumericUpDowns[i].Value = stNumericUpDown.Value ;
+			}
+		}
 
 		#region  废弃方法块
 
@@ -1407,27 +1496,5 @@ namespace LightController
 
 		#endregion
 
-
-		private StepWrapper tempStep;
-		/// <summary>
-		/// 复制步：从项目中选择当前灯的当前步，（若当前步无法选择：灯还未生成步）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void copyStepButton_Click(object sender, EventArgs e)
-		{
-			tempStep = getCurrentStepWrapper();
-		}
-
-		/// <summary>
-		/// 粘帖步：从复制的步拷贝到当前步
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void pasteStepButton_Click(object sender, EventArgs e)
-		{
-			StepWrapper swNow= getCurrentStepWrapper(); 
-			swNow = tempStep;
-		}
 	}
 }

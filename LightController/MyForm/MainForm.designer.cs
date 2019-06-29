@@ -46,6 +46,10 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
+			this.cmComboBox = new System.Windows.Forms.ComboBox();
+			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.changeModeButton = new System.Windows.Forms.Button();
+			this.steptimeSetButton = new System.Windows.Forms.Button();
 			this.modeChooseLabel = new System.Windows.Forms.Label();
 			this.frameChooseLabel = new System.Windows.Forms.Label();
 			this.stepLabel = new System.Windows.Forms.Label();
@@ -236,7 +240,10 @@ namespace LightController
 			this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.previewButton = new System.Windows.Forms.Button();
+			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.tongdaoGroupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown64)).BeginInit();
@@ -437,6 +444,10 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.tongdaoGroupBox.Controls.Add(this.cmComboBox);
+			this.tongdaoGroupBox.Controls.Add(this.stNumericUpDown);
+			this.tongdaoGroupBox.Controls.Add(this.changeModeButton);
+			this.tongdaoGroupBox.Controls.Add(this.steptimeSetButton);
 			this.tongdaoGroupBox.Controls.Add(this.modeChooseLabel);
 			this.tongdaoGroupBox.Controls.Add(this.frameChooseLabel);
 			this.tongdaoGroupBox.Controls.Add(this.stepLabel);
@@ -462,6 +473,50 @@ namespace LightController
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
+			// 
+			// cmComboBox
+			// 
+			this.cmComboBox.FormattingEnabled = true;
+			this.cmComboBox.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.cmComboBox.Location = new System.Drawing.Point(82, 287);
+			this.cmComboBox.Name = "cmComboBox";
+			this.cmComboBox.Size = new System.Drawing.Size(76, 23);
+			this.cmComboBox.TabIndex = 19;
+			// 
+			// stNumericUpDown
+			// 
+			this.stNumericUpDown.Location = new System.Drawing.Point(82, 342);
+			this.stNumericUpDown.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.stNumericUpDown.Name = "stNumericUpDown";
+			this.stNumericUpDown.Size = new System.Drawing.Size(76, 25);
+			this.stNumericUpDown.TabIndex = 18;
+			this.stNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// changeModeButton
+			// 
+			this.changeModeButton.Location = new System.Drawing.Point(183, 279);
+			this.changeModeButton.Name = "changeModeButton";
+			this.changeModeButton.Size = new System.Drawing.Size(136, 36);
+			this.changeModeButton.TabIndex = 17;
+			this.changeModeButton.Text = "统一跳渐变";
+			this.changeModeButton.UseVisualStyleBackColor = true;
+			this.changeModeButton.Click += new System.EventHandler(this.changeModeButton_Click);
+			// 
+			// steptimeSetButton
+			// 
+			this.steptimeSetButton.Location = new System.Drawing.Point(183, 336);
+			this.steptimeSetButton.Name = "steptimeSetButton";
+			this.steptimeSetButton.Size = new System.Drawing.Size(136, 36);
+			this.steptimeSetButton.TabIndex = 17;
+			this.steptimeSetButton.Text = "统一步时间";
+			this.steptimeSetButton.UseVisualStyleBackColor = true;
+			this.steptimeSetButton.Click += new System.EventHandler(this.steptimeSetButton_Click);
 			// 
 			// modeChooseLabel
 			// 
@@ -572,10 +627,11 @@ namespace LightController
 			// 
 			// lightValueLabel
 			// 
+			this.lightValueLabel.AutoSize = true;
 			this.lightValueLabel.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightValueLabel.Location = new System.Drawing.Point(96, 23);
+			this.lightValueLabel.Location = new System.Drawing.Point(109, 23);
 			this.lightValueLabel.Name = "lightValueLabel";
-			this.lightValueLabel.Size = new System.Drawing.Size(210, 15);
+			this.lightValueLabel.Size = new System.Drawing.Size(70, 15);
 			this.lightValueLabel.TabIndex = 12;
 			this.lightValueLabel.Text = "       ";
 			// 
@@ -754,7 +810,7 @@ namespace LightController
 			this.numericUpDown64.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown64.Location = new System.Drawing.Point(1090, 274);
 			this.numericUpDown64.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -832,7 +888,7 @@ namespace LightController
 			this.numericUpDown63.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown63.Location = new System.Drawing.Point(1026, 274);
 			this.numericUpDown63.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -908,7 +964,7 @@ namespace LightController
 			this.numericUpDown62.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown62.Location = new System.Drawing.Point(962, 274);
 			this.numericUpDown62.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -986,7 +1042,7 @@ namespace LightController
 			this.numericUpDown61.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown61.Location = new System.Drawing.Point(899, 274);
 			this.numericUpDown61.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1062,7 +1118,7 @@ namespace LightController
 			this.numericUpDown60.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown60.Location = new System.Drawing.Point(835, 274);
 			this.numericUpDown60.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1124,7 +1180,7 @@ namespace LightController
 			this.numericUpDown59.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown59.Location = new System.Drawing.Point(770, 274);
 			this.numericUpDown59.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1158,7 +1214,7 @@ namespace LightController
 			this.numericUpDown58.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown58.Location = new System.Drawing.Point(706, 274);
 			this.numericUpDown58.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1194,7 +1250,7 @@ namespace LightController
 			this.numericUpDown57.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown57.Location = new System.Drawing.Point(643, 274);
 			this.numericUpDown57.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1228,7 +1284,7 @@ namespace LightController
 			this.numericUpDown56.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown56.Location = new System.Drawing.Point(578, 274);
 			this.numericUpDown56.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1262,7 +1318,7 @@ namespace LightController
 			this.numericUpDown55.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown55.Location = new System.Drawing.Point(515, 274);
 			this.numericUpDown55.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1298,7 +1354,7 @@ namespace LightController
 			this.numericUpDown54.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown54.Location = new System.Drawing.Point(451, 274);
 			this.numericUpDown54.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1332,7 +1388,7 @@ namespace LightController
 			this.numericUpDown53.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown53.Location = new System.Drawing.Point(389, 274);
 			this.numericUpDown53.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1366,7 +1422,7 @@ namespace LightController
 			this.numericUpDown52.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown52.Location = new System.Drawing.Point(322, 274);
 			this.numericUpDown52.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1400,7 +1456,7 @@ namespace LightController
 			this.numericUpDown51.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown51.Location = new System.Drawing.Point(258, 274);
 			this.numericUpDown51.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1436,7 +1492,7 @@ namespace LightController
 			this.numericUpDown50.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown50.Location = new System.Drawing.Point(194, 274);
 			this.numericUpDown50.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -1470,7 +1526,7 @@ namespace LightController
 			this.numericUpDown49.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown49.Location = new System.Drawing.Point(130, 274);
 			this.numericUpDown49.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2025,7 +2081,7 @@ namespace LightController
 			this.numericUpDown48.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown48.Location = new System.Drawing.Point(1086, 267);
 			this.numericUpDown48.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2054,7 +2110,7 @@ namespace LightController
 			this.numericUpDown47.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown47.Location = new System.Drawing.Point(1022, 267);
 			this.numericUpDown47.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2083,7 +2139,7 @@ namespace LightController
 			this.numericUpDown46.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown46.Location = new System.Drawing.Point(958, 267);
 			this.numericUpDown46.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2112,7 +2168,7 @@ namespace LightController
 			this.numericUpDown45.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown45.Location = new System.Drawing.Point(895, 267);
 			this.numericUpDown45.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2141,7 +2197,7 @@ namespace LightController
 			this.numericUpDown44.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown44.Location = new System.Drawing.Point(831, 267);
 			this.numericUpDown44.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2170,7 +2226,7 @@ namespace LightController
 			this.numericUpDown43.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown43.Location = new System.Drawing.Point(766, 267);
 			this.numericUpDown43.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2199,7 +2255,7 @@ namespace LightController
 			this.numericUpDown42.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown42.Location = new System.Drawing.Point(702, 267);
 			this.numericUpDown42.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2228,7 +2284,7 @@ namespace LightController
 			this.numericUpDown41.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown41.Location = new System.Drawing.Point(639, 267);
 			this.numericUpDown41.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2257,7 +2313,7 @@ namespace LightController
 			this.numericUpDown40.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown40.Location = new System.Drawing.Point(574, 267);
 			this.numericUpDown40.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2286,7 +2342,7 @@ namespace LightController
 			this.numericUpDown39.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown39.Location = new System.Drawing.Point(511, 267);
 			this.numericUpDown39.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2315,7 +2371,7 @@ namespace LightController
 			this.numericUpDown38.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown38.Location = new System.Drawing.Point(447, 267);
 			this.numericUpDown38.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2344,7 +2400,7 @@ namespace LightController
 			this.numericUpDown37.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown37.Location = new System.Drawing.Point(385, 267);
 			this.numericUpDown37.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2373,7 +2429,7 @@ namespace LightController
 			this.numericUpDown36.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown36.Location = new System.Drawing.Point(318, 267);
 			this.numericUpDown36.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2402,7 +2458,7 @@ namespace LightController
 			this.numericUpDown35.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown35.Location = new System.Drawing.Point(254, 267);
 			this.numericUpDown35.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2431,7 +2487,7 @@ namespace LightController
 			this.numericUpDown34.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown34.Location = new System.Drawing.Point(190, 267);
 			this.numericUpDown34.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2460,7 +2516,7 @@ namespace LightController
 			this.numericUpDown33.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.numericUpDown33.Location = new System.Drawing.Point(126, 267);
 			this.numericUpDown33.Maximum = new decimal(new int[] {
-            255,
+            254,
             0,
             0,
             0});
@@ -2929,6 +2985,28 @@ namespace LightController
 			this.ExitToolStripMenuItem.Text = "退出程序";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.exitButton_Click);
 			// 
+			// previewButton
+			// 
+			this.previewButton.Location = new System.Drawing.Point(1094, 57);
+			this.previewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.previewButton.Name = "previewButton";
+			this.previewButton.Size = new System.Drawing.Size(92, 65);
+			this.previewButton.TabIndex = 5;
+			this.previewButton.Text = "预览效果";
+			this.previewButton.UseVisualStyleBackColor = true;
+			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+			// 
+			// stopReviewButton
+			// 
+			this.stopReviewButton.Location = new System.Drawing.Point(1199, 57);
+			this.stopReviewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.stopReviewButton.Name = "stopReviewButton";
+			this.stopReviewButton.Size = new System.Drawing.Size(92, 65);
+			this.stopReviewButton.TabIndex = 5;
+			this.stopReviewButton.Text = "结束预览";
+			this.stopReviewButton.UseVisualStyleBackColor = true;
+			this.stopReviewButton.Click += new System.EventHandler(this.stopReviewButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -2941,6 +3019,8 @@ namespace LightController
 			this.Controls.Add(this.newFileButton);
 			this.Controls.Add(this.openComButton);
 			this.Controls.Add(this.comComboBox);
+			this.Controls.Add(this.stopReviewButton);
+			this.Controls.Add(this.previewButton);
 			this.Controls.Add(this.saveAsButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.mainMenuStrip);
@@ -2953,6 +3033,7 @@ namespace LightController
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.tongdaoGroupBox.ResumeLayout(false);
 			this.tongdaoGroupBox.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
 			this.tongdaoGroupBox2.ResumeLayout(false);
 			this.tongdaoGroupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).EndInit();
@@ -3257,6 +3338,12 @@ namespace LightController
 		private Button aboutStepButton;
 		private Button pasteStepButton;
 		private Button copyStepButton;
+		private Button previewButton;
+		private Button stopReviewButton;
+		private ComboBox cmComboBox;
+		private NumericUpDown stNumericUpDown;
+		private Button changeModeButton;
+		private Button steptimeSetButton;
 	}
 }
 

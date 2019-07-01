@@ -242,6 +242,8 @@ namespace LightController
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
+			this.oneLightStepButton = new System.Windows.Forms.Button();
+			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.tongdaoGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.tongdaoGroupBox2.SuspendLayout();
@@ -386,7 +388,7 @@ namespace LightController
 			// oneKeyButton
 			// 
 			this.oneKeyButton.Enabled = false;
-			this.oneKeyButton.Location = new System.Drawing.Point(1420, 57);
+			this.oneKeyButton.Location = new System.Drawing.Point(1746, 57);
 			this.oneKeyButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.oneKeyButton.Name = "oneKeyButton";
 			this.oneKeyButton.Size = new System.Drawing.Size(163, 65);
@@ -410,10 +412,10 @@ namespace LightController
 			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lightType});
 			this.lightsListView.LargeImageList = this.LargeImageList;
-			this.lightsListView.Location = new System.Drawing.Point(0, 144);
+			this.lightsListView.Location = new System.Drawing.Point(0, 127);
 			this.lightsListView.MultiSelect = false;
 			this.lightsListView.Name = "lightsListView";
-			this.lightsListView.Size = new System.Drawing.Size(1594, 162);
+			this.lightsListView.Size = new System.Drawing.Size(1915, 214);
 			this.lightsListView.SmallImageList = this.LargeImageList;
 			this.lightsListView.TabIndex = 7;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
@@ -467,9 +469,9 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.frameComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.modeComboBox);
 			this.tongdaoGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tongdaoGroupBox.Location = new System.Drawing.Point(0, 312);
+			this.tongdaoGroupBox.Location = new System.Drawing.Point(0, 347);
 			this.tongdaoGroupBox.Name = "tongdaoGroupBox";
-			this.tongdaoGroupBox.Size = new System.Drawing.Size(1594, 739);
+			this.tongdaoGroupBox.Size = new System.Drawing.Size(1915, 905);
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
@@ -480,14 +482,14 @@ namespace LightController
 			this.cmComboBox.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.cmComboBox.Location = new System.Drawing.Point(82, 287);
+			this.cmComboBox.Location = new System.Drawing.Point(64, 401);
 			this.cmComboBox.Name = "cmComboBox";
 			this.cmComboBox.Size = new System.Drawing.Size(76, 23);
 			this.cmComboBox.TabIndex = 19;
 			// 
 			// stNumericUpDown
 			// 
-			this.stNumericUpDown.Location = new System.Drawing.Point(82, 342);
+			this.stNumericUpDown.Location = new System.Drawing.Point(64, 452);
 			this.stNumericUpDown.Maximum = new decimal(new int[] {
             254,
             0,
@@ -500,9 +502,9 @@ namespace LightController
 			// 
 			// changeModeButton
 			// 
-			this.changeModeButton.Location = new System.Drawing.Point(183, 279);
+			this.changeModeButton.Location = new System.Drawing.Point(165, 401);
 			this.changeModeButton.Name = "changeModeButton";
-			this.changeModeButton.Size = new System.Drawing.Size(136, 36);
+			this.changeModeButton.Size = new System.Drawing.Size(136, 23);
 			this.changeModeButton.TabIndex = 17;
 			this.changeModeButton.Text = "统一跳渐变";
 			this.changeModeButton.UseVisualStyleBackColor = true;
@@ -510,9 +512,9 @@ namespace LightController
 			// 
 			// steptimeSetButton
 			// 
-			this.steptimeSetButton.Location = new System.Drawing.Point(183, 336);
+			this.steptimeSetButton.Location = new System.Drawing.Point(165, 452);
 			this.steptimeSetButton.Name = "steptimeSetButton";
-			this.steptimeSetButton.Size = new System.Drawing.Size(136, 36);
+			this.steptimeSetButton.Size = new System.Drawing.Size(136, 25);
 			this.steptimeSetButton.TabIndex = 17;
 			this.steptimeSetButton.Text = "统一步时间";
 			this.steptimeSetButton.UseVisualStyleBackColor = true;
@@ -540,7 +542,7 @@ namespace LightController
 			// 
 			this.stepLabel.AutoSize = true;
 			this.stepLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.stepLabel.Location = new System.Drawing.Point(169, 147);
+			this.stepLabel.Location = new System.Drawing.Point(542, 91);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(39, 20);
 			this.stepLabel.TabIndex = 15;
@@ -548,7 +550,7 @@ namespace LightController
 			// 
 			// nextStepButton
 			// 
-			this.nextStepButton.Location = new System.Drawing.Point(247, 138);
+			this.nextStepButton.Location = new System.Drawing.Point(633, 85);
 			this.nextStepButton.Name = "nextStepButton";
 			this.nextStepButton.Size = new System.Drawing.Size(89, 32);
 			this.nextStepButton.TabIndex = 14;
@@ -558,7 +560,7 @@ namespace LightController
 			// 
 			// deleteStepButton
 			// 
-			this.deleteStepButton.Location = new System.Drawing.Point(247, 85);
+			this.deleteStepButton.Location = new System.Drawing.Point(966, 85);
 			this.deleteStepButton.Name = "deleteStepButton";
 			this.deleteStepButton.Size = new System.Drawing.Size(89, 32);
 			this.deleteStepButton.TabIndex = 14;
@@ -567,7 +569,7 @@ namespace LightController
 			// 
 			// backStepButton
 			// 
-			this.backStepButton.Location = new System.Drawing.Point(37, 138);
+			this.backStepButton.Location = new System.Drawing.Point(405, 85);
 			this.backStepButton.Name = "backStepButton";
 			this.backStepButton.Size = new System.Drawing.Size(89, 32);
 			this.backStepButton.TabIndex = 13;
@@ -577,7 +579,7 @@ namespace LightController
 			// 
 			// insertStepButton
 			// 
-			this.insertStepButton.Location = new System.Drawing.Point(142, 85);
+			this.insertStepButton.Location = new System.Drawing.Point(855, 85);
 			this.insertStepButton.Name = "insertStepButton";
 			this.insertStepButton.Size = new System.Drawing.Size(89, 32);
 			this.insertStepButton.TabIndex = 14;
@@ -587,7 +589,7 @@ namespace LightController
 			// 
 			// aboutStepButton
 			// 
-			this.aboutStepButton.Location = new System.Drawing.Point(247, 194);
+			this.aboutStepButton.Location = new System.Drawing.Point(1299, 85);
 			this.aboutStepButton.Name = "aboutStepButton";
 			this.aboutStepButton.Size = new System.Drawing.Size(89, 32);
 			this.aboutStepButton.TabIndex = 13;
@@ -597,7 +599,7 @@ namespace LightController
 			// 
 			// pasteStepButton
 			// 
-			this.pasteStepButton.Location = new System.Drawing.Point(142, 194);
+			this.pasteStepButton.Location = new System.Drawing.Point(1188, 85);
 			this.pasteStepButton.Name = "pasteStepButton";
 			this.pasteStepButton.Size = new System.Drawing.Size(89, 32);
 			this.pasteStepButton.TabIndex = 13;
@@ -607,7 +609,7 @@ namespace LightController
 			// 
 			// copyStepButton
 			// 
-			this.copyStepButton.Location = new System.Drawing.Point(37, 194);
+			this.copyStepButton.Location = new System.Drawing.Point(1077, 85);
 			this.copyStepButton.Name = "copyStepButton";
 			this.copyStepButton.Size = new System.Drawing.Size(89, 32);
 			this.copyStepButton.TabIndex = 13;
@@ -617,7 +619,7 @@ namespace LightController
 			// 
 			// newStepButton
 			// 
-			this.newStepButton.Location = new System.Drawing.Point(37, 85);
+			this.newStepButton.Location = new System.Drawing.Point(744, 85);
 			this.newStepButton.Name = "newStepButton";
 			this.newStepButton.Size = new System.Drawing.Size(89, 32);
 			this.newStepButton.TabIndex = 13;
@@ -730,18 +732,18 @@ namespace LightController
 			this.tongdaoGroupBox2.Controls.Add(this.label23);
 			this.tongdaoGroupBox2.Controls.Add(this.label24);
 			this.tongdaoGroupBox2.Controls.Add(this.label18);
-			this.tongdaoGroupBox2.Location = new System.Drawing.Point(405, 404);
+			this.tongdaoGroupBox2.Location = new System.Drawing.Point(405, 531);
 			this.tongdaoGroupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.tongdaoGroupBox2.Name = "tongdaoGroupBox2";
 			this.tongdaoGroupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox2.Size = new System.Drawing.Size(1178, 330);
+			this.tongdaoGroupBox2.Size = new System.Drawing.Size(1499, 375);
 			this.tongdaoGroupBox2.TabIndex = 10;
 			this.tongdaoGroupBox2.TabStop = false;
 			// 
 			// changeModeLabel2
 			// 
 			this.changeModeLabel2.AutoSize = true;
-			this.changeModeLabel2.Location = new System.Drawing.Point(42, 247);
+			this.changeModeLabel2.Location = new System.Drawing.Point(37, 299);
 			this.changeModeLabel2.Name = "changeModeLabel2";
 			this.changeModeLabel2.Size = new System.Drawing.Size(67, 15);
 			this.changeModeLabel2.TabIndex = 17;
@@ -751,7 +753,7 @@ namespace LightController
 			// numericUpDown32
 			// 
 			this.numericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown32.Location = new System.Drawing.Point(1089, 213);
+			this.numericUpDown32.Location = new System.Drawing.Point(1407, 265);
 			this.numericUpDown32.Name = "numericUpDown32";
 			this.numericUpDown32.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown32.TabIndex = 11;
@@ -760,7 +762,7 @@ namespace LightController
 			// tongdaoValueLabel2
 			// 
 			this.tongdaoValueLabel2.AutoSize = true;
-			this.tongdaoValueLabel2.Location = new System.Drawing.Point(43, 217);
+			this.tongdaoValueLabel2.Location = new System.Drawing.Point(38, 269);
 			this.tongdaoValueLabel2.Name = "tongdaoValueLabel2";
 			this.tongdaoValueLabel2.Size = new System.Drawing.Size(68, 15);
 			this.tongdaoValueLabel2.TabIndex = 15;
@@ -774,7 +776,7 @@ namespace LightController
 			this.changeModeComboBox32.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox32.Location = new System.Drawing.Point(1083, 241);
+			this.changeModeComboBox32.Location = new System.Drawing.Point(1402, 296);
 			this.changeModeComboBox32.Name = "changeModeComboBox32";
 			this.changeModeComboBox32.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox32.TabIndex = 12;
@@ -784,7 +786,7 @@ namespace LightController
 			// stepTimeLabel2
 			// 
 			this.stepTimeLabel2.AutoSize = true;
-			this.stepTimeLabel2.Location = new System.Drawing.Point(43, 278);
+			this.stepTimeLabel2.Location = new System.Drawing.Point(38, 330);
 			this.stepTimeLabel2.Name = "stepTimeLabel2";
 			this.stepTimeLabel2.Size = new System.Drawing.Size(68, 15);
 			this.stepTimeLabel2.TabIndex = 16;
@@ -798,7 +800,7 @@ namespace LightController
 			this.changeModeComboBox31.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox31.Location = new System.Drawing.Point(1017, 243);
+			this.changeModeComboBox31.Location = new System.Drawing.Point(1320, 295);
 			this.changeModeComboBox31.Name = "changeModeComboBox31";
 			this.changeModeComboBox31.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox31.TabIndex = 12;
@@ -808,7 +810,7 @@ namespace LightController
 			// numericUpDown64
 			// 
 			this.numericUpDown64.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown64.Location = new System.Drawing.Point(1090, 274);
+			this.numericUpDown64.Location = new System.Drawing.Point(1409, 330);
 			this.numericUpDown64.Maximum = new decimal(new int[] {
             254,
             0,
@@ -827,7 +829,7 @@ namespace LightController
 			this.changeModeComboBox30.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox30.Location = new System.Drawing.Point(953, 243);
+			this.changeModeComboBox30.Location = new System.Drawing.Point(1232, 295);
 			this.changeModeComboBox30.Name = "changeModeComboBox30";
 			this.changeModeComboBox30.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox30.TabIndex = 12;
@@ -837,7 +839,7 @@ namespace LightController
 			// label32
 			// 
 			this.label32.Font = new System.Drawing.Font("宋体", 8F);
-			this.label32.Location = new System.Drawing.Point(1087, 52);
+			this.label32.Location = new System.Drawing.Point(1396, 52);
 			this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label32.Name = "label32";
 			this.label32.Size = new System.Drawing.Size(19, 128);
@@ -853,7 +855,7 @@ namespace LightController
 			this.changeModeComboBox29.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox29.Location = new System.Drawing.Point(890, 243);
+			this.changeModeComboBox29.Location = new System.Drawing.Point(1147, 295);
 			this.changeModeComboBox29.Name = "changeModeComboBox29";
 			this.changeModeComboBox29.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox29.TabIndex = 12;
@@ -863,7 +865,7 @@ namespace LightController
 			// numericUpDown31
 			// 
 			this.numericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown31.Location = new System.Drawing.Point(1025, 213);
+			this.numericUpDown31.Location = new System.Drawing.Point(1325, 265);
 			this.numericUpDown31.Name = "numericUpDown31";
 			this.numericUpDown31.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown31.TabIndex = 11;
@@ -876,7 +878,7 @@ namespace LightController
 			this.changeModeComboBox28.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox28.Location = new System.Drawing.Point(826, 243);
+			this.changeModeComboBox28.Location = new System.Drawing.Point(1062, 295);
 			this.changeModeComboBox28.Name = "changeModeComboBox28";
 			this.changeModeComboBox28.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox28.TabIndex = 12;
@@ -886,7 +888,7 @@ namespace LightController
 			// numericUpDown63
 			// 
 			this.numericUpDown63.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown63.Location = new System.Drawing.Point(1026, 274);
+			this.numericUpDown63.Location = new System.Drawing.Point(1325, 330);
 			this.numericUpDown63.Maximum = new decimal(new int[] {
             254,
             0,
@@ -905,7 +907,7 @@ namespace LightController
 			this.changeModeComboBox27.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox27.Location = new System.Drawing.Point(761, 243);
+			this.changeModeComboBox27.Location = new System.Drawing.Point(977, 295);
 			this.changeModeComboBox27.Name = "changeModeComboBox27";
 			this.changeModeComboBox27.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox27.TabIndex = 12;
@@ -914,10 +916,10 @@ namespace LightController
 			// 
 			// vScrollBar17
 			// 
-			this.vScrollBar17.Location = new System.Drawing.Point(148, 52);
+			this.vScrollBar17.Location = new System.Drawing.Point(145, 52);
 			this.vScrollBar17.Maximum = 264;
 			this.vScrollBar17.Name = "vScrollBar17";
-			this.vScrollBar17.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar17.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar17.TabIndex = 0;
 			this.vScrollBar17.Visible = false;
 			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -929,7 +931,7 @@ namespace LightController
 			this.changeModeComboBox26.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox26.Location = new System.Drawing.Point(697, 243);
+			this.changeModeComboBox26.Location = new System.Drawing.Point(892, 295);
 			this.changeModeComboBox26.Name = "changeModeComboBox26";
 			this.changeModeComboBox26.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox26.TabIndex = 12;
@@ -939,7 +941,7 @@ namespace LightController
 			// numericUpDown30
 			// 
 			this.numericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown30.Location = new System.Drawing.Point(961, 213);
+			this.numericUpDown30.Location = new System.Drawing.Point(1237, 265);
 			this.numericUpDown30.Name = "numericUpDown30";
 			this.numericUpDown30.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown30.TabIndex = 11;
@@ -952,7 +954,7 @@ namespace LightController
 			this.changeModeComboBox25.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox25.Location = new System.Drawing.Point(634, 243);
+			this.changeModeComboBox25.Location = new System.Drawing.Point(807, 295);
 			this.changeModeComboBox25.Name = "changeModeComboBox25";
 			this.changeModeComboBox25.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox25.TabIndex = 12;
@@ -962,7 +964,7 @@ namespace LightController
 			// numericUpDown62
 			// 
 			this.numericUpDown62.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown62.Location = new System.Drawing.Point(962, 274);
+			this.numericUpDown62.Location = new System.Drawing.Point(1237, 326);
 			this.numericUpDown62.Maximum = new decimal(new int[] {
             254,
             0,
@@ -981,7 +983,7 @@ namespace LightController
 			this.changeModeComboBox24.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox24.Location = new System.Drawing.Point(569, 243);
+			this.changeModeComboBox24.Location = new System.Drawing.Point(722, 295);
 			this.changeModeComboBox24.Name = "changeModeComboBox24";
 			this.changeModeComboBox24.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox24.TabIndex = 12;
@@ -991,7 +993,7 @@ namespace LightController
 			// label31
 			// 
 			this.label31.Font = new System.Drawing.Font("宋体", 8F);
-			this.label31.Location = new System.Drawing.Point(1023, 52);
+			this.label31.Location = new System.Drawing.Point(1312, 52);
 			this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label31.Name = "label31";
 			this.label31.Size = new System.Drawing.Size(19, 128);
@@ -1007,7 +1009,7 @@ namespace LightController
 			this.changeModeComboBox23.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox23.Location = new System.Drawing.Point(506, 243);
+			this.changeModeComboBox23.Location = new System.Drawing.Point(637, 295);
 			this.changeModeComboBox23.Name = "changeModeComboBox23";
 			this.changeModeComboBox23.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox23.TabIndex = 12;
@@ -1017,7 +1019,7 @@ namespace LightController
 			// numericUpDown29
 			// 
 			this.numericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown29.Location = new System.Drawing.Point(898, 213);
+			this.numericUpDown29.Location = new System.Drawing.Point(1152, 265);
 			this.numericUpDown29.Name = "numericUpDown29";
 			this.numericUpDown29.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown29.TabIndex = 11;
@@ -1030,7 +1032,7 @@ namespace LightController
 			this.changeModeComboBox22.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox22.Location = new System.Drawing.Point(442, 243);
+			this.changeModeComboBox22.Location = new System.Drawing.Point(552, 295);
 			this.changeModeComboBox22.Name = "changeModeComboBox22";
 			this.changeModeComboBox22.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox22.TabIndex = 12;
@@ -1040,7 +1042,7 @@ namespace LightController
 			// numericUpDown61
 			// 
 			this.numericUpDown61.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown61.Location = new System.Drawing.Point(899, 274);
+			this.numericUpDown61.Location = new System.Drawing.Point(1152, 326);
 			this.numericUpDown61.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1059,7 +1061,7 @@ namespace LightController
 			this.changeModeComboBox21.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox21.Location = new System.Drawing.Point(380, 243);
+			this.changeModeComboBox21.Location = new System.Drawing.Point(467, 295);
 			this.changeModeComboBox21.Name = "changeModeComboBox21";
 			this.changeModeComboBox21.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox21.TabIndex = 12;
@@ -1068,10 +1070,10 @@ namespace LightController
 			// 
 			// vScrollBar18
 			// 
-			this.vScrollBar18.Location = new System.Drawing.Point(212, 52);
+			this.vScrollBar18.Location = new System.Drawing.Point(230, 52);
 			this.vScrollBar18.Maximum = 264;
 			this.vScrollBar18.Name = "vScrollBar18";
-			this.vScrollBar18.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar18.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar18.TabIndex = 0;
 			this.vScrollBar18.Visible = false;
 			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1083,7 +1085,7 @@ namespace LightController
 			this.changeModeComboBox20.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox20.Location = new System.Drawing.Point(313, 243);
+			this.changeModeComboBox20.Location = new System.Drawing.Point(382, 295);
 			this.changeModeComboBox20.Name = "changeModeComboBox20";
 			this.changeModeComboBox20.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox20.TabIndex = 12;
@@ -1093,7 +1095,7 @@ namespace LightController
 			// numericUpDown28
 			// 
 			this.numericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown28.Location = new System.Drawing.Point(834, 213);
+			this.numericUpDown28.Location = new System.Drawing.Point(1067, 265);
 			this.numericUpDown28.Name = "numericUpDown28";
 			this.numericUpDown28.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown28.TabIndex = 11;
@@ -1106,7 +1108,7 @@ namespace LightController
 			this.changeModeComboBox19.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox19.Location = new System.Drawing.Point(246, 243);
+			this.changeModeComboBox19.Location = new System.Drawing.Point(297, 295);
 			this.changeModeComboBox19.Name = "changeModeComboBox19";
 			this.changeModeComboBox19.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox19.TabIndex = 12;
@@ -1116,7 +1118,7 @@ namespace LightController
 			// numericUpDown60
 			// 
 			this.numericUpDown60.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown60.Location = new System.Drawing.Point(835, 274);
+			this.numericUpDown60.Location = new System.Drawing.Point(1067, 326);
 			this.numericUpDown60.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1135,7 +1137,7 @@ namespace LightController
 			this.changeModeComboBox18.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox18.Location = new System.Drawing.Point(182, 243);
+			this.changeModeComboBox18.Location = new System.Drawing.Point(212, 295);
 			this.changeModeComboBox18.Name = "changeModeComboBox18";
 			this.changeModeComboBox18.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox18.TabIndex = 12;
@@ -1144,10 +1146,10 @@ namespace LightController
 			// 
 			// vScrollBar19
 			// 
-			this.vScrollBar19.Location = new System.Drawing.Point(276, 52);
+			this.vScrollBar19.Location = new System.Drawing.Point(315, 52);
 			this.vScrollBar19.Maximum = 264;
 			this.vScrollBar19.Name = "vScrollBar19";
-			this.vScrollBar19.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar19.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar19.TabIndex = 0;
 			this.vScrollBar19.Visible = false;
 			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1159,7 +1161,7 @@ namespace LightController
 			this.changeModeComboBox17.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox17.Location = new System.Drawing.Point(120, 243);
+			this.changeModeComboBox17.Location = new System.Drawing.Point(127, 295);
 			this.changeModeComboBox17.Name = "changeModeComboBox17";
 			this.changeModeComboBox17.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox17.TabIndex = 12;
@@ -1169,7 +1171,7 @@ namespace LightController
 			// numericUpDown27
 			// 
 			this.numericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown27.Location = new System.Drawing.Point(769, 213);
+			this.numericUpDown27.Location = new System.Drawing.Point(979, 265);
 			this.numericUpDown27.Name = "numericUpDown27";
 			this.numericUpDown27.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown27.TabIndex = 11;
@@ -1178,7 +1180,7 @@ namespace LightController
 			// numericUpDown59
 			// 
 			this.numericUpDown59.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown59.Location = new System.Drawing.Point(770, 274);
+			this.numericUpDown59.Location = new System.Drawing.Point(982, 326);
 			this.numericUpDown59.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1192,10 +1194,10 @@ namespace LightController
 			// 
 			// vScrollBar20
 			// 
-			this.vScrollBar20.Location = new System.Drawing.Point(340, 52);
+			this.vScrollBar20.Location = new System.Drawing.Point(400, 52);
 			this.vScrollBar20.Maximum = 264;
 			this.vScrollBar20.Name = "vScrollBar20";
-			this.vScrollBar20.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar20.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar20.TabIndex = 0;
 			this.vScrollBar20.Visible = false;
 			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1203,7 +1205,7 @@ namespace LightController
 			// numericUpDown26
 			// 
 			this.numericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown26.Location = new System.Drawing.Point(705, 213);
+			this.numericUpDown26.Location = new System.Drawing.Point(897, 265);
 			this.numericUpDown26.Name = "numericUpDown26";
 			this.numericUpDown26.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown26.TabIndex = 11;
@@ -1212,7 +1214,7 @@ namespace LightController
 			// numericUpDown58
 			// 
 			this.numericUpDown58.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown58.Location = new System.Drawing.Point(706, 274);
+			this.numericUpDown58.Location = new System.Drawing.Point(897, 326);
 			this.numericUpDown58.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1227,7 +1229,7 @@ namespace LightController
 			// label30
 			// 
 			this.label30.Font = new System.Drawing.Font("宋体", 8F);
-			this.label30.Location = new System.Drawing.Point(959, 52);
+			this.label30.Location = new System.Drawing.Point(1226, 52);
 			this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label30.Name = "label30";
 			this.label30.Size = new System.Drawing.Size(19, 128);
@@ -1239,7 +1241,7 @@ namespace LightController
 			// numericUpDown25
 			// 
 			this.numericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown25.Location = new System.Drawing.Point(642, 213);
+			this.numericUpDown25.Location = new System.Drawing.Point(812, 265);
 			this.numericUpDown25.Name = "numericUpDown25";
 			this.numericUpDown25.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown25.TabIndex = 11;
@@ -1248,7 +1250,7 @@ namespace LightController
 			// numericUpDown57
 			// 
 			this.numericUpDown57.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown57.Location = new System.Drawing.Point(643, 274);
+			this.numericUpDown57.Location = new System.Drawing.Point(812, 326);
 			this.numericUpDown57.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1262,10 +1264,10 @@ namespace LightController
 			// 
 			// vScrollBar21
 			// 
-			this.vScrollBar21.Location = new System.Drawing.Point(404, 52);
+			this.vScrollBar21.Location = new System.Drawing.Point(485, 52);
 			this.vScrollBar21.Maximum = 264;
 			this.vScrollBar21.Name = "vScrollBar21";
-			this.vScrollBar21.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar21.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar21.TabIndex = 0;
 			this.vScrollBar21.Visible = false;
 			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1273,7 +1275,7 @@ namespace LightController
 			// numericUpDown24
 			// 
 			this.numericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown24.Location = new System.Drawing.Point(577, 213);
+			this.numericUpDown24.Location = new System.Drawing.Point(727, 265);
 			this.numericUpDown24.Name = "numericUpDown24";
 			this.numericUpDown24.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown24.TabIndex = 11;
@@ -1282,7 +1284,7 @@ namespace LightController
 			// numericUpDown56
 			// 
 			this.numericUpDown56.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown56.Location = new System.Drawing.Point(578, 274);
+			this.numericUpDown56.Location = new System.Drawing.Point(727, 326);
 			this.numericUpDown56.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1296,10 +1298,10 @@ namespace LightController
 			// 
 			// vScrollBar22
 			// 
-			this.vScrollBar22.Location = new System.Drawing.Point(468, 52);
+			this.vScrollBar22.Location = new System.Drawing.Point(570, 52);
 			this.vScrollBar22.Maximum = 264;
 			this.vScrollBar22.Name = "vScrollBar22";
-			this.vScrollBar22.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar22.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar22.TabIndex = 0;
 			this.vScrollBar22.Visible = false;
 			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1307,7 +1309,7 @@ namespace LightController
 			// numericUpDown23
 			// 
 			this.numericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown23.Location = new System.Drawing.Point(514, 213);
+			this.numericUpDown23.Location = new System.Drawing.Point(642, 265);
 			this.numericUpDown23.Name = "numericUpDown23";
 			this.numericUpDown23.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown23.TabIndex = 11;
@@ -1316,7 +1318,7 @@ namespace LightController
 			// numericUpDown55
 			// 
 			this.numericUpDown55.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown55.Location = new System.Drawing.Point(515, 274);
+			this.numericUpDown55.Location = new System.Drawing.Point(642, 326);
 			this.numericUpDown55.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1331,7 +1333,7 @@ namespace LightController
 			// label29
 			// 
 			this.label29.Font = new System.Drawing.Font("宋体", 8F);
-			this.label29.Location = new System.Drawing.Point(895, 52);
+			this.label29.Location = new System.Drawing.Point(1140, 52);
 			this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label29.Name = "label29";
 			this.label29.Size = new System.Drawing.Size(19, 128);
@@ -1343,7 +1345,7 @@ namespace LightController
 			// numericUpDown22
 			// 
 			this.numericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown22.Location = new System.Drawing.Point(450, 213);
+			this.numericUpDown22.Location = new System.Drawing.Point(557, 265);
 			this.numericUpDown22.Name = "numericUpDown22";
 			this.numericUpDown22.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown22.TabIndex = 11;
@@ -1352,7 +1354,7 @@ namespace LightController
 			// numericUpDown54
 			// 
 			this.numericUpDown54.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown54.Location = new System.Drawing.Point(451, 274);
+			this.numericUpDown54.Location = new System.Drawing.Point(557, 326);
 			this.numericUpDown54.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1366,10 +1368,10 @@ namespace LightController
 			// 
 			// vScrollBar23
 			// 
-			this.vScrollBar23.Location = new System.Drawing.Point(532, 52);
+			this.vScrollBar23.Location = new System.Drawing.Point(655, 52);
 			this.vScrollBar23.Maximum = 264;
 			this.vScrollBar23.Name = "vScrollBar23";
-			this.vScrollBar23.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar23.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar23.TabIndex = 0;
 			this.vScrollBar23.Visible = false;
 			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1377,7 +1379,7 @@ namespace LightController
 			// numericUpDown21
 			// 
 			this.numericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown21.Location = new System.Drawing.Point(388, 213);
+			this.numericUpDown21.Location = new System.Drawing.Point(472, 265);
 			this.numericUpDown21.Name = "numericUpDown21";
 			this.numericUpDown21.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown21.TabIndex = 11;
@@ -1386,7 +1388,7 @@ namespace LightController
 			// numericUpDown53
 			// 
 			this.numericUpDown53.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown53.Location = new System.Drawing.Point(389, 274);
+			this.numericUpDown53.Location = new System.Drawing.Point(472, 326);
 			this.numericUpDown53.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1400,10 +1402,10 @@ namespace LightController
 			// 
 			// vScrollBar24
 			// 
-			this.vScrollBar24.Location = new System.Drawing.Point(596, 52);
+			this.vScrollBar24.Location = new System.Drawing.Point(740, 52);
 			this.vScrollBar24.Maximum = 264;
 			this.vScrollBar24.Name = "vScrollBar24";
-			this.vScrollBar24.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar24.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar24.TabIndex = 0;
 			this.vScrollBar24.Visible = false;
 			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1411,7 +1413,7 @@ namespace LightController
 			// numericUpDown20
 			// 
 			this.numericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown20.Location = new System.Drawing.Point(321, 213);
+			this.numericUpDown20.Location = new System.Drawing.Point(387, 265);
 			this.numericUpDown20.Name = "numericUpDown20";
 			this.numericUpDown20.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown20.TabIndex = 11;
@@ -1420,7 +1422,7 @@ namespace LightController
 			// numericUpDown52
 			// 
 			this.numericUpDown52.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown52.Location = new System.Drawing.Point(322, 274);
+			this.numericUpDown52.Location = new System.Drawing.Point(387, 326);
 			this.numericUpDown52.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1434,10 +1436,10 @@ namespace LightController
 			// 
 			// vScrollBar25
 			// 
-			this.vScrollBar25.Location = new System.Drawing.Point(660, 52);
+			this.vScrollBar25.Location = new System.Drawing.Point(825, 52);
 			this.vScrollBar25.Maximum = 264;
 			this.vScrollBar25.Name = "vScrollBar25";
-			this.vScrollBar25.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar25.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar25.TabIndex = 0;
 			this.vScrollBar25.Visible = false;
 			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1445,7 +1447,7 @@ namespace LightController
 			// numericUpDown19
 			// 
 			this.numericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown19.Location = new System.Drawing.Point(257, 213);
+			this.numericUpDown19.Location = new System.Drawing.Point(302, 265);
 			this.numericUpDown19.Name = "numericUpDown19";
 			this.numericUpDown19.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown19.TabIndex = 11;
@@ -1454,7 +1456,7 @@ namespace LightController
 			// numericUpDown51
 			// 
 			this.numericUpDown51.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown51.Location = new System.Drawing.Point(258, 274);
+			this.numericUpDown51.Location = new System.Drawing.Point(302, 326);
 			this.numericUpDown51.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1469,7 +1471,7 @@ namespace LightController
 			// label28
 			// 
 			this.label28.Font = new System.Drawing.Font("宋体", 8F);
-			this.label28.Location = new System.Drawing.Point(831, 52);
+			this.label28.Location = new System.Drawing.Point(1054, 52);
 			this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label28.Name = "label28";
 			this.label28.Size = new System.Drawing.Size(24, 153);
@@ -1481,7 +1483,7 @@ namespace LightController
 			// numericUpDown18
 			// 
 			this.numericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown18.Location = new System.Drawing.Point(193, 213);
+			this.numericUpDown18.Location = new System.Drawing.Point(217, 265);
 			this.numericUpDown18.Name = "numericUpDown18";
 			this.numericUpDown18.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown18.TabIndex = 11;
@@ -1490,7 +1492,7 @@ namespace LightController
 			// numericUpDown50
 			// 
 			this.numericUpDown50.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown50.Location = new System.Drawing.Point(194, 274);
+			this.numericUpDown50.Location = new System.Drawing.Point(217, 326);
 			this.numericUpDown50.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1504,10 +1506,10 @@ namespace LightController
 			// 
 			// vScrollBar26
 			// 
-			this.vScrollBar26.Location = new System.Drawing.Point(724, 52);
+			this.vScrollBar26.Location = new System.Drawing.Point(910, 52);
 			this.vScrollBar26.Maximum = 264;
 			this.vScrollBar26.Name = "vScrollBar26";
-			this.vScrollBar26.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar26.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar26.TabIndex = 0;
 			this.vScrollBar26.Visible = false;
 			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1515,7 +1517,7 @@ namespace LightController
 			// numericUpDown17
 			// 
 			this.numericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown17.Location = new System.Drawing.Point(129, 213);
+			this.numericUpDown17.Location = new System.Drawing.Point(132, 265);
 			this.numericUpDown17.Name = "numericUpDown17";
 			this.numericUpDown17.Size = new System.Drawing.Size(50, 22);
 			this.numericUpDown17.TabIndex = 11;
@@ -1524,7 +1526,7 @@ namespace LightController
 			// numericUpDown49
 			// 
 			this.numericUpDown49.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown49.Location = new System.Drawing.Point(130, 274);
+			this.numericUpDown49.Location = new System.Drawing.Point(132, 326);
 			this.numericUpDown49.Maximum = new decimal(new int[] {
             254,
             0,
@@ -1538,20 +1540,20 @@ namespace LightController
 			// 
 			// vScrollBar27
 			// 
-			this.vScrollBar27.Location = new System.Drawing.Point(788, 52);
+			this.vScrollBar27.Location = new System.Drawing.Point(995, 52);
 			this.vScrollBar27.Maximum = 264;
 			this.vScrollBar27.Name = "vScrollBar27";
-			this.vScrollBar27.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar27.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar27.TabIndex = 0;
 			this.vScrollBar27.Visible = false;
 			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar28
 			// 
-			this.vScrollBar28.Location = new System.Drawing.Point(852, 52);
+			this.vScrollBar28.Location = new System.Drawing.Point(1080, 52);
 			this.vScrollBar28.Maximum = 264;
 			this.vScrollBar28.Name = "vScrollBar28";
-			this.vScrollBar28.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar28.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar28.TabIndex = 0;
 			this.vScrollBar28.Visible = false;
 			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1559,7 +1561,7 @@ namespace LightController
 			// label27
 			// 
 			this.label27.Font = new System.Drawing.Font("宋体", 8F);
-			this.label27.Location = new System.Drawing.Point(767, 52);
+			this.label27.Location = new System.Drawing.Point(970, 52);
 			this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label27.Name = "label27";
 			this.label27.Size = new System.Drawing.Size(24, 153);
@@ -1570,30 +1572,30 @@ namespace LightController
 			// 
 			// vScrollBar29
 			// 
-			this.vScrollBar29.Location = new System.Drawing.Point(916, 52);
+			this.vScrollBar29.Location = new System.Drawing.Point(1165, 52);
 			this.vScrollBar29.Maximum = 264;
 			this.vScrollBar29.Name = "vScrollBar29";
-			this.vScrollBar29.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar29.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar29.TabIndex = 0;
 			this.vScrollBar29.Visible = false;
 			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar30
 			// 
-			this.vScrollBar30.Location = new System.Drawing.Point(980, 52);
+			this.vScrollBar30.Location = new System.Drawing.Point(1250, 52);
 			this.vScrollBar30.Maximum = 264;
 			this.vScrollBar30.Name = "vScrollBar30";
-			this.vScrollBar30.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar30.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar30.TabIndex = 0;
 			this.vScrollBar30.Visible = false;
 			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar31
 			// 
-			this.vScrollBar31.Location = new System.Drawing.Point(1044, 52);
+			this.vScrollBar31.Location = new System.Drawing.Point(1338, 52);
 			this.vScrollBar31.Maximum = 264;
 			this.vScrollBar31.Name = "vScrollBar31";
-			this.vScrollBar31.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar31.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar31.TabIndex = 0;
 			this.vScrollBar31.Visible = false;
 			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1601,7 +1603,7 @@ namespace LightController
 			// label26
 			// 
 			this.label26.Font = new System.Drawing.Font("宋体", 8F);
-			this.label26.Location = new System.Drawing.Point(702, 52);
+			this.label26.Location = new System.Drawing.Point(885, 52);
 			this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(24, 153);
@@ -1612,10 +1614,10 @@ namespace LightController
 			// 
 			// vScrollBar32
 			// 
-			this.vScrollBar32.Location = new System.Drawing.Point(1108, 52);
+			this.vScrollBar32.Location = new System.Drawing.Point(1420, 52);
 			this.vScrollBar32.Maximum = 264;
 			this.vScrollBar32.Name = "vScrollBar32";
-			this.vScrollBar32.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar32.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar32.TabIndex = 0;
 			this.vScrollBar32.Visible = false;
 			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
@@ -1635,7 +1637,7 @@ namespace LightController
 			// label22
 			// 
 			this.label22.Font = new System.Drawing.Font("宋体", 8F);
-			this.label22.Location = new System.Drawing.Point(447, 52);
+			this.label22.Location = new System.Drawing.Point(542, 52);
 			this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(24, 153);
@@ -1647,7 +1649,7 @@ namespace LightController
 			// label25
 			// 
 			this.label25.Font = new System.Drawing.Font("宋体", 8F);
-			this.label25.Location = new System.Drawing.Point(639, 52);
+			this.label25.Location = new System.Drawing.Point(800, 52);
 			this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(24, 153);
@@ -1659,7 +1661,7 @@ namespace LightController
 			// label20
 			// 
 			this.label20.Font = new System.Drawing.Font("宋体", 8F);
-			this.label20.Location = new System.Drawing.Point(319, 52);
+			this.label20.Location = new System.Drawing.Point(376, 52);
 			this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(24, 153);
@@ -1671,7 +1673,7 @@ namespace LightController
 			// label19
 			// 
 			this.label19.Font = new System.Drawing.Font("宋体", 8F);
-			this.label19.Location = new System.Drawing.Point(255, 52);
+			this.label19.Location = new System.Drawing.Point(291, 52);
 			this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(24, 153);
@@ -1683,7 +1685,7 @@ namespace LightController
 			// label21
 			// 
 			this.label21.Font = new System.Drawing.Font("宋体", 8F);
-			this.label21.Location = new System.Drawing.Point(380, 52);
+			this.label21.Location = new System.Drawing.Point(457, 52);
 			this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(24, 153);
@@ -1695,7 +1697,7 @@ namespace LightController
 			// label23
 			// 
 			this.label23.Font = new System.Drawing.Font("宋体", 8F);
-			this.label23.Location = new System.Drawing.Point(511, 52);
+			this.label23.Location = new System.Drawing.Point(632, 52);
 			this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(24, 153);
@@ -1707,7 +1709,7 @@ namespace LightController
 			// label24
 			// 
 			this.label24.Font = new System.Drawing.Font("宋体", 8F);
-			this.label24.Location = new System.Drawing.Point(575, 52);
+			this.label24.Location = new System.Drawing.Point(716, 52);
 			this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(24, 153);
@@ -1719,7 +1721,7 @@ namespace LightController
 			// label18
 			// 
 			this.label18.Font = new System.Drawing.Font("宋体", 8F);
-			this.label18.Location = new System.Drawing.Point(191, 52);
+			this.label18.Location = new System.Drawing.Point(206, 52);
 			this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(24, 153);
@@ -1814,18 +1816,18 @@ namespace LightController
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar5);
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar2);
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar1);
-			this.tongdaoGroupBox1.Location = new System.Drawing.Point(405, 65);
+			this.tongdaoGroupBox1.Location = new System.Drawing.Point(405, 138);
 			this.tongdaoGroupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.tongdaoGroupBox1.Name = "tongdaoGroupBox1";
 			this.tongdaoGroupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox1.Size = new System.Drawing.Size(1178, 330);
+			this.tongdaoGroupBox1.Size = new System.Drawing.Size(1504, 375);
 			this.tongdaoGroupBox1.TabIndex = 9;
 			this.tongdaoGroupBox1.TabStop = false;
 			// 
 			// changeModeLabel
 			// 
 			this.changeModeLabel.AutoSize = true;
-			this.changeModeLabel.Location = new System.Drawing.Point(36, 242);
+			this.changeModeLabel.Location = new System.Drawing.Point(37, 291);
 			this.changeModeLabel.Name = "changeModeLabel";
 			this.changeModeLabel.Size = new System.Drawing.Size(67, 15);
 			this.changeModeLabel.TabIndex = 14;
@@ -1835,7 +1837,7 @@ namespace LightController
 			// tongdaoValueLabel
 			// 
 			this.tongdaoValueLabel.AutoSize = true;
-			this.tongdaoValueLabel.Location = new System.Drawing.Point(37, 214);
+			this.tongdaoValueLabel.Location = new System.Drawing.Point(38, 263);
 			this.tongdaoValueLabel.Name = "tongdaoValueLabel";
 			this.tongdaoValueLabel.Size = new System.Drawing.Size(68, 15);
 			this.tongdaoValueLabel.TabIndex = 13;
@@ -1845,7 +1847,7 @@ namespace LightController
 			// stepTimeLabel
 			// 
 			this.stepTimeLabel.AutoSize = true;
-			this.stepTimeLabel.Location = new System.Drawing.Point(37, 271);
+			this.stepTimeLabel.Location = new System.Drawing.Point(38, 320);
 			this.stepTimeLabel.Name = "stepTimeLabel";
 			this.stepTimeLabel.Size = new System.Drawing.Size(68, 15);
 			this.stepTimeLabel.TabIndex = 13;
@@ -1859,7 +1861,7 @@ namespace LightController
 			this.changeModeComboBox16.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox16.Location = new System.Drawing.Point(1080, 238);
+			this.changeModeComboBox16.Location = new System.Drawing.Point(1402, 287);
 			this.changeModeComboBox16.Name = "changeModeComboBox16";
 			this.changeModeComboBox16.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox16.TabIndex = 12;
@@ -1873,7 +1875,7 @@ namespace LightController
 			this.changeModeComboBox15.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox15.Location = new System.Drawing.Point(1016, 238);
+			this.changeModeComboBox15.Location = new System.Drawing.Point(1320, 287);
 			this.changeModeComboBox15.Name = "changeModeComboBox15";
 			this.changeModeComboBox15.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox15.TabIndex = 12;
@@ -1887,7 +1889,7 @@ namespace LightController
 			this.changeModeComboBox14.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox14.Location = new System.Drawing.Point(952, 238);
+			this.changeModeComboBox14.Location = new System.Drawing.Point(1232, 287);
 			this.changeModeComboBox14.Name = "changeModeComboBox14";
 			this.changeModeComboBox14.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox14.TabIndex = 12;
@@ -1901,7 +1903,7 @@ namespace LightController
 			this.changeModeComboBox13.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox13.Location = new System.Drawing.Point(889, 238);
+			this.changeModeComboBox13.Location = new System.Drawing.Point(1147, 287);
 			this.changeModeComboBox13.Name = "changeModeComboBox13";
 			this.changeModeComboBox13.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox13.TabIndex = 12;
@@ -1915,7 +1917,7 @@ namespace LightController
 			this.changeModeComboBox12.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox12.Location = new System.Drawing.Point(825, 238);
+			this.changeModeComboBox12.Location = new System.Drawing.Point(1069, 287);
 			this.changeModeComboBox12.Name = "changeModeComboBox12";
 			this.changeModeComboBox12.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox12.TabIndex = 12;
@@ -1929,7 +1931,7 @@ namespace LightController
 			this.changeModeComboBox11.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox11.Location = new System.Drawing.Point(760, 238);
+			this.changeModeComboBox11.Location = new System.Drawing.Point(984, 287);
 			this.changeModeComboBox11.Name = "changeModeComboBox11";
 			this.changeModeComboBox11.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox11.TabIndex = 12;
@@ -1943,7 +1945,7 @@ namespace LightController
 			this.changeModeComboBox10.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox10.Location = new System.Drawing.Point(696, 238);
+			this.changeModeComboBox10.Location = new System.Drawing.Point(892, 287);
 			this.changeModeComboBox10.Name = "changeModeComboBox10";
 			this.changeModeComboBox10.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox10.TabIndex = 12;
@@ -1957,7 +1959,7 @@ namespace LightController
 			this.changeModeComboBox9.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox9.Location = new System.Drawing.Point(633, 238);
+			this.changeModeComboBox9.Location = new System.Drawing.Point(809, 287);
 			this.changeModeComboBox9.Name = "changeModeComboBox9";
 			this.changeModeComboBox9.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox9.TabIndex = 12;
@@ -1971,7 +1973,7 @@ namespace LightController
 			this.changeModeComboBox8.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox8.Location = new System.Drawing.Point(568, 238);
+			this.changeModeComboBox8.Location = new System.Drawing.Point(722, 287);
 			this.changeModeComboBox8.Name = "changeModeComboBox8";
 			this.changeModeComboBox8.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox8.TabIndex = 12;
@@ -1985,7 +1987,7 @@ namespace LightController
 			this.changeModeComboBox7.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox7.Location = new System.Drawing.Point(505, 238);
+			this.changeModeComboBox7.Location = new System.Drawing.Point(637, 287);
 			this.changeModeComboBox7.Name = "changeModeComboBox7";
 			this.changeModeComboBox7.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox7.TabIndex = 12;
@@ -1999,7 +2001,7 @@ namespace LightController
 			this.changeModeComboBox6.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox6.Location = new System.Drawing.Point(441, 238);
+			this.changeModeComboBox6.Location = new System.Drawing.Point(558, 287);
 			this.changeModeComboBox6.Name = "changeModeComboBox6";
 			this.changeModeComboBox6.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox6.TabIndex = 12;
@@ -2013,7 +2015,7 @@ namespace LightController
 			this.changeModeComboBox5.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox5.Location = new System.Drawing.Point(379, 238);
+			this.changeModeComboBox5.Location = new System.Drawing.Point(474, 287);
 			this.changeModeComboBox5.Name = "changeModeComboBox5";
 			this.changeModeComboBox5.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox5.TabIndex = 12;
@@ -2027,7 +2029,7 @@ namespace LightController
 			this.changeModeComboBox4.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox4.Location = new System.Drawing.Point(312, 238);
+			this.changeModeComboBox4.Location = new System.Drawing.Point(385, 287);
 			this.changeModeComboBox4.Name = "changeModeComboBox4";
 			this.changeModeComboBox4.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox4.TabIndex = 12;
@@ -2041,7 +2043,7 @@ namespace LightController
 			this.changeModeComboBox3.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox3.Location = new System.Drawing.Point(245, 238);
+			this.changeModeComboBox3.Location = new System.Drawing.Point(304, 287);
 			this.changeModeComboBox3.Name = "changeModeComboBox3";
 			this.changeModeComboBox3.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox3.TabIndex = 12;
@@ -2055,7 +2057,7 @@ namespace LightController
 			this.changeModeComboBox2.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox2.Location = new System.Drawing.Point(181, 238);
+			this.changeModeComboBox2.Location = new System.Drawing.Point(212, 287);
 			this.changeModeComboBox2.Name = "changeModeComboBox2";
 			this.changeModeComboBox2.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox2.TabIndex = 12;
@@ -2069,7 +2071,7 @@ namespace LightController
 			this.changeModeComboBox1.Items.AddRange(new object[] {
             "跳变",
             "渐变"});
-			this.changeModeComboBox1.Location = new System.Drawing.Point(119, 238);
+			this.changeModeComboBox1.Location = new System.Drawing.Point(127, 287);
 			this.changeModeComboBox1.Name = "changeModeComboBox1";
 			this.changeModeComboBox1.Size = new System.Drawing.Size(60, 23);
 			this.changeModeComboBox1.TabIndex = 12;
@@ -2079,7 +2081,7 @@ namespace LightController
 			// numericUpDown48
 			// 
 			this.numericUpDown48.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown48.Location = new System.Drawing.Point(1086, 267);
+			this.numericUpDown48.Location = new System.Drawing.Point(1407, 316);
 			this.numericUpDown48.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2094,7 +2096,7 @@ namespace LightController
 			// numericUpDown16
 			// 
 			this.numericUpDown16.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown16.Location = new System.Drawing.Point(1089, 210);
+			this.numericUpDown16.Location = new System.Drawing.Point(1407, 259);
 			this.numericUpDown16.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2108,7 +2110,7 @@ namespace LightController
 			// numericUpDown47
 			// 
 			this.numericUpDown47.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown47.Location = new System.Drawing.Point(1022, 267);
+			this.numericUpDown47.Location = new System.Drawing.Point(1325, 316);
 			this.numericUpDown47.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2123,7 +2125,7 @@ namespace LightController
 			// numericUpDown15
 			// 
 			this.numericUpDown15.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown15.Location = new System.Drawing.Point(1025, 210);
+			this.numericUpDown15.Location = new System.Drawing.Point(1325, 259);
 			this.numericUpDown15.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2137,7 +2139,7 @@ namespace LightController
 			// numericUpDown46
 			// 
 			this.numericUpDown46.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown46.Location = new System.Drawing.Point(958, 267);
+			this.numericUpDown46.Location = new System.Drawing.Point(1237, 316);
 			this.numericUpDown46.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2152,7 +2154,7 @@ namespace LightController
 			// numericUpDown14
 			// 
 			this.numericUpDown14.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown14.Location = new System.Drawing.Point(961, 210);
+			this.numericUpDown14.Location = new System.Drawing.Point(1237, 259);
 			this.numericUpDown14.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2166,7 +2168,7 @@ namespace LightController
 			// numericUpDown45
 			// 
 			this.numericUpDown45.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown45.Location = new System.Drawing.Point(895, 267);
+			this.numericUpDown45.Location = new System.Drawing.Point(1152, 316);
 			this.numericUpDown45.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2181,7 +2183,7 @@ namespace LightController
 			// numericUpDown13
 			// 
 			this.numericUpDown13.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown13.Location = new System.Drawing.Point(898, 210);
+			this.numericUpDown13.Location = new System.Drawing.Point(1152, 259);
 			this.numericUpDown13.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2195,7 +2197,7 @@ namespace LightController
 			// numericUpDown44
 			// 
 			this.numericUpDown44.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown44.Location = new System.Drawing.Point(831, 267);
+			this.numericUpDown44.Location = new System.Drawing.Point(1074, 316);
 			this.numericUpDown44.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2210,7 +2212,7 @@ namespace LightController
 			// numericUpDown12
 			// 
 			this.numericUpDown12.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown12.Location = new System.Drawing.Point(834, 210);
+			this.numericUpDown12.Location = new System.Drawing.Point(1074, 259);
 			this.numericUpDown12.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2224,7 +2226,7 @@ namespace LightController
 			// numericUpDown43
 			// 
 			this.numericUpDown43.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown43.Location = new System.Drawing.Point(766, 267);
+			this.numericUpDown43.Location = new System.Drawing.Point(989, 316);
 			this.numericUpDown43.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2239,7 +2241,7 @@ namespace LightController
 			// numericUpDown11
 			// 
 			this.numericUpDown11.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown11.Location = new System.Drawing.Point(769, 210);
+			this.numericUpDown11.Location = new System.Drawing.Point(989, 259);
 			this.numericUpDown11.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2253,7 +2255,7 @@ namespace LightController
 			// numericUpDown42
 			// 
 			this.numericUpDown42.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown42.Location = new System.Drawing.Point(702, 267);
+			this.numericUpDown42.Location = new System.Drawing.Point(897, 316);
 			this.numericUpDown42.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2268,7 +2270,7 @@ namespace LightController
 			// numericUpDown10
 			// 
 			this.numericUpDown10.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown10.Location = new System.Drawing.Point(705, 210);
+			this.numericUpDown10.Location = new System.Drawing.Point(897, 259);
 			this.numericUpDown10.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2282,7 +2284,7 @@ namespace LightController
 			// numericUpDown41
 			// 
 			this.numericUpDown41.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown41.Location = new System.Drawing.Point(639, 267);
+			this.numericUpDown41.Location = new System.Drawing.Point(814, 316);
 			this.numericUpDown41.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2297,7 +2299,7 @@ namespace LightController
 			// numericUpDown9
 			// 
 			this.numericUpDown9.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown9.Location = new System.Drawing.Point(642, 210);
+			this.numericUpDown9.Location = new System.Drawing.Point(814, 259);
 			this.numericUpDown9.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2311,7 +2313,7 @@ namespace LightController
 			// numericUpDown40
 			// 
 			this.numericUpDown40.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown40.Location = new System.Drawing.Point(574, 267);
+			this.numericUpDown40.Location = new System.Drawing.Point(727, 316);
 			this.numericUpDown40.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2326,7 +2328,7 @@ namespace LightController
 			// numericUpDown8
 			// 
 			this.numericUpDown8.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown8.Location = new System.Drawing.Point(577, 210);
+			this.numericUpDown8.Location = new System.Drawing.Point(727, 259);
 			this.numericUpDown8.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2340,7 +2342,7 @@ namespace LightController
 			// numericUpDown39
 			// 
 			this.numericUpDown39.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown39.Location = new System.Drawing.Point(511, 267);
+			this.numericUpDown39.Location = new System.Drawing.Point(642, 316);
 			this.numericUpDown39.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2355,7 +2357,7 @@ namespace LightController
 			// numericUpDown7
 			// 
 			this.numericUpDown7.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown7.Location = new System.Drawing.Point(514, 210);
+			this.numericUpDown7.Location = new System.Drawing.Point(642, 259);
 			this.numericUpDown7.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2369,7 +2371,7 @@ namespace LightController
 			// numericUpDown38
 			// 
 			this.numericUpDown38.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown38.Location = new System.Drawing.Point(447, 267);
+			this.numericUpDown38.Location = new System.Drawing.Point(563, 316);
 			this.numericUpDown38.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2384,7 +2386,7 @@ namespace LightController
 			// numericUpDown6
 			// 
 			this.numericUpDown6.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown6.Location = new System.Drawing.Point(450, 210);
+			this.numericUpDown6.Location = new System.Drawing.Point(563, 259);
 			this.numericUpDown6.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2398,7 +2400,7 @@ namespace LightController
 			// numericUpDown37
 			// 
 			this.numericUpDown37.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown37.Location = new System.Drawing.Point(385, 267);
+			this.numericUpDown37.Location = new System.Drawing.Point(479, 316);
 			this.numericUpDown37.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2413,7 +2415,7 @@ namespace LightController
 			// numericUpDown5
 			// 
 			this.numericUpDown5.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown5.Location = new System.Drawing.Point(388, 210);
+			this.numericUpDown5.Location = new System.Drawing.Point(479, 259);
 			this.numericUpDown5.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2427,7 +2429,7 @@ namespace LightController
 			// numericUpDown36
 			// 
 			this.numericUpDown36.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown36.Location = new System.Drawing.Point(318, 267);
+			this.numericUpDown36.Location = new System.Drawing.Point(390, 316);
 			this.numericUpDown36.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2442,7 +2444,7 @@ namespace LightController
 			// numericUpDown4
 			// 
 			this.numericUpDown4.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown4.Location = new System.Drawing.Point(321, 210);
+			this.numericUpDown4.Location = new System.Drawing.Point(390, 259);
 			this.numericUpDown4.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2456,7 +2458,7 @@ namespace LightController
 			// numericUpDown35
 			// 
 			this.numericUpDown35.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown35.Location = new System.Drawing.Point(254, 267);
+			this.numericUpDown35.Location = new System.Drawing.Point(309, 316);
 			this.numericUpDown35.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2471,7 +2473,7 @@ namespace LightController
 			// numericUpDown3
 			// 
 			this.numericUpDown3.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown3.Location = new System.Drawing.Point(257, 210);
+			this.numericUpDown3.Location = new System.Drawing.Point(309, 259);
 			this.numericUpDown3.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2485,7 +2487,7 @@ namespace LightController
 			// numericUpDown34
 			// 
 			this.numericUpDown34.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown34.Location = new System.Drawing.Point(190, 267);
+			this.numericUpDown34.Location = new System.Drawing.Point(217, 316);
 			this.numericUpDown34.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2500,7 +2502,7 @@ namespace LightController
 			// numericUpDown2
 			// 
 			this.numericUpDown2.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown2.Location = new System.Drawing.Point(193, 210);
+			this.numericUpDown2.Location = new System.Drawing.Point(217, 259);
 			this.numericUpDown2.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2514,7 +2516,7 @@ namespace LightController
 			// numericUpDown33
 			// 
 			this.numericUpDown33.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown33.Location = new System.Drawing.Point(126, 267);
+			this.numericUpDown33.Location = new System.Drawing.Point(132, 316);
 			this.numericUpDown33.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2529,7 +2531,7 @@ namespace LightController
 			// numericUpDown1
 			// 
 			this.numericUpDown1.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown1.Location = new System.Drawing.Point(129, 210);
+			this.numericUpDown1.Location = new System.Drawing.Point(132, 259);
 			this.numericUpDown1.Maximum = new decimal(new int[] {
             255,
             0,
@@ -2543,10 +2545,10 @@ namespace LightController
 			// label16
 			// 
 			this.label16.Font = new System.Drawing.Font("宋体", 8F);
-			this.label16.Location = new System.Drawing.Point(1082, 45);
+			this.label16.Location = new System.Drawing.Point(1397, 45);
 			this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(19, 128);
+			this.label16.Size = new System.Drawing.Size(19, 143);
 			this.label16.TabIndex = 10;
 			this.label16.Text = "总调光1";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2555,10 +2557,10 @@ namespace LightController
 			// label15
 			// 
 			this.label15.Font = new System.Drawing.Font("宋体", 8F);
-			this.label15.Location = new System.Drawing.Point(1018, 45);
+			this.label15.Location = new System.Drawing.Point(1312, 45);
 			this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(19, 128);
+			this.label15.Size = new System.Drawing.Size(19, 143);
 			this.label15.TabIndex = 10;
 			this.label15.Text = "总调光1";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2567,10 +2569,10 @@ namespace LightController
 			// label14
 			// 
 			this.label14.Font = new System.Drawing.Font("宋体", 8F);
-			this.label14.Location = new System.Drawing.Point(954, 45);
+			this.label14.Location = new System.Drawing.Point(1227, 45);
 			this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(19, 128);
+			this.label14.Size = new System.Drawing.Size(19, 143);
 			this.label14.TabIndex = 10;
 			this.label14.Text = "总调光1";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2579,10 +2581,10 @@ namespace LightController
 			// label13
 			// 
 			this.label13.Font = new System.Drawing.Font("宋体", 8F);
-			this.label13.Location = new System.Drawing.Point(890, 45);
+			this.label13.Location = new System.Drawing.Point(1142, 45);
 			this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(19, 128);
+			this.label13.Size = new System.Drawing.Size(19, 143);
 			this.label13.TabIndex = 10;
 			this.label13.Text = "总调光1";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2591,10 +2593,10 @@ namespace LightController
 			// label12
 			// 
 			this.label12.Font = new System.Drawing.Font("宋体", 8F);
-			this.label12.Location = new System.Drawing.Point(826, 45);
+			this.label12.Location = new System.Drawing.Point(1057, 45);
 			this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(19, 128);
+			this.label12.Size = new System.Drawing.Size(19, 143);
 			this.label12.TabIndex = 10;
 			this.label12.Text = "总调光1";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2603,10 +2605,10 @@ namespace LightController
 			// label11
 			// 
 			this.label11.Font = new System.Drawing.Font("宋体", 8F);
-			this.label11.Location = new System.Drawing.Point(762, 45);
+			this.label11.Location = new System.Drawing.Point(972, 45);
 			this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(19, 128);
+			this.label11.Size = new System.Drawing.Size(19, 143);
 			this.label11.TabIndex = 10;
 			this.label11.Text = "总调光1";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2615,10 +2617,10 @@ namespace LightController
 			// label10
 			// 
 			this.label10.Font = new System.Drawing.Font("宋体", 8F);
-			this.label10.Location = new System.Drawing.Point(698, 45);
+			this.label10.Location = new System.Drawing.Point(887, 45);
 			this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(19, 128);
+			this.label10.Size = new System.Drawing.Size(19, 143);
 			this.label10.TabIndex = 10;
 			this.label10.Text = "总调光1";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2627,10 +2629,10 @@ namespace LightController
 			// label9
 			// 
 			this.label9.Font = new System.Drawing.Font("宋体", 8F);
-			this.label9.Location = new System.Drawing.Point(634, 45);
+			this.label9.Location = new System.Drawing.Point(802, 45);
 			this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(19, 128);
+			this.label9.Size = new System.Drawing.Size(19, 143);
 			this.label9.TabIndex = 10;
 			this.label9.Text = "总调光1";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2639,10 +2641,10 @@ namespace LightController
 			// label8
 			// 
 			this.label8.Font = new System.Drawing.Font("宋体", 8F);
-			this.label8.Location = new System.Drawing.Point(570, 45);
+			this.label8.Location = new System.Drawing.Point(717, 45);
 			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(19, 128);
+			this.label8.Size = new System.Drawing.Size(19, 143);
 			this.label8.TabIndex = 10;
 			this.label8.Text = "总调光1";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2651,10 +2653,10 @@ namespace LightController
 			// label7
 			// 
 			this.label7.Font = new System.Drawing.Font("宋体", 8F);
-			this.label7.Location = new System.Drawing.Point(506, 45);
+			this.label7.Location = new System.Drawing.Point(632, 45);
 			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(19, 128);
+			this.label7.Size = new System.Drawing.Size(19, 143);
 			this.label7.TabIndex = 10;
 			this.label7.Text = "总调光1";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2663,10 +2665,10 @@ namespace LightController
 			// label6
 			// 
 			this.label6.Font = new System.Drawing.Font("宋体", 8F);
-			this.label6.Location = new System.Drawing.Point(442, 45);
+			this.label6.Location = new System.Drawing.Point(547, 45);
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(19, 128);
+			this.label6.Size = new System.Drawing.Size(19, 143);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "总调光1";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2675,10 +2677,10 @@ namespace LightController
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("宋体", 8F);
-			this.label5.Location = new System.Drawing.Point(375, 45);
+			this.label5.Location = new System.Drawing.Point(462, 45);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(19, 128);
+			this.label5.Size = new System.Drawing.Size(19, 143);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "总调光1";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2687,10 +2689,10 @@ namespace LightController
 			// label4
 			// 
 			this.label4.Font = new System.Drawing.Font("宋体", 8F);
-			this.label4.Location = new System.Drawing.Point(314, 45);
+			this.label4.Location = new System.Drawing.Point(377, 45);
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(19, 128);
+			this.label4.Size = new System.Drawing.Size(19, 143);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "总调光1";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2699,10 +2701,10 @@ namespace LightController
 			// label3
 			// 
 			this.label3.Font = new System.Drawing.Font("宋体", 8F);
-			this.label3.Location = new System.Drawing.Point(250, 45);
+			this.label3.Location = new System.Drawing.Point(292, 45);
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(19, 128);
+			this.label3.Size = new System.Drawing.Size(19, 143);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "总调光1";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2711,10 +2713,10 @@ namespace LightController
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("宋体", 8F);
-			this.label2.Location = new System.Drawing.Point(186, 45);
+			this.label2.Location = new System.Drawing.Point(207, 45);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(19, 128);
+			this.label2.Size = new System.Drawing.Size(19, 143);
 			this.label2.TabIndex = 10;
 			this.label2.Text = "总调光1";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2726,7 +2728,7 @@ namespace LightController
 			this.label1.Location = new System.Drawing.Point(122, 45);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(19, 128);
+			this.label1.Size = new System.Drawing.Size(19, 143);
 			this.label1.TabIndex = 10;
 			this.label1.Text = "总调光1";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -2734,145 +2736,145 @@ namespace LightController
 			// 
 			// vScrollBar16
 			// 
-			this.vScrollBar16.Location = new System.Drawing.Point(1108, 45);
+			this.vScrollBar16.Location = new System.Drawing.Point(1420, 45);
 			this.vScrollBar16.Maximum = 264;
 			this.vScrollBar16.Name = "vScrollBar16";
-			this.vScrollBar16.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar16.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar16.TabIndex = 0;
 			this.vScrollBar16.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar12
 			// 
-			this.vScrollBar12.Location = new System.Drawing.Point(852, 45);
+			this.vScrollBar12.Location = new System.Drawing.Point(1087, 45);
 			this.vScrollBar12.Maximum = 264;
 			this.vScrollBar12.Name = "vScrollBar12";
-			this.vScrollBar12.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar12.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar12.TabIndex = 0;
 			this.vScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar8
 			// 
-			this.vScrollBar8.Location = new System.Drawing.Point(596, 45);
+			this.vScrollBar8.Location = new System.Drawing.Point(740, 45);
 			this.vScrollBar8.Maximum = 264;
 			this.vScrollBar8.Name = "vScrollBar8";
-			this.vScrollBar8.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar8.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar8.TabIndex = 0;
 			this.vScrollBar8.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar4
 			// 
-			this.vScrollBar4.Location = new System.Drawing.Point(340, 45);
+			this.vScrollBar4.Location = new System.Drawing.Point(403, 45);
 			this.vScrollBar4.Maximum = 264;
 			this.vScrollBar4.Name = "vScrollBar4";
-			this.vScrollBar4.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar4.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar4.TabIndex = 0;
 			this.vScrollBar4.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar15
 			// 
-			this.vScrollBar15.Location = new System.Drawing.Point(1044, 45);
+			this.vScrollBar15.Location = new System.Drawing.Point(1338, 45);
 			this.vScrollBar15.Maximum = 264;
 			this.vScrollBar15.Name = "vScrollBar15";
-			this.vScrollBar15.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar15.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar15.TabIndex = 0;
 			this.vScrollBar15.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar11
 			// 
-			this.vScrollBar11.Location = new System.Drawing.Point(788, 45);
+			this.vScrollBar11.Location = new System.Drawing.Point(1002, 45);
 			this.vScrollBar11.Maximum = 264;
 			this.vScrollBar11.Name = "vScrollBar11";
-			this.vScrollBar11.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar11.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar11.TabIndex = 0;
 			this.vScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar14
 			// 
-			this.vScrollBar14.Location = new System.Drawing.Point(980, 45);
+			this.vScrollBar14.Location = new System.Drawing.Point(1250, 45);
 			this.vScrollBar14.Maximum = 264;
 			this.vScrollBar14.Name = "vScrollBar14";
-			this.vScrollBar14.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar14.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar14.TabIndex = 0;
 			this.vScrollBar14.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar10
 			// 
-			this.vScrollBar10.Location = new System.Drawing.Point(724, 45);
+			this.vScrollBar10.Location = new System.Drawing.Point(910, 45);
 			this.vScrollBar10.Maximum = 264;
 			this.vScrollBar10.Name = "vScrollBar10";
-			this.vScrollBar10.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar10.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar10.TabIndex = 0;
 			this.vScrollBar10.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar7
 			// 
-			this.vScrollBar7.Location = new System.Drawing.Point(532, 45);
+			this.vScrollBar7.Location = new System.Drawing.Point(655, 45);
 			this.vScrollBar7.Maximum = 264;
 			this.vScrollBar7.Name = "vScrollBar7";
-			this.vScrollBar7.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar7.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar7.TabIndex = 0;
 			this.vScrollBar7.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar13
 			// 
-			this.vScrollBar13.Location = new System.Drawing.Point(916, 45);
+			this.vScrollBar13.Location = new System.Drawing.Point(1165, 45);
 			this.vScrollBar13.Maximum = 264;
 			this.vScrollBar13.Name = "vScrollBar13";
-			this.vScrollBar13.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar13.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar13.TabIndex = 0;
 			this.vScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar6
 			// 
-			this.vScrollBar6.Location = new System.Drawing.Point(468, 45);
+			this.vScrollBar6.Location = new System.Drawing.Point(576, 45);
 			this.vScrollBar6.Maximum = 264;
 			this.vScrollBar6.Name = "vScrollBar6";
-			this.vScrollBar6.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar6.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar6.TabIndex = 0;
 			this.vScrollBar6.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar9
 			// 
-			this.vScrollBar9.Location = new System.Drawing.Point(660, 45);
+			this.vScrollBar9.Location = new System.Drawing.Point(827, 45);
 			this.vScrollBar9.Maximum = 264;
 			this.vScrollBar9.Name = "vScrollBar9";
-			this.vScrollBar9.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar9.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar9.TabIndex = 0;
 			this.vScrollBar9.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar3
 			// 
-			this.vScrollBar3.Location = new System.Drawing.Point(276, 45);
+			this.vScrollBar3.Location = new System.Drawing.Point(322, 45);
 			this.vScrollBar3.Maximum = 264;
 			this.vScrollBar3.Name = "vScrollBar3";
-			this.vScrollBar3.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar3.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar3.TabIndex = 0;
 			this.vScrollBar3.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar5
 			// 
-			this.vScrollBar5.Location = new System.Drawing.Point(404, 45);
+			this.vScrollBar5.Location = new System.Drawing.Point(492, 45);
 			this.vScrollBar5.Maximum = 264;
 			this.vScrollBar5.Name = "vScrollBar5";
-			this.vScrollBar5.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar5.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar5.TabIndex = 0;
 			this.vScrollBar5.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar2
 			// 
-			this.vScrollBar2.Location = new System.Drawing.Point(212, 45);
+			this.vScrollBar2.Location = new System.Drawing.Point(230, 45);
 			this.vScrollBar2.Maximum = 264;
 			this.vScrollBar2.Name = "vScrollBar2";
-			this.vScrollBar2.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar2.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar2.TabIndex = 0;
 			this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar1
 			// 
-			this.vScrollBar1.Location = new System.Drawing.Point(148, 45);
+			this.vScrollBar1.Location = new System.Drawing.Point(145, 45);
 			this.vScrollBar1.Maximum = 264;
 			this.vScrollBar1.Name = "vScrollBar1";
-			this.vScrollBar1.Size = new System.Drawing.Size(24, 153);
+			this.vScrollBar1.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar1.TabIndex = 0;
 			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
@@ -2942,7 +2944,7 @@ namespace LightController
             this.ExitToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
-			this.mainMenuStrip.Size = new System.Drawing.Size(1594, 28);
+			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
 			this.mainMenuStrip.TabIndex = 17;
 			this.mainMenuStrip.Text = "menuStrip1";
 			// 
@@ -2987,7 +2989,7 @@ namespace LightController
 			// 
 			// previewButton
 			// 
-			this.previewButton.Location = new System.Drawing.Point(1094, 57);
+			this.previewButton.Location = new System.Drawing.Point(1338, 57);
 			this.previewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(92, 65);
@@ -2998,7 +3000,7 @@ namespace LightController
 			// 
 			// stopReviewButton
 			// 
-			this.stopReviewButton.Location = new System.Drawing.Point(1199, 57);
+			this.stopReviewButton.Location = new System.Drawing.Point(1436, 57);
 			this.stopReviewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.stopReviewButton.Name = "stopReviewButton";
 			this.stopReviewButton.Size = new System.Drawing.Size(92, 65);
@@ -3007,11 +3009,34 @@ namespace LightController
 			this.stopReviewButton.UseVisualStyleBackColor = true;
 			this.stopReviewButton.Click += new System.EventHandler(this.stopReviewButton_Click);
 			// 
+			// oneLightStepButton
+			// 
+			this.oneLightStepButton.Location = new System.Drawing.Point(1240, 83);
+			this.oneLightStepButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.oneLightStepButton.Name = "oneLightStepButton";
+			this.oneLightStepButton.Size = new System.Drawing.Size(92, 39);
+			this.oneLightStepButton.TabIndex = 5;
+			this.oneLightStepButton.Text = "单灯单步";
+			this.oneLightStepButton.UseVisualStyleBackColor = true;
+			this.oneLightStepButton.Click += new System.EventHandler(this.oneLightStepButton_Click);
+			// 
+			// realTimeCheckBox
+			// 
+			this.realTimeCheckBox.AutoSize = true;
+			this.realTimeCheckBox.Location = new System.Drawing.Point(1242, 61);
+			this.realTimeCheckBox.Name = "realTimeCheckBox";
+			this.realTimeCheckBox.Size = new System.Drawing.Size(89, 19);
+			this.realTimeCheckBox.TabIndex = 18;
+			this.realTimeCheckBox.Text = "实时调试";
+			this.realTimeCheckBox.UseVisualStyleBackColor = true;
+			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1594, 1051);
+			this.ClientSize = new System.Drawing.Size(1915, 1252);
+			this.Controls.Add(this.realTimeCheckBox);
 			this.Controls.Add(this.tongdaoGroupBox);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.oneKeyButton);
@@ -3020,6 +3045,7 @@ namespace LightController
 			this.Controls.Add(this.openComButton);
 			this.Controls.Add(this.comComboBox);
 			this.Controls.Add(this.stopReviewButton);
+			this.Controls.Add(this.oneLightStepButton);
 			this.Controls.Add(this.previewButton);
 			this.Controls.Add(this.saveAsButton);
 			this.Controls.Add(this.saveButton);
@@ -3344,6 +3370,8 @@ namespace LightController
 		private NumericUpDown stNumericUpDown;
 		private Button changeModeButton;
 		private Button steptimeSetButton;
+		private Button oneLightStepButton;
+		private CheckBox realTimeCheckBox;
 	}
 }
 

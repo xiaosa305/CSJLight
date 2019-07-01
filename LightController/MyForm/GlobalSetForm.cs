@@ -125,6 +125,9 @@ namespace LightController.MyForm
 		{
 			tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
 			startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 0);
+			eachStepTimeNumericUpDown.Value = iniAst.ReadInt("Set", "EachStepTime", 0);
+			eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode", 0);
+
 		}
 
 		/// <summary>
@@ -202,6 +205,7 @@ namespace LightController.MyForm
 				values[i] = ( qdCheckBoxes[i].Checked ? '1' :'0'  );
 			}
 			iniAst.WriteString("QD" ,  qdFrameComboBox.SelectedIndex.ToString() , new string(values) );
+			MessageBox.Show("保存成功");
 		}
 
 		/// <summary>
@@ -213,6 +217,10 @@ namespace LightController.MyForm
 		{
 			iniAst.WriteInt("Set","TongdaoCount",tongdaoCountComboBox.SelectedIndex);
 			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;
+			iniAst.WriteInt("Set", "EachStepTime",eachStepTimeNumericUpDown.Value);
+			iniAst.WriteInt("Set", "EachChangeMode", eachChangeModeComboBox.SelectedIndex);
+			MessageBox.Show("保存成功");
+
 		}
 
 		/// <summary>
@@ -225,6 +233,7 @@ namespace LightController.MyForm
 			for (int i = 0; i < 24; i++) {
 				iniAst.WriteInt("SK", i.ToString() ,skComboBoxes[i].SelectedIndex);
 			}
+			MessageBox.Show("保存成功");
 		}
 
 		private void frameSaveButton_Click(object sender, EventArgs e)
@@ -240,6 +249,9 @@ namespace LightController.MyForm
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "M", frameMethodComboBoxes[i].SelectedIndex);
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Value);
 			}
+			MessageBox.Show("保存成功");
 		}
+
+		
 	}
 }

@@ -61,7 +61,9 @@ namespace LightController
 		private int selectedLightIndex; //选择的灯具的index
 		private int frame = 0; // 0-23 表示24种场景
 		private int mode = 0;  // 0-1 表示常规程序和音频程序
+		DMX512Player dMX512Player;
 
+		private bool ifRealTime = false;
 
 		public MainForm()
 		{
@@ -249,6 +251,7 @@ namespace LightController
 			#endregion
 
 			this.isInit = true;
+			dMX512Player = DMX512Player.GetInstance();
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -408,14 +411,14 @@ namespace LightController
 		/// </summary>
 		private void clearAllData()
 		{
-			lightAstList = null;
-			lightList = null;
-			lightWrapperList = null;
-			stepCountList = null;
-			stepList = null;
-			valueList = null;
-			lightsListView.Clear();
-			tongdaoGroupBox.Hide();
+			this.lightAstList = null;
+			this.lightList = null;
+			this.lightWrapperList = null;
+			this.stepCountList = null;
+			this.stepList = null;
+			this.valueList = null;
+			this.lightsListView.Clear();
+			this.tongdaoGroupBox.Hide();
 
 		}
 
@@ -632,10 +635,10 @@ namespace LightController
 						LightStepWrapper lightStep = lswl[frame, mode];
 						if (lightStep != null && lightStep.TotalStep > 0)
 						{  //只有不为null，才可能有需要保存的数据
-							List<StepWrapper> stepList = lightStep.StepWrapperList;
-							foreach (StepWrapper step in stepList)
+							List<StepWrapper> stepWrapperList = lightStep.StepWrapperList;
+							foreach (StepWrapper step in stepWrapperList)
 							{
-								int stepIndex = stepList.IndexOf(step) + 1;
+								int stepIndex = stepWrapperList.IndexOf(step) + 1;
 								for (int tongdaoIndex = 0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++)
 								{
 									TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
@@ -743,20 +746,20 @@ namespace LightController
 		private void changeFrameMode()
 		{
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
-			LightStepWrapper stepList = lightWrapper.LightStepWrapperList[frame, mode];
+			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
 
 			// 为空或StepList数量是0
-			if (stepList == null || stepList.StepWrapperList.Count == 0)
+			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList.Count == 0)
 			{
 				hideAllTongdao();
 				showStepLabel(0, 0);
 			}
-			else // stepList != null && stepList.StepList.Count>0 : 也就是已经有值了
+			else // lightStepWrapper != null && lightStepWrapper.StepList.Count>0 : 也就是已经有值了
 			{
-				int recentStep = stepList.CurrentStep;
-				int totalStep = stepList.TotalStep;
+				int recentStep = lightStepWrapper.CurrentStep;
+				int totalStep = lightStepWrapper.TotalStep;
 
-				StepWrapper stepAst = stepList.StepWrapperList[recentStep - 1];
+				StepWrapper stepAst = lightStepWrapper.StepWrapperList[recentStep - 1];
 				ShowVScrollBars(stepAst.TongdaoList, 1);
 
 				showStepLabel(recentStep, totalStep);
@@ -803,6 +806,9 @@ namespace LightController
 		/// <returns></returns>
 		private StepWrapper generateStepMode(LightAst lightAst)
 		{
+			LightAst light = lightAstList[selectedLightIndex];
+			int startNum = light.StartNum;
+
 			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
 			{
 				// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
@@ -842,7 +848,7 @@ namespace LightController
 							ScrollValue = initNum,
 							StepTime = 10,
 							ChangeMode = 0,
-							Address = address
+							Address = startNum + (address - 1)
 						});
 					}
 					return new StepWrapper() { TongdaoList = tongdaoList, IsSaved = false };
@@ -946,8 +952,7 @@ namespace LightController
 		/// <param name="oldTongdaoList"></param>
 		/// <returns></returns>
 		private List<TongdaoWrapper> generateTongdaoList(List<TongdaoWrapper> stepModeTongdaoList)
-		{
-			// 方法1:这个方法能保证，肯定生成的是【非引用】类型的数据
+		{			
 			List<TongdaoWrapper> newList = new List<TongdaoWrapper>();
 			foreach (TongdaoWrapper item in stepModeTongdaoList)
 			{
@@ -956,22 +961,12 @@ namespace LightController
 						StepTime = item.StepTime,
 						TongdaoName = item.TongdaoName,
 						ScrollValue = item.ScrollValue,
-						ChangeMode = item.ChangeMode
+						ChangeMode = item.ChangeMode,
+						Address = item.Address
 					}
 				);
 			}
-			// 方法2:用内置方法,来回转化，无法保证是非引用数据 --》经过测试：确定是相同数据
-			//TongdaoWrapper[] temp = new TongdaoWrapper[oldTongdaoList.Count];
-			//oldTongdaoList.CopyTo(temp);
-			//List<TongdaoWrapper> newList = temp.ToList<TongdaoWrapper>();
-
-			// 测试方法：是不是同一个数据： 结论 方法2是同一个数据！
-			//for (int i = 0; i < newList.Count; i++)
-			//{
-			//	if (newList[i] == oldTongdaoList[i]) {
-			//		MessageBox.Show("Dickov:新旧是同一个");
-			//	}
-			//}
+		
 
 			return newList;
 		}
@@ -1103,7 +1098,6 @@ namespace LightController
 		/// </summary>
 		private void chooseStep(int stepValue)
 		{
-
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepValue - 1];
 			lightStepWrapper.CurrentStep = stepValue;
@@ -1111,6 +1105,7 @@ namespace LightController
 			this.ShowVScrollBars(stepWrapper.TongdaoList, 1);
 			this.showStepLabel(stepValue, lightStepWrapper.TotalStep);
 
+			oneLightStepWork();
 		}
 		
 		/// <summary>
@@ -1230,14 +1225,13 @@ namespace LightController
 		private void valueVScrollBar_Scroll(object sender, ScrollEventArgs e)
 		{
 			// 1.先找出对应vScrollBars的index 
-			int index = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
+			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
 
 			//2.把滚动条的值赋给valueNumericUpDowns
-			valueNumericUpDowns[index].Text = vScrollBars[index].Value.ToString();
+			valueNumericUpDowns[tongdaoIndex].Text = vScrollBars[tongdaoIndex].Value.ToString();
 
-			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值
-			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[index].ScrollValue = vScrollBars[index].Value;
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex);
 		}
 
 		/// <summary>
@@ -1248,14 +1242,14 @@ namespace LightController
 		private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1. 找出对应的index
-			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
 
 			// 2.调整相应的vScrollBar的数值
-			vScrollBars[index].Value = Decimal.ToInt32( valueNumericUpDowns[index].Value ) ;
+			vScrollBars[tongdaoIndex].Value = Decimal.ToInt32( valueNumericUpDowns[tongdaoIndex].Value ) ;
 
-			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值
-			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[index].ScrollValue = vScrollBars[index].Value;
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex);
+			
 		}
 
 		/// <summary>
@@ -1274,13 +1268,12 @@ namespace LightController
 
 			// 3.（6.29修改）若当前模式是声控模式：
 			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
-			if (mode == 1) {
-				
-
-
-
+			if (isInit = true && mode == 1) {
+				List<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+				foreach (StepWrapper stepWrapper in stepWrapperList) {
+					stepWrapper.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex;
+				}
 			}
-
 		}
 
 		/// <summary>
@@ -1320,18 +1313,31 @@ namespace LightController
 			swNow = tempStep;
 		}
 
+		/// <summary>
+		/// 实时预览所有灯的变化：通过dbWrapper（实时封装）来生成
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			DBGetter dbGetter = new DBGetter(dbFilePath, false);
-			DBWrapper dbWrapper = dbGetter.getAll();
-			DMX512Play dMX512Play = DMX512Play.GetInstance();
-			dMX512Play.Preview(dbWrapper, 0);
+			DBWrapper allData = GetDBWrapper();
+			dMX512Player.Preview(allData, 0);
+		}
+
+		private DBWrapper GetDBWrapper()
+		{
+			// 从数据库直接读取的情况==>弃用
+			//DBGetter dbGetter = new DBGetter(dbFilePath, false);
+			//DBWrapper dbWrapper = dbGetter.getAll();
+
+			// 由内存几个实时的List实时生成
+			DBWrapper allData = new DBWrapper(lightList, stepCountList, valueList);
+			return allData;
 		}
 
 		private void stopReviewButton_Click(object sender, EventArgs e)
 		{
-			DMX512Play dMX512Play = DMX512Play.GetInstance();
-			dMX512Play.EndPreview();
+					dMX512Player.EndPreview();
 		}
 
 		/// <summary>
@@ -1496,5 +1502,54 @@ namespace LightController
 
 		#endregion
 
+		/// <summary>
+		///  单灯单步按钮作用
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void oneLightStepButton_Click(object sender, EventArgs e)
+		{
+			oneLightStepWork();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void realTimeCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			ifRealTime = realTimeCheckBox.Checked;
+		}
+
+		/// <summary>
+		///  改变值之后，更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。
+		/// </summary>
+		/// <param name="tongdaoIndex"></param>
+		private void changeScrollValue(int tongdaoIndex) {
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[tongdaoIndex].ScrollValue = vScrollBars[tongdaoIndex].Value;
+			if (ifRealTime)
+			{
+				oneLightStepWork();
+			}
+		}
+
+		/// <summary>
+		/// 单灯单步发送DMX512帧数据
+		/// </summary>
+		private void oneLightStepWork() {
+
+			StepWrapper step = getCurrentStepWrapper();
+			List<TongdaoWrapper> tongdaoList = step.TongdaoList;
+			byte[] stepBytes = new byte[512];
+			foreach (TongdaoWrapper td in tongdaoList)
+			{
+				int tongdaoIndex = td.Address - 1;
+
+				stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+			}
+			dMX512Player.OneLightStep(stepBytes);
+		}
 	}
 }

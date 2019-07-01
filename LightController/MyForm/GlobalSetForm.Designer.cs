@@ -29,6 +29,46 @@
 		private void InitializeComponent()
 		{
 			this.dmxGroupBox = new System.Windows.Forms.GroupBox();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.eachChangeModeLabel = new System.Windows.Forms.Label();
+			this.eachStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.eachStepTimeLabel = new System.Windows.Forms.Label();
+			this.globalSaveButton = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
+			this.eachChangeModeComboBox = new System.Windows.Forms.ComboBox();
+			this.startupComboBox = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.tongdaoCountComboBox = new System.Windows.Forms.ComboBox();
+			this.zuheGroupBox = new System.Windows.Forms.GroupBox();
+			this.frameSaveButton = new System.Windows.Forms.Button();
+			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
+			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
+			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
+			this.frame0methodComboBox = new System.Windows.Forms.ComboBox();
+			this.label36 = new System.Windows.Forms.Label();
+			this.frame4methodComboBox = new System.Windows.Forms.ComboBox();
+			this.frame3methodComboBox = new System.Windows.Forms.ComboBox();
+			this.frame2methodComboBox = new System.Windows.Forms.ComboBox();
+			this.frame1methodComboBox = new System.Windows.Forms.ComboBox();
+			this.frame0numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label34 = new System.Windows.Forms.Label();
+			this.frame4numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.frame3numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.frame2numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.frame4ComboBox = new System.Windows.Forms.ComboBox();
+			this.frame3ComboBox = new System.Windows.Forms.ComboBox();
+			this.frame2ComboBox = new System.Windows.Forms.ComboBox();
+			this.frame1ComboBox = new System.Windows.Forms.ComboBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label35 = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.frame1numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.circleTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.skGroupBox = new System.Windows.Forms.GroupBox();
 			this.skSaveButton = new System.Windows.Forms.Button();
 			this.label33 = new System.Windows.Forms.Label();
@@ -79,40 +119,6 @@
 			this.skComboBox2 = new System.Windows.Forms.ComboBox();
 			this.skComboBox13 = new System.Windows.Forms.ComboBox();
 			this.skComboBox1 = new System.Windows.Forms.ComboBox();
-			this.zuheGroupBox = new System.Windows.Forms.GroupBox();
-			this.frameSaveButton = new System.Windows.Forms.Button();
-			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
-			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
-			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
-			this.frame4methodComboBox = new System.Windows.Forms.ComboBox();
-			this.frame3methodComboBox = new System.Windows.Forms.ComboBox();
-			this.frame2methodComboBox = new System.Windows.Forms.ComboBox();
-			this.frame1methodComboBox = new System.Windows.Forms.ComboBox();
-			this.frame0numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.label34 = new System.Windows.Forms.Label();
-			this.frame4numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frame3numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frame2numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.frame4ComboBox = new System.Windows.Forms.ComboBox();
-			this.frame3ComboBox = new System.Windows.Forms.ComboBox();
-			this.frame2ComboBox = new System.Windows.Forms.ComboBox();
-			this.frame1ComboBox = new System.Windows.Forms.ComboBox();
-			this.label9 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label35 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.frame1numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.circleTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.globalSaveButton = new System.Windows.Forms.Button();
-			this.label2 = new System.Windows.Forms.Label();
-			this.startupComboBox = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.tongdaoCountComboBox = new System.Windows.Forms.ComboBox();
 			this.qdGroupBox = new System.Windows.Forms.GroupBox();
 			this.qdSaveButton = new System.Windows.Forms.Button();
 			this.checkBox8 = new System.Windows.Forms.CheckBox();
@@ -124,10 +130,9 @@
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
-			this.label36 = new System.Windows.Forms.Label();
-			this.frame0methodComboBox = new System.Windows.Forms.ComboBox();
 			this.dmxGroupBox.SuspendLayout();
-			this.skGroupBox.SuspendLayout();
+			this.groupBox7.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
 			this.zuheGroupBox.SuspendLayout();
 			this.zuheEnableGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.frame0numericUpDown)).BeginInit();
@@ -136,26 +141,596 @@
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).BeginInit();
-			this.groupBox7.SuspendLayout();
+			this.skGroupBox.SuspendLayout();
 			this.qdGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
 			// 
-			this.dmxGroupBox.AutoSize = true;
-			this.dmxGroupBox.Controls.Add(this.skGroupBox);
-			this.dmxGroupBox.Controls.Add(this.zuheGroupBox);
 			this.dmxGroupBox.Controls.Add(this.groupBox7);
+			this.dmxGroupBox.Controls.Add(this.zuheGroupBox);
+			this.dmxGroupBox.Controls.Add(this.skGroupBox);
 			this.dmxGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.dmxGroupBox.Location = new System.Drawing.Point(0, 126);
+			this.dmxGroupBox.Location = new System.Drawing.Point(5, 107);
 			this.dmxGroupBox.Name = "dmxGroupBox";
-			this.dmxGroupBox.Size = new System.Drawing.Size(926, 605);
+			this.dmxGroupBox.Padding = new System.Windows.Forms.Padding(10);
+			this.dmxGroupBox.Size = new System.Drawing.Size(916, 624);
 			this.dmxGroupBox.TabIndex = 0;
 			this.dmxGroupBox.TabStop = false;
 			this.dmxGroupBox.Text = "DMX512设置";
 			// 
+			// groupBox7
+			// 
+			this.groupBox7.BackColor = System.Drawing.Color.LemonChiffon;
+			this.groupBox7.Controls.Add(this.eachChangeModeLabel);
+			this.groupBox7.Controls.Add(this.eachStepTimeNumericUpDown);
+			this.groupBox7.Controls.Add(this.eachStepTimeLabel);
+			this.groupBox7.Controls.Add(this.globalSaveButton);
+			this.groupBox7.Controls.Add(this.label2);
+			this.groupBox7.Controls.Add(this.eachChangeModeComboBox);
+			this.groupBox7.Controls.Add(this.startupComboBox);
+			this.groupBox7.Controls.Add(this.label1);
+			this.groupBox7.Controls.Add(this.tongdaoCountComboBox);
+			this.groupBox7.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.groupBox7.Location = new System.Drawing.Point(10, 25);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(896, 106);
+			this.groupBox7.TabIndex = 0;
+			this.groupBox7.TabStop = false;
+			// 
+			// eachChangeModeLabel
+			// 
+			this.eachChangeModeLabel.AutoSize = true;
+			this.eachChangeModeLabel.Location = new System.Drawing.Point(320, 73);
+			this.eachChangeModeLabel.Name = "eachChangeModeLabel";
+			this.eachChangeModeLabel.Size = new System.Drawing.Size(120, 15);
+			this.eachChangeModeLabel.TabIndex = 6;
+			this.eachChangeModeLabel.Text = "场景切换跳渐变:";
+			// 
+			// eachStepTimeNumericUpDown
+			// 
+			this.eachStepTimeNumericUpDown.Location = new System.Drawing.Point(146, 68);
+			this.eachStepTimeNumericUpDown.Name = "eachStepTimeNumericUpDown";
+			this.eachStepTimeNumericUpDown.Size = new System.Drawing.Size(102, 25);
+			this.eachStepTimeNumericUpDown.TabIndex = 5;
+			this.eachStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// eachStepTimeLabel
+			// 
+			this.eachStepTimeLabel.AutoSize = true;
+			this.eachStepTimeLabel.Location = new System.Drawing.Point(28, 73);
+			this.eachStepTimeLabel.Name = "eachStepTimeLabel";
+			this.eachStepTimeLabel.Size = new System.Drawing.Size(82, 15);
+			this.eachStepTimeLabel.TabIndex = 4;
+			this.eachStepTimeLabel.Text = "时间因子：";
+			// 
+			// globalSaveButton
+			// 
+			this.globalSaveButton.BackColor = System.Drawing.Color.Wheat;
+			this.globalSaveButton.Location = new System.Drawing.Point(796, 19);
+			this.globalSaveButton.Name = "globalSaveButton";
+			this.globalSaveButton.Size = new System.Drawing.Size(93, 28);
+			this.globalSaveButton.TabIndex = 3;
+			this.globalSaveButton.Text = "保存设置";
+			this.globalSaveButton.UseVisualStyleBackColor = false;
+			this.globalSaveButton.Click += new System.EventHandler(this.globalSaveButton_Click);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(320, 26);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(142, 15);
+			this.label2.TabIndex = 3;
+			this.label2.Text = "开机自动播放场景：";
+			// 
+			// eachChangeModeComboBox
+			// 
+			this.eachChangeModeComboBox.FormattingEnabled = true;
+			this.eachChangeModeComboBox.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.eachChangeModeComboBox.Location = new System.Drawing.Point(473, 69);
+			this.eachChangeModeComboBox.Name = "eachChangeModeComboBox";
+			this.eachChangeModeComboBox.Size = new System.Drawing.Size(111, 23);
+			this.eachChangeModeComboBox.TabIndex = 2;
+			// 
+			// startupComboBox
+			// 
+			this.startupComboBox.FormattingEnabled = true;
+			this.startupComboBox.Items.AddRange(new object[] {
+            "无",
+            "标准",
+            "动感",
+            "商务",
+            "抒情",
+            "清洁",
+            "柔和",
+            "激情",
+            "明亮",
+            "浪漫",
+            "演出",
+            "暂停",
+            "全关",
+            "全开",
+            "全开关",
+            "电影",
+            "备用1",
+            "备用2",
+            "备用3",
+            "备用4",
+            "备用5",
+            "备用6",
+            "摇麦",
+            "喝彩",
+            "倒彩"});
+			this.startupComboBox.Location = new System.Drawing.Point(473, 22);
+			this.startupComboBox.Name = "startupComboBox";
+			this.startupComboBox.Size = new System.Drawing.Size(111, 23);
+			this.startupComboBox.TabIndex = 2;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(28, 26);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(112, 15);
+			this.label1.TabIndex = 1;
+			this.label1.Text = "通道总数设置：";
+			// 
+			// tongdaoCountComboBox
+			// 
+			this.tongdaoCountComboBox.FormattingEnabled = true;
+			this.tongdaoCountComboBox.Items.AddRange(new object[] {
+            "512",
+            "384",
+            "256",
+            "128"});
+			this.tongdaoCountComboBox.Location = new System.Drawing.Point(146, 22);
+			this.tongdaoCountComboBox.Name = "tongdaoCountComboBox";
+			this.tongdaoCountComboBox.Size = new System.Drawing.Size(102, 23);
+			this.tongdaoCountComboBox.TabIndex = 0;
+			// 
+			// zuheGroupBox
+			// 
+			this.zuheGroupBox.BackColor = System.Drawing.Color.SeaShell;
+			this.zuheGroupBox.Controls.Add(this.frameSaveButton);
+			this.zuheGroupBox.Controls.Add(this.zuheFrameComboBox);
+			this.zuheGroupBox.Controls.Add(this.zuheCheckBox);
+			this.zuheGroupBox.Controls.Add(this.zuheEnableGroupBox);
+			this.zuheGroupBox.Controls.Add(this.label3);
+			this.zuheGroupBox.Controls.Add(this.circleTimeNumericUpDown);
+			this.zuheGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.zuheGroupBox.Location = new System.Drawing.Point(10, 131);
+			this.zuheGroupBox.Name = "zuheGroupBox";
+			this.zuheGroupBox.Size = new System.Drawing.Size(896, 256);
+			this.zuheGroupBox.TabIndex = 1;
+			this.zuheGroupBox.TabStop = false;
+			this.zuheGroupBox.Text = "多场景组合播放设置";
+			// 
+			// frameSaveButton
+			// 
+			this.frameSaveButton.BackColor = System.Drawing.Color.Linen;
+			this.frameSaveButton.Location = new System.Drawing.Point(794, 30);
+			this.frameSaveButton.Name = "frameSaveButton";
+			this.frameSaveButton.Size = new System.Drawing.Size(93, 28);
+			this.frameSaveButton.TabIndex = 3;
+			this.frameSaveButton.Text = "保存当前项";
+			this.frameSaveButton.UseVisualStyleBackColor = false;
+			this.frameSaveButton.Click += new System.EventHandler(this.frameSaveButton_Click);
+			// 
+			// zuheFrameComboBox
+			// 
+			this.zuheFrameComboBox.FormattingEnabled = true;
+			this.zuheFrameComboBox.Items.AddRange(new object[] {
+            "标准",
+            "动感",
+            "商务",
+            "抒情",
+            "清洁",
+            "柔和",
+            "激情",
+            "明亮",
+            "浪漫"});
+			this.zuheFrameComboBox.Location = new System.Drawing.Point(17, 32);
+			this.zuheFrameComboBox.Name = "zuheFrameComboBox";
+			this.zuheFrameComboBox.Size = new System.Drawing.Size(121, 23);
+			this.zuheFrameComboBox.TabIndex = 2;
+			this.zuheFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.zuheFrameComboBox_SelectedIndexChanged);
+			// 
+			// zuheCheckBox
+			// 
+			this.zuheCheckBox.AutoSize = true;
+			this.zuheCheckBox.Location = new System.Drawing.Point(188, 32);
+			this.zuheCheckBox.Name = "zuheCheckBox";
+			this.zuheCheckBox.Size = new System.Drawing.Size(134, 19);
+			this.zuheCheckBox.TabIndex = 1;
+			this.zuheCheckBox.Text = "是否开启此功能";
+			this.zuheCheckBox.UseVisualStyleBackColor = true;
+			this.zuheCheckBox.CheckedChanged += new System.EventHandler(this.zuheCheckBox_CheckedChanged);
+			// 
+			// zuheEnableGroupBox
+			// 
+			this.zuheEnableGroupBox.Controls.Add(this.frame0methodComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.label36);
+			this.zuheEnableGroupBox.Controls.Add(this.frame4methodComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.frame3methodComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.frame2methodComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.frame1methodComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.frame0numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.label34);
+			this.zuheEnableGroupBox.Controls.Add(this.frame4numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.frame3numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.frame2numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.frame4ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.frame3ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.frame2ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.frame1ComboBox);
+			this.zuheEnableGroupBox.Controls.Add(this.label9);
+			this.zuheEnableGroupBox.Controls.Add(this.label7);
+			this.zuheEnableGroupBox.Controls.Add(this.label6);
+			this.zuheEnableGroupBox.Controls.Add(this.label5);
+			this.zuheEnableGroupBox.Controls.Add(this.label35);
+			this.zuheEnableGroupBox.Controls.Add(this.label8);
+			this.zuheEnableGroupBox.Controls.Add(this.frame1numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.label4);
+			this.zuheEnableGroupBox.Enabled = false;
+			this.zuheEnableGroupBox.Location = new System.Drawing.Point(10, 70);
+			this.zuheEnableGroupBox.Name = "zuheEnableGroupBox";
+			this.zuheEnableGroupBox.Size = new System.Drawing.Size(895, 176);
+			this.zuheEnableGroupBox.TabIndex = 0;
+			this.zuheEnableGroupBox.TabStop = false;
+			this.zuheEnableGroupBox.Text = "播放设置";
+			// 
+			// frame0methodComboBox
+			// 
+			this.frame0methodComboBox.FormattingEnabled = true;
+			this.frame0methodComboBox.Items.AddRange(new object[] {
+            "固定时间",
+            "固定次数"});
+			this.frame0methodComboBox.Location = new System.Drawing.Point(21, 51);
+			this.frame0methodComboBox.Name = "frame0methodComboBox";
+			this.frame0methodComboBox.Size = new System.Drawing.Size(116, 23);
+			this.frame0methodComboBox.TabIndex = 10;
+			// 
+			// label36
+			// 
+			this.label36.AutoSize = true;
+			this.label36.Location = new System.Drawing.Point(26, 21);
+			this.label36.Name = "label36";
+			this.label36.Size = new System.Drawing.Size(112, 15);
+			this.label36.TabIndex = 9;
+			this.label36.Text = "主场景播放方式";
+			// 
+			// frame4methodComboBox
+			// 
+			this.frame4methodComboBox.FormattingEnabled = true;
+			this.frame4methodComboBox.Items.AddRange(new object[] {
+            "固定时间",
+            "固定次数"});
+			this.frame4methodComboBox.Location = new System.Drawing.Point(747, 90);
+			this.frame4methodComboBox.Name = "frame4methodComboBox";
+			this.frame4methodComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame4methodComboBox.TabIndex = 7;
+			// 
+			// frame3methodComboBox
+			// 
+			this.frame3methodComboBox.FormattingEnabled = true;
+			this.frame3methodComboBox.Items.AddRange(new object[] {
+            "固定时间",
+            "固定次数"});
+			this.frame3methodComboBox.Location = new System.Drawing.Point(599, 90);
+			this.frame3methodComboBox.Name = "frame3methodComboBox";
+			this.frame3methodComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame3methodComboBox.TabIndex = 7;
+			// 
+			// frame2methodComboBox
+			// 
+			this.frame2methodComboBox.FormattingEnabled = true;
+			this.frame2methodComboBox.Items.AddRange(new object[] {
+            "固定时间",
+            "固定次数"});
+			this.frame2methodComboBox.Location = new System.Drawing.Point(447, 90);
+			this.frame2methodComboBox.Name = "frame2methodComboBox";
+			this.frame2methodComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame2methodComboBox.TabIndex = 7;
+			// 
+			// frame1methodComboBox
+			// 
+			this.frame1methodComboBox.FormattingEnabled = true;
+			this.frame1methodComboBox.Items.AddRange(new object[] {
+            "固定时间",
+            "固定次数"});
+			this.frame1methodComboBox.Location = new System.Drawing.Point(295, 90);
+			this.frame1methodComboBox.Name = "frame1methodComboBox";
+			this.frame1methodComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame1methodComboBox.TabIndex = 7;
+			// 
+			// frame0numericUpDown
+			// 
+			this.frame0numericUpDown.Location = new System.Drawing.Point(22, 130);
+			this.frame0numericUpDown.Name = "frame0numericUpDown";
+			this.frame0numericUpDown.Size = new System.Drawing.Size(116, 25);
+			this.frame0numericUpDown.TabIndex = 4;
+			this.frame0numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// label34
+			// 
+			this.label34.AutoSize = true;
+			this.label34.Location = new System.Drawing.Point(26, 98);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(105, 15);
+			this.label34.TabIndex = 5;
+			this.label34.Text = "播放时间/次数";
+			// 
+			// frame4numericUpDown
+			// 
+			this.frame4numericUpDown.Location = new System.Drawing.Point(747, 126);
+			this.frame4numericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.frame4numericUpDown.Name = "frame4numericUpDown";
+			this.frame4numericUpDown.Size = new System.Drawing.Size(99, 25);
+			this.frame4numericUpDown.TabIndex = 6;
+			this.frame4numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// frame3numericUpDown
+			// 
+			this.frame3numericUpDown.Location = new System.Drawing.Point(599, 126);
+			this.frame3numericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.frame3numericUpDown.Name = "frame3numericUpDown";
+			this.frame3numericUpDown.Size = new System.Drawing.Size(99, 25);
+			this.frame3numericUpDown.TabIndex = 5;
+			this.frame3numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// frame2numericUpDown
+			// 
+			this.frame2numericUpDown.Location = new System.Drawing.Point(447, 126);
+			this.frame2numericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.frame2numericUpDown.Name = "frame2numericUpDown";
+			this.frame2numericUpDown.Size = new System.Drawing.Size(99, 25);
+			this.frame2numericUpDown.TabIndex = 4;
+			this.frame2numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// frame4ComboBox
+			// 
+			this.frame4ComboBox.FormattingEnabled = true;
+			this.frame4ComboBox.Items.AddRange(new object[] {
+            "标准",
+            "动感",
+            "商务",
+            "抒情",
+            "清洁",
+            "柔和",
+            "激情",
+            "明亮",
+            "浪漫",
+            "演出",
+            "暂停",
+            "全关",
+            "全开",
+            "全开关",
+            "电影",
+            "备用1",
+            "备用2",
+            "备用3",
+            "备用4",
+            "备用5",
+            "备用6",
+            "摇麦",
+            "喝彩",
+            "倒彩"});
+			this.frame4ComboBox.Location = new System.Drawing.Point(747, 51);
+			this.frame4ComboBox.Name = "frame4ComboBox";
+			this.frame4ComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame4ComboBox.TabIndex = 3;
+			// 
+			// frame3ComboBox
+			// 
+			this.frame3ComboBox.FormattingEnabled = true;
+			this.frame3ComboBox.Items.AddRange(new object[] {
+            "标准",
+            "动感",
+            "商务",
+            "抒情",
+            "清洁",
+            "柔和",
+            "激情",
+            "明亮",
+            "浪漫",
+            "演出",
+            "暂停",
+            "全关",
+            "全开",
+            "全开关",
+            "电影",
+            "备用1",
+            "备用2",
+            "备用3",
+            "备用4",
+            "备用5",
+            "备用6",
+            "摇麦",
+            "喝彩",
+            "倒彩"});
+			this.frame3ComboBox.Location = new System.Drawing.Point(599, 51);
+			this.frame3ComboBox.Name = "frame3ComboBox";
+			this.frame3ComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame3ComboBox.TabIndex = 3;
+			// 
+			// frame2ComboBox
+			// 
+			this.frame2ComboBox.FormattingEnabled = true;
+			this.frame2ComboBox.Items.AddRange(new object[] {
+            "标准",
+            "动感",
+            "商务",
+            "抒情",
+            "清洁",
+            "柔和",
+            "激情",
+            "明亮",
+            "浪漫",
+            "演出",
+            "暂停",
+            "全关",
+            "全开",
+            "全开关",
+            "电影",
+            "备用1",
+            "备用2",
+            "备用3",
+            "备用4",
+            "备用5",
+            "备用6",
+            "摇麦",
+            "喝彩",
+            "倒彩"});
+			this.frame2ComboBox.Location = new System.Drawing.Point(447, 51);
+			this.frame2ComboBox.Name = "frame2ComboBox";
+			this.frame2ComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame2ComboBox.TabIndex = 3;
+			// 
+			// frame1ComboBox
+			// 
+			this.frame1ComboBox.FormattingEnabled = true;
+			this.frame1ComboBox.Items.AddRange(new object[] {
+            "标准",
+            "动感",
+            "商务",
+            "抒情",
+            "清洁",
+            "柔和",
+            "激情",
+            "明亮",
+            "浪漫",
+            "演出",
+            "暂停",
+            "全关",
+            "全开",
+            "全开关",
+            "电影",
+            "备用1",
+            "备用2",
+            "备用3",
+            "备用4",
+            "备用5",
+            "备用6",
+            "摇麦",
+            "喝彩",
+            "倒彩"});
+			this.frame1ComboBox.Location = new System.Drawing.Point(295, 51);
+			this.frame1ComboBox.Name = "frame1ComboBox";
+			this.frame1ComboBox.Size = new System.Drawing.Size(99, 23);
+			this.frame1ComboBox.TabIndex = 3;
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(185, 55);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(67, 15);
+			this.label9.TabIndex = 2;
+			this.label9.Text = "场景类型";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(750, 21);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(75, 15);
+			this.label7.TabIndex = 1;
+			this.label7.Text = "组合场景4";
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(598, 21);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(75, 15);
+			this.label6.TabIndex = 1;
+			this.label6.Text = "组合场景3";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(451, 21);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(75, 15);
+			this.label5.TabIndex = 1;
+			this.label5.Text = "组合场景2";
+			// 
+			// label35
+			// 
+			this.label35.AutoSize = true;
+			this.label35.Location = new System.Drawing.Point(185, 131);
+			this.label35.Name = "label35";
+			this.label35.Size = new System.Drawing.Size(99, 15);
+			this.label35.TabIndex = 1;
+			this.label35.Text = "时间(s)/次数";
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(185, 93);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(67, 15);
+			this.label8.TabIndex = 1;
+			this.label8.Text = "播放方式";
+			// 
+			// frame1numericUpDown
+			// 
+			this.frame1numericUpDown.Location = new System.Drawing.Point(296, 126);
+			this.frame1numericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.frame1numericUpDown.Name = "frame1numericUpDown";
+			this.frame1numericUpDown.Size = new System.Drawing.Size(98, 25);
+			this.frame1numericUpDown.TabIndex = 0;
+			this.frame1numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(294, 21);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(75, 15);
+			this.label4.TabIndex = 1;
+			this.label4.Text = "组合场景1";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(378, 34);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(97, 15);
+			this.label3.TabIndex = 1;
+			this.label3.Text = "总循环次数：";
+			// 
+			// circleTimeNumericUpDown
+			// 
+			this.circleTimeNumericUpDown.Enabled = false;
+			this.circleTimeNumericUpDown.Location = new System.Drawing.Point(481, 30);
+			this.circleTimeNumericUpDown.Name = "circleTimeNumericUpDown";
+			this.circleTimeNumericUpDown.Size = new System.Drawing.Size(120, 25);
+			this.circleTimeNumericUpDown.TabIndex = 0;
+			this.circleTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// skGroupBox
 			// 
+			this.skGroupBox.BackColor = System.Drawing.Color.LightBlue;
 			this.skGroupBox.Controls.Add(this.skSaveButton);
 			this.skGroupBox.Controls.Add(this.label33);
 			this.skGroupBox.Controls.Add(this.label21);
@@ -205,9 +780,10 @@
 			this.skGroupBox.Controls.Add(this.skComboBox2);
 			this.skGroupBox.Controls.Add(this.skComboBox13);
 			this.skGroupBox.Controls.Add(this.skComboBox1);
-			this.skGroupBox.Location = new System.Drawing.Point(7, 373);
+			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.skGroupBox.Location = new System.Drawing.Point(10, 387);
 			this.skGroupBox.Name = "skGroupBox";
-			this.skGroupBox.Size = new System.Drawing.Size(916, 208);
+			this.skGroupBox.Size = new System.Drawing.Size(896, 227);
 			this.skGroupBox.TabIndex = 2;
 			this.skGroupBox.TabStop = false;
 			this.skGroupBox.Text = "声控场景触发步数设置";
@@ -775,513 +1351,10 @@
 			this.skComboBox1.Size = new System.Drawing.Size(56, 23);
 			this.skComboBox1.TabIndex = 0;
 			// 
-			// zuheGroupBox
-			// 
-			this.zuheGroupBox.Controls.Add(this.frameSaveButton);
-			this.zuheGroupBox.Controls.Add(this.zuheFrameComboBox);
-			this.zuheGroupBox.Controls.Add(this.zuheCheckBox);
-			this.zuheGroupBox.Controls.Add(this.zuheEnableGroupBox);
-			this.zuheGroupBox.Controls.Add(this.label3);
-			this.zuheGroupBox.Controls.Add(this.circleTimeNumericUpDown);
-			this.zuheGroupBox.Location = new System.Drawing.Point(7, 99);
-			this.zuheGroupBox.Name = "zuheGroupBox";
-			this.zuheGroupBox.Size = new System.Drawing.Size(916, 256);
-			this.zuheGroupBox.TabIndex = 1;
-			this.zuheGroupBox.TabStop = false;
-			this.zuheGroupBox.Text = "多场景组合播放设置";
-			// 
-			// frameSaveButton
-			// 
-			this.frameSaveButton.BackColor = System.Drawing.Color.Linen;
-			this.frameSaveButton.Location = new System.Drawing.Point(794, 30);
-			this.frameSaveButton.Name = "frameSaveButton";
-			this.frameSaveButton.Size = new System.Drawing.Size(93, 28);
-			this.frameSaveButton.TabIndex = 3;
-			this.frameSaveButton.Text = "保存当前项";
-			this.frameSaveButton.UseVisualStyleBackColor = false;
-			this.frameSaveButton.Click += new System.EventHandler(this.frameSaveButton_Click);
-			// 
-			// zuheFrameComboBox
-			// 
-			this.zuheFrameComboBox.FormattingEnabled = true;
-			this.zuheFrameComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫"});
-			this.zuheFrameComboBox.Location = new System.Drawing.Point(17, 32);
-			this.zuheFrameComboBox.Name = "zuheFrameComboBox";
-			this.zuheFrameComboBox.Size = new System.Drawing.Size(121, 23);
-			this.zuheFrameComboBox.TabIndex = 2;
-			this.zuheFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.zuheFrameComboBox_SelectedIndexChanged);
-			// 
-			// zuheCheckBox
-			// 
-			this.zuheCheckBox.AutoSize = true;
-			this.zuheCheckBox.Location = new System.Drawing.Point(188, 32);
-			this.zuheCheckBox.Name = "zuheCheckBox";
-			this.zuheCheckBox.Size = new System.Drawing.Size(134, 19);
-			this.zuheCheckBox.TabIndex = 1;
-			this.zuheCheckBox.Text = "是否开启此功能";
-			this.zuheCheckBox.UseVisualStyleBackColor = true;
-			this.zuheCheckBox.CheckedChanged += new System.EventHandler(this.zuheCheckBox_CheckedChanged);
-			// 
-			// zuheEnableGroupBox
-			// 
-			this.zuheEnableGroupBox.Controls.Add(this.frame0methodComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.label36);
-			this.zuheEnableGroupBox.Controls.Add(this.frame4methodComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame3methodComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame2methodComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame1methodComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame0numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.label34);
-			this.zuheEnableGroupBox.Controls.Add(this.frame4numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.frame3numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.frame2numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.frame4ComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame3ComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame2ComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.frame1ComboBox);
-			this.zuheEnableGroupBox.Controls.Add(this.label9);
-			this.zuheEnableGroupBox.Controls.Add(this.label7);
-			this.zuheEnableGroupBox.Controls.Add(this.label6);
-			this.zuheEnableGroupBox.Controls.Add(this.label5);
-			this.zuheEnableGroupBox.Controls.Add(this.label35);
-			this.zuheEnableGroupBox.Controls.Add(this.label8);
-			this.zuheEnableGroupBox.Controls.Add(this.frame1numericUpDown);
-			this.zuheEnableGroupBox.Controls.Add(this.label4);
-			this.zuheEnableGroupBox.Enabled = false;
-			this.zuheEnableGroupBox.Location = new System.Drawing.Point(10, 70);
-			this.zuheEnableGroupBox.Name = "zuheEnableGroupBox";
-			this.zuheEnableGroupBox.Size = new System.Drawing.Size(895, 176);
-			this.zuheEnableGroupBox.TabIndex = 0;
-			this.zuheEnableGroupBox.TabStop = false;
-			this.zuheEnableGroupBox.Text = "播放设置";
-			// 
-			// frame4methodComboBox
-			// 
-			this.frame4methodComboBox.FormattingEnabled = true;
-			this.frame4methodComboBox.Items.AddRange(new object[] {
-            "固定时间",
-            "固定次数"});
-			this.frame4methodComboBox.Location = new System.Drawing.Point(747, 90);
-			this.frame4methodComboBox.Name = "frame4methodComboBox";
-			this.frame4methodComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame4methodComboBox.TabIndex = 7;
-			// 
-			// frame3methodComboBox
-			// 
-			this.frame3methodComboBox.FormattingEnabled = true;
-			this.frame3methodComboBox.Items.AddRange(new object[] {
-            "固定时间",
-            "固定次数"});
-			this.frame3methodComboBox.Location = new System.Drawing.Point(599, 90);
-			this.frame3methodComboBox.Name = "frame3methodComboBox";
-			this.frame3methodComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame3methodComboBox.TabIndex = 7;
-			// 
-			// frame2methodComboBox
-			// 
-			this.frame2methodComboBox.FormattingEnabled = true;
-			this.frame2methodComboBox.Items.AddRange(new object[] {
-            "固定时间",
-            "固定次数"});
-			this.frame2methodComboBox.Location = new System.Drawing.Point(447, 90);
-			this.frame2methodComboBox.Name = "frame2methodComboBox";
-			this.frame2methodComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame2methodComboBox.TabIndex = 7;
-			// 
-			// frame1methodComboBox
-			// 
-			this.frame1methodComboBox.FormattingEnabled = true;
-			this.frame1methodComboBox.Items.AddRange(new object[] {
-            "固定时间",
-            "固定次数"});
-			this.frame1methodComboBox.Location = new System.Drawing.Point(295, 90);
-			this.frame1methodComboBox.Name = "frame1methodComboBox";
-			this.frame1methodComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame1methodComboBox.TabIndex = 7;
-			// 
-			// frame0numericUpDown
-			// 
-			this.frame0numericUpDown.Location = new System.Drawing.Point(22, 130);
-			this.frame0numericUpDown.Name = "frame0numericUpDown";
-			this.frame0numericUpDown.Size = new System.Drawing.Size(116, 25);
-			this.frame0numericUpDown.TabIndex = 4;
-			this.frame0numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// label34
-			// 
-			this.label34.AutoSize = true;
-			this.label34.Location = new System.Drawing.Point(26, 98);
-			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(105, 15);
-			this.label34.TabIndex = 5;
-			this.label34.Text = "播放时间/次数";
-			// 
-			// frame4numericUpDown
-			// 
-			this.frame4numericUpDown.Location = new System.Drawing.Point(747, 126);
-			this.frame4numericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.frame4numericUpDown.Name = "frame4numericUpDown";
-			this.frame4numericUpDown.Size = new System.Drawing.Size(99, 25);
-			this.frame4numericUpDown.TabIndex = 6;
-			this.frame4numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// frame3numericUpDown
-			// 
-			this.frame3numericUpDown.Location = new System.Drawing.Point(599, 126);
-			this.frame3numericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.frame3numericUpDown.Name = "frame3numericUpDown";
-			this.frame3numericUpDown.Size = new System.Drawing.Size(99, 25);
-			this.frame3numericUpDown.TabIndex = 5;
-			this.frame3numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// frame2numericUpDown
-			// 
-			this.frame2numericUpDown.Location = new System.Drawing.Point(447, 126);
-			this.frame2numericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.frame2numericUpDown.Name = "frame2numericUpDown";
-			this.frame2numericUpDown.Size = new System.Drawing.Size(99, 25);
-			this.frame2numericUpDown.TabIndex = 4;
-			this.frame2numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// frame4ComboBox
-			// 
-			this.frame4ComboBox.FormattingEnabled = true;
-			this.frame4ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
-			this.frame4ComboBox.Location = new System.Drawing.Point(747, 51);
-			this.frame4ComboBox.Name = "frame4ComboBox";
-			this.frame4ComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame4ComboBox.TabIndex = 3;
-			// 
-			// frame3ComboBox
-			// 
-			this.frame3ComboBox.FormattingEnabled = true;
-			this.frame3ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
-			this.frame3ComboBox.Location = new System.Drawing.Point(599, 51);
-			this.frame3ComboBox.Name = "frame3ComboBox";
-			this.frame3ComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame3ComboBox.TabIndex = 3;
-			// 
-			// frame2ComboBox
-			// 
-			this.frame2ComboBox.FormattingEnabled = true;
-			this.frame2ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
-			this.frame2ComboBox.Location = new System.Drawing.Point(447, 51);
-			this.frame2ComboBox.Name = "frame2ComboBox";
-			this.frame2ComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame2ComboBox.TabIndex = 3;
-			// 
-			// frame1ComboBox
-			// 
-			this.frame1ComboBox.FormattingEnabled = true;
-			this.frame1ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
-			this.frame1ComboBox.Location = new System.Drawing.Point(295, 51);
-			this.frame1ComboBox.Name = "frame1ComboBox";
-			this.frame1ComboBox.Size = new System.Drawing.Size(99, 23);
-			this.frame1ComboBox.TabIndex = 3;
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(185, 55);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(67, 15);
-			this.label9.TabIndex = 2;
-			this.label9.Text = "场景类型";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(750, 21);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(75, 15);
-			this.label7.TabIndex = 1;
-			this.label7.Text = "组合场景4";
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(598, 21);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(75, 15);
-			this.label6.TabIndex = 1;
-			this.label6.Text = "组合场景3";
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(451, 21);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(75, 15);
-			this.label5.TabIndex = 1;
-			this.label5.Text = "组合场景2";
-			// 
-			// label35
-			// 
-			this.label35.AutoSize = true;
-			this.label35.Location = new System.Drawing.Point(185, 131);
-			this.label35.Name = "label35";
-			this.label35.Size = new System.Drawing.Size(99, 15);
-			this.label35.TabIndex = 1;
-			this.label35.Text = "时间(s)/次数";
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(185, 93);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(67, 15);
-			this.label8.TabIndex = 1;
-			this.label8.Text = "播放方式";
-			// 
-			// frame1numericUpDown
-			// 
-			this.frame1numericUpDown.Location = new System.Drawing.Point(296, 126);
-			this.frame1numericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.frame1numericUpDown.Name = "frame1numericUpDown";
-			this.frame1numericUpDown.Size = new System.Drawing.Size(98, 25);
-			this.frame1numericUpDown.TabIndex = 0;
-			this.frame1numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(294, 21);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(75, 15);
-			this.label4.TabIndex = 1;
-			this.label4.Text = "组合场景1";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(378, 34);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(97, 15);
-			this.label3.TabIndex = 1;
-			this.label3.Text = "总循环次数：";
-			// 
-			// circleTimeNumericUpDown
-			// 
-			this.circleTimeNumericUpDown.Enabled = false;
-			this.circleTimeNumericUpDown.Location = new System.Drawing.Point(481, 30);
-			this.circleTimeNumericUpDown.Name = "circleTimeNumericUpDown";
-			this.circleTimeNumericUpDown.Size = new System.Drawing.Size(120, 25);
-			this.circleTimeNumericUpDown.TabIndex = 0;
-			this.circleTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// groupBox7
-			// 
-			this.groupBox7.Controls.Add(this.globalSaveButton);
-			this.groupBox7.Controls.Add(this.label2);
-			this.groupBox7.Controls.Add(this.startupComboBox);
-			this.groupBox7.Controls.Add(this.label1);
-			this.groupBox7.Controls.Add(this.tongdaoCountComboBox);
-			this.groupBox7.Location = new System.Drawing.Point(7, 25);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(916, 68);
-			this.groupBox7.TabIndex = 0;
-			this.groupBox7.TabStop = false;
-			// 
-			// globalSaveButton
-			// 
-			this.globalSaveButton.BackColor = System.Drawing.Color.Wheat;
-			this.globalSaveButton.Location = new System.Drawing.Point(794, 24);
-			this.globalSaveButton.Name = "globalSaveButton";
-			this.globalSaveButton.Size = new System.Drawing.Size(93, 28);
-			this.globalSaveButton.TabIndex = 3;
-			this.globalSaveButton.Text = "保存设置";
-			this.globalSaveButton.UseVisualStyleBackColor = false;
-			this.globalSaveButton.Click += new System.EventHandler(this.globalSaveButton_Click);
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(320, 26);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(142, 15);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "开机自动播放场景：";
-			// 
-			// startupComboBox
-			// 
-			this.startupComboBox.FormattingEnabled = true;
-			this.startupComboBox.Items.AddRange(new object[] {
-            "无",
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
-			this.startupComboBox.Location = new System.Drawing.Point(473, 22);
-			this.startupComboBox.Name = "startupComboBox";
-			this.startupComboBox.Size = new System.Drawing.Size(138, 23);
-			this.startupComboBox.TabIndex = 2;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(28, 26);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(112, 15);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "通道总数设置：";
-			// 
-			// tongdaoCountComboBox
-			// 
-			this.tongdaoCountComboBox.FormattingEnabled = true;
-			this.tongdaoCountComboBox.Items.AddRange(new object[] {
-            "512",
-            "384",
-            "256",
-            "128"});
-			this.tongdaoCountComboBox.Location = new System.Drawing.Point(146, 22);
-			this.tongdaoCountComboBox.Name = "tongdaoCountComboBox";
-			this.tongdaoCountComboBox.Size = new System.Drawing.Size(138, 23);
-			this.tongdaoCountComboBox.TabIndex = 0;
-			// 
 			// qdGroupBox
 			// 
 			this.qdGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.qdGroupBox.BackColor = System.Drawing.Color.Ivory;
 			this.qdGroupBox.Controls.Add(this.qdSaveButton);
 			this.qdGroupBox.Controls.Add(this.checkBox8);
 			this.qdGroupBox.Controls.Add(this.checkBox7);
@@ -1292,7 +1365,7 @@
 			this.qdGroupBox.Controls.Add(this.checkBox2);
 			this.qdGroupBox.Controls.Add(this.checkBox1);
 			this.qdGroupBox.Controls.Add(this.qdFrameComboBox);
-			this.qdGroupBox.Location = new System.Drawing.Point(0, 12);
+			this.qdGroupBox.Location = new System.Drawing.Point(0, 17);
 			this.qdGroupBox.Name = "qdGroupBox";
 			this.qdGroupBox.Size = new System.Drawing.Size(926, 77);
 			this.qdGroupBox.TabIndex = 0;
@@ -1424,42 +1497,25 @@
 			this.qdFrameComboBox.TabIndex = 0;
 			this.qdFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
 			// 
-			// label36
-			// 
-			this.label36.AutoSize = true;
-			this.label36.Location = new System.Drawing.Point(26, 21);
-			this.label36.Name = "label36";
-			this.label36.Size = new System.Drawing.Size(112, 15);
-			this.label36.TabIndex = 9;
-			this.label36.Text = "主场景播放方式";
-			// 
-			// frame0methodComboBox
-			// 
-			this.frame0methodComboBox.FormattingEnabled = true;
-			this.frame0methodComboBox.Items.AddRange(new object[] {
-            "固定时间",
-            "固定次数"});
-			this.frame0methodComboBox.Location = new System.Drawing.Point(21, 51);
-			this.frame0methodComboBox.Name = "frame0methodComboBox";
-			this.frame0methodComboBox.Size = new System.Drawing.Size(116, 23);
-			this.frame0methodComboBox.TabIndex = 10;
-			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(926, 731);
+			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.ClientSize = new System.Drawing.Size(926, 736);
 			this.Controls.Add(this.qdGroupBox);
 			this.Controls.Add(this.dmxGroupBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "GlobalSetForm";
+			this.Padding = new System.Windows.Forms.Padding(5);
 			this.Text = "全局设置";
 			this.Load += new System.EventHandler(this.GlobalSetForm_Load);
 			this.dmxGroupBox.ResumeLayout(false);
-			this.skGroupBox.ResumeLayout(false);
-			this.skGroupBox.PerformLayout();
+			this.groupBox7.ResumeLayout(false);
+			this.groupBox7.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).EndInit();
 			this.zuheGroupBox.ResumeLayout(false);
 			this.zuheGroupBox.PerformLayout();
 			this.zuheEnableGroupBox.ResumeLayout(false);
@@ -1470,12 +1526,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).EndInit();
-			this.groupBox7.ResumeLayout(false);
-			this.groupBox7.PerformLayout();
+			this.skGroupBox.ResumeLayout(false);
+			this.skGroupBox.PerformLayout();
 			this.qdGroupBox.ResumeLayout(false);
 			this.qdGroupBox.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -1494,12 +1549,6 @@
 		private System.Windows.Forms.CheckBox checkBox7;
 		private System.Windows.Forms.CheckBox checkBox8;
 		private System.Windows.Forms.ComboBox qdFrameComboBox;
-		private System.Windows.Forms.GroupBox groupBox7;
-		private System.Windows.Forms.Button globalSaveButton;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox startupComboBox;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox tongdaoCountComboBox;
 		private System.Windows.Forms.GroupBox zuheGroupBox;
 		private System.Windows.Forms.CheckBox zuheCheckBox;
 		private System.Windows.Forms.GroupBox zuheEnableGroupBox;
@@ -1587,5 +1636,15 @@
 		private System.Windows.Forms.Label label35;
 		private System.Windows.Forms.ComboBox frame0methodComboBox;
 		private System.Windows.Forms.Label label36;
+		private System.Windows.Forms.GroupBox groupBox7;
+		private System.Windows.Forms.Label eachChangeModeLabel;
+		private System.Windows.Forms.NumericUpDown eachStepTimeNumericUpDown;
+		private System.Windows.Forms.Label eachStepTimeLabel;
+		private System.Windows.Forms.Button globalSaveButton;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.ComboBox eachChangeModeComboBox;
+		private System.Windows.Forms.ComboBox startupComboBox;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ComboBox tongdaoCountComboBox;
 	}
 }

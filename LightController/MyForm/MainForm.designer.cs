@@ -502,9 +502,9 @@ namespace LightController
 			// 
 			// changeModeButton
 			// 
-			this.changeModeButton.Location = new System.Drawing.Point(165, 401);
+			this.changeModeButton.Location = new System.Drawing.Point(165, 397);
 			this.changeModeButton.Name = "changeModeButton";
-			this.changeModeButton.Size = new System.Drawing.Size(136, 23);
+			this.changeModeButton.Size = new System.Drawing.Size(136, 25);
 			this.changeModeButton.TabIndex = 17;
 			this.changeModeButton.Text = "统一跳渐变";
 			this.changeModeButton.UseVisualStyleBackColor = true;

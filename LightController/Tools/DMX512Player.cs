@@ -65,21 +65,30 @@ namespace LightController.Tools
 		/// </summary>
 		public void EndPreview()
 		{
-			IsPlay = false;
-			IsOneLightStep = false;
-			IsStartPlay = false;
-			IsMusicControl = false;
-			IsNewData = true;
-			if (MyFtdiDevice != null)
+			if (IsOneLightStep)
 			{
-				if (MyFtdiDevice.IsOpen)
-					MyFtdiDevice.Close();
-				MyFtdiDevice = null;
+				IsOneLightStep = false;
 			}
-			ChanelData = null;
-			ChanelNos = null;
-			DataPoint = null;
-			PlayData = null;
+			else
+			{
+				IsPlay = false;
+				IsOneLightStep = false;
+				IsStartPlay = false;
+				IsMusicControl = false;
+				IsNewData = true;
+				if (MyFtdiDevice != null)
+				{
+					if (MyFtdiDevice.IsOpen)
+					{
+						MyFtdiDevice.Close();
+						MyFtdiDevice = null;
+					}
+				}
+				ChanelData = null;
+				ChanelNos = null;
+				DataPoint = null;
+				PlayData = null;
+			}
 
 		}
 
@@ -331,7 +340,7 @@ namespace LightController.Tools
 			{
 				if (MyFtdiDevice != null)
 				{
-					EndPreview();
+					IsOneLightStep = false;
 				}
 				IsOneLightStep = true;
 				PlayData = data;
@@ -359,6 +368,7 @@ namespace LightController.Tools
 					MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
 					Thread.Sleep(32);
 				}
+				EndPreview();
 			}
 			else
 			{

@@ -1527,8 +1527,10 @@ namespace LightController
 		/// </summary>
 		/// <param name="tongdaoIndex"></param>
 		private void changeScrollValue(int tongdaoIndex) {
+			// 1.设tongdaoWrapper的值
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[tongdaoIndex].ScrollValue = vScrollBars[tongdaoIndex].Value;
+			//2.是否实时单灯单步
 			if (ifRealTime)
 			{
 				oneLightStepWork();
@@ -1539,14 +1541,12 @@ namespace LightController
 		/// 单灯单步发送DMX512帧数据
 		/// </summary>
 		private void oneLightStepWork() {
-
 			StepWrapper step = getCurrentStepWrapper();
 			List<TongdaoWrapper> tongdaoList = step.TongdaoList;
 			byte[] stepBytes = new byte[512];
 			foreach (TongdaoWrapper td in tongdaoList)
 			{
 				int tongdaoIndex = td.Address - 1;
-
 				stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
 			}
 			dMX512Player.OneLightStep(stepBytes);

@@ -347,7 +347,7 @@ namespace LightController.Tools
             {
                 if (!Connect())
                 {
-                    throw new DeviceException("设备链接失败");
+                    throw new Exception("设备链接失败");
                 }
             }
             IsPlay = false;

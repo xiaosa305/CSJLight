@@ -12,5 +12,4 @@
 	⑥MyForm：存放所有的Form类
 	⑦Source：存放一些用到的静态资源、或相关类库文件
 	⑧Tools：曾维佳写的调用DMX512相关的工具类
-	⑨hibernate.cfg.xml：NHibernate总配置文件
-	
+	⑨hibernate.cfg.xml：NHibernate总配置文件	

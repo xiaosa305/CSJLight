@@ -16,8 +16,8 @@ namespace LightController.Ast
 		// 这两项项为复制灯数据时使用：
 		// 不同的灯具全名必然不同(厂商名+型号）；
 		// lightMode则用以区分常规场景和声控场景-->常规场景无法复制到声控场景中，反之亦然
-		public int lightMode { get; set; }  
-		public string lightFullName { get; set; }
+		public int LightMode { get; set; }  
+		public string LightFullName { get; set; }
 			   
 		// 这个列表记录通道数据
 		public List<TongdaoWrapper> TongdaoList { get; set; }

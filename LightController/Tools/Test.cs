@@ -16,10 +16,9 @@ namespace LightController.Tools
 
         }
 
+        public void Start()
+        {
 
-		public void Start() {
-			
-
-		}
+        }
     }
 }

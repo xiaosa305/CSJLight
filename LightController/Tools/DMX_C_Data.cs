@@ -10,9 +10,9 @@ namespace LightController.Tools
         public C_Head HeadData { get; set; }//数据头
         public IList<C_Data> Datas { get; set; }//数据
     }
+
     public class C_Head
     {
-        public int MusicControl { get; set; }//音频功能
         public int MICSensor { get; set; }//摇麦功能
         public int SenseFreq { get; set; }//摇麦再次感应间隔时间
         public int RunTime { get; set; }//摇麦场景执行时间

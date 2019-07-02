@@ -23,7 +23,7 @@ namespace LightController.Tools
 		private int[] DataPoint { get; set; }
 		private int ChanelCount { get; set; }
 		private readonly byte[] StartCode = { 0x00 };
-		private FTDI MyFtdiDevice { get; set; }
+		private static FTDI MyFtdiDevice { get; set; }
 		private Thread PlayThread { get; set; }
 
 		//test
@@ -41,7 +41,20 @@ namespace LightController.Tools
 			IsOneLightStep = false;
 		}
 
-		private void Init()
+        public static DMX512Player GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new DMX512Player();
+            }
+            if (MyFtdiDevice == null)
+            {
+                Instance.Connect();
+            }
+            return Instance;
+        }
+
+        private void Init()
 		{
 			DataPoint = new int[ChanelCount];
 			MusicDataPoint = new int[MusicChanelCount];
@@ -69,32 +82,40 @@ namespace LightController.Tools
 			{
 				IsOneLightStep = false;
 			}
-			else
-			{
-				IsPlay = false;
-				IsOneLightStep = false;
-				IsStartPlay = false;
-				IsMusicControl = false;
-				IsNewData = true;
-				if (MyFtdiDevice != null)
-				{
-					if (MyFtdiDevice.IsOpen)
-					{
-						MyFtdiDevice.Close();
-						MyFtdiDevice = null;
-					}
-				}
-				ChanelData = null;
-				ChanelNos = null;
-				DataPoint = null;
-				PlayData = null;
-			}
+			if (IsPlay)
+            {
+                IsPlay = false;
+            }
+            IsStartPlay = false;
+            IsMusicControl = false;
+            IsNewData = true;
+            ChanelData = null;
+            ChanelNos = null;
+            DataPoint = null;
+            PlayData = null;
+            MyFtdiDevice.Close();
+            MyFtdiDevice = null;
+        }
 
-		}
+        private void Reset()
+        {
+            
+        }
 
 		public void Preview(DBWrapper wrapper, int senceNo)
 		{
-			IsPause = true;
+            if (MyFtdiDevice == null)
+            {
+                if (!Connect())
+                {
+                    throw new DeviceException("设备链接失败");
+                }
+            }
+            IsPause = true;
+            if (IsOneLightStep)
+            {
+                IsOneLightStep = false;
+            }
 			if (!IsPlay)
 			{
 				IsPlay = true;
@@ -116,7 +137,7 @@ namespace LightController.Tools
 				if (SetData(wrapper, senceNo))
 				{
 					Init();
-					if (!Connect())
+					if (MyFtdiDevice == null)
 					{
                         throw new DeviceException("未连接设备");
 					}
@@ -133,15 +154,6 @@ namespace LightController.Tools
                     throw new DeviceException("没有该场景数据");
 				}
 			}
-		}
-
-		public static DMX512Player GetInstance()
-		{
-			if (Instance == null)
-			{
-				Instance = new DMX512Player();
-			}
-			return Instance;
 		}
 
 		private bool SetData(DBWrapper wrapper, int senceNo)
@@ -172,7 +184,7 @@ namespace LightController.Tools
 			{
 				if (senceNo == file.SenceNo)
 				{
-					c_File = file;
+                    c_File = file;
 					resultFlag = true;
 				}
 			}
@@ -204,8 +216,8 @@ namespace LightController.Tools
 
 		private bool SetMusicData(DMX_M_File file)
 		{
-			MusicChanelCount = file.data.HeadData.ChanelCount;
-			IList<M_Data> m_Datas = file.data.Datas;
+			MusicChanelCount = file.Data.HeadData.ChanelCount;
+			IList<M_Data> m_Datas = file.Data.Datas;
 			MusicChanelData = new byte[MusicChanelCount][];
 			MusicChanelNos = new int[MusicChanelCount];
 			for (int i = 0; i < MusicChanelCount; i++)
@@ -258,36 +270,36 @@ namespace LightController.Tools
 		private void Play()
 		{
 			UInt32 count = 0;
-			while (IsPlay)
-			{
-				//填充dmx512数据
-				if (IsNewData)
-				{
-					Init();
-					IsNewData = false;
-				}
-				for (int i = 0; i < ChanelCount; i++)
-				{
-					PlayData[ChanelNos[i] - 1] = ChanelData[i][DataPoint[i]];
-					DataPoint[i]++;
-					if (DataPoint[i] == ChanelData[i].Length)
-					{
-						DataPoint[i] = 0;
-					}
-				}
-				if (!IsPause)
-				{
-					//发送Break
-					MyFtdiDevice.SetBreak(true);
-					Thread.Sleep(10);
-					MyFtdiDevice.SetBreak(false);
-					MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
-					//发送dmx512数据
-					MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
-				}
-				Thread.Sleep(32);
-
-			}
+            while (IsPlay)
+            {
+                //填充dmx512数据
+                if (IsNewData)
+                {
+                    Init();
+                    IsNewData = false;
+                }
+                for (int i = 0; i < ChanelCount; i++)
+                {
+                    PlayData[ChanelNos[i] - 1] = ChanelData[i][DataPoint[i]];
+                    DataPoint[i]++;
+                    if (DataPoint[i] == ChanelData[i].Length)
+                    {
+                        DataPoint[i] = 0;
+                    }
+                }
+                if (!IsPause)
+                {
+                    //发送Break
+                    MyFtdiDevice.SetBreak(true);
+                    Thread.Sleep(10);
+                    MyFtdiDevice.SetBreak(false);
+                    MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
+                    //发送dmx512数据
+                    MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
+                }
+                Thread.Sleep(32);
+            }
+            IsPlay = false;
 		}
 
 		private bool Connect()
@@ -331,12 +343,17 @@ namespace LightController.Tools
 		/// <param name="data">dmx512数据</param>
 		public void OneLightStep(byte[] data)
 		{
+            if (MyFtdiDevice == null)
+            {
+                if (!Connect())
+                {
+                    throw new DeviceException("设备链接失败");
+                }
+            }
+            IsPlay = false;
+            IsStartPlay = false;
 			if (!IsOneLightStep)
 			{
-				if (MyFtdiDevice != null)
-				{
-					IsOneLightStep = false;
-				}
 				IsOneLightStep = true;
 				PlayData = data;
 				Thread OneLightStepThread = new Thread(new ThreadStart(OneLightStepPlay));
@@ -350,20 +367,20 @@ namespace LightController.Tools
 		private void OneLightStepPlay()
 		{
 			UInt32 count = 0;
-			if (Connect())
+			if (MyFtdiDevice != null)
 			{
-				while (IsOneLightStep)
-				{
-					//发送Break
-					MyFtdiDevice.SetBreak(true);
-					Thread.Sleep(10);
-					MyFtdiDevice.SetBreak(false);
-					MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
-					//发送dmx512数据
-					MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
-					Thread.Sleep(32);
-				}
-				EndPreview();
+                while (IsOneLightStep)
+                {
+                    //发送Break
+                    MyFtdiDevice.SetBreak(true);
+                    Thread.Sleep(10);
+                    MyFtdiDevice.SetBreak(false);
+                    MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
+                    //发送dmx512数据
+                    MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
+                    Thread.Sleep(32);
+                }
+                IsOneLightStep = false;
 			}
 			else
 			{

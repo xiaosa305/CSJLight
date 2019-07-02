@@ -57,6 +57,7 @@ namespace LightController
 			this.deleteStepButton = new System.Windows.Forms.Button();
 			this.backStepButton = new System.Windows.Forms.Button();
 			this.insertStepButton = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
 			this.aboutStepButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.copyStepButton = new System.Windows.Forms.Button();
@@ -244,7 +245,6 @@ namespace LightController
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
-			this.button1 = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.tongdaoGroupBox2.SuspendLayout();
@@ -590,15 +590,24 @@ namespace LightController
 			this.insertStepButton.UseVisualStyleBackColor = true;
 			this.insertStepButton.Visible = false;
 			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(1378, 18);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(89, 32);
+			this.button1.TabIndex = 13;
+			this.button1.Text = "TEST";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.newTestButton_Click);
+			// 
 			// aboutStepButton
 			// 
 			this.aboutStepButton.Location = new System.Drawing.Point(1299, 85);
 			this.aboutStepButton.Name = "aboutStepButton";
 			this.aboutStepButton.Size = new System.Drawing.Size(89, 32);
 			this.aboutStepButton.TabIndex = 13;
-			this.aboutStepButton.Text = "TEST";
+			this.aboutStepButton.Text = "待定步";
 			this.aboutStepButton.UseVisualStyleBackColor = true;
-			this.aboutStepButton.Click += new System.EventHandler(this.newStepButton_Click);
 			// 
 			// pasteStepButton
 			// 
@@ -3033,16 +3042,6 @@ namespace LightController
 			this.realTimeCheckBox.Text = "实时调试";
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(1378, 18);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(89, 32);
-			this.button1.TabIndex = 13;
-			this.button1.Text = "TEST";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
 			// MainForm
 			// 

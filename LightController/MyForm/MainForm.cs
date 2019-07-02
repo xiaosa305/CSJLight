@@ -761,13 +761,12 @@ namespace LightController
 
 				StepWrapper stepAst = lightStepWrapper.StepWrapperList[recentStep - 1];
 				ShowVScrollBars(stepAst.TongdaoList, 1);
-
 				showStepLabel(recentStep, totalStep);
 			}
 		}
 
 		/// <summary>
-		/// 隐藏所有通道:包含五个部分
+		/// 隐藏所有通道:包含五个部分 		
 		/// </summary>
 		private void hideAllTongdao()
 		{
@@ -791,12 +790,33 @@ namespace LightController
 
 		/// <summary>
 		///  辅助方法：用来显示stepLabel-->当前步/总步数
+		/// 7.2 +隐藏《删除步》按钮
 		/// </summary>
 		/// <param name="recentStep"></param>
 		/// <param name="totalStep"></param>
 		private void showStepLabel(int recentStep, int totalStep)
 		{
 			stepLabel.Text = recentStep + "/" + totalStep;
+			
+			// 设定《删除步》按钮是否可用
+			if (totalStep == 0) {
+				this.deleteStepButton.Enabled = false;
+			}
+			else
+			{
+				this.deleteStepButton.Enabled = true;
+			}
+
+			// 设定《新建步》按钮是否可用
+			if( (mode == 0 && totalStep >= 32 ) || (mode == 1 && totalStep >= 48))
+			{
+				this.newStepButton.Enabled = false;
+			}
+			else
+			{
+				this.newStepButton.Enabled = true;
+			}
+			
 		}
 
 		/// <summary>
@@ -859,43 +879,49 @@ namespace LightController
 		/// <summary>
 		/// 通过传来的数值，生成通道列表的数据
 		/// </summary>
-		/// <param name="tongdaoWrappers"></param>
+		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		private void ShowVScrollBars(List<TongdaoWrapper> tongdaoWrappers, int startNum)
+		private void ShowVScrollBars(List<TongdaoWrapper> tongdaoList, int startNum)
 		{
 
 			// 1.每次更换灯具，都先清空通道
 			hideAllTongdao();
 
-			// 2.将dataWrappers的内容渲染到起VScrollBar中
-			for (int i = 0; i < tongdaoWrappers.Count; i++)
-			{
-				TongdaoWrapper tongdaoWrapper = tongdaoWrappers[i];
+			// 2.判断tongdaoList，为null或数量为0时，设定deleteStepButton键不可用，并退出此方法
+			if (tongdaoList == null  ||  tongdaoList.Count == 0) {				
+				return;
+			}//3.将dataWrappers的内容渲染到起VScrollBar中
+			else
+			{ 				
+				for (int i = 0; i < tongdaoList.Count; i++)
+				{
+					TongdaoWrapper tongdaoWrapper = tongdaoList[i];
 
-				this.labels[i].Text = (startNum + i) + "\n\n-\n " + tongdaoWrapper.TongdaoName;
-				this.valueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();
-				this.vScrollBars[i].Value = tongdaoWrapper.ScrollValue;
-				this.changeModeComboBoxes[i].SelectedIndex = tongdaoWrapper.ChangeMode;
-				this.stepNumericUpDowns[i].Text = tongdaoWrapper.StepTime.ToString();
+					this.labels[i].Text = (startNum + i) + "\n\n-\n " + tongdaoWrapper.TongdaoName;
+					this.valueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();
+					this.vScrollBars[i].Value = tongdaoWrapper.ScrollValue;
+					this.changeModeComboBoxes[i].SelectedIndex = tongdaoWrapper.ChangeMode;
+					this.stepNumericUpDowns[i].Text = tongdaoWrapper.StepTime.ToString();
 
-				this.vScrollBars[i].Show();
-				this.labels[i].Show();
-				this.valueNumericUpDowns[i].Show();
-				this.changeModeComboBoxes[i].Show();
-				this.stepNumericUpDowns[i].Show();
-			}
+					this.vScrollBars[i].Show();
+					this.labels[i].Show();
+					this.valueNumericUpDowns[i].Show();
+					this.changeModeComboBoxes[i].Show();
+					this.stepNumericUpDowns[i].Show();
+				}
 
-			// 3.标签的显示
-			// 若通道总数大于16，显示下面的标签
-			if( tongdaoWrappers.Count > 16){				
-				tongdaoValueLabel2.Visible = true;				
-				changeModeLabel2.Visible = true;				
-				stepTimeLabel2.Visible = true;
-			} // 若通道总数<=16 且 >0，则显示上面的标签
-			else 	if (tongdaoWrappers.Count > 0) {
-				stepTimeLabel.Visible = true;
-				changeModeLabel.Visible = true;
-				tongdaoValueLabel.Visible = true;
+				// 4.标签的显示
+				// 若通道总数大于16，显示下面的标签
+				if( tongdaoList.Count > 16){				
+					tongdaoValueLabel2.Visible = true;				
+					changeModeLabel2.Visible = true;				
+					stepTimeLabel2.Visible = true;
+				} // 若通道总数<=16 且 >0，则显示上面的标签
+				else 	if (tongdaoList.Count > 0) {
+					stepTimeLabel.Visible = true;
+					changeModeLabel.Visible = true;
+					tongdaoValueLabel.Visible = true;
+				}
 			}
 		}	
 
@@ -918,18 +944,19 @@ namespace LightController
 					StepWrapperList = new List<StepWrapper>()
 				};
 			}
-
-			// 验证是否超过两种mode自己的步数限制
-			if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32)
-			{
-				MessageBox.Show("常规程序最多不超过32步");
-				return;
-			}
-			if (mode == 1 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 48)
-			{
-				MessageBox.Show("音频程序最多不超过48步");
-				return;
-			}
+			#region 废弃方法块：可在渲染stepLabel时就让新建步按钮不可用了。
+			//// 验证是否超过两种mode自己的步数限制
+			//if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32)
+			//{
+			//	MessageBox.Show("常规程序最多不超过32步");
+			//	return;
+			//}
+			//if (mode == 1 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 48)
+			//{
+			//	MessageBox.Show("音频程序最多不超过48步");
+			//	return;
+			//}
+			#endregion 
 
 			//若通过步数验证，则新建步，并将stepLabel切换成最新的标签
 			StepWrapper newStep = new StepWrapper()
@@ -948,23 +975,38 @@ namespace LightController
 
 		/// <summary>
 		///  TODO:删除步的操作
+		///  1.获取当前步，当前步对应的stepIndex
+		///  2.通过stepIndex，DeleteStep(index);
+		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void deleteStepButton_Click(object sender, EventArgs e)
-		{
-			
+		{			
 			LightWrapper lightData = lightWrapperList[selectedLightIndex];
 			LightStepWrapper lightStepWrapper = lightData.LightStepWrapperList[frame, mode];
-			int stepIndex = lightStepWrapper.CurrentStep - 1;
-			
+			int stepIndex = getCurrentStepValue() - 1;
+
 			// 调用包装类内部的方法:删除某一步
-			lightData.LightStepWrapperList[frame, mode].DeleteStep(stepIndex);
-			int currentStep = lightStepWrapper.CurrentStep;
+			try
+			{
+				lightStepWrapper.DeleteStep(stepIndex);
+			}
+			catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+				return; 
+			}
 			
-			StepWrapper step = lightStepWrapper.StepWrapperList[ currentStep - 1];			 
-			this.ShowVScrollBars(step.TongdaoList,1); 
-			this.showStepLabel( lightStepWrapper.CurrentStep,  lightStepWrapper.TotalStep);
+			int currentStep = lightStepWrapper.CurrentStep;
+			if (currentStep > 0 ) {
+				StepWrapper step = lightStepWrapper.StepWrapperList[currentStep - 1];
+				this.ShowVScrollBars(step.TongdaoList, 1);
+				this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
+			}
+			else{
+				this.ShowVScrollBars(null, 1);
+				this.showStepLabel(0, 0);				
+			}			
 		}
 
 
@@ -988,11 +1030,8 @@ namespace LightController
 					}
 				);
 			}
-		
-
 			return newList;
 		}
-
 		
 
 		/// <summary>
@@ -1008,7 +1047,6 @@ namespace LightController
 			{
 				changeFrameMode();
 			}
-
 			
 		}
 
@@ -1162,8 +1200,12 @@ namespace LightController
 		private StepWrapper getCurrentStepWrapper()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
-			StepWrapper step = light.StepWrapperList[light.CurrentStep - 1];
-			return step;
+			if (light.TotalStep != 0 && light.CurrentStep !=0 && light.StepWrapperList!=null && light.StepWrapperList.Count!=0) {
+				return light.StepWrapperList[light.CurrentStep - 1];
+			}
+			else {
+				return null;
+			}			
 		}
 
 		/// <summary>

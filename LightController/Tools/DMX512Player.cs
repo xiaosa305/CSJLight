@@ -69,32 +69,42 @@ namespace LightController.Tools
 			{
 				IsOneLightStep = false;
 			}
-			else
-			{
-				IsPlay = false;
-				IsOneLightStep = false;
-				IsStartPlay = false;
-				IsMusicControl = false;
-				IsNewData = true;
-				if (MyFtdiDevice != null)
-				{
-					if (MyFtdiDevice.IsOpen)
-					{
-						MyFtdiDevice.Close();
-						MyFtdiDevice = null;
-					}
-				}
-				ChanelData = null;
-				ChanelNos = null;
-				DataPoint = null;
-				PlayData = null;
-			}
+			if (IsPlay)
+            {
+                IsPlay = false;
+            }
 
 		}
 
+        private void Reset()
+        {
+            IsPlay = false;
+            IsOneLightStep = false;
+            IsStartPlay = false;
+            IsMusicControl = false;
+            IsNewData = true;
+            if (MyFtdiDevice != null)
+            {
+                if (MyFtdiDevice.IsOpen)
+                {
+                    MyFtdiDevice.Close();
+                    MyFtdiDevice = null;
+                }
+            }
+            ChanelData = null;
+            ChanelNos = null;
+            DataPoint = null;
+            PlayData = null;
+        }
+
 		public void Preview(DBWrapper wrapper, int senceNo)
 		{
-			IsPause = true;
+            IsPause = true;
+            if (IsOneLightStep)
+            {
+                IsOneLightStep = false;
+                Thread.Sleep(300);
+            }
 			if (!IsPlay)
 			{
 				IsPlay = true;
@@ -172,7 +182,8 @@ namespace LightController.Tools
 			{
 				if (senceNo == file.SenceNo)
 				{
-					c_File = file;
+                    c_File = file;
+                    c_File.Test();
 					resultFlag = true;
 				}
 			}
@@ -286,8 +297,8 @@ namespace LightController.Tools
 					MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
 				}
 				Thread.Sleep(32);
-
 			}
+            Reset();
 		}
 
 		private bool Connect()
@@ -331,6 +342,11 @@ namespace LightController.Tools
 		/// <param name="data">dmx512数据</param>
 		public void OneLightStep(byte[] data)
 		{
+            if (IsPlay)
+            {
+                IsPlay = false;
+                Thread.Sleep(300);
+            }
 			if (!IsOneLightStep)
 			{
 				if (MyFtdiDevice != null)
@@ -363,7 +379,7 @@ namespace LightController.Tools
 					MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
 					Thread.Sleep(32);
 				}
-				EndPreview();
+				Reset();
 			}
 			else
 			{

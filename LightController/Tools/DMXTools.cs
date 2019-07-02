@@ -114,7 +114,6 @@ namespace LightController.Tools
         {
             C_Head head = new C_Head
             {
-                MusicControl = 0,
                 MICSensor = 0,
                 SenseFreq = 0,
                 RunTime = 0,

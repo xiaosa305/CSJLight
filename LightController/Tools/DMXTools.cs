@@ -73,7 +73,7 @@ namespace LightController.Tools
                 DMX_M_File m_File = new DMX_M_File
                 {
                     SenceNo = senceNo,
-                    data = dMX_M_Data
+                    Data = dMX_M_Data
                 };
                 m_Files.Add(m_File);
             }
@@ -130,7 +130,7 @@ namespace LightController.Tools
                 ChanelCount = chanelCount,
                 FileSize = 0,
                 StepTimes = 0,
-                FreameTime = 0
+                FrameTime = 0
             };
             return head;
         }

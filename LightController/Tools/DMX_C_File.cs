@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -41,35 +42,62 @@ namespace LightController.Tools
                 //添加所有采样数据
                 foreach (int value in c_Data.Datas)
                 {
-                    //转换采样数据为byte
-                    byte bValue = Convert.ToByte(value);
                     //添加采样数据
-                    fileData.Add(bValue);
+                    fileData.Add(Convert.ToByte(value));
                 }
             }
+            //获取文件大小
             FileSize = fileData.Count();
+            //添加文件大小
             fileData[0] = (byte)(FileSize & 0xFF);
             fileData[1] = (byte)((FileSize >> 8) & 0xFF);
             fileData[2] = (byte)((FileSize >> 16) & 0xFF);
             fileData[3] = (byte)((FileSize >> 24) & 0xFF);
-            Console.WriteLine("文件大小为：" + FileSize);
             return fileData.ToArray();
         }
 
         public void Test()
         {
-            if (Data != null)
+            byte[] data = GetByteData();
+            for (int i = 0; i < data.Length; i++)
             {
-                byte[] data = GetByteData();
-                for (int i = 0; i < data.Length; i++)
+                Console.Write(data[i] + " ");
+                if ((i+1) % 16 == 0)
                 {
-                    Console.Write(data[i] + " "); 
-                    if ((i + 1) % 16 == 0)
-                    {
-                        Console.WriteLine("");
-                    }
+                    Console.WriteLine("");
                 }
             }
+            string path = "C:/Users/99729/Desktop/TestDirect/";
+            string filePath;
+            if (SenceNo < 9)
+            {
+                filePath = path + "C0" + (SenceNo+1) + ".bin";
+            }
+            else
+            {
+                filePath = path + "C" + (SenceNo+1) + ".bin";
+            }
+            FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            fileStream.Write(data, 0, data.Length);
+            fileStream.Close();
+        }
+
+        public void WriteFile(string path)
+        {
+            byte[] data = GetByteData();
+           
+            string filePath;
+            if (SenceNo < 9)
+            {
+                filePath = path + "C0" + (SenceNo + 1) + ".bin";
+            }
+            else
+            {
+                filePath = path + "C" + (SenceNo + 1) + ".bin";
+            }
+            FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            fileStream.Write(data, 0, data.Length);
+            fileStream.Close();
         }
     }
 }

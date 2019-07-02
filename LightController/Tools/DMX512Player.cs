@@ -185,7 +185,6 @@ namespace LightController.Tools
 				if (senceNo == file.SenceNo)
 				{
                     c_File = file;
-                    c_File.Test();
 					resultFlag = true;
 				}
 			}
@@ -217,8 +216,8 @@ namespace LightController.Tools
 
 		private bool SetMusicData(DMX_M_File file)
 		{
-			MusicChanelCount = file.data.HeadData.ChanelCount;
-			IList<M_Data> m_Datas = file.data.Datas;
+			MusicChanelCount = file.Data.HeadData.ChanelCount;
+			IList<M_Data> m_Datas = file.Data.Datas;
 			MusicChanelData = new byte[MusicChanelCount][];
 			MusicChanelNos = new int[MusicChanelCount];
 			for (int i = 0; i < MusicChanelCount; i++)

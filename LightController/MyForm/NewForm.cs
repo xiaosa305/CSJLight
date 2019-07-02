@@ -35,7 +35,16 @@ namespace LightController
 			if (!String.IsNullOrEmpty(s))
 			{
 				string directoryPath = "C:\\Temp\\LightProject\\" + s;
-				DirectoryInfo di = new DirectoryInfo(directoryPath);
+				DirectoryInfo di = null;
+				try
+				{
+					 di = new DirectoryInfo(directoryPath);
+				}
+				catch (Exception ex) {
+					MessageBox.Show(ex.Message);
+					return;
+				}
+				
 				if (di.Exists)
 				{
 					MessageBox.Show("这个名称已经被使用了，请使用其他名称。");

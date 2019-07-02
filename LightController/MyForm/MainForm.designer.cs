@@ -3035,6 +3035,7 @@ namespace LightController
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoSize = true;
 			this.ClientSize = new System.Drawing.Size(1915, 1252);
 			this.Controls.Add(this.realTimeCheckBox);
 			this.Controls.Add(this.tongdaoGroupBox);

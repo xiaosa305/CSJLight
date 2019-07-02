@@ -192,6 +192,7 @@
     <Compile Include="Tools\ChanelData.cs" />
     <Compile Include="Tools\Conn.cs" />
     <Compile Include="Tools\Constant.cs" />
+    <Compile Include="Tools\DeviceException.cs" />
     <Compile Include="Tools\DMX512Player.cs" />
     <Compile Include="Tools\DMXTools.cs" />
     <Compile Include="Tools\DMX_C_Data.cs" />

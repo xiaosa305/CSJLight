@@ -92,7 +92,7 @@ namespace LightController.Tools
 
 		}
 
-		public bool Preview(DBWrapper wrapper, int senceNo)
+		public void Preview(DBWrapper wrapper, int senceNo)
 		{
 			IsPause = true;
 			if (!IsPlay)
@@ -105,12 +105,10 @@ namespace LightController.Tools
 				{
 					IsNewData = true;
 					IsPause = false;
-					return true;
 				}
 				else
 				{
-					Console.WriteLine("没有该场景数据");
-					return false;
+                    throw new DeviceException("没有场景数据");
 				}
 			}
 			else
@@ -120,8 +118,7 @@ namespace LightController.Tools
 					Init();
 					if (!Connect())
 					{
-						Console.WriteLine("未连接设备");
-						return false;
+                        throw new DeviceException("未连接设备");
 					}
 					else
 					{
@@ -129,13 +126,11 @@ namespace LightController.Tools
 						PlayThread = new Thread(new ThreadStart(Play));
 						PlayThread.Start();
 						IsStartPlay = true;
-						return IsStartPlay;
 					}
 				}
 				else
 				{
-					Console.WriteLine("没有该场景数据");
-					return false;
+                    throw new DeviceException("没有该场景数据");
 				}
 			}
 		}
@@ -255,7 +250,7 @@ namespace LightController.Tools
 			}
 			else
 			{
-				Console.WriteLine("没有音频数据");
+                throw new DeviceException("没有音频数据");
 			}
 
 		}
@@ -372,7 +367,7 @@ namespace LightController.Tools
 			}
 			else
 			{
-				Console.WriteLine("连接设备失败");
+                throw new DeviceException("连接设备失败");
 			}
 		}
 	}

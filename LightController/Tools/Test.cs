@@ -17,9 +17,9 @@ namespace LightController.Tools
         }
 
 
-		public void Start() {
-			
-
+		public void Start()
+        {
+            Console.WriteLine("Connect Test");
 		}
     }
 }

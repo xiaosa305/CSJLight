@@ -108,7 +108,7 @@ namespace LightController.Tools
             {
                 if (!Connect())
                 {
-                    throw new DeviceException("设备链接失败");
+                    throw new Exception("设备链接失败");
                 }
             }
             IsPause = true;
@@ -129,7 +129,7 @@ namespace LightController.Tools
 				}
 				else
 				{
-                    throw new DeviceException("没有场景数据");
+                    throw new Exception("没有场景数据");
 				}
 			}
 			else
@@ -139,7 +139,7 @@ namespace LightController.Tools
 					Init();
 					if (MyFtdiDevice == null)
 					{
-                        throw new DeviceException("未连接设备");
+                        throw new Exception("未连接设备");
 					}
 					else
 					{
@@ -151,7 +151,7 @@ namespace LightController.Tools
 				}
 				else
 				{
-                    throw new DeviceException("没有该场景数据");
+                    throw new Exception("没有该场景数据");
 				}
 			}
 		}
@@ -262,7 +262,7 @@ namespace LightController.Tools
 			}
 			else
 			{
-                throw new DeviceException("没有音频数据");
+                throw new Exception("没有音频数据");
 			}
 
 		}
@@ -384,7 +384,7 @@ namespace LightController.Tools
 			}
 			else
 			{
-                throw new DeviceException("连接设备失败");
+                throw new Exception("连接设备失败");
 			}
 		}
 	}

@@ -936,13 +936,35 @@ namespace LightController
 			{
 				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
 				IsSaved = false
+				//TODO
 			};
 			// 调用包装类内部的方法
 			lightData.LightStepWrapperList[frame, mode].AddStep(newStep);
 
-			this.ShowVScrollBars(newStep.TongdaoList, 1);
+			this.ShowVScrollBars(newStep.TongdaoList, 1); //TODO
 			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].CurrentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
 
+		}
+
+		/// <summary>
+		///  TODO:删除步的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteStepButton_Click(object sender, EventArgs e)
+		{
+			
+			LightWrapper lightData = lightWrapperList[selectedLightIndex];
+			LightStepWrapper lightStepWrapper = lightData.LightStepWrapperList[frame, mode];
+			int stepIndex = lightStepWrapper.CurrentStep - 1;
+			
+			// 调用包装类内部的方法:删除某一步
+			lightData.LightStepWrapperList[frame, mode].DeleteStep(stepIndex);
+			int currentStep = lightStepWrapper.CurrentStep;
+			
+			StepWrapper step = lightStepWrapper.StepWrapperList[ currentStep - 1];			 
+			this.ShowVScrollBars(step.TongdaoList,1); 
+			this.showStepLabel( lightStepWrapper.CurrentStep,  lightStepWrapper.TotalStep);
 		}
 
 
@@ -1105,7 +1127,10 @@ namespace LightController
 			this.ShowVScrollBars(stepWrapper.TongdaoList, 1);
 			this.showStepLabel(stepValue, lightStepWrapper.TotalStep);
 
-			oneLightStepWork();
+			if (ifRealTime)
+			{
+				oneLightStepWork();
+			}			
 		}
 		
 		/// <summary>
@@ -1320,19 +1345,28 @@ namespace LightController
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			DBWrapper allData = GetDBWrapper();
+			DBWrapper allData = GetDBWrapper(false);
 			dMX512Player.Preview(allData, 0);
 		}
 
-		private DBWrapper GetDBWrapper()
+		/// <summary>
+		///  获取当前实时的DBWrapper(三个放在内存的List）
+		/// </summary>
+		/// <returns></returns>
+		private DBWrapper GetDBWrapper(bool fromDB)
 		{
-			// 从数据库直接读取的情况==>弃用
-			//DBGetter dbGetter = new DBGetter(dbFilePath, false);
-			//DBWrapper dbWrapper = dbGetter.getAll();
-
+			// 从数据库直接读取的情况
+			if (fromDB) {
+				DBGetter dbGetter = new DBGetter(dbFilePath, false);
+				DBWrapper dbWrapper = dbGetter.getAll();
+				return dbWrapper;
+			}
 			// 由内存几个实时的List实时生成
-			DBWrapper allData = new DBWrapper(lightList, stepCountList, valueList);
-			return allData;
+			else
+			{
+				DBWrapper allData = new DBWrapper(lightList, stepCountList, valueList);
+				return allData;
+			}
 		}
 
 		private void stopReviewButton_Click(object sender, EventArgs e)
@@ -1550,6 +1584,12 @@ namespace LightController
 				stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
 			}
 			dMX512Player.OneLightStep(stepBytes);
+		}
+
+		private void newTestButton_Click(object sender, EventArgs e)
+		{
+			Test test = new Test(GetDBWrapper(true));
+			test.Start();
 		}
 	}
 }

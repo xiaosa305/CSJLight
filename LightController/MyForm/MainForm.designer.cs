@@ -244,6 +244,7 @@ namespace LightController
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
+			this.button1 = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.tongdaoGroupBox2.SuspendLayout();
@@ -457,6 +458,7 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.deleteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.backStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.insertStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.button1);
 			this.tongdaoGroupBox.Controls.Add(this.aboutStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
@@ -566,6 +568,7 @@ namespace LightController
 			this.deleteStepButton.TabIndex = 14;
 			this.deleteStepButton.Text = "删除步";
 			this.deleteStepButton.UseVisualStyleBackColor = true;
+			this.deleteStepButton.Click += new System.EventHandler(this.deleteStepButton_Click);
 			// 
 			// backStepButton
 			// 
@@ -593,7 +596,7 @@ namespace LightController
 			this.aboutStepButton.Name = "aboutStepButton";
 			this.aboutStepButton.Size = new System.Drawing.Size(89, 32);
 			this.aboutStepButton.TabIndex = 13;
-			this.aboutStepButton.Text = "待定步";
+			this.aboutStepButton.Text = "TEST";
 			this.aboutStepButton.UseVisualStyleBackColor = true;
 			this.aboutStepButton.Click += new System.EventHandler(this.newStepButton_Click);
 			// 
@@ -3031,6 +3034,16 @@ namespace LightController
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
 			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(1378, 18);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(89, 32);
+			this.button1.TabIndex = 13;
+			this.button1.Text = "TEST";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.newTestButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -3373,6 +3386,7 @@ namespace LightController
 		private Button steptimeSetButton;
 		private Button oneLightStepButton;
 		private CheckBox realTimeCheckBox;
+		private Button button1;
 	}
 }
 

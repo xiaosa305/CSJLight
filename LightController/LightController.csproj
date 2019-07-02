@@ -203,6 +203,7 @@
     <Compile Include="Tools\SenceData.cs" />
     <Compile Include="Tools\SerialPortToolsTest.cs" />
     <Compile Include="Tools\SockTools.cs" />
+    <Compile Include="Tools\Test.cs" />
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>

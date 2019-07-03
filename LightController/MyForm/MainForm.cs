@@ -250,7 +250,7 @@ namespace LightController
 
 			#endregion
 
-			this.isInit = true;
+			isInit = true;
 			dMX512Player = DMX512Player.GetInstance();
 		}
 
@@ -348,7 +348,7 @@ namespace LightController
 						for (int step = 1; step <= stepCount; step++)
 						{
 							IList<DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode, step);
-							StepWrapper stepWrapper = generateStepWrapper(stepMode, stepValueList);							
+							StepWrapper stepWrapper = generateStepWrapper(stepMode, stepValueList,mode);							
 							if (lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] == null)
 							{
 								lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
@@ -358,17 +358,18 @@ namespace LightController
 					}
 				}
 			}
+			isInit = true;
 			MessageBox.Show("成功打开工程");
 		}
 
 
 		/// <summary>
-		///  由 步数模板 和 步数值集合 来生成某一步的StepWrapper
+		///  由 步数模板 和 步数值集合 , 来生成某一步的StepWrapper
 		/// </summary>
 		/// <param name="stepMode">模板Step</param>
 		/// <param name="stepValueList">从数据库读取的相同lightIndex、frame、mode、step的数值集合：即某一步的通道值列表</param>
 		/// <returns></returns>
-		private StepWrapper generateStepWrapper(StepWrapper stepMode, IList<DB_Value> stepValueList)
+		private StepWrapper generateStepWrapper(StepWrapper stepMode, IList<DB_Value> stepValueList,int mode)
 		{
 			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
 			for (int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
@@ -386,8 +387,10 @@ namespace LightController
 			}
 			return new StepWrapper()
 			{
-				IsSaved = true,
-				TongdaoList = tongdaoList
+				TongdaoList = tongdaoList,
+				LightMode = mode,
+				LightFullName = stepMode.LightFullName,
+				StartNum = stepMode.StartNum
 			};
 		}
 
@@ -728,8 +731,7 @@ namespace LightController
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
 
 			if (lightWrapper.StepMode == null)
-			{
-				Console.WriteLine("Dickov:开始生成模板文件");
+			{				
 				lightWrapper.StepMode = generateStepMode(lightAst);
 				showStepLabel(0, 0);
 				hideAllTongdao();
@@ -759,8 +761,8 @@ namespace LightController
 				int recentStep = lightStepWrapper.CurrentStep;
 				int totalStep = lightStepWrapper.TotalStep;
 
-				StepWrapper stepAst = lightStepWrapper.StepWrapperList[recentStep - 1];
-				ShowVScrollBars(stepAst.TongdaoList, 1);
+				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[recentStep - 1];
+				ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
 				showStepLabel(recentStep, totalStep);
 			}
 		}
@@ -792,31 +794,27 @@ namespace LightController
 		///  辅助方法：用来显示stepLabel-->当前步/总步数
 		/// 7.2 +隐藏《删除步》按钮
 		/// </summary>
-		/// <param name="recentStep"></param>
+		/// <param name="currentStep"></param>
 		/// <param name="totalStep"></param>
-		private void showStepLabel(int recentStep, int totalStep)
+		private void showStepLabel(int currentStep, int totalStep)
 		{
-			stepLabel.Text = recentStep + "/" + totalStep;
+			// 1. 设label值
+			stepLabel.Text = currentStep + "/" + totalStep;
 			
-			// 设定《删除步》按钮是否可用
-			if (totalStep == 0) {
-				this.deleteStepButton.Enabled = false;
-			}
-			else
-			{
-				this.deleteStepButton.Enabled = true;
-			}
+			// 2.1 设定《删除步》按钮是否可用
+			this.deleteStepButton.Enabled = (totalStep != 0);			
 
-			// 设定《新建步》按钮是否可用
-			if( (mode == 0 && totalStep >= 32 ) || (mode == 1 && totalStep >= 48))
-			{
-				this.newStepButton.Enabled = false;
-			}
-			else
-			{
-				this.newStepButton.Enabled = true;
-			}
-			
+			// 2.2 设定《新建步》按钮是否可用			
+			this.newStepButton.Enabled = ! ((mode == 0 && totalStep >= 32) || (mode == 1 && totalStep >= 48));			
+
+			// 2.3 设定《上一步及下一步》是否可用
+			backStepButton.Enabled = (currentStep > 1);			
+			nextStepButton.Enabled = (currentStep < totalStep);
+
+			//2.4 设定《复制步》是否可用
+			copyStepButton.Enabled = (currentStep > 0);
+			pasteStepButton.Enabled = (currentStep > 0 && tempStep != null);
+
 		}
 
 		/// <summary>
@@ -826,6 +824,7 @@ namespace LightController
 		/// <returns></returns>
 		private StepWrapper generateStepMode(LightAst lightAst)
 		{
+			Console.WriteLine("Dickov:开始生成模板文件");
 			LightAst light = lightAstList[selectedLightIndex];
 			int startNum = light.StartNum;
 
@@ -871,7 +870,14 @@ namespace LightController
 							Address = startNum + (address - 1)
 						});
 					}
-					return new StepWrapper() { TongdaoList = tongdaoList, IsSaved = false };
+
+					return new StepWrapper() {
+						TongdaoList = tongdaoList,
+						LightFullName = light.LightName + "*" + light.LightType,
+						StartNum = startNum
+						// 这里使用“*”作为分隔符，这样的字符无法在系统生成文件夹，能保证同一种灯
+						//：防止有些灯刚好Name+Type的组合相同
+					};
 				}
 			}
 		}
@@ -910,17 +916,21 @@ namespace LightController
 					this.stepNumericUpDowns[i].Show();
 				}
 
-				// 4.标签的显示
-				// 若通道总数大于16，显示下面的标签
-				if( tongdaoList.Count > 16){				
-					tongdaoValueLabel2.Visible = true;				
-					changeModeLabel2.Visible = true;				
-					stepTimeLabel2.Visible = true;
+				// 4. tongdaoGroupBoxX的显示：0：不显示； 1-16：仅显示通道groupBox1； 16-32：两个通道groupBox都显示；
+				if (tongdaoList.Count > 16)
+				{
+					tongdaoGroupBox1.Visible = true;
+					tongdaoGroupBox2.Visible = true;
+
 				} // 若通道总数<=16 且 >0，则显示上面的标签
-				else 	if (tongdaoList.Count > 0) {
-					stepTimeLabel.Visible = true;
-					changeModeLabel.Visible = true;
-					tongdaoValueLabel.Visible = true;
+				else if (tongdaoList.Count > 0)
+				{
+					tongdaoGroupBox1.Visible = true;
+					tongdaoGroupBox2.Visible = false;
+				}
+				else {
+					tongdaoGroupBox1.Visible = false;
+					tongdaoGroupBox2.Visible = false;
 				}
 			}
 		}	
@@ -934,7 +944,7 @@ namespace LightController
 		private void newStepButton_Click(object sender, EventArgs e)
 		{
 			LightWrapper lightData = lightWrapperList[selectedLightIndex];
-			StepWrapper stepMode = lightData.StepMode;
+			StepWrapper stepMode = lightData.StepMode;			
 
 			// 如果此值为空，则创建之
 			if (lightData.LightStepWrapperList[frame, mode] == null)
@@ -962,13 +972,14 @@ namespace LightController
 			StepWrapper newStep = new StepWrapper()
 			{
 				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
-				IsSaved = false
-				//TODO
+				LightMode = mode,
+				LightFullName = stepMode.LightFullName,
+				StartNum = stepMode.StartNum
 			};
 			// 调用包装类内部的方法
 			lightData.LightStepWrapperList[frame, mode].AddStep(newStep);
 
-			this.ShowVScrollBars(newStep.TongdaoList, 1); //TODO
+			this.ShowVScrollBars(newStep.TongdaoList, stepMode.StartNum);
 			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].CurrentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
 
 		}
@@ -983,8 +994,8 @@ namespace LightController
 		/// <param name="e"></param>
 		private void deleteStepButton_Click(object sender, EventArgs e)
 		{			
-			LightWrapper lightData = lightWrapperList[selectedLightIndex];
-			LightStepWrapper lightStepWrapper = lightData.LightStepWrapperList[frame, mode];
+			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
 			int stepIndex = getCurrentStepValue() - 1;
 
 			// 调用包装类内部的方法:删除某一步
@@ -999,12 +1010,12 @@ namespace LightController
 			
 			int currentStep = lightStepWrapper.CurrentStep;
 			if (currentStep > 0 ) {
-				StepWrapper step = lightStepWrapper.StepWrapperList[currentStep - 1];
-				this.ShowVScrollBars(step.TongdaoList, 1);
+				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
+				this.ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
 				this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 			}
 			else{
-				this.ShowVScrollBars(null, 1);
+				this.ShowVScrollBars(null, 0);
 				this.showStepLabel(0, 0);				
 			}			
 		}
@@ -1058,12 +1069,13 @@ namespace LightController
 		/// <param name="e"></param>
 		private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			mode = modeComboBox.SelectedIndex;
+			if (isInit)
+			{
+				mode = modeComboBox.SelectedIndex;
 			// 若模式为声控模式
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
-			// 3.所有步时间值的调节，改为enabled=false
-			if (isInit) { 
+			// 3.所有步时间值的调节，改为enabled=false			
 				if (mode == 1)
 				{
 					changeModeLabel.Text = "是否声控";
@@ -1130,7 +1142,6 @@ namespace LightController
 			{
 				MessageBox.Show("当前已是第一步");
 			}
-
 		}
 
 		/// <summary>
@@ -1162,7 +1173,7 @@ namespace LightController
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepValue - 1];
 			lightStepWrapper.CurrentStep = stepValue;
 
-			this.ShowVScrollBars(stepWrapper.TongdaoList, 1);
+			this.ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
 			this.showStepLabel(stepValue, lightStepWrapper.TotalStep);
 
 			if (ifRealTime)
@@ -1194,14 +1205,17 @@ namespace LightController
 		}
 		
 		/// <summary>
-		/// 辅助：这个方法直接取出当前步
+		/// 辅助：这个方法直接取出当前步:条件比较苛刻
 		/// </summary>
 		/// <returns></returns>
 		private StepWrapper getCurrentStepWrapper()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
-			if (light.TotalStep != 0 && light.CurrentStep !=0 && light.StepWrapperList!=null && light.StepWrapperList.Count!=0) {
-				return light.StepWrapperList[light.CurrentStep - 1];
+			if (light.TotalStep != 0 
+				&& light.CurrentStep !=0 
+				&& light.StepWrapperList!=null 
+				&& light.StepWrapperList.Count!=0) {
+					return light.StepWrapperList[light.CurrentStep - 1];
 			}
 			else {
 				return null;
@@ -1335,7 +1349,7 @@ namespace LightController
 
 			// 3.（6.29修改）若当前模式是声控模式：
 			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
-			if (isInit = true && mode == 1) {
+			if (isInit && mode == 1) {
 				List<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
 				foreach (StepWrapper stepWrapper in stepWrapperList) {
 					stepWrapper.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex;
@@ -1358,27 +1372,61 @@ namespace LightController
 			step.TongdaoList[index].StepTime = Decimal.ToInt32(stepNumericUpDowns[index].Value);			
 		}
 
-		private StepWrapper tempStep;
+		private StepWrapper tempStep = null;
 		/// <summary>
-		/// 复制步：从项目中选择当前灯的当前步，（若当前步无法选择：灯还未生成步）
+		/// 复制步：
+		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
+		/// 2.若复制成功，则《粘贴步》按钮可用
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void copyStepButton_Click(object sender, EventArgs e)
-		{
-			tempStep = getCurrentStepWrapper();
+		{			
+			if (getCurrentStepWrapper() == null) {
+				MessageBox.Show("当前步数据为空，无法复制");
+			}
+			else
+			{
+				tempStep = getCurrentStepWrapper();
+				pasteStepButton.Enabled = true;
+			}
 		}
 
 		/// <summary>
 		/// 粘帖步：从复制的步拷贝到当前步
+		/// 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void pasteStepButton_Click(object sender, EventArgs e)
 		{
-			StepWrapper swNow= getCurrentStepWrapper(); 
-			swNow = tempStep;
-		}
+			// 1. 先判断是不是同模式及同一种灯具（非同一个灯具也可以复制，但需类型一样)
+			StepWrapper currentStep = getCurrentStepWrapper();
+			if(currentStep == null)
+			{
+				MessageBox.Show("当前步数据为空，无法粘贴步");
+				return;
+			}
+			if (currentStep.LightMode != tempStep.LightMode) {
+				MessageBox.Show("不同模式下无法复制步");
+				return;
+			}
+			if (currentStep.LightFullName != tempStep.LightFullName) { 
+				MessageBox.Show("不同灯具无法复制步");
+				return;
+			}
+
+			// 2.逐一将TongdaoList的某些数值填入tempStep中，而非粗暴地将currentStep 设为tempStep
+			for (int i = 0; i < tempStep.TongdaoList.Count; i++)
+			{
+				currentStep.TongdaoList[i].ScrollValue = tempStep.TongdaoList[i].ScrollValue;
+				currentStep.TongdaoList[i].ChangeMode = tempStep.TongdaoList[i].ChangeMode;
+				currentStep.TongdaoList[i].StepTime = tempStep.TongdaoList[i].StepTime;
+			}
+
+			// 重新渲染当前步的所有通道
+			ShowVScrollBars(currentStep.TongdaoList, currentStep.StartNum);
+		}		
 
 		/// <summary>
 		/// 实时预览所有灯的变化：通过dbWrapper（实时封装）来生成

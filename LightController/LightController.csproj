@@ -246,10 +246,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Source\data.db3" />
     <None Include="Source\global.ini" />
     <None Include="Source\MacOS.ssk" />
-    <None Include="Source\System.Data.SQLite.dll.config" />
     <None Include="Source\Vista2_color7.ssk" />
   </ItemGroup>
   <ItemGroup>
@@ -278,10 +276,6 @@
     <Content Include="FTD2XX_NET.XML" />
     <Content Include="ReadMe.txt" />
     <Content Include="Source\IrisSkin4.dll" />
-    <Content Include="Source\System.Data.SQLite.dll" />
-    <Content Include="Source\System.Data.SQLite.EF6.dll" />
-    <Content Include="Source\System.Data.SQLite.Linq.dll" />
-    <Content Include="Source\System.Data.SQLite.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

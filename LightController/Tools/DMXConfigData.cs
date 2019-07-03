@@ -26,7 +26,7 @@ namespace LightController.Tools
 
         public void WriteToFile(string path)
         {
-            string filePath = path + "/Config.bin";
+            string filePath = path + "Config.bin";
             int FileSize = 0;
             IList<byte> data = new List<byte>();
             //预填充文件大小

@@ -90,35 +90,35 @@ namespace LightController.Tools
             }
         }
 
-        public IList<SenceData> GetC_SenceDatas()
+        public IList<SceneData> GetC_SenceDatas()
         {
             this.Mode = Constant.MODE_C;
-            IList<SenceData> senceDatas = new List<SenceData>();
+            IList<SceneData> senceDatas = new List<SceneData>();
             foreach (int item in SenceArray)
             {
-                SenceData data = GetC_SenceData(SenceArray[item]);
+                SceneData data = GetC_SenceData(SenceArray[item]);
                 senceDatas.Add(data);
             }
             return senceDatas;
         }
 
-        public IList<SenceData> GetM_SenceDatas()
+        public IList<SceneData> GetM_SenceDatas()
         {
             this.Mode = Constant.MODE_M;
-            IList<SenceData> senceDatas = new List<SenceData>();
+            IList<SceneData> senceDatas = new List<SceneData>();
             foreach (int item in SenceArray)
             {
-                SenceData data = GetC_SenceData(SenceArray[item]);
+                SceneData data = GetC_SenceData(SenceArray[item]);
                 senceDatas.Add(data);
             }
             return senceDatas;
         }
 
-        private SenceData GetC_SenceData(int senceNo)
+        private SceneData GetC_SenceData(int senceNo)
         {
-            SenceData senceData = new SenceData
+            SceneData senceData = new SceneData
             {
-                SenceNo = senceNo
+                SceneNo = senceNo
             };
             int chanelCount = GetChanelCount(senceNo);
             senceData.ChanelCount = chanelCount;

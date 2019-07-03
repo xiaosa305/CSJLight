@@ -9,7 +9,7 @@ namespace LightController.Tools
     public class DMXTools
     {
         private static DMXTools Instance { get; set; }
-        private IList<SenceData> SenceDatas { get; set; }
+        private IList<SceneData> SenceDatas { get; set; }
         private int Mode { get; set; }
 
         private DMXTools()
@@ -26,7 +26,7 @@ namespace LightController.Tools
             return Instance;
         }
        
-        public IList<DMX_C_File> Get_C_Files(IList<SenceData> senceDatas, int mode)
+        public IList<DMX_C_File> Get_C_Files(IList<SceneData> senceDatas, int mode)
         {
             this.SenceDatas = senceDatas;
             this.Mode = mode;
@@ -34,7 +34,7 @@ namespace LightController.Tools
             return c_Datas;
         }
 
-        public IList<DMX_M_File> Get_M_Files(IList<SenceData> senceDatas, int mode)
+        public IList<DMX_M_File> Get_M_Files(IList<SceneData> senceDatas, int mode)
         {
             this.SenceDatas = senceDatas;
             this.Mode = mode;
@@ -45,9 +45,9 @@ namespace LightController.Tools
         private IList<DMX_C_File> GetDMX_C_Files()
         {
             IList<DMX_C_File> c_Files = new List<DMX_C_File>();
-            foreach (SenceData senceData in SenceDatas)
+            foreach (SceneData senceData in SenceDatas)
             {
-                int senceNo = senceData.SenceNo;
+                int senceNo = senceData.SceneNo;
                 int chanelCount = senceData.ChanelCount;
                 IList<ChanelData> chanelDatas = senceData.ChanelDatas;
                 DMX_C_Data dMX_C_Data = GetDMX_C_Data(senceNo,chanelCount,chanelDatas);
@@ -64,9 +64,9 @@ namespace LightController.Tools
         private IList<DMX_M_File> GetDMX_M_Files()
         {
             IList<DMX_M_File> m_Files = new List<DMX_M_File>();
-            foreach (SenceData senceData in SenceDatas)
+            foreach (SceneData senceData in SenceDatas)
             {
-                int senceNo = senceData.SenceNo;
+                int senceNo = senceData.SceneNo;
                 int chanelCount = senceData.ChanelCount;
                 IList<ChanelData> chanelDatas = senceData.ChanelDatas;
                 DMX_M_Data dMX_M_Data = GetDMX_M_Data(senceNo, chanelCount, chanelDatas);

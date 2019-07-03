@@ -5,9 +5,9 @@ using System.Text;
 
 namespace LightController.Tools
 {
-    public class SenceData
+    public class SceneData
     {
-        public int SenceNo { get; set; }
+        public int SceneNo { get; set; }
         public int ChanelCount { get; set; }
         public IList<ChanelData> ChanelDatas { get; set; }
     }

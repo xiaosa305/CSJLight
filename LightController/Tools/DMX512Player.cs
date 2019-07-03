@@ -102,7 +102,7 @@ namespace LightController.Tools
             
         }
 
-		public void Preview(DBWrapper wrapper, int senceNo)
+		public void Preview(DBWrapper wrapper, int sceneNo)
 		{
             if (MyFtdiDevice == null)
             {
@@ -122,7 +122,7 @@ namespace LightController.Tools
 			}
 			if (IsStartPlay)
 			{
-				if (SetData(wrapper, senceNo))
+				if (SetData(wrapper, sceneNo))
 				{
 					IsNewData = true;
 					IsPause = false;
@@ -134,7 +134,7 @@ namespace LightController.Tools
 			}
 			else
 			{
-				if (SetData(wrapper, senceNo))
+				if (SetData(wrapper, sceneNo))
 				{
 					Init();
 					if (MyFtdiDevice == null)

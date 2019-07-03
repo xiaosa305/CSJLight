@@ -25,13 +25,13 @@ namespace LightController.Tools
         {
             foreach (DMX_C_File file in C_Files)
             {
-                file.WriteFile("C:/Users/99729/Desktop/TestDirect/");
+                file.WriteFile("C:/Temp/");
             }
             foreach (DMX_M_File file in M_Files)
             {
                 if (file.Data.Datas.Count() != 0)
                 {
-                    file.WriteFile("C:/Users/99729/Desktop/TestDirect/");
+                    file.WriteFile("C:/Temp/");
                 }
             }
             Console.WriteLine("Connect Test");

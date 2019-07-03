@@ -37,6 +37,13 @@ namespace LightController.Tools
                 //添加两字节通道编号
                 fileData.Add(chanelNo[0]);
                 fileData.Add(chanelNo[1]);
+                //获取数据长度
+                byte[] dataSzie = new byte[2];
+                dataSzie[0] = (byte)(m_Data.DataSize & 0xFF);
+                dataSzie[1] = (byte)((m_Data.DataSize >> 8) & 0xFF);
+                //添加数据长度
+                fileData.Add(dataSzie[0]);
+                fileData.Add(dataSzie[1]);
                 //添加所有采样数据
                 foreach (int value in m_Data.Datas)
                 {

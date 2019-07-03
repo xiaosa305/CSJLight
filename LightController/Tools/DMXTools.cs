@@ -26,18 +26,18 @@ namespace LightController.Tools
             return Instance;
         }
        
-        public IList<DMX_C_File> Get_C_Files(IList<SceneData> senceDatas, int mode)
+        public IList<DMX_C_File> Get_C_Files(IList<SceneData> senceDatas)
         {
             this.SenceDatas = senceDatas;
-            this.Mode = mode;
+            this.Mode = Constant.MODE_C;
             IList<DMX_C_File> c_Datas = GetDMX_C_Files();
             return c_Datas;
         }
 
-        public IList<DMX_M_File> Get_M_Files(IList<SceneData> senceDatas, int mode)
+        public IList<DMX_M_File> Get_M_Files(IList<SceneData> senceDatas)
         {
             this.SenceDatas = senceDatas;
-            this.Mode = mode;
+            this.Mode = Constant.MODE_M;
             IList<DMX_M_File> m_Datas = GetDMX_M_Files();
             return m_Datas;
         }

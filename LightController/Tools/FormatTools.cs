@@ -147,7 +147,17 @@ namespace LightController.Tools
                     chanelData.IsGradualChange = IsGradualChange;
                     chanelData.StepTimes = StepTimes;
                     chanelData.StepValues = StepValues;
-                    chanelDatas.Add(chanelData);
+                    if (Mode == Constant.MODE_C)
+                    {
+                        chanelDatas.Add(chanelData);
+                    }
+                    else
+                    {
+                        if (chanelData.IsGradualChange[0] == 1)
+                        {
+                            chanelDatas.Add(chanelData);
+                        }
+                    }
                 }
             }
             senceData.ChanelDatas = chanelDatas;

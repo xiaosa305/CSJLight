@@ -48,11 +48,10 @@ namespace LightController
 					}
 					this.treeView1.Nodes.Add(treeNode);
 				}
-				this.treeView1.ExpandAll();
-				
+				this.treeView1.ExpandAll();				
 			}
 						
-			// 只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
+			// 2.只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
 			if (lightAstList != null && lightAstList.Count > 0) {
 				this.lightAstList = lightAstList;
 				foreach (LightAst la in lightAstList)
@@ -62,17 +61,14 @@ namespace LightController
 				}
 			}
 		}
-
-
+				
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
-
-
-
+			this.treeView1.ExpandAll();
 		}
 			
 		/// <summary>
-		///  添加新灯具，需选中左边的一个项目，然后打开一个NewForm的新实例，在NewForm中回调AddListView 方法
+		///  添加新灯具，需选中左边的一个项目，然后打开一个NewForm的新实例，在NewForm中回调AddListView方法
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -132,6 +128,14 @@ namespace LightController
 			minNum = endNum + 1;
 		}
 
+
+		/// <summary>
+		///  辅助方法：添加item到ListView中，需要一些参数
+		/// </summary>
+		/// <param name="lightName"></param>
+		/// <param name="lightType"></param>
+		/// <param name="lightAddr"></param>
+		/// <param name="lightPic"></param>
 		private void AddListViewItem(string lightName, string lightType, string lightAddr,string lightPic)
 		{
 			ListViewItem item = new ListViewItem(lightName);
@@ -151,15 +155,19 @@ namespace LightController
 
 		}
 
+		/// <summary>
+		/// TODO: 点击确认后，添加lightAstList到mainForm去，并进行相关操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
 			mainForm.AddLightAstList(lightAstList);
-			// 2.关闭窗口（资源还未释放）
+			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
 			mainForm.Activate();
 		}
-				
-
+	
 	}
 }

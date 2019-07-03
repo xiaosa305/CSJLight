@@ -19,8 +19,7 @@ namespace LightController.Ast
 		// 此三个属性，每个灯都不一样，在灯库编辑时添加
 		public string LightAddr { get; set; }
 		public int StartNum { get; set; }
-		public int EndNum { get; set; }
-		
+		public int EndNum { get; set; }		
 	
 		public override string ToString()
 		{
@@ -45,6 +44,11 @@ namespace LightController.Ast
 			};
 		}
 
+		/// <summary>
+		///  通过DB_Light来生成对应的LightAst
+		/// </summary>
+		/// <param name="light"></param>
+		/// <returns></returns>
 		public static LightAst GenerateLightAst(DB_Light light)
 		{
 			int endNum = light.StartID + light.Count - 1;
@@ -62,6 +66,24 @@ namespace LightController.Ast
 				LightAddr = lightAddr,
 				LightPath = path
 			};
+		}
+
+		/// <summary>
+		///  重写（实际上并不算，因为形参不同）Equals语句，当地址和灯的全名一致时，基本可认为是同一个灯
+		/// </summary>
+		/// <param name="l2"></param>
+		/// <returns></returns>
+		public bool Equals(LightAst l2)
+		{
+			if (this.LightName == l2.LightName && this.LightType == l2.LightType
+				&& this.LightAddr == l2.LightAddr)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }

@@ -134,7 +134,7 @@ namespace LightController.Tools
                 //继续接受
                 conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("[" + conn.GetAddress() + "] 断开连接");
                 conn.Close();
@@ -157,7 +157,7 @@ namespace LightController.Tools
                     conn.Socket.Send(sendMsg);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (conn != null)
                 {

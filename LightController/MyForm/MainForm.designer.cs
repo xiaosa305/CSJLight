@@ -46,107 +46,7 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
-			this.cmComboBox = new System.Windows.Forms.ComboBox();
-			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.changeModeButton = new System.Windows.Forms.Button();
-			this.steptimeSetButton = new System.Windows.Forms.Button();
-			this.modeChooseLabel = new System.Windows.Forms.Label();
-			this.frameChooseLabel = new System.Windows.Forms.Label();
-			this.stepLabel = new System.Windows.Forms.Label();
-			this.nextStepButton = new System.Windows.Forms.Button();
-			this.deleteStepButton = new System.Windows.Forms.Button();
-			this.backStepButton = new System.Windows.Forms.Button();
-			this.insertStepButton = new System.Windows.Forms.Button();
-			this.aboutStepButton = new System.Windows.Forms.Button();
-			this.pasteStepButton = new System.Windows.Forms.Button();
-			this.copyStepButton = new System.Windows.Forms.Button();
-			this.newStepButton = new System.Windows.Forms.Button();
-			this.lightValueLabel = new System.Windows.Forms.Label();
-			this.lightLabel = new System.Windows.Forms.Label();
-			this.tongdaoGroupBox2 = new System.Windows.Forms.GroupBox();
-			this.changeModeLabel2 = new System.Windows.Forms.Label();
-			this.numericUpDown32 = new System.Windows.Forms.NumericUpDown();
-			this.tongdaoValueLabel2 = new System.Windows.Forms.Label();
-			this.changeModeComboBox32 = new System.Windows.Forms.ComboBox();
-			this.stepTimeLabel2 = new System.Windows.Forms.Label();
-			this.changeModeComboBox31 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown64 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox30 = new System.Windows.Forms.ComboBox();
-			this.label32 = new System.Windows.Forms.Label();
-			this.changeModeComboBox29 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown31 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox28 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown63 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox27 = new System.Windows.Forms.ComboBox();
-			this.vScrollBar17 = new System.Windows.Forms.VScrollBar();
-			this.changeModeComboBox26 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown30 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox25 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown62 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox24 = new System.Windows.Forms.ComboBox();
-			this.label31 = new System.Windows.Forms.Label();
-			this.changeModeComboBox23 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown29 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox22 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown61 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox21 = new System.Windows.Forms.ComboBox();
-			this.vScrollBar18 = new System.Windows.Forms.VScrollBar();
-			this.changeModeComboBox20 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown28 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox19 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown60 = new System.Windows.Forms.NumericUpDown();
-			this.changeModeComboBox18 = new System.Windows.Forms.ComboBox();
-			this.vScrollBar19 = new System.Windows.Forms.VScrollBar();
-			this.changeModeComboBox17 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown27 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown59 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar20 = new System.Windows.Forms.VScrollBar();
-			this.numericUpDown26 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown58 = new System.Windows.Forms.NumericUpDown();
-			this.label30 = new System.Windows.Forms.Label();
-			this.numericUpDown25 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown57 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar21 = new System.Windows.Forms.VScrollBar();
-			this.numericUpDown24 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown56 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar22 = new System.Windows.Forms.VScrollBar();
-			this.numericUpDown23 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown55 = new System.Windows.Forms.NumericUpDown();
-			this.label29 = new System.Windows.Forms.Label();
-			this.numericUpDown22 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown54 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar23 = new System.Windows.Forms.VScrollBar();
-			this.numericUpDown21 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown53 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar24 = new System.Windows.Forms.VScrollBar();
-			this.numericUpDown20 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown52 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar25 = new System.Windows.Forms.VScrollBar();
-			this.numericUpDown19 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown51 = new System.Windows.Forms.NumericUpDown();
-			this.label28 = new System.Windows.Forms.Label();
-			this.numericUpDown18 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown50 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar26 = new System.Windows.Forms.VScrollBar();
-			this.numericUpDown17 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown49 = new System.Windows.Forms.NumericUpDown();
-			this.vScrollBar27 = new System.Windows.Forms.VScrollBar();
-			this.vScrollBar28 = new System.Windows.Forms.VScrollBar();
-			this.label27 = new System.Windows.Forms.Label();
-			this.vScrollBar29 = new System.Windows.Forms.VScrollBar();
-			this.vScrollBar30 = new System.Windows.Forms.VScrollBar();
-			this.vScrollBar31 = new System.Windows.Forms.VScrollBar();
-			this.label26 = new System.Windows.Forms.Label();
-			this.vScrollBar32 = new System.Windows.Forms.VScrollBar();
-			this.label17 = new System.Windows.Forms.Label();
-			this.label22 = new System.Windows.Forms.Label();
-			this.label25 = new System.Windows.Forms.Label();
-			this.label20 = new System.Windows.Forms.Label();
-			this.label19 = new System.Windows.Forms.Label();
-			this.label21 = new System.Windows.Forms.Label();
-			this.label23 = new System.Windows.Forms.Label();
-			this.label24 = new System.Windows.Forms.Label();
-			this.label18 = new System.Windows.Forms.Label();
+			this.tongdaoPanel = new System.Windows.Forms.Panel();
 			this.tongdaoGroupBox1 = new System.Windows.Forms.GroupBox();
 			this.changeModeLabel = new System.Windows.Forms.Label();
 			this.tongdaoValueLabel = new System.Windows.Forms.Label();
@@ -231,6 +131,107 @@ namespace LightController
 			this.vScrollBar5 = new System.Windows.Forms.VScrollBar();
 			this.vScrollBar2 = new System.Windows.Forms.VScrollBar();
 			this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+			this.tongdaoGroupBox2 = new System.Windows.Forms.GroupBox();
+			this.changeModeLabel2 = new System.Windows.Forms.Label();
+			this.numericUpDown32 = new System.Windows.Forms.NumericUpDown();
+			this.tongdaoValueLabel2 = new System.Windows.Forms.Label();
+			this.changeModeComboBox32 = new System.Windows.Forms.ComboBox();
+			this.stepTimeLabel2 = new System.Windows.Forms.Label();
+			this.changeModeComboBox31 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown64 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox30 = new System.Windows.Forms.ComboBox();
+			this.label32 = new System.Windows.Forms.Label();
+			this.changeModeComboBox29 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown31 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox28 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown63 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox27 = new System.Windows.Forms.ComboBox();
+			this.vScrollBar17 = new System.Windows.Forms.VScrollBar();
+			this.changeModeComboBox26 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown30 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox25 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown62 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox24 = new System.Windows.Forms.ComboBox();
+			this.label31 = new System.Windows.Forms.Label();
+			this.changeModeComboBox23 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown29 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox22 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown61 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox21 = new System.Windows.Forms.ComboBox();
+			this.vScrollBar18 = new System.Windows.Forms.VScrollBar();
+			this.changeModeComboBox20 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown28 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox19 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown60 = new System.Windows.Forms.NumericUpDown();
+			this.changeModeComboBox18 = new System.Windows.Forms.ComboBox();
+			this.vScrollBar19 = new System.Windows.Forms.VScrollBar();
+			this.changeModeComboBox17 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown27 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown59 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar20 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown26 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown58 = new System.Windows.Forms.NumericUpDown();
+			this.label30 = new System.Windows.Forms.Label();
+			this.numericUpDown25 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown57 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar21 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown24 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown56 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar22 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown23 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown55 = new System.Windows.Forms.NumericUpDown();
+			this.label29 = new System.Windows.Forms.Label();
+			this.numericUpDown22 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown54 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar23 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown21 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown53 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar24 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown20 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown52 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar25 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown19 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown51 = new System.Windows.Forms.NumericUpDown();
+			this.label28 = new System.Windows.Forms.Label();
+			this.numericUpDown18 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown50 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar26 = new System.Windows.Forms.VScrollBar();
+			this.numericUpDown17 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDown49 = new System.Windows.Forms.NumericUpDown();
+			this.vScrollBar27 = new System.Windows.Forms.VScrollBar();
+			this.vScrollBar28 = new System.Windows.Forms.VScrollBar();
+			this.label27 = new System.Windows.Forms.Label();
+			this.vScrollBar29 = new System.Windows.Forms.VScrollBar();
+			this.vScrollBar30 = new System.Windows.Forms.VScrollBar();
+			this.vScrollBar31 = new System.Windows.Forms.VScrollBar();
+			this.label26 = new System.Windows.Forms.Label();
+			this.vScrollBar32 = new System.Windows.Forms.VScrollBar();
+			this.label17 = new System.Windows.Forms.Label();
+			this.label22 = new System.Windows.Forms.Label();
+			this.label25 = new System.Windows.Forms.Label();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label19 = new System.Windows.Forms.Label();
+			this.label21 = new System.Windows.Forms.Label();
+			this.label23 = new System.Windows.Forms.Label();
+			this.label24 = new System.Windows.Forms.Label();
+			this.label18 = new System.Windows.Forms.Label();
+			this.cmComboBox = new System.Windows.Forms.ComboBox();
+			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.changeModeButton = new System.Windows.Forms.Button();
+			this.steptimeSetButton = new System.Windows.Forms.Button();
+			this.modeChooseLabel = new System.Windows.Forms.Label();
+			this.frameChooseLabel = new System.Windows.Forms.Label();
+			this.stepLabel = new System.Windows.Forms.Label();
+			this.nextStepButton = new System.Windows.Forms.Button();
+			this.deleteStepButton = new System.Windows.Forms.Button();
+			this.backStepButton = new System.Windows.Forms.Button();
+			this.insertStepButton = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
+			this.pasteStepButton = new System.Windows.Forms.Button();
+			this.copyStepButton = new System.Windows.Forms.Button();
+			this.newStepButton = new System.Windows.Forms.Button();
+			this.lightValueLabel = new System.Windows.Forms.Label();
+			this.lightLabel = new System.Windows.Forms.Label();
 			this.groupComboBox = new System.Windows.Forms.ComboBox();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
@@ -244,42 +245,8 @@ namespace LightController
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
-			this.button1 = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
-			this.tongdaoGroupBox2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown64)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown63)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown30)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown62)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown29)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown61)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown28)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown60)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown27)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown59)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown26)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown58)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown25)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown57)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown56)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown23)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown55)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown54)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown21)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown53)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown20)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown52)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown51)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown50)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown49)).BeginInit();
+			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown48)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown16)).BeginInit();
@@ -313,6 +280,40 @@ namespace LightController
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown33)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.tongdaoGroupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown64)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown63)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown30)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown62)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown29)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown61)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown28)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown60)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown27)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown59)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown26)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown58)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown25)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown57)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown56)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown23)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown55)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown54)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown21)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown53)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown20)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown52)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown51)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown50)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown49)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -413,7 +414,7 @@ namespace LightController
 			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lightType});
 			this.lightsListView.LargeImageList = this.LargeImageList;
-			this.lightsListView.Location = new System.Drawing.Point(0, 127);
+			this.lightsListView.Location = new System.Drawing.Point(0, 140);
 			this.lightsListView.MultiSelect = false;
 			this.lightsListView.Name = "lightsListView";
 			this.lightsListView.Size = new System.Drawing.Size(1915, 214);
@@ -447,6 +448,7 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.tongdaoGroupBox.Controls.Add(this.tongdaoPanel);
 			this.tongdaoGroupBox.Controls.Add(this.cmComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.stNumericUpDown);
 			this.tongdaoGroupBox.Controls.Add(this.changeModeButton);
@@ -459,1279 +461,30 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.backStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.insertStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.button1);
-			this.tongdaoGroupBox.Controls.Add(this.aboutStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.newStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.lightValueLabel);
 			this.tongdaoGroupBox.Controls.Add(this.lightLabel);
-			this.tongdaoGroupBox.Controls.Add(this.tongdaoGroupBox2);
-			this.tongdaoGroupBox.Controls.Add(this.tongdaoGroupBox1);
 			this.tongdaoGroupBox.Controls.Add(this.groupComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.frameComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.modeComboBox);
-			this.tongdaoGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tongdaoGroupBox.Location = new System.Drawing.Point(0, 347);
+			this.tongdaoGroupBox.Location = new System.Drawing.Point(0, 360);
 			this.tongdaoGroupBox.Name = "tongdaoGroupBox";
-			this.tongdaoGroupBox.Size = new System.Drawing.Size(1915, 905);
+			this.tongdaoGroupBox.Size = new System.Drawing.Size(1915, 520);
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
 			// 
-			// cmComboBox
-			// 
-			this.cmComboBox.FormattingEnabled = true;
-			this.cmComboBox.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.cmComboBox.Location = new System.Drawing.Point(64, 401);
-			this.cmComboBox.Name = "cmComboBox";
-			this.cmComboBox.Size = new System.Drawing.Size(76, 23);
-			this.cmComboBox.TabIndex = 19;
-			// 
-			// stNumericUpDown
-			// 
-			this.stNumericUpDown.Location = new System.Drawing.Point(64, 452);
-			this.stNumericUpDown.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.stNumericUpDown.Name = "stNumericUpDown";
-			this.stNumericUpDown.Size = new System.Drawing.Size(76, 25);
-			this.stNumericUpDown.TabIndex = 18;
-			this.stNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// changeModeButton
-			// 
-			this.changeModeButton.Location = new System.Drawing.Point(165, 397);
-			this.changeModeButton.Name = "changeModeButton";
-			this.changeModeButton.Size = new System.Drawing.Size(136, 25);
-			this.changeModeButton.TabIndex = 17;
-			this.changeModeButton.Text = "统一跳渐变";
-			this.changeModeButton.UseVisualStyleBackColor = true;
-			this.changeModeButton.Click += new System.EventHandler(this.changeModeButton_Click);
-			// 
-			// steptimeSetButton
-			// 
-			this.steptimeSetButton.Location = new System.Drawing.Point(165, 452);
-			this.steptimeSetButton.Name = "steptimeSetButton";
-			this.steptimeSetButton.Size = new System.Drawing.Size(136, 25);
-			this.steptimeSetButton.TabIndex = 17;
-			this.steptimeSetButton.Text = "统一步时间";
-			this.steptimeSetButton.UseVisualStyleBackColor = true;
-			this.steptimeSetButton.Click += new System.EventHandler(this.steptimeSetButton_Click);
-			// 
-			// modeChooseLabel
-			// 
-			this.modeChooseLabel.AutoSize = true;
-			this.modeChooseLabel.Location = new System.Drawing.Point(640, 27);
-			this.modeChooseLabel.Name = "modeChooseLabel";
-			this.modeChooseLabel.Size = new System.Drawing.Size(82, 15);
-			this.modeChooseLabel.TabIndex = 16;
-			this.modeChooseLabel.Text = "选择模式：";
-			// 
-			// frameChooseLabel
-			// 
-			this.frameChooseLabel.AutoSize = true;
-			this.frameChooseLabel.Location = new System.Drawing.Point(402, 27);
-			this.frameChooseLabel.Name = "frameChooseLabel";
-			this.frameChooseLabel.Size = new System.Drawing.Size(82, 15);
-			this.frameChooseLabel.TabIndex = 16;
-			this.frameChooseLabel.Text = "选择场景：";
-			// 
-			// stepLabel
-			// 
-			this.stepLabel.AutoSize = true;
-			this.stepLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.stepLabel.Location = new System.Drawing.Point(542, 91);
-			this.stepLabel.Name = "stepLabel";
-			this.stepLabel.Size = new System.Drawing.Size(39, 20);
-			this.stepLabel.TabIndex = 15;
-			this.stepLabel.Text = "0/0";
-			// 
-			// nextStepButton
-			// 
-			this.nextStepButton.Location = new System.Drawing.Point(633, 85);
-			this.nextStepButton.Name = "nextStepButton";
-			this.nextStepButton.Size = new System.Drawing.Size(89, 32);
-			this.nextStepButton.TabIndex = 14;
-			this.nextStepButton.Text = "下一步";
-			this.nextStepButton.UseVisualStyleBackColor = true;
-			this.nextStepButton.Click += new System.EventHandler(this.nextStepButton_Click);
-			// 
-			// deleteStepButton
-			// 
-			this.deleteStepButton.Location = new System.Drawing.Point(966, 85);
-			this.deleteStepButton.Name = "deleteStepButton";
-			this.deleteStepButton.Size = new System.Drawing.Size(89, 32);
-			this.deleteStepButton.TabIndex = 14;
-			this.deleteStepButton.Text = "删除步";
-			this.deleteStepButton.UseVisualStyleBackColor = true;
-			this.deleteStepButton.Click += new System.EventHandler(this.deleteStepButton_Click);
-			// 
-			// backStepButton
-			// 
-			this.backStepButton.Location = new System.Drawing.Point(405, 85);
-			this.backStepButton.Name = "backStepButton";
-			this.backStepButton.Size = new System.Drawing.Size(89, 32);
-			this.backStepButton.TabIndex = 13;
-			this.backStepButton.Text = "上一步";
-			this.backStepButton.UseVisualStyleBackColor = true;
-			this.backStepButton.Click += new System.EventHandler(this.backStepButton_Click);
-			// 
-			// insertStepButton
-			// 
-			this.insertStepButton.Location = new System.Drawing.Point(855, 85);
-			this.insertStepButton.Name = "insertStepButton";
-			this.insertStepButton.Size = new System.Drawing.Size(89, 32);
-			this.insertStepButton.TabIndex = 14;
-			this.insertStepButton.Text = "插入步";
-			this.insertStepButton.UseVisualStyleBackColor = true;
-			this.insertStepButton.Visible = false;
-			// 
-			// aboutStepButton
-			// 
-			this.aboutStepButton.Location = new System.Drawing.Point(1299, 85);
-			this.aboutStepButton.Name = "aboutStepButton";
-			this.aboutStepButton.Size = new System.Drawing.Size(89, 32);
-			this.aboutStepButton.TabIndex = 13;
-			this.aboutStepButton.Text = "TEST";
-			this.aboutStepButton.UseVisualStyleBackColor = true;
-			this.aboutStepButton.Click += new System.EventHandler(this.newStepButton_Click);
-			// 
-			// pasteStepButton
-			// 
-			this.pasteStepButton.Location = new System.Drawing.Point(1188, 85);
-			this.pasteStepButton.Name = "pasteStepButton";
-			this.pasteStepButton.Size = new System.Drawing.Size(89, 32);
-			this.pasteStepButton.TabIndex = 13;
-			this.pasteStepButton.Text = "粘贴步";
-			this.pasteStepButton.UseVisualStyleBackColor = true;
-			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
-			// 
-			// copyStepButton
-			// 
-			this.copyStepButton.Location = new System.Drawing.Point(1077, 85);
-			this.copyStepButton.Name = "copyStepButton";
-			this.copyStepButton.Size = new System.Drawing.Size(89, 32);
-			this.copyStepButton.TabIndex = 13;
-			this.copyStepButton.Text = "复制步";
-			this.copyStepButton.UseVisualStyleBackColor = true;
-			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
-			// 
-			// newStepButton
-			// 
-			this.newStepButton.Location = new System.Drawing.Point(744, 85);
-			this.newStepButton.Name = "newStepButton";
-			this.newStepButton.Size = new System.Drawing.Size(89, 32);
-			this.newStepButton.TabIndex = 13;
-			this.newStepButton.Text = "新建步";
-			this.newStepButton.UseVisualStyleBackColor = true;
-			this.newStepButton.Click += new System.EventHandler(this.newStepButton_Click);
-			// 
-			// lightValueLabel
-			// 
-			this.lightValueLabel.AutoSize = true;
-			this.lightValueLabel.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightValueLabel.Location = new System.Drawing.Point(109, 23);
-			this.lightValueLabel.Name = "lightValueLabel";
-			this.lightValueLabel.Size = new System.Drawing.Size(70, 15);
-			this.lightValueLabel.TabIndex = 12;
-			this.lightValueLabel.Text = "       ";
-			// 
-			// lightLabel
-			// 
-			this.lightLabel.AutoSize = true;
-			this.lightLabel.Location = new System.Drawing.Point(34, 24);
-			this.lightLabel.Name = "lightLabel";
-			this.lightLabel.Size = new System.Drawing.Size(82, 15);
-			this.lightLabel.TabIndex = 11;
-			this.lightLabel.Text = "当前灯具：";
-			// 
-			// tongdaoGroupBox2
-			// 
-			this.tongdaoGroupBox2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeLabel2);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown32);
-			this.tongdaoGroupBox2.Controls.Add(this.tongdaoValueLabel2);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox32);
-			this.tongdaoGroupBox2.Controls.Add(this.stepTimeLabel2);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox31);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown64);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox30);
-			this.tongdaoGroupBox2.Controls.Add(this.label32);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox29);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown31);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox28);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown63);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox27);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar17);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox26);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown30);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox25);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown62);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox24);
-			this.tongdaoGroupBox2.Controls.Add(this.label31);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox23);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown29);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox22);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown61);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox21);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar18);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox20);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown28);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox19);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown60);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox18);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar19);
-			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox17);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown27);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown59);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar20);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown26);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown58);
-			this.tongdaoGroupBox2.Controls.Add(this.label30);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown25);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown57);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar21);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown24);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown56);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar22);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown23);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown55);
-			this.tongdaoGroupBox2.Controls.Add(this.label29);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown22);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown54);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar23);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown21);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown53);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar24);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown20);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown52);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar25);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown19);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown51);
-			this.tongdaoGroupBox2.Controls.Add(this.label28);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown18);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown50);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar26);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown17);
-			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown49);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar27);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar28);
-			this.tongdaoGroupBox2.Controls.Add(this.label27);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar29);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar30);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar31);
-			this.tongdaoGroupBox2.Controls.Add(this.label26);
-			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar32);
-			this.tongdaoGroupBox2.Controls.Add(this.label17);
-			this.tongdaoGroupBox2.Controls.Add(this.label22);
-			this.tongdaoGroupBox2.Controls.Add(this.label25);
-			this.tongdaoGroupBox2.Controls.Add(this.label20);
-			this.tongdaoGroupBox2.Controls.Add(this.label19);
-			this.tongdaoGroupBox2.Controls.Add(this.label21);
-			this.tongdaoGroupBox2.Controls.Add(this.label23);
-			this.tongdaoGroupBox2.Controls.Add(this.label24);
-			this.tongdaoGroupBox2.Controls.Add(this.label18);
-			this.tongdaoGroupBox2.Location = new System.Drawing.Point(405, 531);
-			this.tongdaoGroupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox2.Name = "tongdaoGroupBox2";
-			this.tongdaoGroupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox2.Size = new System.Drawing.Size(1499, 375);
-			this.tongdaoGroupBox2.TabIndex = 10;
-			this.tongdaoGroupBox2.TabStop = false;
-			// 
-			// changeModeLabel2
-			// 
-			this.changeModeLabel2.AutoSize = true;
-			this.changeModeLabel2.Location = new System.Drawing.Point(37, 299);
-			this.changeModeLabel2.Name = "changeModeLabel2";
-			this.changeModeLabel2.Size = new System.Drawing.Size(67, 15);
-			this.changeModeLabel2.TabIndex = 17;
-			this.changeModeLabel2.Text = "变化方式";
-			this.changeModeLabel2.Visible = false;
-			// 
-			// numericUpDown32
-			// 
-			this.numericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown32.Location = new System.Drawing.Point(1407, 265);
-			this.numericUpDown32.Name = "numericUpDown32";
-			this.numericUpDown32.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown32.TabIndex = 11;
-			this.numericUpDown32.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// tongdaoValueLabel2
-			// 
-			this.tongdaoValueLabel2.AutoSize = true;
-			this.tongdaoValueLabel2.Location = new System.Drawing.Point(38, 269);
-			this.tongdaoValueLabel2.Name = "tongdaoValueLabel2";
-			this.tongdaoValueLabel2.Size = new System.Drawing.Size(68, 15);
-			this.tongdaoValueLabel2.TabIndex = 15;
-			this.tongdaoValueLabel2.Text = "通 道 值";
-			this.tongdaoValueLabel2.Visible = false;
-			// 
-			// changeModeComboBox32
-			// 
-			this.changeModeComboBox32.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox32.FormattingEnabled = true;
-			this.changeModeComboBox32.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox32.Location = new System.Drawing.Point(1402, 296);
-			this.changeModeComboBox32.Name = "changeModeComboBox32";
-			this.changeModeComboBox32.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox32.TabIndex = 12;
-			this.changeModeComboBox32.Visible = false;
-			this.changeModeComboBox32.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// stepTimeLabel2
-			// 
-			this.stepTimeLabel2.AutoSize = true;
-			this.stepTimeLabel2.Location = new System.Drawing.Point(38, 330);
-			this.stepTimeLabel2.Name = "stepTimeLabel2";
-			this.stepTimeLabel2.Size = new System.Drawing.Size(68, 15);
-			this.stepTimeLabel2.TabIndex = 16;
-			this.stepTimeLabel2.Text = "步 时 间";
-			this.stepTimeLabel2.Visible = false;
-			// 
-			// changeModeComboBox31
-			// 
-			this.changeModeComboBox31.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox31.FormattingEnabled = true;
-			this.changeModeComboBox31.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox31.Location = new System.Drawing.Point(1320, 295);
-			this.changeModeComboBox31.Name = "changeModeComboBox31";
-			this.changeModeComboBox31.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox31.TabIndex = 12;
-			this.changeModeComboBox31.Visible = false;
-			this.changeModeComboBox31.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown64
-			// 
-			this.numericUpDown64.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown64.Location = new System.Drawing.Point(1409, 330);
-			this.numericUpDown64.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown64.Name = "numericUpDown64";
-			this.numericUpDown64.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown64.TabIndex = 11;
-			this.numericUpDown64.Visible = false;
-			this.numericUpDown64.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox30
-			// 
-			this.changeModeComboBox30.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox30.FormattingEnabled = true;
-			this.changeModeComboBox30.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox30.Location = new System.Drawing.Point(1232, 295);
-			this.changeModeComboBox30.Name = "changeModeComboBox30";
-			this.changeModeComboBox30.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox30.TabIndex = 12;
-			this.changeModeComboBox30.Visible = false;
-			this.changeModeComboBox30.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// label32
-			// 
-			this.label32.Font = new System.Drawing.Font("宋体", 8F);
-			this.label32.Location = new System.Drawing.Point(1396, 52);
-			this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(19, 128);
-			this.label32.TabIndex = 10;
-			this.label32.Text = "总调光1";
-			this.label32.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label32.Visible = false;
-			// 
-			// changeModeComboBox29
-			// 
-			this.changeModeComboBox29.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox29.FormattingEnabled = true;
-			this.changeModeComboBox29.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox29.Location = new System.Drawing.Point(1147, 295);
-			this.changeModeComboBox29.Name = "changeModeComboBox29";
-			this.changeModeComboBox29.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox29.TabIndex = 12;
-			this.changeModeComboBox29.Visible = false;
-			this.changeModeComboBox29.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown31
-			// 
-			this.numericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown31.Location = new System.Drawing.Point(1325, 265);
-			this.numericUpDown31.Name = "numericUpDown31";
-			this.numericUpDown31.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown31.TabIndex = 11;
-			this.numericUpDown31.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox28
-			// 
-			this.changeModeComboBox28.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox28.FormattingEnabled = true;
-			this.changeModeComboBox28.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox28.Location = new System.Drawing.Point(1062, 295);
-			this.changeModeComboBox28.Name = "changeModeComboBox28";
-			this.changeModeComboBox28.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox28.TabIndex = 12;
-			this.changeModeComboBox28.Visible = false;
-			this.changeModeComboBox28.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown63
-			// 
-			this.numericUpDown63.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown63.Location = new System.Drawing.Point(1325, 330);
-			this.numericUpDown63.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown63.Name = "numericUpDown63";
-			this.numericUpDown63.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown63.TabIndex = 11;
-			this.numericUpDown63.Visible = false;
-			this.numericUpDown63.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox27
-			// 
-			this.changeModeComboBox27.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox27.FormattingEnabled = true;
-			this.changeModeComboBox27.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox27.Location = new System.Drawing.Point(977, 295);
-			this.changeModeComboBox27.Name = "changeModeComboBox27";
-			this.changeModeComboBox27.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox27.TabIndex = 12;
-			this.changeModeComboBox27.Visible = false;
-			this.changeModeComboBox27.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// vScrollBar17
-			// 
-			this.vScrollBar17.Location = new System.Drawing.Point(145, 52);
-			this.vScrollBar17.Maximum = 264;
-			this.vScrollBar17.Name = "vScrollBar17";
-			this.vScrollBar17.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar17.TabIndex = 0;
-			this.vScrollBar17.Visible = false;
-			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// changeModeComboBox26
-			// 
-			this.changeModeComboBox26.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox26.FormattingEnabled = true;
-			this.changeModeComboBox26.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox26.Location = new System.Drawing.Point(892, 295);
-			this.changeModeComboBox26.Name = "changeModeComboBox26";
-			this.changeModeComboBox26.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox26.TabIndex = 12;
-			this.changeModeComboBox26.Visible = false;
-			this.changeModeComboBox26.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown30
-			// 
-			this.numericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown30.Location = new System.Drawing.Point(1237, 265);
-			this.numericUpDown30.Name = "numericUpDown30";
-			this.numericUpDown30.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown30.TabIndex = 11;
-			this.numericUpDown30.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox25
-			// 
-			this.changeModeComboBox25.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox25.FormattingEnabled = true;
-			this.changeModeComboBox25.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox25.Location = new System.Drawing.Point(807, 295);
-			this.changeModeComboBox25.Name = "changeModeComboBox25";
-			this.changeModeComboBox25.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox25.TabIndex = 12;
-			this.changeModeComboBox25.Visible = false;
-			this.changeModeComboBox25.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown62
-			// 
-			this.numericUpDown62.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown62.Location = new System.Drawing.Point(1237, 326);
-			this.numericUpDown62.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown62.Name = "numericUpDown62";
-			this.numericUpDown62.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown62.TabIndex = 11;
-			this.numericUpDown62.Visible = false;
-			this.numericUpDown62.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox24
-			// 
-			this.changeModeComboBox24.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox24.FormattingEnabled = true;
-			this.changeModeComboBox24.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox24.Location = new System.Drawing.Point(722, 295);
-			this.changeModeComboBox24.Name = "changeModeComboBox24";
-			this.changeModeComboBox24.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox24.TabIndex = 12;
-			this.changeModeComboBox24.Visible = false;
-			this.changeModeComboBox24.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// label31
-			// 
-			this.label31.Font = new System.Drawing.Font("宋体", 8F);
-			this.label31.Location = new System.Drawing.Point(1312, 52);
-			this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(19, 128);
-			this.label31.TabIndex = 10;
-			this.label31.Text = "总调光1";
-			this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label31.Visible = false;
-			// 
-			// changeModeComboBox23
-			// 
-			this.changeModeComboBox23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox23.FormattingEnabled = true;
-			this.changeModeComboBox23.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox23.Location = new System.Drawing.Point(637, 295);
-			this.changeModeComboBox23.Name = "changeModeComboBox23";
-			this.changeModeComboBox23.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox23.TabIndex = 12;
-			this.changeModeComboBox23.Visible = false;
-			this.changeModeComboBox23.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown29
-			// 
-			this.numericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown29.Location = new System.Drawing.Point(1152, 265);
-			this.numericUpDown29.Name = "numericUpDown29";
-			this.numericUpDown29.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown29.TabIndex = 11;
-			this.numericUpDown29.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox22
-			// 
-			this.changeModeComboBox22.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox22.FormattingEnabled = true;
-			this.changeModeComboBox22.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox22.Location = new System.Drawing.Point(552, 295);
-			this.changeModeComboBox22.Name = "changeModeComboBox22";
-			this.changeModeComboBox22.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox22.TabIndex = 12;
-			this.changeModeComboBox22.Visible = false;
-			this.changeModeComboBox22.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown61
-			// 
-			this.numericUpDown61.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown61.Location = new System.Drawing.Point(1152, 326);
-			this.numericUpDown61.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown61.Name = "numericUpDown61";
-			this.numericUpDown61.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown61.TabIndex = 11;
-			this.numericUpDown61.Visible = false;
-			this.numericUpDown61.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox21
-			// 
-			this.changeModeComboBox21.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox21.FormattingEnabled = true;
-			this.changeModeComboBox21.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox21.Location = new System.Drawing.Point(467, 295);
-			this.changeModeComboBox21.Name = "changeModeComboBox21";
-			this.changeModeComboBox21.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox21.TabIndex = 12;
-			this.changeModeComboBox21.Visible = false;
-			this.changeModeComboBox21.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// vScrollBar18
-			// 
-			this.vScrollBar18.Location = new System.Drawing.Point(230, 52);
-			this.vScrollBar18.Maximum = 264;
-			this.vScrollBar18.Name = "vScrollBar18";
-			this.vScrollBar18.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar18.TabIndex = 0;
-			this.vScrollBar18.Visible = false;
-			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// changeModeComboBox20
-			// 
-			this.changeModeComboBox20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox20.FormattingEnabled = true;
-			this.changeModeComboBox20.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox20.Location = new System.Drawing.Point(382, 295);
-			this.changeModeComboBox20.Name = "changeModeComboBox20";
-			this.changeModeComboBox20.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox20.TabIndex = 12;
-			this.changeModeComboBox20.Visible = false;
-			this.changeModeComboBox20.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown28
-			// 
-			this.numericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown28.Location = new System.Drawing.Point(1067, 265);
-			this.numericUpDown28.Name = "numericUpDown28";
-			this.numericUpDown28.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown28.TabIndex = 11;
-			this.numericUpDown28.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox19
-			// 
-			this.changeModeComboBox19.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox19.FormattingEnabled = true;
-			this.changeModeComboBox19.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox19.Location = new System.Drawing.Point(297, 295);
-			this.changeModeComboBox19.Name = "changeModeComboBox19";
-			this.changeModeComboBox19.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox19.TabIndex = 12;
-			this.changeModeComboBox19.Visible = false;
-			this.changeModeComboBox19.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown60
-			// 
-			this.numericUpDown60.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown60.Location = new System.Drawing.Point(1067, 326);
-			this.numericUpDown60.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown60.Name = "numericUpDown60";
-			this.numericUpDown60.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown60.TabIndex = 11;
-			this.numericUpDown60.Visible = false;
-			this.numericUpDown60.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// changeModeComboBox18
-			// 
-			this.changeModeComboBox18.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox18.FormattingEnabled = true;
-			this.changeModeComboBox18.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox18.Location = new System.Drawing.Point(212, 295);
-			this.changeModeComboBox18.Name = "changeModeComboBox18";
-			this.changeModeComboBox18.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox18.TabIndex = 12;
-			this.changeModeComboBox18.Visible = false;
-			this.changeModeComboBox18.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// vScrollBar19
-			// 
-			this.vScrollBar19.Location = new System.Drawing.Point(315, 52);
-			this.vScrollBar19.Maximum = 264;
-			this.vScrollBar19.Name = "vScrollBar19";
-			this.vScrollBar19.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar19.TabIndex = 0;
-			this.vScrollBar19.Visible = false;
-			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// changeModeComboBox17
-			// 
-			this.changeModeComboBox17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.changeModeComboBox17.FormattingEnabled = true;
-			this.changeModeComboBox17.Items.AddRange(new object[] {
-            "跳变",
-            "渐变"});
-			this.changeModeComboBox17.Location = new System.Drawing.Point(127, 295);
-			this.changeModeComboBox17.Name = "changeModeComboBox17";
-			this.changeModeComboBox17.Size = new System.Drawing.Size(60, 23);
-			this.changeModeComboBox17.TabIndex = 12;
-			this.changeModeComboBox17.Visible = false;
-			this.changeModeComboBox17.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			// 
-			// numericUpDown27
-			// 
-			this.numericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown27.Location = new System.Drawing.Point(979, 265);
-			this.numericUpDown27.Name = "numericUpDown27";
-			this.numericUpDown27.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown27.TabIndex = 11;
-			this.numericUpDown27.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown59
-			// 
-			this.numericUpDown59.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown59.Location = new System.Drawing.Point(982, 326);
-			this.numericUpDown59.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown59.Name = "numericUpDown59";
-			this.numericUpDown59.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown59.TabIndex = 11;
-			this.numericUpDown59.Visible = false;
-			this.numericUpDown59.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar20
-			// 
-			this.vScrollBar20.Location = new System.Drawing.Point(400, 52);
-			this.vScrollBar20.Maximum = 264;
-			this.vScrollBar20.Name = "vScrollBar20";
-			this.vScrollBar20.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar20.TabIndex = 0;
-			this.vScrollBar20.Visible = false;
-			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// numericUpDown26
-			// 
-			this.numericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown26.Location = new System.Drawing.Point(897, 265);
-			this.numericUpDown26.Name = "numericUpDown26";
-			this.numericUpDown26.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown26.TabIndex = 11;
-			this.numericUpDown26.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown58
-			// 
-			this.numericUpDown58.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown58.Location = new System.Drawing.Point(897, 326);
-			this.numericUpDown58.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown58.Name = "numericUpDown58";
-			this.numericUpDown58.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown58.TabIndex = 11;
-			this.numericUpDown58.Visible = false;
-			this.numericUpDown58.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// label30
-			// 
-			this.label30.Font = new System.Drawing.Font("宋体", 8F);
-			this.label30.Location = new System.Drawing.Point(1226, 52);
-			this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(19, 128);
-			this.label30.TabIndex = 10;
-			this.label30.Text = "总调光1";
-			this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label30.Visible = false;
-			// 
-			// numericUpDown25
-			// 
-			this.numericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown25.Location = new System.Drawing.Point(812, 265);
-			this.numericUpDown25.Name = "numericUpDown25";
-			this.numericUpDown25.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown25.TabIndex = 11;
-			this.numericUpDown25.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown57
-			// 
-			this.numericUpDown57.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown57.Location = new System.Drawing.Point(812, 326);
-			this.numericUpDown57.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown57.Name = "numericUpDown57";
-			this.numericUpDown57.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown57.TabIndex = 11;
-			this.numericUpDown57.Visible = false;
-			this.numericUpDown57.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar21
-			// 
-			this.vScrollBar21.Location = new System.Drawing.Point(485, 52);
-			this.vScrollBar21.Maximum = 264;
-			this.vScrollBar21.Name = "vScrollBar21";
-			this.vScrollBar21.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar21.TabIndex = 0;
-			this.vScrollBar21.Visible = false;
-			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// numericUpDown24
-			// 
-			this.numericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown24.Location = new System.Drawing.Point(727, 265);
-			this.numericUpDown24.Name = "numericUpDown24";
-			this.numericUpDown24.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown24.TabIndex = 11;
-			this.numericUpDown24.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown56
-			// 
-			this.numericUpDown56.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown56.Location = new System.Drawing.Point(727, 326);
-			this.numericUpDown56.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown56.Name = "numericUpDown56";
-			this.numericUpDown56.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown56.TabIndex = 11;
-			this.numericUpDown56.Visible = false;
-			this.numericUpDown56.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar22
-			// 
-			this.vScrollBar22.Location = new System.Drawing.Point(570, 52);
-			this.vScrollBar22.Maximum = 264;
-			this.vScrollBar22.Name = "vScrollBar22";
-			this.vScrollBar22.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar22.TabIndex = 0;
-			this.vScrollBar22.Visible = false;
-			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// numericUpDown23
-			// 
-			this.numericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown23.Location = new System.Drawing.Point(642, 265);
-			this.numericUpDown23.Name = "numericUpDown23";
-			this.numericUpDown23.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown23.TabIndex = 11;
-			this.numericUpDown23.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown55
-			// 
-			this.numericUpDown55.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown55.Location = new System.Drawing.Point(642, 326);
-			this.numericUpDown55.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown55.Name = "numericUpDown55";
-			this.numericUpDown55.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown55.TabIndex = 11;
-			this.numericUpDown55.Visible = false;
-			this.numericUpDown55.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// label29
-			// 
-			this.label29.Font = new System.Drawing.Font("宋体", 8F);
-			this.label29.Location = new System.Drawing.Point(1140, 52);
-			this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(19, 128);
-			this.label29.TabIndex = 10;
-			this.label29.Text = "总调光1";
-			this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label29.Visible = false;
-			// 
-			// numericUpDown22
-			// 
-			this.numericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown22.Location = new System.Drawing.Point(557, 265);
-			this.numericUpDown22.Name = "numericUpDown22";
-			this.numericUpDown22.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown22.TabIndex = 11;
-			this.numericUpDown22.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown54
-			// 
-			this.numericUpDown54.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown54.Location = new System.Drawing.Point(557, 326);
-			this.numericUpDown54.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown54.Name = "numericUpDown54";
-			this.numericUpDown54.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown54.TabIndex = 11;
-			this.numericUpDown54.Visible = false;
-			this.numericUpDown54.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar23
-			// 
-			this.vScrollBar23.Location = new System.Drawing.Point(655, 52);
-			this.vScrollBar23.Maximum = 264;
-			this.vScrollBar23.Name = "vScrollBar23";
-			this.vScrollBar23.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar23.TabIndex = 0;
-			this.vScrollBar23.Visible = false;
-			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// numericUpDown21
-			// 
-			this.numericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown21.Location = new System.Drawing.Point(472, 265);
-			this.numericUpDown21.Name = "numericUpDown21";
-			this.numericUpDown21.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown21.TabIndex = 11;
-			this.numericUpDown21.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown53
-			// 
-			this.numericUpDown53.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown53.Location = new System.Drawing.Point(472, 326);
-			this.numericUpDown53.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown53.Name = "numericUpDown53";
-			this.numericUpDown53.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown53.TabIndex = 11;
-			this.numericUpDown53.Visible = false;
-			this.numericUpDown53.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar24
-			// 
-			this.vScrollBar24.Location = new System.Drawing.Point(740, 52);
-			this.vScrollBar24.Maximum = 264;
-			this.vScrollBar24.Name = "vScrollBar24";
-			this.vScrollBar24.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar24.TabIndex = 0;
-			this.vScrollBar24.Visible = false;
-			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// numericUpDown20
-			// 
-			this.numericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown20.Location = new System.Drawing.Point(387, 265);
-			this.numericUpDown20.Name = "numericUpDown20";
-			this.numericUpDown20.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown20.TabIndex = 11;
-			this.numericUpDown20.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown52
-			// 
-			this.numericUpDown52.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown52.Location = new System.Drawing.Point(387, 326);
-			this.numericUpDown52.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown52.Name = "numericUpDown52";
-			this.numericUpDown52.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown52.TabIndex = 11;
-			this.numericUpDown52.Visible = false;
-			this.numericUpDown52.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar25
-			// 
-			this.vScrollBar25.Location = new System.Drawing.Point(825, 52);
-			this.vScrollBar25.Maximum = 264;
-			this.vScrollBar25.Name = "vScrollBar25";
-			this.vScrollBar25.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar25.TabIndex = 0;
-			this.vScrollBar25.Visible = false;
-			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// numericUpDown19
-			// 
-			this.numericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown19.Location = new System.Drawing.Point(302, 265);
-			this.numericUpDown19.Name = "numericUpDown19";
-			this.numericUpDown19.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown19.TabIndex = 11;
-			this.numericUpDown19.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown51
-			// 
-			this.numericUpDown51.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown51.Location = new System.Drawing.Point(302, 326);
-			this.numericUpDown51.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown51.Name = "numericUpDown51";
-			this.numericUpDown51.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown51.TabIndex = 11;
-			this.numericUpDown51.Visible = false;
-			this.numericUpDown51.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// label28
-			// 
-			this.label28.Font = new System.Drawing.Font("宋体", 8F);
-			this.label28.Location = new System.Drawing.Point(1054, 52);
-			this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(24, 153);
-			this.label28.TabIndex = 10;
-			this.label28.Text = "总调光1";
-			this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label28.Visible = false;
-			// 
-			// numericUpDown18
-			// 
-			this.numericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown18.Location = new System.Drawing.Point(217, 265);
-			this.numericUpDown18.Name = "numericUpDown18";
-			this.numericUpDown18.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown18.TabIndex = 11;
-			this.numericUpDown18.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown50
-			// 
-			this.numericUpDown50.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown50.Location = new System.Drawing.Point(217, 326);
-			this.numericUpDown50.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown50.Name = "numericUpDown50";
-			this.numericUpDown50.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown50.TabIndex = 11;
-			this.numericUpDown50.Visible = false;
-			this.numericUpDown50.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar26
-			// 
-			this.vScrollBar26.Location = new System.Drawing.Point(910, 52);
-			this.vScrollBar26.Maximum = 264;
-			this.vScrollBar26.Name = "vScrollBar26";
-			this.vScrollBar26.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar26.TabIndex = 0;
-			this.vScrollBar26.Visible = false;
-			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// numericUpDown17
-			// 
-			this.numericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown17.Location = new System.Drawing.Point(132, 265);
-			this.numericUpDown17.Name = "numericUpDown17";
-			this.numericUpDown17.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown17.TabIndex = 11;
-			this.numericUpDown17.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
-			// 
-			// numericUpDown49
-			// 
-			this.numericUpDown49.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown49.Location = new System.Drawing.Point(132, 326);
-			this.numericUpDown49.Maximum = new decimal(new int[] {
-            254,
-            0,
-            0,
-            0});
-			this.numericUpDown49.Name = "numericUpDown49";
-			this.numericUpDown49.Size = new System.Drawing.Size(50, 22);
-			this.numericUpDown49.TabIndex = 11;
-			this.numericUpDown49.Visible = false;
-			this.numericUpDown49.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
-			// 
-			// vScrollBar27
-			// 
-			this.vScrollBar27.Location = new System.Drawing.Point(995, 52);
-			this.vScrollBar27.Maximum = 264;
-			this.vScrollBar27.Name = "vScrollBar27";
-			this.vScrollBar27.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar27.TabIndex = 0;
-			this.vScrollBar27.Visible = false;
-			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// vScrollBar28
-			// 
-			this.vScrollBar28.Location = new System.Drawing.Point(1080, 52);
-			this.vScrollBar28.Maximum = 264;
-			this.vScrollBar28.Name = "vScrollBar28";
-			this.vScrollBar28.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar28.TabIndex = 0;
-			this.vScrollBar28.Visible = false;
-			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// label27
-			// 
-			this.label27.Font = new System.Drawing.Font("宋体", 8F);
-			this.label27.Location = new System.Drawing.Point(970, 52);
-			this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(24, 153);
-			this.label27.TabIndex = 10;
-			this.label27.Text = "总调光1";
-			this.label27.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label27.Visible = false;
-			// 
-			// vScrollBar29
-			// 
-			this.vScrollBar29.Location = new System.Drawing.Point(1165, 52);
-			this.vScrollBar29.Maximum = 264;
-			this.vScrollBar29.Name = "vScrollBar29";
-			this.vScrollBar29.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar29.TabIndex = 0;
-			this.vScrollBar29.Visible = false;
-			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// vScrollBar30
-			// 
-			this.vScrollBar30.Location = new System.Drawing.Point(1250, 52);
-			this.vScrollBar30.Maximum = 264;
-			this.vScrollBar30.Name = "vScrollBar30";
-			this.vScrollBar30.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar30.TabIndex = 0;
-			this.vScrollBar30.Visible = false;
-			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// vScrollBar31
-			// 
-			this.vScrollBar31.Location = new System.Drawing.Point(1338, 52);
-			this.vScrollBar31.Maximum = 264;
-			this.vScrollBar31.Name = "vScrollBar31";
-			this.vScrollBar31.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar31.TabIndex = 0;
-			this.vScrollBar31.Visible = false;
-			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// label26
-			// 
-			this.label26.Font = new System.Drawing.Font("宋体", 8F);
-			this.label26.Location = new System.Drawing.Point(885, 52);
-			this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(24, 153);
-			this.label26.TabIndex = 10;
-			this.label26.Text = "总调光1";
-			this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label26.Visible = false;
-			// 
-			// vScrollBar32
-			// 
-			this.vScrollBar32.Location = new System.Drawing.Point(1420, 52);
-			this.vScrollBar32.Maximum = 264;
-			this.vScrollBar32.Name = "vScrollBar32";
-			this.vScrollBar32.Size = new System.Drawing.Size(24, 203);
-			this.vScrollBar32.TabIndex = 0;
-			this.vScrollBar32.Visible = false;
-			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
-			// 
-			// label17
-			// 
-			this.label17.Font = new System.Drawing.Font("宋体", 8F);
-			this.label17.Location = new System.Drawing.Point(126, 52);
-			this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(19, 128);
-			this.label17.TabIndex = 10;
-			this.label17.Text = "总调光1";
-			this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label17.Visible = false;
-			// 
-			// label22
-			// 
-			this.label22.Font = new System.Drawing.Font("宋体", 8F);
-			this.label22.Location = new System.Drawing.Point(542, 52);
-			this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(24, 153);
-			this.label22.TabIndex = 10;
-			this.label22.Text = "总调光1";
-			this.label22.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label22.Visible = false;
-			// 
-			// label25
-			// 
-			this.label25.Font = new System.Drawing.Font("宋体", 8F);
-			this.label25.Location = new System.Drawing.Point(800, 52);
-			this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(24, 153);
-			this.label25.TabIndex = 10;
-			this.label25.Text = "总调光1";
-			this.label25.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label25.Visible = false;
-			// 
-			// label20
-			// 
-			this.label20.Font = new System.Drawing.Font("宋体", 8F);
-			this.label20.Location = new System.Drawing.Point(376, 52);
-			this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(24, 153);
-			this.label20.TabIndex = 10;
-			this.label20.Text = "总调光1";
-			this.label20.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label20.Visible = false;
-			// 
-			// label19
-			// 
-			this.label19.Font = new System.Drawing.Font("宋体", 8F);
-			this.label19.Location = new System.Drawing.Point(291, 52);
-			this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(24, 153);
-			this.label19.TabIndex = 10;
-			this.label19.Text = "总调光1";
-			this.label19.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label19.Visible = false;
-			// 
-			// label21
-			// 
-			this.label21.Font = new System.Drawing.Font("宋体", 8F);
-			this.label21.Location = new System.Drawing.Point(457, 52);
-			this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(24, 153);
-			this.label21.TabIndex = 10;
-			this.label21.Text = "总调光1";
-			this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label21.Visible = false;
-			// 
-			// label23
-			// 
-			this.label23.Font = new System.Drawing.Font("宋体", 8F);
-			this.label23.Location = new System.Drawing.Point(632, 52);
-			this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(24, 153);
-			this.label23.TabIndex = 10;
-			this.label23.Text = "总调光1";
-			this.label23.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label23.Visible = false;
-			// 
-			// label24
-			// 
-			this.label24.Font = new System.Drawing.Font("宋体", 8F);
-			this.label24.Location = new System.Drawing.Point(716, 52);
-			this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(24, 153);
-			this.label24.TabIndex = 10;
-			this.label24.Text = "总调光1";
-			this.label24.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label24.Visible = false;
-			// 
-			// label18
-			// 
-			this.label18.Font = new System.Drawing.Font("宋体", 8F);
-			this.label18.Location = new System.Drawing.Point(206, 52);
-			this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(24, 153);
-			this.label18.TabIndex = 10;
-			this.label18.Text = "总调光1";
-			this.label18.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label18.Visible = false;
+			// tongdaoPanel
+			// 
+			this.tongdaoPanel.AutoScroll = true;
+			this.tongdaoPanel.Controls.Add(this.tongdaoGroupBox1);
+			this.tongdaoPanel.Controls.Add(this.tongdaoGroupBox2);
+			this.tongdaoPanel.Location = new System.Drawing.Point(376, 135);
+			this.tongdaoPanel.Name = "tongdaoPanel";
+			this.tongdaoPanel.Size = new System.Drawing.Size(1539, 377);
+			this.tongdaoPanel.TabIndex = 20;
 			// 
 			// tongdaoGroupBox1
 			// 
@@ -1819,11 +572,11 @@ namespace LightController
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar5);
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar2);
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar1);
-			this.tongdaoGroupBox1.Location = new System.Drawing.Point(405, 138);
+			this.tongdaoGroupBox1.Location = new System.Drawing.Point(3, 2);
 			this.tongdaoGroupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.tongdaoGroupBox1.Name = "tongdaoGroupBox1";
 			this.tongdaoGroupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox1.Size = new System.Drawing.Size(1504, 375);
+			this.tongdaoGroupBox1.Size = new System.Drawing.Size(1508, 375);
 			this.tongdaoGroupBox1.TabIndex = 9;
 			this.tongdaoGroupBox1.TabStop = false;
 			// 
@@ -2881,10 +1634,1265 @@ namespace LightController
 			this.vScrollBar1.TabIndex = 0;
 			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
+			// tongdaoGroupBox2
+			// 
+			this.tongdaoGroupBox2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeLabel2);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown32);
+			this.tongdaoGroupBox2.Controls.Add(this.tongdaoValueLabel2);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox32);
+			this.tongdaoGroupBox2.Controls.Add(this.stepTimeLabel2);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox31);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown64);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox30);
+			this.tongdaoGroupBox2.Controls.Add(this.label32);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox29);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown31);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox28);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown63);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox27);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar17);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox26);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown30);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox25);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown62);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox24);
+			this.tongdaoGroupBox2.Controls.Add(this.label31);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox23);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown29);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox22);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown61);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox21);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar18);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox20);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown28);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox19);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown60);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox18);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar19);
+			this.tongdaoGroupBox2.Controls.Add(this.changeModeComboBox17);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown27);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown59);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar20);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown26);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown58);
+			this.tongdaoGroupBox2.Controls.Add(this.label30);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown25);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown57);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar21);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown24);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown56);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar22);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown23);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown55);
+			this.tongdaoGroupBox2.Controls.Add(this.label29);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown22);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown54);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar23);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown21);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown53);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar24);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown20);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown52);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar25);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown19);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown51);
+			this.tongdaoGroupBox2.Controls.Add(this.label28);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown18);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown50);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar26);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown17);
+			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown49);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar27);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar28);
+			this.tongdaoGroupBox2.Controls.Add(this.label27);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar29);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar30);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar31);
+			this.tongdaoGroupBox2.Controls.Add(this.label26);
+			this.tongdaoGroupBox2.Controls.Add(this.vScrollBar32);
+			this.tongdaoGroupBox2.Controls.Add(this.label17);
+			this.tongdaoGroupBox2.Controls.Add(this.label22);
+			this.tongdaoGroupBox2.Controls.Add(this.label25);
+			this.tongdaoGroupBox2.Controls.Add(this.label20);
+			this.tongdaoGroupBox2.Controls.Add(this.label19);
+			this.tongdaoGroupBox2.Controls.Add(this.label21);
+			this.tongdaoGroupBox2.Controls.Add(this.label23);
+			this.tongdaoGroupBox2.Controls.Add(this.label24);
+			this.tongdaoGroupBox2.Controls.Add(this.label18);
+			this.tongdaoGroupBox2.Location = new System.Drawing.Point(3, 381);
+			this.tongdaoGroupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.tongdaoGroupBox2.Name = "tongdaoGroupBox2";
+			this.tongdaoGroupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.tongdaoGroupBox2.Size = new System.Drawing.Size(1508, 375);
+			this.tongdaoGroupBox2.TabIndex = 10;
+			this.tongdaoGroupBox2.TabStop = false;
+			// 
+			// changeModeLabel2
+			// 
+			this.changeModeLabel2.AutoSize = true;
+			this.changeModeLabel2.Location = new System.Drawing.Point(37, 299);
+			this.changeModeLabel2.Name = "changeModeLabel2";
+			this.changeModeLabel2.Size = new System.Drawing.Size(67, 15);
+			this.changeModeLabel2.TabIndex = 17;
+			this.changeModeLabel2.Text = "变化方式";
+			this.changeModeLabel2.Visible = false;
+			// 
+			// numericUpDown32
+			// 
+			this.numericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown32.Location = new System.Drawing.Point(1407, 265);
+			this.numericUpDown32.Name = "numericUpDown32";
+			this.numericUpDown32.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown32.TabIndex = 11;
+			this.numericUpDown32.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// tongdaoValueLabel2
+			// 
+			this.tongdaoValueLabel2.AutoSize = true;
+			this.tongdaoValueLabel2.Location = new System.Drawing.Point(38, 269);
+			this.tongdaoValueLabel2.Name = "tongdaoValueLabel2";
+			this.tongdaoValueLabel2.Size = new System.Drawing.Size(68, 15);
+			this.tongdaoValueLabel2.TabIndex = 15;
+			this.tongdaoValueLabel2.Text = "通 道 值";
+			this.tongdaoValueLabel2.Visible = false;
+			// 
+			// changeModeComboBox32
+			// 
+			this.changeModeComboBox32.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox32.FormattingEnabled = true;
+			this.changeModeComboBox32.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox32.Location = new System.Drawing.Point(1402, 296);
+			this.changeModeComboBox32.Name = "changeModeComboBox32";
+			this.changeModeComboBox32.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox32.TabIndex = 12;
+			this.changeModeComboBox32.Visible = false;
+			this.changeModeComboBox32.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// stepTimeLabel2
+			// 
+			this.stepTimeLabel2.AutoSize = true;
+			this.stepTimeLabel2.Location = new System.Drawing.Point(38, 330);
+			this.stepTimeLabel2.Name = "stepTimeLabel2";
+			this.stepTimeLabel2.Size = new System.Drawing.Size(68, 15);
+			this.stepTimeLabel2.TabIndex = 16;
+			this.stepTimeLabel2.Text = "步 时 间";
+			this.stepTimeLabel2.Visible = false;
+			// 
+			// changeModeComboBox31
+			// 
+			this.changeModeComboBox31.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox31.FormattingEnabled = true;
+			this.changeModeComboBox31.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox31.Location = new System.Drawing.Point(1320, 295);
+			this.changeModeComboBox31.Name = "changeModeComboBox31";
+			this.changeModeComboBox31.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox31.TabIndex = 12;
+			this.changeModeComboBox31.Visible = false;
+			this.changeModeComboBox31.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown64
+			// 
+			this.numericUpDown64.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown64.Location = new System.Drawing.Point(1409, 330);
+			this.numericUpDown64.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown64.Name = "numericUpDown64";
+			this.numericUpDown64.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown64.TabIndex = 11;
+			this.numericUpDown64.Visible = false;
+			this.numericUpDown64.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox30
+			// 
+			this.changeModeComboBox30.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox30.FormattingEnabled = true;
+			this.changeModeComboBox30.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox30.Location = new System.Drawing.Point(1232, 295);
+			this.changeModeComboBox30.Name = "changeModeComboBox30";
+			this.changeModeComboBox30.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox30.TabIndex = 12;
+			this.changeModeComboBox30.Visible = false;
+			this.changeModeComboBox30.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// label32
+			// 
+			this.label32.Font = new System.Drawing.Font("宋体", 8F);
+			this.label32.Location = new System.Drawing.Point(1396, 52);
+			this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(19, 128);
+			this.label32.TabIndex = 10;
+			this.label32.Text = "总调光1";
+			this.label32.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label32.Visible = false;
+			// 
+			// changeModeComboBox29
+			// 
+			this.changeModeComboBox29.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox29.FormattingEnabled = true;
+			this.changeModeComboBox29.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox29.Location = new System.Drawing.Point(1147, 295);
+			this.changeModeComboBox29.Name = "changeModeComboBox29";
+			this.changeModeComboBox29.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox29.TabIndex = 12;
+			this.changeModeComboBox29.Visible = false;
+			this.changeModeComboBox29.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown31
+			// 
+			this.numericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown31.Location = new System.Drawing.Point(1325, 265);
+			this.numericUpDown31.Name = "numericUpDown31";
+			this.numericUpDown31.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown31.TabIndex = 11;
+			this.numericUpDown31.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox28
+			// 
+			this.changeModeComboBox28.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox28.FormattingEnabled = true;
+			this.changeModeComboBox28.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox28.Location = new System.Drawing.Point(1062, 295);
+			this.changeModeComboBox28.Name = "changeModeComboBox28";
+			this.changeModeComboBox28.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox28.TabIndex = 12;
+			this.changeModeComboBox28.Visible = false;
+			this.changeModeComboBox28.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown63
+			// 
+			this.numericUpDown63.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown63.Location = new System.Drawing.Point(1325, 330);
+			this.numericUpDown63.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown63.Name = "numericUpDown63";
+			this.numericUpDown63.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown63.TabIndex = 11;
+			this.numericUpDown63.Visible = false;
+			this.numericUpDown63.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox27
+			// 
+			this.changeModeComboBox27.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox27.FormattingEnabled = true;
+			this.changeModeComboBox27.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox27.Location = new System.Drawing.Point(977, 295);
+			this.changeModeComboBox27.Name = "changeModeComboBox27";
+			this.changeModeComboBox27.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox27.TabIndex = 12;
+			this.changeModeComboBox27.Visible = false;
+			this.changeModeComboBox27.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// vScrollBar17
+			// 
+			this.vScrollBar17.Location = new System.Drawing.Point(145, 52);
+			this.vScrollBar17.Maximum = 264;
+			this.vScrollBar17.Name = "vScrollBar17";
+			this.vScrollBar17.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar17.TabIndex = 0;
+			this.vScrollBar17.Visible = false;
+			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// changeModeComboBox26
+			// 
+			this.changeModeComboBox26.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox26.FormattingEnabled = true;
+			this.changeModeComboBox26.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox26.Location = new System.Drawing.Point(892, 295);
+			this.changeModeComboBox26.Name = "changeModeComboBox26";
+			this.changeModeComboBox26.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox26.TabIndex = 12;
+			this.changeModeComboBox26.Visible = false;
+			this.changeModeComboBox26.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown30
+			// 
+			this.numericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown30.Location = new System.Drawing.Point(1237, 265);
+			this.numericUpDown30.Name = "numericUpDown30";
+			this.numericUpDown30.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown30.TabIndex = 11;
+			this.numericUpDown30.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox25
+			// 
+			this.changeModeComboBox25.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox25.FormattingEnabled = true;
+			this.changeModeComboBox25.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox25.Location = new System.Drawing.Point(807, 295);
+			this.changeModeComboBox25.Name = "changeModeComboBox25";
+			this.changeModeComboBox25.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox25.TabIndex = 12;
+			this.changeModeComboBox25.Visible = false;
+			this.changeModeComboBox25.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown62
+			// 
+			this.numericUpDown62.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown62.Location = new System.Drawing.Point(1237, 326);
+			this.numericUpDown62.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown62.Name = "numericUpDown62";
+			this.numericUpDown62.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown62.TabIndex = 11;
+			this.numericUpDown62.Visible = false;
+			this.numericUpDown62.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox24
+			// 
+			this.changeModeComboBox24.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox24.FormattingEnabled = true;
+			this.changeModeComboBox24.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox24.Location = new System.Drawing.Point(722, 295);
+			this.changeModeComboBox24.Name = "changeModeComboBox24";
+			this.changeModeComboBox24.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox24.TabIndex = 12;
+			this.changeModeComboBox24.Visible = false;
+			this.changeModeComboBox24.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// label31
+			// 
+			this.label31.Font = new System.Drawing.Font("宋体", 8F);
+			this.label31.Location = new System.Drawing.Point(1312, 52);
+			this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label31.Name = "label31";
+			this.label31.Size = new System.Drawing.Size(19, 128);
+			this.label31.TabIndex = 10;
+			this.label31.Text = "总调光1";
+			this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label31.Visible = false;
+			// 
+			// changeModeComboBox23
+			// 
+			this.changeModeComboBox23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox23.FormattingEnabled = true;
+			this.changeModeComboBox23.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox23.Location = new System.Drawing.Point(637, 295);
+			this.changeModeComboBox23.Name = "changeModeComboBox23";
+			this.changeModeComboBox23.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox23.TabIndex = 12;
+			this.changeModeComboBox23.Visible = false;
+			this.changeModeComboBox23.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown29
+			// 
+			this.numericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown29.Location = new System.Drawing.Point(1152, 265);
+			this.numericUpDown29.Name = "numericUpDown29";
+			this.numericUpDown29.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown29.TabIndex = 11;
+			this.numericUpDown29.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox22
+			// 
+			this.changeModeComboBox22.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox22.FormattingEnabled = true;
+			this.changeModeComboBox22.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox22.Location = new System.Drawing.Point(552, 295);
+			this.changeModeComboBox22.Name = "changeModeComboBox22";
+			this.changeModeComboBox22.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox22.TabIndex = 12;
+			this.changeModeComboBox22.Visible = false;
+			this.changeModeComboBox22.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown61
+			// 
+			this.numericUpDown61.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown61.Location = new System.Drawing.Point(1152, 326);
+			this.numericUpDown61.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown61.Name = "numericUpDown61";
+			this.numericUpDown61.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown61.TabIndex = 11;
+			this.numericUpDown61.Visible = false;
+			this.numericUpDown61.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox21
+			// 
+			this.changeModeComboBox21.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox21.FormattingEnabled = true;
+			this.changeModeComboBox21.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox21.Location = new System.Drawing.Point(467, 295);
+			this.changeModeComboBox21.Name = "changeModeComboBox21";
+			this.changeModeComboBox21.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox21.TabIndex = 12;
+			this.changeModeComboBox21.Visible = false;
+			this.changeModeComboBox21.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// vScrollBar18
+			// 
+			this.vScrollBar18.Location = new System.Drawing.Point(230, 52);
+			this.vScrollBar18.Maximum = 264;
+			this.vScrollBar18.Name = "vScrollBar18";
+			this.vScrollBar18.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar18.TabIndex = 0;
+			this.vScrollBar18.Visible = false;
+			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// changeModeComboBox20
+			// 
+			this.changeModeComboBox20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox20.FormattingEnabled = true;
+			this.changeModeComboBox20.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox20.Location = new System.Drawing.Point(382, 295);
+			this.changeModeComboBox20.Name = "changeModeComboBox20";
+			this.changeModeComboBox20.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox20.TabIndex = 12;
+			this.changeModeComboBox20.Visible = false;
+			this.changeModeComboBox20.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown28
+			// 
+			this.numericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown28.Location = new System.Drawing.Point(1067, 265);
+			this.numericUpDown28.Name = "numericUpDown28";
+			this.numericUpDown28.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown28.TabIndex = 11;
+			this.numericUpDown28.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox19
+			// 
+			this.changeModeComboBox19.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox19.FormattingEnabled = true;
+			this.changeModeComboBox19.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox19.Location = new System.Drawing.Point(297, 295);
+			this.changeModeComboBox19.Name = "changeModeComboBox19";
+			this.changeModeComboBox19.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox19.TabIndex = 12;
+			this.changeModeComboBox19.Visible = false;
+			this.changeModeComboBox19.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown60
+			// 
+			this.numericUpDown60.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown60.Location = new System.Drawing.Point(1067, 326);
+			this.numericUpDown60.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown60.Name = "numericUpDown60";
+			this.numericUpDown60.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown60.TabIndex = 11;
+			this.numericUpDown60.Visible = false;
+			this.numericUpDown60.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// changeModeComboBox18
+			// 
+			this.changeModeComboBox18.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox18.FormattingEnabled = true;
+			this.changeModeComboBox18.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox18.Location = new System.Drawing.Point(212, 295);
+			this.changeModeComboBox18.Name = "changeModeComboBox18";
+			this.changeModeComboBox18.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox18.TabIndex = 12;
+			this.changeModeComboBox18.Visible = false;
+			this.changeModeComboBox18.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// vScrollBar19
+			// 
+			this.vScrollBar19.Location = new System.Drawing.Point(315, 52);
+			this.vScrollBar19.Maximum = 264;
+			this.vScrollBar19.Name = "vScrollBar19";
+			this.vScrollBar19.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar19.TabIndex = 0;
+			this.vScrollBar19.Visible = false;
+			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// changeModeComboBox17
+			// 
+			this.changeModeComboBox17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.changeModeComboBox17.FormattingEnabled = true;
+			this.changeModeComboBox17.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.changeModeComboBox17.Location = new System.Drawing.Point(127, 295);
+			this.changeModeComboBox17.Name = "changeModeComboBox17";
+			this.changeModeComboBox17.Size = new System.Drawing.Size(60, 23);
+			this.changeModeComboBox17.TabIndex = 12;
+			this.changeModeComboBox17.Visible = false;
+			this.changeModeComboBox17.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			// 
+			// numericUpDown27
+			// 
+			this.numericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown27.Location = new System.Drawing.Point(979, 265);
+			this.numericUpDown27.Name = "numericUpDown27";
+			this.numericUpDown27.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown27.TabIndex = 11;
+			this.numericUpDown27.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown59
+			// 
+			this.numericUpDown59.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown59.Location = new System.Drawing.Point(982, 326);
+			this.numericUpDown59.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown59.Name = "numericUpDown59";
+			this.numericUpDown59.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown59.TabIndex = 11;
+			this.numericUpDown59.Visible = false;
+			this.numericUpDown59.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar20
+			// 
+			this.vScrollBar20.Location = new System.Drawing.Point(400, 52);
+			this.vScrollBar20.Maximum = 264;
+			this.vScrollBar20.Name = "vScrollBar20";
+			this.vScrollBar20.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar20.TabIndex = 0;
+			this.vScrollBar20.Visible = false;
+			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// numericUpDown26
+			// 
+			this.numericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown26.Location = new System.Drawing.Point(897, 265);
+			this.numericUpDown26.Name = "numericUpDown26";
+			this.numericUpDown26.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown26.TabIndex = 11;
+			this.numericUpDown26.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown58
+			// 
+			this.numericUpDown58.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown58.Location = new System.Drawing.Point(897, 326);
+			this.numericUpDown58.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown58.Name = "numericUpDown58";
+			this.numericUpDown58.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown58.TabIndex = 11;
+			this.numericUpDown58.Visible = false;
+			this.numericUpDown58.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// label30
+			// 
+			this.label30.Font = new System.Drawing.Font("宋体", 8F);
+			this.label30.Location = new System.Drawing.Point(1226, 52);
+			this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(19, 128);
+			this.label30.TabIndex = 10;
+			this.label30.Text = "总调光1";
+			this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label30.Visible = false;
+			// 
+			// numericUpDown25
+			// 
+			this.numericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown25.Location = new System.Drawing.Point(812, 265);
+			this.numericUpDown25.Name = "numericUpDown25";
+			this.numericUpDown25.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown25.TabIndex = 11;
+			this.numericUpDown25.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown57
+			// 
+			this.numericUpDown57.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown57.Location = new System.Drawing.Point(812, 326);
+			this.numericUpDown57.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown57.Name = "numericUpDown57";
+			this.numericUpDown57.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown57.TabIndex = 11;
+			this.numericUpDown57.Visible = false;
+			this.numericUpDown57.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar21
+			// 
+			this.vScrollBar21.Location = new System.Drawing.Point(485, 52);
+			this.vScrollBar21.Maximum = 264;
+			this.vScrollBar21.Name = "vScrollBar21";
+			this.vScrollBar21.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar21.TabIndex = 0;
+			this.vScrollBar21.Visible = false;
+			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// numericUpDown24
+			// 
+			this.numericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown24.Location = new System.Drawing.Point(727, 265);
+			this.numericUpDown24.Name = "numericUpDown24";
+			this.numericUpDown24.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown24.TabIndex = 11;
+			this.numericUpDown24.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown56
+			// 
+			this.numericUpDown56.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown56.Location = new System.Drawing.Point(727, 326);
+			this.numericUpDown56.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown56.Name = "numericUpDown56";
+			this.numericUpDown56.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown56.TabIndex = 11;
+			this.numericUpDown56.Visible = false;
+			this.numericUpDown56.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar22
+			// 
+			this.vScrollBar22.Location = new System.Drawing.Point(570, 52);
+			this.vScrollBar22.Maximum = 264;
+			this.vScrollBar22.Name = "vScrollBar22";
+			this.vScrollBar22.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar22.TabIndex = 0;
+			this.vScrollBar22.Visible = false;
+			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// numericUpDown23
+			// 
+			this.numericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown23.Location = new System.Drawing.Point(642, 265);
+			this.numericUpDown23.Name = "numericUpDown23";
+			this.numericUpDown23.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown23.TabIndex = 11;
+			this.numericUpDown23.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown55
+			// 
+			this.numericUpDown55.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown55.Location = new System.Drawing.Point(642, 326);
+			this.numericUpDown55.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown55.Name = "numericUpDown55";
+			this.numericUpDown55.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown55.TabIndex = 11;
+			this.numericUpDown55.Visible = false;
+			this.numericUpDown55.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// label29
+			// 
+			this.label29.Font = new System.Drawing.Font("宋体", 8F);
+			this.label29.Location = new System.Drawing.Point(1140, 52);
+			this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label29.Name = "label29";
+			this.label29.Size = new System.Drawing.Size(19, 128);
+			this.label29.TabIndex = 10;
+			this.label29.Text = "总调光1";
+			this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label29.Visible = false;
+			// 
+			// numericUpDown22
+			// 
+			this.numericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown22.Location = new System.Drawing.Point(557, 265);
+			this.numericUpDown22.Name = "numericUpDown22";
+			this.numericUpDown22.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown22.TabIndex = 11;
+			this.numericUpDown22.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown54
+			// 
+			this.numericUpDown54.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown54.Location = new System.Drawing.Point(557, 326);
+			this.numericUpDown54.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown54.Name = "numericUpDown54";
+			this.numericUpDown54.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown54.TabIndex = 11;
+			this.numericUpDown54.Visible = false;
+			this.numericUpDown54.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar23
+			// 
+			this.vScrollBar23.Location = new System.Drawing.Point(655, 52);
+			this.vScrollBar23.Maximum = 264;
+			this.vScrollBar23.Name = "vScrollBar23";
+			this.vScrollBar23.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar23.TabIndex = 0;
+			this.vScrollBar23.Visible = false;
+			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// numericUpDown21
+			// 
+			this.numericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown21.Location = new System.Drawing.Point(472, 265);
+			this.numericUpDown21.Name = "numericUpDown21";
+			this.numericUpDown21.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown21.TabIndex = 11;
+			this.numericUpDown21.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown53
+			// 
+			this.numericUpDown53.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown53.Location = new System.Drawing.Point(472, 326);
+			this.numericUpDown53.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown53.Name = "numericUpDown53";
+			this.numericUpDown53.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown53.TabIndex = 11;
+			this.numericUpDown53.Visible = false;
+			this.numericUpDown53.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar24
+			// 
+			this.vScrollBar24.Location = new System.Drawing.Point(740, 52);
+			this.vScrollBar24.Maximum = 264;
+			this.vScrollBar24.Name = "vScrollBar24";
+			this.vScrollBar24.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar24.TabIndex = 0;
+			this.vScrollBar24.Visible = false;
+			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// numericUpDown20
+			// 
+			this.numericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown20.Location = new System.Drawing.Point(387, 265);
+			this.numericUpDown20.Name = "numericUpDown20";
+			this.numericUpDown20.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown20.TabIndex = 11;
+			this.numericUpDown20.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown52
+			// 
+			this.numericUpDown52.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown52.Location = new System.Drawing.Point(387, 326);
+			this.numericUpDown52.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown52.Name = "numericUpDown52";
+			this.numericUpDown52.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown52.TabIndex = 11;
+			this.numericUpDown52.Visible = false;
+			this.numericUpDown52.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar25
+			// 
+			this.vScrollBar25.Location = new System.Drawing.Point(825, 52);
+			this.vScrollBar25.Maximum = 264;
+			this.vScrollBar25.Name = "vScrollBar25";
+			this.vScrollBar25.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar25.TabIndex = 0;
+			this.vScrollBar25.Visible = false;
+			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// numericUpDown19
+			// 
+			this.numericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown19.Location = new System.Drawing.Point(302, 265);
+			this.numericUpDown19.Name = "numericUpDown19";
+			this.numericUpDown19.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown19.TabIndex = 11;
+			this.numericUpDown19.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown51
+			// 
+			this.numericUpDown51.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown51.Location = new System.Drawing.Point(302, 326);
+			this.numericUpDown51.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown51.Name = "numericUpDown51";
+			this.numericUpDown51.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown51.TabIndex = 11;
+			this.numericUpDown51.Visible = false;
+			this.numericUpDown51.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// label28
+			// 
+			this.label28.Font = new System.Drawing.Font("宋体", 8F);
+			this.label28.Location = new System.Drawing.Point(1054, 52);
+			this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label28.Name = "label28";
+			this.label28.Size = new System.Drawing.Size(24, 153);
+			this.label28.TabIndex = 10;
+			this.label28.Text = "总调光1";
+			this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label28.Visible = false;
+			// 
+			// numericUpDown18
+			// 
+			this.numericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown18.Location = new System.Drawing.Point(217, 265);
+			this.numericUpDown18.Name = "numericUpDown18";
+			this.numericUpDown18.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown18.TabIndex = 11;
+			this.numericUpDown18.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown50
+			// 
+			this.numericUpDown50.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown50.Location = new System.Drawing.Point(217, 326);
+			this.numericUpDown50.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown50.Name = "numericUpDown50";
+			this.numericUpDown50.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown50.TabIndex = 11;
+			this.numericUpDown50.Visible = false;
+			this.numericUpDown50.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar26
+			// 
+			this.vScrollBar26.Location = new System.Drawing.Point(910, 52);
+			this.vScrollBar26.Maximum = 264;
+			this.vScrollBar26.Name = "vScrollBar26";
+			this.vScrollBar26.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar26.TabIndex = 0;
+			this.vScrollBar26.Visible = false;
+			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// numericUpDown17
+			// 
+			this.numericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown17.Location = new System.Drawing.Point(132, 265);
+			this.numericUpDown17.Name = "numericUpDown17";
+			this.numericUpDown17.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown17.TabIndex = 11;
+			this.numericUpDown17.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
+			// 
+			// numericUpDown49
+			// 
+			this.numericUpDown49.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown49.Location = new System.Drawing.Point(132, 326);
+			this.numericUpDown49.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.numericUpDown49.Name = "numericUpDown49";
+			this.numericUpDown49.Size = new System.Drawing.Size(50, 22);
+			this.numericUpDown49.TabIndex = 11;
+			this.numericUpDown49.Visible = false;
+			this.numericUpDown49.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			// 
+			// vScrollBar27
+			// 
+			this.vScrollBar27.Location = new System.Drawing.Point(995, 52);
+			this.vScrollBar27.Maximum = 264;
+			this.vScrollBar27.Name = "vScrollBar27";
+			this.vScrollBar27.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar27.TabIndex = 0;
+			this.vScrollBar27.Visible = false;
+			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// vScrollBar28
+			// 
+			this.vScrollBar28.Location = new System.Drawing.Point(1080, 52);
+			this.vScrollBar28.Maximum = 264;
+			this.vScrollBar28.Name = "vScrollBar28";
+			this.vScrollBar28.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar28.TabIndex = 0;
+			this.vScrollBar28.Visible = false;
+			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// label27
+			// 
+			this.label27.Font = new System.Drawing.Font("宋体", 8F);
+			this.label27.Location = new System.Drawing.Point(970, 52);
+			this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label27.Name = "label27";
+			this.label27.Size = new System.Drawing.Size(24, 153);
+			this.label27.TabIndex = 10;
+			this.label27.Text = "总调光1";
+			this.label27.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label27.Visible = false;
+			// 
+			// vScrollBar29
+			// 
+			this.vScrollBar29.Location = new System.Drawing.Point(1165, 52);
+			this.vScrollBar29.Maximum = 264;
+			this.vScrollBar29.Name = "vScrollBar29";
+			this.vScrollBar29.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar29.TabIndex = 0;
+			this.vScrollBar29.Visible = false;
+			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// vScrollBar30
+			// 
+			this.vScrollBar30.Location = new System.Drawing.Point(1250, 52);
+			this.vScrollBar30.Maximum = 264;
+			this.vScrollBar30.Name = "vScrollBar30";
+			this.vScrollBar30.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar30.TabIndex = 0;
+			this.vScrollBar30.Visible = false;
+			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// vScrollBar31
+			// 
+			this.vScrollBar31.Location = new System.Drawing.Point(1338, 52);
+			this.vScrollBar31.Maximum = 264;
+			this.vScrollBar31.Name = "vScrollBar31";
+			this.vScrollBar31.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar31.TabIndex = 0;
+			this.vScrollBar31.Visible = false;
+			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// label26
+			// 
+			this.label26.Font = new System.Drawing.Font("宋体", 8F);
+			this.label26.Location = new System.Drawing.Point(885, 52);
+			this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(24, 153);
+			this.label26.TabIndex = 10;
+			this.label26.Text = "总调光1";
+			this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label26.Visible = false;
+			// 
+			// vScrollBar32
+			// 
+			this.vScrollBar32.Location = new System.Drawing.Point(1420, 52);
+			this.vScrollBar32.Maximum = 264;
+			this.vScrollBar32.Name = "vScrollBar32";
+			this.vScrollBar32.Size = new System.Drawing.Size(24, 203);
+			this.vScrollBar32.TabIndex = 0;
+			this.vScrollBar32.Visible = false;
+			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
+			// 
+			// label17
+			// 
+			this.label17.Font = new System.Drawing.Font("宋体", 8F);
+			this.label17.Location = new System.Drawing.Point(126, 52);
+			this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(19, 128);
+			this.label17.TabIndex = 10;
+			this.label17.Text = "总调光1";
+			this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label17.Visible = false;
+			// 
+			// label22
+			// 
+			this.label22.Font = new System.Drawing.Font("宋体", 8F);
+			this.label22.Location = new System.Drawing.Point(542, 52);
+			this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label22.Name = "label22";
+			this.label22.Size = new System.Drawing.Size(24, 153);
+			this.label22.TabIndex = 10;
+			this.label22.Text = "总调光1";
+			this.label22.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label22.Visible = false;
+			// 
+			// label25
+			// 
+			this.label25.Font = new System.Drawing.Font("宋体", 8F);
+			this.label25.Location = new System.Drawing.Point(800, 52);
+			this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(24, 153);
+			this.label25.TabIndex = 10;
+			this.label25.Text = "总调光1";
+			this.label25.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label25.Visible = false;
+			// 
+			// label20
+			// 
+			this.label20.Font = new System.Drawing.Font("宋体", 8F);
+			this.label20.Location = new System.Drawing.Point(376, 52);
+			this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(24, 153);
+			this.label20.TabIndex = 10;
+			this.label20.Text = "总调光1";
+			this.label20.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label20.Visible = false;
+			// 
+			// label19
+			// 
+			this.label19.Font = new System.Drawing.Font("宋体", 8F);
+			this.label19.Location = new System.Drawing.Point(291, 52);
+			this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(24, 153);
+			this.label19.TabIndex = 10;
+			this.label19.Text = "总调光1";
+			this.label19.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label19.Visible = false;
+			// 
+			// label21
+			// 
+			this.label21.Font = new System.Drawing.Font("宋体", 8F);
+			this.label21.Location = new System.Drawing.Point(457, 52);
+			this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(24, 153);
+			this.label21.TabIndex = 10;
+			this.label21.Text = "总调光1";
+			this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label21.Visible = false;
+			// 
+			// label23
+			// 
+			this.label23.Font = new System.Drawing.Font("宋体", 8F);
+			this.label23.Location = new System.Drawing.Point(632, 52);
+			this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(24, 153);
+			this.label23.TabIndex = 10;
+			this.label23.Text = "总调光1";
+			this.label23.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label23.Visible = false;
+			// 
+			// label24
+			// 
+			this.label24.Font = new System.Drawing.Font("宋体", 8F);
+			this.label24.Location = new System.Drawing.Point(716, 52);
+			this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label24.Name = "label24";
+			this.label24.Size = new System.Drawing.Size(24, 153);
+			this.label24.TabIndex = 10;
+			this.label24.Text = "总调光1";
+			this.label24.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label24.Visible = false;
+			// 
+			// label18
+			// 
+			this.label18.Font = new System.Drawing.Font("宋体", 8F);
+			this.label18.Location = new System.Drawing.Point(206, 52);
+			this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(24, 153);
+			this.label18.TabIndex = 10;
+			this.label18.Text = "总调光1";
+			this.label18.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.label18.Visible = false;
+			// 
+			// cmComboBox
+			// 
+			this.cmComboBox.FormattingEnabled = true;
+			this.cmComboBox.Items.AddRange(new object[] {
+            "跳变",
+            "渐变"});
+			this.cmComboBox.Location = new System.Drawing.Point(64, 401);
+			this.cmComboBox.Name = "cmComboBox";
+			this.cmComboBox.Size = new System.Drawing.Size(76, 23);
+			this.cmComboBox.TabIndex = 19;
+			// 
+			// stNumericUpDown
+			// 
+			this.stNumericUpDown.Location = new System.Drawing.Point(64, 452);
+			this.stNumericUpDown.Maximum = new decimal(new int[] {
+            254,
+            0,
+            0,
+            0});
+			this.stNumericUpDown.Name = "stNumericUpDown";
+			this.stNumericUpDown.Size = new System.Drawing.Size(76, 25);
+			this.stNumericUpDown.TabIndex = 18;
+			this.stNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// changeModeButton
+			// 
+			this.changeModeButton.Location = new System.Drawing.Point(165, 397);
+			this.changeModeButton.Name = "changeModeButton";
+			this.changeModeButton.Size = new System.Drawing.Size(136, 25);
+			this.changeModeButton.TabIndex = 17;
+			this.changeModeButton.Text = "统一跳渐变";
+			this.changeModeButton.UseVisualStyleBackColor = true;
+			this.changeModeButton.Click += new System.EventHandler(this.changeModeButton_Click);
+			// 
+			// steptimeSetButton
+			// 
+			this.steptimeSetButton.Location = new System.Drawing.Point(165, 452);
+			this.steptimeSetButton.Name = "steptimeSetButton";
+			this.steptimeSetButton.Size = new System.Drawing.Size(136, 25);
+			this.steptimeSetButton.TabIndex = 17;
+			this.steptimeSetButton.Text = "统一步时间";
+			this.steptimeSetButton.UseVisualStyleBackColor = true;
+			this.steptimeSetButton.Click += new System.EventHandler(this.steptimeSetButton_Click);
+			// 
+			// modeChooseLabel
+			// 
+			this.modeChooseLabel.AutoSize = true;
+			this.modeChooseLabel.Location = new System.Drawing.Point(614, 27);
+			this.modeChooseLabel.Name = "modeChooseLabel";
+			this.modeChooseLabel.Size = new System.Drawing.Size(82, 15);
+			this.modeChooseLabel.TabIndex = 16;
+			this.modeChooseLabel.Text = "选择模式：";
+			// 
+			// frameChooseLabel
+			// 
+			this.frameChooseLabel.AutoSize = true;
+			this.frameChooseLabel.Location = new System.Drawing.Point(376, 27);
+			this.frameChooseLabel.Name = "frameChooseLabel";
+			this.frameChooseLabel.Size = new System.Drawing.Size(82, 15);
+			this.frameChooseLabel.TabIndex = 16;
+			this.frameChooseLabel.Text = "选择场景：";
+			// 
+			// stepLabel
+			// 
+			this.stepLabel.AutoSize = true;
+			this.stepLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.stepLabel.Location = new System.Drawing.Point(516, 89);
+			this.stepLabel.Name = "stepLabel";
+			this.stepLabel.Size = new System.Drawing.Size(39, 20);
+			this.stepLabel.TabIndex = 15;
+			this.stepLabel.Text = "0/0";
+			// 
+			// nextStepButton
+			// 
+			this.nextStepButton.Location = new System.Drawing.Point(607, 83);
+			this.nextStepButton.Name = "nextStepButton";
+			this.nextStepButton.Size = new System.Drawing.Size(89, 32);
+			this.nextStepButton.TabIndex = 14;
+			this.nextStepButton.Text = "下一步";
+			this.nextStepButton.UseVisualStyleBackColor = true;
+			this.nextStepButton.Click += new System.EventHandler(this.nextStepButton_Click);
+			// 
+			// deleteStepButton
+			// 
+			this.deleteStepButton.Location = new System.Drawing.Point(940, 83);
+			this.deleteStepButton.Name = "deleteStepButton";
+			this.deleteStepButton.Size = new System.Drawing.Size(89, 32);
+			this.deleteStepButton.TabIndex = 14;
+			this.deleteStepButton.Text = "删除步";
+			this.deleteStepButton.UseVisualStyleBackColor = true;
+			this.deleteStepButton.Click += new System.EventHandler(this.deleteStepButton_Click);
+			// 
+			// backStepButton
+			// 
+			this.backStepButton.Location = new System.Drawing.Point(378, 83);
+			this.backStepButton.Name = "backStepButton";
+			this.backStepButton.Size = new System.Drawing.Size(89, 32);
+			this.backStepButton.TabIndex = 13;
+			this.backStepButton.Text = "上一步";
+			this.backStepButton.UseVisualStyleBackColor = true;
+			this.backStepButton.Click += new System.EventHandler(this.backStepButton_Click);
+			// 
+			// insertStepButton
+			// 
+			this.insertStepButton.Location = new System.Drawing.Point(829, 83);
+			this.insertStepButton.Name = "insertStepButton";
+			this.insertStepButton.Size = new System.Drawing.Size(89, 32);
+			this.insertStepButton.TabIndex = 14;
+			this.insertStepButton.Text = "插入步";
+			this.insertStepButton.UseVisualStyleBackColor = true;
+			this.insertStepButton.Visible = false;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(1378, 18);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(89, 32);
+			this.button1.TabIndex = 13;
+			this.button1.Text = "TEST";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.newTestButton_Click);
+			// 
+			// pasteStepButton
+			// 
+			this.pasteStepButton.Location = new System.Drawing.Point(1162, 83);
+			this.pasteStepButton.Name = "pasteStepButton";
+			this.pasteStepButton.Size = new System.Drawing.Size(89, 32);
+			this.pasteStepButton.TabIndex = 13;
+			this.pasteStepButton.Text = "粘贴步";
+			this.pasteStepButton.UseVisualStyleBackColor = true;
+			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
+			// 
+			// copyStepButton
+			// 
+			this.copyStepButton.Location = new System.Drawing.Point(1051, 83);
+			this.copyStepButton.Name = "copyStepButton";
+			this.copyStepButton.Size = new System.Drawing.Size(89, 32);
+			this.copyStepButton.TabIndex = 13;
+			this.copyStepButton.Text = "复制步";
+			this.copyStepButton.UseVisualStyleBackColor = true;
+			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
+			// 
+			// newStepButton
+			// 
+			this.newStepButton.Location = new System.Drawing.Point(718, 83);
+			this.newStepButton.Name = "newStepButton";
+			this.newStepButton.Size = new System.Drawing.Size(89, 32);
+			this.newStepButton.TabIndex = 13;
+			this.newStepButton.Text = "新建步";
+			this.newStepButton.UseVisualStyleBackColor = true;
+			this.newStepButton.Click += new System.EventHandler(this.newStepButton_Click);
+			// 
+			// lightValueLabel
+			// 
+			this.lightValueLabel.AutoSize = true;
+			this.lightValueLabel.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightValueLabel.Location = new System.Drawing.Point(109, 23);
+			this.lightValueLabel.Name = "lightValueLabel";
+			this.lightValueLabel.Size = new System.Drawing.Size(70, 15);
+			this.lightValueLabel.TabIndex = 12;
+			this.lightValueLabel.Text = "       ";
+			// 
+			// lightLabel
+			// 
+			this.lightLabel.AutoSize = true;
+			this.lightLabel.Location = new System.Drawing.Point(34, 24);
+			this.lightLabel.Name = "lightLabel";
+			this.lightLabel.Size = new System.Drawing.Size(82, 15);
+			this.lightLabel.TabIndex = 11;
+			this.lightLabel.Text = "当前灯具：";
+			// 
 			// groupComboBox
 			// 
 			this.groupComboBox.FormattingEnabled = true;
-			this.groupComboBox.Location = new System.Drawing.Point(1003, 24);
+			this.groupComboBox.Location = new System.Drawing.Point(977, 24);
 			this.groupComboBox.Name = "groupComboBox";
 			this.groupComboBox.Size = new System.Drawing.Size(121, 23);
 			this.groupComboBox.TabIndex = 0;
@@ -2918,7 +2926,7 @@ namespace LightController
             "摇麦",
             "喝彩",
             "倒彩"});
-			this.frameComboBox.Location = new System.Drawing.Point(490, 23);
+			this.frameComboBox.Location = new System.Drawing.Point(464, 23);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(89, 23);
 			this.frameComboBox.TabIndex = 0;
@@ -2930,7 +2938,7 @@ namespace LightController
 			this.modeComboBox.Items.AddRange(new object[] {
             "常规模式",
             "声控模式"});
-			this.modeComboBox.Location = new System.Drawing.Point(728, 23);
+			this.modeComboBox.Location = new System.Drawing.Point(702, 23);
 			this.modeComboBox.Name = "modeComboBox";
 			this.modeComboBox.Size = new System.Drawing.Size(104, 23);
 			this.modeComboBox.TabIndex = 0;
@@ -3034,22 +3042,12 @@ namespace LightController
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
 			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(1378, 18);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(89, 32);
-			this.button1.TabIndex = 13;
-			this.button1.Text = "TEST";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.newTestButton_Click);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(1915, 1252);
+			this.ClientSize = new System.Drawing.Size(1915, 881);
 			this.Controls.Add(this.realTimeCheckBox);
 			this.Controls.Add(this.tongdaoGroupBox);
 			this.Controls.Add(this.lightsListView);
@@ -3073,41 +3071,7 @@ namespace LightController
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.tongdaoGroupBox.ResumeLayout(false);
 			this.tongdaoGroupBox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
-			this.tongdaoGroupBox2.ResumeLayout(false);
-			this.tongdaoGroupBox2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown64)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown63)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown30)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown62)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown29)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown61)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown28)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown60)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown27)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown59)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown26)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown58)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown25)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown57)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown56)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown23)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown55)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown54)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown21)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown53)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown20)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown52)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown51)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown50)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown49)).EndInit();
+			this.tongdaoPanel.ResumeLayout(false);
 			this.tongdaoGroupBox1.ResumeLayout(false);
 			this.tongdaoGroupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown48)).EndInit();
@@ -3142,6 +3106,41 @@ namespace LightController
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown33)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			this.tongdaoGroupBox2.ResumeLayout(false);
+			this.tongdaoGroupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown64)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown63)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown30)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown62)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown29)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown61)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown28)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown60)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown27)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown59)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown26)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown58)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown25)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown57)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown24)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown56)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown23)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown55)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown54)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown21)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown53)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown20)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown52)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown51)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown50)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown49)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
 			this.ResumeLayout(false);
@@ -3375,7 +3374,6 @@ namespace LightController
 		
 		private Label modeChooseLabel;
 		private Label frameChooseLabel;
-		private Button aboutStepButton;
 		private Button pasteStepButton;
 		private Button copyStepButton;
 		private Button previewButton;
@@ -3387,6 +3385,7 @@ namespace LightController
 		private Button oneLightStepButton;
 		private CheckBox realTimeCheckBox;
 		private Button button1;
+		private Panel tongdaoPanel;
 	}
 }
 

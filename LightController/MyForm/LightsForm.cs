@@ -59,9 +59,8 @@ namespace LightController
 				{
 					AddListViewItem(la.LightName,la.LightType,la.LightAddr,la.LightPic);
 					minNum = la.EndNum + 1;
-				}			
+				}
 			}
-
 		}
 
 

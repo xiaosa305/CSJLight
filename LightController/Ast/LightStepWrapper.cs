@@ -29,21 +29,38 @@ namespace LightController.Ast
 
 		/// <summary>
 		///  删除步
+		///  1.判断步List不为空
+		///  2.传进来的stepIndex不得大于步List
+		///  3.实时生成TotalStep和CurrentStep
 		/// </summary>
 		/// <param name="stepWrapper"></param>
 		public void DeleteStep(int stepIndex) {  
-
-			if (StepWrapperList.Count > 1) {
-				StepWrapperList.RemoveAt(stepIndex);
-				TotalStep = StepWrapperList.Count;
-				if (CurrentStep > 1)
-				{
-					CurrentStep = CurrentStep - 1;
+			if (StepWrapperList.Count > 0) {
+				if (StepWrapperList.Count <= stepIndex) {
+					throw new Exception("stepIndex有错");
 				}
+				else
+				{
+					StepWrapperList.RemoveAt(stepIndex);
+					TotalStep = StepWrapperList.Count;
+					// 根据TotalStep ，来生成CurrentStep的逻辑：
+					// ①总步数为0，当前步数也得为0；
+					// ②当总步数不为0时，当前步数不得大于总步数；
+					// ③其他情况下，当前步数不发生变化
+					if (TotalStep == 0)
+					{
+						CurrentStep = 0;
+					}
+					else {
+						if (CurrentStep > TotalStep) {
+							CurrentStep = TotalStep;
+						}
+					}
+				}					
 			}
 			else
 			{
-				throw new Exception("最少需要一步");
+				throw new Exception("当前步数为空，无法删除。");
 			}	
 		}		
 	}

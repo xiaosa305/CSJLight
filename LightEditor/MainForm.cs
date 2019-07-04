@@ -100,7 +100,11 @@ namespace LightEditor
 
 			foreach(NumericUpDown numericUpDown in numericUpDowns)
 			{
-				numericUpDown.Increment = 1m / SystemInformation.MouseWheelScrollLines;
+				// 方法1：将increment设为 系统值分之一，这样就会每次滚动时 systemScrollValue*increment = 1
+				//numericUpDown.Increment = 1m / SystemInformation.MouseWheelScrollLines;
+
+				// 方法2：添加MouseWheel监听器
+				numericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
 			}
 
 			labels[0] = label1;
@@ -142,7 +146,6 @@ namespace LightEditor
 			}
 
 			#endregion
-
 		}
 
 		private void openComButton_Click(object sender, EventArgs e)
@@ -609,12 +612,33 @@ namespace LightEditor
 		}
 				
 
-		private void valueNumericUpDown_MouseWheel(object sender, ScrollEventArgs e)
+		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			MessageBox.Show("Dickov:");
-
-			//   int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
-			//MessageBox.Show("Dickov:" + tdIndex);
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{			
+				decimal dd = numericUpDowns[tdIndex].Value + numericUpDown1.Increment;
+				if (dd <= numericUpDowns[tdIndex].Maximum)
+				{
+					numericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = numericUpDowns[tdIndex].Value - numericUpDowns[tdIndex].Increment;
+				if (dd >= numericUpDowns[tdIndex].Minimum)
+				{
+					numericUpDowns[tdIndex].Value = dd;
+				}
+			}
 
 		}
 

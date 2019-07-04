@@ -560,8 +560,31 @@ namespace LightEditor
 			int labelIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,  -1 );	
 			tongdaoList[labelIndex].CurrentValue = 255 - vScrollBars[labelIndex].Value;
 			numericUpDowns[labelIndex].Value = 255 - vScrollBars[labelIndex].Value;
-
 		}
+
+		/// <summary>
+		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其numericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void vScrollBar_MouseHover(object sender, EventArgs e)
+		{
+			int labelIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+			numericUpDowns[labelIndex].Select();
+		}
+
+		/// <summary>
+		/// 辅助方法:鼠标掠过label时，把焦点切换到其numericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void label_MouseHover(object sender, EventArgs e)
+		{
+			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
+			numericUpDowns[labelIndex].Select();
+		}
+
+
 
 		/// <summary>
 		/// 调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
@@ -578,8 +601,18 @@ namespace LightEditor
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			//changeScrollValue(tongdaoIndex);
+		}
+				
+
+		private void valueNumericUpDown_MouseWheel(object sender, ScrollEventArgs e)
+		{
+			MessageBox.Show("Dickov:");
+
+			//   int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			//MessageBox.Show("Dickov:" + tdIndex);
 
 		}
+
 
 		/// <summary>
 		///  点击《全部归零》后：所有TongdaoList的CurrentValue=0
@@ -624,5 +657,7 @@ namespace LightEditor
 				}
 			}
 		}
+
+		
 	}
 }

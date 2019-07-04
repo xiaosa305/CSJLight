@@ -58,7 +58,7 @@ namespace LightController
 						
 			// 2.只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
 			if (lightAstList != null && lightAstList.Count > 0) {
-				this.lightAstList = lightAstList;
+				this.lightAstList = new List<LightAst>(lightAstList);
 				foreach (LightAst la in this.lightAstList)
 				{
 					addListViewItem(la.LightName, la.LightType, la.LightAddr, la.LightPic);
@@ -164,8 +164,18 @@ namespace LightController
 		/// <param name="e"></param>
 		private void deleteLightButton_Click(object sender, EventArgs e)
 		{
-
+			if (lightsListView.SelectedIndices.Count == 0) {
+					MessageBox.Show("请先选择要删除的灯具");
+			}
+			else
+			{
+				int deleteIndex = lightsListView.SelectedIndices[0];
+				lightsListView.Items.RemoveAt(deleteIndex);
+				lightAstList.RemoveAt(deleteIndex);
+			}
+								
 		}
+
 
 		/// <summary>
 		/// TODO: 点击确认后，添加lightAstList到mainForm去，并进行相关操作
@@ -178,8 +188,8 @@ namespace LightController
 			mainForm.AddLightAstList(lightAstList);
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
-			//mainForm.Activate();
+			mainForm.Activate();
 		}
-	
+
 	}
 }

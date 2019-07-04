@@ -675,10 +675,7 @@ namespace LightController
 		/// <param name="lightAstList2"></param>
 		internal void AddLightAstList( IList<LightAst> lightAstList2)
 		{
-			MessageBox.Show( ( lightAstList2 == lightAstList).ToString() );
-			// 1.将this的laList设为传进来的list
-			//this.lightAstList = lightAstList2;
-			// 2.清空lightListView,重新填充新数据
+			// 1.清空lightListView,重新填充新数据
 			lightsListView.Items.Clear();
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
 			
@@ -689,27 +686,27 @@ namespace LightController
 					lightAstList2[i].LightPic
 				));
 
-				bool addNew = false;
+				// 如果addNew改成false，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
+				bool addNew = true;
 				if (lightWrapperList != null && lightWrapperList.Count > 0)
 				{
 					for (int j = 0; j < lightAstList.Count; j++)
 					{
-						if (lightAstList2[i].Equals(lightAstList[j]))
+						if (		(j < lightWrapperList.Count)
+							&& (lightAstList2[i].Equals(lightAstList[j]))
+							&& (lightWrapperList[j] != null) )
 						{
-							if (lightWrapperList[j] != null)
-							{
-								lightWrapperList2.Add(lightWrapperList[j]);
-								addNew = true;
-							}
+							lightWrapperList2.Add(lightWrapperList[j]);
+							addNew = false ;
 						}
 					}
 				}
-				if (!addNew) {
+				if ( addNew ) {
 					lightWrapperList2.Add(new LightWrapper());
 				}
 			}
 
-			lightAstList = lightAstList2;
+			lightAstList =new List<LightAst>(lightAstList2);
 			lightWrapperList = lightWrapperList2;
 
 			// 老方法：无法区别是否新加入的数据
@@ -934,7 +931,7 @@ namespace LightController
 
 					this.labels[i].Text = (startNum + i) + "\n\n-\n " + tongdaoWrapper.TongdaoName;
 					this.valueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();
-					this.vScrollBars[i].Value = tongdaoWrapper.ScrollValue;
+					this.vScrollBars[i].Value = 255 - tongdaoWrapper.ScrollValue;
 					this.changeModeComboBoxes[i].SelectedIndex = tongdaoWrapper.ChangeMode;
 					this.stepNumericUpDowns[i].Text = tongdaoWrapper.StepTime.ToString();
 
@@ -950,10 +947,6 @@ namespace LightController
 				{
 					tongdaoGroupBox1.Visible = true;
 					tongdaoGroupBox2.Visible = true;
-					
-
-
-
 				} // 若通道总数<=16 且 >0，则显示上面的标签
 				else if (tongdaoList.Count > 0)
 				{
@@ -1325,7 +1318,7 @@ namespace LightController
 			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
 
 			//2.把滚动条的值赋给valueNumericUpDowns
-			valueNumericUpDowns[tongdaoIndex].Text = vScrollBars[tongdaoIndex].Value.ToString();
+			valueNumericUpDowns[tongdaoIndex].Value = 255 - vScrollBars[tongdaoIndex].Value;
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeScrollValue(tongdaoIndex);
@@ -1342,7 +1335,7 @@ namespace LightController
 			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
 
 			// 2.调整相应的vScrollBar的数值
-			vScrollBars[tongdaoIndex].Value = Decimal.ToInt32( valueNumericUpDowns[tongdaoIndex].Value ) ;
+			vScrollBars[tongdaoIndex].Value = 255 - Decimal.ToInt32( valueNumericUpDowns[tongdaoIndex].Value ) ;
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeScrollValue(tongdaoIndex);
@@ -1669,7 +1662,7 @@ namespace LightController
 		private void changeScrollValue(int tongdaoIndex) {
 			// 1.设tongdaoWrapper的值
 			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[tongdaoIndex].ScrollValue = vScrollBars[tongdaoIndex].Value;
+			step.TongdaoList[tongdaoIndex].ScrollValue = 255 - vScrollBars[tongdaoIndex].Value;
 			//2.是否实时单灯单步
 			if (ifRealTime)
 			{

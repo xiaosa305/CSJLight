@@ -18,6 +18,11 @@ namespace LightController
 		private int minNum = 1;
 		private IList<LightAst> lightAstList = new List<LightAst>();
 
+		/// <summary>
+		///  构造函数：传mainForm值，并通过lightAstList判断是否旧项目
+		/// </summary>
+		/// <param name="mainForm"></param>
+		/// <param name="lightAstList"></param>
 		public LightsForm(MainForm mainForm,IList<LightAst> lightAstList)
 		{
 			InitializeComponent();
@@ -54,21 +59,28 @@ namespace LightController
 			// 2.只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
 			if (lightAstList != null && lightAstList.Count > 0) {
 				this.lightAstList = lightAstList;
-				foreach (LightAst la in lightAstList)
+				foreach (LightAst la in this.lightAstList)
 				{
-					AddListViewItem(la.LightName,la.LightType,la.LightAddr,la.LightPic);
+					addListViewItem(la.LightName, la.LightType, la.LightAddr, la.LightPic);
 					minNum = la.EndNum + 1;
 				}
 			}
 		}
-				
+			
+		/// <summary>
+		/// 每次重新加载本窗口时，左侧选项都应该全部展开
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
 			this.treeView1.ExpandAll();
 		}
 			
 		/// <summary>
-		///  添加新灯具，需选中左边的一个项目，然后打开一个NewForm的新实例，在NewForm中回调AddListView方法
+		///  添加新灯具
+		///  1.需选中左边的一个灯具（灯库），点击添加
+		///  2.打开一个NewForm的新实例，在NewForm中填好参数后回调AddListView方法
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -89,7 +101,7 @@ namespace LightController
 
 
 		/// <summary>
-		///  添加数据到ListView中；主要给NewForm回调使用
+		///  Internal方法：添加数据到ListView中；主要给NewForm回调使用；添加后minNum设成endNum
 		/// </summary>
 		/// <param name="lightPath"></param>
 		/// <param name="lightName"></param>
@@ -109,7 +121,7 @@ namespace LightController
 			}
 
 			// 新增时，1.直接往listView加数据，
-			AddListViewItem(lightName, lightType, lightAddr, lightPic);
+			addListViewItem(lightName, lightType, lightAddr, lightPic);
 
 			// 2.往lightAstList添加新的数据
 			lightAstList.Add(new LightAst()
@@ -136,7 +148,7 @@ namespace LightController
 		/// <param name="lightType"></param>
 		/// <param name="lightAddr"></param>
 		/// <param name="lightPic"></param>
-		private void AddListViewItem(string lightName, string lightType, string lightAddr,string lightPic)
+		private void addListViewItem(string lightName, string lightType, string lightAddr,string lightPic)
 		{
 			ListViewItem item = new ListViewItem(lightName);
 			item.SubItems.Add(lightType);
@@ -166,7 +178,7 @@ namespace LightController
 			mainForm.AddLightAstList(lightAstList);
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
-			mainForm.Activate();
+			//mainForm.Activate();
 		}
 	
 	}

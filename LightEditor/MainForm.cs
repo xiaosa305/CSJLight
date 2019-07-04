@@ -161,6 +161,8 @@ namespace LightEditor
 					);
 				if (dr == DialogResult.OK)
 				{
+					isSaved = false;
+					isGenerated = false;
 					countComboBox.SelectedIndex = -1;
 					tongdaoList = null;
 					nameTextBox.Enabled = true;
@@ -171,8 +173,8 @@ namespace LightEditor
 					generateButton.Show();
 					tongdaoGroupBox1.Hide();
 					tongdaoGroupBox2.Hide();
-					isSaved = false;
-					isGenerated = false;
+					picTextBox.Text = "";
+					openPictureBox.Image = null;
 				}
 			}
 			else {

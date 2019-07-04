@@ -324,8 +324,8 @@ namespace LightController
 			valueList = getValueList();
 			
 			// 通过lightList填充lightAstList
-			lightAstList = reCreateLightAstList(lightList) ;
-			AddLightAstList(lightAstList);
+			IList<LightAst> laList = reCreateLightAstList(lightList) ;
+			AddLightAstList(laList);
 
 			//填充lightsForm
 			lightsForm = new LightsForm(this, lightAstList);
@@ -675,50 +675,60 @@ namespace LightController
 		/// <param name="lightAstList2"></param>
 		internal void AddLightAstList( IList<LightAst> lightAstList2)
 		{
-			////0.通过双重循环，查找相同的lightAst,将其index存放在一个int列表中
-
-			//// 1.将this的laList设为传进来的list
+			MessageBox.Show( ( lightAstList2 == lightAstList).ToString() );
+			// 1.将this的laList设为传进来的list
 			//this.lightAstList = lightAstList2;
-			//// 2.清空lightListView,重新填充新数据
-			//lightsListView.Items.Clear();
-			//List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();			
-
-			//for (int i = 0; i < lightAstList.Count; i++)
-			//{
-			//	lightsListView.Items.Add(new ListViewItem(
-			//		lightAstList[i].LightName + ":" + lightAstList[i].LightType,
-			//		lightAstList[i].LightPic
-			//	));
-
-			//	for (int j = 0; j < lightAstList.Count; j++)
-			//	{
-			//		if (lightAstList2[i].Equals(lightAstList[j]))
-			//		{
-			//			lightWrapperList2.Add( lightWrapperList[j] );
-			//		}
-			//	}				
-			//}
-			//lightWrapperList = lightWrapperList2 ; 
-
-
-			// 1.成功编辑灯具列表后，将这个列表放到主界面来
-			this.lightAstList = lightAstList2;
-
-			// 2.旧的先删除，再将新的加入到lightAstList中；（此过程中，并没有比较的过程，直接操作）
+			// 2.清空lightListView,重新填充新数据
 			lightsListView.Items.Clear();
-			lightWrapperList = null;
-			lightWrapperList = new List<LightWrapper>();
-
-			foreach (LightAst la in this.lightAstList)
+			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
+			
+			for (int i = 0; i < lightAstList2.Count; i++)
 			{
-				ListViewItem viewLight = new ListViewItem(
-					la.LightName + ":" + la.LightType,
-					la.LightPic
-				);
-				lightsListView.Items.Add(viewLight);
-				lightWrapperList.Add(new LightWrapper());
+				lightsListView.Items.Add(new ListViewItem(
+					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType,
+					lightAstList2[i].LightPic
+				));
+
+				bool addNew = false;
+				if (lightWrapperList != null && lightWrapperList.Count > 0)
+				{
+					for (int j = 0; j < lightAstList.Count; j++)
+					{
+						if (lightAstList2[i].Equals(lightAstList[j]))
+						{
+							if (lightWrapperList[j] != null)
+							{
+								lightWrapperList2.Add(lightWrapperList[j]);
+								addNew = true;
+							}
+						}
+					}
+				}
+				if (!addNew) {
+					lightWrapperList2.Add(new LightWrapper());
+				}
 			}
 
+			lightAstList = lightAstList2;
+			lightWrapperList = lightWrapperList2;
+
+			// 老方法：无法区别是否新加入的数据
+			// 1.成功编辑灯具列表后，将这个列表放到主界面来
+			//this.lightAstList = lightAstList2;
+
+			//// 2.旧的先删除，再将新的加入到lightAstList中；（此过程中，并没有比较的过程，直接操作）
+			//lightsListView.Items.Clear();
+			//lightWrapperList = new List<LightWrapper>();
+
+			//foreach (LightAst la in this.lightAstList)
+			//{
+			//	ListViewItem viewLight = new ListViewItem(
+			//		la.LightName + ":" + la.LightType,
+			//		la.LightPic
+			//	);
+			//	lightsListView.Items.Add(viewLight);
+			//	lightWrapperList.Add(new LightWrapper());
+			//}
 
 		}
 

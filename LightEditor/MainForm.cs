@@ -64,7 +64,7 @@ namespace LightEditor
 			vScrollBars[29] = vScrollBar30;
 			vScrollBars[30] = vScrollBar31;
 			vScrollBars[31] = vScrollBar32;
-
+			
 			numericUpDowns[0] = numericUpDown1;
 			numericUpDowns[1] = numericUpDown2;
 			numericUpDowns[2] = numericUpDown3;
@@ -97,6 +97,11 @@ namespace LightEditor
 			numericUpDowns[29] = numericUpDown30;
 			numericUpDowns[30] = numericUpDown31;
 			numericUpDowns[31] = numericUpDown32;
+
+			foreach(NumericUpDown numericUpDown in numericUpDowns)
+			{
+				numericUpDown.Increment = 1m / SystemInformation.MouseWheelScrollLines;
+			}
 
 			labels[0] = label1;
 			labels[1] = label2;

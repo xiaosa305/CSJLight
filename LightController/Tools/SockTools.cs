@@ -64,130 +64,98 @@ namespace LightController.Tools
                 conns[i] = new Conn();
             }
 
-            //socket
-            ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            ////socket
+            //ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            //bind
-            ListenSocket.Bind(iPEndPoint);
+            ////bind
+            //ListenSocket.Bind(iPEndPoint);
 
-            //listen
-            ListenSocket.Listen(MaxCount);
+            ////listen
+            //ListenSocket.Listen(MaxCount);
 
-            //Accept
-            ListenSocket.BeginAccept(AcceptCb, null);
+            ////Accept
+            //ListenSocket.BeginAccept(AcceptCb, null);
         }
 
-        //Accept回调函数
-        private void AcceptCb(IAsyncResult asyncResult)
+        ////Accept回调函数
+        //private void AcceptCb(IAsyncResult asyncResult)
+        //{
+        //    try
+        //    {
+        //        Socket socket = ListenSocket.EndAccept(asyncResult);
+        //        int index = NewIndex();
+        //        if (index == -1)
+        //        {
+        //            Console.WriteLine("Conn连接池已满");
+        //        }
+        //        else
+        //        {
+        //            Conn conn = conns[index];
+        //            conn.Init(socket);
+        //            string addr = conn.GetAddress();
+        //            Console.WriteLine("客户端 [" + addr + "] 连接");
+        //            Console.WriteLine("已连接" + (index + 1) + "个客户端");
+        //            conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
+        //            ListenSocket.BeginAccept(AcceptCb, null);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("AcceptCb 失败：" + ex.Message);
+        //    }
+        //}
+
+        //添加新连接
+        public void AddConnect(string ip,int port)
         {
             try
             {
-                Socket socket = ListenSocket.EndAccept(asyncResult);
+                for (int i = 0; i < MaxCount; i++)
+                {
+                    if (conns[i] != null || conns[i].IsUse)
+                    {
+                        if (conns[i].GetAddress().Equals(ip))
+                        {
+                            return;
+                        }
+                    }
+                }
+                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 int index = NewIndex();
                 if (index == -1)
                 {
-                    Console.WriteLine("Conn连接池已满");
+                    throw new Exception("网络连接池已满");
                 }
                 else
                 {
+
                     Conn conn = conns[index];
                     conn.Init(socket);
+                    socket.Connect(iPEndPoint);
                     string addr = conn.GetAddress();
                     Console.WriteLine("客户端 [" + addr + "] 连接");
                     Console.WriteLine("已连接" + (index + 1) + "个客户端");
-                    conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
-                    ListenSocket.BeginAccept(AcceptCb, null);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("AcceptCb 失败：" + ex.Message);
-            }
-        }
+                    conn.BeginReceive();
 
-        //Recevie回调函数
-        private void ReceiveCb(IAsyncResult asyncResult)
-        {
-            //获取接受对象
-            Conn conn = (Conn)asyncResult.AsyncState;
-            try
-            {
-                int count = conn.Socket.EndReceive(asyncResult);
-                //关闭信号
-                if (count <= 0)
-                {
-                    Console.WriteLine("收到 [" + conn.GetAddress() + "] 断开连接");
-                    conn.Close();
-                    return;
-                }
-                //数据处理
-                string str = conn.Socket.RemoteEndPoint.ToString() + ":" + Encoding.UTF8.GetString(conn.ReadBuff, 0, count);
-                Console.WriteLine("[" + conn.GetAddress() + "] : " + str);
-                byte[] sendMsg = Encoding.UTF8.GetBytes(str);
-                //将所有的消息广播
-                for (int i = 0; i < MaxCount; i++)
-                {
-                    if (conns[i] == null || !conns[i].IsUse) continue;
-                    conns[i].Socket.Send(sendMsg);
-                }
-
-                //继续接受
-                conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("[" + conn.GetAddress() + "] 断开连接");
-                conn.Close();
-            }
-        }
-
-        //Udp广播测试
-        public void UdpTest(string str)
-        {
-            Conn conn = null;
-            int index = 0;
-            try
-            {
-                byte[] sendMsg = Encoding.UTF8.GetBytes(str);
-                for (int i = 0; i < MaxCount; i++)
-                {
-                    index = i;
-                    conn = conns[i];
-                    if (conn == null || !conn.IsUse) continue;
-                    conn.Socket.Send(sendMsg);
                 }
             }
             catch (Exception)
             {
-                if (conn != null)
+                Console.WriteLine("设备连接失败");
+            }
+        }
+
+        public void SendData(string ip,byte[] data ,ORDER order,string[] strArray)
+        {
+            foreach (Conn value in conns)
+            {
+                string addr = value.GetAddress().Split(':')[0];
+                if (addr.Equals(ip))
                 {
-                    Console.WriteLine("[" + conn.GetAddress() + "] 断开连接");
-                    conns[index].IsUse = false;
-                    conns[index].Close();
+                    value.SendData(data, order, strArray);
                 }
             }
         }
-
-        public void Test(string ipadd)
-        {
-            IPAddress iPAddress = IPAddress.Parse(ipadd);
-            IPEndPoint iPEndPoint = new IPEndPoint(iPAddress, 7060);
-            Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            client.Connect(iPEndPoint);
-            int i = 0;
-            while (true)
-            {
-                byte[] data = Encoding.Default.GetBytes("ack " + i);
-                i++;
-                client.BeginSend(data, 0, data.Length, SocketFlags.None, TestCb, client);
-            }
-        }
-
-        private void TestCb(IAsyncResult asyncResult)
-        {
-
-        }
-
-       
     }
 }

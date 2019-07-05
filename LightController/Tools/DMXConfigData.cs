@@ -47,7 +47,6 @@ namespace LightController.Tools
 
         public void Test()
         {
-            ReadFromFile();
             WriteToFile(@"C:\Temp\");
         }
         
@@ -62,6 +61,7 @@ namespace LightController.Tools
 
         public byte[] GetConfigData()
         {
+            ReadFromFile();
             int FileSize = 0;
             IList<byte> data = new List<byte>();
             //预填充文件大小
@@ -162,7 +162,7 @@ namespace LightController.Tools
 
         private void ReadFromFile()
         {
-            string filePath = @"C:\Temp\LightProject\Test5\global.ini";
+            string filePath = @"C:\Temp\LightProject\Test4\global.ini";
             string lineStr = "";
             string strValue;
             int intValue;

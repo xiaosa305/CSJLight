@@ -191,7 +191,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ChanelData.cs" />
     <Compile Include="Tools\Conn.cs" />
+    <Compile Include="Tools\ConnectTools.cs" />
     <Compile Include="Tools\Constant.cs" />
+    <Compile Include="Tools\CRCTools.cs" />
     <Compile Include="Tools\DMX512Player.cs" />
     <Compile Include="Tools\DMXConfigData.cs" />
     <Compile Include="Tools\DMXTools.cs" />

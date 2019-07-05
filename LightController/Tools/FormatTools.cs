@@ -59,7 +59,6 @@ namespace LightController.Tools
             int test = 0;
             while (true)
             {
-                tools.UdpTest("UDPtest :" + test);
                 //tools.Test("192.168.31.113");
                 test++;
                 Thread.Sleep(2000);

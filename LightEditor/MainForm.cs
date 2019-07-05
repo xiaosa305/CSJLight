@@ -622,7 +622,7 @@ namespace LightEditor
 				hme.Handled = true;
 			}
 			// 向上滚
-			if (e.Delta > 0)
+			if (e.Delta > 0)   
 			{			
 				decimal dd = numericUpDowns[tdIndex].Value + numericUpDown1.Increment;
 				if (dd <= numericUpDowns[tdIndex].Maximum)

@@ -238,12 +238,13 @@ namespace LightController
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightsEditToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
+			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -2979,8 +2980,9 @@ namespace LightController
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lightLibraryToolStripMenuItem,
             this.lightsEditToolStripMenuItem1,
+            this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
-            this.ExitToolStripMenuItem});
+            this.ymSetToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
 			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
@@ -3002,14 +3004,6 @@ namespace LightController
 			this.lightsEditToolStripMenuItem1.Text = "灯具编辑";
 			this.lightsEditToolStripMenuItem1.Click += new System.EventHandler(this.lightsEditToolStripMenuItem1_Click);
 			// 
-			// globalSetToolStripMenuItem
-			// 
-			this.globalSetToolStripMenuItem.Enabled = false;
-			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
-			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-			this.globalSetToolStripMenuItem.Text = "全局配置";
-			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globleSetButton_Click);
-			// 
 			// ExitToolStripMenuItem
 			// 
 			this.ExitToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -3018,6 +3012,14 @@ namespace LightController
 			this.ExitToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.ExitToolStripMenuItem.Text = "退出程序";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.exitButton_Click);
+			// 
+			// globalSetToolStripMenuItem
+			// 
+			this.globalSetToolStripMenuItem.Enabled = false;
+			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
+			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.globalSetToolStripMenuItem.Text = "全局配置";
+			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globleSetButton_Click);
 			// 
 			// previewButton
 			// 
@@ -3062,6 +3064,13 @@ namespace LightController
 			this.realTimeCheckBox.Text = "实时调试";
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
+			// 
+			// ymSetToolStripMenuItem
+			// 
+			this.ymSetToolStripMenuItem.Name = "ymSetToolStripMenuItem";
+			this.ymSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.ymSetToolStripMenuItem.Text = "摇麦设置";
+			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymSetToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -3406,6 +3415,7 @@ namespace LightController
 		private CheckBox realTimeCheckBox;
 		private Button button1;
 		private Panel tongdaoPanel;
+		private ToolStripMenuItem ymSetToolStripMenuItem;
 	}
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightEditor.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -129,12 +130,48 @@ namespace LightEditor
 			tdNumericUpDowns[30] = numericUpDown31;
 			tdNumericUpDowns[31] = numericUpDown32;
 
+			foreach(NumericUpDown item in tdNumericUpDowns)
+			{
+				item.MouseWheel += new MouseEventHandler(valueNumericUpDown_MouseWheel);
+			}
+
 			#endregion
 
 			hideAllTongdao();
 			generateTongdaoList();			
 
-		}		
+		}
+
+		/// 让滚轮每次滚动只调节一个数字
+		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = tdNumericUpDowns[tdIndex].Value + numericUpDown1.Increment;
+				if (dd <= tdNumericUpDowns[tdIndex].Maximum)
+				{
+					tdNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = tdNumericUpDowns[tdIndex].Value - tdNumericUpDowns[tdIndex].Increment;
+				if (dd >= tdNumericUpDowns[tdIndex].Minimum)
+				{
+					tdNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+
+		}
 
 		/// <summary>
 		/// 辅助方法：隐藏所有的通道

@@ -27,7 +27,9 @@ namespace LightController
 		private IList<LightAst> lightAstList;
 
 		// 只能有一个GlobalSetForm，在点击全局设置时新建(为生成过或已被销毁)，或在Hide时显示
-		private GlobalSetForm globalSetForm; 
+		private GlobalSetForm globalSetForm;
+		// 只能有一个YMSetForm
+		private YMSetForm ymSetForm;
 
 		// 辅助的变量：
 		// 点击新建后，点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
@@ -1690,5 +1692,17 @@ namespace LightController
 			Test test = new Test(GetDBWrapper(true));
 			test.Start();
 		}
+
+		private void ymSetToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (ymSetForm == null || ymSetForm.IsDisposed)
+			{
+				ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
+			}
+			ymSetForm.ShowDialog();
+
+		}
+
+		
 	}
 }

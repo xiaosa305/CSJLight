@@ -238,13 +238,13 @@ namespace LightController
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightsEditToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
+			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -444,6 +444,42 @@ namespace LightController
 			this.LargeImageList.Images.SetKeyName(10, "图案自转.ico");
 			this.LargeImageList.Images.SetKeyName(11, "未知.ico");
 			this.LargeImageList.Images.SetKeyName(12, "颜色.ico");
+			this.LargeImageList.Images.SetKeyName(13, "1.bmp");
+			this.LargeImageList.Images.SetKeyName(14, "2.bmp");
+			this.LargeImageList.Images.SetKeyName(15, "3.bmp");
+			this.LargeImageList.Images.SetKeyName(16, "4.bmp");
+			this.LargeImageList.Images.SetKeyName(17, "5.bmp");
+			this.LargeImageList.Images.SetKeyName(18, "6.bmp");
+			this.LargeImageList.Images.SetKeyName(19, "7.bmp");
+			this.LargeImageList.Images.SetKeyName(20, "8.bmp");
+			this.LargeImageList.Images.SetKeyName(21, "9.bmp");
+			this.LargeImageList.Images.SetKeyName(22, "10.bmp");
+			this.LargeImageList.Images.SetKeyName(23, "11.bmp");
+			this.LargeImageList.Images.SetKeyName(24, "12.bmp");
+			this.LargeImageList.Images.SetKeyName(25, "13.bmp");
+			this.LargeImageList.Images.SetKeyName(26, "14.bmp");
+			this.LargeImageList.Images.SetKeyName(27, "15.bmp");
+			this.LargeImageList.Images.SetKeyName(28, "16.bmp");
+			this.LargeImageList.Images.SetKeyName(29, "17.bmp");
+			this.LargeImageList.Images.SetKeyName(30, "18.bmp");
+			this.LargeImageList.Images.SetKeyName(31, "19.bmp");
+			this.LargeImageList.Images.SetKeyName(32, "20.bmp");
+			this.LargeImageList.Images.SetKeyName(33, "21.bmp");
+			this.LargeImageList.Images.SetKeyName(34, "22.bmp");
+			this.LargeImageList.Images.SetKeyName(35, "23.bmp");
+			this.LargeImageList.Images.SetKeyName(36, "24.bmp");
+			this.LargeImageList.Images.SetKeyName(37, "25.bmp");
+			this.LargeImageList.Images.SetKeyName(38, "27.bmp");
+			this.LargeImageList.Images.SetKeyName(39, "28.bmp");
+			this.LargeImageList.Images.SetKeyName(40, "29.gif");
+			this.LargeImageList.Images.SetKeyName(41, "30.bmp");
+			this.LargeImageList.Images.SetKeyName(42, "31.bmp");
+			this.LargeImageList.Images.SetKeyName(43, "ledpar.bmp");
+			this.LargeImageList.Images.SetKeyName(44, "灯带.bmp");
+			this.LargeImageList.Images.SetKeyName(45, "二合一.bmp");
+			this.LargeImageList.Images.SetKeyName(46, "二合一50.bmp");
+			this.LargeImageList.Images.SetKeyName(47, "魔球.bmp");
+			this.LargeImageList.Images.SetKeyName(48, "帕灯.bmp");
 			// 
 			// tongdaoGroupBox
 			// 
@@ -588,7 +624,6 @@ namespace LightController
 			this.changeModeLabel.Size = new System.Drawing.Size(67, 15);
 			this.changeModeLabel.TabIndex = 14;
 			this.changeModeLabel.Text = "变化方式";
-			this.changeModeLabel.Visible = false;
 			// 
 			// tongdaoValueLabel
 			// 
@@ -598,7 +633,6 @@ namespace LightController
 			this.tongdaoValueLabel.Size = new System.Drawing.Size(68, 15);
 			this.tongdaoValueLabel.TabIndex = 13;
 			this.tongdaoValueLabel.Text = "通 道 值";
-			this.tongdaoValueLabel.Visible = false;
 			// 
 			// stepTimeLabel
 			// 
@@ -608,7 +642,6 @@ namespace LightController
 			this.stepTimeLabel.Size = new System.Drawing.Size(68, 15);
 			this.stepTimeLabel.TabIndex = 13;
 			this.stepTimeLabel.Text = "步 时 间";
-			this.stepTimeLabel.Visible = false;
 			// 
 			// changeModeComboBox16
 			// 
@@ -1736,7 +1769,6 @@ namespace LightController
 			this.changeModeLabel2.Size = new System.Drawing.Size(67, 15);
 			this.changeModeLabel2.TabIndex = 17;
 			this.changeModeLabel2.Text = "变化方式";
-			this.changeModeLabel2.Visible = false;
 			// 
 			// numericUpDown32
 			// 
@@ -1755,7 +1787,6 @@ namespace LightController
 			this.tongdaoValueLabel2.Size = new System.Drawing.Size(68, 15);
 			this.tongdaoValueLabel2.TabIndex = 15;
 			this.tongdaoValueLabel2.Text = "通 道 值";
-			this.tongdaoValueLabel2.Visible = false;
 			// 
 			// changeModeComboBox32
 			// 
@@ -1779,7 +1810,6 @@ namespace LightController
 			this.stepTimeLabel2.Size = new System.Drawing.Size(68, 15);
 			this.stepTimeLabel2.TabIndex = 16;
 			this.stepTimeLabel2.Text = "步 时 间";
-			this.stepTimeLabel2.Visible = false;
 			// 
 			// changeModeComboBox31
 			// 
@@ -2950,9 +2980,9 @@ namespace LightController
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lightLibraryToolStripMenuItem,
             this.lightsEditToolStripMenuItem1,
-            this.testToolStripMenuItem,
+            this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
-            this.ExitToolStripMenuItem});
+            this.ymSetToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
 			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
@@ -2974,21 +3004,6 @@ namespace LightController
 			this.lightsEditToolStripMenuItem1.Text = "灯具编辑";
 			this.lightsEditToolStripMenuItem1.Click += new System.EventHandler(this.lightsEditToolStripMenuItem1_Click);
 			// 
-			// testToolStripMenuItem
-			// 
-			this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-			this.testToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-			this.testToolStripMenuItem.Text = "测试按钮";
-			this.testToolStripMenuItem.Click += new System.EventHandler(this.testButton_Click);
-			// 
-			// globalSetToolStripMenuItem
-			// 
-			this.globalSetToolStripMenuItem.Enabled = false;
-			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
-			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-			this.globalSetToolStripMenuItem.Text = "全局配置";
-			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globleSetButton_Click);
-			// 
 			// ExitToolStripMenuItem
 			// 
 			this.ExitToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -2997,6 +3012,14 @@ namespace LightController
 			this.ExitToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.ExitToolStripMenuItem.Text = "退出程序";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.exitButton_Click);
+			// 
+			// globalSetToolStripMenuItem
+			// 
+			this.globalSetToolStripMenuItem.Enabled = false;
+			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
+			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.globalSetToolStripMenuItem.Text = "全局配置";
+			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globleSetButton_Click);
 			// 
 			// previewButton
 			// 
@@ -3041,6 +3064,13 @@ namespace LightController
 			this.realTimeCheckBox.Text = "实时调试";
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
+			// 
+			// ymSetToolStripMenuItem
+			// 
+			this.ymSetToolStripMenuItem.Name = "ymSetToolStripMenuItem";
+			this.ymSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.ymSetToolStripMenuItem.Text = "摇麦设置";
+			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymSetToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -3362,7 +3392,6 @@ namespace LightController
 		private MenuStrip mainMenuStrip;
 		private ToolStripMenuItem lightLibraryToolStripMenuItem;
 		private ToolStripMenuItem lightsEditToolStripMenuItem1;
-		private ToolStripMenuItem testToolStripMenuItem;
 		private ToolStripMenuItem ExitToolStripMenuItem;
 		private ToolStripMenuItem globalSetToolStripMenuItem;
 
@@ -3386,6 +3415,7 @@ namespace LightController
 		private CheckBox realTimeCheckBox;
 		private Button button1;
 		private Panel tongdaoPanel;
+		private ToolStripMenuItem ymSetToolStripMenuItem;
 	}
 }
 

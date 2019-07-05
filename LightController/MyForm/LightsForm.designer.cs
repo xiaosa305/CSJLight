@@ -100,6 +100,7 @@ namespace LightController
 			this.lightsListView.GridLines = true;
 			this.lightsListView.LargeImageList = this.largeImageList;
 			this.lightsListView.Location = new System.Drawing.Point(526, 0);
+			this.lightsListView.MultiSelect = false;
 			this.lightsListView.Name = "lightsListView";
 			this.lightsListView.Size = new System.Drawing.Size(470, 636);
 			this.lightsListView.SmallImageList = this.largeImageList;
@@ -139,6 +140,42 @@ namespace LightController
 			this.largeImageList.Images.SetKeyName(10, "图案自转.ico");
 			this.largeImageList.Images.SetKeyName(11, "未知.ico");
 			this.largeImageList.Images.SetKeyName(12, "颜色.ico");
+			this.largeImageList.Images.SetKeyName(13, "1.bmp");
+			this.largeImageList.Images.SetKeyName(14, "2.bmp");
+			this.largeImageList.Images.SetKeyName(15, "3.bmp");
+			this.largeImageList.Images.SetKeyName(16, "4.bmp");
+			this.largeImageList.Images.SetKeyName(17, "5.bmp");
+			this.largeImageList.Images.SetKeyName(18, "6.bmp");
+			this.largeImageList.Images.SetKeyName(19, "7.bmp");
+			this.largeImageList.Images.SetKeyName(20, "8.bmp");
+			this.largeImageList.Images.SetKeyName(21, "9.bmp");
+			this.largeImageList.Images.SetKeyName(22, "10.bmp");
+			this.largeImageList.Images.SetKeyName(23, "11.bmp");
+			this.largeImageList.Images.SetKeyName(24, "12.bmp");
+			this.largeImageList.Images.SetKeyName(25, "13.bmp");
+			this.largeImageList.Images.SetKeyName(26, "14.bmp");
+			this.largeImageList.Images.SetKeyName(27, "15.bmp");
+			this.largeImageList.Images.SetKeyName(28, "16.bmp");
+			this.largeImageList.Images.SetKeyName(29, "17.bmp");
+			this.largeImageList.Images.SetKeyName(30, "18.bmp");
+			this.largeImageList.Images.SetKeyName(31, "19.bmp");
+			this.largeImageList.Images.SetKeyName(32, "20.bmp");
+			this.largeImageList.Images.SetKeyName(33, "21.bmp");
+			this.largeImageList.Images.SetKeyName(34, "22.bmp");
+			this.largeImageList.Images.SetKeyName(35, "23.bmp");
+			this.largeImageList.Images.SetKeyName(36, "24.bmp");
+			this.largeImageList.Images.SetKeyName(37, "25.bmp");
+			this.largeImageList.Images.SetKeyName(38, "27.bmp");
+			this.largeImageList.Images.SetKeyName(39, "28.bmp");
+			this.largeImageList.Images.SetKeyName(40, "29.gif");
+			this.largeImageList.Images.SetKeyName(41, "30.bmp");
+			this.largeImageList.Images.SetKeyName(42, "31.bmp");
+			this.largeImageList.Images.SetKeyName(43, "ledpar.bmp");
+			this.largeImageList.Images.SetKeyName(44, "灯带.bmp");
+			this.largeImageList.Images.SetKeyName(45, "二合一.bmp");
+			this.largeImageList.Images.SetKeyName(46, "二合一50.bmp");
+			this.largeImageList.Images.SetKeyName(47, "魔球.bmp");
+			this.largeImageList.Images.SetKeyName(48, "帕灯.bmp");
 			// 
 			// LightsForm
 			// 

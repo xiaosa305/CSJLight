@@ -64,39 +64,48 @@ namespace LightEditor
 			vScrollBars[29] = vScrollBar30;
 			vScrollBars[30] = vScrollBar31;
 			vScrollBars[31] = vScrollBar32;
+			
+			numericUpDowns[0] = numericUpDown1;
+			numericUpDowns[1] = numericUpDown2;
+			numericUpDowns[2] = numericUpDown3;
+			numericUpDowns[3] = numericUpDown4;
+			numericUpDowns[4] = numericUpDown5;
+			numericUpDowns[5] = numericUpDown6;
+			numericUpDowns[6] = numericUpDown7;
+			numericUpDowns[7] = numericUpDown8;
+			numericUpDowns[8] = numericUpDown9;
+			numericUpDowns[9] = numericUpDown10;
+			numericUpDowns[10] = numericUpDown11;
+			numericUpDowns[11] = numericUpDown12;
+			numericUpDowns[12] = numericUpDown13;
+			numericUpDowns[13] = numericUpDown14;
+			numericUpDowns[14] = numericUpDown15;
+			numericUpDowns[15] = numericUpDown16;
+			numericUpDowns[16] = numericUpDown17;
+			numericUpDowns[17] = numericUpDown18;
+			numericUpDowns[18] = numericUpDown19;
+			numericUpDowns[19] = numericUpDown20;
+			numericUpDowns[20] = numericUpDown21;
+			numericUpDowns[21] = numericUpDown22;
+			numericUpDowns[22] = numericUpDown23;
+			numericUpDowns[23] = numericUpDown24;
+			numericUpDowns[24] = numericUpDown25;
+			numericUpDowns[25] = numericUpDown26;
+			numericUpDowns[26] = numericUpDown27;
+			numericUpDowns[27] = numericUpDown28;
+			numericUpDowns[28] = numericUpDown29;
+			numericUpDowns[29] = numericUpDown30;
+			numericUpDowns[30] = numericUpDown31;
+			numericUpDowns[31] = numericUpDown32;
 
-			valueLabels[0] = valueLabel1;
-			valueLabels[1] = valueLabel2;
-			valueLabels[2] = valueLabel3;
-			valueLabels[3] = valueLabel4;
-			valueLabels[4] = valueLabel5;
-			valueLabels[5] = valueLabel6;
-			valueLabels[6] = valueLabel7;
-			valueLabels[7] = valueLabel8;
-			valueLabels[8] = valueLabel9;
-			valueLabels[9] = valueLabel10;
-			valueLabels[10] = valueLabel11;
-			valueLabels[11] = valueLabel12;
-			valueLabels[12] = valueLabel13;
-			valueLabels[13] = valueLabel14;
-			valueLabels[14] = valueLabel15;
-			valueLabels[15] = valueLabel16;
-			valueLabels[16] = valueLabel17;
-			valueLabels[17] = valueLabel18;
-			valueLabels[18] = valueLabel19;
-			valueLabels[19] = valueLabel20;
-			valueLabels[20] = valueLabel21;
-			valueLabels[21] = valueLabel22;
-			valueLabels[22] = valueLabel23;
-			valueLabels[23] = valueLabel24;
-			valueLabels[24] = valueLabel25;
-			valueLabels[25] = valueLabel26;
-			valueLabels[26] = valueLabel27;
-			valueLabels[27] = valueLabel28;
-			valueLabels[28] = valueLabel29;
-			valueLabels[29] = valueLabel30;
-			valueLabels[30] = valueLabel31;
-			valueLabels[31] = valueLabel32;
+			foreach(NumericUpDown numericUpDown in numericUpDowns)
+			{
+				// 方法1：将increment设为 系统值分之一，这样就会每次滚动时 systemScrollValue*increment = 1
+				//numericUpDown.Increment = 1m / SystemInformation.MouseWheelScrollLines;
+
+				// 方法2：添加MouseWheel监听器
+				numericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
+			}
 
 			labels[0] = label1;
 			labels[1] = label2;
@@ -137,7 +146,6 @@ namespace LightEditor
 			}
 
 			#endregion
-
 		}
 
 		private void openComButton_Click(object sender, EventArgs e)
@@ -161,6 +169,8 @@ namespace LightEditor
 					);
 				if (dr == DialogResult.OK)
 				{
+					isSaved = false;
+					isGenerated = false;
 					countComboBox.SelectedIndex = -1;
 					tongdaoList = null;
 					nameTextBox.Enabled = true;
@@ -171,8 +181,8 @@ namespace LightEditor
 					generateButton.Show();
 					tongdaoGroupBox1.Hide();
 					tongdaoGroupBox2.Hide();
-					isSaved = false;
-					isGenerated = false;
+					picTextBox.Text = "";
+					openPictureBox.Image = null;
 				}
 			}
 			else {
@@ -448,13 +458,13 @@ namespace LightEditor
 			{
 				vScrollBars[i].Visible = false;
 				labels[i].Visible = false;
-				valueLabels[i].Visible = false;
+				numericUpDowns[i].Visible = false;
 			}
 			for (int i = 0; i < tongdaoCount; i++)
 			{
 				vScrollBars[i].Show();
 				labels[i].Show();
-				valueLabels[i].Show();
+				numericUpDowns[i].Show();
 			}
 
 			// 2.按需显示通道GroupBox
@@ -544,9 +554,9 @@ namespace LightEditor
 		{				
 			for (int i = 0; i < tongdaoCount; i++)
 			{
-				this.labels[i].Text = tongdaoList[i].TongdaoName;
-				this.valueLabels[i].Text = tongdaoList[i].CurrentValue.ToString();
-				this.vScrollBars[i].Value = tongdaoList[i].CurrentValue;
+				this.labels[i].Text = tongdaoList[i].TongdaoName;				
+				this.vScrollBars[i].Value = 255- tongdaoList[i].CurrentValue;
+				this.numericUpDowns[i].Value =   tongdaoList[i].CurrentValue;
 			}
 		}
 
@@ -555,12 +565,84 @@ namespace LightEditor
 		/// </summary>
 		private void vScrollBar_Scroll(object sender, ScrollEventArgs e)
 		{
-			int labelIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,  -1 );
-			valueLabels[labelIndex].Text = vScrollBars[labelIndex].Value.ToString();
-
-			tongdaoList[labelIndex].CurrentValue = vScrollBars[labelIndex].Value;
+			int labelIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,  -1 );	
+			tongdaoList[labelIndex].CurrentValue = 255 - vScrollBars[labelIndex].Value;
+			numericUpDowns[labelIndex].Value = 255 - vScrollBars[labelIndex].Value;
 		}
-			   	
+
+		/// <summary>
+		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其numericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void vScrollBar_MouseHover(object sender, EventArgs e)
+		{
+			int labelIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+			numericUpDowns[labelIndex].Select();
+		}
+
+		/// <summary>
+		/// 辅助方法:鼠标掠过label时，把焦点切换到其numericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void label_MouseHover(object sender, EventArgs e)
+		{
+			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
+			numericUpDowns[labelIndex].Select();
+		}
+
+
+
+		/// <summary>
+		/// 调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			// 1. 找出对应的index
+			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+
+			// 2.调整相应的vScrollBar的数值
+			vScrollBars[tongdaoIndex].Value = 255 - Decimal.ToInt32(numericUpDowns[tongdaoIndex].Value);
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			//changeScrollValue(tongdaoIndex);
+		}
+				
+
+		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)   
+			{			
+				decimal dd = numericUpDowns[tdIndex].Value + numericUpDown1.Increment;
+				if (dd <= numericUpDowns[tdIndex].Maximum)
+				{
+					numericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = numericUpDowns[tdIndex].Value - numericUpDowns[tdIndex].Increment;
+				if (dd >= numericUpDowns[tdIndex].Minimum)
+				{
+					numericUpDowns[tdIndex].Value = dd;
+				}
+			}
+
+		}
+
+
 		/// <summary>
 		///  点击《全部归零》后：所有TongdaoList的CurrentValue=0
 		/// </summary>
@@ -576,9 +658,9 @@ namespace LightEditor
 			{
 				for (int i = 0; i < tongdaoList.Count; i++)
 				{
-					vScrollBars[i].Value = 0;
-					valueLabels[i].Text = "0";
+					vScrollBars[i].Value = 255;					
 					tongdaoList[i].CurrentValue = 0;
+					numericUpDowns[i].Value = 0;
 				}
 			}			
 		}
@@ -598,11 +680,13 @@ namespace LightEditor
 			{
 				for (int i = 0; i < tongdaoList.Count; i++)
 				{
-					vScrollBars[i].Value = tongdaoList[i].InitValue;
-					valueLabels[i].Text = tongdaoList[i].InitValue.ToString();
+					vScrollBars[i].Value = (255-tongdaoList[i].InitValue);					
 					tongdaoList[i].CurrentValue = tongdaoList[i].InitValue;
+					numericUpDowns[i].Value = tongdaoList[i].InitValue;
 				}
 			}
 		}
+
+		
 	}
 }

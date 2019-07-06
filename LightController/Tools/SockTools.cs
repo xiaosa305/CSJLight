@@ -12,8 +12,6 @@ namespace LightController.Tools
     {
         //Socket实例
         private static SocketTools Instance { get; set; }
-        //监听套接字
-        //private Socket ListenSocket { get; set; }
         //客户端连接（异步）
         private Conn[] conns;
         //最大连接数
@@ -159,7 +157,7 @@ namespace LightController.Tools
             {
                 if (value.Ip.Equals(ip))
                 {
-                    value.PakegeSize = size;
+                    value.SetPakegeSize(size);
                 }
             }
         }
@@ -183,6 +181,27 @@ namespace LightController.Tools
                 }
             }
             return deviceList;
+        }
+        /// <summary>
+        /// 获取发送数据是否完成
+        /// </summary>
+        public bool GetIsSendComplet(string ip)
+        {
+            foreach (Conn value in conns)
+            {
+                if (value != null || value.IsUse)
+                {
+                    if (value.Ip != null)
+                    {
+                        if (value.Ip.Equals(ip))
+                        {
+                            return value.GetIsSendComplet();
+                        }
+                    }
+                }
+            }
+
+            throw new Exception("设备未连接");
         }
     }
 }

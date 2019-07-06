@@ -29,7 +29,8 @@ namespace LightController.Tools
         private ORDER MOrder { get; set; }
         private RECEIVE MReceive { get; set; }
         private string[] Strs { get; set; }
-        public int PakegeSize { get; set; }
+        private int PakegeSize { get; set; }
+        private bool IsSendCompleted { get; set; }
 
         /// <summary>
         /// 构造函数
@@ -39,6 +40,7 @@ namespace LightController.Tools
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
             PakegeSize = 512;
+            IsSendCompleted = true;
         }
         /// <summary>
         /// 初始化
@@ -55,6 +57,22 @@ namespace LightController.Tools
             Ip = addr.Split(':')[0];
             int.TryParse(addr.Split(':')[1], out int connPort);
             Port = connPort;
+        }
+        /// <summary>
+        /// 设定发送数据缓冲区大小
+        /// </summary>
+        /// <param name="size"></param>
+        public void SetPakegeSize(int size)
+        {
+            this.PakegeSize = size;
+        }
+        /// <summary>
+        /// 获取发送数据是否完成
+        /// </summary>
+        /// <returns></returns>
+        public bool GetIsSendComplet()
+        {
+            return IsSendCompleted;
         }
         /// <summary>
         /// 缓冲区剩余字节
@@ -91,6 +109,7 @@ namespace LightController.Tools
         /// <param name="strarray">备注信息</param>
         public void SendData(byte[] data,ORDER order,string[] strarray)
         {
+            IsSendCompleted = false;
             Data = data;
             MOrder = order;
             Strs = strarray;
@@ -140,6 +159,7 @@ namespace LightController.Tools
                         break;
 
                     case RECEIVE.Done:
+                        IsSendCompleted = true;
                         Console.WriteLine("下载数据完成");
                         break;
                     case RECEIVE.Resend:
@@ -147,6 +167,7 @@ namespace LightController.Tools
                         Receive(RECEIVE.Send);
                         break;
                     case RECEIVE.Ok:
+                        IsSendCompleted = true;
                         Receive(RECEIVE.Send);
                         break;
                     default:

@@ -56,7 +56,7 @@ namespace LightController.Tools
             //ConnectTools.GetInstance().DownLoadData(configData.GetConfigData());
             if (i == 0)
             {
-                ConnectTools.GetInstance().SerchDevice("192.168.31.235", 7070);
+                ConnectTools.GetInstance().SerchDevice();
                 i++;
             }
             else

@@ -9,7 +9,7 @@ namespace LightController.Tools
 {
     public class Conn
     {
-        //缓冲区大小
+        //接收缓冲区大小
         public const int BUFFER_SIZE = 1024;
         //socket
         public Socket Socket { get; set; }
@@ -17,6 +17,10 @@ namespace LightController.Tools
         public bool IsUse { get; set; }
         //Buff
         public byte[] ReadBuff { get; set; }
+        //连接ip地址
+        public string Ip { get; set; }
+        //连接端口号
+        public int Port { get; set; }
         public int BuffCount { get; set; }
         private int Pakege_Count { get; set; }
         private int Pakege_No { get; set; }
@@ -25,36 +29,53 @@ namespace LightController.Tools
         private ORDER MOrder { get; set; }
         private RECEIVE MReceive { get; set; }
         private string[] Strs { get; set; }
-        //构造函数
+        public int PakegeSize { get; set; }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public Conn()
         {
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
+            PakegeSize = 512;
         }
-
-        //初始化
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="socket"></param>
         public void Init(Socket socket)
         {
             this.Socket = socket;
             IsUse = true;
             BuffCount = 0;
             TimeOutThread = new Thread(new ThreadStart(TimeOut));
+            TimeOutThread.IsBackground = true;
+            string addr = Socket.RemoteEndPoint.ToString();
+            Ip = addr.Split(':')[0];
+            int.TryParse(addr.Split(':')[1], out int connPort);
+            Port = connPort;
         }
-
-        //缓冲区剩余字节
+        /// <summary>
+        /// 缓冲区剩余字节
+        /// </summary>
+        /// <returns></returns>
         public int BuffRemain()
         {
             return BUFFER_SIZE - BuffCount;
         }
-
-        //获取客户端地址
+        /// <summary>
+        /// 获取客户端地址
+        /// </summary>
+        /// <returns></returns>
         public string GetAddress()
         {
             if (!IsUse) return "获取地址失败";
             return Socket.RemoteEndPoint.ToString();
         }
-
-        //关闭
+        /// <summary>
+        /// 关闭
+        /// </summary>
         public void Close()
         {
             if (!IsUse) return;
@@ -62,9 +83,8 @@ namespace LightController.Tools
             Socket.Close();
             IsUse = false;
         }
-
         /// <summary>
-        /// 发送数据
+        /// 发送命令包
         /// </summary>
         /// <param name="data">数据主体</param>
         /// <param name="order">命令</param>
@@ -74,111 +94,173 @@ namespace LightController.Tools
             Data = data;
             MOrder = order;
             Strs = strarray;
-            switch (order)
+            try
             {
-                case ORDER.Put:
-                    Pakege_Count = data.Length / 512;
-                    Pakege_Count = (data.Length % 512 == 0) ? Pakege_Count : Pakege_Count + 1;
-                    Pakege_No = 0;
-                    List<byte> pakege = new List<byte>();
-                    byte[] pakegeOrder = Encoding.Default.GetBytes("put ");
-                    byte[] pakegeFileCRC = CRCTools.GetInstance().GetCRC(data);
-                    byte[] pakegeFileSize = new byte[] 
-                    { Convert.ToByte(data.Length & 0xFF), Convert.ToByte((data.Length >> 8) & 0xFF),
-                      Convert.ToByte((data.Length >> 16) & 0xFF), Convert.ToByte((data.Length >> 24) & 0xFF)
-                    };
-                    byte[] pakegeFileName = Encoding.Default.GetBytes(strarray[0]);
-                    int dataSize = pakegeFileName.Length + pakegeFileSize.Length + pakegeFileCRC.Length;
-                    byte[] pakegeDataSize = new byte[] { Convert.ToByte(dataSize & 0xFF), Convert.ToByte(dataSize >> 8 & 0xFF) };
-                    byte[] pakegeHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), pakegeDataSize[0], pakegeDataSize[1], Convert.ToByte(0x01), Convert.ToByte(0x00), Convert.ToByte(0x00) };
-                    pakege.AddRange(pakegeHead);
-                    pakege.AddRange(pakegeFileName);
-                    pakege.AddRange(pakegeFileSize);
-                    pakege.AddRange(pakegeFileCRC);
-                    byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
-                    pakege[6] = pakegeCRC[0];
-                    pakege[7] = pakegeCRC[1];
-                    Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb, this);
-                    break;
-                default:
-                    break;
+                TimeOutThread.Abort();
             }
+            catch (Exception)
+            {
+                Console.WriteLine("发送命令包超时，结束超时线程");
+               
+            }
+            finally
+            {
+                switch (order)
+                {
+                    case ORDER.Put:
+                        Order_Put();
+                        break;
+                    default:
+                        break;
+                }
+            }
+          
         }
-
-        private void Send(RECEIVE receive)
+        /// <summary>
+        /// 返回消息事务管理
+        /// </summary>
+        /// <param name="receive">返回消息类型</param>
+        private void Receive(RECEIVE receive)
         {
             MReceive = receive;
-            switch (receive)
+            try
             {
-                case RECEIVE.Send:
-                    Pakege_No++;
-                    byte[] pakegeData;
-                    List<byte> pakege = new List<byte>();
-                    if (Pakege_No != Pakege_Count)
-                    {
-                        pakegeData = new byte[512];
-                        for (int i = 0; i < 512; i++)
-                        {
-                            pakegeData[i] = Data[(Pakege_No-1) * 512 + i];
-                        }
-                    }
-                    else
-                    {
-                        pakegeData = new byte[Data.Length - (Pakege_No - 1) * 512];
-                        for (int i = 0; i < pakegeData.Length - (Pakege_No -1)* 512; i++)
-                        {
-                            pakegeData[i] = Data[(Pakege_No-1) * 512 + i];
-                        }
-                    }
-                    byte[] pakegeDataSize = new byte[] { Convert.ToByte(pakegeData.Length & 0xFF), Convert.ToByte((pakegeData.Length >> 8) & 0xFF) };
-                    byte[] pakegeHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), pakegeDataSize[0], pakegeDataSize[1], Convert.ToByte(0x02), Convert.ToByte(0x00), Convert.ToByte(0x00) };
-                    pakege.AddRange(pakegeHead);
-                    pakege.AddRange(pakegeData);
-                    byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
-                    pakege[6] = pakegeCRC[0];
-                    pakege[7] = pakegeCRC[1];
-                    Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb, this);
-                    break;
+                TimeOutThread.Abort();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("发送数据包超时，结束超时线程");
+            }
+            finally
+            {
+                switch (receive)
+                {
+                    case RECEIVE.Send:
+                        Receive_Send();
+                        break;
 
-                case RECEIVE.Done:
-                    TimeOutThread.Abort();
-                    Console.WriteLine("下载数据完成");
-                    break;
-                case RECEIVE.Resend:
-                    Pakege_No--;
-                    Send(RECEIVE.Send);
-                    break;
-                case RECEIVE.Ok:
-                    Send(RECEIVE.Send);
-                    break;
-                default:
-                    break;
+                    case RECEIVE.Done:
+                        Console.WriteLine("下载数据完成");
+                        break;
+                    case RECEIVE.Resend:
+                        Pakege_No--;
+                        Receive(RECEIVE.Send);
+                        break;
+                    case RECEIVE.Ok:
+                        Receive(RECEIVE.Send);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-
+        /// <summary>
+        /// 发送Put命令
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="strarray"></param>
+        private void Order_Put()
+        {
+            Pakege_Count = Data.Length / PakegeSize;
+            Pakege_Count = (Data.Length % PakegeSize == 0) ? Pakege_Count : Pakege_Count + 1;
+            Pakege_No = 0;
+            List<byte> pakege = new List<byte>();
+            byte[] pakegeOrder = Encoding.Default.GetBytes("put ");
+            byte[] pakegeFileCRC = CRCTools.GetInstance().GetCRC(Data);
+            byte[] pakegeFileSize = new byte[]
+            { Convert.ToByte(Data.Length & 0xFF), Convert.ToByte((Data.Length >> 8) & 0xFF),
+                      Convert.ToByte((Data.Length >> 16) & 0xFF), Convert.ToByte((Data.Length >> 24) & 0xFF)
+            };
+            byte[] pakegeFileName = Encoding.Default.GetBytes(Strs[0]);
+            int dataSize = pakegeFileName.Length + pakegeFileSize.Length + pakegeFileCRC.Length;
+            byte[] pakegeDataSize = new byte[] { Convert.ToByte(dataSize & 0xFF), Convert.ToByte(dataSize >> 8 & 0xFF) };
+            byte[] pakegeHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), pakegeDataSize[0], pakegeDataSize[1], Convert.ToByte(0x01), Convert.ToByte(0x00), Convert.ToByte(0x00) };
+            pakege.AddRange(pakegeHead);
+            pakege.AddRange(pakegeFileName);
+            pakege.AddRange(pakegeFileSize);
+            pakege.AddRange(pakegeFileCRC);
+            byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
+            pakege[6] = pakegeCRC[0];
+            pakege[7] = pakegeCRC[1];
+            Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb, this);
+        }
+        /// <summary>
+        /// 发送数据包
+        /// </summary>
+        /// <param name="receive"></param>
+        private void Receive_Send()
+        {
+            Pakege_No++;
+            byte[] pakegeData;
+            List<byte> pakege = new List<byte>();
+            if (Pakege_No != Pakege_Count)
+            {
+                pakegeData = new byte[PakegeSize];
+                for (int i = 0; i < PakegeSize; i++)
+                {
+                    pakegeData[i] = Data[(Pakege_No - 1) * PakegeSize + i];
+                }
+            }
+            else
+            {
+                pakegeData = new byte[Data.Length - (Pakege_No - 1) * PakegeSize];
+                for (int i = 0; i < pakegeData.Length - (Pakege_No - 1) * PakegeSize; i++)
+                {
+                    pakegeData[i] = Data[(Pakege_No - 1) * 512 + i];
+                }
+            }
+            byte[] pakegeDataSize = new byte[] { Convert.ToByte(pakegeData.Length & 0xFF), Convert.ToByte((pakegeData.Length >> 8) & 0xFF) };
+            byte[] pakegeHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), pakegeDataSize[0], pakegeDataSize[1], Convert.ToByte(0x02), Convert.ToByte(0x00), Convert.ToByte(0x00) };
+            pakege.AddRange(pakegeHead);
+            pakege.AddRange(pakegeData);
+            byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
+            pakege[6] = pakegeCRC[0];
+            pakege[7] = pakegeCRC[1];
+            Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb, this);
+        }
+        /// <summary>
+        /// 超时处理
+        /// </summary>
         private void TimeOut()
         {
-            Thread.Sleep(1000);
+            for (int i = 0; i < 5; i++)
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine("TimeOut :" + i);
+            }
             if (Pakege_No == 0)
             {
+                Console.WriteLine("Resend 0 pakege");
                 SendData(Data, MOrder, Strs);
             }
             else
             {
+                Console.WriteLine("Resend " + Pakege_No + "pakege");
                 Pakege_No--;
-                Send(MReceive);
+                Receive(MReceive);
             }
         }
-
+        /// <summary>
+        /// 绑定数据接收监听
+        /// </summary>
         public void BeginReceive()
         {
             Socket.BeginReceive(ReadBuff, BuffCount, BuffRemain(), SocketFlags.None, ReceiveCb,this);
         }
-
-        //Recevie回调函数
+        /// <summary>
+        /// Recevie回调函数
+        /// </summary>
+        /// <param name="asyncResult"></param>
         private void ReceiveCb(IAsyncResult asyncResult)
         {
-            TimeOutThread.Abort();
+            try
+            {
+                TimeOutThread.Abort();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("接收到消息结束超时线程");
+            }
             //获取接受对象
             Conn conn = (Conn)asyncResult.AsyncState;
             try
@@ -194,22 +276,29 @@ namespace LightController.Tools
                 //数据处理
                 //string str = conn.Socket.RemoteEndPoint.ToString() + ":" + Encoding.UTF8.GetString(conn.ReadBuff, 0, count);
                 string str = Encoding.UTF8.GetString(conn.ReadBuff, 0, count);
-                Console.WriteLine("Receive Data : " + str) ;
+                Console.WriteLine("Receive Data : " + str);
                 if (str.Equals(Constant.RECEIVE_ORDER_DONE))
                 {
-                    Send(RECEIVE.Done);
+                    Receive(RECEIVE.Done);
                 }
                 else if (str.Equals(Constant.RECEIVE_ORDER_Send))
                 {
-                    Send(RECEIVE.Send);
+                    if (Pakege_No == Pakege_Count)
+                    {
+                        Receive(RECEIVE.Done);
+                    }
+                    else
+                    {
+                        Receive(RECEIVE.Send);
+                    }
                 }
                 else if (str.Equals(Constant.RECEIVE_ORDER_ReSend))
                 {
-                    Send(RECEIVE.Resend);
+                    Receive(RECEIVE.Resend);
                 }
                 else if (str.Equals(Constant.RECEIVE_ORDER_OK))
                 {
-                    Send(RECEIVE.Ok);
+                    Receive(RECEIVE.Ok);
                 }
 
                 //继续接受
@@ -221,10 +310,15 @@ namespace LightController.Tools
                 conn.Close();
             }
         }
-
+        /// <summary>
+        /// Send回调函数
+        /// </summary>
+        /// <param name="asyncResult"></param>
         private void SendCb(IAsyncResult asyncResult)
         {
             TimeOutThread = new Thread(new ThreadStart(TimeOut));
+            TimeOutThread.IsBackground = true;
+            TimeOutThread.Start();
         }
     }
 }

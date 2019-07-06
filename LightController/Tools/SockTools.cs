@@ -8,20 +8,20 @@ using System.Threading;
 
 namespace LightController.Tools
 {
-    public class SockTools
+    public class SocketTools
     {
-        private static SockTools Instance { get; set; }
-
+        //Socket实例
+        private static SocketTools Instance { get; set; }
         //监听套接字
-        private Socket ListenSocket { get; set; }
-
+        //private Socket ListenSocket { get; set; }
         //客户端连接（异步）
         private Conn[] conns;
-
         //最大连接数
         private int MaxCount { get; set; }
-
-        //获取连接池索引
+        /// <summary>
+        /// 获取连接池索引
+        /// </summary>
+        /// <returns></returns>
         private int NewIndex()
         {
             if (conns == null) return -1;
@@ -39,22 +39,29 @@ namespace LightController.Tools
             }
             return -1;
         }
-
-        private SockTools()
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        private SocketTools()
         {
             MaxCount = 100;
         }
-
-        public static SockTools GetInstance()
+        /// <summary>
+        /// 获取SockeTools实例
+        /// </summary>
+        /// <returns></returns>
+        public static SocketTools GetInstance()
         {
             if (Instance == null)
             {
-                Instance = new SockTools();
+                Instance = new SocketTools();
             }
             return Instance;
         }
-
-        //开启服务器
+        /// <summary>
+        /// 开启连接池
+        /// </summary>
+        /// <param name="iPEndPoint"></param>
         public void Start(IPEndPoint iPEndPoint)
         {
             //连接对象池
@@ -63,49 +70,12 @@ namespace LightController.Tools
             {
                 conns[i] = new Conn();
             }
-
-            ////socket
-            //ListenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            ////bind
-            //ListenSocket.Bind(iPEndPoint);
-
-            ////listen
-            //ListenSocket.Listen(MaxCount);
-
-            ////Accept
-            //ListenSocket.BeginAccept(AcceptCb, null);
         }
-
-        ////Accept回调函数
-        //private void AcceptCb(IAsyncResult asyncResult)
-        //{
-        //    try
-        //    {
-        //        Socket socket = ListenSocket.EndAccept(asyncResult);
-        //        int index = NewIndex();
-        //        if (index == -1)
-        //        {
-        //            Console.WriteLine("Conn连接池已满");
-        //        }
-        //        else
-        //        {
-        //            Conn conn = conns[index];
-        //            conn.Init(socket);
-        //            string addr = conn.GetAddress();
-        //            Console.WriteLine("客户端 [" + addr + "] 连接");
-        //            Console.WriteLine("已连接" + (index + 1) + "个客户端");
-        //            conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
-        //            ListenSocket.BeginAccept(AcceptCb, null);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("AcceptCb 失败：" + ex.Message);
-        //    }
-        //}
-
-        //添加新连接
+        /// <summary>
+        /// 添加新的连接到连接池
+        /// </summary>
+        /// <param name="ip">连接ip</param>
+        /// <param name="port">连接端口</param>
         public void AddConnect(string ip,int port)
         {
             try
@@ -114,9 +84,12 @@ namespace LightController.Tools
                 {
                     if (conns[i] != null || conns[i].IsUse)
                     {
-                        if (conns[i].GetAddress().Equals(ip))
+                        if(conns[i].Ip != null)
                         {
-                            return;
+                            if (conns[i].Ip.Equals(ip))
+                            {
+                                return;
+                            }
                         }
                     }
                 }
@@ -129,33 +102,74 @@ namespace LightController.Tools
                 }
                 else
                 {
-
                     Conn conn = conns[index];
-                    conn.Init(socket);
                     socket.Connect(iPEndPoint);
-                    string addr = conn.GetAddress();
-                    Console.WriteLine("客户端 [" + addr + "] 连接");
+                    conn.Init(socket);
+                    Console.WriteLine("客户端 [" + conn.GetAddress() + "] 连接");
                     Console.WriteLine("已连接" + (index + 1) + "个客户端");
                     conn.BeginReceive();
-
                 }
             }
             catch (Exception)
             {
                 Console.WriteLine("设备连接失败");
-            }
-        }
-
-        public void SendData(string ip,byte[] data ,ORDER order,string[] strArray)
-        {
-            foreach (Conn value in conns)
-            {
-                string addr = value.GetAddress().Split(':')[0];
-                if (addr.Equals(ip))
+                for (int i = 0; i < MaxCount; i++)
                 {
-                    value.SendData(data, order, strArray);
+                    if (conns[i] != null || conns[i].IsUse)
+                    {
+                        if (conns[i].Ip != null)
+                        {
+                            if (conns[i].Ip.Equals(ip))
+                            {
+                                conns[i].Close();
+                            }
+                        }
+                    }
                 }
             }
         }
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="ip">连接ip</param>
+        /// <param name="data">数据</param>
+        /// <param name="order">操作命令</param>
+        /// <param name="strArray">备注信息</param>
+        public void Send(string ip,byte[] data ,ORDER order,string[] strArray)
+        {
+            foreach (Conn value in conns)
+            {
+                if (value.Ip != null)
+                {
+                    if (value.Ip.Equals(ip))
+                    {
+                        value.SendData(data, order, strArray);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 配置连接发送数据包的包大小
+        /// </summary>
+        /// <param name="ip">连接ip</param>
+        /// <param name="size">包大小</param>
+        public void SetPakegeSize(string ip,int size)
+        {
+            foreach (Conn value in conns)
+            {
+                if (value.Ip.Equals(ip))
+                {
+                    value.PakegeSize = size;
+                }
+            }
+        }
+
+        //public IList<string> GetDeviceList()
+        //{
+        //    IList<string> deviceList = new List<string>();
+        //    {
+
+        //    }
+        //}
     }
 }

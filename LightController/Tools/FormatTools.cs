@@ -50,7 +50,7 @@ namespace LightController.Tools
         //Test
         private void SocketTest()
         {
-            SockTools tools = SockTools.GetInstance();
+            SocketTools tools = SocketTools.GetInstance();
             IPAddress iPAddress = IPAddress.Parse("192.168.31.235");
             IPEndPoint iPEndPoint = new IPEndPoint(iPAddress, 2333);
             IPEndPoint udpIPEnd = new IPEndPoint(IPAddress.Any,2333);

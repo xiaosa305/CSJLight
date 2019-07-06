@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 
@@ -55,12 +56,12 @@ namespace LightController.Tools
             //ConnectTools.GetInstance().DownLoadData(configData.GetConfigData());
             if (i == 0)
             {
-                ConnectTools.GetInstance().SerchDevice();
+                ConnectTools.GetInstance().SerchDevice("192.168.31.235", 7070);
                 i++;
             }
             else
             {
-                ConnectTools.GetInstance().SendData("192.168.31.236", configData.GetConfigData(), ORDER.Put, new string[] { "Config.bin" });
+                ConnectTools.GetInstance().Send("192.168.31.236", configData.GetConfigData(), ORDER.Put, new string[] { "Config.bin" });
                 i = 0;
             }
         }
@@ -70,8 +71,10 @@ namespace LightController.Tools
             DMXConfigData configData = new DMXConfigData(this.DBWrapper);
             if (i == 0)
             {
-                ConnectTools.GetInstance().SerchDevice();
-                SockTools.GetInstance().AddConnect("192.168.31.15", 7060);
+
+                //ConnectTools.GetInstance().SerchDevice("192.168.31.235",7070);
+                SocketTools.GetInstance().Start(new IPEndPoint(IPAddress.Parse("192.168.31.235"), 7070));
+                SocketTools.GetInstance().AddConnect("192.168.31.15", 7060);
                 //SockTools.GetInstance().AddConnect("192.168.31.236", 7060);
 
                 i++;
@@ -81,7 +84,8 @@ namespace LightController.Tools
                 byte[] data = C_Files[0].GetByteData(); ;
                 C_Files[0].WriteFile(@"C:\Temp\");
                 string fileName = "C01.bin";
-                SockTools.GetInstance().SendData("192.168.31.15", data, ORDER.Put, new string[] { fileName });
+                byte[] testData = Encoding.Default.GetBytes("Hallo World");
+                SocketTools.GetInstance().Send("192.168.31.15", testData, ORDER.Put, new string[] { "Test.bin",fileName });
                 //SockTools.GetInstance().SendData("192.168.31.236", configData.GetConfigData(), ORDER.Put, new string[] { "Config.bin" });
             }
         }

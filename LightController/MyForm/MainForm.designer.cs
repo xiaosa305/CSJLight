@@ -240,11 +240,12 @@ namespace LightController
 			this.lightsEditToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
-			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.网络设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -2982,7 +2983,8 @@ namespace LightController
             this.lightsEditToolStripMenuItem1,
             this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
-            this.ymSetToolStripMenuItem});
+            this.ymSetToolStripMenuItem,
+            this.网络设置ToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
 			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
@@ -3020,6 +3022,13 @@ namespace LightController
 			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.globalSetToolStripMenuItem.Text = "全局配置";
 			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globleSetButton_Click);
+			// 
+			// ymSetToolStripMenuItem
+			// 
+			this.ymSetToolStripMenuItem.Name = "ymSetToolStripMenuItem";
+			this.ymSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.ymSetToolStripMenuItem.Text = "摇麦设置";
+			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymSetToolStripMenuItem_Click);
 			// 
 			// previewButton
 			// 
@@ -3065,12 +3074,11 @@ namespace LightController
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
 			// 
-			// ymSetToolStripMenuItem
+			// 网络设置ToolStripMenuItem
 			// 
-			this.ymSetToolStripMenuItem.Name = "ymSetToolStripMenuItem";
-			this.ymSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-			this.ymSetToolStripMenuItem.Text = "摇麦设置";
-			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymSetToolStripMenuItem_Click);
+			this.网络设置ToolStripMenuItem.Name = "网络设置ToolStripMenuItem";
+			this.网络设置ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.网络设置ToolStripMenuItem.Text = "网络设置";
 			// 
 			// MainForm
 			// 
@@ -3416,6 +3424,7 @@ namespace LightController
 		private Button button1;
 		private Panel tongdaoPanel;
 		private ToolStripMenuItem ymSetToolStripMenuItem;
+		private ToolStripMenuItem 网络设置ToolStripMenuItem;
 	}
 }
 

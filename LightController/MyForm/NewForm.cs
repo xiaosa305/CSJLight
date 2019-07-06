@@ -56,14 +56,10 @@ namespace LightController
 					di.Create();
 					// 2.将相关global.ini和data.db3拷贝到文件夹内
 					string sourcePath = Application.StartupPath;
-					string globalIniFilePath = directoryPath + @"\global.ini"; 
+					string globalIniFilePath = directoryPath + @"\global.ini";					
+					File.Copy( sourcePath+@"\global.ini",  globalIniFilePath);
 
-					File.Copy(sourcePath + @"\global.ini", globalIniFilePath);
-
-					// 拷贝db3-->后期应该不拷贝
-					//string dbFilePath = directoryPath + @"\data.db3";
-					//File.Copy(sourcePath + @"\data.db3", dbFilePath);
-					// 添加密码 -- 正式使用时添加，测试时就不要加了。
+					// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 					// SQLiteHelper.SetPassword(dbFile);
 
 					mainForm.BuildProject(s,true);

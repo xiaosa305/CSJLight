@@ -43,13 +43,15 @@ namespace LightController.Tools
         /// <param name="port">Tcp服务器端口号</param>
         public void Start(string ip, int port)
         {
+            ServerIp = ip;
+            Serverport = port;
             UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            UdpClient udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 7070));
+            UdpClient udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, Serverport));
             Thread thread = new Thread(RecevieMsg);
             thread.IsBackground = true;
             thread.Start(udpClient);
             IsStart = false;
-            SocketTools.GetInstance().Start(new IPEndPoint(IPAddress.Parse(ip), port));
+            SocketTools.GetInstance().Start(new IPEndPoint(IPAddress.Parse(ServerIp), Serverport));
             IsStart = true;
         }
         /// <summary>
@@ -57,14 +59,13 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="udpServerIp">服务器ip地址</param>
         /// <param name="udpPort">服务器端口号</param>
-        public void SerchDevice(string udpServerIp,int udpPort)
+        public void SerchDevice()
         {
             if (IsStart)
             {
                 Console.WriteLine("Start SerchDevice");
-                ServerIp = udpServerIp;
-                Serverport = udpPort;
-                UdpServer.SendTo(Encoding.Default.GetBytes(udpServerIp + " " + udpPort), new IPEndPoint(IPAddress.Parse(udpServerIp), udpPort));
+               
+                UdpServer.SendTo(Encoding.Default.GetBytes(ServerIp + " " + Serverport), new IPEndPoint(IPAddress.Parse(ServerIp), Serverport));
             }
             else
             {

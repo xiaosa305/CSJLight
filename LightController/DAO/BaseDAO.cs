@@ -18,6 +18,7 @@ namespace LightController.Ast
 		public BaseDAO(string dbFile, bool addPassword)
 		{
 			config = new Configuration().Configure();
+			
 			if (addPassword)
 			{
 				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5("Dickov" + dbFile));
@@ -150,10 +151,41 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 保存所有传进来的T
+		///  针对不同的数据库表，
+		///  1. 先采用删除数据；
+		///  2.再保存所有传进的T
+		/// </summary>
+		internal void SaveAll(String tableName, IList<T> objList)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				using (var tx = session.BeginTransaction())
+				{
+					try
+					{
+						session.CreateSQLQuery("delete from " + tableName).ExecuteUpdate();
+						foreach (T obj in objList)
+						{
+							session.Save(obj);
+						}
+						tx.Commit();
+						//MessageBox.Show("Dickov:成功保存所有("+typeof(T)+")到数据库中");
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine(ex.Message);
+						tx.Rollback();
+					}
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// 保存或更新所有传进来的T
 		/// </summary>
 		/// <param name="objList"></param>
-		public void SaveAll(IList<T> objList) {
+		public void SaveOrUpdateAll(IList<T> objList) {
 			using (var session = sessionFactory.OpenSession())
 			{
 				using (var tx = session.BeginTransaction())
@@ -175,7 +207,5 @@ namespace LightController.Ast
 				}
 			}
 		}
-
-
 	}
 }

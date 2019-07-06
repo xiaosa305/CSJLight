@@ -14,6 +14,8 @@ namespace LightController.Ast
 
 		public LightDAO(String dbFile,bool addPassword):base(dbFile,addPassword)
 		{
-		}		
+		}
+
+	
 	}
 }

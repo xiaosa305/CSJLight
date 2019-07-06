@@ -70,7 +70,13 @@ namespace LightController
 		public MainForm()
 		{
 			InitializeComponent();
-			//this.skinEngine1.SkinFile = Application.StartupPath + @"\MacOS.ssk";
+
+			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
+			string skin = iniFileAst.ReadString("SkinSet","skin","");
+			if ( !String.IsNullOrEmpty(skin) )
+			{
+				this.skinEngine1.SkinFile = Application.StartupPath + "\\" +skin ;
+			}			
 
 			//TODO : 动态加载可用的串口
 			string[] comList = { "COM1", "COM2" };
@@ -570,7 +576,8 @@ namespace LightController
 				DB_Light light = LightAst.GenerateLight(la);
 				this.lightList.Add(light);		
 			}
-			lightDAO.SaveAll( lightList );
+			
+			lightDAO.SaveAll("Light", lightList );
 		}
 
 		/// <summary>
@@ -613,7 +620,7 @@ namespace LightController
 					}
 				}
 			}
-			stepCountDAO.SaveAll(stepCountList);
+			stepCountDAO.SaveAll("StepCount",stepCountList);
 			
 		}
 
@@ -667,7 +674,7 @@ namespace LightController
 						}
 					}
 				}
-				valueDAO.SaveAll(valueList);
+				valueDAO.SaveAll("Value",valueList);
 			}
 		}
 		

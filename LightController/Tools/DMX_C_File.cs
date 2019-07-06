@@ -11,7 +11,7 @@ namespace LightController.Tools
         public int SenceNo { get; set; }
         public DMX_C_Data Data { get; set; }
 
-        private byte[] GetByteData()
+        public byte[] GetByteData()
         {
             IList<byte> fileData = new List<byte>();
             byte Ram_Enabl = Convert.ToByte(Data.HeadData.MICSensor);
@@ -54,32 +54,6 @@ namespace LightController.Tools
             fileData[2] = (byte)((FileSize >> 16) & 0xFF);
             fileData[3] = (byte)((FileSize >> 24) & 0xFF);
             return fileData.ToArray();
-        }
-
-        public void Test()
-        {
-            byte[] data = GetByteData();
-            for (int i = 0; i < data.Length; i++)
-            {
-                Console.Write(data[i] + " ");
-                if ((i+1) % 16 == 0)
-                {
-                    Console.WriteLine("");
-                }
-            }
-            string path = "C:/Users/99729/Desktop/TestDirect/";
-            string filePath;
-            if (SenceNo < 9)
-            {
-                filePath = path + "C0" + (SenceNo+1) + ".bin";
-            }
-            else
-            {
-                filePath = path + "C" + (SenceNo+1) + ".bin";
-            }
-            FileStream fileStream = new FileStream(filePath, FileMode.Create);
-            fileStream.Write(data, 0, data.Length);
-            fileStream.Close();
         }
 
         public void WriteFile(string path)

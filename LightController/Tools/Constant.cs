@@ -13,10 +13,10 @@ namespace LightController.Tools
         public static readonly int MODE_GRADUAL = 1;
         public static readonly int MODE_JUMP = 0;
         public static readonly int DMX512 = 512;
-        public static readonly string RECEIVE_ORDER_OK = "OK";
-        public static readonly string RECEIVE_ORDER_DONE = "done";
-        public static readonly string RECEIVE_ORDER_Send = "send@";
-        public static readonly string RECEIVE_ORDER_ReSend = "resend@";
+        public static readonly string RECEIVE_ORDER_OK = "Ok";
+        public static readonly string RECEIVE_ORDER_DONE = "Done";
+        public static readonly string RECEIVE_ORDER_Send = "SendNext";
+        public static readonly string RECEIVE_ORDER_ReSend = "Resend@";
     }
 
     public enum ORDER
@@ -26,6 +26,6 @@ namespace LightController.Tools
 
     public enum RECEIVE
     {
-        Send,Resend,Done
+        Send,Resend,Done,Ok
     }
 }

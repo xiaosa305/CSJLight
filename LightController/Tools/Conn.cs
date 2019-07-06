@@ -119,15 +119,15 @@ namespace LightController.Tools
                         pakegeData = new byte[512];
                         for (int i = 0; i < 512; i++)
                         {
-                            pakegeData[i] = Data[Pakege_No * 512 + i];
+                            pakegeData[i] = Data[(Pakege_No-1) * 512 + i];
                         }
                     }
                     else
                     {
-                        pakegeData = new byte[Data.Length - Pakege_No * 512];
-                        for (int i = 0; i < pakegeData.Length - Pakege_No * 512; i++)
+                        pakegeData = new byte[Data.Length - (Pakege_No - 1) * 512];
+                        for (int i = 0; i < pakegeData.Length - (Pakege_No -1)* 512; i++)
                         {
-                            pakegeData[i] = Data[Pakege_No * 512 + i];
+                            pakegeData[i] = Data[(Pakege_No-1) * 512 + i];
                         }
                     }
                     byte[] pakegeDataSize = new byte[] { Convert.ToByte(pakegeData.Length & 0xFF), Convert.ToByte((pakegeData.Length >> 8) & 0xFF) };
@@ -141,10 +141,14 @@ namespace LightController.Tools
                     break;
 
                 case RECEIVE.Done:
+                    TimeOutThread.Abort();
                     Console.WriteLine("下载数据完成");
                     break;
                 case RECEIVE.Resend:
                     Pakege_No--;
+                    Send(RECEIVE.Send);
+                    break;
+                case RECEIVE.Ok:
                     Send(RECEIVE.Send);
                     break;
                 default:
@@ -205,15 +209,15 @@ namespace LightController.Tools
                 }
                 else if (str.Equals(Constant.RECEIVE_ORDER_OK))
                 {
-
+                    Send(RECEIVE.Ok);
                 }
 
                 //继续接受
                 conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("[" + conn.GetAddress() + "] 断开连接");
+                Console.WriteLine("[" + conn.GetAddress() + "] 断开连接" + "Exception :" + ex.Message);
                 conn.Close();
             }
         }

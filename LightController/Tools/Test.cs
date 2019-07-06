@@ -72,11 +72,17 @@ namespace LightController.Tools
             {
                 ConnectTools.GetInstance().SerchDevice();
                 SockTools.GetInstance().AddConnect("192.168.31.15", 7060);
+                //SockTools.GetInstance().AddConnect("192.168.31.236", 7060);
+
                 i++;
             }
             else
             {
-                SockTools.GetInstance().SendData("192.168.31.15", configData.GetConfigData(), ORDER.Put,new string[] { "Config.bin"});
+                byte[] data = C_Files[0].GetByteData(); ;
+                C_Files[0].WriteFile(@"C:\Temp\");
+                string fileName = "C01.bin";
+                SockTools.GetInstance().SendData("192.168.31.15", data, ORDER.Put, new string[] { fileName });
+                //SockTools.GetInstance().SendData("192.168.31.236", configData.GetConfigData(), ORDER.Put, new string[] { "Config.bin" });
             }
         }
     }

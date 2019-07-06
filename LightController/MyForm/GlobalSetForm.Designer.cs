@@ -190,10 +190,20 @@
 			// eachStepTimeNumericUpDown
 			// 
 			this.eachStepTimeNumericUpDown.Location = new System.Drawing.Point(146, 68);
+			this.eachStepTimeNumericUpDown.Minimum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
 			this.eachStepTimeNumericUpDown.Name = "eachStepTimeNumericUpDown";
 			this.eachStepTimeNumericUpDown.Size = new System.Drawing.Size(102, 25);
 			this.eachStepTimeNumericUpDown.TabIndex = 5;
 			this.eachStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.eachStepTimeNumericUpDown.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
 			// 
 			// eachStepTimeLabel
 			// 

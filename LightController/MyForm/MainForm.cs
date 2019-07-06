@@ -37,7 +37,6 @@ namespace LightController
 		// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
 		private bool isInit = false;
 
-
 		// 点击保存后|刚打开一个文件时，这个属性就设为true;如果对内容稍有变动，则设为false
 		//private bool isSaved = false;
 		public string globalIniFilePath;
@@ -72,11 +71,11 @@ namespace LightController
 			InitializeComponent();
 
 			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
-			string skin = iniFileAst.ReadString("SkinSet","skin","");
-			if ( !String.IsNullOrEmpty(skin) )
+			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
+			if (!String.IsNullOrEmpty(skin))
 			{
-				this.skinEngine1.SkinFile = Application.StartupPath + "\\" +skin ;
-			}			
+				this.skinEngine1.SkinFile = Application.StartupPath + "\\" + skin;
+			}
 
 			//TODO : 动态加载可用的串口
 			string[] comList = { "COM1", "COM2" };
@@ -190,38 +189,38 @@ namespace LightController
 			this.valueNumericUpDowns[30] = numericUpDown31;
 			this.valueNumericUpDowns[31] = numericUpDown32;
 
-			this.stepNumericUpDowns[0] = numericUpDown33;
-			this.stepNumericUpDowns[1] = numericUpDown34;
-			this.stepNumericUpDowns[2] = numericUpDown35;
-			this.stepNumericUpDowns[3] = numericUpDown36;
-			this.stepNumericUpDowns[4] = numericUpDown37;
-			this.stepNumericUpDowns[5] = numericUpDown38;
-			this.stepNumericUpDowns[6] = numericUpDown39;
-			this.stepNumericUpDowns[7] = numericUpDown40;
-			this.stepNumericUpDowns[8] = numericUpDown41;
-			this.stepNumericUpDowns[9] = numericUpDown42;
-			this.stepNumericUpDowns[10] = numericUpDown43;
-			this.stepNumericUpDowns[11] = numericUpDown44;
-			this.stepNumericUpDowns[12] = numericUpDown45;
-			this.stepNumericUpDowns[13] = numericUpDown46;
-			this.stepNumericUpDowns[14] = numericUpDown47;
-			this.stepNumericUpDowns[15] = numericUpDown48;
-			this.stepNumericUpDowns[16] = numericUpDown49;
-			this.stepNumericUpDowns[17] = numericUpDown50;
-			this.stepNumericUpDowns[18] = numericUpDown51;
-			this.stepNumericUpDowns[19] = numericUpDown52;
-			this.stepNumericUpDowns[20] = numericUpDown53;
-			this.stepNumericUpDowns[21] = numericUpDown54;
-			this.stepNumericUpDowns[22] = numericUpDown55;
-			this.stepNumericUpDowns[23] = numericUpDown56;
-			this.stepNumericUpDowns[24] = numericUpDown57;
-			this.stepNumericUpDowns[25] = numericUpDown58;
-			this.stepNumericUpDowns[26] = numericUpDown59;
-			this.stepNumericUpDowns[27] = numericUpDown60;
-			this.stepNumericUpDowns[28] = numericUpDown61;
-			this.stepNumericUpDowns[29] = numericUpDown62;
-			this.stepNumericUpDowns[30] = numericUpDown63;
-			this.stepNumericUpDowns[31] = numericUpDown64;
+			this.steptimeNumericUpDowns[0] = numericUpDown33;
+			this.steptimeNumericUpDowns[1] = numericUpDown34;
+			this.steptimeNumericUpDowns[2] = numericUpDown35;
+			this.steptimeNumericUpDowns[3] = numericUpDown36;
+			this.steptimeNumericUpDowns[4] = numericUpDown37;
+			this.steptimeNumericUpDowns[5] = numericUpDown38;
+			this.steptimeNumericUpDowns[6] = numericUpDown39;
+			this.steptimeNumericUpDowns[7] = numericUpDown40;
+			this.steptimeNumericUpDowns[8] = numericUpDown41;
+			this.steptimeNumericUpDowns[9] = numericUpDown42;
+			this.steptimeNumericUpDowns[10] = numericUpDown43;
+			this.steptimeNumericUpDowns[11] = numericUpDown44;
+			this.steptimeNumericUpDowns[12] = numericUpDown45;
+			this.steptimeNumericUpDowns[13] = numericUpDown46;
+			this.steptimeNumericUpDowns[14] = numericUpDown47;
+			this.steptimeNumericUpDowns[15] = numericUpDown48;
+			this.steptimeNumericUpDowns[16] = numericUpDown49;
+			this.steptimeNumericUpDowns[17] = numericUpDown50;
+			this.steptimeNumericUpDowns[18] = numericUpDown51;
+			this.steptimeNumericUpDowns[19] = numericUpDown52;
+			this.steptimeNumericUpDowns[20] = numericUpDown53;
+			this.steptimeNumericUpDowns[21] = numericUpDown54;
+			this.steptimeNumericUpDowns[22] = numericUpDown55;
+			this.steptimeNumericUpDowns[23] = numericUpDown56;
+			this.steptimeNumericUpDowns[24] = numericUpDown57;
+			this.steptimeNumericUpDowns[25] = numericUpDown58;
+			this.steptimeNumericUpDowns[26] = numericUpDown59;
+			this.steptimeNumericUpDowns[27] = numericUpDown60;
+			this.steptimeNumericUpDowns[28] = numericUpDown61;
+			this.steptimeNumericUpDowns[29] = numericUpDown62;
+			this.steptimeNumericUpDowns[30] = numericUpDown63;
+			this.steptimeNumericUpDowns[31] = numericUpDown64;
 
 			this.changeModeComboBoxes[0] = changeModeComboBox1;
 			this.changeModeComboBoxes[1] = changeModeComboBox2;
@@ -255,6 +254,13 @@ namespace LightController
 			this.changeModeComboBoxes[29] = changeModeComboBox30;
 			this.changeModeComboBoxes[30] = changeModeComboBox31;
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
+
+			for (int i = 0; i < 32; i++) {
+				vScrollBars[i].MouseHover += new EventHandler(this.vScrollBar_MouseHover);
+				labels[i].MouseHover += new EventHandler(this.tdLabel_MouseHover);
+				valueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.valueNumericUpDown_MouseWheel);
+				steptimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.steptimeNumericUpDown_MouseWheel);
+			}
 
 			#endregion
 
@@ -820,7 +826,7 @@ namespace LightController
 				labels[i].Visible = false;
 				vScrollBars[i].Visible = false;
 				changeModeComboBoxes[i].Visible = false ;
-				stepNumericUpDowns[i].Visible = false;
+				steptimeNumericUpDowns[i].Visible = false;
 			}
 
 		}
@@ -942,13 +948,13 @@ namespace LightController
 					this.valueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();
 					this.vScrollBars[i].Value = 255 - tongdaoWrapper.ScrollValue;
 					this.changeModeComboBoxes[i].SelectedIndex = tongdaoWrapper.ChangeMode;
-					this.stepNumericUpDowns[i].Text = tongdaoWrapper.StepTime.ToString();
+					this.steptimeNumericUpDowns[i].Text = tongdaoWrapper.StepTime.ToString();
 
 					this.vScrollBars[i].Show();
 					this.labels[i].Show();
 					this.valueNumericUpDowns[i].Show();
 					this.changeModeComboBoxes[i].Show();
-					this.stepNumericUpDowns[i].Show();
+					this.steptimeNumericUpDowns[i].Show();
 				}
 
 				// 4. tongdaoGroupBoxX的显示：0：不显示； 1-16：仅显示通道groupBox1； 16-32：两个通道groupBox都显示；
@@ -1121,7 +1127,7 @@ namespace LightController
 						this.changeModeComboBoxes[i].Items.AddRange(new object[] {
 						"否",
 						"是"});
-						this.stepNumericUpDowns[i].Enabled = false;
+						this.steptimeNumericUpDowns[i].Enabled = false;
 					}
 					changeModeButton.Text = "统一声控";
 
@@ -1142,7 +1148,7 @@ namespace LightController
 						this.changeModeComboBoxes[i].Items.AddRange(new object[] {
 								"跳变",
 								"渐变"});
-						this.stepNumericUpDowns[i].Enabled = true;
+						this.steptimeNumericUpDowns[i].Enabled = true;
 					}
 					changeModeButton.Text = "统一跳渐变";
 
@@ -1347,8 +1353,7 @@ namespace LightController
 			vScrollBars[tongdaoIndex].Value = 255 - Decimal.ToInt32( valueNumericUpDowns[tongdaoIndex].Value ) ;
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			changeScrollValue(tongdaoIndex);
-			
+			changeScrollValue(tongdaoIndex);			
 		}
 
 		/// <summary>
@@ -1387,7 +1392,7 @@ namespace LightController
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[index].StepTime = Decimal.ToInt32(stepNumericUpDowns[index].Value);			
+			step.TongdaoList[index].StepTime = Decimal.ToInt32(steptimeNumericUpDowns[index].Value);			
 		}
 
 		private StepWrapper tempStep = null;
@@ -1506,7 +1511,7 @@ namespace LightController
 			StepWrapper step = getCurrentStepWrapper();
 			for (int i = 0; i < step.TongdaoList.Count; i++)
 			{
-				stepNumericUpDowns[i].Value = stNumericUpDown.Value ;
+				steptimeNumericUpDowns[i].Value = stNumericUpDown.Value ;
 			}
 		}
 
@@ -1707,9 +1712,96 @@ namespace LightController
 				ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
 			}
 			ymSetForm.ShowDialog();
-
 		}
 
-		
+		/// <summary>
+		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其numericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void vScrollBar_MouseHover(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,-1 );
+			valueNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		/// 辅助方法:鼠标掠过label时，把焦点切换到其numericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdLabel_MouseHover(object sender, EventArgs e)
+		{
+			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
+			valueNumericUpDowns[labelIndex].Select();
+		}
+
+		/// <summary>
+		///  辅助方法：鼠标滚动时，每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				//获取或设置是否应将此事件转发到控件的父容器。
+				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
+				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作，即屏蔽滚动事件
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = valueNumericUpDowns[tdIndex].Value + valueNumericUpDowns[tdIndex].Increment;
+				if (dd <= valueNumericUpDowns[tdIndex].Maximum)
+				{
+					valueNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = valueNumericUpDowns[tdIndex].Value - valueNumericUpDowns[tdIndex].Increment;
+				if (dd >= valueNumericUpDowns[tdIndex].Minimum)
+				{
+					valueNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：鼠标滚动时，每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void steptimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{		
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = steptimeNumericUpDowns[tdIndex].Value + steptimeNumericUpDowns[tdIndex].Increment;
+				if (dd <= steptimeNumericUpDowns[tdIndex].Maximum)
+				{
+					steptimeNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = steptimeNumericUpDowns[tdIndex].Value - steptimeNumericUpDowns[tdIndex].Increment;
+				if (dd >= steptimeNumericUpDowns[tdIndex].Minimum)
+				{
+					steptimeNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+		}
+
 	}
 }

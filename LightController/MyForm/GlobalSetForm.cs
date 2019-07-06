@@ -119,14 +119,14 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 读取两个配置：通道总数、开机播放场景
+		/// 读取四个配置：通道总数、开机播放场景、时间因子、场景间切换跳渐变
 		/// </summary>
 		private void loadGlobalSet()
 		{
 			tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
 			startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 0);
-			eachStepTimeNumericUpDown.Value = iniAst.ReadInt("Set", "EachStepTime", 0);
-			eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode", 0);
+			eachStepTimeNumericUpDown.Value = iniAst.ReadInt("Set", "EachStepTime", 25);
+			eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode",0);
 
 		}
 

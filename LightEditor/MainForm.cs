@@ -98,15 +98,6 @@ namespace LightEditor
 			numericUpDowns[30] = numericUpDown31;
 			numericUpDowns[31] = numericUpDown32;
 
-			foreach(NumericUpDown numericUpDown in numericUpDowns)
-			{
-				// 方法1：将increment设为 系统值分之一，这样就会每次滚动时 systemScrollValue*increment = 1
-				//numericUpDown.Increment = 1m / SystemInformation.MouseWheelScrollLines;
-
-				// 方法2：添加MouseWheel监听器
-				numericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
-			}
-
 			labels[0] = label1;
 			labels[1] = label2;
 			labels[2] = label3;
@@ -140,10 +131,12 @@ namespace LightEditor
 			labels[30] = label31;
 			labels[31] = label32;
 
-			for (int i = 1; i <= 32; i++)
+			for (int i = 0; i < 32; i++)
 			{
 				countComboBox.Items.Add(i);
+				numericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);				
 			}
+
 
 			#endregion
 		}
@@ -614,17 +607,20 @@ namespace LightEditor
 
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
-			
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);			
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
+				//获取或设置是否应将此事件转发到控件的父容器。
+				//public bool Handled { get; set; }
+				//如果鼠标事件应转到父控件，则为 true；否则为 false。
+				// Dickov: 实际上就是当Handled设为true时，不再触发父控件的相关操作，即屏蔽滚动事件
 				hme.Handled = true;
 			}
 			// 向上滚
 			if (e.Delta > 0)   
 			{			
-				decimal dd = numericUpDowns[tdIndex].Value + numericUpDown1.Increment;
+				decimal dd = numericUpDowns[tdIndex].Value + numericUpDowns[tdIndex].Increment;
 				if (dd <= numericUpDowns[tdIndex].Maximum)
 				{
 					numericUpDowns[tdIndex].Value = dd;
@@ -639,7 +635,6 @@ namespace LightEditor
 					numericUpDowns[tdIndex].Value = dd;
 				}
 			}
-
 		}
 
 
@@ -685,8 +680,6 @@ namespace LightEditor
 					numericUpDowns[i].Value = tongdaoList[i].InitValue;
 				}
 			}
-		}
-
-		
+		}		
 	}
 }

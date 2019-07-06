@@ -21,7 +21,7 @@ namespace LightController.Tools
 
     public enum ORDER
     {
-        Put,Get,Send,Done,Resend
+        Put
     }
 
     public enum RECEIVE

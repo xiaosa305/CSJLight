@@ -21,15 +21,25 @@ namespace LightController.Tools
         public string Ip { get; set; }
         //连接端口号
         public int Port { get; set; }
+        //接收数据偏移量
         public int BuffCount { get; set; }
+        //数据包总包数
         private int Pakege_Count { get; set; }
+        //当前数据包编号数据包
         private int Pakege_No { get; set; }
+        //待发送数据
         private byte[] Data { get; set; }
+        //发送数据等待超时处理线程
         private Thread TimeOutThread { get; set; }
+        //发送命令
         private ORDER MOrder { get; set; }
+        //接收命令
         private RECEIVE MReceive { get; set; }
+        //备注信息
         private string[] Strs { get; set; }
+        //发送缓冲区大小
         private int PakegeSize { get; set; }
+        //发送数据完成状态
         private bool IsSendCompleted { get; set; }
 
         /// <summary>
@@ -75,7 +85,7 @@ namespace LightController.Tools
             return IsSendCompleted;
         }
         /// <summary>
-        /// 缓冲区剩余字节
+        /// 接收缓冲区大小
         /// </summary>
         /// <returns></returns>
         public int BuffRemain()

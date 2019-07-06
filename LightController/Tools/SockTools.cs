@@ -163,13 +163,26 @@ namespace LightController.Tools
                 }
             }
         }
-
-        //public IList<string> GetDeviceList()
-        //{
-        //    IList<string> deviceList = new List<string>();
-        //    {
-
-        //    }
-        //}
+        /// <summary>
+        /// 获取所有已连接设备ip
+        /// </summary>
+        /// <returns></returns>
+        public IList<string> GetDeviceList()
+        {
+            IList<string> deviceList = new List<string>();
+            {
+                foreach (Conn value in conns)
+                {
+                    if (value != null || value.IsUse)
+                    {
+                        if (value.Ip != null)
+                        {
+                            deviceList.Add(value.Ip);
+                        }
+                    }
+                }
+            }
+            return deviceList;
+        }
     }
 }

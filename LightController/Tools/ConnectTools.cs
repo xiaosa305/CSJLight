@@ -126,6 +126,20 @@ namespace LightController.Tools
             }
             else
             {
+            }
+        }
+        /// <summary>
+        /// 获取所有已连接设备ip
+        /// </summary>
+        /// <returns></returns>
+        public IList<string> GetDevicesIp()
+        {
+            if (IsStart)
+            {
+                return SocketTools.GetInstance().GetDeviceList();
+            }
+            else
+            {
                 throw new Exception("未启动服务");
             }
         }

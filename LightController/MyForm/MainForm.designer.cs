@@ -46,6 +46,10 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
+			this.materialUseButton = new System.Windows.Forms.Button();
+			this.lightPasteButton = new System.Windows.Forms.Button();
+			this.materialSaveButton = new System.Windows.Forms.Button();
+			this.lightCopyButton = new System.Windows.Forms.Button();
 			this.tongdaoPanel = new System.Windows.Forms.Panel();
 			this.tongdaoGroupBox1 = new System.Windows.Forms.GroupBox();
 			this.changeModeLabel = new System.Windows.Forms.Label();
@@ -485,6 +489,10 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.tongdaoGroupBox.Controls.Add(this.materialUseButton);
+			this.tongdaoGroupBox.Controls.Add(this.lightPasteButton);
+			this.tongdaoGroupBox.Controls.Add(this.materialSaveButton);
+			this.tongdaoGroupBox.Controls.Add(this.lightCopyButton);
 			this.tongdaoGroupBox.Controls.Add(this.tongdaoPanel);
 			this.tongdaoGroupBox.Controls.Add(this.cmComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.stNumericUpDown);
@@ -512,6 +520,47 @@ namespace LightController
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
+			// 
+			// materialUseButton
+			// 
+			this.materialUseButton.Enabled = false;
+			this.materialUseButton.Location = new System.Drawing.Point(168, 182);
+			this.materialUseButton.Name = "materialUseButton";
+			this.materialUseButton.Size = new System.Drawing.Size(98, 35);
+			this.materialUseButton.TabIndex = 21;
+			this.materialUseButton.Text = "使用素材";
+			this.materialUseButton.UseVisualStyleBackColor = true;
+			this.materialUseButton.Click += new System.EventHandler(this.materialUseButton_Click);
+			// 
+			// lightPasteButton
+			// 
+			this.lightPasteButton.Enabled = false;
+			this.lightPasteButton.Location = new System.Drawing.Point(168, 135);
+			this.lightPasteButton.Name = "lightPasteButton";
+			this.lightPasteButton.Size = new System.Drawing.Size(98, 35);
+			this.lightPasteButton.TabIndex = 21;
+			this.lightPasteButton.Text = "粘贴灯";
+			this.lightPasteButton.UseVisualStyleBackColor = true;
+			// 
+			// materialSaveButton
+			// 
+			this.materialSaveButton.Location = new System.Drawing.Point(64, 182);
+			this.materialSaveButton.Name = "materialSaveButton";
+			this.materialSaveButton.Size = new System.Drawing.Size(98, 35);
+			this.materialSaveButton.TabIndex = 21;
+			this.materialSaveButton.Text = "保存素材";
+			this.materialSaveButton.UseVisualStyleBackColor = true;
+			this.materialSaveButton.Click += new System.EventHandler(this.materialSaveButton_Click);
+			// 
+			// lightCopyButton
+			// 
+			this.lightCopyButton.Enabled = false;
+			this.lightCopyButton.Location = new System.Drawing.Point(64, 135);
+			this.lightCopyButton.Name = "lightCopyButton";
+			this.lightCopyButton.Size = new System.Drawing.Size(98, 35);
+			this.lightCopyButton.TabIndex = 21;
+			this.lightCopyButton.Text = "复制灯";
+			this.lightCopyButton.UseVisualStyleBackColor = true;
 			// 
 			// tongdaoPanel
 			// 
@@ -3026,6 +3075,7 @@ namespace LightController
 			// 
 			// ymSetToolStripMenuItem
 			// 
+			this.ymSetToolStripMenuItem.Enabled = false;
 			this.ymSetToolStripMenuItem.Name = "ymSetToolStripMenuItem";
 			this.ymSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.ymSetToolStripMenuItem.Text = "摇麦设置";
@@ -3033,6 +3083,7 @@ namespace LightController
 			// 
 			// NetworkSetToolStripMenuItem
 			// 
+			this.NetworkSetToolStripMenuItem.Enabled = false;
 			this.NetworkSetToolStripMenuItem.Name = "NetworkSetToolStripMenuItem";
 			this.NetworkSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.NetworkSetToolStripMenuItem.Text = "网络设置";
@@ -3426,6 +3477,10 @@ namespace LightController
 		private Panel tongdaoPanel;
 		private ToolStripMenuItem ymSetToolStripMenuItem;
 		private ToolStripMenuItem NetworkSetToolStripMenuItem;
+		private Button materialUseButton;
+		private Button lightPasteButton;
+		private Button materialSaveButton;
+		private Button lightCopyButton;
 	}
 }
 

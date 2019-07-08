@@ -143,6 +143,7 @@
     <Compile Include="Ast\LightAst.cs" />
     <Compile Include="Ast\LightStepWrapper.cs" />
     <Compile Include="Ast\StepWrapper.cs" />
+    <Compile Include="Common\TextAst.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
@@ -154,6 +155,12 @@
     </Compile>
     <Compile Include="MyForm\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\MaterialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MaterialForm.Designer.cs">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\NetworkSetForm.cs">
       <SubType>Form</SubType>
@@ -229,6 +236,9 @@
     <Compile Include="Tools\Test.cs" />
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MaterialForm.resx">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NetworkSetForm.resx">
       <DependentUpon>NetworkSetForm.cs</DependentUpon>

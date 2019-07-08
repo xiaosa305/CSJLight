@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\MathAst.cs" />
+    <Compile Include="Common\TextAst.cs" />
     <Compile Include="TongdaoWrapper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -138,6 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bitbug_favicon.ico" />
+    <Content Include="预设通道名称列表.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

@@ -256,10 +256,11 @@ namespace LightController
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
 
 			for (int i = 0; i < 32; i++) {
-				vScrollBars[i].MouseHover += new EventHandler(this.vScrollBar_MouseHover);
-				labels[i].MouseHover += new EventHandler(this.tdLabel_MouseHover);
+				vScrollBars[i].MouseEnter += new EventHandler(this.vScrollBar_MouseEnter);
+				labels[i].MouseEnter += new EventHandler(this.tdLabel_MouseEnter);
 				valueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.valueNumericUpDown_MouseWheel);
-				steptimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.steptimeNumericUpDown_MouseWheel);
+				steptimeNumericUpDowns[i].MouseEnter += new EventHandler(this.steptimeNumericUpDown_MouseEnter);
+				steptimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.steptimeNumericUpDown_MouseWheel);				
 			}
 
 			#endregion
@@ -1699,12 +1700,22 @@ namespace LightController
 			dMX512Player.OneLightStep(stepBytes);
 		}
 
+		/// <summary>
+		///  曾维佳测试用按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
 			Test test = new Test(GetDBWrapper(true));
 			test.Start();
 		}
 
+		/// <summary>
+		///  摇麦设置点击后，打开摇麦设置Form
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ymSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (ymSetForm == null || ymSetForm.IsDisposed)
@@ -1715,11 +1726,11 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其numericUpDown中
+		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其对应的numericUpDown中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void vScrollBar_MouseHover(object sender, EventArgs e)
+		private void vScrollBar_MouseEnter(object sender, EventArgs e)
 		{
 			int tdIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,-1 );
 			valueNumericUpDowns[tdIndex].Select();
@@ -1730,14 +1741,14 @@ namespace LightController
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tdLabel_MouseHover(object sender, EventArgs e)
+		private void tdLabel_MouseEnter(object sender, EventArgs e)
 		{
 			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
-		}
+		}		
 
 		/// <summary>
-		///  辅助方法：鼠标滚动时，每次只变动一个Increment值
+		///  辅助方法：鼠标滚动时，通道值每次只变动一个Increment值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1773,7 +1784,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  辅助方法：鼠标滚动时，每次只变动一个Increment值
+		///  辅助方法：鼠标滚动时，步时间值每次只变动一个Increment值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1801,6 +1812,29 @@ namespace LightController
 					steptimeNumericUpDowns[tdIndex].Value = dd;
 				}
 			}
+		}
+
+		/// <summary>
+		/// 辅助方法：鼠标进入步时间输入框时，切换焦点:
+		/// 注意：用MouseEnter事件，而非MouseHover事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void steptimeNumericUpDown_MouseEnter(object sender, EventArgs e)
+		{		
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			steptimeNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		/// [测试]辅助方法：鼠标悬停在步时间输入框时，切换焦点:
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void steptimeNumericUpDown_MouseHover(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			steptimeNumericUpDowns[tdIndex].Select();
 		}
 
 	}

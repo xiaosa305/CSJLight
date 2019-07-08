@@ -2652,7 +2652,7 @@ namespace LightController
 			this.label17.Text = "总调光1";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label17.Visible = false;
-			this.label17.MouseHover += new System.EventHandler(this.tdLabel_MouseHover);
+			this.label17.MouseHover += new System.EventHandler(this.tdLabel_MouseEnter);
 			// 
 			// label22
 			// 
@@ -3031,9 +3031,9 @@ namespace LightController
 			this.ymSetToolStripMenuItem.Text = "摇麦设置";
 			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymSetToolStripMenuItem_Click);
 			// 
-			// 网络设置ToolStripMenuItem
+			// NetworkSetToolStripMenuItem
 			// 
-			this.NetworkSetToolStripMenuItem.Name = "网络设置ToolStripMenuItem";
+			this.NetworkSetToolStripMenuItem.Name = "NetworkSetToolStripMenuItem";
 			this.NetworkSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.NetworkSetToolStripMenuItem.Text = "网络设置";
 			// 

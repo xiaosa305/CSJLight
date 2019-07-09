@@ -137,7 +137,7 @@ namespace LightEditor
 			}
 
 			// 动态添加通道预选名称
-			IList<string> tdNameList = TextAst.Read(Application.StartupPath + @"\预设通道名称列表.txt");
+			IList<string> tdNameList = TextAst.Read(Application.StartupPath + @"\PreTDNameList");
 			foreach (string item in tdNameList)
 			{
 				this.nameListBox.Items.Add(item);

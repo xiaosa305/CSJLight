@@ -161,12 +161,10 @@ namespace LightController.Tools
 			bool resultFlag = false;
 			DMX_C_File c_File = null;
 			IList<C_Data> c_Datas = null;
-			FormatTools formatTool = new FormatTools(wrapper.lightList, wrapper.stepCountList, wrapper.valueList);
-			IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(formatTool.GetC_SenceDatas());
-
-			//test
-			DMX_M_File m_File = null;
-			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(formatTool.GetM_SenceDatas());
+            IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(wrapper));
+            //test
+            DMX_M_File m_File = null;
+			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(wrapper));
 			foreach (DMX_M_File file in m_Files)
 			{
 				if (senceNo == file.SenceNo)

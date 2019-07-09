@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Ast;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,10 +20,16 @@ namespace LightController.Tools
         //服务器端口
         private int Serverport { get; set; }
         private bool IsStart { get; set; }
+        public bool IsSending { get; set; }
+        private Thread SendThread { get; set; }
+        public string Ip { get; set; }
+        public DBWrapper DBWrapper { get; set; }
+        public bool IsSendFileCompleted { get; set; }
 
         private ConnectTools()
         {
-           
+            IsSending = false;
+            IsSendFileCompleted = false;
         }
         /// <summary>
         /// 获取连接工具实例
@@ -102,11 +109,11 @@ namespace LightController.Tools
         /// <param name="data">数据包</param>
         /// <param name="order">命令</param>
         /// <param name="strArray">备注信息</param>
-        public void Send(string ip,byte[] data,ORDER order,string[] strArray)
+        public void Send(string ip,byte[] data,string order,string[] strArray,IReceiveCallBack callBack)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().Send(ip, data, order, strArray);
+                SocketTools.GetInstance().Send(ip, data, order, strArray, callBack);
             }
             else
             {
@@ -142,6 +149,72 @@ namespace LightController.Tools
             {
                 throw new Exception("未启动服务");
             }
+        }
+
+        public void Download(string ip, DBWrapper dBWrapper)
+        {
+            if (!IsSending)
+            {
+                Ip = ip;
+                DBWrapper = dBWrapper;
+                SendThread = new Thread(new ThreadStart(DownloadStart))
+                {
+                    IsBackground = true
+                };
+                IsSending = true;
+                SendThread.Start();
+            }
+        }
+
+        public void SendOrder(string ip,string order,string[] strarray)
+        {
+
+        }
+
+        private void DownloadStart()
+        {
+            IList<DMX_C_Data> c_Datas = DataTools.GetInstance().GetC_Datas(DBWrapper);
+            IList<DMX_M_Data> m_Datas = DataTools.GetInstance().GetM_Datas(DBWrapper);
+            DMXConfigData configData = DataTools.GetInstance().GetConfigData(DBWrapper);
+            //发送BeginSend开始获取内存空间
+            SocketTools.GetInstance().Send(Ip, null, Constant.ORDER_BEGIN_SEND, null, new BeginSendCallBack());
+            for (int i = 0; i < c_Datas.Count; i++)
+            {
+
+            }
+        }
+    }
+    public class BeginSendCallBack : IReceiveCallBack
+    {
+        public void Resend()
+        {
+            ConnectTools.GetInstance().IsSending = false;
+            ConnectTools.GetInstance().Download(ConnectTools.GetInstance().Ip, ConnectTools.GetInstance().DBWrapper);
+        }
+
+        public void SendCompleted()
+        {
+            ConnectTools.GetInstance().IsSendFileCompleted = true;
+        }
+
+        public void SendError()
+        {
+            ConnectTools.GetInstance().IsSending = false;
+        }
+    }
+
+    public class EndSendCallBack : IReceiveCallBack
+    {
+        public void Resend()
+        {
+        }
+
+        public void SendCompleted()
+        {
+        }
+
+        public void SendError()
+        {
         }
     }
 }

@@ -133,7 +133,7 @@ namespace LightController.Tools
         /// <param name="data">数据</param>
         /// <param name="order">操作命令</param>
         /// <param name="strArray">备注信息</param>
-        public void Send(string ip,byte[] data ,ORDER order,string[] strArray)
+        public void Send(string ip,byte[] data ,string order,string[] strArray,IReceiveCallBack callBack)
         {
             foreach (Conn value in conns)
             {
@@ -141,7 +141,7 @@ namespace LightController.Tools
                 {
                     if (value.Ip.Equals(ip))
                     {
-                        value.SendData(data, order, strArray);
+                        value.SendData(data, order, strArray, callBack);
                     }
                 }
             }
@@ -185,23 +185,5 @@ namespace LightController.Tools
         /// <summary>
         /// 获取发送数据是否完成
         /// </summary>
-        public bool GetIsSendComplet(string ip)
-        {
-            foreach (Conn value in conns)
-            {
-                if (value != null || value.IsUse)
-                {
-                    if (value.Ip != null)
-                    {
-                        if (value.Ip.Equals(ip))
-                        {
-                            return value.GetIsSendComplet();
-                        }
-                    }
-                }
-            }
-
-            throw new Exception("设备未连接");
-        }
     }
 }

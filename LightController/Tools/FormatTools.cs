@@ -1,4 +1,5 @@
 ﻿using DMX512;
+using LightController.Ast;
 using LightController.Tools;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace LightController.Tools
 { 
     public class FormatTools
     {
+        private static FormatTools Instance { get; set; }
         private IList<DB_Light> DB_Lights { get; set; }
         private IList<DB_StepCount> DB_StepCounts { get; set; }
         private IList<DB_Value> DB_Values { get; set; }
         private int Mode { get; set; }
         private IList<int> SenceArray { get; set; }
-
         private IList<DMX_C_File> c_files { get; set; }
         private IList<DMX_M_File> m_files { get; set; }
 
@@ -28,49 +29,26 @@ namespace LightController.Tools
             this.GetSenceArray();
         }
 
-
-        //Test
-        public void Test()
+        public FormatTools(DBWrapper dBWrapper)
         {
-            //DMXTools toolsC = new DMXTools(GetC_SenceDatas(), Constant.MODE_C);
-            //DMXTools toolsM = new DMXTools(GetM_SenceDatas(), Constant.MODE_M);
-            //c_files = toolsC.Get_C_Files();
-            //m_files = toolsM.Get_M_Files();
-            Thread SerialThread = new Thread(new ThreadStart(SerialPortTest));
-            //SerialThread.Start();
-            SocketTest();
-            int i = 0;
-            while (true)
-            {
-                Console.WriteLine(i++ + " : ");
-                Thread.Sleep(5000);
-            }
-        }
-        
-        //Test
-        private void SocketTest()
-        {
-            SocketTools tools = SocketTools.GetInstance();
-            IPAddress iPAddress = IPAddress.Parse("192.168.31.235");
-            IPEndPoint iPEndPoint = new IPEndPoint(iPAddress, 2333);
-            IPEndPoint udpIPEnd = new IPEndPoint(IPAddress.Any,2333);
-            //tools.Start(iPEndPoint);
-            tools.Start(udpIPEnd);
-            int test = 0;
-            while (true)
-            {
-                //tools.Test("192.168.31.113");
-                test++;
-                Thread.Sleep(2000);
-            }
-           
+            this.DB_Lights = dBWrapper.lightList;
+            this.DB_StepCounts = dBWrapper.stepCountList;
+            this.DB_Values = dBWrapper.valueList;
+            this.GetSenceArray();
         }
 
-        //Test
-        private void SerialPortTest()
+        private FormatTools()
         {
-            SerialPortTools serialPort = new SerialPortTools();
-            serialPort.Test(c_files[0]);
+
+        }
+
+        public static FormatTools GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new FormatTools();
+            }
+            return Instance;
         }
 
         private void GetSenceArray()
@@ -88,8 +66,11 @@ namespace LightController.Tools
                 }
             }
         }
-
-        public IList<SceneData> GetC_SenceDatas()
+        /// <summary>
+        /// 旧版
+        /// </summary>
+        /// <returns></returns>
+        private IList<SceneData> GetC_SenceDatas()
         {
             this.Mode = Constant.MODE_C;
             IList<SceneData> senceDatas = new List<SceneData>();
@@ -101,7 +82,42 @@ namespace LightController.Tools
             return senceDatas;
         }
 
-        public IList<SceneData> GetM_SenceDatas()
+        public IList<SceneData> GetC_SenceDatas(DBWrapper dBWrapper)
+        {
+            this.Mode = Constant.MODE_C;
+            this.DB_Lights = dBWrapper.lightList;
+            this.DB_StepCounts = dBWrapper.stepCountList;
+            this.DB_Values = dBWrapper.valueList;
+            this.GetSenceArray();
+            IList<SceneData> senceDatas = new List<SceneData>();
+            foreach (int item in SenceArray)
+            {
+                SceneData data = GetC_SenceData(SenceArray[item]);
+                senceDatas.Add(data);
+            }
+            return senceDatas;
+        }
+
+        public IList<SceneData> GetM_SenceDatas(DBWrapper dBWrapper)
+        {
+            this.Mode = Constant.MODE_M;
+            this.DB_Lights = dBWrapper.lightList;
+            this.DB_StepCounts = dBWrapper.stepCountList;
+            this.DB_Values = dBWrapper.valueList;
+            this.GetSenceArray();
+            IList<SceneData> senceDatas = new List<SceneData>();
+            foreach (int item in SenceArray)
+            {
+                SceneData data = GetC_SenceData(SenceArray[item]);
+                senceDatas.Add(data);
+            }
+            return senceDatas;
+        }
+        /// <summary>
+        /// 旧版
+        /// </summary>
+        /// <returns></returns>
+        private IList<SceneData> GetM_SenceDatas()
         {
             this.Mode = Constant.MODE_M;
             IList<SceneData> senceDatas = new List<SceneData>();

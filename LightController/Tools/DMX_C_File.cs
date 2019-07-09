@@ -63,11 +63,11 @@ namespace LightController.Tools
             string filePath;
             if (SenceNo < 9)
             {
-                filePath = path + "C0" + (SenceNo + 1) + ".bin";
+                filePath = path + @"\C0" + (SenceNo + 1) + ".bin";
             }
             else
             {
-                filePath = path + "C" + (SenceNo + 1) + ".bin";
+                filePath = path + @"C\" + (SenceNo + 1) + ".bin";
             }
             FileStream fileStream = new FileStream(filePath, FileMode.Create);
             fileStream.Write(data, 0, data.Length);

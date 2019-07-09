@@ -212,6 +212,7 @@
     <Compile Include="Tools\ConnectTools.cs" />
     <Compile Include="Tools\Constant.cs" />
     <Compile Include="Tools\CRCTools.cs" />
+    <Compile Include="Tools\DataTools.cs" />
     <Compile Include="Tools\DMX512Player.cs" />
     <Compile Include="Tools\DMXConfigData.cs" />
     <Compile Include="Tools\DMXTools.cs" />
@@ -220,6 +221,8 @@
     <Compile Include="Tools\DMX_M_Data.cs" />
     <Compile Include="Tools\DMX_M_File.cs" />
     <Compile Include="Tools\FormatTools.cs" />
+    <Compile Include="Tools\ITimeOutFuntion.cs" />
+    <Compile Include="Tools\ReceiveCallBack.cs" />
     <Compile Include="Tools\SenceData.cs" />
     <Compile Include="Tools\SerialPortToolsTest.cs" />
     <Compile Include="Tools\SockTools.cs" />

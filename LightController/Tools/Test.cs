@@ -20,9 +20,8 @@ namespace LightController.Tools
         private static int i = 0;
         public Test(DBWrapper dBWrapper)
         {
-            FormatTools formatTools = new FormatTools(dBWrapper.lightList, dBWrapper.stepCountList, dBWrapper.valueList);
-            C_Files = DMXTools.GetInstance().Get_C_Files(formatTools.GetC_SenceDatas());
-            M_Files = DMXTools.GetInstance().Get_M_Files(formatTools.GetM_SenceDatas());
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
             this.DBWrapper = dBWrapper;
         }
 
@@ -82,10 +81,10 @@ namespace LightController.Tools
             else
             {
                 byte[] data = C_Files[0].GetByteData(); ;
-                C_Files[0].WriteFile(@"C:\Temp\");
+                C_Files[0].WriteFile(@"C:\Temp");
                 string fileName = "C01.bin";
                 byte[] testData = Encoding.Default.GetBytes("Hallo World");
-                SocketTools.GetInstance().Send("192.168.31.15", testData, ORDER.Put, new string[] { "Test.bin",fileName });
+                SocketTools.GetInstance().Send("192.168.31.15", data, ORDER.Put, new string[] { fileName });
                 //SockTools.GetInstance().SendData("192.168.31.236", configData.GetConfigData(), ORDER.Put, new string[] { "Config.bin" });
             }
         }

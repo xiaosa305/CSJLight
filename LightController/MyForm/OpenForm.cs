@@ -63,15 +63,7 @@ namespace LightController.MyForm
 			}
 		}
 		
-		/// <summary>
-		///  删除文件后，若从新选中一个新的node，则ifJustDelete就重新设为false;
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-		{
-			ifJustDelete = false;
-		}
+		
 
 		/// <summary>
 		/// 删除项目功能；后期可能不保留
@@ -80,17 +72,25 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			// 1. 先取出目录path
-			string projectName = treeView1.SelectedNode.Text;
-			string directoryPath = "C:\\Temp\\LightProject\\" + projectName;
-			DirectoryInfo di = new DirectoryInfo(directoryPath);
+			// 若非刚删除
+			if (!ifJustDelete)
+			{
+				// 1. 先取出目录path
+				string projectName = treeView1.SelectedNode.Text;
+				string directoryPath = "C:\\Temp\\LightProject\\" + projectName;
+				DirectoryInfo di = new DirectoryInfo(directoryPath);
 
-			// 2.删除目录
-			di.Delete(true);
+				// 2.删除目录
+				di.Delete(true);
 
-			// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
-			treeView1.SelectedNode.Remove();
-			ifJustDelete = true;
+				// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
+				treeView1.SelectedNode.Remove();
+				ifJustDelete = true;
+			}
+			else {
+				MessageBox.Show("请选择要删除的工程:");
+				return;
+			}
 		}
 		
 		/// <summary>
@@ -102,6 +102,10 @@ namespace LightController.MyForm
 		{
 			this.Dispose();
 		}
-		
+
+		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			this.ifJustDelete = false;
+		}
 	}
 }

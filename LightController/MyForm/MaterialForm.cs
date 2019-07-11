@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LightController.Common;
 
 namespace LightController.MyForm
 {
@@ -19,8 +20,7 @@ namespace LightController.MyForm
 		private int stepCount = 0;
 
 		public MaterialForm(MainForm mainForm, List<StepWrapper> stepWrapperList)
-		{
-			
+		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
 				MessageBox.Show("传入的数据为空，无法生成素材:");
@@ -82,7 +82,6 @@ namespace LightController.MyForm
 			}
 
 			#endregion
-
 		}
 
 		/// <summary>
@@ -176,7 +175,8 @@ namespace LightController.MyForm
 					StepWrapper stepWrapper = stepWrapperList[stepIndex];
 					for (int i = 0; i < tdIndexList.Count; i++)
 					{
-						TongdaoWrapper tongdaoWrapper = stepWrapper.TongdaoList[];
+						int tdIndex = tdIndexList[i];
+						TongdaoWrapper tongdaoWrapper = stepWrapper.TongdaoList[tdIndex];
 						iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_V" ,  tongdaoWrapper.ScrollValue );
 						iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_CM", tongdaoWrapper.ChangeMode);
 						iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_ST", tongdaoWrapper.StepTime);
@@ -192,5 +192,16 @@ namespace LightController.MyForm
 			}
 
 		}
+
+		/// <summary>
+		///  点击取消按钮后,Dispose窗口
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+		}
+
 	}
 }

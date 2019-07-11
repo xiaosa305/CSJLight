@@ -7,7 +7,7 @@ using System.Data.SQLite;
 using LightController.Ast;
 using System.Windows.Forms;
 
-namespace LightController.Ast
+namespace LightController.Common
 {
 	
 

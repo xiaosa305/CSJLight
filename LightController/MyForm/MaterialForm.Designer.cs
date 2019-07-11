@@ -69,10 +69,10 @@
 			this.tongdaoPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// textBox1
+			// nameTextBox
 			// 
 			this.nameTextBox.Location = new System.Drawing.Point(132, 479);
-			this.nameTextBox.Name = "textBox1";
+			this.nameTextBox.Name = "nameTextBox";
 			this.nameTextBox.Size = new System.Drawing.Size(184, 25);
 			this.nameTextBox.TabIndex = 1;
 			// 
@@ -103,6 +103,7 @@
 			this.cancelButton.TabIndex = 3;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// tongdaoPanel
 			// 

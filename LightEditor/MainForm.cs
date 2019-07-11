@@ -27,8 +27,13 @@ namespace LightEditor
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
-		{
-			// skinEngine2.SkinFile = @"C:\Users\Dickov\Desktop\皮肤控件\皮肤\MacOS\MacOS.ssk";
+		{			
+			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
+			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
+			if (!String.IsNullOrEmpty(skin))
+			{
+				this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
+			}			
 			
 			#region 初始化几个数组
 

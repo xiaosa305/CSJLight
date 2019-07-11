@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\MathAst.cs" />
     <Compile Include="Common\TextAst.cs" />
     <Compile Include="TongdaoWrapper.cs" />
@@ -125,6 +126,9 @@
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <Content Include="GlobalSet.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="LightEditor_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

@@ -268,6 +268,27 @@ namespace LightController
 			isInit = true;
 			dMX512Player = DMX512Player.GetInstance();
 		}
+	
+		/// <summary>
+		/// 辅助方法:调用素材
+		/// </summary>
+		/// <param name="materialName"></param>
+		/// <param name="method"></param>
+		internal void InsertOrCoverMaterial(MaterialAst meterialAst, MaterialUseForm.InsertMethod method)
+		{
+			Console.WriteLine(meterialAst);
+			// 选择插入时的操作，
+			if (method == MaterialUseForm.InsertMethod.INSERT)
+			{
+				MessageBox.Show("Dickov:" + MaterialUseForm.InsertMethod.INSERT);
+			}
+			// 选择覆盖时的操作
+			else {			
+
+				MessageBox.Show("Dickov:"  + MaterialUseForm.InsertMethod.COVER);
+			}
+			
+		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
@@ -855,8 +876,9 @@ namespace LightController
 			// 2.1 设定《删除步》按钮是否可用
 			this.deleteStepButton.Enabled = (totalStep != 0);			
 
-			// 2.2 设定《新建步》按钮是否可用			
+			// 2.2 设定《追加步》、《插入步》按钮是否可用			
 			this.newStepButton.Enabled = ! ((mode == 0 && totalStep >= 32) || (mode == 1 && totalStep >= 48));			
+			this.insertStepButton.Enabled = !((mode == 0 && totalStep >= 32) || (mode == 1 && totalStep >= 48));
 
 			// 2.3 设定《上一步及下一步》是否可用
 			backStepButton.Enabled = (currentStep > 1);			
@@ -865,6 +887,8 @@ namespace LightController
 			//2.4 设定《复制步》是否可用
 			copyStepButton.Enabled = (currentStep > 0);
 			pasteStepButton.Enabled = (currentStep > 0 && tempStep != null);
+
+
 
 		}
 
@@ -987,7 +1011,7 @@ namespace LightController
 
 		
 		/// <summary>
-		/// 新建步的操作
+		/// 新建步（在最后追加步）的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1004,6 +1028,7 @@ namespace LightController
 					StepWrapperList = new List<StepWrapper>()
 				};
 			}
+
 			#region 废弃方法块：可在渲染stepLabel时就让新建步按钮不可用了。
 			//// 验证是否超过两种mode自己的步数限制
 			//if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32)
@@ -1305,7 +1330,6 @@ namespace LightController
 				globalSetForm = new GlobalSetForm(this, globalIniFilePath, isNew);
 			}
 			globalSetForm.ShowDialog();
-
 		}
 			   
 		/// <summary>
@@ -1329,7 +1353,20 @@ namespace LightController
 		/// <param name="e"></param>
 		private void lightLibraryToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			
+			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
+			string lightEditor = iniFileAst.ReadString("Link", "lightEditor","0");
+			if (lightEditor.Equals("0"))
+			{
+				MessageBox.Show("Dickov：尚未设置关联");				
+			}
+			else if(lightEditor.Equals("1")) //设1时选择默认的启动目录中的LightEditor.exe
+			{
+				System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
+			}
+			else// 其余情况下，启动设置的string
+			{
+				System.Diagnostics.Process.Start(lightEditor);
+			}			
 		}
 
 		/// <summary>
@@ -1406,7 +1443,7 @@ namespace LightController
 		}
 
 		// 辅助变量：复制及粘贴步时用到
-		private StepWrapper tempStep = null;
+		private StepWrapper tempStep;
 		/// <summary>
 		/// 复制步：
 		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
@@ -1659,6 +1696,41 @@ namespace LightController
 			}
 		}
 
+
+		/// <summary>
+		/// 插入步按钮点击
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void insertStepButton_Click(object sender, EventArgs e)
+		{
+			// 1.获取当前步与最高值，总步数
+			// ①若当前步 = 总步数，则直接调用newStep方法
+			// ②若当前步 = 最高值，则无法插入 (在showLabels中已设定键enabled=false
+			// ③若当前步 < 总步数，则可以插入，并将之后的步数往后移动
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			if (lsWrapper.CurrentStep == lsWrapper.TotalStep) {
+				newStepButton_Click(null, null);
+				return; 
+			}
+			if(lsWrapper.CurrentStep == lsWrapper.TotalStep){
+				lsWrapper.AddStep(new StepWrapper());
+
+			}
+		
+			
+
+			// 2.算计总步数;如果总步数 >= 最高值，则无法插入
+
+
+
+			
+
+
+
+
+		}
+
 		/// <summary>
 		/// 辅助方法：鼠标进入步时间输入框时，切换焦点;
 		/// 注意：用MouseEnter事件，而非MouseHover事件;这样才会无延时响应
@@ -1710,13 +1782,16 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  使用素材
+		///  使用素材：打开素材使用Form
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
+		private MaterialUseForm materialUseForm;
 		private void materialUseButton_Click(object sender, EventArgs e)
 		{
-
+			materialUseForm = null;
+			materialUseForm = new MaterialUseForm(this);
+			materialUseForm.ShowDialog();			
 		}
 
 
@@ -1731,8 +1806,6 @@ namespace LightController
 			Test test = new Test(GetDBWrapper(true));
 			test.Start();
 		}
-
-
 
 		
 	}

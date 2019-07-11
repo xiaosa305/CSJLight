@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class OpenForm
+	partial class MaterialUseForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,35 +29,48 @@
 		private void InitializeComponent()
 		{
 			this.treeView1 = new System.Windows.Forms.TreeView();
-			this.enterButton = new System.Windows.Forms.Button();
+			this.insertButton = new System.Windows.Forms.Button();
+			this.coverButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.deleteButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// treeView1
 			// 
+			this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.treeView1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
 			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(412, 290);
+			this.treeView1.Size = new System.Drawing.Size(326, 394);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
 			// 
-			// enterButton
+			// insertButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(58, 310);
-			this.enterButton.Name = "enterButton";
-			this.enterButton.Size = new System.Drawing.Size(75, 35);
-			this.enterButton.TabIndex = 1;
-			this.enterButton.Text = "确定";
-			this.enterButton.UseVisualStyleBackColor = true;
-			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
+			this.insertButton.Location = new System.Drawing.Point(64, 420);
+			this.insertButton.Name = "insertButton";
+			this.insertButton.Size = new System.Drawing.Size(75, 34);
+			this.insertButton.TabIndex = 1;
+			this.insertButton.Text = "插入";
+			this.insertButton.UseVisualStyleBackColor = true;
+			this.insertButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
+			// 
+			// coverButton
+			// 
+			this.coverButton.Location = new System.Drawing.Point(186, 420);
+			this.coverButton.Name = "coverButton";
+			this.coverButton.Size = new System.Drawing.Size(75, 34);
+			this.coverButton.TabIndex = 1;
+			this.coverButton.Text = "覆盖";
+			this.coverButton.UseVisualStyleBackColor = true;
+			this.coverButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
 			// 
 			// cancelButton
 			// 
-			this.cancelButton.Location = new System.Drawing.Point(290, 310);
+			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelButton.Location = new System.Drawing.Point(186, 474);
 			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(75, 35);
+			this.cancelButton.Size = new System.Drawing.Size(75, 34);
 			this.cancelButton.TabIndex = 1;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
@@ -65,25 +78,30 @@
 			// 
 			// deleteButton
 			// 
-			this.deleteButton.Location = new System.Drawing.Point(174, 310);
+			this.deleteButton.Location = new System.Drawing.Point(64, 474);
 			this.deleteButton.Name = "deleteButton";
-			this.deleteButton.Size = new System.Drawing.Size(75, 35);
+			this.deleteButton.Size = new System.Drawing.Size(75, 34);
 			this.deleteButton.TabIndex = 1;
 			this.deleteButton.Text = "删除";
 			this.deleteButton.UseVisualStyleBackColor = true;
 			this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
 			// 
-			// OpenForm
+			// MaterialUseForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(412, 367);
-			this.Controls.Add(this.cancelButton);
+			this.CancelButton = this.cancelButton;
+			this.ClientSize = new System.Drawing.Size(326, 531);
 			this.Controls.Add(this.deleteButton);
-			this.Controls.Add(this.enterButton);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.coverButton);
+			this.Controls.Add(this.insertButton);
 			this.Controls.Add(this.treeView1);
-			this.Name = "OpenForm";
-			this.Text = "OpenForm";
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
+			this.Name = "MaterialUseForm";
+			this.ShowInTaskbar = false;
+			this.Text = "使用素材";
 			this.ResumeLayout(false);
 
 		}
@@ -91,7 +109,8 @@
 		#endregion
 
 		private System.Windows.Forms.TreeView treeView1;
-		private System.Windows.Forms.Button enterButton;
+		private System.Windows.Forms.Button insertButton;
+		private System.Windows.Forms.Button coverButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button deleteButton;
 	}

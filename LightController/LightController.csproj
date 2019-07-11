@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\LightWrapper.cs" />
+    <Compile Include="Ast\MaterialAst.cs" />
     <Compile Include="Common\DBGetter.cs" />
     <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\MathAst.cs" />
@@ -161,6 +162,12 @@
     </Compile>
     <Compile Include="MyForm\MaterialForm.Designer.cs">
       <DependentUpon>MaterialForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\MaterialUseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MaterialUseForm.Designer.cs">
+      <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\NetworkSetForm.cs">
       <SubType>Form</SubType>
@@ -242,6 +249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MaterialUseForm.resx">
+      <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NetworkSetForm.resx">
       <DependentUpon>NetworkSetForm.cs</DependentUpon>

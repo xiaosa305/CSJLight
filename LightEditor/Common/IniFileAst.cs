@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace LightController.Common
+namespace LightEditor.Common
 {
-	public class IniFileAst
-	{
+    public class IniFileAst
+    {
 		public string filePath;
 
 		[DllImport("kernel32.dll")]
@@ -107,7 +106,7 @@ namespace LightController.Common
 		/// <param name="name"></param>
 		/// <param name="Ival"></param>
 		public void WriteInt(string section, string name, Decimal Ival)
-		{			
+		{
 			WritePrivateProfileString(section, name, Ival.ToString(), this.filePath);
 		}
 
@@ -139,7 +138,7 @@ namespace LightController.Common
 			WritePrivateProfileString(null, null, null, this.filePath);
 		}
 
-		
+
 
 		/// <summary>
 		/// 写入指定值，如果不存在 节-键，则会自动创建
@@ -151,6 +150,7 @@ namespace LightController.Common
 		{
 			WritePrivateProfileString(section, name, value, this.filePath);
 		}
+
 
 	}
 }

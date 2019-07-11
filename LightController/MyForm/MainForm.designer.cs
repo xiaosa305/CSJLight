@@ -326,17 +326,17 @@ namespace LightController
 			// 
 			this.comComboBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(10, 43);
+			this.comComboBox.Location = new System.Drawing.Point(18, 43);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(121, 28);
+			this.comComboBox.Size = new System.Drawing.Size(119, 28);
 			this.comComboBox.TabIndex = 0;
 			this.comComboBox.SelectedIndexChanged += new System.EventHandler(this.comComboBox_SelectedIndexChanged);
 			// 
 			// openComButton
 			// 
 			this.openComButton.Enabled = false;
-			this.openComButton.Location = new System.Drawing.Point(12, 83);
+			this.openComButton.Location = new System.Drawing.Point(18, 83);
 			this.openComButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.openComButton.Name = "openComButton";
 			this.openComButton.Size = new System.Drawing.Size(119, 32);
@@ -523,7 +523,6 @@ namespace LightController
 			// 
 			// materialUseButton
 			// 
-			this.materialUseButton.Enabled = false;
 			this.materialUseButton.Location = new System.Drawing.Point(168, 182);
 			this.materialUseButton.Name = "materialUseButton";
 			this.materialUseButton.Size = new System.Drawing.Size(98, 35);
@@ -2903,13 +2902,13 @@ namespace LightController
 			// 
 			// insertStepButton
 			// 
-			this.insertStepButton.Location = new System.Drawing.Point(829, 83);
+			this.insertStepButton.Location = new System.Drawing.Point(718, 83);
 			this.insertStepButton.Name = "insertStepButton";
 			this.insertStepButton.Size = new System.Drawing.Size(89, 32);
 			this.insertStepButton.TabIndex = 14;
 			this.insertStepButton.Text = "插入步";
 			this.insertStepButton.UseVisualStyleBackColor = true;
-			this.insertStepButton.Visible = false;
+			this.insertStepButton.Click += new System.EventHandler(this.insertStepButton_Click);
 			// 
 			// button1
 			// 
@@ -2943,11 +2942,11 @@ namespace LightController
 			// 
 			// newStepButton
 			// 
-			this.newStepButton.Location = new System.Drawing.Point(718, 83);
+			this.newStepButton.Location = new System.Drawing.Point(829, 83);
 			this.newStepButton.Name = "newStepButton";
 			this.newStepButton.Size = new System.Drawing.Size(89, 32);
 			this.newStepButton.TabIndex = 13;
-			this.newStepButton.Text = "新建步";
+			this.newStepButton.Text = "追加步";
 			this.newStepButton.UseVisualStyleBackColor = true;
 			this.newStepButton.Click += new System.EventHandler(this.newStepButton_Click);
 			// 
@@ -3152,7 +3151,8 @@ namespace LightController
 			this.Controls.Add(this.saveAsButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.mainMenuStrip);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.mainMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.MaximizeBox = false;

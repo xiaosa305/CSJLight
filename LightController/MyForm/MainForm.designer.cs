@@ -915,6 +915,7 @@ namespace LightController
 			this.changeModeComboBox1.TabIndex = 12;
 			this.changeModeComboBox1.Visible = false;
 			this.changeModeComboBox1.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
+			
 			// 
 			// numericUpDown48
 			// 

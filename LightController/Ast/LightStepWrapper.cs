@@ -26,6 +26,24 @@ namespace LightController.Ast
 			TotalStep = StepWrapperList.Count; 			
 			CurrentStep = TotalStep;
 		}
+		
+		/// <summary>
+		///  在index处插入新的步，
+		///  后面的步往后移动，
+		///  CurrentStep+1 , TotalStep+1
+		/// </summary>
+		/// <param name="stepIndex"></param>
+		/// <param name="stepWrapper"></param>
+		public void InsertStep(int stepIndex, StepWrapper stepWrapper)
+		{
+			if (StepWrapperList == null)
+			{
+				StepWrapperList = new List<StepWrapper>();
+			}
+			StepWrapperList.Insert(stepIndex,stepWrapper);
+			TotalStep = StepWrapperList.Count;
+			CurrentStep = CurrentStep+1;
+		}
 
 		/// <summary>
 		///  删除步
@@ -62,6 +80,8 @@ namespace LightController.Ast
 			{
 				throw new Exception("当前步数为空，无法删除。");
 			}	
-		}		
+		}
+
+	
 	}
 }

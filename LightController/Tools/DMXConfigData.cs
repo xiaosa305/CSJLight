@@ -33,26 +33,22 @@ namespace LightController.Tools
         private IList<DMX_M_File> M_Files { get; set; }
         private StreamReader Reader { get; set; }
         private IList<DB_Light> DB_Lights { get; set; }
+        private string FilePath { get; set; }
 
-        public DMXConfigData(DBWrapper dBWrapper)
+        public DMXConfigData(DBWrapper dBWrapper,string filePath)
         {
-            FormatTools formatTools = new FormatTools(dBWrapper.lightList, dBWrapper.stepCountList, dBWrapper.valueList);
-            C_Files = DMXTools.GetInstance().Get_C_Files(formatTools.GetC_SenceDatas());
-            M_Files = DMXTools.GetInstance().Get_M_Files(formatTools.GetM_SenceDatas());
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
             Combine_Scenes = new Config_Combine_Scene[9];
             DB_Lights = dBWrapper.lightList;
             Lights = new List<Config_Light>();
             Music_Control_Enable = new List<int>();
-        }
-
-        public void Test()
-        {
-            WriteToFile(@"C:\Temp\");
+            FilePath = filePath;
         }
         
         public void WriteToFile(string path)
         {
-            string filePath = path + "Config.bin";
+            string filePath = path + @"\Config.bin";
             byte[] Data = GetConfigData();
             FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
             fileStream.Write(Data, 0,Data.Length);
@@ -162,14 +158,14 @@ namespace LightController.Tools
 
         private void ReadFromFile()
         {
-            string filePath = @"C:\Temp\LightProject\Test4\global.ini";
+            //string filePath = @"C:\Temp\LightProject\Test4\global.ini";
             string lineStr = "";
             string strValue;
             int intValue;
             IList<string> configStr = new List<string>();
             try
             {
-                using (Reader = new StreamReader(filePath))
+                using (Reader = new StreamReader(FilePath))
                 {
                     lineStr = Reader.ReadLine();
                     if (lineStr.Equals("[QD]"))

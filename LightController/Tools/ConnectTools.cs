@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Ast;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,13 +17,17 @@ namespace LightController.Tools
         private Socket UdpServer { get; set; }
         //服务器ip
         private string ServerIp { get; set; }
-        //服务器端口
-        private int Serverport { get; set; }
         private bool IsStart { get; set; }
+        public bool IsSending { get; set; }
+        private Thread SendThread { get; set; }
+        public string Ip { get; set; }
+        public bool IsSendFileCompleted { get; set; }
+        private UdpClient UdpClient { get; set; }
 
         private ConnectTools()
         {
-           
+            IsSending = false;
+            IsSendFileCompleted = false;
         }
         /// <summary>
         /// 获取连接工具实例
@@ -41,17 +46,17 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="ip">Tcp服务器Ip地址</param>
         /// <param name="port">Tcp服务器端口号</param>
-        public void Start(string ip, int port)
+        public void Start(string ip)
         {
             ServerIp = ip;
-            Serverport = port;
             UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            UdpClient udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, Serverport));
+            UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 7070));
+            UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             Thread thread = new Thread(RecevieMsg);
             thread.IsBackground = true;
-            thread.Start(udpClient);
+            thread.Start(UdpClient);
             IsStart = false;
-            SocketTools.GetInstance().Start(new IPEndPoint(IPAddress.Parse(ServerIp), Serverport));
+            SocketTools.GetInstance().Start();
             IsStart = true;
         }
         /// <summary>
@@ -59,13 +64,21 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="udpServerIp">服务器ip地址</param>
         /// <param name="udpPort">服务器端口号</param>
-        public void SerchDevice()
+        public void SearchDevice()
         {
             if (IsStart)
             {
                 Console.WriteLine("Start SerchDevice");
-               
-                UdpServer.SendTo(Encoding.Default.GetBytes(ServerIp + " " + Serverport), new IPEndPoint(IPAddress.Parse(ServerIp), Serverport));
+                List<byte> buff = new List<byte>();
+                byte[] buffData = Encoding.Default.GetBytes("UdpBroadCast");
+                byte[] buffDataLength = new byte[] {Convert.ToByte(buffData.Length & 0xFF),Convert.ToByte((buffData.Length >> 8) & 0xFF) };
+                byte[] buffHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), buffDataLength[0], buffDataLength[1], Convert.ToByte("00000001",2), Convert.ToByte(0x00), Convert.ToByte(0x00) };
+                buff.AddRange(buffHead);
+                buff.AddRange(buffData);
+                byte[] CRC = CRCTools.GetInstance().GetCRC(buff.ToArray());
+                buff[6] = CRC[0];
+                buff[7] = CRC[1];
+                UdpServer.SendTo(buff.ToArray(), new IPEndPoint(IPAddress.Broadcast, 7060));
             }
             else
             {
@@ -83,34 +96,9 @@ namespace LightController.Tools
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
-                udpClient.BeginReceive(delegate (IAsyncResult result)
-                {
-                    string str = result.AsyncState.ToString();
-                    string ip = str.Split(' ')[0];
-                    int port = Convert.ToInt32(str.Split(' ')[1]);
-                    if (!ip.Equals(ServerIp))
-                    {
-                        SocketTools.GetInstance().AddConnect(ip, port);
-                    }
-                }, Encoding.UTF8.GetString(udpClient.Receive(ref endPoint)));
-            }
-        }
-        /// <summary>
-        /// 发送数据
-        /// </summary>
-        /// <param name="ip">目标ip</param>
-        /// <param name="data">数据包</param>
-        /// <param name="order">命令</param>
-        /// <param name="strArray">备注信息</param>
-        public void Send(string ip,byte[] data,ORDER order,string[] strArray)
-        {
-            if (IsStart)
-            {
-                SocketTools.GetInstance().Send(ip, data, order, strArray);
-            }
-            else
-            {
-                throw new Exception("未启动服务");
+                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 7070);
+                byte[] readBuff = udpClient.Receive(ref iPEndPoint);
+                SocketTools.GetInstance().AddConnect(Encoding.Default.GetString(readBuff), 7060);
             }
         }
         /// <summary>
@@ -142,6 +130,32 @@ namespace LightController.Tools
             {
                 throw new Exception("未启动服务");
             }
+        }
+
+        public void Download(string[] ip, DBWrapper dBWrapper,string configPath)
+        {
+            foreach (string item in ip)
+            {
+                SocketTools.GetInstance().Download(item, dBWrapper, configPath, new DownloadCallBack());
+            }
+        }
+
+        public void SendOrder(string[] ip,string order,string[] strarray)
+        {
+
+        }
+    }
+
+    public class DownloadCallBack : IReceiveCallBack
+    {
+        public void SendCompleted(string ip)
+        {
+            Console.WriteLine("下载完成");
+        }
+
+        public void SendError(string ip,string order)
+        {
+            Console.WriteLine(order + ":下载失败");
         }
     }
 }

@@ -29,6 +29,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -41,6 +42,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -51,6 +53,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>LightController.Program</StartupObject>
@@ -140,6 +143,7 @@
     <Compile Include="Ast\LightAst.cs" />
     <Compile Include="Ast\LightStepWrapper.cs" />
     <Compile Include="Ast\StepWrapper.cs" />
+    <Compile Include="Common\TextAst.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
@@ -151,6 +155,12 @@
     </Compile>
     <Compile Include="MyForm\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\MaterialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MaterialForm.Designer.cs">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\NetworkSetForm.cs">
       <SubType>Form</SubType>
@@ -230,6 +240,9 @@
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MaterialForm.resx">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NetworkSetForm.resx">
       <DependentUpon>NetworkSetForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -262,8 +275,12 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
+    <Content Include="MaterialSet.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

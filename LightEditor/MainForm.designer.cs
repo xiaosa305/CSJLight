@@ -683,12 +683,12 @@ namespace LightEditor
 			this.label32.Location = new System.Drawing.Point(980, 35);
 			this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(19, 128);
+			this.label32.Size = new System.Drawing.Size(19, 227);
 			this.label32.TabIndex = 10;
 			this.label32.Text = "总调光1";
 			this.label32.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label32.Visible = false;
-			this.label32.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label32.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar17
 			// 
@@ -698,7 +698,7 @@ namespace LightEditor
 			this.vScrollBar17.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar17.TabIndex = 0;
 			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar17.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar17.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label31
 			// 
@@ -706,12 +706,12 @@ namespace LightEditor
 			this.label31.Location = new System.Drawing.Point(916, 35);
 			this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(19, 128);
+			this.label31.Size = new System.Drawing.Size(19, 227);
 			this.label31.TabIndex = 10;
 			this.label31.Text = "总调光1";
 			this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label31.Visible = false;
-			this.label31.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label31.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar18
 			// 
@@ -721,7 +721,7 @@ namespace LightEditor
 			this.vScrollBar18.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar18.TabIndex = 0;
 			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar18.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar18.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar19
 			// 
@@ -731,7 +731,7 @@ namespace LightEditor
 			this.vScrollBar19.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar19.TabIndex = 0;
 			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar19.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar19.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar20
 			// 
@@ -741,7 +741,7 @@ namespace LightEditor
 			this.vScrollBar20.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar20.TabIndex = 0;
 			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar20.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar20.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label30
 			// 
@@ -749,12 +749,12 @@ namespace LightEditor
 			this.label30.Location = new System.Drawing.Point(852, 35);
 			this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(19, 128);
+			this.label30.Size = new System.Drawing.Size(19, 227);
 			this.label30.TabIndex = 10;
 			this.label30.Text = "总调光1";
 			this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label30.Visible = false;
-			this.label30.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label30.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar21
 			// 
@@ -764,7 +764,7 @@ namespace LightEditor
 			this.vScrollBar21.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar21.TabIndex = 0;
 			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar21.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar21.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar22
 			// 
@@ -774,7 +774,7 @@ namespace LightEditor
 			this.vScrollBar22.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar22.TabIndex = 0;
 			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar22.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar22.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label29
 			// 
@@ -782,12 +782,12 @@ namespace LightEditor
 			this.label29.Location = new System.Drawing.Point(788, 35);
 			this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(19, 128);
+			this.label29.Size = new System.Drawing.Size(19, 227);
 			this.label29.TabIndex = 10;
 			this.label29.Text = "总调光1";
 			this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label29.Visible = false;
-			this.label29.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label29.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar23
 			// 
@@ -797,7 +797,7 @@ namespace LightEditor
 			this.vScrollBar23.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar23.TabIndex = 0;
 			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar23.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar23.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar24
 			// 
@@ -807,7 +807,7 @@ namespace LightEditor
 			this.vScrollBar24.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar24.TabIndex = 0;
 			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar24.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar24.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar25
 			// 
@@ -817,7 +817,7 @@ namespace LightEditor
 			this.vScrollBar25.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar25.TabIndex = 0;
 			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar25.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar25.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label28
 			// 
@@ -825,12 +825,12 @@ namespace LightEditor
 			this.label28.Location = new System.Drawing.Point(724, 35);
 			this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(19, 128);
+			this.label28.Size = new System.Drawing.Size(19, 227);
 			this.label28.TabIndex = 10;
 			this.label28.Text = "总调光1";
 			this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label28.Visible = false;
-			this.label28.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label28.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar26
 			// 
@@ -840,7 +840,7 @@ namespace LightEditor
 			this.vScrollBar26.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar26.TabIndex = 0;
 			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar26.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar26.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar27
 			// 
@@ -850,7 +850,7 @@ namespace LightEditor
 			this.vScrollBar27.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar27.TabIndex = 0;
 			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar27.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar27.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar28
 			// 
@@ -860,7 +860,7 @@ namespace LightEditor
 			this.vScrollBar28.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar28.TabIndex = 0;
 			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar28.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar28.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label27
 			// 
@@ -868,12 +868,12 @@ namespace LightEditor
 			this.label27.Location = new System.Drawing.Point(660, 35);
 			this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(19, 128);
+			this.label27.Size = new System.Drawing.Size(19, 227);
 			this.label27.TabIndex = 10;
 			this.label27.Text = "总调光1";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label27.Visible = false;
-			this.label27.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label27.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar29
 			// 
@@ -883,7 +883,7 @@ namespace LightEditor
 			this.vScrollBar29.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar29.TabIndex = 0;
 			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar29.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar29.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar30
 			// 
@@ -893,7 +893,7 @@ namespace LightEditor
 			this.vScrollBar30.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar30.TabIndex = 0;
 			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar30.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar30.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar31
 			// 
@@ -903,7 +903,7 @@ namespace LightEditor
 			this.vScrollBar31.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar31.TabIndex = 0;
 			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar31.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar31.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label26
 			// 
@@ -911,12 +911,12 @@ namespace LightEditor
 			this.label26.Location = new System.Drawing.Point(595, 35);
 			this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(19, 128);
+			this.label26.Size = new System.Drawing.Size(19, 227);
 			this.label26.TabIndex = 10;
 			this.label26.Text = "总调光1";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label26.Visible = false;
-			this.label26.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label26.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar32
 			// 
@@ -926,7 +926,7 @@ namespace LightEditor
 			this.vScrollBar32.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar32.TabIndex = 0;
 			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar32.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar32.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label17
 			// 
@@ -934,12 +934,12 @@ namespace LightEditor
 			this.label17.Location = new System.Drawing.Point(19, 35);
 			this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(19, 128);
+			this.label17.Size = new System.Drawing.Size(19, 227);
 			this.label17.TabIndex = 10;
 			this.label17.Text = "总调光1";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label17.Visible = false;
-			this.label17.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label17.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label22
 			// 
@@ -947,12 +947,12 @@ namespace LightEditor
 			this.label22.Location = new System.Drawing.Point(340, 35);
 			this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(19, 128);
+			this.label22.Size = new System.Drawing.Size(19, 227);
 			this.label22.TabIndex = 10;
 			this.label22.Text = "总调光1";
 			this.label22.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label22.Visible = false;
-			this.label22.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label22.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label25
 			// 
@@ -960,12 +960,12 @@ namespace LightEditor
 			this.label25.Location = new System.Drawing.Point(532, 35);
 			this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(19, 128);
+			this.label25.Size = new System.Drawing.Size(19, 227);
 			this.label25.TabIndex = 10;
 			this.label25.Text = "总调光1";
 			this.label25.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label25.Visible = false;
-			this.label25.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label25.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label20
 			// 
@@ -973,12 +973,12 @@ namespace LightEditor
 			this.label20.Location = new System.Drawing.Point(212, 35);
 			this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(19, 128);
+			this.label20.Size = new System.Drawing.Size(19, 227);
 			this.label20.TabIndex = 10;
 			this.label20.Text = "总调光1";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label20.Visible = false;
-			this.label20.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label20.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label19
 			// 
@@ -986,12 +986,12 @@ namespace LightEditor
 			this.label19.Location = new System.Drawing.Point(148, 35);
 			this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(19, 128);
+			this.label19.Size = new System.Drawing.Size(19, 227);
 			this.label19.TabIndex = 10;
 			this.label19.Text = "总调光1";
 			this.label19.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label19.Visible = false;
-			this.label19.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label19.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label21
 			// 
@@ -999,12 +999,12 @@ namespace LightEditor
 			this.label21.Location = new System.Drawing.Point(273, 35);
 			this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(19, 128);
+			this.label21.Size = new System.Drawing.Size(19, 227);
 			this.label21.TabIndex = 10;
 			this.label21.Text = "总调光1";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label21.Visible = false;
-			this.label21.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label21.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label23
 			// 
@@ -1012,12 +1012,12 @@ namespace LightEditor
 			this.label23.Location = new System.Drawing.Point(404, 35);
 			this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(19, 128);
+			this.label23.Size = new System.Drawing.Size(19, 227);
 			this.label23.TabIndex = 10;
 			this.label23.Text = "总调光1";
 			this.label23.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label23.Visible = false;
-			this.label23.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label23.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label24
 			// 
@@ -1025,12 +1025,12 @@ namespace LightEditor
 			this.label24.Location = new System.Drawing.Point(468, 35);
 			this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(19, 128);
+			this.label24.Size = new System.Drawing.Size(19, 227);
 			this.label24.TabIndex = 10;
 			this.label24.Text = "总调光1";
 			this.label24.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label24.Visible = false;
-			this.label24.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label24.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label18
 			// 
@@ -1038,12 +1038,12 @@ namespace LightEditor
 			this.label18.Location = new System.Drawing.Point(84, 35);
 			this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(19, 128);
+			this.label18.Size = new System.Drawing.Size(19, 227);
 			this.label18.TabIndex = 10;
 			this.label18.Text = "总调光1";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label18.Visible = false;
-			this.label18.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label18.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// tongdaoGroupBox1
 			// 
@@ -1320,12 +1320,12 @@ namespace LightEditor
 			this.label16.Location = new System.Drawing.Point(979, 38);
 			this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(19, 128);
+			this.label16.Size = new System.Drawing.Size(19, 227);
 			this.label16.TabIndex = 10;
 			this.label16.Text = "总调光1";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label16.Visible = false;
-			this.label16.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label16.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label15
 			// 
@@ -1333,12 +1333,12 @@ namespace LightEditor
 			this.label15.Location = new System.Drawing.Point(915, 38);
 			this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(19, 128);
+			this.label15.Size = new System.Drawing.Size(19, 227);
 			this.label15.TabIndex = 10;
 			this.label15.Text = "总调光1";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label15.Visible = false;
-			this.label15.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label15.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label14
 			// 
@@ -1346,12 +1346,12 @@ namespace LightEditor
 			this.label14.Location = new System.Drawing.Point(851, 38);
 			this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(19, 128);
+			this.label14.Size = new System.Drawing.Size(19, 227);
 			this.label14.TabIndex = 10;
 			this.label14.Text = "总调光1";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label14.Visible = false;
-			this.label14.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label14.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label13
 			// 
@@ -1359,12 +1359,12 @@ namespace LightEditor
 			this.label13.Location = new System.Drawing.Point(787, 38);
 			this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(19, 128);
+			this.label13.Size = new System.Drawing.Size(19, 227);
 			this.label13.TabIndex = 10;
 			this.label13.Text = "总调光1";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label13.Visible = false;
-			this.label13.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label13.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label12
 			// 
@@ -1372,12 +1372,12 @@ namespace LightEditor
 			this.label12.Location = new System.Drawing.Point(723, 38);
 			this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(19, 128);
+			this.label12.Size = new System.Drawing.Size(19, 227);
 			this.label12.TabIndex = 10;
 			this.label12.Text = "总调光1";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label12.Visible = false;
-			this.label12.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label12.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label11
 			// 
@@ -1385,12 +1385,12 @@ namespace LightEditor
 			this.label11.Location = new System.Drawing.Point(659, 38);
 			this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(19, 128);
+			this.label11.Size = new System.Drawing.Size(19, 227);
 			this.label11.TabIndex = 10;
 			this.label11.Text = "总调光1";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label11.Visible = false;
-			this.label11.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label11.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label10
 			// 
@@ -1398,12 +1398,12 @@ namespace LightEditor
 			this.label10.Location = new System.Drawing.Point(595, 38);
 			this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(19, 128);
+			this.label10.Size = new System.Drawing.Size(19, 227);
 			this.label10.TabIndex = 10;
 			this.label10.Text = "总调光1";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label10.Visible = false;
-			this.label10.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label10.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label9
 			// 
@@ -1411,12 +1411,12 @@ namespace LightEditor
 			this.label9.Location = new System.Drawing.Point(531, 38);
 			this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(19, 128);
+			this.label9.Size = new System.Drawing.Size(19, 227);
 			this.label9.TabIndex = 10;
 			this.label9.Text = "总调光1";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label9.Visible = false;
-			this.label9.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label9.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label8
 			// 
@@ -1424,12 +1424,12 @@ namespace LightEditor
 			this.label8.Location = new System.Drawing.Point(467, 38);
 			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(19, 128);
+			this.label8.Size = new System.Drawing.Size(19, 227);
 			this.label8.TabIndex = 10;
 			this.label8.Text = "总调光1";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label8.Visible = false;
-			this.label8.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label8.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label7
 			// 
@@ -1437,12 +1437,12 @@ namespace LightEditor
 			this.label7.Location = new System.Drawing.Point(403, 38);
 			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(19, 128);
+			this.label7.Size = new System.Drawing.Size(19, 227);
 			this.label7.TabIndex = 10;
 			this.label7.Text = "总调光1";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label7.Visible = false;
-			this.label7.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label7.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label6
 			// 
@@ -1450,12 +1450,12 @@ namespace LightEditor
 			this.label6.Location = new System.Drawing.Point(339, 38);
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(19, 128);
+			this.label6.Size = new System.Drawing.Size(19, 227);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "总调光1";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label6.Visible = false;
-			this.label6.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label6.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label5
 			// 
@@ -1463,12 +1463,12 @@ namespace LightEditor
 			this.label5.Location = new System.Drawing.Point(272, 38);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(19, 128);
+			this.label5.Size = new System.Drawing.Size(19, 227);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "总调光1";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label5.Visible = false;
-			this.label5.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label5.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label4
 			// 
@@ -1476,12 +1476,12 @@ namespace LightEditor
 			this.label4.Location = new System.Drawing.Point(211, 38);
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(19, 128);
+			this.label4.Size = new System.Drawing.Size(19, 227);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "总调光1";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label4.Visible = false;
-			this.label4.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label4.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label3
 			// 
@@ -1489,12 +1489,12 @@ namespace LightEditor
 			this.label3.Location = new System.Drawing.Point(147, 38);
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(19, 128);
+			this.label3.Size = new System.Drawing.Size(19, 227);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "总调光1";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label3.Visible = false;
-			this.label3.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label3.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label2
 			// 
@@ -1502,12 +1502,12 @@ namespace LightEditor
 			this.label2.Location = new System.Drawing.Point(83, 38);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(19, 128);
+			this.label2.Size = new System.Drawing.Size(19, 227);
 			this.label2.TabIndex = 10;
 			this.label2.Text = "总调光1";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label2.Visible = false;
-			this.label2.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label2.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// label1
 			// 
@@ -1515,12 +1515,12 @@ namespace LightEditor
 			this.label1.Location = new System.Drawing.Point(19, 38);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(19, 128);
+			this.label1.Size = new System.Drawing.Size(19, 227);
 			this.label1.TabIndex = 10;
 			this.label1.Text = "总调光1";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label1.Visible = false;
-			this.label1.MouseHover += new System.EventHandler(this.label_MouseHover);
+			this.label1.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar16
 			// 
@@ -1530,7 +1530,7 @@ namespace LightEditor
 			this.vScrollBar16.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar16.TabIndex = 0;
 			this.vScrollBar16.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar16.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar16.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar12
 			// 
@@ -1540,7 +1540,7 @@ namespace LightEditor
 			this.vScrollBar12.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar12.TabIndex = 0;
 			this.vScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar12.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar12.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar8
 			// 
@@ -1550,7 +1550,7 @@ namespace LightEditor
 			this.vScrollBar8.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar8.TabIndex = 0;
 			this.vScrollBar8.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar8.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar8.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar4
 			// 
@@ -1560,7 +1560,7 @@ namespace LightEditor
 			this.vScrollBar4.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar4.TabIndex = 0;
 			this.vScrollBar4.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar4.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar4.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar15
 			// 
@@ -1570,7 +1570,7 @@ namespace LightEditor
 			this.vScrollBar15.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar15.TabIndex = 0;
 			this.vScrollBar15.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar15.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar15.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar11
 			// 
@@ -1580,7 +1580,7 @@ namespace LightEditor
 			this.vScrollBar11.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar11.TabIndex = 0;
 			this.vScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar11.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar11.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar14
 			// 
@@ -1590,7 +1590,7 @@ namespace LightEditor
 			this.vScrollBar14.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar14.TabIndex = 0;
 			this.vScrollBar14.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar14.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar14.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar10
 			// 
@@ -1600,7 +1600,7 @@ namespace LightEditor
 			this.vScrollBar10.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar10.TabIndex = 0;
 			this.vScrollBar10.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar10.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar10.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar7
 			// 
@@ -1610,7 +1610,7 @@ namespace LightEditor
 			this.vScrollBar7.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar7.TabIndex = 0;
 			this.vScrollBar7.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar7.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar7.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar13
 			// 
@@ -1620,7 +1620,7 @@ namespace LightEditor
 			this.vScrollBar13.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar13.TabIndex = 0;
 			this.vScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar13.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar13.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar6
 			// 
@@ -1630,7 +1630,7 @@ namespace LightEditor
 			this.vScrollBar6.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar6.TabIndex = 0;
 			this.vScrollBar6.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar6.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar6.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar9
 			// 
@@ -1640,7 +1640,7 @@ namespace LightEditor
 			this.vScrollBar9.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar9.TabIndex = 0;
 			this.vScrollBar9.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar9.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar9.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar3
 			// 
@@ -1650,7 +1650,7 @@ namespace LightEditor
 			this.vScrollBar3.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar3.TabIndex = 0;
 			this.vScrollBar3.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar3.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar3.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar5
 			// 
@@ -1660,7 +1660,7 @@ namespace LightEditor
 			this.vScrollBar5.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar5.TabIndex = 0;
 			this.vScrollBar5.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar5.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar5.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar2
 			// 
@@ -1670,7 +1670,7 @@ namespace LightEditor
 			this.vScrollBar2.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar2.TabIndex = 0;
 			this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar2.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar2.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar1
 			// 
@@ -1681,7 +1681,8 @@ namespace LightEditor
 			this.vScrollBar1.TabIndex = 0;
 			this.vScrollBar1.Value = 255;
 			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar1.MouseHover += new System.EventHandler(this.vScrollBar_MouseHover);
+			this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar1_MouseEnter);
+			this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// openImageDialog
 			// 
@@ -1943,8 +1944,6 @@ namespace LightEditor
 		private Button setInitButton;
 		private GroupBox editGroupBox;
 		private FlowLayoutPanel flowLayoutPanel1;
-
-
 
 	}
 }

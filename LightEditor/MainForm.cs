@@ -28,7 +28,7 @@ namespace LightEditor
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			skinEngine2.SkinFile = @"C:\Users\Dickov\Desktop\皮肤控件\皮肤\MacOS\MacOS.ssk";
+			// skinEngine2.SkinFile = @"C:\Users\Dickov\Desktop\皮肤控件\皮肤\MacOS\MacOS.ssk";
 			
 			#region 初始化几个数组
 
@@ -564,28 +564,26 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其numericUpDown中
+		/// 辅助方法:鼠标进入vScrollBar时，把焦点切换到其numericUpDown中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void vScrollBar_MouseHover(object sender, EventArgs e)
+		private void vScrollBar_MouseEnter(object sender, EventArgs e)
 		{
 			int labelIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
 			numericUpDowns[labelIndex].Select();
 		}
 
 		/// <summary>
-		/// 辅助方法:鼠标掠过label时，把焦点切换到其numericUpDown中
+		/// 辅助方法:鼠标进入label时，把焦点切换到其numericUpDown中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void label_MouseHover(object sender, EventArgs e)
+		private void label_MouseEnter(object sender, EventArgs e)
 		{
 			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
 			numericUpDowns[labelIndex].Select();
 		}
-
-
 
 		/// <summary>
 		/// 调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
@@ -680,6 +678,11 @@ namespace LightEditor
 					numericUpDowns[i].Value = tongdaoList[i].InitValue;
 				}
 			}
-		}		
+		}
+
+		private void vScrollBar1_MouseEnter(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

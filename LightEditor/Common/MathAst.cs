@@ -10,7 +10,6 @@ namespace LightEditor.Common
 	/// </summary>
 	public class MathAst
 	{
-
 		/// <summary>
 		///  由输入的num，自动补零的两位数字符串
 		/// </summary>

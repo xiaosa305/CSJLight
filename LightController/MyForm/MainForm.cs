@@ -256,10 +256,11 @@ namespace LightController
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
 
 			for (int i = 0; i < 32; i++) {
-				vScrollBars[i].MouseHover += new EventHandler(this.vScrollBar_MouseHover);
-				labels[i].MouseHover += new EventHandler(this.tdLabel_MouseHover);
+				vScrollBars[i].MouseEnter += new EventHandler(this.vScrollBar_MouseEnter);
+				labels[i].MouseEnter += new EventHandler(this.tdLabel_MouseEnter);
 				valueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.valueNumericUpDown_MouseWheel);
-				steptimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.steptimeNumericUpDown_MouseWheel);
+				steptimeNumericUpDowns[i].MouseEnter += new EventHandler(this.steptimeNumericUpDown_MouseEnter);
+				steptimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.steptimeNumericUpDown_MouseWheel);				
 			}
 
 			#endregion
@@ -300,21 +301,30 @@ namespace LightController
 			{
 				lightDAO = new LightDAO(dbFilePath, false);
 				lightDAO.CreateSchema(true, true);
-			}			
-
-			this.lightsEditToolStripMenuItem1.Enabled = true;
-			this.globalSetToolStripMenuItem.Enabled = true;
-			enableSave();
+			}
+			enableGlobalSet(true);			
+			enableSave(true);
 		}
 
-		 /// <summary>
-		 ///  辅助方法：将 save的两个按钮设为可用
-		 /// </summary>
-		private void enableSave() {
-			saveButton.Enabled = true;
-			saveAsButton.Enabled = true;
+		/// <summary>
+		///  辅助方法：将 save的两个按钮Enabled设为选定值
+		/// </summary>
+		private void enableSave(bool enable) {
+			saveButton.Enabled = enable;
+			saveAsButton.Enabled = enable;
 		}
-			   		 
+		/// <summary>
+		///  辅助方法：将所有全局配置相关的按钮Enabled设为选定值
+		/// </summary>
+		/// <param name="v"></param>
+		private void enableGlobalSet(bool enable)
+		{
+			this.lightsEditToolStripMenuItem1.Enabled = enable;
+			this.globalSetToolStripMenuItem.Enabled = enable;
+			this.ymSetToolStripMenuItem.Enabled = enable;
+			this.NetworkSetToolStripMenuItem.Enabled = enable;		
+		}
+
 		/// <summary>
 		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
 		///  0.旧的一切list或内容，一应清空
@@ -1395,6 +1405,7 @@ namespace LightController
 			step.TongdaoList[index].StepTime = Decimal.ToInt32(steptimeNumericUpDowns[index].Value);			
 		}
 
+		// 辅助变量：复制及粘贴步时用到
 		private StepWrapper tempStep = null;
 		/// <summary>
 		/// 复制步：
@@ -1423,7 +1434,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void pasteStepButton_Click(object sender, EventArgs e)
 		{
-			// 1. 先判断是不是同模式及同一种灯具（非同一个灯具也可以复制，但需类型一样)
+			// 1. 先判断是不是同模式及同一种灯具（非同一个灯具也可以复制，但需类型(同一个灯库内容)一样)
 			StepWrapper currentStep = getCurrentStepWrapper();
 			if(currentStep == null)
 			{
@@ -1447,7 +1458,7 @@ namespace LightController
 				currentStep.TongdaoList[i].StepTime = tempStep.TongdaoList[i].StepTime;
 			}
 
-			// 重新渲染当前步的所有通道
+			// 3.重新渲染当前步的所有通道
 			ShowVScrollBars(currentStep.TongdaoList, currentStep.StartNum);
 		}		
 
@@ -1461,27 +1472,7 @@ namespace LightController
 			DBWrapper allData = GetDBWrapper(false);
 			dMX512Player.Preview(allData, 0);
 		}
-
-		/// <summary>
-		///  获取当前实时的DBWrapper(三个放在内存的List）
-		/// </summary>
-		/// <returns></returns>
-		private DBWrapper GetDBWrapper(bool fromDB)
-		{
-			// 从数据库直接读取的情况
-			if (fromDB) {
-				DBGetter dbGetter = new DBGetter(dbFilePath, false);
-				DBWrapper dbWrapper = dbGetter.getAll();
-				return dbWrapper;
-			}
-			// 由内存几个实时的List实时生成
-			else
-			{
-				DBWrapper allData = new DBWrapper(lightList, stepCountList, valueList);
-				return allData;
-			}
-		}
-
+			
 		private void stopReviewButton_Click(object sender, EventArgs e)
 		{
 				dMX512Player.EndPreview();
@@ -1514,141 +1505,7 @@ namespace LightController
 				steptimeNumericUpDowns[i].Value = stNumericUpDown.Value ;
 			}
 		}
-
-		#region  废弃方法块
-
-		//private void helpNDBC()
-		//{
-
-		//	//MessageBox.Show(lightAstList.Count.ToString());
-
-		//	dbFilePath = @"C:\\Temp\\testDB.db3";
-		//	SQLiteHelper sqlHelper = new SQLiteHelper(dbFilePath);
-		//	sqlHelper.Connect();
-
-		//	// 设置数据库密码
-		//	// sqlHelper.ChangePassword(MD5Ast.MD5(dbFile));
-
-		//	//向数据库中user表中插入了一条(name = "马兆瑞"，age = 21)的记录
-		//	//string insert_sql = "insert into user(name,age) values(?,?)";        //插入的SQL语句(带参数)
-		//	//SQLiteParameter[] para = new SQLiteParameter[2];                        //构造并绑定参数
-		//	//para[0] = new SQLiteParameter("name", "马朝旭");
-		//	//para[1] = new SQLiteParameter("age", 21);
-
-		//	//int ret = sqlHelper.ExecuteNonQuery(insert_sql, para); //返回影响的行数
-
-		//	//// 查询表数据，并放到实体类中
-		//	string select_sql = "select * from Light";                            //查询的SQL语句
-		//	DataTable dt = sqlHelper.ExecuteDataTable(select_sql, null);               //执行查询操作,结果存放在dt中
-		//	if (dt != null)
-		//	{
-		//		foreach (DataRow dr in dt.Rows)
-		//		{
-		//			object[] lightValues = dr.ItemArray;
-		//			DB_Light light = new DB_Light();
-		//			light.LightNo = Convert.ToInt32(lightValues.GetValue(0));
-		//			light.Name = (string)(lightValues.GetValue(1));
-		//			light.Type = (string)(lightValues.GetValue(2));
-		//			light.Pic = (string)(lightValues.GetValue(3));
-		//			light.StartID = Convert.ToInt32(lightValues.GetValue(4));
-		//			light.Count = Convert.ToInt32(lightValues.GetValue(5));
-		//			lightList.Add(light);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		Console.WriteLine("Light表没有数据");
-		//	}
-
-		//	select_sql = "select * from stepCount";
-		//	dt = sqlHelper.ExecuteDataTable(select_sql, null);
-		//	if (dt != null)
-		//	{
-		//		foreach (DataRow dr in dt.Rows)
-		//		{
-		//			object[] stepValues = dr.ItemArray;
-		//			DB_StepCountPK pk = new DB_StepCountPK();
-		//			pk.LightIndex = Convert.ToInt32(stepValues.GetValue(0));
-		//			pk.Frame = Convert.ToInt32(stepValues.GetValue(1));
-		//			pk.Mode = Convert.ToInt32(stepValues.GetValue(2));
-
-		//			DB_StepCount stepCount = new DB_StepCount();
-		//			stepCount.StepCount = Convert.ToInt32(stepValues.GetValue(3));
-		//			stepCount.PK = pk;
-
-		//			stepCountList.Add(stepCount);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		Console.WriteLine("stepCount表没有数据");
-		//	}
-
-		//	select_sql = "select * from value";
-		//	dt = sqlHelper.ExecuteDataTable(select_sql, null);
-		//	if (dt != null)
-		//	{
-		//		foreach (DataRow dr in dt.Rows)
-		//		{
-		//			object[] values = dr.ItemArray;
-
-		//			DB_ValuePK pk = new DB_ValuePK();
-		//			pk.LightIndex = Convert.ToInt32(values.GetValue(0));
-		//			pk.Frame = Convert.ToInt32(values.GetValue(1));
-		//			pk.Step = Convert.ToInt32(values.GetValue(2));
-		//			pk.Mode = Convert.ToInt32(values.GetValue(3));
-		//			pk.LightID = Convert.ToInt32(values.GetValue(7));
-
-		//			DB_Value val = new DB_Value();
-		//			val.PK = pk;
-		//			val.ScrollValue = Convert.ToInt32(values.GetValue(4));
-		//			val.StepTime = Convert.ToInt32(values.GetValue(5));
-		//			val.ChangeMode = Convert.ToInt32(values.GetValue(6));
-
-		//			valueList.Add(val);
-		//		}
-		//	}
-		//	else
-		//	{
-		//		Console.WriteLine("value表没有数据");
-		//	}
-		//	allData = new DBWrapper(lightList, stepCountList, valueList);
-
-		//}
-
-		//private void helpHibernate()
-		//{
-
-		//	DB_Light light = new DB_Light()
-		//	{
-		//		LightNo = 300,
-		//		Name = "OUP3",
-		//		Type = "XDD3",
-		//		Pic = "3.bmp",
-		//		StartID = 300,
-		//		Count = 3
-		//	};
-
-		//	LightDAO lightDAO = new LightDAO(@"C:\Temp\test.db3", true);
-
-		//	// CRUD : 1.增 2.查 3.改 4.删
-		//	//lightDAO.Save(light);
-		//	//DB_Light light2 = lightDAO.Get(2);
-		//	//light2.Name = "Nice too mee you";
-		//	//lightDAO.Update(light2);
-		//	//lightDAO.Delete(light2);
-
-		//	IList<DB_Light> lightList = lightDAO.GetAll();
-		//	foreach (var eachLight in lightList)
-		//	{
-		//		Console.WriteLine(eachLight);
-		//	}
-
-		//	Console.WriteLine();
-		//}
-
-		#endregion
-
+		
 		/// <summary>
 		///  单灯单步按钮作用
 		/// </summary>
@@ -1685,7 +1542,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 单灯单步发送DMX512帧数据
+		/// 辅助方法：单灯单步发送DMX512帧数据
 		/// </summary>
 		private void oneLightStepWork() {
 			StepWrapper step = getCurrentStepWrapper();
@@ -1699,12 +1556,11 @@ namespace LightController
 			dMX512Player.OneLightStep(stepBytes);
 		}
 
-		private void newTestButton_Click(object sender, EventArgs e)
-		{
-			Test test = new Test(GetDBWrapper(true));
-			test.Start();
-		}
-
+		/// <summary>
+		///  摇麦设置点击后，打开摇麦设置Form
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ymSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (ymSetForm == null || ymSetForm.IsDisposed)
@@ -1715,29 +1571,29 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其numericUpDown中
+		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其对应的numericUpDown中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void vScrollBar_MouseHover(object sender, EventArgs e)
+		private void vScrollBar_MouseEnter(object sender, EventArgs e)
 		{
 			int tdIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,-1 );
 			valueNumericUpDowns[tdIndex].Select();
 		}
 
 		/// <summary>
-		/// 辅助方法:鼠标掠过label时，把焦点切换到其numericUpDown中
+		/// 辅助方法:鼠标进入通道相关label时，把焦点切换到其numericUpDown中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tdLabel_MouseHover(object sender, EventArgs e)
+		private void tdLabel_MouseEnter(object sender, EventArgs e)
 		{
 			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
-		}
+		}		
 
 		/// <summary>
-		///  辅助方法：鼠标滚动时，每次只变动一个Increment值
+		///  辅助方法：鼠标滚动时，通道值每次只变动一个Increment值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1773,7 +1629,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  辅助方法：鼠标滚动时，每次只变动一个Increment值
+		///  辅助方法：鼠标滚动时，步时间值每次只变动一个Increment值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1803,5 +1659,81 @@ namespace LightController
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：鼠标进入步时间输入框时，切换焦点;
+		/// 注意：用MouseEnter事件，而非MouseHover事件;这样才会无延时响应
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void steptimeNumericUpDown_MouseEnter(object sender, EventArgs e)
+		{		
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			steptimeNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		///  辅助方法：通过fromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
+		/// </summary>
+		/// <returns></returns>
+		private DBWrapper GetDBWrapper(bool fromDB)
+		{
+			// 从数据库直接读取的情况
+			if (fromDB)
+			{
+				DBGetter dbGetter = new DBGetter(dbFilePath, false);
+				DBWrapper dbWrapper = dbGetter.getAll();
+				return dbWrapper;
+			}
+			// 由内存几个实时的List实时生成
+			else
+			{
+				DBWrapper allData = new DBWrapper(lightList, stepCountList, valueList);
+				return allData;
+			}
+		}
+
+		/// <summary>
+		///  保存素材操作：
+		///  1.往MaterialForm传light和tongdaoList
+		///  2.materialForm.showDialog()
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private MaterialForm materialForm;
+		private void materialSaveButton_Click(object sender, EventArgs e)
+		{
+			materialForm = null;
+			materialForm = new MaterialForm(this,getCurrentLightStepWrapper().StepWrapperList);
+			if (materialForm != null && !materialForm.IsDisposed) {
+				materialForm.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		///  使用素材
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void materialUseButton_Click(object sender, EventArgs e)
+		{
+
+		}
+
+
+
+		/// <summary>
+		///  曾维佳测试用按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void newTestButton_Click(object sender, EventArgs e)
+		{
+			Test test = new Test(GetDBWrapper(true));
+			test.Start();
+		}
+
+
+
+		
 	}
 }

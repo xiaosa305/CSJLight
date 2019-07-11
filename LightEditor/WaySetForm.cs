@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -133,6 +134,13 @@ namespace LightEditor
 			foreach(NumericUpDown item in tdNumericUpDowns)
 			{
 				item.MouseWheel += new MouseEventHandler(valueNumericUpDown_MouseWheel);
+			}
+
+			// 动态添加通道预选名称
+			IList<string> tdNameList = TextAst.Read(Application.StartupPath + @"\PreTDNameList");
+			foreach (string item in tdNameList)
+			{
+				this.nameListBox.Items.Add(item);
 			}
 
 			#endregion

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Ast;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -39,16 +40,18 @@ namespace LightController.Tools
         private string[] Strs { get; set; }
         //发送缓冲区大小
         private int PakegeSize { get; set; }
-        //接收消息回调函数
-        private IReceiveCallBack ReceiveCallBack { get; set; }
         //发送数据完成状态
-        private bool IsSendCompleted { get; set; }
         /// <summary>
         /// 接收数据状态
         /// </summary>
         private bool IsReceive { get; set; }
         private bool IsTiomeOutThreadStart { get; set; }
         private int TimeOutCount { get; set; }
+        private bool DownloadState { get; set; }
+        private Thread DownloadThread { get; set; }
+        private DBWrapper DBWrapper { get; set; }
+        private string ConfigPath { get; set; }
+        private IReceiveCallBack callBack { get; set; }
 
         /// <summary>
         /// 构造函数
@@ -57,8 +60,8 @@ namespace LightController.Tools
         {
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
-            PakegeSize = 512;
-            IsSendCompleted = true;
+            PakegeSize = 504;
+            Ip = "";
         }
         /// <summary>
         /// 初始化
@@ -67,6 +70,7 @@ namespace LightController.Tools
         public void Init(Socket socket)
         {
             this.Socket = socket;
+            DownloadState = true;
             IsUse = true;
             IsReceive = false;
             IsTiomeOutThreadStart = false;
@@ -87,14 +91,6 @@ namespace LightController.Tools
         public void SetPakegeSize(int size)
         {
             this.PakegeSize = size;
-        }
-        /// <summary>
-        /// 获取发送数据是否完成
-        /// </summary>
-        /// <returns></returns>
-        public bool GetIsSendComplet()
-        {
-            return IsSendCompleted;
         }
         /// <summary>
         /// 接收缓冲区大小
@@ -120,6 +116,7 @@ namespace LightController.Tools
         {
             if (!IsUse) return;
             Console.WriteLine(GetAddress() + "断开连接");
+            Ip = "";
             Socket.Close();
             IsUse = false;
         }
@@ -129,26 +126,24 @@ namespace LightController.Tools
         /// <param name="data">数据主体</param>
         /// <param name="order">命令</param>
         /// <param name="strarray">备注信息</param>
-        public void SendData(byte[] data, string order, string[] strarray,IReceiveCallBack callBack)
+        private void SendData(byte[] data, string order, string[] strarray)
         {
-            IsSendCompleted = false;
             Data = data;
             Order = order;
             Strs = strarray;
-            ReceiveCallBack = callBack;
             switch (order)
             {
                 case Constant.ORDER_PUT:
-                    SendOrder();
+                    SendOrderPakege();
                     break;
                 case Constant.ORDER_BEGIN_SEND:
-                    SendOrder();
+                    SendOrderPakege();
                     break;
                 case Constant.ORDER_END_SEND:
-                    SendOrder();
+                    SendOrderPakege();
                     break;
                 default:
-                    SendOrder();
+                    SendOrderPakege();
                     break;
             }
 
@@ -164,15 +159,17 @@ namespace LightController.Tools
             {
                 case RECEIVE.Send:
                     Console.WriteLine("发送第" + (Pakege_No + 1) + "包数据，包总数为" + Pakege_Count);
-                    Receive_Send();
+                    SendDataPakege();
                     break;
                 default:
                     break;
             }
             
         }
-
-        private void SendOrder()
+        /// <summary>
+        /// 发送命令包
+        /// </summary>
+        private void SendOrderPakege()
         {
             if (Data != null)
             {
@@ -205,6 +202,13 @@ namespace LightController.Tools
             byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
             pakege[6] = pakegeCRC[0];
             pakege[7] = pakegeCRC[1];
+
+            Console.Write("Send:    " + Order + " ---");
+            foreach (byte value in pakege)
+            {
+                Console.Write(value + " ");
+            }
+
             Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb,this);
         }
         /// <summary>
@@ -226,7 +230,10 @@ namespace LightController.Tools
             }
             return result;
         }
-
+        /// <summary>
+        /// 获取数据包标记位
+        /// </summary>
+        /// <returns></returns>
         private byte GetDataMark()
         {
             byte result;
@@ -244,7 +251,7 @@ namespace LightController.Tools
         /// 发送数据包
         /// </summary>
         /// <param name="receive"></param>
-        private void Receive_Send()
+        private void SendDataPakege()
         {
             Pakege_No++;
             byte[] pakegeData;
@@ -273,6 +280,13 @@ namespace LightController.Tools
             byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
             pakege[6] = pakegeCRC[0];
             pakege[7] = pakegeCRC[1];
+
+            Console.Write("SendFile:    " + Order + ",pakegeNo: " + Pakege_No + ",pakegeCount: " + Pakege_Count + " ---");
+            foreach (byte value in pakege)
+            {
+                Console.Write(value + " ");
+            }
+
             Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb, this);
         }
         /// <summary>
@@ -284,7 +298,7 @@ namespace LightController.Tools
             {
                 if (IsTiomeOutThreadStart)
                 {
-                    for (int i = 0; i < 1000; i++)
+                    for (int i = 0; i < 5000; i++)
                     {
                         Thread.Sleep(1);
                         if (IsReceive)
@@ -292,19 +306,41 @@ namespace LightController.Tools
                             break;
                         }
                     }
-                    Console.WriteLine("超时" + TimeOutCount + "次");
                     IsTiomeOutThreadStart = false;
                     if (!IsReceive)
                     {
                         if (TimeOutCount > 5)
                         {
-                            TimeOutCount = 0;
-                            ReceiveCallBack.SendError();
+                            try
+                            {
+                                DownloadThread.Abort();
+                            }
+                            catch (Exception)
+                            {
+                                Console.WriteLine("超时" + TimeOutCount + "次,结束发送");
+                            }
+                            finally
+                            {
+                                TimeOutCount = 0;
+                                callBack.SendError(Ip,Order);
+                            }
                         }
                         else
                         {
                             TimeOutCount++;
-                            ReceiveCallBack.Resend();
+                            try
+                            {
+                                DownloadThread.Abort();
+                            }
+                            catch (Exception)
+                            {
+                                Console.WriteLine("超时" + TimeOutCount + "次");
+                            }
+                            finally
+                            {
+                                DownloadState = false;
+                                DownloadFile(DBWrapper, ConfigPath,callBack);
+                            }    
                         }
                     }
                 }
@@ -350,18 +386,19 @@ namespace LightController.Tools
                         switch (receiveStr)
                         {
                             case Constant.RECEIVE_ORDER_SENDNEXT:
-                                if (Pakege_No == Pakege_Count)
-                                {
-                                    Console.WriteLine("下载完成");
-                                    IsSendCompleted = true;
-                                    ReceiveCallBack.SendCompleted();
-                                }
-                                else
-                                {
-                                    Receive(RECEIVE.Send);
-                                }
+                                Receive(RECEIVE.Send);
+                                break;
+                            case Constant.RECEIVE_ORDER_PUT:
+                                Receive(RECEIVE.Send);
+                                break;
+                            case Constant.RECEIVE_ORDER_DONE:
+                                Console.WriteLine("下载完成");
+                                DownloadState = true;
                                 break;
                             default:
+                                DownloadThread.Abort();
+                                DownloadState = false;
+                                callBack.SendError(Ip,Order);
                                 break;
                         }
                         break;
@@ -369,10 +406,12 @@ namespace LightController.Tools
                         switch (receiveStr.Split(':')[0])
                         {
                             case Constant.RECEIVE_ORDER_BEGIN_OK:
-                                ReceiveCallBack.SendCompleted();
+                                DownloadState = true;
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
-                                ReceiveCallBack.SendError();
+                                DownloadThread.Abort();
+                                DownloadState = false;
+                                callBack.SendError(Ip,Order);
                                 break;
                             default:
                                 break;
@@ -382,10 +421,13 @@ namespace LightController.Tools
                         switch (receiveStr.Split(':')[0])
                         {
                             case Constant.RECEIVE_ORDER_END_OK:
-                                ReceiveCallBack.SendCompleted();
+                                //执行发送完成命令
+                                callBack.SendCompleted(Ip);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
-                                ReceiveCallBack.SendError();
+                                DownloadThread.Abort();
+                                DownloadState = false;
+                                callBack.SendError(Ip,Order);
                                 break;
                             default:
                                 break;
@@ -395,10 +437,12 @@ namespace LightController.Tools
                         switch (receiveStr.Split(':')[0])
                         {
                             case Constant.RECEIVE_ORDER_END_OK:
-                                ReceiveCallBack.SendCompleted();
+                                callBack.SendCompleted(Ip);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
-                                ReceiveCallBack.SendError();
+                                DownloadThread.Abort();
+                                DownloadState = false;
+                                callBack.SendError(Ip,Order);
                                 break;
                             default:
                                 break;
@@ -424,6 +468,107 @@ namespace LightController.Tools
             IsTiomeOutThreadStart = true;
             Console.WriteLine("发送完成");
             
+        }
+        /// <summary>
+        /// 下载所有文件数据
+        /// </summary>
+        public void DownloadFile(DBWrapper dBWrapper,string configPath,IReceiveCallBack receiveCallBack)
+        {
+            DBWrapper = dBWrapper;
+            ConfigPath = configPath;
+            callBack = receiveCallBack;
+            DownloadThread = new Thread(new ThreadStart(DownloadStart));
+            DownloadThread.Start();
+        }
+
+        private void DownloadStart()
+        {
+            IList<DMX_C_File> c_Files = DataTools.GetInstance().GetC_Files(DBWrapper);
+            IList<DMX_M_File> m_Files = DataTools.GetInstance().GetM_Files(DBWrapper);
+            DMXConfigData configData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
+            DownloadState = false;
+            SendData(null, Constant.ORDER_BEGIN_SEND, null);
+            string fileName = "";
+            string fileSize = "";
+            string fileCRC = "";
+            byte[] crc;
+            foreach (DMX_C_File item in c_Files)
+            {
+                if (item.SenceNo < 10)
+                {
+                    fileName = "C0" + (item.SenceNo +1) + ".bin";
+                }
+                else
+                {
+                    fileName = "C" + (item.SenceNo + 1) + ".bin";
+                }
+                fileSize = item.GetByteData().Length.ToString();
+                crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
+                fileCRC = crc[0].ToString() + crc[1].ToString();
+                while (true)
+                {
+                    if (DownloadState)
+                    {
+                        SendData(item.GetByteData(),Constant.ORDER_PUT,new string[] {fileName,fileSize,fileCRC});
+                        DownloadState = false;
+                        break;
+                    }
+                }
+            }
+            foreach (DMX_M_File item in m_Files)
+            {
+                if (item.SenceNo < 10)
+                {
+                    fileName = "M0" + (item.SenceNo + 1) + ".bin";
+                }
+                else
+                {
+                    fileName = "M" + (item.SenceNo + 1) + ".bin";
+                }
+                fileSize = item.GetByteData().Length.ToString();
+                crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
+                fileCRC = crc[0].ToString() + crc[1].ToString();
+                while (true)
+                {
+                    if (DownloadState)
+                    {
+                        SendData(item.GetByteData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                        DownloadState = false;
+                        break;
+                    }
+                }
+            }
+            fileName = "Config.bin";
+            fileSize = configData.GetConfigData().Length.ToString();
+            crc = CRCTools.GetInstance().GetCRC(configData.GetConfigData());
+            fileCRC = crc[0].ToString() + crc[1].ToString();
+            while (true)
+            {
+                if (DownloadState)
+                {
+                    SendData(configData.GetConfigData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                    DownloadState = false;
+                    break;
+                }
+            }
+            while (true)
+            {
+                if (DownloadState)
+                {
+                    SendData(null, Constant.ORDER_END_SEND, null);
+                    DownloadState = false;
+                    break;
+                }
+            }
+        }
+        /// <summary>
+        /// 发送控制命令
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="array"></param>
+        public void SendOrder(string order,string[] array)
+        {
+
         }
     }
 }

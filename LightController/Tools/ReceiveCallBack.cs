@@ -7,8 +7,7 @@ namespace LightController.Tools
 {
     public interface IReceiveCallBack
     {
-        void SendCompleted();
-        void SendError();
-        void Resend();
+        void SendCompleted(string ip);
+        void SendError(string ip,string order);
     }
 }

@@ -26,9 +26,8 @@ namespace LightController.Tools
         }
 
 
-		public void Start()
+        public void Start()
         {
-            //ReadFromFile();
             Testapplication();
 		}
 
@@ -50,43 +49,27 @@ namespace LightController.Tools
 
         public void ReadFromFile()
         {
-            DMXConfigData configData = new DMXConfigData(this.DBWrapper);
-            //configData.Test();
-            //ConnectTools.GetInstance().DownLoadData(configData.GetConfigData());
-            if (i == 0)
-            {
-                ConnectTools.GetInstance().SerchDevice();
-                i++;
-            }
-            else
-            {
-                ConnectTools.GetInstance().Send("192.168.31.236", configData.GetConfigData(), ORDER.Put, new string[] { "Config.bin" });
-                i = 0;
-            }
         }
 
         public void Testapplication()
         {
-            DMXConfigData configData = new DMXConfigData(this.DBWrapper);
             if (i == 0)
             {
-
-                //ConnectTools.GetInstance().SerchDevice("192.168.31.235",7070);
-                SocketTools.GetInstance().Start(new IPEndPoint(IPAddress.Parse("192.168.31.235"), 7070));
-                SocketTools.GetInstance().AddConnect("192.168.31.15", 7060);
-                //SockTools.GetInstance().AddConnect("192.168.31.236", 7060);
-
-                i++;
+                ConnectTools.GetInstance().Start("192.168.31.235");
+                DataTools.GetInstance().GetConfigData(DBWrapper, @"C:\Temp\LightProject\Test4\global.ini").WriteToFile(@"C:\Temp");
             }
-            else
+            ConnectTools.GetInstance().SearchDevice();
+            if (i > 0)
             {
-                byte[] data = C_Files[0].GetByteData(); ;
-                C_Files[0].WriteFile(@"C:\Temp");
-                string fileName = "C01.bin";
-                byte[] testData = Encoding.Default.GetBytes("Hallo World");
-                SocketTools.GetInstance().Send("192.168.31.15", data, ORDER.Put, new string[] { fileName });
-                //SockTools.GetInstance().SendData("192.168.31.236", configData.GetConfigData(), ORDER.Put, new string[] { "Config.bin" });
+                foreach (string item in ConnectTools.GetInstance().GetDevicesIp())
+                {
+                    if (item.Length > 0)
+                    {
+                        ConnectTools.GetInstance().Download(new string[] { item }, DBWrapper, @"C:\Temp\LightProject\Test4\global.ini");
+                    }
+                }
             }
+            i++;
         }
     }
 }

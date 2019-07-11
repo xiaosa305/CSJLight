@@ -11,7 +11,7 @@ namespace LightController.Tools
         public int SenceNo { get; set; }
         public DMX_M_Data Data { get; set; }
 
-        private byte[] GetByteData()
+        public byte[] GetByteData()
         {
             IList<byte> fileData = new List<byte>();
             int FileSize = 0;

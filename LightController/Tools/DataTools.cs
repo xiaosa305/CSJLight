@@ -225,9 +225,9 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="dBWrapper"></param>
         /// <returns></returns>
-        public DMXConfigData GetConfigData(DBWrapper dBWrapper)
+        public DMXConfigData GetConfigData(DBWrapper dBWrapper,string filePath)
         {
-            DMXConfigData configData = new DMXConfigData(dBWrapper);
+            DMXConfigData configData = new DMXConfigData(dBWrapper, filePath);
             return configData;
         }
         /// <summary>
@@ -237,7 +237,7 @@ namespace LightController.Tools
         /// <param name="path"></param>
         public void WriteConfigToFile(DBWrapper dBWrapper,string path)
         {
-            DMXConfigData configData = new DMXConfigData(dBWrapper);
+            DMXConfigData configData = new DMXConfigData(dBWrapper,path);
             configData.WriteToFile(path);
         }
     }

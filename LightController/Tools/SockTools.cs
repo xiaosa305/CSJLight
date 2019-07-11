@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Ast;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -60,7 +61,7 @@ namespace LightController.Tools
         /// 开启连接池
         /// </summary>
         /// <param name="iPEndPoint"></param>
-        public void Start(IPEndPoint iPEndPoint)
+        public void Start()
         {
             //连接对象池
             conns = new Conn[MaxCount];
@@ -127,26 +128,6 @@ namespace LightController.Tools
             }
         }
         /// <summary>
-        /// 发送数据
-        /// </summary>
-        /// <param name="ip">连接ip</param>
-        /// <param name="data">数据</param>
-        /// <param name="order">操作命令</param>
-        /// <param name="strArray">备注信息</param>
-        public void Send(string ip,byte[] data ,string order,string[] strArray,IReceiveCallBack callBack)
-        {
-            foreach (Conn value in conns)
-            {
-                if (value.Ip != null)
-                {
-                    if (value.Ip.Equals(ip))
-                    {
-                        value.SendData(data, order, strArray, callBack);
-                    }
-                }
-            }
-        }
-        /// <summary>
         /// 配置连接发送数据包的包大小
         /// </summary>
         /// <param name="ip">连接ip</param>
@@ -183,7 +164,42 @@ namespace LightController.Tools
             return deviceList;
         }
         /// <summary>
-        /// 获取发送数据是否完成
+        /// 下载所有文件数据
         /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="dBWrapper"></param>
+        /// <param name="configPath"></param>
+        public void Download(string ip,DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].DownloadFile(dBWrapper, configPath,callBack);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 发送控制命令
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="order"></param>
+        /// <param name="array"></param>
+        public void SendOrder(string ip,string order,string[] array)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].SendOrder(order, array);
+                    }
+                }
+            }
+        }
     }
 }

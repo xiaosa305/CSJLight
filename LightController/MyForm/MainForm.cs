@@ -971,6 +971,9 @@ namespace LightController
 			}
 		}	
 		
+
+
+
 		/// <summary>
 		/// 追加步（在最后步后插入新步）的操作
 		/// </summary>
@@ -1819,53 +1822,110 @@ namespace LightController
 			// 选择插入时的操作，
 			if (method == MaterialUseForm.InsertMethod.INSERT)
 			{
-				if (mode == 0)
+				if (  (mode == 0 && addStepCount + totalStep >32) || (mode==1 && addStepCount + totalStep > 48) )
 				{
-					if ( addStepCount + totalStep > 32)
-					{
 						MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
 						return;
-					}
-					else
-					{
-						StepWrapper stepMode = getCurrentStepMode();
-						IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepMode.TongdaoList);
-						if (sameTDIndexList.Count == 0) {
-							MessageBox.Show("该素材与当前灯具不匹配，无法调用");
-							return;
-						}
-						else
-						{
-							for (int i = 0; i < addStepCount; i++) {
-								StepWrapper newStep = generateNewStep(stepMode);
-								//TODO 改造下newStep,将素材值插入到newStep 
-								// 使用后插法：避免当前无数据的情况下调用素材失败
-								lsWrapper.InsertStep(lsWrapper.CurrentStep - 1 , newStep, false);
-							}
-						}
-					}
+				}
+				
+				StepWrapper stepMode = getCurrentStepMode();
+				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList,  stepMode.TongdaoList);
+				if (sameTDIndexList.Count == 0)
+				{
+						MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+						return;
 				}
 				else
 				{
-					if (addStepCount + totalStep > 48)
-					{
-						MessageBox.Show("Dickov: 素材步数超过当前模式剩余步数，无法调用");
-						return;
-					}
-					else
-					{
-
-					}
-				}
-
-				MessageBox.Show("Dickov:" + MaterialUseForm.InsertMethod.INSERT);
+						StepWrapper newStep = null;
+						for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
+						{
+							newStep = generateNewStep(stepMode);
+							// 改造下newStep,将素材值赋给newStep 
+							changeStepFromMaterial( materialAst.TongdaoList , stepIndex, sameTDIndexList , newStep);								
+							// 使用后插法：避免当前无数据的情况下调用素材失败
+							lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
+						}
+						ShowVScrollBars(newStep);
+						showStepLabel(lsWrapper);
+				}				
 			}
 			// 选择覆盖时的操作
 			else
 			{
-				MessageBox.Show("Dickov:" + MaterialUseForm.InsertMethod.COVER);
+				if ((mode == 0 && addStepCount + currentStep > 32) || (mode == 1 && addStepCount + currentStep > 48))
+				{
+					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用；可选择其他位置覆盖");
+					return;
+				}
+
+				StepWrapper stepMode = getCurrentStepMode();
+				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepMode.TongdaoList);
+				if (sameTDIndexList.Count == 0)
+				{
+					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+					return;
+				}
+				//TODO 覆盖的核心逻辑：先找出已有的数据改造之；若没有则添加。
+				//else
+				//{
+				//	StepWrapper newStep = null;
+				//	for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
+				//	{
+				//		newStep = generateNewStep(stepMode);
+				//		// 改造下newStep,将素材值赋给newStep 
+				//		changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
+				//		// 使用后插法：避免当前无数据的情况下调用素材失败
+				//		lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
+				//	}
+				//	ShowVScrollBars(newStep);
+				//	showStepLabel(lsWrapper);
+				//}
+
+
+
 			}
-		}		
+		}
+
+		/// <summary>
+		/// 辅助方法：将用传进来的数据，重新包装StepWrapper
+		/// </summary>
+		/// <param name="materialTongdaoList"></param>
+		/// <param name="sameTDIndexList"></param>
+		/// <param name="newStep"></param>
+		private void changeStepFromMaterial(
+				TongdaoWrapper[,] materialTongdaoList ,
+				int stepIndex,
+				IList<MaterialIndexAst> sameTDIndexList ,
+				StepWrapper newStep)
+		{
+			foreach (MaterialIndexAst mia in sameTDIndexList)
+			{
+				int currentTDIndex = mia.CurrentTDIndex;
+				int materialTDIndex = mia.MaterialTDIndex;
+				newStep.TongdaoList[currentTDIndex].ScrollValue = materialTongdaoList[stepIndex, materialTDIndex].ScrollValue;
+				newStep.TongdaoList[currentTDIndex].ChangeMode = materialTongdaoList[stepIndex, materialTDIndex].ChangeMode;
+				newStep.TongdaoList[currentTDIndex].StepTime = materialTongdaoList[stepIndex, materialTDIndex].StepTime;
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：通过传进的LightStepWrapper，调用ShowStepLabel(int,int)
+		/// </summary>
+		/// <param name="lsWrapper"></param>
+		private void showStepLabel(LightStepWrapper lsWrapper)
+		{
+			showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
+		}
+
+		/// <summary>
+		///  辅助方法：通过传进的StepWrapper,调用具体的ShowVScrollBars()
+		/// </summary>
+		/// <param name="newStep"></param>
+		private void ShowVScrollBars(StepWrapper newStep)
+		{
+			ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+		}
 
 		/// <summary>
 		///  辅助方法：通过比对tongdaoList 和 素材的所有通道名,获取相应的同名通道的列表(MaterialIndexAst)

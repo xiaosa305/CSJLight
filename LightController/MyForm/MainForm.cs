@@ -26,8 +26,7 @@ namespace LightController
 		private LightsForm lightsForm;
 		private IList<LightAst> lightAstList;
 
-		// 只能有一个GlobalSetForm，在点击全局设置时新建(为生成过或已被销毁)，或在Hide时显示
-		private GlobalSetForm globalSetForm;
+
 		// 只能有一个YMSetForm
 		private YMSetForm ymSetForm;
 
@@ -1353,10 +1352,8 @@ namespace LightController
 		/// <param name="e"></param>
 		private void globleSetButton_Click(object sender, EventArgs e)
 		{
-			if (globalSetForm == null || globalSetForm.IsDisposed)
-			{				
-				globalSetForm = new GlobalSetForm(this, globalIniFilePath, isNew);
-			}
+			// 只能有一个GlobalSetForm，在点击全局设置时新建(为生成过或已被销毁)，或在Hide时显示
+			GlobalSetForm globalSetForm = new GlobalSetForm(this, globalIniFilePath);
 			globalSetForm.ShowDialog();
 		}
 			   

@@ -56,7 +56,6 @@ namespace LightController.Tools
             if (i == 0)
             {
                 ConnectTools.GetInstance().Start("192.168.31.235");
-                DataTools.GetInstance().GetConfigData(DBWrapper, @"C:\Temp\LightProject\Test4\global.ini").WriteToFile(@"C:\Temp");
             }
             ConnectTools.GetInstance().SearchDevice();
             if (i > 0)

@@ -188,7 +188,7 @@ namespace LightController.Tools
         /// <param name="ip"></param>
         /// <param name="order"></param>
         /// <param name="array"></param>
-        public void SendOrder(string ip,string order,string[] array)
+        public void SendOrder(string ip,string order,string[] array,IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -196,7 +196,7 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].SendOrder(order, array);
+                        conns[i].SendOrder(order, array,receiveCallBack);
                     }
                 }
             }

@@ -78,7 +78,7 @@ namespace LightController.Tools
             {
                 index = chCRCLo ^ data[i];
                 chCRCLo = Convert.ToByte(chCRCHi ^ chCRCHTable[index]);
-                chCRCHi = Convert.ToByte(chCRCLTable[index]);
+                chCRCHi = chCRCLTable[index];
             }
             byte[] result = new byte[2];
             result[0] = chCRCLo;

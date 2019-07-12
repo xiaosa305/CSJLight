@@ -277,6 +277,14 @@ namespace LightController.MyForm
 			MessageBox.Show("保存成功");
 		}
 
-		
+		/// <summary>
+		///  右上角点击关闭按钮后的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void GlobalSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+		}
 	}
 }

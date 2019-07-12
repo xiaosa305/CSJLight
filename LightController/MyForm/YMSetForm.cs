@@ -202,5 +202,10 @@ namespace LightController.MyForm
 				item.Checked = allCheckBox.Checked;
 			}
 		}
+
+		private void YMSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+		}
 	}
 }

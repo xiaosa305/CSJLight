@@ -1521,6 +1521,7 @@
 			this.Name = "GlobalSetForm";
 			this.Padding = new System.Windows.Forms.Padding(5);
 			this.Text = "全局设置";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GlobalSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.GlobalSetForm_Load);
 			this.dmxGroupBox.ResumeLayout(false);
 			this.groupBox7.ResumeLayout(false);

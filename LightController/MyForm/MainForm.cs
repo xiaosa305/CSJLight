@@ -25,11 +25,7 @@ namespace LightController
 		// 只能有一个lightsForm，在点击编辑灯具时（未生成过或已被销毁）新建，或在Hide时显示
 		private LightsForm lightsForm;
 		private IList<LightAst> lightAstList;
-
-
-		// 只能有一个YMSetForm
-		private YMSetForm ymSetForm;
-
+				
 		// 辅助的变量：
 		// 点击新建后，点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
 		private bool isNew = true;
@@ -1625,10 +1621,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void ymSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (ymSetForm == null || ymSetForm.IsDisposed)
-			{
-				ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
-			}
+			YMSetForm 	ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
 			ymSetForm.ShowDialog();
 		}
 
@@ -1864,7 +1857,6 @@ namespace LightController
 
 					}
 				}
-
 
 				MessageBox.Show("Dickov:" + MaterialUseForm.InsertMethod.INSERT);
 			}

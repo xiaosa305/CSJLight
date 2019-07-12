@@ -258,9 +258,10 @@ namespace LightController
 			for (int i = 0; i < 32; i++) {
 				vScrollBars[i].MouseEnter += new EventHandler(this.vScrollBar_MouseEnter);
 				labels[i].MouseEnter += new EventHandler(this.tdLabel_MouseEnter);
+				valueNumericUpDowns[i].MouseEnter += new EventHandler(this.valueNumericUpDown_MouseEnter);
 				valueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.valueNumericUpDown_MouseWheel);
 				steptimeNumericUpDowns[i].MouseEnter += new EventHandler(this.steptimeNumericUpDown_MouseEnter);
-				steptimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.steptimeNumericUpDown_MouseWheel);				
+				steptimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.steptimeNumericUpDown_MouseWheel);						
 			}
 
 			#endregion
@@ -775,6 +776,11 @@ namespace LightController
 
 		}
 
+		/// <summary>
+		///  灯具列表选中项被改变后的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 必须判断这个字段(Count)，否则会报异常
@@ -786,7 +792,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 这个方法应该需要分许多步骤：
+		/// 辅助方法：初始化灯具数据。
 		/// 0.先查看当前内存是否已有此数据 
 		/// 1.若还未有，则取出相关的ini进行渲染
 		/// 2.若内存内 或 数据库内已有相关数据，则使用这个数据。
@@ -887,8 +893,6 @@ namespace LightController
 			//2.4 设定《复制步》是否可用
 			copyStepButton.Enabled = (currentStep > 0);
 			pasteStepButton.Enabled = (currentStep > 0 && tempStep != null);
-
-
 
 		}
 
@@ -1008,10 +1012,9 @@ namespace LightController
 				}
 			}
 		}	
-
 		
 		/// <summary>
-		/// 新建步（在最后追加步）的操作
+		/// 追加步（在最后步后插入新步）的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1041,22 +1044,69 @@ namespace LightController
 			//	MessageBox.Show("音频程序最多不超过48步");
 			//	return;
 			//}
-			#endregion 
+			#endregion
 
 			//若通过步数验证，则新建步，并将stepLabel切换成最新的标签
-			StepWrapper newStep = new StepWrapper()
-			{
-				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
-				LightMode = mode,
-				LightFullName = stepMode.LightFullName,
-				StartNum = stepMode.StartNum
-			};
+			StepWrapper newStep = generateNewStep(stepMode);
 			// 调用包装类内部的方法
 			lightData.LightStepWrapperList[frame, mode].AddStep(newStep);
 
 			this.ShowVScrollBars(newStep.TongdaoList, stepMode.StartNum);
 			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].CurrentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
 
+		}
+		
+		/// <summary>
+		/// 插入步(在当前步之后插入步)的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void insertStepButton_Click(object sender, EventArgs e)
+		{
+			// 1.获取当前步与最高值，总步数
+			// ①若当前步 = 总步数，则直接调用newStep方法
+			// --②若当前步 = 最高值，则无法插入 (在showLabels中已设定键enabled=false;故无法点击，也无需处理）
+			// ③若当前步 < 总步数，则可以插入，并将之后的步数往后移动
+			
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			if (lsWrapper.CurrentStep == lsWrapper.TotalStep)
+			{
+				newStepButton_Click(null, null);
+				return;
+			}
+
+			if (lsWrapper.CurrentStep < lsWrapper.TotalStep) {
+				LightWrapper currentlight = getCurrentLightWrapper();
+				StepWrapper newStep = generateNewStep(currentlight.StepMode);
+				int stepIndex = getCurrentStepValue() - 1 ;
+				lsWrapper.InsertStep(stepIndex, newStep);
+
+				this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
+			}
+
+
+			// 2.计算总步数;如果总步数 >= 最高值，则无法插入
+
+
+
+
+		}
+		
+		/// <summary>
+		///  通过stepMode，来生成新的stepWrapper（包括mode,lightName,startNum,tongdaoList等属性）
+		/// </summary>
+		/// <param name="stepMode"></param>
+		/// <returns></returns>
+		private StepWrapper generateNewStep(StepWrapper stepMode)
+		{
+			return new StepWrapper()
+			{
+				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
+				LightMode = mode,
+				LightFullName = stepMode.LightFullName,
+				StartNum = stepMode.StartNum
+			};
 		}
 
 		/// <summary>
@@ -1094,8 +1144,7 @@ namespace LightController
 				this.showStepLabel(0, 0);				
 			}			
 		}
-
-
+		
 		/// <summary>
 		/// 通过模板的通道数据，生成新的非引用(要摆脱与StepMode的关系)的tongdaoList
 		/// </summary>
@@ -1254,7 +1303,16 @@ namespace LightController
 				oneLightStepWork();
 			}			
 		}
-		
+
+		/// <summary>
+		///  获取当前选中的LightWrapper
+		/// </summary>
+		/// <returns></returns>
+		private LightWrapper getCurrentLightWrapper()
+		{
+			return lightWrapperList[selectedLightIndex];
+		}
+
 		/// <summary>
 		///  辅助方法：取出选定灯具、Frame、Mode 的 所有步数集合
 		/// </summary>
@@ -1262,19 +1320,21 @@ namespace LightController
 		private LightStepWrapper getCurrentLightStepWrapper()
 		{
 			LightWrapper light = lightWrapperList[selectedLightIndex];
-			LightStepWrapper lightStepWrapper = light.LightStepWrapperList[frame, mode];
-
-			//若为空，则立刻创建一个
-			if (lightStepWrapper == null)
+			if (light == null) {
+				return null;
+			}
+			else
 			{
-				lightStepWrapper = new LightStepWrapper()
+				//若为空，则立刻创建一个
+				if (light.LightStepWrapperList[frame, mode] == null)
 				{
-					StepWrapperList = new List<StepWrapper>()
+					light.LightStepWrapperList[frame, mode] = new LightStepWrapper()
+					{
+						StepWrapperList = new List<StepWrapper>()
+					};
 				};
-				light.LightStepWrapperList[frame, mode] = lightStepWrapper;
-			};
-
-			return lightStepWrapper;
+				return light.LightStepWrapperList[frame, mode];
+			}			
 		}
 		
 		/// <summary>
@@ -1296,13 +1356,12 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  辅助方法：取出当前步的currentStep值
+		///  辅助方法：取出当前LightStepWrapper的currentStep值
 		/// </summary>
 		/// <returns></returns>
 		private int getCurrentStepValue()
 		{
-			int currentStepValue = getCurrentLightStepWrapper().CurrentStep;
-			return currentStepValue;
+			return getCurrentLightStepWrapper().CurrentStep;
 		}
 
 		/// <summary>
@@ -1310,9 +1369,8 @@ namespace LightController
 		/// </summary>
 		/// <returns></returns>
 		private int getTotalStepValue()
-		{
-			int totalStepValue = getCurrentLightStepWrapper().TotalStep;
-			return totalStepValue;
+		{ 
+			return getCurrentLightStepWrapper().TotalStep;
 		}
 			
 		
@@ -1697,39 +1755,7 @@ namespace LightController
 		}
 
 
-		/// <summary>
-		/// 插入步按钮点击
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void insertStepButton_Click(object sender, EventArgs e)
-		{
-			// 1.获取当前步与最高值，总步数
-			// ①若当前步 = 总步数，则直接调用newStep方法
-			// ②若当前步 = 最高值，则无法插入 (在showLabels中已设定键enabled=false
-			// ③若当前步 < 总步数，则可以插入，并将之后的步数往后移动
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			if (lsWrapper.CurrentStep == lsWrapper.TotalStep) {
-				newStepButton_Click(null, null);
-				return; 
-			}
-			if(lsWrapper.CurrentStep == lsWrapper.TotalStep){
-				lsWrapper.AddStep(new StepWrapper());
-
-			}
 		
-			
-
-			// 2.算计总步数;如果总步数 >= 最高值，则无法插入
-
-
-
-			
-
-
-
-
-		}
 
 		/// <summary>
 		/// 辅助方法：鼠标进入步时间输入框时，切换焦点;
@@ -1742,6 +1768,18 @@ namespace LightController
 			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
 			steptimeNumericUpDowns[tdIndex].Select();
 		}
+
+		/// <summary>
+		/// 辅助方法：鼠标进入通道值输入框时，切换焦点;
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueNumericUpDown_MouseEnter(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			valueNumericUpDowns[tdIndex].Select();
+		}
+
 
 		/// <summary>
 		///  辅助方法：通过fromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
@@ -1782,7 +1820,8 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  使用素材：打开素材使用Form
+		///  使用素材：
+		///  打开 MaterialUseForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1806,6 +1845,7 @@ namespace LightController
 			Test test = new Test(GetDBWrapper(true));
 			test.Start();
 		}
+
 
 		
 	}

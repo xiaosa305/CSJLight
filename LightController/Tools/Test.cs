@@ -60,13 +60,15 @@ namespace LightController.Tools
             ConnectTools.GetInstance().SearchDevice();
             if (i > 0)
             {
+                IList<string> iplist = new List<string>();
                 foreach (string item in ConnectTools.GetInstance().GetDevicesIp())
                 {
                     if (item.Length > 0)
                     {
-                        ConnectTools.GetInstance().Download(new string[] { item }, DBWrapper, @"C:\Temp\LightProject\Test4\global.ini");
+                        iplist.Add(item);
                     }
                 }
+                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test4\global.ini");
             }
             i++;
         }

@@ -50,7 +50,8 @@ namespace LightController.Ast
 		/// <param name="newStep"></param>
 		public void AddStep(StepWrapper newStep)
 		{
-			// 当前最大步为TotalStep，要追加数据到最后面，则要设index为totalStep，比如当前只有一步，要追加需要Insert(1,data)
+			// 当前最大步为TotalStep，要追加数据到最后面，则要设index为totalStep，
+			// 比如当前只有一步，要追加需要Insert(1,data,fasle)
 			InsertStep(TotalStep-1, newStep,false);
 		}
 

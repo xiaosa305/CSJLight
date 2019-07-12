@@ -123,10 +123,19 @@ namespace LightController.MyForm
 		/// </summary>
 		private void loadGlobalSet()
 		{
-			tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
-			startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 0);
-			eachStepTimeNumericUpDown.Value = iniAst.ReadInt("Set", "EachStepTime", 25);
-			eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode",0);
+			try
+			{
+				tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
+				startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 0);
+				eachStepTimeNumericUpDown.Value = iniAst.ReadInt("Set", "EachStepTime", 25);
+				eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode", 0);
+			}
+			catch (Exception) {
+				tongdaoCountComboBox.SelectedIndex = 0;
+				startupComboBox.SelectedIndex = 0;
+				eachStepTimeNumericUpDown.Value =  25;
+				eachChangeModeComboBox.SelectedIndex = 0 ;
+			}
 
 		}
 

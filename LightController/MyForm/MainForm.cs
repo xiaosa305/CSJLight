@@ -269,28 +269,7 @@ namespace LightController
 			isInit = true;
 			dMX512Player = DMX512Player.GetInstance();
 		}
-	
-		/// <summary>
-		/// 辅助方法:调用素材
-		/// </summary>
-		/// <param name="materialName"></param>
-		/// <param name="method"></param>
-		internal void InsertOrCoverMaterial(MaterialAst meterialAst, MaterialUseForm.InsertMethod method)
-		{
-			Console.WriteLine(meterialAst);
-			// 选择插入时的操作，
-			if (method == MaterialUseForm.InsertMethod.INSERT)
-			{
-				MessageBox.Show("Dickov:" + MaterialUseForm.InsertMethod.INSERT);
-			}
-			// 选择覆盖时的操作
-			else {			
-
-				MessageBox.Show("Dickov:"  + MaterialUseForm.InsertMethod.COVER);
-			}
-			
-		}
-
+		
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			
@@ -409,9 +388,9 @@ namespace LightController
 			MessageBox.Show("成功打开工程");
 		}
 
-
 		/// <summary>
-		///  由 步数模板 和 步数值集合 , 来生成某一步的StepWrapper
+		///  由 步数模板 和 步数值集合 , 来生成某一步的StepWrapper;
+		///  主要供从数据库里读取数据填入内存时使用
 		/// </summary>
 		/// <param name="stepMode">模板Step</param>
 		/// <param name="stepValueList">从数据库读取的相同lightIndex、frame、mode、step的数值集合：即某一步的通道值列表</param>
@@ -843,12 +822,12 @@ namespace LightController
 			}
 			else // lightStepWrapper != null && lightStepWrapper.StepList.Count>0 : 也就是已经有值了
 			{
-				int recentStep = lightStepWrapper.CurrentStep;
+				int currentStep = lightStepWrapper.CurrentStep;
 				int totalStep = lightStepWrapper.TotalStep;
 
-				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[recentStep - 1];
+				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
 				ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				showStepLabel(recentStep, totalStep);
+				showStepLabel(currentStep, totalStep);
 			}
 		}
 
@@ -880,15 +859,17 @@ namespace LightController
 			stepLabel.Text = currentStep + "/" + totalStep;
 			
 			// 2.1 设定《删除步》按钮是否可用
-			this.deleteStepButton.Enabled = (totalStep != 0);			
+			deleteStepButton.Enabled = totalStep != 0;
 
-			// 2.2 设定《追加步》、《插入步》按钮是否可用			
-			this.newStepButton.Enabled = ! ((mode == 0 && totalStep >= 32) || (mode == 1 && totalStep >= 48));			
-			this.insertStepButton.Enabled = !((mode == 0 && totalStep >= 32) || (mode == 1 && totalStep >= 48));
+			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
+			bool insertEnabled =  (mode == 0 && totalStep < 32) || ( mode == 1 && totalStep < 48 );
+			newStepButton.Enabled = insertEnabled;				
+			insertAfterStepButton.Enabled = insertEnabled;			
+			insertBeforeStepButton.Enabled = insertEnabled &&  currentStep > 0;
 
 			// 2.3 设定《上一步及下一步》是否可用
-			backStepButton.Enabled = (currentStep > 1);			
-			nextStepButton.Enabled = (currentStep < totalStep);
+			backStepButton.Enabled = currentStep > 1;			
+			nextStepButton.Enabled = currentStep < totalStep;
 
 			//2.4 设定《复制步》是否可用
 			copyStepButton.Enabled = (currentStep > 0);
@@ -1049,7 +1030,7 @@ namespace LightController
 			//若通过步数验证，则新建步，并将stepLabel切换成最新的标签
 			StepWrapper newStep = generateNewStep(stepMode);
 			// 调用包装类内部的方法
-			lightData.LightStepWrapperList[frame, mode].AddStep(newStep);
+			lightData.LightStepWrapperList[frame, mode]. AddStep(newStep);
 
 			this.ShowVScrollBars(newStep.TongdaoList, stepMode.StartNum);
 			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].CurrentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
@@ -1057,44 +1038,39 @@ namespace LightController
 		}
 		
 		/// <summary>
-		/// 插入步(在当前步之后插入步)的操作
+		/// 插入步(前插或后插由触发键的Name决定)的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void insertStepButton_Click(object sender, EventArgs e)
 		{
-			// 1.获取当前步与最高值，总步数
-			// ①若当前步 = 总步数，则直接调用newStep方法
-			// --②若当前步 = 最高值，则无法插入 (在showLabels中已设定键enabled=false;故无法点击，也无需处理）
-			// ③若当前步 < 总步数，则可以插入，并将之后的步数往后移动
+			// 1.获取当前步与最高值，总步数			
+			// 若当前步 <= 总步数，则可以插入，并将之后的步数往后移动
+			// 否则报错
 			
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			if (lsWrapper.CurrentStep == lsWrapper.TotalStep)
-			{
-				newStepButton_Click(null, null);
-				return;
-			}
-
-			if (lsWrapper.CurrentStep < lsWrapper.TotalStep) {
+			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep) {
+							
 				LightWrapper currentlight = getCurrentLightWrapper();
 				StepWrapper newStep = generateNewStep(currentlight.StepMode);
 				int stepIndex = getCurrentStepValue() - 1 ;
-				lsWrapper.InsertStep(stepIndex, newStep);
+				bool insertBefore = ((Button)sender).Name.Equals("insertBeforeStepButton");
+				lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
 
 				this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
-				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
+				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);				
+
 			}
+			else
+			{
+				MessageBox.Show("Dickov:当前步大于总步数");
+			}					   
+		}	
 
 
-			// 2.计算总步数;如果总步数 >= 最高值，则无法插入
-
-
-
-
-		}
-		
 		/// <summary>
-		///  通过stepMode，来生成新的stepWrapper（包括mode,lightName,startNum,tongdaoList等属性）
+		///  通过stepMode，来生成新的stepWrapper（包括mode,lightName,startNum,tongdaoList等属性）;
+		///  主要供新建步、插入素材 等情况使用
 		/// </summary>
 		/// <param name="stepMode"></param>
 		/// <returns></returns>
@@ -1304,6 +1280,8 @@ namespace LightController
 			}			
 		}
 
+		#region 获取各种当前的值或对象
+
 		/// <summary>
 		///  获取当前选中的LightWrapper
 		/// </summary>
@@ -1356,6 +1334,15 @@ namespace LightController
 		}
 
 		/// <summary>
+		///  获取当前灯具的StepMode，用于还未生成步数时调用
+		/// </summary>
+		/// <returns></returns>
+		private StepWrapper getCurrentStepMode()
+		{
+			return getCurrentLightWrapper().StepMode;
+		}
+
+		/// <summary>
 		///  辅助方法：取出当前LightStepWrapper的currentStep值
 		/// </summary>
 		/// <returns></returns>
@@ -1372,8 +1359,9 @@ namespace LightController
 		{ 
 			return getCurrentLightStepWrapper().TotalStep;
 		}
-			
-		
+
+		#endregion
+
 		/// <summary>
 		/// 全局变量按钮点击后的操作：
 		/// 1.如果未建立，则传配置文件地址及是否新建两个属性
@@ -1832,9 +1820,7 @@ namespace LightController
 			materialUseForm = new MaterialUseForm(this);
 			materialUseForm.ShowDialog();			
 		}
-
-
-
+		
 		/// <summary>
 		///  曾维佳测试用按钮
 		/// </summary>
@@ -1846,7 +1832,94 @@ namespace LightController
 			test.Start();
 		}
 
+		/// <summary>
+		/// 辅助方法:调用素材
+		/// </summary>
+		/// <param name="materialAst"></param>
+		/// <param name="method"></param>
+		internal void InsertOrCoverMaterial(MaterialAst materialAst, MaterialUseForm.InsertMethod method)
+		{
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			int totalStep = lsWrapper.TotalStep;
+			int currentStep = lsWrapper.CurrentStep;
+			int addStepCount = materialAst.Step;
 
-		
+			// 选择插入时的操作，
+			if (method == MaterialUseForm.InsertMethod.INSERT)
+			{
+				if (mode == 0)
+				{
+					if ( addStepCount + totalStep > 32)
+					{
+						MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
+						return;
+					}
+					else
+					{
+						StepWrapper stepMode = getCurrentStepMode();
+						IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepMode.TongdaoList);
+						if (sameTDIndexList.Count == 0) {
+							MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+							return;
+						}
+						else
+						{
+							for (int i = 0; i < addStepCount; i++) {
+								StepWrapper newStep = generateNewStep(stepMode);
+								//TODO 改造下newStep,将素材值插入到newStep 
+								// 使用后插法：避免当前无数据的情况下调用素材失败
+								lsWrapper.InsertStep(lsWrapper.CurrentStep - 1 , newStep, false);
+							}
+						}
+					}
+				}
+				else
+				{
+					if (addStepCount + totalStep > 48)
+					{
+						MessageBox.Show("Dickov: 素材步数超过当前模式剩余步数，无法调用");
+						return;
+					}
+					else
+					{
+
+					}
+				}
+
+
+				MessageBox.Show("Dickov:" + MaterialUseForm.InsertMethod.INSERT);
+			}
+			// 选择覆盖时的操作
+			else
+			{
+				MessageBox.Show("Dickov:" + MaterialUseForm.InsertMethod.COVER);
+			}
+		}		
+
+		/// <summary>
+		///  辅助方法：通过比对tongdaoList 和 素材的所有通道名,获取相应的同名通道的列表(MaterialIndexAst)
+		/// </summary>
+		/// <param name="materialTDNameList"></param>
+		/// <param name="tongdaoList"></param>
+		/// <returns></returns>
+		private IList<MaterialIndexAst> getSameTDIndexList(IList<string> materialTDNameList , IList<TongdaoWrapper> tongdaoList) {
+			IList<MaterialIndexAst> sameTDIndexList = new List<MaterialIndexAst>();
+			for(int materialTDIndex=0; materialTDIndex<materialTDNameList.Count; materialTDIndex++)
+			{
+				for(int currentTDIndex=0; currentTDIndex<tongdaoList.Count; currentTDIndex++)
+				{
+					if ( materialTDNameList[materialTDIndex].Equals(tongdaoList[currentTDIndex].TongdaoName))
+					{
+						sameTDIndexList.Add(new MaterialIndexAst()
+						{
+							MaterialTDIndex = materialTDIndex,
+							CurrentTDIndex = currentTDIndex
+						});
+					}
+				}
+			}
+			return sameTDIndexList;
+		}
+
 	}
 }

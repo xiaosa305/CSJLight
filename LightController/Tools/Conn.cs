@@ -11,7 +11,7 @@ namespace LightController.Tools
     public class Conn
     {
         //接收缓冲区大小
-        private const int BUFFER_SIZE = 1024;
+        private const int BUFFER_SIZE = 2048;
         //socket
         public Socket Socket { get; set; }
         //是否被使用
@@ -60,7 +60,7 @@ namespace LightController.Tools
         {
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
-            PakegeSize = 504;
+            PakegeSize = 2040;
             Ip = "";
         }
         /// <summary>
@@ -134,14 +134,8 @@ namespace LightController.Tools
             switch (order)
             {
                 case Constant.ORDER_PUT:
-                    SendOrderPakege();
-                    break;
                 case Constant.ORDER_BEGIN_SEND:
-                    SendOrderPakege();
-                    break;
                 case Constant.ORDER_END_SEND:
-                    SendOrderPakege();
-                    break;
                 default:
                     SendOrderPakege();
                     break;
@@ -206,7 +200,7 @@ namespace LightController.Tools
             Console.Write("Send:    " + Order + " ---");
             foreach (byte value in pakege)
             {
-                Console.Write(value + " ");
+                Console.Write(Convert.ToString(value,16) + " ");
             }
 
             Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb,this);
@@ -269,9 +263,10 @@ namespace LightController.Tools
                 pakegeData = new byte[Data.Length - (Pakege_No - 1) * PakegeSize];
                 for (int i = 0; i < pakegeData.Length - (Pakege_No - 1) * PakegeSize; i++)
                 {
-                    pakegeData[i] = Data[(Pakege_No - 1) * 512 + i];
+                    pakegeData[i] = Data[(Pakege_No - 1) * PakegeSize + i];
                 }
             }
+            int len = pakegeData.Length;
             byte[] pakegeDataSize = new byte[] { Convert.ToByte(pakegeData.Length & 0xFF), Convert.ToByte((pakegeData.Length >> 8) & 0xFF) };
             byte pakegeMark = GetDataMark();
             byte[] pakegeHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), pakegeDataSize[0], pakegeDataSize[1], pakegeMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
@@ -284,7 +279,7 @@ namespace LightController.Tools
             Console.Write("SendFile:    " + Order + ",pakegeNo: " + Pakege_No + ",pakegeCount: " + Pakege_Count + " ---");
             foreach (byte value in pakege)
             {
-                Console.Write(value + " ");
+                Console.Write("0x" + Convert.ToString(value, 16) + ",");
             }
 
             Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb, this);
@@ -422,7 +417,7 @@ namespace LightController.Tools
                         {
                             case Constant.RECEIVE_ORDER_END_OK:
                                 //执行发送完成命令
-                                callBack.SendCompleted(Ip);
+                                callBack.SendCompleted(Ip,Order);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
                                 DownloadThread.Abort();
@@ -436,12 +431,10 @@ namespace LightController.Tools
                     default:
                         switch (receiveStr.Split(':')[0])
                         {
-                            case Constant.RECEIVE_ORDER_END_OK:
-                                callBack.SendCompleted(Ip);
+                            case Constant.RECEIVE_ORDER_OTHER_OK:
+                                callBack.SendCompleted(Ip,Order);
                                 break;
-                            case Constant.RECEIVE_ORDER_END_ERROR:
-                                DownloadThread.Abort();
-                                DownloadState = false;
+                            case Constant.RECEIVE_ORDER_OTHER_ERROR:
                                 callBack.SendError(Ip,Order);
                                 break;
                             default:
@@ -539,14 +532,16 @@ namespace LightController.Tools
                 }
             }
             fileName = "Config.bin";
-            fileSize = configData.GetConfigData().Length.ToString();
+            byte[] configFileData = configData.GetConfigData();
+            configData.WriteToFile(@"C:\Temp");
+            fileSize = configFileData.Length.ToString();
             crc = CRCTools.GetInstance().GetCRC(configData.GetConfigData());
             fileCRC = crc[0].ToString() + crc[1].ToString();
             while (true)
             {
                 if (DownloadState)
                 {
-                    SendData(configData.GetConfigData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                    SendData(configFileData, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                     DownloadState = false;
                     break;
                 }
@@ -566,9 +561,10 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="order"></param>
         /// <param name="array"></param>
-        public void SendOrder(string order,string[] array)
+        public void SendOrder(string order,string[] array,IReceiveCallBack receiveCallBack)
         {
-
+            callBack = receiveCallBack;
+            SendData(null, order, array);
         }
     }
 }

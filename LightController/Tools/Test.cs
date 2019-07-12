@@ -55,19 +55,28 @@ namespace LightController.Tools
         {
             if (i == 0)
             {
-                ConnectTools.GetInstance().Start("192.168.31.235");
-                DataTools.GetInstance().GetConfigData(DBWrapper, @"C:\Temp\LightProject\Test4\global.ini").WriteToFile(@"C:\Temp");
+                string localIP = string.Empty;
+                foreach (IPAddress iPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+                {
+                    if (iPAddress.AddressFamily.ToString() == "InterNetwork")
+                    {
+                        localIP = iPAddress.ToString();
+                    }
+                }
+                ConnectTools.GetInstance().Start(localIP);
             }
             ConnectTools.GetInstance().SearchDevice();
             if (i > 0)
             {
+                IList<string> iplist = new List<string>();
                 foreach (string item in ConnectTools.GetInstance().GetDevicesIp())
                 {
                     if (item.Length > 0)
                     {
-                        ConnectTools.GetInstance().Download(new string[] { item }, DBWrapper, @"C:\Temp\LightProject\Test4\global.ini");
+                        iplist.Add(item);
                     }
                 }
+                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test4\global.ini");
             }
             i++;
         }

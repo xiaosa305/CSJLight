@@ -142,20 +142,36 @@ namespace LightController.Tools
 
         public void SendOrder(string[] ip,string order,string[] strarray)
         {
-
+            foreach (string item in ip)
+            {
+                SocketTools.GetInstance().SendOrder(item, order, strarray, new DownloadCallBack());
+            }
         }
     }
 
     public class DownloadCallBack : IReceiveCallBack
     {
-        public void SendCompleted(string ip)
+        public void SendCompleted(string ip,string order)
         {
-            Console.WriteLine("下载完成");
+            Console.WriteLine(ip+ "===>" + order + ": 下载完成");
         }
 
         public void SendError(string ip,string order)
         {
-            Console.WriteLine(order + ":下载失败");
+            Console.WriteLine(ip + "===>" + order + ": 下载失败");
+        }
+    }
+
+    public class OrderCallBack : IReceiveCallBack
+    {
+        public void SendCompleted(string ip, string order)
+        {
+            Console.WriteLine(ip + "===>" + order + ": 发送成功");
+        }
+
+        public void SendError(string ip, string order)
+        {
+            Console.WriteLine(ip + "===>" + order + ": 发送失败");
         }
     }
 }

@@ -158,7 +158,6 @@ namespace LightController.Tools
 
         private void ReadFromFile()
         {
-            //string filePath = @"C:\Temp\LightProject\Test4\global.ini";
             string lineStr = "";
             string strValue;
             int intValue;
@@ -191,7 +190,6 @@ namespace LightController.Tools
                         strValue = (Reader.ReadLine().Split('='))[1];
                         int.TryParse(strValue, out intValue);
                         Scene_Change_Mode = intValue;
-
                         lineStr = Reader.ReadLine();
                     }
                     if (lineStr.Equals("[Multiple]"))

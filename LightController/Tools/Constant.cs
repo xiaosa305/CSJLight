@@ -21,7 +21,8 @@ namespace LightController.Tools
         public const string RECEIVE_ORDER_SENDNEXT = "SendNext";
         public const string RECEIVE_ORDER_DONE = "Done";
         public const string RECEIVE_ORDER_PUT = "Ok:Decode";
-
+        public const string RECEIVE_ORDER_OTHER_OK = "OK";
+        public const string RECEIVE_ORDER_OTHER_ERROR = "Error";
 
         public const string ORDER_PUT = "Put";
         public const string ORDER_TEST = "Test";

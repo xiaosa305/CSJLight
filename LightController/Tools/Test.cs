@@ -55,7 +55,15 @@ namespace LightController.Tools
         {
             if (i == 0)
             {
-                ConnectTools.GetInstance().Start("192.168.31.235");
+                string localIP = string.Empty;
+                foreach (IPAddress iPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+                {
+                    if (iPAddress.AddressFamily.ToString() == "InterNetwork")
+                    {
+                        localIP = iPAddress.ToString();
+                    }
+                }
+                ConnectTools.GetInstance().Start(localIP);
             }
             ConnectTools.GetInstance().SearchDevice();
             if (i > 0)

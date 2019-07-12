@@ -15,34 +15,43 @@ namespace LightController.Ast
 		public List<StepWrapper> StepWrapperList { get; set; }
 
 		/// <summary>
-		/// 添加步的行为放在这里:总数加1，而CurrentStep切换到最后一步
-		/// </summary>
-		/// <param name="stepWrapper"></param>
-		public void AddStep(StepWrapper stepWrapper) {
-			if (StepWrapperList == null) {
-				StepWrapperList = new List<StepWrapper>();
-			}
-			StepWrapperList.Add(stepWrapper);
-			TotalStep = StepWrapperList.Count; 			
-			CurrentStep = TotalStep;
-		}
-		
-		/// <summary>
 		///  在index处插入新的步，
 		///  后面的步往后移动，
-		///  CurrentStep+1 , TotalStep+1
+		///  CurrentStep = stepIndex+1 , TotalStep+1
 		/// </summary>
 		/// <param name="stepIndex"></param>
-		/// <param name="stepWrapper"></param>
-		public void InsertStep(int stepIndex, StepWrapper stepWrapper)
+		/// <param name="newStep"></param>
+		/// /// <param name="insertBefore">true为前插，false为后插</param>
+		public void InsertStep(int stepIndex, StepWrapper newStep,bool insertBefore)
 		{
 			if (StepWrapperList == null)
 			{
 				StepWrapperList = new List<StepWrapper>();
 			}
-			StepWrapperList.Insert(stepIndex,stepWrapper);
+			// 前插时，currentStep不变，
+			if (insertBefore) {
+				StepWrapperList.Insert(stepIndex, newStep);
+				CurrentStep = stepIndex + 1;
+			}
+			// 后插时，currentStep 要+1；也就是stepIndex+2 
+			else
+			{
+				StepWrapperList.Insert(stepIndex+1, newStep);
+				CurrentStep = stepIndex + 2;
+			}			
+			// TotalStep统一结算
 			TotalStep = StepWrapperList.Count;
-			CurrentStep = CurrentStep+1;
+			
+		}
+
+		/// <summary>
+		/// 最后面追加步：调用InsertStep方法
+		/// </summary>
+		/// <param name="newStep"></param>
+		public void AddStep(StepWrapper newStep)
+		{
+			// 当前最大步为TotalStep，要追加数据到最后面，则要设index为totalStep，比如当前只有一步，要追加需要Insert(1,data)
+			InsertStep(TotalStep-1, newStep,false);
 		}
 
 		/// <summary>

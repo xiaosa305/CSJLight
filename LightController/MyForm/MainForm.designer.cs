@@ -229,7 +229,8 @@ namespace LightController
 			this.nextStepButton = new System.Windows.Forms.Button();
 			this.deleteStepButton = new System.Windows.Forms.Button();
 			this.backStepButton = new System.Windows.Forms.Button();
-			this.insertStepButton = new System.Windows.Forms.Button();
+			this.insertBeforeStepButton = new System.Windows.Forms.Button();
+			this.insertAfterStepButton = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.copyStepButton = new System.Windows.Forms.Button();
@@ -504,7 +505,8 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.nextStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.deleteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.backStepButton);
-			this.tongdaoGroupBox.Controls.Add(this.insertStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.insertBeforeStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.insertAfterStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.button1);
 			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
@@ -915,7 +917,6 @@ namespace LightController
 			this.changeModeComboBox1.TabIndex = 12;
 			this.changeModeComboBox1.Visible = false;
 			this.changeModeComboBox1.SelectedIndexChanged += new System.EventHandler(this.changeModeComboBox_SelectedIndexChanged);
-			
 			// 
 			// numericUpDown48
 			// 
@@ -2865,7 +2866,7 @@ namespace LightController
 			// 
 			this.stepLabel.AutoSize = true;
 			this.stepLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.stepLabel.Location = new System.Drawing.Point(516, 89);
+			this.stepLabel.Location = new System.Drawing.Point(624, 88);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(39, 20);
 			this.stepLabel.TabIndex = 15;
@@ -2873,7 +2874,7 @@ namespace LightController
 			// 
 			// nextStepButton
 			// 
-			this.nextStepButton.Location = new System.Drawing.Point(607, 83);
+			this.nextStepButton.Location = new System.Drawing.Point(699, 82);
 			this.nextStepButton.Name = "nextStepButton";
 			this.nextStepButton.Size = new System.Drawing.Size(89, 32);
 			this.nextStepButton.TabIndex = 14;
@@ -2883,7 +2884,7 @@ namespace LightController
 			// 
 			// deleteStepButton
 			// 
-			this.deleteStepButton.Location = new System.Drawing.Point(940, 83);
+			this.deleteStepButton.Location = new System.Drawing.Point(1059, 82);
 			this.deleteStepButton.Name = "deleteStepButton";
 			this.deleteStepButton.Size = new System.Drawing.Size(89, 32);
 			this.deleteStepButton.TabIndex = 14;
@@ -2893,7 +2894,7 @@ namespace LightController
 			// 
 			// backStepButton
 			// 
-			this.backStepButton.Location = new System.Drawing.Point(378, 83);
+			this.backStepButton.Location = new System.Drawing.Point(496, 82);
 			this.backStepButton.Name = "backStepButton";
 			this.backStepButton.Size = new System.Drawing.Size(89, 32);
 			this.backStepButton.TabIndex = 13;
@@ -2901,15 +2902,25 @@ namespace LightController
 			this.backStepButton.UseVisualStyleBackColor = true;
 			this.backStepButton.Click += new System.EventHandler(this.backStepButton_Click);
 			// 
-			// insertStepButton
+			// insertBeforeStepButton
 			// 
-			this.insertStepButton.Location = new System.Drawing.Point(718, 83);
-			this.insertStepButton.Name = "insertStepButton";
-			this.insertStepButton.Size = new System.Drawing.Size(89, 32);
-			this.insertStepButton.TabIndex = 14;
-			this.insertStepButton.Text = "插入步";
-			this.insertStepButton.UseVisualStyleBackColor = true;
-			this.insertStepButton.Click += new System.EventHandler(this.insertStepButton_Click);
+			this.insertBeforeStepButton.Location = new System.Drawing.Point(376, 82);
+			this.insertBeforeStepButton.Name = "insertBeforeStepButton";
+			this.insertBeforeStepButton.Size = new System.Drawing.Size(89, 32);
+			this.insertBeforeStepButton.TabIndex = 14;
+			this.insertBeforeStepButton.Text = "前插入步";
+			this.insertBeforeStepButton.UseVisualStyleBackColor = true;
+			this.insertBeforeStepButton.Click += new System.EventHandler(this.insertStepButton_Click);
+			// 
+			// insertAfterStepButton
+			// 
+			this.insertAfterStepButton.Location = new System.Drawing.Point(819, 82);
+			this.insertAfterStepButton.Name = "insertAfterStepButton";
+			this.insertAfterStepButton.Size = new System.Drawing.Size(89, 32);
+			this.insertAfterStepButton.TabIndex = 14;
+			this.insertAfterStepButton.Text = "后插入步";
+			this.insertAfterStepButton.UseVisualStyleBackColor = true;
+			this.insertAfterStepButton.Click += new System.EventHandler(this.insertStepButton_Click);
 			// 
 			// button1
 			// 
@@ -2923,7 +2934,7 @@ namespace LightController
 			// 
 			// pasteStepButton
 			// 
-			this.pasteStepButton.Location = new System.Drawing.Point(1162, 83);
+			this.pasteStepButton.Location = new System.Drawing.Point(1299, 82);
 			this.pasteStepButton.Name = "pasteStepButton";
 			this.pasteStepButton.Size = new System.Drawing.Size(89, 32);
 			this.pasteStepButton.TabIndex = 13;
@@ -2933,7 +2944,7 @@ namespace LightController
 			// 
 			// copyStepButton
 			// 
-			this.copyStepButton.Location = new System.Drawing.Point(1051, 83);
+			this.copyStepButton.Location = new System.Drawing.Point(1179, 82);
 			this.copyStepButton.Name = "copyStepButton";
 			this.copyStepButton.Size = new System.Drawing.Size(89, 32);
 			this.copyStepButton.TabIndex = 13;
@@ -2943,7 +2954,7 @@ namespace LightController
 			// 
 			// newStepButton
 			// 
-			this.newStepButton.Location = new System.Drawing.Point(829, 83);
+			this.newStepButton.Location = new System.Drawing.Point(939, 82);
 			this.newStepButton.Name = "newStepButton";
 			this.newStepButton.Size = new System.Drawing.Size(89, 32);
 			this.newStepButton.TabIndex = 13;
@@ -3443,7 +3454,7 @@ namespace LightController
 		// 步数调节区
 		private Label lightValueLabel;
 		private Label lightLabel;
-		private Button insertStepButton;
+		private Button insertAfterStepButton;
 		private Button newStepButton;
 		private Button deleteStepButton;
 		private Button nextStepButton;
@@ -3482,6 +3493,7 @@ namespace LightController
 		private Button lightPasteButton;
 		private Button materialSaveButton;
 		private Button lightCopyButton;
+		private Button insertBeforeStepButton;
 	}
 }
 

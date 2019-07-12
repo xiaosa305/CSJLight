@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />
+    <Compile Include="Ast\MaterialIndexAst.cs" />
     <Compile Include="Common\DBGetter.cs" />
     <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\MathAst.cs" />

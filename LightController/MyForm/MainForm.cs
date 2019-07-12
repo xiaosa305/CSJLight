@@ -650,13 +650,13 @@ namespace LightController
 				valueDAO = new ValueDAO(dbFilePath, ifEncrypt);
 			}
 
+			// 同样如果要做彻底保存，需要先清空valueList
+			valueList.Clear();
+
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
 				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];
 				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
-
-				// 同样如果要做彻底保存，需要先清空valueList
-				valueList.Clear();
 				for (int frame = 0; frame < 24; frame++)
 				{
 					for (int mode = 0; mode < 2; mode++)
@@ -690,9 +690,9 @@ namespace LightController
 							}
 						}
 					}
-				}
-				valueDAO.SaveAll("Value",valueList);
+				}								
 			}
+			valueDAO.SaveAll("Value", valueList);
 		}
 		
 		/// <summary>
@@ -734,24 +734,6 @@ namespace LightController
 
 			lightAstList =new List<LightAst>(lightAstList2);
 			lightWrapperList = lightWrapperList2;
-
-			// 老方法：无法区别是否新加入的数据
-			// 1.成功编辑灯具列表后，将这个列表放到主界面来
-			//this.lightAstList = lightAstList2;
-
-			//// 2.旧的先删除，再将新的加入到lightAstList中；（此过程中，并没有比较的过程，直接操作）
-			//lightsListView.Items.Clear();
-			//lightWrapperList = new List<LightWrapper>();
-
-			//foreach (LightAst la in this.lightAstList)
-			//{
-			//	ListViewItem viewLight = new ListViewItem(
-			//		la.LightName + ":" + la.LightType,
-			//		la.LightPic
-			//	);
-			//	lightsListView.Items.Add(viewLight);
-			//	lightWrapperList.Add(new LightWrapper());
-			//}
 
 		}
 

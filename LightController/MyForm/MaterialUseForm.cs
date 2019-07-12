@@ -56,9 +56,16 @@ namespace LightController.MyForm
 				string projectName = treeView1.SelectedNode.Text;
 				string directoryPath = "C:\\Temp\\LightMaterial\\" + projectName;
 				DirectoryInfo di = new DirectoryInfo(directoryPath);
-				
+
 				// 2.删除目录				
-				di.Delete(true);
+				try
+				{
+					di.Delete(true);
+				}
+				catch (Exception ex) {
+					MessageBox.Show(ex.Message);
+					return;
+				}				
 
 				// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免用户误操作
 				treeView1.SelectedNode.Remove();				

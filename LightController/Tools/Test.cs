@@ -20,8 +20,8 @@ namespace LightController.Tools
         private static int i = 0;
         public Test(DBWrapper dBWrapper)
         {
-            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
-            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
             this.DBWrapper = dBWrapper;
         }
 
@@ -76,7 +76,7 @@ namespace LightController.Tools
                         iplist.Add(item);
                     }
                 }
-                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test4\global.ini");
+                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini");
             }
             i++;
         }

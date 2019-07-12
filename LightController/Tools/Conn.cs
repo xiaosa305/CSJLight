@@ -476,8 +476,8 @@ namespace LightController.Tools
 
         private void DownloadStart()
         {
-            IList<DMX_C_File> c_Files = DataTools.GetInstance().GetC_Files(DBWrapper);
-            IList<DMX_M_File> m_Files = DataTools.GetInstance().GetM_Files(DBWrapper);
+            IList<DMX_C_File> c_Files = DataTools.GetInstance().GetC_Files(DBWrapper,ConfigPath);
+            IList<DMX_M_File> m_Files = DataTools.GetInstance().GetM_Files(DBWrapper,ConfigPath);
             DMXConfigData configData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
             DownloadState = false;
             SendData(null, Constant.ORDER_BEGIN_SEND, null);

@@ -37,11 +37,10 @@ namespace LightController.Tools
 
         public DMXConfigData(DBWrapper dBWrapper,string filePath)
         {
-            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
-            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper), filePath);
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper), filePath);
             Combine_Scenes = new Config_Combine_Scene[9];
             DB_Lights = dBWrapper.lightList;
-            Lights = new List<Config_Light>();
             Music_Control_Enable = new List<int>();
             FilePath = filePath;
         }
@@ -57,6 +56,7 @@ namespace LightController.Tools
 
         public byte[] GetConfigData()
         {
+            Lights = new List<Config_Light>();
             ReadFromFile();
             int FileSize = 0;
             IList<byte> data = new List<byte>();
@@ -325,9 +325,9 @@ namespace LightController.Tools
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("全局配置文件读取失败");
+                throw new Exception("全局配置文件读取失败:" + ex.Message);
             }
         }
     }

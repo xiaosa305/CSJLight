@@ -25,6 +25,7 @@ namespace LightController.Tools
 		private readonly byte[] StartCode = { 0x00 };
 		private static FTDI MyFtdiDevice { get; set; }
 		private Thread PlayThread { get; set; }
+        private string ConfigPath { get; set; }
 
 		//test
 		private int MusicChanelCount { get; set; }
@@ -104,6 +105,7 @@ namespace LightController.Tools
 
 		public void Preview(DBWrapper wrapper, int sceneNo)
 		{
+            ConfigPath = @"C:\Temp\LightProject\Test1\global.ini";
             if (MyFtdiDevice == null)
             {
                 if (!Connect())
@@ -161,10 +163,10 @@ namespace LightController.Tools
 			bool resultFlag = false;
 			DMX_C_File c_File = null;
 			IList<C_Data> c_Datas = null;
-            IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(wrapper));
+            IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(wrapper),ConfigPath);
             //test
             DMX_M_File m_File = null;
-			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(wrapper));
+			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(wrapper),ConfigPath);
 			foreach (DMX_M_File file in m_Files)
 			{
 				if (senceNo == file.SenceNo)
@@ -214,9 +216,10 @@ namespace LightController.Tools
 
 		private bool SetMusicData(DMX_M_File file)
 		{
-			MusicChanelCount = file.Data.HeadData.ChanelCount;
-			IList<M_Data> m_Datas = file.Data.Datas;
-			MusicChanelData = new byte[MusicChanelCount][];
+            IList<M_Data> m_Datas = file.Data.Datas;
+            //MusicChanelCount = file.Data.HeadData.ChanelCount;
+            MusicChanelCount = m_Datas.Count();
+            MusicChanelData = new byte[MusicChanelCount][];
 			MusicChanelNos = new int[MusicChanelCount];
 			for (int i = 0; i < MusicChanelCount; i++)
 			{

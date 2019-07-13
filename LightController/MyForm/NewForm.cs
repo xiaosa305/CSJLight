@@ -31,10 +31,10 @@ namespace LightController
 
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			string s = textBox1.Text;		   
-			if (!String.IsNullOrEmpty(s))
+			string projectName = textBox1.Text;		   
+			if (!String.IsNullOrEmpty(projectName))
 			{
-				string directoryPath = "C:\\Temp\\LightProject\\" + s;
+				string directoryPath = @"C:\Temp\LightProject\" + projectName;
 				DirectoryInfo di = null;
 				try
 				{
@@ -62,7 +62,7 @@ namespace LightController
 					// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 					// SQLiteHelper.SetPassword(dbFile);
 
-					mainForm.BuildProject(s,true);
+					mainForm.BuildProject(projectName,true);
 					MessageBox.Show("成功新建项目");
 					this.Dispose();
 				}				

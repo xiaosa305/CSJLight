@@ -134,6 +134,7 @@
 			this.Controls.Add(this.label1);
 			this.Name = "LightsAstForm";
 			this.Text = "添加灯具选项";
+			this.Load += new System.EventHandler(this.LightsAstForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.lightCountNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).EndInit();
 			this.ResumeLayout(false);

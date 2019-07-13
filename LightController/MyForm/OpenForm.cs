@@ -113,5 +113,10 @@ namespace LightController.MyForm
 		{
 			this.ifJustDelete = false;
 		}
+
+		private void OpenForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
 	}
 }

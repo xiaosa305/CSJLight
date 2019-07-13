@@ -219,5 +219,10 @@ namespace LightController.MyForm
 				tdCheckBoxes[i].Checked = selectAllCheckBox.Checked;
 			}
 		}
+
+		private void MaterialForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
 	}
 }

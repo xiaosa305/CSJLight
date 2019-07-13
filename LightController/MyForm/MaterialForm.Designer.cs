@@ -33,8 +33,6 @@
 			this.saveButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.tongdaoPanel = new System.Windows.Forms.Panel();
-			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
-			this.noticeLabel = new System.Windows.Forms.Label();
 			this.checkBox32 = new System.Windows.Forms.CheckBox();
 			this.checkBox31 = new System.Windows.Forms.CheckBox();
 			this.checkBox30 = new System.Windows.Forms.CheckBox();
@@ -67,6 +65,8 @@
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
+			this.noticeLabel = new System.Windows.Forms.Label();
 			this.tongdaoPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -145,27 +145,6 @@
 			this.tongdaoPanel.Name = "tongdaoPanel";
 			this.tongdaoPanel.Size = new System.Drawing.Size(355, 407);
 			this.tongdaoPanel.TabIndex = 4;
-			// 
-			// selectAllCheckBox
-			// 
-			this.selectAllCheckBox.AutoSize = true;
-			this.selectAllCheckBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.selectAllCheckBox.Location = new System.Drawing.Point(202, 18);
-			this.selectAllCheckBox.Name = "selectAllCheckBox";
-			this.selectAllCheckBox.Size = new System.Drawing.Size(64, 21);
-			this.selectAllCheckBox.TabIndex = 2;
-			this.selectAllCheckBox.Text = "全选";
-			this.selectAllCheckBox.UseVisualStyleBackColor = true;
-			this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.selectAllCheckBox_CheckedChanged);
-			// 
-			// noticeLabel
-			// 
-			this.noticeLabel.AutoSize = true;
-			this.noticeLabel.Location = new System.Drawing.Point(9, 18);
-			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(142, 15);
-			this.noticeLabel.TabIndex = 1;
-			this.noticeLabel.Text = "请勾选要保存的通道";
 			// 
 			// checkBox32
 			// 
@@ -519,6 +498,27 @@
 			this.checkBox1.UseVisualStyleBackColor = true;
 			this.checkBox1.Visible = false;
 			// 
+			// selectAllCheckBox
+			// 
+			this.selectAllCheckBox.AutoSize = true;
+			this.selectAllCheckBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.selectAllCheckBox.Location = new System.Drawing.Point(202, 18);
+			this.selectAllCheckBox.Name = "selectAllCheckBox";
+			this.selectAllCheckBox.Size = new System.Drawing.Size(64, 21);
+			this.selectAllCheckBox.TabIndex = 2;
+			this.selectAllCheckBox.Text = "全选";
+			this.selectAllCheckBox.UseVisualStyleBackColor = true;
+			this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.selectAllCheckBox_CheckedChanged);
+			// 
+			// noticeLabel
+			// 
+			this.noticeLabel.AutoSize = true;
+			this.noticeLabel.Location = new System.Drawing.Point(9, 18);
+			this.noticeLabel.Name = "noticeLabel";
+			this.noticeLabel.Size = new System.Drawing.Size(142, 15);
+			this.noticeLabel.TabIndex = 1;
+			this.noticeLabel.Text = "请勾选要保存的通道";
+			// 
 			// MaterialForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -533,6 +533,7 @@
 			this.Controls.Add(this.nameTextBox);
 			this.Name = "MaterialForm";
 			this.Text = "保存素材";
+			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tongdaoPanel.ResumeLayout(false);
 			this.tongdaoPanel.PerformLayout();
 			this.ResumeLayout(false);

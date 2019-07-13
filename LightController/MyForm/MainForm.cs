@@ -22,8 +22,6 @@ namespace LightController
 {
 	public partial class MainForm :  System.Windows.Forms.Form
 	{
-		// 只能有一个lightsForm，在点击编辑灯具时（未生成过或已被销毁）新建，或在Hide时显示
-		private LightsForm lightsForm;
 		private IList<LightAst> lightAstList;
 				
 		// 辅助的变量：
@@ -273,12 +271,17 @@ namespace LightController
 			   
 		/// <summary>
 		/// 这个方法用来设置一些内容;
-		/// 会被NewForm调用，并从中获取dbFilePath和projectName的值；
-		/// 并初始化几个DAO组件
+		/// 会被NewForm调用，
+		/// 1.设置dbFilePath和projectName的值；
+		/// 2.初始化几个DAO组件
+		/// 3.清除所有数据
 		/// </summary>
 		/// <param name="dbFilePath"></param>
 		internal void BuildProject(string projectName, bool isNew)
 		{
+			//0.清空所有list
+			clearAllData();
+
 			string directoryPath = "C:\\Temp\\LightProject\\" + projectName;
 			// 1.全局设置
 			this.globalIniFilePath = directoryPath + "\\global.ini";
@@ -309,8 +312,9 @@ namespace LightController
 			saveButton.Enabled = enable;
 			saveAsButton.Enabled = enable;
 		}
+
 		/// <summary>
-		///  辅助方法：将所有全局配置相关的按钮Enabled设为选定值
+		///  辅助方法：将所有全局配置相关的按钮（灯具、全局、摇麦、网络）Enabled设为选定值
 		/// </summary>
 		/// <param name="v"></param>
 		private void enableGlobalSet(bool enable)
@@ -323,32 +327,22 @@ namespace LightController
 
 		/// <summary>
 		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
-		///  0.旧的一切list或内容，一应清空
-		///  1.globalSetForm的初始化  
 		///  2.data.db3的载入：把相关内容，放到数据列表中
-		///    ①lightAstList、lightList 
-		///    ②stepList
+		///    ①lightList 、stepCountList、valueList
+		///    ②lightAstList（由lightList生成）
 		/// </summary>
 		/// <param name="directoryPath"></param>
 		internal void OpenProject(string projectName)
 		{	
-			//0.清空所有list
-			clearAllData();
-
 			// 初始化
 			BuildProject(projectName, false);	
 			
 			// 把数据库的内容填充进来，并设置好对应的DAO
 			lightList = getLightList();
 			stepCountList = getStepCountList();
-			valueList = getValueList();
-			
+			valueList = getValueList();			
 			// 通过lightList填充lightAstList
-			IList<LightAst> laList = reCreateLightAstList(lightList) ;
-			AddLightAstList(laList);
-
-			//填充lightsForm
-			lightsForm = new LightsForm(this, lightAstList);
+			AddLightAstList( reCreateLightAstList(lightList) );
 
 			// 针对每个lightWrapper，获取其已有步数的场景和模式
 			for (int lightListIndex = 0; lightListIndex < lightList.Count; lightListIndex++)
@@ -455,7 +449,6 @@ namespace LightController
 				lightDAO = new LightDAO(dbFilePath, ifEncrypt);
 			}
 			IList<DB_Light> lightList = lightDAO.GetAll();
-
 			return lightList;
 		}
 
@@ -1363,10 +1356,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void lightsEditToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			if (lightsForm == null || lightsForm.IsDisposed)
-			{
-				lightsForm = new LightsForm(this, lightAstList);
-			}
+			LightsForm lightsForm = new LightsForm(this, lightAstList);
 			lightsForm.ShowDialog();
 		}
 
@@ -1607,14 +1597,20 @@ namespace LightController
 		/// </summary>
 		private void oneLightStepWork() {
 			StepWrapper step = getCurrentStepWrapper();
-			List<TongdaoWrapper> tongdaoList = step.TongdaoList;
-			byte[] stepBytes = new byte[512];
-			foreach (TongdaoWrapper td in tongdaoList)
-			{
-				int tongdaoIndex = td.Address - 1;
-				stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+			if (step != null) { 
+				List<TongdaoWrapper> tongdaoList = step.TongdaoList;
+				byte[] stepBytes = new byte[512];
+				foreach (TongdaoWrapper td in tongdaoList)
+				{
+					int tongdaoIndex = td.Address - 1;
+					stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+				}
+				dMX512Player.OneLightStep(stepBytes);
 			}
-			dMX512Player.OneLightStep(stepBytes);
+			else
+			{
+				MessageBox.Show("当前未选中可用步，无法播放！");
+			}
 		}
 
 		/// <summary>
@@ -1961,6 +1957,17 @@ namespace LightController
 				}
 			}
 			return sameTDIndexList;
+		}
+
+
+		/// <summary>
+		///  一键配置点击后的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void oneKeyButton_Click(object sender, EventArgs e)
+		{
+
 		}
 
 	}

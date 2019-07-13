@@ -188,7 +188,8 @@ namespace LightController
 			this.Controls.Add(this.deleteLightButton);
 			this.Controls.Add(this.addLightButton);
 			this.Name = "LightsForm";
-			this.Text = "灯具编辑";
+			this.Text = "编辑工程灯具列表";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LightsForm_FormClosed);
 			this.Load += new System.EventHandler(this.LightsForm_Load);
 			this.ResumeLayout(false);
 

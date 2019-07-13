@@ -11,9 +11,18 @@ namespace LightController.MyForm
 {
 	public partial class NetworkSetForm : Form
 	{
-		public NetworkSetForm()
+
+		private MainForm mainForm;
+
+		public NetworkSetForm(MainForm mainForm)
 		{
+			this.mainForm = mainForm;
 			InitializeComponent();
+		}
+
+		private void NetworkSetForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
 	}
 }

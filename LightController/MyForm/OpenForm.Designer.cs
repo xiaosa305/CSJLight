@@ -84,6 +84,7 @@
 			this.Controls.Add(this.treeView1);
 			this.Name = "OpenForm";
 			this.Text = "OpenForm";
+			this.Load += new System.EventHandler(this.OpenForm_Load);
 			this.ResumeLayout(false);
 
 		}

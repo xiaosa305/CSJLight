@@ -26,8 +26,8 @@ namespace LightController
 		public LightsForm(MainForm mainForm,IList<LightAst> lightAstList)
 		{
 			InitializeComponent();
-			this.mainForm = mainForm;
-
+			this.mainForm = mainForm;			
+			
 			// 1. 生成左边的灯具列表，树状形式
 			string path = @"C:\Temp\LightLibrary";
 			if (Directory.Exists(path))
@@ -67,14 +67,9 @@ namespace LightController
 			}
 		}
 			
-		/// <summary>
-		/// 每次重新加载本窗口时，左侧选项都应该全部展开
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
-			this.treeView1.ExpandAll();
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
 			
 		/// <summary>
@@ -191,5 +186,14 @@ namespace LightController
 			mainForm.Activate();
 		}
 
+		/// <summary>
+		///  关闭窗口
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void LightsForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+		}
 	}
 }

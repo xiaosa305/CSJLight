@@ -172,6 +172,7 @@
 			this.Controls.Add(this.groupBox5);
 			this.Name = "QDTestForm";
 			this.Text = "智能灯光控制器功能测试";
+			this.Load += new System.EventHandler(this.QDTestForm_Load);
 			this.groupBox6.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);

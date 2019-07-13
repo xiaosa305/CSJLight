@@ -19,6 +19,7 @@ namespace LightController.MyForm
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
 		private int mode;
+		private string path = @"C:\Temp\LightMaterial\";  
 
 		public MaterialForm(MainForm mainForm, List<StepWrapper> stepWrapperList ,int mode)
 		{			
@@ -42,6 +43,7 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 			this.stepWrapperList = stepWrapperList;
 			this.mode = mode;
+			path += mode == 0 ? "Normal" : "Sound";
 
 			#region 初始化自定义数组等
 
@@ -124,7 +126,7 @@ namespace LightController.MyForm
 				}
 
 
-				string directoryPath = "C:\\Temp\\LightMaterial\\" + materialName;
+				string directoryPath = path + @"\" +  materialName;
 				DirectoryInfo di = null;
 				try
 				{
@@ -159,10 +161,10 @@ namespace LightController.MyForm
 				di.Create();
 				// 2.将相关文件拷贝到文件夹内
 				string sourcePath = Application.StartupPath + @"\materialSet.ini";
-				string globalIniFilePath = directoryPath + @"\materialSet.ini";
-				File.Copy(sourcePath, globalIniFilePath);
+				string iniPath = directoryPath + @"\materialSet.ini";
+				File.Copy(sourcePath, iniPath);
 				//3.修改其中的数据
-				IniFileAst iniFileAst = new IniFileAst(globalIniFilePath);
+				IniFileAst iniFileAst = new IniFileAst(iniPath);
 				// 3.1 写[Set]内数据，包括几个要被记录的通道名
 				iniFileAst.WriteString("Set","name", materialName);
 				iniFileAst.WriteInt("Set","step",stepCount);

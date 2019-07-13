@@ -1792,7 +1792,7 @@ namespace LightController
 		private void materialUseButton_Click(object sender, EventArgs e)
 		{
 			materialUseForm = null;
-			materialUseForm = new MaterialUseForm(this);
+			materialUseForm = new MaterialUseForm(this,mode);
 			materialUseForm.ShowDialog();			
 		}
 		

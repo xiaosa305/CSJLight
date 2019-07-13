@@ -116,6 +116,9 @@ namespace LightController.Tools
         {
             if (!IsUse) return;
             Console.WriteLine(GetAddress() + "断开连接");
+            DownloadState = false;
+            DownloadThread.Abort();
+            callBack.SendError(Ip, Order);
             Ip = "";
             Socket.Close();
             IsUse = false;
@@ -308,6 +311,7 @@ namespace LightController.Tools
                         {
                             try
                             {
+                                DownloadState = false;
                                 DownloadThread.Abort();
                             }
                             catch (Exception)
@@ -325,6 +329,7 @@ namespace LightController.Tools
                             TimeOutCount++;
                             try
                             {
+                                DownloadState = false;
                                 DownloadThread.Abort();
                             }
                             catch (Exception)
@@ -333,7 +338,6 @@ namespace LightController.Tools
                             }
                             finally
                             {
-                                DownloadState = false;
                                 DownloadFile(DBWrapper, ConfigPath,callBack);
                             }    
                         }

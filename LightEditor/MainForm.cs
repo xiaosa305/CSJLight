@@ -138,7 +138,7 @@ namespace LightEditor
 
 			for (int i = 0; i < 32; i++)
 			{
-				countComboBox.Items.Add(i);
+				countComboBox.Items.Add(i+1);
 				numericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);				
 			}
 

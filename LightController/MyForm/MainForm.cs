@@ -1776,7 +1776,7 @@ namespace LightController
 		private void materialSaveButton_Click(object sender, EventArgs e)
 		{
 			materialForm = null;
-			materialForm = new MaterialForm(this,getCurrentLightStepWrapper().StepWrapperList);
+			materialForm = new MaterialForm(this,getCurrentLightStepWrapper().StepWrapperList,mode);
 			if (materialForm != null && !materialForm.IsDisposed) {
 				materialForm.ShowDialog();
 			}
@@ -1818,16 +1818,16 @@ namespace LightController
 			int totalStep = lsWrapper.TotalStep;
 			int currentStep = lsWrapper.CurrentStep;
 			int addStepCount = materialAst.Step;
-
+		
 			// 选择插入时的操作，
 			if (method == MaterialUseForm.InsertMethod.INSERT)
 			{
-				if (  (mode == 0 && addStepCount + totalStep >32) || (mode==1 && addStepCount + totalStep > 48) )
+				int finalStep = addStepCount + totalStep;
+				if (  (mode == 0 && finalStep > 32) || (mode==1 && finalStep > 48) )
 				{
 						MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
 						return;
-				}
-				
+				}				
 				StepWrapper stepMode = getCurrentStepMode();
 				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList,  stepMode.TongdaoList);
 				if (sameTDIndexList.Count == 0)
@@ -1853,7 +1853,8 @@ namespace LightController
 			// 选择覆盖时的操作
 			else
 			{
-				if ((mode == 0 && addStepCount + currentStep > 32) || (mode == 1 && addStepCount + currentStep > 48))
+				int finalStep = addStepCount + currentStep;
+				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
 				{
 					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用；可选择其他位置覆盖");
 					return;
@@ -1866,38 +1867,48 @@ namespace LightController
 					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
 					return;
 				}
-				//TODO 覆盖的核心逻辑：先找出已有的数据改造之；若没有则添加。
-				//else
-				//{
-				//	StepWrapper newStep = null;
-				//	for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
-				//	{
-				//		newStep = generateNewStep(stepMode);
-				//		// 改造下newStep,将素材值赋给newStep 
-				//		changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
-				//		// 使用后插法：避免当前无数据的情况下调用素材失败
-				//		lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
-				//	}
-				//	ShowVScrollBars(newStep);
-				//	showStepLabel(lsWrapper);
-				//}
+				//TODO 覆盖的核心逻辑：
+				// 方法1：先找出已有的数据改造之；若没有则添加。实现比较复杂，需考虑多方面情况，不采用。
+				// 方法2：①比对 finalStep（currentStep+addStepCount)  和 totalStep值，
+				//					若finalStep <=totalStep,无需处理
+				//					若finalStep > totalStep,则需addStep，直到totalStep=finalStep
+				//				②取出currentStep到finalStep的所有步数（addStepCount数)，用changeStepFromMaterial取代之。
+				else
+				{
+					StepWrapper newStep = null;
 
+					if (totalStep < finalStep) {
+						for (int i = 0; i < finalStep - totalStep; i++)
+						{
+							newStep = generateNewStep(stepMode);
+							lsWrapper.AddStep(newStep);
+						}
+					}
 
+					for (int stepIndex = currentStep , materialStepIndex=0 ; stepIndex < finalStep; stepIndex++,materialStepIndex++) {
+						changeStepFromMaterial( materialAst.TongdaoList,  materialStepIndex , sameTDIndexList, lsWrapper.StepWrapperList[stepIndex] );
+						newStep = lsWrapper.StepWrapperList[stepIndex];
+						lsWrapper.CurrentStep = stepIndex + 1;	// 此句可替代为在循环外只执行一次：lsWrapper.CurrentStep=finalStep
+					}
+
+					if(newStep != null)
+					{
+						ShowVScrollBars(newStep);
+						showStepLabel(lsWrapper);
+					}					
+				}
 
 			}
 		}
 
 		/// <summary>
-		/// 辅助方法：将用传进来的数据，重新包装StepWrapper
+		/// 辅助方法：将用传进来的素材数据，重新包装StepWrapper
 		/// </summary>
 		/// <param name="materialTongdaoList"></param>
 		/// <param name="sameTDIndexList"></param>
 		/// <param name="newStep"></param>
-		private void changeStepFromMaterial(
-				TongdaoWrapper[,] materialTongdaoList ,
-				int stepIndex,
-				IList<MaterialIndexAst> sameTDIndexList ,
-				StepWrapper newStep)
+		private void changeStepFromMaterial(TongdaoWrapper[,] materialTongdaoList ,	int stepIndex,
+				IList<MaterialIndexAst> sameTDIndexList  , StepWrapper newStep)
 		{
 			foreach (MaterialIndexAst mia in sameTDIndexList)
 			{

@@ -18,12 +18,13 @@ namespace LightController.MyForm
 		private List<StepWrapper> stepWrapperList;
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
+		private int mode;
 
-		public MaterialForm(MainForm mainForm, List<StepWrapper> stepWrapperList)
+		public MaterialForm(MainForm mainForm, List<StepWrapper> stepWrapperList ,int mode)
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
-				MessageBox.Show("传入的数据为空，无法生成素材:");
+				MessageBox.Show("步数据为空，无法生成素材:");
 				this.Dispose();
 				return;
 			}
@@ -32,7 +33,7 @@ namespace LightController.MyForm
 			StepWrapper firstStep = stepWrapperList[0];
 			tongdaoCount = firstStep.TongdaoList.Count;
 			if (tongdaoCount == 0) {
-				MessageBox.Show("tongdaoList数据为空，无法生成素材:");
+				MessageBox.Show("通道数据为空，无法生成素材:");
 				this.Dispose();
 				return;
 			}
@@ -40,6 +41,7 @@ namespace LightController.MyForm
 			InitializeComponent();
 			this.mainForm = mainForm;
 			this.stepWrapperList = stepWrapperList;
+			this.mode = mode;
 
 			#region 初始化自定义数组等
 
@@ -203,5 +205,17 @@ namespace LightController.MyForm
 			this.Dispose();
 		}
 
+		/// <summary>
+		/// 全选框勾选与否的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void selectAllCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			for (int i = 0; i < tongdaoCount; i++)
+			{
+				tdCheckBoxes[i].Checked = selectAllCheckBox.Checked;
+			}
+		}
 	}
 }

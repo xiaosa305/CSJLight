@@ -270,14 +270,13 @@ namespace LightController
 		}
 			   
 		/// <summary>
-		/// 这个方法用来设置一些内容;
-		/// 会被NewForm调用，
+		/// 这个方法用来初始化部分内容;（会被NewForm调用，也会在打开项目前调用）
 		/// 1.设置dbFilePath和projectName的值；
 		/// 2.初始化几个DAO组件
 		/// 3.清除所有数据
 		/// </summary>
 		/// <param name="dbFilePath"></param>
-		internal void BuildProject(string projectName, bool isNew)
+		internal void InitProject(string projectName, bool isNew)
 		{
 			//0.清空所有list
 			clearAllData();
@@ -289,8 +288,9 @@ namespace LightController
 			this.Text = "智控配置(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 
-			// 创建数据库:
-			// 因为是新建，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；为了新建数据库，将lightDAO指向新的对象
+			// 2.创建数据库:
+			// 因为是新建，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；
+			// --若isNew为true时，为初始化数据库，将lightDAO指向新的对象，然后运行CreateSchema方法
 			lightDAO = null;
 			stepCountDAO = null;
 			valueDAO = null;
@@ -301,6 +301,8 @@ namespace LightController
 				lightDAO = new LightDAO(dbFilePath, false);
 				lightDAO.CreateSchema(true, true);
 			}
+			
+			// 3.执行后，当前窗口已关联到一个项目文件夹，此时将各个按钮设为可用
 			enableGlobalSet(true);			
 			enableSave(true);
 		}
@@ -327,23 +329,25 @@ namespace LightController
 
 		/// <summary>
 		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
-		///  2.data.db3的载入：把相关内容，放到数据列表中
+		/// data.db3的载入：把相关内容，放到数据列表中
 		///    ①lightList 、stepCountList、valueList
 		///    ②lightAstList（由lightList生成）
+		///    ③lightWrapperList(由lightAstList生成)
 		/// </summary>
 		/// <param name="directoryPath"></param>
 		internal void OpenProject(string projectName)
 		{	
-			// 初始化
-			BuildProject(projectName, false);	
+			// 0.初始化
+			InitProject(projectName, false);	
 			
 			// 把数据库的内容填充进来，并设置好对应的DAO
 			lightList = getLightList();
 			stepCountList = getStepCountList();
-			valueList = getValueList();			
+			valueList = getValueList();
 			// 通过lightList填充lightAstList
-			AddLightAstList( reCreateLightAstList(lightList) );
-
+			lightAstList = reCreateLightAstList(lightList);
+			AddLightAstList(lightAstList);
+		
 			// 针对每个lightWrapper，获取其已有步数的场景和模式
 			for (int lightListIndex = 0; lightListIndex < lightList.Count; lightListIndex++)
 			{				
@@ -351,7 +355,7 @@ namespace LightController
 				
 				if (scList != null && scList.Count > 0) {
 					// 只要有步数的，优先生成StepMode
-					StepWrapper stepMode = generateStepMode(lightAstList[lightListIndex]);
+					StepWrapper stepMode = generateStepMode(lightAstList[lightListIndex] , lightListIndex);
 					lightWrapperList[lightListIndex].StepMode = stepMode;
 					foreach (DB_StepCount sc in scList)
 					{
@@ -374,8 +378,11 @@ namespace LightController
 				}
 			}
 			isInit = true;
+					
 			MessageBox.Show("成功打开工程");
 		}
+
+		
 
 		/// <summary>
 		///  由 步数模板 和 步数值集合 , 来生成某一步的StepWrapper;
@@ -625,8 +632,7 @@ namespace LightController
 					}
 				}
 			}
-			stepCountDAO.SaveAll("StepCount",stepCountList);
-			
+			stepCountDAO.SaveAll("StepCount",stepCountList);			
 		}
 
 		/// <summary>
@@ -682,9 +688,9 @@ namespace LightController
 			}
 			valueDAO.SaveAll("Value", valueList);
 		}
-		
+
 		/// <summary>
-		/// TODO：添加lightAst列表到主界面内存中
+		/// TODO：添加lightAst列表到主界面内存中,主要供 LightsForm调用
 		/// </summary>
 		/// <param name="lightAstList2"></param>
 		internal void AddLightAstList( IList<LightAst> lightAstList2)
@@ -700,8 +706,8 @@ namespace LightController
 					lightAstList2[i].LightPic
 				));
 
-				// 如果addNew改成false，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
-				bool addNew = true;
+				// 如果addOld改成true，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
+				bool addOld = false;
 				if (lightWrapperList != null && lightWrapperList.Count > 0)
 				{
 					for (int j = 0; j < lightAstList.Count; j++)
@@ -711,11 +717,11 @@ namespace LightController
 							&& (lightWrapperList[j] != null) )
 						{
 							lightWrapperList2.Add(lightWrapperList[j]);
-							addNew = false ;
+							addOld = true ;
 						}
 					}
 				}
-				if ( addNew ) {
+				if ( !addOld ) {
 					lightWrapperList2.Add(new LightWrapper());
 				}
 			}
@@ -737,7 +743,7 @@ namespace LightController
 			{
 				selectedLightIndex = lightsListView.SelectedIndices[0];
 				generateLightData();
-			}
+			}			
 		}
 
 		/// <summary>
@@ -766,7 +772,7 @@ namespace LightController
 
 			if (lightWrapper.StepMode == null)
 			{				
-				lightWrapper.StepMode = generateStepMode(lightAst);
+				lightWrapper.StepMode = generateStepMode(lightAst, selectedLightIndex);
 				showStepLabel(0, 0);
 				hideAllTongdao();
 			}			
@@ -837,7 +843,7 @@ namespace LightController
 			insertAfterStepButton.Enabled = insertEnabled;			
 			insertBeforeStepButton.Enabled = insertEnabled &&  currentStep > 0;
 
-			// 2.3 设定《上一步及下一步》是否可用
+			// 2.3 设定《上一步》《下一步》是否可用
 			backStepButton.Enabled = currentStep > 1;			
 			nextStepButton.Enabled = currentStep < totalStep;
 
@@ -852,10 +858,10 @@ namespace LightController
 		/// </summary>
 		/// <param name="lightAst"></param>
 		/// <returns></returns>
-		private StepWrapper generateStepMode(LightAst lightAst)
+		private StepWrapper generateStepMode(LightAst lightAst  ,int lightIndex)
 		{
 			Console.WriteLine("Dickov:开始生成模板文件");
-			LightAst light = lightAstList[selectedLightIndex];
+			LightAst light = lightAstList[lightIndex];
 			int startNum = light.StartNum;
 
 			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
@@ -905,8 +911,8 @@ namespace LightController
 						TongdaoList = tongdaoList,
 						LightFullName = light.LightName + "*" + light.LightType,
 						StartNum = startNum
-						// 这里使用“*”作为分隔符，这样的字符无法在系统生成文件夹，能保证同一种灯
-						//：防止有些灯刚好Name+Type的组合相同
+						// 这里使用“*”作为分隔符，这样的字符无法在系统生成文件夹;
+						// 这样就能有效防止有些灯刚好Name+Type的组合相同
 					};
 				}
 			}
@@ -1059,7 +1065,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  TODO:删除步的操作
+		///  删除步的操作
 		///  1.获取当前步，当前步对应的stepIndex
 		///  2.通过stepIndex，DeleteStep(index);
 		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
@@ -1361,7 +1367,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  TODO 点击灯库编辑时，可以打开另外一个软件LightEditor
+		///  点击灯库编辑时，可以打开另外一个软件LightEditor
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1863,7 +1869,7 @@ namespace LightController
 					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
 					return;
 				}
-				//TODO 覆盖的核心逻辑：
+				//覆盖的核心逻辑：
 				// 方法1：先找出已有的数据改造之；若没有则添加。实现比较复杂，需考虑多方面情况，不采用。
 				// 方法2：①比对 finalStep（currentStep+addStepCount)  和 totalStep值，
 				//					若finalStep <=totalStep,无需处理

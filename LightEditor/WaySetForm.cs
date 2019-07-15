@@ -251,14 +251,14 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// TODO：点击重置后的操作：将所有的通道数据重设为mainForm的tongdaoList内的值
+		/// 点击重置后的操作：将所有的通道数据重设为mainForm的tongdaoList内的值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void resetButton_Click(object sender, EventArgs e)
 		{
-			this.tongdaoCount = mainForm.tongdaoCount;
-			this.tongdaoList = mainForm.tongdaoList ;
+			tongdaoCount = mainForm.tongdaoCount;
+			tongdaoList = mainForm.tongdaoList ;
 			generateTongdaoList();
 		}
 

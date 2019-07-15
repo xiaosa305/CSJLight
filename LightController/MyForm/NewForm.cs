@@ -62,7 +62,7 @@ namespace LightController
 					// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 					// SQLiteHelper.SetPassword(dbFile);
 
-					mainForm.BuildProject(projectName,true);
+					mainForm.InitProject(projectName,true);
 					MessageBox.Show("成功新建项目");
 					this.Dispose();
 				}				

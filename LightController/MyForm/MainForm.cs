@@ -56,6 +56,7 @@ namespace LightController
 		private int frame = 0; // 0-23 表示24种场景
 		private int mode = 0;  // 0-1 表示常规程序和音频程序
 		DMX512Player dMX512Player;
+		private PlayTools playTools;
 
 		private bool ifRealTime = false;// 辅助bool值，当勾选实时调试后，设为true
 
@@ -257,6 +258,7 @@ namespace LightController
 
 			isInit = true;
 			dMX512Player = DMX512Player.GetInstance();
+			playTools = PlayTools.GetInstance();
 		}
 		
 		private void Form1_Load(object sender, EventArgs e)
@@ -1524,12 +1526,14 @@ namespace LightController
 		private void previewButton_Click(object sender, EventArgs e)
 		{
 			DBWrapper allData = GetDBWrapper(false);
-			dMX512Player.Preview(allData, 0);
+			//dMX512Player.Preview(allData, 0);
+			playTools.PreView(allData, globalIniFilePath, frame);
 		}
 			
 		private void stopReviewButton_Click(object sender, EventArgs e)
 		{
-				dMX512Player.EndPreview();
+			//dMX512Player.EndPreview();
+			playTools.EndView();
 		}
 
 		/// <summary>
@@ -1608,7 +1612,8 @@ namespace LightController
 					int tongdaoIndex = td.Address - 1;
 					stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
 				}
-				dMX512Player.OneLightStep(stepBytes);
+				//dMX512Player.OneLightStep(stepBytes);
+				playTools.OLOSView(stepBytes);
 			}
 			else
 			{

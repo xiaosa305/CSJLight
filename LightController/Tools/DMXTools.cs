@@ -107,7 +107,10 @@ namespace LightController.Tools
                 HeadData = GetM_Heads(chanelCount,senceNo)
 
             };
-            dMX_M_Data.HeadData.FrameTime = chanelDatas[0].StepTimes[0];
+            if(chanelDatas.Count > 0)
+            {
+                dMX_M_Data.HeadData.FrameTime = chanelDatas[0].StepTimes[0];
+            }
             foreach (M_Data data in dMX_M_Data.Datas)
             {
                 dMX_M_Data.HeadData.FileSize += data.DataSize;
@@ -203,7 +206,9 @@ namespace LightController.Tools
             IList<C_Data> c_Datas = new List<C_Data>();
             foreach (ChanelData chanelData in chanelDatas)
             {
-                c_Datas.Add(GetC_Data(chanelData));
+                C_Data c_Data = GetC_Data(chanelData);
+                if (c_Data != null)
+                c_Datas.Add(c_Data);
             }
             return c_Datas;
         }
@@ -220,6 +225,7 @@ namespace LightController.Tools
 
         private C_Data GetC_Data(ChanelData chanelData)
         {
+            if (chanelData.StepValues == null || chanelData.StepValues.Count == 0) return null;
             int startValue = chanelData.StepValues[0];
             int stepCount = chanelData.StepCount;
             IList<int> datas = new List<int>();

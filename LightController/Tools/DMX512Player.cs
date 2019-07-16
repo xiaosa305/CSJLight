@@ -50,7 +50,7 @@ namespace LightController.Tools
             }
             if (MyFtdiDevice == null)
             {
-                Instance.Connect();
+                //Instance.Connect();
             }
             return Instance;
         }
@@ -94,8 +94,21 @@ namespace LightController.Tools
             ChanelNos = null;
             DataPoint = null;
             PlayData = null;
-            MyFtdiDevice.Close();
-            MyFtdiDevice = null;
+            try
+            {
+                if (MyFtdiDevice != null)
+                {
+                    MyFtdiDevice.Close();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("已经结束预览");
+            }
+            finally
+            {
+                MyFtdiDevice = null;
+            }
         }
 
         private void Reset()
@@ -372,14 +385,22 @@ namespace LightController.Tools
 			{
                 while (IsOneLightStep)
                 {
-                    //发送Break
-                    MyFtdiDevice.SetBreak(true);
-                    Thread.Sleep(10);
-                    MyFtdiDevice.SetBreak(false);
-                    MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
-                    //发送dmx512数据
-                    MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
-                    Thread.Sleep(32);
+                    try
+                    {
+                        //发送Break
+                        MyFtdiDevice.SetBreak(true);
+                        Thread.Sleep(10);
+                        MyFtdiDevice.SetBreak(false);
+                        MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
+                        //发送dmx512数据
+                        MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
+                        Thread.Sleep(32);
+                    }
+                    catch (Exception)
+                    {
+                        IsOneLightStep = false;
+                    }
+
                 }
                 IsOneLightStep = false;
 			}

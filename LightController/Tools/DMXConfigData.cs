@@ -23,7 +23,7 @@ namespace LightController.Tools
         //场景切换模式
         public int Scene_Change_Mode { get; set; }
         //时间因子
-        public int Time_Factor { get; set; }
+        public int TimeFactory { get; set; }
         //场景组合播放数据
         public Config_Combine_Scene[] Combine_Scenes { get; set; }
         //灯具数据
@@ -43,8 +43,9 @@ namespace LightController.Tools
             DB_Lights = dBWrapper.lightList;
             Music_Control_Enable = new List<int>();
             FilePath = filePath;
+            ReadFromFile();
         }
-        
+
         public void WriteToFile(string path)
         {
             string filePath = path + @"\Config.bin";
@@ -56,8 +57,6 @@ namespace LightController.Tools
 
         public byte[] GetConfigData()
         {
-            Lights = new List<Config_Light>();
-            ReadFromFile();
             int FileSize = 0;
             IList<byte> data = new List<byte>();
             //预填充文件大小
@@ -87,7 +86,7 @@ namespace LightController.Tools
             //添加场景切换模式
             data.Add(Convert.ToByte(Scene_Change_Mode));
             //添加时间因子
-            data.Add(Convert.ToByte(Time_Factor));
+            data.Add(Convert.ToByte(TimeFactory));
             //添加场景组合播放数据
             foreach (Config_Combine_Scene value in Combine_Scenes)
             {
@@ -161,6 +160,7 @@ namespace LightController.Tools
             string lineStr = "";
             string strValue;
             int intValue;
+            Lights = new List<Config_Light>();
             IList<string> configStr = new List<string>();
             try
             {
@@ -186,7 +186,7 @@ namespace LightController.Tools
                         Default_Scene_Number = intValue;
                         strValue = (Reader.ReadLine().Split('='))[1];
                         int.TryParse(strValue, out intValue);
-                        Time_Factor = intValue;
+                        TimeFactory = intValue;
                         strValue = (Reader.ReadLine().Split('='))[1];
                         int.TryParse(strValue, out intValue);
                         Scene_Change_Mode = intValue;

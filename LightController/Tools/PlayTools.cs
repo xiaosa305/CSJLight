@@ -57,10 +57,13 @@ namespace LightController.Tools
         private bool IsPausePlay { get; set; }
         //音频步数
         private int MusicStep { get; set; }
+        //音频步时长
+        private int MusicStepTime { get; set; }
 
         private PlayTools()
         {
             TimeFactory = 32;
+            MusicStepTime = 0;
             ConnectDevice();
         }
 
@@ -101,6 +104,20 @@ namespace LightController.Tools
                 finally
                 {
                     OLOSThread = null;
+                }
+            }
+            if (MusicControlThread != null)
+            {
+                try
+                {
+                    MusicControlThread.Abort();
+                }
+                catch (Exception)
+                {
+                }
+                finally
+                {
+                    MusicControlThread = null;
                 }
             }
         }
@@ -167,6 +184,7 @@ namespace LightController.Tools
                         M_ChanelData = new byte[M_ChanelCount][];
                         M_ChanelId = new int[M_ChanelCount];
                         M_ChanelPoint = new int[M_ChanelCount];
+                        MusicStepTime = m_File.Data.HeadData.FrameTime;
                         for (int i = 0; i < M_ChanelCount; i++)
                         {
                             M_Data m_Data = m_Datas[i];
@@ -244,7 +262,37 @@ namespace LightController.Tools
         {
             try
             {
-
+                if (PreViewThread == null)
+                {
+                    return;
+                }
+                if(MusicControlThread != null)
+                {
+                    try
+                    {
+                        MusicControlThread.Abort();
+                    }
+                    catch (Exception)
+                    {
+                        MusicControlThread = null;
+                    }
+                    finally
+                    {
+                        MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
+                        {
+                            IsBackground = true
+                        };
+                        MusicControlThread.Start();
+                    }
+                }
+                else
+                {
+                    MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
+                    {
+                        IsBackground = true
+                    };
+                    MusicControlThread.Start();
+                }
             }
             catch (Exception)
             {
@@ -253,7 +301,16 @@ namespace LightController.Tools
 
         private void MusicControlThreadStart()
         {
-
+            for (int i = 0; i < MusicStep; i++)
+            {
+                IsMusicControl = true;
+                Thread.Sleep(TimeFactory * MusicStepTime);
+                for (int j = 0; j < M_ChanelPoint.Length; j++)
+                {
+                    M_ChanelPoint[j]++;
+                }
+            }
+            IsMusicControl = false;
         }
 
         private void OLOSViewThreadStart()
@@ -284,6 +341,10 @@ namespace LightController.Tools
                     {
                         for (int i = 0; i < M_ChanelCount; i++)
                         {
+                            if (M_ChanelPoint[i] == M_ChanelData[i].Length)
+                            {
+                                M_ChanelPoint[i] = 0;
+                            }
                             PlayData[M_ChanelId[i] - 1] = M_ChanelData[i][M_ChanelPoint[i]];
                         }
                     }

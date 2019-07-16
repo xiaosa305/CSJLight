@@ -55,7 +55,6 @@ namespace LightController
 		private int selectedLightIndex; //选择的灯具的index
 		private int frame = 0; // 0-23 表示24种场景
 		private int mode = 0;  // 0-1 表示常规程序和音频程序
-		DMX512Player dMX512Player;
 		private PlayTools playTools;
 
 		private bool ifRealTime = false;// 辅助bool值，当勾选实时调试后，设为true
@@ -257,7 +256,7 @@ namespace LightController
 			#endregion
 
 			isInit = true;
-			dMX512Player = DMX512Player.GetInstance();
+			
 			playTools = PlayTools.GetInstance();
 		}
 		
@@ -1275,6 +1274,9 @@ namespace LightController
 		/// <returns></returns>
 		private LightStepWrapper getCurrentLightStepWrapper()
 		{
+			if (lightWrapperList == null || lightWrapperList.Count == 0) {
+				return null;								
+			}
 			LightWrapper light = lightWrapperList[selectedLightIndex];
 			if (light == null) {
 				return null;
@@ -1300,7 +1302,8 @@ namespace LightController
 		private StepWrapper getCurrentStepWrapper()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
-			if (light.TotalStep != 0 
+			if(		light != null
+				&& light.TotalStep != 0 
 				&& light.CurrentStep !=0 
 				&& light.StepWrapperList!=null 
 				&& light.StepWrapperList.Count!=0) {
@@ -1317,7 +1320,15 @@ namespace LightController
 		/// <returns></returns>
 		private StepWrapper getCurrentStepMode()
 		{
-			return getCurrentLightWrapper().StepMode;
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light != null)
+			{
+				return getCurrentLightWrapper().StepMode;
+			}
+			else {
+				return null;
+			}
+			
 		}
 
 		/// <summary>
@@ -1326,7 +1337,15 @@ namespace LightController
 		/// <returns></returns>
 		private int getCurrentStepValue()
 		{
-			return getCurrentLightStepWrapper().CurrentStep;
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light != null)
+			{
+				return getCurrentLightStepWrapper().CurrentStep;
+			}
+			else
+			{
+				return 0;
+			}			
 		}
 
 		/// <summary>
@@ -1334,8 +1353,16 @@ namespace LightController
 		/// </summary>
 		/// <returns></returns>
 		private int getTotalStepValue()
-		{ 
-			return getCurrentLightStepWrapper().TotalStep;
+		{
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light != null)
+			{
+				return getCurrentLightStepWrapper().TotalStep;
+			}
+			else
+			{
+				return 0;
+			}			
 		}
 
 		#endregion
@@ -1526,13 +1553,18 @@ namespace LightController
 		private void previewButton_Click(object sender, EventArgs e)
 		{
 			DBWrapper allData = GetDBWrapper(false);
-			//dMX512Player.Preview(allData, 0);
-			playTools.PreView(allData, globalIniFilePath, frame);
+			try
+			{
+				playTools.PreView(allData, globalIniFilePath, frame);
+			}
+			catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+			}
 		}
 			
 		private void stopReviewButton_Click(object sender, EventArgs e)
 		{
-			//dMX512Player.EndPreview();
+			
 			playTools.EndView();
 		}
 
@@ -1612,7 +1644,6 @@ namespace LightController
 					int tongdaoIndex = td.Address - 1;
 					stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
 				}
-				//dMX512Player.OneLightStep(stepBytes);
 				playTools.OLOSView(stepBytes);
 			}
 			else
@@ -1667,7 +1698,7 @@ namespace LightController
 			{
 				//获取或设置是否应将此事件转发到控件的父容器。
 				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
-				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作，即屏蔽滚动事件
+				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
 				hme.Handled = true;
 			}
 			// 向上滚

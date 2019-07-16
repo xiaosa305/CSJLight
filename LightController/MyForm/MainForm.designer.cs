@@ -47,9 +47,9 @@ namespace LightController
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
 			this.materialUseButton = new System.Windows.Forms.Button();
-			this.lightPasteButton = new System.Windows.Forms.Button();
+			this.pasteLightButton = new System.Windows.Forms.Button();
 			this.materialSaveButton = new System.Windows.Forms.Button();
-			this.lightCopyButton = new System.Windows.Forms.Button();
+			this.copyLightButton = new System.Windows.Forms.Button();
 			this.tongdaoPanel = new System.Windows.Forms.Panel();
 			this.tongdaoGroupBox1 = new System.Windows.Forms.GroupBox();
 			this.changeModeLabel = new System.Windows.Forms.Label();
@@ -495,9 +495,9 @@ namespace LightController
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
 			this.tongdaoGroupBox.Controls.Add(this.materialUseButton);
-			this.tongdaoGroupBox.Controls.Add(this.lightPasteButton);
+			this.tongdaoGroupBox.Controls.Add(this.pasteLightButton);
 			this.tongdaoGroupBox.Controls.Add(this.materialSaveButton);
-			this.tongdaoGroupBox.Controls.Add(this.lightCopyButton);
+			this.tongdaoGroupBox.Controls.Add(this.copyLightButton);
 			this.tongdaoGroupBox.Controls.Add(this.tongdaoPanel);
 			this.tongdaoGroupBox.Controls.Add(this.cmComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.stNumericUpDown);
@@ -537,15 +537,16 @@ namespace LightController
 			this.materialUseButton.UseVisualStyleBackColor = true;
 			this.materialUseButton.Click += new System.EventHandler(this.materialUseButton_Click);
 			// 
-			// lightPasteButton
+			// pasteLightButton
 			// 
-			this.lightPasteButton.Enabled = false;
-			this.lightPasteButton.Location = new System.Drawing.Point(168, 135);
-			this.lightPasteButton.Name = "lightPasteButton";
-			this.lightPasteButton.Size = new System.Drawing.Size(98, 35);
-			this.lightPasteButton.TabIndex = 21;
-			this.lightPasteButton.Text = "粘贴灯";
-			this.lightPasteButton.UseVisualStyleBackColor = true;
+			this.pasteLightButton.Enabled = false;
+			this.pasteLightButton.Location = new System.Drawing.Point(168, 135);
+			this.pasteLightButton.Name = "pasteLightButton";
+			this.pasteLightButton.Size = new System.Drawing.Size(98, 35);
+			this.pasteLightButton.TabIndex = 21;
+			this.pasteLightButton.Text = "粘贴灯";
+			this.pasteLightButton.UseVisualStyleBackColor = true;
+			this.pasteLightButton.Click += new System.EventHandler(this.pasteLightButton_Click);
 			// 
 			// materialSaveButton
 			// 
@@ -557,15 +558,15 @@ namespace LightController
 			this.materialSaveButton.UseVisualStyleBackColor = true;
 			this.materialSaveButton.Click += new System.EventHandler(this.materialSaveButton_Click);
 			// 
-			// lightCopyButton
+			// copyLightButton
 			// 
-			this.lightCopyButton.Enabled = false;
-			this.lightCopyButton.Location = new System.Drawing.Point(64, 135);
-			this.lightCopyButton.Name = "lightCopyButton";
-			this.lightCopyButton.Size = new System.Drawing.Size(98, 35);
-			this.lightCopyButton.TabIndex = 21;
-			this.lightCopyButton.Text = "复制灯";
-			this.lightCopyButton.UseVisualStyleBackColor = true;
+			this.copyLightButton.Location = new System.Drawing.Point(64, 135);
+			this.copyLightButton.Name = "copyLightButton";
+			this.copyLightButton.Size = new System.Drawing.Size(98, 35);
+			this.copyLightButton.TabIndex = 21;
+			this.copyLightButton.Text = "复制灯";
+			this.copyLightButton.UseVisualStyleBackColor = true;
+			this.copyLightButton.Click += new System.EventHandler(this.copyLightButton_Click);
 			// 
 			// tongdaoPanel
 			// 
@@ -3506,9 +3507,9 @@ namespace LightController
 		private ToolStripMenuItem ymSetToolStripMenuItem;
 		private ToolStripMenuItem NetworkSetToolStripMenuItem;
 		private Button materialUseButton;
-		private Button lightPasteButton;
+		private Button pasteLightButton;
 		private Button materialSaveButton;
-		private Button lightCopyButton;
+		private Button copyLightButton;
 		private Button insertBeforeStepButton;
 		private Button soundButton;
 	}

@@ -18,10 +18,44 @@ namespace LightController.Ast
 		// StepList 数组:所有FM的StepAstList的集合
 		public LightStepWrapper[,] LightStepWrapperList { get; set; }
 
-		// 初始化时，就定义这些集合的数量
+		/// <summary>
+		///  初始化时，就定义这些集合的数量
+		/// </summary>
 		public LightWrapper()
 		{
 			LightStepWrapperList = new LightStepWrapper[24, 2];
+		}
+
+
+		/// <summary>
+		///  辅助方法：用两个Light的值，来生成一个新的LightWrapper。
+		/// </summary>
+		/// <param name="tempLight"></param>
+		/// <returns></returns>
+		internal static LightWrapper CopyLight(LightWrapper tempLight, LightWrapper selectedLight)
+		{
+			LightWrapper newLight = new LightWrapper();
+			newLight.StepMode = selectedLight.StepMode;
+			for (int frame = 0; frame < 24; frame++) {
+				for (int mode = 0; mode < 2; mode++)
+				{
+					if (tempLight.LightStepWrapperList[frame, mode] != null) {
+						newLight.LightStepWrapperList[frame, mode] = new LightStepWrapper() {
+							CurrentStep = 0,
+							TotalStep = 0,
+							StepWrapperList = new List<StepWrapper>()
+						};
+											
+						for (int currentStep = 0; currentStep < tempLight.LightStepWrapperList[frame, mode].TotalStep; currentStep++)
+						{
+							IList<TongdaoWrapper> tempTongdaoList = tempLight.LightStepWrapperList[frame, mode].StepWrapperList[currentStep].TongdaoList;
+							StepWrapper newStep = StepWrapper.GenerateStepWrapper(newLight.StepMode,tempTongdaoList , mode);
+							newLight.LightStepWrapperList[frame, mode].AddStep(newStep);
+						}
+					}
+				}
+			}
+			return newLight;
 		}
 	}
 }

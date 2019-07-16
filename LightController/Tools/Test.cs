@@ -51,16 +51,7 @@ namespace LightController.Tools
 
         public void PreViewTest()
         {
-            if (i == 0)
-            {
-                PlayTools.GetInstance().PreView(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", 0);
-                i++;
-            }
-            else if(i == 1)
-            {
-                PlayTools.GetInstance().EndView();
-                i++;
-            }
+            PlayTools.GetInstance().MusicControl();
         }
 
         public void Testapplication()

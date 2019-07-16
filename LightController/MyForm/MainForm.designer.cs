@@ -231,7 +231,7 @@ namespace LightController
 			this.backStepButton = new System.Windows.Forms.Button();
 			this.insertBeforeStepButton = new System.Windows.Forms.Button();
 			this.insertAfterStepButton = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
+			this.testButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.copyStepButton = new System.Windows.Forms.Button();
 			this.newStepButton = new System.Windows.Forms.Button();
@@ -251,6 +251,7 @@ namespace LightController
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
+			this.soundButton = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -397,10 +398,10 @@ namespace LightController
 			// oneKeyButton
 			// 
 			this.oneKeyButton.Enabled = false;
-			this.oneKeyButton.Location = new System.Drawing.Point(1746, 57);
+			this.oneKeyButton.Location = new System.Drawing.Point(1811, 57);
 			this.oneKeyButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.oneKeyButton.Name = "oneKeyButton";
-			this.oneKeyButton.Size = new System.Drawing.Size(163, 65);
+			this.oneKeyButton.Size = new System.Drawing.Size(92, 65);
 			this.oneKeyButton.TabIndex = 4;
 			this.oneKeyButton.Text = "一键配置";
 			this.oneKeyButton.UseVisualStyleBackColor = true;
@@ -510,7 +511,7 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.backStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.insertBeforeStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.insertAfterStepButton);
-			this.tongdaoGroupBox.Controls.Add(this.button1);
+			this.tongdaoGroupBox.Controls.Add(this.testButton);
 			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.newStepButton);
@@ -2925,15 +2926,16 @@ namespace LightController
 			this.insertAfterStepButton.UseVisualStyleBackColor = true;
 			this.insertAfterStepButton.Click += new System.EventHandler(this.insertStepButton_Click);
 			// 
-			// button1
+			// testButton
 			// 
-			this.button1.Location = new System.Drawing.Point(1378, 18);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(89, 32);
-			this.button1.TabIndex = 13;
-			this.button1.Text = "TEST";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.newTestButton_Click);
+			this.testButton.Location = new System.Drawing.Point(1378, 18);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(89, 32);
+			this.testButton.TabIndex = 13;
+			this.testButton.Text = "TEST";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Visible = false;
+			this.testButton.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
 			// pasteStepButton
 			// 
@@ -3115,7 +3117,7 @@ namespace LightController
 			// 
 			// stopReviewButton
 			// 
-			this.stopReviewButton.Location = new System.Drawing.Point(1436, 57);
+			this.stopReviewButton.Location = new System.Drawing.Point(1534, 57);
 			this.stopReviewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.stopReviewButton.Name = "stopReviewButton";
 			this.stopReviewButton.Size = new System.Drawing.Size(92, 65);
@@ -3146,6 +3148,16 @@ namespace LightController
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
 			// 
+			// soundButton
+			// 
+			this.soundButton.Location = new System.Drawing.Point(1436, 57);
+			this.soundButton.Name = "soundButton";
+			this.soundButton.Size = new System.Drawing.Size(92, 65);
+			this.soundButton.TabIndex = 13;
+			this.soundButton.Text = "触发音频";
+			this.soundButton.UseVisualStyleBackColor = true;
+			this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -3166,6 +3178,7 @@ namespace LightController
 			this.Controls.Add(this.saveAsButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.mainMenuStrip);
+			this.Controls.Add(this.soundButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.mainMenuStrip;
@@ -3488,7 +3501,7 @@ namespace LightController
 		private Button steptimeSetButton;
 		private Button oneLightStepButton;
 		private CheckBox realTimeCheckBox;
-		private Button button1;
+		private Button testButton;
 		private Panel tongdaoPanel;
 		private ToolStripMenuItem ymSetToolStripMenuItem;
 		private ToolStripMenuItem NetworkSetToolStripMenuItem;
@@ -3497,6 +3510,7 @@ namespace LightController
 		private Button materialSaveButton;
 		private Button lightCopyButton;
 		private Button insertBeforeStepButton;
+		private Button soundButton;
 	}
 }
 

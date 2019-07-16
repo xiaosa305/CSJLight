@@ -69,6 +69,15 @@ namespace LightController
 			{
 				this.skinEngine1.SkinFile = Application.StartupPath + "\\" + skin;
 			}
+			string showTestButton = iniFileAst.ReadString("Show", "testButton", "");
+			if (!String.IsNullOrEmpty(showTestButton))
+			{
+				if (showTestButton == "true")
+				{
+					testButton.Visible = true;
+				}
+			}
+
 
 			//TODO : 动态加载可用的串口
 			comComboBox.Items.AddRange(new object[] { "COM1","COM2" });
@@ -2018,5 +2027,14 @@ namespace LightController
 
 		}
 
+		/// <summary>
+		///  触发音频的按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void soundButton_Click(object sender, EventArgs e)
+		{
+			playTools.MusicControl();	
+		}
 	}
 }

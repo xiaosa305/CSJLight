@@ -11,9 +11,17 @@ namespace LightController.MyForm
 {
 	public partial class QDTestForm : Form
 	{
-		public QDTestForm()
+		private MainForm mainForm;
+
+		public QDTestForm(MainForm mainForm)
 		{
+			this.mainForm = mainForm;
 			InitializeComponent();
+		}
+
+		private void QDTestForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
 	}
 }

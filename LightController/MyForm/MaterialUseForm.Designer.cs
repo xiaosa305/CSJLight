@@ -102,6 +102,7 @@
 			this.Name = "MaterialUseForm";
 			this.ShowInTaskbar = false;
 			this.Text = "使用素材";
+			this.Load += new System.EventHandler(this.MaterialUseForm_Load);
 			this.ResumeLayout(false);
 
 		}

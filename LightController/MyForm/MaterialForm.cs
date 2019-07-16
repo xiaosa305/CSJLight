@@ -18,12 +18,14 @@ namespace LightController.MyForm
 		private List<StepWrapper> stepWrapperList;
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
+		private int mode;
+		private string path = @"C:\Temp\LightMaterial\";  
 
-		public MaterialForm(MainForm mainForm, List<StepWrapper> stepWrapperList)
+		public MaterialForm(MainForm mainForm, List<StepWrapper> stepWrapperList ,int mode)
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
-				MessageBox.Show("传入的数据为空，无法生成素材:");
+				MessageBox.Show("步数据为空，无法生成素材:");
 				this.Dispose();
 				return;
 			}
@@ -32,7 +34,7 @@ namespace LightController.MyForm
 			StepWrapper firstStep = stepWrapperList[0];
 			tongdaoCount = firstStep.TongdaoList.Count;
 			if (tongdaoCount == 0) {
-				MessageBox.Show("tongdaoList数据为空，无法生成素材:");
+				MessageBox.Show("通道数据为空，无法生成素材:");
 				this.Dispose();
 				return;
 			}
@@ -40,6 +42,8 @@ namespace LightController.MyForm
 			InitializeComponent();
 			this.mainForm = mainForm;
 			this.stepWrapperList = stepWrapperList;
+			this.mode = mode;
+			path += mode == 0 ? "Normal" : "Sound";
 
 			#region 初始化自定义数组等
 
@@ -122,7 +126,7 @@ namespace LightController.MyForm
 				}
 
 
-				string directoryPath = "C:\\Temp\\LightMaterial\\" + materialName;
+				string directoryPath = path + @"\" +  materialName;
 				DirectoryInfo di = null;
 				try
 				{
@@ -157,10 +161,10 @@ namespace LightController.MyForm
 				di.Create();
 				// 2.将相关文件拷贝到文件夹内
 				string sourcePath = Application.StartupPath + @"\materialSet.ini";
-				string globalIniFilePath = directoryPath + @"\materialSet.ini";
-				File.Copy(sourcePath, globalIniFilePath);
+				string iniPath = directoryPath + @"\materialSet.ini";
+				File.Copy(sourcePath, iniPath);
 				//3.修改其中的数据
-				IniFileAst iniFileAst = new IniFileAst(globalIniFilePath);
+				IniFileAst iniFileAst = new IniFileAst(iniPath);
 				// 3.1 写[Set]内数据，包括几个要被记录的通道名
 				iniFileAst.WriteString("Set","name", materialName);
 				iniFileAst.WriteInt("Set","step",stepCount);
@@ -203,5 +207,22 @@ namespace LightController.MyForm
 			this.Dispose();
 		}
 
+		/// <summary>
+		/// 全选框勾选与否的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void selectAllCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			for (int i = 0; i < tongdaoCount; i++)
+			{
+				tdCheckBoxes[i].Checked = selectAllCheckBox.Checked;
+			}
+		}
+
+		private void MaterialForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
 	}
 }

@@ -14,6 +14,9 @@ namespace LightController.MyForm
 	public partial class MaterialUseForm : Form
 	{
 		private MainForm mainForm;
+		private int mode;
+		private string path = @"C:\Temp\LightMaterial\"; 
+
 		public enum InsertMethod{
 			INSERT,COVER
 		}
@@ -22,12 +25,13 @@ namespace LightController.MyForm
 		/// 构造方法：主要作用是加载已有的素材到listView中
 		/// </summary>
 		/// <param name="mainForm"></param>
-		public MaterialUseForm(MainForm mainForm)
+		public MaterialUseForm(MainForm mainForm,int mode)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-
-			string path = @"C:\Temp\LightMaterial";
+			this.mode = mode;
+			 
+			path +=  mode==0?"Normal":"Sound" ;
 			if (Directory.Exists(path))
 			{
 				string[] dirs = Directory.GetDirectories(path);
@@ -119,7 +123,7 @@ namespace LightController.MyForm
 				string materialName = treeView1.SelectedNode.Text;
 				if (!String.IsNullOrEmpty(materialName))
 				{
-					MaterialAst materialAst = MaterialAst.GenerateMaterialAst(@"C:\Temp\LightMaterial\" + materialName + @"\materialSet.ini");
+					MaterialAst materialAst = MaterialAst.GenerateMaterialAst( path +@"\" +materialName + @"\materialSet.ini");
 					InsertMethod method =  ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER ;
 					mainForm.InsertOrCoverMaterial(materialAst, method);
 					this.Dispose();
@@ -132,5 +136,9 @@ namespace LightController.MyForm
 			}
 		}
 
+		private void MaterialUseForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
 	}
 }

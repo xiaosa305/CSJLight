@@ -14,17 +14,17 @@ namespace LightController.MyForm
 	{
 		public MainForm mainForm;
 		private string iniFilePath;
-		private IniFileAst iniAst;
-		private bool isNew; 
+		private IniFileAst iniAst ;
+		private bool isInit = false;
 		
-		public GlobalSetForm(MainForm mainForm,string iniFilePath,bool isNew) {
+		public GlobalSetForm(MainForm mainForm,string iniFilePath) {
 
 			this.mainForm = mainForm;
 			this.iniFilePath = iniFilePath;
-			this.isNew = isNew; 
+
 			InitializeComponent();
 
-			#region 初始化辅助数组
+			#region 初始化辅助数组，及其他默认选项
 
 			// 初始化强电控制器的八个开关到数组中
 			this.qdCheckBoxes[0] = this.checkBox1;
@@ -76,31 +76,41 @@ namespace LightController.MyForm
 			this.frameMethodComboBoxes[1] = frame2methodComboBox;
 			this.frameMethodComboBoxes[2] = frame3methodComboBox;
 			this.frameMethodComboBoxes[3] = frame4methodComboBox;
-			#endregion
 
-			// 初始化iniAst
-			iniAst = new IniFileAst(iniFilePath);
-		}
-
-		private void GlobalSetForm_Load(object sender, EventArgs e)
-		{
-			//1. 先设置各个下拉框的默认值
+			//各个下拉框的默认值
 			qdFrameComboBox.SelectedIndex = 0;
 			zuheFrameComboBox.SelectedIndex = 0;
 			startupComboBox.SelectedIndex = 0;
 			tongdaoCountComboBox.SelectedIndex = 0;
+			eachStepTimeNumericUpDown.Value = 25;
+			eachChangeModeComboBox.SelectedIndex = 0;
+
+
 			frame1ComboBox.SelectedIndex = 0;
 			frame2ComboBox.SelectedIndex = 0;
 			frame3ComboBox.SelectedIndex = 0;
 			frame4ComboBox.SelectedIndex = 0;
 
-			//2.读取各个配置=>若是新建，则不读取配置
-			if ( ! isNew ) { 						
-				loadQDSet(0);
-				loadGlobalSet();
-				loadZuheSet(0);
-				loadSKSet();
+			for (int i = 0; i < 24; i++)
+			{
+				skComboBoxes[i].SelectedIndex = 0;
 			}
+
+			#endregion
+
+			// 初始化iniAst
+			iniAst = new IniFileAst(iniFilePath);
+			isInit = true;
+			
+		}
+
+		private void GlobalSetForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			loadQDSet(0);
+			loadGlobalSet();
+			loadZuheSet(0);
+			loadSKSet();
 		}
 
 		
@@ -110,12 +120,15 @@ namespace LightController.MyForm
 		/// <param name="frame">场景编号，由0开始</param>
 		private void loadQDSet(int frame)
 		{
-			string QDValues = iniAst.ReadString("QD", frame.ToString(), "00000000");
-			char[] values = QDValues.ToCharArray();
-			for (int i = 0; i < 8; i++)
-			{
-				this.qdCheckBoxes[i].Checked = (values[i] == '1') ;		
-			}
+			
+
+				string QDValues = iniAst.ReadString("QD", frame.ToString(), "00000000");
+				char[] values = QDValues.ToCharArray();
+				for (int i = 0; i < 8; i++)
+				{
+					this.qdCheckBoxes[i].Checked = (values[i] == '1') ;		
+				}
+			
 		}
 
 		/// <summary>
@@ -145,6 +158,7 @@ namespace LightController.MyForm
 		/// <param name="frame"></param>
 		private void loadZuheSet(int frame)
 		{
+
 			zuheCheckBox.Checked = ( iniAst.ReadInt("Multiple", frame + "OPEN", 0) != 0 );
 			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 0);
 			
@@ -176,9 +190,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void zuheCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			
-			zuheEnableGroupBox.Enabled = zuheCheckBox.Checked;
-			circleTimeNumericUpDown.Enabled = zuheCheckBox.Checked;			
+			if (isInit) { 
+				zuheEnableGroupBox.Enabled = zuheCheckBox.Checked;
+				circleTimeNumericUpDown.Enabled = zuheCheckBox.Checked;
+			}
 		}
 
 		/// <summary>
@@ -188,7 +203,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void zuheFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			loadZuheSet(zuheFrameComboBox.SelectedIndex);
+			if (isInit)
+				loadZuheSet(zuheFrameComboBox.SelectedIndex);
 		}
 
 		/// <summary>
@@ -198,7 +214,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void qdFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			loadQDSet(qdFrameComboBox.SelectedIndex);
+			if(isInit)
+				loadQDSet(qdFrameComboBox.SelectedIndex);
 		}
 
 		/// <summary>
@@ -261,6 +278,14 @@ namespace LightController.MyForm
 			MessageBox.Show("保存成功");
 		}
 
-		
+		/// <summary>
+		///  右上角点击关闭按钮后的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void GlobalSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+		}
 	}
 }

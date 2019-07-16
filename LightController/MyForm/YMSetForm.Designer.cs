@@ -1998,6 +1998,7 @@ namespace LightController.MyForm
 			this.Controls.Add(this.skGroupBox);
 			this.Name = "YMSetForm";
 			this.Text = "摇麦设置";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.YMSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.YMSetForm_Load);
 			this.skGroupBox.ResumeLayout(false);
 			this.skGroupBox.PerformLayout();

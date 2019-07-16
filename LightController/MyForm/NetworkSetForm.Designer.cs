@@ -37,6 +37,7 @@
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Name = "NetworkSetForm";
 			this.Text = "网络设置";
+			this.Load += new System.EventHandler(this.NetworkSetForm_Load);
 			this.ResumeLayout(false);
 
 		}

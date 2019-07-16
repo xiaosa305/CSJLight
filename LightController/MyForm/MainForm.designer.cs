@@ -392,6 +392,7 @@ namespace LightController
 			this.saveAsButton.TabIndex = 5;
 			this.saveAsButton.Text = "另存工程";
 			this.saveAsButton.UseVisualStyleBackColor = true;
+			this.saveAsButton.Visible = false;
 			// 
 			// oneKeyButton
 			// 
@@ -403,6 +404,8 @@ namespace LightController
 			this.oneKeyButton.TabIndex = 4;
 			this.oneKeyButton.Text = "一键配置";
 			this.oneKeyButton.UseVisualStyleBackColor = true;
+			this.oneKeyButton.Visible = false;
+			this.oneKeyButton.Click += new System.EventHandler(this.oneKeyButton_Click);
 			// 
 			// skinEngine1
 			// 

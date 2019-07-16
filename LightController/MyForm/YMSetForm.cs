@@ -132,6 +132,8 @@ namespace LightController.MyForm
 
 		private void YMSetForm_Load(object sender, EventArgs e)
 		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+
 			//1. 先设置各个下拉框的默认值：这里的三个选项(checkbox和numericUpDown)都不太需要设置
 			//2.读取各个配置=>若是新建，则不读取配置
 			if (!isNew)
@@ -201,6 +203,11 @@ namespace LightController.MyForm
 			{
 				item.Checked = allCheckBox.Checked;
 			}
+		}
+
+		private void YMSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
 		}
 	}
 }

@@ -52,7 +52,7 @@ namespace LightController
 		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一步（通道列表）
 		private IList<LightWrapper> lightWrapperList = new List<LightWrapper>();
 
-		private int selectedLightIndex; //选择的灯具的index
+		private int selectedLightIndex = -1; //选择的灯具的index
 		private int frame = 0; // 0-23 表示24种场景
 		private int mode = 0;  // 0-1 表示常规程序和音频程序
 		private PlayTools playTools;
@@ -440,6 +440,8 @@ namespace LightController
 			valueList = null;
 			lightsListView.Clear();
 			tongdaoGroupBox.Hide();
+
+			selectedLightIndex = -1;
 		}
 
 		/// <summary>
@@ -1274,9 +1276,16 @@ namespace LightController
 		/// <returns></returns>
 		private LightStepWrapper getCurrentLightStepWrapper()
 		{
+			// 说明尚未点击任何灯具
+			if (selectedLightIndex == -1)
+			{
+				return null;
+			}
+			// 说明内存内还没有任何灯具
 			if (lightWrapperList == null || lightWrapperList.Count == 0) {
 				return null;								
 			}
+			
 			LightWrapper light = lightWrapperList[selectedLightIndex];
 			if (light == null) {
 				return null;

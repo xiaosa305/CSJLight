@@ -25,6 +25,7 @@ namespace LightController.Tools
 		private readonly byte[] StartCode = { 0x00 };
 		private static FTDI MyFtdiDevice { get; set; }
 		private Thread PlayThread { get; set; }
+        private string ConfigPath { get; set; }
 
 		//test
 		private int MusicChanelCount { get; set; }
@@ -49,7 +50,7 @@ namespace LightController.Tools
             }
             if (MyFtdiDevice == null)
             {
-                Instance.Connect();
+                //Instance.Connect();
             }
             return Instance;
         }
@@ -93,8 +94,21 @@ namespace LightController.Tools
             ChanelNos = null;
             DataPoint = null;
             PlayData = null;
-            MyFtdiDevice.Close();
-            MyFtdiDevice = null;
+            try
+            {
+                if (MyFtdiDevice != null)
+                {
+                    MyFtdiDevice.Close();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("已经结束预览");
+            }
+            finally
+            {
+                MyFtdiDevice = null;
+            }
         }
 
         private void Reset()
@@ -104,6 +118,7 @@ namespace LightController.Tools
 
 		public void Preview(DBWrapper wrapper, int sceneNo)
 		{
+            ConfigPath = @"C:\Temp\LightProject\Test1\global.ini";
             if (MyFtdiDevice == null)
             {
                 if (!Connect())
@@ -161,10 +176,10 @@ namespace LightController.Tools
 			bool resultFlag = false;
 			DMX_C_File c_File = null;
 			IList<C_Data> c_Datas = null;
-            IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(wrapper));
+            IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(wrapper),ConfigPath);
             //test
             DMX_M_File m_File = null;
-			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(wrapper));
+			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(wrapper),ConfigPath);
 			foreach (DMX_M_File file in m_Files)
 			{
 				if (senceNo == file.SenceNo)
@@ -214,9 +229,10 @@ namespace LightController.Tools
 
 		private bool SetMusicData(DMX_M_File file)
 		{
-			MusicChanelCount = file.Data.HeadData.ChanelCount;
-			IList<M_Data> m_Datas = file.Data.Datas;
-			MusicChanelData = new byte[MusicChanelCount][];
+            IList<M_Data> m_Datas = file.Data.Datas;
+            //MusicChanelCount = file.Data.HeadData.ChanelCount;
+            MusicChanelCount = m_Datas.Count();
+            MusicChanelData = new byte[MusicChanelCount][];
 			MusicChanelNos = new int[MusicChanelCount];
 			for (int i = 0; i < MusicChanelCount; i++)
 			{
@@ -369,14 +385,22 @@ namespace LightController.Tools
 			{
                 while (IsOneLightStep)
                 {
-                    //发送Break
-                    MyFtdiDevice.SetBreak(true);
-                    Thread.Sleep(10);
-                    MyFtdiDevice.SetBreak(false);
-                    MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
-                    //发送dmx512数据
-                    MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
-                    Thread.Sleep(32);
+                    try
+                    {
+                        //发送Break
+                        MyFtdiDevice.SetBreak(true);
+                        Thread.Sleep(10);
+                        MyFtdiDevice.SetBreak(false);
+                        MyFtdiDevice.Write(StartCode, StartCode.Length, ref count);
+                        //发送dmx512数据
+                        MyFtdiDevice.Write(PlayData, PlayData.Length, ref count);
+                        Thread.Sleep(32);
+                    }
+                    catch (Exception)
+                    {
+                        IsOneLightStep = false;
+                    }
+
                 }
                 IsOneLightStep = false;
 			}

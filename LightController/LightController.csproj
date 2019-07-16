@@ -241,6 +241,7 @@
     <Compile Include="Tools\DMX_M_File.cs" />
     <Compile Include="Tools\FormatTools.cs" />
     <Compile Include="Tools\ITimeOutFuntion.cs" />
+    <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\ReceiveCallBack.cs" />
     <Compile Include="Tools\SenceData.cs" />
     <Compile Include="Tools\SerialPortToolsTest.cs" />

@@ -66,21 +66,6 @@ namespace LightController.Tools
                 }
             }
         }
-        /// <summary>
-        /// 旧版
-        /// </summary>
-        /// <returns></returns>
-        private IList<SceneData> GetC_SenceDatas()
-        {
-            this.Mode = Constant.MODE_C;
-            IList<SceneData> senceDatas = new List<SceneData>();
-            foreach (int item in SenceArray)
-            {
-                SceneData data = GetC_SenceData(SenceArray[item]);
-                senceDatas.Add(data);
-            }
-            return senceDatas;
-        }
 
         public IList<SceneData> GetC_SenceDatas(DBWrapper dBWrapper)
         {
@@ -105,21 +90,6 @@ namespace LightController.Tools
             this.DB_StepCounts = dBWrapper.stepCountList;
             this.DB_Values = dBWrapper.valueList;
             this.GetSenceArray();
-            IList<SceneData> senceDatas = new List<SceneData>();
-            foreach (int item in SenceArray)
-            {
-                SceneData data = GetC_SenceData(SenceArray[item]);
-                senceDatas.Add(data);
-            }
-            return senceDatas;
-        }
-        /// <summary>
-        /// 旧版
-        /// </summary>
-        /// <returns></returns>
-        private IList<SceneData> GetM_SenceDatas()
-        {
-            this.Mode = Constant.MODE_M;
             IList<SceneData> senceDatas = new List<SceneData>();
             foreach (int item in SenceArray)
             {
@@ -155,9 +125,12 @@ namespace LightController.Tools
                     for (int stepNo = 0; stepNo < GetStepCount(light.LightNo, senceNo).StepCount; stepNo++)
                     {
                         DB_Value value = GetValue(light.LightNo, senceNo, stepNo + 1, chanelData.ChanelNo);
-                        IsGradualChange.Add(value.ChangeMode);
-                        StepTimes.Add(value.StepTime);
-                        StepValues.Add(value.ScrollValue);
+                        if (value != null)
+                        {
+                            IsGradualChange.Add(value.ChangeMode);
+                            StepTimes.Add(value.StepTime);
+                            StepValues.Add(value.ScrollValue);
+                        }
                     }
                     chanelData.IsGradualChange = IsGradualChange;
                     chanelData.StepTimes = StepTimes;
@@ -235,7 +208,17 @@ namespace LightController.Tools
             {
                 if (value.PK.LightIndex == lightIndex && value.PK.Mode == Mode && value.PK.Step == step && value.PK.Frame == senceNo && value.PK.LightID == lightID)
                 {
-                    return value;
+                    //if (Mode == Constant.MODE_M)
+                    //{
+                    //    if (value.ChangeMode == 1)
+                    //    {
+                    //        return value;
+                    //    }
+                    //}
+                    //else
+                    //{
+                        return value;
+                    //}
                 }
             }
             return null;

@@ -20,16 +20,18 @@ namespace LightController.Tools
         private static int i = 0;
         public Test(DBWrapper dBWrapper)
         {
-            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
-            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
             this.DBWrapper = dBWrapper;
         }
 
 
         public void Start()
         {
-            Testapplication();
-		}
+            //Testapplication();
+            PreViewTest();
+
+        }
 
         public void WriteToFile()
         {
@@ -47,8 +49,18 @@ namespace LightController.Tools
             Console.WriteLine("Connect Test");
         }
 
-        public void ReadFromFile()
+        public void PreViewTest()
         {
+            if (i == 0)
+            {
+                PlayTools.GetInstance().PreView(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", 0);
+                i++;
+            }
+            else if(i == 1)
+            {
+                PlayTools.GetInstance().EndView();
+                i++;
+            }
         }
 
         public void Testapplication()
@@ -76,9 +88,34 @@ namespace LightController.Tools
                         iplist.Add(item);
                     }
                 }
-                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test4\global.ini");
+                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini",new DownloadCallBack());
             }
             i++;
+        }
+    }
+    public class DownloadCallBack : IReceiveCallBack
+    {
+        public void SendCompleted(string ip, string order)
+        {
+            Console.WriteLine(ip + "===>" + order + ": 下载完成");
+        }
+
+        public void SendError(string ip, string order)
+        {
+            Console.WriteLine(ip + "===>" + order + ": 下载失败");
+        }
+    }
+
+    public class OrderCallBack : IReceiveCallBack
+    {
+        public void SendCompleted(string ip, string order)
+        {
+            Console.WriteLine(ip + "===>" + order + ": 发送成功");
+        }
+
+        public void SendError(string ip, string order)
+        {
+            Console.WriteLine(ip + "===>" + order + ": 发送失败");
         }
     }
 }

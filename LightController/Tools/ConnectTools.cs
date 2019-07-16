@@ -132,46 +132,22 @@ namespace LightController.Tools
             }
         }
 
-        public void Download(string[] ip, DBWrapper dBWrapper,string configPath)
+        public void Download(string[] ip, DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack)
         {
             foreach (string item in ip)
             {
-                SocketTools.GetInstance().Download(item, dBWrapper, configPath, new DownloadCallBack());
+                SocketTools.GetInstance().Download(item, dBWrapper, configPath, callBack);
             }
         }
 
-        public void SendOrder(string[] ip,string order,string[] strarray)
+        public void SendOrder(string[] ip,string order,string[] strarray,IReceiveCallBack callBack)
         {
             foreach (string item in ip)
             {
-                SocketTools.GetInstance().SendOrder(item, order, strarray, new DownloadCallBack());
+                SocketTools.GetInstance().SendOrder(item, order, strarray, callBack);
             }
         }
     }
 
-    public class DownloadCallBack : IReceiveCallBack
-    {
-        public void SendCompleted(string ip,string order)
-        {
-            Console.WriteLine(ip+ "===>" + order + ": 下载完成");
-        }
-
-        public void SendError(string ip,string order)
-        {
-            Console.WriteLine(ip + "===>" + order + ": 下载失败");
-        }
-    }
-
-    public class OrderCallBack : IReceiveCallBack
-    {
-        public void SendCompleted(string ip, string order)
-        {
-            Console.WriteLine(ip + "===>" + order + ": 发送成功");
-        }
-
-        public void SendError(string ip, string order)
-        {
-            Console.WriteLine(ip + "===>" + order + ": 发送失败");
-        }
-    }
+ 
 }

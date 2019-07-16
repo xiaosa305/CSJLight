@@ -30,9 +30,9 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="senceNo"></param>
         /// <returns></returns>
-        public DMX_C_File GetC_File(DBWrapper dBWrapper,int senceNo)
+        public DMX_C_File GetC_File(DBWrapper dBWrapper,int senceNo,string configPath)
         {
-            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper), configPath);
             foreach (DMX_C_File value in files)
             {
                 if (value.SenceNo == senceNo)
@@ -48,9 +48,9 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="senceNo"></param>
         /// <returns></returns>
-        public DMX_C_Data GetC_Data(DBWrapper dBWrapper,int senceNo)
+        public DMX_C_Data GetC_Data(DBWrapper dBWrapper,int senceNo, string configPath)
         {
-            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper),configPath);
             foreach (DMX_C_File value in files)
             {
                 if (value.SenceNo == senceNo)
@@ -66,9 +66,9 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="senceNo"></param>
         /// <param name="path"></param>
-        public void WriteC_DataToFile(DBWrapper dBWrapper,int senceNo,string path)
+        public void WriteC_DataToFile(DBWrapper dBWrapper,int senceNo,string path, string configPath)
         {
-            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper),configPath);
             foreach (DMX_C_File value in files)
             {
                 if (value.SenceNo == senceNo)
@@ -83,9 +83,9 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="senceNo"></param>
         /// <returns></returns>
-        public DMX_M_File GetM_File(DBWrapper dBWrapper, int senceNo)
+        public DMX_M_File GetM_File(DBWrapper dBWrapper, int senceNo, string configPath)
         {
-            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper),configPath);
             foreach (DMX_M_File value in files)
             {
                 if (value.SenceNo == senceNo)
@@ -101,9 +101,9 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="senceNo"></param>
         /// <returns></returns>
-        public DMX_M_Data GetM_Data(DBWrapper dBWrapper,int senceNo)
+        public DMX_M_Data GetM_Data(DBWrapper dBWrapper,int senceNo, string configPath)
         {
-            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper),configPath);
             foreach (DMX_M_File value in files)
             {
                 if (value.SenceNo == senceNo)
@@ -119,9 +119,9 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="senceNo"></param>
         /// <param name="path"></param>
-        public void WriteM_DataToFile(DBWrapper dBWrapper,int senceNo,string path)
+        public void WriteM_DataToFile(DBWrapper dBWrapper,int senceNo,string path, string configPath)
         {
-            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper),configPath);
             foreach (DMX_M_File value in files)
             {
                 if (value.SenceNo == senceNo)
@@ -135,9 +135,9 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="dBWrapper"></param>
         /// <returns></returns>
-        public IList<DMX_C_File> GetC_Files(DBWrapper dBWrapper)
+        public IList<DMX_C_File> GetC_Files(DBWrapper dBWrapper, string configPath)
         {
-            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper),configPath);
             return files;
         }
         /// <summary>
@@ -145,10 +145,10 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="dBWrapper"></param>
         /// <returns></returns>
-        public IList<DMX_C_Data> GetC_Datas(DBWrapper dBWrapper)
+        public IList<DMX_C_Data> GetC_Datas(DBWrapper dBWrapper, string configPath)
         {
             IList<DMX_C_Data> c_Datas = new List<DMX_C_Data>();
-            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper),configPath);
             foreach (DMX_C_File file in files)
             {
                 c_Datas.Add(file.Data);
@@ -167,9 +167,9 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="dBWrapper"></param>
         /// <param name="path"></param>
-        public void WriteAllC_DataToFile(DBWrapper dBWrapper,string path)
+        public void WriteAllC_DataToFile(DBWrapper dBWrapper,string path, string configPath)
         {
-            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
+            IList<DMX_C_File> files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper),configPath);
             foreach (DMX_C_File file in files)
             {
                 file.WriteFile(path);
@@ -180,9 +180,9 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="dBWrapper"></param>
         /// <returns></returns>
-        public IList<DMX_M_File> GetM_Files(DBWrapper dBWrapper)
+        public IList<DMX_M_File> GetM_Files(DBWrapper dBWrapper, string configPath)
         {
-            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper),configPath);
             return files;
         }
         /// <summary>
@@ -190,10 +190,10 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="dBWrapper"></param>
         /// <returns></returns>
-        public IList<DMX_M_Data> GetM_Datas(DBWrapper dBWrapper)
+        public IList<DMX_M_Data> GetM_Datas(DBWrapper dBWrapper, string configPath)
         {
             IList<DMX_M_Data> m_Datas = new List<DMX_M_Data>();
-            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper),configPath);
             foreach (DMX_M_File file in files)
             {
                 m_Datas.Add(file.Data);
@@ -212,9 +212,9 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="dBWrapper"></param>
         /// <param name="path"></param>
-        public void WriteAllM_DataToFile(DBWrapper dBWrapper,string path)
+        public void WriteAllM_DataToFile(DBWrapper dBWrapper,string path, string configPath)
         {
-            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            IList<DMX_M_File> files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper),configPath);
             foreach (DMX_M_File file in files)
             {
                 file.WriteFile(path);

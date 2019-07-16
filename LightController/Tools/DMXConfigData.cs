@@ -23,7 +23,7 @@ namespace LightController.Tools
         //场景切换模式
         public int Scene_Change_Mode { get; set; }
         //时间因子
-        public int Time_Factor { get; set; }
+        public int TimeFactory { get; set; }
         //场景组合播放数据
         public Config_Combine_Scene[] Combine_Scenes { get; set; }
         //灯具数据
@@ -37,15 +37,15 @@ namespace LightController.Tools
 
         public DMXConfigData(DBWrapper dBWrapper,string filePath)
         {
-            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper));
-            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper));
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper), filePath);
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper), filePath);
             Combine_Scenes = new Config_Combine_Scene[9];
             DB_Lights = dBWrapper.lightList;
-            Lights = new List<Config_Light>();
             Music_Control_Enable = new List<int>();
             FilePath = filePath;
+            ReadFromFile();
         }
-        
+
         public void WriteToFile(string path)
         {
             string filePath = path + @"\Config.bin";
@@ -57,7 +57,6 @@ namespace LightController.Tools
 
         public byte[] GetConfigData()
         {
-            ReadFromFile();
             int FileSize = 0;
             IList<byte> data = new List<byte>();
             //预填充文件大小
@@ -87,7 +86,7 @@ namespace LightController.Tools
             //添加场景切换模式
             data.Add(Convert.ToByte(Scene_Change_Mode));
             //添加时间因子
-            data.Add(Convert.ToByte(Time_Factor));
+            data.Add(Convert.ToByte(TimeFactory));
             //添加场景组合播放数据
             foreach (Config_Combine_Scene value in Combine_Scenes)
             {
@@ -161,6 +160,7 @@ namespace LightController.Tools
             string lineStr = "";
             string strValue;
             int intValue;
+            Lights = new List<Config_Light>();
             IList<string> configStr = new List<string>();
             try
             {
@@ -186,7 +186,7 @@ namespace LightController.Tools
                         Default_Scene_Number = intValue;
                         strValue = (Reader.ReadLine().Split('='))[1];
                         int.TryParse(strValue, out intValue);
-                        Time_Factor = intValue;
+                        TimeFactory = intValue;
                         strValue = (Reader.ReadLine().Split('='))[1];
                         int.TryParse(strValue, out intValue);
                         Scene_Change_Mode = intValue;
@@ -325,9 +325,9 @@ namespace LightController.Tools
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("全局配置文件读取失败");
+                throw new Exception("全局配置文件读取失败:" + ex.Message);
             }
         }
     }

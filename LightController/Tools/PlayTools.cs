@@ -47,6 +47,8 @@ namespace LightController.Tools
         private Thread OLOSThread { get; set; }
         //项目预览线程
         private Thread PreViewThread { get; set; }
+        //音频触发线程
+        private Thread MusicControlThread { get; set; }
         //当前播放状态
         private PreViewState State { get; set; }
         //音频是否触发
@@ -105,8 +107,12 @@ namespace LightController.Tools
 
         public void PreView(DBWrapper wrapper, string configPath, int senceNo)
         {
+            try
+            {
+
             //暂停播放准备生成数据
             IsPausePlay = true;
+            if (wrapper.valueList == null || wrapper.stepCountList == null || wrapper.lightList == null) return;
             if (wrapper.lightList.Count == 0 || wrapper.stepCountList.Count == 0 || wrapper.valueList.Count == 0) return;
             this.DBWrapper = wrapper;
             this.ConfigPath = configPath;
@@ -116,111 +122,136 @@ namespace LightController.Tools
             DMX_M_File m_File = DataTools.GetInstance().GetM_File(DBWrapper, SenceNo, ConfigPath);
             ConfigData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
             TimeFactory = ConfigData.TimeFactory;
-            try
-            {
-                //如果单灯单步线程运行中，将其强制关闭
-                if (OLOSThread != null)
+                try
                 {
-                    OLOSThread.Abort();
+                    //如果单灯单步线程运行中，将其强制关闭
+                    if (OLOSThread != null)
+                    {
+                        OLOSThread.Abort();
+                    }
                 }
+                catch (Exception)
+                {
+                    Console.WriteLine("关闭单灯单步线程");
+                }
+                finally
+                {
+                    //将单灯单步线程置为null
+                    OLOSThread = null;
+                    //预读常规程序数据到缓存区
+                    if (c_File != null)
+                    {
+                        C_ChanelCount = c_File.Data.HeadData.ChanelCount;
+                        IList<C_Data> c_Datas = c_File.Data.Datas;
+                        C_ChanelData = new byte[C_ChanelCount][];
+                        C_ChanelId = new int[C_ChanelCount];
+                        C_ChanelPoint = new int[C_ChanelCount];
+                        for (int i = 0; i < C_ChanelCount; i++)
+                        {
+                            C_Data c_Data = c_Datas[i];
+                            C_ChanelPoint[i] = 0;
+                            C_ChanelId[i] = c_Data.ChanelNo;
+                            IList<byte> data = new List<byte>();
+                            for (int j = 0; j < c_Data.DataSize; j++)
+                            {
+                                data.Add(Convert.ToByte(c_Data.Datas[j]));
+                            }
+                            C_ChanelData[i] = data.ToArray();
+                        }
+                    }
+                    //预读音频程序数据到缓存区
+                    if (m_File != null)
+                    {
+                        IList<M_Data> m_Datas = m_File.Data.Datas;
+                        M_ChanelCount = m_Datas.Count();
+                        M_ChanelData = new byte[M_ChanelCount][];
+                        M_ChanelId = new int[M_ChanelCount];
+                        M_ChanelPoint = new int[M_ChanelCount];
+                        for (int i = 0; i < M_ChanelCount; i++)
+                        {
+                            M_Data m_Data = m_Datas[i];
+                            M_ChanelId[i] = m_Data.ChanelNo;
+                            M_ChanelPoint[i] = 0;
+                            IList<byte> data = new List<byte>();
+                            for (int j = 0; j < m_Data.DataSize; j++)
+                            {
+                                data.Add(Convert.ToByte(m_Data.Datas[j]));
+                            }
+                            M_ChanelData[i] = data.ToArray();
+                        }
+                    }
+                    MusicStep = ConfigData.Music_Control_Enable[SenceNo];
+                    //关闭暂停播放
+                    IsPausePlay = false;
+                    //启动项目预览线程
+                    if (PreViewThread == null)
+                    {
+                        PreViewThread = new Thread(new ThreadStart(PreViewThreadStart))
+                        {
+                            //将线程设置为后台运行
+                            IsBackground = true
+                        };
+                        PreViewThread.Start();
+                    }
+                }
+
             }
             catch (Exception)
             {
-                Console.WriteLine("关闭单灯单步线程");
-            }
-            finally
-            {
-                //将单灯单步线程置为null
-                OLOSThread = null;
-                //预读常规程序数据到缓存区
-                if (c_File != null)
-                {
-                    C_ChanelCount = c_File.Data.HeadData.ChanelCount;
-                    IList<C_Data> c_Datas = c_File.Data.Datas;
-                    C_ChanelData = new byte[C_ChanelCount][];
-                    C_ChanelId = new int[C_ChanelCount];
-                    C_ChanelPoint = new int[C_ChanelCount];
-                    for (int i = 0; i < C_ChanelCount; i++)
-                    {
-                        C_Data c_Data = c_Datas[i];
-                        C_ChanelPoint[i] = 0;
-                        C_ChanelId[i] = c_Data.ChanelNo;
-                        IList<byte> data = new List<byte>();
-                        for (int j = 0; j < c_Data.DataSize; j++)
-                        {
-                            data.Add(Convert.ToByte(c_Data.Datas[j]));
-                        }
-                        C_ChanelData[i] = data.ToArray();
-                    }
-                }
-                //预读音频程序数据到缓存区
-                if (m_File != null)
-                {
-                    IList<M_Data> m_Datas = m_File.Data.Datas;
-                    M_ChanelCount = m_Datas.Count();
-                    M_ChanelData = new byte[M_ChanelCount][];
-                    M_ChanelId = new int[M_ChanelCount];
-                    M_ChanelPoint = new int[M_ChanelCount];
-                    for (int i = 0; i < M_ChanelCount; i++)
-                    {
-                        M_Data m_Data = m_Datas[i];
-                        M_ChanelId[i] = m_Data.ChanelNo;
-                        M_ChanelPoint[i] = 0;
-                        IList<byte> data = new List<byte>();
-                        for (int j = 0; j < m_Data.DataSize; j++)
-                        {
-                            data.Add(Convert.ToByte(m_Data.Datas[j]));
-                        }
-                        M_ChanelData[i] = data.ToArray();
-                    }
-                }
-                MusicStep = ConfigData.Music_Control_Enable[SenceNo];
-                //关闭暂停播放
-                IsPausePlay = false;
-                //启动项目预览线程
-                if (PreViewThread == null)
-                {
-                    PreViewThread = new Thread(new ThreadStart(PreViewThreadStart))
-                    {
-                        //将线程设置为后台运行
-                        IsBackground = true
-                    };
-                    PreViewThread.Start();
-                }
+                EndView();
             }
         }
 
         public void OLOSView(byte[] data)
         {
-            IsPausePlay = true;
-            TimeFactory = 32;
             try
             {
-                if (PreViewThread != null)
+                IsPausePlay = true;
+                TimeFactory = 32;
+                try
                 {
-                    PreViewThread.Abort();
+                    if (PreViewThread != null)
+                    {
+                        PreViewThread.Abort();
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                finally
+                {
+                    PreViewThread = null;
+                    PlayData = data;
+                    IsPausePlay = false;
+                    if (OLOSThread == null)
+                    {
+                        OLOSThread = new Thread(new ThreadStart(OLOSViewThreadStart))
+                        {
+                            IsBackground = true
+                        };
+                        OLOSThread.Start();
+                    }
                 }
             }
             catch (Exception)
             {
+                EndView();
             }
-            finally
-            {
-                PreViewThread = null;
-                PlayData = data;
-                IsPausePlay = false;
-                if (OLOSThread == null)
-                {
-                    OLOSThread = new Thread(new ThreadStart(OLOSViewThreadStart))
-                    {
-                        IsBackground = true
-                    };
-                    OLOSThread.Start();
-                }
-            }
+            
         }
 
         public void MusicControl()
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void MusicControlThreadStart()
         {
 
         }

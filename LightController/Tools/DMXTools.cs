@@ -107,7 +107,10 @@ namespace LightController.Tools
                 HeadData = GetM_Heads(chanelCount,senceNo)
 
             };
-            dMX_M_Data.HeadData.FrameTime = chanelDatas[0].StepTimes[0];
+            if(chanelDatas.Count > 0)
+            {
+                dMX_M_Data.HeadData.FrameTime = chanelDatas[0].StepTimes[0];
+            }
             foreach (M_Data data in dMX_M_Data.Datas)
             {
                 dMX_M_Data.HeadData.FileSize += data.DataSize;

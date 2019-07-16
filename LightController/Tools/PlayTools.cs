@@ -84,7 +84,7 @@ namespace LightController.Tools
                 }
                 finally
                 {
-                    PreViewThread.Abort();
+                    PreViewThread = null;
                 }
             }
             if (OLOSThread != null)
@@ -107,6 +107,7 @@ namespace LightController.Tools
         {
             //暂停播放准备生成数据
             IsPausePlay = true;
+            if (wrapper.lightList.Count == 0 || wrapper.stepCountList.Count == 0 || wrapper.valueList.Count == 0) return;
             this.DBWrapper = wrapper;
             this.ConfigPath = configPath;
             this.SenceNo = senceNo;

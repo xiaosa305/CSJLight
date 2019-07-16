@@ -71,11 +71,7 @@ namespace LightController
 			}
 
 			//TODO : 动态加载可用的串口
-			string[] comList = { "COM1", "COM2" };
-			foreach (string com in comList)
-			{
-				comComboBox.Items.Add(com);
-			}
+			comComboBox.Items.AddRange(new object[] { "COM1","COM2" });
 
 			modeComboBox.SelectedIndex = 0;
 			frameComboBox.SelectedIndex = 0;
@@ -308,6 +304,62 @@ namespace LightController
 		}
 
 		/// <summary>
+		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
+		/// data.db3的载入：把相关内容，放到数据列表中
+		///    ①lightList 、stepCountList、valueList
+		///    ②lightAstList（由lightList生成）
+		///    ③lightWrapperList(由lightAstList生成)
+		/// </summary>
+		/// <param name="directoryPath"></param>
+		internal void OpenProject(string projectName)
+		{
+			// 0.初始化
+			InitProject(projectName, false);
+
+			// 把数据库的内容填充进来，并设置好对应的DAO
+			lightList = getLightList();
+			stepCountList = getStepCountList();
+			valueList = getValueList();
+			// 通过lightList填充lightAstList
+			lightAstList = reCreateLightAstList(lightList);
+			AddLightAstList(lightAstList);
+
+			// 针对每个lightWrapper，获取其已有步数的场景和模式
+			for (int lightListIndex = 0; lightListIndex < lightList.Count; lightListIndex++)
+			{
+				IList<DB_StepCount> scList = stepCountDAO.getStepCountList(lightList[lightListIndex].LightNo);
+
+				if (scList != null && scList.Count > 0)
+				{
+					// 只要有步数的，优先生成StepMode
+					StepWrapper stepMode = generateStepMode(lightAstList[lightListIndex], lightListIndex);
+					lightWrapperList[lightListIndex].StepMode = stepMode;
+					foreach (DB_StepCount sc in scList)
+					{
+						int frame = sc.PK.Frame;
+						int mode = sc.PK.Mode;
+						int lightIndex = sc.PK.LightIndex;
+						int stepCount = sc.StepCount;
+
+						for (int step = 1; step <= stepCount; step++)
+						{
+							IList<DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode, step);
+							StepWrapper stepWrapper = generateStepWrapper(stepMode, stepValueList, mode);
+							if (lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] == null)
+							{
+								lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
+							}
+							lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+						}
+					}
+				}
+			}
+			isInit = true;
+
+			MessageBox.Show("成功打开工程");
+		}
+
+		/// <summary>
 		///  辅助方法：将 save的两个按钮Enabled设为选定值
 		/// </summary>
 		private void enableSave(bool enable) {
@@ -326,64 +378,7 @@ namespace LightController
 			this.ymSetToolStripMenuItem.Enabled = enable;
 			this.NetworkSetToolStripMenuItem.Enabled = enable;		
 		}
-
-		/// <summary>
-		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
-		/// data.db3的载入：把相关内容，放到数据列表中
-		///    ①lightList 、stepCountList、valueList
-		///    ②lightAstList（由lightList生成）
-		///    ③lightWrapperList(由lightAstList生成)
-		/// </summary>
-		/// <param name="directoryPath"></param>
-		internal void OpenProject(string projectName)
-		{	
-			// 0.初始化
-			InitProject(projectName, false);	
-			
-			// 把数据库的内容填充进来，并设置好对应的DAO
-			lightList = getLightList();
-			stepCountList = getStepCountList();
-			valueList = getValueList();
-			// 通过lightList填充lightAstList
-			lightAstList = reCreateLightAstList(lightList);
-			AddLightAstList(lightAstList);
 		
-			// 针对每个lightWrapper，获取其已有步数的场景和模式
-			for (int lightListIndex = 0; lightListIndex < lightList.Count; lightListIndex++)
-			{				
-				IList<DB_StepCount> scList = stepCountDAO.getStepCountList(lightList[lightListIndex].LightNo);
-				
-				if (scList != null && scList.Count > 0) {
-					// 只要有步数的，优先生成StepMode
-					StepWrapper stepMode = generateStepMode(lightAstList[lightListIndex] , lightListIndex);
-					lightWrapperList[lightListIndex].StepMode = stepMode;
-					foreach (DB_StepCount sc in scList)
-					{
-						int frame = sc.PK.Frame;
-						int mode = sc.PK.Mode;
-						int lightIndex = sc.PK.LightIndex;
-						int stepCount = sc.StepCount;
-
-						for (int step = 1; step <= stepCount; step++)
-						{
-							IList<DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode, step);
-							StepWrapper stepWrapper = generateStepWrapper(stepMode, stepValueList,mode);							
-							if (lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] == null)
-							{
-								lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
-							}
-							lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
-						}
-					}
-				}
-			}
-			isInit = true;
-					
-			MessageBox.Show("成功打开工程");
-		}
-
-		
-
 		/// <summary>
 		///  由 步数模板 和 步数值集合 , 来生成某一步的StepWrapper;
 		///  主要供从数据库里读取数据填入内存时使用
@@ -509,7 +504,6 @@ namespace LightController
 		/// <param name="e"></param>
 		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			//MessageBox.Show(comboBox1.SelectedItem.ToString()); 
 			if (comComboBox.SelectedItem.ToString() != "")
 			{
 				openComButton.Enabled = true;
@@ -527,7 +521,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 点击打开按钮后的操作==》打开旧工程
+		/// 点击《打开工程》按钮 ==》新建一个OpenForm，再在里面回调OpenProject()
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -538,7 +532,7 @@ namespace LightController
 		}
 				
 		/// <summary>
-		/// 新建工程：新建一个NewForm，并ShowDialog
+		/// 点击《新建工程》按钮：新建一个NewForm，再在里面回调InitProject()
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -546,10 +540,10 @@ namespace LightController
 		{
 			NewForm newForm = new NewForm(this);
 			newForm.ShowDialog(this);
-
 		}
 		
 		/// <summary>
+		/// 点击《保存工程》按钮
 		/// 保存需要进行的操作：
 		/// 1.将lightAstList添加到light表中 --> 分新建或打开文件两种情况
 		/// 2.将步数、素材、value表的数据都填进各自的表中
@@ -573,7 +567,8 @@ namespace LightController
 		}
 
 		/// <summary>
-		///  保存灯具数据；有几个灯具就保存几个； 最好用SaveOrUpload方法；
+		///  保存灯具数据；有几个灯具就保存几个-->先统一删除，再保存
+		///  ---（效率比SaveOrUpdate更高，且如果有被删掉的数据，此方法会顺便把该数据删除）
 		/// </summary>
 		private void saveAllLights()
 		{
@@ -587,8 +582,7 @@ namespace LightController
 			{
 				DB_Light light = LightAst.GenerateLight(la);
 				this.lightList.Add(light);		
-			}
-			
+			}			
 			lightDAO.SaveAll("Light", lightList );
 		}
 
@@ -603,13 +597,13 @@ namespace LightController
 
 			// 保存所有步骤前，先清空stepCountList
 			stepCountList.Clear();
-			// 取出每个灯具,填入stepCountList中
+			// 取出每个灯具的所有【非null】stepCount,填入stepCountList中
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
-				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];				
+				DB_Light light = lightList[ lightWrapperList.IndexOf(lightTemp)];				
 				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
 
-				// 取出灯具的每个常规场景(24种），并将它们保存起来
+				// 取出灯具的每个常规场景(24种），并将它们保存起来（但若为空，则不保存）
 				for (int frame = 0; frame < 24; frame ++)
 				{
 					for (int mode = 0; mode < 2; mode ++)
@@ -632,11 +626,12 @@ namespace LightController
 					}
 				}
 			}
+			// 先删除所有，再保存当前的列表
 			stepCountDAO.SaveAll("StepCount",stepCountList);			
 		}
 
 		/// <summary>
-		/// 存放相应的每一步每一通道的值，记录数据到db.Value表中
+		/// 存放所有灯具所有场景的每一步每一通道的值，记录数据到db.Value表中
 		/// </summary>
 		private void saveAllValues()
 		{
@@ -644,7 +639,7 @@ namespace LightController
 				valueDAO = new ValueDAO(dbFilePath, ifEncrypt);
 			}
 
-			// 同样如果要做彻底保存，需要先清空valueList
+			// 需要先清空valueList
 			valueList.Clear();
 
 			foreach (LightWrapper lightTemp in lightWrapperList)
@@ -690,7 +685,9 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// TODO：添加lightAst列表到主界面内存中,主要供 LightsForm调用
+		///添加lightAst列表到主界面内存中,主要供 LightsForm调用（以及OpenProject调用）
+		/// --对比删除后，生成新的lightWrapperList；
+		/// --lightListView也更新为最新的数据
 		/// </summary>
 		/// <param name="lightAstList2"></param>
 		internal void AddLightAstList( IList<LightAst> lightAstList2)
@@ -831,7 +828,7 @@ namespace LightController
 		/// <param name="totalStep"></param>
 		private void showStepLabel(int currentStep, int totalStep)
 		{
-			// 1. 设label值
+			// 1. 设label的Text值
 			stepLabel.Text = currentStep + "/" + totalStep;
 			
 			// 2.1 设定《删除步》按钮是否可用

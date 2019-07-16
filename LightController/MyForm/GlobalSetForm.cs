@@ -286,6 +286,7 @@ namespace LightController.MyForm
 		private void GlobalSetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();
+			mainForm.Activate();
 		}
 	}
 }

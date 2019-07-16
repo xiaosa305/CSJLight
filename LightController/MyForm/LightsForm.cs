@@ -153,7 +153,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// TODO : 删除灯具的操作
+		/// 点击《删除灯具》的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -167,13 +167,12 @@ namespace LightController
 				int deleteIndex = lightsListView.SelectedIndices[0];
 				lightsListView.Items.RemoveAt(deleteIndex);
 				lightAstList.RemoveAt(deleteIndex);
-			}
-								
+			}								
 		}
 
-
 		/// <summary>
-		/// TODO: 点击确认后，添加lightAstList到mainForm去，并进行相关操作
+		/// 点击确认后，添加lightAstList到mainForm去，并进行相关操作
+		/// --用此lightAstList替代mainForm中的原lightAstList，并顺便删减lightWrapperList和ListView中的灯具
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -183,7 +182,6 @@ namespace LightController
 			mainForm.AddLightAstList(lightAstList);
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
-			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -195,5 +193,6 @@ namespace LightController
 		{
 			this.Dispose();
 		}
+
 	}
 }

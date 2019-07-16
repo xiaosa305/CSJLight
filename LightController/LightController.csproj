@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\JustTest.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />
     <Compile Include="Ast\MaterialIndexAst.cs" />

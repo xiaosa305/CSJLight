@@ -291,7 +291,6 @@ namespace LightEditor
 			this.tdPanel.Name = "tdPanel";
 			this.tdPanel.Size = new System.Drawing.Size(344, 676);
 			this.tdPanel.TabIndex = 2;
-			this.tdPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tdPanel_MouseClick);
 			// 
 			// numericUpDown32
 			// 

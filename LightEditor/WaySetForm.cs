@@ -241,16 +241,6 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  TODO: 当鼠标点击tdPanel框内时，将selectedTextBox置空
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdPanel_MouseClick(object sender, MouseEventArgs e)
-		{			
-			//selectedTextBox = null;
-		}
-
-		/// <summary>
 		/// 点击重置后的操作：将所有的通道数据重设为mainForm的tongdaoList内的值
 		/// </summary>
 		/// <param name="sender"></param>

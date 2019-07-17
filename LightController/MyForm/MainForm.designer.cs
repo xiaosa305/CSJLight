@@ -252,6 +252,10 @@ namespace LightController
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.soundButton = new System.Windows.Forms.Button();
+			this.zeroButton = new System.Windows.Forms.Button();
+			this.initButton = new System.Windows.Forms.Button();
+			this.commonValueButton = new System.Windows.Forms.Button();
+			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -322,6 +326,7 @@ namespace LightController
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown49)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.mainMenuStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// comComboBox
@@ -500,8 +505,10 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.copyLightButton);
 			this.tongdaoGroupBox.Controls.Add(this.tongdaoPanel);
 			this.tongdaoGroupBox.Controls.Add(this.cmComboBox);
+			this.tongdaoGroupBox.Controls.Add(this.commonValueNumericUpDown);
 			this.tongdaoGroupBox.Controls.Add(this.stNumericUpDown);
 			this.tongdaoGroupBox.Controls.Add(this.changeModeButton);
+			this.tongdaoGroupBox.Controls.Add(this.commonValueButton);
 			this.tongdaoGroupBox.Controls.Add(this.steptimeSetButton);
 			this.tongdaoGroupBox.Controls.Add(this.modeChooseLabel);
 			this.tongdaoGroupBox.Controls.Add(this.frameChooseLabel);
@@ -512,6 +519,8 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.insertBeforeStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.insertAfterStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.testButton);
+			this.tongdaoGroupBox.Controls.Add(this.initButton);
+			this.tongdaoGroupBox.Controls.Add(this.zeroButton);
 			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.newStepButton);
@@ -529,7 +538,7 @@ namespace LightController
 			// 
 			// materialUseButton
 			// 
-			this.materialUseButton.Location = new System.Drawing.Point(168, 182);
+			this.materialUseButton.Location = new System.Drawing.Point(184, 137);
 			this.materialUseButton.Name = "materialUseButton";
 			this.materialUseButton.Size = new System.Drawing.Size(98, 35);
 			this.materialUseButton.TabIndex = 21;
@@ -540,7 +549,7 @@ namespace LightController
 			// pasteLightButton
 			// 
 			this.pasteLightButton.Enabled = false;
-			this.pasteLightButton.Location = new System.Drawing.Point(168, 135);
+			this.pasteLightButton.Location = new System.Drawing.Point(184, 82);
 			this.pasteLightButton.Name = "pasteLightButton";
 			this.pasteLightButton.Size = new System.Drawing.Size(98, 35);
 			this.pasteLightButton.TabIndex = 21;
@@ -550,7 +559,7 @@ namespace LightController
 			// 
 			// materialSaveButton
 			// 
-			this.materialSaveButton.Location = new System.Drawing.Point(64, 182);
+			this.materialSaveButton.Location = new System.Drawing.Point(64, 137);
 			this.materialSaveButton.Name = "materialSaveButton";
 			this.materialSaveButton.Size = new System.Drawing.Size(98, 35);
 			this.materialSaveButton.TabIndex = 21;
@@ -560,7 +569,7 @@ namespace LightController
 			// 
 			// copyLightButton
 			// 
-			this.copyLightButton.Location = new System.Drawing.Point(64, 135);
+			this.copyLightButton.Location = new System.Drawing.Point(64, 82);
 			this.copyLightButton.Name = "copyLightButton";
 			this.copyLightButton.Size = new System.Drawing.Size(98, 35);
 			this.copyLightButton.TabIndex = 21;
@@ -2818,7 +2827,7 @@ namespace LightController
 			// 
 			// stNumericUpDown
 			// 
-			this.stNumericUpDown.Location = new System.Drawing.Point(64, 452);
+			this.stNumericUpDown.Location = new System.Drawing.Point(64, 449);
 			this.stNumericUpDown.Maximum = new decimal(new int[] {
             254,
             0,
@@ -2833,7 +2842,7 @@ namespace LightController
 			// 
 			this.changeModeButton.Location = new System.Drawing.Point(165, 397);
 			this.changeModeButton.Name = "changeModeButton";
-			this.changeModeButton.Size = new System.Drawing.Size(136, 25);
+			this.changeModeButton.Size = new System.Drawing.Size(136, 31);
 			this.changeModeButton.TabIndex = 17;
 			this.changeModeButton.Text = "统一跳渐变";
 			this.changeModeButton.UseVisualStyleBackColor = true;
@@ -2841,9 +2850,9 @@ namespace LightController
 			// 
 			// steptimeSetButton
 			// 
-			this.steptimeSetButton.Location = new System.Drawing.Point(165, 452);
+			this.steptimeSetButton.Location = new System.Drawing.Point(165, 446);
 			this.steptimeSetButton.Name = "steptimeSetButton";
-			this.steptimeSetButton.Size = new System.Drawing.Size(136, 25);
+			this.steptimeSetButton.Size = new System.Drawing.Size(136, 31);
 			this.steptimeSetButton.TabIndex = 17;
 			this.steptimeSetButton.Text = "统一步时间";
 			this.steptimeSetButton.UseVisualStyleBackColor = true;
@@ -3159,6 +3168,49 @@ namespace LightController
 			this.soundButton.UseVisualStyleBackColor = true;
 			this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
 			// 
+			// zeroButton
+			// 
+			this.zeroButton.Location = new System.Drawing.Point(64, 286);
+			this.zeroButton.Name = "zeroButton";
+			this.zeroButton.Size = new System.Drawing.Size(114, 31);
+			this.zeroButton.TabIndex = 13;
+			this.zeroButton.Text = "全部归零";
+			this.zeroButton.UseVisualStyleBackColor = true;
+			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
+			// 
+			// initButton
+			// 
+			this.initButton.Location = new System.Drawing.Point(184, 286);
+			this.initButton.Name = "initButton";
+			this.initButton.Size = new System.Drawing.Size(117, 31);
+			this.initButton.TabIndex = 13;
+			this.initButton.Text = "设为初始值";
+			this.initButton.UseVisualStyleBackColor = true;
+			this.initButton.Click += new System.EventHandler(this.initButton_Click);
+			// 
+			// commonValueButton
+			// 
+			this.commonValueButton.Location = new System.Drawing.Point(165, 343);
+			this.commonValueButton.Name = "commonValueButton";
+			this.commonValueButton.Size = new System.Drawing.Size(136, 31);
+			this.commonValueButton.TabIndex = 17;
+			this.commonValueButton.Text = "统一通道值";
+			this.commonValueButton.UseVisualStyleBackColor = true;
+			this.commonValueButton.Click += new System.EventHandler(this.commonValueButton_Click);
+			// 
+			// commonValueNumericUpDown
+			// 
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(64, 346);
+			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.commonValueNumericUpDown.Name = "commonValueNumericUpDown";
+			this.commonValueNumericUpDown.Size = new System.Drawing.Size(76, 25);
+			this.commonValueNumericUpDown.TabIndex = 18;
+			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -3262,6 +3314,7 @@ namespace LightController
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -3512,6 +3565,10 @@ namespace LightController
 		private Button copyLightButton;
 		private Button insertBeforeStepButton;
 		private Button soundButton;
+		private Button initButton;
+		private Button zeroButton;
+		private NumericUpDown commonValueNumericUpDown;
+		private Button commonValueButton;
 	}
 }
 

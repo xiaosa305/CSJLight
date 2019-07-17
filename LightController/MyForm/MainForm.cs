@@ -2071,5 +2071,51 @@ namespace LightController
 			}
 			return false;
 		}
+
+
+		/// <summary>
+		/// 点击《全部归零》：当前步的所有scrollValue值设为0
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zeroButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper step = getCurrentStepWrapper();
+			for (int i = 0; i < step.TongdaoList.Count; i++)
+			{
+				valueNumericUpDowns[i].Value = 0;
+			}
+		}
+
+		/// <summary>
+		///  点击《统一通道值》：当前步的scrollValue统一（由commonValueNumericUpDown的Value决定）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper step = getCurrentStepWrapper();
+			for (int i = 0; i < step.TongdaoList.Count; i++)
+			{
+				valueNumericUpDowns[i].Value = commonValueNumericUpDown.Value;
+			}
+		}
+
+		/// <summary>
+		/// 点击《全部初始化》当前步的所有scrollValue值设为初始值(从StepMode复制)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void initButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper step = getCurrentStepWrapper();
+			StepWrapper stepMode = getCurrentStepMode();
+			for (int i = 0; i < step.TongdaoList.Count; i++)
+			{
+				valueNumericUpDowns[i].Value = stepMode.TongdaoList[i].ScrollValue;
+			}
+		}
+
+		
 	}
 }

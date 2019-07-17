@@ -58,11 +58,13 @@ namespace LightController
 			calcEndAddr();
 			lightsForm.AddListViewAndLightAst(lightPath,lightName, lightType, lightAddr,lightPic,startNum,endNum,lightCount);
 			this.Close();
+			lightsForm.Activate();
 		}
 
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Close();
+			lightsForm.Activate();
 		}
 
 		private void startCountNumericUpDown_ValueChanged(object sender, EventArgs e)

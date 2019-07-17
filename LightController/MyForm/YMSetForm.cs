@@ -208,6 +208,7 @@ namespace LightController.MyForm
 		private void YMSetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();
+			mainForm.Activate();
 		}
 	}
 }

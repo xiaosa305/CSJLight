@@ -56,7 +56,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		///  辅助方法： 由 步数模板 和 步数值集合 , 来生成某一步的StepWrapper;
+		///  辅助方法： 由 步数模板 和 TongdaoList集合 , 来生成某一步的StepWrapper;
 		///  复制灯时将用到这个方法
 		/// </summary>
 		/// <param name="stepMode">模板Step</param>

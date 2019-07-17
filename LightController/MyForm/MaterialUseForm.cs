@@ -127,6 +127,7 @@ namespace LightController.MyForm
 					InsertMethod method =  ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER ;
 					mainForm.InsertOrCoverMaterial(materialAst, method);
 					this.Dispose();
+					mainForm.Activate();
 				}
 				else
 				{
@@ -139,6 +140,12 @@ namespace LightController.MyForm
 		private void MaterialUseForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
+
+		private void MaterialUseForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
 		}
 	}
 }

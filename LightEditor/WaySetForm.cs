@@ -262,7 +262,8 @@ namespace LightEditor
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			enterAndApply();
-			this.Dispose();			
+			this.Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -299,6 +300,12 @@ namespace LightEditor
 			// 2.设置tongdaoList到mainForm中；
 			mainForm.SetTongdaoList(this.tongdaoList);
 
+		}
+
+		private void WaySetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
 		}
 	}
 }

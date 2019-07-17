@@ -1451,6 +1451,7 @@ namespace LightEditor
 			this.Name = "WaySetForm";
 			this.Padding = new System.Windows.Forms.Padding(0, 3, 0, 5);
 			this.Text = "通道编辑";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaySetForm_FormClosed);
 			this.tdGroupBox.ResumeLayout(false);
 			this.tdGroupBox.PerformLayout();
 			this.tdPanel.ResumeLayout(false);

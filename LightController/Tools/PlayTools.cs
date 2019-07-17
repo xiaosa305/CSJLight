@@ -49,8 +49,6 @@ namespace LightController.Tools
         private Thread PreViewThread { get; set; }
         //音频触发线程
         private Thread MusicControlThread { get; set; }
-        //当前播放状态
-        private PreViewState State { get; set; }
         //音频是否触发
         private bool IsMusicControl { get; set; }
         //更新数据暂停生成新数据标识
@@ -120,25 +118,30 @@ namespace LightController.Tools
                     MusicControlThread = null;
                 }
             }
+            if (Device != null)
+            {
+                Device.Close();
+                Device = null;
+            }
         }
 
         public void PreView(DBWrapper wrapper, string configPath, int senceNo)
         {
             try
             {
-
-            //暂停播放准备生成数据
-            IsPausePlay = true;
-            if (wrapper.valueList == null || wrapper.stepCountList == null || wrapper.lightList == null) return;
-            if (wrapper.lightList.Count == 0 || wrapper.stepCountList.Count == 0 || wrapper.valueList.Count == 0) return;
-            this.DBWrapper = wrapper;
-            this.ConfigPath = configPath;
-            this.SenceNo = senceNo;
-            //获取常规程序数据以及音频程序数据
-            DMX_C_File c_File = DataTools.GetInstance().GetC_File(DBWrapper, SenceNo, ConfigPath);
-            DMX_M_File m_File = DataTools.GetInstance().GetM_File(DBWrapper, SenceNo, ConfigPath);
-            ConfigData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
-            TimeFactory = ConfigData.TimeFactory;
+                //暂停播放准备生成数据
+                IsPausePlay = true;
+               
+                if (wrapper.valueList == null || wrapper.stepCountList == null || wrapper.lightList == null) return;
+                if (wrapper.lightList.Count == 0 || wrapper.stepCountList.Count == 0 || wrapper.valueList.Count == 0) return;
+                this.DBWrapper = wrapper;
+                this.ConfigPath = configPath;
+                this.SenceNo = senceNo;
+                //获取常规程序数据以及音频程序数据
+                DMX_C_File c_File = DataTools.GetInstance().GetC_File(DBWrapper, SenceNo, ConfigPath);
+                DMX_M_File m_File = DataTools.GetInstance().GetM_File(DBWrapper, SenceNo, ConfigPath);
+                ConfigData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
+                TimeFactory = ConfigData.TimeFactory;
                 try
                 {
                     //如果单灯单步线程运行中，将其强制关闭
@@ -147,14 +150,18 @@ namespace LightController.Tools
                         OLOSThread.Abort();
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("关闭单灯单步线程");
+                   
+                    Console.WriteLine("关闭单灯单步线程——" + ex.Message);
                 }
                 finally
                 {
+
                     //将单灯单步线程置为null
                     OLOSThread = null;
+                    //重连设备
+                    ReConnectDevice();
                     //预读常规程序数据到缓存区
                     if (c_File != null)
                     {
@@ -212,7 +219,6 @@ namespace LightController.Tools
                         PreViewThread.Start();
                     }
                 }
-
             }
             catch (Exception)
             {
@@ -239,6 +245,7 @@ namespace LightController.Tools
                 finally
                 {
                     PreViewThread = null;
+                    ReConnectDevice();
                     PlayData = data;
                     IsPausePlay = false;
                     if (OLOSThread == null)
@@ -368,10 +375,21 @@ namespace LightController.Tools
                 //发送DMX512数据
                 Device.Write(data, data.Length, ref count);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("设备未连接");
+                Console.WriteLine("未连接DMX512设备——" + ex.Message);
+                EndView();
             }
+        }
+
+        public void ReConnectDevice()
+        {
+            if (Device != null)
+            {
+                Device.Close();
+                Device = null;
+            }
+            ConnectDevice();
         }
 
         private void ConnectDevice()
@@ -403,12 +421,14 @@ namespace LightController.Tools
                         }
                     }
                 }
+                else
+                {
+                    Device = null;
+                    Console.WriteLine("未连接DMX512设备");
+                    EndView();
+                }
             }
         }
 
-    }
-    enum PreViewState
-    {
-        Music,OneLightOneStep,Preview
     }
 }

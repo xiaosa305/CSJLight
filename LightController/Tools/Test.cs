@@ -51,7 +51,7 @@ namespace LightController.Tools
 
         public void PreViewTest()
         {
-            PlayTools.GetInstance().MusicControl();
+            PlayTools.GetInstance().ReConnectDevice();
         }
 
         public void Testapplication()

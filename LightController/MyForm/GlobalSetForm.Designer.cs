@@ -210,9 +210,9 @@
 			this.eachStepTimeLabel.AutoSize = true;
 			this.eachStepTimeLabel.Location = new System.Drawing.Point(28, 73);
 			this.eachStepTimeLabel.Name = "eachStepTimeLabel";
-			this.eachStepTimeLabel.Size = new System.Drawing.Size(82, 15);
+			this.eachStepTimeLabel.Size = new System.Drawing.Size(114, 15);
 			this.eachStepTimeLabel.TabIndex = 4;
-			this.eachStepTimeLabel.Text = "时间因子：";
+			this.eachStepTimeLabel.Text = "时间因子(ms)：";
 			// 
 			// globalSaveButton
 			// 

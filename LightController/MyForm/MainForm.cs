@@ -254,6 +254,9 @@ namespace LightController
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
 
 			for (int i = 0; i < 32; i++) {
+				// 弃用此监听器：因为用鼠标拖动松开时，会额外多调节一些数值。=》改成使用valueChanged方法
+				//vScrollBars[i].Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll_old);
+				vScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
 				vScrollBars[i].MouseEnter += new EventHandler(this.vScrollBar_MouseEnter);
 				labels[i].MouseEnter += new EventHandler(this.tdLabel_MouseEnter);
 				valueNumericUpDowns[i].MouseEnter += new EventHandler(this.valueNumericUpDown_MouseEnter);
@@ -827,12 +830,13 @@ namespace LightController
 			insertBeforeStepButton.Enabled = insertEnabled &&  currentStep > 0;
 
 			// 2.3 设定《上一步》《下一步》是否可用
-			backStepButton.Enabled = currentStep > 1;			
-			nextStepButton.Enabled = currentStep < totalStep;
+			// -- 7.19修改为循环使用步数：
+			backStepButton.Enabled = totalStep > 1;		
+			nextStepButton.Enabled = totalStep >1 ;
 
 			//2.4 设定《复制步》是否可用
-			copyStepButton.Enabled = (currentStep > 0);
-			pasteStepButton.Enabled = (currentStep > 0 && tempStep != null);
+			copyStepButton.Enabled = currentStep > 0;
+			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
 
 		}
 
@@ -990,7 +994,7 @@ namespace LightController
 			#endregion
 
 			//若通过步数验证，则新建步，并将stepLabel切换成最新的标签
-			StepWrapper newStep = generateNewStep(stepMode);
+			StepWrapper newStep = StepWrapper.GenerateNewStep(stepMode, mode);
 			// 调用包装类内部的方法
 			lightData.LightStepWrapperList[frame, mode]. AddStep(newStep);
 
@@ -1014,7 +1018,7 @@ namespace LightController
 			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep) {
 							
 				LightWrapper currentlight = getCurrentLightWrapper();
-				StepWrapper newStep = generateNewStep(currentlight.StepMode);
+				StepWrapper newStep = StepWrapper.GenerateNewStep(currentlight.StepMode ,mode);
 				int stepIndex = getCurrentStepValue() - 1 ;
 				bool insertBefore = ((Button)sender).Name.Equals("insertBeforeStepButton");
 				lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
@@ -1029,23 +1033,6 @@ namespace LightController
 			}					   
 		}	
 
-
-		/// <summary>
-		///  通过stepMode，来生成新的stepWrapper（包括mode,lightName,startNum,tongdaoList等属性）;
-		///  主要供新建步、插入素材 等情况使用
-		/// </summary>
-		/// <param name="stepMode"></param>
-		/// <returns></returns>
-		private StepWrapper generateNewStep(StepWrapper stepMode)
-		{
-			return new StepWrapper()
-			{
-				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
-				LightMode = mode,
-				LightFullName = stepMode.LightFullName,
-				StartNum = stepMode.StartNum
-			};
-		}
 
 		/// <summary>
 		///  删除步的操作
@@ -1083,28 +1070,7 @@ namespace LightController
 			}			
 		}
 		
-		/// <summary>
-		/// 通过模板的通道数据，生成新的非引用(要摆脱与StepMode的关系)的tongdaoList
-		/// </summary>
-		/// <param name="oldTongdaoList"></param>
-		/// <returns></returns>
-		private List<TongdaoWrapper> generateTongdaoList(List<TongdaoWrapper> stepModeTongdaoList)
-		{			
-			List<TongdaoWrapper> newList = new List<TongdaoWrapper>();
-			foreach (TongdaoWrapper item in stepModeTongdaoList)
-			{
-				newList.Add(new TongdaoWrapper()
-					{
-						StepTime = item.StepTime,
-						TongdaoName = item.TongdaoName,
-						ScrollValue = item.ScrollValue,
-						ChangeMode = item.ChangeMode,
-						Address = item.Address
-					}
-				);
-			}
-			return newList;
-		}
+		
 		
 
 		/// <summary>
@@ -1201,7 +1167,7 @@ namespace LightController
 			}
 			else
 			{
-				MessageBox.Show("当前已是第一步");
+				chooseStep( getTotalStepValue() );
 			}
 		}
 
@@ -1220,7 +1186,7 @@ namespace LightController
 			}
 			else
 			{
-				MessageBox.Show("当前已是最大步");
+				chooseStep( 1 );
 			}
 		}
 
@@ -1409,20 +1375,42 @@ namespace LightController
 
 		/// <summary>
 		///  用户移动滚轴时发生：1.调节相关的numericUpDown; 2.放进相关的step中
+		///  --拖拽的时候，这里会运行多次
+		///  --7.19:弃用此方法：改用ValueChanged监听器
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void valueVScrollBar_Scroll(object sender, ScrollEventArgs e)
-		{
+		private void valueVScrollBar_Scroll_old(object sender, ScrollEventArgs e)
+		{			
 			// 1.先找出对应vScrollBars的index 
 			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
 
 			//2.把滚动条的值赋给valueNumericUpDowns
 			valueNumericUpDowns[tongdaoIndex].Value = 255 - vScrollBars[tongdaoIndex].Value;
+			 Console.WriteLine("Dickov:valueVScrollBar_Scroll：" + (255 - vScrollBars[tongdaoIndex].Value));
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeScrollValue(tongdaoIndex);
 		}
+
+		/// <summary>
+		///  滚轴值改变时的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueVScrollBar_ValueChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应vScrollBars的index 
+			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+
+			//2.把滚动条的值赋给valueNumericUpDowns
+			valueNumericUpDowns[tongdaoIndex].Value = 255 - vScrollBars[tongdaoIndex].Value;
+			//Console.WriteLine("通道："+tongdaoIndex+"valueVScrollBar_ValueChanged：" + (255 - vScrollBars[tongdaoIndex].Value));
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex);
+		}
+
 
 		/// <summary>
 		/// 调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
@@ -1867,7 +1855,7 @@ namespace LightController
 						StepWrapper newStep = null;
 						for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 						{
-							newStep = generateNewStep(stepMode);
+							newStep = StepWrapper.GenerateNewStep(stepMode, mode);
 							// 改造下newStep,将素材值赋给newStep 
 							changeStepFromMaterial( materialAst.TongdaoList , stepIndex, sameTDIndexList , newStep);								
 							// 使用后插法：避免当前无数据的情况下调用素材失败
@@ -1907,7 +1895,7 @@ namespace LightController
 					if (totalStep < finalStep) {
 						for (int i = 0; i < finalStep - totalStep; i++)
 						{
-							newStep = generateNewStep(stepMode);
+							newStep = StepWrapper.GenerateNewStep(stepMode,mode);
 							lsWrapper.AddStep(newStep);
 						}
 					}
@@ -2051,7 +2039,6 @@ namespace LightController
 				//一般不会进到这里来，因为当checkIfCanCopy=false时，此按钮不可以点击
 				MessageBox.Show("选中灯具与要复制的灯具种类不同,无法复制!");
 			}
-
 		}
 
 
@@ -2116,6 +2103,16 @@ namespace LightController
 			}
 		}
 
-		
+		private bool isUseStepMode = false;
+		/// <summary>
+		///  勾选是否使用模板数据
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			isUseStepMode = addStepCheckBox.Checked;
+		}
+
 	}
 }

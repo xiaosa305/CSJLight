@@ -39,7 +39,11 @@ namespace LightEditor
 			this.saveLightButton = new System.Windows.Forms.Button();
 			this.exitButton = new System.Windows.Forms.Button();
 			this.lightTestGroupBox = new System.Windows.Forms.GroupBox();
+			this.realtimeCheckBox = new System.Windows.Forms.CheckBox();
+			this.firstTDNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.testButton = new System.Windows.Forms.Button();
 			this.setInitButton = new System.Windows.Forms.Button();
+			this.setFirstTDButton = new System.Windows.Forms.Button();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.tongdaoEditButton = new System.Windows.Forms.Button();
 			this.generateButton = new System.Windows.Forms.Button();
@@ -156,6 +160,7 @@ namespace LightEditor
 			this.editGroupBox = new System.Windows.Forms.GroupBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.lightTestGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
 			this.tongdaoGroupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
@@ -261,7 +266,11 @@ namespace LightEditor
 			// 
 			// lightTestGroupBox
 			// 
+			this.lightTestGroupBox.Controls.Add(this.realtimeCheckBox);
+			this.lightTestGroupBox.Controls.Add(this.firstTDNumericUpDown);
+			this.lightTestGroupBox.Controls.Add(this.testButton);
 			this.lightTestGroupBox.Controls.Add(this.setInitButton);
+			this.lightTestGroupBox.Controls.Add(this.setFirstTDButton);
 			this.lightTestGroupBox.Controls.Add(this.zeroButton);
 			this.lightTestGroupBox.Cursor = System.Windows.Forms.Cursors.Default;
 			this.lightTestGroupBox.Location = new System.Drawing.Point(556, 35);
@@ -273,6 +282,51 @@ namespace LightEditor
 			this.lightTestGroupBox.TabStop = false;
 			this.lightTestGroupBox.Text = "灯具测试";
 			// 
+			// realtimeCheckBox
+			// 
+			this.realtimeCheckBox.AutoSize = true;
+			this.realtimeCheckBox.Location = new System.Drawing.Point(188, 101);
+			this.realtimeCheckBox.Name = "realtimeCheckBox";
+			this.realtimeCheckBox.Size = new System.Drawing.Size(89, 19);
+			this.realtimeCheckBox.TabIndex = 2;
+			this.realtimeCheckBox.Text = "实时调试";
+			this.realtimeCheckBox.UseVisualStyleBackColor = true;
+			this.realtimeCheckBox.CheckedChanged += new System.EventHandler(this.realtimeCheckBox_CheckedChanged);
+			// 
+			// firstTDNumericUpDown
+			// 
+			this.firstTDNumericUpDown.Location = new System.Drawing.Point(192, 52);
+			this.firstTDNumericUpDown.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+			this.firstTDNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.firstTDNumericUpDown.Name = "firstTDNumericUpDown";
+			this.firstTDNumericUpDown.Size = new System.Drawing.Size(85, 25);
+			this.firstTDNumericUpDown.TabIndex = 1;
+			this.firstTDNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.firstTDNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
+			// testButton
+			// 
+			this.testButton.Location = new System.Drawing.Point(296, 96);
+			this.testButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(100, 29);
+			this.testButton.TabIndex = 0;
+			this.testButton.Text = "单灯单步";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Click += new System.EventHandler(this.setInitButton_Click);
+			// 
 			// setInitButton
 			// 
 			this.setInitButton.Location = new System.Drawing.Point(25, 96);
@@ -283,6 +337,17 @@ namespace LightEditor
 			this.setInitButton.Text = "设为初始值";
 			this.setInitButton.UseVisualStyleBackColor = true;
 			this.setInitButton.Click += new System.EventHandler(this.setInitButton_Click);
+			// 
+			// setFirstTDButton
+			// 
+			this.setFirstTDButton.Location = new System.Drawing.Point(296, 50);
+			this.setFirstTDButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.setFirstTDButton.Name = "setFirstTDButton";
+			this.setFirstTDButton.Size = new System.Drawing.Size(100, 29);
+			this.setFirstTDButton.TabIndex = 0;
+			this.setFirstTDButton.Text = "设初始通道值";
+			this.setFirstTDButton.UseVisualStyleBackColor = true;
+			this.setFirstTDButton.Click += new System.EventHandler(this.setFirstTDButton_Click);
 			// 
 			// zeroButton
 			// 
@@ -697,7 +762,6 @@ namespace LightEditor
 			this.vScrollBar17.Name = "vScrollBar17";
 			this.vScrollBar17.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar17.TabIndex = 0;
-			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar17.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label31
@@ -720,7 +784,6 @@ namespace LightEditor
 			this.vScrollBar18.Name = "vScrollBar18";
 			this.vScrollBar18.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar18.TabIndex = 0;
-			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar18.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar19
@@ -730,7 +793,6 @@ namespace LightEditor
 			this.vScrollBar19.Name = "vScrollBar19";
 			this.vScrollBar19.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar19.TabIndex = 0;
-			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar19.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar20
@@ -740,7 +802,6 @@ namespace LightEditor
 			this.vScrollBar20.Name = "vScrollBar20";
 			this.vScrollBar20.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar20.TabIndex = 0;
-			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar20.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label30
@@ -763,7 +824,6 @@ namespace LightEditor
 			this.vScrollBar21.Name = "vScrollBar21";
 			this.vScrollBar21.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar21.TabIndex = 0;
-			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar21.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar22
@@ -773,7 +833,6 @@ namespace LightEditor
 			this.vScrollBar22.Name = "vScrollBar22";
 			this.vScrollBar22.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar22.TabIndex = 0;
-			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar22.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label29
@@ -796,7 +855,6 @@ namespace LightEditor
 			this.vScrollBar23.Name = "vScrollBar23";
 			this.vScrollBar23.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar23.TabIndex = 0;
-			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar23.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar24
@@ -806,7 +864,6 @@ namespace LightEditor
 			this.vScrollBar24.Name = "vScrollBar24";
 			this.vScrollBar24.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar24.TabIndex = 0;
-			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar24.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar25
@@ -816,7 +873,6 @@ namespace LightEditor
 			this.vScrollBar25.Name = "vScrollBar25";
 			this.vScrollBar25.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar25.TabIndex = 0;
-			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar25.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label28
@@ -839,7 +895,6 @@ namespace LightEditor
 			this.vScrollBar26.Name = "vScrollBar26";
 			this.vScrollBar26.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar26.TabIndex = 0;
-			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar26.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar27
@@ -849,7 +904,6 @@ namespace LightEditor
 			this.vScrollBar27.Name = "vScrollBar27";
 			this.vScrollBar27.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar27.TabIndex = 0;
-			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar27.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar28
@@ -859,7 +913,6 @@ namespace LightEditor
 			this.vScrollBar28.Name = "vScrollBar28";
 			this.vScrollBar28.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar28.TabIndex = 0;
-			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar28.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label27
@@ -882,7 +935,6 @@ namespace LightEditor
 			this.vScrollBar29.Name = "vScrollBar29";
 			this.vScrollBar29.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar29.TabIndex = 0;
-			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar29.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar30
@@ -892,7 +944,6 @@ namespace LightEditor
 			this.vScrollBar30.Name = "vScrollBar30";
 			this.vScrollBar30.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar30.TabIndex = 0;
-			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar30.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar31
@@ -902,7 +953,6 @@ namespace LightEditor
 			this.vScrollBar31.Name = "vScrollBar31";
 			this.vScrollBar31.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar31.TabIndex = 0;
-			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar31.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label26
@@ -925,7 +975,6 @@ namespace LightEditor
 			this.vScrollBar32.Name = "vScrollBar32";
 			this.vScrollBar32.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar32.TabIndex = 0;
-			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar32.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label17
@@ -1529,7 +1578,6 @@ namespace LightEditor
 			this.vScrollBar16.Name = "vScrollBar16";
 			this.vScrollBar16.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar16.TabIndex = 0;
-			this.vScrollBar16.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar16.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar12
@@ -1539,7 +1587,6 @@ namespace LightEditor
 			this.vScrollBar12.Name = "vScrollBar12";
 			this.vScrollBar12.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar12.TabIndex = 0;
-			this.vScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar12.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar8
@@ -1549,7 +1596,6 @@ namespace LightEditor
 			this.vScrollBar8.Name = "vScrollBar8";
 			this.vScrollBar8.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar8.TabIndex = 0;
-			this.vScrollBar8.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar8.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar4
@@ -1559,7 +1605,6 @@ namespace LightEditor
 			this.vScrollBar4.Name = "vScrollBar4";
 			this.vScrollBar4.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar4.TabIndex = 0;
-			this.vScrollBar4.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar4.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar15
@@ -1569,7 +1614,6 @@ namespace LightEditor
 			this.vScrollBar15.Name = "vScrollBar15";
 			this.vScrollBar15.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar15.TabIndex = 0;
-			this.vScrollBar15.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar15.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar11
@@ -1579,7 +1623,6 @@ namespace LightEditor
 			this.vScrollBar11.Name = "vScrollBar11";
 			this.vScrollBar11.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar11.TabIndex = 0;
-			this.vScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar11.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar14
@@ -1589,7 +1632,6 @@ namespace LightEditor
 			this.vScrollBar14.Name = "vScrollBar14";
 			this.vScrollBar14.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar14.TabIndex = 0;
-			this.vScrollBar14.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar14.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar10
@@ -1599,7 +1641,6 @@ namespace LightEditor
 			this.vScrollBar10.Name = "vScrollBar10";
 			this.vScrollBar10.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar10.TabIndex = 0;
-			this.vScrollBar10.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar10.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar7
@@ -1609,7 +1650,6 @@ namespace LightEditor
 			this.vScrollBar7.Name = "vScrollBar7";
 			this.vScrollBar7.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar7.TabIndex = 0;
-			this.vScrollBar7.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar7.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar13
@@ -1619,7 +1659,6 @@ namespace LightEditor
 			this.vScrollBar13.Name = "vScrollBar13";
 			this.vScrollBar13.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar13.TabIndex = 0;
-			this.vScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar13.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar6
@@ -1629,7 +1668,6 @@ namespace LightEditor
 			this.vScrollBar6.Name = "vScrollBar6";
 			this.vScrollBar6.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar6.TabIndex = 0;
-			this.vScrollBar6.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar6.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar9
@@ -1639,7 +1677,6 @@ namespace LightEditor
 			this.vScrollBar9.Name = "vScrollBar9";
 			this.vScrollBar9.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar9.TabIndex = 0;
-			this.vScrollBar9.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar9.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar3
@@ -1649,7 +1686,6 @@ namespace LightEditor
 			this.vScrollBar3.Name = "vScrollBar3";
 			this.vScrollBar3.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar3.TabIndex = 0;
-			this.vScrollBar3.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar3.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar5
@@ -1659,7 +1695,6 @@ namespace LightEditor
 			this.vScrollBar5.Name = "vScrollBar5";
 			this.vScrollBar5.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar5.TabIndex = 0;
-			this.vScrollBar5.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar5.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar2
@@ -1669,7 +1704,6 @@ namespace LightEditor
 			this.vScrollBar2.Name = "vScrollBar2";
 			this.vScrollBar2.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar2.TabIndex = 0;
-			this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			this.vScrollBar2.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar1
@@ -1679,9 +1713,6 @@ namespace LightEditor
 			this.vScrollBar1.Name = "vScrollBar1";
 			this.vScrollBar1.Size = new System.Drawing.Size(24, 227);
 			this.vScrollBar1.TabIndex = 0;
-			this.vScrollBar1.Value = 255;
-			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
-			this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar1_MouseEnter);
 			this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// openImageDialog
@@ -1766,6 +1797,8 @@ namespace LightEditor
 			this.Text = "灯库编辑工具";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.lightTestGroupBox.ResumeLayout(false);
+			this.lightTestGroupBox.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).EndInit();
 			this.tongdaoGroupBox2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).EndInit();
@@ -1814,8 +1847,8 @@ namespace LightEditor
 
 
 		public Label[] labels = new Label[32];
-		public VScrollBar[] vScrollBars = new VScrollBar[32];
-		public NumericUpDown[] numericUpDowns = new NumericUpDown[32];
+		public VScrollBar[] valueVScrollBars = new VScrollBar[32];
+		public NumericUpDown[] valueNumericUpDowns = new NumericUpDown[32];
 
 		private Button tongdaoEditButton;
 		private Button zeroButton;
@@ -1944,7 +1977,10 @@ namespace LightEditor
 		private Button setInitButton;
 		private GroupBox editGroupBox;
 		private FlowLayoutPanel flowLayoutPanel1;
-
+		private NumericUpDown firstTDNumericUpDown;
+		private Button setFirstTDButton;
+		private Button testButton;
+		private CheckBox realtimeCheckBox;
 	}
 }
 

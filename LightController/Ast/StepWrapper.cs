@@ -86,5 +86,24 @@ namespace LightController.Ast
 			};
 		}
 
+
+		/// <summary>
+		///  辅助方法	:通过stepMode和mode，来生成新的stepWrapper
+		///  （包括mode,lightName,startNum,tongdaoList等属性）;
+		///  主要供新建步、插入素材 等情况使用
+		/// </summary>
+		/// <param name="stepMode"></param>
+		/// <returns></returns>
+		public static StepWrapper GenerateNewStep(StepWrapper stepMode,int mode)
+		{
+			return new StepWrapper()
+			{
+				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepMode.TongdaoList),
+				LightMode = mode,
+				LightFullName = stepMode.LightFullName,
+				StartNum = stepMode.StartNum
+			};
+		}
+
 	}
 }

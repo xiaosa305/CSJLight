@@ -132,13 +132,13 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="ip">连接ip</param>
         /// <param name="size">包大小</param>
-        public void SetPakegeSize(string ip,int size)
+        public void SetPackageSize(string ip,int size)
         {
             foreach (Conn value in conns)
             {
                 if (value.Ip.Equals(ip))
                 {
-                    value.SetPakegeSize(size);
+                    value.SetPackageSize(size);
                 }
             }
         }

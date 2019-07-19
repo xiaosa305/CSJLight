@@ -10,7 +10,7 @@ namespace LightController.Tools
     public class DMXTools
     {
         private static DMXTools Instance { get; set; }
-        private IList<SceneData> SenceDatas { get; set; }
+        private IList<SceneData> SceneDatas { get; set; }
         private int Mode { get; set; }
         private string ConfigPath { get; set; }
 
@@ -28,19 +28,19 @@ namespace LightController.Tools
             return Instance;
         }
        
-        public IList<DMX_C_File> Get_C_Files(IList<SceneData> senceDatas,string configPath)
+        public IList<DMX_C_File> Get_C_Files(IList<SceneData> sceneDatas,string configPath)
         {
             this.ConfigPath = configPath;
-            this.SenceDatas = senceDatas;
+            this.SceneDatas = sceneDatas;
             this.Mode = Constant.MODE_C;
             IList<DMX_C_File> c_Datas = GetDMX_C_Files();
             return c_Datas;
         }
 
-        public IList<DMX_M_File> Get_M_Files(IList<SceneData> senceDatas, string configPath)
+        public IList<DMX_M_File> Get_M_Files(IList<SceneData> sceneDatas, string configPath)
         {
             this.ConfigPath = configPath;
-            this.SenceDatas = senceDatas;
+            this.SceneDatas = sceneDatas;
             this.Mode = Constant.MODE_M;
             IList<DMX_M_File> m_Datas = GetDMX_M_Files();
             return m_Datas;
@@ -49,15 +49,15 @@ namespace LightController.Tools
         private IList<DMX_C_File> GetDMX_C_Files()
         {
             IList<DMX_C_File> c_Files = new List<DMX_C_File>();
-            foreach (SceneData senceData in SenceDatas)
+            foreach (SceneData sceneData in SceneDatas)
             {
-                int senceNo = senceData.SceneNo;
-                int chanelCount = senceData.ChanelCount;
-                IList<ChanelData> chanelDatas = senceData.ChanelDatas;
-                DMX_C_Data dMX_C_Data = GetDMX_C_Data(senceNo,chanelCount,chanelDatas);
+                int sceneNo = sceneData.SceneNo;
+                int chanelCount = sceneData.ChanelCount;
+                IList<ChanelData> chanelDatas = sceneData.ChanelDatas;
+                DMX_C_Data dMX_C_Data = GetDMX_C_Data(sceneNo,chanelCount,chanelDatas);
                 DMX_C_File c_File = new DMX_C_File
                 {
-                    SenceNo = senceNo,
+                    SceneNo = sceneNo,
                     Data = dMX_C_Data
                 };
                 c_Files.Add(c_File);
@@ -68,15 +68,15 @@ namespace LightController.Tools
         private IList<DMX_M_File> GetDMX_M_Files()
         {
             IList<DMX_M_File> m_Files = new List<DMX_M_File>();
-            foreach (SceneData senceData in SenceDatas)
+            foreach (SceneData sceneData in SceneDatas)
             {
-                int senceNo = senceData.SceneNo;
-                int chanelCount = senceData.ChanelCount;
-                IList<ChanelData> chanelDatas = senceData.ChanelDatas;
-                DMX_M_Data dMX_M_Data = GetDMX_M_Data(senceNo, chanelCount, chanelDatas);
+                int sceneNo = sceneData.SceneNo;
+                int chanelCount = sceneData.ChanelCount;
+                IList<ChanelData> chanelDatas = sceneData.ChanelDatas;
+                DMX_M_Data dMX_M_Data = GetDMX_M_Data(sceneNo, chanelCount, chanelDatas);
                 DMX_M_File m_File = new DMX_M_File
                 {
-                    SenceNo = senceNo,
+                    SceneNo = sceneNo,
                     Data = dMX_M_Data
                 };
                 m_Files.Add(m_File);
@@ -84,11 +84,11 @@ namespace LightController.Tools
             return m_Files;
         }
 
-        private DMX_C_Data GetDMX_C_Data(int senceNo, int chanelCount,IList<ChanelData> chanelDatas)
+        private DMX_C_Data GetDMX_C_Data(int sceneNo, int chanelCount,IList<ChanelData> chanelDatas)
         {
             DMX_C_Data dMX_C_Data = new DMX_C_Data
             {
-                HeadData = GetC_Head(chanelCount,senceNo),
+                HeadData = GetC_Head(chanelCount,sceneNo),
                 Datas = GetC_Datas(chanelDatas)
             };
             foreach (C_Data data in dMX_C_Data.Datas)
@@ -99,12 +99,12 @@ namespace LightController.Tools
             return dMX_C_Data;
         }
 
-        private DMX_M_Data GetDMX_M_Data(int senceNo,int chanelCount,IList<ChanelData> chanelDatas)
+        private DMX_M_Data GetDMX_M_Data(int sceneNo,int chanelCount,IList<ChanelData> chanelDatas)
         {
             DMX_M_Data dMX_M_Data = new DMX_M_Data
             {
                 Datas = GetM_Datas(chanelDatas),
-                HeadData = GetM_Heads(chanelCount,senceNo)
+                HeadData = GetM_Heads(chanelCount,sceneNo)
 
             };
             if(chanelDatas.Count > 0)
@@ -118,7 +118,7 @@ namespace LightController.Tools
             return dMX_M_Data;
         }
 
-        private C_Head GetC_Head(int chanelCount,int senceNo)
+        private C_Head GetC_Head(int chanelCount,int sceneNo)
         {
             C_Head head = new C_Head
             {
@@ -141,19 +141,19 @@ namespace LightController.Tools
                         for (int i = 0; i < 24; i++)
                         {
                             lineStr = reader.ReadLine();
-                            if (lineStr.StartsWith(senceNo + "CK"))
+                            if (lineStr.StartsWith(sceneNo + "CK"))
                             {
                                 strValue = lineStr.Split('=')[1];
                                 int.TryParse(strValue, out intValue);
                                 head.MICSensor = intValue;
                             }
-                            if (lineStr.StartsWith(senceNo + "JG"))
+                            if (lineStr.StartsWith(sceneNo + "JG"))
                             {
                                 strValue = lineStr.Split('=')[1];
                                 int.TryParse(strValue, out intValue);
                                 head.SenseFreq = intValue;
                             }
-                            if (lineStr.StartsWith(senceNo + "ZX"))
+                            if (lineStr.StartsWith(sceneNo + "ZX"))
                             {
                                 strValue = lineStr.Split('=')[1];
                                 int.TryParse(strValue, out intValue);
@@ -166,7 +166,7 @@ namespace LightController.Tools
             return head;
         }
 
-        private M_Head GetM_Heads(int chanelCount,int senceNo)
+        private M_Head GetM_Heads(int chanelCount,int sceneNo)
         {
             M_Head head = new M_Head
             {
@@ -188,7 +188,7 @@ namespace LightController.Tools
                         for (int i = 0; i < 24; i++)
                         {
                             lineStr = reader.ReadLine();
-                            if (lineStr.StartsWith(senceNo + ""))
+                            if (lineStr.StartsWith(sceneNo + ""))
                             {
                                 strValue = lineStr.Split('=')[1];
                                 int.TryParse(strValue, out intValue);

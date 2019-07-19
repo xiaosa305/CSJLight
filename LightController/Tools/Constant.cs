@@ -7,7 +7,7 @@ namespace LightController.Tools
 {
     class Constant
     {
-        public static readonly int SENCECOUNT = 24;
+        public static readonly int SCENECOUNT = 24;
         public static readonly int MODE_C = 0;
         public static readonly int MODE_M = 1;
         public static readonly int MODE_GRADUAL = 1;

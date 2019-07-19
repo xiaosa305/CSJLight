@@ -25,9 +25,9 @@ namespace LightController.Tools
         //接收数据偏移量
         public int BuffCount { get; set; }
         //数据包总包数
-        private int Pakege_Count { get; set; }
+        private int Package_Count { get; set; }
         //当前数据包编号数据包
-        private int Pakege_No { get; set; }
+        private int Package_No { get; set; }
         //待发送数据
         private byte[] Data { get; set; }
         //发送数据等待超时处理线程
@@ -39,7 +39,7 @@ namespace LightController.Tools
         //备注信息
         private string[] Strs { get; set; }
         //发送缓冲区大小
-        private int PakegeSize { get; set; }
+        private int PackageSize { get; set; }
         //发送数据完成状态
         /// <summary>
         /// 接收数据状态
@@ -51,7 +51,7 @@ namespace LightController.Tools
         private Thread DownloadThread { get; set; }
         private DBWrapper DBWrapper { get; set; }
         private string ConfigPath { get; set; }
-        private IReceiveCallBack callBack { get; set; }
+        private IReceiveCallBack CallBack { get; set; }
 
         /// <summary>
         /// 构造函数
@@ -60,7 +60,7 @@ namespace LightController.Tools
         {
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
-            PakegeSize = 2040;
+            PackageSize = 2040;
             Ip = "";
         }
         /// <summary>
@@ -88,9 +88,9 @@ namespace LightController.Tools
         /// 设定发送数据缓冲区大小
         /// </summary>
         /// <param name="size"></param>
-        public void SetPakegeSize(int size)
+        public void SetPackageSize(int size)
         {
-            this.PakegeSize = size;
+            this.PackageSize = size;
         }
         /// <summary>
         /// 接收缓冲区大小
@@ -118,7 +118,7 @@ namespace LightController.Tools
             Console.WriteLine(GetAddress() + "断开连接");
             DownloadState = false;
             DownloadThread.Abort();
-            callBack.SendError(Ip, Order);
+            CallBack.SendError(Ip, Order);
             Ip = "";
             Socket.Close();
             IsUse = false;
@@ -140,7 +140,7 @@ namespace LightController.Tools
                 case Constant.ORDER_BEGIN_SEND:
                 case Constant.ORDER_END_SEND:
                 default:
-                    SendOrderPakege();
+                    SendOrderPackage();
                     break;
             }
 
@@ -155,8 +155,8 @@ namespace LightController.Tools
             switch (receive)
             {
                 case RECEIVE.Send:
-                    Console.WriteLine("发送第" + (Pakege_No + 1) + "包数据，包总数为" + Pakege_Count);
-                    SendDataPakege();
+                    Console.WriteLine("发送第" + (Package_No + 1) + "包数据，包总数为" + Package_Count);
+                    SendDataPackage();
                     break;
                 default:
                     break;
@@ -166,47 +166,47 @@ namespace LightController.Tools
         /// <summary>
         /// 发送命令包
         /// </summary>
-        private void SendOrderPakege()
+        private void SendOrderPackage()
         {
             if (Data != null)
             {
-                Pakege_Count = Data.Length / PakegeSize;
-                Pakege_Count = (Data.Length % PakegeSize == 0) ? Pakege_Count : Pakege_Count + 1;
-                Pakege_No = 0;
+                Package_Count = Data.Length / PackageSize;
+                Package_Count = (Data.Length % PackageSize == 0) ? Package_Count : Package_Count + 1;
+                Package_No = 0;
             }
-            List<byte> pakege = new List<byte>();
-            List<byte> pakegeData = new List<byte>();
-            byte[] pakegeOrder = Encoding.Default.GetBytes(Order);
+            List<byte> package = new List<byte>();
+            List<byte> packageData = new List<byte>();
+            byte[] packageOrder = Encoding.Default.GetBytes(Order);
             byte[] space = Encoding.Default.GetBytes(" ");
-            pakegeData.AddRange(pakegeOrder);
+            packageData.AddRange(packageOrder);
             if (Strs != null)
             {
-                pakegeData.AddRange(space);
+                packageData.AddRange(space);
                 for (int i = 0; i < Strs.Length; i++)
                 {
-                    pakegeData.AddRange(Encoding.Default.GetBytes(Strs[i]));
+                    packageData.AddRange(Encoding.Default.GetBytes(Strs[i]));
                     if (i != Strs.Length - 1)
                     {
-                        pakegeData.AddRange(space);
+                        packageData.AddRange(space);
                     }
                 }
             }
-            byte[] pakegeDataLength = new byte[] { Convert.ToByte(pakegeData.Count & 0xFF), Convert.ToByte((pakegeData.Count >> 8) & 0xFF) };
-            byte pakegeMark = GetOrderMark();
-            byte[] pakegeHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), pakegeDataLength[0], pakegeDataLength[1], pakegeMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
-            pakege.AddRange(pakegeHead);
-            pakege.AddRange(pakegeData);
-            byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
-            pakege[6] = pakegeCRC[0];
-            pakege[7] = pakegeCRC[1];
+            byte[] packageDataLength = new byte[] { Convert.ToByte(packageData.Count & 0xFF), Convert.ToByte((packageData.Count >> 8) & 0xFF) };
+            byte packageMark = GetOrderMark();
+            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), packageDataLength[0], packageDataLength[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
+            package.AddRange(packageHead);
+            package.AddRange(packageData);
+            byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
+            package[6] = packageCRC[0];
+            package[7] = packageCRC[1];
 
             Console.Write("Send:    " + Order + " ---");
-            foreach (byte value in pakege)
+            foreach (byte value in package)
             {
                 Console.Write(Convert.ToString(value,16) + " ");
             }
 
-            Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb,this);
+            Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb,this);
         }
         /// <summary>
         /// 获取协议头标记位
@@ -234,7 +234,7 @@ namespace LightController.Tools
         private byte GetDataMark()
         {
             byte result;
-            if (Pakege_No == Pakege_Count)
+            if (Package_No == Package_Count)
             {
                 result = Convert.ToByte(Constant.MARK_DATA_END, 2);
             }
@@ -248,44 +248,44 @@ namespace LightController.Tools
         /// 发送数据包
         /// </summary>
         /// <param name="receive"></param>
-        private void SendDataPakege()
+        private void SendDataPackage()
         {
-            Pakege_No++;
-            byte[] pakegeData;
-            List<byte> pakege = new List<byte>();
-            if (Pakege_No != Pakege_Count)
+            Package_No++;
+            byte[] packageData;
+            List<byte> package = new List<byte>();
+            if (Package_No != Package_Count)
             {
-                pakegeData = new byte[PakegeSize];
-                for (int i = 0; i < PakegeSize; i++)
+                packageData = new byte[PackageSize];
+                for (int i = 0; i < PackageSize; i++)
                 {
-                    pakegeData[i] = Data[(Pakege_No - 1) * PakegeSize + i];
+                    packageData[i] = Data[(Package_No - 1) * PackageSize + i];
                 }
             }
             else
             {
-                pakegeData = new byte[Data.Length - (Pakege_No - 1) * PakegeSize];
-                for (int i = 0; i < pakegeData.Length - (Pakege_No - 1) * PakegeSize; i++)
+                packageData = new byte[Data.Length - (Package_No - 1) * PackageSize];
+                for (int i = 0; i < packageData.Length - (Package_No - 1) * PackageSize; i++)
                 {
-                    pakegeData[i] = Data[(Pakege_No - 1) * PakegeSize + i];
+                    packageData[i] = Data[(Package_No - 1) * PackageSize + i];
                 }
             }
-            int len = pakegeData.Length;
-            byte[] pakegeDataSize = new byte[] { Convert.ToByte(pakegeData.Length & 0xFF), Convert.ToByte((pakegeData.Length >> 8) & 0xFF) };
-            byte pakegeMark = GetDataMark();
-            byte[] pakegeHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), pakegeDataSize[0], pakegeDataSize[1], pakegeMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
-            pakege.AddRange(pakegeHead);
-            pakege.AddRange(pakegeData);
-            byte[] pakegeCRC = CRCTools.GetInstance().GetCRC(pakege.ToArray());
-            pakege[6] = pakegeCRC[0];
-            pakege[7] = pakegeCRC[1];
+            int len = packageData.Length;
+            byte[] packageDataSize = new byte[] { Convert.ToByte(packageData.Length & 0xFF), Convert.ToByte((packageData.Length >> 8) & 0xFF) };
+            byte packageMark = GetDataMark();
+            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), packageDataSize[0], packageDataSize[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
+            package.AddRange(packageHead);
+            package.AddRange(packageData);
+            byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
+            package[6] = packageCRC[0];
+            package[7] = packageCRC[1];
 
-            Console.Write("SendFile:    " + Order + ",pakegeNo: " + Pakege_No + ",pakegeCount: " + Pakege_Count + " ---");
-            foreach (byte value in pakege)
+            Console.Write("SendFile:    " + Order + ",packageNo: " + Package_No + ",packageCount: " + Package_Count + " ---");
+            foreach (byte value in package)
             {
                 Console.Write("0x" + Convert.ToString(value, 16) + ",");
             }
 
-            Socket.BeginSend(pakege.ToArray(), 0, pakege.ToArray().Length, SocketFlags.None, SendCb, this);
+            Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
         }
         /// <summary>
         /// 超时处理
@@ -321,7 +321,7 @@ namespace LightController.Tools
                             finally
                             {
                                 TimeOutCount = 0;
-                                callBack.SendError(Ip,Order);
+                                CallBack.SendError(Ip,Order);
                             }
                         }
                         else
@@ -338,7 +338,7 @@ namespace LightController.Tools
                             }
                             finally
                             {
-                                DownloadFile(DBWrapper, ConfigPath,callBack);
+                                DownloadFile(DBWrapper, ConfigPath,CallBack);
                             }    
                         }
                     }
@@ -397,7 +397,7 @@ namespace LightController.Tools
                             default:
                                 DownloadThread.Abort();
                                 DownloadState = false;
-                                callBack.SendError(Ip,Order);
+                                CallBack.SendError(Ip,Order);
                                 break;
                         }
                         break;
@@ -410,7 +410,7 @@ namespace LightController.Tools
                             case Constant.RECEIVE_ORDER_END_ERROR:
                                 DownloadThread.Abort();
                                 DownloadState = false;
-                                callBack.SendError(Ip,Order);
+                                CallBack.SendError(Ip,Order);
                                 break;
                             default:
                                 break;
@@ -421,12 +421,12 @@ namespace LightController.Tools
                         {
                             case Constant.RECEIVE_ORDER_END_OK:
                                 //执行发送完成命令
-                                callBack.SendCompleted(Ip,Order);
+                                CallBack.SendCompleted(Ip,Order);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
                                 DownloadThread.Abort();
                                 DownloadState = false;
-                                callBack.SendError(Ip,Order);
+                                CallBack.SendError(Ip,Order);
                                 break;
                             default:
                                 break;
@@ -436,10 +436,10 @@ namespace LightController.Tools
                         switch (receiveStr.Split(':')[0])
                         {
                             case Constant.RECEIVE_ORDER_OTHER_OK:
-                                callBack.SendCompleted(Ip,Order);
+                                CallBack.SendCompleted(Ip,Order);
                                 break;
                             case Constant.RECEIVE_ORDER_OTHER_ERROR:
-                                callBack.SendError(Ip,Order);
+                                CallBack.SendError(Ip,Order);
                                 break;
                             default:
                                 break;
@@ -473,7 +473,7 @@ namespace LightController.Tools
         {
             DBWrapper = dBWrapper;
             ConfigPath = configPath;
-            callBack = receiveCallBack;
+            CallBack = receiveCallBack;
             DownloadThread = new Thread(new ThreadStart(DownloadStart));
             DownloadThread.Start();
         }
@@ -491,13 +491,13 @@ namespace LightController.Tools
             byte[] crc;
             foreach (DMX_C_File item in c_Files)
             {
-                if (item.SenceNo < 10)
+                if (item.SceneNo < 10)
                 {
-                    fileName = "C0" + (item.SenceNo +1) + ".bin";
+                    fileName = "C0" + (item.SceneNo +1) + ".bin";
                 }
                 else
                 {
-                    fileName = "C" + (item.SenceNo + 1) + ".bin";
+                    fileName = "C" + (item.SceneNo + 1) + ".bin";
                 }
                 fileSize = item.GetByteData().Length.ToString();
                 crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
@@ -514,13 +514,13 @@ namespace LightController.Tools
             }
             foreach (DMX_M_File item in m_Files)
             {
-                if (item.SenceNo < 10)
+                if (item.SceneNo < 10)
                 {
-                    fileName = "M0" + (item.SenceNo + 1) + ".bin";
+                    fileName = "M0" + (item.SceneNo + 1) + ".bin";
                 }
                 else
                 {
-                    fileName = "M" + (item.SenceNo + 1) + ".bin";
+                    fileName = "M" + (item.SceneNo + 1) + ".bin";
                 }
                 fileSize = item.GetByteData().Length.ToString();
                 crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
@@ -567,7 +567,7 @@ namespace LightController.Tools
         /// <param name="array"></param>
         public void SendOrder(string order,string[] array,IReceiveCallBack receiveCallBack)
         {
-            callBack = receiveCallBack;
+            CallBack = receiveCallBack;
             SendData(null, order, array);
         }
     }

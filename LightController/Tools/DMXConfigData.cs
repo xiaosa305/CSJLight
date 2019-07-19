@@ -37,8 +37,8 @@ namespace LightController.Tools
 
         public DMXConfigData(DBWrapper dBWrapper,string filePath)
         {
-            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper), filePath);
-            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper), filePath);
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SceneDatas(dBWrapper), filePath);
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SceneDatas(dBWrapper), filePath);
             Combine_Scenes = new Config_Combine_Scene[9];
             DB_Lights = dBWrapper.lightList;
             Music_Control_Enable = new List<int>();

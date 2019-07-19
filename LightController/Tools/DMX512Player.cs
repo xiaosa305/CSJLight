@@ -171,18 +171,18 @@ namespace LightController.Tools
 			}
 		}
 
-		private bool SetData(DBWrapper wrapper, int senceNo)
+		private bool SetData(DBWrapper wrapper, int sceneNo)
 		{
 			bool resultFlag = false;
 			DMX_C_File c_File = null;
 			IList<C_Data> c_Datas = null;
-            IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(wrapper),ConfigPath);
+            IList<DMX_C_File> c_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SceneDatas(wrapper),ConfigPath);
             //test
             DMX_M_File m_File = null;
-			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(wrapper),ConfigPath);
+			IList<DMX_M_File> m_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SceneDatas(wrapper),ConfigPath);
 			foreach (DMX_M_File file in m_Files)
 			{
-				if (senceNo == file.SenceNo)
+				if (sceneNo == file.SceneNo)
 				{
 					m_File = file;
 					resultFlag = true;
@@ -195,7 +195,7 @@ namespace LightController.Tools
 			}
 			foreach (DMX_C_File file in c_Files)
 			{
-				if (senceNo == file.SenceNo)
+				if (sceneNo == file.SceneNo)
 				{
                     c_File = file;
 					resultFlag = true;

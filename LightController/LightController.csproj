@@ -243,7 +243,7 @@
     <Compile Include="Tools\ITimeOutFuntion.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\ReceiveCallBack.cs" />
-    <Compile Include="Tools\SenceData.cs" />
+    <Compile Include="Tools\SceneData.cs" />
     <Compile Include="Tools\SerialPortToolsTest.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />

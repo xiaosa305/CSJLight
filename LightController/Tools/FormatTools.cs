@@ -17,7 +17,7 @@ namespace LightController.Tools
         private IList<DB_StepCount> DB_StepCounts { get; set; }
         private IList<DB_Value> DB_Values { get; set; }
         private int Mode { get; set; }
-        private IList<int> SenceArray { get; set; }
+        private IList<int> SceneArray { get; set; }
         private IList<DMX_C_File> c_files { get; set; }
         private IList<DMX_M_File> m_files { get; set; }
 
@@ -26,7 +26,7 @@ namespace LightController.Tools
             this.DB_Lights = lights;
             this.DB_StepCounts = stepCounts;
             this.DB_Values = values;
-            this.GetSenceArray();
+            this.GetSceneArray();
         }
 
         public FormatTools(DBWrapper dBWrapper)
@@ -34,7 +34,7 @@ namespace LightController.Tools
             this.DB_Lights = dBWrapper.lightList;
             this.DB_StepCounts = dBWrapper.stepCountList;
             this.DB_Values = dBWrapper.valueList;
-            this.GetSenceArray();
+            this.GetSceneArray();
         }
 
         private FormatTools()
@@ -51,64 +51,64 @@ namespace LightController.Tools
             return Instance;
         }
 
-        private void GetSenceArray()
+        private void GetSceneArray()
         {
-            SenceArray = new List<int>();
+            SceneArray = new List<int>();
             for (int i = 0; i < 24; i++)
             {
                 foreach (DB_StepCount item in DB_StepCounts)
                 {
                     if (i == item.PK.Frame)
                     {
-                        SenceArray.Add(i);
+                        SceneArray.Add(i);
                         break;
                     }
                 }
             }
         }
 
-        public IList<SceneData> GetC_SenceDatas(DBWrapper dBWrapper)
+        public IList<SceneData> GetC_SceneDatas(DBWrapper dBWrapper)
         {
             this.Mode = Constant.MODE_C;
             this.DB_Lights = dBWrapper.lightList;
             this.DB_StepCounts = dBWrapper.stepCountList;
             this.DB_Values = dBWrapper.valueList;
-            this.GetSenceArray();
-            IList<SceneData> senceDatas = new List<SceneData>();
-            foreach (int item in SenceArray)
+            this.GetSceneArray();
+            IList<SceneData> sceneDatas = new List<SceneData>();
+            foreach (int item in SceneArray)
             {
-                SceneData data = GetC_SenceData(SenceArray[item]);
-                senceDatas.Add(data);
+                SceneData data = GetC_SceneData(SceneArray[item]);
+                sceneDatas.Add(data);
             }
-            return senceDatas;
+            return sceneDatas;
         }
 
-        public IList<SceneData> GetM_SenceDatas(DBWrapper dBWrapper)
+        public IList<SceneData> GetM_SceneDatas(DBWrapper dBWrapper)
         {
             this.Mode = Constant.MODE_M;
             this.DB_Lights = dBWrapper.lightList;
             this.DB_StepCounts = dBWrapper.stepCountList;
             this.DB_Values = dBWrapper.valueList;
-            this.GetSenceArray();
-            IList<SceneData> senceDatas = new List<SceneData>();
-            foreach (int item in SenceArray)
+            this.GetSceneArray();
+            IList<SceneData> sceneDatas = new List<SceneData>();
+            foreach (int item in SceneArray)
             {
-                SceneData data = GetC_SenceData(SenceArray[item]);
-                senceDatas.Add(data);
+                SceneData data = GetC_SceneData(SceneArray[item]);
+                sceneDatas.Add(data);
             }
-            return senceDatas;
+            return sceneDatas;
         }
 
-        private SceneData GetC_SenceData(int senceNo)
+        private SceneData GetC_SceneData(int sceneNo)
         {
-            SceneData senceData = new SceneData
+            SceneData sceneData = new SceneData
             {
-                SceneNo = senceNo
+                SceneNo = sceneNo
             };
-            int chanelCount = GetChanelCount(senceNo);
-            senceData.ChanelCount = chanelCount;
+            int chanelCount = GetChanelCount(sceneNo);
+            sceneData.ChanelCount = chanelCount;
             IList<ChanelData> chanelDatas = new List<ChanelData>();
-            IList<DB_Light> lights = GetLights(senceNo);
+            IList<DB_Light> lights = GetLights(sceneNo);
             foreach (DB_Light light in lights)
             {
                 for (int chanel = 0; chanel < light.Count; chanel++)
@@ -117,14 +117,14 @@ namespace LightController.Tools
                     ChanelData chanelData = new ChanelData
                     {
                         ChanelNo = chanelNo,
-                        StepCount = GetStepCount(light.LightNo, senceNo).StepCount
+                        StepCount = GetStepCount(light.LightNo, sceneNo).StepCount
                     };
                     IList<int> IsGradualChange = new List<int>();
                     IList<int> StepTimes = new List<int>();
                     IList<int> StepValues = new List<int>();
-                    for (int stepNo = 0; stepNo < GetStepCount(light.LightNo, senceNo).StepCount; stepNo++)
+                    for (int stepNo = 0; stepNo < GetStepCount(light.LightNo, sceneNo).StepCount; stepNo++)
                     {
-                        DB_Value value = GetValue(light.LightNo, senceNo, stepNo + 1, chanelData.ChanelNo);
+                        DB_Value value = GetValue(light.LightNo, sceneNo, stepNo + 1, chanelData.ChanelNo);
                         if (value != null)
                         {
                             IsGradualChange.Add(value.ChangeMode);
@@ -148,16 +148,16 @@ namespace LightController.Tools
                     }
                 }
             }
-            senceData.ChanelDatas = chanelDatas;
-            return senceData;
+            sceneData.ChanelDatas = chanelDatas;
+            return sceneData;
         }
 
-        private int GetChanelCount(int senceNo)
+        private int GetChanelCount(int sceneNo)
         {
             int chanelCount = 0;
             foreach (DB_StepCount stepCount in DB_StepCounts)
             {
-                if (stepCount.PK.Mode == Mode && stepCount.PK.Frame == senceNo)
+                if (stepCount.PK.Mode == Mode && stepCount.PK.Frame == sceneNo)
                 {
                     chanelCount += GetLight(stepCount.PK.LightIndex).Count;
                 }
@@ -165,12 +165,12 @@ namespace LightController.Tools
             return chanelCount;
         }
 
-        private IList<DB_Light> GetLights(int senceNo)
+        private IList<DB_Light> GetLights(int sceneNo)
         {
             IList<DB_Light> lights = new List<DB_Light>(); 
             foreach (DB_StepCount stepCount in DB_StepCounts)
             {
-                if (stepCount.PK.Frame == senceNo && stepCount.PK.Mode == Mode)
+                if (stepCount.PK.Frame == sceneNo && stepCount.PK.Mode == Mode)
                 {
                     lights.Add(GetLight(stepCount.PK.LightIndex));
                 }
@@ -190,11 +190,11 @@ namespace LightController.Tools
             return null;
         }
 
-        private DB_StepCount GetStepCount(int lightIndex,int senceNo)
+        private DB_StepCount GetStepCount(int lightIndex,int sceneNo)
         {
             foreach (DB_StepCount stepCount in DB_StepCounts)
             {
-                if (lightIndex == stepCount.PK.LightIndex && senceNo == stepCount.PK.Frame && Mode == stepCount.PK.Mode)
+                if (lightIndex == stepCount.PK.LightIndex && sceneNo == stepCount.PK.Frame && Mode == stepCount.PK.Mode)
                 {
                     return stepCount;
                 }
@@ -202,11 +202,11 @@ namespace LightController.Tools
             return null;
         }
 
-        private DB_Value GetValue(int lightIndex,int senceNo,int step,int lightID)
+        private DB_Value GetValue(int lightIndex,int sceneNo,int step,int lightID)
         {
             foreach (DB_Value value in DB_Values)
             {
-                if (value.PK.LightIndex == lightIndex && value.PK.Mode == Mode && value.PK.Step == step && value.PK.Frame == senceNo && value.PK.LightID == lightID)
+                if (value.PK.LightIndex == lightIndex && value.PK.Mode == Mode && value.PK.Step == step && value.PK.Frame == sceneNo && value.PK.LightID == lightID)
                 {
                     //if (Mode == Constant.MODE_M)
                     //{

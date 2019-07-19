@@ -8,7 +8,7 @@ namespace LightController.Tools
 {
     public class DMX_M_File
     {
-        public int SenceNo { get; set; }
+        public int SceneNo { get; set; }
         public DMX_M_Data Data { get; set; }
 
         public byte[] GetByteData()
@@ -66,13 +66,13 @@ namespace LightController.Tools
             byte[] data = GetByteData();
 
             string filePath;
-            if (SenceNo < 9)
+            if (SceneNo < 9)
             {
-                filePath = path + @"\M0" + (SenceNo + 1) + ".bin";
+                filePath = path + @"\M0" + (SceneNo + 1) + ".bin";
             }
             else
             {
-                filePath = path + @"\M" + (SenceNo + 1) + ".bin";
+                filePath = path + @"\M" + (SceneNo + 1) + ".bin";
             }
             FileStream fileStream = new FileStream(filePath, FileMode.Create);
             fileStream.Write(data, 0, data.Length);

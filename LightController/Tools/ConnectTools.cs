@@ -106,11 +106,11 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="ip">连接ip</param>
         /// <param name="size">数据包单包上限</param>
-        public void SetConnectPakegeSize(string ip,int size)
+        public void SetConnectPackageSize(string ip,int size)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().SetPakegeSize(ip, size);
+                SocketTools.GetInstance().SetPackageSize(ip, size);
             }
             else
             {

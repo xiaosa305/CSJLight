@@ -20,8 +20,8 @@ namespace LightController.Tools
         private static int i = 0;
         public Test(DBWrapper dBWrapper)
         {
-            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SenceDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
-            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SenceDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
+            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SceneDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
+            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SceneDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
             this.DBWrapper = dBWrapper;
         }
 
@@ -51,7 +51,8 @@ namespace LightController.Tools
 
         public void PreViewTest()
         {
-            PlayTools.GetInstance().ReConnectDevice();
+            //PlayTools.GetInstance().ReConnectDevice();
+            DMX512Player.GetInstance().Preview(DBWrapper, 0);
         }
 
         public void Testapplication()

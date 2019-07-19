@@ -22,7 +22,7 @@ namespace LightController.Tools
         //全局配置文件数据
         private DMXConfigData ConfigData { get; set; }
         //单前场景编号
-        private int SenceNo { get; set; }
+        private int SceneNo { get; set; }
         //时间因子
         private int TimeFactory { get; set; }
         //播放缓存区
@@ -57,12 +57,15 @@ namespace LightController.Tools
         private int MusicStep { get; set; }
         //音频步时长
         private int MusicStepTime { get; set; }
+        //当前播放模式
+        private PreViewState State { get; set; }
 
         private PlayTools()
         {
             TimeFactory = 32;
             MusicStepTime = 0;
             ConnectDevice();
+            State = PreViewState.Null;
         }
 
         public static PlayTools GetInstance()
@@ -120,12 +123,23 @@ namespace LightController.Tools
             }
             if (Device != null)
             {
-                Device.Close();
-                Device = null;
+                try
+                {
+                    Device.Close();
+                }
+                catch (Exception)
+                {
+                }
+                finally
+                {
+                    Device = null;
+                }
+
             }
+            State = PreViewState.Null;
         }
 
-        public void PreView(DBWrapper wrapper, string configPath, int senceNo)
+        public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
             try
             {
@@ -136,10 +150,10 @@ namespace LightController.Tools
                 if (wrapper.lightList.Count == 0 || wrapper.stepCountList.Count == 0 || wrapper.valueList.Count == 0) return;
                 this.DBWrapper = wrapper;
                 this.ConfigPath = configPath;
-                this.SenceNo = senceNo;
+                this.SceneNo = sceneNo;
                 //获取常规程序数据以及音频程序数据
-                DMX_C_File c_File = DataTools.GetInstance().GetC_File(DBWrapper, SenceNo, ConfigPath);
-                DMX_M_File m_File = DataTools.GetInstance().GetM_File(DBWrapper, SenceNo, ConfigPath);
+                DMX_C_File c_File = DataTools.GetInstance().GetC_File(DBWrapper, SceneNo, ConfigPath);
+                DMX_M_File m_File = DataTools.GetInstance().GetM_File(DBWrapper, SceneNo, ConfigPath);
                 ConfigData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
                 TimeFactory = ConfigData.TimeFactory;
                 try
@@ -205,7 +219,7 @@ namespace LightController.Tools
                             M_ChanelData[i] = data.ToArray();
                         }
                     }
-                    MusicStep = ConfigData.Music_Control_Enable[SenceNo];
+                    MusicStep = ConfigData.Music_Control_Enable[SceneNo];
                     //关闭暂停播放
                     IsPausePlay = false;
                     //启动项目预览线程
@@ -218,6 +232,7 @@ namespace LightController.Tools
                         };
                         PreViewThread.Start();
                     }
+                    State = PreViewState.PreView;
                 }
             }
             catch (Exception)
@@ -245,7 +260,10 @@ namespace LightController.Tools
                 finally
                 {
                     PreViewThread = null;
-                    ReConnectDevice();
+                    if(State == PreViewState.PreView || State == PreViewState.Null)
+                    {
+                        ReConnectDevice();
+                    }
                     PlayData = data;
                     IsPausePlay = false;
                     if (OLOSThread == null)
@@ -256,6 +274,7 @@ namespace LightController.Tools
                         };
                         OLOSThread.Start();
                     }
+                    State = PreViewState.OLOSView;
                 }
             }
             catch (Exception)
@@ -275,6 +294,7 @@ namespace LightController.Tools
                 }
                 if(MusicControlThread != null)
                 {
+                    return;
                     try
                     {
                         MusicControlThread.Abort();
@@ -318,6 +338,7 @@ namespace LightController.Tools
                 }
             }
             IsMusicControl = false;
+            MusicControlThread = null;
         }
 
         private void OLOSViewThreadStart()
@@ -370,10 +391,11 @@ namespace LightController.Tools
                 Device.SetBreak(true);
                 Thread.Sleep(10);
                 Device.SetBreak(false);
-                //发送起始码
-                Device.Write(StartCode, StartCode.Length, ref count);
-                //发送DMX512数据
-                Device.Write(data, data.Length, ref count);
+                Thread.Sleep(1);
+                List<byte> buff = new List<byte>();
+                buff.AddRange(StartCode);
+                buff.AddRange(PlayData);
+                Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
             }
             catch (Exception ex)
             {
@@ -430,5 +452,10 @@ namespace LightController.Tools
             }
         }
 
+    }
+
+    enum PreViewState
+    {
+        PreView,OLOSView,Null
     }
 }

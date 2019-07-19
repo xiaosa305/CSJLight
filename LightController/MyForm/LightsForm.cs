@@ -182,6 +182,7 @@ namespace LightController
 			mainForm.AddLightAstList(lightAstList);
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -192,6 +193,7 @@ namespace LightController
 		private void LightsForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();
+			mainForm.Activate();
 		}
 
 	}

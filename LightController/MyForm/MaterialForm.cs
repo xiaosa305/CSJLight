@@ -187,7 +187,8 @@ namespace LightController.MyForm
 					}
 				}										
 				MessageBox.Show("成功保存素材");
-				this.Dispose();				
+				this.Dispose();
+				mainForm.Activate();
 			}
 			else
 			{
@@ -205,6 +206,7 @@ namespace LightController.MyForm
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>

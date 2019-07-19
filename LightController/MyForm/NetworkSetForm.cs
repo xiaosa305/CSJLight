@@ -24,5 +24,11 @@ namespace LightController.MyForm
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
+
+		private void NetworkSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
 	}
 }

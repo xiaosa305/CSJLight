@@ -53,7 +53,8 @@ namespace LightController.MyForm
 				if ( ! String.IsNullOrEmpty(projectName) )
 				{				
 					mainForm.OpenProject(projectName);
-					this.Dispose();						
+					this.Dispose();
+					mainForm.Activate();
 				}
 				else
 				{
@@ -107,6 +108,7 @@ namespace LightController.MyForm
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
+			mainForm.Activate();
 		}
 
 		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

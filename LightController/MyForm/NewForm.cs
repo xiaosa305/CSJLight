@@ -65,6 +65,7 @@ namespace LightController
 					mainForm.InitProject(projectName,true);
 					MessageBox.Show("成功新建项目");
 					this.Dispose();
+					mainForm.Activate();
 				}				
 			}
 			else
@@ -79,6 +80,7 @@ namespace LightController
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
+			mainForm.Activate();
 		}
 	}
 }

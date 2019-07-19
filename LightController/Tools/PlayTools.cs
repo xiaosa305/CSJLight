@@ -345,7 +345,7 @@ namespace LightController.Tools
         {
             while (true)
             {
-                Play(PlayData);
+                Play();
                 Thread.Sleep(TimeFactory);
             }
         }
@@ -377,12 +377,12 @@ namespace LightController.Tools
                         }
                     }
                 }
-                Play(PlayData);
+                Play();
                 Thread.Sleep(TimeFactory);
             }
         }
 
-        private void Play(byte[] data)
+        private void Play()
         {
             UInt32 count = 0;
             try
@@ -416,7 +416,6 @@ namespace LightController.Tools
 
         private void ConnectDevice()
         {
-            string portName;
             UInt32 deviceCount = 0;
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
             Device = new FTDI();
@@ -432,6 +431,7 @@ namespace LightController.Tools
                         status = Device.OpenBySerialNumber(deviceList[0].SerialNumber);
                         if (status == FTDI.FT_STATUS.FT_OK)
                         {
+                            string portName;
                             Device.GetCOMPort(out portName);
                             if (portName == null || portName == "")
                             {

@@ -295,22 +295,22 @@ namespace LightController.Tools
                 if(MusicControlThread != null)
                 {
                     return;
-                    try
-                    {
-                        MusicControlThread.Abort();
-                    }
-                    catch (Exception)
-                    {
-                        MusicControlThread = null;
-                    }
-                    finally
-                    {
-                        MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
-                        {
-                            IsBackground = true
-                        };
-                        MusicControlThread.Start();
-                    }
+                    //try
+                    //{
+                    //    MusicControlThread.Abort();
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    MusicControlThread = null;
+                    //}
+                    //finally
+                    //{
+                    //    MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
+                    //    {
+                    //        IsBackground = true
+                    //    };
+                    //    MusicControlThread.Start();
+                    //}
                 }
                 else
                 {
@@ -414,7 +414,7 @@ namespace LightController.Tools
             ConnectDevice();
         }
 
-        private void ConnectDevice()
+        public void ConnectDevice()
         {
             UInt32 deviceCount = 0;
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;

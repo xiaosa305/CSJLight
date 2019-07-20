@@ -251,6 +251,7 @@
     <Compile Include="Tools\ReceiveCallBack.cs" />
     <Compile Include="Tools\SceneData.cs" />
     <Compile Include="Tools\SerialPortToolsTest.cs" />
+    <Compile Include="Tools\SerizlPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">

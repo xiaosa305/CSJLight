@@ -148,7 +148,6 @@ namespace LightEditor
 				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
 			}
 
-
 			#endregion
 		}
 
@@ -452,7 +451,6 @@ namespace LightEditor
 		{
 			// 1.tongdaoList的数据渲染进各个通道显示项(label+valueLabel+vScrollBar)中
 			generateVScrollBars();
-
 			// 2.显示所需通道（groupBox+通道）
 			showNeedTDs();			
 		}
@@ -565,7 +563,7 @@ namespace LightEditor
 		{				
 			for (int i = 0; i < tongdaoCount; i++)
 			{				
-				this.labels[i].Text = (firstTDValue+i )+ "-" + tongdaoList[i].TongdaoName;				
+				this.labels[i].Text = (firstTDValue+i )+ "-  " + tongdaoList[i].TongdaoName;				
 				this.valueVScrollBars[i].Value = 255- tongdaoList[i].CurrentValue;
 				this.valueNumericUpDowns[i].Value =   tongdaoList[i].CurrentValue;
 			}

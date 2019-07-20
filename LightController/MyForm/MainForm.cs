@@ -1026,8 +1026,7 @@ namespace LightController
 				MessageBox.Show("Dickov:当前步大于总步数");
 			}					   
 		}	
-
-
+		
 		/// <summary>
 		///  删除步的操作
 		///  1.获取当前步，当前步对应的stepIndex
@@ -1063,8 +1062,6 @@ namespace LightController
 				this.showStepLabel(0, 0);				
 			}			
 		}
-		
-		
 		
 
 		/// <summary>
@@ -2108,5 +2105,18 @@ namespace LightController
 			isUseStepMode = addStepCheckBox.Checked;
 		}
 
+		/// <summary>
+		///  点击《在线升级》菜单栏：
+		///  新建一个UpdateForm, ShowDialog();
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+
+
+
+		}
 	}
 }

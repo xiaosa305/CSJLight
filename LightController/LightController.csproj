@@ -218,6 +218,12 @@
     <Compile Include="MyForm\QDTestForm.Designer.cs">
       <DependentUpon>QDTestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\UpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\UpdateForm.Designer.cs">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\YMSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\UpdateForm.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>

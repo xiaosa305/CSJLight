@@ -251,6 +251,7 @@ namespace LightController
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NetworkSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
@@ -3073,7 +3074,8 @@ namespace LightController
             this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
             this.ymSetToolStripMenuItem,
-            this.NetworkSetToolStripMenuItem});
+            this.NetworkSetToolStripMenuItem,
+            this.updateToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
 			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
@@ -3126,6 +3128,13 @@ namespace LightController
 			this.NetworkSetToolStripMenuItem.Name = "NetworkSetToolStripMenuItem";
 			this.NetworkSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.NetworkSetToolStripMenuItem.Text = "网络设置";
+			// 
+			// updateToolStripMenuItem
+			// 
+			this.updateToolStripMenuItem.Enabled = false;
+			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+			this.updateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.updateToolStripMenuItem.Text = "在线升级";
 			// 
 			// previewButton
 			// 
@@ -3539,6 +3548,7 @@ namespace LightController
 		private NumericUpDown commonValueNumericUpDown;
 		private Button commonValueButton;
 		private CheckBox addStepCheckBox;
+		private ToolStripMenuItem updateToolStripMenuItem;
 	}
 }
 

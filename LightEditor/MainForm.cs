@@ -11,6 +11,7 @@ using System.IO;
 using System.Threading;
 using System.Collections;
 using LightEditor.Common;
+using LightEditor.Tools;
 
 namespace LightEditor
 {
@@ -18,7 +19,11 @@ namespace LightEditor
 	{		
 		public bool isGenerated = false;
 		// 打开文件 或 保存文件 后，将isSaved设成true；这个吧变量决定是否填充*.ini内[data]内容
-		public bool isSaved = false;	
+		public bool isSaved = false;
+		private OneLightOneStep player; // 灯具测试的实例
+		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
+		private bool ifRealTime = false; //是否勾选“实时调试”
+
 
 		public MainForm()
 		{
@@ -192,7 +197,7 @@ namespace LightEditor
 
 		private void openLightButton_Click(object sender, EventArgs e)
 		{
-			this.openFileDialog.ShowDialog();
+			openFileDialog.ShowDialog();
 		}
 
 
@@ -581,7 +586,7 @@ namespace LightEditor
 			valueNumericUpDowns[tongdaoIndex].Value = 255 - valueVScrollBars[tongdaoIndex].Value;
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			//changeScrollValue(tongdaoIndex);
+			changeCurrentValue(tongdaoIndex, Decimal.ToInt16(valueNumericUpDowns[tongdaoIndex].Value) );
 		}
 
 		/// <summary>
@@ -619,10 +624,26 @@ namespace LightEditor
 			// 2.调整相应的vScrollBar的数值
 			valueVScrollBars[tongdaoIndex].Value = 255 - Decimal.ToInt32(valueNumericUpDowns[tongdaoIndex].Value);
 
-			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			//changeScrollValue(tongdaoIndex);
+			//3.取出tongdaoIndex，给tongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeCurrentValue(tongdaoIndex , Decimal.ToInt32(valueNumericUpDowns[tongdaoIndex].Value));
 		}
-				
+
+
+		/// <summary>
+		///  改变值之后，更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。
+		/// </summary>
+		/// <param name="tongdaoIndex"></param>
+		private void changeCurrentValue(int tongdaoIndex,int tdValue)
+		{
+			// 1.设tongdaoWrapper的值
+			tongdaoList[tongdaoIndex].CurrentValue = tdValue;
+			//2.是否实时单灯单步
+			if (ifRealTime)
+			{
+				oneLightOneStep();
+			}
+		}
+
 
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
@@ -630,10 +651,7 @@ namespace LightEditor
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
-				//获取或设置是否应将此事件转发到控件的父容器。
-				//public bool Handled { get; set; }
-				//如果鼠标事件应转到父控件，则为 true；否则为 false。
-				// Dickov: 实际上就是当Handled设为true时，不再触发父控件的相关操作，即屏蔽滚动事件
+				// Dickov: 当Handled设为true时，不再触发父控件的相关操作，即屏蔽滚动事件
 				hme.Handled = true;
 			}
 			// 向上滚
@@ -702,11 +720,12 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  点击《设初始通道》
+		///  点击《设初始通道地址》：
+		///  1.设局部变量的值将输入的值
+		///  2.重写全部通道的label.Text
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private int firstTDValue = 1;
 		private void setFirstTDButton_Click(object sender, EventArgs e)
 		{
 			firstTDValue = Decimal.ToInt16(firstTDNumericUpDown.Value);
@@ -715,17 +734,53 @@ namespace LightEditor
 				this.labels[i].Text = (firstTDValue + i) + "-" + tongdaoList[i].TongdaoName;
 			}
 		}
-
-
-		private bool isRealtime = false; 
+		
 		/// <summary>
-		/// 是否实时调试
+		/// 勾选《实时调试》：将该全局变量设为勾选与否的值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void realtimeCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			isRealtime = realtimeCheckBox.Checked;
+			ifRealTime = realtimeCheckBox.Checked;
+		}
+
+		/// <summary>
+		///  点击《单灯单步》：调试当前灯具设置的数值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			oneLightOneStep();
+		}	
+
+		/// <summary>
+		///  点击《停止调试》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void endTestButton_Click(object sender, EventArgs e)
+		{
+			player = OneLightOneStep.GetInstance();
+			player.EndView();
+		}
+
+		/// <summary>
+		///  辅助方法：单灯单步的操作
+		/// </summary>
+		private void oneLightOneStep()
+		{
+			player = OneLightOneStep.GetInstance();
+			byte[] stepBytes = new byte[512];
+			foreach (TongdaoWrapper td in tongdaoList)
+			{
+				// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
+				// --> tongdaoIndex  = 1 + 1 -2；
+				int tongdaoIndex = firstTDValue + td.Address - 2;
+				stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
+			}
+			player.Preview(stepBytes);
 		}
 	}
 }

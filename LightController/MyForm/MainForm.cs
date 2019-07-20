@@ -825,7 +825,7 @@ namespace LightController
 
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled =  (mode == 0 && totalStep < 32) || ( mode == 1 && totalStep < 48 );
-			newStepButton.Enabled = insertEnabled;				
+			addStepButton.Enabled = insertEnabled;				
 			insertAfterStepButton.Enabled = insertEnabled;			
 			insertBeforeStepButton.Enabled = insertEnabled &&  currentStep > 0;
 
@@ -955,56 +955,46 @@ namespace LightController
 					tongdaoGroupBox2.Visible = false;
 				}
 			}
-		}	
-		
-
+		}
 
 
 		/// <summary>
-		/// 追加步（在最后步后插入新步）的操作
+		/// 点击《追加步》的操作：在最后步后插入新步
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void newStepButton_Click(object sender, EventArgs e)
+		private void addStepButton_Click(object sender, EventArgs e)
 		{
-			LightWrapper lightData = lightWrapperList[selectedLightIndex];
-			StepWrapper stepMode = lightData.StepMode;			
+			LightWrapper currentLightWrapper = getCurrentLightWrapper();
 
 			// 如果此值为空，则创建之
-			if (lightData.LightStepWrapperList[frame, mode] == null)
+			if (currentLightWrapper.LightStepWrapperList[frame, mode] == null)
 			{
-				lightData.LightStepWrapperList[frame, mode] = new LightStepWrapper()
+				currentLightWrapper.LightStepWrapperList[frame, mode] = new LightStepWrapper()
 				{
 					StepWrapperList = new List<StepWrapper>()
 				};
 			}
 
-			#region 废弃方法块：可在渲染stepLabel时就让新建步按钮不可用了。
-			//// 验证是否超过两种mode自己的步数限制
-			//if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32)
-			//{
-			//	MessageBox.Show("常规程序最多不超过32步");
-			//	return;
-			//}
-			//if (mode == 1 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 48)
-			//{
-			//	MessageBox.Show("音频程序最多不超过48步");
-			//	return;
-			//}
-			#endregion
+			// 根据isUseStepMode，生成要插入步的内容 => (两种传入模板的写法：效果是一样的)
+			StepWrapper newStep = StepWrapper.GenerateNewStep(
+				// 写法1：比较冗长
+				// isUseStepMode ? getCurrentStepMode() : (getCurrentStepWrapper() == null ? getCurrentStepMode() : getCurrentStepWrapper()), 
+				// 写法2：	相对简洁
+				(isUseStepMode || getCurrentStepWrapper()==null ) ? getCurrentStepMode() : getCurrentStepWrapper(),
+				mode);			
 
-			//若通过步数验证，则新建步，并将stepLabel切换成最新的标签
-			StepWrapper newStep = StepWrapper.GenerateNewStep(stepMode, mode);
-			// 调用包装类内部的方法
-			lightData.LightStepWrapperList[frame, mode]. AddStep(newStep);
+			// 调用包装类内部的方法,来追加步
+			currentLightWrapper.LightStepWrapperList[frame, mode]. AddStep(newStep);
 
-			this.ShowVScrollBars(newStep.TongdaoList, stepMode.StartNum);
-			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].CurrentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
+			// 显示新步
+			this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+			this.showStepLabel(currentLightWrapper.LightStepWrapperList[frame, mode].CurrentStep, currentLightWrapper.LightStepWrapperList[frame, mode].TotalStep);
 
 		}
 		
 		/// <summary>
-		/// 插入步(前插或后插由触发键的Name决定)的操作
+		/// 插入步(前插或后插由触发键的Name决定)的操作：前插和后插都调用同一个方法
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1016,16 +1006,20 @@ namespace LightController
 			
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep) {
-							
-				LightWrapper currentlight = getCurrentLightWrapper();
-				StepWrapper newStep = StepWrapper.GenerateNewStep(currentlight.StepMode ,mode);
+				// 根据isUseStepMode，生成要插入步的内容
+				StepWrapper newStep = StepWrapper.GenerateNewStep(
+					(isUseStepMode || getCurrentStepWrapper() == null) ? getCurrentStepMode() : getCurrentStepWrapper() ,
+					mode
+				);
+				// 要插入的位置的index
 				int stepIndex = getCurrentStepValue() - 1 ;
+				// 插入的方式：前插(true）还是后插（false)
 				bool insertBefore = ((Button)sender).Name.Equals("insertBeforeStepButton");
+
 				lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
 
 				this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
 				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);				
-
 			}
 			else
 			{

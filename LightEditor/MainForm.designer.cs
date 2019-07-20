@@ -41,6 +41,7 @@ namespace LightEditor
 			this.lightTestGroupBox = new System.Windows.Forms.GroupBox();
 			this.realtimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.firstTDNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.endTestButton = new System.Windows.Forms.Button();
 			this.testButton = new System.Windows.Forms.Button();
 			this.setInitButton = new System.Windows.Forms.Button();
 			this.setFirstTDButton = new System.Windows.Forms.Button();
@@ -268,6 +269,7 @@ namespace LightEditor
 			// 
 			this.lightTestGroupBox.Controls.Add(this.realtimeCheckBox);
 			this.lightTestGroupBox.Controls.Add(this.firstTDNumericUpDown);
+			this.lightTestGroupBox.Controls.Add(this.endTestButton);
 			this.lightTestGroupBox.Controls.Add(this.testButton);
 			this.lightTestGroupBox.Controls.Add(this.setInitButton);
 			this.lightTestGroupBox.Controls.Add(this.setFirstTDButton);
@@ -316,16 +318,27 @@ namespace LightEditor
             0,
             0});
 			// 
+			// endTestButton
+			// 
+			this.endTestButton.Location = new System.Drawing.Point(387, 96);
+			this.endTestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.endTestButton.Name = "endTestButton";
+			this.endTestButton.Size = new System.Drawing.Size(86, 29);
+			this.endTestButton.TabIndex = 0;
+			this.endTestButton.Text = "停止调试";
+			this.endTestButton.UseVisualStyleBackColor = true;
+			this.endTestButton.Click += new System.EventHandler(this.endTestButton_Click);
+			// 
 			// testButton
 			// 
 			this.testButton.Location = new System.Drawing.Point(296, 96);
 			this.testButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(100, 29);
+			this.testButton.Size = new System.Drawing.Size(86, 29);
 			this.testButton.TabIndex = 0;
 			this.testButton.Text = "单灯单步";
 			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Click += new System.EventHandler(this.setInitButton_Click);
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
 			// setInitButton
 			// 
@@ -343,9 +356,9 @@ namespace LightEditor
 			this.setFirstTDButton.Location = new System.Drawing.Point(296, 50);
 			this.setFirstTDButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.setFirstTDButton.Name = "setFirstTDButton";
-			this.setFirstTDButton.Size = new System.Drawing.Size(100, 29);
+			this.setFirstTDButton.Size = new System.Drawing.Size(176, 29);
 			this.setFirstTDButton.TabIndex = 0;
-			this.setFirstTDButton.Text = "设初始通道值";
+			this.setFirstTDButton.Text = "设初始通道地址";
 			this.setFirstTDButton.UseVisualStyleBackColor = true;
 			this.setFirstTDButton.Click += new System.EventHandler(this.setFirstTDButton_Click);
 			// 
@@ -1981,6 +1994,7 @@ namespace LightEditor
 		private Button setFirstTDButton;
 		private Button testButton;
 		private CheckBox realtimeCheckBox;
+		private Button endTestButton;
 	}
 }
 

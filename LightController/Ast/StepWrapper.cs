@@ -14,10 +14,10 @@ namespace LightController.Ast
 		// 这两项项为复制灯数据时使用：
 		// 不同的灯具全名必然不同(厂商名+型号）；
 		// lightMode则用以区分常规场景和声控场景-->常规场景无法复制到声控场景中，反之亦然
-		public int LightMode { get; set; }  
+		public int LightMode { get; set; }
 		public string LightFullName { get; set; }
 		public int StartNum { get; set; }
-			   
+
 		// 这个列表记录通道数据
 		public List<TongdaoWrapper> TongdaoList { get; set; }
 
@@ -94,8 +94,12 @@ namespace LightController.Ast
 		/// </summary>
 		/// <param name="stepMode"></param>
 		/// <returns></returns>
-		public static StepWrapper GenerateNewStep(StepWrapper stepMode,int mode)
+		public static StepWrapper GenerateNewStep(StepWrapper stepMode, int mode)
 		{
+			if (stepMode == null) {
+				return null;
+			}
+
 			return new StepWrapper()
 			{
 				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepMode.TongdaoList),

@@ -46,6 +46,7 @@ namespace LightController
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
+			this.addStepCheckBox = new System.Windows.Forms.CheckBox();
 			this.materialUseButton = new System.Windows.Forms.Button();
 			this.pasteLightButton = new System.Windows.Forms.Button();
 			this.materialSaveButton = new System.Windows.Forms.Button();
@@ -238,7 +239,7 @@ namespace LightController
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.copyStepButton = new System.Windows.Forms.Button();
-			this.newStepButton = new System.Windows.Forms.Button();
+			this.addStepButton = new System.Windows.Forms.Button();
 			this.lightValueLabel = new System.Windows.Forms.Label();
 			this.lightLabel = new System.Windows.Forms.Label();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
@@ -255,7 +256,6 @@ namespace LightController
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.soundButton = new System.Windows.Forms.Button();
-			this.addStepCheckBox = new System.Windows.Forms.CheckBox();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -524,7 +524,7 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.zeroButton);
 			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
-			this.tongdaoGroupBox.Controls.Add(this.newStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.addStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.lightValueLabel);
 			this.tongdaoGroupBox.Controls.Add(this.lightLabel);
 			this.tongdaoGroupBox.Controls.Add(this.frameComboBox);
@@ -535,6 +535,17 @@ namespace LightController
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
+			// 
+			// addStepCheckBox
+			// 
+			this.addStepCheckBox.AutoSize = true;
+			this.addStepCheckBox.Location = new System.Drawing.Point(1209, 27);
+			this.addStepCheckBox.Name = "addStepCheckBox";
+			this.addStepCheckBox.Size = new System.Drawing.Size(179, 19);
+			this.addStepCheckBox.TabIndex = 22;
+			this.addStepCheckBox.Text = "添加步时使用模板数据";
+			this.addStepCheckBox.UseVisualStyleBackColor = true;
+			this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
 			// 
 			// materialUseButton
 			// 
@@ -2978,15 +2989,15 @@ namespace LightController
 			this.copyStepButton.UseVisualStyleBackColor = true;
 			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
 			// 
-			// newStepButton
+			// addStepButton
 			// 
-			this.newStepButton.Location = new System.Drawing.Point(939, 82);
-			this.newStepButton.Name = "newStepButton";
-			this.newStepButton.Size = new System.Drawing.Size(89, 32);
-			this.newStepButton.TabIndex = 13;
-			this.newStepButton.Text = "追加步";
-			this.newStepButton.UseVisualStyleBackColor = true;
-			this.newStepButton.Click += new System.EventHandler(this.newStepButton_Click);
+			this.addStepButton.Location = new System.Drawing.Point(939, 82);
+			this.addStepButton.Name = "addStepButton";
+			this.addStepButton.Size = new System.Drawing.Size(89, 32);
+			this.addStepButton.TabIndex = 13;
+			this.addStepButton.Text = "追加步";
+			this.addStepButton.UseVisualStyleBackColor = true;
+			this.addStepButton.Click += new System.EventHandler(this.addStepButton_Click);
 			// 
 			// lightValueLabel
 			// 
@@ -3169,17 +3180,6 @@ namespace LightController
 			this.soundButton.Text = "触发音频";
 			this.soundButton.UseVisualStyleBackColor = true;
 			this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
-			// 
-			// addStepCheckBox
-			// 
-			this.addStepCheckBox.AutoSize = true;
-			this.addStepCheckBox.Location = new System.Drawing.Point(1209, 27);
-			this.addStepCheckBox.Name = "addStepCheckBox";
-			this.addStepCheckBox.Size = new System.Drawing.Size(179, 19);
-			this.addStepCheckBox.TabIndex = 22;
-			this.addStepCheckBox.Text = "添加步时使用模板数据";
-			this.addStepCheckBox.UseVisualStyleBackColor = true;
-			this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
 			// 
 			// MainForm
 			// 
@@ -3494,7 +3494,7 @@ namespace LightController
 		private Label lightValueLabel;
 		private Label lightLabel;
 		private Button insertAfterStepButton;
-		private Button newStepButton;
+		private Button addStepButton;
 		private Button deleteStepButton;
 		private Button nextStepButton;
 		private Button backStepButton;

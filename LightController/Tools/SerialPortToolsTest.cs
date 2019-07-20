@@ -9,7 +9,7 @@ using FTD2XX_NET;
 
 namespace LightController.Tools
 {
-    public class SerialPortTools
+    public class SerialPortToolsTest
     {
         private SerialPort ComDevice { get; set; }
         public string[] PortNames { get; set; }
@@ -22,7 +22,7 @@ namespace LightController.Tools
 
         private bool Status_Flag = true;
 
-        public SerialPortTools()
+        public SerialPortToolsTest()
         {
             this.ComDevice = new SerialPort();
             PortNames = SerialPort.GetPortNames();

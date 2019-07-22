@@ -43,8 +43,8 @@ namespace LightEditor
 			this.firstTDNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.endTestButton = new System.Windows.Forms.Button();
 			this.testButton = new System.Windows.Forms.Button();
-			this.setInitButton = new System.Windows.Forms.Button();
 			this.setFirstTDButton = new System.Windows.Forms.Button();
+			this.setInitButton = new System.Windows.Forms.Button();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.tongdaoEditButton = new System.Windows.Forms.Button();
 			this.generateButton = new System.Windows.Forms.Button();
@@ -159,7 +159,12 @@ namespace LightEditor
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.skinEngine2 = new Sunisoft.IrisSkin.SkinEngine();
 			this.editGroupBox = new System.Windows.Forms.GroupBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.setCurrentToInitButton = new System.Windows.Forms.Button();
+			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.commonValueButton = new System.Windows.Forms.Button();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.connectButton = new System.Windows.Forms.Button();
 			this.lightTestGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
@@ -198,6 +203,8 @@ namespace LightEditor
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.editGroupBox.SuspendLayout();
+			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -223,7 +230,7 @@ namespace LightEditor
 			// 
 			// newLightButton
 			// 
-			this.newLightButton.Location = new System.Drawing.Point(304, 23);
+			this.newLightButton.Location = new System.Drawing.Point(258, 23);
 			this.newLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.newLightButton.Name = "newLightButton";
 			this.newLightButton.Size = new System.Drawing.Size(132, 58);
@@ -234,7 +241,7 @@ namespace LightEditor
 			// 
 			// openLightButton
 			// 
-			this.openLightButton.Location = new System.Drawing.Point(467, 23);
+			this.openLightButton.Location = new System.Drawing.Point(422, 23);
 			this.openLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.openLightButton.Name = "openLightButton";
 			this.openLightButton.Size = new System.Drawing.Size(132, 58);
@@ -245,7 +252,7 @@ namespace LightEditor
 			// 
 			// saveLightButton
 			// 
-			this.saveLightButton.Location = new System.Drawing.Point(630, 23);
+			this.saveLightButton.Location = new System.Drawing.Point(586, 23);
 			this.saveLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.saveLightButton.Name = "saveLightButton";
 			this.saveLightButton.Size = new System.Drawing.Size(132, 58);
@@ -271,23 +278,22 @@ namespace LightEditor
 			this.lightTestGroupBox.Controls.Add(this.firstTDNumericUpDown);
 			this.lightTestGroupBox.Controls.Add(this.endTestButton);
 			this.lightTestGroupBox.Controls.Add(this.testButton);
-			this.lightTestGroupBox.Controls.Add(this.setInitButton);
 			this.lightTestGroupBox.Controls.Add(this.setFirstTDButton);
-			this.lightTestGroupBox.Controls.Add(this.zeroButton);
 			this.lightTestGroupBox.Cursor = System.Windows.Forms.Cursors.Default;
-			this.lightTestGroupBox.Location = new System.Drawing.Point(556, 35);
+			this.lightTestGroupBox.Location = new System.Drawing.Point(740, 38);
 			this.lightTestGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.lightTestGroupBox.Name = "lightTestGroupBox";
 			this.lightTestGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.lightTestGroupBox.Size = new System.Drawing.Size(524, 159);
+			this.lightTestGroupBox.Size = new System.Drawing.Size(332, 159);
 			this.lightTestGroupBox.TabIndex = 10;
 			this.lightTestGroupBox.TabStop = false;
 			this.lightTestGroupBox.Text = "灯具测试";
+			this.lightTestGroupBox.Visible = false;
 			// 
 			// realtimeCheckBox
 			// 
 			this.realtimeCheckBox.AutoSize = true;
-			this.realtimeCheckBox.Location = new System.Drawing.Point(188, 101);
+			this.realtimeCheckBox.Location = new System.Drawing.Point(24, 98);
 			this.realtimeCheckBox.Name = "realtimeCheckBox";
 			this.realtimeCheckBox.Size = new System.Drawing.Size(89, 19);
 			this.realtimeCheckBox.TabIndex = 2;
@@ -297,7 +303,7 @@ namespace LightEditor
 			// 
 			// firstTDNumericUpDown
 			// 
-			this.firstTDNumericUpDown.Location = new System.Drawing.Point(192, 52);
+			this.firstTDNumericUpDown.Location = new System.Drawing.Point(28, 49);
 			this.firstTDNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -320,7 +326,7 @@ namespace LightEditor
 			// 
 			// endTestButton
 			// 
-			this.endTestButton.Location = new System.Drawing.Point(387, 96);
+			this.endTestButton.Location = new System.Drawing.Point(223, 93);
 			this.endTestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.endTestButton.Name = "endTestButton";
 			this.endTestButton.Size = new System.Drawing.Size(86, 29);
@@ -331,7 +337,7 @@ namespace LightEditor
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(296, 96);
+			this.testButton.Location = new System.Drawing.Point(132, 93);
 			this.testButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(86, 29);
@@ -340,20 +346,9 @@ namespace LightEditor
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
-			// setInitButton
-			// 
-			this.setInitButton.Location = new System.Drawing.Point(25, 96);
-			this.setInitButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.setInitButton.Name = "setInitButton";
-			this.setInitButton.Size = new System.Drawing.Size(100, 29);
-			this.setInitButton.TabIndex = 0;
-			this.setInitButton.Text = "设为初始值";
-			this.setInitButton.UseVisualStyleBackColor = true;
-			this.setInitButton.Click += new System.EventHandler(this.setInitButton_Click);
-			// 
 			// setFirstTDButton
 			// 
-			this.setFirstTDButton.Location = new System.Drawing.Point(296, 50);
+			this.setFirstTDButton.Location = new System.Drawing.Point(132, 47);
 			this.setFirstTDButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.setFirstTDButton.Name = "setFirstTDButton";
 			this.setFirstTDButton.Size = new System.Drawing.Size(176, 29);
@@ -362,12 +357,23 @@ namespace LightEditor
 			this.setFirstTDButton.UseVisualStyleBackColor = true;
 			this.setFirstTDButton.Click += new System.EventHandler(this.setFirstTDButton_Click);
 			// 
+			// setInitButton
+			// 
+			this.setInitButton.Location = new System.Drawing.Point(142, 73);
+			this.setInitButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.setInitButton.Name = "setInitButton";
+			this.setInitButton.Size = new System.Drawing.Size(97, 29);
+			this.setInitButton.TabIndex = 0;
+			this.setInitButton.Text = "全设初始值";
+			this.setInitButton.UseVisualStyleBackColor = true;
+			this.setInitButton.Click += new System.EventHandler(this.setInitButton_Click);
+			// 
 			// zeroButton
 			// 
-			this.zeroButton.Location = new System.Drawing.Point(25, 50);
+			this.zeroButton.Location = new System.Drawing.Point(27, 73);
 			this.zeroButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.zeroButton.Name = "zeroButton";
-			this.zeroButton.Size = new System.Drawing.Size(100, 29);
+			this.zeroButton.Size = new System.Drawing.Size(95, 29);
 			this.zeroButton.TabIndex = 0;
 			this.zeroButton.Text = "全部归零";
 			this.zeroButton.UseVisualStyleBackColor = true;
@@ -1753,6 +1759,7 @@ namespace LightEditor
 			// editGroupBox
 			// 
 			this.editGroupBox.AutoSize = true;
+			this.editGroupBox.Controls.Add(this.groupBox1);
 			this.editGroupBox.Controls.Add(this.flowLayoutPanel1);
 			this.editGroupBox.Controls.Add(this.lightTestGroupBox);
 			this.editGroupBox.Controls.Add(this.tongdaoEditButton);
@@ -1776,6 +1783,54 @@ namespace LightEditor
 			this.editGroupBox.TabStop = false;
 			this.editGroupBox.Visible = false;
 			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.setCurrentToInitButton);
+			this.groupBox1.Controls.Add(this.setInitButton);
+			this.groupBox1.Controls.Add(this.commonValueNumericUpDown);
+			this.groupBox1.Controls.Add(this.zeroButton);
+			this.groupBox1.Controls.Add(this.commonValueButton);
+			this.groupBox1.Location = new System.Drawing.Point(459, 38);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(274, 159);
+			this.groupBox1.TabIndex = 11;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "设通道值";
+			// 
+			// setCurrentToInitButton
+			// 
+			this.setCurrentToInitButton.Location = new System.Drawing.Point(27, 118);
+			this.setCurrentToInitButton.Name = "setCurrentToInitButton";
+			this.setCurrentToInitButton.Size = new System.Drawing.Size(212, 29);
+			this.setCurrentToInitButton.TabIndex = 2;
+			this.setCurrentToInitButton.Text = "将初始值设为当前通道值";
+			this.setCurrentToInitButton.UseVisualStyleBackColor = true;
+			this.setCurrentToInitButton.Click += new System.EventHandler(this.setCurrentToInitButton_Click);
+			// 
+			// commonValueNumericUpDown
+			// 
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(27, 35);
+			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.commonValueNumericUpDown.Name = "commonValueNumericUpDown";
+			this.commonValueNumericUpDown.Size = new System.Drawing.Size(95, 25);
+			this.commonValueNumericUpDown.TabIndex = 1;
+			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// commonValueButton
+			// 
+			this.commonValueButton.Location = new System.Drawing.Point(142, 33);
+			this.commonValueButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.commonValueButton.Name = "commonValueButton";
+			this.commonValueButton.Size = new System.Drawing.Size(97, 29);
+			this.commonValueButton.TabIndex = 0;
+			this.commonValueButton.Text = "统一通道值";
+			this.commonValueButton.UseVisualStyleBackColor = true;
+			this.commonValueButton.Click += new System.EventHandler(this.commonValueButton_Click);
+			// 
 			// flowLayoutPanel1
 			// 
 			this.flowLayoutPanel1.AutoScroll = true;
@@ -1785,6 +1840,17 @@ namespace LightEditor
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(1080, 330);
 			this.flowLayoutPanel1.TabIndex = 7;
+			// 
+			// connectButton
+			// 
+			this.connectButton.Location = new System.Drawing.Point(750, 23);
+			this.connectButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.connectButton.Name = "connectButton";
+			this.connectButton.Size = new System.Drawing.Size(132, 58);
+			this.connectButton.TabIndex = 4;
+			this.connectButton.Text = "连接设备";
+			this.connectButton.UseVisualStyleBackColor = true;
+			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// MainForm
 			// 
@@ -1796,6 +1862,7 @@ namespace LightEditor
 			this.ClientSize = new System.Drawing.Size(1104, 662);
 			this.Controls.Add(this.editGroupBox);
 			this.Controls.Add(this.exitButton);
+			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.saveLightButton);
 			this.Controls.Add(this.openLightButton);
 			this.Controls.Add(this.newLightButton);
@@ -1849,6 +1916,8 @@ namespace LightEditor
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.editGroupBox.ResumeLayout(false);
 			this.editGroupBox.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -1995,6 +2064,11 @@ namespace LightEditor
 		private Button testButton;
 		private CheckBox realtimeCheckBox;
 		private Button endTestButton;
+		private Button connectButton;
+		private GroupBox groupBox1;
+		private NumericUpDown commonValueNumericUpDown;
+		private Button commonValueButton;
+		private Button setCurrentToInitButton;
 	}
 }
 

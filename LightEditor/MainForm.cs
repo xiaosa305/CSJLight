@@ -760,7 +760,6 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void endTestButton_Click(object sender, EventArgs e)
 		{
-			player = OneLightOneStep.GetInstance();
 			player.EndView();
 		}
 
@@ -769,7 +768,6 @@ namespace LightEditor
 		/// </summary>
 		private void oneLightOneStep()
 		{
-			player = OneLightOneStep.GetInstance();
 			byte[] stepBytes = new byte[512];
 			foreach (TongdaoWrapper td in tongdaoList)
 			{
@@ -779,6 +777,72 @@ namespace LightEditor
 				stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
 			}
 			player.Preview(stepBytes);
+		}
+
+		private bool ifConnect = false; // 辅助变量：是否连接设备
+		/// <summary>
+		///  点击《连接设备|断开连接》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			// 如果还没连接，那就连接
+			if (!ifConnect)
+			{
+				ifConnect = true;
+				player = OneLightOneStep.GetInstance();
+				setDMX512TestButtonsEnable(true);
+				connectButton.Text = "断开连接";
+			}
+			else //否则断开连接:
+			{
+				ifConnect = false;
+				player.EndView();
+				player = null;
+				setDMX512TestButtonsEnable(false);
+				connectButton.Text = "连接设备";
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：一次性配置DMX512调试按钮组可见与否
+		/// </summary>
+		/// <param name="visible"></param>
+		private void setDMX512TestButtonsEnable(bool visible)
+		{
+			lightTestGroupBox.Visible = visible;
+		}
+
+
+		/// <summary>
+		/// 点击《统一通道值》
+		/// --将当前所有通道值设为commonValueNumericUpDown 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueButton_Click(object sender, EventArgs e)
+		{
+			int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
+			for (int i = 0; i < tongdaoList.Count; i++)
+			{
+				valueVScrollBars[i].Value = commonValue;
+				tongdaoList[i].CurrentValue = commonValue;
+				valueNumericUpDowns[i].Value = commonValue;
+			}
+		}
+
+		/// <summary>
+		/// 点击《以当前通道值为初始值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setCurrentToInitButton_Click(object sender, EventArgs e)
+		{
+			for (int i = 0; i < tongdaoList.Count; i++)
+			{
+				tongdaoList[i].InitValue = tongdaoList[i].CurrentValue;
+			}
 		}
 	}
 }

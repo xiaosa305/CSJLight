@@ -386,10 +386,11 @@ namespace LightController
 		/// <param name="v"></param>
 		private void enableGlobalSet(bool enable)
 		{
-			this.lightsEditToolStripMenuItem1.Enabled = enable;
-			this.globalSetToolStripMenuItem.Enabled = enable;
-			this.ymSetToolStripMenuItem.Enabled = enable;
-			this.NetworkSetToolStripMenuItem.Enabled = enable;		
+			connectButton.Enabled = enable;
+			lightsEditToolStripMenuItem1.Enabled = enable;
+			globalSetToolStripMenuItem.Enabled = enable;
+			ymSetToolStripMenuItem.Enabled = enable;
+			NetworkSetToolStripMenuItem.Enabled = enable;		
 		}
 		
 
@@ -479,7 +480,7 @@ namespace LightController
 		{
 			//TODO：打开串口，并将剩下几个按钮设成enable
 			newFileButton.Enabled = true;
-			openFileButton.Enabled = true;
+			openFileButton.Enabled = true;			
 		}
 
 		/// <summary>
@@ -1534,8 +1535,7 @@ namespace LightController
 		}
 			
 		private void stopReviewButton_Click(object sender, EventArgs e)
-		{
-			
+		{			
 			playTools.EndView();
 		}
 
@@ -1606,6 +1606,12 @@ namespace LightController
 		/// 辅助方法：单灯单步发送DMX512帧数据
 		/// </summary>
 		private void oneLightStepWork() {
+
+			if ( ! ifConnect) {
+				MessageBox.Show("请先连接设备");
+				return;
+			}
+
 			StepWrapper step = getCurrentStepWrapper();
 			if (step != null) { 
 				List<TongdaoWrapper> tongdaoList = step.TongdaoList;
@@ -2118,5 +2124,45 @@ namespace LightController
 
 
 		}
+
+		private bool ifConnect = false; // 辅助变量：是否连接设备
+		/// <summary>
+		///  点击《连接设备|断开连接》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			// 如果还没连接，那就连接
+			if ( !ifConnect )
+			{
+				ifConnect = true;
+				playTools = PlayTools.GetInstance();
+				//playTools.ConnectDevice();
+				setDMX512TestButtonsEnable(true);
+				connectButton.Text = "断开连接";
+			}
+			else //否则断开连接
+			{
+				ifConnect = false;
+				playTools.EndView();
+				playTools = null ;
+				setDMX512TestButtonsEnable(false);
+				connectButton.Text = "连接设备"; 
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：一次性配置DMX512调试按钮组可见与否
+		/// </summary>
+		/// <param name="visible"></param>
+		private void setDMX512TestButtonsEnable(bool visible) {
+			realTimeCheckBox.Visible = visible;
+			oneLightStepButton.Visible = visible;
+			previewButton.Visible = visible;
+			soundButton.Visible = visible;
+			stopReviewButton.Visible = visible;			
+		}
+
 	}
 }

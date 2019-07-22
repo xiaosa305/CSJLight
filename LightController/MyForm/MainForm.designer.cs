@@ -257,6 +257,7 @@ namespace LightController
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.soundButton = new System.Windows.Forms.Button();
+			this.connectButton = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -3145,6 +3146,7 @@ namespace LightController
 			this.previewButton.TabIndex = 5;
 			this.previewButton.Text = "预览效果";
 			this.previewButton.UseVisualStyleBackColor = true;
+			this.previewButton.Visible = false;
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
 			// stopReviewButton
@@ -3156,6 +3158,7 @@ namespace LightController
 			this.stopReviewButton.TabIndex = 5;
 			this.stopReviewButton.Text = "结束预览";
 			this.stopReviewButton.UseVisualStyleBackColor = true;
+			this.stopReviewButton.Visible = false;
 			this.stopReviewButton.Click += new System.EventHandler(this.stopReviewButton_Click);
 			// 
 			// oneLightStepButton
@@ -3167,6 +3170,7 @@ namespace LightController
 			this.oneLightStepButton.TabIndex = 5;
 			this.oneLightStepButton.Text = "单灯单步";
 			this.oneLightStepButton.UseVisualStyleBackColor = true;
+			this.oneLightStepButton.Visible = false;
 			this.oneLightStepButton.Click += new System.EventHandler(this.oneLightStepButton_Click);
 			// 
 			// realTimeCheckBox
@@ -3178,6 +3182,7 @@ namespace LightController
 			this.realTimeCheckBox.TabIndex = 18;
 			this.realTimeCheckBox.Text = "实时调试";
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
+			this.realTimeCheckBox.Visible = false;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
 			// 
 			// soundButton
@@ -3188,7 +3193,21 @@ namespace LightController
 			this.soundButton.TabIndex = 13;
 			this.soundButton.Text = "触发音频";
 			this.soundButton.UseVisualStyleBackColor = true;
+			this.soundButton.Visible = false;
 			this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
+			// 
+			// connectButton
+			// 
+			this.connectButton.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.connectButton.Enabled = false;
+			this.connectButton.Location = new System.Drawing.Point(1137, 57);
+			this.connectButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.connectButton.Name = "connectButton";
+			this.connectButton.Size = new System.Drawing.Size(93, 65);
+			this.connectButton.TabIndex = 5;
+			this.connectButton.Text = "连接设备";
+			this.connectButton.UseVisualStyleBackColor = false;
+			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// MainForm
 			// 
@@ -3206,6 +3225,7 @@ namespace LightController
 			this.Controls.Add(this.comComboBox);
 			this.Controls.Add(this.stopReviewButton);
 			this.Controls.Add(this.oneLightStepButton);
+			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.previewButton);
 			this.Controls.Add(this.saveAsButton);
 			this.Controls.Add(this.saveButton);
@@ -3549,6 +3569,7 @@ namespace LightController
 		private Button commonValueButton;
 		private CheckBox addStepCheckBox;
 		private ToolStripMenuItem updateToolStripMenuItem;
+		private Button connectButton;
 	}
 }
 

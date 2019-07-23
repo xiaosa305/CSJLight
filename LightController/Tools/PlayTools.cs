@@ -175,7 +175,10 @@ namespace LightController.Tools
                     //将单灯单步线程置为null
                     OLOSThread = null;
                     //重连设备
-                    ReConnectDevice();
+                    if (State == PreViewState.OLOSView || State == PreViewState.Null)
+                    {
+                        ReConnectDevice();
+                    }
                     //预读常规程序数据到缓存区
                     if (c_File != null)
                     {

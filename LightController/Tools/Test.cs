@@ -28,9 +28,17 @@ namespace LightController.Tools
 
         public void Start()
         {
-            //Testapplication();
-            PreViewTest();
+            Testapplication();
+            //PreViewTest();
+            //SeralPortTest();
 
+        }
+
+        private void SeralPortTest()
+        {
+            string[] list  = SerialPortTools.GetInstance().GetSerialPortNameList();
+            SerialPortTools.GetInstance().OpenCom("COM3");
+            SerialPortTools.GetInstance().Download(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack());
         }
 
         public void WriteToFile()

@@ -1356,7 +1356,7 @@ namespace LightController
 				MessageBox.Show("Dickov：尚未设置关联");				
 			}
 			else if(lightEditor.Equals("1")) //设1时选择默认的启动目录中的LightEditor.exe
-			{
+			{			
 				System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
 			}
 			else// 其余情况下，启动设置的string
@@ -2164,5 +2164,10 @@ namespace LightController
 			stopReviewButton.Visible = visible;			
 		}
 
+		private void updateToolStripMenuItem_Click_1(object sender, EventArgs e)
+		{
+			UpdateForm updateForm = new UpdateForm();
+			updateForm.ShowDialog(); 
+		}
 	}
 }

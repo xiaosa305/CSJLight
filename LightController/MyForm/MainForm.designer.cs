@@ -3132,10 +3132,10 @@ namespace LightController
 			// 
 			// updateToolStripMenuItem
 			// 
-			this.updateToolStripMenuItem.Enabled = false;
 			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
 			this.updateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.updateToolStripMenuItem.Text = "在线升级";
+			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click_1);
 			// 
 			// previewButton
 			// 
@@ -3198,7 +3198,7 @@ namespace LightController
 			// 
 			// connectButton
 			// 
-			this.connectButton.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.connectButton.BackColor = System.Drawing.SystemColors.Control;
 			this.connectButton.Enabled = false;
 			this.connectButton.Location = new System.Drawing.Point(1137, 57);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);

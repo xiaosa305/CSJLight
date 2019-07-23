@@ -234,6 +234,7 @@
     <Compile Include="Tools\DataTools.cs" />
     <Compile Include="Tools\DMX512Player.cs" />
     <Compile Include="Tools\DMXConfigData.cs" />
+    <Compile Include="Tools\DMXHardware.cs" />
     <Compile Include="Tools\DMXTools.cs" />
     <Compile Include="Tools\DMX_C_Data.cs" />
     <Compile Include="Tools\DMX_C_File.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="Tools\ReceiveCallBack.cs" />
     <Compile Include="Tools\SceneData.cs" />
     <Compile Include="Tools\SerialPortToolsTest.cs" />
-    <Compile Include="Tools\SerizlPortTools.cs" />
+    <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">

@@ -47,7 +47,7 @@ namespace LightController.Tools
         private bool IsReceive { get; set; }
         private bool IsTiomeOutThreadStart { get; set; }
         private int TimeOutCount { get; set; }
-        private bool DownloadState { get; set; }
+        private bool DownloadStatus { get; set; }
         private Thread DownloadThread { get; set; }
         private DBWrapper DBWrapper { get; set; }
         private string ConfigPath { get; set; }
@@ -70,7 +70,7 @@ namespace LightController.Tools
         public void Init(Socket socket)
         {
             this.Socket = socket;
-            DownloadState = true;
+            DownloadStatus = true;
             IsUse = true;
             IsReceive = false;
             IsTiomeOutThreadStart = false;
@@ -116,7 +116,7 @@ namespace LightController.Tools
         {
             if (!IsUse) return;
             Console.WriteLine(GetAddress() + "断开连接");
-            DownloadState = false;
+            DownloadStatus = false;
             DownloadThread.Abort();
             CallBack.SendError(Ip, Order);
             Ip = "";
@@ -311,7 +311,7 @@ namespace LightController.Tools
                         {
                             try
                             {
-                                DownloadState = false;
+                                DownloadStatus = false;
                                 DownloadThread.Abort();
                             }
                             catch (Exception)
@@ -329,7 +329,7 @@ namespace LightController.Tools
                             TimeOutCount++;
                             try
                             {
-                                DownloadState = false;
+                                DownloadStatus = false;
                                 DownloadThread.Abort();
                             }
                             catch (Exception)
@@ -392,11 +392,11 @@ namespace LightController.Tools
                                 break;
                             case Constant.RECEIVE_ORDER_DONE:
                                 Console.WriteLine("下载完成");
-                                DownloadState = true;
+                                DownloadStatus = true;
                                 break;
                             default:
                                 DownloadThread.Abort();
-                                DownloadState = false;
+                                DownloadStatus = false;
                                 CallBack.SendError(Ip,Order);
                                 break;
                         }
@@ -405,11 +405,11 @@ namespace LightController.Tools
                         switch (receiveStr.Split(':')[0])
                         {
                             case Constant.RECEIVE_ORDER_BEGIN_OK:
-                                DownloadState = true;
+                                DownloadStatus = true;
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
                                 DownloadThread.Abort();
-                                DownloadState = false;
+                                DownloadStatus = false;
                                 CallBack.SendError(Ip,Order);
                                 break;
                             default:
@@ -425,7 +425,7 @@ namespace LightController.Tools
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
                                 DownloadThread.Abort();
-                                DownloadState = false;
+                                DownloadStatus = false;
                                 CallBack.SendError(Ip,Order);
                                 break;
                             default:
@@ -483,7 +483,7 @@ namespace LightController.Tools
             IList<DMX_C_File> c_Files = DataTools.GetInstance().GetC_Files(DBWrapper,ConfigPath);
             IList<DMX_M_File> m_Files = DataTools.GetInstance().GetM_Files(DBWrapper,ConfigPath);
             DMXConfigData configData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
-            DownloadState = false;
+            DownloadStatus = false;
             SendData(null, Constant.ORDER_BEGIN_SEND, null);
             string fileName = "";
             string fileSize = "";
@@ -504,10 +504,10 @@ namespace LightController.Tools
                 fileCRC = crc[0].ToString() + crc[1].ToString();
                 while (true)
                 {
-                    if (DownloadState)
+                    if (DownloadStatus)
                     {
                         SendData(item.GetByteData(),Constant.ORDER_PUT,new string[] {fileName,fileSize,fileCRC});
-                        DownloadState = false;
+                        DownloadStatus = false;
                         break;
                     }
                 }
@@ -527,10 +527,10 @@ namespace LightController.Tools
                 fileCRC = crc[0].ToString() + crc[1].ToString();
                 while (true)
                 {
-                    if (DownloadState)
+                    if (DownloadStatus)
                     {
                         SendData(item.GetByteData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        DownloadState = false;
+                        DownloadStatus = false;
                         break;
                     }
                 }
@@ -543,19 +543,19 @@ namespace LightController.Tools
             fileCRC = crc[0].ToString() + crc[1].ToString();
             while (true)
             {
-                if (DownloadState)
+                if (DownloadStatus)
                 {
                     SendData(configFileData, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                    DownloadState = false;
+                    DownloadStatus = false;
                     break;
                 }
             }
             while (true)
             {
-                if (DownloadState)
+                if (DownloadStatus)
                 {
                     SendData(null, Constant.ORDER_END_SEND, null);
-                    DownloadState = false;
+                    DownloadStatus = false;
                     break;
                 }
             }

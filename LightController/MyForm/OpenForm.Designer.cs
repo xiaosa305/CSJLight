@@ -32,6 +32,7 @@
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.deleteButton = new System.Windows.Forms.Button();
+			this.sqLiteCommand1 = new System.Data.SQLite.SQLiteCommand();
 			this.SuspendLayout();
 			// 
 			// treeView1
@@ -73,6 +74,10 @@
 			this.deleteButton.UseVisualStyleBackColor = true;
 			this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
 			// 
+			// sqLiteCommand1
+			// 
+			this.sqLiteCommand1.CommandText = null;
+			// 
 			// OpenForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -95,5 +100,6 @@
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button deleteButton;
+		private System.Data.SQLite.SQLiteCommand sqLiteCommand1;
 	}
 }

@@ -254,6 +254,9 @@ namespace LightController
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
 
 			for (int i = 0; i < 32; i++) {
+				// 弃用此监听器：因为用鼠标拖动松开时，会额外多调节一些数值。=》改成使用valueChanged方法
+				//vScrollBars[i].Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll_old);
+				vScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
 				vScrollBars[i].MouseEnter += new EventHandler(this.vScrollBar_MouseEnter);
 				labels[i].MouseEnter += new EventHandler(this.tdLabel_MouseEnter);
 				valueNumericUpDowns[i].MouseEnter += new EventHandler(this.valueNumericUpDown_MouseEnter);
@@ -383,10 +386,11 @@ namespace LightController
 		/// <param name="v"></param>
 		private void enableGlobalSet(bool enable)
 		{
-			this.lightsEditToolStripMenuItem1.Enabled = enable;
-			this.globalSetToolStripMenuItem.Enabled = enable;
-			this.ymSetToolStripMenuItem.Enabled = enable;
-			this.NetworkSetToolStripMenuItem.Enabled = enable;		
+			connectButton.Enabled = enable;
+			lightsEditToolStripMenuItem1.Enabled = enable;
+			globalSetToolStripMenuItem.Enabled = enable;
+			ymSetToolStripMenuItem.Enabled = enable;
+			NetworkSetToolStripMenuItem.Enabled = enable;		
 		}
 		
 
@@ -476,7 +480,7 @@ namespace LightController
 		{
 			//TODO：打开串口，并将剩下几个按钮设成enable
 			newFileButton.Enabled = true;
-			openFileButton.Enabled = true;
+			openFileButton.Enabled = true;			
 		}
 
 		/// <summary>
@@ -822,17 +826,18 @@ namespace LightController
 
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled =  (mode == 0 && totalStep < 32) || ( mode == 1 && totalStep < 48 );
-			newStepButton.Enabled = insertEnabled;				
+			addStepButton.Enabled = insertEnabled;				
 			insertAfterStepButton.Enabled = insertEnabled;			
 			insertBeforeStepButton.Enabled = insertEnabled &&  currentStep > 0;
 
 			// 2.3 设定《上一步》《下一步》是否可用
-			backStepButton.Enabled = currentStep > 1;			
-			nextStepButton.Enabled = currentStep < totalStep;
+			// -- 7.19修改为循环使用步数：
+			backStepButton.Enabled = totalStep > 1;		
+			nextStepButton.Enabled = totalStep >1 ;
 
 			//2.4 设定《复制步》是否可用
-			copyStepButton.Enabled = (currentStep > 0);
-			pasteStepButton.Enabled = (currentStep > 0 && tempStep != null);
+			copyStepButton.Enabled = currentStep > 0;
+			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
 
 		}
 
@@ -951,56 +956,46 @@ namespace LightController
 					tongdaoGroupBox2.Visible = false;
 				}
 			}
-		}	
-		
-
+		}
 
 
 		/// <summary>
-		/// 追加步（在最后步后插入新步）的操作
+		/// 点击《追加步》的操作：在最后步后插入新步
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void newStepButton_Click(object sender, EventArgs e)
+		private void addStepButton_Click(object sender, EventArgs e)
 		{
-			LightWrapper lightData = lightWrapperList[selectedLightIndex];
-			StepWrapper stepMode = lightData.StepMode;			
+			LightWrapper currentLightWrapper = getCurrentLightWrapper();
 
 			// 如果此值为空，则创建之
-			if (lightData.LightStepWrapperList[frame, mode] == null)
+			if (currentLightWrapper.LightStepWrapperList[frame, mode] == null)
 			{
-				lightData.LightStepWrapperList[frame, mode] = new LightStepWrapper()
+				currentLightWrapper.LightStepWrapperList[frame, mode] = new LightStepWrapper()
 				{
 					StepWrapperList = new List<StepWrapper>()
 				};
 			}
 
-			#region 废弃方法块：可在渲染stepLabel时就让新建步按钮不可用了。
-			//// 验证是否超过两种mode自己的步数限制
-			//if (mode == 0 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 32)
-			//{
-			//	MessageBox.Show("常规程序最多不超过32步");
-			//	return;
-			//}
-			//if (mode == 1 && lightData.LightStepWrapperList[frame, mode].TotalStep >= 48)
-			//{
-			//	MessageBox.Show("音频程序最多不超过48步");
-			//	return;
-			//}
-			#endregion
+			// 根据isUseStepMode，生成要插入步的内容 => (两种传入模板的写法：效果是一样的)
+			StepWrapper newStep = StepWrapper.GenerateNewStep(
+				// 写法1：比较冗长
+				// isUseStepMode ? getCurrentStepMode() : (getCurrentStepWrapper() == null ? getCurrentStepMode() : getCurrentStepWrapper()), 
+				// 写法2：	相对简洁
+				(isUseStepMode || getCurrentStepWrapper()==null ) ? getCurrentStepMode() : getCurrentStepWrapper(),
+				mode);			
 
-			//若通过步数验证，则新建步，并将stepLabel切换成最新的标签
-			StepWrapper newStep = generateNewStep(stepMode);
-			// 调用包装类内部的方法
-			lightData.LightStepWrapperList[frame, mode]. AddStep(newStep);
+			// 调用包装类内部的方法,来追加步
+			currentLightWrapper.LightStepWrapperList[frame, mode]. AddStep(newStep);
 
-			this.ShowVScrollBars(newStep.TongdaoList, stepMode.StartNum);
-			this.showStepLabel(lightData.LightStepWrapperList[frame, mode].CurrentStep, lightData.LightStepWrapperList[frame, mode].TotalStep);
+			// 显示新步
+			this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+			this.showStepLabel(currentLightWrapper.LightStepWrapperList[frame, mode].CurrentStep, currentLightWrapper.LightStepWrapperList[frame, mode].TotalStep);
 
 		}
 		
 		/// <summary>
-		/// 插入步(前插或后插由触发键的Name决定)的操作
+		/// 插入步(前插或后插由触发键的Name决定)的操作：前插和后插都调用同一个方法
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1012,41 +1007,27 @@ namespace LightController
 			
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep) {
-							
-				LightWrapper currentlight = getCurrentLightWrapper();
-				StepWrapper newStep = generateNewStep(currentlight.StepMode);
+				// 根据isUseStepMode，生成要插入步的内容
+				StepWrapper newStep = StepWrapper.GenerateNewStep(
+					(isUseStepMode || getCurrentStepWrapper() == null) ? getCurrentStepMode() : getCurrentStepWrapper() ,
+					mode
+				);
+				// 要插入的位置的index
 				int stepIndex = getCurrentStepValue() - 1 ;
+				// 插入的方式：前插(true）还是后插（false)
 				bool insertBefore = ((Button)sender).Name.Equals("insertBeforeStepButton");
+
 				lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
 
 				this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
 				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);				
-
 			}
 			else
 			{
 				MessageBox.Show("Dickov:当前步大于总步数");
 			}					   
 		}	
-
-
-		/// <summary>
-		///  通过stepMode，来生成新的stepWrapper（包括mode,lightName,startNum,tongdaoList等属性）;
-		///  主要供新建步、插入素材 等情况使用
-		/// </summary>
-		/// <param name="stepMode"></param>
-		/// <returns></returns>
-		private StepWrapper generateNewStep(StepWrapper stepMode)
-		{
-			return new StepWrapper()
-			{
-				TongdaoList = generateTongdaoList(stepMode.TongdaoList),
-				LightMode = mode,
-				LightFullName = stepMode.LightFullName,
-				StartNum = stepMode.StartNum
-			};
-		}
-
+		
 		/// <summary>
 		///  删除步的操作
 		///  1.获取当前步，当前步对应的stepIndex
@@ -1081,29 +1062,6 @@ namespace LightController
 				this.ShowVScrollBars(null, 0);
 				this.showStepLabel(0, 0);				
 			}			
-		}
-		
-		/// <summary>
-		/// 通过模板的通道数据，生成新的非引用(要摆脱与StepMode的关系)的tongdaoList
-		/// </summary>
-		/// <param name="oldTongdaoList"></param>
-		/// <returns></returns>
-		private List<TongdaoWrapper> generateTongdaoList(List<TongdaoWrapper> stepModeTongdaoList)
-		{			
-			List<TongdaoWrapper> newList = new List<TongdaoWrapper>();
-			foreach (TongdaoWrapper item in stepModeTongdaoList)
-			{
-				newList.Add(new TongdaoWrapper()
-					{
-						StepTime = item.StepTime,
-						TongdaoName = item.TongdaoName,
-						ScrollValue = item.ScrollValue,
-						ChangeMode = item.ChangeMode,
-						Address = item.Address
-					}
-				);
-			}
-			return newList;
 		}
 		
 
@@ -1201,7 +1159,7 @@ namespace LightController
 			}
 			else
 			{
-				MessageBox.Show("当前已是第一步");
+				chooseStep( getTotalStepValue() );
 			}
 		}
 
@@ -1220,7 +1178,7 @@ namespace LightController
 			}
 			else
 			{
-				MessageBox.Show("当前已是最大步");
+				chooseStep( 1 );
 			}
 		}
 
@@ -1398,7 +1356,7 @@ namespace LightController
 				MessageBox.Show("Dickov：尚未设置关联");				
 			}
 			else if(lightEditor.Equals("1")) //设1时选择默认的启动目录中的LightEditor.exe
-			{
+			{			
 				System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
 			}
 			else// 其余情况下，启动设置的string
@@ -1409,20 +1367,42 @@ namespace LightController
 
 		/// <summary>
 		///  用户移动滚轴时发生：1.调节相关的numericUpDown; 2.放进相关的step中
+		///  --拖拽的时候，这里会运行多次
+		///  --7.19:弃用此方法：改用ValueChanged监听器
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void valueVScrollBar_Scroll(object sender, ScrollEventArgs e)
-		{
+		private void valueVScrollBar_Scroll_old(object sender, ScrollEventArgs e)
+		{			
 			// 1.先找出对应vScrollBars的index 
 			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
 
 			//2.把滚动条的值赋给valueNumericUpDowns
 			valueNumericUpDowns[tongdaoIndex].Value = 255 - vScrollBars[tongdaoIndex].Value;
+			 Console.WriteLine("Dickov:valueVScrollBar_Scroll：" + (255 - vScrollBars[tongdaoIndex].Value));
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeScrollValue(tongdaoIndex);
 		}
+
+		/// <summary>
+		///  滚轴值改变时的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void valueVScrollBar_ValueChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应vScrollBars的index 
+			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+
+			//2.把滚动条的值赋给valueNumericUpDowns
+			valueNumericUpDowns[tongdaoIndex].Value = 255 - vScrollBars[tongdaoIndex].Value;
+			//Console.WriteLine("通道："+tongdaoIndex+"valueVScrollBar_ValueChanged：" + (255 - vScrollBars[tongdaoIndex].Value));
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex);
+		}
+
 
 		/// <summary>
 		/// 调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
@@ -1555,8 +1535,7 @@ namespace LightController
 		}
 			
 		private void stopReviewButton_Click(object sender, EventArgs e)
-		{
-			
+		{			
 			playTools.EndView();
 		}
 
@@ -1627,6 +1606,12 @@ namespace LightController
 		/// 辅助方法：单灯单步发送DMX512帧数据
 		/// </summary>
 		private void oneLightStepWork() {
+
+			if ( ! ifConnect) {
+				MessageBox.Show("请先连接设备");
+				return;
+			}
+
 			StepWrapper step = getCurrentStepWrapper();
 			if (step != null) { 
 				List<TongdaoWrapper> tongdaoList = step.TongdaoList;
@@ -1867,7 +1852,7 @@ namespace LightController
 						StepWrapper newStep = null;
 						for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 						{
-							newStep = generateNewStep(stepMode);
+							newStep = StepWrapper.GenerateNewStep(stepMode, mode);
 							// 改造下newStep,将素材值赋给newStep 
 							changeStepFromMaterial( materialAst.TongdaoList , stepIndex, sameTDIndexList , newStep);								
 							// 使用后插法：避免当前无数据的情况下调用素材失败
@@ -1907,7 +1892,7 @@ namespace LightController
 					if (totalStep < finalStep) {
 						for (int i = 0; i < finalStep - totalStep; i++)
 						{
-							newStep = generateNewStep(stepMode);
+							newStep = StepWrapper.GenerateNewStep(stepMode,mode);
 							lsWrapper.AddStep(newStep);
 						}
 					}
@@ -2051,7 +2036,6 @@ namespace LightController
 				//一般不会进到这里来，因为当checkIfCanCopy=false时，此按钮不可以点击
 				MessageBox.Show("选中灯具与要复制的灯具种类不同,无法复制!");
 			}
-
 		}
 
 
@@ -2116,6 +2100,98 @@ namespace LightController
 			}
 		}
 
-		
+		private bool isUseStepMode = false;
+		/// <summary>
+		///  勾选是否使用模板数据
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			isUseStepMode = addStepCheckBox.Checked;
+		}
+
+		/// <summary>
+		///  点击《在线升级》菜单栏：
+		///  新建一个UpdateForm, ShowDialog();
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+
+
+
+		}
+
+		private bool ifConnect = false; // 辅助变量：是否连接设备
+		/// <summary>
+		///  点击《连接设备|断开连接》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			// 如果还没连接，那就连接
+			if ( !ifConnect )
+			{
+				ifConnect = true;
+				playTools = PlayTools.GetInstance();
+				//playTools.ConnectDevice();
+				setDMX512TestButtonsEnable(true);
+				connectButton.Text = "断开连接";
+			}
+			else //否则断开连接
+			{
+				ifConnect = false;
+				playTools.EndView();
+				playTools = null ;
+				setDMX512TestButtonsEnable(false);
+				connectButton.Text = "连接设备"; 
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：一次性配置DMX512调试按钮组可见与否
+		/// </summary>
+		/// <param name="visible"></param>
+		private void setDMX512TestButtonsEnable(bool visible) {
+			realTimeCheckBox.Visible = visible;
+			oneLightStepButton.Visible = visible;
+			previewButton.Visible = visible;
+			soundButton.Visible = visible;
+			stopReviewButton.Visible = visible;			
+		}
+
+		private void updateToolStripMenuItem_Click_1(object sender, EventArgs e)
+		{
+			UpdateForm updateForm = new UpdateForm();
+			updateForm.ShowDialog(); 
+		}
+
+
+
+		/// <summary>
+		///  点击《硬件设置》-《打开配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void hardwareSetOpenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			HardwareSetChooseForm hscForm = new HardwareSetChooseForm(this);
+			hscForm.ShowDialog();
+		}
+
+		/// <summary>
+		///  点击《硬件设置》-《新建配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void hardwareSetNewToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			HardwareSetForm hsForm = new HardwareSetForm(this, null);
+			hsForm.ShowDialog();
+		}
 	}
 }

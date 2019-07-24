@@ -159,6 +159,18 @@
     <Compile Include="MyForm\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\HardwareSetChooseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\HardwareSetChooseForm.Designer.cs">
+      <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\HardwareSetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\HardwareSetForm.Designer.cs">
+      <DependentUpon>HardwareSetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MaterialForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +218,12 @@
     <Compile Include="MyForm\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\NewHardwareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\NewHardwareForm.Designer.cs">
+      <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\OpenForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,6 +235,12 @@
     </Compile>
     <Compile Include="MyForm\QDTestForm.Designer.cs">
       <DependentUpon>QDTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\UpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\UpdateForm.Designer.cs">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\YMSetForm.cs">
       <SubType>Form</SubType>
@@ -252,6 +276,12 @@
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\HardwareSetChooseForm.resx">
+      <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
+      <DependentUpon>HardwareSetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -273,11 +303,17 @@
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
+      <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\UpdateForm.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>
@@ -294,6 +330,10 @@
     </Compile>
     <None Include="App.config" />
     <Content Include="MaterialSet.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HardwareSet.ini">
+      <Generator>ResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

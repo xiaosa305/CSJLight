@@ -40,12 +40,13 @@ namespace LightController
 			this.saveButton = new System.Windows.Forms.Button();
 			this.saveAsButton = new System.Windows.Forms.Button();
 			this.oneKeyButton = new System.Windows.Forms.Button();
-			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.projectSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.lightsListView = new System.Windows.Forms.ListView();
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
+			this.addStepCheckBox = new System.Windows.Forms.CheckBox();
 			this.materialUseButton = new System.Windows.Forms.Button();
 			this.pasteLightButton = new System.Windows.Forms.Button();
 			this.materialSaveButton = new System.Windows.Forms.Button();
@@ -220,8 +221,10 @@ namespace LightController
 			this.label24 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
 			this.cmComboBox = new System.Windows.Forms.ComboBox();
+			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.changeModeButton = new System.Windows.Forms.Button();
+			this.commonValueButton = new System.Windows.Forms.Button();
 			this.steptimeSetButton = new System.Windows.Forms.Button();
 			this.modeChooseLabel = new System.Windows.Forms.Label();
 			this.frameChooseLabel = new System.Windows.Forms.Label();
@@ -232,16 +235,21 @@ namespace LightController
 			this.insertBeforeStepButton = new System.Windows.Forms.Button();
 			this.insertAfterStepButton = new System.Windows.Forms.Button();
 			this.testButton = new System.Windows.Forms.Button();
+			this.initButton = new System.Windows.Forms.Button();
+			this.zeroButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.copyStepButton = new System.Windows.Forms.Button();
-			this.newStepButton = new System.Windows.Forms.Button();
+			this.addStepButton = new System.Windows.Forms.Button();
 			this.lightValueLabel = new System.Windows.Forms.Label();
 			this.lightLabel = new System.Windows.Forms.Label();
-			this.groupComboBox = new System.Windows.Forms.ComboBox();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hardwareSetNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hardwareSetOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightsEditToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -252,10 +260,7 @@ namespace LightController
 			this.oneLightStepButton = new System.Windows.Forms.Button();
 			this.realTimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.soundButton = new System.Windows.Forms.Button();
-			this.zeroButton = new System.Windows.Forms.Button();
-			this.initButton = new System.Windows.Forms.Button();
-			this.commonValueButton = new System.Windows.Forms.Button();
-			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.connectButton = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -324,9 +329,9 @@ namespace LightController
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown50)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown49)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
 			this.mainMenuStrip.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// comComboBox
@@ -499,6 +504,7 @@ namespace LightController
 			// tongdaoGroupBox
 			// 
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
+			this.tongdaoGroupBox.Controls.Add(this.addStepCheckBox);
 			this.tongdaoGroupBox.Controls.Add(this.materialUseButton);
 			this.tongdaoGroupBox.Controls.Add(this.pasteLightButton);
 			this.tongdaoGroupBox.Controls.Add(this.materialSaveButton);
@@ -523,10 +529,9 @@ namespace LightController
 			this.tongdaoGroupBox.Controls.Add(this.zeroButton);
 			this.tongdaoGroupBox.Controls.Add(this.pasteStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.copyStepButton);
-			this.tongdaoGroupBox.Controls.Add(this.newStepButton);
+			this.tongdaoGroupBox.Controls.Add(this.addStepButton);
 			this.tongdaoGroupBox.Controls.Add(this.lightValueLabel);
 			this.tongdaoGroupBox.Controls.Add(this.lightLabel);
-			this.tongdaoGroupBox.Controls.Add(this.groupComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.frameComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.modeComboBox);
 			this.tongdaoGroupBox.Location = new System.Drawing.Point(0, 360);
@@ -535,6 +540,17 @@ namespace LightController
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
 			this.tongdaoGroupBox.Visible = false;
+			// 
+			// addStepCheckBox
+			// 
+			this.addStepCheckBox.AutoSize = true;
+			this.addStepCheckBox.Location = new System.Drawing.Point(1209, 27);
+			this.addStepCheckBox.Name = "addStepCheckBox";
+			this.addStepCheckBox.Size = new System.Drawing.Size(179, 19);
+			this.addStepCheckBox.TabIndex = 22;
+			this.addStepCheckBox.Text = "添加步时使用模板数据";
+			this.addStepCheckBox.UseVisualStyleBackColor = true;
+			this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
 			// 
 			// materialUseButton
 			// 
@@ -1595,7 +1611,6 @@ namespace LightController
 			this.vScrollBar16.Name = "vScrollBar16";
 			this.vScrollBar16.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar16.TabIndex = 0;
-			this.vScrollBar16.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar12
 			// 
@@ -1604,7 +1619,6 @@ namespace LightController
 			this.vScrollBar12.Name = "vScrollBar12";
 			this.vScrollBar12.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar12.TabIndex = 0;
-			this.vScrollBar12.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar8
 			// 
@@ -1613,7 +1627,6 @@ namespace LightController
 			this.vScrollBar8.Name = "vScrollBar8";
 			this.vScrollBar8.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar8.TabIndex = 0;
-			this.vScrollBar8.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar4
 			// 
@@ -1622,7 +1635,6 @@ namespace LightController
 			this.vScrollBar4.Name = "vScrollBar4";
 			this.vScrollBar4.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar4.TabIndex = 0;
-			this.vScrollBar4.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar15
 			// 
@@ -1631,7 +1643,6 @@ namespace LightController
 			this.vScrollBar15.Name = "vScrollBar15";
 			this.vScrollBar15.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar15.TabIndex = 0;
-			this.vScrollBar15.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar11
 			// 
@@ -1640,7 +1651,6 @@ namespace LightController
 			this.vScrollBar11.Name = "vScrollBar11";
 			this.vScrollBar11.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar11.TabIndex = 0;
-			this.vScrollBar11.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar14
 			// 
@@ -1649,7 +1659,6 @@ namespace LightController
 			this.vScrollBar14.Name = "vScrollBar14";
 			this.vScrollBar14.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar14.TabIndex = 0;
-			this.vScrollBar14.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar10
 			// 
@@ -1658,7 +1667,6 @@ namespace LightController
 			this.vScrollBar10.Name = "vScrollBar10";
 			this.vScrollBar10.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar10.TabIndex = 0;
-			this.vScrollBar10.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar7
 			// 
@@ -1667,7 +1675,6 @@ namespace LightController
 			this.vScrollBar7.Name = "vScrollBar7";
 			this.vScrollBar7.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar7.TabIndex = 0;
-			this.vScrollBar7.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar13
 			// 
@@ -1676,7 +1683,6 @@ namespace LightController
 			this.vScrollBar13.Name = "vScrollBar13";
 			this.vScrollBar13.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar13.TabIndex = 0;
-			this.vScrollBar13.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar6
 			// 
@@ -1685,7 +1691,6 @@ namespace LightController
 			this.vScrollBar6.Name = "vScrollBar6";
 			this.vScrollBar6.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar6.TabIndex = 0;
-			this.vScrollBar6.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar9
 			// 
@@ -1694,7 +1699,6 @@ namespace LightController
 			this.vScrollBar9.Name = "vScrollBar9";
 			this.vScrollBar9.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar9.TabIndex = 0;
-			this.vScrollBar9.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar3
 			// 
@@ -1703,7 +1707,6 @@ namespace LightController
 			this.vScrollBar3.Name = "vScrollBar3";
 			this.vScrollBar3.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar3.TabIndex = 0;
-			this.vScrollBar3.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar5
 			// 
@@ -1712,7 +1715,6 @@ namespace LightController
 			this.vScrollBar5.Name = "vScrollBar5";
 			this.vScrollBar5.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar5.TabIndex = 0;
-			this.vScrollBar5.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar2
 			// 
@@ -1721,7 +1723,6 @@ namespace LightController
 			this.vScrollBar2.Name = "vScrollBar2";
 			this.vScrollBar2.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar2.TabIndex = 0;
-			this.vScrollBar2.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar1
 			// 
@@ -1730,7 +1731,6 @@ namespace LightController
 			this.vScrollBar1.Name = "vScrollBar1";
 			this.vScrollBar1.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar1.TabIndex = 0;
-			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// tongdaoGroupBox2
 			// 
@@ -2005,7 +2005,6 @@ namespace LightController
 			this.vScrollBar17.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar17.TabIndex = 0;
 			this.vScrollBar17.Visible = false;
-			this.vScrollBar17.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// changeModeComboBox26
 			// 
@@ -2159,7 +2158,6 @@ namespace LightController
 			this.vScrollBar18.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar18.TabIndex = 0;
 			this.vScrollBar18.Visible = false;
-			this.vScrollBar18.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// changeModeComboBox20
 			// 
@@ -2235,7 +2233,6 @@ namespace LightController
 			this.vScrollBar19.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar19.TabIndex = 0;
 			this.vScrollBar19.Visible = false;
-			this.vScrollBar19.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// changeModeComboBox17
 			// 
@@ -2283,7 +2280,6 @@ namespace LightController
 			this.vScrollBar20.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar20.TabIndex = 0;
 			this.vScrollBar20.Visible = false;
-			this.vScrollBar20.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown26
 			// 
@@ -2353,7 +2349,6 @@ namespace LightController
 			this.vScrollBar21.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar21.TabIndex = 0;
 			this.vScrollBar21.Visible = false;
-			this.vScrollBar21.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown24
 			// 
@@ -2387,7 +2382,6 @@ namespace LightController
 			this.vScrollBar22.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar22.TabIndex = 0;
 			this.vScrollBar22.Visible = false;
-			this.vScrollBar22.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown23
 			// 
@@ -2457,7 +2451,6 @@ namespace LightController
 			this.vScrollBar23.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar23.TabIndex = 0;
 			this.vScrollBar23.Visible = false;
-			this.vScrollBar23.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown21
 			// 
@@ -2491,7 +2484,6 @@ namespace LightController
 			this.vScrollBar24.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar24.TabIndex = 0;
 			this.vScrollBar24.Visible = false;
-			this.vScrollBar24.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown20
 			// 
@@ -2525,7 +2517,6 @@ namespace LightController
 			this.vScrollBar25.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar25.TabIndex = 0;
 			this.vScrollBar25.Visible = false;
-			this.vScrollBar25.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown19
 			// 
@@ -2595,7 +2586,6 @@ namespace LightController
 			this.vScrollBar26.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar26.TabIndex = 0;
 			this.vScrollBar26.Visible = false;
-			this.vScrollBar26.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// numericUpDown17
 			// 
@@ -2629,7 +2619,6 @@ namespace LightController
 			this.vScrollBar27.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar27.TabIndex = 0;
 			this.vScrollBar27.Visible = false;
-			this.vScrollBar27.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar28
 			// 
@@ -2639,7 +2628,6 @@ namespace LightController
 			this.vScrollBar28.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar28.TabIndex = 0;
 			this.vScrollBar28.Visible = false;
-			this.vScrollBar28.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// label27
 			// 
@@ -2661,7 +2649,6 @@ namespace LightController
 			this.vScrollBar29.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar29.TabIndex = 0;
 			this.vScrollBar29.Visible = false;
-			this.vScrollBar29.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar30
 			// 
@@ -2671,7 +2658,6 @@ namespace LightController
 			this.vScrollBar30.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar30.TabIndex = 0;
 			this.vScrollBar30.Visible = false;
-			this.vScrollBar30.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// vScrollBar31
 			// 
@@ -2681,7 +2667,6 @@ namespace LightController
 			this.vScrollBar31.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar31.TabIndex = 0;
 			this.vScrollBar31.Visible = false;
-			this.vScrollBar31.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// label26
 			// 
@@ -2703,7 +2688,6 @@ namespace LightController
 			this.vScrollBar32.Size = new System.Drawing.Size(24, 203);
 			this.vScrollBar32.TabIndex = 0;
 			this.vScrollBar32.Visible = false;
-			this.vScrollBar32.Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll);
 			// 
 			// label17
 			// 
@@ -2825,6 +2809,19 @@ namespace LightController
 			this.cmComboBox.Size = new System.Drawing.Size(76, 23);
 			this.cmComboBox.TabIndex = 19;
 			// 
+			// commonValueNumericUpDown
+			// 
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(64, 346);
+			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.commonValueNumericUpDown.Name = "commonValueNumericUpDown";
+			this.commonValueNumericUpDown.Size = new System.Drawing.Size(76, 25);
+			this.commonValueNumericUpDown.TabIndex = 18;
+			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
 			// stNumericUpDown
 			// 
 			this.stNumericUpDown.Location = new System.Drawing.Point(64, 449);
@@ -2847,6 +2844,16 @@ namespace LightController
 			this.changeModeButton.Text = "统一跳渐变";
 			this.changeModeButton.UseVisualStyleBackColor = true;
 			this.changeModeButton.Click += new System.EventHandler(this.changeModeButton_Click);
+			// 
+			// commonValueButton
+			// 
+			this.commonValueButton.Location = new System.Drawing.Point(165, 343);
+			this.commonValueButton.Name = "commonValueButton";
+			this.commonValueButton.Size = new System.Drawing.Size(136, 31);
+			this.commonValueButton.TabIndex = 17;
+			this.commonValueButton.Text = "统一通道值";
+			this.commonValueButton.UseVisualStyleBackColor = true;
+			this.commonValueButton.Click += new System.EventHandler(this.commonValueButton_Click);
 			// 
 			// steptimeSetButton
 			// 
@@ -2938,7 +2945,7 @@ namespace LightController
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(1378, 18);
+			this.testButton.Location = new System.Drawing.Point(1811, 19);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(89, 32);
 			this.testButton.TabIndex = 13;
@@ -2946,6 +2953,26 @@ namespace LightController
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Visible = false;
 			this.testButton.Click += new System.EventHandler(this.newTestButton_Click);
+			// 
+			// initButton
+			// 
+			this.initButton.Location = new System.Drawing.Point(184, 286);
+			this.initButton.Name = "initButton";
+			this.initButton.Size = new System.Drawing.Size(117, 31);
+			this.initButton.TabIndex = 13;
+			this.initButton.Text = "设为初始值";
+			this.initButton.UseVisualStyleBackColor = true;
+			this.initButton.Click += new System.EventHandler(this.initButton_Click);
+			// 
+			// zeroButton
+			// 
+			this.zeroButton.Location = new System.Drawing.Point(64, 286);
+			this.zeroButton.Name = "zeroButton";
+			this.zeroButton.Size = new System.Drawing.Size(114, 31);
+			this.zeroButton.TabIndex = 13;
+			this.zeroButton.Text = "全部归零";
+			this.zeroButton.UseVisualStyleBackColor = true;
+			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
 			// 
 			// pasteStepButton
 			// 
@@ -2967,15 +2994,15 @@ namespace LightController
 			this.copyStepButton.UseVisualStyleBackColor = true;
 			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
 			// 
-			// newStepButton
+			// addStepButton
 			// 
-			this.newStepButton.Location = new System.Drawing.Point(939, 82);
-			this.newStepButton.Name = "newStepButton";
-			this.newStepButton.Size = new System.Drawing.Size(89, 32);
-			this.newStepButton.TabIndex = 13;
-			this.newStepButton.Text = "追加步";
-			this.newStepButton.UseVisualStyleBackColor = true;
-			this.newStepButton.Click += new System.EventHandler(this.newStepButton_Click);
+			this.addStepButton.Location = new System.Drawing.Point(939, 82);
+			this.addStepButton.Name = "addStepButton";
+			this.addStepButton.Size = new System.Drawing.Size(89, 32);
+			this.addStepButton.TabIndex = 13;
+			this.addStepButton.Text = "追加步";
+			this.addStepButton.UseVisualStyleBackColor = true;
+			this.addStepButton.Click += new System.EventHandler(this.addStepButton_Click);
 			// 
 			// lightValueLabel
 			// 
@@ -2995,15 +3022,6 @@ namespace LightController
 			this.lightLabel.Size = new System.Drawing.Size(82, 15);
 			this.lightLabel.TabIndex = 11;
 			this.lightLabel.Text = "当前灯具：";
-			// 
-			// groupComboBox
-			// 
-			this.groupComboBox.FormattingEnabled = true;
-			this.groupComboBox.Location = new System.Drawing.Point(977, 24);
-			this.groupComboBox.Name = "groupComboBox";
-			this.groupComboBox.Size = new System.Drawing.Size(121, 23);
-			this.groupComboBox.TabIndex = 0;
-			this.groupComboBox.Visible = false;
 			// 
 			// frameComboBox
 			// 
@@ -3056,6 +3074,8 @@ namespace LightController
 			this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lightLibraryToolStripMenuItem,
+            this.hardwareSetToolStripMenuItem,
+            this.updateToolStripMenuItem,
             this.lightsEditToolStripMenuItem1,
             this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
@@ -3073,6 +3093,36 @@ namespace LightController
 			this.lightLibraryToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.lightLibraryToolStripMenuItem.Text = "灯库编辑";
 			this.lightLibraryToolStripMenuItem.Click += new System.EventHandler(this.lightLibraryToolStripMenuItem_Click);
+			// 
+			// hardwareSetToolStripMenuItem
+			// 
+			this.hardwareSetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hardwareSetNewToolStripMenuItem,
+            this.hardwareSetOpenToolStripMenuItem});
+			this.hardwareSetToolStripMenuItem.Name = "hardwareSetToolStripMenuItem";
+			this.hardwareSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.hardwareSetToolStripMenuItem.Text = "硬件设置";
+			// 
+			// hardwareSetNewToolStripMenuItem
+			// 
+			this.hardwareSetNewToolStripMenuItem.Name = "hardwareSetNewToolStripMenuItem";
+			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.hardwareSetNewToolStripMenuItem.Text = "新建配置";
+			this.hardwareSetNewToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetNewToolStripMenuItem_Click);
+			// 
+			// hardwareSetOpenToolStripMenuItem
+			// 
+			this.hardwareSetOpenToolStripMenuItem.Name = "hardwareSetOpenToolStripMenuItem";
+			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.hardwareSetOpenToolStripMenuItem.Text = "打开配置";
+			this.hardwareSetOpenToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetOpenToolStripMenuItem_Click);
+			// 
+			// updateToolStripMenuItem
+			// 
+			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+			this.updateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.updateToolStripMenuItem.Text = "在线升级";
+			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click_1);
 			// 
 			// lightsEditToolStripMenuItem1
 			// 
@@ -3123,6 +3173,7 @@ namespace LightController
 			this.previewButton.TabIndex = 5;
 			this.previewButton.Text = "预览效果";
 			this.previewButton.UseVisualStyleBackColor = true;
+			this.previewButton.Visible = false;
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
 			// stopReviewButton
@@ -3134,6 +3185,7 @@ namespace LightController
 			this.stopReviewButton.TabIndex = 5;
 			this.stopReviewButton.Text = "结束预览";
 			this.stopReviewButton.UseVisualStyleBackColor = true;
+			this.stopReviewButton.Visible = false;
 			this.stopReviewButton.Click += new System.EventHandler(this.stopReviewButton_Click);
 			// 
 			// oneLightStepButton
@@ -3145,6 +3197,7 @@ namespace LightController
 			this.oneLightStepButton.TabIndex = 5;
 			this.oneLightStepButton.Text = "单灯单步";
 			this.oneLightStepButton.UseVisualStyleBackColor = true;
+			this.oneLightStepButton.Visible = false;
 			this.oneLightStepButton.Click += new System.EventHandler(this.oneLightStepButton_Click);
 			// 
 			// realTimeCheckBox
@@ -3156,6 +3209,7 @@ namespace LightController
 			this.realTimeCheckBox.TabIndex = 18;
 			this.realTimeCheckBox.Text = "实时调试";
 			this.realTimeCheckBox.UseVisualStyleBackColor = true;
+			this.realTimeCheckBox.Visible = false;
 			this.realTimeCheckBox.CheckedChanged += new System.EventHandler(this.realTimeCheckBox_CheckedChanged);
 			// 
 			// soundButton
@@ -3166,50 +3220,21 @@ namespace LightController
 			this.soundButton.TabIndex = 13;
 			this.soundButton.Text = "触发音频";
 			this.soundButton.UseVisualStyleBackColor = true;
+			this.soundButton.Visible = false;
 			this.soundButton.Click += new System.EventHandler(this.soundButton_Click);
 			// 
-			// zeroButton
+			// connectButton
 			// 
-			this.zeroButton.Location = new System.Drawing.Point(64, 286);
-			this.zeroButton.Name = "zeroButton";
-			this.zeroButton.Size = new System.Drawing.Size(114, 31);
-			this.zeroButton.TabIndex = 13;
-			this.zeroButton.Text = "全部归零";
-			this.zeroButton.UseVisualStyleBackColor = true;
-			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
-			// 
-			// initButton
-			// 
-			this.initButton.Location = new System.Drawing.Point(184, 286);
-			this.initButton.Name = "initButton";
-			this.initButton.Size = new System.Drawing.Size(117, 31);
-			this.initButton.TabIndex = 13;
-			this.initButton.Text = "设为初始值";
-			this.initButton.UseVisualStyleBackColor = true;
-			this.initButton.Click += new System.EventHandler(this.initButton_Click);
-			// 
-			// commonValueButton
-			// 
-			this.commonValueButton.Location = new System.Drawing.Point(165, 343);
-			this.commonValueButton.Name = "commonValueButton";
-			this.commonValueButton.Size = new System.Drawing.Size(136, 31);
-			this.commonValueButton.TabIndex = 17;
-			this.commonValueButton.Text = "统一通道值";
-			this.commonValueButton.UseVisualStyleBackColor = true;
-			this.commonValueButton.Click += new System.EventHandler(this.commonValueButton_Click);
-			// 
-			// commonValueNumericUpDown
-			// 
-			this.commonValueNumericUpDown.Location = new System.Drawing.Point(64, 346);
-			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.commonValueNumericUpDown.Name = "commonValueNumericUpDown";
-			this.commonValueNumericUpDown.Size = new System.Drawing.Size(76, 25);
-			this.commonValueNumericUpDown.TabIndex = 18;
-			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.connectButton.BackColor = System.Drawing.SystemColors.Control;
+			this.connectButton.Enabled = false;
+			this.connectButton.Location = new System.Drawing.Point(1137, 57);
+			this.connectButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.connectButton.Name = "connectButton";
+			this.connectButton.Size = new System.Drawing.Size(93, 65);
+			this.connectButton.TabIndex = 5;
+			this.connectButton.Text = "连接设备";
+			this.connectButton.UseVisualStyleBackColor = false;
+			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// MainForm
 			// 
@@ -3227,6 +3252,7 @@ namespace LightController
 			this.Controls.Add(this.comComboBox);
 			this.Controls.Add(this.stopReviewButton);
 			this.Controls.Add(this.oneLightStepButton);
+			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.previewButton);
 			this.Controls.Add(this.saveAsButton);
 			this.Controls.Add(this.saveButton);
@@ -3311,10 +3337,10 @@ namespace LightController
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown50)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown49)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -3329,7 +3355,7 @@ namespace LightController
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.Button saveAsButton;
 		private System.Windows.Forms.Button oneKeyButton;
-		private System.Windows.Forms.SaveFileDialog saveFileDialog;
+		private System.Windows.Forms.SaveFileDialog projectSaveFileDialog;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 
 		// 2019.5.23 : 添加listView 来存放加载的灯具列表
@@ -3338,7 +3364,6 @@ namespace LightController
 		private ColumnHeader lightType;
 		private ImageList LargeImageList;
 		private GroupBox tongdaoGroupBox;
-		private ComboBox groupComboBox;
 		private ComboBox frameComboBox;
 		private ComboBox modeComboBox;
 		private GroupBox tongdaoGroupBox1;
@@ -3525,7 +3550,7 @@ namespace LightController
 		private Label lightValueLabel;
 		private Label lightLabel;
 		private Button insertAfterStepButton;
-		private Button newStepButton;
+		private Button addStepButton;
 		private Button deleteStepButton;
 		private Button nextStepButton;
 		private Button backStepButton;
@@ -3569,6 +3594,12 @@ namespace LightController
 		private Button zeroButton;
 		private NumericUpDown commonValueNumericUpDown;
 		private Button commonValueButton;
+		private CheckBox addStepCheckBox;
+		private ToolStripMenuItem updateToolStripMenuItem;
+		private Button connectButton;
+		private ToolStripMenuItem hardwareSetToolStripMenuItem;
+		private ToolStripMenuItem hardwareSetNewToolStripMenuItem;
+		private ToolStripMenuItem hardwareSetOpenToolStripMenuItem;
 	}
 }
 

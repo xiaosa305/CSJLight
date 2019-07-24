@@ -59,6 +59,7 @@
 			this.cancelButton.TabIndex = 4;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = false;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// enterButton
 			// 
@@ -80,6 +81,7 @@
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.hNameTextBox);
 			this.Controls.Add(this.label1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "NewHardwareForm";
 			this.Text = "新建硬件配置名称";
 			this.Load += new System.EventHandler(this.NewHardwareForm_Load);

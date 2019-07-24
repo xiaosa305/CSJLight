@@ -30,8 +30,8 @@
 		{
 			this.treeView1 = new System.Windows.Forms.TreeView();
 			this.openButton = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
+			this.deleteButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// treeView1
@@ -45,40 +45,43 @@
 			// 
 			// openButton
 			// 
+			this.openButton.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.openButton.Location = new System.Drawing.Point(344, 371);
 			this.openButton.Name = "openButton";
 			this.openButton.Size = new System.Drawing.Size(75, 41);
 			this.openButton.TabIndex = 1;
 			this.openButton.Text = "打开";
-			this.openButton.UseVisualStyleBackColor = true;
+			this.openButton.UseVisualStyleBackColor = false;
 			this.openButton.Click += new System.EventHandler(this.openButton_Click);
 			// 
-			// button2
+			// deleteButton
 			// 
-			this.button2.BackColor = System.Drawing.Color.OrangeRed;
-			this.button2.Location = new System.Drawing.Point(344, 23);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 41);
-			this.button2.TabIndex = 1;
-			this.button2.Text = "删除->";
-			this.button2.UseVisualStyleBackColor = false;
+			this.deleteButton.BackColor = System.Drawing.Color.OrangeRed;
+			this.deleteButton.Location = new System.Drawing.Point(344, 23);
+			this.deleteButton.Name = "deleteButton";
+			this.deleteButton.Size = new System.Drawing.Size(75, 41);
+			this.deleteButton.TabIndex = 1;
+			this.deleteButton.Text = "删除->";
+			this.deleteButton.UseVisualStyleBackColor = false;
+			this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
 			// 
-			// button3
+			// cancelButton
 			// 
-			this.button3.Location = new System.Drawing.Point(344, 443);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(75, 41);
-			this.button3.TabIndex = 1;
-			this.button3.Text = "取消";
-			this.button3.UseVisualStyleBackColor = true;
+			this.cancelButton.Location = new System.Drawing.Point(344, 443);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(75, 41);
+			this.cancelButton.TabIndex = 1;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// HardwareSetChooseForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(446, 506);
-			this.Controls.Add(this.button3);
-			this.Controls.Add(this.button2);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.deleteButton);
 			this.Controls.Add(this.openButton);
 			this.Controls.Add(this.treeView1);
 			this.Name = "HardwareSetChooseForm";
@@ -92,7 +95,7 @@
 
 		private System.Windows.Forms.TreeView treeView1;
 		private System.Windows.Forms.Button openButton;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Button deleteButton;
+		private System.Windows.Forms.Button cancelButton;
 	}
 }

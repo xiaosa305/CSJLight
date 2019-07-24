@@ -76,5 +76,11 @@ namespace LightController.MyForm
 		{
 			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
 		}
+
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+			hardwareSetForm.Activate();
+		}
 	}
 }

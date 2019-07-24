@@ -127,7 +127,18 @@ namespace LightController.MyForm
 			this.isNew = false;
 			MessageBox.Show("成功保存");
 		}
-	}
 
+		/// <summary>
+		/// 点击右上角关闭按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HardwareSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
+
+	}
 
 }

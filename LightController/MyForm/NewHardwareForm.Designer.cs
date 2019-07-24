@@ -84,6 +84,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "NewHardwareForm";
 			this.Text = "新建硬件配置名称";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewHardwareForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewHardwareForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

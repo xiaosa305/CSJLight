@@ -86,6 +86,7 @@
 			this.Controls.Add(this.treeView1);
 			this.Name = "HardwareSetChooseForm";
 			this.Text = "选择硬件配置文件";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareSetChooseForm_FormClosed);
 			this.Load += new System.EventHandler(this.HardwareSetChooseForm_Load);
 			this.ResumeLayout(false);
 

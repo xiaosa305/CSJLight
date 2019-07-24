@@ -77,7 +77,23 @@ namespace LightController.MyForm
 			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
 		}
 
+		/// <summary>
+		///  点击《取消》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+			hardwareSetForm.Activate();
+		}
+		
+		/// <summary>
+		///  点击右上角关闭按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewHardwareForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();
 			hardwareSetForm.Activate();

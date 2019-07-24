@@ -478,6 +478,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "HardwareSetForm";
 			this.Text = "硬件设置";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.HardwareSetForm_Load);
 			this.commonGroupBox.ResumeLayout(false);
 			this.commonGroupBox.PerformLayout();

@@ -135,5 +135,11 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
+
+		private void HardwareSetChooseForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
 	}
 }

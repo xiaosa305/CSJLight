@@ -72,10 +72,10 @@ namespace LightController.MyForm
 			this.frameNumericUpDowns[2] = frame3numericUpDown;
 			this.frameNumericUpDowns[3] = frame4numericUpDown;
 
-			this.frameMethodComboBoxes[0] = frame1methodComboBox;
-			this.frameMethodComboBoxes[1] = frame2methodComboBox;
-			this.frameMethodComboBoxes[2] = frame3methodComboBox;
-			this.frameMethodComboBoxes[3] = frame4methodComboBox;
+			//this.frameMethodComboBoxes[0] = frame1methodComboBox;
+			//this.frameMethodComboBoxes[1] = frame2methodComboBox;
+			//this.frameMethodComboBoxes[2] = frame3methodComboBox;
+			//this.frameMethodComboBoxes[3] = frame4methodComboBox;
 
 			//各个下拉框的默认值
 			qdFrameComboBox.SelectedIndex = 0;
@@ -162,11 +162,11 @@ namespace LightController.MyForm
 			zuheCheckBox.Checked = ( iniAst.ReadInt("Multiple", frame + "OPEN", 0) != 0 );
 			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 0);
 			
-			frame0methodComboBox.SelectedIndex = iniAst.ReadInt("Multiple", frame + "F0M", 0);
+			//frame0methodComboBox.SelectedIndex = iniAst.ReadInt("Multiple", frame + "F0M", 0);
 			frame0numericUpDown.Value = iniAst.ReadInt("Multiple", frame + "F0V", 0);
 			for (int i = 0; i < 4; i++) {
 				frameComboBoxes[i].SelectedIndex = iniAst.ReadInt("Multiple", frame + "F"+(i+1)+"F", 0);
-				frameMethodComboBoxes[i].SelectedIndex = iniAst.ReadInt("Multiple", frame + "F" + (i + 1) + "M", 0);
+				//frameMethodComboBoxes[i].SelectedIndex = iniAst.ReadInt("Multiple", frame + "F" + (i + 1) + "M", 0);
 				frameNumericUpDowns[i].Value = iniAst.ReadInt("Multiple", frame + "F" + (i + 1) + "V", 0);
 			}
 		}
@@ -267,12 +267,12 @@ namespace LightController.MyForm
 			int frame = zuheFrameComboBox.SelectedIndex;
 			iniAst.WriteInt("Multiple", frame + "OPEN", (zuheCheckBox.Checked ? 1 : 0));
 			iniAst.WriteInt("Multiple", frame + "CT", circleTimeNumericUpDown.Value);
-			iniAst.WriteInt("Multiple", frame + "F0M", frame0methodComboBox.SelectedIndex);
+			//iniAst.WriteInt("Multiple", frame + "F0M", frame0methodComboBox.SelectedIndex);
 			iniAst.WriteInt("Multiple", frame + "F0V", frame0numericUpDown.Value);
 			for(int i = 0; i < 4; i++)
 			{
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  frameComboBoxes[i].SelectedIndex);
-				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "M", frameMethodComboBoxes[i].SelectedIndex);
+				//iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "M", frameMethodComboBoxes[i].SelectedIndex);
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Value);
 			}
 			MessageBox.Show("保存成功");

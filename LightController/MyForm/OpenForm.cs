@@ -35,7 +35,7 @@ namespace LightController.MyForm
 		private bool ifJustDelete = false;
 
 		/// <summary>
-		///  选中node后，点击打开文件后的操作
+		///  选中node后，点击《打开》后的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -101,7 +101,7 @@ namespace LightController.MyForm
 		}
 		
 		/// <summary>
-		///  取消按钮点击后的操作
+		///  点击《取消》按钮的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

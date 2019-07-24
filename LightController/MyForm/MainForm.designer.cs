@@ -40,7 +40,7 @@ namespace LightController
 			this.saveButton = new System.Windows.Forms.Button();
 			this.saveAsButton = new System.Windows.Forms.Button();
 			this.oneKeyButton = new System.Windows.Forms.Button();
-			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.projectSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.lightsListView = new System.Windows.Forms.ListView();
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -246,12 +246,15 @@ namespace LightController
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hardwareSetNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hardwareSetOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightsEditToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NetworkSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
@@ -3071,12 +3074,13 @@ namespace LightController
 			this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lightLibraryToolStripMenuItem,
+            this.hardwareSetToolStripMenuItem,
+            this.updateToolStripMenuItem,
             this.lightsEditToolStripMenuItem1,
             this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
             this.ymSetToolStripMenuItem,
-            this.NetworkSetToolStripMenuItem,
-            this.updateToolStripMenuItem});
+            this.NetworkSetToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
 			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
@@ -3089,6 +3093,36 @@ namespace LightController
 			this.lightLibraryToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.lightLibraryToolStripMenuItem.Text = "灯库编辑";
 			this.lightLibraryToolStripMenuItem.Click += new System.EventHandler(this.lightLibraryToolStripMenuItem_Click);
+			// 
+			// hardwareSetToolStripMenuItem
+			// 
+			this.hardwareSetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hardwareSetNewToolStripMenuItem,
+            this.hardwareSetOpenToolStripMenuItem});
+			this.hardwareSetToolStripMenuItem.Name = "hardwareSetToolStripMenuItem";
+			this.hardwareSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.hardwareSetToolStripMenuItem.Text = "硬件设置";
+			// 
+			// hardwareSetNewToolStripMenuItem
+			// 
+			this.hardwareSetNewToolStripMenuItem.Name = "hardwareSetNewToolStripMenuItem";
+			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.hardwareSetNewToolStripMenuItem.Text = "新建配置";
+			this.hardwareSetNewToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetNewToolStripMenuItem_Click);
+			// 
+			// hardwareSetOpenToolStripMenuItem
+			// 
+			this.hardwareSetOpenToolStripMenuItem.Name = "hardwareSetOpenToolStripMenuItem";
+			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.hardwareSetOpenToolStripMenuItem.Text = "打开配置";
+			this.hardwareSetOpenToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetOpenToolStripMenuItem_Click);
+			// 
+			// updateToolStripMenuItem
+			// 
+			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+			this.updateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.updateToolStripMenuItem.Text = "在线升级";
+			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click_1);
 			// 
 			// lightsEditToolStripMenuItem1
 			// 
@@ -3129,13 +3163,6 @@ namespace LightController
 			this.NetworkSetToolStripMenuItem.Name = "NetworkSetToolStripMenuItem";
 			this.NetworkSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.NetworkSetToolStripMenuItem.Text = "网络设置";
-			// 
-			// updateToolStripMenuItem
-			// 
-			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-			this.updateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-			this.updateToolStripMenuItem.Text = "在线升级";
-			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click_1);
 			// 
 			// previewButton
 			// 
@@ -3328,7 +3355,7 @@ namespace LightController
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.Button saveAsButton;
 		private System.Windows.Forms.Button oneKeyButton;
-		private System.Windows.Forms.SaveFileDialog saveFileDialog;
+		private System.Windows.Forms.SaveFileDialog projectSaveFileDialog;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 
 		// 2019.5.23 : 添加listView 来存放加载的灯具列表
@@ -3570,6 +3597,9 @@ namespace LightController
 		private CheckBox addStepCheckBox;
 		private ToolStripMenuItem updateToolStripMenuItem;
 		private Button connectButton;
+		private ToolStripMenuItem hardwareSetToolStripMenuItem;
+		private ToolStripMenuItem hardwareSetNewToolStripMenuItem;
+		private ToolStripMenuItem hardwareSetOpenToolStripMenuItem;
 	}
 }
 

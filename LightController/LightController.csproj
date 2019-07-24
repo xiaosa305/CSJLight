@@ -159,6 +159,12 @@
     <Compile Include="MyForm\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\HardwareSetChooseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\HardwareSetChooseForm.Designer.cs">
+      <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\HardwareSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,6 +218,12 @@
     <Compile Include="MyForm\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\NewHardwareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\NewHardwareForm.Designer.cs">
+      <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\OpenForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +276,9 @@
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\HardwareSetChooseForm.resx">
+      <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -287,6 +302,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
+      <DependentUpon>NewHardwareForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
@@ -314,9 +332,10 @@
     <Content Include="MaterialSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="HardwareSet.ini">
+    <Content Include="HardwareSet.ini">
       <Generator>ResXFileCodeGenerator</Generator>
-    </None>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

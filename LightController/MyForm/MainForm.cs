@@ -2169,5 +2169,29 @@ namespace LightController
 			UpdateForm updateForm = new UpdateForm();
 			updateForm.ShowDialog(); 
 		}
+
+
+
+		/// <summary>
+		///  点击《硬件设置》-《打开配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void hardwareSetOpenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			HardwareSetChooseForm hscForm = new HardwareSetChooseForm(this);
+			hscForm.ShowDialog();
+		}
+
+		/// <summary>
+		///  点击《硬件设置》-《新建配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void hardwareSetNewToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			HardwareSetForm hsForm = new HardwareSetForm(this, null);
+			hsForm.ShowDialog();
+		}
 	}
 }

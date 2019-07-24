@@ -10,48 +10,33 @@ namespace LightController.Tools
 {
     public class Conn
     {
-        //接收缓冲区大小
-        private const int BUFFER_SIZE = 2048;
-        //socket
-        public Socket Socket { get; set; }
-        //是否被使用
-        public bool IsUse { get; set; }
-        //Buff
-        public byte[] ReadBuff { get; set; }
-        //连接ip地址
-        public string Ip { get; set; }
-        //连接端口号
-        public int Port { get; set; }
-        //接收数据偏移量
-        public int BuffCount { get; set; }
-        //数据包总包数
-        private int Package_Count { get; set; }
-        //当前数据包编号数据包
-        private int Package_No { get; set; }
-        //待发送数据
-        private byte[] Data { get; set; }
-        //发送数据等待超时处理线程
-        private Thread TimeOutThread { get; set; }
-        //发送命令
-        private string Order { get; set; }
-        //接收命令
-        private RECEIVE MReceive { get; set; }
-        //备注信息
-        private string[] Strs { get; set; }
-        //发送缓冲区大小
-        private int PackageSize { get; set; }
-        //发送数据完成状态
-        /// <summary>
-        /// 接收数据状态
-        /// </summary>
-        private bool IsReceive { get; set; }
-        private bool IsTiomeOutThreadStart { get; set; }
-        private int TimeOutCount { get; set; }
-        private bool DownloadStatus { get; set; }
-        private Thread DownloadThread { get; set; }
-        private DBWrapper DBWrapper { get; set; }
-        private string ConfigPath { get; set; }
-        private IReceiveCallBack CallBack { get; set; }
+        
+        private const int BUFFER_SIZE = 2048;//接收缓冲区大小
+        public Socket Socket { get; set; }//socket
+        public bool IsUse { get; set; } //是否被使用
+        public byte[] ReadBuff { get; set; } //Buff
+        public string Ip { get; set; }//连接ip地址
+        public int Port { get; set; } //连接端口号
+        public int BuffCount { get; set; } //接收数据偏移量
+        private int Package_Count { get; set; }//数据包总包数
+        private int Package_No { get; set; }//当前数据包编号数据包
+        private byte[] Data { get; set; }//待发送数据
+        private Thread TimeOutThread { get; set; }//发送数据等待超时处理线程
+        private string Order { get; set; }//发送命令
+        private string[] Strs { get; set; }//备注信息
+        private int PackageSize { get; set; }//发送缓冲区大小
+        private bool IsReceive { get; set; } // 接收数据状态
+        private bool IsTiomeOutThreadStart { get; set; }//超时线程是否启动
+        private int TimeOutCount { get; set; }//超时重发计数
+        private bool DownloadStatus { get; set; }//下载数据通信状态标记
+        private Thread DownloadThread { get; set; }//下载数据线程
+        private Thread PutParamThread { get; set; }//发送配置文件线程
+        private DBWrapper DBWrapper { get; set; }//数据库数据
+        private string ConfigPath { get; set; }//全局配置文件路径
+        private string HardwarePath { get; set; }//硬件配置文件路径
+        private IReceiveCallBack CallBack { get; set; }//命令完成或错误回调方法
+        public int Addr { get; set; }//硬件地址
+        public string DeviceName { get; set; }//硬件标识
 
         /// <summary>
         /// 构造函数
@@ -63,6 +48,7 @@ namespace LightController.Tools
             PackageSize = 2040;
             Ip = "";
         }
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -84,6 +70,7 @@ namespace LightController.Tools
             Port = connPort;
             TimeOutThread.Start();
         }
+
         /// <summary>
         /// 设定发送数据缓冲区大小
         /// </summary>
@@ -92,6 +79,7 @@ namespace LightController.Tools
         {
             this.PackageSize = size;
         }
+
         /// <summary>
         /// 接收缓冲区大小
         /// </summary>
@@ -100,6 +88,7 @@ namespace LightController.Tools
         {
             return BUFFER_SIZE - BuffCount;
         }
+
         /// <summary>
         /// 获取客户端地址
         /// </summary>
@@ -109,6 +98,7 @@ namespace LightController.Tools
             if (!IsUse) return "获取地址失败";
             return Socket.RemoteEndPoint.ToString();
         }
+
         /// <summary>
         /// 关闭
         /// </summary>
@@ -117,12 +107,78 @@ namespace LightController.Tools
             if (!IsUse) return;
             Console.WriteLine(GetAddress() + "断开连接");
             DownloadStatus = false;
-            DownloadThread.Abort();
-            CallBack.SendError(Ip, Order);
-            Ip = "";
-            Socket.Close();
-            IsUse = false;
+            try
+            {
+                switch (Order)
+                {
+                    case Constant.ORDER_PUT_PARA:
+                        PutParamThread.Abort();
+                        break;
+                    case Constant.ORDER_PUT:
+                    case Constant.ORDER_BEGIN_SEND:
+                    case Constant.ORDER_END_SEND:
+                        DownloadThread.Abort();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            finally
+            {
+                try
+                {
+                    TimeOutThread.Abort();
+                }
+                finally
+                {
+                    CallBack.SendError(Ip, Order);
+                    Ip = "";
+                    Socket.Close();
+                    IsUse = false;
+                }
+            }
         }
+
+        /// <summary>
+        /// 获取协议头标记位
+        /// </summary>
+        /// <returns></returns>
+        private byte GetOrderMark()
+        {
+            byte result;
+            switch (Order)
+            {
+                case Constant.ORDER_PUT:
+                    result = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
+                    break;
+                case Constant.ORDER_PUT_PARA:
+                    result = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
+                    break;
+                default:
+                    result = Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+                    break;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 获取数据包标记位
+        /// </summary>
+        /// <returns></returns>
+        private byte GetDataMark()
+        {
+            byte result;
+            if (Package_No == Package_Count)
+            {
+                result = Convert.ToByte(Constant.MARK_DATA_END, 2);
+            }
+            else
+            {
+                result = Convert.ToByte(Constant.MARK_DATA_NO_END, 2);
+            }
+            return result;
+        }
+
         /// <summary>
         /// 发送命令事务管理
         /// </summary>
@@ -134,35 +190,9 @@ namespace LightController.Tools
             Data = data;
             Order = order;
             Strs = strarray;
-            switch (order)
-            {
-                case Constant.ORDER_PUT:
-                case Constant.ORDER_BEGIN_SEND:
-                case Constant.ORDER_END_SEND:
-                default:
-                    SendOrderPackage();
-                    break;
-            }
+            SendOrderPackage();
+        }
 
-        }
-        /// <summary>
-        /// 返回消息事务管理
-        /// </summary>
-        /// <param name="receive">返回消息类型</param>
-        private void Receive(RECEIVE receive)
-        {
-            MReceive = receive;
-            switch (receive)
-            {
-                case RECEIVE.Send:
-                    Console.WriteLine("发送第" + (Package_No + 1) + "包数据，包总数为" + Package_Count);
-                    SendDataPackage();
-                    break;
-                default:
-                    break;
-            }
-            
-        }
         /// <summary>
         /// 发送命令包
         /// </summary>
@@ -193,7 +223,7 @@ namespace LightController.Tools
             }
             byte[] packageDataLength = new byte[] { Convert.ToByte(packageData.Count & 0xFF), Convert.ToByte((packageData.Count >> 8) & 0xFF) };
             byte packageMark = GetOrderMark();
-            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), packageDataLength[0], packageDataLength[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
+            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(Addr), packageDataLength[0], packageDataLength[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
             package.AddRange(packageHead);
             package.AddRange(packageData);
             byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
@@ -208,42 +238,7 @@ namespace LightController.Tools
 
             Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb,this);
         }
-        /// <summary>
-        /// 获取协议头标记位
-        /// </summary>
-        /// <returns></returns>
-        private byte GetOrderMark()
-        {
-            byte result;
-            switch (Order)
-            {
-                case Constant.ORDER_PUT:
-                    result = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
-                    break;
 
-                default:
-                    result = Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
-                    break;
-            }
-            return result;
-        }
-        /// <summary>
-        /// 获取数据包标记位
-        /// </summary>
-        /// <returns></returns>
-        private byte GetDataMark()
-        {
-            byte result;
-            if (Package_No == Package_Count)
-            {
-                result = Convert.ToByte(Constant.MARK_DATA_END, 2);
-            }
-            else
-            {
-                result = Convert.ToByte(Constant.MARK_DATA_NO_END, 2);
-            }
-            return result;
-        }
         /// <summary>
         /// 发送数据包
         /// </summary>
@@ -272,7 +267,7 @@ namespace LightController.Tools
             int len = packageData.Length;
             byte[] packageDataSize = new byte[] { Convert.ToByte(packageData.Length & 0xFF), Convert.ToByte((packageData.Length >> 8) & 0xFF) };
             byte packageMark = GetDataMark();
-            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(0xFF), packageDataSize[0], packageDataSize[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
+            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(Addr), packageDataSize[0], packageDataSize[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
             package.AddRange(packageHead);
             package.AddRange(packageData);
             byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
@@ -287,6 +282,7 @@ namespace LightController.Tools
 
             Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
         }
+
         /// <summary>
         /// 超时处理
         /// </summary>
@@ -307,39 +303,51 @@ namespace LightController.Tools
                     IsTiomeOutThreadStart = false;
                     if (!IsReceive)
                     {
-                        if (TimeOutCount > 5)
+                        switch (Order)
                         {
-                            try
-                            {
-                                DownloadStatus = false;
-                                DownloadThread.Abort();
-                            }
-                            catch (Exception)
-                            {
-                                Console.WriteLine("超时" + TimeOutCount + "次,结束发送");
-                            }
-                            finally
-                            {
-                                TimeOutCount = 0;
-                                CallBack.SendError(Ip,Order);
-                            }
-                        }
-                        else
-                        {
-                            TimeOutCount++;
-                            try
-                            {
-                                DownloadStatus = false;
-                                DownloadThread.Abort();
-                            }
-                            catch (Exception)
-                            {
-                                Console.WriteLine("超时" + TimeOutCount + "次");
-                            }
-                            finally
-                            {
-                                DownloadFile(DBWrapper, ConfigPath,CallBack);
-                            }    
+                            case Constant.ORDER_BEGIN_SEND:
+                            case Constant.ORDER_END_SEND:
+                            case Constant.ORDER_PUT:
+                                try
+                                {
+                                    DownloadStatus = false;
+                                    DownloadThread.Abort();
+                                }
+                                finally
+                                {
+                                    if (TimeOutCount > 5)
+                                    {
+                                        TimeOutCount = 0;
+                                        CallBack.SendError(Ip, Order);
+                                    }
+                                    else
+                                    {
+                                        TimeOutCount++;
+                                        DownloadFile(DBWrapper, ConfigPath, CallBack);
+                                    }
+                                }
+                                break;
+                            case Constant.ORDER_PUT_PARA:
+                                try
+                                {
+                                    PutParamThread.Abort();
+                                }
+                                finally
+                                {
+                                    if (TimeOutCount > 5)
+                                    {
+                                        TimeOutCount = 0;
+                                        CallBack.SendError(Ip, Order);
+                                    }
+                                    else
+                                    {
+                                        TimeOutCount++;
+                                        PutPara(HardwarePath, CallBack);
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
@@ -349,6 +357,7 @@ namespace LightController.Tools
                 }
             }
         }
+
         /// <summary>
         /// 绑定数据接收监听
         /// </summary>
@@ -356,6 +365,7 @@ namespace LightController.Tools
         {
             Socket.BeginReceive(ReadBuff, BuffCount, BuffRemain(), SocketFlags.None, ReceiveCb,this);
         }
+
         /// <summary>
         /// Recevie回调函数
         /// </summary>
@@ -364,19 +374,16 @@ namespace LightController.Tools
         {
             IsTiomeOutThreadStart = false;
             IsReceive = true;
-            //获取接受对象
             Conn conn = (Conn)asyncResult.AsyncState;
             try
             {
                 int count = conn.Socket.EndReceive(asyncResult);
-                //关闭信号
                 if (count <= 0)
                 {
                     Console.WriteLine("收到 [" + conn.GetAddress() + "] 断开连接");
                     conn.Close();
                     return;
                 }
-                //数据处理
                 string receiveStr = Encoding.UTF8.GetString(conn.ReadBuff, 0, count);
                 Console.WriteLine("Receive Data : " + receiveStr);
                 switch (Order)
@@ -385,19 +392,25 @@ namespace LightController.Tools
                         switch (receiveStr)
                         {
                             case Constant.RECEIVE_ORDER_SENDNEXT:
-                                Receive(RECEIVE.Send);
+                                SendDataPackage();
                                 break;
                             case Constant.RECEIVE_ORDER_PUT:
-                                Receive(RECEIVE.Send);
+                                SendDataPackage();
                                 break;
                             case Constant.RECEIVE_ORDER_DONE:
                                 Console.WriteLine("下载完成");
                                 DownloadStatus = true;
                                 break;
                             default:
-                                DownloadThread.Abort();
-                                DownloadStatus = false;
-                                CallBack.SendError(Ip,Order);
+                                try
+                                {
+                                    DownloadThread.Abort();
+                                }
+                                finally
+                                {
+                                    DownloadStatus = false;
+                                    CallBack.SendError(Ip, Order);
+                                }
                                 break;
                         }
                         break;
@@ -408,9 +421,15 @@ namespace LightController.Tools
                                 DownloadStatus = true;
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
-                                DownloadThread.Abort();
-                                DownloadStatus = false;
-                                CallBack.SendError(Ip,Order);
+                                try
+                                {
+                                    DownloadThread.Abort();
+                                }
+                                finally
+                                {
+                                    DownloadStatus = false;
+                                    CallBack.SendError(Ip, Order);
+                                }
                                 break;
                             default:
                                 break;
@@ -420,33 +439,49 @@ namespace LightController.Tools
                         switch (receiveStr.Split(':')[0])
                         {
                             case Constant.RECEIVE_ORDER_END_OK:
-                                //执行发送完成命令
+                                DownloadStatus = true;
                                 CallBack.SendCompleted(Ip,Order);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
-                                DownloadThread.Abort();
-                                DownloadStatus = false;
-                                CallBack.SendError(Ip,Order);
+                                try
+                                {
+                                    DownloadThread.Abort();
+                                }
+                                finally
+                                {
+                                    DownloadStatus = false;
+                                    CallBack.SendError(Ip, Order);
+                                }
                                 break;
                             default:
+                                break;
+                        }
+                        break;
+                    case Constant.ORDER_PUT_PARA:
+                        switch (receiveStr)
+                        {
+                            case Constant.RECEIVE_ORDER_PUT_PARA:
+                                SendDataPackage();
+                                break;
+                            case Constant.RECEIVE_ORDER_DONE:
+                                Console.WriteLine("下载完成");
+                                CallBack.SendCompleted(Ip,Order);
+                                break;
+                            default:
+                                try
+                                {
+                                    PutParamThread.Abort();
+                                }
+                                finally
+                                {
+                                    CallBack.SendError(Ip, Order);
+                                }
                                 break;
                         }
                         break;
                     default:
-                        switch (receiveStr.Split(':')[0])
-                        {
-                            case Constant.RECEIVE_ORDER_OTHER_OK:
-                                CallBack.SendCompleted(Ip,Order);
-                                break;
-                            case Constant.RECEIVE_ORDER_OTHER_ERROR:
-                                CallBack.SendError(Ip,Order);
-                                break;
-                            default:
-                                break;
-                        }
                         break;
                 }
-                //继续接收消息
                 conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
             }
             catch (Exception ex)
@@ -455,6 +490,7 @@ namespace LightController.Tools
                 conn.Close();
             }
         }
+
         /// <summary>
         /// Send回调函数
         /// </summary>
@@ -464,8 +500,8 @@ namespace LightController.Tools
             IsReceive = false;
             IsTiomeOutThreadStart = true;
             Console.WriteLine("发送完成");
-            
         }
+
         /// <summary>
         /// 下载所有文件数据
         /// </summary>
@@ -478,6 +514,9 @@ namespace LightController.Tools
             DownloadThread.Start();
         }
 
+        /// <summary>
+        /// 下载数据线程
+        /// </summary>
         private void DownloadStart()
         {
             IList<DMX_C_File> c_Files = DataTools.GetInstance().GetC_Files(DBWrapper,ConfigPath);
@@ -491,14 +530,7 @@ namespace LightController.Tools
             byte[] crc;
             foreach (DMX_C_File item in c_Files)
             {
-                if (item.SceneNo < 10)
-                {
-                    fileName = "C0" + (item.SceneNo +1) + ".bin";
-                }
-                else
-                {
-                    fileName = "C" + (item.SceneNo + 1) + ".bin";
-                }
+                fileName = "C" + (item.SceneNo + 1) + ".bin";
                 fileSize = item.GetByteData().Length.ToString();
                 crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
                 fileCRC = crc[0].ToString() + crc[1].ToString();
@@ -514,14 +546,7 @@ namespace LightController.Tools
             }
             foreach (DMX_M_File item in m_Files)
             {
-                if (item.SceneNo < 10)
-                {
-                    fileName = "M0" + (item.SceneNo + 1) + ".bin";
-                }
-                else
-                {
-                    fileName = "M" + (item.SceneNo + 1) + ".bin";
-                }
+                fileName = "M" + (item.SceneNo + 1) + ".bin";
                 fileSize = item.GetByteData().Length.ToString();
                 crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
                 fileCRC = crc[0].ToString() + crc[1].ToString();
@@ -560,6 +585,7 @@ namespace LightController.Tools
                 }
             }
         }
+
         /// <summary>
         /// 发送控制命令
         /// </summary>
@@ -569,6 +595,36 @@ namespace LightController.Tools
         {
             CallBack = receiveCallBack;
             SendData(null, order, array);
+        }
+
+        /// <summary>
+        /// 发送配置文件
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="receiveCallBack"></param>
+        public void PutPara(string filePath,IReceiveCallBack receiveCallBack)
+        {
+            CallBack = receiveCallBack;
+            HardwarePath = filePath;
+            PutParamThread = new Thread(new ThreadStart(PutParamThreadStart))
+            {
+                IsBackground = true
+            };
+            PutParamThread.Start();
+        }
+
+        /// <summary>
+        /// 发送配置文件线程
+        /// </summary>
+        private void PutParamThreadStart()
+        {
+            DMXHardware hardware = new DMXHardware(HardwarePath);
+            byte[] data = hardware.GetHardware();
+            string fileName = "Hardware.bin";
+            string fileSize = data.Length.ToString();
+            byte[] crc = CRCTools.GetInstance().GetCRC(data);
+            string fileCRC = crc[0].ToString() + crc[1].ToString();
+            SendData(data, Constant.ORDER_PUT_PARA, new string[] { fileName, fileSize, fileCRC });
         }
     }
 }

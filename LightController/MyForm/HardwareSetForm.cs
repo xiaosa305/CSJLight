@@ -47,7 +47,7 @@ namespace LightController.MyForm
 
 			sumUseTimesTextBox.Text = iniFileAst.ReadString("Common", "SumUseTimes","");
 			currUseTimesTextBox.Text = iniFileAst.ReadString("Common", "CurrUseTimes", "");
-			diskFlagTextBox.Text = iniFileAst.ReadString("Common", "DiskFlag", "");
+			diskFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "DiskFlag", 0);
 			deviceNameTextBox.Text = iniFileAst.ReadString("Common", "DeviceName", "");
 			addrTextBox.Text = iniFileAst.ReadString("Common", "Addr", "");
 			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
@@ -104,8 +104,9 @@ namespace LightController.MyForm
 
 			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimesTextBox.Text);
 			iniFileAst.WriteString("Common", "CurrUseTimes", currUseTimesTextBox.Text);
-			iniFileAst.WriteString("Common", "DiskFlag", diskFlagTextBox.Text);
+			iniFileAst.WriteInt("Common", "DiskFlag", diskFlagComboBox.SelectedIndex);
 			iniFileAst.WriteString("Common", "DeviceName", deviceNameTextBox.Text);
+
 			iniFileAst.WriteString("Common", "Addr", addrTextBox.Text);
 			iniFileAst.WriteString("Common", "HardwareID", hardwareIDTextBox.Text);
 			iniFileAst.WriteString("Common", "Heartbeat", heartbeatTextBox.Text);

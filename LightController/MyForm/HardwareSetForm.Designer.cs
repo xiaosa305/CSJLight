@@ -37,7 +37,6 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.hardwareIDTextBox = new System.Windows.Forms.TextBox();
 			this.heartbeatCycleTextBox = new System.Windows.Forms.TextBox();
-			this.diskFlagTextBox = new System.Windows.Forms.TextBox();
 			this.currUseTimesTextBox = new System.Windows.Forms.TextBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
@@ -70,6 +69,7 @@
 			this.label15 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
 			this.saveButton = new System.Windows.Forms.Button();
+			this.diskFlagComboBox = new System.Windows.Forms.ComboBox();
 			this.commonGroupBox.SuspendLayout();
 			this.networkGroupBox.SuspendLayout();
 			this.otherGroupBox.SuspendLayout();
@@ -77,6 +77,7 @@
 			// 
 			// commonGroupBox
 			// 
+			this.commonGroupBox.Controls.Add(this.diskFlagComboBox);
 			this.commonGroupBox.Controls.Add(this.heartbeatTextBox);
 			this.commonGroupBox.Controls.Add(this.sumUseTimesTextBox);
 			this.commonGroupBox.Controls.Add(this.label19);
@@ -85,7 +86,6 @@
 			this.commonGroupBox.Controls.Add(this.label3);
 			this.commonGroupBox.Controls.Add(this.hardwareIDTextBox);
 			this.commonGroupBox.Controls.Add(this.heartbeatCycleTextBox);
-			this.commonGroupBox.Controls.Add(this.diskFlagTextBox);
 			this.commonGroupBox.Controls.Add(this.currUseTimesTextBox);
 			this.commonGroupBox.Controls.Add(this.label13);
 			this.commonGroupBox.Controls.Add(this.label18);
@@ -111,7 +111,7 @@
 			// 
 			this.sumUseTimesTextBox.Location = new System.Drawing.Point(132, 108);
 			this.sumUseTimesTextBox.Name = "sumUseTimesTextBox";
-			this.sumUseTimesTextBox.Size = new System.Drawing.Size(110, 25);
+			this.sumUseTimesTextBox.Size = new System.Drawing.Size(112, 25);
 			this.sumUseTimesTextBox.TabIndex = 1;
 			// 
 			// label19
@@ -162,13 +162,6 @@
 			this.heartbeatCycleTextBox.Size = new System.Drawing.Size(117, 25);
 			this.heartbeatCycleTextBox.TabIndex = 1;
 			// 
-			// diskFlagTextBox
-			// 
-			this.diskFlagTextBox.Location = new System.Drawing.Point(97, 66);
-			this.diskFlagTextBox.Name = "diskFlagTextBox";
-			this.diskFlagTextBox.Size = new System.Drawing.Size(142, 25);
-			this.diskFlagTextBox.TabIndex = 1;
-			// 
 			// currUseTimesTextBox
 			// 
 			this.currUseTimesTextBox.Location = new System.Drawing.Point(416, 108);
@@ -215,8 +208,9 @@
 			// deviceNameTextBox
 			// 
 			this.deviceNameTextBox.Location = new System.Drawing.Point(97, 24);
+			this.deviceNameTextBox.MaxLength = 16;
 			this.deviceNameTextBox.Name = "deviceNameTextBox";
-			this.deviceNameTextBox.Size = new System.Drawing.Size(142, 25);
+			this.deviceNameTextBox.Size = new System.Drawing.Size(147, 25);
 			this.deviceNameTextBox.TabIndex = 1;
 			// 
 			// label1
@@ -433,6 +427,7 @@
 			// domainNameTextBox
 			// 
 			this.domainNameTextBox.Location = new System.Drawing.Point(101, 129);
+			this.domainNameTextBox.MaxLength = 32;
 			this.domainNameTextBox.Name = "domainNameTextBox";
 			this.domainNameTextBox.Size = new System.Drawing.Size(194, 25);
 			this.domainNameTextBox.TabIndex = 1;
@@ -465,6 +460,18 @@
 			this.saveButton.Text = "保存";
 			this.saveButton.UseVisualStyleBackColor = false;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+			// 
+			// diskFlagComboBox
+			// 
+			this.diskFlagComboBox.FormattingEnabled = true;
+			this.diskFlagComboBox.Items.AddRange(new object[] {
+            "SD卡",
+            "U盘",
+            "内部存储"});
+			this.diskFlagComboBox.Location = new System.Drawing.Point(131, 67);
+			this.diskFlagComboBox.Name = "diskFlagComboBox";
+			this.diskFlagComboBox.Size = new System.Drawing.Size(112, 23);
+			this.diskFlagComboBox.TabIndex = 2;
 			// 
 			// HardwareSetForm
 			// 
@@ -499,7 +506,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TextBox addrTextBox;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox diskFlagTextBox;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.GroupBox networkGroupBox;
 		private System.Windows.Forms.ComboBox linkModeComboBox;
@@ -534,5 +540,6 @@
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Button saveButton;
+		private System.Windows.Forms.ComboBox diskFlagComboBox;
 	}
 }

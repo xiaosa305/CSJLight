@@ -160,7 +160,7 @@ namespace LightController.MyForm
 		{
 
 			zuheCheckBox.Checked = ( iniAst.ReadInt("Multiple", frame + "OPEN", 0) != 0 );
-			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 0);
+			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 9999);
 			
 			//frame0methodComboBox.SelectedIndex = iniAst.ReadInt("Multiple", frame + "F0M", 0);
 			frame0numericUpDown.Value = iniAst.ReadInt("Multiple", frame + "F0V", 0);

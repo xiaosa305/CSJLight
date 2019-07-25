@@ -520,7 +520,11 @@ namespace LightController.Tools
                 DBWrapper = dBWrapper;
                 ConfigPath = configPath;
                 CallBack = receiveCallBack;
-                DownloadThread = new Thread(new ThreadStart(DownloadStart));
+                IsSending = true;
+                DownloadThread = new Thread(new ThreadStart(DownloadStart))
+                {
+                    IsBackground = true
+                };
                 DownloadThread.Start();
             }
         }
@@ -619,6 +623,7 @@ namespace LightController.Tools
             {
                 CallBack = receiveCallBack;
                 HardwarePath = filePath;
+                IsSending = true;
                 PutParamThread = new Thread(new ThreadStart(PutParamThreadStart))
                 {
                     IsBackground = true

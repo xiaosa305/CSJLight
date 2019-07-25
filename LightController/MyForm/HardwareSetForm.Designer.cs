@@ -29,15 +29,15 @@
 		private void InitializeComponent()
 		{
 			this.commonGroupBox = new System.Windows.Forms.GroupBox();
+			this.currUseTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.sumUseTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.heartbeatCycleNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.diskFlagComboBox = new System.Windows.Forms.ComboBox();
 			this.heartbeatTextBox = new System.Windows.Forms.TextBox();
-			this.sumUseTimesTextBox = new System.Windows.Forms.TextBox();
 			this.label19 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.addrTextBox = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.hardwareIDTextBox = new System.Windows.Forms.TextBox();
-			this.heartbeatCycleTextBox = new System.Windows.Forms.TextBox();
-			this.currUseTimesTextBox = new System.Windows.Forms.TextBox();
 			this.label13 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -69,24 +69,28 @@
 			this.label15 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
 			this.saveButton = new System.Windows.Forms.Button();
-			this.diskFlagComboBox = new System.Windows.Forms.ComboBox();
+			this.addrNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.commonGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.currUseTimeNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.sumUseTimeNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.heartbeatCycleNumericUpDown)).BeginInit();
 			this.networkGroupBox.SuspendLayout();
 			this.otherGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// commonGroupBox
 			// 
+			this.commonGroupBox.Controls.Add(this.addrNumericUpDown);
+			this.commonGroupBox.Controls.Add(this.currUseTimeNumericUpDown);
+			this.commonGroupBox.Controls.Add(this.sumUseTimeNumericUpDown);
+			this.commonGroupBox.Controls.Add(this.heartbeatCycleNumericUpDown);
 			this.commonGroupBox.Controls.Add(this.diskFlagComboBox);
 			this.commonGroupBox.Controls.Add(this.heartbeatTextBox);
-			this.commonGroupBox.Controls.Add(this.sumUseTimesTextBox);
 			this.commonGroupBox.Controls.Add(this.label19);
 			this.commonGroupBox.Controls.Add(this.label4);
-			this.commonGroupBox.Controls.Add(this.addrTextBox);
 			this.commonGroupBox.Controls.Add(this.label3);
 			this.commonGroupBox.Controls.Add(this.hardwareIDTextBox);
-			this.commonGroupBox.Controls.Add(this.heartbeatCycleTextBox);
-			this.commonGroupBox.Controls.Add(this.currUseTimesTextBox);
 			this.commonGroupBox.Controls.Add(this.label13);
 			this.commonGroupBox.Controls.Add(this.label18);
 			this.commonGroupBox.Controls.Add(this.label2);
@@ -100,19 +104,65 @@
 			this.commonGroupBox.TabStop = false;
 			this.commonGroupBox.Text = "通用设置";
 			// 
+			// currUseTimeNumericUpDown
+			// 
+			this.currUseTimeNumericUpDown.Location = new System.Drawing.Point(423, 108);
+			this.currUseTimeNumericUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.currUseTimeNumericUpDown.Name = "currUseTimeNumericUpDown";
+			this.currUseTimeNumericUpDown.Size = new System.Drawing.Size(110, 25);
+			this.currUseTimeNumericUpDown.TabIndex = 3;
+			this.currUseTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// sumUseTimeNumericUpDown
+			// 
+			this.sumUseTimeNumericUpDown.Location = new System.Drawing.Point(133, 108);
+			this.sumUseTimeNumericUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.sumUseTimeNumericUpDown.Name = "sumUseTimeNumericUpDown";
+			this.sumUseTimeNumericUpDown.Size = new System.Drawing.Size(110, 25);
+			this.sumUseTimeNumericUpDown.TabIndex = 3;
+			this.sumUseTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// heartbeatCycleNumericUpDown
+			// 
+			this.heartbeatCycleNumericUpDown.Location = new System.Drawing.Point(423, 150);
+			this.heartbeatCycleNumericUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+			this.heartbeatCycleNumericUpDown.Name = "heartbeatCycleNumericUpDown";
+			this.heartbeatCycleNumericUpDown.Size = new System.Drawing.Size(110, 25);
+			this.heartbeatCycleNumericUpDown.TabIndex = 3;
+			this.heartbeatCycleNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// diskFlagComboBox
+			// 
+			this.diskFlagComboBox.FormattingEnabled = true;
+			this.diskFlagComboBox.Items.AddRange(new object[] {
+            "SD卡",
+            "U盘",
+            "内部存储"});
+			this.diskFlagComboBox.Location = new System.Drawing.Point(131, 67);
+			this.diskFlagComboBox.Name = "diskFlagComboBox";
+			this.diskFlagComboBox.Size = new System.Drawing.Size(112, 23);
+			this.diskFlagComboBox.TabIndex = 2;
+			// 
 			// heartbeatTextBox
 			// 
-			this.heartbeatTextBox.Location = new System.Drawing.Point(134, 150);
+			this.heartbeatTextBox.Location = new System.Drawing.Point(133, 150);
+			this.heartbeatTextBox.MaxLength = 8;
 			this.heartbeatTextBox.Name = "heartbeatTextBox";
 			this.heartbeatTextBox.Size = new System.Drawing.Size(110, 25);
 			this.heartbeatTextBox.TabIndex = 1;
-			// 
-			// sumUseTimesTextBox
-			// 
-			this.sumUseTimesTextBox.Location = new System.Drawing.Point(132, 108);
-			this.sumUseTimesTextBox.Name = "sumUseTimesTextBox";
-			this.sumUseTimesTextBox.Size = new System.Drawing.Size(112, 25);
-			this.sumUseTimesTextBox.TabIndex = 1;
+			this.heartbeatTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateLetterOrDigit_KeyPress);
 			// 
 			// label19
 			// 
@@ -132,13 +182,6 @@
 			this.label4.TabIndex = 0;
 			this.label4.Text = "总使用次数:";
 			// 
-			// addrTextBox
-			// 
-			this.addrTextBox.Location = new System.Drawing.Point(391, 26);
-			this.addrTextBox.Name = "addrTextBox";
-			this.addrTextBox.Size = new System.Drawing.Size(142, 25);
-			this.addrTextBox.TabIndex = 1;
-			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
@@ -151,23 +194,11 @@
 			// hardwareIDTextBox
 			// 
 			this.hardwareIDTextBox.Location = new System.Drawing.Point(391, 66);
+			this.hardwareIDTextBox.MaxLength = 16;
 			this.hardwareIDTextBox.Name = "hardwareIDTextBox";
 			this.hardwareIDTextBox.Size = new System.Drawing.Size(142, 25);
 			this.hardwareIDTextBox.TabIndex = 1;
-			// 
-			// heartbeatCycleTextBox
-			// 
-			this.heartbeatCycleTextBox.Location = new System.Drawing.Point(418, 150);
-			this.heartbeatCycleTextBox.Name = "heartbeatCycleTextBox";
-			this.heartbeatCycleTextBox.Size = new System.Drawing.Size(117, 25);
-			this.heartbeatCycleTextBox.TabIndex = 1;
-			// 
-			// currUseTimesTextBox
-			// 
-			this.currUseTimesTextBox.Location = new System.Drawing.Point(416, 108);
-			this.currUseTimesTextBox.Name = "currUseTimesTextBox";
-			this.currUseTimesTextBox.Size = new System.Drawing.Size(117, 25);
-			this.currUseTimesTextBox.TabIndex = 1;
+			this.hardwareIDTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateDigit_KeyPress);
 			// 
 			// label13
 			// 
@@ -181,11 +212,11 @@
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(300, 155);
+			this.label18.Location = new System.Drawing.Point(298, 155);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(82, 15);
+			this.label18.Size = new System.Drawing.Size(106, 15);
 			this.label18.TabIndex = 0;
-			this.label18.Text = "心跳周期：";
+			this.label18.Text = "心跳周期(s)：";
 			// 
 			// label2
 			// 
@@ -260,6 +291,7 @@
 			this.linkPortTextBox.Name = "linkPortTextBox";
 			this.linkPortTextBox.Size = new System.Drawing.Size(75, 25);
 			this.linkPortTextBox.TabIndex = 1;
+			this.linkPortTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateDigit_KeyPress);
 			// 
 			// gatewayTextBox
 			// 
@@ -267,6 +299,7 @@
 			this.gatewayTextBox.Name = "gatewayTextBox";
 			this.gatewayTextBox.Size = new System.Drawing.Size(194, 25);
 			this.gatewayTextBox.TabIndex = 1;
+			this.gatewayTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateIP_KeyPress);
 			// 
 			// label9
 			// 
@@ -308,6 +341,7 @@
 			this.IPTextBox.Name = "IPTextBox";
 			this.IPTextBox.Size = new System.Drawing.Size(193, 25);
 			this.IPTextBox.TabIndex = 1;
+			this.IPTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateIP_KeyPress);
 			// 
 			// label6
 			// 
@@ -324,6 +358,7 @@
 			this.netmaskTextBox.Name = "netmaskTextBox";
 			this.netmaskTextBox.Size = new System.Drawing.Size(194, 25);
 			this.netmaskTextBox.TabIndex = 1;
+			this.netmaskTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateIP_KeyPress);
 			// 
 			// label7
 			// 
@@ -378,17 +413,19 @@
 			// 
 			// remotePortTextBox
 			// 
-			this.remotePortTextBox.Location = new System.Drawing.Point(390, 83);
+			this.remotePortTextBox.Location = new System.Drawing.Point(385, 83);
 			this.remotePortTextBox.Name = "remotePortTextBox";
 			this.remotePortTextBox.Size = new System.Drawing.Size(75, 25);
 			this.remotePortTextBox.TabIndex = 1;
+			this.remotePortTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateDigit_KeyPress);
 			// 
 			// domainServerTextBox
 			// 
-			this.domainServerTextBox.Location = new System.Drawing.Point(381, 129);
+			this.domainServerTextBox.Location = new System.Drawing.Point(384, 129);
 			this.domainServerTextBox.Name = "domainServerTextBox";
 			this.domainServerTextBox.Size = new System.Drawing.Size(194, 25);
 			this.domainServerTextBox.TabIndex = 1;
+			this.domainServerTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateIP_KeyPress);
 			// 
 			// label11
 			// 
@@ -414,6 +451,7 @@
 			this.remoteHostTextBox.Name = "remoteHostTextBox";
 			this.remoteHostTextBox.Size = new System.Drawing.Size(193, 25);
 			this.remoteHostTextBox.TabIndex = 1;
+			this.remoteHostTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateIP_KeyPress);
 			// 
 			// label14
 			// 
@@ -461,17 +499,18 @@
 			this.saveButton.UseVisualStyleBackColor = false;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
-			// diskFlagComboBox
+			// addrNumericUpDown
 			// 
-			this.diskFlagComboBox.FormattingEnabled = true;
-			this.diskFlagComboBox.Items.AddRange(new object[] {
-            "SD卡",
-            "U盘",
-            "内部存储"});
-			this.diskFlagComboBox.Location = new System.Drawing.Point(131, 67);
-			this.diskFlagComboBox.Name = "diskFlagComboBox";
-			this.diskFlagComboBox.Size = new System.Drawing.Size(112, 23);
-			this.diskFlagComboBox.TabIndex = 2;
+			this.addrNumericUpDown.Location = new System.Drawing.Point(423, 26);
+			this.addrNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.addrNumericUpDown.Name = "addrNumericUpDown";
+			this.addrNumericUpDown.Size = new System.Drawing.Size(110, 25);
+			this.addrNumericUpDown.TabIndex = 3;
+			this.addrNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// HardwareSetForm
 			// 
@@ -489,10 +528,14 @@
 			this.Load += new System.EventHandler(this.HardwareSetForm_Load);
 			this.commonGroupBox.ResumeLayout(false);
 			this.commonGroupBox.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.currUseTimeNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.sumUseTimeNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.heartbeatCycleNumericUpDown)).EndInit();
 			this.networkGroupBox.ResumeLayout(false);
 			this.networkGroupBox.PerformLayout();
 			this.otherGroupBox.ResumeLayout(false);
 			this.otherGroupBox.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -502,9 +545,7 @@
 		private System.Windows.Forms.GroupBox commonGroupBox;
 		private System.Windows.Forms.TextBox deviceNameTextBox;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox sumUseTimesTextBox;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TextBox addrTextBox;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.GroupBox networkGroupBox;
@@ -534,12 +575,14 @@
 		private System.Windows.Forms.TextBox heartbeatTextBox;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.TextBox hardwareIDTextBox;
-		private System.Windows.Forms.TextBox heartbeatCycleTextBox;
-		private System.Windows.Forms.TextBox currUseTimesTextBox;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.ComboBox diskFlagComboBox;
+		private System.Windows.Forms.NumericUpDown heartbeatCycleNumericUpDown;
+		private System.Windows.Forms.NumericUpDown currUseTimeNumericUpDown;
+		private System.Windows.Forms.NumericUpDown sumUseTimeNumericUpDown;
+		private System.Windows.Forms.NumericUpDown addrNumericUpDown;
 	}
 }

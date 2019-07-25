@@ -45,14 +45,14 @@ namespace LightController.MyForm
 		{
 			IniFileAst iniFileAst = new IniFileAst(iniPath);
 
-			sumUseTimesTextBox.Text = iniFileAst.ReadString("Common", "SumUseTimes","");
-			currUseTimesTextBox.Text = iniFileAst.ReadString("Common", "CurrUseTimes", "");
+			sumUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "SumUseTimes",0);
+			currUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "CurrUseTimes", 0);
 			diskFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "DiskFlag", 0);
 			deviceNameTextBox.Text = iniFileAst.ReadString("Common", "DeviceName", "");
-			addrTextBox.Text = iniFileAst.ReadString("Common", "Addr", "");
+			addrNumericUpDown.Value = iniFileAst.ReadInt("Common", "Addr", 0);
 			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
 			heartbeatTextBox.Text = iniFileAst.ReadString("Common", "Heartbeat", "");
-			heartbeatCycleTextBox.Text = iniFileAst.ReadString("Common", "HeartbeatCycle", "");
+			heartbeatCycleNumericUpDown.Value = iniFileAst.ReadInt("Common", "HeartbeatCycle", 0);
 
 			linkModeComboBox.SelectedIndex = iniFileAst.ReadInt("Network", "LinkMode", 0);
 			linkPortTextBox.Text = iniFileAst.ReadString("Network", "LinkPort", "");
@@ -102,15 +102,14 @@ namespace LightController.MyForm
 			this.iniPath = iniPath;
 			IniFileAst iniFileAst = new IniFileAst(iniPath);
 
-			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimesTextBox.Text);
-			iniFileAst.WriteString("Common", "CurrUseTimes", currUseTimesTextBox.Text);
+			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimeNumericUpDown.Value.ToString() );
+			iniFileAst.WriteString("Common", "CurrUseTimes", currUseTimeNumericUpDown.Value.ToString() );
 			iniFileAst.WriteInt("Common", "DiskFlag", diskFlagComboBox.SelectedIndex);
 			iniFileAst.WriteString("Common", "DeviceName", deviceNameTextBox.Text);
-
-			iniFileAst.WriteString("Common", "Addr", addrTextBox.Text);
+			iniFileAst.WriteString("Common", "Addr", addrNumericUpDown.Value.ToString());
 			iniFileAst.WriteString("Common", "HardwareID", hardwareIDTextBox.Text);
 			iniFileAst.WriteString("Common", "Heartbeat", heartbeatTextBox.Text);
-			iniFileAst.WriteString("Common", "HeartbeatCycle", heartbeatCycleTextBox.Text);
+			iniFileAst.WriteString("Common", "HeartbeatCycle", heartbeatCycleNumericUpDown.Value.ToString());
 
 			iniFileAst.WriteInt("Network", "LinkMode", linkModeComboBox.SelectedIndex);
 			iniFileAst.WriteString("Network", "LinkPort", linkPortTextBox.Text);
@@ -139,6 +138,64 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
+
+
+		/// <summary>
+		/// 辅助监听器：只能输入字母或数字及退格键的验证
+		/// </summary>
+		private void validateLetterOrDigit_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar >= 'a' && e.KeyChar <= 'z') || (e.KeyChar >= 'A' && e.KeyChar <= 'Z')
+				|| (e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar == 8))
+			{
+				e.Handled = false;
+			}
+			else
+			{
+				e.Handled = true;
+			}					   
+		}
+
+		/// <summary>
+		/// 辅助监听器：验证IP
+		/// -- 只能输入 数字或"."号
+		/// </summary>
+		private void validateIP_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ( (e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar == 8) || e.KeyChar == '.')
+			{
+				e.Handled = false;
+			}
+			else
+			{
+				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		/// 辅助监听器：验证Mac地址
+		/// </summary>
+		private void validateMac_KeyPress(object sender, KeyPressEventArgs e)
+		{
+
+		}
+
+
+		/// <summary>
+		/// 辅助监听器:只能输入数字
+		/// </summary>
+		private void validateDigit_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar == 8))
+			{
+				e.Handled = false;
+			}
+			else
+			{
+				e.Handled = true;
+			}
+		}
+
 
 	}
 

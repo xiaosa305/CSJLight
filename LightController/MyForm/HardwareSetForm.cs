@@ -221,7 +221,7 @@ namespace LightController.MyForm
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Start("192.168.31.14");
+			cTools.Start(domainServerTextBox.Text);
 			cTools.SearchDevice();
 		}
 	}

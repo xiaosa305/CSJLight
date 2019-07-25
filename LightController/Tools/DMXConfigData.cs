@@ -309,6 +309,7 @@ namespace LightController.Tools
                             if (Combine_Scenes[i] == null)
                             {
                                 Combine_Scenes[i] = nullData;
+                                nullData.Scene_Main_Number = i + 1;
                             }
                         }
                         //读取灯具数据

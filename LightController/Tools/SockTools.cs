@@ -176,9 +176,9 @@ namespace LightController.Tools
             Dictionary<string, string> infos = new Dictionary<string, string>();
             foreach (Conn value in conns)
             {
-                if (value != null || value.IsUse)
+                if (value != null && value.IsUse)
                 {
-                    if (value.Ip != null)
+                    if (value.Ip != "" && value.Ip != null && value.DeviceName != null)
                     {
                         infos.Add(value.Ip, value.DeviceName);
                     }
@@ -196,9 +196,9 @@ namespace LightController.Tools
             IList<string> deviceList = new List<string>();
             foreach (Conn value in conns)
             {
-                if (value != null || value.IsUse)
+                if (value != null && value.IsUse)
                 {
-                    if (value.Ip != null)
+                    if (value.Ip != "" && value.Ip != null && value.DeviceName != null)
                     {
                         deviceList.Add(value.Ip);
                     }
@@ -216,9 +216,9 @@ namespace LightController.Tools
             IList<string> deviceNameList = new List<string>();
             foreach (Conn value in conns)
             {
-                if (value != null || value.IsUse)
+                if (value != null && value.IsUse)
                 {
-                    if (value.Ip != null)
+                    if (value.Ip != "" && value.Ip != null && value.DeviceName != null)
                     {
                         deviceNameList.Add(value.DeviceName);
                     }

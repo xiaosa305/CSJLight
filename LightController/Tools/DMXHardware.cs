@@ -9,29 +9,30 @@ namespace LightController.Tools
     {
         private readonly byte Flag = 0xEA;
         private int Ver { get; set; }
-        public int SumUseTimes { get; set; }
-        public int DiskFlag { get; set; }
-        public string DeviceName { get; set; }
-        public int Addr { get; set; }
-        public int LinkMode { get; set; }
-        public int LinkPort { get; set; }
-        public string IP { get; set; }
-        public string NetMask { get; set; }
-        public string GateWay { get; set; }
-        public string Mac { get; set; }
-        public int Baud { get; set; }
-        public int CurrUseTimes { get; set; }
-        public string RemoteHost { get; set; }
-        public int RemotePort { get; set; }
-        public string DomainName { get; set; }
-        public string DomainServer { get; set; }
-        public string HardWareID { get; set; }
-        public byte[] Heartbeat { get; set; }
-        public int HeartbeatCycle { get; set; }
+        private int SumUseTimes { get; set; }
+        private int DiskFlag { get; set; }
+        private string DeviceName { get; set; }
+        private int Addr { get; set; }
+        private int LinkMode { get; set; }
+        private int LinkPort { get; set; }
+        private string IP { get; set; }
+        private string NetMask { get; set; }
+        private string GateWay { get; set; }
+        private string Mac { get; set; }
+        private int Baud { get; set; }
+        private int CurrUseTimes { get; set; }
+        private string RemoteHost { get; set; }
+        private int RemotePort { get; set; }
+        private string DomainName { get; set; }
+        private string DomainServer { get; set; }
+        private string HardWareID { get; set; }
+        private byte[] Heartbeat { get; set; }
+        private int HeartbeatCycle { get; set; }
 
         public DMXHardware(string filePath)
         {
             Test();
+            ReadFromFile(filePath);
         }
 
         public DMXHardware()
@@ -61,6 +62,15 @@ namespace LightController.Tools
             this.HardWareID = "0000000000000001";
             this.Heartbeat = new byte[] {0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07};
             this.HeartbeatCycle = 10000;
+        }
+
+        private void ReadFromFile(string filePath)
+        {
+            if (filePath != null)
+            {
+                return;
+            }
+
         }
 
         public byte[] GetHardware()

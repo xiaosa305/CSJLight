@@ -149,11 +149,11 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="configPath"></param>
         /// <param name="callBack"></param>
-        public void Download(string[] ip, DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack)
+        public void Download(IList<string> ips, DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack)
         {
-            foreach (string item in ip)
+            foreach (string ip in ips)
             {
-                SocketTools.GetInstance().Download(item, dBWrapper, configPath, callBack);
+                SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
             }
         }
 
@@ -164,11 +164,11 @@ namespace LightController.Tools
         /// <param name="order"></param>
         /// <param name="strarray"></param>
         /// <param name="callBack"></param>
-        public void SendOrder(string[] ip,string order,string[] strarray,IReceiveCallBack callBack)
+        public void SendOrder(IList<string> ips, string order,string[] strarray,IReceiveCallBack callBack)
         {
-            foreach (string item in ip)
+            foreach (string ip in ips)
             {
-                SocketTools.GetInstance().SendOrder(item, order, strarray, callBack);
+                SocketTools.GetInstance().SendOrder(ip, order, strarray, callBack);
             }
         }
 
@@ -178,11 +178,11 @@ namespace LightController.Tools
         /// <param name="ip"></param>
         /// <param name="filePath"></param>
         /// <param name="receiveCallBack"></param>
-        public void PutPara(string[] ip,string filePath,IReceiveCallBack receiveCallBack)
+        public void PutPara(IList<string> ips, string filePath,IReceiveCallBack receiveCallBack)
         {
-            foreach (string item in ip)
+            foreach (string ip in ips)
             {
-                SocketTools.GetInstance().PutPara(item, filePath, receiveCallBack);
+                SocketTools.GetInstance().PutPara(ip, filePath, receiveCallBack);
             }
         }
     }

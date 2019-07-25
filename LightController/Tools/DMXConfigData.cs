@@ -99,35 +99,35 @@ namespace LightController.Tools
                 //添加主场景编号
                 data.Add(Convert.ToByte(value.Scene_Main_Number));
                 //添加主场景播放模式
-                data.Add(Convert.ToByte(value.Play_Mode_Main));
+                //data.Add(Convert.ToByte(value.Play_Mode_Main));
                 //添加主场景播放时间
                 data.Add(Convert.ToByte(value.Play_Time_Main_Scene & 0xFF));
                 data.Add(Convert.ToByte((value.Play_Time_Main_Scene >> 8) & 0xFF));
                 //添加副场景1编号
                 data.Add(Convert.ToByte(value.Scene_One_Number));
                 //添加副场景1播放模式
-                data.Add(Convert.ToByte(value.Play_Mode_One));
+                //data.Add(Convert.ToByte(value.Play_Mode_One));
                 //添加副场景1播放时间
                 data.Add(Convert.ToByte(value.Play_Time_Scene_One & 0xFF));
                 data.Add(Convert.ToByte((value.Play_Time_Scene_One >> 8) & 0xFF));
                 //添加副场景2编号
                 data.Add(Convert.ToByte(value.Scene_Two_Number));
                 //添加副场景2播放模式
-                data.Add(Convert.ToByte(value.Play_Mode_Two));
+                //data.Add(Convert.ToByte(value.Play_Mode_Two));
                 //添加副场景2播放时间
                 data.Add(Convert.ToByte(value.Play_Time_Scene_Two & 0xFF));
                 data.Add(Convert.ToByte((value.Play_Time_Scene_Two >> 8) & 0xFF));
                 //添加副场景3编号
                 data.Add(Convert.ToByte(value.Scene_Three_Number));
                 //添加副场景3播放模式
-                data.Add(Convert.ToByte(value.Play_Mode_Three));
+                //data.Add(Convert.ToByte(value.Play_Mode_Three));
                 //添加副场景3播放时间
                 data.Add(Convert.ToByte(value.Play_Time_Scene_Three & 0xFF));
                 data.Add(Convert.ToByte((value.Play_Time_Scene_Three >> 8) & 0xFF));
                 //添加副场景4编号
                 data.Add(Convert.ToByte(value.Scene_Four_Number));
                 //添加副场景4播放模式
-                data.Add(Convert.ToByte(value.Play_Mode_Four));
+                //data.Add(Convert.ToByte(value.Play_Mode_Four));
                 //添加副场景4播放时间
                 data.Add(Convert.ToByte(value.Play_Time_Scene_Four & 0xFF));
                 data.Add(Convert.ToByte((value.Play_Time_Scene_Four >> 8) & 0xFF));

@@ -45,16 +45,19 @@ namespace LightController.Tools
         /// <param name="port">Tcp服务器端口号</param>
         public void Start(string ip)
         {
-            ServerIp = ip;
-            UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
-            UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            Thread thread = new Thread(RecevieMsg);
-            thread.IsBackground = true;
-            IsStart = false;
-            SocketTools.GetInstance().Start();
-            thread.Start(UdpClient);
-            IsStart = true;
+            if (!IsStart)
+            {
+                ServerIp = ip;
+                UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
+                UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                Thread thread = new Thread(RecevieMsg);
+                thread.IsBackground = true;
+                IsStart = false;
+                SocketTools.GetInstance().Start();
+                thread.Start(UdpClient);
+                IsStart = true;
+            }
         }
 
         /// <summary>

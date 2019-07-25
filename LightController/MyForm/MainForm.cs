@@ -2190,7 +2190,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void hardwareSetNewToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			HardwareSetForm hsForm = new HardwareSetForm(this, null);
+			HardwareSetForm hsForm = new HardwareSetForm(this, null,null);
 			hsForm.ShowDialog();
 		}
 	}

@@ -14,25 +14,29 @@ namespace LightController.MyForm
 	{
 		private MainForm mainForm;
 		private string iniPath;
+		private string hName;
 		private bool isNew = true;
 
 		/// <summary>
 		/// 构造函数：初始化各个变量
 		/// </summary>
 		/// <param name="iniPath">通过传入iniPath（空值或有值）来决定要生成的数据的模板</param>
-		public HardwareSetForm(MainForm mainForm, string iniPath)
+		public HardwareSetForm(MainForm mainForm, string iniPath,string hName)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			this.iniPath = iniPath;
+			this.iniPath = iniPath;			
 
 			// 若iniPath 为空，则新建-》读取默认Hardware.ini，并载入到当前form中
 			if (String.IsNullOrEmpty(iniPath) ){
 				isNew = true;
-				iniPath = Application.StartupPath + @"\HardwareSet.ini";				
+				iniPath = Application.StartupPath + @"\HardwareSet.ini";
+				this.Text = "硬件设置(未保存)";
 			}// 否则打开相应配置文件，并载入到当前form中
 			else {
-				isNew = false;		
+				isNew = false;
+				this.hName = hName;
+				this.Text = "硬件设置(" + hName + ")";
 			}
 			readIniFile(iniPath);
 		}
@@ -88,7 +92,7 @@ namespace LightController.MyForm
 				nhForm.ShowDialog();
 			}
 			else {
-				SaveAll(iniPath);
+				SaveAll(iniPath,hName);
 			}
 			
 		}
@@ -97,9 +101,10 @@ namespace LightController.MyForm
 		/// 辅助方法：通用的方法，供新建(NewHardwareForm)及旧版本的保存
 		/// </summary>
 		/// <param name="hardwareSetForm"></param>
-		internal void SaveAll(String iniPath)
+		internal void SaveAll(String iniPath,string hName)
 		{
 			this.iniPath = iniPath;
+			this.hName = hName;
 			IniFileAst iniFileAst = new IniFileAst(iniPath);
 
 			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimeNumericUpDown.Value.ToString() );
@@ -125,6 +130,8 @@ namespace LightController.MyForm
 			iniFileAst.WriteString("Other", "DomainServer", domainServerTextBox.Text);
 
 			this.isNew = false;
+			this.Text = "硬件设置(" + hName + ")";
+
 			MessageBox.Show("成功保存");
 		}
 

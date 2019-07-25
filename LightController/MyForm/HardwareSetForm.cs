@@ -215,7 +215,7 @@ namespace LightController.MyForm
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
 			Dictionary<string,string> allDevices = cTools.GetDeviceInfo();
-			cTools.PutPara(new List<string>(allDevices.Keys), iniPath, new ReceiveCallBack());	
+			cTools.PutPara(new List<string>(allDevices.Keys), iniPath, new ReceiveCallBackHardwareSet());	
 		}
 
 		private void connectButton_Click(object sender, EventArgs e)
@@ -226,7 +226,7 @@ namespace LightController.MyForm
 		}
 	}
 
-	class ReceiveCallBack : IReceiveCallBack
+	class ReceiveCallBackHardwareSet : IReceiveCallBack
 	{
 		public void SendCompleted(string ip, string order)
 		{

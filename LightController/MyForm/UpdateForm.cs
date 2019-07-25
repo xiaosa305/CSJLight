@@ -1,41 +1,115 @@
-﻿using System;
+﻿using LightController.Ast;
+using LightController.Tools;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
 	public partial class UpdateForm : Form
 	{
-		public UpdateForm()
+		private MainForm mainForm;
+		private DBWrapper dbWrapper;
+		private string globalSetPath;
+
+		private IList<string> selectedIPs;
+		private IList<string> ips;		
+
+		public UpdateForm(MainForm mainForm,DBWrapper dbWrapper,string globalSetPath)
 		{
 			InitializeComponent();
-
-
+			this.mainForm = mainForm;
+			this.dbWrapper = dbWrapper;
+			this.globalSetPath = globalSetPath;
 		}
 
+		private void UpdateForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
+
+
 		/// <summary>
-		/// 点击《测试按钮》
+		///  点击《搜索设备》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void testButton_Click(object sender, EventArgs e)
+		private void searchButton_Click(object sender, EventArgs e)
 		{
-			progressBar1.Maximum = 100;//设置最大长度值
-			progressBar1.Value = 0;//设置当前值
-			progressBar1.Step = 1;//设置没次增长多少
-			for (int i = 0; i < 100; i++)//循环
-			{
-				System.Threading.Thread.Sleep(100);//暂停1秒
-				progressBar1.Value += progressBar1.Step;  // 让进度条增加一次
+			ConnectTools cTools = ConnectTools.GetInstance();
+			cTools.Start("192.168.31.14");
+			cTools.SearchDevice();
+			// 需要延迟片刻，才能找到设备
+			Thread.Sleep(1000);
+			Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
+
+			devicesComboBox.Items.Clear();
+			ips = new List<string>();
+			if(allDevices.Count > 0) {
+				foreach (KeyValuePair<string,string> device in allDevices)
+				{				
+					devicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
+					ips.Add(device.Value);
+				}
+				devicesComboBox.SelectedIndex = 0;
 			}
-			if (progressBar1.Value == progressBar1.Maximum) {
-				MessageBox.Show("Dickov:已完成");
-			}
+		}		
+
+		/// <summary>
+		///  点击《连接设备》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			selectedIPs = new List<string>();
+			selectedIPs.Add(ips[devicesComboBox.SelectedIndex]);
+		}
+
+
+		/// <summary>
+		/// 点击《下载数据》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void UpdateButton_Click(object sender, EventArgs e)
+		{
+			ConnectTools cTools = ConnectTools.GetInstance();
+			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new ReceiveCallBack());
+			
+			//// 测试进度条的绘制
+			//progressBar1.Maximum = 100;//设置最大长度值
+			//progressBar1.Value = 0;//设置当前值
+			//progressBar1.Step = 1;//设置没次增长多少
+			//for (int i = 0; i < 100; i++)//循环
+			//{
+			//	System.Threading.Thread.Sleep(100);//暂停1秒
+			//	progressBar1.Value += progressBar1.Step;  // 让进度条增加一次
+			//}
+			//if (progressBar1.Value == progressBar1.Maximum) {
+			//	MessageBox.Show("Dickov:已完成");
+			//}
+		}
+
+	}
+
+
+	class ReceiveCallBack : IReceiveCallBack
+	{
+		public void SendCompleted(string ip, string order)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SendError(string ip, string order)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

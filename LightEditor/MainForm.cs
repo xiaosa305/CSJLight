@@ -147,7 +147,8 @@ namespace LightEditor
 				valueNumericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
 				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
 			}
-
+			firstTDNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.firstTDNumericUpDown_MouseWheel);
+			commonValueNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
 			#endregion
 		}
 
@@ -642,7 +643,11 @@ namespace LightEditor
 			}
 		}
 
-
+		/// <summary>
+		/// NumericUpDown鼠标中轴滚动时的操作：
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
 			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);			
@@ -672,6 +677,69 @@ namespace LightEditor
 			}
 		}
 
+		/// <summary>
+		/// 初始通道地址NumericUpDown鼠标中轴滚动时的操作：
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void firstTDNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = firstTDNumericUpDown.Value + firstTDNumericUpDown.Increment;
+				if (dd <= firstTDNumericUpDown.Maximum)
+				{
+					firstTDNumericUpDown.Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = firstTDNumericUpDown.Value - firstTDNumericUpDown.Increment;
+				if (dd >= firstTDNumericUpDown.Minimum)
+				{
+					firstTDNumericUpDown.Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 统一通道值NumericUpDown鼠标中轴滚动时的操作：
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = commonValueNumericUpDown.Value + commonValueNumericUpDown.Increment;
+				if (dd <= commonValueNumericUpDown.Maximum)
+				{
+					commonValueNumericUpDown.Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = commonValueNumericUpDown.Value - commonValueNumericUpDown.Increment;
+				if (dd >= commonValueNumericUpDown.Minimum)
+				{
+					commonValueNumericUpDown.Value = dd;
+				}
+			}
+		}
 
 		/// <summary>
 		///  点击《全部归零》后：所有TongdaoList的CurrentValue=0
@@ -729,7 +797,7 @@ namespace LightEditor
 			firstTDValue = Decimal.ToInt16(firstTDNumericUpDown.Value);
 			for (int i = 0; i < tongdaoCount; i++)
 			{
-				this.labels[i].Text = (firstTDValue + i) + "-" + tongdaoList[i].TongdaoName;
+				this.labels[i].Text = (firstTDValue + i) + "- " + tongdaoList[i].TongdaoName;
 			}
 		}
 		

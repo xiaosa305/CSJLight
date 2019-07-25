@@ -142,7 +142,14 @@ namespace LightController.Tools
         /// <returns></returns>
         public IList<string> GetDeviceNames()
         {
-            return SocketTools.GetInstance().GetDeviceNameList();
+            if (IsStart)
+            {
+                return SocketTools.GetInstance().GetDeviceNameList();
+            }
+            else
+            {
+                throw new Exception("未启动服务");
+            }
         }
 
         /// <summary>
@@ -151,7 +158,14 @@ namespace LightController.Tools
         /// <returns></returns>
         public Dictionary<string,string> GetDeviceInfo()
         {
-            return SocketTools.GetInstance().GetDeviceInfos();
+            if (IsStart)
+            {
+                return SocketTools.GetInstance().GetDeviceInfos();
+            }
+            else
+            {
+                throw new Exception("未启动服务");
+            }
         }
 
         /// <summary>
@@ -163,9 +177,16 @@ namespace LightController.Tools
         /// <param name="callBack"></param>
         public void Download(IList<string> ips, DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack)
         {
-            foreach (string ip in ips)
+            if (IsStart)
             {
-                SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
+                foreach (string ip in ips)
+                {
+                    SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
+                }
+            }
+            else
+            {
+                throw new Exception("未启动服务");
             }
         }
 
@@ -178,9 +199,16 @@ namespace LightController.Tools
         /// <param name="callBack"></param>
         public void SendOrder(IList<string> ips, string order,string[] strarray,IReceiveCallBack callBack)
         {
-            foreach (string ip in ips)
+            if (IsStart)
             {
-                SocketTools.GetInstance().SendOrder(ip, order, strarray, callBack);
+                foreach (string ip in ips)
+                {
+                    SocketTools.GetInstance().SendOrder(ip, order, strarray, callBack);
+                }
+            }
+            else
+            {
+                throw new Exception("未启动服务");
             }
         }
 
@@ -192,9 +220,16 @@ namespace LightController.Tools
         /// <param name="receiveCallBack"></param>
         public void PutPara(IList<string> ips, string filePath,IReceiveCallBack receiveCallBack)
         {
-            foreach (string ip in ips)
+            if (IsStart)
             {
-                SocketTools.GetInstance().PutPara(ip, filePath, receiveCallBack);
+                foreach (string ip in ips)
+                {
+                    SocketTools.GetInstance().PutPara(ip, filePath, receiveCallBack);
+                }
+            }
+            else
+            {
+                throw new Exception("未启动服务");
             }
         }
     }

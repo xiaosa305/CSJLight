@@ -37,6 +37,7 @@ namespace LightController.Tools
         private IReceiveCallBack CallBack { get; set; }//命令完成或错误回调方法
         public int Addr { get; set; }//硬件地址
         public string DeviceName { get; set; }//硬件标识
+        private bool IsSending { get; set; }
 
         /// <summary>
         /// 构造函数
@@ -45,6 +46,7 @@ namespace LightController.Tools
         {
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
+            IsSending = false;
             PackageSize = 2040;
             Ip = "";
         }
@@ -318,6 +320,7 @@ namespace LightController.Tools
                                     if (TimeOutCount > 5)
                                     {
                                         TimeOutCount = 0;
+                                        IsSending = false;
                                         CallBack.SendError(Ip, Order);
                                     }
                                     else
@@ -337,6 +340,7 @@ namespace LightController.Tools
                                     if (TimeOutCount > 5)
                                     {
                                         TimeOutCount = 0;
+                                        IsSending = false;
                                         CallBack.SendError(Ip, Order);
                                     }
                                     else
@@ -409,6 +413,7 @@ namespace LightController.Tools
                                 finally
                                 {
                                     DownloadStatus = false;
+                                    IsSending = false;
                                     CallBack.SendError(Ip, Order);
                                 }
                                 break;
@@ -421,6 +426,7 @@ namespace LightController.Tools
                                 DownloadStatus = true;
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
+                            default:
                                 try
                                 {
                                     DownloadThread.Abort();
@@ -428,10 +434,9 @@ namespace LightController.Tools
                                 finally
                                 {
                                     DownloadStatus = false;
+                                    IsSending = false;
                                     CallBack.SendError(Ip, Order);
                                 }
-                                break;
-                            default:
                                 break;
                         }
                         break;
@@ -440,9 +445,11 @@ namespace LightController.Tools
                         {
                             case Constant.RECEIVE_ORDER_END_OK:
                                 DownloadStatus = true;
+                                IsSending = false;
                                 CallBack.SendCompleted(Ip,Order);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
+                            default:
                                 try
                                 {
                                     DownloadThread.Abort();
@@ -450,10 +457,9 @@ namespace LightController.Tools
                                 finally
                                 {
                                     DownloadStatus = false;
+                                    IsSending = false;
                                     CallBack.SendError(Ip, Order);
                                 }
-                                break;
-                            default:
                                 break;
                         }
                         break;
@@ -465,6 +471,7 @@ namespace LightController.Tools
                                 break;
                             case Constant.RECEIVE_ORDER_DONE:
                                 Console.WriteLine("下载完成");
+                                IsSending = false;
                                 CallBack.SendCompleted(Ip,Order);
                                 break;
                             default:
@@ -474,6 +481,7 @@ namespace LightController.Tools
                                 }
                                 finally
                                 {
+                                    IsSending = false;
                                     CallBack.SendError(Ip, Order);
                                 }
                                 break;
@@ -507,11 +515,14 @@ namespace LightController.Tools
         /// </summary>
         public void DownloadFile(DBWrapper dBWrapper,string configPath,IReceiveCallBack receiveCallBack)
         {
-            DBWrapper = dBWrapper;
-            ConfigPath = configPath;
-            CallBack = receiveCallBack;
-            DownloadThread = new Thread(new ThreadStart(DownloadStart));
-            DownloadThread.Start();
+            if (!IsSending)
+            {
+                DBWrapper = dBWrapper;
+                ConfigPath = configPath;
+                CallBack = receiveCallBack;
+                DownloadThread = new Thread(new ThreadStart(DownloadStart));
+                DownloadThread.Start();
+            }
         }
 
         /// <summary>
@@ -604,13 +615,16 @@ namespace LightController.Tools
         /// <param name="receiveCallBack"></param>
         public void PutPara(string filePath,IReceiveCallBack receiveCallBack)
         {
-            CallBack = receiveCallBack;
-            HardwarePath = filePath;
-            PutParamThread = new Thread(new ThreadStart(PutParamThreadStart))
+            if (!IsSending)
             {
-                IsBackground = true
-            };
-            PutParamThread.Start();
+                CallBack = receiveCallBack;
+                HardwarePath = filePath;
+                PutParamThread = new Thread(new ThreadStart(PutParamThreadStart))
+                {
+                    IsBackground = true
+                };
+                PutParamThread.Start();
+            }
         }
 
         /// <summary>

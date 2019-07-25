@@ -166,6 +166,28 @@ namespace LightController.Tools
         }
 
         /// <summary>
+        /// 获取所有设备的ip以及设备标识
+        /// </summary>
+        /// <param name="ip">连接ip</param>
+        /// <param name="size">包大小</param>
+
+        public Dictionary<string,string> GetDeviceInfos()
+        {
+            Dictionary<string, string> infos = new Dictionary<string, string>();
+            foreach (Conn value in conns)
+            {
+                if (value != null || value.IsUse)
+                {
+                    if (value.Ip != null)
+                    {
+                        infos.Add(value.Ip, value.DeviceName);
+                    }
+                }
+            }
+            return infos;
+        }
+
+        /// <summary>
         /// 获取所有已连接设备ip
         /// </summary>
         /// <returns></returns>

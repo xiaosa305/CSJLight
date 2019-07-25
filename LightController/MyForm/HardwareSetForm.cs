@@ -1,4 +1,5 @@
 ﻿using LightController.Common;
+using LightController.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -204,6 +205,38 @@ namespace LightController.MyForm
 		}
 
 
+		/// <summary>
+		///  点击《下载》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void downloadButton_Click(object sender, EventArgs e)
+		{
+			ConnectTools cTools = ConnectTools.GetInstance();
+			cTools.Start("192.168.31.14");
+			Dictionary<string,string> allDevices = cTools.GetDeviceInfo();
+
+			IList<string> ips = new List<string>(allDevices.Keys);
+			foreach (string ip in ips)
+			{
+				Console.WriteLine(ip);
+			}
+
+			//cTools.PutPara(, iniPath, new ReceiveCallBack());	
+		}
+	}
+
+	class ReceiveCallBack : IReceiveCallBack
+	{
+		public void SendCompleted(string ip, string order)
+		{
+			MessageBox.Show("下载成功");
+		}
+
+		public void SendError(string ip, string order)
+		{
+			MessageBox.Show("下载失败");
+		}
 	}
 
 }

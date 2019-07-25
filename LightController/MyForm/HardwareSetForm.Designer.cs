@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.commonGroupBox = new System.Windows.Forms.GroupBox();
+			this.addrNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.currUseTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.sumUseTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.heartbeatCycleNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -69,14 +70,14 @@
 			this.label15 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
 			this.saveButton = new System.Windows.Forms.Button();
-			this.addrNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.downloadButton = new System.Windows.Forms.Button();
 			this.commonGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.currUseTimeNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sumUseTimeNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.heartbeatCycleNumericUpDown)).BeginInit();
 			this.networkGroupBox.SuspendLayout();
 			this.otherGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// commonGroupBox
@@ -103,6 +104,19 @@
 			this.commonGroupBox.TabIndex = 0;
 			this.commonGroupBox.TabStop = false;
 			this.commonGroupBox.Text = "通用设置";
+			// 
+			// addrNumericUpDown
+			// 
+			this.addrNumericUpDown.Location = new System.Drawing.Point(423, 26);
+			this.addrNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.addrNumericUpDown.Name = "addrNumericUpDown";
+			this.addrNumericUpDown.Size = new System.Drawing.Size(110, 25);
+			this.addrNumericUpDown.TabIndex = 3;
+			this.addrNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// currUseTimeNumericUpDown
 			// 
@@ -491,7 +505,7 @@
 			// saveButton
 			// 
 			this.saveButton.BackColor = System.Drawing.Color.PeachPuff;
-			this.saveButton.Location = new System.Drawing.Point(480, 652);
+			this.saveButton.Location = new System.Drawing.Point(100, 649);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(93, 41);
 			this.saveButton.TabIndex = 1;
@@ -499,24 +513,23 @@
 			this.saveButton.UseVisualStyleBackColor = false;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
-			// addrNumericUpDown
+			// downloadButton
 			// 
-			this.addrNumericUpDown.Location = new System.Drawing.Point(423, 26);
-			this.addrNumericUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.addrNumericUpDown.Name = "addrNumericUpDown";
-			this.addrNumericUpDown.Size = new System.Drawing.Size(110, 25);
-			this.addrNumericUpDown.TabIndex = 3;
-			this.addrNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.downloadButton.BackColor = System.Drawing.Color.DarkSalmon;
+			this.downloadButton.Location = new System.Drawing.Point(379, 649);
+			this.downloadButton.Name = "downloadButton";
+			this.downloadButton.Size = new System.Drawing.Size(93, 41);
+			this.downloadButton.TabIndex = 1;
+			this.downloadButton.Text = "下载";
+			this.downloadButton.UseVisualStyleBackColor = false;
+			this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
 			// 
 			// HardwareSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(585, 705);
+			this.Controls.Add(this.downloadButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.otherGroupBox);
 			this.Controls.Add(this.networkGroupBox);
@@ -528,6 +541,7 @@
 			this.Load += new System.EventHandler(this.HardwareSetForm_Load);
 			this.commonGroupBox.ResumeLayout(false);
 			this.commonGroupBox.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.currUseTimeNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sumUseTimeNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.heartbeatCycleNumericUpDown)).EndInit();
@@ -535,7 +549,6 @@
 			this.networkGroupBox.PerformLayout();
 			this.otherGroupBox.ResumeLayout(false);
 			this.otherGroupBox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -584,5 +597,6 @@
 		private System.Windows.Forms.NumericUpDown currUseTimeNumericUpDown;
 		private System.Windows.Forms.NumericUpDown sumUseTimeNumericUpDown;
 		private System.Windows.Forms.NumericUpDown addrNumericUpDown;
+		private System.Windows.Forms.Button downloadButton;
 	}
 }

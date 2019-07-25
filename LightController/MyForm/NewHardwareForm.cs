@@ -59,7 +59,7 @@ namespace LightController.MyForm
 				string sourcePath = Application.StartupPath + @"\HardwareSet.ini";
 				string globalIniFilePath = directoryPath + @"\HardwareSet.ini";
 				File.Copy(sourcePath, globalIniFilePath);
-				hardwareSetForm.SaveAll(globalIniFilePath);
+				hardwareSetForm.SaveAll(globalIniFilePath,hName);
 
 				this.Dispose();
 				hardwareSetForm.Activate();

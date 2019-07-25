@@ -55,15 +55,15 @@ namespace LightController.MyForm
 			// 2.验证是否为空选项
 			if (treeView1.SelectedNode != null)
 			{
-				string projectName = treeView1.SelectedNode.Text;
-				if (!String.IsNullOrEmpty(projectName))
+				string hName = treeView1.SelectedNode.Text;
+				if (!String.IsNullOrEmpty(hName))
 				{
 					this.Dispose();
 					// 打开相关的配置文件，再加载到HardwareSetForm中
-					string iniPath = @"C:\Temp\HardwareLibrary\" + projectName + @"\HardwareSet.ini";
+					string iniPath = @"C:\Temp\HardwareLibrary\" + hName + @"\HardwareSet.ini";
 					this.Dispose();
 					mainForm.Activate();
-					HardwareSetForm hsForm = new HardwareSetForm(mainForm, iniPath);					
+					HardwareSetForm hsForm = new HardwareSetForm(mainForm, iniPath,hName);					
 					hsForm.ShowDialog();
 				}
 				else

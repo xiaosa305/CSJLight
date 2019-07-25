@@ -646,10 +646,20 @@
 			// 
 			this.circleTimeNumericUpDown.Enabled = false;
 			this.circleTimeNumericUpDown.Location = new System.Drawing.Point(481, 30);
+			this.circleTimeNumericUpDown.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
 			this.circleTimeNumericUpDown.Name = "circleTimeNumericUpDown";
 			this.circleTimeNumericUpDown.Size = new System.Drawing.Size(120, 25);
 			this.circleTimeNumericUpDown.TabIndex = 0;
 			this.circleTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.circleTimeNumericUpDown.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
 			// 
 			// skGroupBox
 			// 

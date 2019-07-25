@@ -16,16 +16,16 @@ namespace LightController.Tools
             List<byte> fileData = new List<byte>();
             byte Ram_Enabl = Convert.ToByte(Data.HeadData.MICSensor);
             byte[] Ram_Response_Times = new byte[4];
-            Ram_Response_Times[0] = Convert.ToByte((Data.HeadData.SenseFreq * 60000) & 0xFF);
-            Ram_Response_Times[1] = Convert.ToByte(((Data.HeadData.SenseFreq * 60000) >> 8) & 0xFF);
-            Ram_Response_Times[2] = Convert.ToByte(((Data.HeadData.SenseFreq * 60000) >> 16) & 0xFF);
-            Ram_Response_Times[3] = Convert.ToByte(((Data.HeadData.SenseFreq * 60000) >> 24) & 0xFF);
+            Ram_Response_Times[0] = Convert.ToByte(((Data.HeadData.SenseFreq + 1) * 60000) & 0xFF);
+            Ram_Response_Times[1] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60000) >> 8) & 0xFF);
+            Ram_Response_Times[2] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60000) >> 16) & 0xFF);
+            Ram_Response_Times[3] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60000) >> 24) & 0xFF);
             byte[] Ram_Play_Times = new byte[4];
 
-            Ram_Play_Times[0] = Convert.ToByte((Data.HeadData.RunTime * 1000) & 0xFF);
-            Ram_Play_Times[1] = Convert.ToByte(((Data.HeadData.RunTime * 1000) >> 8) & 0xFF);
-            Ram_Play_Times[2] = Convert.ToByte(((Data.HeadData.RunTime * 1000) >> 16) & 0xFF);
-            Ram_Play_Times[3] = Convert.ToByte(((Data.HeadData.RunTime * 1000) >> 24) & 0xFF);
+            Ram_Play_Times[0] = Convert.ToByte(((Data.HeadData.RunTime + 1) * 1000) & 0xFF);
+            Ram_Play_Times[1] = Convert.ToByte((((Data.HeadData.RunTime + 1) * 1000) >> 8) & 0xFF);
+            Ram_Play_Times[2] = Convert.ToByte((((Data.HeadData.RunTime + 1) * 1000) >> 16) & 0xFF);
+            Ram_Play_Times[3] = Convert.ToByte((((Data.HeadData.RunTime + 1) * 1000) >> 24) & 0xFF);
 
             byte[] Scene_Total_Count = new byte[2];
             Scene_Total_Count[0] = (byte)(Data.HeadData.ChanelCount & 0xFF);

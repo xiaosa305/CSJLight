@@ -51,7 +51,7 @@ namespace LightController.Tools
             this.IP = "192.168.31.15";
             this.NetMask = "255.255.255.0";
             this.GateWay = "192.168.31.1";
-            this.Mac = "F1:A5:1B:E2:FA:C9";
+            this.Mac = "F1-A5-1B-E2-FA-C9";
             this.Baud = 0;
             this.CurrUseTimes = 1;
             this.RemoteHost = "192.168.31.235";
@@ -102,7 +102,7 @@ namespace LightController.Tools
             data.Add(Convert.ToByte(GateWay.Split('.')[1]));
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
             data.Add(Convert.ToByte(GateWay.Split('.')[3]));
-            string[] macBuff = Mac.Split(':');
+            string[] macBuff = Mac.Split('-');
             data.Add(Convert.ToByte(macBuff[0], 16));
             data.Add(Convert.ToByte(macBuff[1], 16));
             data.Add(Convert.ToByte(macBuff[2], 16));

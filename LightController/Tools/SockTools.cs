@@ -11,12 +11,11 @@ namespace LightController.Tools
 {
     public class SocketTools
     {
-        //Socket实例
-        private static SocketTools Instance { get; set; }
-        //客户端连接（异步）
-        private Conn[] conns;
-        //最大连接数
-        private int MaxCount { get; set; }
+        private static SocketTools Instance { get; set; }//Socket实例
+        private Conn[] conns;//客户端连接（异步）
+        private int MaxCount { get; set; }//最大连接数
+        private static int test = 0;
+
         /// <summary>
         /// 获取连接池索引
         /// </summary>
@@ -38,6 +37,7 @@ namespace LightController.Tools
             }
             return -1;
         }
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -45,6 +45,7 @@ namespace LightController.Tools
         {
             MaxCount = 100;
         }
+
         /// <summary>
         /// 获取SockeTools实例
         /// </summary>
@@ -54,36 +55,49 @@ namespace LightController.Tools
             if (Instance == null)
             {
                 Instance = new SocketTools();
+                test++;
             }
             return Instance;
         }
+
         /// <summary>
         /// 开启连接池
         /// </summary>
         /// <param name="iPEndPoint"></param>
         public void Start()
         {
-            //连接对象池
             conns = new Conn[MaxCount];
             for (int i = 0; i < MaxCount; i++)
             {
                 conns[i] = new Conn();
             }
         }
+
         /// <summary>
         /// 添加新的连接到连接池
         /// </summary>
         /// <param name="ip">连接ip</param>
         /// <param name="port">连接端口</param>
-        public void AddConnect(string ip,int port)
+        public void AddConnect(string str,int port)
         {
+            string[] strarrau = str.Split(' ');
+            string ip = str.Split(' ')[0];
+            string addr = str.Split(' ')[1];
+            string deviceName = str.Split(' ')[2];
+            if (strarrau.Length > 3)
+            {
+                for (int i = 3; i < strarrau.Length; i++)
+                {
+                    deviceName += " " + strarrau[i];
+                }
+            }
             try
             {
                 for (int i = 0; i < MaxCount; i++)
                 {
                     if (conns[i] != null || conns[i].IsUse)
                     {
-                        if(conns[i].Ip != null)
+                        if (conns[i].Ip != null)
                         {
                             if (conns[i].Ip.Equals(ip))
                             {
@@ -92,17 +106,21 @@ namespace LightController.Tools
                         }
                     }
                 }
+                
                 IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 int index = NewIndex();
                 if (index == -1)
                 {
-                    throw new Exception("网络连接池已满");
+                    Console.WriteLine("网络连接池已满");
                 }
                 else
                 {
                     Conn conn = conns[index];
                     socket.Connect(iPEndPoint);
+                    int.TryParse(addr, out int addrValue);
+                    conn.Addr = addrValue;
+                    conn.DeviceName = deviceName;
                     conn.Init(socket);
                     Console.WriteLine("客户端 [" + conn.GetAddress() + "] 连接");
                     Console.WriteLine("已连接" + (index + 1) + "个客户端");
@@ -112,21 +130,25 @@ namespace LightController.Tools
             catch (Exception)
             {
                 Console.WriteLine("设备连接失败");
-                for (int i = 0; i < MaxCount; i++)
+                if (conns != null)
                 {
-                    if (conns[i] != null || conns[i].IsUse)
+                    for (int i = 0; i < MaxCount; i++)
                     {
-                        if (conns[i].Ip != null)
+                        if (conns[i] != null || conns[i].IsUse)
                         {
-                            if (conns[i].Ip.Equals(ip))
+                            if (conns[i].Ip != null)
                             {
-                                conns[i].Close();
+                                if (conns[i].Ip.Equals(ip))
+                                {
+                                    conns[i].Close();
+                                }
                             }
                         }
                     }
                 }
             }
         }
+
         /// <summary>
         /// 配置连接发送数据包的包大小
         /// </summary>
@@ -142,6 +164,7 @@ namespace LightController.Tools
                 }
             }
         }
+
         /// <summary>
         /// 获取所有已连接设备ip
         /// </summary>
@@ -149,20 +172,39 @@ namespace LightController.Tools
         public IList<string> GetDeviceList()
         {
             IList<string> deviceList = new List<string>();
+            foreach (Conn value in conns)
             {
-                foreach (Conn value in conns)
+                if (value != null || value.IsUse)
                 {
-                    if (value != null || value.IsUse)
+                    if (value.Ip != null)
                     {
-                        if (value.Ip != null)
-                        {
-                            deviceList.Add(value.Ip);
-                        }
+                        deviceList.Add(value.Ip);
                     }
                 }
             }
             return deviceList;
         }
+
+        /// <summary>
+        /// 获取所有终端设备的设备标识
+        /// </summary>
+        /// <returns></returns>
+        public IList<string> GetDeviceNameList()
+        {
+            IList<string> deviceNameList = new List<string>();
+            foreach (Conn value in conns)
+            {
+                if (value != null || value.IsUse)
+                {
+                    if (value.Ip != null)
+                    {
+                        deviceNameList.Add(value.DeviceName);
+                    }
+                }
+            }
+            return deviceNameList;
+        }
+
         /// <summary>
         /// 下载所有文件数据
         /// </summary>
@@ -182,6 +224,7 @@ namespace LightController.Tools
                 }
             }
         }
+
         /// <summary>
         /// 发送控制命令
         /// </summary>
@@ -197,6 +240,26 @@ namespace LightController.Tools
                     if (conns[i].Ip.Equals(ip))
                     {
                         conns[i].SendOrder(order, array,receiveCallBack);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 发送配置文件
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="filePath"></param>
+        /// <param name="receiveCallBack"></param>
+        public void PutPara(string ip,string filePath, IReceiveCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].PutPara(filePath, receiveCallBack);
                     }
                 }
             }

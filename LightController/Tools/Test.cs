@@ -88,7 +88,8 @@ namespace LightController.Tools
                         iplist.Add(item);
                     }
                 }
-                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini",new DownloadCallBack());
+                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack());
+                //ConnectTools.GetInstance().PutPara(iplist.ToArray(), @"", new DownloadCallBack());
             }
             i++;
         }

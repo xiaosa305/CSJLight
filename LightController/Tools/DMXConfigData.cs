@@ -83,6 +83,7 @@ namespace LightController.Tools
                     music_control_enable = "";
                 }
             }
+            data.Add(Convert.ToByte(0x00));
             //添加场景切换模式
             data.Add(Convert.ToByte(Scene_Change_Mode));
             //添加时间因子

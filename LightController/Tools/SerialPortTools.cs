@@ -25,7 +25,6 @@ namespace LightController.Tools
         private byte[] Data { get; set; }
         private string Order { get; set; }
         private string[] Strs { get; set; }
-        private RECEIVE MReceive { get; set; }
         private int Package_No { get; set; }
         private int Package_Count { get; set; }
         private int PackageSize { get; set; }
@@ -100,20 +99,6 @@ namespace LightController.Tools
                 case Constant.ORDER_END_SEND:
                 default:
                     SendOrderPackage();
-                    break;
-            }
-        }
-
-        private void Receive(RECEIVE receive)
-        {
-            MReceive = receive;
-            switch (MReceive)
-            {
-                case RECEIVE.Send:
-                    Console.WriteLine("发送第" + (Package_No + 1) + "包数据，包总数为" + Package_Count);
-                    SendDataPackage();
-                    break;
-                default:
                     break;
             }
         }

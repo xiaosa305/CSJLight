@@ -89,7 +89,7 @@ namespace LightController.Tools
                     }
                 }
                 ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack());
-                //ConnectTools.GetInstance().PutPara(iplist.ToArray(), @"", new DownloadCallBack());
+                //ConnectTools.GetInstance().PutPara(iplist.ToArray(), @"C:\Temp\HardwareLibrary\惊艳PLUS\HardwareSet.ini", new DownloadCallBack());
             }
             i++;
         }

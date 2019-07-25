@@ -223,7 +223,6 @@ namespace LightController.MyForm
 			ConnectTools cTools = ConnectTools.GetInstance();
 			cTools.Start("192.168.31.14");
 			cTools.SearchDevice();
-			Thread.Sleep(10);
 		}
 	}
 

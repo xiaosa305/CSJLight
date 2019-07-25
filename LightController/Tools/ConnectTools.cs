@@ -143,6 +143,15 @@ namespace LightController.Tools
         }
 
         /// <summary>
+        /// 获取所有已连接设备到ip以及设备标识
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string,string> GetDeviceInfo()
+        {
+            return SocketTools.GetInstance().GetDeviceInfos();
+        }
+
+        /// <summary>
         /// 下载所有常规程序、音频程序以及全局配置文件到指定终端设备
         /// </summary>
         /// <param name="ip"></param>

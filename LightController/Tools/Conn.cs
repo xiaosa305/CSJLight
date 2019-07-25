@@ -136,6 +136,7 @@ namespace LightController.Tools
                     CallBack.SendError(Ip, Order);
                     Ip = "";
                     Socket.Close();
+                    IsSending = false;
                     IsUse = false;
                 }
             }

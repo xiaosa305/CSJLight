@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.MyForm
@@ -213,16 +214,16 @@ namespace LightController.MyForm
 		private void downloadButton_Click(object sender, EventArgs e)
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Start("192.168.31.14");
 			Dictionary<string,string> allDevices = cTools.GetDeviceInfo();
+			cTools.PutPara(new List<string>(allDevices.Keys), iniPath, new ReceiveCallBack());	
+		}
 
-			IList<string> ips = new List<string>(allDevices.Keys);
-			foreach (string ip in ips)
-			{
-				Console.WriteLine(ip);
-			}
-
-			//cTools.PutPara(, iniPath, new ReceiveCallBack());	
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			ConnectTools cTools = ConnectTools.GetInstance();
+			cTools.Start("192.168.31.14");
+			cTools.SearchDevice();
+			Thread.Sleep(10);
 		}
 	}
 

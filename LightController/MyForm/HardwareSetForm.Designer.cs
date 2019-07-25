@@ -71,6 +71,7 @@
 			this.label16 = new System.Windows.Forms.Label();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.downloadButton = new System.Windows.Forms.Button();
+			this.connectButton = new System.Windows.Forms.Button();
 			this.commonGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.currUseTimeNumericUpDown)).BeginInit();
@@ -516,7 +517,7 @@
 			// downloadButton
 			// 
 			this.downloadButton.BackColor = System.Drawing.Color.DarkSalmon;
-			this.downloadButton.Location = new System.Drawing.Point(379, 649);
+			this.downloadButton.Location = new System.Drawing.Point(483, 649);
 			this.downloadButton.Name = "downloadButton";
 			this.downloadButton.Size = new System.Drawing.Size(93, 41);
 			this.downloadButton.TabIndex = 1;
@@ -524,11 +525,23 @@
 			this.downloadButton.UseVisualStyleBackColor = false;
 			this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
 			// 
+			// connectButton
+			// 
+			this.connectButton.BackColor = System.Drawing.Color.DarkSeaGreen;
+			this.connectButton.Location = new System.Drawing.Point(379, 649);
+			this.connectButton.Name = "connectButton";
+			this.connectButton.Size = new System.Drawing.Size(93, 41);
+			this.connectButton.TabIndex = 1;
+			this.connectButton.Text = "连接";
+			this.connectButton.UseVisualStyleBackColor = false;
+			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+			// 
 			// HardwareSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(585, 705);
+			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.downloadButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.otherGroupBox);
@@ -598,5 +611,6 @@
 		private System.Windows.Forms.NumericUpDown sumUseTimeNumericUpDown;
 		private System.Windows.Forms.NumericUpDown addrNumericUpDown;
 		private System.Windows.Forms.Button downloadButton;
+		private System.Windows.Forms.Button connectButton;
 	}
 }

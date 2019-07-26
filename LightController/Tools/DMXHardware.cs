@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace LightController.Tools
         private int Ver { get; set; }
         private int SumUseTimes { get; set; }
         private int DiskFlag { get; set; }
+        private int PlayFlag { get; set; }
         private string DeviceName { get; set; }
         private int Addr { get; set; }
         private int LinkMode { get; set; }
@@ -31,7 +33,7 @@ namespace LightController.Tools
 
         public DMXHardware(string filePath)
         {
-            Test();
+            //Test();
             ReadFromFile(filePath);
         }
 
@@ -44,7 +46,8 @@ namespace LightController.Tools
         {
             this.Ver = 1;
             this.SumUseTimes = 5000000;
-            this.DiskFlag = 0;
+            this.DiskFlag = 1;
+            this.PlayFlag = 1;
             this.DeviceName = "AOL 001";
             this.Addr = 110;
             this.LinkMode = 0;
@@ -66,9 +69,102 @@ namespace LightController.Tools
 
         private void ReadFromFile(string filePath)
         {
+            string lineStr = "";
+            string strValue;
+            int intValue;
+            StreamReader reader;
             if (filePath != null)
             {
-                return;
+                try
+                {
+                    using (reader = new StreamReader(filePath))
+                    {
+                        lineStr = reader.ReadLine();
+                        lineStr = reader.ReadLine();
+                        if (lineStr.Equals("[Common]"))
+                        {
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.SumUseTimes = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.CurrUseTimes = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.DiskFlag = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.PlayFlag = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.DeviceName = strValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.Addr = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.HardWareID = strValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.Heartbeat = Encoding.Default.GetBytes(strValue);
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.HeartbeatCycle = intValue;
+                        }
+                        lineStr = reader.ReadLine();
+                        if (lineStr.Equals("[Network]"))
+                        {
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.LinkMode = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.LinkPort = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.IP = strValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.NetMask = strValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.GateWay = strValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.Mac = strValue;
+                        }
+                        lineStr = reader.ReadLine();
+                        if (lineStr.Equals("[Other]"))
+                        {
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.Baud = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.RemoteHost = strValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            int.TryParse(strValue, out intValue);
+                            this.RemotePort = intValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.DomainName = strValue;
+
+                            strValue = (reader.ReadLine().Split('='))[1];
+                            this.DomainServer = strValue;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
             }
 
         }

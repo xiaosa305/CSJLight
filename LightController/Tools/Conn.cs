@@ -47,7 +47,7 @@ namespace LightController.Tools
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
             IsSending = false;
-            PackageSize = 2040;
+            PackageSize = 1016;
             Ip = "";
         }
 
@@ -133,11 +133,12 @@ namespace LightController.Tools
                 }
                 finally
                 {
-                    CallBack.SendError(Ip, Order);
                     Ip = "";
+                    DeviceName = null;
                     Socket.Close();
                     IsSending = false;
                     IsUse = false;
+                    CallBack.SendError(Ip, Order);
                 }
             }
         }
@@ -201,45 +202,53 @@ namespace LightController.Tools
         /// </summary>
         private void SendOrderPackage()
         {
-            if (Data != null)
+            try
             {
-                Package_Count = Data.Length / PackageSize;
-                Package_Count = (Data.Length % PackageSize == 0) ? Package_Count : Package_Count + 1;
-                Package_No = 0;
-            }
-            List<byte> package = new List<byte>();
-            List<byte> packageData = new List<byte>();
-            byte[] packageOrder = Encoding.Default.GetBytes(Order);
-            byte[] space = Encoding.Default.GetBytes(" ");
-            packageData.AddRange(packageOrder);
-            if (Strs != null)
-            {
-                packageData.AddRange(space);
-                for (int i = 0; i < Strs.Length; i++)
+                if (Data != null)
                 {
-                    packageData.AddRange(Encoding.Default.GetBytes(Strs[i]));
-                    if (i != Strs.Length - 1)
+                    Package_Count = Data.Length / PackageSize;
+                    Package_Count = (Data.Length % PackageSize == 0) ? Package_Count : Package_Count + 1;
+                    Package_No = 0;
+                }
+                List<byte> package = new List<byte>();
+                List<byte> packageData = new List<byte>();
+                byte[] packageOrder = Encoding.Default.GetBytes(Order);
+                byte[] space = Encoding.Default.GetBytes(" ");
+                packageData.AddRange(packageOrder);
+                if (Strs != null)
+                {
+                    packageData.AddRange(space);
+                    for (int i = 0; i < Strs.Length; i++)
                     {
-                        packageData.AddRange(space);
+                        packageData.AddRange(Encoding.Default.GetBytes(Strs[i]));
+                        if (i != Strs.Length - 1)
+                        {
+                            packageData.AddRange(space);
+                        }
                     }
                 }
-            }
-            byte[] packageDataLength = new byte[] { Convert.ToByte(packageData.Count & 0xFF), Convert.ToByte((packageData.Count >> 8) & 0xFF) };
-            byte packageMark = GetOrderMark();
-            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(Addr), packageDataLength[0], packageDataLength[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
-            package.AddRange(packageHead);
-            package.AddRange(packageData);
-            byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
-            package[6] = packageCRC[0];
-            package[7] = packageCRC[1];
+                byte[] packageDataLength = new byte[] { Convert.ToByte(packageData.Count & 0xFF), Convert.ToByte((packageData.Count >> 8) & 0xFF) };
+                byte packageMark = GetOrderMark();
+                byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(Addr), packageDataLength[0], packageDataLength[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
+                package.AddRange(packageHead);
+                package.AddRange(packageData);
+                byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
+                package[6] = packageCRC[0];
+                package[7] = packageCRC[1];
 
-            Console.Write("Send:    " + Order + " ---");
-            foreach (byte value in package)
+                Console.Write("Send:    " + Order + " ---");
+                foreach (byte value in package)
+                {
+                    Console.Write(Convert.ToString(value, 16) + " ");
+                }
+
+                Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
+            }
+            catch (Exception)
             {
-                Console.Write(Convert.ToString(value,16) + " ");
+                Close();
             }
-
-            Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb,this);
+           
         }
 
         /// <summary>
@@ -248,42 +257,50 @@ namespace LightController.Tools
         /// <param name="receive"></param>
         private void SendDataPackage()
         {
-            Package_No++;
-            byte[] packageData;
-            List<byte> package = new List<byte>();
-            if (Package_No != Package_Count)
+            try
             {
-                packageData = new byte[PackageSize];
-                for (int i = 0; i < PackageSize; i++)
+                Package_No++;
+                byte[] packageData;
+                List<byte> package = new List<byte>();
+                if (Package_No != Package_Count)
                 {
-                    packageData[i] = Data[(Package_No - 1) * PackageSize + i];
+                    packageData = new byte[PackageSize];
+                    for (int i = 0; i < PackageSize; i++)
+                    {
+                        packageData[i] = Data[(Package_No - 1) * PackageSize + i];
+                    }
                 }
-            }
-            else
-            {
-                packageData = new byte[Data.Length - (Package_No - 1) * PackageSize];
-                for (int i = 0; i < packageData.Length - (Package_No - 1) * PackageSize; i++)
+                else
                 {
-                    packageData[i] = Data[(Package_No - 1) * PackageSize + i];
+                    packageData = new byte[Data.Length - (Package_No - 1) * PackageSize];
+                    for (int i = 0; i < packageData.Length - (Package_No - 1) * PackageSize; i++)
+                    {
+                        packageData[i] = Data[(Package_No - 1) * PackageSize + i];
+                    }
                 }
-            }
-            int len = packageData.Length;
-            byte[] packageDataSize = new byte[] { Convert.ToByte(packageData.Length & 0xFF), Convert.ToByte((packageData.Length >> 8) & 0xFF) };
-            byte packageMark = GetDataMark();
-            byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(Addr), packageDataSize[0], packageDataSize[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
-            package.AddRange(packageHead);
-            package.AddRange(packageData);
-            byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
-            package[6] = packageCRC[0];
-            package[7] = packageCRC[1];
+                int len = packageData.Length;
+                byte[] packageDataSize = new byte[] { Convert.ToByte(packageData.Length & 0xFF), Convert.ToByte((packageData.Length >> 8) & 0xFF) };
+                byte packageMark = GetDataMark();
+                byte[] packageHead = new byte[] { Convert.ToByte(0xAA), Convert.ToByte(0xBB), Convert.ToByte(Addr), packageDataSize[0], packageDataSize[1], packageMark, Convert.ToByte(0x00), Convert.ToByte(0x00) };
+                package.AddRange(packageHead);
+                package.AddRange(packageData);
+                byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
+                package[6] = packageCRC[0];
+                package[7] = packageCRC[1];
 
-            Console.Write("SendFile:    " + Order + ",packageNo: " + Package_No + ",packageCount: " + Package_Count + " ---");
-            foreach (byte value in package)
+                Console.Write("SendFile:    " + Order + ",packageNo: " + Package_No + ",packageCount: " + Package_Count + " ---");
+                foreach (byte value in package)
+                {
+                    Console.Write("0x" + Convert.ToString(value, 16) + ",");
+                }
+
+                Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
+            }
+            catch (Exception)
             {
-                Console.Write("0x" + Convert.ToString(value, 16) + ",");
+                Close();
             }
-
-            Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
+           
         }
 
         /// <summary>
@@ -322,6 +339,7 @@ namespace LightController.Tools
                                     {
                                         TimeOutCount = 0;
                                         IsSending = false;
+                                        Close();
                                         CallBack.SendError(Ip, Order);
                                     }
                                     else

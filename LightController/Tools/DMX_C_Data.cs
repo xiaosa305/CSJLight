@@ -13,9 +13,9 @@ namespace LightController.Tools
 
     public class C_Head
     {
-        public int MICSensor { get; set; }//摇麦功能
-        public int SenseFreq { get; set; }//摇麦再次感应间隔时间
-        public int RunTime { get; set; }//摇麦场景执行时间
+        //public int MICSensor { get; set; }//摇麦功能
+        //public int SenseFreq { get; set; }//摇麦再次感应间隔时间
+        //public int RunTime { get; set; }//摇麦场景执行时间
         public int ChanelCount { get; set; }//场景通道总数
         public int FileSize { get; set; }//场景文件大小
     }

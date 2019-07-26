@@ -35,7 +35,11 @@ namespace LightController.Tools
         private IList<DB_Light> DB_Lights { get; set; }
         private string FilePath { get; set; }
 
-        public DMXConfigData(DBWrapper dBWrapper,string filePath)
+        private int[] Ram_Enabl { get; set; }
+        private int[] Ram_Response_Times { get; set; }
+        private int[] Ram_Play_Times { get; set; }
+
+        public DMXConfigData(DBWrapper dBWrapper, string filePath)
         {
             C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SceneDatas(dBWrapper), filePath);
             M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SceneDatas(dBWrapper), filePath);
@@ -44,6 +48,9 @@ namespace LightController.Tools
             Music_Control_Enable = new List<int>();
             FilePath = filePath;
             ReadFromFile();
+            Ram_Enabl = new int[24];
+            Ram_Response_Times = new int[24];
+            Ram_Play_Times = new int[24];
         }
 
         public void WriteToFile(string path)
@@ -51,7 +58,7 @@ namespace LightController.Tools
             string filePath = path + @"\Config.bin";
             byte[] Data = GetConfigData();
             FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
-            fileStream.Write(Data, 0,Data.Length);
+            fileStream.Write(Data, 0, Data.Length);
             fileStream.Close();
         }
 
@@ -88,6 +95,22 @@ namespace LightController.Tools
             data.Add(Convert.ToByte(Scene_Change_Mode));
             //添加时间因子
             data.Add(Convert.ToByte(TimeFactory));
+            //添加摇麦信息
+            for (int i = 0; i < 24; i++)
+            {
+                byte ram_Enabl = Convert.ToByte(Ram_Enabl[i]);
+                byte[] ram_Response_Times = new byte[2];
+                ram_Response_Times[0] = Convert.ToByte(((Ram_Response_Times[i] + 1) * 60) & 0xFF);
+                ram_Response_Times[1] = Convert.ToByte((((Ram_Response_Times[i] + 1) * 60) >> 8) & 0xFF);
+                byte[] ram_Play_Times = new byte[2];
+                ram_Play_Times[0] = Convert.ToByte((Ram_Play_Times[i] + 1) & 0xFF);
+                ram_Play_Times[1] = Convert.ToByte(((Ram_Play_Times[i] + 1) >> 8) & 0xFF);
+                data.Add(ram_Enabl);
+                data.Add(ram_Response_Times[0]);
+                data.Add(ram_Response_Times[1]);
+                data.Add(ram_Play_Times[0]);
+                data.Add(ram_Play_Times[1]);
+            }
             //添加场景组合播放数据
             foreach (Config_Combine_Scene value in Combine_Scenes)
             {
@@ -150,11 +173,11 @@ namespace LightController.Tools
             data[1] = Convert.ToByte((FileSize >> 8) & 0xFF);
             data[2] = Convert.ToByte((FileSize >> 16) & 0xFF);
             data[3] = Convert.ToByte((FileSize >> 24) & 0xFF);
-           
+
             return data.ToArray();
         }
 
-       
+
 
         private void ReadFromFile()
         {
@@ -162,7 +185,6 @@ namespace LightController.Tools
             string strValue;
             int intValue;
             Lights = new List<Config_Light>();
-            IList<string> configStr = new List<string>();
             try
             {
                 using (Reader = new StreamReader(FilePath))
@@ -196,92 +218,105 @@ namespace LightController.Tools
                     if (lineStr.Equals("[Multiple]"))
                     {
                         lineStr = Reader.ReadLine();
-                        while (true)
+                        Config_Combine_Scene combine_Scene = new Config_Combine_Scene();
+                        //获取主场景编号
+                        strValue = lineStr[0] + "";
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Main_Number = intValue;
+                        //获取场景组合播放开启状态
+                        strValue = (lineStr.Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Combine_Scene_Enable = intValue;
+                        //获取连播次数
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Count = intValue;
+                        //获取主场景播放模式
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Mode_Main = intValue;
+                        //获取主场景播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Main_Scene = intValue;
+                        //获取副场景1编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_One_Number = intValue;
+                        //获取副场景1播放模式
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Mode_One = intValue;
+                        //获取副场景1播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_One = intValue;
+                        //获取副场景2编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Two_Number = intValue;
+                        //获取副场景2播放模式
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Mode_Two = intValue;
+                        //获取副场景2播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_Two = intValue;
+                        //获取副场景3编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Three_Number = intValue;
+                        //获取副场景3播放模式
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Mode_Three = intValue;
+                        //获取副场景3播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_Three = intValue;
+                        //获取副场景4编号
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Scene_Four_Number = intValue;
+                        //获取副场景4播放模式
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Mode_Four = intValue;
+                        //获取副场景4播放时间
+                        strValue = (Reader.ReadLine().Split('='))[1];
+                        int.TryParse(strValue, out intValue);
+                        combine_Scene.Play_Time_Scene_Four = intValue;
+                        //将场景组合播放数据进行存放
+                        Combine_Scenes[combine_Scene.Scene_Main_Number] = combine_Scene;
+                        //读取下一条是否为下一个场景组合数据，不是则结束循环
+                        lineStr = Reader.ReadLine();
+                        if (lineStr.Equals("[SK]"))
                         {
-                            Config_Combine_Scene combine_Scene = new Config_Combine_Scene();
-                            //获取主场景编号
-                            strValue = lineStr[0] + "";
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Main_Number = intValue;
-                            //获取场景组合播放开启状态
-                            strValue = (lineStr.Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Combine_Scene_Enable = intValue;
-                            //获取连播次数
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Count = intValue;
-                            //获取主场景播放模式
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Mode_Main = intValue;
-                            //获取主场景播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Main_Scene = intValue;
-                            //获取副场景1编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_One_Number = intValue;
-                            //获取副场景1播放模式
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Mode_One = intValue;
-                            //获取副场景1播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_One = intValue;
-                            //获取副场景2编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Two_Number = intValue;
-                            //获取副场景2播放模式
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Mode_Two = intValue;
-                            //获取副场景2播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_Two = intValue;
-                            //获取副场景3编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Three_Number = intValue;
-                            //获取副场景3播放模式
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Mode_Three = intValue;
-                            //获取副场景3播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_Three = intValue;
-                            //获取副场景4编号
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Scene_Four_Number = intValue;
-                            //获取副场景4播放模式
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Mode_Four = intValue;
-                            //获取副场景4播放时间
-                            strValue = (Reader.ReadLine().Split('='))[1];
-                            int.TryParse(strValue, out intValue);
-                            combine_Scene.Play_Time_Scene_Four = intValue;
-                            //将场景组合播放数据进行存放
-                            Combine_Scenes[combine_Scene.Scene_Main_Number] = combine_Scene;
-                            //读取下一条是否为下一个场景组合数据，不是则结束循环
-                            lineStr = Reader.ReadLine();
-                            if (lineStr.Equals("[SK]"))
+                            //添加音频功能开启状态
+                            for (int i = 0; i < 24; i++)
                             {
-                                //添加音频功能开启状态
-                                for (int i = 0; i < 24; i++)
-                                {
-                                    lineStr = Reader.ReadLine();
-                                    strValue = lineStr.Split('=')[1];
-                                    int.TryParse(strValue, out intValue);
-                                    Music_Control_Enable.Add(intValue);
-                                }
-                                break;
+                                lineStr = Reader.ReadLine();
+                                strValue = lineStr.Split('=')[1];
+                                int.TryParse(strValue, out intValue);
+                                Music_Control_Enable.Add(intValue);
+                            }
+                        }
+                        if (lineStr.Equals("[YM]"))
+                        {
+                            for (int i = 0; i < 24; i++)
+                            {
+                                lineStr = Reader.ReadLine();
+                                strValue = lineStr.Split('=')[1];
+                                int.TryParse(lineStr, out Ram_Enabl[i]);
+
+                                lineStr = Reader.ReadLine();
+                                strValue = lineStr.Split('=')[1];
+                                int.TryParse(lineStr, out Ram_Response_Times[i]);
+
+                                lineStr = Reader.ReadLine();
+                                strValue = lineStr.Split('=')[1];
+                                int.TryParse(lineStr, out Ram_Play_Times[i]);
                             }
                         }
                         Config_Combine_Scene nullData = new Config_Combine_Scene

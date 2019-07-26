@@ -387,10 +387,12 @@ namespace LightController
 		private void enableGlobalSet(bool enable)
 		{
 			connectButton.Enabled = enable;
-			lightsEditToolStripMenuItem1.Enabled = enable;
+			lightsEditToolStripMenuItem.Enabled = enable;
+			updateToolStripMenuItem.Enabled = enable;
 			globalSetToolStripMenuItem.Enabled = enable;
 			ymSetToolStripMenuItem.Enabled = enable;
-			NetworkSetToolStripMenuItem.Enabled = enable;		
+			networkSetToolStripMenuItem.Enabled = enable;		
+
 		}
 		
 
@@ -2166,7 +2168,7 @@ namespace LightController
 
 		private void updateToolStripMenuItem_Click_1(object sender, EventArgs e)
 		{
-			UpdateForm updateForm = new UpdateForm();
+			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(true), globalIniFilePath);
 			updateForm.ShowDialog(); 
 		}
 
@@ -2192,6 +2194,16 @@ namespace LightController
 		{
 			HardwareSetForm hsForm = new HardwareSetForm(this, null,null);
 			hsForm.ShowDialog();
+		}
+
+		/// <summary>
+		/// 点击网络设置
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NetworkSetToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

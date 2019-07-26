@@ -59,7 +59,6 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.otherGroupBox = new System.Windows.Forms.GroupBox();
-			this.baudComboBox = new System.Windows.Forms.ComboBox();
 			this.remotePortTextBox = new System.Windows.Forms.TextBox();
 			this.domainServerTextBox = new System.Windows.Forms.TextBox();
 			this.label11 = new System.Windows.Forms.Label();
@@ -68,10 +67,13 @@
 			this.label14 = new System.Windows.Forms.Label();
 			this.domainNameTextBox = new System.Windows.Forms.TextBox();
 			this.label15 = new System.Windows.Forms.Label();
-			this.label16 = new System.Windows.Forms.Label();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.downloadButton = new System.Windows.Forms.Button();
 			this.connectButton = new System.Windows.Forms.Button();
+			this.playFlagComboBox = new System.Windows.Forms.ComboBox();
+			this.baudComboBox = new System.Windows.Forms.ComboBox();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label16 = new System.Windows.Forms.Label();
 			this.commonGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.currUseTimeNumericUpDown)).BeginInit();
@@ -83,9 +85,13 @@
 			// 
 			// commonGroupBox
 			// 
+			this.commonGroupBox.Controls.Add(this.playFlagComboBox);
 			this.commonGroupBox.Controls.Add(this.addrNumericUpDown);
+			this.commonGroupBox.Controls.Add(this.baudComboBox);
 			this.commonGroupBox.Controls.Add(this.currUseTimeNumericUpDown);
+			this.commonGroupBox.Controls.Add(this.label20);
 			this.commonGroupBox.Controls.Add(this.sumUseTimeNumericUpDown);
+			this.commonGroupBox.Controls.Add(this.label16);
 			this.commonGroupBox.Controls.Add(this.heartbeatCycleNumericUpDown);
 			this.commonGroupBox.Controls.Add(this.diskFlagComboBox);
 			this.commonGroupBox.Controls.Add(this.heartbeatTextBox);
@@ -101,7 +107,7 @@
 			this.commonGroupBox.Controls.Add(this.label1);
 			this.commonGroupBox.Location = new System.Drawing.Point(-2, 7);
 			this.commonGroupBox.Name = "commonGroupBox";
-			this.commonGroupBox.Size = new System.Drawing.Size(588, 196);
+			this.commonGroupBox.Size = new System.Drawing.Size(588, 232);
 			this.commonGroupBox.TabIndex = 0;
 			this.commonGroupBox.TabStop = false;
 			this.commonGroupBox.Text = "通用设置";
@@ -282,9 +288,9 @@
 			this.networkGroupBox.Controls.Add(this.netmaskTextBox);
 			this.networkGroupBox.Controls.Add(this.label7);
 			this.networkGroupBox.Controls.Add(this.label8);
-			this.networkGroupBox.Location = new System.Drawing.Point(-2, 209);
+			this.networkGroupBox.Location = new System.Drawing.Point(-2, 245);
 			this.networkGroupBox.Name = "networkGroupBox";
-			this.networkGroupBox.Size = new System.Drawing.Size(588, 232);
+			this.networkGroupBox.Size = new System.Drawing.Size(588, 222);
 			this.networkGroupBox.TabIndex = 0;
 			this.networkGroupBox.TabStop = false;
 			this.networkGroupBox.Text = "网络设置";
@@ -395,7 +401,6 @@
 			// 
 			// otherGroupBox
 			// 
-			this.otherGroupBox.Controls.Add(this.baudComboBox);
 			this.otherGroupBox.Controls.Add(this.remotePortTextBox);
 			this.otherGroupBox.Controls.Add(this.domainServerTextBox);
 			this.otherGroupBox.Controls.Add(this.label11);
@@ -404,31 +409,16 @@
 			this.otherGroupBox.Controls.Add(this.label14);
 			this.otherGroupBox.Controls.Add(this.domainNameTextBox);
 			this.otherGroupBox.Controls.Add(this.label15);
-			this.otherGroupBox.Controls.Add(this.label16);
-			this.otherGroupBox.Location = new System.Drawing.Point(-2, 447);
+			this.otherGroupBox.Location = new System.Drawing.Point(-2, 479);
 			this.otherGroupBox.Name = "otherGroupBox";
-			this.otherGroupBox.Size = new System.Drawing.Size(588, 185);
+			this.otherGroupBox.Size = new System.Drawing.Size(588, 153);
 			this.otherGroupBox.TabIndex = 0;
 			this.otherGroupBox.TabStop = false;
 			this.otherGroupBox.Text = "其他设置";
 			// 
-			// baudComboBox
-			// 
-			this.baudComboBox.FormattingEnabled = true;
-			this.baudComboBox.Items.AddRange(new object[] {
-            "9600",
-            "19200",
-            "38400",
-            "57600",
-            "115200"});
-			this.baudComboBox.Location = new System.Drawing.Point(102, 39);
-			this.baudComboBox.Name = "baudComboBox";
-			this.baudComboBox.Size = new System.Drawing.Size(106, 23);
-			this.baudComboBox.TabIndex = 2;
-			// 
 			// remotePortTextBox
 			// 
-			this.remotePortTextBox.Location = new System.Drawing.Point(385, 83);
+			this.remotePortTextBox.Location = new System.Drawing.Point(385, 40);
 			this.remotePortTextBox.Name = "remotePortTextBox";
 			this.remotePortTextBox.Size = new System.Drawing.Size(75, 25);
 			this.remotePortTextBox.TabIndex = 1;
@@ -436,7 +426,7 @@
 			// 
 			// domainServerTextBox
 			// 
-			this.domainServerTextBox.Location = new System.Drawing.Point(384, 129);
+			this.domainServerTextBox.Location = new System.Drawing.Point(384, 86);
 			this.domainServerTextBox.Name = "domainServerTextBox";
 			this.domainServerTextBox.Size = new System.Drawing.Size(194, 25);
 			this.domainServerTextBox.TabIndex = 1;
@@ -445,7 +435,7 @@
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(308, 88);
+			this.label11.Location = new System.Drawing.Point(308, 45);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(82, 15);
 			this.label11.TabIndex = 0;
@@ -454,7 +444,7 @@
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(309, 134);
+			this.label12.Location = new System.Drawing.Point(309, 91);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(83, 15);
 			this.label12.TabIndex = 0;
@@ -462,7 +452,7 @@
 			// 
 			// remoteHostTextBox
 			// 
-			this.remoteHostTextBox.Location = new System.Drawing.Point(102, 83);
+			this.remoteHostTextBox.Location = new System.Drawing.Point(102, 40);
 			this.remoteHostTextBox.Name = "remoteHostTextBox";
 			this.remoteHostTextBox.Size = new System.Drawing.Size(193, 25);
 			this.remoteHostTextBox.TabIndex = 1;
@@ -471,7 +461,7 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(18, 88);
+			this.label14.Location = new System.Drawing.Point(18, 45);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(68, 15);
 			this.label14.TabIndex = 0;
@@ -479,7 +469,7 @@
 			// 
 			// domainNameTextBox
 			// 
-			this.domainNameTextBox.Location = new System.Drawing.Point(101, 129);
+			this.domainNameTextBox.Location = new System.Drawing.Point(101, 86);
 			this.domainNameTextBox.MaxLength = 32;
 			this.domainNameTextBox.Name = "domainNameTextBox";
 			this.domainNameTextBox.Size = new System.Drawing.Size(194, 25);
@@ -488,20 +478,11 @@
 			// label15
 			// 
 			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(18, 134);
+			this.label15.Location = new System.Drawing.Point(18, 91);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(82, 15);
 			this.label15.TabIndex = 0;
 			this.label15.Text = "服务器域名";
-			// 
-			// label16
-			// 
-			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(16, 43);
-			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(67, 15);
-			this.label16.TabIndex = 0;
-			this.label16.Text = "波特率：";
 			// 
 			// saveButton
 			// 
@@ -535,6 +516,49 @@
 			this.connectButton.Text = "连接";
 			this.connectButton.UseVisualStyleBackColor = false;
 			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+			// 
+			// playFlagComboBox
+			// 
+			this.playFlagComboBox.FormattingEnabled = true;
+			this.playFlagComboBox.Items.AddRange(new object[] {
+            "录播文件",
+            "程序文件"});
+			this.playFlagComboBox.Location = new System.Drawing.Point(424, 191);
+			this.playFlagComboBox.Name = "playFlagComboBox";
+			this.playFlagComboBox.Size = new System.Drawing.Size(106, 23);
+			this.playFlagComboBox.TabIndex = 5;
+			// 
+			// baudComboBox
+			// 
+			this.baudComboBox.FormattingEnabled = true;
+			this.baudComboBox.Items.AddRange(new object[] {
+            "9600",
+            "19200",
+            "38400",
+            "57600",
+            "115200"});
+			this.baudComboBox.Location = new System.Drawing.Point(134, 191);
+			this.baudComboBox.Name = "baudComboBox";
+			this.baudComboBox.Size = new System.Drawing.Size(106, 23);
+			this.baudComboBox.TabIndex = 6;
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.Location = new System.Drawing.Point(298, 195);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(82, 15);
+			this.label20.TabIndex = 3;
+			this.label20.Text = "优先播放：";
+			// 
+			// label16
+			// 
+			this.label16.AutoSize = true;
+			this.label16.Location = new System.Drawing.Point(18, 195);
+			this.label16.Name = "label16";
+			this.label16.Size = new System.Drawing.Size(67, 15);
+			this.label16.TabIndex = 4;
+			this.label16.Text = "波特率：";
 			// 
 			// HardwareSetForm
 			// 
@@ -588,7 +612,6 @@
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.GroupBox otherGroupBox;
-		private System.Windows.Forms.ComboBox baudComboBox;
 		private System.Windows.Forms.TextBox remotePortTextBox;
 		private System.Windows.Forms.TextBox domainServerTextBox;
 		private System.Windows.Forms.Label label11;
@@ -597,7 +620,6 @@
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.TextBox domainNameTextBox;
 		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.TextBox heartbeatTextBox;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.TextBox hardwareIDTextBox;
@@ -612,5 +634,9 @@
 		private System.Windows.Forms.NumericUpDown addrNumericUpDown;
 		private System.Windows.Forms.Button downloadButton;
 		private System.Windows.Forms.Button connectButton;
+		private System.Windows.Forms.ComboBox playFlagComboBox;
+		private System.Windows.Forms.ComboBox baudComboBox;
+		private System.Windows.Forms.Label label20;
+		private System.Windows.Forms.Label label16;
 	}
 }

@@ -250,11 +250,11 @@ namespace LightController
 			this.hardwareSetNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.lightsEditToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.lightsEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.NetworkSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.networkSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
@@ -3076,11 +3076,11 @@ namespace LightController
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
             this.updateToolStripMenuItem,
-            this.lightsEditToolStripMenuItem1,
+            this.lightsEditToolStripMenuItem,
             this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
             this.ymSetToolStripMenuItem,
-            this.NetworkSetToolStripMenuItem});
+            this.networkSetToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
 			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
@@ -3106,19 +3106,20 @@ namespace LightController
 			// hardwareSetNewToolStripMenuItem
 			// 
 			this.hardwareSetNewToolStripMenuItem.Name = "hardwareSetNewToolStripMenuItem";
-			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
 			this.hardwareSetNewToolStripMenuItem.Text = "新建配置";
 			this.hardwareSetNewToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetNewToolStripMenuItem_Click);
 			// 
 			// hardwareSetOpenToolStripMenuItem
 			// 
 			this.hardwareSetOpenToolStripMenuItem.Name = "hardwareSetOpenToolStripMenuItem";
-			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
 			this.hardwareSetOpenToolStripMenuItem.Text = "打开配置";
 			this.hardwareSetOpenToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetOpenToolStripMenuItem_Click);
 			// 
 			// updateToolStripMenuItem
 			// 
+			this.updateToolStripMenuItem.Enabled = false;
 			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
 			this.updateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.updateToolStripMenuItem.Text = "在线升级";
@@ -3126,11 +3127,11 @@ namespace LightController
 			// 
 			// lightsEditToolStripMenuItem1
 			// 
-			this.lightsEditToolStripMenuItem1.Enabled = false;
-			this.lightsEditToolStripMenuItem1.Name = "lightsEditToolStripMenuItem1";
-			this.lightsEditToolStripMenuItem1.Size = new System.Drawing.Size(81, 24);
-			this.lightsEditToolStripMenuItem1.Text = "灯具编辑";
-			this.lightsEditToolStripMenuItem1.Click += new System.EventHandler(this.lightsEditToolStripMenuItem1_Click);
+			this.lightsEditToolStripMenuItem.Enabled = false;
+			this.lightsEditToolStripMenuItem.Name = "lightsEditToolStripMenuItem1";
+			this.lightsEditToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.lightsEditToolStripMenuItem.Text = "灯具编辑";
+			this.lightsEditToolStripMenuItem.Click += new System.EventHandler(this.lightsEditToolStripMenuItem1_Click);
 			// 
 			// ExitToolStripMenuItem
 			// 
@@ -3157,12 +3158,13 @@ namespace LightController
 			this.ymSetToolStripMenuItem.Text = "摇麦设置";
 			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymSetToolStripMenuItem_Click);
 			// 
-			// NetworkSetToolStripMenuItem
+			// networkSetToolStripMenuItem
 			// 
-			this.NetworkSetToolStripMenuItem.Enabled = false;
-			this.NetworkSetToolStripMenuItem.Name = "NetworkSetToolStripMenuItem";
-			this.NetworkSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-			this.NetworkSetToolStripMenuItem.Text = "网络设置";
+			this.networkSetToolStripMenuItem.Enabled = false;
+			this.networkSetToolStripMenuItem.Name = "networkSetToolStripMenuItem";
+			this.networkSetToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.networkSetToolStripMenuItem.Text = "网络设置";
+			this.networkSetToolStripMenuItem.Click += new System.EventHandler(this.NetworkSetToolStripMenuItem_Click);
 			// 
 			// previewButton
 			// 
@@ -3558,7 +3560,7 @@ namespace LightController
 
 		private MenuStrip mainMenuStrip;
 		private ToolStripMenuItem lightLibraryToolStripMenuItem;
-		private ToolStripMenuItem lightsEditToolStripMenuItem1;
+		private ToolStripMenuItem lightsEditToolStripMenuItem;
 		private ToolStripMenuItem ExitToolStripMenuItem;
 		private ToolStripMenuItem globalSetToolStripMenuItem;
 
@@ -3583,7 +3585,7 @@ namespace LightController
 		private Button testButton;
 		private Panel tongdaoPanel;
 		private ToolStripMenuItem ymSetToolStripMenuItem;
-		private ToolStripMenuItem NetworkSetToolStripMenuItem;
+		private ToolStripMenuItem networkSetToolStripMenuItem;
 		private Button materialUseButton;
 		private Button pasteLightButton;
 		private Button materialSaveButton;

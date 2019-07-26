@@ -59,6 +59,7 @@ namespace LightController.MyForm
 			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
 			heartbeatTextBox.Text = iniFileAst.ReadString("Common", "Heartbeat", "");
 			heartbeatCycleNumericUpDown.Value = iniFileAst.ReadInt("Common", "HeartbeatCycle", 0);
+			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 0);
 
 			linkModeComboBox.SelectedIndex = iniFileAst.ReadInt("Network", "LinkMode", 0);
 			linkPortTextBox.Text = iniFileAst.ReadString("Network", "LinkPort", "");
@@ -117,6 +118,7 @@ namespace LightController.MyForm
 			iniFileAst.WriteString("Common", "HardwareID", hardwareIDTextBox.Text);
 			iniFileAst.WriteString("Common", "Heartbeat", heartbeatTextBox.Text);
 			iniFileAst.WriteString("Common", "HeartbeatCycle", heartbeatCycleNumericUpDown.Value.ToString());
+			iniFileAst.WriteInt("Common", "PlayFlag", playFlagComboBox.SelectedIndex);
 
 			iniFileAst.WriteInt("Network", "LinkMode", linkModeComboBox.SelectedIndex);
 			iniFileAst.WriteString("Network", "LinkPort", linkPortTextBox.Text);
@@ -215,7 +217,7 @@ namespace LightController.MyForm
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
 			Dictionary<string,string> allDevices = cTools.GetDeviceInfo();
-			cTools.PutPara(new List<string>(allDevices.Keys), iniPath, new ReceiveCallBack());	
+			cTools.PutPara(new List<string>(allDevices.Keys), iniPath, new ReceiveCallBackHardwareSet());	
 		}
 
 		private void connectButton_Click(object sender, EventArgs e)
@@ -226,7 +228,7 @@ namespace LightController.MyForm
 		}
 	}
 
-	class ReceiveCallBack : IReceiveCallBack
+	class ReceiveCallBackHardwareSet : IReceiveCallBack
 	{
 		public void SendCompleted(string ip, string order)
 		{

@@ -38,15 +38,15 @@
 			// 
 			// progressBar1
 			// 
-			this.progressBar1.Location = new System.Drawing.Point(180, 104);
+			this.progressBar1.Location = new System.Drawing.Point(180, 99);
 			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(538, 39);
+			this.progressBar1.Size = new System.Drawing.Size(538, 29);
 			this.progressBar1.TabIndex = 0;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(63, 114);
+			this.label1.Location = new System.Drawing.Point(62, 106);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(97, 15);
 			this.label1.TabIndex = 1;
@@ -74,7 +74,7 @@
 			// 
 			// searchButton
 			// 
-			this.searchButton.Location = new System.Drawing.Point(66, 33);
+			this.searchButton.Location = new System.Drawing.Point(64, 34);
 			this.searchButton.Name = "searchButton";
 			this.searchButton.Size = new System.Drawing.Size(101, 39);
 			this.searchButton.TabIndex = 4;
@@ -94,7 +94,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(790, 188);
+			this.ClientSize = new System.Drawing.Size(790, 178);
 			this.Controls.Add(this.devicesComboBox);
 			this.Controls.Add(this.searchButton);
 			this.Controls.Add(this.connectButton);

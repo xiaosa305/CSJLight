@@ -46,9 +46,9 @@ namespace LightController.MyForm
 			cTools.Start("192.168.31.14");
 			cTools.SearchDevice();
 			// 需要延迟片刻，才能找到设备
+			connectButton.Enabled = false;
 			Thread.Sleep(1000);
 			Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
-
 			devicesComboBox.Items.Clear();
 			ips = new List<string>();
 			if(allDevices.Count > 0) {
@@ -59,6 +59,7 @@ namespace LightController.MyForm
 				}
 				devicesComboBox.SelectedIndex = 0;
 			}
+			connectButton.Enabled = true;
 		}		
 
 		/// <summary>
@@ -81,9 +82,12 @@ namespace LightController.MyForm
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new ReceiveCallBack());
-			
-			//// 测试进度条的绘制
+			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() );		
+		
+		}
+
+		// 测试进度条的绘制
+		public void paintPrograssBar() {
 			//progressBar1.Maximum = 100;//设置最大长度值
 			//progressBar1.Value = 0;//设置当前值
 			//progressBar1.Step = 1;//设置没次增长多少
@@ -100,16 +104,16 @@ namespace LightController.MyForm
 	}
 
 
-	class ReceiveCallBack : IReceiveCallBack
+	public class DownloadReceiveCallBack : IReceiveCallBack
 	{
 		public void SendCompleted(string ip, string order)
 		{
-			throw new NotImplementedException();
+			MessageBox.Show("IP："+ip+" 的设备已经成功下载；发回了命令："+order);
 		}
 
 		public void SendError(string ip, string order)
 		{
-			throw new NotImplementedException();
+			MessageBox.Show("IP：" + ip + " 的设备已经下载失败；发回了命令：" + order);
 		}
 	}
 }

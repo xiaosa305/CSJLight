@@ -174,6 +174,7 @@ namespace LightController.Tools
             List<byte> data = new List<byte>();
             data.Add(Flag);
             data.Add(Convert.ToByte(Ver));
+            data.Add(Convert.ToByte(PlayFlag));
             byte[] SumUseTimesBuff = new byte[4];
             SumUseTimesBuff[0] = Convert.ToByte((SumUseTimes) & 0xFF);
             SumUseTimesBuff[1] = Convert.ToByte((SumUseTimes >> 8) & 0xFF);
@@ -239,8 +240,17 @@ namespace LightController.Tools
             data.Add(Convert.ToByte(DomainServer.Split('.')[1]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[2]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[3]));
-            data.AddRange(Encoding.Default.GetBytes(HardWareID));
+            byte[] HardWareIDBuff = Encoding.Default.GetBytes(HardWareID);
+            data.AddRange(HardWareIDBuff);
+            for (int i = 0; i < 16 - HardWareIDBuff.Length; i++)
+            {
+                data.Add(Convert.ToByte(0x00));
+            }
             data.AddRange(Heartbeat);
+            for (int i = 0; i < 8-Heartbeat.Length; i++)
+            {
+                data.Add(Convert.ToByte(0x00));
+            }
             data.Add(Convert.ToByte((HeartbeatCycle) & 0xFF));
             data.Add(Convert.ToByte((HeartbeatCycle >> 8) & 0xFF));
             data.AddRange(CRCTools.GetInstance().GetCRC(data.ToArray()));

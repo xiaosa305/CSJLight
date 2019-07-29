@@ -234,7 +234,6 @@ namespace LightController
 			this.backStepButton = new System.Windows.Forms.Button();
 			this.insertBeforeStepButton = new System.Windows.Forms.Button();
 			this.insertAfterStepButton = new System.Windows.Forms.Button();
-			this.testButton = new System.Windows.Forms.Button();
 			this.initButton = new System.Windows.Forms.Button();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
@@ -244,6 +243,7 @@ namespace LightController
 			this.lightLabel = new System.Windows.Forms.Label();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
+			this.test1Button = new System.Windows.Forms.Button();
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.lightLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -262,9 +262,9 @@ namespace LightController
 			this.soundButton = new System.Windows.Forms.Button();
 			this.connectButton = new System.Windows.Forms.Button();
 			this.testGroupBox = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
+			this.test4Button = new System.Windows.Forms.Button();
+			this.test3Button = new System.Windows.Forms.Button();
+			this.test2Button = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -2947,17 +2947,6 @@ namespace LightController
 			this.insertAfterStepButton.UseVisualStyleBackColor = true;
 			this.insertAfterStepButton.Click += new System.EventHandler(this.insertStepButton_Click);
 			// 
-			// testButton
-			// 
-			this.testButton.Location = new System.Drawing.Point(28, 19);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(89, 22);
-			this.testButton.TabIndex = 13;
-			this.testButton.Text = "TEST1";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Visible = false;
-			this.testButton.Click += new System.EventHandler(this.newTestButton_Click);
-			// 
 			// initButton
 			// 
 			this.initButton.Location = new System.Drawing.Point(184, 286);
@@ -3072,6 +3061,16 @@ namespace LightController
 			this.modeComboBox.Size = new System.Drawing.Size(104, 23);
 			this.modeComboBox.TabIndex = 0;
 			this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
+			// 
+			// test1Button
+			// 
+			this.test1Button.Location = new System.Drawing.Point(28, 19);
+			this.test1Button.Name = "test1Button";
+			this.test1Button.Size = new System.Drawing.Size(89, 22);
+			this.test1Button.TabIndex = 13;
+			this.test1Button.Text = "TEST1";
+			this.test1Button.UseVisualStyleBackColor = true;
+			this.test1Button.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
 			// mainMenuStrip
 			// 
@@ -3245,10 +3244,10 @@ namespace LightController
 			// testGroupBox
 			// 
 			this.testGroupBox.BackColor = System.Drawing.SystemColors.Info;
-			this.testGroupBox.Controls.Add(this.button3);
-			this.testGroupBox.Controls.Add(this.button2);
-			this.testGroupBox.Controls.Add(this.button1);
-			this.testGroupBox.Controls.Add(this.testButton);
+			this.testGroupBox.Controls.Add(this.test4Button);
+			this.testGroupBox.Controls.Add(this.test3Button);
+			this.testGroupBox.Controls.Add(this.test2Button);
+			this.testGroupBox.Controls.Add(this.test1Button);
 			this.testGroupBox.Location = new System.Drawing.Point(212, 43);
 			this.testGroupBox.Name = "testGroupBox";
 			this.testGroupBox.Size = new System.Drawing.Size(253, 79);
@@ -3256,38 +3255,35 @@ namespace LightController
 			this.testGroupBox.TabStop = false;
 			this.testGroupBox.Visible = false;
 			// 
-			// button1
+			// test4Button
 			// 
-			this.button1.Location = new System.Drawing.Point(139, 19);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(89, 22);
-			this.button1.TabIndex = 13;
-			this.button1.Text = "TEST2";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Visible = false;
-			this.button1.Click += new System.EventHandler(this.newTestButton_Click);
+			this.test4Button.Location = new System.Drawing.Point(139, 45);
+			this.test4Button.Name = "test4Button";
+			this.test4Button.Size = new System.Drawing.Size(89, 22);
+			this.test4Button.TabIndex = 13;
+			this.test4Button.Text = "TEST4";
+			this.test4Button.UseVisualStyleBackColor = true;
+			this.test4Button.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
-			// button2
+			// test3Button
 			// 
-			this.button2.Location = new System.Drawing.Point(28, 45);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(89, 22);
-			this.button2.TabIndex = 13;
-			this.button2.Text = "TEST3";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Visible = false;
-			this.button2.Click += new System.EventHandler(this.newTestButton_Click);
+			this.test3Button.Location = new System.Drawing.Point(28, 45);
+			this.test3Button.Name = "test3Button";
+			this.test3Button.Size = new System.Drawing.Size(89, 22);
+			this.test3Button.TabIndex = 13;
+			this.test3Button.Text = "TEST3";
+			this.test3Button.UseVisualStyleBackColor = true;
+			this.test3Button.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
-			// button3
+			// test2Button
 			// 
-			this.button3.Location = new System.Drawing.Point(139, 45);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(89, 22);
-			this.button3.TabIndex = 13;
-			this.button3.Text = "TEST4";
-			this.button3.UseVisualStyleBackColor = true;
-			this.button3.Visible = false;
-			this.button3.Click += new System.EventHandler(this.newTestButton_Click);
+			this.test2Button.Location = new System.Drawing.Point(139, 19);
+			this.test2Button.Name = "test2Button";
+			this.test2Button.Size = new System.Drawing.Size(89, 22);
+			this.test2Button.TabIndex = 13;
+			this.test2Button.Text = "TEST2";
+			this.test2Button.UseVisualStyleBackColor = true;
+			this.test2Button.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
 			// MainForm
 			// 
@@ -3635,7 +3631,7 @@ namespace LightController
 		private Button steptimeSetButton;
 		private Button oneLightStepButton;
 		private CheckBox realTimeCheckBox;
-		private Button testButton;
+		private Button test1Button;
 		private Panel tongdaoPanel;
 		private ToolStripMenuItem ymSetToolStripMenuItem;
 		private ToolStripMenuItem networkSetToolStripMenuItem;
@@ -3656,9 +3652,9 @@ namespace LightController
 		private ToolStripMenuItem hardwareSetNewToolStripMenuItem;
 		private ToolStripMenuItem hardwareSetOpenToolStripMenuItem;
 		private GroupBox testGroupBox;
-		private Button button3;
-		private Button button2;
-		private Button button1;
+		private Button test4Button;
+		private Button test3Button;
+		private Button test2Button;
 	}
 }
 

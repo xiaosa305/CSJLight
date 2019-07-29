@@ -74,10 +74,9 @@ namespace LightController
 			{
 				if (showTestButton == "true")
 				{
-					testButton.Visible = true;
+					testGroupBox.Visible = true;
 				}
 			}
-
 
 			//TODO : 动态加载可用的串口
 			comComboBox.Items.AddRange(new object[] { "COM1","COM2" });
@@ -1817,8 +1816,12 @@ namespace LightController
 		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
+
+			int buttonIndex = MathAst.getIndexNum(((Button)sender).Name, 0);
+			Console.WriteLine(buttonIndex);
 			Test test = new Test(GetDBWrapper(true));
-			test.Start();
+			test.Start(buttonIndex);
+
 		}
 
 		/// <summary>
@@ -2171,7 +2174,6 @@ namespace LightController
 			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(true), globalIniFilePath);
 			updateForm.ShowDialog(); 
 		}
-
 
 
 		/// <summary>

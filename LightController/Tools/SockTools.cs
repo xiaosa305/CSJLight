@@ -82,8 +82,12 @@ namespace LightController.Tools
         {
             string[] strarrau = str.Split(' ');
             string ip = str.Split(' ')[0];
+            //string ip = str;
             string addr = str.Split(' ')[1];
+            //string addr = "255";
             string deviceName = str.Split(' ')[2];
+            //string deviceName = "0000000000000001";
+
             if (strarrau.Length > 3)
             {
                 for (int i = 3; i < strarrau.Length; i++)

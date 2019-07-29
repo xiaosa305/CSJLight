@@ -138,7 +138,7 @@ namespace LightController.Tools
                     Socket.Close();
                     IsSending = false;
                     IsUse = false;
-                    CallBack.SendError(Ip, Order);
+                    //CallBack.SendError(Ip, Order);
                 }
             }
         }
@@ -360,6 +360,7 @@ namespace LightController.Tools
                                     {
                                         TimeOutCount = 0;
                                         IsSending = false;
+                                        Close();
                                         CallBack.SendError(Ip, Order);
                                     }
                                     else
@@ -433,6 +434,7 @@ namespace LightController.Tools
                                 {
                                     DownloadStatus = false;
                                     IsSending = false;
+                                    Close();
                                     CallBack.SendError(Ip, Order);
                                 }
                                 break;
@@ -454,6 +456,7 @@ namespace LightController.Tools
                                 {
                                     DownloadStatus = false;
                                     IsSending = false;
+                                    Close();
                                     CallBack.SendError(Ip, Order);
                                 }
                                 break;
@@ -465,6 +468,7 @@ namespace LightController.Tools
                             case Constant.RECEIVE_ORDER_END_OK:
                                 DownloadStatus = true;
                                 IsSending = false;
+                                Close();
                                 CallBack.SendCompleted(Ip,Order);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
@@ -477,6 +481,7 @@ namespace LightController.Tools
                                 {
                                     DownloadStatus = false;
                                     IsSending = false;
+                                    Close();
                                     CallBack.SendError(Ip, Order);
                                 }
                                 break;
@@ -491,6 +496,7 @@ namespace LightController.Tools
                             case Constant.RECEIVE_ORDER_DONE:
                                 Console.WriteLine("下载完成");
                                 IsSending = false;
+                                Close();
                                 CallBack.SendCompleted(Ip,Order);
                                 break;
                             default:
@@ -501,6 +507,7 @@ namespace LightController.Tools
                                 finally
                                 {
                                     IsSending = false;
+                                    Close();
                                     CallBack.SendError(Ip, Order);
                                 }
                                 break;

@@ -26,12 +26,24 @@ namespace LightController.Tools
         }
 
 
-        public void Start()
+        public void Start(int index)
         {
             Testapplication();
-            //PreViewTest();
-            //SeralPortTest();
 
+            switch (index)
+            {
+                case 1:
+                    Testapplication();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void SeralPortTest()
@@ -92,6 +104,7 @@ namespace LightController.Tools
                 {
 
                     ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack());
+                    //ConnectTools.GetInstance().SendOrder(iplist.ToArray(), "Reset", null, new OrderCallBack());
 
                 }
                 catch (Exception ex)

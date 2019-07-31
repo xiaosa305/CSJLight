@@ -122,47 +122,47 @@ namespace LightController.Tools
         {
             C_Head head = new C_Head
             {
-                //MICSensor = 0,
-                //SenseFreq = 0,
-                //RunTime = 0,
+                MICSensor = 0,
+                SenseFreq = 0,
+                RunTime = 0,
                 ChanelCount = chanelCount,
                 FileSize = 0
             };
-            //StreamReader reader;
-            //string lineStr = "";
-            //string strValue = "";
-            //int intValue = 0;
-            //using (reader = new StreamReader(ConfigPath))
-            //{
-            //    while ((lineStr = reader.ReadLine()) != null)
-            //    {
-            //        if (lineStr.Equals("[YM]"))
-            //        {
-            //            for (int i = 0; i < 24; i++)
-            //            {
-            //                lineStr = reader.ReadLine();
-            //                if (lineStr.StartsWith(sceneNo + "CK"))
-            //                {
-            //                    strValue = lineStr.Split('=')[1];
-            //                    int.TryParse(strValue, out intValue);
-            //                    head.MICSensor = intValue;
-            //                }
-            //                if (lineStr.StartsWith(sceneNo + "JG"))
-            //                {
-            //                    strValue = lineStr.Split('=')[1];
-            //                    int.TryParse(strValue, out intValue);
-            //                    head.SenseFreq = intValue;
-            //                }
-            //                if (lineStr.StartsWith(sceneNo + "ZX"))
-            //                {
-            //                    strValue = lineStr.Split('=')[1];
-            //                    int.TryParse(strValue, out intValue);
-            //                    head.RunTime = intValue;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+            StreamReader reader;
+            string lineStr = "";
+            string strValue = "";
+            int intValue = 0;
+            using (reader = new StreamReader(ConfigPath))
+            {
+                while ((lineStr = reader.ReadLine()) != null)
+                {
+                    if (lineStr.Equals("[YM]"))
+                    {
+                        for (int i = 0; i < 24; i++)
+                        {
+                            lineStr = reader.ReadLine();
+                            if (lineStr.StartsWith(sceneNo + "CK"))
+                            {
+                                strValue = lineStr.Split('=')[1];
+                                int.TryParse(strValue, out intValue);
+                                head.MICSensor = intValue;
+                            }
+                            if (lineStr.StartsWith(sceneNo + "JG"))
+                            {
+                                strValue = lineStr.Split('=')[1];
+                                int.TryParse(strValue, out intValue);
+                                head.SenseFreq = intValue;
+                            }
+                            if (lineStr.StartsWith(sceneNo + "ZX"))
+                            {
+                                strValue = lineStr.Split('=')[1];
+                                int.TryParse(strValue, out intValue);
+                                head.RunTime = intValue;
+                            }
+                        }
+                    }
+                }
+            }
             return head;
         }
 

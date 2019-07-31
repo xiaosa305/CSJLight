@@ -77,7 +77,7 @@ namespace LightController.Tools
             IList<SceneData> sceneDatas = new List<SceneData>();
             foreach (int item in SceneArray)
             {
-                SceneData data = GetC_SceneData(SceneArray[item]);
+                SceneData data = GetC_SceneData(item);
                 sceneDatas.Add(data);
             }
             return sceneDatas;
@@ -93,7 +93,7 @@ namespace LightController.Tools
             IList<SceneData> sceneDatas = new List<SceneData>();
             foreach (int item in SceneArray)
             {
-                SceneData data = GetC_SceneData(SceneArray[item]);
+                SceneData data = GetC_SceneData(item);
                 sceneDatas.Add(data);
             }
             return sceneDatas;

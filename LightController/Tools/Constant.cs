@@ -30,9 +30,11 @@ namespace LightController.Tools
         public const string RECEIVE_ORDER_OTHER_ERROR = "Error";
 
         public const string ORDER_PUT = "Put";
-        public const string ORDER_PUT_PARA = "PutParam";
+        public const string ORDER_PUT_PARAM = "PutParam";
         public const string ORDER_BEGIN_SEND = "BeginSend";
         public const string ORDER_END_SEND = "EndSend";
+        public const string ORDER_GET_PARAM = "GetPatam";
+
 
         public const string RECEIVE_OK = "Ok";
         public const string RECEIVE_ERROR = "Error";

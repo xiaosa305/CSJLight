@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LightController.Tools
 {
-    class DMXHardware
+    public class DMXHardware
     {
         private readonly byte Flag = 0xEA;
         private int Ver { get; set; }
@@ -33,38 +33,12 @@ namespace LightController.Tools
 
         public DMXHardware(string filePath)
         {
-            //Test();
             ReadFromFile(filePath);
         }
 
-        public DMXHardware()
+        public DMXHardware(byte[] data)
         {
-            Test();
-        }
 
-        private void Test()
-        {
-            this.Ver = 1;
-            this.SumUseTimes = 5000000;
-            this.DiskFlag = 1;
-            this.PlayFlag = 1;
-            this.DeviceName = "AOL 001";
-            this.Addr = 110;
-            this.LinkMode = 0;
-            this.LinkPort = 7070;
-            this.IP = "192.168.31.15";
-            this.NetMask = "255.255.255.0";
-            this.GateWay = "192.168.31.1";
-            this.Mac = "F1-A5-1B-E2-FA-C9";
-            this.Baud = 0;
-            this.CurrUseTimes = 1;
-            this.RemoteHost = "192.168.31.235";
-            this.RemotePort = 7070;
-            this.DomainName = "www.baidu.com";
-            this.DomainServer = "192.168.31.110";
-            this.HardWareID = "0000000000000001";
-            this.Heartbeat = new byte[] {0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07};
-            this.HeartbeatCycle = 10000;
         }
 
         private void ReadFromFile(string filePath)

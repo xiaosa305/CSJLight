@@ -175,13 +175,13 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="configPath"></param>
         /// <param name="callBack"></param>
-        public void Download(IList<string> ips, DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack)
+        public void Download(IList<string> ips, DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack,DownloadProgressDelegate download)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
+                    SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack, download);
                 }
             }
             else
@@ -224,7 +224,22 @@ namespace LightController.Tools
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().PutPara(ip, filePath, receiveCallBack);
+                    SocketTools.GetInstance().PutParam(ip, filePath, receiveCallBack);
+                }
+            }
+            else
+            {
+                throw new Exception("未启动服务");
+            }
+        }
+
+        public void GetParam(IList<string> ips,IReceiveCallBack receiveCallBack,GetParamDelegate getParam)
+        {
+            if (IsStart)
+            {
+                foreach (string ip in ips)
+                {
+                    SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
                 }
             }
             else

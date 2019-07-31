@@ -237,7 +237,7 @@ namespace LightController.Tools
         /// <param name="ip"></param>
         /// <param name="dBWrapper"></param>
         /// <param name="configPath"></param>
-        public void Download(string ip,DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack)
+        public void Download(string ip,DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack,DownloadProgressDelegate download)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -245,7 +245,7 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].DownloadFile(dBWrapper, configPath,callBack);
+                        conns[i].DownloadFile(dBWrapper, configPath,callBack, download);
                     }
                 }
             }
@@ -277,7 +277,7 @@ namespace LightController.Tools
         /// <param name="ip"></param>
         /// <param name="filePath"></param>
         /// <param name="receiveCallBack"></param>
-        public void PutPara(string ip,string filePath, IReceiveCallBack receiveCallBack)
+        public void PutParam(string ip,string filePath, IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -285,7 +285,21 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].PutPara(filePath, receiveCallBack);
+                        conns[i].PutParam(filePath, receiveCallBack);
+                    }
+                }
+            }
+        }
+
+        public void GetParam(string ip,IReceiveCallBack receiveCallBack,GetParamDelegate getParam)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].GetParam(getParam, receiveCallBack);
                     }
                 }
             }

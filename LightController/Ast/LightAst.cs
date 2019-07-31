@@ -85,5 +85,25 @@ namespace LightController.Ast
 				return false;
 			}
 		}
+
+		/// <summary>
+		/// 空构造函数
+		/// </summary>
+		public LightAst() { }
+
+		/// <summary>
+		/// 构造函数，为了用旧对象完全创造一个新的对象
+		/// </summary>
+		public LightAst(LightAst laOld) {
+			LightPath = laOld.LightPath;
+			LightName = laOld.LightName;
+			LightType = laOld.LightType;
+			LightPic = laOld.LightPic;
+			Count = laOld.Count;
+			LightAddr = laOld.LightAddr;
+			StartNum = laOld.StartNum;
+			EndNum = laOld.EndNum;
+		}
+
 	}
 }

@@ -137,9 +137,7 @@ namespace LightController.Common
 		public void DeleteAllSection()
 		{
 			WritePrivateProfileString(null, null, null, this.filePath);
-		}
-
-		
+		}		
 
 		/// <summary>
 		/// 写入指定值，如果不存在 节-键，则会自动创建

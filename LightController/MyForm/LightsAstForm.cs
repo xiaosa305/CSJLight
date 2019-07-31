@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,8 +22,8 @@ namespace LightController
 		private string lightPic; //灯的图片地址
 		private int lightCount;    // 灯具的通道数
 
-		private int startNum; // 新建灯具的起始地址
-		private int endNum; // 灯具的结束地址。
+		private int startNum; // 灯具的起始地址
+		private int endNum; // 灯具的结束地址
 
 		public LightsAstForm(LightsForm lightsForm, string lightPath, int startNum)
 		{
@@ -30,46 +31,66 @@ namespace LightController
 			this.lightsForm = lightsForm;
 
 			this.lightPath = lightPath;
-			this.startCountNumericUpDown.Minimum = startNum;
 			this.startCountNumericUpDown.Value = startNum;
 
 			readFile(lightPath);
 
 		}
 		// 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
-		private void readFile(string lightPath) {
+		private void readFile(string lightPath)
+		{
+			// 老方法：不够灵活，配置的每一行都要写死
 			string[] lines = File.ReadAllLines(lightPath);
-			this.lightCount = int.Parse(lines[3].Substring(6));
-			this.lightName = lines[4].Substring(5);
-			this.lightType = lines[1].Substring(5);
-			this.lightPic = lines[2].Substring(4);
+			lightCount = int.Parse(lines[3].Substring(6));
+			lightName = lines[4].Substring(5);
+			lightType = lines[1].Substring(5);
+			lightPic = lines[2].Substring(4);
+
+			this.nameTypeLabel.Text = lightName + ":" + lightType;
+
+			// 新方法：但无法在首行就写着[...]时读到该块的数据
+			//IniFileAst iniAst = new IniFileAst(lightPath);
+			//lightCount = iniAst.ReadInt("set", "count", 1);
+			//lightName = iniAst.ReadString("set", "name", "");
+			//lightType = iniAst.ReadString("set", "type", "");
+			//lightPic = iniAst.ReadString("set", "pic", "");
+
 		}
 
-		//　辅助方法：通过startNum来计算endNum和lightAddr;
-		private void calcEndAddr() {
-			this.startNum = int.Parse(this.startCountNumericUpDown.Value.ToString());
-			this.endNum = startNum + lightCount - 1;
-			this.lightAddr = startNum + "-" + endNum;
+		/// <summary>
+		/// 辅助方法：通过(添加灯具的索引i和startNum输入框获取的值）来计算endNum和lightAddr;
+		/// </summary>
+		/// <param name="i">添加灯具的索引</param>
+		private void calcEndAddr(int i) {
+			int tempStartNum = Decimal.ToInt16(startCountNumericUpDown.Value);
+			startNum = i * lightCount + tempStartNum;
+			endNum = startNum + lightCount - 1;
+			lightAddr = startNum + "-" + endNum;
 		}		
 
-		// 点击确认键后，再去计算开始通道值、结束值和地址值(string)等数据
+		/// <summary>
+		///  点击确认键后，由添加的数量和开始的地址，来插入多个或一个灯具
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
-		{
-			calcEndAddr();
-			lightsForm.AddListViewAndLightAst(lightPath,lightName, lightType, lightAddr,lightPic,startNum,endNum,lightCount);
-			this.Close();
+		{	
+			int addLightCount = Decimal.ToInt16(lightCountNumericUpDown.Value);
+			for (int i = 0; i < addLightCount; i++)
+			{
+				calcEndAddr(i);
+				lightsForm.AddListViewAndLightAst(
+					lightPath, lightName, lightType, lightAddr, lightPic,
+					startNum, endNum, lightCount);
+			}
+			this.Dispose();
 			lightsForm.Activate();
 		}
 
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Close();
+			this.Dispose();
 			lightsForm.Activate();
-		}
-
-		private void startCountNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-
 		}
 
 		private void LightsAstForm_Load(object sender, EventArgs e)

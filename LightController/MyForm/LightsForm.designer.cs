@@ -44,12 +44,13 @@ namespace LightController
 			this.LightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LightAddr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.largeImageList = new System.Windows.Forms.ImageList(this.components);
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// addLightButton
 			// 
 			this.addLightButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-			this.addLightButton.Location = new System.Drawing.Point(386, 68);
+			this.addLightButton.Location = new System.Drawing.Point(386, 105);
 			this.addLightButton.Name = "addLightButton";
 			this.addLightButton.Size = new System.Drawing.Size(97, 40);
 			this.addLightButton.TabIndex = 2;
@@ -60,7 +61,7 @@ namespace LightController
 			// deleteLightButton
 			// 
 			this.deleteLightButton.BackColor = System.Drawing.Color.Beige;
-			this.deleteLightButton.Location = new System.Drawing.Point(386, 141);
+			this.deleteLightButton.Location = new System.Drawing.Point(386, 168);
 			this.deleteLightButton.Name = "deleteLightButton";
 			this.deleteLightButton.Size = new System.Drawing.Size(97, 40);
 			this.deleteLightButton.TabIndex = 2;
@@ -88,6 +89,7 @@ namespace LightController
 			this.treeView1.Name = "treeView1";
 			this.treeView1.Size = new System.Drawing.Size(347, 636);
 			this.treeView1.TabIndex = 3;
+			this.treeView1.DoubleClick += new System.EventHandler(this.addLightButton_Click);
 			// 
 			// lightsListView
 			// 
@@ -107,6 +109,7 @@ namespace LightController
 			this.lightsListView.TabIndex = 5;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
 			this.lightsListView.View = System.Windows.Forms.View.Details;
+			this.lightsListView.DoubleClick += new System.EventHandler(this.lightsListView_DoubleClick);
 			// 
 			// LigntName
 			// 
@@ -177,11 +180,20 @@ namespace LightController
 			this.largeImageList.Images.SetKeyName(47, "魔球.bmp");
 			this.largeImageList.Images.SetKeyName(48, "帕灯.bmp");
 			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(372, 254);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(130, 64);
+			this.label1.TabIndex = 6;
+			this.label1.Text = "提示：双击右侧灯具，可修改初始通道地址。";
+			// 
 			// LightsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(996, 636);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.treeView1);
 			this.Controls.Add(this.enterButton);
@@ -205,5 +217,6 @@ namespace LightController
 		private System.Windows.Forms.ColumnHeader LightType;
 		private ImageList largeImageList;
 		private ColumnHeader LightAddr;
+		private Label label1;
 	}
 }

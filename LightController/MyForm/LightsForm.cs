@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using LightController.Ast;
+using LightController.MyForm;
 
 namespace LightController
 {
@@ -22,8 +23,8 @@ namespace LightController
 		///  构造函数：传mainForm值，并通过lightAstList判断是否旧项目
 		/// </summary>
 		/// <param name="mainForm"></param>
-		/// <param name="lightAstList"></param>
-		public LightsForm(MainForm mainForm,IList<LightAst> lightAstList)
+		/// <param name="lightAstListFromMain"></param>
+		public LightsForm(MainForm mainForm,IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;			
@@ -57,16 +58,24 @@ namespace LightController
 			}
 						
 			// 2.只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
-			if (lightAstList != null && lightAstList.Count > 0) {
-				this.lightAstList = new List<LightAst>(lightAstList);
-				foreach (LightAst la in this.lightAstList)
+			if (lightAstListFromMain != null && lightAstListFromMain.Count > 0) {
+				foreach (LightAst laOld in lightAstListFromMain)
+				{
+					lightAstList.Add(new LightAst(laOld));
+				}
+				foreach (LightAst la in lightAstList)
 				{
 					addListViewItem(la.LightName, la.LightType, la.LightAddr, la.LightPic);
 					minNum = la.EndNum + 1;
-				}
+				}				
 			}
 		}
 			
+		/// <summary>
+		///  窗口Load方法：作用是初始化窗体位置
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
@@ -194,6 +203,34 @@ namespace LightController
 		{
 			this.Dispose();
 			mainForm.Activate();
+		}
+
+		/// <summary>
+		/// 双击修改选中灯具
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightsListView_DoubleClick(object sender, EventArgs e)
+		{
+			int lightIndex = lightsListView.SelectedIndices[0];
+			LightsEditForm lightsEditForm = new LightsEditForm(this,lightAstList[lightIndex],lightIndex);
+			lightsEditForm.ShowDialog();
+		}
+
+		/// <summary>
+		///  供LightsEditForm回调使用
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <param name="startNum"></param>
+		internal void UpdateLight(int lightIndex, int startNum)
+		{
+			// 1.修改lightAstList
+			lightAstList[lightIndex].StartNum = startNum;
+			lightAstList[lightIndex].EndNum = startNum + lightAstList[lightIndex].Count - 1;
+			lightAstList[lightIndex].LightAddr = startNum + "-" + lightAstList[lightIndex].EndNum;
+
+			// 2.修改lightListView
+			lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
 		}
 
 	}

@@ -171,6 +171,12 @@
     <Compile Include="MyForm\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\LightsEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightsEditForm.Designer.cs">
+      <DependentUpon>LightsEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MaterialForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -281,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightsEditForm.resx">
+      <DependentUpon>LightsEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>

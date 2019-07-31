@@ -35,6 +35,8 @@
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.lightCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.startCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label3 = new System.Windows.Forms.Label();
+			this.nameTypeLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.lightCountNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).BeginInit();
 			this.SuspendLayout();
@@ -42,25 +44,25 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(25, 32);
+			this.label1.Location = new System.Drawing.Point(25, 72);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(97, 15);
+			this.label1.Size = new System.Drawing.Size(112, 15);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "添加灯具数量";
+			this.label1.Text = "添加灯具数量：";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(25, 71);
+			this.label2.Location = new System.Drawing.Point(25, 111);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(97, 15);
+			this.label2.Size = new System.Drawing.Size(112, 15);
 			this.label2.TabIndex = 0;
-			this.label2.Text = "起始灯具地址";
+			this.label2.Text = "起始灯具地址：";
 			// 
 			// enterButton
 			// 
 			this.enterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-			this.enterButton.Location = new System.Drawing.Point(28, 126);
+			this.enterButton.Location = new System.Drawing.Point(55, 167);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(94, 34);
 			this.enterButton.TabIndex = 2;
@@ -71,7 +73,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.BackColor = System.Drawing.SystemColors.Info;
-			this.cancelButton.Location = new System.Drawing.Point(182, 126);
+			this.cancelButton.Location = new System.Drawing.Point(209, 167);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(100, 34);
 			this.cancelButton.TabIndex = 2;
@@ -81,7 +83,7 @@
 			// 
 			// lightCountNumericUpDown
 			// 
-			this.lightCountNumericUpDown.Location = new System.Drawing.Point(150, 30);
+			this.lightCountNumericUpDown.Location = new System.Drawing.Point(177, 70);
 			this.lightCountNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -99,7 +101,7 @@
 			// 
 			// startCountNumericUpDown
 			// 
-			this.startCountNumericUpDown.Location = new System.Drawing.Point(150, 69);
+			this.startCountNumericUpDown.Location = new System.Drawing.Point(177, 109);
 			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -119,18 +121,37 @@
             0,
             0,
             0});
-			this.startCountNumericUpDown.ValueChanged += new System.EventHandler(this.startCountNumericUpDown_ValueChanged);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(25, 33);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(112, 15);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "添加灯具名称：";
+			// 
+			// nameTypeLabel
+			// 
+			this.nameTypeLabel.AutoSize = true;
+			this.nameTypeLabel.Location = new System.Drawing.Point(150, 32);
+			this.nameTypeLabel.Name = "nameTypeLabel";
+			this.nameTypeLabel.Size = new System.Drawing.Size(52, 15);
+			this.nameTypeLabel.TabIndex = 4;
+			this.nameTypeLabel.Text = "灯具名";
 			// 
 			// LightsAstForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(309, 188);
+			this.ClientSize = new System.Drawing.Size(363, 227);
+			this.Controls.Add(this.nameTypeLabel);
 			this.Controls.Add(this.startCountNumericUpDown);
 			this.Controls.Add(this.lightCountNumericUpDown);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.label2);
+			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
 			this.Name = "LightsAstForm";
 			this.Text = "添加灯具选项";
@@ -150,5 +171,7 @@
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.NumericUpDown lightCountNumericUpDown;
 		private System.Windows.Forms.NumericUpDown startCountNumericUpDown;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label nameTypeLabel;
 	}
 }

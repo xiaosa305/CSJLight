@@ -266,8 +266,7 @@ namespace LightController
 
 			#endregion
 
-			isInit = true;
-			
+			isInit = true;			
 			playTools = PlayTools.GetInstance();
 		}
 		
@@ -392,8 +391,7 @@ namespace LightController
 			ymSetToolStripMenuItem.Enabled = enable;
 			networkSetToolStripMenuItem.Enabled = enable;		
 
-		}
-		
+		}	
 
 
 		/// <summary>
@@ -470,8 +468,7 @@ namespace LightController
 
 			return valueList;
 		}
-
-
+		
 		/// <summary>
 		/// 待完成：打开串口后的操作
 		/// </summary>
@@ -683,8 +680,10 @@ namespace LightController
 			lightsListView.Items.Clear();
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
 			
+			// TODO 此处有BUG：待调试！@！！
 			for (int i = 0; i < lightAstList2.Count; i++)
 			{
+				// 添加灯具数据到LightsListView中
 				lightsListView.Items.Add(new ListViewItem(
 					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType,
 					lightAstList2[i].LightPic
@@ -697,22 +696,26 @@ namespace LightController
 					for (int j = 0; j < lightAstList.Count; j++)
 					{
 						if (		(j < lightWrapperList.Count)
-							&& (lightAstList2[i].Equals(lightAstList[j]))
-							&& (lightWrapperList[j] != null) )
+							&& lightAstList2[i].Equals( lightAstList[j] )
+							&& (lightWrapperList[j] != null) 
+						)
 						{
 							lightWrapperList2.Add(lightWrapperList[j]);
 							addOld = true ;
+							break;
 						}
 					}
 				}
 				if ( !addOld ) {
+					Console.WriteLine("Dickov : 添加了一个全新的LightWrapper（还没有生成StepMode)"  );
 					lightWrapperList2.Add(new LightWrapper());
 				}
 			}
-
 			lightAstList =new List<LightAst>(lightAstList2);
-			lightWrapperList = lightWrapperList2;
+			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
 
+			// 最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
+			tongdaoGroupBox .Hide();
 		}
 
 		/// <summary>
@@ -808,7 +811,6 @@ namespace LightController
 				changeModeComboBoxes[i].Visible = false ;
 				steptimeNumericUpDowns[i].Visible = false;
 			}
-
 		}
 
 		/// <summary>
@@ -849,7 +851,7 @@ namespace LightController
 		/// <returns></returns>
 		private StepWrapper generateStepMode(LightAst lightAst  ,int lightIndex)
 		{
-			Console.WriteLine("Dickov:开始生成模板文件");
+			Console.WriteLine("Dickov:开始生成模板文件(StepMode)");
 			LightAst light = lightAstList[lightIndex];
 			int startNum = light.StartNum;
 
@@ -958,8 +960,7 @@ namespace LightController
 				}
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 点击《追加步》的操作：在最后步后插入新步
 		/// </summary>
@@ -1816,12 +1817,10 @@ namespace LightController
 		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
-
 			int buttonIndex = MathAst.getIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
 			Test test = new Test(GetDBWrapper(true));
 			test.Start(buttonIndex);
-
 		}
 
 		/// <summary>

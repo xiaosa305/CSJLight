@@ -240,13 +240,11 @@ namespace LightController.Tools
                 byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
                 package[6] = packageCRC[0];
                 package[7] = packageCRC[1];
-
-                Console.Write("Send:    " + Order + " ---");
-                foreach (byte value in package)
-                {
-                    Console.Write(Convert.ToString(value, 16) + " ");
-                }
-
+                //Console.Write("Send:    " + Order + " ---");
+                //foreach (byte value in package)
+                //{
+                //    Console.Write(Convert.ToString(value, 16) + " ");
+                //}
                 Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
             }
             catch (Exception)
@@ -292,15 +290,14 @@ namespace LightController.Tools
                 byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
                 package[6] = packageCRC[0];
                 package[7] = packageCRC[1];
-
-                Console.Write("SendFile:    " + Order + ",packageNo: " + Package_No + ",packageCount: " + Package_Count + " ---");
-                foreach (byte value in package)
-                {
-                    Console.Write("0x" + Convert.ToString(value, 16) + ",");
-                }
+                //Console.Write("SendFile:    " + Order + ",packageNo: " + Package_No + ",packageCount: " + Package_Count + " ---");
+                //foreach (byte value in package)
+                //{
+                //    Console.Write("0x" + Convert.ToString(value, 16) + ",");
+                //}
                 if (Order.Equals(Constant.ORDER_PUT))
                 {
-                    CurrentDownloadCompletedSize += (package.Count - 8);
+                    CurrentDownloadCompletedSize += packageData.Count();
                 }
                 Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
             }
@@ -440,7 +437,7 @@ namespace LightController.Tools
                     return;
                 }
                 byte[] readBuff = conn.ReadBuff;
-                string receiveStr = Encoding.UTF8.GetString(readBuff);
+                string receiveStr = Encoding.UTF8.GetString(readBuff,0,count);
                 Console.WriteLine("Receive Data : " + receiveStr);
                 string deviceName = DeviceName;
                 switch (Order)
@@ -614,15 +611,16 @@ namespace LightController.Tools
             IList<DMX_C_File> c_Files = DataTools.GetInstance().GetC_Files(DBWrapper,ConfigPath);
             IList<DMX_M_File> m_Files = DataTools.GetInstance().GetM_Files(DBWrapper,ConfigPath);
             DMXConfigData configData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
+            byte[] configFileData = configData.GetConfigData();
             foreach (DMX_C_File item in c_Files)
             {
-                DownloadFileToTalSize += item.Data.HeadData.FileSize;
+                DownloadFileToTalSize += item.GetByteData().Length;
             }
             foreach (DMX_M_File item in m_Files)
             {
-                DownloadFileToTalSize += item.Data.HeadData.FileSize;
+                DownloadFileToTalSize += item.GetByteData().Length;
             }
-            DownloadFileToTalSize += configData.FileSize;
+            DownloadFileToTalSize += configFileData.Length;
             DownloadStatus = false;
             SendData(null, Constant.ORDER_BEGIN_SEND, null);
             string fileName = "";
@@ -665,7 +663,7 @@ namespace LightController.Tools
                 }
             }
             fileName = "Config.bin";
-            byte[] configFileData = configData.GetConfigData();
+            
             configData.WriteToFile(@"C:\Temp");
             fileSize = configFileData.Length.ToString();
             crc = CRCTools.GetInstance().GetCRC(configData.GetConfigData());

@@ -637,11 +637,11 @@ namespace LightController.Tools
                 fileSize = item.GetByteData().Length.ToString();
                 crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
                 fileCRC = crc[0].ToString() + crc[1].ToString();
-                CurrentFileName = fileName;
                 while (true)
                 {
                     if (DownloadStatus)
                     {
+                        CurrentFileName = fileName;
                         SendData(item.GetByteData(),Constant.ORDER_PUT,new string[] {fileName,fileSize,fileCRC});
                         DownloadStatus = false;
                         break;
@@ -656,11 +656,11 @@ namespace LightController.Tools
                     fileSize = item.GetByteData().Length.ToString();
                     crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
                     fileCRC = crc[0].ToString() + crc[1].ToString();
-                    CurrentFileName = fileName;
                     while (true)
                     {
                         if (DownloadStatus)
                         {
+                            CurrentFileName = fileName;
                             SendData(item.GetByteData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                             DownloadStatus = false;
                             break;

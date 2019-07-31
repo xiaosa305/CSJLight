@@ -576,7 +576,7 @@ namespace LightController.Tools
             Console.WriteLine("发送完成");
             if (Order.Equals(Constant.ORDER_PUT))
             {
-                double progress = CurrentDownloadCompletedSize / (DownloadFileToTalSize * 1.0);
+                int progress = Convert.ToInt16(CurrentDownloadCompletedSize / (DownloadFileToTalSize * 1.0) * 100);
                 DownloadProgressDelegate(progress);
             }
         }
@@ -737,6 +737,6 @@ namespace LightController.Tools
         }
     }
 
-    public delegate void DownloadProgressDelegate(double Progress);
+    public delegate void DownloadProgressDelegate(int Progress);
     public delegate void GetParamDelegate(DMXHardware dMXHardware);
 }

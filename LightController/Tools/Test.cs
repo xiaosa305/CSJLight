@@ -104,10 +104,9 @@ namespace LightController.Tools
             }
         }
 
-        public void DownloadProgress(double progress)
+        public void DownloadProgress(int progress)
         {
-            int progressInt = Convert.ToInt16(progress * 100);
-            Console.WriteLine("===========Download Progress : " + progressInt + "%===========");
+            Console.WriteLine("===========Download Progress : " + progress + "%===========");
         }
     }
     public class DownloadCallBack : IReceiveCallBack

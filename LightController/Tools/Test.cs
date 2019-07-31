@@ -17,7 +17,6 @@ namespace LightController.Tools
         private IList<DMX_C_File> C_Files { get; set; }
         private IList<DMX_M_File> M_Files { get; set; }
         private DBWrapper DBWrapper;
-        private static int i = 0;
         public Test(DBWrapper dBWrapper)
         {
             C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SceneDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
@@ -28,16 +27,24 @@ namespace LightController.Tools
 
         public void Start(int index)
         {
-            Testapplication();
-
             switch (index)
             {
                 case 1:
-                    Testapplication();
+                    string localIP = string.Empty;
+                    foreach (IPAddress iPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+                    {
+                        if (iPAddress.AddressFamily.ToString() == "InterNetwork")
+                        {
+                            localIP = iPAddress.ToString();
+                        }
+                    }
+                    ConnectTools.GetInstance().Start(localIP);
                     break;
                 case 2:
+                    ConnectTools.GetInstance().SearchDevice();
                     break;
                 case 3:
+                    Testapplication();
                     break;
                 case 4:
                     break;
@@ -71,49 +78,36 @@ namespace LightController.Tools
 
         public void PreViewTest()
         {
-            //PlayTools.GetInstance().ReConnectDevice();
-            DMX512Player.GetInstance().Preview(DBWrapper, 0);
+            PlayTools.GetInstance().ReConnectDevice();
+            //DMX512Player.GetInstance().Preview(DBWrapper, 0);
         }
 
         public void Testapplication()
         {
-            if (i == 0)
-            {
-                string localIP = string.Empty;
-                foreach (IPAddress iPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
-                {
-                    if (iPAddress.AddressFamily.ToString() == "InterNetwork")
-                    {
-                        localIP = iPAddress.ToString();
-                    }
-                }
-                ConnectTools.GetInstance().Start(localIP);
-            }
-            ConnectTools.GetInstance().SearchDevice();
-            if (i > 0)
-            {
                 IList<string> iplist = new List<string>();
-                foreach (string item in ConnectTools.GetInstance().GetDevicesIp())
+            foreach (string item in ConnectTools.GetInstance().GetDevicesIp())
+            {
+                if (item.Length > 0)
                 {
-                    if (item.Length > 0)
-                    {
-                        iplist.Add(item);
-                    }
+                    iplist.Add(item);
                 }
-                try
-                {
-
-                    ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack());
-                    //ConnectTools.GetInstance().SendOrder(iplist.ToArray(), "Reset", null, new OrderCallBack());
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-              
             }
-            i++;
+            try
+            {
+
+                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(),new DownloadProgressDelegate(DownloadProgress));
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void DownloadProgress(double progress)
+        {
+            int progressInt = Convert.ToInt16(progress * 100);
+            Console.WriteLine("===========Download Progress : " + progressInt + "%===========");
         }
     }
     public class DownloadCallBack : IReceiveCallBack

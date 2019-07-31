@@ -30,14 +30,17 @@ namespace LightController.Tools
         private int TimeOutCount { get; set; }//超时重发计数
         private bool DownloadStatus { get; set; }//下载数据通信状态标记
         private Thread DownloadThread { get; set; }//下载数据线程
-        private Thread PutParamThread { get; set; }//发送配置文件线程
         private DBWrapper DBWrapper { get; set; }//数据库数据
         private string ConfigPath { get; set; }//全局配置文件路径
         private string HardwarePath { get; set; }//硬件配置文件路径
         private IReceiveCallBack CallBack { get; set; }//命令完成或错误回调方法
         public int Addr { get; set; }//硬件地址
         public string DeviceName { get; set; }//硬件标识
-        private bool IsSending { get; set; }
+        private bool IsSending { get; set; }//发送状态标识
+        private DownloadProgressDelegate DownloadProgressDelegate { get; set; }//下载进度委托
+        private GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置委托
+        private int DownloadFileToTalSize { get; set; }
+        private int CurrentDownloadCompletedSize { get; set; }
 
         /// <summary>
         /// 构造函数
@@ -64,8 +67,10 @@ namespace LightController.Tools
             IsTiomeOutThreadStart = false;
             BuffCount = 0;
             TimeOutCount = 0;
-            TimeOutThread = new Thread(new ThreadStart(TimeOut));
-            TimeOutThread.IsBackground = true;
+            TimeOutThread = new Thread(new ThreadStart(TimeOut))
+            {
+                IsBackground = true
+            };
             string addr = Socket.RemoteEndPoint.ToString();
             Ip = addr.Split(':')[0];
             int.TryParse(addr.Split(':')[1], out int connPort);
@@ -113,8 +118,9 @@ namespace LightController.Tools
             {
                 switch (Order)
                 {
-                    case Constant.ORDER_PUT_PARA:
-                        PutParamThread.Abort();
+                    case Constant.ORDER_PUT_PARAM:
+                        break;
+                    case Constant.ORDER_GET_PARAM:
                         break;
                     case Constant.ORDER_PUT:
                     case Constant.ORDER_BEGIN_SEND:
@@ -138,7 +144,6 @@ namespace LightController.Tools
                     Socket.Close();
                     IsSending = false;
                     IsUse = false;
-                    //CallBack.SendError(Ip, Order);
                 }
             }
         }
@@ -155,7 +160,7 @@ namespace LightController.Tools
                 case Constant.ORDER_PUT:
                     result = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
                     break;
-                case Constant.ORDER_PUT_PARA:
+                case Constant.ORDER_PUT_PARAM:
                     result = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
                     break;
                 default:
@@ -293,7 +298,10 @@ namespace LightController.Tools
                 {
                     Console.Write("0x" + Convert.ToString(value, 16) + ",");
                 }
-
+                if (Order.Equals(Constant.ORDER_PUT))
+                {
+                    CurrentDownloadCompletedSize += (package.Count - 8);
+                }
                 Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
             }
             catch (Exception)
@@ -312,7 +320,7 @@ namespace LightController.Tools
             {
                 if (IsTiomeOutThreadStart)
                 {
-                    for (int i = 0; i < 5000; i++)
+                    for (int i = 0; i < 2000; i++)
                     {
                         Thread.Sleep(1);
                         if (IsReceive)
@@ -339,38 +347,61 @@ namespace LightController.Tools
                                     {
                                         TimeOutCount = 0;
                                         IsSending = false;
+                                        string deviceName = DeviceName;
                                         Close();
-                                        CallBack.SendError(Ip, Order);
+                                        CallBack.SendError(deviceName, Order);
                                     }
                                     else
                                     {
                                         TimeOutCount++;
-                                        DownloadFile(DBWrapper, ConfigPath, CallBack);
+                                        DownloadFile(DBWrapper, ConfigPath, CallBack,DownloadProgressDelegate);
                                     }
                                 }
                                 break;
-                            case Constant.ORDER_PUT_PARA:
-                                try
+                            case Constant.ORDER_PUT_PARAM:
+                                if (TimeOutCount > 5)
                                 {
-                                    PutParamThread.Abort();
+                                    TimeOutCount = 0;
+                                    IsSending = false;
+                                    string deviceName = DeviceName;
+                                    Close();
+                                    CallBack.SendError(deviceName, Order);
                                 }
-                                finally
+                                else
                                 {
-                                    if (TimeOutCount > 5)
-                                    {
-                                        TimeOutCount = 0;
-                                        IsSending = false;
-                                        Close();
-                                        CallBack.SendError(Ip, Order);
-                                    }
-                                    else
-                                    {
-                                        TimeOutCount++;
-                                        PutPara(HardwarePath, CallBack);
-                                    }
+                                    TimeOutCount++;
+                                    PutParam(HardwarePath, CallBack);
+                                }
+                                break;
+                            case Constant.ORDER_GET_PARAM:
+                                if (TimeOutCount > 5)
+                                {
+                                    TimeOutCount = 0;
+                                    IsSending = false;
+                                    string deviceName = DeviceName;
+                                    Close();
+                                    CallBack.SendError(deviceName, Order);
+                                }
+                                else
+                                {
+                                    TimeOutCount++;
+                                    GetParam(GetParamDelegate, CallBack);
                                 }
                                 break;
                             default:
+                                if (TimeOutCount > 5)
+                                {
+                                    TimeOutCount = 0;
+                                    IsSending = false;
+                                    string deviceName = DeviceName;
+                                    Close();
+                                    CallBack.SendError(deviceName, Order);
+                                }
+                                else
+                                {
+                                    TimeOutCount++;
+                                    SendOrder(Order, Strs, CallBack);
+                                }
                                 break;
                         }
                     }
@@ -408,8 +439,10 @@ namespace LightController.Tools
                     conn.Close();
                     return;
                 }
-                string receiveStr = Encoding.UTF8.GetString(conn.ReadBuff, 0, count);
+                byte[] readBuff = conn.ReadBuff;
+                string receiveStr = Encoding.UTF8.GetString(readBuff);
                 Console.WriteLine("Receive Data : " + receiveStr);
+                string deviceName = DeviceName;
                 switch (Order)
                 {
                     case Constant.ORDER_PUT:
@@ -435,7 +468,7 @@ namespace LightController.Tools
                                     DownloadStatus = false;
                                     IsSending = false;
                                     Close();
-                                    CallBack.SendError(Ip, Order);
+                                    CallBack.SendError(deviceName, Order);
                                 }
                                 break;
                         }
@@ -457,7 +490,7 @@ namespace LightController.Tools
                                     DownloadStatus = false;
                                     IsSending = false;
                                     Close();
-                                    CallBack.SendError(Ip, Order);
+                                    CallBack.SendError(deviceName, Order);
                                 }
                                 break;
                         }
@@ -469,7 +502,7 @@ namespace LightController.Tools
                                 DownloadStatus = true;
                                 IsSending = false;
                                 Close();
-                                CallBack.SendCompleted(Ip,Order);
+                                CallBack.SendCompleted(deviceName, Order);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
                             default:
@@ -482,12 +515,12 @@ namespace LightController.Tools
                                     DownloadStatus = false;
                                     IsSending = false;
                                     Close();
-                                    CallBack.SendError(Ip, Order);
+                                    CallBack.SendError(deviceName, Order);
                                 }
                                 break;
                         }
                         break;
-                    case Constant.ORDER_PUT_PARA:
+                    case Constant.ORDER_PUT_PARAM:
                         switch (receiveStr)
                         {
                             case Constant.RECEIVE_ORDER_PUT_PARA:
@@ -497,23 +530,33 @@ namespace LightController.Tools
                                 Console.WriteLine("下载完成");
                                 IsSending = false;
                                 Close();
-                                CallBack.SendCompleted(Ip,Order);
+                                CallBack.SendCompleted(deviceName, Order);
                                 break;
                             default:
-                                try
-                                {
-                                    PutParamThread.Abort();
-                                }
-                                finally
-                                {
-                                    IsSending = false;
-                                    Close();
-                                    CallBack.SendError(Ip, Order);
-                                }
+                                IsSending = false;
+                                Close();
+                                CallBack.SendError(deviceName, Order);
                                 break;
                         }
                         break;
+                    case Constant.ORDER_GET_PARAM:
+                        GetParamDelegate(new DMXHardware(readBuff));
+                        break;
                     default:
+                        switch (receiveStr.Split(':')[0])
+                        {
+                            case Constant.RECEIVE_ORDER_OTHER_OK:
+                                IsSending = false;
+                                Close();
+                                CallBack.SendCompleted(deviceName, Order);
+                                break;
+                            case Constant.RECEIVE_ORDER_OTHER_ERROR:
+                            default:
+                                IsSending = false;
+                                Close();
+                                CallBack.SendError(deviceName, Order);
+                                break;
+                        }
                         break;
                 }
                 conn.Socket.BeginReceive(conn.ReadBuff, conn.BuffCount, conn.BuffRemain(), SocketFlags.None, ReceiveCb, conn);
@@ -534,15 +577,21 @@ namespace LightController.Tools
             IsReceive = false;
             IsTiomeOutThreadStart = true;
             Console.WriteLine("发送完成");
+            if (Order.Equals(Constant.ORDER_PUT))
+            {
+                double progress = CurrentDownloadCompletedSize / (DownloadFileToTalSize * 1.0);
+                DownloadProgressDelegate(progress);
+            }
         }
 
         /// <summary>
         /// 下载所有文件数据
         /// </summary>
-        public void DownloadFile(DBWrapper dBWrapper,string configPath,IReceiveCallBack receiveCallBack)
+        public void DownloadFile(DBWrapper dBWrapper,string configPath,IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
         {
             if (!IsSending)
             {
+                DownloadProgressDelegate = download;
                 DBWrapper = dBWrapper;
                 ConfigPath = configPath;
                 CallBack = receiveCallBack;
@@ -560,9 +609,20 @@ namespace LightController.Tools
         /// </summary>
         private void DownloadStart()
         {
+            DownloadFileToTalSize = 0;
+            CurrentDownloadCompletedSize = 0;
             IList<DMX_C_File> c_Files = DataTools.GetInstance().GetC_Files(DBWrapper,ConfigPath);
             IList<DMX_M_File> m_Files = DataTools.GetInstance().GetM_Files(DBWrapper,ConfigPath);
             DMXConfigData configData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
+            foreach (DMX_C_File item in c_Files)
+            {
+                DownloadFileToTalSize += item.Data.HeadData.FileSize;
+            }
+            foreach (DMX_M_File item in m_Files)
+            {
+                DownloadFileToTalSize += item.Data.HeadData.FileSize;
+            }
+            DownloadFileToTalSize += configData.FileSize;
             DownloadStatus = false;
             SendData(null, Constant.ORDER_BEGIN_SEND, null);
             string fileName = "";
@@ -587,17 +647,20 @@ namespace LightController.Tools
             }
             foreach (DMX_M_File item in m_Files)
             {
-                fileName = "M" + (item.SceneNo + 1) + ".bin";
-                fileSize = item.GetByteData().Length.ToString();
-                crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
-                fileCRC = crc[0].ToString() + crc[1].ToString();
-                while (true)
+                if (item.Data.Datas.Count > 0)
                 {
-                    if (DownloadStatus)
+                    fileName = "M" + (item.SceneNo + 1) + ".bin";
+                    fileSize = item.GetByteData().Length.ToString();
+                    crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
+                    fileCRC = crc[0].ToString() + crc[1].ToString();
+                    while (true)
                     {
-                        SendData(item.GetByteData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        DownloadStatus = false;
-                        break;
+                        if (DownloadStatus)
+                        {
+                            SendData(item.GetByteData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                            DownloadStatus = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -643,33 +706,39 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="receiveCallBack"></param>
-        public void PutPara(string filePath,IReceiveCallBack receiveCallBack)
+        public void PutParam(string filePath,IReceiveCallBack receiveCallBack)
         {
             if (!IsSending)
             {
                 CallBack = receiveCallBack;
                 HardwarePath = filePath;
                 IsSending = true;
-                PutParamThread = new Thread(new ThreadStart(PutParamThreadStart))
-                {
-                    IsBackground = true
-                };
-                PutParamThread.Start();
+                DMXHardware hardware = new DMXHardware(HardwarePath);
+                byte[] data = hardware.GetHardware();
+                string fileName = "Hardware.bin";
+                string fileSize = data.Length.ToString();
+                byte[] crc = CRCTools.GetInstance().GetCRC(data);
+                string fileCRC = crc[0].ToString() + crc[1].ToString();
+                SendData(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCRC });
             }
         }
 
         /// <summary>
-        /// 发送配置文件线程
+        /// 读取硬件配置参数
         /// </summary>
-        private void PutParamThreadStart()
+        /// <param name="getParam"></param>
+        public void GetParam(GetParamDelegate getParam,IReceiveCallBack receiveCall)
         {
-            DMXHardware hardware = new DMXHardware(HardwarePath);
-            byte[] data = hardware.GetHardware();
-            string fileName = "Hardware.bin";
-            string fileSize = data.Length.ToString();
-            byte[] crc = CRCTools.GetInstance().GetCRC(data);
-            string fileCRC = crc[0].ToString() + crc[1].ToString();
-            SendData(data, Constant.ORDER_PUT_PARA, new string[] { fileName, fileSize, fileCRC });
+            if (!IsSending)
+            {
+                CallBack = receiveCall;
+                this.GetParamDelegate = getParam;
+                IsSending = true;
+                SendData(null, Constant.ORDER_GET_PARAM, null);
+            }
         }
     }
+
+    public delegate void DownloadProgressDelegate(double Progress);
+    public delegate void GetParamDelegate(DMXHardware dMXHardware);
 }

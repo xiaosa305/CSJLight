@@ -14,32 +14,38 @@ namespace LightController.Tools
         public byte[] GetByteData()
         {
             List<byte> fileData = new List<byte>();
-            //byte Ram_Enabl = Convert.ToByte(Data.HeadData.MICSensor);
-            //byte[] Ram_Response_Times = new byte[4];
-            //Ram_Response_Times[0] = Convert.ToByte(((Data.HeadData.SenseFreq + 1) * 60000) & 0xFF);
-            //Ram_Response_Times[1] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60000) >> 8) & 0xFF);
-            //Ram_Response_Times[2] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60000) >> 16) & 0xFF);
-            //Ram_Response_Times[3] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60000) >> 24) & 0xFF);
-            //byte[] Ram_Play_Times = new byte[4];
+            byte Ram_Enabl = Convert.ToByte(Data.HeadData.MICSensor);
+            byte[] Ram_Response_Times = new byte[4];
+            Ram_Response_Times[0] = Convert.ToByte(((Data.HeadData.SenseFreq + 1) * 60) & 0xFF);
+            Ram_Response_Times[1] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60) >> 8) & 0xFF);
+            Ram_Response_Times[2] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60) >> 16) & 0xFF);
+            Ram_Response_Times[3] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60) >> 24) & 0xFF);
+            byte[] Ram_Play_Times = new byte[4];
 
-            //Ram_Play_Times[0] = Convert.ToByte(((Data.HeadData.RunTime + 1) * 1000) & 0xFF);
-            //Ram_Play_Times[1] = Convert.ToByte((((Data.HeadData.RunTime + 1) * 1000) >> 8) & 0xFF);
-            //Ram_Play_Times[2] = Convert.ToByte((((Data.HeadData.RunTime + 1) * 1000) >> 16) & 0xFF);
-            //Ram_Play_Times[3] = Convert.ToByte((((Data.HeadData.RunTime + 1) * 1000) >> 24) & 0xFF);
+            Ram_Play_Times[0] = Convert.ToByte((Data.HeadData.RunTime + 1) & 0xFF);
+            Ram_Play_Times[1] = Convert.ToByte(((Data.HeadData.RunTime + 1) >> 8) & 0xFF);
+            Ram_Play_Times[2] = Convert.ToByte(((Data.HeadData.RunTime + 1) >> 16) & 0xFF);
+            Ram_Play_Times[3] = Convert.ToByte(((Data.HeadData.RunTime + 1) >> 24) & 0xFF);
 
             byte[] Scene_Total_Count = new byte[2];
             Scene_Total_Count[0] = (byte)(Data.HeadData.ChanelCount & 0xFF);
             Scene_Total_Count[1] = (byte)((Data.HeadData.ChanelCount >> 8) & 0xFF);
             int FileSize = 0;
+            //文件大小
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
-            //fileData.Add(Ram_Enabl);
-            //fileData.AddRange(Ram_Response_Times);
-            //fileData.AddRange(Ram_Play_Times);
+            //摇麦开关
+            fileData.Add(Ram_Enabl);
+            //摇麦感应时间
+            fileData.AddRange(Ram_Response_Times);
+            //摇麦执行时间
+            fileData.AddRange(Ram_Play_Times);
+            //通道总数
             fileData.Add(Scene_Total_Count[0]);
             fileData.Add(Scene_Total_Count[1]);
+            //通道数据
             foreach (C_Data c_Data in Data.Datas)
             {
                 //转换通道编号为byte

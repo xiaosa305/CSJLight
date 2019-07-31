@@ -55,7 +55,7 @@ namespace LightController.MyForm
 				foreach (KeyValuePair<string,string> device in allDevices)
 				{				
 					devicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-					ips.Add(device.Value);
+					ips.Add(device.Key);
 				}
 				devicesComboBox.SelectedIndex = 0;
 			}
@@ -91,9 +91,9 @@ namespace LightController.MyForm
 		///  测试委托
 		/// </summary>
 		/// <param name="a"></param>
-		void testProgress(double a)
+		void testProgress(int a)
 		{
-			MessageBox.Show("Dickov:" + a);
+			progressBar.Value = a;
 		}
 		// 测试进度条的绘制
 		public void paintPrograssBar() {

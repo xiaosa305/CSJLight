@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.progressBar = new System.Windows.Forms.ProgressBar();
+			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.label1 = new System.Windows.Forms.Label();
 			this.updateButton = new System.Windows.Forms.Button();
 			this.connectButton = new System.Windows.Forms.Button();
@@ -36,13 +36,13 @@
 			this.devicesComboBox = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
-			// progressBar
+			// progressBar1
 			// 
-			this.progressBar.Location = new System.Drawing.Point(180, 99);
-			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(538, 29);
-			this.progressBar.Step = 1;
-			this.progressBar.TabIndex = 0;
+			this.progressBar1.Location = new System.Drawing.Point(180, 99);
+			this.progressBar1.Name = "progressBar1";
+			this.progressBar1.Size = new System.Drawing.Size(538, 29);
+			this.progressBar1.Step = 1;
+			this.progressBar1.TabIndex = 0;
 			// 
 			// label1
 			// 
@@ -101,7 +101,7 @@
 			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.updateButton);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.progressBar);
+			this.Controls.Add(this.progressBar1);
 			this.Name = "UpdateForm";
 			this.Text = "下载数据到设备";
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
@@ -112,7 +112,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.ProgressBar progressBar;
+		private System.Windows.Forms.ProgressBar progressBar1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button updateButton;
 		private System.Windows.Forms.Button connectButton;

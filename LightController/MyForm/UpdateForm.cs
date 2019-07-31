@@ -32,6 +32,7 @@ namespace LightController.MyForm
 		private void UpdateForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Control.CheckForIllegalCrossThreadCalls = false;
 		}
 
 
@@ -83,31 +84,26 @@ namespace LightController.MyForm
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
 			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() ,new DownloadProgressDelegate(testProgress) );		
-		
 		}
 
 
 		/// <summary>
 		///  测试委托
 		/// </summary>
-		/// <param name="a"></param>
+		/// <param name="a"></param>		
 		void testProgress(int a)
 		{
-			progressBar.Value = a;
+			Console.WriteLine("Dickov:" + a);
+
+			progressBar1.Value =  a;	
+			
 		}
-		// 测试进度条的绘制
+
+		/// <summary>
+		/// 测试进度条的绘制
+		/// </summary> 
 		public void paintPrograssBar() {
-			//progressBar1.Maximum = 100;//设置最大长度值
-			//progressBar1.Value = 0;//设置当前值
-			//progressBar1.Step = 1;//设置没次增长多少
-			//for (int i = 0; i < 100; i++)//循环
-			//{
-			//	System.Threading.Thread.Sleep(100);//暂停1秒
-			//	progressBar1.Value += progressBar1.Step;  // 让进度条增加一次
-			//}
-			//if (progressBar1.Value == progressBar1.Maximum) {
-			//	MessageBox.Show("Dickov:已完成");
-			//}
+
 		}
 
 	}

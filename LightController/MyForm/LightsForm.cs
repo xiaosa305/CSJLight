@@ -173,9 +173,19 @@ namespace LightController
 			}
 			else
 			{
-				int deleteIndex = lightsListView.SelectedIndices[0];
-				lightsListView.Items.RemoveAt(deleteIndex);
-				lightAstList.RemoveAt(deleteIndex);
+				// 单灯情况下的删除方法（弃用）
+				//int deleteIndex = lightsListView.SelectedIndices[0];
+				//lightsListView.Items.RemoveAt(deleteIndex);
+				//lightAstList.RemoveAt(deleteIndex);
+
+				// 多灯情况下的删除方法：通过item来删除数据
+				foreach (ListViewItem item in lightsListView.SelectedItems)
+				{
+						lightAstList.RemoveAt(item.Index);
+						item.Remove();						
+				}
+				lightsListView.Refresh();
+				
 			}								
 		}
 
@@ -232,6 +242,6 @@ namespace LightController
 			// 2.修改lightListView
 			lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
 		}
-
+		
 	}
 }

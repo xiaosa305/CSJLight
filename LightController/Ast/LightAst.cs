@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LightController.Ast
 {
@@ -105,5 +106,6 @@ namespace LightController.Ast
 			EndNum = laOld.EndNum;
 		}
 
+		
 	}
 }

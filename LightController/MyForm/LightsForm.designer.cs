@@ -99,10 +99,10 @@ namespace LightController
             this.LightType,
             this.LightAddr});
 			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lightsListView.FullRowSelect = true;
 			this.lightsListView.GridLines = true;
 			this.lightsListView.LargeImageList = this.largeImageList;
 			this.lightsListView.Location = new System.Drawing.Point(526, 0);
-			this.lightsListView.MultiSelect = false;
 			this.lightsListView.Name = "lightsListView";
 			this.lightsListView.Size = new System.Drawing.Size(470, 636);
 			this.lightsListView.SmallImageList = this.largeImageList;

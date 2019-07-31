@@ -91,9 +91,9 @@ namespace LightController.MyForm
 		///  测试委托
 		/// </summary>
 		/// <param name="a"></param>		
-		void testProgress(int a)
+		void testProgress(string fileName,int a)
 		{
-			Console.WriteLine("Dickov:" + a);
+			Console.WriteLine("Dickov:" + fileName + " - " + a);
 
 			progressBar1.Value =  a;	
 			

@@ -82,10 +82,19 @@ namespace LightController.MyForm
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() );		
+			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() ,new DownloadProgressDelegate(testProgress) );		
 		
 		}
 
+
+		/// <summary>
+		///  测试委托
+		/// </summary>
+		/// <param name="a"></param>
+		void testProgress(double a)
+		{
+			MessageBox.Show("Dickov:" + a);
+		}
 		// 测试进度条的绘制
 		public void paintPrograssBar() {
 			//progressBar1.Maximum = 100;//设置最大长度值

@@ -104,9 +104,9 @@ namespace LightController.Tools
             }
         }
 
-        public void DownloadProgress(int progress)
+        public void DownloadProgress(string fileName,int progress)
         {
-            Console.WriteLine("===========Download Progress : " + progress + "%===========");
+            Console.WriteLine("===========Download  " + fileName + " : " + progress + "%===========");
         }
     }
     public class DownloadCallBack : IReceiveCallBack

@@ -41,6 +41,7 @@ namespace LightController.Tools
         private GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置委托
         private int DownloadFileToTalSize { get; set; }
         private int CurrentDownloadCompletedSize { get; set; }
+        private string CurrentFileName { get; set; }
 
         /// <summary>
         /// 构造函数
@@ -577,7 +578,7 @@ namespace LightController.Tools
             if (Order.Equals(Constant.ORDER_PUT))
             {
                 int progress = Convert.ToInt16(CurrentDownloadCompletedSize / (DownloadFileToTalSize * 1.0) * 100);
-                DownloadProgressDelegate(progress);
+                DownloadProgressDelegate(CurrentFileName,progress);
             }
         }
 
@@ -618,7 +619,10 @@ namespace LightController.Tools
             }
             foreach (DMX_M_File item in m_Files)
             {
-                DownloadFileToTalSize += item.GetByteData().Length;
+                if (item.Data.Datas.Count > 0)
+                {
+                    DownloadFileToTalSize += item.GetByteData().Length;
+                }
             }
             DownloadFileToTalSize += configFileData.Length;
             DownloadStatus = false;
@@ -633,6 +637,7 @@ namespace LightController.Tools
                 fileSize = item.GetByteData().Length.ToString();
                 crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
                 fileCRC = crc[0].ToString() + crc[1].ToString();
+                CurrentFileName = fileName;
                 while (true)
                 {
                     if (DownloadStatus)
@@ -651,6 +656,7 @@ namespace LightController.Tools
                     fileSize = item.GetByteData().Length.ToString();
                     crc = CRCTools.GetInstance().GetCRC(item.GetByteData());
                     fileCRC = crc[0].ToString() + crc[1].ToString();
+                    CurrentFileName = fileName;
                     while (true)
                     {
                         if (DownloadStatus)
@@ -663,7 +669,7 @@ namespace LightController.Tools
                 }
             }
             fileName = "Config.bin";
-            
+            CurrentFileName = fileName;
             configData.WriteToFile(@"C:\Temp");
             fileSize = configFileData.Length.ToString();
             crc = CRCTools.GetInstance().GetCRC(configData.GetConfigData());
@@ -737,6 +743,6 @@ namespace LightController.Tools
         }
     }
 
-    public delegate void DownloadProgressDelegate(int Progress);
+    public delegate void DownloadProgressDelegate(string filename,int Progress);
     public delegate void GetParamDelegate(DMXHardware dMXHardware);
 }

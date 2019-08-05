@@ -34,6 +34,8 @@
 			this.connectButton = new System.Windows.Forms.Button();
 			this.searchButton = new System.Windows.Forms.Button();
 			this.devicesComboBox = new System.Windows.Forms.ComboBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.currentFileLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// progressBar1
@@ -51,7 +53,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(97, 15);
 			this.label1.TabIndex = 1;
-			this.label1.Text = "进度条测试：";
+			this.label1.Text = "下载总进度：";
 			// 
 			// updateButton
 			// 
@@ -91,11 +93,30 @@
 			this.devicesComboBox.Size = new System.Drawing.Size(237, 23);
 			this.devicesComboBox.TabIndex = 5;
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(62, 157);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(112, 15);
+			this.label2.TabIndex = 6;
+			this.label2.Text = "当前下载文件：";
+			// 
+			// currentFileLabel
+			// 
+			this.currentFileLabel.AutoSize = true;
+			this.currentFileLabel.Location = new System.Drawing.Point(180, 157);
+			this.currentFileLabel.Name = "currentFileLabel";
+			this.currentFileLabel.Size = new System.Drawing.Size(0, 15);
+			this.currentFileLabel.TabIndex = 6;
+			// 
 			// UpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(790, 178);
+			this.ClientSize = new System.Drawing.Size(790, 207);
+			this.Controls.Add(this.currentFileLabel);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.devicesComboBox);
 			this.Controls.Add(this.searchButton);
 			this.Controls.Add(this.connectButton);
@@ -118,5 +139,7 @@
 		private System.Windows.Forms.Button connectButton;
 		private System.Windows.Forms.Button searchButton;
 		private System.Windows.Forms.ComboBox devicesComboBox;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label currentFileLabel;
 	}
 }

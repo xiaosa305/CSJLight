@@ -91,20 +91,11 @@ namespace LightController.MyForm
 		///  测试委托
 		/// </summary>
 		/// <param name="a"></param>		
-		void testProgress(int a)
+		void testProgress(string fileName,int a)
 		{
-			Console.WriteLine("Dickov:" + a);
-
-			progressBar1.Value =  a;	
-			
-		}
-
-		/// <summary>
-		/// 测试进度条的绘制
-		/// </summary> 
-		public void paintPrograssBar() {
-
-		}
+			currentFileLabel.Text = fileName;
+			progressBar1.Value =  a;				
+		}	
 
 	}
 

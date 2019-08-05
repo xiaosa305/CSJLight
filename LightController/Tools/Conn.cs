@@ -241,11 +241,6 @@ namespace LightController.Tools
                 byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
                 package[6] = packageCRC[0];
                 package[7] = packageCRC[1];
-                //Console.Write("Send:    " + Order + " ---");
-                //foreach (byte value in package)
-                //{
-                //    Console.Write(Convert.ToString(value, 16) + " ");
-                //}
                 Socket.BeginSend(package.ToArray(), 0, package.ToArray().Length, SocketFlags.None, SendCb, this);
             }
             catch (Exception)
@@ -291,11 +286,6 @@ namespace LightController.Tools
                 byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
                 package[6] = packageCRC[0];
                 package[7] = packageCRC[1];
-                //Console.Write("SendFile:    " + Order + ",packageNo: " + Package_No + ",packageCount: " + Package_Count + " ---");
-                //foreach (byte value in package)
-                //{
-                //    Console.Write("0x" + Convert.ToString(value, 16) + ",");
-                //}
                 if (Order.Equals(Constant.ORDER_PUT))
                 {
                     CurrentDownloadCompletedSize += packageData.Count();
@@ -453,7 +443,6 @@ namespace LightController.Tools
                                 SendDataPackage();
                                 break;
                             case Constant.RECEIVE_ORDER_DONE:
-                                Console.WriteLine("下载完成");
                                 DownloadStatus = true;
                                 break;
                             default:
@@ -466,6 +455,7 @@ namespace LightController.Tools
                                     DownloadStatus = false;
                                     IsSending = false;
                                     Close();
+                                    DownloadProgressDelegate("", 0);
                                     CallBack.SendError(deviceName, Order);
                                 }
                                 break;
@@ -477,7 +467,7 @@ namespace LightController.Tools
                             case Constant.RECEIVE_ORDER_BEGIN_OK:
                                 DownloadStatus = true;
                                 break;
-                            case Constant.RECEIVE_ORDER_END_ERROR:
+                            case Constant.RECEIVE_ORDER_BEGIN_ERROR:
                             default:
                                 try
                                 {
@@ -488,6 +478,7 @@ namespace LightController.Tools
                                     DownloadStatus = false;
                                     IsSending = false;
                                     Close();
+                                    DownloadProgressDelegate("", 0);
                                     CallBack.SendError(deviceName, Order);
                                 }
                                 break;
@@ -500,6 +491,7 @@ namespace LightController.Tools
                                 DownloadStatus = true;
                                 IsSending = false;
                                 Close();
+                                DownloadProgressDelegate("", 0);
                                 CallBack.SendCompleted(deviceName, Order);
                                 break;
                             case Constant.RECEIVE_ORDER_END_ERROR:
@@ -513,6 +505,7 @@ namespace LightController.Tools
                                     DownloadStatus = false;
                                     IsSending = false;
                                     Close();
+                                    DownloadProgressDelegate("", 0);
                                     CallBack.SendError(deviceName, Order);
                                 }
                                 break;
@@ -669,8 +662,6 @@ namespace LightController.Tools
                 }
             }
             fileName = "Config.bin";
-            CurrentFileName = fileName;
-            configData.WriteToFile(@"C:\Temp");
             fileSize = configFileData.Length.ToString();
             crc = CRCTools.GetInstance().GetCRC(configData.GetConfigData());
             fileCRC = crc[0].ToString() + crc[1].ToString();
@@ -678,6 +669,7 @@ namespace LightController.Tools
             {
                 if (DownloadStatus)
                 {
+                    CurrentFileName = fileName;
                     SendData(configFileData, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                     DownloadStatus = false;
                     break;
@@ -743,6 +735,5 @@ namespace LightController.Tools
         }
     }
 
-    public delegate void DownloadProgressDelegate(string filename,int Progress);
-    public delegate void GetParamDelegate(DMXHardware dMXHardware);
+   
 }

@@ -14,6 +14,11 @@ namespace LightController.Tools
         public static readonly int MODE_JUMP = 0;
         public static readonly int DMX512 = 512;
 
+        public const int UDPADDR = 255;
+        public const int PACKAGE_SIZE_1K = 1016;
+        public const int PACKAGE_SIZE_2K = 2040;
+        public const int PACKAGE_SIZE_512 = 508;
+
         public const string RECEIVE_ORDER_BEGIN_OK = "Ok";//
         public const string RECEIVE_ORDER_BEGIN_ERROR = "Error";//Error:BeginSend
         public const string RECEIVE_ORDER_BEGIN_ERROR_DISK = "Error:DiskUnmount";
@@ -51,4 +56,6 @@ namespace LightController.Tools
     {
         Put,Test
     }
+    public delegate void DownloadProgressDelegate(string filename, int Progress);
+    public delegate void GetParamDelegate(DMXHardware dMXHardware);
 }

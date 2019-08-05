@@ -60,6 +60,12 @@ namespace LightController.Tools
         //当前播放模式
         private PreViewState State { get; set; }
 
+        /// <summary>
+        /// test
+        /// </summary>
+        private DateTime BeforDT { get; set; }
+        private DateTime AftetDT { get; set; }
+
         private PlayTools()
         {
             TimeFactory = 32;
@@ -346,10 +352,13 @@ namespace LightController.Tools
 
         private void OLOSViewThreadStart()
         {
+            
             while (true)
             {
+                BeforDT = System.DateTime.Now;
                 Play();
-                Thread.Sleep(TimeFactory);
+                //Thread.Sleep(TimeFactory);
+                Thread.Sleep(1000);
             }
         }
 
@@ -360,9 +369,10 @@ namespace LightController.Tools
             {
                 if (!IsPausePlay)
                 {
+                    AftetDT = System.DateTime.Now;
                     for (int i = 0; i < C_ChanelCount; i++)
                     {
-                        if (C_ChanelPoint[i] ==  C_ChanelData[i].Length)
+                        if (C_ChanelPoint[i] == C_ChanelData[i].Length)
                         {
                             C_ChanelPoint[i] = 0;
                         }
@@ -381,7 +391,7 @@ namespace LightController.Tools
                     }
                 }
                 Play();
-                Thread.Sleep(TimeFactory);
+                Thread.Sleep(TimeFactory - 21);
             }
         }
 
@@ -390,15 +400,16 @@ namespace LightController.Tools
             UInt32 count = 0;
             try
             {
-                //发送Break
+                //发送Break|
                 Device.SetBreak(true);
-                Thread.Sleep(10);
+                Thread.Sleep(0);
                 Device.SetBreak(false);
-                Thread.Sleep(1);
+                Thread.Sleep(0);
                 List<byte> buff = new List<byte>();
                 buff.AddRange(StartCode);
                 buff.AddRange(PlayData);
                 Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                Device.SetBreak(false);
             }
             catch (Exception ex)
             {

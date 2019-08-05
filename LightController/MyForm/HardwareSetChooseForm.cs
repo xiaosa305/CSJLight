@@ -46,32 +46,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void openButton_Click(object sender, EventArgs e)
 		{
-			// 1.先验证是否刚删除项目
-			if (ifJustDelete)
-			{
-				MessageBox.Show("请选择正确的配置文件名");
-				return;
-			}
-			// 2.验证是否为空选项
-			if (treeView1.SelectedNode != null)
-			{
-				string hName = treeView1.SelectedNode.Text;
-				if (!String.IsNullOrEmpty(hName))
-				{
-					this.Dispose();
-					// 打开相关的配置文件，再加载到HardwareSetForm中
-					string iniPath = @"C:\Temp\HardwareLibrary\" + hName + @"\HardwareSet.ini";
-					this.Dispose();
-					mainForm.Activate();
-					HardwareSetForm hsForm = new HardwareSetForm(mainForm, iniPath,hName);					
-					hsForm.ShowDialog();
-				}
-				else
-				{
-					MessageBox.Show("请选择正确的配置文件名");
-					return;
-				}
-			}
+			openFile();
 		}
 
 
@@ -93,9 +68,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-
-
-
 			// 若非刚删除
 			if (!ifJustDelete)
 			{
@@ -141,5 +113,44 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
+
+		private void treeView1_DoubleClick(object sender, EventArgs e)
+		{
+			openFile();
+		}
+
+		/// <summary>
+		///  辅助方法：双击或点击打开按钮时会打开配置文件。
+		/// </summary>
+		private void openFile() {
+			// 1.先验证是否刚删除项目
+			if (ifJustDelete)
+			{
+				MessageBox.Show("请选择正确的配置文件名");
+				return;
+			}
+			// 2.验证是否为空选项
+			if (treeView1.SelectedNode != null)
+			{
+				string hName = treeView1.SelectedNode.Text;
+				if (!String.IsNullOrEmpty(hName))
+				{
+					this.Dispose();
+					// 打开相关的配置文件，再加载到HardwareSetForm中
+					string iniPath = @"C:\Temp\HardwareLibrary\" + hName + @"\HardwareSet.ini";
+					this.Dispose();
+					mainForm.Activate();
+					HardwareSetForm hsForm = new HardwareSetForm(mainForm, iniPath, hName);
+					hsForm.ShowDialog();
+				}
+				else
+				{
+					MessageBox.Show("请选择正确的配置文件名");
+					return;
+				}
+			}
+		}
+
+
 	}
 }

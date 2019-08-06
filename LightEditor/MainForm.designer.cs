@@ -2055,8 +2055,8 @@ namespace LightEditor
 		public List<TongdaoWrapper> tongdaoList;
 		private OpenFileDialog openFileDialog;
 		public int tongdaoCount;
-		private Sunisoft.IrisSkin.SkinEngine skinEngine2;
-		private Button setInitButton;
+        private Sunisoft.IrisSkin.SkinEngine skinEngine2;
+        private Button setInitButton;
 		private GroupBox editGroupBox;
 		private FlowLayoutPanel flowLayoutPanel1;
 		private NumericUpDown firstTDNumericUpDown;

@@ -47,6 +47,8 @@ namespace LightController.Tools
                     Testapplication();
                     break;
                 case 4:
+                    //SeralPortTest();
+                    SerialPortTools.GetInstance().Test();
                     break;
                 default:
                     break;
@@ -56,8 +58,8 @@ namespace LightController.Tools
         private void SeralPortTest()
         {
             string[] list  = SerialPortTools.GetInstance().GetSerialPortNameList();
-            SerialPortTools.GetInstance().OpenCom("COM3");
-            SerialPortTools.GetInstance().Download(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack());
+            SerialPortTools.GetInstance().OpenCom("COM3", 115200);
+            SerialPortTools.GetInstance().Download(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(), new DownloadProgressDelegate(DownloadProgress));
         }
 
         public void WriteToFile()

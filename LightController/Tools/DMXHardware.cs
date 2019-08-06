@@ -214,6 +214,12 @@ namespace LightController.Tools
             data.Add(Convert.ToByte(DomainServer.Split('.')[1]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[2]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[3]));
+            int len = HardWareID.Length;
+            for (int i = 0; i < 16-len; i++)
+            {
+                HardWareID = 0 + HardWareID;
+            }
+           
             byte[] HardWareIDBuff = Encoding.Default.GetBytes(HardWareID);
             data.AddRange(HardWareIDBuff);
             for (int i = 0; i < 16 - HardWareIDBuff.Length; i++)

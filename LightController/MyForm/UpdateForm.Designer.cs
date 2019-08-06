@@ -57,6 +57,7 @@
 			// 
 			// updateButton
 			// 
+			this.updateButton.Enabled = false;
 			this.updateButton.Location = new System.Drawing.Point(617, 33);
 			this.updateButton.Name = "updateButton";
 			this.updateButton.Size = new System.Drawing.Size(101, 39);
@@ -67,6 +68,7 @@
 			// 
 			// connectButton
 			// 
+			this.connectButton.Enabled = false;
 			this.connectButton.Location = new System.Drawing.Point(499, 33);
 			this.connectButton.Name = "connectButton";
 			this.connectButton.Size = new System.Drawing.Size(101, 39);

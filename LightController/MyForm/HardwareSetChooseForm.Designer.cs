@@ -42,6 +42,7 @@
 			this.treeView1.Size = new System.Drawing.Size(302, 506);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+			this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
 			// 
 			// openButton
 			// 

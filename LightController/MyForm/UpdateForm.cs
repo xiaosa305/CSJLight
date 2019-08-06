@@ -58,7 +58,7 @@ namespace LightController.MyForm
 					devicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
 					ips.Add(device.Key);
 				}
-				devicesComboBox.SelectedIndex = 0;
+				devicesComboBox.SelectedIndex = 0;				
 			}
 			connectButton.Enabled = true;
 		}		
@@ -72,6 +72,8 @@ namespace LightController.MyForm
 		{
 			selectedIPs = new List<string>();
 			selectedIPs.Add(ips[devicesComboBox.SelectedIndex]);
+			MessageBox.Show("设备连接成功");
+			updateButton.Enabled = true;
 		}
 
 
@@ -83,15 +85,20 @@ namespace LightController.MyForm
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() ,new DownloadProgressDelegate(testProgress) );		
+			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() ,new DownloadProgressDelegate(paintProgress) );
+			//MessageBox.Show("断开连接");
+			connectButton.Enabled = false;
+			updateButton.Enabled = false;
+			devicesComboBox.Items.Clear();
+			devicesComboBox.Text = "";
 		}
 
 
 		/// <summary>
-		///  测试委托
+		///  委托方法：写渲染条的方法
 		/// </summary>
 		/// <param name="a"></param>		
-		void testProgress(string fileName,int a)
+		void paintProgress(string fileName,int a)
 		{
 			currentFileLabel.Text = fileName;
 			progressBar1.Value =  a;				
@@ -102,14 +109,17 @@ namespace LightController.MyForm
 
 	public class DownloadReceiveCallBack : IReceiveCallBack
 	{
-		public void SendCompleted(string ip, string order)
+		public void SendCompleted(string deviceName, string order)
 		{
-			MessageBox.Show("IP："+ip+" 的设备已经成功下载；发回了命令："+order);
+			MessageBox.Show("设备：" + deviceName + "  下载成功并断开连接"
+				//+"发回了命令："+order 
+				);
 		}
-
-		public void SendError(string ip, string order)
+		public void SendError(string deviceName, string order)
 		{
-			MessageBox.Show("IP：" + ip + " 的设备已经下载失败；发回了命令：" + order);
+			MessageBox.Show("设备：" + deviceName + " 下载失败并断开连接" 
+				//+ "发回了命令：" + order 
+				);
 		}
 	}
 }

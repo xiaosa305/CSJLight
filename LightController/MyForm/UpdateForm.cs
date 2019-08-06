@@ -35,7 +35,6 @@ namespace LightController.MyForm
 			Control.CheckForIllegalCrossThreadCalls = false;
 		}
 
-
 		/// <summary>
 		///  点击《搜索设备》
 		/// </summary>
@@ -93,7 +92,6 @@ namespace LightController.MyForm
 			devicesComboBox.Text = "";
 		}
 
-
 		/// <summary>
 		///  委托方法：写渲染条的方法
 		/// </summary>
@@ -102,7 +100,7 @@ namespace LightController.MyForm
 		{
 			currentFileLabel.Text = fileName;
 			progressBar1.Value =  a;				
-		}	
+		}
 
 	}
 

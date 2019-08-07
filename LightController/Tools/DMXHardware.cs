@@ -38,7 +38,13 @@ namespace LightController.Tools
 
         public DMXHardware(byte[] data)
         {
-
+            Ver = (int)(data[9] & 0xFF);
+            PlayFlag = (int)(data[10] & 0xFF);
+            SumUseTimes = (int)((data[11] & 0xFF)
+                | ((data[12] & 0xFF) << 8)
+                | ((data[13] & 0xFF) << 16)
+                | ((data[14] & 0xFF) << 24));
+            DiskFlag = (int)(data[15] & 0xFF);
         }
 
         private void ReadFromFile(string filePath)

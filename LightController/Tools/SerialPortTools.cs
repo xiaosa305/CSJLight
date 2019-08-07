@@ -467,18 +467,18 @@ namespace LightController.Tools
                     GetParamDelegate(new DMXHardware(readBuff));
                     break;
                 default:
-                    //switch (receiveStr.Split(':')[0])
-                    //{
-                    //    case Constant.RECEIVE_ORDER_OTHER_OK:
-                    //        IsSending = false;
-                    //        CallBack.SendCompleted(deviceName, Order);
-                    //        break;
-                    //    case Constant.RECEIVE_ORDER_OTHER_ERROR:
-                    //    default:
-                    //        IsSending = false;
-                    //        CallBack.SendError(deviceName, Order);
-                    //        break;
-                    //}
+                    switch (receiveStr.Split(':')[0])
+                    {
+                        case Constant.RECEIVE_ORDER_OTHER_OK:
+                            IsSending = false;
+                            CallBack.SendCompleted(deviceName, Order);
+                            break;
+                        case Constant.RECEIVE_ORDER_OTHER_ERROR:
+                        default:
+                            IsSending = false;
+                            CallBack.SendError(deviceName, Order);
+                            break;
+                    }
                     break;
             }
         }
@@ -628,28 +628,6 @@ namespace LightController.Tools
                 this.GetParamDelegate = getParam;
                 IsSending = true;
                 Send(null, Constant.ORDER_GET_PARAM, null);
-            }
-        }
-
-        public void Test()
-        {
-            OpenCom("COM7", 250000);
-            byte[] data = new byte[513];
-            for (int i = 0; i < 513; i++)
-            {
-                data[i] = 0x00;
-            }
-            data[2] = Convert.ToByte(150);
-            data[4] = Convert.ToByte(255);
-            data[7] = Convert.ToByte(255);
-            data[8] = Convert.ToByte(255);
-            while (true)
-            {
-                ComDevice.BreakState = true;
-                Thread.Sleep(10);
-                ComDevice.BreakState = false;
-                Thread.Sleep(1);
-                ComDevice.Write(data, 0, data.Length);
             }
         }
     }

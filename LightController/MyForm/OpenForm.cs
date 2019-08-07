@@ -62,8 +62,7 @@ namespace LightController.MyForm
 					return;
 				}
 			}
-		}
-		
+		}	
 		
 
 		/// <summary>

@@ -366,7 +366,6 @@ namespace LightController
 				}
 			}
 			isInit = true;
-
 			MessageBox.Show("成功打开工程");
 		}
 
@@ -561,7 +560,7 @@ namespace LightController
 			}
 			// 将传送所有的DB_Light给DAO,让它进行数据的保存
 
-			lightList.Clear();
+			lightList = new List<DB_Light>();
 			foreach (LightAst la in lightAstList)
 			{
 				DB_Light light = LightAst.GenerateLight(la);
@@ -580,19 +579,19 @@ namespace LightController
 			}
 
 			// 保存所有步骤前，先清空stepCountList
-			stepCountList.Clear();
+			stepCountList = new List<DB_StepCount>();
 			// 取出每个灯具的所有【非null】stepCount,填入stepCountList中
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
 				DB_Light light = lightList[ lightWrapperList.IndexOf(lightTemp)];				
-				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
+				LightStepWrapper[,] allLightStepWrappers = lightTemp.LightStepWrapperList;
 
 				// 取出灯具的每个常规场景(24种），并将它们保存起来（但若为空，则不保存）
 				for (int frame = 0; frame < 24; frame ++)
 				{
 					for (int mode = 0; mode < 2; mode ++)
 					{
-						LightStepWrapper lsTemp = lswl[frame, mode];
+						LightStepWrapper lsTemp = allLightStepWrappers[frame, mode];
 						if (lsTemp != null)
 						{
 							DB_StepCount stepCount = new DB_StepCount()
@@ -624,7 +623,7 @@ namespace LightController
 			}
 
 			// 需要先清空valueList
-			valueList.Clear();
+			valueList = new List<DB_Value>();
 
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{

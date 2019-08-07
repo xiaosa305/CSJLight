@@ -29,6 +29,16 @@ namespace LightController
 			InitializeComponent();
 		}
 
+
+		/// <summary>
+		///  点击《新建》按钮：
+		///  1.创建目录
+		///  2.拷贝默认的global.ini到新项目的目录中；
+		///  3.回调mainForm中的InitProject()
+		///  4.收尾：Dispose这个窗口，激活主窗口
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			string projectName = textBox1.Text;		   
@@ -61,7 +71,6 @@ namespace LightController
 
 					// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 					// SQLiteHelper.SetPassword(dbFile);
-
 					mainForm.InitProject(projectName,true);
 					MessageBox.Show("成功新建项目");
 					this.Dispose();

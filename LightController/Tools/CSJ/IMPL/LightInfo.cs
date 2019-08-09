@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightController.Tools.CSJ.IMPL
 {
-    class LightInfo
+    public class LightInfo
     {
         public int Light_Number { get; set; }
         public int Start_Address { get; set; }

@@ -428,7 +428,7 @@ namespace LightController.Tools
             ConnectDevice();
         }
 
-        public bool ConnectDevice()
+        public void ConnectDevice()
         {
             UInt32 deviceCount = 0;
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
@@ -464,7 +464,6 @@ namespace LightController.Tools
                     EndView();
                 }
             }
-            return Device.IsOpen;
         }
 
     }

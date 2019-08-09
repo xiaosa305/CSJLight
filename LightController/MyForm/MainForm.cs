@@ -266,16 +266,30 @@ namespace LightController
 
 			#endregion
 
+
 			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath+"\\irisSkins");
-			FileInfo[] file = fdir.GetFiles();
-			foreach (var item in file)
+			try
 			{
-				if (item.FullName.EndsWith(".ssk"))
+				FileInfo[] file = fdir.GetFiles();
+				if(file.Length > 0)
 				{
-					skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4) );
+					foreach (var item in file)
+					{
+						if (item.FullName.EndsWith(".ssk"))
+						{
+							skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
+						}
+					}
+					skinComboBox.SelectedIndex = 0;
+
+					skinComboBox.Show();
+					skinButton.Show();
 				}
 			}
-			skinComboBox.SelectedIndex = 0;
+			catch(Exception ex) {
+				MessageBox.Show(ex.Message);
+			}
+			
 
 			isInit = true;			
 			playTools = PlayTools.GetInstance();
@@ -2147,9 +2161,8 @@ namespace LightController
 		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			isUseStepMode = addStepCheckBox.Checked;
-		}
+		}	
 
-		
 
 		private bool ifConnect = false; // 辅助变量：是否连接设备
 		/// <summary>
@@ -2159,22 +2172,22 @@ namespace LightController
 		/// <param name="e"></param>
 		private void connectButton_Click(object sender, EventArgs e)
 		{
-			// 如果还没连接，那就连接
+			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if ( !ifConnect )
-			{
-				ifConnect = true;
+			{				
 				playTools = PlayTools.GetInstance();
 				//playTools.ConnectDevice();
 				setDMX512TestButtonsEnable(true);
 				connectButton.Text = "断开连接";
+				ifConnect = true;
 			}
-			else //否则断开连接
-			{
-				ifConnect = false;
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{				
 				playTools.EndView();
 				playTools = null ;
 				setDMX512TestButtonsEnable(false);
-				connectButton.Text = "连接设备"; 
+				connectButton.Text = "连接设备";
+				ifConnect = false;
 			}
 		}
 

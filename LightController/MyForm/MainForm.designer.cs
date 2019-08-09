@@ -3194,33 +3194,33 @@ namespace LightController
 			// CSJToolNoticeToolStripMenuItem
 			// 
 			this.CSJToolNoticeToolStripMenuItem.Name = "CSJToolNoticeToolStripMenuItem";
-			this.CSJToolNoticeToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.CSJToolNoticeToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
 			this.CSJToolNoticeToolStripMenuItem.Text = "提示";
 			this.CSJToolNoticeToolStripMenuItem.Click += new System.EventHandler(this.CSJToolNoticeToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
 			// 
 			// QDControllerToolStripMenuItem
 			// 
 			this.QDControllerToolStripMenuItem.Name = "QDControllerToolStripMenuItem";
-			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
 			this.QDControllerToolStripMenuItem.Text = "传视界灯控工具";
 			this.QDControllerToolStripMenuItem.Click += new System.EventHandler(this.QDControllerToolStripMenuItem_Click);
 			// 
 			// CenterControllerToolStripMenuItem
 			// 
 			this.CenterControllerToolStripMenuItem.Name = "CenterControllerToolStripMenuItem";
-			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
 			this.CenterControllerToolStripMenuItem.Text = "传视界中控工具";
 			this.CenterControllerToolStripMenuItem.Click += new System.EventHandler(this.CenterControllerToolStripMenuItem_Click);
 			// 
 			// KeyPressToolStripMenuItem
 			// 
 			this.KeyPressToolStripMenuItem.Name = "KeyPressToolStripMenuItem";
-			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
 			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
 			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
 			// 
@@ -3347,6 +3347,7 @@ namespace LightController
 			this.skinComboBox.Name = "skinComboBox";
 			this.skinComboBox.Size = new System.Drawing.Size(121, 23);
 			this.skinComboBox.TabIndex = 20;
+			this.skinComboBox.Visible = false;
 			// 
 			// skinButton
 			// 
@@ -3356,6 +3357,7 @@ namespace LightController
 			this.skinButton.TabIndex = 21;
 			this.skinButton.Text = "切换皮肤";
 			this.skinButton.UseVisualStyleBackColor = true;
+			this.skinButton.Visible = false;
 			this.skinButton.Click += new System.EventHandler(this.skinButton_Click);
 			// 
 			// MainForm

@@ -115,6 +115,17 @@ namespace LightController.Tools
             {
                 dMX_M_Data.HeadData.FileSize += data.DataSize;
             }
+
+
+            //********Test用数据**********
+            List<int> list = new List<int>();
+            list.Add(1);
+            list.Add(3);
+            list.Add(2);
+            list.Add(4);
+            list.Add(3);
+            dMX_M_Data.HeadData.StepList = list;
+            dMX_M_Data.HeadData.StepListCount = list.Count;
             return dMX_M_Data;
         }
 
@@ -172,33 +183,10 @@ namespace LightController.Tools
             {
                 ChanelCount = chanelCount,
                 FileSize = 0,
-                StepTimes = 0,
+                StepListCount = 0,
                 FrameTime = 0
             };
-            StreamReader reader;
-            string lineStr = "";
-            string strValue = "";
-            int intValue = 0;
-            using (reader = new StreamReader(ConfigPath))
-            {
-                while ((lineStr = reader.ReadLine()) != null)
-                {
-                    if (lineStr.Equals("[SK]"))
-                    {
-                        for (int i = 0; i < 24; i++)
-                        {
-                            lineStr = reader.ReadLine();
-                            if (lineStr.StartsWith(sceneNo + ""))
-                            {
-                                strValue = lineStr.Split('=')[1];
-                                int.TryParse(strValue, out intValue);
-                                head.StepTimes = intValue;
-                            }
-                        }
-                    }
-                }
-            }
-                        return head;
+            return head;
         }
 
         private IList<C_Data> GetC_Datas(IList<ChanelData> chanelDatas)

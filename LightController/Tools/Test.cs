@@ -48,7 +48,6 @@ namespace LightController.Tools
                     break;
                 case 4:
                     //SeralPortTest();
-                    SerialPortTools.GetInstance().Test();
                     break;
                 default:
                     break;

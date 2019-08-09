@@ -45,9 +45,9 @@ namespace LightController
 		private ValueDAO valueDAO;
 
 		// 这几个IList ，存放着所有数据库数据		
-		public IList<DB_Light> lightList = new List<DB_Light>();
-		public IList<DB_StepCount> stepCountList = new List<DB_StepCount>();
-		public IList<DB_Value> valueList = new List<DB_Value>();
+		public IList<DB_Light> dbLightList = new List<DB_Light>();
+		public IList<DB_StepCount> dbStepCountList = new List<DB_StepCount>();
+		public IList<DB_Value> dbValueList = new List<DB_Value>();
 		
 		// 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一步（通道列表）
 		private IList<LightWrapper> lightWrapperList = new List<LightWrapper>();
@@ -67,7 +67,7 @@ namespace LightController
 			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
 			if (!String.IsNullOrEmpty(skin))
 			{
-				this.skinEngine1.SkinFile = Application.StartupPath + "\\" + skin;
+				this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + skin;
 			}
 			string showTestButton = iniFileAst.ReadString("Show", "testButton", "");
 			if (!String.IsNullOrEmpty(showTestButton))
@@ -266,8 +266,21 @@ namespace LightController
 
 			#endregion
 
+			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath+"\\irisSkins");
+			FileInfo[] file = fdir.GetFiles();
+			foreach (var item in file)
+			{
+				if (item.FullName.EndsWith(".ssk"))
+				{
+					skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4) );
+				}
+			}
+			skinComboBox.SelectedIndex = 0;
+
 			isInit = true;			
 			playTools = PlayTools.GetInstance();
+
+
 		}
 		
 		private void Form1_Load(object sender, EventArgs e)
@@ -328,17 +341,17 @@ namespace LightController
 			InitProject(projectName, false);
 
 			// 把数据库的内容填充进来，并设置好对应的DAO
-			lightList = getLightList();
-			stepCountList = getStepCountList();
-			valueList = getValueList();
+			dbLightList = getLightList();
+			dbStepCountList = getStepCountList();
+			dbValueList = getValueList();
 			// 通过lightList填充lightAstList
-			lightAstList = reCreateLightAstList(lightList);
+			lightAstList = reCreateLightAstList(dbLightList);
 			AddLightAstList(lightAstList);
 
 			// 针对每个lightWrapper，获取其已有步数的场景和模式
-			for (int lightListIndex = 0; lightListIndex < lightList.Count; lightListIndex++)
+			for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
 			{
-				IList<DB_StepCount> scList = stepCountDAO.getStepCountList(lightList[lightListIndex].LightNo);
+				IList<DB_StepCount> scList = stepCountDAO.getStepCountList(dbLightList[lightListIndex].LightNo);
 
 				if (scList != null && scList.Count > 0)
 				{
@@ -413,12 +426,14 @@ namespace LightController
 		/// </summary>
 		private void clearAllData()
 		{
-			lightAstList = null;
-			lightList = null;
+			lightAstList = null;			
 			lightWrapperList = null;
-			stepCountList = null;
 			stepList = null;
-			valueList = null;
+
+			dbLightList = null;
+			dbStepCountList = null;			
+			dbValueList = null;
+
 			lightsListView.Clear();
 			tongdaoGroupBox.Hide();
 
@@ -560,13 +575,13 @@ namespace LightController
 			}
 			// 将传送所有的DB_Light给DAO,让它进行数据的保存
 
-			lightList = new List<DB_Light>();
+			dbLightList = new List<DB_Light>();
 			foreach (LightAst la in lightAstList)
 			{
 				DB_Light light = LightAst.GenerateLight(la);
-				this.lightList.Add(light);		
+				this.dbLightList.Add(light);		
 			}			
-			lightDAO.SaveAll("Light", lightList );
+			lightDAO.SaveAll("Light", dbLightList );
 		}
 
 		/// <summary>
@@ -579,11 +594,11 @@ namespace LightController
 			}
 
 			// 保存所有步骤前，先清空stepCountList
-			stepCountList = new List<DB_StepCount>();
+			dbStepCountList = new List<DB_StepCount>();
 			// 取出每个灯具的所有【非null】stepCount,填入stepCountList中
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
-				DB_Light light = lightList[ lightWrapperList.IndexOf(lightTemp)];				
+				DB_Light light = dbLightList[ lightWrapperList.IndexOf(lightTemp)];				
 				LightStepWrapper[,] allLightStepWrappers = lightTemp.LightStepWrapperList;
 
 				// 取出灯具的每个常规场景(24种），并将它们保存起来（但若为空，则不保存）
@@ -604,13 +619,13 @@ namespace LightController
 									LightIndex = light.LightNo
 								}
 							};
-							stepCountList.Add(stepCount);
+							dbStepCountList.Add(stepCount);
 						}
 					}
 				}
 			}
 			// 先删除所有，再保存当前的列表
-			stepCountDAO.SaveAll("StepCount",stepCountList);			
+			stepCountDAO.SaveAll("StepCount",dbStepCountList);			
 		}
 
 		/// <summary>
@@ -623,11 +638,11 @@ namespace LightController
 			}
 
 			// 需要先清空valueList
-			valueList = new List<DB_Value>();
+			dbValueList = new List<DB_Value>();
 
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
-				DB_Light light = lightList[lightWrapperList.IndexOf(lightTemp)];
+				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
 				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
 				for (int frame = 0; frame < 24; frame++)
 				{
@@ -657,14 +672,14 @@ namespace LightController
 											Step = stepIndex
 										}
 									};
-									valueList.Add(valueTemp);
+									dbValueList.Add(valueTemp);
 								}
 							}
 						}
 					}
 				}								
 			}
-			valueDAO.SaveAll("Value", valueList);
+			valueDAO.SaveAll("Value", dbValueList);
 		}
 
 		/// <summary>
@@ -940,6 +955,10 @@ namespace LightController
 					this.valueNumericUpDowns[i].Show();
 					this.changeModeComboBoxes[i].Show();
 					this.steptimeNumericUpDowns[i].Show();
+
+					// 8.8: 用changeModeComboBoxes[i].SelectedIndex==2的值来调节几个通道相关的数值是否可以编辑
+					//enableTongdaoEdit( i, changeModeComboBoxes[i].SelectedIndex == 2);
+
 				}
 
 				// 4. tongdaoGroupBoxX的显示：0：不显示； 1-16：仅显示通道groupBox1； 16-32：两个通道groupBox都显示；
@@ -1444,6 +1463,25 @@ namespace LightController
 					stepWrapper.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex;
 				}
 			}
+			// 4.(8.8新增判断）若当前模式是普通模式：
+			//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
+			else{
+				enableTongdaoEdit(index,changeModeComboBoxes[index].SelectedIndex != 2) ;
+			}
+		}
+
+
+		/// <summary>
+		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
+		/// </summary>
+		/// <param name="tongdaoIndex">tongdaoList的Index</param>
+		/// <param name="shielded">是否被屏蔽</param>
+		private void enableTongdaoEdit(int tongdaoIndex,bool shielded)
+		{
+			//MessageBox.Show("Dickov:" + tongdaoIndex + " : " + shielded);
+			vScrollBars[tongdaoIndex].Enabled = shielded;
+			valueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+			steptimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
 		}
 
 		/// <summary>
@@ -1728,10 +1766,7 @@ namespace LightController
 					steptimeNumericUpDowns[tdIndex].Value = dd;
 				}
 			}
-		}
-
-
-		
+		}		
 
 		/// <summary>
 		/// 辅助方法：鼠标进入步时间输入框时，切换焦点;
@@ -1773,7 +1808,7 @@ namespace LightController
 			// 由内存几个实时的List实时生成
 			else
 			{
-				DBWrapper allData = new DBWrapper(lightList, stepCountList, valueList);
+				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueList);
 				return allData;
 			}
 		}
@@ -2114,19 +2149,7 @@ namespace LightController
 			isUseStepMode = addStepCheckBox.Checked;
 		}
 
-		/// <summary>
-		///  点击《在线升级》菜单栏：
-		///  新建一个UpdateForm, ShowDialog();
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-
-
-
-		}
+		
 
 		private bool ifConnect = false; // 辅助变量：是否连接设备
 		/// <summary>
@@ -2167,7 +2190,14 @@ namespace LightController
 			stopReviewButton.Visible = visible;			
 		}
 
-		private void updateToolStripMenuItem_Click_1(object sender, EventArgs e)
+
+		/// <summary>
+		///  点击《在线升级》菜单栏：
+		///  新建一个UpdateForm, ShowDialog();
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(true), globalIniFilePath);
 			updateForm.ShowDialog(); 
@@ -2203,6 +2233,39 @@ namespace LightController
 		/// <param name="e"></param>
 		private void NetworkSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+
+		}
+
+		private void QDControllerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Application.StartupPath + @"\QDController\灯光控制器.exe");
+		}
+
+		private void CenterControllerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Application.StartupPath + @"\CenterController\KTV中央控制器.exe");
+		}
+
+		private void KeyPressToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(Application.StartupPath + @"\KeyPress\墙板码值.exe");
+		}
+
+		private void CSJToolNoticeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("1.使用传视界工具，需要安装相应驱动，并保持设备连接；\n" +
+				"2.系统必须安装MicroSoft Office Excel才可使用中控工具。");
+		}
+
+		/// <summary>
+		///  点击切换皮肤
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void skinButton_Click(object sender, EventArgs e)
+		{
+			string sskName = skinComboBox.Text;
+			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
 
 		}
 	}

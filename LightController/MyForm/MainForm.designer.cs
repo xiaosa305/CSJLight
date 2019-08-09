@@ -255,6 +255,12 @@ namespace LightController
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.networkSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.传视界工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.CSJToolNoticeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.QDControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.CenterControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.KeyPressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.stopReviewButton = new System.Windows.Forms.Button();
 			this.oneLightStepButton = new System.Windows.Forms.Button();
@@ -265,6 +271,8 @@ namespace LightController
 			this.test4Button = new System.Windows.Forms.Button();
 			this.test3Button = new System.Windows.Forms.Button();
 			this.test2Button = new System.Windows.Forms.Button();
+			this.skinComboBox = new System.Windows.Forms.ComboBox();
+			this.skinButton = new System.Windows.Forms.Button();
 			this.tongdaoGroupBox.SuspendLayout();
 			this.tongdaoPanel.SuspendLayout();
 			this.tongdaoGroupBox1.SuspendLayout();
@@ -944,7 +952,8 @@ namespace LightController
 			this.changeModeComboBox1.FormattingEnabled = true;
 			this.changeModeComboBox1.Items.AddRange(new object[] {
             "跳变",
-            "渐变"});
+            "渐变",
+            "屏蔽"});
 			this.changeModeComboBox1.Location = new System.Drawing.Point(127, 287);
 			this.changeModeComboBox1.Name = "changeModeComboBox1";
 			this.changeModeComboBox1.Size = new System.Drawing.Size(60, 23);
@@ -3083,7 +3092,8 @@ namespace LightController
             this.ExitToolStripMenuItem,
             this.globalSetToolStripMenuItem,
             this.ymSetToolStripMenuItem,
-            this.networkSetToolStripMenuItem});
+            this.networkSetToolStripMenuItem,
+            this.传视界工具ToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
 			this.mainMenuStrip.Size = new System.Drawing.Size(1915, 28);
@@ -3126,7 +3136,7 @@ namespace LightController
 			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
 			this.updateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
 			this.updateToolStripMenuItem.Text = "在线升级";
-			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click_1);
+			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
 			// 
 			// lightsEditToolStripMenuItem
 			// 
@@ -3169,9 +3179,54 @@ namespace LightController
 			this.networkSetToolStripMenuItem.Text = "网络设置";
 			this.networkSetToolStripMenuItem.Click += new System.EventHandler(this.NetworkSetToolStripMenuItem_Click);
 			// 
+			// 传视界工具ToolStripMenuItem
+			// 
+			this.传视界工具ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CSJToolNoticeToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.QDControllerToolStripMenuItem,
+            this.CenterControllerToolStripMenuItem,
+            this.KeyPressToolStripMenuItem});
+			this.传视界工具ToolStripMenuItem.Name = "传视界工具ToolStripMenuItem";
+			this.传视界工具ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+			this.传视界工具ToolStripMenuItem.Text = "其他工具";
+			// 
+			// CSJToolNoticeToolStripMenuItem
+			// 
+			this.CSJToolNoticeToolStripMenuItem.Name = "CSJToolNoticeToolStripMenuItem";
+			this.CSJToolNoticeToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.CSJToolNoticeToolStripMenuItem.Text = "提示";
+			this.CSJToolNoticeToolStripMenuItem.Click += new System.EventHandler(this.CSJToolNoticeToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+			// 
+			// QDControllerToolStripMenuItem
+			// 
+			this.QDControllerToolStripMenuItem.Name = "QDControllerToolStripMenuItem";
+			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.QDControllerToolStripMenuItem.Text = "传视界灯控工具";
+			this.QDControllerToolStripMenuItem.Click += new System.EventHandler(this.QDControllerToolStripMenuItem_Click);
+			// 
+			// CenterControllerToolStripMenuItem
+			// 
+			this.CenterControllerToolStripMenuItem.Name = "CenterControllerToolStripMenuItem";
+			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.CenterControllerToolStripMenuItem.Text = "传视界中控工具";
+			this.CenterControllerToolStripMenuItem.Click += new System.EventHandler(this.CenterControllerToolStripMenuItem_Click);
+			// 
+			// KeyPressToolStripMenuItem
+			// 
+			this.KeyPressToolStripMenuItem.Name = "KeyPressToolStripMenuItem";
+			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
+			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
+			// 
 			// previewButton
 			// 
-			this.previewButton.Location = new System.Drawing.Point(1338, 57);
+			this.previewButton.Location = new System.Drawing.Point(1271, 57);
 			this.previewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.previewButton.Name = "previewButton";
 			this.previewButton.Size = new System.Drawing.Size(92, 65);
@@ -3183,7 +3238,7 @@ namespace LightController
 			// 
 			// stopReviewButton
 			// 
-			this.stopReviewButton.Location = new System.Drawing.Point(1534, 57);
+			this.stopReviewButton.Location = new System.Drawing.Point(1467, 57);
 			this.stopReviewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.stopReviewButton.Name = "stopReviewButton";
 			this.stopReviewButton.Size = new System.Drawing.Size(92, 65);
@@ -3195,7 +3250,7 @@ namespace LightController
 			// 
 			// oneLightStepButton
 			// 
-			this.oneLightStepButton.Location = new System.Drawing.Point(1240, 83);
+			this.oneLightStepButton.Location = new System.Drawing.Point(1173, 83);
 			this.oneLightStepButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.oneLightStepButton.Name = "oneLightStepButton";
 			this.oneLightStepButton.Size = new System.Drawing.Size(92, 39);
@@ -3208,7 +3263,7 @@ namespace LightController
 			// realTimeCheckBox
 			// 
 			this.realTimeCheckBox.AutoSize = true;
-			this.realTimeCheckBox.Location = new System.Drawing.Point(1242, 61);
+			this.realTimeCheckBox.Location = new System.Drawing.Point(1175, 59);
 			this.realTimeCheckBox.Name = "realTimeCheckBox";
 			this.realTimeCheckBox.Size = new System.Drawing.Size(89, 19);
 			this.realTimeCheckBox.TabIndex = 18;
@@ -3219,7 +3274,7 @@ namespace LightController
 			// 
 			// soundButton
 			// 
-			this.soundButton.Location = new System.Drawing.Point(1436, 57);
+			this.soundButton.Location = new System.Drawing.Point(1369, 57);
 			this.soundButton.Name = "soundButton";
 			this.soundButton.Size = new System.Drawing.Size(92, 65);
 			this.soundButton.TabIndex = 13;
@@ -3232,7 +3287,7 @@ namespace LightController
 			// 
 			this.connectButton.BackColor = System.Drawing.SystemColors.Control;
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(1137, 57);
+			this.connectButton.Location = new System.Drawing.Point(1070, 57);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.connectButton.Name = "connectButton";
 			this.connectButton.Size = new System.Drawing.Size(93, 65);
@@ -3285,12 +3340,32 @@ namespace LightController
 			this.test2Button.UseVisualStyleBackColor = true;
 			this.test2Button.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
+			// skinComboBox
+			// 
+			this.skinComboBox.FormattingEnabled = true;
+			this.skinComboBox.Location = new System.Drawing.Point(1620, 59);
+			this.skinComboBox.Name = "skinComboBox";
+			this.skinComboBox.Size = new System.Drawing.Size(121, 23);
+			this.skinComboBox.TabIndex = 20;
+			// 
+			// skinButton
+			// 
+			this.skinButton.Location = new System.Drawing.Point(1620, 88);
+			this.skinButton.Name = "skinButton";
+			this.skinButton.Size = new System.Drawing.Size(121, 34);
+			this.skinButton.TabIndex = 21;
+			this.skinButton.Text = "切换皮肤";
+			this.skinButton.UseVisualStyleBackColor = true;
+			this.skinButton.Click += new System.EventHandler(this.skinButton_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.ClientSize = new System.Drawing.Size(1915, 881);
+			this.Controls.Add(this.skinButton);
+			this.Controls.Add(this.skinComboBox);
 			this.Controls.Add(this.testGroupBox);
 			this.Controls.Add(this.realTimeCheckBox);
 			this.Controls.Add(this.tongdaoGroupBox);
@@ -3655,6 +3730,14 @@ namespace LightController
 		private Button test4Button;
 		private Button test3Button;
 		private Button test2Button;
+		private ToolStripMenuItem 传视界工具ToolStripMenuItem;
+		private ToolStripMenuItem QDControllerToolStripMenuItem;
+		private ToolStripMenuItem CenterControllerToolStripMenuItem;
+		private ToolStripMenuItem KeyPressToolStripMenuItem;
+		private ToolStripMenuItem CSJToolNoticeToolStripMenuItem;
+		private ToolStripSeparator toolStripSeparator1;
+		private ComboBox skinComboBox;
+		private Button skinButton;
 	}
 }
 

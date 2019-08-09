@@ -59,7 +59,7 @@ namespace LightController.MyForm
 			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
 			heartbeatTextBox.Text = iniFileAst.ReadString("Common", "Heartbeat", "");
 			heartbeatCycleNumericUpDown.Value = iniFileAst.ReadInt("Common", "HeartbeatCycle", 0);
-			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 0);
+			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 1);
 
 			linkModeComboBox.SelectedIndex = iniFileAst.ReadInt("Network", "LinkMode", 0);
 			linkPortTextBox.Text = iniFileAst.ReadString("Network", "LinkPort", "");

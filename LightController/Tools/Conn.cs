@@ -716,6 +716,11 @@ namespace LightController.Tools
                 byte[] crc = CRCTools.GetInstance().GetCRC(data);
                 string fileCRC = crc[0].ToString() + crc[1].ToString();
                 SendData(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCRC });
+
+                //List<byte> test = new List<byte>();
+                //test.AddRange(new byte[] { 0xAA, 0x6E, 0xBB, 0xFE, 0x01, 0x01, 0x03, 0x04 });
+                //test.AddRange(data);
+                //DMXHardware testBean = new DMXHardware(test.ToArray());
             }
         }
 

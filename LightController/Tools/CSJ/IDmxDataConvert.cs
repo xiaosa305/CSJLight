@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightController.Tools
+namespace LightController.Tools.CSJ
 {
-    public interface ITimeOutFuntion
+    public interface IDmxDataConvert
     {
-        void Start();
     }
 }

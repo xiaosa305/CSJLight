@@ -40,11 +40,38 @@ namespace LightController.Tools
         {
             Ver = (int)(data[9] & 0xFF);
             PlayFlag = (int)(data[10] & 0xFF);
-            SumUseTimes = (int)((data[11] & 0xFF)
-                | ((data[12] & 0xFF) << 8)
-                | ((data[13] & 0xFF) << 16)
-                | ((data[14] & 0xFF) << 24));
+            SumUseTimes = (int)((data[11] & 0xFF) | ((data[12] & 0xFF) << 8) | ((data[13] & 0xFF) << 16) | ((data[14] & 0xFF) << 24));
             DiskFlag = (int)(data[15] & 0xFF);
+            List<byte> deviceNameBuff = new List<byte>();
+            for (int i = 16; i < 32; i++)
+            {
+                if (data[i] != 0x00)
+                {
+                    deviceNameBuff.Add(data[i]);
+                }
+            }
+            DeviceName = Encoding.Default.GetString(deviceNameBuff.ToArray());
+            Addr = (int)(data[32] & 0xFF);
+            LinkMode = (int)(data[33] & 0xFF);
+            LinkPort = (int)((data[34] & 0xFF) | ((data[35] & 0xFF) << 8));
+            IP = (int)(data[36] & 0xFF) + "." + (int)(data[37] & 0xFF) + "." + (int)(data[38] & 0xFF) + "." + (int)(data[39] & 0xFF);
+            NetMask = (int)(data[40] & 0xFF) + "." + (int)(data[41] & 0xFF) + "." + (int)(data[42] & 0xFF) + "." + (int)(data[43] & 0xFF);
+            GateWay = (int)(data[44] & 0xFF) + "." + (int)(data[45] & 0xFF) + "." + (int)(data[46] & 0xFF) + "." + (int)(data[47] & 0xFF);
+            Mac = data[48].ToString() + "-" + data[49].ToString() + "-" + data[50].ToString() + "-" + data[51].ToString() + "-" + data[52].ToString() + "-" + data[53].ToString();
+            Baud = (int)(data[54] & 0xFF);
+            CurrUseTimes = (int)((data[55] & 0xFF) | ((data[56] & 0xFF) << 8) | ((data[57] & 0xFF) << 16) | ((data[58] & 0xFF) << 24));
+            RemoteHost = (int)(data[59] & 0xFF) + "." + (int)(data[60] & 0xFF) + "." + (int)(data[61] & 0xFF) + "." + (int)(data[62] & 0xFF);
+            RemotePort = (int)((data[63] & 0xFF) | ((data[64] & 0xFF) << 8));
+            List<byte> domainNameBuff = new List<byte>();
+            for (int i = 65; i < 97; i++)
+            {
+                if (data[i] != 0x00)
+                {
+                    domainNameBuff.Add(data[i]);
+                }
+            }
+            DomainName = Encoding.Default.GetString(domainNameBuff.ToArray());
+            DomainServer = (int)(data[97] & 0xFF) + "." + (int)(data[98] & 0xFF) + "." + (int)(data[99] & 0xFF) + "." + (int)(data[100] & 0xFF);
         }
 
         private void ReadFromFile(string filePath)

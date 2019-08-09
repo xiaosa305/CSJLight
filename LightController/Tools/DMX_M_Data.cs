@@ -14,8 +14,9 @@ namespace LightController.Tools
     {
         public int ChanelCount { get; set; }//通道总数
         public int FileSize { get; set; }//文件大小
-        public int StepTimes { get; set; }//音频步数
+        public int StepListCount { get; set; }//音频步数链表元素个数
         public int FrameTime { get; set; }//音频步时间
+        public IList<int> StepList { get; set; }//音频步数链表
     }
     public class M_Data
     {

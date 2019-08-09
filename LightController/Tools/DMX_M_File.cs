@@ -15,19 +15,23 @@ namespace LightController.Tools
         {
             IList<byte> fileData = new List<byte>();
             int FileSize = 0;
-            byte Music_Step_Times = Convert.ToByte(Data.HeadData.StepTimes);
             byte Music_Frame_Time = Convert.ToByte(Data.HeadData.FrameTime);
             byte[] Scene_Total_Count = new byte[2];
+            byte MusicControlStepListCount = Convert.ToByte(Data.HeadData.StepListCount);
             Scene_Total_Count[0] = (byte)(Data.HeadData.ChanelCount & 0xFF);
             Scene_Total_Count[1] = (byte)((Data.HeadData.ChanelCount >> 8) & 0xFF);
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
-            fileData.Add(Music_Step_Times);
             fileData.Add(Music_Frame_Time);
             fileData.Add(Scene_Total_Count[0]);
             fileData.Add(Scene_Total_Count[1]);
+            fileData.Add(MusicControlStepListCount);
+            foreach (int step in Data.HeadData.StepList)
+            {
+                fileData.Add(Convert.ToByte(step));
+            }
             foreach (M_Data m_Data in Data.Datas)
             {
                 //转换通道编号为byte
@@ -64,16 +68,8 @@ namespace LightController.Tools
         public void WriteFile(string path)
         {
             byte[] data = GetByteData();
-
             string filePath;
-            if (SceneNo < 9)
-            {
-                filePath = path + @"\M0" + (SceneNo + 1) + ".bin";
-            }
-            else
-            {
-                filePath = path + @"\M" + (SceneNo + 1) + ".bin";
-            }
+            filePath = path + @"\M" + (SceneNo + 1) + ".bin";
             FileStream fileStream = new FileStream(filePath, FileMode.Create);
             fileStream.Write(data, 0, data.Length);
             fileStream.Close();

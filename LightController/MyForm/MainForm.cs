@@ -292,7 +292,7 @@ namespace LightController
 			
 
 			isInit = true;			
-			playTools = PlayTools.GetInstance();
+			//playTools = PlayTools.GetInstance();
 
 
 		}

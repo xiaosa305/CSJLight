@@ -87,6 +87,9 @@
     <Reference Include="Antlr3.Utility, Version=0.1.0.39272, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.1.1\lib\Antlr3.Utility.dll</HintPath>
     </Reference>
+    <Reference Include="CSkin">
+      <HintPath>..\..\..\..\Desktop\skins\CSkin 4.0\CSkin.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -124,6 +127,7 @@
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.110.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -230,6 +234,12 @@
     <Compile Include="MyForm\NewHardwareForm.Designer.cs">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\NewMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\NewMainForm.Designer.cs">
+      <DependentUpon>NewMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\OpenForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -321,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\NewMainForm.resx">
+      <DependentUpon>NewMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
@@ -605,6 +618,44 @@
     <Content Include="GlobalSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\灯库编辑.png" />
+    <None Include="Resources\灯具编辑.png" />
+    <None Include="Resources\全局配置.png" />
+    <None Include="Resources\退出程序.png" />
+    <None Include="Resources\网络设置.png" />
+    <None Include="Resources\摇麦设置.png" />
+    <None Include="Resources\硬件设置.png" />
+    <None Include="Resources\在线升级.png" />
+    <None Include="Resources\保存工程.png" />
+    <None Include="Resources\打开工程.png" />
+    <None Include="Resources\新建工程.png" />
+    <None Include="Resources\保存素材2.png" />
+    <None Include="Resources\复制步.png" />
+    <None Include="Resources\复制灯1.png" />
+    <None Include="Resources\后插入步1.png" />
+    <None Include="Resources\前插入步1.png" />
+    <None Include="Resources\删除步.png" />
+    <None Include="Resources\上一步.png" />
+    <None Include="Resources\使用素材.png" />
+    <None Include="Resources\下一步.png" />
+    <None Include="Resources\粘贴步.png" />
+    <None Include="Resources\粘贴灯1.png" />
+    <None Include="Resources\追加步.png" />
+    <None Include="Resources\复制步1.png" />
+    <None Include="Resources\触发音频.png" />
+    <None Include="Resources\触发音频后.png" />
+    <None Include="Resources\单灯单步.png" />
+    <None Include="Resources\单灯单步后.png" />
+    <None Include="Resources\断开连接.png" />
+    <None Include="Resources\结束浏览.png" />
+    <None Include="Resources\连接.png" />
+    <None Include="Resources\浏览效果后.png" />
+    <None Include="Resources\浏览效果前.png" />
+    <None Include="Resources\实时调试.png" />
+    <None Include="Resources\实时调试02.png" />
+    <None Include="Resources\灯光图.png" />
+    <None Include="Resources\圆角矩形 4.png" />
+    <None Include="Resources\椭圆 1.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -89,7 +89,6 @@ namespace LightController.MyForm
 			this.changeModeLabel1 = new System.Windows.Forms.Label();
 			this.tdChangeModeSkinComboBox1 = new CCWin.SkinControl.SkinComboBox();
 			this.tongdaoSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.skinButton17 = new CCWin.SkinControl.SkinButton();
 			this.tdPanel24 = new System.Windows.Forms.Panel();
 			this.tdNameLabel24 = new System.Windows.Forms.Label();
 			this.tdNoLabel24 = new CCWin.SkinControl.SkinLabel();
@@ -1558,7 +1557,7 @@ namespace LightController.MyForm
 			// stepTimeLabel1
 			// 
 			this.stepTimeLabel1.AutoSize = true;
-			this.stepTimeLabel1.Location = new System.Drawing.Point(36, 307);
+			this.stepTimeLabel1.Location = new System.Drawing.Point(36, 283);
 			this.stepTimeLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.stepTimeLabel1.Name = "stepTimeLabel1";
 			this.stepTimeLabel1.Size = new System.Drawing.Size(53, 12);
@@ -1568,7 +1567,7 @@ namespace LightController.MyForm
 			// tongdaoValueLabel1
 			// 
 			this.tongdaoValueLabel1.AutoSize = true;
-			this.tongdaoValueLabel1.Location = new System.Drawing.Point(36, 261);
+			this.tongdaoValueLabel1.Location = new System.Drawing.Point(36, 237);
 			this.tongdaoValueLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tongdaoValueLabel1.Name = "tongdaoValueLabel1";
 			this.tongdaoValueLabel1.Size = new System.Drawing.Size(53, 12);
@@ -1578,7 +1577,7 @@ namespace LightController.MyForm
 			// changeModeLabel1
 			// 
 			this.changeModeLabel1.AutoSize = true;
-			this.changeModeLabel1.Location = new System.Drawing.Point(36, 284);
+			this.changeModeLabel1.Location = new System.Drawing.Point(36, 260);
 			this.changeModeLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.changeModeLabel1.Name = "changeModeLabel1";
 			this.changeModeLabel1.Size = new System.Drawing.Size(53, 12);
@@ -1608,7 +1607,6 @@ namespace LightController.MyForm
 			// 
 			this.tongdaoSkinPanel.AutoScroll = true;
 			this.tongdaoSkinPanel.BackColor = System.Drawing.Color.Transparent;
-			this.tongdaoSkinPanel.Controls.Add(this.skinButton17);
 			this.tongdaoSkinPanel.Controls.Add(this.tdPanel24);
 			this.tongdaoSkinPanel.Controls.Add(this.tdPanel12);
 			this.tongdaoSkinPanel.Controls.Add(this.tdPanel32);
@@ -1651,28 +1649,14 @@ namespace LightController.MyForm
 			this.tongdaoSkinPanel.Controls.Add(this.tongdaoValueLabel1);
 			this.tongdaoSkinPanel.Controls.Add(this.stepTimeLabel1);
 			this.tongdaoSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.tongdaoSkinPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tongdaoSkinPanel.DownBack = null;
-			this.tongdaoSkinPanel.Location = new System.Drawing.Point(0, 2);
+			this.tongdaoSkinPanel.Location = new System.Drawing.Point(123, 403);
 			this.tongdaoSkinPanel.MouseBack = null;
 			this.tongdaoSkinPanel.Name = "tongdaoSkinPanel";
 			this.tongdaoSkinPanel.NormlBack = null;
-			this.tongdaoSkinPanel.Size = new System.Drawing.Size(1425, 859);
+			this.tongdaoSkinPanel.Size = new System.Drawing.Size(1056, 319);
 			this.tongdaoSkinPanel.TabIndex = 12;
-			// 
-			// skinButton17
-			// 
-			this.skinButton17.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton17.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton17.DownBack = null;
-			this.skinButton17.Location = new System.Drawing.Point(885, 720);
-			this.skinButton17.MouseBack = null;
-			this.skinButton17.Name = "skinButton17";
-			this.skinButton17.NormlBack = null;
-			this.skinButton17.Size = new System.Drawing.Size(223, 98);
-			this.skinButton17.TabIndex = 27;
-			this.skinButton17.Text = "skinButton17";
-			this.skinButton17.UseVisualStyleBackColor = false;
-			this.skinButton17.Click += new System.EventHandler(this.skinButton17_Click);
 			// 
 			// tdPanel24
 			// 
@@ -1682,7 +1666,7 @@ namespace LightController.MyForm
 			this.tdPanel24.Controls.Add(this.tdSkinTrackBar24);
 			this.tdPanel24.Controls.Add(this.tdValueNumericUpDown24);
 			this.tdPanel24.Controls.Add(this.tdChangeModeSkinComboBox24);
-			this.tdPanel24.Location = new System.Drawing.Point(1029, 350);
+			this.tdPanel24.Location = new System.Drawing.Point(189, 644);
 			this.tdPanel24.Name = "tdPanel24";
 			this.tdPanel24.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel24.TabIndex = 26;
@@ -1779,7 +1763,7 @@ namespace LightController.MyForm
 			this.tdPanel12.Controls.Add(this.tdSkinTrackBar12);
 			this.tdPanel12.Controls.Add(this.tdValueNumericUpDown12);
 			this.tdPanel12.Controls.Add(this.tdChangeModeSkinComboBox12);
-			this.tdPanel12.Location = new System.Drawing.Point(1029, 33);
+			this.tdPanel12.Location = new System.Drawing.Point(947, 326);
 			this.tdPanel12.Name = "tdPanel12";
 			this.tdPanel12.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel12.TabIndex = 26;
@@ -1876,7 +1860,7 @@ namespace LightController.MyForm
 			this.tdPanel32.Controls.Add(this.tdSkinTrackBar32);
 			this.tdPanel32.Controls.Add(this.tdValueNumericUpDown32);
 			this.tdPanel32.Controls.Add(this.tdChangeModeSkinComboBox32);
-			this.tdPanel32.Location = new System.Drawing.Point(693, 667);
+			this.tdPanel32.Location = new System.Drawing.Point(863, 644);
 			this.tdPanel32.Name = "tdPanel32";
 			this.tdPanel32.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel32.TabIndex = 26;
@@ -1973,7 +1957,7 @@ namespace LightController.MyForm
 			this.tdPanel20.Controls.Add(this.tdSkinTrackBar20);
 			this.tdPanel20.Controls.Add(this.tdValueNumericUpDown20);
 			this.tdPanel20.Controls.Add(this.tdChangeModeSkinComboBox20);
-			this.tdPanel20.Location = new System.Drawing.Point(693, 350);
+			this.tdPanel20.Location = new System.Drawing.Point(693, 326);
 			this.tdPanel20.Name = "tdPanel20";
 			this.tdPanel20.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel20.TabIndex = 26;
@@ -2070,7 +2054,7 @@ namespace LightController.MyForm
 			this.tdPanel8.Controls.Add(this.tdSkinTrackBar8);
 			this.tdPanel8.Controls.Add(this.tdValueNumericUpDown8);
 			this.tdPanel8.Controls.Add(this.tdChangeModeSkinComboBox8);
-			this.tdPanel8.Location = new System.Drawing.Point(693, 33);
+			this.tdPanel8.Location = new System.Drawing.Point(693, 9);
 			this.tdPanel8.Name = "tdPanel8";
 			this.tdPanel8.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel8.TabIndex = 26;
@@ -2167,7 +2151,7 @@ namespace LightController.MyForm
 			this.tdPanel28.Controls.Add(this.tdSkinTrackBar28);
 			this.tdPanel28.Controls.Add(this.tdValueNumericUpDown28);
 			this.tdPanel28.Controls.Add(this.tdChangeModeSkinComboBox28);
-			this.tdPanel28.Location = new System.Drawing.Point(357, 667);
+			this.tdPanel28.Location = new System.Drawing.Point(527, 644);
 			this.tdPanel28.Name = "tdPanel28";
 			this.tdPanel28.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel28.TabIndex = 26;
@@ -2264,7 +2248,7 @@ namespace LightController.MyForm
 			this.tdPanel16.Controls.Add(this.tdSkinTrackBar16);
 			this.tdPanel16.Controls.Add(this.tdValueNumericUpDown16);
 			this.tdPanel16.Controls.Add(this.tdChangeModeSkinComboBox16);
-			this.tdPanel16.Location = new System.Drawing.Point(357, 350);
+			this.tdPanel16.Location = new System.Drawing.Point(357, 326);
 			this.tdPanel16.Name = "tdPanel16";
 			this.tdPanel16.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel16.TabIndex = 26;
@@ -2361,7 +2345,7 @@ namespace LightController.MyForm
 			this.tdPanel4.Controls.Add(this.tdSkinTrackBar4);
 			this.tdPanel4.Controls.Add(this.tdValueNumericUpDown4);
 			this.tdPanel4.Controls.Add(this.tdChangeModeSkinComboBox4);
-			this.tdPanel4.Location = new System.Drawing.Point(357, 33);
+			this.tdPanel4.Location = new System.Drawing.Point(357, 9);
 			this.tdPanel4.Name = "tdPanel4";
 			this.tdPanel4.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel4.TabIndex = 26;
@@ -2458,7 +2442,7 @@ namespace LightController.MyForm
 			this.tdPanel23.Controls.Add(this.tdSkinTrackBar23);
 			this.tdPanel23.Controls.Add(this.tdValueNumericUpDown23);
 			this.tdPanel23.Controls.Add(this.tdChangeModeSkinComboBox23);
-			this.tdPanel23.Location = new System.Drawing.Point(945, 350);
+			this.tdPanel23.Location = new System.Drawing.Point(105, 644);
 			this.tdPanel23.Name = "tdPanel23";
 			this.tdPanel23.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel23.TabIndex = 26;
@@ -2555,7 +2539,7 @@ namespace LightController.MyForm
 			this.tdPanel11.Controls.Add(this.tdSkinTrackBar11);
 			this.tdPanel11.Controls.Add(this.tdValueNumericUpDown11);
 			this.tdPanel11.Controls.Add(this.tdChangeModeSkinComboBox11);
-			this.tdPanel11.Location = new System.Drawing.Point(945, 33);
+			this.tdPanel11.Location = new System.Drawing.Point(945, 9);
 			this.tdPanel11.Name = "tdPanel11";
 			this.tdPanel11.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel11.TabIndex = 26;
@@ -2652,7 +2636,7 @@ namespace LightController.MyForm
 			this.tdPanel31.Controls.Add(this.tdSkinTrackBar31);
 			this.tdPanel31.Controls.Add(this.tdValueNumericUpDown31);
 			this.tdPanel31.Controls.Add(this.tdChangeModeSkinComboBox31);
-			this.tdPanel31.Location = new System.Drawing.Point(609, 667);
+			this.tdPanel31.Location = new System.Drawing.Point(779, 644);
 			this.tdPanel31.Name = "tdPanel31";
 			this.tdPanel31.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel31.TabIndex = 26;
@@ -2749,7 +2733,7 @@ namespace LightController.MyForm
 			this.tdPanel19.Controls.Add(this.tdSkinTrackBar19);
 			this.tdPanel19.Controls.Add(this.tdValueNumericUpDown19);
 			this.tdPanel19.Controls.Add(this.tdChangeModeSkinComboBox19);
-			this.tdPanel19.Location = new System.Drawing.Point(609, 350);
+			this.tdPanel19.Location = new System.Drawing.Point(609, 326);
 			this.tdPanel19.Name = "tdPanel19";
 			this.tdPanel19.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel19.TabIndex = 26;
@@ -2846,7 +2830,7 @@ namespace LightController.MyForm
 			this.tdPanel7.Controls.Add(this.tdSkinTrackBar7);
 			this.tdPanel7.Controls.Add(this.tdValueNumericUpDown7);
 			this.tdPanel7.Controls.Add(this.tdChangeModeSkinComboBox7);
-			this.tdPanel7.Location = new System.Drawing.Point(609, 33);
+			this.tdPanel7.Location = new System.Drawing.Point(609, 9);
 			this.tdPanel7.Name = "tdPanel7";
 			this.tdPanel7.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel7.TabIndex = 26;
@@ -2943,7 +2927,7 @@ namespace LightController.MyForm
 			this.tdPanel27.Controls.Add(this.tdSkinTrackBar27);
 			this.tdPanel27.Controls.Add(this.tdValueNumericUpDown27);
 			this.tdPanel27.Controls.Add(this.tdChangeModeSkinComboBox27);
-			this.tdPanel27.Location = new System.Drawing.Point(273, 667);
+			this.tdPanel27.Location = new System.Drawing.Point(443, 644);
 			this.tdPanel27.Name = "tdPanel27";
 			this.tdPanel27.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel27.TabIndex = 26;
@@ -3040,7 +3024,7 @@ namespace LightController.MyForm
 			this.tdPanel15.Controls.Add(this.tdSkinTrackBar15);
 			this.tdPanel15.Controls.Add(this.tdValueNumericUpDown15);
 			this.tdPanel15.Controls.Add(this.tdChangeModeSkinComboBox15);
-			this.tdPanel15.Location = new System.Drawing.Point(273, 350);
+			this.tdPanel15.Location = new System.Drawing.Point(273, 326);
 			this.tdPanel15.Name = "tdPanel15";
 			this.tdPanel15.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel15.TabIndex = 26;
@@ -3137,7 +3121,7 @@ namespace LightController.MyForm
 			this.tdPanel3.Controls.Add(this.tdSkinTrackBar3);
 			this.tdPanel3.Controls.Add(this.tdValueNumericUpDown3);
 			this.tdPanel3.Controls.Add(this.tdChangeModeSkinComboBox3);
-			this.tdPanel3.Location = new System.Drawing.Point(273, 33);
+			this.tdPanel3.Location = new System.Drawing.Point(273, 9);
 			this.tdPanel3.Name = "tdPanel3";
 			this.tdPanel3.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel3.TabIndex = 26;
@@ -3234,7 +3218,7 @@ namespace LightController.MyForm
 			this.tdPanel22.Controls.Add(this.tdSkinTrackBar22);
 			this.tdPanel22.Controls.Add(this.tdValueNumericUpDown22);
 			this.tdPanel22.Controls.Add(this.tdChangeModeSkinComboBox22);
-			this.tdPanel22.Location = new System.Drawing.Point(861, 350);
+			this.tdPanel22.Location = new System.Drawing.Point(861, 326);
 			this.tdPanel22.Name = "tdPanel22";
 			this.tdPanel22.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel22.TabIndex = 26;
@@ -3331,7 +3315,7 @@ namespace LightController.MyForm
 			this.tdPanel10.Controls.Add(this.tdSkinTrackBar10);
 			this.tdPanel10.Controls.Add(this.tdValueNumericUpDown10);
 			this.tdPanel10.Controls.Add(this.tdChangeModeSkinComboBox10);
-			this.tdPanel10.Location = new System.Drawing.Point(861, 33);
+			this.tdPanel10.Location = new System.Drawing.Point(861, 9);
 			this.tdPanel10.Name = "tdPanel10";
 			this.tdPanel10.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel10.TabIndex = 26;
@@ -3428,7 +3412,7 @@ namespace LightController.MyForm
 			this.tdPanel30.Controls.Add(this.tdSkinTrackBar30);
 			this.tdPanel30.Controls.Add(this.tdValueNumericUpDown30);
 			this.tdPanel30.Controls.Add(this.tdChangeModeSkinComboBox30);
-			this.tdPanel30.Location = new System.Drawing.Point(525, 667);
+			this.tdPanel30.Location = new System.Drawing.Point(695, 644);
 			this.tdPanel30.Name = "tdPanel30";
 			this.tdPanel30.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel30.TabIndex = 26;
@@ -3525,7 +3509,7 @@ namespace LightController.MyForm
 			this.tdPanel18.Controls.Add(this.tdSkinTrackBar18);
 			this.tdPanel18.Controls.Add(this.tdValueNumericUpDown18);
 			this.tdPanel18.Controls.Add(this.tdChangeModeSkinComboBox18);
-			this.tdPanel18.Location = new System.Drawing.Point(525, 350);
+			this.tdPanel18.Location = new System.Drawing.Point(525, 326);
 			this.tdPanel18.Name = "tdPanel18";
 			this.tdPanel18.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel18.TabIndex = 26;
@@ -3622,7 +3606,7 @@ namespace LightController.MyForm
 			this.tdPanel6.Controls.Add(this.tdSkinTrackBar6);
 			this.tdPanel6.Controls.Add(this.tdValueNumericUpDown6);
 			this.tdPanel6.Controls.Add(this.tdChangeModeSkinComboBox6);
-			this.tdPanel6.Location = new System.Drawing.Point(525, 33);
+			this.tdPanel6.Location = new System.Drawing.Point(525, 9);
 			this.tdPanel6.Name = "tdPanel6";
 			this.tdPanel6.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel6.TabIndex = 26;
@@ -3719,7 +3703,7 @@ namespace LightController.MyForm
 			this.tdPanel26.Controls.Add(this.tdSkinTrackBar26);
 			this.tdPanel26.Controls.Add(this.tdValueNumericUpDown26);
 			this.tdPanel26.Controls.Add(this.tdChangeModeSkinComboBox26);
-			this.tdPanel26.Location = new System.Drawing.Point(189, 667);
+			this.tdPanel26.Location = new System.Drawing.Point(359, 644);
 			this.tdPanel26.Name = "tdPanel26";
 			this.tdPanel26.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel26.TabIndex = 26;
@@ -3816,7 +3800,7 @@ namespace LightController.MyForm
 			this.tdPanel14.Controls.Add(this.tdSkinTrackBar14);
 			this.tdPanel14.Controls.Add(this.tdValueNumericUpDown14);
 			this.tdPanel14.Controls.Add(this.tdChangeModeSkinComboBox14);
-			this.tdPanel14.Location = new System.Drawing.Point(189, 350);
+			this.tdPanel14.Location = new System.Drawing.Point(189, 326);
 			this.tdPanel14.Name = "tdPanel14";
 			this.tdPanel14.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel14.TabIndex = 26;
@@ -3913,7 +3897,7 @@ namespace LightController.MyForm
 			this.tdPanel2.Controls.Add(this.tdSkinTrackBar2);
 			this.tdPanel2.Controls.Add(this.tdValueNumericUpDown2);
 			this.tdPanel2.Controls.Add(this.tdChangeModeSkinComboBox2);
-			this.tdPanel2.Location = new System.Drawing.Point(189, 33);
+			this.tdPanel2.Location = new System.Drawing.Point(189, 9);
 			this.tdPanel2.Name = "tdPanel2";
 			this.tdPanel2.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel2.TabIndex = 26;
@@ -4010,7 +3994,7 @@ namespace LightController.MyForm
 			this.tdPanel21.Controls.Add(this.tdSkinTrackBar21);
 			this.tdPanel21.Controls.Add(this.tdValueNumericUpDown21);
 			this.tdPanel21.Controls.Add(this.tdChangeModeSkinComboBox21);
-			this.tdPanel21.Location = new System.Drawing.Point(777, 350);
+			this.tdPanel21.Location = new System.Drawing.Point(777, 326);
 			this.tdPanel21.Name = "tdPanel21";
 			this.tdPanel21.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel21.TabIndex = 26;
@@ -4107,7 +4091,7 @@ namespace LightController.MyForm
 			this.tdPanel9.Controls.Add(this.tdSkinTrackBar9);
 			this.tdPanel9.Controls.Add(this.tdValueNumericUpDown9);
 			this.tdPanel9.Controls.Add(this.tdChangeModeSkinComboBox9);
-			this.tdPanel9.Location = new System.Drawing.Point(777, 33);
+			this.tdPanel9.Location = new System.Drawing.Point(777, 9);
 			this.tdPanel9.Name = "tdPanel9";
 			this.tdPanel9.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel9.TabIndex = 26;
@@ -4204,7 +4188,7 @@ namespace LightController.MyForm
 			this.tdPanel29.Controls.Add(this.tdSkinTrackBar29);
 			this.tdPanel29.Controls.Add(this.tdValueNumericUpDown29);
 			this.tdPanel29.Controls.Add(this.tdChangeModeSkinComboBox29);
-			this.tdPanel29.Location = new System.Drawing.Point(441, 667);
+			this.tdPanel29.Location = new System.Drawing.Point(611, 644);
 			this.tdPanel29.Name = "tdPanel29";
 			this.tdPanel29.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel29.TabIndex = 26;
@@ -4301,7 +4285,7 @@ namespace LightController.MyForm
 			this.tdPanel17.Controls.Add(this.tdSkinTrackBar17);
 			this.tdPanel17.Controls.Add(this.tdValueNumericUpDown17);
 			this.tdPanel17.Controls.Add(this.tdChangeModeSkinComboBox17);
-			this.tdPanel17.Location = new System.Drawing.Point(441, 350);
+			this.tdPanel17.Location = new System.Drawing.Point(441, 326);
 			this.tdPanel17.Name = "tdPanel17";
 			this.tdPanel17.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel17.TabIndex = 26;
@@ -4398,7 +4382,7 @@ namespace LightController.MyForm
 			this.tdPanel5.Controls.Add(this.tdSkinTrackBar5);
 			this.tdPanel5.Controls.Add(this.tdValueNumericUpDown5);
 			this.tdPanel5.Controls.Add(this.tdChangeModeSkinComboBox5);
-			this.tdPanel5.Location = new System.Drawing.Point(441, 33);
+			this.tdPanel5.Location = new System.Drawing.Point(441, 9);
 			this.tdPanel5.Name = "tdPanel5";
 			this.tdPanel5.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel5.TabIndex = 26;
@@ -4495,7 +4479,7 @@ namespace LightController.MyForm
 			this.tdPanel25.Controls.Add(this.tdSkinTrackBar25);
 			this.tdPanel25.Controls.Add(this.tdValueNumericUpDown25);
 			this.tdPanel25.Controls.Add(this.tdChangeModeSkinComboBox25);
-			this.tdPanel25.Location = new System.Drawing.Point(105, 667);
+			this.tdPanel25.Location = new System.Drawing.Point(275, 644);
 			this.tdPanel25.Name = "tdPanel25";
 			this.tdPanel25.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel25.TabIndex = 26;
@@ -4592,7 +4576,7 @@ namespace LightController.MyForm
 			this.tdPanel13.Controls.Add(this.tdSkinTrackBar13);
 			this.tdPanel13.Controls.Add(this.tdValueNumericUpDown13);
 			this.tdPanel13.Controls.Add(this.tdChangeModeSkinComboBox13);
-			this.tdPanel13.Location = new System.Drawing.Point(105, 350);
+			this.tdPanel13.Location = new System.Drawing.Point(105, 326);
 			this.tdPanel13.Name = "tdPanel13";
 			this.tdPanel13.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel13.TabIndex = 26;
@@ -4689,7 +4673,7 @@ namespace LightController.MyForm
 			this.tdPanel1.Controls.Add(this.tdSkinTrackBar1);
 			this.tdPanel1.Controls.Add(this.tdValueNumericUpDown1);
 			this.tdPanel1.Controls.Add(this.tdChangeModeSkinComboBox1);
-			this.tdPanel1.Location = new System.Drawing.Point(105, 33);
+			this.tdPanel1.Location = new System.Drawing.Point(105, 9);
 			this.tdPanel1.Name = "tdPanel1";
 			this.tdPanel1.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel1.TabIndex = 26;
@@ -4747,7 +4731,7 @@ namespace LightController.MyForm
 			// changeModeLabel3
 			// 
 			this.changeModeLabel3.AutoSize = true;
-			this.changeModeLabel3.Location = new System.Drawing.Point(36, 918);
+			this.changeModeLabel3.Location = new System.Drawing.Point(36, 898);
 			this.changeModeLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.changeModeLabel3.Name = "changeModeLabel3";
 			this.changeModeLabel3.Size = new System.Drawing.Size(53, 12);
@@ -4757,7 +4741,7 @@ namespace LightController.MyForm
 			// changeModeLabel2
 			// 
 			this.changeModeLabel2.AutoSize = true;
-			this.changeModeLabel2.Location = new System.Drawing.Point(36, 601);
+			this.changeModeLabel2.Location = new System.Drawing.Point(36, 577);
 			this.changeModeLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.changeModeLabel2.Name = "changeModeLabel2";
 			this.changeModeLabel2.Size = new System.Drawing.Size(53, 12);
@@ -4767,7 +4751,7 @@ namespace LightController.MyForm
 			// tongdaoValueLabel3
 			// 
 			this.tongdaoValueLabel3.AutoSize = true;
-			this.tongdaoValueLabel3.Location = new System.Drawing.Point(36, 895);
+			this.tongdaoValueLabel3.Location = new System.Drawing.Point(36, 875);
 			this.tongdaoValueLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tongdaoValueLabel3.Name = "tongdaoValueLabel3";
 			this.tongdaoValueLabel3.Size = new System.Drawing.Size(53, 12);
@@ -4777,7 +4761,7 @@ namespace LightController.MyForm
 			// stepTimeLabel3
 			// 
 			this.stepTimeLabel3.AutoSize = true;
-			this.stepTimeLabel3.Location = new System.Drawing.Point(36, 941);
+			this.stepTimeLabel3.Location = new System.Drawing.Point(36, 921);
 			this.stepTimeLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.stepTimeLabel3.Name = "stepTimeLabel3";
 			this.stepTimeLabel3.Size = new System.Drawing.Size(53, 12);
@@ -4787,7 +4771,7 @@ namespace LightController.MyForm
 			// tongdaoValueLabel2
 			// 
 			this.tongdaoValueLabel2.AutoSize = true;
-			this.tongdaoValueLabel2.Location = new System.Drawing.Point(36, 578);
+			this.tongdaoValueLabel2.Location = new System.Drawing.Point(36, 554);
 			this.tongdaoValueLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tongdaoValueLabel2.Name = "tongdaoValueLabel2";
 			this.tongdaoValueLabel2.Size = new System.Drawing.Size(53, 12);
@@ -4797,7 +4781,7 @@ namespace LightController.MyForm
 			// stepTimeLabel2
 			// 
 			this.stepTimeLabel2.AutoSize = true;
-			this.stepTimeLabel2.Location = new System.Drawing.Point(36, 624);
+			this.stepTimeLabel2.Location = new System.Drawing.Point(36, 600);
 			this.stepTimeLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.stepTimeLabel2.Name = "stepTimeLabel2";
 			this.stepTimeLabel2.Size = new System.Drawing.Size(53, 12);
@@ -5299,7 +5283,5 @@ namespace LightController.MyForm
 
 
 		#endregion
-
-		private CCWin.SkinControl.SkinButton skinButton17;
 	}
 }

@@ -292,12 +292,7 @@ namespace LightController.MyForm
 			tdStepTimeNumericUpDowns[30] = tdStepTimeNumericUpDown31;
 			tdStepTimeNumericUpDowns[31] = tdStepTimeNumericUpDown32;
 
-			#endregion
-
-
-
-
-
+			#endregion	   			 		  
 
 		}
 
@@ -322,20 +317,6 @@ namespace LightController.MyForm
 		}
 
 
-		private int i = 0;
-		private void skinButton17_Click(object sender, EventArgs e)
-		{
-			if (i < 32) {
-				//tdPanels[i].Hide();
-				//tdNoLabels[i].Hide();
-				//tdNameLabels[i].Hide();
-				//tdSkinTrackBars[i].Hide();
-				tdValueNumericUpDowns[i].Hide();
-				tdChangeModeSkinComboBoxes[i].Hide();
-				tdStepTimeNumericUpDowns[i].Hide();
-				i++;
-			}		
-			
-		}
+		
 	}
 }

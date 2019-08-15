@@ -1,7 +1,9 @@
 ﻿using LightController.Ast;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -47,7 +49,8 @@ namespace LightController.Tools
                     Testapplication();
                     break;
                 case 4:
-                    //SeralPortTest();
+                    CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini");
+                    Console.WriteLine("cc");
                     break;
                 default:
                     break;

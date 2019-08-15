@@ -11,22 +11,22 @@ namespace LightController.Tools
         public int SceneNo { get; set; }
         public DMX_C_Data Data { get; set; }
 
+        public string Print()
+        {
+            string str = "C" + SceneNo + "==>文件大小==>" + GetByteData().Length + ";摇麦功能开启==>" + Data.HeadData.MICSensor + ";摇麦感应间隔时间==>" + Data.HeadData.SenseFreq + ";摇麦场景执行时间" + Data.HeadData.RunTime;
+            return str;
+        }
+
         public byte[] GetByteData()
         {
             List<byte> fileData = new List<byte>();
             byte Ram_Enabl = Convert.ToByte(Data.HeadData.MICSensor);
-            byte[] Ram_Response_Times = new byte[4];
-            Ram_Response_Times[0] = Convert.ToByte(((Data.HeadData.SenseFreq + 1) * 60) & 0xFF);
-            Ram_Response_Times[1] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60) >> 8) & 0xFF);
-            Ram_Response_Times[2] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60) >> 16) & 0xFF);
-            Ram_Response_Times[3] = Convert.ToByte((((Data.HeadData.SenseFreq + 1) * 60) >> 24) & 0xFF);
-            byte[] Ram_Play_Times = new byte[4];
-
-            Ram_Play_Times[0] = Convert.ToByte((Data.HeadData.RunTime + 1) & 0xFF);
-            Ram_Play_Times[1] = Convert.ToByte(((Data.HeadData.RunTime + 1) >> 8) & 0xFF);
-            Ram_Play_Times[2] = Convert.ToByte(((Data.HeadData.RunTime + 1) >> 16) & 0xFF);
-            Ram_Play_Times[3] = Convert.ToByte(((Data.HeadData.RunTime + 1) >> 24) & 0xFF);
-
+            byte[] Ram_Response_Times = new byte[2];
+            Ram_Response_Times[0] = Convert.ToByte(((Data.HeadData.SenseFreq) * 60) & 0xFF);
+            Ram_Response_Times[1] = Convert.ToByte((((Data.HeadData.SenseFreq) * 60) >> 8) & 0xFF);
+            byte[] Ram_Play_Times = new byte[2];
+            Ram_Play_Times[0] = Convert.ToByte((Data.HeadData.RunTime) & 0xFF);
+            Ram_Play_Times[1] = Convert.ToByte(((Data.HeadData.RunTime) >> 8) & 0xFF);
             byte[] Scene_Total_Count = new byte[2];
             Scene_Total_Count[0] = (byte)(Data.HeadData.ChanelCount & 0xFF);
             Scene_Total_Count[1] = (byte)((Data.HeadData.ChanelCount >> 8) & 0xFF);

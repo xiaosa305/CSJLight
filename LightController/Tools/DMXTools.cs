@@ -126,6 +126,7 @@ namespace LightController.Tools
             list.Add(3);
             dMX_M_Data.HeadData.StepList = list;
             dMX_M_Data.HeadData.StepListCount = list.Count;
+            dMX_M_Data.HeadData.MusicIntervalTime = 1000;
             return dMX_M_Data;
         }
 

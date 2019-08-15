@@ -16,6 +16,7 @@ namespace LightController.Tools
         public int FileSize { get; set; }//文件大小
         public int StepListCount { get; set; }//音频步数链表元素个数
         public int FrameTime { get; set; }//音频步时间
+        public int MusicIntervalTime { get; set; }//音频叠加后间隔时间
         public IList<int> StepList { get; set; }//音频步数链表
     }
     public class M_Data

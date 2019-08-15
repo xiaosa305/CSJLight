@@ -11,6 +11,13 @@ namespace LightController.Tools
         public int SceneNo { get; set; }
         public DMX_M_Data Data { get; set; }
 
+        public string Print()
+        {
+            string str = "M"+SceneNo+"==>文件大小==>" + GetByteData().Length + "; 通道总数==>" + Data.HeadData.ChanelCount + ";音频声控步时长==>" + Data.HeadData.FrameTime
+            + ";音频叠加后间隔时间==>" + Data.HeadData.MusicIntervalTime + ";音频声控步数个数==>" + Data.HeadData.StepListCount;
+            return str;
+        }
+
         public byte[] GetByteData()
         {
             IList<byte> fileData = new List<byte>();
@@ -24,9 +31,14 @@ namespace LightController.Tools
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
-            fileData.Add(Music_Frame_Time);
             fileData.Add(Scene_Total_Count[0]);
             fileData.Add(Scene_Total_Count[1]);
+            fileData.Add(Music_Frame_Time);
+            byte[] MusicIntervalTimeBuff = new byte[2];
+            MusicIntervalTimeBuff[0] = Convert.ToByte(Data.HeadData.MusicIntervalTime & 0xFF);
+            MusicIntervalTimeBuff[1] = Convert.ToByte((Data.HeadData.MusicIntervalTime >> 8) & 0xFF);
+            fileData.Add(MusicIntervalTimeBuff[0]);
+            fileData.Add(MusicIntervalTimeBuff[1]);
             fileData.Add(MusicControlStepListCount);
             foreach (int step in Data.HeadData.StepList)
             {

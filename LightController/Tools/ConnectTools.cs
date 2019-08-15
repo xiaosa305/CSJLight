@@ -99,7 +99,10 @@ namespace LightController.Tools
             while (true)
             {
                 IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 7070);
-                SocketTools.GetInstance().AddConnect(Encoding.Default.GetString(udpClient.Receive(ref iPEndPoint)), 7060);
+                byte[] data = udpClient.Receive(ref iPEndPoint);
+                byte[] buff = new byte[data.Length - 8];
+                Array.Copy(data, 8, buff, 0, buff.Length);
+                SocketTools.GetInstance().AddConnect(buff, 7060);
             }
         }
 

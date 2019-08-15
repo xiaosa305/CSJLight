@@ -2,6 +2,7 @@
 using LightController.Ast;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -355,10 +356,8 @@ namespace LightController.Tools
             
             while (true)
             {
-                BeforDT = System.DateTime.Now;
                 Play();
-                //Thread.Sleep(TimeFactory);
-                Thread.Sleep(1000);
+                Thread.Sleep(TimeFactory);
             }
         }
 
@@ -369,7 +368,6 @@ namespace LightController.Tools
             {
                 if (!IsPausePlay)
                 {
-                    AftetDT = System.DateTime.Now;
                     for (int i = 0; i < C_ChanelCount; i++)
                     {
                         if (C_ChanelPoint[i] == C_ChanelData[i].Length)
@@ -398,6 +396,7 @@ namespace LightController.Tools
         private void Play()
         {
             UInt32 count = 0;
+            UInt32 test = 0;
             try
             {
                 //发送Break|
@@ -408,6 +407,7 @@ namespace LightController.Tools
                 List<byte> buff = new List<byte>();
                 buff.AddRange(StartCode);
                 buff.AddRange(PlayData);
+                Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
                 Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
                 Device.SetBreak(false);
             }
@@ -428,7 +428,7 @@ namespace LightController.Tools
             ConnectDevice();
         }
 
-        public bool ConnectDevice()
+        public void ConnectDevice()
         {
             UInt32 deviceCount = 0;
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
@@ -464,7 +464,6 @@ namespace LightController.Tools
                     EndView();
                 }
             }
-            return Device.IsOpen;
         }
 
     }

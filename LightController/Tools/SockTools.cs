@@ -78,16 +78,13 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="ip">连接ip</param>
         /// <param name="port">连接端口</param>
-        public void AddConnect(string str,int port)
+        public void AddConnect(byte[] receiveBuff, int port)
         {
-            string[] strarrau = str.Split(' ');
-            string ip = str.Split(' ')[0];
-            //string ip = str;
-            string addr = str.Split(' ')[1];
-            //string addr = "255";
-            string deviceName = str.Split(' ')[2];
-            //string deviceName = "0000000000000001";
-
+            string strBuff = Encoding.Default.GetString(receiveBuff);
+            string[] strarrau = strBuff.Split(' ');
+            string ip = strBuff.Split(' ')[0];
+            string addr = strBuff.Split(' ')[1];
+            string deviceName = strBuff.Split(' ')[2];
             if (strarrau.Length > 3)
             {
                 for (int i = 3; i < strarrau.Length; i++)

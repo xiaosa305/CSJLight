@@ -427,8 +427,11 @@ namespace LightController.Tools
                     conn.Close();
                     return;
                 }
-                byte[] readBuff = conn.ReadBuff;
-                string receiveStr = Encoding.UTF8.GetString(readBuff,0,count);
+                byte[] vs = conn.ReadBuff;
+                byte[] readBuff = new byte[count - 8];
+                Array.Copy(vs, 8, readBuff, 0, readBuff.Length);
+                //byte[] readBuff = conn.ReadBuff;
+                string receiveStr = Encoding.UTF8.GetString(readBuff,0,count - 8);
                 Console.WriteLine("Receive Data : " + receiveStr);
                 string deviceName = DeviceName;
                 switch (Order)
@@ -635,6 +638,7 @@ namespace LightController.Tools
                     if (DownloadStatus)
                     {
                         CurrentFileName = fileName;
+                        Console.WriteLine(item.Print());
                         SendData(item.GetByteData(),Constant.ORDER_PUT,new string[] {fileName,fileSize,fileCRC});
                         DownloadStatus = false;
                         break;
@@ -654,6 +658,7 @@ namespace LightController.Tools
                         if (DownloadStatus)
                         {
                             CurrentFileName = fileName;
+                            Console.WriteLine(item.Print());
                             SendData(item.GetByteData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                             DownloadStatus = false;
                             break;
@@ -670,6 +675,7 @@ namespace LightController.Tools
                 if (DownloadStatus)
                 {
                     CurrentFileName = fileName;
+                    Console.WriteLine(fileName + ":" + configFileData.Length);
                     SendData(configFileData, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                     DownloadStatus = false;
                     break;

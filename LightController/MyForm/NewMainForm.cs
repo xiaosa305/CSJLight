@@ -10,22 +10,15 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using DMX512;
 using LightController.Ast;
+using LightController.Tools;
 
 namespace LightController.MyForm
 {
 
 	public partial class NewMainForm : MainFormInterface
 	{
-		#region 这几行代码：可设置listView的滚动方向
-		private const int SB_HORZ = 0;
-		private const int SB_VERT = 1;
-		private const int SB_CTL = 2;
-		private const int SB_BOTH = 3;
 
-		[DllImport("user32")]
-		public static extern int ShowScrollBar(int hwnd, int wBar, int bShow);
-		#endregion
-
+		private PlayTools playTools;
 		public NewMainForm()
 		{
 			InitializeComponent();
@@ -298,7 +291,9 @@ namespace LightController.MyForm
 
 			modeSkinComboBox.SelectedIndex = 0;
 			frameSkinComboBox.SelectedIndex = 0;
+
 			isInit = true;
+
 		}
 			   		
 
@@ -318,29 +313,26 @@ namespace LightController.MyForm
 		{			
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if (!isConnect)
-			{
-				//playTools = PlayTools.GetInstance();
-				////playTools.ConnectDevice();
-				//setDMX512TestButtonsEnable(true);
-				//connectButton.Text = "断开连接";
+			{				
 				connectSkinButton.Image  = global::LightController.Properties.Resources.断开连接;
 				connectSkinButton.Text = "断开连接";
 				showViewButtons(true);
-				isConnect = true;
-				
 
+				playTools = PlayTools.GetInstance();
+				playTools.ConnectDevice();
+
+				isConnect = true;
 
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
-				//playTools.EndView();
-				//playTools = null;
-				//setDMX512TestButtonsEnable(false);
-				//connectButton.Text = "连接设备";
-
 				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				connectSkinButton.Text = "连接设备";
 				showViewButtons(false);
+
+				playTools.EndView();
+				playTools = null;
+
 				isConnect = false;
 			}
 		}

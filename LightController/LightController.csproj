@@ -181,6 +181,15 @@
     <Compile Include="MyForm\LightsEditForm.Designer.cs">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\MainFormInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MyForm\MaterialForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,12 +231,6 @@
     <Compile Include="MyForm\LightsForm.designer.cs">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\MainForm.designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\NewHardwareForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -251,6 +254,12 @@
     </Compile>
     <Compile Include="MyForm\QDTestForm.Designer.cs">
       <DependentUpon>QDTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\UpdateForm.cs">
       <SubType>Form</SubType>
@@ -308,6 +317,9 @@
     <EmbeddedResource Include="MyForm\LightsEditForm.resx">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -326,9 +338,6 @@
     <EmbeddedResource Include="MyForm\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -340,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>

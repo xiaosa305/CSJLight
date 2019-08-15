@@ -13,7 +13,7 @@ namespace LightController.MyForm
 {
 	public partial class MaterialUseForm : Form
 	{
-		private MainForm mainForm;
+		private MainFormInterface mainForm;
 		private int mode;
 		private string path = @"C:\Temp\LightMaterial\"; 
 
@@ -25,7 +25,7 @@ namespace LightController.MyForm
 		/// 构造方法：主要作用是加载已有的素材到listView中
 		/// </summary>
 		/// <param name="mainForm"></param>
-		public MaterialUseForm(MainForm mainForm,int mode)
+		public MaterialUseForm(MainFormInterface mainForm,int mode)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;

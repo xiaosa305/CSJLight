@@ -22,6 +22,17 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///  设初始位置
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewHardwareForm_Load(object sender, EventArgs e)
+		{
+			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
+		}
+
+
+		/// <summary>
 		/// 点击《确认》按键
 		/// </summary>
 		/// <param name="sender"></param>
@@ -67,15 +78,6 @@ namespace LightController.MyForm
 
 		}
 
-		/// <summary>
-		///  设初始位置
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void NewHardwareForm_Load(object sender, EventArgs e)
-		{
-			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
-		}
 
 		/// <summary>
 		///  点击《取消》按钮

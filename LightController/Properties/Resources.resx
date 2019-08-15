@@ -160,9 +160,6 @@
   <data name="灯光图" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\灯光图.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="圆角矩形 4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\圆角矩形 4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="摇麦设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\摇麦设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -225,8 +222,5 @@
   </data>
   <data name="粘贴步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\粘贴步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="椭圆 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\椭圆 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

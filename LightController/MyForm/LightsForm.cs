@@ -14,7 +14,7 @@ namespace LightController
 {
 	public partial class LightsForm : System.Windows.Forms.Form
 	{
-		private MainForm mainForm;		
+		private MainFormInterface mainForm;		
 		//每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private int minNum = 1;
 		private IList<LightAst> lightAstList = new List<LightAst>();
@@ -24,7 +24,7 @@ namespace LightController
 		/// </summary>
 		/// <param name="mainForm"></param>
 		/// <param name="lightAstListFromMain"></param>
-		public LightsForm(MainForm mainForm,IList<LightAst> lightAstListFromMain)
+		public LightsForm(MainFormInterface mainForm,IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;			

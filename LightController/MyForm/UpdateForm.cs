@@ -14,14 +14,14 @@ namespace LightController.MyForm
 {
 	public partial class UpdateForm : Form
 	{
-		private MainForm mainForm;
+		private MainFormInterface mainForm;
 		private DBWrapper dbWrapper;
 		private string globalSetPath;
 
 		private IList<string> selectedIPs;
 		private IList<string> ips;		
 
-		public UpdateForm(MainForm mainForm,DBWrapper dbWrapper,string globalSetPath)
+		public UpdateForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;

@@ -6,7 +6,7 @@ using LightController.Common;
 
 namespace LightController.Ast
 {
-	class MaterialAst
+	public class MaterialAst
 	{
 		public int Step { set; get; }
 		public int TongdaoCount { set; get; }

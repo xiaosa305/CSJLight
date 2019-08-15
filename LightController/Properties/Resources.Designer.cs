@@ -173,16 +173,6 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap 圆角矩形_4 {
-            get {
-                object obj = ResourceManager.GetObject("圆角矩形 4", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap 在线升级 {
             get {
                 object obj = ResourceManager.GetObject("在线升级", resourceCulture);
@@ -266,16 +256,6 @@ namespace LightController.Properties {
         internal static System.Drawing.Bitmap 新建工程 {
             get {
                 object obj = ResourceManager.GetObject("新建工程", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap 椭圆_1 {
-            get {
-                object obj = ResourceManager.GetObject("椭圆 1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

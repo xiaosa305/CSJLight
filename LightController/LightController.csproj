@@ -671,6 +671,11 @@
     <None Include="Resources\灯光图.png" />
     <None Include="Resources\圆角矩形 4.png" />
     <None Include="Resources\椭圆 1.png" />
+    <None Include="Resources\初始值.png" />
+    <None Include="Resources\全部归零.png" />
+    <None Include="Resources\统一步时间.png" />
+    <None Include="Resources\统一跳渐变.png" />
+    <None Include="Resources\统一通道值.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

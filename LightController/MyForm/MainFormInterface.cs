@@ -56,6 +56,12 @@ namespace LightController.MyForm
 
 		
 		// 几个virtual修饰的方法：主要供各种Form回调使用		
+
+		/// <summary>
+		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
+		/// </summary>
+		/// <param name="projectName"></param>
+		/// <param name="isNew"></param>
 		public virtual void InitProject(string projectName, bool isNew)		{
 
 			//0.清空所有list
@@ -279,8 +285,8 @@ namespace LightController.MyForm
 			if (isFromDB)
 			{
 				DBGetter dbGetter = new DBGetter(dbFilePath, false);
-				DBWrapper dbWrapper = dbGetter.getAll();
-				return dbWrapper;
+				DBWrapper allData = dbGetter.getAll();
+				return allData;
 			}
 			// 由内存几个实时的List实时生成
 			else
@@ -627,6 +633,38 @@ namespace LightController.MyForm
 				newStep.TongdaoList[currentTDIndex].StepTime = materialTongdaoList[stepIndex, materialTDIndex].StepTime;
 			}
 		}
+
+
+		/// <summary>
+		/// 辅助方法：单灯单步发送DMX512帧数据
+		/// </summary>
+		protected void oneLightStepWork()
+		{
+			if (!isConnect)
+			{
+				MessageBox.Show("请先连接设备");
+				return;
+			}
+
+			StepWrapper step = getCurrentStepWrapper();
+			if (step != null)
+			{
+				List<TongdaoWrapper> tongdaoList = step.TongdaoList;
+				byte[] stepBytes = new byte[512];
+				foreach (TongdaoWrapper td in tongdaoList)
+				{
+					int tongdaoIndex = td.Address - 1;
+					stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+				}
+				playTools.OLOSView(stepBytes);
+			}
+			else
+			{
+				MessageBox.Show("当前未选中可用步，无法播放！");
+			}
+		}
+
+
 
 
 		#endregion

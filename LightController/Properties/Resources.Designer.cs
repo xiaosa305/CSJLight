@@ -123,6 +123,26 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap 全部归零 {
+            get {
+                object obj = ResourceManager.GetObject("全部归零", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 初始值 {
+            get {
+                object obj = ResourceManager.GetObject("初始值", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap 删除步 {
             get {
                 object obj = ResourceManager.GetObject("删除步", resourceCulture);
@@ -346,6 +366,36 @@ namespace LightController.Properties {
         internal static System.Drawing.Bitmap 结束浏览 {
             get {
                 object obj = ResourceManager.GetObject("结束浏览", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 统一步时间 {
+            get {
+                object obj = ResourceManager.GetObject("统一步时间", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 统一跳渐变 {
+            get {
+                object obj = ResourceManager.GetObject("统一跳渐变", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 统一通道值 {
+            get {
+                object obj = ResourceManager.GetObject("统一通道值", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

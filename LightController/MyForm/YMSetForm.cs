@@ -13,12 +13,12 @@ namespace LightController.MyForm
 {
 	public partial class YMSetForm : Form
 	{
-		private MainForm mainForm;
+		private MainFormInterface mainForm;
 		private IniFileAst iniFileAst;
 		private bool isNew;
 
 
-		public YMSetForm(MainForm mainForm,string iniPath,bool isNew)
+		public YMSetForm(MainFormInterface mainForm,string iniPath,bool isNew)
 		{
 			this.mainForm = mainForm;
 			iniFileAst = new IniFileAst(iniPath);

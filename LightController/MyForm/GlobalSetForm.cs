@@ -12,12 +12,12 @@ namespace LightController.MyForm
 {
 	public partial class GlobalSetForm : Form
 	{
-		public MainForm mainForm;
+		public MainFormInterface mainForm;
 		private string iniFilePath;
 		private IniFileAst iniAst ;
 		private bool isInit = false;
 		
-		public GlobalSetForm(MainForm mainForm,string iniFilePath) {
+		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 
 			this.mainForm = mainForm;
 			this.iniFilePath = iniFilePath;

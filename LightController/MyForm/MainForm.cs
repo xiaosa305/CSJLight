@@ -254,8 +254,7 @@ namespace LightController
 
 			#endregion
 			
-			isInit = true;			
-			//playTools = PlayTools.GetInstance();
+			isInit = true;					
 
 		}
 		
@@ -503,7 +502,7 @@ namespace LightController
 			{
 				selectedLightIndex = lightsListView.SelectedIndices[0];
 				generateLightData();
-				// 这里主要是控制pasteLightButton的Enabled值
+				// 这里控制pasteLightButton的Enabled值
 				checkIfCanCopyLight();
 			}			
 		}
@@ -629,7 +628,8 @@ namespace LightController
 			hideAllTongdao();
 
 			// 2.判断tongdaoList，为null或数量为0时，设定deleteStepButton键不可用，并退出此方法
-			if (tongdaoList == null  ||  tongdaoList.Count == 0) {				
+			if (tongdaoList == null  ||  tongdaoList.Count == 0) {
+				deleteStepButton.Enabled = false;
 				return;
 			}//3.将dataWrappers的内容渲染到起VScrollBar中
 			else
@@ -649,10 +649,7 @@ namespace LightController
 					this.valueNumericUpDowns[i].Show();
 					this.changeModeComboBoxes[i].Show();
 					this.steptimeNumericUpDowns[i].Show();
-
-					// 8.8: 用changeModeComboBoxes[i].SelectedIndex==2的值来调节几个通道相关的数值是否可以编辑
-					//enableTongdaoEdit( i, changeModeComboBoxes[i].SelectedIndex == 2);
-
+									
 				}
 
 				// 4. tongdaoGroupBoxX的显示：0：不显示； 1-16：仅显示通道groupBox1； 16-32：两个通道groupBox都显示；
@@ -908,7 +905,7 @@ namespace LightController
 			this.ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
 			this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 
-			if (isRealtime)
+			if (isConnect && isRealtime)
 			{
 				oneLightStepWork();
 			}			
@@ -1212,38 +1209,13 @@ namespace LightController
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[tongdaoIndex].ScrollValue = 255 - vScrollBars[tongdaoIndex].Value;
 			//2.是否实时单灯单步
-			if (isRealtime)
+			if ( isConnect && isRealtime)
 			{
 				oneLightStepWork();
 			}
 		}
 
-		/// <summary>
-		/// 辅助方法：单灯单步发送DMX512帧数据
-		/// </summary>
-		private void oneLightStepWork() {
-
-			if ( ! isConnect) {
-				MessageBox.Show("请先连接设备");
-				return;
-			}
-
-			StepWrapper step = getCurrentStepWrapper();
-			if (step != null) { 
-				List<TongdaoWrapper> tongdaoList = step.TongdaoList;
-				byte[] stepBytes = new byte[512];
-				foreach (TongdaoWrapper td in tongdaoList)
-				{
-					int tongdaoIndex = td.Address - 1;
-					stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-				}
-				playTools.OLOSView(stepBytes);
-			}
-			else
-			{
-				MessageBox.Show("当前未选中可用步，无法播放！");
-			}
-		}
+	
 
 		/// <summary>
 		///  摇麦设置点击后，打开摇麦设置Form
@@ -1252,7 +1224,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void ymSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			YMSetForm 	ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
+			YMSetForm ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
 			ymSetForm.ShowDialog();
 		}
 

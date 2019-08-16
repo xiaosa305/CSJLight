@@ -11,6 +11,8 @@ using System.Threading;
 using DMX512;
 using LightController.Ast;
 using LightController.Tools;
+using LightController.Common;
+using CCWin.SkinControl;
 
 namespace LightController.MyForm
 {
@@ -18,15 +20,14 @@ namespace LightController.MyForm
 	public partial class NewMainForm : MainFormInterface
 	{
 
-		private PlayTools playTools;
 		public NewMainForm()
 		{
 			InitializeComponent();
-			
+
 			#region 初始化各种选项及容纳数组
 
 			frameSkinComboBox.Items.AddRange(new object[]
-			{		"标准",
+			{       "标准",
 					"动感",
 					"商务",
 					"抒情",
@@ -292,211 +293,99 @@ namespace LightController.MyForm
 			modeSkinComboBox.SelectedIndex = 0;
 			frameSkinComboBox.SelectedIndex = 0;
 
-			isInit = true;
+			for (int i = 0; i < 32; i++) {
 
+				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
+				tdSkinTrackBars[i].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
+				tdSkinTrackBars[i].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+
+				tdValueNumericUpDowns[i].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
+				tdValueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
+				tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+
+				tdChangeModeSkinComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+
+				tdStepTimeNumericUpDowns[i].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
+				tdStepTimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
+
+
+			}
+			// 防止人为滚动左侧的labelPanels，用这个监听事件来处理
+			labelFlowLayoutPanel.MouseWheel += new  MouseEventHandler(this.labelFlowLayoutPanel_MouseWheel);
+
+			// 几个《统一调整区》的鼠标滚动事件绑定
+			commonValueNumericUpDown.MouseEnter += new EventHandler(this.commonValueNumericUpDown_MouseEnter);
+			commonValueNumericUpDown.MouseWheel += new MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
+			commonValueNumericUpDown.ValueChanged += new System.EventHandler(this.commonValueNumericUpDown_ValueChanged);
+
+			commonValueTrackBar.MouseEnter += new EventHandler(this.commonValueTrackBar_MouseEnter);
+			commonValueTrackBar.MouseWheel += new MouseEventHandler(this.commonValueTrackBar_MouseWheel);
+			commonValueTrackBar.ValueChanged += new EventHandler(this.commonValueTrackBar_ValuiChanged);
+
+			commonStepTimeNumericUpDown.MouseEnter += new EventHandler(this.commonStepTimeNumericUpDown_MouseEnter);
+			commonStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
+
+			isInit = true;
 		}
-			   		
 
 		private void NewMainForm_Load(object sender, EventArgs e)
-		{
-			//this.lightSkinListView.Scrollable = false;
-			//ShowScrollBar((int)this.lightSkinListView.Handle, SB_HORZ, 1);			
+		{		
 		}
 
-		
+		#region 各种工具按钮
+
 		/// <summary>
-		///  点击《连接设备|断开连接》按钮
+		///  点击《硬件设置》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void connectSkinButton_Click(object sender, EventArgs e)
-		{			
-			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if (!isConnect)
-			{				
-				connectSkinButton.Image  = global::LightController.Properties.Resources.断开连接;
-				connectSkinButton.Text = "断开连接";
-				showViewButtons(true);
-
-				playTools = PlayTools.GetInstance();
-				playTools.ConnectDevice();
-
-				isConnect = true;
-
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
-				connectSkinButton.Text = "连接设备";
-				showViewButtons(false);
-
-				playTools.EndView();
-				playTools = null;
-
-				isConnect = false;
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：调试的按钮组是否显示
-		/// </summary>
-		/// <param name="v"></param>
-		private void showViewButtons(bool visible)
+		private void hardwareSetSkinButton_Click(object sender, EventArgs e)
 		{
-			realtimeSkinButton.Visible = visible;
-			oneLightOneStepSkinButton.Visible = visible;
-			makeSoundSkinButton.Visible = visible;
-			previewSkinButton.Visible = visible;
-			endviewSkinButton.Visible = visible;
+			HardwareSetChooseForm hscForm = new HardwareSetChooseForm(this);
+			hscForm.ShowDialog();
 		}
 
-		
 		/// <summary>
-		/// 点击《实时调试》按钮
+		/// 点击《在线升级》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void realtimeSkinButton_Click(object sender, EventArgs e)
+		private void updateSkinButton_Click(object sender, EventArgs e)
 		{
-			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-			if (!isRealtime)
-			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
-				realtimeSkinButton.Text = "关闭实时";
-				isRealtime = true;
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
-				realtimeSkinButton.Text = "实时调试";
-				isRealtime = false;
-			}
-
+			bool isFromDB = true;
+			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniFilePath);
+			updateForm.ShowDialog();
 		}
 
 		/// <summary>
-		///  点击《单灯单步》，先设为有颜色，但跑完就立刻恢复正常！
+		/// 点击《灯具列表(编辑)》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void oneLightOneStepSkinButton_Click(object sender, EventArgs e)
+		private void lightListSkinButton_Click(object sender, EventArgs e)
 		{
-			// 1.先把预览效果关闭
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-
-			// 2.开始单灯单步效果
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;			
-			this.Refresh();
-			//TODO			
-			
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
+			LightsForm lightsForm = new LightsForm(this, lightAstList);
+			lightsForm.ShowDialog();
 		}
 
 
 		/// <summary>
-		///  点击《预览效果》后
+		///  事件：点击《退出应用》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void previewSkinButton_Click(object sender, EventArgs e)
+		private void exitSkinButton_Click(object sender, EventArgs e)
 		{
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
-			// TODO
-
-
+			Exit();
 		}
+
+		#endregion
+
+
+		#region 工程相关 及 初始化辅助方法
 
 		/// <summary>
-		///  点击《结束预览》后
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void endviewSkinButton_Click(object sender, EventArgs e)
-		{
-
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
-			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;			
-			// TODO
-
-
-		}
-
-		/// <summary>
-		///  点击《触发音频》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void makeSoundSkinButton_Click(object sender, EventArgs e)
-		{
-			
-		}
-
-
-
-
-
-		/// <summary>
-		///  辅助方法:
-		/// 1.通过Location.X==3,判断在第一列位置的tdPanel的数量，从而决定要显示几个labelPanel
-		/// 2.当通道列表的滚动条滚动时，labelPanel也随着滚动。
-		/// </summary>		
-		private void scrollLabelPanel()
-		{
-			// 1. j是tdPanels中在第一列的panel的数量，
-			int j = 0;
-			foreach (var tdPanel in tdPanels)
-			{
-				if (tdPanel.Visible && tdPanel.Location.X == 3)
-				{
-					j++;
-				}
-			}
-			showLabelPanels(j);
-			
-			// 2. 设置滚动条的位置
-			labelFlowLayoutPanel.AutoScrollPosition = new Point(0,  - tdSkinFlowLayoutPanel.AutoScrollPosition.Y);
-		}
-
-		private void showLabelPanels(int j)
-		{
-			switch (j) {
-				case 0:
-					labelPanel1.Hide();
-					labelPanel2.Hide();
-					labelPanel3.Hide();
-					break;
-				case 1:
-					labelPanel1.Show();
-					labelPanel2.Hide();
-					labelPanel3.Hide();
-					break;
-				case 2:
-					labelPanel1.Show();
-					labelPanel2.Show();
-					labelPanel3.Hide();
-					break;
-				case 3:
-					labelPanel1.Show();
-					labelPanel2.Show();
-					labelPanel3.Show();
-					break;				
-			}
-		}
-
-		/// <summary>
-		///   tdSkinFlowLayoutPanel的重绘事件
-		///  </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdSkinFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
-		{
-			//Console.WriteLine(tdSkinFlowLayoutPanel);
-			scrollLabelPanel();
-		}
-
-		/// <summary>
-		///  点击《新建工程》按钮
+		/// 事件： 点击《新建工程》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -506,9 +395,30 @@ namespace LightController.MyForm
 			newForm.Show();
 		}
 
+		/// <summary>
+		/// 事件：点击《打开工程》按钮 
+		/// --新建一个OpenForm，再在里面回调OpenProject()
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void openSkinButton_Click(object sender, EventArgs e)
+		{
+			OpenForm openForm = new OpenForm(this);
+			openForm.ShowDialog();
+		}
 
 		/// <summary>
-		///  初始化一些参数
+		///  事件：点击《保存工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveSkinButton_Click(object sender, EventArgs e)
+		{
+			saveAll();
+		}
+
+		/// <summary>
+		///  辅助方法：初始化一些参数
 		/// </summary>
 		/// <param name="projectName"></param>
 		/// <param name="isNew"></param>
@@ -516,12 +426,13 @@ namespace LightController.MyForm
 		{
 			base.InitProject(projectName, isNew);
 
+			// 设置各按键是否可用
 			enableGlobalSet(true);
 			enableSave(true);
 		}
 
 		/// <summary>
-		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
+		///  辅助方法，通过打开已有的工程，来加载各种数据到mainForm中
 		/// data.db3的载入：把相关内容，放到数据列表中
 		///    ①lightList 、stepCountList、valueList
 		///    ②lightAstList（由lightList生成）
@@ -574,19 +485,9 @@ namespace LightController.MyForm
 			isInit = true;
 			MessageBox.Show("成功打开工程");
 		}
-
-
-
-
-		/// 点击《打开工程》按钮 ==》新建一个OpenForm，再在里面回调OpenProject()
-		private void openSkinButton_Click(object sender, EventArgs e)
-		{
-			OpenForm openForm = new OpenForm(this);
-			openForm.ShowDialog();			
-		}
-
+		
 		/// <summary>
-		///  辅助方法：《保存工程》Enabled设为选定值
+		///  辅助方法：《保存工程》Enabled设为传入bool值
 		/// </summary>
 		protected override void enableSave(bool enable)
 		{
@@ -594,23 +495,21 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：将所有全局配置相关的按钮（灯具、升级、全局、摇麦、网络、连接设备）Enabled设为选定值
+		///  辅助方法：将所有全局配置相关的按钮（灯具、升级、全局、摇麦、网络、连接设备）Enabled设为传入bool值
 		/// </summary>
 		/// <param name="v"></param>
 		protected override void enableGlobalSet(bool enable)
-		{			
+		{
 			// 菜单栏几个按钮
 			updateSkinButton.Enabled = enable;
 			lightListSkinButton.Enabled = enable;
 			globalSetSkinButton.Enabled = enable;
-			ymSkinButton. Enabled = enable;
+			ymSkinButton.Enabled = enable;
 			networkSkinButton.Enabled = enable;
 
 			// 调试栏	->《连接设备》按钮
 			connectSkinButton.Enabled = enable;
 		}
-
-
 
 		/// <summary>
 		///添加lightAst列表到主界面内存中,主要供 LightsForm调用（以及OpenProject调用）
@@ -623,7 +522,7 @@ namespace LightController.MyForm
 			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
 			base.AddLightAstList(lightAstList2);
 
-			//TODO   单独的针对本Form的处理代码：listView更新为最新数据
+			//1. 单独的针对本Form的处理代码：listView更新为最新数据
 
 			// 1.清空lightListView,重新填充新数据
 			lightsSkinListView.Items.Clear();
@@ -632,233 +531,15 @@ namespace LightController.MyForm
 				// 添加灯具数据到LightsListView中
 				lightsSkinListView.Items.Add(new ListViewItem(
 					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType,
-					lightAstList2[i].LightPic
-				));
+					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
+				));				
 			}
 
 			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
-			hideAllTongdao();
+			hideAllTDPanels();
 
 		}
-
-
-		/// <summary>
-		///  点击《硬件设置》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void hardwareSetSkinButton_Click(object sender, EventArgs e)
-		{
-			HardwareSetChooseForm hscForm = new HardwareSetChooseForm(this);
-			hscForm.ShowDialog();
-		}
-
-		/// <summary>
-		/// 点击《在线升级》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void updateSkinButton_Click(object sender, EventArgs e)
-		{
-			bool isFromDB = true; 
-			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniFilePath);
-			updateForm.ShowDialog();
-		}
-
-		/// <summary>
-		///  勾选《（是否）使用模板生成步》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			isUseStepMode = addStepCheckBox.Checked;
-		}
-
-		/// <summary>
-		///  更改《选择场景》选项后
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void frameSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			frame = frameSkinComboBox.SelectedIndex;
-
-			if (lightAstList != null && lightAstList.Count > 0)
-			{
-				changeFrameMode();
-			}
-		}
-
-		/// <summary>
-		/// 更改《选择模式》选项后
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (isInit)
-			{
-				mode = modeSkinComboBox.SelectedIndex;
-				// 若模式为声控模式
-				// 1.改变几个label的Text; 
-				// 2.改变跳变渐变-->是否声控；
-				// 3.所有步时间值的调节，改为enabled=false			
-				if (mode == 1)
-				{
-					secondLabel1.Text = "是否声控";
-					secondLabel2.Text = "是否声控";
-					secondLabel3.Text = "是否声控"; 
-					for (int i = 0; i < 32; i++)
-					{
-						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
-						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {"否","是"});
-						this.tdStepTimeNumericUpDowns[i].Enabled = false;
-					}
-
-					//changeModeButton.Text = "统一声控";
-
-					//cmComboBox.Items.Clear();
-					//cmComboBox.Items.AddRange(new object[] {"否",	"是"}	);
-					//cmComboBox.SelectedIndex = 0;
-				}
-				else //mode=0
-				{
-					secondLabel1.Text = "变化方式";
-					secondLabel2.Text = "变化方式";
-					secondLabel3.Text = "变化方式"; 
-					for (int i = 0; i < 32; i++)
-					{
-						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
-						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {
-								"跳变",
-								"渐变",
-								"屏蔽"
-						});
-						this.tdStepTimeNumericUpDowns[i].Enabled = true;
-					}
-
-					//changeModeButton.Text = "统一跳渐变";
-					//cmComboBox.Items.Clear();
-					//cmComboBox.Items.AddRange(new object[] {	"跳变","渐变"});
-					//cmComboBox.SelectedIndex = 0;
-			}
-				if (lightAstList != null && lightAstList.Count > 0)
-				{
-					changeFrameMode();
-				}
-			}
-		}
-
-
-		/// <summary>
-		///  改变了模式和场景后的操作
-		/// </summary>
-		private void changeFrameMode()
-		{
-			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
-			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
-
-			// 为空或StepList数量是0
-			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList.Count == 0)
-			{
-				hideAllTongdao();
-				showStepLabel(0, 0);
-			}
-			else // lightStepWrapper != null && lightStepWrapper.StepList.Count>0 : 也就是已经有值了
-			{
-				int currentStep = lightStepWrapper.CurrentStep;
-				int totalStep = lightStepWrapper.TotalStep;
-
-				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];								
-				ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				showStepLabel(currentStep, totalStep);
-			}
-		}
-
-		/// <summary>
-		/// 隐藏所有通道:包含五个部分 		
-		/// </summary>
-		private void hideAllTongdao()
-		{
-			for (int i = 0; i < 32; i++)
-			{
-				tdPanels[i].Hide();
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：用来显示stepLabel-->当前步/总步数
-		/// 7.2 +隐藏《删除步》按钮
-		/// </summary>
-		/// <param name="currentStep"></param>
-		/// <param name="totalStep"></param>
-		private  void showStepLabel(int currentStep, int totalStep)
-		{
-			// 1. 设label的Text值
-			stepLabel.Text = currentStep + "/" + totalStep;
-			
-			// 2.1 设定《删除步》按钮是否可用
-			deleteStepSkinButton.Enabled = totalStep != 0;
-
-			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
-			bool insertEnabled =  (mode == 0 && totalStep < 32) || ( mode == 1 && totalStep < 48 );
-			addStepSkinButton.Enabled = insertEnabled;				
-			insertAfterSkinButton.Enabled = insertEnabled;			
-			insertBeforeSkinButton.Enabled = insertEnabled &&  currentStep > 0;
-
-			// 2.3 设定《上一步》《下一步》是否可用
-			// -- 7.19修改为循环使用步数：
-			backStepSkinButton .Enabled = totalStep > 1;		
-			nextStepSkinButton.Enabled = totalStep >1 ;
-
-			//2.4 设定《复制步》是否可用
-			copyStepSkinButton.Enabled = currentStep > 0;
-			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null; 
-		}
-
-
-		/// <summary>
-		/// 通过传来的数值，生成通道列表的数据
-		/// </summary>
-		/// <param name="tongdaoList"></param>
-		/// <param name="startNum"></param>
-		private void ShowVScrollBars(List<TongdaoWrapper> tongdaoList, int startNum)
-		{
-
-			// 1.每次更换灯具，都先清空通道
-			hideAllTongdao();
-
-			// 2.判断tongdaoList，为null或数量为0时，设定deleteStepButton键不可用，并退出此方法
-			if (tongdaoList == null || tongdaoList.Count == 0)
-			{
-				return;
-			}
-			//3.将dataWrappers的内容渲染到起VScrollBar中
-			else
-			{
-				for (int i = 0; i < tongdaoList.Count; i++)
-				{
-					TongdaoWrapper tongdaoWrapper = tongdaoList[i];
-
-					tdNoLabels[i].Text = "通道" + (startNum + i);
-					tdNameLabels[i].Text = tongdaoWrapper.TongdaoName;
-					tdSkinTrackBars[i].Value = tongdaoWrapper.ScrollValue;
-					tdValueNumericUpDowns[i].Text = tongdaoWrapper.ScrollValue.ToString();				
-					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoWrapper.ChangeMode;
-					tdStepTimeNumericUpDowns[i].Text = tongdaoWrapper.StepTime.ToString();
-
-					tdPanels[i].Show();
-
-					// 8.8: 用changeModeComboBoxes[i].SelectedIndex==2的值来调节几个通道相关的数值是否可以编辑
-					//enableTongdaoEdit( i, changeModeComboBoxes[i].SelectedIndex == 2);
-				}				
-			}
-		}
-
-	
-
-
+		
 		/// <summary>
 		///  改变选中的灯时进行的操作
 		/// </summary>
@@ -872,7 +553,7 @@ namespace LightController.MyForm
 				selectedLightIndex = lightsSkinListView.SelectedIndices[0];
 				generateLightData();
 				// 这里主要是控制pasteLightButton的Enabled值
-				//checkIfCanCopyLight();
+				checkIfCanCopyLight();
 			}
 		}
 
@@ -889,13 +570,18 @@ namespace LightController.MyForm
 
 			//TODO 
 			// 1.在右侧灯具信息内显示选中灯具相关信息
-
-			currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
-			lightNameSkinLabel.Text = "灯具厂商："+lightAst.LightName;
-			lightTypeSkinLabel.Text	 = "灯具型号：" + lightAst.LightType;
+			try
+			{
+				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
+			}
+			catch (Exception ex) {				
+				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
+			}			
+			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
+			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
 			lightAddrSkinLabel.Text = "灯具地址：" + lightAst.LightAddr;
 
-			
+
 			//2.判断是不是已经有stepMode了
 			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
 			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
@@ -907,7 +593,7 @@ namespace LightController.MyForm
 			{
 				lightWrapper.StepMode = generateStepMode(lightAst);
 				showStepLabel(0, 0);
-				hideAllTongdao();
+				hideAllTDPanels();
 			}
 			else
 			{
@@ -916,42 +602,124 @@ namespace LightController.MyForm
 			stepSkinPanel.Enabled = true;
 		}
 
+		#endregion
 
 
-		#region 一些临时方法：用于测试等
+		#region 步数相关的按钮及辅助方法
 
-		private int i = 31;
 		/// <summary>
-		///  临时测试方法
+		///  事件：勾选《（是否）使用模板生成步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void button1_Click(object sender, EventArgs e)
+		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			if (i >= 0)
-			{
-				Console.WriteLine(tdPanels[i].Visible);
-				Console.WriteLine("qan:" + tdPanels[i].Name + " : " + tdPanels[i].Location);
-				tdPanels[i].Hide();
-				//tdNoLabels[i].Hide();
-				//tdNameLabels[i].Hide();
-				//tdSkinTrackBars[i].Hide();
-				//tdValueNumericUpDowns[i].Hide();
-				//tdChangeModeSkinComboBoxes[i].Hide();
-				//tdStepTimeNumericUpDowns[i].Hide();				
-				Console.WriteLine(tdPanels[i].Visible);
-				Console.WriteLine("hou:" + tdPanels[i].Name + " : " + tdPanels[i].Location);
-				i--;
-			}
-
-
-			//Console.WriteLine(button1.Location);
+			isUseStepMode = addStepCheckBox.Checked;
 		}
 
-		#endregion
+		/// <summary>
+		/// 事件：更改《选择场景》选项后
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void frameSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			frame = frameSkinComboBox.SelectedIndex;
+
+			if (lightAstList != null && lightAstList.Count > 0)
+			{
+				changeFrameMode();
+			}
+		}
 
 		/// <summary>
-		///  点击《上一步》：先判断currentStep，再调用chooseStep(stepValue)
+		/// 事件：更改《选择模式》选项后
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (isInit)
+			{
+				mode = modeSkinComboBox.SelectedIndex;
+				// 若模式为声控模式
+				// 1.改变几个label的Text; 
+				// 2.改变跳变渐变-->是否声控；
+				// 3.所有步时间值的调节，改为enabled=false			
+				if (mode == 1)
+				{
+					secondLabel1.Text = "是否声控";
+					secondLabel2.Text = "是否声控";
+					secondLabel3.Text = "是否声控";
+					for (int i = 0; i < 32; i++)
+					{
+						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
+						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "否", "是" });
+						this.tdStepTimeNumericUpDowns[i].Enabled = false;
+					}
+
+					//changeModeButton.Text = "统一声控";
+
+					//cmComboBox.Items.Clear();
+					//cmComboBox.Items.AddRange(new object[] {"否",	"是"}	);
+					//cmComboBox.SelectedIndex = 0;
+				}
+				else //mode=0
+				{
+					secondLabel1.Text = "变化方式";
+					secondLabel2.Text = "变化方式";
+					secondLabel3.Text = "变化方式";
+					for (int i = 0; i < 32; i++)
+					{
+						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
+						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {
+								"跳变",
+								"渐变",
+								"屏蔽"
+						});
+						this.tdStepTimeNumericUpDowns[i].Enabled = true;
+					}
+
+					//changeModeButton.Text = "统一跳渐变";
+					//cmComboBox.Items.Clear();
+					//cmComboBox.Items.AddRange(new object[] {	"跳变","渐变"});
+					//cmComboBox.SelectedIndex = 0;
+				}
+				if (lightAstList != null && lightAstList.Count > 0)
+				{
+					changeFrameMode();
+				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法： 改变了模式和场景后的操作
+		/// </summary>
+		private void changeFrameMode()
+		{
+			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
+
+			// 为空或StepList数量是0
+			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList.Count == 0)
+			{
+				hideAllTDPanels();
+				showStepLabel(0, 0);
+			}
+			else // lightStepWrapper != null && lightStepWrapper.StepList.Count>0 : 也就是已经有值了
+			{
+				int currentStep = lightStepWrapper.CurrentStep;
+				int totalStep = lightStepWrapper.TotalStep;
+
+				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
+				showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
+				showStepLabel(currentStep, totalStep);
+			}
+		}
+
+		/// <summary>
+		///  事件：点击《上一步》
+		///  先判断currentStep，再调用chooseStep(stepValue)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -969,7 +737,8 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击《下一步》：先判断currentStep，再调用chooseStep(stepValue)
+		///  事件：点击《下一步》
+		///  先判断currentStep，再调用chooseStep(stepValue)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -985,28 +754,11 @@ namespace LightController.MyForm
 			{
 				chooseStep(1);
 			}
-		}
-		
-		/// <summary>
-		/// 辅助方法：抽象了【选择某一个指定步数后，统一的操作；NextStep和BackStep等应该都使用这个方法】
-		/// </summary>
-		private void chooseStep(int stepValue)
-		{
-			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepValue - 1];
-			lightStepWrapper.CurrentStep = stepValue;
-
-			this.ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
-			this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
-
-			//if (isRealtime)
-			//{
-			//	oneLightStepWork();
-			//}
-		}
+		}		
 
 		/// <summary>
-		/// 插入步(前插或后插由触发键的Name决定)的操作：前插和后插都调用同一个方法
+		/// 事件：点击《插入步》
+		/// --前插和后插都调用同一个方法(触发键的Name决定)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1031,7 +783,7 @@ namespace LightController.MyForm
 
 				lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
 
-				this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+				this.showTDPanels(newStep.TongdaoList, newStep.StartNum);
 				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
 			}
 			else
@@ -1041,7 +793,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 点击《追加步》
+		/// 事件：点击《追加步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1061,8 +813,8 @@ namespace LightController.MyForm
 			// 根据isUseStepMode，生成要插入步的内容 :
 			//1.若勾选了使用模板 或 当前灯具在本场景及模式下总步数为0 ，则使用stepMode数据，
 			//2.否则使用本灯当前最大步的数据			 
-			StepWrapper newStep = StepWrapper.GenerateNewStep	(
-				(isUseStepMode || getTotalStepValue() == 0) ? getCurrentStepMode() : getCurrentLightMaxStepWrapper(), 
+			StepWrapper newStep = StepWrapper.GenerateNewStep(
+				(isUseStepMode || getTotalStepValue() == 0) ? getCurrentStepMode() : getCurrentLightMaxStepWrapper(),
 				mode
 				);
 
@@ -1070,13 +822,12 @@ namespace LightController.MyForm
 			currentLightWrapper.LightStepWrapperList[frame, mode].AddStep(newStep);
 
 			// 显示新步
-			this.ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+			this.showTDPanels(newStep.TongdaoList, newStep.StartNum);
 			this.showStepLabel(currentLightWrapper.LightStepWrapperList[frame, mode].CurrentStep, currentLightWrapper.LightStepWrapperList[frame, mode].TotalStep);
 		}
 
-
 		/// <summary>
-		///  删除步的操作
+		///  事件：点击《删除步》
 		///  1.获取当前步，当前步对应的stepIndex
 		///  2.通过stepIndex，DeleteStep(index);
 		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
@@ -1104,29 +855,18 @@ namespace LightController.MyForm
 			if (currentStep > 0)
 			{
 				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
-				this.ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
+				this.showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
 				this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 			}
 			else
 			{
-				this.ShowVScrollBars(null, 0);
+				this.showTDPanels(null, 0);
 				this.showStepLabel(0, 0);
 			}
 		}
 
 		/// <summary>
-		///  点击《保存项目》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saveSkinButton_Click(object sender, EventArgs e)
-		{
-			saveAll();
-		}
-
-
-		/// <summary>
-		/// 点击《复制步》
+		/// 事件：点击《复制步》
 		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
 		/// 2.若复制成功，则《粘贴步》按钮可用
 		/// </summary>
@@ -1146,7 +886,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 点击《粘贴步》
+		/// 事件：点击《粘贴步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1179,9 +919,630 @@ namespace LightController.MyForm
 			}
 
 			// 3.重新渲染当前步的所有通道
-			ShowVScrollBars(currentStep.TongdaoList, currentStep.StartNum);
+			showTDPanels(currentStep.TongdaoList, currentStep.StartNum);
 		}
-			   		 
+
+		/// <summary>
+		/// 辅助方法：抽象了【选择某一个指定步数后，统一的操作；NextStep和BackStep等应该都使用这个方法】
+		/// </summary>
+		private void chooseStep(int stepValue)
+		{
+			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
+			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepValue - 1];
+			lightStepWrapper.CurrentStep = stepValue;
+
+			this.showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
+			this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
+
+			if (isConnect && isRealtime)
+			{
+				oneLightStepWork();
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：用来显示stepLabel-->当前步/总步数
+		/// 7.2 +隐藏《删除步》按钮
+		/// </summary>
+		/// <param name="currentStep"></param>
+		/// <param name="totalStep"></param>
+		private void showStepLabel(int currentStep, int totalStep)
+		{
+			// 1. 设label的Text值
+			stepLabel.Text = currentStep + "/" + totalStep;
+
+			// 2.1 设定《删除步》按钮是否可用
+			deleteStepSkinButton.Enabled = totalStep != 0;
+
+			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
+			bool insertEnabled = (mode == 0 && totalStep < 32) || (mode == 1 && totalStep < 48);
+			addStepSkinButton.Enabled = insertEnabled;
+			insertAfterSkinButton.Enabled = insertEnabled;
+			insertBeforeSkinButton.Enabled = insertEnabled && currentStep > 0;
+
+			// 2.3 设定《上一步》《下一步》是否可用
+			// -- 7.19修改为循环使用步数：
+			backStepSkinButton.Enabled = totalStep > 1;
+			nextStepSkinButton.Enabled = totalStep > 1;
+
+			//2.4 设定《复制步》是否可用
+			copyStepSkinButton.Enabled = currentStep > 0;
+			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
+
+			// 3.设定统一调整区是否可用
+			tdCommonPanel.Enabled =  totalStep != 0 ;
+		}
+
+		#endregion
+
+
+		#region tdPanels内部数值的调整事件及辅助方法
+
+		/// <summary>
+		/// 辅助方法：通过传来的数值，生成通道列表的数据
+		/// </summary>
+		/// <param name="tongdaoList"></param>
+		/// <param name="startNum"></param>
+		private void showTDPanels(List<TongdaoWrapper> tongdaoList, int startNum)
+		{			
+			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
+			if (tongdaoList == null || tongdaoList.Count == 0)
+			{
+				hideAllTDPanels();
+				return;
+			}
+			//2.将dataWrappers的内容渲染到起VScrollBar中
+			else
+			{
+				for (int i = 0; i < tongdaoList.Count; i++)
+				{				
+					tdNoLabels[i].Text = "通道" + (startNum + i);
+					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
+					tdSkinTrackBars[i].Value = tongdaoList[i].ScrollValue;
+					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
+					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
+					tdStepTimeNumericUpDowns[i].Text = tongdaoList[i].StepTime.ToString();
+					tdPanels[i].Show();
+				}
+				for (int i = tongdaoList.Count; i < 32; i++) {
+					tdPanels[i].Hide();
+				}								
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：隐藏所有tdPanels
+		/// </summary>
+		private void hideAllTDPanels()
+		{
+			for (int i = 0; i < 32; i++)
+			{
+				tdPanels[i].Hide();
+			}
+		}
+
+		/// <summary>
+		/// 事件:鼠标进入tdTrackBar时，把焦点切换到其对应的tdValueNumericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
+			tdValueNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		///  事件：鼠标滚动时，通道值每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdSkinTrackBars_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				//获取或设置是否应将此事件转发到控件的父容器。
+				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
+				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = tdSkinTrackBars[tdIndex].Value + tdSkinTrackBars[tdIndex].SmallChange;
+				if (dd <= tdSkinTrackBars[tdIndex].Maximum)
+				{
+					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = tdSkinTrackBars[tdIndex].Value - tdSkinTrackBars[tdIndex].SmallChange;
+				if (dd >= tdSkinTrackBars[tdIndex].Minimum)
+				{
+					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+				}
+			}
+		}
+
+		/// <summary>
+		///  事件TrackBar滚轴值改变时的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdSkinTrackBars_ValueChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应tdSkinTrackBars的index 
+			int tongdaoIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
+
+			//2.把滚动条的值赋给tdValueNumericUpDowns
+			tdValueNumericUpDowns[tongdaoIndex].Value = tdSkinTrackBars[tongdaoIndex].Value;
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex);
+		}
+
+		/// <summary>
+		/// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
+		{
+			// 1. 找出对应的index
+			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+
+			// 2.调整相应的vScrollBar的数值
+			tdSkinTrackBars[tongdaoIndex].Value = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex);
+		}
+
+		/// <summary>
+		/// 事件：鼠标进入通道值输入框时，切换焦点;
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			tdValueNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		///  事件：鼠标滚动时，通道值每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				//获取或设置是否应将此事件转发到控件的父容器。
+				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
+				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = tdValueNumericUpDowns[tdIndex].Value + tdValueNumericUpDowns[tdIndex].Increment;
+				if (dd <= tdValueNumericUpDowns[tdIndex].Maximum)
+				{
+					tdValueNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = tdValueNumericUpDowns[tdIndex].Value - tdValueNumericUpDowns[tdIndex].Increment;
+				if (dd >= tdValueNumericUpDowns[tdIndex].Minimum)
+				{
+					tdValueNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：改变tdPanel中的通道值之后（改trackBar或者numericUpDown），更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。	
+		/// </summary>
+		/// <param name="tongdaoIndex"></param>
+		private void changeScrollValue(int tongdaoIndex)
+		{
+			// 1.设tongdaoWrapper的值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[tongdaoIndex].ScrollValue = tdSkinTrackBars[tongdaoIndex].Value;
+			//2.是否实时单灯单步
+			if (isConnect && isRealtime)
+			{
+				oneLightStepWork();
+			}
+		}
+
+		/// <summary>
+		///  事件：每个通道对应的变化模式下拉框，值改变后，对应的tongdaoWrapper也应该设置参数 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应changeModeComboBoxes的index
+			int index = MathAst.getIndexNum(((ComboBox)sender).Name, -1);
+
+			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
+
+			// 3.（6.29修改）若当前模式是声控模式：
+			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
+			if (isInit && mode == 1)
+			{
+				List<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+				foreach (StepWrapper stepWrapper in stepWrapperList)
+				{
+					stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
+				}
+			}
+			// 4.(8.8新增判断）若当前模式是普通模式：
+			//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
+			else
+			{
+				enableTongdaoEdit(index, tdChangeModeSkinComboBoxes[index].SelectedIndex != 2);
+			}
+		}
+
+		/// <summary>
+		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
+		/// </summary>
+		/// <param name="tongdaoIndex">tongdaoList的Index</param>
+		/// <param name="shielded">是否被屏蔽</param>
+		private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
+		{
+			tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
+			tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+			tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		}
+
+		/// <summary>
+		/// 事件：鼠标进入步时间输入框时，切换焦点;
+		/// 注意：用MouseEnter事件，而非MouseHover事件;这样才会无延时响应
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			tdStepTimeNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		///  事件：鼠标滚动时，步时间值每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = tdStepTimeNumericUpDowns[tdIndex].Value + tdStepTimeNumericUpDowns[tdIndex].Increment;
+				if (dd <= tdStepTimeNumericUpDowns[tdIndex].Maximum)
+				{
+					tdStepTimeNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = tdStepTimeNumericUpDowns[tdIndex].Value - tdStepTimeNumericUpDowns[tdIndex].Increment;
+				if (dd >= tdStepTimeNumericUpDowns[tdIndex].Minimum)
+				{
+					tdStepTimeNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+		}
+
+		
+
+		/// <summary>
+		///   事件：tdSkinFlowLayoutPanel的paint事件
+		///  </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdSkinFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
+		{
+			// 1. j是tdPanels中在第一列的panel的数量，
+			int j = 0;
+			foreach (var tdPanel in tdPanels)
+			{
+				if (tdPanel.Visible && tdPanel.Location.X == 3)
+				{
+ 					j++; 
+				}
+			}
+			showLabelPanels(j);
+
+			// 2. 设置滚动条的位置
+			labelFlowLayoutPanel.AutoScrollPosition = new Point(0, -tdSkinFlowLayoutPanel.AutoScrollPosition.Y);
+		}
+
+		/// <summary>
+		///  辅助方法：通过实时计算tdPanels占用的行数，来显示相同行数的labelPanels
+		/// </summary>
+		/// <param name="j"></param>
+		private void showLabelPanels(int j)
+		{
+			switch (j)
+			{
+				case 0:
+					labelPanel1.Hide();
+					labelPanel2.Hide();
+					labelPanel3.Hide();
+					break;
+				case 1:
+					labelPanel1.Show();
+					labelPanel2.Hide();
+					labelPanel3.Hide();
+					break;
+				case 2:
+					labelPanel1.Show();
+					labelPanel2.Show();
+					labelPanel3.Hide();
+					break;
+				case 3:
+					labelPanel1.Show();
+					labelPanel2.Show();
+					labelPanel3.Show();
+					break;
+			}
+		}
+
+		/// <summary>
+		///  事件：拦截labelFlowLayoutPanel的鼠标滚动。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void labelFlowLayoutPanel_MouseWheel(object sender, MouseEventArgs e)
+		{
+			Point oldPoint = labelFlowLayoutPanel.AutoScrollPosition;
+			labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
+		}
+
+		#endregion
+
+
+		#region 统一调整框的组件及事件绑定
+		/// <summary>
+		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = commonStepTimeNumericUpDown.Value + commonStepTimeNumericUpDown.Increment;
+				if (dd <= commonStepTimeNumericUpDown.Maximum)
+				{
+					commonStepTimeNumericUpDown.Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = commonStepTimeNumericUpDown.Value - commonStepTimeNumericUpDown.Increment;
+				if (dd >= commonStepTimeNumericUpDown.Minimum)
+				{
+					commonStepTimeNumericUpDown.Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		///  事件：《统一设置步时间numericUpDown》的鼠标进入区域获取焦点
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonStepTimeNumericUpDown_MouseEnter(object sender, EventArgs e)
+		{
+			commonStepTimeNumericUpDown.Select();
+		}
+
+		/// <summary>
+		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = commonValueNumericUpDown.Value + commonValueNumericUpDown.Increment;
+				if (dd <= commonValueNumericUpDown.Maximum)
+				{
+					commonValueNumericUpDown.Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = commonValueNumericUpDown.Value - commonValueNumericUpDown.Increment;
+				if (dd >= commonValueNumericUpDown.Minimum)
+				{
+					commonValueNumericUpDown.Value = dd;
+				}
+			}
+		}
+
+
+		/// <summary>
+		///  事件：《统一设置通道值numericUpDown》的鼠标进入区域获取焦点
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueNumericUpDown_MouseEnter(object sender, EventArgs e)
+		{
+			commonValueNumericUpDown.Select();
+		}
+
+		/// <summary>shubiao		
+		/// 事件: 《统一设置通道值trackBar》鼠标滚动事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueTrackBar_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				//获取或设置是否应将此事件转发到控件的父容器。
+				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
+				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = commonValueTrackBar.Value + commonValueTrackBar.SmallChange;
+				if (dd <= commonValueTrackBar.Maximum)
+				{
+					commonValueTrackBar.Value = Decimal.ToInt16(dd);
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = commonValueTrackBar.Value - commonValueTrackBar.SmallChange;
+				if (dd >= commonValueTrackBar.Minimum)
+				{
+					commonValueTrackBar.Value = Decimal.ToInt16(dd);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件: 《统一设置通道值trackBar》鼠标进入区域事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueTrackBar_MouseEnter(object sender, EventArgs e)
+		{
+			commonValueNumericUpDown.Select();
+		}
+
+		/// <summary>
+		///  事件：《统一设置通道值trackBar》值变动事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueTrackBar_ValuiChanged(object sender, EventArgs e)
+		{
+			commonValueNumericUpDown.Value = commonValueTrackBar.Value;
+		}
+
+		/// <summary>
+		///  事件：《统一设置通道值numericUpDown》值变动事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			commonValueTrackBar.Value = Decimal.ToInt16(commonValueNumericUpDown.Value);
+		}
+
+		/// <summary>
+		/// 事件：点击《统一通道值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueSkinButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			{
+				tdValueNumericUpDowns[i].Value = commonValueNumericUpDown.Value;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《统一跳渐变》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonChangeModeSkinButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			{
+				tdChangeModeSkinComboBoxes[i].SelectedIndex = commonChangeModeSkinComboBox.SelectedIndex;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《统一步时间》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonStepTimeSkinButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			{
+				tdStepTimeNumericUpDowns[i].Value = commonStepTimeNumericUpDown.Value;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《全部归零》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zeroSkinButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			{
+				tdValueNumericUpDowns[i].Value = 0;
+			}
+		}
+
+		/// <summary>
+		///  事件：点击《设为初值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void initSkinButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper stepNow = getCurrentStepWrapper();
+			StepWrapper stepMode = getCurrentStepMode();
+			for (int i = 0; i < stepNow.TongdaoList.Count; i++)
+			{
+				tdValueNumericUpDowns[i].Value = stepMode.TongdaoList[i].ScrollValue;
+			}
+		}
+
+		#endregion
+
+
+		#region 复制灯相关按钮及辅助方法
 
 		/// <summary>
 		///  点击《复制灯》：
@@ -1199,9 +1560,6 @@ namespace LightController.MyForm
 			}
 			tempLight = getCurrentLightWrapper();
 		}
-
-
-
 
 		/// <summary>
 		///  点击《粘贴灯》
@@ -1228,7 +1586,6 @@ namespace LightController.MyForm
 			}
 		}
 
-
 		/// <summary>
 		///  辅助方法：检查是否可以复制灯
 		/// </summary>
@@ -1248,6 +1605,11 @@ namespace LightController.MyForm
 			return false;
 		}
 
+		#endregion
+
+
+		#region 素材相关按钮及辅助方法
+
 		/// <summary>
 		///  点击使用《素材》
 		/// </summary>
@@ -1260,7 +1622,21 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法:调用素材
+		///  点击《保存素材》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
+		{
+			MaterialForm materialForm = new MaterialForm(this, getCurrentLightStepWrapper().StepWrapperList, mode);
+			if (materialForm != null && !materialForm.IsDisposed)
+			{
+				materialForm.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法: 调用素材（供MaterialUseForm回调）
 		/// </summary>
 		/// <param name="materialAst"></param>
 		/// <param name="method"></param>
@@ -1298,7 +1674,7 @@ namespace LightController.MyForm
 						// 使用后插法：避免当前无数据的情况下调用素材失败
 						lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
 					}
-					ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+					showTDPanels(newStep.TongdaoList, newStep.StartNum);
 					showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
 				}
 			}
@@ -1347,7 +1723,7 @@ namespace LightController.MyForm
 
 					if (newStep != null)
 					{
-						ShowVScrollBars(newStep.TongdaoList, newStep.StartNum);
+						showTDPanels(newStep.TongdaoList, newStep.StartNum);
 						showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
 					}
 				}
@@ -1355,25 +1731,174 @@ namespace LightController.MyForm
 
 		}
 
-		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
-		{
-			MaterialForm materialForm =  new MaterialForm(this, getCurrentLightStepWrapper().StepWrapperList, mode);
-			if (materialForm != null && !materialForm.IsDisposed)
-			{
-				materialForm.ShowDialog();
-			}
-		}
+		#endregion
 
+		
+		#region 调试相关按钮
 
 		/// <summary>
-		/// 点击《灯具列表(编辑)》按钮
+		///  点击《连接设备|断开连接》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void lightListSkinButton_Click(object sender, EventArgs e)
+		private void connectSkinButton_Click(object sender, EventArgs e)
 		{
-			LightsForm lightsForm = new LightsForm(this, lightAstList);
-			lightsForm.ShowDialog();
+			// 如果还没连接（按钮显示为“连接设备”)，那就连接
+			if (!isConnect)
+			{
+				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
+				connectSkinButton.Text = "断开连接";
+				showViewButtons(true);
+
+				playTools = PlayTools.GetInstance();
+				isConnect = true;
+			}
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{
+				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
+				connectSkinButton.Text = "连接设备";
+				showViewButtons(false);
+
+				playTools.EndView();
+				playTools = null;
+
+				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+
+				isConnect = false;
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：调试的按钮组是否显示
+		/// </summary>
+		/// <param name="v"></param>
+		private void showViewButtons(bool visible)
+		{
+			realtimeSkinButton.Visible = visible;
+			oneLightOneStepSkinButton.Visible = visible;
+			makeSoundSkinButton.Visible = visible;
+			previewSkinButton.Visible = visible;
+			endviewSkinButton.Visible = visible;
+		}
+
+		/// <summary>
+		/// 事件：点击《实时调试》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void realtimeSkinButton_Click(object sender, EventArgs e)
+		{
+			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+			if (!isRealtime)
+			{
+				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
+				realtimeSkinButton.Text = "关闭实时";
+				isRealtime = true;
+			}
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{
+				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
+				realtimeSkinButton.Text = "实时调试";
+				isRealtime = false;
+			}
+
+		}
+
+		/// <summary>
+		///  事件：点击《单灯单步》
+		///  (-- 先设按钮为有颜色，但跑完就立刻恢复正常！)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void oneLightOneStepSkinButton_Click(object sender, EventArgs e)
+		{
+			// 1.先把预览效果关闭
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+
+			// 2.开始单灯单步效果
+			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;
+			this.Refresh();
+
+			oneLightStepWork();
+
+			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
+		}
+
+		/// <summary>
+		///  事件：点击《预览效果》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void previewSkinButton_Click(object sender, EventArgs e)
+		{
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;
+
+			// 开始预览
+			DBWrapper allData = GetDBWrapper(false);
+			try
+			{
+				playTools.PreView(allData, globalIniFilePath, frame);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
+		}
+
+		/// <summary>
+		///  事件：点击《触发音频》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void makeSoundSkinButton_Click(object sender, EventArgs e)
+		{
+			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频后;
+			this.Refresh();
+
+			playTools.MusicControl();
+
+			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
+		}
+
+		/// <summary>
+		/// 事件： 点击《结束预览》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void endviewSkinButton_Click(object sender, EventArgs e)
+		{
+			// 1.几个按钮图标设置
+			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
+			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+
+			// 2.调用结束预览方法
+			playTools.EndView();
+		}
+
+
+
+
+		#endregion
+
+
+		/// <summary>
+		///  事件：点击《全局配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void globalSetSkinButton_Click(object sender, EventArgs e)
+		{
+			GlobalSetForm globalSetForm = new GlobalSetForm(this, globalIniFilePath);
+			globalSetForm.ShowDialog();
+		}
+
+		private void ymSkinButton_Click(object sender, EventArgs e)
+		{
+			YMSetForm ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
+			ymSetForm.ShowDialog();
 		}
 	}
+
 }

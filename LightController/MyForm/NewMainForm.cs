@@ -307,7 +307,7 @@ namespace LightController.MyForm
 
 				tdStepTimeNumericUpDowns[i].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
 				tdStepTimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
-
+				tdStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 			}
 			// 防止人为滚动左侧的labelPanels，用这个监听事件来处理
@@ -324,10 +324,14 @@ namespace LightController.MyForm
 
 			commonStepTimeNumericUpDown.MouseEnter += new EventHandler(this.commonStepTimeNumericUpDown_MouseEnter);
 			commonStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
-
+			
 			isInit = true;
 		}
 
+
+		
+
+		
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{		
 		}
@@ -368,6 +372,29 @@ namespace LightController.MyForm
 			lightsForm.ShowDialog();
 		}
 
+		/// <summary>
+		///  事件：点击《全局配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void globalSetSkinButton_Click(object sender, EventArgs e)
+		{
+			GlobalSetForm globalSetForm = new GlobalSetForm(this, globalIniFilePath);
+			globalSetForm.ShowDialog();
+		}
+
+		/// <summary>
+		///  事件：点击《摇麦设置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ymSkinButton_Click(object sender, EventArgs e)
+		{
+			YMSetForm ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
+			ymSetForm.ShowDialog();
+		}
+
+
 
 		/// <summary>
 		///  事件：点击《退出应用》
@@ -392,7 +419,7 @@ namespace LightController.MyForm
 		private void newSkinButton_Click(object sender, EventArgs e)
 		{
 			NewForm newForm = new NewForm(this);
-			newForm.Show();
+			newForm.ShowDialog();
 		}
 
 		/// <summary>
@@ -593,7 +620,8 @@ namespace LightController.MyForm
 			{
 				lightWrapper.StepMode = generateStepMode(lightAst);
 				showStepLabel(0, 0);
-				hideAllTDPanels();
+				hideAllTDPanels();							
+			
 			}
 			else
 			{
@@ -658,11 +686,13 @@ namespace LightController.MyForm
 						this.tdStepTimeNumericUpDowns[i].Enabled = false;
 					}
 
-					//changeModeButton.Text = "统一声控";
+					commonChangeModeSkinButton.Text = "统一声控";
+					commonChangeModeSkinComboBox.Items.Clear();
+					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "否", "是" });
+					commonChangeModeSkinComboBox.SelectedIndex = 0;
 
-					//cmComboBox.Items.Clear();
-					//cmComboBox.Items.AddRange(new object[] {"否",	"是"}	);
-					//cmComboBox.SelectedIndex = 0;
+					commonStepTimeNumericUpDown.Enabled = false;
+					commonStepTimeSkinButton.Enabled = false;
 				}
 				else //mode=0
 				{
@@ -680,10 +710,13 @@ namespace LightController.MyForm
 						this.tdStepTimeNumericUpDowns[i].Enabled = true;
 					}
 
-					//changeModeButton.Text = "统一跳渐变";
-					//cmComboBox.Items.Clear();
-					//cmComboBox.Items.AddRange(new object[] {	"跳变","渐变"});
-					//cmComboBox.SelectedIndex = 0;
+					commonChangeModeSkinButton.Text = "统一跳渐变";
+					commonChangeModeSkinComboBox.Items.Clear();
+					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变","屏蔽" });
+					commonChangeModeSkinComboBox.SelectedIndex = 0;
+
+					commonStepTimeNumericUpDown.Enabled = true;
+					commonStepTimeSkinButton.Enabled = true;
 				}
 				if (lightAstList != null && lightAstList.Count > 0)
 				{
@@ -1011,7 +1044,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：隐藏所有tdPanels
+		/// 辅助方法：隐藏所有tdPanels,因为所有panels为空了，则《统一调整框》enabled应设为false
 		/// </summary>
 		private void hideAllTDPanels()
 		{
@@ -1019,6 +1052,7 @@ namespace LightController.MyForm
 			{
 				tdPanels[i].Hide();
 			}
+			tdCommonPanel.Enabled = false;
 		}
 
 		/// <summary>
@@ -1252,7 +1286,21 @@ namespace LightController.MyForm
 			}
 		}
 
-		
+		/// <summary>
+		/// 事件： tdStepTimeNumericUpDown值变化时,修改内存中相应Step的tongdaoList的stepTime值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
+			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+
+			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[index].StepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[index].Value);
+		}
+
 
 		/// <summary>
 		///   事件：tdSkinFlowLayoutPanel的paint事件
@@ -1322,6 +1370,7 @@ namespace LightController.MyForm
 
 
 		#region 统一调整框的组件及事件绑定
+
 		/// <summary>
 		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件
 		/// </summary>
@@ -1361,6 +1410,9 @@ namespace LightController.MyForm
 		{
 			commonStepTimeNumericUpDown.Select();
 		}
+
+
+		
 
 		/// <summary>
 		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
@@ -1811,11 +1863,7 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void oneLightOneStepSkinButton_Click(object sender, EventArgs e)
-		{
-			// 1.先把预览效果关闭
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-
-			// 2.开始单灯单步效果
+		{					
 			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;
 			this.Refresh();
 
@@ -1879,26 +1927,23 @@ namespace LightController.MyForm
 
 
 
+		/// <summary>
+		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
+		/// </summary>
+		protected override void oneLightStepWork()
+		{
+			base.oneLightStepWork();
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+
+		}
+
+
+
 
 		#endregion
 
 
-		/// <summary>
-		///  事件：点击《全局配置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void globalSetSkinButton_Click(object sender, EventArgs e)
-		{
-			GlobalSetForm globalSetForm = new GlobalSetForm(this, globalIniFilePath);
-			globalSetForm.ShowDialog();
-		}
 
-		private void ymSkinButton_Click(object sender, EventArgs e)
-		{
-			YMSetForm ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
-			ymSetForm.ShowDialog();
-		}
 	}
 
 }

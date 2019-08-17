@@ -291,6 +291,14 @@ namespace LightController.MyForm
 			// 由内存几个实时的List实时生成
 			else
 			{
+				// TODO 8.17修改
+				// BUG:此处的实际上是上次保存后的数据，这种情况下和 dbGetter.getAll() 没任何区别！
+				// -->修改方法：先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
+
+				generateDBLightList();
+				generateDBStepCountList();
+				generateDBValueList();
+
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueList);
 				return allData;
 			}
@@ -443,15 +451,24 @@ namespace LightController.MyForm
 			{
 				lightDAO = new LightDAO(dbFilePath, isEncrypt);
 			}
-			// 将传送所有的DB_Light给DAO,让它进行数据的保存
 
+			// 由lightAstList生成最新的dbLightList
+			generateDBLightList();
+
+			// 将传送所有的DB_Light给DAO,让它进行数据的保存
+			lightDAO.SaveAll("Light", dbLightList);
+		}
+
+		/// <summary>
+		/// 辅助方法：由内存的lightAstList生成最新的dbLightList
+		/// </summary>
+		protected void generateDBLightList() {
 			dbLightList = new List<DB_Light>();
 			foreach (LightAst la in lightAstList)
 			{
 				DB_Light light = LightAst.GenerateLight(la);
-				this.dbLightList.Add(light);
+				dbLightList.Add(light);
 			}
-			lightDAO.SaveAll("Light", dbLightList);
 		}
 
 		/// <summary>
@@ -463,7 +480,17 @@ namespace LightController.MyForm
 			{
 				stepCountDAO = new StepCountDAO(dbFilePath, isEncrypt);
 			}
+			// 由lightWrapperList生成最新的dbStepCountList
+			generateDBStepCountList();
+			// 先删除所有，再保存当前的列表
+			stepCountDAO.SaveAll("StepCount", dbStepCountList);
+		}
 
+		/// <summary>
+		/// 辅助方法：由lightWrapperList生成最新的dbStepCountList，都放在内存中
+		/// </summary>
+		protected void generateDBStepCountList()
+		{
 			// 保存所有步骤前，先清空stepCountList
 			dbStepCountList = new List<DB_StepCount>();
 			// 取出每个灯具的所有【非null】stepCount,填入stepCountList中
@@ -495,8 +522,6 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			// 先删除所有，再保存当前的列表
-			stepCountDAO.SaveAll("StepCount", dbStepCountList);
 		}
 
 		/// <summary>
@@ -508,7 +533,17 @@ namespace LightController.MyForm
 			{
 				valueDAO = new ValueDAO(dbFilePath, isEncrypt);
 			}
+			//由lightWrapperList等内存数据，生成dbValueList
+			generateDBValueList();
+			// 调用此方法，会先删除之前的表数据，再将当前dbValueList保存到数据库中
+			valueDAO.SaveAll("Value", dbValueList);
+		}
 
+		/// <summary>
+		/// 辅助方法：由lightWrapperList等内存数据，生成dbValueList
+		/// </summary>
+		protected void generateDBValueList()
+		{
 			// 需要先清空valueList
 			dbValueList = new List<DB_Value>();
 
@@ -551,7 +586,6 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			valueDAO.SaveAll("Value", dbValueList);
 		}
 
 		/// <summary>
@@ -587,8 +621,7 @@ namespace LightController.MyForm
 		{
 			
 		}
-
-
+		
 		/// <summary>
 		///  辅助方法：通过比对tongdaoList 和 素材的所有通道名,获取相应的同名通道的列表(MaterialIndexAst)
 		/// </summary>
@@ -638,8 +671,8 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：单灯单步发送DMX512帧数据
 		/// </summary>
-		protected void oneLightStepWork()
-		{
+		protected virtual void oneLightStepWork()
+		{					 
 			if (!isConnect)
 			{
 				MessageBox.Show("请先连接设备");
@@ -663,7 +696,6 @@ namespace LightController.MyForm
 				MessageBox.Show("当前未选中可用步，无法播放！");
 			}
 		}
-
 
 
 

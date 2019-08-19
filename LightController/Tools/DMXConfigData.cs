@@ -159,11 +159,8 @@ namespace LightController.Tools
             data[1] = Convert.ToByte((FileSize >> 8) & 0xFF);
             data[2] = Convert.ToByte((FileSize >> 16) & 0xFF);
             data[3] = Convert.ToByte((FileSize >> 24) & 0xFF);
-
             return data.ToArray();
         }
-
-
 
         private void ReadFromFile()
         {

@@ -46,7 +46,7 @@ namespace LightController.Tools
                     ConnectTools.GetInstance().SearchDevice();
                     break;
                 case 3:
-                    Testapplication();
+                    ConnectTools.GetInstance().GetParam(ConnectTools.GetInstance().GetDevicesIp(), new DownloadCallBack(), GetParamTest);
                     break;
                 case 4:
                     CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini");
@@ -56,34 +56,14 @@ namespace LightController.Tools
                     break;
             }
         }
+        private void GetParamTest(CSJ_Hardware hardware)
+        {
+            Console.WriteLine("test Complected");
+        }
 
         private void SeralPortTest()
         {
             string[] list  = SerialPortTools.GetInstance().GetSerialPortNameList();
-            SerialPortTools.GetInstance().OpenCom("COM3", 115200);
-            SerialPortTools.GetInstance().Download(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(), new DownloadProgressDelegate(DownloadProgress));
-        }
-
-        public void WriteToFile()
-        {
-            foreach (DMX_C_File file in C_Files)
-            {
-                file.WriteFile(@"C:\Temp\");
-            }
-            foreach (DMX_M_File file in M_Files)
-            {
-                if (file.Data.Datas.Count() != 0)
-                {
-                    file.WriteFile(@"C:\Temp\");
-                }
-            }
-            Console.WriteLine("Connect Test");
-        }
-
-        public void PreViewTest()
-        {
-            PlayTools.GetInstance().ReConnectDevice();
-            //DMX512Player.GetInstance().Preview(DBWrapper, 0);
         }
 
         public void Testapplication()

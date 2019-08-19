@@ -31,9 +31,14 @@ namespace LightController.Tools.CSJ.IMPL
         /// 未完工程
         /// </summary>
         /// <returns></returns>
-        public ICSJFile GetHardware()
+        public ICSJFile GetHardware(string filePath)
         {
-            throw new NotImplementedException();
+            return new CSJ_Hardware(filePath);
+        }
+
+        public ICSJFile GetHardware(byte[] fileBuff)
+        {
+            return new CSJ_Hardware(fileBuff);
         }
 
         public CSJ_Project GetCSJProjectFiles(DBWrapper wrapper,string configPath)
@@ -300,7 +305,10 @@ namespace LightController.Tools.CSJ.IMPL
 
         private CSJ_ChannelData GetChannelData(int sceneNo,int channelNo,int mode,DB_Light light)
         {
-            
+            if (channelNo > 512)
+            {
+                return null;
+            }
             List<int> isGradualChange = new List<int>();
             List<int> stepTimes = new List<int>();
             List<int> stepValues = new List<int>();

@@ -1,5 +1,7 @@
 ﻿using FTD2XX_NET;
 using LightController.Ast;
+using LightController.Tools.CSJ;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +23,7 @@ namespace LightController.Tools
         //全局配置文件路径
         private string ConfigPath { get; set; }
         //全局配置文件数据
-        private DMXConfigData ConfigData { get; set; }
+        private CSJ_Project Project { get; set; }
         //单前场景编号
         private int SceneNo { get; set; }
         //时间因子
@@ -71,7 +73,7 @@ namespace LightController.Tools
         {
             TimeFactory = 32;
             MusicStepTime = 0;
-            ConnectDevice();
+            //ConnectDevice();
             State = PreViewState.Null;
         }
 
@@ -152,17 +154,12 @@ namespace LightController.Tools
             {
                 //暂停播放准备生成数据
                 IsPausePlay = true;
-               
-                if (wrapper.valueList == null || wrapper.stepCountList == null || wrapper.lightList == null) return;
-                if (wrapper.lightList.Count == 0 || wrapper.stepCountList.Count == 0 || wrapper.valueList.Count == 0) return;
                 this.DBWrapper = wrapper;
                 this.ConfigPath = configPath;
                 this.SceneNo = sceneNo;
                 //获取常规程序数据以及音频程序数据
-                DMX_C_File c_File = DataTools.GetInstance().GetC_File(DBWrapper, SceneNo, ConfigPath);
-                DMX_M_File m_File = DataTools.GetInstance().GetM_File(DBWrapper, SceneNo, ConfigPath);
-                ConfigData = DataTools.GetInstance().GetConfigData(DBWrapper, ConfigPath);
-                TimeFactory = ConfigData.TimeFactory;
+                this.Project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.DBWrapper, this.ConfigPath);
+                TimeFactory = this.Project.ConfigFile.TimeFactory;
                 try
                 {
                     //如果单灯单步线程运行中，将其强制关闭
@@ -187,18 +184,27 @@ namespace LightController.Tools
                         ReConnectDevice();
                     }
                     //预读常规程序数据到缓存区
-                    if (c_File != null)
+                    CSJ_C c_File = null;
+                    
+                    if (this.Project.CFiles != null)
                     {
-                        C_ChanelCount = c_File.Data.HeadData.ChanelCount;
-                        IList<C_Data> c_Datas = c_File.Data.Datas;
+                        foreach (CSJ_C item in this.Project.CFiles)
+                        {
+                            if (item.SceneNo == this.SceneNo)
+                            {
+                                c_File = item;
+                            }
+                        }
+                        C_ChanelCount = c_File.ChannelCount;
+                        IList<ChannelData> c_Datas = c_File.ChannelDatas;
                         C_ChanelData = new byte[C_ChanelCount][];
                         C_ChanelId = new int[C_ChanelCount];
                         C_ChanelPoint = new int[C_ChanelCount];
                         for (int i = 0; i < C_ChanelCount; i++)
                         {
-                            C_Data c_Data = c_Datas[i];
+                            ChannelData c_Data = c_Datas[i];
                             C_ChanelPoint[i] = 0;
-                            C_ChanelId[i] = c_Data.ChanelNo;
+                            C_ChanelId[i] = c_Data.ChannelNo;
                             IList<byte> data = new List<byte>();
                             for (int j = 0; j < c_Data.DataSize; j++)
                             {
@@ -207,29 +213,40 @@ namespace LightController.Tools
                             C_ChanelData[i] = data.ToArray();
                         }
                     }
-                    //预读音频程序数据到缓存区
-                    if (m_File != null)
+                    CSJ_M m_File = null;
+                    if (this.Project.MFiles != null)
                     {
-                        IList<M_Data> m_Datas = m_File.Data.Datas;
-                        M_ChanelCount = m_Datas.Count();
-                        M_ChanelData = new byte[M_ChanelCount][];
-                        M_ChanelId = new int[M_ChanelCount];
-                        M_ChanelPoint = new int[M_ChanelCount];
-                        MusicStepTime = m_File.Data.HeadData.FrameTime;
-                        for (int i = 0; i < M_ChanelCount; i++)
+                        foreach (CSJ_M item in this.Project.MFiles)
                         {
-                            M_Data m_Data = m_Datas[i];
-                            M_ChanelId[i] = m_Data.ChanelNo;
-                            M_ChanelPoint[i] = 0;
-                            IList<byte> data = new List<byte>();
-                            for (int j = 0; j < m_Data.DataSize; j++)
+                            if (item.SceneNo == this.SceneNo)
                             {
-                                data.Add(Convert.ToByte(m_Data.Datas[j]));
+                                m_File = item;
                             }
-                            M_ChanelData[i] = data.ToArray();
+                        }
+                        //预读音频程序数据到缓存区
+                        if (m_File != null)
+                        {
+                            IList<ChannelData> m_Datas = m_File.ChannelDatas;
+                            M_ChanelCount = m_Datas.Count();
+                            M_ChanelData = new byte[M_ChanelCount][];
+                            M_ChanelId = new int[M_ChanelCount];
+                            M_ChanelPoint = new int[M_ChanelCount];
+                            MusicStepTime = m_File.FrameTime;
+                            for (int i = 0; i < M_ChanelCount; i++)
+                            {
+                                ChannelData m_Data = m_Datas[i];
+                                M_ChanelId[i] = m_Data.ChannelNo;
+                                M_ChanelPoint[i] = 0;
+                                IList<byte> data = new List<byte>();
+                                for (int j = 0; j < m_Data.DataSize; j++)
+                                {
+                                    data.Add(Convert.ToByte(m_Data.Datas[j]));
+                                }
+                                M_ChanelData[i] = data.ToArray();
+                            }
                         }
                     }
-                    MusicStep = ConfigData.Music_Control_Enable[SceneNo];
+                    MusicStep = this.Project.ConfigFile.Music_Control_Enable[SceneNo];
                     //关闭暂停播放
                     IsPausePlay = false;
                     //启动项目预览线程
@@ -305,22 +322,6 @@ namespace LightController.Tools
                 if(MusicControlThread != null)
                 {
                     return;
-                    //try
-                    //{
-                    //    MusicControlThread.Abort();
-                    //}
-                    //catch (Exception)
-                    //{
-                    //    MusicControlThread = null;
-                    //}
-                    //finally
-                    //{
-                    //    MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
-                    //    {
-                    //        IsBackground = true
-                    //    };
-                    //    MusicControlThread.Start();
-                    //}
                 }
                 else
                 {
@@ -396,7 +397,6 @@ namespace LightController.Tools
         private void Play()
         {
             UInt32 count = 0;
-            UInt32 test = 0;
             try
             {
                 //发送Break|

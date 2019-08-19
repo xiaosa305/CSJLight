@@ -28,8 +28,16 @@ namespace LightController.Tools
             Ram_Play_Times[0] = Convert.ToByte((Data.HeadData.RunTime) & 0xFF);
             Ram_Play_Times[1] = Convert.ToByte(((Data.HeadData.RunTime) >> 8) & 0xFF);
             byte[] Scene_Total_Count = new byte[2];
-            Scene_Total_Count[0] = (byte)(Data.HeadData.ChanelCount & 0xFF);
-            Scene_Total_Count[1] = (byte)((Data.HeadData.ChanelCount >> 8) & 0xFF);
+            int test = 0;
+            foreach (C_Data item in Data.Datas)
+            {
+                if (item.ChanelNo > 512)
+                {
+                    test++;
+                }
+            }
+            Scene_Total_Count[0] = (byte)((Data.HeadData.ChanelCount - test) & 0xFF);
+            Scene_Total_Count[1] = (byte)(((Data.HeadData.ChanelCount - test) >> 8) & 0xFF);
             int FileSize = 0;
             //文件大小
             fileData.Add(Convert.ToByte(FileSize));
@@ -48,6 +56,10 @@ namespace LightController.Tools
             //通道数据
             foreach (C_Data c_Data in Data.Datas)
             {
+                if (c_Data.ChanelNo > 512)
+                {
+                    continue;
+                }
                 //转换通道编号为byte
                 byte[] chanelNo = new byte[2];
                 chanelNo[0] = (byte)(c_Data.ChanelNo & 0xFF);
@@ -55,6 +67,19 @@ namespace LightController.Tools
                 //添加两字节通道编号
                 fileData.Add(chanelNo[0]);
                 fileData.Add(chanelNo[1]);
+                //获取数据长度
+                byte[] dataSzie = new byte[2];
+                dataSzie[0] = (byte)(c_Data.DataSize & 0xFF);
+                dataSzie[1] = (byte)((c_Data.DataSize >> 8) & 0xFF);
+                //添加数据长度
+                fileData.Add(dataSzie[0]);
+                fileData.Add(dataSzie[1]);
+                //**************添加起始数据偏移量
+                int length = fileData.Count + 4;
+                fileData.Add(Convert.ToByte(length & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 8) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 16) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 24) & 0xFF));
                 //添加所有采样数据
                 foreach (int value in c_Data.Datas)
                 {
@@ -77,14 +102,7 @@ namespace LightController.Tools
             byte[] data = GetByteData();
            
             string filePath;
-            if (SceneNo < 9)
-            {
-                filePath = path + @"\C0" + (SceneNo + 1) + ".bin";
-            }
-            else
-            {
-                filePath = path + @"C\" + (SceneNo + 1) + ".bin";
-            }
+            filePath = path + @"\C" + (SceneNo + 1) + ".bin";
             FileStream fileStream = new FileStream(filePath, FileMode.Create);
             fileStream.Write(data, 0, data.Length);
             fileStream.Close();

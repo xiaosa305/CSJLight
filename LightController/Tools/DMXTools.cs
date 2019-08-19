@@ -104,10 +104,11 @@ namespace LightController.Tools
             DMX_M_Data dMX_M_Data = new DMX_M_Data
             {
                 Datas = GetM_Datas(chanelDatas),
-                HeadData = GetM_Heads(chanelCount,sceneNo)
+                HeadData = GetM_Heads(chanelCount, sceneNo)
 
             };
-            if(chanelDatas.Count > 0)
+            dMX_M_Data.HeadData.ChanelCount = dMX_M_Data.Datas.Count();
+            if (chanelDatas.Count > 0)
             {
                 dMX_M_Data.HeadData.FrameTime = chanelDatas[0].StepTimes[0];
             }

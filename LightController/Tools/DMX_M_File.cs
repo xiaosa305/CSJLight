@@ -25,14 +25,21 @@ namespace LightController.Tools
             byte Music_Frame_Time = Convert.ToByte(Data.HeadData.FrameTime);
             byte[] Scene_Total_Count = new byte[2];
             byte MusicControlStepListCount = Convert.ToByte(Data.HeadData.StepListCount);
-            Scene_Total_Count[0] = (byte)(Data.HeadData.ChanelCount & 0xFF);
-            Scene_Total_Count[1] = (byte)((Data.HeadData.ChanelCount >> 8) & 0xFF);
+            int test = 0;
+            foreach (M_Data item in Data.Datas)
+            {
+                if (item.ChanelNo > 512)
+                {
+                    test++;
+                }
+            }
+            Scene_Total_Count[0] = (byte)((Data.HeadData.ChanelCount - test) & 0xFF);
+            Scene_Total_Count[1] = (byte)(((Data.HeadData.ChanelCount -test) >> 8) & 0xFF);
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
-            fileData.Add(Scene_Total_Count[0]);
-            fileData.Add(Scene_Total_Count[1]);
+           
             fileData.Add(Music_Frame_Time);
             byte[] MusicIntervalTimeBuff = new byte[2];
             MusicIntervalTimeBuff[0] = Convert.ToByte(Data.HeadData.MusicIntervalTime & 0xFF);
@@ -44,8 +51,19 @@ namespace LightController.Tools
             {
                 fileData.Add(Convert.ToByte(step));
             }
+            for (int i = Data.HeadData.StepListCount; i < 20; i++)
+            {
+                fileData.Add(Convert.ToByte(0x00));
+            }
+            fileData.Add(Scene_Total_Count[0]);
+            fileData.Add(Scene_Total_Count[1]);
             foreach (M_Data m_Data in Data.Datas)
             {
+                int test1 = m_Data.ChanelNo;
+                if (m_Data.ChanelNo > 512)
+                {
+                    continue;
+                }
                 //转换通道编号为byte
                 byte[] chanelNo = new byte[2];
                 chanelNo[0] = (byte)(m_Data.ChanelNo & 0xFF);
@@ -60,6 +78,12 @@ namespace LightController.Tools
                 //添加数据长度
                 fileData.Add(dataSzie[0]);
                 fileData.Add(dataSzie[1]);
+                //**************添加起始数据偏移量
+                int length = fileData.Count + 4;
+                fileData.Add(Convert.ToByte(length & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 8) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 16) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 24) & 0xFF));
                 //添加所有采样数据
                 foreach (int value in m_Data.Datas)
                 {

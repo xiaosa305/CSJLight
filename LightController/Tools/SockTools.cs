@@ -14,7 +14,6 @@ namespace LightController.Tools
         private static SocketTools Instance { get; set; }//Socket实例
         private Conn[] conns;//客户端连接（异步）
         private int MaxCount { get; set; }//最大连接数
-        private static int test = 0;
 
         /// <summary>
         /// 获取连接池索引
@@ -55,7 +54,6 @@ namespace LightController.Tools
             if (Instance == null)
             {
                 Instance = new SocketTools();
-                test++;
             }
             return Instance;
         }
@@ -120,8 +118,8 @@ namespace LightController.Tools
                     Conn conn = conns[index];
                     socket.Connect(iPEndPoint);
                     int.TryParse(addr, out int addrValue);
-                    conn.Addr = addrValue;
-                    conn.DeviceName = deviceName;
+                    conn.SetAddr(addrValue);
+                    conn.SetDeviceName(deviceName);
                     conn.Init(socket);
                     Console.WriteLine("客户端 [" + conn.GetAddress() + "] 连接");
                     Console.WriteLine("已连接" + (index + 1) + "个客户端");
@@ -141,7 +139,7 @@ namespace LightController.Tools
                             {
                                 if (conns[i].Ip.Equals(ip))
                                 {
-                                    conns[i].Close();
+                                    conns[i].CloseDevice();
                                 }
                             }
                         }
@@ -171,7 +169,6 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="ip">连接ip</param>
         /// <param name="size">包大小</param>
-
         public Dictionary<string,string> GetDeviceInfos()
         {
             Dictionary<string, string> infos = new Dictionary<string, string>();
@@ -179,9 +176,9 @@ namespace LightController.Tools
             {
                 if (value != null && value.IsUse)
                 {
-                    if (value.Ip != "" && value.Ip != null && value.DeviceName != null)
+                    if (value.Ip != "" && value.Ip != null && value.GetDeviceName() != null)
                     {
-                        infos.Add(value.Ip, value.DeviceName);
+                        infos.Add(value.Ip, value.GetDeviceName());
                     }
                 }
             }
@@ -199,7 +196,7 @@ namespace LightController.Tools
             {
                 if (value != null && value.IsUse)
                 {
-                    if (value.Ip != "" && value.Ip != null && value.DeviceName != null)
+                    if (value.Ip != "" && value.Ip != null && value.GetDeviceName() != null)
                     {
                         deviceList.Add(value.Ip);
                     }
@@ -219,9 +216,9 @@ namespace LightController.Tools
             {
                 if (value != null && value.IsUse)
                 {
-                    if (value.Ip != "" && value.Ip != null && value.DeviceName != null)
+                    if (value.Ip != "" && value.Ip != null && value.GetDeviceName() != null)
                     {
-                        deviceNameList.Add(value.DeviceName);
+                        deviceNameList.Add(value.GetDeviceName());
                     }
                 }
             }
@@ -242,7 +239,7 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].DownloadFile(dBWrapper, configPath,callBack, download);
+                        conns[i].DownloadProject(dBWrapper, configPath,callBack, download);
                     }
                 }
             }

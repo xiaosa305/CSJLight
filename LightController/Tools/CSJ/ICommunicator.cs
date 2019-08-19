@@ -38,7 +38,6 @@ namespace LightController.Tools.CSJ
         protected GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置信息回调委托方法
         protected DownloadProgressDelegate DownloadProgressDelegate { get; set; }//下载工程项目文件进度回调委托方法
         protected abstract void Send(byte[] txBuff);
-        //protected abstract void Recive(IAsyncResult asyncResult);
         public abstract void CloseDevice();
         public void SetPackageSize(int size)
         {
@@ -63,7 +62,7 @@ namespace LightController.Tools.CSJ
         protected void InitParameters()
         {
             this.IsSending = false;
-            this.IsReceive = false;
+            this.IsReceive = true;
             this.IsTimeOutThreadStart = false;
             this.DownloadStatus = true;
             this.CurrentDownloadCompletedSize = 0;
@@ -262,59 +261,63 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
-                                    if (this.TimeOutCount > 5)
+                                    if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                     {
                                         this.TimeOutCount = 0;
                                         this.IsSending = false;
-                                        this.CloseDevice();
                                         this.CallBack.SendError(deviceName, Order);
+                                        this.CloseDevice();
                                     }
                                     else
                                     {
                                         this.TimeOutCount++;
+                                        this.IsSending = false;
                                         this.DownloadProject(this.Wrapper, this.ConfigPath, this.CallBack, this.DownloadProgressDelegate);
                                     }
                                 }
                                 break;
                             case Constant.ORDER_PUT_PARAM:
-                                if (this.TimeOutCount > 5)
+                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                 {
                                     this.TimeOutCount = 0;
                                     this.IsSending = false;
-                                    this.CloseDevice();
                                     this.CallBack.SendError(deviceName, this.Order);
+                                    this.CloseDevice();
                                 }
                                 else
                                 {
                                     this.TimeOutCount++;
+                                    this.IsSending = false;
                                     this.PutParam(this.HardwarePath, this.CallBack);
                                 }
                                 break;
                             case Constant.ORDER_GET_PARAM:
-                                if (this.TimeOutCount > 5)
+                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                 {
                                     this.TimeOutCount = 0;
                                     this.IsSending = false;
-                                    this.CloseDevice();
                                     this.CallBack.SendError(deviceName, this.Order);
+                                    this.CloseDevice();
                                 }
                                 else
                                 {
                                     this.TimeOutCount++;
+                                    this.IsSending = false;
                                     this.GetParam(this.GetParamDelegate, this.CallBack);
                                 }
                                 break;
                             default:
-                                if (this.TimeOutCount > 5)
+                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                 {
                                     this.TimeOutCount = 0;
                                     this.IsSending = false;
-                                    this.CloseDevice();
                                     this.CallBack.SendError(deviceName, this.Order);
+                                    this.CloseDevice();
                                 }
                                 else
                                 {
                                     this.TimeOutCount++;
+                                    this.IsSending = false;
                                     this.SendOrder(this.Order, this.Parameters, this.CallBack);
                                 }
                                 break;
@@ -353,9 +356,9 @@ namespace LightController.Tools.CSJ
                             {
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.CloseDevice();
                                 this.DownloadProgressDelegate("", 0);
                                 this.CallBack.SendError(devicename, Order);
+                                this.CloseDevice();
                             }
                             break;
                     }
@@ -381,9 +384,9 @@ namespace LightController.Tools.CSJ
                             {
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.CloseDevice();
                                 this.DownloadProgressDelegate("", 0);
-                                this.CallBack.SendError(devicename,this.Order);
+                                this.CallBack.SendError(devicename, this.Order);
+                                this.CloseDevice();
                             }
                             break;
                     }
@@ -394,9 +397,9 @@ namespace LightController.Tools.CSJ
                         case Constant.RECEIVE_ORDER_ENDSEND_OK:
                             this.DownloadStatus = true;
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.DownloadProgressDelegate("", 0);
-                            this.CallBack.SendCompleted(devicename,this.Order);
+                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CloseDevice();
                             break;
                         case Constant.RECEIVE_ORDER_ENDSEND_ERROR:
                         default:
@@ -408,9 +411,9 @@ namespace LightController.Tools.CSJ
                             {
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.CloseDevice();
                                 this.DownloadProgressDelegate("", 0);
                                 CallBack.SendError(devicename, this.Order);
+                                this.CloseDevice();
                             }
                             break;
                     }
@@ -423,28 +426,30 @@ namespace LightController.Tools.CSJ
                             break;
                         case Constant.RECEIVE_ORDER_DONE:
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CloseDevice();
                             break;
                         default:
                             break;
                     }
                     break;
                 case Constant.ORDER_GET_PARAM:
+                    this.IsSending = false;
                     this.GetParamDelegate(DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware);
+                    this.CloseDevice();
                     break;
                 default:
                     switch (rxStr.Split(':')[0])
                     {
                         case Constant.RECEIVE_ORDER_OTHER_OK:
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CloseDevice();
                             break;
                         default:
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.CallBack.SendError(devicename, Order);
+                            this.CloseDevice();
                             break;
                     }
                     break;

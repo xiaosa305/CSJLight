@@ -178,7 +178,7 @@ namespace LightController.Tools.CSJ.IMPL
             data.AddRange(Heartbeat);
             for (int i = 0; i < 8 - Heartbeat.Length; i++)
             {
-                data.Add(Convert.ToByte(0xFF));
+                data.Add(Convert.ToByte(0x00));
             }
             data.Add(Convert.ToByte((HeartbeatCycle) & 0xFF));
             data.Add(Convert.ToByte((HeartbeatCycle >> 8) & 0xFF));

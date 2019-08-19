@@ -43,10 +43,14 @@ namespace LightController.Tools
                     ConnectTools.GetInstance().Start(localIP);
                     break;
                 case 2:
-                    ConnectTools.GetInstance().SearchDevice();
+                    //ConnectTools.GetInstance().SearchDevice();
+                    SerialPortTools.GetInstance().OpenCom("COM2");
+                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(), DownloadProgress);
                     break;
                 case 3:
-                    ConnectTools.GetInstance().GetParam(ConnectTools.GetInstance().GetDevicesIp(), new DownloadCallBack(), GetParamTest);
+                    //ConnectTools.GetInstance().GetParam(ConnectTools.GetInstance().GetDevicesIp(), new DownloadCallBack(), GetParamTest);
+                    SerialPortTools.GetInstance().OpenCom("COM3");
+                    SerialPortTools.GetInstance().GetParam(GetParamTest, new DownloadCallBack());
                     break;
                 case 4:
                     CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini");

@@ -20,21 +20,17 @@ namespace LightController.Tools.CSJ.IMPL
         {
             List<byte> fileData = new List<byte>();
             byte ram_Enabl = Convert.ToByte(MICSensor);
-            byte[] ram_Response_Times = new byte[4];
-            ram_Response_Times[0] = Convert.ToByte(((SenseFreq + 1) * 60) & 0xFF);
-            ram_Response_Times[1] = Convert.ToByte((((SenseFreq + 1) * 60) >> 8) & 0xFF);
-            ram_Response_Times[2] = Convert.ToByte((((SenseFreq + 1) * 60) >> 16) & 0xFF);
-            ram_Response_Times[3] = Convert.ToByte((((SenseFreq + 1) * 60) >> 24) & 0xFF);
-            byte[] ram_Play_Times = new byte[4];
-            ram_Play_Times[0] = Convert.ToByte((RunTime + 1) & 0xFF);
-            ram_Play_Times[1] = Convert.ToByte(((RunTime + 1) >> 8) & 0xFF);
-            ram_Play_Times[2] = Convert.ToByte(((RunTime + 1) >> 16) & 0xFF);
-            ram_Play_Times[3] = Convert.ToByte(((RunTime + 1) >> 24) & 0xFF);
+            byte[] ram_Response_Times = new byte[2];
+            ram_Response_Times[0] = Convert.ToByte(((SenseFreq) * 60) & 0xFF);
+            ram_Response_Times[1] = Convert.ToByte((((SenseFreq) * 60) >> 8) & 0xFF);
+            byte[] ram_Play_Times = new byte[2];
+            ram_Play_Times[0] = Convert.ToByte((RunTime) & 0xFF);
+            ram_Play_Times[1] = Convert.ToByte(((RunTime) >> 8) & 0xFF);
             byte[] scene_Total_Count = new byte[2];
             scene_Total_Count[0] = (byte)(ChannelCount & 0xFF);
             scene_Total_Count[1] = (byte)((ChannelCount >> 8) & 0xFF);
             FileSize = 0;
-            //文件大小
+            //文件大小预占位
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
@@ -58,6 +54,18 @@ namespace LightController.Tools.CSJ.IMPL
                 //添加两字节通道编号
                 fileData.Add(chanelNo[0]);
                 fileData.Add(chanelNo[1]);
+                //添加数据长度
+                byte[] dataSzie = new byte[2];
+                dataSzie[0] = (byte)(c_Data.DataSize & 0xFF);
+                dataSzie[1] = (byte)((c_Data.DataSize >> 8) & 0xFF);
+                fileData.Add(dataSzie[0]);
+                fileData.Add(dataSzie[1]);
+                //添加起始数据偏移量
+                int length = fileData.Count + 4;
+                fileData.Add(Convert.ToByte(length & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 8) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 16) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 24) & 0xFF));
                 //添加所有采样数据
                 foreach (int value in c_Data.Datas)
                 {

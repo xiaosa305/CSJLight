@@ -33,7 +33,6 @@ namespace LightController.Tools.CSJ.IMPL
             ReadData();
         }
 
-
         public byte[] GetData()
         {
             int FileSize = 0;
@@ -60,8 +59,6 @@ namespace LightController.Tools.CSJ.IMPL
                     Chanel_Count = 384;
                     break;
                 case 3:
-                    Chanel_Count = 512;
-                    break;
                 default:
                     Chanel_Count = 512;
                     break;

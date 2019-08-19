@@ -29,24 +29,30 @@ namespace LightController.Tools.CSJ.IMPL
             byte[] MusicIntervalTimeBuff = new byte[2];
             MusicIntervalTimeBuff[0] = Convert.ToByte(MusicIntervalTime & 0xFF);
             MusicIntervalTimeBuff[1] = Convert.ToByte((MusicIntervalTime >> 8) & 0xFF);
+            //添加文件大小预占位
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
             fileData.Add(Convert.ToByte(FileSize));
-            fileData.Add(Scene_Total_Count[0]);
-            fileData.Add(Scene_Total_Count[1]);
+            //添加音频步时间
             fileData.Add(Music_Frame_Time);
+            //添加音频叠加后间隔时间
             fileData.Add(MusicIntervalTimeBuff[0]);
             fileData.Add(MusicIntervalTimeBuff[1]);
+            //添加音频步数列表成员个数
             fileData.Add(MusicControlStepListCount);
+            //添加音频步数列表
             foreach (int step in StepList)
             {
                 fileData.Add(Convert.ToByte(step));
             }
-            for (int i = StepListCount ; i < 20; i++)
+            for (int i = StepListCount; i < 20; i++)
             {
                 fileData.Add(Convert.ToByte(0x00));
             }
+            //添加通道总数
+            fileData.Add(Scene_Total_Count[0]);
+            fileData.Add(Scene_Total_Count[1]);
             foreach (ChannelData m_Data in ChannelDatas)
             {
                 //转换通道编号为byte
@@ -63,6 +69,12 @@ namespace LightController.Tools.CSJ.IMPL
                 //添加数据长度
                 fileData.Add(dataSzie[0]);
                 fileData.Add(dataSzie[1]);
+                //添加起始数据偏移量
+                int length = fileData.Count + 4;
+                fileData.Add(Convert.ToByte(length & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 8) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 16) & 0xFF));
+                fileData.Add(Convert.ToByte((length >> 24) & 0xFF));
                 //添加所有采样数据
                 foreach (int value in m_Data.Datas)
                 {

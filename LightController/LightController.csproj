@@ -175,11 +175,29 @@
     <Compile Include="MyForm\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\SkinLightsEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsEditForm.Designer.cs">
+      <DependentUpon>SkinLightsEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsAstForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsAstForm.designer.cs">
+      <DependentUpon>SkinLightsAstForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\LightsEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\LightsEditForm.Designer.cs">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsForm.designer.cs">
+      <DependentUpon>SkinLightsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainForm.cs">
       <SubType>Form</SubType>
@@ -237,11 +255,11 @@
     <Compile Include="MyForm\NewHardwareForm.Designer.cs">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\NewMainForm.cs">
+    <Compile Include="MyForm\SkinMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\NewMainForm.Designer.cs">
-      <DependentUpon>NewMainForm.cs</DependentUpon>
+    <Compile Include="MyForm\SkinMainForm.Designer.cs">
+      <DependentUpon>SkinMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\OpenForm.cs">
       <SubType>Form</SubType>
@@ -254,12 +272,6 @@
     </Compile>
     <Compile Include="MyForm\QDTestForm.Designer.cs">
       <DependentUpon>QDTestForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\UpdateForm.cs">
       <SubType>Form</SubType>
@@ -317,8 +329,17 @@
     <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SkinLightsEditForm.resx">
+      <DependentUpon>SkinLightsEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SkinLightsAstForm.resx">
+      <DependentUpon>SkinLightsAstForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightsEditForm.resx">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SkinLightsForm.resx">
+      <DependentUpon>SkinLightsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -344,17 +365,14 @@
     <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\NewMainForm.resx">
-      <DependentUpon>NewMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\SkinMainForm.resx">
+      <DependentUpon>SkinMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>

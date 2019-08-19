@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
-	partial class NewMainForm
+	partial class SkinMainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -32,7 +32,7 @@ namespace LightController.MyForm
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewMainForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinMainForm));
 			this.skinButton1 = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.lightEditorSkinButton = new CCWin.SkinControl.SkinButton();

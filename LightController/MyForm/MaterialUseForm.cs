@@ -124,7 +124,7 @@ namespace LightController.MyForm
 				if (!String.IsNullOrEmpty(materialName))
 				{
 					MaterialAst materialAst = MaterialAst.GenerateMaterialAst( path +@"\" +materialName + @"\materialSet.ini");
-					InsertMethod method =  ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER ;
+					InsertMethod method =  ((Button)sender).Name == "insertSkinButton"  ? InsertMethod.INSERT : InsertMethod.COVER ;
 					mainForm.InsertOrCoverMaterial(materialAst, method);
 					this.Dispose();
 					mainForm.Activate();

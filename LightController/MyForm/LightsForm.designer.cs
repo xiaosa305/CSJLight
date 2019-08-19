@@ -50,9 +50,10 @@ namespace LightController
 			// addLightButton
 			// 
 			this.addLightButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-			this.addLightButton.Location = new System.Drawing.Point(386, 105);
+			this.addLightButton.Location = new System.Drawing.Point(290, 84);
+			this.addLightButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.addLightButton.Name = "addLightButton";
-			this.addLightButton.Size = new System.Drawing.Size(97, 40);
+			this.addLightButton.Size = new System.Drawing.Size(73, 32);
 			this.addLightButton.TabIndex = 2;
 			this.addLightButton.Text = "添加-->";
 			this.addLightButton.UseVisualStyleBackColor = false;
@@ -61,9 +62,10 @@ namespace LightController
 			// deleteLightButton
 			// 
 			this.deleteLightButton.BackColor = System.Drawing.Color.Beige;
-			this.deleteLightButton.Location = new System.Drawing.Point(386, 168);
+			this.deleteLightButton.Location = new System.Drawing.Point(290, 134);
+			this.deleteLightButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.deleteLightButton.Name = "deleteLightButton";
-			this.deleteLightButton.Size = new System.Drawing.Size(97, 40);
+			this.deleteLightButton.Size = new System.Drawing.Size(73, 32);
 			this.deleteLightButton.TabIndex = 2;
 			this.deleteLightButton.Text = "<--删除";
 			this.deleteLightButton.UseVisualStyleBackColor = false;
@@ -71,9 +73,10 @@ namespace LightController
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(386, 546);
+			this.enterButton.Location = new System.Drawing.Point(290, 437);
+			this.enterButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.enterButton.Name = "enterButton";
-			this.enterButton.Size = new System.Drawing.Size(97, 49);
+			this.enterButton.Size = new System.Drawing.Size(73, 39);
 			this.enterButton.TabIndex = 2;
 			this.enterButton.Text = "确定";
 			this.enterButton.UseVisualStyleBackColor = true;
@@ -86,8 +89,9 @@ namespace LightController
 			this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
 			this.treeView1.ForeColor = System.Drawing.Color.OldLace;
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
+			this.treeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(347, 636);
+			this.treeView1.Size = new System.Drawing.Size(260, 509);
 			this.treeView1.TabIndex = 3;
 			this.treeView1.DoubleClick += new System.EventHandler(this.addLightButton_Click);
 			// 
@@ -102,9 +106,10 @@ namespace LightController
 			this.lightsListView.FullRowSelect = true;
 			this.lightsListView.GridLines = true;
 			this.lightsListView.LargeImageList = this.largeImageList;
-			this.lightsListView.Location = new System.Drawing.Point(526, 0);
+			this.lightsListView.Location = new System.Drawing.Point(393, 0);
+			this.lightsListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.lightsListView.Name = "lightsListView";
-			this.lightsListView.Size = new System.Drawing.Size(470, 636);
+			this.lightsListView.Size = new System.Drawing.Size(354, 509);
 			this.lightsListView.SmallImageList = this.largeImageList;
 			this.lightsListView.TabIndex = 5;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
@@ -182,23 +187,25 @@ namespace LightController
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(372, 254);
+			this.label1.Location = new System.Drawing.Point(279, 203);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(130, 64);
+			this.label1.Size = new System.Drawing.Size(98, 51);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "提示：双击右侧灯具，可修改初始通道地址。";
 			// 
 			// LightsForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(996, 636);
+			this.ClientSize = new System.Drawing.Size(747, 509);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.treeView1);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.deleteLightButton);
 			this.Controls.Add(this.addLightButton);
+			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.Name = "LightsForm";
 			this.Text = "编辑工程灯具列表";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LightsForm_FormClosed);

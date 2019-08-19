@@ -28,61 +28,78 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.enterButton = new System.Windows.Forms.Button();
-			this.cancelButton = new System.Windows.Forms.Button();
+			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
+			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(34, 49);
+			this.label1.Location = new System.Drawing.Point(26, 39);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(67, 15);
+			this.label1.Size = new System.Drawing.Size(53, 12);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "工程名：";
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(107, 39);
+			this.textBox1.Location = new System.Drawing.Point(83, 30);
+			this.textBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(193, 25);
+			this.textBox1.Size = new System.Drawing.Size(146, 21);
 			this.textBox1.TabIndex = 1;
 			// 
-			// enterButton
+			// enterSkinButton
 			// 
-			this.enterButton.BackColor = System.Drawing.SystemColors.Info;
-			this.enterButton.Location = new System.Drawing.Point(51, 92);
-			this.enterButton.Name = "enterButton";
-			this.enterButton.Size = new System.Drawing.Size(96, 33);
-			this.enterButton.TabIndex = 2;
-			this.enterButton.Text = "确定";
-			this.enterButton.UseVisualStyleBackColor = false;
-			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
+			this.enterSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.enterSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.enterSkinButton.DownBack = null;
+			this.enterSkinButton.Location = new System.Drawing.Point(37, 74);
+			this.enterSkinButton.MouseBack = null;
+			this.enterSkinButton.Name = "enterSkinButton";
+			this.enterSkinButton.NormlBack = null;
+			this.enterSkinButton.Size = new System.Drawing.Size(72, 26);
+			this.enterSkinButton.TabIndex = 3;
+			this.enterSkinButton.Text = "确定";
+			this.enterSkinButton.UseVisualStyleBackColor = false;
+			this.enterSkinButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
-			// cancelButton
+			// cancelSkinButton
 			// 
-			this.cancelButton.BackColor = System.Drawing.SystemColors.ScrollBar;
-			this.cancelButton.Location = new System.Drawing.Point(195, 92);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(96, 33);
-			this.cancelButton.TabIndex = 2;
-			this.cancelButton.Text = "取消";
-			this.cancelButton.UseVisualStyleBackColor = false;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelSkinButton.DownBack = null;
+			this.cancelSkinButton.Location = new System.Drawing.Point(152, 74);
+			this.cancelSkinButton.MouseBack = null;
+			this.cancelSkinButton.Name = "cancelSkinButton";
+			this.cancelSkinButton.NormlBack = null;
+			this.cancelSkinButton.Size = new System.Drawing.Size(72, 26);
+			this.cancelSkinButton.TabIndex = 3;
+			this.cancelSkinButton.Text = "取消";
+			this.cancelSkinButton.UseVisualStyleBackColor = false;
+			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// NewForm
 			// 
-			this.AcceptButton = this.enterButton;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(353, 155);
-			this.Controls.Add(this.cancelButton);
-			this.Controls.Add(this.enterButton);
+			this.CancelButton = this.cancelSkinButton;
+			this.ClientSize = new System.Drawing.Size(265, 124);
+			this.Controls.Add(this.cancelSkinButton);
+			this.Controls.Add(this.enterSkinButton);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MinimizeBox = false;
 			this.Name = "NewForm";
 			this.Text = "新建工程";
@@ -95,7 +112,7 @@
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.Button enterButton;
-		private System.Windows.Forms.Button cancelButton;
+		private CCWin.SkinControl.SkinButton enterSkinButton;
+		private CCWin.SkinControl.SkinButton cancelSkinButton;
 	}
 }

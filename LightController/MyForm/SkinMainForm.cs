@@ -17,10 +17,10 @@ using CCWin.SkinControl;
 namespace LightController.MyForm
 {
 
-	public partial class NewMainForm : MainFormInterface
+	public partial class SkinMainForm : MainFormInterface
 	{
 
-		public NewMainForm()
+		public SkinMainForm()
 		{
 			InitializeComponent();
 
@@ -328,10 +328,7 @@ namespace LightController.MyForm
 			isInit = true;
 		}
 
-
-		
-
-		
+				
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{		
 		}
@@ -368,8 +365,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightListSkinButton_Click(object sender, EventArgs e)
 		{
-			LightsForm lightsForm = new LightsForm(this, lightAstList);
-			lightsForm.ShowDialog();
+			SkinLightsForm skinLightsForm = new SkinLightsForm(this, lightAstList);
+			skinLightsForm.ShowDialog();
 		}
 
 		/// <summary>
@@ -1934,11 +1931,7 @@ namespace LightController.MyForm
 		{
 			base.oneLightStepWork();
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-
 		}
-
-
-
 
 		#endregion
 

@@ -154,6 +154,7 @@ namespace LightController.MyForm
 		private void newButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
+			this.mainForm.Activate();
 			HardwareSetForm hsForm = new HardwareSetForm(mainForm, null, null);
 			hsForm.ShowDialog();			
 		}

@@ -28,19 +28,18 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.dmxGroupBox = new System.Windows.Forms.GroupBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
 			this.eachChangeModeLabel = new System.Windows.Forms.Label();
 			this.eachStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.eachStepTimeLabel = new System.Windows.Forms.Label();
-			this.globalSaveButton = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.eachChangeModeComboBox = new System.Windows.Forms.ComboBox();
 			this.startupComboBox = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tongdaoCountComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheGroupBox = new System.Windows.Forms.GroupBox();
-			this.frameSaveButton = new System.Windows.Forms.Button();
 			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
 			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
@@ -63,7 +62,6 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.circleTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.skGroupBox = new System.Windows.Forms.GroupBox();
-			this.skSaveButton = new System.Windows.Forms.Button();
 			this.label33 = new System.Windows.Forms.Label();
 			this.label21 = new System.Windows.Forms.Label();
 			this.label32 = new System.Windows.Forms.Label();
@@ -113,7 +111,6 @@
 			this.skComboBox13 = new System.Windows.Forms.ComboBox();
 			this.skComboBox1 = new System.Windows.Forms.ComboBox();
 			this.qdGroupBox = new System.Windows.Forms.GroupBox();
-			this.qdSaveButton = new System.Windows.Forms.Button();
 			this.checkBox8 = new System.Windows.Forms.CheckBox();
 			this.checkBox7 = new System.Windows.Forms.CheckBox();
 			this.checkBox6 = new System.Windows.Forms.CheckBox();
@@ -123,6 +120,10 @@
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
+			this.qdSaveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.globalSaveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.frameSaveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.skSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.dmxGroupBox.SuspendLayout();
 			this.groupBox7.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -145,9 +146,9 @@
 			this.dmxGroupBox.Controls.Add(this.skGroupBox);
 			this.dmxGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.dmxGroupBox.Location = new System.Drawing.Point(4, 86);
-			this.dmxGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.dmxGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.dmxGroupBox.Name = "dmxGroupBox";
-			this.dmxGroupBox.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+			this.dmxGroupBox.Padding = new System.Windows.Forms.Padding(8);
 			this.dmxGroupBox.Size = new System.Drawing.Size(686, 499);
 			this.dmxGroupBox.TabIndex = 0;
 			this.dmxGroupBox.TabStop = false;
@@ -155,11 +156,11 @@
 			// 
 			// groupBox7
 			// 
-			this.groupBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+			this.groupBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.groupBox7.Controls.Add(this.globalSaveSkinButton);
 			this.groupBox7.Controls.Add(this.eachChangeModeLabel);
 			this.groupBox7.Controls.Add(this.eachStepTimeNumericUpDown);
 			this.groupBox7.Controls.Add(this.eachStepTimeLabel);
-			this.groupBox7.Controls.Add(this.globalSaveButton);
 			this.groupBox7.Controls.Add(this.label2);
 			this.groupBox7.Controls.Add(this.eachChangeModeComboBox);
 			this.groupBox7.Controls.Add(this.startupComboBox);
@@ -167,9 +168,9 @@
 			this.groupBox7.Controls.Add(this.tongdaoCountComboBox);
 			this.groupBox7.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.groupBox7.Location = new System.Drawing.Point(8, 19);
-			this.groupBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.groupBox7.Margin = new System.Windows.Forms.Padding(2);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.groupBox7.Padding = new System.Windows.Forms.Padding(2);
 			this.groupBox7.Size = new System.Drawing.Size(670, 85);
 			this.groupBox7.TabIndex = 0;
 			this.groupBox7.TabStop = false;
@@ -187,7 +188,7 @@
 			// eachStepTimeNumericUpDown
 			// 
 			this.eachStepTimeNumericUpDown.Location = new System.Drawing.Point(110, 54);
-			this.eachStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.eachStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.eachStepTimeNumericUpDown.Minimum = new decimal(new int[] {
             25,
             0,
@@ -213,18 +214,6 @@
 			this.eachStepTimeLabel.TabIndex = 4;
 			this.eachStepTimeLabel.Text = "时间因子(ms)：";
 			// 
-			// globalSaveButton
-			// 
-			this.globalSaveButton.BackColor = System.Drawing.Color.Wheat;
-			this.globalSaveButton.Location = new System.Drawing.Point(597, 15);
-			this.globalSaveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.globalSaveButton.Name = "globalSaveButton";
-			this.globalSaveButton.Size = new System.Drawing.Size(70, 22);
-			this.globalSaveButton.TabIndex = 3;
-			this.globalSaveButton.Text = "保存设置";
-			this.globalSaveButton.UseVisualStyleBackColor = false;
-			this.globalSaveButton.Click += new System.EventHandler(this.globalSaveButton_Click);
-			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
@@ -242,7 +231,7 @@
             "跳变",
             "渐变"});
 			this.eachChangeModeComboBox.Location = new System.Drawing.Point(355, 55);
-			this.eachChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.eachChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.eachChangeModeComboBox.Name = "eachChangeModeComboBox";
 			this.eachChangeModeComboBox.Size = new System.Drawing.Size(84, 20);
 			this.eachChangeModeComboBox.TabIndex = 2;
@@ -277,7 +266,7 @@
             "喝彩",
             "倒彩"});
 			this.startupComboBox.Location = new System.Drawing.Point(355, 18);
-			this.startupComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.startupComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.startupComboBox.Name = "startupComboBox";
 			this.startupComboBox.Size = new System.Drawing.Size(84, 20);
 			this.startupComboBox.TabIndex = 2;
@@ -301,15 +290,15 @@
             "256",
             "128"});
 			this.tongdaoCountComboBox.Location = new System.Drawing.Point(110, 18);
-			this.tongdaoCountComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tongdaoCountComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoCountComboBox.Name = "tongdaoCountComboBox";
 			this.tongdaoCountComboBox.Size = new System.Drawing.Size(78, 20);
 			this.tongdaoCountComboBox.TabIndex = 0;
 			// 
 			// zuheGroupBox
 			// 
-			this.zuheGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
-			this.zuheGroupBox.Controls.Add(this.frameSaveButton);
+			this.zuheGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.zuheGroupBox.Controls.Add(this.frameSaveSkinButton);
 			this.zuheGroupBox.Controls.Add(this.zuheFrameComboBox);
 			this.zuheGroupBox.Controls.Add(this.zuheCheckBox);
 			this.zuheGroupBox.Controls.Add(this.zuheEnableGroupBox);
@@ -317,25 +306,13 @@
 			this.zuheGroupBox.Controls.Add(this.circleTimeNumericUpDown);
 			this.zuheGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.zuheGroupBox.Location = new System.Drawing.Point(8, 104);
-			this.zuheGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.zuheGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheGroupBox.Name = "zuheGroupBox";
-			this.zuheGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.zuheGroupBox.Padding = new System.Windows.Forms.Padding(2);
 			this.zuheGroupBox.Size = new System.Drawing.Size(670, 210);
 			this.zuheGroupBox.TabIndex = 1;
 			this.zuheGroupBox.TabStop = false;
 			this.zuheGroupBox.Text = "多场景组合播放设置";
-			// 
-			// frameSaveButton
-			// 
-			this.frameSaveButton.BackColor = System.Drawing.Color.PeachPuff;
-			this.frameSaveButton.Location = new System.Drawing.Point(596, 24);
-			this.frameSaveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.frameSaveButton.Name = "frameSaveButton";
-			this.frameSaveButton.Size = new System.Drawing.Size(70, 22);
-			this.frameSaveButton.TabIndex = 3;
-			this.frameSaveButton.Text = "保存当前项";
-			this.frameSaveButton.UseVisualStyleBackColor = false;
-			this.frameSaveButton.Click += new System.EventHandler(this.frameSaveButton_Click);
 			// 
 			// zuheFrameComboBox
 			// 
@@ -351,7 +328,7 @@
             "明亮",
             "浪漫"});
 			this.zuheFrameComboBox.Location = new System.Drawing.Point(13, 26);
-			this.zuheFrameComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.zuheFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheFrameComboBox.Name = "zuheFrameComboBox";
 			this.zuheFrameComboBox.Size = new System.Drawing.Size(92, 20);
 			this.zuheFrameComboBox.TabIndex = 2;
@@ -361,7 +338,7 @@
 			// 
 			this.zuheCheckBox.AutoSize = true;
 			this.zuheCheckBox.Location = new System.Drawing.Point(141, 26);
-			this.zuheCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.zuheCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheCheckBox.Name = "zuheCheckBox";
 			this.zuheCheckBox.Size = new System.Drawing.Size(108, 16);
 			this.zuheCheckBox.TabIndex = 1;
@@ -389,9 +366,9 @@
 			this.zuheEnableGroupBox.Controls.Add(this.label4);
 			this.zuheEnableGroupBox.Enabled = false;
 			this.zuheEnableGroupBox.Location = new System.Drawing.Point(8, 62);
-			this.zuheEnableGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.zuheEnableGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheEnableGroupBox.Name = "zuheEnableGroupBox";
-			this.zuheEnableGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.zuheEnableGroupBox.Padding = new System.Windows.Forms.Padding(2);
 			this.zuheEnableGroupBox.Size = new System.Drawing.Size(671, 129);
 			this.zuheEnableGroupBox.TabIndex = 0;
 			this.zuheEnableGroupBox.TabStop = false;
@@ -400,7 +377,7 @@
 			// frame0numericUpDown
 			// 
 			this.frame0numericUpDown.Location = new System.Drawing.Point(17, 78);
-			this.frame0numericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame0numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame0numericUpDown.Name = "frame0numericUpDown";
 			this.frame0numericUpDown.Size = new System.Drawing.Size(87, 21);
 			this.frame0numericUpDown.TabIndex = 4;
@@ -419,7 +396,7 @@
 			// frame4numericUpDown
 			// 
 			this.frame4numericUpDown.Location = new System.Drawing.Point(562, 84);
-			this.frame4numericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame4numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4numericUpDown.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -433,7 +410,7 @@
 			// frame3numericUpDown
 			// 
 			this.frame3numericUpDown.Location = new System.Drawing.Point(451, 84);
-			this.frame3numericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame3numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3numericUpDown.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -447,7 +424,7 @@
 			// frame2numericUpDown
 			// 
 			this.frame2numericUpDown.Location = new System.Drawing.Point(337, 84);
-			this.frame2numericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame2numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2numericUpDown.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -487,7 +464,7 @@
             "喝彩",
             "倒彩"});
 			this.frame4ComboBox.Location = new System.Drawing.Point(560, 46);
-			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4ComboBox.Name = "frame4ComboBox";
 			this.frame4ComboBox.Size = new System.Drawing.Size(75, 20);
 			this.frame4ComboBox.TabIndex = 3;
@@ -521,7 +498,7 @@
             "喝彩",
             "倒彩"});
 			this.frame3ComboBox.Location = new System.Drawing.Point(449, 46);
-			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3ComboBox.Name = "frame3ComboBox";
 			this.frame3ComboBox.Size = new System.Drawing.Size(75, 20);
 			this.frame3ComboBox.TabIndex = 3;
@@ -555,7 +532,7 @@
             "喝彩",
             "倒彩"});
 			this.frame2ComboBox.Location = new System.Drawing.Point(335, 46);
-			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2ComboBox.Name = "frame2ComboBox";
 			this.frame2ComboBox.Size = new System.Drawing.Size(75, 20);
 			this.frame2ComboBox.TabIndex = 3;
@@ -589,7 +566,7 @@
             "喝彩",
             "倒彩"});
 			this.frame1ComboBox.Location = new System.Drawing.Point(221, 46);
-			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1ComboBox.Name = "frame1ComboBox";
 			this.frame1ComboBox.Size = new System.Drawing.Size(75, 20);
 			this.frame1ComboBox.TabIndex = 3;
@@ -647,7 +624,7 @@
 			// frame1numericUpDown
 			// 
 			this.frame1numericUpDown.Location = new System.Drawing.Point(224, 84);
-			this.frame1numericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.frame1numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1numericUpDown.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -682,7 +659,7 @@
 			// 
 			this.circleTimeNumericUpDown.Enabled = false;
 			this.circleTimeNumericUpDown.Location = new System.Drawing.Point(361, 24);
-			this.circleTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.circleTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.circleTimeNumericUpDown.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -700,8 +677,8 @@
 			// 
 			// skGroupBox
 			// 
-			this.skGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(163)))), ((int)(((byte)(163)))));
-			this.skGroupBox.Controls.Add(this.skSaveButton);
+			this.skGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.skGroupBox.Controls.Add(this.skSaveSkinButton);
 			this.skGroupBox.Controls.Add(this.label33);
 			this.skGroupBox.Controls.Add(this.label21);
 			this.skGroupBox.Controls.Add(this.label32);
@@ -752,25 +729,13 @@
 			this.skGroupBox.Controls.Add(this.skComboBox1);
 			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.skGroupBox.Location = new System.Drawing.Point(8, 314);
-			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.skGroupBox.Name = "skGroupBox";
-			this.skGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skGroupBox.Padding = new System.Windows.Forms.Padding(2);
 			this.skGroupBox.Size = new System.Drawing.Size(670, 177);
 			this.skGroupBox.TabIndex = 2;
 			this.skGroupBox.TabStop = false;
 			this.skGroupBox.Text = "声控场景触发步数设置";
-			// 
-			// skSaveButton
-			// 
-			this.skSaveButton.BackColor = System.Drawing.Color.LightSalmon;
-			this.skSaveButton.Location = new System.Drawing.Point(596, 142);
-			this.skSaveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.skSaveButton.Name = "skSaveButton";
-			this.skSaveButton.Size = new System.Drawing.Size(70, 22);
-			this.skSaveButton.TabIndex = 3;
-			this.skSaveButton.Text = "保存设置";
-			this.skSaveButton.UseVisualStyleBackColor = false;
-			this.skSaveButton.Click += new System.EventHandler(this.skSaveButton_Click);
 			// 
 			// label33
 			// 
@@ -1022,7 +987,7 @@
             "3",
             "4"});
 			this.skComboBox24.Location = new System.Drawing.Point(617, 107);
-			this.skComboBox24.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox24.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox24.Name = "skComboBox24";
 			this.skComboBox24.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox24.TabIndex = 0;
@@ -1037,7 +1002,7 @@
             "3",
             "4"});
 			this.skComboBox12.Location = new System.Drawing.Point(617, 50);
-			this.skComboBox12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox12.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox12.Name = "skComboBox12";
 			this.skComboBox12.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox12.TabIndex = 0;
@@ -1052,7 +1017,7 @@
             "3",
             "4"});
 			this.skComboBox23.Location = new System.Drawing.Point(562, 107);
-			this.skComboBox23.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox23.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox23.Name = "skComboBox23";
 			this.skComboBox23.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox23.TabIndex = 0;
@@ -1067,7 +1032,7 @@
             "3",
             "4"});
 			this.skComboBox11.Location = new System.Drawing.Point(562, 50);
-			this.skComboBox11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox11.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox11.Name = "skComboBox11";
 			this.skComboBox11.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox11.TabIndex = 0;
@@ -1082,7 +1047,7 @@
             "3",
             "4"});
 			this.skComboBox22.Location = new System.Drawing.Point(508, 107);
-			this.skComboBox22.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox22.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox22.Name = "skComboBox22";
 			this.skComboBox22.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox22.TabIndex = 0;
@@ -1097,7 +1062,7 @@
             "3",
             "4"});
 			this.skComboBox10.Location = new System.Drawing.Point(508, 50);
-			this.skComboBox10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox10.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox10.Name = "skComboBox10";
 			this.skComboBox10.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox10.TabIndex = 0;
@@ -1112,7 +1077,7 @@
             "3",
             "4"});
 			this.skComboBox21.Location = new System.Drawing.Point(453, 107);
-			this.skComboBox21.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox21.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox21.Name = "skComboBox21";
 			this.skComboBox21.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox21.TabIndex = 0;
@@ -1127,7 +1092,7 @@
             "3",
             "4"});
 			this.skComboBox9.Location = new System.Drawing.Point(453, 50);
-			this.skComboBox9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox9.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox9.Name = "skComboBox9";
 			this.skComboBox9.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox9.TabIndex = 0;
@@ -1142,7 +1107,7 @@
             "3",
             "4"});
 			this.skComboBox20.Location = new System.Drawing.Point(396, 107);
-			this.skComboBox20.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox20.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox20.Name = "skComboBox20";
 			this.skComboBox20.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox20.TabIndex = 0;
@@ -1157,7 +1122,7 @@
             "3",
             "4"});
 			this.skComboBox8.Location = new System.Drawing.Point(396, 50);
-			this.skComboBox8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox8.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox8.Name = "skComboBox8";
 			this.skComboBox8.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox8.TabIndex = 0;
@@ -1172,7 +1137,7 @@
             "3",
             "4"});
 			this.skComboBox19.Location = new System.Drawing.Point(344, 107);
-			this.skComboBox19.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox19.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox19.Name = "skComboBox19";
 			this.skComboBox19.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox19.TabIndex = 0;
@@ -1187,7 +1152,7 @@
             "3",
             "4"});
 			this.skComboBox7.Location = new System.Drawing.Point(344, 50);
-			this.skComboBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox7.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox7.Name = "skComboBox7";
 			this.skComboBox7.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox7.TabIndex = 0;
@@ -1202,7 +1167,7 @@
             "3",
             "4"});
 			this.skComboBox18.Location = new System.Drawing.Point(289, 107);
-			this.skComboBox18.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox18.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox18.Name = "skComboBox18";
 			this.skComboBox18.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox18.TabIndex = 0;
@@ -1217,7 +1182,7 @@
             "3",
             "4"});
 			this.skComboBox6.Location = new System.Drawing.Point(289, 50);
-			this.skComboBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox6.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox6.Name = "skComboBox6";
 			this.skComboBox6.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox6.TabIndex = 0;
@@ -1232,7 +1197,7 @@
             "3",
             "4"});
 			this.skComboBox17.Location = new System.Drawing.Point(234, 107);
-			this.skComboBox17.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox17.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox17.Name = "skComboBox17";
 			this.skComboBox17.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox17.TabIndex = 0;
@@ -1247,7 +1212,7 @@
             "3",
             "4"});
 			this.skComboBox5.Location = new System.Drawing.Point(234, 50);
-			this.skComboBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox5.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox5.Name = "skComboBox5";
 			this.skComboBox5.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox5.TabIndex = 0;
@@ -1262,7 +1227,7 @@
             "3",
             "4"});
 			this.skComboBox16.Location = new System.Drawing.Point(179, 107);
-			this.skComboBox16.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox16.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox16.Name = "skComboBox16";
 			this.skComboBox16.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox16.TabIndex = 0;
@@ -1277,7 +1242,7 @@
             "3",
             "4"});
 			this.skComboBox4.Location = new System.Drawing.Point(179, 50);
-			this.skComboBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox4.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox4.Name = "skComboBox4";
 			this.skComboBox4.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox4.TabIndex = 0;
@@ -1292,7 +1257,7 @@
             "3",
             "4"});
 			this.skComboBox15.Location = new System.Drawing.Point(124, 107);
-			this.skComboBox15.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox15.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox15.Name = "skComboBox15";
 			this.skComboBox15.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox15.TabIndex = 0;
@@ -1307,7 +1272,7 @@
             "3",
             "4"});
 			this.skComboBox3.Location = new System.Drawing.Point(124, 50);
-			this.skComboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox3.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox3.Name = "skComboBox3";
 			this.skComboBox3.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox3.TabIndex = 0;
@@ -1322,7 +1287,7 @@
             "3",
             "4"});
 			this.skComboBox14.Location = new System.Drawing.Point(69, 107);
-			this.skComboBox14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox14.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox14.Name = "skComboBox14";
 			this.skComboBox14.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox14.TabIndex = 0;
@@ -1337,7 +1302,7 @@
             "3",
             "4"});
 			this.skComboBox2.Location = new System.Drawing.Point(69, 50);
-			this.skComboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox2.Name = "skComboBox2";
 			this.skComboBox2.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox2.TabIndex = 0;
@@ -1352,7 +1317,7 @@
             "3",
             "4"});
 			this.skComboBox13.Location = new System.Drawing.Point(15, 107);
-			this.skComboBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox13.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox13.Name = "skComboBox13";
 			this.skComboBox13.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox13.TabIndex = 0;
@@ -1367,7 +1332,7 @@
             "3",
             "4"});
 			this.skComboBox1.Location = new System.Drawing.Point(15, 50);
-			this.skComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.skComboBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.skComboBox1.Name = "skComboBox1";
 			this.skComboBox1.Size = new System.Drawing.Size(43, 20);
 			this.skComboBox1.TabIndex = 0;
@@ -1375,8 +1340,8 @@
 			// qdGroupBox
 			// 
 			this.qdGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.qdGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(202)))), ((int)(((byte)(202)))));
-			this.qdGroupBox.Controls.Add(this.qdSaveButton);
+			this.qdGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.qdGroupBox.Controls.Add(this.qdSaveSkinButton);
 			this.qdGroupBox.Controls.Add(this.checkBox8);
 			this.qdGroupBox.Controls.Add(this.checkBox7);
 			this.qdGroupBox.Controls.Add(this.checkBox6);
@@ -1387,31 +1352,19 @@
 			this.qdGroupBox.Controls.Add(this.checkBox1);
 			this.qdGroupBox.Controls.Add(this.qdFrameComboBox);
 			this.qdGroupBox.Location = new System.Drawing.Point(0, 14);
-			this.qdGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.qdGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdGroupBox.Name = "qdGroupBox";
-			this.qdGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.qdGroupBox.Padding = new System.Windows.Forms.Padding(2);
 			this.qdGroupBox.Size = new System.Drawing.Size(694, 62);
 			this.qdGroupBox.TabIndex = 0;
 			this.qdGroupBox.TabStop = false;
 			this.qdGroupBox.Text = "智能灯光控制器设置";
 			// 
-			// qdSaveButton
-			// 
-			this.qdSaveButton.BackColor = System.Drawing.Color.Cornsilk;
-			this.qdSaveButton.Location = new System.Drawing.Point(608, 29);
-			this.qdSaveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.qdSaveButton.Name = "qdSaveButton";
-			this.qdSaveButton.Size = new System.Drawing.Size(70, 22);
-			this.qdSaveButton.TabIndex = 2;
-			this.qdSaveButton.Text = "保存当前项";
-			this.qdSaveButton.UseVisualStyleBackColor = false;
-			this.qdSaveButton.Click += new System.EventHandler(this.qdSaveButton_Click);
-			// 
 			// checkBox8
 			// 
 			this.checkBox8.AutoSize = true;
 			this.checkBox8.Location = new System.Drawing.Point(540, 33);
-			this.checkBox8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox8.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox8.Name = "checkBox8";
 			this.checkBox8.Size = new System.Drawing.Size(54, 16);
 			this.checkBox8.TabIndex = 1;
@@ -1422,7 +1375,7 @@
 			// 
 			this.checkBox7.AutoSize = true;
 			this.checkBox7.Location = new System.Drawing.Point(481, 33);
-			this.checkBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox7.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox7.Name = "checkBox7";
 			this.checkBox7.Size = new System.Drawing.Size(54, 16);
 			this.checkBox7.TabIndex = 1;
@@ -1433,7 +1386,7 @@
 			// 
 			this.checkBox6.AutoSize = true;
 			this.checkBox6.Location = new System.Drawing.Point(422, 33);
-			this.checkBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox6.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox6.Name = "checkBox6";
 			this.checkBox6.Size = new System.Drawing.Size(54, 16);
 			this.checkBox6.TabIndex = 1;
@@ -1444,7 +1397,7 @@
 			// 
 			this.checkBox5.AutoSize = true;
 			this.checkBox5.Location = new System.Drawing.Point(362, 33);
-			this.checkBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox5.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox5.Name = "checkBox5";
 			this.checkBox5.Size = new System.Drawing.Size(54, 16);
 			this.checkBox5.TabIndex = 1;
@@ -1455,7 +1408,7 @@
 			// 
 			this.checkBox4.AutoSize = true;
 			this.checkBox4.Location = new System.Drawing.Point(303, 33);
-			this.checkBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox4.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox4.Name = "checkBox4";
 			this.checkBox4.Size = new System.Drawing.Size(54, 16);
 			this.checkBox4.TabIndex = 1;
@@ -1466,7 +1419,7 @@
 			// 
 			this.checkBox3.AutoSize = true;
 			this.checkBox3.Location = new System.Drawing.Point(244, 33);
-			this.checkBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(54, 16);
 			this.checkBox3.TabIndex = 1;
@@ -1477,7 +1430,7 @@
 			// 
 			this.checkBox2.AutoSize = true;
 			this.checkBox2.Location = new System.Drawing.Point(184, 33);
-			this.checkBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(54, 16);
 			this.checkBox2.TabIndex = 1;
@@ -1488,7 +1441,7 @@
 			// 
 			this.checkBox1.AutoSize = true;
 			this.checkBox1.Location = new System.Drawing.Point(125, 33);
-			this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(54, 16);
 			this.checkBox1.TabIndex = 1;
@@ -1524,11 +1477,79 @@
             "喝彩",
             "倒彩"});
 			this.qdFrameComboBox.Location = new System.Drawing.Point(17, 31);
-			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
 			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
 			this.qdFrameComboBox.TabIndex = 0;
 			this.qdFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
+			// 
+			// qdSaveSkinButton
+			// 
+			this.qdSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.qdSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.qdSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.qdSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.qdSaveSkinButton.DownBack = null;
+			this.qdSaveSkinButton.Location = new System.Drawing.Point(609, 24);
+			this.qdSaveSkinButton.MouseBack = null;
+			this.qdSaveSkinButton.Name = "qdSaveSkinButton";
+			this.qdSaveSkinButton.NormlBack = null;
+			this.qdSaveSkinButton.Size = new System.Drawing.Size(70, 25);
+			this.qdSaveSkinButton.TabIndex = 1;
+			this.qdSaveSkinButton.Text = "保存当前";
+			this.qdSaveSkinButton.UseVisualStyleBackColor = false;
+			this.qdSaveSkinButton.Click += new System.EventHandler(this.qdSaveButton_Click);
+			// 
+			// globalSaveSkinButton
+			// 
+			this.globalSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.globalSaveSkinButton.BaseColor = System.Drawing.Color.LightSkyBlue;
+			this.globalSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.globalSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.globalSaveSkinButton.DownBack = null;
+			this.globalSaveSkinButton.Location = new System.Drawing.Point(597, 15);
+			this.globalSaveSkinButton.MouseBack = null;
+			this.globalSaveSkinButton.Name = "globalSaveSkinButton";
+			this.globalSaveSkinButton.NormlBack = null;
+			this.globalSaveSkinButton.Size = new System.Drawing.Size(70, 25);
+			this.globalSaveSkinButton.TabIndex = 1;
+			this.globalSaveSkinButton.Text = "保存设置";
+			this.globalSaveSkinButton.UseVisualStyleBackColor = false;
+			this.globalSaveSkinButton.Click += new System.EventHandler(this.globalSaveButton_Click);
+			// 
+			// frameSaveSkinButton
+			// 
+			this.frameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.frameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.frameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.frameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.frameSaveSkinButton.DownBack = null;
+			this.frameSaveSkinButton.Location = new System.Drawing.Point(597, 21);
+			this.frameSaveSkinButton.MouseBack = null;
+			this.frameSaveSkinButton.Name = "frameSaveSkinButton";
+			this.frameSaveSkinButton.NormlBack = null;
+			this.frameSaveSkinButton.Size = new System.Drawing.Size(70, 25);
+			this.frameSaveSkinButton.TabIndex = 1;
+			this.frameSaveSkinButton.Text = "保存当前";
+			this.frameSaveSkinButton.UseVisualStyleBackColor = false;
+			this.frameSaveSkinButton.Click += new System.EventHandler(this.frameSaveButton_Click);
+			// 
+			// skSaveSkinButton
+			// 
+			this.skSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.skSaveSkinButton.BaseColor = System.Drawing.Color.LightSkyBlue;
+			this.skSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.skSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.skSaveSkinButton.DownBack = null;
+			this.skSaveSkinButton.Location = new System.Drawing.Point(590, 141);
+			this.skSaveSkinButton.MouseBack = null;
+			this.skSaveSkinButton.Name = "skSaveSkinButton";
+			this.skSaveSkinButton.NormlBack = null;
+			this.skSaveSkinButton.Size = new System.Drawing.Size(70, 25);
+			this.skSaveSkinButton.TabIndex = 1;
+			this.skSaveSkinButton.Text = "保存当前";
+			this.skSaveSkinButton.UseVisualStyleBackColor = false;
+			this.skSaveSkinButton.Click += new System.EventHandler(this.qdSaveButton_Click);
 			// 
 			// GlobalSetForm
 			// 
@@ -1539,11 +1560,11 @@
 			this.Controls.Add(this.qdGroupBox);
 			this.Controls.Add(this.dmxGroupBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "GlobalSetForm";
-			this.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Padding = new System.Windows.Forms.Padding(4);
 			this.Text = "全局设置";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GlobalSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.GlobalSetForm_Load);
@@ -1573,7 +1594,6 @@
 
 		private System.Windows.Forms.GroupBox dmxGroupBox;
 		private System.Windows.Forms.GroupBox qdGroupBox;
-		private System.Windows.Forms.Button qdSaveButton;
 		private System.Windows.Forms.CheckBox[] qdCheckBoxes = new System.Windows.Forms.CheckBox[8];
 		private System.Windows.Forms.CheckBox checkBox1;
 		private System.Windows.Forms.CheckBox checkBox2;
@@ -1598,7 +1618,6 @@
 		private System.Windows.Forms.NumericUpDown circleTimeNumericUpDown;
 
 		private System.Windows.Forms.GroupBox skGroupBox;
-		private System.Windows.Forms.Button frameSaveButton;
 		private System.Windows.Forms.Label label33;
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.Label label32;
@@ -1648,7 +1667,6 @@
 		private System.Windows.Forms.ComboBox skComboBox22;
 		private System.Windows.Forms.ComboBox skComboBox23;
 		private System.Windows.Forms.ComboBox skComboBox24;
-		private System.Windows.Forms.Button skSaveButton;
 		private System.Windows.Forms.Label label34;
 
 		private System.Windows.Forms.ComboBox[] frameComboBoxes = new System.Windows.Forms.ComboBox[4];
@@ -1668,11 +1686,14 @@
 		private System.Windows.Forms.Label eachChangeModeLabel;
 		private System.Windows.Forms.NumericUpDown eachStepTimeNumericUpDown;
 		private System.Windows.Forms.Label eachStepTimeLabel;
-		private System.Windows.Forms.Button globalSaveButton;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ComboBox eachChangeModeComboBox;
 		private System.Windows.Forms.ComboBox startupComboBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox tongdaoCountComboBox;
+		private CCWin.SkinControl.SkinButton qdSaveSkinButton;
+		private CCWin.SkinControl.SkinButton globalSaveSkinButton;
+		private CCWin.SkinControl.SkinButton frameSaveSkinButton;
+		private CCWin.SkinControl.SkinButton skSaveSkinButton;
 	}
 }

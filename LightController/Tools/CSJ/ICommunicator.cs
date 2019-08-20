@@ -336,7 +336,6 @@ namespace LightController.Tools.CSJ
             this.IsReceive = true;
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
-            Console.WriteLine(rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -483,9 +482,6 @@ namespace LightController.Tools.CSJ
         }
         protected void DownloadStart()
         {
-            Console.Write("******************************");
-            Console.WriteLine("Download Project Start");
-            Console.Write("******************************");
             string fileName = string.Empty;
             string fileSize = string.Empty;
             string fileCRC = string.Empty;
@@ -495,40 +491,44 @@ namespace LightController.Tools.CSJ
             CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.Wrapper, this.ConfigPath);
             this.DownloadFileToTalSize = project.GetProjectFileSize();
             this.DownloadStatus = false;
-            this.SendData(null,Constant.ORDER_BEGIN_SEND,null);
-            foreach (ICSJFile file in project.CFiles)
+            this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
+            if (project.CFiles != null)
             {
-                fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
-                fileSize = file.GetData().Length.ToString();
-                crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-                while (true)
+                foreach (ICSJFile file in project.CFiles)
                 {
-                    if (this.DownloadStatus)
+                    fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
+                    fileSize = file.GetData().Length.ToString();
+                    crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
+                    fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                    while (true)
                     {
-                        this.CurrentFileName = fileName;
-                        file.WriteToFile(@"C:\Users\99729\Documents\Temp\new");
-                        this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        this.DownloadStatus = false;
-                        break;
+                        if (this.DownloadStatus)
+                        {
+                            this.CurrentFileName = fileName;
+                            this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                            this.DownloadStatus = false;
+                            break;
+                        }
                     }
                 }
             }
-            foreach (ICSJFile file in project.MFiles)
+            if (project.CFiles != null && project.MFiles != null)
             {
-                fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
-                fileSize = file.GetData().Length.ToString();
-                crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-                while (true)
+                foreach (ICSJFile file in project.MFiles)
                 {
-                    if (this.DownloadStatus)
+                    fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
+                    fileSize = file.GetData().Length.ToString();
+                    crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
+                    fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                    while (true)
                     {
-                        this.CurrentFileName = fileName;
-                        file.WriteToFile(@"C:\Users\99729\Documents\Temp\new");
-                        this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        this.DownloadStatus = false;
-                        break;
+                        if (this.DownloadStatus)
+                        {
+                            this.CurrentFileName = fileName;
+                            this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                            this.DownloadStatus = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -541,7 +541,6 @@ namespace LightController.Tools.CSJ
                 if (this.DownloadStatus)
                 {
                     this.CurrentFileName = fileName;
-                    project.ConfigFile.WriteToFile(@"C:\Users\99729\Documents\Temp\new");
                     this.SendData(project.ConfigFile.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                     this.DownloadStatus = false;
                     break;
@@ -559,9 +558,6 @@ namespace LightController.Tools.CSJ
                     }
                 }
             }
-            Console.Write("******************************");
-            Console.WriteLine("Download Project Completed");
-            Console.Write("******************************");
         }
         public void PutParam(string filePath,IReceiveCallBack receiveCallBack)
         {

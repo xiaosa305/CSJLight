@@ -23,6 +23,7 @@ namespace LightController.Tools
         }
         public void Start(int index)
         {
+            string[] ports = SerialPortTools.GetInstance().GetSerialPortNameList();
             switch (index)
             {
                 case 1:
@@ -37,9 +38,10 @@ namespace LightController.Tools
                     ConnectTools.GetInstance().Start(localIP);
                     break;
                 case 2:
-                    SerialPortTools.GetInstance().GetSerialPortNameList();
+                    SerialPortTools.GetInstance().OpenCom(ports[0]);
                     break;
                 case 3:
+                    SerialPortTools.GetInstance().OpenCom(ports[0]);
                     break;
                 case 4:
                     break;

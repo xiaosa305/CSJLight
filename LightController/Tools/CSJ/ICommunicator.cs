@@ -589,10 +589,17 @@ namespace LightController.Tools.CSJ
                 this.SendData(null, Constant.ORDER_GET_PARAM, null);
             }
         }
-        public void SendOrder(string order,string[] parameters,IReceiveCallBack receiveCallBack)
+        public void SendOrder(string order, string[] parameters, IReceiveCallBack receiveCallBack)
         {
             this.CallBack = receiveCallBack;
             this.SendData(null, order, parameters);
+        }
+        public class PacketSize
+        {
+            public const int BYTE_512 = 508;
+            public const int BYTE_1024 = 1016;
+            public const int BYTE_2048 = 2040;
+
         }
     }
 }

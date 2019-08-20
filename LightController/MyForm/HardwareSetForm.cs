@@ -21,11 +21,13 @@ namespace LightController.MyForm
 		private bool isNew = true;
 
 		private ConnectTools cTools;
+		private SerialPortTools comTools;
 
 		private IList<string> ips;	//搜索到的ip列表 ，将填进ipsComboBox
 		private IList<string> selectedIPs;  //填充进去的ip列表，用以发送数据
-		
 
+		private string[] comList; // 搜索到的除DMX512外的所有串口
+		private string selectedCom;  // 选中的com口
 
 		/// <summary>
 		/// 构造函数：初始化各个变量
@@ -88,8 +90,10 @@ namespace LightController.MyForm
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
 
+
+
 		/// <summary>
-		/// 点击《保存》操作：
+		/// 事件：点击《保存》操作：
 		/// 1、若是全新的版本，用一个newHardwareForm来生成文件夹名
 		/// 2、若是旧的版本，则直接使用该版本来保存信息
 		/// </summary>
@@ -105,6 +109,17 @@ namespace LightController.MyForm
 			else {
 				SaveAll(iniPath,hName);
 			}			
+		}
+
+		/// <summary>
+		/// 事件：点击《取消》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelSkinButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+			this.mainForm.Activate();
 		}
 
 		/// <summary>
@@ -220,11 +235,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkSearchSkinButton_Click(object sender, EventArgs e)
 		{
+
+			networkSearchSkinButton.Enabled = false;
+			networkConnectSkinButton.Enabled = false;
+			networkUploadSkinButton.Enabled = false;
+			networkDownloadSkinButton.Enabled = false;
+
 			cTools = ConnectTools.GetInstance();
 			cTools.Start(domainServerTextBox.Text);
 			cTools.SearchDevice();
 			Thread.Sleep(1000);
-			networkConnectSkinButton.Enabled = false;
 
 			Dictionary<string,string> allDevices = 	cTools.GetDeviceInfo();			
 			ipsComboBox.Items.Clear();
@@ -239,10 +259,14 @@ namespace LightController.MyForm
 				ipsComboBox.SelectedIndex = 0;
 				networkConnectSkinButton.Enabled = true;
 			}
+			else {
+				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
+			}
+			networkSearchSkinButton.Enabled = true;
 		}
 
 		/// <summary>
-		/// 事件：点击《网络连接》按钮
+		/// 事件：点击《选择网络设备》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -251,14 +275,25 @@ namespace LightController.MyForm
 			selectedIPs = new List<string>();
 			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);		
 
-			MessageBox.Show("设备连接成功");
+			MessageBox.Show("已选中网络设备");
 
 			networkUploadSkinButton.Enabled = true;
 			networkDownloadSkinButton.Enabled = true;
 		}
 
 		/// <summary>
-		///  事件：点击《下载》按钮
+		/// 事件：点击《(网络)回读》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void uploadSkinButton_Click(object sender, EventArgs e)
+		{			
+			cTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(), SetParamFromDevice);
+		}
+
+
+		/// <summary>
+		///  事件：点击《(网络)下载》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -269,35 +304,84 @@ namespace LightController.MyForm
 
 			// 以下语句是发送到所有连接到的设备（暂时不用）
 			//cTools.PutPara(new List<string>( ips , iniPath, new DownloadCallBackHardwareSet() );
-		}
+		}	
 
 
 		/// <summary>
-		/// 事件：点击《回读》按钮
+		///  事件：点击《搜索串口连接》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void uploadSkinButton_Click(object sender, EventArgs e)
-		{			
-			cTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(), SetParamFromDevice);
+		private void comSearchSkinButton_Click(object sender, EventArgs e)
+		{
+			comSearchSkinButton.Enabled = false;
+			comConnectSkinButton.Enabled = false;
+			comUploadSkinButton.Enabled = false;
+			comDownloadSkinButton.Enabled = false;
+
+			comTools = SerialPortTools.GetInstance();
+			comList = comTools.GetSerialPortNameList();
+			comComboBox.Items.Clear();
+			if (comList.Length > 0)
+			{
+				foreach (string com in comList)
+				{
+					comComboBox.Items.Add( com );
+				}
+				comComboBox.SelectedIndex = 0;				
+				comConnectSkinButton.Enabled = true;				
+			}
+			else
+			{
+				MessageBox.Show("未找到可用串口，请重试");
+			}
+			comSearchSkinButton.Enabled = true;
+		}
+
+		/// <summary>
+		/// 事件：点击《选择串口设备》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comConnectSkinButton_Click(object sender, EventArgs e)
+		{
+				comTools.OpenCom(comComboBox.Text);
+				MessageBox.Show("已选中串口设备");
+				comUploadSkinButton.Enabled = true;
+				comDownloadSkinButton.Enabled = true;			
+		}
+
+		/// <summary>
+		/// 事件：点击《(串口)回读》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comUploadSkinButton_Click(object sender, EventArgs e)
+		{
+			comTools.GetParam(SetParamFromDevice, new UploadCallBackHardwareSet());
+		}
+
+		/// <summary>
+		/// 事件：点击《(串口)下载》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comDownloadSkinButton_Click(object sender, EventArgs e)
+		{
+			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet());
 		}
 
 		/// <summary>
 		///  辅助方法：通过回读的CSJ_Hardware对象，来填充左侧的所有输入框。
 		/// </summary>
 		/// <param name="ch"></param>
-		public void SetParamFromDevice(CSJ_Hardware ch) {
+		public void SetParamFromDevice(CSJ_Hardware ch)
+		{
 			Console.WriteLine(ch);
 			Console.WriteLine("A");
 		}
 
-		private void cancelSkinButton_Click(object sender, EventArgs e)
-		{
-			this.Dispose();
-			this.mainForm.Activate();
-		}
-
-		
+	
 	}
 
 	/// <summary>

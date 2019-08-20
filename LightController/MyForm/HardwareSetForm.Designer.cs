@@ -89,9 +89,6 @@
 			this.comConnectSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comDownloadSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comUploadSkinButton = new CCWin.SkinControl.SkinButton();
-			this.skinButton1 = new CCWin.SkinControl.SkinButton();
-			this.skinButton2 = new CCWin.SkinControl.SkinButton();
-			this.skinButton3 = new CCWin.SkinControl.SkinButton();
 			this.commonGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.addrNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.currUseTimeNumericUpDown)).BeginInit();
@@ -634,7 +631,7 @@
 			this.networkConnectSkinButton.NormlBack = null;
 			this.networkConnectSkinButton.Size = new System.Drawing.Size(164, 33);
 			this.networkConnectSkinButton.TabIndex = 2;
-			this.networkConnectSkinButton.Text = "连接选中设备";
+			this.networkConnectSkinButton.Text = "选择网络设备";
 			this.networkConnectSkinButton.UseVisualStyleBackColor = false;
 			this.networkConnectSkinButton.Click += new System.EventHandler(this.networkConnectButton_Click);
 			// 
@@ -724,7 +721,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
+			this.skinTabControl.SelectedIndex = 1;
 			this.skinTabControl.Size = new System.Drawing.Size(214, 363);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 3;
@@ -778,9 +775,6 @@
 			this.comTab.Controls.Add(this.comConnectSkinButton);
 			this.comTab.Controls.Add(this.comDownloadSkinButton);
 			this.comTab.Controls.Add(this.comUploadSkinButton);
-			this.comTab.Controls.Add(this.skinButton1);
-			this.comTab.Controls.Add(this.skinButton2);
-			this.comTab.Controls.Add(this.skinButton3);
 			this.comTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comTab.Location = new System.Drawing.Point(0, 36);
 			this.comTab.Name = "comTab";
@@ -812,6 +806,7 @@
 			this.comSearchSkinButton.TabIndex = 9;
 			this.comSearchSkinButton.Text = "搜索串口连接";
 			this.comSearchSkinButton.UseVisualStyleBackColor = false;
+			this.comSearchSkinButton.Click += new System.EventHandler(this.comSearchSkinButton_Click);
 			// 
 			// comConnectSkinButton
 			// 
@@ -827,8 +822,9 @@
 			this.comConnectSkinButton.NormlBack = null;
 			this.comConnectSkinButton.Size = new System.Drawing.Size(164, 33);
 			this.comConnectSkinButton.TabIndex = 6;
-			this.comConnectSkinButton.Text = "连接";
+			this.comConnectSkinButton.Text = "选择串口设备";
 			this.comConnectSkinButton.UseVisualStyleBackColor = false;
+			this.comConnectSkinButton.Click += new System.EventHandler(this.comConnectSkinButton_Click);
 			// 
 			// comDownloadSkinButton
 			// 
@@ -846,6 +842,7 @@
 			this.comDownloadSkinButton.TabIndex = 7;
 			this.comDownloadSkinButton.Text = "下载";
 			this.comDownloadSkinButton.UseVisualStyleBackColor = false;
+			this.comDownloadSkinButton.Click += new System.EventHandler(this.comDownloadSkinButton_Click);
 			// 
 			// comUploadSkinButton
 			// 
@@ -863,57 +860,7 @@
 			this.comUploadSkinButton.TabIndex = 8;
 			this.comUploadSkinButton.Text = "回读";
 			this.comUploadSkinButton.UseVisualStyleBackColor = false;
-			// 
-			// skinButton1
-			// 
-			this.skinButton1.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton1.BaseColor = System.Drawing.Color.SeaGreen;
-			this.skinButton1.BorderColor = System.Drawing.Color.Black;
-			this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton1.DownBack = null;
-			this.skinButton1.Enabled = false;
-			this.skinButton1.Location = new System.Drawing.Point(14, 466);
-			this.skinButton1.MouseBack = null;
-			this.skinButton1.Name = "skinButton1";
-			this.skinButton1.NormlBack = null;
-			this.skinButton1.Size = new System.Drawing.Size(70, 33);
-			this.skinButton1.TabIndex = 3;
-			this.skinButton1.Text = "连接";
-			this.skinButton1.UseVisualStyleBackColor = false;
-			// 
-			// skinButton2
-			// 
-			this.skinButton2.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton2.BaseColor = System.Drawing.Color.Tan;
-			this.skinButton2.BorderColor = System.Drawing.Color.Black;
-			this.skinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton2.DownBack = null;
-			this.skinButton2.Enabled = false;
-			this.skinButton2.Location = new System.Drawing.Point(166, 466);
-			this.skinButton2.MouseBack = null;
-			this.skinButton2.Name = "skinButton2";
-			this.skinButton2.NormlBack = null;
-			this.skinButton2.Size = new System.Drawing.Size(70, 33);
-			this.skinButton2.TabIndex = 4;
-			this.skinButton2.Text = "下载";
-			this.skinButton2.UseVisualStyleBackColor = false;
-			// 
-			// skinButton3
-			// 
-			this.skinButton3.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton3.BaseColor = System.Drawing.Color.LightSalmon;
-			this.skinButton3.BorderColor = System.Drawing.Color.Black;
-			this.skinButton3.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton3.DownBack = null;
-			this.skinButton3.Enabled = false;
-			this.skinButton3.Location = new System.Drawing.Point(90, 466);
-			this.skinButton3.MouseBack = null;
-			this.skinButton3.Name = "skinButton3";
-			this.skinButton3.NormlBack = null;
-			this.skinButton3.Size = new System.Drawing.Size(70, 33);
-			this.skinButton3.TabIndex = 5;
-			this.skinButton3.Text = "回读";
-			this.skinButton3.UseVisualStyleBackColor = false;
+			this.comUploadSkinButton.Click += new System.EventHandler(this.comUploadSkinButton_Click);
 			// 
 			// HardwareSetForm
 			// 
@@ -1002,9 +949,6 @@
 		private CCWin.SkinControl.SkinTabControl skinTabControl;
 		private CCWin.SkinControl.SkinTabPage networkTab;
 		private CCWin.SkinControl.SkinTabPage comTab;
-		private CCWin.SkinControl.SkinButton skinButton1;
-		private CCWin.SkinControl.SkinButton skinButton2;
-		private CCWin.SkinControl.SkinButton skinButton3;
 		private CCWin.SkinControl.SkinButton cancelSkinButton;
 		private System.Windows.Forms.ComboBox ipsComboBox;
 		private CCWin.SkinControl.SkinButton networkSearchSkinButton;

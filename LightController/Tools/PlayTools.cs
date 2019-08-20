@@ -73,10 +73,8 @@ namespace LightController.Tools
         {
             TimeFactory = 32;
             MusicStepTime = 0;
-            //ConnectDevice();
             State = PreViewState.Null;
         }
-
         public static PlayTools GetInstance()
         {
             if (Instance == null)
@@ -85,7 +83,6 @@ namespace LightController.Tools
             }
             return Instance;
         }
-
         public void EndView()
         {
             if (PreViewThread != null)
@@ -147,7 +144,6 @@ namespace LightController.Tools
             }
             State = PreViewState.Null;
         }
-
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
             try
@@ -267,7 +263,6 @@ namespace LightController.Tools
                 EndView();
             }
         }
-
         public void OLOSView(byte[] data)
         {
             try
@@ -310,7 +305,6 @@ namespace LightController.Tools
             }
             
         }
-
         public void MusicControl()
         {
             try
@@ -336,7 +330,6 @@ namespace LightController.Tools
             {
             }
         }
-
         private void MusicControlThreadStart()
         {
             for (int i = 0; i < MusicStep; i++)
@@ -351,7 +344,6 @@ namespace LightController.Tools
             IsMusicControl = false;
             MusicControlThread = null;
         }
-
         private void OLOSViewThreadStart()
         {
             
@@ -361,7 +353,6 @@ namespace LightController.Tools
                 Thread.Sleep(TimeFactory);
             }
         }
-
         private void PreViewThreadStart()
         {
             PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
@@ -393,7 +384,6 @@ namespace LightController.Tools
                 Thread.Sleep(TimeFactory - 21);
             }
         }
-
         private void Play()
         {
             UInt32 count = 0;
@@ -417,7 +407,6 @@ namespace LightController.Tools
                 EndView();
             }
         }
-
         public void ReConnectDevice()
         {
             if (Device != null)
@@ -427,7 +416,9 @@ namespace LightController.Tools
             }
             ConnectDevice();
         }
-
+        /// <summary>
+        /// 打开dmx512串口
+        /// </summary>
         public void ConnectDevice()
         {
             UInt32 deviceCount = 0;
@@ -465,9 +456,15 @@ namespace LightController.Tools
                 }
             }
         }
+        /// <summary>
+        /// 关闭dmx512串口
+        /// </summary>
+        public void CloseDevice()
+        {
+
+        }
 
     }
-
     enum PreViewState
     {
         PreView,OLOSView,Null

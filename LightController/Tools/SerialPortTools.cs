@@ -1,4 +1,5 @@
-﻿using LightController.Ast;
+﻿using FTD2XX_NET;
+using LightController.Ast;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
 using System;
@@ -21,6 +22,7 @@ namespace LightController.Tools
         private SerialPort ComDevice { get; set; }
         private int ResendCount { get; set; }
         private List<byte> RxBuff { get; set; }
+
         private SerialPortTools()
         {
             this.ComDevice = new SerialPort();
@@ -38,7 +40,6 @@ namespace LightController.Tools
             this.ComDevice.WriteBufferSize = this.PackageSize + 8;
             this.TimeOutThread.Start();
         }
-
         public static SerialPortTools GetInstance()
         {
             if (Instance == null)
@@ -57,7 +58,55 @@ namespace LightController.Tools
         }
         public string[] GetSerialPortNameList()
         {
-            return SerialPort.GetPortNames();
+            string[] ports = SerialPort.GetPortNames();
+            bool flag;
+            List<string> dmx512names = new List<string>();
+            List<string> result = new List<string>();
+            UInt32 deviceCount = 0;
+            FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
+            FTDI dmx512Device = new FTDI();
+            status = dmx512Device.GetNumberOfDevices(ref deviceCount);
+            if (status == FTDI.FT_STATUS.FT_OK)
+            {
+                if (deviceCount > 0)
+                {
+                    FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+                    status = dmx512Device.GetDeviceList(deviceList);
+                    if (status == FTDI.FT_STATUS.FT_OK)
+                    {
+                        for (int i = 0; i < deviceList.Length; i++)
+                        {
+                            status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+                            if (status == FTDI.FT_STATUS.FT_OK)
+                            {
+                                string portName;
+                                dmx512Device.GetCOMPort(out portName);
+                                if (portName != null && portName != "")
+                                {
+                                    dmx512names.Add(portName);
+                                    dmx512Device.Close();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < ports.Length; i++)
+            {
+                flag = true;
+                foreach (string item in dmx512names)
+                {
+                    if (item.Equals(ports[i]))
+                    {
+                        flag = false;
+                    }
+                }
+                if (flag)
+                {
+                    result.Add(ports[i]);
+                }
+            }
+            return result.ToArray();
         }
         private void SetSerialPort()
         {

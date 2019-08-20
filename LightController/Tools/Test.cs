@@ -16,17 +16,11 @@ namespace LightController.Tools
     /// </summary>
     class Test
     {
-        private IList<DMX_C_File> C_Files { get; set; }
-        private IList<DMX_M_File> M_Files { get; set; }
         private DBWrapper DBWrapper;
         public Test(DBWrapper dBWrapper)
         {
-            C_Files = DMXTools.GetInstance().Get_C_Files(FormatTools.GetInstance().GetC_SceneDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
-            M_Files = DMXTools.GetInstance().Get_M_Files(FormatTools.GetInstance().GetM_SceneDatas(dBWrapper), @"C:\Temp\LightProject\Test1\global.ini");
             this.DBWrapper = dBWrapper;
         }
-
-
         public void Start(int index)
         {
             switch (index)
@@ -43,18 +37,11 @@ namespace LightController.Tools
                     ConnectTools.GetInstance().Start(localIP);
                     break;
                 case 2:
-                    //ConnectTools.GetInstance().SearchDevice();
-                    SerialPortTools.GetInstance().OpenCom("COM2");
-                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(), DownloadProgress);
+                    SerialPortTools.GetInstance().GetSerialPortNameList();
                     break;
                 case 3:
-                    //ConnectTools.GetInstance().GetParam(ConnectTools.GetInstance().GetDevicesIp(), new DownloadCallBack(), GetParamTest);
-                    SerialPortTools.GetInstance().OpenCom("COM3");
-                    SerialPortTools.GetInstance().GetParam(GetParamTest, new DownloadCallBack());
                     break;
                 case 4:
-                    CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini");
-                    Console.WriteLine("cc");
                     break;
                 default:
                     break;
@@ -64,12 +51,10 @@ namespace LightController.Tools
         {
             Console.WriteLine("test Complected");
         }
-
         private void SeralPortTest()
         {
             string[] list  = SerialPortTools.GetInstance().GetSerialPortNameList();
         }
-
         public void Testapplication()
         {
                 IList<string> iplist = new List<string>();
@@ -91,7 +76,6 @@ namespace LightController.Tools
                 Console.WriteLine(ex.Message);
             }
         }
-
         public void DownloadProgress(string fileName,int progress)
         {
             Console.WriteLine("===========Download  " + fileName + " : " + progress + "%===========");
@@ -109,7 +93,6 @@ namespace LightController.Tools
             Console.WriteLine(ip + "===>" + order + ": 下载失败");
         }
     }
-
     public class OrderCallBack : IReceiveCallBack
     {
         public void SendCompleted(string ip, string order)

@@ -694,6 +694,11 @@
     <None Include="Resources\统一步时间.png" />
     <None Include="Resources\统一跳渐变.png" />
     <None Include="Resources\统一通道值.png" />
+    <Content Include="Source\CSkin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Source\CSkin.XML" />
+    <Content Include="Source\IrisSkin4.dll" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

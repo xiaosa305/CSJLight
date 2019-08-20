@@ -178,7 +178,7 @@ namespace LightController.Tools
         /// <param name="dBWrapper"></param>
         /// <param name="configPath"></param>
         /// <param name="callBack"></param>
-        public void Download(IList<string> ips, DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack,DownloadProgressDelegate download)
+        public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
         {
             if (IsStart)
             {
@@ -186,6 +186,25 @@ namespace LightController.Tools
                 {
                     SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack, download);
                 }
+            }
+            else
+            {
+                throw new Exception("未启动服务");
+            }
+        }
+
+        /// <summary>
+        /// 下载所有常规程序、音频程序以及全局配置文件到指定终端设备
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="dBWrapper"></param>
+        /// <param name="configPath"></param>
+        /// <param name="callBack"></param>
+        public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
+        {
+            if (IsStart)
+            {
+                SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack, download);
             }
             else
             {
@@ -216,6 +235,25 @@ namespace LightController.Tools
         }
 
         /// <summary>
+        /// 发送指令
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="order"></param>
+        /// <param name="strarray"></param>
+        /// <param name="callBack"></param>
+        public void SendOrder(string ip, string order, string[] strarray, IReceiveCallBack callBack)
+        {
+            if (IsStart)
+            {
+                SocketTools.GetInstance().SendOrder(ip, order, strarray, callBack);
+            }
+            else
+            {
+                throw new Exception("未启动服务");
+            }
+        }
+
+        /// <summary>
         /// 发送硬件配置文件到指定终端设备
         /// </summary>
         /// <param name="ip"></param>
@@ -236,6 +274,30 @@ namespace LightController.Tools
             }
         }
 
+        /// <summary>
+        /// 发送硬件配置文件到指定终端设备
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="filePath"></param>
+        /// <param name="receiveCallBack"></param>
+        public void PutPara(string ip, string filePath, IReceiveCallBack receiveCallBack)
+        {
+            if (IsStart)
+            {
+                SocketTools.GetInstance().PutParam(ip, filePath, receiveCallBack);
+            }
+            else
+            {
+                throw new Exception("未启动服务");
+            }
+        }
+
+        /// <summary>
+        /// 获取硬件配置信息
+        /// </summary>
+        /// <param name="ips"></param>
+        /// <param name="receiveCallBack"></param>
+        /// <param name="getParam"></param>
         public void GetParam(IList<string> ips,IReceiveCallBack receiveCallBack,GetParamDelegate getParam)
         {
             if (IsStart)
@@ -244,6 +306,24 @@ namespace LightController.Tools
                 {
                     SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
                 }
+            }
+            else
+            {
+                throw new Exception("未启动服务");
+            }
+        }
+
+        /// <summary>
+        /// 获取硬件配置信息
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <param name="receiveCallBack"></param>
+        /// <param name="getParam"></param>
+        public void GetParam(string ip, IReceiveCallBack receiveCallBack, GetParamDelegate getParam)
+        {
+            if (IsStart)
+            {
+                SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
             }
             else
             {

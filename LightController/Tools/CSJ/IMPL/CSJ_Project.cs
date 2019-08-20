@@ -14,15 +14,24 @@ namespace LightController.Tools.CSJ.IMPL
         public int GetProjectFileSize()
         {
             int size = 0;
-            foreach (ICSJFile item in CFiles)
+            if (CFiles != null)
             {
-                size += item.GetData().Length;
+                foreach (ICSJFile item in CFiles)
+                {
+                    size += item.GetData().Length;
+                }
             }
-            foreach (ICSJFile item in MFiles)
+            if (MFiles != null)
             {
-                size += item.GetData().Length;
+                foreach (ICSJFile item in MFiles)
+                {
+                    size += item.GetData().Length;
+                }
             }
-            size += ConfigFile.GetData().Length;
+            if (ConfigFile != null)
+            {
+                size += ConfigFile.GetData().Length;
+            }
             return size;
         }
     }

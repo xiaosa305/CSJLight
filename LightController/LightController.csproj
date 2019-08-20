@@ -287,7 +287,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\ChanelData.cs" />
     <Compile Include="Tools\Conn.cs" />
     <Compile Include="Tools\ConnectTools.cs" />
     <Compile Include="Tools\Constant.cs" />
@@ -305,18 +304,8 @@
     <Compile Include="Tools\CSJ\IMPL\CSJ_SceneData.cs" />
     <Compile Include="Tools\CSJ\IMPL\DmxDataConvert.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
-    <Compile Include="Tools\DataTools.cs" />
-    <Compile Include="Tools\DMXConfigData.cs" />
-    <Compile Include="Tools\DMXHardware.cs" />
-    <Compile Include="Tools\DMXTools.cs" />
-    <Compile Include="Tools\DMX_C_Data.cs" />
-    <Compile Include="Tools\DMX_C_File.cs" />
-    <Compile Include="Tools\DMX_M_Data.cs" />
-    <Compile Include="Tools\DMX_M_File.cs" />
-    <Compile Include="Tools\FormatTools.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\ReceiveCallBack.cs" />
-    <Compile Include="Tools\SceneData.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />

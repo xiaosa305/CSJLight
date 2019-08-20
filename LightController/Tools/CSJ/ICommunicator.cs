@@ -38,7 +38,6 @@ namespace LightController.Tools.CSJ
         protected GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置信息回调委托方法
         protected DownloadProgressDelegate DownloadProgressDelegate { get; set; }//下载工程项目文件进度回调委托方法
         protected abstract void Send(byte[] txBuff);
-        //protected abstract void Recive(IAsyncResult asyncResult);
         public abstract void CloseDevice();
         public void SetPackageSize(int size)
         {
@@ -63,7 +62,7 @@ namespace LightController.Tools.CSJ
         protected void InitParameters()
         {
             this.IsSending = false;
-            this.IsReceive = false;
+            this.IsReceive = true;
             this.IsTimeOutThreadStart = false;
             this.DownloadStatus = true;
             this.CurrentDownloadCompletedSize = 0;
@@ -262,59 +261,63 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
-                                    if (this.TimeOutCount > 5)
+                                    if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                     {
                                         this.TimeOutCount = 0;
                                         this.IsSending = false;
-                                        this.CloseDevice();
                                         this.CallBack.SendError(deviceName, Order);
+                                        this.CloseDevice();
                                     }
                                     else
                                     {
                                         this.TimeOutCount++;
+                                        this.IsSending = false;
                                         this.DownloadProject(this.Wrapper, this.ConfigPath, this.CallBack, this.DownloadProgressDelegate);
                                     }
                                 }
                                 break;
                             case Constant.ORDER_PUT_PARAM:
-                                if (this.TimeOutCount > 5)
+                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                 {
                                     this.TimeOutCount = 0;
                                     this.IsSending = false;
-                                    this.CloseDevice();
                                     this.CallBack.SendError(deviceName, this.Order);
+                                    this.CloseDevice();
                                 }
                                 else
                                 {
                                     this.TimeOutCount++;
+                                    this.IsSending = false;
                                     this.PutParam(this.HardwarePath, this.CallBack);
                                 }
                                 break;
                             case Constant.ORDER_GET_PARAM:
-                                if (this.TimeOutCount > 5)
+                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                 {
                                     this.TimeOutCount = 0;
                                     this.IsSending = false;
-                                    this.CloseDevice();
                                     this.CallBack.SendError(deviceName, this.Order);
+                                    this.CloseDevice();
                                 }
                                 else
                                 {
                                     this.TimeOutCount++;
+                                    this.IsSending = false;
                                     this.GetParam(this.GetParamDelegate, this.CallBack);
                                 }
                                 break;
                             default:
-                                if (this.TimeOutCount > 5)
+                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
                                 {
                                     this.TimeOutCount = 0;
                                     this.IsSending = false;
-                                    this.CloseDevice();
                                     this.CallBack.SendError(deviceName, this.Order);
+                                    this.CloseDevice();
                                 }
                                 else
                                 {
                                     this.TimeOutCount++;
+                                    this.IsSending = false;
                                     this.SendOrder(this.Order, this.Parameters, this.CallBack);
                                 }
                                 break;
@@ -333,7 +336,6 @@ namespace LightController.Tools.CSJ
             this.IsReceive = true;
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
-            Console.WriteLine(rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -353,9 +355,9 @@ namespace LightController.Tools.CSJ
                             {
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.CloseDevice();
                                 this.DownloadProgressDelegate("", 0);
                                 this.CallBack.SendError(devicename, Order);
+                                this.CloseDevice();
                             }
                             break;
                     }
@@ -381,9 +383,9 @@ namespace LightController.Tools.CSJ
                             {
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.CloseDevice();
                                 this.DownloadProgressDelegate("", 0);
-                                this.CallBack.SendError(devicename,this.Order);
+                                this.CallBack.SendError(devicename, this.Order);
+                                this.CloseDevice();
                             }
                             break;
                     }
@@ -394,9 +396,9 @@ namespace LightController.Tools.CSJ
                         case Constant.RECEIVE_ORDER_ENDSEND_OK:
                             this.DownloadStatus = true;
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.DownloadProgressDelegate("", 0);
-                            this.CallBack.SendCompleted(devicename,this.Order);
+                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CloseDevice();
                             break;
                         case Constant.RECEIVE_ORDER_ENDSEND_ERROR:
                         default:
@@ -408,9 +410,9 @@ namespace LightController.Tools.CSJ
                             {
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.CloseDevice();
                                 this.DownloadProgressDelegate("", 0);
                                 CallBack.SendError(devicename, this.Order);
+                                this.CloseDevice();
                             }
                             break;
                     }
@@ -423,28 +425,30 @@ namespace LightController.Tools.CSJ
                             break;
                         case Constant.RECEIVE_ORDER_DONE:
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CloseDevice();
                             break;
                         default:
                             break;
                     }
                     break;
                 case Constant.ORDER_GET_PARAM:
+                    this.IsSending = false;
                     this.GetParamDelegate(DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware);
+                    this.CloseDevice();
                     break;
                 default:
                     switch (rxStr.Split(':')[0])
                     {
                         case Constant.RECEIVE_ORDER_OTHER_OK:
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CloseDevice();
                             break;
                         default:
                             this.IsSending = false;
-                            this.CloseDevice();
                             this.CallBack.SendError(devicename, Order);
+                            this.CloseDevice();
                             break;
                     }
                     break;
@@ -478,9 +482,6 @@ namespace LightController.Tools.CSJ
         }
         protected void DownloadStart()
         {
-            Console.Write("******************************");
-            Console.WriteLine("Download Project Start");
-            Console.Write("******************************");
             string fileName = string.Empty;
             string fileSize = string.Empty;
             string fileCRC = string.Empty;
@@ -490,40 +491,44 @@ namespace LightController.Tools.CSJ
             CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.Wrapper, this.ConfigPath);
             this.DownloadFileToTalSize = project.GetProjectFileSize();
             this.DownloadStatus = false;
-            this.SendData(null,Constant.ORDER_BEGIN_SEND,null);
-            foreach (ICSJFile file in project.CFiles)
+            this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
+            if (project.CFiles != null)
             {
-                fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
-                fileSize = file.GetData().Length.ToString();
-                crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-                while (true)
+                foreach (ICSJFile file in project.CFiles)
                 {
-                    if (this.DownloadStatus)
+                    fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
+                    fileSize = file.GetData().Length.ToString();
+                    crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
+                    fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                    while (true)
                     {
-                        this.CurrentFileName = fileName;
-                        file.WriteToFile(@"C:\Users\99729\Documents\Temp\new");
-                        this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        this.DownloadStatus = false;
-                        break;
+                        if (this.DownloadStatus)
+                        {
+                            this.CurrentFileName = fileName;
+                            this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                            this.DownloadStatus = false;
+                            break;
+                        }
                     }
                 }
             }
-            foreach (ICSJFile file in project.MFiles)
+            if (project.CFiles != null && project.MFiles != null)
             {
-                fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
-                fileSize = file.GetData().Length.ToString();
-                crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-                while (true)
+                foreach (ICSJFile file in project.MFiles)
                 {
-                    if (this.DownloadStatus)
+                    fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
+                    fileSize = file.GetData().Length.ToString();
+                    crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
+                    fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                    while (true)
                     {
-                        this.CurrentFileName = fileName;
-                        file.WriteToFile(@"C:\Users\99729\Documents\Temp\new");
-                        this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        this.DownloadStatus = false;
-                        break;
+                        if (this.DownloadStatus)
+                        {
+                            this.CurrentFileName = fileName;
+                            this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                            this.DownloadStatus = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -536,7 +541,6 @@ namespace LightController.Tools.CSJ
                 if (this.DownloadStatus)
                 {
                     this.CurrentFileName = fileName;
-                    project.ConfigFile.WriteToFile(@"C:\Users\99729\Documents\Temp\new");
                     this.SendData(project.ConfigFile.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                     this.DownloadStatus = false;
                     break;
@@ -554,9 +558,6 @@ namespace LightController.Tools.CSJ
                     }
                 }
             }
-            Console.Write("******************************");
-            Console.WriteLine("Download Project Completed");
-            Console.Write("******************************");
         }
         public void PutParam(string filePath,IReceiveCallBack receiveCallBack)
         {
@@ -584,10 +585,17 @@ namespace LightController.Tools.CSJ
                 this.SendData(null, Constant.ORDER_GET_PARAM, null);
             }
         }
-        public void SendOrder(string order,string[] parameters,IReceiveCallBack receiveCallBack)
+        public void SendOrder(string order, string[] parameters, IReceiveCallBack receiveCallBack)
         {
             this.CallBack = receiveCallBack;
             this.SendData(null, order, parameters);
+        }
+        public class PacketSize
+        {
+            public const int BYTE_512 = 508;
+            public const int BYTE_1024 = 1016;
+            public const int BYTE_2048 = 2040;
+
         }
     }
 }

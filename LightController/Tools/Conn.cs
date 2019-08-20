@@ -117,7 +117,7 @@ namespace LightController.Tools
         {
             if (!IsUse) return;
             Console.WriteLine(GetAddress() + "断开连接");
-            DownloadStatus = false;
+            this.DownloadStatus = false;
             try
             {
                 switch (Order)
@@ -129,7 +129,7 @@ namespace LightController.Tools
                     case Constant.ORDER_PUT:
                     case Constant.ORDER_BEGIN_SEND:
                     case Constant.ORDER_END_SEND:
-                        DownloadThread.Abort();
+                        this.DownloadThread.Abort();
                         break;
                     default:
                         break;
@@ -139,15 +139,15 @@ namespace LightController.Tools
             {
                 try
                 {
-                    TimeOutThread.Abort();
+                    this.TimeOutThread.Abort();
                 }
                 finally
                 {
-                    Ip = "";
-                    DeviceName = null;
-                    Socket.Close();
-                    IsSending = false;
-                    IsUse = false;
+                    this.Ip = "";
+                    this.DeviceName = null;
+                    this.Socket.Close();
+                    this.IsSending = false;
+                    this.IsUse = false;
                 }
             }
         }

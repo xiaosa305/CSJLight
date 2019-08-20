@@ -73,6 +73,8 @@ namespace LightController.MyForm
 			selectedIPs = new List<string>();
 			selectedIPs.Add(ips[devicesComboBox.SelectedIndex]);
 			MessageBox.Show("设备连接成功");
+
+
 			updateSkinButton.Enabled = true;
 		}
 

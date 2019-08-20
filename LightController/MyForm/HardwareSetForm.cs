@@ -1,5 +1,6 @@
 ﻿using LightController.Common;
 using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,13 @@ namespace LightController.MyForm
 		private string iniPath;
 		private string hName;
 		private bool isNew = true;
+
+		private ConnectTools cTools;
+
+		private IList<string> ips;	//搜索到的ip列表 ，将填进ipsComboBox
+		private IList<string> selectedIPs;  //填充进去的ip列表，用以发送数据
+		
+
 
 		/// <summary>
 		/// 构造函数：初始化各个变量
@@ -96,8 +104,7 @@ namespace LightController.MyForm
 			}
 			else {
 				SaveAll(iniPath,hName);
-			}
-			
+			}			
 		}
 
 		/// <summary>
@@ -191,7 +198,6 @@ namespace LightController.MyForm
 
 		}
 
-
 		/// <summary>
 		/// 辅助监听器:只能输入数字
 		/// </summary>
@@ -207,28 +213,97 @@ namespace LightController.MyForm
 			}
 		}
 
-
 		/// <summary>
-		///  点击《下载》按钮
+		/// 事件：点击《搜索网络连接》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void downloadButton_Click(object sender, EventArgs e)
+		private void networkSearchSkinButton_Click(object sender, EventArgs e)
 		{
-			ConnectTools cTools = ConnectTools.GetInstance();
-			Dictionary<string,string> allDevices = cTools.GetDeviceInfo();
-			cTools.PutPara(new List<string>(allDevices.Keys), iniPath, new ReceiveCallBackHardwareSet());	
-		}
-
-		private void connectButton_Click(object sender, EventArgs e)
-		{
-			ConnectTools cTools = ConnectTools.GetInstance();
+			cTools = ConnectTools.GetInstance();
 			cTools.Start(domainServerTextBox.Text);
 			cTools.SearchDevice();
+			Thread.Sleep(1000);
+			networkConnectSkinButton.Enabled = false;
+
+			Dictionary<string,string> allDevices = 	cTools.GetDeviceInfo();			
+			ipsComboBox.Items.Clear();
+			ips = new List<string>();
+			if (allDevices.Count > 0)
+			{
+				foreach (KeyValuePair<string, string> device in allDevices)
+				{
+					ipsComboBox.Items.Add(device.Value + "(" + device.Key + ")");
+					ips.Add(device.Key);
+				}
+				ipsComboBox.SelectedIndex = 0;
+				networkConnectSkinButton.Enabled = true;
+			}
 		}
+
+		/// <summary>
+		/// 事件：点击《网络连接》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkConnectButton_Click(object sender, EventArgs e)
+		{
+			selectedIPs = new List<string>();
+			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);		
+
+			MessageBox.Show("设备连接成功");
+
+			networkUploadSkinButton.Enabled = true;
+			networkDownloadSkinButton.Enabled = true;
+		}
+
+		/// <summary>
+		///  事件：点击《下载》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkDownloadButton_Click(object sender, EventArgs e)
+		{
+			// 此语句只发送《硬件配置》到选中的设备中
+			cTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+
+			// 以下语句是发送到所有连接到的设备（暂时不用）
+			//cTools.PutPara(new List<string>( ips , iniPath, new DownloadCallBackHardwareSet() );
+		}
+
+
+		/// <summary>
+		/// 事件：点击《回读》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void uploadSkinButton_Click(object sender, EventArgs e)
+		{			
+			cTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(), SetParamFromDevice);
+		}
+
+		/// <summary>
+		///  辅助方法：通过回读的CSJ_Hardware对象，来填充左侧的所有输入框。
+		/// </summary>
+		/// <param name="ch"></param>
+		public void SetParamFromDevice(CSJ_Hardware ch) {
+			Console.WriteLine(ch);
+			Console.WriteLine("A");
+		}
+
+		private void cancelSkinButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+			this.mainForm.Activate();
+		}
+
+		
 	}
 
-	class ReceiveCallBackHardwareSet : IReceiveCallBack
+	/// <summary>
+	/// 辅助类：用以下载硬件设置时供底层调用的回调类，显示回馈信息
+	/// </summary>
+	class DownloadCallBackHardwareSet : IReceiveCallBack
 	{
 		public void SendCompleted(string ip, string order)
 		{
@@ -240,5 +315,23 @@ namespace LightController.MyForm
 			MessageBox.Show("下载失败");
 		}
 	}
+
+	/// <summary>
+	/// 辅助类：用以回读硬件设置时供底层调用的回调类，显示回馈信息
+	/// </summary>
+	class UploadCallBackHardwareSet : IReceiveCallBack
+	{
+		public void SendCompleted(string ip, string order)
+		{
+			MessageBox.Show("上传成功");
+		}
+
+		public void SendError(string ip, string order)
+		{
+			MessageBox.Show("上传失败");
+		}
+	}
+
+
 
 }

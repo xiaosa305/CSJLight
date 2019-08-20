@@ -87,10 +87,6 @@ namespace LightController.MyForm
 			this.label37 = new System.Windows.Forms.Label();
 			this.label36 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
-			this.panel25 = new System.Windows.Forms.Panel();
-			this.label38 = new System.Windows.Forms.Label();
-			this.label39 = new System.Windows.Forms.Label();
-			this.label40 = new System.Windows.Forms.Label();
 			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.jgtNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -184,13 +180,17 @@ namespace LightController.MyForm
 			this.jgtNumericUpDown24 = new System.Windows.Forms.NumericUpDown();
 			this.frameStepTimeNumericUpDown24 = new System.Windows.Forms.NumericUpDown();
 			this.mSkinButton24 = new CCWin.SkinControl.SkinButton();
-			this.panel28 = new System.Windows.Forms.Panel();
-			this.skinButton1 = new CCWin.SkinControl.SkinButton();
-			this.currentFrameLabel = new System.Windows.Forms.Label();
-			this.skinButton2 = new CCWin.SkinControl.SkinButton();
-			this.skGroupBox = new System.Windows.Forms.GroupBox();
-			this.mNoticeSkinButton = new CCWin.SkinControl.SkinButton();
+			this.mFrameSaveAllSkinButton = new CCWin.SkinControl.SkinButton();
+			this.mFrameLKPanel = new System.Windows.Forms.Panel();
 			this.mFrameTextBox = new System.Windows.Forms.TextBox();
+			this.mNoticeSkinButton = new CCWin.SkinControl.SkinButton();
+			this.mFrameLKSaveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.currentFrameLabel = new System.Windows.Forms.Label();
+			this.skGroupBox = new System.Windows.Forms.GroupBox();
+			this.panel25 = new System.Windows.Forms.Panel();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -209,7 +209,6 @@ namespace LightController.MyForm
 			this.tableLayoutPanel2.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.panel26.SuspendLayout();
-			this.panel25.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown1)).BeginInit();
@@ -280,8 +279,9 @@ namespace LightController.MyForm
 			this.panel22.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown24)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown24)).BeginInit();
-			this.panel28.SuspendLayout();
+			this.mFrameLKPanel.SuspendLayout();
 			this.skGroupBox.SuspendLayout();
+			this.panel25.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
@@ -478,6 +478,7 @@ namespace LightController.MyForm
 			this.frameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
 			this.frameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.frameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.frameSaveSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.frameSaveSkinButton.DownBack = null;
 			this.frameSaveSkinButton.Location = new System.Drawing.Point(616, 23);
 			this.frameSaveSkinButton.MouseBack = null;
@@ -487,7 +488,7 @@ namespace LightController.MyForm
 			this.frameSaveSkinButton.TabIndex = 1;
 			this.frameSaveSkinButton.Text = "保存当前";
 			this.frameSaveSkinButton.UseVisualStyleBackColor = false;
-			this.frameSaveSkinButton.Click += new System.EventHandler(this.frameSaveButton_Click);
+			this.frameSaveSkinButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
 			// 
 			// zuheFrameComboBox
 			// 
@@ -1091,7 +1092,7 @@ namespace LightController.MyForm
 			// label37
 			// 
 			this.label37.AutoSize = true;
-			this.label37.Location = new System.Drawing.Point(17, 71);
+			this.label37.Location = new System.Drawing.Point(17, 75);
 			this.label37.Name = "label37";
 			this.label37.Size = new System.Drawing.Size(119, 12);
 			this.label37.TabIndex = 0;
@@ -1100,7 +1101,7 @@ namespace LightController.MyForm
 			// label36
 			// 
 			this.label36.AutoSize = true;
-			this.label36.Location = new System.Drawing.Point(26, 44);
+			this.label36.Location = new System.Drawing.Point(26, 48);
 			this.label36.Name = "label36";
 			this.label36.Size = new System.Drawing.Size(101, 12);
 			this.label36.TabIndex = 0;
@@ -1114,43 +1115,6 @@ namespace LightController.MyForm
 			this.label8.Size = new System.Drawing.Size(125, 12);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "点击编辑音频步数链表";
-			// 
-			// panel25
-			// 
-			this.panel25.Controls.Add(this.label38);
-			this.panel25.Controls.Add(this.label39);
-			this.panel25.Controls.Add(this.label40);
-			this.panel25.Location = new System.Drawing.Point(3, 111);
-			this.panel25.Name = "panel25";
-			this.panel25.Size = new System.Drawing.Size(150, 102);
-			this.panel25.TabIndex = 0;
-			// 
-			// label38
-			// 
-			this.label38.AutoSize = true;
-			this.label38.Location = new System.Drawing.Point(17, 71);
-			this.label38.Name = "label38";
-			this.label38.Size = new System.Drawing.Size(119, 12);
-			this.label38.TabIndex = 0;
-			this.label38.Text = "叠加后间隔时间(ms):";
-			// 
-			// label39
-			// 
-			this.label39.AutoSize = true;
-			this.label39.Location = new System.Drawing.Point(26, 44);
-			this.label39.Name = "label39";
-			this.label39.Size = new System.Drawing.Size(101, 12);
-			this.label39.TabIndex = 0;
-			this.label39.Text = "场景音频步时间：";
-			// 
-			// label40
-			// 
-			this.label40.AutoSize = true;
-			this.label40.Location = new System.Drawing.Point(14, 19);
-			this.label40.Name = "label40";
-			this.label40.Size = new System.Drawing.Size(125, 12);
-			this.label40.TabIndex = 0;
-			this.label40.Text = "点击预览播放步数链表";
 			// 
 			// flowLayoutPanel2
 			// 
@@ -1178,8 +1142,8 @@ namespace LightController.MyForm
 			this.flowLayoutPanel2.Controls.Add(this.panel24);
 			this.flowLayoutPanel2.Controls.Add(this.panel23);
 			this.flowLayoutPanel2.Controls.Add(this.panel22);
-			this.flowLayoutPanel2.Controls.Add(this.panel28);
-			this.flowLayoutPanel2.Controls.Add(this.skinButton2);
+			this.flowLayoutPanel2.Controls.Add(this.mFrameLKPanel);
+			this.flowLayoutPanel2.Controls.Add(this.mFrameSaveAllSkinButton);
 			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel2.Location = new System.Drawing.Point(163, 3);
 			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
@@ -2106,75 +2070,46 @@ namespace LightController.MyForm
 			this.mSkinButton24.Text = "倒彩";
 			this.mSkinButton24.UseVisualStyleBackColor = false;
 			// 
-			// panel28
+			// mFrameSaveAllSkinButton
 			// 
-			this.panel28.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel28.Controls.Add(this.mFrameTextBox);
-			this.panel28.Controls.Add(this.mNoticeSkinButton);
-			this.panel28.Controls.Add(this.skinButton1);
-			this.panel28.Controls.Add(this.currentFrameLabel);
-			this.panel28.Location = new System.Drawing.Point(606, 111);
-			this.panel28.Name = "panel28";
-			this.panel28.Size = new System.Drawing.Size(329, 102);
-			this.panel28.TabIndex = 4;
+			this.mFrameSaveAllSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.mFrameSaveAllSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.mFrameSaveAllSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.mFrameSaveAllSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.mFrameSaveAllSkinButton.DownBack = null;
+			this.mFrameSaveAllSkinButton.Location = new System.Drawing.Point(941, 111);
+			this.mFrameSaveAllSkinButton.MouseBack = null;
+			this.mFrameSaveAllSkinButton.Name = "mFrameSaveAllSkinButton";
+			this.mFrameSaveAllSkinButton.NormlBack = null;
+			this.mFrameSaveAllSkinButton.Size = new System.Drawing.Size(61, 102);
+			this.mFrameSaveAllSkinButton.TabIndex = 1;
+			this.mFrameSaveAllSkinButton.Text = "保存所有步时间和间隔时间设置";
+			this.mFrameSaveAllSkinButton.UseVisualStyleBackColor = false;
+			this.mFrameSaveAllSkinButton.Click += new System.EventHandler(this.mFrameSaveAllSkinButton_Click);
 			// 
-			// skinButton1
+			// mFrameLKPanel
 			// 
-			this.skinButton1.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton1.BaseColor = System.Drawing.Color.SkyBlue;
-			this.skinButton1.BorderColor = System.Drawing.Color.Black;
-			this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton1.DownBack = null;
-			this.skinButton1.Location = new System.Drawing.Point(242, 15);
-			this.skinButton1.MouseBack = null;
-			this.skinButton1.Name = "skinButton1";
-			this.skinButton1.NormlBack = null;
-			this.skinButton1.Size = new System.Drawing.Size(80, 25);
-			this.skinButton1.TabIndex = 1;
-			this.skinButton1.Text = "保存链表";
-			this.skinButton1.UseVisualStyleBackColor = false;
-			this.skinButton1.Click += new System.EventHandler(this.qdSaveButton_Click);
+			this.mFrameLKPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.mFrameLKPanel.Controls.Add(this.mFrameTextBox);
+			this.mFrameLKPanel.Controls.Add(this.mNoticeSkinButton);
+			this.mFrameLKPanel.Controls.Add(this.mFrameLKSaveSkinButton);
+			this.mFrameLKPanel.Controls.Add(this.currentFrameLabel);
+			this.mFrameLKPanel.Enabled = false;
+			this.mFrameLKPanel.Location = new System.Drawing.Point(606, 111);
+			this.mFrameLKPanel.Name = "mFrameLKPanel";
+			this.mFrameLKPanel.Size = new System.Drawing.Size(329, 102);
+			this.mFrameLKPanel.TabIndex = 4;
 			// 
-			// currentFrameLabel
+			// mFrameTextBox
 			// 
-			this.currentFrameLabel.AutoSize = true;
-			this.currentFrameLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.currentFrameLabel.Location = new System.Drawing.Point(8, 19);
-			this.currentFrameLabel.Name = "currentFrameLabel";
-			this.currentFrameLabel.Size = new System.Drawing.Size(77, 14);
-			this.currentFrameLabel.TabIndex = 0;
-			this.currentFrameLabel.Text = "选中场景：";
-			// 
-			// skinButton2
-			// 
-			this.skinButton2.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton2.BaseColor = System.Drawing.Color.SkyBlue;
-			this.skinButton2.BorderColor = System.Drawing.Color.Black;
-			this.skinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton2.DownBack = null;
-			this.skinButton2.Location = new System.Drawing.Point(941, 111);
-			this.skinButton2.MouseBack = null;
-			this.skinButton2.Name = "skinButton2";
-			this.skinButton2.NormlBack = null;
-			this.skinButton2.Size = new System.Drawing.Size(61, 102);
-			this.skinButton2.TabIndex = 1;
-			this.skinButton2.Text = "保存所有步时间和间隔时间设置";
-			this.skinButton2.UseVisualStyleBackColor = false;
-			this.skinButton2.Click += new System.EventHandler(this.qdSaveButton_Click);
-			// 
-			// skGroupBox
-			// 
-			this.skGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.skGroupBox.Controls.Add(this.tableLayoutPanel2);
-			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.skGroupBox.Location = new System.Drawing.Point(4, 315);
-			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2);
-			this.skGroupBox.Name = "skGroupBox";
-			this.skGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.skGroupBox.Size = new System.Drawing.Size(1178, 248);
-			this.skGroupBox.TabIndex = 2;
-			this.skGroupBox.TabStop = false;
-			this.skGroupBox.Text = "声控场景触发步数设置";
+			this.mFrameTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.mFrameTextBox.Location = new System.Drawing.Point(0, 46);
+			this.mFrameTextBox.Multiline = true;
+			this.mFrameTextBox.Name = "mFrameTextBox";
+			this.mFrameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.mFrameTextBox.Size = new System.Drawing.Size(325, 52);
+			this.mFrameTextBox.TabIndex = 2;
+			this.mFrameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameTextBox_KeyPress);
 			// 
 			// mNoticeSkinButton
 			// 
@@ -2193,15 +2128,83 @@ namespace LightController.MyForm
 			this.mNoticeSkinButton.UseVisualStyleBackColor = false;
 			this.mNoticeSkinButton.Click += new System.EventHandler(this.mNoticeSkinButton_Click);
 			// 
-			// mFrameTextBox
+			// mFrameLKSaveSkinButton
 			// 
-			this.mFrameTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.mFrameTextBox.Location = new System.Drawing.Point(0, 46);
-			this.mFrameTextBox.Multiline = true;
-			this.mFrameTextBox.Name = "mFrameTextBox";
-			this.mFrameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.mFrameTextBox.Size = new System.Drawing.Size(325, 52);
-			this.mFrameTextBox.TabIndex = 2;
+			this.mFrameLKSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.mFrameLKSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.mFrameLKSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.mFrameLKSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.mFrameLKSaveSkinButton.DownBack = null;
+			this.mFrameLKSaveSkinButton.Location = new System.Drawing.Point(242, 15);
+			this.mFrameLKSaveSkinButton.MouseBack = null;
+			this.mFrameLKSaveSkinButton.Name = "mFrameLKSaveSkinButton";
+			this.mFrameLKSaveSkinButton.NormlBack = null;
+			this.mFrameLKSaveSkinButton.Size = new System.Drawing.Size(80, 25);
+			this.mFrameLKSaveSkinButton.TabIndex = 1;
+			this.mFrameLKSaveSkinButton.Text = "保存链表";
+			this.mFrameLKSaveSkinButton.UseVisualStyleBackColor = false;
+			this.mFrameLKSaveSkinButton.Click += new System.EventHandler(this.mFrameLKSaveSkinButton_Click);
+			// 
+			// currentFrameLabel
+			// 
+			this.currentFrameLabel.AutoSize = true;
+			this.currentFrameLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.currentFrameLabel.Location = new System.Drawing.Point(8, 19);
+			this.currentFrameLabel.Name = "currentFrameLabel";
+			this.currentFrameLabel.Size = new System.Drawing.Size(77, 14);
+			this.currentFrameLabel.TabIndex = 0;
+			this.currentFrameLabel.Text = "选中场景：";
+			// 
+			// skGroupBox
+			// 
+			this.skGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.skGroupBox.Controls.Add(this.tableLayoutPanel2);
+			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.skGroupBox.Location = new System.Drawing.Point(4, 315);
+			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2);
+			this.skGroupBox.Name = "skGroupBox";
+			this.skGroupBox.Padding = new System.Windows.Forms.Padding(2);
+			this.skGroupBox.Size = new System.Drawing.Size(1178, 248);
+			this.skGroupBox.TabIndex = 2;
+			this.skGroupBox.TabStop = false;
+			this.skGroupBox.Text = "声控场景触发步数设置";
+			// 
+			// panel25
+			// 
+			this.panel25.Controls.Add(this.label10);
+			this.panel25.Controls.Add(this.label11);
+			this.panel25.Controls.Add(this.label12);
+			this.panel25.Location = new System.Drawing.Point(3, 111);
+			this.panel25.Name = "panel25";
+			this.panel25.Size = new System.Drawing.Size(150, 102);
+			this.panel25.TabIndex = 1;
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(17, 75);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(119, 12);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "叠加后间隔时间(ms):";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(26, 48);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(101, 12);
+			this.label11.TabIndex = 0;
+			this.label11.Text = "场景音频步时间：";
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(14, 19);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(125, 12);
+			this.label12.TabIndex = 0;
+			this.label12.Text = "点击编辑音频步数链表";
 			// 
 			// GlobalSetForm
 			// 
@@ -2245,8 +2248,6 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.panel26.ResumeLayout(false);
 			this.panel26.PerformLayout();
-			this.panel25.ResumeLayout(false);
-			this.panel25.PerformLayout();
 			this.flowLayoutPanel2.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown1)).EndInit();
@@ -2317,9 +2318,11 @@ namespace LightController.MyForm
 			this.panel22.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown24)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown24)).EndInit();
-			this.panel28.ResumeLayout(false);
-			this.panel28.PerformLayout();
+			this.mFrameLKPanel.ResumeLayout(false);
+			this.mFrameLKPanel.PerformLayout();
 			this.skGroupBox.ResumeLayout(false);
+			this.panel25.ResumeLayout(false);
+			this.panel25.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -2481,14 +2484,10 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Label label37;
 		private System.Windows.Forms.Label label36;
 		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Panel panel25;
-		private System.Windows.Forms.Label label38;
-		private System.Windows.Forms.Label label39;
-		private System.Windows.Forms.Label label40;
-		private System.Windows.Forms.Panel panel28;
+		private System.Windows.Forms.Panel mFrameLKPanel;
 		private System.Windows.Forms.Label currentFrameLabel;
-		private CCWin.SkinControl.SkinButton skinButton1;
-		private CCWin.SkinControl.SkinButton skinButton2;
+		private CCWin.SkinControl.SkinButton mFrameLKSaveSkinButton;
+		private CCWin.SkinControl.SkinButton mFrameSaveAllSkinButton;
 		private System.Windows.Forms.GroupBox skGroupBox;
 
 		private SkinButton[] mSkinButtons = new SkinButton[24];
@@ -2496,5 +2495,9 @@ namespace LightController.MyForm
 		private NumericUpDown[] jgtNumericUpDowns = new NumericUpDown[24];
 		private SkinButton mNoticeSkinButton;
 		private TextBox mFrameTextBox;
+		private Panel panel25;
+		private Label label10;
+		private Label label11;
+		private Label label12;
 	}
 }

@@ -57,9 +57,10 @@ namespace LightController.MyForm
 					devicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
 					ips.Add(device.Key);
 				}
-				devicesComboBox.SelectedIndex = 0;				
-			}
-			connectSkinButton.Enabled = true;
+				devicesComboBox.SelectedIndex = 0;
+				connectSkinButton.Enabled = true;
+			}			
+
 		}		
 
 		/// <summary>
@@ -84,12 +85,13 @@ namespace LightController.MyForm
 		private void UpdateButton_Click(object sender, EventArgs e)
 		{
 			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() ,new DownloadProgressDelegate(paintProgress) );
+			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress));
 			//MessageBox.Show("断开连接");
 			connectSkinButton.Enabled = false;
 			updateSkinButton.Enabled = false;
 			devicesComboBox.Items.Clear();
 			devicesComboBox.Text = "";
+
 		}
 
 		/// <summary>
@@ -102,10 +104,6 @@ namespace LightController.MyForm
 			skinProgressBar1.Value =  a;				
 		}
 
-		private void downloadSkinButton_Click(object sender, EventArgs e)
-		{
-
-		}
 	}
 
 

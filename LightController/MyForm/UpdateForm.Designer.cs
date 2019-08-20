@@ -105,6 +105,7 @@
 			this.searchSkinButton.TabIndex = 8;
 			this.searchSkinButton.Text = "搜索设备";
 			this.searchSkinButton.UseVisualStyleBackColor = false;
+			this.searchSkinButton.Click += new System.EventHandler(this.searchButton_Click);
 			// 
 			// connectSkinButton
 			// 
@@ -122,6 +123,7 @@
 			this.connectSkinButton.TabIndex = 8;
 			this.connectSkinButton.Text = "连接设备";
 			this.connectSkinButton.UseVisualStyleBackColor = false;
+			this.connectSkinButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// updateSkinButton
 			// 
@@ -139,7 +141,7 @@
 			this.updateSkinButton.TabIndex = 8;
 			this.updateSkinButton.Text = "下载数据";
 			this.updateSkinButton.UseVisualStyleBackColor = false;
-			this.updateSkinButton.Click += new System.EventHandler(this.downloadSkinButton_Click);
+			this.updateSkinButton.Click += new System.EventHandler(this.UpdateButton_Click);
 			// 
 			// UpdateForm
 			// 

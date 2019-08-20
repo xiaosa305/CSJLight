@@ -30,7 +30,7 @@ namespace LightController.Common
 		}
 
 		/// <summary>
-		///  将一个形如“单词串+数字”的组合，提取其数字值,再将这个数字减一，即可得到index值
+		///  辅助方法：将一个形如“单词串+数字”的组合，提取其数字值,再将这个数字减一，即可得到index值
 		/// 《LightEditor》 method：取出触发的sender的Name，对其进行操作
 		/// 1.替换掉非数字的字符串;2.将取出的数字-1；即可得到数组下标
 		/// </summary>

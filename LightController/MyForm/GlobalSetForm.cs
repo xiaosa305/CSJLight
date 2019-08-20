@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CCWin.SkinControl;
 using LightController.Common;
 
 namespace LightController.MyForm
@@ -16,7 +17,8 @@ namespace LightController.MyForm
 		private string iniFilePath;
 		private IniFileAst iniAst ;
 		private bool isInit = false;
-		
+		private int frameIndex = -1;
+
 		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 
 			this.mainForm = mainForm;
@@ -35,31 +37,85 @@ namespace LightController.MyForm
 			this.qdCheckBoxes[5] = this.checkBox6;
 			this.qdCheckBoxes[6] = this.checkBox7;
 			this.qdCheckBoxes[7] = this.checkBox8;
-			// 初始化声控的属性到数组中
-			this.skComboBoxes[0] = skComboBox1;
-			this.skComboBoxes[1] = skComboBox2;
-			this.skComboBoxes[2] = skComboBox3;
-			this.skComboBoxes[3] = skComboBox4;
-			this.skComboBoxes[4] = skComboBox5;
-			this.skComboBoxes[5] = skComboBox6;
-			this.skComboBoxes[6] = skComboBox7;
-			this.skComboBoxes[7] = skComboBox8;
-			this.skComboBoxes[8] = skComboBox9;
-			this.skComboBoxes[9] = skComboBox10;
-			this.skComboBoxes[10] = skComboBox11;
-			this.skComboBoxes[11] = skComboBox12;
-			this.skComboBoxes[12] = skComboBox13;
-			this.skComboBoxes[13] = skComboBox14;
-			this.skComboBoxes[14] = skComboBox15;
-			this.skComboBoxes[15] = skComboBox16;
-			this.skComboBoxes[16] = skComboBox17;
-			this.skComboBoxes[17] = skComboBox18;
-			this.skComboBoxes[18] = skComboBox19;
-			this.skComboBoxes[19] = skComboBox20;
-			this.skComboBoxes[20] = skComboBox21;
-			this.skComboBoxes[21] = skComboBox22;
-			this.skComboBoxes[22] = skComboBox23;
-			this.skComboBoxes[23] = skComboBox24;
+
+
+			//// 初始化声控的属性到数组中
+			this.mSkinButtons[0] = mSkinButton1;
+			this.mSkinButtons[1] = mSkinButton2;
+			this.mSkinButtons[2] = mSkinButton3;
+			this.mSkinButtons[3] = mSkinButton4;
+			this.mSkinButtons[4] = mSkinButton5;
+			this.mSkinButtons[5] = mSkinButton6;
+			this.mSkinButtons[6] = mSkinButton7;
+			this.mSkinButtons[7] = mSkinButton8;
+			this.mSkinButtons[8] = mSkinButton9;
+			this.mSkinButtons[9] = mSkinButton10;
+			this.mSkinButtons[10] = mSkinButton11;
+			this.mSkinButtons[11] = mSkinButton12;
+			this.mSkinButtons[12] = mSkinButton13;
+			this.mSkinButtons[13] = mSkinButton14;
+			this.mSkinButtons[14] = mSkinButton15;
+			this.mSkinButtons[15] = mSkinButton16;
+			this.mSkinButtons[16] = mSkinButton17;
+			this.mSkinButtons[17] = mSkinButton18;
+			this.mSkinButtons[18] = mSkinButton19;
+			this.mSkinButtons[19] = mSkinButton20;
+			this.mSkinButtons[20] = mSkinButton21;
+			this.mSkinButtons[21] = mSkinButton22;
+			this.mSkinButtons[22] = mSkinButton23;
+			this.mSkinButtons[23] = mSkinButton24;
+
+			this.frameStepTimeNumericUpDowns[0] = frameStepTimeNumericUpDown1;
+			this.frameStepTimeNumericUpDowns[1] = frameStepTimeNumericUpDown2;
+			this.frameStepTimeNumericUpDowns[2] = frameStepTimeNumericUpDown3;
+			this.frameStepTimeNumericUpDowns[3] = frameStepTimeNumericUpDown4;
+			this.frameStepTimeNumericUpDowns[4] = frameStepTimeNumericUpDown5;
+			this.frameStepTimeNumericUpDowns[5] = frameStepTimeNumericUpDown6;
+			this.frameStepTimeNumericUpDowns[6] = frameStepTimeNumericUpDown7;
+			this.frameStepTimeNumericUpDowns[7] = frameStepTimeNumericUpDown8;
+			this.frameStepTimeNumericUpDowns[8] = frameStepTimeNumericUpDown9;
+			this.frameStepTimeNumericUpDowns[9] = frameStepTimeNumericUpDown10;
+			this.frameStepTimeNumericUpDowns[10] = frameStepTimeNumericUpDown11;
+			this.frameStepTimeNumericUpDowns[11] = frameStepTimeNumericUpDown12;
+			this.frameStepTimeNumericUpDowns[12] = frameStepTimeNumericUpDown13;
+			this.frameStepTimeNumericUpDowns[13] = frameStepTimeNumericUpDown14;
+			this.frameStepTimeNumericUpDowns[14] = frameStepTimeNumericUpDown15;
+			this.frameStepTimeNumericUpDowns[15] = frameStepTimeNumericUpDown16;
+			this.frameStepTimeNumericUpDowns[16] = frameStepTimeNumericUpDown17;
+			this.frameStepTimeNumericUpDowns[17] = frameStepTimeNumericUpDown18;
+			this.frameStepTimeNumericUpDowns[18] = frameStepTimeNumericUpDown19;
+			this.frameStepTimeNumericUpDowns[19] = frameStepTimeNumericUpDown20;
+			this.frameStepTimeNumericUpDowns[20] = frameStepTimeNumericUpDown21;
+			this.frameStepTimeNumericUpDowns[21] = frameStepTimeNumericUpDown22;
+			this.frameStepTimeNumericUpDowns[22] = frameStepTimeNumericUpDown23;
+			this.frameStepTimeNumericUpDowns[23] = frameStepTimeNumericUpDown24;
+
+			this.jgtNumericUpDowns[0] = jgtNumericUpDown1;
+			this.jgtNumericUpDowns[1] = jgtNumericUpDown2;
+			this.jgtNumericUpDowns[2] = jgtNumericUpDown3;
+			this.jgtNumericUpDowns[3] = jgtNumericUpDown4;
+			this.jgtNumericUpDowns[4] = jgtNumericUpDown5;
+			this.jgtNumericUpDowns[5] = jgtNumericUpDown6;
+			this.jgtNumericUpDowns[6] = jgtNumericUpDown7;
+			this.jgtNumericUpDowns[7] = jgtNumericUpDown8;
+			this.jgtNumericUpDowns[8] = jgtNumericUpDown9;
+			this.jgtNumericUpDowns[9] = jgtNumericUpDown10;
+			this.jgtNumericUpDowns[10] = jgtNumericUpDown11;
+			this.jgtNumericUpDowns[11] = jgtNumericUpDown12;
+			this.jgtNumericUpDowns[12] = jgtNumericUpDown13;
+			this.jgtNumericUpDowns[13] = jgtNumericUpDown14;
+			this.jgtNumericUpDowns[14] = jgtNumericUpDown15;
+			this.jgtNumericUpDowns[15] = jgtNumericUpDown16;
+			this.jgtNumericUpDowns[16] = jgtNumericUpDown17;
+			this.jgtNumericUpDowns[17] = jgtNumericUpDown18;
+			this.jgtNumericUpDowns[18] = jgtNumericUpDown19;
+			this.jgtNumericUpDowns[19] = jgtNumericUpDown20;
+			this.jgtNumericUpDowns[20] = jgtNumericUpDown21;
+			this.jgtNumericUpDowns[21] = jgtNumericUpDown22;
+			this.jgtNumericUpDowns[22] = jgtNumericUpDown23;
+			this.jgtNumericUpDowns[23] = jgtNumericUpDown24;
+
+
 
 			// 初始化多场景组合播放输入项
 			this.frameComboBoxes[0] = frame1ComboBox;
@@ -93,8 +149,10 @@ namespace LightController.MyForm
 
 			for (int i = 0; i < 24; i++)
 			{
-				skComboBoxes[i].SelectedIndex = 0;
+				this.mSkinButtons[i].Click += new System.EventHandler(this.mSkinButton_Click);
 			}
+
+			mFrameTextBox.KeyPress += new KeyPressEventHandler(frameSkinTextBox_KeyPress);
 
 			#endregion
 
@@ -176,15 +234,16 @@ namespace LightController.MyForm
 		/// </summary>
 		private void loadSKSet()
 		{
-			for(int i = 0; i < 24; i++)
+			for (int i = 0; i < 24; i++)
 			{
-				skComboBoxes[i].SelectedIndex = iniAst.ReadInt("SK",i.ToString(),0);
+				frameStepTimeNumericUpDowns[i].Value = iniAst.ReadInt("SK", i+"ST", 0);
+				jgtNumericUpDowns[i].Value = iniAst.ReadInt("SK", i + "JG", 0);
 			}
 		}
 
-		
+
 		/// <summary>
-		/// 是否开启组合播放按钮被更改后，两个地方的值也变得不能修改
+		/// 事件：是否开启组合播放按钮被更改后，两个地方的值也变得不能修改
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -197,7 +256,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  读取文件，取出其中的数据，并将参数设置到zuheGroupBox和zuheCheckBox中
+		///  事件：读取文件，取出其中的数据，并将参数设置到zuheGroupBox和zuheCheckBox中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -208,7 +267,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 当选择项发生变化时，读取配置文件
+		/// 事件：当强电场景选择项发生变化时，读取配置文件
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -250,14 +309,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 声控保存功能
+		/// 事件：声控保存功能
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void skSaveButton_Click(object sender, EventArgs e)
 		{
 			for (int i = 0; i < 24; i++) {
-				iniAst.WriteInt("SK", i.ToString() ,skComboBoxes[i].SelectedIndex);
+				iniAst.WriteInt("SK", i + "ST"  ,frameStepTimeNumericUpDowns[i].Value);
+				iniAst.WriteInt("SK", i + "JG", jgtNumericUpDowns[i].Value);
 			}
 			MessageBox.Show("保存成功");
 		}
@@ -287,6 +347,48 @@ namespace LightController.MyForm
 		{
 			this.Dispose();
 			mainForm.Activate();
+		}
+
+	
+		/// <summary>
+		///  事件：点击24个《mSkinButton》时的操作：改动选中场景的文字和frameSkinTextBox的文字
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mSkinButton_Click(object sender, EventArgs e)
+		{
+			if (isInit) {
+				frameIndex = MathAst.getIndexNum(((SkinButton)sender).Name, -1);
+				currentFrameLabel.Text = "选中场景：" + ((SkinButton)sender).Text;
+				mFrameTextBox.Text = iniAst.ReadString("SK", frameIndex + "LK", "");
+			}
+		}
+
+		/// <summary>
+		/// 事件：键盘按键点击事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void frameSkinTextBox_KeyPress(object sender, KeyPressEventArgs e) {
+			Console.WriteLine(e.KeyChar);
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar == ',') ){
+				e.Handled = false;
+				
+			}
+			else
+			{
+				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		///  事件：点击《提示》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mNoticeSkinButton_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

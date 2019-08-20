@@ -620,7 +620,7 @@
 			// networkConnectSkinButton
 			// 
 			this.networkConnectSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.networkConnectSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
+			this.networkConnectSkinButton.BaseColor = System.Drawing.Color.MediumAquamarine;
 			this.networkConnectSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.networkConnectSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.networkConnectSkinButton.DownBack = null;
@@ -749,6 +749,7 @@
 			this.ipsComboBox.Name = "ipsComboBox";
 			this.ipsComboBox.Size = new System.Drawing.Size(164, 20);
 			this.ipsComboBox.TabIndex = 4;
+			this.ipsComboBox.SelectedIndexChanged += new System.EventHandler(this.ipsComboBox_SelectedIndexChanged);
 			// 
 			// networkSearchSkinButton
 			// 
@@ -790,6 +791,7 @@
 			this.comComboBox.Name = "comComboBox";
 			this.comComboBox.Size = new System.Drawing.Size(164, 20);
 			this.comComboBox.TabIndex = 10;
+			this.comComboBox.SelectedIndexChanged += new System.EventHandler(this.comComboBox_SelectedIndexChanged);
 			// 
 			// comSearchSkinButton
 			// 
@@ -811,7 +813,7 @@
 			// comConnectSkinButton
 			// 
 			this.comConnectSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.comConnectSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
+			this.comConnectSkinButton.BaseColor = System.Drawing.Color.MediumAquamarine;
 			this.comConnectSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.comConnectSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.comConnectSkinButton.DownBack = null;

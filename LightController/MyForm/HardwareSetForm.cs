@@ -381,7 +381,27 @@ namespace LightController.MyForm
 			Console.WriteLine("A");
 		}
 
-	
+		/// <summary>
+		/// 事件：改变选中值后，应该将回传及下载按钮设为不可用
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			comDownloadSkinButton.Enabled = false;
+			comUploadSkinButton.Enabled = false;
+		}
+
+		/// <summary>
+		/// 事件：改变选中值后，应该将回传及下载按钮设为不可用
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ipsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			networkDownloadSkinButton.Enabled = false;
+			networkUploadSkinButton.Enabled = false;
+		}
 	}
 
 	/// <summary>

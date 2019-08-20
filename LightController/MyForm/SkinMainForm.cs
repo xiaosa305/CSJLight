@@ -20,6 +20,7 @@ namespace LightController.MyForm
 	public partial class SkinMainForm : MainFormInterface
 	{
 
+
 		public SkinMainForm()
 		{
 			InitializeComponent();
@@ -324,7 +325,18 @@ namespace LightController.MyForm
 
 			commonStepTimeNumericUpDown.MouseEnter += new EventHandler(this.commonStepTimeNumericUpDown_MouseEnter);
 			commonStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
-			
+
+			// 动态加载可用的dmx512串口列表
+			SerialPortTools comTools = SerialPortTools.GetInstance();
+			comList = comTools.GetDMX512DeviceList();
+			if (comList.Count > 0) {
+				foreach (string item in comList)
+				{
+					comSkinComboBox.Items.Add(item);
+				}
+				comSkinComboBox.SelectedIndex = 0;
+			}		
+		
 			isInit = true;
 		}
 
@@ -407,6 +419,16 @@ namespace LightController.MyForm
 
 
 		#region 工程相关 及 初始化辅助方法
+
+		/// <summary>
+		///  事件：点击《打开串口》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comOpenSkinButton_Click(object sender, EventArgs e)
+		{
+			playPanel.Show();
+		}
 
 		/// <summary>
 		/// 事件： 点击《新建工程》按钮
@@ -1933,10 +1955,11 @@ namespace LightController.MyForm
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 		}
 
+
+
 		#endregion
 
-
-
+		
 	}
 
 }

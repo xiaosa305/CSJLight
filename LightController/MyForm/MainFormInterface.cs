@@ -48,12 +48,12 @@ namespace LightController.MyForm
 		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制灯
 		protected StepWrapper tempStep; //// 辅助步变量：复制及粘贴步时用到
 
-
+			   
 		// 调试变量
 		protected PlayTools playTools; //DMX512灯具操控对象的实例
 		protected bool isConnect = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false；
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
-
+		protected IList<string> comList; 
 		
 		// 几个virtual修饰的方法：主要供各种Form回调使用		
 

@@ -33,7 +33,7 @@ namespace LightController.MyForm
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinMainForm));
-			this.skinButton1 = new CCWin.SkinControl.SkinButton();
+			this.comOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.lightEditorSkinButton = new CCWin.SkinControl.SkinButton();
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
@@ -45,7 +45,7 @@ namespace LightController.MyForm
 			this.hardwareSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.ymSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinPanel2 = new CCWin.SkinControl.SkinPanel();
-			this.skinComboBox1 = new CCWin.SkinControl.SkinComboBox();
+			this.comSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.newSkinButton = new CCWin.SkinControl.SkinButton();
 			this.openSkinButton = new CCWin.SkinControl.SkinButton();
@@ -490,26 +490,27 @@ namespace LightController.MyForm
 			this.labelPanel3.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// skinButton1
+			// comOpenSkinButton
 			// 
-			this.skinButton1.BackColor = System.Drawing.Color.Transparent;
-			this.skinButton1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(22)))), ((int)(((byte)(42)))));
-			this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinButton1.DownBack = null;
-			this.skinButton1.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.skinButton1.ForeColor = System.Drawing.Color.Cornsilk;
-			this.skinButton1.ForeColorSuit = true;
-			this.skinButton1.IsDrawBorder = false;
-			this.skinButton1.Location = new System.Drawing.Point(2, 32);
-			this.skinButton1.Margin = new System.Windows.Forms.Padding(2, 10, 2, 40);
-			this.skinButton1.MouseBack = null;
-			this.skinButton1.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.skinButton1.Name = "skinButton1";
-			this.skinButton1.NormlBack = null;
-			this.skinButton1.Size = new System.Drawing.Size(120, 36);
-			this.skinButton1.TabIndex = 1;
-			this.skinButton1.Text = "打开串口";
-			this.skinButton1.UseVisualStyleBackColor = false;
+			this.comOpenSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.comOpenSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(22)))), ((int)(((byte)(42)))));
+			this.comOpenSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.comOpenSkinButton.DownBack = null;
+			this.comOpenSkinButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.comOpenSkinButton.ForeColor = System.Drawing.Color.Cornsilk;
+			this.comOpenSkinButton.ForeColorSuit = true;
+			this.comOpenSkinButton.IsDrawBorder = false;
+			this.comOpenSkinButton.Location = new System.Drawing.Point(2, 32);
+			this.comOpenSkinButton.Margin = new System.Windows.Forms.Padding(2, 10, 2, 40);
+			this.comOpenSkinButton.MouseBack = null;
+			this.comOpenSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+			this.comOpenSkinButton.Name = "comOpenSkinButton";
+			this.comOpenSkinButton.NormlBack = null;
+			this.comOpenSkinButton.Size = new System.Drawing.Size(120, 36);
+			this.comOpenSkinButton.TabIndex = 1;
+			this.comOpenSkinButton.Text = "打开串口";
+			this.comOpenSkinButton.UseVisualStyleBackColor = false;
+			this.comOpenSkinButton.Click += new System.EventHandler(this.comOpenSkinButton_Click);
 			// 
 			// menuSkinPanel
 			// 
@@ -785,9 +786,9 @@ namespace LightController.MyForm
 			// 
 			this.skinPanel2.BackColor = System.Drawing.Color.Transparent;
 			this.skinPanel2.BorderColor = System.Drawing.Color.LightGray;
-			this.skinPanel2.Controls.Add(this.skinComboBox1);
+			this.skinPanel2.Controls.Add(this.comSkinComboBox);
 			this.skinPanel2.Controls.Add(this.saveSkinButton);
-			this.skinPanel2.Controls.Add(this.skinButton1);
+			this.skinPanel2.Controls.Add(this.comOpenSkinButton);
 			this.skinPanel2.Controls.Add(this.newSkinButton);
 			this.skinPanel2.Controls.Add(this.openSkinButton);
 			this.skinPanel2.ControlState = CCWin.SkinClass.ControlState.Normal;
@@ -800,15 +801,15 @@ namespace LightController.MyForm
 			this.skinPanel2.Size = new System.Drawing.Size(123, 611);
 			this.skinPanel2.TabIndex = 6;
 			// 
-			// skinComboBox1
+			// comSkinComboBox
 			// 
-			this.skinComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.skinComboBox1.FormattingEnabled = true;
-			this.skinComboBox1.Location = new System.Drawing.Point(3, 5);
-			this.skinComboBox1.Name = "skinComboBox1";
-			this.skinComboBox1.Size = new System.Drawing.Size(118, 22);
-			this.skinComboBox1.TabIndex = 0;
-			this.skinComboBox1.WaterText = "";
+			this.comSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.comSkinComboBox.FormattingEnabled = true;
+			this.comSkinComboBox.Location = new System.Drawing.Point(3, 5);
+			this.comSkinComboBox.Name = "comSkinComboBox";
+			this.comSkinComboBox.Size = new System.Drawing.Size(118, 22);
+			this.comSkinComboBox.TabIndex = 0;
+			this.comSkinComboBox.WaterText = "";
 			// 
 			// saveSkinButton
 			// 
@@ -925,6 +926,7 @@ namespace LightController.MyForm
 			this.playPanel.Name = "playPanel";
 			this.playPanel.Size = new System.Drawing.Size(1047, 126);
 			this.playPanel.TabIndex = 13;
+			this.playPanel.Visible = false;
 			// 
 			// connectSkinButton
 			// 
@@ -5296,7 +5298,7 @@ namespace LightController.MyForm
 			this.firstLabel3.TabIndex = 0;
 			this.firstLabel3.Text = "通道值";
 			// 
-			// NewMainForm
+			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -5310,7 +5312,7 @@ namespace LightController.MyForm
 			this.Controls.Add(this.playSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
 			this.Margin = new System.Windows.Forms.Padding(2);
-			this.Name = "NewMainForm";
+			this.Name = "SkinMainForm";
 			this.Text = "NewMainForm";
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.menuSkinPanel.ResumeLayout(false);
@@ -5521,13 +5523,13 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton otherSkinButton;
 		private CCWin.SkinControl.SkinButton networkSkinButton;
 		private CCWin.SkinControl.SkinButton ymSkinButton;
-		private CCWin.SkinControl.SkinButton skinButton1;
+		private CCWin.SkinControl.SkinButton comOpenSkinButton;
 		private CCWin.SkinControl.SkinButton saveSkinButton;
 		private CCWin.SkinControl.SkinButton openSkinButton;
 		private CCWin.SkinControl.SkinButton newSkinButton;
 		private CCWin.SkinControl.SkinPanel menuSkinPanel;
 		private CCWin.SkinControl.SkinPanel skinPanel2;
-		private CCWin.SkinControl.SkinComboBox skinComboBox1;
+		private CCWin.SkinControl.SkinComboBox comSkinComboBox;
 		private CCWin.SkinControl.SkinPanel playSkinPanel;
 		private CCWin.SkinControl.SkinListView lightsSkinListView;
 		private ImageList lightLargeImageList;

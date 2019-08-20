@@ -152,8 +152,7 @@ namespace LightController.MyForm
 				this.mSkinButtons[i].Click += new System.EventHandler(this.mSkinButton_Click);
 			}
 
-			mFrameTextBox.KeyPress += new KeyPressEventHandler(frameSkinTextBox_KeyPress);
-
+			
 			#endregion
 
 			// 初始化iniAst
@@ -278,7 +277,8 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  保存当前选择场景的八个开关的设置
+		///  事件：点击《(智能灯光控制器)保存当前》按钮
+		///  --保存当前选择场景的八个开关的设置
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -294,7 +294,8 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  保存1.最大通道数2.开机自动播放场景 两个数据
+		///  事件：点击《（Dmx512设置)保存设置》按钮
+		///  --保存1.最大通道数;2.开机自动播放场景;3.时间因子;4.场景切换跳渐变
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -307,22 +308,13 @@ namespace LightController.MyForm
 			MessageBox.Show("保存成功");
 
 		}
-
+			   
 		/// <summary>
-		/// 事件：声控保存功能
+		/// 事件：点击《(多场景组合播放)保存当前》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void skSaveButton_Click(object sender, EventArgs e)
-		{
-			for (int i = 0; i < 24; i++) {
-				iniAst.WriteInt("SK", i + "ST"  ,frameStepTimeNumericUpDowns[i].Value);
-				iniAst.WriteInt("SK", i + "JG", jgtNumericUpDowns[i].Value);
-			}
-			MessageBox.Show("保存成功");
-		}
-
-		private void frameSaveButton_Click(object sender, EventArgs e)
+		private void multipleFrameSaveButton_Click(object sender, EventArgs e)
 		{
 			int frame = zuheFrameComboBox.SelectedIndex;
 			iniAst.WriteInt("Multiple", frame + "OPEN", (zuheCheckBox.Checked ? 1 : 0));
@@ -339,7 +331,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  右上角点击关闭按钮后的操作
+		/// 事件： 右上角点击关闭按钮后的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -348,7 +340,6 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
-
 	
 		/// <summary>
 		///  事件：点击24个《mSkinButton》时的操作：改动选中场景的文字和frameSkinTextBox的文字
@@ -359,21 +350,20 @@ namespace LightController.MyForm
 		{
 			if (isInit) {
 				frameIndex = MathAst.getIndexNum(((SkinButton)sender).Name, -1);
+				mFrameLKPanel.Enabled = true;
 				currentFrameLabel.Text = "选中场景：" + ((SkinButton)sender).Text;
 				mFrameTextBox.Text = iniAst.ReadString("SK", frameIndex + "LK", "");
 			}
 		}
 
 		/// <summary>
-		/// 事件：键盘按键点击事件
+		/// 事件：键盘按键点击事件:确保textBox内只能是0-4、逗号或回退键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void frameSkinTextBox_KeyPress(object sender, KeyPressEventArgs e) {
-			Console.WriteLine(e.KeyChar);
-			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar == ',') ){
-				e.Handled = false;
-				
+		private void mFrameTextBox_KeyPress(object sender, KeyPressEventArgs e) {
+			if ((e.KeyChar >= '0' && e.KeyChar <= '4') || e.KeyChar == 8 ){				
+				e.Handled = false;				
 			}
 			else
 			{
@@ -382,13 +372,47 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《提示》
+		///  事件：点击《提示》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void mNoticeSkinButton_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("请在在文本框内输入每一次执行的步数（范围为1-4），且每步数字都连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式。");
 		}
+
+		/// <summary>
+		/// 事件：点击《保存链表》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mFrameLKSaveSkinButton_Click(object sender, EventArgs e)
+		{
+			if (frameIndex != -1)
+			{
+				iniAst.WriteString("SK", frameIndex + "LK", mFrameTextBox.Text);
+				MessageBox.Show("当前场景链表保存成功");
+			}
+			else {
+				MessageBox.Show("未选中场景，无法保存");
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《保存声控程序所有步时间和间隔时间》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mFrameSaveAllSkinButton_Click(object sender, EventArgs e)
+		{
+			for (int i = 0; i < 24; i++)
+			{
+				iniAst.WriteInt("SK", i + "ST", frameStepTimeNumericUpDowns[i].Value);
+				iniAst.WriteInt("SK", i + "JG", jgtNumericUpDowns[i].Value);
+			}
+			MessageBox.Show("保存成功");
+		}
+
+	
 	}
 }

@@ -14,7 +14,7 @@ namespace LightController.MyForm
 {
 	public partial class HardwareSetForm : Form
 	{
-		private MainForm mainForm;
+		private MainFormInterface mainForm;
 		private string iniPath;
 		private string hName;
 		private bool isNew = true;
@@ -23,7 +23,7 @@ namespace LightController.MyForm
 		/// 构造函数：初始化各个变量
 		/// </summary>
 		/// <param name="iniPath">通过传入iniPath（空值或有值）来决定要生成的数据的模板</param>
-		public HardwareSetForm(MainForm mainForm, string iniPath,string hName)
+		public HardwareSetForm(MainFormInterface mainForm, string iniPath,string hName)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -59,7 +59,7 @@ namespace LightController.MyForm
 			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
 			heartbeatTextBox.Text = iniFileAst.ReadString("Common", "Heartbeat", "");
 			heartbeatCycleNumericUpDown.Value = iniFileAst.ReadInt("Common", "HeartbeatCycle", 0);
-			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 0);
+			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 1);
 
 			linkModeComboBox.SelectedIndex = iniFileAst.ReadInt("Network", "LinkMode", 0);
 			linkPortTextBox.Text = iniFileAst.ReadString("Network", "LinkPort", "");

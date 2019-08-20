@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.MyForm;
+using System;
 using System.Windows.Forms;
 
 namespace LightController
@@ -13,7 +14,9 @@ namespace LightController
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new SkinMainForm());
 			Application.Run(new MainForm());
+			//Application.Run(new TestForm());
 		}
 	}
 }

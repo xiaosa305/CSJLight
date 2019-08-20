@@ -28,10 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.nameTextBox = new System.Windows.Forms.TextBox();
 			this.mNameLabel = new System.Windows.Forms.Label();
-			this.saveButton = new System.Windows.Forms.Button();
-			this.cancelButton = new System.Windows.Forms.Button();
 			this.tongdaoPanel = new System.Windows.Forms.Panel();
 			this.checkBox32 = new System.Windows.Forms.CheckBox();
 			this.checkBox31 = new System.Windows.Forms.CheckBox();
@@ -67,44 +66,28 @@
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
 			this.noticeLabel = new System.Windows.Forms.Label();
+			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.tongdaoPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// nameTextBox
 			// 
-			this.nameTextBox.Location = new System.Drawing.Point(132, 490);
+			this.nameTextBox.Location = new System.Drawing.Point(99, 392);
+			this.nameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameTextBox.Name = "nameTextBox";
-			this.nameTextBox.Size = new System.Drawing.Size(184, 25);
+			this.nameTextBox.Size = new System.Drawing.Size(139, 21);
 			this.nameTextBox.TabIndex = 1;
 			// 
 			// mNameLabel
 			// 
 			this.mNameLabel.AutoSize = true;
-			this.mNameLabel.Location = new System.Drawing.Point(44, 495);
+			this.mNameLabel.Location = new System.Drawing.Point(33, 396);
+			this.mNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.mNameLabel.Name = "mNameLabel";
-			this.mNameLabel.Size = new System.Drawing.Size(82, 15);
+			this.mNameLabel.Size = new System.Drawing.Size(65, 12);
 			this.mNameLabel.TabIndex = 2;
 			this.mNameLabel.Text = "素材名称：";
-			// 
-			// saveButton
-			// 
-			this.saveButton.Location = new System.Drawing.Point(47, 535);
-			this.saveButton.Name = "saveButton";
-			this.saveButton.Size = new System.Drawing.Size(104, 33);
-			this.saveButton.TabIndex = 3;
-			this.saveButton.Text = "保存";
-			this.saveButton.UseVisualStyleBackColor = true;
-			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-			// 
-			// cancelButton
-			// 
-			this.cancelButton.Location = new System.Drawing.Point(202, 535);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(104, 33);
-			this.cancelButton.TabIndex = 3;
-			this.cancelButton.Text = "取消";
-			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// tongdaoPanel
 			// 
@@ -141,17 +124,19 @@
 			this.tongdaoPanel.Controls.Add(this.checkBox3);
 			this.tongdaoPanel.Controls.Add(this.checkBox2);
 			this.tongdaoPanel.Controls.Add(this.checkBox1);
-			this.tongdaoPanel.Location = new System.Drawing.Point(0, 59);
+			this.tongdaoPanel.Location = new System.Drawing.Point(0, 47);
+			this.tongdaoPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoPanel.Name = "tongdaoPanel";
-			this.tongdaoPanel.Size = new System.Drawing.Size(355, 407);
+			this.tongdaoPanel.Size = new System.Drawing.Size(266, 326);
 			this.tongdaoPanel.TabIndex = 4;
 			// 
 			// checkBox32
 			// 
 			this.checkBox32.AutoSize = true;
-			this.checkBox32.Location = new System.Drawing.Point(202, 581);
+			this.checkBox32.Location = new System.Drawing.Point(152, 465);
+			this.checkBox32.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox32.Name = "checkBox32";
-			this.checkBox32.Size = new System.Drawing.Size(74, 19);
+			this.checkBox32.Size = new System.Drawing.Size(60, 16);
 			this.checkBox32.TabIndex = 0;
 			this.checkBox32.Text = "通道名";
 			this.checkBox32.UseVisualStyleBackColor = true;
@@ -160,9 +145,10 @@
 			// checkBox31
 			// 
 			this.checkBox31.AutoSize = true;
-			this.checkBox31.Location = new System.Drawing.Point(25, 581);
+			this.checkBox31.Location = new System.Drawing.Point(19, 465);
+			this.checkBox31.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox31.Name = "checkBox31";
-			this.checkBox31.Size = new System.Drawing.Size(74, 19);
+			this.checkBox31.Size = new System.Drawing.Size(60, 16);
 			this.checkBox31.TabIndex = 0;
 			this.checkBox31.Text = "通道名";
 			this.checkBox31.UseVisualStyleBackColor = true;
@@ -171,9 +157,10 @@
 			// checkBox30
 			// 
 			this.checkBox30.AutoSize = true;
-			this.checkBox30.Location = new System.Drawing.Point(202, 543);
+			this.checkBox30.Location = new System.Drawing.Point(152, 434);
+			this.checkBox30.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox30.Name = "checkBox30";
-			this.checkBox30.Size = new System.Drawing.Size(74, 19);
+			this.checkBox30.Size = new System.Drawing.Size(60, 16);
 			this.checkBox30.TabIndex = 0;
 			this.checkBox30.Text = "通道名";
 			this.checkBox30.UseVisualStyleBackColor = true;
@@ -182,9 +169,10 @@
 			// checkBox29
 			// 
 			this.checkBox29.AutoSize = true;
-			this.checkBox29.Location = new System.Drawing.Point(25, 543);
+			this.checkBox29.Location = new System.Drawing.Point(19, 434);
+			this.checkBox29.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox29.Name = "checkBox29";
-			this.checkBox29.Size = new System.Drawing.Size(74, 19);
+			this.checkBox29.Size = new System.Drawing.Size(60, 16);
 			this.checkBox29.TabIndex = 0;
 			this.checkBox29.Text = "通道名";
 			this.checkBox29.UseVisualStyleBackColor = true;
@@ -193,9 +181,10 @@
 			// checkBox28
 			// 
 			this.checkBox28.AutoSize = true;
-			this.checkBox28.Location = new System.Drawing.Point(202, 505);
+			this.checkBox28.Location = new System.Drawing.Point(152, 404);
+			this.checkBox28.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox28.Name = "checkBox28";
-			this.checkBox28.Size = new System.Drawing.Size(74, 19);
+			this.checkBox28.Size = new System.Drawing.Size(60, 16);
 			this.checkBox28.TabIndex = 0;
 			this.checkBox28.Text = "通道名";
 			this.checkBox28.UseVisualStyleBackColor = true;
@@ -204,9 +193,10 @@
 			// checkBox27
 			// 
 			this.checkBox27.AutoSize = true;
-			this.checkBox27.Location = new System.Drawing.Point(25, 505);
+			this.checkBox27.Location = new System.Drawing.Point(19, 404);
+			this.checkBox27.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox27.Name = "checkBox27";
-			this.checkBox27.Size = new System.Drawing.Size(74, 19);
+			this.checkBox27.Size = new System.Drawing.Size(60, 16);
 			this.checkBox27.TabIndex = 0;
 			this.checkBox27.Text = "通道名";
 			this.checkBox27.UseVisualStyleBackColor = true;
@@ -215,9 +205,10 @@
 			// checkBox26
 			// 
 			this.checkBox26.AutoSize = true;
-			this.checkBox26.Location = new System.Drawing.Point(202, 467);
+			this.checkBox26.Location = new System.Drawing.Point(152, 374);
+			this.checkBox26.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox26.Name = "checkBox26";
-			this.checkBox26.Size = new System.Drawing.Size(74, 19);
+			this.checkBox26.Size = new System.Drawing.Size(60, 16);
 			this.checkBox26.TabIndex = 0;
 			this.checkBox26.Text = "通道名";
 			this.checkBox26.UseVisualStyleBackColor = true;
@@ -226,9 +217,10 @@
 			// checkBox25
 			// 
 			this.checkBox25.AutoSize = true;
-			this.checkBox25.Location = new System.Drawing.Point(25, 467);
+			this.checkBox25.Location = new System.Drawing.Point(19, 374);
+			this.checkBox25.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox25.Name = "checkBox25";
-			this.checkBox25.Size = new System.Drawing.Size(74, 19);
+			this.checkBox25.Size = new System.Drawing.Size(60, 16);
 			this.checkBox25.TabIndex = 0;
 			this.checkBox25.Text = "通道名";
 			this.checkBox25.UseVisualStyleBackColor = true;
@@ -237,9 +229,10 @@
 			// checkBox24
 			// 
 			this.checkBox24.AutoSize = true;
-			this.checkBox24.Location = new System.Drawing.Point(202, 429);
+			this.checkBox24.Location = new System.Drawing.Point(152, 343);
+			this.checkBox24.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox24.Name = "checkBox24";
-			this.checkBox24.Size = new System.Drawing.Size(74, 19);
+			this.checkBox24.Size = new System.Drawing.Size(60, 16);
 			this.checkBox24.TabIndex = 0;
 			this.checkBox24.Text = "通道名";
 			this.checkBox24.UseVisualStyleBackColor = true;
@@ -248,9 +241,10 @@
 			// checkBox23
 			// 
 			this.checkBox23.AutoSize = true;
-			this.checkBox23.Location = new System.Drawing.Point(25, 429);
+			this.checkBox23.Location = new System.Drawing.Point(19, 343);
+			this.checkBox23.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox23.Name = "checkBox23";
-			this.checkBox23.Size = new System.Drawing.Size(74, 19);
+			this.checkBox23.Size = new System.Drawing.Size(60, 16);
 			this.checkBox23.TabIndex = 0;
 			this.checkBox23.Text = "通道名";
 			this.checkBox23.UseVisualStyleBackColor = true;
@@ -259,9 +253,10 @@
 			// checkBox22
 			// 
 			this.checkBox22.AutoSize = true;
-			this.checkBox22.Location = new System.Drawing.Point(202, 391);
+			this.checkBox22.Location = new System.Drawing.Point(152, 313);
+			this.checkBox22.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox22.Name = "checkBox22";
-			this.checkBox22.Size = new System.Drawing.Size(74, 19);
+			this.checkBox22.Size = new System.Drawing.Size(60, 16);
 			this.checkBox22.TabIndex = 0;
 			this.checkBox22.Text = "通道名";
 			this.checkBox22.UseVisualStyleBackColor = true;
@@ -270,9 +265,10 @@
 			// checkBox21
 			// 
 			this.checkBox21.AutoSize = true;
-			this.checkBox21.Location = new System.Drawing.Point(25, 391);
+			this.checkBox21.Location = new System.Drawing.Point(19, 313);
+			this.checkBox21.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox21.Name = "checkBox21";
-			this.checkBox21.Size = new System.Drawing.Size(74, 19);
+			this.checkBox21.Size = new System.Drawing.Size(60, 16);
 			this.checkBox21.TabIndex = 0;
 			this.checkBox21.Text = "通道名";
 			this.checkBox21.UseVisualStyleBackColor = true;
@@ -281,9 +277,10 @@
 			// checkBox20
 			// 
 			this.checkBox20.AutoSize = true;
-			this.checkBox20.Location = new System.Drawing.Point(202, 353);
+			this.checkBox20.Location = new System.Drawing.Point(152, 282);
+			this.checkBox20.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox20.Name = "checkBox20";
-			this.checkBox20.Size = new System.Drawing.Size(74, 19);
+			this.checkBox20.Size = new System.Drawing.Size(60, 16);
 			this.checkBox20.TabIndex = 0;
 			this.checkBox20.Text = "通道名";
 			this.checkBox20.UseVisualStyleBackColor = true;
@@ -292,9 +289,10 @@
 			// checkBox19
 			// 
 			this.checkBox19.AutoSize = true;
-			this.checkBox19.Location = new System.Drawing.Point(25, 353);
+			this.checkBox19.Location = new System.Drawing.Point(19, 282);
+			this.checkBox19.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox19.Name = "checkBox19";
-			this.checkBox19.Size = new System.Drawing.Size(74, 19);
+			this.checkBox19.Size = new System.Drawing.Size(60, 16);
 			this.checkBox19.TabIndex = 0;
 			this.checkBox19.Text = "通道名";
 			this.checkBox19.UseVisualStyleBackColor = true;
@@ -303,9 +301,10 @@
 			// checkBox18
 			// 
 			this.checkBox18.AutoSize = true;
-			this.checkBox18.Location = new System.Drawing.Point(202, 315);
+			this.checkBox18.Location = new System.Drawing.Point(152, 252);
+			this.checkBox18.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox18.Name = "checkBox18";
-			this.checkBox18.Size = new System.Drawing.Size(74, 19);
+			this.checkBox18.Size = new System.Drawing.Size(60, 16);
 			this.checkBox18.TabIndex = 0;
 			this.checkBox18.Text = "通道名";
 			this.checkBox18.UseVisualStyleBackColor = true;
@@ -314,9 +313,10 @@
 			// checkBox17
 			// 
 			this.checkBox17.AutoSize = true;
-			this.checkBox17.Location = new System.Drawing.Point(25, 315);
+			this.checkBox17.Location = new System.Drawing.Point(19, 252);
+			this.checkBox17.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox17.Name = "checkBox17";
-			this.checkBox17.Size = new System.Drawing.Size(74, 19);
+			this.checkBox17.Size = new System.Drawing.Size(60, 16);
 			this.checkBox17.TabIndex = 0;
 			this.checkBox17.Text = "通道名";
 			this.checkBox17.UseVisualStyleBackColor = true;
@@ -325,9 +325,10 @@
 			// checkBox16
 			// 
 			this.checkBox16.AutoSize = true;
-			this.checkBox16.Location = new System.Drawing.Point(202, 277);
+			this.checkBox16.Location = new System.Drawing.Point(152, 222);
+			this.checkBox16.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox16.Name = "checkBox16";
-			this.checkBox16.Size = new System.Drawing.Size(74, 19);
+			this.checkBox16.Size = new System.Drawing.Size(60, 16);
 			this.checkBox16.TabIndex = 0;
 			this.checkBox16.Text = "通道名";
 			this.checkBox16.UseVisualStyleBackColor = true;
@@ -336,9 +337,10 @@
 			// checkBox15
 			// 
 			this.checkBox15.AutoSize = true;
-			this.checkBox15.Location = new System.Drawing.Point(25, 277);
+			this.checkBox15.Location = new System.Drawing.Point(19, 222);
+			this.checkBox15.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox15.Name = "checkBox15";
-			this.checkBox15.Size = new System.Drawing.Size(74, 19);
+			this.checkBox15.Size = new System.Drawing.Size(60, 16);
 			this.checkBox15.TabIndex = 0;
 			this.checkBox15.Text = "通道名";
 			this.checkBox15.UseVisualStyleBackColor = true;
@@ -347,9 +349,10 @@
 			// checkBox14
 			// 
 			this.checkBox14.AutoSize = true;
-			this.checkBox14.Location = new System.Drawing.Point(202, 239);
+			this.checkBox14.Location = new System.Drawing.Point(152, 191);
+			this.checkBox14.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox14.Name = "checkBox14";
-			this.checkBox14.Size = new System.Drawing.Size(74, 19);
+			this.checkBox14.Size = new System.Drawing.Size(60, 16);
 			this.checkBox14.TabIndex = 0;
 			this.checkBox14.Text = "通道名";
 			this.checkBox14.UseVisualStyleBackColor = true;
@@ -358,9 +361,10 @@
 			// checkBox13
 			// 
 			this.checkBox13.AutoSize = true;
-			this.checkBox13.Location = new System.Drawing.Point(25, 239);
+			this.checkBox13.Location = new System.Drawing.Point(19, 191);
+			this.checkBox13.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox13.Name = "checkBox13";
-			this.checkBox13.Size = new System.Drawing.Size(74, 19);
+			this.checkBox13.Size = new System.Drawing.Size(60, 16);
 			this.checkBox13.TabIndex = 0;
 			this.checkBox13.Text = "通道名";
 			this.checkBox13.UseVisualStyleBackColor = true;
@@ -369,9 +373,10 @@
 			// checkBox12
 			// 
 			this.checkBox12.AutoSize = true;
-			this.checkBox12.Location = new System.Drawing.Point(202, 201);
+			this.checkBox12.Location = new System.Drawing.Point(152, 161);
+			this.checkBox12.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox12.Name = "checkBox12";
-			this.checkBox12.Size = new System.Drawing.Size(74, 19);
+			this.checkBox12.Size = new System.Drawing.Size(60, 16);
 			this.checkBox12.TabIndex = 0;
 			this.checkBox12.Text = "通道名";
 			this.checkBox12.UseVisualStyleBackColor = true;
@@ -380,9 +385,10 @@
 			// checkBox11
 			// 
 			this.checkBox11.AutoSize = true;
-			this.checkBox11.Location = new System.Drawing.Point(25, 201);
+			this.checkBox11.Location = new System.Drawing.Point(19, 161);
+			this.checkBox11.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox11.Name = "checkBox11";
-			this.checkBox11.Size = new System.Drawing.Size(74, 19);
+			this.checkBox11.Size = new System.Drawing.Size(60, 16);
 			this.checkBox11.TabIndex = 0;
 			this.checkBox11.Text = "通道名";
 			this.checkBox11.UseVisualStyleBackColor = true;
@@ -391,9 +397,10 @@
 			// checkBox10
 			// 
 			this.checkBox10.AutoSize = true;
-			this.checkBox10.Location = new System.Drawing.Point(202, 163);
+			this.checkBox10.Location = new System.Drawing.Point(152, 130);
+			this.checkBox10.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox10.Name = "checkBox10";
-			this.checkBox10.Size = new System.Drawing.Size(74, 19);
+			this.checkBox10.Size = new System.Drawing.Size(60, 16);
 			this.checkBox10.TabIndex = 0;
 			this.checkBox10.Text = "通道名";
 			this.checkBox10.UseVisualStyleBackColor = true;
@@ -402,9 +409,10 @@
 			// checkBox9
 			// 
 			this.checkBox9.AutoSize = true;
-			this.checkBox9.Location = new System.Drawing.Point(25, 163);
+			this.checkBox9.Location = new System.Drawing.Point(19, 130);
+			this.checkBox9.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox9.Name = "checkBox9";
-			this.checkBox9.Size = new System.Drawing.Size(74, 19);
+			this.checkBox9.Size = new System.Drawing.Size(60, 16);
 			this.checkBox9.TabIndex = 0;
 			this.checkBox9.Text = "通道名";
 			this.checkBox9.UseVisualStyleBackColor = true;
@@ -413,9 +421,10 @@
 			// checkBox8
 			// 
 			this.checkBox8.AutoSize = true;
-			this.checkBox8.Location = new System.Drawing.Point(202, 125);
+			this.checkBox8.Location = new System.Drawing.Point(152, 100);
+			this.checkBox8.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox8.Name = "checkBox8";
-			this.checkBox8.Size = new System.Drawing.Size(74, 19);
+			this.checkBox8.Size = new System.Drawing.Size(60, 16);
 			this.checkBox8.TabIndex = 0;
 			this.checkBox8.Text = "通道名";
 			this.checkBox8.UseVisualStyleBackColor = true;
@@ -424,9 +433,10 @@
 			// checkBox7
 			// 
 			this.checkBox7.AutoSize = true;
-			this.checkBox7.Location = new System.Drawing.Point(25, 125);
+			this.checkBox7.Location = new System.Drawing.Point(19, 100);
+			this.checkBox7.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox7.Name = "checkBox7";
-			this.checkBox7.Size = new System.Drawing.Size(74, 19);
+			this.checkBox7.Size = new System.Drawing.Size(60, 16);
 			this.checkBox7.TabIndex = 0;
 			this.checkBox7.Text = "通道名";
 			this.checkBox7.UseVisualStyleBackColor = true;
@@ -435,9 +445,10 @@
 			// checkBox6
 			// 
 			this.checkBox6.AutoSize = true;
-			this.checkBox6.Location = new System.Drawing.Point(202, 87);
+			this.checkBox6.Location = new System.Drawing.Point(152, 70);
+			this.checkBox6.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox6.Name = "checkBox6";
-			this.checkBox6.Size = new System.Drawing.Size(74, 19);
+			this.checkBox6.Size = new System.Drawing.Size(60, 16);
 			this.checkBox6.TabIndex = 0;
 			this.checkBox6.Text = "通道名";
 			this.checkBox6.UseVisualStyleBackColor = true;
@@ -446,9 +457,10 @@
 			// checkBox5
 			// 
 			this.checkBox5.AutoSize = true;
-			this.checkBox5.Location = new System.Drawing.Point(25, 87);
+			this.checkBox5.Location = new System.Drawing.Point(19, 70);
+			this.checkBox5.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox5.Name = "checkBox5";
-			this.checkBox5.Size = new System.Drawing.Size(74, 19);
+			this.checkBox5.Size = new System.Drawing.Size(60, 16);
 			this.checkBox5.TabIndex = 0;
 			this.checkBox5.Text = "通道名";
 			this.checkBox5.UseVisualStyleBackColor = true;
@@ -457,9 +469,10 @@
 			// checkBox4
 			// 
 			this.checkBox4.AutoSize = true;
-			this.checkBox4.Location = new System.Drawing.Point(202, 49);
+			this.checkBox4.Location = new System.Drawing.Point(152, 39);
+			this.checkBox4.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox4.Name = "checkBox4";
-			this.checkBox4.Size = new System.Drawing.Size(74, 19);
+			this.checkBox4.Size = new System.Drawing.Size(60, 16);
 			this.checkBox4.TabIndex = 0;
 			this.checkBox4.Text = "通道名";
 			this.checkBox4.UseVisualStyleBackColor = true;
@@ -468,9 +481,10 @@
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(25, 49);
+			this.checkBox3.Location = new System.Drawing.Point(19, 39);
+			this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox3.Name = "checkBox3";
-			this.checkBox3.Size = new System.Drawing.Size(74, 19);
+			this.checkBox3.Size = new System.Drawing.Size(60, 16);
 			this.checkBox3.TabIndex = 0;
 			this.checkBox3.Text = "通道名";
 			this.checkBox3.UseVisualStyleBackColor = true;
@@ -479,9 +493,10 @@
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(202, 11);
+			this.checkBox2.Location = new System.Drawing.Point(152, 9);
+			this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox2.Name = "checkBox2";
-			this.checkBox2.Size = new System.Drawing.Size(74, 19);
+			this.checkBox2.Size = new System.Drawing.Size(60, 16);
 			this.checkBox2.TabIndex = 0;
 			this.checkBox2.Text = "通道名";
 			this.checkBox2.UseVisualStyleBackColor = true;
@@ -490,9 +505,10 @@
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(25, 11);
+			this.checkBox1.Location = new System.Drawing.Point(19, 9);
+			this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(74, 19);
+			this.checkBox1.Size = new System.Drawing.Size(60, 16);
 			this.checkBox1.TabIndex = 0;
 			this.checkBox1.Text = "通道名";
 			this.checkBox1.UseVisualStyleBackColor = true;
@@ -502,9 +518,10 @@
 			// 
 			this.selectAllCheckBox.AutoSize = true;
 			this.selectAllCheckBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.selectAllCheckBox.Location = new System.Drawing.Point(202, 18);
+			this.selectAllCheckBox.Location = new System.Drawing.Point(152, 14);
+			this.selectAllCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.selectAllCheckBox.Name = "selectAllCheckBox";
-			this.selectAllCheckBox.Size = new System.Drawing.Size(64, 21);
+			this.selectAllCheckBox.Size = new System.Drawing.Size(54, 18);
 			this.selectAllCheckBox.TabIndex = 2;
 			this.selectAllCheckBox.Text = "全选";
 			this.selectAllCheckBox.UseVisualStyleBackColor = true;
@@ -513,24 +530,62 @@
 			// noticeLabel
 			// 
 			this.noticeLabel.AutoSize = true;
-			this.noticeLabel.Location = new System.Drawing.Point(9, 18);
+			this.noticeLabel.Location = new System.Drawing.Point(7, 14);
+			this.noticeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(142, 15);
+			this.noticeLabel.Size = new System.Drawing.Size(113, 12);
 			this.noticeLabel.TabIndex = 1;
 			this.noticeLabel.Text = "请勾选要保存的通道";
 			// 
+			// saveSkinButton
+			// 
+			this.saveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.saveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.saveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.saveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.saveSkinButton.DownBack = null;
+			this.saveSkinButton.Location = new System.Drawing.Point(35, 428);
+			this.saveSkinButton.MouseBack = null;
+			this.saveSkinButton.Name = "saveSkinButton";
+			this.saveSkinButton.NormlBack = null;
+			this.saveSkinButton.Size = new System.Drawing.Size(78, 26);
+			this.saveSkinButton.TabIndex = 5;
+			this.saveSkinButton.Text = "保存";
+			this.saveSkinButton.UseVisualStyleBackColor = false;
+			this.saveSkinButton.Click += new System.EventHandler(this.saveButton_Click);
+			// 
+			// cancelSkinButton
+			// 
+			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelSkinButton.DownBack = null;
+			this.cancelSkinButton.Location = new System.Drawing.Point(152, 428);
+			this.cancelSkinButton.MouseBack = null;
+			this.cancelSkinButton.Name = "cancelSkinButton";
+			this.cancelSkinButton.NormlBack = null;
+			this.cancelSkinButton.Size = new System.Drawing.Size(78, 26);
+			this.cancelSkinButton.TabIndex = 5;
+			this.cancelSkinButton.Text = "取消";
+			this.cancelSkinButton.UseVisualStyleBackColor = false;
+			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
+			// 
 			// MaterialForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(355, 592);
+			this.CancelButton = this.cancelSkinButton;
+			this.ClientSize = new System.Drawing.Size(266, 474);
+			this.Controls.Add(this.cancelSkinButton);
+			this.Controls.Add(this.saveSkinButton);
 			this.Controls.Add(this.selectAllCheckBox);
 			this.Controls.Add(this.tongdaoPanel);
 			this.Controls.Add(this.noticeLabel);
-			this.Controls.Add(this.cancelButton);
-			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.mNameLabel);
 			this.Controls.Add(this.nameTextBox);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MaterialForm";
 			this.Text = "保存素材";
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
@@ -544,8 +599,6 @@
 		#endregion
 		private System.Windows.Forms.TextBox nameTextBox;
 		private System.Windows.Forms.Label mNameLabel;
-		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Panel tongdaoPanel;
 		private System.Windows.Forms.Label noticeLabel;
 
@@ -583,5 +636,7 @@
 		private System.Windows.Forms.CheckBox checkBox31;
 		private System.Windows.Forms.CheckBox checkBox32;
 		private System.Windows.Forms.CheckBox selectAllCheckBox;
+		private CCWin.SkinControl.SkinButton saveSkinButton;
+		private CCWin.SkinControl.SkinButton cancelSkinButton;
 	}
 }

@@ -14,14 +14,14 @@ namespace LightController.MyForm
 {
 	public partial class UpdateForm : Form
 	{
-		private MainForm mainForm;
+		private MainFormInterface mainForm;
 		private DBWrapper dbWrapper;
 		private string globalSetPath;
 
 		private IList<string> selectedIPs;
 		private IList<string> ips;		
 
-		public UpdateForm(MainForm mainForm,DBWrapper dbWrapper,string globalSetPath)
+		public UpdateForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -46,7 +46,7 @@ namespace LightController.MyForm
 			cTools.Start("192.168.31.14");
 			cTools.SearchDevice();
 			// 需要延迟片刻，才能找到设备
-			connectButton.Enabled = false;
+			connectSkinButton.Enabled = false;
 			Thread.Sleep(1000);
 			Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
 			devicesComboBox.Items.Clear();
@@ -59,7 +59,7 @@ namespace LightController.MyForm
 				}
 				devicesComboBox.SelectedIndex = 0;				
 			}
-			connectButton.Enabled = true;
+			connectSkinButton.Enabled = true;
 		}		
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace LightController.MyForm
 			selectedIPs = new List<string>();
 			selectedIPs.Add(ips[devicesComboBox.SelectedIndex]);
 			MessageBox.Show("设备连接成功");
-			updateButton.Enabled = true;
+			updateSkinButton.Enabled = true;
 		}
 
 
@@ -86,8 +86,8 @@ namespace LightController.MyForm
 			ConnectTools cTools = ConnectTools.GetInstance();
 			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack() ,new DownloadProgressDelegate(paintProgress) );
 			//MessageBox.Show("断开连接");
-			connectButton.Enabled = false;
-			updateButton.Enabled = false;
+			connectSkinButton.Enabled = false;
+			updateSkinButton.Enabled = false;
 			devicesComboBox.Items.Clear();
 			devicesComboBox.Text = "";
 		}
@@ -99,9 +99,13 @@ namespace LightController.MyForm
 		void paintProgress(string fileName,int a)
 		{
 			currentFileLabel.Text = fileName;
-			progressBar1.Value =  a;				
+			skinProgressBar1.Value =  a;				
 		}
 
+		private void downloadSkinButton_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 

@@ -12,10 +12,10 @@ namespace LightController.MyForm
 {
 	public partial class HardwareSetChooseForm : Form
 	{
-		private MainForm mainForm;
-		private bool ifJustDelete = false;
+		private MainFormInterface mainForm;
+		private bool isJustDelete = false;
 
-		public HardwareSetChooseForm(MainForm mainForm)
+		public HardwareSetChooseForm(MainFormInterface mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
@@ -57,7 +57,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			this.ifJustDelete = false;
+			this.isJustDelete = false;
 		}
 
 
@@ -69,7 +69,7 @@ namespace LightController.MyForm
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
 			// 若非刚删除
-			if (!ifJustDelete)
+			if (!isJustDelete)
 			{
 				// 1. 先取出目录path
 				string projectName = treeView1.SelectedNode.Text;
@@ -88,7 +88,7 @@ namespace LightController.MyForm
 				}
 				// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
 				treeView1.SelectedNode.Remove();
-				ifJustDelete = true;
+				isJustDelete = true;
 			}
 			else
 			{
@@ -124,7 +124,7 @@ namespace LightController.MyForm
 		/// </summary>
 		private void openFile() {
 			// 1.先验证是否刚删除项目
-			if (ifJustDelete)
+			if (isJustDelete)
 			{
 				MessageBox.Show("请选择正确的配置文件名");
 				return;
@@ -151,6 +151,12 @@ namespace LightController.MyForm
 			}
 		}
 
-
+		private void newButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+			this.mainForm.Activate();
+			HardwareSetForm hsForm = new HardwareSetForm(mainForm, null, null);
+			hsForm.ShowDialog();			
+		}
 	}
 }

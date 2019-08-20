@@ -87,6 +87,9 @@
     <Reference Include="Antlr3.Utility, Version=0.1.0.39272, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.1.1\lib\Antlr3.Utility.dll</HintPath>
     </Reference>
+    <Reference Include="CSkin">
+      <HintPath>..\..\..\..\Desktop\skins\CSkin 4.0\CSkin.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -124,6 +127,7 @@
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.110.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -171,11 +175,38 @@
     <Compile Include="MyForm\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\SkinLightsEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsEditForm.Designer.cs">
+      <DependentUpon>SkinLightsEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsAstForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsAstForm.designer.cs">
+      <DependentUpon>SkinLightsAstForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\LightsEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\LightsEditForm.Designer.cs">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SkinLightsForm.designer.cs">
+      <DependentUpon>SkinLightsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\MainFormInterface.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\MaterialForm.cs">
       <SubType>Form</SubType>
@@ -218,17 +249,17 @@
     <Compile Include="MyForm\LightsForm.designer.cs">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\MainForm.designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\NewHardwareForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\NewHardwareForm.Designer.cs">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\SkinMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SkinMainForm.Designer.cs">
+      <DependentUpon>SkinMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\OpenForm.cs">
       <SubType>Form</SubType>
@@ -298,8 +329,20 @@
     <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SkinLightsEditForm.resx">
+      <DependentUpon>SkinLightsEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SkinLightsAstForm.resx">
+      <DependentUpon>SkinLightsAstForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightsEditForm.resx">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SkinLightsForm.resx">
+      <DependentUpon>SkinLightsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>
@@ -319,11 +362,11 @@
     <EmbeddedResource Include="MyForm\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SkinMainForm.resx">
+      <DependentUpon>SkinMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
@@ -353,6 +396,225 @@
     </Content>
     <Content Include="HardwareSet.ini">
       <Generator>ResXFileCodeGenerator</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Calmness.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\CalmnessColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\CalmnessColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DeepCyan.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DeepGreen.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DeepOrange.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DiamondBlue.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DiamondGreen.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DiamondOlive.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DiamondPurple.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\DiamondRed.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Eighteen.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\EighteenColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\EighteenColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Emerald.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\EmeraldColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\EmeraldColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\EmeraldColor3.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\GlassBrown.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\GlassGreen.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\GlassOrange.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Longhorn.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\MacOS.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Midsummer.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\MidsummerColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\MidsummerColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\MidsummerColor3.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\mp10.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\mp10green.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\mp10maroon.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\mp10mulberry.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\mp10pink.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\mp10purple.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\MSN.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\office2007.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\OneBlue.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\OneCyan.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\OneGreen.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\OneOrange.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Page.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\PageColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\PageColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\RealOne.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Silver.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SilverColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SilverColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SportsBlack.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SportsBlue.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SportsCyan.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SportsGreen.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SportsOrange.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SteelBlack.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\SteelBlue.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\vista1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\vista1_green.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Vista2_color1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Vista2_color2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Vista2_color3.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Vista2_color4.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Vista2_color5.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Vista2_color6.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Vista2_color7.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Warm.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\WarmColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\WarmColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\WarmColor3.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\Wave.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\WaveColor1.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\WaveColor2.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\XPBlue.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\XPGreen.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\XPOrange.ssk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="irisSkins\XPSilver.ssk">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
@@ -389,6 +651,49 @@
     <Content Include="GlobalSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\灯库编辑.png" />
+    <None Include="Resources\灯具编辑.png" />
+    <None Include="Resources\全局配置.png" />
+    <None Include="Resources\退出程序.png" />
+    <None Include="Resources\网络设置.png" />
+    <None Include="Resources\摇麦设置.png" />
+    <None Include="Resources\硬件设置.png" />
+    <None Include="Resources\在线升级.png" />
+    <None Include="Resources\保存工程.png" />
+    <None Include="Resources\打开工程.png" />
+    <None Include="Resources\新建工程.png" />
+    <None Include="Resources\保存素材2.png" />
+    <None Include="Resources\复制步.png" />
+    <None Include="Resources\复制灯1.png" />
+    <None Include="Resources\后插入步1.png" />
+    <None Include="Resources\前插入步1.png" />
+    <None Include="Resources\删除步.png" />
+    <None Include="Resources\上一步.png" />
+    <None Include="Resources\使用素材.png" />
+    <None Include="Resources\下一步.png" />
+    <None Include="Resources\粘贴步.png" />
+    <None Include="Resources\粘贴灯1.png" />
+    <None Include="Resources\追加步.png" />
+    <None Include="Resources\复制步1.png" />
+    <None Include="Resources\触发音频.png" />
+    <None Include="Resources\触发音频后.png" />
+    <None Include="Resources\单灯单步.png" />
+    <None Include="Resources\单灯单步后.png" />
+    <None Include="Resources\断开连接.png" />
+    <None Include="Resources\结束浏览.png" />
+    <None Include="Resources\连接.png" />
+    <None Include="Resources\浏览效果后.png" />
+    <None Include="Resources\浏览效果前.png" />
+    <None Include="Resources\实时调试.png" />
+    <None Include="Resources\实时调试02.png" />
+    <None Include="Resources\灯光图.png" />
+    <None Include="Resources\圆角矩形 4.png" />
+    <None Include="Resources\椭圆 1.png" />
+    <None Include="Resources\初始值.png" />
+    <None Include="Resources\全部归零.png" />
+    <None Include="Resources\统一步时间.png" />
+    <None Include="Resources\统一跳渐变.png" />
+    <None Include="Resources\统一通道值.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

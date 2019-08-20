@@ -12,14 +12,15 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using LightController.Ast;
 using System.Data.SQLite;
- 
+using LightController.MyForm;
 
 namespace LightController
 {
 	public partial class NewForm :Form
 	{
-		private	MainForm mainForm;
-		public NewForm(MainForm mainForm)
+		private MainFormInterface mainForm;
+
+		public NewForm(MainFormInterface mainForm)
 		{
 			this.mainForm = mainForm;
 			
@@ -29,6 +30,7 @@ namespace LightController
 			InitializeComponent();
 		}
 
+		
 
 		/// <summary>
 		///  点击《新建》按钮：

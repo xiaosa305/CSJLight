@@ -13,7 +13,7 @@ namespace LightController.MyForm
 {
 	public partial class MaterialUseForm : Form
 	{
-		private MainForm mainForm;
+		private MainFormInterface mainForm;
 		private int mode;
 		private string path = @"C:\Temp\LightMaterial\"; 
 
@@ -25,7 +25,7 @@ namespace LightController.MyForm
 		/// 构造方法：主要作用是加载已有的素材到listView中
 		/// </summary>
 		/// <param name="mainForm"></param>
-		public MaterialUseForm(MainForm mainForm,int mode)
+		public MaterialUseForm(MainFormInterface mainForm,int mode)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -58,7 +58,7 @@ namespace LightController.MyForm
 			if ( !ifJustDelete ) { 
 				// 1. 先取出目录path
 				string projectName = treeView1.SelectedNode.Text;
-				string directoryPath = "C:\\Temp\\LightMaterial\\" + projectName;
+				string directoryPath = path+ @"\" + projectName;
 				DirectoryInfo di = new DirectoryInfo(directoryPath);
 
 				// 2.删除目录				
@@ -124,7 +124,7 @@ namespace LightController.MyForm
 				if (!String.IsNullOrEmpty(materialName))
 				{
 					MaterialAst materialAst = MaterialAst.GenerateMaterialAst( path +@"\" +materialName + @"\materialSet.ini");
-					InsertMethod method =  ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER ;
+					InsertMethod method =  ((Button)sender).Name == "insertSkinButton"  ? InsertMethod.INSERT : InsertMethod.COVER ;
 					mainForm.InsertOrCoverMaterial(materialAst, method);
 					this.Dispose();
 					mainForm.Activate();

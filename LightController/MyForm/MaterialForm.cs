@@ -14,14 +14,14 @@ namespace LightController.MyForm
 {
 	public partial class MaterialForm : Form
 	{
-		private MainForm mainForm;
+		private MainFormInterface mainForm;
 		private List<StepWrapper> stepWrapperList;
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
 		private int mode;
 		private string path = @"C:\Temp\LightMaterial\";  
 
-		public MaterialForm(MainForm mainForm, List<StepWrapper> stepWrapperList ,int mode)
+		public MaterialForm(MainFormInterface mainForm, List<StepWrapper> stepWrapperList ,int mode)
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{

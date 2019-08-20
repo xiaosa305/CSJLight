@@ -12,8 +12,8 @@ namespace LightController.MyForm
 {
 	public partial class OpenForm : Form
 	{
-		private MainForm mainForm;
-		public OpenForm(MainForm mainForm)
+		private MainFormInterface mainForm;
+		public OpenForm(MainFormInterface mainForm)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -32,7 +32,7 @@ namespace LightController.MyForm
 		}
 
 		// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来
-		private bool ifJustDelete = false;
+		private bool isJustDelete = false;
 
 		/// <summary>
 		///  选中node后，点击《打开》后的操作
@@ -42,7 +42,7 @@ namespace LightController.MyForm
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.先验证是否刚删除项目
-			if (ifJustDelete)
+			if (isJustDelete)
 			{
 				MessageBox.Show("请选择正确的项目名");
 				return;
@@ -73,7 +73,7 @@ namespace LightController.MyForm
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
 			// 若非刚删除
-			if (!ifJustDelete)
+			if (!isJustDelete)
 			{
 				// 1. 先取出目录path
 				string projectName = treeView1.SelectedNode.Text;
@@ -91,7 +91,7 @@ namespace LightController.MyForm
 				}
 				// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
 				treeView1.SelectedNode.Remove();
-				ifJustDelete = true;
+				isJustDelete = true;
 			}
 			else {
 				MessageBox.Show("请选择要删除的工程:");
@@ -112,7 +112,7 @@ namespace LightController.MyForm
 
 		private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			this.ifJustDelete = false;
+			this.isJustDelete = false;
 		}
 
 		private void OpenForm_Load(object sender, EventArgs e)

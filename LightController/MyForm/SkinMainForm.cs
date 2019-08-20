@@ -428,6 +428,7 @@ namespace LightController.MyForm
 		private void comOpenSkinButton_Click(object sender, EventArgs e)
 		{
 			playPanel.Show();
+
 		}
 
 		/// <summary>
@@ -1822,6 +1823,8 @@ namespace LightController.MyForm
 				showViewButtons(true);
 
 				playTools = PlayTools.GetInstance();
+				comOpenSkinButton.Enabled = false;
+
 				isConnect = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
@@ -1834,7 +1837,7 @@ namespace LightController.MyForm
 				playTools = null;
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-
+				comOpenSkinButton.Enabled = true;
 				isConnect = false;
 			}
 		}

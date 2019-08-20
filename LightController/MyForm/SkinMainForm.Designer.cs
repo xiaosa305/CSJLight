@@ -508,7 +508,7 @@ namespace LightController.MyForm
 			this.comOpenSkinButton.NormlBack = null;
 			this.comOpenSkinButton.Size = new System.Drawing.Size(120, 36);
 			this.comOpenSkinButton.TabIndex = 1;
-			this.comOpenSkinButton.Text = "打开串口";
+			this.comOpenSkinButton.Text = "选择串口";
 			this.comOpenSkinButton.UseVisualStyleBackColor = false;
 			this.comOpenSkinButton.Click += new System.EventHandler(this.comOpenSkinButton_Click);
 			// 
@@ -1319,7 +1319,7 @@ namespace LightController.MyForm
 			this.commonChangeModeSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.commonChangeModeSkinButton.InheritColor = true;
 			this.commonChangeModeSkinButton.IsDrawBorder = false;
-			this.commonChangeModeSkinButton.Location = new System.Drawing.Point(37, 206);
+			this.commonChangeModeSkinButton.Location = new System.Drawing.Point(34, 206);
 			this.commonChangeModeSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.commonChangeModeSkinButton.MouseBack = null;
 			this.commonChangeModeSkinButton.Name = "commonChangeModeSkinButton";

@@ -411,7 +411,7 @@ namespace LightController.Tools
                             if (portName == null || portName == "")
                             {
                                 Device.Close();
-                                Device = null;
+                                //Device = null;
                             }
                             Device.SetBaudRate(250000);
                             Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
@@ -420,9 +420,8 @@ namespace LightController.Tools
                 }
                 else
                 {
-                    Device = null;
-                    Console.WriteLine("未连接DMX512设备");
-                    EndView();
+                    //Device = null;
+                    CloseDevice();
                 }
             }
         }
@@ -449,7 +448,7 @@ namespace LightController.Tools
                                 if (portName == null || portName == "" || portName != comName)
                                 {
                                     Device.Close();
-                                    Device = null;
+                                    //Device = null;
                                 }
                                 else
                                 {

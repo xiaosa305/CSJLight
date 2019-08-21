@@ -121,8 +121,14 @@
   <data name="在线升级" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\在线升级.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="统一跳渐变" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\统一跳渐变.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="断开连接" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\断开连接.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="全部归零" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\全部归零.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="上一步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\上一步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,6 +163,9 @@
   <data name="下一步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\下一步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CSJ中控工具" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KTV中央控制器.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="退出程序" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\退出程序.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -186,6 +195,9 @@
   </data>
   <data name="保存工程" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\保存工程.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="初始值" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\初始值.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="复制灯1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\复制灯1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,25 +229,22 @@
   <data name="网络设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\网络设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="统一通道值" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\统一通道值.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="灯具编辑" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\灯具编辑.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="复制步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\复制步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="初始值" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\初始值.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="全部归零" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\全部归零.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="统一步时间" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\统一步时间.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="统一跳渐变" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\统一跳渐变.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CSJ灯控工具" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\灯光控制器.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="统一通道值" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\统一通道值.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CSJ墙板工具" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\墙板工具.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

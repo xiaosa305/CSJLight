@@ -35,10 +35,9 @@ namespace LightController.MyForm
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinMainForm));
 			this.comOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.lightEditorSkinButton = new CCWin.SkinControl.SkinButton();
+			this.otherToolsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
 			this.exitSkinButton = new CCWin.SkinControl.SkinButton();
-			this.otherSkinButton = new CCWin.SkinControl.SkinButton();
 			this.updateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.networkSkinButton = new CCWin.SkinControl.SkinButton();
 			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
@@ -517,10 +516,9 @@ namespace LightController.MyForm
 			// 
 			this.menuSkinPanel.BackColor = System.Drawing.Color.Transparent;
 			this.menuSkinPanel.BorderColor = System.Drawing.Color.Black;
-			this.menuSkinPanel.Controls.Add(this.lightEditorSkinButton);
+			this.menuSkinPanel.Controls.Add(this.otherToolsSkinButton);
 			this.menuSkinPanel.Controls.Add(this.lightListSkinButton);
 			this.menuSkinPanel.Controls.Add(this.exitSkinButton);
-			this.menuSkinPanel.Controls.Add(this.otherSkinButton);
 			this.menuSkinPanel.Controls.Add(this.updateSkinButton);
 			this.menuSkinPanel.Controls.Add(this.networkSkinButton);
 			this.menuSkinPanel.Controls.Add(this.globalSetSkinButton);
@@ -536,32 +534,33 @@ namespace LightController.MyForm
 			this.menuSkinPanel.Size = new System.Drawing.Size(1425, 111);
 			this.menuSkinPanel.TabIndex = 5;
 			// 
-			// lightEditorSkinButton
+			// otherToolsSkinButton
 			// 
-			this.lightEditorSkinButton.AutoSize = true;
-			this.lightEditorSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.lightEditorSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.lightEditorSkinButton.BorderColor = System.Drawing.Color.White;
-			this.lightEditorSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightEditorSkinButton.DownBack = null;
-			this.lightEditorSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightEditorSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightEditorSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightEditorSkinButton.ForeColorSuit = true;
-			this.lightEditorSkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
-			this.lightEditorSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.lightEditorSkinButton.InheritColor = true;
-			this.lightEditorSkinButton.IsDrawBorder = false;
-			this.lightEditorSkinButton.Location = new System.Drawing.Point(2, 2);
-			this.lightEditorSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.lightEditorSkinButton.MouseBack = null;
-			this.lightEditorSkinButton.Name = "lightEditorSkinButton";
-			this.lightEditorSkinButton.NormlBack = null;
-			this.lightEditorSkinButton.Size = new System.Drawing.Size(90, 96);
-			this.lightEditorSkinButton.TabIndex = 4;
-			this.lightEditorSkinButton.Text = "灯库编辑";
-			this.lightEditorSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightEditorSkinButton.UseVisualStyleBackColor = false;
+			this.otherToolsSkinButton.AutoSize = true;
+			this.otherToolsSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.otherToolsSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.otherToolsSkinButton.BorderColor = System.Drawing.Color.White;
+			this.otherToolsSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.otherToolsSkinButton.DownBack = null;
+			this.otherToolsSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.otherToolsSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.otherToolsSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.otherToolsSkinButton.ForeColorSuit = true;
+			this.otherToolsSkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
+			this.otherToolsSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.otherToolsSkinButton.InheritColor = true;
+			this.otherToolsSkinButton.IsDrawBorder = false;
+			this.otherToolsSkinButton.Location = new System.Drawing.Point(2, 2);
+			this.otherToolsSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.otherToolsSkinButton.MouseBack = null;
+			this.otherToolsSkinButton.Name = "otherToolsSkinButton";
+			this.otherToolsSkinButton.NormlBack = null;
+			this.otherToolsSkinButton.Size = new System.Drawing.Size(90, 96);
+			this.otherToolsSkinButton.TabIndex = 4;
+			this.otherToolsSkinButton.Text = "其他工具";
+			this.otherToolsSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.otherToolsSkinButton.UseVisualStyleBackColor = false;
+			this.otherToolsSkinButton.Click += new System.EventHandler(this.otherToolsSkinButton_Click);
 			// 
 			// lightListSkinButton
 			// 
@@ -618,32 +617,6 @@ namespace LightController.MyForm
 			this.exitSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.exitSkinButton.UseVisualStyleBackColor = false;
 			this.exitSkinButton.Click += new System.EventHandler(this.exitSkinButton_Click);
-			// 
-			// otherSkinButton
-			// 
-			this.otherSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.otherSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.otherSkinButton.BorderColor = System.Drawing.Color.White;
-			this.otherSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.otherSkinButton.DownBack = null;
-			this.otherSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.otherSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.otherSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.otherSkinButton.ForeColorSuit = true;
-			this.otherSkinButton.Image = global::LightController.Properties.Resources.退出程序;
-			this.otherSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.otherSkinButton.InheritColor = true;
-			this.otherSkinButton.IsDrawBorder = false;
-			this.otherSkinButton.Location = new System.Drawing.Point(611, 2);
-			this.otherSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.otherSkinButton.MouseBack = null;
-			this.otherSkinButton.Name = "otherSkinButton";
-			this.otherSkinButton.NormlBack = null;
-			this.otherSkinButton.Size = new System.Drawing.Size(90, 96);
-			this.otherSkinButton.TabIndex = 4;
-			this.otherSkinButton.Text = "其它工具";
-			this.otherSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.otherSkinButton.UseVisualStyleBackColor = false;
 			// 
 			// updateSkinButton
 			// 
@@ -5315,7 +5288,6 @@ namespace LightController.MyForm
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "SkinMainForm";
-			this.Text = "NewMainForm";
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.menuSkinPanel.ResumeLayout(false);
 			this.menuSkinPanel.PerformLayout();
@@ -5521,8 +5493,7 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton lightListSkinButton;
 		private CCWin.SkinControl.SkinButton updateSkinButton;
 		private CCWin.SkinControl.SkinButton hardwareSetSkinButton;
-		private CCWin.SkinControl.SkinButton lightEditorSkinButton;
-		private CCWin.SkinControl.SkinButton otherSkinButton;
+		private CCWin.SkinControl.SkinButton otherToolsSkinButton;
 		private CCWin.SkinControl.SkinButton networkSkinButton;
 		private CCWin.SkinControl.SkinButton ymSkinButton;
 		private CCWin.SkinControl.SkinButton comOpenSkinButton;

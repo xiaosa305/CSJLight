@@ -348,6 +348,18 @@ namespace LightController.MyForm
 
 		#region 各种工具按钮
 
+
+		/// <summary>
+		/// 事件：点击《其他工具》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void otherToolsSkinButton_Click(object sender, EventArgs e)
+		{
+			ToolsForm toolsForm = new ToolsForm(this);
+			toolsForm.ShowDialog();
+		}
+
 		/// <summary>
 		///  点击《硬件设置》按钮
 		/// </summary>
@@ -1971,7 +1983,9 @@ namespace LightController.MyForm
 
 
 
+
 		#endregion
+
 
 		
 	}

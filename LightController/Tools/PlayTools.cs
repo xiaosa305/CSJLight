@@ -55,7 +55,8 @@ namespace LightController.Tools
         {
             TimeFactory = 32;
             MusicStepTime = 0;
-            State = PreViewState.Null;
+            State = PreViewState.Null;|
+            Device = new FTDI();
         }
         public static PlayTools GetInstance()
         {
@@ -429,7 +430,6 @@ namespace LightController.Tools
         {
             UInt32 deviceCount = 0;
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-            Device = new FTDI();
             status = Device.GetNumberOfDevices(ref deviceCount);
             if (status == FTDI.FT_STATUS.FT_OK)
             {

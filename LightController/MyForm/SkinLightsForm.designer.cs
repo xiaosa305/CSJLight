@@ -230,6 +230,7 @@ namespace LightController
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(763, 548);
 			this.Name = "SkinLightsForm";
 			this.Text = "编辑工程灯具列表";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LightsForm_FormClosed);

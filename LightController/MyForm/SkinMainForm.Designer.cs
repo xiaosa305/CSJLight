@@ -5312,6 +5312,7 @@ namespace LightController.MyForm
 			this.Controls.Add(this.skinPanel2);
 			this.Controls.Add(this.playSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "SkinMainForm";
 			this.Text = "NewMainForm";

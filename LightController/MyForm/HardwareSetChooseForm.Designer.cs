@@ -42,7 +42,7 @@
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
 			this.treeView1.Margin = new System.Windows.Forms.Padding(2);
 			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(228, 405);
+			this.treeView1.Size = new System.Drawing.Size(228, 444);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
 			this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
@@ -127,7 +127,11 @@
 			this.Controls.Add(this.newSkinButton);
 			this.Controls.Add(this.deleteSkinButton);
 			this.Controls.Add(this.treeView1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(347, 444);
 			this.Name = "HardwareSetChooseForm";
 			this.Text = "选择硬件配置文件";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareSetChooseForm_FormClosed);

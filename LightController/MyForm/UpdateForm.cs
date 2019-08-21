@@ -49,16 +49,23 @@ namespace LightController.MyForm
 			connectSkinButton.Enabled = false;
 			Thread.Sleep(1000);
 			Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
+		
 			devicesComboBox.Items.Clear();
 			ips = new List<string>();
-			if(allDevices.Count > 0) {
-				foreach (KeyValuePair<string,string> device in allDevices)
-				{				
+			if (allDevices.Count > 0)
+			{
+				foreach (KeyValuePair<string, string> device in allDevices)
+				{
 					devicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
 					ips.Add(device.Key);
 				}
 				devicesComboBox.SelectedIndex = 0;
 				connectSkinButton.Enabled = true;
+			}
+			else {
+				devicesComboBox.SelectedIndex = -1;
+				connectSkinButton.Enabled = false;
+				MessageBox.Show("未找到可用设备，请确认后重试。");	
 			}			
 
 		}		

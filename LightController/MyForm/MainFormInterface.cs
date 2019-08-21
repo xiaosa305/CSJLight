@@ -55,7 +55,8 @@ namespace LightController.MyForm
 		protected PlayTools playTools; //DMX512灯具操控对象的实例
 		protected bool isConnect = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false；
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
-		protected IList<string> comList;  //存储dmx512串口的名称列表，用于comSkinComboBox中
+		protected IList<string> comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
+		protected string comName; // 存储打开的DMX512串口名称
 		
 		// 几个virtual修饰的方法：主要供各种Form回调使用		
 

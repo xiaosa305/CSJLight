@@ -429,10 +429,9 @@ namespace LightController.MyForm
 		private void comOpenSkinButton_Click(object sender, EventArgs e)
 		{
 			playTools = PlayTools.GetInstance();
-			string comName = comSkinComboBox.Text;
+			comName = comSkinComboBox.Text;
 			if (! comName.Trim().Equals(""))
-			{
-				playTools.ConnectDevice(comName);
+			{				
 				playPanel.Show();
 			}
 			else {
@@ -1836,9 +1835,8 @@ namespace LightController.MyForm
 				connectSkinButton.Text = "断开连接";
 				showViewButtons(true);
 
-				playTools = PlayTools.GetInstance();
+				playTools.ConnectDevice(comName);
 				comOpenSkinButton.Enabled = false;
-
 				isConnect = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
@@ -1846,10 +1844,8 @@ namespace LightController.MyForm
 				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				connectSkinButton.Text = "连接设备";
 				showViewButtons(false);
-
-				//playTools.EndView();
+								
 				playTools.CloseDevice();
-				playTools = null;
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 				comOpenSkinButton.Enabled = true;

@@ -14,54 +14,36 @@ namespace LightController.Tools
     public class PlayTools
     {
         private static PlayTools Instance { get; set; }
-        //串口设备
         private static FTDI Device { get; set; }                    
-        //起始标记码
         private readonly byte[] StartCode = new byte[] { 0x00 };
-        //数据库数据
         private DBWrapper DBWrapper { get; set; }
-        //全局配置文件路径
         private string ConfigPath { get; set; }
-        //全局配置文件数据
         private CSJ_Project Project { get; set; }
-        //单前场景编号
         private int SceneNo { get; set; }
-        //时间因子
         private int TimeFactory { get; set; }
-        //播放缓存区
         private byte[] PlayData { get; set; }
-        //常规程序通道指针
         private int[] C_ChanelPoint { get; set; }
-        //音频程序通道指针
         private int[] M_ChanelPoint { get; set; }
-        //常规程序通道编号
         private int[] C_ChanelId { get; set; }
-        //音频程序通道编号
         private int[] M_ChanelId { get; set; }
-        //常规程序通道数据缓存区
         private byte[][] C_ChanelData { get; set; }
-        //音频程序通道数据缓存区
         private byte[][] M_ChanelData { get; set; }
-        //常规程序通道总数
         private int C_ChanelCount { get; set; }
-        //音频程序通道总数
         private int M_ChanelCount { get; set; }
-        //单灯单步预览线程
         private Thread OLOSThread { get; set; }
-        //项目预览线程
         private Thread PreViewThread { get; set; }
-        //音频触发线程
         private Thread MusicControlThread { get; set; }
-        //音频是否触发
         private bool IsMusicControl { get; set; }
-        //更新数据暂停生成新数据标识
         private bool IsPausePlay { get; set; }
-        //音频步数
         private int MusicStep { get; set; }
-        //音频步时长
         private int MusicStepTime { get; set; }
-        //当前播放模式
         private PreViewState State { get; set; }
+        private int[] StepList { get; set; }
+        private int StepListCount { get; set; }
+        private int MusicIntervalTime { get; set; }
+        private int MusicStepPoint { get; set; }
+        private bool MusicData { get; set; }
+        private bool MusicWaiting { get; set; }
 
         /// <summary>
         /// test
@@ -91,9 +73,6 @@ namespace LightController.Tools
                 {
                     PreViewThread.Abort();
                 }
-                catch (Exception)
-                {
-                }
                 finally
                 {
                     PreViewThread = null;
@@ -104,9 +83,6 @@ namespace LightController.Tools
                 try
                 {
                     OLOSThread.Abort();
-                }
-                catch (Exception)
-                {
                 }
                 finally
                 {
@@ -119,28 +95,10 @@ namespace LightController.Tools
                 {
                     MusicControlThread.Abort();
                 }
-                catch (Exception)
-                {
-                }
                 finally
                 {
                     MusicControlThread = null;
                 }
-            }
-            if (Device != null)
-            {
-                try
-                {
-                    Device.Close();
-                }
-                catch (Exception)
-                {
-                }
-                finally
-                {
-                    Device = null;
-                }
-
             }
             State = PreViewState.Null;
         }
@@ -150,6 +108,7 @@ namespace LightController.Tools
             {
                 //暂停播放准备生成数据
                 IsPausePlay = true;
+                MusicData = false;
                 this.DBWrapper = wrapper;
                 this.ConfigPath = configPath;
                 this.SceneNo = sceneNo;
@@ -164,24 +123,13 @@ namespace LightController.Tools
                         OLOSThread.Abort();
                     }
                 }
-                catch (Exception ex)
-                {
-                   
-                    Console.WriteLine("关闭单灯单步线程——" + ex.Message);
-                }
                 finally
                 {
-
+                    Thread.Sleep(200);
                     //将单灯单步线程置为null
                     OLOSThread = null;
-                    //重连设备
-                    if (State == PreViewState.OLOSView || State == PreViewState.Null)
-                    {
-                        ReConnectDevice();
-                    }
                     //预读常规程序数据到缓存区
                     CSJ_C c_File = null;
-                    
                     if (this.Project.CFiles != null)
                     {
                         foreach (CSJ_C item in this.Project.CFiles)
@@ -192,7 +140,7 @@ namespace LightController.Tools
                             }
                         }
                         C_ChanelCount = c_File.ChannelCount;
-                        IList<ChannelData> c_Datas = c_File.ChannelDatas;
+                        List<ChannelData> c_Datas = c_File.ChannelDatas;
                         C_ChanelData = new byte[C_ChanelCount][];
                         C_ChanelId = new int[C_ChanelCount];
                         C_ChanelPoint = new int[C_ChanelCount];
@@ -201,7 +149,7 @@ namespace LightController.Tools
                             ChannelData c_Data = c_Datas[i];
                             C_ChanelPoint[i] = 0;
                             C_ChanelId[i] = c_Data.ChannelNo;
-                            IList<byte> data = new List<byte>();
+                            List<byte> data = new List<byte>();
                             for (int j = 0; j < c_Data.DataSize; j++)
                             {
                                 data.Add(Convert.ToByte(c_Data.Datas[j]));
@@ -222,7 +170,7 @@ namespace LightController.Tools
                         //预读音频程序数据到缓存区
                         if (m_File != null)
                         {
-                            IList<ChannelData> m_Datas = m_File.ChannelDatas;
+                            List<ChannelData> m_Datas = m_File.ChannelDatas;
                             M_ChanelCount = m_Datas.Count();
                             M_ChanelData = new byte[M_ChanelCount][];
                             M_ChanelId = new int[M_ChanelCount];
@@ -233,7 +181,7 @@ namespace LightController.Tools
                                 ChannelData m_Data = m_Datas[i];
                                 M_ChanelId[i] = m_Data.ChannelNo;
                                 M_ChanelPoint[i] = 0;
-                                IList<byte> data = new List<byte>();
+                                List<byte> data = new List<byte>();
                                 for (int j = 0; j < m_Data.DataSize; j++)
                                 {
                                     data.Add(Convert.ToByte(m_Data.Datas[j]));
@@ -241,6 +189,14 @@ namespace LightController.Tools
                                 M_ChanelData[i] = data.ToArray();
                             }
                         }
+                        this.StepList = m_File.StepList.ToArray();
+                        this.StepListCount = m_File.StepListCount;
+                        this.MusicIntervalTime = m_File.MusicIntervalTime;
+                        this.MusicStepPoint = 0;
+                    }
+                    if (m_File != null && c_File != null)
+                    {
+                        MusicData = true;
                     }
                     MusicStep = this.Project.ConfigFile.Music_Control_Enable[SceneNo];
                     //关闭暂停播放
@@ -268,7 +224,14 @@ namespace LightController.Tools
             try
             {
                 IsPausePlay = true;
-                TimeFactory = 32;
+                if (Project!=null)
+                {
+                    TimeFactory = Project.ConfigFile.TimeFactory;
+                }
+                else
+                {
+                    TimeFactory = 32;
+                }
                 try
                 {
                     if (PreViewThread != null)
@@ -276,16 +239,10 @@ namespace LightController.Tools
                         PreViewThread.Abort();
                     }
                 }
-                catch (Exception)
-                {
-                }
                 finally
                 {
+                    Thread.Sleep(200);
                     PreViewThread = null;
-                    if(State == PreViewState.PreView || State == PreViewState.Null)
-                    {
-                        ReConnectDevice();
-                    }
                     PlayData = data;
                     IsPausePlay = false;
                     if (OLOSThread == null)
@@ -323,6 +280,8 @@ namespace LightController.Tools
                     {
                         IsBackground = true
                     };
+                    MusicWaiting = false;
+                    Thread.Sleep(100);
                     MusicControlThread.Start();
                 }
             }
@@ -332,7 +291,9 @@ namespace LightController.Tools
         }
         private void MusicControlThreadStart()
         {
-            for (int i = 0; i < MusicStep; i++)
+            DateTime time1 = DateTime.Now;
+            MusicStep = StepList[MusicStepPoint];
+            for (int i = 1; i < MusicStep; i++)
             {
                 IsMusicControl = true;
                 Thread.Sleep(TimeFactory * MusicStepTime);
@@ -341,6 +302,23 @@ namespace LightController.Tools
                     M_ChanelPoint[j]++;
                 }
             }
+            MusicStepPoint++;
+            if (MusicStepPoint == StepListCount)
+            {
+                MusicStepPoint = 0;
+            }
+            int waitingTime = MusicIntervalTime;
+            MusicWaiting = true;
+            time1 = DateTime.Now;
+            for (int i = 0; i < Math.Ceiling(waitingTime / 2 * 1.0); i++)
+            {
+                Thread.Sleep(1);
+                if (!MusicWaiting)
+                {
+                    break;
+                }
+            }
+            Console.WriteLine("停留" + DateTime.Now.Subtract(time1).TotalMilliseconds);
             IsMusicControl = false;
             MusicControlThread = null;
         }
@@ -389,36 +367,27 @@ namespace LightController.Tools
             UInt32 count = 0;
             try
             {
-                //发送Break|
-                Device.SetBreak(true);
-                Thread.Sleep(0);
-                Device.SetBreak(false);
-                Thread.Sleep(0);
-                List<byte> buff = new List<byte>();
-                buff.AddRange(StartCode);
-                buff.AddRange(PlayData);
-                Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
-                Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
-                Device.SetBreak(false);
+                if (Device.IsOpen)
+                {
+                    //发送Break|
+                    Device.SetBreak(true);
+                    Thread.Sleep(0);
+                    Device.SetBreak(false);
+                    Thread.Sleep(0);
+                    List<byte> buff = new List<byte>();
+                    buff.AddRange(StartCode);
+                    buff.AddRange(PlayData);
+                    Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
+                    Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                    Device.SetBreak(false);
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("未连接DMX512设备——" + ex.Message);
+                Console.WriteLine("未连接DMX512设备——" + ex.Message + "--->Preview:" + (State == PreViewState.PreView) + "--->OLOSView:" + (State == PreViewState.OLOSView) + "---->Null:" + (State == PreViewState.Null));
                 EndView();
             }
         }
-        public void ReConnectDevice()
-        {
-            if (Device != null)
-            {
-                Device.Close();
-                Device = null;
-            }
-            ConnectDevice();
-        }
-        /// <summary>
-        /// 打开dmx512串口
-        /// </summary>
         public void ConnectDevice()
         {
             UInt32 deviceCount = 0;
@@ -456,14 +425,57 @@ namespace LightController.Tools
                 }
             }
         }
-        /// <summary>
-        /// 关闭dmx512串口
-        /// </summary>
+        public bool ConnectDevice(string comName)
+        {
+            UInt32 deviceCount = 0;
+            FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
+            Device = new FTDI();
+            status = Device.GetNumberOfDevices(ref deviceCount);
+            if (status == FTDI.FT_STATUS.FT_OK)
+            {
+                if (deviceCount > 0)
+                {
+                    FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+                    status = Device.GetDeviceList(deviceList);
+                    if (status == FTDI.FT_STATUS.FT_OK)
+                    {
+                        for (int i = 0; i < deviceCount; i++)
+                        {
+                            status = Device.OpenBySerialNumber(deviceList[0].SerialNumber);
+                            if (status == FTDI.FT_STATUS.FT_OK)
+                            {
+                                string portName;
+                                Device.GetCOMPort(out portName);
+                                if (portName == null || portName == "" || portName != comName)
+                                {
+                                    Device.Close();
+                                    Device = null;
+                                }
+                                else
+                                {
+                                    Device.SetBaudRate(250000);
+                                    Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
+                                    return Device.IsOpen;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         public void CloseDevice()
         {
-
+            EndView();
+            Thread.Sleep(200);
+            if (Device != null)
+            {
+                if (Device.IsOpen)
+                {
+                    Device.Close();
+                }
+            }
         }
-
     }
     enum PreViewState
     {

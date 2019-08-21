@@ -335,6 +335,7 @@ namespace LightController.MyForm
 					comSkinComboBox.Items.Add(item);
 				}
 				comSkinComboBox.SelectedIndex = 0;
+				comOpenSkinButton.Enabled = true;
 			}		
 		
 			isInit = true;
@@ -427,8 +428,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comOpenSkinButton_Click(object sender, EventArgs e)
 		{
-			playPanel.Show();
-
+			playTools = PlayTools.GetInstance();
+			string comName = comSkinComboBox.Text;
+			if (! comName.Trim().Equals(""))
+			{
+				playTools.ConnectDevice(comName);
+				playPanel.Show();
+			}
+			else {
+				MessageBox.Show("未选中可用串口");
+			}
 		}
 
 		/// <summary>
@@ -1838,7 +1847,8 @@ namespace LightController.MyForm
 				connectSkinButton.Text = "连接设备";
 				showViewButtons(false);
 
-				playTools.EndView();
+				//playTools.EndView();
+				playTools.CloseDevice();
 				playTools = null;
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;

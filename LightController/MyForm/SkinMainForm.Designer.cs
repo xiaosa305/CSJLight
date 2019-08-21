@@ -496,6 +496,7 @@ namespace LightController.MyForm
 			this.comOpenSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(22)))), ((int)(((byte)(42)))));
 			this.comOpenSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.comOpenSkinButton.DownBack = null;
+			this.comOpenSkinButton.Enabled = false;
 			this.comOpenSkinButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.comOpenSkinButton.ForeColor = System.Drawing.Color.Cornsilk;
 			this.comOpenSkinButton.ForeColorSuit = true;

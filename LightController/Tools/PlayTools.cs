@@ -55,7 +55,7 @@ namespace LightController.Tools
         {
             TimeFactory = 32;
             MusicStepTime = 0;
-            State = PreViewState.Null;|
+            State = PreViewState.Null;
             Device = new FTDI();
         }
         public static PlayTools GetInstance()

@@ -435,7 +435,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void openButton_Click(object sender, EventArgs e)
 		{
-			OpenForm openForm = new OpenForm(this);
+			OpenForm openForm = new OpenForm(this,currentProjectName);
 			openForm.ShowDialog();
 		}
 				

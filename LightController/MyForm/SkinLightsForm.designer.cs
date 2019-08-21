@@ -132,12 +132,14 @@ namespace LightController
             this.LightType,
             this.LightAddr});
 			this.lightsSkinListView.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lightsSkinListView.FullRowSelect = true;
 			this.lightsSkinListView.GridLines = true;
 			this.lightsSkinListView.HeadColor = System.Drawing.Color.White;
 			this.lightsSkinListView.Location = new System.Drawing.Point(419, 0);
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.RowBackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.lightsSkinListView.RowBackColor1 = System.Drawing.Color.Transparent;
+			this.lightsSkinListView.RowBackColor2 = System.Drawing.Color.Transparent;
 			this.lightsSkinListView.Size = new System.Drawing.Size(328, 509);
 			this.lightsSkinListView.TabIndex = 8;
 			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
@@ -147,14 +149,17 @@ namespace LightController
 			// lightName
 			// 
 			this.lightName.Text = "厂商名";
+			this.lightName.Width = 97;
 			// 
 			// LightType
 			// 
 			this.LightType.Text = "型号";
+			this.LightType.Width = 92;
 			// 
 			// LightAddr
 			// 
 			this.LightAddr.Text = "通道地址";
+			this.LightAddr.Width = 86;
 			// 
 			// enterSkinButton
 			// 

@@ -440,6 +440,11 @@ namespace LightController.MyForm
 		{
 			NewForm newForm = new NewForm(this);
 			newForm.ShowDialog();
+
+			//8.21 ：当IsCreateSuccess==true时，打开灯具编辑
+			if (IsCreateSuccess) {
+				lightListSkinButton_Click(null, null);
+			}			
 		}
 
 		/// <summary>
@@ -450,7 +455,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void openSkinButton_Click(object sender, EventArgs e)
 		{
-			OpenForm openForm = new OpenForm(this);
+			OpenForm openForm = new OpenForm(this,currentProjectName);
 			openForm.ShowDialog();
 		}
 
@@ -530,7 +535,7 @@ namespace LightController.MyForm
 				}
 			}
 			isInit = true;
-			MessageBox.Show("成功打开工程");
+			MessageBox.Show("成功打开工程：" + projectName);
 		}
 		
 		/// <summary>

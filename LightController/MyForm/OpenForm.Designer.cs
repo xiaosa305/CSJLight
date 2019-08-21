@@ -40,7 +40,7 @@
 			// 
 			this.treeView1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
-			this.treeView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.treeView1.Margin = new System.Windows.Forms.Padding(2);
 			this.treeView1.Name = "treeView1";
 			this.treeView1.Size = new System.Drawing.Size(309, 233);
 			this.treeView1.TabIndex = 0;
@@ -111,7 +111,10 @@
 			this.Controls.Add(this.deleteSkinButton);
 			this.Controls.Add(this.enterSkinButton);
 			this.Controls.Add(this.treeView1);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(325, 333);
 			this.Name = "OpenForm";
 			this.Text = "打开工程";
 			this.Load += new System.EventHandler(this.OpenForm_Load);

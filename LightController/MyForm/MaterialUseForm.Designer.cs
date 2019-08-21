@@ -128,11 +128,14 @@
 			this.Controls.Add(this.insertSkinButton);
 			this.Controls.Add(this.treeView1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "MaterialUseForm";
 			this.ShowInTaskbar = false;
 			this.Text = "使用素材";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MaterialUseForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MaterialUseForm_FormClosed);
 			this.Load += new System.EventHandler(this.MaterialUseForm_Load);
 			this.ResumeLayout(false);

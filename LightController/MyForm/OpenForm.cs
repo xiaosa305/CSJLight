@@ -13,10 +13,15 @@ namespace LightController.MyForm
 	public partial class OpenForm : Form
 	{
 		private MainFormInterface mainForm;
-		public OpenForm(MainFormInterface mainForm)
+		private string currentProjectName;  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
+		private bool isJustDelete = false;	// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除，
+
+		public OpenForm(MainFormInterface mainForm , string currentProjectName)
 		{
 			InitializeComponent();
+		
 			this.mainForm = mainForm;
+			this.currentProjectName = currentProjectName; 
 
 			string path = @"C:\Temp\LightProject";
 			if (Directory.Exists(path))
@@ -31,8 +36,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来
-		private bool isJustDelete = false;
+
 
 		/// <summary>
 		///  选中node后，点击《打开》后的操作
@@ -77,6 +81,13 @@ namespace LightController.MyForm
 			{
 				// 1. 先取出目录path
 				string projectName = treeView1.SelectedNode.Text;
+
+				// 8.21 验证是否当前项目，若是则不可删除
+				if (currentProjectName.Equals(projectName)) {
+					MessageBox.Show("无法删除正在使用的工程！");
+					return;
+				}
+
 				string directoryPath = "C:\\Temp\\LightProject\\" + projectName;
 				DirectoryInfo di = new DirectoryInfo(directoryPath);
 

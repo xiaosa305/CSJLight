@@ -132,7 +132,8 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(GateWay.Split('.')[1]));
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
             data.Add(Convert.ToByte(GateWay.Split('.')[3]));
-            string[] macBuff = Mac.Split('-');
+            //string[] macBuff = Mac.Split('-');
+            string[] macBuff = new string[] {"00", "00", "00", "00", "00", "00"};
             data.Add(Convert.ToByte(macBuff[0], 16));
             data.Add(Convert.ToByte(macBuff[1], 16));
             data.Add(Convert.ToByte(macBuff[2], 16));
@@ -168,7 +169,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 HardWareID = 0 + HardWareID;
             }
-
+            HardWareID = "0000000000000000";
             byte[] HardWareIDBuff = Encoding.Default.GetBytes(HardWareID);
             data.AddRange(HardWareIDBuff);
             for (int i = 0; i < 16 - HardWareIDBuff.Length; i++)

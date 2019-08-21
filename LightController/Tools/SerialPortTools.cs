@@ -108,7 +108,6 @@ namespace LightController.Tools
             }
             return result.ToArray();
         }
-
         public string[] GetDMX512DeviceList()
         {
             List<string> deviceNameList = new List<string>();

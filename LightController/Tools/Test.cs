@@ -27,21 +27,13 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    string localIP = string.Empty;
-                    foreach (IPAddress iPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
-                    {
-                        if (iPAddress.AddressFamily.ToString() == "InterNetwork")
-                        {
-                            localIP = iPAddress.ToString();
-                        }
-                    }
-                    ConnectTools.GetInstance().Start(localIP);
+                    PlayTools.GetInstance().ConnectDevice("COM7");
                     break;
                 case 2:
-                    SerialPortTools.GetInstance().OpenCom(ports[0]);
+                    PlayTools.GetInstance().CloseDevice();
                     break;
                 case 3:
-                    SerialPortTools.GetInstance().OpenCom(ports[0]);
+                    PlayTools.GetInstance().MusicControl();
                     break;
                 case 4:
                     break;

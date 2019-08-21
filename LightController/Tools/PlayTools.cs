@@ -440,7 +440,7 @@ namespace LightController.Tools
                     {
                         for (int i = 0; i < deviceCount; i++)
                         {
-                            status = Device.OpenBySerialNumber(deviceList[0].SerialNumber);
+                            status = Device.OpenBySerialNumber(deviceList[i].SerialNumber);
                             if (status == FTDI.FT_STATUS.FT_OK)
                             {
                                 string portName;

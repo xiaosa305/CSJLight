@@ -201,7 +201,7 @@ namespace LightController
 			// 
 			this.addSkinButton.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.addSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.addSkinButton.BaseColor = System.Drawing.Color.LightGray;
+			this.addSkinButton.BaseColor = System.Drawing.Color.LightSalmon;
 			this.addSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.addSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.addSkinButton.DownBack = null;

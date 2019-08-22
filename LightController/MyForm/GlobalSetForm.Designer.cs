@@ -44,6 +44,7 @@ namespace LightController.MyForm
 			this.label1 = new System.Windows.Forms.Label();
 			this.tongdaoCountComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheGroupBox = new System.Windows.Forms.GroupBox();
+			this.frameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
 			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
@@ -190,7 +191,6 @@ namespace LightController.MyForm
 			this.currentFrameLabel = new System.Windows.Forms.Label();
 			this.mFrameSaveAllSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skGroupBox = new System.Windows.Forms.GroupBox();
-			this.frameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -471,6 +471,23 @@ namespace LightController.MyForm
 			this.zuheGroupBox.TabIndex = 1;
 			this.zuheGroupBox.TabStop = false;
 			this.zuheGroupBox.Text = "多场景组合播放设置";
+			// 
+			// frameSaveSkinButton
+			// 
+			this.frameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.frameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.frameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.frameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.frameSaveSkinButton.DownBack = null;
+			this.frameSaveSkinButton.Location = new System.Drawing.Point(616, 21);
+			this.frameSaveSkinButton.MouseBack = null;
+			this.frameSaveSkinButton.Name = "frameSaveSkinButton";
+			this.frameSaveSkinButton.NormlBack = null;
+			this.frameSaveSkinButton.Size = new System.Drawing.Size(70, 25);
+			this.frameSaveSkinButton.TabIndex = 1;
+			this.frameSaveSkinButton.Text = "保存当前";
+			this.frameSaveSkinButton.UseVisualStyleBackColor = false;
+			this.frameSaveSkinButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
 			// 
 			// zuheFrameComboBox
 			// 
@@ -2111,6 +2128,7 @@ namespace LightController.MyForm
 			this.mFrameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.mFrameTextBox.Size = new System.Drawing.Size(325, 52);
 			this.mFrameTextBox.TabIndex = 2;
+			this.mFrameTextBox.TextChanged += new System.EventHandler(this.mFrameTextBox_TextChanged);
 			this.mFrameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameTextBox_KeyPress);
 			// 
 			// mNoticeSkinButton
@@ -2187,23 +2205,6 @@ namespace LightController.MyForm
 			this.skGroupBox.TabIndex = 2;
 			this.skGroupBox.TabStop = false;
 			this.skGroupBox.Text = "声控场景触发步数设置";
-			// 
-			// frameSaveSkinButton
-			// 
-			this.frameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.frameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.frameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.frameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.frameSaveSkinButton.DownBack = null;
-			this.frameSaveSkinButton.Location = new System.Drawing.Point(616, 21);
-			this.frameSaveSkinButton.MouseBack = null;
-			this.frameSaveSkinButton.Name = "frameSaveSkinButton";
-			this.frameSaveSkinButton.NormlBack = null;
-			this.frameSaveSkinButton.Size = new System.Drawing.Size(70, 25);
-			this.frameSaveSkinButton.TabIndex = 1;
-			this.frameSaveSkinButton.Text = "保存当前";
-			this.frameSaveSkinButton.UseVisualStyleBackColor = false;
-			this.frameSaveSkinButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
 			// 
 			// GlobalSetForm
 			// 

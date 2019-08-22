@@ -728,7 +728,8 @@ namespace LightController.MyForm
 					{
 						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
 						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "否", "是" });
-						this.tdStepTimeNumericUpDowns[i].Enabled = false;
+						
+						this.tdStepTimeNumericUpDowns[i].Hide();
 					}
 
 					commonChangeModeSkinButton.Text = "统一声控";
@@ -736,8 +737,13 @@ namespace LightController.MyForm
 					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "否", "是" });
 					commonChangeModeSkinComboBox.SelectedIndex = 0;
 
-					commonStepTimeNumericUpDown.Enabled = false;
-					commonStepTimeSkinButton.Enabled = false;
+					commonStepTimeNumericUpDown.Hide();
+					commonStepTimeSkinButton.Text = "修改此音频场景全局设置";
+					commonStepTimeSkinButton.Size = new System.Drawing.Size(200,27);
+
+					thirdLabel1.Hide();
+					thirdLabel2.Hide();
+					thirdLabel3.Hide();
 				}
 				else //mode=0
 				{
@@ -752,7 +758,7 @@ namespace LightController.MyForm
 								"渐变",
 								"屏蔽"
 						});
-						this.tdStepTimeNumericUpDowns[i].Enabled = true;
+						this.tdStepTimeNumericUpDowns[i].Show();
 					}
 
 					commonChangeModeSkinButton.Text = "统一跳渐变";
@@ -760,8 +766,14 @@ namespace LightController.MyForm
 					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变","屏蔽" });
 					commonChangeModeSkinComboBox.SelectedIndex = 0;
 
-					commonStepTimeNumericUpDown.Enabled = true;
-					commonStepTimeSkinButton.Enabled = true;
+					commonStepTimeNumericUpDown.Show();
+					commonStepTimeSkinButton.Text = "统一步时间";
+					commonStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);
+
+
+					thirdLabel1.Show();
+					thirdLabel2.Show();
+					thirdLabel3.Show();
 				}
 				if (lightAstList != null && lightAstList.Count > 0)
 				{
@@ -1600,10 +1612,18 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonStepTimeSkinButton_Click(object sender, EventArgs e)
 		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			string buttonText = commonStepTimeSkinButton.Text;
+			if (buttonText.Equals("统一步时间"))
 			{
-				tdStepTimeNumericUpDowns[i].Value = commonStepTimeNumericUpDown.Value;
+				StepWrapper currentStep = getCurrentStepWrapper();
+				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+				{
+					tdStepTimeNumericUpDowns[i].Value = commonStepTimeNumericUpDown.Value;
+				}
+			}
+			else 
+			{
+				new SKForm(this, globalIniFilePath, frame,frameSkinComboBox.Text).ShowDialog();
 			}
 		}
 
@@ -1984,10 +2004,19 @@ namespace LightController.MyForm
 
 
 
+
+
 		#endregion
 
+		/// <summary>
+		/// 事件：点击《统一调整声控步时间》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mCommonStepTimeSkinButton_Click(object sender, EventArgs e)
+		{
 
-		
+		}
 	}
 
 }

@@ -33,8 +33,10 @@
 			this.DKToolSkinButton = new CCWin.SkinControl.SkinButton();
 			this.ZKToolSkinButton = new CCWin.SkinControl.SkinButton();
 			this.QBToolSkinButton = new CCWin.SkinControl.SkinButton();
-			this.skinFlowLayoutPanel1 = new CCWin.SkinControl.SkinFlowLayoutPanel();
-			this.skinFlowLayoutPanel1.SuspendLayout();
+			this.toolsSkinFlowLayoutPanel = new CCWin.SkinControl.SkinFlowLayoutPanel();
+			this.noticeLabel1 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.toolsSkinFlowLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lightEditorSkinButton
@@ -149,29 +151,52 @@
 			this.QBToolSkinButton.UseVisualStyleBackColor = false;
 			this.QBToolSkinButton.Click += new System.EventHandler(this.QBToolSkinButton_Click);
 			// 
-			// skinFlowLayoutPanel1
+			// toolsSkinFlowLayoutPanel
 			// 
-			this.skinFlowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-			this.skinFlowLayoutPanel1.Controls.Add(this.lightEditorSkinButton);
-			this.skinFlowLayoutPanel1.Controls.Add(this.DKToolSkinButton);
-			this.skinFlowLayoutPanel1.Controls.Add(this.ZKToolSkinButton);
-			this.skinFlowLayoutPanel1.Controls.Add(this.QBToolSkinButton);
-			this.skinFlowLayoutPanel1.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.skinFlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.skinFlowLayoutPanel1.DownBack = null;
-			this.skinFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.skinFlowLayoutPanel1.MouseBack = null;
-			this.skinFlowLayoutPanel1.Name = "skinFlowLayoutPanel1";
-			this.skinFlowLayoutPanel1.NormlBack = null;
-			this.skinFlowLayoutPanel1.Size = new System.Drawing.Size(528, 158);
-			this.skinFlowLayoutPanel1.TabIndex = 6;
+			this.toolsSkinFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
+			this.toolsSkinFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.lightEditorSkinButton);
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.DKToolSkinButton);
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.ZKToolSkinButton);
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.QBToolSkinButton);
+			this.toolsSkinFlowLayoutPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.toolsSkinFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.toolsSkinFlowLayoutPanel.DownBack = null;
+			this.toolsSkinFlowLayoutPanel.Location = new System.Drawing.Point(0, 63);
+			this.toolsSkinFlowLayoutPanel.MouseBack = null;
+			this.toolsSkinFlowLayoutPanel.Name = "toolsSkinFlowLayoutPanel";
+			this.toolsSkinFlowLayoutPanel.NormlBack = null;
+			this.toolsSkinFlowLayoutPanel.Size = new System.Drawing.Size(528, 136);
+			this.toolsSkinFlowLayoutPanel.TabIndex = 6;
+			// 
+			// noticeLabel1
+			// 
+			this.noticeLabel1.AutoSize = true;
+			this.noticeLabel1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.noticeLabel1.Location = new System.Drawing.Point(12, 9);
+			this.noticeLabel1.Name = "noticeLabel1";
+			this.noticeLabel1.Size = new System.Drawing.Size(364, 14);
+			this.noticeLabel1.TabIndex = 7;
+			this.noticeLabel1.Text = "1.使用传视界工具，需要安装相应驱动，并保持设备连接;\r\n";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label1.Location = new System.Drawing.Point(12, 34);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(399, 14);
+			this.label1.TabIndex = 7;
+			this.label1.Text = "2.系统必须安装MicroSoft Office Excel，才能使用中控工具。";
 			// 
 			// ToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(528, 158);
-			this.Controls.Add(this.skinFlowLayoutPanel1);
+			this.ClientSize = new System.Drawing.Size(528, 199);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.noticeLabel1);
+			this.Controls.Add(this.toolsSkinFlowLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -179,9 +204,10 @@
 			this.Text = "其他工具";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ToolsForm_FormClosed);
 			this.Load += new System.EventHandler(this.ToolsForm_Load);
-			this.skinFlowLayoutPanel1.ResumeLayout(false);
-			this.skinFlowLayoutPanel1.PerformLayout();
+			this.toolsSkinFlowLayoutPanel.ResumeLayout(false);
+			this.toolsSkinFlowLayoutPanel.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -191,6 +217,8 @@
 		private CCWin.SkinControl.SkinButton DKToolSkinButton;
 		private CCWin.SkinControl.SkinButton ZKToolSkinButton;
 		private CCWin.SkinControl.SkinButton QBToolSkinButton;
-		private CCWin.SkinControl.SkinFlowLayoutPanel skinFlowLayoutPanel1;
+		private CCWin.SkinControl.SkinFlowLayoutPanel toolsSkinFlowLayoutPanel;
+		private System.Windows.Forms.Label noticeLabel1;
+		private System.Windows.Forms.Label label1;
 	}
 }

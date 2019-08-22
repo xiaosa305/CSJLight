@@ -22,8 +22,8 @@ namespace LightEditor
 		public bool isSaved = false;
 		private OneLightOneStep player; // 灯具测试的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
-		private bool ifRealTime = false; //是否勾选“实时调试”
-
+		private bool isRealTime = false; //是否勾选“实时调试”
+		private bool isConnect = false; // 辅助变量：是否连接设备
 
 		public MainForm()
 		{
@@ -637,7 +637,7 @@ namespace LightEditor
 			// 1.设tongdaoWrapper的值
 			tongdaoList[tongdaoIndex].CurrentValue = tdValue;
 			//2.是否实时单灯单步
-			if (ifRealTime)
+			if (isRealTime)
 			{
 				oneLightOneStep();
 			}
@@ -808,7 +808,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void realtimeCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			ifRealTime = realtimeCheckBox.Checked;
+			isRealTime = realtimeCheckBox.Checked;
 		}
 
 		/// <summary>
@@ -847,7 +847,7 @@ namespace LightEditor
 			player.Preview(stepBytes);
 		}
 
-		private bool ifConnect = false; // 辅助变量：是否连接设备
+	
 		/// <summary>
 		///  点击《连接设备|断开连接》按钮
 		/// </summary>
@@ -856,16 +856,16 @@ namespace LightEditor
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			// 如果还没连接，那就连接
-			if (!ifConnect)
+			if (!isConnect)
 			{
-				ifConnect = true;
+				isConnect = true;
 				player = OneLightOneStep.GetInstance();
 				setDMX512TestButtonsEnable(true);
 				connectButton.Text = "断开连接";
 			}
 			else //否则断开连接:
 			{
-				ifConnect = false;
+				isConnect = false;
 				player.EndView();
 				player = null;
 				setDMX512TestButtonsEnable(false);

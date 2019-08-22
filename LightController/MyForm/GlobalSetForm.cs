@@ -374,7 +374,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void mNoticeSkinButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("请在在文本框内输入每一次执行的步数（范围为1-4），且每步数字都连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式。");
+			MessageBox.Show("请在文本框内输入每一次执行的步数（范围为1-4），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式。");
 		}
 
 		/// <summary>
@@ -409,6 +409,9 @@ namespace LightController.MyForm
 			MessageBox.Show("保存成功");
 		}
 
-	
+		private void mFrameTextBox_TextChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

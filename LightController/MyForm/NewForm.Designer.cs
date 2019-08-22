@@ -103,6 +103,7 @@
 			this.MinimizeBox = false;
 			this.Name = "NewForm";
 			this.Text = "新建工程";
+			this.Load += new System.EventHandler(this.NewForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

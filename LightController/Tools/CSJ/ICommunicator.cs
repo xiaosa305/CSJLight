@@ -10,9 +10,6 @@ namespace LightController.Tools.CSJ
 {
     public abstract class ICommunicator
     {
-        public const int PACKAGESIZE_512 = 508;
-        public const int PACKAGESIZE_1024 = 1016;
-        public const int PACKAGESIZE_2048 = 2040;
         protected bool IsSending { get; set; }//发送状态标记
         protected bool IsReceive { get; set; }//接收状态标记
         protected bool IsTimeOutThreadStart { get; set; }//超时执行启动状态标记
@@ -261,10 +258,11 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
-                                    if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
+                                    if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
                                     {
                                         this.TimeOutCount = 0;
                                         this.IsSending = false;
+                                        this.DownloadProgressDelegate("", 0);
                                         this.CallBack.SendError(deviceName, Order);
                                         this.CloseDevice();
                                     }
@@ -272,6 +270,7 @@ namespace LightController.Tools.CSJ
                                     {
                                         this.TimeOutCount++;
                                         this.IsSending = false;
+                                        Console.WriteLine(this.Order + "===>" +  this.CurrentFileName + ":超时重传" + this.TimeOutCount + "次");
                                         this.DownloadProject(this.Wrapper, this.ConfigPath, this.CallBack, this.DownloadProgressDelegate);
                                     }
                                 }
@@ -336,6 +335,7 @@ namespace LightController.Tools.CSJ
             this.IsReceive = true;
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
+            Console.WriteLine(rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -592,7 +592,7 @@ namespace LightController.Tools.CSJ
         }
         public class PacketSize
         {
-            public const int BYTE_512 = 508;
+            public const int BYTE_512 = 504;
             public const int BYTE_1024 = 1016;
             public const int BYTE_2048 = 2040;
 

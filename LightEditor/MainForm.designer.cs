@@ -165,6 +165,7 @@ namespace LightEditor
 			this.commonValueButton = new System.Windows.Forms.Button();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.connectButton = new System.Windows.Forms.Button();
+			this.connectPanel = new System.Windows.Forms.Panel();
 			this.lightTestGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
@@ -206,12 +207,13 @@ namespace LightEditor
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
 			this.flowLayoutPanel1.SuspendLayout();
+			this.connectPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// comComboBox
 			// 
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(445, 19);
+			this.comComboBox.Location = new System.Drawing.Point(20, 13);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.comComboBox.Name = "comComboBox";
 			this.comComboBox.Size = new System.Drawing.Size(86, 20);
@@ -219,7 +221,7 @@ namespace LightEditor
 			// 
 			// chooseComButton
 			// 
-			this.chooseComButton.Location = new System.Drawing.Point(445, 43);
+			this.chooseComButton.Location = new System.Drawing.Point(20, 37);
 			this.chooseComButton.Margin = new System.Windows.Forms.Padding(2);
 			this.chooseComButton.Name = "chooseComButton";
 			this.chooseComButton.Size = new System.Drawing.Size(86, 24);
@@ -230,7 +232,7 @@ namespace LightEditor
 			// 
 			// newLightButton
 			// 
-			this.newLightButton.Location = new System.Drawing.Point(10, 19);
+			this.newLightButton.Location = new System.Drawing.Point(18, 19);
 			this.newLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newLightButton.Name = "newLightButton";
 			this.newLightButton.Size = new System.Drawing.Size(99, 46);
@@ -241,7 +243,7 @@ namespace LightEditor
 			// 
 			// openLightButton
 			// 
-			this.openLightButton.Location = new System.Drawing.Point(132, 19);
+			this.openLightButton.Location = new System.Drawing.Point(140, 19);
 			this.openLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openLightButton.Name = "openLightButton";
 			this.openLightButton.Size = new System.Drawing.Size(99, 46);
@@ -252,7 +254,7 @@ namespace LightEditor
 			// 
 			// saveLightButton
 			// 
-			this.saveLightButton.Location = new System.Drawing.Point(256, 19);
+			this.saveLightButton.Location = new System.Drawing.Point(264, 19);
 			this.saveLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveLightButton.Name = "saveLightButton";
 			this.saveLightButton.Size = new System.Drawing.Size(99, 46);
@@ -395,7 +397,7 @@ namespace LightEditor
 			// 
 			// generateButton
 			// 
-			this.generateButton.Location = new System.Drawing.Point(167, 133);
+			this.generateButton.Location = new System.Drawing.Point(169, 133);
 			this.generateButton.Margin = new System.Windows.Forms.Padding(2);
 			this.generateButton.Name = "generateButton";
 			this.generateButton.Size = new System.Drawing.Size(60, 22);
@@ -1855,7 +1857,7 @@ namespace LightEditor
 			// connectButton
 			// 
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(554, 20);
+			this.connectButton.Location = new System.Drawing.Point(128, 13);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
 			this.connectButton.Size = new System.Drawing.Size(99, 46);
@@ -1863,6 +1865,17 @@ namespace LightEditor
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = true;
 			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+			// 
+			// connectPanel
+			// 
+			this.connectPanel.Controls.Add(this.comComboBox);
+			this.connectPanel.Controls.Add(this.chooseComButton);
+			this.connectPanel.Controls.Add(this.connectButton);
+			this.connectPanel.Location = new System.Drawing.Point(426, 5);
+			this.connectPanel.Name = "connectPanel";
+			this.connectPanel.Size = new System.Drawing.Size(240, 68);
+			this.connectPanel.TabIndex = 7;
+			this.connectPanel.Visible = false;
 			// 
 			// MainForm
 			// 
@@ -1872,14 +1885,12 @@ namespace LightEditor
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(828, 530);
+			this.Controls.Add(this.connectPanel);
 			this.Controls.Add(this.editGroupBox);
 			this.Controls.Add(this.exitButton);
-			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.saveLightButton);
 			this.Controls.Add(this.openLightButton);
 			this.Controls.Add(this.newLightButton);
-			this.Controls.Add(this.chooseComButton);
-			this.Controls.Add(this.comComboBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -1931,6 +1942,7 @@ namespace LightEditor
 			this.groupBox1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
 			this.flowLayoutPanel1.ResumeLayout(false);
+			this.connectPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2081,6 +2093,7 @@ namespace LightEditor
 		private NumericUpDown commonValueNumericUpDown;
 		private Button commonValueButton;
 		private Button setCurrentToInitButton;
+		private Panel connectPanel;
 	}
 }
 

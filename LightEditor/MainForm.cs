@@ -23,7 +23,8 @@ namespace LightEditor
 		private OneLightOneStep player; // 灯具测试的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
 		private bool isRealTime = false; //是否勾选“实时调试”
-		private bool isConnect = false; // 辅助变量：是否连接设备
+		private bool isConnect = false; // 辅助变量：是否连接设备	
+
 		string comName;
 
 		public MainForm()
@@ -206,11 +207,12 @@ namespace LightEditor
 					tongdaoGroupBox2.Hide();
 					picTextBox.Text = "";
 					openPictureBox.Image = null;
-					firstTDNumericUpDown.Value = 1;
+					firstTDNumericUpDown.Value = 1;					
 				}
 			}
 			else {
 				editGroupBox.Visible = true;
+				connectPanel.Show();
 			}
 		}
 
@@ -226,7 +228,7 @@ namespace LightEditor
 
 
 		/// <summary>
-		///  事件：选择灯具配置文件后，点击确认时
+		///  事件：在《打开灯具》对话框内选择文件，并点击确认时
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -294,6 +296,7 @@ namespace LightEditor
 			}
 			this.NewShowVScrollBars();
 			this.showTongdaoButton(true);
+			this.connectPanel.Show();
 			
 			reader.Close();
 			file.Close();

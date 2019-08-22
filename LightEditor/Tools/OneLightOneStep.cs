@@ -160,7 +160,6 @@ namespace LightEditor.Tools
                                 if (portName == null || portName == "" || portName != comName)
                                 {
                                     Device.Close();
-                                    //Device = null;
                                 }
                                 else
                                 {

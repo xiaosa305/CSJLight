@@ -304,6 +304,7 @@
     <Compile Include="Tools\CSJ\IMPL\CSJ_SceneData.cs" />
     <Compile Include="Tools\CSJ\IMPL\DmxDataConvert.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
+    <Compile Include="Tools\FileTools.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\ReceiveCallBack.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />

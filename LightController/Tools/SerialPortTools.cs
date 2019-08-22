@@ -179,41 +179,48 @@ namespace LightController.Tools
             byte[] packageHead = new byte[Constant.PACKAGEHEAD_SIZE];
             while (true)
             {
-                RxBuff.Add(Convert.ToByte(ComDevice.ReadByte()));
-                if (RxBuff.Count == Constant.PACKAGEHEAD_SIZE)
+                try
                 {
-                    for (int i = 0; i < Constant.PACKAGEHEAD_SIZE; i++)
+                    RxBuff.Add(Convert.ToByte(ComDevice.ReadByte()));
+                    if (RxBuff.Count == Constant.PACKAGEHEAD_SIZE)
                     {
-                        packageHead[i] = RxBuff[i];
+                        for (int i = 0; i < Constant.PACKAGEHEAD_SIZE; i++)
+                        {
+                            packageHead[i] = RxBuff[i];
+                        }
+                        if (packageHead[0] != Convert.ToByte(0xAA) || packageHead[1] != Convert.ToByte(0xBB) || packageHead[2] != Convert.ToByte(0x00) || packageHead[5] != Convert.ToByte(Constant.MARK_DATA_END, 2))
+                        {
+                            CloseDevice();
+                            break;
+                        }
+                        else
+                        {
+                            packageDataSize = (packageHead[3] & 0xFF) | ((packageHead[4] << 8) & 0xFF);
+                        }
                     }
-                    if (packageHead[0] != Convert.ToByte(0xAA) || packageHead[1] != Convert.ToByte(0xBB) || packageHead[2] != Convert.ToByte(0x00) || packageHead[5] != Convert.ToByte(Constant.MARK_DATA_END,2))
+                    else if (RxBuff.Count == packageDataSize + Constant.PACKAGEHEAD_SIZE)
                     {
-                        CloseDevice();
-                        break;
-                    }
-                    else
-                    {
-                        packageDataSize = (packageHead[3] & 0xFF) | ((packageHead[4] << 8) & 0xFF);
+                        RxBuff[6] = Convert.ToByte(0x00);
+                        RxBuff[7] = Convert.ToByte(0x00);
+                        byte[] packageCRC = CRCTools.GetInstance().GetCRC(RxBuff.ToArray());
+                        if (packageCRC[0] != packageHead[6] || packageCRC[1] != packageHead[7])
+                        {
+                            CloseDevice();
+                            break;
+                        }
+                        else
+                        {
+                            byte[] packageData = new byte[packageDataSize];
+                            Array.Copy(RxBuff.ToArray(), 8, packageData, 0, packageDataSize);
+                            ReceiveMessageManage(packageData, packageDataSize);
+                            RxBuff.Clear();
+                            break;
+                        }
                     }
                 }
-                else if(RxBuff.Count == packageDataSize + Constant.PACKAGEHEAD_SIZE)
+                catch (Exception ex)
                 {
-                    RxBuff[6] = Convert.ToByte(0x00);
-                    RxBuff[7] = Convert.ToByte(0x00);
-                    byte[] packageCRC = CRCTools.GetInstance().GetCRC(RxBuff.ToArray());
-                    if (packageCRC[0] != packageHead[6] || packageCRC[1] != packageHead[7])
-                    {
-                        CloseDevice();
-                        break;
-                    }
-                    else
-                    {
-                        byte[] packageData = new byte[packageDataSize];
-                        Array.Copy(RxBuff.ToArray(), 8, packageData, 0, packageDataSize);
-                        ReceiveMessageManage(packageData, packageDataSize);
-                        RxBuff.Clear();
-                        break;
-                    }
+                    Console.WriteLine("Error :" + ex.Message);
                 }
             }
         }

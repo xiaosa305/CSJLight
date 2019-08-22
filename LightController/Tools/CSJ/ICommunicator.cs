@@ -593,8 +593,8 @@ namespace LightController.Tools.CSJ
         public class PacketSize
         {
             public const int BYTE_512 = 504;
-            public const int BYTE_1024 = 1016;
-            public const int BYTE_2048 = 2040;
+            public const int BYTE_1024 = 1024;
+            public const int BYTE_2048 = 2048;
 
         }
     }

@@ -16,12 +16,11 @@ namespace LightEditor.Tools
         private int TimeFactory { get; set; }
 
         private readonly byte[] StartCode = new byte[] { 0x00 };
-
         private OneLightOneStep()
         {
-            ConnectDevice();
+            TimeFactory = 31;
+            Device = new FTDI();
         }
-
         public static OneLightOneStep GetInstance()
         {
             if (Instance == null)
@@ -30,7 +29,6 @@ namespace LightEditor.Tools
             }
             return Instance;
         }
-
         public void EndView()
         {
             if (PreViewThread != null)
@@ -39,40 +37,17 @@ namespace LightEditor.Tools
                 {
                     PreViewThread.Abort();
                 }
-                catch (Exception)
-                {
-                }
                 finally
                 {
                     PreViewThread = null;
                 }
             }
-            if(Device != null)
-            {
-                try
-                {
-                    Device.Close();
-                }
-                catch (Exception)
-                {
-                }
-                finally
-                {
-                    Device = null;
-                }
-            }
         }
-
         public void Preview(byte[] data)
         {
            
             try
             {
-                TimeFactory = 32;
-                if (Device == null)
-                {
-                    ConnectDevice();
-                }
                 if (data == null)
                 {
                     data = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
@@ -92,7 +67,6 @@ namespace LightEditor.Tools
                 EndView();
             }
         }
-
         private void PreviewThreadStart()
         {
             while (true)
@@ -101,34 +75,72 @@ namespace LightEditor.Tools
                 Thread.Sleep(TimeFactory);
             }
         }
-
         private void Play()
         {
             UInt32 count = 0;
             try
             {
-                //发送Break
-                Device.SetBreak(true);
-                Thread.Sleep(10);
-                Device.SetBreak(false);
-                Thread.Sleep(1);
-                List<byte> buff = new List<byte>();
-                buff.AddRange(StartCode);
-                buff.AddRange(PlayData);
-                Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                if (Device != null)
+                {
+                    if (Device.IsOpen)
+                    {
+                        //发送Break|
+                        Device.SetBreak(true);
+                        Thread.Sleep(0);
+                        Device.SetBreak(false);
+                        Thread.Sleep(0);
+                        List<byte> buff = new List<byte>();
+                        buff.AddRange(StartCode);
+                        buff.AddRange(PlayData);
+                        Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
+                        Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                        Device.SetBreak(false);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("未连接DMX512设备——" + ex.Message);
                 EndView();
             }
         }
-
-        public void ConnectDevice()
+        public string[] GetDMX512DeviceList()
+        {
+            List<string> deviceNameList = new List<string>();
+            UInt32 deviceCount = 0;
+            FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
+            FTDI dmx512Device = new FTDI();
+            status = dmx512Device.GetNumberOfDevices(ref deviceCount);
+            if (status == FTDI.FT_STATUS.FT_OK)
+            {
+                if (deviceCount > 0)
+                {
+                    FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+                    status = dmx512Device.GetDeviceList(deviceList);
+                    if (status == FTDI.FT_STATUS.FT_OK)
+                    {
+                        for (int i = 0; i < deviceList.Length; i++)
+                        {
+                            status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+                            if (status == FTDI.FT_STATUS.FT_OK)
+                            {
+                                string portName;
+                                dmx512Device.GetCOMPort(out portName);
+                                if (portName != null && portName != "")
+                                {
+                                    deviceNameList.Add(portName);
+                                    dmx512Device.Close();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return deviceNameList.ToArray();
+        }
+        public bool ConnectDevice(string comName)
         {
             UInt32 deviceCount = 0;
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-            Device = new FTDI();
             status = Device.GetNumberOfDevices(ref deviceCount);
             if (status == FTDI.FT_STATUS.FT_OK)
             {
@@ -138,27 +150,38 @@ namespace LightEditor.Tools
                     status = Device.GetDeviceList(deviceList);
                     if (status == FTDI.FT_STATUS.FT_OK)
                     {
-                        status = Device.OpenBySerialNumber(deviceList[0].SerialNumber);
-                        if (status == FTDI.FT_STATUS.FT_OK)
+                        for (int i = 0; i < deviceCount; i++)
                         {
-                            string portName;
-                            Device.GetCOMPort(out portName);
-                            if (portName == null || portName == "")
+                            status = Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+                            if (status == FTDI.FT_STATUS.FT_OK)
                             {
-                                Device.Close();
-                                Device = null;
+                                string portName;
+                                Device.GetCOMPort(out portName);
+                                if (portName == null || portName == "" || portName != comName)
+                                {
+                                    Device.Close();
+                                    //Device = null;
+                                }
+                                else
+                                {
+                                    Device.SetBaudRate(250000);
+                                    Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
+                                    return Device.IsOpen;
+                                }
                             }
-                            Device.SetBaudRate(250000);
-                            Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
                         }
                     }
                 }
-                else
-                {
-                    Device = null;
-                    Console.WriteLine("未连接DMX512设备");
-                    EndView();
-                }
+            }
+            return false;
+        }
+        public void CloseDevice()
+        {
+            EndView();
+            Thread.Sleep(200);
+            if (Device != null)
+            {
+                Device.Close();
             }
         }
     }

@@ -292,7 +292,7 @@ namespace LightController.Tools
         }
         private void MusicControlThreadStart()
         {
-            DateTime time1 = DateTime.Now;
+            System.Timers.Timer timer = new System.Timers.Timer();
             MusicStep = StepList[MusicStepPoint];
             for (int i = 1; i < MusicStep; i++)
             {
@@ -310,7 +310,6 @@ namespace LightController.Tools
             }
             int waitingTime = MusicIntervalTime;
             MusicWaiting = true;
-            time1 = DateTime.Now;
             for (int i = 0; i < Math.Ceiling(waitingTime / 2 * 1.0); i++)
             {
                 Thread.Sleep(1);
@@ -319,7 +318,6 @@ namespace LightController.Tools
                     break;
                 }
             }
-            Console.WriteLine("停留" + DateTime.Now.Subtract(time1).TotalMilliseconds);
             IsMusicControl = false;
             MusicControlThread = null;
         }
@@ -385,7 +383,6 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                Console.WriteLine("未连接DMX512设备——" + ex.Message + "--->Preview:" + (State == PreViewState.PreView) + "--->OLOSView:" + (State == PreViewState.OLOSView) + "---->Null:" + (State == PreViewState.Null));
                 EndView();
             }
         }

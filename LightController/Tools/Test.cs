@@ -27,13 +27,13 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    PlayTools.GetInstance().ConnectDevice("COM7");
+                    SerialPortTools.GetInstance().OpenCom("COM3");
+                    SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_512);
+                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(), DownloadProgress);
                     break;
                 case 2:
-                    PlayTools.GetInstance().CloseDevice();
                     break;
                 case 3:
-                    PlayTools.GetInstance().MusicControl();
                     break;
                 case 4:
                     break;

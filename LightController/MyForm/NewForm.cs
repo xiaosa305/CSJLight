@@ -24,8 +24,7 @@ namespace LightController
 		{
 			this.mainForm = mainForm;
 			
-			this.StartPosition = FormStartPosition.Manual;
-			this.Location = new Point(mainForm.Location.X + 200 , mainForm.Location.Y + 200);
+
 
 			InitializeComponent();
 		}
@@ -35,7 +34,7 @@ namespace LightController
 		/// <summary>
 		///  点击《新建》按钮：
 		///  1.创建目录
-		///  2.拷贝默认的global.ini到新项目的目录中；
+		///  2.拷贝默认的global.ini到新工程的目录中；
 		///  3.回调mainForm中的InitProject()
 		///  4.收尾：Dispose这个窗口，激活主窗口
 		/// </summary>
@@ -64,7 +63,7 @@ namespace LightController
 				}
 				else
 				{
-					// 1.由新建时取的项目名，来新建相关文件夹
+					// 1.由新建时取的工程名，来新建相关文件夹
 					di.Create();
 					// 2.将相关global.ini和data.db3拷贝到文件夹内
 					string sourcePath = Application.StartupPath;
@@ -74,14 +73,16 @@ namespace LightController
 					// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 					// SQLiteHelper.SetPassword(dbFile);
 					mainForm.InitProject(projectName,true);
-					MessageBox.Show("成功新建项目");
+					MessageBox.Show("成功新建工程，请为此工程添加灯具。");
 					this.Dispose();
-					mainForm.Activate();
+					mainForm.IsCreateSuccess = true;
+					mainForm.Activate();					
 				}				
 			}
 			else
 			{
-				MessageBox.Show("请输入项目名");
+				MessageBox.Show("请输入工程名");
+				mainForm.IsCreateSuccess = false;
 				return;
 			}
 		}
@@ -92,6 +93,11 @@ namespace LightController
 		{
 			this.Dispose();
 			mainForm.Activate();
+		}
+
+		private void NewForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 		}
 	}
 }

@@ -21,10 +21,12 @@ namespace LightController.MyForm
 		// 辅助的bool变量：	
 		protected bool isNew = true;    // 点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false										
 		protected bool isInit = false;  // form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
-		
+		public bool IsCreateSuccess = false; //点击新建后，用这个变量决定是否打开灯具编辑列表
+
 		// 全局配置及数据库连接		
-		protected string globalIniFilePath;  // 存放当前项目《全局配置》、《摇麦设置》的配置文件的路径
-		protected string dbFilePath; // 数据库地址：每个项目都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
+		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
+		protected string globalIniFilePath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
+		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密
 
 		// 数据库DAO
@@ -53,7 +55,8 @@ namespace LightController.MyForm
 		protected PlayTools playTools; //DMX512灯具操控对象的实例
 		protected bool isConnect = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false；
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
-		protected IList<string> comList; 
+		protected IList<string> comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
+		protected string comName; // 存储打开的DMX512串口名称
 		
 		// 几个virtual修饰的方法：主要供各种Form回调使用		
 
@@ -68,9 +71,10 @@ namespace LightController.MyForm
 			clearAllData();
 
 			// 1.全局设置
+			currentProjectName = projectName;
 			string directoryPath = "C:\\Temp\\LightProject\\" + projectName;			
-			this.globalIniFilePath = directoryPath + "\\global.ini";
-			this.dbFilePath = directoryPath + "\\data.db3";
+			globalIniFilePath = directoryPath + "\\global.ini";
+			dbFilePath = directoryPath + "\\data.db3";
 			this.Text = "智控配置(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 

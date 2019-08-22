@@ -132,12 +132,14 @@ namespace LightController
             this.LightType,
             this.LightAddr});
 			this.lightsSkinListView.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lightsSkinListView.FullRowSelect = true;
 			this.lightsSkinListView.GridLines = true;
 			this.lightsSkinListView.HeadColor = System.Drawing.Color.White;
 			this.lightsSkinListView.Location = new System.Drawing.Point(419, 0);
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.RowBackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.lightsSkinListView.RowBackColor1 = System.Drawing.Color.Transparent;
+			this.lightsSkinListView.RowBackColor2 = System.Drawing.Color.Transparent;
 			this.lightsSkinListView.Size = new System.Drawing.Size(328, 509);
 			this.lightsSkinListView.TabIndex = 8;
 			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
@@ -147,14 +149,17 @@ namespace LightController
 			// lightName
 			// 
 			this.lightName.Text = "厂商名";
+			this.lightName.Width = 97;
 			// 
 			// LightType
 			// 
 			this.LightType.Text = "型号";
+			this.LightType.Width = 92;
 			// 
 			// LightAddr
 			// 
 			this.LightAddr.Text = "通道地址";
+			this.LightAddr.Width = 86;
 			// 
 			// enterSkinButton
 			// 
@@ -196,7 +201,7 @@ namespace LightController
 			// 
 			this.addSkinButton.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.addSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.addSkinButton.BaseColor = System.Drawing.Color.LightGray;
+			this.addSkinButton.BaseColor = System.Drawing.Color.LightSalmon;
 			this.addSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.addSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.addSkinButton.DownBack = null;
@@ -225,6 +230,7 @@ namespace LightController
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(763, 548);
 			this.Name = "SkinLightsForm";
 			this.Text = "编辑工程灯具列表";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LightsForm_FormClosed);

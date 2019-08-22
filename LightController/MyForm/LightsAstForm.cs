@@ -97,5 +97,10 @@ namespace LightController
 		{
 			this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
 		}
+
+		private void label3_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

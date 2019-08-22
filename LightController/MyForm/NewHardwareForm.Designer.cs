@@ -38,7 +38,7 @@
 			// hNameTextBox
 			// 
 			this.hNameTextBox.Location = new System.Drawing.Point(110, 28);
-			this.hNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.hNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.hNameTextBox.Name = "hNameTextBox";
 			this.hNameTextBox.Size = new System.Drawing.Size(146, 21);
 			this.hNameTextBox.TabIndex = 3;
@@ -99,7 +99,9 @@
 			this.Controls.Add(this.hNameTextBox);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "NewHardwareForm";
 			this.Text = "新建硬件配置名称";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewHardwareForm_FormClosed);

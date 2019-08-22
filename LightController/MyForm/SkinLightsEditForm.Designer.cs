@@ -37,8 +37,8 @@
 			this.addrLabel = new System.Windows.Forms.Label();
 			this.noticePanel = new System.Windows.Forms.Panel();
 			this.label3 = new System.Windows.Forms.Label();
-			this.iSeeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
+			this.iSeeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton2 = new CCWin.SkinControl.SkinButton();
 			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).BeginInit();
@@ -48,7 +48,7 @@
 			// startCountNumericUpDown
 			// 
 			this.startCountNumericUpDown.Location = new System.Drawing.Point(142, 108);
-			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -126,7 +126,7 @@
 			this.noticePanel.Controls.Add(this.iSeeSkinButton);
 			this.noticePanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.noticePanel.Location = new System.Drawing.Point(0, 0);
-			this.noticePanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.noticePanel.Margin = new System.Windows.Forms.Padding(2);
 			this.noticePanel.Name = "noticePanel";
 			this.noticePanel.Size = new System.Drawing.Size(270, 199);
 			this.noticePanel.TabIndex = 10;
@@ -141,6 +141,24 @@
 			this.label3.Size = new System.Drawing.Size(270, 120);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "若改变了通道的初始地址，基于原通道地址编辑的步数信息将会消失，请谨慎操作！";
+			// 
+			// cancelSkinButton
+			// 
+			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.cancelSkinButton.BaseColor = System.Drawing.Color.DarkGray;
+			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelSkinButton.DownBack = null;
+			this.cancelSkinButton.Location = new System.Drawing.Point(142, 139);
+			this.cancelSkinButton.MouseBack = null;
+			this.cancelSkinButton.Name = "cancelSkinButton";
+			this.cancelSkinButton.NormlBack = null;
+			this.cancelSkinButton.Size = new System.Drawing.Size(97, 43);
+			this.cancelSkinButton.TabIndex = 2;
+			this.cancelSkinButton.Text = "取消修改";
+			this.cancelSkinButton.UseVisualStyleBackColor = false;
+			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// iSeeSkinButton
 			// 
@@ -159,23 +177,6 @@
 			this.iSeeSkinButton.Text = "坚持修改";
 			this.iSeeSkinButton.UseVisualStyleBackColor = false;
 			this.iSeeSkinButton.Click += new System.EventHandler(this.iSeeButton_Click);
-			// 
-			// cancelSkinButton
-			// 
-			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.cancelSkinButton.BaseColor = System.Drawing.Color.DarkGray;
-			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(142, 139);
-			this.cancelSkinButton.MouseBack = null;
-			this.cancelSkinButton.Name = "cancelSkinButton";
-			this.cancelSkinButton.NormlBack = null;
-			this.cancelSkinButton.Size = new System.Drawing.Size(97, 43);
-			this.cancelSkinButton.TabIndex = 2;
-			this.cancelSkinButton.Text = "取消修改";
-			this.cancelSkinButton.UseVisualStyleBackColor = false;
-			this.cancelSkinButton.Click += new System.EventHandler(this.iSeeButton_Click);
 			// 
 			// enterSkinButton
 			// 
@@ -215,6 +216,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.cancelSkinButton;
 			this.ClientSize = new System.Drawing.Size(270, 199);
 			this.Controls.Add(this.noticePanel);
 			this.Controls.Add(this.cancelSkinButton2);
@@ -225,7 +227,7 @@
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label2);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "SkinLightsEditForm";
 			this.Text = "灯具修改";
 			this.Load += new System.EventHandler(this.LightsEditForm_Load);

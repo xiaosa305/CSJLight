@@ -45,7 +45,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(29, 57);
+			this.label1.Location = new System.Drawing.Point(29, 89);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(89, 12);
@@ -55,7 +55,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(29, 88);
+			this.label2.Location = new System.Drawing.Point(29, 57);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(89, 12);
@@ -64,8 +64,8 @@
 			// 
 			// lightCountNumericUpDown
 			// 
-			this.lightCountNumericUpDown.Location = new System.Drawing.Point(143, 55);
-			this.lightCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.lightCountNumericUpDown.Location = new System.Drawing.Point(143, 88);
+			this.lightCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.lightCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -88,8 +88,8 @@
 			// 
 			// startCountNumericUpDown
 			// 
-			this.startCountNumericUpDown.Location = new System.Drawing.Point(143, 86);
-			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.startCountNumericUpDown.Location = new System.Drawing.Point(143, 53);
+			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -177,7 +177,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "SkinLightsAstForm";
 			this.Text = "添加灯具选项";
 			this.Load += new System.EventHandler(this.LightsAstForm_Load);

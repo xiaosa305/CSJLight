@@ -44,27 +44,30 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(25, 72);
+			this.label1.Location = new System.Drawing.Point(19, 92);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(112, 15);
+			this.label1.Size = new System.Drawing.Size(89, 12);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "添加灯具数量：";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(25, 111);
+			this.label2.Location = new System.Drawing.Point(19, 59);
+			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(112, 15);
+			this.label2.Size = new System.Drawing.Size(89, 12);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "起始灯具地址：";
 			// 
 			// enterButton
 			// 
 			this.enterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-			this.enterButton.Location = new System.Drawing.Point(55, 167);
+			this.enterButton.Location = new System.Drawing.Point(41, 134);
+			this.enterButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.enterButton.Name = "enterButton";
-			this.enterButton.Size = new System.Drawing.Size(94, 34);
+			this.enterButton.Size = new System.Drawing.Size(70, 27);
 			this.enterButton.TabIndex = 2;
 			this.enterButton.Text = "确定";
 			this.enterButton.UseVisualStyleBackColor = false;
@@ -73,9 +76,10 @@
 			// cancelButton
 			// 
 			this.cancelButton.BackColor = System.Drawing.SystemColors.Info;
-			this.cancelButton.Location = new System.Drawing.Point(209, 167);
+			this.cancelButton.Location = new System.Drawing.Point(157, 134);
+			this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(100, 34);
+			this.cancelButton.Size = new System.Drawing.Size(75, 27);
 			this.cancelButton.TabIndex = 2;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = false;
@@ -83,14 +87,15 @@
 			// 
 			// lightCountNumericUpDown
 			// 
-			this.lightCountNumericUpDown.Location = new System.Drawing.Point(177, 70);
+			this.lightCountNumericUpDown.Location = new System.Drawing.Point(133, 88);
+			this.lightCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.lightCountNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
 			this.lightCountNumericUpDown.Name = "lightCountNumericUpDown";
-			this.lightCountNumericUpDown.Size = new System.Drawing.Size(132, 25);
+			this.lightCountNumericUpDown.Size = new System.Drawing.Size(99, 21);
 			this.lightCountNumericUpDown.TabIndex = 3;
 			this.lightCountNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.lightCountNumericUpDown.Value = new decimal(new int[] {
@@ -101,7 +106,8 @@
 			// 
 			// startCountNumericUpDown
 			// 
-			this.startCountNumericUpDown.Location = new System.Drawing.Point(177, 109);
+			this.startCountNumericUpDown.Location = new System.Drawing.Point(133, 55);
+			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -113,7 +119,7 @@
             0,
             0});
 			this.startCountNumericUpDown.Name = "startCountNumericUpDown";
-			this.startCountNumericUpDown.Size = new System.Drawing.Size(132, 25);
+			this.startCountNumericUpDown.Size = new System.Drawing.Size(99, 21);
 			this.startCountNumericUpDown.TabIndex = 3;
 			this.startCountNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.startCountNumericUpDown.Value = new decimal(new int[] {
@@ -125,26 +131,29 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(25, 33);
+			this.label3.Location = new System.Drawing.Point(19, 26);
+			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(112, 15);
+			this.label3.Size = new System.Drawing.Size(89, 12);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "添加灯具名称：";
+			this.label3.Click += new System.EventHandler(this.label3_Click);
 			// 
 			// nameTypeLabel
 			// 
 			this.nameTypeLabel.AutoSize = true;
-			this.nameTypeLabel.Location = new System.Drawing.Point(150, 32);
+			this.nameTypeLabel.Location = new System.Drawing.Point(112, 26);
+			this.nameTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.nameTypeLabel.Name = "nameTypeLabel";
-			this.nameTypeLabel.Size = new System.Drawing.Size(52, 15);
+			this.nameTypeLabel.Size = new System.Drawing.Size(41, 12);
 			this.nameTypeLabel.TabIndex = 4;
 			this.nameTypeLabel.Text = "灯具名";
 			// 
 			// LightsAstForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(363, 227);
+			this.ClientSize = new System.Drawing.Size(272, 182);
 			this.Controls.Add(this.nameTypeLabel);
 			this.Controls.Add(this.startCountNumericUpDown);
 			this.Controls.Add(this.lightCountNumericUpDown);
@@ -153,6 +162,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
+			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.Name = "LightsAstForm";
 			this.Text = "添加灯具选项";
 			this.Load += new System.EventHandler(this.LightsAstForm_Load);

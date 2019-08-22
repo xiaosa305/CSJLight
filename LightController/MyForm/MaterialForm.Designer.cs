@@ -585,7 +585,10 @@
 			this.Controls.Add(this.noticeLabel);
 			this.Controls.Add(this.mNameLabel);
 			this.Controls.Add(this.nameTextBox);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "MaterialForm";
 			this.Text = "保存素材";
 			this.Load += new System.EventHandler(this.MaterialForm_Load);

@@ -175,6 +175,12 @@
     <Compile Include="MyForm\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\SKForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SKForm.Designer.cs">
+      <DependentUpon>SKForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\SkinLightsEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,6 +279,12 @@
     <Compile Include="MyForm\QDTestForm.Designer.cs">
       <DependentUpon>QDTestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\ToolsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\ToolsForm.Designer.cs">
+      <DependentUpon>ToolsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\UpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -319,6 +331,9 @@
     <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SKForm.resx">
+      <DependentUpon>SKForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\SkinLightsEditForm.resx">
       <DependentUpon>SkinLightsEditForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -363,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\ToolsForm.resx">
+      <DependentUpon>ToolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
@@ -684,6 +702,9 @@
     <None Include="Resources\统一步时间.png" />
     <None Include="Resources\统一跳渐变.png" />
     <None Include="Resources\统一通道值.png" />
+    <None Include="Resources\KTV中央控制器.ico" />
+    <None Include="Resources\灯光控制器.ico" />
+    <None Include="Resources\墙板工具.ico" />
     <Content Include="Source\CSkin.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

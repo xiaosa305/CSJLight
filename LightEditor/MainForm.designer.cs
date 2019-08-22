@@ -33,7 +33,7 @@ namespace LightEditor
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.comComboBox = new System.Windows.Forms.ComboBox();
-			this.openComButton = new System.Windows.Forms.Button();
+			this.chooseComButton = new System.Windows.Forms.Button();
 			this.newLightButton = new System.Windows.Forms.Button();
 			this.openLightButton = new System.Windows.Forms.Button();
 			this.saveLightButton = new System.Windows.Forms.Button();
@@ -211,29 +211,29 @@ namespace LightEditor
 			// comComboBox
 			// 
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(19, 11);
-			this.comComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.comComboBox.Location = new System.Drawing.Point(445, 19);
+			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(113, 23);
+			this.comComboBox.Size = new System.Drawing.Size(86, 20);
 			this.comComboBox.TabIndex = 0;
 			// 
-			// openComButton
+			// chooseComButton
 			// 
-			this.openComButton.Location = new System.Drawing.Point(19, 51);
-			this.openComButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.openComButton.Name = "openComButton";
-			this.openComButton.Size = new System.Drawing.Size(114, 30);
-			this.openComButton.TabIndex = 1;
-			this.openComButton.Text = "打开串口";
-			this.openComButton.UseVisualStyleBackColor = true;
-			this.openComButton.Click += new System.EventHandler(this.openComButton_Click);
+			this.chooseComButton.Location = new System.Drawing.Point(445, 43);
+			this.chooseComButton.Margin = new System.Windows.Forms.Padding(2);
+			this.chooseComButton.Name = "chooseComButton";
+			this.chooseComButton.Size = new System.Drawing.Size(86, 24);
+			this.chooseComButton.TabIndex = 1;
+			this.chooseComButton.Text = "选择串口";
+			this.chooseComButton.UseVisualStyleBackColor = true;
+			this.chooseComButton.Click += new System.EventHandler(this.chooseComButton_Click);
 			// 
 			// newLightButton
 			// 
-			this.newLightButton.Location = new System.Drawing.Point(258, 23);
-			this.newLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.newLightButton.Location = new System.Drawing.Point(10, 19);
+			this.newLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newLightButton.Name = "newLightButton";
-			this.newLightButton.Size = new System.Drawing.Size(132, 58);
+			this.newLightButton.Size = new System.Drawing.Size(99, 46);
 			this.newLightButton.TabIndex = 2;
 			this.newLightButton.Text = "新建灯具";
 			this.newLightButton.UseVisualStyleBackColor = true;
@@ -241,10 +241,10 @@ namespace LightEditor
 			// 
 			// openLightButton
 			// 
-			this.openLightButton.Location = new System.Drawing.Point(422, 23);
-			this.openLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.openLightButton.Location = new System.Drawing.Point(132, 19);
+			this.openLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openLightButton.Name = "openLightButton";
-			this.openLightButton.Size = new System.Drawing.Size(132, 58);
+			this.openLightButton.Size = new System.Drawing.Size(99, 46);
 			this.openLightButton.TabIndex = 3;
 			this.openLightButton.Text = "打开灯具";
 			this.openLightButton.UseVisualStyleBackColor = true;
@@ -252,10 +252,10 @@ namespace LightEditor
 			// 
 			// saveLightButton
 			// 
-			this.saveLightButton.Location = new System.Drawing.Point(586, 23);
-			this.saveLightButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.saveLightButton.Location = new System.Drawing.Point(256, 19);
+			this.saveLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveLightButton.Name = "saveLightButton";
-			this.saveLightButton.Size = new System.Drawing.Size(132, 58);
+			this.saveLightButton.Size = new System.Drawing.Size(99, 46);
 			this.saveLightButton.TabIndex = 4;
 			this.saveLightButton.Text = "保存灯具";
 			this.saveLightButton.UseVisualStyleBackColor = true;
@@ -263,10 +263,10 @@ namespace LightEditor
 			// 
 			// exitButton
 			// 
-			this.exitButton.Location = new System.Drawing.Point(950, 23);
-			this.exitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.exitButton.Location = new System.Drawing.Point(712, 18);
+			this.exitButton.Margin = new System.Windows.Forms.Padding(2);
 			this.exitButton.Name = "exitButton";
-			this.exitButton.Size = new System.Drawing.Size(132, 58);
+			this.exitButton.Size = new System.Drawing.Size(99, 46);
 			this.exitButton.TabIndex = 5;
 			this.exitButton.Text = "退出";
 			this.exitButton.UseVisualStyleBackColor = true;
@@ -280,11 +280,11 @@ namespace LightEditor
 			this.lightTestGroupBox.Controls.Add(this.testButton);
 			this.lightTestGroupBox.Controls.Add(this.setFirstTDButton);
 			this.lightTestGroupBox.Cursor = System.Windows.Forms.Cursors.Default;
-			this.lightTestGroupBox.Location = new System.Drawing.Point(740, 38);
-			this.lightTestGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.lightTestGroupBox.Location = new System.Drawing.Point(555, 30);
+			this.lightTestGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.lightTestGroupBox.Name = "lightTestGroupBox";
-			this.lightTestGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-			this.lightTestGroupBox.Size = new System.Drawing.Size(332, 159);
+			this.lightTestGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.lightTestGroupBox.Size = new System.Drawing.Size(249, 127);
 			this.lightTestGroupBox.TabIndex = 10;
 			this.lightTestGroupBox.TabStop = false;
 			this.lightTestGroupBox.Text = "灯具测试";
@@ -293,9 +293,10 @@ namespace LightEditor
 			// realtimeCheckBox
 			// 
 			this.realtimeCheckBox.AutoSize = true;
-			this.realtimeCheckBox.Location = new System.Drawing.Point(24, 98);
+			this.realtimeCheckBox.Location = new System.Drawing.Point(18, 78);
+			this.realtimeCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.realtimeCheckBox.Name = "realtimeCheckBox";
-			this.realtimeCheckBox.Size = new System.Drawing.Size(89, 19);
+			this.realtimeCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.realtimeCheckBox.TabIndex = 2;
 			this.realtimeCheckBox.Text = "实时调试";
 			this.realtimeCheckBox.UseVisualStyleBackColor = true;
@@ -303,7 +304,8 @@ namespace LightEditor
 			// 
 			// firstTDNumericUpDown
 			// 
-			this.firstTDNumericUpDown.Location = new System.Drawing.Point(28, 49);
+			this.firstTDNumericUpDown.Location = new System.Drawing.Point(21, 39);
+			this.firstTDNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.firstTDNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -315,7 +317,7 @@ namespace LightEditor
             0,
             0});
 			this.firstTDNumericUpDown.Name = "firstTDNumericUpDown";
-			this.firstTDNumericUpDown.Size = new System.Drawing.Size(85, 25);
+			this.firstTDNumericUpDown.Size = new System.Drawing.Size(64, 21);
 			this.firstTDNumericUpDown.TabIndex = 1;
 			this.firstTDNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.firstTDNumericUpDown.Value = new decimal(new int[] {
@@ -326,10 +328,10 @@ namespace LightEditor
 			// 
 			// endTestButton
 			// 
-			this.endTestButton.Location = new System.Drawing.Point(223, 93);
-			this.endTestButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.endTestButton.Location = new System.Drawing.Point(167, 74);
+			this.endTestButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.endTestButton.Name = "endTestButton";
-			this.endTestButton.Size = new System.Drawing.Size(86, 29);
+			this.endTestButton.Size = new System.Drawing.Size(64, 23);
 			this.endTestButton.TabIndex = 0;
 			this.endTestButton.Text = "停止调试";
 			this.endTestButton.UseVisualStyleBackColor = true;
@@ -337,10 +339,10 @@ namespace LightEditor
 			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(132, 93);
-			this.testButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.testButton.Location = new System.Drawing.Point(99, 74);
+			this.testButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(86, 29);
+			this.testButton.Size = new System.Drawing.Size(64, 23);
 			this.testButton.TabIndex = 0;
 			this.testButton.Text = "单灯单步";
 			this.testButton.UseVisualStyleBackColor = true;
@@ -348,10 +350,10 @@ namespace LightEditor
 			// 
 			// setFirstTDButton
 			// 
-			this.setFirstTDButton.Location = new System.Drawing.Point(132, 47);
-			this.setFirstTDButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.setFirstTDButton.Location = new System.Drawing.Point(99, 38);
+			this.setFirstTDButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.setFirstTDButton.Name = "setFirstTDButton";
-			this.setFirstTDButton.Size = new System.Drawing.Size(176, 29);
+			this.setFirstTDButton.Size = new System.Drawing.Size(132, 23);
 			this.setFirstTDButton.TabIndex = 0;
 			this.setFirstTDButton.Text = "设初始通道地址";
 			this.setFirstTDButton.UseVisualStyleBackColor = true;
@@ -359,10 +361,10 @@ namespace LightEditor
 			// 
 			// setInitButton
 			// 
-			this.setInitButton.Location = new System.Drawing.Point(142, 73);
-			this.setInitButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.setInitButton.Location = new System.Drawing.Point(106, 58);
+			this.setInitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.setInitButton.Name = "setInitButton";
-			this.setInitButton.Size = new System.Drawing.Size(97, 29);
+			this.setInitButton.Size = new System.Drawing.Size(73, 23);
 			this.setInitButton.TabIndex = 0;
 			this.setInitButton.Text = "全设初始值";
 			this.setInitButton.UseVisualStyleBackColor = true;
@@ -370,10 +372,10 @@ namespace LightEditor
 			// 
 			// zeroButton
 			// 
-			this.zeroButton.Location = new System.Drawing.Point(27, 73);
-			this.zeroButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.zeroButton.Location = new System.Drawing.Point(20, 58);
+			this.zeroButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.zeroButton.Name = "zeroButton";
-			this.zeroButton.Size = new System.Drawing.Size(95, 29);
+			this.zeroButton.Size = new System.Drawing.Size(71, 23);
 			this.zeroButton.TabIndex = 0;
 			this.zeroButton.Text = "全部归零";
 			this.zeroButton.UseVisualStyleBackColor = true;
@@ -381,10 +383,10 @@ namespace LightEditor
 			// 
 			// tongdaoEditButton
 			// 
-			this.tongdaoEditButton.Location = new System.Drawing.Point(322, 143);
-			this.tongdaoEditButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.tongdaoEditButton.Location = new System.Drawing.Point(242, 114);
+			this.tongdaoEditButton.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoEditButton.Name = "tongdaoEditButton";
-			this.tongdaoEditButton.Size = new System.Drawing.Size(91, 51);
+			this.tongdaoEditButton.Size = new System.Drawing.Size(68, 41);
 			this.tongdaoEditButton.TabIndex = 3;
 			this.tongdaoEditButton.Text = "通道编辑";
 			this.tongdaoEditButton.UseVisualStyleBackColor = true;
@@ -393,10 +395,10 @@ namespace LightEditor
 			// 
 			// generateButton
 			// 
-			this.generateButton.Location = new System.Drawing.Point(223, 166);
-			this.generateButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.generateButton.Location = new System.Drawing.Point(167, 133);
+			this.generateButton.Margin = new System.Windows.Forms.Padding(2);
 			this.generateButton.Name = "generateButton";
-			this.generateButton.Size = new System.Drawing.Size(80, 28);
+			this.generateButton.Size = new System.Drawing.Size(60, 22);
 			this.generateButton.TabIndex = 4;
 			this.generateButton.Text = "生成";
 			this.generateButton.UseVisualStyleBackColor = true;
@@ -407,10 +409,10 @@ namespace LightEditor
 			this.openPictureBox.BackColor = System.Drawing.SystemColors.MenuBar;
 			this.openPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.openPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("openPictureBox.Image")));
-			this.openPictureBox.Location = new System.Drawing.Point(333, 38);
-			this.openPictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.openPictureBox.Location = new System.Drawing.Point(250, 30);
+			this.openPictureBox.Margin = new System.Windows.Forms.Padding(2);
 			this.openPictureBox.Name = "openPictureBox";
-			this.openPictureBox.Size = new System.Drawing.Size(80, 76);
+			this.openPictureBox.Size = new System.Drawing.Size(61, 62);
 			this.openPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.openPictureBox.TabIndex = 2;
 			this.openPictureBox.TabStop = false;
@@ -418,36 +420,37 @@ namespace LightEditor
 			// 
 			// picTextBox
 			// 
-			this.picTextBox.Location = new System.Drawing.Point(133, 124);
-			this.picTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.picTextBox.Location = new System.Drawing.Point(100, 99);
+			this.picTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.picTextBox.Name = "picTextBox";
 			this.picTextBox.ReadOnly = true;
-			this.picTextBox.Size = new System.Drawing.Size(171, 25);
+			this.picTextBox.Size = new System.Drawing.Size(129, 21);
 			this.picTextBox.TabIndex = 2;
 			// 
 			// typeTextBox
 			// 
-			this.typeTextBox.Location = new System.Drawing.Point(133, 81);
-			this.typeTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.typeTextBox.Location = new System.Drawing.Point(100, 65);
+			this.typeTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.typeTextBox.Name = "typeTextBox";
-			this.typeTextBox.Size = new System.Drawing.Size(170, 25);
+			this.typeTextBox.Size = new System.Drawing.Size(128, 21);
 			this.typeTextBox.TabIndex = 1;
 			// 
 			// nameTextBox
 			// 
-			this.nameTextBox.Location = new System.Drawing.Point(133, 38);
-			this.nameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.nameTextBox.Location = new System.Drawing.Point(100, 30);
+			this.nameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameTextBox.Name = "nameTextBox";
-			this.nameTextBox.Size = new System.Drawing.Size(171, 25);
+			this.nameTextBox.Size = new System.Drawing.Size(129, 21);
 			this.nameTextBox.TabIndex = 0;
 			// 
 			// tongdaoCountLabel
 			// 
 			this.tongdaoCountLabel.AutoSize = true;
 			this.tongdaoCountLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tongdaoCountLabel.Location = new System.Drawing.Point(39, 171);
+			this.tongdaoCountLabel.Location = new System.Drawing.Point(29, 137);
+			this.tongdaoCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tongdaoCountLabel.Name = "tongdaoCountLabel";
-			this.tongdaoCountLabel.Size = new System.Drawing.Size(76, 17);
+			this.tongdaoCountLabel.Size = new System.Drawing.Size(63, 14);
 			this.tongdaoCountLabel.TabIndex = 3;
 			this.tongdaoCountLabel.Text = "通道数量";
 			// 
@@ -455,9 +458,10 @@ namespace LightEditor
 			// 
 			this.picLabel.AutoSize = true;
 			this.picLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.picLabel.Location = new System.Drawing.Point(39, 128);
+			this.picLabel.Location = new System.Drawing.Point(29, 102);
+			this.picLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.picLabel.Name = "picLabel";
-			this.picLabel.Size = new System.Drawing.Size(76, 17);
+			this.picLabel.Size = new System.Drawing.Size(63, 14);
 			this.picLabel.TabIndex = 2;
 			this.picLabel.Text = "灯具图片";
 			// 
@@ -465,9 +469,10 @@ namespace LightEditor
 			// 
 			this.typeLabel.AutoSize = true;
 			this.typeLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.typeLabel.Location = new System.Drawing.Point(39, 85);
+			this.typeLabel.Location = new System.Drawing.Point(29, 68);
+			this.typeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.typeLabel.Name = "typeLabel";
-			this.typeLabel.Size = new System.Drawing.Size(76, 17);
+			this.typeLabel.Size = new System.Drawing.Size(63, 14);
 			this.typeLabel.TabIndex = 1;
 			this.typeLabel.Text = "灯具型号";
 			// 
@@ -475,10 +480,10 @@ namespace LightEditor
 			// 
 			this.countComboBox.Font = new System.Drawing.Font("宋体", 10F);
 			this.countComboBox.FormattingEnabled = true;
-			this.countComboBox.Location = new System.Drawing.Point(133, 167);
-			this.countComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.countComboBox.Location = new System.Drawing.Point(100, 134);
+			this.countComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.countComboBox.Name = "countComboBox";
-			this.countComboBox.Size = new System.Drawing.Size(68, 25);
+			this.countComboBox.Size = new System.Drawing.Size(52, 21);
 			this.countComboBox.TabIndex = 2;
 			this.countComboBox.SelectedIndexChanged += new System.EventHandler(this.countComboBox_SelectedIndexChanged);
 			// 
@@ -486,9 +491,10 @@ namespace LightEditor
 			// 
 			this.nameLabel.AutoSize = true;
 			this.nameLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.nameLabel.Location = new System.Drawing.Point(39, 42);
+			this.nameLabel.Location = new System.Drawing.Point(29, 34);
+			this.nameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.nameLabel.Name = "nameLabel";
-			this.nameLabel.Size = new System.Drawing.Size(76, 17);
+			this.nameLabel.Size = new System.Drawing.Size(63, 14);
 			this.nameLabel.TabIndex = 4;
 			this.nameLabel.Text = "灯具厂家";
 			// 
@@ -544,230 +550,245 @@ namespace LightEditor
 			this.tongdaoGroupBox2.Controls.Add(this.label24);
 			this.tongdaoGroupBox2.Controls.Add(this.label18);
 			this.tongdaoGroupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tongdaoGroupBox2.Location = new System.Drawing.Point(3, 325);
-			this.tongdaoGroupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.tongdaoGroupBox2.Location = new System.Drawing.Point(2, 261);
+			this.tongdaoGroupBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoGroupBox2.Name = "tongdaoGroupBox2";
-			this.tongdaoGroupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox2.Size = new System.Drawing.Size(1052, 319);
+			this.tongdaoGroupBox2.Padding = new System.Windows.Forms.Padding(2);
+			this.tongdaoGroupBox2.Size = new System.Drawing.Size(789, 255);
 			this.tongdaoGroupBox2.TabIndex = 9;
 			this.tongdaoGroupBox2.TabStop = false;
 			this.tongdaoGroupBox2.Visible = false;
 			// 
 			// numericUpDown32
 			// 
-			this.numericUpDown32.Location = new System.Drawing.Point(983, 276);
+			this.numericUpDown32.Location = new System.Drawing.Point(737, 221);
+			this.numericUpDown32.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown32.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown32.Name = "numericUpDown32";
-			this.numericUpDown32.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown32.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown32.TabIndex = 11;
 			this.numericUpDown32.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown31
 			// 
-			this.numericUpDown31.Location = new System.Drawing.Point(918, 276);
+			this.numericUpDown31.Location = new System.Drawing.Point(688, 221);
+			this.numericUpDown31.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown31.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown31.Name = "numericUpDown31";
-			this.numericUpDown31.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown31.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown31.TabIndex = 11;
 			this.numericUpDown31.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown30
 			// 
-			this.numericUpDown30.Location = new System.Drawing.Point(854, 276);
+			this.numericUpDown30.Location = new System.Drawing.Point(640, 221);
+			this.numericUpDown30.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown30.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown30.Name = "numericUpDown30";
-			this.numericUpDown30.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown30.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown30.TabIndex = 11;
 			this.numericUpDown30.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown29
 			// 
-			this.numericUpDown29.Location = new System.Drawing.Point(790, 276);
+			this.numericUpDown29.Location = new System.Drawing.Point(592, 221);
+			this.numericUpDown29.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown29.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown29.Name = "numericUpDown29";
-			this.numericUpDown29.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown29.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown29.TabIndex = 11;
 			this.numericUpDown29.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown28
 			// 
-			this.numericUpDown28.Location = new System.Drawing.Point(727, 276);
+			this.numericUpDown28.Location = new System.Drawing.Point(545, 221);
+			this.numericUpDown28.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown28.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown28.Name = "numericUpDown28";
-			this.numericUpDown28.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown28.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown28.TabIndex = 11;
 			this.numericUpDown28.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown27
 			// 
-			this.numericUpDown27.Location = new System.Drawing.Point(663, 276);
+			this.numericUpDown27.Location = new System.Drawing.Point(497, 221);
+			this.numericUpDown27.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown27.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown27.Name = "numericUpDown27";
-			this.numericUpDown27.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown27.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown27.TabIndex = 11;
 			this.numericUpDown27.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown26
 			// 
-			this.numericUpDown26.Location = new System.Drawing.Point(598, 276);
+			this.numericUpDown26.Location = new System.Drawing.Point(448, 221);
+			this.numericUpDown26.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown26.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown26.Name = "numericUpDown26";
-			this.numericUpDown26.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown26.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown26.TabIndex = 11;
 			this.numericUpDown26.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown25
 			// 
-			this.numericUpDown25.Location = new System.Drawing.Point(535, 276);
+			this.numericUpDown25.Location = new System.Drawing.Point(401, 221);
+			this.numericUpDown25.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown25.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown25.Name = "numericUpDown25";
-			this.numericUpDown25.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown25.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown25.TabIndex = 11;
 			this.numericUpDown25.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown24
 			// 
-			this.numericUpDown24.Location = new System.Drawing.Point(470, 276);
+			this.numericUpDown24.Location = new System.Drawing.Point(352, 221);
+			this.numericUpDown24.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown24.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown24.Name = "numericUpDown24";
-			this.numericUpDown24.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown24.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown24.TabIndex = 11;
 			this.numericUpDown24.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown23
 			// 
-			this.numericUpDown23.Location = new System.Drawing.Point(406, 276);
+			this.numericUpDown23.Location = new System.Drawing.Point(304, 221);
+			this.numericUpDown23.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown23.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown23.Name = "numericUpDown23";
-			this.numericUpDown23.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown23.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown23.TabIndex = 11;
 			this.numericUpDown23.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown22
 			// 
-			this.numericUpDown22.Location = new System.Drawing.Point(342, 276);
+			this.numericUpDown22.Location = new System.Drawing.Point(256, 221);
+			this.numericUpDown22.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown22.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown22.Name = "numericUpDown22";
-			this.numericUpDown22.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown22.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown22.TabIndex = 11;
 			this.numericUpDown22.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown21
 			// 
-			this.numericUpDown21.Location = new System.Drawing.Point(276, 276);
+			this.numericUpDown21.Location = new System.Drawing.Point(207, 221);
+			this.numericUpDown21.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown21.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown21.Name = "numericUpDown21";
-			this.numericUpDown21.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown21.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown21.TabIndex = 11;
 			this.numericUpDown21.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown20
 			// 
-			this.numericUpDown20.Location = new System.Drawing.Point(215, 276);
+			this.numericUpDown20.Location = new System.Drawing.Point(161, 221);
+			this.numericUpDown20.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown20.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown20.Name = "numericUpDown20";
-			this.numericUpDown20.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown20.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown20.TabIndex = 11;
 			this.numericUpDown20.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown19
 			// 
-			this.numericUpDown19.Location = new System.Drawing.Point(151, 276);
+			this.numericUpDown19.Location = new System.Drawing.Point(113, 221);
+			this.numericUpDown19.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown19.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown19.Name = "numericUpDown19";
-			this.numericUpDown19.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown19.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown19.TabIndex = 11;
 			this.numericUpDown19.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown18
 			// 
-			this.numericUpDown18.Location = new System.Drawing.Point(87, 276);
+			this.numericUpDown18.Location = new System.Drawing.Point(65, 221);
+			this.numericUpDown18.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown18.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown18.Name = "numericUpDown18";
-			this.numericUpDown18.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown18.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown18.TabIndex = 11;
 			this.numericUpDown18.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown17
 			// 
-			this.numericUpDown17.Location = new System.Drawing.Point(22, 276);
+			this.numericUpDown17.Location = new System.Drawing.Point(16, 221);
+			this.numericUpDown17.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown17.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown17.Name = "numericUpDown17";
-			this.numericUpDown17.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown17.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown17.TabIndex = 11;
 			this.numericUpDown17.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// label32
 			// 
 			this.label32.Font = new System.Drawing.Font("宋体", 8F);
-			this.label32.Location = new System.Drawing.Point(980, 35);
-			this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label32.Location = new System.Drawing.Point(735, 28);
 			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(19, 227);
+			this.label32.Size = new System.Drawing.Size(14, 182);
 			this.label32.TabIndex = 10;
 			this.label32.Text = "总调光1";
 			this.label32.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -776,20 +797,19 @@ namespace LightEditor
 			// 
 			// vScrollBar17
 			// 
-			this.vScrollBar17.Location = new System.Drawing.Point(42, 35);
+			this.vScrollBar17.Location = new System.Drawing.Point(32, 28);
 			this.vScrollBar17.Maximum = 264;
 			this.vScrollBar17.Name = "vScrollBar17";
-			this.vScrollBar17.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar17.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar17.TabIndex = 0;
 			this.vScrollBar17.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label31
 			// 
 			this.label31.Font = new System.Drawing.Font("宋体", 8F);
-			this.label31.Location = new System.Drawing.Point(916, 35);
-			this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label31.Location = new System.Drawing.Point(687, 28);
 			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(19, 227);
+			this.label31.Size = new System.Drawing.Size(14, 182);
 			this.label31.TabIndex = 10;
 			this.label31.Text = "总调光1";
 			this.label31.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -798,38 +818,37 @@ namespace LightEditor
 			// 
 			// vScrollBar18
 			// 
-			this.vScrollBar18.Location = new System.Drawing.Point(106, 35);
+			this.vScrollBar18.Location = new System.Drawing.Point(80, 28);
 			this.vScrollBar18.Maximum = 264;
 			this.vScrollBar18.Name = "vScrollBar18";
-			this.vScrollBar18.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar18.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar18.TabIndex = 0;
 			this.vScrollBar18.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar19
 			// 
-			this.vScrollBar19.Location = new System.Drawing.Point(170, 35);
+			this.vScrollBar19.Location = new System.Drawing.Point(128, 28);
 			this.vScrollBar19.Maximum = 264;
 			this.vScrollBar19.Name = "vScrollBar19";
-			this.vScrollBar19.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar19.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar19.TabIndex = 0;
 			this.vScrollBar19.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar20
 			// 
-			this.vScrollBar20.Location = new System.Drawing.Point(234, 35);
+			this.vScrollBar20.Location = new System.Drawing.Point(176, 28);
 			this.vScrollBar20.Maximum = 264;
 			this.vScrollBar20.Name = "vScrollBar20";
-			this.vScrollBar20.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar20.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar20.TabIndex = 0;
 			this.vScrollBar20.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label30
 			// 
 			this.label30.Font = new System.Drawing.Font("宋体", 8F);
-			this.label30.Location = new System.Drawing.Point(852, 35);
-			this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label30.Location = new System.Drawing.Point(639, 28);
 			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(19, 227);
+			this.label30.Size = new System.Drawing.Size(14, 182);
 			this.label30.TabIndex = 10;
 			this.label30.Text = "总调光1";
 			this.label30.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -838,29 +857,28 @@ namespace LightEditor
 			// 
 			// vScrollBar21
 			// 
-			this.vScrollBar21.Location = new System.Drawing.Point(298, 35);
+			this.vScrollBar21.Location = new System.Drawing.Point(224, 28);
 			this.vScrollBar21.Maximum = 264;
 			this.vScrollBar21.Name = "vScrollBar21";
-			this.vScrollBar21.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar21.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar21.TabIndex = 0;
 			this.vScrollBar21.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar22
 			// 
-			this.vScrollBar22.Location = new System.Drawing.Point(362, 35);
+			this.vScrollBar22.Location = new System.Drawing.Point(272, 28);
 			this.vScrollBar22.Maximum = 264;
 			this.vScrollBar22.Name = "vScrollBar22";
-			this.vScrollBar22.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar22.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar22.TabIndex = 0;
 			this.vScrollBar22.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label29
 			// 
 			this.label29.Font = new System.Drawing.Font("宋体", 8F);
-			this.label29.Location = new System.Drawing.Point(788, 35);
-			this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label29.Location = new System.Drawing.Point(591, 28);
 			this.label29.Name = "label29";
-			this.label29.Size = new System.Drawing.Size(19, 227);
+			this.label29.Size = new System.Drawing.Size(14, 182);
 			this.label29.TabIndex = 10;
 			this.label29.Text = "总调光1";
 			this.label29.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -869,38 +887,37 @@ namespace LightEditor
 			// 
 			// vScrollBar23
 			// 
-			this.vScrollBar23.Location = new System.Drawing.Point(426, 35);
+			this.vScrollBar23.Location = new System.Drawing.Point(320, 28);
 			this.vScrollBar23.Maximum = 264;
 			this.vScrollBar23.Name = "vScrollBar23";
-			this.vScrollBar23.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar23.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar23.TabIndex = 0;
 			this.vScrollBar23.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar24
 			// 
-			this.vScrollBar24.Location = new System.Drawing.Point(490, 35);
+			this.vScrollBar24.Location = new System.Drawing.Point(368, 28);
 			this.vScrollBar24.Maximum = 264;
 			this.vScrollBar24.Name = "vScrollBar24";
-			this.vScrollBar24.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar24.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar24.TabIndex = 0;
 			this.vScrollBar24.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar25
 			// 
-			this.vScrollBar25.Location = new System.Drawing.Point(554, 35);
+			this.vScrollBar25.Location = new System.Drawing.Point(416, 28);
 			this.vScrollBar25.Maximum = 264;
 			this.vScrollBar25.Name = "vScrollBar25";
-			this.vScrollBar25.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar25.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar25.TabIndex = 0;
 			this.vScrollBar25.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label28
 			// 
 			this.label28.Font = new System.Drawing.Font("宋体", 8F);
-			this.label28.Location = new System.Drawing.Point(724, 35);
-			this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label28.Location = new System.Drawing.Point(543, 28);
 			this.label28.Name = "label28";
-			this.label28.Size = new System.Drawing.Size(19, 227);
+			this.label28.Size = new System.Drawing.Size(14, 182);
 			this.label28.TabIndex = 10;
 			this.label28.Text = "总调光1";
 			this.label28.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -909,38 +926,37 @@ namespace LightEditor
 			// 
 			// vScrollBar26
 			// 
-			this.vScrollBar26.Location = new System.Drawing.Point(618, 35);
+			this.vScrollBar26.Location = new System.Drawing.Point(464, 28);
 			this.vScrollBar26.Maximum = 264;
 			this.vScrollBar26.Name = "vScrollBar26";
-			this.vScrollBar26.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar26.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar26.TabIndex = 0;
 			this.vScrollBar26.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar27
 			// 
-			this.vScrollBar27.Location = new System.Drawing.Point(682, 35);
+			this.vScrollBar27.Location = new System.Drawing.Point(512, 28);
 			this.vScrollBar27.Maximum = 264;
 			this.vScrollBar27.Name = "vScrollBar27";
-			this.vScrollBar27.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar27.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar27.TabIndex = 0;
 			this.vScrollBar27.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar28
 			// 
-			this.vScrollBar28.Location = new System.Drawing.Point(746, 35);
+			this.vScrollBar28.Location = new System.Drawing.Point(560, 28);
 			this.vScrollBar28.Maximum = 264;
 			this.vScrollBar28.Name = "vScrollBar28";
-			this.vScrollBar28.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar28.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar28.TabIndex = 0;
 			this.vScrollBar28.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label27
 			// 
 			this.label27.Font = new System.Drawing.Font("宋体", 8F);
-			this.label27.Location = new System.Drawing.Point(660, 35);
-			this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label27.Location = new System.Drawing.Point(495, 28);
 			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(19, 227);
+			this.label27.Size = new System.Drawing.Size(14, 182);
 			this.label27.TabIndex = 10;
 			this.label27.Text = "总调光1";
 			this.label27.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -949,38 +965,37 @@ namespace LightEditor
 			// 
 			// vScrollBar29
 			// 
-			this.vScrollBar29.Location = new System.Drawing.Point(810, 35);
+			this.vScrollBar29.Location = new System.Drawing.Point(608, 28);
 			this.vScrollBar29.Maximum = 264;
 			this.vScrollBar29.Name = "vScrollBar29";
-			this.vScrollBar29.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar29.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar29.TabIndex = 0;
 			this.vScrollBar29.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar30
 			// 
-			this.vScrollBar30.Location = new System.Drawing.Point(874, 35);
+			this.vScrollBar30.Location = new System.Drawing.Point(656, 28);
 			this.vScrollBar30.Maximum = 264;
 			this.vScrollBar30.Name = "vScrollBar30";
-			this.vScrollBar30.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar30.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar30.TabIndex = 0;
 			this.vScrollBar30.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar31
 			// 
-			this.vScrollBar31.Location = new System.Drawing.Point(938, 35);
+			this.vScrollBar31.Location = new System.Drawing.Point(704, 28);
 			this.vScrollBar31.Maximum = 264;
 			this.vScrollBar31.Name = "vScrollBar31";
-			this.vScrollBar31.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar31.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar31.TabIndex = 0;
 			this.vScrollBar31.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label26
 			// 
 			this.label26.Font = new System.Drawing.Font("宋体", 8F);
-			this.label26.Location = new System.Drawing.Point(595, 35);
-			this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label26.Location = new System.Drawing.Point(446, 28);
 			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(19, 227);
+			this.label26.Size = new System.Drawing.Size(14, 182);
 			this.label26.TabIndex = 10;
 			this.label26.Text = "总调光1";
 			this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -989,20 +1004,19 @@ namespace LightEditor
 			// 
 			// vScrollBar32
 			// 
-			this.vScrollBar32.Location = new System.Drawing.Point(1002, 35);
+			this.vScrollBar32.Location = new System.Drawing.Point(752, 28);
 			this.vScrollBar32.Maximum = 264;
 			this.vScrollBar32.Name = "vScrollBar32";
-			this.vScrollBar32.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar32.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar32.TabIndex = 0;
 			this.vScrollBar32.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// label17
 			// 
 			this.label17.Font = new System.Drawing.Font("宋体", 8F);
-			this.label17.Location = new System.Drawing.Point(19, 35);
-			this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label17.Location = new System.Drawing.Point(14, 28);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(19, 227);
+			this.label17.Size = new System.Drawing.Size(14, 182);
 			this.label17.TabIndex = 10;
 			this.label17.Text = "总调光1";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1012,10 +1026,9 @@ namespace LightEditor
 			// label22
 			// 
 			this.label22.Font = new System.Drawing.Font("宋体", 8F);
-			this.label22.Location = new System.Drawing.Point(340, 35);
-			this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label22.Location = new System.Drawing.Point(255, 28);
 			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(19, 227);
+			this.label22.Size = new System.Drawing.Size(14, 182);
 			this.label22.TabIndex = 10;
 			this.label22.Text = "总调光1";
 			this.label22.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1025,10 +1038,9 @@ namespace LightEditor
 			// label25
 			// 
 			this.label25.Font = new System.Drawing.Font("宋体", 8F);
-			this.label25.Location = new System.Drawing.Point(532, 35);
-			this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label25.Location = new System.Drawing.Point(399, 28);
 			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(19, 227);
+			this.label25.Size = new System.Drawing.Size(14, 182);
 			this.label25.TabIndex = 10;
 			this.label25.Text = "总调光1";
 			this.label25.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1038,10 +1050,9 @@ namespace LightEditor
 			// label20
 			// 
 			this.label20.Font = new System.Drawing.Font("宋体", 8F);
-			this.label20.Location = new System.Drawing.Point(212, 35);
-			this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label20.Location = new System.Drawing.Point(159, 28);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(19, 227);
+			this.label20.Size = new System.Drawing.Size(14, 182);
 			this.label20.TabIndex = 10;
 			this.label20.Text = "总调光1";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1051,10 +1062,9 @@ namespace LightEditor
 			// label19
 			// 
 			this.label19.Font = new System.Drawing.Font("宋体", 8F);
-			this.label19.Location = new System.Drawing.Point(148, 35);
-			this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label19.Location = new System.Drawing.Point(111, 28);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(19, 227);
+			this.label19.Size = new System.Drawing.Size(14, 182);
 			this.label19.TabIndex = 10;
 			this.label19.Text = "总调光1";
 			this.label19.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1064,10 +1074,9 @@ namespace LightEditor
 			// label21
 			// 
 			this.label21.Font = new System.Drawing.Font("宋体", 8F);
-			this.label21.Location = new System.Drawing.Point(273, 35);
-			this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label21.Location = new System.Drawing.Point(205, 28);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(19, 227);
+			this.label21.Size = new System.Drawing.Size(14, 182);
 			this.label21.TabIndex = 10;
 			this.label21.Text = "总调光1";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1077,10 +1086,9 @@ namespace LightEditor
 			// label23
 			// 
 			this.label23.Font = new System.Drawing.Font("宋体", 8F);
-			this.label23.Location = new System.Drawing.Point(404, 35);
-			this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label23.Location = new System.Drawing.Point(303, 28);
 			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(19, 227);
+			this.label23.Size = new System.Drawing.Size(14, 182);
 			this.label23.TabIndex = 10;
 			this.label23.Text = "总调光1";
 			this.label23.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1090,10 +1098,9 @@ namespace LightEditor
 			// label24
 			// 
 			this.label24.Font = new System.Drawing.Font("宋体", 8F);
-			this.label24.Location = new System.Drawing.Point(468, 35);
-			this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label24.Location = new System.Drawing.Point(351, 28);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(19, 227);
+			this.label24.Size = new System.Drawing.Size(14, 182);
 			this.label24.TabIndex = 10;
 			this.label24.Text = "总调光1";
 			this.label24.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1103,10 +1110,9 @@ namespace LightEditor
 			// label18
 			// 
 			this.label18.Font = new System.Drawing.Font("宋体", 8F);
-			this.label18.Location = new System.Drawing.Point(84, 35);
-			this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label18.Location = new System.Drawing.Point(63, 28);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(19, 227);
+			this.label18.Size = new System.Drawing.Size(14, 182);
 			this.label18.TabIndex = 10;
 			this.label18.Text = "总调光1";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1165,230 +1171,245 @@ namespace LightEditor
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar2);
 			this.tongdaoGroupBox1.Controls.Add(this.vScrollBar1);
 			this.tongdaoGroupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tongdaoGroupBox1.Location = new System.Drawing.Point(3, 2);
-			this.tongdaoGroupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.tongdaoGroupBox1.Location = new System.Drawing.Point(2, 2);
+			this.tongdaoGroupBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoGroupBox1.Name = "tongdaoGroupBox1";
-			this.tongdaoGroupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tongdaoGroupBox1.Size = new System.Drawing.Size(1052, 319);
+			this.tongdaoGroupBox1.Padding = new System.Windows.Forms.Padding(2);
+			this.tongdaoGroupBox1.Size = new System.Drawing.Size(789, 255);
 			this.tongdaoGroupBox1.TabIndex = 8;
 			this.tongdaoGroupBox1.TabStop = false;
 			this.tongdaoGroupBox1.Visible = false;
 			// 
 			// numericUpDown16
 			// 
-			this.numericUpDown16.Location = new System.Drawing.Point(983, 279);
+			this.numericUpDown16.Location = new System.Drawing.Point(737, 223);
+			this.numericUpDown16.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown16.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown16.Name = "numericUpDown16";
-			this.numericUpDown16.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown16.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown16.TabIndex = 11;
 			this.numericUpDown16.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown15
 			// 
-			this.numericUpDown15.Location = new System.Drawing.Point(919, 279);
+			this.numericUpDown15.Location = new System.Drawing.Point(689, 223);
+			this.numericUpDown15.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown15.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown15.Name = "numericUpDown15";
-			this.numericUpDown15.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown15.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown15.TabIndex = 11;
 			this.numericUpDown15.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown14
 			// 
-			this.numericUpDown14.Location = new System.Drawing.Point(855, 279);
+			this.numericUpDown14.Location = new System.Drawing.Point(641, 223);
+			this.numericUpDown14.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown14.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown14.Name = "numericUpDown14";
-			this.numericUpDown14.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown14.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown14.TabIndex = 11;
 			this.numericUpDown14.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown13
 			// 
-			this.numericUpDown13.Location = new System.Drawing.Point(791, 279);
+			this.numericUpDown13.Location = new System.Drawing.Point(593, 223);
+			this.numericUpDown13.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown13.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown13.Name = "numericUpDown13";
-			this.numericUpDown13.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown13.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown13.TabIndex = 11;
 			this.numericUpDown13.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown12
 			// 
-			this.numericUpDown12.Location = new System.Drawing.Point(727, 279);
+			this.numericUpDown12.Location = new System.Drawing.Point(545, 223);
+			this.numericUpDown12.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown12.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown12.Name = "numericUpDown12";
-			this.numericUpDown12.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown12.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown12.TabIndex = 11;
 			this.numericUpDown12.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown11
 			// 
-			this.numericUpDown11.Location = new System.Drawing.Point(663, 279);
+			this.numericUpDown11.Location = new System.Drawing.Point(497, 223);
+			this.numericUpDown11.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown11.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown11.Name = "numericUpDown11";
-			this.numericUpDown11.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown11.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown11.TabIndex = 11;
 			this.numericUpDown11.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown10
 			// 
-			this.numericUpDown10.Location = new System.Drawing.Point(598, 279);
+			this.numericUpDown10.Location = new System.Drawing.Point(448, 223);
+			this.numericUpDown10.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown10.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown10.Name = "numericUpDown10";
-			this.numericUpDown10.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown10.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown10.TabIndex = 11;
 			this.numericUpDown10.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown9
 			// 
-			this.numericUpDown9.Location = new System.Drawing.Point(535, 279);
+			this.numericUpDown9.Location = new System.Drawing.Point(401, 223);
+			this.numericUpDown9.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown9.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown9.Name = "numericUpDown9";
-			this.numericUpDown9.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown9.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown9.TabIndex = 11;
 			this.numericUpDown9.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown8
 			// 
-			this.numericUpDown8.Location = new System.Drawing.Point(471, 279);
+			this.numericUpDown8.Location = new System.Drawing.Point(353, 223);
+			this.numericUpDown8.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown8.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown8.Name = "numericUpDown8";
-			this.numericUpDown8.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown8.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown8.TabIndex = 11;
 			this.numericUpDown8.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown7
 			// 
-			this.numericUpDown7.Location = new System.Drawing.Point(407, 279);
+			this.numericUpDown7.Location = new System.Drawing.Point(305, 223);
+			this.numericUpDown7.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown7.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown7.Name = "numericUpDown7";
-			this.numericUpDown7.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown7.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown7.TabIndex = 11;
 			this.numericUpDown7.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown6
 			// 
-			this.numericUpDown6.Location = new System.Drawing.Point(343, 279);
+			this.numericUpDown6.Location = new System.Drawing.Point(257, 223);
+			this.numericUpDown6.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown6.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown6.Name = "numericUpDown6";
-			this.numericUpDown6.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown6.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown6.TabIndex = 11;
 			this.numericUpDown6.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown5
 			// 
-			this.numericUpDown5.Location = new System.Drawing.Point(276, 279);
+			this.numericUpDown5.Location = new System.Drawing.Point(207, 223);
+			this.numericUpDown5.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown5.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown5.Name = "numericUpDown5";
-			this.numericUpDown5.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown5.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown5.TabIndex = 11;
 			this.numericUpDown5.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown4
 			// 
-			this.numericUpDown4.Location = new System.Drawing.Point(215, 279);
+			this.numericUpDown4.Location = new System.Drawing.Point(161, 223);
+			this.numericUpDown4.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown4.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown4.Name = "numericUpDown4";
-			this.numericUpDown4.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown4.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown4.TabIndex = 11;
 			this.numericUpDown4.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown3
 			// 
-			this.numericUpDown3.Location = new System.Drawing.Point(146, 279);
+			this.numericUpDown3.Location = new System.Drawing.Point(110, 223);
+			this.numericUpDown3.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown3.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown3.Name = "numericUpDown3";
-			this.numericUpDown3.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown3.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown3.TabIndex = 11;
 			this.numericUpDown3.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown2
 			// 
-			this.numericUpDown2.Location = new System.Drawing.Point(86, 279);
+			this.numericUpDown2.Location = new System.Drawing.Point(64, 223);
+			this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown2.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown2.Name = "numericUpDown2";
-			this.numericUpDown2.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown2.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown2.TabIndex = 11;
 			this.numericUpDown2.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown1
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(22, 279);
+			this.numericUpDown1.Location = new System.Drawing.Point(16, 223);
+			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown1.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(52, 25);
+			this.numericUpDown1.Size = new System.Drawing.Size(39, 21);
 			this.numericUpDown1.TabIndex = 11;
 			this.numericUpDown1.ValueChanged += new System.EventHandler(this.valueNumericUpDown_ValueChanged);
 			// 
 			// label16
 			// 
 			this.label16.Font = new System.Drawing.Font("宋体", 8F);
-			this.label16.Location = new System.Drawing.Point(979, 38);
-			this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label16.Location = new System.Drawing.Point(734, 30);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(19, 227);
+			this.label16.Size = new System.Drawing.Size(14, 182);
 			this.label16.TabIndex = 10;
 			this.label16.Text = "总调光1";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1398,10 +1419,9 @@ namespace LightEditor
 			// label15
 			// 
 			this.label15.Font = new System.Drawing.Font("宋体", 8F);
-			this.label15.Location = new System.Drawing.Point(915, 38);
-			this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label15.Location = new System.Drawing.Point(686, 30);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(19, 227);
+			this.label15.Size = new System.Drawing.Size(14, 182);
 			this.label15.TabIndex = 10;
 			this.label15.Text = "总调光1";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1411,10 +1431,9 @@ namespace LightEditor
 			// label14
 			// 
 			this.label14.Font = new System.Drawing.Font("宋体", 8F);
-			this.label14.Location = new System.Drawing.Point(851, 38);
-			this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label14.Location = new System.Drawing.Point(638, 30);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(19, 227);
+			this.label14.Size = new System.Drawing.Size(14, 182);
 			this.label14.TabIndex = 10;
 			this.label14.Text = "总调光1";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1424,10 +1443,9 @@ namespace LightEditor
 			// label13
 			// 
 			this.label13.Font = new System.Drawing.Font("宋体", 8F);
-			this.label13.Location = new System.Drawing.Point(787, 38);
-			this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label13.Location = new System.Drawing.Point(590, 30);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(19, 227);
+			this.label13.Size = new System.Drawing.Size(14, 182);
 			this.label13.TabIndex = 10;
 			this.label13.Text = "总调光1";
 			this.label13.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1437,10 +1455,9 @@ namespace LightEditor
 			// label12
 			// 
 			this.label12.Font = new System.Drawing.Font("宋体", 8F);
-			this.label12.Location = new System.Drawing.Point(723, 38);
-			this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label12.Location = new System.Drawing.Point(542, 30);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(19, 227);
+			this.label12.Size = new System.Drawing.Size(14, 182);
 			this.label12.TabIndex = 10;
 			this.label12.Text = "总调光1";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1450,10 +1467,9 @@ namespace LightEditor
 			// label11
 			// 
 			this.label11.Font = new System.Drawing.Font("宋体", 8F);
-			this.label11.Location = new System.Drawing.Point(659, 38);
-			this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label11.Location = new System.Drawing.Point(494, 30);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(19, 227);
+			this.label11.Size = new System.Drawing.Size(14, 182);
 			this.label11.TabIndex = 10;
 			this.label11.Text = "总调光1";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1463,10 +1479,9 @@ namespace LightEditor
 			// label10
 			// 
 			this.label10.Font = new System.Drawing.Font("宋体", 8F);
-			this.label10.Location = new System.Drawing.Point(595, 38);
-			this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label10.Location = new System.Drawing.Point(446, 30);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(19, 227);
+			this.label10.Size = new System.Drawing.Size(14, 182);
 			this.label10.TabIndex = 10;
 			this.label10.Text = "总调光1";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1476,10 +1491,9 @@ namespace LightEditor
 			// label9
 			// 
 			this.label9.Font = new System.Drawing.Font("宋体", 8F);
-			this.label9.Location = new System.Drawing.Point(531, 38);
-			this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label9.Location = new System.Drawing.Point(398, 30);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(19, 227);
+			this.label9.Size = new System.Drawing.Size(14, 182);
 			this.label9.TabIndex = 10;
 			this.label9.Text = "总调光1";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1489,10 +1503,9 @@ namespace LightEditor
 			// label8
 			// 
 			this.label8.Font = new System.Drawing.Font("宋体", 8F);
-			this.label8.Location = new System.Drawing.Point(467, 38);
-			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label8.Location = new System.Drawing.Point(350, 30);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(19, 227);
+			this.label8.Size = new System.Drawing.Size(14, 182);
 			this.label8.TabIndex = 10;
 			this.label8.Text = "总调光1";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1502,10 +1515,9 @@ namespace LightEditor
 			// label7
 			// 
 			this.label7.Font = new System.Drawing.Font("宋体", 8F);
-			this.label7.Location = new System.Drawing.Point(403, 38);
-			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label7.Location = new System.Drawing.Point(302, 30);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(19, 227);
+			this.label7.Size = new System.Drawing.Size(14, 182);
 			this.label7.TabIndex = 10;
 			this.label7.Text = "总调光1";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1515,10 +1527,9 @@ namespace LightEditor
 			// label6
 			// 
 			this.label6.Font = new System.Drawing.Font("宋体", 8F);
-			this.label6.Location = new System.Drawing.Point(339, 38);
-			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label6.Location = new System.Drawing.Point(254, 30);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(19, 227);
+			this.label6.Size = new System.Drawing.Size(14, 182);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "总调光1";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1528,10 +1539,9 @@ namespace LightEditor
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("宋体", 8F);
-			this.label5.Location = new System.Drawing.Point(272, 38);
-			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label5.Location = new System.Drawing.Point(204, 30);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(19, 227);
+			this.label5.Size = new System.Drawing.Size(14, 182);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "总调光1";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1541,10 +1551,9 @@ namespace LightEditor
 			// label4
 			// 
 			this.label4.Font = new System.Drawing.Font("宋体", 8F);
-			this.label4.Location = new System.Drawing.Point(211, 38);
-			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label4.Location = new System.Drawing.Point(158, 30);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(19, 227);
+			this.label4.Size = new System.Drawing.Size(14, 182);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "总调光1";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1554,10 +1563,9 @@ namespace LightEditor
 			// label3
 			// 
 			this.label3.Font = new System.Drawing.Font("宋体", 8F);
-			this.label3.Location = new System.Drawing.Point(147, 38);
-			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label3.Location = new System.Drawing.Point(110, 30);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(19, 227);
+			this.label3.Size = new System.Drawing.Size(14, 182);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "总调光1";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1567,10 +1575,9 @@ namespace LightEditor
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("宋体", 8F);
-			this.label2.Location = new System.Drawing.Point(83, 38);
-			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label2.Location = new System.Drawing.Point(62, 30);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(19, 227);
+			this.label2.Size = new System.Drawing.Size(14, 182);
 			this.label2.TabIndex = 10;
 			this.label2.Text = "总调光1";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1580,10 +1587,9 @@ namespace LightEditor
 			// label1
 			// 
 			this.label1.Font = new System.Drawing.Font("宋体", 8F);
-			this.label1.Location = new System.Drawing.Point(19, 38);
-			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label1.Location = new System.Drawing.Point(14, 30);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(19, 227);
+			this.label1.Size = new System.Drawing.Size(14, 182);
 			this.label1.TabIndex = 10;
 			this.label1.Text = "总调光1";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -1592,145 +1598,145 @@ namespace LightEditor
 			// 
 			// vScrollBar16
 			// 
-			this.vScrollBar16.Location = new System.Drawing.Point(1001, 38);
+			this.vScrollBar16.Location = new System.Drawing.Point(751, 30);
 			this.vScrollBar16.Maximum = 264;
 			this.vScrollBar16.Name = "vScrollBar16";
-			this.vScrollBar16.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar16.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar16.TabIndex = 0;
 			this.vScrollBar16.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar12
 			// 
-			this.vScrollBar12.Location = new System.Drawing.Point(745, 38);
+			this.vScrollBar12.Location = new System.Drawing.Point(559, 30);
 			this.vScrollBar12.Maximum = 264;
 			this.vScrollBar12.Name = "vScrollBar12";
-			this.vScrollBar12.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar12.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar12.TabIndex = 0;
 			this.vScrollBar12.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar8
 			// 
-			this.vScrollBar8.Location = new System.Drawing.Point(489, 38);
+			this.vScrollBar8.Location = new System.Drawing.Point(367, 30);
 			this.vScrollBar8.Maximum = 264;
 			this.vScrollBar8.Name = "vScrollBar8";
-			this.vScrollBar8.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar8.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar8.TabIndex = 0;
 			this.vScrollBar8.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar4
 			// 
-			this.vScrollBar4.Location = new System.Drawing.Point(233, 38);
+			this.vScrollBar4.Location = new System.Drawing.Point(175, 30);
 			this.vScrollBar4.Maximum = 264;
 			this.vScrollBar4.Name = "vScrollBar4";
-			this.vScrollBar4.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar4.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar4.TabIndex = 0;
 			this.vScrollBar4.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar15
 			// 
-			this.vScrollBar15.Location = new System.Drawing.Point(937, 38);
+			this.vScrollBar15.Location = new System.Drawing.Point(703, 30);
 			this.vScrollBar15.Maximum = 264;
 			this.vScrollBar15.Name = "vScrollBar15";
-			this.vScrollBar15.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar15.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar15.TabIndex = 0;
 			this.vScrollBar15.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar11
 			// 
-			this.vScrollBar11.Location = new System.Drawing.Point(681, 38);
+			this.vScrollBar11.Location = new System.Drawing.Point(511, 30);
 			this.vScrollBar11.Maximum = 264;
 			this.vScrollBar11.Name = "vScrollBar11";
-			this.vScrollBar11.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar11.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar11.TabIndex = 0;
 			this.vScrollBar11.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar14
 			// 
-			this.vScrollBar14.Location = new System.Drawing.Point(873, 38);
+			this.vScrollBar14.Location = new System.Drawing.Point(655, 30);
 			this.vScrollBar14.Maximum = 264;
 			this.vScrollBar14.Name = "vScrollBar14";
-			this.vScrollBar14.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar14.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar14.TabIndex = 0;
 			this.vScrollBar14.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar10
 			// 
-			this.vScrollBar10.Location = new System.Drawing.Point(617, 38);
+			this.vScrollBar10.Location = new System.Drawing.Point(463, 30);
 			this.vScrollBar10.Maximum = 264;
 			this.vScrollBar10.Name = "vScrollBar10";
-			this.vScrollBar10.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar10.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar10.TabIndex = 0;
 			this.vScrollBar10.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar7
 			// 
-			this.vScrollBar7.Location = new System.Drawing.Point(425, 38);
+			this.vScrollBar7.Location = new System.Drawing.Point(319, 30);
 			this.vScrollBar7.Maximum = 264;
 			this.vScrollBar7.Name = "vScrollBar7";
-			this.vScrollBar7.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar7.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar7.TabIndex = 0;
 			this.vScrollBar7.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar13
 			// 
-			this.vScrollBar13.Location = new System.Drawing.Point(809, 38);
+			this.vScrollBar13.Location = new System.Drawing.Point(607, 30);
 			this.vScrollBar13.Maximum = 264;
 			this.vScrollBar13.Name = "vScrollBar13";
-			this.vScrollBar13.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar13.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar13.TabIndex = 0;
 			this.vScrollBar13.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar6
 			// 
-			this.vScrollBar6.Location = new System.Drawing.Point(361, 38);
+			this.vScrollBar6.Location = new System.Drawing.Point(271, 30);
 			this.vScrollBar6.Maximum = 264;
 			this.vScrollBar6.Name = "vScrollBar6";
-			this.vScrollBar6.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar6.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar6.TabIndex = 0;
 			this.vScrollBar6.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar9
 			// 
-			this.vScrollBar9.Location = new System.Drawing.Point(553, 38);
+			this.vScrollBar9.Location = new System.Drawing.Point(415, 30);
 			this.vScrollBar9.Maximum = 264;
 			this.vScrollBar9.Name = "vScrollBar9";
-			this.vScrollBar9.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar9.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar9.TabIndex = 0;
 			this.vScrollBar9.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar3
 			// 
-			this.vScrollBar3.Location = new System.Drawing.Point(169, 38);
+			this.vScrollBar3.Location = new System.Drawing.Point(127, 30);
 			this.vScrollBar3.Maximum = 264;
 			this.vScrollBar3.Name = "vScrollBar3";
-			this.vScrollBar3.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar3.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar3.TabIndex = 0;
 			this.vScrollBar3.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar5
 			// 
-			this.vScrollBar5.Location = new System.Drawing.Point(297, 38);
+			this.vScrollBar5.Location = new System.Drawing.Point(223, 30);
 			this.vScrollBar5.Maximum = 264;
 			this.vScrollBar5.Name = "vScrollBar5";
-			this.vScrollBar5.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar5.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar5.TabIndex = 0;
 			this.vScrollBar5.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar2
 			// 
-			this.vScrollBar2.Location = new System.Drawing.Point(105, 38);
+			this.vScrollBar2.Location = new System.Drawing.Point(79, 30);
 			this.vScrollBar2.Maximum = 264;
 			this.vScrollBar2.Name = "vScrollBar2";
-			this.vScrollBar2.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar2.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar2.TabIndex = 0;
 			this.vScrollBar2.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
 			// vScrollBar1
 			// 
-			this.vScrollBar1.Location = new System.Drawing.Point(41, 38);
+			this.vScrollBar1.Location = new System.Drawing.Point(31, 30);
 			this.vScrollBar1.Maximum = 264;
 			this.vScrollBar1.Name = "vScrollBar1";
-			this.vScrollBar1.Size = new System.Drawing.Size(24, 227);
+			this.vScrollBar1.Size = new System.Drawing.Size(24, 182);
 			this.vScrollBar1.TabIndex = 0;
 			this.vScrollBar1.MouseEnter += new System.EventHandler(this.vScrollBar_MouseEnter);
 			// 
@@ -1774,11 +1780,11 @@ namespace LightEditor
 			this.editGroupBox.Controls.Add(this.countComboBox);
 			this.editGroupBox.Controls.Add(this.nameLabel);
 			this.editGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.editGroupBox.Location = new System.Drawing.Point(10, 97);
-			this.editGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.editGroupBox.Location = new System.Drawing.Point(8, 79);
+			this.editGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.editGroupBox.Name = "editGroupBox";
-			this.editGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.editGroupBox.Size = new System.Drawing.Size(1084, 561);
+			this.editGroupBox.Padding = new System.Windows.Forms.Padding(2);
+			this.editGroupBox.Size = new System.Drawing.Size(812, 448);
 			this.editGroupBox.TabIndex = 6;
 			this.editGroupBox.TabStop = false;
 			this.editGroupBox.Visible = false;
@@ -1790,18 +1796,21 @@ namespace LightEditor
 			this.groupBox1.Controls.Add(this.commonValueNumericUpDown);
 			this.groupBox1.Controls.Add(this.zeroButton);
 			this.groupBox1.Controls.Add(this.commonValueButton);
-			this.groupBox1.Location = new System.Drawing.Point(459, 38);
+			this.groupBox1.Location = new System.Drawing.Point(344, 30);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(274, 159);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+			this.groupBox1.Size = new System.Drawing.Size(206, 127);
 			this.groupBox1.TabIndex = 11;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "设通道值";
 			// 
 			// setCurrentToInitButton
 			// 
-			this.setCurrentToInitButton.Location = new System.Drawing.Point(27, 118);
+			this.setCurrentToInitButton.Location = new System.Drawing.Point(20, 94);
+			this.setCurrentToInitButton.Margin = new System.Windows.Forms.Padding(2);
 			this.setCurrentToInitButton.Name = "setCurrentToInitButton";
-			this.setCurrentToInitButton.Size = new System.Drawing.Size(212, 29);
+			this.setCurrentToInitButton.Size = new System.Drawing.Size(159, 23);
 			this.setCurrentToInitButton.TabIndex = 2;
 			this.setCurrentToInitButton.Text = "将初始值设为当前通道值";
 			this.setCurrentToInitButton.UseVisualStyleBackColor = true;
@@ -1809,23 +1818,24 @@ namespace LightEditor
 			// 
 			// commonValueNumericUpDown
 			// 
-			this.commonValueNumericUpDown.Location = new System.Drawing.Point(27, 35);
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(20, 28);
+			this.commonValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
 			this.commonValueNumericUpDown.Name = "commonValueNumericUpDown";
-			this.commonValueNumericUpDown.Size = new System.Drawing.Size(95, 25);
+			this.commonValueNumericUpDown.Size = new System.Drawing.Size(71, 21);
 			this.commonValueNumericUpDown.TabIndex = 1;
 			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// commonValueButton
 			// 
-			this.commonValueButton.Location = new System.Drawing.Point(142, 33);
-			this.commonValueButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			this.commonValueButton.Location = new System.Drawing.Point(106, 26);
+			this.commonValueButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.commonValueButton.Name = "commonValueButton";
-			this.commonValueButton.Size = new System.Drawing.Size(97, 29);
+			this.commonValueButton.Size = new System.Drawing.Size(73, 23);
 			this.commonValueButton.TabIndex = 0;
 			this.commonValueButton.Text = "统一通道值";
 			this.commonValueButton.UseVisualStyleBackColor = true;
@@ -1836,17 +1846,19 @@ namespace LightEditor
 			this.flowLayoutPanel1.AutoScroll = true;
 			this.flowLayoutPanel1.Controls.Add(this.tongdaoGroupBox1);
 			this.flowLayoutPanel1.Controls.Add(this.tongdaoGroupBox2);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 208);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 166);
+			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(1080, 330);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(810, 264);
 			this.flowLayoutPanel1.TabIndex = 7;
 			// 
 			// connectButton
 			// 
-			this.connectButton.Location = new System.Drawing.Point(750, 23);
-			this.connectButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.connectButton.Enabled = false;
+			this.connectButton.Location = new System.Drawing.Point(554, 20);
+			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(132, 58);
+			this.connectButton.Size = new System.Drawing.Size(99, 46);
 			this.connectButton.TabIndex = 4;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = true;
@@ -1854,26 +1866,26 @@ namespace LightEditor
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.ClientSize = new System.Drawing.Size(1104, 662);
+			this.ClientSize = new System.Drawing.Size(828, 530);
 			this.Controls.Add(this.editGroupBox);
 			this.Controls.Add(this.exitButton);
 			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.saveLightButton);
 			this.Controls.Add(this.openLightButton);
 			this.Controls.Add(this.newLightButton);
-			this.Controls.Add(this.openComButton);
+			this.Controls.Add(this.chooseComButton);
 			this.Controls.Add(this.comComboBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.Padding = new System.Windows.Forms.Padding(10, 3, 10, 4);
+			this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 3);
 			this.Text = "灯库编辑工具";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.lightTestGroupBox.ResumeLayout(false);
@@ -1970,7 +1982,7 @@ namespace LightEditor
 		private System.Windows.Forms.Button exitButton;
 		private System.Windows.Forms.Button newLightButton;
 		private System.Windows.Forms.Button generateButton;
-		private System.Windows.Forms.Button openComButton;
+		private System.Windows.Forms.Button chooseComButton;
 		private System.Windows.Forms.Button openLightButton;
 		private System.Windows.Forms.Button saveLightButton;
 		private System.Windows.Forms.ComboBox comComboBox;

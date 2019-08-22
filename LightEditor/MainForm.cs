@@ -24,22 +24,13 @@ namespace LightEditor
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
 		private bool isRealTime = false; //是否勾选“实时调试”
 		private bool isConnect = false; // 辅助变量：是否连接设备
+		string comName;
 
 		public MainForm()
 		{
-			InitializeComponent();			
+			InitializeComponent();
 			//this.skinEngine2.SkinFile = Application.StartupPath + @"\Vista2_color7.ssk";
-		}
 
-		private void MainForm_Load(object sender, EventArgs e)
-		{			
-			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
-			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
-			if (!String.IsNullOrEmpty(skin))
-			{
-				this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
-			}			
-			
 			#region 初始化几个数组
 
 			valueVScrollBars[0] = vScrollBar1;
@@ -74,7 +65,7 @@ namespace LightEditor
 			valueVScrollBars[29] = vScrollBar30;
 			valueVScrollBars[30] = vScrollBar31;
 			valueVScrollBars[31] = vScrollBar32;
-			
+
 			valueNumericUpDowns[0] = numericUpDown1;
 			valueNumericUpDowns[1] = numericUpDown2;
 			valueNumericUpDowns[2] = numericUpDown3;
@@ -143,24 +134,52 @@ namespace LightEditor
 
 			for (int i = 0; i < 32; i++)
 			{
-				countComboBox.Items.Add(i+1);
+				countComboBox.Items.Add(i + 1);
 				valueNumericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
 				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
 			}
 			firstTDNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.firstTDNumericUpDown_MouseWheel);
 			commonValueNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
+
 			#endregion
+
+			player = OneLightOneStep.GetInstance();
+			// 填充comComboBox
+			IList<string> comList = player.GetDMX512DeviceList();
+			if (comList.Count > 0) {
+				foreach (string com in comList)
+				{
+					comComboBox.Items.Add(com);
+				}
+				comComboBox.SelectedIndex = 0;
+			}
+
 		}
 
-		private void openComButton_Click(object sender, EventArgs e)
-		{
-			// 测试锁定当前窗口
-			//MessageBox.Show("锁定当前窗口,10秒后解锁。");
-			//this.Enabled = false;
-			//Thread.Sleep(10000);
-			//this.Enabled = true;
+		/// <summary>
+		///  事件：渲染Form时，选择皮肤
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_Load(object sender, EventArgs e)
+		{			
+			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
+			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
+			if (!String.IsNullOrEmpty(skin))
+			{
+				this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
+			}			
+			
+			
 		}
 
+		
+
+		/// <summary>
+		/// 事件：点击《新建灯具》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void newLightButton_Click(object sender, EventArgs e)
 		{
 			if (editGroupBox.Visible)
@@ -195,6 +214,11 @@ namespace LightEditor
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《打开灯具》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void openLightButton_Click(object sender, EventArgs e)
 		{
 			openFileDialog.ShowDialog();
@@ -202,7 +226,7 @@ namespace LightEditor
 
 
 		/// <summary>
-		///  点击《打开灯具》按钮
+		///  事件：选择灯具配置文件后，点击确认时
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -797,12 +821,66 @@ namespace LightEditor
 			firstTDValue = Decimal.ToInt16(firstTDNumericUpDown.Value);
 			for (int i = 0; i < tongdaoCount; i++)
 			{
-				this.labels[i].Text = (firstTDValue + i) + "- " + tongdaoList[i].TongdaoName;
+				this.labels[i].Text = (firstTDValue + i) + "-  " + tongdaoList[i].TongdaoName;
 			}
 		}
-		
+
+
 		/// <summary>
-		/// 勾选《实时调试》：将该全局变量设为勾选与否的值
+		/// 事件：点击《选择串口》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void chooseComButton_Click(object sender, EventArgs e)
+		{
+			comName = comComboBox.Text;
+			connectButton.Enabled = true;
+		}
+
+		/// <summary>
+		///  点击《连接设备|断开连接》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			// 如果还没连接，那就连接  -->连接状态下《选择串口》不可用
+			if (!isConnect)
+			{
+				if(	player.ConnectDevice(comName))  //判断是否连接成功
+				{
+					setDMX512TestButtonsEnable(true);
+					chooseComButton.Enabled = false;
+					connectButton.Text = "断开连接";
+					isConnect = true;
+				}
+				else
+				{
+					MessageBox.Show("串口：" + comName + " 连接失败") ;
+				}
+			}
+			else //否则断开连接: --> 《选择串口》设为可用
+			{
+				setDMX512TestButtonsEnable(false);
+				chooseComButton.Enabled = true;
+				player.CloseDevice();
+
+				connectButton.Text = "连接设备";
+				isConnect = false;
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：一次性配置DMX512调试按钮组可见与否
+		/// </summary>
+		/// <param name="visible"></param>
+		private void setDMX512TestButtonsEnable(bool visible)
+		{
+			lightTestGroupBox.Visible = visible;
+		}
+
+		/// <summary>
+		/// 事件：勾选《实时调试》：将该全局变量设为勾选与否的值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -812,7 +890,7 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  点击《单灯单步》：调试当前灯具设置的数值
+		/// 事件：点击《单灯单步》：调试当前灯具设置的数值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -822,7 +900,7 @@ namespace LightEditor
 		}	
 
 		/// <summary>
-		///  点击《停止调试》
+		///  事件：点击《停止调试》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -848,39 +926,7 @@ namespace LightEditor
 		}
 
 	
-		/// <summary>
-		///  点击《连接设备|断开连接》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void connectButton_Click(object sender, EventArgs e)
-		{
-			// 如果还没连接，那就连接
-			if (!isConnect)
-			{
-				isConnect = true;
-				player = OneLightOneStep.GetInstance();
-				setDMX512TestButtonsEnable(true);
-				connectButton.Text = "断开连接";
-			}
-			else //否则断开连接:
-			{
-				isConnect = false;
-				player.EndView();
-				player = null;
-				setDMX512TestButtonsEnable(false);
-				connectButton.Text = "连接设备";
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：一次性配置DMX512调试按钮组可见与否
-		/// </summary>
-		/// <param name="visible"></param>
-		private void setDMX512TestButtonsEnable(bool visible)
-		{
-			lightTestGroupBox.Visible = visible;
-		}
+		
 
 
 		/// <summary>

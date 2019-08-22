@@ -36,7 +36,7 @@
 			this.currentFileLabel = new System.Windows.Forms.Label();
 			this.networkSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
 			this.networkSearchSkinButton = new CCWin.SkinControl.SkinButton();
-			this.networkConnectSkinButton = new CCWin.SkinControl.SkinButton();
+			this.networkChoosetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.networkdUpdateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
 			this.networkTab = new CCWin.SkinControl.SkinTabPage();
@@ -53,9 +53,11 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.comSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
-			this.comConnectSkinButton = new CCWin.SkinControl.SkinButton();
+			this.comChooseSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comCurrentFileLabel = new System.Windows.Forms.Label();
 			this.comComboBox = new System.Windows.Forms.ComboBox();
+			this.comNameLabel = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -133,23 +135,23 @@
 			this.networkSearchSkinButton.UseVisualStyleBackColor = false;
 			this.networkSearchSkinButton.Click += new System.EventHandler(this.searchButton_Click);
 			// 
-			// networkConnectSkinButton
+			// networkChoosetSkinButton
 			// 
-			this.networkConnectSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.networkConnectSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
-			this.networkConnectSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.networkConnectSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.networkConnectSkinButton.DownBack = null;
-			this.networkConnectSkinButton.Enabled = false;
-			this.networkConnectSkinButton.Location = new System.Drawing.Point(353, 80);
-			this.networkConnectSkinButton.MouseBack = null;
-			this.networkConnectSkinButton.Name = "networkConnectSkinButton";
-			this.networkConnectSkinButton.NormlBack = null;
-			this.networkConnectSkinButton.Size = new System.Drawing.Size(86, 31);
-			this.networkConnectSkinButton.TabIndex = 8;
-			this.networkConnectSkinButton.Text = "选择网络设备";
-			this.networkConnectSkinButton.UseVisualStyleBackColor = false;
-			this.networkConnectSkinButton.Click += new System.EventHandler(this.connectButton_Click);
+			this.networkChoosetSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.networkChoosetSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
+			this.networkChoosetSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.networkChoosetSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.networkChoosetSkinButton.DownBack = null;
+			this.networkChoosetSkinButton.Enabled = false;
+			this.networkChoosetSkinButton.Location = new System.Drawing.Point(353, 80);
+			this.networkChoosetSkinButton.MouseBack = null;
+			this.networkChoosetSkinButton.Name = "networkChoosetSkinButton";
+			this.networkChoosetSkinButton.NormlBack = null;
+			this.networkChoosetSkinButton.Size = new System.Drawing.Size(86, 31);
+			this.networkChoosetSkinButton.TabIndex = 8;
+			this.networkChoosetSkinButton.Text = "选择网络设备";
+			this.networkChoosetSkinButton.UseVisualStyleBackColor = false;
+			this.networkChoosetSkinButton.Click += new System.EventHandler(this.choosetButton_Click);
 			// 
 			// networkdUpdateSkinButton
 			// 
@@ -189,7 +191,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
+			this.skinTabControl.SelectedIndex = 1;
 			this.skinTabControl.Size = new System.Drawing.Size(576, 265);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 9;
@@ -217,7 +219,7 @@
 			this.networkPanel.Controls.Add(this.label1);
 			this.networkPanel.Controls.Add(this.networkSkinProgressBar);
 			this.networkPanel.Controls.Add(this.setLocalIPSkinButton);
-			this.networkPanel.Controls.Add(this.networkConnectSkinButton);
+			this.networkPanel.Controls.Add(this.networkChoosetSkinButton);
 			this.networkPanel.Controls.Add(this.localIPSComboBox);
 			this.networkPanel.Controls.Add(this.networkCurrentFileLabel);
 			this.networkPanel.Controls.Add(this.networkDevicesComboBox);
@@ -304,12 +306,14 @@
 			// 
 			// comPanel
 			// 
+			this.comPanel.Controls.Add(this.comNameLabel);
+			this.comPanel.Controls.Add(this.label6);
 			this.comPanel.Controls.Add(this.comSearchSkinButton);
 			this.comPanel.Controls.Add(this.comUpdateSkinButton);
 			this.comPanel.Controls.Add(this.label3);
 			this.comPanel.Controls.Add(this.label4);
 			this.comPanel.Controls.Add(this.comSkinProgressBar);
-			this.comPanel.Controls.Add(this.comConnectSkinButton);
+			this.comPanel.Controls.Add(this.comChooseSkinButton);
 			this.comPanel.Controls.Add(this.comCurrentFileLabel);
 			this.comPanel.Controls.Add(this.comComboBox);
 			this.comPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -385,23 +389,23 @@
 			this.comSkinProgressBar.Size = new System.Drawing.Size(404, 23);
 			this.comSkinProgressBar.TabIndex = 7;
 			// 
-			// comConnectSkinButton
+			// comChooseSkinButton
 			// 
-			this.comConnectSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.comConnectSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
-			this.comConnectSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.comConnectSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.comConnectSkinButton.DownBack = null;
-			this.comConnectSkinButton.Enabled = false;
-			this.comConnectSkinButton.Location = new System.Drawing.Point(363, 30);
-			this.comConnectSkinButton.MouseBack = null;
-			this.comConnectSkinButton.Name = "comConnectSkinButton";
-			this.comConnectSkinButton.NormlBack = null;
-			this.comConnectSkinButton.Size = new System.Drawing.Size(76, 31);
-			this.comConnectSkinButton.TabIndex = 8;
-			this.comConnectSkinButton.Text = "选择串口";
-			this.comConnectSkinButton.UseVisualStyleBackColor = false;
-			this.comConnectSkinButton.Click += new System.EventHandler(this.connectButton_Click);
+			this.comChooseSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.comChooseSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
+			this.comChooseSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.comChooseSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.comChooseSkinButton.DownBack = null;
+			this.comChooseSkinButton.Enabled = false;
+			this.comChooseSkinButton.Location = new System.Drawing.Point(363, 30);
+			this.comChooseSkinButton.MouseBack = null;
+			this.comChooseSkinButton.Name = "comChooseSkinButton";
+			this.comChooseSkinButton.NormlBack = null;
+			this.comChooseSkinButton.Size = new System.Drawing.Size(76, 31);
+			this.comChooseSkinButton.TabIndex = 8;
+			this.comChooseSkinButton.Text = "选择串口";
+			this.comChooseSkinButton.UseVisualStyleBackColor = false;
+			this.comChooseSkinButton.Click += new System.EventHandler(this.choosetButton_Click);
 			// 
 			// comCurrentFileLabel
 			// 
@@ -415,12 +419,30 @@
 			// 
 			// comComboBox
 			// 
+			this.comComboBox.Enabled = false;
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(169, 36);
+			this.comComboBox.Location = new System.Drawing.Point(150, 36);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(144, 20);
+			this.comComboBox.Size = new System.Drawing.Size(92, 20);
 			this.comComboBox.TabIndex = 5;
+			// 
+			// comNameLabel
+			// 
+			this.comNameLabel.AutoSize = true;
+			this.comNameLabel.Location = new System.Drawing.Point(287, 44);
+			this.comNameLabel.Name = "comNameLabel";
+			this.comNameLabel.Size = new System.Drawing.Size(0, 12);
+			this.comNameLabel.TabIndex = 10;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(270, 30);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(65, 12);
+			this.label6.TabIndex = 11;
+			this.label6.Text = "已选串口：";
 			// 
 			// UpdateForm
 			// 
@@ -453,7 +475,7 @@
 		private System.Windows.Forms.Label currentFileLabel;
 		private CCWin.SkinControl.SkinProgressBar networkSkinProgressBar;
 		private CCWin.SkinControl.SkinButton networkSearchSkinButton;
-		private CCWin.SkinControl.SkinButton networkConnectSkinButton;
+		private CCWin.SkinControl.SkinButton networkChoosetSkinButton;
 		private CCWin.SkinControl.SkinButton networkdUpdateSkinButton;
 		private CCWin.SkinControl.SkinTabControl skinTabControl;
 		private CCWin.SkinControl.SkinTabPage networkTab;
@@ -465,7 +487,7 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
 		private CCWin.SkinControl.SkinProgressBar comSkinProgressBar;
-		private CCWin.SkinControl.SkinButton comConnectSkinButton;
+		private CCWin.SkinControl.SkinButton comChooseSkinButton;
 		private System.Windows.Forms.Label comCurrentFileLabel;
 		private System.Windows.Forms.ComboBox comComboBox;
 		private CCWin.SkinControl.SkinButton getLocalIPsSkinButton;
@@ -473,5 +495,7 @@
 		private CCWin.SkinControl.SkinButton setLocalIPSkinButton;
 		private System.Windows.Forms.Label localIPLabel;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label comNameLabel;
+		private System.Windows.Forms.Label label6;
 	}
 }

@@ -24,6 +24,7 @@ namespace LightController.MyForm
 		private IList<string> selectedIPs;
 		private IList<string> ips;
 		private string localIP;
+		private string comName;
 
 		private ConnectTools cTools;
 		private SerialPortTools comTools;
@@ -94,13 +95,14 @@ namespace LightController.MyForm
 		private void searchButton_Click(object sender, EventArgs e)
 		{
 			string buttonName =((SkinButton)sender).Name;
-			if (buttonName.Equals("networkSearchSkinButton")) //搜索网络设备
+			//点击《搜索网络设备》
+			if (buttonName.Equals("networkSearchSkinButton")) 
 			{
 				cTools = ConnectTools.GetInstance();
 				cTools.Start(localIP);
 				cTools.SearchDevice();
 				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-				networkConnectSkinButton.Enabled = false;
+				networkChoosetSkinButton.Enabled = false;
 				Thread.Sleep(1000);
 
 				Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
@@ -115,18 +117,44 @@ namespace LightController.MyForm
 					}
 					networkDevicesComboBox.Enabled = true;
 					networkDevicesComboBox.SelectedIndex = 0;
-					networkConnectSkinButton.Enabled = true;
+					networkChoosetSkinButton.Enabled = true;
 				}
 				else
 				{
 					networkDevicesComboBox.Enabled = false;
 					networkDevicesComboBox.SelectedIndex = -1;
-					networkConnectSkinButton.Enabled = false;
+					networkChoosetSkinButton.Enabled = false;
 					MessageBox.Show("未找到可用设备，请确认后重试。");
 				}
 			}
+			// 点击《搜索串口设备》
 			else {
 
+				comSearchSkinButton.Enabled = false;
+				comChooseSkinButton.Enabled = false;
+				comUpdateSkinButton.Enabled = false;
+
+				comTools = SerialPortTools.GetInstance();
+				string[] comList = comTools.GetSerialPortNameList();
+				comComboBox.Items.Clear();
+				if (comList.Length > 0)
+				{
+					foreach (string com in comList)
+					{
+						comComboBox.Items.Add(com);
+					}
+					comComboBox.Enabled = true;
+					comComboBox.SelectedIndex = 0;
+					comChooseSkinButton.Enabled = true;
+				}
+				else
+				{
+					comComboBox.Enabled = false ;
+					comComboBox.SelectedIndex = 0;
+					comChooseSkinButton.Enabled = false;
+					MessageBox.Show("未找到可用串口，请重试");
+				}
+				comSearchSkinButton.Enabled = true;
 
 			}
 
@@ -135,16 +163,27 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《选择设备》、《选择串口》，两个按钮点击事件集成在一起
+		/// 事件：点击《选择网络设备》、《选择串口》，两个按钮点击事件集成在一起
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void connectButton_Click(object sender, EventArgs e)
+		private void choosetButton_Click(object sender, EventArgs e)
 		{
-			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
-			MessageBox.Show("设备连接成功");
-			networkdUpdateSkinButton.Enabled = true;
+			string buttonName = ((SkinButton)sender).Name;
+			if (buttonName.Equals("networkChooseSkinButton"))
+			{
+				selectedIPs = new List<string>();
+				selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
+				MessageBox.Show("已选中网络设备");
+				networkdUpdateSkinButton.Enabled = true;
+			}
+			else {
+				comName = comComboBox.Text ;
+				MessageBox.Show("已选中串口设备" + comName);
+				comNameLabel.Text = comName;
+				comTools.OpenCom(comName);
+				comUpdateSkinButton.Enabled = true;
+			}			
 		}
 
 
@@ -157,13 +196,20 @@ namespace LightController.MyForm
 		{
 			string buttonName = ((SkinButton)sender).Name;
 
-			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress));
-			//MessageBox.Show("断开连接");
-			networkConnectSkinButton.Enabled = false;
-			networkdUpdateSkinButton.Enabled = false;
-			networkDevicesComboBox.Items.Clear();
-			networkDevicesComboBox.Text = "";
+			if (buttonName.Equals("networkdUpdateSkinButton"))
+			{				
+				cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress));
+				//networkChoosetSkinButton.Enabled = false;
+				//networkdUpdateSkinButton.Enabled = false;
+				//networkDevicesComboBox.Items.Clear();
+				//networkDevicesComboBox.Text = "";
+			}
+			else {
+
+				comTools.DownloadProject(dbWrapper, globalSetPath, new DownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress2));
+
+			}
+		
 		}
 
 		/// <summary>
@@ -172,11 +218,21 @@ namespace LightController.MyForm
 		/// <param name="a"></param>		
 		void paintProgress(string fileName,int a)
 		{
-			currentFileLabel.Text = fileName;
+			networkCurrentFileLabel.Text = fileName;
 			networkSkinProgressBar.Value =  a;				
 		}
 
-	
+		/// <summary>
+		///  辅助委托方法：将数据写进度条
+		/// </summary>
+		/// <param name="a"></param>		
+		void paintProgress2(string fileName, int a)
+		{
+			comCurrentFileLabel.Text = fileName;
+			comSkinProgressBar.Value = a;
+		}
+
+
 	}
 
 

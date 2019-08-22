@@ -349,7 +349,7 @@ namespace LightController.MyForm
 			this.eachStepTimeNumericUpDown.Location = new System.Drawing.Point(146, 60);
 			this.eachStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.eachStepTimeNumericUpDown.Minimum = new decimal(new int[] {
-            25,
+            30,
             0,
             0,
             0});
@@ -358,7 +358,7 @@ namespace LightController.MyForm
 			this.eachStepTimeNumericUpDown.TabIndex = 5;
 			this.eachStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.eachStepTimeNumericUpDown.Value = new decimal(new int[] {
-            25,
+            30,
             0,
             0,
             0});

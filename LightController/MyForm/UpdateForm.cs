@@ -1,4 +1,5 @@
-﻿using LightController.Ast;
+﻿using CCWin.SkinControl;
+using LightController.Ast;
 using LightController.Tools;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,7 +22,11 @@ namespace LightController.MyForm
 		private string globalSetPath;
 
 		private IList<string> selectedIPs;
-		private IList<string> ips;		
+		private IList<string> ips;
+		private string localIP;
+
+		private ConnectTools cTools;
+		private SerialPortTools comTools;
 
 		public UpdateForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath)
 		{
@@ -27,6 +34,8 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 			this.dbWrapper = dbWrapper;
 			this.globalSetPath = globalSetPath;
+
+			this.skinTabControl.SelectedIndex = 0;
 		}
 
 		private void UpdateForm_Load(object sender, EventArgs e)
@@ -37,67 +46,124 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击《搜索设备》
+		/// 事件：点击《获取本地ip列表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
+		{
+			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+			networkDevicesComboBox.Items.Clear();
+			foreach (IPAddress ip in ipe.AddressList)
+			{
+				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
+				{
+					localIPSComboBox.Items.Add(ip);
+				}				
+			}
+			if (localIPSComboBox.Items.Count > 0)
+			{
+				localIPSComboBox.Enabled = true;
+				localIPSComboBox.SelectedIndex = 0;
+				setLocalIPSkinButton.Enabled = true;
+			}
+			else {
+				localIPSComboBox.Enabled = false;
+				localIPSComboBox.SelectedIndex = -1;				
+				setLocalIPSkinButton.Enabled = false;
+			}					
+		}
+
+		/// <summary>
+		///  事件：点击《设置本地IP》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setLocalIPSkinButton_Click(object sender, EventArgs e)
+		{
+			localIP = localIPSComboBox.Text;
+			localIPLabel.Text = localIP;
+			networkSearchSkinButton.Enabled = true;
+		}
+
+		/// <summary>
+		///事件：点击《搜索网络/串口设备》，两个按钮点击事件集成在一起
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void searchButton_Click(object sender, EventArgs e)
 		{
-			ConnectTools cTools = ConnectTools.GetInstance();
-			cTools.Start("192.168.31.14");
-			cTools.SearchDevice();
-			// 需要延迟片刻，才能找到设备
-			connectSkinButton.Enabled = false;
-			Thread.Sleep(1000);
-			Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
-		
-			devicesComboBox.Items.Clear();
-			ips = new List<string>();
-			if (allDevices.Count > 0)
+			string buttonName =((SkinButton)sender).Name;
+			if (buttonName.Equals("networkSearchSkinButton")) //搜索网络设备
 			{
-				foreach (KeyValuePair<string, string> device in allDevices)
+				cTools = ConnectTools.GetInstance();
+				cTools.Start(localIP);
+				cTools.SearchDevice();
+				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
+				networkConnectSkinButton.Enabled = false;
+				Thread.Sleep(1000);
+
+				Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
+				networkDevicesComboBox.Items.Clear();
+				ips = new List<string>();
+				if (allDevices.Count > 0)
 				{
-					devicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-					ips.Add(device.Key);
+					foreach (KeyValuePair<string, string> device in allDevices)
+					{
+						networkDevicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
+						ips.Add(device.Key);
+					}
+					networkDevicesComboBox.Enabled = true;
+					networkDevicesComboBox.SelectedIndex = 0;
+					networkConnectSkinButton.Enabled = true;
 				}
-				devicesComboBox.SelectedIndex = 0;
-				connectSkinButton.Enabled = true;
+				else
+				{
+					networkDevicesComboBox.Enabled = false;
+					networkDevicesComboBox.SelectedIndex = -1;
+					networkConnectSkinButton.Enabled = false;
+					MessageBox.Show("未找到可用设备，请确认后重试。");
+				}
 			}
 			else {
-				devicesComboBox.SelectedIndex = -1;
-				connectSkinButton.Enabled = false;
-				MessageBox.Show("未找到可用设备，请确认后重试。");	
-			}	
-		}		
+
+
+			}
+
+
+		
+		}
 
 		/// <summary>
-		///  点击《连接设备》
+		/// 事件：点击《选择设备》、《选择串口》，两个按钮点击事件集成在一起
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[devicesComboBox.SelectedIndex]);
+			selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
 			MessageBox.Show("设备连接成功");
-			updateSkinButton.Enabled = true;
+			networkdUpdateSkinButton.Enabled = true;
 		}
 
 
 		/// <summary>
-		/// 点击《下载数据》
+		/// 事件：点击《下载数据》，两个按钮点击事件集成在一起
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void UpdateButton_Click(object sender, EventArgs e)
+		private void updateButton_Click(object sender, EventArgs e)
 		{
+			string buttonName = ((SkinButton)sender).Name;
+
 			ConnectTools cTools = ConnectTools.GetInstance();
 			cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress));
 			//MessageBox.Show("断开连接");
-			connectSkinButton.Enabled = false;
-			updateSkinButton.Enabled = false;
-			devicesComboBox.Items.Clear();
-			devicesComboBox.Text = "";
+			networkConnectSkinButton.Enabled = false;
+			networkdUpdateSkinButton.Enabled = false;
+			networkDevicesComboBox.Items.Clear();
+			networkDevicesComboBox.Text = "";
 		}
 
 		/// <summary>
@@ -107,9 +173,10 @@ namespace LightController.MyForm
 		void paintProgress(string fileName,int a)
 		{
 			currentFileLabel.Text = fileName;
-			skinProgressBar1.Value =  a;				
+			networkSkinProgressBar.Value =  a;				
 		}
 
+	
 	}
 
 

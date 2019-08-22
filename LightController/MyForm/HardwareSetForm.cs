@@ -37,7 +37,8 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			this.iniPath = iniPath;			
+			this.iniPath = iniPath;
+			skinTabControl.SelectedIndex = 0;
 
 			// 若iniPath 为空，则新建-》读取默认Hardware.ini，并载入到当前form中
 			if (String.IsNullOrEmpty(iniPath) ){

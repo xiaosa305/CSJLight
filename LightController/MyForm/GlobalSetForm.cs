@@ -138,7 +138,7 @@ namespace LightController.MyForm
 			zuheFrameComboBox.SelectedIndex = 0;
 			startupComboBox.SelectedIndex = 0;
 			tongdaoCountComboBox.SelectedIndex = 0;
-			eachStepTimeNumericUpDown.Value = 25;
+			eachStepTimeNumericUpDown.Value = 30;
 			eachChangeModeComboBox.SelectedIndex = 0;
 
 
@@ -195,13 +195,14 @@ namespace LightController.MyForm
 			{
 				tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
 				startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 0);
-				eachStepTimeNumericUpDown.Value = iniAst.ReadInt("Set", "EachStepTime", 25);
+				int sjyz = iniAst.ReadInt("Set", "EachStepTime", 30);
+				eachStepTimeNumericUpDown.Value =  sjyz<30?30:sjyz;
 				eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode", 0);
 			}
 			catch (Exception) {
 				tongdaoCountComboBox.SelectedIndex = 0;
 				startupComboBox.SelectedIndex = 0;
-				eachStepTimeNumericUpDown.Value =  25;
+				eachStepTimeNumericUpDown.Value =  30;
 				eachChangeModeComboBox.SelectedIndex = 0 ;
 			}
 

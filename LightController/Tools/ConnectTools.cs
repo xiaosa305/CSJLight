@@ -20,6 +20,7 @@ namespace LightController.Tools
         private Thread SendThread { get; set; }
         private string Ip { get; set; }
         private UdpClient UdpClient { get; set; }
+        private Thread receiveThread { get; set; }
 
         private ConnectTools()
         {
@@ -45,19 +46,27 @@ namespace LightController.Tools
         /// <param name="port">Tcp服务器端口号</param>
         public void Start(string ip)
         {
-            //if (!IsStart)
-            //{
-                ServerIp = ip;
-                UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
-                UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-                Thread thread = new Thread(RecevieMsg);
-                thread.IsBackground = true;
+            if (IsStart)
+            {
+
                 IsStart = false;
-                SocketTools.GetInstance().Start();
-                thread.Start(UdpClient);
-                IsStart = true;
-            //}
+                UdpServer.Close();
+                UdpClient.Close();
+                receiveThread.Abort();
+                Thread.Sleep(100);
+                receiveThread = null;
+            }
+            ServerIp = ip;
+            UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
+            UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+            receiveThread = new Thread(RecevieMsg)
+            {
+                IsBackground = true
+            };
+            SocketTools.GetInstance().Start();
+            receiveThread.Start(UdpClient);
+            IsStart = true;
         }
 
         /// <summary>

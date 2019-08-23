@@ -45,8 +45,8 @@ namespace LightController.Tools
         /// <param name="port">Tcp服务器端口号</param>
         public void Start(string ip)
         {
-            if (!IsStart)
-            {
+            //if (!IsStart)
+            //{
                 ServerIp = ip;
                 UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
@@ -57,7 +57,7 @@ namespace LightController.Tools
                 SocketTools.GetInstance().Start();
                 thread.Start(UdpClient);
                 IsStart = true;
-            }
+            //}
         }
 
         /// <summary>

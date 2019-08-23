@@ -44,6 +44,7 @@ namespace LightController.Tools
         private int MusicStepPoint { get; set; }
         private bool MusicData { get; set; }
         private bool MusicWaiting { get; set; }
+        private System.Timers.Timer Timer { get; set; }
 
         /// <summary>
         /// test
@@ -57,6 +58,8 @@ namespace LightController.Tools
             MusicStepTime = 0;
             State = PreViewState.Null;
             Device = new FTDI();
+            Timer = new System.Timers.Timer();
+            MusicWaiting = true;
         }
         public static PlayTools GetInstance()
         {
@@ -267,59 +270,99 @@ namespace LightController.Tools
         {
             try
             {
+                if (Project.ConfigFile.Music_Control_Enable[SceneNo] == 0)
+                {
+                    return;
+                }
                 if (PreViewThread == null)
                 {
                     return;
                 }
-                if(MusicControlThread != null)
+                if (MusicWaiting)
                 {
-                    return;
-                }
-                else
-                {
+                    Timer.Stop();
                     MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
                     {
                         IsBackground = true
                     };
                     MusicWaiting = false;
-                    Thread.Sleep(100);
                     MusicControlThread.Start();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
+            }
+
+            if (false)
+            {
+                try
+                {
+                    if (PreViewThread == null)
+                    {
+                        return;
+                    }
+                    if (MusicControlThread != null)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
+                        {
+                            IsBackground = true
+                        };
+                        MusicWaiting = false;
+                        Thread.Sleep(100);
+                        MusicControlThread.Start();
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
         }
         private void MusicControlThreadStart()
         {
-            System.Timers.Timer timer = new System.Timers.Timer();
             MusicStep = StepList[MusicStepPoint];
-            for (int i = 1; i < MusicStep; i++)
+
+            if (false)
             {
-                IsMusicControl = true;
-                Thread.Sleep(TimeFactory * MusicStepTime);
-                for (int j = 0; j < M_ChanelPoint.Length; j++)
+                System.Timers.Timer timer = new System.Timers.Timer();
+                MusicStep = StepList[MusicStepPoint];
+                for (int i = 1; i < MusicStep; i++)
                 {
-                    M_ChanelPoint[j]++;
+                    IsMusicControl = true;
+                    Thread.Sleep(TimeFactory * MusicStepTime);
+                    for (int j = 0; j < M_ChanelPoint.Length; j++)
+                    {
+                        M_ChanelPoint[j]++;
+                    }
                 }
-            }
-            MusicStepPoint++;
-            if (MusicStepPoint == StepListCount)
-            {
-                MusicStepPoint = 0;
-            }
-            int waitingTime = MusicIntervalTime;
-            MusicWaiting = true;
-            for (int i = 0; i < Math.Ceiling(waitingTime / 2 * 1.0); i++)
-            {
-                Thread.Sleep(1);
-                if (!MusicWaiting)
+                MusicStepPoint++;
+                if (MusicStepPoint == StepListCount)
                 {
-                    break;
+                    MusicStepPoint = 0;
                 }
+                int waitingTime = MusicIntervalTime;
+                MusicWaiting = true;
+                for (int i = 0; i < Math.Ceiling(waitingTime / 2 * 1.0); i++)
+                {
+                    Thread.Sleep(1);
+                    if (!MusicWaiting)
+                    {
+                        break;
+                    }
+                }
+                IsMusicControl = false;
+                MusicControlThread = null;
             }
+
+        }
+
+        private void MusicWaitingHandl()
+        {
             IsMusicControl = false;
-            MusicControlThread = null;
         }
         private void OLOSViewThreadStart()
         {
@@ -386,7 +429,7 @@ namespace LightController.Tools
                 EndView();
             }
         }
-        public void ConnectDevice()
+        private void ConnectDevice()
         {
             UInt32 deviceCount = 0;
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;

@@ -441,16 +441,14 @@ namespace LightController.Tools.CSJ
                     switch (rxStr.Split(':')[0])
                     {
                         case Constant.RECEIVE_ORDER_OTHER_OK:
-                            this.IsSending = false;
                             this.CallBack.SendCompleted(devicename, this.Order);
-                            this.CloseDevice();
                             break;
                         default:
-                            this.IsSending = false;
                             this.CallBack.SendError(devicename, Order);
-                            this.CloseDevice();
                             break;
                     }
+                    this.IsSending = false;
+                    this.CloseDevice();
                     break;
             }
         }

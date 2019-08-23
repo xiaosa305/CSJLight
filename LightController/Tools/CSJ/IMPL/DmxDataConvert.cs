@@ -224,27 +224,54 @@ namespace LightController.Tools.CSJ.IMPL
         {
             CSJ_M file = null;
             StreamReader reader;
+            List<int> stepList = new List<int>();
             List<ChannelData> channelDatas = new List<ChannelData>();
             file = new CSJ_M()
             {
                 SceneNo = sceneData.SceneNo,
                 ChannelCount = sceneData.ChannelCount,
             };
-            /**************配置音频步时间(占位)**************/
-            file.FrameTime = sceneData.ChannelDatas[0].StepTimes[0];
-            /**************************************************/
-
-            /**************配置音频叠加后间隔时间(占位)**************/
-            file.MusicIntervalTime = 1000;
-            /**************************************************/
-
-            /**************配置音频步数列表(模拟)**************/
-            List<int> stepList = new List<int>();
-            stepList.Add(2);
-            stepList.Add(4);
+            using (reader = new StreamReader(ConfigPath))
+            {
+                string lineStr ;
+                string strValue = string.Empty;
+                int intValue;
+                while (true)
+                {
+                    lineStr = reader.ReadLine();
+                    if (lineStr.Equals("[SK]"))
+                    {
+                        for (int i = 0; i < 24; i++)
+                        {
+                            lineStr = reader.ReadLine();
+                            if (lineStr.StartsWith(sceneData.SceneNo.ToString()))
+                            {
+                                strValue = lineStr.Split('=')[1];
+                                for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
+                                {
+                                    intValue = int.Parse(strValue[strIndex].ToString());
+                                    stepList.Add(intValue);
+                                }
+                                lineStr = reader.ReadLine();
+                                strValue = lineStr.Split('=')[1];
+                                intValue = int.Parse(strValue.ToString());
+                                file.FrameTime = intValue;
+                                lineStr = reader.ReadLine();
+                                strValue = lineStr.Split('=')[1];
+                                intValue = int.Parse(strValue.ToString());
+                                file.MusicIntervalTime = intValue;
+                            }
+                            else
+                            {
+                                lineStr = reader.ReadLine();
+                                lineStr = reader.ReadLine();
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
             file.StepList = stepList;
-            file.StepListCount = stepList.Count;
-            /**************************************************/
             foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
             {
                 ChannelData channelData = new ChannelData()

@@ -42,9 +42,10 @@ namespace LightController.Tools.CSJ.IMPL
             //添加音频步数列表成员个数
             fileData.Add(MusicControlStepListCount);
             //添加音频步数列表
-            foreach (int step in StepList)
+            for (int i = 0; i < StepListCount; i++)
             {
-                fileData.Add(Convert.ToByte(step));
+                fileData.Add(Convert.ToByte(StepList[i]));
+
             }
             for (int i = StepListCount; i < 20; i++)
             {

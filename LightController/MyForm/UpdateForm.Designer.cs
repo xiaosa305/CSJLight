@@ -36,7 +36,7 @@
 			this.currentFileLabel = new System.Windows.Forms.Label();
 			this.networkSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
 			this.networkSearchSkinButton = new CCWin.SkinControl.SkinButton();
-			this.networkChoosetSkinButton = new CCWin.SkinControl.SkinButton();
+			this.networkChooseSkinButton = new CCWin.SkinControl.SkinButton();
 			this.networkdUpdateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
 			this.networkTab = new CCWin.SkinControl.SkinTabPage();
@@ -45,9 +45,11 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.getLocalIPsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.setLocalIPSkinButton = new CCWin.SkinControl.SkinButton();
-			this.localIPSComboBox = new System.Windows.Forms.ComboBox();
+			this.localIPsComboBox = new System.Windows.Forms.ComboBox();
 			this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
 			this.comPanel = new System.Windows.Forms.Panel();
+			this.comNameLabel = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
 			this.comSearchSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comUpdateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.label3 = new System.Windows.Forms.Label();
@@ -56,8 +58,6 @@
 			this.comChooseSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comCurrentFileLabel = new System.Windows.Forms.Label();
 			this.comComboBox = new System.Windows.Forms.ComboBox();
-			this.comNameLabel = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -135,23 +135,23 @@
 			this.networkSearchSkinButton.UseVisualStyleBackColor = false;
 			this.networkSearchSkinButton.Click += new System.EventHandler(this.searchButton_Click);
 			// 
-			// networkChoosetSkinButton
+			// networkChooseSkinButton
 			// 
-			this.networkChoosetSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.networkChoosetSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
-			this.networkChoosetSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.networkChoosetSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.networkChoosetSkinButton.DownBack = null;
-			this.networkChoosetSkinButton.Enabled = false;
-			this.networkChoosetSkinButton.Location = new System.Drawing.Point(353, 80);
-			this.networkChoosetSkinButton.MouseBack = null;
-			this.networkChoosetSkinButton.Name = "networkChoosetSkinButton";
-			this.networkChoosetSkinButton.NormlBack = null;
-			this.networkChoosetSkinButton.Size = new System.Drawing.Size(86, 31);
-			this.networkChoosetSkinButton.TabIndex = 8;
-			this.networkChoosetSkinButton.Text = "选择网络设备";
-			this.networkChoosetSkinButton.UseVisualStyleBackColor = false;
-			this.networkChoosetSkinButton.Click += new System.EventHandler(this.choosetButton_Click);
+			this.networkChooseSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.networkChooseSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
+			this.networkChooseSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.networkChooseSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.networkChooseSkinButton.DownBack = null;
+			this.networkChooseSkinButton.Enabled = false;
+			this.networkChooseSkinButton.Location = new System.Drawing.Point(353, 80);
+			this.networkChooseSkinButton.MouseBack = null;
+			this.networkChooseSkinButton.Name = "networkChooseSkinButton";
+			this.networkChooseSkinButton.NormlBack = null;
+			this.networkChooseSkinButton.Size = new System.Drawing.Size(86, 31);
+			this.networkChooseSkinButton.TabIndex = 8;
+			this.networkChooseSkinButton.Text = "选择网络设备";
+			this.networkChooseSkinButton.UseVisualStyleBackColor = false;
+			this.networkChooseSkinButton.Click += new System.EventHandler(this.choosetButton_Click);
 			// 
 			// networkdUpdateSkinButton
 			// 
@@ -191,7 +191,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 1;
+			this.skinTabControl.SelectedIndex = 0;
 			this.skinTabControl.Size = new System.Drawing.Size(576, 265);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 9;
@@ -219,8 +219,8 @@
 			this.networkPanel.Controls.Add(this.label1);
 			this.networkPanel.Controls.Add(this.networkSkinProgressBar);
 			this.networkPanel.Controls.Add(this.setLocalIPSkinButton);
-			this.networkPanel.Controls.Add(this.networkChoosetSkinButton);
-			this.networkPanel.Controls.Add(this.localIPSComboBox);
+			this.networkPanel.Controls.Add(this.networkChooseSkinButton);
+			this.networkPanel.Controls.Add(this.localIPsComboBox);
 			this.networkPanel.Controls.Add(this.networkCurrentFileLabel);
 			this.networkPanel.Controls.Add(this.networkDevicesComboBox);
 			this.networkPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -284,13 +284,13 @@
 			// 
 			// localIPSComboBox
 			// 
-			this.localIPSComboBox.Enabled = false;
-			this.localIPSComboBox.FormattingEnabled = true;
-			this.localIPSComboBox.Location = new System.Drawing.Point(164, 37);
-			this.localIPSComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.localIPSComboBox.Name = "localIPSComboBox";
-			this.localIPSComboBox.Size = new System.Drawing.Size(171, 20);
-			this.localIPSComboBox.TabIndex = 5;
+			this.localIPsComboBox.Enabled = false;
+			this.localIPsComboBox.FormattingEnabled = true;
+			this.localIPsComboBox.Location = new System.Drawing.Point(164, 37);
+			this.localIPsComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.localIPsComboBox.Name = "localIPSComboBox";
+			this.localIPsComboBox.Size = new System.Drawing.Size(171, 20);
+			this.localIPsComboBox.TabIndex = 5;
 			// 
 			// skinTabPage2
 			// 
@@ -321,6 +321,23 @@
 			this.comPanel.Name = "comPanel";
 			this.comPanel.Size = new System.Drawing.Size(576, 229);
 			this.comPanel.TabIndex = 10;
+			// 
+			// comNameLabel
+			// 
+			this.comNameLabel.AutoSize = true;
+			this.comNameLabel.Location = new System.Drawing.Point(287, 44);
+			this.comNameLabel.Name = "comNameLabel";
+			this.comNameLabel.Size = new System.Drawing.Size(0, 12);
+			this.comNameLabel.TabIndex = 10;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(270, 30);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(65, 12);
+			this.label6.TabIndex = 11;
+			this.label6.Text = "已选串口：";
 			// 
 			// comSearchSkinButton
 			// 
@@ -427,23 +444,6 @@
 			this.comComboBox.Size = new System.Drawing.Size(92, 20);
 			this.comComboBox.TabIndex = 5;
 			// 
-			// comNameLabel
-			// 
-			this.comNameLabel.AutoSize = true;
-			this.comNameLabel.Location = new System.Drawing.Point(287, 44);
-			this.comNameLabel.Name = "comNameLabel";
-			this.comNameLabel.Size = new System.Drawing.Size(0, 12);
-			this.comNameLabel.TabIndex = 10;
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(270, 30);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(65, 12);
-			this.label6.TabIndex = 11;
-			this.label6.Text = "已选串口：";
-			// 
 			// UpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -475,7 +475,7 @@
 		private System.Windows.Forms.Label currentFileLabel;
 		private CCWin.SkinControl.SkinProgressBar networkSkinProgressBar;
 		private CCWin.SkinControl.SkinButton networkSearchSkinButton;
-		private CCWin.SkinControl.SkinButton networkChoosetSkinButton;
+		private CCWin.SkinControl.SkinButton networkChooseSkinButton;
 		private CCWin.SkinControl.SkinButton networkdUpdateSkinButton;
 		private CCWin.SkinControl.SkinTabControl skinTabControl;
 		private CCWin.SkinControl.SkinTabPage networkTab;
@@ -491,7 +491,7 @@
 		private System.Windows.Forms.Label comCurrentFileLabel;
 		private System.Windows.Forms.ComboBox comComboBox;
 		private CCWin.SkinControl.SkinButton getLocalIPsSkinButton;
-		private System.Windows.Forms.ComboBox localIPSComboBox;
+		private System.Windows.Forms.ComboBox localIPsComboBox;
 		private CCWin.SkinControl.SkinButton setLocalIPSkinButton;
 		private System.Windows.Forms.Label localIPLabel;
 		private System.Windows.Forms.Label label2;

@@ -54,23 +54,23 @@ namespace LightController.MyForm
 		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
 		{
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
-			networkDevicesComboBox.Items.Clear();
+			localIPsComboBox.Items.Clear();
 			foreach (IPAddress ip in ipe.AddressList)
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
 				{
-					localIPSComboBox.Items.Add(ip);
+					localIPsComboBox.Items.Add(ip);
 				}				
 			}
-			if (localIPSComboBox.Items.Count > 0)
+			if (localIPsComboBox.Items.Count > 0)
 			{
-				localIPSComboBox.Enabled = true;
-				localIPSComboBox.SelectedIndex = 0;
+				localIPsComboBox.Enabled = true;
+				localIPsComboBox.SelectedIndex = 0;
 				setLocalIPSkinButton.Enabled = true;
 			}
 			else {
-				localIPSComboBox.Enabled = false;
-				localIPSComboBox.SelectedIndex = -1;				
+				localIPsComboBox.Enabled = false;
+				localIPsComboBox.SelectedIndex = -1;				
 				setLocalIPSkinButton.Enabled = false;
 			}					
 		}
@@ -82,7 +82,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void setLocalIPSkinButton_Click(object sender, EventArgs e)
 		{
-			localIP = localIPSComboBox.Text;
+			localIP = localIPsComboBox.Text;
 			localIPLabel.Text = localIP;
 			networkSearchSkinButton.Enabled = true;
 		}
@@ -102,7 +102,7 @@ namespace LightController.MyForm
 				cTools.Start(localIP);
 				cTools.SearchDevice();
 				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-				networkChoosetSkinButton.Enabled = false;
+				networkChooseSkinButton.Enabled = false;
 				Thread.Sleep(1000);
 
 				Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
@@ -117,13 +117,13 @@ namespace LightController.MyForm
 					}
 					networkDevicesComboBox.Enabled = true;
 					networkDevicesComboBox.SelectedIndex = 0;
-					networkChoosetSkinButton.Enabled = true;
+					networkChooseSkinButton.Enabled = true;
 				}
 				else
 				{
 					networkDevicesComboBox.Enabled = false;
 					networkDevicesComboBox.SelectedIndex = -1;
-					networkChoosetSkinButton.Enabled = false;
+					networkChooseSkinButton.Enabled = false;
 					MessageBox.Show("未找到可用设备，请确认后重试。");
 				}
 			}
@@ -197,17 +197,15 @@ namespace LightController.MyForm
 			string buttonName = ((SkinButton)sender).Name;
 
 			if (buttonName.Equals("networkdUpdateSkinButton"))
-			{				
-				cTools.Download(selectedIPs, dbWrapper, globalSetPath, new DownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress));
-				//networkChoosetSkinButton.Enabled = false;
-				//networkdUpdateSkinButton.Enabled = false;
-				//networkDevicesComboBox.Items.Clear();
-				//networkDevicesComboBox.Text = "";
+			{
+				networkChooseSkinButton.Enabled = false;
+				networkdUpdateSkinButton.Enabled = false;
+				networkDevicesComboBox.Enabled = false;
+
+				cTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress));								
 			}
 			else {
-
-				comTools.DownloadProject(dbWrapper, globalSetPath, new DownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress2));
-
+				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress2));
 			}
 		
 		}
@@ -232,11 +230,16 @@ namespace LightController.MyForm
 			comSkinProgressBar.Value = a;
 		}
 
-
+		private void button1_Click(object sender, EventArgs e)
+		{
+			localIPsComboBox.Enabled = false;
+			localIPsComboBox.Items.Clear();
+			localIPsComboBox.SelectedIndex = -1;
+		}
 	}
 
 
-	public class DownloadReceiveCallBack : IReceiveCallBack
+	public class NetworkDownloadReceiveCallBack : IReceiveCallBack
 	{
 		public void SendCompleted(string deviceName, string order)
 		{
@@ -249,6 +252,18 @@ namespace LightController.MyForm
 			MessageBox.Show("设备：" + deviceName + " 下载失败并断开连接" 
 				//+ "发回了命令：" + order 
 				);
+		}
+	}
+
+	public class ComDownloadReceiveCallBack : IReceiveCallBack
+	{
+		public void SendCompleted(string deviceName, string order)
+		{
+			MessageBox.Show("下载成功");
+		}
+		public void SendError(string deviceName, string order)
+		{
+			MessageBox.Show("下载失败");
 		}
 	}
 }

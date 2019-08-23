@@ -862,14 +862,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown7
 			// 
-			this.jgtNumericUpDown7.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown7.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown7.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown7.Name = "jgtNumericUpDown7";
-			this.jgtNumericUpDown7.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown7.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown7.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown7
 			// 
-			this.frameStepTimeNumericUpDown7.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown7.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown7.Name = "frameStepTimeNumericUpDown7";
 			this.frameStepTimeNumericUpDown7.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown7.TabIndex = 1;
@@ -881,11 +886,11 @@ namespace LightController.MyForm
 			this.mSkinButton7.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton7.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton7.DownBack = null;
-			this.mSkinButton7.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton7.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton7.MouseBack = null;
 			this.mSkinButton7.Name = "mSkinButton7";
 			this.mSkinButton7.NormlBack = null;
-			this.mSkinButton7.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton7.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton7.TabIndex = 0;
 			this.mSkinButton7.Text = "激情";
 			this.mSkinButton7.UseVisualStyleBackColor = false;
@@ -1198,14 +1203,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown1
 			// 
-			this.jgtNumericUpDown1.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown1.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown1.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown1.Name = "jgtNumericUpDown1";
-			this.jgtNumericUpDown1.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown1.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown1.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown1
 			// 
-			this.frameStepTimeNumericUpDown1.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown1.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown1.Name = "frameStepTimeNumericUpDown1";
 			this.frameStepTimeNumericUpDown1.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown1.TabIndex = 1;
@@ -1217,11 +1227,11 @@ namespace LightController.MyForm
 			this.mSkinButton1.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton1.DownBack = null;
-			this.mSkinButton1.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton1.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton1.MouseBack = null;
 			this.mSkinButton1.Name = "mSkinButton1";
 			this.mSkinButton1.NormlBack = null;
-			this.mSkinButton1.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton1.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton1.TabIndex = 0;
 			this.mSkinButton1.Text = "标准";
 			this.mSkinButton1.UseVisualStyleBackColor = false;
@@ -1238,14 +1248,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown2
 			// 
-			this.jgtNumericUpDown2.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown2.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown2.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown2.Name = "jgtNumericUpDown2";
-			this.jgtNumericUpDown2.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown2.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown2.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown2
 			// 
-			this.frameStepTimeNumericUpDown2.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown2.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown2.Name = "frameStepTimeNumericUpDown2";
 			this.frameStepTimeNumericUpDown2.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown2.TabIndex = 1;
@@ -1257,11 +1272,11 @@ namespace LightController.MyForm
 			this.mSkinButton2.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton2.DownBack = null;
-			this.mSkinButton2.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton2.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton2.MouseBack = null;
 			this.mSkinButton2.Name = "mSkinButton2";
 			this.mSkinButton2.NormlBack = null;
-			this.mSkinButton2.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton2.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton2.TabIndex = 0;
 			this.mSkinButton2.Text = "动感";
 			this.mSkinButton2.UseVisualStyleBackColor = false;
@@ -1278,14 +1293,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown3
 			// 
-			this.jgtNumericUpDown3.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown3.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown3.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown3.Name = "jgtNumericUpDown3";
-			this.jgtNumericUpDown3.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown3.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown3.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown3
 			// 
-			this.frameStepTimeNumericUpDown3.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown3.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown3.Name = "frameStepTimeNumericUpDown3";
 			this.frameStepTimeNumericUpDown3.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown3.TabIndex = 1;
@@ -1297,11 +1317,11 @@ namespace LightController.MyForm
 			this.mSkinButton3.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton3.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton3.DownBack = null;
-			this.mSkinButton3.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton3.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton3.MouseBack = null;
 			this.mSkinButton3.Name = "mSkinButton3";
 			this.mSkinButton3.NormlBack = null;
-			this.mSkinButton3.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton3.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton3.TabIndex = 0;
 			this.mSkinButton3.Text = "商务";
 			this.mSkinButton3.UseVisualStyleBackColor = false;
@@ -1318,14 +1338,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown4
 			// 
-			this.jgtNumericUpDown4.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown4.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown4.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown4.Name = "jgtNumericUpDown4";
-			this.jgtNumericUpDown4.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown4.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown4.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown4
 			// 
-			this.frameStepTimeNumericUpDown4.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown4.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown4.Name = "frameStepTimeNumericUpDown4";
 			this.frameStepTimeNumericUpDown4.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown4.TabIndex = 1;
@@ -1337,11 +1362,11 @@ namespace LightController.MyForm
 			this.mSkinButton4.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton4.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton4.DownBack = null;
-			this.mSkinButton4.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton4.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton4.MouseBack = null;
 			this.mSkinButton4.Name = "mSkinButton4";
 			this.mSkinButton4.NormlBack = null;
-			this.mSkinButton4.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton4.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton4.TabIndex = 0;
 			this.mSkinButton4.Text = "抒情";
 			this.mSkinButton4.UseVisualStyleBackColor = false;
@@ -1358,14 +1383,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown5
 			// 
-			this.jgtNumericUpDown5.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown5.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown5.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown5.Name = "jgtNumericUpDown5";
-			this.jgtNumericUpDown5.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown5.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown5.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown5
 			// 
-			this.frameStepTimeNumericUpDown5.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown5.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown5.Name = "frameStepTimeNumericUpDown5";
 			this.frameStepTimeNumericUpDown5.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown5.TabIndex = 1;
@@ -1377,11 +1407,11 @@ namespace LightController.MyForm
 			this.mSkinButton5.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton5.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton5.DownBack = null;
-			this.mSkinButton5.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton5.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton5.MouseBack = null;
 			this.mSkinButton5.Name = "mSkinButton5";
 			this.mSkinButton5.NormlBack = null;
-			this.mSkinButton5.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton5.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton5.TabIndex = 0;
 			this.mSkinButton5.Text = "清洁";
 			this.mSkinButton5.UseVisualStyleBackColor = false;
@@ -1398,14 +1428,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown6
 			// 
-			this.jgtNumericUpDown6.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown6.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown6.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown6.Name = "jgtNumericUpDown6";
-			this.jgtNumericUpDown6.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown6.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown6.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown6
 			// 
-			this.frameStepTimeNumericUpDown6.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown6.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown6.Name = "frameStepTimeNumericUpDown6";
 			this.frameStepTimeNumericUpDown6.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown6.TabIndex = 1;
@@ -1417,11 +1452,11 @@ namespace LightController.MyForm
 			this.mSkinButton6.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton6.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton6.DownBack = null;
-			this.mSkinButton6.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton6.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton6.MouseBack = null;
 			this.mSkinButton6.Name = "mSkinButton6";
 			this.mSkinButton6.NormlBack = null;
-			this.mSkinButton6.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton6.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton6.TabIndex = 0;
 			this.mSkinButton6.Text = "柔和";
 			this.mSkinButton6.UseVisualStyleBackColor = false;
@@ -1438,14 +1473,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown8
 			// 
-			this.jgtNumericUpDown8.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown8.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown8.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown8.Name = "jgtNumericUpDown8";
-			this.jgtNumericUpDown8.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown8.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown8.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown8
 			// 
-			this.frameStepTimeNumericUpDown8.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown8.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown8.Name = "frameStepTimeNumericUpDown8";
 			this.frameStepTimeNumericUpDown8.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown8.TabIndex = 1;
@@ -1457,11 +1497,11 @@ namespace LightController.MyForm
 			this.mSkinButton8.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton8.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton8.DownBack = null;
-			this.mSkinButton8.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton8.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton8.MouseBack = null;
 			this.mSkinButton8.Name = "mSkinButton8";
 			this.mSkinButton8.NormlBack = null;
-			this.mSkinButton8.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton8.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton8.TabIndex = 0;
 			this.mSkinButton8.Text = "明亮";
 			this.mSkinButton8.UseVisualStyleBackColor = false;
@@ -1478,14 +1518,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown9
 			// 
-			this.jgtNumericUpDown9.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown9.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown9.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown9.Name = "jgtNumericUpDown9";
-			this.jgtNumericUpDown9.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown9.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown9.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown9
 			// 
-			this.frameStepTimeNumericUpDown9.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown9.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown9.Name = "frameStepTimeNumericUpDown9";
 			this.frameStepTimeNumericUpDown9.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown9.TabIndex = 1;
@@ -1497,11 +1542,11 @@ namespace LightController.MyForm
 			this.mSkinButton9.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton9.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton9.DownBack = null;
-			this.mSkinButton9.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton9.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton9.MouseBack = null;
 			this.mSkinButton9.Name = "mSkinButton9";
 			this.mSkinButton9.NormlBack = null;
-			this.mSkinButton9.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton9.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton9.TabIndex = 0;
 			this.mSkinButton9.Text = "浪漫";
 			this.mSkinButton9.UseVisualStyleBackColor = false;
@@ -1518,14 +1563,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown10
 			// 
-			this.jgtNumericUpDown10.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown10.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown10.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown10.Name = "jgtNumericUpDown10";
-			this.jgtNumericUpDown10.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown10.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown10.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown10
 			// 
-			this.frameStepTimeNumericUpDown10.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown10.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown10.Name = "frameStepTimeNumericUpDown10";
 			this.frameStepTimeNumericUpDown10.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown10.TabIndex = 1;
@@ -1537,11 +1587,11 @@ namespace LightController.MyForm
 			this.mSkinButton10.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton10.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton10.DownBack = null;
-			this.mSkinButton10.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton10.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton10.MouseBack = null;
 			this.mSkinButton10.Name = "mSkinButton10";
 			this.mSkinButton10.NormlBack = null;
-			this.mSkinButton10.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton10.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton10.TabIndex = 0;
 			this.mSkinButton10.Text = "演出";
 			this.mSkinButton10.UseVisualStyleBackColor = false;
@@ -1558,14 +1608,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown11
 			// 
-			this.jgtNumericUpDown11.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown11.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown11.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown11.Name = "jgtNumericUpDown11";
-			this.jgtNumericUpDown11.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown11.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown11.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown11
 			// 
-			this.frameStepTimeNumericUpDown11.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown11.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown11.Name = "frameStepTimeNumericUpDown11";
 			this.frameStepTimeNumericUpDown11.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown11.TabIndex = 1;
@@ -1577,11 +1632,11 @@ namespace LightController.MyForm
 			this.mSkinButton11.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton11.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton11.DownBack = null;
-			this.mSkinButton11.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton11.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton11.MouseBack = null;
 			this.mSkinButton11.Name = "mSkinButton11";
 			this.mSkinButton11.NormlBack = null;
-			this.mSkinButton11.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton11.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton11.TabIndex = 0;
 			this.mSkinButton11.Text = "暂停";
 			this.mSkinButton11.UseVisualStyleBackColor = false;
@@ -1598,14 +1653,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown12
 			// 
-			this.jgtNumericUpDown12.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown12.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown12.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown12.Name = "jgtNumericUpDown12";
-			this.jgtNumericUpDown12.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown12.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown12.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown12
 			// 
-			this.frameStepTimeNumericUpDown12.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown12.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown12.Name = "frameStepTimeNumericUpDown12";
 			this.frameStepTimeNumericUpDown12.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown12.TabIndex = 1;
@@ -1617,11 +1677,11 @@ namespace LightController.MyForm
 			this.mSkinButton12.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton12.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton12.DownBack = null;
-			this.mSkinButton12.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton12.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton12.MouseBack = null;
 			this.mSkinButton12.Name = "mSkinButton12";
 			this.mSkinButton12.NormlBack = null;
-			this.mSkinButton12.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton12.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton12.TabIndex = 0;
 			this.mSkinButton12.Text = "全关";
 			this.mSkinButton12.UseVisualStyleBackColor = false;
@@ -1638,14 +1698,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown13
 			// 
-			this.jgtNumericUpDown13.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown13.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown13.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown13.Name = "jgtNumericUpDown13";
-			this.jgtNumericUpDown13.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown13.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown13.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown13
 			// 
-			this.frameStepTimeNumericUpDown13.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown13.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown13.Name = "frameStepTimeNumericUpDown13";
 			this.frameStepTimeNumericUpDown13.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown13.TabIndex = 1;
@@ -1657,11 +1722,11 @@ namespace LightController.MyForm
 			this.mSkinButton13.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton13.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton13.DownBack = null;
-			this.mSkinButton13.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton13.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton13.MouseBack = null;
 			this.mSkinButton13.Name = "mSkinButton13";
 			this.mSkinButton13.NormlBack = null;
-			this.mSkinButton13.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton13.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton13.TabIndex = 0;
 			this.mSkinButton13.Text = "全开";
 			this.mSkinButton13.UseVisualStyleBackColor = false;
@@ -1678,14 +1743,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown14
 			// 
-			this.jgtNumericUpDown14.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown14.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown14.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown14.Name = "jgtNumericUpDown14";
-			this.jgtNumericUpDown14.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown14.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown14.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown14
 			// 
-			this.frameStepTimeNumericUpDown14.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown14.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown14.Name = "frameStepTimeNumericUpDown14";
 			this.frameStepTimeNumericUpDown14.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown14.TabIndex = 1;
@@ -1697,7 +1767,7 @@ namespace LightController.MyForm
 			this.mSkinButton14.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton14.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton14.DownBack = null;
-			this.mSkinButton14.Location = new System.Drawing.Point(7, 13);
+			this.mSkinButton14.Location = new System.Drawing.Point(4, 11);
 			this.mSkinButton14.MouseBack = null;
 			this.mSkinButton14.Name = "mSkinButton14";
 			this.mSkinButton14.NormlBack = null;
@@ -1718,14 +1788,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown15
 			// 
-			this.jgtNumericUpDown15.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown15.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown15.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown15.Name = "jgtNumericUpDown15";
-			this.jgtNumericUpDown15.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown15.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown15.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown15
 			// 
-			this.frameStepTimeNumericUpDown15.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown15.Location = new System.Drawing.Point(6, 44);
 			this.frameStepTimeNumericUpDown15.Name = "frameStepTimeNumericUpDown15";
 			this.frameStepTimeNumericUpDown15.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown15.TabIndex = 1;
@@ -1737,11 +1812,11 @@ namespace LightController.MyForm
 			this.mSkinButton15.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton15.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton15.DownBack = null;
-			this.mSkinButton15.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton15.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton15.MouseBack = null;
 			this.mSkinButton15.Name = "mSkinButton15";
 			this.mSkinButton15.NormlBack = null;
-			this.mSkinButton15.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton15.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton15.TabIndex = 0;
 			this.mSkinButton15.Text = "电影";
 			this.mSkinButton15.UseVisualStyleBackColor = false;
@@ -1758,14 +1833,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown16
 			// 
-			this.jgtNumericUpDown16.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown16.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown16.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown16.Name = "jgtNumericUpDown16";
-			this.jgtNumericUpDown16.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown16.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown16.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown16
 			// 
-			this.frameStepTimeNumericUpDown16.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown16.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown16.Name = "frameStepTimeNumericUpDown16";
 			this.frameStepTimeNumericUpDown16.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown16.TabIndex = 1;
@@ -1777,11 +1857,11 @@ namespace LightController.MyForm
 			this.mSkinButton16.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton16.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton16.DownBack = null;
-			this.mSkinButton16.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton16.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton16.MouseBack = null;
 			this.mSkinButton16.Name = "mSkinButton16";
 			this.mSkinButton16.NormlBack = null;
-			this.mSkinButton16.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton16.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton16.TabIndex = 0;
 			this.mSkinButton16.Text = "备用1";
 			this.mSkinButton16.UseVisualStyleBackColor = false;
@@ -1798,14 +1878,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown17
 			// 
-			this.jgtNumericUpDown17.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown17.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown17.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown17.Name = "jgtNumericUpDown17";
-			this.jgtNumericUpDown17.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown17.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown17.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown17
 			// 
-			this.frameStepTimeNumericUpDown17.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown17.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown17.Name = "frameStepTimeNumericUpDown17";
 			this.frameStepTimeNumericUpDown17.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown17.TabIndex = 1;
@@ -1817,11 +1902,11 @@ namespace LightController.MyForm
 			this.mSkinButton17.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton17.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton17.DownBack = null;
-			this.mSkinButton17.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton17.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton17.MouseBack = null;
 			this.mSkinButton17.Name = "mSkinButton17";
 			this.mSkinButton17.NormlBack = null;
-			this.mSkinButton17.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton17.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton17.TabIndex = 0;
 			this.mSkinButton17.Text = "备用2";
 			this.mSkinButton17.UseVisualStyleBackColor = false;
@@ -1838,14 +1923,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown18
 			// 
-			this.jgtNumericUpDown18.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown18.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown18.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown18.Name = "jgtNumericUpDown18";
-			this.jgtNumericUpDown18.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown18.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown18.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown18
 			// 
-			this.frameStepTimeNumericUpDown18.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown18.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown18.Name = "frameStepTimeNumericUpDown18";
 			this.frameStepTimeNumericUpDown18.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown18.TabIndex = 1;
@@ -1857,11 +1947,11 @@ namespace LightController.MyForm
 			this.mSkinButton18.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton18.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton18.DownBack = null;
-			this.mSkinButton18.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton18.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton18.MouseBack = null;
 			this.mSkinButton18.Name = "mSkinButton18";
 			this.mSkinButton18.NormlBack = null;
-			this.mSkinButton18.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton18.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton18.TabIndex = 0;
 			this.mSkinButton18.Text = "备用3";
 			this.mSkinButton18.UseVisualStyleBackColor = false;
@@ -1878,14 +1968,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown19
 			// 
-			this.jgtNumericUpDown19.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown19.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown19.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown19.Name = "jgtNumericUpDown19";
-			this.jgtNumericUpDown19.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown19.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown19.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown19
 			// 
-			this.frameStepTimeNumericUpDown19.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown19.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown19.Name = "frameStepTimeNumericUpDown19";
 			this.frameStepTimeNumericUpDown19.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown19.TabIndex = 1;
@@ -1897,11 +1992,11 @@ namespace LightController.MyForm
 			this.mSkinButton19.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton19.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton19.DownBack = null;
-			this.mSkinButton19.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton19.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton19.MouseBack = null;
 			this.mSkinButton19.Name = "mSkinButton19";
 			this.mSkinButton19.NormlBack = null;
-			this.mSkinButton19.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton19.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton19.TabIndex = 0;
 			this.mSkinButton19.Text = "备用4";
 			this.mSkinButton19.UseVisualStyleBackColor = false;
@@ -1918,14 +2013,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown20
 			// 
-			this.jgtNumericUpDown20.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown20.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown20.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown20.Name = "jgtNumericUpDown20";
-			this.jgtNumericUpDown20.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown20.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown20.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown20
 			// 
-			this.frameStepTimeNumericUpDown20.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown20.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown20.Name = "frameStepTimeNumericUpDown20";
 			this.frameStepTimeNumericUpDown20.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown20.TabIndex = 1;
@@ -1937,11 +2037,11 @@ namespace LightController.MyForm
 			this.mSkinButton20.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton20.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton20.DownBack = null;
-			this.mSkinButton20.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton20.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton20.MouseBack = null;
 			this.mSkinButton20.Name = "mSkinButton20";
 			this.mSkinButton20.NormlBack = null;
-			this.mSkinButton20.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton20.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton20.TabIndex = 0;
 			this.mSkinButton20.Text = "备用5";
 			this.mSkinButton20.UseVisualStyleBackColor = false;
@@ -1958,14 +2058,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown21
 			// 
-			this.jgtNumericUpDown21.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown21.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown21.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown21.Name = "jgtNumericUpDown21";
-			this.jgtNumericUpDown21.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown21.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown21.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown21
 			// 
-			this.frameStepTimeNumericUpDown21.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown21.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown21.Name = "frameStepTimeNumericUpDown21";
 			this.frameStepTimeNumericUpDown21.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown21.TabIndex = 1;
@@ -1977,11 +2082,11 @@ namespace LightController.MyForm
 			this.mSkinButton21.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton21.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton21.DownBack = null;
-			this.mSkinButton21.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton21.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton21.MouseBack = null;
 			this.mSkinButton21.Name = "mSkinButton21";
 			this.mSkinButton21.NormlBack = null;
-			this.mSkinButton21.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton21.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton21.TabIndex = 0;
 			this.mSkinButton21.Text = "备用6";
 			this.mSkinButton21.UseVisualStyleBackColor = false;
@@ -1998,14 +2103,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown22
 			// 
-			this.jgtNumericUpDown22.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown22.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown22.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown22.Name = "jgtNumericUpDown22";
-			this.jgtNumericUpDown22.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown22.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown22.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown22
 			// 
-			this.frameStepTimeNumericUpDown22.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown22.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown22.Name = "frameStepTimeNumericUpDown22";
 			this.frameStepTimeNumericUpDown22.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown22.TabIndex = 1;
@@ -2017,11 +2127,11 @@ namespace LightController.MyForm
 			this.mSkinButton22.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton22.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton22.DownBack = null;
-			this.mSkinButton22.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton22.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton22.MouseBack = null;
 			this.mSkinButton22.Name = "mSkinButton22";
 			this.mSkinButton22.NormlBack = null;
-			this.mSkinButton22.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton22.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton22.TabIndex = 0;
 			this.mSkinButton22.Text = "摇麦";
 			this.mSkinButton22.UseVisualStyleBackColor = false;
@@ -2038,14 +2148,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown23
 			// 
-			this.jgtNumericUpDown23.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown23.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown23.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown23.Name = "jgtNumericUpDown23";
-			this.jgtNumericUpDown23.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown23.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown23.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown23
 			// 
-			this.frameStepTimeNumericUpDown23.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown23.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown23.Name = "frameStepTimeNumericUpDown23";
 			this.frameStepTimeNumericUpDown23.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown23.TabIndex = 1;
@@ -2057,11 +2172,11 @@ namespace LightController.MyForm
 			this.mSkinButton23.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton23.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton23.DownBack = null;
-			this.mSkinButton23.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton23.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton23.MouseBack = null;
 			this.mSkinButton23.Name = "mSkinButton23";
 			this.mSkinButton23.NormlBack = null;
-			this.mSkinButton23.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton23.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton23.TabIndex = 0;
 			this.mSkinButton23.Text = "喝彩";
 			this.mSkinButton23.UseVisualStyleBackColor = false;
@@ -2078,14 +2193,19 @@ namespace LightController.MyForm
 			// 
 			// jgtNumericUpDown24
 			// 
-			this.jgtNumericUpDown24.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown24.Location = new System.Drawing.Point(4, 71);
+			this.jgtNumericUpDown24.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown24.Name = "jgtNumericUpDown24";
-			this.jgtNumericUpDown24.Size = new System.Drawing.Size(48, 21);
+			this.jgtNumericUpDown24.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown24.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown24
 			// 
-			this.frameStepTimeNumericUpDown24.Location = new System.Drawing.Point(9, 44);
+			this.frameStepTimeNumericUpDown24.Location = new System.Drawing.Point(7, 44);
 			this.frameStepTimeNumericUpDown24.Name = "frameStepTimeNumericUpDown24";
 			this.frameStepTimeNumericUpDown24.Size = new System.Drawing.Size(48, 21);
 			this.frameStepTimeNumericUpDown24.TabIndex = 1;
@@ -2097,11 +2217,11 @@ namespace LightController.MyForm
 			this.mSkinButton24.BorderColor = System.Drawing.Color.Transparent;
 			this.mSkinButton24.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mSkinButton24.DownBack = null;
-			this.mSkinButton24.Location = new System.Drawing.Point(9, 13);
+			this.mSkinButton24.Location = new System.Drawing.Point(6, 11);
 			this.mSkinButton24.MouseBack = null;
 			this.mSkinButton24.Name = "mSkinButton24";
 			this.mSkinButton24.NormlBack = null;
-			this.mSkinButton24.Size = new System.Drawing.Size(45, 25);
+			this.mSkinButton24.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton24.TabIndex = 0;
 			this.mSkinButton24.Text = "倒彩";
 			this.mSkinButton24.UseVisualStyleBackColor = false;

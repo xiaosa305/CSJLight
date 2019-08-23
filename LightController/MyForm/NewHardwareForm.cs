@@ -13,7 +13,7 @@ namespace LightController.MyForm
 	public partial class NewHardwareForm : Form
 	{
 		private HardwareSetForm hardwareSetForm;
-		private string directoryPath = @"C:\Temp\HardwareLibrary\";
+		private string hardwareLibraryPath = @"C:\Temp\HardwareLibrary\";
 
 		public NewHardwareForm(HardwareSetForm hardwareSetForm)
 		{
@@ -45,7 +45,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			directoryPath += hName;
+			string directoryPath = hardwareLibraryPath +  hName;
 			DirectoryInfo di = null;
 			try
 			{

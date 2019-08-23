@@ -13,7 +13,7 @@ namespace LightController.MyForm
 	public partial class OpenForm : Form
 	{
 		private MainFormInterface mainForm;
-		private string currentProjectName;  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
+		private string currentProjectName = "";  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
 		private bool isJustDelete = false;	// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除，
 
 		public OpenForm(MainFormInterface mainForm , string currentProjectName)
@@ -39,7 +39,7 @@ namespace LightController.MyForm
 
 
 		/// <summary>
-		///  选中node后，点击《打开》后的操作
+		///  事件：选中node后，点击《打开》后的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -70,7 +70,7 @@ namespace LightController.MyForm
 		
 
 		/// <summary>
-		/// 删除项目功能；后期可能不保留
+		/// 事件：点击《删除》；后期可能不保留
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -83,7 +83,7 @@ namespace LightController.MyForm
 				string projectName = treeView1.SelectedNode.Text;
 
 				// 8.21 验证是否当前项目，若是则不可删除
-				if (currentProjectName.Equals(projectName)) {
+				if (projectName.Equals(currentProjectName)) {
 					MessageBox.Show("无法删除正在使用的工程！");
 					return;
 				}

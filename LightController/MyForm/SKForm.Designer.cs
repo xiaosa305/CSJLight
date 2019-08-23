@@ -97,7 +97,7 @@
 			// frameLabel
 			// 
 			this.frameLabel.AutoSize = true;
-			this.frameLabel.Location = new System.Drawing.Point(7, 19);
+			this.frameLabel.Location = new System.Drawing.Point(9, 19);
 			this.frameLabel.Name = "frameLabel";
 			this.frameLabel.Size = new System.Drawing.Size(53, 12);
 			this.frameLabel.TabIndex = 2;
@@ -106,13 +106,18 @@
 			// jgtNumericUpDown
 			// 
 			this.jgtNumericUpDown.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
 			this.jgtNumericUpDown.Name = "jgtNumericUpDown";
-			this.jgtNumericUpDown.Size = new System.Drawing.Size(51, 21);
+			this.jgtNumericUpDown.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown.TabIndex = 1;
 			// 
 			// frameStepTimeNumericUpDown
 			// 
-			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(9, 43);
+			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(11, 43);
 			this.frameStepTimeNumericUpDown.Name = "frameStepTimeNumericUpDown";
 			this.frameStepTimeNumericUpDown.Size = new System.Drawing.Size(51, 21);
 			this.frameStepTimeNumericUpDown.TabIndex = 1;

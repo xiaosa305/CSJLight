@@ -416,8 +416,6 @@ namespace LightController.MyForm
 			ymSetForm.ShowDialog();
 		}
 
-
-
 		/// <summary>
 		///  事件：点击《退出应用》
 		/// </summary>
@@ -429,7 +427,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
 
 		#region 工程相关 及 初始化辅助方法
 
@@ -739,7 +736,7 @@ namespace LightController.MyForm
 
 					commonStepTimeNumericUpDown.Hide();
 					commonStepTimeSkinButton.Text = "修改此音频场景全局设置";
-					commonStepTimeSkinButton.Size = new System.Drawing.Size(200,27);
+					commonStepTimeSkinButton.Size = new System.Drawing.Size(210,27);
 
 					thirdLabel1.Hide();
 					thirdLabel2.Hide();

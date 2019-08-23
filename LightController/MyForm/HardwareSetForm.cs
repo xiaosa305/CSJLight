@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,6 +21,7 @@ namespace LightController.MyForm
 		private string iniPath;
 		private string hName;
 		private bool isNew = true;
+		private bool isSaved = false;
 
 		private ConnectTools cTools;
 		private SerialPortTools comTools;
@@ -27,7 +30,9 @@ namespace LightController.MyForm
 		private IList<string> selectedIPs;  //填充进去的ip列表，用以发送数据
 
 		private string[] comList; // 搜索到的除DMX512外的所有串口
-		private string selectedCom;  // 选中的com口
+		private string comName;  // 选中的串口名
+
+		private string localIP; //设置的本地IP
 
 		/// <summary>
 		/// 构造函数：初始化各个变量
@@ -37,60 +42,40 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			this.iniPath = iniPath;			
+			this.iniPath = iniPath;
+			skinTabControl.SelectedIndex = 0;
 
 			// 若iniPath 为空，则新建-》读取默认Hardware.ini，并载入到当前form中
 			if (String.IsNullOrEmpty(iniPath) ){
 				isNew = true;
+				isSaved = false;
 				iniPath = Application.StartupPath + @"\HardwareSet.ini";
 				this.Text = "硬件设置(未保存)";
 			}// 否则打开相应配置文件，并载入到当前form中
 			else {
 				isNew = false;
+				isSaved = true;
 				this.hName = hName;
 				this.Text = "硬件设置(" + hName + ")";
 			}
 			readIniFile(iniPath);
-		}
+		}		
 
 		/// <summary>
-		/// 辅助方法：读取配置文件
+		///  事件：窗口绘制时设初始地址
 		/// </summary>
-		/// <param name="iniPath"></param>
-		private void readIniFile(string iniPath)
-		{
-			IniFileAst iniFileAst = new IniFileAst(iniPath);
-
-			sumUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "SumUseTimes",0);
-			currUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "CurrUseTimes", 0);
-			diskFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "DiskFlag", 0);
-			deviceNameTextBox.Text = iniFileAst.ReadString("Common", "DeviceName", "");
-			addrNumericUpDown.Value = iniFileAst.ReadInt("Common", "Addr", 0);
-			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
-			heartbeatTextBox.Text = iniFileAst.ReadString("Common", "Heartbeat", "");
-			heartbeatCycleNumericUpDown.Value = iniFileAst.ReadInt("Common", "HeartbeatCycle", 0);
-			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 1);
-
-			linkModeComboBox.SelectedIndex = iniFileAst.ReadInt("Network", "LinkMode", 0);
-			linkPortTextBox.Text = iniFileAst.ReadString("Network", "LinkPort", "");
-			IPTextBox.Text = iniFileAst.ReadString("Network", "IP", "");
-			netmaskTextBox.Text = iniFileAst.ReadString("Network", "NetMask", "");
-			gatewayTextBox.Text = iniFileAst.ReadString("Network", "GateWay", "");
-			macTextBox.Text = iniFileAst.ReadString("Network", "Mac", "");
-
-			baudComboBox.SelectedIndex = iniFileAst.ReadInt("Other", "Baud", 0);
-			remoteHostTextBox.Text = iniFileAst.ReadString("Other", "RemoteHost", "");
-			remotePortTextBox.Text = iniFileAst.ReadString("Other", "RemotePort", "");
-			domainNameTextBox.Text = iniFileAst.ReadString("Other", "DomainName", "");
-			domainServerTextBox.Text = iniFileAst.ReadString("Other", "DomainServer", "");
-		}
-
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void HardwareSetForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			// 设false可在其他文件中修改本类的UI
+			Control.CheckForIllegalCrossThreadCalls = false;
 		}
 
+	
 
+		#region 几个通用方法：保存、取消(关闭窗口)等
 
 		/// <summary>
 		/// 事件：点击《保存》操作：
@@ -106,9 +91,10 @@ namespace LightController.MyForm
 				NewHardwareForm nhForm = new NewHardwareForm(this);
 				nhForm.ShowDialog();
 			}
-			else {
-				SaveAll(iniPath,hName);
-			}			
+			else
+			{
+				SaveAll(iniPath, hName);
+			}
 		}
 
 		/// <summary>
@@ -157,10 +143,11 @@ namespace LightController.MyForm
 
 			this.isNew = false;
 			this.Text = "硬件设置(" + hName + ")";
+			this.isSaved = true;
 
 			MessageBox.Show("成功保存");
 		}
-
+		
 		/// <summary>
 		/// 点击右上角关闭按钮
 		/// </summary>
@@ -172,6 +159,10 @@ namespace LightController.MyForm
 			mainForm.Activate();
 		}
 
+		#endregion
+
+
+		#region 几个输入监视器
 
 		/// <summary>
 		/// 辅助监听器：只能输入字母或数字及退格键的验证
@@ -228,6 +219,72 @@ namespace LightController.MyForm
 			}
 		}
 
+
+		/// <summary>
+		/// 事件(监视器)：处理NumericUpDown的Leave 事件，以恢复显示
+		/// -- 这种数字框，如果用户主动删除内容，则之后设value都不会显示，容易产生误导,
+		/// --	 其value不一定等于输入框中的数字！
+		/// -- 因为value绝对不为空，但输入框可能为空，则当输入框为空时，value会保留之前的Decimal值
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="e"></param>
+		private void numericUpDown_RecoverNum(object s, EventArgs e)
+		{
+			var n = (NumericUpDown)s;
+			if (n.Text == "")
+			{
+				n.Value = 0;
+				n.Text = "0";
+			}
+		}
+
+		#endregion
+
+
+		#region 网络相关读写
+
+		/// <summary>
+		///  事件：点击《获取本地IP列表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
+		{
+			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+			localIPsComboBox.Items.Clear();
+			foreach (IPAddress ip in ipe.AddressList)
+			{
+				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
+				{
+					localIPsComboBox.Items.Add(ip);
+				}
+			}
+			if (localIPsComboBox.Items.Count > 0)
+			{
+				localIPsComboBox.Enabled = true;
+				localIPsComboBox.SelectedIndex = 0;
+				setLocalIPSkinButton.Enabled = true;
+			}
+			else
+			{
+				localIPsComboBox.Enabled = false;
+				localIPsComboBox.SelectedIndex = -1;
+				setLocalIPSkinButton.Enabled = false;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《设置本地IP》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setLocalIPSkinButton_Click(object sender, EventArgs e)
+		{
+			localIP = localIPsComboBox.Text;
+			localIPLabel.Text = "本地IP:" + localIP;
+			networkSearchSkinButton.Enabled = true;
+		}
+			   
 		/// <summary>
 		/// 事件：点击《搜索网络连接》按钮
 		/// </summary>
@@ -235,14 +292,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkSearchSkinButton_Click(object sender, EventArgs e)
 		{
-
+			//搜索期间不可进行其他操作
 			networkSearchSkinButton.Enabled = false;
-			networkConnectSkinButton.Enabled = false;
+			networkChooseSkinButton.Enabled = false;
 			networkUploadSkinButton.Enabled = false;
 			networkDownloadSkinButton.Enabled = false;
 
 			cTools = ConnectTools.GetInstance();
-			cTools.Start(domainServerTextBox.Text);
+			cTools.Start(localIP);
 			cTools.SearchDevice();
 			Thread.Sleep(1000);
 
@@ -257,11 +314,15 @@ namespace LightController.MyForm
 					ips.Add(device.Key);
 				}
 				ipsComboBox.SelectedIndex = 0;
-				networkConnectSkinButton.Enabled = true;
+				ipsComboBox.Enabled = true;
+				networkChooseSkinButton.Enabled = true;
 			}
 			else {
 				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
+				ipsComboBox.SelectedIndex = -1;
+				ipsComboBox.Enabled = false;
 			}
+			//搜索完成后，再将按钮开放
 			networkSearchSkinButton.Enabled = true;
 		}
 
@@ -270,7 +331,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void networkConnectButton_Click(object sender, EventArgs e)
+		private void networkChoosetButton_Click(object sender, EventArgs e)
 		{
 			selectedIPs = new List<string>();
 			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);		
@@ -278,34 +339,53 @@ namespace LightController.MyForm
 			MessageBox.Show("已选中网络设备");
 
 			networkUploadSkinButton.Enabled = true;
-			networkDownloadSkinButton.Enabled = true;
+			networkDownloadSkinButton.Enabled = true;			
 		}
 
 		/// <summary>
-		/// 事件：点击《(网络)回读》按钮
+		/// 事件：点击《网络回读》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void uploadSkinButton_Click(object sender, EventArgs e)
 		{			
 			cTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(), SetParamFromDevice);
+			afterReadOrWrite();
 		}
-
-
+		
 		/// <summary>
-		///  事件：点击《(网络)下载》按钮
+		///  事件：点击《网络下载》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void networkDownloadButton_Click(object sender, EventArgs e)
 		{
-			// 此语句只发送《硬件配置》到选中的设备中
-			cTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+			if (isSaved)
+			{
+				// 此语句只发送《硬件配置》到选中的设备中
+				cTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+				afterReadOrWrite();
+			}
+			else {
+				MessageBox.Show("下载之前需先保存当前设置。");
+			}
+		}
 
-			// 以下语句是发送到所有连接到的设备（暂时不用）
-			//cTools.PutPara(new List<string>( ips , iniPath, new DownloadCallBackHardwareSet() );
-		}	
+		/// <summary>
+		/// 辅助方法：网络下载或回读不论成功失败，都会把所有按钮都设为不可用，应重新搜索网络设备才行
+		/// </summary>
+		private void afterReadOrWrite() {
+			ipsComboBox.Enabled = false;
+			networkChooseSkinButton.Enabled = false;
+			networkUploadSkinButton.Enabled = false;
+			networkDownloadSkinButton.Enabled = false;
+		}
+	
 
+		#endregion
+
+
+		#region  串口读写相关
 
 		/// <summary>
 		///  事件：点击《搜索串口连接》
@@ -315,6 +395,7 @@ namespace LightController.MyForm
 		private void comSearchSkinButton_Click(object sender, EventArgs e)
 		{
 			comSearchSkinButton.Enabled = false;
+			comComboBox.Enabled = false;
 			comConnectSkinButton.Enabled = false;
 			comUploadSkinButton.Enabled = false;
 			comDownloadSkinButton.Enabled = false;
@@ -328,12 +409,14 @@ namespace LightController.MyForm
 				{
 					comComboBox.Items.Add( com );
 				}
+				comComboBox.Enabled = true;
 				comComboBox.SelectedIndex = 0;				
 				comConnectSkinButton.Enabled = true;				
 			}
 			else
 			{
 				MessageBox.Show("未找到可用串口，请重试");
+				comComboBox.SelectedIndex = -1;
 			}
 			comSearchSkinButton.Enabled = true;
 		}
@@ -345,14 +428,15 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comConnectSkinButton_Click(object sender, EventArgs e)
 		{
-				comTools.OpenCom(comComboBox.Text);
+				comName = comComboBox.Text;
+				comTools.OpenCom(comName);
 				MessageBox.Show("已选中串口设备");
 				comUploadSkinButton.Enabled = true;
 				comDownloadSkinButton.Enabled = true;			
 		}
 
 		/// <summary>
-		/// 事件：点击《(串口)回读》按钮
+		/// 事件：点击《串口回读》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -362,7 +446,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《(串口)下载》按钮
+		/// 事件：点击《串口下载》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -371,37 +455,84 @@ namespace LightController.MyForm
 			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet());
 		}
 
+		#endregion
+
+
+		#region 几个通用辅助方法
+
+		/// <summary>
+		/// 辅助方法：读取配置文件
+		/// </summary>
+		/// <param name="iniPath"></param>
+		private void readIniFile(string iniPath)
+		{
+			IniFileAst iniFileAst = new IniFileAst(iniPath);
+
+			deviceNameTextBox.Text = iniFileAst.ReadString("Common", "DeviceName", "");
+			addrNumericUpDown.Value = iniFileAst.ReadInt("Common", "Addr", 0);
+			diskFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "DiskFlag", 0);
+			hardwareIDTextBox.Text = iniFileAst.ReadString("Common", "HardwareID", "");
+			sumUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "SumUseTimes", 0);
+			currUseTimeNumericUpDown.Value = iniFileAst.ReadInt("Common", "CurrUseTimes", 0);
+			heartbeatTextBox.Text = iniFileAst.ReadString("Common", "Heartbeat", "");
+			heartbeatCycleNumericUpDown.Value = iniFileAst.ReadInt("Common", "HeartbeatCycle", 0);
+			baudComboBox.SelectedIndex = iniFileAst.ReadInt("Other", "Baud", 0);
+			playFlagComboBox.SelectedIndex = iniFileAst.ReadInt("Common", "PlayFlag", 1);
+
+			linkModeComboBox.SelectedIndex = iniFileAst.ReadInt("Network", "LinkMode", 0);
+			IPTextBox.Text = iniFileAst.ReadString("Network", "IP", "");
+			linkPortTextBox.Text = iniFileAst.ReadString("Network", "LinkPort", "");
+			netmaskTextBox.Text = iniFileAst.ReadString("Network", "NetMask", "");
+			gatewayTextBox.Text = iniFileAst.ReadString("Network", "GateWay", "");
+			macTextBox.Text = iniFileAst.ReadString("Network", "Mac", "");
+
+			remoteHostTextBox.Text = iniFileAst.ReadString("Other", "RemoteHost", "");
+			remotePortTextBox.Text = iniFileAst.ReadString("Other", "RemotePort", "");
+			domainNameTextBox.Text = iniFileAst.ReadString("Other", "DomainName", "");
+			domainServerTextBox.Text = iniFileAst.ReadString("Other", "DomainServer", "");
+		}
+
 		/// <summary>
 		///  辅助方法：通过回读的CSJ_Hardware对象，来填充左侧的所有输入框。
 		/// </summary>
 		/// <param name="ch"></param>
 		public void SetParamFromDevice(CSJ_Hardware ch)
 		{
-			Console.WriteLine(ch);
-			Console.WriteLine("A");
+			try
+			{
+				deviceNameTextBox.Text = ch.DeviceName;
+				addrNumericUpDown.Value = ch.Addr;
+				diskFlagComboBox.SelectedIndex = ch.DiskFlag;
+				hardwareIDTextBox.Text = ch.HardWareID;
+				sumUseTimeNumericUpDown.Value = ch.SumUseTimes;
+				currUseTimeNumericUpDown.Value = ch.CurrUseTimes;
+				heartbeatTextBox.Text = Encoding.Default.GetString(ch.Heartbeat);
+				heartbeatCycleNumericUpDown.Value = ch.HeartbeatCycle;
+				baudComboBox.SelectedIndex = ch.Baud;
+				playFlagComboBox.SelectedIndex = ch.PlayFlag;
+
+				linkModeComboBox.SelectedIndex = ch.LinkMode;
+				IPTextBox.Text = ch.IP;
+				linkPortTextBox.Text = ch.LinkPort.ToString();
+				netmaskTextBox.Text = ch.NetMask;
+				gatewayTextBox.Text = ch.GateWay;
+				macTextBox.Text = ch.Mac;
+
+				remoteHostTextBox.Text = ch.RemoteHost;
+				remotePortTextBox.Text = ch.RemotePort.ToString();
+				domainNameTextBox.Text = ch.DomainName;
+				domainServerTextBox.Text = ch.DomainServer;
+
+				MessageBox.Show("回读成功");
+			}
+			catch (Exception ex) {
+				MessageBox.Show("回读失败:\n" + ex.Message);
+			}
 		}
 
-		/// <summary>
-		/// 事件：改变选中值后，应该将回传及下载按钮设为不可用
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			comDownloadSkinButton.Enabled = false;
-			comUploadSkinButton.Enabled = false;
-		}
+		#endregion
 
-		/// <summary>
-		/// 事件：改变选中值后，应该将回传及下载按钮设为不可用
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ipsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			networkDownloadSkinButton.Enabled = false;
-			networkUploadSkinButton.Enabled = false;
-		}
+
 	}
 
 	/// <summary>
@@ -427,12 +558,12 @@ namespace LightController.MyForm
 	{
 		public void SendCompleted(string ip, string order)
 		{
-			MessageBox.Show("上传成功");
+			MessageBox.Show("回读成功");
 		}
 
 		public void SendError(string ip, string order)
 		{
-			MessageBox.Show("上传失败");
+			MessageBox.Show("回读失败");
 		}
 	}
 

@@ -246,10 +246,21 @@ namespace LightController.Tools.CSJ.IMPL
                         //添加音频功能开启状态
                         for (int i = 0; i < 24; i++)
                         {
+                            //lineStr = Reader.ReadLine();
+                            //strValue = lineStr.Split('=')[1];
+                            //if (strValue.Length > 0)
+                            //{
+                            //    Music_Control_Enable.Add(1);
+                            //}
+                            //lineStr = Reader.ReadLine();
+                            //lineStr = Reader.ReadLine();
+
                             lineStr = Reader.ReadLine();
                             strValue = lineStr.Split('=')[1];
                             int.TryParse(strValue, out intValue);
+
                             Music_Control_Enable.Add(intValue);
+
                         }
                         CombineScene nullData = new CombineScene
                         {

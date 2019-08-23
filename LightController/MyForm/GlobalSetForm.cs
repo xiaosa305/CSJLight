@@ -136,7 +136,7 @@ namespace LightController.MyForm
 			//各个下拉框的默认值
 			qdFrameComboBox.SelectedIndex = 0;
 			zuheFrameComboBox.SelectedIndex = 0;
-			startupComboBox.SelectedIndex = 0;
+			startupComboBox.SelectedIndex = 1;
 			tongdaoCountComboBox.SelectedIndex = 0;
 			eachStepTimeNumericUpDown.Value = 30;
 			eachChangeModeComboBox.SelectedIndex = 0;
@@ -194,14 +194,14 @@ namespace LightController.MyForm
 			try
 			{
 				tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
-				startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 0);
+				startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 1);
 				int sjyz = iniAst.ReadInt("Set", "EachStepTime", 30);
 				eachStepTimeNumericUpDown.Value =  sjyz<30?30:sjyz;
 				eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode", 0);
 			}
 			catch (Exception) {
 				tongdaoCountComboBox.SelectedIndex = 0;
-				startupComboBox.SelectedIndex = 0;
+				startupComboBox.SelectedIndex = 1;
 				eachStepTimeNumericUpDown.Value =  30;
 				eachChangeModeComboBox.SelectedIndex = 0 ;
 			}

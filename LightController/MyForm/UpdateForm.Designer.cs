@@ -191,7 +191,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
+			this.skinTabControl.SelectedIndex = 1;
 			this.skinTabControl.Size = new System.Drawing.Size(576, 265);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 9;
@@ -282,13 +282,13 @@
 			this.setLocalIPSkinButton.UseVisualStyleBackColor = false;
 			this.setLocalIPSkinButton.Click += new System.EventHandler(this.setLocalIPSkinButton_Click);
 			// 
-			// localIPSComboBox
+			// localIPsComboBox
 			// 
 			this.localIPsComboBox.Enabled = false;
 			this.localIPsComboBox.FormattingEnabled = true;
 			this.localIPsComboBox.Location = new System.Drawing.Point(164, 37);
 			this.localIPsComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.localIPsComboBox.Name = "localIPSComboBox";
+			this.localIPsComboBox.Name = "localIPsComboBox";
 			this.localIPsComboBox.Size = new System.Drawing.Size(171, 20);
 			this.localIPsComboBox.TabIndex = 5;
 			// 
@@ -377,7 +377,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(123, 148);
+			this.label3.Location = new System.Drawing.Point(132, 146);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(0, 12);
@@ -427,7 +427,7 @@
 			// comCurrentFileLabel
 			// 
 			this.comCurrentFileLabel.AutoSize = true;
-			this.comCurrentFileLabel.Location = new System.Drawing.Point(34, 147);
+			this.comCurrentFileLabel.Location = new System.Drawing.Point(34, 146);
 			this.comCurrentFileLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.comCurrentFileLabel.Name = "comCurrentFileLabel";
 			this.comCurrentFileLabel.Size = new System.Drawing.Size(89, 12);

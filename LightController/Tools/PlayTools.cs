@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Timers;
 
 namespace LightController.Tools
 {
@@ -324,8 +325,30 @@ namespace LightController.Tools
         }
         private void MusicControlThreadStart()
         {
+            IsMusicControl = true;
+            DateTime time;
             MusicStep = StepList[MusicStepPoint];
-
+            for (int i = 1; i < MusicStep; i++)
+            {
+                time = System.DateTime.Now;
+                Thread.Sleep(TimeFactory * MusicStepTime);
+                Console.WriteLine("间隔时间为：===>" + System.DateTime.Now.Subtract(time).TotalMilliseconds);
+                for (int j = 0; j < M_ChanelPoint.Length; j++)
+                {
+                    M_ChanelPoint[j]++;
+                }
+            }
+            MusicStepPoint++;
+            if (MusicStepPoint == StepListCount)
+            {
+                MusicStepPoint = 0;
+            }
+            Timer.Interval = MusicIntervalTime;
+            Timer.AutoReset = false;
+            Timer.Elapsed += MusicWaitingHandl;
+            MusicControlThread = null;
+            Timer.Start();
+            MusicWaiting = true;
             if (false)
             {
                 System.Timers.Timer timer = new System.Timers.Timer();
@@ -360,7 +383,7 @@ namespace LightController.Tools
 
         }
 
-        private void MusicWaitingHandl()
+        private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
         {
             IsMusicControl = false;
         }

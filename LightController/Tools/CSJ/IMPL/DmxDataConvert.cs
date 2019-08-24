@@ -244,7 +244,16 @@ namespace LightController.Tools.CSJ.IMPL
                         for (int i = 0; i < 24; i++)
                         {
                             lineStr = reader.ReadLine();
-                            if (lineStr.StartsWith(sceneData.SceneNo.ToString()))
+                            string sceneNo = "";
+                            if (lineStr.Split('=')[0].Length > 3)
+                            {
+                                sceneNo = lineStr[0].ToString() + lineStr[1].ToString();
+                            }
+                            else
+                            {
+                                sceneNo = lineStr[0].ToString();
+                            }
+                            if (sceneNo.Equals(sceneData.SceneNo.ToString()))
                             {
                                 strValue = lineStr.Split('=')[1];
                                 for (int strIndex = 0; strIndex < strValue.Length; strIndex++)

@@ -45,7 +45,6 @@ namespace LightController.Tools.CSJ.IMPL
             for (int i = 0; i < StepListCount; i++)
             {
                 fileData.Add(Convert.ToByte(StepList[i]));
-
             }
             for (int i = StepListCount; i < 20; i++)
             {
@@ -58,7 +57,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 //转换通道编号为byte
                 byte[] chanelNo = new byte[2];
-                chanelNo[0] = (byte)(m_Data.ChannelNo & 0xFF);
+                chanelNo    [0] = (byte)(m_Data.ChannelNo & 0xFF);
                 chanelNo[1] = (byte)((m_Data.ChannelNo >> 8) & 0xFF);
                 //添加两字节通道编号
                 fileData.Add(chanelNo[0]);
@@ -97,6 +96,10 @@ namespace LightController.Tools.CSJ.IMPL
         {
             byte[] data = GetData();
             string path = filepath + @"\M" + (SceneNo + 1) + ".bin";
+            if (!Directory.Exists(filepath))
+            {
+                Directory.CreateDirectory(filepath);
+            }
             FileStream fileStream = new FileStream(path, FileMode.Create);
             fileStream.Write(data, 0, data.Length);
             fileStream.Close();

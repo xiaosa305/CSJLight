@@ -29,10 +29,10 @@ namespace LightController.Tools
                 case 1:
                     SerialPortTools.GetInstance().OpenCom("COM3");
                     SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_512);
-                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(), DownloadProgress);
+                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", new DownloadCallBack(), DownloadProgress);
                     break;
                 case 2:
-                    FileTools.GetInstance().ProjectToFile(DBWrapper, @"C:\Temp\LightProject\ConfigTest\global.ini", @"C:\Users\99729\Documents\Temp");
+                    FileTools.GetInstance().ProjectToFile(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", @"C:\Users\99729\Documents\Temp\Project1\project");
                     break;
                 case 3:
                     break;

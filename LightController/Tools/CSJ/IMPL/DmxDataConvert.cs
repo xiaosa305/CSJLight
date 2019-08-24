@@ -272,6 +272,7 @@ namespace LightController.Tools.CSJ.IMPL
                 }
             }
             file.StepList = stepList;
+            file.StepListCount = file.StepList.Count;
             foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
             {
                 ChannelData channelData = new ChannelData()

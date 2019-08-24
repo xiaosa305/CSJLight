@@ -185,7 +185,7 @@ namespace LightController.Tools
                             {
                                 ChannelData m_Data = m_Datas[i];
                                 M_ChanelId[i] = m_Data.ChannelNo;
-                                M_ChanelPoint[i] = 0;
+                                M_ChanelPoint[i] = -1;
                                 List<byte> data = new List<byte>();
                                 for (int j = 0; j < m_Data.DataSize; j++)
                                 {
@@ -294,51 +294,9 @@ namespace LightController.Tools
             {
                 Console.WriteLine(ex.Message);
             }
-
-            if (false)
-            {
-                try
-                {
-                    if (PreViewThread == null)
-                    {
-                        return;
-                    }
-                    if (MusicControlThread != null)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
-                        {
-                            IsBackground = true
-                        };
-                        MusicWaiting = false;
-                        Thread.Sleep(100);
-                        MusicControlThread.Start();
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
         }
         private void MusicControlThreadStart()
         {
-            IsMusicControl = true;
-            DateTime time;
-            MusicStep = StepList[MusicStepPoint];
-            for (int i = 1; i < MusicStep; i++)
-            {
-                time = System.DateTime.Now;
-                Thread.Sleep(TimeFactory * MusicStepTime);
-                Console.WriteLine("间隔时间为：===>" + System.DateTime.Now.Subtract(time).TotalMilliseconds);
-                for (int j = 0; j < M_ChanelPoint.Length; j++)
-                {
-                    M_ChanelPoint[j]++;
-                }
-            }
-            MusicStepPoint++;
             if (MusicStepPoint == StepListCount)
             {
                 MusicStepPoint = 0;
@@ -346,41 +304,19 @@ namespace LightController.Tools
             Timer.Interval = MusicIntervalTime;
             Timer.AutoReset = false;
             Timer.Elapsed += MusicWaitingHandl;
-            MusicControlThread = null;
+            MusicStep = StepList[MusicStepPoint++];
+            for (int i = 0; i < MusicStep; i++)
+            {
+                for (int j = 0; j < M_ChanelPoint.Length; j++)
+                {
+                    M_ChanelPoint[j]++;
+                }
+                IsMusicControl = true;
+                Thread.Sleep(TimeFactory * MusicStepTime);
+            }
             Timer.Start();
             MusicWaiting = true;
-            if (false)
-            {
-                System.Timers.Timer timer = new System.Timers.Timer();
-                MusicStep = StepList[MusicStepPoint];
-                for (int i = 1; i < MusicStep; i++)
-                {
-                    IsMusicControl = true;
-                    Thread.Sleep(TimeFactory * MusicStepTime);
-                    for (int j = 0; j < M_ChanelPoint.Length; j++)
-                    {
-                        M_ChanelPoint[j]++;
-                    }
-                }
-                MusicStepPoint++;
-                if (MusicStepPoint == StepListCount)
-                {
-                    MusicStepPoint = 0;
-                }
-                int waitingTime = MusicIntervalTime;
-                MusicWaiting = true;
-                for (int i = 0; i < Math.Ceiling(waitingTime / 2 * 1.0); i++)
-                {
-                    Thread.Sleep(1);
-                    if (!MusicWaiting)
-                    {
-                        break;
-                    }
-                }
-                IsMusicControl = false;
-                MusicControlThread = null;
-            }
-
+            MusicControlThread = null;
         }
 
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)

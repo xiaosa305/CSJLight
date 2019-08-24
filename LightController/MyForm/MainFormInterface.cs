@@ -57,7 +57,35 @@ namespace LightController.MyForm
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected IList<string> comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
-		
+
+		// 将所有场景名称写在此处,并供所有类使用
+		public static IList<string> allFrameList = new List<string>() {
+					"标准",
+					"动感",
+					"商务",
+					"抒情",
+					"清洁",
+					"柔和",
+					"激情",
+					"明亮",
+					"浪漫",
+					"演出",
+					"电影",
+					"备用1",
+					"备用2",
+					"备用3",
+					"备用4",
+					"备用5",
+					"备用6",
+					"暂停",
+					"全关",
+					"全开",
+					"全开关",
+					"摇麦",
+					"喝彩",
+					"倒彩"
+		};
+
 		// 几个virtual修饰的方法：主要供各种Form回调使用		
 
 		/// <summary>

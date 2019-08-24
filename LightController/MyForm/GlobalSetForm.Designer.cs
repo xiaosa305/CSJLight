@@ -1,14 +1,19 @@
 ﻿using CCWin.SkinControl;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
 	partial class GlobalSetForm
 	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+
+
+
+
+/// <summary>
+/// Required designer variable.
+/// </summary>
+private System.ComponentModel.IContainer components = null;
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -398,32 +403,11 @@ namespace LightController.MyForm
 			// startupComboBox
 			// 
 			this.startupComboBox.FormattingEnabled = true;
-			this.startupComboBox.Items.AddRange(new object[] {
-            "无",
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
+
+			this.startupComboBox.Items.Add("");
+		
+
+
 			this.startupComboBox.Location = new System.Drawing.Point(146, 103);
 			this.startupComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.startupComboBox.Name = "startupComboBox";
@@ -492,16 +476,7 @@ namespace LightController.MyForm
 			// zuheFrameComboBox
 			// 
 			this.zuheFrameComboBox.FormattingEnabled = true;
-			this.zuheFrameComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫"});
+			
 			this.zuheFrameComboBox.Location = new System.Drawing.Point(13, 26);
 			this.zuheFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheFrameComboBox.Name = "zuheFrameComboBox";
@@ -613,31 +588,7 @@ namespace LightController.MyForm
 			// frame4ComboBox
 			// 
 			this.frame4ComboBox.FormattingEnabled = true;
-			this.frame4ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
+			
 			this.frame4ComboBox.Location = new System.Drawing.Point(560, 46);
 			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4ComboBox.Name = "frame4ComboBox";
@@ -647,31 +598,7 @@ namespace LightController.MyForm
 			// frame3ComboBox
 			// 
 			this.frame3ComboBox.FormattingEnabled = true;
-			this.frame3ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
+			
 			this.frame3ComboBox.Location = new System.Drawing.Point(449, 46);
 			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3ComboBox.Name = "frame3ComboBox";
@@ -681,31 +608,7 @@ namespace LightController.MyForm
 			// frame2ComboBox
 			// 
 			this.frame2ComboBox.FormattingEnabled = true;
-			this.frame2ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
+			
 			this.frame2ComboBox.Location = new System.Drawing.Point(335, 46);
 			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2ComboBox.Name = "frame2ComboBox";
@@ -715,36 +618,14 @@ namespace LightController.MyForm
 			// frame1ComboBox
 			// 
 			this.frame1ComboBox.FormattingEnabled = true;
-			this.frame1ComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
+			
 			this.frame1ComboBox.Location = new System.Drawing.Point(221, 46);
 			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1ComboBox.Name = "frame1ComboBox";
 			this.frame1ComboBox.Size = new System.Drawing.Size(75, 20);
 			this.frame1ComboBox.TabIndex = 3;
+
+			
 			// 
 			// label9
 			// 
@@ -1025,31 +906,7 @@ namespace LightController.MyForm
 			// qdFrameComboBox
 			// 
 			this.qdFrameComboBox.FormattingEnabled = true;
-			this.qdFrameComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
+		
 			this.qdFrameComboBox.Location = new System.Drawing.Point(17, 26);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
@@ -1638,7 +1495,7 @@ namespace LightController.MyForm
 			this.mSkinButton11.NormlBack = null;
 			this.mSkinButton11.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton11.TabIndex = 0;
-			this.mSkinButton11.Text = "暂停";
+			this.mSkinButton11.Text = "电影";
 			this.mSkinButton11.UseVisualStyleBackColor = false;
 			// 
 			// panel10
@@ -1683,7 +1540,7 @@ namespace LightController.MyForm
 			this.mSkinButton12.NormlBack = null;
 			this.mSkinButton12.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton12.TabIndex = 0;
-			this.mSkinButton12.Text = "全关";
+			this.mSkinButton12.Text = "备用1";
 			this.mSkinButton12.UseVisualStyleBackColor = false;
 			// 
 			// panel6
@@ -1728,7 +1585,7 @@ namespace LightController.MyForm
 			this.mSkinButton13.NormlBack = null;
 			this.mSkinButton13.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton13.TabIndex = 0;
-			this.mSkinButton13.Text = "全开";
+			this.mSkinButton13.Text = "备用2";
 			this.mSkinButton13.UseVisualStyleBackColor = false;
 			// 
 			// panel5
@@ -1773,7 +1630,7 @@ namespace LightController.MyForm
 			this.mSkinButton14.NormlBack = null;
 			this.mSkinButton14.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton14.TabIndex = 0;
-			this.mSkinButton14.Text = "全开关";
+			this.mSkinButton14.Text = "备用3";
 			this.mSkinButton14.UseVisualStyleBackColor = false;
 			// 
 			// panel21
@@ -1818,7 +1675,7 @@ namespace LightController.MyForm
 			this.mSkinButton15.NormlBack = null;
 			this.mSkinButton15.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton15.TabIndex = 0;
-			this.mSkinButton15.Text = "电影";
+			this.mSkinButton15.Text = "备用4";
 			this.mSkinButton15.UseVisualStyleBackColor = false;
 			// 
 			// panel20
@@ -1863,7 +1720,7 @@ namespace LightController.MyForm
 			this.mSkinButton16.NormlBack = null;
 			this.mSkinButton16.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton16.TabIndex = 0;
-			this.mSkinButton16.Text = "备用1";
+			this.mSkinButton16.Text = "备用5";
 			this.mSkinButton16.UseVisualStyleBackColor = false;
 			// 
 			// panel19
@@ -1908,7 +1765,7 @@ namespace LightController.MyForm
 			this.mSkinButton17.NormlBack = null;
 			this.mSkinButton17.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton17.TabIndex = 0;
-			this.mSkinButton17.Text = "备用2";
+			this.mSkinButton17.Text = "备用6";
 			this.mSkinButton17.UseVisualStyleBackColor = false;
 			// 
 			// panel18
@@ -1953,7 +1810,7 @@ namespace LightController.MyForm
 			this.mSkinButton18.NormlBack = null;
 			this.mSkinButton18.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton18.TabIndex = 0;
-			this.mSkinButton18.Text = "备用3";
+			this.mSkinButton18.Text = "暂停";
 			this.mSkinButton18.UseVisualStyleBackColor = false;
 			// 
 			// panel17
@@ -1998,7 +1855,7 @@ namespace LightController.MyForm
 			this.mSkinButton19.NormlBack = null;
 			this.mSkinButton19.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton19.TabIndex = 0;
-			this.mSkinButton19.Text = "备用4";
+			this.mSkinButton19.Text = "全开";
 			this.mSkinButton19.UseVisualStyleBackColor = false;
 			// 
 			// panel16
@@ -2043,7 +1900,7 @@ namespace LightController.MyForm
 			this.mSkinButton20.NormlBack = null;
 			this.mSkinButton20.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton20.TabIndex = 0;
-			this.mSkinButton20.Text = "备用5";
+			this.mSkinButton20.Text = "全关";
 			this.mSkinButton20.UseVisualStyleBackColor = false;
 			// 
 			// panel15
@@ -2088,7 +1945,7 @@ namespace LightController.MyForm
 			this.mSkinButton21.NormlBack = null;
 			this.mSkinButton21.Size = new System.Drawing.Size(50, 25);
 			this.mSkinButton21.TabIndex = 0;
-			this.mSkinButton21.Text = "备用6";
+			this.mSkinButton21.Text = "全开关";
 			this.mSkinButton21.UseVisualStyleBackColor = false;
 			// 
 			// panel24

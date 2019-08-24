@@ -18,8 +18,7 @@ namespace LightController.MyForm
 {
 
 	public partial class SkinMainForm : MainFormInterface
-	{
-
+	{	
 
 		public SkinMainForm()
 		{
@@ -27,31 +26,11 @@ namespace LightController.MyForm
 
 			#region 初始化各种选项及容纳数组
 
-			frameSkinComboBox.Items.AddRange(new object[]
-			{       "标准",
-					"动感",
-					"商务",
-					"抒情",
-					"清洁",
-					"柔和",
-					"激情",
-					"明亮",
-					"浪漫",
-					"演出",
-					"暂停",
-					"全关",
-					"全开",
-					"全开关",
-					"电影",
-					"备用1",
-					"备用2",
-					"备用3",
-					"备用4",
-					"备用5",
-					"备用6",
-					"摇麦",
-					"喝彩",
-					"倒彩"});
+			foreach (string frame in allFrameList)
+			{
+				frameSkinComboBox.Items.Add(frame);
+			}
+			
 			frameSkinComboBox.SelectedIndex = 0;
 			modeSkinComboBox.Items.AddRange(new object[] {
 					"常规模式","音频模式"

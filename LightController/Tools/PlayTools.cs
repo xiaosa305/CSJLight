@@ -279,6 +279,10 @@ namespace LightController.Tools
                 {
                     return;
                 }
+                if (!MusicData)
+                {
+                    return;
+                }
                 if (MusicWaiting)
                 {
                     Timer.Stop();

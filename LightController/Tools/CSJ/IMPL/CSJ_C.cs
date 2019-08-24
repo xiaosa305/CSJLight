@@ -87,6 +87,10 @@ namespace LightController.Tools.CSJ.IMPL
         {
             byte[] data = GetData();
             string path = filepath + @"\C" + (SceneNo + 1) + ".bin";
+            if (!Directory.Exists(filepath))
+            {
+                Directory.CreateDirectory(filepath);
+            }
             FileStream fileStream = new FileStream(path, FileMode.Create);
             fileStream.Write(data, 0, data.Length);
             fileStream.Close();

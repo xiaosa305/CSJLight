@@ -32,7 +32,7 @@ namespace LightController.Tools
                     SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", new DownloadCallBack(), DownloadProgress);
                     break;
                 case 2:
-                    FileTools.GetInstance().ProjectToFile(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", @"C:\Users\99729\Documents\Temp");
+                    FileTools.GetInstance().ProjectToFile(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", @"C:\Users\99729\Documents\Temp\Project1\project");
                     break;
                 case 3:
                     break;

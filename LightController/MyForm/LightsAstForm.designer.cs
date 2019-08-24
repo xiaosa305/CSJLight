@@ -65,7 +65,7 @@
 			// 
 			this.enterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
 			this.enterButton.Location = new System.Drawing.Point(41, 134);
-			this.enterButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.enterButton.Margin = new System.Windows.Forms.Padding(2);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(70, 27);
 			this.enterButton.TabIndex = 2;
@@ -77,7 +77,7 @@
 			// 
 			this.cancelButton.BackColor = System.Drawing.SystemColors.Info;
 			this.cancelButton.Location = new System.Drawing.Point(157, 134);
-			this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 27);
 			this.cancelButton.TabIndex = 2;
@@ -88,7 +88,7 @@
 			// lightCountNumericUpDown
 			// 
 			this.lightCountNumericUpDown.Location = new System.Drawing.Point(133, 88);
-			this.lightCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.lightCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.lightCountNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -107,7 +107,7 @@
 			// startCountNumericUpDown
 			// 
 			this.startCountNumericUpDown.Location = new System.Drawing.Point(133, 55);
-			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
             0,
@@ -162,7 +162,8 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "LightsAstForm";
 			this.Text = "添加灯具选项";
 			this.Load += new System.EventHandler(this.LightsAstForm_Load);

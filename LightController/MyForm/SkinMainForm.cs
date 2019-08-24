@@ -535,11 +535,12 @@ namespace LightController.MyForm
 		}
 		
 		/// <summary>
-		///  辅助方法：《保存工程》Enabled设为传入bool值
+		///  辅助方法：《保存工程》《导出工程》enabled设为传入bool值
 		/// </summary>
 		protected override void enableSave(bool enable)
 		{
 			saveSkinButton.Enabled = enable;
+			exportSkinButton.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1985,12 +1986,26 @@ namespace LightController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 事件：点击《统一调整声控步时间》
+		///事件：点击《导出工程》按钮：将当前保存好的内容，导出到项目目录下
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mCommonStepTimeSkinButton_Click(object sender, EventArgs e)
+		private void exportSkinButton_Click(object sender, EventArgs e)
 		{
+			DialogResult dr = MessageBox.Show("导出会使用已保存的工程，确定现在导出吗？",
+				"导出工程",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Question);
+			if (dr == DialogResult.OK) {
+				DBWrapper dbWrapper = GetDBWrapper(true);
+				string savePath = @"C:\Temp\ExportDirectory\" + currentProjectName + @"\CSJ";
+
+				FileTools fileTools = FileTools.GetInstance();
+				fileTools.ProjectToFile(dbWrapper, globalIniFilePath, savePath);
+				
+				//导出成功后，打开文件夹
+				System.Diagnostics.Process.Start(savePath);
+			}
 
 		}
 	}

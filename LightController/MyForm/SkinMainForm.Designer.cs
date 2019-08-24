@@ -44,10 +44,10 @@ namespace LightController.MyForm
 			this.hardwareSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.ymSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinPanel2 = new CCWin.SkinControl.SkinPanel();
+			this.comSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.newSkinButton = new CCWin.SkinControl.SkinButton();
 			this.openSkinButton = new CCWin.SkinControl.SkinButton();
-			this.comSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.playSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.playPanel = new System.Windows.Forms.Panel();
 			this.connectSkinButton = new CCWin.SkinControl.SkinButton();
@@ -338,6 +338,7 @@ namespace LightController.MyForm
 			this.thirdLabel3 = new System.Windows.Forms.Label();
 			this.secondLabel3 = new System.Windows.Forms.Label();
 			this.firstLabel3 = new System.Windows.Forms.Label();
+			this.exportSkinButton = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel.SuspendLayout();
 			this.skinPanel2.SuspendLayout();
 			this.playSkinPanel.SuspendLayout();
@@ -763,6 +764,7 @@ namespace LightController.MyForm
 			this.skinPanel2.BorderColor = System.Drawing.Color.LightGray;
 			this.skinPanel2.Controls.Add(this.comSkinComboBox);
 			this.skinPanel2.Controls.Add(this.comOpenSkinButton);
+			this.skinPanel2.Controls.Add(this.exportSkinButton);
 			this.skinPanel2.Controls.Add(this.saveSkinButton);
 			this.skinPanel2.Controls.Add(this.newSkinButton);
 			this.skinPanel2.Controls.Add(this.openSkinButton);
@@ -775,6 +777,16 @@ namespace LightController.MyForm
 			this.skinPanel2.NormlBack = null;
 			this.skinPanel2.Size = new System.Drawing.Size(123, 611);
 			this.skinPanel2.TabIndex = 6;
+			// 
+			// comSkinComboBox
+			// 
+			this.comSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.comSkinComboBox.FormattingEnabled = true;
+			this.comSkinComboBox.Location = new System.Drawing.Point(3, 3);
+			this.comSkinComboBox.Name = "comSkinComboBox";
+			this.comSkinComboBox.Size = new System.Drawing.Size(117, 22);
+			this.comSkinComboBox.TabIndex = 0;
+			this.comSkinComboBox.WaterText = "";
 			// 
 			// saveSkinButton
 			// 
@@ -862,16 +874,6 @@ namespace LightController.MyForm
 			this.openSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.openSkinButton.UseVisualStyleBackColor = false;
 			this.openSkinButton.Click += new System.EventHandler(this.openSkinButton_Click);
-			// 
-			// comSkinComboBox
-			// 
-			this.comSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.comSkinComboBox.FormattingEnabled = true;
-			this.comSkinComboBox.Location = new System.Drawing.Point(3, 3);
-			this.comSkinComboBox.Name = "comSkinComboBox";
-			this.comSkinComboBox.Size = new System.Drawing.Size(117, 22);
-			this.comSkinComboBox.TabIndex = 0;
-			this.comSkinComboBox.WaterText = "";
 			// 
 			// playSkinPanel
 			// 
@@ -5274,6 +5276,36 @@ namespace LightController.MyForm
 			this.firstLabel3.TabIndex = 0;
 			this.firstLabel3.Text = "通道值";
 			// 
+			// exportSkinButton
+			// 
+			this.exportSkinButton.AutoSize = true;
+			this.exportSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.exportSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.exportSkinButton.BorderColor = System.Drawing.Color.White;
+			this.exportSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.exportSkinButton.DownBack = null;
+			this.exportSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.exportSkinButton.Enabled = false;
+			this.exportSkinButton.FadeGlow = false;
+			this.exportSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.exportSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.exportSkinButton.ForeColorSuit = true;
+			this.exportSkinButton.Image = global::LightController.Properties.Resources.打开工程;
+			this.exportSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.exportSkinButton.InheritColor = true;
+			this.exportSkinButton.IsDrawBorder = false;
+			this.exportSkinButton.Location = new System.Drawing.Point(11, 481);
+			this.exportSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.exportSkinButton.MouseBack = null;
+			this.exportSkinButton.Name = "exportSkinButton";
+			this.exportSkinButton.NormlBack = null;
+			this.exportSkinButton.Size = new System.Drawing.Size(102, 108);
+			this.exportSkinButton.TabIndex = 4;
+			this.exportSkinButton.Text = "导出工程";
+			this.exportSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.exportSkinButton.UseVisualStyleBackColor = false;
+			this.exportSkinButton.Click += new System.EventHandler(this.exportSkinButton_Click);
+			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -5809,5 +5841,6 @@ namespace LightController.MyForm
 		private Panel tdCommonPanel;
 		private SkinButton exitSkinButton;
 		private Panel playPanel;
+		private SkinButton exportSkinButton;
 	}
 }

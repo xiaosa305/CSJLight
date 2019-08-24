@@ -301,9 +301,7 @@ namespace LightController.Tools
             {
                 MusicStepPoint = 0;
             }
-            Timer.Interval = MusicIntervalTime;
-            Timer.AutoReset = false;
-            Timer.Elapsed += MusicWaitingHandl;
+            
             MusicStep = StepList[MusicStepPoint++];
             for (int i = 0; i < MusicStep; i++)
             {
@@ -314,9 +312,22 @@ namespace LightController.Tools
                 IsMusicControl = true;
                 Thread.Sleep(TimeFactory * MusicStepTime);
             }
-            Timer.Start();
-            MusicWaiting = true;
-            MusicControlThread = null;
+            if (MusicIntervalTime != 0)
+            {
+                Timer.Interval = MusicIntervalTime;
+                Timer.AutoReset = false;
+                Timer.Elapsed += MusicWaitingHandl;
+                Timer.Start();
+                MusicWaiting = true;
+                MusicControlThread = null;
+            }
+            else
+            {
+                IsMusicControl = false;
+                MusicWaiting = true;
+                MusicControlThread = null;
+            }
+
         }
 
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)

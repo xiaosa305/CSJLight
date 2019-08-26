@@ -255,11 +255,11 @@ namespace LightController
 			//动态加载可用的串口
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
-			if (comList.Count > 0)
+			if (comList.Length > 0)
 			{
-				foreach (string item in comList)
+				foreach (string com in comList)
 				{
-					comComboBox.Items.Add(item);
+					comComboBox.Items.Add(com);
 				}
 				comComboBox.SelectedIndex = 0;
 				comComboBox.Enabled = true;

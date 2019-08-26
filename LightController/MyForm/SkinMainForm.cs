@@ -276,17 +276,20 @@ namespace LightController.MyForm
 			modeSkinComboBox.SelectedIndex = 0;
 
 			// 动态加载可用的dmx512串口列表
-			//SerialPortTools comTools = SerialPortTools.GetInstance();
-			//comList = comTools.GetDMX512DeviceList();
-			//if (comList.Count > 0) {
-			//	foreach (string item in comList)
+			SerialPortTools comTools = SerialPortTools.GetInstance();
+			comList = comTools.GetDMX512DeviceList();
+			//if (comList != null && comList.Length > 0)
+			//{
+			//	MessageBox.Show(comList.Length.ToString());
+			//	foreach (string com in comList)
 			//	{
-			//		comSkinComboBox.Items.Add(item);
+			//		comSkinComboBox.Items.Add(com);
 			//	}
 			//	comSkinComboBox.SelectedIndex = 0;
 			//	comChooseSkinButton.Enabled = true;
-			//}		
-			//else {
+			//}
+			//else
+			//{
 			//	comSkinComboBox.SelectedIndex = -1;
 			//	comChooseSkinButton.Enabled = false;
 			//}
@@ -333,25 +336,7 @@ namespace LightController.MyForm
 		
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
-			// 动态加载可用的dmx512串口列表
-			SerialPortTools comTools = SerialPortTools.GetInstance();
-			comList = comTools.GetDMX512DeviceList();
-			
-			if ( comList != null && comList.Length > 0 )
-			{
-				MessageBox.Show(comList.Length.ToString());
-				foreach (string com in comList)
-				{
-					comSkinComboBox.Items.Add(com);
-				}
-				comSkinComboBox.SelectedIndex = 0;
-				comChooseSkinButton.Enabled = true;
-			}
-			else
-			{
-				comSkinComboBox.SelectedIndex = -1;
-				comChooseSkinButton.Enabled = false;
-			}
+
 		}
 
 		#region 各种工具按钮

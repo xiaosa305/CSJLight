@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace LightController.Tools
 {
-    class SerialPortTools:ICommunicator
+    class SerialPortTools : ICommunicator
     {
         private static SerialPortTools Instance { get; set; }
         private string PortName { get; set; }
@@ -110,38 +110,45 @@ namespace LightController.Tools
         }
         public string[] GetDMX512DeviceList()
         {
-            List<string> deviceNameList = new List<string>();
-            UInt32 deviceCount = 0;
-            FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-            FTDI dmx512Device = new FTDI();
-            status = dmx512Device.GetNumberOfDevices(ref deviceCount);
-            if (status == FTDI.FT_STATUS.FT_OK)
+            try
             {
-                if (deviceCount > 0)
+                List<string> deviceNameList = new List<string>();
+                UInt32 deviceCount = 0;
+                FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
+                FTDI dmx512Device = new FTDI();
+                status = dmx512Device.GetNumberOfDevices(ref deviceCount);
+                if (status == FTDI.FT_STATUS.FT_OK)
                 {
-                    FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-                    status = dmx512Device.GetDeviceList(deviceList);
-                    if (status == FTDI.FT_STATUS.FT_OK)
+                    if (deviceCount > 0)
                     {
-                        for (int i = 0; i < deviceList.Length; i++)
+                        FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+                        status = dmx512Device.GetDeviceList(deviceList);
+                        if (status == FTDI.FT_STATUS.FT_OK)
                         {
-                            status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
-                            if (status == FTDI.FT_STATUS.FT_OK)
+                            for (int i = 0; i < deviceList.Length; i++)
                             {
-                                string portName;
-                                dmx512Device.GetCOMPort(out portName);
-                                if (portName != null && portName != "")
+                                status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+                                if (status == FTDI.FT_STATUS.FT_OK)
                                 {
-                                    deviceNameList.Add(portName);
-                                    dmx512Device.Close();
+                                    string portName;
+                                    dmx512Device.GetCOMPort(out portName);
+                                    if (portName != null && portName != "")
+                                    {
+                                        deviceNameList.Add(portName);
+                                        dmx512Device.Close();
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                return deviceNameList.ToArray();
             }
-            return null;
-            return deviceNameList.ToArray();
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                return null;
+            }
         }
         private void SetSerialPort()
         {

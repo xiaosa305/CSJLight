@@ -337,12 +337,12 @@ namespace LightController.MyForm
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
 			
-			if ( comList!=null && comList.Count > 0 )
+			if ( comList != null && comList.Length > 0 )
 			{
-				MessageBox.Show(comList.Count.ToString());
-				foreach (string item in comList)
+				MessageBox.Show(comList.Length.ToString());
+				foreach (string com in comList)
 				{
-					comSkinComboBox.Items.Add(item);
+					comSkinComboBox.Items.Add(com);
 				}
 				comSkinComboBox.SelectedIndex = 0;
 				comChooseSkinButton.Enabled = true;

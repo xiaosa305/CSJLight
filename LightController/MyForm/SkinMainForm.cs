@@ -337,8 +337,9 @@ namespace LightController.MyForm
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
 			
-			if ( /*comList!=null && */ comList.Count > 0 )
+			if ( comList!=null && comList.Count > 0 )
 			{
+				MessageBox.Show(comList.Count.ToString());
 				foreach (string item in comList)
 				{
 					comSkinComboBox.Items.Add(item);

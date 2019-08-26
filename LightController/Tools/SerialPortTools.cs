@@ -113,29 +113,50 @@ namespace LightController.Tools
             try
             {
                 List<string> deviceNameList = new List<string>();
+                CSJLogs.GetInstance().DebugLog("1");
                 UInt32 deviceCount = 0;
+                CSJLogs.GetInstance().DebugLog("2");
+
                 FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
+                CSJLogs.GetInstance().DebugLog("3");
+
                 FTDI dmx512Device = new FTDI();
+                CSJLogs.GetInstance().DebugLog("4");
+
                 status = dmx512Device.GetNumberOfDevices(ref deviceCount);
+                CSJLogs.GetInstance().DebugLog("5");
+
                 if (status == FTDI.FT_STATUS.FT_OK)
                 {
                     if (deviceCount > 0)
                     {
                         FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+                        CSJLogs.GetInstance().DebugLog("6");
+
                         status = dmx512Device.GetDeviceList(deviceList);
+                        CSJLogs.GetInstance().DebugLog("7");
+
                         if (status == FTDI.FT_STATUS.FT_OK)
                         {
                             for (int i = 0; i < deviceList.Length; i++)
                             {
                                 status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+                                CSJLogs.GetInstance().DebugLog("8");
+
                                 if (status == FTDI.FT_STATUS.FT_OK)
                                 {
                                     string portName;
                                     dmx512Device.GetCOMPort(out portName);
+                                    CSJLogs.GetInstance().DebugLog("9");
+
                                     if (portName != null && portName != "")
                                     {
                                         deviceNameList.Add(portName);
+                                        CSJLogs.GetInstance().DebugLog("10");
+
                                         dmx512Device.Close();
+                                        CSJLogs.GetInstance().DebugLog("11");
+
                                     }
                                 }
                             }

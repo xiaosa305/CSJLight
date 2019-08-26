@@ -11,8 +11,12 @@ namespace LightController.Tools
         private static CSJLogs Instance { get; set; }
         private const string LogFilePath = @"C:\Temp\LightLog\CSJLOG.ini";
         private const string LogFileDirector = @"C:\Temp\LightLog";
+        private FileStream Stream { get; set; }
 
-        private CSJLogs() { }
+        private CSJLogs()
+        {
+            Stream = new FileStream(LogFilePath, FileMode.Append);
+        }
 
         public static CSJLogs GetInstance()
         {
@@ -25,7 +29,7 @@ namespace LightController.Tools
 
         public void ErrorLog(Exception ex)
         {
-            string message = ex.StackTrace + ":" + ex.Message + @"\r\n";
+            string message = ex.StackTrace + ":" + ex.Message + "\r\n";
             if (!Directory.Exists(LogFileDirector))
             {
                 Directory.CreateDirectory(LogFileDirector);
@@ -34,13 +38,8 @@ namespace LightController.Tools
             {
                 File.Create(LogFilePath);
             }
-            FileStream stream;
-            using (stream = new FileStream(LogFilePath, FileMode.Append))
-            {
-                byte[] data = Encoding.Default.GetBytes(@"[ERROR]:\\" + message);
-                stream.Write(data, 0, data.Length);
-                stream.Close();
-            }
+            byte[] data = Encoding.Default.GetBytes(@"[ERROR]:\\" + message);
+            Stream.Write(data, 0, data.Length);
         }
 
         public void DebugLog(string debugStr)
@@ -53,13 +52,8 @@ namespace LightController.Tools
             {
                 File.Create(LogFilePath);
             }
-            FileStream stream;
-            using (stream = new FileStream(LogFilePath, FileMode.Append))
-            {
-                byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:\\" + debugStr);
-                stream.Write(data, 0, data.Length);
-                stream.Close();
-            }
+            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:\\" + debugStr + "\r\n");
+            Stream.Write(data, 0, data.Length);
         }
     }
 }

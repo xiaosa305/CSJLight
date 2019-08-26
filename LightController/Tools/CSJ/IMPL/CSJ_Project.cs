@@ -19,6 +19,10 @@ namespace LightController.Tools.CSJ.IMPL
                 foreach (ICSJFile item in CFiles)
                 {
                     size += item.GetData().Length;
+                    if ((item as CSJ_C).SceneNo == Constant.SCENE_ALL_ON || (item as CSJ_C).SceneNo == Constant.SCENE_ALL_OFF)
+                    {
+                        size += item.GetData().Length;
+                    }
                 }
             }
             if (MFiles != null)
@@ -26,6 +30,10 @@ namespace LightController.Tools.CSJ.IMPL
                 foreach (ICSJFile item in MFiles)
                 {
                     size += item.GetData().Length;
+                    if ((item as CSJ_M).SceneNo == Constant.SCENE_ALL_ON || (item as CSJ_M).SceneNo == Constant.SCENE_ALL_OFF)
+                    {
+                        size += item.GetData().Length;
+                    }
                 }
             }
             if (ConfigFile != null)

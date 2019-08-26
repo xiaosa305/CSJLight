@@ -35,6 +35,20 @@ namespace LightController.Tools
                     FileTools.GetInstance().ProjectToFile(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", @"C:\Users\99729\Documents\Temp\Project1\project");
                     break;
                 case 3:
+                    string[] aa = new string[2];
+                    aa[0] = "1111";
+                    aa[1] = "2222";
+                    for (int i = 0; i < 2; i++)
+                    {
+                        try
+                        {
+                            string test = aa[2];
+                        }
+                        catch (Exception ex)
+                        {
+                            CSJLogs.GetInstance().ErrorLog(ex);
+                        }
+                    }
                     break;
                 case 4:
                     break;

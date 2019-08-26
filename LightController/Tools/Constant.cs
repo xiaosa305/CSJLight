@@ -49,7 +49,15 @@ namespace LightController.Tools
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";
         public const string MARK_DATA_END = "00000010";
-
+        public const int SCENE_BOOING = 23;
+        public const int SCENE_ACCLAIM = 22;
+        public const int SCENE_SHAKE_MIC = 21;
+        public const int SCENE_ALL_ON_AND_OFF = 20;
+        public const int SCENE_ALL_ON = 19;
+        public const int SCENE_ALL_OFF = 18;
+        public const int SCENE_PAUSE = 17;
+        public const int SCENE_ALL_ON_NO = 30;
+        public const int SCENE_ALL_OFF_NO = 29;
     }
 
     public enum ORDER

@@ -256,16 +256,22 @@ namespace LightController
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
 
-			//if (comList.Length > 0)
-			//{
-			//	foreach (string com in comList)
-			//	{
-			//		comComboBox.Items.Add(com);
-			//	}
-			//	comComboBox.SelectedIndex = 0;
-			//	comComboBox.Enabled = true;
-			//	chooseComButton.Enabled = true;
-			//}
+			if (comList!=null && comList.Length > 0)
+			{
+				foreach (string com in comList)
+				{
+					comComboBox.Items.Add(com);
+				}
+				comComboBox.SelectedIndex = 0;
+				comComboBox.Enabled = true;
+				chooseComButton.Enabled = true;
+			}
+			else {
+				comComboBox.SelectedIndex = -1;
+				comComboBox.Enabled = false;
+				chooseComButton.Enabled = false;
+			}
+
 
 			// 设置几个下拉框默认值
 			modeComboBox.SelectedIndex = 0;

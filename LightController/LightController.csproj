@@ -303,6 +303,7 @@
     <Compile Include="Tools\ConnectTools.cs" />
     <Compile Include="Tools\Constant.cs" />
     <Compile Include="Tools\CRCTools.cs" />
+    <Compile Include="Tools\CSJLogs.cs" />
     <Compile Include="Tools\CSJ\ICommunicator.cs" />
     <Compile Include="Tools\CSJ\ICSJFile.cs" />
     <Compile Include="Tools\CSJ\IMPL\ChannelData.cs" />

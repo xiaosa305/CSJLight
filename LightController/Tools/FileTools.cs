@@ -37,6 +37,16 @@ namespace LightController.Tools
                 foreach (ICSJFile file in project.CFiles)
                 {
                     file.WriteToFile(savePath);
+                    if ((file as CSJ_C).SceneNo ==Constant.SCENE_ALL_ON)
+                    {
+                        (file as CSJ_C).SceneNo = Constant.SCENE_ALL_ON_NO;
+                        file.WriteToFile(savePath);
+                    }
+                    else if ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_OFF)
+                    {
+                        (file as CSJ_C).SceneNo = Constant.SCENE_ALL_OFF_NO;
+                        file.WriteToFile(savePath);
+                    }
                 }
             }
             if (project.MFiles != null)
@@ -44,6 +54,16 @@ namespace LightController.Tools
                 foreach (ICSJFile file in project.MFiles)
                 {
                     file.WriteToFile(savePath);
+                    if ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON)
+                    {
+                        (file as CSJ_M).SceneNo = Constant.SCENE_ALL_ON_NO;
+                        file.WriteToFile(savePath);
+                    }
+                    else if ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_OFF)
+                    {
+                        (file as CSJ_M).SceneNo = Constant.SCENE_ALL_OFF_NO;
+                        file.WriteToFile(savePath);
+                    }
                 }
             }
             if (project.ConfigFile != null)

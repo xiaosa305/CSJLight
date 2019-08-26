@@ -15,6 +15,14 @@ namespace LightController.Tools
 
         private CSJLogs()
         {
+            if (!Directory.Exists(LogFileDirector))
+            {
+                Directory.CreateDirectory(LogFileDirector);
+            }
+            if (!File.Exists(LogFilePath))
+            {
+                File.Create(LogFilePath);
+            }
             Stream = new FileStream(LogFilePath, FileMode.Append);
         }
 
@@ -30,29 +38,13 @@ namespace LightController.Tools
         public void ErrorLog(Exception ex)
         {
             string message = ex.StackTrace + ":" + ex.Message + "\r\n";
-            if (!Directory.Exists(LogFileDirector))
-            {
-                Directory.CreateDirectory(LogFileDirector);
-            }
-            if (!File.Exists(LogFilePath))
-            {
-                File.Create(LogFilePath);
-            }
-            byte[] data = Encoding.Default.GetBytes(@"[ERROR]:\\" + message);
+            byte[] data = Encoding.Default.GetBytes(@"[ERROR]:" + message);
             Stream.Write(data, 0, data.Length);
         }
 
         public void DebugLog(string debugStr)
         {
-            if (!Directory.Exists(LogFileDirector))
-            {
-                Directory.CreateDirectory(LogFileDirector);
-            }
-            if (!File.Exists(LogFilePath))
-            {
-                File.Create(LogFilePath);
-            }
-            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:\\" + debugStr + "\r\n");
+            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:" + debugStr + "\r\n");
             Stream.Write(data, 0, data.Length);
         }
     }

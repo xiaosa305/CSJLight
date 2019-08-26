@@ -3113,31 +3113,7 @@ namespace LightController
 			// frameComboBox
 			// 
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Items.AddRange(new object[] {
-            "标准",
-            "动感",
-            "商务",
-            "抒情",
-            "清洁",
-            "柔和",
-            "激情",
-            "明亮",
-            "浪漫",
-            "演出",
-            "暂停",
-            "全关",
-            "全开",
-            "全开关",
-            "电影",
-            "备用1",
-            "备用2",
-            "备用3",
-            "备用4",
-            "备用5",
-            "备用6",
-            "摇麦",
-            "喝彩",
-            "倒彩"});
+			
 			this.frameComboBox.Location = new System.Drawing.Point(348, 18);
 			this.frameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frameComboBox.Name = "frameComboBox";

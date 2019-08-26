@@ -227,6 +227,7 @@
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label2);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "SkinLightsEditForm";
 			this.Text = "灯具修改";

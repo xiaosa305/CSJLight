@@ -227,6 +227,7 @@ namespace LightController
 			this.Controls.Add(this.lightsSkinListView);
 			this.Controls.Add(this.skinTreeView1);
 			this.Controls.Add(this.label1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

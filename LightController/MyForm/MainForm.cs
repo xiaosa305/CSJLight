@@ -69,9 +69,7 @@ namespace LightController
 			//TODO : 动态加载可用的串口
 			comComboBox.Items.AddRange(new object[] { "COM1","COM2" });
 
-			modeComboBox.SelectedIndex = 0;
-			frameComboBox.SelectedIndex = 0;
-			cmComboBox.SelectedIndex = 0; // 统一跳渐变ComboBox
+			
 
 			#region 将同类属性填入数组，方便操作
 
@@ -240,6 +238,11 @@ namespace LightController
 			this.changeModeComboBoxes[30] = changeModeComboBox31;
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
 
+			foreach (string frame in allFrameList)
+			{
+				this.frameComboBox.Items.Add(frame);
+			}
+
 			for (int i = 0; i < 32; i++) {
 				// 弃用此监听器：因为用鼠标拖动松开时，会额外多调节一些数值。=》改成使用valueChanged方法
 				//vScrollBars[i].Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll_old);
@@ -253,7 +256,11 @@ namespace LightController
 			}
 
 			#endregion
-			
+
+			modeComboBox.SelectedIndex = 0;
+			frameComboBox.SelectedIndex = 0;
+			cmComboBox.SelectedIndex = 0; // 统一跳渐变ComboBox
+
 			isInit = true;					
 
 		}

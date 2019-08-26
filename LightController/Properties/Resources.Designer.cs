@@ -83,6 +83,16 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap CSJ灯库工具 {
+            get {
+                object obj = ResourceManager.GetObject("CSJ灯库工具", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap CSJ灯控工具 {
             get {
                 object obj = ResourceManager.GetObject("CSJ灯控工具", resourceCulture);

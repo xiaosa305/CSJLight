@@ -1869,7 +1869,7 @@ namespace LightController.MyForm
 			// 
 			this.label21.AutoSize = true;
 			this.label21.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label21.Location = new System.Drawing.Point(718, 38);
+			this.label21.Location = new System.Drawing.Point(444, 174);
 			this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(37, 14);
@@ -1880,7 +1880,7 @@ namespace LightController.MyForm
 			// 
 			this.label32.AutoSize = true;
 			this.label32.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label32.Location = new System.Drawing.Point(499, 174);
+			this.label32.Location = new System.Drawing.Point(278, 174);
 			this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label32.Name = "label32";
 			this.label32.Size = new System.Drawing.Size(45, 14);
@@ -1902,7 +1902,7 @@ namespace LightController.MyForm
 			// 
 			this.label31.AutoSize = true;
 			this.label31.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label31.Location = new System.Drawing.Point(280, 174);
+			this.label31.Location = new System.Drawing.Point(711, 38);
 			this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label31.Name = "label31";
 			this.label31.Size = new System.Drawing.Size(45, 14);
@@ -1935,7 +1935,7 @@ namespace LightController.MyForm
 			// 
 			this.label20.AutoSize = true;
 			this.label20.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label20.Location = new System.Drawing.Point(663, 38);
+			this.label20.Location = new System.Drawing.Point(389, 174);
 			this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(37, 14);
@@ -1946,7 +1946,7 @@ namespace LightController.MyForm
 			// 
 			this.label29.AutoSize = true;
 			this.label29.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label29.Location = new System.Drawing.Point(444, 174);
+			this.label29.Location = new System.Drawing.Point(223, 174);
 			this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label29.Name = "label29";
 			this.label29.Size = new System.Drawing.Size(45, 14);
@@ -1968,7 +1968,7 @@ namespace LightController.MyForm
 			// 
 			this.label28.AutoSize = true;
 			this.label28.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label28.Location = new System.Drawing.Point(225, 174);
+			this.label28.Location = new System.Drawing.Point(656, 38);
 			this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label28.Name = "label28";
 			this.label28.Size = new System.Drawing.Size(37, 14);
@@ -2012,7 +2012,7 @@ namespace LightController.MyForm
 			// 
 			this.label26.AutoSize = true;
 			this.label26.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label26.Location = new System.Drawing.Point(389, 174);
+			this.label26.Location = new System.Drawing.Point(171, 174);
 			this.label26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label26.Name = "label26";
 			this.label26.Size = new System.Drawing.Size(45, 14);
@@ -2034,7 +2034,7 @@ namespace LightController.MyForm
 			// 
 			this.label25.AutoSize = true;
 			this.label25.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label25.Location = new System.Drawing.Point(170, 174);
+			this.label25.Location = new System.Drawing.Point(546, 174);
 			this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(52, 14);
@@ -2056,7 +2056,7 @@ namespace LightController.MyForm
 			// 
 			this.label24.AutoSize = true;
 			this.label24.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label24.Location = new System.Drawing.Point(554, 174);
+			this.label24.Location = new System.Drawing.Point(333, 174);
 			this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(45, 14);
@@ -2078,7 +2078,7 @@ namespace LightController.MyForm
 			// 
 			this.label23.AutoSize = true;
 			this.label23.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label23.Location = new System.Drawing.Point(334, 174);
+			this.label23.Location = new System.Drawing.Point(116, 174);
 			this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(45, 14);
@@ -2100,7 +2100,7 @@ namespace LightController.MyForm
 			// 
 			this.label22.AutoSize = true;
 			this.label22.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label22.Location = new System.Drawing.Point(116, 174);
+			this.label22.Location = new System.Drawing.Point(496, 174);
 			this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(37, 14);

@@ -17,9 +17,9 @@ namespace LightController.MyForm
 		private string iniFilePath;
 		private IniFileAst iniAst ;
 		private bool isInit = false;
-		private int frameIndex = -1;
+		private int frameIndex = -1;			
 
-		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
+public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 
 			this.mainForm = mainForm;
 			this.iniFilePath = iniFilePath;
@@ -133,10 +133,31 @@ namespace LightController.MyForm
 			//this.frameMethodComboBoxes[2] = frame3methodComboBox;
 			//this.frameMethodComboBoxes[3] = frame4methodComboBox;
 
+			// 将所有的场景加入到《开机启动场景》及《强电选择框》中
+			foreach (string frame in MainFormInterface.allFrameList)
+			{
+				qdFrameComboBox.Items.Add(frame);
+				startupComboBox.Items.Add(frame);
+			}
+			// 组合播放只有前面9种场景可以用。
+			for (int i = 0; i < 9; i++)
+			{
+				zuheFrameComboBox.Items.Add(MainFormInterface.allFrameList[i]);
+			}
+			// 组合播放可调用的子场景--》目前全部可用
+			for (int i = 0; i < 24; i++)
+			{
+				frame1ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
+				frame2ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
+				frame3ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
+				frame4ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
+			}
+
+
 			//各个下拉框的默认值
 			qdFrameComboBox.SelectedIndex = 0;
-			zuheFrameComboBox.SelectedIndex = 0;
-			startupComboBox.SelectedIndex = 1;
+			zuheFrameComboBox.SelectedIndex = 0; 
+			startupComboBox.SelectedIndex = 1; // 开机启动默认设为标准，但用户也可以选择不设置开机场景
 			tongdaoCountComboBox.SelectedIndex = 0;
 			eachStepTimeNumericUpDown.Value = 30;
 			eachChangeModeComboBox.SelectedIndex = 0;
@@ -152,8 +173,10 @@ namespace LightController.MyForm
 				this.mSkinButtons[i].Click += new System.EventHandler(this.mSkinButton_Click);
 			}
 
-			
+
 			#endregion
+
+			
 
 			// 初始化iniAst
 			iniAst = new IniFileAst(iniFilePath);

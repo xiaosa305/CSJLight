@@ -706,6 +706,10 @@
     <None Include="Resources\KTV中央控制器.ico" />
     <None Include="Resources\灯光控制器.ico" />
     <None Include="Resources\墙板工具.ico" />
+    <None Include="Resources\Bar控制条.png" />
+    <None Include="Resources\Bar椭圆 1.png" />
+    <None Include="Resources\Bar圆角矩形 4.png" />
+    <None Include="Resources\CSJ灯库工具.bmp" />
     <Content Include="Source\CSkin.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -23,9 +23,6 @@ namespace LightController
 		public NewForm(MainFormInterface mainForm)
 		{
 			this.mainForm = mainForm;
-			
-
-
 			InitializeComponent();
 		}
 

@@ -18,8 +18,7 @@ namespace LightController.MyForm
 {
 
 	public partial class SkinMainForm : MainFormInterface
-	{
-
+	{	
 
 		public SkinMainForm()
 		{
@@ -27,31 +26,11 @@ namespace LightController.MyForm
 
 			#region 初始化各种选项及容纳数组
 
-			frameSkinComboBox.Items.AddRange(new object[]
-			{       "标准",
-					"动感",
-					"商务",
-					"抒情",
-					"清洁",
-					"柔和",
-					"激情",
-					"明亮",
-					"浪漫",
-					"演出",
-					"暂停",
-					"全关",
-					"全开",
-					"全开关",
-					"电影",
-					"备用1",
-					"备用2",
-					"备用3",
-					"备用4",
-					"备用5",
-					"备用6",
-					"摇麦",
-					"喝彩",
-					"倒彩"});
+			foreach (string frame in allFrameList)
+			{
+				frameSkinComboBox.Items.Add(frame);
+			}
+			
 			frameSkinComboBox.SelectedIndex = 0;
 			modeSkinComboBox.Items.AddRange(new object[] {
 					"常规模式","音频模式"
@@ -556,11 +535,12 @@ namespace LightController.MyForm
 		}
 		
 		/// <summary>
-		///  辅助方法：《保存工程》Enabled设为传入bool值
+		///  辅助方法：《保存工程》《导出工程》enabled设为传入bool值
 		/// </summary>
 		protected override void enableSave(bool enable)
 		{
 			saveSkinButton.Enabled = enable;
+			exportSkinButton.Enabled = enable;
 		}
 
 		/// <summary>
@@ -2006,12 +1986,26 @@ namespace LightController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 事件：点击《统一调整声控步时间》
+		///事件：点击《导出工程》按钮：将当前保存好的内容，导出到项目目录下
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mCommonStepTimeSkinButton_Click(object sender, EventArgs e)
+		private void exportSkinButton_Click(object sender, EventArgs e)
 		{
+			DialogResult dr = MessageBox.Show("导出会使用已保存的工程，确定现在导出吗？",
+				"导出工程",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Question);
+			if (dr == DialogResult.OK) {
+				DBWrapper dbWrapper = GetDBWrapper(true);
+				string savePath = @"C:\Temp\ExportDirectory\" + currentProjectName + @"\CSJ";
+
+				FileTools fileTools = FileTools.GetInstance();
+				fileTools.ProjectToFile(dbWrapper, globalIniFilePath, savePath);
+				
+				//导出成功后，打开文件夹
+				System.Diagnostics.Process.Start(savePath);
+			}
 
 		}
 	}

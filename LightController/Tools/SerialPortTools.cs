@@ -140,7 +140,6 @@ namespace LightController.Tools
                     }
                 }
             }
-            return null;
             return deviceNameList.ToArray();
         }
         private void SetSerialPort()

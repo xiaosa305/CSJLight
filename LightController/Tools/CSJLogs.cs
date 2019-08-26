@@ -34,10 +34,13 @@ namespace LightController.Tools
             {
                 File.Create(LogFilePath);
             }
-            FileStream stream = new FileStream(LogFilePath, FileMode.Append);
-            byte[] data = Encoding.Default.GetBytes(@"[ERROR]:\\" + message);
-            stream.Write(data, 0, data.Length);
-            stream.Close();
+            FileStream stream;
+            using (stream = new FileStream(LogFilePath, FileMode.Append))
+            {
+                byte[] data = Encoding.Default.GetBytes(@"[ERROR]:\\" + message);
+                stream.Write(data, 0, data.Length);
+                stream.Close();
+            }
         }
 
         public void DebugLog(string debugStr)
@@ -50,10 +53,13 @@ namespace LightController.Tools
             {
                 File.Create(LogFilePath);
             }
-            FileStream stream = new FileStream(LogFilePath, FileMode.Append);
-            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:\\" + debugStr);
-            stream.Write(data, 0, data.Length);
-            stream.Close();
+            FileStream stream;
+            using (stream = new FileStream(LogFilePath, FileMode.Append))
+            {
+                byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:\\" + debugStr);
+                stream.Write(data, 0, data.Length);
+                stream.Close();
+            }
         }
     }
 }

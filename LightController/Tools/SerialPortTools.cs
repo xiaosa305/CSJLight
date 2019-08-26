@@ -112,7 +112,6 @@ namespace LightController.Tools
         {
             try
             {
-                CSJLogs.GetInstance().DebugLog("aaaaaa");
                 List<string> deviceNameList = new List<string>();
                 UInt32 deviceCount = 0;
                 FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;

@@ -296,7 +296,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
         private void MusicControlThreadStart()
@@ -349,33 +349,40 @@ namespace LightController.Tools
         }
         private void PreViewThreadStart()
         {
-            PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-            while (true)
+            try
             {
-                if (!IsPausePlay)
+                PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                while (true)
                 {
-                    for (int i = 0; i < C_ChanelCount; i++)
+                    if (!IsPausePlay)
                     {
-                        if (C_ChanelPoint[i] == C_ChanelData[i].Length)
+                        for (int i = 0; i < C_ChanelCount; i++)
                         {
-                            C_ChanelPoint[i] = 0;
-                        }
-                        PlayData[C_ChanelId[i] - 1] = C_ChanelData[i][C_ChanelPoint[i]++];
-                    }
-                    if (IsMusicControl)
-                    {
-                        for (int i = 0; i < M_ChanelCount; i++)
-                        {
-                            if (M_ChanelPoint[i] == M_ChanelData[i].Length)
+                            if (C_ChanelPoint[i] == C_ChanelData[i].Length)
                             {
-                                M_ChanelPoint[i] = 0;
+                                C_ChanelPoint[i] = 0;
                             }
-                            PlayData[M_ChanelId[i] - 1] = M_ChanelData[i][M_ChanelPoint[i]];
+                            PlayData[C_ChanelId[i] - 1] = C_ChanelData[i][C_ChanelPoint[i]++];
+                        }
+                        if (IsMusicControl)
+                        {
+                            for (int i = 0; i < M_ChanelCount; i++)
+                            {
+                                if (M_ChanelPoint[i] == M_ChanelData[i].Length)
+                                {
+                                    M_ChanelPoint[i] = 0;
+                                }
+                                PlayData[M_ChanelId[i] - 1] = M_ChanelData[i][M_ChanelPoint[i]];
+                            }
                         }
                     }
+                    Play();
+                    Thread.Sleep(TimeFactory - 21);
                 }
-                Play();
-                Thread.Sleep(TimeFactory - 21);
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
         private void Play()
@@ -400,6 +407,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 EndView();
             }
         }

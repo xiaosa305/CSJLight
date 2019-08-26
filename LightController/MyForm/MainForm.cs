@@ -64,12 +64,7 @@ namespace LightController
 			{
 				MessageBox.Show(ex.Message);
 			}
-			#endregion
-
-			//TODO : 动态加载可用的串口
-			comComboBox.Items.AddRange(new object[] { "COM1","COM2" });
-
-			
+			#endregion		
 
 			#region 将同类属性填入数组，方便操作
 
@@ -257,6 +252,21 @@ namespace LightController
 
 			#endregion
 
+			//动态加载可用的串口
+			SerialPortTools comTools = SerialPortTools.GetInstance();
+			comList = comTools.GetDMX512DeviceList();
+			if (comList.Count > 0)
+			{
+				foreach (string item in comList)
+				{
+					comComboBox.Items.Add(item);
+				}
+				comComboBox.SelectedIndex = 0;
+				comComboBox.Enabled = true;
+				chooseComButton.Enabled = true;
+			}
+
+			// 设置几个下拉框默认值
 			modeComboBox.SelectedIndex = 0;
 			frameComboBox.SelectedIndex = 0;
 			cmComboBox.SelectedIndex = 0; // 统一跳渐变ComboBox
@@ -405,25 +415,22 @@ namespace LightController
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void openCOMbutton_Click(object sender, EventArgs e)
+		private void chooseCombutton_Click(object sender, EventArgs e)
 		{
-			//TODO：打开串口，并将剩下几个按钮设成enable
-			newFileButton.Enabled = true;
-			openFileButton.Enabled = true;			
+			playTools = PlayTools.GetInstance();
+			comName = comComboBox.Text;
+			if (!comName.Trim().Equals(""))
+			{
+				connectButton.Show();
+			}
+			else
+			{
+				MessageBox.Show("未选中可用串口");
+			}
+			connectButton.Enabled = true;
 		}
 
-		/// <summary>
-		///  当COM下拉框选择内容后，按钮才可使用
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (comComboBox.SelectedItem.ToString() != "")
-			{
-				openComButton.Enabled = true;
-			}
-		}
+
 
 		/// <summary>
 		///  彻底退出应用，结束所有线程
@@ -1622,18 +1629,18 @@ namespace LightController
 		{
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if ( !isConnect )
-			{				
-				playTools = PlayTools.GetInstance();
-				//playTools.ConnectDevice();
+			{
+				playTools.ConnectDevice(comName);
 				setDMX512TestButtonsEnable(true);
+				chooseComButton.Enabled = false;
 				connectButton.Text = "断开连接";
 				isConnect = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
-			{				
-				playTools.EndView();
-				playTools = null ;
+			{
+				playTools.CloseDevice();
 				setDMX512TestButtonsEnable(false);
+				chooseComButton.Enabled = true;
 				connectButton.Text = "连接设备";
 				isConnect = false;
 			}

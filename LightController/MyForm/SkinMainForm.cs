@@ -24,18 +24,7 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 
-			#region 初始化各种选项及容纳数组
-
-			foreach (string frame in allFrameList)
-			{
-				frameSkinComboBox.Items.Add(frame);
-			}
-			
-			frameSkinComboBox.SelectedIndex = 0;
-			modeSkinComboBox.Items.AddRange(new object[] {
-					"常规模式","音频模式"
-			});
-			modeSkinComboBox.SelectedIndex = 0;
+			#region 初始化各种辅助数组
 
 			tdPanels[0] = tdPanel1;
 			tdPanels[1] = tdPanel2;
@@ -268,11 +257,43 @@ namespace LightController.MyForm
 			tdStepTimeNumericUpDowns[30] = tdStepTimeNumericUpDown31;
 			tdStepTimeNumericUpDowns[31] = tdStepTimeNumericUpDown32;
 
+
+
 			#endregion
 
-			modeSkinComboBox.SelectedIndex = 0;
+			#region 几个下拉框的初始化及赋值
+			// 场景选项框
+			foreach (string frame in allFrameList)
+			{
+				frameSkinComboBox.Items.Add(frame);
+			}
 			frameSkinComboBox.SelectedIndex = 0;
 
+			//模式选项框
+			modeSkinComboBox.Items.AddRange(new object[] {
+					"常规模式","音频模式"
+			});
+			modeSkinComboBox.SelectedIndex = 0;
+
+			// 动态加载可用的dmx512串口列表
+			//SerialPortTools comTools = SerialPortTools.GetInstance();
+			//comList = comTools.GetDMX512DeviceList();
+			//if (comList.Count > 0) {
+			//	foreach (string item in comList)
+			//	{
+			//		comSkinComboBox.Items.Add(item);
+			//	}
+			//	comSkinComboBox.SelectedIndex = 0;
+			//	comChooseSkinButton.Enabled = true;
+			//}		
+			//else {
+			//	comSkinComboBox.SelectedIndex = -1;
+			//	comChooseSkinButton.Enabled = false;
+			//}
+
+			#endregion
+
+			#region 各类监听器
 			for (int i = 0; i < 32; i++) {
 
 				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
@@ -305,23 +326,31 @@ namespace LightController.MyForm
 			commonStepTimeNumericUpDown.MouseEnter += new EventHandler(this.commonStepTimeNumericUpDown_MouseEnter);
 			commonStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
 
+			#endregion			
+
+			isInit = true;
+		}		
+		
+		private void NewMainForm_Load(object sender, EventArgs e)
+		{
 			// 动态加载可用的dmx512串口列表
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
-			if (comList.Count > 0) {
+			
+			if ( /*comList!=null && */ comList.Count > 0 )
+			{
 				foreach (string item in comList)
 				{
 					comSkinComboBox.Items.Add(item);
 				}
 				comSkinComboBox.SelectedIndex = 0;
-				comOpenSkinButton.Enabled = true;
-			}		
-		
-			isInit = true;
-		}		
-		
-		private void NewMainForm_Load(object sender, EventArgs e)
-		{		
+				comChooseSkinButton.Enabled = true;
+			}
+			else
+			{
+				comSkinComboBox.SelectedIndex = -1;
+				comChooseSkinButton.Enabled = false;
+			}
 		}
 
 		#region 各种工具按钮
@@ -410,11 +439,11 @@ namespace LightController.MyForm
 		#region 工程相关 及 初始化辅助方法
 
 		/// <summary>
-		///  事件：点击《打开串口》
+		///  事件：点击《选择调试串口》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void comOpenSkinButton_Click(object sender, EventArgs e)
+		private void comChooseSkinButton_Click(object sender, EventArgs e)
 		{
 			playTools = PlayTools.GetInstance();
 			comName = comSkinComboBox.Text;
@@ -1869,7 +1898,7 @@ namespace LightController.MyForm
 				showViewButtons(true);
 
 				playTools.ConnectDevice(comName);
-				comOpenSkinButton.Enabled = false;
+				comChooseSkinButton.Enabled = false;
 				isConnect = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
@@ -1881,7 +1910,7 @@ namespace LightController.MyForm
 				playTools.CloseDevice();
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				comOpenSkinButton.Enabled = true;
+				comChooseSkinButton.Enabled = true;
 				isConnect = false;
 			}
 		}

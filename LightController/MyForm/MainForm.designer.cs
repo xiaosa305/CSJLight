@@ -34,7 +34,7 @@ namespace LightController
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.comComboBox = new System.Windows.Forms.ComboBox();
-			this.openComButton = new System.Windows.Forms.Button();
+			this.chooseComButton = new System.Windows.Forms.Button();
 			this.newFileButton = new System.Windows.Forms.Button();
 			this.openFileButton = new System.Windows.Forms.Button();
 			this.saveButton = new System.Windows.Forms.Button();
@@ -349,29 +349,27 @@ namespace LightController
 			// 
 			this.comComboBox.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(14, 34);
+			this.comComboBox.Location = new System.Drawing.Point(762, 47);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(90, 24);
+			this.comComboBox.Size = new System.Drawing.Size(89, 24);
 			this.comComboBox.TabIndex = 0;
-			this.comComboBox.SelectedIndexChanged += new System.EventHandler(this.comComboBox_SelectedIndexChanged);
 			// 
-			// openComButton
+			// chooseComButton
 			// 
-			this.openComButton.Enabled = false;
-			this.openComButton.Location = new System.Drawing.Point(14, 66);
-			this.openComButton.Margin = new System.Windows.Forms.Padding(2);
-			this.openComButton.Name = "openComButton";
-			this.openComButton.Size = new System.Drawing.Size(89, 26);
-			this.openComButton.TabIndex = 1;
-			this.openComButton.Text = "打开串口";
-			this.openComButton.UseVisualStyleBackColor = true;
-			this.openComButton.Click += new System.EventHandler(this.openCOMbutton_Click);
+			this.chooseComButton.Enabled = false;
+			this.chooseComButton.Location = new System.Drawing.Point(762, 73);
+			this.chooseComButton.Margin = new System.Windows.Forms.Padding(2);
+			this.chooseComButton.Name = "chooseComButton";
+			this.chooseComButton.Size = new System.Drawing.Size(89, 26);
+			this.chooseComButton.TabIndex = 1;
+			this.chooseComButton.Text = "选择串口";
+			this.chooseComButton.UseVisualStyleBackColor = true;
+			this.chooseComButton.Click += new System.EventHandler(this.chooseCombutton_Click);
 			// 
 			// newFileButton
 			// 
-			this.newFileButton.Enabled = false;
-			this.newFileButton.Location = new System.Drawing.Point(415, 46);
+			this.newFileButton.Location = new System.Drawing.Point(11, 41);
 			this.newFileButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newFileButton.Name = "newFileButton";
 			this.newFileButton.Size = new System.Drawing.Size(69, 52);
@@ -382,8 +380,7 @@ namespace LightController
 			// 
 			// openFileButton
 			// 
-			this.openFileButton.Enabled = false;
-			this.openFileButton.Location = new System.Drawing.Point(494, 46);
+			this.openFileButton.Location = new System.Drawing.Point(90, 41);
 			this.openFileButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openFileButton.Name = "openFileButton";
 			this.openFileButton.Size = new System.Drawing.Size(69, 52);
@@ -395,7 +392,7 @@ namespace LightController
 			// saveButton
 			// 
 			this.saveButton.Enabled = false;
-			this.saveButton.Location = new System.Drawing.Point(574, 46);
+			this.saveButton.Location = new System.Drawing.Point(170, 41);
 			this.saveButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(69, 52);
@@ -407,7 +404,7 @@ namespace LightController
 			// saveAsButton
 			// 
 			this.saveAsButton.Enabled = false;
-			this.saveAsButton.Location = new System.Drawing.Point(653, 46);
+			this.saveAsButton.Location = new System.Drawing.Point(249, 41);
 			this.saveAsButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveAsButton.Name = "saveAsButton";
 			this.saveAsButton.Size = new System.Drawing.Size(69, 52);
@@ -3113,7 +3110,6 @@ namespace LightController
 			// frameComboBox
 			// 
 			this.frameComboBox.FormattingEnabled = true;
-			
 			this.frameComboBox.Location = new System.Drawing.Point(348, 18);
 			this.frameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frameComboBox.Name = "frameComboBox";
@@ -3352,6 +3348,7 @@ namespace LightController
 			this.connectButton.TabIndex = 5;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = false;
+			this.connectButton.Visible = false;
 			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// testGroupBox
@@ -3361,7 +3358,7 @@ namespace LightController
 			this.testGroupBox.Controls.Add(this.test3Button);
 			this.testGroupBox.Controls.Add(this.test2Button);
 			this.testGroupBox.Controls.Add(this.test1Button);
-			this.testGroupBox.Location = new System.Drawing.Point(159, 34);
+			this.testGroupBox.Location = new System.Drawing.Point(429, 36);
 			this.testGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.testGroupBox.Name = "testGroupBox";
 			this.testGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -3439,7 +3436,7 @@ namespace LightController
 			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.openFileButton);
 			this.Controls.Add(this.newFileButton);
-			this.Controls.Add(this.openComButton);
+			this.Controls.Add(this.chooseComButton);
 			this.Controls.Add(this.comComboBox);
 			this.Controls.Add(this.stopReviewButton);
 			this.Controls.Add(this.oneLightStepButton);
@@ -3541,7 +3538,7 @@ namespace LightController
 		#endregion
 
 		private System.Windows.Forms.ComboBox comComboBox;
-		private System.Windows.Forms.Button openComButton;
+		private System.Windows.Forms.Button chooseComButton;
 		private System.Windows.Forms.Button newFileButton;
 		private System.Windows.Forms.Button openFileButton;
 		private System.Windows.Forms.Button saveButton;

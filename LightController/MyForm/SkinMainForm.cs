@@ -322,7 +322,7 @@ namespace LightController.MyForm
 			// 动态加载可用的dmx512串口列表
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
-
+ 
 			//if (comList != null && comList.Length > 0)
 			//{
 			//	MessageBox.Show(comList.Length.ToString());

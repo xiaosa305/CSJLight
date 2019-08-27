@@ -256,16 +256,22 @@ namespace LightController
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
 
-			//if (comList.Length > 0)
-			//{
-			//	foreach (string com in comList)
-			//	{
-			//		comComboBox.Items.Add(com);
-			//	}
-			//	comComboBox.SelectedIndex = 0;
-			//	comComboBox.Enabled = true;
-			//	chooseComButton.Enabled = true;
-			//}
+			if (comList!=null && comList.Length > 0)
+			{
+				foreach (string com in comList)
+				{
+					comComboBox.Items.Add(com);
+				}
+				comComboBox.SelectedIndex = 0;
+				comComboBox.Enabled = true;
+				chooseComButton.Enabled = true;
+			}
+			else {
+				comComboBox.SelectedIndex = -1;
+				comComboBox.Enabled = false;
+				chooseComButton.Enabled = false;
+			}
+
 
 			// 设置几个下拉框默认值
 			modeComboBox.SelectedIndex = 0;
@@ -687,7 +693,7 @@ namespace LightController
 		
 		/// <summary>
 		/// 点击《追加步》的操作：在最后步后插入新步
-		/// TODO: 修改：应该获取当前最大步的数据，然后用这个步数据填充新的步，而非当前步
+		/// 修改：应该获取当前最大步的数据，然后用这个步数据填充新的步，而非当前步
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

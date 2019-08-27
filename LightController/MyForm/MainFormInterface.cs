@@ -121,7 +121,6 @@ namespace LightController.MyForm
 			}
 		}
 		public virtual void OpenProject(string projectName) {	}
-
 		public virtual void AddLightAstList(IList<LightAst> lightAstList2) {
 
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
@@ -157,8 +156,6 @@ namespace LightController.MyForm
 		protected virtual void enableGlobalSet(bool enable) { }
 		protected virtual void enableSave(bool enable) { }
 
-
-
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据
 		/// </summary>
@@ -174,7 +171,6 @@ namespace LightController.MyForm
 			selectedLightIndex = -1;
 		}
 
-
 		/// <summary>
 		/// 辅助方法：使用lightList来生成一个新的lightAstList
 		/// </summary>
@@ -189,7 +185,6 @@ namespace LightController.MyForm
 			}
 			return lightAstList;
 		}
-
 
 		/// <summary>
 		///  辅助方法：由dbFilePath，获取lightList
@@ -323,7 +318,6 @@ namespace LightController.MyForm
 			// 由内存几个实时的List实时生成
 			else
 			{
-				// TODO 8.17修改
 				// BUG:此处的实际上是上次保存后的数据，这种情况下和 dbGetter.getAll() 没任何区别！
 				// -->修改方法：先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 

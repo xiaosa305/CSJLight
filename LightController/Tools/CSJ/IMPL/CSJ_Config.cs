@@ -50,17 +50,17 @@ namespace LightController.Tools.CSJ.IMPL
             switch (DMX512_Chanel_Count)
             {
                 case 0:
-                    Chanel_Count = 128;
+                    Chanel_Count = 512;
                     break;
                 case 1:
-                    Chanel_Count = 256;
+                    Chanel_Count = 384;
                     break;
                 case 2:
-                    Chanel_Count = 384;
+                    Chanel_Count = 256;
                     break;
                 case 3:
                 default:
-                    Chanel_Count = 512;
+                    Chanel_Count = 128;
                     break;
             }
             data.Add(Convert.ToByte(Chanel_Count & 0xFF));
@@ -290,7 +290,7 @@ namespace LightController.Tools.CSJ.IMPL
                             };
                             LightInfos.Add(config_Light);
                         }
-
+                        Light_Total_Count = LightInfos.Count;
                     }
                 }
             }

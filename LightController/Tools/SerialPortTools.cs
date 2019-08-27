@@ -25,20 +25,28 @@ namespace LightController.Tools
 
         private SerialPortTools()
         {
-            this.ComDevice = new SerialPort();
-            this.InitParameters();
-            this.SetDefaultSerialPort();
-            this.RxBuff = new List<byte>();
-            this.PackageSize = Constant.PACKAGE_SIZE_DEFAULT;
-            this.Addr = Constant.UDPADDR;
-            this.ResendCount = 0;
-            this.TimeOutThread = new Thread(new ThreadStart(this.TimeOut))
+            try
             {
-                IsBackground = true
-            };
-            this.ComDevice.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
-            this.ComDevice.WriteBufferSize = this.PackageSize + 8;
-            this.TimeOutThread.Start();
+                this.ComDevice = new SerialPort();
+                this.InitParameters();
+                this.SetDefaultSerialPort();
+                this.RxBuff = new List<byte>();
+                this.PackageSize = Constant.PACKAGE_SIZE_DEFAULT;
+                this.Addr = Constant.UDPADDR;
+                this.ResendCount = 0;
+                this.TimeOutThread = new Thread(new ThreadStart(this.TimeOut))
+                {
+                    IsBackground = true
+                };
+                this.ComDevice.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
+                this.ComDevice.WriteBufferSize = this.PackageSize + 8;
+                this.TimeOutThread.Start();
+                CSJLogs.GetInstance().DebugLog("Init Completed");
+            }
+            catch (Exception)
+            {
+                CSJLogs.GetInstance().DebugLog("Init Error");
+            }
         }
         public static SerialPortTools GetInstance()
         {
@@ -50,11 +58,18 @@ namespace LightController.Tools
         }
         private void SetDefaultSerialPort()
         {
-            this.PortName = this.GetSerialPortNameList()[0];
-            this.BaudRate = 115200;
-            this.StopBits = StopBits.One;
-            this.Parity = Parity.None;
-            this.DataBits = 8;
+            try
+            {
+                this.BaudRate = 115200;
+                this.StopBits = StopBits.One;
+                this.Parity = Parity.None;
+                this.DataBits = 8;
+                CSJLogs.GetInstance().DebugLog("SetDefaultSerialPort Completed");
+            }
+            catch (Exception)
+            {
+                CSJLogs.GetInstance().DebugLog("SetDefaultSerialPort Error");
+            }
         }
         public string[] GetSerialPortNameList()
         {
@@ -113,50 +128,29 @@ namespace LightController.Tools
             try
             {
                 List<string> deviceNameList = new List<string>();
-                CSJLogs.GetInstance().DebugLog("1");
                 UInt32 deviceCount = 0;
-                CSJLogs.GetInstance().DebugLog("2");
-
                 FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-                CSJLogs.GetInstance().DebugLog("3");
-
                 FTDI dmx512Device = new FTDI();
-                CSJLogs.GetInstance().DebugLog("4");
-
                 status = dmx512Device.GetNumberOfDevices(ref deviceCount);
-                CSJLogs.GetInstance().DebugLog("5");
-
                 if (status == FTDI.FT_STATUS.FT_OK)
                 {
                     if (deviceCount > 0)
                     {
                         FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-                        CSJLogs.GetInstance().DebugLog("6");
-
                         status = dmx512Device.GetDeviceList(deviceList);
-                        CSJLogs.GetInstance().DebugLog("7");
-
                         if (status == FTDI.FT_STATUS.FT_OK)
                         {
                             for (int i = 0; i < deviceList.Length; i++)
                             {
                                 status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
-                                CSJLogs.GetInstance().DebugLog("8");
-
                                 if (status == FTDI.FT_STATUS.FT_OK)
                                 {
                                     string portName;
                                     dmx512Device.GetCOMPort(out portName);
-                                    CSJLogs.GetInstance().DebugLog("9");
-
                                     if (portName != null && portName != "")
                                     {
                                         deviceNameList.Add(portName);
-                                        CSJLogs.GetInstance().DebugLog("10");
-
                                         dmx512Device.Close();
-                                        CSJLogs.GetInstance().DebugLog("11");
-
                                     }
                                 }
                             }

@@ -73,6 +73,8 @@ namespace LightController.Tools
         }
         public string[] GetSerialPortNameList()
         {
+            try
+            {
             string[] ports = SerialPort.GetPortNames();
             bool flag;
             List<string> dmx512names = new List<string>();
@@ -121,7 +123,13 @@ namespace LightController.Tools
                     result.Add(ports[i]);
                 }
             }
-            return result.ToArray();
+                return result.ToArray();
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                return null;
+            }
         }
         public string[] GetDMX512DeviceList()
         {
@@ -182,7 +190,7 @@ namespace LightController.Tools
             }
             SetSerialPort();
             ComDevice.Open();
-            Console.WriteLine("串口" + PortName + "已打开");
+            CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
             return ComDevice.IsOpen;
         }
         protected override void Send(byte[] txBuff)

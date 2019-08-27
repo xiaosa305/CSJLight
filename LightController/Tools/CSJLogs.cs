@@ -38,13 +38,13 @@ namespace LightController.Tools
         public void ErrorLog(Exception ex)
         {
             string message = ex.StackTrace + ":" + ex.Message + "\r\n";
-            byte[] data = Encoding.Default.GetBytes(@"[ERROR]:" + message);
+            byte[] data = Encoding.Default.GetBytes(@"[ERROR]:" + DateTime.Now + message);
             Stream.Write(data, 0, data.Length);
         }
 
         public void DebugLog(string debugStr)
         {
-            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:" + debugStr + "\r\n");
+            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:" + DateTime.Now + debugStr + "\r\n");
             Stream.Write(data, 0, data.Length);
         }
     }

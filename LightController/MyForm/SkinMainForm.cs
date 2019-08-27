@@ -317,6 +317,7 @@ namespace LightController.MyForm
 			isInit = true;
 		}		
 		
+
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 动态加载可用的dmx512串口列表
@@ -325,8 +326,7 @@ namespace LightController.MyForm
 			comList = comTools.GetDMX512DeviceList();
 
 			if (comList != null && comList.Length > 0)
-			{
-				MessageBox.Show(comList.Length.ToString());
+			{				
 				foreach (string com in comList)
 				{
 					comSkinComboBox.Items.Add(com);

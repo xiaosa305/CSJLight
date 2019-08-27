@@ -58,10 +58,18 @@ namespace LightController.Tools
         }
         private void SetDefaultSerialPort()
         {
-            this.BaudRate = 115200;
-            this.StopBits = StopBits.One;
-            this.Parity = Parity.None;
-            this.DataBits = 8;
+            try
+            {
+                this.BaudRate = 115200;
+                this.StopBits = StopBits.One;
+                this.Parity = Parity.None;
+                this.DataBits = 8;
+                CSJLogs.GetInstance().DebugLog("SetDefaultSerialPort Completed");
+            }
+            catch (Exception)
+            {
+                CSJLogs.GetInstance().DebugLog("SetDefaultSerialPort Error");
+            }
         }
         public string[] GetSerialPortNameList()
         {

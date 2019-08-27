@@ -121,7 +121,6 @@ namespace LightController.MyForm
 			}
 		}
 		public virtual void OpenProject(string projectName) {	}
-
 		public virtual void AddLightAstList(IList<LightAst> lightAstList2) {
 
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
@@ -157,8 +156,6 @@ namespace LightController.MyForm
 		protected virtual void enableGlobalSet(bool enable) { }
 		protected virtual void enableSave(bool enable) { }
 
-
-
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据
 		/// </summary>
@@ -174,7 +171,6 @@ namespace LightController.MyForm
 			selectedLightIndex = -1;
 		}
 
-
 		/// <summary>
 		/// 辅助方法：使用lightList来生成一个新的lightAstList
 		/// </summary>
@@ -189,7 +185,6 @@ namespace LightController.MyForm
 			}
 			return lightAstList;
 		}
-
 
 		/// <summary>
 		///  辅助方法：由dbFilePath，获取lightList

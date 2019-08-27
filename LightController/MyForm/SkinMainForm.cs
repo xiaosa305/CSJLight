@@ -317,11 +317,12 @@ namespace LightController.MyForm
 			isInit = true;
 		}		
 		
-		private void NewMainForm_Load(object sender, EventArgs e)
+		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 动态加载可用的dmx512串口列表
+			CSJLogs.GetInstance().DebugLog("随便写");
 			SerialPortTools comTools = SerialPortTools.GetInstance();
-			comList = comTools.GetDMX512DeviceList();
+			//comList = comTools.GetDMX512DeviceList();
  
 			//if (comList != null && comList.Length > 0)
 			//{

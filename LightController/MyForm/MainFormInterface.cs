@@ -318,7 +318,6 @@ namespace LightController.MyForm
 			// 由内存几个实时的List实时生成
 			else
 			{
-				// TODO 8.17修改
 				// BUG:此处的实际上是上次保存后的数据，这种情况下和 dbGetter.getAll() 没任何区别！
 				// -->修改方法：先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 

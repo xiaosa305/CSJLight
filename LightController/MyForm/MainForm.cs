@@ -693,7 +693,7 @@ namespace LightController
 		
 		/// <summary>
 		/// 点击《追加步》的操作：在最后步后插入新步
-		/// TODO: 修改：应该获取当前最大步的数据，然后用这个步数据填充新的步，而非当前步
+		/// 修改：应该获取当前最大步的数据，然后用这个步数据填充新的步，而非当前步
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

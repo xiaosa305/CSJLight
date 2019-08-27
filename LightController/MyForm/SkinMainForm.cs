@@ -323,22 +323,22 @@ namespace LightController.MyForm
 			CSJLogs.GetInstance().DebugLog("随便写");
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
- 
-			//if (comList != null && comList.Length > 0)
-			//{
-			//	MessageBox.Show(comList.Length.ToString());
-			//	foreach (string com in comList)
-			//	{
-			//		comSkinComboBox.Items.Add(com);
-			//	}
-			//	comSkinComboBox.SelectedIndex = 0;
-			//	comChooseSkinButton.Enabled = true;
-			//}
-			//else
-			//{
-			//	comSkinComboBox.SelectedIndex = -1;
-			//	comChooseSkinButton.Enabled = false;
-			//}
+
+			if (comList != null && comList.Length > 0)
+			{
+				MessageBox.Show(comList.Length.ToString());
+				foreach (string com in comList)
+				{
+					comSkinComboBox.Items.Add(com);
+				}
+				comSkinComboBox.SelectedIndex = 0;
+				comChooseSkinButton.Enabled = true;
+			}
+			else
+			{
+				comSkinComboBox.SelectedIndex = -1;
+				comChooseSkinButton.Enabled = false;
+			}
 		}
 
 		#region 各种工具按钮
@@ -658,7 +658,6 @@ namespace LightController.MyForm
 		{
 			LightAst lightAst = lightAstList[selectedLightIndex];
 
-			//TODO 
 			// 1.在右侧灯具信息内显示选中灯具相关信息
 			try
 			{

@@ -402,7 +402,7 @@ namespace LightController.MyForm
 		///  获取当前灯具的StepMode，用于还未生成步数时调用
 		/// </summary>
 		/// <returns></returns>
-		protected StepWrapper getCurrentStepMode()
+		protected StepWrapper getCurrentStepTemplate()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
 			if (light != null)
@@ -645,8 +645,100 @@ namespace LightController.MyForm
 		/// <param name="method"></param>
 		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, MaterialUseForm.InsertMethod method)
 		{
-			
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			int totalStep = lsWrapper.TotalStep;
+			int currentStep = lsWrapper.CurrentStep;
+			int addStepCount = materialAst.Step;
+
+			// 选择《插入》时的操作：后插法（往当前步后加数据）
+			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
+			if (method == MaterialUseForm.InsertMethod.INSERT || totalStep == 0)
+			{
+				int finalStep = totalStep + addStepCount;
+				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
+				{
+					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
+					return;
+				}
+				StepWrapper stepTemplate = getCurrentStepTemplate();
+				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepTemplate.TongdaoList);
+				if (sameTDIndexList.Count == 0)
+				{
+					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+					return;
+				}
+				else
+				{
+					StepWrapper newStep = null;
+					for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
+					{
+						newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
+						// 改造下newStep,将素材值赋给newStep 
+						changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
+						// 使用后插法：避免当前无数据的情况下调用素材失败
+						lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
+					}
+					chooseStep(finalStep);
+				}
+			}
+			// 选择覆盖时的操作：后插法
+			//（当前步也要被覆盖，除非没有当前步-》totalStep == currentStep == 0）
+			else
+			{
+				int finalStep = (currentStep - 1) + addStepCount;// finalStep为覆盖后最后一步的序列，而非所有步的数量
+
+				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
+				{
+					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用；可选择其他位置覆盖");
+					return;
+				}
+
+				StepWrapper stepTemplate = getCurrentStepTemplate();
+				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepTemplate.TongdaoList);
+				if (sameTDIndexList.Count == 0)
+				{
+					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+					return;
+				}
+
+				//覆盖的核心逻辑：
+				// 方法1：先找出已有的数据改造之；若没有则添加。实现比较复杂，需考虑多方面情况，不采用。
+				// 方法2：①比对 finalStep（currentStep+addStepCount)  和 totalStep值，
+				//					若finalStep <=totalStep,无需处理
+				//					若finalStep > totalStep,则需addStep，直到totalStep=finalStep
+				//				②取出currentStep到finalStep的所有步数（addStepCount数)，用changeStepFromMaterial取代之。
+				else
+				{
+					StepWrapper newStep = null;
+
+					if (finalStep > totalStep)
+					{
+						for (int i = 0; i < finalStep - totalStep; i++)
+						{
+							newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
+							lsWrapper.AddStep(newStep);
+						}
+					}
+
+					for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
+					{
+						changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
+						newStep = lsWrapper.StepWrapperList[stepIndex];
+					}
+
+					if (newStep != null)
+					{
+						chooseStep(finalStep);
+					}
+				}
+			}
 		}
+		
+		/// <summary>
+		/// 辅助方法：虚函数，为了不同的子类实现
+		/// </summary>
+		/// <param name="stepNum"></param>
+		protected virtual void chooseStep(int stepNum) { }
 		
 		/// <summary>
 		///  辅助方法：通过比对tongdaoList 和 素材的所有通道名,获取相应的同名通道的列表(MaterialIndexAst)
@@ -675,7 +767,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：将用传进来的素材数据，重新包装StepWrapper
+		/// 辅助方法：用传进来的素材数据，重新包装StepWrapper
 		/// </summary>
 		/// <param name="materialTongdaoList"></param>
 		/// <param name="sameTDIndexList"></param>
@@ -690,6 +782,22 @@ namespace LightController.MyForm
 				newStep.TongdaoList[currentTDIndex].ScrollValue = materialTongdaoList[stepIndex, materialTDIndex].ScrollValue;
 				newStep.TongdaoList[currentTDIndex].ChangeMode = materialTongdaoList[stepIndex, materialTDIndex].ChangeMode;
 				newStep.TongdaoList[currentTDIndex].StepTime = materialTongdaoList[stepIndex, materialTDIndex].StepTime;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：改变tdPanel中的通道值之后（改trackBar或者numericUpDown），更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。	
+		/// </summary>
+		/// <param name="tongdaoIndex"></param>
+		protected void changeScrollValue(int tongdaoIndex, int tdValue)
+		{
+			// 1.设tongdaoWrapper的值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[tongdaoIndex].ScrollValue = tdValue;
+			//2.是否实时单灯单步
+			if (isConnect && isRealtime)
+			{
+				oneLightStepWork();
 			}
 		}
 

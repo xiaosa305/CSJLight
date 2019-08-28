@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace LightController.Tools
 {
@@ -19,10 +20,6 @@ namespace LightController.Tools
             {
                 Directory.CreateDirectory(LogFileDirector);
             }
-            if (!File.Exists(LogFilePath))
-            {
-                File.Create(LogFilePath);
-            }
             Stream = new FileStream(LogFilePath, FileMode.Append);
         }
 
@@ -38,14 +35,24 @@ namespace LightController.Tools
         public void ErrorLog(Exception ex)
         {
             string message = ex.StackTrace + ":" + ex.Message + "\r\n";
-            byte[] data = Encoding.Default.GetBytes(@"[ERROR]:" + message);
+            byte[] data = Encoding.Default.GetBytes(@"[ERROR]" + DateTime.Now + ":" + message);
             Stream.Write(data, 0, data.Length);
+            Stream.Flush();
+        }
+
+        public void ErrorLog(Exception ex,string errorStr)
+        {
+            string message = ex.StackTrace + ":" + ex.Message + "\r\n" + errorStr + "\r\n";
+            byte[] data = Encoding.Default.GetBytes(@"[ERROR]" + DateTime.Now + ":" + message);
+            Stream.Write(data, 0, data.Length);
+            Stream.Flush();
         }
 
         public void DebugLog(string debugStr)
         {
-            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]:" + debugStr + "\r\n");
+            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]" + DateTime.Now + ":" + debugStr + "\r\n");
             Stream.Write(data, 0, data.Length);
+            Stream.Flush();
         }
     }
 }

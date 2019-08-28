@@ -55,12 +55,20 @@ namespace LightController.Tools
 
         private PlayTools()
         {
-            TimeFactory = 32;
-            MusicStepTime = 0;
-            State = PreViewState.Null;
-            Device = new FTDI();
-            Timer = new System.Timers.Timer();
-            MusicWaiting = true;
+            try
+            {
+                TimeFactory = 32;
+                MusicStepTime = 0;
+                State = PreViewState.Null;
+                Device = new FTDI();
+                Timer = new System.Timers.Timer();
+                MusicWaiting = true;
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+           
         }
         public static PlayTools GetInstance()
         {
@@ -72,40 +80,47 @@ namespace LightController.Tools
         }
         public void EndView()
         {
-            if (PreViewThread != null)
+            try
             {
-                try
+                if (PreViewThread != null)
                 {
-                    PreViewThread.Abort();
+                    try
+                    {
+                        PreViewThread.Abort();
+                    }
+                    finally
+                    {
+                        PreViewThread = null;
+                    }
                 }
-                finally
+                if (OLOSThread != null)
                 {
-                    PreViewThread = null;
+                    try
+                    {
+                        OLOSThread.Abort();
+                    }
+                    finally
+                    {
+                        OLOSThread = null;
+                    }
                 }
+                if (MusicControlThread != null)
+                {
+                    try
+                    {
+                        MusicControlThread.Abort();
+                    }
+                    finally
+                    {
+                        MusicControlThread = null;
+                    }
+                }
+                State = PreViewState.Null;
             }
-            if (OLOSThread != null)
+            catch (Exception ex)
             {
-                try
-                {
-                    OLOSThread.Abort();
-                }
-                finally
-                {
-                    OLOSThread = null;
-                }
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
-            if (MusicControlThread != null)
-            {
-                try
-                {
-                    MusicControlThread.Abort();
-                }
-                finally
-                {
-                    MusicControlThread = null;
-                }
-            }
-            State = PreViewState.Null;
         }
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
@@ -193,11 +208,11 @@ namespace LightController.Tools
                                 }
                                 M_ChanelData[i] = data.ToArray();
                             }
+                            this.StepList = m_File.StepList.ToArray();
+                            this.StepListCount = m_File.StepListCount;
+                            this.MusicIntervalTime = m_File.MusicIntervalTime;
+                            this.MusicStepPoint = 0;
                         }
-                        this.StepList = m_File.StepList.ToArray();
-                        this.StepListCount = m_File.StepListCount;
-                        this.MusicIntervalTime = m_File.MusicIntervalTime;
-                        this.MusicStepPoint = 0;
                     }
                     if (m_File != null && c_File != null)
                     {
@@ -219,8 +234,9 @@ namespace LightController.Tools
                     State = PreViewState.PreView;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 EndView();
             }
         }
@@ -261,8 +277,9 @@ namespace LightController.Tools
                     State = PreViewState.OLOSView;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 EndView();
             }
             
@@ -301,37 +318,43 @@ namespace LightController.Tools
         }
         private void MusicControlThreadStart()
         {
-            if (MusicStepPoint == StepListCount)
+            try
             {
-                MusicStepPoint = 0;
-            }
-            
-            MusicStep = StepList[MusicStepPoint++];
-            for (int i = 0; i < MusicStep; i++)
-            {
-                for (int j = 0; j < M_ChanelPoint.Length; j++)
+                if (MusicStepPoint == StepListCount)
                 {
-                    M_ChanelPoint[j]++;
+                    MusicStepPoint = 0;
                 }
-                IsMusicControl = true;
-                Thread.Sleep(TimeFactory * MusicStepTime);
-            }
-            if (MusicIntervalTime != 0)
-            {
-                Timer.Interval = MusicIntervalTime;
-                Timer.AutoReset = false;
-                Timer.Elapsed += MusicWaitingHandl;
-                Timer.Start();
-                MusicWaiting = true;
-                MusicControlThread = null;
-            }
-            else
-            {
-                IsMusicControl = false;
-                MusicWaiting = true;
-                MusicControlThread = null;
-            }
 
+                MusicStep = StepList[MusicStepPoint++];
+                for (int i = 0; i < MusicStep; i++)
+                {
+                    for (int j = 0; j < M_ChanelPoint.Length; j++)
+                    {
+                        M_ChanelPoint[j]++;
+                    }
+                    IsMusicControl = true;
+                    Thread.Sleep(TimeFactory * MusicStepTime);
+                }
+                if (MusicIntervalTime != 0)
+                {
+                    Timer.Interval = MusicIntervalTime;
+                    Timer.AutoReset = false;
+                    Timer.Elapsed += MusicWaitingHandl;
+                    Timer.Start();
+                    MusicWaiting = true;
+                    MusicControlThread = null;
+                }
+                else
+                {
+                    IsMusicControl = false;
+                    MusicWaiting = true;
+                    MusicControlThread = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
         }
 
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
@@ -340,12 +363,19 @@ namespace LightController.Tools
         }
         private void OLOSViewThreadStart()
         {
-            
-            while (true)
+            try
             {
-                Play();
-                Thread.Sleep(TimeFactory);
+                while (true)
+                {
+                    Play();
+                    Thread.Sleep(TimeFactory);
+                }
             }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }   
+           
         }
         private void PreViewThreadStart()
         {
@@ -387,9 +417,9 @@ namespace LightController.Tools
         }
         private void Play()
         {
-            UInt32 count = 0;
             try
             {
+                UInt32 count = 0;
                 if (Device.IsOpen)
                 {
                     //发送Break|
@@ -411,91 +441,69 @@ namespace LightController.Tools
                 EndView();
             }
         }
-        private void ConnectDevice()
-        {
-            UInt32 deviceCount = 0;
-            FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-            Device = new FTDI();
-            status = Device.GetNumberOfDevices(ref deviceCount);
-            if (status == FTDI.FT_STATUS.FT_OK)
-            {
-                if (deviceCount > 0)
-                {
-                    FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-                    status = Device.GetDeviceList(deviceList);
-                    if (status == FTDI.FT_STATUS.FT_OK)
-                    {
-                        status = Device.OpenBySerialNumber(deviceList[0].SerialNumber);
-                        if (status == FTDI.FT_STATUS.FT_OK)
-                        {
-                            string portName;
-                            Device.GetCOMPort(out portName);
-                            if (portName == null || portName == "")
-                            {
-                                Device.Close();
-                                //Device = null;
-                            }
-                            Device.SetBaudRate(250000);
-                            Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
-                        }
-                    }
-                }
-                else
-                {
-                    //Device = null;
-                    CloseDevice();
-                }
-            }
-        }
         public bool ConnectDevice(string comName)
         {
-            UInt32 deviceCount = 0;
-            FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-            status = Device.GetNumberOfDevices(ref deviceCount);
-            if (status == FTDI.FT_STATUS.FT_OK)
+            try
             {
-                if (deviceCount > 0)
+                UInt32 deviceCount = 0;
+                FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
+                status = Device.GetNumberOfDevices(ref deviceCount);
+                if (status == FTDI.FT_STATUS.FT_OK)
                 {
-                    FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-                    status = Device.GetDeviceList(deviceList);
-                    if (status == FTDI.FT_STATUS.FT_OK)
+                    if (deviceCount > 0)
                     {
-                        for (int i = 0; i < deviceCount; i++)
+                        FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+                        status = Device.GetDeviceList(deviceList);
+                        if (status == FTDI.FT_STATUS.FT_OK)
                         {
-                            status = Device.OpenBySerialNumber(deviceList[i].SerialNumber);
-                            if (status == FTDI.FT_STATUS.FT_OK)
+                            for (int i = 0; i < deviceCount; i++)
                             {
-                                string portName;
-                                Device.GetCOMPort(out portName);
-                                if (portName == null || portName == "" || portName != comName)
+                                status = Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+                                if (status == FTDI.FT_STATUS.FT_OK)
                                 {
-                                    Device.Close();
-                                    //Device = null;
-                                }
-                                else
-                                {
-                                    Device.SetBaudRate(250000);
-                                    Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
-                                    return Device.IsOpen;
+                                    string portName;
+                                    Device.GetCOMPort(out portName);
+                                    if (portName == null || portName == "" || portName != comName)
+                                    {
+                                        Device.Close();
+                                    }
+                                    else
+                                    {
+                                        Device.SetBaudRate(250000);
+                                        Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
+                                        return Device.IsOpen;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
             return false;
         }
         public void CloseDevice()
         {
-            EndView();
-            Thread.Sleep(200);
-            if (Device != null)
+            try
             {
-                if (Device.IsOpen)
+                EndView();
+                Thread.Sleep(100);
+                if (Device != null)
                 {
-                    Device.Close();
+                    if (Device.IsOpen)
+                    {
+                        Device.Close();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+           
         }
     }
     enum PreViewState

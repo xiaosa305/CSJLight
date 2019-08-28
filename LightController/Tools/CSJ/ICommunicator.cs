@@ -63,6 +63,7 @@ namespace LightController.Tools.CSJ
             this.IsTimeOutThreadStart = false;
             this.DownloadStatus = true;
             this.CurrentDownloadCompletedSize = 0;
+            this.DeviceName = string.Empty;
             this.DownloadFileToTalSize = 0;
             this.TimeOutCount = 0;
             this.PackageCount = 0;
@@ -71,7 +72,6 @@ namespace LightController.Tools.CSJ
             this.HardwarePath = string.Empty;
             this.ConfigPath = string.Empty;
             this.Order = string.Empty;
-            this.DeviceName = string.Empty;
             this.Parameters = null;
             this.Data = null;
             this.Wrapper = null;
@@ -79,7 +79,7 @@ namespace LightController.Tools.CSJ
             this.GetParamDelegate = null;
             this.DownloadProgressDelegate = null;
         }
-        protected void SendData(byte[] data,string order,string[] parameters)
+        protected void SendData(byte[] data, string order, string[] parameters)
         {
             this.Data = data;
             this.Order = order;
@@ -113,7 +113,7 @@ namespace LightController.Tools.CSJ
                         }
                     }
                 }
-                byte[] packageDataLength = new byte[] 
+                byte[] packageDataLength = new byte[]
                 {
                     Convert.ToByte(packageData.Count & 0xFF),
                     Convert.ToByte((Convert.ToByte(packageData.Count >> 8) & 0xFF))
@@ -203,7 +203,7 @@ namespace LightController.Tools.CSJ
             byte mark;
             if (this.Package_Index == this.PackageCount)
             {
-                mark = Convert.ToByte(Constant.MARK_DATA_END,2);
+                mark = Convert.ToByte(Constant.MARK_DATA_END, 2);
             }
             else
             {
@@ -217,10 +217,10 @@ namespace LightController.Tools.CSJ
             switch (this.Order)
             {
                 case Constant.ORDER_PUT:
-                    mark = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA,2);
+                    mark = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
                     break;
                 case Constant.ORDER_PUT_PARAM:
-                    mark = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA,2);
+                    mark = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
                     break;
                 default:
                     mark = Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
@@ -245,6 +245,7 @@ namespace LightController.Tools.CSJ
                     this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)
                     {
+                        CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeOut");
                         string deviceName = this.DeviceName;
                         switch (this.Order)
                         {
@@ -270,7 +271,7 @@ namespace LightController.Tools.CSJ
                                     {
                                         this.TimeOutCount++;
                                         this.IsSending = false;
-                                        Console.WriteLine(this.Order + "===>" +  this.CurrentFileName + ":超时重传" + this.TimeOutCount + "次");
+                                        Console.WriteLine(this.Order + "===>" + this.CurrentFileName + ":超时重传" + this.TimeOutCount + "次");
                                         this.DownloadProject(this.Wrapper, this.ConfigPath, this.CallBack, this.DownloadProgressDelegate);
                                     }
                                 }
@@ -329,7 +330,7 @@ namespace LightController.Tools.CSJ
                 }
             }
         }
-        protected void ReceiveMessageManage(byte[] rxBuff,int rxCount)
+        protected void ReceiveMessageManage(byte[] rxBuff, int rxCount)
         {
             this.IsTimeOutThreadStart = false;
             this.IsReceive = true;
@@ -454,169 +455,213 @@ namespace LightController.Tools.CSJ
         }
         protected void SendComplected()
         {
-            this.IsReceive = false;
-            this.IsTimeOutThreadStart = true;
-            if (this.Order.Equals(Constant.ORDER_PUT))
+            try
             {
-                int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
-                this.DownloadProgressDelegate(this.CurrentFileName, progress);
+                this.IsReceive = false;
+                this.IsTimeOutThreadStart = true;
+                if (this.Order.Equals(Constant.ORDER_PUT))
+                {
+                    int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
+                    this.DownloadProgressDelegate(this.CurrentFileName, progress);
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-        public void DownloadProject(DBWrapper wrapper,string configPath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
+        public void DownloadProject(DBWrapper wrapper, string configPath, IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
         {
-            if (!this.IsSending)
+            try
             {
-                this.DownloadProgressDelegate = download;
-                this.Wrapper = wrapper;
-                this.ConfigPath = configPath;
-                this.CallBack = receiveCallBack;
-                this.IsSending = true;
-                this.DownloadThread = new Thread(new ThreadStart(DownloadStart))
+                if (!this.IsSending)
                 {
-                    IsBackground = true
-                };
-                this.DownloadThread.Start();
+                    this.DownloadProgressDelegate = download;
+                    this.Wrapper = wrapper;
+                    this.ConfigPath = configPath;
+                    this.CallBack = receiveCallBack;
+                    this.IsSending = true;
+                    this.DownloadThread = new Thread(new ThreadStart(DownloadStart))
+                    {
+                        IsBackground = true
+                    };
+                    this.DownloadThread.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                throw;
             }
         }
         protected void DownloadStart()
         {
-            string fileName = string.Empty;
-            string fileSize = string.Empty;
-            string fileCRC = string.Empty;
-            byte[] crcBuff = new byte[2];
-            this.DownloadFileToTalSize = 0;
-            this.CurrentDownloadCompletedSize = 0;
-            CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.Wrapper, this.ConfigPath);
-            this.DownloadFileToTalSize = project.GetProjectFileSize();
-            this.DownloadStatus = false;
-            this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
-            if (project.CFiles != null)
+            try
             {
-                foreach (ICSJFile file in project.CFiles)
+                string fileName = string.Empty;
+                string fileSize = string.Empty;
+                string fileCRC = string.Empty;
+                byte[] crcBuff = new byte[2];
+                this.DownloadFileToTalSize = 0;
+                this.CurrentDownloadCompletedSize = 0;
+                CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.Wrapper, this.ConfigPath);
+                this.DownloadFileToTalSize = project.GetProjectFileSize();
+                this.DownloadStatus = false;
+                this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
+                if (project.CFiles != null)
                 {
-                    fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
-                    fileSize = file.GetData().Length.ToString();
-                    crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                    fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-                    while (true)
+                    foreach (ICSJFile file in project.CFiles)
                     {
-                        if (this.DownloadStatus)
-                        {
-                            this.CurrentFileName = fileName;
-                            this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                            this.DownloadStatus = false;
-                            break;
-                        }
-                    }
-                    if ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_ON || (file as CSJ_C).SceneNo == Constant.SCENE_ALL_OFF)
-                    {
+                        fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
+                        fileSize = file.GetData().Length.ToString();
+                        crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
+                        fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
                         while (true)
                         {
                             if (this.DownloadStatus)
                             {
-                                int sceneno = ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
-                                fileName = "C" + sceneno + ".bin";
                                 this.CurrentFileName = fileName;
                                 this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                                 this.DownloadStatus = false;
                                 break;
                             }
                         }
-                    }
-                }
-            }
-            if (project.CFiles != null && project.MFiles != null)
-            {
-                foreach (ICSJFile file in project.MFiles)
-                {
-                    fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
-                    fileSize = file.GetData().Length.ToString();
-                    crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                    fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-                    while (true)
-                    {
-                        if (this.DownloadStatus)
+                        if ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_ON || (file as CSJ_C).SceneNo == Constant.SCENE_ALL_OFF)
                         {
-                            this.CurrentFileName = fileName;
-                            this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                            this.DownloadStatus = false;
-                            break;
+                            while (true)
+                            {
+                                if (this.DownloadStatus)
+                                {
+                                    int sceneno = ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
+                                    fileName = "C" + sceneno + ".bin";
+                                    this.CurrentFileName = fileName;
+                                    this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                                    this.DownloadStatus = false;
+                                    break;
+                                }
+                            }
                         }
                     }
-                    if ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON || (file as CSJ_M).SceneNo == Constant.SCENE_ALL_OFF)
+                }
+                if (project.CFiles != null && project.MFiles != null)
+                {
+                    foreach (ICSJFile file in project.MFiles)
                     {
+                        fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
+                        fileSize = file.GetData().Length.ToString();
+                        crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
+                        fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
                         while (true)
                         {
                             if (this.DownloadStatus)
                             {
-                                int sceneno = ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
-                                fileName = "M" + sceneno + ".bin";
                                 this.CurrentFileName = fileName;
                                 this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                                 this.DownloadStatus = false;
                                 break;
                             }
                         }
+                        if ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON || (file as CSJ_M).SceneNo == Constant.SCENE_ALL_OFF)
+                        {
+                            while (true)
+                            {
+                                if (this.DownloadStatus)
+                                {
+                                    int sceneno = ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
+                                    fileName = "M" + sceneno + ".bin";
+                                    this.CurrentFileName = fileName;
+                                    this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                                    this.DownloadStatus = false;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
-            }
-            fileName = "Config.bin";
-            fileSize = project.ConfigFile.GetData().Length.ToString();
-            crcBuff = CRCTools.GetInstance().GetCRC(project.ConfigFile.GetData());
-            fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-            while (true)
-            {
-                if (this.DownloadStatus)
-                {
-                    this.CurrentFileName = fileName;
-                    this.SendData(project.ConfigFile.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                    this.DownloadStatus = false;
-                    break;
-                }
-            }
-            while (true)
-            {
-                if (true)
+                fileName = "Config.bin";
+                fileSize = project.ConfigFile.GetData().Length.ToString();
+                crcBuff = CRCTools.GetInstance().GetCRC(project.ConfigFile.GetData());
+                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                while (true)
                 {
                     if (this.DownloadStatus)
                     {
-                        this.SendData(null, Constant.ORDER_END_SEND, null);
+                        this.CurrentFileName = fileName;
+                        this.SendData(project.ConfigFile.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                         this.DownloadStatus = false;
                         break;
                     }
                 }
+                while (true)
+                {
+                    if (true)
+                    {
+                        if (this.DownloadStatus)
+                        {
+                            this.SendData(null, Constant.ORDER_END_SEND, null);
+                            this.DownloadStatus = false;
+                            break;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-        public void PutParam(string filePath,IReceiveCallBack receiveCallBack)
+        public void PutParam(string filePath, IReceiveCallBack receiveCallBack)
         {
-            if (!this.IsSending)
+            try
             {
-                this.CallBack = receiveCallBack;
-                this.HardwarePath = filePath;
-                this.IsSending = true;
-                ICSJFile file = DmxDataConvert.GetInstance().GetHardware(filePath);
-                byte[] data = file.GetData();
-                string fileName = @"Hardware.bin";
-                string fileSize = data.Length.ToString();
-                byte[] crcBuff = CRCTools.GetInstance().GetCRC(data);
-                string fileCrc = crcBuff[0].ToString() + crcBuff[1].ToString();
-                this.SendData(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCrc });
+                if (!this.IsSending)
+                {
+                    this.CallBack = receiveCallBack;
+                    this.HardwarePath = filePath;
+                    this.IsSending = true;
+                    ICSJFile file = DmxDataConvert.GetInstance().GetHardware(filePath);
+                    byte[] data = file.GetData();
+                    string fileName = @"Hardware.bin";
+                    string fileSize = data.Length.ToString();
+                    byte[] crcBuff = CRCTools.GetInstance().GetCRC(data);
+                    string fileCrc = crcBuff[0].ToString() + crcBuff[1].ToString();
+                    this.SendData(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCrc });
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-        public void GetParam(GetParamDelegate getParam,IReceiveCallBack receiveCallBack)
+        public void GetParam(GetParamDelegate getParam, IReceiveCallBack receiveCallBack)
         {
-            if (!this.IsSending)
+            try
             {
-                this.CallBack = receiveCallBack;
-                this.GetParamDelegate = getParam;
-                this.IsSending = true;
-                this.SendData(null, Constant.ORDER_GET_PARAM, null);
+                if (!this.IsSending)
+                {
+                    this.CallBack = receiveCallBack;
+                    this.GetParamDelegate = getParam;
+                    this.IsSending = true;
+                    this.SendData(null, Constant.ORDER_GET_PARAM, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
         public void SendOrder(string order, string[] parameters, IReceiveCallBack receiveCallBack)
         {
-            this.CallBack = receiveCallBack;
-            this.SendData(null, order, parameters);
+            try
+            {
+                this.CallBack = receiveCallBack;
+                this.SendData(null, order, parameters);
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
         }
         public class PacketSize
         {

@@ -63,6 +63,7 @@ namespace LightController.Tools.CSJ
             this.IsTimeOutThreadStart = false;
             this.DownloadStatus = true;
             this.CurrentDownloadCompletedSize = 0;
+            this.DeviceName = string.Empty;
             this.DownloadFileToTalSize = 0;
             this.TimeOutCount = 0;
             this.PackageCount = 0;

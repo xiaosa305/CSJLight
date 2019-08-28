@@ -119,8 +119,8 @@ namespace LightController.Tools
                     socket.Connect(iPEndPoint);
                     int.TryParse(addr, out int addrValue);
                     conn.SetAddr(addrValue);
-                    conn.SetDeviceName(deviceName);
                     conn.Init(socket);
+                    conn.SetDeviceName(deviceName);
                     CSJLogs.GetInstance().DebugLog("客户端 [" + conn.GetAddress() + "] 连接");
                     conn.BeginReceive();
                 }

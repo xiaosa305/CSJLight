@@ -208,11 +208,11 @@ namespace LightController.Tools
                                 }
                                 M_ChanelData[i] = data.ToArray();
                             }
+                            this.StepList = m_File.StepList.ToArray();
+                            this.StepListCount = m_File.StepListCount;
+                            this.MusicIntervalTime = m_File.MusicIntervalTime;
+                            this.MusicStepPoint = 0;
                         }
-                        this.StepList = m_File.StepList.ToArray();
-                        this.StepListCount = m_File.StepListCount;
-                        this.MusicIntervalTime = m_File.MusicIntervalTime;
-                        this.MusicStepPoint = 0;
                     }
                     if (m_File != null && c_File != null)
                     {

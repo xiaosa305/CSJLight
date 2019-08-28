@@ -78,20 +78,21 @@ namespace LightController.Tools
         /// <param name="port">连接端口</param>
         public void AddConnect(byte[] receiveBuff, int port)
         {
-            string strBuff = Encoding.Default.GetString(receiveBuff);
-            string[] strarrau = strBuff.Split(' ');
-            string ip = strBuff.Split(' ')[0];
-            string addr = strBuff.Split(' ')[1];
-            string deviceName = strBuff.Split(' ')[2];
-            if (strarrau.Length > 3)
-            {
-                for (int i = 3; i < strarrau.Length; i++)
-                {
-                    deviceName += " " + strarrau[i];
-                }
-            }
+            string ip = null;
             try
             {
+                string strBuff = Encoding.Default.GetString(receiveBuff);
+                string[] strarrau = strBuff.Split(' ');
+                ip = strBuff.Split(' ')[0];
+                string addr = strBuff.Split(' ')[1];
+                string deviceName = strBuff.Split(' ')[2];
+                if (strarrau.Length > 3)
+                {
+                    for (int i = 3; i < strarrau.Length; i++)
+                    {
+                        deviceName += " " + strarrau[i];
+                    }
+                }
                 for (int i = 0; i < MaxCount; i++)
                 {
                     if (conns[i] != null || conns[i].IsUse)
@@ -105,13 +106,12 @@ namespace LightController.Tools
                         }
                     }
                 }
-                
                 IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 int index = NewIndex();
                 if (index == -1)
                 {
-                    Console.WriteLine("网络连接池已满");
+                    CSJLogs.GetInstance().DebugLog("网络连接池已满");
                 }
                 else
                 {
@@ -121,14 +121,13 @@ namespace LightController.Tools
                     conn.SetAddr(addrValue);
                     conn.SetDeviceName(deviceName);
                     conn.Init(socket);
-                    Console.WriteLine("客户端 [" + conn.GetAddress() + "] 连接");
-                    Console.WriteLine("已连接" + (index + 1) + "个客户端");
+                    CSJLogs.GetInstance().DebugLog("客户端 [" + conn.GetAddress() + "] 连接");
                     conn.BeginReceive();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("设备连接失败");
+                CSJLogs.GetInstance().ErrorLog(ex);
                 if (conns != null)
                 {
                     for (int i = 0; i < MaxCount; i++)
@@ -153,7 +152,7 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="ip">连接ip</param>
         /// <param name="size">包大小</param>
-        public void SetPackageSize(string ip,int size)
+        public void SetPackageSize(string ip, int size)
         {
             foreach (Conn value in conns)
             {
@@ -169,7 +168,7 @@ namespace LightController.Tools
         /// </summary>
         /// <param name="ip">连接ip</param>
         /// <param name="size">包大小</param>
-        public Dictionary<string,string> GetDeviceInfos()
+        public Dictionary<string, string> GetDeviceInfos()
         {
             Dictionary<string, string> infos = new Dictionary<string, string>();
             foreach (Conn value in conns)
@@ -231,7 +230,7 @@ namespace LightController.Tools
         /// <param name="ip"></param>
         /// <param name="dBWrapper"></param>
         /// <param name="configPath"></param>
-        public void Download(string ip,DBWrapper dBWrapper,string configPath,IReceiveCallBack callBack,DownloadProgressDelegate download)
+        public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -239,7 +238,7 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].DownloadProject(dBWrapper, configPath,callBack, download);
+                        conns[i].DownloadProject(dBWrapper, configPath, callBack, download);
                     }
                 }
             }
@@ -251,7 +250,7 @@ namespace LightController.Tools
         /// <param name="ip"></param>
         /// <param name="order"></param>
         /// <param name="array"></param>
-        public void SendOrder(string ip,string order,string[] array,IReceiveCallBack receiveCallBack)
+        public void SendOrder(string ip, string order, string[] array, IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -259,7 +258,7 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].SendOrder(order, array,receiveCallBack);
+                        conns[i].SendOrder(order, array, receiveCallBack);
                     }
                 }
             }
@@ -271,7 +270,7 @@ namespace LightController.Tools
         /// <param name="ip"></param>
         /// <param name="filePath"></param>
         /// <param name="receiveCallBack"></param>
-        public void PutParam(string ip,string filePath, IReceiveCallBack receiveCallBack)
+        public void PutParam(string ip, string filePath, IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -285,7 +284,7 @@ namespace LightController.Tools
             }
         }
 
-        public void GetParam(string ip,IReceiveCallBack receiveCallBack,GetParamDelegate getParam)
+        public void GetParam(string ip, IReceiveCallBack receiveCallBack, GetParamDelegate getParam)
         {
             for (int i = 0; i < conns.Length; i++)
             {

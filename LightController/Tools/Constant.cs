@@ -22,7 +22,7 @@ namespace LightController.Tools
         public const int PACKAGE_SIZE_512 = 504;
         public const int PACKAGE_SIZE_DEFAULT = 1016;
         public const int PACKAGEHEAD_SIZE = 8;
-        public const int TIMEOUT = 1000;
+        public const int TIMEOUT = 2000;
         public const int HIDDEN = 2;
         public const int MUSIC_CONTROL_ON = 1;
         public const int MUSIC_CONTROL_OFF = 0;

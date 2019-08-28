@@ -46,27 +46,34 @@ namespace LightController.Tools
         /// <param name="port">Tcp服务器端口号</param>
         public void Start(string ip)
         {
-            if (IsStart)
+            try
             {
-
-                IsStart = false;
-                UdpServer.Close();
-                UdpClient.Close();
-                receiveThread.Abort();
-                Thread.Sleep(100);
-                receiveThread = null;
+                if (IsStart)
+                {
+                    IsStart = false;
+                    UdpServer.Close();
+                    UdpClient.Close();
+                    receiveThread.Abort();
+                    Thread.Sleep(100);
+                    receiveThread = null;
+                }
+                ServerIp = ip;
+                UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
+                UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                receiveThread = new Thread(RecevieMsg)
+                {
+                    IsBackground = true
+                };
+                SocketTools.GetInstance().Start();
+                receiveThread.Start(UdpClient);
+                IsStart = true;
             }
-            ServerIp = ip;
-            UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
-            UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            receiveThread = new Thread(RecevieMsg)
+            catch (Exception ex)
             {
-                IsBackground = true
-            };
-            SocketTools.GetInstance().Start();
-            receiveThread.Start(UdpClient);
-            IsStart = true;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+            
         }
 
         /// <summary>
@@ -92,6 +99,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
             
@@ -103,16 +111,24 @@ namespace LightController.Tools
         /// <param name="obj"></param>
         private void RecevieMsg(object obj)
         {
-            UdpClient udpClient = obj as UdpClient;
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
-            while (true)
+            try
             {
-                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 7070);
-                byte[] data = udpClient.Receive(ref iPEndPoint);
-                byte[] buff = new byte[data.Length - 8];
-                Array.Copy(data, 8, buff, 0, buff.Length);
-                SocketTools.GetInstance().AddConnect(buff, 7060);
+                UdpClient udpClient = obj as UdpClient;
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
+                while (true)
+                {
+                    IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 7070);
+                    byte[] data = udpClient.Receive(ref iPEndPoint);
+                    byte[] buff = new byte[data.Length - 8];
+                    Array.Copy(data, 8, buff, 0, buff.Length);
+                    SocketTools.GetInstance().AddConnect(buff, 7060);
+                }
             }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+           
         }
 
         /// <summary>
@@ -128,6 +144,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -144,6 +161,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -160,6 +178,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -176,6 +195,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -198,6 +218,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -217,6 +238,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -239,6 +261,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -258,6 +281,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -279,6 +303,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -297,6 +322,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -318,6 +344,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }
@@ -336,6 +363,7 @@ namespace LightController.Tools
             }
             else
             {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
         }

@@ -29,6 +29,7 @@ namespace LightController.Tools
             {
                 this.ComDevice = new SerialPort();
                 this.InitParameters();
+                this.DeviceName = string.Empty;
                 this.SetDefaultSerialPort();
                 this.RxBuff = new List<byte>();
                 this.PackageSize = Constant.PACKAGE_SIZE_DEFAULT;

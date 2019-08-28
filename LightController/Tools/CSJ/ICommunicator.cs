@@ -71,7 +71,6 @@ namespace LightController.Tools.CSJ
             this.HardwarePath = string.Empty;
             this.ConfigPath = string.Empty;
             this.Order = string.Empty;
-            this.DeviceName = string.Empty;
             this.Parameters = null;
             this.Data = null;
             this.Wrapper = null;
@@ -245,6 +244,7 @@ namespace LightController.Tools.CSJ
                     this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)
                     {
+                        CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeOut");
                         string deviceName = this.DeviceName;
                         switch (this.Order)
                         {

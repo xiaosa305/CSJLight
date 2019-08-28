@@ -317,28 +317,10 @@ namespace LightController.MyForm
 			isInit = true;
 		}		
 		
+
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
-			// 动态加载可用的dmx512串口列表
-			CSJLogs.GetInstance().DebugLog("随便写");
-			SerialPortTools comTools = SerialPortTools.GetInstance();
-			comList = comTools.GetDMX512DeviceList();
-
-			if (comList != null && comList.Length > 0)
-			{
-				MessageBox.Show(comList.Length.ToString());
-				foreach (string com in comList)
-				{
-					comSkinComboBox.Items.Add(com);
-				}
-				comSkinComboBox.SelectedIndex = 0;
-				comChooseSkinButton.Enabled = true;
-			}
-			else
-			{
-				comSkinComboBox.SelectedIndex = -1;
-				comChooseSkinButton.Enabled = false;
-			}
+			refreshComList();
 		}
 
 		#region 各种工具按钮
@@ -425,24 +407,7 @@ namespace LightController.MyForm
 
 
 		#region 工程相关 及 初始化辅助方法
-
-		/// <summary>
-		///  事件：点击《选择调试串口》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comChooseSkinButton_Click(object sender, EventArgs e)
-		{
-			playTools = PlayTools.GetInstance();
-			comName = comSkinComboBox.Text;
-			if (! comName.Trim().Equals(""))
-			{				
-				playPanel.Show();
-			}
-			else {
-				MessageBox.Show("未选中可用串口");
-			}
-		}
+		
 
 		/// <summary>
 		/// 事件： 点击《新建工程》按钮
@@ -1867,8 +1832,65 @@ namespace LightController.MyForm
 
 		#endregion
 
-		
+
 		#region 调试相关按钮
+
+
+		/// <summary>
+		/// 辅助方法：重新搜索com列表
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshComList()
+		{
+			// 动态加载可用的dmx512串口列表			
+			SerialPortTools comTools = SerialPortTools.GetInstance();
+			comList = comTools.GetDMX512DeviceList();
+
+			comSkinComboBox.Items.Clear();
+			if (comList != null && comList.Length > 0)
+			{
+				foreach (string com in comList)
+				{
+					comSkinComboBox.Items.Add(com);
+				}
+				comSkinComboBox.SelectedIndex = 0;
+				comSkinComboBox.Enabled = true;
+				comChooseSkinButton.Enabled = true;
+			}
+			else
+			{
+				comSkinComboBox.Text = "";
+				comSkinComboBox.Enabled = false;
+				comChooseSkinButton.Enabled = false;
+			}
+		}
+
+
+		private void comRefreshSkinButton_Click(object sender, EventArgs e)
+		{
+			refreshComList();
+		}
+
+		/// <summary>
+		///  事件：点击《选择调试串口》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comChooseSkinButton_Click(object sender, EventArgs e)
+		{
+			playTools = PlayTools.GetInstance();
+			comName = comSkinComboBox.Text;
+			if (!comName.Trim().Equals(""))
+			{
+				playPanel.Show();
+			}
+			else
+			{
+				MessageBox.Show("未选中可用串口");
+			}
+		}
+
 
 		/// <summary>
 		///  点击《连接设备|断开连接》按钮
@@ -1881,38 +1903,40 @@ namespace LightController.MyForm
 			if (!isConnect)
 			{
 				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
-				connectSkinButton.Text = "断开连接";
-				showViewButtons(true);
+				connectSkinButton.Text = "断开连接";				
 
 				playTools.ConnectDevice(comName);
-				comChooseSkinButton.Enabled = false;
-				isConnect = true;
+
+				showConnectedButtons(true);
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
 				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
-				connectSkinButton.Text = "连接设备";
-				showViewButtons(false);
+				connectSkinButton.Text = "连接设备";				
 								
 				playTools.CloseDevice();
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				comChooseSkinButton.Enabled = true;
-				isConnect = false;
+				showConnectedButtons(false);
 			}
 		}
 
 		/// <summary>
-		///  辅助方法：调试的按钮组是否显示
+		///  辅助方法：选择串口按钮、刷新串口按钮、调试的按钮组是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		private void showViewButtons(bool visible)
+		private void showConnectedButtons(bool connected)
 		{
-			realtimeSkinButton.Visible = visible;
-			oneLightOneStepSkinButton.Visible = visible;
-			makeSoundSkinButton.Visible = visible;
-			previewSkinButton.Visible = visible;
-			endviewSkinButton.Visible = visible;
+			comChooseSkinButton.Enabled = !connected;
+			comRefreshSkinButton.Enabled = !connected;
+
+			realtimeSkinButton.Visible = connected;
+			oneLightOneStepSkinButton.Visible = connected;
+			makeSoundSkinButton.Visible = connected;
+			previewSkinButton.Visible = connected;
+			endviewSkinButton.Visible = connected;
+
+			isConnect  = connected;
 		}
 
 		/// <summary>
@@ -2008,7 +2032,6 @@ namespace LightController.MyForm
 		}
 
 
-
 		/// <summary>
 		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
 		/// </summary>
@@ -2021,9 +2044,8 @@ namespace LightController.MyForm
 
 
 
-
-
 		#endregion
-			
+
+		
 	}
 }

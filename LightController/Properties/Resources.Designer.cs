@@ -133,9 +133,19 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap 保存工程 {
+        internal static System.Drawing.Bitmap 保存3 {
             get {
-                object obj = ResourceManager.GetObject("保存工程", resourceCulture);
+                object obj = ResourceManager.GetObject("保存3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 保存工程2 {
+            get {
+                object obj = ResourceManager.GetObject("保存工程2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -186,6 +196,36 @@ namespace LightController.Properties {
         internal static System.Drawing.Bitmap 删除步 {
             get {
                 object obj = ResourceManager.GetObject("删除步", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 刷新 {
+            get {
+                object obj = ResourceManager.GetObject("刷新", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 刷新1 {
+            get {
+                object obj = ResourceManager.GetObject("刷新1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 刷新2 {
+            get {
+                object obj = ResourceManager.GetObject("刷新2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -283,9 +323,19 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap 打开工程 {
+        internal static System.Drawing.Bitmap 导出25 {
             get {
-                object obj = ResourceManager.GetObject("打开工程", resourceCulture);
+                object obj = ResourceManager.GetObject("导出25", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 打开工程3 {
+            get {
+                object obj = ResourceManager.GetObject("打开工程3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -313,9 +363,9 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap 新建工程 {
+        internal static System.Drawing.Bitmap 新建工程2 {
             get {
-                object obj = ResourceManager.GetObject("新建工程", resourceCulture);
+                object obj = ResourceManager.GetObject("新建工程2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -48,6 +48,7 @@ namespace LightController.MyForm
 			this.exportSkinButton = new CCWin.SkinControl.SkinButton();
 			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.newSkinButton = new CCWin.SkinControl.SkinButton();
+			this.comRefreshSkinButton = new CCWin.SkinControl.SkinButton();
 			this.openSkinButton = new CCWin.SkinControl.SkinButton();
 			this.playSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.playPanel = new System.Windows.Forms.Panel();
@@ -501,7 +502,7 @@ namespace LightController.MyForm
 			this.comChooseSkinButton.ForeColor = System.Drawing.Color.Cornsilk;
 			this.comChooseSkinButton.ForeColorSuit = true;
 			this.comChooseSkinButton.IsDrawBorder = false;
-			this.comChooseSkinButton.Location = new System.Drawing.Point(3, 38);
+			this.comChooseSkinButton.Location = new System.Drawing.Point(4, 32);
 			this.comChooseSkinButton.Margin = new System.Windows.Forms.Padding(2, 10, 2, 40);
 			this.comChooseSkinButton.MouseBack = null;
 			this.comChooseSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
@@ -767,6 +768,7 @@ namespace LightController.MyForm
 			this.skinPanel2.Controls.Add(this.exportSkinButton);
 			this.skinPanel2.Controls.Add(this.saveSkinButton);
 			this.skinPanel2.Controls.Add(this.newSkinButton);
+			this.skinPanel2.Controls.Add(this.comRefreshSkinButton);
 			this.skinPanel2.Controls.Add(this.openSkinButton);
 			this.skinPanel2.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.skinPanel2.Dock = System.Windows.Forms.DockStyle.Left;
@@ -782,9 +784,9 @@ namespace LightController.MyForm
 			// 
 			this.comSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.comSkinComboBox.FormattingEnabled = true;
-			this.comSkinComboBox.Location = new System.Drawing.Point(3, 3);
+			this.comSkinComboBox.Location = new System.Drawing.Point(25, 3);
 			this.comSkinComboBox.Name = "comSkinComboBox";
-			this.comSkinComboBox.Size = new System.Drawing.Size(117, 22);
+			this.comSkinComboBox.Size = new System.Drawing.Size(96, 22);
 			this.comSkinComboBox.TabIndex = 0;
 			this.comSkinComboBox.WaterText = "";
 			// 
@@ -802,11 +804,11 @@ namespace LightController.MyForm
 			this.exportSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.exportSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.exportSkinButton.ForeColorSuit = true;
-			this.exportSkinButton.Image = global::LightController.Properties.Resources.打开工程;
-			this.exportSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.exportSkinButton.Image = global::LightController.Properties.Resources.导出25;
+			this.exportSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.exportSkinButton.InheritColor = true;
 			this.exportSkinButton.IsDrawBorder = false;
-			this.exportSkinButton.Location = new System.Drawing.Point(11, 464);
+			this.exportSkinButton.Location = new System.Drawing.Point(11, 455);
 			this.exportSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.exportSkinButton.MouseBack = null;
 			this.exportSkinButton.Name = "exportSkinButton";
@@ -832,11 +834,11 @@ namespace LightController.MyForm
 			this.saveSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.saveSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.saveSkinButton.ForeColorSuit = true;
-			this.saveSkinButton.Image = global::LightController.Properties.Resources.保存工程;
-			this.saveSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.saveSkinButton.Image = global::LightController.Properties.Resources.保存工程2;
+			this.saveSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.saveSkinButton.InheritColor = true;
 			this.saveSkinButton.IsDrawBorder = false;
-			this.saveSkinButton.Location = new System.Drawing.Point(11, 337);
+			this.saveSkinButton.Location = new System.Drawing.Point(11, 330);
 			this.saveSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveSkinButton.MouseBack = null;
 			this.saveSkinButton.Name = "saveSkinButton";
@@ -860,11 +862,11 @@ namespace LightController.MyForm
 			this.newSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.newSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.newSkinButton.ForeColorSuit = true;
-			this.newSkinButton.Image = global::LightController.Properties.Resources.新建工程;
-			this.newSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.newSkinButton.Image = global::LightController.Properties.Resources.新建工程2;
+			this.newSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.newSkinButton.InheritColor = true;
 			this.newSkinButton.IsDrawBorder = false;
-			this.newSkinButton.Location = new System.Drawing.Point(11, 83);
+			this.newSkinButton.Location = new System.Drawing.Point(11, 80);
 			this.newSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newSkinButton.MouseBack = null;
 			this.newSkinButton.Name = "newSkinButton";
@@ -875,6 +877,32 @@ namespace LightController.MyForm
 			this.newSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.newSkinButton.UseVisualStyleBackColor = false;
 			this.newSkinButton.Click += new System.EventHandler(this.newSkinButton_Click);
+			// 
+			// comRefreshSkinButton
+			// 
+			this.comRefreshSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.comRefreshSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.comRefreshSkinButton.BorderColor = System.Drawing.Color.White;
+			this.comRefreshSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.comRefreshSkinButton.DownBack = null;
+			this.comRefreshSkinButton.DrawType = CCWin.SkinControl.DrawStyle.Img;
+			this.comRefreshSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.comRefreshSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.comRefreshSkinButton.ForeColorSuit = true;
+			this.comRefreshSkinButton.Image = global::LightController.Properties.Resources.刷新2;
+			this.comRefreshSkinButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.comRefreshSkinButton.InheritColor = true;
+			this.comRefreshSkinButton.IsDrawBorder = false;
+			this.comRefreshSkinButton.Location = new System.Drawing.Point(2, 3);
+			this.comRefreshSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.comRefreshSkinButton.MouseBack = null;
+			this.comRefreshSkinButton.Name = "comRefreshSkinButton";
+			this.comRefreshSkinButton.NormlBack = null;
+			this.comRefreshSkinButton.Size = new System.Drawing.Size(20, 20);
+			this.comRefreshSkinButton.TabIndex = 4;
+			this.comRefreshSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.comRefreshSkinButton.UseVisualStyleBackColor = false;
+			this.comRefreshSkinButton.Click += new System.EventHandler(this.comRefreshSkinButton_Click);
 			// 
 			// openSkinButton
 			// 
@@ -889,11 +917,11 @@ namespace LightController.MyForm
 			this.openSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.openSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.openSkinButton.ForeColorSuit = true;
-			this.openSkinButton.Image = global::LightController.Properties.Resources.打开工程;
-			this.openSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.openSkinButton.Image = global::LightController.Properties.Resources.打开工程3;
+			this.openSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.openSkinButton.InheritColor = true;
 			this.openSkinButton.IsDrawBorder = false;
-			this.openSkinButton.Location = new System.Drawing.Point(11, 210);
+			this.openSkinButton.Location = new System.Drawing.Point(11, 205);
 			this.openSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openSkinButton.MouseBack = null;
 			this.openSkinButton.Name = "openSkinButton";
@@ -5841,6 +5869,7 @@ namespace LightController.MyForm
 		private Panel tdCommonPanel;
 		private SkinButton exitSkinButton;
 		private Panel playPanel;
+		private SkinButton comRefreshSkinButton;
 		private SkinButton exportSkinButton;
 	}
 }

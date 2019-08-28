@@ -299,6 +299,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Conn.cs" />
     <Compile Include="Tools\ConnectTools.cs" />
     <Compile Include="Tools\Constant.cs" />
@@ -391,14 +396,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="App.config" />
     <Content Include="MaterialSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -668,9 +668,6 @@
     <None Include="Resources\摇麦设置.png" />
     <None Include="Resources\硬件设置.png" />
     <None Include="Resources\在线升级.png" />
-    <None Include="Resources\保存工程.png" />
-    <None Include="Resources\打开工程.png" />
-    <None Include="Resources\新建工程.png" />
     <None Include="Resources\保存素材2.png" />
     <None Include="Resources\复制步.png" />
     <None Include="Resources\复制灯1.png" />
@@ -710,6 +707,14 @@
     <None Include="Resources\Bar椭圆 1.png" />
     <None Include="Resources\Bar圆角矩形 4.png" />
     <None Include="Resources\CSJ灯库工具.bmp" />
+    <None Include="Resources\刷新.jpg" />
+    <None Include="Resources\刷新.png" />
+    <None Include="Resources\刷新2.png" />
+    <None Include="Resources\保存3.png" />
+    <None Include="Resources\导出25.png" />
+    <None Include="Resources\新建工程2.png" />
+    <None Include="Resources\保存工程2.png" />
+    <None Include="Resources\打开工程3.png" />
     <Content Include="Source\CSkin.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

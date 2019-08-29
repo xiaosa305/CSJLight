@@ -16,11 +16,11 @@ namespace LightController.Ast
 		protected Configuration config;
 		protected ISessionFactory sessionFactory;
 
-		public BaseDAO(string dbFile, bool addPassword)
+		public BaseDAO(string dbFile, bool isEncrypt)
 		{
 			config = new Configuration().Configure();
 			
-			if (addPassword)
+			if (isEncrypt)
 			{
 				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5("Dickov" + dbFile));
 			}

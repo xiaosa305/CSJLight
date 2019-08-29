@@ -286,45 +286,8 @@ namespace LightController
 		{
 			
 
-		}
-			   
-		/// <summary>
-		/// 这个方法用来初始化部分内容;（会被NewForm调用，也会在打开项目前调用）
-		/// 1.设置dbFilePath和projectName的值；
-		/// 2.初始化几个DAO组件
-		/// 3.清除所有数据
-		/// </summary>
-		/// <param name="dbFilePath"></param>
-		public override void InitProject(string projectName, bool isNew)
-		{
-			//0.清空所有list
-			clearAllData();
-
-			string directoryPath = "C:\\Temp\\LightProject\\" + projectName;
-			// 1.全局设置
-			this.globalIniFilePath = directoryPath + "\\global.ini";
-			this.dbFilePath = directoryPath + "\\data.db3";
-			this.Text = "智控配置(当前工程:" + projectName + ")";
-			this.isNew = isNew;
-
-			// 2.创建数据库:
-			// 因为是新建，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；
-			// --若isNew为true时，为初始化数据库，将lightDAO指向新的对象，然后运行CreateSchema方法
-			lightDAO = null;
-			stepCountDAO = null;
-			valueDAO = null;
-
-			// 若为新建，则初始化db的table
-			if (isNew)
-			{
-				lightDAO = new LightDAO(dbFilePath, false);
-				lightDAO.CreateSchema(true, true);
-			}
-			
-			// 3.执行后，当前窗口已关联到一个项目文件夹，此时将各个按钮设为可用
-			enableGlobalSet(true);			
-			enableSave(true);
-		}
+		}		   
+	
 
 		/// <summary>
 		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
@@ -355,8 +318,8 @@ namespace LightController
 				if (scList != null && scList.Count > 0)
 				{
 					// 只要有步数的，优先生成StepMode
-					StepWrapper stepMode = generateStepMode(lightAstList[lightListIndex]);
-					lightWrapperList[lightListIndex].StepMode = stepMode;
+					StepWrapper stepMode = generateStepTemplate(lightAstList[lightListIndex]);
+					lightWrapperList[lightListIndex].StepTemplate = stepMode;
 					foreach (DB_StepCount sc in scList)
 					{
 						int frame = sc.PK.Frame;
@@ -554,9 +517,9 @@ namespace LightController
 			//			若不为null，则说明已有数据，
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
 
-			if (lightWrapper.StepMode == null)
+			if (lightWrapper.StepTemplate == null)
 			{				
-				lightWrapper.StepMode = generateStepMode(lightAst);
+				lightWrapper.StepTemplate = generateStepTemplate(lightAst);
 				showStepLabel(0, 0);
 				hideAllTongdao();
 			}			
@@ -715,7 +678,7 @@ namespace LightController
 				// 写法1：比较冗长
 				// isUseStepMode ? getCurrentStepMode() : (getCurrentStepWrapper() == null ? getCurrentStepMode() : getCurrentStepWrapper()), 
 				// 写法2：	相对简洁
-				(isUseStepMode || getCurrentStepWrapper()==null ) ? getCurrentStepTemplate() : getCurrentStepWrapper(),
+				(isUseStepTemplate || getCurrentStepWrapper()==null ) ? getCurrentStepTemplate() : getCurrentStepWrapper(),
 				mode);			
 
 			// 调用包装类内部的方法,来追加步
@@ -742,7 +705,7 @@ namespace LightController
 			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep) {
 				// 根据isUseStepMode，生成要插入步的内容
 				StepWrapper newStep = StepWrapper.GenerateNewStep(
-					(isUseStepMode || getCurrentStepWrapper() == null) ? getCurrentStepTemplate() : getCurrentStepWrapper() ,
+					(isUseStepTemplate || getCurrentStepWrapper() == null) ? getCurrentStepTemplate() : getCurrentStepWrapper() ,
 					mode
 				);
 				// 要插入的位置的index
@@ -943,7 +906,7 @@ namespace LightController
 		private void globleSetButton_Click(object sender, EventArgs e)
 		{
 			// 只能有一个GlobalSetForm，在点击全局设置时新建(为生成过或已被销毁)，或在Hide时显示
-			GlobalSetForm globalSetForm = new GlobalSetForm(this, globalIniFilePath);
+			GlobalSetForm globalSetForm = new GlobalSetForm(this, globalIniPath);
 			globalSetForm.ShowDialog();
 		}
 			   
@@ -1170,7 +1133,7 @@ namespace LightController
 			DBWrapper allData = GetDBWrapper(false);
 			try
 			{
-				playTools.PreView(allData, globalIniFilePath, frame);
+				playTools.PreView(allData, globalIniPath, frame);
 			}
 			catch (Exception ex) {
 				MessageBox.Show(ex.Message);
@@ -1237,7 +1200,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void ymSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			YMSetForm ymSetForm = new YMSetForm(this, globalIniFilePath, isNew);
+			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath, isNew);
 			ymSetForm.ShowDialog();
 		}
 
@@ -1458,7 +1421,7 @@ namespace LightController
 			LightWrapper selectedLight = getCurrentLightWrapper();
 			// 只有在选中灯不为空 且 要被复制的灯与选中灯是同一种灯具时，才能复制
 			if (selectedLight != null && tempLight!=null) {
-				if (tempLight.StepMode.LightFullName == selectedLight.StepMode.LightFullName) {
+				if (tempLight.StepTemplate.LightFullName == selectedLight.StepTemplate.LightFullName) {
 					pasteLightButton.Enabled = true;
 					return true;					
 				}
@@ -1518,7 +1481,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			isUseStepMode = addStepCheckBox.Checked;
+			isUseStepTemplate = addStepCheckBox.Checked;
 		}	
 		
 		/// <summary>
@@ -1568,7 +1531,7 @@ namespace LightController
 		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			bool isFromDB = true;
-			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniFilePath);
+			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniPath);
 			updateForm.ShowDialog(); 
 		}
 

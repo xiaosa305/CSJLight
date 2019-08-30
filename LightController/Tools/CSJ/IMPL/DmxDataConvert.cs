@@ -41,7 +41,7 @@ namespace LightController.Tools.CSJ.IMPL
             return new CSJ_Hardware(fileBuff);
         }
 
-        public CSJ_Project GetCSJProjectFiles(DBWrapper wrapper,string configPath)
+        public CSJ_Project GetCSJProjectFiles(DBWrapper wrapper, string configPath)
         {
             ConfigPath = configPath;
             Wrapper = wrapper;
@@ -145,12 +145,14 @@ namespace LightController.Tools.CSJ.IMPL
                                 int.TryParse(strValue, out intValue);
                                 file.MICSensor = intValue;
                             }
+                            lineStr = reader.ReadLine();
                             if (lineStr.StartsWith(sceneData.SceneNo + "JG"))
                             {
                                 strValue = lineStr.Split('=')[1];
                                 int.TryParse(strValue, out intValue);
                                 file.SenseFreq = intValue;
                             }
+                            lineStr = reader.ReadLine();
                             if (lineStr.StartsWith(sceneData.SceneNo + "ZX"))
                             {
                                 strValue = lineStr.Split('=')[1];
@@ -167,54 +169,213 @@ namespace LightController.Tools.CSJ.IMPL
                 {
                     ChannelNo = item.ChannelNo
                 };
-                List<int> datas = new List<int>();
-                int startValue = item.StepValues[0];
-                datas.Add(item.StepValues[0]);
-                for (int step = 1; step < item.StepCount + 1; step++)
+                int flag = -1;
+                if (null != Wrapper.fineTuneList)
                 {
-                    int stepTime;
-                    int stepValue;
-                    int isGradualChange;
-                    if (step == (item.StepCount))
+                    foreach (DB_FineTune fineTune in Wrapper.fineTuneList)
                     {
-                        stepTime = item.StepTimes[0];
-                        stepValue = item.StepValues[0];
-                        isGradualChange = item.IsGradualChange[0];
-                    }
-                    else
-                    {
-                        stepTime = item.StepTimes[step];
-                        stepValue = item.StepValues[step];
-                        isGradualChange = item.IsGradualChange[step];
-                    }
-                    if (isGradualChange == Constant.MODE_GRADUAL)
-                    {
-                        double inc = (stepValue - startValue) / (stepTime * 1.0);
-                        for (int fram = 0; fram < stepTime; fram++)
+                        if (fineTune.MainIndex == channelData.ChannelNo)
                         {
-                            if (step == item.StepCount && fram == (stepTime - 1))
-                            {
-                                break;
-                            }
-                            datas.Add((int)Math.Floor(startValue + inc * (fram + 1)));
+                            flag = 0;
+                        }
+                        else if (fineTune.FineTuneIndex == channelData.ChannelNo)
+                        {
+                            flag = 1;
                         }
                     }
-                    else
-                    {
-                        for (int fram = 0; fram < stepTime; fram++)
-                        {
-                            if (step == item.StepCount && fram == (stepTime - 1))
-                            {
-                                break;
-                            }
-                            datas.Add(stepValue);
-                        }
-                    }
-                    startValue = stepValue;
                 }
-                channelData.Datas = datas;
-                channelData.DataSize = channelData.Datas.Count;
-                channelDatas.Add(channelData);
+                if (flag == 1)
+                {
+                    int mainIndex = -1;
+                    foreach (DB_FineTune fineTune in Wrapper.fineTuneList)
+                    {
+                        if (fineTune.FineTuneIndex == channelData.ChannelNo)
+                        {
+                            mainIndex = fineTune.MainIndex;
+                        }
+                    }
+                    if (mainIndex != -1)
+                    {
+                        foreach (CSJ_ChannelData data in sceneData.ChannelDatas)
+                        {
+                            if (data.ChannelNo == mainIndex)
+                            {
+                                List<int> datas = new List<int>();
+                                int startValue = data.StepValues[0];
+                                datas.Add(data.StepValues[0]);
+                                for (int step = 1; step < data.StepCount + 1; step++)
+                                {
+                                    int stepTime;
+                                    int stepValue;
+                                    int isGradualChange;
+                                    if (step == (data.StepCount))
+                                    {
+                                        stepTime = data.StepTimes[0];
+                                        stepValue = data.StepValues[0];
+                                        isGradualChange = data.IsGradualChange[0];
+                                    }
+                                    else
+                                    {
+                                        stepTime = data.StepTimes[step];
+                                        stepValue = data.StepValues[step];
+                                        isGradualChange = data.IsGradualChange[step];
+                                    }
+                                    if (isGradualChange == Constant.MODE_GRADUAL)
+                                    {
+                                        bool isMinus = false;
+                                        int changeValue;
+
+                                        if (stepValue - startValue < 0)
+                                        {
+                                            isMinus = true;
+                                        }
+                                        if (isMinus)
+                                        {
+                                            changeValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(startValue - stepValue) & 0xFF) << 8);
+                                            int inc = changeValue / stepTime;
+                                            startValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(startValue) & 0xFF) << 8);
+                                            for (int fram = 0; fram < stepTime; fram++)
+                                            {
+                                                if (step == data.StepCount && fram == (stepTime - 1))
+                                                {
+                                                    break;
+                                                }
+                                                startValue = startValue - inc;
+                                                datas.Add(startValue & 0xFF);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            changeValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(stepValue - startValue) & 0xFF) << 8);
+                                            int inc = changeValue / stepTime;
+                                            for (int fram = 0; fram < stepTime; fram++)
+                                            {
+                                                if (step == data.StepCount && fram == (stepTime - 1))
+                                                {
+                                                    break;
+                                                }
+                                                startValue = startValue + inc;
+                                                datas.Add(startValue & 0xFF);
+
+                                            }
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        for (int fram = 0; fram < stepTime; fram++)
+                                        {
+                                            if (step == data.StepCount && fram == (stepTime - 1))
+                                            {
+                                                break;
+                                            }
+                                            datas.Add(stepValue);
+                                        }
+                                    }
+                                    startValue = stepValue;
+                                }
+                                channelData.Datas = datas;
+                                channelData.DataSize = channelData.Datas.Count;
+                                channelDatas.Add(channelData);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    List<int> datas = new List<int>();
+                    int startValue = item.StepValues[0];
+                    datas.Add(item.StepValues[0]);
+                    for (int step = 1; step < item.StepCount + 1; step++)
+                    {
+                        int stepTime;
+                        int stepValue;
+                        int isGradualChange;
+                        if (step == (item.StepCount))
+                        {
+                            stepTime = item.StepTimes[0];
+                            stepValue = item.StepValues[0];
+                            isGradualChange = item.IsGradualChange[0];
+                        }
+                        else
+                        {
+                            stepTime = item.StepTimes[step];
+                            stepValue = item.StepValues[step];
+                            isGradualChange = item.IsGradualChange[step];
+                        }
+                        if (isGradualChange == Constant.MODE_GRADUAL)
+                        {
+                            bool isMinus = false;
+                            int changeValue;
+                            if (flag == 0)
+                            {
+                                if (stepValue - startValue < 0)
+                                {
+                                    isMinus = true;
+                                }
+                                if (isMinus)
+                                {
+                                    changeValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(startValue - stepValue) & 0xFF) << 8);
+                                    int inc = changeValue / stepTime;
+                                    startValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(startValue) & 0xFF) << 8);
+                                    for (int fram = 0; fram < stepTime; fram++)
+                                    {
+                                        if (step == item.StepCount && fram == (stepTime - 1))
+                                        {
+                                            break;
+                                        }
+                                        startValue = startValue - inc;
+                                        datas.Add((startValue >> 8) & 0xFF);
+                                        //datas.Add(startValue - (inc * (fram + 1) >> 8 & 0xFF));
+                                    }
+                                }
+                                else
+                                {
+                                    changeValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(stepValue - startValue) & 0xFF) << 8);
+                                    int inc = changeValue / stepTime;
+                                    for (int fram = 0; fram < stepTime; fram++)
+                                    {
+                                        if (step == item.StepCount && fram == (stepTime - 1))
+                                        {
+                                            break;
+                                        }
+                                        startValue = startValue + inc;
+                                        datas.Add((startValue >> 8) & 0xFF);
+                                        //datas.Add(startValue + (inc * (fram + 1) >> 8 & 0xFF));
+                                    }
+                                }
+                               
+                            }
+                            else
+                            {
+                                double inc = (stepValue - startValue) / (stepTime * 1.0);
+                                for (int fram = 0; fram < stepTime; fram++)
+                                {
+                                    if (step == item.StepCount && fram == (stepTime - 1))
+                                    {
+                                        break;
+                                    }
+                                    datas.Add((int)Math.Floor(startValue + inc * (fram + 1)));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int fram = 0; fram < stepTime; fram++)
+                            {
+                                if (step == item.StepCount && fram == (stepTime - 1))
+                                {
+                                    break;
+                                }
+                                datas.Add(stepValue);
+                            }
+                        }
+                        startValue = stepValue;
+                    }
+                    channelData.Datas = datas;
+                    channelData.DataSize = channelData.Datas.Count;
+                    channelDatas.Add(channelData);
+                }
             }
             file.ChannelDatas = channelDatas;
             return file;
@@ -233,7 +394,7 @@ namespace LightController.Tools.CSJ.IMPL
             };
             using (reader = new StreamReader(ConfigPath))
             {
-                string lineStr ;
+                string lineStr;
                 string strValue = string.Empty;
                 int intValue;
                 while (true)
@@ -313,7 +474,7 @@ namespace LightController.Tools.CSJ.IMPL
             return sceneNos;
         }
 
-        private CSJ_SceneData GetSceneData(int sceneNo,int mode)
+        private CSJ_SceneData GetSceneData(int sceneNo, int mode)
         {
             CSJ_SceneData sceneData = new CSJ_SceneData()
             {
@@ -324,7 +485,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 for (int i = 0; i < light.Count; i++)
                 {
-                    CSJ_ChannelData channelData = GetChannelData(sceneNo, light.StartID + i, mode,light);
+                    CSJ_ChannelData channelData = GetChannelData(sceneNo, light.StartID + i, mode, light);
                     if (channelData != null)
                     {
                         channelDatas.Add(channelData);
@@ -340,7 +501,7 @@ namespace LightController.Tools.CSJ.IMPL
             return null;
         }
 
-        private CSJ_ChannelData GetChannelData(int sceneNo,int channelNo,int mode,DB_Light light)
+        private CSJ_ChannelData GetChannelData(int sceneNo, int channelNo, int mode, DB_Light light)
         {
             if (channelNo > 512)
             {
@@ -387,8 +548,8 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return null;
         }
-      
-        private int GetStepCount(int lightNo,int sceneNo,int mode)
+
+        private int GetStepCount(int lightNo, int sceneNo, int mode)
         {
             int stepCount = 0;
             foreach (DB_StepCount item in Wrapper.stepCountList)
@@ -401,5 +562,5 @@ namespace LightController.Tools.CSJ.IMPL
             return stepCount;
         }
     }
-    
+
 }

@@ -35,22 +35,18 @@ namespace LightController.Tools
                     FileTools.GetInstance().ProjectToFile(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", @"C:\Users\99729\Documents\Temp\Project1\project");
                     break;
                 case 3:
-                    string[] aa = new string[2];
-                    aa[0] = "1111";
-                    aa[1] = "2222";
-                    for (int i = 0; i < 2; i++)
-                    {
-                        try
-                        {
-                            string test = aa[2];
-                        }
-                        catch (Exception ex)
-                        {
-                            CSJLogs.GetInstance().ErrorLog(ex);
-                        }
-                    }
                     break;
                 case 4:
+                    int test = 255;
+                    byte testLow = Convert.ToByte(0x00);
+                    byte testHigh = Convert.ToByte(test);
+                    int result = (int)((testLow & 0xFF) | (testHigh & 0xFF) << 8);
+                    int Inc = result / 100 * 2;
+                    testLow = Convert.ToByte(Inc & 0xFF);
+                    testHigh = Convert.ToByte((Inc >> 8) & 0xFF);
+                    int low = testLow;
+                    int high = testHigh;
+                    Console.WriteLine("");
                     break;
                 default:
                     break;

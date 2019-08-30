@@ -10,7 +10,7 @@ namespace LightController.Tools
     public class CSJLogs
     {
         private static CSJLogs Instance { get; set; }
-        private const string LogFilePath = @"C:\Temp\LightLog\CSJLOG.ini";
+        private string FileName { get; set; }
         private const string LogFileDirector = @"C:\Temp\LightLog";
         private FileStream Stream { get; set; }
 
@@ -20,7 +20,22 @@ namespace LightController.Tools
             {
                 Directory.CreateDirectory(LogFileDirector);
             }
-            Stream = new FileStream(LogFilePath, FileMode.Append);
+            string year = DateTime.Now.Year.ToString();
+            string month = string.Empty;
+            string day = string.Empty;
+            if (DateTime.Now.Month < 10)
+            {
+                month = "0";
+            }
+            month += DateTime.Now.Month.ToString(); ;
+            if (DateTime.Now.Day < 10)
+            {
+                day = "0";
+            }
+            day += DateTime.Now.Day.ToString();
+            FileName = year + month + day + ".ini";
+            Stream = new FileStream(LogFileDirector + @"\" + FileName, FileMode.Append);
+
         }
 
         public static CSJLogs GetInstance()

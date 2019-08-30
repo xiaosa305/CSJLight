@@ -1682,10 +1682,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void refreshComList()
 		{
-			// 动态加载可用的dmx512串口列表			
+            // 动态加载可用的dmx512串口列表		
+            Thread.Sleep(500);
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
-
 			comSkinComboBox.Items.Clear();
 			if (comList != null && comList.Length > 0)
 			{

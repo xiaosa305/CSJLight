@@ -41,7 +41,6 @@ namespace LightController.Tools
                 this.ComDevice.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
                 this.ComDevice.WriteBufferSize = this.PackageSize + 8;
                 this.TimeOutThread.Start();
-                CSJLogs.GetInstance().DebugLog("Init Completed");
             }
             catch (Exception)
             {
@@ -64,7 +63,6 @@ namespace LightController.Tools
                 this.StopBits = StopBits.One;
                 this.Parity = Parity.None;
                 this.DataBits = 8;
-                CSJLogs.GetInstance().DebugLog("SetDefaultSerialPort Completed");
             }
             catch (Exception)
             {

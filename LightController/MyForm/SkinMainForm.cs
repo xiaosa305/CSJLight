@@ -317,9 +317,9 @@ namespace LightController.MyForm
 			isInit = true;
 		}		
 		
-
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
+			// 启动时刷新可用串口列表
 			refreshComList();
 		}
 
@@ -349,7 +349,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 点击《在线升级》按钮
+		/// 点击《设备更新》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -406,8 +406,7 @@ namespace LightController.MyForm
 		#endregion
 
 
-		#region 工程相关 及 初始化辅助方法
-		
+		#region 工程相关 及 初始化辅助方法		
 
 		/// <summary>
 		/// 事件： 点击《新建工程》按钮
@@ -470,8 +469,7 @@ namespace LightController.MyForm
 				System.Diagnostics.Process.Start(savePath);
 			}
 		}
-
-	
+		
 		
 		/// <summary>
 		///  辅助方法：《保存工程》《导出工程》enabled设为传入bool值
@@ -527,7 +525,12 @@ namespace LightController.MyForm
 			hideAllTDPanels();
 
 		}
-		
+
+		#endregion
+
+
+		#region 选中listView中的灯具
+
 		/// <summary>
 		/// 事件：改变选中的灯时进行的操作
 		/// </summary>
@@ -1374,10 +1377,7 @@ namespace LightController.MyForm
 		{
 			commonStepTimeNumericUpDown.Select();
 		}
-
-
 		
-
 		/// <summary>
 		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
 		/// </summary>
@@ -1407,8 +1407,7 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
-
+		
 		/// <summary>
 		///  事件：《统一设置通道值numericUpDown》的鼠标进入区域获取焦点
 		/// </summary>
@@ -1664,9 +1663,8 @@ namespace LightController.MyForm
 
 		#region 调试相关按钮
 
-
 		/// <summary>
-		/// 辅助方法：重新搜索com列表
+		/// 辅助方法：重新搜索com列表：供启动时及需要重新搜索设备时使用。
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1694,8 +1692,12 @@ namespace LightController.MyForm
 				comChooseSkinButton.Enabled = false;
 			}
 		}
-
-
+		
+		/// <summary>
+		/// 事件：点击《刷新Com列表（图标）》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void comRefreshSkinButton_Click(object sender, EventArgs e)
 		{
 			refreshComList();
@@ -1719,10 +1721,9 @@ namespace LightController.MyForm
 				MessageBox.Show("未选中可用串口");
 			}
 		}
-
-
+		
 		/// <summary>
-		///  点击《连接设备|断开连接》按钮
+		///  事件：点击《连接设备|断开连接》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1756,6 +1757,7 @@ namespace LightController.MyForm
 		/// <param name="v"></param>
 		private void showConnectedButtons(bool connected)
 		{
+			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comChooseSkinButton.Enabled = !connected;
 			comRefreshSkinButton.Enabled = !connected;
 
@@ -1765,6 +1767,7 @@ namespace LightController.MyForm
 			previewSkinButton.Visible = connected;
 			endviewSkinButton.Visible = connected;
 
+			// 是否连接
 			isConnect  = connected;
 		}
 
@@ -1805,6 +1808,15 @@ namespace LightController.MyForm
 			oneLightStepWork();
 
 			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
+		}
+
+		/// <summary>
+		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
+		/// </summary>
+		protected override void oneLightStepWork()
+		{
+			base.oneLightStepWork();
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 		}
 
 		/// <summary>
@@ -1859,20 +1871,8 @@ namespace LightController.MyForm
 			// 2.调用结束预览方法
 			playTools.EndView();
 		}
-
-
-		/// <summary>
-		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
-		/// </summary>
-		protected override void oneLightStepWork()
-		{
-			base.oneLightStepWork();
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-		}
-
-
-
-
+		
+	
 		#endregion
 
 		

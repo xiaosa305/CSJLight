@@ -248,6 +248,7 @@ namespace LightController.Tools.CSJ.IMPL
                                         {
                                             changeValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(stepValue - startValue) & 0xFF) << 8);
                                             int inc = changeValue / stepTime;
+                                            startValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(startValue) & 0xFF) << 8);
                                             for (int fram = 0; fram < stepTime; fram++)
                                             {
                                                 if (step == data.StepCount && fram == (stepTime - 1))
@@ -333,6 +334,7 @@ namespace LightController.Tools.CSJ.IMPL
                                 {
                                     changeValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(stepValue - startValue) & 0xFF) << 8);
                                     int inc = changeValue / stepTime;
+                                    startValue = (int)((Convert.ToByte(0x00) & 0xFF) | (Convert.ToByte(startValue) & 0xFF) << 8);
                                     for (int fram = 0; fram < stepTime; fram++)
                                     {
                                         if (step == item.StepCount && fram == (stepTime - 1))

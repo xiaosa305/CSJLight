@@ -289,60 +289,7 @@ namespace LightController
 		}		   
 	
 
-		/// <summary>
-		///  这个方法，通过打开已有的工程，来加载各种数据到mainForm中
-		/// data.db3的载入：把相关内容，放到数据列表中
-		///    ①lightList 、stepCountList、valueList
-		///    ②lightAstList（由lightList生成）
-		///    ③lightWrapperList(由lightAstList生成)
-		/// </summary>
-		/// <param name="directoryPath"></param>
-		public override void OpenProject(string projectName)
-		{
-			// 0.初始化
-			InitProject(projectName, false);
-
-			// 把数据库的内容填充进来，并设置好对应的DAO
-			dbLightList = getLightList();
-			dbStepCountList = getStepCountList();
-			dbValueList = getValueList();
-			// 通过lightList填充lightAstList
-			lightAstList = reCreateLightAstList(dbLightList);
-			AddLightAstList(lightAstList);
-
-			// 针对每个lightWrapper，获取其已有步数的场景和模式
-			for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
-			{
-				IList<DB_StepCount> scList = stepCountDAO.getStepCountList(dbLightList[lightListIndex].LightNo);
-
-				if (scList != null && scList.Count > 0)
-				{
-					// 只要有步数的，优先生成StepMode
-					StepWrapper stepMode = generateStepTemplate(lightAstList[lightListIndex]);
-					lightWrapperList[lightListIndex].StepTemplate = stepMode;
-					foreach (DB_StepCount sc in scList)
-					{
-						int frame = sc.PK.Frame;
-						int mode = sc.PK.Mode;
-						int lightIndex = sc.PK.LightIndex;
-						int stepCount = sc.StepCount;
-
-						for (int step = 1; step <= stepCount; step++)
-						{
-							IList<DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode, step);
-							StepWrapper stepWrapper = StepWrapper.GenerateStepWrapper(stepMode, stepValueList, mode);
-							if (lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] == null)
-							{
-								lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
-							}
-							lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
-						}
-					}
-				}
-			}
-			isInit = true;
-			MessageBox.Show("成功打开工程");
-		}
+		
 
 		/// <summary>
 		///  辅助方法：将 save的两个按钮Enabled设为选定值
@@ -510,7 +457,7 @@ namespace LightController
 			//1.让tongdaoGroupBox显示出来
 			this.tongdaoGroupBox.Show();
 
-			//2.判断是不是已经有stepMode了
+			//2.判断是不是已经有stepTemplate了了
 			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
 			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
 			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
@@ -520,8 +467,8 @@ namespace LightController
 			if (lightWrapper.StepTemplate == null)
 			{				
 				lightWrapper.StepTemplate = generateStepTemplate(lightAst);
-				showStepLabel(0, 0);
 				hideAllTongdao();
+				showStepLabel(0, 0);				
 			}			
 			else
 			{

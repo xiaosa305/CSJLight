@@ -296,7 +296,7 @@ namespace LightController
 		/// </summary>
 		protected override void enableSave(bool enable) {
 			saveButton.Enabled = enable;
-			saveAsButton.Enabled = enable;
+			exportButton.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1555,5 +1555,23 @@ namespace LightController
 			string sskName = skinComboBox.Text;
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
 		}
+
+		/// <summary>
+		/// 事件：点击《导出工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void exportButton_Click(object sender, EventArgs e)
+		{			
+			DBWrapper dbWrapper = GetDBWrapper(true);
+			string savePath = @"C:\Temp\ExportDirectory\" + currentProjectName + @"\CSJ";
+
+			FileTools fileTools = FileTools.GetInstance();
+			fileTools.ProjectToFile(dbWrapper, globalIniPath, savePath);
+
+			//导出成功后，打开文件夹
+			System.Diagnostics.Process.Start(savePath);			
+		}
+
 	}
 }

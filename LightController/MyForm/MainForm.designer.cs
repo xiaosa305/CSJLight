@@ -38,7 +38,7 @@ namespace LightController
 			this.newFileButton = new System.Windows.Forms.Button();
 			this.openFileButton = new System.Windows.Forms.Button();
 			this.saveButton = new System.Windows.Forms.Button();
-			this.saveAsButton = new System.Windows.Forms.Button();
+			this.exportButton = new System.Windows.Forms.Button();
 			this.projectSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.lightsListView = new System.Windows.Forms.ListView();
@@ -401,17 +401,18 @@ namespace LightController
 			this.saveButton.UseVisualStyleBackColor = true;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
-			// saveAsButton
+			// exportButton
 			// 
-			this.saveAsButton.Enabled = false;
-			this.saveAsButton.Location = new System.Drawing.Point(249, 41);
-			this.saveAsButton.Margin = new System.Windows.Forms.Padding(2);
-			this.saveAsButton.Name = "saveAsButton";
-			this.saveAsButton.Size = new System.Drawing.Size(69, 52);
-			this.saveAsButton.TabIndex = 5;
-			this.saveAsButton.Text = "另存工程";
-			this.saveAsButton.UseVisualStyleBackColor = true;
-			this.saveAsButton.Visible = false;
+			this.exportButton.Enabled = false;
+			this.exportButton.Location = new System.Drawing.Point(249, 41);
+			this.exportButton.Margin = new System.Windows.Forms.Padding(2);
+			this.exportButton.Name = "exportButton";
+			this.exportButton.Size = new System.Drawing.Size(69, 52);
+			this.exportButton.TabIndex = 5;
+			this.exportButton.Text = "导出工程";
+			this.exportButton.UseVisualStyleBackColor = true;
+			this.exportButton.Visible = false;
+			this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
 			// 
 			// skinEngine1
 			// 
@@ -3195,7 +3196,7 @@ namespace LightController
 			this.updateToolStripMenuItem.Enabled = false;
 			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
 			this.updateToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-			this.updateToolStripMenuItem.Text = "在线升级";
+			this.updateToolStripMenuItem.Text = "设备更新";
 			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
 			// 
 			// lightsEditToolStripMenuItem
@@ -3246,33 +3247,33 @@ namespace LightController
 			// CSJToolNoticeToolStripMenuItem
 			// 
 			this.CSJToolNoticeToolStripMenuItem.Name = "CSJToolNoticeToolStripMenuItem";
-			this.CSJToolNoticeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.CSJToolNoticeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.CSJToolNoticeToolStripMenuItem.Text = "提示";
 			this.CSJToolNoticeToolStripMenuItem.Click += new System.EventHandler(this.CSJToolNoticeToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
 			// 
 			// QDControllerToolStripMenuItem
 			// 
 			this.QDControllerToolStripMenuItem.Name = "QDControllerToolStripMenuItem";
-			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.QDControllerToolStripMenuItem.Text = "传视界灯控工具";
 			this.QDControllerToolStripMenuItem.Click += new System.EventHandler(this.QDControllerToolStripMenuItem_Click);
 			// 
 			// CenterControllerToolStripMenuItem
 			// 
 			this.CenterControllerToolStripMenuItem.Name = "CenterControllerToolStripMenuItem";
-			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.CenterControllerToolStripMenuItem.Text = "传视界中控工具";
 			this.CenterControllerToolStripMenuItem.Click += new System.EventHandler(this.CenterControllerToolStripMenuItem_Click);
 			// 
 			// KeyPressToolStripMenuItem
 			// 
 			this.KeyPressToolStripMenuItem.Name = "KeyPressToolStripMenuItem";
-			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
 			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
 			// 
@@ -3442,7 +3443,7 @@ namespace LightController
 			this.Controls.Add(this.oneLightStepButton);
 			this.Controls.Add(this.connectButton);
 			this.Controls.Add(this.previewButton);
-			this.Controls.Add(this.saveAsButton);
+			this.Controls.Add(this.exportButton);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.mainMenuStrip);
 			this.Controls.Add(this.soundButton);
@@ -3542,7 +3543,7 @@ namespace LightController
 		private System.Windows.Forms.Button newFileButton;
 		private System.Windows.Forms.Button openFileButton;
 		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.Button saveAsButton;
+		private System.Windows.Forms.Button exportButton;
 		private System.Windows.Forms.SaveFileDialog projectSaveFileDialog;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 

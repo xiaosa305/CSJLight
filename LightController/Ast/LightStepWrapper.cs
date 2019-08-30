@@ -12,7 +12,7 @@ namespace LightController.Ast
 	{
 		public int CurrentStep { get; set; }
 		public int TotalStep { get; set; } 
-		public List<StepWrapper> StepWrapperList { get; set; }
+		public IList<StepWrapper> StepWrapperList { get; set; }
 
 		/// <summary>
 		///  在index处插入新的步，

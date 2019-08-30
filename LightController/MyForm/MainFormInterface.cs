@@ -601,7 +601,7 @@ namespace LightController.MyForm
 						LightStepWrapper lightStep = lswl[frame, mode];
 						if (lightStep != null && lightStep.TotalStep > 0)
 						{  //只有不为null，才可能有需要保存的数据
-							List<StepWrapper> stepWrapperList = lightStep.StepWrapperList;
+							IList<StepWrapper> stepWrapperList = lightStep.StepWrapperList;
 							foreach (StepWrapper step in stepWrapperList)
 							{
 								int stepIndex = stepWrapperList.IndexOf(step) + 1;

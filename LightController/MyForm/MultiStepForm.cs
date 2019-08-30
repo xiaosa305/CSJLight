@@ -11,9 +11,20 @@ namespace LightController.MyForm
 {
 	public partial class MultiStepForm : Form
 	{
-		public MultiStepForm()
+
+		private MainFormInterface mainForm;
+		private int totalStep; // 最大步数
+		
+
+		public MultiStepForm(MainFormInterface mainForm)
 		{
+			this.mainForm = mainForm;
 			InitializeComponent();
+		}
+
+		private void MultiStepForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 		}
 	}
 }

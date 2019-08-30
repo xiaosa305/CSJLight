@@ -564,7 +564,7 @@ namespace LightController.MyForm
 			{
 				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
 			}
-			catch (Exception ex) {				
+			catch (Exception) {				
 				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
 			}			
 			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
@@ -1184,7 +1184,7 @@ namespace LightController.MyForm
 			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
 			if (isInit && mode == 1)
 			{
-				List<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+				IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
 				foreach (StepWrapper stepWrapper in stepWrapperList)
 				{
 					stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
@@ -1570,7 +1570,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiSkinButton_Click(object sender, EventArgs e)
 		{
-
+			MultiStepForm msForm = new MultiStepForm(this);
+			msForm.ShowDialog();
 		}
 
 		#endregion

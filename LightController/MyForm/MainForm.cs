@@ -973,7 +973,7 @@ namespace LightController
 			// 3.（6.29修改）若当前模式是声控模式：
 			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
 			if (isInit && mode == 1) {
-				List<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+				IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
 				foreach (StepWrapper stepWrapper in stepWrapperList) {
 					stepWrapper.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex;
 				}

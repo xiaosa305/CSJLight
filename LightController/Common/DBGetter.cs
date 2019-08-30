@@ -14,11 +14,13 @@ namespace LightController.Common
 		private LightDAO lightDAO;
 		private StepCountDAO stepCountDAO;
 		private ValueDAO valueDAO;
-		
+		private FineTuneDAO fineTuneDAO;
+
 		public DBGetter(string dbFile,bool addPassword) {
 			lightDAO = new LightDAO(dbFile, false);
 			stepCountDAO = new StepCountDAO(dbFile, false);
 			valueDAO = new ValueDAO(dbFile, false);
+			fineTuneDAO = new FineTuneDAO(dbFile, false);
 		}
 
 		public DBWrapper getAll() {
@@ -26,8 +28,9 @@ namespace LightController.Common
 			IList<DB_Light> lightList = lightDAO.GetAll();
 			IList<DB_StepCount> stepCountList = stepCountDAO.GetAll();
 			IList<DB_Value> valueList = valueDAO.GetAll();
+			IList<DB_FineTune> fineTuneList = fineTuneDAO.GetAll();
 
-			return new DBWrapper(lightList, stepCountList, valueList);
+			return new DBWrapper(lightList, stepCountList, valueList, fineTuneList);
 		}
 
 

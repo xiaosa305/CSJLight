@@ -86,9 +86,7 @@ namespace LightController.MyForm
 					"摇麦",
 					"喝彩",
 					"倒彩"
-		};
-
-		
+		};		
 
 		/// <summary>
 		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
@@ -129,9 +127,67 @@ namespace LightController.MyForm
 
 		}
 
+		/// <summary>
+		///  辅助方法，通过打开已有的工程，来加载各种数据到mainForm中
+		/// data.db3的载入：把相关内容，放到数据列表中
+		///    ①lightList 、stepCountList、valueList
+		///    ②lightAstList（由lightList生成）
+		///    ③lightWrapperList(由lightAstList生成)
+		/// </summary>
+		/// <param name="directoryPath"></param>
+		public void OpenProject(string projectName)
+		{
+			// 0.初始化
+			InitProject(projectName, false);
+
+			// 把数据库的内容填充进来，并设置好对应的DAO
+			dbLightList = getLightList();
+			dbStepCountList = getStepCountList();
+			dbValueList = getValueList();
+
+			// 通过lightList填充lightAstList
+			lightAstList = reCreateLightAstList(dbLightList);
+			AddLightAstList(lightAstList);
+
+			// 针对每个lightWrapper，获取其已有步数的场景和模式
+			for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
+			{
+				IList<DB_StepCount> scList = stepCountDAO.getStepCountList(dbLightList[lightListIndex].LightNo);
+
+				if (scList != null && scList.Count > 0)
+				{
+					// 只要有步数的，优先生成StepMode
+					StepWrapper stepTemplate = generateStepTemplate(lightAstList[lightListIndex]);
+					lightWrapperList[lightListIndex].StepTemplate = stepTemplate;
+					foreach (DB_StepCount sc in scList)
+					{
+						int frame = sc.PK.Frame;
+						int mode = sc.PK.Mode;
+						int lightIndex = sc.PK.LightIndex;
+						int stepCount = sc.StepCount;
+
+						for (int step = 1; step <= stepCount; step++)
+						{
+							IList<DB_Value> stepValueList = valueDAO.getStepValueList(lightIndex, frame, mode, step);
+							StepWrapper stepWrapper = StepWrapper.GenerateStepWrapper(stepTemplate, stepValueList, mode);
+							if (lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] == null)
+							{
+								lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
+							}
+							lightWrapperList[lightListIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+						}
+					}
+				}
+			}
+			// 8.29 统一生成步数模板
+			GenerateAllStepTemplates();
+
+			isInit = true;
+			MessageBox.Show("成功打开工程：" + projectName);
+		}
+
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
-		public virtual void OpenProject(string projectName) {}
 		protected virtual void enableGlobalSet(bool enable) { }
 		protected virtual void enableSave(bool enable) { }
 
@@ -376,7 +432,7 @@ namespace LightController.MyForm
 				generateDBValueList();
 				generateDBFineTuneList();
 
-				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueList);
+				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueList, dbFineTuneList);
 				return allData;
 			}
 		}	

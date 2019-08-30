@@ -1562,6 +1562,17 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《多步调节》按钮
+		/// TODO：多步调整，传入当前灯的LightWrapper，在里面调节相关的步数的相关信息
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiSkinButton_Click(object sender, EventArgs e)
+		{
+
+		}
+
 		#endregion
 
 
@@ -1871,8 +1882,8 @@ namespace LightController.MyForm
 			// 2.调用结束预览方法
 			playTools.EndView();
 		}
-		
-	
+
+
 		#endregion
 
 		

@@ -145,12 +145,14 @@ namespace LightController.Tools.CSJ.IMPL
                                 int.TryParse(strValue, out intValue);
                                 file.MICSensor = intValue;
                             }
+                            lineStr = reader.ReadLine();
                             if (lineStr.StartsWith(sceneData.SceneNo + "JG"))
                             {
                                 strValue = lineStr.Split('=')[1];
                                 int.TryParse(strValue, out intValue);
                                 file.SenseFreq = intValue;
                             }
+                            lineStr = reader.ReadLine();
                             if (lineStr.StartsWith(sceneData.SceneNo + "ZX"))
                             {
                                 strValue = lineStr.Split('=')[1];

@@ -70,6 +70,11 @@ namespace LightController.Tools
             {
                 project.ConfigFile.WriteToFile(savePath);
             }
+            ScenesInitData scenesInitData = new ScenesInitData(project);
+            if (null != scenesInitData)
+            {
+                scenesInitData.WriteToFile(savePath);
+            }
         }
         /// <summary>
         /// 生成硬件配置文件

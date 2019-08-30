@@ -11,9 +11,8 @@ namespace LightController.Ast
 {
 	public class ValueDAO: BaseDAO<DB_Value>
 	{
-		public ValueDAO(String dbFile, bool addPassword) : base(dbFile, addPassword)
+		public ValueDAO(String dbFile, bool isEncrypt) : base(dbFile, isEncrypt)
 		{
-			
 		}
 
 		// 通过lightIndex，frame,mode ,step ；来获取步数集合

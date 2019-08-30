@@ -353,6 +353,11 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.eachStepTimeNumericUpDown.Location = new System.Drawing.Point(146, 60);
 			this.eachStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.eachStepTimeNumericUpDown.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
 			this.eachStepTimeNumericUpDown.Minimum = new decimal(new int[] {
             30,
             0,
@@ -403,11 +408,8 @@ private System.ComponentModel.IContainer components = null;
 			// startupComboBox
 			// 
 			this.startupComboBox.FormattingEnabled = true;
-
-			this.startupComboBox.Items.Add("");
-		
-
-
+			this.startupComboBox.Items.AddRange(new object[] {
+            ""});
 			this.startupComboBox.Location = new System.Drawing.Point(146, 103);
 			this.startupComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.startupComboBox.Name = "startupComboBox";
@@ -476,7 +478,6 @@ private System.ComponentModel.IContainer components = null;
 			// zuheFrameComboBox
 			// 
 			this.zuheFrameComboBox.FormattingEnabled = true;
-			
 			this.zuheFrameComboBox.Location = new System.Drawing.Point(13, 26);
 			this.zuheFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheFrameComboBox.Name = "zuheFrameComboBox";
@@ -588,7 +589,6 @@ private System.ComponentModel.IContainer components = null;
 			// frame4ComboBox
 			// 
 			this.frame4ComboBox.FormattingEnabled = true;
-			
 			this.frame4ComboBox.Location = new System.Drawing.Point(560, 46);
 			this.frame4ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4ComboBox.Name = "frame4ComboBox";
@@ -598,7 +598,6 @@ private System.ComponentModel.IContainer components = null;
 			// frame3ComboBox
 			// 
 			this.frame3ComboBox.FormattingEnabled = true;
-			
 			this.frame3ComboBox.Location = new System.Drawing.Point(449, 46);
 			this.frame3ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3ComboBox.Name = "frame3ComboBox";
@@ -608,7 +607,6 @@ private System.ComponentModel.IContainer components = null;
 			// frame2ComboBox
 			// 
 			this.frame2ComboBox.FormattingEnabled = true;
-			
 			this.frame2ComboBox.Location = new System.Drawing.Point(335, 46);
 			this.frame2ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2ComboBox.Name = "frame2ComboBox";
@@ -618,14 +616,11 @@ private System.ComponentModel.IContainer components = null;
 			// frame1ComboBox
 			// 
 			this.frame1ComboBox.FormattingEnabled = true;
-			
 			this.frame1ComboBox.Location = new System.Drawing.Point(221, 46);
 			this.frame1ComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1ComboBox.Name = "frame1ComboBox";
 			this.frame1ComboBox.Size = new System.Drawing.Size(75, 20);
 			this.frame1ComboBox.TabIndex = 3;
-
-			
 			// 
 			// label9
 			// 
@@ -906,7 +901,6 @@ private System.ComponentModel.IContainer components = null;
 			// qdFrameComboBox
 			// 
 			this.qdFrameComboBox.FormattingEnabled = true;
-		
 			this.qdFrameComboBox.Location = new System.Drawing.Point(17, 26);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";

@@ -9,15 +9,12 @@ using DMX512;
 
 namespace LightController.Ast
 {
-	public class LightDAO: BaseDAO<DB_Light>
+	public class FineTuneDAO: BaseDAO<DB_FineTune>
 	{
-
-		public LightDAO(String dbFile,bool isEncrypt) : base(dbFile,isEncrypt)
+		public FineTuneDAO(String dbFile, bool isEncrypt) : base(dbFile, isEncrypt)
 		{
-
+			
 		}
-
-	
 
 	}
 }

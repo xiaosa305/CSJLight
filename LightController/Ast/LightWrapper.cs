@@ -12,7 +12,7 @@ namespace LightController.Ast
 	public class LightWrapper
 	{
 		// StepMode:每一步的模型。每次新建StepList的数据时，先采用这个模型。
-		public StepWrapper StepMode { get; set; }
+		public StepWrapper StepTemplate { get; set; }
 
 		// StepAstList类:是某一个场景模式（FＭ）下步数的集合;　
 		// StepList 数组:所有FM的StepAstList的集合
@@ -35,7 +35,7 @@ namespace LightController.Ast
 		internal static LightWrapper CopyLight(LightWrapper tempLight, LightWrapper selectedLight)
 		{
 			LightWrapper newLight = new LightWrapper();
-			newLight.StepMode = selectedLight.StepMode;
+			newLight.StepTemplate = selectedLight.StepTemplate;
 			for (int frame = 0; frame < 24; frame++) {
 				for (int mode = 0; mode < 2; mode++)
 				{
@@ -49,7 +49,7 @@ namespace LightController.Ast
 						for (int currentStep = 0; currentStep < tempLight.LightStepWrapperList[frame, mode].TotalStep; currentStep++)
 						{
 							IList<TongdaoWrapper> tempTongdaoList = tempLight.LightStepWrapperList[frame, mode].StepWrapperList[currentStep].TongdaoList;
-							StepWrapper newStep = StepWrapper.GenerateStepWrapper(newLight.StepMode,tempTongdaoList , mode);
+							StepWrapper newStep = StepWrapper.GenerateStepWrapper(newLight.StepTemplate,tempTongdaoList , mode);
 							newLight.LightStepWrapperList[frame, mode].AddStep(newStep);
 						}
 					}

@@ -25,7 +25,7 @@ namespace LightController.MyForm
 
 		// 全局配置及数据库连接		
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
-		protected string globalIniFilePath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
+		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密
 
@@ -33,11 +33,13 @@ namespace LightController.MyForm
 		protected LightDAO lightDAO;
 		protected StepCountDAO stepCountDAO;
 		protected ValueDAO valueDAO;
+		protected FineTuneDAO fineTuneDAO;
 
 		// 这几个IList ，存放着所有数据库数据		
 		protected IList<DB_Light> dbLightList = new List<DB_Light>();
 		protected IList<DB_StepCount> dbStepCountList = new List<DB_StepCount>();
 		protected IList<DB_Value> dbValueList = new List<DB_Value>();
+		protected IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
 		
 		protected IList<LightAst> lightAstList;	 //与《灯具编辑》通信用的变量 
 		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一步（通道列表）
@@ -46,8 +48,8 @@ namespace LightController.MyForm
 		protected int selectedLightIndex = -1; //选择的灯具的index
 		protected int frame = 0; // 0-23 表示24种场景
 		protected int mode = 0;  // 0.常规模式； 1.音频模式
-		protected bool isUseStepMode = false ; // 是否勾选了《使用模板生成步》
-		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制灯
+		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》
+		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯
 		protected StepWrapper tempStep; //// 辅助步变量：复制及粘贴步时用到
 
 			   
@@ -86,14 +88,14 @@ namespace LightController.MyForm
 					"倒彩"
 		};
 
-		// 几个virtual修饰的方法：主要供各种Form回调使用		
+		
 
 		/// <summary>
 		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
 		/// </summary>
 		/// <param name="projectName"></param>
 		/// <param name="isNew"></param>
-		public virtual void InitProject(string projectName, bool isNew)		{
+		public void InitProject(string projectName, bool isNew)		{
 
 			//0.清空所有list
 			clearAllData();
@@ -101,7 +103,7 @@ namespace LightController.MyForm
 			// 1.全局设置
 			currentProjectName = projectName;
 			string directoryPath = "C:\\Temp\\LightProject\\" + projectName;			
-			globalIniFilePath = directoryPath + "\\global.ini";
+			globalIniPath = directoryPath + "\\global.ini";
 			dbFilePath = directoryPath + "\\data.db3";
 			this.Text = "智控配置(当前工程:" + projectName + ")";
 			this.isNew = isNew;
@@ -112,6 +114,7 @@ namespace LightController.MyForm
 			lightDAO = null;
 			stepCountDAO = null;
 			valueDAO = null;
+			fineTuneDAO = null;
 
 			// 若为新建，则初始化db的table（随机使用一个DAO即可初始化）
 			if (isNew)
@@ -119,42 +122,26 @@ namespace LightController.MyForm
 				lightDAO = new LightDAO(dbFilePath, false);
 				lightDAO.CreateSchema(true, true);
 			}
-		}
-		public virtual void OpenProject(string projectName) {	}
-		public virtual void AddLightAstList(IList<LightAst> lightAstList2) {
 
-			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
-			for (int i = 0; i < lightAstList2.Count; i++)
-			{
-				// 如果addOld改成true，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
-				bool addOld = false;
-				if (lightWrapperList != null && lightWrapperList.Count > 0)
-				{
-					for (int j = 0; j < lightAstList.Count; j++)
-					{
-						if ((j < lightWrapperList.Count)
-							&& lightAstList2[i].Equals(lightAstList[j])
-							&& lightWrapperList[j] != null
-						)
-						{
-							lightWrapperList2.Add(lightWrapperList[j]);
-							addOld = true;
-							break;
-						}
-					}
-				}
-				if (!addOld)
-				{
-					Console.WriteLine("Dickov : 添加了一个全新的LightWrapper（还没有生成StepMode)");
-					lightWrapperList2.Add(new LightWrapper());
-				}
-			}
-			lightAstList = new List<LightAst>(lightAstList2);
-			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
+			// 设置各按键是否可用
+			enableGlobalSet(true);
+			enableSave(true);
+
 		}
 
+		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
+
+		public virtual void OpenProject(string projectName) {}
 		protected virtual void enableGlobalSet(bool enable) { }
 		protected virtual void enableSave(bool enable) { }
+
+		/// <summary>
+		/// 辅助方法（纯虚方法）：选择不同步数时统一使用这个方法（上一步下一步新建步等情况下用）
+		/// </summary>
+		/// <param name="stepNum"></param>
+		protected virtual void chooseStep(int stepNum) { }
+
+		#endregion
 
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据
@@ -185,6 +172,126 @@ namespace LightController.MyForm
 			}
 			return lightAstList;
 		}
+
+		/// <summary>
+		/// 添加lightAst列表到主界面内存中,主要供 LightsForm调用（以及OpenProject调用）
+		/// </summary>
+		public virtual void AddLightAstList(IList<LightAst> lightAstList2)
+		{
+			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
+			for (int i = 0; i < lightAstList2.Count; i++)
+			{
+				// 如果addOld改成true，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
+				bool addOld = false;
+				if (lightWrapperList != null && lightWrapperList.Count > 0)
+				{
+					for (int j = 0; j < lightAstList.Count; j++)
+					{
+						if ((j < lightWrapperList.Count)
+							&& lightAstList2[i].Equals(lightAstList[j])
+							&& lightWrapperList[j] != null
+						)
+						{
+							lightWrapperList2.Add(lightWrapperList[j]);
+							addOld = true;
+							break;
+						}
+					}
+				}
+				if (!addOld)
+				{
+					Console.WriteLine("Dickov : 添加了一个全新的LightWrapper（还没有生成StepTemplate)");
+					lightWrapperList2.Add(new LightWrapper());
+				}
+			}
+			lightAstList = new List<LightAst>(lightAstList2);
+			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
+		}
+
+		/// <summary>
+		/// 辅助方法：在《打开工程》《添加灯具》时统一生成所有的LightWrapper的StepTemplate（步数模板）
+		/// </summary>
+		public void GenerateAllStepTemplates() {
+			if (lightWrapperList.Count != lightAstList.Count) {
+				MessageBox.Show("统一生成步数模板时验证错误：lightWrapperList和lightAstList数量不合！");
+				return;
+			}
+			for (int i = 0; i < lightWrapperList.Count; i++)
+			{
+				if (lightWrapperList[i].StepTemplate == null) {
+					lightWrapperList[i].StepTemplate = generateStepTemplate(lightAstList[i]);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 生成模板Step --》 之后每新建一步，都复制模板step的数据。
+		/// </summary>
+		/// <param name="lightAst"></param>
+		/// <param name="lightIndex"></param>
+		/// <returns></returns>
+		protected StepWrapper generateStepTemplate(LightAst lightAst)
+		{
+			Console.WriteLine("Dickov : 开始生成模板文件(StepTemplate)：" + lightAst.LightName + lightAst.LightType + "(" + lightAst.LightAddr + ")");
+			int startNum = lightAst.StartNum;
+			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
+			{
+				// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
+				StreamReader reader = new StreamReader(file, Encoding.UTF8);
+				string s = "";
+				ArrayList lineList = new ArrayList();
+				int lineCount = 0;
+				while ((s = reader.ReadLine()) != null)
+				{
+					lineList.Add(s);
+					lineCount++;
+				}
+				// 当行数小于5行时，这个文件肯定是错的;最少需要5行(实际上真实数据至少9行: [set]+4+[data]+3 ）
+				if (lineCount < 5)
+				{
+					MessageBox.Show("Dickov：打开的ini文件格式有误，无法生成StepTemplate！");
+					return null;
+				}
+				else
+				{
+					int tongdaoCount2 = (lineCount - 6) / 3;
+					int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
+					if (tongdaoCount2 < tongdaoCount)
+					{
+						MessageBox.Show("Dickov：打开的ini文件的count值与实际值不符合，无法生成StepTemplate！");
+						return null;
+					}
+
+					List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
+					for (int i = 0; i < tongdaoCount; i++)
+					{
+						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
+						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
+						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
+						tongdaoList.Add(new TongdaoWrapper()
+						{
+							TongdaoName = tongdaoName,
+							ScrollValue = initNum,
+							StepTime = 10,
+							ChangeMode = 0,
+							Address = startNum + (address - 1)
+						});
+					}
+
+
+					return new StepWrapper()
+					{
+						TongdaoList = tongdaoList,
+						LightFullName = lightAst.LightName + "*" + lightAst.LightType,
+						StartNum = startNum
+						// 这里使用“*”作为分隔符，这样的字符无法在系统生成文件夹;
+						// 这样就能有效防止有些灯刚好Name+Type的组合相同
+					};
+				}
+			}
+		}
+		
+		#region 由数据库取数据的几个方法
 
 		/// <summary>
 		///  辅助方法：由dbFilePath，获取lightList
@@ -229,78 +336,21 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：彻底退出程序
+		///  辅助方法：由dbFilePath，获取fineTuneList
 		/// </summary>
-		protected void Exit() {
-			System.Environment.Exit(0);
-		}
-
-		/// <summary>
-		/// 生成模板Step --》 之后每新建一步，都复制模板step的数据。
-		/// </summary>
-		/// <param name="lightAst"></param>
-		/// <param name="lightIndex"></param>
 		/// <returns></returns>
-		protected StepWrapper generateStepMode(LightAst lightAst)
+		protected IList<DB_FineTune> getFineTuneList()
 		{
-			Console.WriteLine("Dickov:开始生成模板文件(StepMode)");
-			int startNum = lightAst.StartNum;
-
-			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
+			if (fineTuneDAO == null)
 			{
-				// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
-				StreamReader reader = new StreamReader(file, Encoding.UTF8);
-				string s = "";
-				ArrayList lineList = new ArrayList();
-				int lineCount = 0;
-				while ((s = reader.ReadLine()) != null)
-				{
-					lineList.Add(s);
-					lineCount++;
-				}
-				// 当行数小于5行时，这个文件肯定是错的;最少需要5行(实际上真实数据至少9行: [set]+4+[data]+3 ）
-				if (lineCount < 5)
-				{
-					MessageBox.Show("Dickov：打开的ini文件格式有误，无法生成StepAst！");
-					return null;
-				}
-				else
-				{
-					int tongdaoCount2 = (lineCount - 6) / 3;
-					int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
-					if (tongdaoCount2 < tongdaoCount)
-					{
-						MessageBox.Show("Dickov：打开的ini文件的count值与实际值不符合，无法生成StepAst！");
-						return null;
-					}
-
-					List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
-					for (int i = 0; i < tongdaoCount; i++)
-					{
-						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
-						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-						tongdaoList.Add(new TongdaoWrapper()
-						{
-							TongdaoName = tongdaoName,
-							ScrollValue = initNum,
-							StepTime = 10,
-							ChangeMode = 0,
-							Address = startNum + (address - 1)
-						});
-					}
-
-					return new StepWrapper()
-					{
-						TongdaoList = tongdaoList,
-						LightFullName = lightAst.LightName + "*" + lightAst.LightType,
-						StartNum = startNum
-						// 这里使用“*”作为分隔符，这样的字符无法在系统生成文件夹;
-						// 这样就能有效防止有些灯刚好Name+Type的组合相同
-					};
-				}
+				fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
 			}
+			IList<DB_FineTune> ftList = fineTuneDAO.GetAll();
+			return ftList;
 		}
+
+		#endregion
+
 
 		/// <summary>
 		///  辅助方法：通过fromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
@@ -324,149 +374,13 @@ namespace LightController.MyForm
 				generateDBLightList();
 				generateDBStepCountList();
 				generateDBValueList();
+				generateDBFineTuneList();
 
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueList);
 				return allData;
 			}
-		}
-
-		#region 获取各种当前的值或对象
-
-		/// <summary>
-		///  获取当前选中的LightWrapper
-		/// </summary>
-		/// <returns></returns>
-		protected LightWrapper getCurrentLightWrapper()
-		{
-			return lightWrapperList[selectedLightIndex];
-		}
-
-		/// <summary>
-		///  辅助方法：取出选定灯具、Frame、Mode 的 所有步数集合
-		/// </summary>
-		/// <returns></returns>
-		protected LightStepWrapper getCurrentLightStepWrapper()
-		{
-			// 说明尚未点击任何灯具
-			if (selectedLightIndex == -1)
-			{
-				return null;
-			}
-			// 说明内存内还没有任何灯具
-			if (lightWrapperList == null || lightWrapperList.Count == 0)
-			{
-				return null;
-			}
-
-			LightWrapper light = lightWrapperList[selectedLightIndex];
-			if (light == null)
-			{
-				return null;
-			}
-			else
-			{
-				//若为空，则立刻创建一个
-				if (light.LightStepWrapperList[frame, mode] == null)
-				{
-					light.LightStepWrapperList[frame, mode] = new LightStepWrapper()
-					{
-						StepWrapperList = new List<StepWrapper>()
-					};
-				};
-				return light.LightStepWrapperList[frame, mode];
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：这个方法直接取出当前步：筛选条件比较苛刻
-		/// </summary>
-		/// <returns></returns>
-		protected StepWrapper getCurrentStepWrapper()
-		{
-			LightStepWrapper light = getCurrentLightStepWrapper();
-			if (light != null
-				&& light.TotalStep != 0
-				&& light.CurrentStep != 0
-				&& light.StepWrapperList != null
-				&& light.StepWrapperList.Count != 0)
-			{
-				return light.StepWrapperList[light.CurrentStep - 1];
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		/// <summary>
-		///  获取当前灯具的StepMode，用于还未生成步数时调用
-		/// </summary>
-		/// <returns></returns>
-		protected StepWrapper getCurrentStepMode()
-		{
-			LightStepWrapper light = getCurrentLightStepWrapper();
-			if (light != null)
-			{
-				return getCurrentLightWrapper().StepMode;
-			}
-			else
-			{
-				return null;
-			}
-
-		}
-
-		/// <summary>
-		///  辅助方法：取出当前LightStepWrapper的currentStep值
-		/// </summary>
-		/// <returns></returns>
-		protected int getCurrentStepValue()
-		{
-			LightStepWrapper light = getCurrentLightStepWrapper();
-			if (light != null)
-			{
-				return getCurrentLightStepWrapper().CurrentStep;
-			}
-			else
-			{
-				return 0;
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：取出当前步的totalStep值
-		/// </summary>
-		/// <returns></returns>
-		protected int getTotalStepValue()
-		{
-			LightStepWrapper light = getCurrentLightStepWrapper();
-			if (light != null)
-			{
-				return getCurrentLightStepWrapper().TotalStep;
-			}
-			else
-			{
-				return 0;
-			}
-		}
-			   		 
-		/// <summary>
-		///  8.15新增的
-		///  辅助方法：取出当前灯在该场景模式下的最大步数据，用于追加步
-		/// </summary>
-		/// <returns></returns>
-		protected StepWrapper getCurrentLightMaxStepWrapper() {
-			LightStepWrapper light = getCurrentLightStepWrapper();
-			int totalStep = getTotalStepValue();
-			if (light == null || totalStep == 0) {
-				return null;
-			}
-			else
-			{
-				return light.StepWrapperList[getTotalStepValue() - 1];
-			}		
-		}
-
+		}	
+		
 		/// <summary>
 		///  保存灯具数据；有几个灯具就保存几个-->先统一删除，再保存
 		///  ---（效率比SaveOrUpdate更高，且如果有被删掉的数据，此方法会顺便把该数据删除）
@@ -498,6 +412,53 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///  辅助方法：保存所有的《微调对应键值》列表
+		/// </summary>
+		protected void saveAllFineTunes()
+		{
+			if (fineTuneDAO == null)
+			{
+				fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
+			}
+			generateDBFineTuneList();
+			
+			// 保存数据
+			fineTuneDAO.SaveAll("FineTune", dbFineTuneList);
+		}
+
+		/// <summary>
+		/// 辅助方法：由lightWrapperList生成最新的dbFineTuneList;
+		/// </summary>
+		private void generateDBFineTuneList()
+		{
+			dbFineTuneList = new List<DB_FineTune>(); // 每次更新为最新数据
+
+			// 遍历lightWrapperList的模板数据，用以读取相关的通道名称，才能加以处理
+			
+			foreach (LightWrapper lightWrapper in lightWrapperList) {
+				StepWrapper stepTemplate = lightWrapper.StepTemplate;
+				if (stepTemplate != null && stepTemplate.TongdaoList != null) {
+					int xz = 0, xzwt = 0, yz = 0, yzwt = 0;
+					foreach (TongdaoWrapper td in stepTemplate.TongdaoList)
+					{
+						switch (td.TongdaoName.Trim()) {
+							case "X轴": xz = td.Address;break;
+							case "X轴微调": xzwt = td.Address; break;
+							case "Y轴": yz = td.Address; break;
+							case "Y轴微调": yzwt = td.Address; break;
+						}						
+					}
+					if (xz != 0 && xzwt != 0) {
+						dbFineTuneList.Add(new DB_FineTune() {	MainIndex = xz , FineTuneIndex = xzwt } );
+					}
+					if (yz != 0 && yzwt != 0) {
+						dbFineTuneList.Add(new DB_FineTune(){	MainIndex = yz,	FineTuneIndex = yzwt	});
+					}
+				}
+			}
+		}
+
+		/// <summary>
 		/// 保存步数信息：针对每个灯具，保存其相关的步数情况; 
 		/// </summary>
 		protected void saveAllStepCounts()
@@ -510,8 +471,8 @@ namespace LightController.MyForm
 			generateDBStepCountList();
 			// 先删除所有，再保存当前的列表
 			stepCountDAO.SaveAll("StepCount", dbStepCountList);
-		}
-
+		}	
+		
 		/// <summary>
 		/// 辅助方法：由lightWrapperList生成最新的dbStepCountList，都放在内存中
 		/// </summary>
@@ -613,7 +574,7 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
+			   
 		/// <summary>
 		/// 点击《保存工程》按钮
 		/// 保存需要进行的操作：
@@ -635,8 +596,12 @@ namespace LightController.MyForm
 			saveAllLights();
 			saveAllStepCounts();
 			saveAllValues();
+			saveAllFineTunes();
+
 			MessageBox.Show("成功保存");
 		}
+
+		#region 素材相关
 
 		/// <summary>
 		/// 辅助方法:调用素材
@@ -645,7 +610,93 @@ namespace LightController.MyForm
 		/// <param name="method"></param>
 		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, MaterialUseForm.InsertMethod method)
 		{
-			
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			int totalStep = lsWrapper.TotalStep;
+			int currentStep = lsWrapper.CurrentStep;
+			int addStepCount = materialAst.Step;
+
+			// 选择《插入》时的操作：后插法（往当前步后加数据）
+			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
+			if (method == MaterialUseForm.InsertMethod.INSERT || totalStep == 0)
+			{
+				int finalStep = totalStep + addStepCount;
+				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
+				{
+					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
+					return;
+				}
+				StepWrapper stepTemplate = getCurrentStepTemplate();
+				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepTemplate.TongdaoList);
+				if (sameTDIndexList.Count == 0)
+				{
+					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+					return;
+				}
+				else
+				{
+					StepWrapper newStep = null;
+					for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
+					{
+						newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
+						// 改造下newStep,将素材值赋给newStep 
+						changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
+						// 使用后插法：避免当前无数据的情况下调用素材失败
+						lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
+					}
+					chooseStep(finalStep);
+				}
+			}
+			// 选择覆盖时的操作：后插法
+			//（当前步也要被覆盖，除非没有当前步-》totalStep == currentStep == 0）
+			else
+			{
+				int finalStep = (currentStep - 1) + addStepCount;// finalStep为覆盖后最后一步的序列，而非所有步的数量
+
+				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
+				{
+					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用；可选择其他位置覆盖");
+					return;
+				}
+
+				StepWrapper stepTemplate = getCurrentStepTemplate();
+				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepTemplate.TongdaoList);
+				if (sameTDIndexList.Count == 0)
+				{
+					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+					return;
+				}
+
+				//覆盖的核心逻辑：
+				// 方法1：先找出已有的数据改造之；若没有则添加。实现比较复杂，需考虑多方面情况，不采用。
+				// 方法2：①比对 finalStep（currentStep+addStepCount)  和 totalStep值，
+				//					若finalStep <=totalStep,无需处理
+				//					若finalStep > totalStep,则需addStep，直到totalStep=finalStep
+				//				②取出currentStep到finalStep的所有步数（addStepCount数)，用changeStepFromMaterial取代之。
+				else
+				{
+					StepWrapper newStep = null;
+
+					if (finalStep > totalStep)
+					{
+						for (int i = 0; i < finalStep - totalStep; i++)
+						{
+							newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
+							lsWrapper.AddStep(newStep);
+						}
+					}
+
+					for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
+					{
+						changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
+						newStep = lsWrapper.StepWrapperList[stepIndex];
+					}
+
+					if (newStep != null)
+					{
+						chooseStep(finalStep);
+					}
+				}
+			}
 		}
 		
 		/// <summary>
@@ -675,7 +726,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：将用传进来的素材数据，重新包装StepWrapper
+		/// 辅助方法：用传进来的素材数据，重新包装StepWrapper
 		/// </summary>
 		/// <param name="materialTongdaoList"></param>
 		/// <param name="sameTDIndexList"></param>
@@ -692,13 +743,14 @@ namespace LightController.MyForm
 				newStep.TongdaoList[currentTDIndex].StepTime = materialTongdaoList[stepIndex, materialTDIndex].StepTime;
 			}
 		}
-
+		
+		#endregion		
 
 		/// <summary>
 		/// 辅助方法：单灯单步发送DMX512帧数据
 		/// </summary>
 		protected virtual void oneLightStepWork()
-		{					 
+		{
 			if (!isConnect)
 			{
 				MessageBox.Show("请先连接设备");
@@ -723,10 +775,172 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：改变tdPanel中的通道值之后（改trackBar或者numericUpDown），更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。	
+		/// </summary>
+		/// <param name="tongdaoIndex"></param>
+		protected void changeScrollValue(int tongdaoIndex, int tdValue)
+		{
+			// 1.设tongdaoWrapper的值
+			StepWrapper step = getCurrentStepWrapper();
+			step.TongdaoList[tongdaoIndex].ScrollValue = tdValue;
+			//2.是否实时单灯单步
+			if (isConnect && isRealtime)
+			{
+				oneLightStepWork();
+			}
+		}
 
+		#region 获取各种当前（步数、灯具）等的辅助方法
+
+		/// <summary>
+		///  获取当前选中的LightWrapper
+		/// </summary>
+		/// <returns></returns>
+		protected LightWrapper getCurrentLightWrapper()
+		{
+			return lightWrapperList[selectedLightIndex];
+		}
+
+		/// <summary>
+		///  辅助方法：取出选定灯具、Frame、Mode 的 所有步数集合
+		/// </summary>
+		/// <returns></returns>
+		protected LightStepWrapper getCurrentLightStepWrapper()
+		{
+			// 说明尚未点击任何灯具
+			if (selectedLightIndex == -1)
+			{
+				return null;
+			}
+			// 说明内存内还没有任何灯具
+			if (lightWrapperList == null || lightWrapperList.Count == 0)
+			{
+				return null;
+			}
+
+			LightWrapper light = lightWrapperList[selectedLightIndex];
+			if (light == null)
+			{
+				return null;
+			}
+			else
+			{
+				//若为空，则立刻创建一个
+				if (light.LightStepWrapperList[frame, mode] == null)
+				{
+					light.LightStepWrapperList[frame, mode] = new LightStepWrapper()
+					{
+						StepWrapperList = new List<StepWrapper>()
+					};
+				};
+				return light.LightStepWrapperList[frame, mode];
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：这个方法直接取出当前步：筛选条件比较苛刻
+		/// </summary>
+		/// <returns></returns>
+		protected StepWrapper getCurrentStepWrapper()
+		{
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light != null
+				&& light.TotalStep != 0
+				&& light.CurrentStep != 0
+				&& light.StepWrapperList != null
+				&& light.StepWrapperList.Count != 0)
+			{
+				return light.StepWrapperList[light.CurrentStep - 1];
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		/// <summary>
+		///  获取当前灯具的StepMode，用于还未生成步数时调用
+		/// </summary>
+		/// <returns></returns>
+		protected StepWrapper getCurrentStepTemplate()
+		{
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light != null)
+			{
+				return getCurrentLightWrapper().StepTemplate;
+			}
+			else
+			{
+				return null;
+			}
+
+		}
+
+		/// <summary>
+		///  辅助方法：取出当前LightStepWrapper的currentStep值
+		/// </summary>
+		/// <returns></returns>
+		protected int getCurrentStepValue()
+		{
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light != null)
+			{
+				return getCurrentLightStepWrapper().CurrentStep;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：取出当前步的totalStep值
+		/// </summary>
+		/// <returns></returns>
+		protected int getTotalStepValue()
+		{
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light != null)
+			{
+				return getCurrentLightStepWrapper().TotalStep;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		/// <summary>
+		///  8.15新增的
+		///  辅助方法：取出当前灯在该场景模式下的最大步数据，用于追加步
+		/// </summary>
+		/// <returns></returns>
+		protected StepWrapper getCurrentLightMaxStepWrapper()
+		{
+			LightStepWrapper light = getCurrentLightStepWrapper();
+			int totalStep = getTotalStepValue();
+			if (light == null || totalStep == 0)
+			{
+				return null;
+			}
+			else
+			{
+				return light.StepWrapperList[getTotalStepValue() - 1];
+			}
+		}
 
 		#endregion
 
+		#region 窗体相关方法：退出、
+		/// <summary>
+		///  辅助方法：彻底退出程序
+		/// </summary>
+		protected void Exit()
+		{
+			System.Environment.Exit(0);
+		}
 
+		#endregion
 	}
 }

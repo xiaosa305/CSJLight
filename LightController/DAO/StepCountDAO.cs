@@ -11,7 +11,7 @@ namespace LightController.Ast
 {
 	public class StepCountDAO: BaseDAO<DB_StepCount>
 	{
-		public StepCountDAO(String dbFile,bool addPassword):base(dbFile,addPassword)
+		public StepCountDAO(String dbFile,bool isEncrypt):base(dbFile,isEncrypt)
 		{
 			
 		}

@@ -151,12 +151,14 @@
     <Compile Include="Ast\LightStepWrapper.cs" />
     <Compile Include="Ast\StepWrapper.cs" />
     <Compile Include="Common\TextAst.cs" />
+    <Compile Include="DAO\FineTuneDAO.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
     <Compile Include="DAO\LightDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
+    <Compile Include="Entity\DB_FineTune.cs" />
     <Compile Include="MyForm\GlobalSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -401,6 +403,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
+    <EmbeddedResource Include="Mapping\DB_FineTune.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="MaterialSet.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -97,11 +97,11 @@ namespace LightController.MyForm
 				this.commonChangeModeComboBox.Items.Add("是");				
 				this.commonChangeModeComboBox.SelectedIndex = 0;
 
+				// 音频模式下：《全部屏蔽》、及步时间调整值都隐藏。
+				IgnoreSkinButton.Hide();
 				commonStepTimetNumericUpDown.Hide();
 				commonStepTimeSkinButton.Hide();
 			}
-
-
 
 		}
 
@@ -110,11 +110,33 @@ namespace LightController.MyForm
 			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 		}
 
-		private void zeroSkinButton_Click(object sender, EventArgs e)
-		{
+		#region 各种事件
 
+		/// <summary>
+		/// 事件：点击《全部屏蔽》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ignoreSkinButton_Click(object sender, EventArgs e)
+		{
+			if (checkStepAndTds())
+			{
+				mainForm.setMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 2);
+			}
 		}
 
+		/// <summary>
+		/// 事件：点击《通道值归零》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zeroSkinButton_Click(object sender, EventArgs e)
+		{
+			if (checkStepAndTds())
+			{
+				mainForm.setMultiStepValues(MainFormInterface.WHERE.SCROLL_VALUE, tdIndexList, startStep, endStep, 0);
+			}
+		}
 
 		/// <summary>
 		/// 事件：点击《统一通道值》
@@ -171,6 +193,19 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《右上角关闭(X)》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MultiStepForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
+
+		#endregion
+
+		/// <summary>
 		/// 辅助方法：
 		/// 1. 测试起始步和结束步是否冲突；
 		/// 2.测试通道是否选择通道，若未选中任何通道，则更改无意义
@@ -203,5 +238,7 @@ namespace LightController.MyForm
 				}				
 			}			
 		}
+
+
 	}
 }

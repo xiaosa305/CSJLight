@@ -1564,7 +1564,7 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 事件：点击《多步调节》按钮
-		/// TODO：多步调整，传入当前灯的LightWrapper，在里面调节相关的步数的相关信息
+		/// 多步调整，传入当前灯的LightWrapper，在里面回调setMultiStepValues以调节相关的步数的值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

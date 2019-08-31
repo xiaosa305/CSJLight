@@ -19,7 +19,7 @@ namespace LightController.Ast
 		public int StartNum { get; set; }
 
 		// 这个列表记录通道数据
-		public List<TongdaoWrapper> TongdaoList { get; set; }
+		public IList<TongdaoWrapper> TongdaoList { get; set; }
 
 
 		/// <summary>

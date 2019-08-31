@@ -816,7 +816,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 			if (step != null)
 			{
-				List<TongdaoWrapper> tongdaoList = step.TongdaoList;
+				IList<TongdaoWrapper> tongdaoList = step.TongdaoList;
 				byte[] stepBytes = new byte[512];
 				foreach (TongdaoWrapper td in tongdaoList)
 				{
@@ -998,5 +998,31 @@ namespace LightController.MyForm
 		}
 
 		#endregion
+
+
+		/// <summary>
+		/// 枚举类型：《多步(多通道)调节》参数的一种
+		/// </summary>
+		public enum WHERE
+		{
+			SCROLL_VALUE , CHANGE_MODE , STEP_TIME , ALL
+		}
+
+		/// <summary>
+		///  辅助方法：供《多步(多通道)调节》使用
+		/// </summary>
+		/// <param name="indexList"></param>
+		/// <param name="startStep"></param>
+		/// <param name="endStep"></param>
+		/// <param name="where"></param>
+		/// <param name="commonValue"></param>
+		public void setMultiStepValues(WHERE where, IList<int> indexList, int startStep, int endStep, int commonValue) {
+			
+
+
+
+
+		}
+
 	}
 }

@@ -552,7 +552,7 @@ namespace LightController
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		private void ShowVScrollBars(List<TongdaoWrapper> tongdaoList, int startNum)
+		private void ShowVScrollBars(IList<TongdaoWrapper> tongdaoList, int startNum)
 		{
 
 			// 1.每次更换灯具，都先清空通道

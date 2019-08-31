@@ -990,7 +990,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		private void showTDPanels(List<TongdaoWrapper> tongdaoList, int startNum)
+		private void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
 		{			
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
@@ -1570,7 +1570,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiSkinButton_Click(object sender, EventArgs e)
 		{
-			MultiStepForm msForm = new MultiStepForm(this);
+			MultiStepForm msForm = new MultiStepForm(this , getCurrentStepValue() , getTotalStepValue(),getCurrentStepWrapper() ,mode );
 			msForm.ShowDialog();
 		}
 

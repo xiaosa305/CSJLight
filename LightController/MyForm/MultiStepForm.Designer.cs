@@ -62,8 +62,8 @@
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.startNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.endNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.cmComboBox = new System.Windows.Forms.ComboBox();
 			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -75,16 +75,20 @@
 			this.commonStepTimeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
+			this.modeLabel = new System.Windows.Forms.Label();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.tongdaoPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tongdaoPanel
 			// 
 			this.tongdaoPanel.AutoScroll = true;
+			this.tongdaoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tongdaoPanel.Controls.Add(this.checkBox32);
 			this.tongdaoPanel.Controls.Add(this.checkBox31);
 			this.tongdaoPanel.Controls.Add(this.checkBox30);
@@ -121,13 +125,13 @@
 			this.tongdaoPanel.Location = new System.Drawing.Point(0, 0);
 			this.tongdaoPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoPanel.Name = "tongdaoPanel";
-			this.tongdaoPanel.Size = new System.Drawing.Size(319, 297);
+			this.tongdaoPanel.Size = new System.Drawing.Size(319, 381);
 			this.tongdaoPanel.TabIndex = 5;
 			// 
 			// checkBox32
 			// 
 			this.checkBox32.AutoSize = true;
-			this.checkBox32.Location = new System.Drawing.Point(163, 465);
+			this.checkBox32.Location = new System.Drawing.Point(163, 478);
 			this.checkBox32.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox32.Name = "checkBox32";
 			this.checkBox32.Size = new System.Drawing.Size(60, 16);
@@ -139,7 +143,7 @@
 			// checkBox31
 			// 
 			this.checkBox31.AutoSize = true;
-			this.checkBox31.Location = new System.Drawing.Point(19, 465);
+			this.checkBox31.Location = new System.Drawing.Point(19, 478);
 			this.checkBox31.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox31.Name = "checkBox31";
 			this.checkBox31.Size = new System.Drawing.Size(60, 16);
@@ -151,7 +155,7 @@
 			// checkBox30
 			// 
 			this.checkBox30.AutoSize = true;
-			this.checkBox30.Location = new System.Drawing.Point(163, 434);
+			this.checkBox30.Location = new System.Drawing.Point(163, 447);
 			this.checkBox30.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox30.Name = "checkBox30";
 			this.checkBox30.Size = new System.Drawing.Size(60, 16);
@@ -163,7 +167,7 @@
 			// checkBox29
 			// 
 			this.checkBox29.AutoSize = true;
-			this.checkBox29.Location = new System.Drawing.Point(19, 434);
+			this.checkBox29.Location = new System.Drawing.Point(19, 447);
 			this.checkBox29.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox29.Name = "checkBox29";
 			this.checkBox29.Size = new System.Drawing.Size(60, 16);
@@ -175,7 +179,7 @@
 			// checkBox28
 			// 
 			this.checkBox28.AutoSize = true;
-			this.checkBox28.Location = new System.Drawing.Point(163, 404);
+			this.checkBox28.Location = new System.Drawing.Point(163, 417);
 			this.checkBox28.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox28.Name = "checkBox28";
 			this.checkBox28.Size = new System.Drawing.Size(60, 16);
@@ -187,7 +191,7 @@
 			// checkBox27
 			// 
 			this.checkBox27.AutoSize = true;
-			this.checkBox27.Location = new System.Drawing.Point(19, 404);
+			this.checkBox27.Location = new System.Drawing.Point(19, 417);
 			this.checkBox27.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox27.Name = "checkBox27";
 			this.checkBox27.Size = new System.Drawing.Size(60, 16);
@@ -199,7 +203,7 @@
 			// checkBox26
 			// 
 			this.checkBox26.AutoSize = true;
-			this.checkBox26.Location = new System.Drawing.Point(163, 374);
+			this.checkBox26.Location = new System.Drawing.Point(163, 387);
 			this.checkBox26.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox26.Name = "checkBox26";
 			this.checkBox26.Size = new System.Drawing.Size(60, 16);
@@ -211,7 +215,7 @@
 			// checkBox25
 			// 
 			this.checkBox25.AutoSize = true;
-			this.checkBox25.Location = new System.Drawing.Point(19, 374);
+			this.checkBox25.Location = new System.Drawing.Point(19, 387);
 			this.checkBox25.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox25.Name = "checkBox25";
 			this.checkBox25.Size = new System.Drawing.Size(60, 16);
@@ -223,7 +227,7 @@
 			// checkBox24
 			// 
 			this.checkBox24.AutoSize = true;
-			this.checkBox24.Location = new System.Drawing.Point(163, 343);
+			this.checkBox24.Location = new System.Drawing.Point(163, 356);
 			this.checkBox24.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox24.Name = "checkBox24";
 			this.checkBox24.Size = new System.Drawing.Size(60, 16);
@@ -235,7 +239,7 @@
 			// checkBox23
 			// 
 			this.checkBox23.AutoSize = true;
-			this.checkBox23.Location = new System.Drawing.Point(19, 343);
+			this.checkBox23.Location = new System.Drawing.Point(19, 356);
 			this.checkBox23.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox23.Name = "checkBox23";
 			this.checkBox23.Size = new System.Drawing.Size(60, 16);
@@ -247,7 +251,7 @@
 			// checkBox22
 			// 
 			this.checkBox22.AutoSize = true;
-			this.checkBox22.Location = new System.Drawing.Point(163, 313);
+			this.checkBox22.Location = new System.Drawing.Point(163, 326);
 			this.checkBox22.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox22.Name = "checkBox22";
 			this.checkBox22.Size = new System.Drawing.Size(60, 16);
@@ -259,7 +263,7 @@
 			// checkBox21
 			// 
 			this.checkBox21.AutoSize = true;
-			this.checkBox21.Location = new System.Drawing.Point(19, 313);
+			this.checkBox21.Location = new System.Drawing.Point(19, 326);
 			this.checkBox21.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox21.Name = "checkBox21";
 			this.checkBox21.Size = new System.Drawing.Size(60, 16);
@@ -271,7 +275,7 @@
 			// checkBox20
 			// 
 			this.checkBox20.AutoSize = true;
-			this.checkBox20.Location = new System.Drawing.Point(163, 282);
+			this.checkBox20.Location = new System.Drawing.Point(163, 295);
 			this.checkBox20.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox20.Name = "checkBox20";
 			this.checkBox20.Size = new System.Drawing.Size(60, 16);
@@ -283,7 +287,7 @@
 			// checkBox19
 			// 
 			this.checkBox19.AutoSize = true;
-			this.checkBox19.Location = new System.Drawing.Point(19, 282);
+			this.checkBox19.Location = new System.Drawing.Point(19, 295);
 			this.checkBox19.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox19.Name = "checkBox19";
 			this.checkBox19.Size = new System.Drawing.Size(60, 16);
@@ -295,7 +299,7 @@
 			// checkBox18
 			// 
 			this.checkBox18.AutoSize = true;
-			this.checkBox18.Location = new System.Drawing.Point(163, 252);
+			this.checkBox18.Location = new System.Drawing.Point(163, 265);
 			this.checkBox18.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox18.Name = "checkBox18";
 			this.checkBox18.Size = new System.Drawing.Size(60, 16);
@@ -307,7 +311,7 @@
 			// checkBox17
 			// 
 			this.checkBox17.AutoSize = true;
-			this.checkBox17.Location = new System.Drawing.Point(19, 252);
+			this.checkBox17.Location = new System.Drawing.Point(19, 265);
 			this.checkBox17.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox17.Name = "checkBox17";
 			this.checkBox17.Size = new System.Drawing.Size(60, 16);
@@ -319,7 +323,7 @@
 			// checkBox16
 			// 
 			this.checkBox16.AutoSize = true;
-			this.checkBox16.Location = new System.Drawing.Point(163, 222);
+			this.checkBox16.Location = new System.Drawing.Point(163, 235);
 			this.checkBox16.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox16.Name = "checkBox16";
 			this.checkBox16.Size = new System.Drawing.Size(60, 16);
@@ -331,7 +335,7 @@
 			// checkBox15
 			// 
 			this.checkBox15.AutoSize = true;
-			this.checkBox15.Location = new System.Drawing.Point(19, 222);
+			this.checkBox15.Location = new System.Drawing.Point(19, 235);
 			this.checkBox15.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox15.Name = "checkBox15";
 			this.checkBox15.Size = new System.Drawing.Size(60, 16);
@@ -343,7 +347,7 @@
 			// checkBox14
 			// 
 			this.checkBox14.AutoSize = true;
-			this.checkBox14.Location = new System.Drawing.Point(163, 191);
+			this.checkBox14.Location = new System.Drawing.Point(163, 204);
 			this.checkBox14.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox14.Name = "checkBox14";
 			this.checkBox14.Size = new System.Drawing.Size(60, 16);
@@ -355,7 +359,7 @@
 			// checkBox13
 			// 
 			this.checkBox13.AutoSize = true;
-			this.checkBox13.Location = new System.Drawing.Point(19, 191);
+			this.checkBox13.Location = new System.Drawing.Point(19, 204);
 			this.checkBox13.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox13.Name = "checkBox13";
 			this.checkBox13.Size = new System.Drawing.Size(60, 16);
@@ -367,7 +371,7 @@
 			// checkBox12
 			// 
 			this.checkBox12.AutoSize = true;
-			this.checkBox12.Location = new System.Drawing.Point(163, 161);
+			this.checkBox12.Location = new System.Drawing.Point(163, 174);
 			this.checkBox12.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox12.Name = "checkBox12";
 			this.checkBox12.Size = new System.Drawing.Size(60, 16);
@@ -379,7 +383,7 @@
 			// checkBox11
 			// 
 			this.checkBox11.AutoSize = true;
-			this.checkBox11.Location = new System.Drawing.Point(19, 161);
+			this.checkBox11.Location = new System.Drawing.Point(19, 174);
 			this.checkBox11.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox11.Name = "checkBox11";
 			this.checkBox11.Size = new System.Drawing.Size(60, 16);
@@ -391,7 +395,7 @@
 			// checkBox10
 			// 
 			this.checkBox10.AutoSize = true;
-			this.checkBox10.Location = new System.Drawing.Point(163, 130);
+			this.checkBox10.Location = new System.Drawing.Point(163, 143);
 			this.checkBox10.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox10.Name = "checkBox10";
 			this.checkBox10.Size = new System.Drawing.Size(60, 16);
@@ -403,7 +407,7 @@
 			// checkBox9
 			// 
 			this.checkBox9.AutoSize = true;
-			this.checkBox9.Location = new System.Drawing.Point(19, 130);
+			this.checkBox9.Location = new System.Drawing.Point(19, 143);
 			this.checkBox9.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox9.Name = "checkBox9";
 			this.checkBox9.Size = new System.Drawing.Size(60, 16);
@@ -415,7 +419,7 @@
 			// checkBox8
 			// 
 			this.checkBox8.AutoSize = true;
-			this.checkBox8.Location = new System.Drawing.Point(163, 100);
+			this.checkBox8.Location = new System.Drawing.Point(163, 113);
 			this.checkBox8.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox8.Name = "checkBox8";
 			this.checkBox8.Size = new System.Drawing.Size(60, 16);
@@ -427,7 +431,7 @@
 			// checkBox7
 			// 
 			this.checkBox7.AutoSize = true;
-			this.checkBox7.Location = new System.Drawing.Point(19, 100);
+			this.checkBox7.Location = new System.Drawing.Point(19, 113);
 			this.checkBox7.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox7.Name = "checkBox7";
 			this.checkBox7.Size = new System.Drawing.Size(60, 16);
@@ -439,7 +443,7 @@
 			// checkBox6
 			// 
 			this.checkBox6.AutoSize = true;
-			this.checkBox6.Location = new System.Drawing.Point(163, 70);
+			this.checkBox6.Location = new System.Drawing.Point(163, 83);
 			this.checkBox6.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox6.Name = "checkBox6";
 			this.checkBox6.Size = new System.Drawing.Size(60, 16);
@@ -451,7 +455,7 @@
 			// checkBox5
 			// 
 			this.checkBox5.AutoSize = true;
-			this.checkBox5.Location = new System.Drawing.Point(19, 70);
+			this.checkBox5.Location = new System.Drawing.Point(19, 83);
 			this.checkBox5.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox5.Name = "checkBox5";
 			this.checkBox5.Size = new System.Drawing.Size(60, 16);
@@ -463,7 +467,7 @@
 			// checkBox4
 			// 
 			this.checkBox4.AutoSize = true;
-			this.checkBox4.Location = new System.Drawing.Point(163, 39);
+			this.checkBox4.Location = new System.Drawing.Point(163, 52);
 			this.checkBox4.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox4.Name = "checkBox4";
 			this.checkBox4.Size = new System.Drawing.Size(60, 16);
@@ -475,7 +479,7 @@
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(19, 39);
+			this.checkBox3.Location = new System.Drawing.Point(19, 52);
 			this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(60, 16);
@@ -487,7 +491,7 @@
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(163, 9);
+			this.checkBox2.Location = new System.Drawing.Point(163, 22);
 			this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(60, 16);
@@ -499,7 +503,7 @@
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(19, 9);
+			this.checkBox1.Location = new System.Drawing.Point(19, 22);
 			this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(60, 16);
@@ -508,37 +512,37 @@
 			this.checkBox1.UseVisualStyleBackColor = true;
 			this.checkBox1.Visible = false;
 			// 
-			// numericUpDown1
+			// startNumericUpDown
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(350, 41);
-			this.numericUpDown1.Minimum = new decimal(new int[] {
+			this.startNumericUpDown.Location = new System.Drawing.Point(35, 118);
+			this.startNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(61, 21);
-			this.numericUpDown1.TabIndex = 6;
-			this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.numericUpDown1.Value = new decimal(new int[] {
+			this.startNumericUpDown.Name = "startNumericUpDown";
+			this.startNumericUpDown.Size = new System.Drawing.Size(61, 21);
+			this.startNumericUpDown.TabIndex = 6;
+			this.startNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.startNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
 			// 
-			// numericUpDown2
+			// endNumericUpDown
 			// 
-			this.numericUpDown2.Location = new System.Drawing.Point(479, 41);
-			this.numericUpDown2.Minimum = new decimal(new int[] {
+			this.endNumericUpDown.Location = new System.Drawing.Point(162, 118);
+			this.endNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-			this.numericUpDown2.Name = "numericUpDown2";
-			this.numericUpDown2.Size = new System.Drawing.Size(61, 21);
-			this.numericUpDown2.TabIndex = 6;
-			this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.numericUpDown2.Value = new decimal(new int[] {
+			this.endNumericUpDown.Name = "endNumericUpDown";
+			this.endNumericUpDown.Size = new System.Drawing.Size(61, 21);
+			this.endNumericUpDown.TabIndex = 6;
+			this.endNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.endNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -547,7 +551,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(438, 45);
+			this.label1.Location = new System.Drawing.Point(123, 122);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(11, 12);
 			this.label1.TabIndex = 7;
@@ -556,7 +560,7 @@
 			// cmComboBox
 			// 
 			this.cmComboBox.FormattingEnabled = true;
-			this.cmComboBox.Location = new System.Drawing.Point(349, 211);
+			this.cmComboBox.Location = new System.Drawing.Point(31, 279);
 			this.cmComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.cmComboBox.Name = "cmComboBox";
 			this.cmComboBox.Size = new System.Drawing.Size(78, 20);
@@ -564,7 +568,7 @@
 			// 
 			// commonValueNumericUpDown
 			// 
-			this.commonValueNumericUpDown.Location = new System.Drawing.Point(349, 172);
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(31, 240);
 			this.commonValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -578,7 +582,7 @@
 			// 
 			// stNumericUpDown
 			// 
-			this.stNumericUpDown.Location = new System.Drawing.Point(350, 249);
+			this.stNumericUpDown.Location = new System.Drawing.Point(32, 317);
 			this.stNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.stNumericUpDown.Maximum = new decimal(new int[] {
             254,
@@ -598,7 +602,7 @@
 			this.zeroSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.zeroSkinButton.DownBack = null;
 			this.zeroSkinButton.ForeColor = System.Drawing.Color.Black;
-			this.zeroSkinButton.Location = new System.Drawing.Point(348, 129);
+			this.zeroSkinButton.Location = new System.Drawing.Point(30, 196);
 			this.zeroSkinButton.MouseBack = null;
 			this.zeroSkinButton.Name = "zeroSkinButton";
 			this.zeroSkinButton.NormlBack = null;
@@ -615,7 +619,7 @@
 			this.initSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.initSkinButton.DownBack = null;
 			this.initSkinButton.ForeColor = System.Drawing.Color.Black;
-			this.initSkinButton.Location = new System.Drawing.Point(455, 129);
+			this.initSkinButton.Location = new System.Drawing.Point(137, 196);
 			this.initSkinButton.MouseBack = null;
 			this.initSkinButton.Name = "initSkinButton";
 			this.initSkinButton.NormlBack = null;
@@ -632,7 +636,7 @@
 			this.commonValueSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.commonValueSkinButton.DownBack = null;
 			this.commonValueSkinButton.ForeColor = System.Drawing.Color.Black;
-			this.commonValueSkinButton.Location = new System.Drawing.Point(455, 168);
+			this.commonValueSkinButton.Location = new System.Drawing.Point(137, 236);
 			this.commonValueSkinButton.MouseBack = null;
 			this.commonValueSkinButton.Name = "commonValueSkinButton";
 			this.commonValueSkinButton.NormlBack = null;
@@ -649,7 +653,7 @@
 			this.commonChangeModeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.commonChangeModeSkinButton.DownBack = null;
 			this.commonChangeModeSkinButton.ForeColor = System.Drawing.Color.Black;
-			this.commonChangeModeSkinButton.Location = new System.Drawing.Point(455, 207);
+			this.commonChangeModeSkinButton.Location = new System.Drawing.Point(137, 275);
 			this.commonChangeModeSkinButton.MouseBack = null;
 			this.commonChangeModeSkinButton.Name = "commonChangeModeSkinButton";
 			this.commonChangeModeSkinButton.NormlBack = null;
@@ -666,7 +670,7 @@
 			this.commonStepTimeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.commonStepTimeSkinButton.DownBack = null;
 			this.commonStepTimeSkinButton.ForeColor = System.Drawing.Color.Black;
-			this.commonStepTimeSkinButton.Location = new System.Drawing.Point(455, 246);
+			this.commonStepTimeSkinButton.Location = new System.Drawing.Point(137, 314);
 			this.commonStepTimeSkinButton.MouseBack = null;
 			this.commonStepTimeSkinButton.Name = "commonStepTimeSkinButton";
 			this.commonStepTimeSkinButton.NormlBack = null;
@@ -678,7 +682,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(360, 23);
+			this.label2.Location = new System.Drawing.Point(45, 100);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(41, 12);
 			this.label2.TabIndex = 29;
@@ -687,30 +691,51 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(489, 23);
+			this.label3.Location = new System.Drawing.Point(172, 100);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(41, 12);
 			this.label3.TabIndex = 29;
 			this.label3.Text = "结束步";
 			// 
+			// modeLabel
+			// 
+			this.modeLabel.AutoSize = true;
+			this.modeLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.modeLabel.Location = new System.Drawing.Point(30, 23);
+			this.modeLabel.Name = "modeLabel";
+			this.modeLabel.Size = new System.Drawing.Size(67, 14);
+			this.modeLabel.TabIndex = 30;
+			this.modeLabel.Text = "当前模式";
+			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.panel1.Controls.Add(this.modeLabel);
+			this.panel1.Controls.Add(this.startNumericUpDown);
+			this.panel1.Controls.Add(this.label3);
+			this.panel1.Controls.Add(this.endNumericUpDown);
+			this.panel1.Controls.Add(this.label2);
+			this.panel1.Controls.Add(this.label1);
+			this.panel1.Controls.Add(this.commonStepTimeSkinButton);
+			this.panel1.Controls.Add(this.stNumericUpDown);
+			this.panel1.Controls.Add(this.commonChangeModeSkinButton);
+			this.panel1.Controls.Add(this.commonValueNumericUpDown);
+			this.panel1.Controls.Add(this.commonValueSkinButton);
+			this.panel1.Controls.Add(this.cmComboBox);
+			this.panel1.Controls.Add(this.initSkinButton);
+			this.panel1.Controls.Add(this.zeroSkinButton);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+			this.panel1.Location = new System.Drawing.Point(324, 0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(245, 381);
+			this.panel1.TabIndex = 31;
+			// 
 			// MultiStepForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(569, 297);
-			this.Controls.Add(this.label3);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.commonStepTimeSkinButton);
-			this.Controls.Add(this.commonChangeModeSkinButton);
-			this.Controls.Add(this.commonValueSkinButton);
-			this.Controls.Add(this.initSkinButton);
-			this.Controls.Add(this.zeroSkinButton);
-			this.Controls.Add(this.cmComboBox);
-			this.Controls.Add(this.commonValueNumericUpDown);
-			this.Controls.Add(this.stNumericUpDown);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.numericUpDown2);
-			this.Controls.Add(this.numericUpDown1);
+			this.ClientSize = new System.Drawing.Size(569, 381);
+			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.tongdaoPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "MultiStepForm";
@@ -718,52 +743,54 @@
 			this.Load += new System.EventHandler(this.MultiStepForm_Load);
 			this.tongdaoPanel.ResumeLayout(false);
 			this.tongdaoPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
 		private System.Windows.Forms.Panel tongdaoPanel;
-		private System.Windows.Forms.CheckBox checkBox32;
-		private System.Windows.Forms.CheckBox checkBox31;
-		private System.Windows.Forms.CheckBox checkBox30;
-		private System.Windows.Forms.CheckBox checkBox29;
-		private System.Windows.Forms.CheckBox checkBox28;
-		private System.Windows.Forms.CheckBox checkBox27;
-		private System.Windows.Forms.CheckBox checkBox26;
-		private System.Windows.Forms.CheckBox checkBox25;
-		private System.Windows.Forms.CheckBox checkBox24;
-		private System.Windows.Forms.CheckBox checkBox23;
-		private System.Windows.Forms.CheckBox checkBox22;
-		private System.Windows.Forms.CheckBox checkBox21;
-		private System.Windows.Forms.CheckBox checkBox20;
-		private System.Windows.Forms.CheckBox checkBox19;
-		private System.Windows.Forms.CheckBox checkBox18;
-		private System.Windows.Forms.CheckBox checkBox17;
-		private System.Windows.Forms.CheckBox checkBox16;
-		private System.Windows.Forms.CheckBox checkBox15;
-		private System.Windows.Forms.CheckBox checkBox14;
-		private System.Windows.Forms.CheckBox checkBox13;
-		private System.Windows.Forms.CheckBox checkBox12;
-		private System.Windows.Forms.CheckBox checkBox11;
-		private System.Windows.Forms.CheckBox checkBox10;
-		private System.Windows.Forms.CheckBox checkBox9;
-		private System.Windows.Forms.CheckBox checkBox8;
-		private System.Windows.Forms.CheckBox checkBox7;
-		private System.Windows.Forms.CheckBox checkBox6;
-		private System.Windows.Forms.CheckBox checkBox5;
-		private System.Windows.Forms.CheckBox checkBox4;
-		private System.Windows.Forms.CheckBox checkBox3;
-		private System.Windows.Forms.CheckBox checkBox2;
+		private System.Windows.Forms.CheckBox[] tdCheckBoxes = new System.Windows.Forms.CheckBox[32];
 		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
-		private System.Windows.Forms.NumericUpDown numericUpDown2;
+		private System.Windows.Forms.CheckBox checkBox2;
+		private System.Windows.Forms.CheckBox checkBox3;
+		private System.Windows.Forms.CheckBox checkBox4;
+		private System.Windows.Forms.CheckBox checkBox5;
+		private System.Windows.Forms.CheckBox checkBox6;
+		private System.Windows.Forms.CheckBox checkBox7;
+		private System.Windows.Forms.CheckBox checkBox8;
+		private System.Windows.Forms.CheckBox checkBox9;
+		private System.Windows.Forms.CheckBox checkBox10;
+		private System.Windows.Forms.CheckBox checkBox11;
+		private System.Windows.Forms.CheckBox checkBox12;
+		private System.Windows.Forms.CheckBox checkBox13;
+		private System.Windows.Forms.CheckBox checkBox14;
+		private System.Windows.Forms.CheckBox checkBox15;
+		private System.Windows.Forms.CheckBox checkBox16;
+		private System.Windows.Forms.CheckBox checkBox17;
+		private System.Windows.Forms.CheckBox checkBox18;
+		private System.Windows.Forms.CheckBox checkBox19;
+		private System.Windows.Forms.CheckBox checkBox20;
+		private System.Windows.Forms.CheckBox checkBox21;
+		private System.Windows.Forms.CheckBox checkBox22;
+		private System.Windows.Forms.CheckBox checkBox23;
+		private System.Windows.Forms.CheckBox checkBox24;
+		private System.Windows.Forms.CheckBox checkBox25;
+		private System.Windows.Forms.CheckBox checkBox26;
+		private System.Windows.Forms.CheckBox checkBox27;
+		private System.Windows.Forms.CheckBox checkBox28;
+		private System.Windows.Forms.CheckBox checkBox29;
+		private System.Windows.Forms.CheckBox checkBox30;
+		private System.Windows.Forms.CheckBox checkBox31;
+		private System.Windows.Forms.CheckBox checkBox32;
+		private System.Windows.Forms.NumericUpDown startNumericUpDown;
+		private System.Windows.Forms.NumericUpDown endNumericUpDown;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox cmComboBox;
 		private System.Windows.Forms.NumericUpDown commonValueNumericUpDown;
@@ -775,5 +802,7 @@
 		private CCWin.SkinControl.SkinButton commonStepTimeSkinButton;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label modeLabel;
+		private System.Windows.Forms.Panel panel1;
 	}
 }

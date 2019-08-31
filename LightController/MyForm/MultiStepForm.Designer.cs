@@ -65,9 +65,9 @@
 			this.startNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.endNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
-			this.cmComboBox = new System.Windows.Forms.ComboBox();
+			this.commonChangeModeComboBox = new System.Windows.Forms.ComboBox();
 			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.commonStepTimetNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.zeroSkinButton = new CCWin.SkinControl.SkinButton();
 			this.initSkinButton = new CCWin.SkinControl.SkinButton();
 			this.commonValueSkinButton = new CCWin.SkinControl.SkinButton();
@@ -77,12 +77,18 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.modeLabel = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
+			this.noticeLabel = new System.Windows.Forms.Label();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.tongdaoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.commonStepTimetNumericUpDown)).BeginInit();
 			this.panel1.SuspendLayout();
+			this.panel3.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tongdaoPanel
@@ -121,11 +127,10 @@
 			this.tongdaoPanel.Controls.Add(this.checkBox3);
 			this.tongdaoPanel.Controls.Add(this.checkBox2);
 			this.tongdaoPanel.Controls.Add(this.checkBox1);
-			this.tongdaoPanel.Dock = System.Windows.Forms.DockStyle.Left;
-			this.tongdaoPanel.Location = new System.Drawing.Point(0, 0);
+			this.tongdaoPanel.Location = new System.Drawing.Point(2, 55);
 			this.tongdaoPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoPanel.Name = "tongdaoPanel";
-			this.tongdaoPanel.Size = new System.Drawing.Size(319, 381);
+			this.tongdaoPanel.Size = new System.Drawing.Size(319, 303);
 			this.tongdaoPanel.TabIndex = 5;
 			// 
 			// checkBox32
@@ -532,7 +537,7 @@
 			// 
 			// endNumericUpDown
 			// 
-			this.endNumericUpDown.Location = new System.Drawing.Point(162, 118);
+			this.endNumericUpDown.Location = new System.Drawing.Point(158, 118);
 			this.endNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -559,12 +564,12 @@
 			// 
 			// cmComboBox
 			// 
-			this.cmComboBox.FormattingEnabled = true;
-			this.cmComboBox.Location = new System.Drawing.Point(31, 279);
-			this.cmComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.cmComboBox.Name = "cmComboBox";
-			this.cmComboBox.Size = new System.Drawing.Size(78, 20);
-			this.cmComboBox.TabIndex = 27;
+			this.commonChangeModeComboBox.FormattingEnabled = true;
+			this.commonChangeModeComboBox.Location = new System.Drawing.Point(31, 279);
+			this.commonChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.commonChangeModeComboBox.Name = "cmComboBox";
+			this.commonChangeModeComboBox.Size = new System.Drawing.Size(78, 20);
+			this.commonChangeModeComboBox.TabIndex = 27;
 			// 
 			// commonValueNumericUpDown
 			// 
@@ -582,17 +587,17 @@
 			// 
 			// stNumericUpDown
 			// 
-			this.stNumericUpDown.Location = new System.Drawing.Point(32, 317);
-			this.stNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.stNumericUpDown.Maximum = new decimal(new int[] {
+			this.commonStepTimetNumericUpDown.Location = new System.Drawing.Point(32, 317);
+			this.commonStepTimetNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.commonStepTimetNumericUpDown.Maximum = new decimal(new int[] {
             254,
             0,
             0,
             0});
-			this.stNumericUpDown.Name = "stNumericUpDown";
-			this.stNumericUpDown.Size = new System.Drawing.Size(77, 21);
-			this.stNumericUpDown.TabIndex = 26;
-			this.stNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.commonStepTimetNumericUpDown.Name = "stNumericUpDown";
+			this.commonStepTimetNumericUpDown.Size = new System.Drawing.Size(77, 21);
+			this.commonStepTimetNumericUpDown.TabIndex = 26;
+			this.commonStepTimetNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// zeroSkinButton
 			// 
@@ -610,6 +615,8 @@
 			this.zeroSkinButton.TabIndex = 28;
 			this.zeroSkinButton.Text = "全部归零";
 			this.zeroSkinButton.UseVisualStyleBackColor = false;
+			this.zeroSkinButton.Visible = false;
+			this.zeroSkinButton.Click += new System.EventHandler(this.zeroSkinButton_Click);
 			// 
 			// initSkinButton
 			// 
@@ -627,6 +634,7 @@
 			this.initSkinButton.TabIndex = 28;
 			this.initSkinButton.Text = "设为初值";
 			this.initSkinButton.UseVisualStyleBackColor = false;
+			this.initSkinButton.Visible = false;
 			// 
 			// commonValueSkinButton
 			// 
@@ -644,6 +652,7 @@
 			this.commonValueSkinButton.TabIndex = 28;
 			this.commonValueSkinButton.Text = "统一通道值";
 			this.commonValueSkinButton.UseVisualStyleBackColor = false;
+			this.commonValueSkinButton.Click += new System.EventHandler(this.commonValueSkinButton_Click);
 			// 
 			// commonChangeModeSkinButton
 			// 
@@ -661,6 +670,7 @@
 			this.commonChangeModeSkinButton.TabIndex = 28;
 			this.commonChangeModeSkinButton.Text = "统一跳渐变";
 			this.commonChangeModeSkinButton.UseVisualStyleBackColor = false;
+			this.commonChangeModeSkinButton.Click += new System.EventHandler(this.commonChangeModeSkinButton_Click);
 			// 
 			// commonStepTimeSkinButton
 			// 
@@ -678,6 +688,7 @@
 			this.commonStepTimeSkinButton.TabIndex = 28;
 			this.commonStepTimeSkinButton.Text = "统一步时间";
 			this.commonStepTimeSkinButton.UseVisualStyleBackColor = false;
+			this.commonStepTimeSkinButton.Click += new System.EventHandler(this.commonStepTimeSkinButton_Click);
 			// 
 			// label2
 			// 
@@ -691,7 +702,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(172, 100);
+			this.label3.Location = new System.Drawing.Point(168, 100);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(41, 12);
 			this.label3.TabIndex = 29;
@@ -717,27 +728,71 @@
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.commonStepTimeSkinButton);
-			this.panel1.Controls.Add(this.stNumericUpDown);
+			this.panel1.Controls.Add(this.commonStepTimetNumericUpDown);
 			this.panel1.Controls.Add(this.commonChangeModeSkinButton);
 			this.panel1.Controls.Add(this.commonValueNumericUpDown);
 			this.panel1.Controls.Add(this.commonValueSkinButton);
-			this.panel1.Controls.Add(this.cmComboBox);
+			this.panel1.Controls.Add(this.commonChangeModeComboBox);
 			this.panel1.Controls.Add(this.initSkinButton);
 			this.panel1.Controls.Add(this.zeroSkinButton);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.panel1.Location = new System.Drawing.Point(324, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(245, 381);
+			this.panel1.Size = new System.Drawing.Size(245, 358);
 			this.panel1.TabIndex = 31;
+			// 
+			// panel3
+			// 
+			this.panel3.Controls.Add(this.selectAllCheckBox);
+			this.panel3.Controls.Add(this.noticeLabel);
+			this.panel3.Location = new System.Drawing.Point(3, 3);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(323, 47);
+			this.panel3.TabIndex = 6;
+			// 
+			// selectAllCheckBox
+			// 
+			this.selectAllCheckBox.AutoSize = true;
+			this.selectAllCheckBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.selectAllCheckBox.Location = new System.Drawing.Point(210, 16);
+			this.selectAllCheckBox.Margin = new System.Windows.Forms.Padding(2);
+			this.selectAllCheckBox.Name = "selectAllCheckBox";
+			this.selectAllCheckBox.Size = new System.Drawing.Size(54, 18);
+			this.selectAllCheckBox.TabIndex = 4;
+			this.selectAllCheckBox.Text = "全选";
+			this.selectAllCheckBox.UseVisualStyleBackColor = true;
+			this.selectAllCheckBox.CheckedChanged += new System.EventHandler(this.selectAllCheckBox_CheckedChanged);
+			// 
+			// noticeLabel
+			// 
+			this.noticeLabel.AutoSize = true;
+			this.noticeLabel.Location = new System.Drawing.Point(16, 20);
+			this.noticeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.noticeLabel.Name = "noticeLabel";
+			this.noticeLabel.Size = new System.Drawing.Size(137, 12);
+			this.noticeLabel.TabIndex = 3;
+			this.noticeLabel.Text = "请勾选要统一调节的通道";
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.Controls.Add(this.panel3);
+			this.flowLayoutPanel1.Controls.Add(this.tongdaoPanel);
+			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(326, 358);
+			this.flowLayoutPanel1.TabIndex = 32;
 			// 
 			// MultiStepForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(569, 381);
+			this.ClientSize = new System.Drawing.Size(569, 358);
+			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.tongdaoPanel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "MultiStepForm";
 			this.Text = "多步多通道统一调整";
 			this.Load += new System.EventHandler(this.MultiStepForm_Load);
@@ -746,9 +801,12 @@
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.commonStepTimetNumericUpDown)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
+			this.flowLayoutPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -792,9 +850,9 @@
 		private System.Windows.Forms.NumericUpDown startNumericUpDown;
 		private System.Windows.Forms.NumericUpDown endNumericUpDown;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox cmComboBox;
+		private System.Windows.Forms.ComboBox commonChangeModeComboBox;
 		private System.Windows.Forms.NumericUpDown commonValueNumericUpDown;
-		private System.Windows.Forms.NumericUpDown stNumericUpDown;
+		private System.Windows.Forms.NumericUpDown commonStepTimetNumericUpDown;
 		private CCWin.SkinControl.SkinButton zeroSkinButton;
 		private CCWin.SkinControl.SkinButton initSkinButton;
 		private CCWin.SkinControl.SkinButton commonValueSkinButton;
@@ -804,5 +862,9 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label modeLabel;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.CheckBox selectAllCheckBox;
+		private System.Windows.Forms.Label noticeLabel;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 	}
 }

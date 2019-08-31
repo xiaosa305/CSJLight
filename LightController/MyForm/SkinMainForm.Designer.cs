@@ -71,6 +71,7 @@ namespace LightController.MyForm
 			this.commonValueSkinButton = new CCWin.SkinControl.SkinButton();
 			this.commonChangeModeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.multiSkinButton = new CCWin.SkinControl.SkinButton();
 			this.initSkinButton = new CCWin.SkinControl.SkinButton();
 			this.tdCommonLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.tytzLabel = new System.Windows.Forms.Label();
@@ -340,7 +341,6 @@ namespace LightController.MyForm
 			this.thirdLabel3 = new System.Windows.Forms.Label();
 			this.secondLabel3 = new System.Windows.Forms.Label();
 			this.firstLabel3 = new System.Windows.Forms.Label();
-			this.multiSkinButton = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel.SuspendLayout();
 			this.skinPanel2.SuspendLayout();
 			this.playSkinPanel.SuspendLayout();
@@ -1149,6 +1149,7 @@ namespace LightController.MyForm
 			this.lightsSkinListView.LargeImageList = this.lightLargeImageList;
 			this.lightsSkinListView.Location = new System.Drawing.Point(123, 111);
 			this.lightsSkinListView.Margin = new System.Windows.Forms.Padding(0);
+			this.lightsSkinListView.MultiSelect = false;
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
 			this.lightsSkinListView.Size = new System.Drawing.Size(1056, 176);
@@ -1296,7 +1297,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.commonChangeModeSkinComboBox.Location = new System.Drawing.Point(158, 206);
+			this.commonChangeModeSkinComboBox.Location = new System.Drawing.Point(158, 208);
 			this.commonChangeModeSkinComboBox.Name = "commonChangeModeSkinComboBox";
 			this.commonChangeModeSkinComboBox.Size = new System.Drawing.Size(66, 22);
 			this.commonChangeModeSkinComboBox.TabIndex = 26;
@@ -1410,6 +1411,34 @@ namespace LightController.MyForm
 			this.commonValueNumericUpDown.Size = new System.Drawing.Size(66, 21);
 			this.commonValueNumericUpDown.TabIndex = 6;
 			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// multiSkinButton
+			// 
+			this.multiSkinButton.AutoSize = true;
+			this.multiSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.multiSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.multiSkinButton.BorderColor = System.Drawing.Color.White;
+			this.multiSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.multiSkinButton.DownBack = null;
+			this.multiSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.multiSkinButton.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.multiSkinButton.ForeColorSuit = true;
+			this.multiSkinButton.Image = global::LightController.Properties.Resources.统一跳渐变;
+			this.multiSkinButton.ImageSize = new System.Drawing.Size(40, 40);
+			this.multiSkinButton.InheritColor = true;
+			this.multiSkinButton.IsDrawBorder = false;
+			this.multiSkinButton.Location = new System.Drawing.Point(162, 21);
+			this.multiSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.multiSkinButton.MouseBack = null;
+			this.multiSkinButton.Name = "multiSkinButton";
+			this.multiSkinButton.NormlBack = null;
+			this.multiSkinButton.Size = new System.Drawing.Size(67, 103);
+			this.multiSkinButton.TabIndex = 5;
+			this.multiSkinButton.Text = "多步调节";
+			this.multiSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.multiSkinButton.UseVisualStyleBackColor = false;
+			this.multiSkinButton.Click += new System.EventHandler(this.multiSkinButton_Click);
 			// 
 			// initSkinButton
 			// 
@@ -5335,34 +5364,6 @@ namespace LightController.MyForm
 			this.firstLabel3.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel3.TabIndex = 0;
 			this.firstLabel3.Text = "通道值";
-			// 
-			// multiSkinButton
-			// 
-			this.multiSkinButton.AutoSize = true;
-			this.multiSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.multiSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.multiSkinButton.BorderColor = System.Drawing.Color.White;
-			this.multiSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.multiSkinButton.DownBack = null;
-			this.multiSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiSkinButton.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.multiSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.multiSkinButton.ForeColorSuit = true;
-			this.multiSkinButton.Image = global::LightController.Properties.Resources.统一跳渐变;
-			this.multiSkinButton.ImageSize = new System.Drawing.Size(40, 40);
-			this.multiSkinButton.InheritColor = true;
-			this.multiSkinButton.IsDrawBorder = false;
-			this.multiSkinButton.Location = new System.Drawing.Point(162, 21);
-			this.multiSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.multiSkinButton.MouseBack = null;
-			this.multiSkinButton.Name = "multiSkinButton";
-			this.multiSkinButton.NormlBack = null;
-			this.multiSkinButton.Size = new System.Drawing.Size(67, 103);
-			this.multiSkinButton.TabIndex = 5;
-			this.multiSkinButton.Text = "多步调节";
-			this.multiSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.multiSkinButton.UseVisualStyleBackColor = false;
-			this.multiSkinButton.Click += new System.EventHandler(this.multiSkinButton_Click);
 			// 
 			// SkinMainForm
 			// 

@@ -222,11 +222,11 @@
     <Compile Include="MyForm\MainFormInterface.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MaterialForm.cs">
+    <Compile Include="MyForm\MaterialSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MaterialForm.Designer.cs">
-      <DependentUpon>MaterialForm.cs</DependentUpon>
+    <Compile Include="MyForm\MaterialSaveForm.Designer.cs">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MaterialUseForm.cs">
       <SubType>Form</SubType>
@@ -367,8 +367,8 @@
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MaterialForm.resx">
-      <DependentUpon>MaterialForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MaterialSaveForm.resx">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialUseForm.resx">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>

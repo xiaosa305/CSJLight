@@ -126,12 +126,13 @@
 			// 
 			this.mFrameLKTextBox.BackColor = System.Drawing.Color.White;
 			this.mFrameLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mFrameLKTextBox.Location = new System.Drawing.Point(16, 195);
+			this.mFrameLKTextBox.Location = new System.Drawing.Point(12, 215);
+			this.mFrameLKTextBox.MaxLength = 20;
 			this.mFrameLKTextBox.Multiline = true;
 			this.mFrameLKTextBox.Name = "mFrameLKTextBox";
-			this.mFrameLKTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.mFrameLKTextBox.Size = new System.Drawing.Size(213, 52);
+			this.mFrameLKTextBox.Size = new System.Drawing.Size(217, 22);
 			this.mFrameLKTextBox.TabIndex = 8;
+			this.mFrameLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameLKTextBox_KeyPress);
 			// 
 			// mFrameSaveSkinButton
 			// 
@@ -172,9 +173,10 @@
 			// 
 			this.noticeLabel.Location = new System.Drawing.Point(14, 132);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(215, 60);
+			this.noticeLabel.Size = new System.Drawing.Size(215, 70);
 			this.noticeLabel.TabIndex = 10;
-			this.noticeLabel.Text = "提示：请在下面文本框内输入每一次执行的步数（范围为1-4），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式。\r\n";
+			this.noticeLabel.Text = "提示：请在下面文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式;链表数量不可超" +
+    "过20个。";
 			// 
 			// SKForm
 			// 

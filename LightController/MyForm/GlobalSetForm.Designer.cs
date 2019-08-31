@@ -2099,7 +2099,6 @@ private System.ComponentModel.IContainer components = null;
 			this.mFrameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.mFrameTextBox.Size = new System.Drawing.Size(325, 52);
 			this.mFrameTextBox.TabIndex = 2;
-			this.mFrameTextBox.TextChanged += new System.EventHandler(this.mFrameTextBox_TextChanged);
 			this.mFrameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameTextBox_KeyPress);
 			// 
 			// mNoticeSkinButton

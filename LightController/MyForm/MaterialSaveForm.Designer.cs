@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class MaterialForm
+	partial class MaterialSaveForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -536,6 +536,7 @@
 			this.noticeLabel.Size = new System.Drawing.Size(113, 12);
 			this.noticeLabel.TabIndex = 1;
 			this.noticeLabel.Text = "请勾选要保存的通道";
+			this.noticeLabel.Click += new System.EventHandler(this.noticeLabel_Click);
 			// 
 			// saveSkinButton
 			// 
@@ -572,7 +573,7 @@
 			this.cancelSkinButton.UseVisualStyleBackColor = false;
 			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
-			// MaterialForm
+			// MaterialSaveForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -589,7 +590,7 @@
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "MaterialForm";
+			this.Name = "MaterialSaveForm";
 			this.Text = "保存素材";
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tongdaoPanel.ResumeLayout(false);

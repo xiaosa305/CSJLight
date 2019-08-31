@@ -1107,7 +1107,8 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 统一步时间按钮点击后操作:所有当前步的步时间都设为选定值
+		/// 事件：点击《 统一步时间》按钮
+		/// 操作:所有当前步的步时间都设为选定值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1121,7 +1122,7 @@ namespace LightController
 		}
 		
 		/// <summary>
-		///  单灯单步按钮作用
+		///  事件：点击《单灯单步》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1131,7 +1132,7 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 当勾选《实时调试》后，设ifRealTime为true
+		/// 事件：当勾选《实时调试》后，设ifRealTime为true
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1141,18 +1142,18 @@ namespace LightController
 		}		
 
 		/// <summary>
-		///  摇麦设置点击后，打开摇麦设置Form
+		///  事件：点击《摇麦设置》后，打开摇麦设置Form
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void ymSetToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath, isNew);
+			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath);
 			ymSetForm.ShowDialog();
 		}
 
 		/// <summary>
-		/// 辅助方法:鼠标掠过vScrollBar时，把焦点切换到其对应的numericUpDown中
+		/// 辅助方法 : 鼠标掠过vScrollBar时，把焦点切换到其对应的numericUpDown中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1271,11 +1272,11 @@ namespace LightController
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private MaterialForm materialForm;
+		private MaterialSaveForm materialForm;
 		private void materialSaveButton_Click(object sender, EventArgs e)
 		{
 			materialForm = null;
-			materialForm = new MaterialForm(this,getCurrentLightStepWrapper().StepWrapperList,mode);
+			materialForm = new MaterialSaveForm(this,getCurrentLightStepWrapper().StepWrapperList,mode);
 			if (materialForm != null && !materialForm.IsDisposed) {
 				materialForm.ShowDialog();
 			}

@@ -377,12 +377,12 @@ public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 		}
 
 		/// <summary>
-		/// 事件：键盘按键点击事件:确保textBox内只能是0-4、逗号或回退键
+		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、回退键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void mFrameTextBox_KeyPress(object sender, KeyPressEventArgs e) {
-			if ((e.KeyChar >= '0' && e.KeyChar <= '4') || e.KeyChar == 8 ){				
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8 ){				
 				e.Handled = false;				
 			}
 			else
@@ -398,7 +398,7 @@ public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 		/// <param name="e"></param>
 		private void mNoticeSkinButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("请在文本框内输入每一次执行的步数（范围为1-4），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式。");
+			MessageBox.Show("请在文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。");
 		}
 
 		/// <summary>
@@ -433,9 +433,6 @@ public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 			MessageBox.Show("保存成功");
 		}
 
-		private void mFrameTextBox_TextChanged(object sender, EventArgs e)
-		{
 
-		}
 	}
 }

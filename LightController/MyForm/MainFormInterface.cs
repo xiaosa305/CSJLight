@@ -847,41 +847,36 @@ namespace LightController.MyForm
 			}
 		}
 
+
 		#region 获取各种当前（步数、灯具）等的辅助方法
 
 		/// <summary>
-		///  获取当前选中的LightWrapper
+		///  获取当前选中的LightWrapper（此灯具全部数据）
 		/// </summary>
 		/// <returns></returns>
 		protected LightWrapper getCurrentLightWrapper()
 		{
+			// 说明尚未点击任何灯具 或 内存内还没有任何灯具
+			if (selectedLightIndex == -1  || lightWrapperList == null || lightWrapperList.Count == 0)
+			{
+				return null;
+			}			
 			return lightWrapperList[selectedLightIndex];
 		}
 
 		/// <summary>
-		///  辅助方法：取出选定灯具、Frame、Mode 的 所有步数集合
+		///  辅助方法：取出选定(灯具、frame、mode))的所有步数集合
 		/// </summary>
 		/// <returns></returns>
 		protected LightStepWrapper getCurrentLightStepWrapper()
 		{
-			// 说明尚未点击任何灯具
-			if (selectedLightIndex == -1)
-			{
-				return null;
-			}
-			// 说明内存内还没有任何灯具
-			if (lightWrapperList == null || lightWrapperList.Count == 0)
-			{
-				return null;
-			}
-
-			LightWrapper light = lightWrapperList[selectedLightIndex];
+			LightWrapper light = getCurrentLightWrapper();
 			if (light == null)
 			{
 				return null;
 			}
 			else
-			{
+			{			
 				//若为空，则立刻创建一个
 				if (light.LightStepWrapperList[frame, mode] == null)
 				{
@@ -895,7 +890,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：这个方法直接取出当前步：筛选条件比较苛刻
+		/// 辅助方法：直接取出当前（灯、frame、mode 、currentStepValue)步：筛选条件比较苛刻
 		/// </summary>
 		/// <returns></returns>
 		protected StepWrapper getCurrentStepWrapper()
@@ -969,7 +964,7 @@ namespace LightController.MyForm
 
 		/// <summary>
 		///  8.15新增的
-		///  辅助方法：取出当前灯在该场景模式下的最大步数据，用于追加步
+		///  辅助方法：取出当前灯在该场景模式下的最大步数据，（用于追加步）
 		/// </summary>
 		/// <returns></returns>
 		protected StepWrapper getCurrentLightMaxStepWrapper()
@@ -987,6 +982,7 @@ namespace LightController.MyForm
 		}
 
 		#endregion
+
 
 		#region 窗体相关方法：退出、
 		/// <summary>
@@ -1016,13 +1012,24 @@ namespace LightController.MyForm
 		/// <param name="endStep"></param>
 		/// <param name="where"></param>
 		/// <param name="commonValue"></param>
-		public void setMultiStepValues(WHERE where, IList<int> indexList, int startStep, int endStep, int commonValue) {
+		public void setMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int commonValue) {
 			
-
-
-
-
+			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
+			for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)		{
+				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepIndex];
+				stepWrapper.MultiChangeValue(where, tdIndexList, commonValue);
+			}
+			// 刷新当前tdPanels数据。
+			refreshStep();
 		}
 
+		/// <summary>
+		/// 辅助方法：刷新当前步;
+		/// TODO : 不一定使用chooseStep方法 
+		/// </summary>
+		private void refreshStep()
+		{
+			chooseStep(getCurrentStepValue());
+		}
 	}
 }

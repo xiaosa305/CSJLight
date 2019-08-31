@@ -275,6 +275,7 @@ namespace LightController.MyForm
 			});
 			modeSkinComboBox.SelectedIndex = 0;
 
+			commonChangeModeSkinComboBox.SelectedIndex = 0;
 			
 
 			#endregion
@@ -389,7 +390,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void ymSkinButton_Click(object sender, EventArgs e)
 		{
-			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath, isNew);
+			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath);
 			ymSetForm.ShowDialog();
 		}
 
@@ -645,7 +646,6 @@ namespace LightController.MyForm
 					{
 						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
 						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "否", "是" });
-						
 						this.tdStepTimeNumericUpDowns[i].Hide();
 					}
 
@@ -1663,7 +1663,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			MaterialForm materialForm = new MaterialForm(this, getCurrentLightStepWrapper().StepWrapperList, mode);
+			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode);
 			if (materialForm != null && !materialForm.IsDisposed)
 			{
 				materialForm.ShowDialog();

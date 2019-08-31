@@ -45,6 +45,7 @@ namespace LightController.Tools
         public const string ORDER_BEGIN_SEND = "BeginSend";
         public const string ORDER_END_SEND = "EndSend";
         public const string ORDER_GET_PARAM = "GetParam";
+        public const string ORDER_SEARCH = "Search";
         public const string MARK_ORDER_TAKE_DATA = "00000101";
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";

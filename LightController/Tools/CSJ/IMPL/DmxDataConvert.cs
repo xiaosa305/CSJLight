@@ -17,7 +17,6 @@ namespace LightController.Tools.CSJ.IMPL
         private DmxDataConvert()
         {
         }
-
         public static DmxDataConvert GetInstance()
         {
             if (Instance == null)
@@ -26,21 +25,14 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return Instance;
         }
-
-        /// <summary>
-        /// 未完工程
-        /// </summary>
-        /// <returns></returns>
         public ICSJFile GetHardware(string filePath)
         {
             return new CSJ_Hardware(filePath);
         }
-
         public ICSJFile GetHardware(byte[] fileBuff)
         {
             return new CSJ_Hardware(fileBuff);
         }
-
         public CSJ_Project GetCSJProjectFiles(DBWrapper wrapper, string configPath)
         {
             ConfigPath = configPath;
@@ -55,7 +47,6 @@ namespace LightController.Tools.CSJ.IMPL
             project.MFiles = GetMFiles();
             return project;
         }
-
         private List<ICSJFile> GetCFiles()
         {
             List<ICSJFile> cs = new List<ICSJFile>();
@@ -74,7 +65,6 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return null;
         }
-
         private List<ICSJFile> GetMFiles()
         {
             List<ICSJFile> ms = new List<ICSJFile>();
@@ -93,7 +83,6 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return null;
         }
-
         private ICSJFile GetCSJFile(int sceneNo, int mode)
         {
             ICSJFile file = null;
@@ -116,7 +105,6 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return null;
         }
-
         private ICSJFile GetCSJCFile(CSJ_SceneData sceneData)
         {
             CSJ_C file = null;
@@ -382,7 +370,6 @@ namespace LightController.Tools.CSJ.IMPL
             file.ChannelDatas = channelDatas;
             return file;
         }
-
         private ICSJFile GetCSJMFile(CSJ_SceneData sceneData)
         {
             CSJ_M file = null;
@@ -458,7 +445,6 @@ namespace LightController.Tools.CSJ.IMPL
             file.ChannelDatas = channelDatas;
             return file;
         }
-
         private List<int> GetSceneNos()
         {
             List<int> sceneNos = new List<int>();
@@ -475,7 +461,6 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return sceneNos;
         }
-
         private CSJ_SceneData GetSceneData(int sceneNo, int mode)
         {
             CSJ_SceneData sceneData = new CSJ_SceneData()
@@ -502,7 +487,6 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return null;
         }
-
         private CSJ_ChannelData GetChannelData(int sceneNo, int channelNo, int mode, DB_Light light)
         {
             if (channelNo > 512)
@@ -550,7 +534,6 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return null;
         }
-
         private int GetStepCount(int lightNo, int sceneNo, int mode)
         {
             int stepCount = 0;

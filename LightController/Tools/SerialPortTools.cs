@@ -22,6 +22,7 @@ namespace LightController.Tools
         private SerialPort ComDevice { get; set; }
         private int ResendCount { get; set; }
         private List<byte> RxBuff { get; set; }
+        private bool IsSearchDevice { get; set; }
 
         private SerialPortTools()
         {
@@ -29,6 +30,7 @@ namespace LightController.Tools
             {
                 this.ComDevice = new SerialPort();
                 this.InitParameters();
+                this.IsSearchDevice = false;
                 this.SetDefaultSerialPort();
                 this.RxBuff = new List<byte>();
                 this.PackageSize = Constant.PACKAGE_SIZE_DEFAULT;
@@ -191,6 +193,20 @@ namespace LightController.Tools
             CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
             return ComDevice.IsOpen;
         }
+        public void SearchDevice(IReceiveCallBack receiveCallBack)
+        {
+            try
+            {
+                this.Addr = Constant.UDPADDR;
+                IsSearchDevice = true;
+                SendOrder(Constant.ORDER_SEARCH, null, receiveCallBack);
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+            
+        }
         protected override void Send(byte[] txBuff)
         {
             if (ComDevice.IsOpen)
@@ -210,12 +226,12 @@ namespace LightController.Tools
             {
                 try
                 {
-                    RxBuff.Add(Convert.ToByte(ComDevice.ReadByte()));
-                    if (RxBuff.Count == Constant.PACKAGEHEAD_SIZE)
+                    this.RxBuff.Add(Convert.ToByte(ComDevice.ReadByte()));
+                    if (this.RxBuff.Count == Constant.PACKAGEHEAD_SIZE)
                     {
                         for (int i = 0; i < Constant.PACKAGEHEAD_SIZE; i++)
                         {
-                            packageHead[i] = RxBuff[i];
+                            packageHead[i] = this.RxBuff[i];
                         }
                         if (packageHead[0] != Convert.ToByte(0xAA) || packageHead[1] != Convert.ToByte(0xBB) || packageHead[2] != Convert.ToByte(0x00) || packageHead[5] != Convert.ToByte(Constant.MARK_DATA_END, 2))
                         {
@@ -227,11 +243,11 @@ namespace LightController.Tools
                             packageDataSize = (packageHead[3] & 0xFF) | ((packageHead[4] << 8) & 0xFF);
                         }
                     }
-                    else if (RxBuff.Count == packageDataSize + Constant.PACKAGEHEAD_SIZE)
+                    else if (this.RxBuff.Count == packageDataSize + Constant.PACKAGEHEAD_SIZE)
                     {
-                        RxBuff[6] = Convert.ToByte(0x00);
-                        RxBuff[7] = Convert.ToByte(0x00);
-                        byte[] packageCRC = CRCTools.GetInstance().GetCRC(RxBuff.ToArray());
+                        this.RxBuff[6] = Convert.ToByte(0x00);
+                        this.RxBuff[7] = Convert.ToByte(0x00);
+                        byte[] packageCRC = CRCTools.GetInstance().GetCRC(this.RxBuff.ToArray());
                         if (packageCRC[0] != packageHead[6] || packageCRC[1] != packageHead[7])
                         {
                             CloseDevice();
@@ -240,16 +256,28 @@ namespace LightController.Tools
                         else
                         {
                             byte[] packageData = new byte[packageDataSize];
-                            Array.Copy(RxBuff.ToArray(), 8, packageData, 0, packageDataSize);
-                            ReceiveMessageManage(packageData, packageDataSize);
-                            RxBuff.Clear();
+                            Array.Copy(this.RxBuff.ToArray(), 8, packageData, 0, packageDataSize);
+                            if (IsSearchDevice)
+                            {
+                                string rxStr = Encoding.Default.GetString(packageData, 0, packageDataSize);
+                                string[] rxStrArray = rxStr.Split(' ');
+                                this.Addr = int.Parse(rxStrArray[0]);
+                                this.DeviceName = rxStrArray[1];
+                                CallBack.SendCompleted(DeviceName, Constant.ORDER_SEARCH);
+                            }
+                            else
+                            {
+                                ReceiveMessageManage(packageData, packageDataSize);
+                            }
+                            this.RxBuff.Clear();
                             break;
                         }
                     }
+                    IsSearchDevice = false;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error :" + ex.Message);
+                    CSJLogs.GetInstance().ErrorLog(ex);
                 }
             }
         }
@@ -272,6 +300,10 @@ namespace LightController.Tools
                     default:
                         break;
                 }
+            }
+            catch(Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
             finally
             {

@@ -262,7 +262,6 @@ namespace LightController.Tools
                 }
                 finally
                 {
-                    Thread.Sleep(200);
                     PreViewThread = null;
                     PlayData = data;
                     IsPausePlay = false;

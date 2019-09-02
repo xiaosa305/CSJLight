@@ -160,6 +160,7 @@ namespace LightController.Tools.CSJ.IMPL
                 int stepTime;
                 int isGradualChange;
                 int startValue;
+                int isY = 0;
             ChannelData channelData = new ChannelData()
                 {
                     ChannelNo = item.ChannelNo
@@ -175,9 +176,11 @@ namespace LightController.Tools.CSJ.IMPL
                         else if (fineTune.FineTuneIndex == channelData.ChannelNo)
                         {
                             flag = 2;
+                            isY = fineTune.XORY;
                         }
                     }
                 }
+                //flag = 0;
                 if (2 == flag)
                 {
                     foreach (DB_FineTune fineTune in Wrapper.fineTuneList)
@@ -222,7 +225,7 @@ namespace LightController.Tools.CSJ.IMPL
                                                 float inc = (stepValue - startValue) / (float)stepTime;
                                                 float value = startValue + inc * (fram + 1);
                                                 int intValue = (int)Math.Floor(value * 256);
-                                                if (channelData.ChannelNo == 4)
+                                                if (isY == 1)
                                                 {
                                                     intValue =(int)((intValue & 0xFF) / 2.5);
                                                     datas.Add(intValue);
@@ -275,16 +278,17 @@ namespace LightController.Tools.CSJ.IMPL
                                 {
                                     float inc = (stepValue - startValue) / (float)stepTime;
                                     float value = startValue + inc * (fram + 1);
-                                    if (flag == 1)
-                                    {
-                                        int intValue = (int)Math.Floor(value * 256);
-                                        datas.Add((intValue >> 8) & 0xFF);
-                                    }
-                                    else
-                                    {
-                                        datas.Add((int)value);
-                                    }
-                                   
+                                    //if (flag == 1)
+                                    //{
+                                    //    int intValue = (int)Math.Floor(value * 256);
+                                    //    datas.Add((intValue >> 8) & 0xFF);
+                                    //}
+                                    //else
+                                    //{
+                                    //    datas.Add((int)value);
+                                    //}
+                                    int intValue = (int)Math.Floor(value * 256);
+                                    datas.Add((intValue >> 8) & 0xFF);
                                 }
                                 else
                                 {

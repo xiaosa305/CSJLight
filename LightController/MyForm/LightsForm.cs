@@ -52,9 +52,9 @@ namespace LightController
 							treeNode.Nodes.Add(node);
 						}
 					}
-					this.treeView1.Nodes.Add(treeNode);
+					this.skinTreeView1.Nodes.Add(treeNode);
 				}
-				this.treeView1.ExpandAll();				
+				this.skinTreeView1.ExpandAll();				
 			}
 						
 			// 2.只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
@@ -82,7 +82,7 @@ namespace LightController
 		}
 			
 		/// <summary>
-		///  添加新灯具
+		///  事件：点击《添加》按钮：添加新灯具
 		///  1.需选中左边的一个灯具（灯库），点击添加
 		///  2.打开一个NewForm的新实例，在NewForm中填好参数后回调AddListView方法
 		/// </summary>
@@ -90,13 +90,13 @@ namespace LightController
 		/// <param name="e"></param>
 		private void addLightButton_Click(object sender, EventArgs e)
 		{
-			if (treeView1.SelectedNode == null)
+			if (skinTreeView1.SelectedNode == null)
 			{
 				MessageBox.Show("请先选择灯具！");
 			} else {
-				if (treeView1.SelectedNode.Parent != null)
+				if (skinTreeView1.SelectedNode.Parent != null)
 				{
-					string fullPath = @"C:\Temp\LightLibrary\" + treeView1.SelectedNode.FullPath + ".ini";
+					string fullPath = @"C:\Temp\LightLibrary\" + skinTreeView1.SelectedNode.FullPath + ".ini";
 					LightsAstForm lightsAstForm = new LightsAstForm(this, fullPath, minNum);
 					lightsAstForm.ShowDialog();
 				}
@@ -158,17 +158,17 @@ namespace LightController
 			item.SubItems.Add(lightType);
 			item.SubItems.Add(lightAddr);
 			item.ImageKey = lightPic;
-			lightsListView.Items.Add(item);
+			lightsSkinListView.Items.Add(item);
 		}
 
 		/// <summary>
-		/// 点击《删除灯具》的操作
+		/// 事件：点击《删除灯具》的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void deleteLightButton_Click(object sender, EventArgs e)
 		{
-			if (lightsListView.SelectedIndices.Count == 0) {
+			if (lightsSkinListView.SelectedIndices.Count == 0) {
 					MessageBox.Show("请先选择要删除的灯具");
 			}
 			else
@@ -179,18 +179,18 @@ namespace LightController
 				//lightAstList.RemoveAt(deleteIndex);
 
 				// 多灯情况下的删除方法：通过item来删除数据
-				foreach (ListViewItem item in lightsListView.SelectedItems)
+				foreach (ListViewItem item in lightsSkinListView.SelectedItems)
 				{
 						lightAstList.RemoveAt(item.Index);
 						item.Remove();						
 				}
-				lightsListView.Refresh();
+				lightsSkinListView.Refresh();
 				
 			}								
 		}
 
 		/// <summary>
-		/// 点击确认后，添加lightAstList到mainForm去，并进行相关操作
+		///  事件：点击《确认》后，添加lightAstList到mainForm去，并进行相关操作
 		/// --用此lightAstList替代mainForm中的原lightAstList，并顺便删减lightWrapperList和ListView中的灯具
 		/// </summary>
 		/// <param name="sender"></param>
@@ -199,13 +199,14 @@ namespace LightController
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
 			mainForm.AddLightAstList(lightAstList);
+			mainForm.GenerateAllStepTemplates();
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
 			mainForm.Activate();
 		}
 
 		/// <summary>
-		///  关闭窗口
+		///  事件：关闭窗口
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -216,14 +217,14 @@ namespace LightController
 		}
 
 		/// <summary>
-		/// 双击修改选中灯具
+		/// 事件：双击修改选中灯具
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lightsListView_DoubleClick(object sender, EventArgs e)
 		{
-			int lightIndex = lightsListView.SelectedIndices[0];
-			LightsEditForm lightsEditForm = new LightsEditForm(this,lightAstList[lightIndex],lightIndex);
+			int lightIndex = lightsSkinListView.SelectedIndices[0];
+			LightsEditForm lightsEditForm = new LightsEditForm(this, lightAstList[lightIndex], lightIndex);
 			lightsEditForm.ShowDialog();
 		}
 
@@ -240,7 +241,7 @@ namespace LightController
 			lightAstList[lightIndex].LightAddr = startNum + "-" + lightAstList[lightIndex].EndNum;
 
 			// 2.修改lightListView
-			lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
+			lightsSkinListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
 		}
 		
 	}

@@ -29,14 +29,15 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.enterButton = new System.Windows.Forms.Button();
-			this.cancelButton = new System.Windows.Forms.Button();
 			this.lightCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.startCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label3 = new System.Windows.Forms.Label();
 			this.nameTypeLabel = new System.Windows.Forms.Label();
+			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
+			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			((System.ComponentModel.ISupportInitialize)(this.lightCountNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.startCountNumericUpDown)).BeginInit();
 			this.SuspendLayout();
@@ -44,7 +45,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(19, 92);
+			this.label1.Location = new System.Drawing.Point(29, 89);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(89, 12);
@@ -54,41 +55,22 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(19, 59);
+			this.label2.Location = new System.Drawing.Point(29, 57);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(89, 12);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "起始灯具地址：";
 			// 
-			// enterButton
-			// 
-			this.enterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-			this.enterButton.Location = new System.Drawing.Point(41, 134);
-			this.enterButton.Margin = new System.Windows.Forms.Padding(2);
-			this.enterButton.Name = "enterButton";
-			this.enterButton.Size = new System.Drawing.Size(70, 27);
-			this.enterButton.TabIndex = 2;
-			this.enterButton.Text = "确定";
-			this.enterButton.UseVisualStyleBackColor = false;
-			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
-			// 
-			// cancelButton
-			// 
-			this.cancelButton.BackColor = System.Drawing.SystemColors.Info;
-			this.cancelButton.Location = new System.Drawing.Point(157, 134);
-			this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(75, 27);
-			this.cancelButton.TabIndex = 2;
-			this.cancelButton.Text = "取消";
-			this.cancelButton.UseVisualStyleBackColor = false;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
 			// lightCountNumericUpDown
 			// 
-			this.lightCountNumericUpDown.Location = new System.Drawing.Point(133, 88);
+			this.lightCountNumericUpDown.Location = new System.Drawing.Point(143, 88);
 			this.lightCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.lightCountNumericUpDown.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
 			this.lightCountNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -106,7 +88,7 @@
 			// 
 			// startCountNumericUpDown
 			// 
-			this.startCountNumericUpDown.Location = new System.Drawing.Point(133, 55);
+			this.startCountNumericUpDown.Location = new System.Drawing.Point(143, 53);
 			this.startCountNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.startCountNumericUpDown.Maximum = new decimal(new int[] {
             512,
@@ -131,40 +113,73 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(19, 26);
+			this.label3.Location = new System.Drawing.Point(29, 25);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(89, 12);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "添加灯具名称：";
-			this.label3.Click += new System.EventHandler(this.label3_Click);
 			// 
 			// nameTypeLabel
 			// 
 			this.nameTypeLabel.AutoSize = true;
-			this.nameTypeLabel.Location = new System.Drawing.Point(112, 26);
+			this.nameTypeLabel.Location = new System.Drawing.Point(122, 25);
 			this.nameTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.nameTypeLabel.Name = "nameTypeLabel";
 			this.nameTypeLabel.Size = new System.Drawing.Size(41, 12);
 			this.nameTypeLabel.TabIndex = 4;
 			this.nameTypeLabel.Text = "灯具名";
 			// 
-			// LightsAstForm
+			// enterSkinButton
+			// 
+			this.enterSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.enterSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.enterSkinButton.DownBack = null;
+			this.enterSkinButton.Location = new System.Drawing.Point(48, 133);
+			this.enterSkinButton.MouseBack = null;
+			this.enterSkinButton.Name = "enterSkinButton";
+			this.enterSkinButton.NormlBack = null;
+			this.enterSkinButton.Size = new System.Drawing.Size(70, 27);
+			this.enterSkinButton.TabIndex = 5;
+			this.enterSkinButton.Text = "确定";
+			this.enterSkinButton.UseVisualStyleBackColor = false;
+			this.enterSkinButton.Click += new System.EventHandler(this.enterButton_Click);
+			// 
+			// cancelSkinButton
+			// 
+			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.cancelSkinButton.DownBack = null;
+			this.cancelSkinButton.Location = new System.Drawing.Point(158, 133);
+			this.cancelSkinButton.MouseBack = null;
+			this.cancelSkinButton.Name = "cancelSkinButton";
+			this.cancelSkinButton.NormlBack = null;
+			this.cancelSkinButton.Size = new System.Drawing.Size(70, 27);
+			this.cancelSkinButton.TabIndex = 5;
+			this.cancelSkinButton.Text = "取消";
+			this.cancelSkinButton.UseVisualStyleBackColor = false;
+			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
+			// 
+			// SkinLightsAstForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(272, 182);
+			this.Controls.Add(this.cancelSkinButton);
+			this.Controls.Add(this.enterSkinButton);
 			this.Controls.Add(this.nameTypeLabel);
 			this.Controls.Add(this.startCountNumericUpDown);
 			this.Controls.Add(this.lightCountNumericUpDown);
-			this.Controls.Add(this.cancelButton);
-			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Margin = new System.Windows.Forms.Padding(2);
-			this.Name = "LightsAstForm";
+			this.Name = "SkinLightsAstForm";
 			this.Text = "添加灯具选项";
 			this.Load += new System.EventHandler(this.LightsAstForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.lightCountNumericUpDown)).EndInit();
@@ -178,11 +193,11 @@
 
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button enterButton;
-		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.NumericUpDown lightCountNumericUpDown;
 		private System.Windows.Forms.NumericUpDown startCountNumericUpDown;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label nameTypeLabel;
+		private CCWin.SkinControl.SkinButton enterSkinButton;
+		private CCWin.SkinControl.SkinButton cancelSkinButton;
 	}
 }

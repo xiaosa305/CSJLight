@@ -311,19 +311,18 @@ namespace LightController
 			globalSetToolStripMenuItem.Enabled = enable;
 			ymSetToolStripMenuItem.Enabled = enable;
 
-		}			
-		
+		}
+
 		/// <summary>
 		///  清空相关的所有数据
 		/// </summary>
 		protected override void clearAllData()
 		{
 			base.clearAllData();
-			
-			// 子类内部数据的清空
+
+			//单独针对本MainForm的代码: ①清空listView列表；②禁用《通道相关groupBox》
 			lightsListView.Clear();
 			tongdaoGroupBox.Hide();
-
 		}
 			
 		
@@ -379,6 +378,12 @@ namespace LightController
 		{
 			NewForm newForm = new NewForm(this);
 			newForm.ShowDialog(this);
+
+			//8.21 ：当IsCreateSuccess==true时，打开灯具编辑
+			if (IsCreateSuccess)
+			{
+				lightsEditToolStripMenuItem1_Click(null, null);
+			}
 		}
 		
 		/// <summary>
@@ -481,6 +486,10 @@ namespace LightController
 		/// </summary>
 		private void changeFrameMode()
 		{
+			if (selectedLightIndex == -1) {
+				return;
+			}
+
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
 			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
 

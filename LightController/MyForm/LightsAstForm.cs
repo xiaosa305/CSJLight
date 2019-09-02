@@ -39,7 +39,7 @@ namespace LightController
 		// 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
 		private void readFile(string lightPath)
 		{
-			// 老方法：不够灵活，配置的每一行都要写死
+			// 配置的每一行都要写死
 			string[] lines = File.ReadAllLines(lightPath);
 			lightCount = int.Parse(lines[3].Substring(6));
 			lightName = lines[4].Substring(5);
@@ -47,13 +47,6 @@ namespace LightController
 			lightPic = lines[2].Substring(4);
 
 			this.nameTypeLabel.Text = lightName + ":" + lightType;
-
-			// 新方法：但无法在首行就写着[...]时读到该块的数据
-			//IniFileAst iniAst = new IniFileAst(lightPath);
-			//lightCount = iniAst.ReadInt("set", "count", 1);
-			//lightName = iniAst.ReadString("set", "name", "");
-			//lightType = iniAst.ReadString("set", "type", "");
-			//lightPic = iniAst.ReadString("set", "pic", "");
 
 		}
 
@@ -96,11 +89,6 @@ namespace LightController
 		private void LightsAstForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
-		}
-
-		private void label3_Click(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

@@ -505,10 +505,10 @@ namespace LightController.MyForm
 						}						
 					}
 					if (xz != 0 && xzwt != 0) {
-						dbFineTuneList.Add(new DB_FineTune() {	MainIndex = xz , FineTuneIndex = xzwt } );
+						dbFineTuneList.Add(new DB_FineTune() {	MainIndex = xz , FineTuneIndex = xzwt , XORY = 0  } );
 					}
 					if (yz != 0 && yzwt != 0) {
-						dbFineTuneList.Add(new DB_FineTune(){	MainIndex = yz,	FineTuneIndex = yzwt	});
+						dbFineTuneList.Add(new DB_FineTune(){	MainIndex = yz,	FineTuneIndex = yzwt, XORY = 1 });
 					}
 				}
 			}

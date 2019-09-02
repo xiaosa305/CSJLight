@@ -149,11 +149,11 @@ namespace LightController.MyForm
 			mainForm.Activate();
 		}
 
-		private void MaterialUseForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		private void helpSkinButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("1.点击《追加》按钮，会在当前步与下一步之间插入你所选中的素材，未涉及的通道将使用灯具初始值；\n" +
-				"2.点击《覆盖》按钮，会从当前步开始覆盖相关步数，素材内未涉及通道将保留原值；若是现有步数不足，会添加新步，此时未涉及的通道将使用灯具初始值;\n" +
-				"3.追加或覆盖之后的步数不能超过灯具当前模式所允许的最大步数，否则会添加失败。",
+			MessageBox.Show("1.点击《插入》按钮，会在当前步与下一步之间插入你所选中的素材，未涉及的通道将使用灯具初始值；\n" +
+				"2.点击《覆盖》按钮，会从当前步开始覆盖相关步数，素材内未涉及通道将保留原值；若现有步数不足，会自动添加新步，未涉及的通道将使用灯具初始值;\n" +
+				"3.插入或覆盖之后的步数不能超过灯具当前模式所允许的最大步数，否则会添加失败。",
 			"素材使用帮助");
 		}
 	}

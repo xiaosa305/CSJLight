@@ -275,6 +275,7 @@ namespace LightController.MyForm
 			});
 			modeSkinComboBox.SelectedIndex = 0;
 
+			commonChangeModeSkinComboBox.SelectedIndex = 0;
 			
 
 			#endregion
@@ -389,7 +390,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void ymSkinButton_Click(object sender, EventArgs e)
 		{
-			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath, isNew);
+			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath);
 			ymSetForm.ShowDialog();
 		}
 
@@ -564,7 +565,7 @@ namespace LightController.MyForm
 			{
 				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
 			}
-			catch (Exception ex) {				
+			catch (Exception) {				
 				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
 			}			
 			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
@@ -645,7 +646,6 @@ namespace LightController.MyForm
 					{
 						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
 						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "否", "是" });
-						
 						this.tdStepTimeNumericUpDowns[i].Hide();
 					}
 
@@ -990,7 +990,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		private void showTDPanels(List<TongdaoWrapper> tongdaoList, int startNum)
+		private void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
 		{			
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
@@ -1184,7 +1184,7 @@ namespace LightController.MyForm
 			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
 			if (isInit && mode == 1)
 			{
-				List<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+				IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
 				foreach (StepWrapper stepWrapper in stepWrapperList)
 				{
 					stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
@@ -1562,6 +1562,18 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《多步调节》按钮
+		/// 多步调整，传入当前灯的LightWrapper，在里面回调setMultiStepValues以调节相关的步数的值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiSkinButton_Click(object sender, EventArgs e)
+		{
+			MultiStepForm msForm = new MultiStepForm(this , getCurrentStepValue() , getTotalStepValue(),getCurrentStepWrapper() ,mode );
+			msForm.ShowDialog();
+		}
+
 		#endregion
 
 
@@ -1651,7 +1663,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			MaterialForm materialForm = new MaterialForm(this, getCurrentLightStepWrapper().StepWrapperList, mode);
+			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode);
 			if (materialForm != null && !materialForm.IsDisposed)
 			{
 				materialForm.ShowDialog();
@@ -1871,8 +1883,8 @@ namespace LightController.MyForm
 			// 2.调用结束预览方法
 			playTools.EndView();
 		}
-		
-	
+
+
 		#endregion
 
 		

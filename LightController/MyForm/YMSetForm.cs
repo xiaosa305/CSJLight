@@ -15,14 +15,12 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private IniFileAst iniFileAst;
-		private bool isNew;
 
-
-		public YMSetForm(MainFormInterface mainForm,string iniPath,bool isNew)
+		public YMSetForm(MainFormInterface mainForm,string iniPath)
 		{
 			this.mainForm = mainForm;
 			iniFileAst = new IniFileAst(iniPath);
-			this.isNew = isNew;
+
 			InitializeComponent();
 
 			#region 初始化几个数组
@@ -114,6 +112,22 @@ namespace LightController.MyForm
 			#endregion
 		}
 
+
+		/// <summary>
+		///  事件：在Load中，执行loadAll();
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void YMSetForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+
+			//1. 先设置各个下拉框的默认值：这里的三个选项(checkbox和numericUpDown)都不太需要设置
+			//2.读取各个配置
+			loadAll();
+		}
+
+
 		private void ymCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			int frameIndex = MathAst.getIndexNum(((CheckBox)sender).Name, -1 );
@@ -130,17 +144,7 @@ namespace LightController.MyForm
 			//MessageBox.Show("frameIndex:" + ((NumericUpDown)sender).Value);
 		}
 
-		private void YMSetForm_Load(object sender, EventArgs e)
-		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-
-			//1. 先设置各个下拉框的默认值：这里的三个选项(checkbox和numericUpDown)都不太需要设置
-			//2.读取各个配置=>若是新建，则不读取配置
-			if (!isNew)
-			{
-				loadAll();				
-			}
-		}
+		
 
 		/// <summary>
 		/// 辅助方法：从配置文件读取配置，并填入所有的框中
@@ -169,7 +173,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击统一执行时间按钮
+		///  事件：点击《统一执行时间》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -182,7 +186,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击保存设置后，将所需的数据保存到global.ini中
+		///  事件：点击《保存设置》后，将所需的数据保存到global.ini中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -197,6 +201,11 @@ namespace LightController.MyForm
 			MessageBox.Show("保存成功:");
 		}
 
+		/// <summary>
+		///  事件：勾选或取消勾选《全选》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void allCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			foreach (CheckBox item in ymCheckBoxes)
@@ -205,6 +214,11 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《右上角关闭（X）》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void YMSetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();

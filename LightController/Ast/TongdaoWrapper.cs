@@ -24,10 +24,10 @@ namespace LightController.Ast
 		/// </summary>
 		/// <param name="oldTongdaoList"></param>
 		/// <returns></returns>
-		public static List<TongdaoWrapper> GenerateTongdaoList(List<TongdaoWrapper> stepModeTongdaoList)
+		public static List<TongdaoWrapper> GenerateTongdaoList(IList<TongdaoWrapper> stepTemplateTongdaoList)
 		{
 			List<TongdaoWrapper> newList = new List<TongdaoWrapper>();
-			foreach (TongdaoWrapper item in stepModeTongdaoList)
+			foreach (TongdaoWrapper item in stepTemplateTongdaoList)
 			{
 				newList.Add(new TongdaoWrapper()
 				{

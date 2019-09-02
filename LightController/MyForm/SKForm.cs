@@ -60,7 +60,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击右上角关闭
+		/// 事件：点击《右上角关闭》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -69,5 +69,23 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
+
+		/// <summary>
+		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、及回退键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mFrameLKTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8)
+			{
+				e.Handled = false;
+			}
+			else
+			{
+				e.Handled = true;
+			}
+		}	
+		
 	}
 }

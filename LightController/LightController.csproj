@@ -177,6 +177,12 @@
     <Compile Include="MyForm\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MultiStepForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MultiStepForm.Designer.cs">
+      <DependentUpon>MultiStepForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\SKForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -216,11 +222,11 @@
     <Compile Include="MyForm\MainFormInterface.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MaterialForm.cs">
+    <Compile Include="MyForm\MaterialSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MaterialForm.Designer.cs">
-      <DependentUpon>MaterialForm.cs</DependentUpon>
+    <Compile Include="MyForm\MaterialSaveForm.Designer.cs">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MaterialUseForm.cs">
       <SubType>Form</SubType>
@@ -340,6 +346,9 @@
     <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MultiStepForm.resx">
+      <DependentUpon>MultiStepForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\SKForm.resx">
       <DependentUpon>SKForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -358,8 +367,8 @@
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MaterialForm.resx">
-      <DependentUpon>MaterialForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MaterialSaveForm.resx">
+      <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialUseForm.resx">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
@@ -725,7 +734,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Source\CSkin.XML" />
-    <Content Include="Source\IrisSkin4.dll" />
+    <Content Include="Source\IrisSkin4.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

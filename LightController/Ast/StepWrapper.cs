@@ -1,8 +1,10 @@
 ﻿using DMX512;
+using LightController.MyForm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static LightController.MyForm.MainFormInterface;
 
 namespace LightController.Ast
 {
@@ -19,7 +21,7 @@ namespace LightController.Ast
 		public int StartNum { get; set; }
 
 		// 这个列表记录通道数据
-		public List<TongdaoWrapper> TongdaoList { get; set; }
+		public IList<TongdaoWrapper> TongdaoList { get; set; }
 
 
 		/// <summary>
@@ -85,8 +87,7 @@ namespace LightController.Ast
 				StartNum = stepMode.StartNum
 			};
 		}
-
-
+		
 		/// <summary>
 		///  辅助方法	:通过stepMode和mode，来生成新的stepWrapper
 		///  （包括mode,lightName,startNum,tongdaoList等属性）;
@@ -107,6 +108,24 @@ namespace LightController.Ast
 				LightFullName = stepMode.LightFullName,
 				StartNum = stepMode.StartNum
 			};
+		}
+
+
+		/// <summary>
+		///  辅助方法：改变这其中tongdaoList相应的值
+		/// </summary>
+		/// <param name="where"></param>
+		/// <param name="tdIndexList"></param>
+		/// <param name="commonValue"></param>
+		public void MultiChangeValue(WHERE where, IList<int> tdIndexList, int commonValue) {
+			foreach (int tdIndex in tdIndexList)
+			{
+				switch (where) {
+					case WHERE.SCROLL_VALUE:   TongdaoList[tdIndex].ScrollValue = commonValue;  break;
+					case WHERE.CHANGE_MODE:  TongdaoList[tdIndex].ChangeMode = commonValue; break;
+					case WHERE.STEP_TIME:			TongdaoList[tdIndex].StepTime = commonValue ;	break;
+				}
+			}
 		}
 
 	}

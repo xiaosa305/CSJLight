@@ -34,6 +34,7 @@
 			this.converSkinButton = new CCWin.SkinControl.SkinButton();
 			this.deleteSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
+			this.helpSkinButton = new CCWin.SkinControl.SkinButton();
 			this.SuspendLayout();
 			// 
 			// treeView1
@@ -54,7 +55,7 @@
 			this.insertSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.insertSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.insertSkinButton.DownBack = null;
-			this.insertSkinButton.Location = new System.Drawing.Point(49, 335);
+			this.insertSkinButton.Location = new System.Drawing.Point(91, 335);
 			this.insertSkinButton.MouseBack = null;
 			this.insertSkinButton.Name = "insertSkinButton";
 			this.insertSkinButton.NormlBack = null;
@@ -71,7 +72,7 @@
 			this.converSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.converSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.converSkinButton.DownBack = null;
-			this.converSkinButton.Location = new System.Drawing.Point(141, 335);
+			this.converSkinButton.Location = new System.Drawing.Point(168, 335);
 			this.converSkinButton.MouseBack = null;
 			this.converSkinButton.Name = "converSkinButton";
 			this.converSkinButton.NormlBack = null;
@@ -88,7 +89,7 @@
 			this.deleteSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.deleteSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.deleteSkinButton.DownBack = null;
-			this.deleteSkinButton.Location = new System.Drawing.Point(49, 382);
+			this.deleteSkinButton.Location = new System.Drawing.Point(12, 335);
 			this.deleteSkinButton.MouseBack = null;
 			this.deleteSkinButton.Name = "deleteSkinButton";
 			this.deleteSkinButton.NormlBack = null;
@@ -106,7 +107,7 @@
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(141, 382);
+			this.cancelSkinButton.Location = new System.Drawing.Point(168, 382);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -116,26 +117,43 @@
 			this.cancelSkinButton.UseVisualStyleBackColor = false;
 			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
+			// helpSkinButton
+			// 
+			this.helpSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.helpSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.helpSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.helpSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.helpSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.helpSkinButton.DownBack = null;
+			this.helpSkinButton.Location = new System.Drawing.Point(12, 382);
+			this.helpSkinButton.MouseBack = null;
+			this.helpSkinButton.Name = "helpSkinButton";
+			this.helpSkinButton.NormlBack = null;
+			this.helpSkinButton.Size = new System.Drawing.Size(71, 27);
+			this.helpSkinButton.TabIndex = 2;
+			this.helpSkinButton.Text = "使用说明";
+			this.helpSkinButton.UseVisualStyleBackColor = false;
+			this.helpSkinButton.Click += new System.EventHandler(this.helpSkinButton_Click);
+			// 
 			// MaterialUseForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
 			this.ClientSize = new System.Drawing.Size(244, 425);
+			this.Controls.Add(this.helpSkinButton);
 			this.Controls.Add(this.cancelSkinButton);
 			this.Controls.Add(this.deleteSkinButton);
 			this.Controls.Add(this.converSkinButton);
 			this.Controls.Add(this.insertSkinButton);
 			this.Controls.Add(this.treeView1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MaterialUseForm";
 			this.ShowInTaskbar = false;
 			this.Text = "使用素材";
-			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MaterialUseForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MaterialUseForm_FormClosed);
 			this.Load += new System.EventHandler(this.MaterialUseForm_Load);
 			this.ResumeLayout(false);
@@ -149,5 +167,6 @@
 		private CCWin.SkinControl.SkinButton converSkinButton;
 		private CCWin.SkinControl.SkinButton deleteSkinButton;
 		private CCWin.SkinControl.SkinButton cancelSkinButton;
+		private CCWin.SkinControl.SkinButton helpSkinButton;
 	}
 }

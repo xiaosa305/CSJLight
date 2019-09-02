@@ -12,16 +12,16 @@ using LightController.Common;
 
 namespace LightController.MyForm
 {
-	public partial class MaterialForm : Form
+	public partial class MaterialSaveForm : Form
 	{
 		private MainFormInterface mainForm;
-		private List<StepWrapper> stepWrapperList;
+		private IList<StepWrapper> stepWrapperList;
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
 		private int mode;
 		private string path = @"C:\Temp\LightMaterial\";  
 
-		public MaterialForm(MainFormInterface mainForm, List<StepWrapper> stepWrapperList ,int mode)
+		public MaterialSaveForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode)
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
@@ -225,6 +225,11 @@ namespace LightController.MyForm
 		private void MaterialForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
+
+		private void noticeLabel_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

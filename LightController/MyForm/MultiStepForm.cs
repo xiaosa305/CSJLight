@@ -222,6 +222,7 @@ namespace LightController.MyForm
 				return false;
 			}
 			else {
+				tdIndexList.Clear();
 				for (int i = 0; i < 32; i++)
 				{
 					if (tdCheckBoxes[i].Checked) {

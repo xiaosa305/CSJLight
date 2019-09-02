@@ -262,6 +262,7 @@ namespace LightController.MyForm
 			#endregion
 
 			#region 几个下拉框的初始化及赋值
+
 			// 场景选项框
 			foreach (string frame in allFrameList)
 			{
@@ -270,11 +271,10 @@ namespace LightController.MyForm
 			frameSkinComboBox.SelectedIndex = 0;
 
 			//模式选项框
-			modeSkinComboBox.Items.AddRange(new object[] {
-					"常规模式","音频模式"
-			});
+			modeSkinComboBox.Items.AddRange(new object[] {	"常规模式","音频模式"});
 			modeSkinComboBox.SelectedIndex = 0;
 
+			// 《统一跳渐变》复选框不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
 			commonChangeModeSkinComboBox.SelectedIndex = 0;
 
 

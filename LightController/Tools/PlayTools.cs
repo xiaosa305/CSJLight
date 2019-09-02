@@ -262,7 +262,6 @@ namespace LightController.Tools
                 }
                 finally
                 {
-                    Thread.Sleep(200);
                     PreViewThread = null;
                     PlayData = data;
                     IsPausePlay = false;
@@ -428,6 +427,13 @@ namespace LightController.Tools
                     Device.SetBreak(false);
                     Thread.Sleep(0);
                     List<byte> buff = new List<byte>();
+                    //test
+                    int value1 = PlayData[2];
+                    int value2 = PlayData[3];
+                    int value3 = PlayData[0];
+                    int value4 = PlayData[1];
+                    Console.WriteLine("X轴：" + value3 + "--------X轴微调：" + value4 +";*****Y轴：" + value1 + "--------Y轴微调：" + value2);
+                    //Test
                     buff.AddRange(StartCode);
                     buff.AddRange(PlayData);
                     Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);

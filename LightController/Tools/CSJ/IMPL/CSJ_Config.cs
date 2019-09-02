@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LightController.Tools.CSJ.IMPL
 {
-    public class CSJ_Config:ICSJFile
+    public class CSJ_Config : ICSJFile
     {
         private const string CONFIGNAME = "Config.bin";
         public int FileSize { get; set; }//文件大小
@@ -153,6 +153,25 @@ namespace LightController.Tools.CSJ.IMPL
             string lineStr = "";
             string strValue;
             int intValue;
+            for (int i = 0; i < 9; i++)
+            {
+                CombineScene Data = new CombineScene
+                {
+                    Combine_Scene_Enable = 0,
+                    Play_Count = 0,
+                    Scene_Main_Number = i,
+                    Play_Time_Main_Scene = 0,
+                    Scene_One_Number = i,
+                    Play_Time_Scene_One = 0,
+                    Scene_Two_Number = i,
+                    Play_Time_Scene_Two = 0,
+                    Scene_Three_Number = i,
+                    Play_Time_Scene_Three = 0,
+                    Scene_Four_Number = i,
+                    Play_Time_Scene_Four = 0
+                };
+                CombineScenes.Add(Data);
+            }
             StreamReader Reader = StreamReader.Null;
             try
             {
@@ -239,7 +258,11 @@ namespace LightController.Tools.CSJ.IMPL
                             int.TryParse(strValue, out intValue);
                             combine_Scene.Play_Time_Scene_Four = intValue;
                             //将场景组合播放数据进行存放
-                            CombineScenes.Add(combine_Scene);
+                            if (combine_Scene.Scene_Main_Number < 9 && combine_Scene.Scene_Main_Number >= 0)
+                            {
+                                CombineScenes[combine_Scene.Scene_Main_Number] = combine_Scene;
+                            }
+                            //CombineScenes.Add(combine_Scene);
                             //读取下一条是否为下一个场景组合数据，不是则结束循环
                             lineStr = Reader.ReadLine();
                         } while (!lineStr.Equals("[SK]"));
@@ -259,45 +282,30 @@ namespace LightController.Tools.CSJ.IMPL
                             lineStr = Reader.ReadLine();
                             lineStr = Reader.ReadLine();
                         }
-                        CombineScene nullData = new CombineScene
-                        {
-                            Combine_Scene_Enable = 0,
-                            Play_Count = 0,
-                            Scene_Main_Number = 0,
-                            Play_Time_Main_Scene = 0,
-                            Scene_One_Number = 0,
-                            Play_Time_Scene_One = 0,
-                            Scene_Two_Number = 0,
-                            Play_Time_Scene_Two = 0,
-                            Scene_Three_Number = 0,
-                            Play_Time_Scene_Three = 0,
-                            Scene_Four_Number = 0,
-                            Play_Time_Scene_Four = 0
-                        };
-                        for (int i = 0; i < 9; i++)
-                        {
-                            CombineScene combine = CombineScenes[i];
-                            if (combine.Scene_Main_Number != i)
-                            {
-                                CombineScene Data = new CombineScene
-                                {
-                                    Combine_Scene_Enable = 0,
-                                    Play_Count = 0,
-                                    Scene_Main_Number = i,
-                                    Play_Time_Main_Scene = 0,
-                                    Scene_One_Number = 0,
-                                    Play_Time_Scene_One = 0,
-                                    Scene_Two_Number = 0,
-                                    Play_Time_Scene_Two = 0,
-                                    Scene_Three_Number = 0,
-                                    Play_Time_Scene_Three = 0,
-                                    Scene_Four_Number = 0,
-                                    Play_Time_Scene_Four = 0
-                                };
-                                CombineScenes.Insert(i, Data);
-                                i = -1;
-                            }
-                        }
+                        //for (int i = 0; i < 9; i++)
+                        //{
+                        //    CombineScene combine = CombineScenes[i];
+                        //    if (combine.Scene_Main_Number != i)
+                        //    {
+                        //        CombineScene Data = new CombineScene
+                        //        {
+                        //            Combine_Scene_Enable = 0,
+                        //            Play_Count = 0,
+                        //            Scene_Main_Number = i,
+                        //            Play_Time_Main_Scene = 0,
+                        //            Scene_One_Number = 0,
+                        //            Play_Time_Scene_One = 0,
+                        //            Scene_Two_Number = 0,
+                        //            Play_Time_Scene_Two = 0,
+                        //            Scene_Three_Number = 0,
+                        //            Play_Time_Scene_Three = 0,
+                        //            Scene_Four_Number = 0,
+                        //            Play_Time_Scene_Four = 0
+                        //        };
+                        //        CombineScenes.Insert(i, Data);
+                        //        i = -1;
+                        //    }
+                        //}
                         //读取灯具数据
                         foreach (DB_Light value in DB_Lights)
                         {

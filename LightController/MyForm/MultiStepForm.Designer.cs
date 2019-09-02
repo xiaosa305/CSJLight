@@ -75,12 +75,12 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.modeLabel = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.IgnoreSkinButton = new CCWin.SkinControl.SkinButton();
+			this.zeroSkinButton = new CCWin.SkinControl.SkinButton();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
 			this.noticeLabel = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.zeroSkinButton = new CCWin.SkinControl.SkinButton();
-			this.IgnoreSkinButton = new CCWin.SkinControl.SkinButton();
 			this.tongdaoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).BeginInit();
@@ -704,6 +704,42 @@
 			this.panel1.Size = new System.Drawing.Size(245, 358);
 			this.panel1.TabIndex = 31;
 			// 
+			// IgnoreSkinButton
+			// 
+			this.IgnoreSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.IgnoreSkinButton.BaseColor = System.Drawing.Color.SeaShell;
+			this.IgnoreSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.IgnoreSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.IgnoreSkinButton.DownBack = null;
+			this.IgnoreSkinButton.ForeColor = System.Drawing.Color.Black;
+			this.IgnoreSkinButton.Location = new System.Drawing.Point(30, 195);
+			this.IgnoreSkinButton.MouseBack = null;
+			this.IgnoreSkinButton.Name = "IgnoreSkinButton";
+			this.IgnoreSkinButton.NormlBack = null;
+			this.IgnoreSkinButton.Size = new System.Drawing.Size(87, 25);
+			this.IgnoreSkinButton.TabIndex = 28;
+			this.IgnoreSkinButton.Text = "统一屏蔽";
+			this.IgnoreSkinButton.UseVisualStyleBackColor = false;
+			this.IgnoreSkinButton.Click += new System.EventHandler(this.ignoreSkinButton_Click);
+			// 
+			// zeroSkinButton
+			// 
+			this.zeroSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.zeroSkinButton.BaseColor = System.Drawing.Color.SeaShell;
+			this.zeroSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.zeroSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.zeroSkinButton.DownBack = null;
+			this.zeroSkinButton.ForeColor = System.Drawing.Color.Black;
+			this.zeroSkinButton.Location = new System.Drawing.Point(137, 195);
+			this.zeroSkinButton.MouseBack = null;
+			this.zeroSkinButton.Name = "zeroSkinButton";
+			this.zeroSkinButton.NormlBack = null;
+			this.zeroSkinButton.Size = new System.Drawing.Size(88, 25);
+			this.zeroSkinButton.TabIndex = 28;
+			this.zeroSkinButton.Text = "统一归零";
+			this.zeroSkinButton.UseVisualStyleBackColor = false;
+			this.zeroSkinButton.Click += new System.EventHandler(this.zeroSkinButton_Click);
+			// 
 			// panel3
 			// 
 			this.panel3.Controls.Add(this.selectAllCheckBox);
@@ -745,44 +781,6 @@
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(326, 358);
 			this.flowLayoutPanel1.TabIndex = 32;
-			// 
-			// zeroSkinButton
-			// 
-			this.zeroSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.zeroSkinButton.BaseColor = System.Drawing.Color.SeaShell;
-			this.zeroSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.zeroSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.zeroSkinButton.DownBack = null;
-			this.zeroSkinButton.ForeColor = System.Drawing.Color.Black;
-			this.zeroSkinButton.Location = new System.Drawing.Point(137, 195);
-			this.zeroSkinButton.MouseBack = null;
-			this.zeroSkinButton.Name = "zeroSkinButton";
-			this.zeroSkinButton.NormlBack = null;
-			this.zeroSkinButton.Size = new System.Drawing.Size(88, 25);
-			this.zeroSkinButton.TabIndex = 28;
-			this.zeroSkinButton.Text = "通道值归零";
-			this.zeroSkinButton.UseVisualStyleBackColor = false;
-			this.zeroSkinButton.Visible = false;
-			this.zeroSkinButton.Click += new System.EventHandler(this.zeroSkinButton_Click);
-			// 
-			// IgnoreSkinButton
-			// 
-			this.IgnoreSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.IgnoreSkinButton.BaseColor = System.Drawing.Color.SeaShell;
-			this.IgnoreSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.IgnoreSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.IgnoreSkinButton.DownBack = null;
-			this.IgnoreSkinButton.ForeColor = System.Drawing.Color.Black;
-			this.IgnoreSkinButton.Location = new System.Drawing.Point(30, 195);
-			this.IgnoreSkinButton.MouseBack = null;
-			this.IgnoreSkinButton.Name = "IgnoreSkinButton";
-			this.IgnoreSkinButton.NormlBack = null;
-			this.IgnoreSkinButton.Size = new System.Drawing.Size(88, 25);
-			this.IgnoreSkinButton.TabIndex = 28;
-			this.IgnoreSkinButton.Text = "全部屏蔽";
-			this.IgnoreSkinButton.UseVisualStyleBackColor = false;
-			this.IgnoreSkinButton.Visible = false;
-			this.IgnoreSkinButton.Click += new System.EventHandler(this.ignoreSkinButton_Click);
 			// 
 			// MultiStepForm
 			// 

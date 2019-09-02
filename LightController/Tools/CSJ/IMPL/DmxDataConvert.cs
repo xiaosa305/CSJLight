@@ -222,7 +222,16 @@ namespace LightController.Tools.CSJ.IMPL
                                                 float inc = (stepValue - startValue) / (float)stepTime;
                                                 float value = startValue + inc * (fram + 1);
                                                 int intValue = (int)Math.Floor(value * 256);
-                                                datas.Add(intValue & 0xFF);
+                                                if (channelData.ChannelNo == 4)
+                                                {
+                                                    intValue =(int)((intValue & 0xFF) / 2.5);
+                                                    datas.Add(intValue);
+                                                }
+                                                else
+                                                {
+                                                    datas.Add(intValue & 0xFF);
+
+                                                }
                                             }
                                             else
                                             {

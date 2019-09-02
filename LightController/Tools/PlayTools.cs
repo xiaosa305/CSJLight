@@ -431,8 +431,9 @@ namespace LightController.Tools
                     //test
                     int value1 = PlayData[2];
                     int value2 = PlayData[3];
-                    int value = (value2 & 0xFF) | ((value1 >> 8) & 0xFF);
-                    Console.WriteLine("Y轴：" + value1 + "--------Y轴微调：" + value2);
+                    int value3 = PlayData[0];
+                    int value4 = PlayData[1];
+                    Console.WriteLine("X轴：" + value3 + "--------X轴微调：" + value4 +";*****Y轴：" + value1 + "--------Y轴微调：" + value2);
                     //Test
                     buff.AddRange(StartCode);
                     buff.AddRange(PlayData);

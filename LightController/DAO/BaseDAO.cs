@@ -31,6 +31,8 @@ namespace LightController.Ast
 			sessionFactory = config.BuildSessionFactory();
 		}
 
+		
+
 		/// <summary>
 		///  慎用此功能：根据现有的映射文件，重建数据库表
 		/// </summary>

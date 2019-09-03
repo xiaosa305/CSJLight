@@ -189,29 +189,23 @@
     <Compile Include="MyForm\SKForm.Designer.cs">
       <DependentUpon>SKForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\SkinLightsEditForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\SkinLightsEditForm.Designer.cs">
-      <DependentUpon>SkinLightsEditForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\SkinLightsAstForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\SkinLightsAstForm.designer.cs">
-      <DependentUpon>SkinLightsAstForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\LightsEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\LightsEditForm.Designer.cs">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\SkinLightsForm.cs">
+    <Compile Include="MyForm\LightsAstForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\SkinLightsForm.designer.cs">
-      <DependentUpon>SkinLightsForm.cs</DependentUpon>
+    <Compile Include="MyForm\LightsAstForm.designer.cs">
+      <DependentUpon>LightsAstForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\LightsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightsForm.designer.cs">
+      <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainForm.cs">
       <SubType>Form</SubType>
@@ -246,23 +240,11 @@
     <Compile Include="MyForm\NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\LightsAstForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\LightsAstForm.designer.cs">
-      <DependentUpon>LightsAstForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entity\DB_Light.cs" />
     <Compile Include="Entity\DB_StepCountPK.cs" />
     <Compile Include="Entity\DB_StepCount.cs" />
     <Compile Include="Entity\DB_ValuePK.cs" />
     <Compile Include="Entity\DB_Value.cs" />
-    <Compile Include="MyForm\LightsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\LightsForm.designer.cs">
-      <DependentUpon>LightsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\NewHardwareForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -352,17 +334,14 @@
     <EmbeddedResource Include="MyForm\SKForm.resx">
       <DependentUpon>SKForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\SkinLightsEditForm.resx">
-      <DependentUpon>SkinLightsEditForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\SkinLightsAstForm.resx">
-      <DependentUpon>SkinLightsAstForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightsEditForm.resx">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\SkinLightsForm.resx">
-      <DependentUpon>SkinLightsForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\LightsAstForm.resx">
+      <DependentUpon>LightsAstForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightsForm.resx">
+      <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -378,12 +357,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightsAstForm.resx">
-      <DependentUpon>LightsAstForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightsForm.resx">
-      <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
       <DependentUpon>NewHardwareForm.cs</DependentUpon>

@@ -98,7 +98,7 @@ namespace LightEditor.Tools
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 EndView();
             }

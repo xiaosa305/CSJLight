@@ -29,7 +29,7 @@ namespace LightController
 		
 
 		/// <summary>
-		///  点击《新建》按钮：
+		///  事件：点击《新建》按钮：
 		///  1.创建目录
 		///  2.拷贝默认的global.ini到新工程的目录中；
 		///  3.回调mainForm中的InitProject()
@@ -85,7 +85,11 @@ namespace LightController
 		}
 		
 
-
+		/// <summary>
+		/// 事件：点击《右上角关闭（X）》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();

@@ -50,6 +50,11 @@ namespace LightController.MyForm
 
 		}
 
+		/// <summary>
+		/// 事件：点击《放弃修改》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();

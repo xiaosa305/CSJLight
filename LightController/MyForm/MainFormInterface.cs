@@ -144,6 +144,7 @@ namespace LightController.MyForm
 			dbLightList = getLightList();
 			dbStepCountList = getStepCountList();
 			dbValueList = getValueList();
+			dbFineTuneList = getFineTuneList();
 
 			// 通过lightList填充lightAstList
 			lightAstList = reCreateLightAstList(dbLightList);
@@ -201,18 +202,21 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据
+		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
 		/// </summary>
 		protected virtual void clearAllData()
 		{			
 			dbLightList = null;
 			dbStepCountList = null;
 			dbValueList = null;
+			dbFineTuneList = null;
 
 			lightAstList = null;
 			lightWrapperList = null;
 
-			selectedLightIndex = -1;
+			selectedLightIndex = -1;		
 		}
+				
 
 		/// <summary>
 		/// 辅助方法：使用lightList来生成一个新的lightAstList
@@ -399,10 +403,19 @@ namespace LightController.MyForm
 		{
 			if (fineTuneDAO == null)
 			{
-				fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
+				fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);			
 			}
-			IList<DB_FineTune> ftList = fineTuneDAO.GetAll();
-			return ftList;
+			try
+			{
+				IList<DB_FineTune> ftList = fineTuneDAO.GetAll();
+				return ftList;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				return null;
+			}
+
 		}
 
 		#endregion
@@ -807,6 +820,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected virtual void oneLightStepWork()
 		{
+			Console.WriteLine("单灯单步");
 			if (!isConnect)
 			{
 				MessageBox.Show("请先连接设备");
@@ -823,6 +837,7 @@ namespace LightController.MyForm
 					int tongdaoIndex = td.Address - 1;
 					stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
 				}
+
 				playTools.OLOSView(stepBytes);
 			}
 			else
@@ -837,6 +852,7 @@ namespace LightController.MyForm
 		/// <param name="tongdaoIndex"></param>
 		protected void changeScrollValue(int tongdaoIndex, int tdValue)
 		{
+			Console.WriteLine("changeScrollValue");
 			// 1.设tongdaoWrapper的值
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[tongdaoIndex].ScrollValue = tdValue;

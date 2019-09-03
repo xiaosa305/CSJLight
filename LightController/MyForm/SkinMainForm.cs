@@ -18,7 +18,7 @@ namespace LightController.MyForm
 {
 
 	public partial class SkinMainForm : MainFormInterface
-	{	
+	{
 
 		public SkinMainForm()
 		{
@@ -262,6 +262,7 @@ namespace LightController.MyForm
 			#endregion
 
 			#region 几个下拉框的初始化及赋值
+
 			// 场景选项框
 			foreach (string frame in allFrameList)
 			{
@@ -270,13 +271,12 @@ namespace LightController.MyForm
 			frameSkinComboBox.SelectedIndex = 0;
 
 			//模式选项框
-			modeSkinComboBox.Items.AddRange(new object[] {
-					"常规模式","音频模式"
-			});
+			modeSkinComboBox.Items.AddRange(new object[] {	"常规模式","音频模式"});
 			modeSkinComboBox.SelectedIndex = 0;
 
+			// 《统一跳渐变》复选框不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
 			commonChangeModeSkinComboBox.SelectedIndex = 0;
-			
+
 
 			#endregion
 
@@ -299,7 +299,7 @@ namespace LightController.MyForm
 
 			}
 			// 防止人为滚动左侧的labelPanels，用这个监听事件来处理
-			labelFlowLayoutPanel.MouseWheel += new  MouseEventHandler(this.labelFlowLayoutPanel_MouseWheel);
+			labelFlowLayoutPanel.MouseWheel += new MouseEventHandler(this.labelFlowLayoutPanel_MouseWheel);
 
 			// 几个《统一调整区》的鼠标滚动事件绑定
 			commonValueNumericUpDown.MouseEnter += new EventHandler(this.commonValueNumericUpDown_MouseEnter);
@@ -313,11 +313,11 @@ namespace LightController.MyForm
 			commonStepTimeNumericUpDown.MouseEnter += new EventHandler(this.commonStepTimeNumericUpDown_MouseEnter);
 			commonStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
 
-			#endregion			
+			#endregion
 
 			isInit = true;
-		}		
-		
+		}
+
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 启动时刷新可用串口列表
@@ -368,7 +368,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightListSkinButton_Click(object sender, EventArgs e)
 		{
-			SkinLightsForm skinLightsForm = new SkinLightsForm(this, lightAstList);
+			LightsForm skinLightsForm = new LightsForm(this, lightAstList);
 			skinLightsForm.ShowDialog();
 		}
 
@@ -422,7 +422,7 @@ namespace LightController.MyForm
 			//8.21 ：当IsCreateSuccess==true时，打开灯具编辑
 			if (IsCreateSuccess) {
 				lightListSkinButton_Click(null, null);
-			}			
+			}
 		}
 
 		/// <summary>
@@ -433,8 +433,26 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void openSkinButton_Click(object sender, EventArgs e)
 		{
-			OpenForm openForm = new OpenForm(this,currentProjectName);
+			OpenForm openForm = new OpenForm(this, currentProjectName);
 			openForm.ShowDialog();
+		}
+
+
+		/// <summary>
+		/// 辅助方法：ClearAllDate()最后一步，但需针对不同的MainForm子类来实现。
+		/// </summary>
+		protected override void clearAllData()
+		{
+
+			base.clearAllData();
+
+			//单独针对本MainForm的代码: ①清空listView列表；②禁用步调节按钮组
+			lightsSkinListView.Clear();
+
+			stepSkinPanel.Enabled = false;
+			hideAllTDPanels();
+			showStepLabel(0, 0);
+		
 		}
 
 		/// <summary>
@@ -470,8 +488,8 @@ namespace LightController.MyForm
 				System.Diagnostics.Process.Start(savePath);
 			}
 		}
-		
-		
+
+
 		/// <summary>
 		///  辅助方法：《保存工程》《导出工程》enabled设为传入bool值
 		/// </summary>
@@ -519,13 +537,13 @@ namespace LightController.MyForm
 				lightsSkinListView.Items.Add(new ListViewItem(
 					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType,
 					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
-				));				
+				));
 			}
 
 			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
 			hideAllTDPanels();
-
 		}
+
 
 		#endregion
 
@@ -565,9 +583,9 @@ namespace LightController.MyForm
 			{
 				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
 			}
-			catch (Exception) {				
+			catch (Exception) {
 				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
-			}			
+			}
 			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
 			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
 			lightAddrSkinLabel.Text = "灯具地址：" + lightAst.LightAddr;
@@ -584,7 +602,7 @@ namespace LightController.MyForm
 			{
 				lightWrapper.StepTemplate = generateStepTemplate(lightAst);
 				hideAllTDPanels();
-				showStepLabel(0, 0);									
+				showStepLabel(0, 0);
 			}
 			else
 			{
@@ -598,6 +616,7 @@ namespace LightController.MyForm
 
 		#region 步数相关的按钮及辅助方法
 
+		
 		/// <summary>
 		///  事件：勾选《（是否）使用模板生成步》
 		/// </summary>
@@ -704,6 +723,11 @@ namespace LightController.MyForm
 		/// </summary>
 		private void changeFrameMode()
 		{
+			// 9.2 不可让selectedIndex为-1,否则会出现数组越界错误
+			if (selectedLightIndex == -1) {
+				return;
+			}
+
 			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
 			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
 
@@ -1047,6 +1071,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdSkinTrackBars_MouseWheel(object sender, MouseEventArgs e)
 		{
+			//Console.WriteLine("tdSkinTrackBars_MouseWheel");
 			int tdIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
@@ -1056,12 +1081,13 @@ namespace LightController.MyForm
 				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
 				hme.Handled = true;
 			}
+			
 			// 向上滚
 			if (e.Delta > 0)
 			{
 				decimal dd = tdSkinTrackBars[tdIndex].Value + tdSkinTrackBars[tdIndex].SmallChange;
 				if (dd <= tdSkinTrackBars[tdIndex].Maximum)
-				{
+				{					
 					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
 				}
 			}
@@ -1083,6 +1109,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdSkinTrackBars_ValueChanged(object sender, EventArgs e)
 		{
+			//Console.WriteLine("tdSkinTrackBars_ValueChanged");
 			// 1.先找出对应tdSkinTrackBars的index 
 			int tongdaoIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
 			int tdValue = tdSkinTrackBars[tongdaoIndex].Value;
@@ -1094,7 +1121,7 @@ namespace LightController.MyForm
 			tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			changeScrollValue(tongdaoIndex , tdValue);			
+			changeScrollValue(tongdaoIndex, tdValue);
 		}
 
 		/// <summary>
@@ -1104,6 +1131,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
+			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
 			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
 			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
@@ -1125,6 +1153,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
+			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
 			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
@@ -1137,6 +1166,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
+			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
 			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
@@ -1827,6 +1857,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void oneLightStepWork()
 		{
+
 			base.oneLightStepWork();
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 		}

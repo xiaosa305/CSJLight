@@ -13,9 +13,10 @@ namespace LightController.Tools.CSJ.IMPL
         private static DmxDataConvert Instance { get; set; }
         private DBWrapper Wrapper { get; set; }
         private string ConfigPath { get; set; }
-
+        private int Rate { get; set; }
         private DmxDataConvert()
         {
+            Rate = 255;
         }
         public static DmxDataConvert GetInstance()
         {
@@ -227,7 +228,7 @@ namespace LightController.Tools.CSJ.IMPL
                                                 int intValue = (int)Math.Floor(value * 256);
                                                 if (isY == 1)
                                                 {
-                                                    intValue =(int)((intValue & 0xFF) / 2.5);
+                                                    intValue = (int)((intValue & 0xFF)/(Rate / 255.0));
                                                     datas.Add(intValue);
                                                 }
                                                 else

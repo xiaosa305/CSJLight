@@ -506,22 +506,22 @@ namespace LighEditor.MyForm
 			
 			foreach (LightWrapper lightWrapper in lightWrapperList) {
 				StepWrapper stepTemplate = lightWrapper.StepTemplate;
-				if (stepTemplate != null && stepTemplate.TongdaoList != null) {
-					int xz = 0, xzwt = 0, yz = 0, yzwt = 0;
+				if ( stepTemplate != null  &&  stepTemplate.TongdaoList != null) {
+					int xz = 0, xzwt = 0, xzValue=0 , yz = 0, yzwt = 0 ,yzValue=0;
 					foreach (TongdaoWrapper td in stepTemplate.TongdaoList)
 					{
 						switch (td.TongdaoName.Trim()) {
 							case "X轴": xz = td.Address;break;
-							case "X轴微调": xzwt = td.Address; break;
+							case "X轴微调": xzwt = td.Address; xzValue = td.ScrollValue; break;
 							case "Y轴": yz = td.Address; break;
-							case "Y轴微调": yzwt = td.Address; break;
+							case "Y轴微调": yzwt = td.Address; yzValue = td.ScrollValue; break;
 						}						
 					}
 					if (xz != 0 && xzwt != 0) {
-						dbFineTuneList.Add(new DB_FineTune() {	MainIndex = xz , FineTuneIndex = xzwt , XORY = 0  } );
+						dbFineTuneList.Add(new DB_FineTune() {	MainIndex = xz , FineTuneIndex = xzwt , MaxValue = xzValue  } );
 					}
 					if (yz != 0 && yzwt != 0) {
-						dbFineTuneList.Add(new DB_FineTune(){	MainIndex = yz,	FineTuneIndex = yzwt, XORY = 1 });
+						dbFineTuneList.Add(new DB_FineTune(){	MainIndex = yz,	FineTuneIndex = yzwt, MaxValue = yzValue });
 					}
 				}
 			}

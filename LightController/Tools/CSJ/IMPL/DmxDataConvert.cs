@@ -13,10 +13,8 @@ namespace LightController.Tools.CSJ.IMPL
         private static DmxDataConvert Instance { get; set; }
         private DBWrapper Wrapper { get; set; }
         private string ConfigPath { get; set; }
-        private int Rate { get; set; }
         private DmxDataConvert()
         {
-            Rate = 255;
         }
         public static DmxDataConvert GetInstance()
         {
@@ -161,7 +159,7 @@ namespace LightController.Tools.CSJ.IMPL
                 int stepTime;
                 int isGradualChange;
                 int startValue;
-                int isY = 0;
+                int rate = 255;
             ChannelData channelData = new ChannelData()
                 {
                     ChannelNo = item.ChannelNo
@@ -177,7 +175,11 @@ namespace LightController.Tools.CSJ.IMPL
                         else if (fineTune.FineTuneIndex == channelData.ChannelNo)
                         {
                             flag = 2;
-                            isY = fineTune.XORY;
+                            rate = fineTune.XORY;
+                            if (rate == 0)
+                            {
+                                rate = 255;
+                            }
                         }
                     }
                 }
@@ -226,9 +228,9 @@ namespace LightController.Tools.CSJ.IMPL
                                                 float inc = (stepValue - startValue) / (float)stepTime;
                                                 float value = startValue + inc * (fram + 1);
                                                 int intValue = (int)Math.Floor(value * 256);
-                                                if (isY == 1)
+                                                if (rate == 1)
                                                 {
-                                                    intValue = (int)((intValue & 0xFF)/(Rate / 255.0));
+                                                    intValue = (int)((intValue & 0xFF)/( rate / 255.0));
                                                     datas.Add(intValue);
                                                 }
                                                 else

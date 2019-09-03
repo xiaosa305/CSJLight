@@ -548,7 +548,7 @@ namespace LightController.Tools.CSJ
                         }
                     }
                 }
-                if (project.CFiles != null && project.MFiles != null)
+                if (project.MFiles != null)
                 {
                     foreach (ICSJFile file in project.MFiles)
                     {

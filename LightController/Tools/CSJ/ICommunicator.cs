@@ -1,12 +1,12 @@
-﻿using LightController.Ast;
-using LightController.Tools.CSJ.IMPL;
+﻿using LighEditor.Ast;
+using LighEditor.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace LightController.Tools.CSJ
+namespace LighEditor.Tools.CSJ
 {
     public abstract class ICommunicator
     {

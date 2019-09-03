@@ -1,6 +1,6 @@
-﻿namespace LightController.MyForm
+﻿namespace LighEditor.MyForm
 {
-	partial class NewHardwareForm
+	partial class HardwareSaveForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -88,7 +88,7 @@
 			this.enterSkinButton.UseVisualStyleBackColor = false;
 			this.enterSkinButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
-			// NewHardwareForm
+			// HardwareSaveForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -99,11 +99,13 @@
 			this.Controls.Add(this.hNameTextBox);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "NewHardwareForm";
+			this.Name = "HardwareSaveForm";
 			this.Text = "新建硬件配置名称";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareSaveForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewHardwareForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewHardwareForm_Load);
 			this.ResumeLayout(false);

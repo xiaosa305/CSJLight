@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace LightController.Common
+namespace LighEditor.Common
 {
 	public class IniFileAst
 	{
@@ -96,7 +96,6 @@ namespace LightController.Common
 		/// <param name="Ival">写入值</param>
 		public void WriteInt(string section, string name, int Ival)
 		{
-
 			WritePrivateProfileString(section, name, Ival.ToString(), this.filePath);
 		}
 

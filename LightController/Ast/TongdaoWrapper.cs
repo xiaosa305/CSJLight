@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightController.Ast
+namespace LighEditor.Ast
 {
 	// 通道包装类，记录了相关信息
 	public class TongdaoWrapper

@@ -13,12 +13,12 @@ using Microsoft.VisualBasic;
 using System.Collections;
 using System.Data.SQLite;
 using DMX512;
-using LightController.Ast;
-using LightController.MyForm;
-using LightController.Common;
-using LightController.Tools;
+using LighEditor.Ast;
+using LighEditor.MyForm;
+using LighEditor.Common;
+using LighEditor.Tools;
 
-namespace LightController
+namespace LighEditor
 {
 	public partial class MainForm :  MainFormInterface
 	{

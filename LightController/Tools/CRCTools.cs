@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightController.Tools
+namespace LighEditor.Tools
 {
     public class CRCTools
     {

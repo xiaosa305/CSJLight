@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using DMX512;
 
-namespace LightController.Ast
+namespace LighEditor.Ast
 {
 	public class ValueDAO: BaseDAO<DB_Value>
 	{

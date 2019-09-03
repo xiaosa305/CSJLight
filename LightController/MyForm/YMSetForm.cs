@@ -1,5 +1,5 @@
-﻿using LightController.Ast;
-using LightController.Common;
+﻿using LighEditor.Ast;
+using LighEditor.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LightController.MyForm
+namespace LighEditor.MyForm
 {
 	public partial class YMSetForm : Form
 	{

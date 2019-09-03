@@ -1,6 +1,6 @@
-﻿using LightController.Common;
-using LightController.Tools;
-using LightController.Tools.CSJ.IMPL;
+﻿using LighEditor.Common;
+using LighEditor.Tools;
+using LighEditor.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace LightController.MyForm
+namespace LighEditor.MyForm
 {
 	public partial class HardwareSetForm : Form
 	{
@@ -88,7 +88,7 @@ namespace LightController.MyForm
 		{
 			if (isNew)
 			{
-				NewHardwareForm nhForm = new NewHardwareForm(this);
+				HardwareSaveForm nhForm = new HardwareSaveForm(this);
 				nhForm.ShowDialog();
 			}
 			else

@@ -246,11 +246,11 @@
     <Compile Include="Entity\DB_StepCount.cs" />
     <Compile Include="Entity\DB_ValuePK.cs" />
     <Compile Include="Entity\DB_Value.cs" />
-    <Compile Include="MyForm\NewHardwareForm.cs">
+    <Compile Include="MyForm\HardwareSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\NewHardwareForm.Designer.cs">
-      <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    <Compile Include="MyForm\HardwareSaveForm.Designer.cs">
+      <DependentUpon>HardwareSaveForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\SkinMainForm.cs">
       <SubType>Form</SubType>
@@ -359,8 +359,8 @@
     <EmbeddedResource Include="MyForm\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\NewHardwareForm.resx">
-      <DependentUpon>NewHardwareForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\HardwareSaveForm.resx">
+      <DependentUpon>HardwareSaveForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\SkinMainForm.resx">
       <DependentUpon>SkinMainForm.cs</DependentUpon>

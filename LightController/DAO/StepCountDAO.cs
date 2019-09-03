@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using DMX512;
 
-namespace LightController.Ast
+namespace LighEditor.Ast
 {
 	public class StepCountDAO: BaseDAO<DB_StepCount>
 	{

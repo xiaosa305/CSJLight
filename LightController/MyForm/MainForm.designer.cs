@@ -1,7 +1,7 @@
-﻿using LightController.Ast;
+﻿using LighEditor.Ast;
 using System.Windows.Forms;
 
-namespace LightController
+namespace LighEditor
 {
 	partial class MainForm
 	{

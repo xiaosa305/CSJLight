@@ -302,10 +302,29 @@ namespace LightEditor
 
 		}
 
+
+		/// <summary>
+		/// 事件：点击《右上角关闭》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void WaySetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();
 			mainForm.Activate();
+		}
+
+
+		/// <summary>
+		/// 事件：点击《右上角？》按钮，提示X、Y轴微调相关设置
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void WaySetForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("1.请尽量使用右侧列表中已有的通道名进行填充，便于素材保存；\n" +
+				"2.X轴微调和Y轴微调，因各灯具情况不同，若非正常变化(满255进1），可在试验之后确定该微调通道的上限值，并将其填入初始值中；若将初始值设为0或255，则程序会视此通道为常规微调通道，后期不再做特殊处理。");
+			e.Cancel = true;
 		}
 	}
 }

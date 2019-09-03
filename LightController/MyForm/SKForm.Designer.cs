@@ -1,4 +1,4 @@
-﻿namespace LightController.MyForm
+﻿namespace LighEditor.MyForm
 {
 	partial class SKForm
 	{

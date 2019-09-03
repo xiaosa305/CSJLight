@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace LightEditor.Common
+namespace LighEditor.Common
 {
-	public class File
+	public class TextAst
 	{
 		public IList<string> read(string txtPath)		{
 		

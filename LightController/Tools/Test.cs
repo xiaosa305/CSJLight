@@ -1,5 +1,5 @@
-﻿using LightController.Ast;
-using LightController.Tools.CSJ.IMPL;
+﻿using LighEditor.Ast;
+using LighEditor.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace LightController.Tools
+namespace LighEditor.Tools
 {
     /// <summary>
     /// 测试用

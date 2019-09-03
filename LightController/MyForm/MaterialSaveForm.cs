@@ -1,4 +1,4 @@
-﻿using LightController.Ast;
+﻿using LighEditor.Ast;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,10 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using LightController.Common;
-using LightEditor.Common;
+using LighEditor.Common;
 
-namespace LightController.MyForm
+namespace LighEditor.MyForm
 {
 	public partial class MaterialSaveForm : Form
 	{
@@ -101,40 +100,22 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-			string materialName = nameTextBox.Text;
-			if (!String.IsNullOrEmpty(materialName))
-			{
 				// 0.先判断各种信息，没问题了再保存
-				// 0.1 判断步数
-				if (stepCount == 0) {
-					MessageBox.Show("步数为零，此素材无意义。");
+				string materialName = nameTextBox.Text;
+				if ( String.IsNullOrEmpty(materialName)) {
+					MessageBox.Show("请输入素材名。");
 					return;
-				}
-
-				// 0.2 判断选择通道数
-				IList<int> tdIndexList = new List<int>();
-				IList<string> tdNameList = new List<string>();
-				for (int i = 0; i < tongdaoCount; i++)
+				}				
+				
+				//0.1 判断是否有非法字符 "\"和“/”
+				if ( ! FileAst.CheckFileName(materialName))
 				{
-					if (tdCheckBoxes[i].Checked)	{
-						tdIndexList.Add( i );
-						tdNameList.Add(tdCheckBoxes[i].Text);
-					}					
-				}
-				if (tdIndexList.Count == 0) {
-					MessageBox.Show("请选择至少一个通道！");
+					MessageBox.Show("素材命名不规范，无法创建。");
 					return;
 				}
 
-
-				//0.3 判断是否有非法字符 "\"和“/”
-				if ( ! FileAst.checkFileName(materialName)) {
-					MessageBox.Show("素材命名不规范，无法创建！");
-					return;
-				}
-
-
-				string directoryPath = path + @"\" +  @materialName;
+				// 0.2 直接检查是否可以生成DirectoryInfo
+				string directoryPath = path + @"\" + @materialName;
 				DirectoryInfo di = null;
 				try
 				{
@@ -142,11 +123,11 @@ namespace LightController.MyForm
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show("输入了错误的字符;\n" +  ex.Message);
+					MessageBox.Show("输入了错误的字符;\n" + ex.Message);
 					return;
 				}
 
-				// 0.4 判断名称是否已存在；若存在，选覆盖则先删除旧文件夹；否则退出方法。
+				// 0.3 判断名称是否已存在；若存在，选覆盖则先删除旧文件夹；否则退出方法。
 				if (di.Exists)
 				{
 					DialogResult dr = MessageBox.Show(
@@ -165,20 +146,42 @@ namespace LightController.MyForm
 					}
 				}
 
+				// 0.4 判断步数
+				if (stepCount == 0) {
+					MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
+					return;
+				}
+
+				// 0.5 判断选择通道数
+				IList<int> tdIndexList = new List<int>();
+				IList<string> tdNameList = new List<string>();
+				for (int i = 0; i < tongdaoCount; i++)
+				{
+					if (tdCheckBoxes[i].Checked)	{
+						tdIndexList.Add( i );
+						tdNameList.Add(tdCheckBoxes[i].Text);
+					}					
+				}
+				if (tdIndexList.Count == 0) {
+					MessageBox.Show("请选择至少一个通道，选择完成后重新保存。");
+					return;
+				}				
+
 				// 1.由新建时取的素材名，来新建相关文件夹
 				try
 				{
 					di.Create();
 				}
 				catch (Exception) {
-					MessageBox.Show("素材命名不规范，无法创建！");
+					MessageBox.Show("素材命名不规范，无法创建。");
 					return;
 				}
 				
 				// 2.将相关文件拷贝到文件夹内
 				string sourcePath = Application.StartupPath + @"\materialSet.ini";
 				string iniPath = directoryPath + @"\materialSet.ini";
-				System.IO.File.Copy(sourcePath, iniPath);
+				File.Copy(sourcePath, iniPath);
+
 				//3.修改其中的数据
 				IniFileAst iniFileAst = new IniFileAst(iniPath);
 				// 3.1 写[Set]内数据，包括几个要被记录的通道名
@@ -202,15 +205,9 @@ namespace LightController.MyForm
 						iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_ST", tongdaoWrapper.StepTime);
 					}
 				}										
-				MessageBox.Show("成功保存素材");
+				MessageBox.Show("成功保存素材。");
 				this.Dispose();
 				mainForm.Activate();
-			}
-			else
-			{
-				MessageBox.Show("请输入素材名");
-				return;
-			}
 
 		}
 
@@ -261,6 +258,17 @@ namespace LightController.MyForm
 			{
 				e.Handled = false;
 			}
+		}
+
+		/// <summary>
+		/// 事件：点击《右上角？》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MaterialSaveForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("素材名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
+			e.Cancel = true;
 		}
 	}
 }

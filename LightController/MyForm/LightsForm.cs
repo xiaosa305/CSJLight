@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using LightController.Ast;
-using LightController.MyForm;
+using LighEditor.Ast;
+using LighEditor.MyForm;
 
-namespace LightController
+namespace LighEditor
 {
 	public partial class LightsForm : System.Windows.Forms.Form
 	{

@@ -230,7 +230,7 @@ namespace LightController.Tools.CSJ.IMPL
                                                 int intValue = (int)Math.Floor(value * 256);
                                                 if (rate == 1)
                                                 {
-                                                    intValue = (int)((intValue & 0xFF)/( rate / 255.0));
+                                                    intValue = (int)((intValue & 0xFF)/(255.0 /rate));
                                                     datas.Add(intValue);
                                                 }
                                                 else

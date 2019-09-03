@@ -1,4 +1,4 @@
-﻿using LighEditor.Ast;
+﻿using LightController.Ast;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace LighEditor.Tools
+namespace LightController.Tools
 {
     public class SocketTools
     {

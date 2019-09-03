@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 	public partial class OpenForm : Form
 	{

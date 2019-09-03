@@ -8,13 +8,13 @@ using Microsoft.VisualBasic;
 using System.Collections;
 using System.Data.SQLite;
 using DMX512;
-using LighEditor.Ast;
-using LighEditor.MyForm;
-using LighEditor.Common;
-using LighEditor.Tools;
+using LightController.Ast;
+using LightController.MyForm;
+using LightController.Common;
+using LightController.Tools;
 using System.Windows.Forms;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 	public class MainFormInterface : System.Windows.Forms.Form
 	{

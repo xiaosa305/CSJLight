@@ -1,4 +1,4 @@
-﻿namespace LighEditor
+﻿namespace LightController
 {
 	partial class NewForm
 	{

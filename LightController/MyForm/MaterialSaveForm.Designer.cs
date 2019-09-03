@@ -1,4 +1,4 @@
-﻿namespace LighEditor.MyForm
+﻿namespace LightController.MyForm
 {
 	partial class MaterialSaveForm
 	{

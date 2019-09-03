@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LighEditor.Tools.CSJ.IMPL
+namespace LightController.Tools.CSJ.IMPL
 {
     class CSJ_SceneData
     {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SQLite;
-using LighEditor.Ast;
+using LightController.Ast;
 using System.Windows.Forms;
 
-namespace LighEditor.Common
+namespace LightController.Common
 {
 	public class SQLiteHelper
 		{

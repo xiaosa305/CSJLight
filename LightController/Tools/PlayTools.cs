@@ -1,7 +1,7 @@
 ﻿using FTD2XX_NET;
-using LighEditor.Ast;
-using LighEditor.Tools.CSJ;
-using LighEditor.Tools.CSJ.IMPL;
+using LightController.Ast;
+using LightController.Tools.CSJ;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 
-namespace LighEditor.Tools
+namespace LightController.Tools
 {
     public class PlayTools
     {

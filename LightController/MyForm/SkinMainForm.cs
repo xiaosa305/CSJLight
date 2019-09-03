@@ -9,12 +9,12 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 using DMX512;
-using LighEditor.Ast;
-using LighEditor.Tools;
-using LighEditor.Common;
+using LightController.Ast;
+using LightController.Tools;
+using LightController.Common;
 using CCWin.SkinControl;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 
 	public partial class SkinMainForm : MainFormInterface
@@ -624,7 +624,7 @@ namespace LighEditor.MyForm
 			}
 			catch (Exception)
 			{
-				currentLightPictureBox.Image = global::LighEditor.Properties.Resources.灯光图;
+				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
 			}
 			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
 			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
@@ -1794,7 +1794,7 @@ namespace LighEditor.MyForm
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if (!isConnect)
 			{
-				connectSkinButton.Image = global::LighEditor.Properties.Resources.断开连接;
+				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
 				connectSkinButton.Text = "断开连接";				
 
 				playTools.ConnectDevice(comName);
@@ -1803,12 +1803,12 @@ namespace LighEditor.MyForm
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
-				connectSkinButton.Image = global::LighEditor.Properties.Resources.连接;
+				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				connectSkinButton.Text = "连接设备";				
 								
 				playTools.CloseDevice();
 
-				previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果前;
+				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 				showConnectedButtons(false);
 			}
 		}
@@ -1843,13 +1843,13 @@ namespace LighEditor.MyForm
 			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
 			if (!isRealtime)
 			{
-				realtimeSkinButton.Image = global::LighEditor.Properties.Resources.实时调试;
+				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
 				realtimeSkinButton.Text = "关闭实时";
 				isRealtime = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
-				realtimeSkinButton.Image = global::LighEditor.Properties.Resources.实时调试02;
+				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
 				realtimeSkinButton.Text = "实时调试";
 				isRealtime = false;
 			}
@@ -1864,12 +1864,12 @@ namespace LighEditor.MyForm
 		/// <param name="e"></param>
 		private void oneLightOneStepSkinButton_Click(object sender, EventArgs e)
 		{					
-			oneLightOneStepSkinButton.Image = global::LighEditor.Properties.Resources.单灯单步后;
+			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;
 			this.Refresh();
 
 			oneLightStepWork();
 
-			oneLightOneStepSkinButton.Image = global::LighEditor.Properties.Resources.单灯单步;
+			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
 		}
 
 		/// <summary>
@@ -1879,7 +1879,7 @@ namespace LighEditor.MyForm
 		{
 
 			base.oneLightStepWork();
-			previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果前;
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 		}
 
 		/// <summary>
@@ -1889,7 +1889,7 @@ namespace LighEditor.MyForm
 		/// <param name="e"></param>
 		private void previewSkinButton_Click(object sender, EventArgs e)
 		{
-			previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果后;
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;
 
 			// 设为false，从内存取数据
 			DBWrapper allData = GetDBWrapper(false);
@@ -1911,12 +1911,12 @@ namespace LighEditor.MyForm
 		/// <param name="e"></param>
 		private void makeSoundSkinButton_Click(object sender, EventArgs e)
 		{
-			makeSoundSkinButton.Image = global::LighEditor.Properties.Resources.触发音频后;
+			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频后;
 			this.Refresh();
 
 			playTools.MusicControl();
 
-			makeSoundSkinButton.Image = global::LighEditor.Properties.Resources.触发音频;
+			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
 		}
 
 		/// <summary>
@@ -1927,9 +1927,9 @@ namespace LighEditor.MyForm
 		private void endviewSkinButton_Click(object sender, EventArgs e)
 		{
 			// 1.几个按钮图标设置
-			oneLightOneStepSkinButton.Image = global::LighEditor.Properties.Resources.单灯单步;
-			makeSoundSkinButton.Image = global::LighEditor.Properties.Resources.触发音频;
-			previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果前;
+			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
+			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 
 			// 2.调用结束预览方法
 			playTools.EndView();

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace LighEditor
+namespace LightController
 {
 	partial class LightsForm
 	{

@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace LighEditor.Common
+namespace LightController.Common
 {
 	public class IniFileAst
 	{

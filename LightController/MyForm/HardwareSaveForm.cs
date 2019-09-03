@@ -1,4 +1,4 @@
-﻿using LighEditor.Common;
+﻿using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 	public partial class HardwareSaveForm : Form
 	{

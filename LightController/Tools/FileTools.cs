@@ -1,12 +1,12 @@
-﻿using LighEditor.Ast;
-using LighEditor.Tools.CSJ.IMPL;
-using LighEditor.Tools.CSJ;
+﻿using LightController.Ast;
+using LightController.Tools.CSJ.IMPL;
+using LightController.Tools.CSJ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LighEditor.Tools
+namespace LightController.Tools
 {
     public class FileTools
     {

@@ -1,11 +1,11 @@
 ﻿using DMX512;
-using LighEditor.Ast;
+using LightController.Ast;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LighEditor.Common
+namespace LightController.Common
 {
 	class DBGetter
 	{

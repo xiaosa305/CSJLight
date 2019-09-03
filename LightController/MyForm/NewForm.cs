@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 
 using System.Security.Cryptography;
-using LighEditor.Ast;
+using LightController.Ast;
 using System.Data.SQLite;
-using LighEditor.MyForm;
-using LighEditor.Common;
+using LightController.MyForm;
+using LightController.Common;
 
-namespace LighEditor
+namespace LightController
 {
 	public partial class NewForm :Form
 	{

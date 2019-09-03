@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using CCWin.SkinControl;
-using LighEditor.Common;
+using LightController.Common;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 	public partial class GlobalSetForm : Form
 	{

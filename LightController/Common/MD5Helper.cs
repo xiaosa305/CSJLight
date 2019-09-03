@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-namespace LighEditor.Common
+namespace LightController.Common
 {
 	class MD5Helper
 	{

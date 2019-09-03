@@ -1,6 +1,6 @@
-﻿using LighEditor.Common;
-using LighEditor.Tools;
-using LighEditor.Tools.CSJ.IMPL;
+﻿using LightController.Common;
+using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 	public partial class HardwareSetForm : Form
 	{

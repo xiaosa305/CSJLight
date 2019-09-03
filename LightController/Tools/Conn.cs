@@ -1,5 +1,5 @@
-﻿using LighEditor.Ast;
-using LighEditor.Tools.CSJ;
+﻿using LightController.Ast;
+using LightController.Tools.CSJ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace LighEditor.Tools
+namespace LightController.Tools
 {
     public class Conn : ICommunicator
     {

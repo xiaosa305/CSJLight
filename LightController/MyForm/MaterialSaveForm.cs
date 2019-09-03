@@ -1,4 +1,4 @@
-﻿using LighEditor.Ast;
+﻿using LightController.Ast;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,9 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using LighEditor.Common;
+using LightController.Common;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 	public partial class MaterialSaveForm : Form
 	{

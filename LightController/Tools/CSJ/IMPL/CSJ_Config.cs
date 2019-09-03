@@ -1,12 +1,12 @@
 ﻿using DMX512;
-using LighEditor.Ast;
+using LightController.Ast;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace LighEditor.Tools.CSJ.IMPL
+namespace LightController.Tools.CSJ.IMPL
 {
     public class CSJ_Config : ICSJFile
     {

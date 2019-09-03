@@ -1,4 +1,4 @@
-﻿using LighEditor.Ast;
+﻿using LightController.Ast;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LighEditor.MyForm
+namespace LightController.MyForm
 {
 	public partial class MaterialUseForm : Form
 	{

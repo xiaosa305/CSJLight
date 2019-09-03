@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LighEditor.Properties {
+namespace LightController.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

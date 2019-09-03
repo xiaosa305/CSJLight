@@ -5,7 +5,7 @@ using System.Text;
 
 using System.Net;
 
-namespace LighEditor.Ast
+namespace LightController.Ast
 {
 	class JustTest
 	{

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LighEditor.Properties {
+namespace LightController.Properties {
     using System;
     
     

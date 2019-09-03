@@ -1,4 +1,4 @@
-﻿namespace LighEditor.MyForm
+﻿namespace LightController.MyForm
 {
 	partial class ToolsForm
 	{
@@ -51,7 +51,7 @@
 			this.lightEditorSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightEditorSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightEditorSkinButton.ForeColorSuit = true;
-			this.lightEditorSkinButton.Image = global::LighEditor.Properties.Resources.灯库编辑;
+			this.lightEditorSkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
 			this.lightEditorSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.lightEditorSkinButton.InheritColor = true;
 			this.lightEditorSkinButton.IsDrawBorder = false;
@@ -79,7 +79,7 @@
 			this.DKToolSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.DKToolSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.DKToolSkinButton.ForeColorSuit = true;
-			this.DKToolSkinButton.Image = global::LighEditor.Properties.Resources.CSJ灯控工具;
+			this.DKToolSkinButton.Image = global::LightController.Properties.Resources.CSJ灯控工具;
 			this.DKToolSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.DKToolSkinButton.InheritColor = true;
 			this.DKToolSkinButton.IsDrawBorder = false;
@@ -107,7 +107,7 @@
 			this.ZKToolSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.ZKToolSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.ZKToolSkinButton.ForeColorSuit = true;
-			this.ZKToolSkinButton.Image = global::LighEditor.Properties.Resources.CSJ中控工具;
+			this.ZKToolSkinButton.Image = global::LightController.Properties.Resources.CSJ中控工具;
 			this.ZKToolSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.ZKToolSkinButton.InheritColor = true;
 			this.ZKToolSkinButton.IsDrawBorder = false;
@@ -135,7 +135,7 @@
 			this.QBToolSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.QBToolSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.QBToolSkinButton.ForeColorSuit = true;
-			this.QBToolSkinButton.Image = global::LighEditor.Properties.Resources.CSJ墙板工具;
+			this.QBToolSkinButton.Image = global::LightController.Properties.Resources.CSJ墙板工具;
 			this.QBToolSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.QBToolSkinButton.InheritColor = true;
 			this.QBToolSkinButton.IsDrawBorder = false;

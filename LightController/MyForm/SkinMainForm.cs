@@ -443,16 +443,14 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void clearAllData()
 		{
-
 			base.clearAllData();
 
-			//单独针对本MainForm的代码: ①清空listView列表；②禁用步调节按钮组
-			lightsSkinListView.Clear();
-
+			//单独针对本MainForm的代码: ①清空listView列表；②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
+			lightsSkinListView.Clear();			
 			stepSkinPanel.Enabled = false;
 			hideAllTDPanels();
 			showStepLabel(0, 0);
-		
+			editLightInfo(null);
 		}
 
 		/// <summary>
@@ -576,19 +574,15 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		private void generateLightData()
 		{
+			if (selectedLightIndex == -1) {
+				return;
+			}
+
+
 			LightAst lightAst = lightAstList[selectedLightIndex];
 
 			// 1.在右侧灯具信息内显示选中灯具相关信息
-			try
-			{
-				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
-			}
-			catch (Exception) {
-				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
-			}
-			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
-			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
-			lightAddrSkinLabel.Text = "灯具地址：" + lightAst.LightAddr;
+			editLightInfo(lightAst);
 
 
 			//2.判断是不是已经有stepTemplate了
@@ -611,12 +605,38 @@ namespace LightController.MyForm
 			stepSkinPanel.Enabled = true;
 		}
 
+		/// <summary>
+		///  辅助方法：通过LightAst，显示选中灯具信息
+		/// </summary>
+		private void editLightInfo(LightAst lightAst)
+		{
+			if (lightAst == null) {
+				currentLightPictureBox.Image = null ;
+				lightNameSkinLabel.Text = null ;
+				lightTypeSkinLabel.Text = null ;
+				lightAddrSkinLabel.Text = null ;
+				return; 
+			}
+
+			try
+			{
+				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
+			}
+			catch (Exception)
+			{
+				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
+			}
+			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
+			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
+			lightAddrSkinLabel.Text = "灯具地址：" + lightAst.LightAddr;
+		}
+
 		#endregion
 
 
 		#region 步数相关的按钮及辅助方法
 
-		
+
 		/// <summary>
 		///  事件：勾选《（是否）使用模板生成步》
 		/// </summary>

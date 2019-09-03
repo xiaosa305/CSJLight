@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using LightController.Common;
+using LightEditor.Common;
 
 namespace LightController.MyForm
 {
@@ -126,7 +127,14 @@ namespace LightController.MyForm
 				}
 
 
-				string directoryPath = path + @"\" +  materialName;
+				//0.3 判断是否有非法字符 "\"和“/”
+				if ( ! FileAst.checkFileName(materialName)) {
+					MessageBox.Show("素材命名不规范，无法创建！");
+					return;
+				}
+
+
+				string directoryPath = path + @"\" +  @materialName;
 				DirectoryInfo di = null;
 				try
 				{
@@ -134,11 +142,11 @@ namespace LightController.MyForm
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show(ex.Message);
+					MessageBox.Show("输入了错误的字符;\n" +  ex.Message);
 					return;
 				}
 
-				// 0.3 判断名称是否已存在；若存在，选覆盖则先删除旧文件夹；否则退出方法。
+				// 0.4 判断名称是否已存在；若存在，选覆盖则先删除旧文件夹；否则退出方法。
 				if (di.Exists)
 				{
 					DialogResult dr = MessageBox.Show(
@@ -158,11 +166,19 @@ namespace LightController.MyForm
 				}
 
 				// 1.由新建时取的素材名，来新建相关文件夹
-				di.Create();
+				try
+				{
+					di.Create();
+				}
+				catch (Exception) {
+					MessageBox.Show("素材命名不规范，无法创建！");
+					return;
+				}
+				
 				// 2.将相关文件拷贝到文件夹内
 				string sourcePath = Application.StartupPath + @"\materialSet.ini";
 				string iniPath = directoryPath + @"\materialSet.ini";
-				File.Copy(sourcePath, iniPath);
+				System.IO.File.Copy(sourcePath, iniPath);
 				//3.修改其中的数据
 				IniFileAst iniFileAst = new IniFileAst(iniPath);
 				// 3.1 写[Set]内数据，包括几个要被记录的通道名
@@ -230,6 +246,21 @@ namespace LightController.MyForm
 		private void noticeLabel_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		/// <summary>
+		///  事件：输入字符事件，不可输入 \ 和 / ; 其他非法字符可以在之后被DirectoryInfo检查出来
+		///  -- 可先将shortcutEnable 设为false；若不设置，仍可以用粘贴方法导入错误的素材名
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void nameTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = true;
+			if (e.KeyChar != '\\' && e.KeyChar != '/')
+			{
+				e.Handled = false;
+			}
 		}
 	}
 }

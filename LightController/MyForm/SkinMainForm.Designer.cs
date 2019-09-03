@@ -106,6 +106,7 @@ namespace LightController.MyForm
 			this.tdNameLabel1 = new System.Windows.Forms.Label();
 			this.tdNoLabel1 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.tdSkinTrackBar1 = new CCWin.SkinControl.SkinTrackBar();
 			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox1 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel2 = new System.Windows.Forms.Panel();
@@ -340,7 +341,6 @@ namespace LightController.MyForm
 			this.thirdLabel3 = new System.Windows.Forms.Label();
 			this.secondLabel3 = new System.Windows.Forms.Label();
 			this.firstLabel3 = new System.Windows.Forms.Label();
-			this.tdSkinTrackBar1 = new CCWin.SkinControl.SkinTrackBar();
 			this.menuSkinPanel.SuspendLayout();
 			this.skinPanel2.SuspendLayout();
 			this.playSkinPanel.SuspendLayout();
@@ -358,6 +358,7 @@ namespace LightController.MyForm
 			this.tdSkinFlowLayoutPanel.SuspendLayout();
 			this.tdPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
 			this.tdPanel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown2)).BeginInit();
@@ -489,7 +490,6 @@ namespace LightController.MyForm
 			this.labelPanel1.SuspendLayout();
 			this.labelPanel2.SuspendLayout();
 			this.labelPanel3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// comChooseSkinButton
@@ -1518,9 +1518,8 @@ namespace LightController.MyForm
 			this.lightAddrSkinLabel.ForeColor = System.Drawing.Color.Black;
 			this.lightAddrSkinLabel.Location = new System.Drawing.Point(32, 257);
 			this.lightAddrSkinLabel.Name = "lightAddrSkinLabel";
-			this.lightAddrSkinLabel.Size = new System.Drawing.Size(68, 17);
+			this.lightAddrSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightAddrSkinLabel.TabIndex = 2;
-			this.lightAddrSkinLabel.Text = "灯具地址：";
 			// 
 			// lightTypeSkinLabel
 			// 
@@ -1531,9 +1530,8 @@ namespace LightController.MyForm
 			this.lightTypeSkinLabel.ForeColor = System.Drawing.Color.Black;
 			this.lightTypeSkinLabel.Location = new System.Drawing.Point(32, 224);
 			this.lightTypeSkinLabel.Name = "lightTypeSkinLabel";
-			this.lightTypeSkinLabel.Size = new System.Drawing.Size(68, 17);
+			this.lightTypeSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightTypeSkinLabel.TabIndex = 2;
-			this.lightTypeSkinLabel.Text = "灯具型号：";
 			// 
 			// lightNameSkinLabel
 			// 
@@ -1544,9 +1542,8 @@ namespace LightController.MyForm
 			this.lightNameSkinLabel.ForeColor = System.Drawing.Color.Black;
 			this.lightNameSkinLabel.Location = new System.Drawing.Point(32, 191);
 			this.lightNameSkinLabel.Name = "lightNameSkinLabel";
-			this.lightNameSkinLabel.Size = new System.Drawing.Size(68, 17);
+			this.lightNameSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightNameSkinLabel.TabIndex = 2;
-			this.lightNameSkinLabel.Text = "灯具厂商：";
 			// 
 			// currentLightSkinPanel
 			// 
@@ -2130,6 +2127,22 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown1.Name = "tdStepTimeNumericUpDown1";
 			this.tdStepTimeNumericUpDown1.Size = new System.Drawing.Size(38, 19);
 			this.tdStepTimeNumericUpDown1.TabIndex = 24;
+			// 
+			// tdSkinTrackBar1
+			// 
+			this.tdSkinTrackBar1.AutoSize = false;
+			this.tdSkinTrackBar1.BackColor = System.Drawing.Color.Transparent;
+			this.tdSkinTrackBar1.Bar = null;
+			this.tdSkinTrackBar1.BarStyle = CCWin.SkinControl.HSLTrackBarStyle.Opacity;
+			this.tdSkinTrackBar1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122)))));
+			this.tdSkinTrackBar1.Location = new System.Drawing.Point(19, 31);
+			this.tdSkinTrackBar1.Maximum = 255;
+			this.tdSkinTrackBar1.Name = "tdSkinTrackBar1";
+			this.tdSkinTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.tdSkinTrackBar1.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar1.TabIndex = 1;
+			this.tdSkinTrackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.tdSkinTrackBar1.Track = null;
 			// 
 			// tdValueNumericUpDown1
 			// 
@@ -5349,22 +5362,6 @@ namespace LightController.MyForm
 			this.firstLabel3.TabIndex = 0;
 			this.firstLabel3.Text = "通道值";
 			// 
-			// tdSkinTrackBar1
-			// 
-			this.tdSkinTrackBar1.AutoSize = false;
-			this.tdSkinTrackBar1.BackColor = System.Drawing.Color.Transparent;
-			this.tdSkinTrackBar1.Bar = null;
-			this.tdSkinTrackBar1.BarStyle = CCWin.SkinControl.HSLTrackBarStyle.Opacity;
-			this.tdSkinTrackBar1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122)))));
-			this.tdSkinTrackBar1.Location = new System.Drawing.Point(19, 31);
-			this.tdSkinTrackBar1.Maximum = 255;
-			this.tdSkinTrackBar1.Name = "tdSkinTrackBar1";
-			this.tdSkinTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar1.Size = new System.Drawing.Size(44, 189);
-			this.tdSkinTrackBar1.TabIndex = 1;
-			this.tdSkinTrackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.tdSkinTrackBar1.Track = null;
-			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -5408,6 +5405,7 @@ namespace LightController.MyForm
 			this.tdPanel1.ResumeLayout(false);
 			this.tdPanel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
 			this.tdPanel2.ResumeLayout(false);
 			this.tdPanel2.PerformLayout();
@@ -5574,7 +5572,6 @@ namespace LightController.MyForm
 			this.labelPanel2.PerformLayout();
 			this.labelPanel3.ResumeLayout(false);
 			this.labelPanel3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).EndInit();
 			this.ResumeLayout(false);
 
 		}

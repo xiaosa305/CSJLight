@@ -150,6 +150,7 @@
     <Compile Include="Ast\LightAst.cs" />
     <Compile Include="Ast\LightStepWrapper.cs" />
     <Compile Include="Ast\StepWrapper.cs" />
+    <Compile Include="Common\FileAst.cs" />
     <Compile Include="Common\TextAst.cs" />
     <Compile Include="DAO\FineTuneDAO.cs" />
     <Compile Include="DAO\ValueDAO.cs" />

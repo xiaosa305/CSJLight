@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LightEditor.Common
 {
-	public class TextAst
+	public class File
 	{
 		public IList<string> read(string txtPath)		{
 		
@@ -23,6 +23,9 @@ namespace LightEditor.Common
 			srReadFile.Close();
 			return strList;
 		}
+
+
+
 
 	}
 }

@@ -175,7 +175,7 @@ namespace LighEditor.Tools.CSJ.IMPL
                         else if (fineTune.FineTuneIndex == channelData.ChannelNo)
                         {
                             flag = 2;
-                            rate = fineTune.XORY;
+                            rate = fineTune.MaxValue;
                             if (rate == 0)
                             {
                                 rate = 255;

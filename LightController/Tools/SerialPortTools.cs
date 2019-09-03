@@ -1,7 +1,7 @@
 ﻿using FTD2XX_NET;
-using LightController.Ast;
-using LightController.Tools.CSJ;
-using LightController.Tools.CSJ.IMPL;
+using LighEditor.Ast;
+using LighEditor.Tools.CSJ;
+using LighEditor.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace LightController.Tools
+namespace LighEditor.Tools
 {
     class SerialPortTools : ICommunicator
     {

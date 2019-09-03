@@ -10,11 +10,12 @@ using System.Windows.Forms;
 
 
 using System.Security.Cryptography;
-using LightController.Ast;
+using LighEditor.Ast;
 using System.Data.SQLite;
-using LightController.MyForm;
+using LighEditor.MyForm;
+using LighEditor.Common;
 
-namespace LightController
+namespace LighEditor
 {
 	public partial class NewForm :Form
 	{
@@ -39,7 +40,15 @@ namespace LightController
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			string projectName = textBox1.Text;		   
+			string projectName = textBox1.Text;
+
+			if ( ! FileAst.CheckFileName(projectName)) {
+				MessageBox.Show("工程名包含非法字符，请重新输入！");
+				return;
+			}
+
+
+
 			if (!String.IsNullOrEmpty(projectName))
 			{
 				string directoryPath = @"C:\Temp\LightProject\" + projectName;
@@ -99,6 +108,18 @@ namespace LightController
 		private void NewForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+		}
+
+		/// <summary>
+		///  事件：点击《右上角？》按钮提示
+		///  TODO
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("工程名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
+			e.Cancel = true;
 		}
 	}
 }

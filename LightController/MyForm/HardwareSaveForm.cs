@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LighEditor.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,14 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LightController.MyForm
+namespace LighEditor.MyForm
 {
-	public partial class NewHardwareForm : Form
+	public partial class HardwareSaveForm : Form
 	{
 		private HardwareSetForm hardwareSetForm;
 		private string hardwareLibraryPath = @"C:\Temp\HardwareLibrary\";
 
-		public NewHardwareForm(HardwareSetForm hardwareSetForm)
+		public HardwareSaveForm(HardwareSetForm hardwareSetForm)
 		{
 			this.hardwareSetForm = hardwareSetForm;
 			InitializeComponent();
@@ -40,7 +41,10 @@ namespace LightController.MyForm
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			string hName = hNameTextBox.Text;
-			if (String.IsNullOrEmpty(hName)) {
+
+
+
+			if (String.IsNullOrEmpty(hName) ) {
 				MessageBox.Show("请输入正确的硬件配置名称!");
 				return;
 			}
@@ -91,7 +95,7 @@ namespace LightController.MyForm
 		}
 		
 		/// <summary>
-		///  点击右上角关闭按钮
+		/// 事件 点击《右上角关闭（X）》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -99,6 +103,17 @@ namespace LightController.MyForm
 		{
 			this.Dispose();
 			hardwareSetForm.Activate();
+		}
+
+		/// <summary>
+		/// 事件：点击《右上角？》按钮，跳出提示信息
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HardwareSaveForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("硬件设置名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
+			e.Cancel = true;
 		}
 	}
 }

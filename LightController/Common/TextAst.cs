@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace LightEditor.Common
+namespace LighEditor.Common
 {
 	public class TextAst
 	{
@@ -23,6 +23,9 @@ namespace LightEditor.Common
 			srReadFile.Close();
 			return strList;
 		}
+
+
+
 
 	}
 }

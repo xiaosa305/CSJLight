@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace LightController.Tools
+namespace LighEditor.Tools
 {
     public class CSJLogs
     {

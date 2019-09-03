@@ -10,8 +10,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Collections;
+using LighEditor.Tools;
 using LightEditor.Common;
-using LightEditor.Tools;
+using LighEditor;
 
 namespace LightEditor
 {
@@ -324,13 +325,25 @@ namespace LightEditor
 
 			string name = nameTextBox.Text;
 			string type = typeTextBox.Text;
+
 			if (String.IsNullOrEmpty(name)) {
-				MessageBox.Show("请输入厂家名");
+				MessageBox.Show("请输入厂家名。");
 				return;
 			}
+			if (!FileAst.CheckFileName(name)) {
+				MessageBox.Show("厂家名含有非法字符，无法保存。");
+				return;
+			}
+
+
 			if (String.IsNullOrEmpty(type))
 			{
 				MessageBox.Show("请输入型号名");
+				return;
+			}
+			if (!FileAst.CheckFileName(type))
+			{
+				MessageBox.Show("型号名含有非法字符，无法保存。");
 				return;
 			}
 
@@ -841,7 +854,7 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  点击《连接设备|断开连接》按钮
+		/// 事件：点击《连接设备|断开连接》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -933,7 +946,7 @@ namespace LightEditor
 
 
 		/// <summary>
-		/// 点击《统一通道值》
+		/// 事件：点击《统一通道值》
 		/// --将当前所有通道值设为commonValueNumericUpDown 
 		/// </summary>
 		/// <param name="sender"></param>
@@ -950,7 +963,7 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 点击《以当前通道值为初始值》
+		/// 事件：点击《设当前通道值为初始值》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -960,6 +973,17 @@ namespace LightEditor
 			{
 				tongdaoList[i].InitValue = tongdaoList[i].CurrentValue;
 			}
+		}
+
+		/// <summary>
+		/// 事件：点击《右上角？》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("灯具的厂家名及型号名都不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
+			e.Cancel = true;
 		}
 	}
 }

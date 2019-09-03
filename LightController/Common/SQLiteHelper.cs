@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SQLite;
-using LightController.Ast;
+using LighEditor.Ast;
 using System.Windows.Forms;
 
-namespace LightController.Common
+namespace LighEditor.Common
 {
-	
-
 	public class SQLiteHelper
 		{
 			SQLiteConnection connection = null;

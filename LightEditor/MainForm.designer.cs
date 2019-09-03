@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using LighEditor;
+using System.Collections.Generic;
 using System.Windows.Forms;
+
 
 namespace LightEditor
 {
@@ -1814,7 +1816,7 @@ namespace LightEditor
 			this.setCurrentToInitButton.Name = "setCurrentToInitButton";
 			this.setCurrentToInitButton.Size = new System.Drawing.Size(159, 23);
 			this.setCurrentToInitButton.TabIndex = 2;
-			this.setCurrentToInitButton.Text = "将初始值设为当前通道值";
+			this.setCurrentToInitButton.Text = "设当前通道值为初始值";
 			this.setCurrentToInitButton.UseVisualStyleBackColor = true;
 			this.setCurrentToInitButton.Click += new System.EventHandler(this.setCurrentToInitButton_Click);
 			// 
@@ -1892,12 +1894,14 @@ namespace LightEditor
 			this.Controls.Add(this.openLightButton);
 			this.Controls.Add(this.newLightButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 3);
 			this.Text = "灯库编辑工具";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MainForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.lightTestGroupBox.ResumeLayout(false);
 			this.lightTestGroupBox.PerformLayout();
@@ -2079,8 +2083,8 @@ namespace LightEditor
 		public List<TongdaoWrapper> tongdaoList;
 		private OpenFileDialog openFileDialog;
 		public int tongdaoCount;
-        private Sunisoft.IrisSkin.SkinEngine skinEngine2;
-        private Button setInitButton;
+		private Sunisoft.IrisSkin.SkinEngine skinEngine2;
+		private Button setInitButton;
 		private GroupBox editGroupBox;
 		private FlowLayoutPanel flowLayoutPanel1;
 		private NumericUpDown firstTDNumericUpDown;

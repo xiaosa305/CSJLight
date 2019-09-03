@@ -1,4 +1,4 @@
-﻿namespace LightController
+﻿namespace LighEditor
 {
 	partial class LightsAstForm
 	{

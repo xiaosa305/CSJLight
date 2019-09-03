@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace LightController.MyForm
+namespace LighEditor.MyForm
 {
 	partial class GlobalSetForm
 	{

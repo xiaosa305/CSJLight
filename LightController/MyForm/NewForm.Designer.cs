@@ -1,4 +1,4 @@
-﻿namespace LightController
+﻿namespace LighEditor
 {
 	partial class NewForm
 	{
@@ -99,10 +99,13 @@
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
+			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "NewForm";
 			this.Text = "新建工程";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.NewForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.NewForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

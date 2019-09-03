@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace LightController.Tools.CSJ.IMPL
+namespace LighEditor.Tools.CSJ.IMPL
 {
     public class CSJ_C:ICSJFile
     {

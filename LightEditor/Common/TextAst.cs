@@ -24,7 +24,5 @@ namespace LightEditor.Common
 			return strList;
 		}
 
-
-
 	}
 }

@@ -9,12 +9,12 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 using DMX512;
-using LightController.Ast;
-using LightController.Tools;
-using LightController.Common;
+using LighEditor.Ast;
+using LighEditor.Tools;
+using LighEditor.Common;
 using CCWin.SkinControl;
 
-namespace LightController.MyForm
+namespace LighEditor.MyForm
 {
 
 	public partial class SkinMainForm : MainFormInterface
@@ -443,16 +443,14 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void clearAllData()
 		{
-
 			base.clearAllData();
 
-			//单独针对本MainForm的代码: ①清空listView列表；②禁用步调节按钮组
-			lightsSkinListView.Clear();
-
+			//单独针对本MainForm的代码: ①清空listView列表；②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
+			lightsSkinListView.Clear();			
 			stepSkinPanel.Enabled = false;
 			hideAllTDPanels();
 			showStepLabel(0, 0);
-		
+			editLightInfo(null);
 		}
 
 		/// <summary>
@@ -576,19 +574,15 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		private void generateLightData()
 		{
+			if (selectedLightIndex == -1) {
+				return;
+			}
+
+
 			LightAst lightAst = lightAstList[selectedLightIndex];
 
 			// 1.在右侧灯具信息内显示选中灯具相关信息
-			try
-			{
-				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
-			}
-			catch (Exception) {
-				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
-			}
-			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
-			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
-			lightAddrSkinLabel.Text = "灯具地址：" + lightAst.LightAddr;
+			editLightInfo(lightAst);
 
 
 			//2.判断是不是已经有stepTemplate了
@@ -611,12 +605,38 @@ namespace LightController.MyForm
 			stepSkinPanel.Enabled = true;
 		}
 
+		/// <summary>
+		///  辅助方法：通过LightAst，显示选中灯具信息
+		/// </summary>
+		private void editLightInfo(LightAst lightAst)
+		{
+			if (lightAst == null) {
+				currentLightPictureBox.Image = null ;
+				lightNameSkinLabel.Text = null ;
+				lightTypeSkinLabel.Text = null ;
+				lightAddrSkinLabel.Text = null ;
+				return; 
+			}
+
+			try
+			{
+				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
+			}
+			catch (Exception)
+			{
+				currentLightPictureBox.Image = global::LighEditor.Properties.Resources.灯光图;
+			}
+			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
+			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
+			lightAddrSkinLabel.Text = "灯具地址：" + lightAst.LightAddr;
+		}
+
 		#endregion
 
 
 		#region 步数相关的按钮及辅助方法
 
-		
+
 		/// <summary>
 		///  事件：勾选《（是否）使用模板生成步》
 		/// </summary>
@@ -1774,7 +1794,7 @@ namespace LightController.MyForm
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if (!isConnect)
 			{
-				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
+				connectSkinButton.Image = global::LighEditor.Properties.Resources.断开连接;
 				connectSkinButton.Text = "断开连接";				
 
 				playTools.ConnectDevice(comName);
@@ -1783,12 +1803,12 @@ namespace LightController.MyForm
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
-				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
+				connectSkinButton.Image = global::LighEditor.Properties.Resources.连接;
 				connectSkinButton.Text = "连接设备";				
 								
 				playTools.CloseDevice();
 
-				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+				previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果前;
 				showConnectedButtons(false);
 			}
 		}
@@ -1823,13 +1843,13 @@ namespace LightController.MyForm
 			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
 			if (!isRealtime)
 			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
+				realtimeSkinButton.Image = global::LighEditor.Properties.Resources.实时调试;
 				realtimeSkinButton.Text = "关闭实时";
 				isRealtime = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
+				realtimeSkinButton.Image = global::LighEditor.Properties.Resources.实时调试02;
 				realtimeSkinButton.Text = "实时调试";
 				isRealtime = false;
 			}
@@ -1844,12 +1864,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void oneLightOneStepSkinButton_Click(object sender, EventArgs e)
 		{					
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;
+			oneLightOneStepSkinButton.Image = global::LighEditor.Properties.Resources.单灯单步后;
 			this.Refresh();
 
 			oneLightStepWork();
 
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
+			oneLightOneStepSkinButton.Image = global::LighEditor.Properties.Resources.单灯单步;
 		}
 
 		/// <summary>
@@ -1859,7 +1879,7 @@ namespace LightController.MyForm
 		{
 
 			base.oneLightStepWork();
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+			previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果前;
 		}
 
 		/// <summary>
@@ -1869,7 +1889,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void previewSkinButton_Click(object sender, EventArgs e)
 		{
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;
+			previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果后;
 
 			// 设为false，从内存取数据
 			DBWrapper allData = GetDBWrapper(false);
@@ -1891,12 +1911,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void makeSoundSkinButton_Click(object sender, EventArgs e)
 		{
-			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频后;
+			makeSoundSkinButton.Image = global::LighEditor.Properties.Resources.触发音频后;
 			this.Refresh();
 
 			playTools.MusicControl();
 
-			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
+			makeSoundSkinButton.Image = global::LighEditor.Properties.Resources.触发音频;
 		}
 
 		/// <summary>
@@ -1907,9 +1927,9 @@ namespace LightController.MyForm
 		private void endviewSkinButton_Click(object sender, EventArgs e)
 		{
 			// 1.几个按钮图标设置
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
-			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+			oneLightOneStepSkinButton.Image = global::LighEditor.Properties.Resources.单灯单步;
+			makeSoundSkinButton.Image = global::LighEditor.Properties.Resources.触发音频;
+			previewSkinButton.Image = global::LighEditor.Properties.Resources.浏览效果前;
 
 			// 2.调用结束预览方法
 			playTools.EndView();

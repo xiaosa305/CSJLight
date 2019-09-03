@@ -9,6 +9,6 @@ namespace DMX512
     {
 		public virtual int MainIndex { get; set; }
         public virtual int FineTuneIndex{ get; set; }
-    	public virtual int XORY { get; set; }		   
+    	public virtual int MaxValue { get; set; }
 	}
 }

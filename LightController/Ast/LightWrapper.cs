@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightController.Ast
+namespace LighEditor.Ast
 {
 
 	/// <summary>

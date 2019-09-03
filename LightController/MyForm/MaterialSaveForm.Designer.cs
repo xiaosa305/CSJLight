@@ -1,4 +1,4 @@
-﻿namespace LightController.MyForm
+﻿namespace LighEditor.MyForm
 {
 	partial class MaterialSaveForm
 	{
@@ -78,6 +78,7 @@
 			this.nameTextBox.Name = "nameTextBox";
 			this.nameTextBox.Size = new System.Drawing.Size(139, 21);
 			this.nameTextBox.TabIndex = 1;
+			this.nameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameTextBox_KeyPress);
 			// 
 			// mNameLabel
 			// 
@@ -587,11 +588,13 @@
 			this.Controls.Add(this.mNameLabel);
 			this.Controls.Add(this.nameTextBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MaterialSaveForm";
 			this.Text = "保存素材";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MaterialSaveForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tongdaoPanel.ResumeLayout(false);
 			this.tongdaoPanel.PerformLayout();

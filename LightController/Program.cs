@@ -1,8 +1,8 @@
-﻿using LightController.MyForm;
+﻿using LighEditor.MyForm;
 using System;
 using System.Windows.Forms;
 
-namespace LightController
+namespace LighEditor
 {
 	static class Program
 	{

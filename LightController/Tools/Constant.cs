@@ -1,10 +1,10 @@
-﻿using LightController.Tools.CSJ.IMPL;
+﻿using LighEditor.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightController.Tools
+namespace LighEditor.Tools
 {
     class Constant
     {

@@ -1,6 +1,6 @@
 ﻿using CCWin.SkinControl;
-using LightController.Ast;
-using LightController.Tools;
+using LighEditor.Ast;
+using LighEditor.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace LightController.MyForm
+namespace LighEditor.MyForm
 {
 	public partial class UpdateForm : Form
 	{

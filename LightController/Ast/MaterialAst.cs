@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightController.Common;
+using LighEditor.Common;
 
-namespace LightController.Ast
+namespace LighEditor.Ast
 {
 	public class MaterialAst
 	{

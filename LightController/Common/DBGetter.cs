@@ -1,14 +1,12 @@
 ﻿using DMX512;
-using LightController.Ast;
+using LighEditor.Ast;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightController.Common
+namespace LighEditor.Common
 {
-
-
 	class DBGetter
 	{
 		private LightDAO lightDAO;

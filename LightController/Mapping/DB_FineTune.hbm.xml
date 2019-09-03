@@ -6,6 +6,6 @@
       <generator class="assigned"></generator>      
     </id>
       <property name="FineTuneIndex" column="FineTuneIndex" not-null="true"/>
-      <property name="XORY" column="XORY"  not-null="true"/>
+      <property name="MaxValue" column="MaxValue"  not-null="true"/>
   </class>
 </hibernate-mapping>

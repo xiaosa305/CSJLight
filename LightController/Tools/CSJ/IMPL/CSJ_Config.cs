@@ -282,30 +282,6 @@ namespace LightController.Tools.CSJ.IMPL
                             lineStr = Reader.ReadLine();
                             lineStr = Reader.ReadLine();
                         }
-                        //for (int i = 0; i < 9; i++)
-                        //{
-                        //    CombineScene combine = CombineScenes[i];
-                        //    if (combine.Scene_Main_Number != i)
-                        //    {
-                        //        CombineScene Data = new CombineScene
-                        //        {
-                        //            Combine_Scene_Enable = 0,
-                        //            Play_Count = 0,
-                        //            Scene_Main_Number = i,
-                        //            Play_Time_Main_Scene = 0,
-                        //            Scene_One_Number = 0,
-                        //            Play_Time_Scene_One = 0,
-                        //            Scene_Two_Number = 0,
-                        //            Play_Time_Scene_Two = 0,
-                        //            Scene_Three_Number = 0,
-                        //            Play_Time_Scene_Three = 0,
-                        //            Scene_Four_Number = 0,
-                        //            Play_Time_Scene_Four = 0
-                        //        };
-                        //        CombineScenes.Insert(i, Data);
-                        //        i = -1;
-                        //    }
-                        //}
                         //读取灯具数据
                         foreach (DB_Light value in DB_Lights)
                         {

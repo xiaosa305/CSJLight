@@ -281,15 +281,6 @@ namespace LightController.Tools.CSJ.IMPL
                                 {
                                     float inc = (stepValue - startValue) / (float)stepTime;
                                     float value = startValue + inc * (fram + 1);
-                                    //if (flag == 1)
-                                    //{
-                                    //    int intValue = (int)Math.Floor(value * 256);
-                                    //    datas.Add((intValue >> 8) & 0xFF);
-                                    //}
-                                    //else
-                                    //{
-                                    //    datas.Add((int)value);
-                                    //}
                                     int intValue = (int)Math.Floor(value * 256);
                                     datas.Add((intValue >> 8) & 0xFF);
                                 }

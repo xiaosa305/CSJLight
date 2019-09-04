@@ -244,42 +244,42 @@ namespace LightController.Tools
         {
             try
             {
-                IsPausePlay = true;
-                if (Project!=null)
+                this.IsPausePlay = true;
+                if (this.Project !=null)
                 {
-                    TimeFactory = Project.ConfigFile.TimeFactory;
+                    this.TimeFactory = this.Project.ConfigFile.TimeFactory;
                 }
                 else
                 {
-                    TimeFactory = 32;
+                    this.TimeFactory = 32;
                 }
                 try
                 {
-                    if (PreViewThread != null)
+                    if (this.PreViewThread != null)
                     {
-                        PreViewThread.Abort();
+                        this.PreViewThread.Abort();
                     }
                 }
                 finally
                 {
-                    PreViewThread = null;
-                    PlayData = data;
-                    IsPausePlay = false;
-                    if (OLOSThread == null)
+                    this.PreViewThread = null;
+                    this.PlayData = data;
+                    this.IsPausePlay = false;
+                    if (this.OLOSThread == null)
                     {
-                        OLOSThread = new Thread(new ThreadStart(OLOSViewThreadStart))
+                        this.OLOSThread = new Thread(new ThreadStart(this.OLOSViewThreadStart))
                         {
                             IsBackground = true
                         };
-                        OLOSThread.Start();
+                        this.OLOSThread.Start();
                     }
-                    State = PreViewState.OLOSView;
+                    this.State = PreViewState.OLOSView;
                 }
             }
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                EndView();
+                this.EndView();
             }
             
         }
@@ -287,27 +287,27 @@ namespace LightController.Tools
         {
             try
             {
-                if (Project.ConfigFile.Music_Control_Enable[SceneNo] == 0)
+                if (this.Project.ConfigFile.Music_Control_Enable[this.SceneNo] == 0)
                 {
                     return;
                 }
-                if (PreViewThread == null)
+                if (this.PreViewThread == null)
                 {
                     return;
                 }
-                if (!MusicData)
+                if (!this.MusicData)
                 {
                     return;
                 }
-                if (MusicWaiting)
+                if (this.MusicWaiting)
                 {
-                    Timer.Stop();
-                    MusicControlThread = new Thread(new ThreadStart(MusicControlThreadStart))
+                    this.Timer.Stop();
+                    this.MusicControlThread = new Thread(new ThreadStart(this.MusicControlThreadStart))
                     {
                         IsBackground = true
                     };
-                    MusicWaiting = false;
-                    MusicControlThread.Start();
+                    this.MusicWaiting = false;
+                    this.MusicControlThread.Start();
                 }
             }
             catch (Exception ex)
@@ -319,35 +319,35 @@ namespace LightController.Tools
         {
             try
             {
-                if (MusicStepPoint == StepListCount)
+                if (this.MusicStepPoint == this.StepListCount)
                 {
-                    MusicStepPoint = 0;
+                    this.MusicStepPoint = 0;
                 }
 
-                MusicStep = StepList[MusicStepPoint++];
-                for (int i = 0; i < MusicStep; i++)
+                this.MusicStep = this.StepList[this.MusicStepPoint++];
+                for (int i = 0; i < this.MusicStep; i++)
                 {
-                    for (int j = 0; j < M_ChanelPoint.Length; j++)
+                    for (int j = 0; j < this.M_ChanelPoint.Length; j++)
                     {
-                        M_ChanelPoint[j]++;
+                        this.M_ChanelPoint[j]++;
                     }
-                    IsMusicControl = true;
-                    Thread.Sleep(TimeFactory * MusicStepTime);
+                    this.IsMusicControl = true;
+                    Thread.Sleep(this.TimeFactory * this.MusicStepTime);
                 }
-                if (MusicIntervalTime != 0)
+                if (this.MusicIntervalTime != 0)
                 {
-                    Timer.Interval = MusicIntervalTime;
-                    Timer.AutoReset = false;
-                    Timer.Elapsed += MusicWaitingHandl;
-                    Timer.Start();
-                    MusicWaiting = true;
-                    MusicControlThread = null;
+                    this.Timer.Interval = this.MusicIntervalTime;
+                    this.Timer.AutoReset = false;
+                    this.Timer.Elapsed += this.MusicWaitingHandl;
+                    this.Timer.Start();
+                    this.MusicWaiting = true;
+                    this.MusicControlThread = null;
                 }
                 else
                 {
-                    IsMusicControl = false;
-                    MusicWaiting = true;
-                    MusicControlThread = null;
+                    this.IsMusicControl = false;
+                    this.MusicWaiting = true;
+                    this.MusicControlThread = null;
                 }
             }
             catch (Exception ex)
@@ -358,7 +358,7 @@ namespace LightController.Tools
 
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
         {
-            IsMusicControl = false;
+            this.IsMusicControl = false;
         }
         private void OLOSViewThreadStart()
         {
@@ -366,8 +366,8 @@ namespace LightController.Tools
             {
                 while (true)
                 {
-                    Play();
-                    Thread.Sleep(TimeFactory);
+                    this.Play();
+                    Thread.Sleep(this.TimeFactory);
                 }
             }
             catch (Exception ex)
@@ -380,33 +380,33 @@ namespace LightController.Tools
         {
             try
             {
-                PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 while (true)
                 {
-                    if (!IsPausePlay)
+                    if (!this.IsPausePlay)
                     {
-                        for (int i = 0; i < C_ChanelCount; i++)
+                        for (int i = 0; i < this.C_ChanelCount; i++)
                         {
-                            if (C_ChanelPoint[i] == C_ChanelData[i].Length)
+                            if (this.C_ChanelPoint[i] == this.C_ChanelData[i].Length)
                             {
-                                C_ChanelPoint[i] = 0;
+                                this.C_ChanelPoint[i] = 0;
                             }
-                            PlayData[C_ChanelId[i] - 1] = C_ChanelData[i][C_ChanelPoint[i]++];
+                            this.PlayData[this.C_ChanelId[i] - 1] = this.C_ChanelData[i][this.C_ChanelPoint[i]++];
                         }
-                        if (IsMusicControl)
+                        if (this.IsMusicControl)
                         {
-                            for (int i = 0; i < M_ChanelCount; i++)
+                            for (int i = 0; i < this.M_ChanelCount; i++)
                             {
-                                if (M_ChanelPoint[i] == M_ChanelData[i].Length)
+                                if (this.M_ChanelPoint[i] == this.M_ChanelData[i].Length)
                                 {
-                                    M_ChanelPoint[i] = 0;
+                                    this.M_ChanelPoint[i] = 0;
                                 }
-                                PlayData[M_ChanelId[i] - 1] = M_ChanelData[i][M_ChanelPoint[i]];
+                                this.PlayData[this.M_ChanelId[i] - 1] = this.M_ChanelData[i][this.M_ChanelPoint[i]];
                             }
                         }
                     }
-                    Play();
-                    Thread.Sleep(TimeFactory - 21);
+                    this.Play();
+                    Thread.Sleep(this.TimeFactory - 21);
                 }
             }
             catch (Exception ex)
@@ -427,15 +427,8 @@ namespace LightController.Tools
                     Device.SetBreak(false);
                     Thread.Sleep(0);
                     List<byte> buff = new List<byte>();
-                    //test
-                    int value1 = PlayData[2];
-                    int value2 = PlayData[3];
-                    int value3 = PlayData[0];
-                    int value4 = PlayData[1];
-                    Console.WriteLine("X轴：" + value3 + "--------X轴微调：" + value4 +";*****Y轴：" + value1 + "--------Y轴微调：" + value2);
-                    //Test
-                    buff.AddRange(StartCode);
-                    buff.AddRange(PlayData);
+                    buff.AddRange(this.StartCode);
+                    buff.AddRange(this.PlayData);
                     Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
                     Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
                     Device.SetBreak(false);
@@ -444,7 +437,7 @@ namespace LightController.Tools
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                EndView();
+                this.EndView();
             }
         }
         public bool ConnectDevice(string comName)
@@ -495,8 +488,7 @@ namespace LightController.Tools
         {
             try
             {
-                EndView();
-                Thread.Sleep(100);
+                this.EndView();
                 if (Device != null)
                 {
                     if (Device.IsOpen)

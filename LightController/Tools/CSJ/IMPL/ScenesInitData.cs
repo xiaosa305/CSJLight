@@ -13,7 +13,7 @@ namespace LightController.Tools.CSJ.IMPL
 
         public ScenesInitData(CSJ_Project project)
         {
-            ScenesData = new int[32][];
+            this.ScenesData = new int[32][];
             int[] defaultDmx512Data = Enumerable.Repeat(0, Constant.DMX512).ToArray();
             for (int i = 0; i < 32; i++)
             {
@@ -23,14 +23,23 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 if (null != project.CFiles)
                 {
-                    foreach (CSJ_C file in project.CFiles)
+                    for (int scene = 0; scene < Constant.SCENECOUNT; scene++)
                     {
-                        int[] data = defaultDmx512Data;
-                        for (int channelNo = 0; channelNo < file.ChannelCount; channelNo++)
+                        CSJ_C file = project.CFiles[scene] as CSJ_C;
+                        int[] data = Enumerable.Repeat(0, Constant.DMX512).ToArray();
+                        for (int channel = 0; channel < file.ChannelCount; channel++)
                         {
-                            data[file.ChannelDatas[channelNo].ChannelNo - 1] = file.ChannelDatas[channelNo].Datas[0];
+                            data[file.ChannelDatas[channel].ChannelNo - 1] = file.ChannelDatas[channel].Datas[0];
                         }
-                        ScenesData[file.SceneNo] = data;
+                        this.ScenesData[file.SceneNo] = data;
+                        if (file.SceneNo == Constant.SCENE_ALL_OFF)
+                        {
+                            this.ScenesData[Constant.SCENE_ALL_OFF_NO] = data;
+                        }
+                        if (file.SceneNo == Constant.SCENE_ALL_ON)
+                        {
+                            this.ScenesData[Constant.SCENE_ALL_ON_NO] = data;
+                        }
                     }
                 }
             }
@@ -39,7 +48,7 @@ namespace LightController.Tools.CSJ.IMPL
         public byte[] GetData()
         {
             List<byte> dataBuff = new List<byte>();
-            FileSize = 0;
+            this.FileSize = 0;
             dataBuff.Add(Convert.ToByte(FileSize & 0xFF));
             dataBuff.Add(Convert.ToByte((FileSize >> 8) & 0xFF));
             dataBuff.Add(Convert.ToByte((FileSize >> 16) & 0xFF));
@@ -51,7 +60,7 @@ namespace LightController.Tools.CSJ.IMPL
                     dataBuff.Add(Convert.ToByte(ScenesData[scene][channel]));
                 }
             }
-            FileSize = dataBuff.Count();
+            this.FileSize = dataBuff.Count();
             dataBuff[0] = Convert.ToByte(FileSize & 0xFF);
             dataBuff[1] = Convert.ToByte((FileSize >> 8) & 0xFF);
             dataBuff[2] = Convert.ToByte((FileSize >> 16) & 0xFF);

@@ -191,7 +191,7 @@ namespace LightController.Tools.CSJ
                 {
                     this.CurrentDownloadCompletedSize += packageData.Count();
                 }
-                Send(package.ToArray());
+                this.Send(package.ToArray());
             }
             catch (Exception)
             {
@@ -336,7 +336,6 @@ namespace LightController.Tools.CSJ
             this.IsReceive = true;
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
-            Console.WriteLine(rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:

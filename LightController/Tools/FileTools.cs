@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace LightController.Tools
 {
@@ -31,6 +32,7 @@ namespace LightController.Tools
         /// <param name="savePath">工程文件存储路径</param>
         public void ProjectToFile(DBWrapper wrapper,string configPath,string savePath)
         {
+            this.DelectDir(savePath);
             CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(wrapper, configPath);
             if (project.CFiles != null)
             {
@@ -85,6 +87,31 @@ namespace LightController.Tools
         {
             CSJ_Hardware hardware = new CSJ_Hardware(hardwarePath);
             hardware.WriteToFile(savePath);
+        }
+
+        private void DelectDir(string path)
+        {
+            try
+            {
+                DirectoryInfo info = new DirectoryInfo(path);
+                FileSystemInfo[] fileInfo = info.GetFileSystemInfos();
+                foreach (FileSystemInfo item in fileInfo)
+                {
+                    if (item is DirectoryInfo)
+                    {
+                        DirectoryInfo subdir = new DirectoryInfo(item.FullName);
+                        subdir.Delete(true);
+                    }
+                    else
+                    {
+                        File.Delete(item.FullName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
         }
     }
 }

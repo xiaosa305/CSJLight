@@ -23,7 +23,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 if (null != project.CFiles)
                 {
-                    for (int scene = 0; scene < Constant.SCENECOUNT; scene++)
+                    for (int scene = 0; scene < project.CFiles.Count; scene++)
                     {
                         CSJ_C file = project.CFiles[scene] as CSJ_C;
                         int[] data = Enumerable.Repeat(0, Constant.DMX512).ToArray();

@@ -10,7 +10,7 @@ namespace LightController.Tools
     {
         public const int DMX512BAUD = 250000;
         public const int SCENECOUNT = 24;
-        public const int TIMEMAXCOUNT = 0;
+        public const int TIMEMAXCOUNT = 2;
         public const int MODE_C = 0;
         public const int MODE_M = 1;
         public const int MODE_GRADUAL = 1;

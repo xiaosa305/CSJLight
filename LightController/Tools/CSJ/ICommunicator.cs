@@ -504,12 +504,12 @@ namespace LightController.Tools.CSJ
                 this.DownloadFileToTalSize = 0;
                 this.CurrentDownloadCompletedSize = 0;
                 CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.Wrapper, this.ConfigPath);
-                ScenesInitData scenesInitData = new ScenesInitData(project);
+                //ScenesInitData scenesInitData = new ScenesInitData(project);
                 this.DownloadFileToTalSize = project.GetProjectFileSize();
-                if (null != scenesInitData)
-                {
-                    this.DownloadFileToTalSize += scenesInitData.GetData().Length;
-                }
+                //if (null != scenesInitData)
+                //{
+                //    this.DownloadFileToTalSize += scenesInitData.GetData().Length;
+                //}
                 this.DownloadStatus = false;
                 this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
                 if (project.CFiles != null)
@@ -596,20 +596,20 @@ namespace LightController.Tools.CSJ
                         break;
                     }
                 }
-                fileName = "GradientData.bin";
-                fileSize = scenesInitData.GetData().Length.ToString();
-                crcBuff = CRCTools.GetInstance().GetCRC(scenesInitData.GetData());
-                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
-                while (true)
-                {
-                    if (this.DownloadStatus)
-                    {
-                        this.CurrentFileName = fileName;
-                        this.SendData(scenesInitData.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        this.DownloadStatus = false;
-                        break;
-                    }
-                }
+                //fileName = "GradientData.bin";
+                //fileSize = scenesInitData.GetData().Length.ToString();
+                //crcBuff = CRCTools.GetInstance().GetCRC(scenesInitData.GetData());
+                //fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                //while (true)
+                //{
+                //    if (this.DownloadStatus)
+                //    {
+                //        this.CurrentFileName = fileName;
+                //        this.SendData(scenesInitData.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                //        this.DownloadStatus = false;
+                //        break;
+                //    }
+                //}
                 while (true)
                 {
                     if (true)

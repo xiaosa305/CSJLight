@@ -312,8 +312,8 @@ namespace LightController.MyForm
 						{
 							TongdaoName = tongdaoName,
 							ScrollValue = initNum,
-							StepTime = 10,
-							ChangeMode = 0,
+							StepTime = 66,
+							ChangeMode = 1,
 							Address = startNum + (address - 1)
 						});
 					}

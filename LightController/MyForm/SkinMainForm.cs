@@ -309,7 +309,7 @@ namespace LightController.MyForm
 			modeSkinComboBox.SelectedIndex = 0;
 
 			// 《统一跳渐变》复选框不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
-			commonChangeModeSkinComboBox.SelectedIndex = 0;
+			commonChangeModeSkinComboBox.SelectedIndex = 1;
 
 
 			#endregion
@@ -567,7 +567,8 @@ namespace LightController.MyForm
 			{
 				// 添加灯具数据到LightsListView中
 				lightsSkinListView.Items.Add(new ListViewItem(
-					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType + "\n(地址:" + lightAstList2[i].LightAddr + ")",
+						lightAstList2[i].LightName + ":" + lightAstList2[i].LightType + 
+						"\n(" + lightAstList2[i].LightAddr + ")"		 ,
 					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				));
 			}
@@ -992,6 +993,10 @@ namespace LightController.MyForm
 		protected override void chooseStep(int stepNum)
 		{
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
+			if (lightStepWrapper == null) {
+				return;
+			}
+
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
 			lightStepWrapper.CurrentStep = stepNum;
 
@@ -1244,7 +1249,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
-
+						
 			//if (isInit)
 			//{
 			//	// 3.（6.29修改）若当前模式是声控模式：
@@ -1257,7 +1262,6 @@ namespace LightController.MyForm
 			//			stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
 			//		}
 			//	}
-
 			//	// 4.(8.8新增判断）若当前模式是普通模式：
 			//	//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
 			//	//else

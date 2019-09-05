@@ -19,7 +19,7 @@ namespace LightController.MyForm
 		private bool isInit = false;
 		private int frameIndex = -1;			
 
-public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
+		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 
 			this.mainForm = mainForm;
 			this.iniFilePath = iniFilePath;
@@ -174,9 +174,7 @@ public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 			}
 
 
-			#endregion
-
-			
+			#endregion			
 
 			// 初始化iniAst
 			iniAst = new IniFileAst(iniFilePath);
@@ -324,9 +322,10 @@ public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 		private void globalSaveButton_Click(object sender, EventArgs e)
 		{
 			iniAst.WriteInt("Set","TongdaoCount",tongdaoCountComboBox.SelectedIndex);
-			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;
+			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;			
 			iniAst.WriteInt("Set", "EachStepTime",eachStepTimeNumericUpDown.Value);
 			iniAst.WriteInt("Set", "EachChangeMode", eachChangeModeComboBox.SelectedIndex);
+			mainForm.ChangeEachStepTime( Decimal.ToInt32(eachStepTimeNumericUpDown.Value) );
 			MessageBox.Show("保存成功");
 
 		}

@@ -986,7 +986,7 @@ namespace LightController
 			this.numericUpDown48.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown48.TabIndex = 11;
 			this.numericUpDown48.Visible = false;
-			this.numericUpDown48.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown48.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown16
 			// 
@@ -1017,7 +1017,7 @@ namespace LightController
 			this.numericUpDown47.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown47.TabIndex = 11;
 			this.numericUpDown47.Visible = false;
-			this.numericUpDown47.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown47.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown15
 			// 
@@ -1048,7 +1048,7 @@ namespace LightController
 			this.numericUpDown46.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown46.TabIndex = 11;
 			this.numericUpDown46.Visible = false;
-			this.numericUpDown46.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown46.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown14
 			// 
@@ -1079,7 +1079,7 @@ namespace LightController
 			this.numericUpDown45.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown45.TabIndex = 11;
 			this.numericUpDown45.Visible = false;
-			this.numericUpDown45.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown45.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown13
 			// 
@@ -1110,7 +1110,7 @@ namespace LightController
 			this.numericUpDown44.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown44.TabIndex = 11;
 			this.numericUpDown44.Visible = false;
-			this.numericUpDown44.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown44.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown12
 			// 
@@ -1141,7 +1141,7 @@ namespace LightController
 			this.numericUpDown43.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown43.TabIndex = 11;
 			this.numericUpDown43.Visible = false;
-			this.numericUpDown43.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown43.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown11
 			// 
@@ -1172,7 +1172,7 @@ namespace LightController
 			this.numericUpDown42.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown42.TabIndex = 11;
 			this.numericUpDown42.Visible = false;
-			this.numericUpDown42.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown42.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown10
 			// 
@@ -1203,7 +1203,7 @@ namespace LightController
 			this.numericUpDown41.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown41.TabIndex = 11;
 			this.numericUpDown41.Visible = false;
-			this.numericUpDown41.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown41.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown9
 			// 
@@ -1234,7 +1234,7 @@ namespace LightController
 			this.numericUpDown40.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown40.TabIndex = 11;
 			this.numericUpDown40.Visible = false;
-			this.numericUpDown40.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown40.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown8
 			// 
@@ -1265,7 +1265,7 @@ namespace LightController
 			this.numericUpDown39.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown39.TabIndex = 11;
 			this.numericUpDown39.Visible = false;
-			this.numericUpDown39.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown39.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown7
 			// 
@@ -1296,7 +1296,7 @@ namespace LightController
 			this.numericUpDown38.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown38.TabIndex = 11;
 			this.numericUpDown38.Visible = false;
-			this.numericUpDown38.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown38.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown6
 			// 
@@ -1327,7 +1327,7 @@ namespace LightController
 			this.numericUpDown37.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown37.TabIndex = 11;
 			this.numericUpDown37.Visible = false;
-			this.numericUpDown37.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown37.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown5
 			// 
@@ -1358,7 +1358,7 @@ namespace LightController
 			this.numericUpDown36.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown36.TabIndex = 11;
 			this.numericUpDown36.Visible = false;
-			this.numericUpDown36.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown36.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown4
 			// 
@@ -1389,7 +1389,7 @@ namespace LightController
 			this.numericUpDown35.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown35.TabIndex = 11;
 			this.numericUpDown35.Visible = false;
-			this.numericUpDown35.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown35.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown3
 			// 
@@ -1420,7 +1420,7 @@ namespace LightController
 			this.numericUpDown34.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown34.TabIndex = 11;
 			this.numericUpDown34.Visible = false;
-			this.numericUpDown34.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown34.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown2
 			// 
@@ -1451,7 +1451,7 @@ namespace LightController
 			this.numericUpDown33.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown33.TabIndex = 11;
 			this.numericUpDown33.Visible = false;
-			this.numericUpDown33.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown33.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// numericUpDown1
 			// 
@@ -1950,7 +1950,7 @@ namespace LightController
 			this.numericUpDown64.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown64.TabIndex = 11;
 			this.numericUpDown64.Visible = false;
-			this.numericUpDown64.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown64.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox30
 			// 
@@ -2032,7 +2032,7 @@ namespace LightController
 			this.numericUpDown63.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown63.TabIndex = 11;
 			this.numericUpDown63.Visible = false;
-			this.numericUpDown63.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown63.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox27
 			// 
@@ -2112,7 +2112,7 @@ namespace LightController
 			this.numericUpDown62.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown62.TabIndex = 11;
 			this.numericUpDown62.Visible = false;
-			this.numericUpDown62.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown62.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox24
 			// 
@@ -2194,7 +2194,7 @@ namespace LightController
 			this.numericUpDown61.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown61.TabIndex = 11;
 			this.numericUpDown61.Visible = false;
-			this.numericUpDown61.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown61.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox21
 			// 
@@ -2274,7 +2274,7 @@ namespace LightController
 			this.numericUpDown60.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown60.TabIndex = 11;
 			this.numericUpDown60.Visible = false;
-			this.numericUpDown60.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown60.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// changeModeComboBox18
 			// 
@@ -2339,7 +2339,7 @@ namespace LightController
 			this.numericUpDown59.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown59.TabIndex = 11;
 			this.numericUpDown59.Visible = false;
-			this.numericUpDown59.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown59.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar20
 			// 
@@ -2374,7 +2374,7 @@ namespace LightController
 			this.numericUpDown58.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown58.TabIndex = 11;
 			this.numericUpDown58.Visible = false;
-			this.numericUpDown58.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown58.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// label30
 			// 
@@ -2411,7 +2411,7 @@ namespace LightController
 			this.numericUpDown57.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown57.TabIndex = 11;
 			this.numericUpDown57.Visible = false;
-			this.numericUpDown57.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown57.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar21
 			// 
@@ -2446,7 +2446,7 @@ namespace LightController
 			this.numericUpDown56.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown56.TabIndex = 11;
 			this.numericUpDown56.Visible = false;
-			this.numericUpDown56.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown56.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar22
 			// 
@@ -2481,7 +2481,7 @@ namespace LightController
 			this.numericUpDown55.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown55.TabIndex = 11;
 			this.numericUpDown55.Visible = false;
-			this.numericUpDown55.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown55.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// label29
 			// 
@@ -2518,7 +2518,7 @@ namespace LightController
 			this.numericUpDown54.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown54.TabIndex = 11;
 			this.numericUpDown54.Visible = false;
-			this.numericUpDown54.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown54.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar23
 			// 
@@ -2553,7 +2553,7 @@ namespace LightController
 			this.numericUpDown53.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown53.TabIndex = 11;
 			this.numericUpDown53.Visible = false;
-			this.numericUpDown53.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown53.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar24
 			// 
@@ -2588,7 +2588,7 @@ namespace LightController
 			this.numericUpDown52.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown52.TabIndex = 11;
 			this.numericUpDown52.Visible = false;
-			this.numericUpDown52.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown52.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar25
 			// 
@@ -2623,7 +2623,7 @@ namespace LightController
 			this.numericUpDown51.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown51.TabIndex = 11;
 			this.numericUpDown51.Visible = false;
-			this.numericUpDown51.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown51.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// label28
 			// 
@@ -2660,7 +2660,7 @@ namespace LightController
 			this.numericUpDown50.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown50.TabIndex = 11;
 			this.numericUpDown50.Visible = false;
-			this.numericUpDown50.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown50.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar26
 			// 
@@ -2695,7 +2695,7 @@ namespace LightController
 			this.numericUpDown49.Size = new System.Drawing.Size(38, 19);
 			this.numericUpDown49.TabIndex = 11;
 			this.numericUpDown49.Visible = false;
-			this.numericUpDown49.ValueChanged += new System.EventHandler(this.stepNumericUpDown_ValueChanged);
+			this.numericUpDown49.ValueChanged += new System.EventHandler(this.stepTimeNumericUpDown_ValueChanged);
 			// 
 			// vScrollBar27
 			// 

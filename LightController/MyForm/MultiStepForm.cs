@@ -81,24 +81,19 @@ namespace LightController.MyForm
 			endNumericUpDown.Maximum = totalStep;
 			endNumericUpDown.Value = totalStep;
 
+			this.commonChangeModeComboBox.Items.Add("跳变");
+			this.commonChangeModeComboBox.Items.Add("渐变");
+			this.commonChangeModeComboBox.Items.Add("屏蔽");
+			this.commonChangeModeComboBox.SelectedIndex = 0;
+
 			if (mode == 0)
 			{
 				modeLabel.Text = "当前模式：常规模式";
-				this.commonChangeModeComboBox.Items.Add("跳变");
-				this.commonChangeModeComboBox.Items.Add("渐变");
-				this.commonChangeModeComboBox.Items.Add("屏蔽");
-				this.commonChangeModeComboBox.SelectedIndex = 0;
+
 			}
 			else {
-				modeLabel.Text = "当前模式：音频模式";
-
-				this.commonChangeModeSkinButton.Text = "是否声控" ; 
-				this.commonChangeModeComboBox.Items.Add("否");
-				this.commonChangeModeComboBox.Items.Add("是");				
-				this.commonChangeModeComboBox.SelectedIndex = 0;
-
-				// 音频模式下：《全部屏蔽》、及步时间调整值都隐藏。
-				IgnoreSkinButton.Hide();
+				modeLabel.Text = "当前模式：音频模式";			
+				// 音频模式下：《步时间调整值》两个按钮隐藏。
 				commonStepTimetNumericUpDown.Hide();
 				commonStepTimeSkinButton.Hide();
 			}

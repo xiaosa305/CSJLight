@@ -24,8 +24,9 @@ namespace LightController.Tools
         public const int PACKAGEHEAD_SIZE = 8;
         public const int TIMEOUT = 2000;
         public const int HIDDEN = 2;
-        public const int MUSIC_CONTROL_ON = 1;
-        public const int MUSIC_CONTROL_OFF = 0;
+        public const int MUSIC_CONTROL_GRADUAL = 1;
+        public const int MUSIC_CONTROL_JUMP = 0;
+        public const int MUSIC_CONTROL_OFF = 2;
         public const string UDP_ORDER = "UdpBroadCast";
         public const string RECEIVE_ORDER_BEGIN_OK = "Ok";
         public const string RECEIVE_ORDER_BEGIN_ERROR = "Error";

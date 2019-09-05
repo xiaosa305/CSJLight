@@ -355,7 +355,6 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
         {
             this.IsMusicControl = false;

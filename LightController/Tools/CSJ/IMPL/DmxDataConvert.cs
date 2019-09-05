@@ -183,7 +183,6 @@ namespace LightController.Tools.CSJ.IMPL
                         }
                     }
                 }
-                //flag = 0;
                 if (2 == flag)
                 {
                     foreach (DB_FineTune fineTune in Wrapper.fineTuneList)
@@ -362,16 +361,160 @@ namespace LightController.Tools.CSJ.IMPL
             }
             file.StepList = stepList;
             file.StepListCount = file.StepList.Count;
+            //foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
+            //{
+            //    ChannelData channelData = new ChannelData()
+            //    {
+            //        ChannelNo = item.ChannelNo,
+            //    };
+            //    channelData.Datas = item.StepValues.ToList();
+            //    channelData.DataSize = channelData.Datas.Count;
+            //    channelDatas.Add(channelData);
+            //}
             foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
             {
+                int flag = 0;
+                int mainIndex = 0;
+                List<int> datas = new List<int>();
+                int stepValue;
+                int isGradualChange;
+                int startValue;
+                int rate = 255;
                 ChannelData channelData = new ChannelData()
                 {
-                    ChannelNo = item.ChannelNo,
+                    ChannelNo = item.ChannelNo
                 };
-                channelData.Datas = item.StepValues.ToList();
+                if (null != Wrapper.fineTuneList)
+                {
+                    foreach (DB_FineTune fineTune in Wrapper.fineTuneList)
+                    {
+                        if (fineTune.MainIndex == channelData.ChannelNo)
+                        {
+                            flag = 1;
+                        }
+                        else if (fineTune.FineTuneIndex == channelData.ChannelNo)
+                        {
+                            flag = 2;
+                            rate = fineTune.MaxValue;
+                            if (rate == 0)
+                            {
+                                rate = 255;
+                            }
+                        }
+                    }
+                }
+                if (2 == flag)
+                {
+                    foreach (DB_FineTune fineTune in Wrapper.fineTuneList)
+                    {
+                        if (fineTune.FineTuneIndex == channelData.ChannelNo)
+                        {
+                            mainIndex = fineTune.MainIndex;
+                        }
+                    }
+                    if (mainIndex != 0)
+                    {
+                        foreach (CSJ_ChannelData cSJ_Channel in sceneData.ChannelDatas)
+                        {
+                            if (mainIndex == cSJ_Channel.ChannelNo)
+                            {
+                                datas.Add(0);
+                                startValue = cSJ_Channel.StepValues[0];
+                                for (int step = 1; step < cSJ_Channel.StepCount + 1; step++)
+                                {
+                                    if (step == cSJ_Channel.StepCount)
+                                    {
+                                        stepValue = cSJ_Channel.StepValues[0];
+                                        isGradualChange = cSJ_Channel.IsGradualChange[0];
+                                    }
+                                    else
+                                    {
+                                        stepValue = cSJ_Channel.StepValues[step];
+                                        isGradualChange = cSJ_Channel.IsGradualChange[step];
+                                    }
+                                    for (int fram = 0; fram < file.FrameTime; fram++)
+                                    {
+                                        if (step == cSJ_Channel.StepCount && fram == file.FrameTime - 1)
+                                        {
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            if (isGradualChange == Constant.MODE_GRADUAL)
+                                            {
+                                                float inc = (stepValue - startValue) / (float)file.FrameTime;
+                                                float value = startValue + inc * (fram + 1);
+                                                int intValue = (int)Math.Floor(value * 256);
+                                                if (rate == 1)
+                                                {
+                                                    intValue = (int)((intValue & 0xFF) / (255.0 / rate));
+                                                    datas.Add(intValue);
+                                                }
+                                                else
+                                                {
+                                                    datas.Add(intValue & 0xFF);
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                datas.Add(0);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    startValue = stepValue;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    startValue = item.StepValues[0];
+                    datas.Add(startValue);
+                    for (int step = 1; step < item.StepCount + 1; step++)
+                    {
+                        if (step == item.StepCount)
+                        {
+                            stepValue = item.StepValues[0];
+                            isGradualChange = item.IsGradualChange[0];
+                        }
+                        else
+                        {
+                            stepValue = item.StepValues[step];
+                            isGradualChange = item.IsGradualChange[step];
+                        }
+                        for (int fram = 0; fram < file.FrameTime; fram++)
+                        {
+                            if (step == item.StepCount && fram == file.FrameTime - 1)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (isGradualChange == Constant.MODE_GRADUAL)
+                                {
+                                    float inc = (stepValue - startValue) / (float)file.FrameTime;
+                                    float value = startValue + inc * (fram + 1);
+                                    int intValue = (int)Math.Floor(value * 256);
+                                    datas.Add((intValue >> 8) & 0xFF);
+                                }
+                                else
+                                {
+                                    datas.Add(stepValue);
+                                    break;
+                                }
+                            }
+                        }
+                        startValue = stepValue;
+                    }
+                }
+                channelData.Datas = datas;
                 channelData.DataSize = channelData.Datas.Count;
                 channelDatas.Add(channelData);
             }
+            //****************************
             file.ChannelDatas = channelDatas;
             return file;
         }
@@ -435,13 +578,13 @@ namespace LightController.Tools.CSJ.IMPL
                     {
                         if (value.ChangeMode != Constant.HIDDEN)
                         {
-                            if (mode == Constant.MODE_M)
-                            {
-                                if (value.ChangeMode == Constant.MUSIC_CONTROL_OFF)
-                                {
-                                    continue;
-                                }
-                            }
+                            //if (mode == Constant.MODE_M)
+                            //{
+                            //    if (value.ChangeMode == Constant.MUSIC_CONTROL_OFF)
+                            //    {
+                            //        continue;
+                            //    }
+                            //}
                             isGradualChange.Add(value.ChangeMode);
                             stepTimes.Add(value.StepTime);
                             stepValues.Add(value.ScrollValue);

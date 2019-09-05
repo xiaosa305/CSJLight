@@ -10,10 +10,13 @@ namespace LightController.Tools.CSJ
 {
     public abstract class ICommunicator
     {
+        protected const int ORDER = 1;
+        protected const int DATA = 2;
         protected bool IsSending { get; set; }//发送状态标记
         protected bool IsReceive { get; set; }//接收状态标记
         protected bool IsTimeOutThreadStart { get; set; }//超时执行启动状态标记
         protected bool DownloadStatus { get; set; }//下载状态标记
+        protected int OrderOrData { get; set; }//当前数据包类型
         protected int DownloadFileToTalSize { get; set; }//工程项目文件总大小
         protected int CurrentDownloadCompletedSize { get; set; }//当前文件大小
         protected int TimeOutCount { get; set; }//超时计数

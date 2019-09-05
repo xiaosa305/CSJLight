@@ -1185,7 +1185,7 @@ namespace LightController.MyForm
 			this.lightsSkinListView.MultiSelect = false;
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 161);
+			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 174);
 			this.lightsSkinListView.TabIndex = 9;
 			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
 			this.lightsSkinListView.SelectedIndexChanged += new System.EventHandler(this.lightsSkinListView_SelectedIndexChanged);
@@ -1270,9 +1270,9 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Controls.Add(this.initSkinButton);
 			this.tdCommonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tdCommonPanel.Enabled = false;
-			this.tdCommonPanel.Location = new System.Drawing.Point(0, 304);
+			this.tdCommonPanel.Location = new System.Drawing.Point(0, 290);
 			this.tdCommonPanel.Name = "tdCommonPanel";
-			this.tdCommonPanel.Size = new System.Drawing.Size(246, 294);
+			this.tdCommonPanel.Size = new System.Drawing.Size(246, 308);
 			this.tdCommonPanel.TabIndex = 29;
 			// 
 			// commonStepTimeSkinButton
@@ -1509,11 +1509,11 @@ namespace LightController.MyForm
 			this.tdCommonLabelSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.tdCommonLabelSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tdCommonLabelSkinPanel.DownBack = null;
-			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 277);
+			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 264);
 			this.tdCommonLabelSkinPanel.MouseBack = null;
 			this.tdCommonLabelSkinPanel.Name = "tdCommonLabelSkinPanel";
 			this.tdCommonLabelSkinPanel.NormlBack = null;
-			this.tdCommonLabelSkinPanel.Size = new System.Drawing.Size(246, 27);
+			this.tdCommonLabelSkinPanel.Size = new System.Drawing.Size(246, 26);
 			this.tdCommonLabelSkinPanel.TabIndex = 2;
 			// 
 			// tytzLabel
@@ -1540,7 +1540,7 @@ namespace LightController.MyForm
 			this.lightInfoSkinPanel.MouseBack = null;
 			this.lightInfoSkinPanel.Name = "lightInfoSkinPanel";
 			this.lightInfoSkinPanel.NormlBack = null;
-			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 277);
+			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 264);
 			this.lightInfoSkinPanel.TabIndex = 0;
 			// 
 			// lightAddrSkinLabel
@@ -1550,7 +1550,7 @@ namespace LightController.MyForm
 			this.lightAddrSkinLabel.BorderColor = System.Drawing.Color.White;
 			this.lightAddrSkinLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightAddrSkinLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightAddrSkinLabel.Location = new System.Drawing.Point(32, 244);
+			this.lightAddrSkinLabel.Location = new System.Drawing.Point(32, 239);
 			this.lightAddrSkinLabel.Name = "lightAddrSkinLabel";
 			this.lightAddrSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightAddrSkinLabel.TabIndex = 2;
@@ -1562,7 +1562,7 @@ namespace LightController.MyForm
 			this.lightTypeSkinLabel.BorderColor = System.Drawing.Color.White;
 			this.lightTypeSkinLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeSkinLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeSkinLabel.Location = new System.Drawing.Point(32, 211);
+			this.lightTypeSkinLabel.Location = new System.Drawing.Point(32, 206);
 			this.lightTypeSkinLabel.Name = "lightTypeSkinLabel";
 			this.lightTypeSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightTypeSkinLabel.TabIndex = 2;
@@ -1574,7 +1574,7 @@ namespace LightController.MyForm
 			this.lightNameSkinLabel.BorderColor = System.Drawing.Color.White;
 			this.lightNameSkinLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightNameSkinLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightNameSkinLabel.Location = new System.Drawing.Point(32, 178);
+			this.lightNameSkinLabel.Location = new System.Drawing.Point(32, 173);
 			this.lightNameSkinLabel.Name = "lightNameSkinLabel";
 			this.lightNameSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightNameSkinLabel.TabIndex = 2;
@@ -1637,7 +1637,7 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.stepSkinPanel.DownBack = null;
 			this.stepSkinPanel.Enabled = false;
-			this.stepSkinPanel.Location = new System.Drawing.Point(123, 272);
+			this.stepSkinPanel.Location = new System.Drawing.Point(123, 285);
 			this.stepSkinPanel.MouseBack = null;
 			this.stepSkinPanel.Name = "stepSkinPanel";
 			this.stepSkinPanel.NormlBack = null;
@@ -2108,7 +2108,7 @@ namespace LightController.MyForm
 			this.tdSkinFlowLayoutPanel.MouseBack = null;
 			this.tdSkinFlowLayoutPanel.Name = "tdSkinFlowLayoutPanel";
 			this.tdSkinFlowLayoutPanel.NormlBack = null;
-			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(969, 315);
+			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(969, 302);
 			this.tdSkinFlowLayoutPanel.TabIndex = 27;
 			this.tdSkinFlowLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.tdSkinFlowLayoutPanel_Paint);
 			// 
@@ -5608,11 +5608,11 @@ namespace LightController.MyForm
 			this.tdTableLayoutPanel.Controls.Add(this.tdSkinFlowLayoutPanel, 1, 0);
 			this.tdTableLayoutPanel.Controls.Add(this.labelAstPanel, 0, 0);
 			this.tdTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tdTableLayoutPanel.Location = new System.Drawing.Point(123, 388);
+			this.tdTableLayoutPanel.Location = new System.Drawing.Point(123, 401);
 			this.tdTableLayoutPanel.Name = "tdTableLayoutPanel";
 			this.tdTableLayoutPanel.RowCount = 1;
 			this.tdTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tdTableLayoutPanel.Size = new System.Drawing.Size(1055, 321);
+			this.tdTableLayoutPanel.Size = new System.Drawing.Size(1055, 308);
 			this.tdTableLayoutPanel.TabIndex = 28;
 			// 
 			// labelAstPanel
@@ -5621,7 +5621,7 @@ namespace LightController.MyForm
 			this.labelAstPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelAstPanel.Location = new System.Drawing.Point(3, 3);
 			this.labelAstPanel.Name = "labelAstPanel";
-			this.labelAstPanel.Size = new System.Drawing.Size(74, 315);
+			this.labelAstPanel.Size = new System.Drawing.Size(74, 302);
 			this.labelAstPanel.TabIndex = 28;
 			// 
 			// labelFlowLayoutPanel
@@ -5634,7 +5634,7 @@ namespace LightController.MyForm
 			this.labelFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.labelFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.labelFlowLayoutPanel.Name = "labelFlowLayoutPanel";
-			this.labelFlowLayoutPanel.Size = new System.Drawing.Size(112, 315);
+			this.labelFlowLayoutPanel.Size = new System.Drawing.Size(112, 302);
 			this.labelFlowLayoutPanel.TabIndex = 0;
 			// 
 			// labelPanel1

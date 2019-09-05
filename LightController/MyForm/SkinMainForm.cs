@@ -1245,26 +1245,26 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
 
-			if (isInit)
-			{
-				// 3.（6.29修改）若当前模式是声控模式：
-				//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
-				if (mode == 1)
-				{
-					IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
-					foreach (StepWrapper stepWrapper in stepWrapperList)
-					{
-						stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
-					}
-				}
+			//if (isInit)
+			//{
+			//	// 3.（6.29修改）若当前模式是声控模式：
+			//	//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
+			//	if (mode == 1)
+			//	{
+			//		IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+			//		foreach (StepWrapper stepWrapper in stepWrapperList)
+			//		{
+			//			stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
+			//		}
+			//	}
 
-				// 4.(8.8新增判断）若当前模式是普通模式：
-				//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
-				//else
-				//{
-				//	enableTongdaoEdit(index, tdChangeModeSkinComboBoxes[index].SelectedIndex != 2);
-				//}
-			}
+			//	// 4.(8.8新增判断）若当前模式是普通模式：
+			//	//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
+			//	//else
+			//	//{
+			//	//	enableTongdaoEdit(index, tdChangeModeSkinComboBoxes[index].SelectedIndex != 2);
+			//	//}
+			//}
 		}
 
 		/// <summary>

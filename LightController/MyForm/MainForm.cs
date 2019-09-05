@@ -239,6 +239,9 @@ namespace LightController
 			}
 
 			for (int i = 0; i < 32; i++) {
+				changeModeComboBoxes[i].Items.Clear();
+				changeModeComboBoxes[i].Items.AddRange(new object[]{"跳变","渐变","屏蔽"});
+
 				// 弃用此监听器：因为用鼠标拖动松开时，会额外多调节一些数值。=》改成使用valueChanged方法
 				//vScrollBars[i].Scroll += new System.Windows.Forms.ScrollEventHandler(this.valueVScrollBar_Scroll_old);
 				vScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
@@ -978,19 +981,24 @@ namespace LightController
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex ;
-
-			// 3.（6.29修改）若当前模式是声控模式：
-			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
-			if (isInit && mode == 1) {
-				IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
-				foreach (StepWrapper stepWrapper in stepWrapperList) {
-					stepWrapper.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex;
+		
+			if (isInit)
+			{
+				// 3.（6.29修改）若当前模式是声控模式：
+				//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
+				if ( mode == 1)
+				{
+					IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+					foreach (StepWrapper stepWrapper in stepWrapperList)
+					{
+						stepWrapper.TongdaoList[index].ChangeMode = changeModeComboBoxes[index].SelectedIndex;
+					}
 				}
-			}
-			// 4.(8.8新增判断）若当前模式是普通模式：
-			//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
-			else{
-				enableTongdaoEdit(index,changeModeComboBoxes[index].SelectedIndex != 2) ;
+				// 4.(8.8新增判断）若当前模式是普通模式：
+				//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
+				//else{
+				//	enableTongdaoEdit(index,changeModeComboBoxes[index].SelectedIndex != 2) ;
+				//}
 			}
 		}
 
@@ -1002,7 +1010,6 @@ namespace LightController
 		/// <param name="shielded">是否被屏蔽</param>
 		private void enableTongdaoEdit(int tongdaoIndex,bool shielded)
 		{
-			//MessageBox.Show("Dickov:" + tongdaoIndex + " : " + shielded);
 			vScrollBars[tongdaoIndex].Enabled = shielded;
 			valueNumericUpDowns[tongdaoIndex].Enabled = shielded;
 			steptimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
@@ -1013,7 +1020,7 @@ namespace LightController
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void stepNumericUpDown_ValueChanged(object sender, EventArgs e)
+		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
 			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
@@ -1285,7 +1292,8 @@ namespace LightController
 		private void materialSaveButton_Click(object sender, EventArgs e)
 		{
 			materialForm = null;
-			materialForm = new MaterialSaveForm(this,getCurrentLightStepWrapper().StepWrapperList,mode);
+			//TODO
+			materialForm = new MaterialSaveForm(this,getCurrentLightStepWrapper().StepWrapperList,mode ,"");
 			if (materialForm != null && !materialForm.IsDisposed) {
 				materialForm.ShowDialog();
 			}

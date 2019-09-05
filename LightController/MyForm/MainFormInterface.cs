@@ -28,6 +28,7 @@ namespace LightController.MyForm
 		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密
+		protected int eachStepTime = 30;
 
 		// 数据库DAO
 		protected LightDAO lightDAO;
@@ -46,6 +47,7 @@ namespace LightController.MyForm
 				
 		// 通道数据操作时的变量
 		protected int selectedLightIndex = -1; //选择的灯具的index
+		protected string selectedLightName = "";
 		protected int frame = 0; // 0-23 表示24种场景
 		protected int mode = 0;  // 0.常规模式； 1.音频模式
 		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》
@@ -61,32 +63,7 @@ namespace LightController.MyForm
 		protected string comName; // 存储打开的DMX512串口名称
 
 		// 将所有场景名称写在此处,并供所有类使用
-		public static IList<string> allFrameList = new List<string>() {
-					"标准",
-					"动感",
-					"商务",
-					"抒情",
-					"清洁",
-					"柔和",
-					"激情",
-					"明亮",
-					"浪漫",
-					"演出",
-					"电影",
-					"备用1",
-					"备用2",
-					"备用3",
-					"备用4",
-					"备用5",
-					"备用6",
-					"暂停",
-					"全关",
-					"全开",
-					"全开关",
-					"摇麦",
-					"喝彩",
-					"倒彩"
-		};		
+		public static IList<string> allFrameList ;
 
 		/// <summary>
 		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
@@ -105,6 +82,9 @@ namespace LightController.MyForm
 			dbFilePath = directoryPath + "\\data.db3";
 			this.Text = "智控配置(当前工程:" + projectName + ")";
 			this.isNew = isNew;
+			// 9.5 读取时间因子
+			IniFileAst iniAst = new IniFileAst(globalIniPath);
+			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
 
 			// 2.创建数据库:
 			// 因为是初始化，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；
@@ -1047,5 +1027,14 @@ namespace LightController.MyForm
 		{
 			chooseStep(getCurrentStepValue());
 		}
+
+		/// <summary>
+		/// 辅助方法：在《在全局配置》中改变了时间因子并保存后，mainForm的时间因子变量也跟着改变，同时刷新当前步
+		/// </summary>
+		public void ChangeEachStepTime(int eachStepTime) {
+			this.eachStepTime = eachStepTime;
+			refreshStep();
+		}
+
 	}
 }

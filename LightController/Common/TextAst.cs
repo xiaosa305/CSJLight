@@ -8,7 +8,12 @@ namespace LightController.Common
 {
 	public class TextAst
 	{
-		public IList<string> read(string txtPath)		{
+		/// <summary>
+		/// 静态辅助方法：读取文本文件，把每一行的文本，输出到一个IList<string>中
+		/// </summary>
+		/// <param name="txtPath"></param>
+		/// <returns></returns>
+		public static IList<string> Read(string txtPath)		{
 		
 			StreamReader srReadFile = new StreamReader(txtPath);
 			IList<string> strList = new List<string>();
@@ -23,9 +28,6 @@ namespace LightController.Common
 			srReadFile.Close();
 			return strList;
 		}
-
-
-
-
+		
 	}
 }

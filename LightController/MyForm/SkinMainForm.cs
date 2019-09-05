@@ -257,13 +257,47 @@ namespace LightController.MyForm
 			tdStepTimeNumericUpDowns[30] = tdStepTimeNumericUpDown31;
 			tdStepTimeNumericUpDowns[31] = tdStepTimeNumericUpDown32;
 
+			tdTrueTimeLabels[0] = trueTimeLabel1;
+			tdTrueTimeLabels[1] = trueTimeLabel2;
+			tdTrueTimeLabels[2] = trueTimeLabel3;
+			tdTrueTimeLabels[3] = trueTimeLabel4;
+			tdTrueTimeLabels[4] = trueTimeLabel5;
+			tdTrueTimeLabels[5] = trueTimeLabel6;
+			tdTrueTimeLabels[6] = trueTimeLabel7;
+			tdTrueTimeLabels[7] = trueTimeLabel8;
+			tdTrueTimeLabels[8] = trueTimeLabel9;
+			tdTrueTimeLabels[9] = trueTimeLabel10;
+			tdTrueTimeLabels[10] = trueTimeLabel11;
+			tdTrueTimeLabels[11] = trueTimeLabel12;
+			tdTrueTimeLabels[12] = trueTimeLabel13;
+			tdTrueTimeLabels[13] = trueTimeLabel14;
+			tdTrueTimeLabels[14] = trueTimeLabel15;
+			tdTrueTimeLabels[15] = trueTimeLabel16;
+			tdTrueTimeLabels[16] = trueTimeLabel17;
+			tdTrueTimeLabels[17] = trueTimeLabel18;
+			tdTrueTimeLabels[18] = trueTimeLabel19;
+			tdTrueTimeLabels[19] = trueTimeLabel20;
+			tdTrueTimeLabels[20] = trueTimeLabel21;
+			tdTrueTimeLabels[21] = trueTimeLabel22;
+			tdTrueTimeLabels[22] = trueTimeLabel23;
+			tdTrueTimeLabels[23] = trueTimeLabel24;
+			tdTrueTimeLabels[24] = trueTimeLabel25;
+			tdTrueTimeLabels[25] = trueTimeLabel26;
+			tdTrueTimeLabels[26] = trueTimeLabel27;
+			tdTrueTimeLabels[27] = trueTimeLabel28;
+			tdTrueTimeLabels[28] = trueTimeLabel29;
+			tdTrueTimeLabels[29] = trueTimeLabel30;
+			tdTrueTimeLabels[30] = trueTimeLabel31;
+			tdTrueTimeLabels[31] = trueTimeLabel32;
 
 
 			#endregion
 
 			#region 几个下拉框的初始化及赋值
 
-			// 场景选项框
+			//添加FramList文本中的场景列表
+			allFrameList = TextAst.Read(Application.StartupPath + @"\FrameList.txt");
+			// 场景选项框			
 			foreach (string frame in allFrameList)
 			{
 				frameSkinComboBox.Items.Add(frame);
@@ -533,7 +567,7 @@ namespace LightController.MyForm
 			{
 				// 添加灯具数据到LightsListView中
 				lightsSkinListView.Items.Add(new ListViewItem(
-					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType,
+					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType + "\n(地址:" + lightAstList2[i].LightAddr + ")",
 					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				));
 			}
@@ -559,6 +593,7 @@ namespace LightController.MyForm
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
 				selectedLightIndex = lightsSkinListView.SelectedIndices[0];
+
 				generateLightData();
 				// 这里主要是控制pasteLightButton的Enabled值
 				checkIfCanCopyLight();
@@ -577,7 +612,6 @@ namespace LightController.MyForm
 			if (selectedLightIndex == -1) {
 				return;
 			}
-
 
 			LightAst lightAst = lightAstList[selectedLightIndex];
 
@@ -629,6 +663,8 @@ namespace LightController.MyForm
 			lightNameSkinLabel.Text = "灯具厂商：" + lightAst.LightName;
 			lightTypeSkinLabel.Text = "灯具型号：" + lightAst.LightType;
 			lightAddrSkinLabel.Text = "灯具地址：" + lightAst.LightAddr;
+
+			selectedLightName = lightAst.LightName+"-" +lightAst.LightType;
 		}
 
 		#endregion
@@ -677,21 +713,12 @@ namespace LightController.MyForm
 				// 2.改变跳变渐变-->是否声控；
 				// 3.所有步时间值的调节，改为enabled=false			
 				if (mode == 1)
-				{
-					secondLabel1.Text = "是否声控";
-					secondLabel2.Text = "是否声控";
-					secondLabel3.Text = "是否声控";
+				{				
 					for (int i = 0; i < 32; i++)
 					{
-						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
-						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "否", "是" });
 						this.tdStepTimeNumericUpDowns[i].Hide();
+						this.tdTrueTimeLabels[i].Hide();
 					}
-
-					commonChangeModeSkinButton.Text = "统一声控";
-					commonChangeModeSkinComboBox.Items.Clear();
-					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "否", "是" });
-					commonChangeModeSkinComboBox.SelectedIndex = 0;
 
 					commonStepTimeNumericUpDown.Hide();
 					commonStepTimeSkinButton.Text = "修改此音频场景全局设置";
@@ -703,29 +730,15 @@ namespace LightController.MyForm
 				}
 				else //mode=0
 				{
-					secondLabel1.Text = "变化方式";
-					secondLabel2.Text = "变化方式";
-					secondLabel3.Text = "变化方式";
 					for (int i = 0; i < 32; i++)
 					{
-						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
-						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {
-								"跳变",
-								"渐变",
-								"屏蔽"
-						});
 						this.tdStepTimeNumericUpDowns[i].Show();
+						this.tdTrueTimeLabels[i].Show();
 					}
-
-					commonChangeModeSkinButton.Text = "统一跳渐变";
-					commonChangeModeSkinComboBox.Items.Clear();
-					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变","屏蔽" });
-					commonChangeModeSkinComboBox.SelectedIndex = 0;
-
+									
 					commonStepTimeNumericUpDown.Show();
 					commonStepTimeSkinButton.Text = "统一步时间";
 					commonStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);
-
 
 					thirdLabel1.Show();
 					thirdLabel2.Show();
@@ -1053,6 +1066,8 @@ namespace LightController.MyForm
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 					tdStepTimeNumericUpDowns[i].Text = tongdaoList[i].StepTime.ToString();
+					tdTrueTimeLabels[i].Text = (float) tongdaoList[i].StepTime * eachStepTime / 1000 + "s";
+
 					tdPanels[i].Show();
 				}
 				for (int i = tongdaoList.Count; i < 32; i++) {
@@ -1230,26 +1245,31 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
 
-			// 3.（6.29修改）若当前模式是声控模式：
-			//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
-			if (isInit && mode == 1)
+			if (isInit)
 			{
-				IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
-				foreach (StepWrapper stepWrapper in stepWrapperList)
+				// 3.（6.29修改）若当前模式是声控模式：
+				//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
+				if (mode == 1)
 				{
-					stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
+					IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
+					foreach (StepWrapper stepWrapper in stepWrapperList)
+					{
+						stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
+					}
 				}
-			}
-			// 4.(8.8新增判断）若当前模式是普通模式：
-			//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
-			else
-			{
-				enableTongdaoEdit(index, tdChangeModeSkinComboBoxes[index].SelectedIndex != 2);
+
+				// 4.(8.8新增判断）若当前模式是普通模式：
+				//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
+				//else
+				//{
+				//	enableTongdaoEdit(index, tdChangeModeSkinComboBoxes[index].SelectedIndex != 2);
+				//}
 			}
 		}
 
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
+		///  --9.4禁用此功能，即无论是否屏蔽，
 		/// </summary>
 		/// <param name="tongdaoIndex">tongdaoList的Index</param>
 		/// <param name="shielded">是否被屏蔽</param>
@@ -1316,6 +1336,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[index].StepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[index].Value);
+			this.tdTrueTimeLabels[index].Text = (float)step.TongdaoList[index].StepTime * eachStepTime / 1000 + "s";
 		}
 
 
@@ -1712,8 +1733,8 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
-		{
-			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode);
+		{			
+			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, selectedLightName);
 			if (materialForm != null && !materialForm.IsDisposed)
 			{
 				materialForm.ShowDialog();

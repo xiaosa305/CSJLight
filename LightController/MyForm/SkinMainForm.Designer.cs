@@ -103,6 +103,7 @@ namespace LightController.MyForm
 			this.frameLabel = new CCWin.SkinControl.SkinLabel();
 			this.tdSkinFlowLayoutPanel = new CCWin.SkinControl.SkinFlowLayoutPanel();
 			this.tdPanel1 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel1 = new System.Windows.Forms.Label();
 			this.tdNameLabel1 = new System.Windows.Forms.Label();
 			this.tdNoLabel1 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -110,6 +111,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox1 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel2 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel2 = new System.Windows.Forms.Label();
 			this.tdNameLabel2 = new System.Windows.Forms.Label();
 			this.tdNoLabel2 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown2 = new System.Windows.Forms.NumericUpDown();
@@ -117,6 +119,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown2 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox2 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel3 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel3 = new System.Windows.Forms.Label();
 			this.tdNameLabel3 = new System.Windows.Forms.Label();
 			this.tdNoLabel3 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown3 = new System.Windows.Forms.NumericUpDown();
@@ -124,6 +127,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown3 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox3 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel4 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel4 = new System.Windows.Forms.Label();
 			this.tdNameLabel4 = new System.Windows.Forms.Label();
 			this.tdNoLabel4 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown4 = new System.Windows.Forms.NumericUpDown();
@@ -131,6 +135,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown4 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox4 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel5 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel5 = new System.Windows.Forms.Label();
 			this.tdNameLabel5 = new System.Windows.Forms.Label();
 			this.tdNoLabel5 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown5 = new System.Windows.Forms.NumericUpDown();
@@ -138,6 +143,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown5 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox5 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel6 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel6 = new System.Windows.Forms.Label();
 			this.tdNameLabel6 = new System.Windows.Forms.Label();
 			this.tdNoLabel6 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown6 = new System.Windows.Forms.NumericUpDown();
@@ -145,6 +151,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown6 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox6 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel7 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel7 = new System.Windows.Forms.Label();
 			this.tdNameLabel7 = new System.Windows.Forms.Label();
 			this.tdNoLabel7 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown7 = new System.Windows.Forms.NumericUpDown();
@@ -152,6 +159,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown7 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox7 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel8 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel8 = new System.Windows.Forms.Label();
 			this.tdNameLabel8 = new System.Windows.Forms.Label();
 			this.tdNoLabel8 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown8 = new System.Windows.Forms.NumericUpDown();
@@ -159,6 +167,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown8 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox8 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel9 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel9 = new System.Windows.Forms.Label();
 			this.tdNameLabel9 = new System.Windows.Forms.Label();
 			this.tdNoLabel9 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown9 = new System.Windows.Forms.NumericUpDown();
@@ -166,6 +175,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown9 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox9 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel10 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel10 = new System.Windows.Forms.Label();
 			this.tdNameLabel10 = new System.Windows.Forms.Label();
 			this.tdNoLabel10 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown10 = new System.Windows.Forms.NumericUpDown();
@@ -173,6 +183,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown10 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox10 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel11 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel11 = new System.Windows.Forms.Label();
 			this.tdNameLabel11 = new System.Windows.Forms.Label();
 			this.tdNoLabel11 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown11 = new System.Windows.Forms.NumericUpDown();
@@ -180,6 +191,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown11 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox11 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel12 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel12 = new System.Windows.Forms.Label();
 			this.tdNameLabel12 = new System.Windows.Forms.Label();
 			this.tdNoLabel12 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown12 = new System.Windows.Forms.NumericUpDown();
@@ -187,6 +199,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown12 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox12 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel13 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel13 = new System.Windows.Forms.Label();
 			this.tdNameLabel13 = new System.Windows.Forms.Label();
 			this.tdNoLabel13 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown13 = new System.Windows.Forms.NumericUpDown();
@@ -194,6 +207,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown13 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox13 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel14 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel14 = new System.Windows.Forms.Label();
 			this.tdNameLabel14 = new System.Windows.Forms.Label();
 			this.tdNoLabel14 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown14 = new System.Windows.Forms.NumericUpDown();
@@ -201,6 +215,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown14 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox14 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel15 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel15 = new System.Windows.Forms.Label();
 			this.tdNameLabel15 = new System.Windows.Forms.Label();
 			this.tdNoLabel15 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown15 = new System.Windows.Forms.NumericUpDown();
@@ -208,6 +223,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown15 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox15 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel16 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel16 = new System.Windows.Forms.Label();
 			this.tdNameLabel16 = new System.Windows.Forms.Label();
 			this.tdNoLabel16 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown16 = new System.Windows.Forms.NumericUpDown();
@@ -215,6 +231,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown16 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox16 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel17 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel17 = new System.Windows.Forms.Label();
 			this.tdNameLabel17 = new System.Windows.Forms.Label();
 			this.tdNoLabel17 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown17 = new System.Windows.Forms.NumericUpDown();
@@ -222,6 +239,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown17 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox17 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel18 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel18 = new System.Windows.Forms.Label();
 			this.tdNameLabel18 = new System.Windows.Forms.Label();
 			this.tdNoLabel18 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown18 = new System.Windows.Forms.NumericUpDown();
@@ -229,6 +247,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown18 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox18 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel19 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel19 = new System.Windows.Forms.Label();
 			this.tdNameLabel19 = new System.Windows.Forms.Label();
 			this.tdNoLabel19 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown19 = new System.Windows.Forms.NumericUpDown();
@@ -236,6 +255,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown19 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox19 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel20 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel20 = new System.Windows.Forms.Label();
 			this.tdNameLabel20 = new System.Windows.Forms.Label();
 			this.tdNoLabel20 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown20 = new System.Windows.Forms.NumericUpDown();
@@ -243,6 +263,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown20 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox20 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel21 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel21 = new System.Windows.Forms.Label();
 			this.tdNameLabel21 = new System.Windows.Forms.Label();
 			this.tdNoLabel21 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown21 = new System.Windows.Forms.NumericUpDown();
@@ -250,6 +271,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown21 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox21 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel22 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel22 = new System.Windows.Forms.Label();
 			this.tdNameLabel22 = new System.Windows.Forms.Label();
 			this.tdNoLabel22 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown22 = new System.Windows.Forms.NumericUpDown();
@@ -257,6 +279,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown22 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox22 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel23 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel23 = new System.Windows.Forms.Label();
 			this.tdNameLabel23 = new System.Windows.Forms.Label();
 			this.tdNoLabel23 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown23 = new System.Windows.Forms.NumericUpDown();
@@ -264,6 +287,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown23 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox23 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel24 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel24 = new System.Windows.Forms.Label();
 			this.tdNameLabel24 = new System.Windows.Forms.Label();
 			this.tdNoLabel24 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown24 = new System.Windows.Forms.NumericUpDown();
@@ -271,6 +295,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown24 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox24 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel25 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel25 = new System.Windows.Forms.Label();
 			this.tdNameLabel25 = new System.Windows.Forms.Label();
 			this.tdNoLabel25 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown25 = new System.Windows.Forms.NumericUpDown();
@@ -278,6 +303,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown25 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox25 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel26 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel26 = new System.Windows.Forms.Label();
 			this.tdNameLabel26 = new System.Windows.Forms.Label();
 			this.tdNoLabel26 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown26 = new System.Windows.Forms.NumericUpDown();
@@ -285,6 +311,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown26 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox26 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel27 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel27 = new System.Windows.Forms.Label();
 			this.tdNameLabel27 = new System.Windows.Forms.Label();
 			this.tdNoLabel27 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown27 = new System.Windows.Forms.NumericUpDown();
@@ -292,6 +319,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown27 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox27 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel28 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel28 = new System.Windows.Forms.Label();
 			this.tdNameLabel28 = new System.Windows.Forms.Label();
 			this.tdNoLabel28 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown28 = new System.Windows.Forms.NumericUpDown();
@@ -299,6 +327,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown28 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox28 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel29 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel29 = new System.Windows.Forms.Label();
 			this.tdNameLabel29 = new System.Windows.Forms.Label();
 			this.tdNoLabel29 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown29 = new System.Windows.Forms.NumericUpDown();
@@ -306,6 +335,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown29 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox29 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel30 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel30 = new System.Windows.Forms.Label();
 			this.tdNameLabel30 = new System.Windows.Forms.Label();
 			this.tdNoLabel30 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown30 = new System.Windows.Forms.NumericUpDown();
@@ -313,6 +343,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown30 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox30 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel31 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel31 = new System.Windows.Forms.Label();
 			this.tdNameLabel31 = new System.Windows.Forms.Label();
 			this.tdNoLabel31 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown31 = new System.Windows.Forms.NumericUpDown();
@@ -320,6 +351,7 @@ namespace LightController.MyForm
 			this.tdValueNumericUpDown31 = new System.Windows.Forms.NumericUpDown();
 			this.tdChangeModeSkinComboBox31 = new CCWin.SkinControl.SkinComboBox();
 			this.tdPanel32 = new System.Windows.Forms.Panel();
+			this.trueTimeLabel32 = new System.Windows.Forms.Label();
 			this.tdNameLabel32 = new System.Windows.Forms.Label();
 			this.tdNoLabel32 = new CCWin.SkinControl.SkinLabel();
 			this.tdStepTimeNumericUpDown32 = new System.Windows.Forms.NumericUpDown();
@@ -534,7 +566,7 @@ namespace LightController.MyForm
 			this.menuSkinPanel.MouseBack = null;
 			this.menuSkinPanel.Name = "menuSkinPanel";
 			this.menuSkinPanel.NormlBack = null;
-			this.menuSkinPanel.Size = new System.Drawing.Size(1425, 111);
+			this.menuSkinPanel.Size = new System.Drawing.Size(1424, 111);
 			this.menuSkinPanel.TabIndex = 5;
 			// 
 			// otherToolsSkinButton
@@ -609,7 +641,7 @@ namespace LightController.MyForm
 			this.exitSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.exitSkinButton.InheritColor = true;
 			this.exitSkinButton.IsDrawBorder = false;
-			this.exitSkinButton.Location = new System.Drawing.Point(1328, 2);
+			this.exitSkinButton.Location = new System.Drawing.Point(1327, 2);
 			this.exitSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.exitSkinButton.MouseBack = null;
 			this.exitSkinButton.Name = "exitSkinButton";
@@ -762,6 +794,7 @@ namespace LightController.MyForm
 			// 
 			// skinPanel2
 			// 
+			this.skinPanel2.AutoScroll = true;
 			this.skinPanel2.BackColor = System.Drawing.Color.Transparent;
 			this.skinPanel2.BorderColor = System.Drawing.Color.LightGray;
 			this.skinPanel2.Controls.Add(this.comSkinComboBox);
@@ -778,7 +811,7 @@ namespace LightController.MyForm
 			this.skinPanel2.MouseBack = null;
 			this.skinPanel2.Name = "skinPanel2";
 			this.skinPanel2.NormlBack = null;
-			this.skinPanel2.Size = new System.Drawing.Size(123, 611);
+			this.skinPanel2.Size = new System.Drawing.Size(123, 598);
 			this.skinPanel2.TabIndex = 6;
 			// 
 			// comSkinComboBox
@@ -942,11 +975,11 @@ namespace LightController.MyForm
 			this.playSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.playSkinPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.playSkinPanel.DownBack = null;
-			this.playSkinPanel.Location = new System.Drawing.Point(0, 722);
+			this.playSkinPanel.Location = new System.Drawing.Point(0, 709);
 			this.playSkinPanel.MouseBack = null;
 			this.playSkinPanel.Name = "playSkinPanel";
 			this.playSkinPanel.NormlBack = null;
-			this.playSkinPanel.Size = new System.Drawing.Size(1425, 139);
+			this.playSkinPanel.Size = new System.Drawing.Size(1424, 132);
 			this.playSkinPanel.TabIndex = 8;
 			// 
 			// playPanel
@@ -958,9 +991,9 @@ namespace LightController.MyForm
 			this.playPanel.Controls.Add(this.realtimeSkinButton);
 			this.playPanel.Controls.Add(this.previewSkinButton);
 			this.playPanel.Controls.Add(this.endviewSkinButton);
-			this.playPanel.Location = new System.Drawing.Point(206, 13);
+			this.playPanel.Location = new System.Drawing.Point(206, 7);
 			this.playPanel.Name = "playPanel";
-			this.playPanel.Size = new System.Drawing.Size(973, 126);
+			this.playPanel.Size = new System.Drawing.Size(973, 116);
 			this.playPanel.TabIndex = 13;
 			this.playPanel.Visible = false;
 			// 
@@ -982,7 +1015,7 @@ namespace LightController.MyForm
 			this.connectSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.connectSkinButton.InheritColor = true;
 			this.connectSkinButton.IsDrawBorder = false;
-			this.connectSkinButton.Location = new System.Drawing.Point(54, 16);
+			this.connectSkinButton.Location = new System.Drawing.Point(54, 7);
 			this.connectSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectSkinButton.MouseBack = null;
 			this.connectSkinButton.Name = "connectSkinButton";
@@ -1010,7 +1043,7 @@ namespace LightController.MyForm
 			this.oneLightOneStepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.oneLightOneStepSkinButton.InheritColor = true;
 			this.oneLightOneStepSkinButton.IsDrawBorder = false;
-			this.oneLightOneStepSkinButton.Location = new System.Drawing.Point(364, 16);
+			this.oneLightOneStepSkinButton.Location = new System.Drawing.Point(364, 7);
 			this.oneLightOneStepSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.oneLightOneStepSkinButton.MouseBack = null;
 			this.oneLightOneStepSkinButton.Name = "oneLightOneStepSkinButton";
@@ -1039,7 +1072,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.makeSoundSkinButton.InheritColor = true;
 			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(674, 16);
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(674, 7);
 			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundSkinButton.MouseBack = null;
 			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
@@ -1068,7 +1101,7 @@ namespace LightController.MyForm
 			this.realtimeSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.realtimeSkinButton.InheritColor = true;
 			this.realtimeSkinButton.IsDrawBorder = false;
-			this.realtimeSkinButton.Location = new System.Drawing.Point(209, 16);
+			this.realtimeSkinButton.Location = new System.Drawing.Point(209, 7);
 			this.realtimeSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.realtimeSkinButton.MouseBack = null;
 			this.realtimeSkinButton.Name = "realtimeSkinButton";
@@ -1097,7 +1130,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.previewSkinButton.InheritColor = true;
 			this.previewSkinButton.IsDrawBorder = false;
-			this.previewSkinButton.Location = new System.Drawing.Point(519, 16);
+			this.previewSkinButton.Location = new System.Drawing.Point(519, 7);
 			this.previewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewSkinButton.MouseBack = null;
 			this.previewSkinButton.Name = "previewSkinButton";
@@ -1126,7 +1159,7 @@ namespace LightController.MyForm
 			this.endviewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.endviewSkinButton.InheritColor = true;
 			this.endviewSkinButton.IsDrawBorder = false;
-			this.endviewSkinButton.Location = new System.Drawing.Point(829, 16);
+			this.endviewSkinButton.Location = new System.Drawing.Point(829, 7);
 			this.endviewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.endviewSkinButton.MouseBack = null;
 			this.endviewSkinButton.Name = "endviewSkinButton";
@@ -1152,7 +1185,7 @@ namespace LightController.MyForm
 			this.lightsSkinListView.MultiSelect = false;
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.Size = new System.Drawing.Size(1056, 176);
+			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 161);
 			this.lightsSkinListView.TabIndex = 9;
 			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
 			this.lightsSkinListView.SelectedIndexChanged += new System.EventHandler(this.lightsSkinListView_SelectedIndexChanged);
@@ -1215,15 +1248,16 @@ namespace LightController.MyForm
 			this.detailSkinPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.detailSkinPanel.DownBack = null;
 			this.detailSkinPanel.ForeColor = System.Drawing.Color.White;
-			this.detailSkinPanel.Location = new System.Drawing.Point(1179, 111);
+			this.detailSkinPanel.Location = new System.Drawing.Point(1178, 111);
 			this.detailSkinPanel.MouseBack = null;
 			this.detailSkinPanel.Name = "detailSkinPanel";
 			this.detailSkinPanel.NormlBack = null;
-			this.detailSkinPanel.Size = new System.Drawing.Size(246, 611);
+			this.detailSkinPanel.Size = new System.Drawing.Size(246, 598);
 			this.detailSkinPanel.TabIndex = 10;
 			// 
 			// tdCommonPanel
 			// 
+			this.tdCommonPanel.AutoScroll = true;
 			this.tdCommonPanel.Controls.Add(this.commonStepTimeSkinButton);
 			this.tdCommonPanel.Controls.Add(this.commonStepTimeNumericUpDown);
 			this.tdCommonPanel.Controls.Add(this.commonChangeModeSkinComboBox);
@@ -1236,9 +1270,9 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Controls.Add(this.initSkinButton);
 			this.tdCommonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tdCommonPanel.Enabled = false;
-			this.tdCommonPanel.Location = new System.Drawing.Point(0, 319);
+			this.tdCommonPanel.Location = new System.Drawing.Point(0, 304);
 			this.tdCommonPanel.Name = "tdCommonPanel";
-			this.tdCommonPanel.Size = new System.Drawing.Size(246, 292);
+			this.tdCommonPanel.Size = new System.Drawing.Size(246, 294);
 			this.tdCommonPanel.TabIndex = 29;
 			// 
 			// commonStepTimeSkinButton
@@ -1257,7 +1291,7 @@ namespace LightController.MyForm
 			this.commonStepTimeSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.commonStepTimeSkinButton.InheritColor = true;
 			this.commonStepTimeSkinButton.IsDrawBorder = false;
-			this.commonStepTimeSkinButton.Location = new System.Drawing.Point(34, 246);
+			this.commonStepTimeSkinButton.Location = new System.Drawing.Point(32, 215);
 			this.commonStepTimeSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.commonStepTimeSkinButton.MouseBack = null;
 			this.commonStepTimeSkinButton.Name = "commonStepTimeSkinButton";
@@ -1273,7 +1307,7 @@ namespace LightController.MyForm
 			// commonStepTimeNumericUpDown
 			// 
 			this.commonStepTimeNumericUpDown.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.commonStepTimeNumericUpDown.Location = new System.Drawing.Point(158, 252);
+			this.commonStepTimeNumericUpDown.Location = new System.Drawing.Point(156, 221);
 			this.commonStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonStepTimeNumericUpDown.Maximum = new decimal(new int[] {
             254,
@@ -1297,7 +1331,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.commonChangeModeSkinComboBox.Location = new System.Drawing.Point(158, 208);
+			this.commonChangeModeSkinComboBox.Location = new System.Drawing.Point(156, 177);
 			this.commonChangeModeSkinComboBox.Name = "commonChangeModeSkinComboBox";
 			this.commonChangeModeSkinComboBox.Size = new System.Drawing.Size(66, 22);
 			this.commonChangeModeSkinComboBox.TabIndex = 26;
@@ -1319,12 +1353,12 @@ namespace LightController.MyForm
 			this.zeroSkinButton.ImageSize = new System.Drawing.Size(40, 40);
 			this.zeroSkinButton.InheritColor = true;
 			this.zeroSkinButton.IsDrawBorder = false;
-			this.zeroSkinButton.Location = new System.Drawing.Point(28, 21);
+			this.zeroSkinButton.Location = new System.Drawing.Point(26, 10);
 			this.zeroSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.zeroSkinButton.MouseBack = null;
 			this.zeroSkinButton.Name = "zeroSkinButton";
 			this.zeroSkinButton.NormlBack = null;
-			this.zeroSkinButton.Size = new System.Drawing.Size(67, 103);
+			this.zeroSkinButton.Size = new System.Drawing.Size(67, 85);
 			this.zeroSkinButton.TabIndex = 5;
 			this.zeroSkinButton.Text = "全部归零";
 			this.zeroSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1335,7 +1369,7 @@ namespace LightController.MyForm
 			// 
 			this.commonValueTrackBar.AutoSize = false;
 			this.commonValueTrackBar.BackColor = System.Drawing.Color.White;
-			this.commonValueTrackBar.Location = new System.Drawing.Point(34, 175);
+			this.commonValueTrackBar.Location = new System.Drawing.Point(32, 144);
 			this.commonValueTrackBar.Maximum = 255;
 			this.commonValueTrackBar.Name = "commonValueTrackBar";
 			this.commonValueTrackBar.Size = new System.Drawing.Size(195, 20);
@@ -1358,7 +1392,7 @@ namespace LightController.MyForm
 			this.commonValueSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.commonValueSkinButton.InheritColor = true;
 			this.commonValueSkinButton.IsDrawBorder = false;
-			this.commonValueSkinButton.Location = new System.Drawing.Point(34, 144);
+			this.commonValueSkinButton.Location = new System.Drawing.Point(32, 113);
 			this.commonValueSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.commonValueSkinButton.MouseBack = null;
 			this.commonValueSkinButton.Name = "commonValueSkinButton";
@@ -1386,7 +1420,7 @@ namespace LightController.MyForm
 			this.commonChangeModeSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.commonChangeModeSkinButton.InheritColor = true;
 			this.commonChangeModeSkinButton.IsDrawBorder = false;
-			this.commonChangeModeSkinButton.Location = new System.Drawing.Point(34, 206);
+			this.commonChangeModeSkinButton.Location = new System.Drawing.Point(32, 175);
 			this.commonChangeModeSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.commonChangeModeSkinButton.MouseBack = null;
 			this.commonChangeModeSkinButton.Name = "commonChangeModeSkinButton";
@@ -1401,7 +1435,7 @@ namespace LightController.MyForm
 			// 
 			// commonValueNumericUpDown
 			// 
-			this.commonValueNumericUpDown.Location = new System.Drawing.Point(158, 150);
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(156, 119);
 			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1428,12 +1462,12 @@ namespace LightController.MyForm
 			this.multiSkinButton.ImageSize = new System.Drawing.Size(40, 40);
 			this.multiSkinButton.InheritColor = true;
 			this.multiSkinButton.IsDrawBorder = false;
-			this.multiSkinButton.Location = new System.Drawing.Point(162, 21);
+			this.multiSkinButton.Location = new System.Drawing.Point(160, 10);
 			this.multiSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.multiSkinButton.MouseBack = null;
 			this.multiSkinButton.Name = "multiSkinButton";
 			this.multiSkinButton.NormlBack = null;
-			this.multiSkinButton.Size = new System.Drawing.Size(67, 103);
+			this.multiSkinButton.Size = new System.Drawing.Size(67, 85);
 			this.multiSkinButton.TabIndex = 5;
 			this.multiSkinButton.Text = "多步调节";
 			this.multiSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1456,12 +1490,12 @@ namespace LightController.MyForm
 			this.initSkinButton.ImageSize = new System.Drawing.Size(40, 40);
 			this.initSkinButton.InheritColor = true;
 			this.initSkinButton.IsDrawBorder = false;
-			this.initSkinButton.Location = new System.Drawing.Point(95, 21);
+			this.initSkinButton.Location = new System.Drawing.Point(93, 10);
 			this.initSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.initSkinButton.MouseBack = null;
 			this.initSkinButton.Name = "initSkinButton";
 			this.initSkinButton.NormlBack = null;
-			this.initSkinButton.Size = new System.Drawing.Size(67, 103);
+			this.initSkinButton.Size = new System.Drawing.Size(67, 85);
 			this.initSkinButton.TabIndex = 5;
 			this.initSkinButton.Text = "设为初值";
 			this.initSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1475,7 +1509,7 @@ namespace LightController.MyForm
 			this.tdCommonLabelSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.tdCommonLabelSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tdCommonLabelSkinPanel.DownBack = null;
-			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 292);
+			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 277);
 			this.tdCommonLabelSkinPanel.MouseBack = null;
 			this.tdCommonLabelSkinPanel.Name = "tdCommonLabelSkinPanel";
 			this.tdCommonLabelSkinPanel.NormlBack = null;
@@ -1506,7 +1540,7 @@ namespace LightController.MyForm
 			this.lightInfoSkinPanel.MouseBack = null;
 			this.lightInfoSkinPanel.Name = "lightInfoSkinPanel";
 			this.lightInfoSkinPanel.NormlBack = null;
-			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 292);
+			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 277);
 			this.lightInfoSkinPanel.TabIndex = 0;
 			// 
 			// lightAddrSkinLabel
@@ -1516,7 +1550,7 @@ namespace LightController.MyForm
 			this.lightAddrSkinLabel.BorderColor = System.Drawing.Color.White;
 			this.lightAddrSkinLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightAddrSkinLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightAddrSkinLabel.Location = new System.Drawing.Point(32, 257);
+			this.lightAddrSkinLabel.Location = new System.Drawing.Point(32, 244);
 			this.lightAddrSkinLabel.Name = "lightAddrSkinLabel";
 			this.lightAddrSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightAddrSkinLabel.TabIndex = 2;
@@ -1528,7 +1562,7 @@ namespace LightController.MyForm
 			this.lightTypeSkinLabel.BorderColor = System.Drawing.Color.White;
 			this.lightTypeSkinLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeSkinLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeSkinLabel.Location = new System.Drawing.Point(32, 224);
+			this.lightTypeSkinLabel.Location = new System.Drawing.Point(32, 211);
 			this.lightTypeSkinLabel.Name = "lightTypeSkinLabel";
 			this.lightTypeSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightTypeSkinLabel.TabIndex = 2;
@@ -1540,7 +1574,7 @@ namespace LightController.MyForm
 			this.lightNameSkinLabel.BorderColor = System.Drawing.Color.White;
 			this.lightNameSkinLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightNameSkinLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightNameSkinLabel.Location = new System.Drawing.Point(32, 191);
+			this.lightNameSkinLabel.Location = new System.Drawing.Point(32, 178);
 			this.lightNameSkinLabel.Name = "lightNameSkinLabel";
 			this.lightNameSkinLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightNameSkinLabel.TabIndex = 2;
@@ -1573,7 +1607,7 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.InitialImage = null;
 			this.currentLightPictureBox.Location = new System.Drawing.Point(60, 32);
 			this.currentLightPictureBox.Name = "currentLightPictureBox";
-			this.currentLightPictureBox.Size = new System.Drawing.Size(128, 140);
+			this.currentLightPictureBox.Size = new System.Drawing.Size(128, 129);
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 0;
 			this.currentLightPictureBox.TabStop = false;
@@ -1603,11 +1637,11 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.stepSkinPanel.DownBack = null;
 			this.stepSkinPanel.Enabled = false;
-			this.stepSkinPanel.Location = new System.Drawing.Point(123, 287);
+			this.stepSkinPanel.Location = new System.Drawing.Point(123, 272);
 			this.stepSkinPanel.MouseBack = null;
 			this.stepSkinPanel.Name = "stepSkinPanel";
 			this.stepSkinPanel.NormlBack = null;
-			this.stepSkinPanel.Size = new System.Drawing.Size(1056, 116);
+			this.stepSkinPanel.Size = new System.Drawing.Size(1055, 116);
 			this.stepSkinPanel.TabIndex = 11;
 			// 
 			// addStepCheckBox
@@ -2074,12 +2108,13 @@ namespace LightController.MyForm
 			this.tdSkinFlowLayoutPanel.MouseBack = null;
 			this.tdSkinFlowLayoutPanel.Name = "tdSkinFlowLayoutPanel";
 			this.tdSkinFlowLayoutPanel.NormlBack = null;
-			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(970, 313);
+			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(969, 315);
 			this.tdSkinFlowLayoutPanel.TabIndex = 27;
 			this.tdSkinFlowLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.tdSkinFlowLayoutPanel_Paint);
 			// 
 			// tdPanel1
 			// 
+			this.tdPanel1.Controls.Add(this.trueTimeLabel1);
 			this.tdPanel1.Controls.Add(this.tdNameLabel1);
 			this.tdPanel1.Controls.Add(this.tdNoLabel1);
 			this.tdPanel1.Controls.Add(this.tdStepTimeNumericUpDown1);
@@ -2091,6 +2126,16 @@ namespace LightController.MyForm
 			this.tdPanel1.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel1.TabIndex = 26;
 			this.tdPanel1.Visible = false;
+			// 
+			// trueTimeLabel1
+			// 
+			this.trueTimeLabel1.AutoSize = true;
+			this.trueTimeLabel1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel1.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel1.Name = "trueTimeLabel1";
+			this.trueTimeLabel1.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel1.TabIndex = 26;
+			this.trueTimeLabel1.Text = "12.4s";
 			// 
 			// tdNameLabel1
 			// 
@@ -2117,7 +2162,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown1
 			// 
 			this.tdStepTimeNumericUpDown1.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown1.Maximum = new decimal(new int[] {
             254,
@@ -2139,7 +2184,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar1.Maximum = 255;
 			this.tdSkinTrackBar1.Name = "tdSkinTrackBar1";
 			this.tdSkinTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar1.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar1.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar1.TabIndex = 1;
 			this.tdSkinTrackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar1.Track = null;
@@ -2147,7 +2192,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown1
 			// 
 			this.tdValueNumericUpDown1.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown1.Maximum = new decimal(new int[] {
             255,
@@ -2170,7 +2215,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox1.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox1.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox1.Name = "tdChangeModeSkinComboBox1";
 			this.tdChangeModeSkinComboBox1.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox1.TabIndex = 19;
@@ -2178,6 +2223,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel2
 			// 
+			this.tdPanel2.Controls.Add(this.trueTimeLabel2);
 			this.tdPanel2.Controls.Add(this.tdNameLabel2);
 			this.tdPanel2.Controls.Add(this.tdNoLabel2);
 			this.tdPanel2.Controls.Add(this.tdStepTimeNumericUpDown2);
@@ -2189,6 +2235,16 @@ namespace LightController.MyForm
 			this.tdPanel2.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel2.TabIndex = 26;
 			this.tdPanel2.Visible = false;
+			// 
+			// trueTimeLabel2
+			// 
+			this.trueTimeLabel2.AutoSize = true;
+			this.trueTimeLabel2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel2.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel2.Name = "trueTimeLabel2";
+			this.trueTimeLabel2.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel2.TabIndex = 26;
+			this.trueTimeLabel2.Text = "12.4s";
 			// 
 			// tdNameLabel2
 			// 
@@ -2215,7 +2271,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown2
 			// 
 			this.tdStepTimeNumericUpDown2.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown2.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown2.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown2.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown2.Maximum = new decimal(new int[] {
             254,
@@ -2237,7 +2293,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar2.Maximum = 255;
 			this.tdSkinTrackBar2.Name = "tdSkinTrackBar2";
 			this.tdSkinTrackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar2.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar2.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar2.TabIndex = 1;
 			this.tdSkinTrackBar2.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar2.Track = null;
@@ -2245,7 +2301,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown2
 			// 
 			this.tdValueNumericUpDown2.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown2.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown2.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown2.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown2.Maximum = new decimal(new int[] {
             255,
@@ -2268,7 +2324,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox2.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox2.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox2.Name = "tdChangeModeSkinComboBox2";
 			this.tdChangeModeSkinComboBox2.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox2.TabIndex = 19;
@@ -2276,6 +2332,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel3
 			// 
+			this.tdPanel3.Controls.Add(this.trueTimeLabel3);
 			this.tdPanel3.Controls.Add(this.tdNameLabel3);
 			this.tdPanel3.Controls.Add(this.tdNoLabel3);
 			this.tdPanel3.Controls.Add(this.tdStepTimeNumericUpDown3);
@@ -2287,6 +2344,16 @@ namespace LightController.MyForm
 			this.tdPanel3.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel3.TabIndex = 26;
 			this.tdPanel3.Visible = false;
+			// 
+			// trueTimeLabel3
+			// 
+			this.trueTimeLabel3.AutoSize = true;
+			this.trueTimeLabel3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel3.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel3.Name = "trueTimeLabel3";
+			this.trueTimeLabel3.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel3.TabIndex = 27;
+			this.trueTimeLabel3.Text = "12.4s";
 			// 
 			// tdNameLabel3
 			// 
@@ -2313,7 +2380,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown3
 			// 
 			this.tdStepTimeNumericUpDown3.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown3.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown3.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown3.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown3.Maximum = new decimal(new int[] {
             254,
@@ -2335,7 +2402,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar3.Maximum = 255;
 			this.tdSkinTrackBar3.Name = "tdSkinTrackBar3";
 			this.tdSkinTrackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar3.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar3.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar3.TabIndex = 1;
 			this.tdSkinTrackBar3.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar3.Track = null;
@@ -2343,7 +2410,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown3
 			// 
 			this.tdValueNumericUpDown3.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown3.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown3.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown3.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown3.Maximum = new decimal(new int[] {
             255,
@@ -2366,7 +2433,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox3.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox3.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox3.Name = "tdChangeModeSkinComboBox3";
 			this.tdChangeModeSkinComboBox3.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox3.TabIndex = 19;
@@ -2374,6 +2441,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel4
 			// 
+			this.tdPanel4.Controls.Add(this.trueTimeLabel4);
 			this.tdPanel4.Controls.Add(this.tdNameLabel4);
 			this.tdPanel4.Controls.Add(this.tdNoLabel4);
 			this.tdPanel4.Controls.Add(this.tdStepTimeNumericUpDown4);
@@ -2385,6 +2453,16 @@ namespace LightController.MyForm
 			this.tdPanel4.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel4.TabIndex = 26;
 			this.tdPanel4.Visible = false;
+			// 
+			// trueTimeLabel4
+			// 
+			this.trueTimeLabel4.AutoSize = true;
+			this.trueTimeLabel4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel4.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel4.Name = "trueTimeLabel4";
+			this.trueTimeLabel4.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel4.TabIndex = 29;
+			this.trueTimeLabel4.Text = "12.4s";
 			// 
 			// tdNameLabel4
 			// 
@@ -2411,7 +2489,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown4
 			// 
 			this.tdStepTimeNumericUpDown4.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown4.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown4.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown4.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown4.Maximum = new decimal(new int[] {
             254,
@@ -2433,7 +2511,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar4.Maximum = 255;
 			this.tdSkinTrackBar4.Name = "tdSkinTrackBar4";
 			this.tdSkinTrackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar4.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar4.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar4.TabIndex = 1;
 			this.tdSkinTrackBar4.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar4.Track = null;
@@ -2441,7 +2519,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown4
 			// 
 			this.tdValueNumericUpDown4.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown4.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown4.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown4.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown4.Maximum = new decimal(new int[] {
             255,
@@ -2464,7 +2542,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox4.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox4.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox4.Name = "tdChangeModeSkinComboBox4";
 			this.tdChangeModeSkinComboBox4.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox4.TabIndex = 19;
@@ -2472,6 +2550,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel5
 			// 
+			this.tdPanel5.Controls.Add(this.trueTimeLabel5);
 			this.tdPanel5.Controls.Add(this.tdNameLabel5);
 			this.tdPanel5.Controls.Add(this.tdNoLabel5);
 			this.tdPanel5.Controls.Add(this.tdStepTimeNumericUpDown5);
@@ -2483,6 +2562,16 @@ namespace LightController.MyForm
 			this.tdPanel5.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel5.TabIndex = 26;
 			this.tdPanel5.Visible = false;
+			// 
+			// trueTimeLabel5
+			// 
+			this.trueTimeLabel5.AutoSize = true;
+			this.trueTimeLabel5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel5.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel5.Name = "trueTimeLabel5";
+			this.trueTimeLabel5.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel5.TabIndex = 30;
+			this.trueTimeLabel5.Text = "12.4s";
 			// 
 			// tdNameLabel5
 			// 
@@ -2509,7 +2598,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown5
 			// 
 			this.tdStepTimeNumericUpDown5.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown5.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown5.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown5.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown5.Maximum = new decimal(new int[] {
             254,
@@ -2531,7 +2620,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar5.Maximum = 255;
 			this.tdSkinTrackBar5.Name = "tdSkinTrackBar5";
 			this.tdSkinTrackBar5.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar5.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar5.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar5.TabIndex = 1;
 			this.tdSkinTrackBar5.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar5.Track = null;
@@ -2539,7 +2628,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown5
 			// 
 			this.tdValueNumericUpDown5.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown5.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown5.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown5.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown5.Maximum = new decimal(new int[] {
             255,
@@ -2562,7 +2651,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox5.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox5.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox5.Name = "tdChangeModeSkinComboBox5";
 			this.tdChangeModeSkinComboBox5.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox5.TabIndex = 19;
@@ -2570,6 +2659,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel6
 			// 
+			this.tdPanel6.Controls.Add(this.trueTimeLabel6);
 			this.tdPanel6.Controls.Add(this.tdNameLabel6);
 			this.tdPanel6.Controls.Add(this.tdNoLabel6);
 			this.tdPanel6.Controls.Add(this.tdStepTimeNumericUpDown6);
@@ -2581,6 +2671,16 @@ namespace LightController.MyForm
 			this.tdPanel6.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel6.TabIndex = 26;
 			this.tdPanel6.Visible = false;
+			// 
+			// trueTimeLabel6
+			// 
+			this.trueTimeLabel6.AutoSize = true;
+			this.trueTimeLabel6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel6.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel6.Name = "trueTimeLabel6";
+			this.trueTimeLabel6.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel6.TabIndex = 31;
+			this.trueTimeLabel6.Text = "12.4s";
 			// 
 			// tdNameLabel6
 			// 
@@ -2607,7 +2707,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown6
 			// 
 			this.tdStepTimeNumericUpDown6.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown6.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown6.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown6.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown6.Maximum = new decimal(new int[] {
             254,
@@ -2629,7 +2729,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar6.Maximum = 255;
 			this.tdSkinTrackBar6.Name = "tdSkinTrackBar6";
 			this.tdSkinTrackBar6.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar6.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar6.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar6.TabIndex = 1;
 			this.tdSkinTrackBar6.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar6.Track = null;
@@ -2637,7 +2737,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown6
 			// 
 			this.tdValueNumericUpDown6.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown6.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown6.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown6.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown6.Maximum = new decimal(new int[] {
             255,
@@ -2660,7 +2760,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox6.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox6.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox6.Name = "tdChangeModeSkinComboBox6";
 			this.tdChangeModeSkinComboBox6.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox6.TabIndex = 19;
@@ -2668,6 +2768,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel7
 			// 
+			this.tdPanel7.Controls.Add(this.trueTimeLabel7);
 			this.tdPanel7.Controls.Add(this.tdNameLabel7);
 			this.tdPanel7.Controls.Add(this.tdNoLabel7);
 			this.tdPanel7.Controls.Add(this.tdStepTimeNumericUpDown7);
@@ -2679,6 +2780,16 @@ namespace LightController.MyForm
 			this.tdPanel7.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel7.TabIndex = 26;
 			this.tdPanel7.Visible = false;
+			// 
+			// trueTimeLabel7
+			// 
+			this.trueTimeLabel7.AutoSize = true;
+			this.trueTimeLabel7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel7.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel7.Name = "trueTimeLabel7";
+			this.trueTimeLabel7.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel7.TabIndex = 33;
+			this.trueTimeLabel7.Text = "12.4s";
 			// 
 			// tdNameLabel7
 			// 
@@ -2705,7 +2816,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown7
 			// 
 			this.tdStepTimeNumericUpDown7.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown7.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown7.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown7.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown7.Maximum = new decimal(new int[] {
             254,
@@ -2727,7 +2838,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar7.Maximum = 255;
 			this.tdSkinTrackBar7.Name = "tdSkinTrackBar7";
 			this.tdSkinTrackBar7.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar7.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar7.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar7.TabIndex = 1;
 			this.tdSkinTrackBar7.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar7.Track = null;
@@ -2735,7 +2846,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown7
 			// 
 			this.tdValueNumericUpDown7.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown7.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown7.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown7.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown7.Maximum = new decimal(new int[] {
             255,
@@ -2758,7 +2869,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox7.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox7.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox7.Name = "tdChangeModeSkinComboBox7";
 			this.tdChangeModeSkinComboBox7.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox7.TabIndex = 19;
@@ -2766,6 +2877,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel8
 			// 
+			this.tdPanel8.Controls.Add(this.trueTimeLabel8);
 			this.tdPanel8.Controls.Add(this.tdNameLabel8);
 			this.tdPanel8.Controls.Add(this.tdNoLabel8);
 			this.tdPanel8.Controls.Add(this.tdStepTimeNumericUpDown8);
@@ -2777,6 +2889,16 @@ namespace LightController.MyForm
 			this.tdPanel8.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel8.TabIndex = 26;
 			this.tdPanel8.Visible = false;
+			// 
+			// trueTimeLabel8
+			// 
+			this.trueTimeLabel8.AutoSize = true;
+			this.trueTimeLabel8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel8.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel8.Name = "trueTimeLabel8";
+			this.trueTimeLabel8.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel8.TabIndex = 35;
+			this.trueTimeLabel8.Text = "12.4s";
 			// 
 			// tdNameLabel8
 			// 
@@ -2803,7 +2925,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown8
 			// 
 			this.tdStepTimeNumericUpDown8.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown8.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown8.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown8.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown8.Maximum = new decimal(new int[] {
             254,
@@ -2825,7 +2947,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar8.Maximum = 255;
 			this.tdSkinTrackBar8.Name = "tdSkinTrackBar8";
 			this.tdSkinTrackBar8.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar8.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar8.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar8.TabIndex = 1;
 			this.tdSkinTrackBar8.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar8.Track = null;
@@ -2833,7 +2955,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown8
 			// 
 			this.tdValueNumericUpDown8.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown8.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown8.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown8.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown8.Maximum = new decimal(new int[] {
             255,
@@ -2856,7 +2978,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox8.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox8.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox8.Name = "tdChangeModeSkinComboBox8";
 			this.tdChangeModeSkinComboBox8.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox8.TabIndex = 19;
@@ -2864,6 +2986,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel9
 			// 
+			this.tdPanel9.Controls.Add(this.trueTimeLabel9);
 			this.tdPanel9.Controls.Add(this.tdNameLabel9);
 			this.tdPanel9.Controls.Add(this.tdNoLabel9);
 			this.tdPanel9.Controls.Add(this.tdStepTimeNumericUpDown9);
@@ -2875,6 +2998,16 @@ namespace LightController.MyForm
 			this.tdPanel9.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel9.TabIndex = 26;
 			this.tdPanel9.Visible = false;
+			// 
+			// trueTimeLabel9
+			// 
+			this.trueTimeLabel9.AutoSize = true;
+			this.trueTimeLabel9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel9.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel9.Name = "trueTimeLabel9";
+			this.trueTimeLabel9.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel9.TabIndex = 37;
+			this.trueTimeLabel9.Text = "12.4s";
 			// 
 			// tdNameLabel9
 			// 
@@ -2901,7 +3034,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown9
 			// 
 			this.tdStepTimeNumericUpDown9.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown9.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown9.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown9.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown9.Maximum = new decimal(new int[] {
             254,
@@ -2923,7 +3056,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar9.Maximum = 255;
 			this.tdSkinTrackBar9.Name = "tdSkinTrackBar9";
 			this.tdSkinTrackBar9.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar9.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar9.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar9.TabIndex = 1;
 			this.tdSkinTrackBar9.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar9.Track = null;
@@ -2931,7 +3064,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown9
 			// 
 			this.tdValueNumericUpDown9.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown9.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown9.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown9.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown9.Maximum = new decimal(new int[] {
             255,
@@ -2954,7 +3087,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox9.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox9.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox9.Name = "tdChangeModeSkinComboBox9";
 			this.tdChangeModeSkinComboBox9.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox9.TabIndex = 19;
@@ -2962,6 +3095,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel10
 			// 
+			this.tdPanel10.Controls.Add(this.trueTimeLabel10);
 			this.tdPanel10.Controls.Add(this.tdNameLabel10);
 			this.tdPanel10.Controls.Add(this.tdNoLabel10);
 			this.tdPanel10.Controls.Add(this.tdStepTimeNumericUpDown10);
@@ -2973,6 +3107,16 @@ namespace LightController.MyForm
 			this.tdPanel10.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel10.TabIndex = 26;
 			this.tdPanel10.Visible = false;
+			// 
+			// trueTimeLabel10
+			// 
+			this.trueTimeLabel10.AutoSize = true;
+			this.trueTimeLabel10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel10.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel10.Name = "trueTimeLabel10";
+			this.trueTimeLabel10.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel10.TabIndex = 39;
+			this.trueTimeLabel10.Text = "12.4s";
 			// 
 			// tdNameLabel10
 			// 
@@ -2999,7 +3143,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown10
 			// 
 			this.tdStepTimeNumericUpDown10.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown10.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown10.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown10.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown10.Maximum = new decimal(new int[] {
             254,
@@ -3021,7 +3165,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar10.Maximum = 255;
 			this.tdSkinTrackBar10.Name = "tdSkinTrackBar10";
 			this.tdSkinTrackBar10.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar10.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar10.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar10.TabIndex = 1;
 			this.tdSkinTrackBar10.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar10.Track = null;
@@ -3029,7 +3173,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown10
 			// 
 			this.tdValueNumericUpDown10.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown10.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown10.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown10.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown10.Maximum = new decimal(new int[] {
             255,
@@ -3052,7 +3196,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox10.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox10.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox10.Name = "tdChangeModeSkinComboBox10";
 			this.tdChangeModeSkinComboBox10.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox10.TabIndex = 19;
@@ -3060,6 +3204,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel11
 			// 
+			this.tdPanel11.Controls.Add(this.trueTimeLabel11);
 			this.tdPanel11.Controls.Add(this.tdNameLabel11);
 			this.tdPanel11.Controls.Add(this.tdNoLabel11);
 			this.tdPanel11.Controls.Add(this.tdStepTimeNumericUpDown11);
@@ -3071,6 +3216,16 @@ namespace LightController.MyForm
 			this.tdPanel11.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel11.TabIndex = 26;
 			this.tdPanel11.Visible = false;
+			// 
+			// trueTimeLabel11
+			// 
+			this.trueTimeLabel11.AutoSize = true;
+			this.trueTimeLabel11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel11.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel11.Name = "trueTimeLabel11";
+			this.trueTimeLabel11.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel11.TabIndex = 41;
+			this.trueTimeLabel11.Text = "12.4s";
 			// 
 			// tdNameLabel11
 			// 
@@ -3097,7 +3252,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown11
 			// 
 			this.tdStepTimeNumericUpDown11.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown11.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown11.Location = new System.Drawing.Point(24, 254);
 			this.tdStepTimeNumericUpDown11.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown11.Maximum = new decimal(new int[] {
             254,
@@ -3119,7 +3274,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar11.Maximum = 255;
 			this.tdSkinTrackBar11.Name = "tdSkinTrackBar11";
 			this.tdSkinTrackBar11.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar11.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar11.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar11.TabIndex = 1;
 			this.tdSkinTrackBar11.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar11.Track = null;
@@ -3127,7 +3282,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown11
 			// 
 			this.tdValueNumericUpDown11.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown11.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown11.Location = new System.Drawing.Point(24, 208);
 			this.tdValueNumericUpDown11.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown11.Maximum = new decimal(new int[] {
             255,
@@ -3150,7 +3305,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox11.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox11.Location = new System.Drawing.Point(15, 229);
 			this.tdChangeModeSkinComboBox11.Name = "tdChangeModeSkinComboBox11";
 			this.tdChangeModeSkinComboBox11.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox11.TabIndex = 19;
@@ -3158,6 +3313,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel12
 			// 
+			this.tdPanel12.Controls.Add(this.trueTimeLabel12);
 			this.tdPanel12.Controls.Add(this.tdNameLabel12);
 			this.tdPanel12.Controls.Add(this.tdNoLabel12);
 			this.tdPanel12.Controls.Add(this.tdStepTimeNumericUpDown12);
@@ -3169,6 +3325,16 @@ namespace LightController.MyForm
 			this.tdPanel12.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel12.TabIndex = 26;
 			this.tdPanel12.Visible = false;
+			// 
+			// trueTimeLabel12
+			// 
+			this.trueTimeLabel12.AutoSize = true;
+			this.trueTimeLabel12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel12.Location = new System.Drawing.Point(21, 277);
+			this.trueTimeLabel12.Name = "trueTimeLabel12";
+			this.trueTimeLabel12.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel12.TabIndex = 27;
+			this.trueTimeLabel12.Text = "12.4s";
 			// 
 			// tdNameLabel12
 			// 
@@ -3195,7 +3361,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown12
 			// 
 			this.tdStepTimeNumericUpDown12.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown12.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown12.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown12.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown12.Maximum = new decimal(new int[] {
             254,
@@ -3217,7 +3383,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar12.Maximum = 255;
 			this.tdSkinTrackBar12.Name = "tdSkinTrackBar12";
 			this.tdSkinTrackBar12.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar12.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar12.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar12.TabIndex = 1;
 			this.tdSkinTrackBar12.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar12.Track = null;
@@ -3225,7 +3391,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown12
 			// 
 			this.tdValueNumericUpDown12.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown12.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown12.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown12.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown12.Maximum = new decimal(new int[] {
             255,
@@ -3248,7 +3414,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox12.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox12.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox12.Name = "tdChangeModeSkinComboBox12";
 			this.tdChangeModeSkinComboBox12.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox12.TabIndex = 19;
@@ -3256,6 +3422,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel13
 			// 
+			this.tdPanel13.Controls.Add(this.trueTimeLabel13);
 			this.tdPanel13.Controls.Add(this.tdNameLabel13);
 			this.tdPanel13.Controls.Add(this.tdNoLabel13);
 			this.tdPanel13.Controls.Add(this.tdStepTimeNumericUpDown13);
@@ -3267,6 +3434,16 @@ namespace LightController.MyForm
 			this.tdPanel13.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel13.TabIndex = 26;
 			this.tdPanel13.Visible = false;
+			// 
+			// trueTimeLabel13
+			// 
+			this.trueTimeLabel13.AutoSize = true;
+			this.trueTimeLabel13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel13.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel13.Name = "trueTimeLabel13";
+			this.trueTimeLabel13.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel13.TabIndex = 29;
+			this.trueTimeLabel13.Text = "12.4s";
 			// 
 			// tdNameLabel13
 			// 
@@ -3293,7 +3470,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown13
 			// 
 			this.tdStepTimeNumericUpDown13.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown13.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown13.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown13.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown13.Maximum = new decimal(new int[] {
             254,
@@ -3315,7 +3492,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar13.Maximum = 255;
 			this.tdSkinTrackBar13.Name = "tdSkinTrackBar13";
 			this.tdSkinTrackBar13.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar13.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar13.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar13.TabIndex = 1;
 			this.tdSkinTrackBar13.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar13.Track = null;
@@ -3323,7 +3500,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown13
 			// 
 			this.tdValueNumericUpDown13.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown13.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown13.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown13.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown13.Maximum = new decimal(new int[] {
             255,
@@ -3346,7 +3523,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox13.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox13.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox13.Name = "tdChangeModeSkinComboBox13";
 			this.tdChangeModeSkinComboBox13.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox13.TabIndex = 19;
@@ -3354,6 +3531,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel14
 			// 
+			this.tdPanel14.Controls.Add(this.trueTimeLabel14);
 			this.tdPanel14.Controls.Add(this.tdNameLabel14);
 			this.tdPanel14.Controls.Add(this.tdNoLabel14);
 			this.tdPanel14.Controls.Add(this.tdStepTimeNumericUpDown14);
@@ -3365,6 +3543,16 @@ namespace LightController.MyForm
 			this.tdPanel14.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel14.TabIndex = 26;
 			this.tdPanel14.Visible = false;
+			// 
+			// trueTimeLabel14
+			// 
+			this.trueTimeLabel14.AutoSize = true;
+			this.trueTimeLabel14.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel14.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel14.Name = "trueTimeLabel14";
+			this.trueTimeLabel14.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel14.TabIndex = 31;
+			this.trueTimeLabel14.Text = "12.4s";
 			// 
 			// tdNameLabel14
 			// 
@@ -3391,7 +3579,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown14
 			// 
 			this.tdStepTimeNumericUpDown14.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown14.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown14.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown14.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown14.Maximum = new decimal(new int[] {
             254,
@@ -3413,7 +3601,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar14.Maximum = 255;
 			this.tdSkinTrackBar14.Name = "tdSkinTrackBar14";
 			this.tdSkinTrackBar14.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar14.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar14.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar14.TabIndex = 1;
 			this.tdSkinTrackBar14.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar14.Track = null;
@@ -3421,7 +3609,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown14
 			// 
 			this.tdValueNumericUpDown14.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown14.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown14.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown14.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown14.Maximum = new decimal(new int[] {
             255,
@@ -3444,7 +3632,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox14.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox14.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox14.Name = "tdChangeModeSkinComboBox14";
 			this.tdChangeModeSkinComboBox14.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox14.TabIndex = 19;
@@ -3452,6 +3640,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel15
 			// 
+			this.tdPanel15.Controls.Add(this.trueTimeLabel15);
 			this.tdPanel15.Controls.Add(this.tdNameLabel15);
 			this.tdPanel15.Controls.Add(this.tdNoLabel15);
 			this.tdPanel15.Controls.Add(this.tdStepTimeNumericUpDown15);
@@ -3463,6 +3652,16 @@ namespace LightController.MyForm
 			this.tdPanel15.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel15.TabIndex = 26;
 			this.tdPanel15.Visible = false;
+			// 
+			// trueTimeLabel15
+			// 
+			this.trueTimeLabel15.AutoSize = true;
+			this.trueTimeLabel15.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel15.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel15.Name = "trueTimeLabel15";
+			this.trueTimeLabel15.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel15.TabIndex = 27;
+			this.trueTimeLabel15.Text = "12.4s";
 			// 
 			// tdNameLabel15
 			// 
@@ -3489,7 +3688,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown15
 			// 
 			this.tdStepTimeNumericUpDown15.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown15.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown15.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown15.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown15.Maximum = new decimal(new int[] {
             254,
@@ -3511,7 +3710,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar15.Maximum = 255;
 			this.tdSkinTrackBar15.Name = "tdSkinTrackBar15";
 			this.tdSkinTrackBar15.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar15.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar15.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar15.TabIndex = 1;
 			this.tdSkinTrackBar15.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar15.Track = null;
@@ -3519,7 +3718,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown15
 			// 
 			this.tdValueNumericUpDown15.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown15.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown15.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown15.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown15.Maximum = new decimal(new int[] {
             255,
@@ -3542,7 +3741,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox15.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox15.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox15.Name = "tdChangeModeSkinComboBox15";
 			this.tdChangeModeSkinComboBox15.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox15.TabIndex = 19;
@@ -3550,6 +3749,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel16
 			// 
+			this.tdPanel16.Controls.Add(this.trueTimeLabel16);
 			this.tdPanel16.Controls.Add(this.tdNameLabel16);
 			this.tdPanel16.Controls.Add(this.tdNoLabel16);
 			this.tdPanel16.Controls.Add(this.tdStepTimeNumericUpDown16);
@@ -3561,6 +3761,16 @@ namespace LightController.MyForm
 			this.tdPanel16.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel16.TabIndex = 26;
 			this.tdPanel16.Visible = false;
+			// 
+			// trueTimeLabel16
+			// 
+			this.trueTimeLabel16.AutoSize = true;
+			this.trueTimeLabel16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel16.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel16.Name = "trueTimeLabel16";
+			this.trueTimeLabel16.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel16.TabIndex = 29;
+			this.trueTimeLabel16.Text = "12.4s";
 			// 
 			// tdNameLabel16
 			// 
@@ -3587,7 +3797,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown16
 			// 
 			this.tdStepTimeNumericUpDown16.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown16.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown16.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown16.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown16.Maximum = new decimal(new int[] {
             254,
@@ -3609,7 +3819,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar16.Maximum = 255;
 			this.tdSkinTrackBar16.Name = "tdSkinTrackBar16";
 			this.tdSkinTrackBar16.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar16.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar16.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar16.TabIndex = 1;
 			this.tdSkinTrackBar16.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar16.Track = null;
@@ -3617,7 +3827,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown16
 			// 
 			this.tdValueNumericUpDown16.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown16.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown16.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown16.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown16.Maximum = new decimal(new int[] {
             255,
@@ -3640,7 +3850,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox16.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox16.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox16.Name = "tdChangeModeSkinComboBox16";
 			this.tdChangeModeSkinComboBox16.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox16.TabIndex = 19;
@@ -3648,6 +3858,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel17
 			// 
+			this.tdPanel17.Controls.Add(this.trueTimeLabel17);
 			this.tdPanel17.Controls.Add(this.tdNameLabel17);
 			this.tdPanel17.Controls.Add(this.tdNoLabel17);
 			this.tdPanel17.Controls.Add(this.tdStepTimeNumericUpDown17);
@@ -3659,6 +3870,16 @@ namespace LightController.MyForm
 			this.tdPanel17.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel17.TabIndex = 26;
 			this.tdPanel17.Visible = false;
+			// 
+			// trueTimeLabel17
+			// 
+			this.trueTimeLabel17.AutoSize = true;
+			this.trueTimeLabel17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel17.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel17.Name = "trueTimeLabel17";
+			this.trueTimeLabel17.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel17.TabIndex = 31;
+			this.trueTimeLabel17.Text = "12.4s";
 			// 
 			// tdNameLabel17
 			// 
@@ -3685,7 +3906,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown17
 			// 
 			this.tdStepTimeNumericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown17.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown17.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown17.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown17.Maximum = new decimal(new int[] {
             254,
@@ -3707,7 +3928,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar17.Maximum = 255;
 			this.tdSkinTrackBar17.Name = "tdSkinTrackBar17";
 			this.tdSkinTrackBar17.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar17.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar17.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar17.TabIndex = 1;
 			this.tdSkinTrackBar17.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar17.Track = null;
@@ -3715,7 +3936,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown17
 			// 
 			this.tdValueNumericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown17.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown17.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown17.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown17.Maximum = new decimal(new int[] {
             255,
@@ -3738,7 +3959,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox17.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox17.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox17.Name = "tdChangeModeSkinComboBox17";
 			this.tdChangeModeSkinComboBox17.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox17.TabIndex = 19;
@@ -3746,6 +3967,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel18
 			// 
+			this.tdPanel18.Controls.Add(this.trueTimeLabel18);
 			this.tdPanel18.Controls.Add(this.tdNameLabel18);
 			this.tdPanel18.Controls.Add(this.tdNoLabel18);
 			this.tdPanel18.Controls.Add(this.tdStepTimeNumericUpDown18);
@@ -3757,6 +3979,16 @@ namespace LightController.MyForm
 			this.tdPanel18.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel18.TabIndex = 26;
 			this.tdPanel18.Visible = false;
+			// 
+			// trueTimeLabel18
+			// 
+			this.trueTimeLabel18.AutoSize = true;
+			this.trueTimeLabel18.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel18.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel18.Name = "trueTimeLabel18";
+			this.trueTimeLabel18.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel18.TabIndex = 33;
+			this.trueTimeLabel18.Text = "12.4s";
 			// 
 			// tdNameLabel18
 			// 
@@ -3783,7 +4015,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown18
 			// 
 			this.tdStepTimeNumericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown18.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown18.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown18.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown18.Maximum = new decimal(new int[] {
             254,
@@ -3805,7 +4037,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar18.Maximum = 255;
 			this.tdSkinTrackBar18.Name = "tdSkinTrackBar18";
 			this.tdSkinTrackBar18.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar18.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar18.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar18.TabIndex = 1;
 			this.tdSkinTrackBar18.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar18.Track = null;
@@ -3813,7 +4045,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown18
 			// 
 			this.tdValueNumericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown18.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown18.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown18.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown18.Maximum = new decimal(new int[] {
             255,
@@ -3836,7 +4068,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox18.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox18.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox18.Name = "tdChangeModeSkinComboBox18";
 			this.tdChangeModeSkinComboBox18.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox18.TabIndex = 19;
@@ -3844,6 +4076,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel19
 			// 
+			this.tdPanel19.Controls.Add(this.trueTimeLabel19);
 			this.tdPanel19.Controls.Add(this.tdNameLabel19);
 			this.tdPanel19.Controls.Add(this.tdNoLabel19);
 			this.tdPanel19.Controls.Add(this.tdStepTimeNumericUpDown19);
@@ -3855,6 +4088,16 @@ namespace LightController.MyForm
 			this.tdPanel19.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel19.TabIndex = 26;
 			this.tdPanel19.Visible = false;
+			// 
+			// trueTimeLabel19
+			// 
+			this.trueTimeLabel19.AutoSize = true;
+			this.trueTimeLabel19.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel19.Location = new System.Drawing.Point(21, 277);
+			this.trueTimeLabel19.Name = "trueTimeLabel19";
+			this.trueTimeLabel19.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel19.TabIndex = 35;
+			this.trueTimeLabel19.Text = "12.4s";
 			// 
 			// tdNameLabel19
 			// 
@@ -3881,7 +4124,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown19
 			// 
 			this.tdStepTimeNumericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown19.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown19.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown19.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown19.Maximum = new decimal(new int[] {
             254,
@@ -3903,7 +4146,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar19.Maximum = 255;
 			this.tdSkinTrackBar19.Name = "tdSkinTrackBar19";
 			this.tdSkinTrackBar19.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar19.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar19.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar19.TabIndex = 1;
 			this.tdSkinTrackBar19.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar19.Track = null;
@@ -3911,7 +4154,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown19
 			// 
 			this.tdValueNumericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown19.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown19.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown19.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown19.Maximum = new decimal(new int[] {
             255,
@@ -3934,7 +4177,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox19.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox19.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox19.Name = "tdChangeModeSkinComboBox19";
 			this.tdChangeModeSkinComboBox19.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox19.TabIndex = 19;
@@ -3942,6 +4185,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel20
 			// 
+			this.tdPanel20.Controls.Add(this.trueTimeLabel20);
 			this.tdPanel20.Controls.Add(this.tdNameLabel20);
 			this.tdPanel20.Controls.Add(this.tdNoLabel20);
 			this.tdPanel20.Controls.Add(this.tdStepTimeNumericUpDown20);
@@ -3953,6 +4197,16 @@ namespace LightController.MyForm
 			this.tdPanel20.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel20.TabIndex = 26;
 			this.tdPanel20.Visible = false;
+			// 
+			// trueTimeLabel20
+			// 
+			this.trueTimeLabel20.AutoSize = true;
+			this.trueTimeLabel20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel20.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel20.Name = "trueTimeLabel20";
+			this.trueTimeLabel20.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel20.TabIndex = 35;
+			this.trueTimeLabel20.Text = "12.4s";
 			// 
 			// tdNameLabel20
 			// 
@@ -3979,7 +4233,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown20
 			// 
 			this.tdStepTimeNumericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown20.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown20.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown20.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown20.Maximum = new decimal(new int[] {
             254,
@@ -4001,7 +4255,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar20.Maximum = 255;
 			this.tdSkinTrackBar20.Name = "tdSkinTrackBar20";
 			this.tdSkinTrackBar20.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar20.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar20.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar20.TabIndex = 1;
 			this.tdSkinTrackBar20.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar20.Track = null;
@@ -4009,7 +4263,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown20
 			// 
 			this.tdValueNumericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown20.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown20.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown20.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown20.Maximum = new decimal(new int[] {
             255,
@@ -4032,7 +4286,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox20.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox20.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox20.Name = "tdChangeModeSkinComboBox20";
 			this.tdChangeModeSkinComboBox20.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox20.TabIndex = 19;
@@ -4040,6 +4294,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel21
 			// 
+			this.tdPanel21.Controls.Add(this.trueTimeLabel21);
 			this.tdPanel21.Controls.Add(this.tdNameLabel21);
 			this.tdPanel21.Controls.Add(this.tdNoLabel21);
 			this.tdPanel21.Controls.Add(this.tdStepTimeNumericUpDown21);
@@ -4051,6 +4306,16 @@ namespace LightController.MyForm
 			this.tdPanel21.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel21.TabIndex = 26;
 			this.tdPanel21.Visible = false;
+			// 
+			// trueTimeLabel21
+			// 
+			this.trueTimeLabel21.AutoSize = true;
+			this.trueTimeLabel21.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel21.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel21.Name = "trueTimeLabel21";
+			this.trueTimeLabel21.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel21.TabIndex = 37;
+			this.trueTimeLabel21.Text = "12.4s";
 			// 
 			// tdNameLabel21
 			// 
@@ -4077,7 +4342,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown21
 			// 
 			this.tdStepTimeNumericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown21.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown21.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown21.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown21.Maximum = new decimal(new int[] {
             254,
@@ -4099,7 +4364,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar21.Maximum = 255;
 			this.tdSkinTrackBar21.Name = "tdSkinTrackBar21";
 			this.tdSkinTrackBar21.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar21.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar21.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar21.TabIndex = 1;
 			this.tdSkinTrackBar21.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar21.Track = null;
@@ -4107,7 +4372,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown21
 			// 
 			this.tdValueNumericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown21.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown21.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown21.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown21.Maximum = new decimal(new int[] {
             255,
@@ -4130,7 +4395,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox21.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox21.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox21.Name = "tdChangeModeSkinComboBox21";
 			this.tdChangeModeSkinComboBox21.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox21.TabIndex = 19;
@@ -4138,6 +4403,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel22
 			// 
+			this.tdPanel22.Controls.Add(this.trueTimeLabel22);
 			this.tdPanel22.Controls.Add(this.tdNameLabel22);
 			this.tdPanel22.Controls.Add(this.tdNoLabel22);
 			this.tdPanel22.Controls.Add(this.tdStepTimeNumericUpDown22);
@@ -4149,6 +4415,16 @@ namespace LightController.MyForm
 			this.tdPanel22.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel22.TabIndex = 26;
 			this.tdPanel22.Visible = false;
+			// 
+			// trueTimeLabel22
+			// 
+			this.trueTimeLabel22.AutoSize = true;
+			this.trueTimeLabel22.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel22.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel22.Name = "trueTimeLabel22";
+			this.trueTimeLabel22.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel22.TabIndex = 39;
+			this.trueTimeLabel22.Text = "12.4s";
 			// 
 			// tdNameLabel22
 			// 
@@ -4175,7 +4451,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown22
 			// 
 			this.tdStepTimeNumericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown22.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown22.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown22.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown22.Maximum = new decimal(new int[] {
             254,
@@ -4197,7 +4473,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar22.Maximum = 255;
 			this.tdSkinTrackBar22.Name = "tdSkinTrackBar22";
 			this.tdSkinTrackBar22.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar22.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar22.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar22.TabIndex = 1;
 			this.tdSkinTrackBar22.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar22.Track = null;
@@ -4205,7 +4481,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown22
 			// 
 			this.tdValueNumericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown22.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown22.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown22.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown22.Maximum = new decimal(new int[] {
             255,
@@ -4228,7 +4504,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox22.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox22.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox22.Name = "tdChangeModeSkinComboBox22";
 			this.tdChangeModeSkinComboBox22.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox22.TabIndex = 19;
@@ -4236,6 +4512,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel23
 			// 
+			this.tdPanel23.Controls.Add(this.trueTimeLabel23);
 			this.tdPanel23.Controls.Add(this.tdNameLabel23);
 			this.tdPanel23.Controls.Add(this.tdNoLabel23);
 			this.tdPanel23.Controls.Add(this.tdStepTimeNumericUpDown23);
@@ -4247,6 +4524,16 @@ namespace LightController.MyForm
 			this.tdPanel23.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel23.TabIndex = 26;
 			this.tdPanel23.Visible = false;
+			// 
+			// trueTimeLabel23
+			// 
+			this.trueTimeLabel23.AutoSize = true;
+			this.trueTimeLabel23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel23.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel23.Name = "trueTimeLabel23";
+			this.trueTimeLabel23.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel23.TabIndex = 27;
+			this.trueTimeLabel23.Text = "12.4s";
 			// 
 			// tdNameLabel23
 			// 
@@ -4273,7 +4560,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown23
 			// 
 			this.tdStepTimeNumericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown23.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown23.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown23.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown23.Maximum = new decimal(new int[] {
             254,
@@ -4295,7 +4582,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar23.Maximum = 255;
 			this.tdSkinTrackBar23.Name = "tdSkinTrackBar23";
 			this.tdSkinTrackBar23.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar23.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar23.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar23.TabIndex = 1;
 			this.tdSkinTrackBar23.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar23.Track = null;
@@ -4303,7 +4590,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown23
 			// 
 			this.tdValueNumericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown23.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown23.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown23.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown23.Maximum = new decimal(new int[] {
             255,
@@ -4326,7 +4613,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox23.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox23.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox23.Name = "tdChangeModeSkinComboBox23";
 			this.tdChangeModeSkinComboBox23.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox23.TabIndex = 19;
@@ -4334,6 +4621,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel24
 			// 
+			this.tdPanel24.Controls.Add(this.trueTimeLabel24);
 			this.tdPanel24.Controls.Add(this.tdNameLabel24);
 			this.tdPanel24.Controls.Add(this.tdNoLabel24);
 			this.tdPanel24.Controls.Add(this.tdStepTimeNumericUpDown24);
@@ -4345,6 +4633,16 @@ namespace LightController.MyForm
 			this.tdPanel24.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel24.TabIndex = 26;
 			this.tdPanel24.Visible = false;
+			// 
+			// trueTimeLabel24
+			// 
+			this.trueTimeLabel24.AutoSize = true;
+			this.trueTimeLabel24.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel24.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel24.Name = "trueTimeLabel24";
+			this.trueTimeLabel24.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel24.TabIndex = 30;
+			this.trueTimeLabel24.Text = "12.4s";
 			// 
 			// tdNameLabel24
 			// 
@@ -4371,7 +4669,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown24
 			// 
 			this.tdStepTimeNumericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown24.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown24.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown24.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown24.Maximum = new decimal(new int[] {
             254,
@@ -4393,7 +4691,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar24.Maximum = 255;
 			this.tdSkinTrackBar24.Name = "tdSkinTrackBar24";
 			this.tdSkinTrackBar24.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar24.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar24.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar24.TabIndex = 1;
 			this.tdSkinTrackBar24.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar24.Track = null;
@@ -4401,7 +4699,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown24
 			// 
 			this.tdValueNumericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown24.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown24.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown24.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown24.Maximum = new decimal(new int[] {
             255,
@@ -4424,7 +4722,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox24.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox24.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox24.Name = "tdChangeModeSkinComboBox24";
 			this.tdChangeModeSkinComboBox24.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox24.TabIndex = 19;
@@ -4432,6 +4730,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel25
 			// 
+			this.tdPanel25.Controls.Add(this.trueTimeLabel25);
 			this.tdPanel25.Controls.Add(this.tdNameLabel25);
 			this.tdPanel25.Controls.Add(this.tdNoLabel25);
 			this.tdPanel25.Controls.Add(this.tdStepTimeNumericUpDown25);
@@ -4443,6 +4742,16 @@ namespace LightController.MyForm
 			this.tdPanel25.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel25.TabIndex = 26;
 			this.tdPanel25.Visible = false;
+			// 
+			// trueTimeLabel25
+			// 
+			this.trueTimeLabel25.AutoSize = true;
+			this.trueTimeLabel25.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel25.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel25.Name = "trueTimeLabel25";
+			this.trueTimeLabel25.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel25.TabIndex = 28;
+			this.trueTimeLabel25.Text = "12.4s";
 			// 
 			// tdNameLabel25
 			// 
@@ -4469,7 +4778,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown25
 			// 
 			this.tdStepTimeNumericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown25.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown25.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown25.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown25.Maximum = new decimal(new int[] {
             254,
@@ -4491,7 +4800,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar25.Maximum = 255;
 			this.tdSkinTrackBar25.Name = "tdSkinTrackBar25";
 			this.tdSkinTrackBar25.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar25.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar25.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar25.TabIndex = 1;
 			this.tdSkinTrackBar25.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar25.Track = null;
@@ -4499,7 +4808,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown25
 			// 
 			this.tdValueNumericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown25.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown25.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown25.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown25.Maximum = new decimal(new int[] {
             255,
@@ -4522,7 +4831,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox25.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox25.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox25.Name = "tdChangeModeSkinComboBox25";
 			this.tdChangeModeSkinComboBox25.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox25.TabIndex = 19;
@@ -4530,6 +4839,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel26
 			// 
+			this.tdPanel26.Controls.Add(this.trueTimeLabel26);
 			this.tdPanel26.Controls.Add(this.tdNameLabel26);
 			this.tdPanel26.Controls.Add(this.tdNoLabel26);
 			this.tdPanel26.Controls.Add(this.tdStepTimeNumericUpDown26);
@@ -4541,6 +4851,16 @@ namespace LightController.MyForm
 			this.tdPanel26.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel26.TabIndex = 26;
 			this.tdPanel26.Visible = false;
+			// 
+			// trueTimeLabel26
+			// 
+			this.trueTimeLabel26.AutoSize = true;
+			this.trueTimeLabel26.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel26.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel26.Name = "trueTimeLabel26";
+			this.trueTimeLabel26.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel26.TabIndex = 28;
+			this.trueTimeLabel26.Text = "12.4s";
 			// 
 			// tdNameLabel26
 			// 
@@ -4567,7 +4887,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown26
 			// 
 			this.tdStepTimeNumericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown26.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown26.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown26.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown26.Maximum = new decimal(new int[] {
             254,
@@ -4589,7 +4909,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar26.Maximum = 255;
 			this.tdSkinTrackBar26.Name = "tdSkinTrackBar26";
 			this.tdSkinTrackBar26.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar26.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar26.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar26.TabIndex = 1;
 			this.tdSkinTrackBar26.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar26.Track = null;
@@ -4597,7 +4917,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown26
 			// 
 			this.tdValueNumericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown26.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown26.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown26.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown26.Maximum = new decimal(new int[] {
             255,
@@ -4620,7 +4940,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox26.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox26.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox26.Name = "tdChangeModeSkinComboBox26";
 			this.tdChangeModeSkinComboBox26.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox26.TabIndex = 19;
@@ -4628,6 +4948,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel27
 			// 
+			this.tdPanel27.Controls.Add(this.trueTimeLabel27);
 			this.tdPanel27.Controls.Add(this.tdNameLabel27);
 			this.tdPanel27.Controls.Add(this.tdNoLabel27);
 			this.tdPanel27.Controls.Add(this.tdStepTimeNumericUpDown27);
@@ -4639,6 +4960,16 @@ namespace LightController.MyForm
 			this.tdPanel27.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel27.TabIndex = 26;
 			this.tdPanel27.Visible = false;
+			// 
+			// trueTimeLabel27
+			// 
+			this.trueTimeLabel27.AutoSize = true;
+			this.trueTimeLabel27.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel27.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel27.Name = "trueTimeLabel27";
+			this.trueTimeLabel27.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel27.TabIndex = 28;
+			this.trueTimeLabel27.Text = "12.4s";
 			// 
 			// tdNameLabel27
 			// 
@@ -4665,7 +4996,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown27
 			// 
 			this.tdStepTimeNumericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown27.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown27.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown27.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown27.Maximum = new decimal(new int[] {
             254,
@@ -4687,7 +5018,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar27.Maximum = 255;
 			this.tdSkinTrackBar27.Name = "tdSkinTrackBar27";
 			this.tdSkinTrackBar27.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar27.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar27.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar27.TabIndex = 1;
 			this.tdSkinTrackBar27.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar27.Track = null;
@@ -4695,7 +5026,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown27
 			// 
 			this.tdValueNumericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown27.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown27.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown27.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown27.Maximum = new decimal(new int[] {
             255,
@@ -4718,7 +5049,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox27.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox27.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox27.Name = "tdChangeModeSkinComboBox27";
 			this.tdChangeModeSkinComboBox27.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox27.TabIndex = 19;
@@ -4726,6 +5057,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel28
 			// 
+			this.tdPanel28.Controls.Add(this.trueTimeLabel28);
 			this.tdPanel28.Controls.Add(this.tdNameLabel28);
 			this.tdPanel28.Controls.Add(this.tdNoLabel28);
 			this.tdPanel28.Controls.Add(this.tdStepTimeNumericUpDown28);
@@ -4737,6 +5069,16 @@ namespace LightController.MyForm
 			this.tdPanel28.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel28.TabIndex = 26;
 			this.tdPanel28.Visible = false;
+			// 
+			// trueTimeLabel28
+			// 
+			this.trueTimeLabel28.AutoSize = true;
+			this.trueTimeLabel28.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel28.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel28.Name = "trueTimeLabel28";
+			this.trueTimeLabel28.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel28.TabIndex = 28;
+			this.trueTimeLabel28.Text = "12.4s";
 			// 
 			// tdNameLabel28
 			// 
@@ -4763,7 +5105,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown28
 			// 
 			this.tdStepTimeNumericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown28.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown28.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown28.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown28.Maximum = new decimal(new int[] {
             254,
@@ -4785,7 +5127,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar28.Maximum = 255;
 			this.tdSkinTrackBar28.Name = "tdSkinTrackBar28";
 			this.tdSkinTrackBar28.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar28.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar28.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar28.TabIndex = 1;
 			this.tdSkinTrackBar28.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar28.Track = null;
@@ -4793,7 +5135,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown28
 			// 
 			this.tdValueNumericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown28.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown28.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown28.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown28.Maximum = new decimal(new int[] {
             255,
@@ -4816,7 +5158,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox28.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox28.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox28.Name = "tdChangeModeSkinComboBox28";
 			this.tdChangeModeSkinComboBox28.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox28.TabIndex = 19;
@@ -4824,6 +5166,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel29
 			// 
+			this.tdPanel29.Controls.Add(this.trueTimeLabel29);
 			this.tdPanel29.Controls.Add(this.tdNameLabel29);
 			this.tdPanel29.Controls.Add(this.tdNoLabel29);
 			this.tdPanel29.Controls.Add(this.tdStepTimeNumericUpDown29);
@@ -4835,6 +5178,16 @@ namespace LightController.MyForm
 			this.tdPanel29.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel29.TabIndex = 26;
 			this.tdPanel29.Visible = false;
+			// 
+			// trueTimeLabel29
+			// 
+			this.trueTimeLabel29.AutoSize = true;
+			this.trueTimeLabel29.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel29.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel29.Name = "trueTimeLabel29";
+			this.trueTimeLabel29.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel29.TabIndex = 30;
+			this.trueTimeLabel29.Text = "12.4s";
 			// 
 			// tdNameLabel29
 			// 
@@ -4861,7 +5214,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown29
 			// 
 			this.tdStepTimeNumericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown29.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown29.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown29.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown29.Maximum = new decimal(new int[] {
             254,
@@ -4883,7 +5236,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar29.Maximum = 255;
 			this.tdSkinTrackBar29.Name = "tdSkinTrackBar29";
 			this.tdSkinTrackBar29.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar29.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar29.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar29.TabIndex = 1;
 			this.tdSkinTrackBar29.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar29.Track = null;
@@ -4891,7 +5244,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown29
 			// 
 			this.tdValueNumericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown29.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown29.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown29.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown29.Maximum = new decimal(new int[] {
             255,
@@ -4914,7 +5267,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox29.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox29.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox29.Name = "tdChangeModeSkinComboBox29";
 			this.tdChangeModeSkinComboBox29.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox29.TabIndex = 19;
@@ -4922,6 +5275,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel30
 			// 
+			this.tdPanel30.Controls.Add(this.trueTimeLabel30);
 			this.tdPanel30.Controls.Add(this.tdNameLabel30);
 			this.tdPanel30.Controls.Add(this.tdNoLabel30);
 			this.tdPanel30.Controls.Add(this.tdStepTimeNumericUpDown30);
@@ -4933,6 +5287,16 @@ namespace LightController.MyForm
 			this.tdPanel30.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel30.TabIndex = 26;
 			this.tdPanel30.Visible = false;
+			// 
+			// trueTimeLabel30
+			// 
+			this.trueTimeLabel30.AutoSize = true;
+			this.trueTimeLabel30.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel30.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel30.Name = "trueTimeLabel30";
+			this.trueTimeLabel30.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel30.TabIndex = 32;
+			this.trueTimeLabel30.Text = "12.4s";
 			// 
 			// tdNameLabel30
 			// 
@@ -4959,7 +5323,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown30
 			// 
 			this.tdStepTimeNumericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown30.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown30.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown30.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown30.Maximum = new decimal(new int[] {
             254,
@@ -4981,7 +5345,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar30.Maximum = 255;
 			this.tdSkinTrackBar30.Name = "tdSkinTrackBar30";
 			this.tdSkinTrackBar30.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar30.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar30.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar30.TabIndex = 1;
 			this.tdSkinTrackBar30.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar30.Track = null;
@@ -4989,7 +5353,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown30
 			// 
 			this.tdValueNumericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown30.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown30.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown30.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown30.Maximum = new decimal(new int[] {
             255,
@@ -5012,7 +5376,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox30.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox30.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox30.Name = "tdChangeModeSkinComboBox30";
 			this.tdChangeModeSkinComboBox30.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox30.TabIndex = 19;
@@ -5020,6 +5384,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel31
 			// 
+			this.tdPanel31.Controls.Add(this.trueTimeLabel31);
 			this.tdPanel31.Controls.Add(this.tdNameLabel31);
 			this.tdPanel31.Controls.Add(this.tdNoLabel31);
 			this.tdPanel31.Controls.Add(this.tdStepTimeNumericUpDown31);
@@ -5031,6 +5396,16 @@ namespace LightController.MyForm
 			this.tdPanel31.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel31.TabIndex = 26;
 			this.tdPanel31.Visible = false;
+			// 
+			// trueTimeLabel31
+			// 
+			this.trueTimeLabel31.AutoSize = true;
+			this.trueTimeLabel31.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel31.Location = new System.Drawing.Point(21, 277);
+			this.trueTimeLabel31.Name = "trueTimeLabel31";
+			this.trueTimeLabel31.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel31.TabIndex = 34;
+			this.trueTimeLabel31.Text = "12.4s";
 			// 
 			// tdNameLabel31
 			// 
@@ -5057,7 +5432,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown31
 			// 
 			this.tdStepTimeNumericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown31.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown31.Location = new System.Drawing.Point(23, 253);
 			this.tdStepTimeNumericUpDown31.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown31.Maximum = new decimal(new int[] {
             254,
@@ -5079,7 +5454,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar31.Maximum = 255;
 			this.tdSkinTrackBar31.Name = "tdSkinTrackBar31";
 			this.tdSkinTrackBar31.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar31.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar31.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar31.TabIndex = 1;
 			this.tdSkinTrackBar31.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar31.Track = null;
@@ -5087,7 +5462,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown31
 			// 
 			this.tdValueNumericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown31.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown31.Location = new System.Drawing.Point(23, 207);
 			this.tdValueNumericUpDown31.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown31.Maximum = new decimal(new int[] {
             255,
@@ -5110,7 +5485,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox31.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox31.Location = new System.Drawing.Point(14, 228);
 			this.tdChangeModeSkinComboBox31.Name = "tdChangeModeSkinComboBox31";
 			this.tdChangeModeSkinComboBox31.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox31.TabIndex = 19;
@@ -5118,6 +5493,7 @@ namespace LightController.MyForm
 			// 
 			// tdPanel32
 			// 
+			this.tdPanel32.Controls.Add(this.trueTimeLabel32);
 			this.tdPanel32.Controls.Add(this.tdNameLabel32);
 			this.tdPanel32.Controls.Add(this.tdNoLabel32);
 			this.tdPanel32.Controls.Add(this.tdStepTimeNumericUpDown32);
@@ -5129,6 +5505,16 @@ namespace LightController.MyForm
 			this.tdPanel32.Size = new System.Drawing.Size(80, 306);
 			this.tdPanel32.TabIndex = 26;
 			this.tdPanel32.Visible = false;
+			// 
+			// trueTimeLabel32
+			// 
+			this.trueTimeLabel32.AutoSize = true;
+			this.trueTimeLabel32.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.trueTimeLabel32.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel32.Name = "trueTimeLabel32";
+			this.trueTimeLabel32.Size = new System.Drawing.Size(35, 12);
+			this.trueTimeLabel32.TabIndex = 36;
+			this.trueTimeLabel32.Text = "12.4s";
 			// 
 			// tdNameLabel32
 			// 
@@ -5155,7 +5541,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown32
 			// 
 			this.tdStepTimeNumericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown32.Location = new System.Drawing.Point(24, 273);
+			this.tdStepTimeNumericUpDown32.Location = new System.Drawing.Point(24, 253);
 			this.tdStepTimeNumericUpDown32.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown32.Maximum = new decimal(new int[] {
             254,
@@ -5177,7 +5563,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar32.Maximum = 255;
 			this.tdSkinTrackBar32.Name = "tdSkinTrackBar32";
 			this.tdSkinTrackBar32.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar32.Size = new System.Drawing.Size(44, 189);
+			this.tdSkinTrackBar32.Size = new System.Drawing.Size(44, 170);
 			this.tdSkinTrackBar32.TabIndex = 1;
 			this.tdSkinTrackBar32.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar32.Track = null;
@@ -5185,7 +5571,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown32
 			// 
 			this.tdValueNumericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown32.Location = new System.Drawing.Point(24, 227);
+			this.tdValueNumericUpDown32.Location = new System.Drawing.Point(24, 207);
 			this.tdValueNumericUpDown32.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown32.Maximum = new decimal(new int[] {
             255,
@@ -5208,7 +5594,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox32.Location = new System.Drawing.Point(15, 248);
+			this.tdChangeModeSkinComboBox32.Location = new System.Drawing.Point(15, 228);
 			this.tdChangeModeSkinComboBox32.Name = "tdChangeModeSkinComboBox32";
 			this.tdChangeModeSkinComboBox32.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox32.TabIndex = 19;
@@ -5222,11 +5608,11 @@ namespace LightController.MyForm
 			this.tdTableLayoutPanel.Controls.Add(this.tdSkinFlowLayoutPanel, 1, 0);
 			this.tdTableLayoutPanel.Controls.Add(this.labelAstPanel, 0, 0);
 			this.tdTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tdTableLayoutPanel.Location = new System.Drawing.Point(123, 403);
+			this.tdTableLayoutPanel.Location = new System.Drawing.Point(123, 388);
 			this.tdTableLayoutPanel.Name = "tdTableLayoutPanel";
 			this.tdTableLayoutPanel.RowCount = 1;
 			this.tdTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tdTableLayoutPanel.Size = new System.Drawing.Size(1056, 319);
+			this.tdTableLayoutPanel.Size = new System.Drawing.Size(1055, 321);
 			this.tdTableLayoutPanel.TabIndex = 28;
 			// 
 			// labelAstPanel
@@ -5235,7 +5621,7 @@ namespace LightController.MyForm
 			this.labelAstPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelAstPanel.Location = new System.Drawing.Point(3, 3);
 			this.labelAstPanel.Name = "labelAstPanel";
-			this.labelAstPanel.Size = new System.Drawing.Size(74, 313);
+			this.labelAstPanel.Size = new System.Drawing.Size(74, 315);
 			this.labelAstPanel.TabIndex = 28;
 			// 
 			// labelFlowLayoutPanel
@@ -5248,7 +5634,7 @@ namespace LightController.MyForm
 			this.labelFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.labelFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.labelFlowLayoutPanel.Name = "labelFlowLayoutPanel";
-			this.labelFlowLayoutPanel.Size = new System.Drawing.Size(112, 313);
+			this.labelFlowLayoutPanel.Size = new System.Drawing.Size(112, 315);
 			this.labelFlowLayoutPanel.TabIndex = 0;
 			// 
 			// labelPanel1
@@ -5264,7 +5650,7 @@ namespace LightController.MyForm
 			// thirdLabel1
 			// 
 			this.thirdLabel1.AutoSize = true;
-			this.thirdLabel1.Location = new System.Drawing.Point(18, 275);
+			this.thirdLabel1.Location = new System.Drawing.Point(23, 256);
 			this.thirdLabel1.Name = "thirdLabel1";
 			this.thirdLabel1.Size = new System.Drawing.Size(41, 12);
 			this.thirdLabel1.TabIndex = 0;
@@ -5273,7 +5659,7 @@ namespace LightController.MyForm
 			// secondLabel1
 			// 
 			this.secondLabel1.AutoSize = true;
-			this.secondLabel1.Location = new System.Drawing.Point(18, 251);
+			this.secondLabel1.Location = new System.Drawing.Point(23, 232);
 			this.secondLabel1.Name = "secondLabel1";
 			this.secondLabel1.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel1.TabIndex = 0;
@@ -5282,7 +5668,7 @@ namespace LightController.MyForm
 			// firstLabel1
 			// 
 			this.firstLabel1.AutoSize = true;
-			this.firstLabel1.Location = new System.Drawing.Point(18, 228);
+			this.firstLabel1.Location = new System.Drawing.Point(23, 209);
 			this.firstLabel1.Name = "firstLabel1";
 			this.firstLabel1.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel1.TabIndex = 0;
@@ -5301,7 +5687,7 @@ namespace LightController.MyForm
 			// thirdLabel2
 			// 
 			this.thirdLabel2.AutoSize = true;
-			this.thirdLabel2.Location = new System.Drawing.Point(18, 275);
+			this.thirdLabel2.Location = new System.Drawing.Point(23, 255);
 			this.thirdLabel2.Name = "thirdLabel2";
 			this.thirdLabel2.Size = new System.Drawing.Size(41, 12);
 			this.thirdLabel2.TabIndex = 0;
@@ -5310,7 +5696,7 @@ namespace LightController.MyForm
 			// secondLabel2
 			// 
 			this.secondLabel2.AutoSize = true;
-			this.secondLabel2.Location = new System.Drawing.Point(18, 251);
+			this.secondLabel2.Location = new System.Drawing.Point(23, 231);
 			this.secondLabel2.Name = "secondLabel2";
 			this.secondLabel2.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel2.TabIndex = 0;
@@ -5319,7 +5705,7 @@ namespace LightController.MyForm
 			// firstLabel2
 			// 
 			this.firstLabel2.AutoSize = true;
-			this.firstLabel2.Location = new System.Drawing.Point(18, 228);
+			this.firstLabel2.Location = new System.Drawing.Point(23, 208);
 			this.firstLabel2.Name = "firstLabel2";
 			this.firstLabel2.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel2.TabIndex = 0;
@@ -5338,7 +5724,7 @@ namespace LightController.MyForm
 			// thirdLabel3
 			// 
 			this.thirdLabel3.AutoSize = true;
-			this.thirdLabel3.Location = new System.Drawing.Point(18, 275);
+			this.thirdLabel3.Location = new System.Drawing.Point(18, 256);
 			this.thirdLabel3.Name = "thirdLabel3";
 			this.thirdLabel3.Size = new System.Drawing.Size(41, 12);
 			this.thirdLabel3.TabIndex = 0;
@@ -5347,7 +5733,7 @@ namespace LightController.MyForm
 			// secondLabel3
 			// 
 			this.secondLabel3.AutoSize = true;
-			this.secondLabel3.Location = new System.Drawing.Point(18, 251);
+			this.secondLabel3.Location = new System.Drawing.Point(18, 233);
 			this.secondLabel3.Name = "secondLabel3";
 			this.secondLabel3.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel3.TabIndex = 0;
@@ -5356,7 +5742,7 @@ namespace LightController.MyForm
 			// firstLabel3
 			// 
 			this.firstLabel3.AutoSize = true;
-			this.firstLabel3.Location = new System.Drawing.Point(18, 228);
+			this.firstLabel3.Location = new System.Drawing.Point(18, 210);
 			this.firstLabel3.Name = "firstLabel3";
 			this.firstLabel3.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel3.TabIndex = 0;
@@ -5367,7 +5753,7 @@ namespace LightController.MyForm
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.ClientSize = new System.Drawing.Size(1425, 861);
+			this.ClientSize = new System.Drawing.Size(1424, 841);
 			this.Controls.Add(this.tdTableLayoutPanel);
 			this.Controls.Add(this.stepSkinPanel);
 			this.Controls.Add(this.lightsSkinListView);
@@ -5900,5 +6286,40 @@ namespace LightController.MyForm
 		private SkinButton exportSkinButton;
 		private SkinButton multiSkinButton;
 		private SkinTrackBar tdSkinTrackBar1;
+
+		private Label trueTimeLabel1;
+		private Label trueTimeLabel2;
+		private Label trueTimeLabel3;	
+		private Label trueTimeLabel4;
+		private Label trueTimeLabel5;
+		private Label trueTimeLabel6;		
+		private Label trueTimeLabel7;		
+		private Label trueTimeLabel8;		
+		private Label trueTimeLabel9;	
+		private Label trueTimeLabel10;
+		private Label trueTimeLabel11;		
+		private Label trueTimeLabel12;	
+		private Label trueTimeLabel13;		
+		private Label trueTimeLabel14;		
+		private Label trueTimeLabel15;		
+		private Label trueTimeLabel16;	
+		private Label trueTimeLabel17;	
+		private Label trueTimeLabel18;		
+		private Label trueTimeLabel19;
+		private Label trueTimeLabel20;
+		private Label trueTimeLabel21;	
+		private Label trueTimeLabel22;		
+		private Label trueTimeLabel23;
+		private Label trueTimeLabel24;		
+		private Label trueTimeLabel25;
+		private Label trueTimeLabel26;		
+		private Label trueTimeLabel27;		
+		private Label trueTimeLabel28;	
+		private Label trueTimeLabel29;	
+		private Label trueTimeLabel30;		
+		private Label trueTimeLabel31;		
+		private Label trueTimeLabel32;
+		private Label[] tdTrueTimeLabels = new Label[32];
+		
 	}
 }

@@ -19,9 +19,10 @@ namespace LightController.MyForm
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
 		private int mode;
-		private string path = @"C:\Temp\LightMaterial\";  
+		private string path = @"C:\Temp\LightMaterial\";
+		private string lightName;  
 
-		public MaterialSaveForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode)
+		public MaterialSaveForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode , string lightName)
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
@@ -44,6 +45,7 @@ namespace LightController.MyForm
 			this.stepWrapperList = stepWrapperList;
 			this.mode = mode;
 			path += mode == 0 ? "Normal" : "Sound";
+			this.lightName = lightName ;
 
 			#region 初始化自定义数组等
 
@@ -100,9 +102,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-				// 0.先判断各种信息，没问题了再保存
-				string materialName = nameTextBox.Text;
-				if ( String.IsNullOrEmpty(materialName)) {
+			// 0.先判断各种信息，没问题了再保存
+			string materialName = nameTextBox.Text;
+			string addName = addNameCheckBox.Checked ? "(" + lightName + ")" : "";
+			materialName += addName;
+
+			if ( String.IsNullOrEmpty(materialName)) {
 					MessageBox.Show("请输入素材名。");
 					return;
 				}				
@@ -110,7 +115,7 @@ namespace LightController.MyForm
 				//0.1 判断是否有非法字符 "\"和“/”
 				if ( ! FileAst.CheckFileName(materialName))
 				{
-					MessageBox.Show("素材命名不规范，无法创建。");
+					MessageBox.Show("素材命名不规范，无法保存。");
 					return;
 				}
 
@@ -173,17 +178,19 @@ namespace LightController.MyForm
 					di.Create();
 				}
 				catch (Exception) {
-					MessageBox.Show("素材命名不规范，无法创建。");
+					MessageBox.Show("素材命名不规范，无法保存。");
 					return;
 				}
-				
-				// 2.将相关文件拷贝到文件夹内
+
+				// 2.将相关文件拷贝到文件夹内	
+
 				string sourcePath = Application.StartupPath + @"\materialSet.ini";
-				string iniPath = directoryPath + @"\materialSet.ini";
-				File.Copy(sourcePath, iniPath);
+				string destinationPath = directoryPath  + @"\materialSet.ini";
+
+				File.Copy(sourcePath, destinationPath);
 
 				//3.修改其中的数据
-				IniFileAst iniFileAst = new IniFileAst(iniPath);
+				IniFileAst iniFileAst = new IniFileAst(destinationPath);
 				// 3.1 写[Set]内数据，包括几个要被记录的通道名
 				iniFileAst.WriteString("Set","name", materialName);
 				iniFileAst.WriteInt("Set","step",stepCount);

@@ -68,12 +68,13 @@
 			this.noticeLabel = new System.Windows.Forms.Label();
 			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
+			this.addNameCheckBox = new System.Windows.Forms.CheckBox();
 			this.tongdaoPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// nameTextBox
 			// 
-			this.nameTextBox.Location = new System.Drawing.Point(99, 392);
+			this.nameTextBox.Location = new System.Drawing.Point(99, 421);
 			this.nameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameTextBox.Name = "nameTextBox";
 			this.nameTextBox.Size = new System.Drawing.Size(139, 21);
@@ -83,7 +84,7 @@
 			// mNameLabel
 			// 
 			this.mNameLabel.AutoSize = true;
-			this.mNameLabel.Location = new System.Drawing.Point(33, 396);
+			this.mNameLabel.Location = new System.Drawing.Point(33, 425);
 			this.mNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.mNameLabel.Name = "mNameLabel";
 			this.mNameLabel.Size = new System.Drawing.Size(65, 12);
@@ -546,7 +547,7 @@
 			this.saveSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.saveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.saveSkinButton.DownBack = null;
-			this.saveSkinButton.Location = new System.Drawing.Point(35, 428);
+			this.saveSkinButton.Location = new System.Drawing.Point(35, 457);
 			this.saveSkinButton.MouseBack = null;
 			this.saveSkinButton.Name = "saveSkinButton";
 			this.saveSkinButton.NormlBack = null;
@@ -564,7 +565,7 @@
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(152, 428);
+			this.cancelSkinButton.Location = new System.Drawing.Point(152, 457);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -574,12 +575,25 @@
 			this.cancelSkinButton.UseVisualStyleBackColor = false;
 			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
+			// addNameCheckBox
+			// 
+			this.addNameCheckBox.AutoSize = true;
+			this.addNameCheckBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.addNameCheckBox.Location = new System.Drawing.Point(35, 388);
+			this.addNameCheckBox.Margin = new System.Windows.Forms.Padding(2);
+			this.addNameCheckBox.Name = "addNameCheckBox";
+			this.addNameCheckBox.Size = new System.Drawing.Size(152, 18);
+			this.addNameCheckBox.TabIndex = 6;
+			this.addNameCheckBox.Text = "是否自动添加灯具名";
+			this.addNameCheckBox.UseVisualStyleBackColor = true;
+			// 
 			// MaterialSaveForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
-			this.ClientSize = new System.Drawing.Size(266, 474);
+			this.ClientSize = new System.Drawing.Size(266, 509);
+			this.Controls.Add(this.addNameCheckBox);
 			this.Controls.Add(this.cancelSkinButton);
 			this.Controls.Add(this.saveSkinButton);
 			this.Controls.Add(this.selectAllCheckBox);
@@ -645,5 +659,6 @@
 		private System.Windows.Forms.CheckBox selectAllCheckBox;
 		private CCWin.SkinControl.SkinButton saveSkinButton;
 		private CCWin.SkinControl.SkinButton cancelSkinButton;
+		private System.Windows.Forms.CheckBox addNameCheckBox;
 	}
 }

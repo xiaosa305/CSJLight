@@ -17,7 +17,8 @@ namespace LightController.MyForm
 		private string iniFilePath;
 		private IniFileAst iniAst ;
 		private bool isInit = false;
-		private int frameIndex = -1;			
+		private int frameIndex = -1;
+		private int eachStepTime = 30;
 
 		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 
@@ -115,6 +116,30 @@ namespace LightController.MyForm
 			this.jgtNumericUpDowns[22] = jgtNumericUpDown23;
 			this.jgtNumericUpDowns[23] = jgtNumericUpDown24;
 
+			frameSTLabels[0] = frameSTLabel1;
+			frameSTLabels[1] = frameSTLabel2;
+			frameSTLabels[2] = frameSTLabel3;
+			frameSTLabels[3] = frameSTLabel4;
+			frameSTLabels[4] = frameSTLabel5;
+			frameSTLabels[5] = frameSTLabel6;
+			frameSTLabels[6] = frameSTLabel7;
+			frameSTLabels[7] = frameSTLabel8;
+			frameSTLabels[8] = frameSTLabel9;
+			frameSTLabels[9] = frameSTLabel10;
+			frameSTLabels[10] = frameSTLabel11;
+			frameSTLabels[11] = frameSTLabel12;
+			frameSTLabels[12] = frameSTLabel13;
+			frameSTLabels[13] = frameSTLabel14;
+			frameSTLabels[14] = frameSTLabel15;
+			frameSTLabels[15] = frameSTLabel16;
+			frameSTLabels[16] = frameSTLabel17;
+			frameSTLabels[17] = frameSTLabel18;
+			frameSTLabels[18] = frameSTLabel19;
+			frameSTLabels[19] = frameSTLabel20;
+			frameSTLabels[20] = frameSTLabel21;
+			frameSTLabels[21] = frameSTLabel22;
+			frameSTLabels[22] = frameSTLabel23;
+			frameSTLabels[23] = frameSTLabel24;
 
 
 			// 初始化多场景组合播放输入项
@@ -226,7 +251,7 @@ namespace LightController.MyForm
 				eachStepTimeNumericUpDown.Value =  30;
 				eachChangeModeComboBox.SelectedIndex = 0 ;
 			}
-
+			eachStepTime = Decimal.ToInt16(eachStepTimeNumericUpDown.Value);
 		}
 
 		/// <summary>
@@ -255,7 +280,9 @@ namespace LightController.MyForm
 		{
 			for (int i = 0; i < 24; i++)
 			{
-				frameStepTimeNumericUpDowns[i].Value = iniAst.ReadInt("SK", i+"ST", 0);
+				int currentStepTime =iniAst.ReadInt("SK", i + "ST", 0);
+				frameStepTimeNumericUpDowns[i].Value = currentStepTime;
+				frameSTLabels[i].Text = eachStepTime * currentStepTime / 1000.0 + "s";
 				jgtNumericUpDowns[i].Value = iniAst.ReadInt("SK", i + "JG", 0);
 			}
 		}
@@ -325,7 +352,11 @@ namespace LightController.MyForm
 			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;			
 			iniAst.WriteInt("Set", "EachStepTime",eachStepTimeNumericUpDown.Value);
 			iniAst.WriteInt("Set", "EachChangeMode", eachChangeModeComboBox.SelectedIndex);
-			mainForm.ChangeEachStepTime( Decimal.ToInt32(eachStepTimeNumericUpDown.Value) );
+
+			eachStepTime = Decimal.ToInt16(eachStepTimeNumericUpDown.Value);
+			mainForm.ChangeEachStepTime( eachStepTime );
+			loadSKSet();
+
 			MessageBox.Show("保存成功");
 
 		}

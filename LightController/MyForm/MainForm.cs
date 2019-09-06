@@ -423,8 +423,7 @@ namespace LightController
 					lightAstList2[i].LightName + ":" + lightAstList2[i].LightType,
 					lightAstList2[i].LightPic
 				));				
-			}	
-
+			}
 			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
 			tongdaoGroupBox .Hide();
 		}

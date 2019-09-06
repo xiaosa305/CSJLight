@@ -73,8 +73,7 @@ namespace LightController.MyForm
 		
 
 		/// <summary>
-		/// 事件：点击《删除》；后期可能不保留
-		/// </summary>
+		/// 事件：点击《删除》按钮（后期可能删除的功能）；
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)

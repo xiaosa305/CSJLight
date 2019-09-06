@@ -104,119 +104,120 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
 		{
-			// 0.先判断各种信息，没问题了再保存
+			
 			string materialName = nameTextBox.Text;
+
+			// 0.1 先判断各种信息，没问题了再保存
+			if ( String.IsNullOrEmpty(materialName)) {
+				MessageBox.Show("请输入素材名。");
+				return;
+			}				
+				
+			//0.2 判断是否有非法字符 "\"和“/”
+			if ( ! FileAst.CheckFileName(materialName))
+			{
+				MessageBox.Show("素材命名不规范，无法保存。");
+				return;
+			}
+
 			string addName = addNameCheckBox.Checked ? "(" + lightName + ")" : "";
 			materialName += addName;
+			// 0.3 直接检查是否可以生成DirectoryInfo
+			string directoryPath = materialPath + @"\" + @materialName;
+			DirectoryInfo di = null;
+			try
+			{
+				di = new DirectoryInfo(directoryPath);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("输入了错误的字符;\n" + ex.Message);
+				return;
+			}
 
-			if ( String.IsNullOrEmpty(materialName)) {
-					MessageBox.Show("请输入素材名。");
-					return;
-				}				
-				
-				//0.1 判断是否有非法字符 "\"和“/”
-				if ( ! FileAst.CheckFileName(materialName))
+			// 0.4 判断名称是否已存在；若存在，选覆盖则先删除旧文件夹；否则退出方法。
+			if (di.Exists)
+			{
+				DialogResult dr = MessageBox.Show(
+					"当前名称已有素材，是否覆盖？",
+					"",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question
+				);
+				if (dr == DialogResult.OK)
 				{
-					MessageBox.Show("素材命名不规范，无法保存。");
-					return;
-				}
-
-				// 0.2 直接检查是否可以生成DirectoryInfo
-				string directoryPath = materialPath + @"\" + @materialName;
-				DirectoryInfo di = null;
-				try
-				{
-					di = new DirectoryInfo(directoryPath);
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("输入了错误的字符;\n" + ex.Message);
-					return;
-				}
-
-				// 0.3 判断名称是否已存在；若存在，选覆盖则先删除旧文件夹；否则退出方法。
-				if (di.Exists)
-				{
-					DialogResult dr = MessageBox.Show(
-						"当前名称已有素材，是否覆盖？",
-						"",
-						MessageBoxButtons.OKCancel,
-						MessageBoxIcon.Question
-					);
-					if (dr == DialogResult.OK)
-					{
 						di.Delete(true);
-					}
-					else
-					{
+				}
+				else
+				{
 						return;
-					}
 				}
+			}
 
-				// 0.4 判断步数
-				if (stepCount == 0) {
-					MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
-					return;
-				}
+			// 0.5 判断步数
+			if (stepCount == 0) {
+				MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
+				return;
+			}
 
-				// 0.5 判断选择通道数
-				IList<int> tdIndexList = new List<int>();
-				IList<string> tdNameList = new List<string>();
-				for (int i = 0; i < tongdaoCount; i++)
+			// 0.6 判断选择通道数
+			IList<int> tdIndexList = new List<int>();
+			IList<string> tdNameList = new List<string>();
+			for (int i = 0; i < tongdaoCount; i++)
+			{
+				if (tdCheckBoxes[i].Checked)	{
+					tdIndexList.Add( i );
+					tdNameList.Add(tdCheckBoxes[i].Text);
+				}					
+			}
+			if (tdIndexList.Count == 0) {
+				MessageBox.Show("请选择至少一个通道，选择完成后重新保存。");
+				return;
+			}				
+
+			// 1.由新建时取的素材名，来新建相关文件夹
+			try
+			{
+				di.Create();
+			}
+			catch (Exception) {
+				MessageBox.Show("素材命名不规范，无法保存。");
+				return;
+			}
+
+			// 2.将相关文件拷贝到文件夹内	
+
+			string sourcePath = Application.StartupPath + @"\materialSet.ini";
+			string destinationPath = directoryPath  + @"\materialSet.ini";
+
+			File.Copy(sourcePath, destinationPath);
+
+			//3.修改其中的数据
+			IniFileAst iniFileAst = new IniFileAst(destinationPath);
+			// 3.1 写[Set]内数据，包括几个要被记录的通道名
+			iniFileAst.WriteString("Set","name", materialName);
+			iniFileAst.WriteInt("Set","step",stepCount);
+			iniFileAst.WriteInt("Set", "tongdaoCount", tdIndexList.Count);
+			for(int i=0;i<tdIndexList.Count;i++)
+			{
+				iniFileAst.WriteString("TD",i.ToString(), tdNameList[i]);
+			}
+			// 3.2 写[Data]内数据，记录每一步的tongdaoList
+			for(int stepIndex = 0; stepIndex < stepCount; stepIndex++)
+			{
+				StepWrapper stepWrapper = stepWrapperList[stepIndex];
+				for (int i = 0; i < tdIndexList.Count; i++)
 				{
-					if (tdCheckBoxes[i].Checked)	{
-						tdIndexList.Add( i );
-						tdNameList.Add(tdCheckBoxes[i].Text);
-					}					
+					int tdIndex = tdIndexList[i];
+					TongdaoWrapper tongdaoWrapper = stepWrapper.TongdaoList[tdIndex];
+					iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_V" ,  tongdaoWrapper.ScrollValue );
+					iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_CM", tongdaoWrapper.ChangeMode);
+					iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_ST", tongdaoWrapper.StepTime);
 				}
-				if (tdIndexList.Count == 0) {
-					MessageBox.Show("请选择至少一个通道，选择完成后重新保存。");
-					return;
-				}				
-
-				// 1.由新建时取的素材名，来新建相关文件夹
-				try
-				{
-					di.Create();
-				}
-				catch (Exception) {
-					MessageBox.Show("素材命名不规范，无法保存。");
-					return;
-				}
-
-				// 2.将相关文件拷贝到文件夹内	
-
-				string sourcePath = Application.StartupPath + @"\materialSet.ini";
-				string destinationPath = directoryPath  + @"\materialSet.ini";
-
-				File.Copy(sourcePath, destinationPath);
-
-				//3.修改其中的数据
-				IniFileAst iniFileAst = new IniFileAst(destinationPath);
-				// 3.1 写[Set]内数据，包括几个要被记录的通道名
-				iniFileAst.WriteString("Set","name", materialName);
-				iniFileAst.WriteInt("Set","step",stepCount);
-				iniFileAst.WriteInt("Set", "tongdaoCount", tdIndexList.Count);
-				for(int i=0;i<tdIndexList.Count;i++)
-				{
-					iniFileAst.WriteString("TD",i.ToString(), tdNameList[i]);
-				}
-				// 3.2 写[Data]内数据，记录每一步的tongdaoList
-				for(int stepIndex = 0; stepIndex < stepCount; stepIndex++)
-				{
-					StepWrapper stepWrapper = stepWrapperList[stepIndex];
-					for (int i = 0; i < tdIndexList.Count; i++)
-					{
-						int tdIndex = tdIndexList[i];
-						TongdaoWrapper tongdaoWrapper = stepWrapper.TongdaoList[tdIndex];
-						iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_V" ,  tongdaoWrapper.ScrollValue );
-						iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_CM", tongdaoWrapper.ChangeMode);
-						iniFileAst.WriteInt("Data", stepIndex + "_" + i + "_ST", tongdaoWrapper.StepTime);
-					}
-				}										
-				MessageBox.Show("成功保存素材。");
-				this.Dispose();
-				mainForm.Activate();
+			}										
+			MessageBox.Show("成功保存素材。");
+			this.Dispose();
+			mainForm.Activate();
 
 		}
 

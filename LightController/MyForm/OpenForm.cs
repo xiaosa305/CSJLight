@@ -91,7 +91,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				string directoryPath = "C:\\Temp\\LightProject\\" + projectName;
+				string directoryPath = savePath +  @"\LightProject\" + projectName;
 				DirectoryInfo di = new DirectoryInfo(directoryPath);
 
 				// 2.删除目录

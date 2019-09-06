@@ -263,9 +263,9 @@ namespace LightController.Tools.CSJ
                     {
                         CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeOut");
                         string deviceName = this.DeviceName;
-                        bool flag = this.Test();
+                        //bool flag = this.Test();
                         //TODO
-                        if (this.TimeOutCount == Constant.TIMEMAXCOUNT && !flag)
+                        if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
                         {
                             this.TimeOutCount = 0;
                             this.IsSending = false;

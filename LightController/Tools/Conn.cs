@@ -155,6 +155,8 @@ namespace LightController.Tools
 
         protected override bool Test()
         {
+            Socket.Close();
+            Socket.Connect(Ip, Port);
             bool flag = Socket.Connected;
             return flag;
         }

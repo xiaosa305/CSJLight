@@ -23,6 +23,7 @@ namespace LightController.MyForm
 		public SkinMainForm()
 		{
 			InitializeComponent();
+			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 
 			#region 初始化各种辅助数组
 
@@ -511,13 +512,13 @@ namespace LightController.MyForm
 			if (dr == DialogResult.OK)
 			{
 				DBWrapper dbWrapper = GetDBWrapper(true);
-				string savePath = @"C:\Temp\ExportDirectory\" + currentProjectName + @"\CSJ";
+				string exportPath = savePath + @"\ExportDirectory\" + currentProjectName + @"\CSJ";
 
 				FileTools fileTools = FileTools.GetInstance();
-				fileTools.ProjectToFile(dbWrapper, globalIniPath, savePath);
+				fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
 
 				//导出成功后，打开文件夹
-				System.Diagnostics.Process.Start(savePath);
+				System.Diagnostics.Process.Start(exportPath);
 			}
 		}
 
@@ -655,7 +656,7 @@ namespace LightController.MyForm
 
 			try
 			{
-				currentLightPictureBox.Image = Image.FromFile(@"C:\Temp\LightPic\" + lightAst.LightPic);
+				currentLightPictureBox.Image = Image.FromFile(savePath + @"\LightPic\" + lightAst.LightPic);
 			}
 			catch (Exception)
 			{

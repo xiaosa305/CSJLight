@@ -19,7 +19,7 @@ namespace LightController.MyForm
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
 		private int mode;
-		private string path = @"C:\Temp\LightMaterial\";
+		private string materialPath;
 		private string lightName;  
 
 		public MaterialSaveForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode , string lightName)
@@ -44,7 +44,9 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 			this.stepWrapperList = stepWrapperList;
 			this.mode = mode;
-			path += mode == 0 ? "Normal" : "Sound";
+
+			materialPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightMaterial\";
+			materialPath += mode == 0 ? "Normal" : "Sound";
 			this.lightName = lightName ;
 
 			#region 初始化自定义数组等
@@ -120,7 +122,7 @@ namespace LightController.MyForm
 				}
 
 				// 0.2 直接检查是否可以生成DirectoryInfo
-				string directoryPath = path + @"\" + @materialName;
+				string directoryPath = materialPath + @"\" + @materialName;
 				DirectoryInfo di = null;
 				try
 				{

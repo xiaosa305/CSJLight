@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private bool isJustDelete = false;
+		private string savePath ;
 
 		public HardwareSetChooseForm(MainFormInterface mainForm)
 		{
@@ -21,10 +23,11 @@ namespace LightController.MyForm
 			InitializeComponent();
 
 			// 读取硬盘上的,硬件设置列表
-			string path = @"C:\Temp\HardwareLibrary";
-			if (Directory.Exists(path))
+			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			string  hardwareLibraryPath = savePath + @"\HardwareLibrary";
+			if (Directory.Exists(hardwareLibraryPath))
 			{
-				string[] dirs = Directory.GetDirectories(path);
+				string[] dirs = Directory.GetDirectories(hardwareLibraryPath);
 				foreach (string dir in dirs)
 				{
 					DirectoryInfo di = new DirectoryInfo(dir);
@@ -73,7 +76,7 @@ namespace LightController.MyForm
 			{
 				// 1. 先取出目录path
 				string projectName = treeView1.SelectedNode.Text;
-				string directoryPath = @"C:\Temp\HardwareLibrary\" + projectName;
+				string directoryPath =  savePath + @"\HardwareLibrary\" + projectName;
 				DirectoryInfo di = new DirectoryInfo(directoryPath);
 
 				// 2.删除目录
@@ -137,7 +140,7 @@ namespace LightController.MyForm
 				{
 					this.Dispose();
 					// 打开相关的配置文件，再加载到HardwareSetForm中
-					string iniPath = @"C:\Temp\HardwareLibrary\" + hName + @"\HardwareSet.ini";
+					string iniPath = savePath + @"\HardwareLibrary\" + hName + @"\HardwareSet.ini";
 					this.Dispose();
 					mainForm.Activate();
 					HardwareSetForm hsForm = new HardwareSetForm(mainForm, iniPath, hName);

@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private int mode;
-		private string path = @"C:\Temp\LightMaterial\"; 
+		private string materialPath ; 
 
 		public enum InsertMethod{
 			INSERT,COVER
@@ -30,11 +31,12 @@ namespace LightController.MyForm
 			InitializeComponent();
 			this.mainForm = mainForm;
 			this.mode = mode;
-			 
-			path +=  mode==0?"Normal":"Sound" ;
-			if (Directory.Exists(path))
+
+			materialPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightMaterial\" ; 
+			materialPath +=  mode==0?"Normal":"Sound" ;
+			if (Directory.Exists(materialPath))
 			{
-				string[] dirs = Directory.GetDirectories(path);
+				string[] dirs = Directory.GetDirectories(materialPath);
 				foreach (string dir in dirs)
 				{
 					DirectoryInfo di = new DirectoryInfo(dir);
@@ -58,7 +60,7 @@ namespace LightController.MyForm
 			if ( !ifJustDelete ) { 
 				// 1. 先取出目录path
 				string projectName = treeView1.SelectedNode.Text;
-				string directoryPath = path+ @"\" + projectName;
+				string directoryPath = materialPath+ @"\" + projectName;
 				DirectoryInfo di = new DirectoryInfo(directoryPath);
 
 				// 2.删除目录				
@@ -123,7 +125,7 @@ namespace LightController.MyForm
 				string materialName = treeView1.SelectedNode.Text;
 				if (!String.IsNullOrEmpty(materialName))
 				{
-					MaterialAst materialAst = MaterialAst.GenerateMaterialAst( path +@"\" +materialName + @"\materialSet.ini");
+					MaterialAst materialAst = MaterialAst.GenerateMaterialAst( materialPath +@"\" +materialName + @"\materialSet.ini");
 					InsertMethod method =  ((Button)sender).Name == "insertSkinButton"  ? InsertMethod.INSERT : InsertMethod.COVER ;
 					mainForm.InsertOrCoverMaterial(materialAst, method);
 

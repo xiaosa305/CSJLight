@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,16 +15,18 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private string currentProjectName = "";  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
-		private bool isJustDelete = false;	// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除，
+		private bool isJustDelete = false;  // 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除，
+		private string savePath;
 
 		public OpenForm(MainFormInterface mainForm , string currentProjectName)
 		{
 			InitializeComponent();
 		
 			this.mainForm = mainForm;
-			this.currentProjectName = currentProjectName; 
+			this.currentProjectName = currentProjectName;
 
-			string path = @"C:\Temp\LightProject";
+			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			string path = savePath + @"\LightProject";
 			if (Directory.Exists(path))
 			{
 				string[] dirs = Directory.GetDirectories(path);

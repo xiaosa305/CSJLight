@@ -14,7 +14,7 @@ namespace LightController.MyForm
 	public partial class HardwareSaveForm : Form
 	{
 		private HardwareSetForm hardwareSetForm;
-		private string hardwareLibraryPath = @"C:\Temp\HardwareLibrary\";
+		private string hardwareLibraryPath;
 
 		public HardwareSaveForm(HardwareSetForm hardwareSetForm)
 		{
@@ -30,6 +30,8 @@ namespace LightController.MyForm
 		private void NewHardwareForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
+			hardwareLibraryPath = @IniFileAst.GetSavePath(Application.StartupPath + @"\HardwareLibrary\");
+
 		}
 
 
@@ -41,8 +43,6 @@ namespace LightController.MyForm
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			string hName = hNameTextBox.Text;
-
-
 
 			if (String.IsNullOrEmpty(hName) ) {
 				MessageBox.Show("请输入正确的硬件配置名称!");

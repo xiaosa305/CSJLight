@@ -1747,14 +1747,12 @@ namespace LightEditor
 			// openImageDialog
 			// 
 			this.openImageDialog.Filter = "BMP文件(*.bmp)|*.bmp|JPG文件(*.jpg)|*.jpg|图标文件(*.ico)|*.ico";
-			this.openImageDialog.InitialDirectory = "C:\\Temp\\LightPic";
 			this.openImageDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openImageDialog_FileOk);
 			// 
 			// openFileDialog
 			// 
 			this.openFileDialog.FileName = "*.ini";
 			this.openFileDialog.Filter = "配置文件(*.ini)|*.ini";
-			this.openFileDialog.InitialDirectory = "C:\\Temp\\LightLibrary";
 			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 
 			// skinEngine2

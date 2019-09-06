@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using LightController.Ast;
 using LightController.MyForm;
+using LightController.Common;
 
 namespace LightController
 {
@@ -18,6 +19,7 @@ namespace LightController
 		//每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private int minNum = 1;
 		private IList<LightAst> lightAstList = new List<LightAst>();
+		private string savePath;
 
 		/// <summary>
 		///  构造函数：传mainForm值，并通过lightAstList判断是否旧项目
@@ -27,10 +29,11 @@ namespace LightController
 		public LightsForm(MainFormInterface mainForm,IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
-			this.mainForm = mainForm;			
-			
+			this.mainForm = mainForm;
+
 			// 1. 生成左边的灯具列表，树状形式
-			string path = @"C:\Temp\LightLibrary";
+			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			string path =  savePath  + @"\LightLibrary" ;
 			if (Directory.Exists(path))
 			{
 				string[] dirs = Directory.GetDirectories(path);
@@ -96,7 +99,7 @@ namespace LightController
 			} else {
 				if (skinTreeView1.SelectedNode.Parent != null)
 				{
-					string fullPath = @"C:\Temp\LightLibrary\" + skinTreeView1.SelectedNode.FullPath + ".ini";
+					string fullPath = savePath + @"\LightLibrary\" + skinTreeView1.SelectedNode.FullPath + ".ini";
 					LightsAstForm lightsAstForm = new LightsAstForm(this, fullPath, minNum);
 					lightsAstForm.ShowDialog();
 				}

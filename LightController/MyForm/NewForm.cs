@@ -20,6 +20,7 @@ namespace LightController
 	public partial class NewForm :Form
 	{
 		private MainFormInterface mainForm;
+		private string savePath;
 
 		public NewForm(MainFormInterface mainForm)
 		{
@@ -51,7 +52,8 @@ namespace LightController
 
 			if (!String.IsNullOrEmpty(projectName))
 			{
-				string directoryPath = @"C:\Temp\LightProject\" + projectName;
+				savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+				string directoryPath = savePath + @"\LightProject\" + projectName;
 				DirectoryInfo di = null;
 				try
 				{

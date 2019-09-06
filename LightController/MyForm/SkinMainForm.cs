@@ -719,13 +719,13 @@ namespace LightController.MyForm
 					for (int i = 0; i < 32; i++)
 					{
 						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
-						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"屏蔽",	"跳变",	"渐变"});
+						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"屏蔽",	"跳变"});
 						this.tdStepTimeNumericUpDowns[i].Hide();
 						this.tdTrueTimeLabels[i].Hide();
 					}
 					commonChangeModeSkinButton.Text = "统一声控";
 					commonChangeModeSkinComboBox.Items.Clear();
-					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变","渐变" });
+					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变"});
 					commonChangeModeSkinComboBox.SelectedIndex = 0;
 
 					commonStepTimeNumericUpDown.Hide();

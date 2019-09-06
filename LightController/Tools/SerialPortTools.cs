@@ -310,5 +310,10 @@ namespace LightController.Tools
                 InitParameters();
             }
         }
+
+        protected override bool Test()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

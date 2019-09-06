@@ -222,7 +222,7 @@ namespace LightController.Tools.CSJ.IMPL
                                         }
                                         else
                                         {
-                                            if (isGradualChange == Constant.MODE_GRADUAL)
+                                            if (isGradualChange == Constant.MODE_C_GRADUAL)
                                             {
                                                 float inc = (stepValue - startValue) / (float)stepTime;
                                                 float value = startValue + inc * (fram + 1);
@@ -276,7 +276,7 @@ namespace LightController.Tools.CSJ.IMPL
                             }
                             else
                             {
-                                if (isGradualChange == Constant.MODE_GRADUAL)
+                                if (isGradualChange == Constant.MODE_C_GRADUAL)
                                 {
                                     float inc = (stepValue - startValue) / (float)stepTime;
                                     float value = startValue + inc * (fram + 1);
@@ -320,7 +320,7 @@ namespace LightController.Tools.CSJ.IMPL
                     lineStr = reader.ReadLine();
                     if (lineStr.Equals("[SK]"))
                     {
-                        for (int i = 0; i < 24; i++)
+                        for (int i = 0; i < Constant.SCENECOUNT; i++)
                         {
                             lineStr = reader.ReadLine();
                             string sceneNo = "";
@@ -338,7 +338,10 @@ namespace LightController.Tools.CSJ.IMPL
                                 for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
                                 {
                                     intValue = int.Parse(strValue[strIndex].ToString());
-                                    stepList.Add(intValue);
+                                    if (intValue != 0)
+                                    {
+                                        stepList.Add(intValue);
+                                    }
                                 }
                                 lineStr = reader.ReadLine();
                                 strValue = lineStr.Split('=')[1];
@@ -361,16 +364,6 @@ namespace LightController.Tools.CSJ.IMPL
             }
             file.StepList = stepList;
             file.StepListCount = file.StepList.Count;
-            //foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
-            //{
-            //    ChannelData channelData = new ChannelData()
-            //    {
-            //        ChannelNo = item.ChannelNo,
-            //    };
-            //    channelData.Datas = item.StepValues.ToList();
-            //    channelData.DataSize = channelData.Datas.Count;
-            //    channelDatas.Add(channelData);
-            //}
             foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
             {
                 int flag = 0;
@@ -440,7 +433,7 @@ namespace LightController.Tools.CSJ.IMPL
                                         }
                                         else
                                         {
-                                            if (isGradualChange == Constant.MODE_GRADUAL)
+                                            if (isGradualChange == Constant.MODE_M_GRADUAL)
                                             {
                                                 float inc = (stepValue - startValue) / (float)file.FrameTime;
                                                 float value = startValue + inc * (fram + 1);
@@ -493,7 +486,7 @@ namespace LightController.Tools.CSJ.IMPL
                             }
                             else
                             {
-                                if (isGradualChange == Constant.MODE_GRADUAL)
+                                if (isGradualChange == Constant.MODE_M_GRADUAL)
                                 {
                                     float inc = (stepValue - startValue) / (float)file.FrameTime;
                                     float value = startValue + inc * (fram + 1);
@@ -576,19 +569,25 @@ namespace LightController.Tools.CSJ.IMPL
                 {
                     if (light.LightNo == value.PK.LightIndex && mode == value.PK.Mode && (step + 1) == value.PK.Step && sceneNo == value.PK.Frame && value.PK.LightID == channelNo)
                     {
-                        if (value.ChangeMode != Constant.HIDDEN)
+                        if (mode == Constant.MODE_C)
                         {
-                            //if (mode == Constant.MODE_M)
-                            //{
-                            //    if (value.ChangeMode == Constant.MUSIC_CONTROL_OFF)
-                            //    {
-                            //        continue;
-                            //    }
-                            //}
-                            isGradualChange.Add(value.ChangeMode);
-                            stepTimes.Add(value.StepTime);
-                            stepValues.Add(value.ScrollValue);
-                            stepCount++;
+                            if (value.ChangeMode != Constant.MODE_C_HIDDEN)
+                            {
+                                isGradualChange.Add(value.ChangeMode);
+                                stepTimes.Add(value.StepTime);
+                                stepValues.Add(value.ScrollValue);
+                                stepCount++;
+                            }
+                        }
+                        else
+                        {
+                            if (value.ChangeMode != Constant.MODE_M_HIDDEN)
+                            {
+                                isGradualChange.Add(value.ChangeMode);
+                                stepTimes.Add(value.StepTime);
+                                stepValues.Add(value.ScrollValue);
+                                stepCount++;
+                            }
                         }
                     }
                 }

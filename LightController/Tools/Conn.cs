@@ -153,6 +153,10 @@ namespace LightController.Tools
             }
         }
 
-
+        protected override bool Test()
+        {
+            bool flag = Socket.Connected;
+            return flag;
+        }
     }
 }

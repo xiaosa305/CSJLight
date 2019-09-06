@@ -24,6 +24,7 @@ namespace LightController.Tools.CSJ
         protected int PackageCount { get; set; }//数据包总数
         protected int Package_Index { get; set; }//当前数据包编号
         protected int Addr { get; set; }//设备地址
+        protected int TimeIndex { get; set; }//超时时间计数
         protected string CurrentFileName { get; set; }//当前下载文件名称
         protected string HardwarePath { get; set; }//硬件配置文件路径
         protected string ConfigPath { get; set; }//全局配置文件路径
@@ -81,6 +82,7 @@ namespace LightController.Tools.CSJ
             this.CallBack = null;
             this.GetParamDelegate = null;
             this.DownloadProgressDelegate = null;
+            this.TimeIndex = 0;
         }
         protected void SendData(byte[] data, string order, string[] parameters)
         {
@@ -138,6 +140,7 @@ namespace LightController.Tools.CSJ
                 byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
                 package[6] = packageCRC[0];
                 package[7] = packageCRC[1];
+                this.OrderOrData = ORDER;
                 this.Send(package.ToArray());
             }
             catch (Exception)
@@ -194,6 +197,7 @@ namespace LightController.Tools.CSJ
                 {
                     this.CurrentDownloadCompletedSize += packageData.Count();
                 }
+                this.OrderOrData = DATA;
                 this.Send(package.ToArray());
             }
             catch (Exception)
@@ -231,13 +235,22 @@ namespace LightController.Tools.CSJ
             }
             return mark;
         }
+        protected abstract bool Test();
         protected void TimeOut()
         {
             while (true)
             {
                 if (this.IsTimeOutThreadStart)
                 {
-                    for (int i = 0; i < Constant.TIMEOUT; i++)
+                    //for (int i = 0; i < Constant.TIMEOUT; i++)
+                    //{
+                    //    Thread.Sleep(1);
+                    //    if (this.IsReceive)
+                    //    {
+                    //        break;
+                    //    }
+                    //}
+                    for (this.TimeIndex = 0; this.TimeIndex < Constant.TIMEOUT; this.TimeIndex++)
                     {
                         Thread.Sleep(1);
                         if (this.IsReceive)
@@ -250,11 +263,14 @@ namespace LightController.Tools.CSJ
                     {
                         CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeOut");
                         string deviceName = this.DeviceName;
-                        switch (this.Order)
+                        bool flag = this.Test();
+                        //TODO
+                        if (this.TimeOutCount == Constant.TIMEMAXCOUNT && !flag)
                         {
-                            case Constant.ORDER_BEGIN_SEND:
-                            case Constant.ORDER_END_SEND:
-                            case Constant.ORDER_PUT:
+                            this.TimeOutCount = 0;
+                            this.IsSending = false;
+                            if (Order.Equals(Constant.ORDER_BEGIN_SEND) || Order.Equals(Constant.ORDER_END_SEND) || Order.Equals(Constant.ORDER_PUT))
+                            {
                                 try
                                 {
                                     this.DownloadStatus = false;
@@ -262,69 +278,103 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
-                                    if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
-                                    {
-                                        this.TimeOutCount = 0;
-                                        this.IsSending = false;
-                                        this.DownloadProgressDelegate("", 0);
-                                        this.CallBack.SendError(deviceName, Order);
-                                        this.CloseDevice();
-                                    }
-                                    else
-                                    {
-                                        this.TimeOutCount++;
-                                        this.IsSending = false;
-                                        Console.WriteLine(this.Order + "===>" + this.CurrentFileName + ":超时重传" + this.TimeOutCount + "次");
-                                        this.DownloadProject(this.Wrapper, this.ConfigPath, this.CallBack, this.DownloadProgressDelegate);
-                                    }
+                                    this.DownloadProgressDelegate("", 0);
                                 }
-                                break;
-                            case Constant.ORDER_PUT_PARAM:
-                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
-                                {
-                                    this.TimeOutCount = 0;
-                                    this.IsSending = false;
-                                    this.CallBack.SendError(deviceName, this.Order);
-                                    this.CloseDevice();
-                                }
-                                else
-                                {
-                                    this.TimeOutCount++;
-                                    this.IsSending = false;
-                                    this.PutParam(this.HardwarePath, this.CallBack);
-                                }
-                                break;
-                            case Constant.ORDER_GET_PARAM:
-                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
-                                {
-                                    this.TimeOutCount = 0;
-                                    this.IsSending = false;
-                                    this.CallBack.SendError(deviceName, this.Order);
-                                    this.CloseDevice();
-                                }
-                                else
-                                {
-                                    this.TimeOutCount++;
-                                    this.IsSending = false;
-                                    this.GetParam(this.GetParamDelegate, this.CallBack);
-                                }
-                                break;
-                            default:
-                                if (this.TimeOutCount > Constant.TIMEMAXCOUNT)
-                                {
-                                    this.TimeOutCount = 0;
-                                    this.IsSending = false;
-                                    this.CallBack.SendError(deviceName, this.Order);
-                                    this.CloseDevice();
-                                }
-                                else
-                                {
-                                    this.TimeOutCount++;
-                                    this.IsSending = false;
-                                    this.SendOrder(this.Order, this.Parameters, this.CallBack);
-                                }
-                                break;
+                            }
+                            this.CallBack.SendError(deviceName, Order);
+                            this.CloseDevice();
                         }
+                        else
+                        {
+                            this.TimeOutCount++;
+                            Console.WriteLine("超时" + TimeOutCount + "次");
+                            switch (this.OrderOrData)
+                            {
+                                case ORDER:
+                                    this.SendOrderPackage();
+                                    break;
+                                case DATA:
+                                    this.Package_Index--;
+                                    this.SendDataPackage();
+                                    break;
+                            }
+                        }
+                        this.TimeIndex = 0;
+                        //**************
+                        //switch (this.Order)
+                        //{
+                        //    case Constant.ORDER_BEGIN_SEND:
+                        //    case Constant.ORDER_END_SEND:
+                        //    case Constant.ORDER_PUT:
+                        //        try
+                        //        {
+                        //            this.DownloadStatus = false;
+                        //            this.DownloadThread.Abort();
+                        //        }
+                        //        finally
+                        //        {
+                        //            if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
+                        //            {
+                        //                this.TimeOutCount = 0;
+                        //                this.IsSending = false;
+                        //                this.DownloadProgressDelegate("", 0);
+                        //                this.CallBack.SendError(deviceName, Order);
+                        //                this.CloseDevice();
+                        //            }
+                        //            else
+                        //            {
+                        //                this.TimeOutCount++;
+                        //                this.IsSending = false;
+                        //                this.DownloadProject(this.Wrapper, this.ConfigPath, this.CallBack, this.DownloadProgressDelegate);
+                        //            }
+                        //        }
+                        //        break;
+                        //    case Constant.ORDER_PUT_PARAM:
+                        //        if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
+                        //        {
+                        //            this.TimeOutCount = 0;
+                        //            this.IsSending = false;
+                        //            this.CallBack.SendError(deviceName, this.Order);
+                        //            this.CloseDevice();
+                        //        }
+                        //        else
+                        //        {
+                        //            this.TimeOutCount++;
+                        //            this.IsSending = false;
+                        //            this.PutParam(this.HardwarePath, this.CallBack);
+                        //        }
+                        //        break;
+                        //    case Constant.ORDER_GET_PARAM:
+                        //        if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
+                        //        {
+                        //            this.TimeOutCount = 0;
+                        //            this.IsSending = false;
+                        //            this.CallBack.SendError(deviceName, this.Order);
+                        //            this.CloseDevice();
+                        //        }
+                        //        else
+                        //        {
+                        //            this.TimeOutCount++;
+                        //            this.IsSending = false;
+                        //            this.GetParam(this.GetParamDelegate, this.CallBack);
+                        //        }
+                        //        break;
+                        //    default:
+                        //        if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
+                        //        {
+                        //            this.TimeOutCount = 0;
+                        //            this.IsSending = false;
+                        //            this.CallBack.SendError(deviceName, this.Order);
+                        //            this.CloseDevice();
+                        //        }
+                        //        else
+                        //        {
+                        //            this.TimeOutCount++;
+                        //            this.IsSending = false;
+                        //            this.SendOrder(this.Order, this.Parameters, this.CallBack);
+                        //        }
+                        //        break;
+                        //}
                     }
                 }
                 else
@@ -335,6 +385,7 @@ namespace LightController.Tools.CSJ
         }
         protected void ReceiveMessageManage(byte[] rxBuff, int rxCount)
         {
+            this.TimeIndex = Constant.TIMEOUT;
             this.IsTimeOutThreadStart = false;
             this.IsReceive = true;
             string devicename = this.DeviceName;
@@ -461,6 +512,7 @@ namespace LightController.Tools.CSJ
             {
                 this.IsReceive = false;
                 this.IsTimeOutThreadStart = true;
+                this.TimeIndex = 0;
                 if (this.Order.Equals(Constant.ORDER_PUT))
                 {
                     int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);

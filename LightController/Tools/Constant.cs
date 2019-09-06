@@ -10,11 +10,15 @@ namespace LightController.Tools
     {
         public const int DMX512BAUD = 250000;
         public const int SCENECOUNT = 24;
-        public const int TIMEMAXCOUNT = 2;
+        public const int TIMEMAXCOUNT = 10;
         public const int MODE_C = 0;
         public const int MODE_M = 1;
-        public const int MODE_GRADUAL = 1;
-        public const int MODE_JUMP = 0;
+        public const int MODE_C_GRADUAL = 1;
+        public const int MODE_C_JUMP = 0;
+        public const int MODE_C_HIDDEN = 2;
+        public const int MODE_M_GRADUAL = 2;
+        public const int MODE_M_JUMP = 1;
+        public const int MODE_M_HIDDEN = 0;
         public const int DMX512 = 512;
         public const int UDPADDR = 255;
         public const int PACKAGE_SIZE_1K = 10166;
@@ -22,8 +26,7 @@ namespace LightController.Tools
         public const int PACKAGE_SIZE_512 = 504;
         public const int PACKAGE_SIZE_DEFAULT = 1016;
         public const int PACKAGEHEAD_SIZE = 8;
-        public const int TIMEOUT = 2000;
-        public const int HIDDEN = 2;
+        public const int TIMEOUT = 500;
         public const int MUSIC_CONTROL_GRADUAL = 1;
         public const int MUSIC_CONTROL_JUMP = 0;
         public const int MUSIC_CONTROL_OFF = 2;

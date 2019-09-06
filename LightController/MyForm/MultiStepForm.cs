@@ -79,25 +79,27 @@ namespace LightController.MyForm
 			startNumericUpDown.Maximum = totalStep;
 			startNumericUpDown.Value = currentStep;
 			endNumericUpDown.Maximum = totalStep;
-			endNumericUpDown.Value = totalStep;
-
-			this.commonChangeModeComboBox.Items.Add("跳变");
-			this.commonChangeModeComboBox.Items.Add("渐变");
-			this.commonChangeModeComboBox.Items.Add("屏蔽");
-			this.commonChangeModeComboBox.SelectedIndex = 0;
+			endNumericUpDown.Value = totalStep;		
 
 			if (mode == 0)
 			{
 				modeLabel.Text = "当前模式：常规模式";
-
+				this.commonChangeModeComboBox.Items.Add("跳变");
+				this.commonChangeModeComboBox.Items.Add("渐变");
+				this.commonChangeModeComboBox.Items.Add("屏蔽");
+				this.commonChangeModeComboBox.SelectedIndex = 0;
 			}
 			else {
-				modeLabel.Text = "当前模式：音频模式";			
+				modeLabel.Text = "当前模式：音频模式";
+				this.commonChangeModeSkinButton.Text =  "统一声控";
+				this.commonChangeModeComboBox.Items.Add("屏蔽");
+				this.commonChangeModeComboBox.Items.Add("跳变");
+				this.commonChangeModeComboBox.Items.Add("渐变");
+				this.commonChangeModeComboBox.SelectedIndex = 0;
 				// 音频模式下：《步时间调整值》两个按钮隐藏。
 				commonStepTimetNumericUpDown.Hide();
 				commonStepTimeSkinButton.Hide();
 			}
-
 		}
 
 		private void MultiStepForm_Load(object sender, EventArgs e)
@@ -105,10 +107,12 @@ namespace LightController.MyForm
 			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 		}
 
+
 		#region 各种事件
 
 		/// <summary>
-		/// 事件：点击《全部屏蔽》
+		/// 事件：点击《全部屏蔽》;
+		/// 需按照不同的mode进行处理，mode=0，,设为2；mode=1时，设为0
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -116,7 +120,13 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				mainForm.setMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 2);
+				if (mode == 0)
+				{
+					mainForm.setMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 2);
+				}
+				else {
+					mainForm.setMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 0);
+				}				
 			}
 		}
 

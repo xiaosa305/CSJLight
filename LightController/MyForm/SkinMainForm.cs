@@ -709,7 +709,7 @@ namespace LightController.MyForm
 			if (isInit)
 			{
 				mode = modeSkinComboBox.SelectedIndex;
-				// 若模式为声控模式
+				// 若模式为声控模式mode=1
 				// 1.改变几个label的Text; 
 				// 2.改变跳变渐变-->是否声控；
 				// 3.所有步时间值的调节，改为enabled=false			
@@ -717,9 +717,15 @@ namespace LightController.MyForm
 				{				
 					for (int i = 0; i < 32; i++)
 					{
+						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
+						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"屏蔽",	"跳变",	"渐变"});
 						this.tdStepTimeNumericUpDowns[i].Hide();
 						this.tdTrueTimeLabels[i].Hide();
 					}
+					commonChangeModeSkinButton.Text = "统一声控";
+					commonChangeModeSkinComboBox.Items.Clear();
+					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变","渐变" });
+					commonChangeModeSkinComboBox.SelectedIndex = 0;
 
 					commonStepTimeNumericUpDown.Hide();
 					commonStepTimeSkinButton.Text = "修改此音频场景全局设置";
@@ -729,14 +735,20 @@ namespace LightController.MyForm
 					thirdLabel2.Hide();
 					thirdLabel3.Hide();
 				}
-				else //mode=0
+				else //mode=0，常规模式
 				{
 					for (int i = 0; i < 32; i++)
 					{
+						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
+						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"跳变","渐变","屏蔽"});
 						this.tdStepTimeNumericUpDowns[i].Show();
 						this.tdTrueTimeLabels[i].Show();
 					}
-									
+					commonChangeModeSkinButton.Text = "统一跳渐变";
+					commonChangeModeSkinComboBox.Items.Clear();
+					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
+					commonChangeModeSkinComboBox.SelectedIndex = 0;
+
 					commonStepTimeNumericUpDown.Show();
 					commonStepTimeSkinButton.Text = "统一步时间";
 					commonStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);

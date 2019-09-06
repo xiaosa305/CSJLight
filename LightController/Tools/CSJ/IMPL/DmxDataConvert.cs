@@ -451,8 +451,15 @@ namespace LightController.Tools.CSJ.IMPL
                                             }
                                             else
                                             {
-                                                datas.Add(0);
-                                                break;
+                                                if (step == cSJ_Channel.StepCount)
+                                                {
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    datas.Add(0);
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
@@ -495,8 +502,15 @@ namespace LightController.Tools.CSJ.IMPL
                                 }
                                 else
                                 {
-                                    datas.Add(stepValue);
-                                    break;
+                                    if (step == item.StepCount)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        datas.Add(stepValue);
+                                        break;
+                                    }
                                 }
                             }
                         }

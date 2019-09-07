@@ -225,6 +225,7 @@
     <Content Include="LightPic\魔球.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\刷新2.png" />
     <Content Include="Source\IrisSkin4.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

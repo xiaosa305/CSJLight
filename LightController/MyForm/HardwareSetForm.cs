@@ -71,6 +71,10 @@ namespace LightController.MyForm
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			// 设false可在其他文件中修改本类的UI
 			Control.CheckForIllegalCrossThreadCalls = false;
+
+			//9.7 自动搜索本地IP列表及串口列表
+			getLocalIPs();
+			comSearch();
 		}
 
 	
@@ -250,6 +254,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
 		{
+			getLocalIPs();
+		}
+
+		/// <summary>
+		/// 辅助方法：获取本地IP列表：①Form刚载入时（Load) ；②点击《获取本地IP列表》按钮
+		/// </summary>
+		private void getLocalIPs()
+		{
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
 			localIPsComboBox.Items.Clear();
 			foreach (IPAddress ip in ipe.AddressList)
@@ -394,6 +406,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comSearchSkinButton_Click(object sender, EventArgs e)
 		{
+			comSearch();
+		}
+
+		/// <summary>
+		///  辅助方法：搜索串口列表：①Form载入时（load）；②点击《搜索串口连接》
+		/// </summary>
+		private void comSearch()
+		{
 			comSearchSkinButton.Enabled = false;
 			comComboBox.Enabled = false;
 			comConnectSkinButton.Enabled = false;
@@ -407,11 +427,11 @@ namespace LightController.MyForm
 			{
 				foreach (string com in comList)
 				{
-					comComboBox.Items.Add( com );
+					comComboBox.Items.Add(com);
 				}
 				comComboBox.Enabled = true;
-				comComboBox.SelectedIndex = 0;				
-				comConnectSkinButton.Enabled = true;				
+				comComboBox.SelectedIndex = 0;
+				comConnectSkinButton.Enabled = true;
 			}
 			else
 			{
@@ -419,6 +439,8 @@ namespace LightController.MyForm
 				comComboBox.SelectedIndex = -1;
 			}
 			comSearchSkinButton.Enabled = true;
+
+
 		}
 
 		/// <summary>

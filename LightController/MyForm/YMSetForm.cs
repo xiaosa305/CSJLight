@@ -20,7 +20,6 @@ namespace LightController.MyForm
 		{
 			this.mainForm = mainForm;
 			iniFileAst = new IniFileAst(iniPath);
-
 			InitializeComponent();
 
 			#region 初始化几个数组

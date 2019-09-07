@@ -2143,7 +2143,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel1.AutoSize = true;
 			this.trueTimeLabel1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel1.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel1.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel1.Name = "trueTimeLabel1";
 			this.trueTimeLabel1.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel1.TabIndex = 26;
@@ -2252,7 +2252,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel2.AutoSize = true;
 			this.trueTimeLabel2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel2.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel2.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel2.Name = "trueTimeLabel2";
 			this.trueTimeLabel2.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel2.TabIndex = 26;
@@ -2361,7 +2361,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel3.AutoSize = true;
 			this.trueTimeLabel3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel3.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel3.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel3.Name = "trueTimeLabel3";
 			this.trueTimeLabel3.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel3.TabIndex = 27;
@@ -2470,7 +2470,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel4.AutoSize = true;
 			this.trueTimeLabel4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel4.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel4.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel4.Name = "trueTimeLabel4";
 			this.trueTimeLabel4.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel4.TabIndex = 29;
@@ -2579,7 +2579,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel5.AutoSize = true;
 			this.trueTimeLabel5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel5.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel5.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel5.Name = "trueTimeLabel5";
 			this.trueTimeLabel5.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel5.TabIndex = 30;
@@ -2688,7 +2688,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel6.AutoSize = true;
 			this.trueTimeLabel6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel6.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel6.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel6.Name = "trueTimeLabel6";
 			this.trueTimeLabel6.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel6.TabIndex = 31;
@@ -2797,7 +2797,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel7.AutoSize = true;
 			this.trueTimeLabel7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel7.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel7.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel7.Name = "trueTimeLabel7";
 			this.trueTimeLabel7.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel7.TabIndex = 33;
@@ -2906,7 +2906,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel8.AutoSize = true;
 			this.trueTimeLabel8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel8.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel8.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel8.Name = "trueTimeLabel8";
 			this.trueTimeLabel8.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel8.TabIndex = 35;
@@ -3015,7 +3015,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel9.AutoSize = true;
 			this.trueTimeLabel9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel9.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel9.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel9.Name = "trueTimeLabel9";
 			this.trueTimeLabel9.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel9.TabIndex = 37;
@@ -3124,7 +3124,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel10.AutoSize = true;
 			this.trueTimeLabel10.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel10.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel10.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel10.Name = "trueTimeLabel10";
 			this.trueTimeLabel10.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel10.TabIndex = 39;
@@ -3233,7 +3233,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel11.AutoSize = true;
 			this.trueTimeLabel11.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel11.Location = new System.Drawing.Point(22, 281);
+			this.trueTimeLabel11.Location = new System.Drawing.Point(22, 276);
 			this.trueTimeLabel11.Name = "trueTimeLabel11";
 			this.trueTimeLabel11.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel11.TabIndex = 41;
@@ -3342,7 +3342,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel12.AutoSize = true;
 			this.trueTimeLabel12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel12.Location = new System.Drawing.Point(21, 277);
+			this.trueTimeLabel12.Location = new System.Drawing.Point(21, 275);
 			this.trueTimeLabel12.Name = "trueTimeLabel12";
 			this.trueTimeLabel12.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel12.TabIndex = 27;
@@ -3451,7 +3451,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel13.AutoSize = true;
 			this.trueTimeLabel13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel13.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel13.Location = new System.Drawing.Point(22, 274);
 			this.trueTimeLabel13.Name = "trueTimeLabel13";
 			this.trueTimeLabel13.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel13.TabIndex = 29;
@@ -3560,7 +3560,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel14.AutoSize = true;
 			this.trueTimeLabel14.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel14.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel14.Location = new System.Drawing.Point(22, 274);
 			this.trueTimeLabel14.Name = "trueTimeLabel14";
 			this.trueTimeLabel14.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel14.TabIndex = 31;
@@ -3669,7 +3669,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel15.AutoSize = true;
 			this.trueTimeLabel15.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel15.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel15.Location = new System.Drawing.Point(22, 274);
 			this.trueTimeLabel15.Name = "trueTimeLabel15";
 			this.trueTimeLabel15.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel15.TabIndex = 27;
@@ -3778,7 +3778,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel16.AutoSize = true;
 			this.trueTimeLabel16.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel16.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel16.Location = new System.Drawing.Point(22, 274);
 			this.trueTimeLabel16.Name = "trueTimeLabel16";
 			this.trueTimeLabel16.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel16.TabIndex = 29;
@@ -3887,7 +3887,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel17.AutoSize = true;
 			this.trueTimeLabel17.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel17.Location = new System.Drawing.Point(22, 276);
+			this.trueTimeLabel17.Location = new System.Drawing.Point(22, 274);
 			this.trueTimeLabel17.Name = "trueTimeLabel17";
 			this.trueTimeLabel17.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel17.TabIndex = 31;
@@ -3996,7 +3996,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel18.AutoSize = true;
 			this.trueTimeLabel18.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel18.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel18.Location = new System.Drawing.Point(23, 275);
 			this.trueTimeLabel18.Name = "trueTimeLabel18";
 			this.trueTimeLabel18.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel18.TabIndex = 33;
@@ -4105,7 +4105,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel19.AutoSize = true;
 			this.trueTimeLabel19.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel19.Location = new System.Drawing.Point(21, 277);
+			this.trueTimeLabel19.Location = new System.Drawing.Point(21, 275);
 			this.trueTimeLabel19.Name = "trueTimeLabel19";
 			this.trueTimeLabel19.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel19.TabIndex = 35;
@@ -4214,7 +4214,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel20.AutoSize = true;
 			this.trueTimeLabel20.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel20.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel20.Location = new System.Drawing.Point(23, 275);
 			this.trueTimeLabel20.Name = "trueTimeLabel20";
 			this.trueTimeLabel20.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel20.TabIndex = 35;
@@ -4323,7 +4323,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel21.AutoSize = true;
 			this.trueTimeLabel21.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel21.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel21.Location = new System.Drawing.Point(23, 275);
 			this.trueTimeLabel21.Name = "trueTimeLabel21";
 			this.trueTimeLabel21.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel21.TabIndex = 37;
@@ -4432,7 +4432,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel22.AutoSize = true;
 			this.trueTimeLabel22.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel22.Location = new System.Drawing.Point(23, 277);
+			this.trueTimeLabel22.Location = new System.Drawing.Point(23, 275);
 			this.trueTimeLabel22.Name = "trueTimeLabel22";
 			this.trueTimeLabel22.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel22.TabIndex = 39;
@@ -4541,7 +4541,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel23.AutoSize = true;
 			this.trueTimeLabel23.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel23.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel23.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel23.Name = "trueTimeLabel23";
 			this.trueTimeLabel23.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel23.TabIndex = 27;
@@ -4650,7 +4650,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel24.AutoSize = true;
 			this.trueTimeLabel24.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel24.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel24.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel24.Name = "trueTimeLabel24";
 			this.trueTimeLabel24.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel24.TabIndex = 30;
@@ -4759,7 +4759,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel25.AutoSize = true;
 			this.trueTimeLabel25.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel25.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel25.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel25.Name = "trueTimeLabel25";
 			this.trueTimeLabel25.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel25.TabIndex = 28;
@@ -4868,7 +4868,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel26.AutoSize = true;
 			this.trueTimeLabel26.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel26.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel26.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel26.Name = "trueTimeLabel26";
 			this.trueTimeLabel26.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel26.TabIndex = 28;
@@ -4977,7 +4977,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel27.AutoSize = true;
 			this.trueTimeLabel27.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel27.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel27.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel27.Name = "trueTimeLabel27";
 			this.trueTimeLabel27.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel27.TabIndex = 28;
@@ -5086,7 +5086,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel28.AutoSize = true;
 			this.trueTimeLabel28.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel28.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel28.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel28.Name = "trueTimeLabel28";
 			this.trueTimeLabel28.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel28.TabIndex = 28;
@@ -5195,7 +5195,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel29.AutoSize = true;
 			this.trueTimeLabel29.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel29.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel29.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel29.Name = "trueTimeLabel29";
 			this.trueTimeLabel29.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel29.TabIndex = 30;
@@ -5304,7 +5304,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel30.AutoSize = true;
 			this.trueTimeLabel30.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel30.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel30.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel30.Name = "trueTimeLabel30";
 			this.trueTimeLabel30.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel30.TabIndex = 32;
@@ -5413,7 +5413,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel31.AutoSize = true;
 			this.trueTimeLabel31.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel31.Location = new System.Drawing.Point(21, 277);
+			this.trueTimeLabel31.Location = new System.Drawing.Point(21, 275);
 			this.trueTimeLabel31.Name = "trueTimeLabel31";
 			this.trueTimeLabel31.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel31.TabIndex = 34;
@@ -5522,7 +5522,7 @@ namespace LightController.MyForm
 			// 
 			this.trueTimeLabel32.AutoSize = true;
 			this.trueTimeLabel32.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.trueTimeLabel32.Location = new System.Drawing.Point(22, 277);
+			this.trueTimeLabel32.Location = new System.Drawing.Point(22, 275);
 			this.trueTimeLabel32.Name = "trueTimeLabel32";
 			this.trueTimeLabel32.Size = new System.Drawing.Size(35, 12);
 			this.trueTimeLabel32.TabIndex = 36;

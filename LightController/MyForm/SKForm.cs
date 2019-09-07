@@ -31,9 +31,8 @@ namespace LightController.MyForm
 			mFrameLKTextBox.Text = iniAst.ReadString("SK", frame + "LK", "");		
 			frameLabel.Text = frameName;			
 
-			// 9.7 添加时间因子，用以显示实际步时间（单位s）
+			// 9.7 添加时间因子，用以显示实际步时间（单位s）；不需要直接写trueSTLabel，会自动触发ValueChanged事件
 			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
-			//trueSTLabel.Text = Decimal.ToInt16(frameStepTimeNumericUpDown.Value) * eachStepTime / 1000.0 + "s";
 		}
 
 		/// <summary>

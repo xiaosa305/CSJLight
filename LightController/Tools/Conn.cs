@@ -3,6 +3,7 @@ using LightController.Tools.CSJ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,6 @@ namespace LightController.Tools
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
             PackageSize = Constant.PACKAGE_SIZE_DEFAULT;
-            PackageSize = Constant.PACKAGE_SIZE_512;
             Ip = "";
         }
         public void Init(Socket socket)
@@ -72,7 +72,7 @@ namespace LightController.Tools
                 int count = conn.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
-                    Console.WriteLine("收到 [" + conn.GetAddress() + "] 断开连接");
+                    Console.WriteLine("收到 [" + this.Ip + "] 断开连接");
                     conn.CloseDevice();
                     return;
                 }
@@ -110,14 +110,14 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[" + conn.GetAddress() + "] 断开连接" + "Exception :" + ex.Message);
+                Console.WriteLine("[" + this.Ip + "] 断开连接" + "Exception :" + ex.Message);
                 conn.CloseDevice();
             }
         }
         public override void CloseDevice()
         {
             if (!IsUse) return;
-            Console.WriteLine(GetAddress() + "断开连接");
+            Console.WriteLine(this.Ip + "断开连接");
             this.DownloadStatus = false;
             try
             {
@@ -151,14 +151,6 @@ namespace LightController.Tools
                     this.IsUse = false;
                 }
             }
-        }
-
-        protected override bool Test()
-        {
-            Socket.Close();
-            Socket.Connect(Ip, Port);
-            bool flag = Socket.Connected;
-            return flag;
         }
     }
 }

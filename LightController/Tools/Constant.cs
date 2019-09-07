@@ -21,12 +21,12 @@ namespace LightController.Tools
         public const int MODE_M_HIDDEN = 0;
         public const int DMX512 = 512;
         public const int UDPADDR = 255;
-        public const int PACKAGE_SIZE_1K = 10166;
+        public const int PACKAGE_SIZE_1K = 1016;
         public const int PACKAGE_SIZE_2K = 2040;
         public const int PACKAGE_SIZE_512 = 504;
         public const int PACKAGE_SIZE_DEFAULT = 1016;
         public const int PACKAGEHEAD_SIZE = 8;
-        public const int TIMEOUT = 2000;
+        public const int TIMEOUT = 4000;
         public const int MUSIC_CONTROL_GRADUAL = 1;
         public const int MUSIC_CONTROL_JUMP = 0;
         public const int MUSIC_CONTROL_OFF = 2;

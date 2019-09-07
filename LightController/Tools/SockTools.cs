@@ -14,11 +14,6 @@ namespace LightController.Tools
         private static SocketTools Instance { get; set; }//Socket实例
         private Conn[] conns;//客户端连接（异步）
         private int MaxCount { get; set; }//最大连接数
-
-        /// <summary>
-        /// 获取连接池索引
-        /// </summary>
-        /// <returns></returns>
         private int NewIndex()
         {
             if (conns == null) return -1;
@@ -36,19 +31,10 @@ namespace LightController.Tools
             }
             return -1;
         }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
         private SocketTools()
         {
             MaxCount = 100;
         }
-
-        /// <summary>
-        /// 获取SockeTools实例
-        /// </summary>
-        /// <returns></returns>
         public static SocketTools GetInstance()
         {
             if (Instance == null)
@@ -57,11 +43,6 @@ namespace LightController.Tools
             }
             return Instance;
         }
-
-        /// <summary>
-        /// 开启连接池
-        /// </summary>
-        /// <param name="iPEndPoint"></param>
         public void Start()
         {
             conns = new Conn[MaxCount];
@@ -70,12 +51,6 @@ namespace LightController.Tools
                 conns[i] = new Conn();
             }
         }
-
-        /// <summary>
-        /// 添加新的连接到连接池
-        /// </summary>
-        /// <param name="ip">连接ip</param>
-        /// <param name="port">连接端口</param>
         public void AddConnect(byte[] receiveBuff, int port)
         {
             string ip = null;
@@ -121,7 +96,7 @@ namespace LightController.Tools
                     conn.SetAddr(addrValue);
                     conn.Init(socket);
                     conn.SetDeviceName(deviceName);
-                    CSJLogs.GetInstance().DebugLog("客户端 [" + conn.GetAddress() + "] 连接");
+                    CSJLogs.GetInstance().DebugLog("客户端 [" + conn.Ip + "] 连接");
                     conn.BeginReceive();
                 }
             }
@@ -146,12 +121,6 @@ namespace LightController.Tools
                 }
             }
         }
-
-        /// <summary>
-        /// 配置连接发送数据包的包大小
-        /// </summary>
-        /// <param name="ip">连接ip</param>
-        /// <param name="size">包大小</param>
         public void SetPackageSize(string ip, int size)
         {
             foreach (Conn value in conns)
@@ -162,12 +131,6 @@ namespace LightController.Tools
                 }
             }
         }
-
-        /// <summary>
-        /// 获取所有设备的ip以及设备标识
-        /// </summary>
-        /// <param name="ip">连接ip</param>
-        /// <param name="size">包大小</param>
         public Dictionary<string, string> GetDeviceInfos()
         {
             Dictionary<string, string> infos = new Dictionary<string, string>();
@@ -183,11 +146,6 @@ namespace LightController.Tools
             }
             return infos;
         }
-
-        /// <summary>
-        /// 获取所有已连接设备ip
-        /// </summary>
-        /// <returns></returns>
         public IList<string> GetDeviceList()
         {
             IList<string> deviceList = new List<string>();
@@ -203,11 +161,6 @@ namespace LightController.Tools
             }
             return deviceList;
         }
-
-        /// <summary>
-        /// 获取所有终端设备的设备标识
-        /// </summary>
-        /// <returns></returns>
         public IList<string> GetDeviceNameList()
         {
             IList<string> deviceNameList = new List<string>();
@@ -223,13 +176,6 @@ namespace LightController.Tools
             }
             return deviceNameList;
         }
-
-        /// <summary>
-        /// 下载所有文件数据
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="dBWrapper"></param>
-        /// <param name="configPath"></param>
         public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
         {
             for (int i = 0; i < conns.Length; i++)
@@ -243,13 +189,6 @@ namespace LightController.Tools
                 }
             }
         }
-
-        /// <summary>
-        /// 发送控制命令
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="order"></param>
-        /// <param name="array"></param>
         public void SendOrder(string ip, string order, string[] array, IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
@@ -263,13 +202,6 @@ namespace LightController.Tools
                 }
             }
         }
-
-        /// <summary>
-        /// 发送配置文件
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="filePath"></param>
-        /// <param name="receiveCallBack"></param>
         public void PutParam(string ip, string filePath, IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
@@ -283,7 +215,6 @@ namespace LightController.Tools
                 }
             }
         }
-
         public void GetParam(string ip, IReceiveCallBack receiveCallBack, GetParamDelegate getParam)
         {
             for (int i = 0; i < conns.Length; i++)

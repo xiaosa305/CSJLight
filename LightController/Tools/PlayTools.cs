@@ -47,12 +47,6 @@ namespace LightController.Tools
         private bool MusicWaiting { get; set; }
         private System.Timers.Timer Timer { get; set; }
 
-        /// <summary>
-        /// test
-        /// </summary>
-        private DateTime BeforDT { get; set; }
-        private DateTime AftetDT { get; set; }
-
         private PlayTools()
         {
             try

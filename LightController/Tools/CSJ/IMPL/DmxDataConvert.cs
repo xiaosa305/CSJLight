@@ -521,7 +521,6 @@ namespace LightController.Tools.CSJ.IMPL
                 channelData.DataSize = channelData.Datas.Count;
                 channelDatas.Add(channelData);
             }
-            //****************************
             file.ChannelDatas = channelDatas;
             return file;
         }
@@ -595,7 +594,7 @@ namespace LightController.Tools.CSJ.IMPL
                         }
                         else
                         {
-                            if (value.ChangeMode != Constant.MODE_M_HIDDEN)
+                            if (value.ChangeMode == Constant.MODE_M_JUMP)
                             {
                                 isGradualChange.Add(value.ChangeMode);
                                 stepTimes.Add(value.StepTime);

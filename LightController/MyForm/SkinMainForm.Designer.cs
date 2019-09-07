@@ -704,7 +704,7 @@ namespace LightController.MyForm
 			this.networkSkinButton.NormlBack = null;
 			this.networkSkinButton.Size = new System.Drawing.Size(90, 96);
 			this.networkSkinButton.TabIndex = 4;
-			this.networkSkinButton.Text = "网络设置";
+			this.networkSkinButton.Text = "硬件更新";
 			this.networkSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.networkSkinButton.UseVisualStyleBackColor = false;
 			this.networkSkinButton.Visible = false;

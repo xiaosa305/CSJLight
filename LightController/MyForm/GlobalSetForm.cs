@@ -196,6 +196,7 @@ namespace LightController.MyForm
 			for (int i = 0; i < 24; i++)
 			{
 				this.mSkinButtons[i].Click += new System.EventHandler(this.mSkinButton_Click);
+				this.frameStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(this.frameStepTimeNumericUpDowns_ValueChanged);
 			}
 
 
@@ -355,12 +356,22 @@ namespace LightController.MyForm
 
 			eachStepTime = Decimal.ToInt16(eachStepTimeNumericUpDown.Value);
 			mainForm.ChangeEachStepTime( eachStepTime );
-			loadSKSet();
+
+			refreshSKSet();
 
 			MessageBox.Show("保存成功");
 
 		}
-			   
+
+		private void refreshSKSet()
+		{
+			for (int i = 0; i < 24; i++)
+			{				
+				frameSTLabels[i].Text = eachStepTime * Decimal.ToInt16(frameStepTimeNumericUpDowns[i].Value) / 1000.0 + "s";
+				jgtNumericUpDowns[i].Value = iniAst.ReadInt("SK", i + "JG", 0);
+			}
+		}
+
 		/// <summary>
 		/// 事件：点击《(多场景组合播放)保存当前》按钮
 		/// </summary>
@@ -463,6 +474,15 @@ namespace LightController.MyForm
 			MessageBox.Show("保存成功");
 		}
 
-
+		/// <summary>
+		/// 事件：更改《音频步时间》的值时，实时生成真实步时间
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void frameStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
+		{
+			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);		
+			frameSTLabels[index].Text = Decimal.ToInt16( frameStepTimeNumericUpDowns[index].Value)* eachStepTime / 1000.0 + "s";
+		}
 	}
 }

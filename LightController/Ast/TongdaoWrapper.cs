@@ -24,19 +24,30 @@ namespace LightController.Ast
 		/// </summary>
 		/// <param name="oldTongdaoList"></param>
 		/// <returns></returns>
-		public static List<TongdaoWrapper> GenerateTongdaoList(IList<TongdaoWrapper> stepTemplateTongdaoList)
+		public static List<TongdaoWrapper> GenerateTongdaoList(IList<TongdaoWrapper> stepTemplateTongdaoList ,int mode)
 		{
 			List<TongdaoWrapper> newList = new List<TongdaoWrapper>();
 			foreach (TongdaoWrapper item in stepTemplateTongdaoList)
 			{
-				newList.Add(new TongdaoWrapper()
-				{
-					StepTime = item.StepTime,
-					TongdaoName = item.TongdaoName,
-					ScrollValue = item.ScrollValue,
-					ChangeMode = item.ChangeMode,
-					Address = item.Address
-				}
+				// 9.7 如果是模板数据，则根据mode来决定changeMode的初值
+				//int tempChangeMode = item.ChangeMode;
+				//if (tempChangeMode ==  -1) {
+				//	if (mode == 0)
+				//	{
+				//		tempChangeMode = 1;
+				//	}
+				//	else {
+				//		tempChangeMode = 0;
+				//	}
+				//}				
+
+				newList.Add(new TongdaoWrapper()	{
+						StepTime = item.StepTime,
+						TongdaoName = item.TongdaoName,
+						ScrollValue = item.ScrollValue,
+						ChangeMode = item.ChangeMode == -1 ? (mode == 0 ? 1 : 0) : item.ChangeMode ,
+						Address = item.Address
+					}
 				);
 			}
 			return newList;

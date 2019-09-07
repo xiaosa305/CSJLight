@@ -93,20 +93,19 @@ namespace LightController.Ast
 		///  （包括mode,lightName,startNum,tongdaoList等属性）;
 		///  主要供新建步、插入素材 等情况使用
 		/// </summary>
-		/// <param name="stepMode"></param>
+		/// <param name="stepTemplate"></param>
 		/// <returns></returns>
-		public static StepWrapper GenerateNewStep(StepWrapper stepMode, int mode)
+		public static StepWrapper GenerateNewStep(StepWrapper stepTemplate, int mode)
 		{
-			if (stepMode == null) {
+			if (stepTemplate == null) {
 				return null;
 			}
-
 			return new StepWrapper()
 			{
-				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepMode.TongdaoList),
+				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList , mode),
 				LightMode = mode,
-				LightFullName = stepMode.LightFullName,
-				StartNum = stepMode.StartNum
+				LightFullName = stepTemplate.LightFullName,
+				StartNum = stepTemplate.StartNum
 			};
 		}
 

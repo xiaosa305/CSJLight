@@ -37,6 +37,8 @@ namespace LightController.MyForm
 			this.globalSetPath = globalSetPath;
 
 			this.skinTabControl.SelectedIndex = 0;
+
+			
 		}
 
 		private void UpdateForm_Load(object sender, EventArgs e)
@@ -44,6 +46,10 @@ namespace LightController.MyForm
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			// 设false可在其他文件中修改本类的UI
 			Control.CheckForIllegalCrossThreadCalls = false;
+
+			// 9.7 进来就自动搜索本地IP列表。
+			getLocalIPs();
+			searchCOMList();
 		}
 
 		/// <summary>
@@ -53,6 +59,13 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
 		{
+			getLocalIPs();
+		}
+
+		/// <summary>
+		///  辅助方法：获取本地IP列表，①开始进来就搜到 ； ②点击后重新搜索；
+		/// </summary>
+		private void getLocalIPs() {
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
 			localIPsComboBox.Items.Clear();
 			foreach (IPAddress ip in ipe.AddressList)
@@ -60,7 +73,7 @@ namespace LightController.MyForm
 				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
 				{
 					localIPsComboBox.Items.Add(ip);
-				}				
+				}
 			}
 			if (localIPsComboBox.Items.Count > 0)
 			{
@@ -68,12 +81,14 @@ namespace LightController.MyForm
 				localIPsComboBox.SelectedIndex = 0;
 				setLocalIPSkinButton.Enabled = true;
 			}
-			else {
+			else
+			{
 				localIPsComboBox.Enabled = false;
-				localIPsComboBox.SelectedIndex = -1;				
+				localIPsComboBox.SelectedIndex = -1;
 				setLocalIPSkinButton.Enabled = false;
-			}					
+			}
 		}
+
 
 		/// <summary>
 		///  事件：点击《设置本地IP》
@@ -129,37 +144,40 @@ namespace LightController.MyForm
 			}
 			// 点击《搜索串口设备》
 			else {
+				searchCOMList();
+			}		
+		}
 
-				comSearchSkinButton.Enabled = false;
-				comChooseSkinButton.Enabled = false;
-				comUpdateSkinButton.Enabled = false;
+		/// <summary>
+		/// 辅助方法：搜索本机连接的串口列表：①load时使用；②点击《搜索串口》时
+		/// </summary>
+		private void searchCOMList()
+		{
+			comSearchSkinButton.Enabled = false;
+			comChooseSkinButton.Enabled = false;
+			comUpdateSkinButton.Enabled = false;
 
-				comTools = SerialPortTools.GetInstance();
-				string[] comList = comTools.GetSerialPortNameList();
-				comComboBox.Items.Clear();
-				if (comList.Length > 0)
+			comTools = SerialPortTools.GetInstance();
+			string[] comList = comTools.GetSerialPortNameList();
+			comComboBox.Items.Clear();
+			if (comList.Length > 0)
+			{
+				foreach (string com in comList)
 				{
-					foreach (string com in comList)
-					{
-						comComboBox.Items.Add(com);
-					}
-					comComboBox.Enabled = true;
-					comComboBox.SelectedIndex = 0;
-					comChooseSkinButton.Enabled = true;
+					comComboBox.Items.Add(com);
 				}
-				else
-				{
-					comComboBox.Enabled = false ;
-					comComboBox.SelectedIndex = 0;
-					comChooseSkinButton.Enabled = false;
-					MessageBox.Show("未找到可用串口，请重试");
-				}
-				comSearchSkinButton.Enabled = true;
-
+				comComboBox.Enabled = true;
+				comComboBox.SelectedIndex = 0;
+				comChooseSkinButton.Enabled = true;
 			}
-
-
-		
+			else
+			{
+				comComboBox.Enabled = false;
+				comComboBox.SelectedIndex = 0;
+				comChooseSkinButton.Enabled = false;
+				MessageBox.Show("未找到可用串口，请重试");
+			}
+			comSearchSkinButton.Enabled = true;
 		}
 
 		/// <summary>

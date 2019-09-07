@@ -42,6 +42,8 @@ namespace LightController.Tools
         public const string RECEIVE_ORDER_PUT_PARA = "Ok:Decode";
         public const string RECEIVE_ORDER_OTHER_OK = "OK";
         public const string RECEIVE_ORDER_OTHER_ERROR = "Error";
+        public const string RECEIVE_ORDER_UPDATE_OK = "Ok:Decode";
+        public const string RECEIVE_ORDER_UPDATE_ERROR = "Error:Update";
         public const string RECEIVE_OK = "Ok";
         public const string RECEIVE_ERROR = "Error";
         public const string ORDER_PUT = "Put";
@@ -50,6 +52,7 @@ namespace LightController.Tools
         public const string ORDER_END_SEND = "EndSend";
         public const string ORDER_GET_PARAM = "GetParam";
         public const string ORDER_SEARCH = "Search";
+        public const string ORDER_UPDATE = "Update";
         public const string MARK_ORDER_TAKE_DATA = "00000101";
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";

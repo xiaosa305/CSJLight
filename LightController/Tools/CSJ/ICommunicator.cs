@@ -2,6 +2,7 @@
 using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -229,6 +230,9 @@ namespace LightController.Tools.CSJ
                 case Constant.ORDER_PUT_PARAM:
                     mark = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
                     break;
+                case Constant.ORDER_UPDATE:
+                    mark = Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
+                    break;
                 default:
                     mark = Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
                     break;
@@ -395,7 +399,26 @@ namespace LightController.Tools.CSJ
                             this.CallBack.SendCompleted(devicename, this.Order);
                             this.CloseDevice();
                             break;
-                        default:
+                    }
+                    break;
+                case Constant.ORDER_UPDATE:
+                    switch (rxStr)
+                    {
+                        case Constant.RECEIVE_ORDER_UPDATE_OK:
+                            this.SendDataPackage();
+                            break;
+                        case Constant.RECEIVE_ORDER_SENDNEXT:
+                            this.SendDataPackage();
+                            break;
+                        case Constant.RECEIVE_ORDER_DONE:
+                            this.IsSending = false;
+                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CloseDevice();
+                            break;
+                        case Constant.RECEIVE_ORDER_UPDATE_ERROR:
+                            this.IsSending = false;
+                            this.CallBack.SendError(devicename, this.Order);
+                            this.CloseDevice();
                             break;
                     }
                     break;
@@ -651,7 +674,29 @@ namespace LightController.Tools.CSJ
         }
         public void Update(string filePath,IReceiveCallBack receiveCallBack)
         {
-
+            try
+            {
+                if (!this.IsSending)
+                {
+                    if (File.Exists(filePath))
+                    {
+                        FileInfo info = new FileInfo(filePath);
+                        FileStream fileStream = File.OpenRead(filePath);
+                        byte[] data = new byte[fileStream.Length];
+                        fileStream.Read(data, 0, data.Length);
+                        string fileSize = data.Length.ToString();
+                        string fileName = info.Name;
+                        byte[] crc = CRCTools.GetInstance().GetCRC(data);
+                        string fileCrc = crc[0].ToString() + crc[1].ToString();
+                        this.SendData(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                throw;
+            }
         }
         public class PacketSize
         {

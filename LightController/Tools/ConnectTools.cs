@@ -25,11 +25,6 @@ namespace LightController.Tools
         private ConnectTools()
         {
         }
-
-        /// <summary>
-        /// 获取连接工具实例
-        /// </summary>
-        /// <returns></returns>
         public static ConnectTools GetInstance()
         {
             if (Instance == null)
@@ -38,12 +33,6 @@ namespace LightController.Tools
             }
             return Instance;
         }
-
-        /// <summary>
-        /// 启动Tcp服务连接池
-        /// </summary>
-        /// <param name="ip">Tcp服务器Ip地址</param>
-        /// <param name="port">Tcp服务器端口号</param>
         public void Start(string ip)
         {
             try
@@ -75,12 +64,6 @@ namespace LightController.Tools
             }
             
         }
-
-        /// <summary>
-        /// 发送UDP广播包检索设备
-        /// </summary>
-        /// <param name="udpServerIp">服务器ip地址</param>
-        /// <param name="udpPort">服务器端口号</param>
         public void SearchDevice()
         {
             if (IsStart)
@@ -104,11 +87,6 @@ namespace LightController.Tools
             }
             
         }
-
-        /// <summary>
-        /// UDP广播数据接收
-        /// </summary>
-        /// <param name="obj"></param>
         private void RecevieMsg(object obj)
         {
             try
@@ -130,12 +108,6 @@ namespace LightController.Tools
             }
            
         }
-
-        /// <summary>
-        /// 配置发送数据包单包上限
-        /// </summary>
-        /// <param name="ip">连接ip</param>
-        /// <param name="size">数据包单包上限</param>
         public void SetConnectPackageSize(string ip,int size)
         {
             if (IsStart)
@@ -148,11 +120,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 获取所有已连接设备ip
-        /// </summary>
-        /// <returns></returns>
         public IList<string> GetDevicesIp()
         {
             if (IsStart)
@@ -165,11 +132,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 获取所有已连接设备的标识
-        /// </summary>
-        /// <returns></returns>
         public IList<string> GetDeviceNames()
         {
             if (IsStart)
@@ -182,11 +144,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 获取所有已连接设备到ip以及设备标识
-        /// </summary>
-        /// <returns></returns>
         public Dictionary<string,string> GetDeviceInfo()
         {
             if (IsStart)
@@ -199,14 +156,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 下载所有常规程序、音频程序以及全局配置文件到指定终端设备
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="dBWrapper"></param>
-        /// <param name="configPath"></param>
-        /// <param name="callBack"></param>
         public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
         {
             if (IsStart)
@@ -222,14 +171,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 下载所有常规程序、音频程序以及全局配置文件到指定终端设备
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="dBWrapper"></param>
-        /// <param name="configPath"></param>
-        /// <param name="callBack"></param>
         public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
         {
             if (IsStart)
@@ -242,14 +183,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 发送指令
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="order"></param>
-        /// <param name="strarray"></param>
-        /// <param name="callBack"></param>
         public void SendOrder(IList<string> ips, string order,string[] strarray,IReceiveCallBack callBack)
         {
             if (IsStart)
@@ -265,14 +198,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 发送指令
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="order"></param>
-        /// <param name="strarray"></param>
-        /// <param name="callBack"></param>
         public void SendOrder(string ip, string order, string[] strarray, IReceiveCallBack callBack)
         {
             if (IsStart)
@@ -285,13 +210,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 发送硬件配置文件到指定终端设备
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="filePath"></param>
-        /// <param name="receiveCallBack"></param>
         public void PutPara(IList<string> ips, string filePath,IReceiveCallBack receiveCallBack)
         {
             if (IsStart)
@@ -307,13 +225,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 发送硬件配置文件到指定终端设备
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="filePath"></param>
-        /// <param name="receiveCallBack"></param>
         public void PutPara(string ip, string filePath, IReceiveCallBack receiveCallBack)
         {
             if (IsStart)
@@ -326,13 +237,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 获取硬件配置信息
-        /// </summary>
-        /// <param name="ips"></param>
-        /// <param name="receiveCallBack"></param>
-        /// <param name="getParam"></param>
         public void GetParam(IList<string> ips,IReceiveCallBack receiveCallBack,GetParamDelegate getParam)
         {
             if (IsStart)
@@ -348,18 +252,38 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        /// <summary>
-        /// 获取硬件配置信息
-        /// </summary>
-        /// <param name="ip"></param>
-        /// <param name="receiveCallBack"></param>
-        /// <param name="getParam"></param>
         public void GetParam(string ip, IReceiveCallBack receiveCallBack, GetParamDelegate getParam)
         {
             if (IsStart)
             {
                 SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
+            }
+            else
+            {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
+                throw new Exception("未启动服务");
+            }
+        }
+        public void Update(string ip, string filePath,IReceiveCallBack receiveCallBack)
+        {
+            if (IsStart)
+            {
+                SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
+            }
+            else
+            {
+                CSJLogs.GetInstance().DebugLog("未启动服务");
+                throw new Exception("未启动服务");
+            }
+        }
+        public void Update(IList<string> ips, string filePath, IReceiveCallBack receiveCallBack)
+        {
+            if (IsStart)
+            {
+                foreach (string ip in ips)
+                {
+                    SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
+                }
             }
             else
             {

@@ -94,7 +94,7 @@ namespace LightController.MyForm
 				this.commonChangeModeSkinButton.Text =  "统一声控";
 				this.commonChangeModeComboBox.Items.Add("屏蔽");
 				this.commonChangeModeComboBox.Items.Add("跳变");
-				this.commonChangeModeComboBox.Items.Add("渐变");
+				//this.commonChangeModeComboBox.Items.Add("渐变");
 				this.commonChangeModeComboBox.SelectedIndex = 0;
 				// 音频模式下：《步时间调整值》两个按钮隐藏。
 				commonStepTimetNumericUpDown.Hide();

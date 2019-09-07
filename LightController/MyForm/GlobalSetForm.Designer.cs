@@ -772,7 +772,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown7
 			// 
-			this.jgtNumericUpDown7.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown7.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown7.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -982,7 +982,7 @@ private System.ComponentModel.IContainer components = null;
 			// label37
 			// 
 			this.label37.AutoSize = true;
-			this.label37.Location = new System.Drawing.Point(17, 103);
+			this.label37.Location = new System.Drawing.Point(17, 93);
 			this.label37.Name = "label37";
 			this.label37.Size = new System.Drawing.Size(119, 12);
 			this.label37.TabIndex = 0;
@@ -1019,7 +1019,7 @@ private System.ComponentModel.IContainer components = null;
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(17, 99);
+			this.label10.Location = new System.Drawing.Point(17, 92);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(119, 12);
 			this.label10.TabIndex = 0;
@@ -1099,7 +1099,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown1
 			// 
-			this.jgtNumericUpDown1.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown1.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown1.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1154,7 +1154,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown2
 			// 
-			this.jgtNumericUpDown2.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown2.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown2.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1209,7 +1209,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown3
 			// 
-			this.jgtNumericUpDown3.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown3.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown3.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1264,7 +1264,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown4
 			// 
-			this.jgtNumericUpDown4.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown4.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown4.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1319,7 +1319,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown5
 			// 
-			this.jgtNumericUpDown5.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown5.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown5.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1374,7 +1374,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown6
 			// 
-			this.jgtNumericUpDown6.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown6.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown6.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1429,7 +1429,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown8
 			// 
-			this.jgtNumericUpDown8.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown8.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown8.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1484,7 +1484,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown9
 			// 
-			this.jgtNumericUpDown9.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown9.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown9.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1539,7 +1539,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown10
 			// 
-			this.jgtNumericUpDown10.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown10.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown10.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1594,7 +1594,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown11
 			// 
-			this.jgtNumericUpDown11.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown11.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown11.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1649,7 +1649,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown12
 			// 
-			this.jgtNumericUpDown12.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown12.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown12.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1704,7 +1704,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown13
 			// 
-			this.jgtNumericUpDown13.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown13.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown13.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1759,7 +1759,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown14
 			// 
-			this.jgtNumericUpDown14.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown14.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown14.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1814,7 +1814,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown15
 			// 
-			this.jgtNumericUpDown15.Location = new System.Drawing.Point(4, 98);
+			this.jgtNumericUpDown15.Location = new System.Drawing.Point(4, 89);
 			this.jgtNumericUpDown15.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1869,7 +1869,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown16
 			// 
-			this.jgtNumericUpDown16.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown16.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown16.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1924,7 +1924,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown17
 			// 
-			this.jgtNumericUpDown17.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown17.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown17.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -1979,7 +1979,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown18
 			// 
-			this.jgtNumericUpDown18.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown18.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown18.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2034,7 +2034,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown19
 			// 
-			this.jgtNumericUpDown19.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown19.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown19.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2089,7 +2089,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown20
 			// 
-			this.jgtNumericUpDown20.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown20.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown20.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2144,7 +2144,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown21
 			// 
-			this.jgtNumericUpDown21.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown21.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown21.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2199,7 +2199,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown22
 			// 
-			this.jgtNumericUpDown22.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown22.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown22.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2254,7 +2254,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown23
 			// 
-			this.jgtNumericUpDown23.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown23.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown23.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2309,7 +2309,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// jgtNumericUpDown24
 			// 
-			this.jgtNumericUpDown24.Location = new System.Drawing.Point(4, 97);
+			this.jgtNumericUpDown24.Location = new System.Drawing.Point(4, 88);
 			this.jgtNumericUpDown24.Maximum = new decimal(new int[] {
             10000,
             0,

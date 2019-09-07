@@ -1581,13 +1581,13 @@ namespace LightController
 		private void exportButton_Click(object sender, EventArgs e)
 		{			
 			DBWrapper dbWrapper = GetDBWrapper(true);
-			string savePath = @"C:\Temp\ExportDirectory\" + currentProjectName + @"\CSJ";
+			string exportPath = savePath + @"\ExportDirectory\" + currentProjectName + @"\CSJ";
 
 			FileTools fileTools = FileTools.GetInstance();
-			fileTools.ProjectToFile(dbWrapper, globalIniPath, savePath);
+			fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
 
 			//导出成功后，打开文件夹
-			System.Diagnostics.Process.Start(savePath);			
+			System.Diagnostics.Process.Start(exportPath);			
 		}
 
 	}

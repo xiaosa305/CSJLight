@@ -27,6 +27,10 @@ namespace LightEditor
 		private bool isConnect = false; // 辅助变量：是否连接设备	
 
 		string comName;
+		// 9.6 把图片路径放到软件中来
+		private string savePath; 
+		private string picDirectory;
+		private string lightDirectory;
 
 		public MainForm()
 		{
@@ -156,6 +160,8 @@ namespace LightEditor
 				comComboBox.SelectedIndex = 0;
 			}
 
+			
+
 		}
 
 		/// <summary>
@@ -170,8 +176,21 @@ namespace LightEditor
 			if (!String.IsNullOrEmpty(skin))
 			{
 				this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
-			}			
-			
+			}
+
+			// 9.6 图片加载使用当前软件所在文件夹
+			int appPath = iniFileAst.ReadInt("SavePath", "appPath", 0);
+			if (appPath == 1)
+			{
+				savePath = Application.StartupPath;
+			}
+			else {
+				savePath = iniFileAst.ReadString("SavePath","otherPath","");				
+			}
+			picDirectory = @savePath + @"\LightPic";					
+			this.openImageDialog.InitialDirectory = picDirectory;
+			lightDirectory = @savePath + @"\LightLibrary";
+			this.openFileDialog.InitialDirectory = lightDirectory;
 			
 		}
 
@@ -264,7 +283,7 @@ namespace LightEditor
 			string imagePath = lineList[2].ToString().Substring(4);
 			if (imagePath != null && !imagePath.Trim().Equals(""))
 			{
-				this.setImage("C:\\Temp\\LightPic\\" + imagePath); 
+				this.setImage( picDirectory +"\\" + imagePath); 
 			}
 			
 
@@ -350,13 +369,13 @@ namespace LightEditor
 			string pic = picTextBox.Text;
 			int count = int.Parse(countComboBox.SelectedItem.ToString());
 
-			DirectoryInfo di = new DirectoryInfo("C:\\Temp\\LightLibrary\\" + name);
+			DirectoryInfo di = new DirectoryInfo(lightDirectory+ "\\" + name);
 			if (!di.Exists)
 			{
 				di.Create();
 			}
 
-			string fileName = "C:\\Temp\\LightLibrary\\" + name + "\\" + type;
+			string fileName = lightDirectory + "\\" + name + "\\" + type;
 					
 			using (StreamWriter iniWriter = new StreamWriter(fileName + ".ini"))
 			{
@@ -939,10 +958,7 @@ namespace LightEditor
 				stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
 			}
 			player.Preview(stepBytes);
-		}
-
-	
-		
+		}		
 
 
 		/// <summary>

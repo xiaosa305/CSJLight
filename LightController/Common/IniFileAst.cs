@@ -149,5 +149,22 @@ namespace LightController.Common
 			WritePrivateProfileString(section, name, value, this.filePath);
 		}
 
+		/// <summary>
+		/// 辅助方法：直接通过本类的实例，获取相关的savePath（当前应用目录还是固定位置）
+		/// </summary>
+		/// <returns></returns>
+		public static string GetSavePath(string appPathStr) {
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			int appPath = iniFileAst.ReadInt("SavePath", "appPath", 0);  //默认是0，取C:\Temp;若为1，则取当前软件目录
+			if (appPath == 1)
+			{
+				return appPathStr;
+			}
+			else
+			{
+				return iniFileAst.ReadString("SavePath", "otherPath", "");
+			} 
+		}
+
 	}
 }

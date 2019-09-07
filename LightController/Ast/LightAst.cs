@@ -1,4 +1,5 @@
 ﻿using DMX512;
+using LightController.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,8 @@ namespace LightController.Ast
 		{
 			int endNum = light.StartID + light.Count - 1;
 			string lightAddr = light.StartID + "-" + endNum;
-			string path = @"C:\Temp\LightLibrary\" + light.Name + "\\" + light.Type + ".ini";
+			
+			string path = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightLibrary\" + light.Name + @"\" + light.Type + ".ini";
 
 			return new LightAst()
 			{

@@ -64,6 +64,9 @@ namespace LightController.MyForm
 
 		// 将所有场景名称写在此处,并供所有类使用
 		public static IList<string> allFrameList ;
+		protected string savePath; 
+
+		// 辅助
 
 		/// <summary>
 		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
@@ -77,7 +80,7 @@ namespace LightController.MyForm
 
 			// 1.全局设置
 			currentProjectName = projectName;
-			string directoryPath = "C:\\Temp\\LightProject\\" + projectName;			
+			string directoryPath =savePath + @"\LightProject\" + projectName;			
 			globalIniPath = directoryPath + "\\global.ini";
 			dbFilePath = directoryPath + "\\data.db3";
 			this.Text = "智控配置(当前工程:" + projectName + ")";

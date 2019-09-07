@@ -228,5 +228,18 @@ namespace LightController.Tools
                 }
             }
         }
+        public void Update(string ip , string filePath,IReceiveCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].Update(filePath, receiveCallBack);
+                    }
+                }
+            }
+        }
     }
 }

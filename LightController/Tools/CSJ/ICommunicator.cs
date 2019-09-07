@@ -252,7 +252,7 @@ namespace LightController.Tools.CSJ
                     this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)
                     {
-                        CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeOut");
+                        CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeout");
                         string deviceName = this.DeviceName;
                         if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
                         {
@@ -276,7 +276,6 @@ namespace LightController.Tools.CSJ
                         else
                         {
                             this.TimeOutCount++;
-                            Console.WriteLine("超时" + TimeOutCount + "次");
                             switch (this.OrderOrData)
                             {
                                 case ORDER:

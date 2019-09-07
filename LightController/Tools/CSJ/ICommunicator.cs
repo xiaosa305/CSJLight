@@ -649,6 +649,10 @@ namespace LightController.Tools.CSJ
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
+        public void Update(string filePath,IReceiveCallBack receiveCallBack)
+        {
+
+        }
         public class PacketSize
         {
             public const int BYTE_512 = 504;

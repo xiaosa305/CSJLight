@@ -41,6 +41,8 @@
 			this.mFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.noticeLabel = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.trueSTLabel = new System.Windows.Forms.Label();
 			this.panel26.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
@@ -49,12 +51,13 @@
 			// 
 			// panel26
 			// 
+			this.panel26.Controls.Add(this.label1);
 			this.panel26.Controls.Add(this.label37);
 			this.panel26.Controls.Add(this.label36);
 			this.panel26.Controls.Add(this.label8);
 			this.panel26.Location = new System.Drawing.Point(12, 12);
 			this.panel26.Name = "panel26";
-			this.panel26.Size = new System.Drawing.Size(138, 102);
+			this.panel26.Size = new System.Drawing.Size(138, 132);
 			this.panel26.TabIndex = 5;
 			// 
 			// label37
@@ -62,9 +65,9 @@
 			this.label37.AutoSize = true;
 			this.label37.Location = new System.Drawing.Point(17, 75);
 			this.label37.Name = "label37";
-			this.label37.Size = new System.Drawing.Size(119, 12);
+			this.label37.Size = new System.Drawing.Size(101, 12);
 			this.label37.TabIndex = 0;
-			this.label37.Text = "叠加后间隔时间(ms):";
+			this.label37.Text = "换算后步时间(s):";
 			// 
 			// label36
 			// 
@@ -86,12 +89,13 @@
 			// 
 			// panel2
 			// 
+			this.panel2.Controls.Add(this.trueSTLabel);
 			this.panel2.Controls.Add(this.frameLabel);
 			this.panel2.Controls.Add(this.jgtNumericUpDown);
 			this.panel2.Controls.Add(this.frameStepTimeNumericUpDown);
 			this.panel2.Location = new System.Drawing.Point(156, 12);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(73, 102);
+			this.panel2.Size = new System.Drawing.Size(73, 132);
 			this.panel2.TabIndex = 3;
 			// 
 			// frameLabel
@@ -105,7 +109,7 @@
 			// 
 			// jgtNumericUpDown
 			// 
-			this.jgtNumericUpDown.Location = new System.Drawing.Point(9, 71);
+			this.jgtNumericUpDown.Location = new System.Drawing.Point(9, 102);
 			this.jgtNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -117,16 +121,17 @@
 			// 
 			// frameStepTimeNumericUpDown
 			// 
-			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(11, 43);
+			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(9, 43);
 			this.frameStepTimeNumericUpDown.Name = "frameStepTimeNumericUpDown";
-			this.frameStepTimeNumericUpDown.Size = new System.Drawing.Size(51, 21);
+			this.frameStepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
 			this.frameStepTimeNumericUpDown.TabIndex = 1;
+			this.frameStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.frameStepTimeNumericUpDown_ValueChanged);
 			// 
 			// mFrameLKTextBox
 			// 
 			this.mFrameLKTextBox.BackColor = System.Drawing.Color.White;
 			this.mFrameLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mFrameLKTextBox.Location = new System.Drawing.Point(12, 215);
+			this.mFrameLKTextBox.Location = new System.Drawing.Point(12, 241);
 			this.mFrameLKTextBox.MaxLength = 20;
 			this.mFrameLKTextBox.Multiline = true;
 			this.mFrameLKTextBox.Name = "mFrameLKTextBox";
@@ -141,7 +146,7 @@
 			this.mFrameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.mFrameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.mFrameSaveSkinButton.DownBack = null;
-			this.mFrameSaveSkinButton.Location = new System.Drawing.Point(26, 268);
+			this.mFrameSaveSkinButton.Location = new System.Drawing.Point(26, 285);
 			this.mFrameSaveSkinButton.MouseBack = null;
 			this.mFrameSaveSkinButton.Name = "mFrameSaveSkinButton";
 			this.mFrameSaveSkinButton.NormlBack = null;
@@ -159,7 +164,7 @@
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(136, 268);
+			this.cancelSkinButton.Location = new System.Drawing.Point(136, 285);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -171,12 +176,30 @@
 			// 
 			// noticeLabel
 			// 
-			this.noticeLabel.Location = new System.Drawing.Point(14, 132);
+			this.noticeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.noticeLabel.Location = new System.Drawing.Point(14, 158);
 			this.noticeLabel.Name = "noticeLabel";
 			this.noticeLabel.Size = new System.Drawing.Size(215, 70);
 			this.noticeLabel.TabIndex = 10;
 			this.noticeLabel.Text = "提示：请在下面文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式;链表数量不可超" +
     "过20个。";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(17, 103);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(119, 12);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "叠加后间隔时间(ms):";
+			// 
+			// trueSTLabel
+			// 
+			this.trueSTLabel.AutoSize = true;
+			this.trueSTLabel.Location = new System.Drawing.Point(9, 75);
+			this.trueSTLabel.Name = "trueSTLabel";
+			this.trueSTLabel.Size = new System.Drawing.Size(0, 12);
+			this.trueSTLabel.TabIndex = 3;
 			// 
 			// SKForm
 			// 
@@ -219,5 +242,7 @@
 		private CCWin.SkinControl.SkinButton mFrameSaveSkinButton;
 		private CCWin.SkinControl.SkinButton cancelSkinButton;
 		private System.Windows.Forms.Label noticeLabel;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label trueSTLabel;
 	}
 }

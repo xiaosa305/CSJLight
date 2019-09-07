@@ -15,6 +15,7 @@ namespace LightController.MyForm
 		private MainFormInterface mainForm;
 		private int frame;
 		private IniFileAst iniAst;
+		private int eachStepTime = 30;
 
 		public SKForm(MainFormInterface mainForm, string iniPath,int frame,string frameName)
 		{
@@ -27,9 +28,12 @@ namespace LightController.MyForm
 			iniAst = new IniFileAst(iniPath);
 			frameStepTimeNumericUpDown.Value = iniAst.ReadInt("SK", frame + "ST", 0);
 			jgtNumericUpDown.Value = iniAst.ReadInt("SK", frame + "JG", 0);
-			mFrameLKTextBox.Text = iniAst.ReadString("SK", frame + "LK", "");
+			mFrameLKTextBox.Text = iniAst.ReadString("SK", frame + "LK", "");		
+			frameLabel.Text = frameName;			
 
-			this.frameLabel.Text = frameName;
+			// 9.7 添加时间因子，用以显示实际步时间（单位s）
+			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
+			//trueSTLabel.Text = Decimal.ToInt16(frameStepTimeNumericUpDown.Value) * eachStepTime / 1000.0 + "s";
 		}
 
 		/// <summary>
@@ -85,7 +89,11 @@ namespace LightController.MyForm
 			{
 				e.Handled = true;
 			}
-		}	
-		
+		}
+
+		private void frameStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			trueSTLabel.Text = Decimal.ToInt16(frameStepTimeNumericUpDown.Value) * eachStepTime / 1000.0 + "s";
+		}
 	}
 }

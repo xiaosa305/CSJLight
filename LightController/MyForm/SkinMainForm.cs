@@ -316,6 +316,7 @@ namespace LightController.MyForm
 			#endregion
 
 			#region 各类监听器
+			// TODO : 此处的TODO只是作为标记，以快速定位到监听器
 			for (int i = 0; i < 32; i++) {
 
 				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);

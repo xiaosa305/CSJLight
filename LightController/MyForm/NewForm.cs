@@ -114,7 +114,6 @@ namespace LightController
 
 		/// <summary>
 		///  事件：点击《右上角？》按钮提示
-		///  TODO
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

@@ -149,18 +149,23 @@ namespace LightEditor
 
 			#endregion
 
+			refreshComList();
+		}
+
+		private void refreshComList() {
+
 			player = OneLightOneStep.GetInstance();
 			// 填充comComboBox
 			IList<string> comList = player.GetDMX512DeviceList();
-			if (comList.Count > 0) {
+			comComboBox.Items.Clear();
+			if (comList.Count > 0)
+			{
 				foreach (string com in comList)
 				{
 					comComboBox.Items.Add(com);
 				}
 				comComboBox.SelectedIndex = 0;
 			}
-
-			
 
 		}
 
@@ -884,9 +889,8 @@ namespace LightEditor
 			{
 				if(	player.ConnectDevice(comName))  //判断是否连接成功
 				{
-					setDMX512TestButtonsEnable(true);
-					chooseComButton.Enabled = false;
-					connectButton.Text = "断开连接";
+					setDMX512TestButtonsEnable(true);					
+					connectButton.Text = "断开连接";					
 					isConnect = true;
 				}
 				else
@@ -896,10 +900,8 @@ namespace LightEditor
 			}
 			else //否则断开连接: --> 《选择串口》设为可用
 			{
-				setDMX512TestButtonsEnable(false);
-				chooseComButton.Enabled = true;
+				setDMX512TestButtonsEnable(false);				
 				player.CloseDevice();
-
 				connectButton.Text = "连接设备";
 				isConnect = false;
 			}
@@ -912,6 +914,8 @@ namespace LightEditor
 		private void setDMX512TestButtonsEnable(bool visible)
 		{
 			lightTestGroupBox.Visible = visible;
+			chooseComButton.Enabled = !visible;
+			refreshButton.Enabled = !visible;
 		}
 
 		/// <summary>
@@ -1000,6 +1004,17 @@ namespace LightEditor
 		{
 			MessageBox.Show("灯具的厂家名及型号名都不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
 			e.Cancel = true;
+		}
+
+
+		/// <summary>
+		///  事件：点击《刷新》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			refreshComList();
 		}
 	}
 }

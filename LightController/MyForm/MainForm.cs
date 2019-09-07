@@ -1291,7 +1291,7 @@ namespace LightController
 		private void materialSaveButton_Click(object sender, EventArgs e)
 		{
 			materialForm = null;
-			//TODO
+			//TODO：需要额外处理保存素材（共性及个性）
 			materialForm = new MaterialSaveForm(this,getCurrentLightStepWrapper().StepWrapperList,mode ,"");
 			if (materialForm != null && !materialForm.IsDisposed) {
 				materialForm.ShowDialog();

@@ -44,7 +44,7 @@
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
 			this.treeView1.Margin = new System.Windows.Forms.Padding(2);
 			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(244, 315);
+			this.treeView1.Size = new System.Drawing.Size(279, 315);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
 			// 
@@ -55,11 +55,11 @@
 			this.insertSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.insertSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.insertSkinButton.DownBack = null;
-			this.insertSkinButton.Location = new System.Drawing.Point(91, 335);
+			this.insertSkinButton.Location = new System.Drawing.Point(117, 335);
 			this.insertSkinButton.MouseBack = null;
 			this.insertSkinButton.Name = "insertSkinButton";
 			this.insertSkinButton.NormlBack = null;
-			this.insertSkinButton.Size = new System.Drawing.Size(56, 27);
+			this.insertSkinButton.Size = new System.Drawing.Size(67, 27);
 			this.insertSkinButton.TabIndex = 2;
 			this.insertSkinButton.Text = "插入";
 			this.insertSkinButton.UseVisualStyleBackColor = false;
@@ -72,11 +72,11 @@
 			this.converSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.converSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.converSkinButton.DownBack = null;
-			this.converSkinButton.Location = new System.Drawing.Point(168, 335);
+			this.converSkinButton.Location = new System.Drawing.Point(198, 335);
 			this.converSkinButton.MouseBack = null;
 			this.converSkinButton.Name = "converSkinButton";
 			this.converSkinButton.NormlBack = null;
-			this.converSkinButton.Size = new System.Drawing.Size(56, 27);
+			this.converSkinButton.Size = new System.Drawing.Size(67, 27);
 			this.converSkinButton.TabIndex = 2;
 			this.converSkinButton.Text = "覆盖";
 			this.converSkinButton.UseVisualStyleBackColor = false;
@@ -93,7 +93,7 @@
 			this.deleteSkinButton.MouseBack = null;
 			this.deleteSkinButton.Name = "deleteSkinButton";
 			this.deleteSkinButton.NormlBack = null;
-			this.deleteSkinButton.Size = new System.Drawing.Size(56, 27);
+			this.deleteSkinButton.Size = new System.Drawing.Size(67, 27);
 			this.deleteSkinButton.TabIndex = 2;
 			this.deleteSkinButton.Text = "删除";
 			this.deleteSkinButton.UseVisualStyleBackColor = false;
@@ -107,7 +107,7 @@
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(168, 382);
+			this.cancelSkinButton.Location = new System.Drawing.Point(205, 382);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -140,7 +140,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
-			this.ClientSize = new System.Drawing.Size(244, 425);
+			this.ClientSize = new System.Drawing.Size(279, 425);
 			this.Controls.Add(this.helpSkinButton);
 			this.Controls.Add(this.cancelSkinButton);
 			this.Controls.Add(this.deleteSkinButton);

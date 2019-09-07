@@ -168,6 +168,7 @@ namespace LightEditor
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.connectButton = new System.Windows.Forms.Button();
 			this.connectPanel = new System.Windows.Forms.Panel();
+			this.refreshButton = new System.Windows.Forms.Button();
 			this.lightTestGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
@@ -215,18 +216,18 @@ namespace LightEditor
 			// comComboBox
 			// 
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(20, 13);
+			this.comComboBox.Location = new System.Drawing.Point(64, 13);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(86, 20);
+			this.comComboBox.Size = new System.Drawing.Size(70, 20);
 			this.comComboBox.TabIndex = 0;
 			// 
 			// chooseComButton
 			// 
-			this.chooseComButton.Location = new System.Drawing.Point(20, 37);
+			this.chooseComButton.Location = new System.Drawing.Point(18, 37);
 			this.chooseComButton.Margin = new System.Windows.Forms.Padding(2);
 			this.chooseComButton.Name = "chooseComButton";
-			this.chooseComButton.Size = new System.Drawing.Size(86, 24);
+			this.chooseComButton.Size = new System.Drawing.Size(116, 24);
 			this.chooseComButton.TabIndex = 1;
 			this.chooseComButton.Text = "选择串口";
 			this.chooseComButton.UseVisualStyleBackColor = true;
@@ -1857,10 +1858,10 @@ namespace LightEditor
 			// connectButton
 			// 
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(128, 13);
+			this.connectButton.Location = new System.Drawing.Point(160, 13);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(99, 46);
+			this.connectButton.Size = new System.Drawing.Size(86, 46);
 			this.connectButton.TabIndex = 4;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = true;
@@ -1868,14 +1869,25 @@ namespace LightEditor
 			// 
 			// connectPanel
 			// 
+			this.connectPanel.Controls.Add(this.refreshButton);
 			this.connectPanel.Controls.Add(this.comComboBox);
 			this.connectPanel.Controls.Add(this.chooseComButton);
 			this.connectPanel.Controls.Add(this.connectButton);
-			this.connectPanel.Location = new System.Drawing.Point(426, 5);
+			this.connectPanel.Location = new System.Drawing.Point(410, 5);
 			this.connectPanel.Name = "connectPanel";
-			this.connectPanel.Size = new System.Drawing.Size(240, 68);
+			this.connectPanel.Size = new System.Drawing.Size(256, 68);
 			this.connectPanel.TabIndex = 7;
 			this.connectPanel.Visible = false;
+			// 
+			// refreshButton
+			// 
+			this.refreshButton.Location = new System.Drawing.Point(18, 13);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(41, 20);
+			this.refreshButton.TabIndex = 5;
+			this.refreshButton.Text = "刷新";
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// MainForm
 			// 
@@ -2096,6 +2108,7 @@ namespace LightEditor
 		private Button commonValueButton;
 		private Button setCurrentToInitButton;
 		private Panel connectPanel;
+		private Button refreshButton;
 	}
 }
 

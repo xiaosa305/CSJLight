@@ -505,7 +505,7 @@ namespace LightController.Tools.CSJ
                                 if (this.DownloadStatus)
                                 {
                                     int sceneno = ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
-                                    fileName = "C" + sceneno + ".bin";
+                                    fileName = "C" + (sceneno + 1) + ".bin";
                                     this.CurrentFileName = fileName;
                                     this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                                     this.DownloadStatus = false;
@@ -540,7 +540,7 @@ namespace LightController.Tools.CSJ
                                 if (this.DownloadStatus)
                                 {
                                     int sceneno = ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
-                                    fileName = "M" + sceneno + ".bin";
+                                    fileName = "M" + (sceneno + 1) + ".bin";
                                     this.CurrentFileName = fileName;
                                     this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                                     this.DownloadStatus = false;

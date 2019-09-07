@@ -1495,7 +1495,7 @@ namespace LightController
 		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			bool isFromDB = true;
-			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniPath);
+			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniPath); 
 			updateForm.ShowDialog(); 
 		}
 

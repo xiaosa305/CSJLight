@@ -689,7 +689,6 @@ namespace LightController.MyForm
 			this.networkSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.networkSkinButton.DownBack = null;
 			this.networkSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.networkSkinButton.Enabled = false;
 			this.networkSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.networkSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.networkSkinButton.ForeColorSuit = true;
@@ -707,7 +706,7 @@ namespace LightController.MyForm
 			this.networkSkinButton.Text = "硬件更新";
 			this.networkSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.networkSkinButton.UseVisualStyleBackColor = false;
-			this.networkSkinButton.Visible = false;
+			this.networkSkinButton.Click += new System.EventHandler(this.networkSkinButton_Click);
 			// 
 			// globalSetSkinButton
 			// 

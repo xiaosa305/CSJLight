@@ -103,7 +103,9 @@ namespace LightController.Tools.CSJ.IMPL
             LinkMode = 0;
             LinkPort = 7060;
             IP = "0.0.0.0";
-            NetMask = "255.255.255.255";
+            NetMask = "0.0.0.0";
+            GateWay = "0.0.0.0";
+            Mac = "00-00-00-00-00-00";
         }
         public static CSJ_Hardware Empty()
         {

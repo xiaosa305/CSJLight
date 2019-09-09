@@ -24,6 +24,10 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			if (IniFileAst.GetShowHardwareUpdate(Application.StartupPath)) 
+			{
+				hardwareSetSkinButton.Visible = true;
+			}
 
 			#region 初始化各种辅助数组
 

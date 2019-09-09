@@ -706,6 +706,7 @@ namespace LightController.MyForm
 			this.networkSkinButton.Text = "硬件更新";
 			this.networkSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.networkSkinButton.UseVisualStyleBackColor = false;
+			this.networkSkinButton.Visible = false;
 			this.networkSkinButton.Click += new System.EventHandler(this.networkSkinButton_Click);
 			// 
 			// globalSetSkinButton

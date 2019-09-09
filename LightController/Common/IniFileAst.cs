@@ -29,6 +29,8 @@ namespace LightController.Common
 			string lpFileName
 			);
 
+		
+
 		[DllImport("kernel32.dll")]
 		private static extern int WritePrivateProfileString(
 			string lpAppName,
@@ -155,8 +157,8 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static string GetSavePath(string appPathStr) {
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
-			int appPath = iniFileAst.ReadInt("SavePath", "appPath", 0);  //默认是0，取C:\Temp;若为1，则取当前软件目录
-			if (appPath == 1)
+			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  //默认是0，取C:\Temp;若为1，则取当前软件目录
+			if (appPath.Trim().Equals("true"))
 			{
 				return appPathStr;
 			}
@@ -164,6 +166,22 @@ namespace LightController.Common
 			{
 				return iniFileAst.ReadString("SavePath", "otherPath", "");
 			} 
+		}
+
+		/// <summary>
+		/// 辅助方法：取出是否显示按钮
+		/// </summary>
+		/// <returns></returns>
+		public static bool GetShowHardwareUpdate(string appPathStr)
+		{
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			string isShow = iniFileAst.ReadString("Show", "SHowHardwareUpdate", "false");
+			if (isShow.Trim().Equals("true")){
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 	}

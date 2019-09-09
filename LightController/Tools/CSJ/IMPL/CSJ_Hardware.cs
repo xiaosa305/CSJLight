@@ -92,6 +92,23 @@ namespace LightController.Tools.CSJ.IMPL
             HeartbeatCycleBuff[1] = data[118];
             HeartbeatCycle = (HeartbeatCycleBuff[0] & 0xFF) | ((HeartbeatCycleBuff[1] << 8) & 0xFF);
         }
+        private CSJ_Hardware()
+        {
+            Ver = 0;
+            SumUseTimes = 0;
+            DiskFlag = 0;
+            PlayFlag = 1;
+            DeviceName = "";
+            Addr = 0;
+            LinkMode = 0;
+            LinkPort = 7060;
+            IP = "0.0.0.0";
+            NetMask = "255.255.255.255";
+        }
+        public static CSJ_Hardware Empty()
+        {
+           return new CSJ_Hardware();
+        }
         public byte[] GetData()
         {
             List<byte> data = new List<byte>();

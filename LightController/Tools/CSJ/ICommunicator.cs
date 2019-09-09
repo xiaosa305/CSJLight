@@ -391,7 +391,7 @@ namespace LightController.Tools.CSJ
                 case Constant.ORDER_PUT_PARAM:
                     switch (rxStr)
                     {
-                        case Constant.RECEIVE_ORDER_PUT_PARA:
+                        case Constant.RECEIVE_ORDER_PUT_PARAM:
                             this.SendDataPackage();
                             break;
                         case Constant.RECEIVE_ORDER_DONE:
@@ -424,7 +424,13 @@ namespace LightController.Tools.CSJ
                     break;
                 case Constant.ORDER_GET_PARAM:
                     this.IsSending = false;
-                    this.GetParamDelegate(DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware);
+                    string data = Encoding.Default.GetString(rxBuff);
+                    CSJ_Hardware hardware = null;
+                    if (!data.Equals(Constant.RECEIVE_ORDER_GET_PARAM))
+                    {
+                        hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
+                    }
+                    this.GetParamDelegate(hardware);
                     this.CloseDevice();
                     break;
                 default:

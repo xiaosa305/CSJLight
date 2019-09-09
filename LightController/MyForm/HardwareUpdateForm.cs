@@ -213,26 +213,7 @@ namespace LightController.MyForm
 					MessageBox.Show("请先选择升级文件,再重新点击本按钮。");
 					comUpdateSkinButton.Enabled = false;
 				}				
-			}
-
-			/// <summary>
-			///  辅助委托方法：将数据写进度条
-			/// </summary>
-			/// <param name="a"></param>		
-			void networkPaintProgress(string fileName, int a)
-			{
-				networkSkinProgressBar.Value = a;
-			}
-
-			/// <summary>
-			///  辅助委托方法：将数据写进度条
-			/// </summary>
-			/// <param name="a"></param>		
-			void comPaintProgress(string fileName, int a)
-			{
-				comSkinProgressBar.Value = a;
-			}
-
+			}		
 		}
 
 
@@ -251,10 +232,10 @@ namespace LightController.MyForm
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
 
-				cTools.Update(selectedIPs, filePath, new NetworkDownloadReceiveCallBack());
+				cTools.Update(selectedIPs, filePath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress));
 			}
 			else {
-				comTools.Update(filePath, new ComDownloadReceiveCallBack() );
+				comTools.Update(filePath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(comPaintProgress));
 			}		
 		}		
 			   
@@ -294,6 +275,26 @@ namespace LightController.MyForm
 			MessageBox.Show("此升级方式，是只适用于硬件出现重大问题时的解决方案，请谨慎使用！");
 			e.Cancel = true;
 		}
+
+
+		/// <summary>
+		///  辅助委托方法：将数据写进度条
+		/// </summary>
+		/// <param name="a"></param>		
+		void networkPaintProgress(string fileName, int a)
+		{
+			networkSkinProgressBar.Value = a;
+		}
+
+		/// <summary>
+		///  辅助委托方法：将数据写进度条
+		/// </summary>
+		/// <param name="a"></param>		
+		void comPaintProgress(string fileName, int a)
+		{
+			comSkinProgressBar.Value = a;
+		}
+
 	}
 
 }

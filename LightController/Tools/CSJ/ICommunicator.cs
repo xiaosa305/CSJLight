@@ -194,11 +194,12 @@ namespace LightController.Tools.CSJ
                 byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
                 package[6] = packageCRC[0];
                 package[7] = packageCRC[1];
-                if (this.Order.Equals(Constant.ORDER_PUT))
+                if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
                     this.CurrentDownloadCompletedSize += packageData.Count();
                 }
                 this.OrderOrData = DATA;
+                Console.WriteLine("PackageCount:" + PackageCount + "======>PackageIndex :" + Package_Index);
                 this.Send(package.ToArray());
             }
             catch (Exception)
@@ -455,7 +456,7 @@ namespace LightController.Tools.CSJ
                 this.IsReceive = false;
                 this.IsTimeOutThreadStart = true;
                 this.TimeIndex = 0;
-                if (this.Order.Equals(Constant.ORDER_PUT))
+                if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
                     int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
                     this.DownloadProgressDelegate(this.CurrentFileName, progress);
@@ -678,7 +679,7 @@ namespace LightController.Tools.CSJ
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-        public void Update(string filePath,IReceiveCallBack receiveCallBack)
+        public void Update(string filePath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
         {
             try
             {
@@ -688,9 +689,13 @@ namespace LightController.Tools.CSJ
                     {
                         FileInfo info = new FileInfo(filePath);
                         FileStream fileStream = File.OpenRead(filePath);
+                        this.DownloadProgressDelegate = download;
+                        this.DownloadFileToTalSize = 0;
+                        this.CurrentDownloadCompletedSize = 0;
                         byte[] data = new byte[fileStream.Length];
                         fileStream.Read(data, 0, data.Length);
                         string fileSize = data.Length.ToString();
+                        this.DownloadFileToTalSize = data.Length;
                         string fileName = info.Name;
                         byte[] crc = CRCTools.GetInstance().GetCRC(data);
                         string fileCrc = crc[0].ToString() + crc[1].ToString();

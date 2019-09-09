@@ -228,7 +228,7 @@ namespace LightController.Tools
                 }
             }
         }
-        public void Update(string ip , string filePath,IReceiveCallBack receiveCallBack)
+        public void Update(string ip , string filePath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -236,7 +236,7 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].Update(filePath, receiveCallBack);
+                        conns[i].Update(filePath, receiveCallBack, download);
                     }
                 }
             }

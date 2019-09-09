@@ -199,7 +199,6 @@ namespace LightController.Tools.CSJ
                     this.CurrentDownloadCompletedSize += packageData.Count();
                 }
                 this.OrderOrData = DATA;
-                Console.WriteLine("PackageCount:" + PackageCount + "======>PackageIndex :" + Package_Index + "************" + "DownloadFileToTalSize:" + DownloadFileToTalSize + "======>CurrentDownloadCompletedSize :" + CurrentDownloadCompletedSize);
                 this.Send(package.ToArray());
             }
             catch (Exception)
@@ -419,6 +418,7 @@ namespace LightController.Tools.CSJ
                             break;
                         case Constant.RECEIVE_ORDER_UPDATE_ERROR:
                             this.IsSending = false;
+                            this.DownloadProgressDelegate("", 0);
                             this.CallBack.SendError(devicename, this.Order);
                             this.CloseDevice();
                             break;
@@ -693,6 +693,7 @@ namespace LightController.Tools.CSJ
                         this.DownloadProgressDelegate = download;
                         this.DownloadFileToTalSize = 0;
                         this.CurrentDownloadCompletedSize = 0;
+                        this.CallBack = receiveCallBack;
                         byte[] data = new byte[fileStream.Length];
                         fileStream.Read(data, 0, data.Length);
                         string fileSize = data.Length.ToString();

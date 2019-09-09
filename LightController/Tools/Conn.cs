@@ -25,6 +25,7 @@ namespace LightController.Tools
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
             PackageSize = Constant.PACKAGE_SIZE_DEFAULT;
+            PackageSize = Constant.PACKAGE_SIZE_2K;
             Ip = "";
         }
         public void Init(Socket socket)
@@ -72,7 +73,7 @@ namespace LightController.Tools
                 int count = conn.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
-                    Console.WriteLine("收到 [" + this.Ip + "] 断开连接");
+                    CSJLogs.GetInstance().DebugLog("收到 [" + this.Ip + "] 断开连接");
                     conn.CloseDevice();
                     return;
                 }
@@ -110,7 +111,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[" + this.Ip + "] 断开连接" + "Exception :" + ex.Message);
+                CSJLogs.GetInstance().ErrorLog(ex);
                 conn.CloseDevice();
             }
         }

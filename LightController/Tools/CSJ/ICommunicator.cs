@@ -199,7 +199,7 @@ namespace LightController.Tools.CSJ
                     this.CurrentDownloadCompletedSize += packageData.Count();
                 }
                 this.OrderOrData = DATA;
-                Console.WriteLine("PackageCount:" + PackageCount + "======>PackageIndex :" + Package_Index);
+                Console.WriteLine("PackageCount:" + PackageCount + "======>PackageIndex :" + Package_Index + "************" + "DownloadFileToTalSize:" + DownloadFileToTalSize + "======>CurrentDownloadCompletedSize :" + CurrentDownloadCompletedSize);
                 this.Send(package.ToArray());
             }
             catch (Exception)
@@ -308,6 +308,7 @@ namespace LightController.Tools.CSJ
             this.IsReceive = true;
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
+            Console.WriteLine("Order is :" + rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:

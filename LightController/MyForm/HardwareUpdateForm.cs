@@ -19,6 +19,7 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private string filePath;
+		private bool isChooseFile = false; 
 
 		private IList<string> selectedIPs;
 		private IList<string> ips;
@@ -188,14 +189,31 @@ namespace LightController.MyForm
 				selectedIPs = new List<string>();
 				selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
 				MessageBox.Show("已选中网络设备");
-				networkdUpdateSkinButton.Enabled = true;
+				if (isChooseFile)
+				{					
+					networkdUpdateSkinButton.Enabled = true;
+				}
+				else {
+					MessageBox.Show("请先选择升级文件,再重新点击本按钮。");
+					networkdUpdateSkinButton.Enabled = false;
+				}
+				
 			}
 			else {
 				comName = comComboBox.Text ;
 				MessageBox.Show("已选中串口设备" + comName);
 				comNameLabel.Text = comName;
 				comTools.OpenCom(comName);
-				comUpdateSkinButton.Enabled = true;
+				if (isChooseFile)
+				{					
+					comUpdateSkinButton.Enabled = true;
+				}
+				else
+				{
+					MessageBox.Show("请先选择升级文件,再重新点击本按钮。");
+					comUpdateSkinButton.Enabled = false;
+				}
+				
 			}			
 		}
 
@@ -213,17 +231,13 @@ namespace LightController.MyForm
 			{
 				networkChooseSkinButton.Enabled = false;
 				networkdUpdateSkinButton.Enabled = false;
-				networkDevicesComboBox.Enabled = false;		
+				networkDevicesComboBox.Enabled = false;
 
-				
-
+				cTools.Update(selectedIPs, filePath, new NetworkDownloadReceiveCallBack());
 			}
 			else {
-
-
-
-			}
-		
+				comTools.Update(filePath, new ComDownloadReceiveCallBack() );
+			}		
 		}		
 			   
 
@@ -246,8 +260,22 @@ namespace LightController.MyForm
 		{
 			filePath = openFileDialog.FileName;
 			filePathLabel.Text = "选中文件：" + filePath;
+			if (!String.IsNullOrEmpty(filePath))
+			{
+				isChooseFile = true;
+			}
+			else {
+				isChooseFile = false;
+				networkdUpdateSkinButton.Enabled = false;
+				comUpdateSkinButton.Enabled = false;
+			}
 		}
 
+		private void HardwareUpdateForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("此升级方式，是只适用于硬件出现重大问题时的解决方案，请谨慎使用！");
+			e.Cancel = true;
+		}
 	}
 
 }

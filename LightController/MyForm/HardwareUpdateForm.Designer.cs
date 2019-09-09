@@ -145,7 +145,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
+			this.skinTabControl.SelectedIndex = 1;
 			this.skinTabControl.Size = new System.Drawing.Size(577, 170);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 9;
@@ -249,7 +249,7 @@
 			this.skinTabPage2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.skinTabPage2.Location = new System.Drawing.Point(0, 36);
 			this.skinTabPage2.Name = "skinTabPage2";
-			this.skinTabPage2.Size = new System.Drawing.Size(577, 145);
+			this.skinTabPage2.Size = new System.Drawing.Size(577, 134);
 			this.skinTabPage2.TabIndex = 1;
 			this.skinTabPage2.TabItemImage = null;
 			this.skinTabPage2.Text = "串口模式";
@@ -265,7 +265,7 @@
 			this.comPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comPanel.Location = new System.Drawing.Point(0, 0);
 			this.comPanel.Name = "comPanel";
-			this.comPanel.Size = new System.Drawing.Size(577, 145);
+			this.comPanel.Size = new System.Drawing.Size(577, 134);
 			this.comPanel.TabIndex = 10;
 			// 
 			// comNameLabel
@@ -387,12 +387,14 @@
 			this.Controls.Add(this.filePathLabel);
 			this.Controls.Add(this.fileOpenSkinButton);
 			this.Controls.Add(this.skinTabControl);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "HardwareUpdateForm";
 			this.Text = "手动更新设备";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareUpdateForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
 			this.skinTabControl.ResumeLayout(false);
 			this.networkTab.ResumeLayout(false);

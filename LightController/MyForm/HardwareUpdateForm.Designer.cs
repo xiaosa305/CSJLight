@@ -351,7 +351,7 @@
 			// openFileDialog
 			// 
 			this.openFileDialog.FileName = "openFileDialog";
-			this.openFileDialog.Filter = "*.bin(二进制文件)|*.bin";
+			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 
 			// fileOpenSkinButton

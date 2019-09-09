@@ -264,11 +264,11 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Update(string ip, string filePath,IReceiveCallBack receiveCallBack)
+        public void Update(string ip, string filePath,IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
+                SocketTools.GetInstance().Update(ip, filePath, receiveCallBack,download);
             }
             else
             {
@@ -276,13 +276,13 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Update(IList<string> ips, string filePath, IReceiveCallBack receiveCallBack)
+        public void Update(IList<string> ips, string filePath, IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
+                    SocketTools.GetInstance().Update(ip, filePath, receiveCallBack,download);
                 }
             }
             else

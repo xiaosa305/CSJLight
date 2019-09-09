@@ -220,10 +220,10 @@ namespace LightController.MyForm
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
 
-				cTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress));								
+				cTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress));								
 			}
 			else {
-				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(paintProgress2));
+				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(comPaintProgress));
 			}
 		
 		}
@@ -232,7 +232,7 @@ namespace LightController.MyForm
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
 		/// <param name="a"></param>		
-		void paintProgress(string fileName,int a)
+		void networkPaintProgress(string fileName,int a)
 		{
 			networkCurrentFileLabel.Text = fileName;
 			networkSkinProgressBar.Value =  a;				
@@ -242,18 +242,12 @@ namespace LightController.MyForm
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
 		/// <param name="a"></param>		
-		void paintProgress2(string fileName, int a)
+		void comPaintProgress(string fileName, int a)
 		{
 			comCurrentFileLabel.Text = fileName;
 			comSkinProgressBar.Value = a;
 		}
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			localIPsComboBox.Enabled = false;
-			localIPsComboBox.Items.Clear();
-			localIPsComboBox.SelectedIndex = -1;
-		}
 	}
 
 

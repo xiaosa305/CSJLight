@@ -212,9 +212,27 @@ namespace LightController.MyForm
 				{
 					MessageBox.Show("请先选择升级文件,再重新点击本按钮。");
 					comUpdateSkinButton.Enabled = false;
-				}
-				
-			}			
+				}				
+			}
+
+			/// <summary>
+			///  辅助委托方法：将数据写进度条
+			/// </summary>
+			/// <param name="a"></param>		
+			void networkPaintProgress(string fileName, int a)
+			{
+				networkSkinProgressBar.Value = a;
+			}
+
+			/// <summary>
+			///  辅助委托方法：将数据写进度条
+			/// </summary>
+			/// <param name="a"></param>		
+			void comPaintProgress(string fileName, int a)
+			{
+				comSkinProgressBar.Value = a;
+			}
+
 		}
 
 

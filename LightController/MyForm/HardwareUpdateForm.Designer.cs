@@ -53,6 +53,10 @@
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.fileOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.filePathLabel = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.networkSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
+			this.label4 = new System.Windows.Forms.Label();
+			this.comSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -135,7 +139,7 @@
 			this.skinTabControl.HeadBack = null;
 			this.skinTabControl.ImgTxtOffset = new System.Drawing.Point(0, 0);
 			this.skinTabControl.ItemSize = new System.Drawing.Size(70, 36);
-			this.skinTabControl.Location = new System.Drawing.Point(0, 71);
+			this.skinTabControl.Location = new System.Drawing.Point(0, 76);
 			this.skinTabControl.Name = "skinTabControl";
 			this.skinTabControl.PageArrowDown = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowDown")));
 			this.skinTabControl.PageArrowHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowHover")));
@@ -146,7 +150,7 @@
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
 			this.skinTabControl.SelectedIndex = 1;
-			this.skinTabControl.Size = new System.Drawing.Size(577, 170);
+			this.skinTabControl.Size = new System.Drawing.Size(577, 220);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 9;
 			// 
@@ -157,13 +161,15 @@
 			this.networkTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkTab.Location = new System.Drawing.Point(0, 36);
 			this.networkTab.Name = "networkTab";
-			this.networkTab.Size = new System.Drawing.Size(577, 134);
+			this.networkTab.Size = new System.Drawing.Size(577, 184);
 			this.networkTab.TabIndex = 0;
 			this.networkTab.TabItemImage = null;
 			this.networkTab.Text = "网络模式";
 			// 
 			// networkPanel
 			// 
+			this.networkPanel.Controls.Add(this.label1);
+			this.networkPanel.Controls.Add(this.networkSkinProgressBar);
 			this.networkPanel.Controls.Add(this.localIPLabel);
 			this.networkPanel.Controls.Add(this.label2);
 			this.networkPanel.Controls.Add(this.getLocalIPsSkinButton);
@@ -176,7 +182,7 @@
 			this.networkPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkPanel.Location = new System.Drawing.Point(0, 0);
 			this.networkPanel.Name = "networkPanel";
-			this.networkPanel.Size = new System.Drawing.Size(577, 134);
+			this.networkPanel.Size = new System.Drawing.Size(577, 184);
 			this.networkPanel.TabIndex = 9;
 			// 
 			// localIPLabel
@@ -249,13 +255,15 @@
 			this.skinTabPage2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.skinTabPage2.Location = new System.Drawing.Point(0, 36);
 			this.skinTabPage2.Name = "skinTabPage2";
-			this.skinTabPage2.Size = new System.Drawing.Size(577, 134);
+			this.skinTabPage2.Size = new System.Drawing.Size(577, 184);
 			this.skinTabPage2.TabIndex = 1;
 			this.skinTabPage2.TabItemImage = null;
 			this.skinTabPage2.Text = "串口模式";
 			// 
 			// comPanel
 			// 
+			this.comPanel.Controls.Add(this.label4);
+			this.comPanel.Controls.Add(this.comSkinProgressBar);
 			this.comPanel.Controls.Add(this.comNameLabel);
 			this.comPanel.Controls.Add(this.label6);
 			this.comPanel.Controls.Add(this.comSearchSkinButton);
@@ -265,13 +273,13 @@
 			this.comPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comPanel.Location = new System.Drawing.Point(0, 0);
 			this.comPanel.Name = "comPanel";
-			this.comPanel.Size = new System.Drawing.Size(577, 134);
+			this.comPanel.Size = new System.Drawing.Size(577, 184);
 			this.comPanel.TabIndex = 10;
 			// 
 			// comNameLabel
 			// 
 			this.comNameLabel.AutoSize = true;
-			this.comNameLabel.Location = new System.Drawing.Point(295, 67);
+			this.comNameLabel.Location = new System.Drawing.Point(285, 71);
 			this.comNameLabel.Name = "comNameLabel";
 			this.comNameLabel.Size = new System.Drawing.Size(0, 12);
 			this.comNameLabel.TabIndex = 10;
@@ -310,7 +318,7 @@
 			this.comUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.comUpdateSkinButton.DownBack = null;
 			this.comUpdateSkinButton.Enabled = false;
-			this.comUpdateSkinButton.Location = new System.Drawing.Point(449, 53);
+			this.comUpdateSkinButton.Location = new System.Drawing.Point(459, 53);
 			this.comUpdateSkinButton.MouseBack = null;
 			this.comUpdateSkinButton.Name = "comUpdateSkinButton";
 			this.comUpdateSkinButton.NormlBack = null;
@@ -328,7 +336,7 @@
 			this.comChooseSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.comChooseSkinButton.DownBack = null;
 			this.comChooseSkinButton.Enabled = false;
-			this.comChooseSkinButton.Location = new System.Drawing.Point(359, 53);
+			this.comChooseSkinButton.Location = new System.Drawing.Point(369, 53);
 			this.comChooseSkinButton.MouseBack = null;
 			this.comChooseSkinButton.Name = "comChooseSkinButton";
 			this.comChooseSkinButton.NormlBack = null;
@@ -378,12 +386,58 @@
 			this.filePathLabel.Size = new System.Drawing.Size(413, 33);
 			this.filePathLabel.TabIndex = 11;
 			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(36, 130);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(77, 12);
+			this.label1.TabIndex = 10;
+			this.label1.Text = "下载总进度：";
+			// 
+			// networkSkinProgressBar
+			// 
+			this.networkSkinProgressBar.Back = null;
+			this.networkSkinProgressBar.BackColor = System.Drawing.Color.Transparent;
+			this.networkSkinProgressBar.BarBack = null;
+			this.networkSkinProgressBar.BarRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.networkSkinProgressBar.ForeColor = System.Drawing.Color.Red;
+			this.networkSkinProgressBar.Location = new System.Drawing.Point(126, 125);
+			this.networkSkinProgressBar.Name = "networkSkinProgressBar";
+			this.networkSkinProgressBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.networkSkinProgressBar.Size = new System.Drawing.Size(404, 23);
+			this.networkSkinProgressBar.TabIndex = 13;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(44, 108);
+			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(77, 12);
+			this.label4.TabIndex = 12;
+			this.label4.Text = "下载总进度：";
+			// 
+			// comSkinProgressBar
+			// 
+			this.comSkinProgressBar.Back = null;
+			this.comSkinProgressBar.BackColor = System.Drawing.Color.Transparent;
+			this.comSkinProgressBar.BarBack = null;
+			this.comSkinProgressBar.BarRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.comSkinProgressBar.ForeColor = System.Drawing.Color.Red;
+			this.comSkinProgressBar.Location = new System.Drawing.Point(135, 103);
+			this.comSkinProgressBar.Name = "comSkinProgressBar";
+			this.comSkinProgressBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.comSkinProgressBar.Size = new System.Drawing.Size(404, 23);
+			this.comSkinProgressBar.TabIndex = 15;
+			// 
 			// HardwareUpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.ClientSize = new System.Drawing.Size(577, 241);
+			this.ClientSize = new System.Drawing.Size(577, 296);
 			this.Controls.Add(this.filePathLabel);
 			this.Controls.Add(this.fileOpenSkinButton);
 			this.Controls.Add(this.skinTabControl);
@@ -431,5 +485,9 @@
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private CCWin.SkinControl.SkinButton fileOpenSkinButton;
 		private System.Windows.Forms.Label filePathLabel;
+		private System.Windows.Forms.Label label1;
+		private CCWin.SkinControl.SkinProgressBar networkSkinProgressBar;
+		private System.Windows.Forms.Label label4;
+		private CCWin.SkinControl.SkinProgressBar comSkinProgressBar;
 	}
 }

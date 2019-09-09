@@ -1975,8 +1975,18 @@ namespace LightController.MyForm
 		}
 
 
+
 		#endregion
 
-		
+		/// <summary>
+		///  事件：点击《硬件更新》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkSkinButton_Click(object sender, EventArgs e)
+		{
+			new HardwareUpdateForm(this).ShowDialog();
+
+		}
 	}
 }

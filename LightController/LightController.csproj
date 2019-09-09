@@ -276,6 +276,12 @@
     <Compile Include="MyForm\ToolsForm.Designer.cs">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\HardwareUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\HardwareUpdateForm.Designer.cs">
+      <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\UpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -373,6 +379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\HardwareUpdateForm.resx">
+      <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>

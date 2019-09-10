@@ -184,19 +184,11 @@ namespace LightEditor
 			}
 
 			// 9.6 图片加载使用当前软件所在文件夹
-			int appPath = iniFileAst.ReadInt("SavePath", "appPath", 0);
-			if (appPath == 1)
-			{
-				savePath = Application.StartupPath;
-			}
-			else {
-				savePath = iniFileAst.ReadString("SavePath","otherPath","");				
-			}
-			picDirectory = @savePath + @"\LightPic";					
+			savePath = IniFileAst.GetSavePath(Application.StartupPath);
+			picDirectory = @savePath + @"\LightPic";
 			this.openImageDialog.InitialDirectory = picDirectory;
 			lightDirectory = @savePath + @"\LightLibrary";
-			this.openFileDialog.InitialDirectory = lightDirectory;
-			
+			this.openFileDialog.InitialDirectory = lightDirectory;			
 		}
 
 		
@@ -324,8 +316,7 @@ namespace LightEditor
 			this.connectPanel.Show();
 			
 			reader.Close();
-			file.Close();
-			
+			file.Close();			
 
 		}
 

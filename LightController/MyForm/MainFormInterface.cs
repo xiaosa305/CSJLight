@@ -64,7 +64,8 @@ namespace LightController.MyForm
 
 		// 将所有场景名称写在此处,并供所有类使用
 		public static IList<string> allFrameList ;
-		protected string savePath; 
+		protected string savePath;
+		protected bool isShowHardwareUpdateButton = false;
 
 		// 辅助
 

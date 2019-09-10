@@ -247,7 +247,6 @@ namespace LightController.MyForm
 			comCurrentFileLabel.Text = fileName;
 			comSkinProgressBar.Value = a;
 		}
-
 	}
 
 

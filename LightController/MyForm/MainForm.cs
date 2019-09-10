@@ -32,15 +32,7 @@ namespace LightController
 			if (!String.IsNullOrEmpty(skin))
 			{
 				this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + skin;
-			}
-			string showTestButton = iniFileAst.ReadString("Show", "testButton", "");
-			if (!String.IsNullOrEmpty(showTestButton))
-			{
-				if (showTestButton == "true")
-				{
-					testGroupBox.Visible = true;
-				}
-			}
+			}		
 			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
 			try
 			{
@@ -64,7 +56,15 @@ namespace LightController
 			{
 				MessageBox.Show(ex.Message);
 			}
-			#endregion		
+			#endregion
+
+			#region 是否显示某些调试按钮
+			testGroupBox.Visible = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");
+			hardwareUpdateToolStripMenuItem.Visible = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");
+
+
+
+			#endregion
 
 			#region 将同类属性填入数组，方便操作
 
@@ -275,7 +275,6 @@ namespace LightController
 				chooseComButton.Enabled = false;
 			}
 
-
 			// 设置几个下拉框默认值
 			modeComboBox.SelectedIndex = 0;
 			frameComboBox.SelectedIndex = 0;
@@ -330,7 +329,7 @@ namespace LightController
 			
 		
 		/// <summary>
-		/// 待完成：打开串口后的操作
+		/// 事件：点击《选择串口》后的操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1590,5 +1589,9 @@ namespace LightController
 			System.Diagnostics.Process.Start(exportPath);			
 		}
 
+		private void hardwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new HardwareUpdateForm(this).ShowDialog();
+		}
 	}
 }

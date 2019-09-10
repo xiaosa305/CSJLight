@@ -24,6 +24,8 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			testGroupBox.Visible = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");
+			hardwareUpdateSkinButton.Visible = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");			
 
 			#region 初始化各种辅助数组
 
@@ -431,6 +433,16 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///  事件：点击《硬件更新》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkSkinButton_Click(object sender, EventArgs e)
+		{
+			new HardwareUpdateForm(this).ShowDialog();
+		}
+
+		/// <summary>
 		///  事件：点击《退出应用》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -544,7 +556,7 @@ namespace LightController.MyForm
 			lightListSkinButton.Enabled = enable;
 			globalSetSkinButton.Enabled = enable;
 			ymSkinButton.Enabled = enable;
-			networkSkinButton.Enabled = enable;
+			hardwareUpdateSkinButton.Enabled = enable;
 
 			// 调试栏	->《连接设备》按钮
 			connectSkinButton.Enabled = enable;
@@ -1976,17 +1988,22 @@ namespace LightController.MyForm
 
 
 
+
 		#endregion
 
+
 		/// <summary>
-		///  事件：点击《硬件更新》按钮
+		///  曾维佳测试用按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void networkSkinButton_Click(object sender, EventArgs e)
+		private void newTestButton_Click(object sender, EventArgs e)
 		{
-			new HardwareUpdateForm(this).ShowDialog();
-
+			int buttonIndex = MathAst.getIndexNum(((Button)sender).Name, 0);
+			Console.WriteLine(buttonIndex);
+			Test test = new Test(GetDBWrapper(true));
+			test.Start(buttonIndex);
 		}
+
 	}
 }

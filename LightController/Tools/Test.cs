@@ -27,7 +27,7 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    SerialPortTools.GetInstance().OpenCom("COM13");
+                    SerialPortTools.GetInstance().OpenCom("COM3");
                     SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_1024);
                     break;
                 case 2:

@@ -418,6 +418,11 @@ namespace LightController.Tools.CSJ
                             this.CallBack.SendCompleted(devicename, this.Order);
                             this.CloseDevice();
                             break;
+                        default:
+                            this.IsSending = false;
+                            this.CallBack.SendError(devicename, this.Order);
+                            this.CloseDevice();
+                            break;
                     }
                     break;
                 case Constant.ORDER_UPDATE:
@@ -453,15 +458,28 @@ namespace LightController.Tools.CSJ
                     }
                     break;
                 case Constant.ORDER_GET_PARAM:
-                    this.IsSending = false;
-                    string data = Encoding.Default.GetString(rxBuff);
-                    CSJ_Hardware hardware = null;
-                    if (!data.Equals(Constant.RECEIVE_ORDER_GET_PARAM))
+                    try
                     {
-                        hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
+                        this.IsSending = false;
+                        string data = Encoding.Default.GetString(rxBuff);
+                        CSJ_Hardware hardware = null;
+                        if (!data.Equals(Constant.RECEIVE_ORDER_GET_PARAM))
+                        {
+                            hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
+                        }
+                        this.GetParamDelegate(hardware);
+                        this.CallBack.SendCompleted(devicename, this.Order);
                     }
-                    this.GetParamDelegate(hardware);
-                    this.CloseDevice();
+                    catch (Exception ex)
+                    {
+                        CSJLogs.GetInstance().ErrorLog(ex);
+                        this.IsSending = false;
+                        this.CallBack.SendError(devicename, this.Order);
+                    }
+                    finally
+                    {
+                        this.CloseDevice();
+                    }
                     break;
                 default:
                     switch (rxStr.Split(':')[0])

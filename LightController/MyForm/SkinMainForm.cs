@@ -24,10 +24,8 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
-			if (IniFileAst.GetButtonShow(Application.StartupPath,"hardwareUpdateButton")) 
-			{
-				hardwareUpdateSkinButton.Visible = true;
-			}
+			testGroupBox.Visible = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");
+			hardwareUpdateSkinButton.Visible = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");			
 
 			#region 初始化各种辅助数组
 
@@ -1990,8 +1988,22 @@ namespace LightController.MyForm
 
 
 
+
 		#endregion
 
+
+		/// <summary>
+		///  曾维佳测试用按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void newTestButton_Click(object sender, EventArgs e)
+		{
+			int buttonIndex = MathAst.getIndexNum(((Button)sender).Name, 0);
+			Console.WriteLine(buttonIndex);
+			Test test = new Test(GetDBWrapper(true));
+			test.Start(buttonIndex);
+		}
 
 	}
 }

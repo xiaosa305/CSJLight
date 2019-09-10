@@ -35,6 +35,11 @@ namespace LightController.MyForm
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinMainForm));
 			this.comChooseSkinButton = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel = new CCWin.SkinControl.SkinPanel();
+			this.testGroupBox = new System.Windows.Forms.GroupBox();
+			this.test4Button = new System.Windows.Forms.Button();
+			this.test3Button = new System.Windows.Forms.Button();
+			this.test2Button = new System.Windows.Forms.Button();
+			this.test1Button = new System.Windows.Forms.Button();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.otherToolsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.hardwareSetSkinButton = new CCWin.SkinControl.SkinButton();
@@ -375,6 +380,7 @@ namespace LightController.MyForm
 			this.secondLabel3 = new System.Windows.Forms.Label();
 			this.firstLabel3 = new System.Windows.Forms.Label();
 			this.menuSkinPanel.SuspendLayout();
+			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.skinPanel2.SuspendLayout();
 			this.playSkinPanel.SuspendLayout();
@@ -553,6 +559,7 @@ namespace LightController.MyForm
 			// 
 			this.menuSkinPanel.BackColor = System.Drawing.Color.Transparent;
 			this.menuSkinPanel.BorderColor = System.Drawing.Color.Black;
+			this.menuSkinPanel.Controls.Add(this.testGroupBox);
 			this.menuSkinPanel.Controls.Add(this.flowLayoutPanel1);
 			this.menuSkinPanel.Controls.Add(this.exitSkinButton);
 			this.menuSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
@@ -564,6 +571,66 @@ namespace LightController.MyForm
 			this.menuSkinPanel.NormlBack = null;
 			this.menuSkinPanel.Size = new System.Drawing.Size(1424, 111);
 			this.menuSkinPanel.TabIndex = 5;
+			// 
+			// testGroupBox
+			// 
+			this.testGroupBox.BackColor = System.Drawing.SystemColors.Info;
+			this.testGroupBox.Controls.Add(this.test4Button);
+			this.testGroupBox.Controls.Add(this.test3Button);
+			this.testGroupBox.Controls.Add(this.test2Button);
+			this.testGroupBox.Controls.Add(this.test1Button);
+			this.testGroupBox.Location = new System.Drawing.Point(912, 25);
+			this.testGroupBox.Margin = new System.Windows.Forms.Padding(2);
+			this.testGroupBox.Name = "testGroupBox";
+			this.testGroupBox.Padding = new System.Windows.Forms.Padding(2);
+			this.testGroupBox.Size = new System.Drawing.Size(190, 63);
+			this.testGroupBox.TabIndex = 20;
+			this.testGroupBox.TabStop = false;
+			this.testGroupBox.Visible = false;
+			// 
+			// test4Button
+			// 
+			this.test4Button.Location = new System.Drawing.Point(104, 36);
+			this.test4Button.Margin = new System.Windows.Forms.Padding(2);
+			this.test4Button.Name = "test4Button";
+			this.test4Button.Size = new System.Drawing.Size(67, 18);
+			this.test4Button.TabIndex = 13;
+			this.test4Button.Text = "TEST4";
+			this.test4Button.UseVisualStyleBackColor = true;
+			this.test4Button.Click += new System.EventHandler(this.newTestButton_Click);
+			// 
+			// test3Button
+			// 
+			this.test3Button.Location = new System.Drawing.Point(21, 36);
+			this.test3Button.Margin = new System.Windows.Forms.Padding(2);
+			this.test3Button.Name = "test3Button";
+			this.test3Button.Size = new System.Drawing.Size(67, 18);
+			this.test3Button.TabIndex = 13;
+			this.test3Button.Text = "TEST3";
+			this.test3Button.UseVisualStyleBackColor = true;
+			this.test3Button.Click += new System.EventHandler(this.newTestButton_Click);
+			// 
+			// test2Button
+			// 
+			this.test2Button.Location = new System.Drawing.Point(104, 15);
+			this.test2Button.Margin = new System.Windows.Forms.Padding(2);
+			this.test2Button.Name = "test2Button";
+			this.test2Button.Size = new System.Drawing.Size(67, 18);
+			this.test2Button.TabIndex = 13;
+			this.test2Button.Text = "TEST2";
+			this.test2Button.UseVisualStyleBackColor = true;
+			this.test2Button.Click += new System.EventHandler(this.newTestButton_Click);
+			// 
+			// test1Button
+			// 
+			this.test1Button.Location = new System.Drawing.Point(21, 15);
+			this.test1Button.Margin = new System.Windows.Forms.Padding(2);
+			this.test1Button.Name = "test1Button";
+			this.test1Button.Size = new System.Drawing.Size(67, 18);
+			this.test1Button.TabIndex = 13;
+			this.test1Button.Text = "TEST1";
+			this.test1Button.UseVisualStyleBackColor = true;
+			this.test1Button.Click += new System.EventHandler(this.newTestButton_Click);
 			// 
 			// flowLayoutPanel1
 			// 
@@ -5789,6 +5856,7 @@ namespace LightController.MyForm
 			this.Text = " ";
 			this.Load += new System.EventHandler(this.SkinMainForm_Load);
 			this.menuSkinPanel.ResumeLayout(false);
+			this.testGroupBox.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel1.PerformLayout();
 			this.skinPanel2.ResumeLayout(false);
@@ -6345,5 +6413,10 @@ namespace LightController.MyForm
 		private Label trueTimeLabel32;
 		private Label[] tdTrueTimeLabels = new Label[32];
 		private FlowLayoutPanel flowLayoutPanel1;
+		private GroupBox testGroupBox;
+		private Button test4Button;
+		private Button test3Button;
+		private Button test2Button;
+		private Button test1Button;
 	}
 }

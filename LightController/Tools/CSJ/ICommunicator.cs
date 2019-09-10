@@ -32,10 +32,12 @@ namespace LightController.Tools.CSJ
         protected string Order { get; set; }//当前执行命令
         protected string DeviceName { get; set; }//当前设备名称
         protected string[] Parameters { get; set; }//命令参数组
+        protected string UpdateFilePath { get; set; }//硬件更新文件路径
         protected byte[] Data { get; set; }//文件数据
         protected DBWrapper Wrapper { get; set; }//数据库文件
         protected Thread DownloadThread { get; set; }//下载工程项目线程
         protected Thread TimeOutThread { get; set; }//超时处理线程
+        protected Thread UpdateThread { get; set; }//硬件更新线程
         protected IReceiveCallBack CallBack { get; set; }//命令结束执行回调
         protected GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置信息回调委托方法
         protected DownloadProgressDelegate DownloadProgressDelegate { get; set; }//下载工程项目文件进度回调委托方法
@@ -118,6 +120,7 @@ namespace LightController.Tools.CSJ
                             packageData.AddRange(space);
                         }
                     }
+                    packageData.Add(0x00);
                 }
                 byte[] packageDataLength = new byte[]
                 {
@@ -247,6 +250,7 @@ namespace LightController.Tools.CSJ
                 {
                     for (this.TimeIndex = 0; this.TimeIndex < Constant.TIMEOUT; this.TimeIndex++)
                     {
+                        Console.WriteLine("超时时间：" + this.TimeIndex);
                         Thread.Sleep(1);
                         if (this.IsReceive)
                         {
@@ -268,6 +272,20 @@ namespace LightController.Tools.CSJ
                                 {
                                     this.DownloadStatus = false;
                                     this.DownloadThread.Abort();
+                                }
+                                finally
+                                {
+                                    this.DownloadProgressDelegate("", 0);
+                                }
+                            }
+                            else if (this.Order.Equals(Constant.ORDER_UPDATE))
+                            {
+                                try
+                                {
+                                    if (null != UpdateThread)
+                                    {
+                                        this.UpdateThread.Abort();
+                                    }
                                 }
                                 finally
                                 {
@@ -417,10 +435,20 @@ namespace LightController.Tools.CSJ
                             this.CloseDevice();
                             break;
                         case Constant.RECEIVE_ORDER_UPDATE_ERROR:
-                            this.IsSending = false;
-                            this.DownloadProgressDelegate("", 0);
-                            this.CallBack.SendError(devicename, this.Order);
-                            this.CloseDevice();
+                            try
+                            {
+                                if (null != this.UpdateThread)
+                                {
+                                    this.UpdateThread.Abort();
+                                }
+                            }
+                            finally
+                            {
+                                this.IsSending = false;
+                                this.DownloadProgressDelegate("", 0);
+                                this.CallBack.SendError(devicename, this.Order);
+                                this.CloseDevice();
+                            }
                             break;
                     }
                     break;
@@ -518,7 +546,7 @@ namespace LightController.Tools.CSJ
                         fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
                         fileSize = file.GetData().Length.ToString();
                         crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                        fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                        fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                         while (true)
                         {
                             if (this.DownloadStatus)
@@ -553,7 +581,7 @@ namespace LightController.Tools.CSJ
                         fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
                         fileSize = file.GetData().Length.ToString();
                         crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                        fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                        fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                         while (true)
                         {
                             if (this.DownloadStatus)
@@ -584,7 +612,7 @@ namespace LightController.Tools.CSJ
                 fileName = "Config.bin";
                 fileSize = project.ConfigFile.GetData().Length.ToString();
                 crcBuff = CRCTools.GetInstance().GetCRC(project.ConfigFile.GetData());
-                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                 while (true)
                 {
                     if (this.DownloadStatus)
@@ -598,7 +626,7 @@ namespace LightController.Tools.CSJ
                 fileName = "GradientData.bin";
                 fileSize = scenesInitData.GetData().Length.ToString();
                 crcBuff = CRCTools.GetInstance().GetCRC(scenesInitData.GetData());
-                fileCRC = crcBuff[0].ToString() + crcBuff[1].ToString();
+                fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                 while (true)
                 {
                     if (this.DownloadStatus)
@@ -642,7 +670,7 @@ namespace LightController.Tools.CSJ
                     string fileName = @"Hardware.bin";
                     string fileSize = data.Length.ToString();
                     byte[] crcBuff = CRCTools.GetInstance().GetCRC(data);
-                    string fileCrc = crcBuff[0].ToString() + crcBuff[1].ToString();
+                    string fileCrc = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                     this.SendData(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCrc });
                 }
             }
@@ -688,20 +716,15 @@ namespace LightController.Tools.CSJ
                 {
                     if (File.Exists(filePath))
                     {
-                        FileInfo info = new FileInfo(filePath);
-                        FileStream fileStream = File.OpenRead(filePath);
+                        this.IsSending = true;
+                        this.UpdateFilePath = filePath;
                         this.DownloadProgressDelegate = download;
-                        this.DownloadFileToTalSize = 0;
-                        this.CurrentDownloadCompletedSize = 0;
                         this.CallBack = receiveCallBack;
-                        byte[] data = new byte[fileStream.Length];
-                        fileStream.Read(data, 0, data.Length);
-                        string fileSize = data.Length.ToString();
-                        this.DownloadFileToTalSize = data.Length;
-                        string fileName = info.Name;
-                        byte[] crc = CRCTools.GetInstance().GetCRC(data);
-                        string fileCrc = crc[0].ToString() + crc[1].ToString();
-                        this.SendData(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc });
+                        this.UpdateThread = new Thread(new ThreadStart(UpdateStart))
+                        {
+                            IsBackground = true
+                        };
+                        this.UpdateThread.Start();
                     }
                 }
             }
@@ -710,6 +733,21 @@ namespace LightController.Tools.CSJ
                 CSJLogs.GetInstance().ErrorLog(ex);
                 throw;
             }
+        }
+        protected void UpdateStart()
+        {
+            FileInfo info = new FileInfo(this.UpdateFilePath);
+            FileStream fileStream = File.OpenRead(this.UpdateFilePath);
+            this.DownloadFileToTalSize = 0;
+            this.CurrentDownloadCompletedSize = 0;
+            byte[] data = new byte[fileStream.Length];
+            fileStream.Read(data, 0, data.Length);
+            string fileSize = data.Length.ToString();
+            this.DownloadFileToTalSize = data.Length;
+            string fileName = info.Name;
+            byte[] crc = CRCTools.GetInstance().GetCRC(data);
+            string fileCrc = Convert.ToInt32((crc[0] & 0xFF) | ((crc[1] & 0xFF) << 8)) + "";
+            this.SendData(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc});
         }
         public class PacketSize
         {

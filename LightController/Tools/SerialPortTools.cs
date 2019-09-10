@@ -183,15 +183,23 @@ namespace LightController.Tools
         }
         public bool OpenCom(string portName)
         {
-            PortName = portName;
-            if (ComDevice.IsOpen)
+            try
             {
-                ComDevice.Close();
+                PortName = portName;
+                if (ComDevice.IsOpen)
+                {
+                    ComDevice.Close();
+                }
+                SetSerialPort();
+                ComDevice.Open();
+                CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
+                return ComDevice.IsOpen;
             }
-            SetSerialPort();
-            ComDevice.Open();
-            CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
-            return ComDevice.IsOpen;
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                return false;
+            }
         }
         public void SearchDevice(IReceiveCallBack receiveCallBack)
         {

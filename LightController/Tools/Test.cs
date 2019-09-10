@@ -27,26 +27,16 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    SerialPortTools.GetInstance().OpenCom("COM3");
-                    SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_512);
-                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", new DownloadCallBack(), DownloadProgress);
+                    SerialPortTools.GetInstance().OpenCom("COM13");
+                    SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_1024);
                     break;
                 case 2:
-                    FileTools.GetInstance().ProjectToFile(DBWrapper, @"C:\Temp\LightProject\Ver1.0-Test1\global.ini", @"C:\Users\99729\Documents\Temp\Project1\project");
+                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\测试调试(艾亮调试版1.0)\global.ini", new DownloadCallBack(), DownloadProgress);
                     break;
                 case 3:
+                    SerialPortTools.GetInstance().SendOrder("Reset", null, new DownloadCallBack());
                     break;
                 case 4:
-                    int test = 255;
-                    byte testLow = Convert.ToByte(0x00);
-                    byte testHigh = Convert.ToByte(test);
-                    int result = (int)((testLow & 0xFF) | (testHigh & 0xFF) << 8);
-                    int Inc = result / 100 * 2;
-                    testLow = Convert.ToByte(Inc & 0xFF);
-                    testHigh = Convert.ToByte((Inc >> 8) & 0xFF);
-                    int low = testLow;
-                    int high = testHigh;
-                    Console.WriteLine("");
                     break;
                 default:
                     break;

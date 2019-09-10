@@ -152,5 +152,44 @@ namespace LightEditor.Common
 		}
 
 
+		/// <summary>
+		/// 辅助方法：直接通过本类的实例，获取相关的savePath（当前应用目录还是固定位置）
+		/// </summary>
+		/// <returns></returns>
+		public static string GetSavePath(string appPathStr)
+		{
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  //默认是0，取C:\Temp;若为1，则取当前软件目录
+			if (appPath.Trim().Equals("true"))
+			{
+				return appPathStr;
+			}
+			else
+			{
+				return iniFileAst.ReadString("SavePath", "otherPath", "");
+			}
+		}
+
+
+		/// <summary>
+		/// 辅助方法：取出是否显示按钮
+		/// </summary>
+		/// <returns></returns>
+		public static bool GetButtonShow(string appPathStr,string buttonName)
+		{
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			string isShow = iniFileAst.ReadString("Show", buttonName, "false");
+			if (isShow.Trim().Equals("true"))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		
+
 	}
 }

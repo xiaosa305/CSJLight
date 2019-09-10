@@ -248,6 +248,7 @@ namespace LightController
 			this.hardwareSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hardwareSetOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hardwareUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightsEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -3172,7 +3173,8 @@ namespace LightController
 			// 
 			this.hardwareSetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hardwareSetNewToolStripMenuItem,
-            this.hardwareSetOpenToolStripMenuItem});
+            this.hardwareSetOpenToolStripMenuItem,
+            this.hardwareUpdateToolStripMenuItem});
 			this.hardwareSetToolStripMenuItem.Name = "hardwareSetToolStripMenuItem";
 			this.hardwareSetToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
 			this.hardwareSetToolStripMenuItem.Text = "硬件设置";
@@ -3180,16 +3182,24 @@ namespace LightController
 			// hardwareSetNewToolStripMenuItem
 			// 
 			this.hardwareSetNewToolStripMenuItem.Name = "hardwareSetNewToolStripMenuItem";
-			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hardwareSetNewToolStripMenuItem.Text = "新建配置";
 			this.hardwareSetNewToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetNewToolStripMenuItem_Click);
 			// 
 			// hardwareSetOpenToolStripMenuItem
 			// 
 			this.hardwareSetOpenToolStripMenuItem.Name = "hardwareSetOpenToolStripMenuItem";
-			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hardwareSetOpenToolStripMenuItem.Text = "打开配置";
 			this.hardwareSetOpenToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetOpenToolStripMenuItem_Click);
+			// 
+			// hardwareUpdateToolStripMenuItem
+			// 
+			this.hardwareUpdateToolStripMenuItem.Name = "hardwareUpdateToolStripMenuItem";
+			this.hardwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hardwareUpdateToolStripMenuItem.Text = "硬件升级";
+			this.hardwareUpdateToolStripMenuItem.Visible = false;
+			this.hardwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.hardwareUpdateToolStripMenuItem_Click);
 			// 
 			// updateToolStripMenuItem
 			// 
@@ -3247,33 +3257,33 @@ namespace LightController
 			// CSJToolNoticeToolStripMenuItem
 			// 
 			this.CSJToolNoticeToolStripMenuItem.Name = "CSJToolNoticeToolStripMenuItem";
-			this.CSJToolNoticeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.CSJToolNoticeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.CSJToolNoticeToolStripMenuItem.Text = "提示";
 			this.CSJToolNoticeToolStripMenuItem.Click += new System.EventHandler(this.CSJToolNoticeToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
 			// 
 			// QDControllerToolStripMenuItem
 			// 
 			this.QDControllerToolStripMenuItem.Name = "QDControllerToolStripMenuItem";
-			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.QDControllerToolStripMenuItem.Text = "传视界灯控工具";
 			this.QDControllerToolStripMenuItem.Click += new System.EventHandler(this.QDControllerToolStripMenuItem_Click);
 			// 
 			// CenterControllerToolStripMenuItem
 			// 
 			this.CenterControllerToolStripMenuItem.Name = "CenterControllerToolStripMenuItem";
-			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.CenterControllerToolStripMenuItem.Text = "传视界中控工具";
 			this.CenterControllerToolStripMenuItem.Click += new System.EventHandler(this.CenterControllerToolStripMenuItem_Click);
 			// 
 			// KeyPressToolStripMenuItem
 			// 
 			this.KeyPressToolStripMenuItem.Name = "KeyPressToolStripMenuItem";
-			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
 			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
 			// 
@@ -3798,6 +3808,7 @@ namespace LightController
 		private ToolStripSeparator toolStripSeparator1;
 		private ComboBox skinComboBox;
 		private Button skinButton;
+		private ToolStripMenuItem hardwareUpdateToolStripMenuItem;
 	}
 }
 

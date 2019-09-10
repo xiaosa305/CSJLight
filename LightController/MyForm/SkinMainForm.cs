@@ -24,9 +24,9 @@ namespace LightController.MyForm
 		{
 			InitializeComponent();
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
-			if (IniFileAst.GetShowHardwareUpdate(Application.StartupPath)) 
+			if (IniFileAst.GetButtonShow(Application.StartupPath,"hardwareUpdateButton")) 
 			{
-				hardwareSetSkinButton.Visible = true;
+				hardwareUpdateSkinButton.Visible = true;
 			}
 
 			#region 初始化各种辅助数组
@@ -435,6 +435,16 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///  事件：点击《硬件更新》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkSkinButton_Click(object sender, EventArgs e)
+		{
+			new HardwareUpdateForm(this).ShowDialog();
+		}
+
+		/// <summary>
 		///  事件：点击《退出应用》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -548,7 +558,7 @@ namespace LightController.MyForm
 			lightListSkinButton.Enabled = enable;
 			globalSetSkinButton.Enabled = enable;
 			ymSkinButton.Enabled = enable;
-			networkSkinButton.Enabled = enable;
+			hardwareUpdateSkinButton.Enabled = enable;
 
 			// 调试栏	->《连接设备》按钮
 			connectSkinButton.Enabled = enable;
@@ -1982,15 +1992,6 @@ namespace LightController.MyForm
 
 		#endregion
 
-		/// <summary>
-		///  事件：点击《硬件更新》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void networkSkinButton_Click(object sender, EventArgs e)
-		{
-			new HardwareUpdateForm(this).ShowDialog();
 
-		}
 	}
 }

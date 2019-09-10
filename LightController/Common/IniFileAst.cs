@@ -172,10 +172,10 @@ namespace LightController.Common
 		/// 辅助方法：取出是否显示按钮
 		/// </summary>
 		/// <returns></returns>
-		public static bool GetShowHardwareUpdate(string appPathStr)
+		public static bool GetButtonShow(string appPathStr, string buttonName)
 		{
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
-			string isShow = iniFileAst.ReadString("Show", "SHowHardwareUpdate", "false");
+			string isShow = iniFileAst.ReadString("Show", buttonName, "false");
 			if (isShow.Trim().Equals("true")){
 				return true;
 			}

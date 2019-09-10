@@ -1985,15 +1985,9 @@ namespace LightController.MyForm
 			// 2.调用结束预览方法
 			playTools.EndView();
 		}
-
-
-
-
-		#endregion
-
-
+		
 		/// <summary>
-		///  曾维佳测试用按钮
+		///  事件：《（曾维佳）测试按钮组》点击事件
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -2004,6 +1998,12 @@ namespace LightController.MyForm
 			Test test = new Test(GetDBWrapper(true));
 			test.Start(buttonIndex);
 		}
+
+
+		#endregion
+
+
+
 
 	}
 }

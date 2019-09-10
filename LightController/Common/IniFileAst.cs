@@ -157,7 +157,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static string GetSavePath(string appPathStr) {
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
-			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  //默认是0，取C:\Temp;若为1，则取当前软件目录
+			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  
 			if (appPath.Trim().Equals("true"))
 			{
 				return appPathStr;

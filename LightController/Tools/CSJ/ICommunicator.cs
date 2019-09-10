@@ -467,6 +467,7 @@ namespace LightController.Tools.CSJ
                         {
                             hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
                         }
+                        Console.WriteLine("test1");
                         this.GetParamDelegate(hardware);
                         this.CallBack.SendCompleted(devicename, this.Order);
                     }

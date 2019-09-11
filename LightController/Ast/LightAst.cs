@@ -106,8 +106,6 @@ namespace LightController.Ast
 			LightAddr = laOld.LightAddr;
 			StartNum = laOld.StartNum;
 			EndNum = laOld.EndNum;
-		}
-
-		
+		}		
 	}
 }

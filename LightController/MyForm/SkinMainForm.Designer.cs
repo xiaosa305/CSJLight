@@ -379,6 +379,7 @@ namespace LightController.MyForm
 			this.thirdLabel3 = new System.Windows.Forms.Label();
 			this.secondLabel3 = new System.Windows.Forms.Label();
 			this.firstLabel3 = new System.Windows.Forms.Label();
+			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -5837,6 +5838,11 @@ namespace LightController.MyForm
 			this.firstLabel3.TabIndex = 0;
 			this.firstLabel3.Text = "通道值";
 			// 
+			// exportFolderBrowserDialog
+			// 
+			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+			this.exportFolderBrowserDialog.ShowNewFolderButton = false;
+			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -6418,5 +6424,6 @@ namespace LightController.MyForm
 		private Button test3Button;
 		private Button test2Button;
 		private Button test1Button;
+		private FolderBrowserDialog exportFolderBrowserDialog;
 	}
 }

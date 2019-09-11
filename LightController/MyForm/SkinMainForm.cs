@@ -537,7 +537,7 @@ namespace LightController.MyForm
 
 					FileTools fileTools = FileTools.GetInstance();
 					fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
-					////导出成功后，打开文件夹
+					//导出成功后，打开文件夹
 					System.Diagnostics.Process.Start(exportPath);
 				}
 			}

@@ -467,6 +467,7 @@ namespace LightController.Tools.CSJ
                         {
                             hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
                         }
+                        Console.WriteLine("test1");
                         this.GetParamDelegate(hardware);
                         this.CallBack.SendCompleted(devicename, this.Order);
                     }
@@ -548,7 +549,9 @@ namespace LightController.Tools.CSJ
                 byte[] crcBuff = new byte[2];
                 this.DownloadFileToTalSize = 0;
                 this.CurrentDownloadCompletedSize = 0;
+                this.TimeIndex = Constant.TIMEOUT;
                 CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.Wrapper, this.ConfigPath);
+                this.TimeIndex = 0;
                 ScenesInitData scenesInitData = new ScenesInitData(project);
                 this.DownloadFileToTalSize = project.GetProjectFileSize();
                 if (null != scenesInitData)

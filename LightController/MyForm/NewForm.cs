@@ -28,7 +28,11 @@ namespace LightController
 			InitializeComponent();
 		}
 
-		
+		private void NewForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+		}
+
 
 		/// <summary>
 		///  事件：点击《新建》按钮：
@@ -47,9 +51,6 @@ namespace LightController
 				MessageBox.Show("工程名包含非法字符，请重新输入！");
 				return;
 			}
-
-
-
 			if (!String.IsNullOrEmpty(projectName))
 			{
 				savePath = @IniFileAst.GetSavePath(Application.StartupPath);
@@ -97,7 +98,7 @@ namespace LightController
 		
 
 		/// <summary>
-		/// 事件：点击《右上角关闭（X）》按钮
+		/// 事件：点击《右上角关闭（X）》按钮、《取消》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -107,11 +108,7 @@ namespace LightController
 			mainForm.Activate();
 		}
 
-		private void NewForm_Load(object sender, EventArgs e)
-		{
-			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
-		}
-
+		
 		/// <summary>
 		///  事件：点击《右上角？》按钮提示
 		/// </summary>

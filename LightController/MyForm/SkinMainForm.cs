@@ -377,7 +377,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击《硬件设置》按钮
+		///  事件：点击《硬件设置》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -400,7 +400,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 点击《灯具列表(编辑)》按钮
+		/// 事件：点击《灯具列表(编辑)》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -464,6 +464,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newSkinButton_Click(object sender, EventArgs e)
 		{
+			// 9.10 每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
+			IsCreateSuccess = false;
+
 			NewForm newForm = new NewForm(this);
 			newForm.ShowDialog();
 
@@ -493,7 +496,9 @@ namespace LightController.MyForm
 		{
 			base.clearAllData();
 
-			//单独针对本MainForm的代码: ①清空listView列表；②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
+			//单独针对本MainForm的代码: 
+			// ①清空listView列表；
+			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
 			lightsSkinListView.Clear();			
 			stepSkinPanel.Enabled = false;
 			hideAllTDPanels();
@@ -524,14 +529,17 @@ namespace LightController.MyForm
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
 			{
-				DBWrapper dbWrapper = GetDBWrapper(true);
-				string exportPath = savePath + @"\ExportDirectory\" + currentProjectName + @"\CSJ";
+				exportFolderBrowserDialog.ShowDialog();
+				string exportPath = exportFolderBrowserDialog.SelectedPath;
+				if ( ! string.IsNullOrEmpty(exportPath) ){
+					exportPath +=  @"\CSJ";
+					DBWrapper dbWrapper = GetDBWrapper(true);
 
-				FileTools fileTools = FileTools.GetInstance();
-				fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
-
-				//导出成功后，打开文件夹
-				System.Diagnostics.Process.Start(exportPath);
+					FileTools fileTools = FileTools.GetInstance();
+					fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
+					////导出成功后，打开文件夹
+					System.Diagnostics.Process.Start(exportPath);
+				}
 			}
 		}
 

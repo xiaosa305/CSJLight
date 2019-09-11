@@ -544,11 +544,10 @@ namespace LightController.MyForm
 				remotePortTextBox.Text = ch.RemotePort.ToString();
 				domainNameTextBox.Text = ch.DomainName;
 				domainServerTextBox.Text = ch.DomainServer;
-
-				MessageBox.Show("回读成功");
+				
 			}
 			catch (Exception ex) {
-				MessageBox.Show("回读失败:\n" + ex.Message);
+				MessageBox.Show("回读异常:" + ex.Message);
 			}
 		}
 

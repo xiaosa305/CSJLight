@@ -156,6 +156,7 @@ namespace LightController.Common
 		/// </summary>
 		/// <returns></returns>
 		public static string GetSavePath(string appPathStr) {
+
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
 			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  
 			if (appPath.Trim().Equals("true"))

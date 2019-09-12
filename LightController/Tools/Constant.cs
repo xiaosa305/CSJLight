@@ -9,7 +9,8 @@ namespace LightController.Tools
     class Constant
     {
         public const int DMX512BAUD = 250000;
-        public const int SCENECOUNT = 24;
+        public const int SCENECOUNTMAX = 32;
+        public const int STEPLISTMAX = 20;
         public const int TIMEMAXCOUNT = 0;
         public const int MODE_C = 0;
         public const int MODE_M = 1;

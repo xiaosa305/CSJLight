@@ -37,6 +37,7 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public CSJ_Hardware(byte[] data)
         {
+            //添加数据判断，数据长度不符合返回默认空值
             Ver = (int)(data[1] & 0xFF);
             PlayFlag = (int)(data[2] & 0xFF);
             SumUseTimes = (int)((data[3] & 0xFF) | ((data[4] & 0xFF) << 8) | ((data[5] & 0xFF) << 16) | ((data[6] & 0xFF) << 24));

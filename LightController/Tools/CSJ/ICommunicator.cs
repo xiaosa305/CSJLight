@@ -578,21 +578,6 @@ namespace LightController.Tools.CSJ
                                 break;
                             }
                         }
-                        if ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_ON || (file as CSJ_C).SceneNo == Constant.SCENE_ALL_OFF)
-                        {
-                            while (true)
-                            {
-                                if (this.DownloadStatus)
-                                {
-                                    int sceneno = ((file as CSJ_C).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
-                                    fileName = "C" + (sceneno + 1) + ".bin";
-                                    this.CurrentFileName = fileName;
-                                    this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                                    this.DownloadStatus = false;
-                                    break;
-                                }
-                            }
-                        }
                     }
                 }
                 if (project.MFiles != null)
@@ -611,21 +596,6 @@ namespace LightController.Tools.CSJ
                                 this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
                                 this.DownloadStatus = false;
                                 break;
-                            }
-                        }
-                        if ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON || (file as CSJ_M).SceneNo == Constant.SCENE_ALL_OFF)
-                        {
-                            while (true)
-                            {
-                                if (this.DownloadStatus)
-                                {
-                                    int sceneno = ((file as CSJ_M).SceneNo == Constant.SCENE_ALL_ON) ? Constant.SCENE_ALL_ON_NO : Constant.SCENE_ALL_OFF_NO;
-                                    fileName = "M" + (sceneno + 1) + ".bin";
-                                    this.CurrentFileName = fileName;
-                                    this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                                    this.DownloadStatus = false;
-                                    break;
-                                }
                             }
                         }
                     }

@@ -123,7 +123,7 @@ namespace LightController.Tools.CSJ.IMPL
                 {
                     if (lineStr.Equals("[YM]"))
                     {
-                        for (int i = 0; i < 24; i++)
+                        for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
                         {
                             lineStr = reader.ReadLine();
                             if (lineStr.StartsWith(sceneData.SceneNo + "CK"))
@@ -320,7 +320,7 @@ namespace LightController.Tools.CSJ.IMPL
                     lineStr = reader.ReadLine();
                     if (lineStr.Equals("[SK]"))
                     {
-                        for (int i = 0; i < Constant.SCENECOUNT; i++)
+                        for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
                         {
                             lineStr = reader.ReadLine();
                             string sceneNo = "";
@@ -527,7 +527,7 @@ namespace LightController.Tools.CSJ.IMPL
         private List<int> GetSceneNos()
         {
             List<int> sceneNos = new List<int>();
-            for (int i = 0; i < Constant.SCENECOUNT; i++)
+            for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
             {
                 foreach (DB_StepCount item in Wrapper.stepCountList)
                 {

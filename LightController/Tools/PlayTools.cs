@@ -139,7 +139,6 @@ namespace LightController.Tools
                 }
                 finally
                 {
-                    Thread.Sleep(200);
                     //将单灯单步线程置为null
                     OLOSThread = null;
                     //预读常规程序数据到缓存区

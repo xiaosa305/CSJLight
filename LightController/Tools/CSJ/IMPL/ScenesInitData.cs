@@ -13,9 +13,9 @@ namespace LightController.Tools.CSJ.IMPL
 
         public ScenesInitData(CSJ_Project project)
         {
-            this.ScenesData = new int[32][];
+            this.ScenesData = new int[Constant.SCENECOUNTMAX][];
             int[] defaultDmx512Data = Enumerable.Repeat(0, Constant.DMX512).ToArray();
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
             {
                 ScenesData[i] = defaultDmx512Data;
             }
@@ -32,14 +32,6 @@ namespace LightController.Tools.CSJ.IMPL
                             data[file.ChannelDatas[channel].ChannelNo - 1] = file.ChannelDatas[channel].Datas[0];
                         }
                         this.ScenesData[file.SceneNo] = data;
-                        if (file.SceneNo == Constant.SCENE_ALL_OFF)
-                        {
-                            this.ScenesData[Constant.SCENE_ALL_OFF_NO] = data;
-                        }
-                        if (file.SceneNo == Constant.SCENE_ALL_ON)
-                        {
-                            this.ScenesData[Constant.SCENE_ALL_ON_NO] = data;
-                        }
                     }
                 }
             }
@@ -53,7 +45,7 @@ namespace LightController.Tools.CSJ.IMPL
             dataBuff.Add(Convert.ToByte((FileSize >> 8) & 0xFF));
             dataBuff.Add(Convert.ToByte((FileSize >> 16) & 0xFF));
             dataBuff.Add(Convert.ToByte((FileSize >> 24) & 0xFF));
-            for (int scene = 0; scene < Constant.SCENECOUNT; scene++)
+            for (int scene = 0; scene < Constant.SCENECOUNTMAX; scene++)
             {
                 for (int channel = 0; channel < Constant.DMX512; channel++)
                 {

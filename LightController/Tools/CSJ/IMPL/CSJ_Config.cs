@@ -68,6 +68,7 @@ namespace LightController.Tools.CSJ.IMPL
             //添加开机自动播放场景
             data.Add(Convert.ToByte(Default_Scene_Number));
             //添加音频功能开启状态
+            //每增加8个场景，协议添加一个字节描述音频状态
             string music_control_enable = "";
             for (int i = 0; i < Music_Control_Enable.Count(); i++)
             {
@@ -79,7 +80,6 @@ namespace LightController.Tools.CSJ.IMPL
                     music_control_enable = "";
                 }
             }
-            data.Add(Convert.ToByte(0x00));
             //添加场景切换模式
             data.Add(Convert.ToByte(Scene_Change_Mode));
             //添加时间因子
@@ -267,7 +267,7 @@ namespace LightController.Tools.CSJ.IMPL
                             lineStr = Reader.ReadLine();
                         } while (!lineStr.Equals("[SK]"));
                         //添加音频功能开启状态
-                        for (int i = 0; i < 24; i++)
+                        for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
                         {
                             lineStr = Reader.ReadLine();
                             strValue = lineStr.Split('=')[1];

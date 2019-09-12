@@ -46,7 +46,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 fileData.Add(Convert.ToByte(StepList[i]));
             }
-            for (int i = StepListCount; i < 20; i++)
+            for (int i = StepListCount; i < Constant.STEPLISTMAX; i++)
             {
                 fileData.Add(Convert.ToByte(0x00));
             }

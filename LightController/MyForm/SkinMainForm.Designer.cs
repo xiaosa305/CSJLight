@@ -1260,7 +1260,6 @@ namespace LightController.MyForm
 			this.lightsSkinListView.LargeImageList = this.lightLargeImageList;
 			this.lightsSkinListView.Location = new System.Drawing.Point(123, 111);
 			this.lightsSkinListView.Margin = new System.Windows.Forms.Padding(0);
-			this.lightsSkinListView.MultiSelect = false;
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
 			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 174);
@@ -5840,6 +5839,7 @@ namespace LightController.MyForm
 			// 
 			// exportFolderBrowserDialog
 			// 
+			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
 			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
 			this.exportFolderBrowserDialog.ShowNewFolderButton = false;
 			// 
@@ -5861,6 +5861,7 @@ namespace LightController.MyForm
 			this.Name = "SkinMainForm";
 			this.Text = " ";
 			this.Load += new System.EventHandler(this.SkinMainForm_Load);
+			this.SizeChanged += new System.EventHandler(this.SkinMainForm_SizeChanged);
 			this.menuSkinPanel.ResumeLayout(false);
 			this.testGroupBox.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);

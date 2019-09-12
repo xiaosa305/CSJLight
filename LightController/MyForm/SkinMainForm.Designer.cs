@@ -5861,6 +5861,7 @@ namespace LightController.MyForm
 			this.Name = "SkinMainForm";
 			this.Text = " ";
 			this.Load += new System.EventHandler(this.SkinMainForm_Load);
+			this.SizeChanged += new System.EventHandler(this.SkinMainForm_SizeChanged);
 			this.menuSkinPanel.ResumeLayout(false);
 			this.testGroupBox.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);

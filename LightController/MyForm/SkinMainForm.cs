@@ -19,6 +19,7 @@ namespace LightController.MyForm
 
 	public partial class SkinMainForm : MainFormInterface
 	{
+		private bool isPainting = false;
 
 		public SkinMainForm()
 		{
@@ -358,7 +359,7 @@ namespace LightController.MyForm
 
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
-			// 启动时刷新可用串口列表
+			// 启动时刷新可用串口列表			
 			refreshComList();
 		}
 
@@ -616,7 +617,6 @@ namespace LightController.MyForm
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
 				selectedLightIndex = lightsSkinListView.SelectedIndices[0];
-
 				generateLightData();
 				// 这里主要是控制pasteLightButton的Enabled值
 				checkIfCanCopyLight();
@@ -1087,7 +1087,8 @@ namespace LightController.MyForm
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
 		private void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
-		{			
+		{
+			
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
@@ -1097,8 +1098,11 @@ namespace LightController.MyForm
 			//2.将dataWrappers的内容渲染到起VScrollBar中
 			else
 			{
+				isPainting = true;
+
 				for (int i = 0; i < tongdaoList.Count; i++)
-				{				
+				{
+					Console.WriteLine("changeTD:" + i);
 					tdNoLabels[i].Text = "通道" + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
 					tdSkinTrackBars[i].Value = tongdaoList[i].ScrollValue;
@@ -1111,8 +1115,12 @@ namespace LightController.MyForm
 				}
 				for (int i = tongdaoList.Count; i < 32; i++) {
 					tdPanels[i].Hide();
-				}								
+				}
+
+				isPainting = false;
 			}
+
+			
 		}
 
 		/// <summary>
@@ -1120,11 +1128,15 @@ namespace LightController.MyForm
 		/// </summary>
 		private void hideAllTDPanels()
 		{
+			isPainting = true;
+
 			for (int i = 0; i < 32; i++)
 			{
 				tdPanels[i].Hide();
 			}
 			tdCommonPanel.Enabled = false;
+
+			isPainting = false;
 		}
 
 		/// <summary>
@@ -1385,16 +1397,27 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdSkinFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
 		{
+			if (!isPainting)
+			{
+				repaintTDPanels();
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：重绘tdPanels
+		/// </summary>
+		private void repaintTDPanels()
+		{			
 			// 1. j是tdPanels中在第一列的panel的数量，
 			int j = 0;
 			foreach (var tdPanel in tdPanels)
 			{
 				if (tdPanel.Visible && tdPanel.Location.X == 3)
 				{
- 					j++; 
+					j++;
 				}
 			}
-			showLabelPanels(j);
+			showLabelPanels( j );
 
 			// 2. 设置滚动条的位置
 			labelFlowLayoutPanel.AutoScrollPosition = new Point(0, -tdSkinFlowLayoutPanel.AutoScrollPosition.Y);
@@ -2008,10 +2031,20 @@ namespace LightController.MyForm
 		}
 
 
+
+
+
 		#endregion
 
-
-
+		/// <summary>
+		/// 事件：界面的Size发生变化
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SkinMainForm_SizeChanged(object sender, EventArgs e)
+		{
+			tdSkinFlowLayoutPanel.AutoScrollPosition = new Point(0, 0);			;
+		}
 
 	}
 }

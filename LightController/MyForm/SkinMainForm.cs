@@ -300,9 +300,9 @@ namespace LightController.MyForm
 			#region 几个下拉框的初始化及赋值
 
 			//添加FramList文本中的场景列表
-			allFrameList = TextAst.Read(Application.StartupPath + @"\FrameList.txt");
+			AllFrameList = TextAst.Read(Application.StartupPath + @"\FrameList.txt");
 			// 场景选项框			
-			foreach (string frame in allFrameList)
+			foreach (string frame in AllFrameList)
 			{
 				frameSkinComboBox.Items.Add(frame);
 			}
@@ -1027,11 +1027,10 @@ namespace LightController.MyForm
 		protected override void chooseStep(int stepNum)
 		{
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-			if (lightStepWrapper == null) {
+			if (lightStepWrapper == null || stepNum==0) {
 				return;
 			}
-
-			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
+			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];			
 			lightStepWrapper.CurrentStep = stepNum;
 
 			this.showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);

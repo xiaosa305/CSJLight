@@ -49,7 +49,7 @@ private System.ComponentModel.IContainer components = null;
 			this.label1 = new System.Windows.Forms.Label();
 			this.tongdaoCountComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheGroupBox = new System.Windows.Forms.GroupBox();
-			this.frameSaveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.mFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
 			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
@@ -71,12 +71,8 @@ private System.ComponentModel.IContainer components = null;
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.circleTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.frameSTLabel7 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown7 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown7 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton7 = new CCWin.SkinControl.SkinButton();
 			this.qdGroupBox = new System.Windows.Forms.GroupBox();
+			this.label13 = new System.Windows.Forms.Label();
 			this.qdSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.checkBox8 = new System.Windows.Forms.CheckBox();
 			this.checkBox7 = new System.Windows.Forms.CheckBox();
@@ -87,139 +83,24 @@ private System.ComponentModel.IContainer components = null;
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
-			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.panel26 = new System.Windows.Forms.Panel();
-			this.label37 = new System.Windows.Forms.Label();
-			this.label36 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.panel25 = new System.Windows.Forms.Panel();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
-			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.frameSTLabel1 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton1 = new CCWin.SkinControl.SkinButton();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.frameSTLabel2 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown2 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown2 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton2 = new CCWin.SkinControl.SkinButton();
-			this.panel7 = new System.Windows.Forms.Panel();
-			this.frameSTLabel3 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown3 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown3 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton3 = new CCWin.SkinControl.SkinButton();
-			this.panel9 = new System.Windows.Forms.Panel();
-			this.frameSTLabel4 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown4 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown4 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton4 = new CCWin.SkinControl.SkinButton();
-			this.panel8 = new System.Windows.Forms.Panel();
-			this.frameSTLabel5 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown5 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown5 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton5 = new CCWin.SkinControl.SkinButton();
-			this.panel4 = new System.Windows.Forms.Panel();
-			this.frameSTLabel6 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown6 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown6 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton6 = new CCWin.SkinControl.SkinButton();
-			this.panel14 = new System.Windows.Forms.Panel();
-			this.frameSTLabel8 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown8 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown8 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton8 = new CCWin.SkinControl.SkinButton();
-			this.panel13 = new System.Windows.Forms.Panel();
-			this.frameSTLabel9 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown9 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown9 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton9 = new CCWin.SkinControl.SkinButton();
-			this.panel12 = new System.Windows.Forms.Panel();
-			this.frameSTLabel10 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown10 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown10 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton10 = new CCWin.SkinControl.SkinButton();
-			this.panel11 = new System.Windows.Forms.Panel();
-			this.frameSTLabel11 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown11 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown11 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton11 = new CCWin.SkinControl.SkinButton();
-			this.panel10 = new System.Windows.Forms.Panel();
-			this.frameSTLabel12 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown12 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown12 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton12 = new CCWin.SkinControl.SkinButton();
-			this.panel6 = new System.Windows.Forms.Panel();
-			this.frameSTLabel13 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown13 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown13 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton13 = new CCWin.SkinControl.SkinButton();
-			this.panel5 = new System.Windows.Forms.Panel();
-			this.frameSTLabel14 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown14 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown14 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton14 = new CCWin.SkinControl.SkinButton();
-			this.panel21 = new System.Windows.Forms.Panel();
-			this.frameSTLabel15 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown15 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown15 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton15 = new CCWin.SkinControl.SkinButton();
-			this.panel20 = new System.Windows.Forms.Panel();
-			this.frameSTLabel16 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown16 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown16 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton16 = new CCWin.SkinControl.SkinButton();
-			this.panel19 = new System.Windows.Forms.Panel();
-			this.frameSTLabel17 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown17 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown17 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton17 = new CCWin.SkinControl.SkinButton();
-			this.panel18 = new System.Windows.Forms.Panel();
-			this.frameSTLabel18 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown18 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown18 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton18 = new CCWin.SkinControl.SkinButton();
-			this.panel17 = new System.Windows.Forms.Panel();
-			this.frameSTLabel19 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown19 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown19 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton19 = new CCWin.SkinControl.SkinButton();
-			this.panel16 = new System.Windows.Forms.Panel();
-			this.frameSTLabel20 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown20 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown20 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton20 = new CCWin.SkinControl.SkinButton();
-			this.panel15 = new System.Windows.Forms.Panel();
-			this.frameSTLabel21 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown21 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown21 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton21 = new CCWin.SkinControl.SkinButton();
-			this.panel24 = new System.Windows.Forms.Panel();
-			this.frameSTLabel22 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown22 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown22 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton22 = new CCWin.SkinControl.SkinButton();
-			this.panel23 = new System.Windows.Forms.Panel();
-			this.frameSTLabel23 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown23 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown23 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton23 = new CCWin.SkinControl.SkinButton();
-			this.panel22 = new System.Windows.Forms.Panel();
-			this.frameSTLabel24 = new System.Windows.Forms.Label();
-			this.jgtNumericUpDown24 = new System.Windows.Forms.NumericUpDown();
-			this.frameStepTimeNumericUpDown24 = new System.Windows.Forms.NumericUpDown();
-			this.mSkinButton24 = new CCWin.SkinControl.SkinButton();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+			this.panel27 = new System.Windows.Forms.Panel();
+			this.label14 = new System.Windows.Forms.Label();
+			this.label15 = new System.Windows.Forms.Label();
+			this.label16 = new System.Windows.Forms.Label();
+			this.panel28 = new System.Windows.Forms.Panel();
+			this.label17 = new System.Windows.Forms.Label();
+			this.label18 = new System.Windows.Forms.Label();
+			this.label19 = new System.Windows.Forms.Label();
+			this.skFrameFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.mFrameLKPanel = new System.Windows.Forms.Panel();
 			this.mFrameTextBox = new System.Windows.Forms.TextBox();
-			this.mNoticeSkinButton = new CCWin.SkinControl.SkinButton();
-			this.mFrameLKSaveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.currentFrameLabel = new System.Windows.Forms.Label();
-			this.mFrameSaveAllSkinButton = new CCWin.SkinControl.SkinButton();
-			this.skGroupBox = new System.Windows.Forms.GroupBox();
+			this.mNoticeskinButton = new CCWin.SkinControl.SkinButton();
+			this.mLKSaveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.mCurrentFrameLabel = new System.Windows.Forms.Label();
+			this.skFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -231,93 +112,21 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).BeginInit();
-			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown7)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown7)).BeginInit();
 			this.qdGroupBox.SuspendLayout();
-			this.tableLayoutPanel2.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
-			this.panel26.SuspendLayout();
-			this.panel25.SuspendLayout();
-			this.flowLayoutPanel2.SuspendLayout();
-			this.panel2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown1)).BeginInit();
-			this.panel3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown2)).BeginInit();
-			this.panel7.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown3)).BeginInit();
-			this.panel9.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown4)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown4)).BeginInit();
-			this.panel8.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown5)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown5)).BeginInit();
-			this.panel4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown6)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown6)).BeginInit();
-			this.panel14.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown8)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown8)).BeginInit();
-			this.panel13.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown9)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown9)).BeginInit();
-			this.panel12.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown10)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown10)).BeginInit();
-			this.panel11.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown11)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown11)).BeginInit();
-			this.panel10.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown12)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown12)).BeginInit();
-			this.panel6.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown13)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown13)).BeginInit();
-			this.panel5.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown14)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown14)).BeginInit();
-			this.panel21.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown15)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown15)).BeginInit();
-			this.panel20.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown16)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown16)).BeginInit();
-			this.panel19.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown17)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown17)).BeginInit();
-			this.panel18.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown18)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown18)).BeginInit();
-			this.panel17.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown19)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown19)).BeginInit();
-			this.panel16.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown20)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown20)).BeginInit();
-			this.panel15.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown21)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown21)).BeginInit();
-			this.panel24.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown22)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown22)).BeginInit();
-			this.panel23.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown23)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown23)).BeginInit();
-			this.panel22.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown24)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown24)).BeginInit();
+			this.groupBox1.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.flowLayoutPanel3.SuspendLayout();
+			this.panel27.SuspendLayout();
+			this.panel28.SuspendLayout();
+			this.skFrameFlowLayoutPanel.SuspendLayout();
 			this.mFrameLKPanel.SuspendLayout();
-			this.skGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
 			// 
 			this.dmxGroupBox.Controls.Add(this.globalGroupBox);
 			this.dmxGroupBox.Controls.Add(this.zuheGroupBox);
-			this.dmxGroupBox.Location = new System.Drawing.Point(6, 72);
+			this.dmxGroupBox.Location = new System.Drawing.Point(12, 11);
 			this.dmxGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.dmxGroupBox.Name = "dmxGroupBox";
 			this.dmxGroupBox.Padding = new System.Windows.Forms.Padding(8);
@@ -342,7 +151,7 @@ private System.ComponentModel.IContainer components = null;
 			this.globalGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.globalGroupBox.Name = "globalGroupBox";
 			this.globalGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.globalGroupBox.Size = new System.Drawing.Size(420, 200);
+			this.globalGroupBox.Size = new System.Drawing.Size(431, 200);
 			this.globalGroupBox.TabIndex = 0;
 			this.globalGroupBox.TabStop = false;
 			// 
@@ -433,7 +242,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.startupComboBox.FormattingEnabled = true;
 			this.startupComboBox.Items.AddRange(new object[] {
-            ""});
+            "无"});
 			this.startupComboBox.Location = new System.Drawing.Point(146, 103);
 			this.startupComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.startupComboBox.Name = "startupComboBox";
@@ -467,37 +276,37 @@ private System.ComponentModel.IContainer components = null;
 			// zuheGroupBox
 			// 
 			this.zuheGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.zuheGroupBox.Controls.Add(this.frameSaveSkinButton);
+			this.zuheGroupBox.Controls.Add(this.mFrameSaveSkinButton);
 			this.zuheGroupBox.Controls.Add(this.zuheFrameComboBox);
 			this.zuheGroupBox.Controls.Add(this.zuheCheckBox);
 			this.zuheGroupBox.Controls.Add(this.zuheEnableGroupBox);
 			this.zuheGroupBox.Controls.Add(this.label3);
 			this.zuheGroupBox.Controls.Add(this.circleTimeNumericUpDown);
-			this.zuheGroupBox.Location = new System.Drawing.Point(472, 19);
+			this.zuheGroupBox.Location = new System.Drawing.Point(460, 19);
 			this.zuheGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheGroupBox.Name = "zuheGroupBox";
 			this.zuheGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.zuheGroupBox.Size = new System.Drawing.Size(699, 200);
+			this.zuheGroupBox.Size = new System.Drawing.Size(711, 200);
 			this.zuheGroupBox.TabIndex = 1;
 			this.zuheGroupBox.TabStop = false;
 			this.zuheGroupBox.Text = "多场景组合播放设置";
 			// 
-			// frameSaveSkinButton
+			// mFrameSaveSkinButton
 			// 
-			this.frameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.frameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.frameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.frameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.frameSaveSkinButton.DownBack = null;
-			this.frameSaveSkinButton.Location = new System.Drawing.Point(616, 21);
-			this.frameSaveSkinButton.MouseBack = null;
-			this.frameSaveSkinButton.Name = "frameSaveSkinButton";
-			this.frameSaveSkinButton.NormlBack = null;
-			this.frameSaveSkinButton.Size = new System.Drawing.Size(70, 25);
-			this.frameSaveSkinButton.TabIndex = 1;
-			this.frameSaveSkinButton.Text = "保存当前";
-			this.frameSaveSkinButton.UseVisualStyleBackColor = false;
-			this.frameSaveSkinButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
+			this.mFrameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.mFrameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.mFrameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.mFrameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.mFrameSaveSkinButton.DownBack = null;
+			this.mFrameSaveSkinButton.Location = new System.Drawing.Point(616, 21);
+			this.mFrameSaveSkinButton.MouseBack = null;
+			this.mFrameSaveSkinButton.Name = "mFrameSaveSkinButton";
+			this.mFrameSaveSkinButton.NormlBack = null;
+			this.mFrameSaveSkinButton.Size = new System.Drawing.Size(70, 25);
+			this.mFrameSaveSkinButton.TabIndex = 1;
+			this.mFrameSaveSkinButton.Text = "保存当前";
+			this.mFrameSaveSkinButton.UseVisualStyleBackColor = false;
+			this.mFrameSaveSkinButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
 			// 
 			// zuheFrameComboBox
 			// 
@@ -750,64 +559,10 @@ private System.ComponentModel.IContainer components = null;
             0,
             0});
 			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.frameSTLabel7);
-			this.panel1.Controls.Add(this.jgtNumericUpDown7);
-			this.panel1.Controls.Add(this.frameStepTimeNumericUpDown7);
-			this.panel1.Controls.Add(this.mSkinButton7);
-			this.panel1.Location = new System.Drawing.Point(405, 3);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(61, 127);
-			this.panel1.TabIndex = 2;
-			// 
-			// frameSTLabel7
-			// 
-			this.frameSTLabel7.AutoSize = true;
-			this.frameSTLabel7.Location = new System.Drawing.Point(8, 69);
-			this.frameSTLabel7.Name = "frameSTLabel7";
-			this.frameSTLabel7.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel7.TabIndex = 2;
-			this.frameSTLabel7.Text = "label13";
-			// 
-			// jgtNumericUpDown7
-			// 
-			this.jgtNumericUpDown7.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown7.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown7.Name = "jgtNumericUpDown7";
-			this.jgtNumericUpDown7.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown7.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown7
-			// 
-			this.frameStepTimeNumericUpDown7.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown7.Name = "frameStepTimeNumericUpDown7";
-			this.frameStepTimeNumericUpDown7.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown7.TabIndex = 1;
-			// 
-			// mSkinButton7
-			// 
-			this.mSkinButton7.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton7.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton7.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton7.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton7.DownBack = null;
-			this.mSkinButton7.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton7.MouseBack = null;
-			this.mSkinButton7.Name = "mSkinButton7";
-			this.mSkinButton7.NormlBack = null;
-			this.mSkinButton7.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton7.TabIndex = 0;
-			this.mSkinButton7.Text = "激情";
-			this.mSkinButton7.UseVisualStyleBackColor = false;
-			// 
 			// qdGroupBox
 			// 
 			this.qdGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.qdGroupBox.Controls.Add(this.label13);
 			this.qdGroupBox.Controls.Add(this.qdSaveSkinButton);
 			this.qdGroupBox.Controls.Add(this.checkBox8);
 			this.qdGroupBox.Controls.Add(this.checkBox7);
@@ -818,15 +573,24 @@ private System.ComponentModel.IContainer components = null;
 			this.qdGroupBox.Controls.Add(this.checkBox2);
 			this.qdGroupBox.Controls.Add(this.checkBox1);
 			this.qdGroupBox.Controls.Add(this.qdFrameComboBox);
-			this.qdGroupBox.Location = new System.Drawing.Point(6, 6);
+			this.qdGroupBox.Enabled = false;
+			this.qdGroupBox.Location = new System.Drawing.Point(1195, 11);
 			this.qdGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdGroupBox.Name = "qdGroupBox";
 			this.qdGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.qdGroupBox.Size = new System.Drawing.Size(1176, 62);
+			this.qdGroupBox.Size = new System.Drawing.Size(189, 247);
 			this.qdGroupBox.TabIndex = 0;
 			this.qdGroupBox.TabStop = false;
 			this.qdGroupBox.Text = "智能灯光控制器设置";
-			this.qdGroupBox.Visible = false;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(31, 33);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(41, 12);
+			this.label13.TabIndex = 2;
+			this.label13.Text = "场景：";
 			// 
 			// qdSaveSkinButton
 			// 
@@ -835,7 +599,7 @@ private System.ComponentModel.IContainer components = null;
 			this.qdSaveSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.qdSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.qdSaveSkinButton.DownBack = null;
-			this.qdSaveSkinButton.Location = new System.Drawing.Point(1095, 24);
+			this.qdSaveSkinButton.Location = new System.Drawing.Point(95, 201);
 			this.qdSaveSkinButton.MouseBack = null;
 			this.qdSaveSkinButton.Name = "qdSaveSkinButton";
 			this.qdSaveSkinButton.NormlBack = null;
@@ -848,7 +612,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox8
 			// 
 			this.checkBox8.AutoSize = true;
-			this.checkBox8.Location = new System.Drawing.Point(540, 28);
+			this.checkBox8.Location = new System.Drawing.Point(110, 166);
 			this.checkBox8.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox8.Name = "checkBox8";
 			this.checkBox8.Size = new System.Drawing.Size(54, 16);
@@ -859,7 +623,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox7
 			// 
 			this.checkBox7.AutoSize = true;
-			this.checkBox7.Location = new System.Drawing.Point(481, 28);
+			this.checkBox7.Location = new System.Drawing.Point(29, 166);
 			this.checkBox7.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox7.Name = "checkBox7";
 			this.checkBox7.Size = new System.Drawing.Size(54, 16);
@@ -870,7 +634,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox6
 			// 
 			this.checkBox6.AutoSize = true;
-			this.checkBox6.Location = new System.Drawing.Point(422, 28);
+			this.checkBox6.Location = new System.Drawing.Point(110, 133);
 			this.checkBox6.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox6.Name = "checkBox6";
 			this.checkBox6.Size = new System.Drawing.Size(54, 16);
@@ -881,7 +645,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox5
 			// 
 			this.checkBox5.AutoSize = true;
-			this.checkBox5.Location = new System.Drawing.Point(362, 28);
+			this.checkBox5.Location = new System.Drawing.Point(29, 133);
 			this.checkBox5.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox5.Name = "checkBox5";
 			this.checkBox5.Size = new System.Drawing.Size(54, 16);
@@ -892,7 +656,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox4
 			// 
 			this.checkBox4.AutoSize = true;
-			this.checkBox4.Location = new System.Drawing.Point(303, 28);
+			this.checkBox4.Location = new System.Drawing.Point(110, 100);
 			this.checkBox4.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox4.Name = "checkBox4";
 			this.checkBox4.Size = new System.Drawing.Size(54, 16);
@@ -903,7 +667,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(244, 28);
+			this.checkBox3.Location = new System.Drawing.Point(29, 100);
 			this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(54, 16);
@@ -914,7 +678,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox2
 			// 
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(184, 28);
+			this.checkBox2.Location = new System.Drawing.Point(110, 67);
 			this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(54, 16);
@@ -925,7 +689,7 @@ private System.ComponentModel.IContainer components = null;
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(125, 28);
+			this.checkBox1.Location = new System.Drawing.Point(29, 67);
 			this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(54, 16);
@@ -936,1520 +700,231 @@ private System.ComponentModel.IContainer components = null;
 			// qdFrameComboBox
 			// 
 			this.qdFrameComboBox.FormattingEnabled = true;
-			this.qdFrameComboBox.Location = new System.Drawing.Point(17, 26);
+			this.qdFrameComboBox.Location = new System.Drawing.Point(83, 30);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
 			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
 			this.qdFrameComboBox.TabIndex = 0;
 			this.qdFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
 			// 
-			// tableLayoutPanel2
-			// 
-			this.tableLayoutPanel2.ColumnCount = 2;
-			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 0);
-			this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel2, 1, 0);
-			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 16);
-			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 1;
-			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(1174, 272);
-			this.tableLayoutPanel2.TabIndex = 4;
-			// 
-			// flowLayoutPanel1
-			// 
-			this.flowLayoutPanel1.Controls.Add(this.panel26);
-			this.flowLayoutPanel1.Controls.Add(this.panel25);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(154, 266);
-			this.flowLayoutPanel1.TabIndex = 0;
-			// 
-			// panel26
-			// 
-			this.panel26.Controls.Add(this.label37);
-			this.panel26.Controls.Add(this.label36);
-			this.panel26.Controls.Add(this.label8);
-			this.panel26.Location = new System.Drawing.Point(3, 3);
-			this.panel26.Name = "panel26";
-			this.panel26.Size = new System.Drawing.Size(150, 127);
-			this.panel26.TabIndex = 0;
-			// 
-			// label37
-			// 
-			this.label37.AutoSize = true;
-			this.label37.Location = new System.Drawing.Point(17, 93);
-			this.label37.Name = "label37";
-			this.label37.Size = new System.Drawing.Size(119, 12);
-			this.label37.TabIndex = 0;
-			this.label37.Text = "叠加后间隔时间(ms):";
-			// 
-			// label36
-			// 
-			this.label36.AutoSize = true;
-			this.label36.Location = new System.Drawing.Point(26, 48);
-			this.label36.Name = "label36";
-			this.label36.Size = new System.Drawing.Size(101, 12);
-			this.label36.TabIndex = 0;
-			this.label36.Text = "场景音频步时间：";
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(14, 19);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(125, 12);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "点击编辑音频步数链表";
-			// 
-			// panel25
-			// 
-			this.panel25.Controls.Add(this.label10);
-			this.panel25.Controls.Add(this.label11);
-			this.panel25.Controls.Add(this.label12);
-			this.panel25.Location = new System.Drawing.Point(3, 136);
-			this.panel25.Name = "panel25";
-			this.panel25.Size = new System.Drawing.Size(150, 127);
-			this.panel25.TabIndex = 1;
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(17, 92);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(119, 12);
-			this.label10.TabIndex = 0;
-			this.label10.Text = "叠加后间隔时间(ms):";
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(26, 48);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(101, 12);
-			this.label11.TabIndex = 0;
-			this.label11.Text = "场景音频步时间：";
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(14, 19);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(125, 12);
-			this.label12.TabIndex = 0;
-			this.label12.Text = "点击编辑音频步数链表";
-			// 
-			// flowLayoutPanel2
-			// 
-			this.flowLayoutPanel2.Controls.Add(this.panel2);
-			this.flowLayoutPanel2.Controls.Add(this.panel3);
-			this.flowLayoutPanel2.Controls.Add(this.panel7);
-			this.flowLayoutPanel2.Controls.Add(this.panel9);
-			this.flowLayoutPanel2.Controls.Add(this.panel8);
-			this.flowLayoutPanel2.Controls.Add(this.panel4);
-			this.flowLayoutPanel2.Controls.Add(this.panel1);
-			this.flowLayoutPanel2.Controls.Add(this.panel14);
-			this.flowLayoutPanel2.Controls.Add(this.panel13);
-			this.flowLayoutPanel2.Controls.Add(this.panel12);
-			this.flowLayoutPanel2.Controls.Add(this.panel11);
-			this.flowLayoutPanel2.Controls.Add(this.panel10);
-			this.flowLayoutPanel2.Controls.Add(this.panel6);
-			this.flowLayoutPanel2.Controls.Add(this.panel5);
-			this.flowLayoutPanel2.Controls.Add(this.panel21);
-			this.flowLayoutPanel2.Controls.Add(this.panel20);
-			this.flowLayoutPanel2.Controls.Add(this.panel19);
-			this.flowLayoutPanel2.Controls.Add(this.panel18);
-			this.flowLayoutPanel2.Controls.Add(this.panel17);
-			this.flowLayoutPanel2.Controls.Add(this.panel16);
-			this.flowLayoutPanel2.Controls.Add(this.panel15);
-			this.flowLayoutPanel2.Controls.Add(this.panel24);
-			this.flowLayoutPanel2.Controls.Add(this.panel23);
-			this.flowLayoutPanel2.Controls.Add(this.panel22);
-			this.flowLayoutPanel2.Controls.Add(this.mFrameLKPanel);
-			this.flowLayoutPanel2.Controls.Add(this.mFrameSaveAllSkinButton);
-			this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel2.Location = new System.Drawing.Point(163, 3);
-			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(1008, 266);
-			this.flowLayoutPanel2.TabIndex = 0;
-			// 
-			// panel2
-			// 
-			this.panel2.Controls.Add(this.frameSTLabel1);
-			this.panel2.Controls.Add(this.jgtNumericUpDown1);
-			this.panel2.Controls.Add(this.frameStepTimeNumericUpDown1);
-			this.panel2.Controls.Add(this.mSkinButton1);
-			this.panel2.Location = new System.Drawing.Point(3, 3);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(61, 127);
-			this.panel2.TabIndex = 2;
-			// 
-			// frameSTLabel1
-			// 
-			this.frameSTLabel1.AutoSize = true;
-			this.frameSTLabel1.Location = new System.Drawing.Point(7, 69);
-			this.frameSTLabel1.Name = "frameSTLabel1";
-			this.frameSTLabel1.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel1.TabIndex = 2;
-			this.frameSTLabel1.Text = "label13";
-			// 
-			// jgtNumericUpDown1
-			// 
-			this.jgtNumericUpDown1.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown1.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown1.Name = "jgtNumericUpDown1";
-			this.jgtNumericUpDown1.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown1.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown1
-			// 
-			this.frameStepTimeNumericUpDown1.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown1.Name = "frameStepTimeNumericUpDown1";
-			this.frameStepTimeNumericUpDown1.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown1.TabIndex = 1;
-			// 
-			// mSkinButton1
-			// 
-			this.mSkinButton1.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton1.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton1.DownBack = null;
-			this.mSkinButton1.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton1.MouseBack = null;
-			this.mSkinButton1.Name = "mSkinButton1";
-			this.mSkinButton1.NormlBack = null;
-			this.mSkinButton1.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton1.TabIndex = 0;
-			this.mSkinButton1.Text = "标准";
-			this.mSkinButton1.UseVisualStyleBackColor = false;
-			// 
-			// panel3
-			// 
-			this.panel3.Controls.Add(this.frameSTLabel2);
-			this.panel3.Controls.Add(this.jgtNumericUpDown2);
-			this.panel3.Controls.Add(this.frameStepTimeNumericUpDown2);
-			this.panel3.Controls.Add(this.mSkinButton2);
-			this.panel3.Location = new System.Drawing.Point(70, 3);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(61, 127);
-			this.panel3.TabIndex = 3;
-			// 
-			// frameSTLabel2
-			// 
-			this.frameSTLabel2.AutoSize = true;
-			this.frameSTLabel2.Location = new System.Drawing.Point(5, 69);
-			this.frameSTLabel2.Name = "frameSTLabel2";
-			this.frameSTLabel2.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel2.TabIndex = 2;
-			this.frameSTLabel2.Text = "label13";
-			// 
-			// jgtNumericUpDown2
-			// 
-			this.jgtNumericUpDown2.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown2.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown2.Name = "jgtNumericUpDown2";
-			this.jgtNumericUpDown2.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown2.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown2
-			// 
-			this.frameStepTimeNumericUpDown2.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown2.Name = "frameStepTimeNumericUpDown2";
-			this.frameStepTimeNumericUpDown2.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown2.TabIndex = 1;
-			// 
-			// mSkinButton2
-			// 
-			this.mSkinButton2.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton2.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton2.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton2.DownBack = null;
-			this.mSkinButton2.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton2.MouseBack = null;
-			this.mSkinButton2.Name = "mSkinButton2";
-			this.mSkinButton2.NormlBack = null;
-			this.mSkinButton2.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton2.TabIndex = 0;
-			this.mSkinButton2.Text = "动感";
-			this.mSkinButton2.UseVisualStyleBackColor = false;
-			// 
-			// panel7
-			// 
-			this.panel7.Controls.Add(this.frameSTLabel3);
-			this.panel7.Controls.Add(this.jgtNumericUpDown3);
-			this.panel7.Controls.Add(this.frameStepTimeNumericUpDown3);
-			this.panel7.Controls.Add(this.mSkinButton3);
-			this.panel7.Location = new System.Drawing.Point(137, 3);
-			this.panel7.Name = "panel7";
-			this.panel7.Size = new System.Drawing.Size(61, 127);
-			this.panel7.TabIndex = 3;
-			// 
-			// frameSTLabel3
-			// 
-			this.frameSTLabel3.AutoSize = true;
-			this.frameSTLabel3.Location = new System.Drawing.Point(5, 69);
-			this.frameSTLabel3.Name = "frameSTLabel3";
-			this.frameSTLabel3.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel3.TabIndex = 2;
-			this.frameSTLabel3.Text = "label13";
-			// 
-			// jgtNumericUpDown3
-			// 
-			this.jgtNumericUpDown3.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown3.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown3.Name = "jgtNumericUpDown3";
-			this.jgtNumericUpDown3.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown3.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown3
-			// 
-			this.frameStepTimeNumericUpDown3.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown3.Name = "frameStepTimeNumericUpDown3";
-			this.frameStepTimeNumericUpDown3.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown3.TabIndex = 1;
-			// 
-			// mSkinButton3
-			// 
-			this.mSkinButton3.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton3.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton3.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton3.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton3.DownBack = null;
-			this.mSkinButton3.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton3.MouseBack = null;
-			this.mSkinButton3.Name = "mSkinButton3";
-			this.mSkinButton3.NormlBack = null;
-			this.mSkinButton3.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton3.TabIndex = 0;
-			this.mSkinButton3.Text = "商务";
-			this.mSkinButton3.UseVisualStyleBackColor = false;
-			// 
-			// panel9
-			// 
-			this.panel9.Controls.Add(this.frameSTLabel4);
-			this.panel9.Controls.Add(this.jgtNumericUpDown4);
-			this.panel9.Controls.Add(this.frameStepTimeNumericUpDown4);
-			this.panel9.Controls.Add(this.mSkinButton4);
-			this.panel9.Location = new System.Drawing.Point(204, 3);
-			this.panel9.Name = "panel9";
-			this.panel9.Size = new System.Drawing.Size(61, 127);
-			this.panel9.TabIndex = 3;
-			// 
-			// frameSTLabel4
-			// 
-			this.frameSTLabel4.AutoSize = true;
-			this.frameSTLabel4.Location = new System.Drawing.Point(4, 69);
-			this.frameSTLabel4.Name = "frameSTLabel4";
-			this.frameSTLabel4.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel4.TabIndex = 2;
-			this.frameSTLabel4.Text = "label13";
-			// 
-			// jgtNumericUpDown4
-			// 
-			this.jgtNumericUpDown4.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown4.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown4.Name = "jgtNumericUpDown4";
-			this.jgtNumericUpDown4.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown4.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown4
-			// 
-			this.frameStepTimeNumericUpDown4.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown4.Name = "frameStepTimeNumericUpDown4";
-			this.frameStepTimeNumericUpDown4.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown4.TabIndex = 1;
-			// 
-			// mSkinButton4
-			// 
-			this.mSkinButton4.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton4.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton4.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton4.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton4.DownBack = null;
-			this.mSkinButton4.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton4.MouseBack = null;
-			this.mSkinButton4.Name = "mSkinButton4";
-			this.mSkinButton4.NormlBack = null;
-			this.mSkinButton4.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton4.TabIndex = 0;
-			this.mSkinButton4.Text = "抒情";
-			this.mSkinButton4.UseVisualStyleBackColor = false;
-			// 
-			// panel8
-			// 
-			this.panel8.Controls.Add(this.frameSTLabel5);
-			this.panel8.Controls.Add(this.jgtNumericUpDown5);
-			this.panel8.Controls.Add(this.frameStepTimeNumericUpDown5);
-			this.panel8.Controls.Add(this.mSkinButton5);
-			this.panel8.Location = new System.Drawing.Point(271, 3);
-			this.panel8.Name = "panel8";
-			this.panel8.Size = new System.Drawing.Size(61, 127);
-			this.panel8.TabIndex = 3;
-			// 
-			// frameSTLabel5
-			// 
-			this.frameSTLabel5.AutoSize = true;
-			this.frameSTLabel5.Location = new System.Drawing.Point(7, 69);
-			this.frameSTLabel5.Name = "frameSTLabel5";
-			this.frameSTLabel5.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel5.TabIndex = 2;
-			this.frameSTLabel5.Text = "label13";
-			// 
-			// jgtNumericUpDown5
-			// 
-			this.jgtNumericUpDown5.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown5.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown5.Name = "jgtNumericUpDown5";
-			this.jgtNumericUpDown5.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown5.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown5
-			// 
-			this.frameStepTimeNumericUpDown5.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown5.Name = "frameStepTimeNumericUpDown5";
-			this.frameStepTimeNumericUpDown5.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown5.TabIndex = 1;
-			// 
-			// mSkinButton5
-			// 
-			this.mSkinButton5.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton5.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton5.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton5.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton5.DownBack = null;
-			this.mSkinButton5.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton5.MouseBack = null;
-			this.mSkinButton5.Name = "mSkinButton5";
-			this.mSkinButton5.NormlBack = null;
-			this.mSkinButton5.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton5.TabIndex = 0;
-			this.mSkinButton5.Text = "清洁";
-			this.mSkinButton5.UseVisualStyleBackColor = false;
-			// 
-			// panel4
-			// 
-			this.panel4.Controls.Add(this.frameSTLabel6);
-			this.panel4.Controls.Add(this.jgtNumericUpDown6);
-			this.panel4.Controls.Add(this.frameStepTimeNumericUpDown6);
-			this.panel4.Controls.Add(this.mSkinButton6);
-			this.panel4.Location = new System.Drawing.Point(338, 3);
-			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(61, 127);
-			this.panel4.TabIndex = 3;
-			// 
-			// frameSTLabel6
-			// 
-			this.frameSTLabel6.AutoSize = true;
-			this.frameSTLabel6.Location = new System.Drawing.Point(7, 69);
-			this.frameSTLabel6.Name = "frameSTLabel6";
-			this.frameSTLabel6.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel6.TabIndex = 2;
-			this.frameSTLabel6.Text = "label13";
-			// 
-			// jgtNumericUpDown6
-			// 
-			this.jgtNumericUpDown6.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown6.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown6.Name = "jgtNumericUpDown6";
-			this.jgtNumericUpDown6.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown6.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown6
-			// 
-			this.frameStepTimeNumericUpDown6.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown6.Name = "frameStepTimeNumericUpDown6";
-			this.frameStepTimeNumericUpDown6.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown6.TabIndex = 1;
-			// 
-			// mSkinButton6
-			// 
-			this.mSkinButton6.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton6.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton6.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton6.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton6.DownBack = null;
-			this.mSkinButton6.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton6.MouseBack = null;
-			this.mSkinButton6.Name = "mSkinButton6";
-			this.mSkinButton6.NormlBack = null;
-			this.mSkinButton6.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton6.TabIndex = 0;
-			this.mSkinButton6.Text = "柔和";
-			this.mSkinButton6.UseVisualStyleBackColor = false;
-			// 
-			// panel14
-			// 
-			this.panel14.Controls.Add(this.frameSTLabel8);
-			this.panel14.Controls.Add(this.jgtNumericUpDown8);
-			this.panel14.Controls.Add(this.frameStepTimeNumericUpDown8);
-			this.panel14.Controls.Add(this.mSkinButton8);
-			this.panel14.Location = new System.Drawing.Point(472, 3);
-			this.panel14.Name = "panel14";
-			this.panel14.Size = new System.Drawing.Size(61, 127);
-			this.panel14.TabIndex = 2;
-			// 
-			// frameSTLabel8
-			// 
-			this.frameSTLabel8.AutoSize = true;
-			this.frameSTLabel8.Location = new System.Drawing.Point(6, 69);
-			this.frameSTLabel8.Name = "frameSTLabel8";
-			this.frameSTLabel8.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel8.TabIndex = 2;
-			this.frameSTLabel8.Text = "label13";
-			// 
-			// jgtNumericUpDown8
-			// 
-			this.jgtNumericUpDown8.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown8.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown8.Name = "jgtNumericUpDown8";
-			this.jgtNumericUpDown8.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown8.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown8
-			// 
-			this.frameStepTimeNumericUpDown8.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown8.Name = "frameStepTimeNumericUpDown8";
-			this.frameStepTimeNumericUpDown8.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown8.TabIndex = 1;
-			// 
-			// mSkinButton8
-			// 
-			this.mSkinButton8.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton8.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton8.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton8.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton8.DownBack = null;
-			this.mSkinButton8.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton8.MouseBack = null;
-			this.mSkinButton8.Name = "mSkinButton8";
-			this.mSkinButton8.NormlBack = null;
-			this.mSkinButton8.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton8.TabIndex = 0;
-			this.mSkinButton8.Text = "明亮";
-			this.mSkinButton8.UseVisualStyleBackColor = false;
-			// 
-			// panel13
-			// 
-			this.panel13.Controls.Add(this.frameSTLabel9);
-			this.panel13.Controls.Add(this.jgtNumericUpDown9);
-			this.panel13.Controls.Add(this.frameStepTimeNumericUpDown9);
-			this.panel13.Controls.Add(this.mSkinButton9);
-			this.panel13.Location = new System.Drawing.Point(539, 3);
-			this.panel13.Name = "panel13";
-			this.panel13.Size = new System.Drawing.Size(61, 127);
-			this.panel13.TabIndex = 3;
-			// 
-			// frameSTLabel9
-			// 
-			this.frameSTLabel9.AutoSize = true;
-			this.frameSTLabel9.Location = new System.Drawing.Point(5, 69);
-			this.frameSTLabel9.Name = "frameSTLabel9";
-			this.frameSTLabel9.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel9.TabIndex = 2;
-			this.frameSTLabel9.Text = "label13";
-			// 
-			// jgtNumericUpDown9
-			// 
-			this.jgtNumericUpDown9.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown9.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown9.Name = "jgtNumericUpDown9";
-			this.jgtNumericUpDown9.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown9.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown9
-			// 
-			this.frameStepTimeNumericUpDown9.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown9.Name = "frameStepTimeNumericUpDown9";
-			this.frameStepTimeNumericUpDown9.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown9.TabIndex = 1;
-			// 
-			// mSkinButton9
-			// 
-			this.mSkinButton9.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton9.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton9.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton9.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton9.DownBack = null;
-			this.mSkinButton9.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton9.MouseBack = null;
-			this.mSkinButton9.Name = "mSkinButton9";
-			this.mSkinButton9.NormlBack = null;
-			this.mSkinButton9.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton9.TabIndex = 0;
-			this.mSkinButton9.Text = "浪漫";
-			this.mSkinButton9.UseVisualStyleBackColor = false;
-			// 
-			// panel12
-			// 
-			this.panel12.Controls.Add(this.frameSTLabel10);
-			this.panel12.Controls.Add(this.jgtNumericUpDown10);
-			this.panel12.Controls.Add(this.frameStepTimeNumericUpDown10);
-			this.panel12.Controls.Add(this.mSkinButton10);
-			this.panel12.Location = new System.Drawing.Point(606, 3);
-			this.panel12.Name = "panel12";
-			this.panel12.Size = new System.Drawing.Size(61, 127);
-			this.panel12.TabIndex = 3;
-			// 
-			// frameSTLabel10
-			// 
-			this.frameSTLabel10.AutoSize = true;
-			this.frameSTLabel10.Location = new System.Drawing.Point(7, 69);
-			this.frameSTLabel10.Name = "frameSTLabel10";
-			this.frameSTLabel10.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel10.TabIndex = 2;
-			this.frameSTLabel10.Text = "label13";
-			// 
-			// jgtNumericUpDown10
-			// 
-			this.jgtNumericUpDown10.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown10.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown10.Name = "jgtNumericUpDown10";
-			this.jgtNumericUpDown10.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown10.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown10
-			// 
-			this.frameStepTimeNumericUpDown10.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown10.Name = "frameStepTimeNumericUpDown10";
-			this.frameStepTimeNumericUpDown10.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown10.TabIndex = 1;
-			// 
-			// mSkinButton10
-			// 
-			this.mSkinButton10.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton10.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton10.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton10.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton10.DownBack = null;
-			this.mSkinButton10.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton10.MouseBack = null;
-			this.mSkinButton10.Name = "mSkinButton10";
-			this.mSkinButton10.NormlBack = null;
-			this.mSkinButton10.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton10.TabIndex = 0;
-			this.mSkinButton10.Text = "演出";
-			this.mSkinButton10.UseVisualStyleBackColor = false;
-			// 
-			// panel11
-			// 
-			this.panel11.Controls.Add(this.frameSTLabel11);
-			this.panel11.Controls.Add(this.jgtNumericUpDown11);
-			this.panel11.Controls.Add(this.frameStepTimeNumericUpDown11);
-			this.panel11.Controls.Add(this.mSkinButton11);
-			this.panel11.Location = new System.Drawing.Point(673, 3);
-			this.panel11.Name = "panel11";
-			this.panel11.Size = new System.Drawing.Size(61, 127);
-			this.panel11.TabIndex = 3;
-			// 
-			// frameSTLabel11
-			// 
-			this.frameSTLabel11.AutoSize = true;
-			this.frameSTLabel11.Location = new System.Drawing.Point(4, 69);
-			this.frameSTLabel11.Name = "frameSTLabel11";
-			this.frameSTLabel11.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel11.TabIndex = 2;
-			this.frameSTLabel11.Text = "label13";
-			// 
-			// jgtNumericUpDown11
-			// 
-			this.jgtNumericUpDown11.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown11.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown11.Name = "jgtNumericUpDown11";
-			this.jgtNumericUpDown11.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown11.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown11
-			// 
-			this.frameStepTimeNumericUpDown11.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown11.Name = "frameStepTimeNumericUpDown11";
-			this.frameStepTimeNumericUpDown11.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown11.TabIndex = 1;
-			// 
-			// mSkinButton11
-			// 
-			this.mSkinButton11.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton11.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton11.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton11.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton11.DownBack = null;
-			this.mSkinButton11.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton11.MouseBack = null;
-			this.mSkinButton11.Name = "mSkinButton11";
-			this.mSkinButton11.NormlBack = null;
-			this.mSkinButton11.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton11.TabIndex = 0;
-			this.mSkinButton11.Text = "电影";
-			this.mSkinButton11.UseVisualStyleBackColor = false;
-			// 
-			// panel10
-			// 
-			this.panel10.Controls.Add(this.frameSTLabel12);
-			this.panel10.Controls.Add(this.jgtNumericUpDown12);
-			this.panel10.Controls.Add(this.frameStepTimeNumericUpDown12);
-			this.panel10.Controls.Add(this.mSkinButton12);
-			this.panel10.Location = new System.Drawing.Point(740, 3);
-			this.panel10.Name = "panel10";
-			this.panel10.Size = new System.Drawing.Size(61, 127);
-			this.panel10.TabIndex = 3;
-			// 
-			// frameSTLabel12
-			// 
-			this.frameSTLabel12.AutoSize = true;
-			this.frameSTLabel12.Location = new System.Drawing.Point(7, 69);
-			this.frameSTLabel12.Name = "frameSTLabel12";
-			this.frameSTLabel12.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel12.TabIndex = 2;
-			this.frameSTLabel12.Text = "label13";
-			// 
-			// jgtNumericUpDown12
-			// 
-			this.jgtNumericUpDown12.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown12.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown12.Name = "jgtNumericUpDown12";
-			this.jgtNumericUpDown12.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown12.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown12
-			// 
-			this.frameStepTimeNumericUpDown12.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown12.Name = "frameStepTimeNumericUpDown12";
-			this.frameStepTimeNumericUpDown12.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown12.TabIndex = 1;
-			// 
-			// mSkinButton12
-			// 
-			this.mSkinButton12.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton12.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton12.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton12.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton12.DownBack = null;
-			this.mSkinButton12.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton12.MouseBack = null;
-			this.mSkinButton12.Name = "mSkinButton12";
-			this.mSkinButton12.NormlBack = null;
-			this.mSkinButton12.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton12.TabIndex = 0;
-			this.mSkinButton12.Text = "备用1";
-			this.mSkinButton12.UseVisualStyleBackColor = false;
-			// 
-			// panel6
-			// 
-			this.panel6.Controls.Add(this.frameSTLabel13);
-			this.panel6.Controls.Add(this.jgtNumericUpDown13);
-			this.panel6.Controls.Add(this.frameStepTimeNumericUpDown13);
-			this.panel6.Controls.Add(this.mSkinButton13);
-			this.panel6.Location = new System.Drawing.Point(807, 3);
-			this.panel6.Name = "panel6";
-			this.panel6.Size = new System.Drawing.Size(61, 127);
-			this.panel6.TabIndex = 3;
-			// 
-			// frameSTLabel13
-			// 
-			this.frameSTLabel13.AutoSize = true;
-			this.frameSTLabel13.Location = new System.Drawing.Point(4, 69);
-			this.frameSTLabel13.Name = "frameSTLabel13";
-			this.frameSTLabel13.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel13.TabIndex = 2;
-			this.frameSTLabel13.Text = "label13";
-			// 
-			// jgtNumericUpDown13
-			// 
-			this.jgtNumericUpDown13.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown13.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown13.Name = "jgtNumericUpDown13";
-			this.jgtNumericUpDown13.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown13.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown13
-			// 
-			this.frameStepTimeNumericUpDown13.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown13.Name = "frameStepTimeNumericUpDown13";
-			this.frameStepTimeNumericUpDown13.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown13.TabIndex = 1;
-			// 
-			// mSkinButton13
-			// 
-			this.mSkinButton13.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton13.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton13.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton13.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton13.DownBack = null;
-			this.mSkinButton13.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton13.MouseBack = null;
-			this.mSkinButton13.Name = "mSkinButton13";
-			this.mSkinButton13.NormlBack = null;
-			this.mSkinButton13.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton13.TabIndex = 0;
-			this.mSkinButton13.Text = "备用2";
-			this.mSkinButton13.UseVisualStyleBackColor = false;
-			// 
-			// panel5
-			// 
-			this.panel5.Controls.Add(this.frameSTLabel14);
-			this.panel5.Controls.Add(this.jgtNumericUpDown14);
-			this.panel5.Controls.Add(this.frameStepTimeNumericUpDown14);
-			this.panel5.Controls.Add(this.mSkinButton14);
-			this.panel5.Location = new System.Drawing.Point(874, 3);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(61, 127);
-			this.panel5.TabIndex = 2;
-			// 
-			// frameSTLabel14
-			// 
-			this.frameSTLabel14.AutoSize = true;
-			this.frameSTLabel14.Location = new System.Drawing.Point(7, 69);
-			this.frameSTLabel14.Name = "frameSTLabel14";
-			this.frameSTLabel14.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel14.TabIndex = 2;
-			this.frameSTLabel14.Text = "label13";
-			// 
-			// jgtNumericUpDown14
-			// 
-			this.jgtNumericUpDown14.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown14.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown14.Name = "jgtNumericUpDown14";
-			this.jgtNumericUpDown14.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown14.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown14
-			// 
-			this.frameStepTimeNumericUpDown14.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown14.Name = "frameStepTimeNumericUpDown14";
-			this.frameStepTimeNumericUpDown14.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown14.TabIndex = 1;
-			// 
-			// mSkinButton14
-			// 
-			this.mSkinButton14.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton14.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton14.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton14.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton14.DownBack = null;
-			this.mSkinButton14.Location = new System.Drawing.Point(4, 11);
-			this.mSkinButton14.MouseBack = null;
-			this.mSkinButton14.Name = "mSkinButton14";
-			this.mSkinButton14.NormlBack = null;
-			this.mSkinButton14.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton14.TabIndex = 0;
-			this.mSkinButton14.Text = "备用3";
-			this.mSkinButton14.UseVisualStyleBackColor = false;
-			// 
-			// panel21
-			// 
-			this.panel21.Controls.Add(this.frameSTLabel15);
-			this.panel21.Controls.Add(this.jgtNumericUpDown15);
-			this.panel21.Controls.Add(this.frameStepTimeNumericUpDown15);
-			this.panel21.Controls.Add(this.mSkinButton15);
-			this.panel21.Location = new System.Drawing.Point(941, 3);
-			this.panel21.Name = "panel21";
-			this.panel21.Size = new System.Drawing.Size(61, 127);
-			this.panel21.TabIndex = 2;
-			// 
-			// frameSTLabel15
-			// 
-			this.frameSTLabel15.AutoSize = true;
-			this.frameSTLabel15.Location = new System.Drawing.Point(7, 69);
-			this.frameSTLabel15.Name = "frameSTLabel15";
-			this.frameSTLabel15.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel15.TabIndex = 2;
-			this.frameSTLabel15.Text = "label13";
-			// 
-			// jgtNumericUpDown15
-			// 
-			this.jgtNumericUpDown15.Location = new System.Drawing.Point(4, 89);
-			this.jgtNumericUpDown15.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown15.Name = "jgtNumericUpDown15";
-			this.jgtNumericUpDown15.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown15.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown15
-			// 
-			this.frameStepTimeNumericUpDown15.Location = new System.Drawing.Point(6, 44);
-			this.frameStepTimeNumericUpDown15.Name = "frameStepTimeNumericUpDown15";
-			this.frameStepTimeNumericUpDown15.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown15.TabIndex = 1;
-			// 
-			// mSkinButton15
-			// 
-			this.mSkinButton15.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton15.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton15.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton15.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton15.DownBack = null;
-			this.mSkinButton15.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton15.MouseBack = null;
-			this.mSkinButton15.Name = "mSkinButton15";
-			this.mSkinButton15.NormlBack = null;
-			this.mSkinButton15.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton15.TabIndex = 0;
-			this.mSkinButton15.Text = "备用4";
-			this.mSkinButton15.UseVisualStyleBackColor = false;
-			// 
-			// panel20
-			// 
-			this.panel20.Controls.Add(this.frameSTLabel16);
-			this.panel20.Controls.Add(this.jgtNumericUpDown16);
-			this.panel20.Controls.Add(this.frameStepTimeNumericUpDown16);
-			this.panel20.Controls.Add(this.mSkinButton16);
-			this.panel20.Location = new System.Drawing.Point(3, 136);
-			this.panel20.Name = "panel20";
-			this.panel20.Size = new System.Drawing.Size(61, 127);
-			this.panel20.TabIndex = 3;
-			// 
-			// frameSTLabel16
-			// 
-			this.frameSTLabel16.AutoSize = true;
-			this.frameSTLabel16.Location = new System.Drawing.Point(4, 68);
-			this.frameSTLabel16.Name = "frameSTLabel16";
-			this.frameSTLabel16.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel16.TabIndex = 2;
-			this.frameSTLabel16.Text = "label13";
-			// 
-			// jgtNumericUpDown16
-			// 
-			this.jgtNumericUpDown16.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown16.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown16.Name = "jgtNumericUpDown16";
-			this.jgtNumericUpDown16.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown16.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown16
-			// 
-			this.frameStepTimeNumericUpDown16.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown16.Name = "frameStepTimeNumericUpDown16";
-			this.frameStepTimeNumericUpDown16.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown16.TabIndex = 1;
-			// 
-			// mSkinButton16
-			// 
-			this.mSkinButton16.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton16.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton16.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton16.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton16.DownBack = null;
-			this.mSkinButton16.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton16.MouseBack = null;
-			this.mSkinButton16.Name = "mSkinButton16";
-			this.mSkinButton16.NormlBack = null;
-			this.mSkinButton16.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton16.TabIndex = 0;
-			this.mSkinButton16.Text = "备用5";
-			this.mSkinButton16.UseVisualStyleBackColor = false;
-			// 
-			// panel19
-			// 
-			this.panel19.Controls.Add(this.frameSTLabel17);
-			this.panel19.Controls.Add(this.jgtNumericUpDown17);
-			this.panel19.Controls.Add(this.frameStepTimeNumericUpDown17);
-			this.panel19.Controls.Add(this.mSkinButton17);
-			this.panel19.Location = new System.Drawing.Point(70, 136);
-			this.panel19.Name = "panel19";
-			this.panel19.Size = new System.Drawing.Size(61, 127);
-			this.panel19.TabIndex = 3;
-			// 
-			// frameSTLabel17
-			// 
-			this.frameSTLabel17.AutoSize = true;
-			this.frameSTLabel17.Location = new System.Drawing.Point(4, 68);
-			this.frameSTLabel17.Name = "frameSTLabel17";
-			this.frameSTLabel17.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel17.TabIndex = 2;
-			this.frameSTLabel17.Text = "label13";
-			// 
-			// jgtNumericUpDown17
-			// 
-			this.jgtNumericUpDown17.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown17.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown17.Name = "jgtNumericUpDown17";
-			this.jgtNumericUpDown17.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown17.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown17
-			// 
-			this.frameStepTimeNumericUpDown17.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown17.Name = "frameStepTimeNumericUpDown17";
-			this.frameStepTimeNumericUpDown17.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown17.TabIndex = 1;
-			// 
-			// mSkinButton17
-			// 
-			this.mSkinButton17.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton17.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton17.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton17.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton17.DownBack = null;
-			this.mSkinButton17.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton17.MouseBack = null;
-			this.mSkinButton17.Name = "mSkinButton17";
-			this.mSkinButton17.NormlBack = null;
-			this.mSkinButton17.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton17.TabIndex = 0;
-			this.mSkinButton17.Text = "备用6";
-			this.mSkinButton17.UseVisualStyleBackColor = false;
-			// 
-			// panel18
-			// 
-			this.panel18.Controls.Add(this.frameSTLabel18);
-			this.panel18.Controls.Add(this.jgtNumericUpDown18);
-			this.panel18.Controls.Add(this.frameStepTimeNumericUpDown18);
-			this.panel18.Controls.Add(this.mSkinButton18);
-			this.panel18.Location = new System.Drawing.Point(137, 136);
-			this.panel18.Name = "panel18";
-			this.panel18.Size = new System.Drawing.Size(61, 127);
-			this.panel18.TabIndex = 3;
-			// 
-			// frameSTLabel18
-			// 
-			this.frameSTLabel18.AutoSize = true;
-			this.frameSTLabel18.Location = new System.Drawing.Point(7, 68);
-			this.frameSTLabel18.Name = "frameSTLabel18";
-			this.frameSTLabel18.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel18.TabIndex = 2;
-			this.frameSTLabel18.Text = "label13";
-			// 
-			// jgtNumericUpDown18
-			// 
-			this.jgtNumericUpDown18.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown18.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown18.Name = "jgtNumericUpDown18";
-			this.jgtNumericUpDown18.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown18.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown18
-			// 
-			this.frameStepTimeNumericUpDown18.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown18.Name = "frameStepTimeNumericUpDown18";
-			this.frameStepTimeNumericUpDown18.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown18.TabIndex = 1;
-			// 
-			// mSkinButton18
-			// 
-			this.mSkinButton18.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton18.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton18.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton18.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton18.DownBack = null;
-			this.mSkinButton18.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton18.MouseBack = null;
-			this.mSkinButton18.Name = "mSkinButton18";
-			this.mSkinButton18.NormlBack = null;
-			this.mSkinButton18.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton18.TabIndex = 0;
-			this.mSkinButton18.Text = "暂停";
-			this.mSkinButton18.UseVisualStyleBackColor = false;
-			// 
-			// panel17
-			// 
-			this.panel17.Controls.Add(this.frameSTLabel19);
-			this.panel17.Controls.Add(this.jgtNumericUpDown19);
-			this.panel17.Controls.Add(this.frameStepTimeNumericUpDown19);
-			this.panel17.Controls.Add(this.mSkinButton19);
-			this.panel17.Location = new System.Drawing.Point(204, 136);
-			this.panel17.Name = "panel17";
-			this.panel17.Size = new System.Drawing.Size(61, 127);
-			this.panel17.TabIndex = 3;
-			// 
-			// frameSTLabel19
-			// 
-			this.frameSTLabel19.AutoSize = true;
-			this.frameSTLabel19.Location = new System.Drawing.Point(8, 68);
-			this.frameSTLabel19.Name = "frameSTLabel19";
-			this.frameSTLabel19.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel19.TabIndex = 2;
-			this.frameSTLabel19.Text = "label13";
-			// 
-			// jgtNumericUpDown19
-			// 
-			this.jgtNumericUpDown19.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown19.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown19.Name = "jgtNumericUpDown19";
-			this.jgtNumericUpDown19.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown19.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown19
-			// 
-			this.frameStepTimeNumericUpDown19.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown19.Name = "frameStepTimeNumericUpDown19";
-			this.frameStepTimeNumericUpDown19.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown19.TabIndex = 1;
-			// 
-			// mSkinButton19
-			// 
-			this.mSkinButton19.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton19.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton19.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton19.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton19.DownBack = null;
-			this.mSkinButton19.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton19.MouseBack = null;
-			this.mSkinButton19.Name = "mSkinButton19";
-			this.mSkinButton19.NormlBack = null;
-			this.mSkinButton19.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton19.TabIndex = 0;
-			this.mSkinButton19.Text = "全开";
-			this.mSkinButton19.UseVisualStyleBackColor = false;
-			// 
-			// panel16
-			// 
-			this.panel16.Controls.Add(this.frameSTLabel20);
-			this.panel16.Controls.Add(this.jgtNumericUpDown20);
-			this.panel16.Controls.Add(this.frameStepTimeNumericUpDown20);
-			this.panel16.Controls.Add(this.mSkinButton20);
-			this.panel16.Location = new System.Drawing.Point(271, 136);
-			this.panel16.Name = "panel16";
-			this.panel16.Size = new System.Drawing.Size(61, 127);
-			this.panel16.TabIndex = 3;
-			// 
-			// frameSTLabel20
-			// 
-			this.frameSTLabel20.AutoSize = true;
-			this.frameSTLabel20.Location = new System.Drawing.Point(7, 68);
-			this.frameSTLabel20.Name = "frameSTLabel20";
-			this.frameSTLabel20.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel20.TabIndex = 2;
-			this.frameSTLabel20.Text = "label13";
-			// 
-			// jgtNumericUpDown20
-			// 
-			this.jgtNumericUpDown20.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown20.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown20.Name = "jgtNumericUpDown20";
-			this.jgtNumericUpDown20.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown20.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown20
-			// 
-			this.frameStepTimeNumericUpDown20.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown20.Name = "frameStepTimeNumericUpDown20";
-			this.frameStepTimeNumericUpDown20.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown20.TabIndex = 1;
-			// 
-			// mSkinButton20
-			// 
-			this.mSkinButton20.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton20.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton20.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton20.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton20.DownBack = null;
-			this.mSkinButton20.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton20.MouseBack = null;
-			this.mSkinButton20.Name = "mSkinButton20";
-			this.mSkinButton20.NormlBack = null;
-			this.mSkinButton20.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton20.TabIndex = 0;
-			this.mSkinButton20.Text = "全关";
-			this.mSkinButton20.UseVisualStyleBackColor = false;
-			// 
-			// panel15
-			// 
-			this.panel15.Controls.Add(this.frameSTLabel21);
-			this.panel15.Controls.Add(this.jgtNumericUpDown21);
-			this.panel15.Controls.Add(this.frameStepTimeNumericUpDown21);
-			this.panel15.Controls.Add(this.mSkinButton21);
-			this.panel15.Location = new System.Drawing.Point(338, 136);
-			this.panel15.Name = "panel15";
-			this.panel15.Size = new System.Drawing.Size(61, 127);
-			this.panel15.TabIndex = 2;
-			// 
-			// frameSTLabel21
-			// 
-			this.frameSTLabel21.AutoSize = true;
-			this.frameSTLabel21.Location = new System.Drawing.Point(8, 68);
-			this.frameSTLabel21.Name = "frameSTLabel21";
-			this.frameSTLabel21.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel21.TabIndex = 2;
-			this.frameSTLabel21.Text = "label13";
-			// 
-			// jgtNumericUpDown21
-			// 
-			this.jgtNumericUpDown21.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown21.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown21.Name = "jgtNumericUpDown21";
-			this.jgtNumericUpDown21.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown21.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown21
-			// 
-			this.frameStepTimeNumericUpDown21.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown21.Name = "frameStepTimeNumericUpDown21";
-			this.frameStepTimeNumericUpDown21.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown21.TabIndex = 1;
-			// 
-			// mSkinButton21
-			// 
-			this.mSkinButton21.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton21.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton21.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton21.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton21.DownBack = null;
-			this.mSkinButton21.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton21.MouseBack = null;
-			this.mSkinButton21.Name = "mSkinButton21";
-			this.mSkinButton21.NormlBack = null;
-			this.mSkinButton21.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton21.TabIndex = 0;
-			this.mSkinButton21.Text = "全开关";
-			this.mSkinButton21.UseVisualStyleBackColor = false;
-			// 
-			// panel24
-			// 
-			this.panel24.Controls.Add(this.frameSTLabel22);
-			this.panel24.Controls.Add(this.jgtNumericUpDown22);
-			this.panel24.Controls.Add(this.frameStepTimeNumericUpDown22);
-			this.panel24.Controls.Add(this.mSkinButton22);
-			this.panel24.Location = new System.Drawing.Point(405, 136);
-			this.panel24.Name = "panel24";
-			this.panel24.Size = new System.Drawing.Size(61, 127);
-			this.panel24.TabIndex = 3;
-			// 
-			// frameSTLabel22
-			// 
-			this.frameSTLabel22.AutoSize = true;
-			this.frameSTLabel22.Location = new System.Drawing.Point(8, 68);
-			this.frameSTLabel22.Name = "frameSTLabel22";
-			this.frameSTLabel22.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel22.TabIndex = 2;
-			this.frameSTLabel22.Text = "label13";
-			// 
-			// jgtNumericUpDown22
-			// 
-			this.jgtNumericUpDown22.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown22.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown22.Name = "jgtNumericUpDown22";
-			this.jgtNumericUpDown22.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown22.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown22
-			// 
-			this.frameStepTimeNumericUpDown22.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown22.Name = "frameStepTimeNumericUpDown22";
-			this.frameStepTimeNumericUpDown22.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown22.TabIndex = 1;
-			// 
-			// mSkinButton22
-			// 
-			this.mSkinButton22.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton22.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton22.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton22.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton22.DownBack = null;
-			this.mSkinButton22.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton22.MouseBack = null;
-			this.mSkinButton22.Name = "mSkinButton22";
-			this.mSkinButton22.NormlBack = null;
-			this.mSkinButton22.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton22.TabIndex = 0;
-			this.mSkinButton22.Text = "摇麦";
-			this.mSkinButton22.UseVisualStyleBackColor = false;
-			// 
-			// panel23
-			// 
-			this.panel23.Controls.Add(this.frameSTLabel23);
-			this.panel23.Controls.Add(this.jgtNumericUpDown23);
-			this.panel23.Controls.Add(this.frameStepTimeNumericUpDown23);
-			this.panel23.Controls.Add(this.mSkinButton23);
-			this.panel23.Location = new System.Drawing.Point(472, 136);
-			this.panel23.Name = "panel23";
-			this.panel23.Size = new System.Drawing.Size(61, 127);
-			this.panel23.TabIndex = 3;
-			// 
-			// frameSTLabel23
-			// 
-			this.frameSTLabel23.AutoSize = true;
-			this.frameSTLabel23.Location = new System.Drawing.Point(7, 68);
-			this.frameSTLabel23.Name = "frameSTLabel23";
-			this.frameSTLabel23.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel23.TabIndex = 2;
-			this.frameSTLabel23.Text = "label13";
-			// 
-			// jgtNumericUpDown23
-			// 
-			this.jgtNumericUpDown23.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown23.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown23.Name = "jgtNumericUpDown23";
-			this.jgtNumericUpDown23.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown23.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown23
-			// 
-			this.frameStepTimeNumericUpDown23.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown23.Name = "frameStepTimeNumericUpDown23";
-			this.frameStepTimeNumericUpDown23.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown23.TabIndex = 1;
-			// 
-			// mSkinButton23
-			// 
-			this.mSkinButton23.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton23.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton23.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton23.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton23.DownBack = null;
-			this.mSkinButton23.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton23.MouseBack = null;
-			this.mSkinButton23.Name = "mSkinButton23";
-			this.mSkinButton23.NormlBack = null;
-			this.mSkinButton23.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton23.TabIndex = 0;
-			this.mSkinButton23.Text = "喝彩";
-			this.mSkinButton23.UseVisualStyleBackColor = false;
-			// 
-			// panel22
-			// 
-			this.panel22.Controls.Add(this.frameSTLabel24);
-			this.panel22.Controls.Add(this.jgtNumericUpDown24);
-			this.panel22.Controls.Add(this.frameStepTimeNumericUpDown24);
-			this.panel22.Controls.Add(this.mSkinButton24);
-			this.panel22.Location = new System.Drawing.Point(539, 136);
-			this.panel22.Name = "panel22";
-			this.panel22.Size = new System.Drawing.Size(61, 127);
-			this.panel22.TabIndex = 2;
-			// 
-			// frameSTLabel24
-			// 
-			this.frameSTLabel24.AutoSize = true;
-			this.frameSTLabel24.Location = new System.Drawing.Point(6, 68);
-			this.frameSTLabel24.Name = "frameSTLabel24";
-			this.frameSTLabel24.Size = new System.Drawing.Size(47, 12);
-			this.frameSTLabel24.TabIndex = 2;
-			this.frameSTLabel24.Text = "label13";
-			// 
-			// jgtNumericUpDown24
-			// 
-			this.jgtNumericUpDown24.Location = new System.Drawing.Point(4, 88);
-			this.jgtNumericUpDown24.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-			this.jgtNumericUpDown24.Name = "jgtNumericUpDown24";
-			this.jgtNumericUpDown24.Size = new System.Drawing.Size(55, 21);
-			this.jgtNumericUpDown24.TabIndex = 1;
-			// 
-			// frameStepTimeNumericUpDown24
-			// 
-			this.frameStepTimeNumericUpDown24.Location = new System.Drawing.Point(7, 44);
-			this.frameStepTimeNumericUpDown24.Name = "frameStepTimeNumericUpDown24";
-			this.frameStepTimeNumericUpDown24.Size = new System.Drawing.Size(48, 21);
-			this.frameStepTimeNumericUpDown24.TabIndex = 1;
-			// 
-			// mSkinButton24
-			// 
-			this.mSkinButton24.BackColor = System.Drawing.Color.Transparent;
-			this.mSkinButton24.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-			this.mSkinButton24.BorderColor = System.Drawing.Color.Transparent;
-			this.mSkinButton24.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mSkinButton24.DownBack = null;
-			this.mSkinButton24.Location = new System.Drawing.Point(6, 11);
-			this.mSkinButton24.MouseBack = null;
-			this.mSkinButton24.Name = "mSkinButton24";
-			this.mSkinButton24.NormlBack = null;
-			this.mSkinButton24.Size = new System.Drawing.Size(50, 25);
-			this.mSkinButton24.TabIndex = 0;
-			this.mSkinButton24.Text = "倒彩";
-			this.mSkinButton24.UseVisualStyleBackColor = false;
+			// groupBox1
+			// 
+			this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.groupBox1.Controls.Add(this.tableLayoutPanel1);
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.groupBox1.Location = new System.Drawing.Point(4, 259);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+			this.groupBox1.Size = new System.Drawing.Size(1382, 296);
+			this.groupBox1.TabIndex = 5;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "声控场景触发步数设置";
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.ColumnCount = 2;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.skFrameFlowLayoutPanel, 1, 0);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 16);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 1;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(1378, 278);
+			this.tableLayoutPanel1.TabIndex = 4;
+			// 
+			// flowLayoutPanel3
+			// 
+			this.flowLayoutPanel3.Controls.Add(this.panel27);
+			this.flowLayoutPanel3.Controls.Add(this.panel28);
+			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(154, 272);
+			this.flowLayoutPanel3.TabIndex = 0;
+			// 
+			// panel27
+			// 
+			this.panel27.Controls.Add(this.label14);
+			this.panel27.Controls.Add(this.label15);
+			this.panel27.Controls.Add(this.label16);
+			this.panel27.Location = new System.Drawing.Point(3, 3);
+			this.panel27.Name = "panel27";
+			this.panel27.Size = new System.Drawing.Size(150, 127);
+			this.panel27.TabIndex = 0;
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(17, 93);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(119, 12);
+			this.label14.TabIndex = 0;
+			this.label14.Text = "叠加后间隔时间(ms):";
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Location = new System.Drawing.Point(26, 48);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(101, 12);
+			this.label15.TabIndex = 0;
+			this.label15.Text = "场景音频步时间：";
+			// 
+			// label16
+			// 
+			this.label16.AutoSize = true;
+			this.label16.Location = new System.Drawing.Point(14, 19);
+			this.label16.Name = "label16";
+			this.label16.Size = new System.Drawing.Size(125, 12);
+			this.label16.TabIndex = 0;
+			this.label16.Text = "点击编辑音频步数链表";
+			// 
+			// panel28
+			// 
+			this.panel28.Controls.Add(this.label17);
+			this.panel28.Controls.Add(this.label18);
+			this.panel28.Controls.Add(this.label19);
+			this.panel28.Location = new System.Drawing.Point(3, 136);
+			this.panel28.Name = "panel28";
+			this.panel28.Size = new System.Drawing.Size(150, 127);
+			this.panel28.TabIndex = 1;
+			// 
+			// label17
+			// 
+			this.label17.AutoSize = true;
+			this.label17.Location = new System.Drawing.Point(17, 92);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(119, 12);
+			this.label17.TabIndex = 0;
+			this.label17.Text = "叠加后间隔时间(ms):";
+			// 
+			// label18
+			// 
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(26, 48);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(101, 12);
+			this.label18.TabIndex = 0;
+			this.label18.Text = "场景音频步时间：";
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.Location = new System.Drawing.Point(14, 19);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(125, 12);
+			this.label19.TabIndex = 0;
+			this.label19.Text = "点击编辑音频步数链表";
+			// 
+			// skFrameFlowLayoutPanel
+			// 
+			this.skFrameFlowLayoutPanel.Controls.Add(this.mFrameLKPanel);
+			this.skFrameFlowLayoutPanel.Controls.Add(this.skFrameSaveSkinButton);
+			this.skFrameFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.skFrameFlowLayoutPanel.Location = new System.Drawing.Point(163, 3);
+			this.skFrameFlowLayoutPanel.Name = "skFrameFlowLayoutPanel";
+			this.skFrameFlowLayoutPanel.Size = new System.Drawing.Size(1212, 272);
+			this.skFrameFlowLayoutPanel.TabIndex = 0;
 			// 
 			// mFrameLKPanel
 			// 
 			this.mFrameLKPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.mFrameLKPanel.Controls.Add(this.mFrameTextBox);
-			this.mFrameLKPanel.Controls.Add(this.mNoticeSkinButton);
-			this.mFrameLKPanel.Controls.Add(this.mFrameLKSaveSkinButton);
-			this.mFrameLKPanel.Controls.Add(this.currentFrameLabel);
+			this.mFrameLKPanel.Controls.Add(this.mNoticeskinButton);
+			this.mFrameLKPanel.Controls.Add(this.mLKSaveSkinButton);
+			this.mFrameLKPanel.Controls.Add(this.mCurrentFrameLabel);
 			this.mFrameLKPanel.Enabled = false;
-			this.mFrameLKPanel.Location = new System.Drawing.Point(606, 136);
+			this.mFrameLKPanel.Location = new System.Drawing.Point(3, 3);
 			this.mFrameLKPanel.Name = "mFrameLKPanel";
-			this.mFrameLKPanel.Size = new System.Drawing.Size(262, 127);
+			this.mFrameLKPanel.Size = new System.Drawing.Size(195, 127);
 			this.mFrameLKPanel.TabIndex = 4;
 			// 
 			// mFrameTextBox
 			// 
-			this.mFrameTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.mFrameTextBox.Location = new System.Drawing.Point(0, 71);
+			this.mFrameTextBox.BackColor = System.Drawing.Color.White;
+			this.mFrameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.mFrameTextBox.Location = new System.Drawing.Point(9, 50);
+			this.mFrameTextBox.MaxLength = 20;
 			this.mFrameTextBox.Multiline = true;
 			this.mFrameTextBox.Name = "mFrameTextBox";
-			this.mFrameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.mFrameTextBox.Size = new System.Drawing.Size(258, 52);
-			this.mFrameTextBox.TabIndex = 2;
-			this.mFrameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameTextBox_KeyPress);
+			this.mFrameTextBox.Size = new System.Drawing.Size(172, 22);
+			this.mFrameTextBox.TabIndex = 9;
 			// 
-			// mNoticeSkinButton
+			// mNoticeskinButton
 			// 
-			this.mNoticeSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.mNoticeSkinButton.BaseColor = System.Drawing.Color.LemonChiffon;
-			this.mNoticeSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.mNoticeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mNoticeSkinButton.DownBack = null;
-			this.mNoticeSkinButton.Location = new System.Drawing.Point(11, 40);
-			this.mNoticeSkinButton.MouseBack = null;
-			this.mNoticeSkinButton.Name = "mNoticeSkinButton";
-			this.mNoticeSkinButton.NormlBack = null;
-			this.mNoticeSkinButton.Size = new System.Drawing.Size(62, 23);
-			this.mNoticeSkinButton.TabIndex = 1;
-			this.mNoticeSkinButton.Text = "提示";
-			this.mNoticeSkinButton.UseVisualStyleBackColor = false;
-			this.mNoticeSkinButton.Click += new System.EventHandler(this.mNoticeSkinButton_Click);
+			this.mNoticeskinButton.BackColor = System.Drawing.Color.Transparent;
+			this.mNoticeskinButton.BaseColor = System.Drawing.Color.LemonChiffon;
+			this.mNoticeskinButton.BorderColor = System.Drawing.Color.Black;
+			this.mNoticeskinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.mNoticeskinButton.DownBack = null;
+			this.mNoticeskinButton.Location = new System.Drawing.Point(13, 86);
+			this.mNoticeskinButton.MouseBack = null;
+			this.mNoticeskinButton.Name = "mNoticeskinButton";
+			this.mNoticeskinButton.NormlBack = null;
+			this.mNoticeskinButton.Size = new System.Drawing.Size(55, 23);
+			this.mNoticeskinButton.TabIndex = 1;
+			this.mNoticeskinButton.Text = "提示";
+			this.mNoticeskinButton.UseVisualStyleBackColor = false;
+			this.mNoticeskinButton.Click += new System.EventHandler(this.mNoticeSkinButton_Click);
 			// 
-			// mFrameLKSaveSkinButton
+			// mLKSaveSkinButton
 			// 
-			this.mFrameLKSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.mFrameLKSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.mFrameLKSaveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.mFrameLKSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mFrameLKSaveSkinButton.DownBack = null;
-			this.mFrameLKSaveSkinButton.Location = new System.Drawing.Point(173, 19);
-			this.mFrameLKSaveSkinButton.MouseBack = null;
-			this.mFrameLKSaveSkinButton.Name = "mFrameLKSaveSkinButton";
-			this.mFrameLKSaveSkinButton.NormlBack = null;
-			this.mFrameLKSaveSkinButton.Size = new System.Drawing.Size(80, 45);
-			this.mFrameLKSaveSkinButton.TabIndex = 1;
-			this.mFrameLKSaveSkinButton.Text = "保存链表";
-			this.mFrameLKSaveSkinButton.UseVisualStyleBackColor = false;
-			this.mFrameLKSaveSkinButton.Click += new System.EventHandler(this.mFrameLKSaveSkinButton_Click);
+			this.mLKSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.mLKSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.mLKSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.mLKSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.mLKSaveSkinButton.DownBack = null;
+			this.mLKSaveSkinButton.Location = new System.Drawing.Point(105, 86);
+			this.mLKSaveSkinButton.MouseBack = null;
+			this.mLKSaveSkinButton.Name = "mLKSaveSkinButton";
+			this.mLKSaveSkinButton.NormlBack = null;
+			this.mLKSaveSkinButton.Size = new System.Drawing.Size(71, 23);
+			this.mLKSaveSkinButton.TabIndex = 1;
+			this.mLKSaveSkinButton.Text = "保存链表";
+			this.mLKSaveSkinButton.UseVisualStyleBackColor = false;
+			this.mLKSaveSkinButton.Click += new System.EventHandler(this.mLKSaveSkinButton_Click);
 			// 
-			// currentFrameLabel
+			// mCurrentFrameLabel
 			// 
-			this.currentFrameLabel.AutoSize = true;
-			this.currentFrameLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.currentFrameLabel.Location = new System.Drawing.Point(8, 19);
-			this.currentFrameLabel.Name = "currentFrameLabel";
-			this.currentFrameLabel.Size = new System.Drawing.Size(77, 14);
-			this.currentFrameLabel.TabIndex = 0;
-			this.currentFrameLabel.Text = "选中场景：";
+			this.mCurrentFrameLabel.AutoSize = true;
+			this.mCurrentFrameLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.mCurrentFrameLabel.Location = new System.Drawing.Point(10, 18);
+			this.mCurrentFrameLabel.Name = "mCurrentFrameLabel";
+			this.mCurrentFrameLabel.Size = new System.Drawing.Size(77, 14);
+			this.mCurrentFrameLabel.TabIndex = 0;
+			this.mCurrentFrameLabel.Text = "选中场景：";
 			// 
-			// mFrameSaveAllSkinButton
+			// skFrameSaveSkinButton
 			// 
-			this.mFrameSaveAllSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.mFrameSaveAllSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.mFrameSaveAllSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.mFrameSaveAllSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mFrameSaveAllSkinButton.DownBack = null;
-			this.mFrameSaveAllSkinButton.Location = new System.Drawing.Point(874, 136);
-			this.mFrameSaveAllSkinButton.MouseBack = null;
-			this.mFrameSaveAllSkinButton.Name = "mFrameSaveAllSkinButton";
-			this.mFrameSaveAllSkinButton.NormlBack = null;
-			this.mFrameSaveAllSkinButton.Size = new System.Drawing.Size(61, 125);
-			this.mFrameSaveAllSkinButton.TabIndex = 1;
-			this.mFrameSaveAllSkinButton.Text = "保存所有步时间和间隔时间设置";
-			this.mFrameSaveAllSkinButton.UseVisualStyleBackColor = false;
-			this.mFrameSaveAllSkinButton.Click += new System.EventHandler(this.mFrameSaveAllSkinButton_Click);
-			// 
-			// skGroupBox
-			// 
-			this.skGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.skGroupBox.Controls.Add(this.tableLayoutPanel2);
-			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.skGroupBox.Location = new System.Drawing.Point(4, 310);
-			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2);
-			this.skGroupBox.Name = "skGroupBox";
-			this.skGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.skGroupBox.Size = new System.Drawing.Size(1178, 290);
-			this.skGroupBox.TabIndex = 2;
-			this.skGroupBox.TabStop = false;
-			this.skGroupBox.Text = "声控场景触发步数设置";
+			this.skFrameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.skFrameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.skFrameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.skFrameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.skFrameSaveSkinButton.DownBack = null;
+			this.skFrameSaveSkinButton.Location = new System.Drawing.Point(204, 3);
+			this.skFrameSaveSkinButton.MouseBack = null;
+			this.skFrameSaveSkinButton.Name = "skFrameSaveSkinButton";
+			this.skFrameSaveSkinButton.NormlBack = null;
+			this.skFrameSaveSkinButton.Size = new System.Drawing.Size(61, 127);
+			this.skFrameSaveSkinButton.TabIndex = 1;
+			this.skFrameSaveSkinButton.Text = "保存所有步时间和间隔时间设置";
+			this.skFrameSaveSkinButton.UseVisualStyleBackColor = false;
+			this.skFrameSaveSkinButton.Click += new System.EventHandler(this.skFrameSaveSkinButton_Click);
 			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.ClientSize = new System.Drawing.Size(1186, 604);
+			this.ClientSize = new System.Drawing.Size(1390, 559);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.qdGroupBox);
 			this.Controls.Add(this.dmxGroupBox);
-			this.Controls.Add(this.skGroupBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.KeyPreview = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -2474,114 +949,18 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown7)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown7)).EndInit();
 			this.qdGroupBox.ResumeLayout(false);
 			this.qdGroupBox.PerformLayout();
-			this.tableLayoutPanel2.ResumeLayout(false);
-			this.flowLayoutPanel1.ResumeLayout(false);
-			this.panel26.ResumeLayout(false);
-			this.panel26.PerformLayout();
-			this.panel25.ResumeLayout(false);
-			this.panel25.PerformLayout();
-			this.flowLayoutPanel2.ResumeLayout(false);
-			this.panel2.ResumeLayout(false);
-			this.panel2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown1)).EndInit();
-			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown2)).EndInit();
-			this.panel7.ResumeLayout(false);
-			this.panel7.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown3)).EndInit();
-			this.panel9.ResumeLayout(false);
-			this.panel9.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown4)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown4)).EndInit();
-			this.panel8.ResumeLayout(false);
-			this.panel8.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown5)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown5)).EndInit();
-			this.panel4.ResumeLayout(false);
-			this.panel4.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown6)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown6)).EndInit();
-			this.panel14.ResumeLayout(false);
-			this.panel14.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown8)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown8)).EndInit();
-			this.panel13.ResumeLayout(false);
-			this.panel13.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown9)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown9)).EndInit();
-			this.panel12.ResumeLayout(false);
-			this.panel12.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown10)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown10)).EndInit();
-			this.panel11.ResumeLayout(false);
-			this.panel11.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown11)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown11)).EndInit();
-			this.panel10.ResumeLayout(false);
-			this.panel10.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown12)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown12)).EndInit();
-			this.panel6.ResumeLayout(false);
-			this.panel6.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown13)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown13)).EndInit();
-			this.panel5.ResumeLayout(false);
-			this.panel5.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown14)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown14)).EndInit();
-			this.panel21.ResumeLayout(false);
-			this.panel21.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown15)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown15)).EndInit();
-			this.panel20.ResumeLayout(false);
-			this.panel20.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown16)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown16)).EndInit();
-			this.panel19.ResumeLayout(false);
-			this.panel19.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown17)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown17)).EndInit();
-			this.panel18.ResumeLayout(false);
-			this.panel18.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown18)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown18)).EndInit();
-			this.panel17.ResumeLayout(false);
-			this.panel17.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown19)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown19)).EndInit();
-			this.panel16.ResumeLayout(false);
-			this.panel16.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown20)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown20)).EndInit();
-			this.panel15.ResumeLayout(false);
-			this.panel15.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown21)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown21)).EndInit();
-			this.panel24.ResumeLayout(false);
-			this.panel24.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown22)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown22)).EndInit();
-			this.panel23.ResumeLayout(false);
-			this.panel23.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown23)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown23)).EndInit();
-			this.panel22.ResumeLayout(false);
-			this.panel22.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown24)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.frameStepTimeNumericUpDown24)).EndInit();
+			this.groupBox1.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel3.ResumeLayout(false);
+			this.panel27.ResumeLayout(false);
+			this.panel27.PerformLayout();
+			this.panel28.ResumeLayout(false);
+			this.panel28.PerformLayout();
+			this.skFrameFlowLayoutPanel.ResumeLayout(false);
 			this.mFrameLKPanel.ResumeLayout(false);
 			this.mFrameLKPanel.PerformLayout();
-			this.skGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -2639,150 +1018,35 @@ private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.ComboBox tongdaoCountComboBox;
 		private CCWin.SkinControl.SkinButton qdSaveSkinButton;
 		private CCWin.SkinControl.SkinButton globalSaveSkinButton;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown7;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown7;
-		private CCWin.SkinControl.SkinButton mSkinButton7;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown1;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown1;
-		private CCWin.SkinControl.SkinButton mSkinButton1;
-		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown2;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown2;
-		private CCWin.SkinControl.SkinButton mSkinButton2;
-		private System.Windows.Forms.Panel panel7;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown3;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown3;
-		private CCWin.SkinControl.SkinButton mSkinButton3;
-		private System.Windows.Forms.Panel panel9;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown4;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown4;
-		private CCWin.SkinControl.SkinButton mSkinButton4;
-		private System.Windows.Forms.Panel panel8;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown5;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown5;
-		private CCWin.SkinControl.SkinButton mSkinButton5;
-		private System.Windows.Forms.Panel panel4;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown6;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown6;
-		private CCWin.SkinControl.SkinButton mSkinButton6;
-		private System.Windows.Forms.Panel panel14;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown8;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown8;
-		private CCWin.SkinControl.SkinButton mSkinButton8;
-		private System.Windows.Forms.Panel panel13;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown9;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown9;
-		private CCWin.SkinControl.SkinButton mSkinButton9;
-		private System.Windows.Forms.Panel panel12;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown10;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown10;
-		private CCWin.SkinControl.SkinButton mSkinButton10;
-		private System.Windows.Forms.Panel panel11;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown11;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown11;
-		private CCWin.SkinControl.SkinButton mSkinButton11;
-		private System.Windows.Forms.Panel panel10;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown12;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown12;
-		private CCWin.SkinControl.SkinButton mSkinButton12;
-		private System.Windows.Forms.Panel panel6;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown13;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown13;
-		private CCWin.SkinControl.SkinButton mSkinButton13;
-		private System.Windows.Forms.Panel panel5;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown14;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown14;
-		private CCWin.SkinControl.SkinButton mSkinButton14;
-		private System.Windows.Forms.Panel panel21;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown15;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown15;
-		private CCWin.SkinControl.SkinButton mSkinButton15;
-		private System.Windows.Forms.Panel panel20;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown16;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown16;
-		private CCWin.SkinControl.SkinButton mSkinButton16;
-		private System.Windows.Forms.Panel panel19;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown17;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown17;
-		private CCWin.SkinControl.SkinButton mSkinButton17;
-		private System.Windows.Forms.Panel panel18;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown18;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown18;
-		private CCWin.SkinControl.SkinButton mSkinButton18;
-		private System.Windows.Forms.Panel panel17;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown19;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown19;
-		private CCWin.SkinControl.SkinButton mSkinButton19;
-		private System.Windows.Forms.Panel panel16;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown20;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown20;
-		private CCWin.SkinControl.SkinButton mSkinButton20;
-		private System.Windows.Forms.Panel panel15;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown21;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown21;
-		private CCWin.SkinControl.SkinButton mSkinButton21;
-		private System.Windows.Forms.Panel panel24;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown22;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown22;
-		private CCWin.SkinControl.SkinButton mSkinButton22;
-		private System.Windows.Forms.Panel panel23;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown23;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown23;
-		private CCWin.SkinControl.SkinButton mSkinButton23;
-		private System.Windows.Forms.Panel panel22;
-		private System.Windows.Forms.NumericUpDown jgtNumericUpDown24;
-		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown24;
-		private CCWin.SkinControl.SkinButton mSkinButton24;
-		private System.Windows.Forms.Panel panel26;
-		private System.Windows.Forms.Label label37;
-		private System.Windows.Forms.Label label36;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Panel mFrameLKPanel;
-		private System.Windows.Forms.Label currentFrameLabel;
-		private CCWin.SkinControl.SkinButton mFrameLKSaveSkinButton;
-		private CCWin.SkinControl.SkinButton mFrameSaveAllSkinButton;
-		private System.Windows.Forms.GroupBox skGroupBox;
 
-		private SkinButton[] mSkinButtons = new SkinButton[24];
-		private NumericUpDown[] frameStepTimeNumericUpDowns = new NumericUpDown[24];
-		private NumericUpDown[] jgtNumericUpDowns = new NumericUpDown[24];
-		private SkinButton mNoticeSkinButton;
+		private SkinButton mFrameSaveSkinButton;
+
+		private Label label13;
+		private GroupBox groupBox1;
+		private TableLayoutPanel tableLayoutPanel1;
+		private FlowLayoutPanel flowLayoutPanel3;
+		private Panel panel27;
+		private Label label14;
+		private Label label15;
+		private Label label16;
+		private Panel panel28;
+		private Label label17;
+		private Label label18;
+		private Label label19;
+		private FlowLayoutPanel skFrameFlowLayoutPanel;
+		private Panel mFrameLKPanel;
+		private SkinButton mNoticeskinButton;
+		private SkinButton mLKSaveSkinButton;
+		private Label mCurrentFrameLabel;
+		private SkinButton skFrameSaveSkinButton;
 		private TextBox mFrameTextBox;
-		private Panel panel25;
-		private Label label10;
-		private Label label11;
-		private Label label12;
-		private SkinButton frameSaveSkinButton;
+				
+		private Panel[] skPanels ;
+		private SkinButton[] skFrameSkinButtons;
+		private NumericUpDown[] skStepTimeNumericUpDowns ;
+		private Label[] skTrueTimeLabels;
+		private NumericUpDown[] skJGTimeNumericUpDowns;
 
-		private Label[] frameSTLabels = new Label[24];
-		private Label frameSTLabel1;
-		private Label frameSTLabel2;
-		private Label frameSTLabel3;
-		private Label frameSTLabel4;
-		private Label frameSTLabel5;
-		private Label frameSTLabel6;
-		private Label frameSTLabel7;
-		private Label frameSTLabel8;
-		private Label frameSTLabel9;
-		private Label frameSTLabel10;
-		private Label frameSTLabel11;
-		private Label frameSTLabel12;
-		private Label frameSTLabel13;
-		private Label frameSTLabel14;
-		private Label frameSTLabel15;
-		private Label frameSTLabel16;
-		private Label frameSTLabel17;
-		private Label frameSTLabel18;
-		private Label frameSTLabel19;
-		private Label frameSTLabel20;
-		private Label frameSTLabel21;
-		private Label frameSTLabel22;
-		private Label frameSTLabel23;
-		private Label frameSTLabel24;
+
 	}
 }

@@ -63,7 +63,7 @@ namespace LightController.MyForm
 		protected string comName; // 存储打开的DMX512串口名称
 
 		// 将所有场景名称写在此处,并供所有类使用
-		public static IList<string> allFrameList ;
+		public static IList<string> AllFrameList ;
 		protected string savePath;
 		protected bool isShowHardwareUpdateButton = false;
 
@@ -540,7 +540,7 @@ namespace LightController.MyForm
 				LightStepWrapper[,] allLightStepWrappers = lightTemp.LightStepWrapperList;
 
 				// 取出灯具的每个常规场景(24种），并将它们保存起来（但若为空，则不保存）
-				for (int frame = 0; frame < 24; frame++)
+				for (int frame = 0; frame < 32; frame++)
 				{
 					for (int mode = 0; mode < 2; mode++)
 					{
@@ -591,7 +591,7 @@ namespace LightController.MyForm
 			{
 				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
 				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
-				for (int frame = 0; frame < 24; frame++)
+				for (int frame = 0; frame < 32; frame++)
 				{
 					for (int mode = 0; mode < 2; mode++)
 					{

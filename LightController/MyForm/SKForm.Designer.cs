@@ -30,10 +30,12 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.panel26 = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
 			this.label37 = new System.Windows.Forms.Label();
 			this.label36 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.trueSTLabel = new System.Windows.Forms.Label();
 			this.frameLabel = new System.Windows.Forms.Label();
 			this.jgtNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.frameStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -41,8 +43,6 @@
 			this.mFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.noticeLabel = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.trueSTLabel = new System.Windows.Forms.Label();
 			this.panel26.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
@@ -59,6 +59,15 @@
 			this.panel26.Name = "panel26";
 			this.panel26.Size = new System.Drawing.Size(138, 132);
 			this.panel26.TabIndex = 5;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(17, 103);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(119, 12);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "叠加后间隔时间(ms):";
 			// 
 			// label37
 			// 
@@ -98,6 +107,14 @@
 			this.panel2.Size = new System.Drawing.Size(73, 132);
 			this.panel2.TabIndex = 3;
 			// 
+			// trueSTLabel
+			// 
+			this.trueSTLabel.AutoSize = true;
+			this.trueSTLabel.Location = new System.Drawing.Point(9, 75);
+			this.trueSTLabel.Name = "trueSTLabel";
+			this.trueSTLabel.Size = new System.Drawing.Size(0, 12);
+			this.trueSTLabel.TabIndex = 3;
+			// 
 			// frameLabel
 			// 
 			this.frameLabel.AutoSize = true;
@@ -125,6 +142,7 @@
 			this.frameStepTimeNumericUpDown.Name = "frameStepTimeNumericUpDown";
 			this.frameStepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
 			this.frameStepTimeNumericUpDown.TabIndex = 1;
+			this.frameStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.frameStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.frameStepTimeNumericUpDown_ValueChanged);
 			// 
 			// mFrameLKTextBox
@@ -183,23 +201,6 @@
 			this.noticeLabel.TabIndex = 10;
 			this.noticeLabel.Text = "提示：请在下面文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式;链表数量不可超" +
     "过20个。";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(17, 103);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(119, 12);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "叠加后间隔时间(ms):";
-			// 
-			// trueSTLabel
-			// 
-			this.trueSTLabel.AutoSize = true;
-			this.trueSTLabel.Location = new System.Drawing.Point(9, 75);
-			this.trueSTLabel.Name = "trueSTLabel";
-			this.trueSTLabel.Size = new System.Drawing.Size(0, 12);
-			this.trueSTLabel.TabIndex = 3;
 			// 
 			// SKForm
 			// 

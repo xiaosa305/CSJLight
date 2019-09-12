@@ -233,7 +233,7 @@ namespace LightController
 			this.changeModeComboBoxes[30] = changeModeComboBox31;
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
 
-			foreach (string frame in allFrameList)
+			foreach (string frame in AllFrameList)
 			{
 				this.frameComboBox.Items.Add(frame);
 			}

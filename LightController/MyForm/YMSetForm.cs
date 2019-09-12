@@ -15,6 +15,7 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private IniFileAst iniFileAst;
+		private int frameCount = 0;
 
 		public YMSetForm(MainFormInterface mainForm,string iniPath)
 		{
@@ -22,95 +23,107 @@ namespace LightController.MyForm
 			iniFileAst = new IniFileAst(iniPath);
 			InitializeComponent();
 
-			#region 初始化几个数组
+			#region 初始化几个数组			
 
-			ymCheckBoxes[0] = checkBox1;
-			ymCheckBoxes[1] = checkBox2;
-			ymCheckBoxes[2] = checkBox3;
-			ymCheckBoxes[3] = checkBox4;
-			ymCheckBoxes[4] = checkBox5;
-			ymCheckBoxes[5] = checkBox6;
-			ymCheckBoxes[6] = checkBox7;
-			ymCheckBoxes[7] = checkBox8;
-			ymCheckBoxes[8] = checkBox9;
-			ymCheckBoxes[9] = checkBox10;
-			ymCheckBoxes[10] = checkBox11;
-			ymCheckBoxes[11] = checkBox12;
-			ymCheckBoxes[12] = checkBox13;
-			ymCheckBoxes[13] = checkBox14;
-			ymCheckBoxes[14] = checkBox15;
-			ymCheckBoxes[15] = checkBox16;
-			ymCheckBoxes[16] = checkBox17;
-			ymCheckBoxes[17] = checkBox18;
-			ymCheckBoxes[18] = checkBox19;
-			ymCheckBoxes[19] = checkBox20;
-			ymCheckBoxes[20] = checkBox21;
-			ymCheckBoxes[21] = checkBox22;
-			ymCheckBoxes[22] = checkBox23;
-			ymCheckBoxes[23] = checkBox24;
+			frameCount = MainFormInterface.AllFrameList.Count;
 
+			framePanels = new Panel[frameCount]; 
+			frameLabels = new Label[frameCount];
+			ymCheckBoxes = new CheckBox[frameCount];
+			zxNumericUpDowns = new NumericUpDown[frameCount];
+			jgNumericUpDowns = new NumericUpDown[frameCount];
 
-			jgNumericUpDowns[0] = jgNumericUpDown1;
-			jgNumericUpDowns[1] = jgNumericUpDown2;
-			jgNumericUpDowns[2] = jgNumericUpDown3;
-			jgNumericUpDowns[3] = jgNumericUpDown4;
-			jgNumericUpDowns[4] = jgNumericUpDown5;
-			jgNumericUpDowns[5] = jgNumericUpDown6;
-			jgNumericUpDowns[6] = jgNumericUpDown7;
-			jgNumericUpDowns[7] = jgNumericUpDown8;
-			jgNumericUpDowns[8] = jgNumericUpDown9;
-			jgNumericUpDowns[9] = jgNumericUpDown10;
-			jgNumericUpDowns[10] = jgNumericUpDown11;
-			jgNumericUpDowns[11] = jgNumericUpDown12;
-			jgNumericUpDowns[12] = jgNumericUpDown13;
-			jgNumericUpDowns[13] = jgNumericUpDown14;
-			jgNumericUpDowns[14] = jgNumericUpDown15;
-			jgNumericUpDowns[15] = jgNumericUpDown16;
-			jgNumericUpDowns[16] = jgNumericUpDown17;
-			jgNumericUpDowns[17] = jgNumericUpDown18;
-			jgNumericUpDowns[18] = jgNumericUpDown19;
-			jgNumericUpDowns[19] = jgNumericUpDown20;
-			jgNumericUpDowns[20] = jgNumericUpDown21;
-			jgNumericUpDowns[21] = jgNumericUpDown22;
-			jgNumericUpDowns[22] = jgNumericUpDown23;
-			jgNumericUpDowns[23] = jgNumericUpDown24;
-
-
-			zxNumericUpDowns[0] = zxNumericUpDown1;
-			zxNumericUpDowns[1] = zxNumericUpDown2;
-			zxNumericUpDowns[2] = zxNumericUpDown3;
-			zxNumericUpDowns[3] = zxNumericUpDown4;
-			zxNumericUpDowns[4] = zxNumericUpDown5;
-			zxNumericUpDowns[5] = zxNumericUpDown6;
-			zxNumericUpDowns[6] = zxNumericUpDown7;
-			zxNumericUpDowns[7] = zxNumericUpDown8;
-			zxNumericUpDowns[8] = zxNumericUpDown9;
-			zxNumericUpDowns[9] = zxNumericUpDown10;
-			zxNumericUpDowns[10] = zxNumericUpDown11;
-			zxNumericUpDowns[11] = zxNumericUpDown12;
-			zxNumericUpDowns[12] = zxNumericUpDown13;
-			zxNumericUpDowns[13] = zxNumericUpDown14;
-			zxNumericUpDowns[14] = zxNumericUpDown15;
-			zxNumericUpDowns[15] = zxNumericUpDown16;
-			zxNumericUpDowns[16] = zxNumericUpDown17;
-			zxNumericUpDowns[17] = zxNumericUpDown18;
-			zxNumericUpDowns[18] = zxNumericUpDown19;
-			zxNumericUpDowns[19] = zxNumericUpDown20;
-			zxNumericUpDowns[20] = zxNumericUpDown21;
-			zxNumericUpDowns[21] = zxNumericUpDown22;
-			zxNumericUpDowns[22] = zxNumericUpDown23;
-			zxNumericUpDowns[23] = zxNumericUpDown24;
-
-			for (int i = 0; i < 24; i++)
+			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
 			{
-				ymCheckBoxes[i].CheckedChanged += new EventHandler(ymCheckBox_CheckedChanged);
-				jgNumericUpDowns[i].ValueChanged += new EventHandler(jgNumericUpDown_ValueChanged);
-				zxNumericUpDowns[i].ValueChanged += new EventHandler(zxNumericUpDown_ValueChanged);
+				addFramePanel(frameIndex,MainFormInterface.AllFrameList[frameIndex]);
+				ymCheckBoxes[frameIndex].CheckedChanged += new EventHandler(ymCheckBox_CheckedChanged);
+				jgNumericUpDowns[frameIndex].ValueChanged += new EventHandler(jgNumericUpDown_ValueChanged);
+				zxNumericUpDowns[frameIndex].ValueChanged += new EventHandler(zxNumericUpDown_ValueChanged);
 			}
 
 			#endregion
 		}
 
+		/// <summary>
+		/// 辅助方法：
+		/// </summary>
+		private void addFramePanel(int frameIndex , string frameName) {
+			
+			// 
+			// 容器
+			// 
+			framePanels[frameIndex] = new Panel
+			{
+				Location = new System.Drawing.Point(3, 3),
+				Name = "panel" + (frameIndex + 1),
+				Size = new System.Drawing.Size(66, 141),
+			};
+
+			// 
+			// 场景名
+			// 
+			frameLabels[frameIndex] = new Label
+			{
+				AutoSize = true,
+				Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
+				Location = new System.Drawing.Point(8, 12),
+				Margin = new System.Windows.Forms.Padding(2, 0, 2, 0),
+				Name = "frameLabel" + (frameIndex + 1),
+				Size = new System.Drawing.Size(45, 14),
+				Text = frameName
+			};
+			// 
+			// 选中与否
+			// 
+			ymCheckBoxes[frameIndex] = new CheckBox
+			{
+				AutoSize = true,
+				Location = new System.Drawing.Point(11, 47),
+				Margin = new System.Windows.Forms.Padding(2),
+				Name = "checkBox" + (frameIndex + 1),
+				Size = new System.Drawing.Size(48, 16),
+				Text = "摇麦",
+				UseVisualStyleBackColor = true
+			};
+
+			// 
+			// jgNumericUpDown12
+			// 
+			jgNumericUpDowns[frameIndex] = new NumericUpDown
+			{
+				Location = new System.Drawing.Point(11, 74),
+				Margin = new System.Windows.Forms.Padding(2),
+				Maximum = new decimal(new int[] { 10, 0, 0, 0 }),
+				Minimum = new decimal(new int[] { 1, 0, 0, 0 }),
+				Name = "jgNumericUpDown12",
+				Size = new System.Drawing.Size(44, 21),
+				TabIndex = 5,
+				Value = new decimal(new int[] { 1, 0, 0, 0 })
+			};
+			// 
+			// zxNumericUpDown12
+			// 
+			zxNumericUpDowns[frameIndex] = new NumericUpDown
+			{
+				Location = new System.Drawing.Point(11, 106),
+				Margin = new System.Windows.Forms.Padding(2),
+				Maximum = new decimal(new int[] { 60, 0, 0, 0 }),
+				Minimum = new decimal(new int[] { 1, 0, 0, 0 }),
+				Name = "zxNumericUpDown12",
+				Size = new System.Drawing.Size(44, 21),
+				TabIndex = 7,
+				Value = new decimal(new int[] { 1, 0, 0, 0 })
+			};
+			// 
+			// flowLayoutPanel1
+			// 
+			framePanels[frameIndex].Controls.Add(ymCheckBoxes[frameIndex]);
+			framePanels[frameIndex].Controls.Add(frameLabels[frameIndex]);
+			framePanels[frameIndex].Controls.Add(jgNumericUpDowns[frameIndex]);
+			framePanels[frameIndex].Controls.Add(zxNumericUpDowns[frameIndex]);
+
+			this.flowLayoutPanel1.Controls.Add(framePanels[frameIndex]);
+		}
 
 		/// <summary>
 		///  事件：在Load中，执行loadAll();
@@ -150,7 +163,7 @@ namespace LightController.MyForm
 		/// </summary>
 		private void loadAll()
 		{
-			for (int i = 0; i <24; i++)
+			for (int i = 0; i <frameCount; i++)
 			{
 				ymCheckBoxes[i].Checked = ( iniFileAst.ReadInt("YM", i + "CK", 0) == 1);
 				jgNumericUpDowns[i].Value = new decimal(iniFileAst.ReadInt("YM", i + "JG", 1) );
@@ -191,7 +204,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void ymSaveButton_Click(object sender, EventArgs e)
 		{
-			for (int i = 0; i < 24; i++)
+			for (int i = 0; i < frameCount; i++)
 			{
 				iniFileAst.WriteInt("YM", i + "CK", ymCheckBoxes[i].Checked?1:0);
 				iniFileAst.WriteInt("YM", i + "JG", Decimal.ToInt16(jgNumericUpDowns[i].Value) );

@@ -20,6 +20,8 @@ namespace LightController.MyForm
 		private int frameIndex = -1;
 		private int eachStepTime = 30;
 
+		private int frameCount = 0; 
+
 		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 
 			this.mainForm = mainForm;
@@ -39,109 +41,6 @@ namespace LightController.MyForm
 			this.qdCheckBoxes[6] = this.checkBox7;
 			this.qdCheckBoxes[7] = this.checkBox8;
 
-
-			//// 初始化声控的属性到数组中
-			this.mSkinButtons[0] = mSkinButton1;
-			this.mSkinButtons[1] = mSkinButton2;
-			this.mSkinButtons[2] = mSkinButton3;
-			this.mSkinButtons[3] = mSkinButton4;
-			this.mSkinButtons[4] = mSkinButton5;
-			this.mSkinButtons[5] = mSkinButton6;
-			this.mSkinButtons[6] = mSkinButton7;
-			this.mSkinButtons[7] = mSkinButton8;
-			this.mSkinButtons[8] = mSkinButton9;
-			this.mSkinButtons[9] = mSkinButton10;
-			this.mSkinButtons[10] = mSkinButton11;
-			this.mSkinButtons[11] = mSkinButton12;
-			this.mSkinButtons[12] = mSkinButton13;
-			this.mSkinButtons[13] = mSkinButton14;
-			this.mSkinButtons[14] = mSkinButton15;
-			this.mSkinButtons[15] = mSkinButton16;
-			this.mSkinButtons[16] = mSkinButton17;
-			this.mSkinButtons[17] = mSkinButton18;
-			this.mSkinButtons[18] = mSkinButton19;
-			this.mSkinButtons[19] = mSkinButton20;
-			this.mSkinButtons[20] = mSkinButton21;
-			this.mSkinButtons[21] = mSkinButton22;
-			this.mSkinButtons[22] = mSkinButton23;
-			this.mSkinButtons[23] = mSkinButton24;
-
-			this.frameStepTimeNumericUpDowns[0] = frameStepTimeNumericUpDown1;
-			this.frameStepTimeNumericUpDowns[1] = frameStepTimeNumericUpDown2;
-			this.frameStepTimeNumericUpDowns[2] = frameStepTimeNumericUpDown3;
-			this.frameStepTimeNumericUpDowns[3] = frameStepTimeNumericUpDown4;
-			this.frameStepTimeNumericUpDowns[4] = frameStepTimeNumericUpDown5;
-			this.frameStepTimeNumericUpDowns[5] = frameStepTimeNumericUpDown6;
-			this.frameStepTimeNumericUpDowns[6] = frameStepTimeNumericUpDown7;
-			this.frameStepTimeNumericUpDowns[7] = frameStepTimeNumericUpDown8;
-			this.frameStepTimeNumericUpDowns[8] = frameStepTimeNumericUpDown9;
-			this.frameStepTimeNumericUpDowns[9] = frameStepTimeNumericUpDown10;
-			this.frameStepTimeNumericUpDowns[10] = frameStepTimeNumericUpDown11;
-			this.frameStepTimeNumericUpDowns[11] = frameStepTimeNumericUpDown12;
-			this.frameStepTimeNumericUpDowns[12] = frameStepTimeNumericUpDown13;
-			this.frameStepTimeNumericUpDowns[13] = frameStepTimeNumericUpDown14;
-			this.frameStepTimeNumericUpDowns[14] = frameStepTimeNumericUpDown15;
-			this.frameStepTimeNumericUpDowns[15] = frameStepTimeNumericUpDown16;
-			this.frameStepTimeNumericUpDowns[16] = frameStepTimeNumericUpDown17;
-			this.frameStepTimeNumericUpDowns[17] = frameStepTimeNumericUpDown18;
-			this.frameStepTimeNumericUpDowns[18] = frameStepTimeNumericUpDown19;
-			this.frameStepTimeNumericUpDowns[19] = frameStepTimeNumericUpDown20;
-			this.frameStepTimeNumericUpDowns[20] = frameStepTimeNumericUpDown21;
-			this.frameStepTimeNumericUpDowns[21] = frameStepTimeNumericUpDown22;
-			this.frameStepTimeNumericUpDowns[22] = frameStepTimeNumericUpDown23;
-			this.frameStepTimeNumericUpDowns[23] = frameStepTimeNumericUpDown24;
-
-			this.jgtNumericUpDowns[0] = jgtNumericUpDown1;
-			this.jgtNumericUpDowns[1] = jgtNumericUpDown2;
-			this.jgtNumericUpDowns[2] = jgtNumericUpDown3;
-			this.jgtNumericUpDowns[3] = jgtNumericUpDown4;
-			this.jgtNumericUpDowns[4] = jgtNumericUpDown5;
-			this.jgtNumericUpDowns[5] = jgtNumericUpDown6;
-			this.jgtNumericUpDowns[6] = jgtNumericUpDown7;
-			this.jgtNumericUpDowns[7] = jgtNumericUpDown8;
-			this.jgtNumericUpDowns[8] = jgtNumericUpDown9;
-			this.jgtNumericUpDowns[9] = jgtNumericUpDown10;
-			this.jgtNumericUpDowns[10] = jgtNumericUpDown11;
-			this.jgtNumericUpDowns[11] = jgtNumericUpDown12;
-			this.jgtNumericUpDowns[12] = jgtNumericUpDown13;
-			this.jgtNumericUpDowns[13] = jgtNumericUpDown14;
-			this.jgtNumericUpDowns[14] = jgtNumericUpDown15;
-			this.jgtNumericUpDowns[15] = jgtNumericUpDown16;
-			this.jgtNumericUpDowns[16] = jgtNumericUpDown17;
-			this.jgtNumericUpDowns[17] = jgtNumericUpDown18;
-			this.jgtNumericUpDowns[18] = jgtNumericUpDown19;
-			this.jgtNumericUpDowns[19] = jgtNumericUpDown20;
-			this.jgtNumericUpDowns[20] = jgtNumericUpDown21;
-			this.jgtNumericUpDowns[21] = jgtNumericUpDown22;
-			this.jgtNumericUpDowns[22] = jgtNumericUpDown23;
-			this.jgtNumericUpDowns[23] = jgtNumericUpDown24;
-
-			frameSTLabels[0] = frameSTLabel1;
-			frameSTLabels[1] = frameSTLabel2;
-			frameSTLabels[2] = frameSTLabel3;
-			frameSTLabels[3] = frameSTLabel4;
-			frameSTLabels[4] = frameSTLabel5;
-			frameSTLabels[5] = frameSTLabel6;
-			frameSTLabels[6] = frameSTLabel7;
-			frameSTLabels[7] = frameSTLabel8;
-			frameSTLabels[8] = frameSTLabel9;
-			frameSTLabels[9] = frameSTLabel10;
-			frameSTLabels[10] = frameSTLabel11;
-			frameSTLabels[11] = frameSTLabel12;
-			frameSTLabels[12] = frameSTLabel13;
-			frameSTLabels[13] = frameSTLabel14;
-			frameSTLabels[14] = frameSTLabel15;
-			frameSTLabels[15] = frameSTLabel16;
-			frameSTLabels[16] = frameSTLabel17;
-			frameSTLabels[17] = frameSTLabel18;
-			frameSTLabels[18] = frameSTLabel19;
-			frameSTLabels[19] = frameSTLabel20;
-			frameSTLabels[20] = frameSTLabel21;
-			frameSTLabels[21] = frameSTLabel22;
-			frameSTLabels[22] = frameSTLabel23;
-			frameSTLabels[23] = frameSTLabel24;
-
-
 			// 初始化多场景组合播放输入项
 			this.frameComboBoxes[0] = frame1ComboBox;
 			this.frameComboBoxes[1] = frame2ComboBox;
@@ -152,14 +51,9 @@ namespace LightController.MyForm
 			this.frameNumericUpDowns[1] = frame2numericUpDown;
 			this.frameNumericUpDowns[2] = frame3numericUpDown;
 			this.frameNumericUpDowns[3] = frame4numericUpDown;
-
-			//this.frameMethodComboBoxes[0] = frame1methodComboBox;
-			//this.frameMethodComboBoxes[1] = frame2methodComboBox;
-			//this.frameMethodComboBoxes[2] = frame3methodComboBox;
-			//this.frameMethodComboBoxes[3] = frame4methodComboBox;
-
-			// 将所有的场景加入到《开机启动场景》及《强电选择框》中
-			foreach (string frame in MainFormInterface.allFrameList)
+						
+			// 将所有的场景加入到《开机启动场景》及《强电选择框》中			
+			foreach (string frame in MainFormInterface.AllFrameList)
 			{
 				qdFrameComboBox.Items.Add(frame);
 				startupComboBox.Items.Add(frame);
@@ -167,15 +61,15 @@ namespace LightController.MyForm
 			// 组合播放只有前面9种场景可以用。
 			for (int i = 0; i < 9; i++)
 			{
-				zuheFrameComboBox.Items.Add(MainFormInterface.allFrameList[i]);
+				zuheFrameComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
 			}
 			// 组合播放可调用的子场景--》目前全部可用
-			for (int i = 0; i < 24; i++)
+			for (int i = 0; i < 32; i++)
 			{
-				frame1ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
-				frame2ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
-				frame3ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
-				frame4ComboBox.Items.Add(MainFormInterface.allFrameList[i]);
+				frame1ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
+				frame2ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
+				frame3ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
+				frame4ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
 			}
 
 
@@ -193,33 +87,112 @@ namespace LightController.MyForm
 			frame3ComboBox.SelectedIndex = 0;
 			frame4ComboBox.SelectedIndex = 0;
 
-			for (int i = 0; i < 24; i++)
+			//	9.12 动态添加各种场景panel
+			frameCount =  MainFormInterface.AllFrameList.Count;
+			skPanels = new Panel[frameCount];
+			skFrameSkinButtons = new SkinButton[frameCount];
+			skStepTimeNumericUpDowns = new NumericUpDown[frameCount];
+			skTrueTimeLabels = new Label[frameCount];
+			skJGTimeNumericUpDowns = new NumericUpDown[frameCount];
+
+			for (int panelIndex = 0;panelIndex< frameCount; panelIndex++)
 			{
-				this.mSkinButtons[i].Click += new System.EventHandler(this.mSkinButton_Click);
-				this.frameStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(this.frameStepTimeNumericUpDowns_ValueChanged);
+				addFramePanel(panelIndex, MainFormInterface.AllFrameList[panelIndex]);
+				skFrameSkinButtons[panelIndex].Click += new EventHandler(skFrameSkinButton_Click);
+				skStepTimeNumericUpDowns[panelIndex].ValueChanged += new EventHandler(skStepTimeNumericUpDowns_ValueChanged);
 			}
+			skFrameFlowLayoutPanel.Controls.Add(mFrameLKPanel);
+			skFrameFlowLayoutPanel.Controls.Add(skFrameSaveSkinButton);
 
-
-			#endregion			
+			#endregion
 
 			// 初始化iniAst
 			iniAst = new IniFileAst(iniFilePath);
-			isInit = true;
-			
+			isInit = true;			
 		}
 
+		/// <summary>
+		/// 辅助方法：添加自动添加的panel到skFrameFlowLayoutPanel中；
+		/// </summary>
+		/// <param name="panelIndex"></param>
+		private void addFramePanel(int panelIndex, string frameName)
+		{
+
+			skPanels[panelIndex] = new Panel
+			{
+				Location = new System.Drawing.Point(3, 3),
+				Name = "skPanel" + (panelIndex + 1),
+				Size = new System.Drawing.Size(61, 127),
+				BorderStyle = BorderStyle.Fixed3D
+			};
+
+			//按钮(并附带场景名称）
+			skFrameSkinButtons[panelIndex] = new SkinButton
+			{
+				BackColor = System.Drawing.Color.Transparent,
+				BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))),
+				BorderColor = System.Drawing.Color.Transparent,
+				ControlState = CCWin.SkinClass.ControlState.Normal,
+				DownBack = null,
+				Location = new System.Drawing.Point(6, 11),
+				MouseBack = null,
+				Name = "skinFrameButton" + (panelIndex + 1),
+				NormlBack = null,
+				Size = new System.Drawing.Size(50, 25),
+				TabIndex = 0,
+				Text = frameName,
+				UseVisualStyleBackColor = false
+			};
+			// 步时间
+			skStepTimeNumericUpDowns[panelIndex] = new NumericUpDown
+			{
+				Location = new System.Drawing.Point(6, 44),
+				Name = "steptTimeNumericUpDown" + (panelIndex + 1),
+				Size = new System.Drawing.Size(48, 21),
+				TextAlign = HorizontalAlignment.Center
+			};
+			// 步时间换算后Label
+			skTrueTimeLabels[panelIndex] = new Label
+			{
+				AutoSize = true,
+				Location = new System.Drawing.Point(7, 69),
+				Name = "trueTimeLabel" + (panelIndex + 1),
+				Size = new System.Drawing.Size(47, 12),
+				Text = "label" + (panelIndex + 1)
+			};
+
+			// 间隔时间
+			skJGTimeNumericUpDowns[panelIndex] = new NumericUpDown
+			{
+				Location = new System.Drawing.Point(4, 89),
+				Maximum = new decimal(new int[] { 10000, 0, 0, 0 }),
+				Name = "jgNumericUpDown" + (panelIndex + 1),
+				Size = new System.Drawing.Size(55, 21),
+				TextAlign = HorizontalAlignment.Center
+			};
+
+			skPanels[panelIndex].Controls.Add(skFrameSkinButtons[panelIndex]);
+			skPanels[panelIndex].Controls.Add(skStepTimeNumericUpDowns[panelIndex]);
+			skPanels[panelIndex].Controls.Add(skTrueTimeLabels[panelIndex]);
+			skPanels[panelIndex].Controls.Add(skJGTimeNumericUpDowns[panelIndex]);
+
+			skFrameFlowLayoutPanel.Controls.Add(skPanels[panelIndex]);
+
+		}
+		
 		private void GlobalSetForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			this.Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);
 			loadQDSet(0);
 			loadGlobalSet();
 			loadZuheSet(0);
 			loadSKSet();
 		}
 
-		
+		#region 四个读取ini内容并载入form中的辅助方法
+
 		/// <summary>
-		/// 读取《智能灯光控制器》设置
+		/// 辅助方法：读取《智能灯光控制器》设置
 		/// </summary>
 		/// <param name="frame">场景编号，由0开始</param>
 		private void loadQDSet(int frame)
@@ -234,7 +207,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 读取四个配置：通道总数、开机播放场景、时间因子、场景间切换跳渐变
+		/// 辅助方法：读取四个全局配置：通道总数、开机播放场景、时间因子、场景间切换跳渐变
 		/// </summary>
 		private void loadGlobalSet()
 		{
@@ -269,7 +242,6 @@ namespace LightController.MyForm
 			frame0numericUpDown.Value = iniAst.ReadInt("Multiple", frame + "F0V", 0);
 			for (int i = 0; i < 4; i++) {
 				frameComboBoxes[i].SelectedIndex = iniAst.ReadInt("Multiple", frame + "F"+(i+1)+"F", 0);
-				//frameMethodComboBoxes[i].SelectedIndex = iniAst.ReadInt("Multiple", frame + "F" + (i + 1) + "M", 0);
 				frameNumericUpDowns[i].Value = iniAst.ReadInt("Multiple", frame + "F" + (i + 1) + "V", 0);
 			}
 		}
@@ -278,16 +250,17 @@ namespace LightController.MyForm
 		/// 读取声控程序的所有设置
 		/// </summary>
 		private void loadSKSet()
-		{
-			for (int i = 0; i < 24; i++)
+		{			
+			for (int i = 0; i < frameCount;  i++)
 			{
-				int currentStepTime =iniAst.ReadInt("SK", i + "ST", 0);
-				frameStepTimeNumericUpDowns[i].Value = currentStepTime;
-				frameSTLabels[i].Text = eachStepTime * currentStepTime / 1000.0 + "s";
-				jgtNumericUpDowns[i].Value = iniAst.ReadInt("SK", i + "JG", 0);
+				int currentStepTime = iniAst.ReadInt("SK", i + "ST", 0);
+				skStepTimeNumericUpDowns[i].Value = currentStepTime;
+				skTrueTimeLabels[i].Text = eachStepTime * currentStepTime / 1000.0 + "s";
+				skJGTimeNumericUpDowns[i].Value = iniAst.ReadInt("SK", i + "JG", 0);
 			}
 		}
 
+		#endregion
 
 		/// <summary>
 		/// 事件：是否开启组合播放按钮被更改后，两个地方的值也变得不能修改
@@ -363,12 +336,15 @@ namespace LightController.MyForm
 
 		}
 
+		/// <summary>
+		/// 辅助方法：刷新 实际 事件（步时间*时间因子）
+		/// </summary>
 		private void refreshSKSet()
 		{
-			for (int i = 0; i < 24; i++)
-			{				
-				frameSTLabels[i].Text = eachStepTime * Decimal.ToInt16(frameStepTimeNumericUpDowns[i].Value) / 1000.0 + "s";
-				jgtNumericUpDowns[i].Value = iniAst.ReadInt("SK", i + "JG", 0);
+			for (int i = 0; i < frameCount; i++)
+			{
+				skTrueTimeLabels[i].Text = eachStepTime * Decimal.ToInt16(skStepTimeNumericUpDowns[i].Value) / 1000.0 + "s";
+				skJGTimeNumericUpDowns[i].Value = iniAst.ReadInt("SK", i + "JG", 0);
 			}
 		}
 
@@ -401,36 +377,25 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
+	
+
+		#region  《声控全局配置》各种监听事件
 
 		/// <summary>
-		///  事件：点击24个《mSkinButton》时的操作：改动选中场景的文字和frameSkinTextBox的文字
+		///  事件：点击所有《skFrameSkinButton》时的操作：改动选中场景的文字和frameSkinTextBox的文字
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mSkinButton_Click(object sender, EventArgs e)
+		private void skFrameSkinButton_Click(object sender, EventArgs e)
 		{
-			if (isInit) {
+			if (isInit)
+			{
 				frameIndex = MathAst.getIndexNum(((SkinButton)sender).Name, -1);
 				mFrameLKPanel.Enabled = true;
-				currentFrameLabel.Text = "选中场景：" + ((SkinButton)sender).Text;
+				mCurrentFrameLabel.Text = "选中场景：" + ((SkinButton)sender).Text;
 				mFrameTextBox.Text = iniAst.ReadString("SK", frameIndex + "LK", "");
 			}
-		}
-
-		/// <summary>
-		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、回退键
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void mFrameTextBox_KeyPress(object sender, KeyPressEventArgs e) {
-			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8 ){				
-				e.Handled = false;				
-			}
-			else
-			{
-				e.Handled = true;
-			}
-		}
+		}		
 
 		/// <summary>
 		///  事件：点击《提示》按钮
@@ -447,14 +412,15 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mFrameLKSaveSkinButton_Click(object sender, EventArgs e)
+		private void mLKSaveSkinButton_Click(object sender, EventArgs e)
 		{
 			if (frameIndex != -1)
 			{
-				iniAst.WriteString("SK", frameIndex + "LK", mFrameTextBox.Text);
+				iniAst.WriteString("SK", frameIndex + "LK", mFrameTextBox.Text.Trim());
 				MessageBox.Show("当前场景链表保存成功");
 			}
-			else {
+			else
+			{
 				MessageBox.Show("未选中场景，无法保存");
 			}
 		}
@@ -464,14 +430,32 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mFrameSaveAllSkinButton_Click(object sender, EventArgs e)
+		private void skFrameSaveSkinButton_Click(object sender, EventArgs e)
 		{
-			for (int i = 0; i < 24; i++)
+			for (int i = 0; i < frameCount; i++)
 			{
-				iniAst.WriteInt("SK", i + "ST", frameStepTimeNumericUpDowns[i].Value);
-				iniAst.WriteInt("SK", i + "JG", jgtNumericUpDowns[i].Value);
+				iniAst.WriteInt("SK", i + "ST", skStepTimeNumericUpDowns[i].Value);
+				iniAst.WriteInt("SK", i + "JG", skJGTimeNumericUpDowns[i].Value);
 			}
 			MessageBox.Show("保存成功");
+		}
+
+
+		/// <summary>
+		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、回退键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void mFrameTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8)
+			{
+				e.Handled = false;
+			}
+			else
+			{
+				e.Handled = true;
+			}
 		}
 
 		/// <summary>
@@ -479,10 +463,14 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void frameStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
-		{
-			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);		
-			frameSTLabels[index].Text = Decimal.ToInt16( frameStepTimeNumericUpDowns[index].Value)* eachStepTime / 1000.0 + "s";
+		private void skStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
+		{			
+			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			skTrueTimeLabels[index].Text = Decimal.ToInt16(skStepTimeNumericUpDowns[index].Value) * eachStepTime / 1000.0 + "s";
 		}
+
+		#endregion
+
+
 	}
 }

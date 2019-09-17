@@ -92,8 +92,9 @@ namespace LightController.Tools.CSJ.IMPL
             HeartbeatCycleBuff[0] = data[117];
             HeartbeatCycleBuff[1] = data[118];
             HeartbeatCycle = (HeartbeatCycleBuff[0] & 0xFF) | ((HeartbeatCycleBuff[1] << 8) & 0xFF);
+
         }
-        private CSJ_Hardware()
+        public CSJ_Hardware()
         {
             Ver = 0;
             SumUseTimes = 0;
@@ -107,10 +108,14 @@ namespace LightController.Tools.CSJ.IMPL
             NetMask = "0.0.0.0";
             GateWay = "0.0.0.0";
             Mac = "00-00-00-00-00-00";
+            DomainName = "";
+            DomainServer = "";
+            HardWareID = "";
+            Heartbeat = new byte[] {0x00 };
         }
         public static CSJ_Hardware Empty()
         {
-           return new CSJ_Hardware();
+            return new CSJ_Hardware();
         }
         public byte[] GetData()
         {
@@ -153,7 +158,7 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
             data.Add(Convert.ToByte(GateWay.Split('.')[3]));
             //string[] macBuff = Mac.Split('-');
-            string[] macBuff = new string[] {"00", "00", "00", "00", "00", "00"};
+            string[] macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
             data.Add(Convert.ToByte(macBuff[0], 16));
             data.Add(Convert.ToByte(macBuff[1], 16));
             data.Add(Convert.ToByte(macBuff[2], 16));

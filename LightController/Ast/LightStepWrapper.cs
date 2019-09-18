@@ -40,8 +40,7 @@ namespace LightController.Ast
 				CurrentStep = stepIndex + 2;
 			}			
 			// TotalStep统一结算
-			TotalStep = StepWrapperList.Count;
-			
+			TotalStep = StepWrapperList.Count;			
 		}
 
 		/// <summary>
@@ -91,7 +90,29 @@ namespace LightController.Ast
 				throw new Exception("当前步数为空，无法删除。");
 			}	
 		}
-		
+
+		/// <summary>
+		/// 辅助方法（静态）：通过传来的组长的数据，以及要生成的StepTemplate的数据，来生成相关的LightStepWrapper
+		/// </summary>
+		/// <param name="mainLSWrapper"></param>
+		/// <param name="currentStepTemplate"></param>
+		/// <returns></returns>
+		public static LightStepWrapper GenerateLightStepWrapper(LightStepWrapper mainLSWrapper, StepWrapper currentStepTemplate , int mode)
+		{
+			LightStepWrapper lsWrapper = new LightStepWrapper();
+			if (mainLSWrapper == null || mainLSWrapper.StepWrapperList==null || mainLSWrapper.StepWrapperList.Count==0) {
+				return null;
+			}
+
+			foreach (StepWrapper  mainStepWrapper in mainLSWrapper.StepWrapperList)
+			{
+				StepWrapper newStep = StepWrapper.GenerateStepWrapper(currentStepTemplate, mainStepWrapper.TongdaoList, mode);
+				lsWrapper.AddStep(newStep);
+			}
+			return lsWrapper;
+		}
+
+
 	
-	}
+}
 }

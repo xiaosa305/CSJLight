@@ -251,10 +251,10 @@ namespace LightController.Tools.CSJ
                     for (this.TimeIndex = 0; this.TimeIndex < Constant.TIMEOUT; this.TimeIndex++)
                     {
                         Thread.Sleep(1);
-                        if (this.IsReceive)
-                        {
-                            break;
-                        }
+                        //if (this.IsReceive)
+                        //{
+                        //    break;
+                        //}
                     }
                     this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)
@@ -499,9 +499,9 @@ namespace LightController.Tools.CSJ
         {
             try
             {
+                this.TimeIndex = 0;
                 this.IsReceive = false;
                 this.IsTimeOutThreadStart = true;
-                this.TimeIndex = 0;
                 if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
                     int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);

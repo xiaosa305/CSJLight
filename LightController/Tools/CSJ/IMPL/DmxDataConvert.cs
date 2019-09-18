@@ -169,7 +169,7 @@ namespace LightController.Tools.CSJ.IMPL
                 int isGradualChange;
                 int startValue;
                 int rate = 255;
-            ChannelData channelData = new ChannelData()
+                ChannelData channelData = new ChannelData()
                 {
                     ChannelNo = item.ChannelNo
                 };
@@ -236,16 +236,8 @@ namespace LightController.Tools.CSJ.IMPL
                                                 float inc = (stepValue - startValue) / (float)stepTime;
                                                 float value = startValue + inc * (fram + 1);
                                                 int intValue = (int)Math.Floor(value * 256);
-                                                if (rate == 1)
-                                                {
-                                                    intValue = (int)((intValue & 0xFF)/(255.0 /rate));
-                                                    datas.Add(intValue);
-                                                }
-                                                else
-                                                {
-                                                    datas.Add(intValue & 0xFF);
-
-                                                }
+                                                intValue = (int)((intValue & 0xFF) / (255.0 / rate));
+                                                datas.Add(intValue);
                                             }
                                             else
                                             {

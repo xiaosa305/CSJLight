@@ -422,6 +422,7 @@ namespace LightController.Tools
                     buff.AddRange(this.StartCode);
                     buff.AddRange(this.PlayData);
                     Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
+                    //Console.WriteLine("Y轴==>" + PlayData[17] + "Y轴微调==>" + PlayData[18]);
                     Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
                     Device.SetBreak(false);
                 }

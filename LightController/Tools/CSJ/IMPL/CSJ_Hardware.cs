@@ -30,7 +30,6 @@ namespace LightController.Tools.CSJ.IMPL
         public string HardWareID { get; set; }
         public byte[] Heartbeat { get; set; }
         public int HeartbeatCycle { get; set; }
-
         public CSJ_Hardware(string filePath)
         {
             ReadFromFile(filePath);

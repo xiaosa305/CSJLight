@@ -250,12 +250,11 @@ namespace LightController.Tools.CSJ
                 {
                     for (this.TimeIndex = 0; this.TimeIndex < Constant.TIMEOUT; this.TimeIndex++)
                     {
-                        Console.WriteLine("超时时间：" + this.TimeIndex);
                         Thread.Sleep(1);
-                        if (this.IsReceive)
-                        {
-                            break;
-                        }
+                        //if (this.IsReceive)
+                        //{
+                        //    break;
+                        //}
                     }
                     this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)
@@ -292,6 +291,7 @@ namespace LightController.Tools.CSJ
                                     this.DownloadProgressDelegate("", 0);
                                 }
                             }
+                            CSJLogs.GetInstance().DebugLog( "超时，操作失败");
                             this.CallBack.SendError(deviceName, Order);
                             this.CloseDevice();
                         }
@@ -320,12 +320,11 @@ namespace LightController.Tools.CSJ
         }
         protected void ReceiveMessageManage(byte[] rxBuff, int rxCount)
         {
-            this.TimeIndex = Constant.TIMEOUT;
-            this.IsTimeOutThreadStart = false;
             this.IsReceive = true;
+            this.IsTimeOutThreadStart = false;
+            this.TimeIndex = Constant.TIMEOUT;
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
-            Console.WriteLine("Order is :" + rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -467,7 +466,6 @@ namespace LightController.Tools.CSJ
                         {
                             hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
                         }
-                        Console.WriteLine("test1");
                         this.GetParamDelegate(hardware);
                         this.CallBack.SendCompleted(devicename, this.Order);
                     }
@@ -501,9 +499,9 @@ namespace LightController.Tools.CSJ
         {
             try
             {
+                this.TimeIndex = 0;
                 this.IsReceive = false;
                 this.IsTimeOutThreadStart = true;
-                this.TimeIndex = 0;
                 if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
                     int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);

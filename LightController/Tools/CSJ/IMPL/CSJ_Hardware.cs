@@ -57,7 +57,7 @@ namespace LightController.Tools.CSJ.IMPL
             IP = (int)(data[28] & 0xFF) + "." + (int)(data[29] & 0xFF) + "." + (int)(data[30] & 0xFF) + "." + (int)(data[31] & 0xFF);
             NetMask = (int)(data[32] & 0xFF) + "." + (int)(data[33] & 0xFF) + "." + (int)(data[34] & 0xFF) + "." + (int)(data[35] & 0xFF);
             GateWay = (int)(data[36] & 0xFF) + "." + (int)(data[37] & 0xFF) + "." + (int)(data[38] & 0xFF) + "." + (int)(data[39] & 0xFF);
-            Mac = data[40].ToString() + "-" + data[41].ToString() + "-" + data[42].ToString() + "-" + data[43].ToString() + "-" + data[44].ToString() + "-" + data[45].ToString();
+            Mac = data[40].ToString("X2") + "-" + data[41].ToString("X2") + "-" + data[42].ToString("X2") + "-" + data[43].ToString("X2") + "-" + data[44].ToString("X2") + "-" + data[45].ToString("X2");
             Baud = (int)(data[46] & 0xFF);
             CurrUseTimes = (int)((data[47] & 0xFF) | ((data[48] & 0xFF) << 8) | ((data[49] & 0xFF) << 16) | ((data[50] & 0xFF) << 24));
             RemoteHost = (int)(data[51] & 0xFF) + "." + (int)(data[52] & 0xFF) + "." + (int)(data[53] & 0xFF) + "." + (int)(data[54] & 0xFF);
@@ -73,11 +73,12 @@ namespace LightController.Tools.CSJ.IMPL
             DomainName = Encoding.Default.GetString(domainNameBuff.ToArray());
             DomainServer = (int)(data[89] & 0xFF) + "." + (int)(data[90] & 0xFF) + "." + (int)(data[91] & 0xFF) + "." + (int)(data[92] & 0xFF);
             List<byte> HardwareIdBuff = new List<byte>();
+            HardWareID = "";
             for (int i = 93; i < 109; i++)
             {
                 HardwareIdBuff.Add(data[i]);
+                HardWareID += data[i].ToString("X2");
             }
-            HardWareID = Encoding.Default.GetString(HardwareIdBuff.ToArray());
             List<byte> HeartbeatBuff = new List<byte>();
             for (int i = 109; i < 117; i++)
             {
@@ -92,8 +93,9 @@ namespace LightController.Tools.CSJ.IMPL
             HeartbeatCycleBuff[0] = data[117];
             HeartbeatCycleBuff[1] = data[118];
             HeartbeatCycle = (HeartbeatCycleBuff[0] & 0xFF) | ((HeartbeatCycleBuff[1] << 8) & 0xFF);
+
         }
-        private CSJ_Hardware()
+        public CSJ_Hardware()
         {
             Ver = 0;
             SumUseTimes = 0;
@@ -107,10 +109,14 @@ namespace LightController.Tools.CSJ.IMPL
             NetMask = "0.0.0.0";
             GateWay = "0.0.0.0";
             Mac = "00-00-00-00-00-00";
+            DomainName = "";
+            DomainServer = "";
+            HardWareID = "";
+            Heartbeat = new byte[] {0x00 };
         }
         public static CSJ_Hardware Empty()
         {
-           return new CSJ_Hardware();
+            return new CSJ_Hardware();
         }
         public byte[] GetData()
         {
@@ -153,7 +159,7 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
             data.Add(Convert.ToByte(GateWay.Split('.')[3]));
             //string[] macBuff = Mac.Split('-');
-            string[] macBuff = new string[] {"00", "00", "00", "00", "00", "00"};
+            string[] macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
             data.Add(Convert.ToByte(macBuff[0], 16));
             data.Add(Convert.ToByte(macBuff[1], 16));
             data.Add(Convert.ToByte(macBuff[2], 16));

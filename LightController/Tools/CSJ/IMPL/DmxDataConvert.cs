@@ -30,7 +30,16 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public ICSJFile GetHardware(byte[] fileBuff)
         {
-            return new CSJ_Hardware(fileBuff);
+            CSJ_Hardware file = new CSJ_Hardware();
+            try
+            {
+                file = new CSJ_Hardware(fileBuff);
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().DebugLog("设备未初始化");
+            }
+            return file;
         }
         public CSJ_Project GetCSJProjectFiles(DBWrapper wrapper, string configPath)
         {

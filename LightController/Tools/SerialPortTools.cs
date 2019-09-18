@@ -23,7 +23,6 @@ namespace LightController.Tools
         private int ResendCount { get; set; }
         private List<byte> RxBuff { get; set; }
         private bool IsSearchDevice { get; set; }
-
         private SerialPortTools()
         {
             try

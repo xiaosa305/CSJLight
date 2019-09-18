@@ -38,7 +38,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《确认》按钮
+		/// 事件：点击《确认》按钮（或双击灯具也可选择组长）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

@@ -48,14 +48,16 @@ namespace LightController.MyForm
 
 		// 通道数据操作时的变量
 		protected bool isMultiMode = false;
-		protected int selectedLightIndex = -1; //选择的灯具的index
+		protected int selectedIndex = -1; //选择的灯具的index
 		protected IList<int> selectedIndices ; //选择的灯具的index列表（多选情况下）
 		protected string selectedLightName = "";
-		protected int frame = 0; // 0-23 表示24种场景
+		protected int frame = 0; // 表示场景编号
 		protected int mode = 0;  // 0.常规模式； 1.音频模式
+		
 		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》
 		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯
 		protected StepWrapper tempStep; //// 辅助步变量：复制及粘贴步时用到
+		
 
 			   
 		// 调试变量
@@ -67,11 +69,9 @@ namespace LightController.MyForm
 
 		// 将所有场景名称写在此处,并供所有类使用
 		public static IList<string> AllFrameList ;
+		public static int FrameCount = 0;  //场景数量
 		protected string savePath;
 		protected bool isShowHardwareUpdateButton = false;
-
-
-
 
 		/// <summary>
 		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
@@ -206,7 +206,7 @@ namespace LightController.MyForm
 			lightAstList = null;
 			lightWrapperList = null;
 
-			selectedLightIndex = -1;		
+			selectedIndex = -1;		
 		}
 				
 
@@ -547,8 +547,8 @@ namespace LightController.MyForm
 				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
 				LightStepWrapper[,] allLightStepWrappers = lightTemp.LightStepWrapperList;
 
-				// 取出灯具的每个常规场景(24种），并将它们保存起来（但若为空，则不保存）
-				for (int frame = 0; frame < 32; frame++)
+				// 取出灯具的每个常规场景，并将它们保存起来（但若为空，则不保存）
+				for (int frame = 0; frame < FrameCount; frame++)
 				{
 					for (int mode = 0; mode < 2; mode++)
 					{
@@ -599,7 +599,7 @@ namespace LightController.MyForm
 			{
 				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
 				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
-				for (int frame = 0; frame < 32; frame++)
+				for (int frame = 0; frame < FrameCount; frame++)
 				{
 					for (int mode = 0; mode < 2; mode++)
 					{
@@ -827,7 +827,7 @@ namespace LightController.MyForm
 			
 			// 多灯单步：
 			if (isMultiMode) {
-				int currentStep = getCurrentStepValue();
+				int currentStep = getCurrentStep();
 				if (currentStep == 0)
 				{
 					MessageBox.Show("当前多灯编组未选中可用步，无法播放！");
@@ -906,11 +906,11 @@ namespace LightController.MyForm
 		{
 			//Console.WriteLine("currentLight - " + selectedLightIndex);
 			// 说明尚未点击任何灯具 或 内存内还没有任何灯具
-			if (selectedLightIndex == -1  || lightWrapperList == null || lightWrapperList.Count == 0)
+			if (selectedIndex == -1  || lightWrapperList == null || lightWrapperList.Count == 0)
 			{
 				return null;
 			}			
-			return lightWrapperList[selectedLightIndex];
+			return lightWrapperList[selectedIndex];
 		}
 
 		/// <summary>
@@ -992,12 +992,12 @@ namespace LightController.MyForm
 		///  辅助方法：取出当前LightStepWrapper的currentStep值
 		/// </summary>
 		/// <returns></returns>
-		protected int getCurrentStepValue()
+		protected int getCurrentStep()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
 			if (light != null)
 			{
-				return getCurrentLightStepWrapper().CurrentStep;
+				return light.CurrentStep;
 			}
 			else
 			{
@@ -1009,12 +1009,12 @@ namespace LightController.MyForm
 		///  辅助方法：取出当前步的totalStep值
 		/// </summary>
 		/// <returns></returns>
-		protected int getTotalStepValue()
+		protected int getTotalStep()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
 			if (light != null)
 			{
-				return getCurrentLightStepWrapper().TotalStep;
+				return light.TotalStep;
 			}
 			else
 			{
@@ -1030,14 +1030,14 @@ namespace LightController.MyForm
 		protected StepWrapper getCurrentLightMaxStepWrapper()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
-			int totalStep = getTotalStepValue();
+			int totalStep = getTotalStep();
 			if (light == null || totalStep == 0)
 			{
 				return null;
 			}
 			else
 			{
-				return light.StepWrapperList[getTotalStepValue() - 1];
+				return light.StepWrapperList[getTotalStep() - 1];
 			}
 		}
 
@@ -1079,6 +1079,11 @@ namespace LightController.MyForm
 				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepIndex];
 				stepWrapper.MultiChangeValue(where, tdIndexList, commonValue);
 			}
+
+			if (isMultiMode) {
+				copyToAll(0);
+			}
+
 			// 刷新当前tdPanels数据。
 			refreshStep();
 		}
@@ -1087,9 +1092,9 @@ namespace LightController.MyForm
 		/// 辅助方法：刷新当前步;
 		/// TODO：不一定使用chooseStep方法 
 		/// </summary>
-		private void refreshStep()
+		protected void refreshStep()
 		{
-			chooseStep(getCurrentStepValue());
+			chooseStep(getCurrentStep());
 		}
 
 		/// <summary>
@@ -1109,7 +1114,7 @@ namespace LightController.MyForm
 		public virtual void EnterMultiMode(int selectedIndex)
 		{
 			copyToAll(selectedIndex);
-			chooseStep(getTotalStepValue());
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1117,6 +1122,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="selectedIndex"></param>
 		protected void copyToAll(int selectedIndex) {
+			
 			// selectedIndex是几个选中的索引中的顺序，用chooseIndex才能选到当前ListView中指定的灯具
 			int chooseIndex = selectedIndices[selectedIndex];
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(chooseIndex); //取出组长

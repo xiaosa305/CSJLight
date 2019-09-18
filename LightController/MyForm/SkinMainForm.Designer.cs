@@ -1740,7 +1740,6 @@ namespace LightController.MyForm
 			this.multiLightSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.multiLightSkinButton.DownBack = null;
 			this.multiLightSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiLightSkinButton.Enabled = false;
 			this.multiLightSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiLightSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.multiLightSkinButton.ForeColorSuit = true;

@@ -238,7 +238,7 @@ namespace LightController
 				this.frameComboBox.Items.Add(frame);
 			}
 
-			for (int i = 0; i < 32; i++) {
+			for (int i = 0; i < FrameCount ; i++) {
 				changeModeComboBoxes[i].Items.Clear();
 				changeModeComboBoxes[i].Items.AddRange(new object[]{"跳变","渐变","屏蔽"});
 
@@ -437,7 +437,7 @@ namespace LightController
 			// 必须判断这个字段(Count)，否则会报异常
 			if (lightsListView.SelectedIndices.Count > 0)
 			{
-				selectedLightIndex = lightsListView.SelectedIndices[0];
+				selectedIndex = lightsListView.SelectedIndices[0];
 				generateLightData();
 				// 这里控制pasteLightButton的Enabled值
 				checkIfCanCopyLight();
@@ -455,7 +455,7 @@ namespace LightController
 		/// <param name="la"></param>
 		private void generateLightData()
 		{
-			LightAst lightAst = lightAstList[selectedLightIndex];
+			LightAst lightAst = lightAstList[selectedIndex];
 			
 			// 显示选中灯的部分信息在label中
 			lightValueLabel.Text = lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")";
@@ -468,7 +468,7 @@ namespace LightController
 			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
 			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
 			//			若不为null，则说明已有数据，
-			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
 
 			if (lightWrapper.StepTemplate == null)
 			{				
@@ -487,11 +487,11 @@ namespace LightController
 		/// </summary>
 		private void changeFrameMode()
 		{
-			if (selectedLightIndex == -1) {
+			if (selectedIndex == -1) {
 				return;
 			}
 
-			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
 			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
 
 			// 为空或StepList数量是0
@@ -666,7 +666,7 @@ namespace LightController
 					mode
 				);
 				// 要插入的位置的index
-				int stepIndex = getCurrentStepValue() - 1 ;
+				int stepIndex = getCurrentStep() - 1 ;
 				// 插入的方式：前插(true）还是后插（false)
 				bool insertBefore = ((Button)sender).Name.Equals("insertBeforeStepButton");
 
@@ -691,9 +691,9 @@ namespace LightController
 		/// <param name="e"></param>
 		private void deleteStepButton_Click(object sender, EventArgs e)
 		{			
-			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
 			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
-			int stepIndex = getCurrentStepValue() - 1;
+			int stepIndex = getCurrentStep() - 1;
 
 			// 调用包装类内部的方法:删除某一步
 			try
@@ -804,14 +804,14 @@ namespace LightController
 		/// <param name="e"></param>
 		private void backStepButton_Click(object sender, EventArgs e)
 		{
-			int currentStepValue = getCurrentStepValue();
+			int currentStepValue = getCurrentStep();
 			if (currentStepValue > 1)
 			{
 				chooseStep(currentStepValue - 1);
 			}
 			else
 			{
-				chooseStep( getTotalStepValue() );
+				chooseStep( getTotalStep() );
 			}
 		}
 
@@ -822,8 +822,8 @@ namespace LightController
 		/// <param name="e"></param>
 		private void nextStepButton_Click(object sender, EventArgs e)
 		{
-			int currentStepValue = getCurrentStepValue();
-			int totalStepValue = getTotalStepValue();
+			int currentStepValue = getCurrentStep();
+			int totalStepValue = getTotalStep();
 			if (currentStepValue < totalStepValue)
 			{
 				chooseStep(currentStepValue + 1);
@@ -1364,7 +1364,7 @@ namespace LightController
 			// 多加了一层常规情况下不会出现的判断，因为此时这个按钮不可用
 			if (checkIfCanCopyLight()) {
 				LightWrapper selectedLight = getCurrentLightWrapper();
-				lightWrapperList[selectedLightIndex] = LightWrapper.CopyLight(tempLight,selectedLight);
+				lightWrapperList[selectedIndex] = LightWrapper.CopyLight(tempLight,selectedLight);
 				generateLightData();
 			}
 			else

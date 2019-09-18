@@ -309,6 +309,7 @@ namespace LightController.MyForm
 				frameSkinComboBox.Items.Add(frame);
 			}
 			frameSkinComboBox.SelectedIndex = 0;
+			FrameCount = AllFrameList.Count ;
 
 			//模式选项框
 			modeSkinComboBox.Items.AddRange(new object[] {	"常规模式","音频模式"});
@@ -316,13 +317,11 @@ namespace LightController.MyForm
 
 			// 《统一跳渐变》复选框不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
 			commonChangeModeSkinComboBox.SelectedIndex = 1;
-
-
 			#endregion
 
 			#region 各类监听器
 			// TODO：此处的TODO只是作为标记，以快速定位到监听器
-			for (int i = 0; i < 32; i++) {
+			for (int i = 0; i < FrameCount; i++) {
 
 				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdSkinTrackBars[i].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
@@ -624,7 +623,7 @@ namespace LightController.MyForm
 			// 必须判断这个字段(Count)，否则会报异常
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
-				selectedLightIndex = lightsSkinListView.SelectedIndices[0];
+				selectedIndex = lightsSkinListView.SelectedIndices[0];
 				//Console.WriteLine(lightsSkinListView.SelectedItems[0].Text|Tag);
 				generateLightData();
 				// 这里主要是控制pasteLightButton的Enabled值
@@ -641,11 +640,11 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		private void generateLightData()
 		{
-			if (selectedLightIndex == -1) {
+			if (selectedIndex == -1) {
 				return;
 			}
 
-			LightAst lightAst = lightAstList[selectedLightIndex];
+			LightAst lightAst = lightAstList[selectedIndex];
 
 			// 1.在右侧灯具信息内显示选中灯具相关信息
 			editLightInfo(lightAst);
@@ -656,7 +655,7 @@ namespace LightController.MyForm
 			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
 			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
 			//			若不为null，则说明已有数据，
-			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
 
 			if (lightWrapper.StepTemplate == null)
 			{
@@ -745,7 +744,7 @@ namespace LightController.MyForm
 				// 3.所有步时间值的调节，改为enabled=false			
 				if (mode == 1)
 				{				
-					for (int i = 0; i < 32; i++)
+					for (int i = 0; i < FrameCount; i++)
 					{
 						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
 						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"屏蔽",	"跳变"});
@@ -767,7 +766,7 @@ namespace LightController.MyForm
 				}
 				else //mode=0，常规模式
 				{
-					for (int i = 0; i < 32; i++)
+					for (int i = 0; i < FrameCount; i++)
 					{
 						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
 						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"跳变","渐变","屏蔽"});
@@ -800,11 +799,11 @@ namespace LightController.MyForm
 		private void changeFrameMode()
 		{
 			// 9.2 不可让selectedIndex为-1,否则会出现数组越界错误
-			if (selectedLightIndex == -1) {
+			if (selectedIndex == -1) {
 				return;
 			}
 
-			LightWrapper lightWrapper = lightWrapperList[selectedLightIndex];
+			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
 			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
 
 			// 为空或StepList数量是0
@@ -832,15 +831,15 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void backStepSkinButton_Click(object sender, EventArgs e)
 		{
-			int currentStepValue = getCurrentStepValue();
-			Console.WriteLine("第一个选中灯具当前F/M的currentStep：" + currentStepValue);
-			if (currentStepValue > 1)
+			int currentStep = getCurrentStep();
+			int totalStep = getTotalStep();			
+			if (currentStep > 1)
 			{
-				chooseStep(currentStepValue - 1);
+				chooseStep(currentStep - 1);
 			}
 			else
 			{
-				chooseStep(getTotalStepValue());
+				chooseStep(totalStep);
 			}
 		}
 
@@ -852,12 +851,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void nextStepSkinButton_Click(object sender, EventArgs e)
 		{
-			int currentStepValue = getCurrentStepValue();
-			Console.WriteLine("第一个选中灯具当前F/M的currentStep：" + currentStepValue);
-			int totalStepValue = getTotalStepValue();
-			if (currentStepValue < totalStepValue)
+			int currentStep = getCurrentStep();			
+			int totalStep = getTotalStep();
+			if (currentStep < totalStep)
 			{
-				chooseStep(currentStepValue + 1);
+				chooseStep(currentStep + 1);
 			}
 			else
 			{
@@ -886,7 +884,7 @@ namespace LightController.MyForm
 					mode
 				);
 				// 要插入的位置的index
-				int stepIndex = getCurrentStepValue() - 1;
+				int stepIndex = getCurrentStep() - 1;
 				// 插入的方式：前插(true）还是后插（false)
 				bool insertBefore = ((Button)sender).Name.Equals("insertBeforeSkinButton");
 
@@ -927,7 +925,7 @@ namespace LightController.MyForm
 			//1.若勾选了使用模板 或 当前灯具在本场景及模式下总步数为0 ，则使用stepMode数据，
 			//2.否则使用本灯当前最大步的数据			 
 			StepWrapper newStep = StepWrapper.GenerateNewStep(
-				(isUseStepTemplate || getTotalStepValue() == 0) ? getCurrentStepTemplate() : getCurrentLightMaxStepWrapper(),
+				(isUseStepTemplate || getTotalStep() == 0) ? getCurrentStepTemplate() : getCurrentLightMaxStepWrapper(),
 				mode
 				);
 
@@ -941,8 +939,6 @@ namespace LightController.MyForm
 			if (isMultiMode) {
 				copyToAll(0);
 			}
-
-
 		}
 
 		/// <summary>
@@ -956,7 +952,7 @@ namespace LightController.MyForm
 		private void deleteStepSkinButton_Click(object sender, EventArgs e)
 		{
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-			int stepIndex = getCurrentStepValue() - 1;
+			int stepIndex = getCurrentStep() - 1;
 
 			// 调用包装类内部的方法:删除某一步
 			try
@@ -978,9 +974,7 @@ namespace LightController.MyForm
 			{
 				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
 				this.showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
-
-				
+				this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);				
 			}
 			else
 			{
@@ -1055,19 +1049,21 @@ namespace LightController.MyForm
 		/// 辅助方法：抽象了【选择某一个指定步数后，统一的操作；NextStep和BackStep等应该都使用这个方法】
 		/// </summary>
 		protected override void chooseStep(int stepNum)
-		{
-			Console.WriteLine("chooseStep - " + stepNum);
+		{		
+			Console.WriteLine("chooseStep ：" + stepNum);
 			if (stepNum == 0) {
-				Console.WriteLine("chooseStep的步数不可为0");
+				showTDPanels(null,0);
+				showStepLabel(0,0);
 				return;
 			}
 			
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];			
-			lightStepWrapper.CurrentStep = stepNum;
+			lightStepWrapper.CurrentStep = stepNum;		
+			showAllLightCurrentAndTotalStep();
 
-			this.showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-			this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
+			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
+			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 
 			if (isConnected && isRealtime)
 			{
@@ -1119,8 +1115,7 @@ namespace LightController.MyForm
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
 		private void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
-		{
-			
+		{			
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
@@ -1133,8 +1128,12 @@ namespace LightController.MyForm
 				isPainting = true;
 
 				for (int i = 0; i < tongdaoList.Count; i++)
-				{
-					//Console.WriteLine("changeTD:" + i);
+				{					
+					tdSkinTrackBars[i].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);			
+					tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdChangeModeSkinComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);					
+					tdStepTimeNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+
 					tdNoLabels[i].Text = "通道" + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
 					tdSkinTrackBars[i].Value = tongdaoList[i].ScrollValue;
@@ -1142,6 +1141,11 @@ namespace LightController.MyForm
 					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 					tdStepTimeNumericUpDowns[i].Text = tongdaoList[i].StepTime.ToString();
 					tdTrueTimeLabels[i].Text = (float) tongdaoList[i].StepTime * eachStepTime / 1000 + "s";
+
+					tdSkinTrackBars[i].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdChangeModeSkinComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+					tdStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdPanels[i].Show();
 				}
@@ -1151,7 +1155,6 @@ namespace LightController.MyForm
 
 				isPainting = false;
 			}
-
 			
 		}
 
@@ -1666,10 +1669,17 @@ namespace LightController.MyForm
 		private void commonValueSkinButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
+			int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
+
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
-				tdValueNumericUpDowns[i].Value = commonValueNumericUpDown.Value;
+				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
 			}
+
+			if (isMultiMode) {
+				copyToAll(0);
+			}
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1680,10 +1690,17 @@ namespace LightController.MyForm
 		private void commonChangeModeSkinButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
+			int commonChangeMode = commonChangeModeSkinComboBox.SelectedIndex;
+
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
-				tdChangeModeSkinComboBoxes[i].SelectedIndex = commonChangeModeSkinComboBox.SelectedIndex;
+				getCurrentStepWrapper().TongdaoList[i].ChangeMode = commonChangeMode;
 			}
+			if (isMultiMode)
+			{
+				copyToAll(0);
+			}
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1697,10 +1714,16 @@ namespace LightController.MyForm
 			if (buttonText.Equals("统一步时间"))
 			{
 				StepWrapper currentStep = getCurrentStepWrapper();
+				int commonStepTime = Decimal.ToInt16(commonStepTimeNumericUpDown.Value);
+
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
-					tdStepTimeNumericUpDowns[i].Value = commonStepTimeNumericUpDown.Value;
+					getCurrentStepWrapper().TongdaoList[i].StepTime= commonStepTime;
 				}
+				if (isMultiMode) {
+					copyToAll(0);
+				}
+				refreshStep();
 			}
 			else 
 			{
@@ -1718,8 +1741,13 @@ namespace LightController.MyForm
 			StepWrapper currentStep = getCurrentStepWrapper();
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
-				tdValueNumericUpDowns[i].Value = 0;
+				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
 			}
+			if (isMultiMode)
+			{
+				copyToAll(0);
+			}
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1733,8 +1761,12 @@ namespace LightController.MyForm
 			StepWrapper stepMode = getCurrentStepTemplate();
 			for (int i = 0; i < stepNow.TongdaoList.Count; i++)
 			{
-				tdValueNumericUpDowns[i].Value = stepMode.TongdaoList[i].ScrollValue;
+				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
 			}
+			if (isMultiMode) {
+				copyToAll(0);
+			}
+			refreshStep();
 		}
 
 		/// <summary>
@@ -1745,7 +1777,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiSkinButton_Click(object sender, EventArgs e)
 		{
-			MultiStepForm msForm = new MultiStepForm(this , getCurrentStepValue() , getTotalStepValue(),getCurrentStepWrapper() ,mode );
+			MultiStepForm msForm = new MultiStepForm(this , getCurrentStep() , getTotalStep(),getCurrentStepWrapper() ,mode );
 			msForm.ShowDialog();
 		}
 
@@ -1786,7 +1818,7 @@ namespace LightController.MyForm
 			if (checkIfCanCopyLight())
 			{
 				LightWrapper selectedLight = getCurrentLightWrapper();
-				lightWrapperList[selectedLightIndex] = LightWrapper.CopyLight(tempLight, selectedLight);
+				lightWrapperList[selectedIndex] = LightWrapper.CopyLight(tempLight, selectedLight);
 				generateLightData();
 			}
 			else
@@ -1809,7 +1841,7 @@ namespace LightController.MyForm
 			{
 				LightWrapper selectedLight = getCurrentLightWrapper();
 				StepWrapper stepTemplate = selectedLight.StepTemplate;
-				lightWrapperList[selectedLightIndex].LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(tempLight.LightStepWrapperList[frame, mode], stepTemplate, mode);
+				lightWrapperList[selectedIndex].LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(tempLight.LightStepWrapperList[frame, mode], stepTemplate, mode);
 				generateLightData();
 			}
 			else
@@ -2109,8 +2141,6 @@ namespace LightController.MyForm
 			tdSkinFlowLayoutPanel.AutoScrollPosition = new Point(0, 0);			;
 		}
 
-
-
 		/// <summary>
 		/// 事件：点击后进入《多灯模式|单灯模式》，
 		/// 一.多灯模式：
@@ -2147,13 +2177,12 @@ namespace LightController.MyForm
 			}
 			// 退出多灯模式（单灯）
 			else{					
-				lightsAddrLabel.Text = "灯具地址:" + lightAstList[selectedLightIndex].LightAddr;				
+				lightsAddrLabel.Text = "灯具地址:" + lightAstList[selectedIndex].LightAddr;				
 				for(int lightIndex=0; lightIndex < lightWrapperList.Count; lightIndex++)
 				{					
 					lightsSkinListView.Items[lightIndex].BackColor = Color.White;
 				}
 				enableSingleMode(true);
-
 			}	
 		}
 
@@ -2223,8 +2252,6 @@ namespace LightController.MyForm
 			return result;					   			 		  			
 		}
 
-
-
 		/// <summary>
 		/// 事件：点击《自定义测试按钮》
 		/// </summary>
@@ -2232,15 +2259,21 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			foreach (LightWrapper item in lightWrapperList)
-			{
-				if(item.LightStepWrapperList[frame, mode] != null)
-				{
-					Console.WriteLine(item.LightStepWrapperList[frame, mode].CurrentStep);
-				}				
-			}			
+			showAllLightCurrentAndTotalStep();			
+
 		}
 
-		
+		// 辅助方法：显示每个灯具的当前步和最大步
+		private void showAllLightCurrentAndTotalStep() {
+
+			foreach (LightWrapper item in lightWrapperList)
+			{
+				if (item.LightStepWrapperList[frame, mode] != null)
+				{
+					Console.WriteLine(item.StepTemplate.LightFullName + ":" + item.LightStepWrapperList[frame, mode].CurrentStep + "/" + item.LightStepWrapperList[frame, mode].TotalStep);
+				}
+			}
+		}
+
 	}
 }

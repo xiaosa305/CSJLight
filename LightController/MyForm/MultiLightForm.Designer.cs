@@ -61,6 +61,7 @@
 			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
 			this.lightsSkinListView.View = System.Windows.Forms.View.Details;
 			this.lightsSkinListView.SelectedIndexChanged += new System.EventHandler(this.lightsSkinListView_SelectedIndexChanged);
+			this.lightsSkinListView.DoubleClick += new System.EventHandler(this.enterSkinButton_Click);
 			// 
 			// lightName
 			// 

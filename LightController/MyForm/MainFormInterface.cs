@@ -877,15 +877,15 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：改变tdPanel中的通道值之后（改trackBar或者numericUpDown），更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。	
 		/// </summary>
-		/// <param name="tongdaoIndex"></param>
-		protected void changeScrollValue(int tongdaoIndex, int tdValue)
+		/// <param name="tdIndex"></param>
+		protected void changeScrollValue(int tdIndex, int tdValue)
 		{			
 			// 设tongdaoWrapper的值
 			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[tongdaoIndex].ScrollValue = tdValue;
+			step.TongdaoList[tdIndex].ScrollValue = tdValue;
 
 			if (isMultiMode) {
-				copyToAll(0);
+				copyToAll2(0,tdIndex,WHERE.SCROLL_VALUE,tdValue);
 			}
 
 				// 是否实时单灯单步
@@ -1138,18 +1138,24 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 辅助方法：多灯模式中，利用此方法，将修改不多的组长数据（如部分通道值、渐变方式、步时间等），用此改动较少的方法，赋给所有的组员
-		/// TODO：待完成（copyToAll2）
 		/// </summary>
 		/// <param name="selectedIndex"></param>
-		protected void copyToAll2(int selectedIndex)
+		protected void copyToAll2(int selectedIndex , int tdIndex , WHERE where, int value)
 		{
 			// selectedIndex是几个选中的索引中的顺序，用chooseIndex才能选到当前ListView中指定的灯具
 			int chooseIndex = selectedIndices[selectedIndex];
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(chooseIndex); //取出组长
-
+			int currentStep = getCurrentStep();
 			foreach (int index in selectedIndices)
 			{
-				
+				switch (where) {
+					case WHERE.SCROLL_VALUE:
+						getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ScrollValue = value; break;
+					case WHERE.CHANGE_MODE:
+						getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ChangeMode = value;break;
+					case WHERE.STEP_TIME:
+						getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].StepTime = value; break;
+				}				
 			}
 		}
 	}

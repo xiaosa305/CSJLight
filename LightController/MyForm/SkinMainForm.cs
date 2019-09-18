@@ -1278,8 +1278,7 @@ namespace LightController.MyForm
 			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
-
-
+		
 		/// <summary>
 		///  事件：鼠标滚动时，通道值每次只变动一个Increment值
 		/// </summary>
@@ -1325,18 +1324,20 @@ namespace LightController.MyForm
 		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int index = MathAst.getIndexNum(((ComboBox)sender).Name, -1);
+			int tdIndex = MathAst.getIndexNum(((ComboBox)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
+			int changeMode = tdChangeModeSkinComboBoxes[tdIndex].SelectedIndex;
+			step.TongdaoList[tdIndex].ChangeMode = tdChangeModeSkinComboBoxes[tdIndex].SelectedIndex;
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
 			if (isMultiMode) {
-				copyToAll(0);
+				copyToAll2(0,tdIndex,WHERE.CHANGE_MODE,changeMode);
 			}
 
-			//// 废弃代码块：
+			#region 废弃代码块：
+
 			//if (isInit)
 			//{
 			//	// 3.（6.29修改）若当前模式是声控模式：
@@ -1356,6 +1357,8 @@ namespace LightController.MyForm
 			//	//	enableTongdaoEdit(index, tdChangeModeSkinComboBoxes[index].SelectedIndex != 2);
 			//	//}
 			//}
+
+			#endregion
 		}
 
 		/// <summary>
@@ -1422,15 +1425,16 @@ namespace LightController.MyForm
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
-			step.TongdaoList[index].StepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[index].Value);
-			this.tdTrueTimeLabels[index].Text = (float)step.TongdaoList[index].StepTime * eachStepTime / 1000 + "s";
+			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value);
+			step.TongdaoList[tdIndex].StepTime = stepTime;
+			this.tdTrueTimeLabels[tdIndex].Text = (float)step.TongdaoList[tdIndex].StepTime * eachStepTime / 1000 + "s";
 
 			if (isMultiMode) {
-				copyToAll(0);
+				copyToAll2(0,tdIndex,WHERE.STEP_TIME,stepTime);
 			}
 
 		}

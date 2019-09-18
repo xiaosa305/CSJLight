@@ -250,7 +250,6 @@ namespace LightController.Tools.CSJ
                 {
                     for (this.TimeIndex = 0; this.TimeIndex < Constant.TIMEOUT; this.TimeIndex++)
                     {
-                        Console.WriteLine("超时时间：" + this.TimeIndex);
                         Thread.Sleep(1);
                         if (this.IsReceive)
                         {
@@ -292,6 +291,7 @@ namespace LightController.Tools.CSJ
                                     this.DownloadProgressDelegate("", 0);
                                 }
                             }
+                            CSJLogs.GetInstance().DebugLog( "超时，操作失败");
                             this.CallBack.SendError(deviceName, Order);
                             this.CloseDevice();
                         }
@@ -320,12 +320,11 @@ namespace LightController.Tools.CSJ
         }
         protected void ReceiveMessageManage(byte[] rxBuff, int rxCount)
         {
-            this.TimeIndex = Constant.TIMEOUT;
-            this.IsTimeOutThreadStart = false;
             this.IsReceive = true;
+            this.IsTimeOutThreadStart = false;
+            this.TimeIndex = Constant.TIMEOUT;
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
-            Console.WriteLine("Order is :" + rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -467,7 +466,6 @@ namespace LightController.Tools.CSJ
                         {
                             hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
                         }
-                        Console.WriteLine("test1");
                         this.GetParamDelegate(hardware);
                         this.CallBack.SendCompleted(devicename, this.Order);
                     }

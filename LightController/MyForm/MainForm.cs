@@ -1291,7 +1291,8 @@ namespace LightController
 		{
 			materialForm = null;
 			//TODO：需要额外处理保存素材（共性及个性）
-			materialForm = new MaterialSaveForm(this,getCurrentLightStepWrapper().StepWrapperList,mode ,"");
+			LightAst la = lightAstList[selectedIndex];
+			materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, la.LightName,la.LightType);
 			if (materialForm != null && !materialForm.IsDisposed) {
 				materialForm.ShowDialog();
 			}

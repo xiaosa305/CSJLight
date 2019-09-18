@@ -20,9 +20,10 @@ namespace LightController.MyForm
 		private int stepCount = 0;
 		private int mode;
 		private string materialPath;
-		private string lightName;  
+		private string lightName;
+		private string lightType; 
 
-		public MaterialSaveForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode , string lightName)
+		public MaterialSaveForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode,string lightName,string lightType)
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{
@@ -44,10 +45,12 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 			this.stepWrapperList = stepWrapperList;
 			this.mode = mode;
+			lightLabel.Text = "当前灯具为：" + lightName + " - " + lightType;
 
 			materialPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightMaterial\";
 			materialPath += mode == 0 ? "Normal" : "Sound";
 			this.lightName = lightName ;
+			this.lightType = lightType;
 
 			#region 初始化自定义数组等
 
@@ -103,8 +106,7 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveButton_Click(object sender, EventArgs e)
-		{
-			
+		{			
 			string materialName = nameTextBox.Text;
 
 			// 0.1 先判断各种信息，没问题了再保存
@@ -119,15 +121,15 @@ namespace LightController.MyForm
 				MessageBox.Show("素材命名不规范，无法保存。");
 				return;
 			}
-
-			string addName = addNameCheckBox.Checked ? "(" + lightName + ")" : "";
-			materialName += addName;
+			string addName = addNameCheckBox.Checked ? @"\" + lightName + @"\" + lightType+@"\"  : @"\通用\" ; 
+			materialName = addName + materialName;
 			// 0.3 直接检查是否可以生成DirectoryInfo
-			string directoryPath = materialPath + @"\" + @materialName;
-			DirectoryInfo di = null;
+			string directoryPath = materialPath + @materialName + ".ini";	
+
+			FileInfo fi = null;
 			try
 			{
-				di = new DirectoryInfo(directoryPath);
+				fi = new FileInfo(directoryPath);
 			}
 			catch (Exception ex)
 			{
@@ -136,7 +138,7 @@ namespace LightController.MyForm
 			}
 
 			// 0.4 判断名称是否已存在；若存在，选覆盖则先删除旧文件夹；否则退出方法。
-			if (di.Exists)
+			if (fi.Exists)
 			{
 				DialogResult dr = MessageBox.Show(
 					"当前名称已有素材，是否覆盖？",
@@ -146,11 +148,11 @@ namespace LightController.MyForm
 				);
 				if (dr == DialogResult.OK)
 				{
-						di.Delete(true);
+					fi.Delete();
 				}
 				else
 				{
-						return;
+					return;
 				}
 			}
 
@@ -178,7 +180,7 @@ namespace LightController.MyForm
 			// 1.由新建时取的素材名，来新建相关文件夹
 			try
 			{
-				di.Create();
+				fi.Create();
 			}
 			catch (Exception) {
 				MessageBox.Show("素材命名不规范，无法保存。");
@@ -188,7 +190,7 @@ namespace LightController.MyForm
 			// 2.将相关文件拷贝到文件夹内	
 
 			string sourcePath = Application.StartupPath + @"\materialSet.ini";
-			string destinationPath = directoryPath  + @"\materialSet.ini";
+			string destinationPath = directoryPath;
 
 			File.Copy(sourcePath, destinationPath);
 
@@ -249,12 +251,7 @@ namespace LightController.MyForm
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
-
-		private void noticeLabel_Click(object sender, EventArgs e)
-		{
-
-		}
-
+		
 		/// <summary>
 		///  事件：输入字符事件，不可输入 \ 和 / ; 其他非法字符可以在之后被DirectoryInfo检查出来
 		///  -- 可先将shortcutEnable 设为false；若不设置，仍可以用粘贴方法导入错误的素材名

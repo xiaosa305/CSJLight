@@ -1037,7 +1037,7 @@ namespace LightController.MyForm
 			}
 
 			// 3.重新渲染当前步的所有通道
-			showTDPanels(currentStep.TongdaoList, currentStep.StartNum);
+			showTDPanels(currentStep.TongdaoList, currentStep.StartNum);		
 
 			//4.如果是多灯模式，则需要在复制步之后处理下每个灯具的信息
 			if (isMultiMode) {
@@ -1050,7 +1050,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void chooseStep(int stepNum)
 		{		
-			Console.WriteLine("chooseStep ：" + stepNum);
+			//Console.WriteLine("chooseStep ：" + stepNum);
 			if (stepNum == 0) {
 				showTDPanels(null,0);
 				showStepLabel(0,0);
@@ -1059,8 +1059,7 @@ namespace LightController.MyForm
 			
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];			
-			lightStepWrapper.CurrentStep = stepNum;		
-			showAllLightCurrentAndTotalStep();
+			lightStepWrapper.CurrentStep = stepNum;	
 
 			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
 			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
@@ -1898,8 +1897,9 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
-		{			
-			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, selectedLightName);
+		{
+			LightAst lightAst = lightAstList[selectedIndex];
+			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, lightAst.LightName, lightAst.LightType);
 			if (materialForm != null && !materialForm.IsDisposed)
 			{
 				materialForm.ShowDialog();
@@ -2263,9 +2263,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			showAllLightCurrentAndTotalStep();			
-
+			//showAllLightCurrentAndTotalStep();		
 		}
+
+		#region 一些辅助测试方法，后期肯定会删除
 
 		// 辅助方法：显示每个灯具的当前步和最大步
 		private void showAllLightCurrentAndTotalStep() {
@@ -2279,5 +2280,7 @@ namespace LightController.MyForm
 			}
 		}
 
+
+		#endregion
 	}
 }

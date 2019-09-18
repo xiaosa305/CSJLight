@@ -255,6 +255,7 @@ namespace LightController.Tools.CSJ
                         //{
                         //    break;
                         //}
+                        Console.WriteLine("超时计时：" + TimeIndex + "ms");
                     }
                     this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)

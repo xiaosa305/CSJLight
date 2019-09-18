@@ -14,7 +14,9 @@ namespace LightController.Ast
 
 		// 调节杆的值 --》两种方法改变：1拉杆 2.填值
 		public int ScrollValue { get; set; }
-		// 变化模式：跳变0；渐变1
+		// 变化模式：
+		//		常规：跳变0；渐变1；屏蔽2  
+		//		声控：屏蔽0；跳变1；（渐变2）
 		public int ChangeMode { get; set; }
 		// 步时间：某内部时间因子的倍数
 		public int StepTime { get; set; }
@@ -24,23 +26,12 @@ namespace LightController.Ast
 		/// </summary>
 		/// <param name="oldTongdaoList"></param>
 		/// <returns></returns>
-		public static List<TongdaoWrapper> GenerateTongdaoList(IList<TongdaoWrapper> stepTemplateTongdaoList ,int mode)
+		public static IList<TongdaoWrapper> GenerateTongdaoList(IList<TongdaoWrapper> stepTemplateTongdaoList ,int mode)
 		{
-			List<TongdaoWrapper> newList = new List<TongdaoWrapper>();
+			IList<TongdaoWrapper> newList = new List<TongdaoWrapper>();
 			foreach (TongdaoWrapper item in stepTemplateTongdaoList)
 			{
 				// 9.7 如果是模板数据，则根据mode来决定changeMode的初值
-				//int tempChangeMode = item.ChangeMode;
-				//if (tempChangeMode ==  -1) {
-				//	if (mode == 0)
-				//	{
-				//		tempChangeMode = 1;
-				//	}
-				//	else {
-				//		tempChangeMode = 0;
-				//	}
-				//}				
-
 				newList.Add(new TongdaoWrapper()	{
 						StepTime = item.StepTime,
 						TongdaoName = item.TongdaoName,
@@ -53,5 +44,6 @@ namespace LightController.Ast
 			return newList;
 		}
 
+		
 	}
 }

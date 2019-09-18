@@ -134,7 +134,7 @@
 			this.commonGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.commonGroupBox.Name = "commonGroupBox";
 			this.commonGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.commonGroupBox.Size = new System.Drawing.Size(464, 186);
+			this.commonGroupBox.Size = new System.Drawing.Size(464, 232);
 			this.commonGroupBox.TabIndex = 0;
 			this.commonGroupBox.TabStop = false;
 			this.commonGroupBox.Text = "通用设置";
@@ -146,7 +146,7 @@
 			this.playFlagComboBox.Items.AddRange(new object[] {
             "录播文件",
             "程序文件"});
-			this.playFlagComboBox.Location = new System.Drawing.Point(318, 153);
+			this.playFlagComboBox.Location = new System.Drawing.Point(319, 184);
 			this.playFlagComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.playFlagComboBox.Name = "playFlagComboBox";
 			this.playFlagComboBox.Size = new System.Drawing.Size(80, 20);
@@ -177,15 +177,15 @@
             "38400",
             "57600",
             "115200"});
-			this.baudComboBox.Location = new System.Drawing.Point(100, 153);
+			this.baudComboBox.Location = new System.Drawing.Point(101, 184);
 			this.baudComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.baudComboBox.Name = "baudComboBox";
-			this.baudComboBox.Size = new System.Drawing.Size(80, 20);
+			this.baudComboBox.Size = new System.Drawing.Size(82, 20);
 			this.baudComboBox.TabIndex = 6;
 			// 
 			// currUseTimeNumericUpDown
 			// 
-			this.currUseTimeNumericUpDown.Location = new System.Drawing.Point(317, 86);
+			this.currUseTimeNumericUpDown.Location = new System.Drawing.Point(319, 118);
 			this.currUseTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.currUseTimeNumericUpDown.Maximum = new decimal(new int[] {
             100000,
@@ -193,7 +193,7 @@
             0,
             0});
 			this.currUseTimeNumericUpDown.Name = "currUseTimeNumericUpDown";
-			this.currUseTimeNumericUpDown.Size = new System.Drawing.Size(82, 21);
+			this.currUseTimeNumericUpDown.Size = new System.Drawing.Size(80, 21);
 			this.currUseTimeNumericUpDown.TabIndex = 3;
 			this.currUseTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.currUseTimeNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
@@ -201,7 +201,7 @@
 			// label20
 			// 
 			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(224, 156);
+			this.label20.Location = new System.Drawing.Point(225, 188);
 			this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(65, 12);
@@ -210,7 +210,7 @@
 			// 
 			// sumUseTimeNumericUpDown
 			// 
-			this.sumUseTimeNumericUpDown.Location = new System.Drawing.Point(100, 86);
+			this.sumUseTimeNumericUpDown.Location = new System.Drawing.Point(101, 118);
 			this.sumUseTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.sumUseTimeNumericUpDown.Maximum = new decimal(new int[] {
             100000,
@@ -226,7 +226,7 @@
 			// label16
 			// 
 			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(14, 156);
+			this.label16.Location = new System.Drawing.Point(10, 188);
 			this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(53, 12);
@@ -235,7 +235,7 @@
 			// 
 			// heartbeatCycleNumericUpDown
 			// 
-			this.heartbeatCycleNumericUpDown.Location = new System.Drawing.Point(317, 120);
+			this.heartbeatCycleNumericUpDown.Location = new System.Drawing.Point(319, 151);
 			this.heartbeatCycleNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.heartbeatCycleNumericUpDown.Maximum = new decimal(new int[] {
             100000,
@@ -243,7 +243,7 @@
             0,
             0});
 			this.heartbeatCycleNumericUpDown.Name = "heartbeatCycleNumericUpDown";
-			this.heartbeatCycleNumericUpDown.Size = new System.Drawing.Size(82, 21);
+			this.heartbeatCycleNumericUpDown.Size = new System.Drawing.Size(80, 21);
 			this.heartbeatCycleNumericUpDown.TabIndex = 3;
 			this.heartbeatCycleNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.heartbeatCycleNumericUpDown.Leave += new System.EventHandler(this.numericUpDown_RecoverNum);
@@ -256,26 +256,26 @@
             "SD卡",
             "U盘",
             "内部存储"});
-			this.diskFlagComboBox.Location = new System.Drawing.Point(98, 54);
+			this.diskFlagComboBox.Location = new System.Drawing.Point(101, 85);
 			this.diskFlagComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.diskFlagComboBox.Name = "diskFlagComboBox";
-			this.diskFlagComboBox.Size = new System.Drawing.Size(85, 20);
+			this.diskFlagComboBox.Size = new System.Drawing.Size(82, 20);
 			this.diskFlagComboBox.TabIndex = 2;
 			// 
 			// heartbeatTextBox
 			// 
-			this.heartbeatTextBox.Location = new System.Drawing.Point(100, 120);
+			this.heartbeatTextBox.Location = new System.Drawing.Point(101, 151);
 			this.heartbeatTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.heartbeatTextBox.MaxLength = 8;
 			this.heartbeatTextBox.Name = "heartbeatTextBox";
-			this.heartbeatTextBox.Size = new System.Drawing.Size(84, 21);
+			this.heartbeatTextBox.Size = new System.Drawing.Size(82, 21);
 			this.heartbeatTextBox.TabIndex = 1;
 			this.heartbeatTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateLetterOrDigit_KeyPress);
 			// 
 			// label19
 			// 
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(12, 124);
+			this.label19.Location = new System.Drawing.Point(10, 155);
 			this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(53, 12);
@@ -285,7 +285,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(10, 90);
+			this.label4.Location = new System.Drawing.Point(10, 122);
 			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(71, 12);
@@ -295,7 +295,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(224, 25);
+			this.label3.Location = new System.Drawing.Point(225, 25);
 			this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(59, 12);
@@ -305,18 +305,18 @@
 			// hardwareIDTextBox
 			// 
 			this.hardwareIDTextBox.Enabled = false;
-			this.hardwareIDTextBox.Location = new System.Drawing.Point(293, 53);
+			this.hardwareIDTextBox.Location = new System.Drawing.Point(73, 52);
 			this.hardwareIDTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.hardwareIDTextBox.MaxLength = 16;
 			this.hardwareIDTextBox.Name = "hardwareIDTextBox";
-			this.hardwareIDTextBox.Size = new System.Drawing.Size(108, 21);
+			this.hardwareIDTextBox.Size = new System.Drawing.Size(326, 21);
 			this.hardwareIDTextBox.TabIndex = 1;
 			this.hardwareIDTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.validateDigit_KeyPress);
 			// 
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(224, 57);
+			this.label13.Location = new System.Drawing.Point(10, 56);
 			this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(53, 12);
@@ -326,7 +326,7 @@
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(224, 124);
+			this.label18.Location = new System.Drawing.Point(225, 155);
 			this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(83, 12);
@@ -336,7 +336,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 57);
+			this.label2.Location = new System.Drawing.Point(10, 89);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(65, 12);
@@ -346,7 +346,7 @@
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(224, 90);
+			this.label17.Location = new System.Drawing.Point(225, 122);
 			this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(89, 12);
@@ -388,7 +388,7 @@
 			this.networkGroupBox.Controls.Add(this.label7);
 			this.networkGroupBox.Controls.Add(this.label8);
 			this.networkGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-			this.networkGroupBox.Location = new System.Drawing.Point(0, 186);
+			this.networkGroupBox.Location = new System.Drawing.Point(0, 232);
 			this.networkGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.networkGroupBox.Name = "networkGroupBox";
 			this.networkGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -460,7 +460,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(14, 145);
+			this.label10.Location = new System.Drawing.Point(13, 145);
 			this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(53, 12);
@@ -479,7 +479,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(14, 73);
+			this.label6.Location = new System.Drawing.Point(10, 73);
 			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(47, 12);
@@ -498,7 +498,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(14, 109);
+			this.label7.Location = new System.Drawing.Point(9, 109);
 			this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(65, 12);
@@ -508,7 +508,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(14, 34);
+			this.label8.Location = new System.Drawing.Point(10, 34);
 			this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(89, 12);
@@ -527,7 +527,7 @@
 			this.otherGroupBox.Controls.Add(this.domainNameTextBox);
 			this.otherGroupBox.Controls.Add(this.label15);
 			this.otherGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-			this.otherGroupBox.Location = new System.Drawing.Point(0, 364);
+			this.otherGroupBox.Location = new System.Drawing.Point(0, 410);
 			this.otherGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.otherGroupBox.Name = "otherGroupBox";
 			this.otherGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -557,7 +557,7 @@
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(231, 36);
+			this.label11.Location = new System.Drawing.Point(225, 36);
 			this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(65, 12);
@@ -567,7 +567,7 @@
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(232, 73);
+			this.label12.Location = new System.Drawing.Point(225, 73);
 			this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(65, 12);
@@ -586,7 +586,7 @@
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(14, 36);
+			this.label14.Location = new System.Drawing.Point(10, 36);
 			this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(53, 12);
@@ -605,7 +605,7 @@
 			// label15
 			// 
 			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(14, 73);
+			this.label15.Location = new System.Drawing.Point(10, 73);
 			this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(65, 12);
@@ -619,7 +619,7 @@
 			this.saveSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.saveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.saveSkinButton.DownBack = null;
-			this.saveSkinButton.Location = new System.Drawing.Point(35, 415);
+			this.saveSkinButton.Location = new System.Drawing.Point(35, 430);
 			this.saveSkinButton.MouseBack = null;
 			this.saveSkinButton.Name = "saveSkinButton";
 			this.saveSkinButton.NormlBack = null;
@@ -692,7 +692,7 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.panel1.Location = new System.Drawing.Point(464, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(216, 485);
+			this.panel1.Size = new System.Drawing.Size(216, 525);
 			this.panel1.TabIndex = 3;
 			// 
 			// cancelSkinButton
@@ -703,7 +703,7 @@
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(129, 415);
+			this.cancelSkinButton.Location = new System.Drawing.Point(129, 430);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -733,8 +733,8 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 1;
-			this.skinTabControl.Size = new System.Drawing.Size(214, 363);
+			this.skinTabControl.SelectedIndex = 0;
+			this.skinTabControl.Size = new System.Drawing.Size(214, 388);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 3;
 			// 
@@ -753,7 +753,7 @@
 			this.networkTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkTab.Location = new System.Drawing.Point(0, 36);
 			this.networkTab.Name = "networkTab";
-			this.networkTab.Size = new System.Drawing.Size(214, 327);
+			this.networkTab.Size = new System.Drawing.Size(214, 352);
 			this.networkTab.TabIndex = 0;
 			this.networkTab.TabItemImage = null;
 			this.networkTab.Text = "网络连接";
@@ -847,7 +847,7 @@
 			this.comTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comTab.Location = new System.Drawing.Point(0, 36);
 			this.comTab.Name = "comTab";
-			this.comTab.Size = new System.Drawing.Size(214, 327);
+			this.comTab.Size = new System.Drawing.Size(214, 352);
 			this.comTab.TabIndex = 1;
 			this.comTab.TabItemImage = null;
 			this.comTab.Text = "串口连接";
@@ -936,7 +936,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
-			this.ClientSize = new System.Drawing.Size(680, 485);
+			this.ClientSize = new System.Drawing.Size(680, 525);
 			this.Controls.Add(this.otherGroupBox);
 			this.Controls.Add(this.networkGroupBox);
 			this.Controls.Add(this.commonGroupBox);

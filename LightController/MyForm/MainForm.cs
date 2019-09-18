@@ -846,7 +846,7 @@ namespace LightController
 			this.ShowVScrollBars(stepWrapper.TongdaoList, stepWrapper.StartNum);
 			this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 
-			if (isConnect && isRealtime)
+			if (isConnected && isRealtime)
 			{
 				oneLightStepWork();
 			}			
@@ -1455,13 +1455,13 @@ namespace LightController
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if ( !isConnect )
+			if ( !isConnected )
 			{
 				playTools.ConnectDevice(comName);
 				setDMX512TestButtonsEnable(true);
 				chooseComButton.Enabled = false;
 				connectButton.Text = "断开连接";
-				isConnect = true;
+				isConnected = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
@@ -1469,7 +1469,7 @@ namespace LightController
 				setDMX512TestButtonsEnable(false);
 				chooseComButton.Enabled = true;
 				connectButton.Text = "连接设备";
-				isConnect = false;
+				isConnected = false;
 			}
 		}
 

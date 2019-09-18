@@ -29,10 +29,10 @@ namespace LightController.Ast
 		///  主要供从数据库里读取数据填入内存时使用
 		///  复制灯时也有可能用到这个方法
 		/// </summary>
-		/// <param name="stepMode">模板Step</param>
+		/// <param name="stepTemplate">模板Step</param>
 		/// <param name="stepValueList">从数据库读取的相同lightIndex、frame、mode、step的数值集合：即某一步的通道值列表</param>
 		/// <returns></returns>
-		public static StepWrapper GenerateStepWrapper(StepWrapper stepMode, IList<DB_Value> stepValueList, int mode)
+		public static StepWrapper GenerateStepWrapper(StepWrapper stepTemplate, IList<DB_Value> stepValueList, int mode)
 		{
 			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
 			for (int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
@@ -40,8 +40,8 @@ namespace LightController.Ast
 				DB_Value value = stepValueList[tdIndex];
 				TongdaoWrapper td = new TongdaoWrapper()
 				{
-					TongdaoName = stepMode.TongdaoList[tdIndex].TongdaoName,
-					Address = stepMode.TongdaoList[tdIndex].Address,
+					TongdaoName = stepTemplate.TongdaoList[tdIndex].TongdaoName,
+					Address = stepTemplate.TongdaoList[tdIndex].Address,
 					StepTime = value.StepTime,
 					ChangeMode = value.ChangeMode,
 					ScrollValue = value.ScrollValue
@@ -52,8 +52,8 @@ namespace LightController.Ast
 			{
 				TongdaoList = tongdaoList,
 				LightMode = mode,
-				LightFullName = stepMode.LightFullName,
-				StartNum = stepMode.StartNum
+				LightFullName = stepTemplate.LightFullName,
+				StartNum = stepTemplate.StartNum
 			};
 		}
 
@@ -61,18 +61,18 @@ namespace LightController.Ast
 		///  辅助方法： 由 步数模板 和 TongdaoList集合 , 来生成某一步的StepWrapper;
 		///  复制灯时将用到这个方法
 		/// </summary>
-		/// <param name="stepMode">模板Step</param>
+		/// <param name="stepTemplate">模板Step</param>
 		/// <param name="stepValueList">从数据库读取的相同lightIndex、frame、mode、step的数值集合：即某一步的通道值列表</param>
 		/// <returns></returns>
-		public static StepWrapper GenerateStepWrapper(StepWrapper stepMode, IList<TongdaoWrapper> tempTongdaoList, int mode)
+		public static StepWrapper GenerateStepWrapper(StepWrapper stepTemplate, IList<TongdaoWrapper> tempTongdaoList, int mode)
 		{
 			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
 			for (int tdIndex = 0; tdIndex < tempTongdaoList.Count; tdIndex++)
 			{
 				TongdaoWrapper td = new TongdaoWrapper()
 				{
-					TongdaoName = stepMode.TongdaoList[tdIndex].TongdaoName,
-					Address = stepMode.TongdaoList[tdIndex].Address,
+					TongdaoName = stepTemplate.TongdaoList[tdIndex].TongdaoName,
+					Address = stepTemplate.TongdaoList[tdIndex].Address,
 					StepTime = tempTongdaoList[tdIndex].StepTime,
 					ChangeMode = tempTongdaoList[tdIndex].ChangeMode,
 					ScrollValue = tempTongdaoList[tdIndex].ScrollValue
@@ -83,8 +83,8 @@ namespace LightController.Ast
 			{
 				TongdaoList = tongdaoList,
 				LightMode = mode,
-				LightFullName = stepMode.LightFullName,
-				StartNum = stepMode.StartNum
+				LightFullName = stepTemplate.LightFullName,
+				StartNum = stepTemplate.StartNum
 			};
 		}
 		
@@ -109,6 +109,27 @@ namespace LightController.Ast
 			};
 		}
 
+		/// <summary>
+		///  辅助方法	:通过stepMode和mode，来生成新的stepWrapper
+		///  （包括mode,lightName,startNum,tongdaoList等属性）;
+		///  主要供新建步、插入素材 等情况使用
+		/// </summary>
+		/// <param name="stepTemplate"></param>
+		/// <returns></returns>
+		public static StepWrapper GenerateNewStep(StepWrapper stepTemplate, StepWrapper mainStepTemplate, int mode)
+		{
+			if (stepTemplate == null || mainStepTemplate==null)
+			{
+				return null;
+			}
+			return new StepWrapper()
+			{
+				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList, mode),
+				LightMode = mode,
+				LightFullName = stepTemplate.LightFullName,
+				StartNum = stepTemplate.StartNum
+			};
+		}
 
 		/// <summary>
 		///  辅助方法：改变这其中tongdaoList相应的值

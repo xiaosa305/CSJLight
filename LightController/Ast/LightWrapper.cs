@@ -11,7 +11,9 @@ namespace LightController.Ast
 	/// </summary>
 	public class LightWrapper
 	{
-		// StepMode:每一步的模型。每次新建StepList的数据时，先采用这个模型。
+		/// <summary>
+		/// 每一步的模型。每次新建StepList的数据时，先采用这个模型。
+		/// </summary>
 		public StepWrapper StepTemplate { get; set; }
 
 		// StepAstList类:是某一个场景模式（FＭ）下步数的集合;　
@@ -57,5 +59,8 @@ namespace LightController.Ast
 			}
 			return newLight;
 		}
+
+		
+
 	}
 }

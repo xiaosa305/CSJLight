@@ -18,12 +18,12 @@ namespace LightController.Tools.CSJ
         protected bool IsTimeOutThreadStart { get; set; }//超时执行启动状态标记
         protected bool DownloadStatus { get; set; }//下载状态标记
         protected int OrderOrData { get; set; }//当前数据包类型
-        protected int DownloadFileToTalSize { get; set; }//工程项目文件总大小
-        protected int CurrentDownloadCompletedSize { get; set; }//当前文件大小
+        protected long DownloadFileToTalSize { get; set; }//工程项目文件总大小
+        protected long CurrentDownloadCompletedSize { get; set; }//当前文件大小
         protected int TimeOutCount { get; set; }//超时计数
         protected int PackageSize { get; set; }//数据包大小
-        protected int PackageCount { get; set; }//数据包总数
-        protected int Package_Index { get; set; }//当前数据包编号
+        protected long PackageCount { get; set; }//数据包总数
+        protected long Package_Index { get; set; }//当前数据包编号
         protected int Addr { get; set; }//设备地址
         protected int TimeIndex { get; set; }//超时时间计数
         protected string CurrentFileName { get; set; }//当前下载文件名称
@@ -250,12 +250,12 @@ namespace LightController.Tools.CSJ
                 {
                     for (this.TimeIndex = 0; this.TimeIndex < Constant.TIMEOUT; this.TimeIndex++)
                     {
+                        //Console.WriteLine("-------------计时：" + TimeIndex + "-------------");
+                        if (IsReceive)
+                        {
+                            break;
+                        }
                         Thread.Sleep(1);
-                        //if (this.IsReceive)
-                        //{
-                        //    break;
-                        //}
-                        Console.WriteLine("超时计时：" + TimeIndex + "ms");
                     }
                     this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)
@@ -270,8 +270,11 @@ namespace LightController.Tools.CSJ
                             {
                                 try
                                 {
-                                    this.DownloadStatus = false;
-                                    this.DownloadThread.Abort();
+                                    if (null != DownloadThread)
+                                    {
+                                        this.DownloadStatus = false;
+                                        this.DownloadThread.Abort();
+                                    }
                                 }
                                 finally
                                 {
@@ -324,6 +327,7 @@ namespace LightController.Tools.CSJ
             this.IsReceive = true;
             this.IsTimeOutThreadStart = false;
             this.TimeIndex = Constant.TIMEOUT;
+            Thread.Sleep(1);
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
             switch (this.Order)
@@ -332,7 +336,31 @@ namespace LightController.Tools.CSJ
                     switch (rxStr.Split(':')[0])
                     {
                         case Constant.RECEIVE_ORDER_BEGIN_OK:
-                            this.DownloadStatus = true;
+                            string value = rxStr.Split(':')[1].Split(' ')[1];
+                            long.TryParse(value, out long intValue);
+                            long DiskUsableSize = intValue * 1024 * 1024;
+                            if (DiskUsableSize >= DownloadFileToTalSize)
+                            {
+                                this.DownloadStatus = true;
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    if (null != this.DownloadThread)
+                                    {
+                                        this.DownloadThread.Abort();
+                                    }
+                                }
+                                finally
+                                {
+                                    this.DownloadStatus = false;
+                                    this.IsSending = false;
+                                    this.DownloadProgressDelegate("", 0);
+                                    this.CallBack.SendError(devicename, Order);
+                                    this.CloseDevice();
+                                }
+                            }
                             break;
                         case Constant.RECEIVE_ORDER_BEGIN_ERROR:
                         case Constant.RECEIVE_ORDER_BEGIN_ERROR_DISK:
@@ -517,6 +545,7 @@ namespace LightController.Tools.CSJ
                 this.TimeIndex = 0;
                 this.IsReceive = false;
                 this.IsTimeOutThreadStart = true;
+                Thread.Sleep(1);
                 if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
                     int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
@@ -549,7 +578,6 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                throw;
             }
         }
         protected void DownloadStart()
@@ -735,23 +763,29 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                throw;
             }
         }
         protected void UpdateStart()
         {
-            FileInfo info = new FileInfo(this.UpdateFilePath);
-            FileStream fileStream = File.OpenRead(this.UpdateFilePath);
-            this.DownloadFileToTalSize = 0;
-            this.CurrentDownloadCompletedSize = 0;
-            byte[] data = new byte[fileStream.Length];
-            fileStream.Read(data, 0, data.Length);
-            string fileSize = data.Length.ToString();
-            this.DownloadFileToTalSize = data.Length;
-            string fileName = info.Name;
-            byte[] crc = CRCTools.GetInstance().GetCRC(data);
-            string fileCrc = Convert.ToInt32((crc[0] & 0xFF) | ((crc[1] & 0xFF) << 8)) + "";
-            this.SendData(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc});
+            try
+            {
+                FileInfo info = new FileInfo(this.UpdateFilePath);
+                FileStream fileStream = File.OpenRead(this.UpdateFilePath);
+                this.DownloadFileToTalSize = 0;
+                this.CurrentDownloadCompletedSize = 0;
+                byte[] data = new byte[fileStream.Length];
+                fileStream.Read(data, 0, data.Length);
+                string fileSize = data.Length.ToString();
+                this.DownloadFileToTalSize = data.Length;
+                string fileName = info.Name;
+                byte[] crc = CRCTools.GetInstance().GetCRC(data);
+                string fileCrc = Convert.ToInt32((crc[0] & 0xFF) | ((crc[1] & 0xFF) << 8)) + "";
+                this.SendData(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc });
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
         }
         public class PacketSize
         {

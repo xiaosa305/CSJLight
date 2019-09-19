@@ -36,7 +36,6 @@ namespace LightController.Tools.CSJ.IMPL
                 }
             }
         }
-
         public byte[] GetData()
         {
             List<byte> dataBuff = new List<byte>();
@@ -59,7 +58,6 @@ namespace LightController.Tools.CSJ.IMPL
             dataBuff[3] = Convert.ToByte((FileSize >> 24) & 0xFF);
             return dataBuff.ToArray();
         }
-
         public void WriteToFile(string filepath)
         {
             byte[] data = GetData();

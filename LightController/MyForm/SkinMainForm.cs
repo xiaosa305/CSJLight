@@ -2265,6 +2265,7 @@ namespace LightController.MyForm
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
 			//showAllLightCurrentAndTotalStep();		
+
 		}
 
 		#region 一些辅助测试方法，后期肯定会删除

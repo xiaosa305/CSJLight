@@ -339,7 +339,10 @@ namespace LightController.Tools.CSJ
                         default:
                             try
                             {
-                                this.DownloadThread.Abort();
+                                if (null != this.DownloadThread)
+                                {
+                                    this.DownloadThread.Abort();
+                                }
                             }
                             finally
                             {
@@ -367,7 +370,10 @@ namespace LightController.Tools.CSJ
                         default:
                             try
                             {
-                                this.DownloadThread.Abort();
+                                if (null != this.DownloadThread)
+                                {
+                                    this.DownloadThread.Abort();
+                                }
                             }
                             finally
                             {
@@ -394,7 +400,10 @@ namespace LightController.Tools.CSJ
                         default:
                             try
                             {
-                                this.DownloadThread.Abort();
+                                if (null != this.DownloadThread)
+                                {
+                                    this.DownloadThread.Abort();
+                                }
                             }
                             finally
                             {
@@ -429,8 +438,6 @@ namespace LightController.Tools.CSJ
                     switch (rxStr)
                     {
                         case Constant.RECEIVE_ORDER_UPDATE_OK:
-                            this.SendDataPackage();
-                            break;
                         case Constant.RECEIVE_ORDER_SENDNEXT:
                             this.SendDataPackage();
                             break;
@@ -460,15 +467,20 @@ namespace LightController.Tools.CSJ
                 case Constant.ORDER_GET_PARAM:
                     try
                     {
-                        this.IsSending = false;
                         string data = Encoding.Default.GetString(rxBuff);
                         CSJ_Hardware hardware = null;
                         if (!data.Equals(Constant.RECEIVE_ORDER_GET_PARAM))
                         {
                             hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
+                            this.IsSending = false;
+                            this.GetParamDelegate(hardware);
+                            this.CallBack.SendCompleted(devicename, this.Order);
                         }
-                        this.GetParamDelegate(hardware);
-                        this.CallBack.SendCompleted(devicename, this.Order);
+                        else
+                        {
+                            this.IsSending = false;
+                            this.CallBack.SendError(devicename, this.Order);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -485,9 +497,11 @@ namespace LightController.Tools.CSJ
                     switch (rxStr.Split(':')[0])
                     {
                         case Constant.RECEIVE_ORDER_OTHER_OK:
+                            this.IsSending = false;
                             this.CallBack.SendCompleted(devicename, this.Order);
                             break;
                         default:
+                            this.IsSending = false;
                             this.CallBack.SendError(devicename, Order);
                             break;
                     }

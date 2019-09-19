@@ -24,7 +24,6 @@ namespace LightController.Tools
         {
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
-            PackageSize = Constant.PACKAGE_SIZE_DEFAULT;
             PackageSize = Constant.PACKAGE_SIZE_2K;
             Ip = "";
         }

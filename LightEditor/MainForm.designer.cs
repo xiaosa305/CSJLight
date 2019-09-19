@@ -33,6 +33,7 @@ namespace LightEditor
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.comComboBox = new System.Windows.Forms.ComboBox();
 			this.chooseComButton = new System.Windows.Forms.Button();
@@ -169,6 +170,7 @@ namespace LightEditor
 			this.connectButton = new System.Windows.Forms.Button();
 			this.connectPanel = new System.Windows.Forms.Panel();
 			this.refreshButton = new System.Windows.Forms.Button();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.lightTestGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
@@ -2109,6 +2111,7 @@ namespace LightEditor
 		private Button setCurrentToInitButton;
 		private Panel connectPanel;
 		private Button refreshButton;
+		private ToolTip myToolTip;
 	}
 }
 

@@ -1135,6 +1135,7 @@ namespace LightController.MyForm
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
+					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoName);
 					tdSkinTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
@@ -2281,7 +2282,6 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
 
 		#endregion
 	}

@@ -619,7 +619,8 @@ namespace LightEditor
 		{				
 			for (int i = 0; i < tongdaoCount; i++)
 			{				
-				this.labels[i].Text = (firstTDValue+i )+ "-  " + tongdaoList[i].TongdaoName;				
+				this.labels[i].Text = (firstTDValue+i )+ "-  " + tongdaoList[i].TongdaoName;
+				myToolTip.SetToolTip(labels[i], tongdaoList[i].TongdaoName);
 				this.valueVScrollBars[i].Value = 255- tongdaoList[i].CurrentValue;
 				this.valueNumericUpDowns[i].Value =   tongdaoList[i].CurrentValue;
 			}

@@ -384,6 +384,7 @@ namespace LightController.MyForm
 			this.firstLabel3 = new System.Windows.Forms.Label();
 			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.middleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -6516,5 +6517,6 @@ namespace LightController.MyForm
 		private TableLayoutPanel middleTableLayoutPanel;
 		private SkinButton pasteLightSkinButton2;
 		private Button bigTestButton;
+		private ToolTip myToolTip;
 	}
 }

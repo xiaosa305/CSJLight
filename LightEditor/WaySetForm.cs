@@ -267,7 +267,7 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  点击应用后:确认操作
+		///  事件：点击《应用》后:确认操作
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param
@@ -292,14 +292,13 @@ namespace LightEditor
 				}
 				else
 				{
-					tongdaoList[i].TongdaoName = tdTextBoxes[i].Text.Trim();
+					tongdaoList[i].TongdaoName = tdTextBoxes[i].Text.Trim();					
 					tongdaoList[i].InitValue = Decimal.ToInt16(tdNumericUpDowns[i].Value);
 				}
 			}
 
 			// 2.设置tongdaoList到mainForm中；
 			mainForm.SetTongdaoList(this.tongdaoList);
-
 		}
 
 
@@ -313,7 +312,6 @@ namespace LightEditor
 			this.Dispose();
 			mainForm.Activate();
 		}
-
 
 		/// <summary>
 		/// 事件：点击《右上角？》按钮，提示X、Y轴微调相关设置

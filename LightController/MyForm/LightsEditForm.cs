@@ -25,7 +25,7 @@ namespace LightController.MyForm
 			this.lightIndex = lightIndex;
 
 			nameTypeLabel.Text = lightAst.LightName + "-" + lightAst.LightType;
-			addrLabel.Text = lightAst.LightAddr;
+			addrLabel.Text = lightAst.LightAddr;			
 			startCountNumericUpDown.Value = lightAst.StartNum;
 
 		}
@@ -44,10 +44,11 @@ namespace LightController.MyForm
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			int startNum = Decimal.ToInt16(startCountNumericUpDown.Value );
-			lightsForm.UpdateLight(lightIndex, startNum);
-			this.Dispose();
-			lightsForm.Activate();
-
+			bool editResult = lightsForm.UpdateLight(lightIndex, startNum);
+			if (editResult) {
+				this.Dispose();
+				lightsForm.Activate();
+			}
 		}
 
 		/// <summary>

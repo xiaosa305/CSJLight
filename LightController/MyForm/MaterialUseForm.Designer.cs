@@ -154,7 +154,7 @@
 			this.Name = "MaterialUseForm";
 			this.ShowInTaskbar = false;
 			this.Text = "使用素材";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MaterialUseForm_FormClosed);
+		
 			this.Load += new System.EventHandler(this.MaterialUseForm_Load);
 			this.ResumeLayout(false);
 

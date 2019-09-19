@@ -15,6 +15,8 @@ namespace LightController
 {
 	public partial class LightsForm : System.Windows.Forms.Form
 	{
+		public const int MAX_TD = 512;
+
 		private MainFormInterface mainForm;		
 		//每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private int minNum = 1;
@@ -143,8 +145,12 @@ namespace LightController
 				Count = lightCount
 			});
 
-			// 3.设置minNum的值 
+			// 3.设置minNum的值 			
 			minNum = endNum + 1;
+			if( minNum>512 ) {
+				MessageBox.Show("当前工程已经到达DMX512地址上限，请谨慎设置");
+				minNum = 512;
+			}
 		}
 
 
@@ -236,15 +242,24 @@ namespace LightController
 		/// </summary>
 		/// <param name="lightIndex"></param>
 		/// <param name="startNum"></param>
-		internal void UpdateLight(int lightIndex, int startNum)
+		internal bool UpdateLight(int lightIndex, int startNum)
 		{
-			// 1.修改lightAstList
-			lightAstList[lightIndex].StartNum = startNum;
-			lightAstList[lightIndex].EndNum = startNum + lightAstList[lightIndex].Count - 1;
-			lightAstList[lightIndex].LightAddr = startNum + "-" + lightAstList[lightIndex].EndNum;
+			int endNum = startNum + lightAstList[lightIndex].Count - 1;
+			if (endNum > MAX_TD) {
+				MessageBox.Show("设置后的最后地址超过了DMX512的上限值，请重新设置。");
+				return false;
+			}
+			else
+			{
+				// 1.修改lightAstList
+				lightAstList[lightIndex].StartNum = startNum;
+				lightAstList[lightIndex].EndNum = endNum;
+				lightAstList[lightIndex].LightAddr = startNum + "-" + endNum;
 
-			// 2.修改lightListView
-			lightsSkinListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
+				// 2.修改lightListView
+				lightsSkinListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
+				return true;
+			}			
 		}
 		
 	}

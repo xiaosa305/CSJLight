@@ -20,13 +20,18 @@ namespace LightController
 		private string lightType;  //灯型号
 		private string lightAddr; // 地址 ： 由【初始地址 + "-" + （初始地址+通道数）】组成
 		private string lightPic; //灯的图片地址
-		private int lightCount;    // 灯具的通道数
+		private int tdCount;    // 灯具的通道数
 
 		private int startNum; // 灯具的起始地址
 		private int endNum; // 灯具的结束地址
 
 		public LightsAstForm(LightsForm lightsForm, string lightPath, int startNum)
 		{
+			if (startNum >= LightsForm.MAX_TD) {
+				MessageBox.Show("当前初始地址已经到达DMX512地址上限，请谨慎设置");
+				startNum = 512;
+			}
+
 			InitializeComponent();
 			this.lightsForm = lightsForm;
 
@@ -41,7 +46,7 @@ namespace LightController
 		{
 			// 配置的每一行都要写死
 			string[] lines = File.ReadAllLines(lightPath);
-			lightCount = int.Parse(lines[3].Substring(6));
+			tdCount = int.Parse(lines[3].Substring(6));
 			lightName = lines[4].Substring(5);
 			lightType = lines[1].Substring(5);
 			lightPic = lines[2].Substring(4);
@@ -56,10 +61,22 @@ namespace LightController
 		/// <param name="i">添加灯具的索引</param>
 		private void calcEndAddr(int i) {
 			int tempStartNum = Decimal.ToInt16(startCountNumericUpDown.Value);
-			startNum = i * lightCount + tempStartNum;
-			endNum = startNum + lightCount - 1;
+			startNum = i * tdCount + tempStartNum;
+			endNum = startNum + tdCount - 1;
 			lightAddr = startNum + "-" + endNum;
-		}		
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="i"></param>
+		/// <returns></returns>
+		private int calcEndAddr2(int addLightCount)
+		{
+			int tempStartNum = Decimal.ToInt16(startCountNumericUpDown.Value);
+			int endAddr = tempStartNum + addLightCount * tdCount - 1;
+			return endAddr;
+		}
 
 		/// <summary>
 		///  点击确认键后，由添加的数量和开始的地址，来插入多个或一个灯具
@@ -67,14 +84,21 @@ namespace LightController
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
-		{	
+		{
 			int addLightCount = Decimal.ToInt16(lightCountNumericUpDown.Value);
+
+			int endTDAddr = calcEndAddr2(addLightCount);
+			if (endTDAddr > LightsForm.MAX_TD) {
+				MessageBox.Show("最后地址超过了DMX512灯具的地址上限，无法设置。");
+				return;
+			}
+
 			for (int i = 0; i < addLightCount; i++)
 			{
 				calcEndAddr(i);
 				lightsForm.AddListViewAndLightAst(
 					lightPath, lightName, lightType, lightAddr, lightPic,
-					startNum, endNum, lightCount);
+					startNum, endNum, tdCount);
 			}
 			this.Dispose();
 			lightsForm.Activate();

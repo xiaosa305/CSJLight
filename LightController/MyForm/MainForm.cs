@@ -1308,7 +1308,8 @@ namespace LightController
 		private void materialUseButton_Click(object sender, EventArgs e)
 		{
 			materialUseForm = null;
-			materialUseForm = new MaterialUseForm(this,mode);
+			LightAst la = lightAstList[selectedIndex]; 
+			materialUseForm = new MaterialUseForm(this,mode, la.LightName, la.LightType);
 			materialUseForm.ShowDialog();			
 		}
 		

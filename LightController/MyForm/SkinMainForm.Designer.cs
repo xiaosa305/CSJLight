@@ -769,7 +769,7 @@ namespace LightController.MyForm
 			this.updateSkinButton.NormlBack = null;
 			this.updateSkinButton.Size = new System.Drawing.Size(90, 96);
 			this.updateSkinButton.TabIndex = 4;
-			this.updateSkinButton.Text = "设备更新";
+			this.updateSkinButton.Text = "工程更新";
 			this.updateSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.updateSkinButton.UseVisualStyleBackColor = false;
 			this.updateSkinButton.Click += new System.EventHandler(this.updateSkinButton_Click);

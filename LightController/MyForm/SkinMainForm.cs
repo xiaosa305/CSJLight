@@ -1887,7 +1887,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void useMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			MaterialUseForm materialUseForm = new MaterialUseForm(this, mode);
+			LightAst la = lightAstList[selectedIndex];
+			MaterialUseForm materialUseForm = new MaterialUseForm(this, mode, la.LightName, la.LightType);
 			materialUseForm.ShowDialog();
 		}
 

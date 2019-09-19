@@ -13,9 +13,9 @@ namespace LightController.Tools
     {
         private readonly int UDP_SERVER_PORT = 7070;
         private readonly int UDP_CLIENT_PORT = 7060;
-        private static ConnectTools Instance { get; set; }//连接工具实例
-        private Socket UdpServer { get; set; }//Udp服务套接字
-        private string ServerIp { get; set; }//服务器ip
+        private static ConnectTools Instance { get; set; }
+        private Socket UdpServer { get; set; }
+        private string ServerIp { get; set; }
         private bool IsStart { get; set; }
         private Thread SendThread { get; set; }
         private string Ip { get; set; }

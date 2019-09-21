@@ -49,21 +49,22 @@ namespace LightController.MyForm
 		// 通道数据操作时的变量
 		protected bool isMultiMode = false;
 		protected int selectedIndex = -1; //选择的灯具的index
-		protected IList<int> selectedIndices ; //选择的灯具的index列表（多选情况下）
+		protected IList<int> selectedIndices = new List<int>() ; //选择的灯具的index列表（多选情况下）
 		protected string selectedLightName = "";
 		protected int frame = 0; // 表示场景编号
 		protected int mode = 0;  // 0.常规模式； 1.音频模式
 		
 		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》
 		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯
-		protected StepWrapper tempStep; //// 辅助步变量：复制及粘贴步时用到
+		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到
 		
 
 			   
 		// 调试变量
 		protected PlayTools playTools; //DMX512灯具操控对象的实例
-		protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false；
+		protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
+		protected bool isKeepOtherLights = false ;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
 
@@ -811,68 +812,88 @@ namespace LightController.MyForm
 				newStep.TongdaoList[currentTDIndex].StepTime = materialTongdaoList[stepIndex, materialTDIndex].StepTime;
 			}
 		}
-		
-		#endregion		
+
+		#endregion
 
 		/// <summary>
 		/// 辅助方法：单灯单步发送DMX512帧数据
 		/// </summary>
 		protected virtual void oneLightStepWork()
 		{
+			// 未连接的情况下，无法发送数据。
 			if (!isConnected)
 			{
 				MessageBox.Show("请先连接设备");
 				return;
 			}
-			
-			// 多灯单步：
-			if (isMultiMode) {
-				int currentStep = getCurrentStep();
-				if (currentStep == 0)
+
+			byte[] stepBytes = new byte[512];
+			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，扔到数组中）；
+			if (isKeepOtherLights)
+			{
+				if (lightWrapperList != null)
 				{
-					MessageBox.Show("当前多灯编组未选中可用步，无法播放！");
-					return;
-				}
-
-
-				byte[] stepBytes = new byte[512];
-				foreach (int index in selectedIndices)
-				{				
-					StepWrapper step = getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1];					
-					if (step != null)
+					for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
 					{
-						IList<TongdaoWrapper> tongdaoList = step.TongdaoList;						
+						StepWrapper stepWrapper = getSelectedStepWrapper(lightIndex);
+						if (stepWrapper != null)
+						{
+							foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
+							{
+								int tongdaoIndex = td.Address - 1;
+								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+							}
+						}
+					}
+				}
+			}
+			else {
+				// 多灯单步
+				if (isMultiMode)
+				{
+					int currentStep = getCurrentStep();
+					if (currentStep == 0)
+					{
+						MessageBox.Show("当前多灯编组未选中可用步，无法播放！");
+						return;
+					}
+					foreach (int lightIndex in selectedIndices)
+					{
+						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
+						if (stepWrapper != null)
+						{
+							IList<TongdaoWrapper> tongdaoList = stepWrapper.TongdaoList;
+							foreach (TongdaoWrapper td in tongdaoList)
+							{
+								int tongdaoIndex = td.Address - 1;
+								stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
+							}
+						}
+					}
+				}
+				// 单灯单步
+				else
+				{
+					StepWrapper stepWrapper = getCurrentStepWrapper();
+					if (stepWrapper == null)
+					{
+						MessageBox.Show("当前灯具未选中可用步，无法播放！");
+						return;
+						
+					}
+					else
+					{
+						IList<TongdaoWrapper> tongdaoList = stepWrapper.TongdaoList;
 						foreach (TongdaoWrapper td in tongdaoList)
 						{
 							int tongdaoIndex = td.Address - 1;
 							stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
 						}
 					}
-				}
-				playTools.OLOSView(stepBytes);
-			}
-			//单灯单步
-			else	{
-				StepWrapper step = getCurrentStepWrapper();
-				if (step != null)
-				{
-					IList<TongdaoWrapper> tongdaoList = step.TongdaoList;
-					byte[] stepBytes = new byte[512];
-					foreach (TongdaoWrapper td in tongdaoList)
-					{
-						int tongdaoIndex = td.Address - 1;
-						stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
-					}
-
-					playTools.OLOSView(stepBytes);
-				}
-				else
-				{
-					MessageBox.Show("当前灯具未选中可用步，无法播放！");
-				}
-			}
-			
+				}			
 		}
+		playTools.OLOSView(stepBytes);
+	}	
 
 		/// <summary>
 		/// 辅助方法：改变tdPanel中的通道值之后（改trackBar或者numericUpDown），更改对应的tongdaoList的值；并根据ifRealTime，决定是否实时调试灯具。	
@@ -1041,6 +1062,28 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：获取指定灯具当前F/M 的当前步数据（需要与totalStep对比进行判断）
+		/// </summary>
+		/// <param name="light"></param>
+		/// <returns></returns>
+		protected StepWrapper getSelectedStepWrapper(int lightIndex)
+		{
+			LightWrapper light = lightWrapperList[lightIndex];
+			int currentStep = light.LightStepWrapperList[frame, mode].CurrentStep;
+			int totalStep = light.LightStepWrapperList[frame, mode].TotalStep;
+
+			// 当前步或最大步某一种为0的情况下，返回null
+			if (currentStep == 0 || totalStep == 0)
+			{
+				return null;
+			}
+			else
+			{
+				return light.LightStepWrapperList[frame, mode].StepWrapperList[currentStep - 1];
+			}
+		}
+
 		#endregion
 
 
@@ -1156,6 +1199,42 @@ namespace LightController.MyForm
 					case WHERE.STEP_TIME:
 						getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].StepTime = value; break;
 				}				
+			}
+		}
+
+
+		/// <summary>
+		/// 辅助方法：显示每个灯具的当前步和最大步 
+		/// </summary>
+		protected void showAllLightCurrentAndTotalStep()
+		{
+			foreach (LightWrapper item in lightWrapperList)
+			{
+				if (item.LightStepWrapperList[frame, mode] != null)
+				{
+					Console.WriteLine(item.StepTemplate.LightFullName + ":" + item.LightStepWrapperList[frame, mode].CurrentStep + "/" + item.LightStepWrapperList[frame, mode].TotalStep);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：获取当前工程未选中灯具（多灯模式下使用）
+		/// </summary>
+		/// <returns></returns>
+		protected IList<int> getNotSelectedIndices()
+		{
+			IList<int> allIndices = new List<int>();
+			for (int i = 0; i < lightWrapperList.Count; i++)
+			{
+				allIndices.Add(i);
+			}
+			if (selectedIndices == null || selectedIndices.Count == 0)
+			{
+				return allIndices;
+			}
+			else
+			{
+				return allIndices.Except(selectedIndices).ToList();
 			}
 		}
 	}

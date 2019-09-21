@@ -1050,7 +1050,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void chooseStep(int stepNum)
 		{		
-			//Console.WriteLine("chooseStep ：" + stepNum);
 			if (stepNum == 0) {
 				showTDPanels(null,0);
 				showStepLabel(0,0);
@@ -1060,9 +1059,15 @@ namespace LightController.MyForm
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];			
 			lightStepWrapper.CurrentStep = stepNum;	
-
 			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
 			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
+
+			if (isMultiMode) {
+				foreach (int lightIndex in selectedIndices)
+				{
+					getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum; 				
+				}
+			}
 
 			if (isConnected && isRealtime)
 			{
@@ -2011,6 +2016,7 @@ namespace LightController.MyForm
 			comChooseSkinButton.Enabled = !connected;
 			comRefreshSkinButton.Enabled = !connected;
 
+			keepSkinButton.Visible = connected;
 			realtimeSkinButton.Visible = connected;
 			oneLightOneStepSkinButton.Visible = connected;
 			makeSoundSkinButton.Visible = connected;
@@ -2088,7 +2094,6 @@ namespace LightController.MyForm
 			{
 				MessageBox.Show(ex.Message);
 			}
-
 		}
 
 		/// <summary>
@@ -2265,24 +2270,29 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			//showAllLightCurrentAndTotalStep();		
-
+			// showAllLightCurrentAndTotalStep();						
 		}
 
-		#region 一些辅助测试方法，后期肯定会删除
-
-		// 辅助方法：显示每个灯具的当前步和最大步
-		private void showAllLightCurrentAndTotalStep() {
-
-			foreach (LightWrapper item in lightWrapperList)
+		/// <summary>
+		/// 事件：勾选《保持其它灯状态》按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keepSkinButton_Click(object sender, EventArgs e)
+		{
+			// 默认情况下，《保持其它灯状态》还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+			if (!isKeepOtherLights)
 			{
-				if (item.LightStepWrapperList[frame, mode] != null)
-				{
-					Console.WriteLine(item.StepTemplate.LightFullName + ":" + item.LightStepWrapperList[frame, mode].CurrentStep + "/" + item.LightStepWrapperList[frame, mode].TotalStep);
-				}
+				keepSkinButton.Image = global::LightController.Properties.Resources.实时调试;
+				keepSkinButton.Text = "取消保持状态";
+				isKeepOtherLights = true;
+			}
+			else //否则( 按钮显示为“保持其他灯状态”）断开连接
+			{
+				keepSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
+				keepSkinButton.Text = "保持其他灯状态";
+				isKeepOtherLights = false;
 			}
 		}
-
-		#endregion
 	}
 }

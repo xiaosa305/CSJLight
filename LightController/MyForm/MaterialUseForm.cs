@@ -25,9 +25,6 @@ namespace LightController.MyForm
 		private string generalStr = @"\通用\";
 		private string specialStr;
 
-		public enum InsertMethod{
-			INSERT,COVER
-		}
 
 		/// <summary>
 		/// 构造方法：主要作用是加载已有的素材到listView中

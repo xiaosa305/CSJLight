@@ -36,9 +36,21 @@ namespace LightController.MyForm
 		protected ValueDAO valueDAO;
 		protected FineTuneDAO fineTuneDAO;
 
+		
+
 		// 这几个IList ，存放着所有数据库数据		
 		protected IList<DB_Light> dbLightList = new List<DB_Light>();
-		protected IList<DB_StepCount> dbStepCountList = new List<DB_StepCount>();		
+		protected IList<DB_StepCount> dbStepCountList = new List<DB_StepCount>();
+
+		/// <summary>
+		/// TODO:调用其他场景
+		///  辅助方法：调用其他场景
+		/// </summary>
+		/// <param name="text"></param>
+		public void UseOtherForm(string text)
+		{
+			throw new NotImplementedException();
+		}
 
 		protected IList<DB_Value> dbValueList = new List<DB_Value>();
 		protected IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
@@ -55,9 +67,9 @@ namespace LightController.MyForm
 		protected int mode = 0;  // 0.常规模式； 1.音频模式
 		
 		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》
-		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯
+		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯 
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到
-		
+		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
 
 			   
 		// 调试变量
@@ -670,16 +682,16 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="materialAst"></param>
 		/// <param name="method"></param>
-		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, MaterialUseForm.InsertMethod method)
+		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, InsertMethod method)
 		{		
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			int totalStep = lsWrapper.TotalStep;
 			int currentStep = lsWrapper.CurrentStep;
-			int addStepCount = materialAst.Step;
+			int addStepCount = materialAst.StepCount;
 
 			// 选择《插入》时的操作：后插法（往当前步后加数据）
 			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
-			if (method == MaterialUseForm.InsertMethod.INSERT || totalStep == 0)
+			if (method == InsertMethod.INSERT || totalStep == 0)
 			{
 				int finalStep = totalStep + addStepCount;
 				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
@@ -766,8 +778,8 @@ namespace LightController.MyForm
 					}
 				}
 			}
-		}
-		
+		}		
+
 		/// <summary>
 		///  辅助方法：通过比对tongdaoList 和 素材的所有通道名,获取相应的同名通道的列表(MaterialIndexAst)
 		/// </summary>
@@ -1237,5 +1249,19 @@ namespace LightController.MyForm
 				return allIndices.Except(selectedIndices).ToList();
 			}
 		}
+
+
+
+		/// <summary>
+		/// 辅助方法：多步粘贴时，使用此方法;
+		/// -- 基本思路与使用素材一样,故直接在其代码基础上进行改动
+		/// </summary>
+		/// <param name="method"></param>
+		public void MultiStepPaste(InsertMethod method)
+		{
+			InsertOrCoverMaterial(TempMaterialAst, method);
+		}
+
+
 	}
 }

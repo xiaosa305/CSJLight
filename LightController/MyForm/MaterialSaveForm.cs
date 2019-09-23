@@ -215,19 +215,20 @@ namespace LightController.MyForm
 				iniFileAst.WriteString("TD",i.ToString(), tdNameList[i]);
 			}
 			// 3.2 写[Data]内数据，记录每一步的tongdaoList
-			int stepNum = 0;
+			int selectedStepIndex = 0;
 			for(int stepIndex = startNum-1; stepIndex < endNum; stepIndex++)
 			{
 				StepWrapper stepWrapper = stepWrapperList[stepIndex];
-				for (int i = 0; i < tdIndexList.Count; i++)
+				for (int selectedTdIndex = 0; selectedTdIndex < tdIndexList.Count; selectedTdIndex++)
 				{
-					int tdIndex = tdIndexList[i];
+					int tdIndex = tdIndexList[selectedTdIndex];
 					TongdaoWrapper tongdaoWrapper = stepWrapper.TongdaoList[tdIndex];
-					iniFileAst.WriteInt("Data", stepNum + "_" + i + "_V" ,  tongdaoWrapper.ScrollValue );
-					iniFileAst.WriteInt("Data", stepNum + "_" + i + "_CM", tongdaoWrapper.ChangeMode);
-					iniFileAst.WriteInt("Data", stepNum + "_" + i + "_ST", tongdaoWrapper.StepTime);
+
+					iniFileAst.WriteInt("Data", selectedStepIndex + "_" + selectedTdIndex + "_V" ,  tongdaoWrapper.ScrollValue );
+					iniFileAst.WriteInt("Data", selectedStepIndex + "_" + selectedTdIndex + "_CM", tongdaoWrapper.ChangeMode);
+					iniFileAst.WriteInt("Data", selectedStepIndex + "_" + selectedTdIndex + "_ST", tongdaoWrapper.StepTime);
 				}
-				stepNum++;
+				selectedStepIndex++;
 			}										
 			MessageBox.Show("成功保存素材。");
 			this.Dispose();

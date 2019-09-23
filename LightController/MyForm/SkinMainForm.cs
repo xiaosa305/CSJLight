@@ -626,8 +626,6 @@ namespace LightController.MyForm
 				selectedIndex = lightsSkinListView.SelectedIndices[0];
 				//Console.WriteLine(lightsSkinListView.SelectedItems[0].Text|Tag);
 				generateLightData();
-				// 这里主要是控制pasteLightButton的Enabled值
-				checkIfCanCopyLight();				
 			}			
 		}
 
@@ -1103,6 +1101,9 @@ namespace LightController.MyForm
 			//2.4 设定《复制步》是否可用
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
+
+			multiCopySkinButton.Enabled = currentStep > 0;
+			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode==mode;
 
 			// 3.设定统一调整区是否可用
 			tdCommonPanel.Enabled =  totalStep != 0 ;
@@ -1812,74 +1813,7 @@ namespace LightController.MyForm
 			tempLight = getCurrentLightWrapper();
 		}
 
-		/// <summary>
-		///  点击《粘贴灯（全部）》
-		///  1. 比对选中灯和复制的灯
-		///	--①不一致，弹错误
-		///	--②一致，想办法把tempLight的数据复制到选中灯中
-		/// 2. generateLightData()
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void pasteLightSkinButton_Click(object sender, EventArgs e)
-		{
-			// 多加了一层常规情况下不会出现的判断，因为此时这个按钮不可用
-			if (checkIfCanCopyLight())
-			{
-				LightWrapper selectedLight = getCurrentLightWrapper();
-				lightWrapperList[selectedIndex] = LightWrapper.CopyLight(tempLight, selectedLight);
-				generateLightData();
-			}
-			else
-			{
-				//一般不会进到这里来，因为当checkIfCanCopy=false时，此按钮不可以点击
-				MessageBox.Show("选中灯具与要复制的灯具种类不同,无法复制!");
-			}
-		}
 
-		/// <summary>
-		/// 事件：点击《粘贴灯（当前）》
-		/// TODO：待测试（粘贴灯当前）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void pasteLightSkinButton2_Click(object sender, EventArgs e)
-		{
-			// 多加了一层常规情况下不会出现的判断，因为此时这个按钮不可用
-			if (checkIfCanCopyLight())
-			{
-				LightWrapper selectedLight = getCurrentLightWrapper();
-				StepWrapper stepTemplate = selectedLight.StepTemplate;
-				lightWrapperList[selectedIndex].LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(tempLight.LightStepWrapperList[frame, mode], stepTemplate, mode);
-				generateLightData();
-			}
-			else
-			{
-				MessageBox.Show("选中灯具与要复制的灯具种类不同,无法复制!");
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：检查是否可以复制灯
-		/// </summary>
-		private bool checkIfCanCopyLight()
-		{
-			pasteLightSkinButton.Enabled = false;
-			pasteLightSkinButton2.Enabled = false;
-
-			LightWrapper selectedLight = getCurrentLightWrapper();
-			// 只有在选中灯不为空 且 要被复制的灯与选中灯是同一种灯具时，才能复制
-			if (selectedLight != null && tempLight != null)
-			{
-				if (tempLight.StepTemplate.LightFullName == selectedLight.StepTemplate.LightFullName)
-				{
-					pasteLightSkinButton.Enabled = true;
-					pasteLightSkinButton2.Enabled = true;
-					return true;
-				}
-			}
-			return false;
-		}
 
 		#endregion
 
@@ -1896,6 +1830,7 @@ namespace LightController.MyForm
 			LightAst la = lightAstList[selectedIndex];
 			MaterialUseForm materialUseForm = new MaterialUseForm(this, mode, la.LightName, la.LightType);
 			materialUseForm.ShowDialog();
+
 		}
 
 		/// <summary>
@@ -2228,9 +2163,6 @@ namespace LightController.MyForm
 			frameSkinComboBox.Enabled = isSingleMode;
 			modeSkinComboBox.Enabled = isSingleMode;
 
-			copyLightSkinButton.Visible = isSingleMode;
-			pasteLightSkinButton.Visible = isSingleMode;
-			pasteLightSkinButton2.Visible = isSingleMode;
 
 			if (isSingleMode)
 			{
@@ -2271,6 +2203,7 @@ namespace LightController.MyForm
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
 			// showAllLightCurrentAndTotalStep();						
+			Console.WriteLine(TempMaterialAst);
 		}
 
 		/// <summary>
@@ -2293,6 +2226,52 @@ namespace LightController.MyForm
 				keepSkinButton.Text = "保持其他灯状态";
 				isKeepOtherLights = false;
 			}
+		}
+		
+
+		/// <summary>
+		/// TODO：923新功能，复制多步
+		///  事件：点击《复制多步》：弹出类似于保存素材的form
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiCopySkinButton_Click(object sender, EventArgs e)
+		{
+			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, selectedLightName,getCurrentStep());
+			if (mscForm != null && !mscForm.IsDisposed)
+			{
+				mscForm.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// TODO：923新功能，粘贴多步
+		///  事件：点击《复制多步》：弹出类似于保存素材的form
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiPasteSkinButton_Click(object sender, EventArgs e)
+		{
+			if (TempMaterialAst == null)
+			{
+				MessageBox.Show("还未复制多步，无法粘贴。");
+				return;
+			}
+			if (TempMaterialAst.Mode != mode) {
+				MessageBox.Show("复制的多步与当前模式不同，无法粘贴。");
+				return; 
+			}
+			new MultiStepPasteForm(this).ShowDialog();
+		}
+
+		/// <summary>
+		///  事件：点击《调用其他场景》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void useFrameSkinButton_Click(object sender, EventArgs e)
+		{
+			new UseFrameForm( this,AllFrameList[frame] ).ShowDialog(); 
 		}
 	}
 }

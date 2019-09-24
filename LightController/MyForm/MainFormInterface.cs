@@ -971,7 +971,13 @@ namespace LightController.MyForm
 		protected LightStepWrapper getSelectedLightStepWrapper(int selectedIndex)
 		{
 			LightWrapper light = lightWrapperList[selectedIndex];
-			return light.LightStepWrapperList[frame, mode];
+			if (light == null) {
+				return null;
+			}
+			else
+			{
+				return light.LightStepWrapperList[frame, mode];
+			}			
 		}
 
 		/// <summary>
@@ -1055,14 +1061,17 @@ namespace LightController.MyForm
 		protected StepWrapper getCurrentLightMaxStepWrapper()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
+			if (light == null) {
+				return null;
+			}
 			int totalStep = getTotalStep();
-			if (light == null || totalStep == 0)
+			if ( totalStep == 0)
 			{
 				return null;
 			}
 			else
 			{
-				return light.StepWrapperList[getTotalStep() - 1];
+				return light.StepWrapperList[ totalStep - 1];
 			}
 		}
 
@@ -1074,8 +1083,12 @@ namespace LightController.MyForm
 		protected StepWrapper getSelectedStepWrapper(int lightIndex)
 		{
 			LightWrapper light = lightWrapperList[lightIndex];
-			int currentStep = light.LightStepWrapperList[frame, mode].CurrentStep;
-			int totalStep = light.LightStepWrapperList[frame, mode].TotalStep;
+			if (light ==null || light.LightStepWrapperList[frame, mode] == null) {
+				return null; 
+			}
+			
+			int currentStep =  light.LightStepWrapperList[frame, mode].CurrentStep;
+			int totalStep  = light.LightStepWrapperList[frame, mode].TotalStep;
 
 			// 当前步或最大步某一种为0的情况下，返回null
 			if (currentStep == 0 || totalStep == 0)

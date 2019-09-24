@@ -1253,7 +1253,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// TODO:调用其他场景
 		///  辅助方法：调用其他场景
 		/// </summary>
 		/// <param name="text"></param>
@@ -1262,7 +1261,7 @@ namespace LightController.MyForm
 			//MessageBox.Show(selectedFrameIndex  + " - " + AllFrameList[selectedFrameIndex]); 
 			foreach (LightWrapper lightWrapper in lightWrapperList)
 			{				
-				lightWrapper.LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, 0], lightWrapper.StepTemplate, mode) ;				
+				lightWrapper.LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, mode], lightWrapper.StepTemplate,   mode) ;				
 			}
 			refreshStep();
 			MessageBox.Show("成功调用场景:"+ AllFrameList[selectedFrameIndex]); 

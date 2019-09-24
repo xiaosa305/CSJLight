@@ -36,9 +36,7 @@ namespace LightController.MyForm
 			this.dbWrapper = dbWrapper;
 			this.globalSetPath = globalSetPath;
 
-			this.skinTabControl.SelectedIndex = 0;
-
-			
+			this.skinTabControl.SelectedIndex = 0;			
 		}
 
 		private void UpdateForm_Load(object sender, EventArgs e)
@@ -173,7 +171,7 @@ namespace LightController.MyForm
 			else
 			{
 				comComboBox.Enabled = false;
-				comComboBox.SelectedIndex = 0;
+				comComboBox.SelectedIndex = -1;
 				comChooseSkinButton.Enabled = false;
 				MessageBox.Show("未找到可用串口，请重试");
 			}

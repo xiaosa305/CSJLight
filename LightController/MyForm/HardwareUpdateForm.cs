@@ -169,7 +169,7 @@ namespace LightController.MyForm
 			else
 			{
 				comComboBox.Enabled = false;
-				comComboBox.SelectedIndex = 0;
+				comComboBox.SelectedIndex = -1;
 				comChooseSkinButton.Enabled = false;
 				MessageBox.Show("未找到可用串口，请重试");
 			}

@@ -1290,7 +1290,6 @@ namespace LightController
 		private void materialSaveButton_Click(object sender, EventArgs e)
 		{
 			materialForm = null;
-			//TODO：需要额外处理保存素材（共性及个性）
 			LightAst la = lightAstList[selectedIndex];
 			materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, la.LightName,la.LightType);
 			if (materialForm != null && !materialForm.IsDisposed) {

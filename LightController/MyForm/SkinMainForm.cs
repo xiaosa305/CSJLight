@@ -2229,8 +2229,7 @@ namespace LightController.MyForm
 		}
 		
 
-		/// <summary>
-		/// TODO：923新功能，复制多步
+		/// <summary>		
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
 		/// </summary>
 		/// <param name="sender"></param>
@@ -2244,8 +2243,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		/// <summary>
-		/// TODO：923新功能，粘贴多步
+		/// <summary>	
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
 		/// </summary>
 		/// <param name="sender"></param>

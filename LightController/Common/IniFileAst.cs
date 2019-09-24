@@ -108,8 +108,15 @@ namespace LightController.Common
 		/// <param name="name"></param>
 		/// <param name="Ival"></param>
 		public void WriteInt(string section, string name, Decimal Ival)
-		{			
-			WritePrivateProfileString(section, name, Ival.ToString(), this.filePath);
+		{
+			int value = 0;
+			try
+			{
+				value  = int.Parse(Ival.ToString()); 
+			}
+			catch (Exception) {		}
+
+			WritePrivateProfileString(section, name, value.ToString(), this.filePath);
 		}
 
 		/// <summary>

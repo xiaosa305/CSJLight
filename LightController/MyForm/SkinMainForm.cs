@@ -2271,7 +2271,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void useFrameSkinButton_Click(object sender, EventArgs e)
 		{
-			new UseFrameForm( this,AllFrameList[frame] ).ShowDialog(); 
+			new UseFrameForm( this,frame).ShowDialog(); 
 		}
 	}
 }

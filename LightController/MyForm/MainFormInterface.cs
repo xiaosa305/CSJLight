@@ -42,15 +42,7 @@ namespace LightController.MyForm
 		protected IList<DB_Light> dbLightList = new List<DB_Light>();
 		protected IList<DB_StepCount> dbStepCountList = new List<DB_StepCount>();
 
-		/// <summary>
-		/// TODO:调用其他场景
-		///  辅助方法：调用其他场景
-		/// </summary>
-		/// <param name="text"></param>
-		public void UseOtherForm(string text)
-		{
-			throw new NotImplementedException();
-		}
+		
 
 		protected IList<DB_Value> dbValueList = new List<DB_Value>();
 		protected IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
@@ -1250,8 +1242,6 @@ namespace LightController.MyForm
 			}
 		}
 
-
-
 		/// <summary>
 		/// 辅助方法：多步粘贴时，使用此方法;
 		/// -- 基本思路与使用素材一样,故直接在其代码基础上进行改动
@@ -1262,6 +1252,23 @@ namespace LightController.MyForm
 			InsertOrCoverMaterial(TempMaterialAst, method);
 		}
 
+		/// <summary>
+		/// TODO:调用其他场景
+		///  辅助方法：调用其他场景
+		/// </summary>
+		/// <param name="text"></param>
+		public void UseOtherForm(int selectedFrameIndex)
+		{
+			//MessageBox.Show(selectedFrameIndex  + " - " + AllFrameList[selectedFrameIndex]); 
+			foreach (LightWrapper lightWrapper in lightWrapperList)
+			{				
+				lightWrapper.LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, 0], lightWrapper.StepTemplate, mode) ;				
+			}
+			refreshStep();
+			MessageBox.Show("成功调用场景:"+ AllFrameList[selectedFrameIndex]); 
 
+		}
+
+		
 	}
 }

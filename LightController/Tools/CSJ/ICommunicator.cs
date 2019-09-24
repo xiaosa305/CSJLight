@@ -578,10 +578,15 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                if (null != this.CallBack)
+                {
+                    this.CallBack.SendError(this.DeviceName, this.Order);
+                }
             }
         }
         protected void DownloadStart()
         {
+            bool TimeOutIsStart = false;
             try
             {
                 string fileName = string.Empty;
@@ -686,10 +691,18 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                if (!TimeOutIsStart)
+                {
+                    if (null != this.CallBack)
+                    {
+                        this.CallBack.SendError(this.DeviceName, this.Order);
+                    }
+                }
             }
         }
         public void PutParam(string filePath, IReceiveCallBack receiveCallBack)
         {
+            bool TimeOutIsStart = false;
             try
             {
                 if (!this.IsSending)
@@ -709,10 +722,18 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                if (!TimeOutIsStart)
+                {
+                    if (null != this.CallBack)
+                    {
+                        this.CallBack.SendError(this.DeviceName, this.Order);
+                    }
+                }
             }
         }
         public void GetParam(GetParamDelegate getParam, IReceiveCallBack receiveCallBack)
         {
+            bool TimeOutIsStart = false;
             try
             {
                 if (!this.IsSending)
@@ -726,10 +747,18 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                if (!TimeOutIsStart)
+                {
+                    if (null != this.CallBack)
+                    {
+                        this.CallBack.SendError(this.DeviceName, this.Order);
+                    }
+                }
             }
         }
         public void SendOrder(string order, string[] parameters, IReceiveCallBack receiveCallBack)
         {
+            bool TimeOutIsStart = false;
             try
             {
                 this.CallBack = receiveCallBack;
@@ -738,6 +767,13 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                if (!TimeOutIsStart)
+                {
+                    if (null != this.CallBack)
+                    {
+                        this.CallBack.SendError(this.DeviceName, this.Order);
+                    }
+                }
             }
         }
         public void Update(string filePath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
@@ -763,10 +799,15 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                if (null != this.CallBack)
+                {
+                    this.CallBack.SendError(this.DeviceName, this.Order);
+                }
             }
         }
         protected void UpdateStart()
         {
+            bool TimeOutIsStart = false;
             try
             {
                 FileInfo info = new FileInfo(this.UpdateFilePath);
@@ -785,6 +826,13 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                if (!TimeOutIsStart)
+                {
+                    if (null != this.CallBack)
+                    {
+                        this.CallBack.SendError(this.DeviceName, this.Order);
+                    }
+                }
             }
         }
         public class PacketSize

@@ -34,16 +34,11 @@ namespace LightController.MyForm
 		protected LightDAO lightDAO;
 		protected StepCountDAO stepCountDAO;
 		protected ValueDAO valueDAO;
-		protected FineTuneDAO fineTuneDAO;
-
-		
+		protected FineTuneDAO fineTuneDAO;		
 
 		// 这几个IList ，存放着所有数据库数据		
 		protected IList<DB_Light> dbLightList = new List<DB_Light>();
 		protected IList<DB_StepCount> dbStepCountList = new List<DB_StepCount>();
-
-		
-
 		protected IList<DB_Value> dbValueList = new List<DB_Value>();
 		protected IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
 		
@@ -93,7 +88,7 @@ namespace LightController.MyForm
 			string directoryPath =savePath + @"\LightProject\" + projectName;			
 			globalIniPath = directoryPath + "\\global.ini";
 			dbFilePath = directoryPath + "\\data.db3";
-			this.Text = "智控配置(当前工程:" + projectName + ")";
+			this.Text = "智能灯控(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 			// 9.5 读取时间因子
 			IniFileAst iniAst = new IniFileAst(globalIniPath);
@@ -117,7 +112,6 @@ namespace LightController.MyForm
 			// 设置各按键是否可用
 			enableGlobalSet(true);
 			enableSave(true);
-
 		}
 
 		/// <summary>
@@ -191,10 +185,7 @@ namespace LightController.MyForm
 		/// <param name="stepNum"></param>
 		protected virtual void chooseStep(int stepNum) { }
 
-		#endregion
-
-
-		
+		#endregion		
 
 
 		/// <summary>
@@ -211,9 +202,15 @@ namespace LightController.MyForm
 			lightAstList = null;
 			lightWrapperList = null;
 
-			selectedIndex = -1;		
-		}
-				
+			selectedIndex = -1;
+			selectedLightName = "";
+			selectedIndices = new List<int>();
+
+			tempLight = null;
+			tempStep = null;
+			TempMaterialAst = null;
+		}		
+
 
 		/// <summary>
 		/// 辅助方法：使用lightList来生成一个新的lightAstList
@@ -434,9 +431,7 @@ namespace LightController.MyForm
 			// 由内存几个实时的List实时生成
 			else
 			{
-				// BUG:此处的实际上是上次保存后的数据，这种情况下和 dbGetter.getAll() 没任何区别！
-				// -->修改方法：先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
-
+				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 				generateDBLightList();
 				generateDBStepCountList();
 				generateDBValueList();
@@ -675,7 +670,12 @@ namespace LightController.MyForm
 		/// <param name="materialAst"></param>
 		/// <param name="method"></param>
 		public virtual void InsertOrCoverMaterial(MaterialAst materialAst, InsertMethod method)
-		{		
+		{
+			if (materialAst == null) {
+				MessageBox.Show("素材调用失败");
+				return; 
+			}
+
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			int totalStep = lsWrapper.TotalStep;
 			int currentStep = lsWrapper.CurrentStep;
@@ -1150,7 +1150,7 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 辅助方法：刷新当前步;
-		/// TODO：不一定使用chooseStep方法 
+		/// MARK：不一定使用chooseStep方法 
 		/// </summary>
 		protected void refreshStep()
 		{

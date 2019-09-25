@@ -134,7 +134,7 @@
 			this.commonGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.commonGroupBox.Name = "commonGroupBox";
 			this.commonGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.commonGroupBox.Size = new System.Drawing.Size(464, 232);
+			this.commonGroupBox.Size = new System.Drawing.Size(457, 232);
 			this.commonGroupBox.TabIndex = 0;
 			this.commonGroupBox.TabStop = false;
 			this.commonGroupBox.Text = "通用设置";
@@ -392,7 +392,7 @@
 			this.networkGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.networkGroupBox.Name = "networkGroupBox";
 			this.networkGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.networkGroupBox.Size = new System.Drawing.Size(464, 178);
+			this.networkGroupBox.Size = new System.Drawing.Size(457, 178);
 			this.networkGroupBox.TabIndex = 0;
 			this.networkGroupBox.TabStop = false;
 			this.networkGroupBox.Text = "网络设置";
@@ -531,7 +531,7 @@
 			this.otherGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.otherGroupBox.Name = "otherGroupBox";
 			this.otherGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.otherGroupBox.Size = new System.Drawing.Size(464, 122);
+			this.otherGroupBox.Size = new System.Drawing.Size(457, 122);
 			this.otherGroupBox.TabIndex = 0;
 			this.otherGroupBox.TabStop = false;
 			this.otherGroupBox.Text = "其他设置";
@@ -690,9 +690,9 @@
 			this.panel1.Controls.Add(this.skinTabControl);
 			this.panel1.Controls.Add(this.saveSkinButton);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(464, 0);
+			this.panel1.Location = new System.Drawing.Point(457, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(216, 525);
+			this.panel1.Size = new System.Drawing.Size(243, 525);
 			this.panel1.TabIndex = 3;
 			// 
 			// cancelSkinButton
@@ -734,7 +734,7 @@
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
 			this.skinTabControl.SelectedIndex = 0;
-			this.skinTabControl.Size = new System.Drawing.Size(214, 388);
+			this.skinTabControl.Size = new System.Drawing.Size(241, 388);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 3;
 			// 
@@ -753,7 +753,7 @@
 			this.networkTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkTab.Location = new System.Drawing.Point(0, 36);
 			this.networkTab.Name = "networkTab";
-			this.networkTab.Size = new System.Drawing.Size(214, 352);
+			this.networkTab.Size = new System.Drawing.Size(241, 352);
 			this.networkTab.TabIndex = 0;
 			this.networkTab.TabItemImage = null;
 			this.networkTab.Text = "网络连接";
@@ -778,9 +778,9 @@
 			// 
 			this.ipsComboBox.Enabled = false;
 			this.ipsComboBox.FormattingEnabled = true;
-			this.ipsComboBox.Location = new System.Drawing.Point(35, 186);
+			this.ipsComboBox.Location = new System.Drawing.Point(23, 186);
 			this.ipsComboBox.Name = "ipsComboBox";
-			this.ipsComboBox.Size = new System.Drawing.Size(164, 20);
+			this.ipsComboBox.Size = new System.Drawing.Size(195, 20);
 			this.ipsComboBox.TabIndex = 4;
 			// 
 			// networkSearchSkinButton
@@ -847,7 +847,7 @@
 			this.comTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comTab.Location = new System.Drawing.Point(0, 36);
 			this.comTab.Name = "comTab";
-			this.comTab.Size = new System.Drawing.Size(214, 352);
+			this.comTab.Size = new System.Drawing.Size(241, 352);
 			this.comTab.TabIndex = 1;
 			this.comTab.TabItemImage = null;
 			this.comTab.Text = "串口连接";
@@ -936,7 +936,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
-			this.ClientSize = new System.Drawing.Size(680, 525);
+			this.ClientSize = new System.Drawing.Size(700, 525);
 			this.Controls.Add(this.otherGroupBox);
 			this.Controls.Add(this.networkGroupBox);
 			this.Controls.Add(this.commonGroupBox);

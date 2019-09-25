@@ -203,8 +203,9 @@ namespace LightController.MyForm
 					return null;
 				}
 
-				string astPath = treeView1.SelectedNode.Parent.Index == 0 ? generalStr :specialStr  ;
+				string astPath = treeView1.SelectedNode.Parent.Text.Equals("通用素材") ? generalStr :specialStr ;
 				string iniPath = materialPath + astPath + materialName + ".ini";
+
 				return iniPath;				
 		}
 

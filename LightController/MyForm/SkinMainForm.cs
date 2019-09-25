@@ -320,7 +320,7 @@ namespace LightController.MyForm
 			#endregion
 
 			#region 各类监听器
-			// TODO：此处的TODO只是作为标记，以快速定位到监听器
+			// MARK：此处的TODO只是作为标记，以快速定位到监听器
 			for (int i = 0; i < FrameCount; i++) {
 
 				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
@@ -354,7 +354,6 @@ namespace LightController.MyForm
 			commonStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
 
 			#endregion
-
 
 			isInit = true;
 		}
@@ -496,6 +495,7 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 辅助方法：ClearAllDate()最后一步，但需针对不同的MainForm子类来实现。
+		/// MARK：子Form.ClearAllData() 需要经常跑到此处来验证,每次新添变量时处理下
 		/// </summary>
 		protected override void clearAllData()
 		{
@@ -504,11 +504,14 @@ namespace LightController.MyForm
 			//单独针对本MainForm的代码: 
 			// ①清空listView列表；
 			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
-			lightsSkinListView.Clear();			
+			lightsSkinListView.Clear();
+			
 			stepSkinPanel.Enabled = false;
 			hideAllTDPanels();
 			showStepLabel(0, 0);
 			editLightInfo(null);
+
+			enableSingleMode(true);
 		}
 
 		/// <summary>
@@ -1101,12 +1104,14 @@ namespace LightController.MyForm
 			//2.4 设定《复制步》是否可用
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
-
+			
+			
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode==mode;
 
 			// 3.设定统一调整区是否可用
 			tdCommonPanel.Enabled =  totalStep != 0 ;
+
 		}
 
 		#endregion

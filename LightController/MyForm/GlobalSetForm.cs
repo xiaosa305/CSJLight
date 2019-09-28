@@ -323,7 +323,7 @@ namespace LightController.MyForm
 		private void globalSaveButton_Click(object sender, EventArgs e)
 		{
 			iniAst.WriteInt("Set","TongdaoCount",tongdaoCountComboBox.SelectedIndex);
-			iniAst.WriteInt("Set", "EachStepTime",Decimal.ToInt16(eachStepTimeNumericUpDown.Value));
+			iniAst.WriteString("Set", "EachStepTime",eachStepTimeNumericUpDown.Text);
 			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;				
 			iniAst.WriteInt("Set", "EachChangeMode", eachChangeModeComboBox.SelectedIndex);
 
@@ -357,12 +357,12 @@ namespace LightController.MyForm
 		{
 			int frame = zuheFrameComboBox.SelectedIndex;
 			iniAst.WriteInt("Multiple", frame + "OPEN", (zuheCheckBox.Checked ? 1 : 0));
-			iniAst.WriteInt("Multiple", frame + "CT", Decimal.ToInt16(circleTimeNumericUpDown.Value));
+			iniAst.WriteString("Multiple", frame + "CT",  circleTimeNumericUpDown.Text);
 			iniAst.WriteInt("Multiple", frame + "F0V", frame0numericUpDown.Value);
 			for(int i = 0; i < 4; i++)
 			{
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  frameComboBoxes[i].SelectedIndex);
-				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "V", Decimal.ToInt16( frameNumericUpDowns[i].Value) );
+				iniAst.WriteString("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Text );
 			}
 			MessageBox.Show("保存成功");
 		}
@@ -434,8 +434,8 @@ namespace LightController.MyForm
 		{
 			for (int i = 0; i < frameCount; i++)
 			{
-				iniAst.WriteInt("SK", i + "ST", Decimal.ToInt16(skStepTimeNumericUpDowns[i].Value));
-				iniAst.WriteInt("SK", i + "JG", Decimal.ToInt16(skJGTimeNumericUpDowns[i].Value));
+				iniAst.WriteString("SK", i + "ST", skStepTimeNumericUpDowns[i].Text);
+				iniAst.WriteString("SK", i + "JG", skJGTimeNumericUpDowns[i].Text);
 			}
 			MessageBox.Show("保存成功");
 		}

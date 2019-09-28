@@ -1266,7 +1266,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
 			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
-			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
+			int tdValue = Convert.ToInt16(Double.Parse(tdValueNumericUpDowns[tongdaoIndex].Text));
 
 			// 2.调整相应的vScrollBar的数值；
 			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -1274,10 +1274,7 @@ namespace LightController.MyForm
 			tdSkinTrackBars[tongdaoIndex].Value = tdValue;
 			tdSkinTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
 
-			// 9.28 若是用户自行输入一些非整型数，则会导致numericUpDown自动显示的数字和其value值不同，应该强行把他们变成一样。
-			tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-			tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
-			tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+		
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeScrollValue(tongdaoIndex , tdValue);
@@ -1678,7 +1675,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonValueNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			commonValueTrackBar.Value = Decimal.ToInt16(commonValueNumericUpDown.Value);
+				commonValueTrackBar.Value = Decimal.ToInt16(commonValueNumericUpDown.Value);
 		}
 
 		/// <summary>
@@ -1689,8 +1686,9 @@ namespace LightController.MyForm
 		private void commonValueSkinButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
-			int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
+			//Console.WriteLine("统一通道值value:" + commonValueNumericUpDown.Value + " | text:" + commonValueNumericUpDown.Text);
 
+			int commonValue = Convert.ToInt16(commonValueNumericUpDown.Text);
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
@@ -1734,8 +1732,7 @@ namespace LightController.MyForm
 			if (buttonText.Equals("统一步时间"))
 			{
 				StepWrapper currentStep = getCurrentStepWrapper();
-				int commonStepTime = Decimal.ToInt16(commonStepTimeNumericUpDown.Value);
-
+				int commonStepTime = Convert.ToInt16( commonStepTimeNumericUpDown.Text );			
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime= commonStepTime;

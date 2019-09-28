@@ -178,10 +178,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonJGButton_Click(object sender, EventArgs e)
 		{
-			commonJGNumericUpDown.Value = Decimal.ToInt16(commonJGNumericUpDown.Value);
+			int tempValue = Convert.ToInt16(Double.Parse(commonJGNumericUpDown.Text));
+			commonJGNumericUpDown.Value = tempValue;
 			foreach (NumericUpDown item in jgNumericUpDowns)
 			{
-				item.Value = Decimal.ToInt16(commonJGNumericUpDown.Value);
+				item.Value  =  tempValue;
 			}
 		}
 
@@ -192,10 +193,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonZXButton_Click(object sender, EventArgs e)
 		{
-			commonZXNumericUpDown.Value = Decimal.ToInt16(commonZXNumericUpDown.Value);
+			int tempValue = Convert.ToInt16(Double.Parse(commonJGNumericUpDown.Text));
+			commonZXNumericUpDown.Value = tempValue;
 			foreach (NumericUpDown item in zxNumericUpDowns)
 			{
-				item.Value = Decimal.ToInt16(commonZXNumericUpDown.Value);
+				item.Value = tempValue;
 			}
 		}
 
@@ -209,8 +211,8 @@ namespace LightController.MyForm
 			for (int i = 0; i < frameCount; i++)
 			{
 				iniFileAst.WriteInt("YM", i + "CK", ymCheckBoxes[i].Checked?1:0);
-				iniFileAst.WriteInt("YM", i + "JG", Decimal.ToInt16(jgNumericUpDowns[i].Value) );
-				iniFileAst.WriteInt("YM", i + "ZX", Decimal.ToInt16(zxNumericUpDowns[i].Value));
+				iniFileAst.WriteString("YM", i + "JG", jgNumericUpDowns[i].Text );
+				iniFileAst.WriteString("YM", i + "ZX", zxNumericUpDowns[i].Text);
 			}
 			MessageBox.Show("保存成功:");
 		}

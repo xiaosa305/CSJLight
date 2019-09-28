@@ -166,8 +166,8 @@ namespace LightController.MyForm
 			for (int i = 0; i <frameCount; i++)
 			{
 				ymCheckBoxes[i].Checked = ( iniFileAst.ReadInt("YM", i + "CK", 0) == 1);
-				jgNumericUpDowns[i].Value = new decimal(iniFileAst.ReadInt("YM", i + "JG", 1) );
-				zxNumericUpDowns[i].Value = new decimal(iniFileAst.ReadInt("YM", i + "ZX", 1));
+				jgNumericUpDowns[i].Value = iniFileAst.ReadInt("YM", i + "JG", 1);
+				zxNumericUpDowns[i].Value =iniFileAst.ReadInt("YM", i + "ZX", 1);
 			}
 		}
 
@@ -178,9 +178,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonJGButton_Click(object sender, EventArgs e)
 		{
+			commonJGNumericUpDown.Value = Decimal.ToInt16(commonJGNumericUpDown.Value);
 			foreach (NumericUpDown item in jgNumericUpDowns)
 			{
-				item.Value = commonJGNumericUpDown.Value;
+				item.Value = Decimal.ToInt16(commonJGNumericUpDown.Value);
 			}
 		}
 
@@ -191,9 +192,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonZXButton_Click(object sender, EventArgs e)
 		{
+			commonZXNumericUpDown.Value = Decimal.ToInt16(commonZXNumericUpDown.Value);
 			foreach (NumericUpDown item in zxNumericUpDowns)
 			{
-				item.Value = commonZXNumericUpDown.Value;
+				item.Value = Decimal.ToInt16(commonZXNumericUpDown.Value);
 			}
 		}
 

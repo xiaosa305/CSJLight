@@ -57,7 +57,6 @@ namespace LightController.MyForm
 						TreeNode node = new TreeNode(
 							fileName.Substring(0, fileName.IndexOf("."))
 						);
-
 						generalTreeNode.Nodes.Add(node);
 					}					
 				}
@@ -92,8 +91,6 @@ namespace LightController.MyForm
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
-
-
 	
 		/// <summary>
 		///  事件：《插入、覆盖》素材插入到主窗口的操作

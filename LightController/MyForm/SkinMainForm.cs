@@ -1244,7 +1244,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("tdSkinTrackBars_ValueChanged");
 			// 1.先找出对应tdSkinTrackBars的index 
 			int tongdaoIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
-			int tdValue = tdSkinTrackBars[tongdaoIndex].Value;
+			int tdValue =  tdSkinTrackBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给tdValueNumericUpDowns
 			// 8.28	：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -1273,6 +1273,11 @@ namespace LightController.MyForm
 			tdSkinTrackBars[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
 			tdSkinTrackBars[tongdaoIndex].Value = tdValue;
 			tdSkinTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+
+			// 9.28 若是用户自行输入一些非整型数，则会导致numericUpDown自动显示的数字和其value值不同，应该强行把他们变成一样。
+			tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+			tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
+			tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeScrollValue(tongdaoIndex , tdValue);

@@ -122,14 +122,14 @@ namespace LightController.MyForm
 			this.hName = hName;
 			IniFileAst iniFileAst = new IniFileAst(iniPath);
 
-			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimeNumericUpDown.Value.ToString() );
-			iniFileAst.WriteString("Common", "CurrUseTimes", currUseTimeNumericUpDown.Value.ToString() );
+			iniFileAst.WriteInt("Common", "SumUseTimes", Decimal.ToInt16(sumUseTimeNumericUpDown.Value));
+			iniFileAst.WriteInt("Common", "CurrUseTimes", Decimal.ToInt16(currUseTimeNumericUpDown.Value ));
 			iniFileAst.WriteInt("Common", "DiskFlag", diskFlagComboBox.SelectedIndex);
 			iniFileAst.WriteString("Common", "DeviceName", deviceNameTextBox.Text);
-			iniFileAst.WriteString("Common", "Addr", addrNumericUpDown.Value.ToString());
+			iniFileAst.WriteInt("Common", "Addr", Decimal.ToInt16(addrNumericUpDown.Value));
 			iniFileAst.WriteString("Common", "HardwareID", hardwareIDTextBox.Text);
 			iniFileAst.WriteString("Common", "Heartbeat", heartbeatTextBox.Text);
-			iniFileAst.WriteString("Common", "HeartbeatCycle", heartbeatCycleNumericUpDown.Value.ToString());
+			iniFileAst.WriteInt("Common", "HeartbeatCycle", Decimal.ToInt16(heartbeatCycleNumericUpDown.Value));
 			iniFileAst.WriteInt("Common", "PlayFlag", playFlagComboBox.SelectedIndex);
 
 			iniFileAst.WriteInt("Network", "LinkMode", linkModeComboBox.SelectedIndex);

@@ -28,9 +28,9 @@ namespace LightController.MyForm
 		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密
-		protected int eachStepTime = 30;
+		protected int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 
-		// 数据库DAO
+		// 数据库DAO(data access object：数据访问对象）
 		protected LightDAO lightDAO;
 		protected StepCountDAO stepCountDAO;
 		protected ValueDAO valueDAO;
@@ -42,19 +42,19 @@ namespace LightController.MyForm
 		protected IList<DB_Value> dbValueList = new List<DB_Value>();
 		protected IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
 		
-		protected IList<LightAst> lightAstList;	 //与《灯具编辑》通信用的变量 
-		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 辅助的灯具变量：记录所有（灯具）的（所有场景和模式）的 每一步（通道列表）
+		protected IList<LightAst> lightAstList;	 //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用
+		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 辅助的灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
 
 		// 通道数据操作时的变量
-		protected bool isMultiMode = false;
-		protected int selectedIndex = -1; //选择的灯具的index
+		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
+		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
 		protected IList<int> selectedIndices = new List<int>() ; //选择的灯具的index列表（多选情况下）
-		protected string selectedLightName = "";
-		protected int frame = 0; // 表示场景编号
-		protected int mode = 0;  // 0.常规模式； 1.音频模式
+		protected string selectedLightName = ""; //选中的灯具的名字（lightName + lightType）
+		protected int frame = 0; // 表示场景编号(selectedIndex )
+		protected int mode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
 		
 		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》
-		protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯 
+		//protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯 
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到
 		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
 
@@ -67,11 +67,11 @@ namespace LightController.MyForm
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
 
-		// 将所有场景名称写在此处,并供所有类使用
-		public static IList<string> AllFrameList ;
+		// 动态导入场景到此静态变量中
+		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用
 		public static int FrameCount = 0;  //场景数量
-		protected string savePath;
-		protected bool isShowHardwareUpdateButton = false;
+
+		protected string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
 
 		/// <summary>
 		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
@@ -206,7 +206,7 @@ namespace LightController.MyForm
 			selectedLightName = "";
 			selectedIndices = new List<int>();
 
-			tempLight = null;
+			//tempLight = null;
 			tempStep = null;
 			TempMaterialAst = null;
 		}		

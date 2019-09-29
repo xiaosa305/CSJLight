@@ -19,16 +19,23 @@ namespace LightController.MyForm
 
 	public partial class SkinMainForm : MainFormInterface
 	{
-		private bool isPainting = false;	
+		private bool isPainting = false;
 
 		public SkinMainForm()
 		{
 			InitializeComponent();
+
+			// 动态设定软件存储目录
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+
+			// 动态显示测试按钮
 			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");
 			testGroupBox.Visible = isShowTestButton;
 			bigTestButton.Visible = isShowTestButton;
-			hardwareUpdateSkinButton.Visible = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");			
+
+			// 动态显示硬件升级按钮
+			bool isShowHardwareUpddate = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");
+			hardwareUpdateSkinButton.Visible = isShowHardwareUpddate;
 
 			#region 初始化各种辅助数组
 
@@ -296,7 +303,6 @@ namespace LightController.MyForm
 			tdTrueTimeLabels[30] = trueTimeLabel31;
 			tdTrueTimeLabels[31] = trueTimeLabel32;
 
-
 			#endregion
 
 			#region 几个下拉框的初始化及赋值
@@ -308,14 +314,18 @@ namespace LightController.MyForm
 			{
 				frameSkinComboBox.Items.Add(frame);
 			}
-			frameSkinComboBox.SelectedIndex = 0;
-			FrameCount = AllFrameList.Count ;
+			FrameCount = AllFrameList.Count;
+			if (FrameCount == 0){
+				MessageBox.Show("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。");
+				Exit();
+			}
+			frameSkinComboBox.SelectedIndex =0;						
 
 			//模式选项框
 			modeSkinComboBox.Items.AddRange(new object[] {	"常规模式","音频模式"});
 			modeSkinComboBox.SelectedIndex = 0;
 
-			// 《统一跳渐变》复选框不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
+			// 《统一跳渐变》numericUpDown不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
 			commonChangeModeSkinComboBox.SelectedIndex = 1;
 			#endregion
 
@@ -1799,31 +1809,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
-
-		#region 复制灯相关按钮及辅助方法
-
-		/// <summary>
-		///  点击《复制灯》：
-		///  1.应有个全局变量lightWrapperTemp，记录要被复制的灯的信息
-		///  2. 将当前选中灯具的内容，赋予lightWrapperList
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void copyLightSkinButton_Click(object sender, EventArgs e)
-		{
-			if (getCurrentLightWrapper() == null)
-			{
-				MessageBox.Show("未选中灯，无法复制");
-				return;
-			}
-			tempLight = getCurrentLightWrapper();
-		}
-
-
-
-		#endregion
-
 
 		#region 素材相关按钮及辅助方法
 

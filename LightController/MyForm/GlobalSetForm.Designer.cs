@@ -53,7 +53,7 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
 			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
-			this.frame0numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.frame0NumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label34 = new System.Windows.Forms.Label();
 			this.frame4numericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.frame3numericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -110,7 +110,7 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
 			this.zuheGroupBox.SuspendLayout();
 			this.zuheEnableGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.frame0numericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.frame0NumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame4numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame3numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).BeginInit();
@@ -337,7 +337,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// zuheEnableGroupBox
 			// 
-			this.zuheEnableGroupBox.Controls.Add(this.frame0numericUpDown);
+			this.zuheEnableGroupBox.Controls.Add(this.frame0NumericUpDown);
 			this.zuheEnableGroupBox.Controls.Add(this.label34);
 			this.zuheEnableGroupBox.Controls.Add(this.frame4numericUpDown);
 			this.zuheEnableGroupBox.Controls.Add(this.frame3numericUpDown);
@@ -365,12 +365,12 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// frame0numericUpDown
 			// 
-			this.frame0numericUpDown.Location = new System.Drawing.Point(17, 102);
-			this.frame0numericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.frame0numericUpDown.Name = "frame0numericUpDown";
-			this.frame0numericUpDown.Size = new System.Drawing.Size(87, 21);
-			this.frame0numericUpDown.TabIndex = 4;
-			this.frame0numericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.frame0NumericUpDown.Location = new System.Drawing.Point(17, 102);
+			this.frame0NumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.frame0NumericUpDown.Name = "frame0numericUpDown";
+			this.frame0NumericUpDown.Size = new System.Drawing.Size(87, 21);
+			this.frame0NumericUpDown.TabIndex = 4;
+			this.frame0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label34
 			// 
@@ -986,7 +986,7 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheGroupBox.PerformLayout();
 			this.zuheEnableGroupBox.ResumeLayout(false);
 			this.zuheEnableGroupBox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.frame0numericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.frame0NumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame4numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame3numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).EndInit();
@@ -1044,7 +1044,7 @@ private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.ComboBox frame2ComboBox;
 		private System.Windows.Forms.ComboBox frame1ComboBox;
 		private System.Windows.Forms.ComboBox frame3ComboBox;
-		private System.Windows.Forms.NumericUpDown frame0numericUpDown;
+		private System.Windows.Forms.NumericUpDown frame0NumericUpDown;
 		private System.Windows.Forms.NumericUpDown[] frameNumericUpDowns = new System.Windows.Forms.NumericUpDown[4];
 		private System.Windows.Forms.NumericUpDown frame4numericUpDown;
 		private System.Windows.Forms.NumericUpDown frame3numericUpDown;

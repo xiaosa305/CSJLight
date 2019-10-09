@@ -911,7 +911,7 @@ namespace LightController
 		private void valueVScrollBar_Scroll_old(object sender, ScrollEventArgs e)
 		{			
 			// 1.先找出对应vScrollBars的index 
-			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
+			int tongdaoIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name , -1 );
 			int tdValue = 255 - vScrollBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给valueNumericUpDowns
@@ -930,7 +930,7 @@ namespace LightController
 		private void valueVScrollBar_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应vScrollBars的index 
-			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name, -1);
 			int tdValue = 255 - vScrollBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给valueNumericUpDowns
@@ -953,7 +953,7 @@ namespace LightController
 		private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			int tdValue = Decimal.ToInt32(valueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值
@@ -974,7 +974,7 @@ namespace LightController
 		private void changeModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int index = MathAst.getIndexNum(((ComboBox)sender).Name , -1);
+			int index = MathAst.GetIndexNum(((ComboBox)sender).Name , -1);
 			
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1021,7 +1021,7 @@ namespace LightController
 		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			int index = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -33);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1173,7 +1173,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void vScrollBar_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,-1 );
+			int tdIndex = MathAst.GetIndexNum( ((VScrollBar)sender).Name ,-1 );
 			valueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1184,7 +1184,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void tdLabel_MouseEnter(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
+			int labelIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
 		}		
 
@@ -1195,7 +1195,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1231,7 +1231,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void steptimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -33);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{		
@@ -1263,7 +1263,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void steptimeNumericUpDown_MouseEnter(object sender, EventArgs e)
 		{		
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -33);
 			steptimeNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1274,7 +1274,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			valueNumericUpDowns[tdIndex].Select();
 		}
 		
@@ -1319,7 +1319,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
-			int buttonIndex = MathAst.getIndexNum(((Button)sender).Name, 0);
+			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
 			Test test = new Test(GetDBWrapper(true));
 			test.Start(buttonIndex);

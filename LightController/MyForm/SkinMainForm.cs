@@ -13,6 +13,7 @@ using LightController.Ast;
 using LightController.Tools;
 using LightController.Common;
 using CCWin.SkinControl;
+using System.IO;
 
 namespace LightController.MyForm
 {
@@ -572,6 +573,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///  辅助方法：《保存|读取灯具位置》按钮是否可用
+		/// </summary>
+		/// <param name="enable"></param>
+		protected override void enableSLArrange(bool enableSave, bool enableLoad) {
+			saveArrangeToolStripMenuItem.Enabled = enableSave;
+			loadArrangeToolStripMenuItem.Enabled = enableLoad;
+		}
+
+		/// <summary>
 		///  辅助方法：将所有全局配置相关的按钮（灯具、升级、全局、摇麦、网络、连接设备）Enabled设为传入bool值
 		/// </summary>
 		/// <param name="v"></param>
@@ -1094,14 +1104,14 @@ namespace LightController.MyForm
 		/// <param name="totalStep"></param>
 		private void showStepLabel(int currentStep, int totalStep)
 		{
-			// 1. 设label的Text值
-			stepLabel.Text = currentStep + "/" + totalStep;
+			// 1. 设label的Text值					   
+			stepLabel.Text = MathAst.GetFourWidthNumStr(currentStep,true) + "/" + MathAst.GetFourWidthNumStr(totalStep, false);
 
 			// 2.1 设定《删除步》按钮是否可用
 			deleteStepSkinButton.Enabled = totalStep != 0;
 
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
-			bool insertEnabled = (mode == 0 && totalStep < 32) || (mode == 1 && totalStep < 48);
+			bool insertEnabled = totalStep < 1000 ;
 			addStepSkinButton.Enabled = insertEnabled;
 			insertAfterSkinButton.Enabled = insertEnabled;
 			insertBeforeSkinButton.Enabled = insertEnabled && currentStep > 0;
@@ -1121,6 +1131,11 @@ namespace LightController.MyForm
 
 			// 3.设定统一调整区是否可用
 			tdCommonPanel.Enabled =  totalStep != 0 ;
+
+			// 10.9 添加一个选择步数的框
+			chooseStepNumericUpDown.Enabled = totalStep != 0;
+			chooseStepSkinButton.Enabled = totalStep != 0;			
+			chooseStepNumericUpDown.Maximum = totalStep;						
 
 		}
 
@@ -1202,7 +1217,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1214,7 +1229,7 @@ namespace LightController.MyForm
 		private void tdSkinTrackBars_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdSkinTrackBars_MouseWheel");
-			int tdIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1253,7 +1268,7 @@ namespace LightController.MyForm
 		{
 			//Console.WriteLine("tdSkinTrackBars_ValueChanged");
 			// 1.先找出对应tdSkinTrackBars的index 
-			int tongdaoIndex = MathAst.getIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			int tdValue =  tdSkinTrackBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给tdValueNumericUpDowns
@@ -1275,7 +1290,7 @@ namespace LightController.MyForm
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			int tdValue = Convert.ToInt16(Double.Parse(tdValueNumericUpDowns[tongdaoIndex].Text));
 
 			// 2.调整相应的vScrollBar的数值；
@@ -1298,7 +1313,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 		
@@ -1310,7 +1325,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1347,7 +1362,7 @@ namespace LightController.MyForm
 		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int tdIndex = MathAst.getIndexNum(((ComboBox)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((ComboBox)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1405,7 +1420,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdStepTimeNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1416,7 +1431,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1448,7 +1463,7 @@ namespace LightController.MyForm
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -2061,7 +2076,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
-			int buttonIndex = MathAst.getIndexNum(((Button)sender).Name, 0);
+			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
 			Test test = new Test(GetDBWrapper(true));
 			test.Start(buttonIndex);
@@ -2195,7 +2210,17 @@ namespace LightController.MyForm
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
 			// showAllLightCurrentAndTotalStep();						
-			Console.WriteLine(TempMaterialAst);
+
+			//Console.WriteLine(TempMaterialAst);
+
+			//lightsSkinListView.Dock = DockStyle.Fill;
+
+			// lightsSkinListView.AutoArrange = !lightsSkinListView.AutoArrange;
+			
+			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+			{
+				Console.WriteLine(i + " :: " + lightsSkinListView.Items[i].Text);
+			}
 		}
 
 		/// <summary>
@@ -2262,6 +2287,208 @@ namespace LightController.MyForm
 		private void useFrameSkinButton_Click(object sender, EventArgs e)
 		{
 			new UseFrameForm( this,frame).ShowDialog(); 
+		}
+
+
+		#region  灯具listView可移动位置并保存
+		//MARK：灯具listView位置相关
+
+		private  Point startPoint = Point.Empty;	
+
+		// 这个别忘了
+		// listView1.AllowDrop = true;
+		// listView1.AutoArrange = false;
+
+		private double getVector(Point pt1, Point pt2) // 获取两点间的距离
+		{
+			var x = Math.Pow((pt1.X - pt2.X), 2);
+			var y = Math.Pow((pt1.Y - pt2.Y), 2);
+			return Math.Abs(Math.Sqrt(x - y));
+		}
+
+		private void lightsSkinListView_DragOver(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
+				e.Effect = DragDropEffects.All;
+		}
+
+		private void lightsSkinListView_DragDrop(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
+			{
+				var items = e.Data.GetData(typeof(ListViewItem[])) as ListViewItem[];
+
+				var pos = lightsSkinListView.PointToClient(new Point(e.X, e.Y));
+
+				var offset = new Point(pos.X - startPoint.X, pos.Y - startPoint.Y);
+
+				foreach (var item in items)
+				{
+					pos = item.Position;
+					pos.Offset(offset);
+					item.Position = pos;
+				}
+			}
+		}
+
+		private void lightsSkinListView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+				startPoint = e.Location;
+		}
+
+		private void lightsSkinListView_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (lightsSkinListView.SelectedItems.Count == 0)
+				return;
+
+			if (e.Button == MouseButtons.Left)
+			{
+				var vector = getVector(startPoint, e.Location);
+				if (vector < 10) return;
+
+				var data = lightsSkinListView.SelectedItems.OfType<ListViewItem>().ToArray();
+
+				lightsSkinListView.DoDragDrop(data, DragDropEffects.All);
+			}
+		}
+
+
+		/// <summary>
+		/// 事件：点选《自动排列》与否
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void autoArrangeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//MessageBox.Show(autoArrangeToolStripMenuItem.Checked.ToString());
+			isAutoArrange = autoArrangeToolStripMenuItem.Checked;
+			lightsSkinListView.AllowDrop = ! isAutoArrange;
+			lightsSkinListView.AutoArrange = isAutoArrange;
+
+			if ( isAutoArrange)
+			{
+				enableSLArrange(false, false);
+			}
+			else {				
+				enableSLArrange(true, File.Exists(arrangeIniPath));
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《重新排列》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void arrangeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//bool tempAuto = lightsSkinListView.AutoArrange;
+			//lightsSkinListView.AutoArrange = true;
+			//lightsSkinListView.AutoArrange = tempAuto;
+
+			lightsSkinListView.Sort();
+		}
+
+		/// <summary>
+		/// 事件：点击《保存灯具位置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveArrangeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//1.先判断是否在自动排列下
+			if ( isAutoArrange ) {
+				MessageBox.Show("在自动排列模式下，无法保存灯具位置，请取消勾选后重新保存。");
+				return;
+			}
+
+			// 2.判断当前是否已打开工程(arrangeIniPath不为空）
+			if (String.IsNullOrEmpty(arrangeIniPath)) {
+				MessageBox.Show("当前尚未新建或打开工程，无法保存灯具位置。");
+				return;
+			}
+
+			// 3.判断灯具数量是否为空
+			if (lightAstList == null || lightAstList.Count == 0) {
+				MessageBox.Show("当前工程尚无灯具，无法保存灯具位置，请添加灯具后重新保存。");
+				return;
+			}
+
+			// 4.保存操作
+			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			iniFileAst.WriteInt("Common", "Count", lightsSkinListView.Items.Count);
+			for(int i = 0; i< lightsSkinListView.Items.Count; i++)
+			{
+				iniFileAst.WriteInt("Position", i + "X", lightsSkinListView.Items[i].Position.X);
+				iniFileAst.WriteInt("Position", i + "Y", lightsSkinListView.Items[i].Position.Y);
+			}			
+			enableSLArrange(true, File.Exists(arrangeIniPath));
+
+			MessageBox.Show("灯具位置保存成功。");
+		}
+
+		/// <summary>
+		///  事件：点击《读取灯具位置》：
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//TODO：读取灯具位置
+			// 1.先验证ini文件是否存在
+			if (!File.Exists(arrangeIniPath)) {
+				MessageBox.Show("未找到灯具位置文件，无法读取。");
+				return;
+			}
+
+			//2.验证灯具数目是否一致
+			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			int lightCount = iniFileAst.ReadInt("Common", "Count", 0);
+			if (lightCount == 0) {
+				MessageBox.Show("灯具位置文件的灯具数量为0，此文件无实际效果。");
+				return;
+			}
+			
+			//3. 验证灯具数量是否一致
+			if ( lightCount != lightsSkinListView.Items.Count)
+			{
+				MessageBox.Show("灯具位置文件的灯具数量与当前工程的灯具数量不匹配，无法读取位置。");
+				//TODO: 灯具数量不匹配，如何处理？
+				return;
+			}
+
+			// 4.开始读取并绘制		
+			//MARK : 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要运行下列循环语句，才能让 读取到的position真正给到items[i].Position
+			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+			{
+				Console.WriteLine(lightsSkinListView.Items[i].Position);
+			}
+
+			lightsSkinListView.BeginUpdate();
+			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+			{
+				int tempX = iniFileAst.ReadInt("Position", i + "X", 0);
+				int tempY = iniFileAst.ReadInt("Position", i + "Y", 0);
+				lightsSkinListView.Items[i].Position = new Point(tempX, tempY);
+			}
+			lightsSkinListView.EndUpdate();
+			MessageBox.Show("灯具位置读取成功。"); 
+
+		}
+
+
+
+		#endregion
+
+		/// <summary>
+		/// 事件：点击《跳转步》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void chooseStepSkinButton_Click(object sender, EventArgs e)
+		{
+			int step = Decimal.ToInt16(chooseStepNumericUpDown.Value);
+			chooseStep(step);
 		}
 	}
 }

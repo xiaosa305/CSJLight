@@ -126,12 +126,12 @@ namespace LightController.MyForm
 				return;
 			}
 
-			// 1.3 判断步数
-			if (stepCount == 0)
-			{
-				MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
-				return;
-			}
+			// 1.3 判断步数 : 初始化本Form时已判断过了
+			//if (stepCount == 0)
+			//{
+			//	MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
+			//	return;
+			//}
 
 			// 1.4 起始步、结束步的验证
 			int startNum = Decimal.ToInt16(startNumericUpDown.Value);
@@ -162,7 +162,7 @@ namespace LightController.MyForm
 			// 1.6 直接检查是否可以生成DirectoryInfo
 			string addName = addNameCheckBox.Checked ? @"\" + lightName + @"\" + lightType+@"\"  : @"\通用\" ; 
 			materialName = addName + materialName;			
-			string filePath = materialPath + @materialName + ".ini";	
+			string filePath = materialPath + @materialName +"("+ (endNum - startNum + 1) + "步)"+ ".ini";	
 
 			FileInfo fi = null;
 			try

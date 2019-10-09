@@ -142,17 +142,17 @@ namespace LightController.MyForm
 
 		private void ymCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			int frameIndex = MathAst.getIndexNum(((CheckBox)sender).Name, -1 );
+			int frameIndex = MathAst.GetIndexNum(((CheckBox)sender).Name, -1 );
 				
 		}
 		private void jgNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int frameIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int frameIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			//MessageBox.Show("frameIndex:" + ((NumericUpDown)sender).Value);
 		}
 		private void zxNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int frameIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int frameIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			//MessageBox.Show("frameIndex:" + ((NumericUpDown)sender).Value);
 		}
 

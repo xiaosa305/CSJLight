@@ -72,6 +72,35 @@ namespace LightController.MyForm
 		public static int FrameCount = 0;  //场景数量
 
 		protected string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+		
+		protected string arrangeIniPath = null ;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
+		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
+
+		/// <summary>
+		/// 辅助方法： 清空相关的所有数据
+		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
+		/// </summary>
+		protected virtual void clearAllData()
+		{
+			dbLightList = null;
+			dbStepCountList = null;
+			dbValueList = null;
+			dbFineTuneList = null;
+
+			lightAstList = null;
+			lightWrapperList = null;
+
+			selectedIndex = -1;
+			selectedLightName = "";
+			selectedIndices = new List<int>();
+
+			//tempLight = null;
+			tempStep = null;
+			TempMaterialAst = null;
+
+			arrangeIniPath = null;
+			enableSLArrange(false, File.Exists(arrangeIniPath));
+		}
 
 		/// <summary>
 		/// 基类辅助方法：①清空所有List；②设置内部的一些工程路径及变量；③初始化数据库
@@ -86,13 +115,18 @@ namespace LightController.MyForm
 			// 1.全局设置
 			currentProjectName = projectName;
 			string directoryPath =savePath + @"\LightProject\" + projectName;			
-			globalIniPath = directoryPath + "\\global.ini";
-			dbFilePath = directoryPath + "\\data.db3";
+			globalIniPath = directoryPath + @"\global.ini";
+			dbFilePath = directoryPath + @"\data.db3";			
 			this.Text = "智能灯控(当前工程:" + projectName + ")";
 			this.isNew = isNew;
+
+			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
+			arrangeIniPath = directoryPath + @"\arrange.ini";
+
 			// 9.5 读取时间因子
 			IniFileAst iniAst = new IniFileAst(globalIniPath);
 			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
+
 
 			// 2.创建数据库:
 			// 因为是初始化，所以先让所有的DAO指向null，避免连接到错误的数据库(已打开过旧的工程的情况下)；
@@ -132,6 +166,12 @@ namespace LightController.MyForm
 			dbStepCountList = getStepCountList();
 			dbValueList = getValueList();
 			dbFineTuneList = getFineTuneList();
+
+			//10.9 设置listView右键菜单中读取配置的可用项		
+			
+			if (!isAutoArrange) {
+				enableSLArrange(true, File.Exists(arrangeIniPath));
+			}			
 
 			// 通过lightList填充lightAstList
 			lightAstList = reCreateLightAstList(dbLightList);
@@ -178,6 +218,8 @@ namespace LightController.MyForm
 
 		protected virtual void enableGlobalSet(bool enable) { }
 		protected virtual void enableSave(bool enable) { }
+		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }
+
 
 		/// <summary>
 		/// 辅助方法（纯虚方法）：选择不同步数时统一使用这个方法（上一步下一步新建步等情况下用）
@@ -188,28 +230,7 @@ namespace LightController.MyForm
 		#endregion		
 
 
-		/// <summary>
-		/// 辅助方法： 清空相关的所有数据
-		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
-		/// </summary>
-		protected virtual void clearAllData()
-		{			
-			dbLightList = null;
-			dbStepCountList = null;
-			dbValueList = null;
-			dbFineTuneList = null;
-
-			lightAstList = null;
-			lightWrapperList = null;
-
-			selectedIndex = -1;
-			selectedLightName = "";
-			selectedIndices = new List<int>();
-
-			//tempLight = null;
-			tempStep = null;
-			TempMaterialAst = null;
-		}		
+		
 
 
 		/// <summary>
@@ -686,7 +707,7 @@ namespace LightController.MyForm
 			if (method == InsertMethod.INSERT || totalStep == 0)
 			{
 				int finalStep = totalStep + addStepCount;
-				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
+				if ( finalStep > 1000 )
 				{
 					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
 					return;
@@ -723,7 +744,7 @@ namespace LightController.MyForm
 			{
 				int finalStep = (currentStep - 1) + addStepCount;// finalStep为覆盖后最后一步的序列，而非所有步的数量
 
-				if ((mode == 0 && finalStep > 32) || (mode == 1 && finalStep > 48))
+				if ( finalStep > 1000 )
 				{
 					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用；可选择其他位置覆盖");
 					return;
@@ -1282,5 +1303,7 @@ namespace LightController.MyForm
 		}
 
 		
+
+
 	}
 }

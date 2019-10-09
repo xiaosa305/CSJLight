@@ -68,6 +68,12 @@ namespace LightController.MyForm
 			this.endviewSkinButton = new CCWin.SkinControl.SkinButton();
 			this.lightsSkinListView = new CCWin.SkinControl.SkinListView();
 			this.lightName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.mySkinContextMenuStrip = new CCWin.SkinControl.SkinContextMenuStrip();
+			this.autoArrangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.arrangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.saveArrangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadArrangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.detailSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.tdCommonPanel = new System.Windows.Forms.Panel();
@@ -91,7 +97,11 @@ namespace LightController.MyForm
 			this.dqdjLabel = new System.Windows.Forms.Label();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.stepSkinPanel = new CCWin.SkinControl.SkinPanel();
+			this.chooseStepSkinButton = new CCWin.SkinControl.SkinButton();
+			this.modeSkinComboBox = new CCWin.SkinControl.SkinComboBox();
+			this.modeLabel = new CCWin.SkinControl.SkinLabel();
 			this.useFrameSkinButton = new CCWin.SkinControl.SkinButton();
+			this.chooseStepNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.multiLightSkinButton = new CCWin.SkinControl.SkinButton();
 			this.addStepCheckBox = new System.Windows.Forms.CheckBox();
 			this.nextStepSkinButton = new CCWin.SkinControl.SkinButton();
@@ -106,9 +116,7 @@ namespace LightController.MyForm
 			this.insertAfterSkinButton = new CCWin.SkinControl.SkinButton();
 			this.insertBeforeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.backStepSkinButton = new CCWin.SkinControl.SkinButton();
-			this.modeSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.frameSkinComboBox = new CCWin.SkinControl.SkinComboBox();
-			this.modeLabel = new CCWin.SkinControl.SkinLabel();
 			this.stepLabel = new CCWin.SkinControl.SkinLabel();
 			this.frameLabel = new CCWin.SkinControl.SkinLabel();
 			this.tdSkinFlowLayoutPanel = new CCWin.SkinControl.SkinFlowLayoutPanel();
@@ -392,6 +400,7 @@ namespace LightController.MyForm
 			this.skinPanel2.SuspendLayout();
 			this.playSkinPanel.SuspendLayout();
 			this.playPanel.SuspendLayout();
+			this.mySkinContextMenuStrip.SuspendLayout();
 			this.detailSkinPanel.SuspendLayout();
 			this.tdCommonPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.commonStepTimeNumericUpDown)).BeginInit();
@@ -402,6 +411,7 @@ namespace LightController.MyForm
 			this.currentLightSkinPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.stepSkinPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
 			this.tdSkinFlowLayoutPanel.SuspendLayout();
 			this.tdPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown1)).BeginInit();
@@ -1309,6 +1319,7 @@ namespace LightController.MyForm
 			this.lightsSkinListView.BorderColor = System.Drawing.Color.Transparent;
 			this.lightsSkinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lightName});
+			this.lightsSkinListView.ContextMenuStrip = this.mySkinContextMenuStrip;
 			this.lightsSkinListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lightsSkinListView.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightsSkinListView.LargeImageList = this.lightLargeImageList;
@@ -1320,52 +1331,129 @@ namespace LightController.MyForm
 			this.lightsSkinListView.TabIndex = 9;
 			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
 			this.lightsSkinListView.SelectedIndexChanged += new System.EventHandler(this.lightsSkinListView_SelectedIndexChanged);
+			this.lightsSkinListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.lightsSkinListView_DragDrop);
+			this.lightsSkinListView.DragOver += new System.Windows.Forms.DragEventHandler(this.lightsSkinListView_DragOver);
+			this.lightsSkinListView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lightsSkinListView_MouseDown);
+			this.lightsSkinListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lightsSkinListView_MouseMove);
 			// 
 			// lightName
 			// 
 			this.lightName.Width = 500;
 			// 
+			// mySkinContextMenuStrip
+			// 
+			this.mySkinContextMenuStrip.Arrow = System.Drawing.Color.Black;
+			this.mySkinContextMenuStrip.Back = System.Drawing.Color.White;
+			this.mySkinContextMenuStrip.BackRadius = 4;
+			this.mySkinContextMenuStrip.Base = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(200)))), ((int)(((byte)(254)))));
+			this.mySkinContextMenuStrip.DropDownImageSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
+			this.mySkinContextMenuStrip.Fore = System.Drawing.Color.Black;
+			this.mySkinContextMenuStrip.HoverFore = System.Drawing.Color.White;
+			this.mySkinContextMenuStrip.ItemAnamorphosis = true;
+			this.mySkinContextMenuStrip.ItemBorder = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.ItemBorderShow = true;
+			this.mySkinContextMenuStrip.ItemHover = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.ItemPressed = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.ItemRadius = 4;
+			this.mySkinContextMenuStrip.ItemRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.mySkinContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoArrangeToolStripMenuItem,
+            this.arrangeToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.saveArrangeToolStripMenuItem,
+            this.loadArrangeToolStripMenuItem});
+			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
+			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(149, 98);
+			this.mySkinContextMenuStrip.SkinAllColor = true;
+			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
+			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+			this.mySkinContextMenuStrip.TitleRadius = 4;
+			this.mySkinContextMenuStrip.TitleRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			// 
+			// autoArrangeToolStripMenuItem
+			// 
+			this.autoArrangeToolStripMenuItem.Checked = true;
+			this.autoArrangeToolStripMenuItem.CheckOnClick = true;
+			this.autoArrangeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.autoArrangeToolStripMenuItem.Name = "autoArrangeToolStripMenuItem";
+			this.autoArrangeToolStripMenuItem.ShowShortcutKeys = false;
+			this.autoArrangeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.autoArrangeToolStripMenuItem.Text = "自动排列";
+			this.autoArrangeToolStripMenuItem.Click += new System.EventHandler(this.autoArrangeToolStripMenuItem_Click);
+			// 
+			// arrangeToolStripMenuItem
+			// 
+			this.arrangeToolStripMenuItem.Enabled = false;
+			this.arrangeToolStripMenuItem.Name = "arrangeToolStripMenuItem";
+			this.arrangeToolStripMenuItem.ShowShortcutKeys = false;
+			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.arrangeToolStripMenuItem.Text = "重新排列";
+			this.arrangeToolStripMenuItem.Click += new System.EventHandler(this.arrangeToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(145, 6);
+			// 
+			// saveArrangeToolStripMenuItem
+			// 
+			this.saveArrangeToolStripMenuItem.Enabled = false;
+			this.saveArrangeToolStripMenuItem.Name = "saveArrangeToolStripMenuItem";
+			this.saveArrangeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.saveArrangeToolStripMenuItem.Text = "保存灯具位置";
+			this.saveArrangeToolStripMenuItem.Click += new System.EventHandler(this.saveArrangeToolStripMenuItem_Click);
+			// 
+			// loadArrangeToolStripMenuItem
+			// 
+			this.loadArrangeToolStripMenuItem.Enabled = false;
+			this.loadArrangeToolStripMenuItem.Name = "loadArrangeToolStripMenuItem";
+			this.loadArrangeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.loadArrangeToolStripMenuItem.Text = "读取灯具位置";
+			this.loadArrangeToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+			// 
 			// lightLargeImageList
 			// 
 			this.lightLargeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightLargeImageList.ImageStream")));
 			this.lightLargeImageList.TransparentColor = System.Drawing.Color.Gainsboro;
-			this.lightLargeImageList.Images.SetKeyName(0, "1.bmp");
-			this.lightLargeImageList.Images.SetKeyName(1, "2.bmp");
-			this.lightLargeImageList.Images.SetKeyName(2, "3.bmp");
-			this.lightLargeImageList.Images.SetKeyName(3, "4.bmp");
-			this.lightLargeImageList.Images.SetKeyName(4, "5.bmp");
-			this.lightLargeImageList.Images.SetKeyName(5, "6.bmp");
-			this.lightLargeImageList.Images.SetKeyName(6, "7.bmp");
-			this.lightLargeImageList.Images.SetKeyName(7, "8.bmp");
-			this.lightLargeImageList.Images.SetKeyName(8, "9.bmp");
-			this.lightLargeImageList.Images.SetKeyName(9, "10.bmp");
-			this.lightLargeImageList.Images.SetKeyName(10, "11.bmp");
-			this.lightLargeImageList.Images.SetKeyName(11, "12.bmp");
-			this.lightLargeImageList.Images.SetKeyName(12, "13.bmp");
-			this.lightLargeImageList.Images.SetKeyName(13, "14.bmp");
-			this.lightLargeImageList.Images.SetKeyName(14, "15.bmp");
-			this.lightLargeImageList.Images.SetKeyName(15, "16.bmp");
-			this.lightLargeImageList.Images.SetKeyName(16, "17.bmp");
-			this.lightLargeImageList.Images.SetKeyName(17, "18.bmp");
-			this.lightLargeImageList.Images.SetKeyName(18, "19.bmp");
-			this.lightLargeImageList.Images.SetKeyName(19, "20.bmp");
-			this.lightLargeImageList.Images.SetKeyName(20, "21.bmp");
-			this.lightLargeImageList.Images.SetKeyName(21, "22.bmp");
-			this.lightLargeImageList.Images.SetKeyName(22, "23.bmp");
-			this.lightLargeImageList.Images.SetKeyName(23, "24.bmp");
-			this.lightLargeImageList.Images.SetKeyName(24, "25.bmp");
-			this.lightLargeImageList.Images.SetKeyName(25, "27.bmp");
-			this.lightLargeImageList.Images.SetKeyName(26, "28.bmp");
-			this.lightLargeImageList.Images.SetKeyName(27, "29.gif");
-			this.lightLargeImageList.Images.SetKeyName(28, "30.bmp");
-			this.lightLargeImageList.Images.SetKeyName(29, "31.bmp");
-			this.lightLargeImageList.Images.SetKeyName(30, "ledpar.bmp");
-			this.lightLargeImageList.Images.SetKeyName(31, "RGB.ico");
-			this.lightLargeImageList.Images.SetKeyName(32, "灯带.bmp");
-			this.lightLargeImageList.Images.SetKeyName(33, "二合一.bmp");
-			this.lightLargeImageList.Images.SetKeyName(34, "二合一50.bmp");
-			this.lightLargeImageList.Images.SetKeyName(35, "魔球.bmp");
-			this.lightLargeImageList.Images.SetKeyName(36, "帕灯.bmp");
+			this.lightLargeImageList.Images.SetKeyName(0, "2.bmp");
+			this.lightLargeImageList.Images.SetKeyName(1, "3.bmp");
+			this.lightLargeImageList.Images.SetKeyName(2, "4.bmp");
+			this.lightLargeImageList.Images.SetKeyName(3, "5.bmp");
+			this.lightLargeImageList.Images.SetKeyName(4, "6.bmp");
+			this.lightLargeImageList.Images.SetKeyName(5, "7.bmp");
+			this.lightLargeImageList.Images.SetKeyName(6, "8.bmp");
+			this.lightLargeImageList.Images.SetKeyName(7, "9.bmp");
+			this.lightLargeImageList.Images.SetKeyName(8, "10.bmp");
+			this.lightLargeImageList.Images.SetKeyName(9, "11.bmp");
+			this.lightLargeImageList.Images.SetKeyName(10, "12.bmp");
+			this.lightLargeImageList.Images.SetKeyName(11, "13.bmp");
+			this.lightLargeImageList.Images.SetKeyName(12, "14.bmp");
+			this.lightLargeImageList.Images.SetKeyName(13, "15.bmp");
+			this.lightLargeImageList.Images.SetKeyName(14, "16.bmp");
+			this.lightLargeImageList.Images.SetKeyName(15, "17.bmp");
+			this.lightLargeImageList.Images.SetKeyName(16, "18.bmp");
+			this.lightLargeImageList.Images.SetKeyName(17, "19.bmp");
+			this.lightLargeImageList.Images.SetKeyName(18, "20.bmp");
+			this.lightLargeImageList.Images.SetKeyName(19, "21.bmp");
+			this.lightLargeImageList.Images.SetKeyName(20, "22.bmp");
+			this.lightLargeImageList.Images.SetKeyName(21, "23.bmp");
+			this.lightLargeImageList.Images.SetKeyName(22, "24.bmp");
+			this.lightLargeImageList.Images.SetKeyName(23, "25.bmp");
+			this.lightLargeImageList.Images.SetKeyName(24, "27.bmp");
+			this.lightLargeImageList.Images.SetKeyName(25, "28.bmp");
+			this.lightLargeImageList.Images.SetKeyName(26, "29.gif");
+			this.lightLargeImageList.Images.SetKeyName(27, "30.bmp");
+			this.lightLargeImageList.Images.SetKeyName(28, "31.bmp");
+			this.lightLargeImageList.Images.SetKeyName(29, "ledpar.bmp");
+			this.lightLargeImageList.Images.SetKeyName(30, "RGB.ico");
+			this.lightLargeImageList.Images.SetKeyName(31, "灯带.bmp");
+			this.lightLargeImageList.Images.SetKeyName(32, "二合一.bmp");
+			this.lightLargeImageList.Images.SetKeyName(33, "二合一50.bmp");
+			this.lightLargeImageList.Images.SetKeyName(34, "魔球.bmp");
+			this.lightLargeImageList.Images.SetKeyName(35, "帕灯.bmp");
+			this.lightLargeImageList.Images.SetKeyName(36, "1.bmp");
 			// 
 			// detailSkinPanel
 			// 
@@ -1738,7 +1826,11 @@ namespace LightController.MyForm
 			// stepSkinPanel
 			// 
 			this.stepSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+			this.stepSkinPanel.Controls.Add(this.chooseStepSkinButton);
+			this.stepSkinPanel.Controls.Add(this.modeSkinComboBox);
+			this.stepSkinPanel.Controls.Add(this.modeLabel);
 			this.stepSkinPanel.Controls.Add(this.useFrameSkinButton);
+			this.stepSkinPanel.Controls.Add(this.chooseStepNumericUpDown);
 			this.stepSkinPanel.Controls.Add(this.multiLightSkinButton);
 			this.stepSkinPanel.Controls.Add(this.addStepCheckBox);
 			this.stepSkinPanel.Controls.Add(this.nextStepSkinButton);
@@ -1753,9 +1845,7 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Controls.Add(this.insertAfterSkinButton);
 			this.stepSkinPanel.Controls.Add(this.insertBeforeSkinButton);
 			this.stepSkinPanel.Controls.Add(this.backStepSkinButton);
-			this.stepSkinPanel.Controls.Add(this.modeSkinComboBox);
 			this.stepSkinPanel.Controls.Add(this.frameSkinComboBox);
-			this.stepSkinPanel.Controls.Add(this.modeLabel);
 			this.stepSkinPanel.Controls.Add(this.stepLabel);
 			this.stepSkinPanel.Controls.Add(this.frameLabel);
 			this.stepSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
@@ -1768,6 +1858,62 @@ namespace LightController.MyForm
 			this.stepSkinPanel.NormlBack = null;
 			this.stepSkinPanel.Size = new System.Drawing.Size(1049, 123);
 			this.stepSkinPanel.TabIndex = 11;
+			// 
+			// chooseStepSkinButton
+			// 
+			this.chooseStepSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.chooseStepSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.chooseStepSkinButton.BorderColor = System.Drawing.Color.Transparent;
+			this.chooseStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.chooseStepSkinButton.DownBack = null;
+			this.chooseStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.chooseStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.chooseStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.chooseStepSkinButton.ForeColorSuit = true;
+			this.chooseStepSkinButton.Image = global::LightController.Properties.Resources.下一步;
+			this.chooseStepSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.chooseStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.chooseStepSkinButton.InheritColor = true;
+			this.chooseStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
+			this.chooseStepSkinButton.Location = new System.Drawing.Point(504, 13);
+			this.chooseStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
+			this.chooseStepSkinButton.MouseBack = null;
+			this.chooseStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.chooseStepSkinButton.Name = "chooseStepSkinButton";
+			this.chooseStepSkinButton.NormlBack = null;
+			this.chooseStepSkinButton.Size = new System.Drawing.Size(30, 42);
+			this.chooseStepSkinButton.TabIndex = 25;
+			this.chooseStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.chooseStepSkinButton.UseVisualStyleBackColor = false;
+			this.chooseStepSkinButton.Click += new System.EventHandler(this.chooseStepSkinButton_Click);
+			// 
+			// modeSkinComboBox
+			// 
+			this.modeSkinComboBox.BaseColor = System.Drawing.Color.Gray;
+			this.modeSkinComboBox.BorderColor = System.Drawing.Color.Gray;
+			this.modeSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.modeSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.modeSkinComboBox.FormattingEnabled = true;
+			this.modeSkinComboBox.Location = new System.Drawing.Point(58, 66);
+			this.modeSkinComboBox.Name = "modeSkinComboBox";
+			this.modeSkinComboBox.Size = new System.Drawing.Size(84, 25);
+			this.modeSkinComboBox.TabIndex = 1;
+			this.modeSkinComboBox.WaterText = "";
+			this.modeSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.modeSkinComboBox_SelectedIndexChanged);
+			// 
+			// modeLabel
+			// 
+			this.modeLabel.AutoSize = true;
+			this.modeLabel.BackColor = System.Drawing.Color.Transparent;
+			this.modeLabel.BorderColor = System.Drawing.Color.White;
+			this.modeLabel.Font = new System.Drawing.Font("华文细黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.modeLabel.ForeColor = System.Drawing.Color.White;
+			this.modeLabel.ForeColorSuit = true;
+			this.modeLabel.Location = new System.Drawing.Point(11, 72);
+			this.modeLabel.Name = "modeLabel";
+			this.modeLabel.Size = new System.Drawing.Size(59, 17);
+			this.modeLabel.TabIndex = 8;
+			this.modeLabel.Text = "模式：";
 			// 
 			// useFrameSkinButton
 			// 
@@ -1798,6 +1944,20 @@ namespace LightController.MyForm
 			this.useFrameSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.useFrameSkinButton.UseVisualStyleBackColor = false;
 			this.useFrameSkinButton.Click += new System.EventHandler(this.useFrameSkinButton_Click);
+			// 
+			// chooseStepNumericUpDown
+			// 
+			this.chooseStepNumericUpDown.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(452, 25);
+			this.chooseStepNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.chooseStepNumericUpDown.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+			this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
+			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(50, 19);
+			this.chooseStepNumericUpDown.TabIndex = 24;
 			// 
 			// multiLightSkinButton
 			// 
@@ -1833,12 +1993,13 @@ namespace LightController.MyForm
 			// 
 			this.addStepCheckBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.addStepCheckBox.ForeColor = System.Drawing.Color.White;
-			this.addStepCheckBox.Location = new System.Drawing.Point(451, 14);
+			this.addStepCheckBox.Location = new System.Drawing.Point(987, 14);
 			this.addStepCheckBox.Name = "addStepCheckBox";
 			this.addStepCheckBox.Size = new System.Drawing.Size(83, 42);
 			this.addStepCheckBox.TabIndex = 6;
 			this.addStepCheckBox.Text = "使用模板生成步";
 			this.addStepCheckBox.UseVisualStyleBackColor = true;
+			this.addStepCheckBox.Visible = false;
 			this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
 			// 
 			// nextStepSkinButton
@@ -1857,13 +2018,13 @@ namespace LightController.MyForm
 			this.nextStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.nextStepSkinButton.InheritColor = true;
 			this.nextStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.nextStepSkinButton.Location = new System.Drawing.Point(349, 12);
+			this.nextStepSkinButton.Location = new System.Drawing.Point(346, 13);
 			this.nextStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.nextStepSkinButton.MouseBack = null;
 			this.nextStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.nextStepSkinButton.Name = "nextStepSkinButton";
 			this.nextStepSkinButton.NormlBack = null;
-			this.nextStepSkinButton.Size = new System.Drawing.Size(83, 42);
+			this.nextStepSkinButton.Size = new System.Drawing.Size(79, 42);
 			this.nextStepSkinButton.TabIndex = 5;
 			this.nextStepSkinButton.Text = "下一步";
 			this.nextStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2195,20 +2356,6 @@ namespace LightController.MyForm
 			this.backStepSkinButton.UseVisualStyleBackColor = false;
 			this.backStepSkinButton.Click += new System.EventHandler(this.backStepSkinButton_Click);
 			// 
-			// modeSkinComboBox
-			// 
-			this.modeSkinComboBox.BaseColor = System.Drawing.Color.Gray;
-			this.modeSkinComboBox.BorderColor = System.Drawing.Color.Gray;
-			this.modeSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.modeSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.modeSkinComboBox.FormattingEnabled = true;
-			this.modeSkinComboBox.Location = new System.Drawing.Point(58, 66);
-			this.modeSkinComboBox.Name = "modeSkinComboBox";
-			this.modeSkinComboBox.Size = new System.Drawing.Size(94, 25);
-			this.modeSkinComboBox.TabIndex = 1;
-			this.modeSkinComboBox.WaterText = "";
-			this.modeSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.modeSkinComboBox_SelectedIndexChanged);
-			// 
 			// frameSkinComboBox
 			// 
 			this.frameSkinComboBox.BaseColor = System.Drawing.Color.Gray;
@@ -2218,47 +2365,35 @@ namespace LightController.MyForm
 			this.frameSkinComboBox.FormattingEnabled = true;
 			this.frameSkinComboBox.Location = new System.Drawing.Point(58, 19);
 			this.frameSkinComboBox.Name = "frameSkinComboBox";
-			this.frameSkinComboBox.Size = new System.Drawing.Size(94, 25);
+			this.frameSkinComboBox.Size = new System.Drawing.Size(84, 25);
 			this.frameSkinComboBox.TabIndex = 1;
 			this.frameSkinComboBox.WaterText = "";
 			this.frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
-			// 
-			// modeLabel
-			// 
-			this.modeLabel.AutoSize = true;
-			this.modeLabel.BackColor = System.Drawing.Color.Transparent;
-			this.modeLabel.BorderColor = System.Drawing.Color.White;
-			this.modeLabel.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.modeLabel.ForeColor = System.Drawing.Color.White;
-			this.modeLabel.Location = new System.Drawing.Point(12, 70);
-			this.modeLabel.Name = "modeLabel";
-			this.modeLabel.Size = new System.Drawing.Size(51, 20);
-			this.modeLabel.TabIndex = 0;
-			this.modeLabel.Text = "模式：";
 			// 
 			// stepLabel
 			// 
 			this.stepLabel.AutoSize = true;
 			this.stepLabel.BackColor = System.Drawing.Color.Transparent;
 			this.stepLabel.BorderColor = System.Drawing.Color.White;
-			this.stepLabel.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.stepLabel.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(268, 27);
+			this.stepLabel.Location = new System.Drawing.Point(269, 28);
 			this.stepLabel.Name = "stepLabel";
-			this.stepLabel.Size = new System.Drawing.Size(39, 20);
+			this.stepLabel.Size = new System.Drawing.Size(53, 15);
 			this.stepLabel.TabIndex = 0;
-			this.stepLabel.Text = "0 / 0";
+			this.stepLabel.Text = " 0  /  0 ";
 			// 
 			// frameLabel
 			// 
 			this.frameLabel.AutoSize = true;
 			this.frameLabel.BackColor = System.Drawing.Color.Transparent;
 			this.frameLabel.BorderColor = System.Drawing.Color.White;
-			this.frameLabel.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.frameLabel.Font = new System.Drawing.Font("华文细黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.frameLabel.ForeColor = System.Drawing.Color.White;
+			this.frameLabel.ForeColorSuit = true;
 			this.frameLabel.Location = new System.Drawing.Point(12, 23);
 			this.frameLabel.Name = "frameLabel";
-			this.frameLabel.Size = new System.Drawing.Size(51, 20);
+			this.frameLabel.Size = new System.Drawing.Size(59, 17);
 			this.frameLabel.TabIndex = 0;
 			this.frameLabel.Text = "场景：";
 			// 
@@ -2360,15 +2495,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown1
 			// 
 			this.tdStepTimeNumericUpDown1.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown1.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown1.Name = "tdStepTimeNumericUpDown1";
-			this.tdStepTimeNumericUpDown1.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown1.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown1.TabIndex = 24;
 			// 
 			// tdSkinTrackBar1
@@ -2469,15 +2604,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown2
 			// 
 			this.tdStepTimeNumericUpDown2.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown2.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown2.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown2.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown2.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown2.Name = "tdStepTimeNumericUpDown2";
-			this.tdStepTimeNumericUpDown2.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown2.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown2.TabIndex = 24;
 			// 
 			// tdSkinTrackBar2
@@ -2578,15 +2713,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown3
 			// 
 			this.tdStepTimeNumericUpDown3.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown3.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown3.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown3.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown3.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown3.Name = "tdStepTimeNumericUpDown3";
-			this.tdStepTimeNumericUpDown3.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown3.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown3.TabIndex = 24;
 			// 
 			// tdSkinTrackBar3
@@ -2687,15 +2822,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown4
 			// 
 			this.tdStepTimeNumericUpDown4.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown4.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown4.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown4.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown4.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown4.Name = "tdStepTimeNumericUpDown4";
-			this.tdStepTimeNumericUpDown4.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown4.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown4.TabIndex = 24;
 			// 
 			// tdSkinTrackBar4
@@ -2796,15 +2931,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown5
 			// 
 			this.tdStepTimeNumericUpDown5.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown5.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown5.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown5.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown5.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown5.Name = "tdStepTimeNumericUpDown5";
-			this.tdStepTimeNumericUpDown5.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown5.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown5.TabIndex = 24;
 			// 
 			// tdSkinTrackBar5
@@ -2905,15 +3040,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown6
 			// 
 			this.tdStepTimeNumericUpDown6.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown6.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown6.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown6.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown6.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown6.Name = "tdStepTimeNumericUpDown6";
-			this.tdStepTimeNumericUpDown6.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown6.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown6.TabIndex = 24;
 			// 
 			// tdSkinTrackBar6
@@ -3014,15 +3149,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown7
 			// 
 			this.tdStepTimeNumericUpDown7.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown7.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown7.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown7.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown7.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown7.Name = "tdStepTimeNumericUpDown7";
-			this.tdStepTimeNumericUpDown7.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown7.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown7.TabIndex = 24;
 			// 
 			// tdSkinTrackBar7
@@ -3123,15 +3258,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown8
 			// 
 			this.tdStepTimeNumericUpDown8.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown8.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown8.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown8.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown8.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown8.Name = "tdStepTimeNumericUpDown8";
-			this.tdStepTimeNumericUpDown8.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown8.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown8.TabIndex = 24;
 			// 
 			// tdSkinTrackBar8
@@ -3232,15 +3367,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown9
 			// 
 			this.tdStepTimeNumericUpDown9.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown9.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown9.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown9.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown9.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown9.Name = "tdStepTimeNumericUpDown9";
-			this.tdStepTimeNumericUpDown9.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown9.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown9.TabIndex = 24;
 			// 
 			// tdSkinTrackBar9
@@ -3341,15 +3476,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown10
 			// 
 			this.tdStepTimeNumericUpDown10.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown10.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown10.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown10.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown10.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown10.Name = "tdStepTimeNumericUpDown10";
-			this.tdStepTimeNumericUpDown10.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown10.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown10.TabIndex = 24;
 			// 
 			// tdSkinTrackBar10
@@ -3450,15 +3585,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown11
 			// 
 			this.tdStepTimeNumericUpDown11.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown11.Location = new System.Drawing.Point(24, 254);
+			this.tdStepTimeNumericUpDown11.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown11.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown11.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown11.Name = "tdStepTimeNumericUpDown11";
-			this.tdStepTimeNumericUpDown11.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown11.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown11.TabIndex = 24;
 			// 
 			// tdSkinTrackBar11
@@ -3559,15 +3694,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown12
 			// 
 			this.tdStepTimeNumericUpDown12.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown12.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown12.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown12.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown12.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown12.Name = "tdStepTimeNumericUpDown12";
-			this.tdStepTimeNumericUpDown12.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown12.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown12.TabIndex = 24;
 			// 
 			// tdSkinTrackBar12
@@ -3668,15 +3803,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown13
 			// 
 			this.tdStepTimeNumericUpDown13.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown13.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown13.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown13.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown13.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown13.Name = "tdStepTimeNumericUpDown13";
-			this.tdStepTimeNumericUpDown13.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown13.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown13.TabIndex = 24;
 			// 
 			// tdSkinTrackBar13
@@ -3777,15 +3912,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown14
 			// 
 			this.tdStepTimeNumericUpDown14.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown14.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown14.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown14.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown14.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown14.Name = "tdStepTimeNumericUpDown14";
-			this.tdStepTimeNumericUpDown14.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown14.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown14.TabIndex = 24;
 			// 
 			// tdSkinTrackBar14
@@ -3886,15 +4021,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown15
 			// 
 			this.tdStepTimeNumericUpDown15.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown15.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown15.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown15.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown15.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown15.Name = "tdStepTimeNumericUpDown15";
-			this.tdStepTimeNumericUpDown15.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown15.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown15.TabIndex = 24;
 			// 
 			// tdSkinTrackBar15
@@ -3995,15 +4130,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown16
 			// 
 			this.tdStepTimeNumericUpDown16.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown16.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown16.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown16.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown16.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown16.Name = "tdStepTimeNumericUpDown16";
-			this.tdStepTimeNumericUpDown16.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown16.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown16.TabIndex = 24;
 			// 
 			// tdSkinTrackBar16
@@ -4104,15 +4239,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown17
 			// 
 			this.tdStepTimeNumericUpDown17.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown17.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown17.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown17.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown17.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown17.Name = "tdStepTimeNumericUpDown17";
-			this.tdStepTimeNumericUpDown17.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown17.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown17.TabIndex = 24;
 			// 
 			// tdSkinTrackBar17
@@ -4213,15 +4348,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown18
 			// 
 			this.tdStepTimeNumericUpDown18.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown18.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown18.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown18.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown18.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown18.Name = "tdStepTimeNumericUpDown18";
-			this.tdStepTimeNumericUpDown18.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown18.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown18.TabIndex = 24;
 			// 
 			// tdSkinTrackBar18
@@ -4322,15 +4457,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown19
 			// 
 			this.tdStepTimeNumericUpDown19.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown19.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown19.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown19.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown19.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown19.Name = "tdStepTimeNumericUpDown19";
-			this.tdStepTimeNumericUpDown19.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown19.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown19.TabIndex = 24;
 			// 
 			// tdSkinTrackBar19
@@ -4431,15 +4566,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown20
 			// 
 			this.tdStepTimeNumericUpDown20.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown20.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown20.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown20.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown20.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown20.Name = "tdStepTimeNumericUpDown20";
-			this.tdStepTimeNumericUpDown20.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown20.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown20.TabIndex = 24;
 			// 
 			// tdSkinTrackBar20
@@ -4540,15 +4675,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown21
 			// 
 			this.tdStepTimeNumericUpDown21.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown21.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown21.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown21.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown21.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown21.Name = "tdStepTimeNumericUpDown21";
-			this.tdStepTimeNumericUpDown21.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown21.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown21.TabIndex = 24;
 			// 
 			// tdSkinTrackBar21
@@ -4649,15 +4784,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown22
 			// 
 			this.tdStepTimeNumericUpDown22.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown22.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown22.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown22.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown22.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown22.Name = "tdStepTimeNumericUpDown22";
-			this.tdStepTimeNumericUpDown22.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown22.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown22.TabIndex = 24;
 			// 
 			// tdSkinTrackBar22
@@ -4758,15 +4893,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown23
 			// 
 			this.tdStepTimeNumericUpDown23.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown23.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown23.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown23.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown23.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown23.Name = "tdStepTimeNumericUpDown23";
-			this.tdStepTimeNumericUpDown23.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown23.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown23.TabIndex = 24;
 			// 
 			// tdSkinTrackBar23
@@ -4867,15 +5002,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown24
 			// 
 			this.tdStepTimeNumericUpDown24.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown24.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown24.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown24.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown24.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown24.Name = "tdStepTimeNumericUpDown24";
-			this.tdStepTimeNumericUpDown24.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown24.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown24.TabIndex = 24;
 			// 
 			// tdSkinTrackBar24
@@ -4976,15 +5111,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown25
 			// 
 			this.tdStepTimeNumericUpDown25.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown25.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown25.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown25.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown25.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown25.Name = "tdStepTimeNumericUpDown25";
-			this.tdStepTimeNumericUpDown25.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown25.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown25.TabIndex = 24;
 			// 
 			// tdSkinTrackBar25
@@ -5085,15 +5220,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown26
 			// 
 			this.tdStepTimeNumericUpDown26.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown26.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown26.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown26.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown26.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown26.Name = "tdStepTimeNumericUpDown26";
-			this.tdStepTimeNumericUpDown26.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown26.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown26.TabIndex = 24;
 			// 
 			// tdSkinTrackBar26
@@ -5194,15 +5329,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown27
 			// 
 			this.tdStepTimeNumericUpDown27.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown27.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown27.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown27.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown27.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown27.Name = "tdStepTimeNumericUpDown27";
-			this.tdStepTimeNumericUpDown27.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown27.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown27.TabIndex = 24;
 			// 
 			// tdSkinTrackBar27
@@ -5303,15 +5438,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown28
 			// 
 			this.tdStepTimeNumericUpDown28.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown28.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown28.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown28.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown28.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown28.Name = "tdStepTimeNumericUpDown28";
-			this.tdStepTimeNumericUpDown28.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown28.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown28.TabIndex = 24;
 			// 
 			// tdSkinTrackBar28
@@ -5412,15 +5547,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown29
 			// 
 			this.tdStepTimeNumericUpDown29.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown29.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown29.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown29.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown29.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown29.Name = "tdStepTimeNumericUpDown29";
-			this.tdStepTimeNumericUpDown29.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown29.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown29.TabIndex = 24;
 			// 
 			// tdSkinTrackBar29
@@ -5521,15 +5656,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown30
 			// 
 			this.tdStepTimeNumericUpDown30.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown30.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown30.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown30.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown30.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown30.Name = "tdStepTimeNumericUpDown30";
-			this.tdStepTimeNumericUpDown30.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown30.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown30.TabIndex = 24;
 			// 
 			// tdSkinTrackBar30
@@ -5630,15 +5765,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown31
 			// 
 			this.tdStepTimeNumericUpDown31.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown31.Location = new System.Drawing.Point(23, 253);
+			this.tdStepTimeNumericUpDown31.Location = new System.Drawing.Point(19, 253);
 			this.tdStepTimeNumericUpDown31.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown31.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown31.Name = "tdStepTimeNumericUpDown31";
-			this.tdStepTimeNumericUpDown31.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown31.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown31.TabIndex = 24;
 			// 
 			// tdSkinTrackBar31
@@ -5739,15 +5874,15 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown32
 			// 
 			this.tdStepTimeNumericUpDown32.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStepTimeNumericUpDown32.Location = new System.Drawing.Point(24, 253);
+			this.tdStepTimeNumericUpDown32.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown32.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown32.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});
 			this.tdStepTimeNumericUpDown32.Name = "tdStepTimeNumericUpDown32";
-			this.tdStepTimeNumericUpDown32.Size = new System.Drawing.Size(38, 19);
+			this.tdStepTimeNumericUpDown32.Size = new System.Drawing.Size(45, 19);
 			this.tdStepTimeNumericUpDown32.TabIndex = 24;
 			// 
 			// tdSkinTrackBar32
@@ -5963,9 +6098,9 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.Location = new System.Drawing.Point(123, 111);
 			this.middleTableLayoutPanel.Name = "middleTableLayoutPanel";
 			this.middleTableLayoutPanel.RowCount = 3;
-			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34F));
+			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 129F));
-			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66F));
+			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 310F));
 			this.middleTableLayoutPanel.Size = new System.Drawing.Size(1055, 598);
 			this.middleTableLayoutPanel.TabIndex = 29;
 			// 
@@ -5980,8 +6115,8 @@ namespace LightController.MyForm
 			this.Controls.Add(this.skinPanel2);
 			this.Controls.Add(this.playSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
+			this.MinimumSize = new System.Drawing.Size(1022, 766);
 			this.Name = "SkinMainForm";
 			this.Text = " ";
 			this.Load += new System.EventHandler(this.SkinMainForm_Load);
@@ -5995,6 +6130,7 @@ namespace LightController.MyForm
 			this.playSkinPanel.ResumeLayout(false);
 			this.playPanel.ResumeLayout(false);
 			this.playPanel.PerformLayout();
+			this.mySkinContextMenuStrip.ResumeLayout(false);
 			this.detailSkinPanel.ResumeLayout(false);
 			this.tdCommonPanel.ResumeLayout(false);
 			this.tdCommonPanel.PerformLayout();
@@ -6010,6 +6146,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
 			this.stepSkinPanel.ResumeLayout(false);
 			this.stepSkinPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).EndInit();
 			this.tdSkinFlowLayoutPanel.ResumeLayout(false);
 			this.tdPanel1.ResumeLayout(false);
 			this.tdPanel1.PerformLayout();
@@ -6211,8 +6348,6 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinPanel stepSkinPanel;
 		private CCWin.SkinControl.SkinComboBox modeSkinComboBox;
 		private CCWin.SkinControl.SkinComboBox frameSkinComboBox;
-		private CCWin.SkinControl.SkinLabel modeLabel;
-		private CCWin.SkinControl.SkinLabel frameLabel;
 		private CCWin.SkinControl.SkinButton backStepSkinButton;
 		private CCWin.SkinControl.SkinButton deleteStepSkinButton;
 		private CCWin.SkinControl.SkinButton addStepSkinButton;
@@ -6557,5 +6692,15 @@ namespace LightController.MyForm
 		private SkinButton useFrameSkinButton;
 		private SkinButton multiCopySkinButton;
 		private SkinButton multiPasteSkinButton;
+		private SkinContextMenuStrip mySkinContextMenuStrip;
+		private ToolStripMenuItem autoArrangeToolStripMenuItem;
+		private ToolStripMenuItem arrangeToolStripMenuItem;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripMenuItem saveArrangeToolStripMenuItem;
+		private ToolStripMenuItem loadArrangeToolStripMenuItem;
+		private SkinLabel modeLabel;
+		private SkinLabel frameLabel;
+		private NumericUpDown chooseStepNumericUpDown;
+		private SkinButton chooseStepSkinButton;
 	}
 }

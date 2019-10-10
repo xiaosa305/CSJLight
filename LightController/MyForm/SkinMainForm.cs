@@ -2507,5 +2507,54 @@ namespace LightController.MyForm
 				chooseStep(step);
 			}			
 		}
+
+		#region 几个显示或隐藏面板的菜单项
+		
+		private void hideMenuPanelToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			menuSkinPanel.Visible = !menuSkinPanel.Visible;
+			hideMenuPanelToolStripMenuItem.Text = menuSkinPanel.Visible ? "隐藏主菜单面板" : "显示主菜单面板";
+			hideMenuPanelToolStripMenuItem2.Text = menuSkinPanel.Visible ? "隐藏主菜单面板" : "显示主菜单面板";
+		}
+
+		private void hideProjectPanelToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			projectSkinPanel.Visible = !projectSkinPanel.Visible;
+			hideProjectPanelToolStripMenuItem.Text = projectSkinPanel.Visible ? "隐藏工程面板" : "显示工程面板";
+			hideProjectPanelToolStripMenuItem2.Text = projectSkinPanel.Visible ? "隐藏工程面板" : "显示工程面板";
+		}
+
+		private void hideAstPanelToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			astSkinPanel.Visible = !astSkinPanel.Visible;
+			hideAstPanelToolStripMenuItem.Text = astSkinPanel.Visible ? "隐藏辅助面板" : "显示辅助面板";
+			hideAstPanelToolStripMenuItem2.Text = astSkinPanel.Visible ? "隐藏辅助面板" : "显示辅助面板";
+		}
+
+		private void hidePlayPanelToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			playSkinPanel.Visible = !playSkinPanel.Visible;
+			hidePlayPanelToolStripMenuItem.Text = playSkinPanel.Visible ? "隐藏调试面板" : "显示调试面板";
+			hidePlayPanelToolStripMenuItem2.Text = playSkinPanel.Visible ? "隐藏调试面板" : "显示调试面板";
+		}
+
+		#endregion
+
+		/// <summary>
+		/// 事件：点击“灯库编辑”
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightLibrarySkinButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
 	}
 }

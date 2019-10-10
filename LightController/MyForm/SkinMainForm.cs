@@ -1134,8 +1134,11 @@ namespace LightController.MyForm
 
 			// 10.9 添加一个选择步数的框
 			chooseStepNumericUpDown.Enabled = totalStep != 0;
-			chooseStepSkinButton.Enabled = totalStep != 0;			
-			chooseStepNumericUpDown.Maximum = totalStep;						
+			chooseStepSkinButton.Enabled = totalStep != 0;				
+			chooseStepNumericUpDown.Maximum = totalStep;
+			if (totalStep != 0) {
+				chooseStepNumericUpDown.Minimum = 1;
+			}
 
 		}
 
@@ -2233,13 +2236,13 @@ namespace LightController.MyForm
 			// 默认情况下，《保持其它灯状态》还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
 			if (!isKeepOtherLights)
 			{
-				keepSkinButton.Image = global::LightController.Properties.Resources.实时调试;
+				keepSkinButton.Image = global::LightController.Properties.Resources.保持状态2;
 				keepSkinButton.Text = "取消保持状态";
 				isKeepOtherLights = true;
 			}
 			else //否则( 按钮显示为“保持其他灯状态”）断开连接
 			{
-				keepSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
+				keepSkinButton.Image = global::LightController.Properties.Resources.保持状态1;
 				keepSkinButton.Text = "保持其他灯状态";
 				isKeepOtherLights = false;
 			}
@@ -2306,12 +2309,22 @@ namespace LightController.MyForm
 			return Math.Abs(Math.Sqrt(x - y));
 		}
 
+		/// <summary>
+		/// 事件：鼠标拖动对象时发生（VS:将对象拖过空间边界时发生）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void lightsSkinListView_DragOver(object sender, DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
-				e.Effect = DragDropEffects.All;
+				e.Effect = DragDropEffects.Move;
 		}
 
+		/// <summary>
+		/// 事件：松开鼠标时发生（VS：拖动操作时发生）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void lightsSkinListView_DragDrop(object sender, DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
@@ -2331,11 +2344,17 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：按下鼠标时发生 （VS：在组件上方且按下鼠标时发生）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void lightsSkinListView_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 				startPoint = e.Location;
 		}
+
 
 		private void lightsSkinListView_MouseMove(object sender, MouseEventArgs e)
 		{
@@ -2349,7 +2368,7 @@ namespace LightController.MyForm
 
 				var data = lightsSkinListView.SelectedItems.OfType<ListViewItem>().ToArray();
 
-				lightsSkinListView.DoDragDrop(data, DragDropEffects.All);
+				lightsSkinListView.DoDragDrop(data, DragDropEffects.Move);
 			}
 		}
 
@@ -2433,7 +2452,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void loadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//TODO：读取灯具位置
 			// 1.先验证ini文件是否存在
 			if (!File.Exists(arrangeIniPath)) {
 				MessageBox.Show("未找到灯具位置文件，无法读取。");
@@ -2452,7 +2470,7 @@ namespace LightController.MyForm
 			if ( lightCount != lightsSkinListView.Items.Count)
 			{
 				MessageBox.Show("灯具位置文件的灯具数量与当前工程的灯具数量不匹配，无法读取位置。");
-				//TODO: 灯具数量不匹配，如何处理？
+				//TODO：灯具数量不匹配，如何处理？
 				return;
 			}
 
@@ -2485,7 +2503,9 @@ namespace LightController.MyForm
 		private void chooseStepSkinButton_Click(object sender, EventArgs e)
 		{
 			int step = Decimal.ToInt16(chooseStepNumericUpDown.Value);
-			chooseStep(step);
+			if (step != 0) {
+				chooseStep(step);
+			}			
 		}
 	}
 }

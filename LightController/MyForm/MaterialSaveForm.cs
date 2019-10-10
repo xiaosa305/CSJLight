@@ -289,5 +289,16 @@ namespace LightController.MyForm
 			MessageBox.Show("素材名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
 			e.Cancel = true;
 		}
+
+
+		/// <summary>
+		/// 事件：点击《全选》功能
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void allStepSkinButton_Click(object sender, EventArgs e)
+		{
+			startNumericUpDown.Value = 1;
+		}
 	}
 }

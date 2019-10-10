@@ -1385,7 +1385,6 @@ namespace LightController.MyForm
 			// 
 			// arrangeToolStripMenuItem
 			// 
-			this.arrangeToolStripMenuItem.Enabled = false;
 			this.arrangeToolStripMenuItem.Name = "arrangeToolStripMenuItem";
 			this.arrangeToolStripMenuItem.ShowShortcutKeys = false;
 			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(148, 22);

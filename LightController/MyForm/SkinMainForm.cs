@@ -2382,11 +2382,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void arrangeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//bool tempAuto = lightsSkinListView.AutoArrange;
-			//lightsSkinListView.AutoArrange = true;
-			//lightsSkinListView.AutoArrange = tempAuto;
-
-			lightsSkinListView.Sort();
+			bool tempAutoArrange = lightsSkinListView.AutoArrange;
+			lightsSkinListView.AutoArrange = true;
+			lightsSkinListView.AutoArrange = tempAutoArrange;
+			lightsSkinListView.Update();
 		}
 
 		/// <summary>
@@ -2458,19 +2457,17 @@ namespace LightController.MyForm
 			}
 
 			// 4.开始读取并绘制		
-			//MARK : 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要运行下列循环语句，才能让 读取到的position真正给到items[i].Position
-			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
-			{
-				Console.WriteLine(lightsSkinListView.Items[i].Position);
-			}
-
+			//MARK : 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让 读取到的position真正给到items[i].Position?
 			lightsSkinListView.BeginUpdate();
 			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
 			{
+				//Console.WriteLine(lightsSkinListView.Items[i].Position);
 				int tempX = iniFileAst.ReadInt("Position", i + "X", 0);
 				int tempY = iniFileAst.ReadInt("Position", i + "Y", 0);
+				lightsSkinListView.Items[i].Position = new Point(0, 0); 
 				lightsSkinListView.Items[i].Position = new Point(tempX, tempY);
 			}
+
 			lightsSkinListView.EndUpdate();
 			MessageBox.Show("灯具位置读取成功。"); 
 

@@ -31,7 +31,6 @@ namespace LightController.Tools
                     SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_1024);
                     break;
                 case 2:
-                    SerialPortTools.GetInstance().DownloadProject(DBWrapper, @"C:\Temp\LightProject\测试调试(艾亮调试版1.0)\global.ini", new DownloadCallBack(), DownloadProgress);
                     break;
                 case 3:
                     SerialPortTools.GetInstance().SendOrder("Reset", null, new DownloadCallBack());

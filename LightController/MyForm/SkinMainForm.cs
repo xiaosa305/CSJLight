@@ -375,6 +375,10 @@ namespace LightController.MyForm
 		{
 			// 启动时刷新可用串口列表			
 			refreshComList();
+
+			// 几个按钮添加提示
+			myToolTip.SetToolTip(useFrameSkinButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
+			myToolTip.SetToolTip(chooseStepSkinButton, "跳转指定步");
 		}
 
 		#region 各种工具按钮

@@ -257,7 +257,6 @@ namespace LightController.Tools.CSJ
                         }
                         Thread.Sleep(1);
                     }
-                    this.IsTimeOutThreadStart = false;
                     if (!this.IsReceive)
                     {
                         CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeout");
@@ -295,7 +294,7 @@ namespace LightController.Tools.CSJ
                                     this.DownloadProgressDelegate("", 0);
                                 }
                             }
-                            CSJLogs.GetInstance().DebugLog( "超时，操作失败");
+                            CSJLogs.GetInstance().DebugLog("超时，操作失败");
                             this.CallBack.SendError(deviceName, Order);
                             this.CloseDevice();
                         }
@@ -313,6 +312,7 @@ namespace LightController.Tools.CSJ
                                     break;
                             }
                         }
+                        this.IsTimeOutThreadStart = false;
                         this.TimeIndex = 0;
                     }
                 }

@@ -62,13 +62,18 @@ namespace LightController.Tools.CSJ.IMPL
                 //添加两字节通道编号
                 fileData.Add(chanelNo[0]);
                 fileData.Add(chanelNo[1]);
+                //TODO
                 //获取数据长度
-                byte[] dataSzie = new byte[2];
+                byte[] dataSzie = new byte[4];
                 dataSzie[0] = (byte)(m_Data.DataSize & 0xFF);
                 dataSzie[1] = (byte)((m_Data.DataSize >> 8) & 0xFF);
+                dataSzie[1] = (byte)((m_Data.DataSize >> 16) & 0xFF);
+                dataSzie[1] = (byte)((m_Data.DataSize >> 16) & 0xFF);
                 //添加数据长度
                 fileData.Add(dataSzie[0]);
                 fileData.Add(dataSzie[1]);
+                fileData.Add(dataSzie[2]);
+                fileData.Add(dataSzie[3]);
                 //添加起始数据偏移量
                 int length = fileData.Count + 4;
                 fileData.Add(Convert.ToByte(length & 0xFF));

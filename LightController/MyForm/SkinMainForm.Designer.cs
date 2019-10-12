@@ -1606,7 +1606,7 @@ namespace LightController.MyForm
 			this.commonStepTimeNumericUpDown.Location = new System.Drawing.Point(151, 221);
 			this.commonStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonStepTimeNumericUpDown.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});

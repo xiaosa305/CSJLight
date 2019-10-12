@@ -94,6 +94,10 @@ private System.ComponentModel.IContainer components = null;
 			this.label17 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
 			this.skFrameFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.mFrameLKPanel = new System.Windows.Forms.Panel();
 			this.mFrameTextBox = new System.Windows.Forms.TextBox();
@@ -101,10 +105,6 @@ private System.ComponentModel.IContainer components = null;
 			this.mLKSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.mCurrentFrameLabel = new System.Windows.Forms.Label();
 			this.skFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -122,9 +122,9 @@ private System.ComponentModel.IContainer components = null;
 			this.flowLayoutPanel3.SuspendLayout();
 			this.panel27.SuspendLayout();
 			this.panel28.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.skFrameFlowLayoutPanel.SuspendLayout();
 			this.mFrameLKPanel.SuspendLayout();
-			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
@@ -363,11 +363,11 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheEnableGroupBox.TabStop = false;
 			this.zuheEnableGroupBox.Text = "播放设置";
 			// 
-			// frame0numericUpDown
+			// frame0NumericUpDown
 			// 
 			this.frame0NumericUpDown.Location = new System.Drawing.Point(17, 102);
 			this.frame0NumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.frame0NumericUpDown.Name = "frame0numericUpDown";
+			this.frame0NumericUpDown.Name = "frame0NumericUpDown";
 			this.frame0NumericUpDown.Size = new System.Drawing.Size(87, 21);
 			this.frame0NumericUpDown.TabIndex = 4;
 			this.frame0NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -587,6 +587,7 @@ private System.ComponentModel.IContainer components = null;
 			this.qdGroupBox.TabIndex = 0;
 			this.qdGroupBox.TabStop = false;
 			this.qdGroupBox.Text = "智能灯光控制器设置";
+			this.qdGroupBox.Visible = false;
 			// 
 			// label13
 			// 
@@ -826,6 +827,43 @@ private System.ComponentModel.IContainer components = null;
 			this.label19.TabIndex = 0;
 			this.label19.Text = "点击编辑音频步数链表";
 			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.label8);
+			this.panel1.Controls.Add(this.label10);
+			this.panel1.Controls.Add(this.label11);
+			this.panel1.Location = new System.Drawing.Point(3, 269);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(129, 127);
+			this.panel1.TabIndex = 1;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(7, 92);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(119, 12);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "叠加后间隔时间(ms):";
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(16, 48);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(101, 12);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "场景音频步时间：";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(4, 19);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(125, 12);
+			this.label11.TabIndex = 0;
+			this.label11.Text = "点击编辑音频步数链表";
+			// 
 			// skFrameFlowLayoutPanel
 			// 
 			this.skFrameFlowLayoutPanel.AutoScroll = true;
@@ -922,43 +960,6 @@ private System.ComponentModel.IContainer components = null;
 			this.skFrameSaveSkinButton.UseVisualStyleBackColor = false;
 			this.skFrameSaveSkinButton.Click += new System.EventHandler(this.skFrameSaveSkinButton_Click);
 			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.label8);
-			this.panel1.Controls.Add(this.label10);
-			this.panel1.Controls.Add(this.label11);
-			this.panel1.Location = new System.Drawing.Point(3, 269);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(129, 127);
-			this.panel1.TabIndex = 1;
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(7, 92);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(119, 12);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "叠加后间隔时间(ms):";
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(16, 48);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(101, 12);
-			this.label10.TabIndex = 0;
-			this.label10.Text = "场景音频步时间：";
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(4, 19);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(125, 12);
-			this.label11.TabIndex = 0;
-			this.label11.Text = "点击编辑音频步数链表";
-			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1001,11 +1002,11 @@ private System.ComponentModel.IContainer components = null;
 			this.panel27.PerformLayout();
 			this.panel28.ResumeLayout(false);
 			this.panel28.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.skFrameFlowLayoutPanel.ResumeLayout(false);
 			this.mFrameLKPanel.ResumeLayout(false);
 			this.mFrameLKPanel.PerformLayout();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}

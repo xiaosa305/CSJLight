@@ -6174,7 +6174,6 @@ namespace LightController.MyForm
 			// 
 			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
 			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
-			this.exportFolderBrowserDialog.ShowNewFolderButton = false;
 			// 
 			// middleTableLayoutPanel
 			// 

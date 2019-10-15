@@ -223,6 +223,7 @@ namespace LightController.Tools.CSJ.IMPL
                                         stepTime = cSJ_Channel.StepTimes[step];
                                         isGradualChange = cSJ_Channel.IsGradualChange[step];
                                     }
+                                    float inc = (stepValue - startValue) / (float)stepTime;
                                     for (int fram = 0; fram < stepTime; fram++)
                                     {
                                         if (step == cSJ_Channel.StepCount && fram == stepTime - 1)
@@ -233,7 +234,6 @@ namespace LightController.Tools.CSJ.IMPL
                                         {
                                             if (isGradualChange == Constant.MODE_C_GRADUAL)
                                             {
-                                                float inc = (stepValue - startValue) / (float)stepTime;
                                                 float value = startValue + inc * (fram + 1);
                                                 int intValue = (int)Math.Floor(value * 256);
                                                 intValue = (int)((intValue & 0xFF) / (255.0 / rate));
@@ -269,6 +269,7 @@ namespace LightController.Tools.CSJ.IMPL
                             stepTime = item.StepTimes[step];
                             isGradualChange = item.IsGradualChange[step];
                         }
+                        float inc = (stepValue - startValue) / (float)stepTime;
                         for (int fram = 0; fram < stepTime; fram++)
                         {
                             if (step == item.StepCount && fram == stepTime - 1)
@@ -279,7 +280,6 @@ namespace LightController.Tools.CSJ.IMPL
                             {
                                 if (isGradualChange == Constant.MODE_C_GRADUAL)
                                 {
-                                    float inc = (stepValue - startValue) / (float)stepTime;
                                     float value = startValue + inc * (fram + 1);
                                     int intValue = (int)Math.Floor(value * 256);
                                     datas.Add((intValue >> 8) & 0xFF);

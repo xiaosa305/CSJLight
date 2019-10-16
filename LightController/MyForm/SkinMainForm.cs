@@ -530,13 +530,27 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《保存工程》
+		///  事件：点击《保存工程》（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
+			this.Cursor = Cursors.WaitCursor; 
 			saveAll();
+			this.Cursor = Cursors.Default ;
+		}
+
+		/// <summary>
+		///  事件：点击《保存场景》（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void frameSaveSkinButton_Click(object sender, EventArgs e)
+		{
+			this.Cursor = Cursors.WaitCursor;
+			saveFrame();
+			this.Cursor = Cursors.Default;
 		}
 
 		/// <summary>
@@ -2223,11 +2237,22 @@ namespace LightController.MyForm
 			//lightsSkinListView.Dock = DockStyle.Fill;
 
 			// lightsSkinListView.AutoArrange = !lightsSkinListView.AutoArrange;
-			
-			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+
+			//for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+			//{
+			//	Console.WriteLine(i + " :: " + lightsSkinListView.Items[i].Text);
+			//}
+
+			dbValueList = getValueList();
+			var  tempValueList = dbValueList.Where(t => t.PK.LightIndex == 1);
+			//Console.WriteLine(tempValueList.GetType());
+			int i = 0;
+			foreach (var item in tempValueList)
 			{
-				Console.WriteLine(i + " :: " + lightsSkinListView.Items[i].Text);
+				i++;
+				Console.WriteLine(i + " : " + item.GetType());
 			}
+
 		}
 
 		/// <summary>
@@ -2492,10 +2517,7 @@ namespace LightController.MyForm
 
 			lightsSkinListView.EndUpdate();
 			MessageBox.Show("灯具位置读取成功。"); 
-
 		}
-
-
 
 		#endregion
 
@@ -2537,9 +2559,9 @@ namespace LightController.MyForm
 
 		private void hidePlayPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			playSkinPanel.Visible = !playSkinPanel.Visible;
-			hidePlayPanelToolStripMenuItem.Text = playSkinPanel.Visible ? "隐藏调试面板" : "显示调试面板";
-			hidePlayPanelToolStripMenuItem2.Text = playSkinPanel.Visible ? "隐藏调试面板" : "显示调试面板";
+			playPanel.Visible = !playPanel.Visible;
+			hidePlayPanelToolStripMenuItem.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
+			hidePlayPanelToolStripMenuItem2.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
 		}
 
 		#endregion
@@ -2560,5 +2582,7 @@ namespace LightController.MyForm
 				MessageBox.Show(ex.Message);
 			}
 		}
+
+		
 	}
 }

@@ -379,6 +379,7 @@ namespace LightController.MyForm
 			// 几个按钮添加提示
 			myToolTip.SetToolTip(useFrameSkinButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepSkinButton, "跳转指定步");
+			myToolTip.SetToolTip(keepSkinButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
 		}
 
 		#region 各种工具按钮
@@ -1932,7 +1933,8 @@ namespace LightController.MyForm
 			comName = comSkinComboBox.Text;
 			if (!comName.Trim().Equals(""))
 			{
-				playPanel.Show();
+				playFlowLayoutPanel.Show();
+				connectSkinButton.Show();
 			}
 			else
 			{
@@ -1949,7 +1951,7 @@ namespace LightController.MyForm
 		{
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if (!isConnected)
-			{
+			{							   
 				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
 				connectSkinButton.Text = "断开连接";				
 
@@ -2266,13 +2268,13 @@ namespace LightController.MyForm
 			if (!isKeepOtherLights)
 			{
 				keepSkinButton.Image = global::LightController.Properties.Resources.保持状态2;
-				keepSkinButton.Text = "取消保持状态";
+				keepSkinButton.Text = "取消保持";
 				isKeepOtherLights = true;
 			}
 			else //否则( 按钮显示为“保持其他灯状态”）断开连接
 			{
 				keepSkinButton.Image = global::LightController.Properties.Resources.保持状态1;
-				keepSkinButton.Text = "保持其他灯状态";
+				keepSkinButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}
 		}

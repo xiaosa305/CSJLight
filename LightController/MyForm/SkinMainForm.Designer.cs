@@ -60,7 +60,8 @@ namespace LightController.MyForm
 			this.comRefreshSkinButton = new CCWin.SkinControl.SkinButton();
 			this.openSkinButton = new CCWin.SkinControl.SkinButton();
 			this.playPanel = new System.Windows.Forms.Panel();
-			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+			this.playSkinLine = new CCWin.SkinControl.SkinLine();
+			this.playFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.connectSkinButton = new CCWin.SkinControl.SkinButton();
 			this.realtimeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
@@ -411,7 +412,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.SuspendLayout();
 			this.projectSkinPanel.SuspendLayout();
 			this.playPanel.SuspendLayout();
-			this.flowLayoutPanel2.SuspendLayout();
+			this.playFlowLayoutPanel.SuspendLayout();
 			this.mySkinContextMenuStrip.SuspendLayout();
 			this.astSkinPanel.SuspendLayout();
 			this.tdCommonPanel.SuspendLayout();
@@ -1155,29 +1156,41 @@ namespace LightController.MyForm
 			// 
 			// playPanel
 			// 
-			this.playPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-			this.playPanel.Controls.Add(this.flowLayoutPanel2);
+			this.playPanel.BackColor = System.Drawing.Color.Transparent;
+			this.playPanel.Controls.Add(this.playSkinLine);
+			this.playPanel.Controls.Add(this.playFlowLayoutPanel);
 			this.playPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.playPanel.Location = new System.Drawing.Point(3, 617);
 			this.playPanel.Name = "playPanel";
 			this.playPanel.Size = new System.Drawing.Size(1049, 114);
 			this.playPanel.TabIndex = 13;
-			this.playPanel.Visible = false;
 			// 
-			// flowLayoutPanel2
+			// playSkinLine
 			// 
-			this.flowLayoutPanel2.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.flowLayoutPanel2.Controls.Add(this.connectSkinButton);
-			this.flowLayoutPanel2.Controls.Add(this.realtimeSkinButton);
-			this.flowLayoutPanel2.Controls.Add(this.keepSkinButton);
-			this.flowLayoutPanel2.Controls.Add(this.oneLightOneStepSkinButton);
-			this.flowLayoutPanel2.Controls.Add(this.previewSkinButton);
-			this.flowLayoutPanel2.Controls.Add(this.makeSoundSkinButton);
-			this.flowLayoutPanel2.Controls.Add(this.endviewSkinButton);
-			this.flowLayoutPanel2.Location = new System.Drawing.Point(109, 4);
-			this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-			this.flowLayoutPanel2.Size = new System.Drawing.Size(844, 108);
-			this.flowLayoutPanel2.TabIndex = 13;
+			this.playSkinLine.BackColor = System.Drawing.Color.Gainsboro;
+			this.playSkinLine.Dock = System.Windows.Forms.DockStyle.Top;
+			this.playSkinLine.LineColor = System.Drawing.Color.LightGray;
+			this.playSkinLine.LineHeight = 1;
+			this.playSkinLine.Location = new System.Drawing.Point(0, 0);
+			this.playSkinLine.Name = "playSkinLine";
+			this.playSkinLine.Size = new System.Drawing.Size(1049, 1);
+			this.playSkinLine.TabIndex = 14;
+			this.playSkinLine.Text = "skinLine1";
+			// 
+			// playFlowLayoutPanel
+			// 
+			this.playFlowLayoutPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.playFlowLayoutPanel.Controls.Add(this.connectSkinButton);
+			this.playFlowLayoutPanel.Controls.Add(this.realtimeSkinButton);
+			this.playFlowLayoutPanel.Controls.Add(this.keepSkinButton);
+			this.playFlowLayoutPanel.Controls.Add(this.oneLightOneStepSkinButton);
+			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
+			this.playFlowLayoutPanel.Controls.Add(this.makeSoundSkinButton);
+			this.playFlowLayoutPanel.Controls.Add(this.endviewSkinButton);
+			this.playFlowLayoutPanel.Location = new System.Drawing.Point(109, 4);
+			this.playFlowLayoutPanel.Name = "playFlowLayoutPanel";
+			this.playFlowLayoutPanel.Size = new System.Drawing.Size(850, 108);
+			this.playFlowLayoutPanel.TabIndex = 13;
 			// 
 			// connectSkinButton
 			// 
@@ -1207,6 +1220,7 @@ namespace LightController.MyForm
 			this.connectSkinButton.Text = "连接设备";
 			this.connectSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.connectSkinButton.UseVisualStyleBackColor = false;
+			this.connectSkinButton.Visible = false;
 			this.connectSkinButton.Click += new System.EventHandler(this.connectSkinButton_Click);
 			// 
 			// realtimeSkinButton
@@ -1261,7 +1275,7 @@ namespace LightController.MyForm
 			this.keepSkinButton.NormlBack = null;
 			this.keepSkinButton.Size = new System.Drawing.Size(115, 96);
 			this.keepSkinButton.TabIndex = 11;
-			this.keepSkinButton.Text = "保持其它灯状态";
+			this.keepSkinButton.Text = "保持状态";
 			this.keepSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.keepSkinButton.UseVisualStyleBackColor = false;
 			this.keepSkinButton.Visible = false;
@@ -1516,7 +1530,7 @@ namespace LightController.MyForm
 			// 
 			this.hidePlayPanelToolStripMenuItem2.Name = "hidePlayPanelToolStripMenuItem2";
 			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
-			this.hidePlayPanelToolStripMenuItem2.Text = "隐藏调试面板";
+			this.hidePlayPanelToolStripMenuItem2.Text = "显示调试面板";
 			this.hidePlayPanelToolStripMenuItem2.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
 			// 
 			// lightLargeImageList
@@ -6289,8 +6303,8 @@ namespace LightController.MyForm
 			this.projectSkinPanel.ResumeLayout(false);
 			this.projectSkinPanel.PerformLayout();
 			this.playPanel.ResumeLayout(false);
-			this.flowLayoutPanel2.ResumeLayout(false);
-			this.flowLayoutPanel2.PerformLayout();
+			this.playFlowLayoutPanel.ResumeLayout(false);
+			this.playFlowLayoutPanel.PerformLayout();
 			this.mySkinContextMenuStrip.ResumeLayout(false);
 			this.astSkinPanel.ResumeLayout(false);
 			this.tdCommonPanel.ResumeLayout(false);
@@ -6877,6 +6891,7 @@ namespace LightController.MyForm
 		private ToolStripMenuItem hideAstPanelToolStripMenuItem2;
 		private ToolStripMenuItem hidePlayPanelToolStripMenuItem2;
 		private SkinButton frameSaveSkinButton;
-		private FlowLayoutPanel flowLayoutPanel2;
+		private FlowLayoutPanel playFlowLayoutPanel;
+		private SkinLine playSkinLine;
 	}
 }

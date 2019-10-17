@@ -209,6 +209,7 @@ namespace LightController
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
 			mainForm.AddLightAstList(lightAstList);
 			mainForm.GenerateAllStepTemplates();
+			mainForm.AutosetPlayPanelVisible();
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
 			mainForm.Activate();

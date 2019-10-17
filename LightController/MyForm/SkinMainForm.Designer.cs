@@ -33,7 +33,6 @@ namespace LightController.MyForm
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SkinMainForm));
-			this.comChooseSkinButton = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.bigTestButton = new System.Windows.Forms.Button();
 			this.testGroupBox = new System.Windows.Forms.GroupBox();
@@ -51,17 +50,20 @@ namespace LightController.MyForm
 			this.ymSkinButton = new CCWin.SkinControl.SkinButton();
 			this.otherToolsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.exitSkinButton = new CCWin.SkinControl.SkinButton();
+			this.comRefreshSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.comSkinComboBox = new CCWin.SkinControl.SkinComboBox();
+			this.projectLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
+			this.projectLabel = new System.Windows.Forms.Label();
 			this.exportSkinButton = new CCWin.SkinControl.SkinButton();
 			this.frameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.newSkinButton = new CCWin.SkinControl.SkinButton();
-			this.comRefreshSkinButton = new CCWin.SkinControl.SkinButton();
 			this.openSkinButton = new CCWin.SkinControl.SkinButton();
 			this.playPanel = new System.Windows.Forms.Panel();
 			this.playSkinLine = new CCWin.SkinControl.SkinLine();
 			this.playFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.comPanel = new System.Windows.Forms.Panel();
+			this.comSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.connectSkinButton = new CCWin.SkinControl.SkinButton();
 			this.realtimeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
@@ -82,7 +84,10 @@ namespace LightController.MyForm
 			this.hideProjectPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideAstPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.toggleSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
+			this.lightSmallImageList = new System.Windows.Forms.ImageList(this.components);
 			this.astSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.tdCommonPanel = new System.Windows.Forms.Panel();
 			this.commonStepTimeSkinButton = new CCWin.SkinControl.SkinButton();
@@ -411,8 +416,10 @@ namespace LightController.MyForm
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.projectSkinPanel.SuspendLayout();
+			this.projectLabelSkinPanel.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.playFlowLayoutPanel.SuspendLayout();
+			this.comPanel.SuspendLayout();
 			this.mySkinContextMenuStrip.SuspendLayout();
 			this.astSkinPanel.SuspendLayout();
 			this.tdCommonPanel.SuspendLayout();
@@ -563,30 +570,6 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.SuspendLayout();
 			this.myMenuStrip.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// comChooseSkinButton
-			// 
-			this.comChooseSkinButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comChooseSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.comChooseSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(22)))), ((int)(((byte)(42)))));
-			this.comChooseSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.comChooseSkinButton.DownBack = null;
-			this.comChooseSkinButton.Enabled = false;
-			this.comChooseSkinButton.Font = new System.Drawing.Font("幼圆", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.comChooseSkinButton.ForeColor = System.Drawing.Color.Cornsilk;
-			this.comChooseSkinButton.ForeColorSuit = true;
-			this.comChooseSkinButton.IsDrawBorder = false;
-			this.comChooseSkinButton.Location = new System.Drawing.Point(10, 34);
-			this.comChooseSkinButton.Margin = new System.Windows.Forms.Padding(2, 10, 2, 40);
-			this.comChooseSkinButton.MouseBack = null;
-			this.comChooseSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.comChooseSkinButton.Name = "comChooseSkinButton";
-			this.comChooseSkinButton.NormlBack = null;
-			this.comChooseSkinButton.Size = new System.Drawing.Size(99, 36);
-			this.comChooseSkinButton.TabIndex = 1;
-			this.comChooseSkinButton.Text = "选择调试串口";
-			this.comChooseSkinButton.UseVisualStyleBackColor = false;
-			this.comChooseSkinButton.Click += new System.EventHandler(this.comChooseSkinButton_Click);
 			// 
 			// menuSkinPanel
 			// 
@@ -942,18 +925,44 @@ namespace LightController.MyForm
 			this.exitSkinButton.UseVisualStyleBackColor = false;
 			this.exitSkinButton.Click += new System.EventHandler(this.exitSkinButton_Click);
 			// 
+			// comRefreshSkinButton
+			// 
+			this.comRefreshSkinButton.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.comRefreshSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.comRefreshSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.comRefreshSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.comRefreshSkinButton.DownBack = null;
+			this.comRefreshSkinButton.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.comRefreshSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.comRefreshSkinButton.ForeColorSuit = true;
+			this.comRefreshSkinButton.Image = global::LightController.Properties.Resources.刷新2;
+			this.comRefreshSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.comRefreshSkinButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.comRefreshSkinButton.InheritColor = true;
+			this.comRefreshSkinButton.Location = new System.Drawing.Point(10, 52);
+			this.comRefreshSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.comRefreshSkinButton.MouseBack = null;
+			this.comRefreshSkinButton.Name = "comRefreshSkinButton";
+			this.comRefreshSkinButton.NormlBack = null;
+			this.comRefreshSkinButton.Radius = 10;
+			this.comRefreshSkinButton.RoundStyle = CCWin.SkinClass.RoundStyle.All;
+			this.comRefreshSkinButton.Size = new System.Drawing.Size(85, 34);
+			this.comRefreshSkinButton.TabIndex = 17;
+			this.comRefreshSkinButton.Text = "刷新串口";
+			this.comRefreshSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.comRefreshSkinButton.UseVisualStyleBackColor = false;
+			this.comRefreshSkinButton.Click += new System.EventHandler(this.comRefreshSkinButton_Click);
+			// 
 			// projectSkinPanel
 			// 
 			this.projectSkinPanel.AutoScroll = true;
 			this.projectSkinPanel.BackColor = System.Drawing.Color.Transparent;
 			this.projectSkinPanel.BorderColor = System.Drawing.Color.LightGray;
-			this.projectSkinPanel.Controls.Add(this.comSkinComboBox);
-			this.projectSkinPanel.Controls.Add(this.comChooseSkinButton);
+			this.projectSkinPanel.Controls.Add(this.projectLabelSkinPanel);
 			this.projectSkinPanel.Controls.Add(this.exportSkinButton);
 			this.projectSkinPanel.Controls.Add(this.frameSaveSkinButton);
 			this.projectSkinPanel.Controls.Add(this.saveSkinButton);
 			this.projectSkinPanel.Controls.Add(this.newSkinButton);
-			this.projectSkinPanel.Controls.Add(this.comRefreshSkinButton);
 			this.projectSkinPanel.Controls.Add(this.openSkinButton);
 			this.projectSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.projectSkinPanel.Dock = System.Windows.Forms.DockStyle.Left;
@@ -965,16 +974,29 @@ namespace LightController.MyForm
 			this.projectSkinPanel.Size = new System.Drawing.Size(123, 734);
 			this.projectSkinPanel.TabIndex = 6;
 			// 
-			// comSkinComboBox
+			// projectLabelSkinPanel
 			// 
-			this.comSkinComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.comSkinComboBox.FormattingEnabled = true;
-			this.comSkinComboBox.Location = new System.Drawing.Point(31, 5);
-			this.comSkinComboBox.Name = "comSkinComboBox";
-			this.comSkinComboBox.Size = new System.Drawing.Size(78, 22);
-			this.comSkinComboBox.TabIndex = 0;
-			this.comSkinComboBox.WaterText = "";
+			this.projectLabelSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(139)))), ((int)(((byte)(139)))), ((int)(((byte)(139)))));
+			this.projectLabelSkinPanel.Controls.Add(this.projectLabel);
+			this.projectLabelSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.projectLabelSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.projectLabelSkinPanel.DownBack = null;
+			this.projectLabelSkinPanel.Location = new System.Drawing.Point(0, 0);
+			this.projectLabelSkinPanel.MouseBack = null;
+			this.projectLabelSkinPanel.Name = "projectLabelSkinPanel";
+			this.projectLabelSkinPanel.NormlBack = null;
+			this.projectLabelSkinPanel.Size = new System.Drawing.Size(123, 27);
+			this.projectLabelSkinPanel.TabIndex = 5;
+			// 
+			// projectLabel
+			// 
+			this.projectLabel.AutoSize = true;
+			this.projectLabel.ForeColor = System.Drawing.Color.White;
+			this.projectLabel.Location = new System.Drawing.Point(34, 7);
+			this.projectLabel.Name = "projectLabel";
+			this.projectLabel.Size = new System.Drawing.Size(53, 12);
+			this.projectLabel.TabIndex = 0;
+			this.projectLabel.Text = "工程面板";
 			// 
 			// exportSkinButton
 			// 
@@ -995,7 +1017,7 @@ namespace LightController.MyForm
 			this.exportSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.exportSkinButton.InheritColor = true;
 			this.exportSkinButton.IsDrawBorder = false;
-			this.exportSkinButton.Location = new System.Drawing.Point(17, 484);
+			this.exportSkinButton.Location = new System.Drawing.Point(19, 354);
 			this.exportSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.exportSkinButton.MouseBack = null;
 			this.exportSkinButton.Name = "exportSkinButton";
@@ -1017,7 +1039,6 @@ namespace LightController.MyForm
 			this.frameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.frameSaveSkinButton.DownBack = null;
 			this.frameSaveSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.frameSaveSkinButton.Enabled = false;
 			this.frameSaveSkinButton.FadeGlow = false;
 			this.frameSaveSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.frameSaveSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
@@ -1026,7 +1047,7 @@ namespace LightController.MyForm
 			this.frameSaveSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.frameSaveSkinButton.InheritColor = true;
 			this.frameSaveSkinButton.IsDrawBorder = false;
-			this.frameSaveSkinButton.Location = new System.Drawing.Point(17, 382);
+			this.frameSaveSkinButton.Location = new System.Drawing.Point(19, 458);
 			this.frameSaveSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.frameSaveSkinButton.MouseBack = null;
 			this.frameSaveSkinButton.Name = "frameSaveSkinButton";
@@ -1057,7 +1078,7 @@ namespace LightController.MyForm
 			this.saveSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.saveSkinButton.InheritColor = true;
 			this.saveSkinButton.IsDrawBorder = false;
-			this.saveSkinButton.Location = new System.Drawing.Point(17, 280);
+			this.saveSkinButton.Location = new System.Drawing.Point(19, 250);
 			this.saveSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveSkinButton.MouseBack = null;
 			this.saveSkinButton.Name = "saveSkinButton";
@@ -1086,7 +1107,7 @@ namespace LightController.MyForm
 			this.newSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.newSkinButton.InheritColor = true;
 			this.newSkinButton.IsDrawBorder = false;
-			this.newSkinButton.Location = new System.Drawing.Point(17, 76);
+			this.newSkinButton.Location = new System.Drawing.Point(19, 42);
 			this.newSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newSkinButton.MouseBack = null;
 			this.newSkinButton.Name = "newSkinButton";
@@ -1097,32 +1118,6 @@ namespace LightController.MyForm
 			this.newSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.newSkinButton.UseVisualStyleBackColor = false;
 			this.newSkinButton.Click += new System.EventHandler(this.newSkinButton_Click);
-			// 
-			// comRefreshSkinButton
-			// 
-			this.comRefreshSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.comRefreshSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.comRefreshSkinButton.BorderColor = System.Drawing.Color.White;
-			this.comRefreshSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.comRefreshSkinButton.DownBack = null;
-			this.comRefreshSkinButton.DrawType = CCWin.SkinControl.DrawStyle.Img;
-			this.comRefreshSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.comRefreshSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.comRefreshSkinButton.ForeColorSuit = true;
-			this.comRefreshSkinButton.Image = global::LightController.Properties.Resources.刷新2;
-			this.comRefreshSkinButton.ImageSize = new System.Drawing.Size(20, 20);
-			this.comRefreshSkinButton.InheritColor = true;
-			this.comRefreshSkinButton.IsDrawBorder = false;
-			this.comRefreshSkinButton.Location = new System.Drawing.Point(8, 6);
-			this.comRefreshSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.comRefreshSkinButton.MouseBack = null;
-			this.comRefreshSkinButton.Name = "comRefreshSkinButton";
-			this.comRefreshSkinButton.NormlBack = null;
-			this.comRefreshSkinButton.Size = new System.Drawing.Size(20, 20);
-			this.comRefreshSkinButton.TabIndex = 4;
-			this.comRefreshSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.comRefreshSkinButton.UseVisualStyleBackColor = false;
-			this.comRefreshSkinButton.Click += new System.EventHandler(this.comRefreshSkinButton_Click);
 			// 
 			// openSkinButton
 			// 
@@ -1142,7 +1137,7 @@ namespace LightController.MyForm
 			this.openSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.openSkinButton.InheritColor = true;
 			this.openSkinButton.IsDrawBorder = false;
-			this.openSkinButton.Location = new System.Drawing.Point(17, 178);
+			this.openSkinButton.Location = new System.Drawing.Point(19, 146);
 			this.openSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openSkinButton.MouseBack = null;
 			this.openSkinButton.Name = "openSkinButton";
@@ -1180,6 +1175,7 @@ namespace LightController.MyForm
 			// playFlowLayoutPanel
 			// 
 			this.playFlowLayoutPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.playFlowLayoutPanel.Controls.Add(this.comPanel);
 			this.playFlowLayoutPanel.Controls.Add(this.connectSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.realtimeSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.keepSkinButton);
@@ -1187,10 +1183,35 @@ namespace LightController.MyForm
 			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.makeSoundSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.endviewSkinButton);
-			this.playFlowLayoutPanel.Location = new System.Drawing.Point(109, 4);
+			this.playFlowLayoutPanel.Location = new System.Drawing.Point(90, 11);
 			this.playFlowLayoutPanel.Name = "playFlowLayoutPanel";
-			this.playFlowLayoutPanel.Size = new System.Drawing.Size(850, 108);
+			this.playFlowLayoutPanel.Size = new System.Drawing.Size(865, 100);
 			this.playFlowLayoutPanel.TabIndex = 13;
+			this.playFlowLayoutPanel.Visible = false;
+			// 
+			// comPanel
+			// 
+			this.comPanel.Controls.Add(this.comRefreshSkinButton);
+			this.comPanel.Controls.Add(this.comSkinComboBox);
+			this.comPanel.Location = new System.Drawing.Point(3, 3);
+			this.comPanel.Name = "comPanel";
+			this.comPanel.Size = new System.Drawing.Size(103, 96);
+			this.comPanel.TabIndex = 15;
+			// 
+			// comSkinComboBox
+			// 
+			this.comSkinComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.comSkinComboBox.BaseColor = System.Drawing.Color.Gray;
+			this.comSkinComboBox.BorderColor = System.Drawing.Color.Gray;
+			this.comSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.comSkinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comSkinComboBox.ItemBorderColor = System.Drawing.Color.Gray;
+			this.comSkinComboBox.Location = new System.Drawing.Point(13, 16);
+			this.comSkinComboBox.Name = "comSkinComboBox";
+			this.comSkinComboBox.Size = new System.Drawing.Size(80, 22);
+			this.comSkinComboBox.TabIndex = 15;
+			this.comSkinComboBox.WaterText = "";
+			this.comSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.comSkinComboBox_SelectedIndexChanged);
 			// 
 			// connectSkinButton
 			// 
@@ -1210,17 +1231,16 @@ namespace LightController.MyForm
 			this.connectSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.connectSkinButton.InheritColor = true;
 			this.connectSkinButton.IsDrawBorder = false;
-			this.connectSkinButton.Location = new System.Drawing.Point(2, 2);
+			this.connectSkinButton.Location = new System.Drawing.Point(111, 2);
 			this.connectSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectSkinButton.MouseBack = null;
 			this.connectSkinButton.Name = "connectSkinButton";
 			this.connectSkinButton.NormlBack = null;
-			this.connectSkinButton.Size = new System.Drawing.Size(118, 96);
+			this.connectSkinButton.Size = new System.Drawing.Size(103, 96);
 			this.connectSkinButton.TabIndex = 5;
 			this.connectSkinButton.Text = "连接设备";
 			this.connectSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.connectSkinButton.UseVisualStyleBackColor = false;
-			this.connectSkinButton.Visible = false;
 			this.connectSkinButton.Click += new System.EventHandler(this.connectSkinButton_Click);
 			// 
 			// realtimeSkinButton
@@ -1231,6 +1251,7 @@ namespace LightController.MyForm
 			this.realtimeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.realtimeSkinButton.DownBack = null;
 			this.realtimeSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.realtimeSkinButton.Enabled = false;
 			this.realtimeSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.realtimeSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.realtimeSkinButton.ForeColorSuit = true;
@@ -1239,17 +1260,16 @@ namespace LightController.MyForm
 			this.realtimeSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.realtimeSkinButton.InheritColor = true;
 			this.realtimeSkinButton.IsDrawBorder = false;
-			this.realtimeSkinButton.Location = new System.Drawing.Point(124, 2);
+			this.realtimeSkinButton.Location = new System.Drawing.Point(218, 2);
 			this.realtimeSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.realtimeSkinButton.MouseBack = null;
 			this.realtimeSkinButton.Name = "realtimeSkinButton";
 			this.realtimeSkinButton.NormlBack = null;
-			this.realtimeSkinButton.Size = new System.Drawing.Size(115, 96);
+			this.realtimeSkinButton.Size = new System.Drawing.Size(103, 96);
 			this.realtimeSkinButton.TabIndex = 11;
 			this.realtimeSkinButton.Text = "实时调试";
 			this.realtimeSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.realtimeSkinButton.UseVisualStyleBackColor = false;
-			this.realtimeSkinButton.Visible = false;
 			this.realtimeSkinButton.Click += new System.EventHandler(this.realtimeSkinButton_Click);
 			// 
 			// keepSkinButton
@@ -1260,6 +1280,7 @@ namespace LightController.MyForm
 			this.keepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.keepSkinButton.DownBack = null;
 			this.keepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.keepSkinButton.Enabled = false;
 			this.keepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.keepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.keepSkinButton.ForeColorSuit = true;
@@ -1268,17 +1289,16 @@ namespace LightController.MyForm
 			this.keepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.keepSkinButton.InheritColor = true;
 			this.keepSkinButton.IsDrawBorder = false;
-			this.keepSkinButton.Location = new System.Drawing.Point(243, 2);
+			this.keepSkinButton.Location = new System.Drawing.Point(325, 2);
 			this.keepSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.keepSkinButton.MouseBack = null;
 			this.keepSkinButton.Name = "keepSkinButton";
 			this.keepSkinButton.NormlBack = null;
-			this.keepSkinButton.Size = new System.Drawing.Size(115, 96);
+			this.keepSkinButton.Size = new System.Drawing.Size(103, 96);
 			this.keepSkinButton.TabIndex = 11;
 			this.keepSkinButton.Text = "保持状态";
 			this.keepSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.keepSkinButton.UseVisualStyleBackColor = false;
-			this.keepSkinButton.Visible = false;
 			this.keepSkinButton.Click += new System.EventHandler(this.keepSkinButton_Click);
 			// 
 			// oneLightOneStepSkinButton
@@ -1289,6 +1309,7 @@ namespace LightController.MyForm
 			this.oneLightOneStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.oneLightOneStepSkinButton.DownBack = null;
 			this.oneLightOneStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.oneLightOneStepSkinButton.Enabled = false;
 			this.oneLightOneStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.oneLightOneStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.oneLightOneStepSkinButton.ForeColorSuit = true;
@@ -1297,17 +1318,16 @@ namespace LightController.MyForm
 			this.oneLightOneStepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.oneLightOneStepSkinButton.InheritColor = true;
 			this.oneLightOneStepSkinButton.IsDrawBorder = false;
-			this.oneLightOneStepSkinButton.Location = new System.Drawing.Point(362, 2);
+			this.oneLightOneStepSkinButton.Location = new System.Drawing.Point(432, 2);
 			this.oneLightOneStepSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.oneLightOneStepSkinButton.MouseBack = null;
 			this.oneLightOneStepSkinButton.Name = "oneLightOneStepSkinButton";
 			this.oneLightOneStepSkinButton.NormlBack = null;
-			this.oneLightOneStepSkinButton.Size = new System.Drawing.Size(115, 96);
+			this.oneLightOneStepSkinButton.Size = new System.Drawing.Size(103, 96);
 			this.oneLightOneStepSkinButton.TabIndex = 8;
 			this.oneLightOneStepSkinButton.Text = "单灯单步";
 			this.oneLightOneStepSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.oneLightOneStepSkinButton.UseVisualStyleBackColor = false;
-			this.oneLightOneStepSkinButton.Visible = false;
 			this.oneLightOneStepSkinButton.Click += new System.EventHandler(this.oneLightOneStepSkinButton_Click);
 			// 
 			// previewSkinButton
@@ -1318,6 +1338,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.previewSkinButton.DownBack = null;
 			this.previewSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.previewSkinButton.Enabled = false;
 			this.previewSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.previewSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.previewSkinButton.ForeColorSuit = true;
@@ -1326,17 +1347,16 @@ namespace LightController.MyForm
 			this.previewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.previewSkinButton.InheritColor = true;
 			this.previewSkinButton.IsDrawBorder = false;
-			this.previewSkinButton.Location = new System.Drawing.Point(481, 2);
+			this.previewSkinButton.Location = new System.Drawing.Point(539, 2);
 			this.previewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewSkinButton.MouseBack = null;
 			this.previewSkinButton.Name = "previewSkinButton";
 			this.previewSkinButton.NormlBack = null;
-			this.previewSkinButton.Size = new System.Drawing.Size(115, 96);
+			this.previewSkinButton.Size = new System.Drawing.Size(103, 96);
 			this.previewSkinButton.TabIndex = 6;
 			this.previewSkinButton.Text = "预览效果";
 			this.previewSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.previewSkinButton.UseVisualStyleBackColor = false;
-			this.previewSkinButton.Visible = false;
 			this.previewSkinButton.Click += new System.EventHandler(this.previewSkinButton_Click);
 			// 
 			// makeSoundSkinButton
@@ -1347,6 +1367,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.makeSoundSkinButton.DownBack = null;
 			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.makeSoundSkinButton.Enabled = false;
 			this.makeSoundSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.makeSoundSkinButton.ForeColorSuit = true;
@@ -1355,17 +1376,16 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.makeSoundSkinButton.InheritColor = true;
 			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(600, 2);
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(646, 2);
 			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundSkinButton.MouseBack = null;
 			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
 			this.makeSoundSkinButton.NormlBack = null;
-			this.makeSoundSkinButton.Size = new System.Drawing.Size(115, 96);
+			this.makeSoundSkinButton.Size = new System.Drawing.Size(103, 96);
 			this.makeSoundSkinButton.TabIndex = 10;
 			this.makeSoundSkinButton.Text = "触发音频";
 			this.makeSoundSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.makeSoundSkinButton.UseVisualStyleBackColor = false;
-			this.makeSoundSkinButton.Visible = false;
 			this.makeSoundSkinButton.Click += new System.EventHandler(this.makeSoundSkinButton_Click);
 			// 
 			// endviewSkinButton
@@ -1376,6 +1396,7 @@ namespace LightController.MyForm
 			this.endviewSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.endviewSkinButton.DownBack = null;
 			this.endviewSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.endviewSkinButton.Enabled = false;
 			this.endviewSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.endviewSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.endviewSkinButton.ForeColorSuit = true;
@@ -1384,17 +1405,16 @@ namespace LightController.MyForm
 			this.endviewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.endviewSkinButton.InheritColor = true;
 			this.endviewSkinButton.IsDrawBorder = false;
-			this.endviewSkinButton.Location = new System.Drawing.Point(719, 2);
+			this.endviewSkinButton.Location = new System.Drawing.Point(753, 2);
 			this.endviewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.endviewSkinButton.MouseBack = null;
 			this.endviewSkinButton.Name = "endviewSkinButton";
 			this.endviewSkinButton.NormlBack = null;
-			this.endviewSkinButton.Size = new System.Drawing.Size(115, 96);
+			this.endviewSkinButton.Size = new System.Drawing.Size(103, 96);
 			this.endviewSkinButton.TabIndex = 12;
 			this.endviewSkinButton.Text = "结束预览";
 			this.endviewSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.endviewSkinButton.UseVisualStyleBackColor = false;
-			this.endviewSkinButton.Visible = false;
 			this.endviewSkinButton.Click += new System.EventHandler(this.endviewSkinButton_Click);
 			// 
 			// lightsSkinListView
@@ -1410,8 +1430,10 @@ namespace LightController.MyForm
 			this.lightsSkinListView.Margin = new System.Windows.Forms.Padding(0);
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 175);
+			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 198);
+			this.lightsSkinListView.SmallImageList = this.lightSmallImageList;
 			this.lightsSkinListView.TabIndex = 9;
+			this.lightsSkinListView.TileSize = new System.Drawing.Size(100, 80);
 			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
 			this.lightsSkinListView.SelectedIndexChanged += new System.EventHandler(this.lightsSkinListView_SelectedIndexChanged);
 			this.lightsSkinListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.lightsSkinListView_DragDrop);
@@ -1449,11 +1471,13 @@ namespace LightController.MyForm
             this.hideMenuPanelToolStripMenuItem2,
             this.hideProjectPanelToolStripMenuItem2,
             this.hideAstPanelToolStripMenuItem2,
-            this.hidePlayPanelToolStripMenuItem2});
+            this.hidePlayPanelToolStripMenuItem2,
+            this.toolStripSeparator3,
+            this.toggleSizeToolStripMenuItem});
 			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
 			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
 			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(161, 192);
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(161, 220);
 			this.mySkinContextMenuStrip.SkinAllColor = true;
 			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
 			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -1530,8 +1554,20 @@ namespace LightController.MyForm
 			// 
 			this.hidePlayPanelToolStripMenuItem2.Name = "hidePlayPanelToolStripMenuItem2";
 			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
-			this.hidePlayPanelToolStripMenuItem2.Text = "显示调试面板";
+			this.hidePlayPanelToolStripMenuItem2.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem2.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(157, 6);
+			// 
+			// toggleSizeToolStripMenuItem
+			// 
+			this.toggleSizeToolStripMenuItem.Name = "toggleSizeToolStripMenuItem";
+			this.toggleSizeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.toggleSizeToolStripMenuItem.Text = "显示小图标";
+			this.toggleSizeToolStripMenuItem.Click += new System.EventHandler(this.toggleSizeToolStripMenuItem_Click);
 			// 
 			// lightLargeImageList
 			// 
@@ -1575,6 +1611,48 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(35, "帕灯.bmp");
 			this.lightLargeImageList.Images.SetKeyName(36, "1.bmp");
 			// 
+			// lightSmallImageList
+			// 
+			this.lightSmallImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightSmallImageList.ImageStream")));
+			this.lightSmallImageList.TransparentColor = System.Drawing.Color.Gainsboro;
+			this.lightSmallImageList.Images.SetKeyName(0, "2.bmp");
+			this.lightSmallImageList.Images.SetKeyName(1, "3.bmp");
+			this.lightSmallImageList.Images.SetKeyName(2, "4.bmp");
+			this.lightSmallImageList.Images.SetKeyName(3, "5.bmp");
+			this.lightSmallImageList.Images.SetKeyName(4, "6.bmp");
+			this.lightSmallImageList.Images.SetKeyName(5, "7.bmp");
+			this.lightSmallImageList.Images.SetKeyName(6, "8.bmp");
+			this.lightSmallImageList.Images.SetKeyName(7, "9.bmp");
+			this.lightSmallImageList.Images.SetKeyName(8, "10.bmp");
+			this.lightSmallImageList.Images.SetKeyName(9, "11.bmp");
+			this.lightSmallImageList.Images.SetKeyName(10, "12.bmp");
+			this.lightSmallImageList.Images.SetKeyName(11, "13.bmp");
+			this.lightSmallImageList.Images.SetKeyName(12, "14.bmp");
+			this.lightSmallImageList.Images.SetKeyName(13, "15.bmp");
+			this.lightSmallImageList.Images.SetKeyName(14, "16.bmp");
+			this.lightSmallImageList.Images.SetKeyName(15, "17.bmp");
+			this.lightSmallImageList.Images.SetKeyName(16, "18.bmp");
+			this.lightSmallImageList.Images.SetKeyName(17, "19.bmp");
+			this.lightSmallImageList.Images.SetKeyName(18, "20.bmp");
+			this.lightSmallImageList.Images.SetKeyName(19, "21.bmp");
+			this.lightSmallImageList.Images.SetKeyName(20, "22.bmp");
+			this.lightSmallImageList.Images.SetKeyName(21, "23.bmp");
+			this.lightSmallImageList.Images.SetKeyName(22, "24.bmp");
+			this.lightSmallImageList.Images.SetKeyName(23, "25.bmp");
+			this.lightSmallImageList.Images.SetKeyName(24, "27.bmp");
+			this.lightSmallImageList.Images.SetKeyName(25, "28.bmp");
+			this.lightSmallImageList.Images.SetKeyName(26, "29.gif");
+			this.lightSmallImageList.Images.SetKeyName(27, "30.bmp");
+			this.lightSmallImageList.Images.SetKeyName(28, "31.bmp");
+			this.lightSmallImageList.Images.SetKeyName(29, "ledpar.bmp");
+			this.lightSmallImageList.Images.SetKeyName(30, "RGB.ico");
+			this.lightSmallImageList.Images.SetKeyName(31, "灯带.bmp");
+			this.lightSmallImageList.Images.SetKeyName(32, "二合一.bmp");
+			this.lightSmallImageList.Images.SetKeyName(33, "二合一50.bmp");
+			this.lightSmallImageList.Images.SetKeyName(34, "魔球.bmp");
+			this.lightSmallImageList.Images.SetKeyName(35, "帕灯.bmp");
+			this.lightSmallImageList.Images.SetKeyName(36, "1.bmp");
+			// 
 			// astSkinPanel
 			// 
 			this.astSkinPanel.BackColor = System.Drawing.Color.Transparent;
@@ -1608,9 +1686,9 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Controls.Add(this.initSkinButton);
 			this.tdCommonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tdCommonPanel.Enabled = false;
-			this.tdCommonPanel.Location = new System.Drawing.Point(0, 318);
+			this.tdCommonPanel.Location = new System.Drawing.Point(0, 331);
 			this.tdCommonPanel.Name = "tdCommonPanel";
-			this.tdCommonPanel.Size = new System.Drawing.Size(246, 416);
+			this.tdCommonPanel.Size = new System.Drawing.Size(246, 403);
 			this.tdCommonPanel.TabIndex = 29;
 			// 
 			// commonStepTimeSkinButton
@@ -1847,11 +1925,11 @@ namespace LightController.MyForm
 			this.tdCommonLabelSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.tdCommonLabelSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tdCommonLabelSkinPanel.DownBack = null;
-			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 290);
+			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 304);
 			this.tdCommonLabelSkinPanel.MouseBack = null;
 			this.tdCommonLabelSkinPanel.Name = "tdCommonLabelSkinPanel";
 			this.tdCommonLabelSkinPanel.NormlBack = null;
-			this.tdCommonLabelSkinPanel.Size = new System.Drawing.Size(246, 28);
+			this.tdCommonLabelSkinPanel.Size = new System.Drawing.Size(246, 27);
 			this.tdCommonLabelSkinPanel.TabIndex = 2;
 			// 
 			// tytzLabel
@@ -1878,7 +1956,7 @@ namespace LightController.MyForm
 			this.lightInfoSkinPanel.MouseBack = null;
 			this.lightInfoSkinPanel.Name = "lightInfoSkinPanel";
 			this.lightInfoSkinPanel.NormlBack = null;
-			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 290);
+			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 304);
 			this.lightInfoSkinPanel.TabIndex = 0;
 			// 
 			// lightsAddrLabel
@@ -1972,11 +2050,11 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.stepSkinPanel.DownBack = null;
 			this.stepSkinPanel.Enabled = false;
-			this.stepSkinPanel.Location = new System.Drawing.Point(3, 178);
+			this.stepSkinPanel.Location = new System.Drawing.Point(3, 201);
 			this.stepSkinPanel.MouseBack = null;
 			this.stepSkinPanel.Name = "stepSkinPanel";
 			this.stepSkinPanel.NormlBack = null;
-			this.stepSkinPanel.Size = new System.Drawing.Size(1049, 123);
+			this.stepSkinPanel.Size = new System.Drawing.Size(1049, 100);
 			this.stepSkinPanel.TabIndex = 11;
 			// 
 			// chooseStepSkinButton
@@ -1995,7 +2073,7 @@ namespace LightController.MyForm
 			this.chooseStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.chooseStepSkinButton.InheritColor = true;
 			this.chooseStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.chooseStepSkinButton.Location = new System.Drawing.Point(615, 13);
+			this.chooseStepSkinButton.Location = new System.Drawing.Point(615, 9);
 			this.chooseStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.chooseStepSkinButton.MouseBack = null;
 			this.chooseStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2014,7 +2092,7 @@ namespace LightController.MyForm
 			this.modeSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.modeSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.modeSkinComboBox.FormattingEnabled = true;
-			this.modeSkinComboBox.Location = new System.Drawing.Point(58, 66);
+			this.modeSkinComboBox.Location = new System.Drawing.Point(58, 61);
 			this.modeSkinComboBox.Name = "modeSkinComboBox";
 			this.modeSkinComboBox.Size = new System.Drawing.Size(84, 25);
 			this.modeSkinComboBox.TabIndex = 1;
@@ -2029,7 +2107,7 @@ namespace LightController.MyForm
 			this.modeLabel.Font = new System.Drawing.Font("华文细黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.modeLabel.ForeColor = System.Drawing.Color.White;
 			this.modeLabel.ForeColorSuit = true;
-			this.modeLabel.Location = new System.Drawing.Point(11, 72);
+			this.modeLabel.Location = new System.Drawing.Point(11, 67);
 			this.modeLabel.Name = "modeLabel";
 			this.modeLabel.Size = new System.Drawing.Size(59, 17);
 			this.modeLabel.TabIndex = 8;
@@ -2052,7 +2130,7 @@ namespace LightController.MyForm
 			this.useFrameSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.useFrameSkinButton.InheritColor = true;
 			this.useFrameSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.useFrameSkinButton.Location = new System.Drawing.Point(163, 58);
+			this.useFrameSkinButton.Location = new System.Drawing.Point(163, 53);
 			this.useFrameSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.useFrameSkinButton.MouseBack = null;
 			this.useFrameSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2068,7 +2146,7 @@ namespace LightController.MyForm
 			// chooseStepNumericUpDown
 			// 
 			this.chooseStepNumericUpDown.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(563, 25);
+			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(563, 20);
 			this.chooseStepNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.chooseStepNumericUpDown.Maximum = new decimal(new int[] {
             1,
@@ -2107,7 +2185,7 @@ namespace LightController.MyForm
 			this.multiLightSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiLightSkinButton.InheritColor = true;
 			this.multiLightSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiLightSkinButton.Location = new System.Drawing.Point(163, 10);
+			this.multiLightSkinButton.Location = new System.Drawing.Point(163, 5);
 			this.multiLightSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiLightSkinButton.MouseBack = null;
 			this.multiLightSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2124,7 +2202,7 @@ namespace LightController.MyForm
 			// 
 			this.addStepCheckBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.addStepCheckBox.ForeColor = System.Drawing.Color.White;
-			this.addStepCheckBox.Location = new System.Drawing.Point(987, 14);
+			this.addStepCheckBox.Location = new System.Drawing.Point(987, 9);
 			this.addStepCheckBox.Name = "addStepCheckBox";
 			this.addStepCheckBox.Size = new System.Drawing.Size(59, 83);
 			this.addStepCheckBox.TabIndex = 6;
@@ -2149,7 +2227,7 @@ namespace LightController.MyForm
 			this.nextStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.nextStepSkinButton.InheritColor = true;
 			this.nextStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.nextStepSkinButton.Location = new System.Drawing.Point(457, 13);
+			this.nextStepSkinButton.Location = new System.Drawing.Point(457, 8);
 			this.nextStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.nextStepSkinButton.MouseBack = null;
 			this.nextStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2179,7 +2257,7 @@ namespace LightController.MyForm
 			this.useMaterialSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.useMaterialSkinButton.InheritColor = true;
 			this.useMaterialSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.useMaterialSkinButton.Location = new System.Drawing.Point(877, 11);
+			this.useMaterialSkinButton.Location = new System.Drawing.Point(877, 6);
 			this.useMaterialSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.useMaterialSkinButton.MouseBack = null;
 			this.useMaterialSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2208,7 +2286,7 @@ namespace LightController.MyForm
 			this.saveMaterialSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.saveMaterialSkinButton.InheritColor = true;
 			this.saveMaterialSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.saveMaterialSkinButton.Location = new System.Drawing.Point(876, 61);
+			this.saveMaterialSkinButton.Location = new System.Drawing.Point(876, 56);
 			this.saveMaterialSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.saveMaterialSkinButton.MouseBack = null;
 			this.saveMaterialSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2238,7 +2316,7 @@ namespace LightController.MyForm
 			this.multiCopySkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiCopySkinButton.InheritColor = true;
 			this.multiCopySkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiCopySkinButton.Location = new System.Drawing.Point(764, 11);
+			this.multiCopySkinButton.Location = new System.Drawing.Point(764, 6);
 			this.multiCopySkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiCopySkinButton.MouseBack = null;
 			this.multiCopySkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2267,7 +2345,7 @@ namespace LightController.MyForm
 			this.multiPasteSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiPasteSkinButton.InheritColor = true;
 			this.multiPasteSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiPasteSkinButton.Location = new System.Drawing.Point(764, 58);
+			this.multiPasteSkinButton.Location = new System.Drawing.Point(764, 53);
 			this.multiPasteSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiPasteSkinButton.MouseBack = null;
 			this.multiPasteSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2297,7 +2375,7 @@ namespace LightController.MyForm
 			this.copyStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.copyStepSkinButton.InheritColor = true;
 			this.copyStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.copyStepSkinButton.Location = new System.Drawing.Point(666, 11);
+			this.copyStepSkinButton.Location = new System.Drawing.Point(666, 6);
 			this.copyStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.copyStepSkinButton.MouseBack = null;
 			this.copyStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2326,7 +2404,7 @@ namespace LightController.MyForm
 			this.pasteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.pasteStepSkinButton.InheritColor = true;
 			this.pasteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.pasteStepSkinButton.Location = new System.Drawing.Point(666, 60);
+			this.pasteStepSkinButton.Location = new System.Drawing.Point(666, 55);
 			this.pasteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.pasteStepSkinButton.MouseBack = null;
 			this.pasteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2355,7 +2433,7 @@ namespace LightController.MyForm
 			this.deleteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.deleteStepSkinButton.InheritColor = true;
 			this.deleteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.deleteStepSkinButton.Location = new System.Drawing.Point(560, 58);
+			this.deleteStepSkinButton.Location = new System.Drawing.Point(560, 53);
 			this.deleteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteStepSkinButton.MouseBack = null;
 			this.deleteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2384,7 +2462,7 @@ namespace LightController.MyForm
 			this.addStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.addStepSkinButton.InheritColor = true;
 			this.addStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.addStepSkinButton.Location = new System.Drawing.Point(460, 58);
+			this.addStepSkinButton.Location = new System.Drawing.Point(460, 53);
 			this.addStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addStepSkinButton.MouseBack = null;
 			this.addStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2413,7 +2491,7 @@ namespace LightController.MyForm
 			this.insertAfterSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.insertAfterSkinButton.InheritColor = true;
 			this.insertAfterSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.insertAfterSkinButton.Location = new System.Drawing.Point(360, 58);
+			this.insertAfterSkinButton.Location = new System.Drawing.Point(360, 53);
 			this.insertAfterSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.insertAfterSkinButton.MouseBack = null;
 			this.insertAfterSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2443,7 +2521,7 @@ namespace LightController.MyForm
 			this.insertBeforeSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.insertBeforeSkinButton.InheritColor = true;
 			this.insertBeforeSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.insertBeforeSkinButton.Location = new System.Drawing.Point(270, 57);
+			this.insertBeforeSkinButton.Location = new System.Drawing.Point(270, 52);
 			this.insertBeforeSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.insertBeforeSkinButton.MouseBack = null;
 			this.insertBeforeSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2474,7 +2552,7 @@ namespace LightController.MyForm
 			this.backStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.backStepSkinButton.InheritColor = true;
 			this.backStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.backStepSkinButton.Location = new System.Drawing.Point(270, 12);
+			this.backStepSkinButton.Location = new System.Drawing.Point(270, 7);
 			this.backStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.backStepSkinButton.MouseBack = null;
 			this.backStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2494,7 +2572,7 @@ namespace LightController.MyForm
 			this.frameSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.frameSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.frameSkinComboBox.FormattingEnabled = true;
-			this.frameSkinComboBox.Location = new System.Drawing.Point(58, 19);
+			this.frameSkinComboBox.Location = new System.Drawing.Point(58, 14);
 			this.frameSkinComboBox.Name = "frameSkinComboBox";
 			this.frameSkinComboBox.Size = new System.Drawing.Size(84, 25);
 			this.frameSkinComboBox.TabIndex = 1;
@@ -2508,7 +2586,7 @@ namespace LightController.MyForm
 			this.stepLabel.BorderColor = System.Drawing.Color.White;
 			this.stepLabel.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(380, 28);
+			this.stepLabel.Location = new System.Drawing.Point(380, 23);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(53, 15);
 			this.stepLabel.TabIndex = 0;
@@ -2522,7 +2600,7 @@ namespace LightController.MyForm
 			this.frameLabel.Font = new System.Drawing.Font("华文细黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.frameLabel.ForeColor = System.Drawing.Color.White;
 			this.frameLabel.ForeColorSuit = true;
-			this.frameLabel.Location = new System.Drawing.Point(12, 23);
+			this.frameLabel.Location = new System.Drawing.Point(12, 18);
 			this.frameLabel.Name = "frameLabel";
 			this.frameLabel.Size = new System.Drawing.Size(59, 17);
 			this.frameLabel.TabIndex = 0;
@@ -6223,16 +6301,18 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.middleTableLayoutPanel.Controls.Add(this.playPanel, 0, 3);
 			this.middleTableLayoutPanel.Controls.Add(this.stepSkinPanel, 0, 1);
-			this.middleTableLayoutPanel.Controls.Add(this.lightsSkinListView, 0, 0);
+			this.middleTableLayoutPanel.Controls.Add(this.lightsSkinListView, 1, 0);
 			this.middleTableLayoutPanel.Controls.Add(this.tdTableLayoutPanel, 0, 2);
 			this.middleTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.middleTableLayoutPanel.Location = new System.Drawing.Point(123, 107);
 			this.middleTableLayoutPanel.Name = "middleTableLayoutPanel";
 			this.middleTableLayoutPanel.RowCount = 4;
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 129F));
+			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 310F));
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.middleTableLayoutPanel.Size = new System.Drawing.Size(1055, 734);
 			this.middleTableLayoutPanel.TabIndex = 29;
 			// 
@@ -6291,7 +6371,7 @@ namespace LightController.MyForm
 			this.Controls.Add(this.myMenuStrip);
 			this.MainMenuStrip = this.myMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(2);
-			this.MinimumSize = new System.Drawing.Size(1022, 766);
+			this.MinimumSize = new System.Drawing.Size(1024, 720);
 			this.Name = "SkinMainForm";
 			this.Text = " ";
 			this.Load += new System.EventHandler(this.SkinMainForm_Load);
@@ -6302,9 +6382,12 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.PerformLayout();
 			this.projectSkinPanel.ResumeLayout(false);
 			this.projectSkinPanel.PerformLayout();
+			this.projectLabelSkinPanel.ResumeLayout(false);
+			this.projectLabelSkinPanel.PerformLayout();
 			this.playPanel.ResumeLayout(false);
 			this.playFlowLayoutPanel.ResumeLayout(false);
 			this.playFlowLayoutPanel.PerformLayout();
+			this.comPanel.ResumeLayout(false);
 			this.mySkinContextMenuStrip.ResumeLayout(false);
 			this.astSkinPanel.ResumeLayout(false);
 			this.tdCommonPanel.ResumeLayout(false);
@@ -6511,13 +6594,11 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton lightLibrarySkinButton;
 		private CCWin.SkinControl.SkinButton hardwareUpdateSkinButton;
 		private CCWin.SkinControl.SkinButton ymSkinButton;
-		private CCWin.SkinControl.SkinButton comChooseSkinButton;
 		private CCWin.SkinControl.SkinButton saveSkinButton;
 		private CCWin.SkinControl.SkinButton openSkinButton;
 		private CCWin.SkinControl.SkinButton newSkinButton;
 		private CCWin.SkinControl.SkinPanel menuSkinPanel;
 		private CCWin.SkinControl.SkinPanel projectSkinPanel;
-		private CCWin.SkinControl.SkinComboBox comSkinComboBox;
 		private CCWin.SkinControl.SkinListView lightsSkinListView;
 		private ImageList lightLargeImageList;
 		private ColumnHeader lightName;
@@ -6813,7 +6894,6 @@ namespace LightController.MyForm
 		private Panel tdCommonPanel;
 		private SkinButton exitSkinButton;
 		private Panel playPanel;
-		private SkinButton comRefreshSkinButton;
 		private SkinButton exportSkinButton;
 		private SkinButton multiSkinButton;
 		private SkinTrackBar tdSkinTrackBar1;
@@ -6893,5 +6973,13 @@ namespace LightController.MyForm
 		private SkinButton frameSaveSkinButton;
 		private FlowLayoutPanel playFlowLayoutPanel;
 		private SkinLine playSkinLine;
+		private SkinComboBox comSkinComboBox;
+		private SkinPanel projectLabelSkinPanel;
+		private Label projectLabel;
+		private Panel comPanel;
+		private SkinButton comRefreshSkinButton;
+		private ToolStripSeparator toolStripSeparator3;
+		private ToolStripMenuItem toggleSizeToolStripMenuItem;
+		private ImageList lightSmallImageList;
 	}
 }

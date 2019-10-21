@@ -122,14 +122,15 @@ namespace LightController.MyForm
 			this.hName = hName;
 			IniFileAst iniFileAst = new IniFileAst(iniPath);
 
-			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimeNumericUpDown.Value.ToString() );
-			iniFileAst.WriteString("Common", "CurrUseTimes", currUseTimeNumericUpDown.Value.ToString() );
+			// 9.28 直接保存numericUpDown表面上看到的Text(因为写到ini中去了）
+			iniFileAst.WriteString("Common", "SumUseTimes",sumUseTimeNumericUpDown.Text);
+			iniFileAst.WriteString("Common", "CurrUseTimes", currUseTimeNumericUpDown.Text);
 			iniFileAst.WriteInt("Common", "DiskFlag", diskFlagComboBox.SelectedIndex);
 			iniFileAst.WriteString("Common", "DeviceName", deviceNameTextBox.Text);
-			iniFileAst.WriteString("Common", "Addr", addrNumericUpDown.Value.ToString());
+			iniFileAst.WriteString("Common", "Addr", addrNumericUpDown.Text);
 			iniFileAst.WriteString("Common", "HardwareID", hardwareIDTextBox.Text);
 			iniFileAst.WriteString("Common", "Heartbeat", heartbeatTextBox.Text);
-			iniFileAst.WriteString("Common", "HeartbeatCycle", heartbeatCycleNumericUpDown.Value.ToString());
+			iniFileAst.WriteString("Common", "HeartbeatCycle", heartbeatCycleNumericUpDown.Text);
 			iniFileAst.WriteInt("Common", "PlayFlag", playFlagComboBox.SelectedIndex);
 
 			iniFileAst.WriteInt("Network", "LinkMode", linkModeComboBox.SelectedIndex);

@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class MaterialSaveForm
+	partial class MultiStepCopyForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,8 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.nameTextBox = new System.Windows.Forms.TextBox();
-			this.mNameLabel = new System.Windows.Forms.Label();
 			this.tongdaoPanel = new System.Windows.Forms.Panel();
 			this.checkBox32 = new System.Windows.Forms.CheckBox();
 			this.checkBox31 = new System.Windows.Forms.CheckBox();
@@ -66,40 +64,20 @@
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
 			this.noticeLabel = new System.Windows.Forms.Label();
-			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
-			this.addNameCheckBox = new System.Windows.Forms.CheckBox();
+			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
 			this.lightLabel = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.startNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label2 = new System.Windows.Forms.Label();
 			this.endNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.allStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.tongdaoPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// nameTextBox
-			// 
-			this.nameTextBox.Location = new System.Drawing.Point(382, 299);
-			this.nameTextBox.Margin = new System.Windows.Forms.Padding(2);
-			this.nameTextBox.Name = "nameTextBox";
-			this.nameTextBox.Size = new System.Drawing.Size(139, 21);
-			this.nameTextBox.TabIndex = 1;
-			this.nameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameTextBox_KeyPress);
-			// 
-			// mNameLabel
-			// 
-			this.mNameLabel.AutoSize = true;
-			this.mNameLabel.Location = new System.Drawing.Point(316, 303);
-			this.mNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.mNameLabel.Name = "mNameLabel";
-			this.mNameLabel.Size = new System.Drawing.Size(65, 12);
-			this.mNameLabel.TabIndex = 2;
-			this.mNameLabel.Text = "素材名称：";
 			// 
 			// tongdaoPanel
 			// 
@@ -139,10 +117,10 @@
 			this.tongdaoPanel.Controls.Add(this.checkBox1);
 			this.tongdaoPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tongdaoPanel.Font = new System.Drawing.Font("新宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tongdaoPanel.Location = new System.Drawing.Point(0, 52);
+			this.tongdaoPanel.Location = new System.Drawing.Point(0, 53);
 			this.tongdaoPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoPanel.Name = "tongdaoPanel";
-			this.tongdaoPanel.Size = new System.Drawing.Size(288, 355);
+			this.tongdaoPanel.Size = new System.Drawing.Size(288, 268);
 			this.tongdaoPanel.TabIndex = 4;
 			// 
 			// checkBox32
@@ -582,60 +560,30 @@
 			this.noticeLabel.Name = "noticeLabel";
 			this.noticeLabel.Size = new System.Drawing.Size(113, 12);
 			this.noticeLabel.TabIndex = 1;
-			this.noticeLabel.Text = "请勾选要保存的通道";
+			this.noticeLabel.Text = "请勾选要复制的通道";
 			// 
-			// saveSkinButton
+			// enterSkinButton
 			// 
-			this.saveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.saveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.saveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.saveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.saveSkinButton.DownBack = null;
-			this.saveSkinButton.Location = new System.Drawing.Point(317, 350);
-			this.saveSkinButton.MouseBack = null;
-			this.saveSkinButton.Name = "saveSkinButton";
-			this.saveSkinButton.NormlBack = null;
-			this.saveSkinButton.Size = new System.Drawing.Size(78, 26);
-			this.saveSkinButton.TabIndex = 5;
-			this.saveSkinButton.Text = "保存";
-			this.saveSkinButton.UseVisualStyleBackColor = false;
-			this.saveSkinButton.Click += new System.EventHandler(this.saveButton_Click);
-			// 
-			// cancelSkinButton
-			// 
-			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(434, 350);
-			this.cancelSkinButton.MouseBack = null;
-			this.cancelSkinButton.Name = "cancelSkinButton";
-			this.cancelSkinButton.NormlBack = null;
-			this.cancelSkinButton.Size = new System.Drawing.Size(78, 26);
-			this.cancelSkinButton.TabIndex = 5;
-			this.cancelSkinButton.Text = "取消";
-			this.cancelSkinButton.UseVisualStyleBackColor = false;
-			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
-			// addNameCheckBox
-			// 
-			this.addNameCheckBox.AutoSize = true;
-			this.addNameCheckBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.addNameCheckBox.Location = new System.Drawing.Point(318, 266);
-			this.addNameCheckBox.Margin = new System.Windows.Forms.Padding(2);
-			this.addNameCheckBox.Name = "addNameCheckBox";
-			this.addNameCheckBox.Size = new System.Drawing.Size(152, 18);
-			this.addNameCheckBox.TabIndex = 6;
-			this.addNameCheckBox.Text = "是否保存灯具和型号";
-			this.addNameCheckBox.UseVisualStyleBackColor = true;
+			this.enterSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.enterSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
+			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.enterSkinButton.DownBack = null;
+			this.enterSkinButton.Location = new System.Drawing.Point(322, 270);
+			this.enterSkinButton.MouseBack = null;
+			this.enterSkinButton.Name = "enterSkinButton";
+			this.enterSkinButton.NormlBack = null;
+			this.enterSkinButton.Size = new System.Drawing.Size(78, 26);
+			this.enterSkinButton.TabIndex = 5;
+			this.enterSkinButton.Text = "确定";
+			this.enterSkinButton.UseVisualStyleBackColor = false;
+			this.enterSkinButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
 			// lightLabel
 			// 
 			this.lightLabel.AutoSize = true;
 			this.lightLabel.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightLabel.Location = new System.Drawing.Point(315, 31);
+			this.lightLabel.Location = new System.Drawing.Point(319, 31);
 			this.lightLabel.Name = "lightLabel";
 			this.lightLabel.Size = new System.Drawing.Size(70, 14);
 			this.lightLabel.TabIndex = 7;
@@ -644,12 +592,12 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(315, 110);
+			this.label1.Location = new System.Drawing.Point(317, 106);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(125, 12);
 			this.label1.TabIndex = 8;
-			this.label1.Text = "请选择要保存的步数：";
+			this.label1.Text = "请选择要复制的步数：";
 			// 
 			// panel1
 			// 
@@ -659,12 +607,12 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(288, 407);
+			this.panel1.Size = new System.Drawing.Size(288, 321);
 			this.panel1.TabIndex = 9;
 			// 
 			// startNumericUpDown
 			// 
-			this.startNumericUpDown.Location = new System.Drawing.Point(317, 141);
+			this.startNumericUpDown.Location = new System.Drawing.Point(326, 142);
 			this.startNumericUpDown.Maximum = new decimal(new int[] {
             48,
             0,
@@ -688,15 +636,15 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(412, 145);
+			this.label2.Location = new System.Drawing.Point(422, 146);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(17, 12);
+			this.label2.Size = new System.Drawing.Size(11, 12);
 			this.label2.TabIndex = 11;
-			this.label2.Text = "- ";
+			this.label2.Text = "-";
 			// 
 			// endNumericUpDown
 			// 
-			this.endNumericUpDown.Location = new System.Drawing.Point(450, 141);
+			this.endNumericUpDown.Location = new System.Drawing.Point(460, 142);
 			this.endNumericUpDown.Maximum = new decimal(new int[] {
             48,
             0,
@@ -717,6 +665,24 @@
             0,
             0});
 			// 
+			// cancelSkinButton
+			// 
+			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelSkinButton.DownBack = null;
+			this.cancelSkinButton.Location = new System.Drawing.Point(453, 270);
+			this.cancelSkinButton.MouseBack = null;
+			this.cancelSkinButton.Name = "cancelSkinButton";
+			this.cancelSkinButton.NormlBack = null;
+			this.cancelSkinButton.Size = new System.Drawing.Size(78, 22);
+			this.cancelSkinButton.TabIndex = 5;
+			this.cancelSkinButton.Text = "取消";
+			this.cancelSkinButton.UseVisualStyleBackColor = false;
+			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
+			// 
 			// allStepSkinButton
 			// 
 			this.allStepSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -724,42 +690,37 @@
 			this.allStepSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.allStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.allStepSkinButton.DownBack = null;
-			this.allStepSkinButton.Location = new System.Drawing.Point(443, 105);
+			this.allStepSkinButton.Location = new System.Drawing.Point(458, 101);
 			this.allStepSkinButton.MouseBack = null;
 			this.allStepSkinButton.Name = "allStepSkinButton";
 			this.allStepSkinButton.NormlBack = null;
 			this.allStepSkinButton.Size = new System.Drawing.Size(78, 22);
-			this.allStepSkinButton.TabIndex = 12;
+			this.allStepSkinButton.TabIndex = 5;
 			this.allStepSkinButton.Text = "全选";
 			this.allStepSkinButton.UseVisualStyleBackColor = false;
 			this.allStepSkinButton.Click += new System.EventHandler(this.allStepSkinButton_Click);
 			// 
-			// MaterialSaveForm
+			// MultiStepCopyForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
-			this.ClientSize = new System.Drawing.Size(556, 407);
-			this.Controls.Add(this.allStepSkinButton);
+			this.ClientSize = new System.Drawing.Size(556, 321);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.endNumericUpDown);
 			this.Controls.Add(this.startNumericUpDown);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lightLabel);
-			this.Controls.Add(this.addNameCheckBox);
+			this.Controls.Add(this.allStepSkinButton);
 			this.Controls.Add(this.cancelSkinButton);
-			this.Controls.Add(this.saveSkinButton);
-			this.Controls.Add(this.mNameLabel);
-			this.Controls.Add(this.nameTextBox);
+			this.Controls.Add(this.enterSkinButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "MaterialSaveForm";
-			this.Text = "保存素材";
-			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MaterialSaveForm_HelpButtonClicked);
+			this.Name = "MultiStepCopyForm";
+			this.Text = "复制多步";
 			this.Load += new System.EventHandler(this.MaterialForm_Load);
 			this.tongdaoPanel.ResumeLayout(false);
 			this.tongdaoPanel.PerformLayout();
@@ -773,8 +734,6 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.TextBox nameTextBox;
-		private System.Windows.Forms.Label mNameLabel;
 		private System.Windows.Forms.Panel tongdaoPanel;
 		private System.Windows.Forms.Label noticeLabel;
 
@@ -812,15 +771,14 @@
 		private System.Windows.Forms.CheckBox checkBox31;
 		private System.Windows.Forms.CheckBox checkBox32;
 		private System.Windows.Forms.CheckBox selectAllCheckBox;
-		private CCWin.SkinControl.SkinButton saveSkinButton;
-		private CCWin.SkinControl.SkinButton cancelSkinButton;
-		private System.Windows.Forms.CheckBox addNameCheckBox;
+		private CCWin.SkinControl.SkinButton enterSkinButton;
 		private System.Windows.Forms.Label lightLabel;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.NumericUpDown startNumericUpDown;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.NumericUpDown endNumericUpDown;
+		private CCWin.SkinControl.SkinButton cancelSkinButton;
 		private CCWin.SkinControl.SkinButton allStepSkinButton;
 	}
 }

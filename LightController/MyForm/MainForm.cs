@@ -439,8 +439,8 @@ namespace LightController
 			{
 				selectedIndex = lightsListView.SelectedIndices[0];
 				generateLightData();
-				// 这里控制pasteLightButton的Enabled值
-				checkIfCanCopyLight();
+				//// 这里控制pasteLightButton的Enabled值
+				//checkIfCanCopyLight();
 			}			
 		}
 
@@ -911,7 +911,7 @@ namespace LightController
 		private void valueVScrollBar_Scroll_old(object sender, ScrollEventArgs e)
 		{			
 			// 1.先找出对应vScrollBars的index 
-			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name , -1 );
+			int tongdaoIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name , -1 );
 			int tdValue = 255 - vScrollBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给valueNumericUpDowns
@@ -930,7 +930,7 @@ namespace LightController
 		private void valueVScrollBar_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应vScrollBars的index 
-			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name, -1);
 			int tdValue = 255 - vScrollBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给valueNumericUpDowns
@@ -953,7 +953,7 @@ namespace LightController
 		private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			int tdValue = Decimal.ToInt32(valueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值
@@ -974,7 +974,7 @@ namespace LightController
 		private void changeModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int index = MathAst.getIndexNum(((ComboBox)sender).Name , -1);
+			int index = MathAst.GetIndexNum(((ComboBox)sender).Name , -1);
 			
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1021,7 +1021,7 @@ namespace LightController
 		private void stepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			int index = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -33);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1173,7 +1173,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void vScrollBar_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum( ((VScrollBar)sender).Name ,-1 );
+			int tdIndex = MathAst.GetIndexNum( ((VScrollBar)sender).Name ,-1 );
 			valueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1184,7 +1184,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void tdLabel_MouseEnter(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
+			int labelIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
 		}		
 
@@ -1195,7 +1195,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1231,7 +1231,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void steptimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -33);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{		
@@ -1263,7 +1263,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void steptimeNumericUpDown_MouseEnter(object sender, EventArgs e)
 		{		
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -33);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -33);
 			steptimeNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1274,7 +1274,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			valueNumericUpDowns[tdIndex].Select();
 		}
 		
@@ -1290,7 +1290,6 @@ namespace LightController
 		private void materialSaveButton_Click(object sender, EventArgs e)
 		{
 			materialForm = null;
-			//TODO：需要额外处理保存素材（共性及个性）
 			LightAst la = lightAstList[selectedIndex];
 			materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, la.LightName,la.LightType);
 			if (materialForm != null && !materialForm.IsDisposed) {
@@ -1320,7 +1319,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
-			int buttonIndex = MathAst.getIndexNum(((Button)sender).Name, 0);
+			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
 			Test test = new Test(GetDBWrapper(true));
 			test.Start(buttonIndex);
@@ -1336,63 +1335,63 @@ namespace LightController
 			playTools.MusicControl();	
 		}		
 
-		/// <summary>
-		///  点击《复制灯》：
-		///  1.应有个全局变量lightWrapperTemp，记录要被复制的灯的信息
-		///  2. 将当前选中灯具的内容，赋予lightWrapperList
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void copyLightButton_Click(object sender, EventArgs e)
-		{				
-			if (getCurrentLightWrapper() == null) {
-				MessageBox.Show("未选中灯，无法复制");
-				return;
-			}
-			tempLight = getCurrentLightWrapper();
-		}
+		///// <summary>
+		/////  点击《复制灯》：
+		/////  1.应有个全局变量lightWrapperTemp，记录要被复制的灯的信息
+		/////  2. 将当前选中灯具的内容，赋予lightWrapperList
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void copyLightButton_Click(object sender, EventArgs e)
+		//{				
+		//	if (getCurrentLightWrapper() == null) {
+		//		MessageBox.Show("未选中灯，无法复制");
+		//		return;
+		//	}
+		//	tempLight = getCurrentLightWrapper();
+		//}
 
-		/// <summary>
-		///  点击《粘贴灯》
-		///  1. 比对选中灯和复制的灯
-		///	--①不一致，弹错误
-		///	--②一致，想办法把tempLight的数据复制到选中灯中
-		/// 2. generateLightData()
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void pasteLightButton_Click(object sender, EventArgs e)
-		{			
-			// 多加了一层常规情况下不会出现的判断，因为此时这个按钮不可用
-			if (checkIfCanCopyLight()) {
-				LightWrapper selectedLight = getCurrentLightWrapper();
-				lightWrapperList[selectedIndex] = LightWrapper.CopyLight(tempLight,selectedLight);
-				generateLightData();
-			}
-			else
-			{
-				//一般不会进到这里来，因为当checkIfCanCopy=false时，此按钮不可以点击
-				MessageBox.Show("选中灯具与要复制的灯具种类不同,无法复制!");
-			}
-		}
+		///// <summary>
+		/////  点击《粘贴灯》
+		/////  1. 比对选中灯和复制的灯
+		/////	--①不一致，弹错误
+		/////	--②一致，想办法把tempLight的数据复制到选中灯中
+		///// 2. generateLightData()
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void pasteLightButton_Click(object sender, EventArgs e)
+		//{			
+		//	// 多加了一层常规情况下不会出现的判断，因为此时这个按钮不可用
+		//	if (checkIfCanCopyLight()) {
+		//		LightWrapper selectedLight = getCurrentLightWrapper();
+		//		lightWrapperList[selectedIndex] = LightWrapper.CopyLight(tempLight,selectedLight);
+		//		generateLightData();
+		//	}
+		//	else
+		//	{
+		//		//一般不会进到这里来，因为当checkIfCanCopy=false时，此按钮不可以点击
+		//		MessageBox.Show("选中灯具与要复制的灯具种类不同,无法复制!");
+		//	}
+		//}
 
 
-		/// <summary>
-		///  辅助方法：检查是否可以复制灯
-		/// </summary>
-		private bool checkIfCanCopyLight()
-		{
-			pasteLightButton.Enabled = false;
-			LightWrapper selectedLight = getCurrentLightWrapper();
-			// 只有在选中灯不为空 且 要被复制的灯与选中灯是同一种灯具时，才能复制
-			if (selectedLight != null && tempLight!=null) {
-				if (tempLight.StepTemplate.LightFullName == selectedLight.StepTemplate.LightFullName) {
-					pasteLightButton.Enabled = true;
-					return true;					
-				}
-			}
-			return false;
-		}
+		///// <summary>
+		/////  辅助方法：检查是否可以复制灯
+		///// </summary>
+		//private bool checkIfCanCopyLight()
+		//{
+		//	pasteLightButton.Enabled = false;
+		//	LightWrapper selectedLight = getCurrentLightWrapper();
+		//	// 只有在选中灯不为空 且 要被复制的灯与选中灯是同一种灯具时，才能复制
+		//	if (selectedLight != null && tempLight!=null) {
+		//		if (tempLight.StepTemplate.LightFullName == selectedLight.StepTemplate.LightFullName) {
+		//			pasteLightButton.Enabled = true;
+		//			return true;					
+		//		}
+		//	}
+		//	return false;
+		//}
 
 
 		/// <summary>

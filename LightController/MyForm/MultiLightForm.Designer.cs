@@ -82,9 +82,9 @@
 			// 
 			this.noticeLabel.Location = new System.Drawing.Point(13, 352);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(325, 38);
+			this.noticeLabel.Size = new System.Drawing.Size(325, 47);
 			this.noticeLabel.TabIndex = 10;
-			this.noticeLabel.Text = "请选择其中的一个灯具做为编组的组长 ; 点击确认后，软件将会清除其余灯具（在该场景及模式下）的所有通道数据，并将组长的通道数据赋给其他灯具。";
+			this.noticeLabel.Text = "请选择其中的一个灯具做为编组的组长 ; 点击确认后，软件将会使用组长的通道数据替代其它组员灯具（在该场景及模式下）的所有通道数据。";
 			// 
 			// enterSkinButton
 			// 

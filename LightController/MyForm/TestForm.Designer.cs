@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class ToolsForm
+	partial class TestForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -30,52 +30,32 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.toolsSkinFlowLayoutPanel = new CCWin.SkinControl.SkinFlowLayoutPanel();
-			this.noticeLabel1 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.DKToolSkinButton = new CCWin.SkinControl.SkinButton();
 			this.ZKToolSkinButton = new CCWin.SkinControl.SkinButton();
 			this.QBToolSkinButton = new CCWin.SkinControl.SkinButton();
-			this.lightEditorSkinButton = new CCWin.SkinControl.SkinButton();
+			this.exitSkinButton = new CCWin.SkinControl.SkinButton();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.toolsSkinFlowLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolsSkinFlowLayoutPanel
 			// 
-			this.toolsSkinFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
+			this.toolsSkinFlowLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(234)))), ((int)(((byte)(244)))));
 			this.toolsSkinFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.toolsSkinFlowLayoutPanel.Controls.Add(this.lightEditorSkinButton);
-			this.toolsSkinFlowLayoutPanel.Controls.Add(this.DKToolSkinButton);
-			this.toolsSkinFlowLayoutPanel.Controls.Add(this.ZKToolSkinButton);
 			this.toolsSkinFlowLayoutPanel.Controls.Add(this.QBToolSkinButton);
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.ZKToolSkinButton);
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.DKToolSkinButton);
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.panel1);
+			this.toolsSkinFlowLayoutPanel.Controls.Add(this.exitSkinButton);
 			this.toolsSkinFlowLayoutPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.toolsSkinFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.toolsSkinFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.toolsSkinFlowLayoutPanel.DownBack = null;
-			this.toolsSkinFlowLayoutPanel.Location = new System.Drawing.Point(0, 63);
+			this.toolsSkinFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.toolsSkinFlowLayoutPanel.MouseBack = null;
 			this.toolsSkinFlowLayoutPanel.Name = "toolsSkinFlowLayoutPanel";
 			this.toolsSkinFlowLayoutPanel.NormlBack = null;
-			this.toolsSkinFlowLayoutPanel.Size = new System.Drawing.Size(528, 136);
-			this.toolsSkinFlowLayoutPanel.TabIndex = 6;
-			// 
-			// noticeLabel1
-			// 
-			this.noticeLabel1.AutoSize = true;
-			this.noticeLabel1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.noticeLabel1.Location = new System.Drawing.Point(12, 9);
-			this.noticeLabel1.Name = "noticeLabel1";
-			this.noticeLabel1.Size = new System.Drawing.Size(364, 14);
-			this.noticeLabel1.TabIndex = 7;
-			this.noticeLabel1.Text = "1.使用传视界工具，需要安装相应驱动，并保持设备连接;\r\n";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label1.Location = new System.Drawing.Point(12, 34);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(399, 14);
-			this.label1.TabIndex = 7;
-			this.label1.Text = "2.系统必须安装MicroSoft Office Excel，才能使用中控工具。";
+			this.toolsSkinFlowLayoutPanel.Size = new System.Drawing.Size(800, 151);
+			this.toolsSkinFlowLayoutPanel.TabIndex = 7;
 			// 
 			// DKToolSkinButton
 			// 
@@ -93,17 +73,16 @@
 			this.DKToolSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.DKToolSkinButton.InheritColor = true;
 			this.DKToolSkinButton.IsDrawBorder = false;
-			this.DKToolSkinButton.Location = new System.Drawing.Point(130, 2);
+			this.DKToolSkinButton.Location = new System.Drawing.Point(284, 2);
 			this.DKToolSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.DKToolSkinButton.MouseBack = null;
 			this.DKToolSkinButton.Name = "DKToolSkinButton";
 			this.DKToolSkinButton.NormlBack = null;
-			this.DKToolSkinButton.Size = new System.Drawing.Size(124, 106);
+			this.DKToolSkinButton.Size = new System.Drawing.Size(137, 124);
 			this.DKToolSkinButton.TabIndex = 5;
-			this.DKToolSkinButton.Text = "传视界灯控工具";
+			this.DKToolSkinButton.Text = "强电控制器\r\n参数配置";
 			this.DKToolSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.DKToolSkinButton.UseVisualStyleBackColor = false;
-			this.DKToolSkinButton.Click += new System.EventHandler(this.DKToolSkinButton_Click);
 			// 
 			// ZKToolSkinButton
 			// 
@@ -121,17 +100,16 @@
 			this.ZKToolSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.ZKToolSkinButton.InheritColor = true;
 			this.ZKToolSkinButton.IsDrawBorder = false;
-			this.ZKToolSkinButton.Location = new System.Drawing.Point(258, 2);
+			this.ZKToolSkinButton.Location = new System.Drawing.Point(143, 2);
 			this.ZKToolSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.ZKToolSkinButton.MouseBack = null;
 			this.ZKToolSkinButton.Name = "ZKToolSkinButton";
 			this.ZKToolSkinButton.NormlBack = null;
-			this.ZKToolSkinButton.Size = new System.Drawing.Size(124, 106);
+			this.ZKToolSkinButton.Size = new System.Drawing.Size(137, 124);
 			this.ZKToolSkinButton.TabIndex = 5;
-			this.ZKToolSkinButton.Text = "传视界中控工具";
+			this.ZKToolSkinButton.Text = "万能协议\r\n转换参数配置";
 			this.ZKToolSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.ZKToolSkinButton.UseVisualStyleBackColor = false;
-			this.ZKToolSkinButton.Click += new System.EventHandler(this.ZKToolSkinButton_Click);
 			// 
 			// QBToolSkinButton
 			// 
@@ -149,76 +127,73 @@
 			this.QBToolSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.QBToolSkinButton.InheritColor = true;
 			this.QBToolSkinButton.IsDrawBorder = false;
-			this.QBToolSkinButton.Location = new System.Drawing.Point(386, 2);
+			this.QBToolSkinButton.Location = new System.Drawing.Point(2, 2);
 			this.QBToolSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.QBToolSkinButton.MouseBack = null;
 			this.QBToolSkinButton.Name = "QBToolSkinButton";
 			this.QBToolSkinButton.NormlBack = null;
-			this.QBToolSkinButton.Size = new System.Drawing.Size(124, 106);
+			this.QBToolSkinButton.Size = new System.Drawing.Size(137, 124);
 			this.QBToolSkinButton.TabIndex = 5;
-			this.QBToolSkinButton.Text = "传视界墙板工具";
+			this.QBToolSkinButton.Text = "墙板键值\r\n参数配置";
 			this.QBToolSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.QBToolSkinButton.UseVisualStyleBackColor = false;
-			this.QBToolSkinButton.Click += new System.EventHandler(this.QBToolSkinButton_Click);
 			// 
-			// lightEditorSkinButton
+			// exitSkinButton
 			// 
-			this.lightEditorSkinButton.AutoSize = true;
-			this.lightEditorSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.lightEditorSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.lightEditorSkinButton.BorderColor = System.Drawing.Color.White;
-			this.lightEditorSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.lightEditorSkinButton.DownBack = null;
-			this.lightEditorSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightEditorSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightEditorSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.lightEditorSkinButton.ForeColorSuit = true;
-			this.lightEditorSkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
-			this.lightEditorSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.lightEditorSkinButton.InheritColor = true;
-			this.lightEditorSkinButton.IsDrawBorder = false;
-			this.lightEditorSkinButton.Location = new System.Drawing.Point(2, 2);
-			this.lightEditorSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.lightEditorSkinButton.MouseBack = null;
-			this.lightEditorSkinButton.Name = "lightEditorSkinButton";
-			this.lightEditorSkinButton.NormlBack = null;
-			this.lightEditorSkinButton.Size = new System.Drawing.Size(124, 106);
-			this.lightEditorSkinButton.TabIndex = 5;
-			this.lightEditorSkinButton.Text = "灯库编辑工具";
-			this.lightEditorSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightEditorSkinButton.UseVisualStyleBackColor = false;
-			this.lightEditorSkinButton.Visible = false;
-			this.lightEditorSkinButton.Click += new System.EventHandler(this.lightEditorSkinButton_Click);
+			this.exitSkinButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.exitSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.exitSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.exitSkinButton.BorderColor = System.Drawing.Color.White;
+			this.exitSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.exitSkinButton.DownBack = null;
+			this.exitSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.exitSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.exitSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.exitSkinButton.ForeColorSuit = true;
+			this.exitSkinButton.Image = global::LightController.Properties.Resources.退出程序;
+			this.exitSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.exitSkinButton.InheritColor = true;
+			this.exitSkinButton.IsDrawBorder = false;
+			this.exitSkinButton.Location = new System.Drawing.Point(658, 2);
+			this.exitSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.exitSkinButton.MouseBack = null;
+			this.exitSkinButton.Name = "exitSkinButton";
+			this.exitSkinButton.NormlBack = null;
+			this.exitSkinButton.Size = new System.Drawing.Size(137, 124);
+			this.exitSkinButton.TabIndex = 8;
+			this.exitSkinButton.Text = "退出应用";
+			this.exitSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.exitSkinButton.UseVisualStyleBackColor = false;
 			// 
-			// ToolsForm
+			// panel1
+			// 
+			this.panel1.Location = new System.Drawing.Point(426, 3);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(227, 100);
+			this.panel1.TabIndex = 9;
+			// 
+			// TestForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(528, 199);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.noticeLabel1);
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(240)))), ((int)(((byte)(251)))));
+			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.toolsSkinFlowLayoutPanel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "ToolsForm";
-			this.Text = "其他工具";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ToolsForm_FormClosed);
-			this.Load += new System.EventHandler(this.ToolsForm_Load);
+			this.Name = "TestForm";
+			this.Text = "KTV设备参数配置管理系统";
 			this.toolsSkinFlowLayoutPanel.ResumeLayout(false);
 			this.toolsSkinFlowLayoutPanel.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
+
+		private CCWin.SkinControl.SkinFlowLayoutPanel toolsSkinFlowLayoutPanel;
 		private CCWin.SkinControl.SkinButton DKToolSkinButton;
 		private CCWin.SkinControl.SkinButton ZKToolSkinButton;
 		private CCWin.SkinControl.SkinButton QBToolSkinButton;
-		private CCWin.SkinControl.SkinFlowLayoutPanel toolsSkinFlowLayoutPanel;
-		private System.Windows.Forms.Label noticeLabel1;
-		private System.Windows.Forms.Label label1;
-		private CCWin.SkinControl.SkinButton lightEditorSkinButton;
+		private System.Windows.Forms.Panel panel1;
+		private CCWin.SkinControl.SkinButton exitSkinButton;
 	}
 }

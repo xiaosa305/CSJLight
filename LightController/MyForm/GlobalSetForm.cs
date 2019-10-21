@@ -239,7 +239,7 @@ namespace LightController.MyForm
 			circleTimeNumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "CT", 9999);
 			
 			//frame0methodComboBox.SelectedIndex = iniAst.ReadInt("Multiple", frame + "F0M", 0);
-			frame0numericUpDown.Value = iniAst.ReadInt("Multiple", frame + "F0V", 0);
+			frame0NumericUpDown.Value = iniAst.ReadInt("Multiple", frame + "F0V", 0);
 			for (int i = 0; i < 4; i++) {
 				frameComboBoxes[i].SelectedIndex = iniAst.ReadInt("Multiple", frame + "F"+(i+1)+"F", 0);
 				frameNumericUpDowns[i].Value = iniAst.ReadInt("Multiple", frame + "F" + (i + 1) + "V", 0);
@@ -323,8 +323,8 @@ namespace LightController.MyForm
 		private void globalSaveButton_Click(object sender, EventArgs e)
 		{
 			iniAst.WriteInt("Set","TongdaoCount",tongdaoCountComboBox.SelectedIndex);
-			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;			
-			iniAst.WriteInt("Set", "EachStepTime",eachStepTimeNumericUpDown.Value);
+			iniAst.WriteString("Set", "EachStepTime",eachStepTimeNumericUpDown.Text);
+			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;				
 			iniAst.WriteInt("Set", "EachChangeMode", eachChangeModeComboBox.SelectedIndex);
 
 			eachStepTime = Decimal.ToInt16(eachStepTimeNumericUpDown.Value);
@@ -357,12 +357,12 @@ namespace LightController.MyForm
 		{
 			int frame = zuheFrameComboBox.SelectedIndex;
 			iniAst.WriteInt("Multiple", frame + "OPEN", (zuheCheckBox.Checked ? 1 : 0));
-			iniAst.WriteInt("Multiple", frame + "CT", circleTimeNumericUpDown.Value);
-			iniAst.WriteInt("Multiple", frame + "F0V", frame0numericUpDown.Value);
+			iniAst.WriteString("Multiple", frame + "CT",  circleTimeNumericUpDown.Text);
+			iniAst.WriteInt("Multiple", frame + "F0V", frame0NumericUpDown.Value);
 			for(int i = 0; i < 4; i++)
 			{
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  frameComboBoxes[i].SelectedIndex);
-				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Value);
+				iniAst.WriteString("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Text );
 			}
 			MessageBox.Show("保存成功");
 		}
@@ -390,7 +390,7 @@ namespace LightController.MyForm
 		{
 			if (isInit)
 			{
-				frameIndex = MathAst.getIndexNum(((SkinButton)sender).Name, -1);
+				frameIndex = MathAst.GetIndexNum(((SkinButton)sender).Name, -1);
 				mFrameLKPanel.Enabled = true;
 				mCurrentFrameLabel.Text = "选中场景：" + ((SkinButton)sender).Text;
 				mFrameTextBox.Text = iniAst.ReadString("SK", frameIndex + "LK", "");
@@ -434,8 +434,8 @@ namespace LightController.MyForm
 		{
 			for (int i = 0; i < frameCount; i++)
 			{
-				iniAst.WriteInt("SK", i + "ST", skStepTimeNumericUpDowns[i].Value);
-				iniAst.WriteInt("SK", i + "JG", skJGTimeNumericUpDowns[i].Value);
+				iniAst.WriteString("SK", i + "ST", skStepTimeNumericUpDowns[i].Text);
+				iniAst.WriteString("SK", i + "JG", skJGTimeNumericUpDowns[i].Text);
 			}
 			MessageBox.Show("保存成功");
 		}
@@ -465,7 +465,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{			
-			int index = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int index = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			skTrueTimeLabels[index].Text = Decimal.ToInt16(skStepTimeNumericUpDowns[index].Value) * eachStepTime / 1000.0 + "s";
 		}
 

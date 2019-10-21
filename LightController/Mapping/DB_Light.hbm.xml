@@ -16,6 +16,7 @@
       <column name="Pic" sql-type="nvarchar(60)" not-null="true" />      
     </property>    
     <property name="StartID" column="StartID" not-null="true" unique="true"/>
-    <property name="Count" column="Count" not-null="true"/>
+    <property name="Count" column="Count" not-null="true"/>  
+
   </class>
 </hibernate-mapping>

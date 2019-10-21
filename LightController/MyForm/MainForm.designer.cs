@@ -573,7 +573,7 @@ namespace LightController
 			this.pasteLightButton.TabIndex = 21;
 			this.pasteLightButton.Text = "粘贴灯";
 			this.pasteLightButton.UseVisualStyleBackColor = true;
-			this.pasteLightButton.Click += new System.EventHandler(this.pasteLightButton_Click);
+			//this.pasteLightButton.Click += new System.EventHandler(this.pasteLightButton_Click);
 			// 
 			// materialSaveButton
 			// 
@@ -595,7 +595,7 @@ namespace LightController
 			this.copyLightButton.TabIndex = 21;
 			this.copyLightButton.Text = "复制灯";
 			this.copyLightButton.UseVisualStyleBackColor = true;
-			this.copyLightButton.Click += new System.EventHandler(this.copyLightButton_Click);
+			//this.copyLightButton.Click += new System.EventHandler(this.copyLightButton_Click);
 			// 
 			// tongdaoPanel
 			// 

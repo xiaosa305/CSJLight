@@ -81,7 +81,7 @@ namespace LightController
 
 					// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 					// SQLiteHelper.SetPassword(dbFile);
-					mainForm.InitProject(projectName,true);
+					mainForm.NewProject(projectName);
 					MessageBox.Show("成功新建工程，请为此工程添加灯具。");
 					this.Dispose();
 					mainForm.IsCreateSuccess = true;

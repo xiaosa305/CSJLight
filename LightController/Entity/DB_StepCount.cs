@@ -5,6 +5,7 @@ using System.Text;
 
 namespace DMX512
 {
+
 	public class DB_StepCount
 	{
 		public virtual DB_StepCountPK PK { get; set; }

@@ -126,12 +126,12 @@ namespace LightController.MyForm
 				return;
 			}
 
-			// 1.3 判断步数
-			if (stepCount == 0)
-			{
-				MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
-				return;
-			}
+			// 1.3 判断步数 : 初始化本Form时已判断过了
+			//if (stepCount == 0)
+			//{
+			//	MessageBox.Show("步数为零，此素材无意义；请添加步数后重新保存。");
+			//	return;
+			//}
 
 			// 1.4 起始步、结束步的验证
 			int startNum = Decimal.ToInt16(startNumericUpDown.Value);
@@ -162,7 +162,7 @@ namespace LightController.MyForm
 			// 1.6 直接检查是否可以生成DirectoryInfo
 			string addName = addNameCheckBox.Checked ? @"\" + lightName + @"\" + lightType+@"\"  : @"\通用\" ; 
 			materialName = addName + materialName;			
-			string filePath = materialPath + @materialName + ".ini";	
+			string filePath = materialPath + @materialName +"("+ (endNum - startNum + 1) + "步)"+ ".ini";	
 
 			FileInfo fi = null;
 			try
@@ -215,19 +215,20 @@ namespace LightController.MyForm
 				iniFileAst.WriteString("TD",i.ToString(), tdNameList[i]);
 			}
 			// 3.2 写[Data]内数据，记录每一步的tongdaoList
-			int stepNum = 0;
+			int selectedStepIndex = 0;
 			for(int stepIndex = startNum-1; stepIndex < endNum; stepIndex++)
 			{
 				StepWrapper stepWrapper = stepWrapperList[stepIndex];
-				for (int i = 0; i < tdIndexList.Count; i++)
+				for (int selectedTdIndex = 0; selectedTdIndex < tdIndexList.Count; selectedTdIndex++)
 				{
-					int tdIndex = tdIndexList[i];
+					int tdIndex = tdIndexList[selectedTdIndex];
 					TongdaoWrapper tongdaoWrapper = stepWrapper.TongdaoList[tdIndex];
-					iniFileAst.WriteInt("Data", stepNum + "_" + i + "_V" ,  tongdaoWrapper.ScrollValue );
-					iniFileAst.WriteInt("Data", stepNum + "_" + i + "_CM", tongdaoWrapper.ChangeMode);
-					iniFileAst.WriteInt("Data", stepNum + "_" + i + "_ST", tongdaoWrapper.StepTime);
+
+					iniFileAst.WriteInt("Data", selectedStepIndex + "_" + selectedTdIndex + "_V" ,  tongdaoWrapper.ScrollValue );
+					iniFileAst.WriteInt("Data", selectedStepIndex + "_" + selectedTdIndex + "_CM", tongdaoWrapper.ChangeMode);
+					iniFileAst.WriteInt("Data", selectedStepIndex + "_" + selectedTdIndex + "_ST", tongdaoWrapper.StepTime);
 				}
-				stepNum++;
+				selectedStepIndex++;
 			}										
 			MessageBox.Show("成功保存素材。");
 			this.Dispose();
@@ -287,6 +288,17 @@ namespace LightController.MyForm
 		{
 			MessageBox.Show("素材名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
 			e.Cancel = true;
+		}
+
+
+		/// <summary>
+		/// 事件：点击《全选》功能
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void allStepSkinButton_Click(object sender, EventArgs e)
+		{
+			startNumericUpDown.Value = 1;
 		}
 	}
 }

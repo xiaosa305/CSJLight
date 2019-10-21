@@ -1,5 +1,6 @@
 ﻿using DMX512;
 using LightController.Ast;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -115,6 +116,11 @@ namespace LightController.Tools.CSJ.IMPL
         }
         private ICSJFile GetCSJCFile(CSJ_SceneData sceneData)
         {
+            //---Test---
+
+            DataConvertUtils.GeneratedSceneData(sceneData, Wrapper, ConfigPath, Constant.MODE_C);
+
+            //---Test---
             CSJ_C file = null;
             StreamReader reader;
             List<ChannelData> channelDatas = new List<ChannelData>();

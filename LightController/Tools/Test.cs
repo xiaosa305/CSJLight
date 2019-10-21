@@ -36,10 +36,26 @@ namespace LightController.Tools
                     SerialPortTools.GetInstance().SendOrder("Reset", null, new DownloadCallBack());
                     break;
                 case 4:
+                    BigDataTest();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void BigDataTest()
+        {
+            List<List<long>> group = new List<List<long>>();
+            for (long j = 0; j < 512; j++)
+            {
+                List<long> data = new List<long>();
+                for (long i = 0; i < 1000000; i++)
+                {
+                    data.Add(i);
+                }
+                group.Add(data);
+            }
+            Console.WriteLine(group.Count);
         }
         private void GetParamTest(CSJ_Hardware hardware)
         {

@@ -2635,16 +2635,9 @@ namespace LightController.MyForm
 			{
 				string tempPicStr = lightDict[lightAstList[lightIndex].LightPath];
 				lightAstList[lightIndex].LightPic = tempPicStr;
-				Console.WriteLine(lightsSkinListView.Items[lightIndex].ImageKey );
 				lightsSkinListView.Items[lightIndex].ImageKey = tempPicStr;
 			}
 
-		}
-
-
-		//辅助方法：实时根据 灯具数量 调整《刷新灯具图片》是否可用
-		public override void EnableRefreshPic() {
-			refreshPicToolStripMenuItem.Enabled = lightAstList != null && lightAstList.Count != 0 ;  			
 		}
 
 		private void closeSkinButton_Click(object sender, EventArgs e)
@@ -2679,7 +2672,12 @@ namespace LightController.MyForm
 
 		//}
 
-
-
+		/// <summary>
+		/// 辅助方法： 是否使能刷新图片
+		/// </summary>
+		/// <param name="enable"></param>
+		protected override void enableRefreshPic(bool enable) {
+			refreshPicToolStripMenuItem.Enabled = enable;
+		}
 	}
 }

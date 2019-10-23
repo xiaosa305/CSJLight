@@ -102,10 +102,10 @@ namespace LightController.MyForm
 			TempMaterialAst = null;
 
 			arrangeIniPath = null;
-			enableSLArrange(false, File.Exists(arrangeIniPath));						
-			showPlayPanel(false);
-			EnableRefreshPic();
+			enableSLArrange(false, File.Exists(arrangeIniPath));			
 			enableSave(false);
+
+			AutosetEnabledPlayAndRefreshPic();
 		}
 
 		/// <summary>
@@ -271,9 +271,7 @@ namespace LightController.MyForm
 					}
 				}
 
-				//10.17 若存在灯具，使playPanel可见。
-				showPlayPanel(true);
-				EnableRefreshPic();
+				AutosetEnabledPlayAndRefreshPic();
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforDT);
@@ -287,22 +285,23 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：判断是否可以显示playPanel(主要供《打开工程》和《添加灯具Form》使用）
+		///  辅助方法：判断是否可以显示 playPanel及 刷新图片(主要供《打开工程》和《添加灯具Form》使用）
+		///  --这两个功能都依赖于当前Form中的lightAstList是否为空。
 		/// </summary>
-		public  void AutosetPlayPanelVisible()
+		public void AutosetEnabledPlayAndRefreshPic()
 		{
-			if (lightAstList != null && lightAstList.Count > 0) {
-				showPlayPanel(true);				
-			}
+			bool enable = lightAstList != null && lightAstList.Count > 0;
+			showPlayPanel(enable);
+			enableRefreshPic(enable);
 		}
 		
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
 		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
 		protected virtual void enableSave(bool enable) { }  // 是否显示《保存工程》等
-		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }  //是否显示《 存、取 灯具位置》
-		public virtual void EnableRefreshPic() { }  //实时根据 灯具数量 调整《刷新灯具图片》是否可用
+		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }  //是否显示《 存、取 灯具位置》		
 		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayPanel
+		protected virtual void enableRefreshPic(bool enable) { } // 是否使能刷新图片
 		protected virtual void chooseStep(int stepNum) { }  //选步
 
 		#endregion			

@@ -84,6 +84,8 @@ namespace LightController.MyForm
 		/// </summary>
 		protected virtual void clearAllData()
 		{
+			currentProjectName = null;
+
 			dbLightList = null;
 			dbStepCountList = null;
 			dbValueList = null;
@@ -100,10 +102,10 @@ namespace LightController.MyForm
 			TempMaterialAst = null;
 
 			arrangeIniPath = null;
-			enableSLArrange(false, File.Exists(arrangeIniPath));
-						
+			enableSLArrange(false, File.Exists(arrangeIniPath));						
 			showPlayPanel(false);
-			
+			EnableRefreshPic();
+			enableSave(false);
 		}
 
 		/// <summary>
@@ -121,7 +123,7 @@ namespace LightController.MyForm
 			string directoryPath =savePath + @"\LightProject\" + projectName;			
 			globalIniPath = directoryPath + @"\global.ini";
 			dbFilePath = directoryPath + @"\data.db3";			
-			this.Text = "智能灯控(当前工程:" + projectName + ")";
+			this.Text = "卓越灯控(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 
 			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
@@ -134,10 +136,10 @@ namespace LightController.MyForm
 			// 2.创建数据库:（10.15修改）
 			// 因为是初始化，所以让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
 			// --若isNew为true时，为初始化数据库，可随即用其中一个DAO运行CreateSchema方法（用实体类建表）
-			lightDAO = new LightDAO(dbFilePath, false);
-			stepCountDAO = new StepCountDAO(dbFilePath, false);
-			valueDAO = new ValueDAO(dbFilePath, false);
-			fineTuneDAO = new FineTuneDAO(dbFilePath, false);
+			lightDAO = new LightDAO(dbFilePath, isEncrypt);
+			stepCountDAO = new StepCountDAO(dbFilePath, isEncrypt);
+			valueDAO = new ValueDAO(dbFilePath, isEncrypt);
+			fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
 
 			// 若为新建，则初始化db的table(随机使用一个DAO即可初始化）
 			if (isNew)
@@ -270,7 +272,8 @@ namespace LightController.MyForm
 				}
 
 				//10.17 若存在灯具，使playPanel可见。
-				showPlayPanel(true);			
+				showPlayPanel(true);
+				EnableRefreshPic();
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforDT);
@@ -289,7 +292,7 @@ namespace LightController.MyForm
 		public  void AutosetPlayPanelVisible()
 		{
 			if (lightAstList != null && lightAstList.Count > 0) {
-				showPlayPanel(true);
+				showPlayPanel(true);				
 			}
 		}
 		
@@ -298,6 +301,7 @@ namespace LightController.MyForm
 		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
 		protected virtual void enableSave(bool enable) { }  // 是否显示《保存工程》等
 		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }  //是否显示《 存、取 灯具位置》
+		public virtual void EnableRefreshPic() { }  //实时根据 灯具数量 调整《刷新灯具图片》是否可用
 		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayPanel
 		protected virtual void chooseStep(int stepNum) { }  //选步
 
@@ -532,7 +536,7 @@ namespace LightController.MyForm
 			// 从数据库直接读取的情况
 			if (isFromDB)
 			{
-				DBGetter dbGetter = new DBGetter(dbFilePath, false);
+				DBGetter dbGetter = new DBGetter(dbFilePath, isEncrypt);
 				DBWrapper allData = dbGetter.getAll();
 				return allData;
 			}
@@ -750,8 +754,6 @@ namespace LightController.MyForm
 						}						
 					}
 				}
-
-
 			}
 			valueDAO.SaveFrameValues(frame, frameValueList);
 		}
@@ -824,15 +826,15 @@ namespace LightController.MyForm
 		
 
 
-			/// <summary>
-			/// 点击《保存工程》按钮
-			/// 保存需要进行的操作：
-			/// 1.将lightAstList添加到light表中 --> 分新建或打开文件两种情况
-			/// 2.将步数、素材、value表的数据都填进各自的表中
-			/// </summary>
-			/// <param name="sender"></param>
-			/// <param name="e"></param>
-			protected void saveAll()
+		/// <summary>
+		/// 点击《保存工程》按钮
+		/// 保存需要进行的操作：
+		/// 1.将lightAstList添加到light表中 --> 分新建或打开文件两种情况
+		/// 2.将步数、素材、value表的数据都填进各自的表中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void saveAll()
 		{
 			// 1.先判断是否有灯具数据；若无，则直接停止
 			if (lightAstList == null || lightAstList.Count == 0)
@@ -1097,8 +1099,7 @@ namespace LightController.MyForm
 					if (stepWrapper == null)
 					{
 						MessageBox.Show("当前灯具未选中可用步，无法播放！");
-						return;
-						
+						return;						
 					}
 					else
 					{

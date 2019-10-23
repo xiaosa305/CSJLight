@@ -375,7 +375,7 @@ namespace LightController.MyForm
 		{
 			// 启动时刷新可用串口列表;
 			refreshComList();
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 			// 几个按钮添加提示
 			myToolTip.SetToolTip(useFrameSkinButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepSkinButton, "跳转指定步");
@@ -522,6 +522,8 @@ namespace LightController.MyForm
 			//单独针对本MainForm的代码: 
 			// ①清空listView列表；
 			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
+			this.Text = "卓越灯控";
+
 			lightsSkinListView.Clear();
 			
 			stepSkinPanel.Enabled = false;
@@ -597,15 +599,17 @@ namespace LightController.MyForm
 		{
 			saveSkinButton.Enabled = enable;
 			exportSkinButton.Enabled = enable;
+			frameSaveSkinButton.Enabled = enable ;
+			closeSkinButton.Enabled = enable;
 		}
 
 		/// <summary>
 		///  辅助方法：《保存|读取灯具位置》按钮是否可用
 		/// </summary>
 		/// <param name="enable"></param>
-		protected override void enableSLArrange(bool enableSave, bool enableLoad) {
+		protected override void enableSLArrange(bool enableSave, bool enableLoad) {			
 			saveArrangeToolStripMenuItem.Enabled = enableSave;
-			loadArrangeToolStripMenuItem.Enabled = enableLoad;
+			loadArrangeToolStripMenuItem.Enabled = enableLoad;			
 		}
 
 		/// <summary>
@@ -691,12 +695,10 @@ namespace LightController.MyForm
 			if (selectedIndex == -1) {
 				return;
 			}
-
 			LightAst lightAst = lightAstList[selectedIndex];
 
 			// 1.在右侧灯具信息内显示选中灯具相关信息
 			editLightInfo(lightAst);
-
 
 			//2.判断是不是已经有stepTemplate了
 			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
@@ -2062,16 +2064,14 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void previewSkinButton_Click(object sender, EventArgs e)
-		{
+		{			
 			if (lightAstList == null || lightAstList.Count == 0) {
 				MessageBox.Show("当前工程还未添加灯具，无法预览。");
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 				return;
 			}
 
-
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;
-
 			// 设为false，从内存取数据
 			DBWrapper allData = GetDBWrapper(false);
 			try
@@ -2609,30 +2609,77 @@ namespace LightController.MyForm
 		}
 
 
-
-		
 		/// <summary>
-		/// 事件：点击《显示大、小图标》
+		/// 事件：重新加载灯具图片
+		///	-- 工程中添加的灯具，是忘了加图片的灯库文件，保存工程后其Pic属性是空的；
+		///	-- 而在修改灯具后这个值不会主动更新，此功能可手动修复此问题。
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void toggleSizeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (lightsSkinListView.View == View.LargeIcon) {
-
-				lightsSkinListView.View = View.SmallIcon;
-				foreach (ListViewItem item in lightsSkinListView.Items) {
-					item.Text = "" ;
-				}
-				toggleSizeToolStripMenuItem.Text = "显示大图标 ";
-			}
-			else
+		private void refreshPicToolStripMenuItem_Click(object sender, EventArgs e)
+		{		
+			HashSet<string> lightPathHashSet = new HashSet<string>();
+			foreach (LightAst la in lightAstList)
 			{
-				lightsSkinListView.View = View.LargeIcon;
-				toggleSizeToolStripMenuItem.Text = "显示小图标 ";
-
+				lightPathHashSet.Add(la.LightPath);
 			}
-			
+
+			Dictionary<string, string> lightDict = new Dictionary<string, string>();
+			foreach (var lightPath in lightPathHashSet)
+			{
+				string picStr = IniFileAst_UTF8.ReadString(lightPath,"set","pic","未知.ico");
+				lightDict.Add(lightPath, picStr);
+			}
+
+			for (int lightIndex = 0; lightIndex < lightAstList.Count ; lightIndex++)
+			{
+				string tempPicStr = lightDict[lightAstList[lightIndex].LightPath];
+				lightAstList[lightIndex].LightPic = tempPicStr;
+				Console.WriteLine(lightsSkinListView.Items[lightIndex].ImageKey );
+				lightsSkinListView.Items[lightIndex].ImageKey = tempPicStr;
+			}
+
 		}
+
+
+		//辅助方法：实时根据 灯具数量 调整《刷新灯具图片》是否可用
+		public override void EnableRefreshPic() {
+			refreshPicToolStripMenuItem.Enabled = lightAstList != null && lightAstList.Count != 0 ;  			
+		}
+
+		private void closeSkinButton_Click(object sender, EventArgs e)
+		{
+			clearAllData();
+			MessageBox.Show("成功关闭工程。");
+		}
+
+
+		//UNDONE : listView切换大小图标
+		///// <summary>
+		///// 事件：点击《显示大、小图标》
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void toggleSizeToolStripMenuItem_Click(object sender, EventArgs e)
+		//{
+		//	if (lightsSkinListView.View == View.LargeIcon) {
+
+		//		lightsSkinListView.View = View.SmallIcon;
+		//		foreach (ListViewItem item in lightsSkinListView.Items) {
+		//			item.Text = "" ;
+		//		}
+		//		toggleSizeToolStripMenuItem.Text = "显示大图标 ";
+		//	}
+		//	else
+		//	{
+		//		lightsSkinListView.View = View.LargeIcon;
+		//		toggleSizeToolStripMenuItem.Text = "显示小图标 ";
+
+		//	}
+
+		//}
+
+
+
 	}
 }

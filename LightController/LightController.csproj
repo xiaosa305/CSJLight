@@ -128,6 +128,7 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.110.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Design" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -145,6 +146,7 @@
     <Compile Include="Ast\MaterialIndexAst.cs" />
     <Compile Include="Common\DBGetter.cs" />
     <Compile Include="Common\IniFileAst.cs" />
+    <Compile Include="Common\IniFileAst_UTF8.cs" />
     <Compile Include="Common\MathAst.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
@@ -202,6 +204,12 @@
     </Compile>
     <Compile Include="MyForm\MultiStepPasteForm.Designer.cs">
       <DependentUpon>MultiStepPasteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\ProjectRenameOrCopyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\ProjectRenameOrCopyForm.Designer.cs">
+      <DependentUpon>ProjectRenameOrCopyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\SKForm.cs">
       <SubType>Form</SubType>
@@ -377,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\multiStepPasteForm.resx">
       <DependentUpon>MultiStepPasteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\ProjectRenameOrCopyForm.resx">
+      <DependentUpon>ProjectRenameOrCopyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\SKForm.resx">
       <DependentUpon>SKForm.cs</DependentUpon>

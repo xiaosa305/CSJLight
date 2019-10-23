@@ -30,10 +30,13 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.treeView1 = new System.Windows.Forms.TreeView();
-			this.sqLiteCommand1 = new System.Data.SQLite.SQLiteCommand();
 			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
 			this.deleteSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
+			this.mySkinContextMenuStrip = new CCWin.SkinControl.SkinContextMenuStrip();
+			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mySkinContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// treeView1
@@ -45,11 +48,8 @@
 			this.treeView1.Size = new System.Drawing.Size(309, 233);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
-			this.treeView1.DoubleClick += new System.EventHandler(this.enterButton_Click);
-			// 
-			// sqLiteCommand1
-			// 
-			this.sqLiteCommand1.CommandText = null;
+			this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+			this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
 			// 
 			// enterSkinButton
 			// 
@@ -58,7 +58,7 @@
 			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.enterSkinButton.DownBack = null;
-			this.enterSkinButton.Location = new System.Drawing.Point(38, 248);
+			this.enterSkinButton.Location = new System.Drawing.Point(34, 250);
 			this.enterSkinButton.MouseBack = null;
 			this.enterSkinButton.Name = "enterSkinButton";
 			this.enterSkinButton.NormlBack = null;
@@ -75,7 +75,7 @@
 			this.deleteSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.deleteSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.deleteSkinButton.DownBack = null;
-			this.deleteSkinButton.Location = new System.Drawing.Point(124, 248);
+			this.deleteSkinButton.Location = new System.Drawing.Point(130, 250);
 			this.deleteSkinButton.MouseBack = null;
 			this.deleteSkinButton.Name = "deleteSkinButton";
 			this.deleteSkinButton.NormlBack = null;
@@ -92,7 +92,7 @@
 			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(209, 248);
+			this.cancelSkinButton.Location = new System.Drawing.Point(226, 250);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -101,6 +101,49 @@
 			this.cancelSkinButton.Text = "取消";
 			this.cancelSkinButton.UseVisualStyleBackColor = false;
 			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
+			// 
+			// mySkinContextMenuStrip
+			// 
+			this.mySkinContextMenuStrip.Arrow = System.Drawing.Color.Black;
+			this.mySkinContextMenuStrip.Back = System.Drawing.Color.White;
+			this.mySkinContextMenuStrip.BackRadius = 4;
+			this.mySkinContextMenuStrip.Base = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(200)))), ((int)(((byte)(254)))));
+			this.mySkinContextMenuStrip.DropDownImageSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
+			this.mySkinContextMenuStrip.Fore = System.Drawing.Color.Black;
+			this.mySkinContextMenuStrip.HoverFore = System.Drawing.Color.White;
+			this.mySkinContextMenuStrip.ItemAnamorphosis = true;
+			this.mySkinContextMenuStrip.ItemBorder = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.ItemBorderShow = true;
+			this.mySkinContextMenuStrip.ItemHover = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.ItemPressed = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.ItemRadius = 4;
+			this.mySkinContextMenuStrip.ItemRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.mySkinContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renameToolStripMenuItem,
+            this.copyProjectToolStripMenuItem});
+			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
+			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(181, 70);
+			this.mySkinContextMenuStrip.SkinAllColor = true;
+			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
+			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+			this.mySkinContextMenuStrip.TitleRadius = 4;
+			this.mySkinContextMenuStrip.TitleRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+			// 
+			// renameToolStripMenuItem
+			// 
+			this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+			this.renameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.renameToolStripMenuItem.Text = "工程重命名";
+			this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+			// 
+			// copyProjectToolStripMenuItem
+			// 
+			this.copyProjectToolStripMenuItem.Name = "copyProjectToolStripMenuItem";
+			this.copyProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.copyProjectToolStripMenuItem.Text = "工程复制";
+			this.copyProjectToolStripMenuItem.Click += new System.EventHandler(this.copyProjectToolStripMenuItem_Click);
 			// 
 			// OpenForm
 			// 
@@ -118,6 +161,7 @@
 			this.Name = "OpenForm";
 			this.Text = "打开工程";
 			this.Load += new System.EventHandler(this.OpenForm_Load);
+			this.mySkinContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -125,9 +169,11 @@
 		#endregion
 
 		private System.Windows.Forms.TreeView treeView1;
-		private System.Data.SQLite.SQLiteCommand sqLiteCommand1;
 		private CCWin.SkinControl.SkinButton enterSkinButton;
 		private CCWin.SkinControl.SkinButton deleteSkinButton;
 		private CCWin.SkinControl.SkinButton cancelSkinButton;
+		private CCWin.SkinControl.SkinContextMenuStrip mySkinContextMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem copyProjectToolStripMenuItem;
 	}
 }

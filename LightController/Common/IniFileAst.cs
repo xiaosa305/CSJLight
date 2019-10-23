@@ -74,8 +74,7 @@ namespace LightController.Common
 			GetPrivateProfileString(section, name, def, vRetSb, 2048, this.filePath);
 			return vRetSb.ToString();
 		}
-
-
+		
 		/// <summary>
 		/// 读取指定 节-键 的值
 		/// </summary>
@@ -194,6 +193,6 @@ namespace LightController.Common
 				return false;
 			}
 		}
-
+			
 	}
 }

@@ -17,7 +17,7 @@ namespace LightController.Tools
     class Test
     {
         private DBWrapper DBWrapper;
-        public Test(DBWrapper dBWrapper)
+        public Test(DBWrapper dBWrapper,ValueDAO valueDAO,string configPath)
         {
             this.DBWrapper = dBWrapper;
         }

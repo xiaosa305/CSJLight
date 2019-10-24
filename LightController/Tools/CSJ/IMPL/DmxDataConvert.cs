@@ -44,8 +44,6 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public CSJ_Project GetCSJProjectFiles(DBWrapper wrapper, string configPath)
         {
-            DataConvertUtils.SaveProjectFile(wrapper, configPath);
-            return null;
             ConfigPath = configPath;
             Wrapper = wrapper;
             CSJ_Project project = new CSJ_Project()

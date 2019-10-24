@@ -583,7 +583,7 @@ namespace LightController.MyForm
 			this.menuSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.menuSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.menuSkinPanel.DownBack = null;
-			this.menuSkinPanel.Location = new System.Drawing.Point(0, 25);
+			this.menuSkinPanel.Location = new System.Drawing.Point(0, 0);
 			this.menuSkinPanel.MouseBack = null;
 			this.menuSkinPanel.Name = "menuSkinPanel";
 			this.menuSkinPanel.NormlBack = null;
@@ -941,11 +941,11 @@ namespace LightController.MyForm
 			this.projectSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.projectSkinPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.projectSkinPanel.DownBack = null;
-			this.projectSkinPanel.Location = new System.Drawing.Point(0, 132);
+			this.projectSkinPanel.Location = new System.Drawing.Point(0, 107);
 			this.projectSkinPanel.MouseBack = null;
 			this.projectSkinPanel.Name = "projectSkinPanel";
 			this.projectSkinPanel.NormlBack = null;
-			this.projectSkinPanel.Size = new System.Drawing.Size(123, 709);
+			this.projectSkinPanel.Size = new System.Drawing.Size(123, 734);
 			this.projectSkinPanel.TabIndex = 6;
 			// 
 			// projectLabelSkinPanel
@@ -1161,7 +1161,7 @@ namespace LightController.MyForm
 			this.playPanel.Controls.Add(this.playSkinLine);
 			this.playPanel.Controls.Add(this.playFlowLayoutPanel);
 			this.playPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.playPanel.Location = new System.Drawing.Point(3, 592);
+			this.playPanel.Location = new System.Drawing.Point(3, 617);
 			this.playPanel.Name = "playPanel";
 			this.playPanel.Size = new System.Drawing.Size(1049, 114);
 			this.playPanel.TabIndex = 13;
@@ -1464,7 +1464,7 @@ namespace LightController.MyForm
 			this.lightsSkinListView.Margin = new System.Windows.Forms.Padding(0);
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 173);
+			this.lightsSkinListView.Size = new System.Drawing.Size(1055, 198);
 			this.lightsSkinListView.SmallImageList = this.lightSmallImageList;
 			this.lightsSkinListView.TabIndex = 9;
 			this.lightsSkinListView.TileSize = new System.Drawing.Size(100, 80);
@@ -1647,6 +1647,7 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(36, "未知.ico");
 			this.lightLargeImageList.Images.SetKeyName(37, "1.bmp");
 			this.lightLargeImageList.Images.SetKeyName(38, "1.jpg");
+			this.lightLargeImageList.Images.SetKeyName(39, "灯光图.png");
 			// 
 			// lightSmallImageList
 			// 
@@ -1691,6 +1692,7 @@ namespace LightController.MyForm
 			this.lightSmallImageList.Images.SetKeyName(36, "未知.ico");
 			this.lightSmallImageList.Images.SetKeyName(37, "1.bmp");
 			this.lightSmallImageList.Images.SetKeyName(38, "1.jpg");
+			this.lightSmallImageList.Images.SetKeyName(39, "灯光图.png");
 			// 
 			// astSkinPanel
 			// 
@@ -1703,11 +1705,11 @@ namespace LightController.MyForm
 			this.astSkinPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.astSkinPanel.DownBack = null;
 			this.astSkinPanel.ForeColor = System.Drawing.Color.White;
-			this.astSkinPanel.Location = new System.Drawing.Point(1178, 132);
+			this.astSkinPanel.Location = new System.Drawing.Point(1178, 107);
 			this.astSkinPanel.MouseBack = null;
 			this.astSkinPanel.Name = "astSkinPanel";
 			this.astSkinPanel.NormlBack = null;
-			this.astSkinPanel.Size = new System.Drawing.Size(246, 709);
+			this.astSkinPanel.Size = new System.Drawing.Size(246, 734);
 			this.astSkinPanel.TabIndex = 10;
 			// 
 			// tdCommonPanel
@@ -1727,7 +1729,7 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Enabled = false;
 			this.tdCommonPanel.Location = new System.Drawing.Point(0, 331);
 			this.tdCommonPanel.Name = "tdCommonPanel";
-			this.tdCommonPanel.Size = new System.Drawing.Size(246, 378);
+			this.tdCommonPanel.Size = new System.Drawing.Size(246, 403);
 			this.tdCommonPanel.TabIndex = 29;
 			// 
 			// commonStepTimeSkinButton
@@ -2089,7 +2091,7 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.stepSkinPanel.DownBack = null;
 			this.stepSkinPanel.Enabled = false;
-			this.stepSkinPanel.Location = new System.Drawing.Point(3, 176);
+			this.stepSkinPanel.Location = new System.Drawing.Point(3, 201);
 			this.stepSkinPanel.MouseBack = null;
 			this.stepSkinPanel.Name = "stepSkinPanel";
 			this.stepSkinPanel.NormlBack = null;
@@ -6189,7 +6191,7 @@ namespace LightController.MyForm
 			this.tdTableLayoutPanel.Controls.Add(this.tdSkinFlowLayoutPanel, 1, 0);
 			this.tdTableLayoutPanel.Controls.Add(this.labelAstPanel, 0, 0);
 			this.tdTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tdTableLayoutPanel.Location = new System.Drawing.Point(3, 282);
+			this.tdTableLayoutPanel.Location = new System.Drawing.Point(3, 307);
 			this.tdTableLayoutPanel.Name = "tdTableLayoutPanel";
 			this.tdTableLayoutPanel.RowCount = 1;
 			this.tdTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -6343,7 +6345,7 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.Controls.Add(this.lightsSkinListView, 1, 0);
 			this.middleTableLayoutPanel.Controls.Add(this.tdTableLayoutPanel, 0, 2);
 			this.middleTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.middleTableLayoutPanel.Location = new System.Drawing.Point(123, 132);
+			this.middleTableLayoutPanel.Location = new System.Drawing.Point(123, 107);
 			this.middleTableLayoutPanel.Name = "middleTableLayoutPanel";
 			this.middleTableLayoutPanel.RowCount = 4;
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -6352,7 +6354,7 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.middleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.middleTableLayoutPanel.Size = new System.Drawing.Size(1055, 709);
+			this.middleTableLayoutPanel.Size = new System.Drawing.Size(1055, 734);
 			this.middleTableLayoutPanel.TabIndex = 29;
 			// 
 			// myMenuStrip

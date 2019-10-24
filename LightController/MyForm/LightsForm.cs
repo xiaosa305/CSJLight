@@ -126,7 +126,7 @@ namespace LightController
 			// 先检查lightPic：若lightPic不在imageList中，则设置默认图片
 			if (!this.largeImageList.Images.ContainsKey(lightPic))
 			{
-				lightPic = "未知.ico";
+				lightPic = "灯光图.png";
 			}
 
 			// 新增时，1.直接往listView加数据，

@@ -79,7 +79,7 @@ namespace LightController.MyForm
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
 
 		/// <summary>
-		/// 辅助方法： 清空相关的所有数据
+		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
 		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
 		/// </summary>
 		protected virtual void clearAllData()
@@ -218,10 +218,8 @@ namespace LightController.MyForm
 				for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
 				{
 					int tempIndex = lightListIndex; //记录了Form中灯具的索引号（lightAst、lightWrapperList等）				
-
-					// TODO：考虑这些代码写在哪里：若写在线程内，会不会出现数据库读取失败（同时读数据sqlite锁定）的情况？但写在外面，又会不会造成读错数据呢？
 					int tempLightNo = dbLightList[tempIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)
-					IList<DB_Value> tempDbValueList = getValueList(tempLightNo);
+					IList<DB_Value> tempDbValueList = valueDAO.GetByLightNo(tempLightNo);
 					IList<DB_StepCount> scList = stepCountDAO.getStepCountList(tempLightNo);
 
 					threadArray[lightListIndex] = new Thread(delegate ()
@@ -278,9 +276,7 @@ namespace LightController.MyForm
 				Console.WriteLine("成功打开工程：" + projectName + ",耗时: " + ts.TotalMilliseconds + " ms");
 
 				MessageBox.Show("成功打开工程：" + projectName);
-			}
-						
-			isInit = true;
+			}					
 			this.Cursor = Cursors.Default;					
 		}
 
@@ -300,8 +296,8 @@ namespace LightController.MyForm
 		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
 		protected virtual void enableSave(bool enable) { }  // 是否显示《保存工程》等
 		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }  //是否显示《 存、取 灯具位置》		
-		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayPanel
-		protected virtual void enableRefreshPic(bool enable) { } // 是否使能刷新图片
+		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayFlowLayoutPanel
+		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
 		protected virtual void chooseStep(int stepNum) { }  //选步
 
 		#endregion			
@@ -483,22 +479,7 @@ namespace LightController.MyForm
 						
 			IList<DB_Value> valueList = valueDAO.GetAll();
 			return valueList;
-		}
-
-		/// <summary>
-		///  辅助方法：根据不同的灯具起始地址值，来获取该灯具所有的value值(即某灯具所有的dbValue数据）
-		/// </summary>
-		/// <param name="tempLightNo"></param>
-		/// <returns></returns>
-		private IList<DB_Value> getValueList(int lightNo)
-		{
-			if (valueDAO == null)
-			{
-				valueDAO = new ValueDAO(dbFilePath, isEncrypt);
-			}
-			IList<DB_Value> valueList = valueDAO.GetByLightNo(lightNo);
-			return valueList;
-		}
+		}	
 
 		/// <summary>
 		///  辅助方法：由dbFilePath，获取fineTuneList

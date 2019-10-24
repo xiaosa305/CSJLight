@@ -16,10 +16,14 @@ namespace LightController.Tools
     /// </summary>
     class Test
     {
-        private DBWrapper DBWrapper;
+        private DBWrapper DBWrapper { get; set; }
+        private ValueDAO ValueDAO { get; set; }
+        private string ConfigPath { get; set; }
         public Test(DBWrapper dBWrapper,ValueDAO valueDAO,string configPath)
         {
             this.DBWrapper = dBWrapper;
+            this.ValueDAO = valueDAO;
+            this.ConfigPath = configPath;
         }
         public void Start(int index)
         {

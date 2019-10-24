@@ -44,6 +44,8 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public CSJ_Project GetCSJProjectFiles(DBWrapper wrapper, string configPath)
         {
+            DataConvertUtils.SaveProjectFile(wrapper, configPath);
+            return null;
             ConfigPath = configPath;
             Wrapper = wrapper;
             CSJ_Project project = new CSJ_Project()
@@ -118,8 +120,8 @@ namespace LightController.Tools.CSJ.IMPL
         {
             //---Test---
 
-            DataConvertUtils.GeneratedSceneData(sceneData, Wrapper, ConfigPath, Constant.MODE_C);
-
+            //DataConvertUtils.GeneratedSceneData(sceneData, Wrapper, ConfigPath, Constant.MODE_C);
+            //return null;
             //---Test---
             CSJ_C file = null;
             StreamReader reader;

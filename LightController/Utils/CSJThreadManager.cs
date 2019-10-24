@@ -9,9 +9,11 @@ namespace LightController.Utils
 {
     public class CSJThreadManager
     {
-        public static ArrayList threadList = new ArrayList();
+        private static ArrayList ChannelThreadList = new ArrayList();
+        private static ArrayList SceneThreadList = new ArrayList();
         private CSJThreadManager() { }
-        private const int THREAMMAX = 512;
+        private const int CHANNELTHREAMMAX = 200;
+        private const int SCENETHREAMMAX = 10;
 
         ///<summary>
         ///静态方法，开启或唤醒一个线程去执行指定的回调方法
@@ -21,22 +23,20 @@ namespace LightController.Utils
         ///<param name="timeOut">当没有可用的线程时的等待时间，
         ///以毫秒为单位</param>
         ///<returns></returns>
-        public static bool QueueUserWorkItem(WaitCallback waitCallback,Object obj,int timeOut)
+        public static bool QueueChannelUserWorkItem(WaitCallback waitCallback,Object obj,int timeOut)
         {
-            //lock (threadList)
-            //{
                 try
                 {
                     //如果线程列表为空，填充线程列表
-                    if (threadList.Count == 0)
+                    if (ChannelThreadList.Count == 0)
                     {
-                        InitThreadList();
+                        InitChannelThreadList();
                     }
                     long startTime = DateTime.Now.Ticks;
                     do
                     {
                         //遍历线程列表，找出可用的线程
-                        foreach (CSJThread thread in threadList)
+                        foreach (CSJThread thread in ChannelThreadList)
                         {
                             if (thread.GetThread == null)
                             {
@@ -51,26 +51,69 @@ namespace LightController.Utils
                                 return true;
                             }
                         }
-                        //在线程 Sleep 前释放锁
-                        //Monitor.PulseAll(threadList);
                         Thread.Sleep(500);
                     } while (((DateTime.Now.Ticks - startTime)/10000)<timeOut);
                 }
+                finally
+                {
+                    //Monitor.Exit(threadList);
+                }
+            return false;
+        }
+        public static bool QueueSceneUserWorkItem(WaitCallback waitCallback, Object obj, int timeOut)
+        {
+            try
+            {
+                //如果线程列表为空，填充线程列表
+                if (SceneThreadList.Count == 0)
+                {
+                    InitSceneThreadList();
+                }
+                long startTime = DateTime.Now.Ticks;
+                do
+                {
+                    //遍历线程列表，找出可用的线程
+                    foreach (CSJThread thread in SceneThreadList)
+                    {
+                        if (thread.GetThread == null)
+                        {
+                            //线程为空，需要创建线程
+                            thread.Start(waitCallback, obj, false);
+                            return true;
+                        }
+                        else if (thread.GetThread.ThreadState == ThreadState.Suspended)
+                        {
+                            //线程为挂起状态，唤醒线程
+                            thread.Start(waitCallback, obj, true);
+                            return true;
+                        }
+                    }
+                    Thread.Sleep(500);
+                } while (((DateTime.Now.Ticks - startTime) / 10000) < timeOut);
+            }
             finally
             {
                 //Monitor.Exit(threadList);
             }
-            //}
             return false;
         }
 
-        private static void InitThreadList()
+        private static void InitChannelThreadList()
         {
-            threadList = new ArrayList();
-            for (int i = 0; i < THREAMMAX; i++)
+            ChannelThreadList = new ArrayList();
+            for (int i = 0; i < CHANNELTHREAMMAX; i++)
             {
                 CSJThread thread = new CSJThread();
-                threadList.Add(thread);
+                ChannelThreadList.Add(thread);
+            }
+        }
+        private static void InitSceneThreadList()
+        {
+            SceneThreadList = new ArrayList();
+            for (int i = 0; i < SCENETHREAMMAX; i++)
+            {
+                CSJThread thread = new CSJThread();
+                SceneThreadList.Add(thread);
             }
         }
     }

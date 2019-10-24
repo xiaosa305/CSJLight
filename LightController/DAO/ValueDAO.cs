@@ -119,6 +119,33 @@ namespace LightController.Ast
 				}
 			}
 		}
+
+		/// <summary>
+		/// 10.24 辅助方法：通过灯具起始通道值，获取该灯具所有value数据
+		/// </summary>
+		/// <param name="lightNo"></param>
+		/// <returns></returns>
+		public IList<DB_Value> GetPKList(DB_ValuePK pk)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<DB_Value> valueList = (IList<DB_Value>)session
+					.CreateQuery("FROM DB_Value v WHERE " +
+						"v.PK.LightID =:lightID  " +
+						"AND v.PK.Mode=:mode " +
+						"AND v.PK.Frame=:frame " +
+						//"AND v.PK.LightIndex=:lightIndex " +
+						"ORDER BY v.PK.Step ASC")					
+					.SetInt32("mode",pk.Mode)
+					.SetInt32("frame",pk.Frame)
+					.SetInt32("lightID",pk.LightID)
+					//.SetInt32("lightIndex",pk.LightIndex)
+					.List<DB_Value>();
+
+				return valueList;
+			}
+		}
+
 	}
 
 

@@ -212,7 +212,7 @@ namespace LightController.MyForm
 				// 8.29 统一生成步数模板
 				GenerateAllStepTemplates();
 
-				//MARK：OpenProject()内，针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)
+				//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)
 
 				Thread[] threadArray = new Thread[dbLightList.Count];
 				for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
@@ -240,7 +240,7 @@ namespace LightController.MyForm
 								
 								for (int step = 1; step <= stepCount; step++)
 								{
-									//UNDONE ： 此处暂时修改为所有的工程都加入错误的信息。
+									//UNDONE：打开工程后，优化的思路是先把每个工程的数据，用GenerateNewStep填满，后面切换场景时，再加载正确的数据；应该需要一些标记
 									//StepWrapper stepWrapper = StepWrapper.GenerateNewStep(lightWrapperList[tempLightIndex].StepTemplate, mode);
 
 									var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
@@ -672,7 +672,6 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK:10.25 修改保存场景的SC和Values
 		/// <summary>
 		/// 辅助方法：只保存指定场景的stepCount值到数据库
 		/// </summary>
@@ -1384,7 +1383,7 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 辅助方法：刷新当前步;
-		/// MARK：不一定使用chooseStep方法 
+		/// MARK：MainFormInterface.RefreshStep():不一定使用chooseStep方法 
 		/// </summary>
 		public void RefreshStep()
 		{

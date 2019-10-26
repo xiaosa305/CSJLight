@@ -331,7 +331,7 @@ namespace LightController.MyForm
 			#endregion
 
 			#region 各类监听器
-			// MARK：此处的TODO只是作为标记，以快速定位到监听器
+			// MARK：SkinMainForm 各种td监听器
 			for (int i = 0; i < FrameCount; i++) {
 
 				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
@@ -385,7 +385,7 @@ namespace LightController.MyForm
 
 
 		#region 各种工具按钮
-		// MARK:：SkinMainForm各种工具按钮起点
+		// MARK：SkinMainForm各种工具按钮起点
 
 		/// <summary>
 		/// 事件：点击“灯库编辑”
@@ -524,15 +524,15 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void openSkinButton_Click(object sender, EventArgs e)
-		{
-			OpenForm openForm = new OpenForm(this, currentProjectName);
-			openForm.ShowDialog();
+		{			
+				OpenForm openForm = new OpenForm(this, currentProjectName);
+				openForm.ShowDialog();		
 		}
 
 
 		/// <summary>
 		/// 辅助方法：ClearAllDate()最后一步，但需针对不同的MainForm子类来实现。
-		/// MARK：子Form.ClearAllData() 需要经常跑到此处来验证,每次新添变量时处理下
+		/// MARK：SkinMainFormForm.ClearAllData()：子类中针对本Form清除数据
 		/// </summary>
 		protected override void clearAllData()
 		{
@@ -2330,7 +2330,7 @@ namespace LightController.MyForm
 
 
 		#region  灯具listView相关（右键菜单+位置等）
-		//MARK：灯具listView相关（右键菜单+位置等）
+		//MARK：SkinMainForm灯具listView相关（右键菜单+位置等）
 
 		private Point startPoint = Point.Empty;	
 
@@ -2510,12 +2510,12 @@ namespace LightController.MyForm
 			if ( lightCount != lightsSkinListView.Items.Count)
 			{
 				MessageBox.Show("灯具位置文件的灯具数量与当前工程的灯具数量不匹配，无法读取位置。");
-				//TODO：灯具数量不匹配，如何处理？
+				//TODO：SkinMainForm在加载灯具位置时，若因各种原因导致灯具数量不匹配，如何处理？
 				return;
 			}
 
 			// 4.开始读取并绘制		
-			//MARK : 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让 读取到的position真正给到items[i].Position?
+			//MARK : SkinMainForm 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
 			lightsSkinListView.BeginUpdate();
 			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
 			{
@@ -2722,8 +2722,7 @@ namespace LightController.MyForm
 			// 10.25 测某个灯具当前FM的LightStepWrapper
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			//LightStepWrapper lsWrapper = lightWrapperList[1].LightStepWrapperList[frame, mode];
-			Console.WriteLine(lsWrapper);
-			
+			Console.WriteLine(lsWrapper);		
 
 		}
 

@@ -118,17 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="mySkinContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>511, 12</value>
+    <value>693, 8</value>
   </metadata>
   <metadata name="lightLargeImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>16, 12</value>
+    <value>14, 3</value>
   </metadata>
   <data name="lightLargeImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAU
-        pRQAAk1TRnQBSQFMAgEBKAEAARgBBgEYAQYBZAEAAW4BAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAGQ
+        pRQAAk1TRnQBSQFMAgEBKAEAASgBBgEoAQYBZAEAAW4BAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAGQ
         AQECAAG6AQQCAAEBAQABEAUAAUABxQEO/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A
         /wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A
         /wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A
@@ -22681,14 +22681,14 @@
 </value>
   </data>
   <metadata name="lightSmallImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 43</value>
+    <value>190, 7</value>
   </metadata>
   <data name="lightSmallImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAB+
-        1AAAAk1TRnQBSQFMAgEBKAEAAcgBAAHIAQABFAEAARYBAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAFQ
+        1AAAAk1TRnQBSQFMAgEBKAEAAdgBAAHYAQABFAEAARYBAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAFQ
         AwAB8gMAAQEBAAEQBQABQAGX/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wDhAAH/AX8B3gJ7AW8BOQFn
         ATkBZwE5AWcBOQFnATkBZwE5AWcBOQFnATkBZwE5AWcBOQFnATkBZwE5AWcBewFvAZwBcwH/AX8CAAH/
         AX8B/wF/Af8BfwH/AX8B/wF/Af8BfwH/AX8B7gE9AYMBFAGcAXMB/wF/Af8BfwH/AX8BewFvAYMBFAE4
@@ -23598,12 +23598,15 @@
 </value>
   </data>
   <metadata name="exportFolderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>184, 12</value>
+    <value>366, 8</value>
   </metadata>
   <metadata name="myToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>397, 12</value>
+    <value>579, 8</value>
   </metadata>
   <metadata name="myMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>705, 11</value>
+    <value>887, 7</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>42</value>
   </metadata>
 </root>

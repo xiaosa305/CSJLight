@@ -566,8 +566,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
-			this.Cursor = Cursors.WaitCursor; 
-			saveAll();
+			this.Cursor = Cursors.WaitCursor;
+		
+			saveAll();		
+
 			this.Cursor = Cursors.Default ;
 		}
 
@@ -886,7 +888,7 @@ namespace LightController.MyForm
 			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
 
 			// 为空或StepList数量是0
-			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList.Count == 0)
+			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList == null || lightStepWrapper.StepWrapperList.Count == 0)
 			{
 				hideAllTDPanels();
 				showStepLabel(0, 0);
@@ -1925,7 +1927,7 @@ namespace LightController.MyForm
 			if (isMultiMode) {
 				copyToAll(0);
 			}
-			refreshStep();
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -1946,7 +1948,7 @@ namespace LightController.MyForm
 			{
 				copyToAll(0);
 			}
-			refreshStep();
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -1968,7 +1970,7 @@ namespace LightController.MyForm
 				if (isMultiMode) {
 					copyToAll(0);
 				}
-				refreshStep();
+				RefreshStep();
 			}
 			else 
 			{
@@ -1992,7 +1994,7 @@ namespace LightController.MyForm
 			{
 				copyToAll(0);
 			}
-			refreshStep();
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -2011,7 +2013,7 @@ namespace LightController.MyForm
 			if (isMultiMode) {
 				copyToAll(0);
 			}
-			refreshStep();
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -2319,8 +2321,8 @@ namespace LightController.MyForm
 		{
 			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
-			Test test = new Test(GetDBWrapper(true), valueDAO, globalIniPath);
-			//Test test = new Test(GetDBWrapper(true) );
+			//Test test = new Test(GetDBWrapper(true) , valueDAO, globalIniPath);
+			Test test = new Test(GetDBWrapper(true) );
 			test.Start(buttonIndex);
 		}
 
@@ -2650,9 +2652,7 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
-
-
+			   
 
 		//UNDONE : listView切换大小图标
 		///// <summary>
@@ -2676,10 +2676,7 @@ namespace LightController.MyForm
 		//		toggleSizeToolStripMenuItem.Text = "显示小图标 ";
 
 		//	}
-
 		//}
-
-
 
 
 		/// <summary>
@@ -2714,13 +2711,21 @@ namespace LightController.MyForm
 			//}
 
 			// 10.24 测新的读取指定通道在某FM情况下的步数列表
-			if (valueDAO != null) {
-				for (int lightID = 1; lightID < 512; lightID++)
-				{
-					IList<DB_Value> pkValueList = valueDAO.GetPKList(new DB_ValuePK() { LightID = lightID, Frame = frame, Mode = mode });
-					Console.WriteLine(lightID + " - " +pkValueList.Count);
-				}
-			}
+			//if (valueDAO != null) {
+			//	for (int lightID = 1; lightID < 512; lightID++)
+			//	{
+			//		IList<DB_Value> pkValueList = valueDAO.GetPKList(new DB_ValuePK() { LightID = lightID, Frame = frame, Mode = mode });
+			//		Console.WriteLine(lightID + " - " +pkValueList.Count);
+			//	}
+			//}
+
+			// 10.25 测某个灯具当前FM的LightStepWrapper
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			//LightStepWrapper lsWrapper = lightWrapperList[1].LightStepWrapperList[frame, mode];
+			Console.WriteLine(lsWrapper);
+			
+
 		}
+
 	}
 }

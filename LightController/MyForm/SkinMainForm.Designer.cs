@@ -86,7 +86,6 @@ namespace LightController.MyForm
 			this.hideProjectPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideAstPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.lightSmallImageList = new System.Windows.Forms.ImageList(this.components);
 			this.astSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -575,7 +574,7 @@ namespace LightController.MyForm
 			// menuSkinPanel
 			// 
 			this.menuSkinPanel.BackColor = System.Drawing.Color.Transparent;
-			this.menuSkinPanel.BorderColor = System.Drawing.Color.Black;
+			this.menuSkinPanel.BorderColor = System.Drawing.Color.LightGray;
 			this.menuSkinPanel.Controls.Add(this.bigTestButton);
 			this.menuSkinPanel.Controls.Add(this.testGroupBox);
 			this.menuSkinPanel.Controls.Add(this.flowLayoutPanel1);
@@ -1453,7 +1452,7 @@ namespace LightController.MyForm
 			// 
 			// lightsSkinListView
 			// 
-			this.lightsSkinListView.BorderColor = System.Drawing.Color.Transparent;
+			this.lightsSkinListView.BorderColor = System.Drawing.Color.LightGray;
 			this.lightsSkinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lightName});
 			this.lightsSkinListView.ContextMenuStrip = this.mySkinContextMenuStrip;
@@ -1506,12 +1505,11 @@ namespace LightController.MyForm
             this.hideMenuPanelToolStripMenuItem2,
             this.hideProjectPanelToolStripMenuItem2,
             this.hideAstPanelToolStripMenuItem2,
-            this.hidePlayPanelToolStripMenuItem2,
-            this.toolStripSeparator3});
+            this.hidePlayPanelToolStripMenuItem2});
 			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
 			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
 			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 220);
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 214);
 			this.mySkinContextMenuStrip.SkinAllColor = true;
 			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
 			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -1598,11 +1596,6 @@ namespace LightController.MyForm
 			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
 			this.hidePlayPanelToolStripMenuItem2.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem2.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(169, 6);
 			// 
 			// lightLargeImageList
 			// 
@@ -7018,7 +7011,6 @@ namespace LightController.MyForm
 		private Label projectLabel;
 		private Panel comPanel;
 		private SkinButton comRefreshSkinButton;
-		private ToolStripSeparator toolStripSeparator3;
 		private ImageList lightSmallImageList;
 		private ToolStripSeparator toolStripSeparator4;
 		private ToolStripMenuItem refreshPicToolStripMenuItem;

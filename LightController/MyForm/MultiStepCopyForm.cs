@@ -105,6 +105,7 @@ namespace LightController.MyForm
 		///  3.取出select的所有checkBox，然后加入一个stringList中
 		///  4.先试着保存materialSet.ini
 		///  5.保存成功后，关闭窗口
+		///  6.主界面的粘贴多步设为可用（RefreshStep())
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -173,6 +174,7 @@ namespace LightController.MyForm
 			MessageBox.Show("成功复制多步。");
 
 			this.Dispose();
+			mainForm.RefreshStep();
 			mainForm.Activate();
 		}
 

@@ -146,6 +146,20 @@ namespace LightController.Ast
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：获取有数据的通道的列表
+		/// </summary>
+		/// <returns></returns>
+		public IList<int> GetTDList()
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<int> tdList = (IList<int>)session
+					.CreateSQLQuery("select distinct LightID from value").List<int>();
+												
+				return tdList;
+			}
+		}
 	}
 
 

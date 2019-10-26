@@ -98,7 +98,7 @@ namespace LightController.Ast
 		/// <param name="currentStepTemplate"></param>
 		/// <returns></returns>
 		public static LightStepWrapper GenerateLightStepWrapper(LightStepWrapper mainLSWrapper, StepWrapper currentStepTemplate , int mode)
-		{			
+		{
 			if (mainLSWrapper == null || mainLSWrapper.StepWrapperList==null || mainLSWrapper.StepWrapperList.Count==0) {
 				return null;
 			}

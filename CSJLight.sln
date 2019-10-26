@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightEditor", "LightEditor\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightController", "LightController\LightController.csproj", "{64A7CFF8-9CB8-4046-9D4D-46BB529AB24C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightControllerTests", "LightControllerTests\LightControllerTests.csproj", "{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{64A7CFF8-9CB8-4046-9D4D-46BB529AB24C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64A7CFF8-9CB8-4046-9D4D-46BB529AB24C}.Release|x86.ActiveCfg = Release|Any CPU
 		{64A7CFF8-9CB8-4046-9D4D-46BB529AB24C}.Release|x86.Build.0 = Release|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Debug|x86.Build.0 = Debug|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Release|x86.ActiveCfg = Release|Any CPU
+		{4FB884ED-E15C-4DEF-B4E0-BCA29AD4276A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

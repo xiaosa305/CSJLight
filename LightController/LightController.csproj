@@ -882,16 +882,12 @@
     <None Include="Resources\跳转.png" />
     <None Include="Resources\保持状态1.png" />
     <None Include="Resources\保持状态2.png" />
-    <Content Include="Source\CSkin.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Source\CSkin.XML" />
-    <Content Include="Source\IrisSkin4.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="FrameList.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Source\CSkin.dll" />
+    <Content Include="Source\CSkin.XML" />
+    <Content Include="Source\IrisSkin4.dll" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

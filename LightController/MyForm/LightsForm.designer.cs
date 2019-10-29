@@ -100,6 +100,8 @@ namespace LightController
 			this.largeImageList.Images.SetKeyName(46, "二合一50.bmp");
 			this.largeImageList.Images.SetKeyName(47, "魔球.bmp");
 			this.largeImageList.Images.SetKeyName(48, "帕灯.bmp");
+			this.largeImageList.Images.SetKeyName(49, "1.jpg");
+			this.largeImageList.Images.SetKeyName(50, "灯光图.png");
 			// 
 			// label1
 			// 
@@ -215,7 +217,7 @@ namespace LightController
 			this.addSkinButton.UseVisualStyleBackColor = false;
 			this.addSkinButton.Click += new System.EventHandler(this.addLightButton_Click);
 			// 
-			// SkinLightsForm
+			// LightsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -232,7 +234,7 @@ namespace LightController
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(763, 548);
-			this.Name = "SkinLightsForm";
+			this.Name = "LightsForm";
 			this.Text = "编辑工程灯具列表";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LightsForm_FormClosed);
 			this.Load += new System.EventHandler(this.LightsForm_Load);

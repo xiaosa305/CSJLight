@@ -126,7 +126,7 @@ namespace LightController
 			// 先检查lightPic：若lightPic不在imageList中，则设置默认图片
 			if (!this.largeImageList.Images.ContainsKey(lightPic))
 			{
-				lightPic = "未知.ico";
+				lightPic = "灯光图.png";
 			}
 
 			// 新增时，1.直接往listView加数据，
@@ -209,6 +209,8 @@ namespace LightController
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
 			mainForm.AddLightAstList(lightAstList);
 			mainForm.GenerateAllStepTemplates();
+			mainForm.AutosetEnabledPlayAndRefreshPic();
+
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
 			mainForm.Activate();

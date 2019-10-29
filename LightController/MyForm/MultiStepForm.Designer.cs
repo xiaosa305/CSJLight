@@ -590,7 +590,7 @@
 			this.commonStepTimetNumericUpDown.Location = new System.Drawing.Point(30, 315);
 			this.commonStepTimetNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonStepTimetNumericUpDown.Maximum = new decimal(new int[] {
-            254,
+            1000,
             0,
             0,
             0});

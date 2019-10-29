@@ -25,9 +25,6 @@ namespace LightController.MyForm
 		private string generalStr = @"\通用\";
 		private string specialStr;
 
-		public enum InsertMethod{
-			INSERT,COVER
-		}
 
 		/// <summary>
 		/// 构造方法：主要作用是加载已有的素材到listView中
@@ -60,7 +57,6 @@ namespace LightController.MyForm
 						TreeNode node = new TreeNode(
 							fileName.Substring(0, fileName.IndexOf("."))
 						);
-
 						generalTreeNode.Nodes.Add(node);
 					}					
 				}
@@ -95,8 +91,6 @@ namespace LightController.MyForm
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
-
-
 	
 		/// <summary>
 		///  事件：《插入、覆盖》素材插入到主窗口的操作
@@ -206,8 +200,9 @@ namespace LightController.MyForm
 					return null;
 				}
 
-				string astPath = treeView1.SelectedNode.Parent.Index == 0 ? generalStr :specialStr  ;
+				string astPath = treeView1.SelectedNode.Parent.Text.Equals("通用素材") ? generalStr :specialStr ;
 				string iniPath = materialPath + astPath + materialName + ".ini";
+
 				return iniPath;				
 		}
 

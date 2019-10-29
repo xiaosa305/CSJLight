@@ -8,8 +8,15 @@ namespace LightController.Ast
 {
 	public class MaterialAst
 	{
-		public int Step { set; get; }
+		/// <summary>
+		/// 9.23 添加的辅助项，主要供《复制、粘贴多步》使用
+		/// </summary>
+		public int Mode { get; set; }
+		public int StepCount { set; get; }
 		public int TongdaoCount { set; get; }
+		/// <summary>
+		/// 左步数，右通道数
+		/// </summary>
 		public IList<string> TdNameList { set; get; }
 		public TongdaoWrapper[,] TongdaoList { set; get; }
 
@@ -23,9 +30,9 @@ namespace LightController.Ast
 			IniFileAst iniFileAst = new IniFileAst(materialPath);
 
 			// 2.取[Set]和[TD]的值
-			int step = iniFileAst.ReadInt("Set", "step", 0);
+			int stepCount = iniFileAst.ReadInt("Set", "step", 0);
 			int tongdaoCount = iniFileAst.ReadInt("Set", "tongdaoCount", 0);
-			if (step == 0 || tongdaoCount == 0) {
+			if (stepCount == 0 || tongdaoCount == 0) {
 				return null;
 			}
 			IList<string> tdNameList = new List<string>();
@@ -34,8 +41,8 @@ namespace LightController.Ast
 				tdNameList.Add(iniFileAst.ReadString("TD",  tdIndex.ToString(), "无名通道") );
 			}
 			// 3.给各tongdaoList赋值
-			TongdaoWrapper[,]  tongdaoList = new TongdaoWrapper[step, tongdaoCount];
-			for (int stepIndex = 0; stepIndex < step; stepIndex++)
+			TongdaoWrapper[,]  tongdaoList = new TongdaoWrapper[stepCount, tongdaoCount];
+			for (int stepIndex = 0; stepIndex < stepCount; stepIndex++)
 			{
 				for (int tongdaoIndex = 0; tongdaoIndex < tongdaoCount; tongdaoIndex++)
 				{
@@ -50,7 +57,7 @@ namespace LightController.Ast
 			}
 
 			return new MaterialAst() {
-				Step = step,
+				StepCount = stepCount,
 				TongdaoCount = tongdaoCount,
 				TdNameList = tdNameList,
 				TongdaoList = tongdaoList

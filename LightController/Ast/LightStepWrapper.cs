@@ -15,9 +15,7 @@ namespace LightController.Ast
 		public IList<StepWrapper> StepWrapperList { get; set; }
 
 		/// <summary>
-		///  在index处插入新的步，
-		///  后面的步往后移动，
-		///  CurrentStep = stepIndex+1 , TotalStep+1
+		/// 方法：在index处插入新的步，后面的步往后移动， CurrentStep = stepIndex+1 , TotalStep+1
 		/// </summary>
 		/// <param name="stepIndex"></param>
 		/// <param name="newStep"></param>
@@ -44,7 +42,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 最后面追加步：调用InsertStep方法
+		/// 方法：在最后面追加步：调用InsertStep方法
 		/// </summary>
 		/// <param name="newStep"></param>
 		public void AddStep(StepWrapper newStep)
@@ -92,27 +90,23 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 辅助方法（静态）：通过传来的组长的数据，以及要生成的StepTemplate的数据，来生成相关的LightStepWrapper
+		/// 辅助方法（静态）：通过传来的组长的数据，以及相关的StepTemplate的数据，来生成LightStepWrapper
 		/// </summary>
 		/// <param name="mainLSWrapper"></param>
 		/// <param name="currentStepTemplate"></param>
 		/// <returns></returns>
 		public static LightStepWrapper GenerateLightStepWrapper(LightStepWrapper mainLSWrapper, StepWrapper currentStepTemplate , int mode)
 		{
-			LightStepWrapper lsWrapper = new LightStepWrapper();
 			if (mainLSWrapper == null || mainLSWrapper.StepWrapperList==null || mainLSWrapper.StepWrapperList.Count==0) {
 				return null;
 			}
-
+			LightStepWrapper lsWrapper = new LightStepWrapper();
 			foreach (StepWrapper  mainStepWrapper in mainLSWrapper.StepWrapperList)
 			{
 				StepWrapper newStep = StepWrapper.GenerateStepWrapper(currentStepTemplate, mainStepWrapper.TongdaoList, mode);
 				lsWrapper.AddStep(newStep);
 			}
 			return lsWrapper;
-		}
-
-
-	
-}
+		}	
+	}
 }

@@ -163,6 +163,26 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap 保持状态1 {
+            get {
+                object obj = ResourceManager.GetObject("保持状态1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 保持状态2 {
+            get {
+                object obj = ResourceManager.GetObject("保持状态2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap 全局配置 {
             get {
                 object obj = ResourceManager.GetObject("全局配置", resourceCulture);
@@ -516,6 +536,16 @@ namespace LightController.Properties {
         internal static System.Drawing.Bitmap 触发音频后 {
             get {
                 object obj = ResourceManager.GetObject("触发音频后", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 跳转 {
+            get {
+                object obj = ResourceManager.GetObject("跳转", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -9,15 +9,15 @@ using DMX512;
 
 namespace LightController.Ast
 {
-	public class StepCountDAO: BaseDAO<DB_StepCount>
+	public class StepCountDAO : BaseDAO<DB_StepCount>
 	{
-		public StepCountDAO(String dbFile,bool isEncrypt):base(dbFile,isEncrypt)	{	}
+		public StepCountDAO(String dbFile, bool isEncrypt) : base(dbFile, isEncrypt) { }
 
-		///// <summary>
-		/////  通过lightIndex 获取stepCount列表
-		///// </summary>
-		///// <param name="lightIndex"></param>
-		///// <returns></returns>
+		/// <summary>
+		/// 辅助方法：通过lightIndex 获取此灯具的stepCount列表
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <returns></returns>
 		public IList<DB_StepCount> getStepCountList(int lightIndex)
 		{
 			using (var session = sessionFactory.OpenSession())
@@ -30,5 +30,5 @@ namespace LightController.Ast
 			}
 		}
 
-	}
+	}		
 }

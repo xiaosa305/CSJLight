@@ -15,7 +15,7 @@ namespace LightController.Common
 		/// </summary>
 		/// <param name="num"></param>
 		/// <returns></returns>
-		public static string getAddZeroStr(int num)
+		public static string GetAddZeroStr(int num)
 		{
 			num = num + 1;
 			if (num < 10)
@@ -34,11 +34,44 @@ namespace LightController.Common
 		/// 1.替换掉非数字的字符串;2.将取出的数字-1；即可得到数组下标
 		/// </summary>
 		/// <param name="addNum">取出来的index需要加的数字，比如 label1 = labels[0] 则addNum = -1</param>
-		public static int getIndexNum(String senderName,int addNum)
+		public static int GetIndexNum(String senderName,int addNum)
 		{
 			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace(senderName, @"[^0-9]+", "");
 			int numIndex = int.Parse(labelIndexStr) + (addNum) ;
 			return numIndex;
+		}
+
+		/// <summary>
+		/// 辅助方法：将一个正整数变成占四个位置的字符串
+		/// </summary>
+		/// <param name="num">原整数</param>
+		/// <returns></returns>
+		public static string GetFourWidthNumStr(int num,bool insertBefore ) {
+			string result = "";
+			if (num < 10) {
+				if (insertBefore)
+				{
+					result = " " + num + "  ";
+				}
+				else
+				{
+					result = "  " + num + " ";
+				}
+			} else if (num >= 10 && num < 100) {
+				result = " " + num + " ";
+			} else if (num >= 100 && num < 1000)
+			{
+				if (insertBefore)
+				{
+					result = num + " ";
+				}
+				else {
+					result = " " + num ;
+				}				
+			} else {
+				result = "" + num;
+			}
+			return result;
 		}
 
 	}

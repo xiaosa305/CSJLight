@@ -75,6 +75,7 @@
 			this.startNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label2 = new System.Windows.Forms.Label();
 			this.endNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.allStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.tongdaoPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
@@ -687,7 +688,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(409, 145);
+			this.label2.Location = new System.Drawing.Point(412, 145);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(17, 12);
 			this.label2.TabIndex = 11;
@@ -695,7 +696,7 @@
 			// 
 			// endNumericUpDown
 			// 
-			this.endNumericUpDown.Location = new System.Drawing.Point(444, 141);
+			this.endNumericUpDown.Location = new System.Drawing.Point(450, 141);
 			this.endNumericUpDown.Maximum = new decimal(new int[] {
             48,
             0,
@@ -716,12 +717,30 @@
             0,
             0});
 			// 
+			// allStepSkinButton
+			// 
+			this.allStepSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.allStepSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.allStepSkinButton.BorderColor = System.Drawing.Color.Black;
+			this.allStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.allStepSkinButton.DownBack = null;
+			this.allStepSkinButton.Location = new System.Drawing.Point(443, 105);
+			this.allStepSkinButton.MouseBack = null;
+			this.allStepSkinButton.Name = "allStepSkinButton";
+			this.allStepSkinButton.NormlBack = null;
+			this.allStepSkinButton.Size = new System.Drawing.Size(78, 22);
+			this.allStepSkinButton.TabIndex = 12;
+			this.allStepSkinButton.Text = "全选";
+			this.allStepSkinButton.UseVisualStyleBackColor = false;
+			this.allStepSkinButton.Click += new System.EventHandler(this.allStepSkinButton_Click);
+			// 
 			// MaterialSaveForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
 			this.ClientSize = new System.Drawing.Size(556, 407);
+			this.Controls.Add(this.allStepSkinButton);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.endNumericUpDown);
 			this.Controls.Add(this.startNumericUpDown);
@@ -802,5 +821,6 @@
 		private System.Windows.Forms.NumericUpDown startNumericUpDown;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.NumericUpDown endNumericUpDown;
+		private CCWin.SkinControl.SkinButton allStepSkinButton;
 	}
 }

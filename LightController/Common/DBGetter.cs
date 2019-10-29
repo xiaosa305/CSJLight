@@ -14,7 +14,7 @@ namespace LightController.Common
 		private ValueDAO valueDAO;
 		private FineTuneDAO fineTuneDAO;
 
-		public DBGetter(string dbFile,bool addPassword) {
+		public DBGetter(string dbFile,bool isEncrypt) {
 			lightDAO = new LightDAO(dbFile, false);
 			stepCountDAO = new StepCountDAO(dbFile, false);
 			valueDAO = new ValueDAO(dbFile, false);

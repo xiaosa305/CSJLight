@@ -1642,6 +1642,9 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(38, "1.jpg");
 			this.lightLargeImageList.Images.SetKeyName(39, "灯光图.png");
 			this.lightLargeImageList.Images.SetKeyName(40, "60w.jpg");
+			this.lightLargeImageList.Images.SetKeyName(41, "3.jpg");
+			this.lightLargeImageList.Images.SetKeyName(42, "4.jpg");
+			this.lightLargeImageList.Images.SetKeyName(43, "5.jpg");
 			// 
 			// lightSmallImageList
 			// 
@@ -1688,6 +1691,9 @@ namespace LightController.MyForm
 			this.lightSmallImageList.Images.SetKeyName(38, "1.jpg");
 			this.lightSmallImageList.Images.SetKeyName(39, "灯光图.png");
 			this.lightSmallImageList.Images.SetKeyName(40, "60w.jpg");
+			this.lightSmallImageList.Images.SetKeyName(41, "3.jpg");
+			this.lightSmallImageList.Images.SetKeyName(42, "4.jpg");
+			this.lightSmallImageList.Images.SetKeyName(43, "5.jpg");
 			// 
 			// astSkinPanel
 			// 

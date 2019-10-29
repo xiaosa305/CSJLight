@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LightController.Tools.CSJ.IMPL
 {
@@ -92,7 +93,6 @@ namespace LightController.Tools.CSJ.IMPL
             HeartbeatCycleBuff[0] = data[117];
             HeartbeatCycleBuff[1] = data[118];
             HeartbeatCycle = (HeartbeatCycleBuff[0] & 0xFF) | ((HeartbeatCycleBuff[1] << 8) & 0xFF);
-
         }
         public CSJ_Hardware()
         {
@@ -107,9 +107,11 @@ namespace LightController.Tools.CSJ.IMPL
             IP = "0.0.0.0";
             NetMask = "0.0.0.0";
             GateWay = "0.0.0.0";
+            RemoteHost = "0.0.0.0";
+            RemotePort = 0;
             Mac = "00-00-00-00-00-00";
             DomainName = "";
-            DomainServer = "";
+            DomainServer = "0.0.0.0";
             HardWareID = "";
             Heartbeat = new byte[] {0x00 };
         }
@@ -318,6 +320,32 @@ namespace LightController.Tools.CSJ.IMPL
 
                 }
             }
+        }
+
+        public static void Test()
+        {
+            CSJ_Hardware hardware = new CSJ_Hardware();
+            byte[] datas = hardware.GetData();
+            string path = Application.StartupPath + @"\DataCache\Hardware.txt";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            StreamWriter writer = new StreamWriter(path, true);
+            string hexOutput = string.Empty;
+            for (int i = 0; i < datas.Length; i++)
+            {
+                if (i != datas.Length - 1)
+                {
+                    hexOutput += "0x" + string.Format("{0:X2}", datas[i]) + ",";
+                }
+                else
+                {
+                    hexOutput += "0x" + string.Format("{0:X2}", datas[i]);
+                }
+            }
+            writer.Write(hexOutput);
+            writer.Close();
         }
     }
 }

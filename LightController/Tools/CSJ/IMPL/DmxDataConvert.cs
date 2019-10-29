@@ -36,7 +36,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 file = new CSJ_Hardware(fileBuff);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 CSJLogs.GetInstance().DebugLog("设备未初始化");
             }

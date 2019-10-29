@@ -1,5 +1,6 @@
 ﻿using LightController.Ast;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,16 +32,14 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    SerialPortTools.GetInstance().OpenCom("COM3");
-                    SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_1024);
+                    DataConvertUtils.SaveProjectFile(DBWrapper, ValueDAO, ConfigPath);
                     break;
                 case 2:
+                    CSJ_Hardware.Test();
                     break;
                 case 3:
-                    SerialPortTools.GetInstance().SendOrder("Reset", null, new DownloadCallBack());
                     break;
                 case 4:
-                    BigDataTest();
                     break;
                 default:
                     break;

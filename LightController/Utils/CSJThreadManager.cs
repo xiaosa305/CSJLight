@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Tools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace LightController.Utils
         private static ArrayList ChannelThreadList = new ArrayList();
         private static ArrayList SceneThreadList = new ArrayList();
         private CSJThreadManager() { }
-        private const int CHANNELTHREAMMAX = 200;
-        private const int SCENETHREAMMAX = 10;
+        private const int CHANNELTHREAMMAX = 100;
+        private const int SCENETHREAMMAX = 5;
 
         ///<summary>
         ///静态方法，开启或唤醒一个线程去执行指定的回调方法
@@ -23,41 +24,43 @@ namespace LightController.Utils
         ///<param name="timeOut">当没有可用的线程时的等待时间，
         ///以毫秒为单位</param>
         ///<returns></returns>
-        public static bool QueueChannelUserWorkItem(WaitCallback waitCallback,Object obj,int timeOut)
+        public static bool QueueChannelUserWorkItem(WaitCallback waitCallback, Object obj, int timeOut)
         {
-                try
+            try
+            {
+                //如果线程列表为空，填充线程列表
+                if (ChannelThreadList.Count == 0)
                 {
-                    //如果线程列表为空，填充线程列表
-                    if (ChannelThreadList.Count == 0)
+                    InitChannelThreadList();
+                }
+                long startTime = DateTime.Now.Ticks;
+                do
+                {
+                    //遍历线程列表，找出可用的线程
+                    foreach (CSJThread thread in ChannelThreadList)
                     {
-                        InitChannelThreadList();
-                    }
-                    long startTime = DateTime.Now.Ticks;
-                    do
-                    {
-                        //遍历线程列表，找出可用的线程
-                        foreach (CSJThread thread in ChannelThreadList)
+                        if (thread.GetThread == null)
                         {
-                            if (thread.GetThread == null)
-                            {
-                                //线程为空，需要创建线程
-                                thread.Start(waitCallback, obj, false);
-                                return true;
-                            }
-                            else if (thread.GetThread.ThreadState == ThreadState.Suspended)
-                            {
-                                //线程为挂起状态，唤醒线程
-                                thread.Start(waitCallback, obj, true);
-                                return true;
-                            }
+                            //线程为空，需要创建线程
+                            thread.Start(waitCallback, obj, false);
+                            //Console.WriteLine("获取空线程");
+                            return true;
                         }
-                        Thread.Sleep(500);
-                    } while (((DateTime.Now.Ticks - startTime)/10000)<timeOut);
-                }
-                finally
-                {
-                    //Monitor.Exit(threadList);
-                }
+                        else if (thread.GetThread.ThreadState == (ThreadState.Background|ThreadState.Suspended))
+                        {
+                            //线程为挂起状态，唤醒线程
+                            thread.Start(waitCallback, obj, true);
+                            //Console.WriteLine("获取挂起线程");
+                            return true;
+                        }
+                    }
+                    Thread.Sleep(500);
+                } while (((DateTime.Now.Ticks - startTime) / 10000) < timeOut);
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
             return false;
         }
         public static bool QueueSceneUserWorkItem(WaitCallback waitCallback, Object obj, int timeOut)
@@ -79,21 +82,23 @@ namespace LightController.Utils
                         {
                             //线程为空，需要创建线程
                             thread.Start(waitCallback, obj, false);
+                            //Console.WriteLine("获取空线程");
                             return true;
                         }
-                        else if (thread.GetThread.ThreadState == ThreadState.Suspended)
+                        else if (thread.GetThread.ThreadState == (ThreadState.Background | ThreadState.Suspended))
                         {
                             //线程为挂起状态，唤醒线程
                             thread.Start(waitCallback, obj, true);
+                            //Console.WriteLine("获取挂起线程");
                             return true;
                         }
                     }
                     Thread.Sleep(500);
                 } while (((DateTime.Now.Ticks - startTime) / 10000) < timeOut);
             }
-            finally
+            catch (Exception ex)
             {
-                //Monitor.Exit(threadList);
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
             return false;
         }

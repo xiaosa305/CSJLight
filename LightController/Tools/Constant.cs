@@ -9,6 +9,7 @@ namespace LightController.Tools
 {
     class Constant
     {
+        public static int[] DMX512ChannelNos;
         public const int DMX512BAUD = 250000;
         public const int SCENECOUNTMAX = 32;
         public const int STEPLISTMAX = 20;
@@ -69,6 +70,20 @@ namespace LightController.Tools
         public const int SCENE_PAUSE = 17;
         public const int SCENE_ALL_ON_NO = 30;
         public const int SCENE_ALL_OFF_NO = 29;
+
+        public static int GetNumber(int number)
+        {
+            if (DMX512ChannelNos == null)
+            {
+                DMX512ChannelNos = new int[1001];
+                for (int i = 0; i < 1001; i++)
+                {
+                    DMX512ChannelNos[i] = i;
+                }
+            }
+            return DMX512ChannelNos[number];
+        }
+
     }
 
     public enum ORDER

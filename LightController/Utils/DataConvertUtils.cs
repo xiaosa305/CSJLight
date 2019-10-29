@@ -13,23 +13,33 @@ namespace LightController.Utils
 {
     public class DataConvertUtils
     {
-        private static Dictionary<int, Dictionary<int, bool>> C_DMXSceneDictionary = new Dictionary<int, Dictionary<int, bool>>();
-        private static Dictionary<int, Dictionary<int, bool>> C_SceneStateDictionary = new Dictionary<int, Dictionary<int, bool>>();
-        private static Dictionary<int, List<CSJ_ChannelData>> C_SceneChannelDatas = new Dictionary<int, List<CSJ_ChannelData>>();
-
-        private static bool MainThreadState { get; set; }
-
-        private const int WriteBufferSize = 1024*50;
-        public static bool GeneratedSceneData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath ,int mode)
+        private static Dictionary<int, Dictionary<int, bool>> C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+        private static Dictionary<int, bool> C_DMXSceneState = new Dictionary<int, bool>();
+        private const int WriteBufferSize = 1024 * 50;
+        public static bool GeneratedSceneData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath, int mode)
         {
             switch (mode)
             {
                 case Constant.MODE_C:
-                    return GeneratedC_SceneData(sceneData, wrapper,configPath);
+                    return GeneratedC_SceneData(sceneData, wrapper, configPath);
                 case Constant.MODE_M:
-                    return GeneratedM_SceneData(sceneData, wrapper,configPath);
+                    return GeneratedM_SceneData(sceneData, wrapper, configPath);
             }
             return false;
+        }
+        public static void GeneratedSceneData(Object obj)
+        {
+            SceneDBData data = obj as SceneDBData;
+            int mode = data.Mode;
+            switch (mode)
+            {
+                case Constant.MODE_C:
+                    GeneratedC_SceneData(data.SceneData, data.Wrapper, data.ConfigPath);
+                    break;
+                case Constant.MODE_M:
+                    GeneratedM_SceneData(data.SceneData, data.Wrapper, data.ConfigPath);
+                    break;
+            }
         }
         private static bool GeneratedC_SceneData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath)
         {
@@ -40,13 +50,10 @@ namespace LightController.Utils
             int micSensor = 0;
             int senseFreq = 0;
             int runTime = 0;
-            int fileSize = 0;
             int flag = 0;
             int mainIndex = 0;
             float rate = 255;
-
-
-            //TODO 配置文件头信息并且写入场景文件中
+            bool result = true;
             using (reader = new StreamReader(configPath))
             {
                 string lineStr = "";
@@ -85,22 +92,18 @@ namespace LightController.Utils
                 }
             }
             List<byte> data = new List<byte>();
-            //摇麦开关
+            data.Add(0x00);
+            data.Add(0x00);
+            data.Add(0x00);
+            data.Add(0x00);
             data.Add(Convert.ToByte(micSensor));
-            //要嘛感应时间
             data.Add(Convert.ToByte(((senseFreq) * 60) & 0xFF));
             data.Add(Convert.ToByte((((senseFreq) * 60) >> 8) & 0xFF));
-            //摇麦执行时间
             data.Add(Convert.ToByte((runTime) & 0xFF));
             data.Add(Convert.ToByte(((runTime) >> 8) & 0xFF));
-            //通道总数
             data.Add(Convert.ToByte((channelCount) & 0xFF));
             data.Add(Convert.ToByte(((channelCount) >> 8) & 0xFF));
-            //写入文件
-            FileUtils.Write(data.ToArray(), sceneFileName, true, false);
-
-            Dictionary<int, bool> channelDictionary = new Dictionary<int, bool>();
-            //TODO WriteChannelData
+            FileUtils.Write(data.ToArray(),data.Count, sceneFileName, true, false);
             foreach (CSJ_ChannelData cSJ_ChannelData in sceneData.ChannelDatas)
             {
                 flag = 0;
@@ -134,12 +137,10 @@ namespace LightController.Utils
                         }
                     }
                 }
-                //修改文件写入系统，分多文件，一个通道一个文件，全部写完再合并为CSJ的场景工程文件
-                channelDictionary.Add(cSJ_ChannelData.ChannelNo, false);
-                CSJThreadManager.QueueChannelUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), new ChannelThreadDataInfo(currentChannelData,flag,sceneNo,rate), 2000);
+                Console.WriteLine("启动线程开始计算场景" + (sceneNo + 1) + "通道" +Constant.GetNumber(cSJ_ChannelData.ChannelNo) + "数据");
+                result = result & CSJThreadManager.QueueChannelUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), new ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, sceneNo, rate), 200000);
             }
-            C_DMXSceneDictionary.Add(sceneData.SceneNo,channelDictionary);
-            return false;
+            return result;
         }
         private static void ConvertC_DataWaitCallback(Object obj)
         {
@@ -147,21 +148,18 @@ namespace LightController.Utils
             int intValue = 0;
 
             ChannelThreadDataInfo dataInfo = (ChannelThreadDataInfo)obj;
-            CSJ_ChannelData channelData =dataInfo.ChannelData;
-            Console.WriteLine("开始计算通道" + dataInfo.ChannelData.ChannelNo + "的数据");
+            CSJ_ChannelData channelData = dataInfo.ChannelData;
             int flag = dataInfo.Flag;
             int sceneNo = dataInfo.SceneNo;
             float rate = dataInfo.Rate;
-            string fileName = "C" + (sceneNo + 1) + "-" + channelData.ChannelNo + ".bin";
-            //生成数据并写入文件
+            string fileName = "C" + (sceneNo + 1) + "-" + dataInfo.ChannelNo + ".bin";
             int stepTime;
             int isGradualChange;
             int stepValue;
             float inc = 0;
             List<byte> WriteBuffer = new List<byte>();
             int startValue = channelData.StepValues[0];
-            Console.WriteLine(fileName);
-            FileUtils.Write((flag == 2) ? Convert.ToByte(0) : Convert.ToByte(startValue), fileName, true, true);
+            FileUtils.Write(((flag == 2) ? Convert.ToByte(0) : Convert.ToByte(startValue)), fileName, true, true);
             for (int step = 1; step < channelData.StepCount + 1; step++)
             {
                 stepValue = (step == channelData.StepCount) ? channelData.StepValues[0] : channelData.StepValues[step];
@@ -172,6 +170,8 @@ namespace LightController.Utils
                 {
                     if (step == channelData.StepCount && fram == stepTime - 1)
                     {
+                        FileUtils.Write(WriteBuffer.ToArray(),WriteBuffer.Count, fileName, false, true);
+                        WriteBuffer.Clear();
                         break;
                     }
                     else
@@ -201,22 +201,37 @@ namespace LightController.Utils
                                 WriteBuffer.Add(Convert.ToByte(stepValue));
                             }
                         }
-                        if (WriteBufferSize == WriteBuffer.Count || (step == channelData.StepCount && fram == stepTime - 2))
+                        if (WriteBufferSize == WriteBuffer.Count)
                         {
-                            FileUtils.Write(WriteBuffer.ToArray(), fileName, false, true);
+                            FileUtils.Write(WriteBuffer.ToArray(),WriteBuffer.Count, fileName, false, true);
                             WriteBuffer.Clear();
                         }
                     }
                 }
                 startValue = stepValue;
             }
-            //通道数据写入完成执行方法
-            DataCacheWriteCompleted(sceneNo,channelData.ChannelNo);
+            DataCacheWriteCompleted(sceneNo, dataInfo.ChannelNo);
         }
-        private static void DataCacheWriteCompleted(int sceneNo,int channelNo)
+        private static void DataCacheWriteCompleted(int sceneNo, int channelNo)
         {
+            C_DMXSceneChannelData[sceneNo][channelNo] = true;
             Console.WriteLine("场景" + (sceneNo + 1) + "-通道" + channelNo + "数据计算完成");
+            if (!C_DMXSceneChannelData[sceneNo].ContainsValue(false))
+            {
+                C_DMXSceneState[sceneNo] = true;
+                Console.WriteLine("场景" + (sceneNo + 1) + "数据计算完成并生成文件成功");
+                FileUtils.MergeFile(Constant.GetNumber(sceneNo));
+            }
+            if (!C_DMXSceneState.ContainsValue(false))
+            {
+                Console.WriteLine("所有场景数据计算完成并生成文件成功");
+                C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+                C_DMXSceneState = new Dictionary<int, bool>();
+            }
         }
+
+
+
         private static bool GeneratedM_SceneData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath)
         {
             string fileName = "M" + (sceneData.SceneNo + 1) + ".bin";
@@ -225,20 +240,26 @@ namespace LightController.Utils
             //TODO WriteChannelData
             return false;
         }
-        public static void SaveProjectFile(DBWrapper wrapper,string configPath)
+        private static void ConvertM_DataWaitCallback(Object obj)
         {
-            Thread thread = new Thread(Test) { IsBackground = true};
-            thread.Start(new DBData(wrapper, configPath));
+            Console.WriteLine("");
         }
 
-        private static void Test(Object obj)
-
+        public static void SaveProjectFile(DBWrapper wrapper, ValueDAO valueDAO, string configPath)
+        {
+            FileUtils.ClearCacheData();
+            FileUtils.ClearProjectData();
+            Thread thread = new Thread(GeneratedDBSceneData) { IsBackground = true };
+            thread.Start(new DBData(wrapper, valueDAO, configPath));
+        }
+        private static void GeneratedDBSceneData(Object obj)
         {
             DBData data = obj as DBData;
             DBWrapper wrapper = data.Wrapper;
             string configPath = data.ConfigPath;
+            ValueDAO valueDAO = data.ValueDAO;
             List<int> sceneNos = new List<int>();
-            foreach (DB_StepCount item in wrapper.stepCountList)
+            foreach (DB_StepCount item in data.Wrapper.stepCountList)
             {
                 if (!sceneNos.Contains(item.PK.Frame))
                 {
@@ -247,25 +268,21 @@ namespace LightController.Utils
             }
             foreach (int sceneNo in sceneNos)
             {
-                MainThreadState = false;
-                CSJThreadManager.QueueSceneUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(sceneNo, wrapper, Constant.MODE_C, configPath), 2000);
+                C_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
+                C_DMXSceneState.Add(sceneNo, false);
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_C, configPath));
+                //GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_M, configPath));
+
+                //------存在BUG，待修复
+                //CSJThreadManager.QueueSceneUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(Constant.GetNumber(sceneNo), wrapper, valueDAO, Constant.MODE_C, configPath), 2000);
                 //CSJThreadManager.QueueSceneUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(sceneNo, wrapper, Constant.MODE_M, configPath), 2000);
-                C_SceneChannelDatas.Add(sceneNo, new List<CSJ_ChannelData>());
-                C_SceneStateDictionary.Add(sceneNo, new Dictionary<int, bool>());
-                while (!MainThreadState)
-                {
-                    Thread.Sleep(1000);
-                }
             }
         }
         private static void GetSceneDataWaitCallback(Object obj)
         {
-            SceneThreadDataInfo dataInfo = (SceneThreadDataInfo)obj;
-            int sceneNo = dataInfo.SceneNo;
-            int mode = dataInfo.Mode;
-            DBWrapper wrapper = dataInfo.Wrapper;
-            string configPath = dataInfo.ConfigPath;
-            foreach (DB_Light light in wrapper.lightList)
+            SceneThreadDataInfo data = obj as SceneThreadDataInfo;
+            IList<CSJ_ChannelData> channelDatas = new List<CSJ_ChannelData>();
+            foreach (DB_Light light in data.Wrapper.lightList)
             {
                 for (int i = 0; i < light.Count; i++)
                 {
@@ -275,98 +292,68 @@ namespace LightController.Utils
                     }
                     else
                     {
-                        C_SceneStateDictionary[sceneNo].Add(light.StartID + i, false);
-                        //↓开启线程处理各个通道数据↓
-                        CSJThreadManager.QueueChannelUserWorkItem(new WaitCallback(SceneChannelDataConvert), new SceneChannelThreadDataInfo(light.StartID + i, dataInfo,light), 2000);
-                        //↑开启线程处理各个通道数据↑
-                    }
-                }
-            }
-        }
-        private static void SceneChannelDataConvert(Object obj)
-        {
-            SceneChannelThreadDataInfo dataInfo = obj as SceneChannelThreadDataInfo;
-            DBWrapper wrapper = dataInfo.SceneThreadData.Wrapper;
-            Console.WriteLine("开启线程" + Thread.CurrentThread.ManagedThreadId + "处理场景" + dataInfo.SceneThreadData.SceneNo + "通道" +dataInfo.ChannelNo + "数据");
-            int sceneNo = dataInfo.SceneThreadData.SceneNo;
-            int mode = dataInfo.SceneThreadData.Mode;
-            DB_Light light = dataInfo.Light;
-            List<int> isGradualChange = new List<int>();
-            List<int> stepTimes = new List<int>();
-            List<int> stepValues = new List<int>();
-            int stepCount = 0;
-            int stepNumber = 0;
-            foreach (DB_StepCount item in wrapper.stepCountList)
-            {
-                if (light.LightNo == item.PK.LightIndex && sceneNo == item.PK.Frame && mode == item.PK.Mode)
-                {
-                    stepCount = item.StepCount;
-                }
-            }
-            for (int step = 0; step < stepCount; step++)
-            {
-                foreach (DB_Value value in wrapper.valueList)
-                {
-                    if (light.LightNo == value.PK.LightIndex && mode == value.PK.Mode && (step + 1) == value.PK.Step && sceneNo == value.PK.Frame && value.PK.LightID == dataInfo.ChannelNo)
-                    {
-                        if (mode == Constant.MODE_C)
+                        IList<DB_Value> values = data.ValueDAO.GetPKList(new DB_ValuePK()
                         {
-                            if (value.ChangeMode != Constant.MODE_C_HIDDEN)
-                            {
-                                isGradualChange.Add(value.ChangeMode);
-                                stepTimes.Add(value.StepTime);
-                                stepValues.Add(value.ScrollValue);
-                                stepNumber++;
-                            }
-                        }
-                        else
+                            Frame = data.SceneNo,
+                            Mode = Constant.MODE_C,
+                            LightID = light.StartID + i,
+                            LightIndex = light.LightNo
+                        });
+                        if (values.Count > 0)
                         {
-                            if (value.ChangeMode == Constant.MODE_M_JUMP)
+                            List<int> isGradualChange = new List<int>();
+                            List<int> stepTimes = new List<int>();
+                            List<int> stepValues = new List<int>();
+                            int stepNumber = 0;
+                            foreach (DB_Value value in values)
                             {
-                                isGradualChange.Add(value.ChangeMode);
-                                stepTimes.Add(value.StepTime);
-                                stepValues.Add(value.ScrollValue);
-                                stepNumber++;
+                                if (data.Mode == Constant.MODE_C)
+                                {
+                                    if (value.ChangeMode != Constant.MODE_C_HIDDEN)
+                                    {
+                                        isGradualChange.Add(value.ChangeMode);
+                                        stepTimes.Add(value.StepTime);
+                                        stepValues.Add(value.ScrollValue);
+                                        stepNumber++;
+                                    }
+                                }
+                                else
+                                {
+                                    if (value.ChangeMode == Constant.MODE_M_JUMP)
+                                    {
+                                        isGradualChange.Add(value.ChangeMode);
+                                        stepTimes.Add(value.StepTime);
+                                        stepValues.Add(value.ScrollValue);
+                                        stepNumber++;
+                                    }
+                                }
                             }
+                            CSJ_ChannelData channelData = new CSJ_ChannelData()
+                            {
+                                ChannelNo = light.StartID + i,
+                                IsGradualChange = isGradualChange,
+                                StepTimes = stepTimes,
+                                StepValues = stepValues,
+                                StepCount = stepNumber
+                            };
+                            channelDatas.Add(channelData);
+                            C_DMXSceneChannelData[data.SceneNo].Add(channelData.ChannelNo, false);
+                            Console.WriteLine("场景" + (data.SceneNo + 1) + "通道" + (light.StartID + i) + "数据获取完成");
                         }
                     }
                 }
             }
-            CSJ_ChannelData channelData = new CSJ_ChannelData()
+            CSJ_SceneData sceneData = new CSJ_SceneData()
             {
-                ChannelNo = dataInfo.ChannelNo,
-                StepCount = stepNumber,
-                IsGradualChange = isGradualChange,
-                StepTimes = stepTimes,
-                StepValues = stepValues
+                SceneNo = data.SceneNo,
+                ChannelCount = channelDatas.Count,
+                ChannelDatas = channelDatas
             };
-            if (channelData.StepCount > 0)
-            {
-                SceneChannelDataGenerationSuccessful(sceneNo, channelData.ChannelNo, channelData, dataInfo);
-            }
-        }
-        private static void SceneChannelDataGenerationSuccessful(int sceneNo,int channelNo,CSJ_ChannelData channelData, SceneChannelThreadDataInfo dataInfo)
-        {
-            if (channelData != null)
-            {
-                C_SceneChannelDatas[sceneNo].Add(channelData);
-            }
-            C_SceneStateDictionary[sceneNo][channelData.ChannelNo] = true;
-            Console.WriteLine("-------场景" + (sceneNo + 1) + "通道" + channelNo + "数据处理完成");
-            if (!C_SceneStateDictionary[sceneNo].ContainsValue(false))
-            {
-                CSJ_SceneData sceneData = new CSJ_SceneData()
-                {
-                    SceneNo = sceneNo,
-                    ChannelCount = C_SceneChannelDatas[sceneNo].Count,
-                    ChannelDatas = C_SceneChannelDatas[sceneNo]
-                };
-                Console.WriteLine("-------场景" + sceneNo + "数据处理完成");
-                GeneratedSceneData(sceneData, dataInfo.SceneThreadData.Wrapper, dataInfo.SceneThreadData.ConfigPath, dataInfo.SceneThreadData.Mode);
-                C_SceneChannelDatas.Remove(sceneNo);
-                C_SceneStateDictionary.Remove(sceneNo);
-                MainThreadState = true;
-            }
+            Console.WriteLine("场景" + (data.SceneNo + 1) + "数据获取完成");
+            //GeneratedSceneData(sceneData, data.Wrapper, data.ConfigPath, data.Mode);
+            //测试
+            CSJThreadManager.QueueSceneUserWorkItem(new WaitCallback(GeneratedSceneData),new SceneDBData(sceneData,data.Wrapper,data.ConfigPath,data.Mode),2000000);
+            //测试
         }
         private class ChannelThreadDataInfo
         {
@@ -374,49 +361,57 @@ namespace LightController.Utils
             public int Flag { get; set; }
             public int SceneNo { get; set; }
             public float Rate { get; set; }
+            public int ChannelNo { get; set; }
 
-            public ChannelThreadDataInfo(CSJ_ChannelData channelData,int flag,int sceneNo,float rate)
+            public ChannelThreadDataInfo(CSJ_ChannelData channelData, int channelNo, int flag, int sceneNo, float rate)
             {
                 this.ChannelData = channelData;
                 this.Flag = flag;
                 this.SceneNo = sceneNo;
                 this.Rate = rate;
+                this.ChannelNo = channelNo;
             }
         }
         private class SceneThreadDataInfo
         {
-            public int SceneNo { get; set; }
             public DBWrapper Wrapper { get; set; }
             public int Mode { get; set; }
             public string ConfigPath { get; set; }
-            public SceneThreadDataInfo(int sceneNo,DBWrapper wrapper,int mode,string configPath)
+            public ValueDAO ValueDAO { get; set; }
+            public int SceneNo { get; set; }
+            public SceneThreadDataInfo(int sceneNo, DBWrapper wrapper, ValueDAO valueDAO, int mode, string configPath)
             {
-                this.SceneNo = sceneNo;
                 this.Wrapper = wrapper;
                 this.Mode = mode;
                 this.ConfigPath = configPath;
-            }
-        }
-        private class SceneChannelThreadDataInfo
-        {
-            public int ChannelNo { get; set; }
-            public DB_Light Light { get; set; }
-            public SceneThreadDataInfo SceneThreadData { get; set; }
-            public SceneChannelThreadDataInfo(int channelNo, SceneThreadDataInfo dataInfo, DB_Light light)
-            {
-                this.ChannelNo = channelNo;
-                this.SceneThreadData = dataInfo;
-                this.Light = light;
+                this.ValueDAO = valueDAO;
+                this.SceneNo = sceneNo;
             }
         }
         private class DBData
         {
             public DBWrapper Wrapper { get; set; }
             public string ConfigPath { get; set; }
-            public DBData(DBWrapper wrapper,string configPath)
+            public ValueDAO ValueDAO { get; set; }
+            public DBData(DBWrapper wrapper, ValueDAO valueDAO, string configPath)
             {
                 this.Wrapper = wrapper;
                 this.ConfigPath = configPath;
+                this.ValueDAO = valueDAO;
+            }
+        }
+        private class SceneDBData
+        {
+            public CSJ_SceneData SceneData { get; set; }
+            public DBWrapper Wrapper { get; set; }
+            public string ConfigPath { get; set; }
+            public int Mode { get; set; }
+            public SceneDBData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath, int mode)
+            {
+                this.SceneData = sceneData;
+                this.Wrapper = wrapper;
+                this.ConfigPath = configPath;
+                this.Mode = mode;
             }
         }
         private delegate void Completed();

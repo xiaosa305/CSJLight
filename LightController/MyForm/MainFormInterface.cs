@@ -23,6 +23,7 @@ namespace LightController.MyForm
 		protected bool isNew = true;    // 点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false										
 		protected bool isInit = false;  // form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
 		public bool IsCreateSuccess = false; //点击新建后，用这个变量决定是否打开灯具编辑列表
+		//protected bool isReadDelay = true;  // 是否延迟从数据库中读数据
 
 		// 全局配置及数据库连接		
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
@@ -47,6 +48,7 @@ namespace LightController.MyForm
 		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 辅助的灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
 
 		// 通道数据操作时的变量
+		protected const int MAX_STEP = 100;
 		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
 		protected IList<int> selectedIndices = new List<int>() ; //选择的灯具的index列表（多选情况下）		
@@ -59,7 +61,6 @@ namespace LightController.MyForm
 		//protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯 
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到
 		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
-
 			   
 		// 调试变量
 		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例
@@ -213,7 +214,7 @@ namespace LightController.MyForm
 				GenerateAllStepTemplates();
 
 				//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)
-
+				
 				Thread[] threadArray = new Thread[dbLightList.Count];
 				for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
 				{
@@ -221,8 +222,13 @@ namespace LightController.MyForm
 					int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
 					
 					IList<DB_StepCount> scList = stepCountDAO.getStepCountList(tempLightNo);
-					IList<DB_Value> tempDbValueList = valueDAO.GetByLightNo(tempLightNo);
-					
+
+					IList<DB_Value> tempDbValueList = null;
+					//if ( ! isReadDelay) //MARK：多线程旧代码①：每个线程获取指定灯具的Value列表。
+					//{
+						tempDbValueList = valueDAO.GetByLightNo(tempLightNo);
+					//}
+
 					threadArray[tempLightIndex] = new Thread(delegate ()
 					{
 						Console.WriteLine(tempLightIndex + " ++ 线程开始了");
@@ -240,12 +246,18 @@ namespace LightController.MyForm
 								
 								for (int step = 1; step <= stepCount; step++)
 								{
-									//UNDONE：打开工程后，优化的思路是先把每个工程的数据，用GenerateNewStep填满，后面切换场景时，再加载正确的数据；应该需要一些标记
-									//StepWrapper stepWrapper = StepWrapper.GenerateNewStep(lightWrapperList[tempLightIndex].StepTemplate, mode);
-
-									var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
-									StepWrapper stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
-
+									StepWrapper stepWrapper = null;
+								
+									// TODO :
+									//if (isReadDelay)  //UNDONE：打开工程后，优化的思路是先把每个工程的数据，用GenerateNewStep填满，后面切换场景时，再加载正确的数据；重点在于如何添加标记
+									//{
+									//	stepWrapper = StepWrapper.GenerateNewStep(lightWrapperList[tempLightIndex].StepTemplate, mode);
+									//}
+									//else //MARK：多线程旧代码②：每个线程添加新步都实时用①中的数据生成。
+									//{										
+										var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
+										stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
+									//}
 									lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
 								}								
 							}							
@@ -275,18 +287,116 @@ namespace LightController.MyForm
 					}
 				}
 
-				AutosetEnabledPlayAndRefreshPic();
+				//TODO：先加载当前Frame的所有StepWrapper
+				//if (isReadDelay) {
+				//	MakeFrameData(frame);
+				//}				
+
+				AutosetEnabledPlayAndRefreshPic();			
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforDT);
-				Console.WriteLine("成功打开工程：" + projectName + ",耗时: " + ts.TotalMilliseconds + " ms");
+				Console.WriteLine("成功打开工程：" + projectName + ",耗时: " + ts.TotalMilliseconds+ " ms");	
 
-				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds + " s");
+				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");		
 			}					
 			this.Cursor = Cursors.Default;					
 		}
 
-	
+		//TODO:SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
+		/// <summary>
+		///  辅助方法：通过场景编号（0-31），来读取数据库相关数据填入虚假空白数据（NewStep 、Flag==0）中，并将Flag设为1
+		/// </summary>
+		/// <param name="tempFrame"></param>
+		//private void MakeFrameData(int tempFrame)
+		//{
+		//		Thread[] threadArray = new Thread[dbLightList.Count];
+		//		for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
+		//		{
+		//			int tempLightIndex = lightListIndex; // 灯具index（lightAstList和lightWrapperList） ； 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
+		//			int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)		
+		//			IList<DB_Value> tempDbValueList = valueDAO.GetByLightNoAndFrame(tempLightNo, tempFrame);
+
+		//			threadArray[tempLightIndex] = new Thread(delegate ()
+		//			{
+		//				Console.WriteLine(tempLightIndex + " ++ （MakeFrameData）线程开始了");
+		//				for (int tempMode = 0; tempMode < 1; tempMode++)
+		//				{
+		//					for (int step = 1; step <= lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList.Count; step++)
+		//					{
+		//						if (lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].Flag == 0)
+		//						{
+		//							for (int tdIndex = 0; tdIndex < lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList.Count; tdIndex++)
+		//							{
+		//								int lightId = lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].Address;
+		//								DB_Value stepValue = tempDbValueList.SingleOrDefault(t => t.PK.LightID == lightId && t.PK.Frame == tempFrame && t.PK.Mode == tempMode && t.PK.Step == step);
+		//								if (stepValue != null)
+		//								{
+		//									lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].ScrollValue = stepValue.ScrollValue;
+		//									lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].StepTime = stepValue.StepTime;
+		//									lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].TongdaoList[tdIndex].ChangeMode = stepValue.ChangeMode;
+		//								}
+		//							}
+		//							lightWrapperList[tempLightIndex].LightStepWrapperList[tempFrame, mode].StepWrapperList[step - 1].Flag = 1;
+		//						}
+		//					}
+		//				}
+		//				Console.WriteLine(tempLightIndex + " -- （MakeFrameData）线程结束了");
+		//			});
+		//			threadArray[tempLightIndex].Start();
+			
+		//	}
+
+		//	// 下列代码，用以监视所有线程是否已经结束运行。
+		//	while (true)
+		//	{
+		//		int unFinishedCount = 0;
+		//		foreach (var thread in threadArray)
+		//		{
+		//			unFinishedCount += thread.IsAlive ? 1 : 0;
+		//		}
+
+		//		if (unFinishedCount == 0)
+		//		{
+		//			Console.WriteLine("Dickov:所有线程(MakeFrameData)已结束。");
+		//			break;
+		//		}
+		//		else
+		//		{
+		//			Thread.Sleep(100);
+		//		}
+		//	}
+		//}
+
+		/// <summary>
+		///  辅助方法：实时读取（渲染）单灯单步的数据（单线程即可）
+		/// </summary>
+		protected void MakeCurrentStepWrapperData( int stepNum) {
+
+			//TODO : 从数据库中取单灯单步数据，并渲染进内存。
+			if ( getCurrentLightStepWrapper().StepWrapperList[stepNum-1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0) {
+
+				LightAst la = lightAstList[selectedIndex];
+				int lightIndex = la.StartNum;
+				IList<DB_Value> tempValueList = valueDAO.getStepValueList( lightIndex, frame, mode, getCurrentStep() );
+
+				if (tempValueList.Count == getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList.Count) {
+					for (int tdIndex = 0; tdIndex < tempValueList.Count; tdIndex++)
+					{
+						DB_Value stepValue = tempValueList[tdIndex];
+						getCurrentLightStepWrapper().StepWrapperList[stepNum-1].TongdaoList[tdIndex].ScrollValue = tempValueList[tdIndex].ScrollValue;
+						getCurrentLightStepWrapper().StepWrapperList[stepNum-1].TongdaoList[tdIndex].StepTime = tempValueList[tdIndex].StepTime;
+						getCurrentLightStepWrapper().StepWrapperList[stepNum-1].TongdaoList[tdIndex].ChangeMode = tempValueList[tdIndex].ChangeMode;
+					}
+				}
+				getCurrentLightStepWrapper().StepWrapperList[stepNum-1].Flag = 1;
+				Console.WriteLine("此步成功渲染。");
+			}
+			else {
+				Console.WriteLine("此步已渲染过了。");
+			}
+		}
+
 
 		/// <summary>
 		///  辅助方法：判断是否可以显示 playPanel及 刷新图片(主要供《打开工程》和《添加灯具Form》使用）
@@ -854,7 +964,7 @@ namespace LightController.MyForm
 			TimeSpan ts = afterDT.Subtract(beforeDT);
 			Console.WriteLine("成功保存工程：" + currentProjectName + ",耗时: " + ts.TotalMilliseconds + " ms");
 
-			MessageBox.Show("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds + " s");
+			MessageBox.Show("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
 		}
 
 
@@ -920,7 +1030,7 @@ namespace LightController.MyForm
 			if (method == InsertMethod.INSERT || totalStep == 0)
 			{
 				int finalStep = totalStep + addStepCount;
-				if ( finalStep > 1000 )
+				if ( finalStep > MAX_STEP )
 				{
 					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
 					return;
@@ -957,7 +1067,7 @@ namespace LightController.MyForm
 			{
 				int finalStep = (currentStep - 1) + addStepCount;// finalStep为覆盖后最后一步的序列，而非所有步的数量
 
-				if ( finalStep > 1000 )
+				if ( finalStep > MAX_STEP )
 				{
 					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用；可选择其他位置覆盖");
 					return;
@@ -1512,7 +1622,6 @@ namespace LightController.MyForm
 			RefreshStep();
 			MessageBox.Show("成功调用场景:"+ AllFrameList[selectedFrameIndex]); 
 		}		
-
 
 	}
 }

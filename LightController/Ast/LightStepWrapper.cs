@@ -15,9 +15,7 @@ namespace LightController.Ast
 		public IList<StepWrapper> StepWrapperList { get; set; }
 
 		/// <summary>
-		///  在index处插入新的步，
-		///  后面的步往后移动，
-		///  CurrentStep = stepIndex+1 , TotalStep+1
+		/// 方法：在index处插入新的步，后面的步往后移动， CurrentStep = stepIndex+1 , TotalStep+1
 		/// </summary>
 		/// <param name="stepIndex"></param>
 		/// <param name="newStep"></param>
@@ -44,7 +42,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 最后面追加步：调用InsertStep方法
+		/// 方法：在最后面追加步：调用InsertStep方法
 		/// </summary>
 		/// <param name="newStep"></param>
 		public void AddStep(StepWrapper newStep)
@@ -102,7 +100,6 @@ namespace LightController.Ast
 			if (mainLSWrapper == null || mainLSWrapper.StepWrapperList==null || mainLSWrapper.StepWrapperList.Count==0) {
 				return null;
 			}
-
 			LightStepWrapper lsWrapper = new LightStepWrapper();
 			foreach (StepWrapper  mainStepWrapper in mainLSWrapper.StepWrapperList)
 			{

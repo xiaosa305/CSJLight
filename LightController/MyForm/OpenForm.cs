@@ -213,5 +213,7 @@ namespace LightController.MyForm
 		{
 			new ProjectRenameOrCopyForm(this, selectedProjectName,true).ShowDialog();
 		}
+
+
 	}
 }

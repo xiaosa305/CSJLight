@@ -64,6 +64,29 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
+		/// 10.28 辅助方法：通过灯具起始通道值 和 场景编号，获取该灯具在某场景下的所有value数据
+		/// </summary>
+		/// <param name="tempLightNo"></param>
+		/// <param name="frame"></param>
+		/// <returns></returns>
+		internal IList<DB_Value> GetByLightNoAndFrame(int lightIndex, int frame)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<DB_Value> valueList = (IList<DB_Value>)session
+					.CreateQuery("FROM DB_Value v WHERE" +
+						" v.PK.LightIndex =:lightIndex " +
+						"AND v.PK.Frame = :frame " +
+						"ORDER BY v.PK.LightID")
+					.SetInt32("lightIndex", lightIndex)
+					.SetInt32("frame",frame)
+					.List<DB_Value>();
+
+				return valueList;
+			}
+		}
+
+		/// <summary>
 		/// 10.17 辅助方法：通过场景号，删除数据库value表中内相关的数据（每个灯具的该场景的数据清掉）
 		/// </summary>
 		/// <param name="frame"></param>
@@ -160,6 +183,8 @@ namespace LightController.Ast
 				return tdList;
 			}
 		}
+
+
 	}
 
 

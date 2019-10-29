@@ -740,14 +740,10 @@ namespace LightController.MyForm
 
 			if (lightWrapper.StepTemplate == null)
 			{
-				lightWrapper.StepTemplate = generateStepTemplate(lightAst);
-				hideAllTDPanels();
-				showStepLabel(0, 0);
-			}
-			else
-			{
-				changeFrameMode();
-			}
+				lightWrapper.StepTemplate = generateStepTemplate(lightAst);			
+			}			
+			changeFrameMode();
+			
 			stepSkinPanel.Enabled = true;
 		}
 
@@ -802,7 +798,6 @@ namespace LightController.MyForm
 		private void frameSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			frame = frameSkinComboBox.SelectedIndex;
-
 			if (lightAstList != null && lightAstList.Count > 0)
 			{
 				changeFrameMode();
@@ -884,8 +879,10 @@ namespace LightController.MyForm
 				return;
 			}
 
-			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
-			LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
+			//LightWrapper lightWrapper = lightWrapperList[selectedIndex];
+			//LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
+
+			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 
 			// 为空或StepList数量是0
 			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList == null || lightStepWrapper.StepWrapperList.Count == 0)
@@ -895,12 +892,15 @@ namespace LightController.MyForm
 			}
 			else // lightStepWrapper != null && lightStepWrapper.StepList.Count>0 : 也就是已经有值了
 			{
-				int currentStep = lightStepWrapper.CurrentStep;
-				int totalStep = lightStepWrapper.TotalStep;
+				RefreshStep();	
 
-				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
-				showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				showStepLabel(currentStep, totalStep);
+				//MARK：changeFrameMode()旧代码，未完全通过测试前，不要删除。 
+				//int currentStep = lightStepWrapper.CurrentStep;
+				//int totalStep = lightStepWrapper.TotalStep;
+
+				//StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
+				//showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
+				//showStepLabel(currentStep, totalStep);
 			}
 		}
 
@@ -1151,10 +1151,15 @@ namespace LightController.MyForm
 				showStepLabel(0,0);
 				return;
 			}
-			
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];			
-			lightStepWrapper.CurrentStep = stepNum;	
+			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];		
+			lightStepWrapper.CurrentStep = stepNum;
+
+			//TODO：chooseStep()使用isReadDelay属性后的代码，暂时隐藏。
+			//if (isReadDelay) {
+			//	MakeCurrentStepWrapperData(stepNum); 
+			//}
+
 			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
 			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 
@@ -1186,7 +1191,7 @@ namespace LightController.MyForm
 			deleteStepSkinButton.Enabled = totalStep != 0;
 
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
-			bool insertEnabled = totalStep < 1000 ;
+			bool insertEnabled = totalStep < MAX_STEP ;
 			addStepSkinButton.Enabled = insertEnabled;
 			insertAfterSkinButton.Enabled = insertEnabled;
 			insertBeforeSkinButton.Enabled = insertEnabled && currentStep > 0;
@@ -2720,9 +2725,11 @@ namespace LightController.MyForm
 			//}
 
 			// 10.25 测某个灯具当前FM的LightStepWrapper
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			//LightStepWrapper lsWrapper = lightWrapperList[1].LightStepWrapperList[frame, mode];
-			Console.WriteLine(lsWrapper);		
+			//LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			////LightStepWrapper lsWrapper = lightWrapperList[1].LightStepWrapperList[frame, mode];
+			//Console.WriteLine(lsWrapper);		
+
+			//MakeCurrentStepWrapperData();
 
 		}
 

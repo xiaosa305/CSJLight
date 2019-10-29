@@ -29,7 +29,6 @@ namespace LightController.Ast
 			LightStepWrapperList = new LightStepWrapper[MainFormInterface.FrameCount , 2];
 		}
 
-
 		/// <summary>
 		///  辅助方法：用两个Light的值，来生成一个新的LightWrapper。
 		/// </summary>

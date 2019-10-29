@@ -591,7 +591,7 @@ namespace LightController.MyForm
 			// 
 			// bigTestButton
 			// 
-			this.bigTestButton.Location = new System.Drawing.Point(937, 29);
+			this.bigTestButton.Location = new System.Drawing.Point(887, 28);
 			this.bigTestButton.Name = "bigTestButton";
 			this.bigTestButton.Size = new System.Drawing.Size(129, 54);
 			this.bigTestButton.TabIndex = 21;
@@ -606,7 +606,7 @@ namespace LightController.MyForm
 			this.testGroupBox.Controls.Add(this.test3Button);
 			this.testGroupBox.Controls.Add(this.test2Button);
 			this.testGroupBox.Controls.Add(this.test1Button);
-			this.testGroupBox.Location = new System.Drawing.Point(1084, 20);
+			this.testGroupBox.Location = new System.Drawing.Point(1034, 19);
 			this.testGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.testGroupBox.Name = "testGroupBox";
 			this.testGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -2743,7 +2743,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown1.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -2852,7 +2852,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown2.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown2.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown2.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -2961,7 +2961,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown3.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown3.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown3.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3070,7 +3070,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown4.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown4.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown4.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3179,7 +3179,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown5.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown5.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown5.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3288,7 +3288,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown6.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown6.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown6.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3397,7 +3397,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown7.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown7.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown7.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3506,7 +3506,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown8.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown8.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown8.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3615,7 +3615,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown9.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown9.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown9.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3724,7 +3724,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown10.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown10.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown10.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3833,7 +3833,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown11.Location = new System.Drawing.Point(20, 254);
 			this.tdStepTimeNumericUpDown11.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown11.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -3942,7 +3942,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown12.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown12.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown12.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4051,7 +4051,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown13.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown13.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown13.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4160,7 +4160,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown14.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown14.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown14.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4269,7 +4269,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown15.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown15.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown15.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4378,7 +4378,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown16.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown16.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown16.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4487,7 +4487,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown17.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown17.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown17.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4596,7 +4596,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown18.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown18.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown18.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4705,7 +4705,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown19.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown19.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown19.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4814,7 +4814,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown20.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown20.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown20.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -4923,7 +4923,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown21.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown21.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown21.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5032,7 +5032,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown22.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown22.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown22.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5141,7 +5141,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown23.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown23.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown23.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5250,7 +5250,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown24.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown24.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown24.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5359,7 +5359,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown25.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown25.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown25.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5468,7 +5468,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown26.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown26.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown26.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5577,7 +5577,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown27.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown27.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown27.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5686,7 +5686,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown28.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown28.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown28.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5795,7 +5795,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown29.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown29.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown29.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -5904,7 +5904,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown30.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown30.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown30.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -6013,7 +6013,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown31.Location = new System.Drawing.Point(19, 253);
 			this.tdStepTimeNumericUpDown31.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown31.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -6122,7 +6122,7 @@ namespace LightController.MyForm
 			this.tdStepTimeNumericUpDown32.Location = new System.Drawing.Point(20, 253);
 			this.tdStepTimeNumericUpDown32.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown32.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});

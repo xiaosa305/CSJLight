@@ -134,7 +134,7 @@ namespace LightController.Utils
             }
 
         }
-        public static void MergeFile(int sceneNo)
+        public static void MergeFile(int sceneNo,int mode)
         {
             string projectFilePath = ProjectDataFilePath + @"\C" + (sceneNo + 1) + ".bin";
             FileInfo projectFileInfo = new FileInfo(projectFilePath);

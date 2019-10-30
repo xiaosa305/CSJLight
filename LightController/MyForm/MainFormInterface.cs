@@ -643,11 +643,13 @@ namespace LightController.MyForm
 			{
 				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 				generateDBLightList();
-				generateDBStepCountList();
-				generateDBValueList();
+				generateDBStepCountList();				
 				generateDBFineTuneList();
 
-				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueList, dbFineTuneList);
+				//generateDBValueList();
+				IList<DB_Value> dbValueListTemp = generateDBValueList(frame);
+
+				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
 				return allData;
 			}
 		}	
@@ -933,6 +935,54 @@ namespace LightController.MyForm
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// 辅助方法：此处的数据只供预览使用， 因为预览只针对单个场景，没有必要传递所有的value数据。
+		/// </summary>
+		protected IList<DB_Value> generateDBValueList(int tempFrame)
+		{
+			// 需要先清空valueList
+			IList < DB_Value> result = new List<DB_Value>();
+
+			foreach (LightWrapper lightTemp in lightWrapperList)
+			{
+				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
+				LightStepWrapper[,] lswl = lightTemp.LightStepWrapperList;
+				for (int mode = 0; mode < 2; mode++)
+				{
+					LightStepWrapper lightStep = lswl[tempFrame, mode];
+					if (lightStep != null && lightStep.TotalStep > 0)
+					{  //只有不为null，才可能有需要保存的数据
+						IList<StepWrapper> stepWrapperList = lightStep.StepWrapperList;
+						foreach (StepWrapper step in stepWrapperList)
+						{
+							int stepIndex = stepWrapperList.IndexOf(step) + 1;
+							for (int tongdaoIndex = 0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++)
+							{
+								TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
+								DB_Value valueTemp = new DB_Value()
+								{
+										ChangeMode = tongdao.ChangeMode,
+										ScrollValue = tongdao.ScrollValue,
+										StepTime = tongdao.StepTime,
+										PK = new DB_ValuePK()
+										{
+											Frame = tempFrame,
+											Mode = mode,
+											LightID = light.LightNo + tongdaoIndex,
+											LightIndex = light.LightNo,
+											Step = stepIndex
+										}
+								};
+								result.Add(valueTemp);
+							}
+						}
+					}				
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>

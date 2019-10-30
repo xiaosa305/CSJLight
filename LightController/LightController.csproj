@@ -78,7 +78,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>颜色.ico</ApplicationIcon>
+    <ApplicationIcon>f3.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
@@ -455,6 +455,7 @@
     <EmbeddedResource Include="Mapping\DB_FineTune.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="f3.ico" />
     <Content Include="LightPic\1.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -894,7 +895,6 @@
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="颜色.ico" />
     <EmbeddedResource Include="Mapping\DB_Light.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

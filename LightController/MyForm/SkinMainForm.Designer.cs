@@ -1641,10 +1641,10 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(37, "1.bmp");
 			this.lightLargeImageList.Images.SetKeyName(38, "1.jpg");
 			this.lightLargeImageList.Images.SetKeyName(39, "灯光图.png");
-			this.lightLargeImageList.Images.SetKeyName(40, "60w.jpg");
-			this.lightLargeImageList.Images.SetKeyName(41, "3.jpg");
-			this.lightLargeImageList.Images.SetKeyName(42, "4.jpg");
-			this.lightLargeImageList.Images.SetKeyName(43, "5.jpg");
+			this.lightLargeImageList.Images.SetKeyName(40, "3.jpg");
+			this.lightLargeImageList.Images.SetKeyName(41, "4.jpg");
+			this.lightLargeImageList.Images.SetKeyName(42, "5.jpg");
+			this.lightLargeImageList.Images.SetKeyName(43, "60w.jpg");
 			// 
 			// lightSmallImageList
 			// 
@@ -1690,10 +1690,10 @@ namespace LightController.MyForm
 			this.lightSmallImageList.Images.SetKeyName(37, "1.bmp");
 			this.lightSmallImageList.Images.SetKeyName(38, "1.jpg");
 			this.lightSmallImageList.Images.SetKeyName(39, "灯光图.png");
-			this.lightSmallImageList.Images.SetKeyName(40, "60w.jpg");
-			this.lightSmallImageList.Images.SetKeyName(41, "3.jpg");
-			this.lightSmallImageList.Images.SetKeyName(42, "4.jpg");
-			this.lightSmallImageList.Images.SetKeyName(43, "5.jpg");
+			this.lightSmallImageList.Images.SetKeyName(40, "3.jpg");
+			this.lightSmallImageList.Images.SetKeyName(41, "4.jpg");
+			this.lightSmallImageList.Images.SetKeyName(42, "5.jpg");
+			this.lightSmallImageList.Images.SetKeyName(43, "60w.jpg");
 			// 
 			// astSkinPanel
 			// 
@@ -1871,7 +1871,7 @@ namespace LightController.MyForm
 			this.commonStepTimeNumericUpDown.Location = new System.Drawing.Point(151, 221);
 			this.commonStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonStepTimeNumericUpDown.Maximum = new decimal(new int[] {
-            1000,
+            255,
             0,
             0,
             0});
@@ -6411,6 +6411,7 @@ namespace LightController.MyForm
 			this.Controls.Add(this.astSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
 			this.Controls.Add(this.myMenuStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.myMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MinimumSize = new System.Drawing.Size(1024, 720);

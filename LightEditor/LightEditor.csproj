@@ -55,7 +55,7 @@
     <StartupObject>LightEditor.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>bitbug_favicon.ico</ApplicationIcon>
+    <ApplicationIcon>灯库软件.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>57EC76CA35832866BC8B900E1B51F9585F2DF4CD</ManifestCertificateThumbprint>
@@ -225,6 +225,7 @@
     <Content Include="LightPic\魔球.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="灯库软件.ico" />
     <None Include="Resources\刷新2.png" />
     <Content Include="Source\IrisSkin4.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -285,7 +286,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bitbug_favicon.ico" />
     <None Include="PreTDNameList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

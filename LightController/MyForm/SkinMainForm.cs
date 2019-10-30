@@ -375,7 +375,7 @@ namespace LightController.MyForm
 		{
 			// 启动时刷新可用串口列表;
 			refreshComList();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
 			// 几个按钮添加提示
 			myToolTip.SetToolTip(useFrameSkinButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepSkinButton, "跳转指定步");
@@ -421,9 +421,8 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void updateSkinButton_Click(object sender, EventArgs e)
-		{
-			bool isFromDB = true;
-			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniPath);
+		{		
+			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(true), globalIniPath);
 			updateForm.ShowDialog();
 		}
 
@@ -655,9 +654,6 @@ namespace LightController.MyForm
 			globalSetSkinButton.Enabled = enable;
 			ymSkinButton.Enabled = enable;
 			hardwareUpdateSkinButton.Enabled = enable;
-
-			// 调试栏	->《连接设备》按钮
-			connectSkinButton.Enabled = enable;
 		}
 
 		/// <summary>
@@ -797,6 +793,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void frameSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			endviewSkinButton_Click(null, null);
+
 			frame = frameSkinComboBox.SelectedIndex;
 			if (lightAstList != null && lightAstList.Count > 0)
 			{
@@ -2085,6 +2083,7 @@ namespace LightController.MyForm
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();			
 			comSkinComboBox.Items.Clear();
+
 			if (comList != null && comList.Length > 0)
 			{
 				foreach (string com in comList)
@@ -2092,7 +2091,7 @@ namespace LightController.MyForm
 					comSkinComboBox.Items.Add(com);
 				}
 				comSkinComboBox.SelectedIndex = 0;
-				comSkinComboBox.Enabled = true;
+				comSkinComboBox.Enabled = true;				
 			}
 			else
 			{

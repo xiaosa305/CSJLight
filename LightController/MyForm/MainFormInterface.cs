@@ -124,7 +124,7 @@ namespace LightController.MyForm
 			string directoryPath =savePath + @"\LightProject\" + projectName;			
 			globalIniPath = directoryPath + @"\global.ini";
 			dbFilePath = directoryPath + @"\data.db3";			
-			this.Text = "卓越灯控(当前工程:" + projectName + ")";
+			this.Text = "TRANS-JOY Dimmer System(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 
 			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
@@ -472,7 +472,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：在《打开工程》《添加灯具》时统一生成所有的LightWrapper的StepTemplate（步数模板）
+		/// 辅助方法：在《打开工程》、《添加灯具》时统一生成所有的LightWrapper的StepTemplate（步数模板）
 		/// </summary>
 		public void GenerateAllStepTemplates() {
 			if (lightWrapperList.Count != lightAstList.Count) {

@@ -124,7 +124,7 @@ namespace LightController
 					string lightAddr,string lightPic,int startNum,int endNum,int lightCount)
 		{
 			// 先检查lightPic：若lightPic不在imageList中，则设置默认图片
-			if (!this.largeImageList.Images.ContainsKey(lightPic))
+			if (! this.largeImageList.Images.ContainsKey(lightPic))
 			{
 				lightPic = "灯光图.png";
 			}

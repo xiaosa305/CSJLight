@@ -1905,14 +1905,14 @@ namespace LightEditor
 			this.Controls.Add(this.saveLightButton);
 			this.Controls.Add(this.openLightButton);
 			this.Controls.Add(this.newLightButton);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 3);
-			this.Text = "灯库编辑工具";
+			this.Text = "传视界灯库编辑工具";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MainForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.lightTestGroupBox.ResumeLayout(false);

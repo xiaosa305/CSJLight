@@ -6416,7 +6416,7 @@ namespace LightController.MyForm
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MinimumSize = new System.Drawing.Size(1024, 720);
 			this.Name = "SkinMainForm";
-			this.Text = "卓越灯控";
+			this.Text = "TRANS-JOY Dimmer System";
 			this.Load += new System.EventHandler(this.SkinMainForm_Load);
 			this.SizeChanged += new System.EventHandler(this.SkinMainForm_SizeChanged);
 			this.menuSkinPanel.ResumeLayout(false);

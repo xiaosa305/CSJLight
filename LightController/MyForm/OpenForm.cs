@@ -86,12 +86,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			// 0 . 弹出是否删除的确认框
-			DialogResult dr = MessageBox.Show("确定删除此工程吗？", "删除工程", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-			if (dr == DialogResult.Cancel)
-			{
-				return;
-			}
+			
 
 				// 1.先验证是否刚删除项目
 			if (isJustDelete || treeView1.SelectedNode == null) {
@@ -106,7 +101,14 @@ namespace LightController.MyForm
 			if (projectName.Equals(currentProjectName)) {
 				MessageBox.Show("无法删除正在使用的工程！");
 				return;
-			}				
+			}
+
+			// 1. 弹出是否删除的确认框
+			DialogResult dr = MessageBox.Show("确定删除此工程吗？", "删除工程", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
 
 			string directoryPath = savePath +  @"\LightProject\" + projectName;
 			DirectoryInfo di = new DirectoryInfo(directoryPath);
@@ -122,11 +124,8 @@ namespace LightController.MyForm
 			}
 			// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
 			treeView1.SelectedNode.Remove();
-			isJustDelete = true;
-			
-		}
-
-		
+			isJustDelete = true;			
+		}		
 
 		/// <summary>
 		///  点击《取消》按钮的操作

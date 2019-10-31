@@ -102,6 +102,11 @@ namespace LightController
 			this.largeImageList.Images.SetKeyName(48, "帕灯.bmp");
 			this.largeImageList.Images.SetKeyName(49, "1.jpg");
 			this.largeImageList.Images.SetKeyName(50, "灯光图.png");
+			this.largeImageList.Images.SetKeyName(51, "3.jpg");
+			this.largeImageList.Images.SetKeyName(52, "4.jpg");
+			this.largeImageList.Images.SetKeyName(53, "5.jpg");
+			this.largeImageList.Images.SetKeyName(54, "60w.jpg");
+			this.largeImageList.Images.SetKeyName(55, "未知.ico");
 			// 
 			// label1
 			// 

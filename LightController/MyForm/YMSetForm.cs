@@ -193,7 +193,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonZXButton_Click(object sender, EventArgs e)
 		{
-			int tempValue = Convert.ToInt16(Double.Parse(commonJGNumericUpDown.Text));
+			int tempValue = Convert.ToInt16(Double.Parse(commonZXNumericUpDown.Text));
 			commonZXNumericUpDown.Value = tempValue;
 			foreach (NumericUpDown item in zxNumericUpDowns)
 			{

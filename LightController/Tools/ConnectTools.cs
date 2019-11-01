@@ -78,7 +78,7 @@ namespace LightController.Tools
                 byte[] CRC = CRCTools.GetInstance().GetCRC(buff.ToArray());
                 buff[6] = CRC[0];
                 buff[7] = CRC[1];
-                UdpServer.Bind(new IPEndPoint(IPAddress.Parse(ServerIp), UDP_SERVER_PORT));
+                UdpServer.Bind(new IPEndPoint(IPAddress.Parse(ServerIp), 8080));
                 UdpServer.SendTo(buff.ToArray(), new IPEndPoint(IPAddress.Broadcast, UDP_CLIENT_PORT));
             }
             else

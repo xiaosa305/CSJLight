@@ -72,8 +72,8 @@ namespace LightController.Tools.CSJ.IMPL
                 //添加数据长度
                 fileData.Add(dataSzie[0]);
                 fileData.Add(dataSzie[1]);
-                fileData.Add(dataSzie[2]);
-                fileData.Add(dataSzie[3]);
+                //fileData.Add(dataSzie[2]);
+                //fileData.Add(dataSzie[3]);
                 //添加起始数据偏移量
                 int length = fileData.Count + 4;
                 fileData.Add(Convert.ToByte(length & 0xFF));

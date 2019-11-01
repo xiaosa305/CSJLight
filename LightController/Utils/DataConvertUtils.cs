@@ -178,6 +178,14 @@ namespace LightController.Utils
                         if (isGradualChange == Constant.MODE_C_GRADUAL)
                         {
                             value = startValue + inc * (fram + 1);
+                            if (inc < 0)
+                            {
+                                value = value < 0 ? 0 : value;
+                            }
+                            else
+                            {
+                                value = value > 255 ? 255 : value;
+                            }
                             intValue = (int)Math.Floor(value * 256);
                             if (flag == 2)
                             {
@@ -406,6 +414,14 @@ namespace LightController.Utils
                         if (isGradualChange == Constant.MODE_M_GRADUAL)
                         {
                             value = startValue + inc * (fram + 1);
+                            if (inc < 0)
+                            {
+                                value = value < 0 ? 0 : value;
+                            }
+                            else
+                            {
+                                value = value > 255 ? 255 : value;
+                            }
                             intValue = (int)Math.Floor(value * 256);
                             if (flag == 2)
                             {

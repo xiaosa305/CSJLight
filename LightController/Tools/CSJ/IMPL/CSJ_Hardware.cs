@@ -100,16 +100,18 @@ namespace LightController.Tools.CSJ.IMPL
             SumUseTimes = 5000;
             DiskFlag = 0;
             PlayFlag = 1;
-            DeviceName = "测试用机";
+            DeviceName = "新设备";
             Addr = 0;
             LinkMode = 0;
             LinkPort = 7060;
-            IP = "192.168.1.33";
-            NetMask = "255.255.255.0";
-            GateWay = "192.168.1.1";
+            IP = "0.0.0.0";
+            NetMask = "0.0.0.0";
+            GateWay = "0.0.0.0";
+            RemoteHost = "0.0.0.0";
+            RemotePort = 7060;
             Mac = "00-00-00-00-00-00";
-            DomainName = "测试服务器";
-            DomainServer = "www.CSJ.com";
+            DomainName = "";
+            DomainServer = "0.0.0.0";
             HardWareID = "";
             Heartbeat = new byte[] {0x00 };
         }

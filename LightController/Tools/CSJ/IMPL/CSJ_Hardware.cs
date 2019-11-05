@@ -96,24 +96,24 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public CSJ_Hardware()
         {
-            Ver = 0;
-            SumUseTimes = 0;
+            Ver = 1;
+            SumUseTimes = 5000;
             DiskFlag = 0;
             PlayFlag = 1;
-            DeviceName = "";
+            DeviceName = "测试用机";
             Addr = 0;
             LinkMode = 0;
             LinkPort = 7060;
-            IP = "0.0.0.0";
-            NetMask = "0.0.0.0";
-            GateWay = "0.0.0.0";
-            RemoteHost = "0.0.0.0";
-            RemotePort = 0;
+            IP = "192.168.1.33";
+            NetMask = "255.255.255.0";
+            GateWay = "192.168.1.1";
+            RemoteHost = "192.168.31.1";
+            RemotePort = 7070;
             Mac = "00-00-00-00-00-00";
-            DomainName = "";
-            DomainServer = "0.0.0.0";
+            DomainName = "测试服务器";
+            DomainServer = "192.168.31.1";
             HardWareID = "";
-            Heartbeat = new byte[] {0x00 };
+            Heartbeat = new byte[] { 0x00 };
         }
         public static CSJ_Hardware Empty()
         {

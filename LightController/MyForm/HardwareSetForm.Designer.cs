@@ -450,7 +450,6 @@
 			// 
 			// macTextBox
 			// 
-			this.macTextBox.Enabled = false;
 			this.macTextBox.Location = new System.Drawing.Point(76, 141);
 			this.macTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.macTextBox.Name = "macTextBox";

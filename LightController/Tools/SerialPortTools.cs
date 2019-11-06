@@ -109,19 +109,20 @@ namespace LightController.Tools
             }
             for (int i = 0; i < ports.Length; i++)
             {
-                flag = true;
-                foreach (string item in dmx512names)
-                {
-                    if (item.Equals(ports[i]))
+                    /*flag = true;
+                    foreach (string item in dmx512names)
                     {
-                        flag = false;
+                        if (item.Equals(ports[i]))
+                        {
+                            flag = false;
+                        }
                     }
-                }
-                if (flag)
-                {
+                    if (flag)
+                    {
+                        result.Add(ports[i]);
+                    }*/
                     result.Add(ports[i]);
                 }
-            }
                 return result.ToArray();
             }
             catch (Exception ex)

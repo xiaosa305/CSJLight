@@ -96,20 +96,22 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public CSJ_Hardware()
         {
-            Ver = 0;
-            SumUseTimes = 0;
+            Ver = 1;
+            SumUseTimes = 5000;
             DiskFlag = 0;
             PlayFlag = 1;
-            DeviceName = "";
+            DeviceName = "新设备";
             Addr = 0;
             LinkMode = 0;
             LinkPort = 7060;
             IP = "0.0.0.0";
             NetMask = "0.0.0.0";
             GateWay = "0.0.0.0";
+            RemoteHost = "0.0.0.0";
+            RemotePort = 7060;
             Mac = "00-00-00-00-00-00";
             DomainName = "";
-            DomainServer = "";
+            DomainServer = "0.0.0.0";
             HardWareID = "";
             Heartbeat = new byte[] {0x00 };
         }
@@ -157,8 +159,19 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(GateWay.Split('.')[1]));
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
             data.Add(Convert.ToByte(GateWay.Split('.')[3]));
-            //string[] macBuff = Mac.Split('-');
-            string[] macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
+            string[] macBuff;
+            try
+            {
+                macBuff = Mac.Split('-');
+                if (macBuff.Count() != 6)
+                {
+                    macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
+                }
+            }
+            catch (Exception)
+            {
+                macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
+            }
             data.Add(Convert.ToByte(macBuff[0], 16));
             data.Add(Convert.ToByte(macBuff[1], 16));
             data.Add(Convert.ToByte(macBuff[2], 16));

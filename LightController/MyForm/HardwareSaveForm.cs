@@ -31,7 +31,6 @@ namespace LightController.MyForm
 		{
 			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
 			hardwareLibraryPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\HardwareLibrary\";
-
 		}
 
 
@@ -74,12 +73,11 @@ namespace LightController.MyForm
 				string sourcePath = Application.StartupPath + @"\HardwareSet.ini";
 				string globalIniFilePath = directoryPath + @"\HardwareSet.ini";
 				File.Copy(sourcePath, globalIniFilePath);
-				hardwareSetForm.SaveAll(globalIniFilePath,hName);
+				hardwareSetForm.Save(globalIniFilePath,hName);
 
 				this.Dispose();
 				hardwareSetForm.Activate();
 			}
-
 		}
 
 

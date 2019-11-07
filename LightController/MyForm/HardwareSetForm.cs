@@ -18,7 +18,7 @@ namespace LightController.MyForm
 	public partial class HardwareSetForm : Form
 	{
 		private MainFormInterface mainForm;
-		private string iniPath;
+		private string iniPath;  
 		private string hName;
 		private bool isNew = true;
 		private bool isSaved = false;
@@ -26,7 +26,7 @@ namespace LightController.MyForm
 		private ConnectTools cTools;
 		private SerialPortTools comTools;
 
-		private IList<string> ips;	//搜索到的ip列表 ，将填进ipsComboBox
+		private IList<string> ips;  //搜索到的ip列表 ，将填进ipsComboBox
 		private IList<string> selectedIPs;  //填充进去的ip列表，用以发送数据
 
 		private string[] comList; // 搜索到的除DMX512外的所有串口
@@ -38,7 +38,7 @@ namespace LightController.MyForm
 		/// 构造函数：初始化各个变量
 		/// </summary>
 		/// <param name="iniPath">通过传入iniPath（空值或有值）来决定要生成的数据的模板</param>
-		public HardwareSetForm(MainFormInterface mainForm, string iniPath,string hName)
+		public HardwareSetForm(MainFormInterface mainForm, string iniPath, string hName)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -46,7 +46,7 @@ namespace LightController.MyForm
 			skinTabControl.SelectedIndex = 0;
 
 			// 若iniPath 为空，则新建-》读取默认Hardware.ini，并载入到当前form中
-			if (String.IsNullOrEmpty(iniPath) ){
+			if (String.IsNullOrEmpty(iniPath)) {
 				isNew = true;
 				isSaved = false;
 				iniPath = Application.StartupPath + @"\HardwareSet.ini";
@@ -59,7 +59,7 @@ namespace LightController.MyForm
 				this.Text = "硬件设置(" + hName + ")";
 			}
 			readIniFile(iniPath);
-		}		
+		}
 
 		/// <summary>
 		///  事件：窗口绘制时设初始地址
@@ -76,8 +76,6 @@ namespace LightController.MyForm
 			getLocalIPs();
 			comSearch();
 		}
-
-	
 
 		#region 几个通用方法：保存、取消(关闭窗口)等
 
@@ -97,7 +95,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				SaveAll(iniPath, hName);
+				Save(iniPath, hName);
 			}
 		}
 
@@ -116,14 +114,25 @@ namespace LightController.MyForm
 		/// 辅助方法：通用的方法，供新建(NewHardwareForm)及旧版本的保存
 		/// </summary>
 		/// <param name="hardwareSetForm"></param>
-		internal void SaveAll(String iniPath,string hName)
+		internal void Save(String iniPath, string hName)
 		{
+			saveAll(iniPath, hName);
+			MessageBox.Show("成功保存");
+		}
+
+		/// <summary>
+		/// 辅助方法：供Save()使用，主要是当 《（串口或网络）下载 》时，应先保存一遍此ini,此时不要弹出成功保存功能。
+		/// </summary>
+		/// <param name="iniPath"></param>
+		/// <param name="hName"></param>
+		private void saveAll(String iniPath, string hName) {
+
 			this.iniPath = iniPath;
 			this.hName = hName;
 			IniFileAst iniFileAst = new IniFileAst(iniPath);
 
 			// 9.28 直接保存numericUpDown表面上看到的Text(因为写到ini中去了）
-			iniFileAst.WriteString("Common", "SumUseTimes",sumUseTimeNumericUpDown.Text);
+			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimeNumericUpDown.Text);
 			iniFileAst.WriteString("Common", "CurrUseTimes", currUseTimeNumericUpDown.Text);
 			iniFileAst.WriteInt("Common", "DiskFlag", diskFlagComboBox.SelectedIndex);
 			iniFileAst.WriteString("Common", "DeviceName", deviceNameTextBox.Text);
@@ -150,7 +159,6 @@ namespace LightController.MyForm
 			this.Text = "硬件设置(" + hName + ")";
 			this.isSaved = true;
 
-			MessageBox.Show("成功保存");
 		}
 		
 		/// <summary>
@@ -375,6 +383,8 @@ namespace LightController.MyForm
 		{
 			if (isSaved)
 			{
+				// 11.7 保存前，先保存一遍当前数据。
+				saveAll(iniPath,hName);
 				// 此语句只发送《硬件配置》到选中的设备中
 				cTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
 				afterReadOrWrite();
@@ -475,7 +485,17 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comDownloadSkinButton_Click(object sender, EventArgs e)
 		{
-			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet());
+			if (isSaved)
+			{
+				// 11.7 保存前，先保存一遍当前数据。
+				saveAll(iniPath, hName);
+				// 此语句只发送《硬件配置》到选中的设备中
+				comTools.PutParam(iniPath, new DownloadCallBackHardwareSet());
+			}
+			else
+			{
+				MessageBox.Show("下载之前需先保存当前设置。");
+			}			
 		}
 
 		#endregion

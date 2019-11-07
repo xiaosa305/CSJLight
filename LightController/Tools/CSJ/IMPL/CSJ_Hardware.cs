@@ -132,8 +132,15 @@ namespace LightController.Tools.CSJ.IMPL
             SumUseTimesBuff[3] = Convert.ToByte((SumUseTimes >> 24) & 0xFF);
             data.AddRange(SumUseTimesBuff);
             data.Add(Convert.ToByte(DiskFlag));
+            if (DeviceName == null)
+            {
+                DeviceName = "";
+            }
             byte[] DeviceNameBuff = Encoding.Default.GetBytes(DeviceName);
-            data.AddRange(DeviceNameBuff);
+            if (DeviceNameBuff.Length > 0)
+            {
+                data.AddRange(DeviceNameBuff);
+            }
             if (DeviceNameBuff.Length < 16)
             {
                 for (int i = 0; i < 16 - DeviceNameBuff.Length; i++)
@@ -147,14 +154,26 @@ namespace LightController.Tools.CSJ.IMPL
             LinkPortBuff[0] = Convert.ToByte((LinkPort) & 0xFF);
             LinkPortBuff[1] = Convert.ToByte((LinkPort >> 8) & 0xFF);
             data.AddRange(LinkPortBuff);
+            if (this.IP == null)
+            {
+                this.IP = "0.0.0.0";
+            }
             data.Add(Convert.ToByte(IP.Split('.')[0]));
             data.Add(Convert.ToByte(IP.Split('.')[1]));
             data.Add(Convert.ToByte(IP.Split('.')[2]));
             data.Add(Convert.ToByte(IP.Split('.')[3]));
+            if (this.NetMask == null)
+            {
+                this.NetMask = "255.255.255.0";
+            }
             data.Add(Convert.ToByte(NetMask.Split('.')[0]));
             data.Add(Convert.ToByte(NetMask.Split('.')[1]));
             data.Add(Convert.ToByte(NetMask.Split('.')[2]));
             data.Add(Convert.ToByte(NetMask.Split('.')[3]));
+            if (this.GateWay == null)
+            {
+                this.GateWay = "0.0.0.0";
+            }
             data.Add(Convert.ToByte(GateWay.Split('.')[0]));
             data.Add(Convert.ToByte(GateWay.Split('.')[1]));
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
@@ -162,6 +181,10 @@ namespace LightController.Tools.CSJ.IMPL
             string[] macBuff;
             try
             {
+                if (this.Mac == null)
+                {
+                    this.Mac = "00-00-00-00-00-00";
+                }
                 macBuff = Mac.Split('-');
                 if (macBuff.Count() != 6)
                 {
@@ -183,14 +206,25 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte((CurrUseTimes >> 8) & 0xFF));
             data.Add(Convert.ToByte((CurrUseTimes >> 16) & 0xFF));
             data.Add(Convert.ToByte((CurrUseTimes >> 24) & 0xFF));
+            if (RemoteHost == null)
+            {
+                RemoteHost = "0.0.0.0";
+            }
             data.Add(Convert.ToByte(RemoteHost.Split('.')[0]));
             data.Add(Convert.ToByte(RemoteHost.Split('.')[1]));
             data.Add(Convert.ToByte(RemoteHost.Split('.')[2]));
             data.Add(Convert.ToByte(RemoteHost.Split('.')[3]));
             data.Add(Convert.ToByte((RemotePort) & 0xFF));
             data.Add(Convert.ToByte((RemotePort >> 8) & 0xFF));
+            if (DomainName == null)
+            {
+                DomainName = "";
+            }
             byte[] DomainNameBuff = Encoding.Default.GetBytes(DomainName);
-            data.AddRange(DomainNameBuff);
+            if (DomainNameBuff.Length > 0)
+            {
+                data.AddRange(DomainNameBuff);
+            }
             if (DomainNameBuff.Length < 32)
             {
                 for (int i = 0; i < 32 - DomainNameBuff.Length; i++)
@@ -198,21 +232,30 @@ namespace LightController.Tools.CSJ.IMPL
                     data.Add(Convert.ToByte(0x00));
                 }
             }
+            if (DomainServer == null)
+            {
+                DomainServer = "0.0.0.0";
+            }
             data.Add(Convert.ToByte(DomainServer.Split('.')[0]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[1]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[2]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[3]));
-            int len = HardWareID.Length;
-            for (int i = 0; i < 16 - len; i++)
+            if (HardWareID == null)
             {
-                HardWareID = 0 + HardWareID;
+                HardWareID = "00000000000000000000000000000000";
             }
-            HardWareID = "0000000000000000";
-            byte[] HardWareIDBuff = Encoding.Default.GetBytes(HardWareID);
-            data.AddRange(HardWareIDBuff);
-            for (int i = 0; i < 16 - HardWareIDBuff.Length; i++)
+            int len = HardWareID.Length;
+            char[] HardWareChars =  HardWareID.ToArray();
+            for (int i = 0; i < len; i = i + 2)
             {
-                data.Add(Convert.ToByte(0x00));
+                string value = HardWareChars[i].ToString() + HardWareChars[i + 1];
+                data.Add(Convert.ToByte(value,16));
+            }
+            //byte[] HardWareIDBuff = Encoding.Default.GetBytes(HardWareID);
+            //data.AddRange(HardWareIDBuff);
+            if (Heartbeat == null)
+            {
+                Heartbeat = new byte[] { 0x00};
             }
             data.AddRange(Heartbeat);
             for (int i = 0; i < 8 - Heartbeat.Length; i++)

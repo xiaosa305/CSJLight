@@ -23,12 +23,14 @@ namespace LightController.Tools
         private int ResendCount { get; set; }
         private List<byte> RxBuff { get; set; }
         private bool IsSearchDevice { get; set; }
+        private bool IsOpenComdevice { get; set; }
         private SerialPortTools()
         {
             try
             {
                 this.ComDevice = new SerialPort();
                 this.InitParameters();
+                this.IsOpenComdevice = false;
                 this.IsSearchDevice = false;
                 this.SetDefaultSerialPort();
                 this.RxBuff = new List<byte>();
@@ -185,6 +187,7 @@ namespace LightController.Tools
         {
             try
             {
+                this.IsOpenComdevice = false;
                 PortName = portName;
                 if (ComDevice.IsOpen)
                 {
@@ -192,6 +195,7 @@ namespace LightController.Tools
                 }
                 SetSerialPort();
                 ComDevice.Open();
+                this.IsOpenComdevice = true;
                 CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
                 return ComDevice.IsOpen;
             }
@@ -230,7 +234,7 @@ namespace LightController.Tools
         {
             int packageDataSize = 1;
             byte[] packageHead = new byte[Constant.PACKAGEHEAD_SIZE];
-            while (true)
+            while (this.IsOpenComdevice)
             {
                 try
                 {
@@ -288,6 +292,7 @@ namespace LightController.Tools
                     CSJLogs.GetInstance().ErrorLog(ex);
                 }
             }
+            this.RxBuff.Clear();
         }
         public override void CloseDevice()
         {

@@ -475,6 +475,7 @@ namespace LightController.Tools.CSJ
                             this.CloseDevice();
                             break;
                         case Constant.RECEIVE_ORDER_UPDATE_ERROR:
+                        default:
                             try
                             {
                                 if (null != this.UpdateThread)
@@ -578,6 +579,7 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (null != this.CallBack)
                 {
                     this.CallBack.SendError(this.DeviceName, this.Order);
@@ -691,6 +693,7 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -722,6 +725,7 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -747,6 +751,7 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -767,6 +772,7 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -799,6 +805,7 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (null != this.CallBack)
                 {
                     this.CallBack.SendError(this.DeviceName, this.Order);
@@ -826,6 +833,7 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)

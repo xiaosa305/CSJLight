@@ -1749,7 +1749,7 @@ namespace LightEditor
 			// 
 			// openImageDialog
 			// 
-			this.openImageDialog.Filter = "BMP文件(*.bmp)|*.bmp|JPG文件(*.jpg)|*.jpg|图标文件(*.ico)|*.ico";
+			this.openImageDialog.Filter = "所有图片文件|*.bmp;*.jpeg;*.jpg;*.png;*.ico|PNG文件(*.png)|*.png|BMP文件(*.bmp)|*.bmp|JPG文件(*.jpg;*.jpeg)|*.jpg;*jpeg|图标文件(*.ico)|*.ico";
 			this.openImageDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openImageDialog_FileOk);
 			// 
 			// openFileDialog

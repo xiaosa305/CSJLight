@@ -466,7 +466,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkSkinButton_Click(object sender, EventArgs e)
 		{
-			new HardwareUpdateForm(this).ShowDialog();
+			new HardwareUpdateForm(this , binPath ).ShowDialog();
 		}
 
 		/// <summary>

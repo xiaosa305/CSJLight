@@ -1592,7 +1592,7 @@ namespace LightController
 
 		private void hardwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new HardwareUpdateForm(this).ShowDialog();
+			new HardwareUpdateForm(this,binPath).ShowDialog();
 		}
 	}
 }

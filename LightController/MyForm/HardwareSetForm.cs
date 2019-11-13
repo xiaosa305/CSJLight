@@ -23,7 +23,7 @@ namespace LightController.MyForm
 		private bool isNew = true;
 		private bool isSaved = false;
 
-		private ConnectTools cTools;
+		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
 		private IList<string> ips;  //搜索到的ip列表 ，将填进ipsComboBox
@@ -280,32 +280,36 @@ namespace LightController.MyForm
 					localIPsComboBox.Items.Add(ip);
 				}
 			}
+
 			if (localIPsComboBox.Items.Count > 0)
 			{
 				localIPsComboBox.Enabled = true;
 				localIPsComboBox.SelectedIndex = 0;
-				setLocalIPSkinButton.Enabled = true;
 			}
 			else
 			{
 				localIPsComboBox.Enabled = false;
 				localIPsComboBox.SelectedIndex = -1;
-				setLocalIPSkinButton.Enabled = false;
 			}
 		}
 
 		/// <summary>
-		/// 事件：点击《设置本地IP》
+		/// 辅助方法：直接在选中本地ip（主动或被动）的时候，设置localIP即可
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void setLocalIPSkinButton_Click(object sender, EventArgs e)
-		{
+		private void localIPsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{			
 			localIP = localIPsComboBox.Text;
-			localIPLabel.Text = "本地IP:" + localIP;
-			networkSearchSkinButton.Enabled = true;
+
+			ipsComboBox.Text = "";
+			ipsComboBox.Enabled = false;		
+
+			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
+			networkUploadSkinButton.Enabled = false;
+			networkDownloadSkinButton.Enabled = false; 			
 		}
-			   
+
 		/// <summary>
 		/// 事件：点击《搜索网络连接》按钮
 		/// </summary>
@@ -315,16 +319,15 @@ namespace LightController.MyForm
 		{
 			//搜索期间不可进行其他操作
 			networkSearchSkinButton.Enabled = false;
-			networkChooseSkinButton.Enabled = false;
 			networkUploadSkinButton.Enabled = false;
 			networkDownloadSkinButton.Enabled = false;
 
-			cTools = ConnectTools.GetInstance();
-			cTools.Start(localIP);
-			cTools.SearchDevice();
+			connectTools = ConnectTools.GetInstance();
+			connectTools.Start(localIP);
+			connectTools.SearchDevice();
 			Thread.Sleep(1000);
 
-			Dictionary<string,string> allDevices = 	cTools.GetDeviceInfo();			
+			Dictionary<string,string> allDevices = 	connectTools.GetDeviceInfo();			
 			ipsComboBox.Items.Clear();
 			ips = new List<string>();
 			if (allDevices.Count > 0)
@@ -336,7 +339,6 @@ namespace LightController.MyForm
 				}
 				ipsComboBox.SelectedIndex = 0;
 				ipsComboBox.Enabled = true;
-				networkChooseSkinButton.Enabled = true;
 			}
 			else {
 				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
@@ -347,21 +349,26 @@ namespace LightController.MyForm
 			networkSearchSkinButton.Enabled = true;
 		}
 
+
 		/// <summary>
-		/// 事件：点击《选择网络设备》按钮
+		/// 辅助方法：只要改变了网络设备，就更改相关的网络下载和回读之类的，并设置为选中的ip地址
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void networkChoosetButton_Click(object sender, EventArgs e)
+		private void ipsComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			// 若未选中任何项或选中项为空字符串，则使不能回读或下载，并退出。			
+			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text) ) {				
+				networkUploadSkinButton.Enabled = false;
+				networkDownloadSkinButton.Enabled = false;
+				return;
+			}
+
 			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);		
-
-			MessageBox.Show("已选中网络设备");
-
+			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);
 			networkUploadSkinButton.Enabled = true;
-			networkDownloadSkinButton.Enabled = true;			
-		}
+			networkDownloadSkinButton.Enabled = true;
+		}	
 
 		/// <summary>
 		/// 事件：点击《网络回读》按钮
@@ -370,7 +377,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void uploadSkinButton_Click(object sender, EventArgs e)
 		{			
-			cTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(), SetParamFromDevice);
+			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(), SetParamFromDevice);
 			afterReadOrWrite();
 		}
 		
@@ -386,7 +393,7 @@ namespace LightController.MyForm
 				// 11.7 保存前，先保存一遍当前数据。
 				saveAll(iniPath,hName);
 				// 此语句只发送《硬件配置》到选中的设备中
-				cTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+				connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
 				afterReadOrWrite();
 			}
 			else {
@@ -399,11 +406,9 @@ namespace LightController.MyForm
 		/// </summary>
 		private void afterReadOrWrite() {
 			ipsComboBox.Enabled = false;
-			networkChooseSkinButton.Enabled = false;
 			networkUploadSkinButton.Enabled = false;
 			networkDownloadSkinButton.Enabled = false;
-		}
-	
+		}	
 
 		#endregion
 
@@ -450,8 +455,6 @@ namespace LightController.MyForm
 				comComboBox.SelectedIndex = -1;
 			}
 			comSearchSkinButton.Enabled = true;
-
-
 		}
 
 		/// <summary>
@@ -572,9 +575,12 @@ namespace LightController.MyForm
 			}
 		}
 
+
+
+
 		#endregion
 
-
+		
 	}
 
 	/// <summary>

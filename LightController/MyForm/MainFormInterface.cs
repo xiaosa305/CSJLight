@@ -78,6 +78,8 @@ namespace LightController.MyForm
 		
 		protected string arrangeIniPath = null ;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
+		protected string binPath = null; // 此处记录《硬件更新》时，
+
 
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
@@ -303,6 +305,15 @@ namespace LightController.MyForm
 			this.Cursor = Cursors.Default;					
 		}
 
+		/// <summary>
+		/// 辅助方法：当xbin文件选中后，让mainForm留一个xbin路径的备份，下次重新打开《硬件升级》时可以用到，避免重复打开。
+		/// </summary>
+		/// <param name="binPath"></param>
+		internal void SetBinPath(string binPath)
+		{
+			this.binPath = binPath;
+		}
+
 		//TODO:SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
 		/// <summary>
 		///  辅助方法：通过场景编号（0-31），来读取数据库相关数据填入虚假空白数据（NewStep 、Flag==0）中，并将Flag设为1
@@ -344,7 +355,7 @@ namespace LightController.MyForm
 		//				Console.WriteLine(tempLightIndex + " -- （MakeFrameData）线程结束了");
 		//			});
 		//			threadArray[tempLightIndex].Start();
-			
+
 		//	}
 
 		//	// 下列代码，用以监视所有线程是否已经结束运行。
@@ -1079,7 +1090,7 @@ namespace LightController.MyForm
 			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
 			if (method == InsertMethod.INSERT || totalStep == 0)
 			{
-				int finalStep = totalStep + addStepCount;
+				int finalStep = totalStep + addStepCount;  // 选择插入多步时，这里的finalStep是指最终的总
 				if ( finalStep > MAX_STEP )
 				{
 					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
@@ -1093,23 +1104,20 @@ namespace LightController.MyForm
 					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
 					return;
 				}
-				else
-				{
-					StepWrapper newStep = null;
-					for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
-					{
-						newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
-						// 改造下newStep,将素材值赋给newStep 
-						changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
-						// 使用后插法：避免当前无数据的情况下调用素材失败
-						lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
-					}
-					if(isMultiMode) {
-						copyToAll(0);
-					}
 
-					chooseStep(finalStep);
+				StepWrapper newStep = null;
+				for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
+				{
+					newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
+					// 改造下newStep,将素材值赋给newStep 
+					changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
+					// 使用后插法：避免当前无数据的情况下调用素材失败
+					lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
 				}
+				if(isMultiMode) {
+					copyToAll(0);
+				}
+				RefreshStep();	
 			}
 			// 选择覆盖时的操作：后插法
 			//（当前步也要被覆盖，除非没有当前步-》totalStep == currentStep == 0）
@@ -1129,41 +1137,35 @@ namespace LightController.MyForm
 				{
 					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
 					return;
-				}
+				}				
 				//覆盖的核心逻辑：
 				// 方法1：先找出已有的数据改造之；若没有则添加。实现比较复杂，需考虑多方面情况，不采用。
 				// 方法2：①比对 finalStep（currentStep+addStepCount)  和 totalStep值，
 				//					若finalStep <=totalStep,无需处理
 				//					若finalStep > totalStep,则需addStep，直到totalStep=finalStep
 				//				②取出currentStep到finalStep的所有步数（addStepCount数)，用changeStepFromMaterial取代之。
-				else
+				StepWrapper newStep = null;
+				if (finalStep > totalStep)   // （超过总步数的那些步，则需要添加新步,以凑满步数）
 				{
-					StepWrapper newStep = null;
-					if (finalStep > totalStep)
-					{
 						for (int i = 0; i < finalStep - totalStep; i++)
 						{
 							newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
 							lsWrapper.AddStep(newStep);
 						}
-					}
+				} 
 
-					for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
-					{
-						changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
-						newStep = lsWrapper.StepWrapperList[stepIndex];
-					}
-					if (isMultiMode)
-					{
-						copyToAll(0);
-					}
-
-					if (newStep != null)
-					{						
-						chooseStep(finalStep);
-					}
+				// 在步数都已经存在的情况下，用素材替换掉相关步（相应通道）
+				for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
+				{
+					changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
+					newStep = lsWrapper.StepWrapperList[stepIndex];
 				}
-			}
+				if (isMultiMode)
+				{
+					copyToAll(0);
+				}				
+				chooseStep(finalStep);  // 此处不适用refreshStep，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。
+			}			
 		}		
 
 		/// <summary>

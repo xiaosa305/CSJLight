@@ -79,6 +79,7 @@ namespace LightController.MyForm
 		{
 			try
 			{
+				
 				System.Diagnostics.Process.Start(Application.StartupPath + @"\CenterController\KTV中央控制器.exe");
 			}
 			catch (Exception ex) {

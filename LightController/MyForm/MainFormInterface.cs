@@ -20,9 +20,18 @@ namespace LightController.MyForm
 	public class MainFormInterface : System.Windows.Forms.Form
 	{
 		// 辅助的bool变量：	
-		protected bool isNew = true;    // 点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false										
-		protected bool isInit = false;  // form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
-		public bool IsCreateSuccess = false; //点击新建后，用这个变量决定是否打开灯具编辑列表
+		/// <summary>
+		/// 点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false		
+		/// </summary>
+		protected bool isNew = true;
+		/// <summary>
+		/// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
+		/// </summary>
+		protected bool isInit = false;  
+		/// <summary>
+		/// 点击新建后，用这个变量决定是否打开灯具编辑列表
+		/// </summary>
+		public bool IsCreateSuccess = false; 
 		//protected bool isReadDelay = true;  // 是否延迟从数据库中读数据
 
 		// 全局配置及数据库连接		
@@ -57,7 +66,7 @@ namespace LightController.MyForm
 		protected int frame = 0; // 表示场景编号(selectedIndex )
 		protected int mode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
 		
-		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》
+		protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》 
 		//protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯 
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到
 		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
@@ -104,8 +113,8 @@ namespace LightController.MyForm
 			tempStep = null;
 			TempMaterialAst = null;
 
-			arrangeIniPath = null;
-			enableSLArrange(false, File.Exists(arrangeIniPath));			
+			arrangeIniPath = null;		
+			enableSLArrange(false, false);			
 			enableSave(false);
 
 			AutosetEnabledPlayAndRefreshPic();
@@ -178,6 +187,7 @@ namespace LightController.MyForm
 		public void OpenProject(string projectName)
 		{
 			this.Cursor = Cursors.WaitCursor;
+
 			DateTime beforDT = System.DateTime.Now;
 
 			// 0.初始化
@@ -195,11 +205,9 @@ namespace LightController.MyForm
 			if (dbLightList == null || dbLightList.Count == 0)
 			{
 				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？", "",	MessageBoxButtons.OKCancel,MessageBoxIcon.Question);
-
 				if (dr == DialogResult.OK)
 				{
-					LightsForm skinLightsForm = new LightsForm(this, null);
-					skinLightsForm.ShowDialog();
+					new LightsForm(this, null).ShowDialog();
 				}
 			}
 			//10.17 若非空工程，则继续执行以下代码。
@@ -207,16 +215,12 @@ namespace LightController.MyForm
 			{				
 				dbStepCountList = getStepCountList();
 				dbFineTuneList = getFineTuneList();
-
-				// 通过lightList填充lightAstList
-				lightAstList = reCreateLightAstList(dbLightList);
-				AddLightAstList(lightAstList);
-
-				// 8.29 统一生成步数模板
-				GenerateAllStepTemplates();
-
-				//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)
 				
+				lightAstList = reCreateLightAstList(dbLightList); // 通过lightList填充lightAstList
+				AddLightAstList(lightAstList); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容				
+				GenerateAllStepTemplates();// 8.29 统一生成步数模板
+
+				//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)				
 				Thread[] threadArray = new Thread[dbLightList.Count];
 				for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
 				{
@@ -298,10 +302,10 @@ namespace LightController.MyForm
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforDT);
-				Console.WriteLine("成功打开工程：" + projectName + ",耗时: " + ts.TotalMilliseconds+ " ms");	
 
 				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");		
 			}					
+
 			this.Cursor = Cursors.Default;					
 		}
 
@@ -461,10 +465,9 @@ namespace LightController.MyForm
 				{
 					for (int j = 0; j < lightAstList.Count; j++)
 					{
-						if ((j < lightWrapperList.Count)
-							&& lightAstList2[i].Equals(lightAstList[j])
-							&& lightWrapperList[j] != null
-						)
+						if ( j < lightWrapperList.Count  
+							&& lightAstList2[i].Equals(lightAstList[j]) 
+							&& lightWrapperList[j] != null	)
 						{
 							lightWrapperList2.Add(lightWrapperList[j]);
 							addOld = true;
@@ -1023,7 +1026,6 @@ namespace LightController.MyForm
 
 			DateTime afterDT = System.DateTime.Now;
 			TimeSpan ts = afterDT.Subtract(beforeDT);
-			Console.WriteLine("成功保存工程：" + currentProjectName + ",耗时: " + ts.TotalMilliseconds + " ms");
 
 			MessageBox.Show("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
 		}
@@ -1164,7 +1166,7 @@ namespace LightController.MyForm
 				{
 					copyToAll(0);
 				}				
-				chooseStep(finalStep);  // 此处不适用refreshStep，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。
+				chooseStep(finalStep);  // 此处不适用refreshStep，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。但相应的，因为计算公式不同，chooseStep反而有效。
 			}			
 		}		
 
@@ -1450,10 +1452,10 @@ namespace LightController.MyForm
 
 		/// <summary>
 		///  8.15新增的
-		///  辅助方法：取出当前灯在该场景模式下的最大步数据，（用于追加步）
+		///  辅助方法：取出当前灯在该场景模式下的最后一步数据，（用于追加步）
 		/// </summary>
 		/// <returns></returns>
-		protected StepWrapper getCurrentLightMaxStepWrapper()
+		protected StepWrapper getCurrentLightLastStepWrapper()
 		{
 			LightStepWrapper light = getCurrentLightStepWrapper();
 			if (light == null) {
@@ -1503,7 +1505,7 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助方法：彻底退出程序
 		/// </summary>
-		protected void Exit()
+		protected void exit()
 		{
 			System.Environment.Exit(0);
 		}

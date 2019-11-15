@@ -357,7 +357,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void exitButton_Click(object sender, EventArgs e)
 		{
-			Exit();
+			exit();
 		}
 
 		/// <summary>

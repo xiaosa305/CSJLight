@@ -318,7 +318,7 @@ namespace LightController.MyForm
 			FrameCount = AllFrameList.Count;
 			if (FrameCount == 0){
 				MessageBox.Show("FrameList.txt中的场景不可为空，否则软件无法使用，请修改后重启。");
-				Exit();
+				exit();
 			}
 			frameSkinComboBox.SelectedIndex =0;						
 
@@ -411,8 +411,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void hardwareSetSkinButton_Click(object sender, EventArgs e)
 		{
-			HardwareSetChooseForm hscForm = new HardwareSetChooseForm(this);
-			hscForm.ShowDialog();
+			new HardwareSetChooseForm(this).ShowDialog();
 		}
 
 		/// <summary>
@@ -422,8 +421,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateSkinButton_Click(object sender, EventArgs e)
 		{		
-			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(true), globalIniPath);
-			updateForm.ShowDialog();
+			new UpdateForm(this, GetDBWrapper(true), globalIniPath).ShowDialog();
 		}
 
 		/// <summary>
@@ -433,8 +431,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightListSkinButton_Click(object sender, EventArgs e)
 		{
-			LightsForm skinLightsForm = new LightsForm(this, lightAstList);
-			skinLightsForm.ShowDialog();
+			new LightsForm(this, lightAstList).ShowDialog();
 		}
 
 		/// <summary>
@@ -444,8 +441,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void globalSetSkinButton_Click(object sender, EventArgs e)
 		{
-			GlobalSetForm globalSetForm = new GlobalSetForm(this, globalIniPath);
-			globalSetForm.ShowDialog();
+			new GlobalSetForm(this, globalIniPath).ShowDialog();
 		}
 
 		/// <summary>
@@ -455,8 +451,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void ymSkinButton_Click(object sender, EventArgs e)
 		{
-			YMSetForm ymSetForm = new YMSetForm(this, globalIniPath);
-			ymSetForm.ShowDialog();
+			new YMSetForm(this, globalIniPath).ShowDialog();
 		}
 
 		/// <summary>
@@ -476,8 +471,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void otherToolsSkinButton_Click(object sender, EventArgs e)
 		{
-			ToolsForm toolsForm = new ToolsForm(this);
-			toolsForm.ShowDialog();
+			new ToolsForm(this).ShowDialog();
 		}
 
 		/// <summary>
@@ -487,12 +481,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void exitSkinButton_Click(object sender, EventArgs e)
 		{
-			Exit();
+			exit();
 		}
 		
 
 		#endregion
-
 
 		#region 工程相关 及 初始化辅助方法		
 		//MARK：SkinMainForm工程相关 及 初始化辅助方法			
@@ -507,10 +500,9 @@ namespace LightController.MyForm
 			// 9.10 每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
 
-			NewForm newForm = new NewForm(this);
-			newForm.ShowDialog();
+			new NewForm(this).ShowDialog();
 
-			//8.21 ：当IsCreateSuccess==true时，打开灯具编辑
+			//8.21 ：当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具编辑
 			if (IsCreateSuccess) {
 				lightListSkinButton_Click(null, null);
 			}
@@ -524,40 +516,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void openSkinButton_Click(object sender, EventArgs e)
 		{			
-				OpenForm openForm = new OpenForm(this, currentProjectName);
-				openForm.ShowDialog();		
-		}
-
-
-		/// <summary>
-		/// 辅助方法：ClearAllDate()最后一步，但需针对不同的MainForm子类来实现。
-		/// MARK：SkinMainFormForm.ClearAllData()：子类中针对本Form清除数据
-		/// </summary>
-		protected override void clearAllData()
-		{
-			base.clearAllData();
-
-			//单独针对本MainForm的代码: 
-			// ①清空listView列表；
-			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
-			this.Text = "TRANS-JOY Dimmer System";
-
-			lightsSkinListView.Clear();
-			
-			stepSkinPanel.Enabled = false;
-			hideAllTDPanels();
-			showStepLabel(0, 0);			
-			editLightInfo(null);
-			enableSingleMode(true);
-			
-			// 10.17 清空数据时，应该结束预览。
-			endviewSkinButton_Click(null, null);
-		}
-
-		protected override void showPlayPanel(bool visible) {
-			playFlowLayoutPanel.Visible = visible;
-		}
-
+			  new OpenForm(this, currentProjectName).ShowDialog();		
+		}		
+		
 		/// <summary>
 		///  事件：点击《保存工程》（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
 		/// </summary>
@@ -565,10 +526,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
-			this.Cursor = Cursors.WaitCursor;
-		
+			this.Cursor = Cursors.WaitCursor;		
 			saveAll();		
-
 			this.Cursor = Cursors.Default ;
 		}
 
@@ -623,7 +582,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：《保存工程》《导出工程》enabled设为传入bool值
+		///  辅助方法：以传入值设置《保存工程》《导出工程》按钮是否可用
 		/// </summary>
 		protected override void enableSave(bool enable)
 		{
@@ -631,6 +590,31 @@ namespace LightController.MyForm
 			exportSkinButton.Enabled = enable;
 			frameSaveSkinButton.Enabled = enable ;
 			closeSkinButton.Enabled = enable;
+		}
+
+		/// <summary>
+		/// 辅助方法：ClearAllDate()最后一步，但需针对不同的MainForm子类来实现。
+		/// MARK：SkinMainFormForm.ClearAllData()：子类中针对本Form清除数据
+		/// </summary>
+		protected override void clearAllData()
+		{
+			base.clearAllData();
+
+			//单独针对本MainForm的代码: 
+			// ①清空listView列表；
+			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
+			this.Text = "TRANS-JOY Dimmer System";
+
+			lightsSkinListView.Clear();
+
+			stepSkinPanel.Enabled = false;
+			hideAllTDPanels();
+			showStepLabel(0, 0);
+			editLightInfo(null);
+			enableSingleMode(true);
+
+			// 10.17 清空数据时，应该结束预览。
+			endviewSkinButton_Click(null, null);
 		}
 
 		/// <summary>
@@ -657,7 +641,16 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///添加lightAst列表到主界面内存中,主要供 LightsForm调用（以及OpenProject调用）
+		///  辅助方法：设定是否显示《 （调试区域的N个按钮）panel》
+		/// </summary>
+		/// <param name="visible"></param>
+		protected override void showPlayPanel(bool visible)
+		{
+			playFlowLayoutPanel.Visible = visible;
+		}
+		
+		/// <summary>
+		///辅助方法：添加lightAst列表到主界面内存中,主要供 LightsForm以及OpenProject调用）
 		/// --对比删除后，生成新的lightWrapperList；
 		/// --lightListView也更新为最新的数据
 		/// </summary>
@@ -685,11 +678,9 @@ namespace LightController.MyForm
 			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
 			hideAllTDPanels();
 		}
-
-
+		
 		#endregion
-
-
+		
 		#region 选中listView中的灯具
 
 		/// <summary>
@@ -771,8 +762,7 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
-
+		
 		#region 步数相关的按钮及辅助方法
 		//MARK：SkinMainForm步数相关的按钮及辅助方法起点
 
@@ -793,8 +783,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void frameSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			endviewSkinButton_Click(null, null);
+			//11.13 若未初始化，直接return；
+			if (!isInit)
+			{
+				return;
+			}
 
+			// 只要更改了场景，直接结束预览
+			endviewSkinButton_Click(null, null); 
 			frame = frameSkinComboBox.SelectedIndex;
 			if (lightAstList != null && lightAstList.Count > 0)
 			{
@@ -809,62 +805,66 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (isInit)
+			//11.13 若未初始化，直接return；
+			if (!isInit)
 			{
-				mode = modeSkinComboBox.SelectedIndex;
-				// 若模式为声控模式mode=1
-				// 1.改变几个label的Text; 
-				// 2.改变跳变渐变-->是否声控；
-				// 3.所有步时间值的调节，改为enabled=false			
-				if (mode == 1)
-				{				
-					for (int i = 0; i < FrameCount; i++)
-					{
-						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
-						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"屏蔽",	"跳变"});
-						this.tdStepTimeNumericUpDowns[i].Hide();
-						this.tdTrueTimeLabels[i].Hide();
-					}
-					commonChangeModeSkinButton.Text = "统一声控";
-					commonChangeModeSkinComboBox.Items.Clear();
-					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变"});
-					commonChangeModeSkinComboBox.SelectedIndex = 0;
-
-					commonStepTimeNumericUpDown.Hide();
-					commonStepTimeSkinButton.Text = "修改此音频场景全局设置";
-					commonStepTimeSkinButton.Size = new System.Drawing.Size(210,27);
-
-					thirdLabel1.Hide();
-					thirdLabel2.Hide();
-					thirdLabel3.Hide();
-				}
-				else //mode=0，常规模式
-				{
-					for (int i = 0; i < FrameCount; i++)
-					{
-						this.tdChangeModeSkinComboBoxes[i].Items.Clear();
-						this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"跳变","渐变","屏蔽"});
-						this.tdStepTimeNumericUpDowns[i].Show();
-						this.tdTrueTimeLabels[i].Show();
-					}
-					commonChangeModeSkinButton.Text = "统一跳渐变";
-					commonChangeModeSkinComboBox.Items.Clear();
-					commonChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
-					commonChangeModeSkinComboBox.SelectedIndex = 0;
-
-					commonStepTimeNumericUpDown.Show();
-					commonStepTimeSkinButton.Text = "统一步时间";
-					commonStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);
-
-					thirdLabel1.Show();
-					thirdLabel2.Show();
-					thirdLabel3.Show();
-				}
-				if (lightAstList != null && lightAstList.Count > 0)
-				{
-					changeFrameMode();
-				}
+				return;
 			}
+
+			mode = modeSkinComboBox.SelectedIndex;
+			// 若模式为声控模式mode=1
+			// 1.改变几个label的Text; 
+			// 2.改变跳变渐变-->是否声控；
+			// 3.所有步时间值的调节，改为enabled=false			
+			if (mode == 1)
+			{				
+				for (int i = 0; i < FrameCount; i++)
+				{
+					this.tdChangeModeSkinComboBoxes[i].Items.Clear();
+					this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"屏蔽",	"跳变"});
+					this.tdStepTimeNumericUpDowns[i].Hide();
+					this.tdTrueTimeLabels[i].Hide();
+				}
+				commonChangeModeSkinButton.Text = "统一声控";
+				commonChangeModeSkinComboBox.Items.Clear();
+				commonChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变"});
+				commonChangeModeSkinComboBox.SelectedIndex = 0;
+
+				commonStepTimeNumericUpDown.Hide();
+				commonStepTimeSkinButton.Text = "修改此音频场景全局设置";
+				commonStepTimeSkinButton.Size = new System.Drawing.Size(210,27);
+
+				thirdLabel1.Hide();
+				thirdLabel2.Hide();
+				thirdLabel3.Hide();
+			}
+			else //mode=0，常规模式
+			{
+				for (int i = 0; i < FrameCount; i++)
+				{
+					this.tdChangeModeSkinComboBoxes[i].Items.Clear();
+					this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] {	"跳变","渐变","屏蔽"});
+					this.tdStepTimeNumericUpDowns[i].Show();
+					this.tdTrueTimeLabels[i].Show();
+				}
+				commonChangeModeSkinButton.Text = "统一跳渐变";
+				commonChangeModeSkinComboBox.Items.Clear();
+				commonChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
+				commonChangeModeSkinComboBox.SelectedIndex = 0;
+
+				commonStepTimeNumericUpDown.Show();
+				commonStepTimeSkinButton.Text = "统一步时间";
+				commonStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);
+
+				thirdLabel1.Show();
+				thirdLabel2.Show();
+				thirdLabel3.Show();
+			}
+			if (lightAstList != null && lightAstList.Count > 0)
+			{
+				changeFrameMode();
+			}
+		
 		}
 
 		/// <summary>
@@ -872,17 +872,13 @@ namespace LightController.MyForm
 		/// </summary>
 		private void changeFrameMode()
 		{
-			// 9.2 不可让selectedIndex为-1,否则会出现数组越界错误
+			// 9.2 不可让selectedIndex为-1  , 否则会出现数组越界错误
 			if (selectedIndex == -1) {
 				return;
 			}
 
-			//LightWrapper lightWrapper = lightWrapperList[selectedIndex];
-			//LightStepWrapper lightStepWrapper = lightWrapper.LightStepWrapperList[frame, mode];
-
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-
-			// 为空或StepList数量是0
+			// lightStepWrapper为空或StepWrapperList数量是0
 			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList == null || lightStepWrapper.StepWrapperList.Count == 0)
 			{
 				hideAllTDPanels();
@@ -891,14 +887,6 @@ namespace LightController.MyForm
 			else // lightStepWrapper != null && lightStepWrapper.StepList.Count>0 : 也就是已经有值了
 			{
 				RefreshStep();	
-
-				//MARK：changeFrameMode()旧代码，未完全通过测试前，不要删除。 
-				//int currentStep = lightStepWrapper.CurrentStep;
-				//int totalStep = lightStepWrapper.TotalStep;
-
-				//StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
-				//showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				//showStepLabel(currentStep, totalStep);
 			}
 		}
 
@@ -910,16 +898,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void backStepSkinButton_Click(object sender, EventArgs e)
 		{
-			int currentStep = getCurrentStep();
-			int totalStep = getTotalStep();			
-			if (currentStep > 1)
-			{
-				chooseStep(currentStep - 1);
-			}
-			else
-			{
-				chooseStep(totalStep);
-			}
+			int currentStep = getCurrentStep();		
+			chooseStep(  currentStep>1 ? currentStep - 1  : getTotalStep() ) ;			
 		}
 
 		/// <summary>
@@ -932,14 +912,7 @@ namespace LightController.MyForm
 		{
 			int currentStep = getCurrentStep();			
 			int totalStep = getTotalStep();
-			if (currentStep < totalStep)
-			{
-				chooseStep(currentStep + 1);
-			}
-			else
-			{
-				chooseStep(1);
-			}
+			chooseStep( currentStep < totalStep ?　currentStep + 1 : 1 );
 		}		
 
 		/// <summary>
@@ -949,11 +922,10 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void insertStepButton_Click(object sender, EventArgs e)
-		{
-			// 1.获取当前步与最高值，总步数			
+		{			
+			// 获取当前步与最高值，总步数			
 			// 若当前步 <= 总步数，则可以插入，并将之后的步数往后移动
 			// 否则报错
-
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep)
 			{
@@ -990,30 +962,20 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void addStepSkinButton_Click(object sender, EventArgs e)
 		{
-			LightWrapper currentLightWrapper = getCurrentLightWrapper();
-			// 如果此值为空，则创建之
-			if (currentLightWrapper.LightStepWrapperList[frame, mode] == null)
-			{
-				currentLightWrapper.LightStepWrapperList[frame, mode] = new LightStepWrapper()
-				{
-					StepWrapperList = new List<StepWrapper>()
-				};
-			}
-
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			// 根据isUseStepMode，生成要插入步的内容 :
 			//1.若勾选了使用模板 或 当前灯具在本场景及模式下总步数为0 ，则使用stepMode数据，
 			//2.否则使用本灯当前最大步的数据			 
 			StepWrapper newStep = StepWrapper.GenerateNewStep(
-				(isUseStepTemplate || getTotalStep() == 0) ? getCurrentStepTemplate() : getCurrentLightMaxStepWrapper(),
-				mode
-				);
+				(isUseStepTemplate || getTotalStep() == 0) ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(),
+				mode	);
 
 			// 调用包装类内部的方法,来追加步
-			currentLightWrapper.LightStepWrapperList[frame, mode].AddStep(newStep);
+			lsWrapper.AddStep(newStep);
 
 			// 显示新步
 			this.showTDPanels(newStep.TongdaoList, newStep.StartNum);
-			this.showStepLabel(currentLightWrapper.LightStepWrapperList[frame, mode].CurrentStep, currentLightWrapper.LightStepWrapperList[frame, mode].TotalStep);
+			this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
 
 			if (isMultiMode) {
 				copyToAll(0);
@@ -1030,13 +992,13 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deleteStepSkinButton_Click(object sender, EventArgs e)
 		{
-			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
+			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			int stepIndex = getCurrentStep() - 1;
 
 			// 调用包装类内部的方法:删除某一步
 			try
 			{
-				lightStepWrapper.DeleteStep(stepIndex);
+				lsWrapper.DeleteStep(stepIndex);
 				if (isMultiMode)
 				{
 					copyToAll(0);
@@ -1048,12 +1010,12 @@ namespace LightController.MyForm
 				return;
 			}
 
-			int currentStep = lightStepWrapper.CurrentStep;
+			int currentStep = lsWrapper.CurrentStep;
 			if (currentStep > 0)
 			{
-				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[currentStep - 1];
+				StepWrapper stepWrapper = lsWrapper.StepWrapperList[currentStep - 1];
 				this.showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				this.showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);				
+				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);				
 			}
 			else
 			{
@@ -1149,6 +1111,7 @@ namespace LightController.MyForm
 				showStepLabel(0,0);
 				return;
 			}
+
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];		
 			lightStepWrapper.CurrentStep = stepNum;
@@ -2027,7 +1990,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiSkinButton_Click(object sender, EventArgs e)
 		{
-			MultiStepForm msForm = new MultiStepForm(this , getCurrentStep() , getTotalStep(),getCurrentStepWrapper() ,mode );
+			MultiStepForm msForm = new MultiStepForm(this , getCurrentStep() , getTotalStep() , getCurrentStepWrapper() ,mode );
 			msForm.ShowDialog();
 		}
 

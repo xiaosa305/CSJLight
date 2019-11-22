@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Timers;
@@ -14,14 +15,18 @@ namespace LightController.Tools
 {
     public class PlayTools
     {
+        public const int STATE_SERIALPREVIEW = 0;
+        public const int STATE_INTENETPREVIEW = 1;
         private static PlayTools Instance { get; set; }
         private static FTDI Device { get; set; }                    
         private readonly byte[] StartCode = new byte[] { 0x00 };
         private DBWrapper DBWrapper { get; set; }
         private string ConfigPath { get; set; }
+        private string DeviceIpByIntentPreview { get; set; }
         private CSJ_Project Project { get; set; }
         private int SceneNo { get; set; }
         private int TimeFactory { get; set; }
+        private int PreviewWayState { get; set; }
         private byte[] PlayData { get; set; }
         private int[] C_ChanelPoint { get; set; }
         private int[] M_ChanelPoint { get; set; }
@@ -45,18 +50,25 @@ namespace LightController.Tools
         private int MusicStepPoint { get; set; }
         private bool MusicData { get; set; }
         private bool MusicWaiting { get; set; }
+        private bool IsIntentDebug { get; set; }
+        private IReceiveCallBack IntentDebugCallback { get; set; }
         private System.Timers.Timer Timer { get; set; }
+
+
+        private Socket Server { get; set; }
 
         private PlayTools()
         {
             try
             {
                 TimeFactory = 32;
+                PreviewWayState = STATE_SERIALPREVIEW;
                 MusicStepTime = 0;
                 State = PreViewState.Null;
                 Device = new FTDI();
                 Timer = new System.Timers.Timer();
                 MusicWaiting = true;
+                IsIntentDebug = false;
             }
             catch (Exception ex)
             {
@@ -109,6 +121,7 @@ namespace LightController.Tools
                         MusicControlThread = null;
                     }
                 }
+                this.IsIntentDebug = false;
                 State = PreViewState.Null;
             }
             catch (Exception ex)
@@ -116,6 +129,25 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
+
+        public void StartIntenetPreview(string deviceIp,IReceiveCallBack receiveCallBack)
+        {
+            this.PreviewWayState = STATE_INTENETPREVIEW;
+            this.DeviceIpByIntentPreview = deviceIp;
+            this.IntentDebugCallback = receiveCallBack;
+            this.IsIntentDebug = false;
+        }
+
+        public void StopIntenetPreview(IReceiveCallBack receiveCallBack)
+        {
+            this.PreviewWayState = STATE_SERIALPREVIEW;
+            ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
+            IsIntentDebug = false;
+        }
+
+        //TODO
+        public void PreView(CSJ_Project project,int sceneNo) { }
+
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
             try
@@ -410,21 +442,33 @@ namespace LightController.Tools
         {
             try
             {
-                UInt32 count = 0;
-                if (Device.IsOpen)
+                List<byte> buff = new List<byte>();
+                buff.AddRange(this.StartCode);
+                buff.AddRange(this.PlayData);
+                if (this.PreviewWayState == STATE_SERIALPREVIEW)
                 {
-                    //发送Break|
-                    Device.SetBreak(true);
-                    Thread.Sleep(0);
-                    Device.SetBreak(false);
-                    Thread.Sleep(0);
-                    List<byte> buff = new List<byte>();
-                    buff.AddRange(this.StartCode);
-                    buff.AddRange(this.PlayData);
-                    Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
-                    //Console.WriteLine("Y轴==>" + PlayData[17] + "Y轴微调==>" + PlayData[18]);
-                    Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
-                    Device.SetBreak(false);
+                    UInt32 count = 0;
+                    if (Device.IsOpen)
+                    {
+                        Device.SetBreak(true);
+                        Thread.Sleep(0);
+                        Device.SetBreak(false);
+                        Thread.Sleep(0);
+                        Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
+                        Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                        Device.SetBreak(false);
+                    }
+                }
+                else
+                {
+                    if (!IsIntentDebug)
+                    {
+                        ConnectTools.GetInstance().StartIntentPreview(this.DeviceIpByIntentPreview,TimeFactory, this.IntentDebugCallback);
+                        IsIntentDebug = true;
+                        Thread.Sleep(300);
+                    }
+                    Thread.Sleep(21);
+                    ConnectTools.GetInstance().SendIntenetPreview(DeviceIpByIntentPreview, buff.ToArray());
                 }
             }
             catch (Exception ex)
@@ -437,6 +481,7 @@ namespace LightController.Tools
         {
             try
             {
+                this.PreviewWayState = STATE_SERIALPREVIEW;
                 UInt32 deviceCount = 0;
                 FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
                 status = Device.GetNumberOfDevices(ref deviceCount);

@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace LightController.Tools
     {
         private readonly int UDP_SERVER_PORT = 7070;
         private readonly int UDP_CLIENT_PORT = 7060;
+        private readonly int UDP_DEBUG_PORT = 7080;
         private static ConnectTools Instance { get; set; }
         private Socket UdpServer { get; set; }
         private string ServerIp { get; set; }
@@ -172,6 +174,9 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
+
+        //TODO
+        public void Download(string ip, CSJ_Project project, IReceiveCallBack callBack, DownloadProgressDelegate download) { }
         public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
         {
             if (IsStart)
@@ -292,7 +297,17 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
+        public void StartIntentPreview(String ip,int timeFactory, IReceiveCallBack receiveCallBack)
+        {
+            SocketTools.GetInstance().StartDebug(ip, timeFactory, receiveCallBack);
+        }
+        public void StopIntentPreview(String ip, IReceiveCallBack receiveCallBack)
+        {
+            SocketTools.GetInstance().EndDebug(ip,receiveCallBack);
+        }
+        public void SendIntenetPreview(String ip,byte[] data)
+        {
+            UdpServer.SendTo(data, new IPEndPoint(IPAddress.Parse(ip), UDP_DEBUG_PORT));
+        }
     }
-
- 
 }

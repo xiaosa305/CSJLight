@@ -27,20 +27,24 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    SerialPortTools.GetInstance().OpenCom("COM3");
-                    SerialPortTools.GetInstance().SetPackageSize(SerialPortTools.PacketSize.BYTE_1024);
+                    ConnectTools.GetInstance().Start("192.168.31.235");
+                    ConnectTools.GetInstance().SearchDevice();
                     break;
                 case 2:
                     break;
                 case 3:
-                    SerialPortTools.GetInstance().SendOrder("Reset", null, new DownloadCallBack());
+                    //发送网络调试开启命令
+                     PlayTools.GetInstance().StartIntenetPreview("192.168.31.102", new DownloadCallBack());
                     break;
                 case 4:
+                    PlayTools.GetInstance().StopIntenetPreview(new DownloadCallBack());
+                    //发送网络预览数据
                     break;
                 default:
                     break;
             }
         }
+
         private void GetParamTest(CSJ_Hardware hardware)
         {
             Console.WriteLine("test Complected");

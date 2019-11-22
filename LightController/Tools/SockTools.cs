@@ -241,5 +241,33 @@ namespace LightController.Tools
                 }
             }
         }
+
+        public void StartDebug(string ip,int timeFactory, IReceiveCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].StartIntenetPreview(timeFactory,receiveCallBack);
+                    }
+                }
+            }
+        }
+
+        public void EndDebug(string ip, IReceiveCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].StopIntenetPreview(receiveCallBack);
+                    }
+                }
+            }
+        }
     }
 }

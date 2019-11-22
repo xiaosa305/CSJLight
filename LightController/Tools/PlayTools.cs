@@ -140,7 +140,7 @@ namespace LightController.Tools
 
         public void StopIntenetPreview(IReceiveCallBack receiveCallBack)
         {
-            this.PreviewWayState = STATE_SERIALPREVIEW;
+            //this.PreviewWayState = STATE_SERIALPREVIEW;
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
             IsIntentDebug = false;
         }

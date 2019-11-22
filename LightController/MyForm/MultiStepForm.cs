@@ -208,6 +208,13 @@ namespace LightController.MyForm
 			mainForm.Activate();
 		}
 
+		// 事件：点击《（右侧步数）全选》按钮
+		private void allStepSkinButton_Click(object sender, EventArgs e)
+		{
+			startNumericUpDown.Value = 1;
+			endNumericUpDown.Value = endNumericUpDown.Maximum;
+		}
+
 		#endregion
 
 		/// <summary>

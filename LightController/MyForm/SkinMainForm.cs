@@ -415,7 +415,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 点击《设备更新》按钮
+		/// 点击《工程更新》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -556,6 +556,8 @@ namespace LightController.MyForm
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
 			{
+				this.Cursor = Cursors.WaitCursor; 
+
 				exportFolderBrowserDialog.ShowDialog();
 				string exportPath = exportFolderBrowserDialog.SelectedPath;
 				if ( ! string.IsNullOrEmpty(exportPath) ){
@@ -564,6 +566,8 @@ namespace LightController.MyForm
 
 					FileTools fileTools = FileTools.GetInstance();
 					fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
+
+					this.Cursor = Cursors.Default;
 					//导出成功后，打开文件夹
 					System.Diagnostics.Process.Start(exportPath);
 				}
@@ -923,15 +927,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void insertStepButton_Click(object sender, EventArgs e)
 		{			
-			// 获取当前步与最高值，总步数			
+			 // 获取当前步与最高值，总步数			
 			// 若当前步 <= 总步数，则可以插入，并将之后的步数往后移动
 			// 否则报错
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
 			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep)
 			{
 				// 根据isUseStepMode，生成要插入步的内容
+				bool addTemplate = isUseStepTemplate || getCurrentStepWrapper() == null ; 
 				StepWrapper newStep = StepWrapper.GenerateNewStep(
-					(isUseStepTemplate || getCurrentStepWrapper() == null) ? getCurrentStepTemplate() : getCurrentStepWrapper(),
+					addTemplate ? getCurrentStepTemplate() : getCurrentStepWrapper(),
 					mode
 				);
 				// 要插入的位置的index
@@ -946,7 +951,15 @@ namespace LightController.MyForm
 
 				if (isMultiMode)
 				{
-					copyToAll(0);
+					//TODO：11.22 检查多灯前后插步
+					foreach (int lightIndex in selectedIndices)
+					{
+						if (lightIndex != selectedIndex)
+						{
+							newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex),   mode);
+							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+						}
+					}
 				}
 			}
 			else
@@ -954,6 +967,7 @@ namespace LightController.MyForm
 				MessageBox.Show("Dickov:当前步大于总步数");
 			}
 		}
+		
 
 		/// <summary>
 		/// 事件：点击《追加步》
@@ -966,8 +980,9 @@ namespace LightController.MyForm
 			// 根据isUseStepMode，生成要插入步的内容 :
 			//1.若勾选了使用模板 或 当前灯具在本场景及模式下总步数为0 ，则使用stepMode数据，
 			//2.否则使用本灯当前最大步的数据			 
+			bool addTemplate = isUseStepTemplate || getTotalStep() == 0;
 			StepWrapper newStep = StepWrapper.GenerateNewStep(
-				(isUseStepTemplate || getTotalStep() == 0) ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(),
+				addTemplate ?  getCurrentStepTemplate() : getCurrentLightLastStepWrapper(),
 				mode	);
 
 			// 调用包装类内部的方法,来追加步
@@ -978,9 +993,18 @@ namespace LightController.MyForm
 			this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
 
 			if (isMultiMode) {
-				copyToAll(0);
+				// TODO：11.22 检查多灯追加步
+				foreach ( int lightIndex in selectedIndices)
+				{
+					if (lightIndex != selectedIndex) {
+						newStep = StepWrapper.GenerateNewStep(	addTemplate ? getSelectedLightStepTemplate(lightIndex): getSelectedLightLastStepWrapper(lightIndex) , mode );
+						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+					}
+				}
 			}
 		}
+
+		
 
 		/// <summary>
 		///  事件：点击《删除步》
@@ -999,9 +1023,17 @@ namespace LightController.MyForm
 			try
 			{
 				lsWrapper.DeleteStep(stepIndex);
+
+				//TODO：11.22 检查多灯删除步 
 				if (isMultiMode)
 				{
-					copyToAll(0);
+					foreach (int lightIndex in selectedIndices)
+					{
+						if (lightIndex != selectedIndex)
+						{
+							getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
+						}
+					}
 				}
 			}
 			catch (Exception ex)
@@ -1097,7 +1129,8 @@ namespace LightController.MyForm
 
 			//4.如果是多灯模式，则需要在复制步之后处理下每个灯具的信息
 			if (isMultiMode) {
-				copyToAll(0);
+				//TODO：11.22 多步粘贴步-》使用copyStepToAll2 而非 copyStepToAll
+				copyStepToAll2( getCurrentStep() );	
 			}
 		}
 
@@ -1124,10 +1157,10 @@ namespace LightController.MyForm
 			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
 			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 
-			if (isMultiMode) {
+			if ( isMultiMode ) {
 				foreach (int lightIndex in selectedIndices)
 				{
-					getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum; 				
+					getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum; 
 				}
 			}
 
@@ -1211,7 +1244,7 @@ namespace LightController.MyForm
 		private void multiLightSkinButton_Click(object sender, EventArgs e)
 		{
 			// 进入多灯模式
-			if (!isMultiMode)
+			if ( !isMultiMode)
 			{
 				if (lightsSkinListView.SelectedIndices.Count < 2)
 				{
@@ -1228,9 +1261,9 @@ namespace LightController.MyForm
 				{
 					selectedIndices.Add(item);
 				}
-				new MultiLightForm(this, lightAstList, selectedIndices).ShowDialog();
+				new MultiLightForm(this,isCopyAll,lightAstList, selectedIndices).ShowDialog();
 			}
-			// 退出多灯模式（单灯）
+			// 退出多灯模式
 			else
 			{
 				lightsAddrLabel.Text = "灯具地址:" + lightAstList[selectedIndex].LightAddr;
@@ -1245,18 +1278,25 @@ namespace LightController.MyForm
 		/// <summary>
 		///  9.16 辅助方法：进入《多灯模式》
 		/// </summary>
-		/// <param name="selectedIndex"></param>
-		public override void EnterMultiMode(int selectedIndex)
+		/// <param name="groupSelectedIndex"></param>
+		public override void EnterMultiMode(int groupSelectedIndex , bool isCopyAll)
 		{
 			// 基类中统一的处理
-			base.EnterMultiMode(selectedIndex);
+			base.EnterMultiMode(groupSelectedIndex , isCopyAll );
 
 			// 以下为单独针对本Form的方法：			
 			lightsAddrLabel.Text = "灯具地址列表：";
 			foreach (int lightIndex in selectedIndices)
 			{
-				lightsAddrLabel.Text += lightAstList[lightIndex].LightAddr + " ";
-				lightsSkinListView.Items[lightIndex].BackColor = Color.SkyBlue;
+				if (lightIndex == selectedIndex)
+				{
+					lightsAddrLabel.Text += "(" + lightAstList[lightIndex].LightAddr + ") ";
+					lightsSkinListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
+				}
+				else {
+					lightsAddrLabel.Text += lightAstList[lightIndex].LightAddr + " ";
+					lightsSkinListView.Items[lightIndex].BackColor = Color.SkyBlue;
+				}				
 			}
 			enableSingleMode(false);
 		}
@@ -1267,23 +1307,14 @@ namespace LightController.MyForm
 		/// <param name="isSingleMode"></param>
 		private void enableSingleMode(bool isSingleMode)
 		{
-			isMultiMode = !isSingleMode;
-			lightsSkinListView.Enabled = isSingleMode;
+			isMultiMode = ! isSingleMode;		
 
+			lightsSkinListView.Enabled = isSingleMode;
 			frameSkinComboBox.Enabled = isSingleMode;
 			modeSkinComboBox.Enabled = isSingleMode;
 
-
-			if (isSingleMode)
-			{
-				oneLightOneStepSkinButton.Text = "单灯单步";
-				multiLightSkinButton.Text = "多灯模式";
-			}
-			else
-			{
-				oneLightOneStepSkinButton.Text = "多灯单步";
-				multiLightSkinButton.Text = "单灯模式";
-			}
+			oneLightOneStepSkinButton.Text = isSingleMode ? "单灯单步" : "多灯单步";
+			multiLightSkinButton.Text = isSingleMode?"多灯模式": "单灯模式";			
 		}
 
 		/// <summary>
@@ -1541,7 +1572,7 @@ namespace LightController.MyForm
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
 			if (isMultiMode) {
-				copyToAll2(0,tdIndex,WHERE.CHANGE_MODE,changeMode);
+				copyValueToAll( tdIndex,WHERE.CHANGE_MODE,changeMode);
 			}
 
 			#region 废弃代码块：
@@ -1642,7 +1673,7 @@ namespace LightController.MyForm
 			this.tdTrueTimeLabels[tdIndex].Text = (float)step.TongdaoList[tdIndex].StepTime * eachStepTime / 1000 + "s";
 
 			if (isMultiMode) {
-				copyToAll2(0,tdIndex,WHERE.STEP_TIME,stepTime);
+				copyValueToAll( tdIndex,WHERE.STEP_TIME,stepTime);
 			}
 
 		}
@@ -1882,16 +1913,15 @@ namespace LightController.MyForm
 		private void commonValueSkinButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
-			//Console.WriteLine("统一通道值value:" + commonValueNumericUpDown.Value + " | text:" + commonValueNumericUpDown.Text);
 
-			int commonValue = Convert.ToInt16(commonValueNumericUpDown.Text);
+			int commonValue = Convert.ToInt16( commonValueNumericUpDown.Text );
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
 			}
 
 			if (isMultiMode) {
-				copyToAll(0);
+				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue );
 			}
 			RefreshStep();
 		}
@@ -1912,7 +1942,7 @@ namespace LightController.MyForm
 			}
 			if (isMultiMode)
 			{
-				copyToAll(0);
+				copyCommonValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
 			}
 			RefreshStep();
 		}
@@ -1934,7 +1964,7 @@ namespace LightController.MyForm
 					getCurrentStepWrapper().TongdaoList[i].StepTime= commonStepTime;
 				}
 				if (isMultiMode) {
-					copyToAll(0);
+					copyCommonValueToAll(getCurrentStep(), WHERE.STEP_TIME , commonStepTime );
 				}
 				RefreshStep();
 			}
@@ -1956,10 +1986,12 @@ namespace LightController.MyForm
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
 			}
+
 			if (isMultiMode)
 			{
-				copyToAll(0);
+				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE , 0);
 			}
+
 			RefreshStep();
 		}
 
@@ -1977,7 +2009,8 @@ namespace LightController.MyForm
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
 			}
 			if (isMultiMode) {
-				copyToAll(0);
+				// TODO : 11.21 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
+				copyStepToAll( getCurrentStep() ) ;
 			}
 			RefreshStep();
 		}

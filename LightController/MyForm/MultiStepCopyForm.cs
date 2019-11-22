@@ -213,5 +213,10 @@ namespace LightController.MyForm
 			startNumericUpDown.Value = 1;
 			endNumericUpDown.Value = endNumericUpDown.Maximum;
 		}
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

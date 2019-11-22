@@ -58,7 +58,11 @@ namespace LightController.MyForm
 
 		// 通道数据操作时的变量
 		protected const int MAX_STEP = 100;
-		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
+		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；	
+		// 11.20 新功能： 多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
+		protected bool isCopyAll = false; 
+		
+
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
 		protected IList<int> selectedIndices = new List<int>() ; //选择的灯具的index列表（多选情况下）		
 
@@ -87,7 +91,7 @@ namespace LightController.MyForm
 		
 		protected string arrangeIniPath = null ;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
-		protected string binPath = null; // 此处记录《硬件更新》时，
+		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
 
 
 		/// <summary>
@@ -253,15 +257,15 @@ namespace LightController.MyForm
 								for (int step = 1; step <= stepCount; step++)
 								{
 									StepWrapper stepWrapper = null;
-								
-									// TODO :
-									//if (isReadDelay)  //UNDONE：打开工程后，优化的思路是先把每个工程的数据，用GenerateNewStep填满，后面切换场景时，再加载正确的数据；重点在于如何添加标记
+
+									//UNDONE：打开工程后，优化的思路是先把每个工程的数据，用GenerateNewStep填满，后面切换场景时，再加载正确的数据；重点在于如何添加标记
+									//if (isReadDelay)  
 									//{
 									//	stepWrapper = StepWrapper.GenerateNewStep(lightWrapperList[tempLightIndex].StepTemplate, mode);
 									//}
 									//else //MARK：多线程旧代码②：每个线程添加新步都实时用①中的数据生成。
 									//{										
-										var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
+									var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
 										stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
 									//}
 									lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
@@ -318,7 +322,7 @@ namespace LightController.MyForm
 			this.binPath = binPath;
 		}
 
-		//TODO:SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
+		//TODO：SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
 		/// <summary>
 		///  辅助方法：通过场景编号（0-31），来读取数据库相关数据填入虚假空白数据（NewStep 、Flag==0）中，并将Flag设为1
 		/// </summary>
@@ -388,7 +392,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void MakeCurrentStepWrapperData( int stepNum) {
 
-			//TODO : 从数据库中取单灯单步数据，并渲染进内存。
+			//TODO : 10.X （优化计划）从数据库中取单灯单步数据，并渲染进内存。
 			if ( getCurrentLightStepWrapper().StepWrapperList[stepNum-1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0) {
 
 				LightAst la = lightAstList[selectedIndex];
@@ -1072,6 +1076,7 @@ namespace LightController.MyForm
 		#region 素材相关
 
 		/// <summary>
+		/// MARK：调用素材 或 多灯粘贴 
 		/// 辅助方法:调用素材
 		/// </summary>
 		/// <param name="materialAst"></param>
@@ -1095,15 +1100,15 @@ namespace LightController.MyForm
 				int finalStep = totalStep + addStepCount;  // 选择插入多步时，这里的finalStep是指最终的总
 				if ( finalStep > MAX_STEP )
 				{
-					MessageBox.Show("素材步数超过当前模式剩余步数，无法调用");
+					MessageBox.Show("素材(或多步)步数超过当前模式剩余步数，无法调用");
 					return;
 				}
 
 				StepWrapper stepTemplate = getCurrentStepTemplate();
-				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList, stepTemplate.TongdaoList);
+				IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList(materialAst.TdNameList ,  stepTemplate.TongdaoList);
 				if (sameTDIndexList.Count == 0)
 				{
-					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
+					MessageBox.Show("该素材(或多步)与当前灯具不匹配，无法调用");
 					return;
 				}
 
@@ -1116,8 +1121,21 @@ namespace LightController.MyForm
 					// 使用后插法：避免当前无数据的情况下调用素材失败
 					lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
 				}
-				if(isMultiMode) {
-					copyToAll(0);
+
+				//TODO：11.22 检查多步 《粘贴多步、使用素材》 使用插入方式
+				if (isMultiMode) {
+
+					foreach (int lightIndex in selectedIndices) {
+						if (lightIndex != selectedIndex) {
+							// 多灯模式下，依然使用上面的步骤来插入素材。
+							for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
+							{
+								newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), mode);							
+								changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
+								getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
+							}
+						}
+					}
 				}
 				RefreshStep();	
 			}
@@ -1139,7 +1157,8 @@ namespace LightController.MyForm
 				{
 					MessageBox.Show("该素材与当前灯具不匹配，无法调用");
 					return;
-				}				
+				}			
+				
 				//覆盖的核心逻辑：
 				// 方法1：先找出已有的数据改造之；若没有则添加。实现比较复杂，需考虑多方面情况，不采用。
 				// 方法2：①比对 finalStep（currentStep+addStepCount)  和 totalStep值，
@@ -1159,13 +1178,34 @@ namespace LightController.MyForm
 				// 在步数都已经存在的情况下，用素材替换掉相关步（相应通道）
 				for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
 				{
-					changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
-					newStep = lsWrapper.StepWrapperList[stepIndex];
+					changeStepFromMaterial(materialAst.TongdaoList,  materialStepIndex, sameTDIndexList,  lsWrapper.StepWrapperList[stepIndex] );
+					//newStep = lsWrapper.StepWrapperList[stepIndex];
 				}
+
 				if (isMultiMode)
 				{
-					copyToAll(0);
-				}				
+					foreach (int lightIndex in selectedIndices)
+					{
+						if (lightIndex != selectedIndex)
+						{
+							if (finalStep > totalStep)   // （超过总步数的那些步，则需要添加新步,以凑满步数）
+							{
+								for (int i = 0; i < finalStep - totalStep; i++)
+								{
+									newStep = StepWrapper.GenerateNewStep( getSelectedLightStepTemplate(lightIndex) , mode);
+									getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+								}
+							}
+							// 在步数都已经存在的情况下，用素材替换掉相关步（相应通道）
+							for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
+							{
+								changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex]);
+								//newStep = lsWrapper.StepWrapperList[stepIndex];
+							}
+						}
+					}
+				}
+
 				chooseStep(finalStep);  // 此处不适用refreshStep，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。但相应的，因为计算公式不同，chooseStep反而有效。
 			}			
 		}		
@@ -1218,7 +1258,7 @@ namespace LightController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 辅助方法：单灯单步发送DMX512帧数据
+		/// 辅助方法：单(多)灯单步发送DMX512帧数据
 		/// </summary>
 		protected virtual void oneLightStepWork()
 		{
@@ -1230,7 +1270,7 @@ namespace LightController.MyForm
 			}
 
 			byte[] stepBytes = new byte[512];
-			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，扔到数组中）；
+			// 若选择了《保持其他灯》状态，只需使用此通用代码即可(遍历所有灯具的当前步，取出其数据，放到数组中）；
 			if (isKeepOtherLights)
 			{
 				if (lightWrapperList != null)
@@ -1250,7 +1290,7 @@ namespace LightController.MyForm
 				}
 			}
 			else {
-				// 多灯单步
+				// 多灯单步				
 				if (isMultiMode)
 				{
 					int currentStep = getCurrentStep();
@@ -1261,7 +1301,8 @@ namespace LightController.MyForm
 					}
 					foreach (int lightIndex in selectedIndices)
 					{
-						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
+						// 取出所有编组灯具的当前步数据。
+						StepWrapper stepWrapper = getSelectedLightStepWrapper( lightIndex ) . StepWrapperList[ currentStep - 1 ]; 
 						if (stepWrapper != null)
 						{
 							IList<TongdaoWrapper> tongdaoList = stepWrapper.TongdaoList;
@@ -1307,10 +1348,10 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].ScrollValue = tdValue;
 
 			if (isMultiMode) {
-				copyToAll2(0,tdIndex,WHERE.SCROLL_VALUE,tdValue);
+				copyValueToAll(  tdIndex,WHERE.SCROLL_VALUE,tdValue);
 			}
 
-				// 是否实时单灯单步
+			// 是否实时单灯单步
 			if (isConnected && isRealtime)
 			{
 				oneLightStepWork();
@@ -1321,18 +1362,27 @@ namespace LightController.MyForm
 		#region 获取各种当前（步数、灯具）等的辅助方法
 
 		/// <summary>
-		///  获取当前选中的LightWrapper（此灯具全部数据）
+		///  辅助方法：获取当前选中的LightWrapper（此灯具全部数据）
 		/// </summary>
 		/// <returns></returns>
 		protected LightWrapper getCurrentLightWrapper()
 		{
-			//Console.WriteLine("currentLight - " + selectedLightIndex);
+			return getSelectedLightWrapper(selectedIndex);
+		}
+
+		/// <summary>
+		///  辅助方法：获取指定灯LightWrapper
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <returns></returns>
+		protected LightWrapper getSelectedLightWrapper(int lightIndex) {
+
 			// 说明尚未点击任何灯具 或 内存内还没有任何灯具
-			if (selectedIndex == -1  || lightWrapperList == null || lightWrapperList.Count == 0)
+			if (lightIndex == -1 || lightWrapperList == null || lightWrapperList.Count == 0)
 			{
 				return null;
-			}			
-			return lightWrapperList[selectedIndex];
+			}
+			return lightWrapperList[lightIndex];
 		}
 
 		/// <summary>
@@ -1378,12 +1428,38 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：直接取出当前（灯、frame、mode 、currentStepValue)步：筛选条件比较苛刻
+		/// 辅助方法：取出选中灯具的当前F/M的所有步数据
+		/// </summary>
+		/// <param name="selectedIndex"></param>
+		/// <returns></returns>
+		protected int getSelectedLightStepCounts(int selectedIndex)
+		{
+			LightStepWrapper lsWrapper = getSelectedLightStepWrapper(selectedIndex);
+			if (lsWrapper == null) {
+				return 0;
+			}
+			else{
+				return lsWrapper.TotalStep;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：直接取出selectedIndex灯在当前F/M的当前步：筛选条件比较苛刻
 		/// </summary>
 		/// <returns></returns>
 		protected StepWrapper getCurrentStepWrapper()
 		{
-			LightStepWrapper light = getCurrentLightStepWrapper();
+			return getSelectedLightCurrentStepWrapper(selectedIndex);
+		}
+
+		/// <summary>
+		///  辅助方法：取出指定灯在当前F/M的当前步
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <returns></returns>
+		protected StepWrapper getSelectedLightCurrentStepWrapper(int lightIndex)
+		{
+			LightStepWrapper light = getSelectedLightStepWrapper(lightIndex);
 			if (light != null
 				&& light.TotalStep != 0
 				&& light.CurrentStep != 0
@@ -1404,16 +1480,25 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		protected StepWrapper getCurrentStepTemplate()
 		{
-			LightStepWrapper light = getCurrentLightStepWrapper();
+			return getSelectedLightStepTemplate(selectedIndex);
+		}
+
+		/// <summary>
+		///  11.22
+		///  辅助方法：取出指定灯具的StepTemplate
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <returns></returns>
+		protected StepWrapper getSelectedLightStepTemplate(int lightIndex)
+		{
+			LightWrapper light = getSelectedLightWrapper(lightIndex);			
 			if (light != null)
 			{
-				return getCurrentLightWrapper().StepTemplate;
-			}
+				return light.StepTemplate;			}
 			else
 			{
 				return null;
 			}
-
 		}
 
 		/// <summary>
@@ -1469,6 +1554,29 @@ namespace LightController.MyForm
 			else
 			{
 				return light.StepWrapperList[ totalStep - 1];
+			}
+		}
+
+		/// <summary>
+		///  11.22 新增方法 
+		///  辅助方法：取出选中灯在该场景模式下的最后一步数据，（用于追加步）
+		/// </summary>
+		/// <returns></returns>
+		protected StepWrapper getSelectedLightLastStepWrapper(int lightIndex )
+		{
+			LightStepWrapper light = getSelectedLightStepWrapper(lightIndex);
+			if (light == null)
+			{
+				return null;
+			}
+			int totalStep = light.TotalStep ;
+			if (totalStep == 0)
+			{
+				return null;
+			}
+			else
+			{
+				return light.StepWrapperList[totalStep - 1];
 			}
 		}
 
@@ -1530,17 +1638,26 @@ namespace LightController.MyForm
 		/// <param name="where"></param>
 		/// <param name="commonValue"></param>
 		public void setMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int commonValue) {
-			
-			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-			for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)		{
-				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepIndex];
-				stepWrapper.MultiChangeValue(where, tdIndexList, commonValue);
-			}
 
-			if (isMultiMode) {
-				copyToAll(0);
+			// TODO：11.21 检查多灯，将值赋给每个编组的灯具中
+			if (isMultiMode)
+			{
+				foreach( int lightIndex in selectedIndices )
+				{
+					LightStepWrapper lsWrapper = getSelectedLightStepWrapper(lightIndex);
+					for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)
+					{
+						lsWrapper.StepWrapperList[stepIndex].MultiChangeValue(where, tdIndexList, commonValue);
+					}
+				}
+			} // 单灯模式，则只需更改当前灯具的数据即可。
+			else {
+				LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
+				for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)
+				{
+					lightStepWrapper.StepWrapperList[stepIndex].MultiChangeValue(where, tdIndexList, commonValue);
+				}
 			}
-
 			// 刷新当前tdPanels数据。
 			RefreshStep();
 		}
@@ -1567,53 +1684,146 @@ namespace LightController.MyForm
 		///		1.取出选中的组长，
 		///		2.使用组长数据，替代其他灯具（在该F/M）的所有步数集合。
 		/// </summary>
-		/// <param name="selectedIndex"></param>
-		public virtual void EnterMultiMode(int selectedIndex)
+		/// <param name="groupSelectedIndex"></param>
+		public virtual void EnterMultiMode(int groupSelectedIndex , bool isCopyAll)
 		{
-			copyToAll(selectedIndex);
+			this.isCopyAll = isCopyAll;	
+			doMultiMode(groupSelectedIndex);
 			RefreshStep();
 		}
 
 		/// <summary>
-		/// 辅助方法：多灯模式中，利用此方法将组长所有（当前F/M）数据，赋给所有的组员。
+		/// 辅助方法：多灯模式中，利用此方法①设好组长，将selectedIndex设成组长；②若isCopyAll，则将组长所有（当前F/M）数据，赋给所有的组员。
 		/// </summary>
-		/// <param name="selectedIndex"></param>
-		protected void copyToAll(int selectedIndex) {
+		/// <param name="groupSelectedIndex"></param>
+		protected void doMultiMode(int groupSelectedIndex) {
 			
-			// selectedIndex是几个选中的索引中的顺序，用chooseIndex才能选到当前ListView中指定的灯具
-			int chooseIndex = selectedIndices[selectedIndex];
-			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(chooseIndex); //取出组长
+			// groupSelectedIndex是几个选中的索引中的顺序;用下列语句取出组长，并设为Form中的selectedIndex
+			selectedIndex = selectedIndices[groupSelectedIndex];			
+			if (isCopyAll) {				
+				LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
+				foreach (int index in selectedIndices)
+				{
+					//通过组长生成相关的数据
+					StepWrapper currentStepTemplate = lightWrapperList[index].StepTemplate;
+					lightWrapperList[index].LightStepWrapperList[frame, mode] =  LightStepWrapper. GenerateLightStepWrapper( mainLSWrapper,  currentStepTemplate,  mode);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：多灯模式中，利用此方法，将修改不多的组长数据（如部分通道值、渐变方式、步时间等），用此改动较少的方法，赋给所有的组员
+		/// </summary>
+		/// <param name="groupSelectedIndex"></param>
+		protected void copyValueToAll(int tdIndex , WHERE where, int value)
+		{
+			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper( selectedIndex ); //取出组长
+			int currentStep = getCurrentStep();
+			foreach (int index in selectedIndices) 
+			{
+				if (getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1] != null) {
+					switch (where)
+					{
+						case WHERE.SCROLL_VALUE:
+							getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ScrollValue = value; break;
+						case WHERE.CHANGE_MODE:
+							getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ChangeMode = value; break;
+						case WHERE.STEP_TIME:
+							getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].StepTime = value; break;
+					}
+				}				
+			}
+		}
+
+		/// <summary>
+		///TODO：11.21  辅助方法：统一设值的辅助方法
+		/// </summary>
+		/// <param name="where"></param>
+		/// <param name="value"></param>
+		protected void copyCommonValueToAll(int stepNum, WHERE where, int value) {
+
+			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长			
+			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
 
 			foreach (int index in selectedIndices)
 			{
-				//通过组长生成相关的数据
-				StepWrapper currentStepTemplate = lightWrapperList[index].StepTemplate;
-				lightWrapperList[index].LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, mode);
+				if (getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1] != null)
+				{
+					for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
+					{
+						switch (where)
+						{
+							case WHERE.SCROLL_VALUE:
+								getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = value; break;
+							case WHERE.CHANGE_MODE:
+								getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = value; break;
+							case WHERE.STEP_TIME:
+								getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = value; break;
+						}
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：多灯模式中，利用此方法。将当前步的一些《统一设置》的scrollValue值，设为多灯的相关步的值。
+		/// </summary>
+		protected void copyStepToAll( int  stepNum) {
+
+			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
+			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
+
+			foreach (int index in selectedIndices)
+			{
+				if (getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1] != null)
+				{
+					for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
+					{
+						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue;				
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：多灯模式中，利用此方法。将当前步的一些《统一设置》的值，设为多灯的相关步的值（三个属性）。
+		/// </summary>
+		protected void copyStepToAll2(int stepNum)
+		{
+
+			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
+			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
+
+			foreach (int index in selectedIndices)
+			{
+				if (getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1] != null)
+				{
+					for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
+					{
+						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue;
+						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode;
+						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime ;
+					}
+				}
 			}
 		}
 
 
 		/// <summary>
-		/// 辅助方法：多灯模式中，利用此方法，将修改不多的组长数据（如部分通道值、渐变方式、步时间等），用此改动较少的方法，赋给所有的组员
+		///  辅助方法：供MultiLightForm使用，检查当前的所有选中灯具的所有步数，是否一致。（可以传入组长数据)一致返回true，否则返回false
 		/// </summary>
-		/// <param name="selectedIndex"></param>
-		protected void copyToAll2(int selectedIndex , int tdIndex , WHERE where, int value)
-		{
-			// selectedIndex是几个选中的索引中的顺序，用chooseIndex才能选到当前ListView中指定的灯具
-			int chooseIndex = selectedIndices[selectedIndex];
-			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(chooseIndex); //取出组长
-			int currentStep = getCurrentStep();
+		/// <returns></returns>
+		public bool CheckSameStepCounts() {
+			int firstIndex = selectedIndices[0];
+			int firstStepCounts = getSelectedLightStepCounts(firstIndex); 
 			foreach (int index in selectedIndices)
 			{
-				switch (where) {
-					case WHERE.SCROLL_VALUE:
-						getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ScrollValue = value; break;
-					case WHERE.CHANGE_MODE:
-						getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].ChangeMode = value;break;
-					case WHERE.STEP_TIME:
-						getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1].TongdaoList[tdIndex].StepTime = value; break;
-				}				
+				int tempStepCounts = getSelectedLightStepCounts(index);
+				if (tempStepCounts != firstStepCounts) {
+					return false;
+				}
 			}
+			return true;
 		}
 
 
@@ -1675,7 +1885,7 @@ namespace LightController.MyForm
 			}
 			RefreshStep();
 			MessageBox.Show("成功调用场景:"+ AllFrameList[selectedFrameIndex]); 
-		}		
+		}	
 
 	}
 }

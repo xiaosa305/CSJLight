@@ -598,6 +598,7 @@
 			this.label1.Size = new System.Drawing.Size(125, 12);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "请选择要复制的步数：";
+			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// panel1
 			// 

@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -173,6 +174,9 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
+
+        //TODO
+        public void Download(string ip, CSJ_Project project, IReceiveCallBack callBack, DownloadProgressDelegate download) { }
         public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
         {
             if (IsStart)
@@ -293,25 +297,17 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-
-
-        //Test
-        public void StartIntentPreview(String ip)
+        public void StartIntentPreview(String ip,int timeFactory, IReceiveCallBack receiveCallBack)
         {
-            SocketTools.GetInstance().StartDebug(ip);
+            SocketTools.GetInstance().StartDebug(ip, timeFactory, receiveCallBack);
         }
-
-        public void StopIntentPreview(String ip)
+        public void StopIntentPreview(String ip, IReceiveCallBack receiveCallBack)
         {
-            SocketTools.GetInstance().EndDebug(ip);
+            SocketTools.GetInstance().EndDebug(ip,receiveCallBack);
         }
-
         public void SendIntenetPreview(String ip,byte[] data)
         {
             UdpServer.SendTo(data, new IPEndPoint(IPAddress.Parse(ip), UDP_DEBUG_PORT));
         }
     }
-
- 
 }

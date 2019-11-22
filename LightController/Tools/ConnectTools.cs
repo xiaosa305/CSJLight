@@ -13,6 +13,7 @@ namespace LightController.Tools
     {
         private readonly int UDP_SERVER_PORT = 7070;
         private readonly int UDP_CLIENT_PORT = 7060;
+        private readonly int UDP_DEBUG_PORT = 7080;
         private static ConnectTools Instance { get; set; }
         private Socket UdpServer { get; set; }
         private string ServerIp { get; set; }
@@ -291,6 +292,24 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
+        }
+
+
+
+        //Test
+        public void StartIntentPreview(String ip)
+        {
+            SocketTools.GetInstance().StartDebug(ip);
+        }
+
+        public void StopIntentPreview(String ip)
+        {
+            SocketTools.GetInstance().EndDebug(ip);
+        }
+
+        public void SendIntenetPreview(String ip,byte[] data)
+        {
+            UdpServer.SendTo(data, new IPEndPoint(IPAddress.Parse(ip), UDP_DEBUG_PORT));
         }
     }
 

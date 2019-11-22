@@ -55,6 +55,11 @@ namespace LightController.Tools
         public const string ORDER_GET_PARAM = "GetParam";
         public const string ORDER_SEARCH = "Search";
         public const string ORDER_UPDATE = "UpDate";
+
+        public const string ORDER_STARTPREVIEW = "StartDebug";
+        public const string ORDER_STOPPREVIEW = "StopDebug";
+        public const string ORDER_SENDPREVIEWDATA = "SendPreviewData";
+
         public const string MARK_ORDER_TAKE_DATA = "00000101";
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";

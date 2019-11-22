@@ -782,7 +782,7 @@ namespace LightController.Tools.CSJ
                 }
             }
         }
-        public void Update(string filePath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
+        public void Update(string filePath, IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
         {
             try
             {
@@ -811,6 +811,16 @@ namespace LightController.Tools.CSJ
                     this.CallBack.SendError(this.DeviceName, this.Order);
                 }
             }
+        }
+        public void StartIntenetPreview()
+        {
+            SendData(null, Constant.ORDER_STARTPREVIEW, null);
+            //throw new NotImplementedException();
+        }
+        public void StopIntenetPreview()
+        {
+            SendData(null, Constant.ORDER_STOPPREVIEW, null);
+            //throw new NotImplementedException();
         }
         protected void UpdateStart()
         {

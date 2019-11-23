@@ -2211,7 +2211,7 @@ namespace LightController.MyForm
 					connectTools.Start(ipAst.LocalIP);
 					//TODO：11.23 若网络连接其实没连上，应该怎么处理？
 					NetworkDebugReceiveCallBack cb = new NetworkDebugReceiveCallBack();
-					playTools.StartIntenetPreview(ipAst.DeviceIP, cb);
+					playTools.StartInternetPreview(ipAst.DeviceIP, cb);
 					if (cb.Result == false)
 					{
 						return;
@@ -2232,7 +2232,7 @@ namespace LightController.MyForm
 					playTools.CloseDevice();
 				}
 				else {
-					playTools.StopIntenetPreview(new NetworkEndDebugReceiveCallBack());
+					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
 				}				
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
@@ -2804,14 +2804,6 @@ namespace LightController.MyForm
 
 			//MakeCurrentStepWrapperData();
 
-			ConnectTools connectTools = ConnectTools.GetInstance();
-			connectTools.Start("192.168.31.14");
-			connectTools.SearchDevice();
-			playTools.StartIntenetPreview("192.168.31.102", new NetworkDebugReceiveCallBack());
-
-
-
-			playTools.StopIntenetPreview(new NetworkEndDebugReceiveCallBack() );  
 		}
 
 
@@ -2833,15 +2825,15 @@ namespace LightController.MyForm
 	public class NetworkDebugReceiveCallBack : IReceiveCallBack
 	{
 		public bool Result { get; set; }
-
-
 		public void SendCompleted(string deviceName, string order)
 		{
 			MessageBox.Show("设备：" + deviceName + "  连接成功。"	);
+			Result = true;
 		}
 		public void SendError(string deviceName, string order)
 		{
 			MessageBox.Show("设备：" + deviceName + "  连接失败。"	);
+			Result = false;
 		}
 	}
 

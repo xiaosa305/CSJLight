@@ -146,17 +146,17 @@ namespace LightController.Tools
 
         public void StopInternetPreview(IReceiveCallBack receiveCallBack)
         {
-            while (true)
-            {
                 ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
                 IsInitIntentDebug = false;
-            }
         }
 
         private void SendEmptyDataStart()
         {
-            this.Play();
-            Thread.Sleep(this.TimeFactory - 21);
+            while (true)
+            {
+                this.Play();
+                Thread.Sleep(this.TimeFactory - 21);
+            }
         }
 
         //TODO

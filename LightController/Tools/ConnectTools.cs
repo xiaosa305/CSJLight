@@ -26,6 +26,7 @@ namespace LightController.Tools
 
         private ConnectTools()
         {
+            SocketTools.GetInstance().Start();
         }
         public static ConnectTools GetInstance()
         {
@@ -56,7 +57,6 @@ namespace LightController.Tools
                 {
                     IsBackground = true
                 };
-                SocketTools.GetInstance().Start();
                 receiveThread.Start(UdpClient);
                 IsStart = true;
             }

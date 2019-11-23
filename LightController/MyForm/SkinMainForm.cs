@@ -2182,8 +2182,10 @@ namespace LightController.MyForm
 
 					IPAst ipAst = ipAstList[deviceSkinComboBox.SelectedIndex];
 					connectTools = ConnectTools.GetInstance();
-					connectTools.Start(ipAst.LocalIP);
-					//TODO：11.23 若网络连接其实没连上，应该怎么处理？
+					
+
+
+					connectTools.Start(ipAst.LocalIP);				
 
 					playTools.StartInternetPreview(ipAst.DeviceIP, cb, eachStepTime);					
 					//if ( !cb.Result )
@@ -2205,11 +2207,17 @@ namespace LightController.MyForm
 					playTools.CloseDevice();
 				}
 				else {
-					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
+					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());				
 				}				
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 				enableConnectedButtons(false);
+
+				//TODO：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
+				if ( !isConnectCom) {
+					Thread.Sleep(500);
+					refreshNetworkList();
+				}
 			}
 		}
 
@@ -2777,6 +2785,8 @@ namespace LightController.MyForm
 
 			//MakeCurrentStepWrapperData();
 
+			SocketTools.GetInstance().Start();
+
 		}
 
 
@@ -2800,12 +2810,12 @@ namespace LightController.MyForm
 		public bool Result { get; set; }	
 		public void SendCompleted(string deviceName, string order)
 		{
-			MessageBox.Show("网络设备" + deviceName + " 连接成功。"	);
+			//MessageBox.Show("网络设备" + deviceName + " 连接成功。"	);
 			Result = true;
 		}
 		public void SendError(string deviceName, string order)
 		{
-			MessageBox.Show("网络设备" + deviceName + " 连接失败。"	);
+			//MessageBox.Show("网络设备" + deviceName + " 连接失败。"	);
 			Result = false;
 		}
 	}
@@ -2814,11 +2824,11 @@ namespace LightController.MyForm
 	{
 		public void SendCompleted(string deviceName, string order)
 		{
-			MessageBox.Show("设备：" + deviceName + "  断开成功。");
+			//MessageBox.Show("设备：" + deviceName + "  断开成功。");
 		}
 		public void SendError(string deviceName, string order)
 		{
-			MessageBox.Show("设备：" + deviceName + "  断开失败。");
+			//MessageBox.Show("设备：" + deviceName + "  断开失败。");
 		}
 	}
 

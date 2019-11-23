@@ -1393,7 +1393,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：取出选定(灯具、frame、mode))的所有步数集合
+		///  辅助方法：取出当前灯具(frame、mode)的所有步数集合
 		/// </summary>
 		/// <returns></returns>
 		protected LightStepWrapper getCurrentLightStepWrapper()
@@ -1422,9 +1422,12 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="selectedIndex"></param>
 		/// <returns></returns>
-		protected LightStepWrapper getSelectedLightStepWrapper(int selectedIndex)
+		protected LightStepWrapper getSelectedLightStepWrapper(int lightIndex)
 		{
-			LightWrapper light = lightWrapperList[selectedIndex];
+			if (lightIndex < 0) {
+				return null;
+			}
+			LightWrapper light = lightWrapperList[lightIndex];
 			if (light == null) {
 				return null;
 			}
@@ -1439,9 +1442,12 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="selectedIndex"></param>
 		/// <returns></returns>
-		protected int getSelectedLightStepCounts(int selectedIndex)
+		protected int getSelectedLightStepCounts(int lightIndex)
 		{
-			LightStepWrapper lsWrapper = getSelectedLightStepWrapper(selectedIndex);
+			if (lightIndex < 0) {
+				return 0;
+			}
+			LightStepWrapper lsWrapper = getSelectedLightStepWrapper(lightIndex);
 			if (lsWrapper == null) {
 				return 0;
 			}
@@ -1724,8 +1730,9 @@ namespace LightController.MyForm
 		/// <param name="groupSelectedIndex"></param>
 		protected void copyValueToAll(int tdIndex , WHERE where, int value)
 		{
-			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper( selectedIndex ); //取出组长
-			int currentStep = getCurrentStep();
+			LightStepWrapper mainLSWrapper = getCurrentLightStepWrapper(); //取出组长
+			int currentStep = getCurrentStep() ;     // 取出组长的当前步
+
 			foreach (int index in selectedIndices) 
 			{
 				if (getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1] != null) {
@@ -1773,9 +1780,9 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：多灯模式中，利用此方法。将当前步的一些《统一设置》的scrollValue值，设为多灯的相关步的值。
+		/// 辅助方法：多灯模式中，利用此方法，将当前步的一些《统一设置》的scrollValue值，设为多灯的相关步的值。
 		/// </summary>
-		protected void copyStepToAll( int  stepNum) {
+		protected void copyStepToAll( int  stepNum , bool changeAll) {
 
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
 			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
@@ -1786,18 +1793,21 @@ namespace LightController.MyForm
 				{
 					for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
 					{
-						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue;				
+						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue;
+						if (changeAll) {
+							getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode;
+							getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime;
+						}
 					}
 				}
 			}
 		}
 
 		/// <summary>
-		/// 辅助方法：多灯模式中，利用此方法。将当前步的一些《统一设置》的值，设为多灯的相关步的值（三个属性）。
+		/// 辅助方法：多灯模式中，利用此方法，将当前步的一些《统一设置》的值，设为多灯的相关步的值（三个属性）。
 		/// </summary>
 		protected void copyStepToAll2(int stepNum)
 		{
-
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
 			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
 
@@ -1805,7 +1815,7 @@ namespace LightController.MyForm
 			{
 				if (getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1] != null)
 				{
-					for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
+					for (int tdIndex = 0;  tdIndex < tdCount ;  tdIndex++)
 					{
 						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue;
 						getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = mainLSWrapper.StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode;

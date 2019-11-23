@@ -1226,7 +1226,7 @@ namespace LightController.MyForm
 			this.changeConnectMethodSkinButton.NormlBack = null;
 			this.changeConnectMethodSkinButton.Radius = 10;
 			this.changeConnectMethodSkinButton.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-			this.changeConnectMethodSkinButton.Size = new System.Drawing.Size(103, 34);
+			this.changeConnectMethodSkinButton.Size = new System.Drawing.Size(96, 34);
 			this.changeConnectMethodSkinButton.TabIndex = 17;
 			this.changeConnectMethodSkinButton.Text = "以网络连接";
 			this.changeConnectMethodSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1247,14 +1247,14 @@ namespace LightController.MyForm
 			this.deviceRefreshSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.deviceRefreshSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.deviceRefreshSkinButton.InheritColor = true;
-			this.deviceRefreshSkinButton.Location = new System.Drawing.Point(135, 48);
+			this.deviceRefreshSkinButton.Location = new System.Drawing.Point(143, 48);
 			this.deviceRefreshSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceRefreshSkinButton.MouseBack = null;
 			this.deviceRefreshSkinButton.Name = "deviceRefreshSkinButton";
 			this.deviceRefreshSkinButton.NormlBack = null;
 			this.deviceRefreshSkinButton.Radius = 10;
 			this.deviceRefreshSkinButton.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-			this.deviceRefreshSkinButton.Size = new System.Drawing.Size(103, 34);
+			this.deviceRefreshSkinButton.Size = new System.Drawing.Size(86, 34);
 			this.deviceRefreshSkinButton.TabIndex = 17;
 			this.deviceRefreshSkinButton.Text = "刷新串口";
 			this.deviceRefreshSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1269,9 +1269,9 @@ namespace LightController.MyForm
 			this.deviceSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.deviceSkinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.deviceSkinComboBox.ItemBorderColor = System.Drawing.Color.Gray;
-			this.deviceSkinComboBox.Location = new System.Drawing.Point(16, 16);
+			this.deviceSkinComboBox.Location = new System.Drawing.Point(15, 16);
 			this.deviceSkinComboBox.Name = "deviceSkinComboBox";
-			this.deviceSkinComboBox.Size = new System.Drawing.Size(226, 22);
+			this.deviceSkinComboBox.Size = new System.Drawing.Size(224, 22);
 			this.deviceSkinComboBox.TabIndex = 15;
 			this.deviceSkinComboBox.WaterText = "";
 			this.deviceSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.comSkinComboBox_SelectedIndexChanged);

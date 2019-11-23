@@ -1502,8 +1502,6 @@ namespace LightController.MyForm
 			tdSkinTrackBars[tongdaoIndex].Value = tdValue;
 			tdSkinTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
 
-
-
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
 			changeScrollValue(tongdaoIndex, tdValue);
 		}
@@ -1575,31 +1573,7 @@ namespace LightController.MyForm
 			//3.多灯模式下，需要把调整复制到各个灯具去
 			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
-			}
-
-			#region 废弃代码块：
-
-			//if (isInit)
-			//{
-			//	// 3.（6.29修改）若当前模式是声控模式：
-			//	//		则更改其中某一个通道的是否声控的值，则此通道的所有声控步，都要统一改变其是否声控值
-			//	if (mode == 1)
-			//	{
-			//		IList<StepWrapper> stepWrapperList = getCurrentLightStepWrapper().StepWrapperList;
-			//		foreach (StepWrapper stepWrapper in stepWrapperList)
-			//		{
-			//			stepWrapper.TongdaoList[index].ChangeMode = tdChangeModeSkinComboBoxes[index].SelectedIndex;
-			//		}
-			//	}
-			//	// 4.(8.8新增判断）若当前模式是普通模式：
-			//	//		被屏蔽掉的通道，其数值不再可以改动;否则可以调整
-			//	//else
-			//	//{
-			//	//	enableTongdaoEdit(index, tdChangeModeSkinComboBoxes[index].SelectedIndex != 2);
-			//	//}
-			//}
-
-			#endregion
+			}						
 		}
 
 		/// <summary>
@@ -2012,7 +1986,7 @@ namespace LightController.MyForm
 			}
 			if (isMultiMode) {
 				// TODO : 11.21 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
-				copyStepToAll(getCurrentStep());
+				copyStepToAll(getCurrentStep(),false);
 			}
 			RefreshStep();
 		}
@@ -2028,7 +2002,6 @@ namespace LightController.MyForm
 			MultiStepForm msForm = new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), mode);
 			msForm.ShowDialog();
 		}
-
 		#endregion
 
 
@@ -2096,8 +2069,6 @@ namespace LightController.MyForm
 				deviceSkinComboBox.Enabled = false;
 				connectSkinButton.Enabled = false;
 			}
-
-
 		}
 
 		/// <summary>
@@ -2126,7 +2097,8 @@ namespace LightController.MyForm
 					{
 						foreach (KeyValuePair<string, string> device in devList)
 						{
-							deviceSkinComboBox.Items.Add(device.Value + "(" + device.Key + ")");
+							string localIPLast = ip.ToString().Substring(ip.ToString().LastIndexOf("."));
+							deviceSkinComboBox.Items.Add(device.Value + "(" + device.Key + ")" + localIPLast);
 							ipAstList.Add(new IPAst() {
 								LocalIP = ip.ToString() ,
 								DeviceIP = device.Key ,
@@ -2180,6 +2152,8 @@ namespace LightController.MyForm
 			}
 		}
 
+
+		private NetworkDebugReceiveCallBack cb = new NetworkDebugReceiveCallBack();
 		/// <summary>
 		///  事件：点击《连接设备|断开连接》按钮
 		/// </summary>
@@ -2198,25 +2172,24 @@ namespace LightController.MyForm
 						MessageBox.Show("未选中可用串口。");
 						return;
 					}
-					playTools.ConnectDevice(comName);					
+					playTools.ConnectDevice(comName);
 				}
 				else {
-					if (String.IsNullOrEmpty(comName) || deviceSkinComboBox.SelectedIndex < 0 ) {
+					if (String.IsNullOrEmpty(comName) || deviceSkinComboBox.SelectedIndex < 0) {
 						MessageBox.Show("未选中可用网络连接。");
 						return;
 					}
 
-					IPAst ipAst = ipAstList[ deviceSkinComboBox.SelectedIndex ];
+					IPAst ipAst = ipAstList[deviceSkinComboBox.SelectedIndex];
 					connectTools = ConnectTools.GetInstance();
 					connectTools.Start(ipAst.LocalIP);
 					//TODO：11.23 若网络连接其实没连上，应该怎么处理？
-					NetworkDebugReceiveCallBack cb = new NetworkDebugReceiveCallBack();
-					playTools.StartInternetPreview(ipAst.DeviceIP, cb,eachStepTime);
-					if ( !cb.Result )
-					{
-						return;
-					}
 
+					playTools.StartInternetPreview(ipAst.DeviceIP, cb, eachStepTime);					
+					//if ( !cb.Result )
+					//{
+					//	return;
+					//}
 				}
 				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
 				connectSkinButton.Text = "断开连接";
@@ -2824,15 +2797,15 @@ namespace LightController.MyForm
 
 	public class NetworkDebugReceiveCallBack : IReceiveCallBack
 	{
-		public bool Result { get; set; }
+		public bool Result { get; set; }	
 		public void SendCompleted(string deviceName, string order)
 		{
-			MessageBox.Show("设备：" + deviceName + "  连接成功。"	);
+			MessageBox.Show("网络设备" + deviceName + " 连接成功。"	);
 			Result = true;
 		}
 		public void SendError(string deviceName, string order)
 		{
-			MessageBox.Show("设备：" + deviceName + "  连接失败。"	);
+			MessageBox.Show("网络设备" + deviceName + " 连接失败。"	);
 			Result = false;
 		}
 	}

@@ -2211,7 +2211,7 @@ namespace LightController.MyForm
 					connectTools.Start(ipAst.LocalIP);
 					//TODO：11.23 若网络连接其实没连上，应该怎么处理？
 					NetworkDebugReceiveCallBack cb = new NetworkDebugReceiveCallBack();
-					playTools.StartInternetPreview(ipAst.DeviceIP, cb);
+					playTools.StartInternetPreview(ipAst.DeviceIP, cb,eachStepTime);
 					if (cb.Result == false)
 					{
 						return;

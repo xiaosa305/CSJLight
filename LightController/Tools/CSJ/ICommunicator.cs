@@ -546,28 +546,8 @@ namespace LightController.Tools.CSJ
                     }
                     break;
                 case Constant.ORDER_END_DEBUG:
-                    try
-                    {
-                        string data = Encoding.Default.GetString(rxBuff);
-                        switch (data)
-                        {
-                            case Constant.RECEIVE_ORDER_END_DEBUG_OK:
-                            case Constant.RECEIVE_ORDER_END_DEBUG_ERROR:
-                            default:
-                                CallBack.SendCompleted(devicename, this.Order);
-                                this.CloseDevice();
-                                break;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        CSJLogs.GetInstance().ErrorLog(ex);
-                    }
-                    finally
-                    {
                         CallBack.SendCompleted(devicename, this.Order);
                         this.CloseDevice();
-                    }
                     break;
                 default:
                     switch (rxStr.Split(':')[0])

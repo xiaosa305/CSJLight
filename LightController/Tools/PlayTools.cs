@@ -416,20 +416,25 @@ namespace LightController.Tools
         }
         private void PreViewThreadStart()
         {
+            if (SendEmptyDebugDataThread != null)
+            {
+                try
+                {
+                    SendEmptyDebugDataThread.Abort();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("关闭空数据发送异常");
+                }
+                finally
+                {
+                    SendEmptyDebugDataThread = null;
+                }
+            }
             try
             {
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-                if (SendEmptyDebugDataThread != null)
-                {
-                    try
-                    {
-                        SendEmptyDebugDataThread.Abort();
-                    }
-                    finally
-                    {
-                        SendEmptyDebugDataThread = null;
-                    }
-                }
+               
                 while (true)
                 {
                     if (!this.IsPausePlay)

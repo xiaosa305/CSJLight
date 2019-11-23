@@ -416,13 +416,16 @@ namespace LightController.Tools
             try
             {
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-                try
+                if (SendEmptyDebugDataThread != null)
                 {
-                    SendEmptyDebugDataThread.Abort();
-                }
-                finally
-                {
-                    SendEmptyDebugDataThread = null;
+                    try
+                    {
+                        SendEmptyDebugDataThread.Abort();
+                    }
+                    finally
+                    {
+                        SendEmptyDebugDataThread = null;
+                    }
                 }
                 while (true)
                 {

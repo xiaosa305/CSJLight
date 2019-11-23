@@ -43,12 +43,23 @@ namespace LightController.Tools
             }
             return Instance;
         }
-        public void Start()
+        public void InitCoons()
         {
             conns = new Conn[MaxCount];
             for (int i = 0; i < MaxCount; i++)
             {
                 conns[i] = new Conn();
+            }
+        }
+        public void Start()
+        {
+            if (conns == null)
+            {
+                conns = new Conn[MaxCount];
+                for (int i = 0; i < MaxCount; i++)
+                {
+                    conns[i] = new Conn();
+                }
             }
         }
         public void AddConnect(byte[] receiveBuff, int port)

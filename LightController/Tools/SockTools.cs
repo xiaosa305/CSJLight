@@ -45,10 +45,10 @@ namespace LightController.Tools
         }
         public void InitCoons()
         {
-            conns = new Conn[MaxCount];
+            //conns = new Conn[MaxCount];
             for (int i = 0; i < MaxCount; i++)
             {
-                conns[i] = new Conn();
+                conns[i].CloseDevice();
             }
         }
         public void Start()
@@ -252,7 +252,6 @@ namespace LightController.Tools
                 }
             }
         }
-
         public void StartDebug(string ip,int timeFactory, IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
@@ -266,7 +265,6 @@ namespace LightController.Tools
                 }
             }
         }
-
         public void EndDebug(string ip, IReceiveCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)

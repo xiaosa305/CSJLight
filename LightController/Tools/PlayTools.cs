@@ -146,8 +146,11 @@ namespace LightController.Tools
 
         public void StopInternetPreview(IReceiveCallBack receiveCallBack)
         {
-            ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
-            IsInitIntentDebug = false;
+            while (true)
+            {
+                ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
+                IsInitIntentDebug = false;
+            }
         }
 
         private void SendEmptyDataStart()

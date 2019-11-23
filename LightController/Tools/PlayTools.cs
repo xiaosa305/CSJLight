@@ -50,7 +50,7 @@ namespace LightController.Tools
         private int MusicStepPoint { get; set; }
         private bool MusicData { get; set; }
         private bool MusicWaiting { get; set; }
-        private bool IsIntentDebug { get; set; }
+        private bool IsInitIntentDebug { get; set; }
         private IReceiveCallBack IntentDebugCallback { get; set; }
         private System.Timers.Timer Timer { get; set; }
 
@@ -68,7 +68,7 @@ namespace LightController.Tools
                 Device = new FTDI();
                 Timer = new System.Timers.Timer();
                 MusicWaiting = true;
-                IsIntentDebug = false;
+                IsInitIntentDebug = false;
             }
             catch (Exception ex)
             {
@@ -121,7 +121,7 @@ namespace LightController.Tools
                         MusicControlThread = null;
                     }
                 }
-                this.IsIntentDebug = false;
+                this.IsInitIntentDebug = false;
                 State = PreViewState.Null;
             }
             catch (Exception ex)
@@ -130,19 +130,19 @@ namespace LightController.Tools
             }
         }
 
-        public void StartIntenetPreview(string deviceIp,IReceiveCallBack receiveCallBack)
+        public void StartInternetPreview(string deviceIp,IReceiveCallBack receiveCallBack)
         {
             this.PreviewWayState = STATE_INTENETPREVIEW;
             this.DeviceIpByIntentPreview = deviceIp;
             this.IntentDebugCallback = receiveCallBack;
-            this.IsIntentDebug = false;
+            this.IsInitIntentDebug = true;
         }
 
-        public void StopIntenetPreview(IReceiveCallBack receiveCallBack)
+        public void StopInternetPreview(IReceiveCallBack receiveCallBack)
         {
-            this.PreviewWayState = STATE_SERIALPREVIEW;
+            //this.PreviewWayState = STATE_SERIALPREVIEW;
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
-            IsIntentDebug = false;
+            IsInitIntentDebug = false;
         }
 
         //TODO
@@ -461,10 +461,10 @@ namespace LightController.Tools
                 }
                 else
                 {
-                    if (!IsIntentDebug)
+                    if (IsInitIntentDebug)
                     {
                         ConnectTools.GetInstance().StartIntentPreview(this.DeviceIpByIntentPreview,TimeFactory, this.IntentDebugCallback);
-                        IsIntentDebug = true;
+                        IsInitIntentDebug = false;
                         Thread.Sleep(300);
                     }
                     Thread.Sleep(21);

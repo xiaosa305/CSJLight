@@ -80,8 +80,15 @@ namespace LightController.MyForm
 		protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false ;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
+
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
+		
+		//TODO：11.22 连接
+		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
+		protected ConnectTools connectTools; 
+		protected IList<IPAst> ipAstList; // 此列表存储所有建立连接的ipAst
+
 
 		// 动态导入场景到此静态变量中
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用

@@ -139,6 +139,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Ast\InsertMethod.cs" />
     <Compile Include="Ast\JustTest.cs" />
     <Compile Include="Ast\LightWrapper.cs" />

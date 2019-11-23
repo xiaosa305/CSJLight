@@ -39,6 +39,7 @@ namespace LightController.Tools
         private Thread OLOSThread { get; set; }
         private Thread PreViewThread { get; set; }
         private Thread MusicControlThread { get; set; }
+        private Thread SendEmptyDebugDataThread { get; set; }
         private bool IsMusicControl { get; set; }
         private bool IsPausePlay { get; set; }
         private int MusicStep { get; set; }
@@ -53,6 +54,7 @@ namespace LightController.Tools
         private bool IsInitIntentDebug { get; set; }
         private IReceiveCallBack IntentDebugCallback { get; set; }
         private System.Timers.Timer Timer { get; set; }
+        private byte[] EmptyData { get; set; }
 
 
         private Socket Server { get; set; }
@@ -69,6 +71,7 @@ namespace LightController.Tools
                 Timer = new System.Timers.Timer();
                 MusicWaiting = true;
                 IsInitIntentDebug = false;
+                PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray(); 
             }
             catch (Exception ex)
             {
@@ -130,19 +133,27 @@ namespace LightController.Tools
             }
         }
 
-        public void StartInternetPreview(string deviceIp,IReceiveCallBack receiveCallBack)
+        public void StartInternetPreview(string deviceIp,IReceiveCallBack receiveCallBack,int timeFactory)
         {
             this.PreviewWayState = STATE_INTENETPREVIEW;
             this.DeviceIpByIntentPreview = deviceIp;
             this.IntentDebugCallback = receiveCallBack;
             this.IsInitIntentDebug = true;
+            this.TimeFactory = timeFactory;
+            SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
+            SendEmptyDebugDataThread.Start();
         }
 
         public void StopInternetPreview(IReceiveCallBack receiveCallBack)
         {
-            //this.PreviewWayState = STATE_SERIALPREVIEW;
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
             IsInitIntentDebug = false;
+        }
+
+        private void SendEmptyDataStart()
+        {
+            this.Play();
+            Thread.Sleep(this.TimeFactory - 21);
         }
 
         //TODO
@@ -405,6 +416,14 @@ namespace LightController.Tools
             try
             {
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                try
+                {
+                    SendEmptyDebugDataThread.Abort();
+                }
+                finally
+                {
+                    SendEmptyDebugDataThread = null;
+                }
                 while (true)
                 {
                     if (!this.IsPausePlay)

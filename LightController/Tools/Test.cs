@@ -34,10 +34,10 @@ namespace LightController.Tools
                     break;
                 case 3:
                     //发送网络调试开启命令
-                     PlayTools.GetInstance().StartIntenetPreview("192.168.31.102", new DownloadCallBack());
+                     PlayTools.GetInstance().StartInternetPreview("192.168.31.102", new DownloadCallBack());
                     break;
                 case 4:
-                    PlayTools.GetInstance().StopIntenetPreview(new DownloadCallBack());
+                    PlayTools.GetInstance().StopInternetPreview(new DownloadCallBack());
                     //发送网络预览数据
                     break;
                 default:

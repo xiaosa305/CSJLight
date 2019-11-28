@@ -17,7 +17,11 @@ namespace LightController.Utils
         private static Dictionary<int, bool> C_DMXSceneState = new Dictionary<int, bool>();
         private static Dictionary<int, Dictionary<int, bool>> M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
         private static Dictionary<int, bool> M_DMXSceneState = new Dictionary<int, bool>();
+        public static readonly int MODE_PREVIEW = FileUtils.MODE_PREVIEW;
+        public static readonly int MODE_MAKEFILE = FileUtils.MODE_MAKEFILE;
+        private int BuildMode { get; set; }
         private const int WriteBufferSize = 1024 * 50;
+        /*
         public static bool GeneratedSceneData(CSJ_SceneData sceneData, DBWrapper wrapper, string configPath, int mode)
         {
             switch (mode)
@@ -28,7 +32,7 @@ namespace LightController.Utils
                     return GeneratedM_SceneData(sceneData, wrapper, configPath);
             }
             return false;
-        }
+        }*/
         public static void GeneratedSceneData(Object obj)
         {
             SceneDBData data = obj as SceneDBData;
@@ -225,32 +229,32 @@ namespace LightController.Utils
             {
                 case Constant.MODE_C:
                     C_DMXSceneChannelData[sceneNo][channelNo] = true;
-                    Console.WriteLine("场景" + (sceneNo + 1) + "-通道" + channelNo + "数据计算完成");
+                    Console.WriteLine("基础场景" + (sceneNo + 1) + "-通道" + channelNo + "数据计算完成");
                     if (!C_DMXSceneChannelData[sceneNo].ContainsValue(false))
                     {
                         C_DMXSceneState[sceneNo] = true;
-                        Console.WriteLine("场景" + (sceneNo + 1) + "数据计算完成并生成文件成功");
+                        Console.WriteLine("基础场景" + (sceneNo + 1) + "数据计算完成并生成文件成功");
                         FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode);
                     }
                     if (!C_DMXSceneState.ContainsValue(false))
                     {
-                        Console.WriteLine("所有场景数据计算完成");
+                        Console.WriteLine("所有基础场景数据计算完成");
                         C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
                         C_DMXSceneState = new Dictionary<int, bool>();
                     }
                     break;
                 case Constant.MODE_M:
                     M_DMXSceneChannelData[sceneNo][channelNo] = true;
-                    Console.WriteLine("场景" + (sceneNo + 1) + "-通道" + channelNo + "数据计算完成");
+                    Console.WriteLine("音频场景" + (sceneNo + 1) + "-通道" + channelNo + "数据计算完成");
                     if (!M_DMXSceneChannelData[sceneNo].ContainsValue(false))
                     {
                         M_DMXSceneState[sceneNo] = true;
-                        Console.WriteLine("场景" + (sceneNo + 1) + "数据计算完成并生成文件成功");
+                        Console.WriteLine("音频场景" + (sceneNo + 1) + "数据计算完成并生成文件成功");
                         FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode);
                     }
                     if (!M_DMXSceneState.ContainsValue(false))
                     {
-                        Console.WriteLine("所有场景数据计算完成");
+                        Console.WriteLine("所有音频场景数据计算完成");
                         M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
                         M_DMXSceneState = new Dictionary<int, bool>();
                     }
@@ -456,13 +460,29 @@ namespace LightController.Utils
             DataCacheWriteCompleted(Constant.GetNumber(sceneNo), Constant.GetNumber(dataInfo.ChannelNo), Constant.MODE_M);
         }
 
+        /// <summary>
+        /// 入口
+        /// </summary>
+        /// <param name="wrapper"></param>
+        /// <param name="valueDAO"></param>
+        /// <param name="configPath"></param>
         public static void SaveProjectFile(DBWrapper wrapper, ValueDAO valueDAO, string configPath)
         {
             FileUtils.ClearCacheData();
             FileUtils.ClearProjectData();
+            //初始化状态存储器
+            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            C_DMXSceneState = new Dictionary<int, bool>();
+            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            M_DMXSceneState = new Dictionary<int, bool>();
+            //启动线程开始执行数据生成及数据导出文件
             Thread thread = new Thread(GeneratedDBSceneData) { IsBackground = true };
             thread.Start(new DBData(wrapper, valueDAO, configPath));
         }
+        /// <summary>
+        /// 检索数据库获取数据
+        /// </summary>
+        /// <param name="obj"></param>
         private static void GeneratedDBSceneData(Object obj)
         {
             DBData data = obj as DBData;
@@ -483,11 +503,13 @@ namespace LightController.Utils
                 C_DMXSceneState.Add(sceneNo, false);
                 M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 M_DMXSceneState.Add(sceneNo, false);
-                //GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_C, configPath));
-                //GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_M, configPath));
+                //基础场景数据生成
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_C, configPath));
+                //音频场景数据生成
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_M, configPath));
 
                 //------存在BUG，待修复
-                CSJThreadManager.QueueSceneUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(Constant.GetNumber(sceneNo), wrapper, valueDAO, Constant.MODE_C, configPath), 200000);
+                //CSJThreadManager.QueueSceneUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(Constant.GetNumber(sceneNo), wrapper, valueDAO, Constant.MODE_C, configPath), 200000);
                 //CSJThreadManager.QueueSceneUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(Constant.GetNumber(sceneNo), wrapper, valueDAO, Constant.MODE_M, configPath), 200000);
             }
         }
@@ -549,16 +571,21 @@ namespace LightController.Utils
                                 StepValues = stepValues,
                                 StepCount = stepNumber
                             };
-                            channelDatas.Add(channelData);
-                            if (data.Mode == Constant.MODE_C)
+                            if (channelData.StepValues.Count > 0)
                             {
-                                C_DMXSceneChannelData[data.SceneNo].Add(channelData.ChannelNo, false);
+                                channelDatas.Add(channelData);
+                                if (data.Mode == Constant.MODE_C)
+                                {
+                                    C_DMXSceneChannelData[data.SceneNo].Add(channelData.ChannelNo, false);
+                                    Console.WriteLine("基础场景" + (data.SceneNo + 1) + "通道" + (light.StartID + i) + "数据获取完成");
+
+                                }
+                                else
+                                {
+                                    M_DMXSceneChannelData[data.SceneNo].Add(channelData.ChannelNo, false);
+                                    Console.WriteLine("音频场景" + (data.SceneNo + 1) + "通道" + (light.StartID + i) + "数据获取完成");
+                                }
                             }
-                            else
-                            {
-                                M_DMXSceneChannelData[data.SceneNo].Add(channelData.ChannelNo, false);
-                            }
-                            Console.WriteLine("场景" + (data.SceneNo + 1) + "通道" + (light.StartID + i) + "数据获取完成");
                         }
                     }
                 }

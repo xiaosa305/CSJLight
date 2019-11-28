@@ -66,6 +66,8 @@ namespace LightController.Utils
                 {
                     this.W(this.O);
                 }
+                this.W = null;
+                this.O = null;
                 this.T.Suspend();
                 //通过委托执行回调方法
                 /*if (this.W != null && this.O != null)

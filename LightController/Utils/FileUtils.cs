@@ -13,7 +13,12 @@ namespace LightController.Utils
     {
         private static string DataCacheFilePath = Application.StartupPath + @"\DataCache\Project\Cache";
         private static string ProjectDataFilePath = Application.StartupPath + @"\DataCache\Project\CSJ";
+        private static string PreviewDataCachePath = Application.StartupPath + @"\DataCache\Preview\Cache";
+        private static string PreviewDataFilePath = Application.StartupPath + @"\DataCache\Preview\CSJ";
+
         private static readonly Object _Lock = new object();
+        public static readonly int MODE_PREVIEW = 11;
+        public static readonly int MODE_MAKEFILE = 12;
         private FileUtils() { }
         private static void InitFilePath()
         {
@@ -26,6 +31,14 @@ namespace LightController.Utils
                 if (!Directory.Exists(ProjectDataFilePath))
                 {
                     Directory.CreateDirectory(ProjectDataFilePath);
+                }
+                if (!Directory.Exists(PreviewDataCachePath))
+                {
+                    Directory.CreateDirectory(PreviewDataCachePath);
+                }
+                if (!Directory.Exists(PreviewDataFilePath))
+                {
+                    Directory.CreateDirectory(PreviewDataFilePath);
                 }
             }
             catch (Exception ex)
@@ -130,13 +143,14 @@ namespace LightController.Utils
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine("******************" + Thread.CurrentThread.ManagedThreadId + "==============>" + ex.ToString());
             }
 
         }
         public static void MergeFile(int sceneNo,int mode)
         {
-            string projectFilePath = ProjectDataFilePath + @"\C" + (sceneNo + 1) + ".bin";
+            
+            string projectFilePath =  ProjectDataFilePath + (mode == Constant.MODE_C ? @"\C" : @"\M") + (sceneNo + 1) + ".bin";
             FileInfo projectFileInfo = new FileInfo(projectFilePath);
             long seek = projectFileInfo.Length;
             byte[] readBuff = new byte[1024*20];
@@ -147,6 +161,20 @@ namespace LightController.Utils
                 {
                     long channelDatasSize = 0;
                     string projectFileNPath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+                    if (mode == Constant.MODE_C)
+                    {
+                        if (!projectFileNPath[0].Equals('C'))
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if (!projectFileNPath[0].Equals('M'))
+                        {
+                            continue;
+                        }
+                    }
                     string[] strArray = projectFileNPath.Split('.');
                     string name = strArray[0];
                     string strChannel = name.Split('-')[1];
@@ -166,8 +194,8 @@ namespace LightController.Utils
                             Convert.ToByte((intChannelNo >> 8) & 0xFF),
                             Convert.ToByte(channelDatasSize & 0xFF),
                             Convert.ToByte((channelDatasSize >> 8) & 0xFF),
-                            Convert.ToByte((channelDatasSize >> 16) & 0xFF),
-                            Convert.ToByte((channelDatasSize >> 24) & 0xFF),
+                            //Convert.ToByte((channelDatasSize >> 16) & 0xFF),
+                            //Convert.ToByte((channelDatasSize >> 24) & 0xFF),
                             Convert.ToByte(seek & 0xFF),
                             Convert.ToByte((seek >> 8) & 0xFF),
                             Convert.ToByte((seek >> 16) & 0xFF),

@@ -43,14 +43,14 @@ namespace LightController.Utils
                         {
                             //线程为空，需要创建线程
                             thread.Start(waitCallback, obj, false);
-                            //Console.WriteLine("获取空线程");
+                            Console.WriteLine("获取空线程" + thread.GetThread.ManagedThreadId);
                             return true;
                         }
                         else if (thread.GetThread.ThreadState == (ThreadState.Background|ThreadState.Suspended))
                         {
                             //线程为挂起状态，唤醒线程
                             thread.Start(waitCallback, obj, true);
-                            //Console.WriteLine("获取挂起线程");
+                            Console.WriteLine("获取挂起线程" + thread.GetThread.ManagedThreadId);
                             return true;
                         }
                     }

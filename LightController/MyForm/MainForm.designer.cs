@@ -550,7 +550,7 @@ namespace LightController
 			this.addStepCheckBox.TabIndex = 22;
 			this.addStepCheckBox.Text = "添加步时使用模板数据";
 			this.addStepCheckBox.UseVisualStyleBackColor = true;
-			this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
+			//this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
 			// 
 			// materialUseButton
 			// 

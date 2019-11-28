@@ -382,9 +382,10 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(useFrameSkinButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepSkinButton, "跳转指定步");
 			myToolTip.SetToolTip(keepSkinButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
+
+			//MARK：额外处理 lightsSkinListView 会被VS吞掉的问题
+			this.lightsSkinListView.HideSelection = true;
 		}
-
-
 
 		#region 各种工具按钮
 		// MARK：SkinMainForm各种工具按钮起点
@@ -617,7 +618,7 @@ namespace LightController.MyForm
 			hideAllTDPanels();
 			showStepLabel(0, 0);
 			editLightInfo(null);
-			enableSingleMode(true);
+			enableSingleMode(true);			
 
 			// 10.17 清空数据时，应该结束预览。
 			endviewSkinButton_Click(null, null);
@@ -701,7 +702,7 @@ namespace LightController.MyForm
 			// 必须判断这个字段(Count)，否则会报异常
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsSkinListView.SelectedIndices[0];
+				selectedIndex = lightsSkinListView.SelectedIndices[0];				
 				//Console.WriteLine(lightsSkinListView.SelectedItems[0].Text|Tag);
 				generateLightData();
 			}
@@ -730,14 +731,14 @@ namespace LightController.MyForm
 			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
 			//			若不为null，则说明已有数据，
 			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
-
 			if (lightWrapper.StepTemplate == null)
 			{
 				lightWrapper.StepTemplate = generateStepTemplate(lightAst);
 			}
-			changeFrameMode();
-
 			stepSkinPanel.Enabled = true;
+					
+			//3.手动刷新当前步信息
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -770,17 +771,7 @@ namespace LightController.MyForm
 		#endregion
 
 		#region 步数相关的按钮及辅助方法
-		//MARK：SkinMainForm步数相关的按钮及辅助方法起点
-
-		/// <summary>
-		///  事件：勾选《（是否）使用模板生成步》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			isUseStepTemplate = addStepCheckBox.Checked;
-		}
+		//MARK：SkinMainForm步数相关的按钮及辅助方法起点	
 
 		/// <summary>
 		/// 事件：更改《选择场景》选项后
@@ -821,7 +812,7 @@ namespace LightController.MyForm
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
-			// 3.所有步时间值的调节，改为enabled=false			
+			// 3.所有步时间值的调节，改为enabled=false						
 			if (mode == 1)
 			{
 				for (int i = 0; i < FrameCount; i++)
@@ -866,34 +857,40 @@ namespace LightController.MyForm
 				thirdLabel2.Show();
 				thirdLabel3.Show();
 			}
+
 			if (lightAstList != null && lightAstList.Count > 0)
 			{
 				changeFrameMode();
 			}
-
 		}
 
 		/// <summary>
-		/// 辅助方法： 改变了模式和场景后的操作
+		/// 辅助方法： 改变了模式和场景后的操作		
 		/// </summary>
 		private void changeFrameMode()
 		{
 			// 9.2 不可让selectedIndex为-1  , 否则会出现数组越界错误
-			if (selectedIndex == -1) {
+			if (selectedIndex == -1)
+			{
 				return;
 			}
 
-			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-			// lightStepWrapper为空或StepWrapperList数量是0
-			if (lightStepWrapper == null || lightStepWrapper.StepWrapperList == null || lightStepWrapper.StepWrapperList.Count == 0)
-			{
-				hideAllTDPanels();
-				showStepLabel(0, 0);
-			}
-			else // lightStepWrapper != null && lightStepWrapper.StepList.Count>0 : 也就是已经有值了
-			{
-				RefreshStep();
-			}
+			/// 添加处理SyncSkinButton的显示（Visible和 Text)，以及相应的全局变量isSysn；
+			ResetSyncStep();
+
+			//最后都要用上RefreshStep()
+			RefreshStep();
+		}
+
+		/// <summary>
+		/// TODO：辅助方法：重置syncStep的相关属性，ChangeFrameMode、InitProject、更改灯具列表后等？应该进行处理。
+		/// </summary>
+		public override void ResetSyncStep()
+		{			
+			syncSkinButton.Text = "进入同步";
+			oneLightOneStepSkinButton.Text = "单灯单步";
+			isSyncMode = false;
+			
 		}
 
 		/// <summary>
@@ -933,43 +930,64 @@ namespace LightController.MyForm
 			// 若当前步 <= 总步数，则可以插入，并将之后的步数往后移动
 			// 否则报错
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep)
-			{
-				// 根据isUseStepMode，生成要插入步的内容
-				bool addTemplate = isUseStepTemplate || getCurrentStepWrapper() == null;
-				StepWrapper newStep = StepWrapper.GenerateNewStep(
-					addTemplate ? getCurrentStepTemplate() : getCurrentStepWrapper(),
-					mode
-				);
-				// 要插入的位置的index
-				int stepIndex = getCurrentStep() - 1;
-				// 插入的方式：前插(true）还是后插（false)
-				bool insertBefore = ((Button)sender).Name.Equals("insertBeforeSkinButton");
-
-				lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
-
-				this.showTDPanels(newStep.TongdaoList, newStep.StartNum);
-				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
-
-				if (isMultiMode)
-				{
-					//TODO：11.22 检查多灯前后插步
-					foreach (int lightIndex in selectedIndices)
-					{
-						if (lightIndex != selectedIndex)
-						{
-							newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), mode);
-							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
-						}
-					}
-				}
-			}
-			else
+			if(lsWrapper.CurrentStep > lsWrapper.TotalStep)
 			{
 				MessageBox.Show("Dickov:当前步大于总步数");
+				return; 
 			}
-		}
 
+			bool insertBefore = ((Button)sender).Name.Equals("insertBeforeSkinButton"); // 插入的方式：前插(true）还是后插（false)			
+			int currentStep = lsWrapper.CurrentStep;    // 当前步
+			int stepIndex = currentStep - 1 ;  //插入的位置：InsertStep方法中有针对前后插的判断，无需处理
+
+			StepWrapper newStep ; 
+			if (insertBefore)
+			{
+				newStep = StepWrapper.GenerateNewStep(	stepIndex == 0 ?   getCurrentStepTemplate() : getSelectedLightSelectedStepWrapper(selectedIndex , stepIndex - 1),	mode);
+			}
+			else {
+				newStep = StepWrapper.GenerateNewStep(  currentStep == 0 ? getCurrentStepTemplate() : getCurrentStepWrapper() , mode);
+			}
+			lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
+
+			if (isSyncMode)
+			{
+				for(int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
+				{
+					if (lightIndex != selectedIndex) 
+					{
+						if (insertBefore)
+						{
+							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), mode);
+						}
+						else
+						{
+							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), mode);
+						}
+						getSelectedLightStepWrapper(lightIndex).InsertStep(stepIndex, newStep, insertBefore);
+					}
+				}
+			}else if (isMultiMode)
+			{
+				foreach (int lightIndex in selectedIndices)
+				{
+					if (lightIndex != selectedIndex)
+					{
+						if (insertBefore)
+						{
+							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), mode);
+						}
+						else
+						{
+							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), mode);
+						}
+						getSelectedLightStepWrapper(lightIndex).InsertStep(stepIndex, newStep, insertBefore);
+					}
+				}
+			}			
+
+			RefreshStep();
+		}
 
 		/// <summary>
 		/// 事件：点击《追加步》
@@ -979,31 +997,33 @@ namespace LightController.MyForm
 		private void addStepSkinButton_Click(object sender, EventArgs e)
 		{
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			// 根据isUseStepMode，生成要插入步的内容 :
-			//1.若勾选了使用模板 或 当前灯具在本场景及模式下总步数为0 ，则使用stepMode数据，
+
+			//1.若当前灯具在本F/M下总步数为0 ，则使用stepTemplate数据，
 			//2.否则使用本灯当前最大步的数据			 
-			bool addTemplate = isUseStepTemplate || getTotalStep() == 0;
-			StepWrapper newStep = StepWrapper.GenerateNewStep(
-				addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(),
-				mode);
-
-			// 调用包装类内部的方法,来追加步
+			bool addTemplate = getTotalStep() == 0;
+			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper() , mode);
 			lsWrapper.AddStep(newStep);
-
-			// 显示新步
-			this.showTDPanels(newStep.TongdaoList, newStep.StartNum);
-			this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
-
-			if (isMultiMode) {
-				// TODO：11.22 检查多灯追加步
-				foreach (int lightIndex in selectedIndices)
+			if (isSyncMode)
+			{
+				for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
 				{
-					if (lightIndex != selectedIndex) {
+					if (lightIndex != selectedIndex) //多一层保险...
+					{
 						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex), mode);
 						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 					}
 				}
 			}
+			else	if (isMultiMode) {				
+				foreach (int lightIndex in selectedIndices)
+				{
+					if (lightIndex != selectedIndex) {
+						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex),mode);
+						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+					}
+				}
+			}
+			RefreshStep();
 		}
 
 
@@ -1025,9 +1045,16 @@ namespace LightController.MyForm
 			try
 			{
 				lsWrapper.DeleteStep(stepIndex);
-
-				//TODO：11.22 检查多灯删除步 
-				if (isMultiMode)
+				if (isSyncMode) {
+					for(int lightIndex=0 ;lightIndex<lightAstList.Count; lightIndex++)
+					{
+						if (lightIndex != selectedIndex)
+						{
+							getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
+						}
+					}
+				}
+				else if ( isMultiMode )
 				{
 					foreach (int lightIndex in selectedIndices)
 					{
@@ -1044,18 +1071,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			int currentStep = lsWrapper.CurrentStep;
-			if (currentStep > 0)
-			{
-				StepWrapper stepWrapper = lsWrapper.StepWrapperList[currentStep - 1];
-				this.showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-				this.showStepLabel(lsWrapper.CurrentStep, lsWrapper.TotalStep);
-			}
-			else
-			{
-				this.showTDPanels(null, 0);
-				this.showStepLabel(0, 0);
-			}
+			RefreshStep();			
 		}
 
 
@@ -1126,18 +1142,21 @@ namespace LightController.MyForm
 				currentStep.TongdaoList[i].StepTime = tempStep.TongdaoList[i].StepTime;
 			}
 
-			// 3.重新渲染当前步的所有通道
-			showTDPanels(currentStep.TongdaoList, currentStep.StartNum);
-
-			//4.如果是多灯模式，则需要在复制步之后处理下每个灯具的信息
+			
+			//3.如果是多灯模式，则需要在复制步之后处理下每个灯具的信息
 			if (isMultiMode) {
-				//TODO：11.22 多步粘贴步-》使用copyStepToAll2 而非 copyStepToAll
-				copyStepToAll2(getCurrentStep());
+				copyStepToAll(getCurrentStep(),WHERE.ALL);
 			}
+
+			//4.刷新当前步
+			RefreshStep();
+
 		}
 
+		//MARK：chooseStep(int)子类的实现。
 		/// <summary>
 		/// 辅助方法：抽象了【选择某一个指定步数后，统一的操作；NextStep和BackStep等应该都使用这个方法】
+		/// --所有更换通道数据的操作后，都应该使用这个方法。
 		/// </summary>
 		protected override void chooseStep(int stepNum)
 		{
@@ -1154,10 +1173,7 @@ namespace LightController.MyForm
 			//TODO：chooseStep()使用isReadDelay属性后的代码，暂时隐藏。
 			//if (isReadDelay) {
 			//	MakeCurrentStepWrapperData(stepNum); 
-			//}
-
-			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
+			//}		
 
 			if (isMultiMode) {
 				foreach (int lightIndex in selectedIndices)
@@ -1165,10 +1181,19 @@ namespace LightController.MyForm
 					getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum;
 				}
 			}
+			//11.27 若是同步状态，则选择步时，将所有灯都设为一致的步数
+			if (isSyncMode) {
+				for(int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++) {
+					getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum;
+				}
+			}
+
+			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
+			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 
 			if (isConnected && isRealtime)
 			{
-				oneLightStepWork();
+				oneStepWork();
 			}
 		}
 
@@ -1215,7 +1240,6 @@ namespace LightController.MyForm
 			if (totalStep != 0) {
 				chooseStepNumericUpDown.Minimum = 1;
 			}
-
 		}
 
 
@@ -1228,9 +1252,9 @@ namespace LightController.MyForm
 		{
 			tdSkinFlowLayoutPanel.AutoScrollPosition = new Point(0, 0); ;
 		}
-
+	
 		/// <summary>
-		/// 事件：点击后进入《多灯模式|单灯模式》，
+		/// 辅助方法：左键点击后切换《多灯模式|单灯模式》。
 		/// 一.多灯模式：
 		///		0.至少选择两个灯具，才能使用多灯模式
 		///		1.判断所有选中的灯，是否同类型；若选中的不是同类型的灯无法进入此模式(直接return)
@@ -1238,8 +1262,7 @@ namespace LightController.MyForm
 		///		3.之后每次编辑灯具，都是编辑组内的所有数据 （包括添加步、删除步，步调节等）
 		///		4.下面的调试按钮中"单灯单步"-》“多灯单步”；
 		///		5.若是选择其他模式或者场景，应自动恢复《单灯调节》模式 
-		/// 二.单灯模式（与单灯刚好是反操作）：
-		///		
+		/// 二.单灯模式（与单灯刚好是反操作）：	
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1276,6 +1299,7 @@ namespace LightController.MyForm
 				enableSingleMode(true);
 			}
 		}
+
 
 		/// <summary>
 		///  9.16 辅助方法：进入《多灯模式》
@@ -1342,10 +1366,8 @@ namespace LightController.MyForm
 
 		#endregion
 
-
 		#region tdPanels内部数值的调整事件及辅助方法
 		//MARK：SkinMainForm：tdPanels内部数值调整及辅助方法
-
 
 		/// <summary>
 		/// 辅助方法：通过传来的数值，生成通道列表的数据
@@ -1985,8 +2007,8 @@ namespace LightController.MyForm
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
 			}
 			if (isMultiMode) {
-				// TODO : 11.21 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
-				copyStepToAll(getCurrentStep(),false);
+				// 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
+				copyStepToAll(getCurrentStep(),WHERE.SCROLL_VALUE);
 			}
 			RefreshStep();
 		}
@@ -2016,9 +2038,7 @@ namespace LightController.MyForm
 		private void useMaterialSkinButton_Click(object sender, EventArgs e)
 		{
 			LightAst la = lightAstList[selectedIndex];
-			MaterialUseForm materialUseForm = new MaterialUseForm(this, mode, la.LightName, la.LightType);
-			materialUseForm.ShowDialog();
-
+			new MaterialUseForm(this, mode, la.LightName, la.LightType).ShowDialog();
 		}
 
 		/// <summary>
@@ -2107,6 +2127,7 @@ namespace LightController.MyForm
 					}
 				}
 			}
+
 			if (ipAstList.Count > 0) {
 				deviceSkinComboBox.Enabled = true;
 				deviceSkinComboBox.SelectedIndex = 0;
@@ -2182,16 +2203,8 @@ namespace LightController.MyForm
 
 					IPAst ipAst = ipAstList[deviceSkinComboBox.SelectedIndex];
 					connectTools = ConnectTools.GetInstance();
-					
-
-
 					connectTools.Start(ipAst.LocalIP);				
-
-					playTools.StartInternetPreview(ipAst.DeviceIP, cb, eachStepTime);					
-					//if ( !cb.Result )
-					//{
-					//	return;
-					//}
+					playTools.StartInternetPreview(ipAst.DeviceIP, cb, eachStepTime);
 				}
 				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
 				connectSkinButton.Text = "断开连接";
@@ -2213,7 +2226,7 @@ namespace LightController.MyForm
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 				enableConnectedButtons(false);
 
-				//TODO：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
+				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
 				if ( !isConnectCom) {
 					Thread.Sleep(500);
 					refreshNetworkList();
@@ -2300,7 +2313,7 @@ namespace LightController.MyForm
 			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;
 			this.Refresh();
 
-			oneLightStepWork();
+			oneStepWork();
 
 			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
 		}
@@ -2308,9 +2321,9 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
 		/// </summary>
-		protected override void oneLightStepWork()
-		{
-			base.oneLightStepWork();
+		protected override void oneStepWork()
+		{		
+			base.oneStepWork();
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 		}
 
@@ -2569,7 +2582,6 @@ namespace LightController.MyForm
 			if ( lightCount != lightsSkinListView.Items.Count)
 			{
 				MessageBox.Show("灯具位置文件的灯具数量与当前工程的灯具数量不匹配，无法读取位置。");
-				//TODO：SkinMainForm在加载灯具位置时，若因各种原因导致灯具数量不匹配，如何处理？
 				return;
 			}
 
@@ -2785,7 +2797,14 @@ namespace LightController.MyForm
 
 			//MakeCurrentStepWrapperData();
 
-			SocketTools.GetInstance().Start();
+			//SocketTools.GetInstance().Start();
+
+			// 11.27 测getNotSelectedIndices
+			foreach (int  item in getNotSelectedIndices())
+			{
+				Console.Write(item + "、");
+			}
+			Console.WriteLine();	
 
 		}
 
@@ -2801,9 +2820,55 @@ namespace LightController.MyForm
 			changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			deviceRefreshSkinButton.Text = isConnectCom?"刷新串口":"刷新网络" ;
 
-			deviceRefreshSkinButton_Click(null, null);
+			deviceRefreshSkinButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
 		}
+
+		/// <summary>
+		/// 事件：点击《同步|异步模式》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void syncSkinButton_Click(object sender, EventArgs e)
+		{
+			// 如果当前已经是同步模式，则退出同步模式，这比较简单，不需要进行任何比较，直接操作即可。
+			if (isSyncMode)
+			{
+				isSyncMode = false;
+				syncSkinButton.Text = "进入同步";
+				if (!isMultiMode) {
+					oneLightOneStepSkinButton.Text = "单灯单步";
+				}				
+				return;
+			}
+
+			// 异步时，要切换到同步模式，需要先进行检查。
+			if ( ! CheckAllSameStepCounts() )
+			{
+				MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
+				return;
+			}
+
+			isSyncMode = true;
+			syncSkinButton.Text = "退出同步";
+			oneLightOneStepSkinButton.Text = "多灯单步";
+		}	
 	}
+
+	#region 废弃方法块
+
+	///// <summary>
+	/////  事件：勾选《（是否）使用模板生成步》（11.25去掉这个勾选框）
+	///// </summary>
+	///// <param name="sender"></param>
+	///// <param name="e"></param>
+	//private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
+	//{
+	//	isUseStepTemplate = addStepCheckBox.Checked;
+	//}
+
+
+
+	#endregion
 
 	public class NetworkDebugReceiveCallBack : IReceiveCallBack
 	{

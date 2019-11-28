@@ -111,13 +111,13 @@ namespace LightController.MyForm
 			this.multiSkinButton = new CCWin.SkinControl.SkinButton();
 			this.initSkinButton = new CCWin.SkinControl.SkinButton();
 			this.stepSkinPanel = new CCWin.SkinControl.SkinPanel();
+			this.syncSkinButton = new CCWin.SkinControl.SkinButton();
 			this.chooseStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.modeSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.modeLabel = new CCWin.SkinControl.SkinLabel();
 			this.useFrameSkinButton = new CCWin.SkinControl.SkinButton();
 			this.chooseStepNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.multiLightSkinButton = new CCWin.SkinControl.SkinButton();
-			this.addStepCheckBox = new System.Windows.Forms.CheckBox();
 			this.nextStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.useMaterialSkinButton = new CCWin.SkinControl.SkinButton();
 			this.saveMaterialSkinButton = new CCWin.SkinControl.SkinButton();
@@ -592,9 +592,9 @@ namespace LightController.MyForm
 			// 
 			// bigTestButton
 			// 
-			this.bigTestButton.Location = new System.Drawing.Point(854, 28);
+			this.bigTestButton.Location = new System.Drawing.Point(854, 19);
 			this.bigTestButton.Name = "bigTestButton";
-			this.bigTestButton.Size = new System.Drawing.Size(129, 54);
+			this.bigTestButton.Size = new System.Drawing.Size(129, 63);
 			this.bigTestButton.TabIndex = 21;
 			this.bigTestButton.Text = "BigTest";
 			this.bigTestButton.UseVisualStyleBackColor = true;
@@ -1189,9 +1189,9 @@ namespace LightController.MyForm
 			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.makeSoundSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.endviewSkinButton);
-			this.playFlowLayoutPanel.Location = new System.Drawing.Point(83, 11);
+			this.playFlowLayoutPanel.Location = new System.Drawing.Point(81, 7);
 			this.playFlowLayoutPanel.Name = "playFlowLayoutPanel";
-			this.playFlowLayoutPanel.Size = new System.Drawing.Size(892, 100);
+			this.playFlowLayoutPanel.Size = new System.Drawing.Size(893, 100);
 			this.playFlowLayoutPanel.TabIndex = 13;
 			this.playFlowLayoutPanel.Visible = false;
 			// 
@@ -1488,6 +1488,7 @@ namespace LightController.MyForm
 			this.lightsSkinListView.ContextMenuStrip = this.mySkinContextMenuStrip;
 			this.lightsSkinListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lightsSkinListView.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightsSkinListView.HideSelection = false;
 			this.lightsSkinListView.LargeImageList = this.lightLargeImageList;
 			this.lightsSkinListView.Location = new System.Drawing.Point(0, 0);
 			this.lightsSkinListView.Margin = new System.Windows.Forms.Padding(0);
@@ -2118,13 +2119,13 @@ namespace LightController.MyForm
 			// stepSkinPanel
 			// 
 			this.stepSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+			this.stepSkinPanel.Controls.Add(this.syncSkinButton);
 			this.stepSkinPanel.Controls.Add(this.chooseStepSkinButton);
 			this.stepSkinPanel.Controls.Add(this.modeSkinComboBox);
 			this.stepSkinPanel.Controls.Add(this.modeLabel);
 			this.stepSkinPanel.Controls.Add(this.useFrameSkinButton);
 			this.stepSkinPanel.Controls.Add(this.chooseStepNumericUpDown);
 			this.stepSkinPanel.Controls.Add(this.multiLightSkinButton);
-			this.stepSkinPanel.Controls.Add(this.addStepCheckBox);
 			this.stepSkinPanel.Controls.Add(this.nextStepSkinButton);
 			this.stepSkinPanel.Controls.Add(this.useMaterialSkinButton);
 			this.stepSkinPanel.Controls.Add(this.saveMaterialSkinButton);
@@ -2150,6 +2151,36 @@ namespace LightController.MyForm
 			this.stepSkinPanel.NormlBack = null;
 			this.stepSkinPanel.Size = new System.Drawing.Size(1049, 100);
 			this.stepSkinPanel.TabIndex = 11;
+			// 
+			// syncSkinButton
+			// 
+			this.syncSkinButton.AutoSize = true;
+			this.syncSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.syncSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.syncSkinButton.BorderColor = System.Drawing.Color.Transparent;
+			this.syncSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.syncSkinButton.DownBack = null;
+			this.syncSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.syncSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.syncSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.syncSkinButton.ForeColorSuit = true;
+			this.syncSkinButton.Image = global::LightController.Properties.Resources.复制灯1;
+			this.syncSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.syncSkinButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.syncSkinButton.InheritColor = true;
+			this.syncSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
+			this.syncSkinButton.Location = new System.Drawing.Point(964, 18);
+			this.syncSkinButton.Margin = new System.Windows.Forms.Padding(0);
+			this.syncSkinButton.MouseBack = null;
+			this.syncSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.syncSkinButton.Name = "syncSkinButton";
+			this.syncSkinButton.NormlBack = null;
+			this.syncSkinButton.Size = new System.Drawing.Size(81, 57);
+			this.syncSkinButton.TabIndex = 26;
+			this.syncSkinButton.Text = "进入同步";
+			this.syncSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.syncSkinButton.UseVisualStyleBackColor = false;
+			this.syncSkinButton.Click += new System.EventHandler(this.syncSkinButton_Click);
 			// 
 			// chooseStepSkinButton
 			// 
@@ -2240,7 +2271,7 @@ namespace LightController.MyForm
 			// chooseStepNumericUpDown
 			// 
 			this.chooseStepNumericUpDown.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(563, 20);
+			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(563, 21);
 			this.chooseStepNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.chooseStepNumericUpDown.Maximum = new decimal(new int[] {
             1,
@@ -2279,7 +2310,7 @@ namespace LightController.MyForm
 			this.multiLightSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiLightSkinButton.InheritColor = true;
 			this.multiLightSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiLightSkinButton.Location = new System.Drawing.Point(163, 5);
+			this.multiLightSkinButton.Location = new System.Drawing.Point(163, 8);
 			this.multiLightSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiLightSkinButton.MouseBack = null;
 			this.multiLightSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2291,19 +2322,6 @@ namespace LightController.MyForm
 			this.multiLightSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.multiLightSkinButton.UseVisualStyleBackColor = false;
 			this.multiLightSkinButton.Click += new System.EventHandler(this.multiLightSkinButton_Click);
-			// 
-			// addStepCheckBox
-			// 
-			this.addStepCheckBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.addStepCheckBox.ForeColor = System.Drawing.Color.White;
-			this.addStepCheckBox.Location = new System.Drawing.Point(987, 9);
-			this.addStepCheckBox.Name = "addStepCheckBox";
-			this.addStepCheckBox.Size = new System.Drawing.Size(59, 83);
-			this.addStepCheckBox.TabIndex = 6;
-			this.addStepCheckBox.Text = "使用模板生成步";
-			this.addStepCheckBox.UseVisualStyleBackColor = true;
-			this.addStepCheckBox.Visible = false;
-			this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
 			// 
 			// nextStepSkinButton
 			// 
@@ -2321,7 +2339,7 @@ namespace LightController.MyForm
 			this.nextStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.nextStepSkinButton.InheritColor = true;
 			this.nextStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.nextStepSkinButton.Location = new System.Drawing.Point(457, 8);
+			this.nextStepSkinButton.Location = new System.Drawing.Point(463, 9);
 			this.nextStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.nextStepSkinButton.MouseBack = null;
 			this.nextStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2351,7 +2369,7 @@ namespace LightController.MyForm
 			this.useMaterialSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.useMaterialSkinButton.InheritColor = true;
 			this.useMaterialSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.useMaterialSkinButton.Location = new System.Drawing.Point(877, 6);
+			this.useMaterialSkinButton.Location = new System.Drawing.Point(851, 53);
 			this.useMaterialSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.useMaterialSkinButton.MouseBack = null;
 			this.useMaterialSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2380,7 +2398,7 @@ namespace LightController.MyForm
 			this.saveMaterialSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.saveMaterialSkinButton.InheritColor = true;
 			this.saveMaterialSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.saveMaterialSkinButton.Location = new System.Drawing.Point(876, 56);
+			this.saveMaterialSkinButton.Location = new System.Drawing.Point(851, 12);
 			this.saveMaterialSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.saveMaterialSkinButton.MouseBack = null;
 			this.saveMaterialSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2410,7 +2428,7 @@ namespace LightController.MyForm
 			this.multiCopySkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiCopySkinButton.InheritColor = true;
 			this.multiCopySkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiCopySkinButton.Location = new System.Drawing.Point(764, 6);
+			this.multiCopySkinButton.Location = new System.Drawing.Point(746, 8);
 			this.multiCopySkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiCopySkinButton.MouseBack = null;
 			this.multiCopySkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2439,7 +2457,7 @@ namespace LightController.MyForm
 			this.multiPasteSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiPasteSkinButton.InheritColor = true;
 			this.multiPasteSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiPasteSkinButton.Location = new System.Drawing.Point(764, 53);
+			this.multiPasteSkinButton.Location = new System.Drawing.Point(746, 53);
 			this.multiPasteSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiPasteSkinButton.MouseBack = null;
 			this.multiPasteSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2469,7 +2487,7 @@ namespace LightController.MyForm
 			this.copyStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.copyStepSkinButton.InheritColor = true;
 			this.copyStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.copyStepSkinButton.Location = new System.Drawing.Point(666, 6);
+			this.copyStepSkinButton.Location = new System.Drawing.Point(651, 8);
 			this.copyStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.copyStepSkinButton.MouseBack = null;
 			this.copyStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2498,7 +2516,7 @@ namespace LightController.MyForm
 			this.pasteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.pasteStepSkinButton.InheritColor = true;
 			this.pasteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.pasteStepSkinButton.Location = new System.Drawing.Point(666, 55);
+			this.pasteStepSkinButton.Location = new System.Drawing.Point(651, 53);
 			this.pasteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.pasteStepSkinButton.MouseBack = null;
 			this.pasteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2527,7 +2545,7 @@ namespace LightController.MyForm
 			this.deleteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.deleteStepSkinButton.InheritColor = true;
 			this.deleteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.deleteStepSkinButton.Location = new System.Drawing.Point(560, 53);
+			this.deleteStepSkinButton.Location = new System.Drawing.Point(556, 53);
 			this.deleteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteStepSkinButton.MouseBack = null;
 			this.deleteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2556,7 +2574,7 @@ namespace LightController.MyForm
 			this.addStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.addStepSkinButton.InheritColor = true;
 			this.addStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.addStepSkinButton.Location = new System.Drawing.Point(460, 53);
+			this.addStepSkinButton.Location = new System.Drawing.Point(461, 53);
 			this.addStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addStepSkinButton.MouseBack = null;
 			this.addStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2585,7 +2603,7 @@ namespace LightController.MyForm
 			this.insertAfterSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.insertAfterSkinButton.InheritColor = true;
 			this.insertAfterSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.insertAfterSkinButton.Location = new System.Drawing.Point(360, 53);
+			this.insertAfterSkinButton.Location = new System.Drawing.Point(366, 53);
 			this.insertAfterSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.insertAfterSkinButton.MouseBack = null;
 			this.insertAfterSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2615,7 +2633,7 @@ namespace LightController.MyForm
 			this.insertBeforeSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.insertBeforeSkinButton.InheritColor = true;
 			this.insertBeforeSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.insertBeforeSkinButton.Location = new System.Drawing.Point(270, 52);
+			this.insertBeforeSkinButton.Location = new System.Drawing.Point(271, 53);
 			this.insertBeforeSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.insertBeforeSkinButton.MouseBack = null;
 			this.insertBeforeSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2646,7 +2664,7 @@ namespace LightController.MyForm
 			this.backStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.backStepSkinButton.InheritColor = true;
 			this.backStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.backStepSkinButton.Location = new System.Drawing.Point(270, 7);
+			this.backStepSkinButton.Location = new System.Drawing.Point(271, 9);
 			this.backStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.backStepSkinButton.MouseBack = null;
 			this.backStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2680,7 +2698,7 @@ namespace LightController.MyForm
 			this.stepLabel.BorderColor = System.Drawing.Color.White;
 			this.stepLabel.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(380, 23);
+			this.stepLabel.Location = new System.Drawing.Point(381, 23);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(53, 15);
 			this.stepLabel.TabIndex = 0;
@@ -6975,7 +6993,6 @@ namespace LightController.MyForm
 		private Label thirdLabel3;
 		private Label secondLabel3;
 		private Label firstLabel3;
-		private CheckBox addStepCheckBox;
 		private SkinButton initSkinButton;
 		private SkinButton zeroSkinButton;
 		private TrackBar commonValueTrackBar;
@@ -7077,5 +7094,6 @@ namespace LightController.MyForm
 		private SkinButton closeSkinButton;
 		private ImageList lightLargeImageList;
 		private SkinButton changeConnectMethodSkinButton;
+		private SkinButton syncSkinButton;
 	}
 }

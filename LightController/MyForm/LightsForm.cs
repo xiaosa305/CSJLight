@@ -210,6 +210,7 @@ namespace LightController
 			mainForm.AddLightAstList(lightAstList);
 			mainForm.GenerateAllStepTemplates();
 			mainForm.AutosetEnabledPlayAndRefreshPic();
+			mainForm.ResetSyncStep();
 
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();

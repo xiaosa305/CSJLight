@@ -176,7 +176,7 @@ namespace LightController.Utils
                         FileUtils.Write(WriteBuffer.ToArray(),WriteBuffer.Count, fileName, false, true);
                         WriteBuffer.Clear();
                         break;
-                    }
+                    } 
                     else
                     {
                         if (isGradualChange == Constant.MODE_C_GRADUAL)

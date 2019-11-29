@@ -128,7 +128,7 @@ namespace LightController.MyForm
 			enableSLArrange(false, false);
 			enableSave(false);
 
-			ResetSyncStep();
+			ResetSyncMode();
 			AutosetEnabledPlayAndRefreshPic();
 		}
 
@@ -444,7 +444,7 @@ namespace LightController.MyForm
 		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayFlowLayoutPanel
 		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
 		protected virtual void chooseStep(int stepNum) { }  //选步
-		public virtual void ResetSyncStep() { } // 清空syncStep
+		public virtual void ResetSyncMode() { } // 清空syncStep
 
 		#endregion
 
@@ -1131,7 +1131,6 @@ namespace LightController.MyForm
 					lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
 				}
 
-				//TODO：11.22 检查多步 《粘贴多步、使用素材》 使用插入方式
 				if (isMultiMode) {
 					foreach (int lightIndex in selectedIndices) {
 						if (lightIndex != selectedIndex) {
@@ -1146,7 +1145,6 @@ namespace LightController.MyForm
 					}
 				}
 
-				//TODO：11.27 验证多步粘贴或使用素材是否正确
 				if (isSyncMode) {
 					foreach ( int lightIndex in getNotSelectedIndices() ) 
 					{
@@ -1202,8 +1200,7 @@ namespace LightController.MyForm
 					changeStepFromMaterial(materialAst.TongdaoList, materialStepIndex, sameTDIndexList, lsWrapper.StepWrapperList[stepIndex]);
 					//newStep = lsWrapper.StepWrapperList[stepIndex];
 				}
-
-				//TODO：11.22 检查多步 《粘贴多步、使用素材》 使用覆盖方式
+								
 				if (isMultiMode)
 				{
 					foreach (int lightIndex in selectedIndices)
@@ -1218,8 +1215,6 @@ namespace LightController.MyForm
 									getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 								}
 							}
-
-							//TODO：11.25 多步粘贴：这里是否可用copyStepToAll？
 							// 在步数都已经存在的情况下，用素材替换掉相关步（相应通道）
 							for (int stepIndex = currentStep - 1, materialStepIndex = 0; stepIndex < finalStep; stepIndex++, materialStepIndex++)
 							{
@@ -1229,7 +1224,7 @@ namespace LightController.MyForm
 					}
 				}
 
-				// 验证覆盖步逻辑
+				
 				if (isSyncMode) {
 					foreach (int lightIndex in getNotSelectedIndices())
 					{
@@ -1959,6 +1954,7 @@ namespace LightController.MyForm
 			{				
 				lightWrapper.LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, mode], lightWrapper.StepTemplate,   mode) ;				
 			}
+			ResetSyncMode();
 			RefreshStep();
 			MessageBox.Show("成功调用场景:"+ AllFrameList[selectedFrameIndex]); 
 		}	

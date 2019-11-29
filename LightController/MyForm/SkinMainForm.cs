@@ -876,21 +876,20 @@ namespace LightController.MyForm
 			}
 
 			/// 添加处理SyncSkinButton的显示（Visible和 Text)，以及相应的全局变量isSysn；
-			ResetSyncStep();
+			ResetSyncMode();
 
 			//最后都要用上RefreshStep()
 			RefreshStep();
 		}
 
 		/// <summary>
-		/// TODO：辅助方法：重置syncStep的相关属性，ChangeFrameMode、InitProject、更改灯具列表后等？应该进行处理。
+		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
-		public override void ResetSyncStep()
+		public override void ResetSyncMode()
 		{			
 			syncSkinButton.Text = "进入同步";
 			oneLightOneStepSkinButton.Text = "单灯单步";
-			isSyncMode = false;
-			
+			isSyncMode = false;			
 		}
 
 		/// <summary>
@@ -1291,7 +1290,7 @@ namespace LightController.MyForm
 			// 退出多灯模式
 			else
 			{
-				lightsAddrLabel.Text = "灯具地址:" + lightAstList[selectedIndex].LightAddr;
+				lightsAddrLabel.Text = "灯具地址：" + lightAstList[selectedIndex].LightAddr;
 				for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
 				{
 					lightsSkinListView.Items[lightIndex].BackColor = Color.White;
@@ -1338,9 +1337,11 @@ namespace LightController.MyForm
 			lightsSkinListView.Enabled = isSingleMode;
 			frameSkinComboBox.Enabled = isSingleMode;
 			modeSkinComboBox.Enabled = isSingleMode;
+			useFrameSkinButton.Enabled = isSingleMode;
 
 			oneLightOneStepSkinButton.Text = isSingleMode ? "单灯单步" : "多灯单步";
 			multiLightSkinButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
+			
 		}
 
 		/// <summary>

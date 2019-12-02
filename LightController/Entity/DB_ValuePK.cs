@@ -41,6 +41,5 @@ namespace DMX512
 		{
 			return base.GetHashCode();
 		}
-
 	}
 }

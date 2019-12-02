@@ -19,11 +19,9 @@ using System.Net.Sockets;
 
 namespace LightController.MyForm
 {
-
 	public partial class SkinMainForm : MainFormInterface
 	{
 		private bool isPainting = false;
-
 		public SkinMainForm()
 		{
 			InitializeComponent();
@@ -32,7 +30,9 @@ namespace LightController.MyForm
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 
 			// 动态显示测试按钮
-			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");
+			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");			;
+			String softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY");
+			this.Text = softwareName + " Dimmer System";
 			testGroupBox.Visible = isShowTestButton;
 			bigTestButton.Visible = isShowTestButton;
 
@@ -370,8 +370,6 @@ namespace LightController.MyForm
 
 			isInit = true;
 		}
-
-
 
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{

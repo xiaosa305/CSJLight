@@ -182,6 +182,8 @@ namespace LightEditor
 			{
 				this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
 			}
+			String softwareName = iniFileAst.ReadString("Show", "softwareName", "JKC810");
+			this.Text = softwareName + "-灯库编辑工具";
 
 			// 9.6 图片加载使用当前软件所在文件夹
 			savePath = IniFileAst.GetSavePath(Application.StartupPath);

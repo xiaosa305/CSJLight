@@ -522,7 +522,7 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		protected StepWrapper generateStepTemplate(LightAst lightAst)
 		{
-			Console.WriteLine("Dickov : 开始生成模板文件(StepTemplate)：" + lightAst.LightName + lightAst.LightType + "(" + lightAst.LightAddr + ")");
+			Console.WriteLine("Dickov : 开始生成模板文件(StepTemplate)：" + lightAst.LightName +":"+ lightAst.LightType + "(" + lightAst.LightAddr + ")");
 			int startNum = lightAst.StartNum;
 			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
 			{

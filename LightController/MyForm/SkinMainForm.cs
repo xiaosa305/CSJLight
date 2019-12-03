@@ -383,6 +383,7 @@ namespace LightController.MyForm
 
 			//MARK：额外处理 lightsSkinListView 会被VS吞掉的问题
 			this.lightsSkinListView.HideSelection = true;
+
 		}
 
 		#region 各种工具按钮
@@ -786,6 +787,18 @@ namespace LightController.MyForm
 
 			// 只要更改了场景，直接结束预览
 			endviewSkinButton_Click(null, null);
+
+			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" +AllFrameList[frame] + ")？",
+				"保存场景",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Question);
+			if (dr == DialogResult.OK)
+			{
+				this.Cursor = Cursors.WaitCursor; 
+				saveFrame();
+				this.Cursor = Cursors.Default;
+			}
+
 			frame = frameSkinComboBox.SelectedIndex;
 			if (lightAstList != null && lightAstList.Count > 0)
 			{

@@ -158,6 +158,7 @@ namespace LightEditor
 			// 填充comComboBox
 			IList<string> comList = player.GetDMX512DeviceList();
 			comComboBox.Items.Clear();
+			comComboBox.Text = "";
 			if (comList.Count > 0)
 			{
 				foreach (string com in comList)
@@ -165,6 +166,13 @@ namespace LightEditor
 					comComboBox.Items.Add(com);
 				}
 				comComboBox.SelectedIndex = 0;
+				comComboBox.Enabled = true;
+				connectButton.Enabled = true;
+			}
+			else {
+				comComboBox.SelectedIndex = -1;
+				comComboBox.Enabled = false;
+				connectButton.Enabled = false;
 			}
 
 		}
@@ -859,18 +867,6 @@ namespace LightEditor
 			}
 		}
 
-
-		/// <summary>
-		/// 事件：点击《选择串口》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void chooseComButton_Click(object sender, EventArgs e)
-		{
-			comName = comComboBox.Text;
-			connectButton.Enabled = true;
-		}
-
 		/// <summary>
 		/// 事件：点击《连接设备|断开连接》按钮
 		/// </summary>
@@ -883,7 +879,8 @@ namespace LightEditor
 			{
 				if(	player.ConnectDevice(comName))  //判断是否连接成功
 				{
-					setDMX512TestButtonsEnable(true);					
+					setDMX512TestButtonsEnable(true);
+					comComboBox.Enabled = false;
 					connectButton.Text = "断开连接";					
 					isConnect = true;
 				}
@@ -896,6 +893,7 @@ namespace LightEditor
 			{
 				setDMX512TestButtonsEnable(false);				
 				player.CloseDevice();
+				comComboBox.Enabled = true;
 				connectButton.Text = "连接设备";
 				isConnect = false;
 			}
@@ -907,8 +905,7 @@ namespace LightEditor
 		/// <param name="visible"></param>
 		private void setDMX512TestButtonsEnable(bool visible)
 		{
-			lightTestGroupBox.Visible = visible;
-			chooseComButton.Enabled = !visible;
+			lightTestGroupBox.Visible = visible;			
 			refreshButton.Enabled = !visible;
 		}
 
@@ -1009,6 +1006,17 @@ namespace LightEditor
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
 			refreshComList();
+		}
+
+		/// <summary>
+		///  事件：切换串口选择
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			comName = comComboBox.Text;
+			connectButton.Enabled = true;
 		}
 	}
 }

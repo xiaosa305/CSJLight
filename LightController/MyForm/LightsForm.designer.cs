@@ -118,6 +118,10 @@ namespace LightController
 			this.largeImageList.Images.SetKeyName(64, "j(9).png");
 			this.largeImageList.Images.SetKeyName(65, "j(10).png");
 			this.largeImageList.Images.SetKeyName(66, "j(11).png");
+			this.largeImageList.Images.SetKeyName(67, "a (1).jpg");
+			this.largeImageList.Images.SetKeyName(68, "a (1).png");
+			this.largeImageList.Images.SetKeyName(69, "a (2).jpg");
+			this.largeImageList.Images.SetKeyName(70, "a (2).png");
 			// 
 			// label1
 			// 

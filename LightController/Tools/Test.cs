@@ -25,6 +25,7 @@ namespace LightController.Tools
             this.DBWrapper = dBWrapper;
             this.ValueDAO = valueDAO;
             this.ConfigPath = configPath;
+            DataConvertUtils.InitThreadPool();
         }
         public void Start(int index)
         {
@@ -35,11 +36,14 @@ namespace LightController.Tools
                     DataConvertUtils.SaveProjectFile(DBWrapper, ValueDAO, ConfigPath);
                     break;
                 case 2:
-                    CSJ_Hardware.Test();
+                    DataConvertUtils.SaveProjectFileByPreviewData(DBWrapper, ConfigPath, 0);
                     break;
                 case 3:
+                    FileUtils.CreateGradientData();
                     break;
                 case 4:
+                    PlayTools.GetInstance().Test();
+                    //FileUtils.GetCPlayPoints();
                     break;
                 default:
                     break;

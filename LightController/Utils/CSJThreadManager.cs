@@ -34,6 +34,7 @@ namespace LightController.Utils
                     InitChannelThreadList();
                 }
                 long startTime = DateTime.Now.Ticks;
+                DataConvertUtils.BaseThreadDataInfo dataInfo = obj as DataConvertUtils.BaseThreadDataInfo;
                 do
                 {
                     //遍历线程列表，找出可用的线程
@@ -42,28 +43,27 @@ namespace LightController.Utils
                         if (thread.GetThread == null)
                         {
                             //线程为空，需要创建线程
-                            thread.Start(waitCallback, obj, false);
-                            Console.WriteLine("获取空线程" + thread.GetThread.ManagedThreadId);
+                            thread.Start(waitCallback, obj);
                             return true;
                         }
-                        else if (thread.GetThread.ThreadState == (ThreadState.Background|ThreadState.Suspended))
+                        else if (!thread.IsUsed())
                         {
-                            //线程为挂起状态，唤醒线程
-                            thread.Start(waitCallback, obj, true);
-                            Console.WriteLine("获取挂起线程" + thread.GetThread.ManagedThreadId);
+                            thread.Start(waitCallback, obj);
                             return true;
                         }
                     }
                     Thread.Sleep(500);
+                    Console.WriteLine("未找到空线程" + (DateTime.Now.Ticks / 10000));
                 } while (((DateTime.Now.Ticks - startTime) / 10000) < timeOut);
             }
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                Console.WriteLine("获取线程错误:" + ex.Message);
             }
             return false;
         }
-        public static bool QueueSceneUserWorkItem(WaitCallback waitCallback, Object obj, int timeOut)
+        private static bool QueueSceneUserWorkItem(WaitCallback waitCallback, Object obj, int timeOut)
         {
             try
             {
@@ -81,15 +81,14 @@ namespace LightController.Utils
                         if (thread.GetThread == null)
                         {
                             //线程为空，需要创建线程
-                            thread.Start(waitCallback, obj, false);
+                            thread.Start(waitCallback, obj);
                             //Console.WriteLine("获取空线程");
                             return true;
                         }
-                        else if (thread.GetThread.ThreadState == (ThreadState.Background | ThreadState.Suspended))
+                        else if (!thread.IsUsed())
                         {
-                            //线程为挂起状态，唤醒线程
-                            thread.Start(waitCallback, obj, true);
-                            //Console.WriteLine("获取挂起线程");
+                            thread.Start(waitCallback, obj);
+                            //Console.WriteLine("获取空线程" + thread.GetThread.ManagedThreadId);
                             return true;
                         }
                     }
@@ -101,6 +100,18 @@ namespace LightController.Utils
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
             return false;
+        }
+
+        public  static void CloseAllThread()
+        {
+            for (int i = 0; i < ChannelThreadList.Count; i++)
+            {
+                (ChannelThreadList[i] as CSJThread).Stop();
+            }
+            for (int i = 0; i < SceneThreadList.Count; i++)
+            {
+                (SceneThreadList[i] as CSJThread).Stop();
+            }
         }
 
         private static void InitChannelThreadList()

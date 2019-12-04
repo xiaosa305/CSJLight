@@ -11,9 +11,10 @@ namespace LightController.Utils
         private Thread T { get; set; }
         private WaitCallback W { get; set; }
         private Object O { get; set; }
+        private bool IsUsedState { get; set; }
         public CSJThread()
         {
-
+            IsUsedState = false;
         }
         ///<summary>
         ///执行回调方法的线程
@@ -31,50 +32,53 @@ namespace LightController.Utils
         ///<param name="w">用回调方法实例化了的委托实例</param>
         ///<param name="o">传递给回调方法的参数值</param>
         ///<param name="isSuspend">true 表示线程为挂起状态，false 则表示线程还没创建</param>
-        public void Start(WaitCallback w, Object o, bool isSuspend)
+        public void Start(WaitCallback w, Object o)
         {
             this.W = w;
             this.O = o;
-            if (isSuspend)
-            {
-                this.T.Resume();
-            }
-            else
-            {
-                this.T = new Thread(new ThreadStart(this.ThreadProc))
-                {
-                    IsBackground = true
-                };
-                this.T.Start();
-            }
-            /*this.T = new Thread(new ThreadStart(this.ThreadProc))
+            this.T = new Thread(new ThreadStart(this.ThreadProc))
             {
                 IsBackground = true
             };
-            this.T.Start();*/
+            IsUsedState = true;
+            this.T.Start();
         }
         ///<summary>
         ///线程执行的方法
         ///</summary>
         private void ThreadProc()
         {
-            //死循环，使线程唤醒后不是退出，而是继续通过委托执行回调方法
-            while (true)
+            if (this.W != null && this.O != null)
             {
-                //通过委托执行回调方法
-                if (this.W != null && this.O != null)
+                this.W(this.O);
+            }
+            this.W = null;
+            this.O = null;
+            IsUsedState = false;
+        }
+
+        public bool IsUsed()
+        {
+            return IsUsedState;
+        }
+
+        public void Stop()
+        {
+            try
+            {
+                if (this.T != null)
                 {
-                    this.W(this.O);
+                    this.T.Abort();
                 }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("线程" + this.T.ManagedThreadId + "关闭");
+            }finally
+            {
                 this.W = null;
                 this.O = null;
-                this.T.Suspend();
-                //通过委托执行回调方法
-                /*if (this.W != null && this.O != null)
-                {
-                    this.W(this.O);
-                    this.T = null;
-                }*/
+                this.T = null;
             }
         }
     }

@@ -476,7 +476,6 @@ namespace LightController.Tools.CSJ
                             this.CloseDevice();
                             break;
                         case Constant.RECEIVE_ORDER_UPDATE_ERROR:
-                        default:
                             try
                             {
                                 if (null != this.UpdateThread)
@@ -523,33 +522,6 @@ namespace LightController.Tools.CSJ
                         this.CloseDevice();
                     }
                     break;
-                case Constant.ORDER_START_DEBUG:
-                    try
-                    {
-                        string data = Encoding.Default.GetString(rxBuff);
-                        switch (data)
-                        {
-                            case Constant.RECEIVE_ORDER_START_DEBUG_OK:
-                                CallBack.SendCompleted(devicename,this.Order);
-                                break;
-                            case Constant.RECEIVE_ORDER_START_DEBUG_ERROR:
-                            default:
-                                CallBack.SendError(devicename, this.Order);
-                                this.CloseDevice();
-                                break;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        CSJLogs.GetInstance().ErrorLog(ex);
-                        CallBack.SendCompleted(devicename, this.Order);
-                        this.CloseDevice();
-                    }
-                    break;
-                case Constant.ORDER_END_DEBUG:
-                        CallBack.SendCompleted(devicename, this.Order);
-                        this.CloseDevice();
-                    break;
                 default:
                     switch (rxStr.Split(':')[0])
                     {
@@ -573,6 +545,7 @@ namespace LightController.Tools.CSJ
             {
                 this.TimeIndex = 0;
                 this.IsReceive = false;
+                this.IsTimeOutThreadStart = true;
                 Thread.Sleep(1);
                 if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
@@ -606,7 +579,6 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
                 if (null != this.CallBack)
                 {
                     this.CallBack.SendError(this.DeviceName, this.Order);
@@ -729,7 +701,6 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -761,7 +732,6 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -787,7 +757,6 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -808,7 +777,6 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
@@ -818,7 +786,7 @@ namespace LightController.Tools.CSJ
                 }
             }
         }
-        public void Update(string filePath, IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
+        public void Update(string filePath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
         {
             try
             {
@@ -841,24 +809,11 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
                 if (null != this.CallBack)
                 {
                     this.CallBack.SendError(this.DeviceName, this.Order);
                 }
             }
-        }
-        public void StartIntenetPreview(int timeFactory,IReceiveCallBack receiveCallBack)
-        {
-            this.CallBack = receiveCallBack;
-            SendData(null, Constant.ORDER_START_DEBUG, new string[] {Convert.ToString(timeFactory)});
-            //throw new NotImplementedException();
-        }
-        public void StopIntenetPreview(IReceiveCallBack receiveCallBack)
-        {
-            this.CallBack = receiveCallBack;
-            SendData(null, Constant.ORDER_END_DEBUG, null);
-            //throw new NotImplementedException();
         }
         protected void UpdateStart()
         {
@@ -881,7 +836,6 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)

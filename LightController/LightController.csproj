@@ -899,6 +899,7 @@
     <Content Include="Source\CSkin.dll" />
     <Content Include="Source\CSkin.XML" />
     <Content Include="Source\IrisSkin4.dll" />
+    <Content Include="Tools\ReadMe.txt" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

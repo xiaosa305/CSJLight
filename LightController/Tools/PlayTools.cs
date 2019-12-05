@@ -2,11 +2,12 @@
 using LightController.Ast;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Timers;
@@ -15,31 +16,18 @@ namespace LightController.Tools
 {
     public class PlayTools
     {
-        public const int STATE_SERIALPREVIEW = 0;
-        public const int STATE_INTENETPREVIEW = 1;
         private static PlayTools Instance { get; set; }
         private static FTDI Device { get; set; }                    
         private readonly byte[] StartCode = new byte[] { 0x00 };
         private DBWrapper DBWrapper { get; set; }
         private string ConfigPath { get; set; }
-        private string DeviceIpByIntentPreview { get; set; }
-        private CSJ_Project Project { get; set; }
+        private CSJ_Config Config { get; set; }
         private int SceneNo { get; set; }
         private int TimeFactory { get; set; }
-        private int PreviewWayState { get; set; }
         private byte[] PlayData { get; set; }
-        private int[] C_ChanelPoint { get; set; }
-        private int[] M_ChanelPoint { get; set; }
-        private int[] C_ChanelId { get; set; }
-        private int[] M_ChanelId { get; set; }
-        private byte[][] C_ChanelData { get; set; }
-        private byte[][] M_ChanelData { get; set; }
-        private int C_ChanelCount { get; set; }
-        private int M_ChanelCount { get; set; }
         private Thread OLOSThread { get; set; }
         private Thread PreViewThread { get; set; }
         private Thread MusicControlThread { get; set; }
-        private Thread SendEmptyDebugDataThread { get; set; }
         private bool IsMusicControl { get; set; }
         private bool IsPausePlay { get; set; }
         private int MusicStep { get; set; }
@@ -51,27 +39,20 @@ namespace LightController.Tools
         private int MusicStepPoint { get; set; }
         private bool MusicData { get; set; }
         private bool MusicWaiting { get; set; }
-        private bool IsInitIntentDebug { get; set; }
-        private IReceiveCallBack IntentDebugCallback { get; set; }
         private System.Timers.Timer Timer { get; set; }
-        private byte[] EmptyData { get; set; }
-
-
-        private Socket Server { get; set; }
-
+        private Dictionary<int,byte> MusicDataBuff { get; set; }
+        private List<CPlayPoint> M_PlayPoints { get; set; }
+        private List<CPlayPoint> C_PlayPoints { get; set; }
         private PlayTools()
         {
             try
             {
                 TimeFactory = 32;
-                PreviewWayState = STATE_SERIALPREVIEW;
                 MusicStepTime = 0;
                 State = PreViewState.Null;
                 Device = new FTDI();
                 Timer = new System.Timers.Timer();
                 MusicWaiting = true;
-                IsInitIntentDebug = false;
-                PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray(); 
             }
             catch (Exception ex)
             {
@@ -124,7 +105,6 @@ namespace LightController.Tools
                         MusicControlThread = null;
                     }
                 }
-                this.IsInitIntentDebug = false;
                 State = PreViewState.Null;
             }
             catch (Exception ex)
@@ -132,49 +112,25 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-
-        public void StartInternetPreview(string deviceIp,IReceiveCallBack receiveCallBack,int timeFactory)
-        {
-            this.PreviewWayState = STATE_INTENETPREVIEW;
-            this.DeviceIpByIntentPreview = deviceIp;
-            this.IntentDebugCallback = receiveCallBack;
-            this.IsInitIntentDebug = true;
-            this.TimeFactory = timeFactory;
-            SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
-            SendEmptyDebugDataThread.Start();
-        }
-
-        public void StopInternetPreview(IReceiveCallBack receiveCallBack)
-        {
-                ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
-                IsInitIntentDebug = false;
-        }
-
-        private void SendEmptyDataStart()
-        {
-            while (true)
-            {
-                this.Play();
-                Thread.Sleep(this.TimeFactory - 21);
-            }
-        }
-
-        //TODO
-        public void PreView(CSJ_Project project,int sceneNo) { }
-
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
             try
             {
                 //暂停播放准备生成数据
+                if (!FileUtils.IsDefaultFIle())
+                {
+                    return;
+                }
                 IsPausePlay = true;
                 MusicData = false;
                 this.DBWrapper = wrapper;
                 this.ConfigPath = configPath;
                 this.SceneNo = sceneNo;
-                //获取常规程序数据以及音频程序数据
-                this.Project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.DBWrapper, this.ConfigPath);
-                TimeFactory = this.Project.ConfigFile.TimeFactory;
+                //获取全局配置信息
+                this.Config = new CSJ_Config(wrapper, configPath);
+               
+                C_PlayPoints = FileUtils.GetCPlayPoints();
+                TimeFactory = Config.TimeFactory;
                 try
                 {
                     //如果单灯单步线程运行中，将其强制关闭
@@ -187,77 +143,17 @@ namespace LightController.Tools
                 {
                     //将单灯单步线程置为null
                     OLOSThread = null;
-                    //预读常规程序数据到缓存区
-                    CSJ_C c_File = null;
-                    if (this.Project.CFiles != null)
+                    //是否有音频
+                    if (FileUtils.IsMusicFile())
                     {
-                        foreach (CSJ_C item in this.Project.CFiles)
-                        {
-                            if (item.SceneNo == this.SceneNo)
-                            {
-                                c_File = item;
-                            }
-                        }
-                        C_ChanelCount = c_File.ChannelCount;
-                        List<ChannelData> c_Datas = c_File.ChannelDatas;
-                        C_ChanelData = new byte[C_ChanelCount][];
-                        C_ChanelId = new int[C_ChanelCount];
-                        C_ChanelPoint = new int[C_ChanelCount];
-                        for (int i = 0; i < C_ChanelCount; i++)
-                        {
-                            ChannelData c_Data = c_Datas[i];
-                            C_ChanelPoint[i] = 0;
-                            C_ChanelId[i] = c_Data.ChannelNo;
-                            List<byte> data = new List<byte>();
-                            for (int j = 0; j < c_Data.DataSize; j++)
-                            {
-                                data.Add(Convert.ToByte(c_Data.Datas[j]));
-                            }
-                            C_ChanelData[i] = data.ToArray();
-                        }
+                        this.MusicData = true;
+                        this.MusicStepTime = FileUtils.GetMusicTime();
+                        this.StepListCount = FileUtils.GetMusicStepCount();
+                        this.MusicIntervalTime = FileUtils.GetMusicIntervalTime();
+                        this.StepList = FileUtils.GetMusicStepList();
+                        M_PlayPoints = FileUtils.GetMPlayPoints();
                     }
-                    CSJ_M m_File = null;
-                    if (this.Project.MFiles != null)
-                    {
-                        foreach (CSJ_M item in this.Project.MFiles)
-                        {
-                            if (item.SceneNo == this.SceneNo)
-                            {
-                                m_File = item;
-                            }
-                        }
-                        //预读音频程序数据到缓存区
-                        if (m_File != null)
-                        {
-                            List<ChannelData> m_Datas = m_File.ChannelDatas;
-                            M_ChanelCount = m_Datas.Count();
-                            M_ChanelData = new byte[M_ChanelCount][];
-                            M_ChanelId = new int[M_ChanelCount];
-                            M_ChanelPoint = new int[M_ChanelCount];
-                            MusicStepTime = m_File.FrameTime;
-                            for (int i = 0; i < M_ChanelCount; i++)
-                            {
-                                ChannelData m_Data = m_Datas[i];
-                                M_ChanelId[i] = m_Data.ChannelNo;
-                                M_ChanelPoint[i] = -1;
-                                List<byte> data = new List<byte>();
-                                for (int j = 0; j < m_Data.DataSize; j++)
-                                {
-                                    data.Add(Convert.ToByte(m_Data.Datas[j]));
-                                }
-                                M_ChanelData[i] = data.ToArray();
-                            }
-                            this.StepList = m_File.StepList.ToArray();
-                            this.StepListCount = m_File.StepListCount;
-                            this.MusicIntervalTime = m_File.MusicIntervalTime;
-                            this.MusicStepPoint = 0;
-                        }
-                    }
-                    if (m_File != null && c_File != null)
-                    {
-                        MusicData = true;
-                    }
-                    MusicStep = this.Project.ConfigFile.Music_Control_Enable[SceneNo];
+                    MusicStep = this.Config.Music_Control_Enable[SceneNo];
                     //关闭暂停播放
                     IsPausePlay = false;
                     //启动项目预览线程
@@ -284,9 +180,9 @@ namespace LightController.Tools
             try
             {
                 this.IsPausePlay = true;
-                if (this.Project !=null)
+                if (this.Config != null)
                 {
-                    this.TimeFactory = this.Project.ConfigFile.TimeFactory;
+                    this.TimeFactory = this.Config.TimeFactory;
                 }
                 else
                 {
@@ -326,7 +222,7 @@ namespace LightController.Tools
         {
             try
             {
-                if (this.Project.ConfigFile.Music_Control_Enable[this.SceneNo] == 0)
+                if (this.Config.Music_Control_Enable[this.SceneNo] == 0)
                 {
                     return;
                 }
@@ -366,9 +262,10 @@ namespace LightController.Tools
                 this.MusicStep = this.StepList[this.MusicStepPoint++];
                 for (int i = 0; i < this.MusicStep; i++)
                 {
-                    for (int j = 0; j < this.M_ChanelPoint.Length; j++)
+                    MusicDataBuff = new Dictionary<int, byte>();
+                    foreach (CPlayPoint item in M_PlayPoints)
                     {
-                        this.M_ChanelPoint[j]++;
+                        MusicDataBuff.Add(item.ChannelNo,item.Read());
                     }
                     this.IsMusicControl = true;
                     Thread.Sleep(this.TimeFactory * this.MusicStepTime);
@@ -416,47 +313,21 @@ namespace LightController.Tools
         }
         private void PreViewThreadStart()
         {
-            if (SendEmptyDebugDataThread != null)
-            {
-                try
-                {
-                    SendEmptyDebugDataThread.Abort();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("关闭空数据发送异常");
-                }
-                finally
-                {
-                    SendEmptyDebugDataThread = null;
-                }
-            }
             try
             {
+                Thread.Sleep(500);
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-               
                 while (true)
                 {
-                    if (!this.IsPausePlay)
+                    foreach (CPlayPoint item in C_PlayPoints)
                     {
-                        for (int i = 0; i < this.C_ChanelCount; i++)
+                        this.PlayData[item.ChannelNo - 1] = item.Read();
+                    }
+                    if (IsMusicControl)
+                    {
+                        foreach (int item in MusicDataBuff.Keys)
                         {
-                            if (this.C_ChanelPoint[i] == this.C_ChanelData[i].Length)
-                            {
-                                this.C_ChanelPoint[i] = 0;
-                            }
-                            this.PlayData[this.C_ChanelId[i] - 1] = this.C_ChanelData[i][this.C_ChanelPoint[i]++];
-                        }
-                        if (this.IsMusicControl)
-                        {
-                            for (int i = 0; i < this.M_ChanelCount; i++)
-                            {
-                                if (this.M_ChanelPoint[i] == this.M_ChanelData[i].Length)
-                                {
-                                    this.M_ChanelPoint[i] = 0;
-                                }
-                                this.PlayData[this.M_ChanelId[i] - 1] = this.M_ChanelData[i][this.M_ChanelPoint[i]];
-                            }
+                            this.PlayData[item - 1] = MusicDataBuff[item];
                         }
                     }
                     this.Play();
@@ -472,33 +343,21 @@ namespace LightController.Tools
         {
             try
             {
-                List<byte> buff = new List<byte>();
-                buff.AddRange(this.StartCode);
-                buff.AddRange(this.PlayData);
-                if (this.PreviewWayState == STATE_SERIALPREVIEW)
+                UInt32 count = 0;
+                if (Device.IsOpen)
                 {
-                    UInt32 count = 0;
-                    if (Device.IsOpen)
-                    {
-                        Device.SetBreak(true);
-                        Thread.Sleep(0);
-                        Device.SetBreak(false);
-                        Thread.Sleep(0);
-                        Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
-                        Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
-                        Device.SetBreak(false);
-                    }
-                }
-                else
-                {
-                    if (IsInitIntentDebug)
-                    {
-                        ConnectTools.GetInstance().StartIntentPreview(this.DeviceIpByIntentPreview,TimeFactory, this.IntentDebugCallback);
-                        IsInitIntentDebug = false;
-                        Thread.Sleep(300);
-                    }
-                    Thread.Sleep(21);
-                    ConnectTools.GetInstance().SendIntenetPreview(DeviceIpByIntentPreview, buff.ToArray());
+                    //发送Break|
+                    Device.SetBreak(true);
+                    Thread.Sleep(0);
+                    Device.SetBreak(false);
+                    Thread.Sleep(0);
+                    List<byte> buff = new List<byte>();
+                    buff.AddRange(this.StartCode);
+                    buff.AddRange(this.PlayData);
+                    Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
+                    Console.WriteLine("Y轴==>" + PlayData[2] + "Y轴微调==>" + PlayData[3] + "激光==>" + PlayData[6]);
+                    Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                    Device.SetBreak(false);
                 }
             }
             catch (Exception ex)
@@ -511,7 +370,6 @@ namespace LightController.Tools
         {
             try
             {
-                this.PreviewWayState = STATE_SERIALPREVIEW;
                 UInt32 deviceCount = 0;
                 FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
                 status = Device.GetNumberOfDevices(ref deviceCount);
@@ -570,6 +428,25 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
            
+        }
+        public void Test()
+        {
+            ThreadPool.QueueUserWorkItem(new WaitCallback(TestStart), null);
+        }
+        private void TestStart(Object obj)
+        {
+            List<CPlayPoint> playPoints = FileUtils.GetCPlayPoints();
+            Thread.Sleep(500);
+            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+            while (true)
+            {
+                foreach (CPlayPoint item in playPoints)
+                {
+                    this.PlayData[item.ChannelNo - 1] = item.Read();
+                }
+                Play();
+                Thread.Sleep(this.TimeFactory - 21);
+            }
         }
     }
     enum PreViewState

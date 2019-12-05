@@ -11,6 +11,7 @@ namespace DMX512
         public virtual int Frame { get; set; }
         public virtual int Step { get; set; }
         public virtual int Mode { get; set; }
+
 		// 这个对象，指向的是这个通道的地址，LightID = LightIndex+tongdaoIndex
         public virtual int LightID { get ; set; }
 
@@ -24,8 +25,7 @@ namespace DMX512
 			if (obj is DB_ValuePK)
 			{
 				DB_ValuePK pk = obj as DB_ValuePK;
-				if (this.LightIndex == pk.LightIndex && this.Frame == pk.Frame && this.Mode == pk.Mode
-					&& this.LightID == pk.LightID && this.Step == pk.Step)
+				if (this.LightIndex == pk.LightIndex && this.Frame == pk.Frame && this.Mode == pk.Mode && this.LightID == pk.LightID && this.Step == pk.Step)
 				{
 					return true;
 				}
@@ -41,6 +41,5 @@ namespace DMX512
 		{
 			return base.GetHashCode();
 		}
-
 	}
 }

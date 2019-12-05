@@ -36,6 +36,7 @@
 			this.noticeLabel = new System.Windows.Forms.Label();
 			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
+			this.copyAllCheckBox = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// lightsSkinListView
@@ -80,11 +81,12 @@
 			// 
 			// noticeLabel
 			// 
-			this.noticeLabel.Location = new System.Drawing.Point(13, 352);
+			this.noticeLabel.Location = new System.Drawing.Point(12, 351);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(325, 47);
+			this.noticeLabel.Size = new System.Drawing.Size(326, 62);
 			this.noticeLabel.TabIndex = 10;
-			this.noticeLabel.Text = "请选择其中的一个灯具做为编组的组长 ; 点击确认后，软件将会使用组长的通道数据替代其它组员灯具（在该场景及模式下）的所有通道数据。";
+			this.noticeLabel.Text = "请选择其中的一个灯具做为编组的组长。在多灯模式界面中，将只展示组长的通道数据。若勾选了“是否统一设为组长数据”，则所有选中的灯具，会将其当前模式及场景下的所有步数" +
+    "都设为与组长一样的数据。\r\n\r\n";
 			// 
 			// enterSkinButton
 			// 
@@ -94,13 +96,13 @@
 			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.enterSkinButton.DownBack = null;
 			this.enterSkinButton.Enabled = false;
-			this.enterSkinButton.Location = new System.Drawing.Point(60, 414);
+			this.enterSkinButton.Location = new System.Drawing.Point(154, 422);
 			this.enterSkinButton.MouseBack = null;
 			this.enterSkinButton.Name = "enterSkinButton";
 			this.enterSkinButton.NormlBack = null;
 			this.enterSkinButton.Size = new System.Drawing.Size(75, 32);
 			this.enterSkinButton.TabIndex = 11;
-			this.enterSkinButton.Text = "确认";
+			this.enterSkinButton.Text = "确定";
 			this.enterSkinButton.UseVisualStyleBackColor = false;
 			this.enterSkinButton.Click += new System.EventHandler(this.enterSkinButton_Click);
 			// 
@@ -112,7 +114,7 @@
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(213, 414);
+			this.cancelSkinButton.Location = new System.Drawing.Point(251, 422);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -122,12 +124,22 @@
 			this.cancelSkinButton.UseVisualStyleBackColor = false;
 			this.cancelSkinButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
 			// 
+			// copyAllCheckBox
+			// 
+			this.copyAllCheckBox.Location = new System.Drawing.Point(18, 418);
+			this.copyAllCheckBox.Name = "copyAllCheckBox";
+			this.copyAllCheckBox.Size = new System.Drawing.Size(99, 43);
+			this.copyAllCheckBox.TabIndex = 12;
+			this.copyAllCheckBox.Text = "是否统一设为组长数据";
+			this.copyAllCheckBox.UseVisualStyleBackColor = true;
+			// 
 			// MultiLightForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelSkinButton;
 			this.ClientSize = new System.Drawing.Size(349, 469);
+			this.Controls.Add(this.copyAllCheckBox);
 			this.Controls.Add(this.cancelSkinButton);
 			this.Controls.Add(this.enterSkinButton);
 			this.Controls.Add(this.noticeLabel);
@@ -151,5 +163,6 @@
 		private System.Windows.Forms.Label noticeLabel;
 		private CCWin.SkinControl.SkinButton enterSkinButton;
 		private CCWin.SkinControl.SkinButton cancelSkinButton;
+		private System.Windows.Forms.CheckBox copyAllCheckBox;
 	}
 }

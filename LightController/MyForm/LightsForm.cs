@@ -84,6 +84,7 @@ namespace LightController
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			this.lightsSkinListView.HideSelection = true;
 		}
 			
 		/// <summary>
@@ -124,7 +125,7 @@ namespace LightController
 					string lightAddr,string lightPic,int startNum,int endNum,int lightCount)
 		{
 			// 先检查lightPic：若lightPic不在imageList中，则设置默认图片
-			if (!this.largeImageList.Images.ContainsKey(lightPic))
+			if (! this.largeImageList.Images.ContainsKey(lightPic))
 			{
 				lightPic = "灯光图.png";
 			}
@@ -210,6 +211,7 @@ namespace LightController
 			mainForm.AddLightAstList(lightAstList);
 			mainForm.GenerateAllStepTemplates();
 			mainForm.AutosetEnabledPlayAndRefreshPic();
+			mainForm.ResetSyncMode();
 
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();

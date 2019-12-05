@@ -102,6 +102,26 @@ namespace LightController
 			this.largeImageList.Images.SetKeyName(48, "帕灯.bmp");
 			this.largeImageList.Images.SetKeyName(49, "1.jpg");
 			this.largeImageList.Images.SetKeyName(50, "灯光图.png");
+			this.largeImageList.Images.SetKeyName(51, "3.jpg");
+			this.largeImageList.Images.SetKeyName(52, "4.jpg");
+			this.largeImageList.Images.SetKeyName(53, "5.jpg");
+			this.largeImageList.Images.SetKeyName(54, "60w.jpg");
+			this.largeImageList.Images.SetKeyName(55, "未知.ico");
+			this.largeImageList.Images.SetKeyName(56, "j(1).png");
+			this.largeImageList.Images.SetKeyName(57, "j(2).png");
+			this.largeImageList.Images.SetKeyName(58, "j(3).png");
+			this.largeImageList.Images.SetKeyName(59, "j(4).png");
+			this.largeImageList.Images.SetKeyName(60, "j(5).png");
+			this.largeImageList.Images.SetKeyName(61, "j(6).png");
+			this.largeImageList.Images.SetKeyName(62, "j(7).png");
+			this.largeImageList.Images.SetKeyName(63, "j(8).png");
+			this.largeImageList.Images.SetKeyName(64, "j(9).png");
+			this.largeImageList.Images.SetKeyName(65, "j(10).png");
+			this.largeImageList.Images.SetKeyName(66, "j(11).png");
+			this.largeImageList.Images.SetKeyName(67, "a (1).jpg");
+			this.largeImageList.Images.SetKeyName(68, "a (1).png");
+			this.largeImageList.Images.SetKeyName(69, "a (2).jpg");
+			this.largeImageList.Images.SetKeyName(70, "a (2).png");
 			// 
 			// label1
 			// 

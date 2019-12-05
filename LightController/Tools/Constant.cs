@@ -43,11 +43,16 @@ namespace LightController.Tools
         public const string RECEIVE_ORDER_DONE = "Done";
         public const string RECEIVE_ORDER_PUT = "Ok:Decode";
         public const string RECEIVE_ORDER_PUT_PARAM = "Ok:Decode";
-        public const string RECEIVE_ORDER_GET_PARAM = "Error:GetParam";
+        public const string RECEIVE_ORDER_GET_PARAM = "Error:Get_Param";
         public const string RECEIVE_ORDER_OTHER_OK = "OK";
         public const string RECEIVE_ORDER_OTHER_ERROR = "Error";
         public const string RECEIVE_ORDER_UPDATE_OK = "Ok:Decode";
         public const string RECEIVE_ORDER_UPDATE_ERROR = "Error:UpDate";
+        public const string RECEIVE_ORDER_START_DEBUG_OK = "Ok:StartDebug";
+        public const string RECEIVE_ORDER_START_DEBUG_ERROR = "Error:StartDebug";
+        public const string RECEIVE_ORDER_END_DEBUG_OK = "Ok:EndDebug";
+        public const string RECEIVE_ORDER_END_DEBUG_ERROR = "Error:EndDebug";
+
         public const string RECEIVE_OK = "Ok";
         public const string RECEIVE_ERROR = "Error";
         public const string ORDER_PUT = "Put";
@@ -57,6 +62,11 @@ namespace LightController.Tools
         public const string ORDER_GET_PARAM = "GetParam";
         public const string ORDER_SEARCH = "Search";
         public const string ORDER_UPDATE = "UpDate";
+
+        public const string ORDER_START_DEBUG = "StartDebug";
+        public const string ORDER_END_DEBUG = "EndDebug";
+        public const string ORDER_SEND_DEBUG_DATA = "SendPreviewData";
+
         public const string MARK_ORDER_TAKE_DATA = "00000101";
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";

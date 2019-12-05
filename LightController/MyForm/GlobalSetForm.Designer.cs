@@ -236,7 +236,9 @@ private System.ComponentModel.IContainer components = null;
 			this.eachChangeModeComboBox.FormattingEnabled = true;
 			this.eachChangeModeComboBox.Items.AddRange(new object[] {
             "跳变",
-            "渐变"});
+            "渐变慢",
+            "渐变中",
+            "渐变快"});
 			this.eachChangeModeComboBox.Location = new System.Drawing.Point(146, 145);
 			this.eachChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.eachChangeModeComboBox.Name = "eachChangeModeComboBox";

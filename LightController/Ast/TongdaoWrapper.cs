@@ -29,15 +29,15 @@ namespace LightController.Ast
 		public static IList<TongdaoWrapper> GenerateTongdaoList(IList<TongdaoWrapper> stepTemplateTongdaoList ,int mode)
 		{
 			IList<TongdaoWrapper> newList = new List<TongdaoWrapper>();
-			foreach (TongdaoWrapper item in stepTemplateTongdaoList)
+			foreach (TongdaoWrapper td in stepTemplateTongdaoList)
 			{
 				// 9.7 如果是模板数据，则根据mode来决定changeMode的初值
 				newList.Add(new TongdaoWrapper()	{
-						StepTime = item.StepTime,
-						TongdaoName = item.TongdaoName,
-						ScrollValue = item.ScrollValue,
-						ChangeMode = item.ChangeMode == -1 ? (mode == 0 ? 1 : 0) : item.ChangeMode ,
-						Address = item.Address
+						StepTime = td.StepTime,
+						TongdaoName = td.TongdaoName,
+						ScrollValue = td.ScrollValue,
+						ChangeMode = td.ChangeMode == -1 ? (mode == 0 ? 1 : 0) : td.ChangeMode ,
+						Address = td.Address
 					}
 				);
 			}

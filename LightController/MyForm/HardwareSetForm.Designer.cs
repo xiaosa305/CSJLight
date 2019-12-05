@@ -74,18 +74,15 @@
 			this.domainNameTextBox = new System.Windows.Forms.TextBox();
 			this.label15 = new System.Windows.Forms.Label();
 			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.networkChooseSkinButton = new CCWin.SkinControl.SkinButton();
 			this.networkDownloadSkinButton = new CCWin.SkinControl.SkinButton();
 			this.networkUploadSkinButton = new CCWin.SkinControl.SkinButton();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
 			this.networkTab = new CCWin.SkinControl.SkinTabPage();
-			this.localIPLabel = new System.Windows.Forms.Label();
 			this.localIPsComboBox = new System.Windows.Forms.ComboBox();
 			this.ipsComboBox = new System.Windows.Forms.ComboBox();
 			this.networkSearchSkinButton = new CCWin.SkinControl.SkinButton();
-			this.setLocalIPSkinButton = new CCWin.SkinControl.SkinButton();
 			this.searchLocalIPsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comTab = new CCWin.SkinControl.SkinTabPage();
 			this.comComboBox = new System.Windows.Forms.ComboBox();
@@ -134,7 +131,7 @@
 			this.commonGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.commonGroupBox.Name = "commonGroupBox";
 			this.commonGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.commonGroupBox.Size = new System.Drawing.Size(457, 232);
+			this.commonGroupBox.Size = new System.Drawing.Size(474, 232);
 			this.commonGroupBox.TabIndex = 0;
 			this.commonGroupBox.TabStop = false;
 			this.commonGroupBox.Text = "通用设置";
@@ -392,7 +389,7 @@
 			this.networkGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.networkGroupBox.Name = "networkGroupBox";
 			this.networkGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.networkGroupBox.Size = new System.Drawing.Size(457, 178);
+			this.networkGroupBox.Size = new System.Drawing.Size(474, 178);
 			this.networkGroupBox.TabIndex = 0;
 			this.networkGroupBox.TabStop = false;
 			this.networkGroupBox.Text = "网络设置";
@@ -450,7 +447,6 @@
 			// 
 			// macTextBox
 			// 
-			this.macTextBox.Enabled = false;
 			this.macTextBox.Location = new System.Drawing.Point(76, 141);
 			this.macTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.macTextBox.Name = "macTextBox";
@@ -531,7 +527,7 @@
 			this.otherGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.otherGroupBox.Name = "otherGroupBox";
 			this.otherGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.otherGroupBox.Size = new System.Drawing.Size(457, 122);
+			this.otherGroupBox.Size = new System.Drawing.Size(474, 122);
 			this.otherGroupBox.TabIndex = 0;
 			this.otherGroupBox.TabStop = false;
 			this.otherGroupBox.Text = "其他设置";
@@ -619,7 +615,7 @@
 			this.saveSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.saveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.saveSkinButton.DownBack = null;
-			this.saveSkinButton.Location = new System.Drawing.Point(35, 430);
+			this.saveSkinButton.Location = new System.Drawing.Point(35, 435);
 			this.saveSkinButton.MouseBack = null;
 			this.saveSkinButton.Name = "saveSkinButton";
 			this.saveSkinButton.NormlBack = null;
@@ -629,24 +625,6 @@
 			this.saveSkinButton.UseVisualStyleBackColor = false;
 			this.saveSkinButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
-			// networkChooseSkinButton
-			// 
-			this.networkChooseSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.networkChooseSkinButton.BaseColor = System.Drawing.Color.MediumAquamarine;
-			this.networkChooseSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.networkChooseSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.networkChooseSkinButton.DownBack = null;
-			this.networkChooseSkinButton.Enabled = false;
-			this.networkChooseSkinButton.Location = new System.Drawing.Point(35, 224);
-			this.networkChooseSkinButton.MouseBack = null;
-			this.networkChooseSkinButton.Name = "networkChooseSkinButton";
-			this.networkChooseSkinButton.NormlBack = null;
-			this.networkChooseSkinButton.Size = new System.Drawing.Size(164, 33);
-			this.networkChooseSkinButton.TabIndex = 2;
-			this.networkChooseSkinButton.Text = "选择网络设备";
-			this.networkChooseSkinButton.UseVisualStyleBackColor = false;
-			this.networkChooseSkinButton.Click += new System.EventHandler(this.networkChoosetButton_Click);
-			// 
 			// networkDownloadSkinButton
 			// 
 			this.networkDownloadSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -655,7 +633,7 @@
 			this.networkDownloadSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.networkDownloadSkinButton.DownBack = null;
 			this.networkDownloadSkinButton.Enabled = false;
-			this.networkDownloadSkinButton.Location = new System.Drawing.Point(129, 275);
+			this.networkDownloadSkinButton.Location = new System.Drawing.Point(128, 274);
 			this.networkDownloadSkinButton.MouseBack = null;
 			this.networkDownloadSkinButton.Name = "networkDownloadSkinButton";
 			this.networkDownloadSkinButton.NormlBack = null;
@@ -673,7 +651,7 @@
 			this.networkUploadSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.networkUploadSkinButton.DownBack = null;
 			this.networkUploadSkinButton.Enabled = false;
-			this.networkUploadSkinButton.Location = new System.Drawing.Point(35, 275);
+			this.networkUploadSkinButton.Location = new System.Drawing.Point(34, 274);
 			this.networkUploadSkinButton.MouseBack = null;
 			this.networkUploadSkinButton.Name = "networkUploadSkinButton";
 			this.networkUploadSkinButton.NormlBack = null;
@@ -690,9 +668,9 @@
 			this.panel1.Controls.Add(this.skinTabControl);
 			this.panel1.Controls.Add(this.saveSkinButton);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(457, 0);
+			this.panel1.Location = new System.Drawing.Point(474, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(243, 525);
+			this.panel1.Size = new System.Drawing.Size(226, 525);
 			this.panel1.TabIndex = 3;
 			// 
 			// cancelSkinButton
@@ -703,7 +681,7 @@
 			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(129, 430);
+			this.cancelSkinButton.Location = new System.Drawing.Point(129, 435);
 			this.cancelSkinButton.MouseBack = null;
 			this.cancelSkinButton.Name = "cancelSkinButton";
 			this.cancelSkinButton.NormlBack = null;
@@ -733,55 +711,46 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
-			this.skinTabControl.Size = new System.Drawing.Size(241, 388);
+			this.skinTabControl.SelectedIndex = 1;
+			this.skinTabControl.Size = new System.Drawing.Size(224, 388);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 3;
 			// 
 			// networkTab
 			// 
 			this.networkTab.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.networkTab.Controls.Add(this.localIPLabel);
 			this.networkTab.Controls.Add(this.localIPsComboBox);
 			this.networkTab.Controls.Add(this.ipsComboBox);
 			this.networkTab.Controls.Add(this.networkSearchSkinButton);
-			this.networkTab.Controls.Add(this.networkChooseSkinButton);
-			this.networkTab.Controls.Add(this.setLocalIPSkinButton);
 			this.networkTab.Controls.Add(this.networkDownloadSkinButton);
 			this.networkTab.Controls.Add(this.searchLocalIPsSkinButton);
 			this.networkTab.Controls.Add(this.networkUploadSkinButton);
 			this.networkTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkTab.Location = new System.Drawing.Point(0, 36);
 			this.networkTab.Name = "networkTab";
-			this.networkTab.Size = new System.Drawing.Size(241, 352);
+			this.networkTab.Size = new System.Drawing.Size(224, 352);
 			this.networkTab.TabIndex = 0;
 			this.networkTab.TabItemImage = null;
 			this.networkTab.Text = "网络连接";
 			// 
-			// localIPLabel
-			// 
-			this.localIPLabel.AutoSize = true;
-			this.localIPLabel.Location = new System.Drawing.Point(35, 105);
-			this.localIPLabel.Name = "localIPLabel";
-			this.localIPLabel.Size = new System.Drawing.Size(0, 12);
-			this.localIPLabel.TabIndex = 5;
-			// 
 			// localIPsComboBox
 			// 
 			this.localIPsComboBox.FormattingEnabled = true;
-			this.localIPsComboBox.Location = new System.Drawing.Point(35, 67);
+			this.localIPsComboBox.Location = new System.Drawing.Point(34, 93);
 			this.localIPsComboBox.Name = "localIPsComboBox";
 			this.localIPsComboBox.Size = new System.Drawing.Size(164, 20);
 			this.localIPsComboBox.TabIndex = 4;
+			this.localIPsComboBox.SelectedIndexChanged += new System.EventHandler(this.localIPsComboBox_SelectedIndexChanged);
 			// 
 			// ipsComboBox
 			// 
 			this.ipsComboBox.Enabled = false;
 			this.ipsComboBox.FormattingEnabled = true;
-			this.ipsComboBox.Location = new System.Drawing.Point(23, 186);
+			this.ipsComboBox.Location = new System.Drawing.Point(22, 218);
 			this.ipsComboBox.Name = "ipsComboBox";
 			this.ipsComboBox.Size = new System.Drawing.Size(195, 20);
 			this.ipsComboBox.TabIndex = 4;
+			this.ipsComboBox.SelectedIndexChanged += new System.EventHandler(this.ipsComboBox_SelectedIndexChanged);
 			// 
 			// networkSearchSkinButton
 			// 
@@ -791,7 +760,7 @@
 			this.networkSearchSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.networkSearchSkinButton.DownBack = null;
 			this.networkSearchSkinButton.Enabled = false;
-			this.networkSearchSkinButton.Location = new System.Drawing.Point(35, 135);
+			this.networkSearchSkinButton.Location = new System.Drawing.Point(34, 149);
 			this.networkSearchSkinButton.MouseBack = null;
 			this.networkSearchSkinButton.Name = "networkSearchSkinButton";
 			this.networkSearchSkinButton.NormlBack = null;
@@ -801,24 +770,6 @@
 			this.networkSearchSkinButton.UseVisualStyleBackColor = false;
 			this.networkSearchSkinButton.Click += new System.EventHandler(this.networkSearchSkinButton_Click);
 			// 
-			// setLocalIPSkinButton
-			// 
-			this.setLocalIPSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.setLocalIPSkinButton.BaseColor = System.Drawing.Color.Tan;
-			this.setLocalIPSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.setLocalIPSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.setLocalIPSkinButton.DownBack = null;
-			this.setLocalIPSkinButton.Enabled = false;
-			this.setLocalIPSkinButton.Location = new System.Drawing.Point(129, 16);
-			this.setLocalIPSkinButton.MouseBack = null;
-			this.setLocalIPSkinButton.Name = "setLocalIPSkinButton";
-			this.setLocalIPSkinButton.NormlBack = null;
-			this.setLocalIPSkinButton.Size = new System.Drawing.Size(70, 33);
-			this.setLocalIPSkinButton.TabIndex = 2;
-			this.setLocalIPSkinButton.Text = "设置本地IP";
-			this.setLocalIPSkinButton.UseVisualStyleBackColor = false;
-			this.setLocalIPSkinButton.Click += new System.EventHandler(this.setLocalIPSkinButton_Click);
-			// 
 			// searchLocalIPsSkinButton
 			// 
 			this.searchLocalIPsSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -826,11 +777,11 @@
 			this.searchLocalIPsSkinButton.BorderColor = System.Drawing.Color.Black;
 			this.searchLocalIPsSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.searchLocalIPsSkinButton.DownBack = null;
-			this.searchLocalIPsSkinButton.Location = new System.Drawing.Point(35, 16);
+			this.searchLocalIPsSkinButton.Location = new System.Drawing.Point(34, 24);
 			this.searchLocalIPsSkinButton.MouseBack = null;
 			this.searchLocalIPsSkinButton.Name = "searchLocalIPsSkinButton";
 			this.searchLocalIPsSkinButton.NormlBack = null;
-			this.searchLocalIPsSkinButton.Size = new System.Drawing.Size(70, 33);
+			this.searchLocalIPsSkinButton.Size = new System.Drawing.Size(164, 33);
 			this.searchLocalIPsSkinButton.TabIndex = 2;
 			this.searchLocalIPsSkinButton.Text = "获取本地IP列表";
 			this.searchLocalIPsSkinButton.UseVisualStyleBackColor = false;
@@ -847,7 +798,7 @@
 			this.comTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comTab.Location = new System.Drawing.Point(0, 36);
 			this.comTab.Name = "comTab";
-			this.comTab.Size = new System.Drawing.Size(241, 352);
+			this.comTab.Size = new System.Drawing.Size(224, 352);
 			this.comTab.TabIndex = 1;
 			this.comTab.TabItemImage = null;
 			this.comTab.Text = "串口连接";
@@ -891,7 +842,7 @@
 			this.comConnectSkinButton.NormlBack = null;
 			this.comConnectSkinButton.Size = new System.Drawing.Size(164, 33);
 			this.comConnectSkinButton.TabIndex = 6;
-			this.comConnectSkinButton.Text = "选择串口设备";
+			this.comConnectSkinButton.Text = "打开串口设备";
 			this.comConnectSkinButton.UseVisualStyleBackColor = false;
 			this.comConnectSkinButton.Click += new System.EventHandler(this.comConnectSkinButton_Click);
 			// 
@@ -963,7 +914,6 @@
 			this.panel1.ResumeLayout(false);
 			this.skinTabControl.ResumeLayout(false);
 			this.networkTab.ResumeLayout(false);
-			this.networkTab.PerformLayout();
 			this.comTab.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -1015,7 +965,6 @@
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.Label label16;
 		private CCWin.SkinControl.SkinButton saveSkinButton;
-		private CCWin.SkinControl.SkinButton networkChooseSkinButton;
 		private CCWin.SkinControl.SkinButton networkDownloadSkinButton;
 		private CCWin.SkinControl.SkinButton networkUploadSkinButton;
 		private System.Windows.Forms.Panel panel1;
@@ -1030,9 +979,7 @@
 		private CCWin.SkinControl.SkinButton comConnectSkinButton;
 		private CCWin.SkinControl.SkinButton comDownloadSkinButton;
 		private CCWin.SkinControl.SkinButton comUploadSkinButton;
-		private System.Windows.Forms.Label localIPLabel;
 		private System.Windows.Forms.ComboBox localIPsComboBox;
-		private CCWin.SkinControl.SkinButton setLocalIPSkinButton;
 		private CCWin.SkinControl.SkinButton searchLocalIPsSkinButton;
 	}
 }

@@ -36,7 +36,6 @@ namespace LightEditor
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.comComboBox = new System.Windows.Forms.ComboBox();
-			this.chooseComButton = new System.Windows.Forms.Button();
 			this.newLightButton = new System.Windows.Forms.Button();
 			this.openLightButton = new System.Windows.Forms.Button();
 			this.saveLightButton = new System.Windows.Forms.Button();
@@ -218,22 +217,12 @@ namespace LightEditor
 			// comComboBox
 			// 
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(64, 13);
+			this.comComboBox.Location = new System.Drawing.Point(24, 13);
 			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(70, 20);
+			this.comComboBox.Size = new System.Drawing.Size(86, 20);
 			this.comComboBox.TabIndex = 0;
-			// 
-			// chooseComButton
-			// 
-			this.chooseComButton.Location = new System.Drawing.Point(18, 37);
-			this.chooseComButton.Margin = new System.Windows.Forms.Padding(2);
-			this.chooseComButton.Name = "chooseComButton";
-			this.chooseComButton.Size = new System.Drawing.Size(116, 24);
-			this.chooseComButton.TabIndex = 1;
-			this.chooseComButton.Text = "选择串口";
-			this.chooseComButton.UseVisualStyleBackColor = true;
-			this.chooseComButton.Click += new System.EventHandler(this.chooseComButton_Click);
+			this.comComboBox.SelectedIndexChanged += new System.EventHandler(this.comComboBox_SelectedIndexChanged);
 			// 
 			// newLightButton
 			// 
@@ -1749,7 +1738,8 @@ namespace LightEditor
 			// 
 			// openImageDialog
 			// 
-			this.openImageDialog.Filter = "BMP文件(*.bmp)|*.bmp|JPG文件(*.jpg)|*.jpg|图标文件(*.ico)|*.ico";
+			this.openImageDialog.Filter = "所有图片文件|*.bmp;*.jpeg;*.jpg;*.png;*.ico|PNG文件(*.png)|*.png|BMP文件(*.bmp)|*.bmp|JPG文件" +
+    "(*.jpg;*.jpeg)|*.jpg;*jpeg|图标文件(*.ico)|*.ico";
 			this.openImageDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openImageDialog_FileOk);
 			// 
 			// openFileDialog
@@ -1860,7 +1850,7 @@ namespace LightEditor
 			// connectButton
 			// 
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(160, 13);
+			this.connectButton.Location = new System.Drawing.Point(133, 13);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
 			this.connectButton.Size = new System.Drawing.Size(86, 46);
@@ -1873,21 +1863,20 @@ namespace LightEditor
 			// 
 			this.connectPanel.Controls.Add(this.refreshButton);
 			this.connectPanel.Controls.Add(this.comComboBox);
-			this.connectPanel.Controls.Add(this.chooseComButton);
 			this.connectPanel.Controls.Add(this.connectButton);
-			this.connectPanel.Location = new System.Drawing.Point(410, 5);
+			this.connectPanel.Location = new System.Drawing.Point(426, 5);
 			this.connectPanel.Name = "connectPanel";
-			this.connectPanel.Size = new System.Drawing.Size(256, 68);
+			this.connectPanel.Size = new System.Drawing.Size(240, 68);
 			this.connectPanel.TabIndex = 7;
 			this.connectPanel.Visible = false;
 			// 
 			// refreshButton
 			// 
-			this.refreshButton.Location = new System.Drawing.Point(18, 13);
+			this.refreshButton.Location = new System.Drawing.Point(24, 40);
 			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(41, 20);
+			this.refreshButton.Size = new System.Drawing.Size(86, 20);
 			this.refreshButton.TabIndex = 5;
-			this.refreshButton.Text = "刷新";
+			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
@@ -1905,14 +1894,13 @@ namespace LightEditor
 			this.Controls.Add(this.saveLightButton);
 			this.Controls.Add(this.openLightButton);
 			this.Controls.Add(this.newLightButton);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 3);
-			this.Text = "灯库编辑工具";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MainForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.lightTestGroupBox.ResumeLayout(false);
@@ -2010,7 +1998,6 @@ namespace LightEditor
 		private System.Windows.Forms.Button exitButton;
 		private System.Windows.Forms.Button newLightButton;
 		private System.Windows.Forms.Button generateButton;
-		private System.Windows.Forms.Button chooseComButton;
 		private System.Windows.Forms.Button openLightButton;
 		private System.Windows.Forms.Button saveLightButton;
 		private System.Windows.Forms.ComboBox comComboBox;

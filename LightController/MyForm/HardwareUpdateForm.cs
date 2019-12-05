@@ -18,7 +18,7 @@ namespace LightController.MyForm
 	public partial class HardwareUpdateForm : Form
 	{
 		private MainFormInterface mainForm;
-		private string filePath;
+		private string binPath;
 		private bool isChooseFile = false; 
 
 		private IList<string> selectedIPs;
@@ -26,13 +26,15 @@ namespace LightController.MyForm
 		private string localIP;
 		private string comName;
 
-		private ConnectTools cTools;
+		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
-		public HardwareUpdateForm(MainFormInterface mainForm)
+		public HardwareUpdateForm(MainFormInterface mainForm , string binPath) 
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
+			this.binPath = binPath;
+			setPathLabel();
 
 			this.skinTabControl.SelectedIndex = 0;			
 		}
@@ -71,32 +73,36 @@ namespace LightController.MyForm
 					localIPsComboBox.Items.Add(ip);
 				}
 			}
+
 			if (localIPsComboBox.Items.Count > 0)
 			{
 				localIPsComboBox.Enabled = true;
 				localIPsComboBox.SelectedIndex = 0;
-				setLocalIPSkinButton.Enabled = true;
 			}
 			else
 			{
 				localIPsComboBox.Enabled = false;
 				localIPsComboBox.SelectedIndex = -1;
-				setLocalIPSkinButton.Enabled = false;
 			}
 		}
 
-
 		/// <summary>
-		///  事件：点击《设置本地IP》
+		/// 事件：当本地ip选项被改变后，设置localIP，并设置网络搜索框是否可用。
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void setLocalIPSkinButton_Click(object sender, EventArgs e)
+		private void localIPsComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			localIP = localIPsComboBox.Text;
-			localIPLabel.Text = localIP;
-			networkSearchSkinButton.Enabled = true;
+
+			networkDevicesComboBox.Text = "";
+			networkDevicesComboBox.SelectedIndex = -1;
+			networkDevicesComboBox.Enabled = false;
+
+			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
 		}
+
+		
 
 		/// <summary>
 		///事件：点击《搜索网络/串口设备》，两个按钮点击事件集成在一起
@@ -109,14 +115,13 @@ namespace LightController.MyForm
 			//点击《搜索网络设备》
 			if (buttonName.Equals("networkSearchSkinButton")) 
 			{
-				cTools = ConnectTools.GetInstance();
-				cTools.Start(localIP);
-				cTools.SearchDevice();
+				connectTools = ConnectTools.GetInstance();
+				connectTools.Start(localIP);
+				connectTools.SearchDevice();
 				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-				networkChooseSkinButton.Enabled = false;
 				Thread.Sleep(1000);
 
-				Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
+				Dictionary<string, string> allDevices = connectTools.GetDeviceInfo();
 				networkDevicesComboBox.Items.Clear();
 				ips = new List<string>();
 				if (allDevices.Count > 0)
@@ -128,13 +133,11 @@ namespace LightController.MyForm
 					}
 					networkDevicesComboBox.Enabled = true;
 					networkDevicesComboBox.SelectedIndex = 0;
-					networkChooseSkinButton.Enabled = true;
 				}
 				else
 				{
 					networkDevicesComboBox.Enabled = false;
 					networkDevicesComboBox.SelectedIndex = -1;
-					networkChooseSkinButton.Enabled = false;
 					MessageBox.Show("未找到可用设备，请确认后重试。");
 				}
 			}
@@ -176,44 +179,36 @@ namespace LightController.MyForm
 			comSearchSkinButton.Enabled = true;
 		}
 
+
 		/// <summary>
-		/// 事件：点击《选择网络设备》、《选择串口》，两个按钮点击事件集成在一起
+		/// 事件：更改《网络设备列表》的选中项，则自动将即将连接的设备设为选中项。
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void choosetButton_Click(object sender, EventArgs e)
+		private void networkDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			string buttonName = ((SkinButton)sender).Name;
-			if (buttonName.Equals("networkChooseSkinButton"))
-			{
-				selectedIPs = new List<string>();
-				selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
-				MessageBox.Show("已选中网络设备");
-				if (isChooseFile)
-				{					
-					networkdUpdateSkinButton.Enabled = true;
-				}
-				else {
-					MessageBox.Show("请先选择升级文件,再重新点击本按钮。");
-					networkdUpdateSkinButton.Enabled = false;
-				}
-				
+			if (networkDevicesComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(networkDevicesComboBox.Text)) {
+				networkdUpdateSkinButton.Enabled = false;
+				return;
 			}
-			else {
-				comName = comComboBox.Text ;
-				MessageBox.Show("已选中串口设备" + comName);
-				comNameLabel.Text = comName;
-				comTools.OpenCom(comName);
-				if (isChooseFile)
-				{					
-					comUpdateSkinButton.Enabled = true;
-				}
-				else
-				{
-					MessageBox.Show("请先选择升级文件,再重新点击本按钮。");
-					comUpdateSkinButton.Enabled = false;
-				}				
-			}		
+
+			selectedIPs = new List<string>();
+			selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);	
+			networkdUpdateSkinButton.Enabled = isChooseFile;
+		}
+
+		/// <summary>
+		/// 事件：点击《打开串口》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comChooseButton_Click(object sender, EventArgs e)
+		{
+			comName = comComboBox.Text;
+			MessageBox.Show("已打开串口：" + comName);
+			comNameLabel.Text = comName;
+			comTools.OpenCom(comName);
+			comUpdateSkinButton.Enabled = isChooseFile;
 		}
 
 
@@ -224,18 +219,20 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateButton_Click(object sender, EventArgs e)
 		{
-			string buttonName = ((SkinButton)sender).Name;
+			if (!isChooseFile) {
+				MessageBox.Show("尚未选中xbin文件。");
+				return;
+			}
 
+			string buttonName = ((SkinButton)sender).Name;
 			if (buttonName.Equals("networkdUpdateSkinButton"))
 			{
-				networkChooseSkinButton.Enabled = false;
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
-
-				cTools.Update(selectedIPs, filePath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress));
+				connectTools.Update( selectedIPs , binPath,  new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress) );
 			}
 			else {
-				comTools.Update(filePath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(comPaintProgress));
+				comTools.Update(binPath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(comPaintProgress));
 			}		
 		}		
 			   
@@ -257,17 +254,23 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void openFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			filePath = openFileDialog.FileName;
-			filePathLabel.Text = "选中文件：" + filePath;
-			if (!String.IsNullOrEmpty(filePath))
-			{
-				isChooseFile = true;
-			}
-			else {
-				isChooseFile = false;
-				networkdUpdateSkinButton.Enabled = false;
-				comUpdateSkinButton.Enabled = false;
-			}
+			binPath = openFileDialog.FileName;
+			setPathLabel();		
+		}
+
+		/// <summary>
+		///  辅助方法：设置label及其他选项
+		/// </summary>
+		/// <param name="binPath"></param>
+		private void setPathLabel() {
+
+			filePathLabel.Text =  binPath ;
+			mainForm.SetBinPath(binPath);
+
+			isChooseFile = !String.IsNullOrEmpty(binPath);
+			networkdUpdateSkinButton.Enabled = isChooseFile && !String.IsNullOrEmpty(networkDevicesComboBox.Text);
+			comUpdateSkinButton.Enabled = isChooseFile && !String.IsNullOrEmpty(comName);	
+
 		}
 
 		private void HardwareUpdateForm_HelpButtonClicked(object sender, CancelEventArgs e)
@@ -295,6 +298,7 @@ namespace LightController.MyForm
 			comSkinProgressBar.Value = a;
 		}
 
+		
 	}
 
 }

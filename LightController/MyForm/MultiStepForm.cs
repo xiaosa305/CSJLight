@@ -122,10 +122,10 @@ namespace LightController.MyForm
 			{
 				if (mode == 0)
 				{
-					mainForm.setMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 2);
+					mainForm.SetMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 2);
 				}
 				else {
-					mainForm.setMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 0);
+					mainForm.SetMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 0);
 				}				
 			}
 		}
@@ -139,7 +139,7 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				mainForm.setMultiStepValues(MainFormInterface.WHERE.SCROLL_VALUE, tdIndexList, startStep, endStep, 0);
+				mainForm.SetMultiStepValues(MainFormInterface.WHERE.SCROLL_VALUE, tdIndexList, startStep, endStep, 0);
 			}
 		}
 
@@ -153,7 +153,7 @@ namespace LightController.MyForm
 			//通过了验证，才能继续运行核心代码
 			if (checkStepAndTds()) {
 				int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
-				mainForm.setMultiStepValues(MainFormInterface.WHERE.SCROLL_VALUE,  tdIndexList, startStep,  endStep,  commonValue);
+				mainForm.SetMultiStepValues(MainFormInterface.WHERE.SCROLL_VALUE,  tdIndexList, startStep,  endStep,  commonValue);
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace LightController.MyForm
 			if (checkStepAndTds())
 			{
 				int  commonChangeModeSelectedIndex = commonChangeModeComboBox.SelectedIndex;
-				mainForm.setMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, commonChangeModeSelectedIndex);
+				mainForm.SetMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, commonChangeModeSelectedIndex);
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace LightController.MyForm
 			if (checkStepAndTds())
 			{
 				int commonStepTime = Decimal.ToInt16(commonStepTimetNumericUpDown.Value);
-				mainForm.setMultiStepValues(MainFormInterface.WHERE.STEP_TIME, tdIndexList, startStep, endStep, commonStepTime);
+				mainForm.SetMultiStepValues(MainFormInterface.WHERE.STEP_TIME, tdIndexList, startStep, endStep, commonStepTime);
 			}
 		}
 
@@ -206,6 +206,13 @@ namespace LightController.MyForm
 		{
 			this.Dispose();
 			mainForm.Activate();
+		}
+
+		// 事件：点击《（右侧步数）全选》按钮
+		private void allStepSkinButton_Click(object sender, EventArgs e)
+		{
+			startNumericUpDown.Value = 1;
+			endNumericUpDown.Value = endNumericUpDown.Maximum;
 		}
 
 		#endregion

@@ -43,12 +43,23 @@ namespace LightController.Tools
             }
             return Instance;
         }
-        public void Start()
+        public void InitCoons()
         {
-            conns = new Conn[MaxCount];
+            //conns = new Conn[MaxCount];
             for (int i = 0; i < MaxCount; i++)
             {
-                conns[i] = new Conn();
+                conns[i].CloseDevice();
+            }
+        }
+        public void Start()
+        {
+            if (conns == null)
+            {
+                conns = new Conn[MaxCount];
+                for (int i = 0; i < MaxCount; i++)
+                {
+                    conns[i] = new Conn();
+                }
             }
         }
         public void AddConnect(byte[] receiveBuff, int port)
@@ -237,6 +248,32 @@ namespace LightController.Tools
                     if (conns[i].Ip.Equals(ip))
                     {
                         conns[i].Update(filePath, receiveCallBack, download);
+                    }
+                }
+            }
+        }
+        public void StartDebug(string ip,int timeFactory, IReceiveCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].StartIntenetPreview(timeFactory,receiveCallBack);
+                    }
+                }
+            }
+        }
+        public void EndDebug(string ip, IReceiveCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].StopIntenetPreview(receiveCallBack);
                     }
                 }
             }

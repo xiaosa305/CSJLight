@@ -357,7 +357,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void exitButton_Click(object sender, EventArgs e)
 		{
-			Exit();
+			exit();
 		}
 
 		/// <summary>
@@ -635,7 +635,7 @@ namespace LightController
 				// 写法1：比较冗长
 				// isUseStepMode ? getCurrentStepMode() : (getCurrentStepWrapper() == null ? getCurrentStepMode() : getCurrentStepWrapper()), 
 				// 写法2：	相对简洁
-				(isUseStepTemplate || getCurrentStepWrapper()==null ) ? getCurrentStepTemplate() : getCurrentStepWrapper(),
+				(getCurrentStepWrapper()==null ) ? getCurrentStepTemplate() : getCurrentStepWrapper(),
 				mode);			
 
 			// 调用包装类内部的方法,来追加步
@@ -662,7 +662,7 @@ namespace LightController
 			if (lsWrapper.CurrentStep <= lsWrapper.TotalStep) {
 				// 根据isUseStepMode，生成要插入步的内容
 				StepWrapper newStep = StepWrapper.GenerateNewStep(
-					(isUseStepTemplate || getCurrentStepWrapper() == null) ? getCurrentStepTemplate() : getCurrentStepWrapper() ,
+					(getCurrentStepWrapper() == null) ? getCurrentStepTemplate() : getCurrentStepWrapper() ,
 					mode
 				);
 				// 要插入的位置的index
@@ -848,7 +848,7 @@ namespace LightController
 
 			if (isConnected && isRealtime)
 			{
-				oneLightStepWork();
+				oneStepWork();
 			}			
 		}
 		
@@ -1142,7 +1142,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void oneLightStepButton_Click(object sender, EventArgs e)
 		{
-			oneLightStepWork();
+			oneStepWork();
 		}
 
 		/// <summary>
@@ -1321,8 +1321,8 @@ namespace LightController
 		{
 			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
-			Test test = new Test(GetDBWrapper(true), valueDAO, globalIniPath);
-			//Test test = new Test(GetDBWrapper(true));
+			//Test test = new Test(GetDBWrapper(true) , valueDAO, globalIniPath);
+			Test test = new Test(GetDBWrapper(true));
 			test.Start(buttonIndex);
 		}
 
@@ -1439,15 +1439,15 @@ namespace LightController
 		}
 
 		
-		/// <summary>
-		///  勾选是否使用模板数据
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			isUseStepTemplate = addStepCheckBox.Checked;
-		}	
+		///// <summary>
+		/////  勾选是否使用模板数据
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void addStepCheckBox_CheckedChanged(object sender, EventArgs e)
+		//{
+		//	isUseStepTemplate = addStepCheckBox.Checked;
+		//}	
 		
 		/// <summary>
 		///  点击《连接设备|断开连接》按钮
@@ -1494,9 +1494,8 @@ namespace LightController
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			bool isFromDB = true;
-			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(isFromDB), globalIniPath); 
+		{			
+			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(true), globalIniPath); 
 			updateForm.ShowDialog(); 
 		}
 
@@ -1593,7 +1592,7 @@ namespace LightController
 
 		private void hardwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new HardwareUpdateForm(this).ShowDialog();
+			new HardwareUpdateForm(this,binPath).ShowDialog();
 		}
 	}
 }

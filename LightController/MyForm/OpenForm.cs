@@ -16,9 +16,8 @@ namespace LightController.MyForm
 		private MainFormInterface mainForm;
 		private string currentProjectName = "";  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
 		private bool isJustDelete = false;  // 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除，
-		private string savePath;
-
-		string selectedProjectName; // 临时变量，存储右键选中后弹出的重命名菜单
+		private string savePath;   // 辅助变量，获取软件的存储目录。
+		private string selectedProjectName; // 临时变量，存储右键选中后弹出的重命名菜单
 
 		public OpenForm(MainFormInterface mainForm , string currentProjectName)
 		{
@@ -26,8 +25,19 @@ namespace LightController.MyForm
 		
 			this.mainForm = mainForm;
 			this.currentProjectName = currentProjectName;
+			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 
 			RefreshTreeView1();
+		}
+
+		/// <summary>
+		/// 事件：窗体载入时，定义初始位置。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OpenForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
 
 		/// <summary>
@@ -36,11 +46,9 @@ namespace LightController.MyForm
 		internal void RefreshTreeView1()
 		{
 			treeView1.Nodes.Clear();
-
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 			string path = savePath + @"\LightProject";
 			if (Directory.Exists(path))
-			{				
+			{			
 				string[] dirs = Directory.GetDirectories(path);
 				foreach (string dir in dirs)
 				{
@@ -58,29 +66,26 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			// 1.先验证是否刚删除项目
-			if (isJustDelete)
+			// 1.先验证是否刚删除项目 或 空选项
+			if (isJustDelete  || treeView1.SelectedNode == null)
 			{
 				MessageBox.Show("请选择正确的项目名");
 				return;
 			}
-			// 2.验证是否为空选项
-			if(treeView1.SelectedNode != null) { 
-				string projectName =  treeView1.SelectedNode.Text;			
-				if ( ! String.IsNullOrEmpty(projectName) )
-				{				
-					mainForm.OpenProject(projectName);
-					this.Dispose();
-					mainForm.Activate();
-				}
-				else
-				{
-					MessageBox.Show("请选择正确的项目名");
-					return;
-				}
+
+			string projectName =  treeView1.SelectedNode.Text;			
+			if ( ! String.IsNullOrEmpty(projectName) )
+			{				
+				mainForm.OpenProject(projectName);
+				this.Dispose();
+				mainForm.Activate();
 			}
-		}	
-		
+			else
+			{
+				MessageBox.Show("请选择正确的项目名");
+				return;
+			}			
+		}			
 
 		/// <summary>
 		/// 事件：点击《删除》按钮（后期可能删除的功能）；
@@ -88,41 +93,44 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			// 若非刚删除
-			if (!isJustDelete)
-			{
-				// 1. 先取出目录path
-				string projectName = treeView1.SelectedNode.Text;
-
-				// 8.21 验证是否当前项目，若是则不可删除
-				if (projectName.Equals(currentProjectName)) {
-					MessageBox.Show("无法删除正在使用的工程！");
-					return;
-				}
-
-				string directoryPath = savePath +  @"\LightProject\" + projectName;
-				DirectoryInfo di = new DirectoryInfo(directoryPath);
-
-				// 2.删除目录
-				try
-				{
-					di.Delete(true);
-				}
-				catch (Exception ex) {
-					MessageBox.Show(ex.Message);
-					return;
-				}
-				// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
-				treeView1.SelectedNode.Remove();
-				isJustDelete = true;
-			}
-			else {
+			// 1.先验证是否刚删除项目
+			if (isJustDelete || treeView1.SelectedNode == null) {
 				MessageBox.Show("请选择要删除的工程:");
 				return;
 			}
-		}
 
-		
+			// 1. 先取出目录path
+			string projectName = treeView1.SelectedNode.Text;		
+
+			// 8.21 验证是否当前项目，若是则不可删除
+			if (projectName.Equals(currentProjectName)) {
+				MessageBox.Show("无法删除正在使用的工程！");
+				return;
+			}
+
+			// 1. 弹出是否删除的确认框
+			DialogResult dr = MessageBox.Show("确定删除此工程吗？", "删除工程", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			string directoryPath = savePath +  @"\LightProject\" + projectName;
+			DirectoryInfo di = new DirectoryInfo(directoryPath);
+
+			// 2.删除目录
+			try
+			{
+				di.Delete(true);
+			}
+			catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+				return;
+			}
+			// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
+			treeView1.SelectedNode.Remove();
+			isJustDelete = true;			
+		}		
 
 		/// <summary>
 		///  点击《取消》按钮的操作
@@ -136,8 +144,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件:选中某节点后，isJustDelete设为false，以便后面的操作
-	
+		/// 事件：选中某节点后，isJustDelete设为false，以便后面的操作	
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -145,13 +152,7 @@ namespace LightController.MyForm
 		{
 			this.isJustDelete = false;
 		}
-
-		private void OpenForm_Load(object sender, EventArgs e)
-		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-		}
-
-		
+			   		 	  		
 		/// <summary>
 		/// 事件： 10.22 选中某个节点后，可以弹出右键菜单（不在此处过滤是否打开文件，因为复制工程可以是使用中的工程）
 		/// </summary>
@@ -213,5 +214,6 @@ namespace LightController.MyForm
 		{
 			new ProjectRenameOrCopyForm(this, selectedProjectName,true).ShowDialog();
 		}
+
 	}
 }

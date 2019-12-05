@@ -26,7 +26,7 @@ namespace LightController.MyForm
 		private string localIP;
 		private string comName;
 
-		private ConnectTools cTools;
+		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
 		public UpdateForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath)
@@ -77,28 +77,30 @@ namespace LightController.MyForm
 			{
 				localIPsComboBox.Enabled = true;
 				localIPsComboBox.SelectedIndex = 0;
-				setLocalIPSkinButton.Enabled = true;
 			}
 			else
 			{
 				localIPsComboBox.Enabled = false;
 				localIPsComboBox.SelectedIndex = -1;
-				setLocalIPSkinButton.Enabled = false;
 			}
 		}
 
-
 		/// <summary>
-		///  事件：点击《设置本地IP》
+		/// 辅助方法：改变了本地ip选项后，设置localIP的值，并清空 网络设备的选项 ；若localIP为空，则不可搜索。
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void setLocalIPSkinButton_Click(object sender, EventArgs e)
+		private void localIPsComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			localIP = localIPsComboBox.Text;
-			localIPLabel.Text = localIP;
-			networkSearchSkinButton.Enabled = true;
+
+			networkDevicesComboBox.Text = "";
+			networkDevicesComboBox.SelectedIndex = -1;
+			networkDevicesComboBox.Enabled = false;
+
+			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
 		}
+			   		
 
 		/// <summary>
 		///事件：点击《搜索网络/串口设备》，两个按钮点击事件集成在一起
@@ -111,14 +113,13 @@ namespace LightController.MyForm
 			//点击《搜索网络设备》
 			if (buttonName.Equals("networkSearchSkinButton")) 
 			{
-				cTools = ConnectTools.GetInstance();
-				cTools.Start(localIP);
-				cTools.SearchDevice();
+				connectTools = ConnectTools.GetInstance();
+				connectTools.Start(localIP);
+				connectTools.SearchDevice();
 				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-				networkChooseSkinButton.Enabled = false;
 				Thread.Sleep(1000);
 
-				Dictionary<string, string> allDevices = cTools.GetDeviceInfo();
+				Dictionary<string, string> allDevices = connectTools.GetDeviceInfo();
 				networkDevicesComboBox.Items.Clear();
 				ips = new List<string>();
 				if (allDevices.Count > 0)
@@ -130,13 +131,11 @@ namespace LightController.MyForm
 					}
 					networkDevicesComboBox.Enabled = true;
 					networkDevicesComboBox.SelectedIndex = 0;
-					networkChooseSkinButton.Enabled = true;
 				}
 				else
 				{
 					networkDevicesComboBox.Enabled = false;
 					networkDevicesComboBox.SelectedIndex = -1;
-					networkChooseSkinButton.Enabled = false;
 					MessageBox.Show("未找到可用设备，请确认后重试。");
 				}
 			}
@@ -152,7 +151,7 @@ namespace LightController.MyForm
 		private void searchCOMList()
 		{
 			comSearchSkinButton.Enabled = false;
-			comChooseSkinButton.Enabled = false;
+			comOpenSkinButton.Enabled = false;
 			comUpdateSkinButton.Enabled = false;
 
 			comTools = SerialPortTools.GetInstance();
@@ -166,40 +165,51 @@ namespace LightController.MyForm
 				}
 				comComboBox.Enabled = true;
 				comComboBox.SelectedIndex = 0;
-				comChooseSkinButton.Enabled = true;
+				comOpenSkinButton.Enabled = true;
 			}
 			else
 			{
 				comComboBox.Enabled = false;
 				comComboBox.SelectedIndex = -1;
-				comChooseSkinButton.Enabled = false;
+				comOpenSkinButton.Enabled = false;
 				MessageBox.Show("未找到可用串口，请重试");
 			}
 			comSearchSkinButton.Enabled = true;
 		}
 
+
+
 		/// <summary>
-		/// 事件：点击《选择网络设备》、《选择串口》，两个按钮点击事件集成在一起
+		/// 辅助方法：修改网络设备的选项之后，设置相关的值。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (networkDevicesComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(networkDevicesComboBox.Text))
+			{
+				//MessageBox.Show(" --------- ");
+				networkdUpdateSkinButton.Enabled = false;
+				return;
+			}
+
+			selectedIPs = new List<string>();
+			selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
+			networkdUpdateSkinButton.Enabled = true;
+		}
+
+		/// <summary>
+		/// 事件：点击《《选择串口》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void choosetButton_Click(object sender, EventArgs e)
 		{
-			string buttonName = ((SkinButton)sender).Name;
-			if (buttonName.Equals("networkChooseSkinButton"))
-			{
-				selectedIPs = new List<string>();
-				selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
-				MessageBox.Show("已选中网络设备");
-				networkdUpdateSkinButton.Enabled = true;
-			}
-			else {
-				comName = comComboBox.Text ;
-				MessageBox.Show("已选中串口设备" + comName);
-				comNameLabel.Text = comName;
-				comTools.OpenCom(comName);
-				comUpdateSkinButton.Enabled = true;
-			}			
+			comName = comComboBox.Text ;
+			MessageBox.Show("已选中串口设备" + comName);
+			comNameLabel.Text = comName;
+			comTools.OpenCom(comName);
+			comUpdateSkinButton.Enabled = true;			
 		}
 
 
@@ -214,16 +224,14 @@ namespace LightController.MyForm
 
 			if (buttonName.Equals("networkdUpdateSkinButton"))
 			{
-				networkChooseSkinButton.Enabled = false;
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
-
-				cTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress));								
+				//MessageBox.Show(localIP + " ---> " + selectedIPs[0]);
+				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress));								
 			}
 			else {
 				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(comPaintProgress));
-			}
-		
+			}		
 		}
 
 		/// <summary>
@@ -232,8 +240,8 @@ namespace LightController.MyForm
 		/// <param name="a"></param>		
 		void networkPaintProgress(string fileName,int a)
 		{
-			networkCurrentFileLabel.Text = fileName;
-			networkSkinProgressBar.Value =  a;				
+			networkFileShowLabel.Text = fileName;
+			networkSkinProgressBar.Value =  a;		
 		}
 
 		/// <summary>
@@ -242,9 +250,9 @@ namespace LightController.MyForm
 		/// <param name="a"></param>		
 		void comPaintProgress(string fileName, int a)
 		{
-			comCurrentFileLabel.Text = fileName;
+			comFileShowLabel.Text = fileName;
 			comSkinProgressBar.Value = a;
-		}
+		}		
 	}
 
 

@@ -241,6 +241,14 @@ namespace LightController.Tools.CSJ.IMPL
                                             if (isGradualChange == Constant.MODE_C_GRADUAL)
                                             {
                                                 float value = startValue + inc * (fram + 1);
+                                                if (inc < 0)
+                                                {
+                                                    value = value < 0 ? 0 : value;
+                                                }
+                                                else
+                                                {
+                                                    value = value > 255 ? 255 : value;
+                                                }
                                                 int intValue = (int)Math.Floor(value * 256);
                                                 intValue = (int)((intValue & 0xFF) / (255.0 / rate));
                                                 datas.Add(intValue);
@@ -287,6 +295,14 @@ namespace LightController.Tools.CSJ.IMPL
                                 if (isGradualChange == Constant.MODE_C_GRADUAL)
                                 {
                                     float value = startValue + inc * (fram + 1);
+                                    if (inc < 0)
+                                    {
+                                        value = value < 0 ? 0 : value;
+                                    }
+                                    else
+                                    {
+                                        value = value > 255 ? 255 : value;
+                                    }
                                     int intValue = (int)Math.Floor(value * 256);
                                     datas.Add((intValue >> 8) & 0xFF);
                                 }
@@ -432,6 +448,7 @@ namespace LightController.Tools.CSJ.IMPL
                                         stepValue = cSJ_Channel.StepValues[step];
                                         isGradualChange = cSJ_Channel.IsGradualChange[step];
                                     }
+                                    float inc = (stepValue - startValue) / (float)file.FrameTime;
                                     for (int fram = 0; fram < file.FrameTime; fram++)
                                     {
                                         if (step == cSJ_Channel.StepCount && fram == file.FrameTime - 1)
@@ -442,8 +459,15 @@ namespace LightController.Tools.CSJ.IMPL
                                         {
                                             if (isGradualChange == Constant.MODE_M_GRADUAL)
                                             {
-                                                float inc = (stepValue - startValue) / (float)file.FrameTime;
                                                 float value = startValue + inc * (fram + 1);
+                                                if (inc < 0)
+                                                {
+                                                    value = value < 0 ? 0 : value;
+                                                }
+                                                else
+                                                {
+                                                    value = value > 255 ? 255 : value;
+                                                }
                                                 int intValue = (int)Math.Floor(value * 256);
                                                 if (rate == 1)
                                                 {
@@ -492,6 +516,7 @@ namespace LightController.Tools.CSJ.IMPL
                             stepValue = item.StepValues[step];
                             isGradualChange = item.IsGradualChange[step];
                         }
+                        float inc = (stepValue - startValue) / (float)file.FrameTime;
                         for (int fram = 0; fram < file.FrameTime; fram++)
                         {
                             if (step == item.StepCount && fram == file.FrameTime - 1)
@@ -502,8 +527,15 @@ namespace LightController.Tools.CSJ.IMPL
                             {
                                 if (isGradualChange == Constant.MODE_M_GRADUAL)
                                 {
-                                    float inc = (stepValue - startValue) / (float)file.FrameTime;
                                     float value = startValue + inc * (fram + 1);
+                                    if (inc < 0)
+                                    {
+                                        value = value < 0 ? 0 : value;
+                                    }
+                                    else
+                                    {
+                                        value = value > 255 ? 255 : value;
+                                    }
                                     int intValue = (int)Math.Floor(value * 256);
                                     datas.Add((intValue >> 8) & 0xFF);
                                 }

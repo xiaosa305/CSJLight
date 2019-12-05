@@ -65,7 +65,7 @@
     <ManifestKeyFile>LightController_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -78,7 +78,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>颜色.ico</ApplicationIcon>
+    <ApplicationIcon>f3.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
@@ -139,6 +139,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Ast\InsertMethod.cs" />
     <Compile Include="Ast\JustTest.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
@@ -461,6 +462,8 @@
     <EmbeddedResource Include="Mapping\DB_FineTune.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="f3.ico" />
+    <Content Include="i2.ico" />
     <Content Include="LightPic\1.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -799,7 +802,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <None Include="Properties\app.manifest" />
+    <None Include="Properties\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -888,23 +893,18 @@
     <None Include="Resources\跳转.png" />
     <None Include="Resources\保持状态1.png" />
     <None Include="Resources\保持状态2.png" />
-    <Content Include="Source\CSkin.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Source\CSkin.XML" />
-    <Content Include="Source\IrisSkin4.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="FrameList.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Source\CSkin.dll" />
+    <Content Include="Source\CSkin.XML" />
+    <Content Include="Source\IrisSkin4.dll" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="颜色.ico" />
     <EmbeddedResource Include="Mapping\DB_Light.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

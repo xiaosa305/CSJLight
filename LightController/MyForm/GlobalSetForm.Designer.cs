@@ -180,7 +180,7 @@ private System.ComponentModel.IContainer components = null;
 			// eachChangeModeLabel
 			// 
 			this.eachChangeModeLabel.AutoSize = true;
-			this.eachChangeModeLabel.Location = new System.Drawing.Point(21, 147);
+			this.eachChangeModeLabel.Location = new System.Drawing.Point(21, 149);
 			this.eachChangeModeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.eachChangeModeLabel.Name = "eachChangeModeLabel";
 			this.eachChangeModeLabel.Size = new System.Drawing.Size(95, 12);
@@ -202,7 +202,7 @@ private System.ComponentModel.IContainer components = null;
             0,
             0});
 			this.eachStepTimeNumericUpDown.Name = "eachStepTimeNumericUpDown";
-			this.eachStepTimeNumericUpDown.Size = new System.Drawing.Size(76, 21);
+			this.eachStepTimeNumericUpDown.Size = new System.Drawing.Size(84, 21);
 			this.eachStepTimeNumericUpDown.TabIndex = 5;
 			this.eachStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.eachStepTimeNumericUpDown.Value = new decimal(new int[] {
@@ -214,7 +214,7 @@ private System.ComponentModel.IContainer components = null;
 			// eachStepTimeLabel
 			// 
 			this.eachStepTimeLabel.AutoSize = true;
-			this.eachStepTimeLabel.Location = new System.Drawing.Point(21, 63);
+			this.eachStepTimeLabel.Location = new System.Drawing.Point(21, 64);
 			this.eachStepTimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.eachStepTimeLabel.Name = "eachStepTimeLabel";
 			this.eachStepTimeLabel.Size = new System.Drawing.Size(89, 12);
@@ -224,7 +224,7 @@ private System.ComponentModel.IContainer components = null;
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(21, 105);
+			this.label2.Location = new System.Drawing.Point(21, 107);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(113, 12);
@@ -259,7 +259,7 @@ private System.ComponentModel.IContainer components = null;
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(21, 21);
+			this.label1.Location = new System.Drawing.Point(21, 22);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(89, 12);
@@ -277,7 +277,7 @@ private System.ComponentModel.IContainer components = null;
 			this.tongdaoCountComboBox.Location = new System.Drawing.Point(146, 18);
 			this.tongdaoCountComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoCountComboBox.Name = "tongdaoCountComboBox";
-			this.tongdaoCountComboBox.Size = new System.Drawing.Size(78, 20);
+			this.tongdaoCountComboBox.Size = new System.Drawing.Size(84, 20);
 			this.tongdaoCountComboBox.TabIndex = 0;
 			// 
 			// zuheGroupBox

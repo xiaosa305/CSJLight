@@ -63,6 +63,7 @@ namespace LightController.Utils
             ValueDAO valueDAO = data.ValueDAO;
             List<int> c_SceneNos = new List<int>();
             List<int> m_SceneNos = new List<int>();
+            Console.WriteLine("Start");
             foreach (DB_StepCount item in data.Wrapper.stepCountList)
             {
                 if (!c_SceneNos.Contains(item.PK.Frame) && item.PK.Mode == Constant.MODE_C)
@@ -77,26 +78,19 @@ namespace LightController.Utils
                     m_SceneNos.Add(item.PK.Frame);
                 }
             }
+            //基础场景数据生成
             foreach (int sceneNo in c_SceneNos)
             {
                 C_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 C_DMXSceneState.Add(sceneNo, false);
-                //基础场景数据生成
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_C, configPath));
-                
-
-                //------存在BUG，待修复
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(Constant.GetNumber(sceneNo), wrapper, valueDAO, Constant.MODE_C, configPath));
             }
+            //音频场景数据生成
             foreach (int sceneNo in m_SceneNos)
             {
                 M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 M_DMXSceneState.Add(sceneNo, false);
-                //音频场景数据生成
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_M, configPath));
-
-                //------存在BUG，待修复
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(GetSceneDataWaitCallback), new SceneThreadDataInfo(Constant.GetNumber(sceneNo), wrapper, valueDAO, Constant.MODE_M, configPath));
             }
         }
         /// <summary>
@@ -632,6 +626,7 @@ namespace LightController.Utils
             switch (mode)
             {
                 case Constant.MODE_C:
+                    Console.WriteLine("基础场景" + sceneNo + "--" + channelNo + "完成");
                     lock (C_DMXSceneChannelData)
                     {
                         C_DMXSceneChannelData[sceneNo][channelNo] = true;

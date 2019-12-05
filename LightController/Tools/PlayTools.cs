@@ -25,14 +25,6 @@ namespace LightController.Tools
         private int SceneNo { get; set; }
         private int TimeFactory { get; set; }
         private byte[] PlayData { get; set; }
-        private int[] C_ChanelPoint { get; set; }
-        private int[] M_ChanelPoint { get; set; }
-        private int[] C_ChanelId { get; set; }
-        private int[] M_ChanelId { get; set; }
-        private byte[][] C_ChanelData { get; set; }
-        private byte[][] M_ChanelData { get; set; }
-        private int C_ChanelCount { get; set; }
-        private int M_ChanelCount { get; set; }
         private Thread OLOSThread { get; set; }
         private Thread PreViewThread { get; set; }
         private Thread MusicControlThread { get; set; }
@@ -48,10 +40,9 @@ namespace LightController.Tools
         private bool MusicData { get; set; }
         private bool MusicWaiting { get; set; }
         private System.Timers.Timer Timer { get; set; }
-
+        private Dictionary<int,byte> MusicDataBuff { get; set; }
         private List<CPlayPoint> M_PlayPoints { get; set; }
         private List<CPlayPoint> C_PlayPoints { get; set; }
-
         private PlayTools()
         {
             try
@@ -271,9 +262,10 @@ namespace LightController.Tools
                 this.MusicStep = this.StepList[this.MusicStepPoint++];
                 for (int i = 0; i < this.MusicStep; i++)
                 {
-                    for (int j = 0; j < this.M_ChanelPoint.Length; j++)
+                    MusicDataBuff = new Dictionary<int, byte>();
+                    foreach (CPlayPoint item in M_PlayPoints)
                     {
-                        this.M_ChanelPoint[j]++;
+                        MusicDataBuff.Add(item.ChannelNo,item.Read());
                     }
                     this.IsMusicControl = true;
                     Thread.Sleep(this.TimeFactory * this.MusicStepTime);
@@ -331,6 +323,13 @@ namespace LightController.Tools
                     {
                         this.PlayData[item.ChannelNo - 1] = item.Read();
                     }
+                    if (IsMusicControl)
+                    {
+                        foreach (int item in MusicDataBuff.Keys)
+                        {
+                            this.PlayData[item - 1] = MusicDataBuff[item];
+                        }
+                    }
                     this.Play();
                     Thread.Sleep(this.TimeFactory - 21);
                 }
@@ -356,7 +355,7 @@ namespace LightController.Tools
                     buff.AddRange(this.StartCode);
                     buff.AddRange(this.PlayData);
                     Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
-                    //Console.WriteLine("Y轴==>" + PlayData[2] + "Y轴微调==>" + PlayData[3]);
+                    Console.WriteLine("Y轴==>" + PlayData[2] + "Y轴微调==>" + PlayData[3] + "激光==>" + PlayData[6]);
                     Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
                     Device.SetBreak(false);
                 }
@@ -430,8 +429,6 @@ namespace LightController.Tools
             }
            
         }
-
-
         public void Test()
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback(TestStart), null);

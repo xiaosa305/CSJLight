@@ -52,6 +52,7 @@ namespace LightController.Utils
             this.ReadCBytesFromPreviewFile(null);
             ChannelDataBuff2.CopyTo(ChannelDataBuff1, 0);
             this.ReadCBytesFromPreviewFile(null);
+            Console.WriteLine("通道" + ChannelNo + "预览数据预加载完成");
         }
 
         public byte Read()

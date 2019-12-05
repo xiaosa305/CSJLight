@@ -250,14 +250,19 @@ namespace LightController.Utils
                             //FileInfo fileInfo = new FileInfo(filePath);
                             channelDatasSize = readStream.Length;
                             seek = seek + 8;
+                            //TODO 2.0版本
+                            //seek = seek + 10;
                             byte[] channelDataHead = new byte[]
                             {
                             Convert.ToByte(intChannelNo & 0xFF),
                             Convert.ToByte((intChannelNo >> 8) & 0xFF),
                             Convert.ToByte(channelDatasSize & 0xFF),
                             Convert.ToByte((channelDatasSize >> 8) & 0xFF),
+
+                            //TODO 2.0版本
                             //Convert.ToByte((channelDatasSize >> 16) & 0xFF),
                             //Convert.ToByte((channelDatasSize >> 24) & 0xFF),
+
                             Convert.ToByte(seek & 0xFF),
                             Convert.ToByte((seek >> 8) & 0xFF),
                             Convert.ToByte((seek >> 16) & 0xFF),
@@ -323,7 +328,7 @@ namespace LightController.Utils
                     long channelSeek = 0;
                     byte[] channelNoBuff = new byte[2];
                     byte[] seekBuff = new byte[4];
-                    byte[] lengthBuff = new byte[2];
+                    byte[] lengthBuff = new byte[4];
                     //读取通道编号
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
@@ -332,8 +337,8 @@ namespace LightController.Utils
                     //读取数据长度
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(lengthBuff, 0, lengthBuff.Length);
-                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
-                    seek = seek + 2;
+                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
+                    seek = seek + 4;
                     //读取字节偏移量
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(seekBuff, 0, seekBuff.Length);
@@ -368,7 +373,7 @@ namespace LightController.Utils
                     long channelSeek = 0;
                     byte[] channelNoBuff = new byte[2];
                     byte[] seekBuff = new byte[4];
-                    byte[] lengthBuff = new byte[2];
+                    byte[] lengthBuff = new byte[4];
                     //读取通道编号
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
@@ -377,8 +382,8 @@ namespace LightController.Utils
                     //读取数据长度
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(lengthBuff, 0, lengthBuff.Length);
-                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
-                    seek = seek + 2;
+                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 16);
+                    seek = seek + 4;
                     //读取字节偏移量
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(seekBuff, 0, seekBuff.Length);
@@ -398,7 +403,7 @@ namespace LightController.Utils
         {
             int result = 0;
             FileStream readStream = null;
-            using (readStream = new FileStream(PreviewDataFilePath + @"\C1.bin", FileMode.Open))
+            using (readStream = new FileStream(PreviewDataFilePath + @"\M1.bin", FileMode.Open))
             {
                 readStream.Seek(4,SeekOrigin.Begin);
                 result = readStream.ReadByte();
@@ -411,7 +416,7 @@ namespace LightController.Utils
             int result = 0;
             byte[] readBuff = new byte[2];
             FileStream readStream = null;
-            using (readStream = new FileStream(PreviewDataFilePath + @"\C1.bin", FileMode.Open))
+            using (readStream = new FileStream(PreviewDataFilePath + @"\M1.bin", FileMode.Open))
             {
                 readStream.Seek(5, SeekOrigin.Begin);
                 readStream.Read(readBuff, 0, 2);
@@ -424,7 +429,7 @@ namespace LightController.Utils
         {
             int result = 0;
             FileStream readStream = null;
-            using (readStream = new FileStream(PreviewDataFilePath + @"\C1.bin", FileMode.Open))
+            using (readStream = new FileStream(PreviewDataFilePath + @"\M1.bin", FileMode.Open))
             {
                 readStream.Seek(7, SeekOrigin.Begin);
                 result = readStream.ReadByte();
@@ -437,7 +442,7 @@ namespace LightController.Utils
             FileStream readStream = null;
             int[] result = new int[20];
             byte[] readBuff = new byte[20];
-            using (readStream = new FileStream(PreviewDataFilePath + @"\C1.bin", FileMode.Open))
+            using (readStream = new FileStream(PreviewDataFilePath + @"\M1.bin", FileMode.Open))
             {
                 readStream.Seek(8, SeekOrigin.Begin);
                 readStream.Read(readBuff, 0, 20);
@@ -506,6 +511,8 @@ namespace LightController.Utils
                         readStream.Seek(seek, SeekOrigin.Begin);
                         readStream.Read(lengthBuff, 0, lengthBuff.Length);
                         length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
+                        //版本2.0
+                        //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
                         seek = seek + 2;
                         readStream.Seek(seek, SeekOrigin.Begin);
                         readStream.Read(seekBuff, 0, seekBuff.Length);

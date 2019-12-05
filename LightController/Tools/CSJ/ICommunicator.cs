@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace LightController.Tools.CSJ
 {
@@ -582,6 +583,15 @@ namespace LightController.Tools.CSJ
                 {
                     this.CallBack.SendError(this.DeviceName, this.Order);
                 }
+            }
+        }
+        protected void DownloadStart2()
+        {
+            string projectDirPath = Application.StartupPath + @"\DataCache\Preview\CSJ";
+            //读取所有文件大小
+            if (Directory.Exists(projectDirPath))
+            {
+
             }
         }
         protected void DownloadStart()

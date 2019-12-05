@@ -456,10 +456,8 @@
     <EmbeddedResource Include="Mapping\DB_FineTune.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Content Include="bitbug_favicon.ico" />
     <Content Include="f3.ico" />
     <Content Include="i2.ico" />
-    <Content Include="JOYOK定稿的标志方案-20180428.ico" />
     <Content Include="LightPic\1.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

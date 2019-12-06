@@ -43,6 +43,7 @@ namespace LightController.Utils
             BuildMode = MODE_MAKEFILE;
             FileUtils.ClearCacheData();
             FileUtils.ClearProjectData();
+            FileUtils.CreateConfig(new CSJ_Config(wrapper, configPath));
             CSJThreadManager.CloseAllThread();
             //初始化状态存储器
             C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();

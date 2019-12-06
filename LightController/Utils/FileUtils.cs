@@ -1,4 +1,5 @@
 ﻿using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,7 @@ namespace LightController.Utils
         private static string ProjectDataFilePath = Application.StartupPath + @"\DataCache\Project\CSJ";
         private static string PreviewDataCachePath = Application.StartupPath + @"\DataCache\Preview\Cache";
         private static string PreviewDataFilePath = Application.StartupPath + @"\DataCache\Preview\CSJ";
+        private static string ProjectDownloadDir = Application.StartupPath + @"\DataCache\Download\CSJ";
 
         private static readonly Object _Lock = new object();
         public static readonly int MODE_PREVIEW = 11;
@@ -296,6 +298,10 @@ namespace LightController.Utils
                     }
 
                 }
+                if (mode == Constant.MODE_C)
+                {
+                    CreateGradientData();
+                }
                 callBack.Completed();
                 Console.WriteLine("文件整合完成");
             }
@@ -309,7 +315,52 @@ namespace LightController.Utils
                 Console.WriteLine("********************数据整合出错" + ex.Message);
             }
         }
-
+        public static bool CopyFileToDownloadDir(string dirPath)
+        {
+            bool result = false;
+            if (!Directory.Exists(ProjectDownloadDir))
+            {
+                Directory.CreateDirectory(ProjectDownloadDir);
+            }
+            else
+            {
+                Directory.Delete(ProjectDownloadDir, true);
+                Directory.CreateDirectory(ProjectDownloadDir);
+            }
+            if (Directory.Exists(dirPath))
+            {
+                foreach (string filePath in Directory.GetFileSystemEntries(dirPath))
+                {
+                    FileInfo info = new FileInfo(filePath);
+                    info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+                }
+                result = true;
+            }
+            return result;
+        }
+        public static bool CopuProjectFileToDownloadDir()
+        {
+            bool result = false;
+            if (!Directory.Exists(ProjectDownloadDir))
+            {
+                Directory.CreateDirectory(ProjectDownloadDir);
+            }
+            else
+            {
+                Directory.Delete(ProjectDownloadDir, true);
+                Directory.CreateDirectory(ProjectDownloadDir);
+            }
+            if (Directory.Exists(ProjectDataFilePath))
+            {
+                foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
+                {
+                    FileInfo info = new FileInfo(filePath);
+                    info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+                }
+                result = true;
+            }
+            return result;
+        }
         public static List<PlayPoint> GetCPlayPoints()
         {
             FileStream readStream = null;
@@ -472,9 +523,6 @@ namespace LightController.Utils
         {
             return File.Exists(PreviewDataFilePath + @"\C1.bin");
         }
-        /// <summary>
-        /// 测试场景渐变数据
-        /// </summary>
         public static void CreateGradientData()
         {
             string dirpath = Application.StartupPath + @"\DataCache\Project\CSJ";
@@ -547,6 +595,10 @@ namespace LightController.Utils
                 writeBuff.AddRange(gradientData[i]);
             }
             Write(writeBuff.ToArray(),writeBuff.Count, "GradientData.bin",true,true,false);
+        }
+        public static void CreateConfig(CSJ_Config config)
+        {
+            config.WriteToFile(ProjectDataFilePath);
         }
     }
 }

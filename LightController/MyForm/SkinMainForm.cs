@@ -2406,7 +2406,7 @@ namespace LightController.MyForm
 			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
 			//Test test = new Test(GetDBWrapper(true) , valueDAO, globalIniPath);
-			Test test = new Test(GetDBWrapper(false) );
+			Test test = new Test(GetDBWrapper(true) );
 			test.Start(buttonIndex);
 		}
 

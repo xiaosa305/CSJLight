@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,12 +44,23 @@ namespace LightController.Tools
             }
             return Instance;
         }
-        public void Start()
+        public void InitCoons()
         {
-            conns = new Conn[MaxCount];
+            //conns = new Conn[MaxCount];
             for (int i = 0; i < MaxCount; i++)
             {
-                conns[i] = new Conn();
+                conns[i].CloseDevice();
+            }
+        }
+        public void Start()
+        {
+            if (conns == null)
+            {
+                conns = new Conn[MaxCount];
+                for (int i = 0; i < MaxCount; i++)
+                {
+                    conns[i] = new Conn();
+                }
             }
         }
         public void AddConnect(byte[] receiveBuff, int port)
@@ -176,7 +188,7 @@ namespace LightController.Tools
             }
             return deviceNameList;
         }
-        public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
+        public void Download(string ip, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -184,12 +196,12 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].DownloadProject(dBWrapper, configPath, callBack, download);
+                        conns[i].DownloadProject(dBWrapper, configPath, callBack);
                     }
                 }
             }
         }
-        public void SendOrder(string ip, string order, string[] array, IReceiveCallBack receiveCallBack)
+        public void SendOrder(string ip, string order, string[] array, ICommunicatorCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -202,7 +214,7 @@ namespace LightController.Tools
                 }
             }
         }
-        public void PutParam(string ip, string filePath, IReceiveCallBack receiveCallBack)
+        public void PutParam(string ip, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -215,7 +227,7 @@ namespace LightController.Tools
                 }
             }
         }
-        public void GetParam(string ip, IReceiveCallBack receiveCallBack, GetParamDelegate getParam)
+        public void GetParam(string ip, ICommunicatorCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -223,12 +235,12 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].GetParam(getParam, receiveCallBack);
+                        conns[i].GetParam(receiveCallBack);
                     }
                 }
             }
         }
-        public void Update(string ip , string filePath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
+        public void Update(string ip , string filePath, ICommunicatorCallBack receiveCallBack)
         {
             for (int i = 0; i < conns.Length; i++)
             {
@@ -236,7 +248,33 @@ namespace LightController.Tools
                 {
                     if (conns[i].Ip.Equals(ip))
                     {
-                        conns[i].Update(filePath, receiveCallBack, download);
+                        conns[i].Update(filePath, receiveCallBack);
+                    }
+                }
+            }
+        }
+        public void StartDebug(string ip,int timeFactory, ICommunicatorCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].StartIntenetPreview(timeFactory,receiveCallBack);
+                    }
+                }
+            }
+        }
+        public void EndDebug(string ip, ICommunicatorCallBack receiveCallBack)
+        {
+            for (int i = 0; i < conns.Length; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip.Equals(ip))
+                    {
+                        conns[i].StopIntenetPreview(receiveCallBack);
                     }
                 }
             }

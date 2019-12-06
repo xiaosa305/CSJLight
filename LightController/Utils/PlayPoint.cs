@@ -1,24 +1,32 @@
-﻿using System;
+﻿using LightController.Tools;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.Utils
 {
-    public class MPlayPoint
+    public class PlayPoint
     {
+        private static string C_DIRPATH = Application.StartupPath + @"\DataCache\Preview\CSJ\C1.bin";
         private static string M_DIRPATH = Application.StartupPath + @"\DataCache\Preview\CSJ\M1.bin";
         private static int BUFFSIZE = 512;
         public int ChannelNo { get; set; }
         private long DefaultSeek { get; set; }
         private long CurrentSeek { get; set; }
-        private int DataLength { get; set; }
+        private int DataLength { get; set; } 
         private int ReadSize { get; set; }
         private int BuffPoint { get; set; }
+        private string FilePath { get; set; }
         private byte[] ChannelDataBuff1 { get; set; }
         private byte[] ChannelDataBuff2 { get; set; }
 
-        public MPlayPoint(int channelNo, long seek, int datalength)
+        
+
+        public PlayPoint(int channelNo,long seek,int datalength,int mode)
         {
             this.ChannelNo = channelNo;
             this.DefaultSeek = seek;
@@ -28,13 +36,23 @@ namespace LightController.Utils
             this.ChannelDataBuff2 = Enumerable.Repeat(Convert.ToByte(0x00), BUFFSIZE).ToArray();
             this.BuffPoint = 0;
             this.ReadSize = 0;
+            switch (mode)
+            {
+                case Constant.MODE_M:
+                    FilePath = M_DIRPATH;
+                    break;
+                case Constant.MODE_C:
+                default:
+                    FilePath = C_DIRPATH;
+                    break;
+            }
         }
-
         public void Init()
         {
             this.ReadCBytesFromPreviewFile(null);
             ChannelDataBuff2.CopyTo(ChannelDataBuff1, 0);
             this.ReadCBytesFromPreviewFile(null);
+            Console.WriteLine("通道" + ChannelNo + "预览数据预加载完成");
         }
 
         public byte Read()
@@ -55,7 +73,7 @@ namespace LightController.Utils
             int loadedSize = 0;
             long unLoadDataSize;
             int readSize;
-            using (readStream = new FileStream(M_DIRPATH, FileMode.Open))
+            using (readStream = new FileStream(FilePath, FileMode.Open))
             {
                 while (loadedSize < BUFFSIZE)
                 {

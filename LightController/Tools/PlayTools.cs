@@ -41,8 +41,17 @@ namespace LightController.Tools
         private bool MusicWaiting { get; set; }
         private System.Timers.Timer Timer { get; set; }
         private Dictionary<int,byte> MusicDataBuff { get; set; }
-        private List<CPlayPoint> M_PlayPoints { get; set; }
-        private List<CPlayPoint> C_PlayPoints { get; set; }
+        private List<PlayPoint> M_PlayPoints { get; set; }
+        private List<PlayPoint> C_PlayPoints { get; set; }
+
+        public const int STATE_SERIALPREVIEW = 0;
+        public const int STATE_INTENETPREVIEW = 1;
+        private int PreviewWayState { get; set; }
+        private string DeviceIpByIntentPreview { get; set; }
+        private bool IsInitIntentDebug { get; set; }
+        private IReceiveCallBack IntentDebugCallback { get; set; }
+        private Thread SendEmptyDebugDataThread { get; set; }
+
         private PlayTools()
         {
             try
@@ -59,6 +68,33 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
            
+        }
+
+        public void StartInternetPreview(string deviceIp, IReceiveCallBack receiveCallBack, int timeFactory)
+        {
+            this.PreviewWayState = STATE_INTENETPREVIEW;
+            this.DeviceIpByIntentPreview = deviceIp;
+            this.IntentDebugCallback = receiveCallBack;
+            this.IsInitIntentDebug = true;
+            this.TimeFactory = timeFactory;
+            SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
+            SendEmptyDebugDataThread.Start();
+        }
+
+        public void StopInternetPreview(IReceiveCallBack receiveCallBack)
+        {
+            ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
+            IsInitIntentDebug = false;
+        }
+
+
+        private void SendEmptyDataStart()
+        {
+            while (true)
+            {
+                this.Play();
+                Thread.Sleep(this.TimeFactory - 21);
+            }
         }
         public static PlayTools GetInstance()
         {
@@ -263,7 +299,7 @@ namespace LightController.Tools
                 for (int i = 0; i < this.MusicStep; i++)
                 {
                     MusicDataBuff = new Dictionary<int, byte>();
-                    foreach (CPlayPoint item in M_PlayPoints)
+                    foreach (PlayPoint item in M_PlayPoints)
                     {
                         MusicDataBuff.Add(item.ChannelNo,item.Read());
                     }
@@ -319,7 +355,7 @@ namespace LightController.Tools
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 while (true)
                 {
-                    foreach (CPlayPoint item in C_PlayPoints)
+                    foreach (PlayPoint item in C_PlayPoints)
                     {
                         this.PlayData[item.ChannelNo - 1] = item.Read();
                     }
@@ -343,21 +379,49 @@ namespace LightController.Tools
         {
             try
             {
-                UInt32 count = 0;
-                if (Device.IsOpen)
+                //UInt32 count = 0;
+                //if (Device.IsOpen)
+                //{
+                //    //发送Break|
+                //    Device.SetBreak(true);
+                //    Thread.Sleep(0);
+                //    Device.SetBreak(false);
+                //    Thread.Sleep(0);
+                //    List<byte> buff = new List<byte>();
+                //    buff.AddRange(this.StartCode);
+                //    buff.AddRange(this.PlayData);
+                //    Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
+                //    Console.WriteLine("Y轴==>" + PlayData[2] + "Y轴微调==>" + PlayData[3] + "激光==>" + PlayData[6]);
+                //    Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                //    Device.SetBreak(false);
+                //}
+                List<byte> buff = new List<byte>();
+                buff.AddRange(this.StartCode);
+                buff.AddRange(this.PlayData);
+                if (this.PreviewWayState == STATE_SERIALPREVIEW)
                 {
-                    //发送Break|
-                    Device.SetBreak(true);
-                    Thread.Sleep(0);
-                    Device.SetBreak(false);
-                    Thread.Sleep(0);
-                    List<byte> buff = new List<byte>();
-                    buff.AddRange(this.StartCode);
-                    buff.AddRange(this.PlayData);
-                    Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
-                    Console.WriteLine("Y轴==>" + PlayData[2] + "Y轴微调==>" + PlayData[3] + "激光==>" + PlayData[6]);
-                    Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
-                    Device.SetBreak(false);
+                    UInt32 count = 0;
+                    if (Device.IsOpen)
+                    {
+                        Device.SetBreak(true);
+                        Thread.Sleep(0);
+                        Device.SetBreak(false);
+                        Thread.Sleep(0);
+                        Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
+                        Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
+                        Device.SetBreak(false);
+                    }
+                }
+                else
+                {
+                    if (IsInitIntentDebug)
+                    {
+                        ConnectTools.GetInstance().StartIntentPreview(this.DeviceIpByIntentPreview, TimeFactory, this.IntentDebugCallback);
+                        IsInitIntentDebug = false;
+                        Thread.Sleep(300);
+                    }
+                    Thread.Sleep(21);
+                    ConnectTools.GetInstance().SendIntenetPreview(DeviceIpByIntentPreview, buff.ToArray());
                 }
             }
             catch (Exception ex)
@@ -435,12 +499,12 @@ namespace LightController.Tools
         }
         private void TestStart(Object obj)
         {
-            List<CPlayPoint> playPoints = FileUtils.GetCPlayPoints();
+            List<PlayPoint> playPoints = FileUtils.GetCPlayPoints();
             Thread.Sleep(500);
             this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
             while (true)
             {
-                foreach (CPlayPoint item in playPoints)
+                foreach (PlayPoint item in playPoints)
                 {
                     this.PlayData[item.ChannelNo - 1] = item.Read();
                 }

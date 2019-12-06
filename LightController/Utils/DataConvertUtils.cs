@@ -24,6 +24,7 @@ namespace LightController.Utils
         public static readonly int MODE_MAKEFILE = FileUtils.MODE_MAKEFILE;
         private static int BuildMode { get; set; }
         private const int WriteBufferSize = 1024 * 50;
+        private static ISaveProjectCallBack CallBack { get; set; }
 
         public static void InitThreadPool()
         {
@@ -36,8 +37,9 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="valueDAO"></param>
         /// <param name="configPath"></param>
-        public static void SaveProjectFile(DBWrapper wrapper, ValueDAO valueDAO, string configPath)
+        public static void SaveProjectFile(DBWrapper wrapper, ValueDAO valueDAO, string configPath,ISaveProjectCallBack callBack)
         {
+            CallBack = callBack;
             BuildMode = MODE_MAKEFILE;
             FileUtils.ClearCacheData();
             FileUtils.ClearProjectData();
@@ -626,7 +628,11 @@ namespace LightController.Utils
             switch (mode)
             {
                 case Constant.MODE_C:
-                    Console.WriteLine("基础场景" + sceneNo + "--" + channelNo + "完成");
+                    Console.WriteLine("基础场景" + sceneNo + "-" + channelNo + "完成");
+                    if (CallBack != null)
+                    {
+                        CallBack.UpdateProgress("基础场景" + (sceneNo + 1) + "-" + channelNo + "完成");
+                    }
                     lock (C_DMXSceneChannelData)
                     {
                         C_DMXSceneChannelData[sceneNo][channelNo] = true;
@@ -646,6 +652,10 @@ namespace LightController.Utils
                     }
                     break;
                 case Constant.MODE_M:
+                    if (CallBack != null)
+                    {
+                        CallBack.UpdateProgress("音频场景" + (sceneNo + 1) + "-" + channelNo + "完成");
+                    }
                     lock (M_DMXSceneChannelData)
                     {
                         M_DMXSceneChannelData[sceneNo][channelNo] = true;
@@ -667,10 +677,11 @@ namespace LightController.Utils
             }
         }
         /// <summary>
-        ///TODO 预览数据生成入口
+        ///预览数据生成入口
         /// </summary>
-        public static void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo)
+        public static void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo,ISaveProjectCallBack callBack)
         {
+            CallBack = callBack;
             FileUtils.ClearPreviewCacheData();
             FileUtils.ClearPreviewProjectData();
             BuildMode = MODE_PREVIEW;

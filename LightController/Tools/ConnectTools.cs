@@ -1,4 +1,6 @@
 ﻿using LightController.Ast;
+using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ namespace LightController.Tools
     {
         private readonly int UDP_SERVER_PORT = 7070;
         private readonly int UDP_CLIENT_PORT = 7060;
+        private readonly int UDP_DEBUG_PORT = 7080;
         private static ConnectTools Instance { get; set; }
         private Socket UdpServer { get; set; }
         private string ServerIp { get; set; }
@@ -24,6 +27,7 @@ namespace LightController.Tools
 
         private ConnectTools()
         {
+            SocketTools.GetInstance().Start();
         }
         public static ConnectTools GetInstance()
         {
@@ -54,7 +58,6 @@ namespace LightController.Tools
                 {
                     IsBackground = true
                 };
-                SocketTools.GetInstance().Start();
                 receiveThread.Start(UdpClient);
                 IsStart = true;
             }
@@ -78,6 +81,7 @@ namespace LightController.Tools
                 byte[] CRC = CRCTools.GetInstance().GetCRC(buff.ToArray());
                 buff[6] = CRC[0];
                 buff[7] = CRC[1];
+                UdpServer.Bind(new IPEndPoint(IPAddress.Parse(ServerIp), 8080));
                 UdpServer.SendTo(buff.ToArray(), new IPEndPoint(IPAddress.Broadcast, UDP_CLIENT_PORT));
             }
             else
@@ -156,13 +160,13 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
+        public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack, download);
+                    SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
                 }
             }
             else
@@ -171,11 +175,14 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
+
+        //TODO 新版网络下载
+        public void Download() { }
+        public void Download(string ip, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack, download);
+                SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
             }
             else
             {
@@ -183,7 +190,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void SendOrder(IList<string> ips, string order,string[] strarray,IReceiveCallBack callBack)
+        public void SendOrder(IList<string> ips, string order,string[] strarray, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
@@ -198,7 +205,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void SendOrder(string ip, string order, string[] strarray, IReceiveCallBack callBack)
+        public void SendOrder(string ip, string order, string[] strarray, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
@@ -210,7 +217,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void PutPara(IList<string> ips, string filePath,IReceiveCallBack receiveCallBack)
+        public void PutPara(IList<string> ips, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
@@ -225,7 +232,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void PutPara(string ip, string filePath, IReceiveCallBack receiveCallBack)
+        public void PutPara(string ip, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
@@ -237,13 +244,13 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void GetParam(IList<string> ips,IReceiveCallBack receiveCallBack,GetParamDelegate getParam)
+        public void GetParam(IList<string> ips, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
+                    SocketTools.GetInstance().GetParam(ip, receiveCallBack);
                 }
             }
             else
@@ -252,11 +259,11 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void GetParam(string ip, IReceiveCallBack receiveCallBack, GetParamDelegate getParam)
+        public void GetParam(string ip, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
+                SocketTools.GetInstance().GetParam(ip, receiveCallBack);
             }
             else
             {
@@ -264,11 +271,11 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Update(string ip, string filePath,IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
+        public void Update(string ip, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().Update(ip, filePath, receiveCallBack,download);
+                SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
             }
             else
             {
@@ -276,13 +283,13 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Update(IList<string> ips, string filePath, IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
+        public void Update(IList<string> ips, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().Update(ip, filePath, receiveCallBack,download);
+                    SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
                 }
             }
             else
@@ -290,8 +297,18 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
+        }
+        public void StartIntentPreview(String ip,int timeFactory, ICommunicatorCallBack receiveCallBack)
+        {
+            SocketTools.GetInstance().StartDebug(ip, timeFactory, receiveCallBack);
+        }
+        public void StopIntentPreview(String ip, ICommunicatorCallBack receiveCallBack)
+        {
+            SocketTools.GetInstance().EndDebug(ip,receiveCallBack);
+        }
+        public void SendIntenetPreview(String ip,byte[] data)
+        {
+            UdpServer.SendTo(data, new IPEndPoint(IPAddress.Parse(ip), UDP_DEBUG_PORT));
         }
     }
-
- 
 }

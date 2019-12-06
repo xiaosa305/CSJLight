@@ -1,5 +1,6 @@
 ﻿using LightController.Ast;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,13 +36,17 @@ namespace LightController.Tools.CSJ
         protected string[] Parameters { get; set; }//命令参数组
         protected string UpdateFilePath { get; set; }//硬件更新文件路径
         protected byte[] Data { get; set; }//文件数据
+
         protected DBWrapper Wrapper { get; set; }//数据库文件
         protected Thread DownloadThread { get; set; }//下载工程项目线程
         protected Thread TimeOutThread { get; set; }//超时处理线程
         protected Thread UpdateThread { get; set; }//硬件更新线程
-        protected IReceiveCallBack CallBack { get; set; }//命令结束执行回调
-        protected GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置信息回调委托方法
-        protected DownloadProgressDelegate DownloadProgressDelegate { get; set; }//下载工程项目文件进度回调委托方法
+        //TODO 待删除
+        //protected IReceiveCallBack CallBack { get; set; }//命令结束执行回调
+        protected ICommunicatorCallBack CallBack { get; set; }//命令结束执行回调
+        //TODO 待删除
+        //protected GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置信息回调委托方法
+        //protected DownloadProgressDelegate DownloadProgressDelegate { get; set; }//下载工程项目文件进度回调委托方法
         protected abstract void Send(byte[] txBuff);
         public abstract void CloseDevice();
         public void SetPackageSize(int size)
@@ -84,8 +89,6 @@ namespace LightController.Tools.CSJ
             this.Data = null;
             this.Wrapper = null;
             this.CallBack = null;
-            this.GetParamDelegate = null;
-            this.DownloadProgressDelegate = null;
             this.TimeIndex = 0;
         }
         protected void SendData(byte[] data, string order, string[] parameters)
@@ -210,6 +213,52 @@ namespace LightController.Tools.CSJ
                 this.CloseDevice();
             }
         }
+        //TODO 网络下载专属方法
+        protected void SendDataPackageByDownload(byte[] data, int datalength ,bool isLastPackage)
+        {
+            try
+            {
+                this.Package_Index++;
+                List<byte> package = new List<byte>();
+                List<byte> packageData = new List<byte>();
+                for (int i = 0; i < datalength; i++)
+                {
+                    packageData.Add(data[i]);
+                }
+                byte[] packageDataSize = new byte[]
+                {
+                    Convert.ToByte(datalength & 0xFF),
+                    Convert.ToByte((datalength >> 8) & 0xFF)
+                };
+                byte packageMark = isLastPackage ? Convert.ToByte(Constant.MARK_DATA_END, 2) : Convert.ToByte(Constant.MARK_DATA_NO_END, 2);
+                byte[] packageHead = new byte[]
+                {
+                    Convert.ToByte(0xAA),
+                    Convert.ToByte(0xBB),
+                    Convert.ToByte(this.Addr),
+                    packageDataSize[0],
+                    packageDataSize[1],
+                    packageMark,
+                    Convert.ToByte(0x00),
+                    Convert.ToByte(0x00)
+                };
+                package.AddRange(packageHead);
+                package.AddRange(packageData);
+                byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
+                package[6] = packageCRC[0];
+                package[7] = packageCRC[1];
+                if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
+                {
+                    this.CurrentDownloadCompletedSize += packageData.Count();
+                }
+                this.OrderOrData = DATA;
+                this.Send(package.ToArray());
+            }
+            catch (Exception)
+            {
+                this.CloseDevice();
+            }
+        }
         protected byte GetDataMark()
         {
             byte mark;
@@ -251,7 +300,6 @@ namespace LightController.Tools.CSJ
                 {
                     for (this.TimeIndex = 0; this.TimeIndex < Constant.TIMEOUT; this.TimeIndex++)
                     {
-                        //Console.WriteLine("-------------计时：" + TimeIndex + "-------------");
                         if (IsReceive)
                         {
                             break;
@@ -278,7 +326,7 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
-                                    this.DownloadProgressDelegate("", 0);
+                                    this.CallBack.UpdateProgress("", "", 0);
                                 }
                             }
                             else if (this.Order.Equals(Constant.ORDER_UPDATE))
@@ -292,11 +340,11 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
-                                    this.DownloadProgressDelegate("", 0);
+                                    this.CallBack.UpdateProgress("", "", 0);
                                 }
                             }
                             CSJLogs.GetInstance().DebugLog("超时，操作失败");
-                            this.CallBack.SendError(deviceName, Order);
+                            this.CallBack.Error(deviceName,"超时");
                             this.CloseDevice();
                         }
                         else
@@ -342,6 +390,7 @@ namespace LightController.Tools.CSJ
                             long DiskUsableSize = intValue * 1024 * 1024;
                             if (DiskUsableSize >= DownloadFileToTalSize)
                             {
+                                Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作成功");
                                 this.DownloadStatus = true;
                             }
                             else
@@ -355,15 +404,33 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
+                                    Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作失败==>设备空间不足");
                                     this.DownloadStatus = false;
                                     this.IsSending = false;
-                                    this.DownloadProgressDelegate("", 0);
-                                    this.CallBack.SendError(devicename, Order);
+                                    this.CallBack.UpdateProgress("", "", 0);
+                                    this.CallBack.Error(devicename, "目标设备空间不足，更新失败");
                                     this.CloseDevice();
                                 }
                             }
                             break;
                         case Constant.RECEIVE_ORDER_BEGIN_ERROR:
+                            try
+                            {
+                                if (null != this.DownloadThread)
+                                {
+                                    this.DownloadThread.Abort();
+                                }
+                            }
+                            finally
+                            {
+                                Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作失败");
+                                this.DownloadStatus = false;
+                                this.IsSending = false;
+                                this.CallBack.UpdateProgress("", "", 0);
+                                this.CallBack.Error(devicename, "更新失败");
+                                this.CloseDevice();
+                            }
+                            break;
                         case Constant.RECEIVE_ORDER_BEGIN_ERROR_DISK:
                         default:
                             try
@@ -375,17 +442,19 @@ namespace LightController.Tools.CSJ
                             }
                             finally
                             {
+                                Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作失败");
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.DownloadProgressDelegate("", 0);
-                                this.CallBack.SendError(devicename, Order);
+                                this.CallBack.UpdateProgress("", "", 0);
+                                this.CallBack.Error(devicename, "设备未插入SD卡，更新失败");
                                 this.CloseDevice();
                             }
                             break;
                     }
                     break;
                 case Constant.ORDER_PUT:
-                    switch (rxStr)
+                    //TODO 待删除
+                    /*switch (rxStr)
                     {
                         case Constant.RECEIVE_ORDER_PUT:
                             this.SendDataPackage();
@@ -413,6 +482,39 @@ namespace LightController.Tools.CSJ
                                 this.CloseDevice();
                             }
                             break;
+                    }*/
+                    switch (rxStr)
+                    {
+                        case Constant.RECEIVE_ORDER_PUT:
+                            Console.WriteLine("XIAOSA:" + CurrentFileName + "Put" + "操作成功");
+                            this.DownloadStatus = true;
+                            break;
+                        case Constant.RECEIVE_ORDER_SENDNEXT:
+                            Console.WriteLine("XIAOSA:" + CurrentFileName + "发送数据包" + "操作成功");
+                            this.DownloadStatus = true;
+                            break;
+                        case Constant.RECEIVE_ORDER_DONE:
+                            Console.WriteLine("XIAOSA:" + CurrentFileName + "全部发送成功" + "");
+                            this.DownloadStatus = true;
+                            break;
+                        default:
+                            try
+                            {
+                                if (null != this.DownloadThread)
+                                {
+                                    this.DownloadThread.Abort();
+                                }
+                            }
+                            finally
+                            {
+                                Console.WriteLine("XIAOSA:" + "" + "Put" + "操作失败");
+                                this.DownloadStatus = false;
+                                this.IsSending = false;
+                                this.CallBack.UpdateProgress("", "", 0);
+                                this.CallBack.Error(devicename, CurrentFileName + "更新失败");
+                                this.CloseDevice();
+                            }
+                            break;
                     }
                     break;
                 case Constant.ORDER_END_SEND:
@@ -421,9 +523,10 @@ namespace LightController.Tools.CSJ
                         case Constant.RECEIVE_ORDER_ENDSEND_OK:
                             this.DownloadStatus = true;
                             this.IsSending = false;
-                            this.DownloadProgressDelegate("", 0);
-                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CallBack.UpdateProgress("", "", 0);
+                            this.CallBack.Completed(devicename);
                             this.CloseDevice();
+                            Console.WriteLine("XIAOSA:" + "" + "EndSend" + "操作成功");
                             break;
                         case Constant.RECEIVE_ORDER_ENDSEND_ERROR:
                         default:
@@ -436,10 +539,11 @@ namespace LightController.Tools.CSJ
                             }
                             finally
                             {
+                                Console.WriteLine("XIAOSA:" + "" + "EndSend" + "操作失败");
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
-                                this.DownloadProgressDelegate("", 0);
-                                CallBack.SendError(devicename, this.Order);
+                                this.CallBack.UpdateProgress("", "", 0);
+                                CallBack.Error(devicename,"更新失败");
                                 this.CloseDevice();
                             }
                             break;
@@ -453,12 +557,12 @@ namespace LightController.Tools.CSJ
                             break;
                         case Constant.RECEIVE_ORDER_DONE:
                             this.IsSending = false;
-                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CallBack.Completed(devicename);
                             this.CloseDevice();
                             break;
                         default:
                             this.IsSending = false;
-                            this.CallBack.SendError(devicename, this.Order);
+                            this.CallBack.Error(devicename, "硬件配置文件更新失败");
                             this.CloseDevice();
                             break;
                     }
@@ -472,10 +576,11 @@ namespace LightController.Tools.CSJ
                             break;
                         case Constant.RECEIVE_ORDER_DONE:
                             this.IsSending = false;
-                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CallBack.Completed(devicename);
                             this.CloseDevice();
                             break;
                         case Constant.RECEIVE_ORDER_UPDATE_ERROR:
+                        default:
                             try
                             {
                                 if (null != this.UpdateThread)
@@ -486,8 +591,8 @@ namespace LightController.Tools.CSJ
                             finally
                             {
                                 this.IsSending = false;
-                                this.DownloadProgressDelegate("", 0);
-                                this.CallBack.SendError(devicename, this.Order);
+                                this.CallBack.UpdateProgress("", "", 0);
+                                this.CallBack.Error(devicename, "更新失败");
                                 this.CloseDevice();
                             }
                             break;
@@ -502,36 +607,63 @@ namespace LightController.Tools.CSJ
                         {
                             hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
                             this.IsSending = false;
-                            this.GetParamDelegate(hardware);
-                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CallBack.GetParam(hardware);
+                            this.CallBack.Completed(devicename);
                         }
                         else
                         {
                             this.IsSending = false;
-                            this.CallBack.SendError(devicename, this.Order);
+                            this.CallBack.Error(devicename, "更新失败");
                         }
                     }
                     catch (Exception ex)
                     {
                         CSJLogs.GetInstance().ErrorLog(ex);
                         this.IsSending = false;
-                        this.CallBack.SendError(devicename, this.Order);
+                        this.CallBack.Error(devicename, "更新失败");
                     }
                     finally
                     {
                         this.CloseDevice();
                     }
                     break;
+                case Constant.ORDER_START_DEBUG:
+                    try
+                    {
+                        string data = Encoding.Default.GetString(rxBuff);
+                        switch (data)
+                        {
+                            case Constant.RECEIVE_ORDER_START_DEBUG_OK:
+                                CallBack.Completed(devicename);
+                                break;
+                            case Constant.RECEIVE_ORDER_START_DEBUG_ERROR:
+                            default:
+                                CallBack.Error(devicename, "网络调试启动失败");
+                                this.CloseDevice();
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        CSJLogs.GetInstance().ErrorLog(ex);
+                        CallBack.Error(devicename, "网络调试启动失败");
+                        this.CloseDevice();
+                    }
+                    break;
+                case Constant.ORDER_END_DEBUG:
+                    CallBack.Completed(devicename);
+                        this.CloseDevice();
+                    break;
                 default:
                     switch (rxStr.Split(':')[0])
                     {
                         case Constant.RECEIVE_ORDER_OTHER_OK:
                             this.IsSending = false;
-                            this.CallBack.SendCompleted(devicename, this.Order);
+                            this.CallBack.Completed(devicename);
                             break;
                         default:
                             this.IsSending = false;
-                            this.CallBack.SendError(devicename, Order);
+                            this.CallBack.Error(devicename,"操作失败");
                             break;
                     }
                     this.IsSending = false;
@@ -545,12 +677,13 @@ namespace LightController.Tools.CSJ
             {
                 this.TimeIndex = 0;
                 this.IsReceive = false;
-                this.IsTimeOutThreadStart = true;
                 Thread.Sleep(1);
                 if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
                     int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
-                    this.DownloadProgressDelegate(this.CurrentFileName, progress);
+                    this.CallBack.UpdateProgress(this.DeviceName, this.CurrentFileName, progress);
+                    //TODO待删除
+                    //this.DownloadProgressDelegate(this.CurrentFileName, progress);
                 }
             }
             catch (Exception ex)
@@ -558,18 +691,23 @@ namespace LightController.Tools.CSJ
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-        public void DownloadProject(DBWrapper wrapper, string configPath, IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
+        public void DownloadProject(DBWrapper wrapper, string configPath, ICommunicatorCallBack receiveCallBack)
         {
             try
             {
                 if (!this.IsSending)
                 {
-                    this.DownloadProgressDelegate = download;
                     this.Wrapper = wrapper;
                     this.ConfigPath = configPath;
                     this.CallBack = receiveCallBack;
                     this.IsSending = true;
-                    this.DownloadThread = new Thread(new ThreadStart(DownloadStart))
+                    /*this.DownloadThread = new Thread(new ThreadStart(DownloadStart))
+                    {
+                        IsBackground = true
+                    };*/
+
+                    //TODO 新版网络下载测试
+                    this.DownloadThread = new Thread(new ThreadStart(DownloadStart2))
                     {
                         IsBackground = true
                     };
@@ -579,20 +717,106 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (null != this.CallBack)
                 {
-                    this.CallBack.SendError(this.DeviceName, this.Order);
+                    this.CallBack.Error(this.DeviceName, "网络下载启动失败");
                 }
             }
         }
+
+        //TODO 网络下载新流程
         protected void DownloadStart2()
         {
-            string projectDirPath = Application.StartupPath + @"\DataCache\Preview\CSJ";
-            //读取所有文件大小
-            if (Directory.Exists(projectDirPath))
+            string projectDirPath = Application.StartupPath + @"\DataCache\Download\CSJ";
+            this.CurrentDownloadCompletedSize = 0;
+            this.DownloadFileToTalSize = 0;
+            string fileName = string.Empty;
+            string fileSize = string.Empty;
+            string fileCRC = string.Empty;
+            byte[] readBuff = new byte[this.PackageSize];
+            int readSize = 0;
+            this.TimeIndex = 0;
+            bool TimeOutIsStart = false;
+            this.DownloadStatus = false;
+            try
             {
-
+                //读取所有文件大小
+                if (Directory.Exists(projectDirPath))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(projectDirPath))
+                    {
+                        this.DownloadFileToTalSize += (new FileInfo(filePath)).Length;
+                    }
+                    this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
+                    Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "发送完成");
+                    while (true)
+                    {
+                        if (DownloadStatus)
+                        {
+                            this.DownloadStatus = false;
+                            break;
+                        }
+                    }
+                    foreach (string filePath in Directory.GetFileSystemEntries(projectDirPath))
+                    {
+                        FileInfo info = new FileInfo(filePath);
+                        fileName = info.Name;
+                        fileSize = info.Length.ToString();
+                        byte[] crcBuff = CRCTools.GetInstance().GetCRC(filePath);
+                        fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
+                        this.CurrentFileName = fileName;
+                        this.SendData(null, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                        Console.WriteLine("XIAOSA:" +  fileName + "Put" + "发送完成");
+                        while (true)
+                        {
+                            if (DownloadStatus)
+                            {
+                                this.DownloadStatus = false;
+                                break;
+                            }
+                        }
+                        using (FileStream fileStream = info.OpenRead())
+                        {
+                            while ((readSize = fileStream.Read(readBuff,0,readBuff.Length)) > 0)
+                            {
+                                if (readSize < this.PackageSize)
+                                {
+                                    SendDataPackageByDownload(readBuff, readSize, true);
+                                }
+                                else
+                                {
+                                    SendDataPackageByDownload(readBuff, readSize, false);
+                                }
+                                Console.WriteLine("XIAOSA:" + fileName + "数据包" + "发送完成");
+                                while (true)
+                                {
+                                    if (DownloadStatus)
+                                    {
+                                        this.DownloadStatus = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    this.SendData(null, Constant.ORDER_END_SEND, null);
+                    Console.WriteLine("XIAOSA:" + "" + "SendData" + "发送完成");
+                }
             }
+            catch(Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
+                if (!TimeOutIsStart)
+                {
+                    if (null != this.CallBack)
+                    {
+                        this.CallBack.Error(this.DeviceName, fileName + " 下载失败");
+                    }
+                }
+            }
+              
         }
         protected void DownloadStart()
         {
@@ -686,14 +910,11 @@ namespace LightController.Tools.CSJ
                 }
                 while (true)
                 {
-                    if (true)
+                    if (this.DownloadStatus)
                     {
-                        if (this.DownloadStatus)
-                        {
-                            this.SendData(null, Constant.ORDER_END_SEND, null);
-                            this.DownloadStatus = false;
-                            break;
-                        }
+                        this.SendData(null, Constant.ORDER_END_SEND, null);
+                        this.DownloadStatus = false;
+                        break;
                     }
                 }
 
@@ -701,16 +922,17 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
                     {
-                        this.CallBack.SendError(this.DeviceName, this.Order);
+                        this.CallBack.Error(this.DeviceName, "工程文件读取失败");
                     }
                 }
             }
         }
-        public void PutParam(string filePath, IReceiveCallBack receiveCallBack)
+        public void PutParam(string filePath, ICommunicatorCallBack receiveCallBack)
         {
             bool TimeOutIsStart = false;
             try
@@ -732,16 +954,17 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
                     {
-                        this.CallBack.SendError(this.DeviceName, this.Order);
+                        this.CallBack.Error(this.DeviceName, "更新硬件配置谢谢失败");
                     }
                 }
             }
         }
-        public void GetParam(GetParamDelegate getParam, IReceiveCallBack receiveCallBack)
+        public void GetParam(ICommunicatorCallBack receiveCallBack)
         {
             bool TimeOutIsStart = false;
             try
@@ -749,7 +972,6 @@ namespace LightController.Tools.CSJ
                 if (!this.IsSending)
                 {
                     this.CallBack = receiveCallBack;
-                    this.GetParamDelegate = getParam;
                     this.IsSending = true;
                     this.SendData(null, Constant.ORDER_GET_PARAM, null);
                 }
@@ -757,16 +979,17 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
                     {
-                        this.CallBack.SendError(this.DeviceName, this.Order);
+                        this.CallBack.Error(this.DeviceName, "读取硬件配置信息失败");
                     }
                 }
             }
         }
-        public void SendOrder(string order, string[] parameters, IReceiveCallBack receiveCallBack)
+        public void SendOrder(string order, string[] parameters, ICommunicatorCallBack receiveCallBack)
         {
             bool TimeOutIsStart = false;
             try
@@ -777,16 +1000,17 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
                     {
-                        this.CallBack.SendError(this.DeviceName, this.Order);
+                        this.CallBack.Error(this.DeviceName,"命令发送失败");
                     }
                 }
             }
         }
-        public void Update(string filePath,IReceiveCallBack receiveCallBack,DownloadProgressDelegate download)
+        public void Update(string filePath, ICommunicatorCallBack receiveCallBack)
         {
             try
             {
@@ -796,7 +1020,6 @@ namespace LightController.Tools.CSJ
                     {
                         this.IsSending = true;
                         this.UpdateFilePath = filePath;
-                        this.DownloadProgressDelegate = download;
                         this.CallBack = receiveCallBack;
                         this.UpdateThread = new Thread(new ThreadStart(UpdateStart))
                         {
@@ -809,11 +1032,22 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (null != this.CallBack)
                 {
-                    this.CallBack.SendError(this.DeviceName, this.Order);
+                    this.CallBack.Error(this.DeviceName, "硬件更新失败");
                 }
             }
+        }
+        public void StartIntenetPreview(int timeFactory, ICommunicatorCallBack receiveCallBack)
+        {
+            this.CallBack = receiveCallBack;
+            SendData(null, Constant.ORDER_START_DEBUG, new string[] {Convert.ToString(timeFactory)});
+        }
+        public void StopIntenetPreview(ICommunicatorCallBack receiveCallBack)
+        {
+            this.CallBack = receiveCallBack;
+            SendData(null, Constant.ORDER_END_DEBUG, null);
         }
         protected void UpdateStart()
         {
@@ -829,6 +1063,7 @@ namespace LightController.Tools.CSJ
                 string fileSize = data.Length.ToString();
                 this.DownloadFileToTalSize = data.Length;
                 string fileName = info.Name;
+                this.CurrentFileName = fileName;
                 byte[] crc = CRCTools.GetInstance().GetCRC(data);
                 string fileCrc = Convert.ToInt32((crc[0] & 0xFF) | ((crc[1] & 0xFF) << 8)) + "";
                 this.SendData(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc });
@@ -836,11 +1071,14 @@ namespace LightController.Tools.CSJ
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
                     {
-                        this.CallBack.SendError(this.DeviceName, this.Order);
+                        //TODO 待删除
+                        //this.CallBack.SendError(this.DeviceName, this.Order);
+                        this.CallBack.Error(this.DeviceName,"文件读取失败");
                     }
                 }
             }

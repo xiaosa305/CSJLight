@@ -203,7 +203,7 @@ namespace LightController.Utils
                 }
             }
         }
-        public static void MergeFile(int sceneNo, int mode, bool isMakeFile)
+        public static void MergeFile(int sceneNo, int mode, bool isMakeFile,ISaveProjectCallBack callBack)
         {
             
             string projectFilePath =  (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + (mode == Constant.MODE_C ? @"\C" : @"\M") + (sceneNo + 1) + ".bin";
@@ -296,6 +296,7 @@ namespace LightController.Utils
                     }
 
                 }
+                callBack.Completed();
                 Console.WriteLine("文件整合完成");
             }
             catch (Exception ex)
@@ -304,17 +305,18 @@ namespace LightController.Utils
                 {
                     readStream.Close();
                 }
+                callBack.Error();
                 Console.WriteLine("********************数据整合出错" + ex.Message);
             }
         }
 
-        public static List<CPlayPoint> GetCPlayPoints()
+        public static List<PlayPoint> GetCPlayPoints()
         {
             FileStream readStream = null;
             int channelCount = 0;
             byte[] channelNumberBuff = new byte[2];
             long seek = 9;
-            List<CPlayPoint> playPoints = new List<CPlayPoint>();
+            List<PlayPoint> playPoints = new List<PlayPoint>();
             using (readStream = new FileStream(PreviewDataFilePath + @"\C1.bin", FileMode.Open))
             {
                 readStream.Seek(seek, SeekOrigin.Begin);
@@ -337,29 +339,33 @@ namespace LightController.Utils
                     //读取数据长度
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(lengthBuff, 0, lengthBuff.Length);
-                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
-                    seek = seek + 4;
+
+                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
+                    seek = seek + 2;
+                    //TODO 2.0-1
+                    //dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
+                    //seek = seek + 4;
                     //读取字节偏移量
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(seekBuff, 0, seekBuff.Length);
                     channelSeek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
-                    playPoints.Add(new CPlayPoint(channelNo, channelSeek, dataLength,Constant.MODE_C));
+                    playPoints.Add(new PlayPoint(channelNo, channelSeek, dataLength,Constant.MODE_C));
                     seek = seek + dataLength + 4;
                 }
             }
-            foreach (CPlayPoint item in playPoints)
+            foreach (PlayPoint item in playPoints)
             {
                 item.Init();
             }
             return playPoints;
         }
-        public static List<CPlayPoint> GetMPlayPoints()
+        public static List<PlayPoint> GetMPlayPoints()
         {
             FileStream readStream = null;
             int channelCount = 0;
             byte[] channelNumberBuff = new byte[2];
             long seek = 28;
-            List<CPlayPoint> playPoints = new List<CPlayPoint>();
+            List<PlayPoint> playPoints = new List<PlayPoint>();
             using (readStream = new FileStream(PreviewDataFilePath + @"\M1.bin", FileMode.Open))
             {
                 readStream.Seek(seek, SeekOrigin.Begin);
@@ -382,17 +388,21 @@ namespace LightController.Utils
                     //读取数据长度
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(lengthBuff, 0, lengthBuff.Length);
-                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 16);
-                    seek = seek + 4;
+
+                    dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
+                    seek = seek + 2;
+                    //TODO 2.0-2
+                    //dataLength = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 16);
+                    //seek = seek + 4;
                     //读取字节偏移量
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(seekBuff, 0, seekBuff.Length);
                     channelSeek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
-                    playPoints.Add(new CPlayPoint(channelNo, channelSeek, dataLength,Constant.MODE_M));
+                    playPoints.Add(new PlayPoint(channelNo, channelSeek, dataLength,Constant.MODE_M));
                     seek = seek + dataLength + 4;
                 }
             }
-            foreach (CPlayPoint item in playPoints)
+            foreach (PlayPoint item in playPoints)
             {
                 item.Init();
             }

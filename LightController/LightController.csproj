@@ -370,8 +370,10 @@
     <Compile Include="Utils\CSJThreadManager.cs" />
     <Compile Include="Utils\DataConvertUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
-    <Compile Include="Utils\CPlayPoint.cs" />
-    <Compile Include="Utils\MPlayPoint.cs" />
+    <Compile Include="Utils\PlayPoint.cs" />
+    <Compile Include="Utils\ICommunicatorCallBack.cs" />
+    <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
+    <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>

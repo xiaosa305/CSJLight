@@ -644,7 +644,7 @@ namespace LightController.Utils
                         {
                             C_DMXSceneState[sceneNo] = true;
                         }
-                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, BuildMode == MODE_MAKEFILE);
+                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, BuildMode == MODE_MAKEFILE,CallBack);
                     }
                     if (!C_DMXSceneState.ContainsValue(false))
                     {
@@ -667,7 +667,7 @@ namespace LightController.Utils
                         {
                             M_DMXSceneState[sceneNo] = true;
                         }
-                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, BuildMode == MODE_MAKEFILE);
+                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, BuildMode == MODE_MAKEFILE,CallBack);
                     }
                     if (!M_DMXSceneState.ContainsValue(false))
                     {

@@ -362,7 +362,6 @@
     <Compile Include="Tools\CSJ\IMPL\ScenesInitData.cs" />
     <Compile Include="Tools\FileTools.cs" />
     <Compile Include="Tools\PlayTools.cs" />
-    <Compile Include="Tools\ReceiveCallBack.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />

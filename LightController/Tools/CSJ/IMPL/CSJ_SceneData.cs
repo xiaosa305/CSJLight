@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightController.Tools.CSJ.IMPL
 {
-    class CSJ_SceneData
+    public class CSJ_SceneData
     {
         public int SceneNo { get; set; }
         public int ChannelCount { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LightController.Tools.CSJ.IMPL
 {
@@ -92,7 +93,6 @@ namespace LightController.Tools.CSJ.IMPL
             HeartbeatCycleBuff[0] = data[117];
             HeartbeatCycleBuff[1] = data[118];
             HeartbeatCycle = (HeartbeatCycleBuff[0] & 0xFF) | ((HeartbeatCycleBuff[1] << 8) & 0xFF);
-
         }
         public CSJ_Hardware()
         {
@@ -100,20 +100,20 @@ namespace LightController.Tools.CSJ.IMPL
             SumUseTimes = 5000;
             DiskFlag = 0;
             PlayFlag = 1;
-            DeviceName = "新设备";
+            DeviceName = "测试用机";
             Addr = 0;
             LinkMode = 0;
             LinkPort = 7060;
-            IP = "0.0.0.0";
-            NetMask = "0.0.0.0";
-            GateWay = "0.0.0.0";
-            RemoteHost = "0.0.0.0";
-            RemotePort = 7060;
+            IP = "192.168.1.33";
+            NetMask = "255.255.255.0";
+            GateWay = "192.168.1.1";
+            RemoteHost = "192.168.31.1";
+            RemotePort = 7070;
             Mac = "00-00-00-00-00-00";
-            DomainName = "";
-            DomainServer = "0.0.0.0";
+            DomainName = "测试服务器";
+            DomainServer = "192.168.31.1";
             HardWareID = "";
-            Heartbeat = new byte[] {0x00 };
+            Heartbeat = new byte[] { 0x00 };
         }
         public static CSJ_Hardware Empty()
         {
@@ -132,15 +132,8 @@ namespace LightController.Tools.CSJ.IMPL
             SumUseTimesBuff[3] = Convert.ToByte((SumUseTimes >> 24) & 0xFF);
             data.AddRange(SumUseTimesBuff);
             data.Add(Convert.ToByte(DiskFlag));
-            if (DeviceName == null)
-            {
-                DeviceName = "";
-            }
             byte[] DeviceNameBuff = Encoding.Default.GetBytes(DeviceName);
-            if (DeviceNameBuff.Length > 0)
-            {
-                data.AddRange(DeviceNameBuff);
-            }
+            data.AddRange(DeviceNameBuff);
             if (DeviceNameBuff.Length < 16)
             {
                 for (int i = 0; i < 16 - DeviceNameBuff.Length; i++)
@@ -154,47 +147,20 @@ namespace LightController.Tools.CSJ.IMPL
             LinkPortBuff[0] = Convert.ToByte((LinkPort) & 0xFF);
             LinkPortBuff[1] = Convert.ToByte((LinkPort >> 8) & 0xFF);
             data.AddRange(LinkPortBuff);
-            if (this.IP == null)
-            {
-                this.IP = "0.0.0.0";
-            }
             data.Add(Convert.ToByte(IP.Split('.')[0]));
             data.Add(Convert.ToByte(IP.Split('.')[1]));
             data.Add(Convert.ToByte(IP.Split('.')[2]));
             data.Add(Convert.ToByte(IP.Split('.')[3]));
-            if (this.NetMask == null)
-            {
-                this.NetMask = "255.255.255.0";
-            }
             data.Add(Convert.ToByte(NetMask.Split('.')[0]));
             data.Add(Convert.ToByte(NetMask.Split('.')[1]));
             data.Add(Convert.ToByte(NetMask.Split('.')[2]));
             data.Add(Convert.ToByte(NetMask.Split('.')[3]));
-            if (this.GateWay == null)
-            {
-                this.GateWay = "0.0.0.0";
-            }
             data.Add(Convert.ToByte(GateWay.Split('.')[0]));
             data.Add(Convert.ToByte(GateWay.Split('.')[1]));
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
             data.Add(Convert.ToByte(GateWay.Split('.')[3]));
-            string[] macBuff;
-            try
-            {
-                if (this.Mac == null)
-                {
-                    this.Mac = "00-00-00-00-00-00";
-                }
-                macBuff = Mac.Split('-');
-                if (macBuff.Count() != 6)
-                {
-                    macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
-                }
-            }
-            catch (Exception)
-            {
-                macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
-            }
+            //string[] macBuff = Mac.Split('-');
+            string[] macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
             data.Add(Convert.ToByte(macBuff[0], 16));
             data.Add(Convert.ToByte(macBuff[1], 16));
             data.Add(Convert.ToByte(macBuff[2], 16));
@@ -206,25 +172,14 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte((CurrUseTimes >> 8) & 0xFF));
             data.Add(Convert.ToByte((CurrUseTimes >> 16) & 0xFF));
             data.Add(Convert.ToByte((CurrUseTimes >> 24) & 0xFF));
-            if (RemoteHost == null)
-            {
-                RemoteHost = "0.0.0.0";
-            }
             data.Add(Convert.ToByte(RemoteHost.Split('.')[0]));
             data.Add(Convert.ToByte(RemoteHost.Split('.')[1]));
             data.Add(Convert.ToByte(RemoteHost.Split('.')[2]));
             data.Add(Convert.ToByte(RemoteHost.Split('.')[3]));
             data.Add(Convert.ToByte((RemotePort) & 0xFF));
             data.Add(Convert.ToByte((RemotePort >> 8) & 0xFF));
-            if (DomainName == null)
-            {
-                DomainName = "";
-            }
             byte[] DomainNameBuff = Encoding.Default.GetBytes(DomainName);
-            if (DomainNameBuff.Length > 0)
-            {
-                data.AddRange(DomainNameBuff);
-            }
+            data.AddRange(DomainNameBuff);
             if (DomainNameBuff.Length < 32)
             {
                 for (int i = 0; i < 32 - DomainNameBuff.Length; i++)
@@ -232,30 +187,21 @@ namespace LightController.Tools.CSJ.IMPL
                     data.Add(Convert.ToByte(0x00));
                 }
             }
-            if (DomainServer == null)
-            {
-                DomainServer = "0.0.0.0";
-            }
             data.Add(Convert.ToByte(DomainServer.Split('.')[0]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[1]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[2]));
             data.Add(Convert.ToByte(DomainServer.Split('.')[3]));
-            if (HardWareID == null)
-            {
-                HardWareID = "00000000000000000000000000000000";
-            }
             int len = HardWareID.Length;
-            char[] HardWareChars =  HardWareID.ToArray();
-            for (int i = 0; i < len; i = i + 2)
+            for (int i = 0; i < 16 - len; i++)
             {
-                string value = HardWareChars[i].ToString() + HardWareChars[i + 1];
-                data.Add(Convert.ToByte(value,16));
+                HardWareID = 0 + HardWareID;
             }
-            //byte[] HardWareIDBuff = Encoding.Default.GetBytes(HardWareID);
-            //data.AddRange(HardWareIDBuff);
-            if (Heartbeat == null)
+            HardWareID = "0000000000000000";
+            byte[] HardWareIDBuff = Encoding.Default.GetBytes(HardWareID);
+            data.AddRange(HardWareIDBuff);
+            for (int i = 0; i < 16 - HardWareIDBuff.Length; i++)
             {
-                Heartbeat = new byte[] { 0x00};
+                data.Add(Convert.ToByte(0x00));
             }
             data.AddRange(Heartbeat);
             for (int i = 0; i < 8 - Heartbeat.Length; i++)
@@ -374,6 +320,32 @@ namespace LightController.Tools.CSJ.IMPL
 
                 }
             }
+        }
+
+        public static void Test()
+        {
+            CSJ_Hardware hardware = new CSJ_Hardware();
+            byte[] datas = hardware.GetData();
+            string path = Application.StartupPath + @"\DataCache\Hardware.txt";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            StreamWriter writer = new StreamWriter(path, true);
+            string hexOutput = string.Empty;
+            for (int i = 0; i < datas.Length; i++)
+            {
+                if (i != datas.Length - 1)
+                {
+                    hexOutput += "0x" + string.Format("{0:X2}", datas[i]) + ",";
+                }
+                else
+                {
+                    hexOutput += "0x" + string.Format("{0:X2}", datas[i]);
+                }
+            }
+            writer.Write(hexOutput);
+            writer.Close();
         }
     }
 }

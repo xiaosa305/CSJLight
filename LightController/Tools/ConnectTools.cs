@@ -1,5 +1,6 @@
 ﻿using LightController.Ast;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -159,13 +160,13 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
+        public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack, download);
+                    SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
                 }
             }
             else
@@ -175,13 +176,13 @@ namespace LightController.Tools
             }
         }
 
-        //TODO
-        public void Download(string ip, CSJ_Project project, IReceiveCallBack callBack, DownloadProgressDelegate download) { }
-        public void Download(string ip, DBWrapper dBWrapper, string configPath, IReceiveCallBack callBack, DownloadProgressDelegate download)
+        //TODO 新版网络下载
+        public void Download() { }
+        public void Download(string ip, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack, download);
+                SocketTools.GetInstance().Download(ip, dBWrapper, configPath, callBack);
             }
             else
             {
@@ -189,7 +190,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void SendOrder(IList<string> ips, string order,string[] strarray,IReceiveCallBack callBack)
+        public void SendOrder(IList<string> ips, string order,string[] strarray, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
@@ -204,7 +205,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void SendOrder(string ip, string order, string[] strarray, IReceiveCallBack callBack)
+        public void SendOrder(string ip, string order, string[] strarray, ICommunicatorCallBack callBack)
         {
             if (IsStart)
             {
@@ -216,7 +217,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void PutPara(IList<string> ips, string filePath,IReceiveCallBack receiveCallBack)
+        public void PutPara(IList<string> ips, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
@@ -231,7 +232,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void PutPara(string ip, string filePath, IReceiveCallBack receiveCallBack)
+        public void PutPara(string ip, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
@@ -243,13 +244,13 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void GetParam(IList<string> ips,IReceiveCallBack receiveCallBack,GetParamDelegate getParam)
+        public void GetParam(IList<string> ips, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
+                    SocketTools.GetInstance().GetParam(ip, receiveCallBack);
                 }
             }
             else
@@ -258,11 +259,11 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void GetParam(string ip, IReceiveCallBack receiveCallBack, GetParamDelegate getParam)
+        public void GetParam(string ip, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().GetParam(ip, receiveCallBack, getParam);
+                SocketTools.GetInstance().GetParam(ip, receiveCallBack);
             }
             else
             {
@@ -270,11 +271,11 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Update(string ip, string filePath,IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
+        public void Update(string ip, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
-                SocketTools.GetInstance().Update(ip, filePath, receiveCallBack,download);
+                SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
             }
             else
             {
@@ -282,13 +283,13 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void Update(IList<string> ips, string filePath, IReceiveCallBack receiveCallBack, DownloadProgressDelegate download)
+        public void Update(IList<string> ips, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)
             {
                 foreach (string ip in ips)
                 {
-                    SocketTools.GetInstance().Update(ip, filePath, receiveCallBack,download);
+                    SocketTools.GetInstance().Update(ip, filePath, receiveCallBack);
                 }
             }
             else
@@ -297,11 +298,11 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public void StartIntentPreview(String ip,int timeFactory, IReceiveCallBack receiveCallBack)
+        public void StartIntentPreview(String ip,int timeFactory, ICommunicatorCallBack receiveCallBack)
         {
             SocketTools.GetInstance().StartDebug(ip, timeFactory, receiveCallBack);
         }
-        public void StopIntentPreview(String ip, IReceiveCallBack receiveCallBack)
+        public void StopIntentPreview(String ip, ICommunicatorCallBack receiveCallBack)
         {
             SocketTools.GetInstance().EndDebug(ip,receiveCallBack);
         }

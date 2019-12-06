@@ -366,6 +366,14 @@
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />
+    <Compile Include="Utils\CSJThread.cs" />
+    <Compile Include="Utils\CSJThreadManager.cs" />
+    <Compile Include="Utils\DataConvertUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\PlayPoint.cs" />
+    <Compile Include="Utils\ICommunicatorCallBack.cs" />
+    <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
+    <Compile Include="Utils\ISaveProjectCallBack.cs" />
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -893,6 +901,7 @@
     <Content Include="Source\CSkin.dll" />
     <Content Include="Source\CSkin.XML" />
     <Content Include="Source\IrisSkin4.dll" />
+    <Content Include="Tools\ReadMe.txt" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

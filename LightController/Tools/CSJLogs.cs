@@ -53,6 +53,7 @@ namespace LightController.Tools
             byte[] data = Encoding.Default.GetBytes(@"[ERROR]" + DateTime.Now + ":" + message);
             Stream.Write(data, 0, data.Length);
             Stream.Flush();
+            Console.WriteLine(ex.Message);
         }
 
         public void ErrorLog(Exception ex,string errorStr)

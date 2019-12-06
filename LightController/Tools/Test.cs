@@ -1,5 +1,6 @@
 ﻿using LightController.Ast;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,10 +17,15 @@ namespace LightController.Tools
     /// </summary>
     class Test
     {
-        private DBWrapper DBWrapper;
-        public Test(DBWrapper dBWrapper)
+        private DBWrapper DBWrapper { get; set; }
+        private ValueDAO ValueDAO { get; set; }
+        private string ConfigPath { get; set; }
+        public Test(DBWrapper dBWrapper, ValueDAO valueDAO, string configPath)
         {
             this.DBWrapper = dBWrapper;
+            this.ValueDAO = valueDAO;
+            this.ConfigPath = configPath;
+            DataConvertUtils.InitThreadPool();
         }
         public void Start(int index)
         {
@@ -27,80 +33,24 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    ConnectTools.GetInstance().Start("192.168.31.235");
-                    ConnectTools.GetInstance().SearchDevice();
+                    DataConvertUtils.SaveProjectFile(DBWrapper, ValueDAO, ConfigPath);
                     break;
                 case 2:
+                    DataConvertUtils.SaveProjectFileByPreviewData(DBWrapper, ConfigPath, 0);
                     break;
                 case 3:
-                    //发送网络调试开启命令
-                     PlayTools.GetInstance().StartInternetPreview("192.168.31.102", new DownloadCallBack(),30);
+                    FileUtils.CreateGradientData();
                     break;
                 case 4:
-                    PlayTools.GetInstance().StopInternetPreview(new DownloadCallBack());
-                    //发送网络预览数据
                     break;
                 default:
                     break;
             }
         }
 
-        private void GetParamTest(CSJ_Hardware hardware)
+        private Test(DBWrapper wrapper)
         {
-            Console.WriteLine("test Complected");
-        }
-        private void SeralPortTest()
-        {
-            string[] list  = SerialPortTools.GetInstance().GetSerialPortNameList();
-        }
-        public void Testapplication()
-        {
-                IList<string> iplist = new List<string>();
-            foreach (string item in ConnectTools.GetInstance().GetDevicesIp())
-            {
-                if (item.Length > 0)
-                {
-                    iplist.Add(item);
-                }
-            }
-            try
-            {
 
-                ConnectTools.GetInstance().Download(iplist.ToArray(), DBWrapper, @"C:\Temp\LightProject\Test1\global.ini", new DownloadCallBack(),new DownloadProgressDelegate(DownloadProgress));
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        public void DownloadProgress(string fileName,int progress)
-        {
-            Console.WriteLine("===========Download  " + fileName + " : " + progress + "%===========");
-        }
-    }
-    public class DownloadCallBack : IReceiveCallBack
-    {
-        public void SendCompleted(string ip, string order)
-        {
-            Console.WriteLine(ip + "===>" + order + ": 下载完成");
-        }
-
-        public void SendError(string ip, string order)
-        {
-            Console.WriteLine(ip + "===>" + order + ": 下载失败");
-        }
-    }
-    public class OrderCallBack : IReceiveCallBack
-    {
-        public void SendCompleted(string ip, string order)
-        {
-            Console.WriteLine(ip + "===>" + order + ": 发送成功");
-        }
-
-        public void SendError(string ip, string order)
-        {
-            Console.WriteLine(ip + "===>" + order + ": 发送失败");
         }
     }
 }

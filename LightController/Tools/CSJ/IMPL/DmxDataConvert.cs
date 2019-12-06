@@ -1,5 +1,6 @@
 ﻿using DMX512;
 using LightController.Ast;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 file = new CSJ_Hardware(fileBuff);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 CSJLogs.GetInstance().DebugLog("设备未初始化");
             }
@@ -115,6 +116,11 @@ namespace LightController.Tools.CSJ.IMPL
         }
         private ICSJFile GetCSJCFile(CSJ_SceneData sceneData)
         {
+            //---Test---
+
+            //DataConvertUtils.GeneratedSceneData(sceneData, Wrapper, ConfigPath, Constant.MODE_C);
+            //return null;
+            //---Test---
             CSJ_C file = null;
             StreamReader reader;
             List<ChannelData> channelDatas = new List<ChannelData>();

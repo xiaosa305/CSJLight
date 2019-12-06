@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -79,6 +80,31 @@ namespace LightController.Tools
                 index = chCRCLo ^ data[i];
                 chCRCLo = Convert.ToByte(chCRCHi ^ chCRCHTable[index]);
                 chCRCHi = chCRCLTable[index];
+            }
+            byte[] result = new byte[2];
+            result[0] = chCRCLo;
+            result[1] = chCRCHi;
+            return result;
+        }
+
+        public byte[] GetCRC(string filePath)
+        {
+            byte chCRCHi = 0xFF;// 高CRC字节初始化
+            byte chCRCLo = 0xFF;// 低CRC字节初始化
+            int index;
+            int dataSize;
+            byte[] buff = new byte[1024];
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            {
+                while ((dataSize = fileStream.Read(buff, 0, buff.Length)) > 0)
+                {
+                    for (int i = 0; i < dataSize; i++)
+                    {
+                        index = chCRCLo ^ buff[i];
+                        chCRCLo = Convert.ToByte(chCRCHi ^ chCRCHTable[index]);
+                        chCRCHi = chCRCLTable[index];
+                    }
+                }
             }
             byte[] result = new byte[2];
             result[0] = chCRCLo;

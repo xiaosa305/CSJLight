@@ -55,7 +55,7 @@ namespace LightController.Tools.CSJ.IMPL
                 fileData.Add(chanelNo[0]);
                 fileData.Add(chanelNo[1]);
 
-                //TODO
+                //TODO 
                 //添加数据长度
                 byte[] dataSzie = new byte[4];
                 dataSzie[0] = (byte)(c_Data.DataSize & 0xFF);

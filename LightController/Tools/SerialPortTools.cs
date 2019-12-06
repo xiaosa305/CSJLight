@@ -2,6 +2,7 @@
 using LightController.Ast;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -200,7 +201,7 @@ namespace LightController.Tools
                 return false;
             }
         }
-        public void SearchDevice(IReceiveCallBack receiveCallBack)
+        public void SearchDevice(ICommunicatorCallBack receiveCallBack)
         {
             try
             {
@@ -270,7 +271,7 @@ namespace LightController.Tools
                                 string[] rxStrArray = rxStr.Split(' ');
                                 this.Addr = int.Parse(rxStrArray[0]);
                                 this.DeviceName = rxStrArray[1];
-                                CallBack.SendCompleted(DeviceName, Constant.ORDER_SEARCH);
+                                CallBack.Completed(DeviceName);
                             }
                             else
                             {

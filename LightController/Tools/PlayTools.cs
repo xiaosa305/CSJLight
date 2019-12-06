@@ -49,7 +49,7 @@ namespace LightController.Tools
         private int PreviewWayState { get; set; }
         private string DeviceIpByIntentPreview { get; set; }
         private bool IsInitIntentDebug { get; set; }
-        private IReceiveCallBack IntentDebugCallback { get; set; }
+        private ICommunicatorCallBack IntentDebugCallback { get; set; }
         private Thread SendEmptyDebugDataThread { get; set; }
 
         private PlayTools()
@@ -70,7 +70,7 @@ namespace LightController.Tools
            
         }
 
-        public void StartInternetPreview(string deviceIp, IReceiveCallBack receiveCallBack, int timeFactory)
+        public void StartInternetPreview(string deviceIp, ICommunicatorCallBack receiveCallBack, int timeFactory)
         {
             this.PreviewWayState = STATE_INTENETPREVIEW;
             this.DeviceIpByIntentPreview = deviceIp;
@@ -81,7 +81,7 @@ namespace LightController.Tools
             SendEmptyDebugDataThread.Start();
         }
 
-        public void StopInternetPreview(IReceiveCallBack receiveCallBack)
+        public void StopInternetPreview(ICommunicatorCallBack receiveCallBack)
         {
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
             IsInitIntentDebug = false;
@@ -379,22 +379,6 @@ namespace LightController.Tools
         {
             try
             {
-                //UInt32 count = 0;
-                //if (Device.IsOpen)
-                //{
-                //    //发送Break|
-                //    Device.SetBreak(true);
-                //    Thread.Sleep(0);
-                //    Device.SetBreak(false);
-                //    Thread.Sleep(0);
-                //    List<byte> buff = new List<byte>();
-                //    buff.AddRange(this.StartCode);
-                //    buff.AddRange(this.PlayData);
-                //    Device.Purge(FTDI.FT_PURGE.FT_PURGE_TX);
-                //    Console.WriteLine("Y轴==>" + PlayData[2] + "Y轴微调==>" + PlayData[3] + "激光==>" + PlayData[6]);
-                //    Device.Write(buff.ToArray(), buff.ToArray().Length, ref count);
-                //    Device.SetBreak(false);
-                //}
                 List<byte> buff = new List<byte>();
                 buff.AddRange(this.StartCode);
                 buff.AddRange(this.PlayData);

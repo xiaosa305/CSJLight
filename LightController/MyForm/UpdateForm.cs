@@ -1,6 +1,8 @@
 ﻿using CCWin.SkinControl;
 using LightController.Ast;
 using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -227,10 +229,10 @@ namespace LightController.MyForm
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
 				//MessageBox.Show(localIP + " ---> " + selectedIPs[0]);
-				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress));								
+				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack());								
 			}
 			else {
-				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(comPaintProgress));
+				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack());
 			}		
 		}
 
@@ -256,31 +258,69 @@ namespace LightController.MyForm
 	}
 
 
-	public class NetworkDownloadReceiveCallBack : IReceiveCallBack
+	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
 	{
-		public void SendCompleted(string deviceName, string order)
+		//public void SendCompleted(string deviceName, string order)
+		//{
+		//	MessageBox.Show("设备：" + deviceName + "  下载成功并断开连接"
+		//		//+"发回了命令："+order 
+		//		);
+		//}
+		//public void SendError(string deviceName, string order)
+		//{
+		//	MessageBox.Show("设备：" + deviceName + " 下载失败并断开连接" 
+		//		//+ "发回了命令：" + order 
+		//		);
+		//}
+		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("设备：" + deviceName + "  下载成功并断开连接"
-				//+"发回了命令："+order 
-				);
+			MessageBox.Show("设备：" + deviceTag + "  下载成功并断开连接" 	);
 		}
-		public void SendError(string deviceName, string order)
+
+		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("设备：" + deviceName + " 下载失败并断开连接" 
-				//+ "发回了命令：" + order 
-				);
+			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接，错误原因是:" + errorMessage);
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
 		}
 	}
 
-	public class ComDownloadReceiveCallBack : IReceiveCallBack
+	public class ComDownloadReceiveCallBack : ICommunicatorCallBack
 	{
-		public void SendCompleted(string deviceName, string order)
+		//public void SendCompleted(string deviceName, string order)
+		//{
+		//	MessageBox.Show("下载成功");
+		//}
+		//public void SendError(string deviceName, string order)
+		//{
+		//	MessageBox.Show("下载失败");
+		//}
+		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("下载成功");
 		}
-		public void SendError(string deviceName, string order)
+
+		public void Error(string deviceTag, string errorMessage)
 		{
 			MessageBox.Show("下载失败");
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

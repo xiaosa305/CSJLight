@@ -16,6 +16,8 @@ using CCWin.SkinControl;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using LightController.Utils;
+using LightController.Tools.CSJ.IMPL;
 
 namespace LightController.MyForm
 {
@@ -2357,6 +2359,15 @@ namespace LightController.MyForm
 			DBWrapper allData = GetDBWrapper(false);
 			try
 			{
+				PreviewCallBack pcb = new PreviewCallBack();
+				DataConvertUtils.SaveProjectFileByPreviewData(allData, globalIniPath, frame,pcb);
+
+				Thread.Sleep(5000);
+				//do
+				//{
+				//	Thread.Sleep(100);
+				//} while ( !pcb.Result );
+
 				playTools.PreView(allData, globalIniPath, frame);
 			}
 			catch (Exception ex)
@@ -2866,6 +2877,7 @@ namespace LightController.MyForm
 		}	
 	}
 
+
 	#region 废弃方法块
 
 	///// <summary>
@@ -2882,31 +2894,90 @@ namespace LightController.MyForm
 
 	#endregion
 
-	public class NetworkDebugReceiveCallBack : IReceiveCallBack
+	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
 	{
-		public bool Result { get; set; }	
-		public void SendCompleted(string deviceName, string order)
+		//public bool Result { get; set; }	
+		//public void SendCompleted(string deviceName, string order)
+		//{
+		//	//MessageBox.Show("网络设备" + deviceName + " 连接成功。"	);
+		//	Result = true;
+		//}
+		//public void SendError(string deviceName, string order)
+		//{
+		//	//MessageBox.Show("网络设备" + deviceName + " 连接失败。"	);
+		//	Result = false;
+		//}
+		public void Completed(string deviceTag)
 		{
-			//MessageBox.Show("网络设备" + deviceName + " 连接成功。"	);
+			MessageBox.Show("网络设备" + deviceTag + " 连接成功。");
+		}
+
+		public void Error(string deviceTag, string errorMessage)
+		{
+			MessageBox.Show("网络设备" + deviceTag + " 连接失败。");
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class NetworkEndDebugReceiveCallBack : ICommunicatorCallBack
+	{
+		//public void SendCompleted(string deviceName, string order)
+		//{
+		//	//MessageBox.Show("设备：" + deviceName + "  断开成功。");
+		//}
+		//public void SendError(string deviceName, string order)
+		//{
+		//	//MessageBox.Show("设备：" + deviceName + "  断开失败。");
+		//}
+
+		public void Completed(string deviceTag)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Error(string deviceTag, string errorMessage)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class PreviewCallBack : ISaveProjectCallBack
+	{
+		public bool Result = false ;
+
+		public void Completed()
+		{
+			MessageBox.Show("预览数据生成成功。");
 			Result = true;
 		}
-		public void SendError(string deviceName, string order)
+
+		public void Error()
 		{
-			//MessageBox.Show("网络设备" + deviceName + " 连接失败。"	);
-			Result = false;
+			MessageBox.Show("预览数据生成出错。");
+		}
+
+		public void UpdateProgress(string name)
+		{
+			//MessageBox.Show("数据：" + name+"生成成功。");
 		}
 	}
-
-	public class NetworkEndDebugReceiveCallBack : IReceiveCallBack
-	{
-		public void SendCompleted(string deviceName, string order)
-		{
-			//MessageBox.Show("设备：" + deviceName + "  断开成功。");
-		}
-		public void SendError(string deviceName, string order)
-		{
-			//MessageBox.Show("设备：" + deviceName + "  断开失败。");
-		}
-	}
-
 }

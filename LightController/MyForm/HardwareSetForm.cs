@@ -1,6 +1,7 @@
 ﻿using LightController.Common;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -377,7 +378,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void uploadSkinButton_Click(object sender, EventArgs e)
 		{			
-			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(), SetParamFromDevice);
+			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet());
 			afterReadOrWrite();
 		}
 		
@@ -478,7 +479,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comUploadSkinButton_Click(object sender, EventArgs e)
 		{
-			comTools.GetParam(SetParamFromDevice, new UploadCallBackHardwareSet());
+			comTools.GetParam(new UploadCallBackHardwareSet());
 		}
 
 		/// <summary>
@@ -586,32 +587,71 @@ namespace LightController.MyForm
 	/// <summary>
 	/// 辅助类：用以下载硬件设置时供底层调用的回调类，显示回馈信息
 	/// </summary>
-	class DownloadCallBackHardwareSet : IReceiveCallBack
+	class DownloadCallBackHardwareSet : ICommunicatorCallBack
 	{
-		public void SendCompleted(string ip, string order)
+		//public void SendCompleted(string ip, string order)
+		//{
+		//	MessageBox.Show("下载成功");
+		//}
+
+		//public void SendError(string ip, string order)
+		//{
+		//	MessageBox.Show("下载失败");
+		//}
+
+		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("下载成功");
+			throw new NotImplementedException();
 		}
 
-		public void SendError(string ip, string order)
+		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("下载失败");
+			throw new NotImplementedException();
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
 		}
 	}
 
 	/// <summary>
 	/// 辅助类：用以回读硬件设置时供底层调用的回调类，显示回馈信息
 	/// </summary>
-	class UploadCallBackHardwareSet : IReceiveCallBack
+	class UploadCallBackHardwareSet : ICommunicatorCallBack
 	{
-		public void SendCompleted(string ip, string order)
+		//public void SendCompleted(string ip, string order)
+		//{
+		//	MessageBox.Show("回读成功");
+		//}
+
+		//public void SendError(string ip, string order)
+		//{
+		//	MessageBox.Show("回读失败");
+		//}
+		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("回读成功");
 		}
 
-		public void SendError(string ip, string order)
+		public void Error(string deviceTag, string errorMessage)
 		{
 			MessageBox.Show("回读失败");
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
 		}
 	}
 

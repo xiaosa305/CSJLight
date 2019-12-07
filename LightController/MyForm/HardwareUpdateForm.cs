@@ -229,10 +229,10 @@ namespace LightController.MyForm
 			{
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
-				connectTools.Update( selectedIPs , binPath,  new NetworkDownloadReceiveCallBack(), new DownloadProgressDelegate(networkPaintProgress) );
+				connectTools.Update( selectedIPs , binPath,  new NetworkDownloadReceiveCallBack());
 			}
 			else {
-				comTools.Update(binPath, new ComDownloadReceiveCallBack(), new DownloadProgressDelegate(comPaintProgress));
+				comTools.Update(binPath, new ComDownloadReceiveCallBack());
 			}		
 		}		
 			   

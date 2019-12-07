@@ -29,23 +29,23 @@ namespace LightController.Tools
         }
         public void Start(int index)
         {
-            string[] ports = SerialPortTools.GetInstance().GetSerialPortNameList();
-            switch (index)
-            {
-                case 1:
-                    DataConvertUtils.SaveProjectFile(DBWrapper, ValueDAO, ConfigPath);
-                    break;
-                case 2:
-                    DataConvertUtils.SaveProjectFileByPreviewData(DBWrapper, ConfigPath, 0);
-                    break;
-                case 3:
-                    FileUtils.CreateGradientData();
-                    break;
-                case 4:
-                    break;
-                default:
-                    break;
-            }
+            //string[] ports = SerialPortTools.GetInstance().GetSerialPortNameList();
+            //switch (index)
+            //{
+            //    case 1:
+            //        DataConvertUtils.SaveProjectFile(DBWrapper, ValueDAO, ConfigPath);
+            //        break;
+            //    case 2:
+            //        DataConvertUtils.SaveProjectFileByPreviewData(DBWrapper, ConfigPath, 0);
+            //        break;
+            //    case 3:
+            //        FileUtils.CreateGradientData();
+            //        break;
+            //    case 4:
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
 
         private Test(DBWrapper wrapper)

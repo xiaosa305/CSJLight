@@ -298,7 +298,7 @@ namespace LightController.Utils
                     }
 
                 }
-                if (mode == Constant.MODE_C)
+                if (mode == Constant.MODE_C && isMakeFile)
                 {
                     CreateGradientData();
                 }

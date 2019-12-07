@@ -753,7 +753,10 @@ namespace LightController.Utils
                         {
                             c_ValuePairs.Add(item.PK.LightID, new List<DB_Value>());
                         }
-                        c_ValuePairs[item.PK.LightID].Add(item);
+                        if (item.ChangeMode != Constant.MODE_C_HIDDEN)
+                        {
+                            c_ValuePairs[item.PK.LightID].Add(item);
+                        }
                         break;
                     case Constant.MODE_M:
                         if (!m_ValuePairs.ContainsKey(item.PK.LightID))

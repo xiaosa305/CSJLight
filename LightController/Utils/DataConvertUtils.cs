@@ -43,6 +43,7 @@ namespace LightController.Utils
         /// <param name="configPath"></param>
         public static void SaveProjectFile(DBWrapper wrapper, MainFormInterface mainForm, string configPath,ISaveProjectCallBack callBack)
         {
+            InitThreadPool();
             CallBack = callBack;
             BuildMode = MODE_MAKEFILE;
             FileUtils.ClearCacheData();
@@ -54,7 +55,6 @@ namespace LightController.Utils
             C_DMXSceneState = new Dictionary<int, bool>();
             M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
             M_DMXSceneState = new Dictionary<int, bool>();
-            Thread.Sleep(100);
             //启动线程开始执行数据生成及数据导出文件
             ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, mainForm, configPath));
         }
@@ -72,7 +72,6 @@ namespace LightController.Utils
             C_DMXSceneState = new Dictionary<int, bool>();
             M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
             M_DMXSceneState = new Dictionary<int, bool>();
-            Thread.Sleep(100);
             //启动线程开始执行数据生成及数据导出文件
             //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, valueDAO, configPath));
         }
@@ -232,7 +231,7 @@ namespace LightController.Utils
                 }
             }
             stopwatch.Stop();
-            Console.WriteLine("数据库读取耗时:" + stopwatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("**************************************************数据库读取耗时:" + stopwatch.Elapsed.TotalMilliseconds);
             CSJ_SceneData sceneData = new CSJ_SceneData()
             {
                 SceneNo = data.SceneNo,
@@ -359,7 +358,6 @@ namespace LightController.Utils
                         }
                     }
                 }
-                Thread.Sleep(50);
                 C_ChannelThreadDataInfo dataInfo = new C_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, sceneNo, rate);
                 dataInfo.SetName("C1-" + Constant.GetNumber(cSJ_ChannelData.ChannelNo) + ".bin");
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), dataInfo);
@@ -445,7 +443,7 @@ namespace LightController.Utils
                     startValue = stepValue;
                 }
                 stopwatch.Stop();
-                Console.WriteLine("/////////////////////////计算耗时：" + stopwatch.Elapsed.TotalMilliseconds);
+                Console.WriteLine("/////计算耗时：" + stopwatch.Elapsed.TotalMilliseconds);
                 DataCacheWriteCompleted(Constant.GetNumber(sceneNo), Constant.GetNumber(dataInfo.ChannelNo), Constant.MODE_C);
             }
             catch (Exception ex)
@@ -753,7 +751,6 @@ namespace LightController.Utils
             M_DMXSceneState = new Dictionary<int, bool>();
             C_PreviewSceneData = null;
             M_PreviewSceneData = null;
-            Thread.Sleep(100);
             ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
 
         }

@@ -304,7 +304,7 @@ namespace LightController.Utils
                 Console.WriteLine(projectFileInfo.Name + "文件整合完成");
                 if (isCompleted)
                 {
-                    if (mode == Constant.MODE_C && isMakeFile)
+                    if (isMakeFile)
                     {
                         CreateGradientData();
                     }

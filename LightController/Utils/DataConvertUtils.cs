@@ -579,7 +579,6 @@ namespace LightController.Utils
                         }
                     }
                 }
-                Thread.Sleep(50);
                 M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
             }

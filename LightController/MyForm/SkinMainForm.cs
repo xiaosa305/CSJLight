@@ -3069,14 +3069,11 @@ namespace LightController.MyForm
 			this.exportFolder = exportFolder;
 		}
 		public void Completed()
-		{
-			
-			mainForm.ExportProject(exportFolder ,true);
-			
+		{			
+			mainForm.ExportProject(exportFolder ,true);			
 		}
 		public void Error()
-		{
-			
+		{			
 			mainForm.ExportProject(exportFolder,false);			
 		}
 		public void UpdateProgress(string name)

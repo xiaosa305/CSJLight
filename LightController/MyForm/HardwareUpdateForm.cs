@@ -232,7 +232,7 @@ namespace LightController.MyForm
 				connectTools.Update( selectedIPs , binPath,  new NetworkUpdateReceiveCallBack());
 			}
 			else {
-				comTools.Update(binPath, new ComDownloadReceiveCallBack());
+				comTools.Update(binPath, new ComUpdateReceiveCallBack());
 			}		
 		}		
 			   

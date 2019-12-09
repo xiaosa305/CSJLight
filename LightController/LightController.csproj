@@ -164,6 +164,7 @@
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
+    <Compile Include="MyForm\ComUpdateReceiveCallBack.cs" />
     <Compile Include="MyForm\GlobalSetForm.cs">
       <SubType>Form</SubType>
     </Compile>

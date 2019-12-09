@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Linq;
 using System.Diagnostics;
+using LightController.MyForm;
 
 namespace LightController.Utils
 {
@@ -40,7 +41,25 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="valueDAO"></param>
         /// <param name="configPath"></param>
-        public static void SaveProjectFile(DBWrapper wrapper, ValueDAO valueDAO, string configPath,ISaveProjectCallBack callBack)
+        public static void SaveProjectFile2(DBWrapper wrapper, MainFormInterface mainForm, string configPath,ISaveProjectCallBack callBack)
+        {
+            CallBack = callBack;
+            BuildMode = MODE_MAKEFILE;
+            FileUtils.ClearCacheData();
+            FileUtils.ClearProjectData();
+            FileUtils.CreateConfig(new CSJ_Config(wrapper, configPath));
+            CSJThreadManager.CloseAllThread();
+            //初始化状态存储器
+            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            C_DMXSceneState = new Dictionary<int, bool>();
+            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            M_DMXSceneState = new Dictionary<int, bool>();
+            Thread.Sleep(100);
+            //启动线程开始执行数据生成及数据导出文件
+            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, valueDAO, configPath));
+        }
+
+        public static void SaveProjectFile(DBWrapper wrapper, ValueDAO valueDAO, string configPath, ISaveProjectCallBack callBack)
         {
             CallBack = callBack;
             BuildMode = MODE_MAKEFILE;

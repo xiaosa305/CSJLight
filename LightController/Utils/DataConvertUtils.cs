@@ -695,7 +695,7 @@ namespace LightController.Utils
                         }
                         //TODO 测试
                         Flag = true;
-                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, , CallBack);
+                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, (!C_DMXSceneState.ContainsValue(false)) && (!M_DMXSceneState.ContainsValue(false)), CallBack);
                     }
                     if (!C_DMXSceneState.ContainsValue(false))
                     {

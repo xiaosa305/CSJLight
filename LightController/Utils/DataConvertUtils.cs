@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Linq;
+using System.Diagnostics;
 
 namespace LightController.Utils
 {
@@ -25,6 +26,8 @@ namespace LightController.Utils
         private static int BuildMode { get; set; }
         private const int WriteBufferSize = 1024 * 50;
         private static ISaveProjectCallBack CallBack { get; set; }
+
+        private static bool Flag = false;
 
         public static void InitThreadPool()
         {
@@ -84,16 +87,34 @@ namespace LightController.Utils
             //基础场景数据生成
             foreach (int sceneNo in c_SceneNos)
             {
+                Flag = false;
                 C_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 C_DMXSceneState.Add(sceneNo, false);
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_C, configPath));
+                //TODO 测试
+                while (true)
+                {
+                    if (Flag)
+                    {
+                        break;
+                    }
+                }
             }
             //音频场景数据生成
             foreach (int sceneNo in m_SceneNos)
             {
+                Flag = false;
                 M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 M_DMXSceneState.Add(sceneNo, false);
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_M, configPath));
+                //TODO 测试
+                while (true)
+                {
+                    if (Flag)
+                    {
+                        break;
+                    }
+                }
             }
         }
         /// <summary>
@@ -104,6 +125,8 @@ namespace LightController.Utils
         {
             SceneThreadDataInfo data = obj as SceneThreadDataInfo;
             IList<CSJ_ChannelData> channelDatas = new List<CSJ_ChannelData>();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             foreach (DB_Light light in data.Wrapper.lightList)
             {
                 for (int i = 0; i < light.Count; i++)
@@ -114,6 +137,7 @@ namespace LightController.Utils
                     }
                     else
                     {
+                        
                         IList<DB_Value> values = data.ValueDAO.GetPKList(new DB_ValuePK()
                         {
                             Frame = data.SceneNo,
@@ -121,6 +145,7 @@ namespace LightController.Utils
                             LightID = light.StartID + i,
                             LightIndex = light.LightNo
                         });
+                       
                         if (values.Count > 0)
                         {
                             List<int> isGradualChange = new List<int>();
@@ -181,6 +206,8 @@ namespace LightController.Utils
                     }
                 }
             }
+            stopwatch.Stop();
+            Console.WriteLine("数据库读取耗时:" + stopwatch.Elapsed.TotalMilliseconds);
             CSJ_SceneData sceneData = new CSJ_SceneData()
             {
                 SceneNo = data.SceneNo,
@@ -327,10 +354,12 @@ namespace LightController.Utils
             int isGradualChange;
             int stepValue;
             float inc = 0;
+            Stopwatch stopwatch = new Stopwatch();
             List<byte> WriteBuffer = new List<byte>();
             int startValue = channelData.StepValues[0];
             try
             {
+                stopwatch.Start();
                 FileUtils.Write(((flag == 2) ? Convert.ToByte(0) : Convert.ToByte(startValue)), fileName, BuildMode == MODE_MAKEFILE, true, true);
                 for (int step = 1; step < channelData.StepCount + 1; step++)
                 {
@@ -390,12 +419,13 @@ namespace LightController.Utils
                     }
                     startValue = stepValue;
                 }
+                stopwatch.Stop();
+                Console.WriteLine("/////////////////////////计算耗时：" + stopwatch.Elapsed.TotalMilliseconds);
                 DataCacheWriteCompleted(Constant.GetNumber(sceneNo), Constant.GetNumber(dataInfo.ChannelNo), Constant.MODE_C);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error:" + fileName + "=====>" + ex.Message);
-                throw ex;
             }
         }
         /// <summary>
@@ -644,7 +674,9 @@ namespace LightController.Utils
                         {
                             C_DMXSceneState[sceneNo] = true;
                         }
-                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, BuildMode == MODE_MAKEFILE,CallBack);
+                        //TODO 测试
+                        Flag = true;
+                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, !C_DMXSceneState.ContainsValue(false), BuildMode == MODE_MAKEFILE,CallBack);
                     }
                     if (!C_DMXSceneState.ContainsValue(false))
                     {
@@ -667,7 +699,9 @@ namespace LightController.Utils
                         {
                             M_DMXSceneState[sceneNo] = true;
                         }
-                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, BuildMode == MODE_MAKEFILE,CallBack);
+                        //TODO 测试
+                        Flag = true;
+                        FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode, !M_DMXSceneState.ContainsValue(false), BuildMode == MODE_MAKEFILE,CallBack);
                     }
                     if (!M_DMXSceneState.ContainsValue(false))
                     {

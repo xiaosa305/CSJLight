@@ -205,7 +205,7 @@ namespace LightController.Utils
                 }
             }
         }
-        public static void MergeFile(int sceneNo, int mode, bool isMakeFile,ISaveProjectCallBack callBack)
+        public static void MergeFile(int sceneNo, int mode, bool isMakeFile, bool isCompleted , ISaveProjectCallBack callBack)
         {
             
             string projectFilePath =  (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + (mode == Constant.MODE_C ? @"\C" : @"\M") + (sceneNo + 1) + ".bin";
@@ -248,15 +248,16 @@ namespace LightController.Utils
                         if (intScneNo == (sceneNo + 1))
                         {
                             fileCount++;
-                            readStream = new FileStream(filePath, FileMode.Open);
-                            //FileInfo fileInfo = new FileInfo(filePath);
-                            channelDatasSize = readStream.Length;
-                            seek = seek + 8;
-                            //TODO 2.0版本
-                            //seek = seek + 10;
-                            byte[] channelDataHead = new byte[]
+                            using (readStream = new FileStream(filePath, FileMode.Open))
                             {
-                            Convert.ToByte(intChannelNo & 0xFF),
+                                //FileInfo fileInfo = new FileInfo(filePath);
+                                channelDatasSize = readStream.Length;
+                                seek = seek + 8;
+                                //TODO 2.0版本
+                                //seek = seek + 10;
+                                byte[] channelDataHead = new byte[]
+                                {
+                                      Convert.ToByte(intChannelNo & 0xFF),
                             Convert.ToByte((intChannelNo >> 8) & 0xFF),
                             Convert.ToByte(channelDatasSize & 0xFF),
                             Convert.ToByte((channelDatasSize >> 8) & 0xFF),
@@ -269,15 +270,16 @@ namespace LightController.Utils
                             Convert.ToByte((seek >> 8) & 0xFF),
                             Convert.ToByte((seek >> 16) & 0xFF),
                             Convert.ToByte((seek >> 24) & 0xFF),
-                            };
-                            Write(channelDataHead, channelDataHead.Length, projectFileInfo.Name, isMakeFile, false, false);
-                            while ((readSize = readStream.Read(readBuff, 0, readBuff.Length)) != 0)
-                            {
-                                Write(readBuff, readSize, projectFileInfo.Name, isMakeFile, false, false);
+                                };
+                                Write(channelDataHead, channelDataHead.Length, projectFileInfo.Name, isMakeFile, false, false);
+                                while ((readSize = readStream.Read(readBuff, 0, readBuff.Length)) != 0)
+                                {
+                                    Write(readBuff, readSize, projectFileInfo.Name, isMakeFile, false, false);
+                                }
+                                readStream.Flush();
+                                seek = seek + channelDatasSize;
+                                //readStream.Close();
                             }
-                            readStream.Flush();
-                            seek = seek + channelDatasSize;
-                            readStream.Close();
                         }
                     }
                     FileInfo fileInfo = new FileInfo(projectFilePath);
@@ -302,8 +304,11 @@ namespace LightController.Utils
                 {
                     CreateGradientData();
                 }
-                callBack.Completed();
-                Console.WriteLine("文件整合完成");
+                Console.WriteLine(projectFileInfo.Name + "文件整合完成");
+                if (isCompleted)
+                {
+                    callBack.Completed();
+                }
             }
             catch (Exception ex)
             {
@@ -338,7 +343,7 @@ namespace LightController.Utils
             }
             return result;
         }
-        public static bool CopuProjectFileToDownloadDir()
+        public static bool CopyProjectFileToDownloadDir()
         {
             bool result = false;
             if (!Directory.Exists(ProjectDownloadDir))
@@ -356,6 +361,30 @@ namespace LightController.Utils
                 {
                     FileInfo info = new FileInfo(filePath);
                     info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+                }
+                result = true;
+            }
+            return result;
+        }
+        public static bool ExportProjectFile(string exportPath)
+        {
+            bool result = false;
+            string dirPath = exportPath + @"\CSJ";
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+            else
+            {
+                Directory.Delete(dirPath, true);
+                Directory.CreateDirectory(dirPath);
+            }
+            if (Directory.Exists(ProjectDataFilePath))
+            {
+                foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
+                {
+                    FileInfo info = new FileInfo(filePath);
+                    info.CopyTo(dirPath + @"\" + info.Name, true);
                 }
                 result = true;
             }
@@ -530,71 +559,84 @@ namespace LightController.Utils
             FileStream readStream = null;
             int fileSize = 4;
             long seek = 9;
-            for (int i = 0; i < 32; i++)
+            try
             {
-                gradientData[i] = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray(); 
-            }
-            if (Directory.Exists(dirpath))
-            {
-                foreach (string filePath in Directory.GetFileSystemEntries(dirpath))
+                for (int i = 0; i < 32; i++)
                 {
-                    string projectFileNPath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
-                    seek = 9;
-                    if (!projectFileNPath[0].Equals('C'))
+                    gradientData[i] = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                }
+                if (Directory.Exists(dirpath))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(dirpath))
                     {
-                        continue;
-                    }
-                    string[] strArray = projectFileNPath.Split('.');
-                    string name = strArray[0];
-                    string strScene = name.Length > 2 ? ( name[1].ToString() + name[2].ToString()) : name[1].ToString();
-                    int.TryParse(strScene, out int intScneNo);
-                    readStream = new FileStream(filePath, FileMode.Open);
-                    byte[] channelNumberBuff = new byte[2];
-                    int channelCount = 0;
-                    readStream.Seek(seek, SeekOrigin.Begin);
-                    readStream.Read(channelNumberBuff, 0, channelNumberBuff.Count());
-                    channelCount = (channelNumberBuff[0] & 0xFF) | ((channelNumberBuff[1] & 0xFF) << 8);
-                    seek = seek + 2;
-                    for (int i = 0; i < channelCount; i++)
-                    {
-                        int channelNo = 0;
-                        int length = 0;
-                        byte[] channelNoBuff = new byte[2];
-                        byte[] seekBuff = new byte[4];
-                        byte[] lengthBuff = new byte[2];
+                        string projectFileNPath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+                        if (projectFileNPath.Equals("Config.bin"))
+                        {
+                            continue;
+                        }
+                        seek = 9;
+                        if (!projectFileNPath[0].Equals('C'))
+                        {
+                            continue;
+                        }
+                        string[] strArray = projectFileNPath.Split('.');
+                        string name = strArray[0];
+                        string strScene = name.Length > 2 ? (name[1].ToString() + name[2].ToString()) : name[1].ToString();
+                        int.TryParse(strScene, out int intScneNo);
+                        readStream = new FileStream(filePath, FileMode.Open);
+                        byte[] channelNumberBuff = new byte[2];
+                        int channelCount = 0;
                         readStream.Seek(seek, SeekOrigin.Begin);
-                        readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
-                        channelNo = (channelNoBuff[0] & 0xFF) | ((channelNoBuff[1] & 0xFF) << 8);
+                        readStream.Read(channelNumberBuff, 0, channelNumberBuff.Count());
+                        channelCount = (channelNumberBuff[0] & 0xFF) | ((channelNumberBuff[1] & 0xFF) << 8);
                         seek = seek + 2;
-                        readStream.Seek(seek, SeekOrigin.Begin);
-                        readStream.Read(lengthBuff, 0, lengthBuff.Length);
-                        length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
-                        //版本2.0
-                        //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
-                        seek = seek + 2;
-                        readStream.Seek(seek, SeekOrigin.Begin);
-                        readStream.Read(seekBuff, 0, seekBuff.Length);
-                        seek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
-                        readStream.Seek(seek, SeekOrigin.Begin);
-                        int value = readStream.ReadByte();
-                        gradientData[intScneNo - 1][channelNo - 1] = Convert.ToByte(value);
-                        seek = seek + length;
+                        for (int i = 0; i < channelCount; i++)
+                        {
+                            int channelNo = 0;
+                            int length = 0;
+                            byte[] channelNoBuff = new byte[2];
+                            byte[] seekBuff = new byte[4];
+                            byte[] lengthBuff = new byte[2];
+                            readStream.Seek(seek, SeekOrigin.Begin);
+                            readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
+                            channelNo = (channelNoBuff[0] & 0xFF) | ((channelNoBuff[1] & 0xFF) << 8);
+                            seek = seek + 2;
+                            readStream.Seek(seek, SeekOrigin.Begin);
+                            readStream.Read(lengthBuff, 0, lengthBuff.Length);
+                            length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
+                            //版本2.0
+                            //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
+                            seek = seek + 2;
+                            readStream.Seek(seek, SeekOrigin.Begin);
+                            readStream.Read(seekBuff, 0, seekBuff.Length);
+                            seek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
+                            readStream.Seek(seek, SeekOrigin.Begin);
+                            int value = readStream.ReadByte();
+                            gradientData[intScneNo - 1][channelNo - 1] = Convert.ToByte(value);
+                            seek = seek + length;
+                        }
                     }
                 }
+                readStream.Close();
+                for (int i = 0; i < 32; i++)
+                {
+                    fileSize = fileSize + gradientData[i].Count();
+                }
+                byte[] fileSizeBuff = new byte[] { Convert.ToByte(fileSize & 0xFF), Convert.ToByte((fileSize >> 8) & 0xFF), Convert.ToByte((fileSize >> 16) & 0xFF), Convert.ToByte((fileSize >> 24) & 0xFF) };
+                List<byte> writeBuff = new List<byte>();
+                writeBuff.AddRange(fileSizeBuff);
+                for (int i = 0; i < 32; i++)
+                {
+                    writeBuff.AddRange(gradientData[i]);
+                }
+                Write(writeBuff.ToArray(), writeBuff.Count, "GradientData.bin", true, true, false);
             }
-            readStream.Close();
-            for (int i = 0; i < 32; i++)
+            catch (Exception ex)
             {
-                fileSize = fileSize + gradientData[i].Count();
+                Console.WriteLine("场景渐变数据生成报错" + ex.Message);
             }
-            byte[] fileSizeBuff = new byte[] { Convert.ToByte(fileSize & 0xFF),Convert.ToByte((fileSize >> 8) & 0xFF),Convert.ToByte((fileSize >> 16) & 0xFF),Convert.ToByte((fileSize >> 24) & 0xFF)};
-            List<byte> writeBuff = new List<byte>();
-            writeBuff.AddRange(fileSizeBuff);
-            for (int i = 0; i < 32; i++)
-            {
-                writeBuff.AddRange(gradientData[i]);
-            }
-            Write(writeBuff.ToArray(),writeBuff.Count, "GradientData.bin",true,true,false);
+           
+            
         }
         public static void CreateConfig(CSJ_Config config)
         {

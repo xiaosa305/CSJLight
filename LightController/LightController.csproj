@@ -350,17 +350,11 @@
     <Compile Include="Tools\CSJ\ICSJFile.cs" />
     <Compile Include="Tools\CSJ\IMPL\ChannelData.cs" />
     <Compile Include="Tools\CSJ\IMPL\CombineScene.cs" />
-    <Compile Include="Tools\CSJ\IMPL\CSJ_C.cs" />
     <Compile Include="Tools\CSJ\IMPL\CSJ_ChannelData.cs" />
     <Compile Include="Tools\CSJ\IMPL\CSJ_Config.cs" />
     <Compile Include="Tools\CSJ\IMPL\CSJ_Hardware.cs" />
-    <Compile Include="Tools\CSJ\IMPL\CSJ_M.cs" />
-    <Compile Include="Tools\CSJ\IMPL\CSJ_Project.cs" />
     <Compile Include="Tools\CSJ\IMPL\CSJ_SceneData.cs" />
-    <Compile Include="Tools\CSJ\IMPL\DmxDataConvert.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
-    <Compile Include="Tools\CSJ\IMPL\ScenesInitData.cs" />
-    <Compile Include="Tools\FileTools.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />

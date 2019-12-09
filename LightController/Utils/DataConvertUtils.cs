@@ -41,7 +41,7 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="valueDAO"></param>
         /// <param name="configPath"></param>
-        public static void SaveProjectFile2(DBWrapper wrapper, MainFormInterface mainForm, string configPath,ISaveProjectCallBack callBack)
+        public static void SaveProjectFile(DBWrapper wrapper, MainFormInterface mainForm, string configPath,ISaveProjectCallBack callBack)
         {
             CallBack = callBack;
             BuildMode = MODE_MAKEFILE;
@@ -56,10 +56,10 @@ namespace LightController.Utils
             M_DMXSceneState = new Dictionary<int, bool>();
             Thread.Sleep(100);
             //启动线程开始执行数据生成及数据导出文件
-            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, valueDAO, configPath));
+            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, mainForm, configPath));
         }
 
-        public static void SaveProjectFile(DBWrapper wrapper, ValueDAO valueDAO, string configPath, ISaveProjectCallBack callBack)
+        public static void SaveProjectFile2(DBWrapper wrapper, ValueDAO valueDAO, string configPath, ISaveProjectCallBack callBack)
         {
             CallBack = callBack;
             BuildMode = MODE_MAKEFILE;
@@ -74,7 +74,7 @@ namespace LightController.Utils
             M_DMXSceneState = new Dictionary<int, bool>();
             Thread.Sleep(100);
             //启动线程开始执行数据生成及数据导出文件
-            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, valueDAO, configPath));
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, valueDAO, configPath));
         }
         /// <summary>
         /// 检索数据库获取数据
@@ -85,7 +85,7 @@ namespace LightController.Utils
             DBData data = obj as DBData;
             DBWrapper wrapper = data.Wrapper;
             string configPath = data.ConfigPath;
-            ValueDAO valueDAO = data.ValueDAO;
+            MainFormInterface mainForm = data.MianForm;
             List<int> c_SceneNos = new List<int>();
             List<int> m_SceneNos = new List<int>();
             Console.WriteLine("Start");
@@ -109,7 +109,7 @@ namespace LightController.Utils
                 Flag = false;
                 C_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 C_DMXSceneState.Add(sceneNo, false);
-                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_C, configPath));
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_C, configPath));
                 //TODO 测试
                 while (true)
                 {
@@ -125,7 +125,7 @@ namespace LightController.Utils
                 Flag = false;
                 M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 M_DMXSceneState.Add(sceneNo, false);
-                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, valueDAO, Constant.MODE_M, configPath));
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_M, configPath));
                 //TODO 测试
                 while (true)
                 {
@@ -157,7 +157,7 @@ namespace LightController.Utils
                     else
                     {
                         
-                        IList<DB_Value> values = data.ValueDAO.GetPKList(new DB_ValuePK()
+                        IList<TongdaoWrapper> values = data.MainForm.GetFMTDList(new DB_ValuePK()
                         {
                             Frame = data.SceneNo,
                             Mode = data.Mode,
@@ -171,7 +171,7 @@ namespace LightController.Utils
                             List<int> stepTimes = new List<int>();
                             List<int> stepValues = new List<int>();
                             int stepNumber = 0;
-                            foreach (DB_Value value in values)
+                            foreach (TongdaoWrapper value in values)
                             {
                                 if (data.Mode == Constant.MODE_C)
                                 {
@@ -1064,14 +1064,14 @@ namespace LightController.Utils
             public DBWrapper Wrapper { get; set; }
             public int Mode { get; set; }
             public string ConfigPath { get; set; }
-            public ValueDAO ValueDAO { get; set; }
+            public MainFormInterface MainForm { get; set; }
             public int SceneNo { get; set; }
-            public SceneThreadDataInfo(int sceneNo, DBWrapper wrapper, ValueDAO valueDAO, int mode, string configPath)
+            public SceneThreadDataInfo(int sceneNo, DBWrapper wrapper, MainFormInterface mainForm, int mode, string configPath)
             {
                 this.Wrapper = wrapper;
                 this.Mode = mode;
                 this.ConfigPath = configPath;
-                this.ValueDAO = valueDAO;
+                this.MainForm = mainForm;
                 this.SceneNo = sceneNo;
             }
         }
@@ -1079,12 +1079,12 @@ namespace LightController.Utils
         {
             public DBWrapper Wrapper { get; set; }
             public string ConfigPath { get; set; }
-            public ValueDAO ValueDAO { get; set; }
-            public DBData(DBWrapper wrapper, ValueDAO valueDAO, string configPath)
+            public MainFormInterface MianForm { get; set; }
+            public DBData(DBWrapper wrapper, MainFormInterface mianForm, string configPath)
             {
                 this.Wrapper = wrapper;
                 this.ConfigPath = configPath;
-                this.ValueDAO = valueDAO;
+                this.MianForm = mianForm;
             }
         }
         private class PreviewData

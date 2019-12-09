@@ -106,9 +106,17 @@ namespace LightController.Utils
             //基础场景数据生成
             foreach (int sceneNo in c_SceneNos)
             {
-                Flag = false;
                 C_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
                 C_DMXSceneState.Add(sceneNo, false);
+            }
+            foreach (int sceneNo in m_SceneNos)
+            {
+                M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
+                M_DMXSceneState.Add(sceneNo, false);
+            }
+            foreach (int sceneNo in c_SceneNos)
+            {
+                Flag = false;
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_C, configPath));
                 //TODO 测试
                 while (true)
@@ -123,8 +131,6 @@ namespace LightController.Utils
             foreach (int sceneNo in m_SceneNos)
             {
                 Flag = false;
-                M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
-                M_DMXSceneState.Add(sceneNo, false);
                 GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_M, configPath));
                 //TODO 测试
                 while (true)

@@ -583,7 +583,7 @@ namespace LightController.MyForm
 			this.Cursor = Cursors.WaitCursor;
 			DBWrapper dbWrapper = GetDBWrapper(false);
 			DataConvertUtils.SaveProjectFile(dbWrapper, this, globalIniPath, new ExportCallBack(this, exportPath));
-			this.Cursor = Cursors.Default;				
+					
 			
 		}
 
@@ -2943,9 +2943,12 @@ namespace LightController.MyForm
 			//	this.label1.Text = "处理终止!";
 		}
 
-		public void ExportProject(string exportPath) {
-			FileUtils.ExportProjectFile(exportPath);
-			System.Diagnostics.Process.Start(exportPath);
+		public void ExportProject(string exportPath, bool success) {
+			if (success) {
+				FileUtils.ExportProjectFile(exportPath);
+				System.Diagnostics.Process.Start(exportPath);
+			}
+			Cursor = Cursors.Default;
 		}
 
 
@@ -3057,8 +3060,8 @@ namespace LightController.MyForm
 
 	public class ExportCallBack : ISaveProjectCallBack
 	{
-		SkinMainForm mainForm;
-		string exportFolder;
+		private SkinMainForm mainForm;
+		private string exportFolder;
 		public ExportCallBack(SkinMainForm mainForm , string exportFolder)
 		{
 			this.mainForm = mainForm;
@@ -3067,12 +3070,13 @@ namespace LightController.MyForm
 		public void Completed()
 		{
 			MessageBox.Show("导出工程成功。");
-			mainForm.ExportProject(exportFolder);
-
+			mainForm.ExportProject(exportFolder ,true);
+			
 		}
 		public void Error()
 		{
 			MessageBox.Show("导出工程出错。");
+			mainForm.ExportProject(exportFolder,false);			
 		}
 		public void UpdateProgress(string name)
 		{

@@ -21,6 +21,7 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private DBWrapper dbWrapper;
+		private string selectedPath;
 		private string globalSetPath;
 
 		private IList<string> selectedIPs;
@@ -260,6 +261,8 @@ namespace LightController.MyForm
 		private void fileOpenSkinButton_Click(object sender, EventArgs e)
 		{
 			folderBrowserDialog.ShowDialog();
+			selectedPath = folderBrowserDialog.SelectedPath;
+			filePathLabel.Text = selectedPath;
 		}
 	}
 

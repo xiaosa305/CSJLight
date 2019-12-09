@@ -141,6 +141,10 @@ namespace LightController.Tools.CSJ.IMPL
 
         public void WriteToFile(string filepath)
         {
+            if (!Directory.Exists(filepath))
+            {
+                Directory.CreateDirectory(filepath);
+            }
             string path = filepath + @"\" + CONFIGNAME;
             byte[] Data = GetData();
             FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate);

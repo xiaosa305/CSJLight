@@ -605,7 +605,7 @@ namespace LightController.Tools.CSJ
                         CSJ_Hardware hardware = null;
                         if (!data.Equals(Constant.RECEIVE_ORDER_GET_PARAM))
                         {
-                            hardware = DmxDataConvert.GetInstance().GetHardware(rxBuff) as CSJ_Hardware;
+                            hardware = new CSJ_Hardware(rxBuff);
                             this.IsSending = false;
                             this.CallBack.GetParam(hardware);
                             this.CallBack.Completed(devicename);
@@ -818,6 +818,7 @@ namespace LightController.Tools.CSJ
             }
               
         }
+        /*
         protected void DownloadStart()
         {
             bool TimeOutIsStart = false;
@@ -932,6 +933,7 @@ namespace LightController.Tools.CSJ
                 }
             }
         }
+        */
         public void PutParam(string filePath, ICommunicatorCallBack receiveCallBack)
         {
             bool TimeOutIsStart = false;
@@ -942,7 +944,7 @@ namespace LightController.Tools.CSJ
                     this.CallBack = receiveCallBack;
                     this.HardwarePath = filePath;
                     this.IsSending = true;
-                    ICSJFile file = DmxDataConvert.GetInstance().GetHardware(filePath);
+                    ICSJFile file = new CSJ_Hardware(filePath);
                     byte[] data = file.GetData();
                     string fileName = @"Hardware.bin";
                     string fileSize = data.Length.ToString();

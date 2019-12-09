@@ -748,6 +748,10 @@ namespace LightController.Tools.CSJ
                     {
                         this.DownloadFileToTalSize += (new FileInfo(filePath)).Length;
                     }
+                    if (this.DownloadFileToTalSize == 0)
+                    {
+                        return;
+                    }
                     this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
                     Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "发送完成");
                     while (true)

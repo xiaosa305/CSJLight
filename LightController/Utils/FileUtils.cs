@@ -369,7 +369,7 @@ namespace LightController.Utils
         public static bool ExportProjectFile(string exportPath)
         {
             bool result = false;
-            string dirPath = exportPath + @"\CSJ";
+            string dirPath = exportPath;
             if (!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);

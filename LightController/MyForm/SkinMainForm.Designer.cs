@@ -413,6 +413,7 @@ namespace LightController.MyForm
 			this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bgWorker = new System.ComponentModel.BackgroundWorker();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -6478,6 +6479,14 @@ namespace LightController.MyForm
 			this.hidePlayPanelToolStripMenuItem.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
 			// 
+			// bgWorker
+			// 
+			this.bgWorker.WorkerReportsProgress = true;
+			this.bgWorker.WorkerSupportsCancellation = true;
+			this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
+			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
+			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
+			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -7103,5 +7112,6 @@ namespace LightController.MyForm
 		private ImageList lightLargeImageList;
 		private SkinButton changeConnectMethodSkinButton;
 		private SkinButton syncSkinButton;
+		private System.ComponentModel.BackgroundWorker bgWorker;
 	}
 }

@@ -1495,7 +1495,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void updateToolStripMenuItem_Click(object sender, EventArgs e)
 		{			
-			UpdateForm updateForm = new UpdateForm(this, GetDBWrapper(true), globalIniPath); 
+			DownloadForm updateForm = new DownloadForm(this, GetDBWrapper(true), globalIniPath); 
 			updateForm.ShowDialog(); 
 		}
 

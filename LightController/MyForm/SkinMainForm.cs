@@ -425,7 +425,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateSkinButton_Click(object sender, EventArgs e)
 		{
-			new UpdateForm(this, GetDBWrapper(true), globalIniPath).ShowDialog();
+			new DownloadForm(this, GetDBWrapper(true), globalIniPath).ShowDialog();
 		}
 
 		/// <summary>
@@ -2359,21 +2359,18 @@ namespace LightController.MyForm
 			DBWrapper allData = GetDBWrapper(false);
 			try
 			{
-				PreviewCallBack pcb = new PreviewCallBack();
+				PreviewCallBack pcb = new PreviewCallBack(this);
 				DataConvertUtils.SaveProjectFileByPreviewData(allData, globalIniPath, frame,pcb);
-
-				Thread.Sleep(5000);
-				//do
-				//{
-				//	Thread.Sleep(100);
-				//} while ( !pcb.Result );
-
-				playTools.PreView(allData, globalIniPath, frame);
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
 			}
+		}
+
+		public void Preview() {
+
+			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);
 		}
 
 		/// <summary>
@@ -2823,11 +2820,26 @@ namespace LightController.MyForm
 			//SocketTools.GetInstance().Start();
 
 			// 11.27 测getNotSelectedIndices
-			foreach (int  item in getNotSelectedIndices())
-			{
-				Console.Write(item + "、");
+			//foreach (int  item in getNotSelectedIndices())
+			//{
+			//	Console.Write(item + "、");
+			//}
+			//Console.WriteLine();	
+
+			if (selectedIndex != -1) {
+				DB_ValuePK pk = new DB_ValuePK();
+				pk.Frame = frame;
+				pk.Mode = mode;
+				pk.LightID = lightAstList[selectedIndex].StartNum;
+				pk.LightIndex = lightAstList[selectedIndex].StartNum;
+
+				IList<TongdaoWrapper> tdList = GetFMTDList(pk);
+				foreach (TongdaoWrapper tongdao in tdList)
+				{
+					Console.WriteLine(tongdao.ScrollValue + " : " + tongdao.ChangeMode + " : " + tongdao.StepTime);
+				}
 			}
-			Console.WriteLine();	
+			
 
 		}
 
@@ -2874,7 +2886,55 @@ namespace LightController.MyForm
 			isSyncMode = true;
 			syncSkinButton.Text = "退出同步";
 			oneLightOneStepSkinButton.Text = "多灯单步";
-		}	
+		}
+
+		//MARK:12.9 bgWorker相关事件
+
+		/// <summary>
+		/// 事件：bgWorker的后台工作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		public void bgWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			for (int i = 0; i <= 100; i++)
+			{
+				if (bgWorker.CancellationPending)
+				{
+					e.Cancel = true;
+					return;
+				}
+				else
+				{
+					bgWorker.ReportProgress(i, "Working");
+					System.Threading.Thread.Sleep(100);
+				}
+			}
+		}
+
+
+		public void bgWorker_ProgessChanged(object sender, ProgressChangedEventArgs e)
+		{
+			//string state = (string)e.UserState;//接收ReportProgress方法传递过来的userState
+			//this.progressBar1.Value = e.ProgressPercentage;
+			//this.label1.Text = "处理进度:" + Convert.ToString(e.ProgressPercentage) + "%";
+		}
+
+
+		public void bgWorker_WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Error != null)
+			{
+				MessageBox.Show(e.Error.ToString());
+				return;
+			}
+			//if (!e.Cancelled)
+			//	this.label1.Text = "处理完毕!";
+			//else
+			//	this.label1.Text = "处理终止!";
+		}
+
+
 	}
 
 
@@ -2962,19 +3022,19 @@ namespace LightController.MyForm
 
 	public class PreviewCallBack : ISaveProjectCallBack
 	{
-		public bool Result = false ;
-
+		SkinMainForm mainForm;
+		public PreviewCallBack(SkinMainForm mainForm) {
+			this.mainForm = mainForm;
+		}
 		public void Completed()
 		{
 			MessageBox.Show("预览数据生成成功。");
-			Result = true;
+			mainForm.Preview();
 		}
-
 		public void Error()
 		{
 			MessageBox.Show("预览数据生成出错。");
 		}
-
 		public void UpdateProgress(string name)
 		{
 			//MessageBox.Show("数据：" + name+"生成成功。");

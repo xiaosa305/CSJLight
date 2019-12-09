@@ -15,7 +15,6 @@ namespace LightController.Ast
 
 		public ValueDAO(string dbFile, bool isEncrypt) : base(dbFile, isEncrypt)
 		{
-
 			//this.dbFile = dbFile;
 			//this.isEncrypt = isEncrypt;
 		}
@@ -152,21 +151,21 @@ namespace LightController.Ast
 		{
 			using (var session = sessionFactory.OpenSession())
 			{
-				IList<DB_Value> valueList = (IList<DB_Value>)session
-					.CreateQuery("FROM DB_Value v WHERE " +
-						"v.PK.LightID =:lightID  " +
-						"AND v.PK.Mode=:mode " +
-						"AND v.PK.Frame=:frame " +
-						//"AND v.PK.LightIndex=:lightIndex " +
-						"ORDER BY v.PK.Step ASC")					
-					.SetInt32("mode",pk.Mode)
-					.SetInt32("frame",pk.Frame)
-					.SetInt32("lightID",pk.LightID)
-					//.SetInt32("lightIndex",pk.LightIndex)
-					.List<DB_Value>();
+					IList<DB_Value> valueList = (IList<DB_Value>)session
+						.CreateQuery("FROM DB_Value v WHERE " +
+							"v.PK.LightID =:lightID  " +
+							"AND v.PK.Mode=:mode " +
+							"AND v.PK.Frame=:frame " +
+							//"AND v.PK.LightIndex=:lightIndex " +
+							"ORDER BY v.PK.Step ASC")
+						.SetInt32("mode", pk.Mode)
+						.SetInt32("frame", pk.Frame)
+						.SetInt32("lightID", pk.LightID)
+						//.SetInt32("lightIndex",pk.LightIndex)
+						.List<DB_Value>();
 
-				return valueList;
-			}
+					return valueList;
+			}				
 		}
 
 		/// <summary>
@@ -178,13 +177,10 @@ namespace LightController.Ast
 			using (var session = sessionFactory.OpenSession())
 			{
 				IList<int> tdList = (IList<int>)session
-					.CreateSQLQuery("select distinct LightID from value").List<int>();
-												
+					.CreateSQLQuery("select distinct LightID from value").List<int>();												
 				return tdList;
 			}
 		}
-
-
 	}
 
 

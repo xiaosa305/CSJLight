@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class UpdateForm
+	partial class DownloadForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadForm));
 			this.label1 = new System.Windows.Forms.Label();
 			this.networkDevicesComboBox = new System.Windows.Forms.ComboBox();
 			this.networkFileLabel = new System.Windows.Forms.Label();
@@ -54,6 +54,8 @@
 			this.comOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comFileLabel = new System.Windows.Forms.Label();
 			this.comComboBox = new System.Windows.Forms.ComboBox();
+			this.filePathLabel = new System.Windows.Forms.Label();
+			this.fileOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -154,14 +156,15 @@
 			// skinTabControl
 			// 
 			this.skinTabControl.AnimatorType = CCWin.SkinControl.AnimationType.HorizSlide;
+			this.skinTabControl.BackColor = System.Drawing.Color.Gainsboro;
 			this.skinTabControl.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
 			this.skinTabControl.Controls.Add(this.networkTab);
 			this.skinTabControl.Controls.Add(this.skinTabPage2);
-			this.skinTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.skinTabControl.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.skinTabControl.HeadBack = null;
 			this.skinTabControl.ImgTxtOffset = new System.Drawing.Point(0, 0);
 			this.skinTabControl.ItemSize = new System.Drawing.Size(70, 36);
-			this.skinTabControl.Location = new System.Drawing.Point(0, 0);
+			this.skinTabControl.Location = new System.Drawing.Point(0, 66);
 			this.skinTabControl.Name = "skinTabControl";
 			this.skinTabControl.PageArrowDown = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowDown")));
 			this.skinTabControl.PageArrowHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowHover")));
@@ -171,7 +174,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 1;
+			this.skinTabControl.SelectedIndex = 0;
 			this.skinTabControl.Size = new System.Drawing.Size(566, 265);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 9;
@@ -386,17 +389,43 @@
 			this.comComboBox.Size = new System.Drawing.Size(92, 20);
 			this.comComboBox.TabIndex = 5;
 			// 
-			// UpdateForm
+			// filePathLabel
+			// 
+			this.filePathLabel.Location = new System.Drawing.Point(153, 17);
+			this.filePathLabel.Name = "filePathLabel";
+			this.filePathLabel.Size = new System.Drawing.Size(376, 33);
+			this.filePathLabel.TabIndex = 13;
+			// 
+			// fileOpenSkinButton
+			// 
+			this.fileOpenSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.fileOpenSkinButton.BaseColor = System.Drawing.Color.Silver;
+			this.fileOpenSkinButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.fileOpenSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.fileOpenSkinButton.DownBack = null;
+			this.fileOpenSkinButton.Location = new System.Drawing.Point(35, 17);
+			this.fileOpenSkinButton.MouseBack = null;
+			this.fileOpenSkinButton.Name = "fileOpenSkinButton";
+			this.fileOpenSkinButton.NormlBack = null;
+			this.fileOpenSkinButton.Size = new System.Drawing.Size(86, 33);
+			this.fileOpenSkinButton.TabIndex = 12;
+			this.fileOpenSkinButton.Text = "选择已有工程";
+			this.fileOpenSkinButton.UseVisualStyleBackColor = false;
+			// 
+			// DownloadForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(566, 265);
+			this.BackColor = System.Drawing.Color.White;
+			this.ClientSize = new System.Drawing.Size(566, 331);
+			this.Controls.Add(this.filePathLabel);
+			this.Controls.Add(this.fileOpenSkinButton);
 			this.Controls.Add(this.skinTabControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "UpdateForm";
+			this.Name = "DownloadForm";
 			this.Text = "下载数据到设备";
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
 			this.skinTabControl.ResumeLayout(false);
@@ -435,5 +464,7 @@
 		private System.Windows.Forms.ComboBox localIPsComboBox;
 		private System.Windows.Forms.Label comNameLabel;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label filePathLabel;
+		private CCWin.SkinControl.SkinButton fileOpenSkinButton;
 	}
 }

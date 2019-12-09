@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
-	public partial class UpdateForm : Form
+	public partial class DownloadForm : Form
 	{
 		private MainFormInterface mainForm;
 		private DBWrapper dbWrapper;
@@ -31,7 +31,7 @@ namespace LightController.MyForm
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
-		public UpdateForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath)
+		public DownloadForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;

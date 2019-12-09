@@ -316,11 +316,11 @@
     <Compile Include="MyForm\HardwareUpdateForm.Designer.cs">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\UpdateForm.cs">
+    <Compile Include="MyForm\DownloadForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\UpdateForm.Designer.cs">
-      <DependentUpon>UpdateForm.cs</DependentUpon>
+    <Compile Include="MyForm\DownloadForm.Designer.cs">
+      <DependentUpon>DownloadForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\UseFrameForm.cs">
       <SubType>Form</SubType>
@@ -423,6 +423,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\SkinMainForm.resx">
       <DependentUpon>SkinMainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
@@ -439,8 +440,8 @@
     <EmbeddedResource Include="MyForm\HardwareUpdateForm.resx">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\UpdateForm.resx">
-      <DependentUpon>UpdateForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\DownloadForm.resx">
+      <DependentUpon>DownloadForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\UseFrameForm.resx">
       <DependentUpon>UseFrameForm.cs</DependentUpon>

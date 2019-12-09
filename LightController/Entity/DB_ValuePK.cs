@@ -13,7 +13,7 @@ namespace DMX512
         public virtual int Mode { get; set; }
 
 		// 这个对象，指向的是这个通道的地址，LightID = LightIndex+tongdaoIndex
-        public virtual int LightID { get ; set; }
+        public virtual int LightID { get ; set; }  
 
 		/// <summary>
 		/// 判断两个对象是否相同，这个方法需要重写

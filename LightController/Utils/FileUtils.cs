@@ -318,7 +318,7 @@ namespace LightController.Utils
                     readStream.Close();
                 }
                 callBack.Error();
-                Console.WriteLine("********************数据整合出错" + ex.Message);
+                Console.WriteLine("********************数据整合出错" + ex.StackTrace);
             }
         }
         public static bool CopyFileToDownloadDir(string dirPath)

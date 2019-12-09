@@ -99,6 +99,7 @@ namespace LightController.MyForm
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
+		protected string projectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）
 
 		protected Dictionary<int, int> lightDictionary = null ; 
@@ -331,6 +332,14 @@ namespace LightController.MyForm
 		internal void SetBinPath(string binPath)
 		{
 			this.binPath = binPath;
+		}
+
+		/// <summary>
+		/// 辅助方法：记录导出工程文件夹，供下载工程使用。
+		/// </summary>
+		/// <param name="binPath"></param>
+		internal void SetProjectPath(string projectPath) {
+			this.projectPath = projectPath;
 		}
 
 		//TODO：SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）

@@ -24,6 +24,7 @@ namespace LightController.MyForm
 	public partial class SkinMainForm : MainFormInterface
 	{
 		private bool isPainting = false;
+		
 		public SkinMainForm()
 		{
 			InitializeComponent();
@@ -37,6 +38,8 @@ namespace LightController.MyForm
 			this.Text = softwareName + " Dimmer System";
 			testGroupBox.Visible = isShowTestButton;
 			bigTestButton.Visible = isShowTestButton;
+			//MARK：
+			CheckForIllegalCrossThreadCalls = false;
 
 			// 动态显示硬件升级按钮
 			bool isShowHardwareUpddate = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");
@@ -425,7 +428,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateSkinButton_Click(object sender, EventArgs e)
 		{
-			new DownloadForm(this, GetDBWrapper(true), globalIniPath).ShowDialog();
+			new DownloadForm(this, GetDBWrapper(true), globalIniPath, projectPath).ShowDialog();
 		}
 
 		/// <summary>
@@ -580,11 +583,8 @@ namespace LightController.MyForm
 					}
 				}
 					
-			this.Cursor = Cursors.WaitCursor;
-			DBWrapper dbWrapper = GetDBWrapper(false);
-			DataConvertUtils.SaveProjectFile(dbWrapper, this, globalIniPath, new ExportCallBack(this, exportPath));
-					
-			
+			this.Cursor = Cursors.WaitCursor;						
+			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));				
 		}
 
 		/// <summary>
@@ -2947,7 +2947,8 @@ namespace LightController.MyForm
 			if (success) {
 				FileUtils.ExportProjectFile(exportPath);
 				System.Diagnostics.Process.Start(exportPath);
-			}
+			}			
+			MessageBox.Show("导出工程" + (success ? "成功。" : "出错。"));
 			Cursor = Cursors.Default;
 		}
 
@@ -3069,13 +3070,13 @@ namespace LightController.MyForm
 		}
 		public void Completed()
 		{
-			MessageBox.Show("导出工程成功。");
+			
 			mainForm.ExportProject(exportFolder ,true);
 			
 		}
 		public void Error()
 		{
-			MessageBox.Show("导出工程出错。");
+			
 			mainForm.ExportProject(exportFolder,false);			
 		}
 		public void UpdateProgress(string name)
@@ -3083,5 +3084,4 @@ namespace LightController.MyForm
 			//MessageBox.Show("数据：" + name+"生成成功。");
 		}
 	}
-
 }

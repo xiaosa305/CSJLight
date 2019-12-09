@@ -56,6 +56,7 @@
 			this.comComboBox = new System.Windows.Forms.ComboBox();
 			this.filePathLabel = new System.Windows.Forms.Label();
 			this.fileOpenSkinButton = new CCWin.SkinControl.SkinButton();
+			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -411,6 +412,11 @@
 			this.fileOpenSkinButton.TabIndex = 12;
 			this.fileOpenSkinButton.Text = "选择已有工程";
 			this.fileOpenSkinButton.UseVisualStyleBackColor = false;
+			this.fileOpenSkinButton.Click += new System.EventHandler(this.fileOpenSkinButton_Click);
+			// 
+			// folderBrowserDialog
+			// 
+			this.folderBrowserDialog.ShowNewFolderButton = false;
 			// 
 			// DownloadForm
 			// 
@@ -466,5 +472,6 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label filePathLabel;
 		private CCWin.SkinControl.SkinButton fileOpenSkinButton;
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
 	}
 }

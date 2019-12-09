@@ -1975,14 +1975,19 @@ namespace LightController.MyForm
 		public IList<TongdaoWrapper> GetFMTDList(DB_ValuePK pk){
 
 			int selectedLightIndex = lightDictionary[pk.LightIndex];
-			int tdIndex = pk.LightID - pk.LightIndex ;
-
-			IList<StepWrapper> stepWrapperList = lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList;
+			int tdIndex = pk.LightID - pk.LightIndex ;			
 			IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
-			for (int step = 0; step < stepWrapperList.Count; step++)
-			{
-				tdList.Add(stepWrapperList[step].TongdaoList[tdIndex]);
-			}
+
+
+			if (lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode] != null
+				&& lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList != null) {
+
+				IList<StepWrapper> stepWrapperList = lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList;
+				for (int step = 0; step < stepWrapperList.Count; step++)
+				{
+					tdList.Add(stepWrapperList[step].TongdaoList[tdIndex]);
+				}
+			}			
 			return tdList;
 		}
 	}

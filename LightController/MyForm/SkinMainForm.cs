@@ -558,43 +558,33 @@ namespace LightController.MyForm
 				"导出工程",
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
-			if (dr == DialogResult.OK)
-			{
-				exportFolderBrowserDialog.ShowDialog();
-				string exportPath = exportFolderBrowserDialog.SelectedPath;
-				if (!string.IsNullOrEmpty(exportPath)) {
-					exportPath += @"\CSJ";
-					DirectoryInfo di = new DirectoryInfo(exportPath);
+			if (dr == DialogResult.Cancel) {
+				return;
+			}
+			
+			exportFolderBrowserDialog.ShowDialog();
+			string exportPath = exportFolderBrowserDialog.SelectedPath;
+			if (!string.IsNullOrEmpty(exportPath)) {
+				exportPath += @"\CSJ";
+				DirectoryInfo di = new DirectoryInfo(exportPath);
+				if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0)) {
+						DialogResult dr2 = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
+							"覆盖工程？",
+							MessageBoxButtons.OKCancel,
+							MessageBoxIcon.Question);
 
-					if (!di.Exists) {
-						this.Cursor = Cursors.WaitCursor;
-						DBWrapper dbWrapper = GetDBWrapper(true);
-						DataConvertUtils.SaveProjectFile(dbWrapper, this, globalIniPath, new ExportCallBack(this));
-						FileUtils.ExportProjectFile(exportPath);
-						System.Diagnostics.Process.Start(exportPath);
-						this.Cursor = Cursors.Default;
-					} else {
-						if (di.GetFiles().Length + di.GetDirectories().Length != 0)
+						if (dr2 == DialogResult.Cancel)
 						{
-							DialogResult dr2 = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
-								"导出工程是否覆盖？",
-								MessageBoxButtons.OKCancel,
-								MessageBoxIcon.Question);
-
-							if (dr2 == DialogResult.OK)
-							{
-								this.Cursor = Cursors.WaitCursor;
-								DBWrapper dbWrapper = GetDBWrapper(true);
-								DataConvertUtils.SaveProjectFile(dbWrapper, this, globalIniPath, new ExportCallBack(this));
-								FileUtils.ExportProjectFile(exportPath);
-								System.Diagnostics.Process.Start(exportPath);
-								this.Cursor = Cursors.Default;
-							}
+							return;
 						}
 					}
-					
 				}
-			}
+					
+			this.Cursor = Cursors.WaitCursor;
+			DBWrapper dbWrapper = GetDBWrapper(false);
+			DataConvertUtils.SaveProjectFile(dbWrapper, this, globalIniPath, new ExportCallBack(this, exportPath));
+			this.Cursor = Cursors.Default;				
+			
 		}
 
 		/// <summary>
@@ -2953,6 +2943,11 @@ namespace LightController.MyForm
 			//	this.label1.Text = "处理终止!";
 		}
 
+		public void ExportProject(string exportPath) {
+			FileUtils.ExportProjectFile(exportPath);
+			System.Diagnostics.Process.Start(exportPath);
+		}
+
 
 	}
 
@@ -3063,14 +3058,17 @@ namespace LightController.MyForm
 	public class ExportCallBack : ISaveProjectCallBack
 	{
 		SkinMainForm mainForm;
-		public ExportCallBack(SkinMainForm mainForm)
+		string exportFolder;
+		public ExportCallBack(SkinMainForm mainForm , string exportFolder)
 		{
 			this.mainForm = mainForm;
+			this.exportFolder = exportFolder;
 		}
 		public void Completed()
 		{
 			MessageBox.Show("导出工程成功。");
-			mainForm.Preview();
+			mainForm.ExportProject(exportFolder);
+
 		}
 		public void Error()
 		{

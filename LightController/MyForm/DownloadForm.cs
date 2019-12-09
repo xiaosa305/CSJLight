@@ -254,7 +254,13 @@ namespace LightController.MyForm
 		{
 			comFileShowLabel.Text = fileName;
 			comSkinProgressBar.Value = a;
-		}		
+		}
+			   
+
+		private void fileOpenSkinButton_Click(object sender, EventArgs e)
+		{
+			folderBrowserDialog.ShowDialog();
+		}
 	}
 
 

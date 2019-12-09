@@ -1583,8 +1583,8 @@ namespace LightController
 			DBWrapper dbWrapper = GetDBWrapper(true);
 			string exportPath = savePath + @"\ExportDirectory\" + currentProjectName + @"\CSJ";
 
-			FileTools fileTools = FileTools.GetInstance();
-			fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
+			//FileTools fileTools = FileTools.GetInstance();
+			//fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
 
 			//导出成功后，打开文件夹
 			System.Diagnostics.Process.Start(exportPath);			

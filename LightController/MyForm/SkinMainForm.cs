@@ -560,20 +560,39 @@ namespace LightController.MyForm
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
 			{
-				this.Cursor = Cursors.WaitCursor;
-
 				exportFolderBrowserDialog.ShowDialog();
 				string exportPath = exportFolderBrowserDialog.SelectedPath;
 				if (!string.IsNullOrEmpty(exportPath)) {
 					exportPath += @"\CSJ";
-					DBWrapper dbWrapper = GetDBWrapper(true);
+					DirectoryInfo di = new DirectoryInfo(exportPath);
 
-					FileTools fileTools = FileTools.GetInstance();
-					fileTools.ProjectToFile(dbWrapper, globalIniPath, exportPath);
+					if (!di.Exists) {
+						this.Cursor = Cursors.WaitCursor;
+						DBWrapper dbWrapper = GetDBWrapper(true);
+						DataConvertUtils.SaveProjectFile(dbWrapper, this, globalIniPath, new ExportCallBack(this));
+						FileUtils.ExportProjectFile(exportPath);
+						System.Diagnostics.Process.Start(exportPath);
+						this.Cursor = Cursors.Default;
+					} else {
+						if (di.GetFiles().Length + di.GetDirectories().Length != 0)
+						{
+							DialogResult dr2 = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
+								"导出工程是否覆盖？",
+								MessageBoxButtons.OKCancel,
+								MessageBoxIcon.Question);
 
-					this.Cursor = Cursors.Default;
-					//导出成功后，打开文件夹
-					System.Diagnostics.Process.Start(exportPath);
+							if (dr2 == DialogResult.OK)
+							{
+								this.Cursor = Cursors.WaitCursor;
+								DBWrapper dbWrapper = GetDBWrapper(true);
+								DataConvertUtils.SaveProjectFile(dbWrapper, this, globalIniPath, new ExportCallBack(this));
+								FileUtils.ExportProjectFile(exportPath);
+								System.Diagnostics.Process.Start(exportPath);
+								this.Cursor = Cursors.Default;
+							}
+						}
+					}
+					
 				}
 			}
 		}
@@ -3040,4 +3059,27 @@ namespace LightController.MyForm
 			//MessageBox.Show("数据：" + name+"生成成功。");
 		}
 	}
+
+	public class ExportCallBack : ISaveProjectCallBack
+	{
+		SkinMainForm mainForm;
+		public ExportCallBack(SkinMainForm mainForm)
+		{
+			this.mainForm = mainForm;
+		}
+		public void Completed()
+		{
+			MessageBox.Show("导出工程成功。");
+			mainForm.Preview();
+		}
+		public void Error()
+		{
+			MessageBox.Show("导出工程出错。");
+		}
+		public void UpdateProgress(string name)
+		{
+			//MessageBox.Show("数据：" + name+"生成成功。");
+		}
+	}
+
 }

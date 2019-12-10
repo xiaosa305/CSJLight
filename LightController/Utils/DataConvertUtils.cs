@@ -28,7 +28,7 @@ namespace LightController.Utils
         private const int WriteBufferSize = 1024 * 50;
         private static ISaveProjectCallBack CallBack { get; set; }
 
-        private static bool Flag = false;
+        public static bool Flag = false;
 
         public static void InitThreadPool()
         {
@@ -666,7 +666,6 @@ namespace LightController.Utils
             catch (Exception ex)
             {
                 Console.WriteLine("Error" + fileName + "======>" + ex.Message);
-                throw ex;
             }
            
         }
@@ -697,7 +696,6 @@ namespace LightController.Utils
                             C_DMXSceneState[sceneNo] = true;
                         }
                         //TODO 测试
-                        Flag = true;
                         FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, (!C_DMXSceneState.ContainsValue(false)) && (!M_DMXSceneState.ContainsValue(false)), CallBack);
                     }
                     if (!C_DMXSceneState.ContainsValue(false))
@@ -722,7 +720,6 @@ namespace LightController.Utils
                             M_DMXSceneState[sceneNo] = true;
                         }
                         //TODO 测试
-                        Flag = true;
                         FileUtils.MergeFile(Constant.GetNumber(sceneNo), mode,  BuildMode == MODE_MAKEFILE, (!C_DMXSceneState.ContainsValue(false)) && (!M_DMXSceneState.ContainsValue(false)), CallBack);
                     }
                     if (!M_DMXSceneState.ContainsValue(false))

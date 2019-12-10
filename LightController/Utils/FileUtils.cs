@@ -124,17 +124,12 @@ namespace LightController.Utils
                 {
                     stream.Write(datas, 0, length);
                     stream.Flush();
-                    stream.Close();
                 }
             }
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine("线程" + Thread.CurrentThread.ManagedThreadId + "==>Error:" + ex.ToString());
-                if (stream != null)
-                {
-                    stream.Close();
-                }
             }
         }
         public static void Write(byte data, string fileName,bool isMakeFile, bool isCreate, bool isCache)
@@ -156,7 +151,6 @@ namespace LightController.Utils
                 {
                     stream.WriteByte(data);
                     stream.Flush();
-                    stream.Close();
                 }
             }
             catch (Exception ex)
@@ -192,17 +186,12 @@ namespace LightController.Utils
                     stream.Seek(seek, SeekOrigin.Begin);
                     stream.Write(datas, 0, length);
                     stream.Flush();
-                    stream.Close();
                 }
             }
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine("******************" + Thread.CurrentThread.ManagedThreadId + "==============>" + ex.ToString());
-                if (stream != null)
-                {
-                    stream.Close();
-                }
             }
         }
         public static void MergeFile(int sceneNo, int mode, bool isMakeFile, bool isCompleted , ISaveProjectCallBack callBack)
@@ -276,7 +265,6 @@ namespace LightController.Utils
                                 {
                                     Write(readBuff, readSize, projectFileInfo.Name, isMakeFile, false, false);
                                 }
-                                readStream.Flush();
                                 seek = seek + channelDatasSize;
                                 //readStream.Close();
                             }
@@ -300,16 +288,7 @@ namespace LightController.Utils
                     }
 
                 }
-               
                 Console.WriteLine(projectFileInfo.Name + "文件整合完成");
-                if (isCompleted)
-                {
-                    if (isMakeFile)
-                    {
-                        CreateGradientData();
-                    }
-                    callBack.Completed();
-                }
             }
             catch (Exception ex)
             {
@@ -319,51 +298,77 @@ namespace LightController.Utils
                 }
                 callBack.Error();
                 Console.WriteLine("********************数据整合出错" + ex.StackTrace);
+            }finally
+            {
+                if (isCompleted)
+                {
+                    if (isMakeFile)
+                    {
+                        CreateGradientData();
+                    }
+                    Console.WriteLine("XIAOSA：==>数据全部整合完毕");
+                    callBack.Completed();
+                }
+                DataConvertUtils.Flag = true;
             }
         }
         public static bool CopyFileToDownloadDir(string dirPath)
         {
             bool result = false;
-            if (!Directory.Exists(ProjectDownloadDir))
+            try
             {
-                Directory.CreateDirectory(ProjectDownloadDir);
-            }
-            else
-            {
-                Directory.Delete(ProjectDownloadDir, true);
-                Directory.CreateDirectory(ProjectDownloadDir);
-            }
-            if (Directory.Exists(dirPath))
-            {
-                foreach (string filePath in Directory.GetFileSystemEntries(dirPath))
+                if (!Directory.Exists(ProjectDownloadDir))
                 {
-                    FileInfo info = new FileInfo(filePath);
-                    info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+                    Directory.CreateDirectory(ProjectDownloadDir);
                 }
-                result = true;
+                else
+                {
+                    Directory.Delete(ProjectDownloadDir, true);
+                    Directory.CreateDirectory(ProjectDownloadDir);
+                }
+                if (Directory.Exists(dirPath))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(dirPath))
+                    {
+                        FileInfo info = new FileInfo(filePath);
+                        info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+                    }
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("拷贝文件到下载目录报错" + ex.StackTrace);
             }
             return result;
         }
         public static bool CopyProjectFileToDownloadDir()
         {
             bool result = false;
-            if (!Directory.Exists(ProjectDownloadDir))
+            try
             {
-                Directory.CreateDirectory(ProjectDownloadDir);
-            }
-            else
-            {
-                Directory.Delete(ProjectDownloadDir, true);
-                Directory.CreateDirectory(ProjectDownloadDir);
-            }
-            if (Directory.Exists(ProjectDataFilePath))
-            {
-                foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
+                if (!Directory.Exists(ProjectDownloadDir))
                 {
-                    FileInfo info = new FileInfo(filePath);
-                    info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+                    Directory.CreateDirectory(ProjectDownloadDir);
                 }
-                result = true;
+                else
+                {
+                    Directory.Delete(ProjectDownloadDir, true);
+                    Directory.CreateDirectory(ProjectDownloadDir);
+                }
+                if (Directory.Exists(ProjectDataFilePath))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
+                    {
+                        FileInfo info = new FileInfo(filePath);
+                        info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+                    }
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("拷贝工程文件到下载目录报错" + ex.StackTrace);
             }
             return result;
         }
@@ -371,24 +376,34 @@ namespace LightController.Utils
         {
             bool result = false;
             string dirPath = exportPath;
-            if (!Directory.Exists(dirPath))
+            try
             {
-                Directory.CreateDirectory(dirPath);
-            }
-            else
-            {
-                Directory.Delete(dirPath, true);
-                Directory.CreateDirectory(dirPath);
-            }
-            if (Directory.Exists(ProjectDataFilePath))
-            {
-                foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
+                if (!Directory.Exists(dirPath))
                 {
-                    FileInfo info = new FileInfo(filePath);
-                    info.CopyTo(dirPath + @"\" + info.Name, true);
+                    Directory.CreateDirectory(dirPath);
                 }
-                result = true;
+                else
+                {
+                    Directory.Delete(dirPath, true);
+                    Directory.CreateDirectory(dirPath);
+                }
+                if (Directory.Exists(ProjectDataFilePath))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
+                    {
+
+                        FileInfo info = new FileInfo(filePath);
+                        Console.WriteLine("拷贝工程文件到指定目录：==>" + info.Name);
+                        info.CopyTo(dirPath + @"\" + info.Name, true);
+                    }
+                    result = true;
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("拷贝工程文件到指定目录" + ex.StackTrace);
+            }
+          
             return result;
         }
         public static List<PlayPoint> GetCPlayPoints()
@@ -560,8 +575,8 @@ namespace LightController.Utils
             FileStream readStream = null;
             int fileSize = 4;
             long seek = 9;
-            try
-            {
+            //try
+            //{
                 for (int i = 0; i < 32; i++)
                 {
                     gradientData[i] = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
@@ -631,11 +646,11 @@ namespace LightController.Utils
                     writeBuff.AddRange(gradientData[i]);
                 }
                 Write(writeBuff.ToArray(), writeBuff.Count, "GradientData.bin", true, true, false);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("场景渐变数据生成报错" + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("场景渐变数据生成报错" + ex.Message);
+            //}
            
             
         }

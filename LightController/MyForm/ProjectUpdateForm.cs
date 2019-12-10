@@ -398,11 +398,13 @@ namespace LightController.MyForm
 		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("下载成功");
+			downloadForm.SetBusy(false);
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
 			MessageBox.Show("下载失败");
+			downloadForm.SetBusy(false);
 		}
 
 		public void GetParam(CSJ_Hardware hardware)

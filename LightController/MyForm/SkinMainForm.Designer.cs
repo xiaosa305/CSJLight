@@ -414,6 +414,8 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -571,6 +573,7 @@ namespace LightController.MyForm
 			this.labelPanel3.SuspendLayout();
 			this.middleTableLayoutPanel.SuspendLayout();
 			this.myMenuStrip.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuSkinPanel
@@ -1881,6 +1884,7 @@ namespace LightController.MyForm
 			// tdCommonPanel
 			// 
 			this.tdCommonPanel.AutoScroll = true;
+			this.tdCommonPanel.Controls.Add(this.statusStrip1);
 			this.tdCommonPanel.Controls.Add(this.commonStepTimeSkinButton);
 			this.tdCommonPanel.Controls.Add(this.commonStepTimeNumericUpDown);
 			this.tdCommonPanel.Controls.Add(this.commonChangeModeSkinComboBox);
@@ -6487,6 +6491,21 @@ namespace LightController.MyForm
 			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
 			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
 			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noticeLabel});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 384);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(246, 22);
+			this.statusStrip1.TabIndex = 27;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// noticeLabel
+			// 
+			this.noticeLabel.Name = "noticeLabel";
+			this.noticeLabel.Size = new System.Drawing.Size(0, 17);
+			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -6709,6 +6728,8 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.ResumeLayout(false);
 			this.myMenuStrip.ResumeLayout(false);
 			this.myMenuStrip.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -7113,5 +7134,7 @@ namespace LightController.MyForm
 		private SkinButton changeConnectMethodSkinButton;
 		private SkinButton syncSkinButton;
 		private System.ComponentModel.BackgroundWorker bgWorker;
+		private StatusStrip statusStrip1;
+		private ToolStripStatusLabel noticeLabel;
 	}
 }

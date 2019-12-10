@@ -164,7 +164,6 @@
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
-    <Compile Include="MyForm\ComUpdateReceiveCallBack.cs" />
     <Compile Include="MyForm\GlobalSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,7 +206,6 @@
     <Compile Include="MyForm\MultiStepPasteForm.Designer.cs">
       <DependentUpon>MultiStepPasteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\NetworkUpdateReceiveCallBack.cs" />
     <Compile Include="MyForm\ProjectRenameOrCopyForm.cs">
       <SubType>Form</SubType>
     </Compile>

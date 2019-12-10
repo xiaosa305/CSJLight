@@ -507,7 +507,6 @@ namespace LightController.MyForm
 			lightAstList = new List<LightAst>(lightAstList2);
 			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
 
-			//TODO：12.9 每次更改灯具列表信息时，修改相应的lightDictinary
 			lightDictionary = new Dictionary<int, int>();
 			for (int i = 0; i < lightAstList.Count; i++)
 			{

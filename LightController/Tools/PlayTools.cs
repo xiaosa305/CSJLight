@@ -30,6 +30,7 @@ namespace LightController.Tools
         private Thread MusicControlThread { get; set; }
         private bool IsMusicControl { get; set; }
         private bool IsPausePlay { get; set; }
+        private bool IsSendEmptyData { get; set; }
         private int MusicStep { get; set; }
         private int MusicStepTime { get; set; }
         private PreViewState State { get; set; }
@@ -60,6 +61,7 @@ namespace LightController.Tools
                 MusicStepTime = 0;
                 State = PreViewState.Null;
                 Device = new FTDI();
+                this.IsSendEmptyData = false;
                 Timer = new System.Timers.Timer();
                 MusicWaiting = true;
             }
@@ -69,7 +71,6 @@ namespace LightController.Tools
             }
            
         }
-
         public void StartInternetPreview(string deviceIp, ICommunicatorCallBack receiveCallBack, int timeFactory)
         {
             this.PreviewWayState = STATE_INTENETPREVIEW;
@@ -77,20 +78,20 @@ namespace LightController.Tools
             this.IntentDebugCallback = receiveCallBack;
             this.IsInitIntentDebug = true;
             this.TimeFactory = timeFactory;
+            this.IsSendEmptyData = true;
             SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
             SendEmptyDebugDataThread.Start();
         }
-
         public void StopInternetPreview(ICommunicatorCallBack receiveCallBack)
         {
+            this.IsSendEmptyData = false;
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
             IsInitIntentDebug = false;
         }
-
-
         private void SendEmptyDataStart()
         {
-            while (true)
+            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+            while (IsSendEmptyData)
             {
                 this.Play();
                 Thread.Sleep(this.TimeFactory - 21);
@@ -114,6 +115,10 @@ namespace LightController.Tools
                     {
                         PreViewThread.Abort();
                     }
+                    catch (Exception ex)
+                    {
+                        CSJLogs.GetInstance().ErrorLog(ex);
+                    }
                     finally
                     {
                         PreViewThread = null;
@@ -124,6 +129,10 @@ namespace LightController.Tools
                     try
                     {
                         OLOSThread.Abort();
+                    }
+                    catch (Exception ex)
+                    {
+                        CSJLogs.GetInstance().ErrorLog(ex);
                     }
                     finally
                     {
@@ -136,11 +145,16 @@ namespace LightController.Tools
                     {
                         MusicControlThread.Abort();
                     }
+                    catch (Exception ex)
+                    {
+                        CSJLogs.GetInstance().ErrorLog(ex);
+                    }
                     finally
                     {
                         MusicControlThread = null;
                     }
                 }
+                this.MusicStepPoint = 0;
                 State = PreViewState.Null;
             }
             catch (Exception ex)
@@ -183,6 +197,7 @@ namespace LightController.Tools
                     if (FileUtils.IsMusicFile())
                     {
                         this.MusicData = true;
+                        this.MusicStepPoint = 0;
                         this.MusicStepTime = FileUtils.GetMusicTime();
                         this.StepListCount = FileUtils.GetMusicStepCount();
                         this.MusicIntervalTime = FileUtils.GetMusicIntervalTime();
@@ -296,6 +311,8 @@ namespace LightController.Tools
                 }
 
                 this.MusicStep = this.StepList[this.MusicStepPoint++];
+                //TODO 打印音频步数
+                Console.WriteLine("音频步数 : " + MusicStep);
                 for (int i = 0; i < this.MusicStep; i++)
                 {
                     MusicDataBuff = new Dictionary<int, byte>();
@@ -361,9 +378,16 @@ namespace LightController.Tools
                     }
                     if (IsMusicControl)
                     {
-                        foreach (int item in MusicDataBuff.Keys)
+                        try
                         {
-                            this.PlayData[item - 1] = MusicDataBuff[item];
+                            foreach (int item in MusicDataBuff.Keys)
+                            {
+                                this.PlayData[item - 1] = MusicDataBuff[item];
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("音频数据生成中。。。。。。。。");
                         }
                     }
                     this.Play();

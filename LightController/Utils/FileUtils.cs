@@ -121,8 +121,8 @@ namespace LightController.Utils
                     filePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + @"\" + fileName;
                 }
                 //TODO 修改中
-                using (isCreate ? stream = new FileStream(filePath, FileMode.Create) : stream = new FileStream(filePath, FileMode.Append))
-                //using (stream = isCache ? (new FileStream(filePath,FileMode.Create)):(new FileStream(filePath,FileMode.Append)))
+                //using (isCreate ? stream = new FileStream(filePath, FileMode.Create,FileAccess.Write) : stream = new FileStream(filePath, FileMode.Append,FileAccess.Write))
+                using (stream = new FileStream(filePath, isCreate ? FileMode.Create : FileMode.Append))
                 {
                     stream.Write(datas, 0, length);
                     stream.Flush();
@@ -149,8 +149,8 @@ namespace LightController.Utils
                     filePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + @"/" + fileName;
                 }
                 //TODO 修改中
-                using (isCreate ? stream = new FileStream(filePath, FileMode.Create) : stream = new FileStream(filePath, FileMode.Append))
-                //using (stream = isCache ? (new FileStream(filePath, FileMode.Create)) : (new FileStream(filePath, FileMode.Append)))
+                //using (isCreate ? stream = new FileStream(filePath, FileMode.Create,FileAccess.Write) : stream = new FileStream(filePath, FileMode.Append,FileAccess.Write))
+                using (stream = new FileStream(filePath, isCreate ? FileMode.Create : FileMode.Append))
                 {
                     stream.WriteByte(data);
                     stream.Flush();
@@ -178,8 +178,8 @@ namespace LightController.Utils
                     filePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + @"/" + fileName;
                 }
                 //TODO 修改中
-                using (isCreate ? stream = new FileStream(filePath, FileMode.Create) : stream = new FileStream(filePath, FileMode.Open, FileAccess.Write))
-                //using (stream = isCache ? (new FileStream(filePath, FileMode.Create)) : (new FileStream(filePath, FileMode.Open, FileAccess.Write)))
+                //using (isCreate ? stream = new FileStream(filePath, FileMode.Create,FileAccess.Write) : stream = new FileStream(filePath, FileMode.Open, FileAccess.Write))
+                using (stream = new FileStream(filePath, isCreate ? FileMode.Create : FileMode.Open, FileAccess.Write))
                 {
                     stream.Seek(seek, SeekOrigin.Begin);
                     stream.Write(datas, 0, length);

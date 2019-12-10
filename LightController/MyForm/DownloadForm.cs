@@ -21,6 +21,7 @@ namespace LightController.MyForm
 	{
 		private MainFormInterface mainForm;
 		private DBWrapper dbWrapper;
+		private string projectPath;
 		private string globalSetPath;
 
 		private IList<string> selectedIPs;
@@ -31,12 +32,14 @@ namespace LightController.MyForm
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
-		public DownloadForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath)
+		public DownloadForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath, string projectPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
 			this.dbWrapper = dbWrapper;
 			this.globalSetPath = globalSetPath;
+			this.projectPath = projectPath;
+			pathLabel.Text = projectPath;
 
 			this.skinTabControl.SelectedIndex = 0;			
 		}
@@ -228,19 +231,71 @@ namespace LightController.MyForm
 			{
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
-				//MessageBox.Show(localIP + " ---> " + selectedIPs[0]);
-				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack());								
+
+				if (String.IsNullOrEmpty(projectPath))
+				{
+					DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据，是否继续？",
+						"下载工程",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question);
+					if (dr == DialogResult.Cancel)
+					{
+						return;
+					}
+					Cursor = Cursors.WaitCursor;
+					SetLabelText(true,"正在生成数据，请耐心等待...");
+					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this,true));
+				}
+				else {
+					Cursor = Cursors.WaitCursor;
+					FileUtils.CopyFileToDownloadDir(projectPath);
+					DownloadProject(true);					
+				}										
 			}
 			else {
-				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack());
+				if (String.IsNullOrEmpty(projectPath))
+				{
+					DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据，是否继续？",
+					"下载工程",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+					if (dr == DialogResult.Cancel)
+					{
+						return;
+					}
+					Cursor = Cursors.WaitCursor;
+					SetLabelText(false, "正在生成数据，请耐心等待...");
+					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this,false));
+				}
+				else {
+					Cursor = Cursors.WaitCursor;
+					FileUtils.CopyFileToDownloadDir(projectPath);
+					DownloadProject(false);
+				}
 			}		
+		}
+
+
+
+		public void DownloadProject(bool isNetwork) {
+			if (isNetwork)
+			{
+				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(this));
+			}
+			else {
+				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(this));
+			}
+		}
+
+		public void SetCursorDefault() {
+			Cursor = Cursors.Default;
 		}
 
 		/// <summary>
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
 		/// <param name="a"></param>		
-		void networkPaintProgress(string fileName,int a)
+		public void networkPaintProgress(string fileName,int a)
 		{
 			networkFileShowLabel.Text = fileName;
 			networkSkinProgressBar.Value =  a;		
@@ -250,22 +305,53 @@ namespace LightController.MyForm
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
 		/// <param name="a"></param>		
-		void comPaintProgress(string fileName, int a)
+		public void comPaintProgress(string fileName, int a)
 		{
 			comFileShowLabel.Text = fileName;
 			comSkinProgressBar.Value = a;
 		}
 			   
-
+		/// <summary>
+		/// 事件：点击《选择已有工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void fileOpenSkinButton_Click(object sender, EventArgs e)
 		{
-			folderBrowserDialog.ShowDialog();
+			DialogResult dr = folderBrowserDialog.ShowDialog();
+			projectPath = folderBrowserDialog.SelectedPath;
+			pathLabel.Text = projectPath;
+			mainForm.SetProjectPath(projectPath);
+		}
+
+		/// <summary>
+		/// 事件：点击《清空》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void clearSkinButton_Click(object sender, EventArgs e)
+		{
+			projectPath = null;
+			pathLabel.Text = null;
+			mainForm.SetProjectPath(null);
+		}
+
+		internal void SetLabelText(bool isNetwork,string msg)
+		{
+			if (isNetwork)
+			{
+				networkFileShowLabel.Text = msg;
+			}
+			else {
+				comFileShowLabel.Text = msg;
+			}
 		}
 	}
 
 
 	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
 	{
+
 		//public void SendCompleted(string deviceName, string order)
 		//{
 		//	MessageBox.Show("设备：" + deviceName + "  下载成功并断开连接"
@@ -278,14 +364,24 @@ namespace LightController.MyForm
 		//		//+ "发回了命令：" + order 
 		//		);
 		//}
+
+		private DownloadForm downloadForm;
+
+		public NetworkDownloadReceiveCallBack(DownloadForm downloadForm)
+		{
+			this.downloadForm = downloadForm;
+		}
+
 		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("设备：" + deviceTag + "  下载成功并断开连接" 	);
+			downloadForm.SetCursorDefault();
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
 			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接，错误原因是:" + errorMessage);
+			downloadForm.SetCursorDefault();
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -295,20 +391,18 @@ namespace LightController.MyForm
 
 		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
 		{
-			throw new NotImplementedException();
+			downloadForm.networkPaintProgress(fileName, newProgress);
 		}
 	}
 
 	public class ComDownloadReceiveCallBack : ICommunicatorCallBack
 	{
-		//public void SendCompleted(string deviceName, string order)
-		//{
-		//	MessageBox.Show("下载成功");
-		//}
-		//public void SendError(string deviceName, string order)
-		//{
-		//	MessageBox.Show("下载失败");
-		//}
+		private DownloadForm downloadForm;
+		public ComDownloadReceiveCallBack(DownloadForm downloadForm)
+		{
+			this.downloadForm = downloadForm;
+		}
+
 		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("下载成功");
@@ -326,7 +420,35 @@ namespace LightController.MyForm
 
 		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
 		{
-			throw new NotImplementedException();
+			downloadForm.comPaintProgress(fileName, newProgress);
+		}
+	}
+
+	public class DownloadSaveCallBack : ISaveProjectCallBack
+	{
+		private DownloadForm downloadForm;
+		private bool isNetwork;
+		public DownloadSaveCallBack(DownloadForm downloadForm, bool isNetwork)
+		{
+			this.downloadForm = downloadForm;
+			this.isNetwork = isNetwork;
+		}
+
+		public void Completed()
+		{
+			downloadForm.SetLabelText(true,"数据生成成功，即将传输数据到设备。");
+			FileUtils.CopyProjectFileToDownloadDir();
+			downloadForm.DownloadProject(isNetwork);
+		}
+
+		public void Error()
+		{
+			MessageBox.Show("数据生成出错");
+			downloadForm.SetCursorDefault();
+		}
+		public void UpdateProgress(string name)
+		{
+			//MessageBox.Show("数据：" + name+"生成成功。");
 		}
 	}
 }

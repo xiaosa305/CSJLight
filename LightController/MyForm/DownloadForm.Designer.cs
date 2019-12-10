@@ -54,9 +54,10 @@
 			this.comOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comFileLabel = new System.Windows.Forms.Label();
 			this.comComboBox = new System.Windows.Forms.ComboBox();
-			this.filePathLabel = new System.Windows.Forms.Label();
+			this.pathLabel = new System.Windows.Forms.Label();
 			this.fileOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.clearSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -390,12 +391,12 @@
 			this.comComboBox.Size = new System.Drawing.Size(92, 20);
 			this.comComboBox.TabIndex = 5;
 			// 
-			// filePathLabel
+			// pathLabel
 			// 
-			this.filePathLabel.Location = new System.Drawing.Point(153, 17);
-			this.filePathLabel.Name = "filePathLabel";
-			this.filePathLabel.Size = new System.Drawing.Size(376, 33);
-			this.filePathLabel.TabIndex = 13;
+			this.pathLabel.Location = new System.Drawing.Point(139, 17);
+			this.pathLabel.Name = "pathLabel";
+			this.pathLabel.Size = new System.Drawing.Size(311, 33);
+			this.pathLabel.TabIndex = 13;
 			// 
 			// fileOpenSkinButton
 			// 
@@ -404,7 +405,7 @@
 			this.fileOpenSkinButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.fileOpenSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.fileOpenSkinButton.DownBack = null;
-			this.fileOpenSkinButton.Location = new System.Drawing.Point(35, 17);
+			this.fileOpenSkinButton.Location = new System.Drawing.Point(34, 17);
 			this.fileOpenSkinButton.MouseBack = null;
 			this.fileOpenSkinButton.Name = "fileOpenSkinButton";
 			this.fileOpenSkinButton.NormlBack = null;
@@ -416,7 +417,25 @@
 			// 
 			// folderBrowserDialog
 			// 
+			this.folderBrowserDialog.Description = "请选择工程目录的最后一层（即CSJ目录），本操作会将该目录下的所有文件传给设备。";
 			this.folderBrowserDialog.ShowNewFolderButton = false;
+			// 
+			// clearSkinButton
+			// 
+			this.clearSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.clearSkinButton.BaseColor = System.Drawing.Color.Silver;
+			this.clearSkinButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.clearSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.clearSkinButton.DownBack = null;
+			this.clearSkinButton.Location = new System.Drawing.Point(469, 17);
+			this.clearSkinButton.MouseBack = null;
+			this.clearSkinButton.Name = "clearSkinButton";
+			this.clearSkinButton.NormlBack = null;
+			this.clearSkinButton.Size = new System.Drawing.Size(63, 33);
+			this.clearSkinButton.TabIndex = 14;
+			this.clearSkinButton.Text = "清空";
+			this.clearSkinButton.UseVisualStyleBackColor = false;
+			this.clearSkinButton.Click += new System.EventHandler(this.clearSkinButton_Click);
 			// 
 			// DownloadForm
 			// 
@@ -424,7 +443,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(566, 331);
-			this.Controls.Add(this.filePathLabel);
+			this.Controls.Add(this.clearSkinButton);
+			this.Controls.Add(this.pathLabel);
 			this.Controls.Add(this.fileOpenSkinButton);
 			this.Controls.Add(this.skinTabControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -470,8 +490,9 @@
 		private System.Windows.Forms.ComboBox localIPsComboBox;
 		private System.Windows.Forms.Label comNameLabel;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label filePathLabel;
+		private System.Windows.Forms.Label pathLabel;
 		private CCWin.SkinControl.SkinButton fileOpenSkinButton;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+		private CCWin.SkinControl.SkinButton clearSkinButton;
 	}
 }

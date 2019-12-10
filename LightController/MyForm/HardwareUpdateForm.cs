@@ -1,6 +1,8 @@
 ﻿using CCWin.SkinControl;
 using LightController.Ast;
 using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -229,10 +231,10 @@ namespace LightController.MyForm
 			{
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
-				connectTools.Update( selectedIPs , binPath,  new NetworkDownloadReceiveCallBack());
+				connectTools.Update( selectedIPs , binPath,  new HardwareUpdateReceiveCallBack(this,true));
 			}
 			else {
-				comTools.Update(binPath, new ComDownloadReceiveCallBack());
+				comTools.Update(binPath, new HardwareUpdateReceiveCallBack(this,false));
 			}		
 		}		
 			   
@@ -283,22 +285,49 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
-		/// <param name="a"></param>		
-		void networkPaintProgress(string fileName, int a)
+		/// <param name="progressPercent"></param>		
+		public void PaintProgress(bool isNetwork ,  int progressPercent)
 		{
-			networkSkinProgressBar.Value = a;
-		}
-
-		/// <summary>
-		///  辅助委托方法：将数据写进度条
-		/// </summary>
-		/// <param name="a"></param>		
-		void comPaintProgress(string fileName, int a)
-		{
-			comSkinProgressBar.Value = a;
-		}
-
-		
+			if (isNetwork)
+			{
+				networkSkinProgressBar.Value = progressPercent;
+			}
+			else {
+				comSkinProgressBar.Value = progressPercent;
+			}		
+		}	
 	}
+
+	internal class HardwareUpdateReceiveCallBack : ICommunicatorCallBack
+	{
+		private HardwareUpdateForm huForm;
+		private bool isNetwork;
+		public HardwareUpdateReceiveCallBack(HardwareUpdateForm huForm, bool isNetwork)
+		{
+			this.huForm = huForm;
+			this.isNetwork = isNetwork;
+		}
+
+		public void Completed(string deviceTag)
+		{
+			MessageBox.Show("设备(" + deviceTag + ")升级成功");
+		}
+
+		public void Error(string deviceTag, string errorMessage)
+		{
+			MessageBox.Show("设备(" + deviceTag + ")升级出错。\n错误信息是" + errorMessage);
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			//throw new System.NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int progressPercent)
+		{
+			huForm.PaintProgress(isNetwork, progressPercent);
+		}
+	}	
+
 
 }

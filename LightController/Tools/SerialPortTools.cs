@@ -24,12 +24,14 @@ namespace LightController.Tools
         private int ResendCount { get; set; }
         private List<byte> RxBuff { get; set; }
         private bool IsSearchDevice { get; set; }
+        private bool IsOpenComdevice { get; set; }
         private SerialPortTools()
         {
             try
             {
                 this.ComDevice = new SerialPort();
                 this.InitParameters();
+                this.IsOpenComdevice = false;
                 this.IsSearchDevice = false;
                 this.SetDefaultSerialPort();
                 this.RxBuff = new List<byte>();
@@ -83,47 +85,37 @@ namespace LightController.Tools
             FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
             FTDI dmx512Device = new FTDI();
             status = dmx512Device.GetNumberOfDevices(ref deviceCount);
-            if (status == FTDI.FT_STATUS.FT_OK)
-            {
-                if (deviceCount > 0)
+                if (status == FTDI.FT_STATUS.FT_OK)
                 {
-                    FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-                    status = dmx512Device.GetDeviceList(deviceList);
-                    if (status == FTDI.FT_STATUS.FT_OK)
+                    if (deviceCount > 0)
                     {
-                        for (int i = 0; i < deviceList.Length; i++)
+                        FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+                        status = dmx512Device.GetDeviceList(deviceList);
+                        if (status == FTDI.FT_STATUS.FT_OK)
                         {
-                            status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
-                            if (status == FTDI.FT_STATUS.FT_OK)
+                            for (int i = 0; i < deviceList.Length; i++)
                             {
-                                string portName;
-                                dmx512Device.GetCOMPort(out portName);
-                                if (portName != null && portName != "")
+                                status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+                                if (status == FTDI.FT_STATUS.FT_OK)
                                 {
-                                    dmx512names.Add(portName);
-                                    dmx512Device.Close();
+                                    string portName;
+                                    dmx512Device.GetCOMPort(out portName);
+                                    if (portName != null && portName != "")
+                                    {
+                                        dmx512names.Add(portName);
+                                        dmx512Device.Close();
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            for (int i = 0; i < ports.Length; i++)
-            {
-                flag = true;
-                foreach (string item in dmx512names)
-                {
-                    if (item.Equals(ports[i]))
-                    {
-                        flag = false;
-                    }
-                }
-                if (flag)
-                {
-                    result.Add(ports[i]);
-                }
-            }
-                return result.ToArray();
+                return ports;
+                //for (int i = 0; i < ports.Length; i++)
+                //{
+                //    result.Add(ports[i]);
+                //}
+                //return result.ToArray();
             }
             catch (Exception ex)
             {
@@ -185,6 +177,7 @@ namespace LightController.Tools
         {
             try
             {
+                IsOpenComdevice = false;
                 PortName = portName;
                 if (ComDevice.IsOpen)
                 {
@@ -192,6 +185,7 @@ namespace LightController.Tools
                 }
                 SetSerialPort();
                 ComDevice.Open();
+                this.IsOpenComdevice = true;
                 CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
                 return ComDevice.IsOpen;
             }
@@ -230,7 +224,7 @@ namespace LightController.Tools
         {
             int packageDataSize = 1;
             byte[] packageHead = new byte[Constant.PACKAGEHEAD_SIZE];
-            while (true)
+            while (this.IsOpenComdevice)
             {
                 try
                 {
@@ -288,6 +282,7 @@ namespace LightController.Tools
                     CSJLogs.GetInstance().ErrorLog(ex);
                 }
             }
+            this.RxBuff.Clear();
         }
         public override void CloseDevice()
         {

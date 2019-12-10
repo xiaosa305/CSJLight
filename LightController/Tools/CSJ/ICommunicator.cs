@@ -379,6 +379,7 @@ namespace LightController.Tools.CSJ
             Thread.Sleep(1);
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
+            Console.WriteLine("通信接收：" + rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -677,6 +678,7 @@ namespace LightController.Tools.CSJ
             {
                 this.TimeIndex = 0;
                 this.IsReceive = false;
+                this.IsTimeOutThreadStart = true;
                 Thread.Sleep(1);
                 if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
@@ -688,6 +690,7 @@ namespace LightController.Tools.CSJ
             }
             catch (Exception ex)
             {
+                this.CloseDevice();
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }

@@ -1220,7 +1220,7 @@ namespace LightController.MyForm
 			this.changeConnectMethodSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.changeConnectMethodSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.changeConnectMethodSkinButton.InheritColor = true;
-			this.changeConnectMethodSkinButton.Location = new System.Drawing.Point(20, 48);
+			this.changeConnectMethodSkinButton.Location = new System.Drawing.Point(16, 50);
 			this.changeConnectMethodSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.changeConnectMethodSkinButton.MouseBack = null;
 			this.changeConnectMethodSkinButton.Name = "changeConnectMethodSkinButton";
@@ -1248,7 +1248,7 @@ namespace LightController.MyForm
 			this.deviceRefreshSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.deviceRefreshSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.deviceRefreshSkinButton.InheritColor = true;
-			this.deviceRefreshSkinButton.Location = new System.Drawing.Point(143, 48);
+			this.deviceRefreshSkinButton.Location = new System.Drawing.Point(146, 50);
 			this.deviceRefreshSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceRefreshSkinButton.MouseBack = null;
 			this.deviceRefreshSkinButton.Name = "deviceRefreshSkinButton";
@@ -1270,7 +1270,7 @@ namespace LightController.MyForm
 			this.deviceSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.deviceSkinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.deviceSkinComboBox.ItemBorderColor = System.Drawing.Color.Gray;
-			this.deviceSkinComboBox.Location = new System.Drawing.Point(15, 16);
+			this.deviceSkinComboBox.Location = new System.Drawing.Point(13, 12);
 			this.deviceSkinComboBox.Name = "deviceSkinComboBox";
 			this.deviceSkinComboBox.Size = new System.Drawing.Size(224, 22);
 			this.deviceSkinComboBox.TabIndex = 15;

@@ -2392,13 +2392,12 @@ namespace LightController.MyForm
 				return;
 			}
 
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;
-			// 设为false，从内存取数据
-			DBWrapper allData = GetDBWrapper(false);
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
+			SetNotice("正在生成预览数据，请稍候...");
+
 			try
-			{
-				PreviewCallBack pcb = new PreviewCallBack(this);
-				DataConvertUtils.SaveProjectFileByPreviewData(allData, globalIniPath, frame,pcb);
+			{				
+				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, frame, new PreviewCallBack(this));
 			}
 			catch (Exception ex)
 			{
@@ -2976,7 +2975,12 @@ namespace LightController.MyForm
 		}
 		#endregion
 
-		
+
+		internal void SetNotice(string noticeText)
+		{
+			noticeLabel.Text = noticeText;
+		}
+
 	}
 
 
@@ -3070,7 +3074,7 @@ namespace LightController.MyForm
 		}
 		public void Completed()
 		{
-			MessageBox.Show("预览数据生成成功。");
+			mainForm.SetNotice("预览数据生成成功");
 			mainForm.Preview();
 		}
 		public void Error()
@@ -3079,7 +3083,7 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			//MessageBox.Show("数据：" + name+"生成成功。");
+			mainForm.SetNotice(name);
 		}
 	}
 

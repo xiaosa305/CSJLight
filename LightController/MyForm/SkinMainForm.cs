@@ -2864,20 +2864,23 @@ namespace LightController.MyForm
 			//}
 			//Console.WriteLine();	
 
-			if (selectedIndex != -1) {
-				DB_ValuePK pk = new DB_ValuePK();
-				pk.Frame = frame;
-				pk.Mode = mode;
-				pk.LightID = lightAstList[selectedIndex].StartNum;
-				pk.LightIndex = lightAstList[selectedIndex].StartNum;
+			//if (selectedIndex != -1) {
+			//	DB_ValuePK pk = new DB_ValuePK();
+			//	pk.Frame = frame;
+			//	pk.Mode = mode;
+			//	pk.LightID = lightAstList[selectedIndex].StartNum;
+			//	pk.LightIndex = lightAstList[selectedIndex].StartNum;
 
-				IList<TongdaoWrapper> tdList = GetFMTDList(pk);
-				foreach (TongdaoWrapper tongdao in tdList)
-				{
-					Console.WriteLine(tongdao.ScrollValue + " : " + tongdao.ChangeMode + " : " + tongdao.StepTime);
-				}
-			}
-			
+			//	IList<TongdaoWrapper> tdList = GetFMTDList(pk);
+			//	foreach (TongdaoWrapper tongdao in tdList)
+			//	{
+			//		Console.WriteLine(tongdao.ScrollValue + " : " + tongdao.ChangeMode + " : " + tongdao.StepTime);
+			//	}
+			//}
+
+			//string a = "zwj";
+			//bool flag = false ;
+			// flag ?  "frh":"flh";
 
 		}
 

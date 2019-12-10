@@ -154,6 +154,11 @@ namespace LightController.Tools
                         MusicControlThread = null;
                     }
                 }
+                if (this.PreviewWayState == STATE_SERIALPREVIEW && !IsSendEmptyData)
+                {
+                    SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
+                    SendEmptyDebugDataThread.Start();
+                }
                 this.MusicStepPoint = 0;
                 State = PreViewState.Null;
             }
@@ -178,7 +183,6 @@ namespace LightController.Tools
                 this.SceneNo = sceneNo;
                 //获取全局配置信息
                 this.Config = new CSJ_Config(wrapper, configPath);
-               
                 C_PlayPoints = FileUtils.GetCPlayPoints();
                 TimeFactory = Config.TimeFactory;
                 try
@@ -207,6 +211,7 @@ namespace LightController.Tools
                     MusicStep = this.Config.Music_Control_Enable[SceneNo];
                     //关闭暂停播放
                     IsPausePlay = false;
+                    IsSendEmptyData = false;
                     //启动项目预览线程
                     if (PreViewThread == null)
                     {
@@ -231,6 +236,7 @@ namespace LightController.Tools
             try
             {
                 this.IsPausePlay = true;
+                this.IsSendEmptyData = false;
                 if (this.Config != null)
                 {
                     this.TimeFactory = this.Config.TimeFactory;

@@ -428,7 +428,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateSkinButton_Click(object sender, EventArgs e)
 		{
-			new DownloadForm(this, GetDBWrapper(false), globalIniPath, projectPath).ShowDialog();
+			new ProjectUpdateForm(this, GetDBWrapper(false), globalIniPath, projectPath).ShowDialog();
 		}
 
 		/// <summary>

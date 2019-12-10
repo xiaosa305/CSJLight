@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class DownloadForm
+	partial class ProjectUpdateForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectUpdateForm));
 			this.label1 = new System.Windows.Forms.Label();
 			this.networkDevicesComboBox = new System.Windows.Forms.ComboBox();
 			this.networkFileLabel = new System.Windows.Forms.Label();
@@ -452,7 +452,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DownloadForm";
-			this.Text = "下载数据到设备";
+			this.Text = "更新工程到设备";
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
 			this.skinTabControl.ResumeLayout(false);
 			this.networkTab.ResumeLayout(false);

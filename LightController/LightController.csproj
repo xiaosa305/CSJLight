@@ -316,11 +316,11 @@
     <Compile Include="MyForm\HardwareUpdateForm.Designer.cs">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\DownloadForm.cs">
+    <Compile Include="MyForm\ProjectUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\DownloadForm.Designer.cs">
-      <DependentUpon>DownloadForm.cs</DependentUpon>
+    <Compile Include="MyForm\ProjectUpdateForm.Designer.cs">
+      <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\UseFrameForm.cs">
       <SubType>Form</SubType>
@@ -440,8 +440,8 @@
     <EmbeddedResource Include="MyForm\HardwareUpdateForm.resx">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\DownloadForm.resx">
-      <DependentUpon>DownloadForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\ProjectUpdateForm.resx">
+      <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\UseFrameForm.resx">
       <DependentUpon>UseFrameForm.cs</DependentUpon>

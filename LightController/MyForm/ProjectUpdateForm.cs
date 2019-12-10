@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
-	public partial class DownloadForm : Form
+	public partial class ProjectUpdateForm : Form
 	{
 		private MainFormInterface mainForm;
 		private DBWrapper dbWrapper;
@@ -32,7 +32,7 @@ namespace LightController.MyForm
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
-		public DownloadForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath, string projectPath)
+		public ProjectUpdateForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath, string projectPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -225,57 +225,53 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateButton_Click(object sender, EventArgs e)
 		{
-			string buttonName = ((SkinButton)sender).Name;
+			bool rightNow = false;
+			if (String.IsNullOrEmpty(projectPath))
+			{
+				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
+					"下载工程",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+				if (dr == DialogResult.Cancel)
+				{
+					return;
+				}
+				rightNow = true;
+			}
 
-			if (buttonName.Equals("networkdUpdateSkinButton"))
+			string buttonName = ((SkinButton)sender).Name;
+			if (   buttonName.Equals("networkdUpdateSkinButton") )  //网络升级的途径
 			{
 				networkdUpdateSkinButton.Enabled = false;
 				networkDevicesComboBox.Enabled = false;
-
-				if (String.IsNullOrEmpty(projectPath))
-				{
-					DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据，是否继续？",
-						"下载工程",
-						MessageBoxButtons.OKCancel,
-						MessageBoxIcon.Question);
-					if (dr == DialogResult.Cancel)
-					{
-						return;
-					}
-					Cursor = Cursors.WaitCursor;
-					SetLabelText(true,"正在生成数据，请耐心等待...");
-					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this,true));
-				}
-				else {
-					Cursor = Cursors.WaitCursor;
+				SetBusy(true);
+				if (rightNow)
+				{					
+					SetLabelText(true, "正在实时生成工程数据，请耐心等待...");
+					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this, true));
+				}			
+				else {					
 					FileUtils.CopyFileToDownloadDir(projectPath);
 					DownloadProject(true);					
 				}										
 			}
 			else {
-				if (String.IsNullOrEmpty(projectPath))
-				{
-					DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据，是否继续？",
-					"下载工程",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question);
-					if (dr == DialogResult.Cancel)
-					{
-						return;
-					}
-					Cursor = Cursors.WaitCursor;
-					SetLabelText(false, "正在生成数据，请耐心等待...");
+				SetBusy(true);
+				if (rightNow) { 					
+					SetLabelText(false, "正在实时生成工程数据，请耐心等待...");
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this,false));
 				}
-				else {
-					Cursor = Cursors.WaitCursor;
+				else {					
 					FileUtils.CopyFileToDownloadDir(projectPath);
 					DownloadProject(false);
 				}
 			}		
 		}
 
-
+		public void SetBusy(bool busy)
+		{
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+		}
 
 		public void DownloadProject(bool isNetwork) {
 			if (isNetwork)
@@ -285,10 +281,6 @@ namespace LightController.MyForm
 			else {
 				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(this));
 			}
-		}
-
-		public void SetCursorDefault() {
-			Cursor = Cursors.Default;
 		}
 
 		/// <summary>
@@ -365,9 +357,9 @@ namespace LightController.MyForm
 		//		);
 		//}
 
-		private DownloadForm downloadForm;
+		private ProjectUpdateForm downloadForm;
 
-		public NetworkDownloadReceiveCallBack(DownloadForm downloadForm)
+		public NetworkDownloadReceiveCallBack(ProjectUpdateForm downloadForm)
 		{
 			this.downloadForm = downloadForm;
 		}
@@ -375,13 +367,13 @@ namespace LightController.MyForm
 		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("设备：" + deviceTag + "  下载成功并断开连接" 	);
-			downloadForm.SetCursorDefault();
+			downloadForm.SetBusy(false);
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
 			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接，错误原因是:" + errorMessage);
-			downloadForm.SetCursorDefault();
+			downloadForm.SetBusy(false);
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -397,8 +389,8 @@ namespace LightController.MyForm
 
 	public class ComDownloadReceiveCallBack : ICommunicatorCallBack
 	{
-		private DownloadForm downloadForm;
-		public ComDownloadReceiveCallBack(DownloadForm downloadForm)
+		private ProjectUpdateForm downloadForm;
+		public ComDownloadReceiveCallBack(ProjectUpdateForm downloadForm)
 		{
 			this.downloadForm = downloadForm;
 		}
@@ -426,9 +418,9 @@ namespace LightController.MyForm
 
 	public class DownloadSaveCallBack : ISaveProjectCallBack
 	{
-		private DownloadForm downloadForm;
+		private ProjectUpdateForm downloadForm;
 		private bool isNetwork;
-		public DownloadSaveCallBack(DownloadForm downloadForm, bool isNetwork)
+		public DownloadSaveCallBack(ProjectUpdateForm downloadForm, bool isNetwork)
 		{
 			this.downloadForm = downloadForm;
 			this.isNetwork = isNetwork;
@@ -444,7 +436,7 @@ namespace LightController.MyForm
 		public void Error()
 		{
 			MessageBox.Show("数据生成出错");
-			downloadForm.SetCursorDefault();
+			downloadForm.SetBusy(false);
 		}
 		public void UpdateProgress(string name)
 		{

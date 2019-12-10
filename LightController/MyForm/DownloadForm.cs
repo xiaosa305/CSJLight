@@ -428,9 +428,10 @@ namespace LightController.MyForm
 	{
 		private DownloadForm downloadForm;
 		private bool isNetwork;
-		public DownloadSaveCallBack(DownloadForm downloadForm, bool isNetwok)
+		public DownloadSaveCallBack(DownloadForm downloadForm, bool isNetwork)
 		{
 			this.downloadForm = downloadForm;
+			this.isNetwork = isNetwork;
 		}
 
 		public void Completed()

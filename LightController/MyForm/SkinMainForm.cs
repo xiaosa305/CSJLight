@@ -38,7 +38,7 @@ namespace LightController.MyForm
 			this.Text = softwareName + " Dimmer System";
 			testGroupBox.Visible = isShowTestButton;
 			bigTestButton.Visible = isShowTestButton;
-			//MARK：
+			//MARK：添加这一句，会去掉其他线程使用本ui空间的问题。
 			CheckForIllegalCrossThreadCalls = false;
 
 			// 动态显示硬件升级按钮
@@ -428,7 +428,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateSkinButton_Click(object sender, EventArgs e)
 		{
-			new DownloadForm(this, GetDBWrapper(true), globalIniPath, projectPath).ShowDialog();
+			new DownloadForm(this, GetDBWrapper(false), globalIniPath, projectPath).ShowDialog();
 		}
 
 		/// <summary>
@@ -556,8 +556,8 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void exportSkinButton_Click(object sender, EventArgs e)
-		{
-			DialogResult dr = MessageBox.Show("此操作只会导出已保存的工程，确定现在导出吗？",
+		{	
+			DialogResult dr = MessageBox.Show("请确保工程已保存后再进行导出，否则可能会出错。确定现在导出吗？",
 				"导出工程",
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
@@ -565,27 +565,56 @@ namespace LightController.MyForm
 				return;
 			}
 			
-			exportFolderBrowserDialog.ShowDialog();
-			string exportPath = exportFolderBrowserDialog.SelectedPath;
-			if (!string.IsNullOrEmpty(exportPath)) {
-				exportPath += @"\CSJ";
-				DirectoryInfo di = new DirectoryInfo(exportPath);
-				if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0)) {
-						DialogResult dr2 = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
-							"覆盖工程？",
-							MessageBoxButtons.OKCancel,
-							MessageBoxIcon.Question);
+			dr = exportFolderBrowserDialog.ShowDialog();
+			if (dr == DialogResult.Cancel)
+			{
+				Console.WriteLine("用户取消了");
+				return;
+			}
 
-						if (dr2 == DialogResult.Cancel)
-						{
-							return;
-						}
-					}
-				}
-					
-			this.Cursor = Cursors.WaitCursor;						
-			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));				
+			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";					
+			DirectoryInfo di = new DirectoryInfo(exportPath);
+			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0) ) {
+				DialogResult dr2 = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
+						"覆盖工程？",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question);
+				if (dr2 == DialogResult.Cancel)
+				{
+						return;
+				}				
+			}					
+		
+			SetBusy(true);
+			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));	
 		}
+
+		public void ExportProject(string exportPath, bool success)
+		{
+			if (success)
+			{
+				FileUtils.ExportProjectFile(exportPath);
+				System.Diagnostics.Process.Start(exportPath);
+			}
+			MessageBox.Show("导出工程" + (success ? "成功。" : "出错。"));
+			SetBusy(false);
+		}
+
+
+		/// <summary>
+		///  辅助方法：进行某些操作时，应避免让控件可用（如导出工程、保存工程）；完成后再设回来。
+		/// </summary>
+		/// <param name="busy">是否处于忙时（不要操作其他控件）</param>
+		private void SetBusy(bool busy)
+		{
+			this.Cursor = busy?Cursors.WaitCursor : Cursors.Default;
+			this.middleTableLayoutPanel.Enabled = !busy;
+			this.projectSkinPanel.Enabled = !busy;
+			this.astSkinPanel.Enabled = !busy;
+		}
+
+
+
 
 		/// <summary>
 		/// 事件：点击《关闭工程》
@@ -2898,7 +2927,7 @@ namespace LightController.MyForm
 		}
 
 		//MARK:12.9 bgWorker相关事件
-
+		#region
 		/// <summary>
 		/// 事件：bgWorker的后台工作
 		/// </summary>
@@ -2942,17 +2971,9 @@ namespace LightController.MyForm
 			//else
 			//	this.label1.Text = "处理终止!";
 		}
+		#endregion
 
-		public void ExportProject(string exportPath, bool success) {
-			if (success) {
-				FileUtils.ExportProjectFile(exportPath);
-				System.Diagnostics.Process.Start(exportPath);
-			}			
-			MessageBox.Show("导出工程" + (success ? "成功。" : "出错。"));
-			Cursor = Cursors.Default;
-		}
-
-
+		
 	}
 
 

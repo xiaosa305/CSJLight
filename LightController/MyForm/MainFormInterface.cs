@@ -59,9 +59,8 @@ namespace LightController.MyForm
 
 		// 通道数据操作时的变量
 		protected const int MAX_STEP = 100;
-		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；	
-											// 11.20 新功能： 多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
-		protected bool isCopyAll = false;
+		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；											
+		protected bool isCopyAll = false;   // 11.20 新功能： 多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
 
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
@@ -101,7 +100,6 @@ namespace LightController.MyForm
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
 		protected string projectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）
-
 		protected Dictionary<int, int> lightDictionary = null ; 
 
 		/// <summary>
@@ -253,7 +251,7 @@ namespace LightController.MyForm
 
 					threadArray[tempLightIndex] = new Thread(delegate ()
 					{
-						Console.WriteLine(tempLightIndex + " ++ 线程开始了");
+						//Console.WriteLine(tempLightIndex + " ++ 线程开始了");
 						if (scList != null && scList.Count > 0)
 						{
 							for (int scIndex = 0; scIndex < scList.Count; scIndex++)
@@ -284,7 +282,7 @@ namespace LightController.MyForm
 								}
 							}
 						}
-						Console.WriteLine(tempLightIndex + " -- 线程结束了");
+						//Console.WriteLine(tempLightIndex + " -- 线程结束了");
 					});
 					threadArray[tempLightIndex].Start();
 				}

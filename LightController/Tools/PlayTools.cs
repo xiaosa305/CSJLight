@@ -86,6 +86,8 @@ namespace LightController.Tools
         {
             this.IsSendEmptyData = false;
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
+            //TODO 待删除
+            Console.WriteLine("关闭网络调试");
             IsInitIntentDebug = false;
         }
         private void SendEmptyDataStart()
@@ -139,11 +141,11 @@ namespace LightController.Tools
                         OLOSThread = null;
                     }
                 }
-                if (MusicControlThread != null)
+                if (this.MusicControlThread != null)
                 {
                     try
                     {
-                        MusicControlThread.Abort();
+                        this.MusicControlThread.Abort();
                     }
                     catch (Exception ex)
                     {
@@ -151,16 +153,17 @@ namespace LightController.Tools
                     }
                     finally
                     {
-                        MusicControlThread = null;
+                        this.MusicControlThread = null;
                     }
                 }
-                if (this.PreviewWayState == STATE_SERIALPREVIEW && !IsSendEmptyData)
+                if (this.PreviewWayState == STATE_INTENETPREVIEW && !this.IsSendEmptyData)
                 {
-                    SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
-                    SendEmptyDebugDataThread.Start();
+                    this.IsSendEmptyData = true;
+                    this.SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
+                    this.SendEmptyDebugDataThread.Start();
                 }
                 this.MusicStepPoint = 0;
-                State = PreViewState.Null;
+                this.State = PreViewState.Null;
             }
             catch (Exception ex)
             {

@@ -31,6 +31,8 @@ namespace LightController.Tools
         private bool IsMusicControl { get; set; }
         private bool IsPausePlay { get; set; }
         private bool IsSendEmptyData { get; set; }
+        private bool MusicData { get; set; }
+        private bool MusicWaiting { get; set; }
         private int MusicStep { get; set; }
         private int MusicStepTime { get; set; }
         private PreViewState State { get; set; }
@@ -38,8 +40,7 @@ namespace LightController.Tools
         private int StepListCount { get; set; }
         private int MusicIntervalTime { get; set; }
         private int MusicStepPoint { get; set; }
-        private bool MusicData { get; set; }
-        private bool MusicWaiting { get; set; }
+       
         private System.Timers.Timer Timer { get; set; }
         private Dictionary<int,byte> MusicDataBuff { get; set; }
         private List<PlayPoint> M_PlayPoints { get; set; }
@@ -163,6 +164,7 @@ namespace LightController.Tools
                     this.SendEmptyDebugDataThread.Start();
                 }
                 this.IsMusicControl = false;
+                this.MusicWaiting = true;
                 this.MusicStepPoint = 0;
                 this.State = PreViewState.Null;
             }

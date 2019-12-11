@@ -877,19 +877,35 @@ namespace LightController.Utils
             if (c_StepCount > 0)
             {
                 c_SceneData.ChannelCount = c_SceneData.ChannelDatas.Count();
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(c_SceneData, wrapper, configPath, Constant.MODE_C));
+                c_SceneData.SceneNo = 0;
+                if (C_DMXSceneChannelData[0].Count == 0)
+                {
+                    C_DMXSceneState.Remove(0);
+                }
+                else
+                {
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(c_SceneData, wrapper, configPath, Constant.MODE_C));
+                }
             }
             if (m_StepCount > 0)
             {
                 m_SceneData.ChannelCount = m_SceneData.ChannelDatas.Count();
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(m_SceneData, wrapper, configPath, Constant.MODE_M));
+                m_SceneData.SceneNo = 0;
+                if (M_DMXSceneChannelData[0].Count == 0)
+                {
+                    M_DMXSceneState.Remove(0);
+                }
+                else
+                {
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(m_SceneData, wrapper, configPath, Constant.MODE_M));
+                }
             }
         }
         /// <summary>
         /// 预览通道数据处理
         /// </summary>
         /// <param name="obj"></param>
-        private static void PreViewChannelDataHandle(object obj)
+        private static void PreViewChannelDataHandle1(object obj)
         {
             PreViewDataInfo dataInfo = obj as PreViewDataInfo;
             List<int> isGradualChange = new List<int>();
@@ -931,12 +947,12 @@ namespace LightController.Utils
                 StepTimes = stepTimes,
                 StepCount = stepValues.Count
             };
-            PreviewDataFileCreate(new PreViewDataInfo(dataInfo.Wrapper,dataInfo.ConfigPath,dataInfo.Mode,dataInfo.SceneNo,dataInfo.ChannelNo,dataInfo.StepCount,dataInfo.LightIndex), channelData);
+            PreviewDataFileCreate1(new PreViewDataInfo(dataInfo.Wrapper,dataInfo.ConfigPath,dataInfo.Mode,dataInfo.SceneNo,dataInfo.ChannelNo,dataInfo.StepCount,dataInfo.LightIndex), channelData);
         }
         /// <summary>
         /// 预览数据生成完成判断并整合处理
         /// </summary>
-        private static void PreviewDataFileCreate(PreViewDataInfo dataInfo,CSJ_ChannelData channelData)
+        private static void PreviewDataFileCreate1(PreViewDataInfo dataInfo,CSJ_ChannelData channelData)
         {
             CSJ_ChannelData data = channelData;
             PreViewDataInfo info = dataInfo;
@@ -1010,6 +1026,7 @@ namespace LightController.Utils
                 if (info.Mode == Constant.MODE_C && !C_PreviewDataState.ContainsValue(false))
                 {
                     C_PreviewSceneData.ChannelCount = C_PreviewSceneData.ChannelDatas.Count;
+                    C_PreviewSceneData.SceneNo = 0;
                     ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(C_PreviewSceneData, info.Wrapper, info.ConfigPath, Constant.GetNumber(info.Mode)));
                 }
             }
@@ -1018,6 +1035,7 @@ namespace LightController.Utils
                 if (info.Mode == Constant.MODE_M && !M_PreviewDataState.ContainsValue(false))
                 {
                     M_PreviewSceneData.ChannelCount = M_PreviewSceneData.ChannelDatas.Count;
+                    M_PreviewSceneData.SceneNo = 0;
                     ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(M_PreviewSceneData, info.Wrapper, info.ConfigPath, Constant.GetNumber(info.Mode)));
                 }
             }

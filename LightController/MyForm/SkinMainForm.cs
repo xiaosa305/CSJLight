@@ -2394,7 +2394,6 @@ namespace LightController.MyForm
 
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
 			SetNotice("正在生成预览数据，请稍候...");
-
 			try
 			{				
 				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, frame, new PreviewCallBack(this));
@@ -2439,6 +2438,7 @@ namespace LightController.MyForm
 
 			// 2.调用结束预览方法
 			playTools.EndView();
+			SetNotice("已结束预览。");
 		}
 		
 		/// <summary>
@@ -3074,11 +3074,12 @@ namespace LightController.MyForm
 		}
 		public void Completed()
 		{
-			mainForm.SetNotice("预览数据生成成功");
+			mainForm.SetNotice("预览数据生成成功,正在进行预览。");
 			mainForm.Preview();
 		}
 		public void Error()
 		{
+			mainForm.SetNotice("");
 			MessageBox.Show("预览数据生成出错。");
 		}
 		public void UpdateProgress(string name)

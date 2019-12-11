@@ -100,6 +100,8 @@ namespace LightController.MyForm
 			this.dqdjLabel = new System.Windows.Forms.Label();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.tdCommonPanel = new System.Windows.Forms.Panel();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.commonStepTimeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.commonStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.commonChangeModeSkinComboBox = new CCWin.SkinControl.SkinComboBox();
@@ -414,8 +416,6 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -431,6 +431,7 @@ namespace LightController.MyForm
 			this.currentLightSkinPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.tdCommonPanel.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.commonStepTimeNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueTrackBar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
@@ -573,7 +574,6 @@ namespace LightController.MyForm
 			this.labelPanel3.SuspendLayout();
 			this.middleTableLayoutPanel.SuspendLayout();
 			this.myMenuStrip.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuSkinPanel
@@ -1223,7 +1223,7 @@ namespace LightController.MyForm
 			this.changeConnectMethodSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.changeConnectMethodSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.changeConnectMethodSkinButton.InheritColor = true;
-			this.changeConnectMethodSkinButton.Location = new System.Drawing.Point(16, 50);
+			this.changeConnectMethodSkinButton.Location = new System.Drawing.Point(21, 53);
 			this.changeConnectMethodSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.changeConnectMethodSkinButton.MouseBack = null;
 			this.changeConnectMethodSkinButton.Name = "changeConnectMethodSkinButton";
@@ -1251,7 +1251,7 @@ namespace LightController.MyForm
 			this.deviceRefreshSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.deviceRefreshSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.deviceRefreshSkinButton.InheritColor = true;
-			this.deviceRefreshSkinButton.Location = new System.Drawing.Point(146, 50);
+			this.deviceRefreshSkinButton.Location = new System.Drawing.Point(147, 53);
 			this.deviceRefreshSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceRefreshSkinButton.MouseBack = null;
 			this.deviceRefreshSkinButton.Name = "deviceRefreshSkinButton";
@@ -1273,7 +1273,7 @@ namespace LightController.MyForm
 			this.deviceSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.deviceSkinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.deviceSkinComboBox.ItemBorderColor = System.Drawing.Color.Gray;
-			this.deviceSkinComboBox.Location = new System.Drawing.Point(13, 12);
+			this.deviceSkinComboBox.Location = new System.Drawing.Point(17, 15);
 			this.deviceSkinComboBox.Name = "deviceSkinComboBox";
 			this.deviceSkinComboBox.Size = new System.Drawing.Size(224, 22);
 			this.deviceSkinComboBox.TabIndex = 15;
@@ -1901,6 +1901,25 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Name = "tdCommonPanel";
 			this.tdCommonPanel.Size = new System.Drawing.Size(246, 406);
 			this.tdCommonPanel.TabIndex = 29;
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noticeLabel});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 384);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(246, 22);
+			this.statusStrip1.SizingGrip = false;
+			this.statusStrip1.TabIndex = 27;
+			// 
+			// noticeLabel
+			// 
+			this.noticeLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+			this.noticeLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.noticeLabel.ForeColor = System.Drawing.Color.DimGray;
+			this.noticeLabel.Name = "noticeLabel";
+			this.noticeLabel.Size = new System.Drawing.Size(200, 17);
+			this.noticeLabel.Spring = true;
 			// 
 			// commonStepTimeSkinButton
 			// 
@@ -6491,21 +6510,6 @@ namespace LightController.MyForm
 			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
 			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
 			// 
-			// statusStrip1
-			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.noticeLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 384);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(246, 22);
-			this.statusStrip1.TabIndex = 27;
-			this.statusStrip1.Text = "statusStrip1";
-			// 
-			// noticeLabel
-			// 
-			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(0, 17);
-			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -6548,6 +6552,8 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
 			this.tdCommonPanel.ResumeLayout(false);
 			this.tdCommonPanel.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.commonStepTimeNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueTrackBar)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
@@ -6728,8 +6734,6 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.ResumeLayout(false);
 			this.myMenuStrip.ResumeLayout(false);
 			this.myMenuStrip.PerformLayout();
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

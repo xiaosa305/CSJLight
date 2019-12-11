@@ -329,6 +329,7 @@ namespace LightController.Tools
                     {
                         MusicDataBuff.Add(item.ChannelNo,item.Read());
                     }
+                    Console.WriteLine("音频触发" + MusicStep + "步");
                     this.IsMusicControl = true;
                     Thread.Sleep(this.TimeFactory * this.MusicStepTime);
                 }

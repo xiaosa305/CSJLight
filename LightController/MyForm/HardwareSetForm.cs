@@ -378,7 +378,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void uploadSkinButton_Click(object sender, EventArgs e)
 		{			
-			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet());
+			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
 			afterReadOrWrite();
 		}
 		
@@ -479,7 +479,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comUploadSkinButton_Click(object sender, EventArgs e)
 		{
-			comTools.GetParam(new UploadCallBackHardwareSet());
+			comTools.GetParam(new UploadCallBackHardwareSet(this));
 		}
 
 		/// <summary>
@@ -575,13 +575,7 @@ namespace LightController.MyForm
 				MessageBox.Show("回读异常:" + ex.Message);
 			}
 		}
-
-
-
-
-		#endregion
-
-		
+		#endregion		
 	}
 
 	/// <summary>
@@ -589,34 +583,24 @@ namespace LightController.MyForm
 	/// </summary>
 	class DownloadCallBackHardwareSet : ICommunicatorCallBack
 	{
-		//public void SendCompleted(string ip, string order)
-		//{
-		//	MessageBox.Show("下载成功");
-		//}
-
-		//public void SendError(string ip, string order)
-		//{
-		//	MessageBox.Show("下载失败");
-		//}
-
 		public void Completed(string deviceTag)
 		{
-			throw new NotImplementedException();
+			MessageBox.Show("下载成功。");
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			throw new NotImplementedException();
+			MessageBox.Show("下载失败。");
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 	}
 
@@ -625,15 +609,14 @@ namespace LightController.MyForm
 	/// </summary>
 	class UploadCallBackHardwareSet : ICommunicatorCallBack
 	{
-		//public void SendCompleted(string ip, string order)
-		//{
-		//	MessageBox.Show("回读成功");
-		//}
 
-		//public void SendError(string ip, string order)
-		//{
-		//	MessageBox.Show("回读失败");
-		//}
+		private HardwareSetForm hsForm;	
+
+		public UploadCallBackHardwareSet(HardwareSetForm hsForm)
+		{
+			this.hsForm = hsForm;
+		}
+
 		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("回读成功");
@@ -644,17 +627,15 @@ namespace LightController.MyForm
 			MessageBox.Show("回读失败");
 		}
 
-		public void GetParam(CSJ_Hardware hardware)
+		public void GetParam(CSJ_Hardware ch)
 		{
-			throw new NotImplementedException();
+			hsForm.SetParamFromDevice(ch);
 		}
 
 		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 	}
-
-
 
 }

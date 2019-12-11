@@ -100,7 +100,21 @@ namespace LightController.MyForm
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
 		protected string projectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）
-		protected Dictionary<int, int> lightDictionary = null ; 
+		protected Dictionary<int, int> lightDictionary = null ;
+
+		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
+
+		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
+		protected virtual void enableSave(bool enable) { }  // 是否显示《保存工程》等
+		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }  //是否显示《 存、取 灯具位置》		
+		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayFlowLayoutPanel
+		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
+		protected virtual void chooseStep(int stepNum) { }  //选步
+		public virtual void ResetSyncMode() { } // 清空syncStep
+		public virtual void SetNotice(string notice) { } //设置提示信息
+		protected virtual void SetBusy(bool buzy) { } //设置是否忙时
+
+		#endregion
 
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
@@ -200,7 +214,8 @@ namespace LightController.MyForm
 		/// <param name="directoryPath"></param>
 		public void OpenProject(string projectName)
 		{
-			this.Cursor = Cursors.WaitCursor;
+			SetNotice("正在打开工程，请稍候...");
+			SetBusy(true);		
 
 			DateTime beforDT = System.DateTime.Now;
 
@@ -219,10 +234,11 @@ namespace LightController.MyForm
 			if (dbLightList == null || dbLightList.Count == 0)
 			{
 				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+				SetNotice("成功打开工程(" + projectName + ")");
 				if (dr == DialogResult.OK)
 				{
 					new LightsForm(this, null).ShowDialog();
-				}
+				}				
 			}
 			//10.17 若非空工程，则继续执行以下代码。
 			else
@@ -318,9 +334,9 @@ namespace LightController.MyForm
 				TimeSpan ts = afterDT.Subtract(beforDT);
 
 				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
+				SetNotice("成功打开工程("+ projectName + ")");
 			}
-
-			this.Cursor = Cursors.Default;
+			SetBusy(false);
 		}
 
 		/// <summary>
@@ -446,17 +462,7 @@ namespace LightController.MyForm
 			enableRefreshPic(enable);
 		}
 
-		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
-
-		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
-		protected virtual void enableSave(bool enable) { }  // 是否显示《保存工程》等
-		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }  //是否显示《 存、取 灯具位置》		
-		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayFlowLayoutPanel
-		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
-		protected virtual void chooseStep(int stepNum) { }  //选步
-		public virtual void ResetSyncMode() { } // 清空syncStep
-
-		#endregion
+	
 
 
 		/// <summary>

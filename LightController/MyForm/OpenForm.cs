@@ -75,10 +75,10 @@ namespace LightController.MyForm
 
 			string projectName =  treeView1.SelectedNode.Text;			
 			if ( ! String.IsNullOrEmpty(projectName) )
-			{				
-				mainForm.OpenProject(projectName);
+			{
 				this.Dispose();
 				mainForm.Activate();
+				mainForm.OpenProject(projectName);
 			}
 			else
 			{

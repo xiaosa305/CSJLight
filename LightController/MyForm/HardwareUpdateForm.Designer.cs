@@ -104,7 +104,7 @@
 			this.networkdUpdateSkinButton.NormlBack = null;
 			this.networkdUpdateSkinButton.Size = new System.Drawing.Size(76, 32);
 			this.networkdUpdateSkinButton.TabIndex = 8;
-			this.networkdUpdateSkinButton.Text = "下载数据";
+			this.networkdUpdateSkinButton.Text = "升级";
 			this.networkdUpdateSkinButton.UseVisualStyleBackColor = false;
 			this.networkdUpdateSkinButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
@@ -129,7 +129,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 1;
+			this.skinTabControl.SelectedIndex = 0;
 			this.skinTabControl.Size = new System.Drawing.Size(564, 220);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 9;
@@ -170,7 +170,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(77, 12);
 			this.label1.TabIndex = 10;
-			this.label1.Text = "下载总进度：";
+			this.label1.Text = "升级总进度：";
 			// 
 			// networkSkinProgressBar
 			// 
@@ -257,7 +257,7 @@
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(77, 12);
 			this.label4.TabIndex = 12;
-			this.label4.Text = "下载总进度：";
+			this.label4.Text = "升级总进度：";
 			// 
 			// comSkinProgressBar
 			// 
@@ -320,7 +320,7 @@
 			this.comUpdateSkinButton.NormlBack = null;
 			this.comUpdateSkinButton.Size = new System.Drawing.Size(76, 31);
 			this.comUpdateSkinButton.TabIndex = 8;
-			this.comUpdateSkinButton.Text = "下载数据";
+			this.comUpdateSkinButton.Text = "升级";
 			this.comUpdateSkinButton.UseVisualStyleBackColor = false;
 			this.comUpdateSkinButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
@@ -397,7 +397,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "HardwareUpdateForm";
-			this.Text = "手动更新设备";
+			this.Text = "手动更新硬件";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareUpdateForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
 			this.skinTabControl.ResumeLayout(false);

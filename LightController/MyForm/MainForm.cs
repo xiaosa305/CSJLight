@@ -312,7 +312,6 @@ namespace LightController
 			updateToolStripMenuItem.Enabled = enable;
 			globalSetToolStripMenuItem.Enabled = enable;
 			ymSetToolStripMenuItem.Enabled = enable;
-
 		}
 
 		/// <summary>

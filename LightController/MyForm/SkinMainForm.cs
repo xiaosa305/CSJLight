@@ -533,9 +533,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
-			this.Cursor = Cursors.WaitCursor;
-			saveAll();
-			this.Cursor = Cursors.Default;
+			SetNotice("正在保存工程,请稍候...");
+			SetBusy(true);			
+			saveAll();			
+			SetBusy(false);
+			SetNotice("成功保存工程");
 		}
 
 		/// <summary>
@@ -545,9 +547,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void frameSaveSkinButton_Click(object sender, EventArgs e)
 		{
-			this.Cursor = Cursors.WaitCursor;
-			saveFrame();
-			this.Cursor = Cursors.Default;
+			SetNotice("正在保存场景,请稍候...");
+			SetBusy(true);			
+			saveFrame();			
+			SetBusy(false);
+			SetNotice("成功保存场景(" + AllFrameList[frame] + ")");
 		}
 
 		/// <summary>
@@ -605,16 +609,13 @@ namespace LightController.MyForm
 		///  辅助方法：进行某些操作时，应避免让控件可用（如导出工程、保存工程）；完成后再设回来。
 		/// </summary>
 		/// <param name="busy">是否处于忙时（不要操作其他控件）</param>
-		private void SetBusy(bool busy)
+		protected override void SetBusy(bool busy)
 		{
 			this.Cursor = busy?Cursors.WaitCursor : Cursors.Default;
 			this.middleTableLayoutPanel.Enabled = !busy;
 			this.projectSkinPanel.Enabled = !busy;
 			this.astSkinPanel.Enabled = !busy;
 		}
-
-
-
 
 		/// <summary>
 		/// 事件：点击《关闭工程》
@@ -624,6 +625,7 @@ namespace LightController.MyForm
 		private void closeSkinButton_Click(object sender, EventArgs e)
 		{
 			clearAllData();
+			SetNotice("成功关闭工程。");
 			MessageBox.Show("成功关闭工程。");
 		}
 
@@ -643,7 +645,7 @@ namespace LightController.MyForm
 		/// MARK：SkinMainFormForm.ClearAllData()：子类中针对本Form清除数据
 		/// </summary>
 		protected override void clearAllData()
-		{
+		{			
 			base.clearAllData();
 
 			//单独针对本MainForm的代码: 
@@ -657,10 +659,10 @@ namespace LightController.MyForm
 			hideAllTDPanels();
 			showStepLabel(0, 0);
 			editLightInfo(null);
-			enableSingleMode(true);			
+			enableSingleMode(true);
 
 			// 10.17 清空数据时，应该结束预览。
-			endviewSkinButton_Click(null, null);
+			endview();
 		}
 
 		/// <summary>
@@ -818,15 +820,16 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void frameSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
+		{			
 			//11.13 若未初始化，直接return；
 			if (!isInit)
 			{
 				return;
 			}
+			SetNotice("正在切换场景...");
 
 			// 只要更改了场景，直接结束预览
-			endviewSkinButton_Click(null, null);
+			endview();
 
 			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" +AllFrameList[frame] + ")？",
 				"保存场景",
@@ -834,9 +837,9 @@ namespace LightController.MyForm
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
 			{
-				this.Cursor = Cursors.WaitCursor; 
+				SetBusy(true);
 				saveFrame();
-				this.Cursor = Cursors.Default;
+				SetBusy(false);
 			}
 
 			frame = frameSkinComboBox.SelectedIndex;
@@ -844,6 +847,7 @@ namespace LightController.MyForm
 			{
 				changeFrameMode();
 			}
+			SetNotice("成功切换场景");
 		}
 
 		/// <summary>
@@ -2431,6 +2435,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void endviewSkinButton_Click(object sender, EventArgs e)
 		{
+			endview();
+			SetNotice("已结束预览。");
+		}
+
+		/// <summary>
+		/// 辅助方法：结束预览的实际操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void endview() {
 			// 1.几个按钮图标设置
 			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
@@ -2438,7 +2452,6 @@ namespace LightController.MyForm
 
 			// 2.调用结束预览方法
 			playTools.EndView();
-			SetNotice("已结束预览。");
 		}
 		
 		/// <summary>
@@ -2976,7 +2989,7 @@ namespace LightController.MyForm
 		#endregion
 
 
-		internal void SetNotice(string noticeText)
+		public override void SetNotice(string noticeText)
 		{
 			noticeLabel.Text = noticeText;
 		}

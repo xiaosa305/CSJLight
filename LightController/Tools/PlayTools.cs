@@ -162,6 +162,7 @@ namespace LightController.Tools
                     this.SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
                     this.SendEmptyDebugDataThread.Start();
                 }
+                this.IsMusicControl = false;
                 this.MusicStepPoint = 0;
                 this.State = PreViewState.Null;
             }
@@ -172,6 +173,9 @@ namespace LightController.Tools
         }
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
+            EndView();
+            //TODO 实时预览入口处执行线程休眠延迟
+            Thread.Sleep(100);
             try
             {
                 //暂停播放准备生成数据

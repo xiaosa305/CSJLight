@@ -446,11 +446,14 @@ namespace LightController.Utils
                     playPoints.Add(new PlayPoint(channelNo, channelSeek, dataLength,Constant.MODE_C));
                     seek = seek + dataLength + 4;
                 }
+                readStream.Close();
             }
+            Console.WriteLine("读取基础场景预览数据通道信息成功");
             foreach (PlayPoint item in playPoints)
             {
                 item.Init();
             }
+            Thread.Sleep(100);
             return playPoints;
         }
         public static List<PlayPoint> GetMPlayPoints()
@@ -492,15 +495,17 @@ namespace LightController.Utils
                     readStream.Seek(seek, SeekOrigin.Begin);
                     readStream.Read(seekBuff, 0, seekBuff.Length);
                     channelSeek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
-                    playPoints.Add(new PlayPoint(channelNo, channelSeek, dataLength,Constant.MODE_M));
+                    playPoints.Add(new PlayPoint(channelNo, channelSeek, dataLength, Constant.MODE_M));
                     seek = seek + dataLength + 4;
                 }
+                readStream.Close();
             }
+            Console.WriteLine("读取音频场景预览数据通道信息成功");
             foreach (PlayPoint item in playPoints)
             {
                 item.Init();
             }
-            Thread.Sleep(50);
+            Thread.Sleep(100);
             return playPoints;
         }
         public static int GetMusicTime()

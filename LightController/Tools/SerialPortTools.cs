@@ -111,11 +111,6 @@ namespace LightController.Tools
                     }
                 }
                 return ports;
-                //for (int i = 0; i < ports.Length; i++)
-                //{
-                //    result.Add(ports[i]);
-                //}
-                //return result.ToArray();
             }
             catch (Exception ex)
             {
@@ -184,6 +179,8 @@ namespace LightController.Tools
                     ComDevice.Close();
                 }
                 SetSerialPort();
+                //TODO
+                this.ComDevice.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
                 ComDevice.Open();
                 this.IsOpenComdevice = true;
                 CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
@@ -213,7 +210,7 @@ namespace LightController.Tools
         {
             if (ComDevice.IsOpen)
             {
-                ComDevice.DiscardInBuffer();
+                //ComDevice.DiscardInBuffer();
                 ComDevice.DiscardOutBuffer();
                 RxBuff.Clear();
                 ComDevice.Write(txBuff, 0, txBuff.Length);
@@ -279,6 +276,7 @@ namespace LightController.Tools
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("串口接收发生错误:" + ex.StackTrace);
                     CSJLogs.GetInstance().ErrorLog(ex);
                 }
             }
@@ -298,6 +296,7 @@ namespace LightController.Tools
                     case Constant.ORDER_PUT:
                     case Constant.ORDER_BEGIN_SEND:
                     case Constant.ORDER_END_SEND:
+                        Console.WriteLine("-----------------------关闭下载线程");
                         DownloadThread.Abort();
                         break;
                     default:
@@ -307,6 +306,7 @@ namespace LightController.Tools
             catch(Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+                CallBack.Error(this.DeviceName, "");
             }
             finally
             {

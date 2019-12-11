@@ -308,6 +308,7 @@ namespace LightController.Tools.CSJ
                     }
                     if (!this.IsReceive)
                     {
+                        Console.WriteLine();
                         CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeout");
                         string deviceName = this.DeviceName;
                         if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
@@ -800,6 +801,7 @@ namespace LightController.Tools.CSJ
                                 {
                                     if (DownloadStatus)
                                     {
+                                        Console.WriteLine("XIAOSA:" + fileName + "数据包" + "接收成功");
                                         this.DownloadStatus = false;
                                         break;
                                     }

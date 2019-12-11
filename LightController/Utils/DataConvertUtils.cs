@@ -238,7 +238,40 @@ namespace LightController.Utils
                 ChannelCount = channelDatas.Count,
                 ChannelDatas = channelDatas
             };
-            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
+            if (sceneData.ChannelCount == 0)
+            {
+                switch (data.Mode)
+                {
+                    case Constant.MODE_M:
+                        M_DMXSceneChannelData.Remove(data.SceneNo);
+                        M_DMXSceneState.Remove(data.SceneNo);
+                        if (!M_DMXSceneState.ContainsValue(false))
+                        {
+                            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+                            M_DMXSceneState = new Dictionary<int, bool>();
+                        }
+                        break;
+                    case Constant.MODE_C:
+                        C_DMXSceneChannelData.Remove(data.SceneNo);
+                        C_DMXSceneState.Remove(data.SceneNo);
+                        if (!C_DMXSceneState.ContainsValue(false))
+                        {
+                            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+                            C_DMXSceneState = new Dictionary<int, bool>();
+                        }
+                        break;
+                }
+                if (!C_DMXSceneState.ContainsValue(false) && !M_DMXSceneState.ContainsValue(false))
+                {
+                    FileUtils.CreateGradientData();
+                    Console.WriteLine("XIAOSA  2：==>数据全部整合完毕");
+                    CallBack.Completed();
+                }
+            }
+            else
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
+            }
         }
         private static void GeneratedSceneData(Object obj)
         {

@@ -177,7 +177,7 @@ namespace LightController.Tools
         {
             EndView();
             //TODO 实时预览入口处执行线程休眠延迟
-            Thread.Sleep(100);
+            Thread.Sleep(1000);
             try
             {
                 //暂停播放准备生成数据

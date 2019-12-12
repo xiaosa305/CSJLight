@@ -32,7 +32,7 @@ namespace LightController.MyForm
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
-		public ProjectUpdateForm(MainFormInterface mainForm,DBWrapper dbWrapper,string globalSetPath, string projectPath)
+		public ProjectUpdateForm(MainFormInterface mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -41,7 +41,7 @@ namespace LightController.MyForm
 			this.projectPath = projectPath;
 			pathLabel.Text = projectPath;
 
-			this.skinTabControl.SelectedIndex = 0;			
+			this.skinTabControl.SelectedIndex = 0;
 		}
 
 		private void UpdateForm_Load(object sender, EventArgs e)
@@ -105,7 +105,7 @@ namespace LightController.MyForm
 
 			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
 		}
-			   		
+
 
 		/// <summary>
 		///事件：点击《搜索网络/串口设备》，两个按钮点击事件集成在一起
@@ -114,40 +114,45 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void searchButton_Click(object sender, EventArgs e)
 		{
-			string buttonName =((SkinButton)sender).Name;
-			//点击《搜索网络设备》
-			if (buttonName.Equals("networkSearchSkinButton")) 
+			string buttonName = ((SkinButton)sender).Name;
+			if (buttonName.Equals("networkSearchSkinButton"))
 			{
-				connectTools = ConnectTools.GetInstance();
-				connectTools.Start(localIP);
-				connectTools.SearchDevice();
-				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-				Thread.Sleep(1000);
-
-				Dictionary<string, string> allDevices = connectTools.GetDeviceInfo();
-				networkDevicesComboBox.Items.Clear();
-				ips = new List<string>();
-				if (allDevices.Count > 0)
-				{
-					foreach (KeyValuePair<string, string> device in allDevices)
-					{
-						networkDevicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-						ips.Add(device.Key);
-					}
-					networkDevicesComboBox.Enabled = true;
-					networkDevicesComboBox.SelectedIndex = 0;
-				}
-				else
-				{
-					networkDevicesComboBox.Enabled = false;
-					networkDevicesComboBox.SelectedIndex = -1;
-					MessageBox.Show("未找到可用设备，请确认后重试。");
-				}
-			}
-			// 点击《搜索串口设备》
+				RefreshNetworkDevice();
+			}			
 			else {
 				searchCOMList();
-			}		
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新《网络设备》列表
+		/// </summary>
+		private void RefreshNetworkDevice() {
+			connectTools = ConnectTools.GetInstance();
+			connectTools.Start(localIP);
+			connectTools.SearchDevice();
+			// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
+			Thread.Sleep(1000);
+
+			Dictionary<string, string> allDevices = connectTools.GetDeviceInfo();
+			networkDevicesComboBox.Items.Clear();
+			ips = new List<string>();
+			if (allDevices.Count > 0)
+			{
+				foreach (KeyValuePair<string, string> device in allDevices)
+				{
+					networkDevicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
+					ips.Add(device.Key);
+				}
+				networkDevicesComboBox.Enabled = true;
+				networkDevicesComboBox.SelectedIndex = 0;
+			}
+			else
+			{
+				networkDevicesComboBox.Enabled = false;
+				networkDevicesComboBox.SelectedIndex = -1;
+				MessageBox.Show("未找到可用设备，请确认后重试。");
+			}
 		}
 
 		/// <summary>
@@ -348,8 +353,14 @@ namespace LightController.MyForm
 			else {
 				comFileShowLabel.Text = msg;
 			}
-		}		
-	
+		}
+
+		internal void ClearNetworkDevices()
+		{
+			networkDevicesComboBox.Text = "断开连接后请重新搜索网络设备";
+			networkDevicesComboBox.Enabled = false;
+			ips = new List<string>();
+		}
 	}
 
 
@@ -363,14 +374,16 @@ namespace LightController.MyForm
 
 		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("设备：" + deviceTag + "  下载成功并断开连接" 	);
-			puForm.SetBusy(false);
+			MessageBox.Show("设备：" + deviceTag + "  下载成功并断开连接");		
+			puForm.SetBusy(false);			
+			puForm.ClearNetworkDevices();			
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接\n错误原因是:" + errorMessage);
-			puForm.SetBusy(false);
+			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接\n错误原因是:" + errorMessage);			
+			puForm.SetBusy(false);			
+			puForm.ClearNetworkDevices();
 		}
 
 		public void GetParam(CSJ_Hardware hardware)

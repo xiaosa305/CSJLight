@@ -225,6 +225,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void updateButton_Click(object sender, EventArgs e)
 		{
+			SetBusy(true);
 			bool rightNow = false;
 			if (String.IsNullOrEmpty(projectPath))
 			{
@@ -234,6 +235,7 @@ namespace LightController.MyForm
 					MessageBoxIcon.Question);
 				if (dr == DialogResult.Cancel)
 				{
+					SetBusy(false);
 					return;
 				}
 				rightNow = true;
@@ -243,8 +245,7 @@ namespace LightController.MyForm
 			if (   buttonName.Equals("networkdUpdateSkinButton") )  //网络升级的途径
 			{
 				networkdUpdateSkinButton.Enabled = false;
-				networkDevicesComboBox.Enabled = false;
-				SetBusy(true);
+				networkDevicesComboBox.Enabled = false;				
 				if (rightNow)
 				{					
 					SetLabelText(true, "正在实时生成工程数据，请耐心等待...");
@@ -255,8 +256,7 @@ namespace LightController.MyForm
 					DownloadProject(true);					
 				}										
 			}
-			else {
-				SetBusy(true);
+			else {				
 				if (rightNow) { 					
 					SetLabelText(false, "正在实时生成工程数据，请耐心等待...");
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this,false));
@@ -271,6 +271,17 @@ namespace LightController.MyForm
 		public void SetBusy(bool busy)
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+			fileOpenSkinButton.Enabled = !busy;
+			clearSkinButton.Enabled = !busy;
+			getLocalIPsSkinButton.Enabled = !busy;
+			localIPsComboBox.Enabled = !busy;
+			networkSearchSkinButton.Enabled = !busy;
+			networkdUpdateSkinButton.Enabled = !busy;
+			networkDevicesComboBox.Enabled = !busy;
+			comSearchSkinButton.Enabled = !busy;
+			comComboBox.Enabled = !busy;
+			comOpenSkinButton.Enabled = !busy;
+			comUpdateSkinButton.Enabled = !busy;
 		}
 
 		public void DownloadProject(bool isNetwork) {
@@ -337,7 +348,8 @@ namespace LightController.MyForm
 			else {
 				comFileShowLabel.Text = msg;
 			}
-		}
+		}		
+	
 	}
 
 

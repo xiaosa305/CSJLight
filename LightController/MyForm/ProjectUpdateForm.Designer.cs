@@ -437,7 +437,7 @@
 			this.clearSkinButton.UseVisualStyleBackColor = false;
 			this.clearSkinButton.Click += new System.EventHandler(this.clearSkinButton_Click);
 			// 
-			// DownloadForm
+			// ProjectUpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -451,7 +451,7 @@
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "DownloadForm";
+			this.Name = "ProjectUpdateForm";
 			this.Text = "更新工程到设备";
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
 			this.skinTabControl.ResumeLayout(false);

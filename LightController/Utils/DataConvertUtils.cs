@@ -58,23 +58,6 @@ namespace LightController.Utils
             //启动线程开始执行数据生成及数据导出文件
             ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, mainForm, configPath));
         }
-
-        public static void SaveProjectFile2(DBWrapper wrapper, ValueDAO valueDAO, string configPath, ISaveProjectCallBack callBack)
-        {
-            CallBack = callBack;
-            BuildMode = MODE_MAKEFILE;
-            FileUtils.ClearCacheData();
-            FileUtils.ClearProjectData();
-            FileUtils.CreateConfig(new CSJ_Config(wrapper, configPath));
-            CSJThreadManager.CloseAllThread();
-            //初始化状态存储器
-            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-            C_DMXSceneState = new Dictionary<int, bool>();
-            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-            M_DMXSceneState = new Dictionary<int, bool>();
-            //启动线程开始执行数据生成及数据导出文件
-            //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedDBSceneData), new DBData(wrapper, valueDAO, configPath));
-        }
         /// <summary>
         /// 检索数据库获取数据
         /// </summary>
@@ -245,27 +228,25 @@ namespace LightController.Utils
                     case Constant.MODE_M:
                         M_DMXSceneChannelData.Remove(data.SceneNo);
                         M_DMXSceneState.Remove(data.SceneNo);
-                        if (!M_DMXSceneState.ContainsValue(false))
-                        {
-                            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-                            M_DMXSceneState = new Dictionary<int, bool>();
-                        }
                         break;
                     case Constant.MODE_C:
                         C_DMXSceneChannelData.Remove(data.SceneNo);
                         C_DMXSceneState.Remove(data.SceneNo);
-                        if (!C_DMXSceneState.ContainsValue(false))
-                        {
-                            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-                            C_DMXSceneState = new Dictionary<int, bool>();
-                        }
                         break;
                 }
                 if (!C_DMXSceneState.ContainsValue(false) && !M_DMXSceneState.ContainsValue(false))
                 {
+                    M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+                    M_DMXSceneState = new Dictionary<int, bool>();
+                    C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+                    C_DMXSceneState = new Dictionary<int, bool>();
                     FileUtils.CreateGradientData();
                     Console.WriteLine("XIAOSA  2：==>数据全部整合完毕");
                     CallBack.Completed();
+                }
+                else
+                {
+                    Flag = true;
                 }
             }
             else

@@ -248,10 +248,17 @@ namespace LightController.MyForm
 
 				lightAstList = reCreateLightAstList(dbLightList); // 通过lightList填充lightAstList
 				AddLightAstList(lightAstList); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容				
-				GenerateAllStepTemplates();// 8.29 统一生成步数模板
+				try
+				{
+					GenerateAllStepTemplates(); // 8.29 统一生成步数模板
+				}
+				catch (Exception ex) {
+					openProjectError(ex.Message);
+					return;
+				}
 
-				//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)				
-				Thread[] threadArray = new Thread[dbLightList.Count];
+					//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)				
+					Thread[] threadArray = new Thread[dbLightList.Count];
 				for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
 				{
 					int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
@@ -337,6 +344,18 @@ namespace LightController.MyForm
 				SetNotice("成功打开工程("+ projectName + ")");
 			}
 			SetBusy(false);
+		}
+
+		/// <summary>
+		/// 辅助方法：提示工程与灯库不匹配，并clearAll
+		/// </summary>
+		/// <param name="ex"></param>
+		private void openProjectError(string exMessage)
+		{
+			MessageBox.Show("打开工程出错，可能是灯库不匹配。\n异常信息:" + exMessage);
+			clearAllData();
+			SetBusy(false);
+			SetNotice("打开工程失败,请验证后重试");
 		}
 
 		/// <summary>
@@ -462,8 +481,6 @@ namespace LightController.MyForm
 			enableRefreshPic(enable);
 		}
 
-	
-
 
 		/// <summary>
 		/// 辅助方法：使用lightList来生成一个新的lightAstList
@@ -544,62 +561,62 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		protected StepWrapper generateStepTemplate(LightAst lightAst)
 		{
-			Console.WriteLine("Dickov : 开始生成模板文件(StepTemplate)：" + lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")");
-			int startNum = lightAst.StartNum;
-			using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
-			{
-				// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
-				StreamReader reader = new StreamReader(file, Encoding.UTF8);
-				string s = "";
-				ArrayList lineList = new ArrayList();
-				int lineCount = 0;
-				while ((s = reader.ReadLine()) != null)
-				{
-					lineList.Add(s);
-					lineCount++;
-				}
-				// 当行数小于5行时，这个文件肯定是错的;最少需要5行(实际上真实数据至少9行: [set]+4+[data]+3 ）
-				if (lineCount < 5)
-				{
-					MessageBox.Show("Dickov：打开的ini文件格式有误，无法生成StepTemplate！");
-					return null;
-				}
-				else
-				{
-					int tongdaoCount2 = (lineCount - 6) / 3;
-					int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
-					if (tongdaoCount2 < tongdaoCount)
+			Console.WriteLine("Dickov : 开始生成模板文件(StepTemplate)：" + lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")");			
+			try{
+				using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
+				{					
+					// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
+					StreamReader reader = new StreamReader(file, Encoding.UTF8);
+					string s = "";
+					ArrayList lineList = new ArrayList();
+					int lineCount = 0;
+					while ((s = reader.ReadLine()) != null)
 					{
-						MessageBox.Show("Dickov：打开的ini文件的count值与实际值不符合，无法生成StepTemplate！");
-						return null;
+						lineList.Add(s);
+						lineCount++;
 					}
-
-					List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
-					for (int i = 0; i < tongdaoCount; i++)
+					// 当行数小于5行时，这个文件肯定是错的;最少需要5行(实际上真实数据至少9行: [set]+4+[data]+3 ）
+					if (lineCount < 5)
+					{						
+						throw new Exception("打开的灯库文件格式有误，无法生成StepTemplate");
+						//MessageBox.Show("Dickov：打开的灯库文件格式有误，无法生成StepTemplate！");
+						//return null;     //原代码：这样程序会继续下去，是错误的处理方式。
+					}
+					else
 					{
-						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
-						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-						tongdaoList.Add(new TongdaoWrapper()
+						int tongdaoCount2 = (lineCount - 6) / 3;
+						int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
+						if (tongdaoCount2 < tongdaoCount)
+						{							
+							throw new Exception("打开的灯库文件的count值与实际值不符合，无法生成StepTemplate");
+						}
+
+						List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();						
+						for (int i = 0; i < tongdaoCount; i++)
 						{
-							TongdaoName = tongdaoName,
-							ScrollValue = initNum,
-							StepTime = 66,
-							ChangeMode = -1,
-							Address = startNum + (address - 1)
-						});
+							string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
+							int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
+							int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
+							tongdaoList.Add(new TongdaoWrapper()
+							{
+								TongdaoName = tongdaoName,
+								ScrollValue = initNum,
+								StepTime = 66,
+								ChangeMode = -1,
+								Address = lightAst.StartNum + (address - 1)
+							});
+						}
+						return new StepWrapper()
+						{
+							TongdaoList = tongdaoList,
+							LightFullName = lightAst.LightName + "*" + lightAst.LightType, // 使用“*”作为分隔符，这样的字符无法在系统生成文件夹，可有效防止有些灯刚好Name+Type的组合相同
+							StartNum = lightAst.StartNum							
+						};
 					}
-
-
-					return new StepWrapper()
-					{
-						TongdaoList = tongdaoList,
-						LightFullName = lightAst.LightName + "*" + lightAst.LightType,
-						StartNum = startNum
-						// 这里使用“*”作为分隔符，这样的字符无法在系统生成文件夹;
-						// 这样就能有效防止有些灯刚好Name+Type的组合相同
-					};
 				}
+			}
+			catch (Exception ex) {
+					throw ex;				
 			}
 		}
 
@@ -1917,7 +1934,6 @@ namespace LightController.MyForm
 			return true;
 		}
 
-
 		/// <summary>
 		/// 辅助方法：显示每个灯具的当前步和最大步 
 		/// </summary>
@@ -1989,8 +2005,6 @@ namespace LightController.MyForm
 			int selectedLightIndex = lightDictionary[pk.LightIndex];
 			int tdIndex = pk.LightID - pk.LightIndex ;			
 			IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
-
-
 			if (lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode] != null
 				&& lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList != null) {
 

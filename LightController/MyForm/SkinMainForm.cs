@@ -427,7 +427,10 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void updateSkinButton_Click(object sender, EventArgs e)
-		{
+		{		
+			if (isConnected) {
+				connectSkinButton_Click(null, null);
+			}			
 			new ProjectUpdateForm(this, GetDBWrapper(false), globalIniPath, projectPath).ShowDialog();
 		}
 
@@ -571,24 +574,24 @@ namespace LightController.MyForm
 			
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
-			{
-				Console.WriteLine("用户取消了");
+			{				
 				return;
 			}
 
 			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";					
 			DirectoryInfo di = new DirectoryInfo(exportPath);
 			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0) ) {
-				DialogResult dr2 = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
+				dr = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
 						"覆盖工程？",
 						MessageBoxButtons.OKCancel,
 						MessageBoxIcon.Question);
-				if (dr2 == DialogResult.Cancel)
+				if (dr == DialogResult.Cancel)
 				{
-						return;
+					return;
 				}				
-			}					
-		
+			}
+
+			SetNotice("正在导出工程，请稍候...");
 			SetBusy(true);
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));	
 		}
@@ -598,10 +601,20 @@ namespace LightController.MyForm
 			if (success)
 			{
 				FileUtils.ExportProjectFile(exportPath);
-				System.Diagnostics.Process.Start(exportPath);
+				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
+						"打开导出文件夹？",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question);
+				if (dr == DialogResult.OK) {
+					System.Diagnostics.Process.Start(exportPath);
+				}
 			}
-			MessageBox.Show("导出工程" + (success ? "成功。" : "出错。"));
+			else {
+				MessageBox.Show("导出工程出错。");
+			}
+			
 			SetBusy(false);
+			SetNotice("导出工程" + (success ? "成功" : "出错"));
 		}
 
 
@@ -2230,7 +2243,7 @@ namespace LightController.MyForm
 		}
 
 
-		private NetworkDebugReceiveCallBack cb = new NetworkDebugReceiveCallBack();
+		
 		/// <summary>
 		///  事件：点击《连接设备|断开连接》按钮
 		/// </summary>
@@ -2250,6 +2263,7 @@ namespace LightController.MyForm
 						return;
 					}
 					playTools.ConnectDevice(comName);
+					EnableConnectedButtons(true);
 				}
 				else {
 					if (String.IsNullOrEmpty(comName) || deviceSkinComboBox.SelectedIndex < 0) {
@@ -2258,19 +2272,12 @@ namespace LightController.MyForm
 					}
 
 					IPAst ipAst = ipAstList[deviceSkinComboBox.SelectedIndex];
-					connectTools = ConnectTools.GetInstance();
-					connectTools.Start(ipAst.LocalIP);				
-					playTools.StartInternetPreview(ipAst.DeviceIP, cb, eachStepTime);
-				}
-				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
-				connectSkinButton.Text = "断开连接";
-				enableConnectedButtons(true);
+					ConnectTools.GetInstance().Start(ipAst.LocalIP);					
+					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				}				
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
-				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
-				connectSkinButton.Text = "连接设备";
-
 				if (isConnectCom)
 				{
 					playTools.CloseDevice();
@@ -2280,7 +2287,7 @@ namespace LightController.MyForm
 				}				
 
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				enableConnectedButtons(false);
+				EnableConnectedButtons(false);
 
 				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
 				if ( !isConnectCom) {
@@ -2294,7 +2301,7 @@ namespace LightController.MyForm
 		///  辅助方法：选择串口按钮、刷新串口按钮、调试的按钮组是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		private void enableConnectedButtons(bool connected)
+		public void EnableConnectedButtons(bool connected)
 		{
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !connected;
@@ -2309,6 +2316,16 @@ namespace LightController.MyForm
 
 			// 是否连接
 			isConnected  = connected;
+
+			if (connected)
+			{
+				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
+				connectSkinButton.Text = "断开连接";
+			}
+			else {
+				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
+				connectSkinButton.Text = "连接设备";
+			}
 		}
 
 	
@@ -3015,25 +3032,24 @@ namespace LightController.MyForm
 
 	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
 	{
-		//public bool Result { get; set; }	
-		//public void SendCompleted(string deviceName, string order)
-		//{
-		//	//MessageBox.Show("网络设备" + deviceName + " 连接成功。"	);
-		//	Result = true;
-		//}
-		//public void SendError(string deviceName, string order)
-		//{
-		//	//MessageBox.Show("网络设备" + deviceName + " 连接失败。"	);
-		//	Result = false;
-		//}
+		private SkinMainForm mainForm;
+
+		public NetworkDebugReceiveCallBack(SkinMainForm mainForm)
+		{
+			this.mainForm = mainForm;
+		}
+
 		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("网络设备" + deviceTag + " 连接成功。");
+			MessageBox.Show("网络设备(" + deviceTag + ")连接成功。");
+			mainForm.SetNotice("网络设备(" + deviceTag + ")连接成功。");
+			mainForm.EnableConnectedButtons(true);
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("网络设备" + deviceTag + " 连接失败。");
+			MessageBox.Show("网络设备(" + deviceTag + ")连接失败。");
+			mainForm.SetNotice("网络设备(" + deviceTag + ")连接失败");
 		}
 
 		public void GetParam(CSJ_Hardware hardware)

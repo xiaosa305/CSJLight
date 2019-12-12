@@ -343,37 +343,22 @@ namespace LightController.MyForm
 
 	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
 	{
-
-		//public void SendCompleted(string deviceName, string order)
-		//{
-		//	MessageBox.Show("设备：" + deviceName + "  下载成功并断开连接"
-		//		//+"发回了命令："+order 
-		//		);
-		//}
-		//public void SendError(string deviceName, string order)
-		//{
-		//	MessageBox.Show("设备：" + deviceName + " 下载失败并断开连接" 
-		//		//+ "发回了命令：" + order 
-		//		);
-		//}
-
-		private ProjectUpdateForm downloadForm;
-
+		private ProjectUpdateForm puForm;
 		public NetworkDownloadReceiveCallBack(ProjectUpdateForm downloadForm)
 		{
-			this.downloadForm = downloadForm;
+			this.puForm = downloadForm;
 		}
 
 		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("设备：" + deviceTag + "  下载成功并断开连接" 	);
-			downloadForm.SetBusy(false);
+			puForm.SetBusy(false);
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接，错误原因是:" + errorMessage);
-			downloadForm.SetBusy(false);
+			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接\n错误原因是:" + errorMessage);
+			puForm.SetBusy(false);
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -383,28 +368,28 @@ namespace LightController.MyForm
 
 		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
 		{
-			downloadForm.networkPaintProgress(fileName, newProgress);
+			puForm.networkPaintProgress(fileName, newProgress);
 		}
 	}
 
 	public class ComDownloadReceiveCallBack : ICommunicatorCallBack
 	{
-		private ProjectUpdateForm downloadForm;
+		private ProjectUpdateForm puForm;
 		public ComDownloadReceiveCallBack(ProjectUpdateForm downloadForm)
 		{
-			this.downloadForm = downloadForm;
+			this.puForm = downloadForm;
 		}
 
 		public void Completed(string deviceTag)
 		{
 			MessageBox.Show("下载成功");
-			downloadForm.SetBusy(false);
+			puForm.SetBusy(false);
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
 			MessageBox.Show("下载失败");
-			downloadForm.SetBusy(false);
+			puForm.SetBusy(false);
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -414,31 +399,31 @@ namespace LightController.MyForm
 
 		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
 		{
-			downloadForm.comPaintProgress(fileName, newProgress);
+			puForm.comPaintProgress(fileName, newProgress);
 		}
 	}
 
 	public class DownloadSaveCallBack : ISaveProjectCallBack
 	{
-		private ProjectUpdateForm downloadForm;
+		private ProjectUpdateForm puForm;
 		private bool isNetwork;
 		public DownloadSaveCallBack(ProjectUpdateForm downloadForm, bool isNetwork)
 		{
-			this.downloadForm = downloadForm;
+			this.puForm = downloadForm;
 			this.isNetwork = isNetwork;
 		}
 
 		public void Completed()
 		{
-			downloadForm.SetLabelText(true,"数据生成成功，即将传输数据到设备。");
+			puForm.SetLabelText(isNetwork,"数据生成成功，即将传输数据到设备。");
 			FileUtils.CopyProjectFileToDownloadDir();
-			downloadForm.DownloadProject(isNetwork);
+			puForm.DownloadProject(isNetwork);
 		}
 
 		public void Error()
 		{
 			MessageBox.Show("数据生成出错");
-			downloadForm.SetBusy(false);
+			puForm.SetBusy(false);
 		}
 		public void UpdateProgress(string name)
 		{

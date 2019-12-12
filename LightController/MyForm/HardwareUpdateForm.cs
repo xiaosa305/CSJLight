@@ -315,7 +315,7 @@ namespace LightController.MyForm
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("设备(" + deviceTag + ")升级出错。\n错误信息是" + errorMessage);
+			MessageBox.Show("设备(" + deviceTag + ")升级出错。\n错误信息是：" + errorMessage);
 		}
 
 		public void GetParam(CSJ_Hardware hardware)

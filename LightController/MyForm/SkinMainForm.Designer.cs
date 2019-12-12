@@ -995,7 +995,7 @@ namespace LightController.MyForm
 			this.exportSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.exportSkinButton.InheritColor = true;
 			this.exportSkinButton.IsDrawBorder = false;
-			this.exportSkinButton.Location = new System.Drawing.Point(19, 357);
+			this.exportSkinButton.Location = new System.Drawing.Point(19, 462);
 			this.exportSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.exportSkinButton.MouseBack = null;
 			this.exportSkinButton.Name = "exportSkinButton";
@@ -1026,7 +1026,7 @@ namespace LightController.MyForm
 			this.frameSaveSkinButton.ImageSize = new System.Drawing.Size(50, 55);
 			this.frameSaveSkinButton.InheritColor = true;
 			this.frameSaveSkinButton.IsDrawBorder = false;
-			this.frameSaveSkinButton.Location = new System.Drawing.Point(19, 462);
+			this.frameSaveSkinButton.Location = new System.Drawing.Point(21, 357);
 			this.frameSaveSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.frameSaveSkinButton.MouseBack = null;
 			this.frameSaveSkinButton.Name = "frameSaveSkinButton";
@@ -1918,7 +1918,7 @@ namespace LightController.MyForm
 			this.noticeLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.noticeLabel.ForeColor = System.Drawing.Color.DimGray;
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(200, 17);
+			this.noticeLabel.Size = new System.Drawing.Size(231, 17);
 			this.noticeLabel.Spring = true;
 			// 
 			// commonStepTimeSkinButton

@@ -251,7 +251,9 @@ namespace LightController.Utils
             }
             else
             {
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
+                //TODO 测试同步语句效率
+                GeneratedSceneData(new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
             }
         }
         private static void GeneratedSceneData(Object obj)
@@ -374,7 +376,9 @@ namespace LightController.Utils
                 }
                 C_ChannelThreadDataInfo dataInfo = new C_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, sceneNo, rate);
                 dataInfo.SetName("C1-" + Constant.GetNumber(cSJ_ChannelData.ChannelNo) + ".bin");
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), dataInfo);
+                //TODO 测试同步语句效率-基础场景
+                ConvertC_DataWaitCallback(dataInfo);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), dataInfo);
             }
         }
         private static void ConvertC_DataWaitCallback(Object obj)
@@ -594,7 +598,9 @@ namespace LightController.Utils
                     }
                 }
                 M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
+                //TODO 测试同步语句效率-音频场景
+                ConvertM_DataWaitCallback(dataInfo);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
             }
         }
         private static void ConvertM_DataWaitCallback(Object obj)
@@ -761,7 +767,9 @@ namespace LightController.Utils
             M_DMXSceneState = new Dictionary<int, bool>();
             C_PreviewSceneData = null;
             M_PreviewSceneData = null;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+            //TODO 测试同步语句效率-整理预览数据
+            GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
 
         }
         /// <summary>
@@ -898,7 +906,9 @@ namespace LightController.Utils
                 }
                 else
                 {
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(c_SceneData, wrapper, configPath, Constant.MODE_C));
+                    //TODO 测试同步语句效率-预览基础场景数据
+                    GeneratedSceneData(new SceneDBData(c_SceneData, wrapper, configPath, Constant.MODE_C));
+                    //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(c_SceneData, wrapper, configPath, Constant.MODE_C));
                 }
             }
             if (m_StepCount > 0)
@@ -911,146 +921,9 @@ namespace LightController.Utils
                 }
                 else
                 {
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(m_SceneData, wrapper, configPath, Constant.MODE_M));
-                }
-            }
-        }
-        /// <summary>
-        /// 预览通道数据处理
-        /// </summary>
-        /// <param name="obj"></param>
-        private static void PreViewChannelDataHandle1(object obj)
-        {
-            PreViewDataInfo dataInfo = obj as PreViewDataInfo;
-            List<int> isGradualChange = new List<int>();
-            List<int> stepValues = new List<int>();
-            List<int> stepTimes = new List<int>();
-            DB_ValuePK pK = new DB_ValuePK()
-            {
-                Frame = dataInfo.SceneNo,
-                LightID = dataInfo.ChannelNo,
-                LightIndex = dataInfo.LightIndex,
-                Mode = dataInfo.Mode
-            };
-            for (int i = 0; i < dataInfo.StepCount; i++)
-            {
-                pK.Step = i + 1;
-                foreach (DB_Value item in dataInfo.Wrapper.valueList)
-                {
-                    if (item.PK.Equals(pK))
-                    {
-                        if (pK.Mode == Constant.MODE_M)
-                        {
-                            if (item.ChangeMode == Constant.MODE_M_GRADUAL || item.ChangeMode == Constant.MODE_M_HIDDEN)
-                            {
-                                continue;
-                            }
-                        }
-                        isGradualChange.Add(item.ChangeMode);
-                        stepValues.Add(item.ScrollValue);
-                        stepTimes.Add(item.StepTime);
-                        break;
-                    }
-                }
-            }
-            CSJ_ChannelData channelData = new CSJ_ChannelData()
-            {
-                ChannelNo = dataInfo.ChannelNo,
-                IsGradualChange = isGradualChange,
-                StepValues = stepValues,
-                StepTimes = stepTimes,
-                StepCount = stepValues.Count
-            };
-            PreviewDataFileCreate1(new PreViewDataInfo(dataInfo.Wrapper,dataInfo.ConfigPath,dataInfo.Mode,dataInfo.SceneNo,dataInfo.ChannelNo,dataInfo.StepCount,dataInfo.LightIndex), channelData);
-        }
-        /// <summary>
-        /// 预览数据生成完成判断并整合处理
-        /// </summary>
-        private static void PreviewDataFileCreate1(PreViewDataInfo dataInfo,CSJ_ChannelData channelData)
-        {
-            CSJ_ChannelData data = channelData;
-            PreViewDataInfo info = dataInfo;
-            switch (info.Mode)
-            {
-                case Constant.MODE_C:
-                    if (C_PreviewSceneData == null)
-                    {
-                        C_PreviewSceneData = new CSJ_SceneData()
-                        {
-                            SceneNo = info.SceneNo,
-                            ChannelCount = 0,
-                            ChannelDatas = new List<CSJ_ChannelData>()
-                        };
-                    }
-                    if (data.StepCount > 0)
-                    {
-                        lock (C_DMXSceneChannelData)
-                        {
-                            C_DMXSceneChannelData[0].Add(info.ChannelNo, false);
-                        }
-                    }
-                    lock (C_PreviewDataState)
-                    {
-                        C_PreviewDataState[data.ChannelNo] = true;
-                    }
-                    break;
-                case Constant.MODE_M:
-                    if (M_PreviewSceneData == null)
-                    {
-                        M_PreviewSceneData = new CSJ_SceneData()
-                        {
-                            SceneNo = info.SceneNo,
-                            ChannelCount = 0,
-                            ChannelDatas = new List<CSJ_ChannelData>()
-                        };
-                    }
-                    if (data.StepCount > 0)
-                    {
-                        lock (M_DMXSceneChannelData)
-                        {
-                            M_DMXSceneChannelData[0].Add(info.ChannelNo, false);
-                        }
-                    }
-                    lock (M_PreviewDataState)
-                    {
-                        M_PreviewDataState[data.ChannelNo] = true;
-                    }
-                    break;
-            }
-            if (data.StepCount > 0)
-            {
-                switch (info.Mode)
-                {
-                    case Constant.MODE_C:
-                        lock (C_PreviewSceneData)
-                        {
-                            C_PreviewSceneData.ChannelDatas.Add(data);
-                        }
-                        break;
-                    case Constant.MODE_M:
-                        lock (M_PreviewSceneData)
-                        {
-                            M_PreviewSceneData.ChannelDatas.Add(data);
-                        }
-                        break;
-                }
-            }
-            lock (C_PreviewDataState)
-            {
-                if (info.Mode == Constant.MODE_C && !C_PreviewDataState.ContainsValue(false))
-                {
-                    C_PreviewSceneData.ChannelCount = C_PreviewSceneData.ChannelDatas.Count;
-                    C_PreviewSceneData.SceneNo = 0;
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(C_PreviewSceneData, info.Wrapper, info.ConfigPath, Constant.GetNumber(info.Mode)));
-                }
-            }
-            lock (M_PreviewDataState)
-            {
-                if (info.Mode == Constant.MODE_M && !M_PreviewDataState.ContainsValue(false))
-                {
-                    M_PreviewSceneData.ChannelCount = M_PreviewSceneData.ChannelDatas.Count;
-                    M_PreviewSceneData.SceneNo = 0;
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(M_PreviewSceneData, info.Wrapper, info.ConfigPath, Constant.GetNumber(info.Mode)));
+                    //TODO 测试同步语句效率-预览基础场景数据
+                    GeneratedSceneData(new SceneDBData(m_SceneData, wrapper, configPath, Constant.MODE_M));
+                    //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(m_SceneData, wrapper, configPath, Constant.MODE_M));
                 }
             }
         }

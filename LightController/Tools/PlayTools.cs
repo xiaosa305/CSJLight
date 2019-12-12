@@ -484,6 +484,7 @@ namespace LightController.Tools
                                     {
                                         Device.SetBaudRate(250000);
                                         Device.SetDataCharacteristics(FTDI.FT_DATA_BITS.FT_BITS_8, FTDI.FT_STOP_BITS.FT_STOP_BITS_2, FTDI.FT_PARITY.FT_PARITY_NONE);
+                                        PreviewWayState = STATE_SERIALPREVIEW;
                                         return Device.IsOpen;
                                     }
                                 }

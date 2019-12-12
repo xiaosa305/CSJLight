@@ -46,6 +46,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine(ex.Message);
             }
         }
@@ -60,6 +61,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine(ex.Message);
             }
         }
@@ -74,6 +76,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine(ex.Message);
             }
         }
@@ -88,6 +91,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine(ex.Message);
             }
         }
@@ -102,6 +106,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine(ex.Message);
             }
         }
@@ -130,6 +135,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
@@ -336,6 +342,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine("拷贝文件到下载目录报错" + ex.StackTrace);
             }
             return result;
@@ -366,6 +373,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine("拷贝工程文件到下载目录报错" + ex.StackTrace);
             }
             return result;
@@ -399,6 +407,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
+                CSJLogs.GetInstance().ErrorLog(ex);
                 Console.WriteLine("拷贝工程文件到指定目录" + ex.StackTrace);
             }
           

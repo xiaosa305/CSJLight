@@ -251,7 +251,9 @@ namespace LightController.Utils
             }
             else
             {
-                ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
+                //TODO 测试同步语句效率
+                GeneratedSceneData(new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSceneData), new SceneDBData(sceneData, data.Wrapper, data.ConfigPath, data.Mode));
             }
         }
         private static void GeneratedSceneData(Object obj)
@@ -374,7 +376,9 @@ namespace LightController.Utils
                 }
                 C_ChannelThreadDataInfo dataInfo = new C_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, sceneNo, rate);
                 dataInfo.SetName("C1-" + Constant.GetNumber(cSJ_ChannelData.ChannelNo) + ".bin");
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), dataInfo);
+                //TODO 测试同步语句效率-基础场景
+                ConvertC_DataWaitCallback(dataInfo);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertC_DataWaitCallback), dataInfo);
             }
         }
         private static void ConvertC_DataWaitCallback(Object obj)
@@ -594,7 +598,9 @@ namespace LightController.Utils
                     }
                 }
                 M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
+                //TODO 测试同步语句效率-音频场景
+                ConvertM_DataWaitCallback(dataInfo);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
             }
         }
         private static void ConvertM_DataWaitCallback(Object obj)

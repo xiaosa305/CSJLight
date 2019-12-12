@@ -627,7 +627,7 @@ namespace LightController.MyForm
 			this.Cursor = busy?Cursors.WaitCursor : Cursors.Default;
 			this.middleTableLayoutPanel.Enabled = !busy;
 			this.projectSkinPanel.Enabled = !busy;
-			this.astSkinPanel.Enabled = !busy;
+			this.tdCommonPanel.Enabled = !busy;
 		}
 
 		/// <summary>
@@ -3136,7 +3136,7 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			//MessageBox.Show("数据：" + name+"生成成功。");
+			mainForm.SetNotice( name );
 		}
 	}
 }

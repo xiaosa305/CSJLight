@@ -357,7 +357,7 @@ namespace LightController.MyForm
 
 		internal void ClearNetworkDevices()
 		{
-			networkDevicesComboBox.Text = "断开连接后请重新搜索网络设备";
+			networkDevicesComboBox.Text = "";
 			networkDevicesComboBox.Enabled = false;
 			ips = new List<string>();
 		}

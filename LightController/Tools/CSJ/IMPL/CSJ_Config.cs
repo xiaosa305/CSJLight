@@ -81,7 +81,22 @@ namespace LightController.Tools.CSJ.IMPL
                 }
             }
             //添加场景切换模式
-            data.Add(Convert.ToByte(Scene_Change_Mode));
+            switch (Scene_Change_Mode)
+            {
+                case 1:
+                    data.Add(Convert.ToByte(5));
+                    break;
+                case 2:
+                    data.Add(Convert.ToByte(10));
+                    break;
+                case 3:
+                    data.Add(Convert.ToByte(15));
+                    break;
+                case 0:
+                default:
+                    data.Add(Convert.ToByte(0));
+                    break;
+            }
             //添加时间因子
             data.Add(Convert.ToByte(TimeFactory));
             //添加场景组合播放数据

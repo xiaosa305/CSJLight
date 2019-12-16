@@ -637,6 +637,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void closeSkinButton_Click(object sender, EventArgs e)
 		{
+			DialogResult dr = MessageBox.Show("关闭工程前是否保存工程?",
+						"保存工程？",
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Question);
+			if (dr == DialogResult.Yes) {
+				saveSkinButton_Click(null, null);
+			}
+
 			clearAllData();
 			SetNotice("成功关闭工程。");
 			MessageBox.Show("成功关闭工程。");

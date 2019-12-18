@@ -229,7 +229,14 @@ namespace LightController.Tools.CSJ.IMPL
                         {
                             CombineScene combine_Scene = new CombineScene();
                             //获取主场景编号
-                            strValue = lineStr[0] + "";
+                            if (lineStr[1] >= '0' && lineStr[1] <= '9')
+                            {
+                                strValue = lineStr[0] + lineStr[1] + "";
+                            }
+                            else
+                            {
+                                strValue = lineStr[0] + "";
+                            }
                             int.TryParse(strValue, out intValue);
                             combine_Scene.Scene_Main_Number = intValue;
                             //获取场景组合播放开启状态

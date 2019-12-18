@@ -43,6 +43,10 @@ namespace LightController.Utils
                 {
                     Directory.CreateDirectory(PreviewDataFilePath);
                 }
+                if (!Directory.Exists(ProjectDownloadDir))
+                {
+                    Directory.CreateDirectory(ProjectDownloadDir);
+                }
             }
             catch (Exception ex)
             {

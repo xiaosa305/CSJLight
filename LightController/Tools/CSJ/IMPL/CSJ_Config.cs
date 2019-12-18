@@ -172,7 +172,7 @@ namespace LightController.Tools.CSJ.IMPL
             string lineStr = "";
             string strValue;
             int intValue;
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 16; i++)
             {
                 CombineScene Data = new CombineScene
                 {
@@ -281,7 +281,6 @@ namespace LightController.Tools.CSJ.IMPL
                             {
                                 CombineScenes[combine_Scene.Scene_Main_Number] = combine_Scene;
                             }
-                            //CombineScenes.Add(combine_Scene);
                             //读取下一条是否为下一个场景组合数据，不是则结束循环
                             lineStr = Reader.ReadLine();
                         } while (!lineStr.Equals("[SK]"));

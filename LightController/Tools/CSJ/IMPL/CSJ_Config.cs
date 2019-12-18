@@ -284,7 +284,7 @@ namespace LightController.Tools.CSJ.IMPL
                             int.TryParse(strValue, out intValue);
                             combine_Scene.Play_Time_Scene_Four = intValue;
                             //将场景组合播放数据进行存放
-                            if (combine_Scene.Scene_Main_Number < 9 && combine_Scene.Scene_Main_Number >= 0)
+                            if (combine_Scene.Scene_Main_Number < 16 && combine_Scene.Scene_Main_Number >= 0)
                             {
                                 CombineScenes[combine_Scene.Scene_Main_Number] = combine_Scene;
                             }

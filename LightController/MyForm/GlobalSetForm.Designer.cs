@@ -369,6 +369,11 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			this.frame0NumericUpDown.Location = new System.Drawing.Point(17, 102);
 			this.frame0NumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.frame0NumericUpDown.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
 			this.frame0NumericUpDown.Name = "frame0NumericUpDown";
 			this.frame0NumericUpDown.Size = new System.Drawing.Size(87, 21);
 			this.frame0NumericUpDown.TabIndex = 4;
@@ -389,7 +394,7 @@ private System.ComponentModel.IContainer components = null;
 			this.frame4numericUpDown.Location = new System.Drawing.Point(547, 104);
 			this.frame4numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame4numericUpDown.Maximum = new decimal(new int[] {
-            1000,
+            3600,
             0,
             0,
             0});
@@ -403,7 +408,7 @@ private System.ComponentModel.IContainer components = null;
 			this.frame3numericUpDown.Location = new System.Drawing.Point(435, 104);
 			this.frame3numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame3numericUpDown.Maximum = new decimal(new int[] {
-            1000,
+            3600,
             0,
             0,
             0});
@@ -417,7 +422,7 @@ private System.ComponentModel.IContainer components = null;
 			this.frame2numericUpDown.Location = new System.Drawing.Point(321, 104);
 			this.frame2numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame2numericUpDown.Maximum = new decimal(new int[] {
-            1000,
+            3600,
             0,
             0,
             0});
@@ -517,7 +522,7 @@ private System.ComponentModel.IContainer components = null;
 			this.frame1numericUpDown.Location = new System.Drawing.Point(218, 104);
 			this.frame1numericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.frame1numericUpDown.Maximum = new decimal(new int[] {
-            1000,
+            3600,
             0,
             0,
             0});

@@ -58,8 +58,8 @@ namespace LightController.MyForm
 				qdFrameComboBox.Items.Add(frame);
 				startupComboBox.Items.Add(frame);
 			}
-			// 组合播放只有前面9种场景可以用。
-			for (int i = 0; i < 9; i++)
+			// 组合播放只有前面16个场景可以用。
+			for (int i = 0; i < 16; i++)
 			{
 				zuheFrameComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
 			}

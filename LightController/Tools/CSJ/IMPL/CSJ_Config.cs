@@ -22,6 +22,7 @@ namespace LightController.Tools.CSJ.IMPL
         public List<LightInfo> LightInfos { get; set; } //灯具数据
         private string FilePath { get; set; }//全局配置文件路径
         private IList<DB_Light> DB_Lights { get; set; }//数据库灯具信息
+        private const int SCENECHANGEMAXNUMBER = 16;
 
         public CSJ_Config(DBWrapper dBWrapper, string filePath)
         {
@@ -172,7 +173,7 @@ namespace LightController.Tools.CSJ.IMPL
             string lineStr = "";
             string strValue;
             int intValue;
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < SCENECHANGEMAXNUMBER; i++)
             {
                 CombineScene Data = new CombineScene
                 {
@@ -284,7 +285,7 @@ namespace LightController.Tools.CSJ.IMPL
                             int.TryParse(strValue, out intValue);
                             combine_Scene.Play_Time_Scene_Four = intValue;
                             //将场景组合播放数据进行存放
-                            if (combine_Scene.Scene_Main_Number < 9 && combine_Scene.Scene_Main_Number >= 0)
+                            if (combine_Scene.Scene_Main_Number < SCENECHANGEMAXNUMBER && combine_Scene.Scene_Main_Number >= 0)
                             {
                                 CombineScenes[combine_Scene.Scene_Main_Number] = combine_Scene;
                             }

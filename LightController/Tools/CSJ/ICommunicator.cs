@@ -1073,7 +1073,8 @@ namespace LightController.Tools.CSJ
                 fileStream.Read(data, 0, data.Length);
                 string fileSize = data.Length.ToString();
                 this.DownloadFileToTalSize = data.Length;
-                string fileName = info.Name;
+                //string fileName = info.Name;
+                string fileName = "Update.xbin";
                 this.CurrentFileName = fileName;
                 byte[] crc = CRCTools.GetInstance().GetCRC(data);
                 string fileCrc = Convert.ToInt32((crc[0] & 0xFF) | ((crc[1] & 0xFF) << 8)) + "";

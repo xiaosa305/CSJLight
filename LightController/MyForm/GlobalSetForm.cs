@@ -20,7 +20,8 @@ namespace LightController.MyForm
 		private int frameIndex = -1;
 		private int eachStepTime = 30;
 
-		private int frameCount = 0; 
+		private int frameCount = 0 ;
+		public static int MULTI_SCENE_COUNT = 16 ;
 
 		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
 
@@ -58,8 +59,8 @@ namespace LightController.MyForm
 				qdFrameComboBox.Items.Add(frame);
 				startupComboBox.Items.Add(frame);
 			}
-			// 组合播放只有前面16个场景可以用。
-			for (int i = 0; i < 16; i++)
+			// 组合播放只有前面 n 个场景可以用(全局静态变量，便于随时改动)。
+			for (int i = 0; i < MULTI_SCENE_COUNT; i++)
 			{
 				zuheFrameComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
 			}

@@ -1,5 +1,6 @@
 ﻿using DMX512;
 using LightController.Ast;
+using LightController.MyForm;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +23,7 @@ namespace LightController.Tools.CSJ.IMPL
         public List<LightInfo> LightInfos { get; set; } //灯具数据
         private string FilePath { get; set; }//全局配置文件路径
         private IList<DB_Light> DB_Lights { get; set; }//数据库灯具信息
-        private const int SCENECHANGEMAXNUMBER = 16;
+        
 
         public CSJ_Config(DBWrapper dBWrapper, string filePath)
         {
@@ -173,7 +174,7 @@ namespace LightController.Tools.CSJ.IMPL
             string lineStr = "";
             string strValue;
             int intValue;
-            for (int i = 0; i < SCENECHANGEMAXNUMBER; i++)
+            for (int i = 0; i < GlobalSetForm.MULTI_SCENE_COUNT; i++)
             {
                 CombineScene Data = new CombineScene
                 {
@@ -232,7 +233,7 @@ namespace LightController.Tools.CSJ.IMPL
                             //获取主场景编号
                             if (lineStr[1] >= '0' && lineStr[1] <= '9')
                             {
-                                strValue = lineStr[0] + lineStr[1] + "";
+                                strValue = lineStr[0].ToString() + lineStr[1].ToString() + "";
                             }
                             else
                             {
@@ -285,7 +286,7 @@ namespace LightController.Tools.CSJ.IMPL
                             int.TryParse(strValue, out intValue);
                             combine_Scene.Play_Time_Scene_Four = intValue;
                             //将场景组合播放数据进行存放
-                            if (combine_Scene.Scene_Main_Number < SCENECHANGEMAXNUMBER && combine_Scene.Scene_Main_Number >= 0)
+                            if (combine_Scene.Scene_Main_Number < GlobalSetForm.MULTI_SCENE_COUNT && combine_Scene.Scene_Main_Number >= 0)
                             {
                                 CombineScenes[combine_Scene.Scene_Main_Number] = combine_Scene;
                             }

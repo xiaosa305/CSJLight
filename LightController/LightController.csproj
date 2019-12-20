@@ -164,6 +164,12 @@
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
+    <Compile Include="MyForm\OtherTools\OtherToolsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\OtherToolsForm.Designer.cs">
+      <DependentUpon>OtherToolsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\GlobalSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -298,16 +304,10 @@
     <Compile Include="MyForm\QDTestForm.Designer.cs">
       <DependentUpon>QDTestForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\TestForm.cs">
+    <Compile Include="MyForm\OtherTools\ToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\ToolsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\ToolsForm.Designer.cs">
+    <Compile Include="MyForm\OtherTools\ToolsForm.Designer.cs">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\HardwareUpdateForm.cs">
@@ -367,6 +367,9 @@
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
+    <EmbeddedResource Include="MyForm\OtherTools\OtherToolsForm.resx">
+      <DependentUpon>OtherToolsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -431,10 +434,7 @@
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\ToolsForm.resx">
+    <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\HardwareUpdateForm.resx">

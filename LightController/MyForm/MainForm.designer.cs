@@ -3543,7 +3543,6 @@ namespace LightController
 			this.testGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion

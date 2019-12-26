@@ -892,6 +892,11 @@
     <Content Include="FrameList.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Ok3w.Net图标1.png" />
+    <None Include="Resources\Ok3w.Net图标7.png" />
+    <None Include="Resources\Ok3w.Net图标13.png" />
+    <None Include="Resources\Ok3w.Net图标14.png" />
+    <None Include="Resources\Ok3w.Net图标15.png" />
     <Content Include="Source\CSkin.dll" />
     <Content Include="Source\CSkin.XML" />
     <Content Include="Source\IrisSkin4.dll" />

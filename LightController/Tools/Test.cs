@@ -36,10 +36,10 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    DataConvertUtils.InitThreadPool();
-                    DataConvertUtils.SaveProjectFile(DBWrapper, MainForm, ConfigPath,new aaa());
+                    PlayTools.GetInstance().TestOpen();
                     break;
                 case 2:
+                    PlayTools.GetInstance().SetTest();
                     break;
                 case 3:
                     break;

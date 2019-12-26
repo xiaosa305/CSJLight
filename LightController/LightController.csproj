@@ -354,6 +354,7 @@
     <Compile Include="Tools\CSJ\IMPL\CSJ_Config.cs" />
     <Compile Include="Tools\CSJ\IMPL\CSJ_Hardware.cs" />
     <Compile Include="Tools\CSJ\IMPL\CSJ_SceneData.cs" />
+    <Compile Include="Tools\CSJ\IMPL\LightControlData.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />

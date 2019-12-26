@@ -32,6 +32,7 @@ namespace LightController.Tools.CSJ
         protected string HardwarePath { get; set; }//硬件配置文件路径
         protected string ConfigPath { get; set; }//全局配置文件路径
         protected string Order { get; set; }//当前执行命令
+        protected string SecondOrder { get; set; }//灯控以及中控二级命令
         protected string DeviceName { get; set; }//当前设备名称
         protected string[] Parameters { get; set; }//命令参数组
         protected string UpdateFilePath { get; set; }//硬件更新文件路径
@@ -41,12 +42,7 @@ namespace LightController.Tools.CSJ
         protected Thread DownloadThread { get; set; }//下载工程项目线程
         protected Thread TimeOutThread { get; set; }//超时处理线程
         protected Thread UpdateThread { get; set; }//硬件更新线程
-        //TODO 待删除
-        //protected IReceiveCallBack CallBack { get; set; }//命令结束执行回调
         protected ICommunicatorCallBack CallBack { get; set; }//命令结束执行回调
-        //TODO 待删除
-        //protected GetParamDelegate GetParamDelegate { get; set; }//获取硬件配置信息回调委托方法
-        //protected DownloadProgressDelegate DownloadProgressDelegate { get; set; }//下载工程项目文件进度回调委托方法
         protected abstract void Send(byte[] txBuff);
         public abstract void CloseDevice();
         public void SetPackageSize(int size)
@@ -455,36 +451,6 @@ namespace LightController.Tools.CSJ
                     }
                     break;
                 case Constant.ORDER_PUT:
-                    //TODO 待删除
-                    /*switch (rxStr)
-                    {
-                        case Constant.RECEIVE_ORDER_PUT:
-                            this.SendDataPackage();
-                            break;
-                        case Constant.RECEIVE_ORDER_SENDNEXT:
-                            this.SendDataPackage();
-                            break;
-                        case Constant.RECEIVE_ORDER_DONE:
-                            this.DownloadStatus = true;
-                            break;
-                        default:
-                            try
-                            {
-                                if (null != this.DownloadThread)
-                                {
-                                    this.DownloadThread.Abort();
-                                }
-                            }
-                            finally
-                            {
-                                this.DownloadStatus = false;
-                                this.IsSending = false;
-                                this.DownloadProgressDelegate("", 0);
-                                this.CallBack.SendError(devicename, this.Order);
-                                this.CloseDevice();
-                            }
-                            break;
-                    }*/
                     switch (rxStr)
                     {
                         case Constant.RECEIVE_ORDER_PUT:
@@ -705,13 +671,7 @@ namespace LightController.Tools.CSJ
                     this.ConfigPath = configPath;
                     this.CallBack = receiveCallBack;
                     this.IsSending = true;
-                    /*this.DownloadThread = new Thread(new ThreadStart(DownloadStart))
-                    {
-                        IsBackground = true
-                    };*/
-
-                    //TODO 新版网络下载测试
-                    this.DownloadThread = new Thread(new ThreadStart(DownloadStart2))
+                    this.DownloadThread = new Thread(new ThreadStart(DownloadStart))
                     {
                         IsBackground = true
                     };
@@ -728,9 +688,7 @@ namespace LightController.Tools.CSJ
                 }
             }
         }
-
-        //TODO 网络下载新流程
-        protected void DownloadStart2()
+        protected void DownloadStart()
         {
             string projectDirPath = Application.StartupPath + @"\DataCache\Download\CSJ";
             this.CurrentDownloadCompletedSize = 0;
@@ -827,122 +785,6 @@ namespace LightController.Tools.CSJ
             }
               
         }
-        /*
-        protected void DownloadStart()
-        {
-            bool TimeOutIsStart = false;
-            try
-            {
-                string fileName = string.Empty;
-                string fileSize = string.Empty;
-                string fileCRC = string.Empty;
-                byte[] crcBuff = new byte[2];
-                this.DownloadFileToTalSize = 0;
-                this.CurrentDownloadCompletedSize = 0;
-                this.TimeIndex = Constant.TIMEOUT;
-                CSJ_Project project = DmxDataConvert.GetInstance().GetCSJProjectFiles(this.Wrapper, this.ConfigPath);
-                this.TimeIndex = 0;
-                ScenesInitData scenesInitData = new ScenesInitData(project);
-                this.DownloadFileToTalSize = project.GetProjectFileSize();
-                if (null != scenesInitData)
-                {
-                    this.DownloadFileToTalSize += scenesInitData.GetData().Length;
-                }
-                this.DownloadStatus = false;
-                this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
-                if (project.CFiles != null)
-                {
-                    foreach (ICSJFile file in project.CFiles)
-                    {
-                        fileName = "C" + ((file as CSJ_C).SceneNo + 1) + ".bin";
-                        fileSize = file.GetData().Length.ToString();
-                        crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                        fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
-                        while (true)
-                        {
-                            if (this.DownloadStatus)
-                            {
-                                this.CurrentFileName = fileName;
-                                this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                                this.DownloadStatus = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (project.MFiles != null)
-                {
-                    foreach (ICSJFile file in project.MFiles)
-                    {
-                        fileName = "M" + ((file as CSJ_M).SceneNo + 1) + ".bin";
-                        fileSize = file.GetData().Length.ToString();
-                        crcBuff = CRCTools.GetInstance().GetCRC(file.GetData());
-                        fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
-                        while (true)
-                        {
-                            if (this.DownloadStatus)
-                            {
-                                this.CurrentFileName = fileName;
-                                this.SendData(file.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                                this.DownloadStatus = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                fileName = "Config.bin";
-                fileSize = project.ConfigFile.GetData().Length.ToString();
-                crcBuff = CRCTools.GetInstance().GetCRC(project.ConfigFile.GetData());
-                fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
-                while (true)
-                {
-                    if (this.DownloadStatus)
-                    {
-                        this.CurrentFileName = fileName;
-                        this.SendData(project.ConfigFile.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        this.DownloadStatus = false;
-                        break;
-                    }
-                }
-                fileName = "GradientData.bin";
-                fileSize = scenesInitData.GetData().Length.ToString();
-                crcBuff = CRCTools.GetInstance().GetCRC(scenesInitData.GetData());
-                fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
-                while (true)
-                {
-                    if (this.DownloadStatus)
-                    {
-                        this.CurrentFileName = fileName;
-                        this.SendData(scenesInitData.GetData(), Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        this.DownloadStatus = false;
-                        break;
-                    }
-                }
-                while (true)
-                {
-                    if (this.DownloadStatus)
-                    {
-                        this.SendData(null, Constant.ORDER_END_SEND, null);
-                        this.DownloadStatus = false;
-                        break;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
-                if (!TimeOutIsStart)
-                {
-                    if (null != this.CallBack)
-                    {
-                        this.CallBack.Error(this.DeviceName, "工程文件读取失败");
-                    }
-                }
-            }
-        }
-        */
         public void PutParam(string filePath, ICommunicatorCallBack receiveCallBack)
         {
             bool TimeOutIsStart = false;
@@ -1095,12 +937,55 @@ namespace LightController.Tools.CSJ
                 }
             }
         }
-        public class PacketSize
-        {
-            public const int BYTE_512 = 504;
-            public const int BYTE_1024 = 1016;
-            public const int BYTE_2048 = 2040;
 
+
+        //910读取灯控数据
+        public void NewLightControlRead()
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                //TODO 发送命令获取灯控数据
+                this.SecondOrder = "rg";
+                SendData(null, "LightControl", new string[] { "rg" });
+            }
+        }
+
+        //810读取灯控数据
+        public void OldLightControlRead()
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+            }
+            this.Send(Encoding.Default.GetBytes("zg"));
+            while (DownloadStatus)
+            {
+                this.Send(Encoding.Default.GetBytes("rg"));
+            }
+        }
+        //910下载灯控数据
+        public void NewLightControlDownload(LightControlData lightControl)
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                //TODO 发送命令下载灯控数据到设备
+                this.SecondOrder = "dg";
+                SendData(lightControl.GetData(), "LightControl",new string[] { "dg" });
+            }
+        }
+        //910调试灯控数据
+        public void NewLightControlDebug()
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                //TODO 发送调试信息=>带参命令
+                byte[] debugInfo = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+                this.SecondOrder = "yg";
+                SendData(null, "LightControl", new string[] { "yg", debugInfo[0].ToString(), debugInfo[1].ToString(), debugInfo[2].ToString(), debugInfo[3].ToString(), debugInfo[4].ToString(), debugInfo[5].ToString(), debugInfo[6].ToString(), debugInfo[7].ToString(), debugInfo[8].ToString() });
+            }
         }
     }
 }

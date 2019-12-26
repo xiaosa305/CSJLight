@@ -59,7 +59,6 @@ namespace LightController.Tools
 0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42, 0x43, 0x83,
 0x41, 0x81, 0x80, 0x40
 };
-
         public static CRCTools GetInstance()
         {
             if (Instance == null)
@@ -68,7 +67,6 @@ namespace LightController.Tools
             }
             return Instance;
         }
-
         public byte[] GetCRC(byte[] data)
         {
             byte chCRCHi = 0xFF;// 高CRC字节初始化
@@ -86,7 +84,6 @@ namespace LightController.Tools
             result[1] = chCRCHi;
             return result;
         }
-
         public byte[] GetCRC(string filePath)
         {
             byte chCRCHi = 0xFF;// 高CRC字节初始化
@@ -110,6 +107,28 @@ namespace LightController.Tools
             result[0] = chCRCLo;
             result[1] = chCRCHi;
             return result;
+        }
+
+        public byte[] GetLightControlCRC(byte[] data)
+        {
+            ushort crc = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                crc ^= (ushort)(data[i] << 8);
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((crc & 0x8000) != 0x0000)
+                    {
+                        crc <<= 1;
+                        crc ^= 0x1021;
+                    }
+                    else
+                    {
+                        crc <<= 1;
+                    }
+                }
+            }
+            return BitConverter.GetBytes(crc);
         }
     }
 }

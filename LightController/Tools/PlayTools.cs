@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,6 +17,10 @@ namespace LightController.Tools
 {
     public class PlayTools
     {
+        //TODO Test
+        private SerialPort TestCom { get; set; }
+
+
         private static PlayTools Instance { get; set; }
         private static FTDI Device { get; set; }                    
         private readonly byte[] StartCode = new byte[] { 0x00 };
@@ -48,6 +53,7 @@ namespace LightController.Tools
 
         public const int STATE_SERIALPREVIEW = 0;
         public const int STATE_INTENETPREVIEW = 1;
+        public const int STATE_TEST = 2;
         private int PreviewWayState { get; set; }
         private string DeviceIpByIntentPreview { get; set; }
         private bool IsInitIntentDebug { get; set; }
@@ -436,6 +442,11 @@ namespace LightController.Tools
                         Device.SetBreak(false);
                     }
                 }
+                //TODO Test
+                else if (this.PreviewWayState == STATE_TEST)
+                {
+                    TestStart();
+                }
                 else
                 {
                     if (IsInitIntentDebug)
@@ -518,25 +529,67 @@ namespace LightController.Tools
             }
            
         }
-        public void Test()
+
+        //TODO Test
+        public void TestOpen()
         {
-            ThreadPool.QueueUserWorkItem(new WaitCallback(TestStart), null);
-        }
-        private void TestStart(Object obj)
-        {
-            List<PlayPoint> playPoints = FileUtils.GetCPlayPoints();
-            Thread.Sleep(500);
-            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-            while (true)
+            try
             {
-                foreach (PlayPoint item in playPoints)
+                if (TestCom == null)
                 {
-                    this.PlayData[item.ChannelNo - 1] = item.Read();
+                    TestCom = new SerialPort();
                 }
-                Play();
-                Thread.Sleep(this.TimeFactory - 21);
+                else
+                {
+                    if (TestCom.IsOpen)
+                    {
+                        TestCom.Close();
+                    }
+                }
+                TestCom.PortName = "COM15";
+                TestCom.Parity = Parity.None;
+                TestCom.StopBits = StopBits.Two;
+                TestCom.DataBits = 8;
+                TestCom.BaudRate = 250000;
+                this.TestCom.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
+                TestCom.Open();
+                PreviewWayState = STATE_TEST;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                Console.WriteLine(ex.Message);
+            }
+            
+        }
+
+        public void SetTest()
+        {
+            PreviewWayState = STATE_TEST;
+        }
+
+        //TODO TEST
+        private void TestStart()
+        {
+            List<byte> buff = new List<byte>();
+            //buff.AddRange(this.StartCode);
+            buff.AddRange(this.PlayData);
+            if (TestCom.IsOpen)
+            {
+                //TestCom.BreakState = true;
+                //Thread.Sleep(0);
+                //TestCom.BreakState = false;
+                //Thread.Sleep(0);
+                TestCom.Write(buff.ToArray(), 0, buff.ToArray().Length);
+                //TestCom.BreakState = false;
             }
         }
+
+        protected void Recive(object sender, SerialDataReceivedEventArgs s)
+        {
+            Console.WriteLine("搜到串口消息");
+        }
+
     }
     enum PreViewState
     {

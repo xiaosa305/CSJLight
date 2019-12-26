@@ -78,38 +78,38 @@ namespace LightController.Tools
             try
             {
             string[] ports = SerialPort.GetPortNames();
-            bool flag;
-            List<string> dmx512names = new List<string>();
-            List<string> result = new List<string>();
-            UInt32 deviceCount = 0;
-            FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-            FTDI dmx512Device = new FTDI();
-            status = dmx512Device.GetNumberOfDevices(ref deviceCount);
-                if (status == FTDI.FT_STATUS.FT_OK)
-                {
-                    if (deviceCount > 0)
-                    {
-                        FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-                        status = dmx512Device.GetDeviceList(deviceList);
-                        if (status == FTDI.FT_STATUS.FT_OK)
-                        {
-                            for (int i = 0; i < deviceList.Length; i++)
-                            {
-                                status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
-                                if (status == FTDI.FT_STATUS.FT_OK)
-                                {
-                                    string portName;
-                                    dmx512Device.GetCOMPort(out portName);
-                                    if (portName != null && portName != "")
-                                    {
-                                        dmx512names.Add(portName);
-                                        dmx512Device.Close();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            //bool flag;
+            //List<string> dmx512names = new List<string>();
+            //List<string> result = new List<string>();
+            //UInt32 deviceCount = 0;
+            //FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
+            //FTDI dmx512Device = new FTDI();
+            //status = dmx512Device.GetNumberOfDevices(ref deviceCount);
+            //    if (status == FTDI.FT_STATUS.FT_OK)
+            //    {
+            //        if (deviceCount > 0)
+            //        {
+            //            FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
+            //            status = dmx512Device.GetDeviceList(deviceList);
+            //            if (status == FTDI.FT_STATUS.FT_OK)
+            //            {
+            //                for (int i = 0; i < deviceList.Length; i++)
+            //                {
+            //                    status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
+            //                    if (status == FTDI.FT_STATUS.FT_OK)
+            //                    {
+            //                        string portName;
+            //                        dmx512Device.GetCOMPort(out portName);
+            //                        if (portName != null && portName != "")
+            //                        {
+            //                            dmx512names.Add(portName);
+            //                            dmx512Device.Close();
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
                 return ports;
             }
             catch (Exception ex)

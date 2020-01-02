@@ -28,7 +28,7 @@ namespace LightController.PeripheralDevice
         protected bool IsAck { get; set; }//回复确认标记
         private bool IsSending { get; set; }//发送进行中标记
         protected System.Timers.Timer TimeOutTimer { get; set; }//超时定时器
-        private const double TIMEOUT = 2000;//超时等待时长
+        private const double TIMEOUT = 4000;//超时等待时长
         private bool ThreadStatus { get; set; }//线程状态标记
         private bool IsStopThread { get; set; }//终止线程继续执行标记
         private byte[] Data { get; set; }//数据
@@ -196,9 +196,9 @@ namespace LightController.PeripheralDevice
             {
                 case Order.ZG:
                 case Order.RG:
-                case Order.YG:
                     result = 0x01;
                     break;
+                case Order.YG:
                 case Order.DG:
                     result = 0x05;
                     break;
@@ -457,7 +457,10 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.ZG;
-                this.SendOrder(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT ,"0"});
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT);
+                this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, data.Length.ToString() });
+                Thread.Sleep(500);
+                this.SendData();
             }
             catch (Exception ex)
             {
@@ -487,7 +490,8 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.RG;
-                this.SendOrder(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ ,"0"});
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_READ);
+                this.SendOrder(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ ,data.Length.ToString()});
             }
             catch (Exception ex)
             {
@@ -519,7 +523,10 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.DG;
-                this.SendOrder((obj as LightControlData).GetData(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD,(obj as LightControlData).GetData().Length.ToString()});
+                List<byte> data = new List<byte>();
+                data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD));
+                data.AddRange((obj as LightControlData).GetData());
+                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD,data.ToArray().Length.ToString()});
             }
             catch (Exception ex)
             {
@@ -545,8 +552,11 @@ namespace LightController.PeripheralDevice
             try
             {
                 this.SecondOrder = Order.YG;
-                byte[] data = obj as byte[];
-                this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.Length.ToString() });
+                List<byte> data = new List<byte>();
+                data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG));
+                data.AddRange(obj as byte[]);
+                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
+                Thread.Sleep(500);
                 this.SendData();
                 this.IsSending = false;
                 this.TimeOutTimer.Stop();

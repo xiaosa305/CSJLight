@@ -37,12 +37,18 @@ namespace LightController.Tools.CSJ
         protected string[] Parameters { get; set; }//命令参数组
         protected string UpdateFilePath { get; set; }//硬件更新文件路径
         protected byte[] Data { get; set; }//文件数据
-
         protected DBWrapper Wrapper { get; set; }//数据库文件
         protected Thread DownloadThread { get; set; }//下载工程项目线程
         protected Thread TimeOutThread { get; set; }//超时处理线程
         protected Thread UpdateThread { get; set; }//硬件更新线程
         protected ICommunicatorCallBack CallBack { get; set; }//命令结束执行回调
+
+        protected Thread OldDeviceThread { get; set; }//旧设备通信线程
+        protected bool IsAckCheckByOldDevice { get; set; }//旧设备通信确认标识
+        protected bool IsPassThroughMode { get; set; }//透传模式标记
+
+
+
         protected abstract void Send(byte[] txBuff);
         public abstract void CloseDevice();
         public void SetPackageSize(int size)
@@ -622,6 +628,40 @@ namespace LightController.Tools.CSJ
                     CallBack.Completed(devicename);
                         this.CloseDevice();
                     break;
+                case Constant.NEW_DEVICE_LIGHTCONTROL:
+                    switch (this.SecondOrder)
+                    {
+                        case Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT:
+                            if (rxStr.Equals(Constant.RECEIVE_ORDER_ACK)) 
+                            {
+                                CallBack.Completed("灯控设备链接成功");
+                            }
+                            else
+                            {
+                                CallBack.Error(devicename, "灯控设备链接失败");
+                            }
+                            this.IsSending = false;
+                            break;
+                        case Constant.OLD_DEVICE_LIGHTCONTROL_READ:
+                            //CallBack.LightControlRead(new LightControlData(rxBuff));
+                            this.IsSending = false;
+                            break;
+                        case Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD:
+                            switch (rxStr)
+                            {
+                                case Constant.RECEIVE_ORDER_ACK:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            this.IsSending = false;
+                            break;
+                        case Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG:
+                        default:
+                            this.IsSending = false;
+                            break;
+                    }
+                    break;
                 default:
                     switch (rxStr.Split(':')[0])
                     {
@@ -939,52 +979,261 @@ namespace LightController.Tools.CSJ
         }
 
 
-        //910读取灯控数据
-        public void NewLightControlRead()
+        /// <summary>
+        /// 启动旧设备兼容透传模式
+        /// </summary>
+        /// <param name="callBack"></param>
+        public void StartPassThrough(ICommunicatorCallBack callBack)
         {
-            if (!this.IsSending)
+            try
             {
-                this.IsSending = true;
-                //TODO 发送命令获取灯控数据
-                this.SecondOrder = "rg";
-                SendData(null, "LightControl", new string[] { "rg" });
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    this.SendData(null, Constant.ORDER_PASS_THROUGH_START, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
+            }
+        }
+        /// <summary>
+        /// 关闭旧设备兼容模式
+        /// </summary>
+        /// <param name="callBack"></param>
+        public void StopPassThrough(ICommunicatorCallBack callBack)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    this.SendData(null, Constant.ORDER_PASS_THROUGH_STOP, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
+            }
+        }
+        /// <summary>
+        /// 910灯控设备链接
+        /// </summary>
+        /// <param name="callBack"></param>
+        public void NewLightControlConnect(ICommunicatorCallBack callBack)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT;
+                    SendData(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, "0" });
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 910读取灯控数据
+        /// </summary>
+        /// <param name="callBack"></param>
+        public void NewLightControlRead(ICommunicatorCallBack callBack)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_READ;
+                    SendData(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ,"0" });
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 910下载灯控数据
+        /// </summary>
+        /// <param name="lightControl"></param>
+        /// <param name="callBack"></param>
+        public void NewLightControlDownload(LightControlData lightControl, ICommunicatorCallBack callBack)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    //TODO 发送命令下载灯控数据到设备
+                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD;
+                    SendData(lightControl.GetData(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD,lightControl.GetData().Length.ToString() });
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 910调试灯控数据
+        /// </summary>
+        /// <param name="callBack"></param>
+        public void NewLightControlDebug(ICommunicatorCallBack callBack)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    //TODO 发送调试信息=>带参命令
+                    byte[] debugInfo = new byte[] { 0x00, 0x3B, 0x5A};
+                    string debugData = "yg";
+                    for (int i = 0; i < debugInfo.Length; i++)
+                    {
+                        debugData += debugInfo[i].ToString();
+                    }
+                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG;
+                    SendData(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { debugData,"0"});
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
 
-        //810读取灯控数据
-        public void OldLightControlRead()
+
+
+        //810读取灯控数据入口
+        public void OldLightControlRead(ICommunicatorCallBack callBack)
         {
-            if (!this.IsSending)
+            try
             {
-                this.IsSending = true;
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    this.OldDeviceThread = new Thread(OldLightControlReadStart)
+                    {
+                        IsBackground = true
+                    };
+                    this.OldDeviceThread.Start();
+                }
             }
-            this.Send(Encoding.Default.GetBytes("zg"));
-            while (DownloadStatus)
+            catch (Exception ex)
             {
-                this.Send(Encoding.Default.GetBytes("rg"));
+                CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
             }
         }
-        //910下载灯控数据
-        public void NewLightControlDownload(LightControlData lightControl)
+        //810读取灯控数据执行线程
+        private void OldLightControlReadStart()
         {
-            if (!this.IsSending)
+            try
             {
-                this.IsSending = true;
-                //TODO 发送命令下载灯控数据到设备
-                this.SecondOrder = "dg";
-                SendData(lightControl.GetData(), "LightControl",new string[] { "dg" });
+                this.Send(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT));
+                this.IsAckCheckByOldDevice = false;
+                while (true)
+                {
+                    if (IsAckCheckByOldDevice)
+                    {
+                        this.Send(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_READ));
+                        this.IsAckCheckByOldDevice = false;
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
-        //910调试灯控数据
-        public void NewLightControlDebug()
+       
+        //810下载灯控数据入口
+        public void OldLightControlDownload(LightControlData lightControlData, ICommunicatorCallBack callBack)
         {
-            if (!this.IsSending)
+            try
             {
-                this.IsSending = true;
-                //TODO 发送调试信息=>带参命令
-                byte[] debugInfo = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-                this.SecondOrder = "yg";
-                SendData(null, "LightControl", new string[] { "yg", debugInfo[0].ToString(), debugInfo[1].ToString(), debugInfo[2].ToString(), debugInfo[3].ToString(), debugInfo[4].ToString(), debugInfo[5].ToString(), debugInfo[6].ToString(), debugInfo[7].ToString(), debugInfo[8].ToString() });
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    this.OldDeviceThread = new Thread(OldLightControlDownloadStart)
+                    {
+                        IsBackground = true
+                    };
+                    this.OldDeviceThread.Start(lightControlData);
+                }
+            }
+            catch (Exception ex)
+            {
+                CSJLogs.GetInstance().ErrorLog(ex);
+                this.IsSending = false;
+            }
+        }
+        //810下载灯控数据执行线程
+        private void OldLightControlDownloadStart(object obj)
+        {
+            try
+            {
+                LightControlData data = obj as LightControlData;
+                this.Send(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD));
+                this.IsAckCheckByOldDevice = false;
+                while (true)
+                {
+                    if (IsAckCheckByOldDevice)
+                    {
+                        this.Send(data.GetData());
+                        this.IsAckCheckByOldDevice = false;
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+      
+        //810调试灯控数据
+        public void OldLightControlDebug(ICommunicatorCallBack callBack)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.CallBack = callBack;
+                    byte[] debugInfo = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+                    List<byte> data = new List<byte>();
+                    data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG));
+                    data.AddRange(debugInfo);
+                    Send(data.ToArray());
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
     }

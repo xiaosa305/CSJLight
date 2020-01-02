@@ -89,9 +89,12 @@ namespace LightController.Tools.CSJ.IMPL
                 int.TryParse(valueStr, out int intValue);
                 data.Add(Convert.ToByte(intValue));
             }
-            for (int i = 0; i < DmxData.Length; i++)
+            if (DmxData != null)
             {
-                data.Add(Convert.ToByte(DmxData[i]));
+                for (int i = 0; i < DmxData.Length; i++)
+                {
+                    data.Add(Convert.ToByte(DmxData[i]));
+                }
             }
             data.AddRange(CRCTools.GetInstance().GetLightControlCRC(data.ToArray()));
             return data.ToArray();
@@ -100,6 +103,37 @@ namespace LightController.Tools.CSJ.IMPL
         public void WriteToFile(string filepath)
         {
             throw new NotImplementedException();
+        }
+
+        public static LightControlData GetTestData()
+        {
+            LightControlData data = new LightControlData();
+            data.RelayCount = 8;
+            data.DmxCount = 0;
+            data.RelayDataSize = 1;
+            data.IsOpenFan = false;
+            data.AirControlValve = 1;
+            data.IsOpenAirCondition = false;
+            data.LightProtocol = 0;
+            data.LightMode = 0;
+            data.FanChannel = 2;
+            data.HightFanChannel = 7;
+            data.MiddleFanChannel = 6;
+            data.LowFanChannel = 5;
+            data.OpenAirConditionChannel = 4;
+            data.CloseAirConditionChannel = 3;
+            data.PlaceHolder1 = 0;
+            data.PlaceHolder2 = 0;
+            data.SceneData = new bool[17][];
+            for (int i = 0; i < 17; i++)
+            {
+                data.SceneData[i] = new bool[8];
+                for (int j = 0; j < 8; j++)
+                {
+                    data.SceneData[i][j] = j % 2 == 0;
+                }
+            }
+            return data;
         }
     }
 }

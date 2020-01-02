@@ -40,6 +40,7 @@ namespace LightController.Tools
         public const string RECEIVE_ORDER_ENDSEND_OK = "Ok";
         public const string RECEIVE_ORDER_ENDSEND_ERROR = "Error";
         public const string RECEIVE_ORDER_SENDNEXT = "SendNext";
+        public const string RECEIVE_ORDER_ACK = "ack\r\n";
         public const string RECEIVE_ORDER_DONE = "Done";
         public const string RECEIVE_ORDER_PUT = "Ok:Decode";
         public const string RECEIVE_ORDER_PUT_PARAM = "Ok:Decode";
@@ -64,10 +65,21 @@ namespace LightController.Tools
         public const string ORDER_START_DEBUG = "StartDebug";
         public const string ORDER_END_DEBUG = "EndDebug";
         public const string ORDER_SEND_DEBUG_DATA = "SendPreviewData";
+        public const string ORDER_PASS_THROUGH_START = "Pass-Through-Start";
+        public const string ORDER_PASS_THROUGH_STOP = "Pass-Through-Stop";
         public const string MARK_ORDER_TAKE_DATA = "00000101";
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";
         public const string MARK_DATA_END = "00000010";
+
+        public const string NEW_DEVICE_LIGHTCONTROL = "Relay";
+
+        public const string OLD_DEVICE_LIGHTCONTROL_READ = "rg";
+        public const string OLD_DEVICE_LIGHTCONTROL_DOWNLOAD = "dg";
+        public const string OLD_DEVICE_LIGHTCONTROL_CONNECT = "zg";
+        public const string OLD_DEVICE_LIGHTCONTROL_DEBUG = "yg";
+
+
         public const int SCENE_BOOING = 23;
         public const int SCENE_ACCLAIM = 22;
         public const int SCENE_SHAKE_MIC = 21;

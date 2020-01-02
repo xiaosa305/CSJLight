@@ -99,6 +99,9 @@
     <Reference Include="FTD2XX_NET, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FTD2XX.Net.1.0.14\lib\FTD2XX_NET.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -111,6 +114,18 @@
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.1.2.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="StringTemplate, Version=3.0.1.6846, Culture=neutral, PublicKeyToken=beee492b52c41e85, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.1.1\lib\StringTemplate.dll</HintPath>
@@ -155,6 +170,7 @@
     <Compile Include="Ast\LightStepWrapper.cs" />
     <Compile Include="Ast\StepWrapper.cs" />
     <Compile Include="Common\FileAst.cs" />
+    <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\TextAst.cs" />
     <Compile Include="DAO\FineTuneDAO.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
@@ -163,7 +179,16 @@
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
+    <Compile Include="Entity\CCData.cs" />
     <Compile Include="Entity\DB_FineTune.cs" />
+    <Compile Include="Entity\CCEntity.cs" />
+    <Compile Include="Entity\KeyEntity.cs" />
+    <Compile Include="MyForm\OtherTools\OtherToolsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\OtherToolsForm.Designer.cs">
+      <DependentUpon>OtherToolsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\GlobalSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -298,16 +323,10 @@
     <Compile Include="MyForm\QDTestForm.Designer.cs">
       <DependentUpon>QDTestForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\TestForm.cs">
+    <Compile Include="MyForm\OtherTools\ToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\ToolsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\ToolsForm.Designer.cs">
+    <Compile Include="MyForm\OtherTools\ToolsForm.Designer.cs">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\HardwareUpdateForm.cs">
@@ -371,6 +390,9 @@
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
+    <EmbeddedResource Include="MyForm\OtherTools\OtherToolsForm.resx">
+      <DependentUpon>OtherToolsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -435,10 +457,7 @@
     <EmbeddedResource Include="MyForm\QDTestForm.resx">
       <DependentUpon>QDTestForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\ToolsForm.resx">
+    <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\HardwareUpdateForm.resx">
@@ -896,6 +915,11 @@
     <Content Include="FrameList.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Ok3w.Net图标1.png" />
+    <None Include="Resources\Ok3w.Net图标7.png" />
+    <None Include="Resources\Ok3w.Net图标13.png" />
+    <None Include="Resources\Ok3w.Net图标14.png" />
+    <None Include="Resources\Ok3w.Net图标15.png" />
     <Content Include="Source\CSkin.dll" />
     <Content Include="Source\CSkin.XML" />
     <Content Include="Source\IrisSkin4.dll" />

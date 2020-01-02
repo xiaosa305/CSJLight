@@ -1,4 +1,5 @@
 ﻿using CCWin.SkinControl;
+using System.Windows.Forms;
 
 namespace OtherTools
 {
@@ -32,18 +33,6 @@ namespace OtherTools
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OtherToolsForm));
-			System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem(new string[] {
-            "",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6"}, -1);
-			System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem("");
-			System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem("");
-			System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem("");
-			System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem("");
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
@@ -57,25 +46,107 @@ namespace OtherTools
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
+			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
+			this.cfgOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.cfgSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.keyTabPage = new System.Windows.Forms.TabPage();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.addButton = new System.Windows.Forms.Button();
-			this.commonButton = new System.Windows.Forms.Button();
+			this.keypressListView = new System.Windows.Forms.ListView();
+			this.columnHeader2x = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader20 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader21 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader22 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.kpStatusStrip = new System.Windows.Forms.StatusStrip();
+			this.kpToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.kpToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.label25 = new System.Windows.Forms.Label();
+			this.label24 = new System.Windows.Forms.Label();
+			this.kpConnectButton = new System.Windows.Forms.Button();
+			this.kpShowIconButton = new System.Windows.Forms.Button();
+			this.kpLoadButton = new System.Windows.Forms.Button();
+			this.kpShowListButton = new System.Windows.Forms.Button();
+			this.kpOrderTextBox = new System.Windows.Forms.TextBox();
+			this.kpReadButton = new System.Windows.Forms.Button();
+			this.label23 = new System.Windows.Forms.Label();
+			this.kpListenButton = new System.Windows.Forms.Button();
+			this.kpKey1TextBox = new System.Windows.Forms.TextBox();
+			this.kpEditButton = new System.Windows.Forms.Button();
+			this.kpDownloadButton = new System.Windows.Forms.Button();
+			this.kpSaveButton = new System.Windows.Forms.Button();
+			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
+			this.lcStatusStrip = new System.Windows.Forms.StatusStrip();
+			this.lcToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lcToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.groupBox11 = new System.Windows.Forms.GroupBox();
+			this.fanButton = new System.Windows.Forms.Button();
+			this.acButton = new System.Windows.Forms.Button();
+			this.groupBox10 = new System.Windows.Forms.GroupBox();
+			this.panel12 = new System.Windows.Forms.Panel();
+			this.label16 = new System.Windows.Forms.Label();
+			this.fcloseChannelComboBox = new System.Windows.Forms.ComboBox();
+			this.panel11 = new System.Windows.Forms.Panel();
+			this.label15 = new System.Windows.Forms.Label();
+			this.fopenChannelComboBox = new System.Windows.Forms.ComboBox();
+			this.panel10 = new System.Windows.Forms.Panel();
+			this.label14 = new System.Windows.Forms.Label();
+			this.lowFanChannelComboBox = new System.Windows.Forms.ComboBox();
+			this.panel9 = new System.Windows.Forms.Panel();
+			this.label12 = new System.Windows.Forms.Label();
+			this.midFanChannelComboBox = new System.Windows.Forms.ComboBox();
+			this.panel8 = new System.Windows.Forms.Panel();
+			this.label11 = new System.Windows.Forms.Label();
+			this.highFanChannelComboBox = new System.Windows.Forms.ComboBox();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.fanChannelComboBox = new System.Windows.Forms.ComboBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.ktmsGroupBox = new System.Windows.Forms.GroupBox();
+			this.ktCloseRadioButton = new System.Windows.Forms.RadioButton();
+			this.ktMidRadioButton = new System.Windows.Forms.RadioButton();
+			this.ktAutoRadioButton = new System.Windows.Forms.RadioButton();
+			this.ktHighRadioButton = new System.Windows.Forms.RadioButton();
+			this.ktLowRadioButton = new System.Windows.Forms.RadioButton();
+			this.fjGroupBox = new System.Windows.Forms.GroupBox();
+			this.fjJYRadioButton = new System.Windows.Forms.RadioButton();
+			this.fjDXFRadioButton = new System.Windows.Forms.RadioButton();
+			this.fjSXFRadioButton = new System.Windows.Forms.RadioButton();
+			this.ktwdGroupBox = new System.Windows.Forms.GroupBox();
+			this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+			this.label10 = new System.Windows.Forms.Label();
+			this.lrGroupBox = new System.Windows.Forms.GroupBox();
+			this.zlRadioButton3 = new System.Windows.Forms.RadioButton();
+			this.zlRadioButton1 = new System.Windows.Forms.RadioButton();
+			this.zlRadioButton2 = new System.Windows.Forms.RadioButton();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.lcDownloadButton = new System.Windows.Forms.Button();
 			this.lcLoadButton = new System.Windows.Forms.Button();
 			this.lcSaveButton = new System.Windows.Forms.Button();
 			this.button6 = new System.Windows.Forms.Button();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.lightModeQHRadioButton = new System.Windows.Forms.RadioButton();
+			this.lightModeDJRadioButton = new System.Windows.Forms.RadioButton();
+			this.tgGroupBox = new System.Windows.Forms.GroupBox();
+			this.tgPanel4 = new System.Windows.Forms.Panel();
+			this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+			this.tgLabel4 = new System.Windows.Forms.Label();
+			this.trackBar5 = new System.Windows.Forms.TrackBar();
+			this.tgPanel3 = new System.Windows.Forms.Panel();
+			this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+			this.tgLabel3 = new System.Windows.Forms.Label();
+			this.trackBar4 = new System.Windows.Forms.TrackBar();
+			this.tgPanel2 = new System.Windows.Forms.Panel();
+			this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+			this.tgLabel2 = new System.Windows.Forms.Label();
+			this.trackBar3 = new System.Windows.Forms.TrackBar();
+			this.tgPanel1 = new System.Windows.Forms.Panel();
+			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.tgLabel1 = new System.Windows.Forms.Label();
+			this.trackBar2 = new System.Windows.Forms.TrackBar();
 			this.label13 = new System.Windows.Forms.Label();
 			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.lightGroupBox = new System.Windows.Forms.GroupBox();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.lightButton1 = new CCWin.SkinControl.SkinButton();
-			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.lightButton2 = new CCWin.SkinControl.SkinButton();
 			this.lightButton3 = new CCWin.SkinControl.SkinButton();
 			this.lightButton4 = new CCWin.SkinControl.SkinButton();
@@ -100,115 +171,101 @@ namespace OtherTools
 			this.lightButton23 = new CCWin.SkinControl.SkinButton();
 			this.lightButton24 = new CCWin.SkinControl.SkinButton();
 			this.middleTabPage = new System.Windows.Forms.TabPage();
-			this.listView1 = new System.Windows.Forms.ListView();
+			this.bigTestButton2 = new System.Windows.Forms.Button();
+			this.bigTestButton = new System.Windows.Forms.Button();
+			this.ccSearchTextBox = new System.Windows.Forms.TextBox();
+			this.decodeRichTextBox = new System.Windows.Forms.RichTextBox();
+			this.ps2DownTextBox = new System.Windows.Forms.TextBox();
+			this.infraredReceiveTextBox = new System.Windows.Forms.TextBox();
+			this.com1DownTextBox = new System.Windows.Forms.TextBox();
+			this.com0DownTextBox = new System.Windows.Forms.TextBox();
+			this.ps2UpTextBox = new System.Windows.Forms.TextBox();
+			this.infraredSendTextBox = new System.Windows.Forms.TextBox();
+			this.com1UpTextBox = new System.Windows.Forms.TextBox();
+			this.com0UpTextBox = new System.Windows.Forms.TextBox();
+			this.functionTextBox = new System.Windows.Forms.TextBox();
+			this.ccDownloadButton = new System.Windows.Forms.Button();
+			this.clearDecodeButton = new System.Windows.Forms.Button();
+			this.decodeButton = new System.Windows.Forms.Button();
+			this.protocolEditButton = new System.Windows.Forms.Button();
+			this.ccSearchButton = new System.Windows.Forms.Button();
+			this.PS2Label = new System.Windows.Forms.Label();
+			this.com1Label = new System.Windows.Forms.Label();
+			this.com0Label = new System.Windows.Forms.Label();
+			this.protocolComboBox = new System.Windows.Forms.ComboBox();
+			this.ccStatusStrip = new System.Windows.Forms.StatusStrip();
+			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.label22 = new System.Windows.Forms.Label();
+			this.label17 = new System.Windows.Forms.Label();
+			this.label21 = new System.Windows.Forms.Label();
+			this.label9 = new System.Windows.Forms.Label();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label19 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label18 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.protocolListView = new System.Windows.Forms.ListView();
+			this.columnHeader0 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.panel4 = new System.Windows.Forms.Panel();
-			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-			this.label2 = new System.Windows.Forms.Label();
-			this.trackBar2 = new System.Windows.Forms.TrackBar();
-			this.panel5 = new System.Windows.Forms.Panel();
-			this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-			this.label3 = new System.Windows.Forms.Label();
-			this.trackBar3 = new System.Windows.Forms.TrackBar();
-			this.panel6 = new System.Windows.Forms.Panel();
-			this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-			this.label4 = new System.Windows.Forms.Label();
-			this.trackBar4 = new System.Windows.Forms.TrackBar();
-			this.panel7 = new System.Windows.Forms.Panel();
-			this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-			this.label9 = new System.Windows.Forms.Label();
-			this.trackBar5 = new System.Windows.Forms.TrackBar();
-			this.button10 = new System.Windows.Forms.Button();
-			this.groupBox6 = new System.Windows.Forms.GroupBox();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.groupBox8 = new System.Windows.Forms.GroupBox();
-			this.groupBox9 = new System.Windows.Forms.GroupBox();
-			this.label10 = new System.Windows.Forms.Label();
-			this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
-			this.fjRadioButton1 = new System.Windows.Forms.RadioButton();
-			this.fjRadioButton2 = new System.Windows.Forms.RadioButton();
-			this.fjRadioButton3 = new System.Windows.Forms.RadioButton();
-			this.zlRadioButton1 = new System.Windows.Forms.RadioButton();
-			this.zlRadioButton2 = new System.Windows.Forms.RadioButton();
-			this.zlRadioButton3 = new System.Windows.Forms.RadioButton();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.radioButton8 = new System.Windows.Forms.RadioButton();
-			this.radioButton9 = new System.Windows.Forms.RadioButton();
-			this.ktRadioButton4 = new System.Windows.Forms.RadioButton();
-			this.ktRadioButton1 = new System.Windows.Forms.RadioButton();
-			this.ktRadioButton3 = new System.Windows.Forms.RadioButton();
-			this.ktRadioButton2 = new System.Windows.Forms.RadioButton();
-			this.ktRadioButton5 = new System.Windows.Forms.RadioButton();
-			this.groupBox10 = new System.Windows.Forms.GroupBox();
-			this.button7 = new System.Windows.Forms.Button();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.comboBox3 = new System.Windows.Forms.ComboBox();
-			this.panel8 = new System.Windows.Forms.Panel();
-			this.label11 = new System.Windows.Forms.Label();
-			this.comboBox4 = new System.Windows.Forms.ComboBox();
-			this.panel9 = new System.Windows.Forms.Panel();
-			this.label12 = new System.Windows.Forms.Label();
-			this.comboBox5 = new System.Windows.Forms.ComboBox();
-			this.panel10 = new System.Windows.Forms.Panel();
-			this.label14 = new System.Windows.Forms.Label();
-			this.comboBox6 = new System.Windows.Forms.ComboBox();
-			this.panel11 = new System.Windows.Forms.Panel();
-			this.label15 = new System.Windows.Forms.Label();
-			this.comboBox7 = new System.Windows.Forms.ComboBox();
-			this.panel12 = new System.Windows.Forms.Panel();
-			this.label16 = new System.Windows.Forms.Label();
-			this.comboBox8 = new System.Windows.Forms.ComboBox();
-			this.groupBox11 = new System.Windows.Forms.GroupBox();
+			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.panel2.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
-			this.panel1.SuspendLayout();
+			this.kpStatusStrip.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
+			this.lcStatusStrip.SuspendLayout();
+			this.groupBox11.SuspendLayout();
+			this.groupBox10.SuspendLayout();
+			this.panel12.SuspendLayout();
+			this.panel11.SuspendLayout();
+			this.panel10.SuspendLayout();
+			this.panel9.SuspendLayout();
+			this.panel8.SuspendLayout();
+			this.panel3.SuspendLayout();
 			this.groupBox4.SuspendLayout();
+			this.ktmsGroupBox.SuspendLayout();
+			this.fjGroupBox.SuspendLayout();
+			this.ktwdGroupBox.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
+			this.lrGroupBox.SuspendLayout();
 			this.groupBox3.SuspendLayout();
-			this.groupBox1.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
-			this.middleTabPage.SuspendLayout();
-			this.tabControl1.SuspendLayout();
-			this.groupBox5.SuspendLayout();
-			this.panel4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-			this.panel5.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
-			this.panel6.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
-			this.panel7.SuspendLayout();
+			this.groupBox2.SuspendLayout();
+			this.tgGroupBox.SuspendLayout();
+			this.tgPanel4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
-			this.groupBox6.SuspendLayout();
-			this.groupBox7.SuspendLayout();
-			this.groupBox8.SuspendLayout();
-			this.groupBox9.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-			this.groupBox2.SuspendLayout();
-			this.groupBox10.SuspendLayout();
-			this.panel3.SuspendLayout();
-			this.panel8.SuspendLayout();
-			this.panel9.SuspendLayout();
-			this.panel10.SuspendLayout();
-			this.panel11.SuspendLayout();
-			this.panel12.SuspendLayout();
-			this.groupBox11.SuspendLayout();
+			this.tgPanel3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
+			this.tgPanel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
+			this.tgPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+			this.lightGroupBox.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
+			this.middleTabPage.SuspendLayout();
+			this.ccStatusStrip.SuspendLayout();
+			this.tabControl1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel2
 			// 
 			this.panel2.BackColor = System.Drawing.Color.Silver;
+			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.panel2.Controls.Add(this.label8);
 			this.panel2.Controls.Add(this.label6);
 			this.panel2.Controls.Add(this.label7);
@@ -223,14 +280,14 @@ namespace OtherTools
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(1224, 103);
+			this.panel2.Size = new System.Drawing.Size(1264, 93);
 			this.panel2.TabIndex = 1;
 			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
 			this.label8.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label8.Location = new System.Drawing.Point(426, 69);
+			this.label8.Location = new System.Drawing.Point(426, 59);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(47, 12);
 			this.label8.TabIndex = 25;
@@ -239,7 +296,7 @@ namespace OtherTools
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(355, 69);
+			this.label6.Location = new System.Drawing.Point(355, 59);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(65, 12);
 			this.label6.TabIndex = 25;
@@ -249,7 +306,7 @@ namespace OtherTools
 			// 
 			this.label7.AutoSize = true;
 			this.label7.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label7.Location = new System.Drawing.Point(426, 34);
+			this.label7.Location = new System.Drawing.Point(426, 24);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(68, 12);
 			this.label7.TabIndex = 25;
@@ -258,7 +315,7 @@ namespace OtherTools
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(355, 34);
+			this.label5.Location = new System.Drawing.Point(355, 24);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(65, 12);
 			this.label5.TabIndex = 25;
@@ -266,7 +323,7 @@ namespace OtherTools
 			// 
 			// button4
 			// 
-			this.button4.Location = new System.Drawing.Point(11, 27);
+			this.button4.Location = new System.Drawing.Point(11, 17);
 			this.button4.Margin = new System.Windows.Forms.Padding(2);
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(91, 54);
@@ -276,7 +333,7 @@ namespace OtherTools
 			// 
 			// button5
 			// 
-			this.button5.Location = new System.Drawing.Point(218, 54);
+			this.button5.Location = new System.Drawing.Point(219, 44);
 			this.button5.Margin = new System.Windows.Forms.Padding(2);
 			this.button5.Name = "button5";
 			this.button5.Size = new System.Drawing.Size(91, 27);
@@ -287,7 +344,7 @@ namespace OtherTools
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(127, 54);
+			this.button3.Location = new System.Drawing.Point(127, 44);
 			this.button3.Margin = new System.Windows.Forms.Padding(2);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(91, 27);
@@ -298,7 +355,8 @@ namespace OtherTools
 			// 
 			// skinChangeButton
 			// 
-			this.skinChangeButton.Location = new System.Drawing.Point(1126, 54);
+			this.skinChangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.skinChangeButton.Location = new System.Drawing.Point(1125, 44);
 			this.skinChangeButton.Margin = new System.Windows.Forms.Padding(2);
 			this.skinChangeButton.Name = "skinChangeButton";
 			this.skinChangeButton.Size = new System.Drawing.Size(91, 27);
@@ -320,7 +378,7 @@ namespace OtherTools
 			// comboBox1
 			// 
 			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(127, 27);
+			this.comboBox1.Location = new System.Drawing.Point(127, 17);
 			this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(182, 20);
@@ -328,9 +386,10 @@ namespace OtherTools
 			// 
 			// skinComboBox
 			// 
+			this.skinComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.skinComboBox.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.skinComboBox.FormattingEnabled = true;
-			this.skinComboBox.Location = new System.Drawing.Point(1125, 27);
+			this.skinComboBox.Location = new System.Drawing.Point(1124, 17);
 			this.skinComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.skinComboBox.Name = "skinComboBox";
 			this.skinComboBox.Size = new System.Drawing.Size(92, 18);
@@ -346,114 +405,792 @@ namespace OtherTools
 			this.skinEngine1.SerialNumber = "";
 			this.skinEngine1.SkinFile = null;
 			// 
+			// lightImageList
+			// 
+			this.lightImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightImageList.ImageStream")));
+			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
+			this.lightImageList.Images.SetKeyName(0, "Ok3w.Net图标1.png");
+			this.lightImageList.Images.SetKeyName(1, "Ok3w.Net图标15.png");
+			// 
+			// cfgOpenFileDialog
+			// 
+			this.cfgOpenFileDialog.Filter = "cfg配置文件|*.cfg";
+			this.cfgOpenFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.cfgOpenFileDialog_FileOk);
+			// 
+			// cfgSaveFileDialog
+			// 
+			this.cfgSaveFileDialog.Filter = "cfg配置文件|*.cfg";
+			this.cfgSaveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.cfgSaveFileDialog_FileOk);
+			// 
 			// keyTabPage
 			// 
-			this.keyTabPage.Controls.Add(this.panel1);
-			this.keyTabPage.Controls.Add(this.addButton);
-			this.keyTabPage.Controls.Add(this.commonButton);
-			this.keyTabPage.Location = new System.Drawing.Point(4, 64);
+			this.keyTabPage.Controls.Add(this.keypressListView);
+			this.keyTabPage.Controls.Add(this.kpStatusStrip);
+			this.keyTabPage.Controls.Add(this.label25);
+			this.keyTabPage.Controls.Add(this.label24);
+			this.keyTabPage.Controls.Add(this.kpConnectButton);
+			this.keyTabPage.Controls.Add(this.kpShowIconButton);
+			this.keyTabPage.Controls.Add(this.kpLoadButton);
+			this.keyTabPage.Controls.Add(this.kpShowListButton);
+			this.keyTabPage.Controls.Add(this.kpOrderTextBox);
+			this.keyTabPage.Controls.Add(this.kpReadButton);
+			this.keyTabPage.Controls.Add(this.label23);
+			this.keyTabPage.Controls.Add(this.kpListenButton);
+			this.keyTabPage.Controls.Add(this.kpKey1TextBox);
+			this.keyTabPage.Controls.Add(this.kpEditButton);
+			this.keyTabPage.Controls.Add(this.kpDownloadButton);
+			this.keyTabPage.Controls.Add(this.kpSaveButton);
+			this.keyTabPage.Controls.Add(this.kpKey0TextBox);
+			this.keyTabPage.Location = new System.Drawing.Point(64, 4);
 			this.keyTabPage.Name = "keyTabPage";
-			this.keyTabPage.Size = new System.Drawing.Size(1216, 727);
+			this.keyTabPage.Size = new System.Drawing.Size(1196, 660);
 			this.keyTabPage.TabIndex = 2;
 			this.keyTabPage.Text = "墙板配置";
 			this.keyTabPage.UseVisualStyleBackColor = true;
 			// 
-			// panel1
+			// keypressListView
 			// 
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel1.Controls.Add(this.button1);
-			this.panel1.Controls.Add(this.button2);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(186, 0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(1030, 727);
-			this.panel1.TabIndex = 3;
+			this.keypressListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2x,
+            this.columnHeader20,
+            this.columnHeader21,
+            this.columnHeader22});
+			this.keypressListView.FullRowSelect = true;
+			this.keypressListView.GridLines = true;
+			this.keypressListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.keypressListView.HideSelection = false;
+			this.keypressListView.LargeImageList = this.lightImageList;
+			this.keypressListView.Location = new System.Drawing.Point(228, 85);
+			this.keypressListView.MultiSelect = false;
+			this.keypressListView.Name = "keypressListView";
+			this.keypressListView.Size = new System.Drawing.Size(722, 532);
+			this.keypressListView.TabIndex = 1;
+			this.keypressListView.UseCompatibleStateImageBehavior = false;
+			this.keypressListView.View = System.Windows.Forms.View.Details;
+			this.keypressListView.SelectedIndexChanged += new System.EventHandler(this.keypressListView_SelectedIndexChanged);
 			// 
-			// button1
+			// columnHeader2x
 			// 
-			this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.button1.Font = new System.Drawing.Font("微软雅黑 Light", 10F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline) 
-                | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(200)), true);
-			this.button1.Location = new System.Drawing.Point(29, 19);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(198, 116);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "button3\r\n哒哒哒\r\n看看这个按键是什么意思\r\n";
-			this.button1.UseVisualStyleBackColor = true;
+			this.columnHeader2x.Width = 0;
 			// 
-			// button2
+			// columnHeader20
 			// 
-			this.button2.BackColor = System.Drawing.Color.DarkGray;
-			this.button2.Font = new System.Drawing.Font("宋体", 9F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline) 
-                | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(200)), true);
-			this.button2.Location = new System.Drawing.Point(242, 19);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(198, 116);
-			this.button2.TabIndex = 0;
-			this.button2.Text = "button1";
-			this.button2.UseVisualStyleBackColor = false;
+			this.columnHeader20.Text = "键序";
+			this.columnHeader20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader20.Width = 239;
 			// 
-			// addButton
+			// columnHeader21
 			// 
-			this.addButton.BackColor = System.Drawing.Color.Gray;
-			this.addButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.addButton.Location = new System.Drawing.Point(8, 69);
-			this.addButton.Name = "addButton";
-			this.addButton.Size = new System.Drawing.Size(169, 42);
-			this.addButton.TabIndex = 1;
-			this.addButton.Text = "添加按键";
-			this.addButton.UseVisualStyleBackColor = false;
-			this.addButton.Click += new System.EventHandler(this.addButton_Click);
+			this.columnHeader21.Text = "键码值0";
+			this.columnHeader21.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader21.Width = 239;
 			// 
-			// commonButton
+			// columnHeader22
 			// 
-			this.commonButton.Location = new System.Drawing.Point(8, 21);
-			this.commonButton.Name = "commonButton";
-			this.commonButton.Size = new System.Drawing.Size(169, 42);
-			this.commonButton.TabIndex = 1;
-			this.commonButton.Text = "通用设置";
-			this.commonButton.UseVisualStyleBackColor = true;
-			this.commonButton.Click += new System.EventHandler(this.commonButton_Click);
+			this.columnHeader22.Text = "键码值1";
+			this.columnHeader22.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader22.Width = 239;
+			// 
+			// kpStatusStrip
+			// 
+			this.kpStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.kpStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kpToolStripStatusLabel1,
+            this.kpToolStripStatusLabel2});
+			this.kpStatusStrip.Location = new System.Drawing.Point(0, 638);
+			this.kpStatusStrip.Name = "kpStatusStrip";
+			this.kpStatusStrip.Size = new System.Drawing.Size(1196, 22);
+			this.kpStatusStrip.SizingGrip = false;
+			this.kpStatusStrip.TabIndex = 9;
+			// 
+			// kpToolStripStatusLabel1
+			// 
+			this.kpToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
+			this.kpToolStripStatusLabel1.Name = "kpToolStripStatusLabel1";
+			this.kpToolStripStatusLabel1.Size = new System.Drawing.Size(590, 17);
+			this.kpToolStripStatusLabel1.Spring = true;
+			// 
+			// kpToolStripStatusLabel2
+			// 
+			this.kpToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
+			this.kpToolStripStatusLabel2.Name = "kpToolStripStatusLabel2";
+			this.kpToolStripStatusLabel2.Size = new System.Drawing.Size(590, 17);
+			this.kpToolStripStatusLabel2.Spring = true;
+			// 
+			// label25
+			// 
+			this.label25.AutoSize = true;
+			this.label25.Location = new System.Drawing.Point(626, 40);
+			this.label25.Name = "label25";
+			this.label25.Size = new System.Drawing.Size(47, 12);
+			this.label25.TabIndex = 6;
+			this.label25.Text = "键值码1";
+			// 
+			// label24
+			// 
+			this.label24.AutoSize = true;
+			this.label24.Location = new System.Drawing.Point(441, 40);
+			this.label24.Name = "label24";
+			this.label24.Size = new System.Drawing.Size(47, 12);
+			this.label24.TabIndex = 6;
+			this.label24.Text = "键值码0";
+			// 
+			// kpConnectButton
+			// 
+			this.kpConnectButton.Location = new System.Drawing.Point(56, 30);
+			this.kpConnectButton.Name = "kpConnectButton";
+			this.kpConnectButton.Size = new System.Drawing.Size(105, 40);
+			this.kpConnectButton.TabIndex = 5;
+			this.kpConnectButton.Text = "连接墙板";
+			this.kpConnectButton.UseVisualStyleBackColor = true;
+			// 
+			// kpShowIconButton
+			// 
+			this.kpShowIconButton.Location = new System.Drawing.Point(56, 297);
+			this.kpShowIconButton.Name = "kpShowIconButton";
+			this.kpShowIconButton.Size = new System.Drawing.Size(105, 40);
+			this.kpShowIconButton.TabIndex = 5;
+			this.kpShowIconButton.Text = "图标显示->";
+			this.kpShowIconButton.UseVisualStyleBackColor = true;
+			this.kpShowIconButton.Click += new System.EventHandler(this.showIconButton_Click);
+			// 
+			// kpLoadButton
+			// 
+			this.kpLoadButton.Location = new System.Drawing.Point(1017, 231);
+			this.kpLoadButton.Name = "kpLoadButton";
+			this.kpLoadButton.Size = new System.Drawing.Size(105, 40);
+			this.kpLoadButton.TabIndex = 5;
+			this.kpLoadButton.Text = "加载文件";
+			this.kpLoadButton.UseVisualStyleBackColor = true;
+			this.kpLoadButton.Click += new System.EventHandler(this.kpLoadButton_Click);
+			// 
+			// kpShowListButton
+			// 
+			this.kpShowListButton.Location = new System.Drawing.Point(56, 231);
+			this.kpShowListButton.Name = "kpShowListButton";
+			this.kpShowListButton.Size = new System.Drawing.Size(105, 40);
+			this.kpShowListButton.TabIndex = 5;
+			this.kpShowListButton.Text = "列表显示->";
+			this.kpShowListButton.UseVisualStyleBackColor = true;
+			this.kpShowListButton.Click += new System.EventHandler(this.showListButton_Click);
+			// 
+			// kpOrderTextBox
+			// 
+			this.kpOrderTextBox.Enabled = false;
+			this.kpOrderTextBox.Location = new System.Drawing.Point(287, 36);
+			this.kpOrderTextBox.Name = "kpOrderTextBox";
+			this.kpOrderTextBox.Size = new System.Drawing.Size(72, 21);
+			this.kpOrderTextBox.TabIndex = 0;
+			this.kpOrderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// kpReadButton
+			// 
+			this.kpReadButton.Location = new System.Drawing.Point(1017, 30);
+			this.kpReadButton.Name = "kpReadButton";
+			this.kpReadButton.Size = new System.Drawing.Size(105, 40);
+			this.kpReadButton.TabIndex = 5;
+			this.kpReadButton.Text = "读取码值";
+			this.kpReadButton.UseVisualStyleBackColor = true;
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.Location = new System.Drawing.Point(248, 40);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(29, 12);
+			this.label23.TabIndex = 6;
+			this.label23.Text = "键序";
+			// 
+			// kpListenButton
+			// 
+			this.kpListenButton.Location = new System.Drawing.Point(1017, 96);
+			this.kpListenButton.Name = "kpListenButton";
+			this.kpListenButton.Size = new System.Drawing.Size(105, 40);
+			this.kpListenButton.TabIndex = 5;
+			this.kpListenButton.Text = "监听按键";
+			this.kpListenButton.UseVisualStyleBackColor = true;
+			this.kpListenButton.Click += new System.EventHandler(this.kpListenButton_Click);
+			// 
+			// kpKey1TextBox
+			// 
+			this.kpKey1TextBox.Location = new System.Drawing.Point(678, 36);
+			this.kpKey1TextBox.Name = "kpKey1TextBox";
+			this.kpKey1TextBox.Size = new System.Drawing.Size(90, 21);
+			this.kpKey1TextBox.TabIndex = 2;
+			this.kpKey1TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.kpKey1TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.kpKeyTextBox_KeyPress);
+			// 
+			// kpEditButton
+			// 
+			this.kpEditButton.Location = new System.Drawing.Point(844, 30);
+			this.kpEditButton.Name = "kpEditButton";
+			this.kpEditButton.Size = new System.Drawing.Size(90, 32);
+			this.kpEditButton.TabIndex = 5;
+			this.kpEditButton.Text = "增改键码";
+			this.kpEditButton.UseVisualStyleBackColor = true;
+			this.kpEditButton.Click += new System.EventHandler(this.kpEditButton_Click);
+			// 
+			// kpDownloadButton
+			// 
+			this.kpDownloadButton.Location = new System.Drawing.Point(1017, 363);
+			this.kpDownloadButton.Name = "kpDownloadButton";
+			this.kpDownloadButton.Size = new System.Drawing.Size(105, 40);
+			this.kpDownloadButton.TabIndex = 5;
+			this.kpDownloadButton.Text = "下载文件";
+			this.kpDownloadButton.UseVisualStyleBackColor = true;
+			// 
+			// kpSaveButton
+			// 
+			this.kpSaveButton.Location = new System.Drawing.Point(1017, 297);
+			this.kpSaveButton.Name = "kpSaveButton";
+			this.kpSaveButton.Size = new System.Drawing.Size(105, 40);
+			this.kpSaveButton.TabIndex = 5;
+			this.kpSaveButton.Text = "保存文件";
+			this.kpSaveButton.UseVisualStyleBackColor = true;
+			// 
+			// kpKey0TextBox
+			// 
+			this.kpKey0TextBox.Location = new System.Drawing.Point(493, 36);
+			this.kpKey0TextBox.MaxLength = 2;
+			this.kpKey0TextBox.Name = "kpKey0TextBox";
+			this.kpKey0TextBox.Size = new System.Drawing.Size(90, 21);
+			this.kpKey0TextBox.TabIndex = 1;
+			this.kpKey0TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.kpKey0TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.kpKeyTextBox_KeyPress);
 			// 
 			// lightTabPage
 			// 
-			this.lightTabPage.BackColor = System.Drawing.Color.SkyBlue;
+			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
+			this.lightTabPage.Controls.Add(this.lcStatusStrip);
 			this.lightTabPage.Controls.Add(this.groupBox11);
 			this.lightTabPage.Controls.Add(this.groupBox10);
 			this.lightTabPage.Controls.Add(this.groupBox4);
 			this.lightTabPage.Controls.Add(this.groupBox3);
 			this.lightTabPage.Controls.Add(this.button6);
 			this.lightTabPage.Controls.Add(this.groupBox2);
-			this.lightTabPage.Controls.Add(this.groupBox5);
+			this.lightTabPage.Controls.Add(this.tgGroupBox);
 			this.lightTabPage.Controls.Add(this.label13);
 			this.lightTabPage.Controls.Add(this.qdFrameComboBox);
-			this.lightTabPage.Controls.Add(this.groupBox1);
-			this.lightTabPage.Location = new System.Drawing.Point(4, 64);
+			this.lightTabPage.Controls.Add(this.lightGroupBox);
+			this.lightTabPage.Location = new System.Drawing.Point(64, 4);
 			this.lightTabPage.Name = "lightTabPage";
 			this.lightTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.lightTabPage.Size = new System.Drawing.Size(1216, 727);
+			this.lightTabPage.Size = new System.Drawing.Size(1196, 660);
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
 			// 
+			// lcStatusStrip
+			// 
+			this.lcStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.lcStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lcToolStripStatusLabel1,
+            this.lcToolStripStatusLabel2});
+			this.lcStatusStrip.Location = new System.Drawing.Point(3, 635);
+			this.lcStatusStrip.Name = "lcStatusStrip";
+			this.lcStatusStrip.Size = new System.Drawing.Size(1190, 22);
+			this.lcStatusStrip.SizingGrip = false;
+			this.lcStatusStrip.TabIndex = 8;
+			// 
+			// lcToolStripStatusLabel1
+			// 
+			this.lcToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
+			this.lcToolStripStatusLabel1.Name = "lcToolStripStatusLabel1";
+			this.lcToolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
+			this.lcToolStripStatusLabel1.Spring = true;
+			// 
+			// lcToolStripStatusLabel2
+			// 
+			this.lcToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
+			this.lcToolStripStatusLabel2.Name = "lcToolStripStatusLabel2";
+			this.lcToolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
+			this.lcToolStripStatusLabel2.Spring = true;
+			// 
+			// groupBox11
+			// 
+			this.groupBox11.Controls.Add(this.fanButton);
+			this.groupBox11.Controls.Add(this.acButton);
+			this.groupBox11.Location = new System.Drawing.Point(27, 331);
+			this.groupBox11.Name = "groupBox11";
+			this.groupBox11.Size = new System.Drawing.Size(135, 174);
+			this.groupBox11.TabIndex = 7;
+			this.groupBox11.TabStop = false;
+			this.groupBox11.Text = "空调与排风";
+			// 
+			// fanButton
+			// 
+			this.fanButton.Location = new System.Drawing.Point(21, 27);
+			this.fanButton.Name = "fanButton";
+			this.fanButton.Size = new System.Drawing.Size(91, 52);
+			this.fanButton.TabIndex = 0;
+			this.fanButton.Text = "点击禁用\r\n排风通道";
+			this.fanButton.UseVisualStyleBackColor = true;
+			this.fanButton.Click += new System.EventHandler(this.fanButton_Click);
+			// 
+			// acButton
+			// 
+			this.acButton.Location = new System.Drawing.Point(21, 103);
+			this.acButton.Margin = new System.Windows.Forms.Padding(10);
+			this.acButton.Name = "acButton";
+			this.acButton.Size = new System.Drawing.Size(91, 52);
+			this.acButton.TabIndex = 0;
+			this.acButton.Text = "点击禁用\r\n空调通道";
+			this.acButton.UseVisualStyleBackColor = true;
+			this.acButton.Click += new System.EventHandler(this.acButton_Click);
+			// 
+			// groupBox10
+			// 
+			this.groupBox10.Controls.Add(this.panel12);
+			this.groupBox10.Controls.Add(this.panel11);
+			this.groupBox10.Controls.Add(this.panel10);
+			this.groupBox10.Controls.Add(this.panel9);
+			this.groupBox10.Controls.Add(this.panel8);
+			this.groupBox10.Controls.Add(this.panel3);
+			this.groupBox10.Location = new System.Drawing.Point(184, 331);
+			this.groupBox10.Name = "groupBox10";
+			this.groupBox10.Size = new System.Drawing.Size(366, 175);
+			this.groupBox10.TabIndex = 6;
+			this.groupBox10.TabStop = false;
+			this.groupBox10.Text = "空调与排风通道设置";
+			// 
+			// panel12
+			// 
+			this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel12.Controls.Add(this.label16);
+			this.panel12.Controls.Add(this.fcloseChannelComboBox);
+			this.panel12.Location = new System.Drawing.Point(251, 104);
+			this.panel12.Name = "panel12";
+			this.panel12.Size = new System.Drawing.Size(95, 51);
+			this.panel12.TabIndex = 5;
+			// 
+			// label16
+			// 
+			this.label16.AutoSize = true;
+			this.label16.Location = new System.Drawing.Point(13, 5);
+			this.label16.Name = "label16";
+			this.label16.Size = new System.Drawing.Size(41, 12);
+			this.label16.TabIndex = 4;
+			this.label16.Text = "阀关：";
+			// 
+			// fcloseChannelComboBox
+			// 
+			this.fcloseChannelComboBox.BackColor = System.Drawing.Color.Linen;
+			this.fcloseChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.fcloseChannelComboBox.FormattingEnabled = true;
+			this.fcloseChannelComboBox.Items.AddRange(new object[] {
+            "通道12"});
+			this.fcloseChannelComboBox.Location = new System.Drawing.Point(8, 23);
+			this.fcloseChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.fcloseChannelComboBox.Name = "fcloseChannelComboBox";
+			this.fcloseChannelComboBox.Size = new System.Drawing.Size(75, 20);
+			this.fcloseChannelComboBox.TabIndex = 3;
+			// 
+			// panel11
+			// 
+			this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel11.Controls.Add(this.label15);
+			this.panel11.Controls.Add(this.fopenChannelComboBox);
+			this.panel11.Location = new System.Drawing.Point(136, 104);
+			this.panel11.Name = "panel11";
+			this.panel11.Size = new System.Drawing.Size(95, 51);
+			this.panel11.TabIndex = 5;
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Location = new System.Drawing.Point(13, 5);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(41, 12);
+			this.label15.TabIndex = 4;
+			this.label15.Text = "阀开：";
+			// 
+			// fopenChannelComboBox
+			// 
+			this.fopenChannelComboBox.BackColor = System.Drawing.Color.Linen;
+			this.fopenChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.fopenChannelComboBox.FormattingEnabled = true;
+			this.fopenChannelComboBox.Items.AddRange(new object[] {
+            "通道11"});
+			this.fopenChannelComboBox.Location = new System.Drawing.Point(8, 23);
+			this.fopenChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.fopenChannelComboBox.Name = "fopenChannelComboBox";
+			this.fopenChannelComboBox.Size = new System.Drawing.Size(75, 20);
+			this.fopenChannelComboBox.TabIndex = 3;
+			// 
+			// panel10
+			// 
+			this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel10.Controls.Add(this.label14);
+			this.panel10.Controls.Add(this.lowFanChannelComboBox);
+			this.panel10.Location = new System.Drawing.Point(136, 28);
+			this.panel10.Name = "panel10";
+			this.panel10.Size = new System.Drawing.Size(95, 51);
+			this.panel10.TabIndex = 5;
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(13, 5);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(41, 12);
+			this.label14.TabIndex = 4;
+			this.label14.Text = "低风：";
+			// 
+			// lowFanChannelComboBox
+			// 
+			this.lowFanChannelComboBox.BackColor = System.Drawing.Color.Linen;
+			this.lowFanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.lowFanChannelComboBox.FormattingEnabled = true;
+			this.lowFanChannelComboBox.Items.AddRange(new object[] {
+            "通道8"});
+			this.lowFanChannelComboBox.Location = new System.Drawing.Point(8, 23);
+			this.lowFanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.lowFanChannelComboBox.Name = "lowFanChannelComboBox";
+			this.lowFanChannelComboBox.Size = new System.Drawing.Size(75, 20);
+			this.lowFanChannelComboBox.TabIndex = 3;
+			// 
+			// panel9
+			// 
+			this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel9.Controls.Add(this.label12);
+			this.panel9.Controls.Add(this.midFanChannelComboBox);
+			this.panel9.Location = new System.Drawing.Point(251, 28);
+			this.panel9.Name = "panel9";
+			this.panel9.Size = new System.Drawing.Size(95, 51);
+			this.panel9.TabIndex = 5;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(13, 5);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(41, 12);
+			this.label12.TabIndex = 4;
+			this.label12.Text = "中风：";
+			// 
+			// midFanChannelComboBox
+			// 
+			this.midFanChannelComboBox.BackColor = System.Drawing.Color.Linen;
+			this.midFanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.midFanChannelComboBox.FormattingEnabled = true;
+			this.midFanChannelComboBox.Items.AddRange(new object[] {
+            "通道9"});
+			this.midFanChannelComboBox.Location = new System.Drawing.Point(8, 23);
+			this.midFanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.midFanChannelComboBox.Name = "midFanChannelComboBox";
+			this.midFanChannelComboBox.Size = new System.Drawing.Size(75, 20);
+			this.midFanChannelComboBox.TabIndex = 3;
+			// 
+			// panel8
+			// 
+			this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel8.Controls.Add(this.label11);
+			this.panel8.Controls.Add(this.highFanChannelComboBox);
+			this.panel8.Location = new System.Drawing.Point(21, 104);
+			this.panel8.Name = "panel8";
+			this.panel8.Size = new System.Drawing.Size(95, 51);
+			this.panel8.TabIndex = 2;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(13, 5);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(41, 12);
+			this.label11.TabIndex = 4;
+			this.label11.Text = "高风：";
+			// 
+			// highFanChannelComboBox
+			// 
+			this.highFanChannelComboBox.BackColor = System.Drawing.Color.Linen;
+			this.highFanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.highFanChannelComboBox.FormattingEnabled = true;
+			this.highFanChannelComboBox.Items.AddRange(new object[] {
+            "通道10"});
+			this.highFanChannelComboBox.Location = new System.Drawing.Point(8, 23);
+			this.highFanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.highFanChannelComboBox.Name = "highFanChannelComboBox";
+			this.highFanChannelComboBox.Size = new System.Drawing.Size(75, 20);
+			this.highFanChannelComboBox.TabIndex = 3;
+			// 
+			// panel3
+			// 
+			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel3.Controls.Add(this.label1);
+			this.panel3.Controls.Add(this.fanChannelComboBox);
+			this.panel3.Location = new System.Drawing.Point(21, 28);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(95, 51);
+			this.panel3.TabIndex = 1;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(13, 5);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(41, 12);
+			this.label1.TabIndex = 4;
+			this.label1.Text = "排风：";
+			// 
+			// fanChannelComboBox
+			// 
+			this.fanChannelComboBox.BackColor = System.Drawing.Color.Linen;
+			this.fanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.fanChannelComboBox.FormattingEnabled = true;
+			this.fanChannelComboBox.Items.AddRange(new object[] {
+            "通道7"});
+			this.fanChannelComboBox.Location = new System.Drawing.Point(8, 23);
+			this.fanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.fanChannelComboBox.Name = "fanChannelComboBox";
+			this.fanChannelComboBox.Size = new System.Drawing.Size(75, 20);
+			this.fanChannelComboBox.TabIndex = 3;
+			// 
 			// groupBox4
 			// 
-			this.groupBox4.Controls.Add(this.groupBox7);
-			this.groupBox4.Controls.Add(this.groupBox9);
-			this.groupBox4.Controls.Add(this.groupBox8);
-			this.groupBox4.Controls.Add(this.groupBox6);
-			this.groupBox4.Location = new System.Drawing.Point(577, 318);
+			this.groupBox4.Controls.Add(this.ktmsGroupBox);
+			this.groupBox4.Controls.Add(this.fjGroupBox);
+			this.groupBox4.Controls.Add(this.ktwdGroupBox);
+			this.groupBox4.Controls.Add(this.lrGroupBox);
+			this.groupBox4.Location = new System.Drawing.Point(572, 331);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(604, 174);
+			this.groupBox4.Size = new System.Drawing.Size(568, 174);
 			this.groupBox4.TabIndex = 6;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "空调控制";
+			// 
+			// ktmsGroupBox
+			// 
+			this.ktmsGroupBox.Controls.Add(this.ktCloseRadioButton);
+			this.ktmsGroupBox.Controls.Add(this.ktMidRadioButton);
+			this.ktmsGroupBox.Controls.Add(this.ktAutoRadioButton);
+			this.ktmsGroupBox.Controls.Add(this.ktHighRadioButton);
+			this.ktmsGroupBox.Controls.Add(this.ktLowRadioButton);
+			this.ktmsGroupBox.Enabled = false;
+			this.ktmsGroupBox.Location = new System.Drawing.Point(178, 26);
+			this.ktmsGroupBox.Name = "ktmsGroupBox";
+			this.ktmsGroupBox.Size = new System.Drawing.Size(375, 58);
+			this.ktmsGroupBox.TabIndex = 1;
+			this.ktmsGroupBox.TabStop = false;
+			this.ktmsGroupBox.Text = "空调模式";
+			// 
+			// ktCloseRadioButton
+			// 
+			this.ktCloseRadioButton.AutoSize = true;
+			this.ktCloseRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ktCloseRadioButton.Location = new System.Drawing.Point(302, 24);
+			this.ktCloseRadioButton.Name = "ktCloseRadioButton";
+			this.ktCloseRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.ktCloseRadioButton.TabIndex = 1;
+			this.ktCloseRadioButton.TabStop = true;
+			this.ktCloseRadioButton.Text = "关闭";
+			this.ktCloseRadioButton.UseVisualStyleBackColor = true;
+			this.ktCloseRadioButton.Click += new System.EventHandler(this.ktRadioButton_Click);
+			// 
+			// ktMidRadioButton
+			// 
+			this.ktMidRadioButton.AutoSize = true;
+			this.ktMidRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ktMidRadioButton.Location = new System.Drawing.Point(92, 25);
+			this.ktMidRadioButton.Name = "ktMidRadioButton";
+			this.ktMidRadioButton.Size = new System.Drawing.Size(35, 16);
+			this.ktMidRadioButton.TabIndex = 2;
+			this.ktMidRadioButton.TabStop = true;
+			this.ktMidRadioButton.Text = "中";
+			this.ktMidRadioButton.UseVisualStyleBackColor = true;
+			this.ktMidRadioButton.Click += new System.EventHandler(this.ktRadioButton_Click);
+			// 
+			// ktAutoRadioButton
+			// 
+			this.ktAutoRadioButton.AutoSize = true;
+			this.ktAutoRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ktAutoRadioButton.Location = new System.Drawing.Point(224, 25);
+			this.ktAutoRadioButton.Name = "ktAutoRadioButton";
+			this.ktAutoRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.ktAutoRadioButton.TabIndex = 1;
+			this.ktAutoRadioButton.TabStop = true;
+			this.ktAutoRadioButton.Text = "自动";
+			this.ktAutoRadioButton.UseVisualStyleBackColor = true;
+			this.ktAutoRadioButton.Click += new System.EventHandler(this.ktRadioButton_Click);
+			// 
+			// ktHighRadioButton
+			// 
+			this.ktHighRadioButton.AutoSize = true;
+			this.ktHighRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ktHighRadioButton.Location = new System.Drawing.Point(26, 25);
+			this.ktHighRadioButton.Name = "ktHighRadioButton";
+			this.ktHighRadioButton.Size = new System.Drawing.Size(35, 16);
+			this.ktHighRadioButton.TabIndex = 2;
+			this.ktHighRadioButton.TabStop = true;
+			this.ktHighRadioButton.Text = "高";
+			this.ktHighRadioButton.UseVisualStyleBackColor = true;
+			this.ktHighRadioButton.Click += new System.EventHandler(this.ktRadioButton_Click);
+			// 
+			// ktLowRadioButton
+			// 
+			this.ktLowRadioButton.AutoSize = true;
+			this.ktLowRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ktLowRadioButton.Location = new System.Drawing.Point(158, 25);
+			this.ktLowRadioButton.Name = "ktLowRadioButton";
+			this.ktLowRadioButton.Size = new System.Drawing.Size(35, 16);
+			this.ktLowRadioButton.TabIndex = 3;
+			this.ktLowRadioButton.TabStop = true;
+			this.ktLowRadioButton.Text = "低";
+			this.ktLowRadioButton.UseVisualStyleBackColor = true;
+			this.ktLowRadioButton.Click += new System.EventHandler(this.ktRadioButton_Click);
+			// 
+			// fjGroupBox
+			// 
+			this.fjGroupBox.Controls.Add(this.fjJYRadioButton);
+			this.fjGroupBox.Controls.Add(this.fjDXFRadioButton);
+			this.fjGroupBox.Controls.Add(this.fjSXFRadioButton);
+			this.fjGroupBox.Location = new System.Drawing.Point(296, 102);
+			this.fjGroupBox.Name = "fjGroupBox";
+			this.fjGroupBox.Size = new System.Drawing.Size(257, 58);
+			this.fjGroupBox.TabIndex = 1;
+			this.fjGroupBox.TabStop = false;
+			this.fjGroupBox.Text = "风机类型";
+			// 
+			// fjJYRadioButton
+			// 
+			this.fjJYRadioButton.AutoSize = true;
+			this.fjJYRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.fjJYRadioButton.Location = new System.Drawing.Point(23, 28);
+			this.fjJYRadioButton.Name = "fjJYRadioButton";
+			this.fjJYRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.fjJYRadioButton.TabIndex = 0;
+			this.fjJYRadioButton.TabStop = true;
+			this.fjJYRadioButton.Tag = "0";
+			this.fjJYRadioButton.Text = "禁用";
+			this.fjJYRadioButton.UseVisualStyleBackColor = true;
+			this.fjJYRadioButton.Click += new System.EventHandler(this.fjRadioButton_Click);
+			// 
+			// fjDXFRadioButton
+			// 
+			this.fjDXFRadioButton.AutoSize = true;
+			this.fjDXFRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.fjDXFRadioButton.Location = new System.Drawing.Point(95, 28);
+			this.fjDXFRadioButton.Name = "fjDXFRadioButton";
+			this.fjDXFRadioButton.Size = new System.Drawing.Size(59, 16);
+			this.fjDXFRadioButton.TabIndex = 0;
+			this.fjDXFRadioButton.TabStop = true;
+			this.fjDXFRadioButton.Tag = "1";
+			this.fjDXFRadioButton.Text = "单线阀";
+			this.fjDXFRadioButton.UseVisualStyleBackColor = true;
+			this.fjDXFRadioButton.Click += new System.EventHandler(this.fjRadioButton_Click);
+			// 
+			// fjSXFRadioButton
+			// 
+			this.fjSXFRadioButton.AutoSize = true;
+			this.fjSXFRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.fjSXFRadioButton.Location = new System.Drawing.Point(179, 28);
+			this.fjSXFRadioButton.Name = "fjSXFRadioButton";
+			this.fjSXFRadioButton.Size = new System.Drawing.Size(59, 16);
+			this.fjSXFRadioButton.TabIndex = 0;
+			this.fjSXFRadioButton.TabStop = true;
+			this.fjSXFRadioButton.Tag = "2";
+			this.fjSXFRadioButton.Text = "双线阀";
+			this.fjSXFRadioButton.UseVisualStyleBackColor = true;
+			this.fjSXFRadioButton.Click += new System.EventHandler(this.fjRadioButton_Click);
+			// 
+			// ktwdGroupBox
+			// 
+			this.ktwdGroupBox.Controls.Add(this.numericUpDown6);
+			this.ktwdGroupBox.Controls.Add(this.label10);
+			this.ktwdGroupBox.Enabled = false;
+			this.ktwdGroupBox.Location = new System.Drawing.Point(21, 26);
+			this.ktwdGroupBox.Name = "ktwdGroupBox";
+			this.ktwdGroupBox.Size = new System.Drawing.Size(114, 58);
+			this.ktwdGroupBox.TabIndex = 1;
+			this.ktwdGroupBox.TabStop = false;
+			this.ktwdGroupBox.Text = "设定温度";
+			// 
+			// numericUpDown6
+			// 
+			this.numericUpDown6.Location = new System.Drawing.Point(15, 23);
+			this.numericUpDown6.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+			this.numericUpDown6.Minimum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+			this.numericUpDown6.Name = "numericUpDown6";
+			this.numericUpDown6.Size = new System.Drawing.Size(54, 21);
+			this.numericUpDown6.TabIndex = 1;
+			this.numericUpDown6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.numericUpDown6.Value = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label10.Location = new System.Drawing.Point(76, 25);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(24, 16);
+			this.label10.TabIndex = 0;
+			this.label10.Text = "℃";
+			// 
+			// lrGroupBox
+			// 
+			this.lrGroupBox.Controls.Add(this.zlRadioButton3);
+			this.lrGroupBox.Controls.Add(this.zlRadioButton1);
+			this.lrGroupBox.Controls.Add(this.zlRadioButton2);
+			this.lrGroupBox.Enabled = false;
+			this.lrGroupBox.Location = new System.Drawing.Point(21, 102);
+			this.lrGroupBox.Name = "lrGroupBox";
+			this.lrGroupBox.Size = new System.Drawing.Size(258, 58);
+			this.lrGroupBox.TabIndex = 1;
+			this.lrGroupBox.TabStop = false;
+			this.lrGroupBox.Text = "冷热模式";
+			// 
+			// zlRadioButton3
+			// 
+			this.zlRadioButton3.AutoSize = true;
+			this.zlRadioButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zlRadioButton3.Location = new System.Drawing.Point(160, 25);
+			this.zlRadioButton3.Name = "zlRadioButton3";
+			this.zlRadioButton3.Size = new System.Drawing.Size(47, 16);
+			this.zlRadioButton3.TabIndex = 0;
+			this.zlRadioButton3.TabStop = true;
+			this.zlRadioButton3.Text = "送风";
+			this.zlRadioButton3.UseVisualStyleBackColor = true;
+			// 
+			// zlRadioButton1
+			// 
+			this.zlRadioButton1.AutoSize = true;
+			this.zlRadioButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zlRadioButton1.Location = new System.Drawing.Point(22, 26);
+			this.zlRadioButton1.Name = "zlRadioButton1";
+			this.zlRadioButton1.Size = new System.Drawing.Size(47, 16);
+			this.zlRadioButton1.TabIndex = 0;
+			this.zlRadioButton1.TabStop = true;
+			this.zlRadioButton1.Text = "制冷";
+			this.zlRadioButton1.UseVisualStyleBackColor = true;
+			// 
+			// zlRadioButton2
+			// 
+			this.zlRadioButton2.AutoSize = true;
+			this.zlRadioButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zlRadioButton2.Location = new System.Drawing.Point(91, 26);
+			this.zlRadioButton2.Name = "zlRadioButton2";
+			this.zlRadioButton2.Size = new System.Drawing.Size(47, 16);
+			this.zlRadioButton2.TabIndex = 0;
+			this.zlRadioButton2.TabStop = true;
+			this.zlRadioButton2.Text = "制热";
+			this.zlRadioButton2.UseVisualStyleBackColor = true;
 			// 
 			// groupBox3
 			// 
 			this.groupBox3.Controls.Add(this.lcDownloadButton);
 			this.groupBox3.Controls.Add(this.lcLoadButton);
 			this.groupBox3.Controls.Add(this.lcSaveButton);
-			this.groupBox3.Location = new System.Drawing.Point(577, 28);
+			this.groupBox3.Location = new System.Drawing.Point(545, 28);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(284, 58);
 			this.groupBox3.TabIndex = 5;
@@ -482,26 +1219,225 @@ namespace OtherTools
 			// 
 			// lcSaveButton
 			// 
+			this.lcSaveButton.Enabled = false;
 			this.lcSaveButton.Location = new System.Drawing.Point(6, 18);
 			this.lcSaveButton.Name = "lcSaveButton";
 			this.lcSaveButton.Size = new System.Drawing.Size(75, 30);
 			this.lcSaveButton.TabIndex = 4;
 			this.lcSaveButton.Text = "保存配置";
 			this.lcSaveButton.UseVisualStyleBackColor = true;
+			this.lcSaveButton.Click += new System.EventHandler(this.lcSaveButton_Click);
 			// 
 			// button6
 			// 
-			this.button6.Location = new System.Drawing.Point(39, 29);
+			this.button6.Location = new System.Drawing.Point(30, 29);
 			this.button6.Name = "button6";
 			this.button6.Size = new System.Drawing.Size(75, 44);
 			this.button6.TabIndex = 4;
 			this.button6.Text = "回读配置";
 			this.button6.UseVisualStyleBackColor = true;
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.lightModeQHRadioButton);
+			this.groupBox2.Controls.Add(this.lightModeDJRadioButton);
+			this.groupBox2.Location = new System.Drawing.Point(324, 28);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(181, 58);
+			this.groupBox2.TabIndex = 1;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "灯光模式";
+			// 
+			// lightModeQHRadioButton
+			// 
+			this.lightModeQHRadioButton.AutoSize = true;
+			this.lightModeQHRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightModeQHRadioButton.Location = new System.Drawing.Point(29, 27);
+			this.lightModeQHRadioButton.Name = "lightModeQHRadioButton";
+			this.lightModeQHRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.lightModeQHRadioButton.TabIndex = 0;
+			this.lightModeQHRadioButton.TabStop = true;
+			this.lightModeQHRadioButton.Tag = "1";
+			this.lightModeQHRadioButton.Text = "切换";
+			this.lightModeQHRadioButton.UseVisualStyleBackColor = true;
+			this.lightModeQHRadioButton.Click += new System.EventHandler(this.lightModeRadioButton_Click);
+			// 
+			// lightModeDJRadioButton
+			// 
+			this.lightModeDJRadioButton.AutoSize = true;
+			this.lightModeDJRadioButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightModeDJRadioButton.Location = new System.Drawing.Point(107, 27);
+			this.lightModeDJRadioButton.Name = "lightModeDJRadioButton";
+			this.lightModeDJRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.lightModeDJRadioButton.TabIndex = 0;
+			this.lightModeDJRadioButton.TabStop = true;
+			this.lightModeDJRadioButton.Tag = "0";
+			this.lightModeDJRadioButton.Text = "叠加";
+			this.lightModeDJRadioButton.UseVisualStyleBackColor = true;
+			this.lightModeDJRadioButton.Click += new System.EventHandler(this.lightModeRadioButton_Click);
+			// 
+			// tgGroupBox
+			// 
+			this.tgGroupBox.Controls.Add(this.tgPanel4);
+			this.tgGroupBox.Controls.Add(this.tgPanel3);
+			this.tgGroupBox.Controls.Add(this.tgPanel2);
+			this.tgGroupBox.Controls.Add(this.tgPanel1);
+			this.tgGroupBox.Location = new System.Drawing.Point(847, 28);
+			this.tgGroupBox.Name = "tgGroupBox";
+			this.tgGroupBox.Size = new System.Drawing.Size(293, 283);
+			this.tgGroupBox.TabIndex = 3;
+			this.tgGroupBox.TabStop = false;
+			this.tgGroupBox.Text = "调光通道设置";
+			this.tgGroupBox.Enter += new System.EventHandler(this.groupBox2_Enter);
+			// 
+			// tgPanel4
+			// 
+			this.tgPanel4.Controls.Add(this.numericUpDown5);
+			this.tgPanel4.Controls.Add(this.tgLabel4);
+			this.tgPanel4.Controls.Add(this.trackBar5);
+			this.tgPanel4.Location = new System.Drawing.Point(219, 26);
+			this.tgPanel4.Name = "tgPanel4";
+			this.tgPanel4.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel4.TabIndex = 3;
+			// 
+			// numericUpDown5
+			// 
+			this.numericUpDown5.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown5.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown5.Name = "numericUpDown5";
+			this.numericUpDown5.Size = new System.Drawing.Size(40, 19);
+			this.numericUpDown5.TabIndex = 5;
+			// 
+			// tgLabel4
+			// 
+			this.tgLabel4.AutoSize = true;
+			this.tgLabel4.Location = new System.Drawing.Point(17, 10);
+			this.tgLabel4.Name = "tgLabel4";
+			this.tgLabel4.Size = new System.Drawing.Size(35, 12);
+			this.tgLabel4.TabIndex = 4;
+			this.tgLabel4.Text = "通道1";
+			// 
+			// trackBar5
+			// 
+			this.trackBar5.Location = new System.Drawing.Point(23, 24);
+			this.trackBar5.Name = "trackBar5";
+			this.trackBar5.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.trackBar5.Size = new System.Drawing.Size(45, 179);
+			this.trackBar5.TabIndex = 3;
+			this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
+			// 
+			// tgPanel3
+			// 
+			this.tgPanel3.Controls.Add(this.numericUpDown4);
+			this.tgPanel3.Controls.Add(this.tgLabel3);
+			this.tgPanel3.Controls.Add(this.trackBar4);
+			this.tgPanel3.Location = new System.Drawing.Point(145, 26);
+			this.tgPanel3.Name = "tgPanel3";
+			this.tgPanel3.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel3.TabIndex = 3;
+			// 
+			// numericUpDown4
+			// 
+			this.numericUpDown4.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown4.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown4.Name = "numericUpDown4";
+			this.numericUpDown4.Size = new System.Drawing.Size(40, 19);
+			this.numericUpDown4.TabIndex = 5;
+			// 
+			// tgLabel3
+			// 
+			this.tgLabel3.AutoSize = true;
+			this.tgLabel3.Location = new System.Drawing.Point(17, 10);
+			this.tgLabel3.Name = "tgLabel3";
+			this.tgLabel3.Size = new System.Drawing.Size(35, 12);
+			this.tgLabel3.TabIndex = 4;
+			this.tgLabel3.Text = "通道1";
+			// 
+			// trackBar4
+			// 
+			this.trackBar4.Location = new System.Drawing.Point(23, 24);
+			this.trackBar4.Name = "trackBar4";
+			this.trackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.trackBar4.Size = new System.Drawing.Size(45, 179);
+			this.trackBar4.TabIndex = 3;
+			this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.None;
+			// 
+			// tgPanel2
+			// 
+			this.tgPanel2.Controls.Add(this.numericUpDown3);
+			this.tgPanel2.Controls.Add(this.tgLabel2);
+			this.tgPanel2.Controls.Add(this.trackBar3);
+			this.tgPanel2.Location = new System.Drawing.Point(74, 26);
+			this.tgPanel2.Name = "tgPanel2";
+			this.tgPanel2.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel2.TabIndex = 3;
+			// 
+			// numericUpDown3
+			// 
+			this.numericUpDown3.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown3.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown3.Name = "numericUpDown3";
+			this.numericUpDown3.Size = new System.Drawing.Size(40, 19);
+			this.numericUpDown3.TabIndex = 5;
+			// 
+			// tgLabel2
+			// 
+			this.tgLabel2.AutoSize = true;
+			this.tgLabel2.Location = new System.Drawing.Point(17, 10);
+			this.tgLabel2.Name = "tgLabel2";
+			this.tgLabel2.Size = new System.Drawing.Size(35, 12);
+			this.tgLabel2.TabIndex = 4;
+			this.tgLabel2.Text = "通道1";
+			// 
+			// trackBar3
+			// 
+			this.trackBar3.Location = new System.Drawing.Point(23, 24);
+			this.trackBar3.Name = "trackBar3";
+			this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.trackBar3.Size = new System.Drawing.Size(45, 179);
+			this.trackBar3.TabIndex = 3;
+			this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
+			// 
+			// tgPanel1
+			// 
+			this.tgPanel1.Controls.Add(this.numericUpDown2);
+			this.tgPanel1.Controls.Add(this.tgLabel1);
+			this.tgPanel1.Controls.Add(this.trackBar2);
+			this.tgPanel1.Location = new System.Drawing.Point(3, 26);
+			this.tgPanel1.Name = "tgPanel1";
+			this.tgPanel1.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel1.TabIndex = 3;
+			// 
+			// numericUpDown2
+			// 
+			this.numericUpDown2.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown2.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown2.Name = "numericUpDown2";
+			this.numericUpDown2.Size = new System.Drawing.Size(40, 19);
+			this.numericUpDown2.TabIndex = 5;
+			// 
+			// tgLabel1
+			// 
+			this.tgLabel1.AutoSize = true;
+			this.tgLabel1.Location = new System.Drawing.Point(17, 10);
+			this.tgLabel1.Name = "tgLabel1";
+			this.tgLabel1.Size = new System.Drawing.Size(35, 12);
+			this.tgLabel1.TabIndex = 4;
+			this.tgLabel1.Text = "通道1";
+			// 
+			// trackBar2
+			// 
+			this.trackBar2.Location = new System.Drawing.Point(23, 24);
+			this.trackBar2.Name = "trackBar2";
+			this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.trackBar2.Size = new System.Drawing.Size(45, 179);
+			this.trackBar2.TabIndex = 3;
+			this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
+			// 
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(141, 32);
+			this.label13.Location = new System.Drawing.Point(132, 32);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(71, 12);
 			this.label13.TabIndex = 2;
@@ -509,22 +1445,43 @@ namespace OtherTools
 			// 
 			// qdFrameComboBox
 			// 
+			this.qdFrameComboBox.BackColor = System.Drawing.Color.Linen;
+			this.qdFrameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.qdFrameComboBox.FormattingEnabled = true;
-			this.qdFrameComboBox.Location = new System.Drawing.Point(138, 53);
+			this.qdFrameComboBox.Items.AddRange(new object[] {
+            "开机场景",
+            "场景1",
+            "场景2",
+            "场景3",
+            "场景4",
+            "场景5",
+            "场景6",
+            "场景7",
+            "场景8",
+            "场景9",
+            "场景10",
+            "场景11",
+            "场景12",
+            "场景13",
+            "场景14",
+            "场景15",
+            "场景16"});
+			this.qdFrameComboBox.Location = new System.Drawing.Point(129, 53);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
 			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
 			this.qdFrameComboBox.TabIndex = 0;
+			this.qdFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
 			// 
-			// groupBox1
+			// lightGroupBox
 			// 
-			this.groupBox1.Controls.Add(this.flowLayoutPanel1);
-			this.groupBox1.Location = new System.Drawing.Point(36, 100);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(825, 211);
-			this.groupBox1.TabIndex = 2;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "灯光通道设置";
+			this.lightGroupBox.Controls.Add(this.flowLayoutPanel1);
+			this.lightGroupBox.Location = new System.Drawing.Point(27, 100);
+			this.lightGroupBox.Name = "lightGroupBox";
+			this.lightGroupBox.Size = new System.Drawing.Size(812, 211);
+			this.lightGroupBox.TabIndex = 2;
+			this.lightGroupBox.TabStop = false;
+			this.lightGroupBox.Text = "灯光通道设置";
 			// 
 			// flowLayoutPanel1
 			// 
@@ -555,7 +1512,7 @@ namespace OtherTools
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(819, 191);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(806, 191);
 			this.flowLayoutPanel1.TabIndex = 7;
 			// 
 			// lightButton1
@@ -565,12 +1522,12 @@ namespace OtherTools
 			this.lightButton1.BorderColor = System.Drawing.Color.White;
 			this.lightButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.lightButton1.DownBack = null;
-			this.lightButton1.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.lightButton1.DrawType = CCWin.SkinControl.DrawStyle.Img;
 			this.lightButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton1.ForeColorSuit = true;
 			this.lightButton1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton1.ImageIndex = 1;
+			this.lightButton1.ImageIndex = 0;
 			this.lightButton1.ImageList = this.lightImageList;
 			this.lightButton1.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton1.InheritColor = true;
@@ -584,18 +1541,9 @@ namespace OtherTools
 			this.lightButton1.TabIndex = 12;
 			this.lightButton1.Text = "灯光1";
 			this.lightButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.lightButton1.UseVisualStyleBackColor = false;
+			this.lightButton1.UseVisualStyleBackColor = true;
+			this.lightButton1.Visible = false;
 			this.lightButton1.Click += new System.EventHandler(this.lightButton_Click);
-			// 
-			// lightImageList
-			// 
-			this.lightImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightImageList.ImageStream")));
-			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.lightImageList.Images.SetKeyName(0, "Ok3w.Net图标1.png");
-			this.lightImageList.Images.SetKeyName(1, "Ok3w.Net图标7.png");
-			this.lightImageList.Images.SetKeyName(2, "Ok3w.Net图标13.png");
-			this.lightImageList.Images.SetKeyName(3, "Ok3w.Net图标14.png");
-			this.lightImageList.Images.SetKeyName(4, "Ok3w.Net图标15.png");
 			// 
 			// lightButton2
 			// 
@@ -609,7 +1557,7 @@ namespace OtherTools
 			this.lightButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton2.ForeColorSuit = true;
 			this.lightButton2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton2.ImageIndex = 1;
+			this.lightButton2.ImageIndex = 0;
 			this.lightButton2.ImageList = this.lightImageList;
 			this.lightButton2.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton2.InheritColor = true;
@@ -624,6 +1572,7 @@ namespace OtherTools
 			this.lightButton2.Text = "灯光2";
 			this.lightButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton2.UseVisualStyleBackColor = false;
+			this.lightButton2.Visible = false;
 			// 
 			// lightButton3
 			// 
@@ -637,7 +1586,7 @@ namespace OtherTools
 			this.lightButton3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton3.ForeColorSuit = true;
 			this.lightButton3.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton3.ImageIndex = 1;
+			this.lightButton3.ImageIndex = 0;
 			this.lightButton3.ImageList = this.lightImageList;
 			this.lightButton3.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton3.InheritColor = true;
@@ -652,6 +1601,7 @@ namespace OtherTools
 			this.lightButton3.Text = "灯光3";
 			this.lightButton3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton3.UseVisualStyleBackColor = false;
+			this.lightButton3.Visible = false;
 			// 
 			// lightButton4
 			// 
@@ -665,7 +1615,7 @@ namespace OtherTools
 			this.lightButton4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton4.ForeColorSuit = true;
 			this.lightButton4.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton4.ImageIndex = 1;
+			this.lightButton4.ImageIndex = 0;
 			this.lightButton4.ImageList = this.lightImageList;
 			this.lightButton4.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton4.InheritColor = true;
@@ -680,6 +1630,7 @@ namespace OtherTools
 			this.lightButton4.Text = "灯光4";
 			this.lightButton4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton4.UseVisualStyleBackColor = false;
+			this.lightButton4.Visible = false;
 			// 
 			// lightButton5
 			// 
@@ -693,7 +1644,7 @@ namespace OtherTools
 			this.lightButton5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton5.ForeColorSuit = true;
 			this.lightButton5.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton5.ImageIndex = 1;
+			this.lightButton5.ImageIndex = 0;
 			this.lightButton5.ImageList = this.lightImageList;
 			this.lightButton5.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton5.InheritColor = true;
@@ -708,6 +1659,7 @@ namespace OtherTools
 			this.lightButton5.Text = "灯光5";
 			this.lightButton5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton5.UseVisualStyleBackColor = false;
+			this.lightButton5.Visible = false;
 			// 
 			// lightButton6
 			// 
@@ -721,7 +1673,7 @@ namespace OtherTools
 			this.lightButton6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton6.ForeColorSuit = true;
 			this.lightButton6.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton6.ImageIndex = 1;
+			this.lightButton6.ImageIndex = 0;
 			this.lightButton6.ImageList = this.lightImageList;
 			this.lightButton6.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton6.InheritColor = true;
@@ -736,6 +1688,7 @@ namespace OtherTools
 			this.lightButton6.Text = "灯光6";
 			this.lightButton6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton6.UseVisualStyleBackColor = false;
+			this.lightButton6.Visible = false;
 			// 
 			// lightButton7
 			// 
@@ -749,7 +1702,7 @@ namespace OtherTools
 			this.lightButton7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton7.ForeColorSuit = true;
 			this.lightButton7.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton7.ImageIndex = 1;
+			this.lightButton7.ImageIndex = 0;
 			this.lightButton7.ImageList = this.lightImageList;
 			this.lightButton7.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton7.InheritColor = true;
@@ -764,6 +1717,7 @@ namespace OtherTools
 			this.lightButton7.Text = "灯光7";
 			this.lightButton7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton7.UseVisualStyleBackColor = false;
+			this.lightButton7.Visible = false;
 			// 
 			// lightButton8
 			// 
@@ -777,7 +1731,7 @@ namespace OtherTools
 			this.lightButton8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton8.ForeColorSuit = true;
 			this.lightButton8.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton8.ImageIndex = 1;
+			this.lightButton8.ImageIndex = 0;
 			this.lightButton8.ImageList = this.lightImageList;
 			this.lightButton8.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton8.InheritColor = true;
@@ -792,6 +1746,7 @@ namespace OtherTools
 			this.lightButton8.Text = "灯光8";
 			this.lightButton8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton8.UseVisualStyleBackColor = false;
+			this.lightButton8.Visible = false;
 			// 
 			// lightButton9
 			// 
@@ -805,7 +1760,7 @@ namespace OtherTools
 			this.lightButton9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton9.ForeColorSuit = true;
 			this.lightButton9.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton9.ImageIndex = 1;
+			this.lightButton9.ImageIndex = 0;
 			this.lightButton9.ImageList = this.lightImageList;
 			this.lightButton9.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton9.InheritColor = true;
@@ -820,6 +1775,7 @@ namespace OtherTools
 			this.lightButton9.Text = "灯光9";
 			this.lightButton9.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton9.UseVisualStyleBackColor = false;
+			this.lightButton9.Visible = false;
 			// 
 			// lightButton10
 			// 
@@ -833,7 +1789,7 @@ namespace OtherTools
 			this.lightButton10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton10.ForeColorSuit = true;
 			this.lightButton10.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton10.ImageIndex = 1;
+			this.lightButton10.ImageIndex = 0;
 			this.lightButton10.ImageList = this.lightImageList;
 			this.lightButton10.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton10.InheritColor = true;
@@ -848,6 +1804,7 @@ namespace OtherTools
 			this.lightButton10.Text = "灯光10";
 			this.lightButton10.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton10.UseVisualStyleBackColor = false;
+			this.lightButton10.Visible = false;
 			// 
 			// lightButton11
 			// 
@@ -861,7 +1818,7 @@ namespace OtherTools
 			this.lightButton11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton11.ForeColorSuit = true;
 			this.lightButton11.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton11.ImageIndex = 1;
+			this.lightButton11.ImageIndex = 0;
 			this.lightButton11.ImageList = this.lightImageList;
 			this.lightButton11.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton11.InheritColor = true;
@@ -876,6 +1833,7 @@ namespace OtherTools
 			this.lightButton11.Text = "灯光11";
 			this.lightButton11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton11.UseVisualStyleBackColor = false;
+			this.lightButton11.Visible = false;
 			// 
 			// lightButton12
 			// 
@@ -889,7 +1847,7 @@ namespace OtherTools
 			this.lightButton12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton12.ForeColorSuit = true;
 			this.lightButton12.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton12.ImageIndex = 1;
+			this.lightButton12.ImageIndex = 0;
 			this.lightButton12.ImageList = this.lightImageList;
 			this.lightButton12.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton12.InheritColor = true;
@@ -904,6 +1862,7 @@ namespace OtherTools
 			this.lightButton12.Text = "灯光12";
 			this.lightButton12.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton12.UseVisualStyleBackColor = false;
+			this.lightButton12.Visible = false;
 			// 
 			// lightButton13
 			// 
@@ -917,7 +1876,7 @@ namespace OtherTools
 			this.lightButton13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton13.ForeColorSuit = true;
 			this.lightButton13.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton13.ImageIndex = 1;
+			this.lightButton13.ImageIndex = 0;
 			this.lightButton13.ImageList = this.lightImageList;
 			this.lightButton13.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton13.InheritColor = true;
@@ -932,6 +1891,7 @@ namespace OtherTools
 			this.lightButton13.Text = "灯光13";
 			this.lightButton13.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton13.UseVisualStyleBackColor = false;
+			this.lightButton13.Visible = false;
 			// 
 			// lightButton14
 			// 
@@ -945,7 +1905,7 @@ namespace OtherTools
 			this.lightButton14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton14.ForeColorSuit = true;
 			this.lightButton14.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton14.ImageIndex = 1;
+			this.lightButton14.ImageIndex = 0;
 			this.lightButton14.ImageList = this.lightImageList;
 			this.lightButton14.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton14.InheritColor = true;
@@ -960,6 +1920,7 @@ namespace OtherTools
 			this.lightButton14.Text = "灯光14";
 			this.lightButton14.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton14.UseVisualStyleBackColor = false;
+			this.lightButton14.Visible = false;
 			// 
 			// lightButton15
 			// 
@@ -973,7 +1934,7 @@ namespace OtherTools
 			this.lightButton15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton15.ForeColorSuit = true;
 			this.lightButton15.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton15.ImageIndex = 1;
+			this.lightButton15.ImageIndex = 0;
 			this.lightButton15.ImageList = this.lightImageList;
 			this.lightButton15.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton15.InheritColor = true;
@@ -988,6 +1949,7 @@ namespace OtherTools
 			this.lightButton15.Text = "灯光15";
 			this.lightButton15.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton15.UseVisualStyleBackColor = false;
+			this.lightButton15.Visible = false;
 			// 
 			// lightButton16
 			// 
@@ -1001,7 +1963,7 @@ namespace OtherTools
 			this.lightButton16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton16.ForeColorSuit = true;
 			this.lightButton16.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton16.ImageIndex = 1;
+			this.lightButton16.ImageIndex = 0;
 			this.lightButton16.ImageList = this.lightImageList;
 			this.lightButton16.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton16.InheritColor = true;
@@ -1016,6 +1978,7 @@ namespace OtherTools
 			this.lightButton16.Text = "灯光16";
 			this.lightButton16.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton16.UseVisualStyleBackColor = false;
+			this.lightButton16.Visible = false;
 			// 
 			// lightButton17
 			// 
@@ -1029,7 +1992,7 @@ namespace OtherTools
 			this.lightButton17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton17.ForeColorSuit = true;
 			this.lightButton17.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton17.ImageIndex = 1;
+			this.lightButton17.ImageIndex = 0;
 			this.lightButton17.ImageList = this.lightImageList;
 			this.lightButton17.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton17.InheritColor = true;
@@ -1044,6 +2007,7 @@ namespace OtherTools
 			this.lightButton17.Text = "灯光17";
 			this.lightButton17.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton17.UseVisualStyleBackColor = false;
+			this.lightButton17.Visible = false;
 			// 
 			// lightButton18
 			// 
@@ -1057,7 +2021,7 @@ namespace OtherTools
 			this.lightButton18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton18.ForeColorSuit = true;
 			this.lightButton18.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton18.ImageIndex = 1;
+			this.lightButton18.ImageIndex = 0;
 			this.lightButton18.ImageList = this.lightImageList;
 			this.lightButton18.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton18.InheritColor = true;
@@ -1072,6 +2036,7 @@ namespace OtherTools
 			this.lightButton18.Text = "灯光18";
 			this.lightButton18.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton18.UseVisualStyleBackColor = false;
+			this.lightButton18.Visible = false;
 			// 
 			// lightButton19
 			// 
@@ -1085,7 +2050,7 @@ namespace OtherTools
 			this.lightButton19.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton19.ForeColorSuit = true;
 			this.lightButton19.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton19.ImageIndex = 1;
+			this.lightButton19.ImageIndex = 0;
 			this.lightButton19.ImageList = this.lightImageList;
 			this.lightButton19.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton19.InheritColor = true;
@@ -1100,6 +2065,7 @@ namespace OtherTools
 			this.lightButton19.Text = "灯光19";
 			this.lightButton19.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton19.UseVisualStyleBackColor = false;
+			this.lightButton19.Visible = false;
 			// 
 			// lightButton20
 			// 
@@ -1113,7 +2079,7 @@ namespace OtherTools
 			this.lightButton20.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton20.ForeColorSuit = true;
 			this.lightButton20.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton20.ImageIndex = 1;
+			this.lightButton20.ImageIndex = 0;
 			this.lightButton20.ImageList = this.lightImageList;
 			this.lightButton20.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton20.InheritColor = true;
@@ -1128,6 +2094,7 @@ namespace OtherTools
 			this.lightButton20.Text = "灯光20";
 			this.lightButton20.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton20.UseVisualStyleBackColor = false;
+			this.lightButton20.Visible = false;
 			// 
 			// lightButton21
 			// 
@@ -1141,7 +2108,7 @@ namespace OtherTools
 			this.lightButton21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton21.ForeColorSuit = true;
 			this.lightButton21.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton21.ImageIndex = 1;
+			this.lightButton21.ImageIndex = 0;
 			this.lightButton21.ImageList = this.lightImageList;
 			this.lightButton21.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton21.InheritColor = true;
@@ -1156,6 +2123,7 @@ namespace OtherTools
 			this.lightButton21.Text = "灯光21";
 			this.lightButton21.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton21.UseVisualStyleBackColor = false;
+			this.lightButton21.Visible = false;
 			// 
 			// lightButton22
 			// 
@@ -1169,7 +2137,7 @@ namespace OtherTools
 			this.lightButton22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton22.ForeColorSuit = true;
 			this.lightButton22.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton22.ImageIndex = 1;
+			this.lightButton22.ImageIndex = 0;
 			this.lightButton22.ImageList = this.lightImageList;
 			this.lightButton22.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton22.InheritColor = true;
@@ -1184,6 +2152,7 @@ namespace OtherTools
 			this.lightButton22.Text = "灯光22";
 			this.lightButton22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton22.UseVisualStyleBackColor = false;
+			this.lightButton22.Visible = false;
 			// 
 			// lightButton23
 			// 
@@ -1197,7 +2166,7 @@ namespace OtherTools
 			this.lightButton23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightButton23.ForeColorSuit = true;
 			this.lightButton23.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton23.ImageIndex = 1;
+			this.lightButton23.ImageIndex = 0;
 			this.lightButton23.ImageList = this.lightImageList;
 			this.lightButton23.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton23.InheritColor = true;
@@ -1212,6 +2181,7 @@ namespace OtherTools
 			this.lightButton23.Text = "灯光23";
 			this.lightButton23.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton23.UseVisualStyleBackColor = false;
+			this.lightButton23.Visible = false;
 			// 
 			// lightButton24
 			// 
@@ -1226,7 +2196,7 @@ namespace OtherTools
 			this.lightButton24.ForeColorSuit = true;
 			this.lightButton24.GlowColor = System.Drawing.Color.Transparent;
 			this.lightButton24.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.lightButton24.ImageIndex = 1;
+			this.lightButton24.ImageIndex = 0;
 			this.lightButton24.ImageList = this.lightImageList;
 			this.lightButton24.ImageSize = new System.Drawing.Size(45, 45);
 			this.lightButton24.Location = new System.Drawing.Point(739, 99);
@@ -1239,738 +2209,554 @@ namespace OtherTools
 			this.lightButton24.Text = "灯光24";
 			this.lightButton24.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton24.UseVisualStyleBackColor = false;
+			this.lightButton24.Visible = false;
 			// 
 			// middleTabPage
 			// 
 			this.middleTabPage.BackColor = System.Drawing.Color.PowderBlue;
-			this.middleTabPage.Controls.Add(this.listView1);
-			this.middleTabPage.Location = new System.Drawing.Point(4, 64);
+			this.middleTabPage.Controls.Add(this.bigTestButton2);
+			this.middleTabPage.Controls.Add(this.bigTestButton);
+			this.middleTabPage.Controls.Add(this.ccSearchTextBox);
+			this.middleTabPage.Controls.Add(this.decodeRichTextBox);
+			this.middleTabPage.Controls.Add(this.ps2DownTextBox);
+			this.middleTabPage.Controls.Add(this.infraredReceiveTextBox);
+			this.middleTabPage.Controls.Add(this.com1DownTextBox);
+			this.middleTabPage.Controls.Add(this.com0DownTextBox);
+			this.middleTabPage.Controls.Add(this.ps2UpTextBox);
+			this.middleTabPage.Controls.Add(this.infraredSendTextBox);
+			this.middleTabPage.Controls.Add(this.com1UpTextBox);
+			this.middleTabPage.Controls.Add(this.com0UpTextBox);
+			this.middleTabPage.Controls.Add(this.functionTextBox);
+			this.middleTabPage.Controls.Add(this.ccDownloadButton);
+			this.middleTabPage.Controls.Add(this.clearDecodeButton);
+			this.middleTabPage.Controls.Add(this.decodeButton);
+			this.middleTabPage.Controls.Add(this.protocolEditButton);
+			this.middleTabPage.Controls.Add(this.ccSearchButton);
+			this.middleTabPage.Controls.Add(this.PS2Label);
+			this.middleTabPage.Controls.Add(this.com1Label);
+			this.middleTabPage.Controls.Add(this.com0Label);
+			this.middleTabPage.Controls.Add(this.protocolComboBox);
+			this.middleTabPage.Controls.Add(this.ccStatusStrip);
+			this.middleTabPage.Controls.Add(this.label22);
+			this.middleTabPage.Controls.Add(this.label17);
+			this.middleTabPage.Controls.Add(this.label21);
+			this.middleTabPage.Controls.Add(this.label9);
+			this.middleTabPage.Controls.Add(this.label20);
+			this.middleTabPage.Controls.Add(this.label4);
+			this.middleTabPage.Controls.Add(this.label19);
+			this.middleTabPage.Controls.Add(this.label3);
+			this.middleTabPage.Controls.Add(this.label18);
+			this.middleTabPage.Controls.Add(this.label2);
+			this.middleTabPage.Controls.Add(this.protocolListView);
+			this.middleTabPage.Location = new System.Drawing.Point(64, 4);
 			this.middleTabPage.Name = "middleTabPage";
 			this.middleTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.middleTabPage.Size = new System.Drawing.Size(1216, 727);
+			this.middleTabPage.Size = new System.Drawing.Size(1196, 660);
 			this.middleTabPage.TabIndex = 0;
-			this.middleTabPage.Text = "中控配制";
+			this.middleTabPage.Text = "中控配置";
 			// 
-			// listView1
+			// bigTestButton2
 			// 
-			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.bigTestButton2.BackColor = System.Drawing.Color.OliveDrab;
+			this.bigTestButton2.Font = new System.Drawing.Font("郑庆科黄油体Regular ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.bigTestButton2.Location = new System.Drawing.Point(697, 359);
+			this.bigTestButton2.Name = "bigTestButton2";
+			this.bigTestButton2.Size = new System.Drawing.Size(111, 47);
+			this.bigTestButton2.TabIndex = 15;
+			this.bigTestButton2.Text = "BigTest2";
+			this.bigTestButton2.UseVisualStyleBackColor = false;
+			this.bigTestButton2.Click += new System.EventHandler(this.bigTestButton2_Click);
+			// 
+			// bigTestButton
+			// 
+			this.bigTestButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.bigTestButton.Font = new System.Drawing.Font("郑庆科黄油体Regular ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.bigTestButton.Location = new System.Drawing.Point(580, 359);
+			this.bigTestButton.Name = "bigTestButton";
+			this.bigTestButton.Size = new System.Drawing.Size(111, 47);
+			this.bigTestButton.TabIndex = 15;
+			this.bigTestButton.Text = "BigTest";
+			this.bigTestButton.UseVisualStyleBackColor = false;
+			this.bigTestButton.Click += new System.EventHandler(this.bigTestButton_Click);
+			// 
+			// ccSearchTextBox
+			// 
+			this.ccSearchTextBox.Location = new System.Drawing.Point(942, 371);
+			this.ccSearchTextBox.Name = "ccSearchTextBox";
+			this.ccSearchTextBox.Size = new System.Drawing.Size(100, 21);
+			this.ccSearchTextBox.TabIndex = 14;
+			// 
+			// decodeRichTextBox
+			// 
+			this.decodeRichTextBox.Location = new System.Drawing.Point(581, 418);
+			this.decodeRichTextBox.Name = "decodeRichTextBox";
+			this.decodeRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+			this.decodeRichTextBox.Size = new System.Drawing.Size(459, 186);
+			this.decodeRichTextBox.TabIndex = 13;
+			this.decodeRichTextBox.Text = "";
+			this.decodeRichTextBox.Visible = false;
+			// 
+			// ps2DownTextBox
+			// 
+			this.ps2DownTextBox.Enabled = false;
+			this.ps2DownTextBox.Location = new System.Drawing.Point(391, 583);
+			this.ps2DownTextBox.Name = "ps2DownTextBox";
+			this.ps2DownTextBox.Size = new System.Drawing.Size(162, 21);
+			this.ps2DownTextBox.TabIndex = 4;
+			// 
+			// infraredReceiveTextBox
+			// 
+			this.infraredReceiveTextBox.Enabled = false;
+			this.infraredReceiveTextBox.Location = new System.Drawing.Point(391, 539);
+			this.infraredReceiveTextBox.Name = "infraredReceiveTextBox";
+			this.infraredReceiveTextBox.Size = new System.Drawing.Size(162, 21);
+			this.infraredReceiveTextBox.TabIndex = 4;
+			// 
+			// com1DownTextBox
+			// 
+			this.com1DownTextBox.Enabled = false;
+			this.com1DownTextBox.Location = new System.Drawing.Point(391, 495);
+			this.com1DownTextBox.Name = "com1DownTextBox";
+			this.com1DownTextBox.Size = new System.Drawing.Size(162, 21);
+			this.com1DownTextBox.TabIndex = 4;
+			// 
+			// com0DownTextBox
+			// 
+			this.com0DownTextBox.Enabled = false;
+			this.com0DownTextBox.Location = new System.Drawing.Point(391, 451);
+			this.com0DownTextBox.Name = "com0DownTextBox";
+			this.com0DownTextBox.Size = new System.Drawing.Size(162, 21);
+			this.com0DownTextBox.TabIndex = 4;
+			// 
+			// ps2UpTextBox
+			// 
+			this.ps2UpTextBox.Enabled = false;
+			this.ps2UpTextBox.Location = new System.Drawing.Point(102, 583);
+			this.ps2UpTextBox.Name = "ps2UpTextBox";
+			this.ps2UpTextBox.Size = new System.Drawing.Size(162, 21);
+			this.ps2UpTextBox.TabIndex = 4;
+			// 
+			// infraredSendTextBox
+			// 
+			this.infraredSendTextBox.Enabled = false;
+			this.infraredSendTextBox.Location = new System.Drawing.Point(102, 539);
+			this.infraredSendTextBox.Name = "infraredSendTextBox";
+			this.infraredSendTextBox.Size = new System.Drawing.Size(162, 21);
+			this.infraredSendTextBox.TabIndex = 4;
+			// 
+			// com1UpTextBox
+			// 
+			this.com1UpTextBox.Enabled = false;
+			this.com1UpTextBox.Location = new System.Drawing.Point(102, 495);
+			this.com1UpTextBox.Name = "com1UpTextBox";
+			this.com1UpTextBox.Size = new System.Drawing.Size(162, 21);
+			this.com1UpTextBox.TabIndex = 4;
+			// 
+			// com0UpTextBox
+			// 
+			this.com0UpTextBox.Enabled = false;
+			this.com0UpTextBox.Location = new System.Drawing.Point(102, 451);
+			this.com0UpTextBox.Name = "com0UpTextBox";
+			this.com0UpTextBox.Size = new System.Drawing.Size(162, 21);
+			this.com0UpTextBox.TabIndex = 4;
+			// 
+			// functionTextBox
+			// 
+			this.functionTextBox.Enabled = false;
+			this.functionTextBox.Location = new System.Drawing.Point(391, 407);
+			this.functionTextBox.Name = "functionTextBox";
+			this.functionTextBox.Size = new System.Drawing.Size(162, 21);
+			this.functionTextBox.TabIndex = 2;
+			// 
+			// ccDownloadButton
+			// 
+			this.ccDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ccDownloadButton.Location = new System.Drawing.Point(1069, 571);
+			this.ccDownloadButton.Name = "ccDownloadButton";
+			this.ccDownloadButton.Size = new System.Drawing.Size(75, 30);
+			this.ccDownloadButton.TabIndex = 12;
+			this.ccDownloadButton.Text = "下载数据";
+			this.ccDownloadButton.UseVisualStyleBackColor = true;
+			this.ccDownloadButton.Click += new System.EventHandler(this.ccDownloadButton_Click);
+			// 
+			// clearDecodeButton
+			// 
+			this.clearDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.clearDecodeButton.Location = new System.Drawing.Point(1069, 520);
+			this.clearDecodeButton.Name = "clearDecodeButton";
+			this.clearDecodeButton.Size = new System.Drawing.Size(75, 30);
+			this.clearDecodeButton.TabIndex = 12;
+			this.clearDecodeButton.Text = "清空解码";
+			this.clearDecodeButton.UseVisualStyleBackColor = true;
+			this.clearDecodeButton.Click += new System.EventHandler(this.clearDecodeButton_Click);
+			// 
+			// decodeButton
+			// 
+			this.decodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.decodeButton.Location = new System.Drawing.Point(1069, 469);
+			this.decodeButton.Name = "decodeButton";
+			this.decodeButton.Size = new System.Drawing.Size(75, 30);
+			this.decodeButton.TabIndex = 12;
+			this.decodeButton.Text = "开启解码";
+			this.decodeButton.UseVisualStyleBackColor = true;
+			this.decodeButton.Click += new System.EventHandler(this.decodeButton_Click);
+			// 
+			// protocolEditButton
+			// 
+			this.protocolEditButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.protocolEditButton.Location = new System.Drawing.Point(1070, 418);
+			this.protocolEditButton.Name = "protocolEditButton";
+			this.protocolEditButton.Size = new System.Drawing.Size(75, 30);
+			this.protocolEditButton.TabIndex = 12;
+			this.protocolEditButton.Text = "编辑协议";
+			this.protocolEditButton.UseVisualStyleBackColor = true;
+			this.protocolEditButton.Click += new System.EventHandler(this.protocolEditButton_Click);
+			// 
+			// ccSearchButton
+			// 
+			this.ccSearchButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ccSearchButton.Location = new System.Drawing.Point(1071, 366);
+			this.ccSearchButton.Name = "ccSearchButton";
+			this.ccSearchButton.Size = new System.Drawing.Size(75, 30);
+			this.ccSearchButton.TabIndex = 12;
+			this.ccSearchButton.Text = "查找";
+			this.ccSearchButton.UseVisualStyleBackColor = true;
+			this.ccSearchButton.Click += new System.EventHandler(this.ccSearchButton_Click);
+			// 
+			// PS2Label
+			// 
+			this.PS2Label.AutoSize = true;
+			this.PS2Label.Location = new System.Drawing.Point(356, 367);
+			this.PS2Label.Name = "PS2Label";
+			this.PS2Label.Size = new System.Drawing.Size(41, 12);
+			this.PS2Label.TabIndex = 11;
+			this.PS2Label.Text = "PS2 = ";
+			// 
+			// com1Label
+			// 
+			this.com1Label.AutoSize = true;
+			this.com1Label.Location = new System.Drawing.Point(195, 367);
+			this.com1Label.Name = "com1Label";
+			this.com1Label.Size = new System.Drawing.Size(53, 12);
+			this.com1Label.TabIndex = 11;
+			this.com1Label.Text = "串口1 = ";
+			// 
+			// com0Label
+			// 
+			this.com0Label.AutoSize = true;
+			this.com0Label.Location = new System.Drawing.Point(29, 367);
+			this.com0Label.Name = "com0Label";
+			this.com0Label.Size = new System.Drawing.Size(53, 12);
+			this.com0Label.TabIndex = 11;
+			this.com0Label.Text = "串口0 = ";
+			// 
+			// protocolComboBox
+			// 
+			this.protocolComboBox.FormattingEnabled = true;
+			this.protocolComboBox.Location = new System.Drawing.Point(102, 406);
+			this.protocolComboBox.Name = "protocolComboBox";
+			this.protocolComboBox.Size = new System.Drawing.Size(162, 20);
+			this.protocolComboBox.TabIndex = 10;
+			this.protocolComboBox.SelectedIndexChanged += new System.EventHandler(this.protocolComboBox_SelectedIndexChanged);
+			// 
+			// ccStatusStrip
+			// 
+			this.ccStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.ccStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2});
+			this.ccStatusStrip.Location = new System.Drawing.Point(3, 635);
+			this.ccStatusStrip.Name = "ccStatusStrip";
+			this.ccStatusStrip.Size = new System.Drawing.Size(1190, 22);
+			this.ccStatusStrip.SizingGrip = false;
+			this.ccStatusStrip.TabIndex = 9;
+			// 
+			// toolStripStatusLabel1
+			// 
+			this.toolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
+			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
+			this.toolStripStatusLabel1.Spring = true;
+			// 
+			// toolStripStatusLabel2
+			// 
+			this.toolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
+			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+			this.toolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
+			this.toolStripStatusLabel2.Spring = true;
+			// 
+			// label22
+			// 
+			this.label22.AutoSize = true;
+			this.label22.Location = new System.Drawing.Point(315, 587);
+			this.label22.Name = "label22";
+			this.label22.Size = new System.Drawing.Size(47, 12);
+			this.label22.TabIndex = 3;
+			this.label22.Text = "PS2下行";
+			// 
+			// label17
+			// 
+			this.label17.AutoSize = true;
+			this.label17.Location = new System.Drawing.Point(29, 587);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(47, 12);
+			this.label17.TabIndex = 3;
+			this.label17.Text = "PS2上行";
+			// 
+			// label21
+			// 
+			this.label21.AutoSize = true;
+			this.label21.Location = new System.Drawing.Point(312, 543);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(53, 12);
+			this.label21.TabIndex = 3;
+			this.label21.Text = "红外接收";
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(26, 543);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(53, 12);
+			this.label9.TabIndex = 3;
+			this.label9.Text = "红外发送";
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.Location = new System.Drawing.Point(309, 499);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(59, 12);
+			this.label20.TabIndex = 3;
+			this.label20.Text = "串口1下行";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(23, 499);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(59, 12);
+			this.label4.TabIndex = 3;
+			this.label4.Text = "串口1上行";
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.Location = new System.Drawing.Point(309, 455);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(59, 12);
+			this.label19.TabIndex = 3;
+			this.label19.Text = "串口0下行";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(23, 455);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(59, 12);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "串口0上行";
+			// 
+			// label18
+			// 
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(26, 410);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(53, 12);
+			this.label18.TabIndex = 1;
+			this.label18.Text = "协议选择";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(312, 411);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(53, 12);
+			this.label2.TabIndex = 1;
+			this.label2.Text = "功能描述";
+			// 
+			// protocolListView
+			// 
+			this.protocolListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader0,
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5,
-            this.columnHeader6});
-			this.listView1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.listView1.HideSelection = false;
-			this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem51,
-            listViewItem52,
-            listViewItem53,
-            listViewItem54,
-            listViewItem55});
-			this.listView1.Location = new System.Drawing.Point(3, 3);
-			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(1210, 420);
-			this.listView1.TabIndex = 0;
-			this.listView1.UseCompatibleStateImageBehavior = false;
-			this.listView1.View = System.Windows.Forms.View.List;
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader9,
+            this.columnHeader10});
+			this.protocolListView.Dock = System.Windows.Forms.DockStyle.Top;
+			this.protocolListView.FullRowSelect = true;
+			this.protocolListView.GridLines = true;
+			this.protocolListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.protocolListView.HideSelection = false;
+			this.protocolListView.Location = new System.Drawing.Point(3, 3);
+			this.protocolListView.Name = "protocolListView";
+			this.protocolListView.Size = new System.Drawing.Size(1190, 328);
+			this.protocolListView.TabIndex = 0;
+			this.protocolListView.UseCompatibleStateImageBehavior = false;
+			this.protocolListView.View = System.Windows.Forms.View.Details;
+			this.protocolListView.SelectedIndexChanged += new System.EventHandler(this.protocolListView_SelectedIndexChanged);
+			// 
+			// columnHeader0
+			// 
+			this.columnHeader0.Text = "排序";
+			this.columnHeader0.Width = 40;
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "功能描述";
+			this.columnHeader1.Width = 150;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "码值";
+			this.columnHeader2.Width = 40;
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "串口0上行";
+			this.columnHeader3.Width = 80;
+			// 
+			// columnHeader4
+			// 
+			this.columnHeader4.Text = "串口0下行";
+			this.columnHeader4.Width = 80;
+			// 
+			// columnHeader5
+			// 
+			this.columnHeader5.Text = "串口1上行";
+			this.columnHeader5.Width = 80;
+			// 
+			// columnHeader6
+			// 
+			this.columnHeader6.Text = "串口1下行";
+			this.columnHeader6.Width = 80;
+			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "红外发送";
+			this.columnHeader7.Width = 153;
+			// 
+			// columnHeader8
+			// 
+			this.columnHeader8.Text = "红外接收";
+			this.columnHeader8.Width = 171;
+			// 
+			// columnHeader9
+			// 
+			this.columnHeader9.Text = "PS2上行";
+			this.columnHeader9.Width = 142;
+			// 
+			// columnHeader10
+			// 
+			this.columnHeader10.Text = "PS2下行";
+			this.columnHeader10.Width = 147;
 			// 
 			// tabControl1
 			// 
+			this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Left;
 			this.tabControl1.Controls.Add(this.middleTabPage);
 			this.tabControl1.Controls.Add(this.lightTabPage);
 			this.tabControl1.Controls.Add(this.keyTabPage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tabControl1.ItemSize = new System.Drawing.Size(300, 60);
-			this.tabControl1.Location = new System.Drawing.Point(0, 103);
+			this.tabControl1.Location = new System.Drawing.Point(0, 93);
+			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(1224, 795);
+			this.tabControl1.Size = new System.Drawing.Size(1264, 668);
 			this.tabControl1.TabIndex = 0;
+			this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
 			// 
-			// groupBox5
+			// keyOpenFileDialog
 			// 
-			this.groupBox5.Controls.Add(this.panel7);
-			this.groupBox5.Controls.Add(this.panel6);
-			this.groupBox5.Controls.Add(this.panel5);
-			this.groupBox5.Controls.Add(this.panel4);
-			this.groupBox5.Location = new System.Drawing.Point(883, 32);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(298, 279);
-			this.groupBox5.TabIndex = 3;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "调光通道设置";
-			this.groupBox5.Enter += new System.EventHandler(this.groupBox2_Enter);
+			this.keyOpenFileDialog.Filter = "墙板配置文件(key)|*.key";
+			this.keyOpenFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.keyOpenFileDialog_FileOk);
 			// 
-			// panel4
+			// keySaveFileDialog
 			// 
-			this.panel4.Controls.Add(this.numericUpDown2);
-			this.panel4.Controls.Add(this.label2);
-			this.panel4.Controls.Add(this.trackBar2);
-			this.panel4.Location = new System.Drawing.Point(5, 26);
-			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(69, 240);
-			this.panel4.TabIndex = 3;
-			// 
-			// numericUpDown2
-			// 
-			this.numericUpDown2.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown2.Location = new System.Drawing.Point(17, 209);
-			this.numericUpDown2.Name = "numericUpDown2";
-			this.numericUpDown2.Size = new System.Drawing.Size(40, 19);
-			this.numericUpDown2.TabIndex = 5;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(17, 10);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(35, 12);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "通道1";
-			// 
-			// trackBar2
-			// 
-			this.trackBar2.Location = new System.Drawing.Point(23, 24);
-			this.trackBar2.Name = "trackBar2";
-			this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar2.Size = new System.Drawing.Size(45, 179);
-			this.trackBar2.TabIndex = 3;
-			this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
-			// 
-			// panel5
-			// 
-			this.panel5.Controls.Add(this.numericUpDown3);
-			this.panel5.Controls.Add(this.label3);
-			this.panel5.Controls.Add(this.trackBar3);
-			this.panel5.Location = new System.Drawing.Point(76, 26);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(69, 240);
-			this.panel5.TabIndex = 3;
-			// 
-			// numericUpDown3
-			// 
-			this.numericUpDown3.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown3.Location = new System.Drawing.Point(17, 209);
-			this.numericUpDown3.Name = "numericUpDown3";
-			this.numericUpDown3.Size = new System.Drawing.Size(40, 19);
-			this.numericUpDown3.TabIndex = 5;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(17, 10);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(35, 12);
-			this.label3.TabIndex = 4;
-			this.label3.Text = "通道1";
-			// 
-			// trackBar3
-			// 
-			this.trackBar3.Location = new System.Drawing.Point(23, 24);
-			this.trackBar3.Name = "trackBar3";
-			this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar3.Size = new System.Drawing.Size(45, 179);
-			this.trackBar3.TabIndex = 3;
-			this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
-			// 
-			// panel6
-			// 
-			this.panel6.Controls.Add(this.numericUpDown4);
-			this.panel6.Controls.Add(this.label4);
-			this.panel6.Controls.Add(this.trackBar4);
-			this.panel6.Location = new System.Drawing.Point(147, 26);
-			this.panel6.Name = "panel6";
-			this.panel6.Size = new System.Drawing.Size(69, 240);
-			this.panel6.TabIndex = 3;
-			// 
-			// numericUpDown4
-			// 
-			this.numericUpDown4.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown4.Location = new System.Drawing.Point(17, 209);
-			this.numericUpDown4.Name = "numericUpDown4";
-			this.numericUpDown4.Size = new System.Drawing.Size(40, 19);
-			this.numericUpDown4.TabIndex = 5;
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(17, 10);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(35, 12);
-			this.label4.TabIndex = 4;
-			this.label4.Text = "通道1";
-			// 
-			// trackBar4
-			// 
-			this.trackBar4.Location = new System.Drawing.Point(23, 24);
-			this.trackBar4.Name = "trackBar4";
-			this.trackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar4.Size = new System.Drawing.Size(45, 179);
-			this.trackBar4.TabIndex = 3;
-			this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.None;
-			// 
-			// panel7
-			// 
-			this.panel7.Controls.Add(this.numericUpDown5);
-			this.panel7.Controls.Add(this.label9);
-			this.panel7.Controls.Add(this.trackBar5);
-			this.panel7.Location = new System.Drawing.Point(221, 26);
-			this.panel7.Name = "panel7";
-			this.panel7.Size = new System.Drawing.Size(69, 240);
-			this.panel7.TabIndex = 3;
-			// 
-			// numericUpDown5
-			// 
-			this.numericUpDown5.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown5.Location = new System.Drawing.Point(17, 209);
-			this.numericUpDown5.Name = "numericUpDown5";
-			this.numericUpDown5.Size = new System.Drawing.Size(40, 19);
-			this.numericUpDown5.TabIndex = 5;
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(17, 10);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(35, 12);
-			this.label9.TabIndex = 4;
-			this.label9.Text = "通道1";
-			// 
-			// trackBar5
-			// 
-			this.trackBar5.Location = new System.Drawing.Point(23, 24);
-			this.trackBar5.Name = "trackBar5";
-			this.trackBar5.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar5.Size = new System.Drawing.Size(45, 179);
-			this.trackBar5.TabIndex = 3;
-			this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
-			// 
-			// button10
-			// 
-			this.button10.Location = new System.Drawing.Point(21, 27);
-			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(91, 52);
-			this.button10.TabIndex = 0;
-			this.button10.Text = "点击禁用\r\n排风";
-			this.button10.UseVisualStyleBackColor = true;
-			// 
-			// groupBox6
-			// 
-			this.groupBox6.Controls.Add(this.zlRadioButton3);
-			this.groupBox6.Controls.Add(this.zlRadioButton1);
-			this.groupBox6.Controls.Add(this.zlRadioButton2);
-			this.groupBox6.Location = new System.Drawing.Point(16, 102);
-			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(258, 58);
-			this.groupBox6.TabIndex = 1;
-			this.groupBox6.TabStop = false;
-			this.groupBox6.Text = "制冷模式";
-			// 
-			// groupBox7
-			// 
-			this.groupBox7.Controls.Add(this.ktRadioButton5);
-			this.groupBox7.Controls.Add(this.ktRadioButton2);
-			this.groupBox7.Controls.Add(this.ktRadioButton4);
-			this.groupBox7.Controls.Add(this.ktRadioButton1);
-			this.groupBox7.Controls.Add(this.ktRadioButton3);
-			this.groupBox7.Location = new System.Drawing.Point(202, 26);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(375, 58);
-			this.groupBox7.TabIndex = 1;
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "空调模式";
-			// 
-			// groupBox8
-			// 
-			this.groupBox8.Controls.Add(this.numericUpDown6);
-			this.groupBox8.Controls.Add(this.label10);
-			this.groupBox8.Location = new System.Drawing.Point(16, 26);
-			this.groupBox8.Name = "groupBox8";
-			this.groupBox8.Size = new System.Drawing.Size(114, 58);
-			this.groupBox8.TabIndex = 1;
-			this.groupBox8.TabStop = false;
-			this.groupBox8.Text = "设定温度";
-			// 
-			// groupBox9
-			// 
-			this.groupBox9.Controls.Add(this.fjRadioButton3);
-			this.groupBox9.Controls.Add(this.fjRadioButton1);
-			this.groupBox9.Controls.Add(this.fjRadioButton2);
-			this.groupBox9.Location = new System.Drawing.Point(313, 102);
-			this.groupBox9.Name = "groupBox9";
-			this.groupBox9.Size = new System.Drawing.Size(264, 58);
-			this.groupBox9.TabIndex = 1;
-			this.groupBox9.TabStop = false;
-			this.groupBox9.Text = "风机类型";
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label10.Location = new System.Drawing.Point(76, 25);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(24, 16);
-			this.label10.TabIndex = 0;
-			this.label10.Text = "℃";
-			// 
-			// numericUpDown6
-			// 
-			this.numericUpDown6.Location = new System.Drawing.Point(15, 23);
-			this.numericUpDown6.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-			this.numericUpDown6.Minimum = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-			this.numericUpDown6.Name = "numericUpDown6";
-			this.numericUpDown6.Size = new System.Drawing.Size(54, 21);
-			this.numericUpDown6.TabIndex = 1;
-			this.numericUpDown6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.numericUpDown6.Value = new decimal(new int[] {
-            16,
-            0,
-            0,
-            0});
-			// 
-			// fjRadioButton1
-			// 
-			this.fjRadioButton1.AutoSize = true;
-			this.fjRadioButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjRadioButton1.Location = new System.Drawing.Point(20, 27);
-			this.fjRadioButton1.Name = "fjRadioButton1";
-			this.fjRadioButton1.Size = new System.Drawing.Size(59, 16);
-			this.fjRadioButton1.TabIndex = 0;
-			this.fjRadioButton1.TabStop = true;
-			this.fjRadioButton1.Text = "单线阀";
-			this.fjRadioButton1.UseVisualStyleBackColor = true;
-			// 
-			// fjRadioButton2
-			// 
-			this.fjRadioButton2.AutoSize = true;
-			this.fjRadioButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjRadioButton2.Location = new System.Drawing.Point(104, 26);
-			this.fjRadioButton2.Name = "fjRadioButton2";
-			this.fjRadioButton2.Size = new System.Drawing.Size(59, 16);
-			this.fjRadioButton2.TabIndex = 0;
-			this.fjRadioButton2.TabStop = true;
-			this.fjRadioButton2.Text = "双线阀";
-			this.fjRadioButton2.UseVisualStyleBackColor = true;
-			// 
-			// fjRadioButton3
-			// 
-			this.fjRadioButton3.AutoSize = true;
-			this.fjRadioButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.fjRadioButton3.Location = new System.Drawing.Point(188, 26);
-			this.fjRadioButton3.Name = "fjRadioButton3";
-			this.fjRadioButton3.Size = new System.Drawing.Size(47, 16);
-			this.fjRadioButton3.TabIndex = 0;
-			this.fjRadioButton3.TabStop = true;
-			this.fjRadioButton3.Text = "禁用";
-			this.fjRadioButton3.UseVisualStyleBackColor = true;
-			// 
-			// zlRadioButton1
-			// 
-			this.zlRadioButton1.AutoSize = true;
-			this.zlRadioButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton1.Location = new System.Drawing.Point(22, 26);
-			this.zlRadioButton1.Name = "zlRadioButton1";
-			this.zlRadioButton1.Size = new System.Drawing.Size(47, 16);
-			this.zlRadioButton1.TabIndex = 0;
-			this.zlRadioButton1.TabStop = true;
-			this.zlRadioButton1.Text = "制冷";
-			this.zlRadioButton1.UseVisualStyleBackColor = true;
-			// 
-			// zlRadioButton2
-			// 
-			this.zlRadioButton2.AutoSize = true;
-			this.zlRadioButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton2.Location = new System.Drawing.Point(91, 26);
-			this.zlRadioButton2.Name = "zlRadioButton2";
-			this.zlRadioButton2.Size = new System.Drawing.Size(47, 16);
-			this.zlRadioButton2.TabIndex = 0;
-			this.zlRadioButton2.TabStop = true;
-			this.zlRadioButton2.Text = "制热";
-			this.zlRadioButton2.UseVisualStyleBackColor = true;
-			// 
-			// zlRadioButton3
-			// 
-			this.zlRadioButton3.AutoSize = true;
-			this.zlRadioButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton3.Location = new System.Drawing.Point(160, 25);
-			this.zlRadioButton3.Name = "zlRadioButton3";
-			this.zlRadioButton3.Size = new System.Drawing.Size(47, 16);
-			this.zlRadioButton3.TabIndex = 0;
-			this.zlRadioButton3.TabStop = true;
-			this.zlRadioButton3.Text = "选风";
-			this.zlRadioButton3.UseVisualStyleBackColor = true;
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.radioButton8);
-			this.groupBox2.Controls.Add(this.radioButton9);
-			this.groupBox2.Location = new System.Drawing.Point(309, 28);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(181, 58);
-			this.groupBox2.TabIndex = 1;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "灯光模式";
-			// 
-			// radioButton8
-			// 
-			this.radioButton8.AutoSize = true;
-			this.radioButton8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.radioButton8.Location = new System.Drawing.Point(29, 27);
-			this.radioButton8.Name = "radioButton8";
-			this.radioButton8.Size = new System.Drawing.Size(47, 16);
-			this.radioButton8.TabIndex = 0;
-			this.radioButton8.TabStop = true;
-			this.radioButton8.Text = "切换";
-			this.radioButton8.UseVisualStyleBackColor = true;
-			// 
-			// radioButton9
-			// 
-			this.radioButton9.AutoSize = true;
-			this.radioButton9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.radioButton9.Location = new System.Drawing.Point(107, 27);
-			this.radioButton9.Name = "radioButton9";
-			this.radioButton9.Size = new System.Drawing.Size(47, 16);
-			this.radioButton9.TabIndex = 0;
-			this.radioButton9.TabStop = true;
-			this.radioButton9.Text = "叠加";
-			this.radioButton9.UseVisualStyleBackColor = true;
-			// 
-			// ktRadioButton4
-			// 
-			this.ktRadioButton4.AutoSize = true;
-			this.ktRadioButton4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ktRadioButton4.Location = new System.Drawing.Point(224, 25);
-			this.ktRadioButton4.Name = "ktRadioButton4";
-			this.ktRadioButton4.Size = new System.Drawing.Size(47, 16);
-			this.ktRadioButton4.TabIndex = 1;
-			this.ktRadioButton4.TabStop = true;
-			this.ktRadioButton4.Text = "自动";
-			this.ktRadioButton4.UseVisualStyleBackColor = true;
-			// 
-			// ktRadioButton1
-			// 
-			this.ktRadioButton1.AutoSize = true;
-			this.ktRadioButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ktRadioButton1.Location = new System.Drawing.Point(26, 25);
-			this.ktRadioButton1.Name = "ktRadioButton1";
-			this.ktRadioButton1.Size = new System.Drawing.Size(35, 16);
-			this.ktRadioButton1.TabIndex = 2;
-			this.ktRadioButton1.TabStop = true;
-			this.ktRadioButton1.Text = "高";
-			this.ktRadioButton1.UseVisualStyleBackColor = true;
-			// 
-			// ktRadioButton3
-			// 
-			this.ktRadioButton3.AutoSize = true;
-			this.ktRadioButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ktRadioButton3.Location = new System.Drawing.Point(158, 25);
-			this.ktRadioButton3.Name = "ktRadioButton3";
-			this.ktRadioButton3.Size = new System.Drawing.Size(35, 16);
-			this.ktRadioButton3.TabIndex = 3;
-			this.ktRadioButton3.TabStop = true;
-			this.ktRadioButton3.Text = "低";
-			this.ktRadioButton3.UseVisualStyleBackColor = true;
-			// 
-			// ktRadioButton2
-			// 
-			this.ktRadioButton2.AutoSize = true;
-			this.ktRadioButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ktRadioButton2.Location = new System.Drawing.Point(92, 25);
-			this.ktRadioButton2.Name = "ktRadioButton2";
-			this.ktRadioButton2.Size = new System.Drawing.Size(35, 16);
-			this.ktRadioButton2.TabIndex = 2;
-			this.ktRadioButton2.TabStop = true;
-			this.ktRadioButton2.Text = "中";
-			this.ktRadioButton2.UseVisualStyleBackColor = true;
-			// 
-			// ktRadioButton5
-			// 
-			this.ktRadioButton5.AutoSize = true;
-			this.ktRadioButton5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ktRadioButton5.Location = new System.Drawing.Point(302, 24);
-			this.ktRadioButton5.Name = "ktRadioButton5";
-			this.ktRadioButton5.Size = new System.Drawing.Size(47, 16);
-			this.ktRadioButton5.TabIndex = 1;
-			this.ktRadioButton5.TabStop = true;
-			this.ktRadioButton5.Text = "关闭";
-			this.ktRadioButton5.UseVisualStyleBackColor = true;
-			// 
-			// groupBox10
-			// 
-			this.groupBox10.Controls.Add(this.panel12);
-			this.groupBox10.Controls.Add(this.panel11);
-			this.groupBox10.Controls.Add(this.panel10);
-			this.groupBox10.Controls.Add(this.panel9);
-			this.groupBox10.Controls.Add(this.panel8);
-			this.groupBox10.Controls.Add(this.panel3);
-			this.groupBox10.Location = new System.Drawing.Point(184, 318);
-			this.groupBox10.Name = "groupBox10";
-			this.groupBox10.Size = new System.Drawing.Size(375, 175);
-			this.groupBox10.TabIndex = 6;
-			this.groupBox10.TabStop = false;
-			this.groupBox10.Text = "空调与排风通道设置";
-			// 
-			// button7
-			// 
-			this.button7.Location = new System.Drawing.Point(21, 103);
-			this.button7.Name = "button7";
-			this.button7.Size = new System.Drawing.Size(91, 52);
-			this.button7.TabIndex = 0;
-			this.button7.Text = "点击禁用\r\n空调";
-			this.button7.UseVisualStyleBackColor = true;
-			// 
-			// panel3
-			// 
-			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel3.Controls.Add(this.label1);
-			this.panel3.Controls.Add(this.comboBox3);
-			this.panel3.Location = new System.Drawing.Point(22, 28);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(95, 51);
-			this.panel3.TabIndex = 1;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(13, 5);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(41, 12);
-			this.label1.TabIndex = 4;
-			this.label1.Text = "排风：";
-			// 
-			// comboBox3
-			// 
-			this.comboBox3.FormattingEnabled = true;
-			this.comboBox3.Location = new System.Drawing.Point(8, 23);
-			this.comboBox3.Margin = new System.Windows.Forms.Padding(2);
-			this.comboBox3.Name = "comboBox3";
-			this.comboBox3.Size = new System.Drawing.Size(75, 20);
-			this.comboBox3.TabIndex = 3;
-			// 
-			// panel8
-			// 
-			this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel8.Controls.Add(this.label11);
-			this.panel8.Controls.Add(this.comboBox4);
-			this.panel8.Location = new System.Drawing.Point(137, 29);
-			this.panel8.Name = "panel8";
-			this.panel8.Size = new System.Drawing.Size(95, 51);
-			this.panel8.TabIndex = 2;
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(13, 5);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(41, 12);
-			this.label11.TabIndex = 4;
-			this.label11.Text = "高风：";
-			// 
-			// comboBox4
-			// 
-			this.comboBox4.FormattingEnabled = true;
-			this.comboBox4.Location = new System.Drawing.Point(8, 23);
-			this.comboBox4.Margin = new System.Windows.Forms.Padding(2);
-			this.comboBox4.Name = "comboBox4";
-			this.comboBox4.Size = new System.Drawing.Size(75, 20);
-			this.comboBox4.TabIndex = 3;
-			// 
-			// panel9
-			// 
-			this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel9.Controls.Add(this.label12);
-			this.panel9.Controls.Add(this.comboBox5);
-			this.panel9.Location = new System.Drawing.Point(252, 29);
-			this.panel9.Name = "panel9";
-			this.panel9.Size = new System.Drawing.Size(95, 51);
-			this.panel9.TabIndex = 5;
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(13, 5);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(41, 12);
-			this.label12.TabIndex = 4;
-			this.label12.Text = "中风：";
-			// 
-			// comboBox5
-			// 
-			this.comboBox5.FormattingEnabled = true;
-			this.comboBox5.Location = new System.Drawing.Point(8, 23);
-			this.comboBox5.Margin = new System.Windows.Forms.Padding(2);
-			this.comboBox5.Name = "comboBox5";
-			this.comboBox5.Size = new System.Drawing.Size(75, 20);
-			this.comboBox5.TabIndex = 3;
-			// 
-			// panel10
-			// 
-			this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel10.Controls.Add(this.label14);
-			this.panel10.Controls.Add(this.comboBox6);
-			this.panel10.Location = new System.Drawing.Point(22, 104);
-			this.panel10.Name = "panel10";
-			this.panel10.Size = new System.Drawing.Size(95, 51);
-			this.panel10.TabIndex = 5;
-			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(13, 5);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(41, 12);
-			this.label14.TabIndex = 4;
-			this.label14.Text = "低风：";
-			// 
-			// comboBox6
-			// 
-			this.comboBox6.FormattingEnabled = true;
-			this.comboBox6.Location = new System.Drawing.Point(8, 23);
-			this.comboBox6.Margin = new System.Windows.Forms.Padding(2);
-			this.comboBox6.Name = "comboBox6";
-			this.comboBox6.Size = new System.Drawing.Size(75, 20);
-			this.comboBox6.TabIndex = 3;
-			// 
-			// panel11
-			// 
-			this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel11.Controls.Add(this.label15);
-			this.panel11.Controls.Add(this.comboBox7);
-			this.panel11.Location = new System.Drawing.Point(137, 104);
-			this.panel11.Name = "panel11";
-			this.panel11.Size = new System.Drawing.Size(95, 51);
-			this.panel11.TabIndex = 5;
-			// 
-			// label15
-			// 
-			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(13, 5);
-			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(41, 12);
-			this.label15.TabIndex = 4;
-			this.label15.Text = "阀开：";
-			// 
-			// comboBox7
-			// 
-			this.comboBox7.FormattingEnabled = true;
-			this.comboBox7.Location = new System.Drawing.Point(8, 23);
-			this.comboBox7.Margin = new System.Windows.Forms.Padding(2);
-			this.comboBox7.Name = "comboBox7";
-			this.comboBox7.Size = new System.Drawing.Size(75, 20);
-			this.comboBox7.TabIndex = 3;
-			// 
-			// panel12
-			// 
-			this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel12.Controls.Add(this.label16);
-			this.panel12.Controls.Add(this.comboBox8);
-			this.panel12.Location = new System.Drawing.Point(252, 104);
-			this.panel12.Name = "panel12";
-			this.panel12.Size = new System.Drawing.Size(95, 51);
-			this.panel12.TabIndex = 5;
-			// 
-			// label16
-			// 
-			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(13, 5);
-			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(41, 12);
-			this.label16.TabIndex = 4;
-			this.label16.Text = "阀关：";
-			// 
-			// comboBox8
-			// 
-			this.comboBox8.FormattingEnabled = true;
-			this.comboBox8.Location = new System.Drawing.Point(8, 23);
-			this.comboBox8.Margin = new System.Windows.Forms.Padding(2);
-			this.comboBox8.Name = "comboBox8";
-			this.comboBox8.Size = new System.Drawing.Size(75, 20);
-			this.comboBox8.TabIndex = 3;
-			// 
-			// groupBox11
-			// 
-			this.groupBox11.Controls.Add(this.button10);
-			this.groupBox11.Controls.Add(this.button7);
-			this.groupBox11.Location = new System.Drawing.Point(41, 318);
-			this.groupBox11.Name = "groupBox11";
-			this.groupBox11.Size = new System.Drawing.Size(130, 174);
-			this.groupBox11.TabIndex = 7;
-			this.groupBox11.TabStop = false;
-			this.groupBox11.Text = "空调与排风";
+			this.keySaveFileDialog.Filter = "墙板配置文件(key)|*.key";
 			// 
 			// OtherToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1224, 898);
+			this.ClientSize = new System.Drawing.Size(1264, 761);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.tabControl1);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(1280, 800);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(1280, 800);
 			this.Name = "OtherToolsForm";
 			this.Text = "其它配置";
 			this.Load += new System.EventHandler(this.OtherToolsForm_Load);
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
 			this.keyTabPage.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
+			this.keyTabPage.PerformLayout();
+			this.kpStatusStrip.ResumeLayout(false);
+			this.kpStatusStrip.PerformLayout();
 			this.lightTabPage.ResumeLayout(false);
 			this.lightTabPage.PerformLayout();
-			this.groupBox4.ResumeLayout(false);
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox1.ResumeLayout(false);
-			this.flowLayoutPanel1.ResumeLayout(false);
-			this.middleTabPage.ResumeLayout(false);
-			this.tabControl1.ResumeLayout(false);
-			this.groupBox5.ResumeLayout(false);
-			this.panel4.ResumeLayout(false);
-			this.panel4.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-			this.panel5.ResumeLayout(false);
-			this.panel5.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
-			this.panel6.ResumeLayout(false);
-			this.panel6.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
-			this.panel7.ResumeLayout(false);
-			this.panel7.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
-			this.groupBox6.ResumeLayout(false);
-			this.groupBox6.PerformLayout();
-			this.groupBox7.ResumeLayout(false);
-			this.groupBox7.PerformLayout();
-			this.groupBox8.ResumeLayout(false);
-			this.groupBox8.PerformLayout();
-			this.groupBox9.ResumeLayout(false);
-			this.groupBox9.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
+			this.lcStatusStrip.ResumeLayout(false);
+			this.lcStatusStrip.PerformLayout();
+			this.groupBox11.ResumeLayout(false);
 			this.groupBox10.ResumeLayout(false);
-			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
-			this.panel8.ResumeLayout(false);
-			this.panel8.PerformLayout();
-			this.panel9.ResumeLayout(false);
-			this.panel9.PerformLayout();
-			this.panel10.ResumeLayout(false);
-			this.panel10.PerformLayout();
-			this.panel11.ResumeLayout(false);
-			this.panel11.PerformLayout();
 			this.panel12.ResumeLayout(false);
 			this.panel12.PerformLayout();
-			this.groupBox11.ResumeLayout(false);
+			this.panel11.ResumeLayout(false);
+			this.panel11.PerformLayout();
+			this.panel10.ResumeLayout(false);
+			this.panel10.PerformLayout();
+			this.panel9.ResumeLayout(false);
+			this.panel9.PerformLayout();
+			this.panel8.ResumeLayout(false);
+			this.panel8.PerformLayout();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
+			this.groupBox4.ResumeLayout(false);
+			this.ktmsGroupBox.ResumeLayout(false);
+			this.ktmsGroupBox.PerformLayout();
+			this.fjGroupBox.ResumeLayout(false);
+			this.fjGroupBox.PerformLayout();
+			this.ktwdGroupBox.ResumeLayout(false);
+			this.ktwdGroupBox.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
+			this.lrGroupBox.ResumeLayout(false);
+			this.lrGroupBox.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			this.tgGroupBox.ResumeLayout(false);
+			this.tgPanel4.ResumeLayout(false);
+			this.tgPanel4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
+			this.tgPanel3.ResumeLayout(false);
+			this.tgPanel3.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
+			this.tgPanel2.ResumeLayout(false);
+			this.tgPanel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
+			this.tgPanel1.ResumeLayout(false);
+			this.tgPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+			this.lightGroupBox.ResumeLayout(false);
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.middleTabPage.ResumeLayout(false);
+			this.middleTabPage.PerformLayout();
+			this.ccStatusStrip.ResumeLayout(false);
+			this.ccStatusStrip.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -1989,118 +2775,186 @@ namespace OtherTools
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.TabPage keyTabPage;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button addButton;
-		private System.Windows.Forms.Button commonButton;
-		private System.Windows.Forms.TabPage lightTabPage;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.Button lcDownloadButton;
-		private System.Windows.Forms.Button lcLoadButton;
-		private System.Windows.Forms.Button lcSaveButton;
-		private System.Windows.Forms.Button button6;
-		private System.Windows.Forms.Label label13;
-		private System.Windows.Forms.ComboBox qdFrameComboBox;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.TabPage middleTabPage;
-		private System.Windows.Forms.ListView listView1;
-		private System.Windows.Forms.ColumnHeader columnHeader1;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
-		private System.Windows.Forms.ColumnHeader columnHeader3;
-		private System.Windows.Forms.ColumnHeader columnHeader4;
-		private System.Windows.Forms.ColumnHeader columnHeader5;
-		private System.Windows.Forms.ColumnHeader columnHeader6;
-		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-		private CCWin.SkinControl.SkinButton lightButton1;
-		private CCWin.SkinControl.SkinButton lightButton2;
-		private CCWin.SkinControl.SkinButton lightButton3;
-		private CCWin.SkinControl.SkinButton lightButton4;
-		private CCWin.SkinControl.SkinButton lightButton5;
-		private CCWin.SkinControl.SkinButton lightButton6;
-		private CCWin.SkinControl.SkinButton lightButton7;
-		private CCWin.SkinControl.SkinButton lightButton8;
-		private CCWin.SkinControl.SkinButton lightButton9;
-		private CCWin.SkinControl.SkinButton lightButton10;
-		private CCWin.SkinControl.SkinButton lightButton11;
-		private CCWin.SkinControl.SkinButton lightButton12;
-		private CCWin.SkinControl.SkinButton lightButton13;
-		private CCWin.SkinControl.SkinButton lightButton14;
-		private CCWin.SkinControl.SkinButton lightButton15;
-		private CCWin.SkinControl.SkinButton lightButton16;
-		private CCWin.SkinControl.SkinButton lightButton17;
-		private CCWin.SkinControl.SkinButton lightButton18;
-		private CCWin.SkinControl.SkinButton lightButton19;
-		private CCWin.SkinControl.SkinButton lightButton20;
-		private CCWin.SkinControl.SkinButton lightButton21;
-		private CCWin.SkinControl.SkinButton lightButton22;
-		private CCWin.SkinControl.SkinButton lightButton23;
-		private CCWin.SkinControl.SkinButton lightButton24;
 		private SkinButton[] lightButtons = new SkinButton[24];
 		
 		private System.Windows.Forms.ImageList lightImageList;
-		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.GroupBox groupBox5;
-		private System.Windows.Forms.Panel panel7;
-		private System.Windows.Forms.NumericUpDown numericUpDown5;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.TrackBar trackBar5;
-		private System.Windows.Forms.Panel panel6;
-		private System.Windows.Forms.NumericUpDown numericUpDown4;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TrackBar trackBar4;
-		private System.Windows.Forms.Panel panel5;
-		private System.Windows.Forms.NumericUpDown numericUpDown3;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TrackBar trackBar3;
-		private System.Windows.Forms.Panel panel4;
-		private System.Windows.Forms.NumericUpDown numericUpDown2;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TrackBar trackBar2;
-		private System.Windows.Forms.Button button10;
-		private System.Windows.Forms.GroupBox groupBox7;
-		private System.Windows.Forms.GroupBox groupBox9;
-		private System.Windows.Forms.GroupBox groupBox8;
-		private System.Windows.Forms.NumericUpDown numericUpDown6;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.GroupBox groupBox6;
-		private System.Windows.Forms.RadioButton fjRadioButton3;
-		private System.Windows.Forms.RadioButton fjRadioButton1;
-		private System.Windows.Forms.RadioButton fjRadioButton2;
-		private System.Windows.Forms.RadioButton zlRadioButton3;
-		private System.Windows.Forms.RadioButton zlRadioButton1;
-		private System.Windows.Forms.RadioButton zlRadioButton2;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.RadioButton radioButton8;
-		private System.Windows.Forms.RadioButton radioButton9;
-		private System.Windows.Forms.GroupBox groupBox10;
-		private System.Windows.Forms.RadioButton ktRadioButton5;
-		private System.Windows.Forms.RadioButton ktRadioButton2;
-		private System.Windows.Forms.RadioButton ktRadioButton4;
-		private System.Windows.Forms.RadioButton ktRadioButton1;
-		private System.Windows.Forms.RadioButton ktRadioButton3;
-		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox comboBox3;
-		private System.Windows.Forms.Button button7;
-		private System.Windows.Forms.Panel panel12;
-		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.ComboBox comboBox8;
-		private System.Windows.Forms.Panel panel11;
-		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.ComboBox comboBox7;
-		private System.Windows.Forms.Panel panel10;
-		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.ComboBox comboBox6;
-		private System.Windows.Forms.Panel panel9;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.ComboBox comboBox5;
-		private System.Windows.Forms.Panel panel8;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.ComboBox comboBox4;
-		private System.Windows.Forms.GroupBox groupBox11;
+		private System.Windows.Forms.OpenFileDialog cfgOpenFileDialog;
+
+		private Panel[] tgPanels = new Panel[4];
+		private ComboBox[] fanChannelComboBoxes = new ComboBox[6];
+		private SaveFileDialog cfgSaveFileDialog;
+		private TabPage keyTabPage;
+		private TabPage lightTabPage;
+		private StatusStrip lcStatusStrip;
+		private ToolStripStatusLabel lcToolStripStatusLabel1;
+		private ToolStripStatusLabel lcToolStripStatusLabel2;
+		private GroupBox groupBox11;
+		private Button fanButton;
+		private Button acButton;
+		private GroupBox groupBox10;
+		private Panel panel12;
+		private Label label16;
+		private ComboBox fcloseChannelComboBox;
+		private Panel panel11;
+		private Label label15;
+		private ComboBox fopenChannelComboBox;
+		private Panel panel10;
+		private Label label14;
+		private ComboBox lowFanChannelComboBox;
+		private Panel panel9;
+		private Label label12;
+		private ComboBox midFanChannelComboBox;
+		private Panel panel8;
+		private Label label11;
+		private ComboBox highFanChannelComboBox;
+		private Panel panel3;
+		private Label label1;
+		private ComboBox fanChannelComboBox;
+		private GroupBox groupBox4;
+		private GroupBox ktmsGroupBox;
+		private RadioButton ktCloseRadioButton;
+		private RadioButton ktMidRadioButton;
+		private RadioButton ktAutoRadioButton;
+		private RadioButton ktHighRadioButton;
+		private RadioButton ktLowRadioButton;
+		private GroupBox fjGroupBox;
+		private RadioButton fjJYRadioButton;
+		private RadioButton fjDXFRadioButton;
+		private RadioButton fjSXFRadioButton;
+		private GroupBox ktwdGroupBox;
+		private NumericUpDown numericUpDown6;
+		private Label label10;
+		private GroupBox lrGroupBox;
+		private RadioButton zlRadioButton3;
+		private RadioButton zlRadioButton1;
+		private RadioButton zlRadioButton2;
+		private GroupBox groupBox3;
+		private Button lcDownloadButton;
+		private Button lcLoadButton;
+		private Button lcSaveButton;
+		private Button button6;
+		private GroupBox groupBox2;
+		private RadioButton lightModeQHRadioButton;
+		private RadioButton lightModeDJRadioButton;
+		private GroupBox tgGroupBox;
+		private Panel tgPanel4;
+		private NumericUpDown numericUpDown5;
+		private Label tgLabel4;
+		private TrackBar trackBar5;
+		private Panel tgPanel3;
+		private NumericUpDown numericUpDown4;
+		private Label tgLabel3;
+		private TrackBar trackBar4;
+		private Panel tgPanel2;
+		private NumericUpDown numericUpDown3;
+		private Label tgLabel2;
+		private TrackBar trackBar3;
+		private Panel tgPanel1;
+		private NumericUpDown numericUpDown2;
+		private Label tgLabel1;
+		private TrackBar trackBar2;
+		private Label label13;
+		private ComboBox qdFrameComboBox;
+		private GroupBox lightGroupBox;
+		private FlowLayoutPanel flowLayoutPanel1;
+		private SkinButton lightButton1;
+		private SkinButton lightButton2;
+		private SkinButton lightButton3;
+		private SkinButton lightButton4;
+		private SkinButton lightButton5;
+		private SkinButton lightButton6;
+		private SkinButton lightButton7;
+		private SkinButton lightButton8;
+		private SkinButton lightButton9;
+		private SkinButton lightButton10;
+		private SkinButton lightButton11;
+		private SkinButton lightButton12;
+		private SkinButton lightButton13;
+		private SkinButton lightButton14;
+		private SkinButton lightButton15;
+		private SkinButton lightButton16;
+		private SkinButton lightButton17;
+		private SkinButton lightButton18;
+		private SkinButton lightButton19;
+		private SkinButton lightButton20;
+		private SkinButton lightButton21;
+		private SkinButton lightButton22;
+		private SkinButton lightButton23;
+		private SkinButton lightButton24;
+		private TabPage middleTabPage;
+		private Button bigTestButton2;
+		private Button bigTestButton;
+		private TextBox ccSearchTextBox;
+		private RichTextBox decodeRichTextBox;
+		private TextBox ps2DownTextBox;
+		private TextBox infraredReceiveTextBox;
+		private TextBox com1DownTextBox;
+		private TextBox com0DownTextBox;
+		private TextBox ps2UpTextBox;
+		private TextBox infraredSendTextBox;
+		private TextBox com1UpTextBox;
+		private TextBox com0UpTextBox;
+		private TextBox functionTextBox;
+		private Button ccDownloadButton;
+		private Button clearDecodeButton;
+		private Button decodeButton;
+		private Button protocolEditButton;
+		private Button ccSearchButton;
+		private Label PS2Label;
+		private Label com1Label;
+		private Label com0Label;
+		private ComboBox protocolComboBox;
+		private StatusStrip ccStatusStrip;
+		private ToolStripStatusLabel toolStripStatusLabel1;
+		private ToolStripStatusLabel toolStripStatusLabel2;
+		private Label label22;
+		private Label label17;
+		private Label label21;
+		private Label label9;
+		private Label label20;
+		private Label label4;
+		private Label label19;
+		private Label label3;
+		private Label label18;
+		private Label label2;
+		private ListView protocolListView;
+		private ColumnHeader columnHeader0;
+		private ColumnHeader columnHeader1;
+		private ColumnHeader columnHeader2;
+		private ColumnHeader columnHeader3;
+		private ColumnHeader columnHeader4;
+		private ColumnHeader columnHeader5;
+		private ColumnHeader columnHeader6;
+		private ColumnHeader columnHeader7;
+		private ColumnHeader columnHeader8;
+		private ColumnHeader columnHeader9;
+		private ColumnHeader columnHeader10;
+		private TabControl tabControl1;
+		private Button kpConnectButton;
+		private Button kpSaveButton;
+		private Button kpReadButton;
+		private Button kpLoadButton;
+		private Button kpDownloadButton;
+		private ListView keypressListView;
+		private ColumnHeader columnHeader2x;
+		private ColumnHeader columnHeader20;
+		private ColumnHeader columnHeader21;
+		private ColumnHeader columnHeader22;
+		private StatusStrip kpStatusStrip;
+		private ToolStripStatusLabel kpToolStripStatusLabel1;
+		private ToolStripStatusLabel kpToolStripStatusLabel2;
+		private Label label25;
+		private Label label24;
+		private Label label23;
+		private TextBox kpKey1TextBox;
+		private TextBox kpKey0TextBox;
+		private Button kpEditButton;
+		private Button kpShowIconButton;
+		private Button kpShowListButton;
+		private Button kpListenButton;
+		private TextBox kpOrderTextBox;
+		private OpenFileDialog keyOpenFileDialog;
+		private SaveFileDialog keySaveFileDialog;
 	}
 }
 

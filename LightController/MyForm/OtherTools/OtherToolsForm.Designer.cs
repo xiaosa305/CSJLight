@@ -171,7 +171,6 @@ namespace OtherTools
 			this.lightButton23 = new CCWin.SkinControl.SkinButton();
 			this.lightButton24 = new CCWin.SkinControl.SkinButton();
 			this.middleTabPage = new System.Windows.Forms.TabPage();
-			this.bigTestButton2 = new System.Windows.Forms.Button();
 			this.bigTestButton = new System.Windows.Forms.Button();
 			this.ccSearchTextBox = new System.Windows.Forms.TextBox();
 			this.decodeRichTextBox = new System.Windows.Forms.RichTextBox();
@@ -194,8 +193,8 @@ namespace OtherTools
 			this.com0Label = new System.Windows.Forms.Label();
 			this.protocolComboBox = new System.Windows.Forms.ComboBox();
 			this.ccStatusStrip = new System.Windows.Forms.StatusStrip();
-			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ccToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ccToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.label22 = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label21 = new System.Windows.Forms.Label();
@@ -411,6 +410,7 @@ namespace OtherTools
 			this.lightImageList.TransparentColor = System.Drawing.Color.Transparent;
 			this.lightImageList.Images.SetKeyName(0, "Ok3w.Net图标1.png");
 			this.lightImageList.Images.SetKeyName(1, "Ok3w.Net图标15.png");
+			this.lightImageList.Images.SetKeyName(2, "墙板按钮.png");
 			// 
 			// cfgOpenFileDialog
 			// 
@@ -424,6 +424,7 @@ namespace OtherTools
 			// 
 			// keyTabPage
 			// 
+			this.keyTabPage.BackColor = System.Drawing.Color.AliceBlue;
 			this.keyTabPage.Controls.Add(this.keypressListView);
 			this.keyTabPage.Controls.Add(this.kpStatusStrip);
 			this.keyTabPage.Controls.Add(this.label25);
@@ -446,7 +447,6 @@ namespace OtherTools
 			this.keyTabPage.Size = new System.Drawing.Size(1196, 660);
 			this.keyTabPage.TabIndex = 2;
 			this.keyTabPage.Text = "墙板配置";
-			this.keyTabPage.UseVisualStyleBackColor = true;
 			// 
 			// keypressListView
 			// 
@@ -626,7 +626,7 @@ namespace OtherTools
 			this.kpEditButton.Name = "kpEditButton";
 			this.kpEditButton.Size = new System.Drawing.Size(90, 32);
 			this.kpEditButton.TabIndex = 5;
-			this.kpEditButton.Text = "增改键码";
+			this.kpEditButton.Text = "修改键码";
 			this.kpEditButton.UseVisualStyleBackColor = true;
 			this.kpEditButton.Click += new System.EventHandler(this.kpEditButton_Click);
 			// 
@@ -1288,7 +1288,6 @@ namespace OtherTools
 			this.tgGroupBox.TabIndex = 3;
 			this.tgGroupBox.TabStop = false;
 			this.tgGroupBox.Text = "调光通道设置";
-			this.tgGroupBox.Enter += new System.EventHandler(this.groupBox2_Enter);
 			// 
 			// tgPanel4
 			// 
@@ -2214,7 +2213,6 @@ namespace OtherTools
 			// middleTabPage
 			// 
 			this.middleTabPage.BackColor = System.Drawing.Color.PowderBlue;
-			this.middleTabPage.Controls.Add(this.bigTestButton2);
 			this.middleTabPage.Controls.Add(this.bigTestButton);
 			this.middleTabPage.Controls.Add(this.ccSearchTextBox);
 			this.middleTabPage.Controls.Add(this.decodeRichTextBox);
@@ -2255,27 +2253,15 @@ namespace OtherTools
 			this.middleTabPage.TabIndex = 0;
 			this.middleTabPage.Text = "中控配置";
 			// 
-			// bigTestButton2
-			// 
-			this.bigTestButton2.BackColor = System.Drawing.Color.OliveDrab;
-			this.bigTestButton2.Font = new System.Drawing.Font("郑庆科黄油体Regular ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.bigTestButton2.Location = new System.Drawing.Point(697, 359);
-			this.bigTestButton2.Name = "bigTestButton2";
-			this.bigTestButton2.Size = new System.Drawing.Size(111, 47);
-			this.bigTestButton2.TabIndex = 15;
-			this.bigTestButton2.Text = "BigTest2";
-			this.bigTestButton2.UseVisualStyleBackColor = false;
-			this.bigTestButton2.Click += new System.EventHandler(this.bigTestButton2_Click);
-			// 
 			// bigTestButton
 			// 
 			this.bigTestButton.BackColor = System.Drawing.Color.SandyBrown;
-			this.bigTestButton.Font = new System.Drawing.Font("郑庆科黄油体Regular ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.bigTestButton.Location = new System.Drawing.Point(580, 359);
+			this.bigTestButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.bigTestButton.Location = new System.Drawing.Point(457, 353);
 			this.bigTestButton.Name = "bigTestButton";
-			this.bigTestButton.Size = new System.Drawing.Size(111, 47);
+			this.bigTestButton.Size = new System.Drawing.Size(96, 30);
 			this.bigTestButton.TabIndex = 15;
-			this.bigTestButton.Text = "BigTest";
+			this.bigTestButton.Text = "加载协议文件";
 			this.bigTestButton.UseVisualStyleBackColor = false;
 			this.bigTestButton.Click += new System.EventHandler(this.bigTestButton_Click);
 			// 
@@ -2426,7 +2412,7 @@ namespace OtherTools
 			// PS2Label
 			// 
 			this.PS2Label.AutoSize = true;
-			this.PS2Label.Location = new System.Drawing.Point(356, 367);
+			this.PS2Label.Location = new System.Drawing.Point(310, 362);
 			this.PS2Label.Name = "PS2Label";
 			this.PS2Label.Size = new System.Drawing.Size(41, 12);
 			this.PS2Label.TabIndex = 11;
@@ -2435,7 +2421,7 @@ namespace OtherTools
 			// com1Label
 			// 
 			this.com1Label.AutoSize = true;
-			this.com1Label.Location = new System.Drawing.Point(195, 367);
+			this.com1Label.Location = new System.Drawing.Point(172, 362);
 			this.com1Label.Name = "com1Label";
 			this.com1Label.Size = new System.Drawing.Size(53, 12);
 			this.com1Label.TabIndex = 11;
@@ -2444,7 +2430,7 @@ namespace OtherTools
 			// com0Label
 			// 
 			this.com0Label.AutoSize = true;
-			this.com0Label.Location = new System.Drawing.Point(29, 367);
+			this.com0Label.Location = new System.Drawing.Point(29, 362);
 			this.com0Label.Name = "com0Label";
 			this.com0Label.Size = new System.Drawing.Size(53, 12);
 			this.com0Label.TabIndex = 11;
@@ -2463,27 +2449,27 @@ namespace OtherTools
 			// 
 			this.ccStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
 			this.ccStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
+            this.ccToolStripStatusLabel1,
+            this.ccToolStripStatusLabel2});
 			this.ccStatusStrip.Location = new System.Drawing.Point(3, 635);
 			this.ccStatusStrip.Name = "ccStatusStrip";
 			this.ccStatusStrip.Size = new System.Drawing.Size(1190, 22);
 			this.ccStatusStrip.SizingGrip = false;
 			this.ccStatusStrip.TabIndex = 9;
 			// 
-			// toolStripStatusLabel1
+			// ccToolStripStatusLabel1
 			// 
-			this.toolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
-			this.toolStripStatusLabel1.Spring = true;
+			this.ccToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
+			this.ccToolStripStatusLabel1.Name = "ccToolStripStatusLabel1";
+			this.ccToolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
+			this.ccToolStripStatusLabel1.Spring = true;
 			// 
-			// toolStripStatusLabel2
+			// ccToolStripStatusLabel2
 			// 
-			this.toolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
-			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-			this.toolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
-			this.toolStripStatusLabel2.Spring = true;
+			this.ccToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
+			this.ccToolStripStatusLabel2.Name = "ccToolStripStatusLabel2";
+			this.ccToolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
+			this.ccToolStripStatusLabel2.Spring = true;
 			// 
 			// label22
 			// 
@@ -2610,7 +2596,7 @@ namespace OtherTools
 			// columnHeader1
 			// 
 			this.columnHeader1.Text = "功能描述";
-			this.columnHeader1.Width = 150;
+			this.columnHeader1.Width = 130;
 			// 
 			// columnHeader2
 			// 
@@ -2882,7 +2868,6 @@ namespace OtherTools
 		private SkinButton lightButton23;
 		private SkinButton lightButton24;
 		private TabPage middleTabPage;
-		private Button bigTestButton2;
 		private Button bigTestButton;
 		private TextBox ccSearchTextBox;
 		private RichTextBox decodeRichTextBox;
@@ -2905,8 +2890,8 @@ namespace OtherTools
 		private Label com0Label;
 		private ComboBox protocolComboBox;
 		private StatusStrip ccStatusStrip;
-		private ToolStripStatusLabel toolStripStatusLabel1;
-		private ToolStripStatusLabel toolStripStatusLabel2;
+		private ToolStripStatusLabel ccToolStripStatusLabel1;
+		private ToolStripStatusLabel ccToolStripStatusLabel2;
 		private Label label22;
 		private Label label17;
 		private Label label21;

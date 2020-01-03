@@ -39,6 +39,9 @@ namespace OtherTools
 		{
 			InitializeComponent();
 
+			//MARK : 设置双缓存：网上说可以解决闪烁的问题，写在构造函数中 -->实测无效
+			//SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+
 			#region 初始化各组件			
 
 			qdFrameComboBox.SelectedIndex = 0;
@@ -137,7 +140,7 @@ namespace OtherTools
 				FileInfo[] file = fdir.GetFiles();
 				if (file.Length > 0)
 				{
-					//TODO 禁用皮肤的代码，不够完美
+					//TODO：禁用irisSkin皮肤的代码，不够完美，暂不启用。
 					//skinComboBox.Items.Add("不使用皮肤");
 					foreach (var item in file)
 					{
@@ -164,18 +167,18 @@ namespace OtherTools
 
 			//TODO ：禁用皮肤的代码，还不够完美
 			if (sskName.Equals("不使用皮肤")) {
-				this.skinEngine1.Active = false;			
+				
+				this.skinEngine1.Active = false;
 				return;
 			}
 
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
-			this.skinEngine1.Active = true;
+			//this.skinEngine1.Active = true;
+
+		
 		}
 
-		private void groupBox2_Enter(object sender, EventArgs e)
-		{
 
-		}
 
 		/// <summary>
 		/// 事件：点击《灯光通道按键》
@@ -309,7 +312,7 @@ namespace OtherTools
 			//setFanChannel(airModeEnum.FOPEN, lcData.OpenAirConditionChannel);
 			//setFanChannel(airModeEnum.FCLOSE, lcData.CloseAirConditionChannel);
 
-			lcToolStripStatusLabel2.Text = " 已加载配置文件：" + cfgPath;
+			lcToolStripStatusLabel2.Text = " 成功加载配置文件：" + cfgPath;
 		}
 
 		private void setFanChannel(airModeEnum airMode, int fanChannel)
@@ -566,12 +569,15 @@ namespace OtherTools
 				protocolComboBox.SelectedIndex = 0;
 				isReadXLS = true;
 				reloadProtocolListView();
+				ccToolStripStatusLabel2.Text = "成功加载xls文件：" + protocolXlsPath;
 			}
 			else
 			{
 				isReadXLS = false;
 				MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
+				ccToolStripStatusLabel2.Text = "加载xls文件失败。";
 			}
+			
 		}
 
 
@@ -804,8 +810,7 @@ namespace OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
-		{
-			Console.WriteLine("tabControl1_DrawItem");
+		{		
 			Rectangle tabArea = tabControl1.GetTabRect(e.Index);//主要是做个转换来获得TAB项的RECTANGELF
 			RectangleF tabTextArea = (RectangleF)(tabControl1.GetTabRect(e.Index));
 			Graphics g = e.Graphics;
@@ -895,8 +900,8 @@ namespace OtherTools
 				if (ke.Key0Array[keyIndex].Equals("00") && ke.Key1Array[keyIndex].Equals("00")) {
 					continue;
 				}
-				ListViewItem item = new ListViewItem( (keyIndex + 1) . ToString() );
-				item.ImageIndex = 0;
+				ListViewItem item = new ListViewItem( "键序" + (keyIndex + 1) . ToString() + "\n"+ke.Key0Array[keyIndex]+":" + ke.Key1Array[keyIndex] );
+				item.ImageIndex = 2;
 				item.SubItems.Add((keyIndex + 1).ToString());
 				item.SubItems.Add(ke.Key0Array[keyIndex]);
 				item.SubItems.Add(ke.Key1Array[keyIndex]);
@@ -925,7 +930,6 @@ namespace OtherTools
 				ke.Key1Array[i] = StringHelper.DecimalStringToBitHex(paramList[i + 24],2);
 			}
 			ke.CRC = paramList[48] + paramList[49];
-
 			return ke;
 		}
 
@@ -995,7 +999,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 事件：点击《增改键码》
+		/// 事件：点击《修改键码》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1005,13 +1009,20 @@ namespace OtherTools
 				MessageBox.Show("请先选择需要设置键码值的按键。");
 				return;
 			}
-			
-			
+			if (kpKey0TextBox.Text.Length == 0) {
+				MessageBox.Show("键码值0不得为空。");
+				return;
+			}			
 					
 			int keyIndex = keypressListView.SelectedIndices[0];
-			keypressListView.Items[keyIndex].SubItems[2].Text = kpKey0TextBox.Text;
-			keypressListView.Items[keyIndex].SubItems[3].Text = kpKey0TextBox.Text;
-			
+			keypressListView.Items[keyIndex].SubItems[2].Text = kpKey0TextBox.Text.ToLower().PadLeft(2,'0');
+			if (kpKey1TextBox.Text.Length == 0)
+			{
+				keypressListView.Items[keyIndex].SubItems[3].Text = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');
+			}
+			else {
+				keypressListView.Items[keyIndex].SubItems[3].Text = kpKey1TextBox.Text.ToLower().PadLeft(2, '0');
+			}			
 		}
 
 		private bool isListening = false;
@@ -1028,7 +1039,10 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpKeyTextBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8 || (e.KeyChar >= 'a' && e.KeyChar <= 'f') )
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9')
+				 || (e.KeyChar >= 'a' && e.KeyChar <= 'f') 
+				 || (e.KeyChar >= 'A' && e.KeyChar <= 'F')
+				 || e.KeyChar == 8 )
 			{
 				e.Handled = false;
 			}

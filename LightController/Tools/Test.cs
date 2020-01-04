@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Common;
 using LightController.MyForm;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
@@ -42,28 +43,55 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    //SerialPortTools.GetInstance().OpenCom("COM15");
-                    SerialConnect.OpenSerialPort("COM16");
-                    //SerialConnect.OpenSerialPort("COM15");
+                    SerialConnect.OpenSerialPort("COM14");
+                    //SerialConnect.OpenSerialPort("COM16");
                     break;
                 case 2:
-                    //SerialPortTools.GetInstance().NewLightControlConnect(new CallbackTest());
-                    SerialConnect.LightControlConnect(LCCCompleted, LCCError);
+                    SerialConnect.CentralControlConnect(CCCCompleted,CCCError);
                     break;
                 case 3:
-                    //SerialPortTools.GetInstance().NewLightControlRead(new CallbackTest());
-                    SerialConnect.LightControlRead(LCRCompleted, LCRError);
+                    SerialConnect.CentralControlStartCopy(CCCpCompleted, CCCpError);
                     break;
                 case 4:
-                    //SerialPortTools.GetInstance().NewLightControlDownload(LightControlData.GetTestData(), new CallbackTest());
-                    SerialConnect.LightControlDownload(LightControlData.GetTestData(), LCDCompleted, LCDError);
-                    //LightControlData.GetTestData().GetData();
-                    //SerialConnect.LightControlDebug(new byte[] {0x00, 0x00 }, LCDDebugError);
+                    SerialConnect.CentralControlStopCopy(CCXpCompleted, CCXpError);
                     break;
                 default:
                     break;
             }
         }
+        private void CCCCompleted(Object obj)
+        {
+            Console.WriteLine("设备连接成功");
+        }
+        private void CCCError()
+        {
+            Console.WriteLine("设备连接失败");
+        }
+
+        private void CCCpCompleted(Object obj)
+        {
+            List<byte> data = obj as List<byte>;
+            string str = "";
+            for (int i = 0; i < data.Count; i++)
+            {
+                str = str + " " + StringHelper.DecimalStringToHex(Convert.ToInt16(data[i]).ToString());
+            }
+            Console.WriteLine("回读到红外码值:" + str);
+        }
+        private void CCCpError()
+        {
+            Console.WriteLine("开启解码失败");
+        }
+        private void CCXpCompleted(Object obj)
+        {
+            Console.WriteLine("关闭解码成功");
+        }
+        private void CCXpError()
+        {
+            Console.WriteLine("关闭解码失败");
+        }
+
+
         private void LCCCompleted(Object obj)
         {
             Console.WriteLine("设备链接成功，下一步进行读取配置信息");
@@ -94,29 +122,6 @@ namespace LightController.Tools
         private void LCDDebugError()
         {
             Console.WriteLine("设备调试失败");
-        }
-    }
-
-    class CallbackTest : ICommunicatorCallBack
-    {
-        public void Completed(string deviceTag)
-        {
-            Console.WriteLine("完成");
-        }
-
-        public void Error(string deviceTag, string errorMessage)
-        {
-            Console.WriteLine("失败");
-        }
-
-        public void GetParam(CSJ_Hardware hardware)
-        {
-
-        }
-
-        public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-        {
-
         }
     }
 }

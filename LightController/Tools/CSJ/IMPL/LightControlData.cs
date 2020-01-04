@@ -53,6 +53,10 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 for (int j = 0; j < 12; j++)
                 {
+                    if (i == 1)
+                    {
+                        data.SceneData[i, j] = j % 2== 0;
+                    }
                     data.SceneData[i, j] = false;
                 }
             }
@@ -161,8 +165,21 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(CloseAirConditionChannel));//13
             data.Add(Convert.ToByte(PlaceHolder1));//14
             data.Add(Convert.ToByte(PlaceHolder2));//15
+           
             for (int relayDataIndex = 0; relayDataIndex < RelayDataSize; relayDataIndex++)
             {
+                //if (relayDataIndex == 0)
+                //{
+                //    data.Add(0x00);
+                //    data.Add(0x0F);
+                //    data.Add(0xAA);
+                //}
+                //else
+                //{
+                //    data.Add(0x00);
+                //    data.Add(0x08);
+                //    data.Add(0x00);
+                //}
                 for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)
                 {
                     string strValue = "";
@@ -174,40 +191,6 @@ namespace LightController.Tools.CSJ.IMPL
                     data.Add(Convert.ToByte(strValue, 2));
                 }
             }
-            //data.Add(0x01);
-            //data.Add(0x00);
-            //data.Add(0x02);
-            //data.Add(0x04);
-            //data.Add(0x08);
-            //data.Add(0x10);
-            //data.Add(0x20);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);//0x08
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
             if (DmxData != null)
             {
                 for (int i = 0; i < DmxData.Length; i++)

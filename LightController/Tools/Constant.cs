@@ -73,7 +73,7 @@ namespace LightController.Tools
         public const string MARK_DATA_END = "00000010";
 
         public const string NEW_DEVICE_LIGHTCONTROL = "Relay";
-        public const string NEW_DEVICE_CENTRALCONTROL = " Protocol";
+        public const string NEW_DEVICE_CENTRALCONTROL = "CenterControl";
 
         public const string OLD_DEVICE_LIGHTCONTROL_READ = "rg";
         public const string OLD_DEVICE_LIGHTCONTROL_DOWNLOAD = "dg";
@@ -83,7 +83,7 @@ namespace LightController.Tools
         public const string OLD_DEVICE_CENTRALCONTROL_CONNECT = "lk";
         public const string OLD_DEVICE_CENTRALCONTROL_DOWNLOAD = "dk";
         public const string OLD_DEVICE_CENTRALCONTROL_START_STUDY = "cp";
-        public const string OLD_DEVICE_CENTRALCONTROL_STOP_STUDY = "xk";
+        public const string OLD_DEVICE_CENTRALCONTROL_STOP_STUDY = "xp";
 
 
 

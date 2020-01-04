@@ -147,11 +147,11 @@ namespace LightController.PeripheralDevice
         /// 停止定时器计时
         /// </summary>
         private void StopTimeOut()
-
         {
             if (TimeOutTimer != null)
             {
                 TimeOutTimer.Stop();
+                Console.WriteLine("停止超时定时器");
             }
         }
         /// <summary>
@@ -267,6 +267,7 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
+            Console.WriteLine("发送数据为:" + Encoding.Default.GetString(packData.ToArray()));
             this.Send(pack.ToArray());
         }
         /// <summary>
@@ -519,6 +520,7 @@ namespace LightController.PeripheralDevice
                     this.CentralControlStartCopyReceive(data);
                     break;
                 case Order.XP:
+                    this.CentralControlStopCopyReceive(data);
                     break;
             }
         }
@@ -551,6 +553,7 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
+                this.StopTimeOut();
                 this.IsStartCopy = true;
                 this.IsSending = false;
             }
@@ -576,6 +579,7 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
+                this.StopTimeOut();
                 this.IsStartCopy = false;
                 this.IsSending = false;
                 this.Completed_Event(null);

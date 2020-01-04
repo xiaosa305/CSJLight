@@ -15,11 +15,9 @@ namespace LightController.Entity
 		/// </summary>
 		public int PS2 { get; set; }
 		public IList<CCData> CCDataList {get;set;}
-
 		public CCEntity() {
 			CCDataList = new List<CCData>();
 		}
-
 		internal IList<int> SearchIndices(string keyword)
 		{
 			IList<int> matchIndexList = new List<int>();
@@ -83,13 +81,16 @@ namespace LightController.Entity
             for (int i = 0; i < this.CCDataList.Count; i++)
             {
                 string[] values;
+                int code = 0;
                 CCData item = CCDataList[i];
                 //读取码值
                 if (item.Code == null)
                 {
                     return null;
                 }
-                int.TryParse(item.Code, out int code);
+                code = Convert.ToInt16(item.Code, 16);
+                //int.TryParse(item.Code, out int code);
+                Console.WriteLine("码值为：" + code);
                 //读取串口0上行数据组
                 if (item.Com0Up == null)
                 {

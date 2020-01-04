@@ -73,12 +73,24 @@ namespace LightController.PeripheralDevice
         }
         protected void ReceiveData(object sender, SerialDataReceivedEventArgs s)
         {
-            while (this.IsDeviceOpen)
-            {
-                ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
-                this.Receive();
-            }
-            ReadBuff.Clear();
+            //try
+            //{
+                while (this.IsDeviceOpen)
+                {
+                    ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
+                    this.Receive();
+                }
+                ReadBuff.Clear();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("关闭串口");
+            //}
+            //finally
+            //{
+            //    ReadBuff.Clear();
+            //}
+
         }
         protected override void Send(byte[] data)
         {

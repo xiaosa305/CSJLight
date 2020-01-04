@@ -58,12 +58,10 @@ namespace LightController.Tools.CSJ.IMPL
             }
             return data;
         }
-
         public LightControlData()
         {
 				
 		}
-
         public LightControlData(List<byte> data)
         {
             RelayCount = Convert.ToInt16(data[0]);//0
@@ -104,7 +102,6 @@ namespace LightController.Tools.CSJ.IMPL
                 }
             }
         }
-
         public LightControlData(IList<string> data)
         {
             RelayCount = Convert.ToInt16(data[0]);//0
@@ -140,7 +137,6 @@ namespace LightController.Tools.CSJ.IMPL
 				}
 			}
 		}
-
 		//MARK：此处我有稍微修改：SceneData[][] -> SceneData[,] ；后期需测试 --By Dickov
         public byte[] GetData()
         {
@@ -174,40 +170,6 @@ namespace LightController.Tools.CSJ.IMPL
                     data.Add(Convert.ToByte(strValue, 2));
                 }
             }
-            //data.Add(0x01);
-            //data.Add(0x00);
-            //data.Add(0x02);
-            //data.Add(0x04);
-            //data.Add(0x08);
-            //data.Add(0x10);
-            //data.Add(0x20);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);//0x08
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
-            //data.Add(0x00);
             if (DmxData != null)
             {
                 for (int i = 0; i < DmxData.Length; i++)
@@ -218,12 +180,10 @@ namespace LightController.Tools.CSJ.IMPL
             data.AddRange(CRCTools.GetInstance().GetLightControlCRC(data.ToArray()));
             return data.ToArray();
         }
-
         public void WriteToFile(string filepath)
         {
             throw new NotImplementedException();
         }
-
 		public override string ToString()
 		{
 			return base.ToString();

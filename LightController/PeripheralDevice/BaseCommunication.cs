@@ -512,15 +512,15 @@ namespace LightController.PeripheralDevice
             switch (this.SecondOrder)
             {
                 case Order.LK:
-                    this.CentralControlConnectReceive(data);
+                    this.CenterControlConnectReceive(data);
                     break;
                 case Order.DL:
                     break;
                 case Order.CP:
-                    this.CentralControlStartCopyReceive(data);
+                    this.CenterControlStartCopyReceive(data);
                     break;
                 case Order.XP:
-                    this.CentralControlStopCopyReceive(data);
+                    this.CenterControlStopCopyReceive(data);
                     break;
             }
         }
@@ -528,7 +528,7 @@ namespace LightController.PeripheralDevice
         /// 中控设备链接回复消息处理
         /// </summary>
         /// <param name="data"></param>
-        private void CentralControlConnectReceive(List<byte> data)
+        private void CenterControlConnectReceive(List<byte> data)
         {
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
@@ -547,7 +547,7 @@ namespace LightController.PeripheralDevice
         /// 中控设备开启解码回复消息处理
         /// </summary>
         /// <param name="data"></param>
-        private void CentralControlStartCopyReceive(List<byte> data)
+        private void CenterControlStartCopyReceive(List<byte> data)
         {
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
@@ -573,7 +573,7 @@ namespace LightController.PeripheralDevice
         /// 中控设备关闭解码回复消息处理
         /// </summary>
         /// <param name="data"></param>
-        private void CentralControlStopCopyReceive(List<byte> data)
+        private void CenterControlStopCopyReceive(List<byte> data)
         {
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
@@ -587,6 +587,18 @@ namespace LightController.PeripheralDevice
             else
             {
                 this.Error_Event();
+            }
+        }
+        /// <summary>
+        /// 中控设备下载回复消息处理
+        /// </summary>
+        /// <param name="data"></param>
+        private void CenterControlDownloadReceive(List<byte> data)
+        {
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
+            {
+                this.StopTimeOut();
+                this.SendData();
             }
         }
         //灯控设备配置
@@ -734,7 +746,8 @@ namespace LightController.PeripheralDevice
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Error_Event = error;
-                ThreadPool.QueueUserWorkItem(LightControlDebugStart, data);
+                //ThreadPool.QueueUserWorkItem(LightControlDebugStart, data);
+                this.LightControlDebugStart(data);
             }
         }
         /// <summary>

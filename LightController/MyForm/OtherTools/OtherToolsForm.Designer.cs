@@ -122,7 +122,7 @@ namespace OtherTools
 			this.lcDownloadButton = new System.Windows.Forms.Button();
 			this.lcLoadButton = new System.Windows.Forms.Button();
 			this.lcSaveButton = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
+			this.lcReadButton = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.lightModeQHRadioButton = new System.Windows.Forms.RadioButton();
 			this.lightModeDJRadioButton = new System.Windows.Forms.RadioButton();
@@ -171,7 +171,7 @@ namespace OtherTools
 			this.lightButton22 = new CCWin.SkinControl.SkinButton();
 			this.lightButton23 = new CCWin.SkinControl.SkinButton();
 			this.lightButton24 = new CCWin.SkinControl.SkinButton();
-			this.middleTabPage = new System.Windows.Forms.TabPage();
+			this.centerTabPage = new System.Windows.Forms.TabPage();
 			this.loadProtocolButton = new System.Windows.Forms.Button();
 			this.ccSearchTextBox = new System.Windows.Forms.TextBox();
 			this.decodeRichTextBox = new System.Windows.Forms.RichTextBox();
@@ -257,7 +257,7 @@ namespace OtherTools
 			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
 			this.lightGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
-			this.middleTabPage.SuspendLayout();
+			this.centerTabPage.SuspendLayout();
 			this.ccStatusStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.SuspendLayout();
@@ -341,6 +341,7 @@ namespace OtherTools
 			this.connectButton.TabIndex = 23;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = true;
+			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// refreshButton
 			// 
@@ -669,7 +670,7 @@ namespace OtherTools
 			this.lightTabPage.Controls.Add(this.groupBox10);
 			this.lightTabPage.Controls.Add(this.groupBox4);
 			this.lightTabPage.Controls.Add(this.groupBox3);
-			this.lightTabPage.Controls.Add(this.button6);
+			this.lightTabPage.Controls.Add(this.lcReadButton);
 			this.lightTabPage.Controls.Add(this.groupBox2);
 			this.lightTabPage.Controls.Add(this.tgGroupBox);
 			this.lightTabPage.Controls.Add(this.label13);
@@ -1242,15 +1243,16 @@ namespace OtherTools
 			this.lcSaveButton.UseVisualStyleBackColor = true;
 			this.lcSaveButton.Click += new System.EventHandler(this.lcSaveButton_Click);
 			// 
-			// button6
+			// lcReadButton
 			// 
-			this.button6.BackColor = System.Drawing.Color.SandyBrown;
-			this.button6.Location = new System.Drawing.Point(30, 29);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(75, 44);
-			this.button6.TabIndex = 4;
-			this.button6.Text = "回读配置";
-			this.button6.UseVisualStyleBackColor = false;
+			this.lcReadButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.lcReadButton.Location = new System.Drawing.Point(30, 29);
+			this.lcReadButton.Name = "lcReadButton";
+			this.lcReadButton.Size = new System.Drawing.Size(75, 44);
+			this.lcReadButton.TabIndex = 4;
+			this.lcReadButton.Text = "回读配置";
+			this.lcReadButton.UseVisualStyleBackColor = false;
+			this.lcReadButton.Click += new System.EventHandler(this.lcReadButton_Click);
 			// 
 			// groupBox2
 			// 
@@ -2225,48 +2227,48 @@ namespace OtherTools
 			this.lightButton24.UseVisualStyleBackColor = false;
 			this.lightButton24.Visible = false;
 			// 
-			// middleTabPage
+			// centerTabPage
 			// 
-			this.middleTabPage.BackColor = System.Drawing.Color.PowderBlue;
-			this.middleTabPage.Controls.Add(this.loadProtocolButton);
-			this.middleTabPage.Controls.Add(this.ccSearchTextBox);
-			this.middleTabPage.Controls.Add(this.decodeRichTextBox);
-			this.middleTabPage.Controls.Add(this.ps2DownTextBox);
-			this.middleTabPage.Controls.Add(this.infraredReceiveTextBox);
-			this.middleTabPage.Controls.Add(this.com1DownTextBox);
-			this.middleTabPage.Controls.Add(this.com0DownTextBox);
-			this.middleTabPage.Controls.Add(this.ps2UpTextBox);
-			this.middleTabPage.Controls.Add(this.infraredSendTextBox);
-			this.middleTabPage.Controls.Add(this.com1UpTextBox);
-			this.middleTabPage.Controls.Add(this.com0UpTextBox);
-			this.middleTabPage.Controls.Add(this.functionTextBox);
-			this.middleTabPage.Controls.Add(this.ccDownloadButton);
-			this.middleTabPage.Controls.Add(this.clearDecodeButton);
-			this.middleTabPage.Controls.Add(this.decodeButton);
-			this.middleTabPage.Controls.Add(this.protocolEditButton);
-			this.middleTabPage.Controls.Add(this.ccSearchButton);
-			this.middleTabPage.Controls.Add(this.PS2Label);
-			this.middleTabPage.Controls.Add(this.com1Label);
-			this.middleTabPage.Controls.Add(this.com0Label);
-			this.middleTabPage.Controls.Add(this.protocolComboBox);
-			this.middleTabPage.Controls.Add(this.ccStatusStrip);
-			this.middleTabPage.Controls.Add(this.label22);
-			this.middleTabPage.Controls.Add(this.label17);
-			this.middleTabPage.Controls.Add(this.label21);
-			this.middleTabPage.Controls.Add(this.label9);
-			this.middleTabPage.Controls.Add(this.label20);
-			this.middleTabPage.Controls.Add(this.label4);
-			this.middleTabPage.Controls.Add(this.label19);
-			this.middleTabPage.Controls.Add(this.label3);
-			this.middleTabPage.Controls.Add(this.label18);
-			this.middleTabPage.Controls.Add(this.label2);
-			this.middleTabPage.Controls.Add(this.protocolListView);
-			this.middleTabPage.Location = new System.Drawing.Point(64, 4);
-			this.middleTabPage.Name = "middleTabPage";
-			this.middleTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.middleTabPage.Size = new System.Drawing.Size(1196, 660);
-			this.middleTabPage.TabIndex = 0;
-			this.middleTabPage.Text = "中控配置";
+			this.centerTabPage.BackColor = System.Drawing.Color.PowderBlue;
+			this.centerTabPage.Controls.Add(this.loadProtocolButton);
+			this.centerTabPage.Controls.Add(this.ccSearchTextBox);
+			this.centerTabPage.Controls.Add(this.decodeRichTextBox);
+			this.centerTabPage.Controls.Add(this.ps2DownTextBox);
+			this.centerTabPage.Controls.Add(this.infraredReceiveTextBox);
+			this.centerTabPage.Controls.Add(this.com1DownTextBox);
+			this.centerTabPage.Controls.Add(this.com0DownTextBox);
+			this.centerTabPage.Controls.Add(this.ps2UpTextBox);
+			this.centerTabPage.Controls.Add(this.infraredSendTextBox);
+			this.centerTabPage.Controls.Add(this.com1UpTextBox);
+			this.centerTabPage.Controls.Add(this.com0UpTextBox);
+			this.centerTabPage.Controls.Add(this.functionTextBox);
+			this.centerTabPage.Controls.Add(this.ccDownloadButton);
+			this.centerTabPage.Controls.Add(this.clearDecodeButton);
+			this.centerTabPage.Controls.Add(this.decodeButton);
+			this.centerTabPage.Controls.Add(this.protocolEditButton);
+			this.centerTabPage.Controls.Add(this.ccSearchButton);
+			this.centerTabPage.Controls.Add(this.PS2Label);
+			this.centerTabPage.Controls.Add(this.com1Label);
+			this.centerTabPage.Controls.Add(this.com0Label);
+			this.centerTabPage.Controls.Add(this.protocolComboBox);
+			this.centerTabPage.Controls.Add(this.ccStatusStrip);
+			this.centerTabPage.Controls.Add(this.label22);
+			this.centerTabPage.Controls.Add(this.label17);
+			this.centerTabPage.Controls.Add(this.label21);
+			this.centerTabPage.Controls.Add(this.label9);
+			this.centerTabPage.Controls.Add(this.label20);
+			this.centerTabPage.Controls.Add(this.label4);
+			this.centerTabPage.Controls.Add(this.label19);
+			this.centerTabPage.Controls.Add(this.label3);
+			this.centerTabPage.Controls.Add(this.label18);
+			this.centerTabPage.Controls.Add(this.label2);
+			this.centerTabPage.Controls.Add(this.protocolListView);
+			this.centerTabPage.Location = new System.Drawing.Point(64, 4);
+			this.centerTabPage.Name = "centerTabPage";
+			this.centerTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.centerTabPage.Size = new System.Drawing.Size(1196, 660);
+			this.centerTabPage.TabIndex = 0;
+			this.centerTabPage.Text = "中控配置";
 			// 
 			// loadProtocolButton
 			// 
@@ -2661,8 +2663,8 @@ namespace OtherTools
 			// tabControl1
 			// 
 			this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Left;
-			this.tabControl1.Controls.Add(this.middleTabPage);
 			this.tabControl1.Controls.Add(this.lightTabPage);
+			this.tabControl1.Controls.Add(this.centerTabPage);
 			this.tabControl1.Controls.Add(this.keyTabPage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tabControl1.ItemSize = new System.Drawing.Size(300, 60);
@@ -2753,8 +2755,8 @@ namespace OtherTools
 			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
 			this.lightGroupBox.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
-			this.middleTabPage.ResumeLayout(false);
-			this.middleTabPage.PerformLayout();
+			this.centerTabPage.ResumeLayout(false);
+			this.centerTabPage.PerformLayout();
 			this.ccStatusStrip.ResumeLayout(false);
 			this.ccStatusStrip.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
@@ -2833,7 +2835,7 @@ namespace OtherTools
 		private Button lcDownloadButton;
 		private Button lcLoadButton;
 		private Button lcSaveButton;
-		private Button button6;
+		private Button lcReadButton;
 		private GroupBox groupBox2;
 		private RadioButton lightModeQHRadioButton;
 		private RadioButton lightModeDJRadioButton;
@@ -2882,7 +2884,7 @@ namespace OtherTools
 		private SkinButton lightButton22;
 		private SkinButton lightButton23;
 		private SkinButton lightButton24;
-		private TabPage middleTabPage;
+		private TabPage centerTabPage;
 		private Button loadProtocolButton;
 		private TextBox ccSearchTextBox;
 		private RichTextBox decodeRichTextBox;

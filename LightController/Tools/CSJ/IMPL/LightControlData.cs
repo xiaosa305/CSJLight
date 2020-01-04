@@ -53,7 +53,7 @@ namespace LightController.Tools.CSJ.IMPL
             {
                 for (int j = 0; j < 12; j++)
                 {
-                    data.SceneData[i, j] = false;
+                    data.SceneData[i, j] = j%2 == 0 ;
                 }
             }
             return data;

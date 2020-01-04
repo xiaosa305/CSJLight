@@ -16,8 +16,7 @@ using NPOI;
 using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using LightController.Entity;
-
-
+using LightController.PeripheralDevice;
 
 namespace OtherTools
 {
@@ -39,6 +38,10 @@ namespace OtherTools
 		public OtherToolsForm()
 		{
 			InitializeComponent();
+
+			// 设false可在其他文件中修改本类的UI
+			Control.CheckForIllegalCrossThreadCalls = false;
+
 
 			//MARK : 设置双缓存：网上说可以解决闪烁的问题，写在构造函数中 -->实测无效
 			//SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
@@ -237,7 +240,7 @@ namespace OtherTools
 		{
 			cfgPath = cfgOpenFileDialog.FileName;
 			loadLCParam(cfgPath);
-			enableLCInit();
+			//ReadCompleted(lcData);
 		}
 
 		/// <summary>
@@ -258,6 +261,15 @@ namespace OtherTools
 		{
 			IList<string> paramList = getParamListFromPath(cfgPath);
 			lcData = new LightControlData(paramList);
+
+			ComReadCompleted(lcData);
+
+			//setLcData();	
+
+			//lcToolStripStatusLabel2.Text = " 成功加载配置文件：" + cfgPath;
+		}
+
+		private void setLcData() {
 
 			switch (lcData.LightMode)
 			{
@@ -286,7 +298,6 @@ namespace OtherTools
 				{
 					lightButtons[relayIndex].Visible = true;
 				}
-
 				//foreach (ComboBox cb in fanChannelComboBoxes) {
 				//	cb.SelectedIndexChanged += new System.EventHandler(this.fanChannelComboBoxes_SelectedIndexChanged);
 				//	for (int i = 0; i < lcData.RelayCount; i++)
@@ -294,38 +305,38 @@ namespace OtherTools
 				//		cb.Items.Add("灯光" + (i + 1));
 				//	}	
 				//}
+
+				// 设置空调或排风占用的通道序号
+				//setFanChannel(airModeEnum.FAN, lcData.FanChannel);
+				//setFanChannel(airModeEnum.HIGH, lcData.HighFanChannel);
+				//setFanChannel(airModeEnum.MID, lcData.MiddleFanChannel);
+				//setFanChannel(airModeEnum.LOW, lcData.LowFanChannel);
+				//setFanChannel(airModeEnum.FOPEN, lcData.OpenAirConditionChannel);
+				//setFanChannel(airModeEnum.FCLOSE, lcData.CloseAirConditionChannel);
 			}
 
-			if (lcData.DmxCount == 0)
-			{
-				tgGroupBox.Enabled = false;
-			}
-			else
-			{
-				tgGroupBox.Visible = true;
+			//if (lcData.DmxCount == 0)
+			//{
+			//	tgGroupBox.Enabled = false;
+			//}
+			//else
+			//{
+			//	tgGroupBox.Visible = true;
 
-				foreach (Panel pn in tgPanels)
-				{
-					pn.Visible = false;
-				}
-				for (int dmxIndex = 0; dmxIndex < lcData.DmxCount; dmxIndex++)
-				{
-					tgPanels[dmxIndex].Visible = true;
-				}
-			}
+			//	foreach (Panel pn in tgPanels)
+			//	{
+			//		pn.Visible = false;
+			//	}
+			//	for (int dmxIndex = 0; dmxIndex < lcData.DmxCount; dmxIndex++)
+			//	{
+			//		tgPanels[dmxIndex].Visible = true;
+			//	}
+			//}
 
-			enableAirCondition();
-			enableFan();
+			//enableAirCondition();
+			//enableFan();
 
-			// 设置空调或排风占用的通道序号
-			//setFanChannel(airModeEnum.FAN, lcData.FanChannel);
-			//setFanChannel(airModeEnum.HIGH, lcData.HighFanChannel);
-			//setFanChannel(airModeEnum.MID, lcData.MiddleFanChannel);
-			//setFanChannel(airModeEnum.LOW, lcData.LowFanChannel);
-			//setFanChannel(airModeEnum.FOPEN, lcData.OpenAirConditionChannel);
-			//setFanChannel(airModeEnum.FCLOSE, lcData.CloseAirConditionChannel);
-
-			lcToolStripStatusLabel2.Text = " 成功加载配置文件：" + cfgPath;
+			enableLCInit();
 		}
 
 		private void setFanChannel(airModeEnum airMode, int fanChannel)
@@ -1104,6 +1115,7 @@ namespace OtherTools
 			refreshDeviceComboBox();			
 		}
 
+		private SerialConnect comConnect;
 		/// <summary>
 		/// 辅助方法：通过不同的isConnectByCom来刷新deviceComboBox。
 		/// </summary>
@@ -1112,8 +1124,21 @@ namespace OtherTools
 			deviceComboBox.Items.Clear();
 			if (isConnectByCom)
 			{
+				if (comConnect == null) {
+					comConnect = new SerialConnect();
+				}
 
+				List<string> comList = comConnect.GetSerialPortNames();
+				if (comList == null || comList.Count == 0)
+				{
+					//MessageBox.Show();
+					return;
+				}
 
+				foreach (string comName in comList) {
+					deviceComboBox.Items.Add(comName);
+				}
+				
 			}
 			else {
 
@@ -1138,6 +1163,61 @@ namespace OtherTools
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
 			refreshDeviceComboBox();
+		}
+
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			if (isConnectByCom)
+			{
+				//TODO 
+				if (comConnect == null) {
+					return;
+				}	
+				comConnect.OpenSerialPort(deviceComboBox.Text);
+			}
+			else {
+				
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《灯控 - 回读配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcReadButton_Click(object sender, EventArgs e)
+		{
+			if (comConnect == null)
+			{
+				return;
+			}
+
+			comConnect.LightControlConnect(ComConnectCompleted, ComConnectError);	
+
+			//ReadCompleted(LightControlData.GetTestData());
+
+		}
+
+
+		public void  ComConnectCompleted(Object obj) {
+			lcToolStripStatusLabel1.Text = "成功连接灯控("+deviceComboBox.Text+")";
+			//comConnect.LightControlRead(ReadCompleted, ReadError);
+		}
+
+		public void ComConnectError() {
+			lcToolStripStatusLabel1.Text = "连接灯控(" + deviceComboBox.Text + ")失败，请重试";
+		}
+
+		public void ComReadCompleted(Object lcDataTemp)
+		{
+			this.lcData = lcDataTemp as LightControlData;
+			setLcData();
+			lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+		}
+
+		public void ComReadError()
+		{
+			lcToolStripStatusLabel2.Text = "回读灯控配置失败";
 		}
 	}
 }

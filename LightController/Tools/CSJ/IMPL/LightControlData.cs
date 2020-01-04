@@ -168,18 +168,6 @@ namespace LightController.Tools.CSJ.IMPL
            
             for (int relayDataIndex = 0; relayDataIndex < RelayDataSize; relayDataIndex++)
             {
-                //if (relayDataIndex == 0)
-                //{
-                //    data.Add(0x00);
-                //    data.Add(0x0F);
-                //    data.Add(0xAA);
-                //}
-                //else
-                //{
-                //    data.Add(0x00);
-                //    data.Add(0x08);
-                //    data.Add(0x00);
-                //}
                 for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)
                 {
                     string strValue = "";

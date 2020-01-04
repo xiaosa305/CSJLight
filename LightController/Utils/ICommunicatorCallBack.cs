@@ -12,5 +12,6 @@ namespace LightController.Utils
         void Error(string deviceTag, string errorMessage);
         void UpdateProgress(string deviceTag, string fileName, int newProgress);
         void GetParam(CSJ_Hardware hardware);
+        //void LightControlRead(LightControlData data);
     }
 }

@@ -35,7 +35,7 @@ namespace LightController.Tools
                 this.IsSearchDevice = false;
                 this.SetDefaultSerialPort();
                 this.RxBuff = new List<byte>();
-                this.PackageSize = Constant.PACKAGE_SIZE_DEFAULT;
+                this.PackageSize = 512;
                 this.Addr = Constant.UDPADDR;
                 this.ResendCount = 0;
                 this.TimeOutThread = new Thread(new ThreadStart(this.TimeOut))
@@ -77,39 +77,7 @@ namespace LightController.Tools
         {
             try
             {
-            string[] ports = SerialPort.GetPortNames();
-            //bool flag;
-            //List<string> dmx512names = new List<string>();
-            //List<string> result = new List<string>();
-            //UInt32 deviceCount = 0;
-            //FTDI.FT_STATUS status = FTDI.FT_STATUS.FT_OK;
-            //FTDI dmx512Device = new FTDI();
-            //status = dmx512Device.GetNumberOfDevices(ref deviceCount);
-            //    if (status == FTDI.FT_STATUS.FT_OK)
-            //    {
-            //        if (deviceCount > 0)
-            //        {
-            //            FTDI.FT_DEVICE_INFO_NODE[] deviceList = new FTDI.FT_DEVICE_INFO_NODE[deviceCount];
-            //            status = dmx512Device.GetDeviceList(deviceList);
-            //            if (status == FTDI.FT_STATUS.FT_OK)
-            //            {
-            //                for (int i = 0; i < deviceList.Length; i++)
-            //                {
-            //                    status = dmx512Device.OpenBySerialNumber(deviceList[i].SerialNumber);
-            //                    if (status == FTDI.FT_STATUS.FT_OK)
-            //                    {
-            //                        string portName;
-            //                        dmx512Device.GetCOMPort(out portName);
-            //                        if (portName != null && portName != "")
-            //                        {
-            //                            dmx512names.Add(portName);
-            //                            dmx512Device.Close();
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
+                string[] ports = SerialPort.GetPortNames();
                 return ports;
             }
             catch (Exception ex)
@@ -229,7 +197,7 @@ namespace LightController.Tools
                     if (this.RxBuff.Count == Constant.PACKAGEHEAD_SIZE)
                     {
                         for (int i = 0; i < Constant.PACKAGEHEAD_SIZE; i++)
-                        {
+                        {                                                                                                                                                                                                                                                                                                                                                                                                                                                       
                             packageHead[i] = this.RxBuff[i];
                         }
                         if (packageHead[0] != Convert.ToByte(0xAA) || packageHead[1] != Convert.ToByte(0xBB) || packageHead[2] != Convert.ToByte(0x00) || packageHead[5] != Convert.ToByte(Constant.MARK_DATA_END, 2))

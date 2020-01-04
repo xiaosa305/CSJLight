@@ -24,7 +24,7 @@ namespace LightController.Tools
         {
             ReadBuff = new byte[BUFFER_SIZE];
             IsUse = false;
-            PackageSize = Constant.PACKAGE_SIZE_2K;
+            PackageSize = 512;
             Ip = "";
         }
         public void Init(Socket socket)

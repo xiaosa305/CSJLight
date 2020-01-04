@@ -1,5 +1,6 @@
 ﻿using LightController.Ast;
 using LightController.MyForm;
+using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using System;
@@ -23,50 +24,97 @@ namespace LightController.Tools
         private ValueDAO ValueDAO { get; set; }
         private string ConfigPath { get; set; }
         private MainFormInterface MainForm { get; set; }
+        private static SerialConnect SerialConnect { get; set; }
         public Test(DBWrapper dBWrapper, MainFormInterface mainForm, string configPath)
         {
             this.DBWrapper = dBWrapper;
             this.MainForm = mainForm;
             this.ConfigPath = configPath;
             DataConvertUtils.InitThreadPool();
+            if (SerialConnect == null)
+            {
+                SerialConnect = new SerialConnect();
+                Console.WriteLine("new了一个Test");
+            }
         }
         public void Start(int index)
         {
-            string[] ports = SerialPortTools.GetInstance().GetSerialPortNameList();
             switch (index)
             {
                 case 1:
-                    PlayTools.GetInstance().TestOpen();
+                    //SerialPortTools.GetInstance().OpenCom("COM15");
+                    SerialConnect.OpenSerialPort("COM16");
+                    //SerialConnect.OpenSerialPort("COM15");
                     break;
                 case 2:
-                    PlayTools.GetInstance().SetTest();
+                    //SerialPortTools.GetInstance().NewLightControlConnect(new CallbackTest());
+                    SerialConnect.LightControlConnect(LCCCompleted, LCCError);
                     break;
                 case 3:
+                    //SerialPortTools.GetInstance().NewLightControlRead(new CallbackTest());
+                    SerialConnect.LightControlRead(LCRCompleted, LCRError);
                     break;
                 case 4:
+                    //SerialPortTools.GetInstance().NewLightControlDownload(LightControlData.GetTestData(), new CallbackTest());
+                    SerialConnect.LightControlDownload(LightControlData.GetTestData(), LCDCompleted, LCDError);
+                    //LightControlData.GetTestData().GetData();
+                    //SerialConnect.LightControlDebug(new byte[] {0x00, 0x00 }, LCDDebugError);
                     break;
                 default:
                     break;
             }
         }
-
-        private class aaa : ISaveProjectCallBack
+        private void LCCCompleted(Object obj)
         {
-            public void Completed()
-            {
-            }
-
-            public void Error()
-            {
-
-            }
-
-            public void UpdateProgress(string name)
-            {
-            }
+            Console.WriteLine("设备链接成功，下一步进行读取配置信息");
+            //SerialConnect.LightControlRead(LCRCompleted,LCRError);
+        }
+        private void LCCError()
+        {
+            Console.WriteLine("链接设备失败");
+        }
+        private void LCRCompleted(Object obj)
+        {
+            Console.WriteLine("设备读取配置信息成功");
+            LightControlData data = obj as LightControlData;
+        }
+        private void LCRError()
+        {
+            Console.WriteLine("设备读取配置失败");
+        }
+        private void LCDCompleted(Object obj)
+        {
+            Console.WriteLine("设备下载配置信息成功");
+        }
+        private void LCDError()
+        {
+            Console.WriteLine("设备下载配置信息失败");
         }
 
-        private Test(DBWrapper wrapper)
+        private void LCDDebugError()
+        {
+            Console.WriteLine("设备调试失败");
+        }
+    }
+
+    class CallbackTest : ICommunicatorCallBack
+    {
+        public void Completed(string deviceTag)
+        {
+            Console.WriteLine("完成");
+        }
+
+        public void Error(string deviceTag, string errorMessage)
+        {
+            Console.WriteLine("失败");
+        }
+
+        public void GetParam(CSJ_Hardware hardware)
+        {
+
+        }
+
+        public void UpdateProgress(string deviceTag, string fileName, int newProgress)
         {
 
         }

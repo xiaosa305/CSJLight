@@ -1199,8 +1199,7 @@ namespace OtherTools
 
 		private void zwjTestButton_Click(object sender, EventArgs e)
 		{
-			
-			
+			ccEntity.GetData();			
 		}
 	}
 }

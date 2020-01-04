@@ -28,12 +28,82 @@ namespace LightController.Tools.CSJ.IMPL
 		public int PlaceHolder2 { get; set; }//Address15-预留
 		public bool[,] SceneData { get; set; }//Address16~15 + (17 * ((RelayCount - 1) / 8 + 1))  : 1true 0 false
         public int[] DmxData { get; set; }//Address16
-        public byte[] Crc { get; set; }//CRC校验2个字节
+
+        public static LightControlData GetTestData()
+        {
+            LightControlData data = new LightControlData();
+            data.RelayCount = 12;
+            data.DmxCount = 0;
+            data.RelayDataSize = 2;
+            data.IsOpenFan = false;
+            data.AirControlSwitch = 2;
+            data.IsOpenAirCondition = false;
+            data.LightProtocol = 0;
+            data.LightMode = 1;
+            data.FanChannel = 6;
+            data.HighFanChannel = 9;
+            data.MiddleFanChannel = 8;
+            data.LowFanChannel = 7;
+            data.OpenAirConditionChannel = 10;
+            data.CloseAirConditionChannel = 11;
+            data.PlaceHolder1 = 0;
+            data.PlaceHolder2 = 0;
+            data.SceneData = new bool[17, 12];
+            for (int i = 0; i < 17; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    data.SceneData[i, j] = false;
+                }
+            }
+            return data;
+        }
 
         public LightControlData()
         {
 				
 		}
+
+        public LightControlData(List<byte> data)
+        {
+            RelayCount = Convert.ToInt16(data[0]);//0
+            DmxCount = Convert.ToInt16(data[1]);//1
+            RelayDataSize = Convert.ToInt16(data[2]);//2
+            IsOpenFan = Convert.ToInt16(data[3]) == 1;//3
+            AirControlSwitch = Convert.ToInt16(data[4]);//4
+            IsOpenAirCondition = Convert.ToInt16(data[5]) == 1;//5
+            LightProtocol = Convert.ToInt16(data[6]);//6
+            LightMode = Convert.ToInt16(data[7]);//7
+            FanChannel = Convert.ToInt16(data[8]);//8
+            HighFanChannel = Convert.ToInt16(data[9]);//9
+            MiddleFanChannel = Convert.ToInt16(data[10]);//10
+            LowFanChannel = Convert.ToInt16(data[11]);//11
+            OpenAirConditionChannel = Convert.ToInt16(data[12]);//12
+            CloseAirConditionChannel = Convert.ToInt16(data[13]);//13
+            PlaceHolder1 = Convert.ToInt16(data[14]);//14
+            PlaceHolder2 = Convert.ToInt16(data[15]);//15
+            SceneData = new bool[17, RelayCount];
+            for (int frameIndex = 0; frameIndex < 17; frameIndex++)
+            {
+                for (int dataIndex = 0; dataIndex < RelayDataSize; dataIndex++)
+                {
+                    byte value = data[16 + 17 * dataIndex + frameIndex];
+                    string valueStr = StringHelper.ReverseString(StringHelper.DecimalStringToBitBinary(Convert.ToInt16(value).ToString(), 8));
+                    for (int i = 0; i < 8 && (dataIndex * 8 + i) < RelayCount; i++)
+                    {
+                        SceneData[frameIndex, dataIndex * 8 + i] = valueStr[i].Equals('1');
+                    }
+                }
+            }
+            if (DmxCount != 0)
+            {
+                DmxData = new int[DmxCount];
+                for (int i = 0; i < DmxCount; i++)
+                {
+                    DmxData[i] = data[15 + 17 * RelayDataSize + i];
+                }
+            }
+        }
 
         public LightControlData(IList<string> data)
         {
@@ -78,9 +148,9 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(RelayCount));//0
             data.Add(Convert.ToByte(DmxCount));//1
             data.Add(Convert.ToByte(RelayDataSize));//2
-            data.Add(Convert.ToByte(IsOpenFan ? 0 : 1));//3
+            data.Add(Convert.ToByte(IsOpenFan ? 1 : 0));//3
             data.Add(Convert.ToByte(AirControlSwitch));//4
-            data.Add(Convert.ToByte(IsOpenAirCondition ? 0 : 1));//5
+            data.Add(Convert.ToByte(IsOpenAirCondition ? 1 : 0));//5
             data.Add(Convert.ToByte(LightProtocol));//6
             data.Add(Convert.ToByte(LightMode));//7
             data.Add(Convert.ToByte(FanChannel));//8
@@ -91,26 +161,59 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(CloseAirConditionChannel));//13
             data.Add(Convert.ToByte(PlaceHolder1));//14
             data.Add(Convert.ToByte(PlaceHolder2));//15
-            for (int i = 0; i < SceneData.Length; i++)
+            for (int relayDataIndex = 0; relayDataIndex < RelayDataSize; relayDataIndex++)
             {
-                string valueStr = "";
-                for (int j = 0; j < SceneData.Length && j < 8; j++)
+                for (int sceneIndex = 0; sceneIndex < 17; sceneIndex++)
                 {
-                    valueStr = (SceneData[i,j] ? 1 : 0) + valueStr; 
-                }
-                if (valueStr.Length < 8)
-                {
-                    for (int j = valueStr.Length; j < 8; j++)
+                    string strValue = "";
+                    for (int relayIndex = 0; relayIndex < ((RelayCount - relayDataIndex * 8) > 8 ? 8 : RelayCount - relayDataIndex * 8); relayIndex++)
                     {
-                        valueStr = "0" + valueStr;
+                        strValue = strValue + (SceneData[sceneIndex, relayDataIndex * 8 + relayIndex] ? "1" : "0");
                     }
+                    strValue = strValue.PadLeft(8, '0');
+                    data.Add(Convert.ToByte(strValue, 2));
                 }
-                int.TryParse(valueStr, out int intValue);
-                data.Add(Convert.ToByte(intValue));
             }
-            for (int i = 0; i < DmxData.Length; i++)
+            //data.Add(0x01);
+            //data.Add(0x00);
+            //data.Add(0x02);
+            //data.Add(0x04);
+            //data.Add(0x08);
+            //data.Add(0x10);
+            //data.Add(0x20);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);//0x08
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            //data.Add(0x00);
+            if (DmxData != null)
             {
-                data.Add(Convert.ToByte(DmxData[i]));
+                for (int i = 0; i < DmxData.Length; i++)
+                {
+                    data.Add(Convert.ToByte(DmxData[i]));
+                }
             }
             data.AddRange(CRCTools.GetInstance().GetLightControlCRC(data.ToArray()));
             return data.ToArray();

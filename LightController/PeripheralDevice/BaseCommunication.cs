@@ -27,9 +27,10 @@ namespace LightController.PeripheralDevice
         private string MainOrder { get; set; }//主命令
         protected bool IsAck { get; set; }//回复确认标记
         private bool IsSending { get; set; }//发送进行中标记
+        private bool IsStartCopy { get; set; }
         protected System.Timers.Timer TimeOutTimer { get; set; }//超时定时器
         private const double TIMEOUT = 4000;//超时等待时长
-        private bool ThreadStatus { get; set; }//线程状态标记
+        //private bool ThreadStatus { get; set; }//线程状态标记
         private bool IsStopThread { get; set; }//终止线程继续执行标记
         private byte[] Data { get; set; }//数据
         private int PackCount { get; set; }//通信分包总数
@@ -44,6 +45,7 @@ namespace LightController.PeripheralDevice
         {
             this.IsStopThread = false;
             this.IsSending = false;
+            this.IsStartCopy = false;
         }
         protected bool IsReceiveAck(byte[] data)
         {
@@ -111,7 +113,8 @@ namespace LightController.PeripheralDevice
         /// </summary>
         protected void SendDataCompleted()
         {
-            StartTimeOut();
+            this.StartTimeOut();
+            Console.WriteLine("发送成功");
         }
         /// <summary>
         /// 定时器执行语句
@@ -121,7 +124,6 @@ namespace LightController.PeripheralDevice
         private void SendTimeOut(object sender, ElapsedEventArgs e)
         {
             this.IsStopThread = true;
-            this.ThreadStatus = false;
             this.IsSending = false;
             Console.WriteLine("发送超时");
             this.Error_Event();
@@ -138,6 +140,7 @@ namespace LightController.PeripheralDevice
                 this.TimeOutTimer.Enabled = true;
                 this.TimeOutTimer.AutoReset = false;
             }
+            Console.WriteLine("启动超时处理定时器");
             this.TimeOutTimer.Start();
         }
         /// <summary>
@@ -180,7 +183,8 @@ namespace LightController.PeripheralDevice
                 case Constant.NEW_DEVICE_LIGHTCONTROL:
                     result = this.GetLightControlMark();
                     break;
-                default:
+                case Constant.NEW_DEVICE_CENTRALCONTROL:
+                    result = this.GetCenTralControlMark();
                     break;
             }
             return result;
@@ -196,10 +200,26 @@ namespace LightController.PeripheralDevice
             {
                 case Order.ZG:
                 case Order.RG:
-                    result = 0x01;
-                    break;
                 case Order.YG:
                 case Order.DG:
+                    result = 0x05;
+                    break;
+            }
+            return result;
+        }
+        /// <summary>
+        /// 获取中控设备操作命令对应标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetCenTralControlMark()
+        {
+            byte result = 0x00;
+            switch (this.SecondOrder)
+            {
+                case Order.LK:
+                case Order.DL:
+                case Order.CP:
+                case Order.XP:
                     result = 0x05;
                     break;
             }
@@ -237,8 +257,8 @@ namespace LightController.PeripheralDevice
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2
             packHead.Add(Convert.ToByte(this.DeviceAddr));//添加地址位
-            packHead.Add(Convert.ToByte(packData.Count & 0xF));//添加数据包长度前8位
-            packHead.Add(Convert.ToByte((packData.Count >> 8) & 0xF));//添加数据包长度后8位
+            packHead.Add(Convert.ToByte(packData.Count & 0xFF));//添加数据包长度前8位
+            packHead.Add(Convert.ToByte((packData.Count >> 8) & 0xFF));//添加数据包长度后8位
             packHead.Add(this.GetOrderMark());//添加标记位
             packHead.Add(PLACEHOLDER);//添加通信包CRC前8位占位符
             packHead.Add(PLACEHOLDER);//添加通信包CRC后8位占位符
@@ -277,8 +297,8 @@ namespace LightController.PeripheralDevice
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2
             packHead.Add(Convert.ToByte(this.DeviceAddr));//添加地址位
-            packHead.Add(Convert.ToByte(packData.Count & 0xF));//添加数据包长度前8位
-            packHead.Add(Convert.ToByte((packData.Count >> 8) & 0xF));//添加数据包长度后8位
+            packHead.Add(Convert.ToByte(packData.Count & 0xFF));//添加数据包长度前8位
+            packHead.Add(Convert.ToByte((packData.Count >> 8) & 0xFF));//添加数据包长度后8位
             packHead.Add(this.GetOrderMark());//添加标记位
             packHead.Add(PLACEHOLDER);//添加通信包CRC前8位占位符
             packHead.Add(PLACEHOLDER);//添加通信包CRC后8位占位符
@@ -315,7 +335,7 @@ namespace LightController.PeripheralDevice
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2
             packHead.Add(Convert.ToByte(this.DeviceAddr));//添加地址位
-            packHead.Add(Convert.ToByte(packData.Count & 0xF));//添加数据包长度前8位
+            packHead.Add(Convert.ToByte(packData.Count & 0xFF));//添加数据包长度前8位
             packHead.Add(Convert.ToByte((packData.Count >> 8) & 0xFF));//添加数据包长度后8位
             packHead.Add(this.GetDataMark());//添加标记位
             packHead.Add(PLACEHOLDER);//添加通信包CRC前8位占位符
@@ -326,6 +346,11 @@ namespace LightController.PeripheralDevice
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
             //TODO 与占位下载进度显示部分
+            string str = "";
+            for (int i = 0; i < pack.Count; i++)
+            {
+
+            }
             this.Send(pack.ToArray());
         }
         /// <summary>
@@ -347,7 +372,8 @@ namespace LightController.PeripheralDevice
                         if (packCRC[0] == CaluPackCRC[0] && packCRC[1] == CaluPackCRC[1])
                         {
                             List<byte> data =  ReadBuff.Skip(PACKHEADLENGTH).ToList();
-                            ReceiveManege(data);
+                            Console.WriteLine(Encoding.Default.GetString(data.ToArray()));
+                            this.ReceiveManege(data);
                             ReadBuff.Clear();
                         }
                     }
@@ -364,11 +390,13 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void ReceiveManege(List<byte> data)
         {
-            this.StopTimeOut();
             switch (MainOrder)
             {
                 case Constant.NEW_DEVICE_LIGHTCONTROL:
-                    NewDeviceLightControlReceive(data);
+                    this.NewDeviceLightControlReceive(data);
+                    break;
+                case Constant.NEW_DEVICE_CENTRALCONTROL:
+                    this.NewDeviceCentralControlReceive(data);
                     break;
                 default:
                     break;
@@ -383,16 +411,16 @@ namespace LightController.PeripheralDevice
             switch (SecondOrder)
             {
                 case Order.ZG:
-                    LightControlConnectReceive(data);
+                    this. LightControlConnectReceive(data);
                     break;
                 case Order.RG:
-                    LightControlReadReceive(data);
+                    this.LightControlReadReceive(data);
                     break;
                 case Order.DG:
-                    LightControlDownloadReceive(data);
+                    this.LightControlDownloadReceive(data);
                     break;
                 case Order.YG:
-                    LightControlDebugReceive(data);
+                    this.LightControlDebugReceive(data);
                     break;
             }
         }
@@ -402,10 +430,18 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void LightControlConnectReceive(List<byte> data)
         {
-            if (Encoding.Default.GetString(data.ToArray()).Equals("ack\r\n"))
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
+                this.StopTimeOut();
+                this.SendData();
+
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals("ack\r\n"))
+            {
+                this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null);
+
             }
         }
         /// <summary>
@@ -414,8 +450,27 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void LightControlReadReceive(List<byte> data)
         {
-            this.IsSending = false;
-            this.Completed_Event(new LightControlData(data.ToArray()));
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
+            {
+                this.StopTimeOut();
+                this.SendData();
+            }
+            else
+            {
+                byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
+                if (crcBuff[0] == data[data.Count - 2] && crcBuff[1] == data[data.Count - 1])
+                {
+                    this.StopTimeOut();
+                    this.IsSending = false;
+                    this.Completed_Event(new LightControlData(data));
+                }
+                else
+                {
+                    this.StopTimeOut();
+                    this.IsSending = false;
+                    this.Error_Event();
+                }
+            }
         }
         /// <summary>
         /// 灯控下载配置数据回复消息处理
@@ -423,7 +478,21 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void LightControlDownloadReceive(List<byte> data)
         {
-            this.IsSending = false;
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
+            {
+                this.StopTimeOut();
+                Thread.Sleep(200);
+                this.SendData();
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_ACK))
+            {
+                this.StopTimeOut();
+                this.IsAck = true;
+            }
+            else
+            {
+                Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()));
+            }
         }
         /// <summary>
         /// 灯控调试数据回复消息处理
@@ -433,6 +502,89 @@ namespace LightController.PeripheralDevice
         {
             //TODO-LightControlDebugReceive-目前暂无操作
         }
+        /// <summary>
+        /// 中控通信接收回复消息处理
+        /// </summary>
+        /// <param name="data"></param>
+        private void NewDeviceCentralControlReceive(List<byte> data)
+        {
+            switch (this.SecondOrder)
+            {
+                case Order.LK:
+                    this.CentralControlConnectReceive(data);
+                    break;
+                case Order.DL:
+                    break;
+                case Order.CP:
+                    this.CentralControlStartCopyReceive(data);
+                    break;
+                case Order.XP:
+                    break;
+            }
+        }
+        /// <summary>
+        /// 中控设备链接回复消息处理
+        /// </summary>
+        /// <param name="data"></param>
+        private void CentralControlConnectReceive(List<byte> data)
+        {
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
+            {
+                this.StopTimeOut();
+                this.SendData();
+
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals("ack\r\n"))
+            {
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Completed_Event(null);
+            }
+        }
+        /// <summary>
+        /// 中控设备开启解码回复消息处理
+        /// </summary>
+        /// <param name="data"></param>
+        private void CentralControlStartCopyReceive(List<byte> data)
+        {
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
+            {
+                this.StopTimeOut();
+                this.SendData();
+                this.IsStartCopy = true;
+                this.IsSending = false;
+            }
+            else
+            {
+                if (this.IsStartCopy)
+                {
+                    this.Completed_Event(data);
+                }
+                else
+                {
+                    this.Error_Event();
+                }
+            }
+        }
+        /// <summary>
+        /// 中控设备关闭解码回复消息处理
+        /// </summary>
+        /// <param name="data"></param>
+        private void CentralControlStopCopyReceive(List<byte> data)
+        {
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
+            {
+                this.StopTimeOut();
+                this.SendData();
+                this.IsStartCopy = false;
+                this.IsSending = false;
+                this.Completed_Event(null);
+            }
+            else
+            {
+                this.Error_Event();
+            }
+        }
         //灯控设备配置
         /// <summary>
         /// 灯控设备链接
@@ -441,11 +593,13 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
+                Console.WriteLine("开始连接灯控设备");
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                ThreadPool.QueueUserWorkItem(LightControlConnectStart, null);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(LightControlConnectStart), null);
+                this.LightControlConnectStart(null);
             }
         }
         /// <summary>
@@ -459,8 +613,6 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.ZG;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT);
                 this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, data.Length.ToString() });
-                Thread.Sleep(500);
-                this.SendData();
             }
             catch (Exception ex)
             {
@@ -475,11 +627,14 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
+                Console.WriteLine("开始读取灯控设备配置数据");
+                this.StartTimeOut();
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                ThreadPool.QueueUserWorkItem(LightControlReadStart, null);
+                //ThreadPool.QueueUserWorkItem(LightControlReadStart, null);
+                this.LightControlReadStart(null);
             }
         }
         /// <summary>
@@ -491,7 +646,7 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.RG;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_READ);
-                this.SendOrder(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ ,data.Length.ToString()});
+                this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ ,data.Length.ToString()});
             }
             catch (Exception ex)
             {
@@ -506,12 +661,13 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
+                Console.WriteLine("开始下载灯控设备配置数据");
                 this.IsSending = true;
                 this.IsStopThread = false;
-                this.ThreadStatus = true;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                ThreadPool.QueueUserWorkItem(LightControlDownloadStart, data);
+                //ThreadPool.QueueUserWorkItem(LightControlDownloadStart, data);
+                this.LightControlDownloadStart(data);
             }
         }
         /// <summary>
@@ -525,8 +681,38 @@ namespace LightController.PeripheralDevice
                 this.SecondOrder = Order.DG;
                 List<byte> data = new List<byte>();
                 data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD));
-                data.AddRange((obj as LightControlData).GetData());
-                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD,data.ToArray().Length.ToString()});
+                this.IsAck = false;
+                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
+                while (true)
+                {
+                    if (this.IsAck)
+                    {
+                        data.Clear();
+                        data.AddRange((obj as LightControlData).GetData());
+                        this.IsAck = false;
+                        this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
+                        break;
+                    }
+                    if (IsStopThread)
+                    {
+                        return;
+                    }
+                }
+                while (true)
+                {
+                    if (this.IsAck)
+                    {
+                        this.IsAck = false;
+                        this.IsSending = false;
+                        this.StopTimeOut();
+                        this.Completed_Event(null);
+                        break;
+                    }
+                    if (IsStopThread)
+                    {
+                        return;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -547,6 +733,10 @@ namespace LightController.PeripheralDevice
                 ThreadPool.QueueUserWorkItem(LightControlDebugStart, data);
             }
         }
+        /// <summary>
+        /// 灯控设备调试线程
+        /// </summary>
+        /// <param name="obj"></param>
         private void LightControlDebugStart(Object obj)
         {
             try
@@ -568,11 +758,114 @@ namespace LightController.PeripheralDevice
             }
         }
         //中控设备配置
-
+        /// <summary>
+        /// 中控设备连接
+        /// </summary>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        public void CentralControlConnect(Completed completed,Error error)
+        {
+            if (!this.IsSending)
+            {
+                Console.WriteLine("开始连接中控设备");
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(CentralControlConnectStart), null);
+                this.CentralControlConnectStart(null);
+            }
+        }
+        /// <summary>
+        /// 中控设备链接执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void CentralControlConnectStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.LK;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT);
+                this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 中控设备开启解码
+        /// </summary>
+        public void CentralControlStartCopy(Completed completed,Error error)
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(CentralControlStartCopyStart), null);
+                CentralControlStartCopyStart(null);
+            }
+        }
+        /// <summary>
+        /// 中控设备开启解码执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void CentralControlStartCopyStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.CP;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY);
+                this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 中控设备关闭解码
+        /// </summary>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        public void CentralControlStopCopy(Completed completed,Error error)
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(CentralControlStopCopyStart), null);
+                this.CentralControlStopCopyStart(null);
+            }
+        }
+        /// <summary>
+        /// 中控设备关闭解码执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void CentralControlStopCopyStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.XP;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY);
+                this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = true;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
         //墙板设备配置
     }
     enum Order
     {
-        ZG,RG,DG,YG,ZC,RC,DC
+        ZG,RG,DG,YG,ZC,RC,DC,LK,DL,CP,XP
     }
 }

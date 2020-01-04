@@ -23,7 +23,6 @@ namespace LightController.PeripheralDevice
         {
             return SerialPort.GetPortNames().ToList();
         }
-
         public void OpenSerialPort(string portName)
         {
             this.IsDeviceOpen = false;
@@ -43,7 +42,6 @@ namespace LightController.PeripheralDevice
             this.IsDeviceOpen = true;
             this.SerialPortDevice.Open();
         }
-
         private void SetSerialPort()
         {
             this.SerialPortDevice.BaudRate = this.CurrentBaudRate;
@@ -69,12 +67,10 @@ namespace LightController.PeripheralDevice
         {
             throw new NotImplementedException();
         }
-
         public override void ConnectDevice()
         {
             throw new NotImplementedException();
         }
-
         protected void ReceiveData(object sender, SerialDataReceivedEventArgs s)
         {
             while (this.IsDeviceOpen)
@@ -84,7 +80,6 @@ namespace LightController.PeripheralDevice
             }
             ReadBuff.Clear();
         }
-
         protected override void Send(byte[] data)
         {
             this.SerialPortDevice.Write(data, 0, data.Length);

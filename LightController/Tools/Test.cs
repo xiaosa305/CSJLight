@@ -56,8 +56,9 @@ namespace LightController.Tools
                     break;
                 case 4:
                     //SerialPortTools.GetInstance().NewLightControlDownload(LightControlData.GetTestData(), new CallbackTest());
-                    //SerialConnect.LightControlDownload(LightControlData.GetTestData(), LCDCompleted, LCDError);
-                    SerialConnect.LightControlDebug(new byte[] { 0xFF,0x0F }, LCDDebugError);
+                    SerialConnect.LightControlDownload(LightControlData.GetTestData(), LCDCompleted, LCDError);
+                    //LightControlData.GetTestData().GetData();
+                    //SerialConnect.LightControlDebug(new byte[] {0x00, 0x00 }, LCDDebugError);
                     break;
                 default:
                     break;
@@ -66,7 +67,7 @@ namespace LightController.Tools
         private void LCCCompleted(Object obj)
         {
             Console.WriteLine("设备链接成功，下一步进行读取配置信息");
-            SerialConnect.LightControlRead(LCRCompleted,LCRError);
+            //SerialConnect.LightControlRead(LCRCompleted,LCRError);
         }
         private void LCCError()
         {

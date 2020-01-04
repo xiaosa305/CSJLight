@@ -34,6 +34,7 @@ namespace OtherTools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OtherToolsForm));
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.zwjTestButton = new System.Windows.Forms.Button();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
@@ -221,7 +222,6 @@ namespace OtherTools
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.zwjTestButton = new System.Windows.Forms.Button();
 			this.panel2.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
 			this.kpStatusStrip.SuspendLayout();
@@ -284,6 +284,16 @@ namespace OtherTools
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(1264, 93);
 			this.panel2.TabIndex = 1;
+			// 
+			// zwjTestButton
+			// 
+			this.zwjTestButton.Location = new System.Drawing.Point(830, 17);
+			this.zwjTestButton.Name = "zwjTestButton";
+			this.zwjTestButton.Size = new System.Drawing.Size(75, 47);
+			this.zwjTestButton.TabIndex = 26;
+			this.zwjTestButton.Text = "zwjTest";
+			this.zwjTestButton.UseVisualStyleBackColor = true;
+			this.zwjTestButton.Click += new System.EventHandler(this.zwjTestButton_Click);
 			// 
 			// label8
 			// 
@@ -2687,16 +2697,6 @@ namespace OtherTools
 			// keySaveFileDialog
 			// 
 			this.keySaveFileDialog.Filter = "墙板配置文件(key)|*.key";
-			// 
-			// zwjTestButton
-			// 
-			this.zwjTestButton.Location = new System.Drawing.Point(830, 17);
-			this.zwjTestButton.Name = "zwjTestButton";
-			this.zwjTestButton.Size = new System.Drawing.Size(75, 47);
-			this.zwjTestButton.TabIndex = 26;
-			this.zwjTestButton.Text = "zwjTest";
-			this.zwjTestButton.UseVisualStyleBackColor = true;
-			this.zwjTestButton.Click += new System.EventHandler(this.zwjTestButton_Click);
 			// 
 			// OtherToolsForm
 			// 

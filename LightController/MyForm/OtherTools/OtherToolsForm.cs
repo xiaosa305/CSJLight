@@ -397,6 +397,18 @@ namespace OtherTools
 			{
 				lightButtons[relayIndex].ImageIndex = lcData.SceneData[frameIndex, relayIndex] ? 1 : 0;
 			}
+
+			//TODO 此处开始，发送相应的灯光数据
+			if (isConnectByCom && comConnect != null) {
+				byte[] data = new byte[] { 0x01,0x0a };
+				comConnect.LightControlDebug(data,ComSendError);				
+			}
+			//else if (!isConnectByCom && networkConnect != null) {
+				
+			//}
+			
+			
+
 		}
 
 
@@ -1178,14 +1190,18 @@ namespace OtherTools
 		}
 	
 		public void  ComConnectCompleted(Object obj) {
-
 			comConnect.LightControlRead(ComReadCompleted, ComReadError);
-
 		}
 
 		public void ComConnectError() {
 			lcToolStripStatusLabel1.Text = "连接灯控(" + deviceComboBox.Text + ")失败，请重试";
 		}
+
+		public void ComSendError()
+		{
+			lcToolStripStatusLabel1.Text = "灯控已离线，发送失败，请重新连接后重试";
+		}
+
 
 		public void ComReadCompleted(Object lcDataTemp)
 		{			
@@ -1199,7 +1215,7 @@ namespace OtherTools
 
 		private void zwjTestButton_Click(object sender, EventArgs e)
 		{
-			ccEntity.GetData();			
+			ccEntity.GetData();	
 		}
 	}
 }

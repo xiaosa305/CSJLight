@@ -17,12 +17,12 @@ using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using LightController.Entity;
 using LightController.PeripheralDevice;
+using System.Timers;
 
 namespace OtherTools
 {
 	public partial class OtherToolsForm : Form
 	{
-
 		private IList<Button> buttonList = new List<Button>();
 		private String cfgPath; // 灯控页打开的 灯控配置文件路径(*.cfg)
 		private LightControlData lcData; //灯控封装对象
@@ -33,15 +33,12 @@ namespace OtherTools
 		private IList<string> sheetList;
 		private string protocolXlsPath = "C:\\Controller1.xls";
 		private bool isDecoding = false; //中控是否开启解码
-		private bool isKeepLightOn = false; 
+		private bool isKeepLightOn = false;
+		private System.Timers.Timer timer;
 
 		public OtherToolsForm()
 		{
 			InitializeComponent();
-
-			// 设false可在其他文件中修改本类的UI
-			Control.CheckForIllegalCrossThreadCalls = false;
-
 
 			//MARK : 设置双缓存：网上说可以解决闪烁的问题，写在构造函数中 -->实测无效
 			//SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
@@ -105,6 +102,7 @@ namespace OtherTools
 			tabControl1.ItemSize = new Size(60, 100);
 
 			#endregion
+
 		}
 
 		private Point mouse_offset;
@@ -177,9 +175,7 @@ namespace OtherTools
 			}
 
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
-			//this.skinEngine1.Active = true;
-
-		
+			//this.skinEngine1.Active = true;		
 		}
 
 
@@ -262,81 +258,50 @@ namespace OtherTools
 			IList<string> paramList = getParamListFromPath(cfgPath);
 			lcData = new LightControlData(paramList);
 
-			ComReadCompleted(lcData);
+			setLcForm();	
 
-			//setLcData();	
-
-			//lcToolStripStatusLabel2.Text = " 成功加载配置文件：" + cfgPath;
+			lcToolStripStatusLabel2.Text = " 已加载配置文件：" + cfgPath;
 		}
 
-		private void setLcData() {
-
-			switch (lcData.LightMode)
+		private void setLcForm() {
+			try
 			{
-				case 0: lightModeDJRadioButton.Checked = true; break;
-				case 1: lightModeQHRadioButton.Checked = true; break;
-			}
-
-			switch (lcData.AirControlSwitch)
-			{
-				case 0: fjJYRadioButton.Checked = true; break;
-				case 1: fjDXFRadioButton.Checked = true; break;
-				case 2: fjSXFRadioButton.Checked = true; break;
-			}
-
-			if (lcData.RelayCount == 0)
-			{
-				lightGroupBox.Enabled = false;
-			}
-			else
-			{
-				foreach (SkinButton btn in lightButtons)
+				switch (lcData.LightMode)
 				{
-					btn.Visible = false;
+					case 0: lightModeDJRadioButton.Checked = true; break;
+					case 1: lightModeQHRadioButton.Checked = true; break;
 				}
-				for (int relayIndex = 0; relayIndex < lcData.RelayCount; relayIndex++)
+
+				switch (lcData.AirControlSwitch)
 				{
-					lightButtons[relayIndex].Visible = true;
+					case 0: fjJYRadioButton.Checked = true; break;
+					case 1: fjDXFRadioButton.Checked = true; break;
+					case 2: fjSXFRadioButton.Checked = true; break;
 				}
-				//foreach (ComboBox cb in fanChannelComboBoxes) {
-				//	cb.SelectedIndexChanged += new System.EventHandler(this.fanChannelComboBoxes_SelectedIndexChanged);
-				//	for (int i = 0; i < lcData.RelayCount; i++)
-				//	{
-				//		cb.Items.Add("灯光" + (i + 1));
-				//	}	
-				//}
 
-				// 设置空调或排风占用的通道序号
-				//setFanChannel(airModeEnum.FAN, lcData.FanChannel);
-				//setFanChannel(airModeEnum.HIGH, lcData.HighFanChannel);
-				//setFanChannel(airModeEnum.MID, lcData.MiddleFanChannel);
-				//setFanChannel(airModeEnum.LOW, lcData.LowFanChannel);
-				//setFanChannel(airModeEnum.FOPEN, lcData.OpenAirConditionChannel);
-				//setFanChannel(airModeEnum.FCLOSE, lcData.CloseAirConditionChannel);
+				if (lcData.RelayCount == 0)
+				{
+					lightGroupBox.Enabled = false;
+				}
+				else
+				{
+					foreach (SkinButton btn in lightButtons)
+					{
+						btn.Visible = false;
+					}
+					for (int relayIndex = 0; relayIndex < lcData.RelayCount; relayIndex++)
+					{
+						lightButtons[relayIndex].Visible = true;
+					}
+				}
+
+				enableLCInit();
+				enableAirCondition();
+				enableFan();
 			}
-
-			//if (lcData.DmxCount == 0)
-			//{
-			//	tgGroupBox.Enabled = false;
-			//}
-			//else
-			//{
-			//	tgGroupBox.Visible = true;
-
-			//	foreach (Panel pn in tgPanels)
-			//	{
-			//		pn.Visible = false;
-			//	}
-			//	for (int dmxIndex = 0; dmxIndex < lcData.DmxCount; dmxIndex++)
-			//	{
-			//		tgPanels[dmxIndex].Visible = true;
-			//	}
-			//}
-
-			//enableAirCondition();
-			//enableFan();
-
-			enableLCInit();
+			catch(Exception ex) {
+				Console.WriteLine(ex.Message);
+			}
 		}
 
 		private void setFanChannel(airModeEnum airMode, int fanChannel)
@@ -563,7 +528,9 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
-			
+			lcData = LightControlData.GetTestData();
+
+
 		}
 
 
@@ -593,7 +560,7 @@ namespace OtherTools
 				protocolComboBox.SelectedIndex = 0;
 				isReadXLS = true;
 				reloadProtocolListView();
-				ccToolStripStatusLabel2.Text = "成功加载xls文件：" + protocolXlsPath;
+				ccToolStripStatusLabel2.Text = "已加载xls文件：" + protocolXlsPath;
 			}
 			else
 			{
@@ -704,6 +671,9 @@ namespace OtherTools
 				MessageBox.Show("请先加载xls文件并选择协议。");
 				return;
 			}
+			
+
+
 
 		}
 
@@ -925,7 +895,7 @@ namespace OtherTools
 			}
 		
 			reloadKeypressListView(keyEntity);
-			kpToolStripStatusLabel2.Text = "成功加载配置文件：" + keyPath;
+			kpToolStripStatusLabel2.Text = "已加载配置文件：" + keyPath;
 		}
 
 		private void reloadKeypressListView(KeyEntity ke)
@@ -1171,15 +1141,18 @@ namespace OtherTools
 			{
 				//TODO 
 				if (comConnect == null) {
+					
 					return;
 				}	
 				comConnect.OpenSerialPort(deviceComboBox.Text);
+				lcToolStripStatusLabel1.Text = "已连接灯控(" + deviceComboBox.Text + ")";
 			}
 			else {
 				
 			}
 		}
 
+		
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
 		/// </summary>
@@ -1192,16 +1165,22 @@ namespace OtherTools
 				return;
 			}
 
-			comConnect.LightControlConnect(ComConnectCompleted, ComConnectError);	
+			lcData = null;
+			comConnect.LightControlConnect(ComConnectCompleted, ComConnectError);
 
-			//ReadCompleted(LightControlData.GetTestData());
+			if (lcData == null) {
+				Thread.Sleep(100);				
+				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			}
 
+			setLcForm();
+			lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 		}
-
-
+	
 		public void  ComConnectCompleted(Object obj) {
-			lcToolStripStatusLabel1.Text = "成功连接灯控("+deviceComboBox.Text+")";
-			//comConnect.LightControlRead(ReadCompleted, ReadError);
+
+			comConnect.LightControlRead(ComReadCompleted, ComReadError);
+
 		}
 
 		public void ComConnectError() {
@@ -1209,15 +1188,19 @@ namespace OtherTools
 		}
 
 		public void ComReadCompleted(Object lcDataTemp)
-		{
+		{			
 			this.lcData = lcDataTemp as LightControlData;
-			setLcData();
-			lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 		}
 
 		public void ComReadError()
 		{
 			lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+		}
+
+		private void zwjTestButton_Click(object sender, EventArgs e)
+		{
+			
+			
 		}
 	}
 }

@@ -221,6 +221,7 @@ namespace OtherTools
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.zwjTestButton = new System.Windows.Forms.Button();
 			this.panel2.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
 			this.kpStatusStrip.SuspendLayout();
@@ -266,6 +267,7 @@ namespace OtherTools
 			// 
 			this.panel2.BackColor = System.Drawing.Color.Silver;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel2.Controls.Add(this.zwjTestButton);
 			this.panel2.Controls.Add(this.label8);
 			this.panel2.Controls.Add(this.label6);
 			this.panel2.Controls.Add(this.label7);
@@ -334,6 +336,7 @@ namespace OtherTools
 			// 
 			// connectButton
 			// 
+			this.connectButton.Enabled = false;
 			this.connectButton.Location = new System.Drawing.Point(227, 44);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
@@ -2685,6 +2688,16 @@ namespace OtherTools
 			// 
 			this.keySaveFileDialog.Filter = "墙板配置文件(key)|*.key";
 			// 
+			// zwjTestButton
+			// 
+			this.zwjTestButton.Location = new System.Drawing.Point(830, 17);
+			this.zwjTestButton.Name = "zwjTestButton";
+			this.zwjTestButton.Size = new System.Drawing.Size(75, 47);
+			this.zwjTestButton.TabIndex = 26;
+			this.zwjTestButton.Text = "zwjTest";
+			this.zwjTestButton.UseVisualStyleBackColor = true;
+			this.zwjTestButton.Click += new System.EventHandler(this.zwjTestButton_Click);
+			// 
 			// OtherToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2958,6 +2971,7 @@ namespace OtherTools
 		private OpenFileDialog keyOpenFileDialog;
 		private SaveFileDialog keySaveFileDialog;
 		private CheckBox keepLightOnCheckBox;
+		private Button zwjTestButton;
 	}
 }
 

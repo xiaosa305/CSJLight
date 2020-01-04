@@ -25,15 +25,16 @@ namespace OtherTools
 	{
 
 		private IList<Button> buttonList = new List<Button>();
-		private String cfgPath;
-		private LightControlData lcData;
-		private int frameIndex = 0;
+		private String cfgPath; // 灯控页打开的 灯控配置文件路径(*.cfg)
+		private LightControlData lcData; //灯控封装对象
+		private int frameIndex = 0; // 灯控选中的场景，用以显示不同场景的灯光开启状态
 		private bool isReadLC = false;
-		private CCEntity cc;
+		private CCEntity ccEntity;
 		private HSSFWorkbook xlsWorkbook;
 		private IList<string> sheetList;
 		private string protocolXlsPath = "C:\\Controller1.xls";
-		private bool isDecoding = false;
+		private bool isDecoding = false; //中控是否开启解码
+		private bool isKeepLightOn = false; 
 
 		public OtherToolsForm()
 		{
@@ -187,8 +188,20 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lightButton_Click(object sender, EventArgs e)
 		{
+			if (!isReadLC)
+			{
+				return;
+			}
+
 			int lightIndex = MathAst.GetIndexNum(((SkinButton)sender).Name, -1);
 			setLightButtonValue(lightIndex);
+			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
+			if (isKeepLightOn) {
+				bool tempLightOnMode = lcData.SceneData[frameIndex, lightIndex];
+				for (int frameIndex = 0; frameIndex < 17; frameIndex++) {
+					lcData.SceneData[frameIndex, lightIndex] = tempLightOnMode;					
+				}
+			}
 		}
 
 		/// <summary>
@@ -201,7 +214,6 @@ namespace OtherTools
 			{
 				return;
 			}
-
 			lcData.SceneData[frameIndex, lightIndex] = !lcData.SceneData[frameIndex, lightIndex];
 			lightButtons[lightIndex].ImageIndex = lcData.SceneData[frameIndex, lightIndex] ? 1 : 0;
 		}
@@ -224,13 +236,14 @@ namespace OtherTools
 		private void cfgOpenFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
 			cfgPath = cfgOpenFileDialog.FileName;
-
 			loadLCParam(cfgPath);
-			enableInit();
-
+			enableLCInit();
 		}
 
-		private void enableInit()
+		/// <summary>
+		/// 辅助方法，当《灯控配置页》加载cfg文件后，lcTagPage的其他控件才开始可用。
+		/// </summary>
+		private void enableLCInit()
 		{
 			this.isReadLC = true;
 			this.lcSaveButton.Enabled = true;
@@ -539,16 +552,16 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
-
+			
 		}
 
 
 		/// <summary>
-		/// 辅助方法：测试按钮
+		/// 事件：点击《加载协议文件》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void bigTestButton_Click(object sender, EventArgs e)
+		private void loadProtocolButton_Click(object sender, EventArgs e)
 		{
 			using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
 			{
@@ -576,8 +589,7 @@ namespace OtherTools
 				isReadXLS = false;
 				MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
 				ccToolStripStatusLabel2.Text = "加载xls文件失败。";
-			}
-			
+			}			
 		}
 
 
@@ -640,25 +652,25 @@ namespace OtherTools
 				return;
 			}
 
-			cc = generateCC();
-			com0Label.Text = "串口0 = " + cc.Com0;
-			com1Label.Text = "串口1 = " + cc.Com1;
-			PS2Label.Text = "PS2 = " + cc.PS2;
+			ccEntity = generateCC();
+			com0Label.Text = "串口0 = " + ccEntity.Com0;
+			com1Label.Text = "串口1 = " + ccEntity.Com1;
+			PS2Label.Text = "PS2 = " + ccEntity.PS2;
 
 			protocolListView.Items.Clear();
-			for (int rowIndex = 0; rowIndex < cc.CCDataList.Count; rowIndex++)
+			for (int rowIndex = 0; rowIndex < ccEntity.CCDataList.Count; rowIndex++)
 			{
 				ListViewItem item = new ListViewItem((rowIndex + 1).ToString());
-				item.SubItems.Add(cc.CCDataList[rowIndex].Function);
-				item.SubItems.Add(cc.CCDataList[rowIndex].Code);
-				item.SubItems.Add(cc.CCDataList[rowIndex].Com0Up);
-				item.SubItems.Add(cc.CCDataList[rowIndex].Com0Down);
-				item.SubItems.Add(cc.CCDataList[rowIndex].Com1Up);
-				item.SubItems.Add(cc.CCDataList[rowIndex].Com1Down);
-				item.SubItems.Add(cc.CCDataList[rowIndex].InfraredSend);
-				item.SubItems.Add(cc.CCDataList[rowIndex].InfraredReceive);
-				item.SubItems.Add(cc.CCDataList[rowIndex].PS2Up);
-				item.SubItems.Add(cc.CCDataList[rowIndex].PS2Down);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Function);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Code);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Up);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Down);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Up);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Down);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredSend);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredReceive);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Up);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down);
 				protocolListView.Items.Add(item);
 			}
 		}
@@ -676,7 +688,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void ccDownloadButton_Click(object sender, EventArgs e)
 		{
-			if (cc == null)
+			if (ccEntity == null)
 			{
 				MessageBox.Show("请先加载xls文件并选择协议。");
 				return;
@@ -751,33 +763,42 @@ namespace OtherTools
 		}
 
 
-
+		/// <summary>
+		/// 事件：点击《中控--搜索》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ccSearchButton_Click(object sender, EventArgs e)
 		{
+			// 检查代码的顺序，会影响程序的效率
+			// 检查关键字
 			string keyword = ccSearchTextBox.Text.Trim();
 			if (keyword.Equals(""))
 			{
 				MessageBox.Show("请输入搜索关键字。");
 				return;
 			}
-			CCEntity cc = generateCC();
-			if (cc == null)
+
+			// 检查是否已载入协议
+			if (ccEntity == null)
 			{
 				MessageBox.Show("请先加载协议(cc为空)。");
 				return;
 			}
+
 			// 清空之前的选择项
 			foreach (int seletedIndex in protocolListView.SelectedIndices)
 			{
 				protocolListView.Items[seletedIndex].Selected = false;
 			}
 
-			// 由关键字搜索相应的indexList,再选中之
-			IList<int> matchIndexList = cc.SearchIndices(keyword);
+			// 由关键字搜索相应的indexList ，再遍历选中所有匹配项
+			IList<int> matchIndexList = ccEntity.SearchIndices(keyword);
 			foreach (int matchIndex in matchIndexList)
 			{
 				protocolListView.Items[matchIndex].Selected = true;
 			}
+			// 最后恢复listView的焦点
 			protocolListView.Select();
 		}
 
@@ -855,6 +876,10 @@ namespace OtherTools
 		{
 			keypressListView.View = View.LargeIcon;
 
+			//isAutoArrange = autoArrangeToolStripMenuItem.Checked;
+			keypressListView.AllowDrop = true;
+			keypressListView.AutoArrange = false;
+			//keypressListView
 
 		}
 
@@ -1050,6 +1075,69 @@ namespace OtherTools
 			{
 				e.Handled = true;
 			}
+		}
+
+
+		/// <summary>
+		/// 事件：勾选《灯控 - 常亮模式》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcKeepLightOnCheckBox_CheckedChanged(object sender, EventArgs e)
+		{			
+			isKeepLightOn = keepLightOnCheckBox.Checked;
+		}
+
+
+		private bool isConnectByCom = true;
+		/// <summary>
+		///  事件：点击《切换连接方式》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void switchButton_Click(object sender, EventArgs e)
+		{
+			isConnectByCom = !isConnectByCom;
+			switchButton.Text = isConnectByCom ? "以网络连接" : "以串口连接";
+			refreshButton.Text = isConnectByCom ? "刷新串口" : "刷新网络";
+			
+			refreshDeviceComboBox();			
+		}
+
+		/// <summary>
+		/// 辅助方法：通过不同的isConnectByCom来刷新deviceComboBox。
+		/// </summary>
+		private void refreshDeviceComboBox()
+		{
+			deviceComboBox.Items.Clear();
+			if (isConnectByCom)
+			{
+
+
+			}
+			else {
+
+
+
+			}
+
+			if (deviceComboBox.Items.Count == 0)
+			{
+				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				connectButton.Enabled = false;
+				deviceComboBox.Enabled = false;
+			}
+			else {
+				connectButton.Enabled = true;
+				deviceComboBox.Enabled = true;
+				deviceComboBox.SelectedIndex = 0;
+			}
+
+		}
+
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			refreshDeviceComboBox();
 		}
 	}
 }

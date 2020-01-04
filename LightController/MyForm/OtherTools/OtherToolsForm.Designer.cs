@@ -38,12 +38,12 @@ namespace OtherTools
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
-			this.button4 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
+			this.switchButton = new System.Windows.Forms.Button();
+			this.connectButton = new System.Windows.Forms.Button();
+			this.refreshButton = new System.Windows.Forms.Button();
 			this.skinChangeButton = new System.Windows.Forms.Button();
 			this.comboBox2 = new System.Windows.Forms.ComboBox();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.deviceComboBox = new System.Windows.Forms.ComboBox();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
 			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
@@ -74,6 +74,7 @@ namespace OtherTools
 			this.kpSaveButton = new System.Windows.Forms.Button();
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
+			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.lcStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.lcToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lcToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -171,7 +172,7 @@ namespace OtherTools
 			this.lightButton23 = new CCWin.SkinControl.SkinButton();
 			this.lightButton24 = new CCWin.SkinControl.SkinButton();
 			this.middleTabPage = new System.Windows.Forms.TabPage();
-			this.bigTestButton = new System.Windows.Forms.Button();
+			this.loadProtocolButton = new System.Windows.Forms.Button();
 			this.ccSearchTextBox = new System.Windows.Forms.TextBox();
 			this.decodeRichTextBox = new System.Windows.Forms.RichTextBox();
 			this.ps2DownTextBox = new System.Windows.Forms.TextBox();
@@ -269,12 +270,12 @@ namespace OtherTools
 			this.panel2.Controls.Add(this.label6);
 			this.panel2.Controls.Add(this.label7);
 			this.panel2.Controls.Add(this.label5);
-			this.panel2.Controls.Add(this.button4);
-			this.panel2.Controls.Add(this.button5);
-			this.panel2.Controls.Add(this.button3);
+			this.panel2.Controls.Add(this.switchButton);
+			this.panel2.Controls.Add(this.connectButton);
+			this.panel2.Controls.Add(this.refreshButton);
 			this.panel2.Controls.Add(this.skinChangeButton);
 			this.panel2.Controls.Add(this.comboBox2);
-			this.panel2.Controls.Add(this.comboBox1);
+			this.panel2.Controls.Add(this.deviceComboBox);
 			this.panel2.Controls.Add(this.skinComboBox);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
@@ -286,7 +287,7 @@ namespace OtherTools
 			// 
 			this.label8.AutoSize = true;
 			this.label8.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label8.Location = new System.Drawing.Point(426, 59);
+			this.label8.Location = new System.Drawing.Point(459, 59);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(47, 12);
 			this.label8.TabIndex = 25;
@@ -295,7 +296,7 @@ namespace OtherTools
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(355, 59);
+			this.label6.Location = new System.Drawing.Point(388, 59);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(65, 12);
 			this.label6.TabIndex = 25;
@@ -305,7 +306,7 @@ namespace OtherTools
 			// 
 			this.label7.AutoSize = true;
 			this.label7.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label7.Location = new System.Drawing.Point(426, 24);
+			this.label7.Location = new System.Drawing.Point(459, 24);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(68, 12);
 			this.label7.TabIndex = 25;
@@ -314,43 +315,43 @@ namespace OtherTools
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(355, 24);
+			this.label5.Location = new System.Drawing.Point(388, 24);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(65, 12);
 			this.label5.TabIndex = 25;
 			this.label5.Text = "设备型号：";
 			// 
-			// button4
+			// switchButton
 			// 
-			this.button4.Location = new System.Drawing.Point(11, 17);
-			this.button4.Margin = new System.Windows.Forms.Padding(2);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(91, 54);
-			this.button4.TabIndex = 24;
-			this.button4.Text = "切换连接方式";
-			this.button4.UseVisualStyleBackColor = true;
+			this.switchButton.Location = new System.Drawing.Point(11, 17);
+			this.switchButton.Margin = new System.Windows.Forms.Padding(2);
+			this.switchButton.Name = "switchButton";
+			this.switchButton.Size = new System.Drawing.Size(91, 54);
+			this.switchButton.TabIndex = 24;
+			this.switchButton.Text = "以网络连接";
+			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
-			// button5
+			// connectButton
 			// 
-			this.button5.Location = new System.Drawing.Point(219, 44);
-			this.button5.Margin = new System.Windows.Forms.Padding(2);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(91, 27);
-			this.button5.TabIndex = 23;
-			this.button5.Text = "连接设备";
-			this.button5.UseVisualStyleBackColor = true;
-			this.button5.Click += new System.EventHandler(this.skinChangeButton_Click);
+			this.connectButton.Location = new System.Drawing.Point(227, 44);
+			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
+			this.connectButton.Name = "connectButton";
+			this.connectButton.Size = new System.Drawing.Size(91, 27);
+			this.connectButton.TabIndex = 23;
+			this.connectButton.Text = "连接设备";
+			this.connectButton.UseVisualStyleBackColor = true;
 			// 
-			// button3
+			// refreshButton
 			// 
-			this.button3.Location = new System.Drawing.Point(127, 44);
-			this.button3.Margin = new System.Windows.Forms.Padding(2);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(91, 27);
-			this.button3.TabIndex = 23;
-			this.button3.Text = "刷新网络";
-			this.button3.UseVisualStyleBackColor = true;
-			this.button3.Click += new System.EventHandler(this.skinChangeButton_Click);
+			this.refreshButton.Location = new System.Drawing.Point(135, 44);
+			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(91, 27);
+			this.refreshButton.TabIndex = 23;
+			this.refreshButton.Text = "刷新串口";
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// skinChangeButton
 			// 
@@ -374,14 +375,14 @@ namespace OtherTools
 			this.comboBox2.Size = new System.Drawing.Size(92, 20);
 			this.comboBox2.TabIndex = 22;
 			// 
-			// comboBox1
+			// deviceComboBox
 			// 
-			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(127, 17);
-			this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
-			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(182, 20);
-			this.comboBox1.TabIndex = 22;
+			this.deviceComboBox.FormattingEnabled = true;
+			this.deviceComboBox.Location = new System.Drawing.Point(135, 17);
+			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceComboBox.Name = "deviceComboBox";
+			this.deviceComboBox.Size = new System.Drawing.Size(182, 20);
+			this.deviceComboBox.TabIndex = 22;
 			// 
 			// skinComboBox
 			// 
@@ -424,7 +425,7 @@ namespace OtherTools
 			// 
 			// keyTabPage
 			// 
-			this.keyTabPage.BackColor = System.Drawing.Color.AliceBlue;
+			this.keyTabPage.BackColor = System.Drawing.SystemColors.InactiveCaption;
 			this.keyTabPage.Controls.Add(this.keypressListView);
 			this.keyTabPage.Controls.Add(this.kpStatusStrip);
 			this.keyTabPage.Controls.Add(this.label25);
@@ -460,7 +461,7 @@ namespace OtherTools
 			this.keypressListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.keypressListView.HideSelection = false;
 			this.keypressListView.LargeImageList = this.lightImageList;
-			this.keypressListView.Location = new System.Drawing.Point(228, 85);
+			this.keypressListView.Location = new System.Drawing.Point(224, 85);
 			this.keypressListView.MultiSelect = false;
 			this.keypressListView.Name = "keypressListView";
 			this.keypressListView.Size = new System.Drawing.Size(722, 532);
@@ -520,7 +521,7 @@ namespace OtherTools
 			// label25
 			// 
 			this.label25.AutoSize = true;
-			this.label25.Location = new System.Drawing.Point(626, 40);
+			this.label25.Location = new System.Drawing.Point(622, 40);
 			this.label25.Name = "label25";
 			this.label25.Size = new System.Drawing.Size(47, 12);
 			this.label25.TabIndex = 6;
@@ -529,7 +530,7 @@ namespace OtherTools
 			// label24
 			// 
 			this.label24.AutoSize = true;
-			this.label24.Location = new System.Drawing.Point(441, 40);
+			this.label24.Location = new System.Drawing.Point(437, 40);
 			this.label24.Name = "label24";
 			this.label24.Size = new System.Drawing.Size(47, 12);
 			this.label24.TabIndex = 6;
@@ -537,16 +538,17 @@ namespace OtherTools
 			// 
 			// kpConnectButton
 			// 
-			this.kpConnectButton.Location = new System.Drawing.Point(56, 30);
+			this.kpConnectButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.kpConnectButton.Location = new System.Drawing.Point(57, 30);
 			this.kpConnectButton.Name = "kpConnectButton";
 			this.kpConnectButton.Size = new System.Drawing.Size(105, 40);
 			this.kpConnectButton.TabIndex = 5;
 			this.kpConnectButton.Text = "连接墙板";
-			this.kpConnectButton.UseVisualStyleBackColor = true;
+			this.kpConnectButton.UseVisualStyleBackColor = false;
 			// 
 			// kpShowIconButton
 			// 
-			this.kpShowIconButton.Location = new System.Drawing.Point(56, 297);
+			this.kpShowIconButton.Location = new System.Drawing.Point(47, 297);
 			this.kpShowIconButton.Name = "kpShowIconButton";
 			this.kpShowIconButton.Size = new System.Drawing.Size(105, 40);
 			this.kpShowIconButton.TabIndex = 5;
@@ -556,7 +558,7 @@ namespace OtherTools
 			// 
 			// kpLoadButton
 			// 
-			this.kpLoadButton.Location = new System.Drawing.Point(1017, 231);
+			this.kpLoadButton.Location = new System.Drawing.Point(1013, 231);
 			this.kpLoadButton.Name = "kpLoadButton";
 			this.kpLoadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpLoadButton.TabIndex = 5;
@@ -566,7 +568,7 @@ namespace OtherTools
 			// 
 			// kpShowListButton
 			// 
-			this.kpShowListButton.Location = new System.Drawing.Point(56, 231);
+			this.kpShowListButton.Location = new System.Drawing.Point(47, 231);
 			this.kpShowListButton.Name = "kpShowListButton";
 			this.kpShowListButton.Size = new System.Drawing.Size(105, 40);
 			this.kpShowListButton.TabIndex = 5;
@@ -577,7 +579,7 @@ namespace OtherTools
 			// kpOrderTextBox
 			// 
 			this.kpOrderTextBox.Enabled = false;
-			this.kpOrderTextBox.Location = new System.Drawing.Point(287, 36);
+			this.kpOrderTextBox.Location = new System.Drawing.Point(283, 36);
 			this.kpOrderTextBox.Name = "kpOrderTextBox";
 			this.kpOrderTextBox.Size = new System.Drawing.Size(72, 21);
 			this.kpOrderTextBox.TabIndex = 0;
@@ -585,7 +587,7 @@ namespace OtherTools
 			// 
 			// kpReadButton
 			// 
-			this.kpReadButton.Location = new System.Drawing.Point(1017, 30);
+			this.kpReadButton.Location = new System.Drawing.Point(1013, 30);
 			this.kpReadButton.Name = "kpReadButton";
 			this.kpReadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpReadButton.TabIndex = 5;
@@ -595,7 +597,7 @@ namespace OtherTools
 			// label23
 			// 
 			this.label23.AutoSize = true;
-			this.label23.Location = new System.Drawing.Point(248, 40);
+			this.label23.Location = new System.Drawing.Point(244, 40);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(29, 12);
 			this.label23.TabIndex = 6;
@@ -603,7 +605,7 @@ namespace OtherTools
 			// 
 			// kpListenButton
 			// 
-			this.kpListenButton.Location = new System.Drawing.Point(1017, 96);
+			this.kpListenButton.Location = new System.Drawing.Point(1013, 96);
 			this.kpListenButton.Name = "kpListenButton";
 			this.kpListenButton.Size = new System.Drawing.Size(105, 40);
 			this.kpListenButton.TabIndex = 5;
@@ -613,7 +615,7 @@ namespace OtherTools
 			// 
 			// kpKey1TextBox
 			// 
-			this.kpKey1TextBox.Location = new System.Drawing.Point(678, 36);
+			this.kpKey1TextBox.Location = new System.Drawing.Point(674, 36);
 			this.kpKey1TextBox.Name = "kpKey1TextBox";
 			this.kpKey1TextBox.Size = new System.Drawing.Size(90, 21);
 			this.kpKey1TextBox.TabIndex = 2;
@@ -622,7 +624,7 @@ namespace OtherTools
 			// 
 			// kpEditButton
 			// 
-			this.kpEditButton.Location = new System.Drawing.Point(844, 30);
+			this.kpEditButton.Location = new System.Drawing.Point(840, 30);
 			this.kpEditButton.Name = "kpEditButton";
 			this.kpEditButton.Size = new System.Drawing.Size(90, 32);
 			this.kpEditButton.TabIndex = 5;
@@ -632,7 +634,7 @@ namespace OtherTools
 			// 
 			// kpDownloadButton
 			// 
-			this.kpDownloadButton.Location = new System.Drawing.Point(1017, 363);
+			this.kpDownloadButton.Location = new System.Drawing.Point(1013, 363);
 			this.kpDownloadButton.Name = "kpDownloadButton";
 			this.kpDownloadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpDownloadButton.TabIndex = 5;
@@ -641,7 +643,7 @@ namespace OtherTools
 			// 
 			// kpSaveButton
 			// 
-			this.kpSaveButton.Location = new System.Drawing.Point(1017, 297);
+			this.kpSaveButton.Location = new System.Drawing.Point(1013, 297);
 			this.kpSaveButton.Name = "kpSaveButton";
 			this.kpSaveButton.Size = new System.Drawing.Size(105, 40);
 			this.kpSaveButton.TabIndex = 5;
@@ -650,7 +652,7 @@ namespace OtherTools
 			// 
 			// kpKey0TextBox
 			// 
-			this.kpKey0TextBox.Location = new System.Drawing.Point(493, 36);
+			this.kpKey0TextBox.Location = new System.Drawing.Point(489, 36);
 			this.kpKey0TextBox.MaxLength = 2;
 			this.kpKey0TextBox.Name = "kpKey0TextBox";
 			this.kpKey0TextBox.Size = new System.Drawing.Size(90, 21);
@@ -661,6 +663,7 @@ namespace OtherTools
 			// lightTabPage
 			// 
 			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
+			this.lightTabPage.Controls.Add(this.keepLightOnCheckBox);
 			this.lightTabPage.Controls.Add(this.lcStatusStrip);
 			this.lightTabPage.Controls.Add(this.groupBox11);
 			this.lightTabPage.Controls.Add(this.groupBox10);
@@ -678,6 +681,17 @@ namespace OtherTools
 			this.lightTabPage.Size = new System.Drawing.Size(1196, 660);
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
+			// 
+			// keepLightOnCheckBox
+			// 
+			this.keepLightOnCheckBox.AutoSize = true;
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(232, 56);
+			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
+			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
+			this.keepLightOnCheckBox.TabIndex = 9;
+			this.keepLightOnCheckBox.Text = "常亮模式";
+			this.keepLightOnCheckBox.UseVisualStyleBackColor = true;
+			this.keepLightOnCheckBox.CheckedChanged += new System.EventHandler(this.lcKeepLightOnCheckBox_CheckedChanged);
 			// 
 			// lcStatusStrip
 			// 
@@ -709,7 +723,7 @@ namespace OtherTools
 			// 
 			this.groupBox11.Controls.Add(this.fanButton);
 			this.groupBox11.Controls.Add(this.acButton);
-			this.groupBox11.Location = new System.Drawing.Point(27, 331);
+			this.groupBox11.Location = new System.Drawing.Point(27, 332);
 			this.groupBox11.Name = "groupBox11";
 			this.groupBox11.Size = new System.Drawing.Size(135, 174);
 			this.groupBox11.TabIndex = 7;
@@ -745,7 +759,7 @@ namespace OtherTools
 			this.groupBox10.Controls.Add(this.panel9);
 			this.groupBox10.Controls.Add(this.panel8);
 			this.groupBox10.Controls.Add(this.panel3);
-			this.groupBox10.Location = new System.Drawing.Point(184, 331);
+			this.groupBox10.Location = new System.Drawing.Point(184, 332);
 			this.groupBox10.Name = "groupBox10";
 			this.groupBox10.Size = new System.Drawing.Size(366, 175);
 			this.groupBox10.TabIndex = 6;
@@ -950,7 +964,7 @@ namespace OtherTools
 			this.groupBox4.Controls.Add(this.fjGroupBox);
 			this.groupBox4.Controls.Add(this.ktwdGroupBox);
 			this.groupBox4.Controls.Add(this.lrGroupBox);
-			this.groupBox4.Location = new System.Drawing.Point(572, 331);
+			this.groupBox4.Location = new System.Drawing.Point(572, 332);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(568, 174);
 			this.groupBox4.TabIndex = 6;
@@ -1230,12 +1244,13 @@ namespace OtherTools
 			// 
 			// button6
 			// 
+			this.button6.BackColor = System.Drawing.Color.SandyBrown;
 			this.button6.Location = new System.Drawing.Point(30, 29);
 			this.button6.Name = "button6";
 			this.button6.Size = new System.Drawing.Size(75, 44);
 			this.button6.TabIndex = 4;
 			this.button6.Text = "回读配置";
-			this.button6.UseVisualStyleBackColor = true;
+			this.button6.UseVisualStyleBackColor = false;
 			// 
 			// groupBox2
 			// 
@@ -1294,7 +1309,7 @@ namespace OtherTools
 			this.tgPanel4.Controls.Add(this.numericUpDown5);
 			this.tgPanel4.Controls.Add(this.tgLabel4);
 			this.tgPanel4.Controls.Add(this.trackBar5);
-			this.tgPanel4.Location = new System.Drawing.Point(219, 26);
+			this.tgPanel4.Location = new System.Drawing.Point(219, 31);
 			this.tgPanel4.Name = "tgPanel4";
 			this.tgPanel4.Size = new System.Drawing.Size(69, 240);
 			this.tgPanel4.TabIndex = 3;
@@ -1330,7 +1345,7 @@ namespace OtherTools
 			this.tgPanel3.Controls.Add(this.numericUpDown4);
 			this.tgPanel3.Controls.Add(this.tgLabel3);
 			this.tgPanel3.Controls.Add(this.trackBar4);
-			this.tgPanel3.Location = new System.Drawing.Point(145, 26);
+			this.tgPanel3.Location = new System.Drawing.Point(145, 31);
 			this.tgPanel3.Name = "tgPanel3";
 			this.tgPanel3.Size = new System.Drawing.Size(69, 240);
 			this.tgPanel3.TabIndex = 3;
@@ -1366,7 +1381,7 @@ namespace OtherTools
 			this.tgPanel2.Controls.Add(this.numericUpDown3);
 			this.tgPanel2.Controls.Add(this.tgLabel2);
 			this.tgPanel2.Controls.Add(this.trackBar3);
-			this.tgPanel2.Location = new System.Drawing.Point(74, 26);
+			this.tgPanel2.Location = new System.Drawing.Point(74, 31);
 			this.tgPanel2.Name = "tgPanel2";
 			this.tgPanel2.Size = new System.Drawing.Size(69, 240);
 			this.tgPanel2.TabIndex = 3;
@@ -1402,7 +1417,7 @@ namespace OtherTools
 			this.tgPanel1.Controls.Add(this.numericUpDown2);
 			this.tgPanel1.Controls.Add(this.tgLabel1);
 			this.tgPanel1.Controls.Add(this.trackBar2);
-			this.tgPanel1.Location = new System.Drawing.Point(3, 26);
+			this.tgPanel1.Location = new System.Drawing.Point(3, 31);
 			this.tgPanel1.Name = "tgPanel1";
 			this.tgPanel1.Size = new System.Drawing.Size(69, 240);
 			this.tgPanel1.TabIndex = 3;
@@ -1436,7 +1451,7 @@ namespace OtherTools
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(132, 32);
+			this.label13.Location = new System.Drawing.Point(133, 34);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(71, 12);
 			this.label13.TabIndex = 2;
@@ -1465,7 +1480,7 @@ namespace OtherTools
             "场景14",
             "场景15",
             "场景16"});
-			this.qdFrameComboBox.Location = new System.Drawing.Point(129, 53);
+			this.qdFrameComboBox.Location = new System.Drawing.Point(131, 53);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
 			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
@@ -2213,7 +2228,7 @@ namespace OtherTools
 			// middleTabPage
 			// 
 			this.middleTabPage.BackColor = System.Drawing.Color.PowderBlue;
-			this.middleTabPage.Controls.Add(this.bigTestButton);
+			this.middleTabPage.Controls.Add(this.loadProtocolButton);
 			this.middleTabPage.Controls.Add(this.ccSearchTextBox);
 			this.middleTabPage.Controls.Add(this.decodeRichTextBox);
 			this.middleTabPage.Controls.Add(this.ps2DownTextBox);
@@ -2253,17 +2268,17 @@ namespace OtherTools
 			this.middleTabPage.TabIndex = 0;
 			this.middleTabPage.Text = "中控配置";
 			// 
-			// bigTestButton
+			// loadProtocolButton
 			// 
-			this.bigTestButton.BackColor = System.Drawing.Color.SandyBrown;
-			this.bigTestButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.bigTestButton.Location = new System.Drawing.Point(457, 353);
-			this.bigTestButton.Name = "bigTestButton";
-			this.bigTestButton.Size = new System.Drawing.Size(96, 30);
-			this.bigTestButton.TabIndex = 15;
-			this.bigTestButton.Text = "加载协议文件";
-			this.bigTestButton.UseVisualStyleBackColor = false;
-			this.bigTestButton.Click += new System.EventHandler(this.bigTestButton_Click);
+			this.loadProtocolButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.loadProtocolButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.loadProtocolButton.Location = new System.Drawing.Point(457, 353);
+			this.loadProtocolButton.Name = "loadProtocolButton";
+			this.loadProtocolButton.Size = new System.Drawing.Size(96, 30);
+			this.loadProtocolButton.TabIndex = 15;
+			this.loadProtocolButton.Text = "加载协议文件";
+			this.loadProtocolButton.UseVisualStyleBackColor = false;
+			this.loadProtocolButton.Click += new System.EventHandler(this.loadProtocolButton_Click);
 			// 
 			// ccSearchTextBox
 			// 
@@ -2751,12 +2766,12 @@ namespace OtherTools
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Button skinChangeButton;
 		private System.Windows.Forms.ComboBox skinComboBox;
-		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.ComboBox deviceComboBox;
 		private Sunisoft.IrisSkin.SkinEngine skinEngine1;
-		private System.Windows.Forms.Button button4;
-		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Button switchButton;
+		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.ComboBox comboBox2;
-		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button connectButton;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label8;
@@ -2868,7 +2883,7 @@ namespace OtherTools
 		private SkinButton lightButton23;
 		private SkinButton lightButton24;
 		private TabPage middleTabPage;
-		private Button bigTestButton;
+		private Button loadProtocolButton;
 		private TextBox ccSearchTextBox;
 		private RichTextBox decodeRichTextBox;
 		private TextBox ps2DownTextBox;
@@ -2940,6 +2955,7 @@ namespace OtherTools
 		private TextBox kpOrderTextBox;
 		private OpenFileDialog keyOpenFileDialog;
 		private SaveFileDialog keySaveFileDialog;
+		private CheckBox keepLightOnCheckBox;
 	}
 }
 

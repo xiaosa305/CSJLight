@@ -37,6 +37,9 @@ namespace LightController.Tools
             //    SerialConnect = new SerialConnect();
             //}
             //SerialConnect.OpenSerialPort("COM16");
+            string aa = "a5 02  04 ";
+            string[] bb = aa.Split(' ');
+            Console.WriteLine("");
         }
 
         public void Download(CCEntity entity)

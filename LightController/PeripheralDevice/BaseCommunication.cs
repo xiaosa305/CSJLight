@@ -593,6 +593,7 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
+                Thread.Sleep(100);
                 this.StopTimeOut();
                 this.IsStartCopy = true;
                 this.IsSending = false;

@@ -41,10 +41,16 @@ namespace LightController.Tools
         public void Download(CCEntity entity)
         {
             //SerialConnect.CenterControlDownload(entity,CCDCompleted,CCDError);
-            //SerialConnect.KeyPressConnect(KPCConpleted, KPCError);
-            SerialConnect.KeyPressRead(KPRCompleted, KPRError);
+            SerialConnect.KeyPressConnect(KPCConpleted, KPCError);
+            SerialConnect.SetKeyPressClickListener(KeyPressClickListener);
+            //SerialConnect.KeyPressRead(KPRCompleted, KPRError);
             //KeyEntity test = KeyEntity.GetTest();
             //SerialConnect.KeyPressDownload(test, KPDCompleted, KPDError);
+        }
+
+        private void KeyPressClickListener(Object obj)
+        {
+            List<byte> data = obj as List<byte>;
         }
 
         private void CCDCompleted(Object obj)

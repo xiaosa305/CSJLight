@@ -1,5 +1,6 @@
 ﻿using LightController.Entity;
 using LightController.PeripheralDevice;
+using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,21 +32,20 @@ namespace LightController.Tools
         public void OpenSerialPort()
         {
 
-            if (SerialConnect == null)
-            {
-                SerialConnect = new SerialConnect();
-            }
-            SerialConnect.OpenSerialPort("COM16");
+            //if (SerialConnect == null)
+            //{
+            //    SerialConnect = new SerialConnect();
+            //}
+            //SerialConnect.OpenSerialPort("COM16");
+            string aa = "a5 02  04 ";
+            string[] bb = aa.Split(' ');
+            Console.WriteLine("");
         }
 
         public void Download(CCEntity entity)
         {
-            //SerialConnect.CenterControlDownload(entity,CCDCompleted,CCDError);
-            SerialConnect.KeyPressConnect(KPCConpleted, KPCError);
-            SerialConnect.SetKeyPressClickListener(KeyPressClickListener);
-            //SerialConnect.KeyPressRead(KPRCompleted, KPRError);
-            //KeyEntity test = KeyEntity.GetTest();
-            //SerialConnect.KeyPressDownload(test, KPDCompleted, KPDError);
+            LightControlData data = LightControlData.GetTestData();
+            data.WriteToFile(@"C:\Users\99729\Desktop\project\LightControl.cfg");
         }
 
         private void KeyPressClickListener(Object obj)

@@ -504,12 +504,6 @@ namespace LightController.PeripheralDevice
                     this.IsSending = false;
                     this.Completed_Event(new LightControlData(data));
                 }
-                else
-                {
-                    this.StopTimeOut();
-                    this.IsSending = false;
-                    this.Error_Event();
-                }
             }
         }
         /// <summary>
@@ -593,6 +587,7 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
+                Thread.Sleep(100);
                 this.StopTimeOut();
                 this.IsStartCopy = true;
                 this.IsSending = false;
@@ -619,6 +614,7 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
+                Thread.Sleep(100);
                 this.StopTimeOut();
                 this.IsStartCopy = false;
                 this.IsSending = false;
@@ -882,8 +878,9 @@ namespace LightController.PeripheralDevice
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
                 Thread.Sleep(500);
                 this.SendData();
+                Thread.Sleep(100);
                 this.IsSending = false;
-                this.TimeOutTimer.Stop();
+                this.StopTimeOut();
             }
             catch (Exception ex)
             {

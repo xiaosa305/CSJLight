@@ -18,6 +18,7 @@ using NPOI.HSSF.UserModel;
 using LightController.Entity;
 using LightController.PeripheralDevice;
 using System.Timers;
+using LightController.Tools;
 
 namespace OtherTools
 {
@@ -1199,7 +1200,9 @@ namespace OtherTools
 
 		private void zwjTestButton_Click(object sender, EventArgs e)
 		{
-			ccEntity.GetData();			
+            XiaosaTest.GetInstance().OpenSerialPort();
+            Thread.Sleep(200);
+            XiaosaTest.GetInstance().Download(ccEntity);
 		}
 	}
 }

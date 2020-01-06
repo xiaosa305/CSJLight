@@ -50,13 +50,13 @@ namespace LightController.Tools
                     Console.WriteLine();
                     break;
                 case 2:
-                    SerialConnect.CentralControlConnect(CCCCompleted,CCCError);
+                    SerialConnect.CenterControlConnect(CCCCompleted,CCCError);
                     break;
                 case 3:
-                    SerialConnect.CentralControlStartCopy(CCCpCompleted, CCCpError);
+                    SerialConnect.CenterControlStartCopy(CCCpCompleted, CCCpError);
                     break;
                 case 4:
-                    SerialConnect.CentralControlStopCopy(CCXpCompleted, CCXpError);
+                    SerialConnect.CenterControlStopCopy(CCXpCompleted, CCXpError);
                     break;
                 default:
                     break;

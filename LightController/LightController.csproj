@@ -382,6 +382,7 @@
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />
+    <Compile Include="Tools\XiaosaTest.cs" />
     <Compile Include="Utils\CSJThread.cs" />
     <Compile Include="Utils\CSJThreadManager.cs" />
     <Compile Include="Utils\DataConvertUtils.cs" />

@@ -717,7 +717,6 @@ namespace OtherTools
 				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
 			}
 
-
 			//comConnect.CentralControlConnect(  );
 
 

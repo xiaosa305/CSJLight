@@ -65,8 +65,6 @@ namespace LightController.Tools
         public const string ORDER_START_DEBUG = "StartDebug";
         public const string ORDER_END_DEBUG = "EndDebug";
         public const string ORDER_SEND_DEBUG_DATA = "SendPreviewData";
-        public const string ORDER_PASS_THROUGH_START = "Pass-Through-Start";
-        public const string ORDER_PASS_THROUGH_STOP = "Pass-Through-Stop";
         public const string MARK_ORDER_TAKE_DATA = "00000101";
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";
@@ -74,6 +72,7 @@ namespace LightController.Tools
 
         public const string NEW_DEVICE_LIGHTCONTROL = "Relay";
         public const string NEW_DEVICE_CENTRALCONTROL = "CenterControl";
+        public const string NEW_DEVICE_PASSTHROUGH = "PassThrough";
 
         public const string OLD_DEVICE_LIGHTCONTROL_READ = "rg";
         public const string OLD_DEVICE_LIGHTCONTROL_DOWNLOAD = "dg";
@@ -85,7 +84,9 @@ namespace LightController.Tools
         public const string OLD_DEVICE_CENTRALCONTROL_START_STUDY = "cp";
         public const string OLD_DEVICE_CENTRALCONTROL_STOP_STUDY = "xp";
 
-
+        public const string OLD_DEVICE_KEYPRESS_CONNECT = "zc";
+        public const string OLD_DEVICE_KEYPRESS_READ = "rc";
+        public const string OLD_DEVICE_KEYPRESS_DOWNLOAD = "dc";
 
         public const int SCENE_BOOING = 23;
         public const int SCENE_ACCLAIM = 22;

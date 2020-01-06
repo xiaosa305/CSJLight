@@ -49,20 +49,6 @@ namespace LightController.PeripheralDevice
             this.SerialPortDevice.DataBits = 8;
             this.SerialPortDevice.Parity = Parity.None;
         }
-        private void Start()
-        {
-            if (this.SerialPortDevice.IsOpen)
-            {
-                this.BeginConfig();
-            }
-        }
-        private void Stop()
-        {
-            if (this.SerialPortDevice.IsOpen)
-            {
-                this.EndConfig();
-            }
-        }
         public override void AutoSearchDevice()
         {
             throw new NotImplementedException();
@@ -73,24 +59,26 @@ namespace LightController.PeripheralDevice
         }
         protected void ReceiveData(object sender, SerialDataReceivedEventArgs s)
         {
-			try
-			{
-				while (this.IsDeviceOpen)
+            try
+            {
+                while (this.IsDeviceOpen)
                 {
                     ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
                     this.Receive();
                 }
                 ReadBuff.Clear();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("关闭串口");
-			}
-			finally
-			{
-				ReadBuff.Clear();
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("XIAOSA-ERROR：" + ex.Message);
+                Console.WriteLine("XIAOSA-ERROR：" + ex.StackTrace);
+                Console.WriteLine("关闭串口");
+            }
+            finally
+            {
+                ReadBuff.Clear();
+            }
+        }
         protected override void Send(byte[] data)
         {
             this.SerialPortDevice.Write(data, 0, data.Length);

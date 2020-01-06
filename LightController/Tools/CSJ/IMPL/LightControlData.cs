@@ -1,6 +1,7 @@
 ﻿using LightController.Common;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -182,7 +183,20 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public void WriteToFile(string filepath)
         {
-            throw new NotImplementedException();
+            byte[] data = this.GetData();
+            string strValue = "";
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (i == data.Length - 1)
+                {
+                    strValue = strValue + data[i].ToString();
+                }
+                else
+                {
+                    strValue = strValue + data[i].ToString() + "\r\n\n";
+                }
+            }
+            File.WriteAllText(filepath, strValue);
         }
 		public override string ToString()
 		{

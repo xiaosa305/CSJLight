@@ -21,11 +21,24 @@ namespace LightController.Entity
 
         public KeyEntity(List<byte> data)
         {
+            this.Key0Array = new string[24];
+            this.Key1Array = new string[24];
             for (int i = 0; i < 24; i++)
             {
-                Key0Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[i]).ToString(), 8);
-                Key1Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[i + 24]).ToString(), 8);
+                this.Key0Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[i]).ToString(), 2);
+                this.Key1Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[i + 24]).ToString(), 2);
             }
+        }
+
+        public static KeyEntity GetTest()
+        {
+            KeyEntity entity = new KeyEntity();
+            for (int i = 0; i < 24; i++)
+            {
+                entity.Key0Array[i] = StringHelper.DecimalStringToBitHex(i.ToString(), 2);
+                entity.Key1Array[i] = StringHelper.DecimalStringToBitHex((i + 24).ToString(), 2);
+            }
+            return entity;
         }
 
         public byte[] GetData()

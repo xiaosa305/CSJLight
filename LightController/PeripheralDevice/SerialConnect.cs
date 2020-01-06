@@ -49,20 +49,6 @@ namespace LightController.PeripheralDevice
             this.SerialPortDevice.DataBits = 8;
             this.SerialPortDevice.Parity = Parity.None;
         }
-        private void Start()
-        {
-            if (this.SerialPortDevice.IsOpen)
-            {
-                this.BeginConfig();
-            }
-        }
-        private void Stop()
-        {
-            if (this.SerialPortDevice.IsOpen)
-            {
-                this.EndConfig();
-            }
-        }
         public override void AutoSearchDevice()
         {
             throw new NotImplementedException();
@@ -84,6 +70,8 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
+                Console.WriteLine("XIAOSA-ERROR：" + ex.Message);
+                Console.WriteLine("XIAOSA-ERROR：" + ex.StackTrace);
                 Console.WriteLine("关闭串口");
             }
             finally

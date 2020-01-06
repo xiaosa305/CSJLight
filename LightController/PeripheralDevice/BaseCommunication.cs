@@ -42,9 +42,9 @@ namespace LightController.PeripheralDevice
         public delegate void Completed(Object obj);
         public delegate void Error();
         public delegate void KeyPressClick(Object obj);
-        public event Completed Completed_Event;
-        public event Error Error_Event;
-        public event KeyPressClick KeyPressClick_Event;
+        private event Completed Completed_Event;
+        private event Error Error_Event;
+        private event KeyPressClick KeyPressClick_Event;
         //初始化
         protected void Init()
         {
@@ -151,6 +151,9 @@ namespace LightController.PeripheralDevice
                 case Constant.NEW_DEVICE_CENTRALCONTROL:
                     result = this.GetCenTralControlMark();
                     break;
+                case Constant.NEW_DEVICE_PASSTHROUGH:
+                    result = this.GetPassThroughMark();
+                    break;
             }
             return result;
         }
@@ -181,6 +184,31 @@ namespace LightController.PeripheralDevice
             byte result = 0x00;
             switch (this.SecondOrder)
             {
+                case Order.LK:
+                case Order.DK:
+                case Order.CP:
+                case Order.XP:
+                    result = 0x05;
+                    break;
+            }
+            return result;
+        }
+        /// <summary>
+        /// 获取透传模式操作命令对应标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetPassThroughMark()
+        {
+            byte result = 0x00;
+            switch (SecondOrder)
+            {
+                case Order.ZG:
+                case Order.RG:
+                case Order.DG:
+                case Order.YG:
+                case Order.ZC:
+                case Order.RC:
+                case Order.DC:
                 case Order.LK:
                 case Order.DK:
                 case Order.CP:

@@ -977,50 +977,6 @@ namespace LightController.Tools.CSJ
                 }
             }
         }
-
-
-        /// <summary>
-        /// 启动旧设备兼容透传模式
-        /// </summary>
-        /// <param name="callBack"></param>
-        public void StartPassThrough(ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    this.SendData(null, Constant.ORDER_PASS_THROUGH_START, null);
-                }
-            }
-            catch (Exception ex)
-            {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
-            }
-        }
-        /// <summary>
-        /// 关闭旧设备兼容模式
-        /// </summary>
-        /// <param name="callBack"></param>
-        public void StopPassThrough(ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    this.SendData(null, Constant.ORDER_PASS_THROUGH_STOP, null);
-                }
-            }
-            catch (Exception ex)
-            {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
-            }
-        }
         /// <summary>
         /// 910灯控设备链接
         /// </summary>

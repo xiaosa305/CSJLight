@@ -17,7 +17,7 @@ using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using LightController.Entity;
 using LightController.PeripheralDevice;
-using System.Timers;
+using static LightController.PeripheralDevice.BaseCommunication;
 
 namespace OtherTools
 {
@@ -37,9 +37,17 @@ namespace OtherTools
 		private bool isConnected = false;  //是否已连上设备
 		private bool isOvertime = false; //是否超时
 
+		private bool isCCConnected = false;
+		private bool isDownloading = false;
+
 		public OtherToolsForm()
 		{
 			InitializeComponent();
+
+			//MARK：添加这一句，会去掉其他线程使用本ui空间的问题。
+			//CheckForIllegalCrossThreadCalls = false;
+
+
 
 			//MARK : 设置双缓存：网上说可以解决闪烁的问题，写在构造函数中 -->实测无效
 			//SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
@@ -600,11 +608,17 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void decodeButton_Click(object sender, EventArgs e)
+		private void ccDecodeButton_Click(object sender, EventArgs e)
 		{
-			isDecoding = !isDecoding;
-			decodeButton.Text = isDecoding ? "关闭解码" : "开启解码";
-			decodeRichTextBox.Visible = isDecoding;
+			//isDecoding = !isDecoding;
+			//ccDecodeButton.Text = isDecoding ? "关闭解码" : "开启解码";
+
+			Completed comCCStartCompleted = new Completed(ComCCStartCompleted);
+			Error comCCStartError = new Error(ComCCStartError);
+			comCCStartCompleted.Invoke(comCCStartCompleted);
+			comCCStartError.Invoke();
+
+			comConnect.CenterControlStartCopy(comCCStartCompleted,comCCStartError);
 		}
 
 		/// <summary>
@@ -663,16 +677,16 @@ namespace OtherTools
 			for (int rowIndex = 0; rowIndex < ccEntity.CCDataList.Count; rowIndex++)
 			{
 				ListViewItem item = new ListViewItem((rowIndex + 1).ToString());
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Function);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Code);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Up);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Down);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Up);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Down);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredSend);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredReceive);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Up);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Function.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Code.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Up.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Down.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Up.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Down.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredSend.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredReceive.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Up.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down.Trim());
 				protocolListView.Items.Add(item);
 			}
 		}
@@ -696,31 +710,9 @@ namespace OtherTools
 				return;
 			}
 
-			lcData = null;
-			comConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
+			comConnect.CenterControlDownload(ccEntity,ComCCDownloadCompleted , ComCCDownloadError);
 
-			//TODO 多测试检查以下代码
-			isOvertime = false;
-			while (!isOvertime && lcData == null)
-			{
-				Thread.Sleep(100);
-				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
-			}
-
-			if (lcData != null)
-			{
-				setLcForm();
-				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
-			}
-			else
-			{
-				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
-			}
-
-			//comConnect.CentralControlConnect(  );
-
-
-
+			//ccToolStripStatusLabel2.Text = "成功下载中控数据。";
 		}
 
 		/// <summary>
@@ -762,25 +754,25 @@ namespace OtherTools
 
 				CCData ccData = new CCData();
 				cell = row.GetCell(0);
-				ccData.Function = (cell == null ? "" : cell.ToString());
+				ccData.Function = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(1);
-				ccData.Code = (cell == null ? "" : cell.ToString());
+				ccData.Code = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(2);
-				ccData.Com0Up = (cell == null ? "" : cell.ToString());
+				ccData.Com0Up = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(3);
-				ccData.Com0Down = (cell == null ? "" : cell.ToString());
+				ccData.Com0Down = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(4);
-				ccData.Com1Up = (cell == null ? "" : cell.ToString());
+				ccData.Com1Up = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(5);
-				ccData.Com1Down = (cell == null ? "" : cell.ToString());
+				ccData.Com1Down = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(6);
-				ccData.InfraredSend = (cell == null ? "" : cell.ToString());
+				ccData.InfraredSend = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(7);
-				ccData.InfraredReceive = (cell == null ? "" : cell.ToString());
+				ccData.InfraredReceive = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(8);
-				ccData.PS2Up = (cell == null ? "" : cell.ToString());
+				ccData.PS2Up = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(9);
-				ccData.PS2Down = (cell == null ? "" : cell.ToString());
+				ccData.PS2Down = (cell == null ? "" : cell.ToString().Trim());
 
 				cc.CCDataList.Add(ccData);
 				rowIndex++;
@@ -1182,28 +1174,28 @@ namespace OtherTools
 
 		private void connectButton_Click(object sender, EventArgs e)
 		{
-			if (isConnected)
-			{
-				connectButton.Text = "连接设备";
-				isConnected = false;
-				closeConnect();
-				return; 
-			}
+			//if (isConnected)
+			//{
+			//	connectButton.Text = "连接设备";
+			//	isConnected = false;
+			//	closeConnect();
+			//	return; 
+			//}
 
 			if (isConnectByCom)
 			{
 				if (comConnect == null) {
-					lcToolStripStatusLabel1.Text = "连接灯控失败，原因是：comConnect为null";
+					lcToolStripStatusLabel1.Text = "连接设备失败，原因是：comConnect为null";
 					return;
 				}
 
 				try
 				{
 					comConnect.OpenSerialPort(deviceComboBox.Text);
-					lcToolStripStatusLabel1.Text = "已连接灯控(" + deviceComboBox.Text + ")";
+					lcToolStripStatusLabel1.Text = "已连接设备(" + deviceComboBox.Text + ")";
 				}
 				catch (Exception ex){
-					lcToolStripStatusLabel1.Text = "连接灯控失败，原因是："+ex.Message;
+					lcToolStripStatusLabel1.Text = "连接设备失败，原因是：" + ex.Message;
 				}
 				
 			}
@@ -1228,23 +1220,33 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcReadButton_Click(object sender, EventArgs e)
 		{
-			if (!isConnected)
-			{
-				MessageBox.Show("尚未连接设备");
-				return;
-			}
+			//if (!isConnected)
+			//{
+			//	MessageBox.Show("尚未连接设备");
+			//	return;
+			//}
+
+			//Completed completedDelegate = new Completed(ComLCReadCompleted);
+			//Error errorDelegate = new Error(ComLCReadError);
+
+			//completedDelegate.Invoke(completedDelegate);
+			//errorDelegate.Invoke();
+
+			comConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
 
 			lcData = null;
-			comConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
+
 
 			//TODO 多测试检查以下代码
 			isOvertime = false;
-			while( !isOvertime && lcData == null) {
-				Thread.Sleep(100);				
+			while (!isOvertime && lcData == null)
+			{
+				Thread.Sleep(100);
 				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
 			}
 
-			if (lcData != null) {
+			if (lcData != null)
+			{
 				setLcForm();
 				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 			}
@@ -1256,12 +1258,14 @@ namespace OtherTools
 		}
 	
 		public void  ComLCConnectCompleted(Object obj) {
-			comConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
+			Console.WriteLine("OO++++++++++++++++++++++");			
+			lcToolStripStatusLabel2.Text = "已切换成灯控配置";
 		}
 
 		public void ComLCConnectError() {
-			isOvertime = true;
-			lcToolStripStatusLabel1.Text = "连接灯控(" + deviceComboBox.Text + ")失败，请重试";
+			//isOvertime = true;
+			Console.WriteLine("HH----------------------------------------");
+			lcToolStripStatusLabel2.Text = "切换灯控配置失败";
 		}
 
 		/// <summary>
@@ -1269,14 +1273,17 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCConnectCompleted(Object obj)
-		{
-			
+		{			
+			ccToolStripStatusLabel2.Text = "已切换成中控配置";
+			ccDecodeButton.Enabled = true;
+			ccDownloadButton.Enabled = true;
+
+			isCCConnected = true;	
 		}
 
 		public void ComCCConnectError()
 		{
-			isOvertime = true;
-			lcToolStripStatusLabel1.Text = "连接灯控(" + deviceComboBox.Text + ")失败，请重试";
+			isOvertime = true;			
 		}
 
 
@@ -1294,14 +1301,47 @@ namespace OtherTools
 
 		public void ComLCReadCompleted(Object lcDataTemp)
 		{			
-			this.lcData = lcDataTemp as LightControlData;
+			this.lcData = lcDataTemp as LightControlData;			
 		}
 
 		public void ComLCReadError()
 		{
-			isOvertime = true;
-			lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			isOvertime = true;			
 		}
+
+		public void ComCCDownloadCompleted(Object lcDataTemp)
+		{
+
+			ccToolStripStatusLabel2.Text = "灯控配置下载成功";
+		}
+
+		public void ComCCDownloadError()
+		{
+			ccToolStripStatusLabel2.Text = "灯控配置下载失败";
+		}
+
+		public void ComCCStartCompleted(Object obj)
+		{			
+			List<byte> byteList = obj as List<byte>;
+			if (byteList != null && byteList.Count != 0) {
+				String strTemp = "";
+				foreach (byte item in byteList)
+				{
+					strTemp += StringHelper.DecimalStringToBitHex( item.ToString(), 2) + " ";
+				}
+				Console.WriteLine(strTemp);
+				decodeRichTextBox.Text += strTemp;				
+			}
+			ccToolStripStatusLabel2.Text = "灯控解码成功";
+		}
+
+		public void ComCCStartError()
+		{
+			Console.WriteLine("灯控解码失败。");
+			ccToolStripStatusLabel2.Text = "灯控解码失败";
+		}
+
+
 
 		private void zwjTestButton_Click(object sender, EventArgs e)
 		{
@@ -1309,5 +1349,32 @@ namespace OtherTools
 		}
 
 
+		/// <summary>
+		/// 事件：点击《设置中控》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ccSetButton_Click(object sender, EventArgs e)
+		{
+			Completed completedDelegate = new Completed(ComCCConnectCompleted);
+			Error errorDelegate = new Error(ComCCConnectError);
+
+			completedDelegate.Invoke(completedDelegate);
+			errorDelegate.Invoke();
+
+			comConnect.CenterControlConnect(completedDelegate, errorDelegate);
+
+		}
+
+		// 切换到灯控连接
+		private void lcSetButton_Click(object sender, EventArgs e)
+		{
+			Completed comLCConnectCompletedDelegate = new Completed(ComLCConnectCompleted);
+			Error comLCConnectErrorDelegate = new Error(ComLCConnectError);
+			comLCConnectCompletedDelegate.Invoke(comLCConnectCompletedDelegate);
+			comLCConnectErrorDelegate.Invoke();
+
+			comConnect.LightControlConnect(comLCConnectCompletedDelegate, comLCConnectErrorDelegate);
+		}
 	}
 }

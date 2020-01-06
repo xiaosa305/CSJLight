@@ -125,6 +125,7 @@ namespace OtherTools
 			this.lcLoadButton = new System.Windows.Forms.Button();
 			this.lcSaveButton = new System.Windows.Forms.Button();
 			this.lcReadButton = new System.Windows.Forms.Button();
+			this.lcSetButton = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.lightModeQHRadioButton = new System.Windows.Forms.RadioButton();
 			this.lightModeDJRadioButton = new System.Windows.Forms.RadioButton();
@@ -187,8 +188,9 @@ namespace OtherTools
 			this.com0UpTextBox = new System.Windows.Forms.TextBox();
 			this.functionTextBox = new System.Windows.Forms.TextBox();
 			this.ccDownloadButton = new System.Windows.Forms.Button();
-			this.clearDecodeButton = new System.Windows.Forms.Button();
-			this.decodeButton = new System.Windows.Forms.Button();
+			this.ccClearDecodeButton = new System.Windows.Forms.Button();
+			this.ccDecodeButton = new System.Windows.Forms.Button();
+			this.ccSettButton = new System.Windows.Forms.Button();
 			this.protocolEditButton = new System.Windows.Forms.Button();
 			this.ccSearchButton = new System.Windows.Forms.Button();
 			this.PS2Label = new System.Windows.Forms.Label();
@@ -359,10 +361,10 @@ namespace OtherTools
 			// connectButton
 			// 
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(237, 44);
+			this.connectButton.Location = new System.Drawing.Point(232, 44);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(80, 27);
+			this.connectButton.Size = new System.Drawing.Size(85, 27);
 			this.connectButton.TabIndex = 23;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = true;
@@ -373,7 +375,7 @@ namespace OtherTools
 			this.refreshButton.Location = new System.Drawing.Point(135, 44);
 			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(80, 27);
+			this.refreshButton.Size = new System.Drawing.Size(85, 27);
 			this.refreshButton.TabIndex = 23;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
@@ -695,7 +697,7 @@ namespace OtherTools
 			this.lightTabPage.Controls.Add(this.groupBox10);
 			this.lightTabPage.Controls.Add(this.groupBox4);
 			this.lightTabPage.Controls.Add(this.groupBox3);
-			this.lightTabPage.Controls.Add(this.lcReadButton);
+			this.lightTabPage.Controls.Add(this.lcSetButton);
 			this.lightTabPage.Controls.Add(this.groupBox2);
 			this.lightTabPage.Controls.Add(this.tgGroupBox);
 			this.lightTabPage.Controls.Add(this.label13);
@@ -711,7 +713,7 @@ namespace OtherTools
 			// keepLightOnCheckBox
 			// 
 			this.keepLightOnCheckBox.AutoSize = true;
-			this.keepLightOnCheckBox.Location = new System.Drawing.Point(232, 56);
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(34, 96);
 			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
 			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.keepLightOnCheckBox.TabIndex = 9;
@@ -749,7 +751,7 @@ namespace OtherTools
 			// 
 			this.groupBox11.Controls.Add(this.fanButton);
 			this.groupBox11.Controls.Add(this.acButton);
-			this.groupBox11.Location = new System.Drawing.Point(27, 332);
+			this.groupBox11.Location = new System.Drawing.Point(30, 380);
 			this.groupBox11.Name = "groupBox11";
 			this.groupBox11.Size = new System.Drawing.Size(135, 174);
 			this.groupBox11.TabIndex = 7;
@@ -785,7 +787,7 @@ namespace OtherTools
 			this.groupBox10.Controls.Add(this.panel9);
 			this.groupBox10.Controls.Add(this.panel8);
 			this.groupBox10.Controls.Add(this.panel3);
-			this.groupBox10.Location = new System.Drawing.Point(184, 332);
+			this.groupBox10.Location = new System.Drawing.Point(187, 380);
 			this.groupBox10.Name = "groupBox10";
 			this.groupBox10.Size = new System.Drawing.Size(366, 175);
 			this.groupBox10.TabIndex = 6;
@@ -990,7 +992,7 @@ namespace OtherTools
 			this.groupBox4.Controls.Add(this.fjGroupBox);
 			this.groupBox4.Controls.Add(this.ktwdGroupBox);
 			this.groupBox4.Controls.Add(this.lrGroupBox);
-			this.groupBox4.Location = new System.Drawing.Point(572, 332);
+			this.groupBox4.Location = new System.Drawing.Point(575, 380);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(568, 174);
 			this.groupBox4.TabIndex = 6;
@@ -1230,16 +1232,17 @@ namespace OtherTools
 			this.groupBox3.Controls.Add(this.lcDownloadButton);
 			this.groupBox3.Controls.Add(this.lcLoadButton);
 			this.groupBox3.Controls.Add(this.lcSaveButton);
-			this.groupBox3.Location = new System.Drawing.Point(545, 28);
+			this.groupBox3.Controls.Add(this.lcReadButton);
+			this.groupBox3.Location = new System.Drawing.Point(482, 28);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(284, 58);
+			this.groupBox3.Size = new System.Drawing.Size(347, 58);
 			this.groupBox3.TabIndex = 5;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "系统";
 			// 
 			// lcDownloadButton
 			// 
-			this.lcDownloadButton.Location = new System.Drawing.Point(196, 18);
+			this.lcDownloadButton.Location = new System.Drawing.Point(93, 18);
 			this.lcDownloadButton.Name = "lcDownloadButton";
 			this.lcDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcDownloadButton.TabIndex = 4;
@@ -1249,7 +1252,7 @@ namespace OtherTools
 			// 
 			// lcLoadButton
 			// 
-			this.lcLoadButton.Location = new System.Drawing.Point(87, 18);
+			this.lcLoadButton.Location = new System.Drawing.Point(185, 18);
 			this.lcLoadButton.Name = "lcLoadButton";
 			this.lcLoadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcLoadButton.TabIndex = 4;
@@ -1260,7 +1263,7 @@ namespace OtherTools
 			// lcSaveButton
 			// 
 			this.lcSaveButton.Enabled = false;
-			this.lcSaveButton.Location = new System.Drawing.Point(6, 18);
+			this.lcSaveButton.Location = new System.Drawing.Point(266, 18);
 			this.lcSaveButton.Name = "lcSaveButton";
 			this.lcSaveButton.Size = new System.Drawing.Size(75, 30);
 			this.lcSaveButton.TabIndex = 4;
@@ -1270,21 +1273,31 @@ namespace OtherTools
 			// 
 			// lcReadButton
 			// 
-			this.lcReadButton.BackColor = System.Drawing.Color.SandyBrown;
-			this.lcReadButton.Enabled = false;
-			this.lcReadButton.Location = new System.Drawing.Point(30, 29);
+			this.lcReadButton.BackColor = System.Drawing.Color.Transparent;
+			this.lcReadButton.Location = new System.Drawing.Point(13, 18);
 			this.lcReadButton.Name = "lcReadButton";
-			this.lcReadButton.Size = new System.Drawing.Size(75, 44);
+			this.lcReadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcReadButton.TabIndex = 4;
 			this.lcReadButton.Text = "回读配置";
 			this.lcReadButton.UseVisualStyleBackColor = false;
 			this.lcReadButton.Click += new System.EventHandler(this.lcReadButton_Click);
 			// 
+			// lcSetButton
+			// 
+			this.lcSetButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.lcSetButton.Location = new System.Drawing.Point(29, 28);
+			this.lcSetButton.Name = "lcSetButton";
+			this.lcSetButton.Size = new System.Drawing.Size(75, 51);
+			this.lcSetButton.TabIndex = 4;
+			this.lcSetButton.Text = "连接灯控";
+			this.lcSetButton.UseVisualStyleBackColor = false;
+			this.lcSetButton.Click += new System.EventHandler(this.lcSetButton_Click);
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.lightModeQHRadioButton);
 			this.groupBox2.Controls.Add(this.lightModeDJRadioButton);
-			this.groupBox2.Location = new System.Drawing.Point(324, 28);
+			this.groupBox2.Location = new System.Drawing.Point(283, 28);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(181, 58);
 			this.groupBox2.TabIndex = 1;
@@ -1327,7 +1340,7 @@ namespace OtherTools
 			this.tgGroupBox.Controls.Add(this.tgPanel1);
 			this.tgGroupBox.Location = new System.Drawing.Point(847, 28);
 			this.tgGroupBox.Name = "tgGroupBox";
-			this.tgGroupBox.Size = new System.Drawing.Size(293, 283);
+			this.tgGroupBox.Size = new System.Drawing.Size(293, 310);
 			this.tgGroupBox.TabIndex = 3;
 			this.tgGroupBox.TabStop = false;
 			this.tgGroupBox.Text = "调光通道设置";
@@ -1337,15 +1350,15 @@ namespace OtherTools
 			this.tgPanel4.Controls.Add(this.numericUpDown5);
 			this.tgPanel4.Controls.Add(this.tgLabel4);
 			this.tgPanel4.Controls.Add(this.trackBar5);
-			this.tgPanel4.Location = new System.Drawing.Point(219, 31);
+			this.tgPanel4.Location = new System.Drawing.Point(220, 44);
 			this.tgPanel4.Name = "tgPanel4";
-			this.tgPanel4.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel4.Size = new System.Drawing.Size(69, 259);
 			this.tgPanel4.TabIndex = 3;
 			// 
 			// numericUpDown5
 			// 
 			this.numericUpDown5.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown5.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown5.Location = new System.Drawing.Point(17, 226);
 			this.numericUpDown5.Name = "numericUpDown5";
 			this.numericUpDown5.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown5.TabIndex = 5;
@@ -1364,7 +1377,7 @@ namespace OtherTools
 			this.trackBar5.Location = new System.Drawing.Point(23, 24);
 			this.trackBar5.Name = "trackBar5";
 			this.trackBar5.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar5.Size = new System.Drawing.Size(45, 179);
+			this.trackBar5.Size = new System.Drawing.Size(45, 196);
 			this.trackBar5.TabIndex = 3;
 			this.trackBar5.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
@@ -1373,15 +1386,15 @@ namespace OtherTools
 			this.tgPanel3.Controls.Add(this.numericUpDown4);
 			this.tgPanel3.Controls.Add(this.tgLabel3);
 			this.tgPanel3.Controls.Add(this.trackBar4);
-			this.tgPanel3.Location = new System.Drawing.Point(145, 31);
+			this.tgPanel3.Location = new System.Drawing.Point(146, 44);
 			this.tgPanel3.Name = "tgPanel3";
-			this.tgPanel3.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel3.Size = new System.Drawing.Size(69, 259);
 			this.tgPanel3.TabIndex = 3;
 			// 
 			// numericUpDown4
 			// 
 			this.numericUpDown4.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown4.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown4.Location = new System.Drawing.Point(17, 226);
 			this.numericUpDown4.Name = "numericUpDown4";
 			this.numericUpDown4.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown4.TabIndex = 5;
@@ -1400,7 +1413,7 @@ namespace OtherTools
 			this.trackBar4.Location = new System.Drawing.Point(23, 24);
 			this.trackBar4.Name = "trackBar4";
 			this.trackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar4.Size = new System.Drawing.Size(45, 179);
+			this.trackBar4.Size = new System.Drawing.Size(45, 196);
 			this.trackBar4.TabIndex = 3;
 			this.trackBar4.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
@@ -1409,15 +1422,15 @@ namespace OtherTools
 			this.tgPanel2.Controls.Add(this.numericUpDown3);
 			this.tgPanel2.Controls.Add(this.tgLabel2);
 			this.tgPanel2.Controls.Add(this.trackBar3);
-			this.tgPanel2.Location = new System.Drawing.Point(74, 31);
+			this.tgPanel2.Location = new System.Drawing.Point(75, 44);
 			this.tgPanel2.Name = "tgPanel2";
-			this.tgPanel2.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel2.Size = new System.Drawing.Size(69, 259);
 			this.tgPanel2.TabIndex = 3;
 			// 
 			// numericUpDown3
 			// 
 			this.numericUpDown3.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown3.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown3.Location = new System.Drawing.Point(17, 226);
 			this.numericUpDown3.Name = "numericUpDown3";
 			this.numericUpDown3.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown3.TabIndex = 5;
@@ -1436,7 +1449,7 @@ namespace OtherTools
 			this.trackBar3.Location = new System.Drawing.Point(23, 24);
 			this.trackBar3.Name = "trackBar3";
 			this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar3.Size = new System.Drawing.Size(45, 179);
+			this.trackBar3.Size = new System.Drawing.Size(45, 196);
 			this.trackBar3.TabIndex = 3;
 			this.trackBar3.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
@@ -1445,15 +1458,15 @@ namespace OtherTools
 			this.tgPanel1.Controls.Add(this.numericUpDown2);
 			this.tgPanel1.Controls.Add(this.tgLabel1);
 			this.tgPanel1.Controls.Add(this.trackBar2);
-			this.tgPanel1.Location = new System.Drawing.Point(3, 31);
+			this.tgPanel1.Location = new System.Drawing.Point(4, 44);
 			this.tgPanel1.Name = "tgPanel1";
-			this.tgPanel1.Size = new System.Drawing.Size(69, 240);
+			this.tgPanel1.Size = new System.Drawing.Size(69, 259);
 			this.tgPanel1.TabIndex = 3;
 			// 
 			// numericUpDown2
 			// 
 			this.numericUpDown2.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown2.Location = new System.Drawing.Point(17, 209);
+			this.numericUpDown2.Location = new System.Drawing.Point(17, 226);
 			this.numericUpDown2.Name = "numericUpDown2";
 			this.numericUpDown2.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown2.TabIndex = 5;
@@ -1472,14 +1485,14 @@ namespace OtherTools
 			this.trackBar2.Location = new System.Drawing.Point(23, 24);
 			this.trackBar2.Name = "trackBar2";
 			this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar2.Size = new System.Drawing.Size(45, 179);
+			this.trackBar2.Size = new System.Drawing.Size(45, 196);
 			this.trackBar2.TabIndex = 3;
 			this.trackBar2.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(133, 34);
+			this.label13.Location = new System.Drawing.Point(150, 37);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(71, 12);
 			this.label13.TabIndex = 2;
@@ -1508,7 +1521,7 @@ namespace OtherTools
             "场景14",
             "场景15",
             "场景16"});
-			this.qdFrameComboBox.Location = new System.Drawing.Point(131, 53);
+			this.qdFrameComboBox.Location = new System.Drawing.Point(146, 59);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
 			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
@@ -1518,7 +1531,7 @@ namespace OtherTools
 			// lightGroupBox
 			// 
 			this.lightGroupBox.Controls.Add(this.flowLayoutPanel1);
-			this.lightGroupBox.Location = new System.Drawing.Point(27, 100);
+			this.lightGroupBox.Location = new System.Drawing.Point(29, 130);
 			this.lightGroupBox.Name = "lightGroupBox";
 			this.lightGroupBox.Size = new System.Drawing.Size(812, 211);
 			this.lightGroupBox.TabIndex = 2;
@@ -2269,8 +2282,9 @@ namespace OtherTools
 			this.centerTabPage.Controls.Add(this.com0UpTextBox);
 			this.centerTabPage.Controls.Add(this.functionTextBox);
 			this.centerTabPage.Controls.Add(this.ccDownloadButton);
-			this.centerTabPage.Controls.Add(this.clearDecodeButton);
-			this.centerTabPage.Controls.Add(this.decodeButton);
+			this.centerTabPage.Controls.Add(this.ccClearDecodeButton);
+			this.centerTabPage.Controls.Add(this.ccDecodeButton);
+			this.centerTabPage.Controls.Add(this.ccSettButton);
 			this.centerTabPage.Controls.Add(this.protocolEditButton);
 			this.centerTabPage.Controls.Add(this.ccSearchButton);
 			this.centerTabPage.Controls.Add(this.PS2Label);
@@ -2310,7 +2324,7 @@ namespace OtherTools
 			// 
 			// ccSearchTextBox
 			// 
-			this.ccSearchTextBox.Location = new System.Drawing.Point(942, 371);
+			this.ccSearchTextBox.Location = new System.Drawing.Point(825, 362);
 			this.ccSearchTextBox.Name = "ccSearchTextBox";
 			this.ccSearchTextBox.Size = new System.Drawing.Size(100, 21);
 			this.ccSearchTextBox.TabIndex = 14;
@@ -2323,7 +2337,6 @@ namespace OtherTools
 			this.decodeRichTextBox.Size = new System.Drawing.Size(459, 186);
 			this.decodeRichTextBox.TabIndex = 13;
 			this.decodeRichTextBox.Text = "";
-			this.decodeRichTextBox.Visible = false;
 			// 
 			// ps2DownTextBox
 			// 
@@ -2399,9 +2412,10 @@ namespace OtherTools
 			// 
 			// ccDownloadButton
 			// 
-			this.ccDownloadButton.BackColor = System.Drawing.Color.DarkKhaki;
+			this.ccDownloadButton.BackColor = System.Drawing.Color.Transparent;
+			this.ccDownloadButton.Enabled = false;
 			this.ccDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDownloadButton.Location = new System.Drawing.Point(1069, 571);
+			this.ccDownloadButton.Location = new System.Drawing.Point(1069, 575);
 			this.ccDownloadButton.Name = "ccDownloadButton";
 			this.ccDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.ccDownloadButton.TabIndex = 12;
@@ -2409,32 +2423,45 @@ namespace OtherTools
 			this.ccDownloadButton.UseVisualStyleBackColor = false;
 			this.ccDownloadButton.Click += new System.EventHandler(this.ccDownloadButton_Click);
 			// 
-			// clearDecodeButton
+			// ccClearDecodeButton
 			// 
-			this.clearDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.clearDecodeButton.Location = new System.Drawing.Point(1069, 520);
-			this.clearDecodeButton.Name = "clearDecodeButton";
-			this.clearDecodeButton.Size = new System.Drawing.Size(75, 30);
-			this.clearDecodeButton.TabIndex = 12;
-			this.clearDecodeButton.Text = "清空解码";
-			this.clearDecodeButton.UseVisualStyleBackColor = true;
-			this.clearDecodeButton.Click += new System.EventHandler(this.clearDecodeButton_Click);
+			this.ccClearDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ccClearDecodeButton.Location = new System.Drawing.Point(1069, 522);
+			this.ccClearDecodeButton.Name = "ccClearDecodeButton";
+			this.ccClearDecodeButton.Size = new System.Drawing.Size(75, 30);
+			this.ccClearDecodeButton.TabIndex = 12;
+			this.ccClearDecodeButton.Text = "清空解码";
+			this.ccClearDecodeButton.UseVisualStyleBackColor = true;
+			this.ccClearDecodeButton.Click += new System.EventHandler(this.clearDecodeButton_Click);
 			// 
-			// decodeButton
+			// ccDecodeButton
 			// 
-			this.decodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.decodeButton.Location = new System.Drawing.Point(1069, 469);
-			this.decodeButton.Name = "decodeButton";
-			this.decodeButton.Size = new System.Drawing.Size(75, 30);
-			this.decodeButton.TabIndex = 12;
-			this.decodeButton.Text = "开启解码";
-			this.decodeButton.UseVisualStyleBackColor = true;
-			this.decodeButton.Click += new System.EventHandler(this.decodeButton_Click);
+			this.ccDecodeButton.Enabled = false;
+			this.ccDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ccDecodeButton.Location = new System.Drawing.Point(1069, 469);
+			this.ccDecodeButton.Name = "ccDecodeButton";
+			this.ccDecodeButton.Size = new System.Drawing.Size(75, 30);
+			this.ccDecodeButton.TabIndex = 12;
+			this.ccDecodeButton.Text = "开启解码";
+			this.ccDecodeButton.UseVisualStyleBackColor = true;
+			this.ccDecodeButton.Click += new System.EventHandler(this.ccDecodeButton_Click);
+			// 
+			// ccSettButton
+			// 
+			this.ccSettButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.ccSettButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ccSettButton.Location = new System.Drawing.Point(1069, 416);
+			this.ccSettButton.Name = "ccSettButton";
+			this.ccSettButton.Size = new System.Drawing.Size(75, 30);
+			this.ccSettButton.TabIndex = 12;
+			this.ccSettButton.Text = "连接中控";
+			this.ccSettButton.UseVisualStyleBackColor = false;
+			this.ccSettButton.Click += new System.EventHandler(this.ccSetButton_Click);
 			// 
 			// protocolEditButton
 			// 
 			this.protocolEditButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.protocolEditButton.Location = new System.Drawing.Point(1070, 418);
+			this.protocolEditButton.Location = new System.Drawing.Point(1069, 357);
 			this.protocolEditButton.Name = "protocolEditButton";
 			this.protocolEditButton.Size = new System.Drawing.Size(75, 30);
 			this.protocolEditButton.TabIndex = 12;
@@ -2445,7 +2472,7 @@ namespace OtherTools
 			// ccSearchButton
 			// 
 			this.ccSearchButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccSearchButton.Location = new System.Drawing.Point(1071, 366);
+			this.ccSearchButton.Location = new System.Drawing.Point(954, 357);
 			this.ccSearchButton.Name = "ccSearchButton";
 			this.ccSearchButton.Size = new System.Drawing.Size(75, 30);
 			this.ccSearchButton.TabIndex = 12;
@@ -2930,8 +2957,8 @@ namespace OtherTools
 		private TextBox com0UpTextBox;
 		private TextBox functionTextBox;
 		private Button ccDownloadButton;
-		private Button clearDecodeButton;
-		private Button decodeButton;
+		private Button ccClearDecodeButton;
+		private Button ccDecodeButton;
 		private Button protocolEditButton;
 		private Button ccSearchButton;
 		private Label PS2Label;
@@ -2993,6 +3020,8 @@ namespace OtherTools
 		private Button zwjTestButton;
 		private ToolTip myInfoToolTip;
 		private Panel panel1;
+		private Button ccSettButton;
+		private Button lcSetButton;
 	}
 }
 

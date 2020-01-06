@@ -1330,7 +1330,7 @@ namespace OtherTools
 					strTemp += StringHelper.DecimalStringToBitHex( item.ToString(), 2) + " ";
 				}
 				Console.WriteLine(strTemp);
-				decodeRichTextBox.Text += strTemp;				
+				//decodeRichTextBox.Text += strTemp;				
 			}
 			ccToolStripStatusLabel2.Text = "灯控解码成功";
 		}

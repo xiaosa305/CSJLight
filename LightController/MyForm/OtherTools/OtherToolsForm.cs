@@ -34,7 +34,8 @@ namespace OtherTools
 		private string protocolXlsPath = "C:\\Controller1.xls";
 		private bool isDecoding = false; //中控是否开启解码
 		private bool isKeepLightOn = false;
-		private System.Timers.Timer timer;
+		private bool isConnected = false;  //是否已连上设备
+		private bool isOvertime = false; //是否超时
 
 		public OtherToolsForm()
 		{
@@ -43,8 +44,9 @@ namespace OtherTools
 			//MARK : 设置双缓存：网上说可以解决闪烁的问题，写在构造函数中 -->实测无效
 			//SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
 
-			#region 初始化各组件			
+			#region 初始化各组件		
 
+			// 初始化强电各种配置
 			qdFrameComboBox.SelectedIndex = 0;
 
 			lightButtons[0] = lightButton1;
@@ -93,6 +95,8 @@ namespace OtherTools
 				item.SelectedIndex = 0;
 			}
 
+			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
+
 
 			// 初始化墙板配置界面的TabControl
 			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -123,9 +127,6 @@ namespace OtherTools
 			//this.button1.Text = "横坐标:" + mouse_offset.X + "纵坐标" + mouse_offset.Y;
 			//this.button2.Text = "横坐标:" + mouse_offset.X + "纵坐标" + mouse_offset.Y;
 		}
-
-
-
 
 
 		private void commonButton_Click(object sender, EventArgs e)
@@ -201,6 +202,7 @@ namespace OtherTools
 					lcData.SceneData[frameIndex, lightIndex] = tempLightOnMode;					
 				}
 			}
+			debugLC();
 		}
 
 		/// <summary>
@@ -328,8 +330,8 @@ namespace OtherTools
 		/// <param name="isOpenFan"></param>
 		private void enableFan()
 		{
-			fanChannelComboBox.Enabled = !fanChannelComboBox.Enabled;
-			lightButton7.Visible = !fanChannelComboBox.Enabled;
+			fanChannelComboBox.Enabled = lcData.IsOpenFan;
+			lightButton7.Visible = !lcData.IsOpenFan;
 			fanButton.Text = lcData.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
 		}
 
@@ -398,16 +400,24 @@ namespace OtherTools
 				lightButtons[relayIndex].ImageIndex = lcData.SceneData[frameIndex, relayIndex] ? 1 : 0;
 			}
 
+
+			debugLC();
+			
+
+		}
+
+		private void debugLC() {
 			//TODO 此处开始，发送相应的灯光数据
-			if (isConnectByCom && comConnect != null) {
-				byte[] data = new byte[] { 0x01,0x0a };
-				comConnect.LightControlDebug(data,ComSendError);				
+			if (isConnectByCom && comConnect != null)
+			{
+				byte[] tempData = lcData.GetFrameBytes(frameIndex);
+				comConnect.LightControlDebug(tempData, ComSendError);
 			}
 			//else if (!isConnectByCom && networkConnect != null) {
-				
+
 			//}
-			
-			
+
+
 
 		}
 
@@ -540,9 +550,11 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
-			lcData = LightControlData.GetTestData();
-
-
+			if (comConnect != null) {
+				Console.WriteLine(lcData);
+					
+					comConnect.LightControlDownload(lcData, ComLCConnectCompleted, ComLCConnectError);
+			}
 		}
 
 
@@ -683,7 +695,30 @@ namespace OtherTools
 				MessageBox.Show("请先加载xls文件并选择协议。");
 				return;
 			}
-			
+
+			lcData = null;
+			comConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
+
+			//TODO 多测试检查以下代码
+			isOvertime = false;
+			while (!isOvertime && lcData == null)
+			{
+				Thread.Sleep(100);
+				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			}
+
+			if (lcData != null)
+			{
+				setLcForm();
+				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+			}
+			else
+			{
+				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			}
+
+
+			//comConnect.CentralControlConnect(  );
 
 
 
@@ -1092,7 +1127,7 @@ namespace OtherTools
 		{
 			isConnectByCom = !isConnectByCom;
 			switchButton.Text = isConnectByCom ? "以网络连接" : "以串口连接";
-			refreshButton.Text = isConnectByCom ? "刷新串口" : "刷新网络";
+			refreshButton.Text = isConnectByCom ? "刷新串口" : "刷新网络";	
 			
 			refreshDeviceComboBox();			
 		}
@@ -1119,8 +1154,7 @@ namespace OtherTools
 
 				foreach (string comName in comList) {
 					deviceComboBox.Items.Add(comName);
-				}
-				
+				}				
 			}
 			else {
 
@@ -1149,22 +1183,45 @@ namespace OtherTools
 
 		private void connectButton_Click(object sender, EventArgs e)
 		{
+			if (isConnected)
+			{
+				connectButton.Text = "连接设备";
+				isConnected = false;
+				closeConnect();
+				return; 
+			}
+
 			if (isConnectByCom)
 			{
-				//TODO 
 				if (comConnect == null) {
-					
+					lcToolStripStatusLabel1.Text = "连接灯控失败，原因是：comConnect为null";
 					return;
-				}	
-				comConnect.OpenSerialPort(deviceComboBox.Text);
-				lcToolStripStatusLabel1.Text = "已连接灯控(" + deviceComboBox.Text + ")";
+				}
+
+				try
+				{
+					comConnect.OpenSerialPort(deviceComboBox.Text);
+					lcToolStripStatusLabel1.Text = "已连接灯控(" + deviceComboBox.Text + ")";
+				}
+				catch (Exception ex){
+					lcToolStripStatusLabel1.Text = "连接灯控失败，原因是："+ex.Message;
+				}
+				
 			}
 			else {
 				
 			}
 		}
 
-		
+		/// <summary>
+		/// 辅助方法：关闭连接
+		/// </summary>
+		private void closeConnect()
+		{
+			throw new NotImplementedException();
+		}
+
+
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
 		/// </summary>
@@ -1172,44 +1229,78 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcReadButton_Click(object sender, EventArgs e)
 		{
-			if (comConnect == null)
+			if (!isConnected)
 			{
+				MessageBox.Show("尚未连接设备");
 				return;
 			}
 
 			lcData = null;
-			comConnect.LightControlConnect(ComConnectCompleted, ComConnectError);
+			comConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
 
-			if (lcData == null) {
+			//TODO 多测试检查以下代码
+			isOvertime = false;
+			while( !isOvertime && lcData == null) {
 				Thread.Sleep(100);				
 				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
 			}
 
-			setLcForm();
-			lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+			if (lcData != null) {
+				setLcForm();
+				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+			}
+			else
+			{
+				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			}
+
 		}
 	
-		public void  ComConnectCompleted(Object obj) {
-			comConnect.LightControlRead(ComReadCompleted, ComReadError);
+		public void  ComLCConnectCompleted(Object obj) {
+			comConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
 		}
 
-		public void ComConnectError() {
+		public void ComLCConnectError() {
+			isOvertime = true;
 			lcToolStripStatusLabel1.Text = "连接灯控(" + deviceComboBox.Text + ")失败，请重试";
+		}
+
+		/// <summary>
+		/// 切换到中控连接
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCConnectCompleted(Object obj)
+		{
+			
+		}
+
+		public void ComCCConnectError()
+		{
+			isOvertime = true;
+			lcToolStripStatusLabel1.Text = "连接灯控(" + deviceComboBox.Text + ")失败，请重试";
+		}
+
+
+		public void ComDownloadCompleted()
+		{
+			MessageBox.Show("灯控数据下载成功");
 		}
 
 		public void ComSendError()
 		{
+			isOvertime = true;
 			lcToolStripStatusLabel1.Text = "灯控已离线，发送失败，请重新连接后重试";
 		}
 
 
-		public void ComReadCompleted(Object lcDataTemp)
+		public void ComLCReadCompleted(Object lcDataTemp)
 		{			
 			this.lcData = lcDataTemp as LightControlData;
 		}
 
-		public void ComReadError()
+		public void ComLCReadError()
 		{
+			isOvertime = true;
 			lcToolStripStatusLabel2.Text = "回读灯控配置失败";
 		}
 
@@ -1217,5 +1308,7 @@ namespace OtherTools
 		{
 			ccEntity.GetData();	
 		}
+
+
 	}
 }

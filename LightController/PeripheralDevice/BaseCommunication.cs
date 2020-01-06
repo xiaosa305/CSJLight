@@ -609,14 +609,14 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始连接灯控设备");
-                this.IsSending = true;
-                this.IsStopThread = false;
-                this.Completed_Event = completed;
-                this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(LightControlConnectStart), null);
-                this.LightControlConnectStart(null);
-            }
+				Console.WriteLine("开始连接灯控设备");
+				this.IsSending = true;
+				this.IsStopThread = false;
+				this.Completed_Event = completed;
+				this.Error_Event = error;
+				//ThreadPool.QueueUserWorkItem(new WaitCallback(LightControlConnectStart), null);
+				this.LightControlConnectStart(null);
+			}
         }
         /// <summary>
         /// 灯控设备链接执行线程

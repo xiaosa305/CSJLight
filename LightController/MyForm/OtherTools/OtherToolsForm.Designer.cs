@@ -34,11 +34,12 @@ namespace OtherTools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OtherToolsForm));
 			this.panel2 = new System.Windows.Forms.Panel();
-			this.zwjTestButton = new System.Windows.Forms.Button();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
+			this.zwjTestButton = new System.Windows.Forms.Button();
 			this.switchButton = new System.Windows.Forms.Button();
 			this.connectButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
@@ -222,7 +223,9 @@ namespace OtherTools
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.myInfoToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.panel2.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
 			this.kpStatusStrip.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
@@ -267,11 +270,8 @@ namespace OtherTools
 			// 
 			this.panel2.BackColor = System.Drawing.Color.Silver;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel2.Controls.Add(this.panel1);
 			this.panel2.Controls.Add(this.zwjTestButton);
-			this.panel2.Controls.Add(this.label8);
-			this.panel2.Controls.Add(this.label6);
-			this.panel2.Controls.Add(this.label7);
-			this.panel2.Controls.Add(this.label5);
 			this.panel2.Controls.Add(this.switchButton);
 			this.panel2.Controls.Add(this.connectButton);
 			this.panel2.Controls.Add(this.refreshButton);
@@ -285,6 +285,56 @@ namespace OtherTools
 			this.panel2.Size = new System.Drawing.Size(1264, 93);
 			this.panel2.TabIndex = 1;
 			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.label5);
+			this.panel1.Controls.Add(this.label7);
+			this.panel1.Controls.Add(this.label8);
+			this.panel1.Controls.Add(this.label6);
+			this.panel1.Location = new System.Drawing.Point(353, 11);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(200, 68);
+			this.panel1.TabIndex = 27;
+			this.panel1.Visible = false;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(15, 12);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(65, 12);
+			this.label5.TabIndex = 25;
+			this.label5.Text = "设备型号：";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label7.Location = new System.Drawing.Point(86, 12);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(68, 12);
+			this.label7.TabIndex = 25;
+			this.label7.Text = "JKC910 V1";
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label8.Location = new System.Drawing.Point(86, 41);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(47, 12);
+			this.label8.TabIndex = 25;
+			this.label8.Text = "JKC910";
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(15, 41);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(65, 12);
+			this.label6.TabIndex = 25;
+			this.label6.Text = "设备名称：";
+			// 
 			// zwjTestButton
 			// 
 			this.zwjTestButton.Location = new System.Drawing.Point(830, 17);
@@ -294,44 +344,6 @@ namespace OtherTools
 			this.zwjTestButton.Text = "zwjTest";
 			this.zwjTestButton.UseVisualStyleBackColor = true;
 			this.zwjTestButton.Click += new System.EventHandler(this.zwjTestButton_Click);
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label8.Location = new System.Drawing.Point(459, 59);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(47, 12);
-			this.label8.TabIndex = 25;
-			this.label8.Text = "JKC910";
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(388, 59);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(65, 12);
-			this.label6.TabIndex = 25;
-			this.label6.Text = "设备名称：";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Font = new System.Drawing.Font("隶书", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label7.Location = new System.Drawing.Point(459, 24);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(68, 12);
-			this.label7.TabIndex = 25;
-			this.label7.Text = "JKC910 V1";
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(388, 24);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(65, 12);
-			this.label5.TabIndex = 25;
-			this.label5.Text = "设备型号：";
 			// 
 			// switchButton
 			// 
@@ -347,10 +359,10 @@ namespace OtherTools
 			// connectButton
 			// 
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(227, 44);
+			this.connectButton.Location = new System.Drawing.Point(237, 44);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(91, 27);
+			this.connectButton.Size = new System.Drawing.Size(80, 27);
 			this.connectButton.TabIndex = 23;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = true;
@@ -361,7 +373,7 @@ namespace OtherTools
 			this.refreshButton.Location = new System.Drawing.Point(135, 44);
 			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(91, 27);
+			this.refreshButton.Size = new System.Drawing.Size(80, 27);
 			this.refreshButton.TabIndex = 23;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
@@ -1259,6 +1271,7 @@ namespace OtherTools
 			// lcReadButton
 			// 
 			this.lcReadButton.BackColor = System.Drawing.Color.SandyBrown;
+			this.lcReadButton.Enabled = false;
 			this.lcReadButton.Location = new System.Drawing.Point(30, 29);
 			this.lcReadButton.Name = "lcReadButton";
 			this.lcReadButton.Size = new System.Drawing.Size(75, 44);
@@ -2386,13 +2399,14 @@ namespace OtherTools
 			// 
 			// ccDownloadButton
 			// 
+			this.ccDownloadButton.BackColor = System.Drawing.Color.DarkKhaki;
 			this.ccDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.ccDownloadButton.Location = new System.Drawing.Point(1069, 571);
 			this.ccDownloadButton.Name = "ccDownloadButton";
 			this.ccDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.ccDownloadButton.TabIndex = 12;
 			this.ccDownloadButton.Text = "下载数据";
-			this.ccDownloadButton.UseVisualStyleBackColor = true;
+			this.ccDownloadButton.UseVisualStyleBackColor = false;
 			this.ccDownloadButton.Click += new System.EventHandler(this.ccDownloadButton_Click);
 			// 
 			// clearDecodeButton
@@ -2698,6 +2712,10 @@ namespace OtherTools
 			// 
 			this.keySaveFileDialog.Filter = "墙板配置文件(key)|*.key";
 			// 
+			// myInfoToolTip
+			// 
+			this.myInfoToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+			// 
 			// OtherToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2713,7 +2731,8 @@ namespace OtherTools
 			this.Text = "其它配置";
 			this.Load += new System.EventHandler(this.OtherToolsForm_Load);
 			this.panel2.ResumeLayout(false);
-			this.panel2.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.keyTabPage.ResumeLayout(false);
 			this.keyTabPage.PerformLayout();
 			this.kpStatusStrip.ResumeLayout(false);
@@ -2972,6 +2991,8 @@ namespace OtherTools
 		private SaveFileDialog keySaveFileDialog;
 		private CheckBox keepLightOnCheckBox;
 		private Button zwjTestButton;
+		private ToolTip myInfoToolTip;
+		private Panel panel1;
 	}
 }
 

@@ -506,6 +506,7 @@ namespace LightController.PeripheralDevice
             else
             {
                 byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
+                Console.WriteLine("灯控数据读取大小:" + data.Count);
                 if (crcBuff[0] == data[data.Count - 2] && crcBuff[1] == data[data.Count - 1])
                 {
                     this.StopTimeOut();

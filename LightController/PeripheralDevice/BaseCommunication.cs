@@ -42,9 +42,11 @@ namespace LightController.PeripheralDevice
         public delegate void Completed(Object obj);
         public delegate void Error();
         public delegate void KeyPressClick(Object obj);
+        public delegate void CopyListener(Object obj);
         private event Completed Completed_Event;
         private event Error Error_Event;
         private event KeyPressClick KeyPressClick_Event;
+        private event CopyListener CopyListener_Event;
         //初始化
         protected void Init()
         {
@@ -405,19 +407,23 @@ namespace LightController.PeripheralDevice
         {
             if (data.Count == 2 && data[0] + data[1] == 0xFF)
             {
-                this.KeyPressClick_Event(data);
+                this.KeyPressClickListenerReceive(data);
             }
             else
             {
                 switch (this.SecondOrder)
                 {
                     case Order.ZG:
+                        this.LightControlConnectReceive(data);
                         break;
                     case Order.RG:
+                        this.LightControlReadReceive(data);
                         break;
                     case Order.DG:
+                        this.LightControlDownloadReceive(data);
                         break;
                     case Order.YG:
+                        this.LightControlDebugReceive(data);
                         break;
                     case Order.ZC:
                         this.KeyPressConnectReceive(data);
@@ -429,14 +435,16 @@ namespace LightController.PeripheralDevice
                         this.KeyPressDownloadReceive(data);
                         break;
                     case Order.LK:
+                        this.CenterControlConnectReceive(data);
                         break;
                     case Order.DK:
+                        this.CenterControlDownloadReceive(data);
                         break;
                     case Order.CP:
+                        this.CenterControlStartCopyReceive(data);
                         break;
                     case Order.XP:
-                        break;
-                    default:
+                        this.CenterControlStopCopyReceive(data);
                         break;
                 }
             }
@@ -533,7 +541,15 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void LightControlDebugReceive(List<byte> data)
         {
-            //TODO-LightControlDebugReceive-目前暂无操作
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
+            {
+                this.StopTimeOut();
+                this.SendData();
+                Thread.Sleep(200);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Completed_Event(null);
+            }
         }
         //中控回复管理
         /// <summary>
@@ -591,12 +607,13 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.IsStartCopy = true;
                 this.IsSending = false;
+                this.Completed_Event(null);
             }
             else
             {
                 if (this.IsStartCopy)
                 {
-                    this.Completed_Event(data);
+                    this.CopyListener_Event(data);
                 }
                 else
                 {
@@ -713,6 +730,14 @@ namespace LightController.PeripheralDevice
             {
                 Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()));
             }
+        }
+        /// <summary>
+        /// 墙板设备监听点击事件回复消息处理
+        /// </summary>
+        /// <param name="data"></param>
+        private void KeyPressClickListenerReceive(List<byte> data)
+        {
+            this.KeyPressClick_Event(data);
         }
         //灯控设备配置
         /// <summary>
@@ -876,11 +901,6 @@ namespace LightController.PeripheralDevice
                 data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG));
                 data.AddRange(obj as byte[]);
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
-                Thread.Sleep(500);
-                this.SendData();
-                Thread.Sleep(100);
-                this.IsSending = false;
-                this.StopTimeOut();
             }
             catch (Exception ex)
             {
@@ -928,7 +948,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 中控设备开启解码
         /// </summary>
-        public void CenterControlStartCopy(Completed completed,Error error)
+        public void CenterControlStartCopy(Completed completed,Error error,CopyListener copyListener)
         {
             if (!this.IsSending)
             {
@@ -936,6 +956,7 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
+                this.CopyListener_Event = copyListener;
                 //ThreadPool.QueueUserWorkItem(new WaitCallback(CentralControlStartCopyStart), null);
                 CenterControlStartCopyStart(null);
             }
@@ -1067,24 +1088,23 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void KeyPressConnect(Completed completed,Error error)
+        public void PassThroughKeyPressConnect(Completed completed,Error error)
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始连接墙板设备");
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(KeyPressConnectStart), null);
-                this.KeyPressConnectStart(null);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughKeyPressConnectStart), null);
+                this.PassThroughKeyPressConnectStart(null);
             }
         }
         /// <summary>
         /// 透传模式墙板设备连接执行线程
         /// </summary>
         /// <param name="obj"></param>
-        private void KeyPressConnectStart(Object obj)
+        private void PassThroughKeyPressConnectStart(Object obj)
         {
             try
             {
@@ -1103,7 +1123,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void KeyPressRead(Completed completed,Error error)
+        public void PassThroughKeyPressRead(Completed completed,Error error)
         {
             if (!this.IsSending)
             {
@@ -1111,14 +1131,15 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                ThreadPool.QueueUserWorkItem(new WaitCallback(KeyPressReadStart), null);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughKeyPressReadStart), null);
+                this.PassThroughKeyPressReadStart(null);
             }
         }
         /// <summary>
         /// 透传模式墙板设备读取配置数据执行线程
         /// </summary>
         /// <param name="obj"></param>
-        private void KeyPressReadStart(Object obj)
+        private void PassThroughKeyPressReadStart(Object obj)
         {
             try
             {
@@ -1138,7 +1159,7 @@ namespace LightController.PeripheralDevice
         /// <param name="entity"></param>
         /// <param name="completed"></param>
         /// <param name="error"></param>
-        public void KeyPressDownload(KeyEntity entity,Completed completed,Error error)
+        public void PassThroughKeyPressDownload(KeyEntity entity,Completed completed,Error error)
         {
             if (!this.IsSending)
             {
@@ -1146,15 +1167,15 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(KeyPressDownloadStart), entity);
-                this.KeyPressDownloadStart(entity);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughKeyPressDownloadStart), entity);
+                this.PassThroughKeyPressDownloadStart(entity);
             }
         }
         /// <summary>
         /// 透传模式墙板设备下载配置数据执行线程
         /// </summary>
         /// <param name="obj"></param>
-        private void KeyPressDownloadStart(Object obj)
+        private void PassThroughKeyPressDownloadStart(Object obj)
         {
             try
             {
@@ -1165,7 +1186,7 @@ namespace LightController.PeripheralDevice
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_DOWNLOAD, data.ToArray().Length.ToString() });
                 while (true)
                 {
-                    if (IsStopThread)
+                    if (this.IsStopThread)
                     {
                         return;
                     }
@@ -1180,7 +1201,7 @@ namespace LightController.PeripheralDevice
                 }
                 while (true)
                 {
-                    if (IsStopThread)
+                    if (this.IsStopThread)
                     {
                         return;
                     }
@@ -1204,9 +1225,354 @@ namespace LightController.PeripheralDevice
         /// 设置墙板按键点击事件监听
         /// </summary>
         /// <param name="click"></param>
-        public void SetKeyPressClickListener(KeyPressClick click)
+        public void PassThroughKeyPressSetClickListener(KeyPressClick click)
         {
             this.KeyPressClick_Event = click;
+        }
+        //透传模式灯控设备配置
+        /// <summary>
+        /// 透传模式灯控设备链接
+        /// </summary>
+        public void PassThroughLightControlConnect(Completed completed, Error error)
+        {
+            if (!this.IsSending)
+            {
+                Console.WriteLine("开始连接灯控设备");
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughLightControlConnectStart), null);
+                this.PassThroughLightControlConnectStart(null);
+            }
+        }
+        /// <summary>
+        /// 透传模式灯控设备链接执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PassThroughLightControlConnectStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.ZG;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT);
+                this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 透传模式灯控设备读取
+        /// </summary>
+        public void PassThroughLightControlRead(Completed completed, Error error)
+        {
+            if (!this.IsSending)
+            {
+                Console.WriteLine("开始读取灯控设备配置数据");
+                this.StartTimeOut();
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(PassThroughLightControlReadStart, null);
+                this.PassThroughLightControlReadStart(null);
+            }
+        }
+        /// <summary>
+        /// 透传模式灯控设备读取执行线程
+        /// </summary>
+        private void PassThroughLightControlReadStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.RG;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_READ);
+                this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 透传模式灯控设备下载
+        /// </summary>
+        public void PassThroughLightControlDownload(LightControlData data, Completed completed, Error error)
+        {
+            if (!this.IsSending)
+            {
+                Console.WriteLine("开始下载灯控设备配置数据");
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(PassThroughLightControlDownloadStart, data);
+                this.PassThroughLightControlDownloadStart(data);
+            }
+        }
+        /// <summary>
+        /// 透传模式灯控设备下载数据执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PassThroughLightControlDownloadStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.DG;
+                List<byte> data = new List<byte>();
+                data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD));
+                this.IsAck = false;
+                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
+                while (true)
+                {
+                    if (this.IsAck)
+                    {
+                        data.Clear();
+                        data.AddRange((obj as LightControlData).GetData());
+                        this.IsAck = false;
+                        this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
+                        break;
+                    }
+                    if (this.IsStopThread)
+                    {
+                        return;
+                    }
+                }
+                while (true)
+                {
+                    if (this.IsAck)
+                    {
+                        this.IsAck = false;
+                        this.IsSending = false;
+                        this.StopTimeOut();
+                        this.Completed_Event(null);
+                        break;
+                    }
+                    if (IsStopThread)
+                    {
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 透传模式灯控设备调试
+        /// </summary>
+        public void PassThroughLightControlDebug(byte[] data,Completed completed, Error error)
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Error_Event = error;
+                this.Completed_Event = completed;
+                //ThreadPool.QueueUserWorkItem(PassThroughLightControlDebugStart, data);
+                this.PassThroughLightControlDebugStart(data);
+            }
+        }
+        /// <summary>
+        /// 透传模式灯控设备调试线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PassThroughLightControlDebugStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.YG;
+                List<byte> data = new List<byte>();
+                data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG));
+                data.AddRange(obj as byte[]);
+                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        //透传模式中控设备配置
+        /// <summary>
+        /// 透传模式中控设备连接
+        /// </summary>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        public void PassThroughCenterControlConnect(Completed completed, Error error)
+        {
+            if (!this.IsSending)
+            {
+                Console.WriteLine("开始连接中控设备");
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlConnectStart), null);
+                this.PassThroughCenterControlConnectStart(null);
+            }
+        }
+        /// <summary>
+        /// 透传模式中控设备链接执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PassThroughCenterControlConnectStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.LK;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT);
+                this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 透传模式中控设备开启解码
+        /// </summary>
+        public void PassThroughCenterControlStartCopy(Completed completed, Error error, CopyListener copyListener)
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                this.CopyListener_Event = copyListener;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlStartCopyStart), null);
+                this.PassThroughCenterControlStartCopyStart(null);
+            }
+        }
+        /// <summary>
+        /// 透传模式中控设备开启解码执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PassThroughCenterControlStartCopyStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.CP;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY);
+                this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = false;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 透传模式中控设备关闭解码
+        /// </summary>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        public void PassThroughCenterControlStopCopy(Completed completed, Error error)
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlStopCopyStart), null);
+                this.PassThroughCenterControlStopCopyStart(null);
+            }
+        }
+        /// <summary>
+        /// 透传模式中控设备关闭解码执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PassThroughCenterControlStopCopyStart(Object obj)
+        {
+            try
+            {
+                this.SecondOrder = Order.XP;
+                byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY);
+                this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY, data.Length.ToString() });
+            }
+            catch (Exception ex)
+            {
+                this.IsSending = true;
+                CSJLogs.GetInstance().ErrorLog(ex);
+            }
+        }
+        /// <summary>
+        /// 透传模式中控设备下载协议数据
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="completed"></param>
+        /// <param name="error"></param>
+        public void PassThroughCenterControlDownload(CCEntity entity, Completed completed, Error error)
+        {
+            if (!this.IsSending)
+            {
+                this.IsSending = true;
+                this.IsStopThread = false;
+                this.Completed_Event = completed;
+                this.Error_Event = error;
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughCenterControlDownloadStart), null);
+                this.PassThroughCenterControlDownloadStart(entity);
+            }
+        }
+        /// <summary>
+        /// 透传模式中控设备下载协议数据执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PassThroughCenterControlDownloadStart(Object obj)
+        {
+            this.SecondOrder = Order.DK;
+            List<byte> data = new List<byte>();
+            data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD));
+            this.IsAck = false;
+            this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
+            while (true)
+            {
+                if (this.IsAck)
+                {
+                    data.Clear();
+                    data.AddRange((obj as CCEntity).GetData());
+                    this.IsAck = false;
+                    int dataLength = data.ToArray().Length + (2 * 32);
+                    this.IsCenterControlDownload = true;
+                    this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, dataLength.ToString() });
+                    break;
+                }
+                if (IsStopThread)
+                {
+                    return;
+                }
+            }
+            while (true)
+            {
+                if (this.IsAck)
+                {
+                    this.IsAck = false;
+                    if (this.PackIndex == this.PackCount)
+                    {
+                        this.IsSending = false;
+                        this.IsCenterControlDownload = false;
+                        this.Completed_Event(null);
+                        break;
+                    }
+                    else if (this.PackIndex < this.PackCount)
+                    {
+                        this.SendData();
+                    }
+                }
+                if (this.IsStopThread)
+                {
+                    return;
+                }
+            }
         }
     }
     enum Order

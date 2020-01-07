@@ -586,7 +586,7 @@ namespace OtherTools
 			// 
 			// kpLoadButton
 			// 
-			this.kpLoadButton.Location = new System.Drawing.Point(1013, 231);
+			this.kpLoadButton.Location = new System.Drawing.Point(1013, 229);
 			this.kpLoadButton.Name = "kpLoadButton";
 			this.kpLoadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpLoadButton.TabIndex = 5;
@@ -615,7 +615,7 @@ namespace OtherTools
 			// 
 			// kpReadButton
 			// 
-			this.kpReadButton.Location = new System.Drawing.Point(1013, 30);
+			this.kpReadButton.Location = new System.Drawing.Point(1013, 163);
 			this.kpReadButton.Name = "kpReadButton";
 			this.kpReadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpReadButton.TabIndex = 5;
@@ -653,7 +653,7 @@ namespace OtherTools
 			// 
 			// kpDownloadButton
 			// 
-			this.kpDownloadButton.Location = new System.Drawing.Point(1013, 363);
+			this.kpDownloadButton.Location = new System.Drawing.Point(1013, 361);
 			this.kpDownloadButton.Name = "kpDownloadButton";
 			this.kpDownloadButton.Size = new System.Drawing.Size(105, 40);
 			this.kpDownloadButton.TabIndex = 5;
@@ -662,7 +662,7 @@ namespace OtherTools
 			// 
 			// kpSaveButton
 			// 
-			this.kpSaveButton.Location = new System.Drawing.Point(1013, 297);
+			this.kpSaveButton.Location = new System.Drawing.Point(1013, 295);
 			this.kpSaveButton.Name = "kpSaveButton";
 			this.kpSaveButton.Size = new System.Drawing.Size(105, 40);
 			this.kpSaveButton.TabIndex = 5;
@@ -2441,7 +2441,7 @@ namespace OtherTools
 			// 
 			this.ccSettButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.ccSettButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccSettButton.Location = new System.Drawing.Point(32, 349);
+			this.ccSettButton.Location = new System.Drawing.Point(31, 349);
 			this.ccSettButton.Name = "ccSettButton";
 			this.ccSettButton.Size = new System.Drawing.Size(88, 41);
 			this.ccSettButton.TabIndex = 12;

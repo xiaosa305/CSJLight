@@ -21,32 +21,41 @@ using static LightController.PeripheralDevice.BaseCommunication;
 
 namespace OtherTools
 {
+	
+
 	public partial class OtherToolsForm : Form
 	{
 		private IList<Button> buttonList = new List<Button>();
 		private String cfgPath; // 灯控页打开的 灯控配置文件路径(*.cfg)
 		private LightControlData lcData; //灯控封装对象
-		private int frameIndex = 0; // 灯控选中的场景，用以显示不同场景的灯光开启状态
+		private CCEntity ccEntity; // 中控封装对象
+		private KeyEntity keyEntity;  // 墙板封装对象
+		
 		private bool isReadLC = false;
-		private CCEntity ccEntity;
+		private string protocolXlsPath = "C:\\Controller1.xls";
 		private HSSFWorkbook xlsWorkbook;
 		private IList<string> sheetList;
-		private string protocolXlsPath = "C:\\Controller1.xls";
-		private bool isDecoding = false; //中控是否开启解码
+		
 		private bool isKeepLightOn = false;
+		private int lcFrameIndex = 0; // 灯控选中的场景，用以显示不同场景的灯光开启状态
+
+		private bool isDecoding = false; //中控是否开启解码		
 		private bool isConnected = false;  //是否已连上设备
 		private bool isOvertime = false; //是否超时
-
 		private bool isCCConnected = false;
 		private bool isDownloading = false;
 
-		enum CONNECT_METHOD {
+		
+
+		enum CONNECT_METHOD
+		{
 			NORMAL,
 			LC,
 			CC,
 			KP,
 			TC
 		}
+
 
 		public OtherToolsForm()
 		{
@@ -213,7 +222,7 @@ namespace OtherTools
 			setLightButtonValue(lightIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
-				bool tempLightOnMode = lcData.SceneData[frameIndex, lightIndex];
+				bool tempLightOnMode = lcData.SceneData[lcFrameIndex, lightIndex];
 				for (int frameIndex = 0; frameIndex < 17; frameIndex++) {
 					lcData.SceneData[frameIndex, lightIndex] = tempLightOnMode;					
 				}
@@ -231,8 +240,8 @@ namespace OtherTools
 			{
 				return;
 			}
-			lcData.SceneData[frameIndex, lightIndex] = !lcData.SceneData[frameIndex, lightIndex];
-			lightButtons[lightIndex].ImageIndex = lcData.SceneData[frameIndex, lightIndex] ? 1 : 0;
+			lcData.SceneData[lcFrameIndex, lightIndex] = !lcData.SceneData[lcFrameIndex, lightIndex];
+			lightButtons[lightIndex].ImageIndex = lcData.SceneData[lcFrameIndex, lightIndex] ? 1 : 0;
 		}
 
 		/// <summary>
@@ -275,13 +284,16 @@ namespace OtherTools
 		{
 			IList<string> paramList = getParamListFromPath(cfgPath);
 			lcData = new LightControlData(paramList);
-
 			setLcForm();	
-
 			lcToolStripStatusLabel2.Text = " 已加载配置文件：" + cfgPath;
 		}
 
 		private void setLcForm() {
+			if (lcData == null) {
+				MessageBox.Show("lcData==null");
+				return;
+			}
+
 			try
 			{
 				switch (lcData.LightMode)
@@ -397,7 +409,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void qdFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			frameIndex = qdFrameComboBox.SelectedIndex;
+			lcFrameIndex = qdFrameComboBox.SelectedIndex;
 			reloadLightGroupBox();
 		}
 
@@ -413,13 +425,9 @@ namespace OtherTools
 
 			for (int relayIndex = 0; relayIndex < lcData.RelayCount; relayIndex++)
 			{
-				lightButtons[relayIndex].ImageIndex = lcData.SceneData[frameIndex, relayIndex] ? 1 : 0;
+				lightButtons[relayIndex].ImageIndex = lcData.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
 			}
-
-
-			debugLC();
-			
-
+			//debugLC();
 		}
 
 		private void debugLC() {
@@ -427,7 +435,7 @@ namespace OtherTools
 			//TODO 此处开始，发送相应的灯光数据
 			if (isConnectByCom && comConnect != null)
 			{
-				byte[] tempData = lcData.GetFrameBytes(frameIndex);
+				byte[] tempData = lcData.GetFrameBytes(lcFrameIndex);
 				comConnect.LightControlDebug(tempData, ComSendError);
 			}
 			//else if (!isConnectByCom && networkConnect != null) {
@@ -523,29 +531,34 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void cfgSaveFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			// 在此处理启用排风或空调通道后，把相应的SceneData设为false
-			if (lcData.IsOpenFan)
-			{
-				for (int frame = 0; frame < 17; frame++)
-				{
-					lcData.SceneData[frame, 6] = false;
-				}
-			}
+			cfgPath = cfgSaveFileDialog.FileName;
+			lcData.WriteToFile(cfgPath);
+			MessageBox.Show("成功保存配置文件"+ cfgPath);
+			lcToolStripStatusLabel2.Text = "成功保存配置文件" + cfgPath;
 
-			if (lcData.IsOpenAirCondition)
-			{
-				for (int frame = 0; frame < 17; frame++)
-				{
-					int maxLightIndex = lcData.RelayCount < 12 ? lcData.RelayCount : 12;
-					for (int i = 7; i < maxLightIndex; i++)
-					{
-						lcData.SceneData[frame, i] = false;
-					}
-				}
-			}
+			//// 在此处理启用排风或空调通道后，把相应的SceneData设为false
+			//if (lcData.IsOpenFan)
+			//{
+			//	for (int frame = 0; frame < 17; frame++)
+			//	{
+			//		lcData.SceneData[frame, 6] = false;
+			//	}
+			//}
 
-			// 最后重新加载一下按键，前面的代码会更改相关数据。
-			reloadLightGroupBox();
+			//if (lcData.IsOpenAirCondition)
+			//{
+			//	for (int frame = 0; frame < 17; frame++)
+			//	{
+			//		int maxLightIndex = lcData.RelayCount < 12 ? lcData.RelayCount : 12;
+			//		for (int i = 7; i < maxLightIndex; i++)
+			//		{
+			//			lcData.SceneData[frame, i] = false;
+			//		}
+			//	}
+			//}
+
+			//// 最后重新加载一下按键，前面的代码会更改相关数据。
+			//reloadLightGroupBox();
 		}
 
 
@@ -620,12 +633,12 @@ namespace OtherTools
 			//isDecoding = !isDecoding;
 			//ccDecodeButton.Text = isDecoding ? "关闭解码" : "开启解码";
 
-			Completed comCCStartCompleted = new Completed(ComCCStartCompleted);
-			Error comCCStartError = new Error(ComCCStartError);
-			this.Invoke(comCCStartCompleted,sender);
-			this.Invoke(comCCStartError);
+			//Completed comCCStartCompleted = new Completed(ComCCStartCompleted);
+			//Error comCCStartError = new Error(ComCCStartError);
+			//this.Invoke(comCCStartCompleted,sender);
+			//this.Invoke(comCCStartError);
 
-			comConnect.CenterControlStartCopy(comCCStartCompleted,comCCStartError);
+			comConnect.CenterControlStartCopy(ComCCStartCompleted, ComCCStartError, ComCCListen);
 		}
 
 		/// <summary>
@@ -942,7 +955,7 @@ namespace OtherTools
 		private void keyOpenFileDialog_FileOk(object sender, CancelEventArgs e)
 		{			
 			string keyPath = keyOpenFileDialog.FileName;
-			KeyEntity keyEntity  = loadKeyFile(keyPath);
+			keyEntity  = loadKeyFile(keyPath);
 			if (keyEntity == null) {
 				kpToolStripStatusLabel2.Text = "加载配置文件出错。";
 				return; 
@@ -1245,14 +1258,8 @@ namespace OtherTools
 			//	return;
 			//}
 
-			Completed completedDelegate = new Completed(ComLCReadCompleted);
-			Error errorDelegate = new Error(ComLCReadError);
-
-			this.Invoke(completedDelegate,lcReadButton);
-			this.Invoke(errorDelegate);
-
-			comConnect.LightControlRead(completedDelegate, errorDelegate);
-
+			comConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
+			lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
 
 			//TODO 多测试检查以下代码
 			//isOvertime = false;
@@ -1327,15 +1334,26 @@ namespace OtherTools
 
 		public void ComLCReadCompleted(Object lcDataTemp)
 		{
-			this.lcData = lcDataTemp as LightControlData;
+			Console.WriteLine("我来测试这里进来几次！" + lcDataTemp==null);
 			this.Invoke((EventHandler)delegate {
+				lcData  = lcDataTemp as LightControlData;
+				if (lcData == null) {
+					Console.WriteLine("lcData为null");
+					lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+					return;
+				}
+				
 				setLcForm();
+				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 			});
 		}
 
 		public void ComLCReadError()
 		{
-			isOvertime = true;			
+			this.Invoke((EventHandler)delegate {
+				isOvertime = true;
+				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			});
 		}
 
 		/// <summary>
@@ -1377,6 +1395,29 @@ namespace OtherTools
 		/// <param name="obj"></param>
 		public void ComCCStartCompleted(Object obj)
 		{
+			Invoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "灯控解码开启成功";
+			});
+		}
+
+		/// <summary>
+		/// 中控调试解码启动失败
+		/// </summary>
+		public void ComCCStartError()
+		{
+			Invoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "灯控解码开启失败";
+			});
+		}
+
+		/// <summary>
+		///  中控解码 红外码值 回读
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCListen(Object obj)
+		{
 			this.Invoke((EventHandler)delegate {
 				List<byte> byteList = obj as List<byte>;
 				if (byteList != null && byteList.Count != 0)
@@ -1385,20 +1426,13 @@ namespace OtherTools
 					foreach (byte item in byteList)
 					{
 						strTemp += StringHelper.DecimalStringToBitHex(item.ToString(), 2) + " ";
-					}					
-					decodeRichTextBox.Text += strTemp + "\n";				
+					}
+					decodeRichTextBox.Text += strTemp + "\n";
 				}
-				 ccToolStripStatusLabel2.Text = "灯控解码成功";
-			 });
+				ccToolStripStatusLabel2.Text = "灯控解码成功";
+			});
 		}
 
-		/// <summary>
-		/// 中控调试解码启动失败
-		/// </summary>
-		public void ComCCStartError()
-		{
-			ccToolStripStatusLabel2.Text = "灯控解码失败";
-		}
 
 		/// <summary>
 		///  中控调试解码结束成功
@@ -1409,6 +1443,8 @@ namespace OtherTools
 			Console.WriteLine("成功关闭中控解码。");
 			ccToolStripStatusLabel2.Text = "成功关闭中控解码";
 		}
+
+
 
 		/// <summary>
 		/// 中控调试解码结束失败
@@ -1472,8 +1508,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpConnectButton_Click(object sender, EventArgs e)
 		{
-			comConnect.KeyPressConnect(ComKPConnectCompleted, ComKPConnectError);
-			
+			comConnect.PassThroughKeyPressConnect(ComKPConnectCompleted, ComKPConnectError);			
 		}
 
 		/// <summary>
@@ -1484,8 +1519,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				Console.WriteLine("成功连接墙板。");
-				kpToolStripStatusLabel2.Text = "成功连接墙板";				
+				kpToolStripStatusLabel2.Text = "成功连接墙板";
+				Thread.Sleep(500);
 				kpReadButton_Click(null, null);
 			});
 		}
@@ -1495,8 +1530,22 @@ namespace OtherTools
 		/// </summary>
 		public void ComKPConnectError()
 		{
-			Console.WriteLine("连接墙板失败。");
-			kpToolStripStatusLabel2.Text = "连接墙板失败";
+			Invoke((EventHandler)delegate
+			{				
+				kpToolStripStatusLabel2.Text = "连接墙板失败";
+				clearKeypressListView();
+			});
+		}
+
+		/// <summary>
+		/// 辅助方法：清空墙板listView的所有数据，及其他相关数据。
+		/// </summary>
+		private void clearKeypressListView()
+		{
+			keypressListView.Items.Clear();
+			kpOrderTextBox.Text = "";
+			kpKey0TextBox.Text = "";
+			kpKey1TextBox.Text = "";
 		}
 
 		/// <summary>
@@ -1506,8 +1555,9 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpReadButton_Click(object sender, EventArgs e)
 		{
-			comConnect.KeyPressRead(ComKPReadCompleted, ComKPReadError);
-			kpToolStripStatusLabel2.Text = "正在读取墙板码值，请稍候...";
+			comConnect.PassThroughKeyPressRead(ComKPReadCompleted, ComKPReadError);
+			kpToolStripStatusLabel2.Text = "正在读取墙板码值，请稍候..." ;
+			this.Cursor = Cursors.WaitCursor;
 			this.Enabled = false;
 		}
 
@@ -1519,11 +1569,12 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				KeyEntity ke = obj as KeyEntity;
-				reloadKeypressListView(ke);
+				keyEntity = obj as KeyEntity;
+				reloadKeypressListView(keyEntity);
 				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
-				comConnect.SetKeyPressClickListener(ComKPStartListenClick);
+				comConnect.PassThroughKeyPressSetClickListener(ComKPStartListenClick);
 				this.Enabled = true;
+				this.Cursor = Cursors.Default;
 			});			
 		}
 
@@ -1535,6 +1586,9 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{
 				kpToolStripStatusLabel2.Text = "读取墙板码值失败";
+				clearKeypressListView();
+				this.Enabled = true;
+				this.Cursor = Cursors.Default;
 			});
 		}
 
@@ -1546,8 +1600,19 @@ namespace OtherTools
 		{			
 			Invoke((EventHandler)delegate
 			{
-				List<byte> byteList = obj as List<byte>;				
-				Console.WriteLine("键序是：" + byteList[0] );			
+				List<byte> byteList = obj as List<byte>;
+				int keyNum = byteList[0];
+
+				foreach (ListViewItem item in keypressListView.Items)
+				{					
+					if (Convert.ToByte(item.SubItems[1].Text) == keyNum)
+					{
+						Console.WriteLine("+++ "+  keyNum); 
+						item.Selected = true;
+						break;
+					}
+				}
+				keypressListView.Select();
 			});
 		}
 

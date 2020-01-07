@@ -510,7 +510,8 @@ namespace LightController.PeripheralDevice
                 {
                     this.StopTimeOut();
                     this.IsSending = false;
-                    this.Completed_Event(new LightControlData(data));
+					LightControlData value = new LightControlData(data);
+                    this.Completed_Event(value);
                 }
             }
         }

@@ -53,7 +53,7 @@ namespace LightController.Tools
                     SerialConnect.CenterControlConnect(CCCCompleted,CCCError);
                     break;
                 case 3:
-                    SerialConnect.CenterControlStartCopy(CCCpCompleted, CCCpError);
+                    //SerialConnect.CenterControlStartCopy(CCCpCompleted, CCCpError );
                     break;
                 case 4:
                     SerialConnect.CenterControlStopCopy(CCXpCompleted, CCXpError);

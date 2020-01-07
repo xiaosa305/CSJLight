@@ -506,6 +506,7 @@ namespace LightController.PeripheralDevice
             else
             {
                 byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
+                Console.WriteLine("灯控数据读取大小:" + data.Count);
                 if (crcBuff[0] == data[data.Count - 2] && crcBuff[1] == data[data.Count - 1])
                 {
                     this.StopTimeOut();
@@ -878,13 +879,14 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 灯控设备调试
         /// </summary>
-        public void LightControlDebug(byte[] data ,Error error)
+        public void LightControlDebug(byte[] data ,Completed completed , Error error)
         {
             if (!this.IsSending)
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Error_Event = error;
+                this.Completed_Event = completed;
                 //ThreadPool.QueueUserWorkItem(LightControlDebugStart, data);
                 this.LightControlDebugStart(data);
             }

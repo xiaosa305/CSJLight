@@ -69,7 +69,6 @@ namespace OtherTools
 			this.kpOrderTextBox = new System.Windows.Forms.TextBox();
 			this.kpReadButton = new System.Windows.Forms.Button();
 			this.label23 = new System.Windows.Forms.Label();
-			this.kpListenButton = new System.Windows.Forms.Button();
 			this.kpKey1TextBox = new System.Windows.Forms.TextBox();
 			this.kpEditButton = new System.Windows.Forms.Button();
 			this.kpDownloadButton = new System.Windows.Forms.Button();
@@ -356,6 +355,7 @@ namespace OtherTools
 			this.switchButton.TabIndex = 24;
 			this.switchButton.Text = "以网络连接";
 			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.Visible = false;
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
 			// connectButton
@@ -465,7 +465,6 @@ namespace OtherTools
 			this.keyTabPage.Controls.Add(this.kpOrderTextBox);
 			this.keyTabPage.Controls.Add(this.kpReadButton);
 			this.keyTabPage.Controls.Add(this.label23);
-			this.keyTabPage.Controls.Add(this.kpListenButton);
 			this.keyTabPage.Controls.Add(this.kpKey1TextBox);
 			this.keyTabPage.Controls.Add(this.kpEditButton);
 			this.keyTabPage.Controls.Add(this.kpDownloadButton);
@@ -573,6 +572,7 @@ namespace OtherTools
 			this.kpConnectButton.TabIndex = 5;
 			this.kpConnectButton.Text = "连接墙板";
 			this.kpConnectButton.UseVisualStyleBackColor = false;
+			this.kpConnectButton.Click += new System.EventHandler(this.kpConnectButton_Click);
 			// 
 			// kpShowIconButton
 			// 
@@ -621,6 +621,7 @@ namespace OtherTools
 			this.kpReadButton.TabIndex = 5;
 			this.kpReadButton.Text = "读取码值";
 			this.kpReadButton.UseVisualStyleBackColor = true;
+			this.kpReadButton.Click += new System.EventHandler(this.kpReadButton_Click);
 			// 
 			// label23
 			// 
@@ -630,16 +631,6 @@ namespace OtherTools
 			this.label23.Size = new System.Drawing.Size(29, 12);
 			this.label23.TabIndex = 6;
 			this.label23.Text = "键序";
-			// 
-			// kpListenButton
-			// 
-			this.kpListenButton.Location = new System.Drawing.Point(1013, 96);
-			this.kpListenButton.Name = "kpListenButton";
-			this.kpListenButton.Size = new System.Drawing.Size(105, 40);
-			this.kpListenButton.TabIndex = 5;
-			this.kpListenButton.Text = "监听按键";
-			this.kpListenButton.UseVisualStyleBackColor = true;
-			this.kpListenButton.Click += new System.EventHandler(this.kpListenButton_Click);
 			// 
 			// kpKey1TextBox
 			// 
@@ -2314,7 +2305,7 @@ namespace OtherTools
 			// 
 			this.loadProtocolButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.loadProtocolButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.loadProtocolButton.Location = new System.Drawing.Point(457, 353);
+			this.loadProtocolButton.Location = new System.Drawing.Point(589, 360);
 			this.loadProtocolButton.Name = "loadProtocolButton";
 			this.loadProtocolButton.Size = new System.Drawing.Size(96, 30);
 			this.loadProtocolButton.TabIndex = 15;
@@ -2324,24 +2315,24 @@ namespace OtherTools
 			// 
 			// ccSearchTextBox
 			// 
-			this.ccSearchTextBox.Location = new System.Drawing.Point(825, 362);
+			this.ccSearchTextBox.Location = new System.Drawing.Point(334, 366);
 			this.ccSearchTextBox.Name = "ccSearchTextBox";
 			this.ccSearchTextBox.Size = new System.Drawing.Size(100, 21);
 			this.ccSearchTextBox.TabIndex = 14;
 			// 
 			// decodeRichTextBox
 			// 
-			this.decodeRichTextBox.Location = new System.Drawing.Point(581, 418);
+			this.decodeRichTextBox.Location = new System.Drawing.Point(139, 425);
 			this.decodeRichTextBox.Name = "decodeRichTextBox";
 			this.decodeRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-			this.decodeRichTextBox.Size = new System.Drawing.Size(459, 186);
+			this.decodeRichTextBox.Size = new System.Drawing.Size(395, 186);
 			this.decodeRichTextBox.TabIndex = 13;
 			this.decodeRichTextBox.Text = "";
 			// 
 			// ps2DownTextBox
 			// 
 			this.ps2DownTextBox.Enabled = false;
-			this.ps2DownTextBox.Location = new System.Drawing.Point(391, 583);
+			this.ps2DownTextBox.Location = new System.Drawing.Point(965, 590);
 			this.ps2DownTextBox.Name = "ps2DownTextBox";
 			this.ps2DownTextBox.Size = new System.Drawing.Size(162, 21);
 			this.ps2DownTextBox.TabIndex = 4;
@@ -2349,7 +2340,7 @@ namespace OtherTools
 			// infraredReceiveTextBox
 			// 
 			this.infraredReceiveTextBox.Enabled = false;
-			this.infraredReceiveTextBox.Location = new System.Drawing.Point(391, 539);
+			this.infraredReceiveTextBox.Location = new System.Drawing.Point(965, 546);
 			this.infraredReceiveTextBox.Name = "infraredReceiveTextBox";
 			this.infraredReceiveTextBox.Size = new System.Drawing.Size(162, 21);
 			this.infraredReceiveTextBox.TabIndex = 4;
@@ -2357,7 +2348,7 @@ namespace OtherTools
 			// com1DownTextBox
 			// 
 			this.com1DownTextBox.Enabled = false;
-			this.com1DownTextBox.Location = new System.Drawing.Point(391, 495);
+			this.com1DownTextBox.Location = new System.Drawing.Point(965, 502);
 			this.com1DownTextBox.Name = "com1DownTextBox";
 			this.com1DownTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com1DownTextBox.TabIndex = 4;
@@ -2365,7 +2356,7 @@ namespace OtherTools
 			// com0DownTextBox
 			// 
 			this.com0DownTextBox.Enabled = false;
-			this.com0DownTextBox.Location = new System.Drawing.Point(391, 451);
+			this.com0DownTextBox.Location = new System.Drawing.Point(965, 458);
 			this.com0DownTextBox.Name = "com0DownTextBox";
 			this.com0DownTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com0DownTextBox.TabIndex = 4;
@@ -2373,7 +2364,7 @@ namespace OtherTools
 			// ps2UpTextBox
 			// 
 			this.ps2UpTextBox.Enabled = false;
-			this.ps2UpTextBox.Location = new System.Drawing.Point(102, 583);
+			this.ps2UpTextBox.Location = new System.Drawing.Point(676, 590);
 			this.ps2UpTextBox.Name = "ps2UpTextBox";
 			this.ps2UpTextBox.Size = new System.Drawing.Size(162, 21);
 			this.ps2UpTextBox.TabIndex = 4;
@@ -2381,7 +2372,7 @@ namespace OtherTools
 			// infraredSendTextBox
 			// 
 			this.infraredSendTextBox.Enabled = false;
-			this.infraredSendTextBox.Location = new System.Drawing.Point(102, 539);
+			this.infraredSendTextBox.Location = new System.Drawing.Point(676, 546);
 			this.infraredSendTextBox.Name = "infraredSendTextBox";
 			this.infraredSendTextBox.Size = new System.Drawing.Size(162, 21);
 			this.infraredSendTextBox.TabIndex = 4;
@@ -2389,7 +2380,7 @@ namespace OtherTools
 			// com1UpTextBox
 			// 
 			this.com1UpTextBox.Enabled = false;
-			this.com1UpTextBox.Location = new System.Drawing.Point(102, 495);
+			this.com1UpTextBox.Location = new System.Drawing.Point(676, 502);
 			this.com1UpTextBox.Name = "com1UpTextBox";
 			this.com1UpTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com1UpTextBox.TabIndex = 4;
@@ -2397,7 +2388,7 @@ namespace OtherTools
 			// com0UpTextBox
 			// 
 			this.com0UpTextBox.Enabled = false;
-			this.com0UpTextBox.Location = new System.Drawing.Point(102, 451);
+			this.com0UpTextBox.Location = new System.Drawing.Point(676, 458);
 			this.com0UpTextBox.Name = "com0UpTextBox";
 			this.com0UpTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com0UpTextBox.TabIndex = 4;
@@ -2405,7 +2396,7 @@ namespace OtherTools
 			// functionTextBox
 			// 
 			this.functionTextBox.Enabled = false;
-			this.functionTextBox.Location = new System.Drawing.Point(391, 407);
+			this.functionTextBox.Location = new System.Drawing.Point(965, 414);
 			this.functionTextBox.Name = "functionTextBox";
 			this.functionTextBox.Size = new System.Drawing.Size(162, 21);
 			this.functionTextBox.TabIndex = 2;
@@ -2415,7 +2406,7 @@ namespace OtherTools
 			this.ccDownloadButton.BackColor = System.Drawing.Color.Transparent;
 			this.ccDownloadButton.Enabled = false;
 			this.ccDownloadButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDownloadButton.Location = new System.Drawing.Point(1069, 575);
+			this.ccDownloadButton.Location = new System.Drawing.Point(32, 579);
 			this.ccDownloadButton.Name = "ccDownloadButton";
 			this.ccDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.ccDownloadButton.TabIndex = 12;
@@ -2426,7 +2417,7 @@ namespace OtherTools
 			// ccClearDecodeButton
 			// 
 			this.ccClearDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccClearDecodeButton.Location = new System.Drawing.Point(1069, 522);
+			this.ccClearDecodeButton.Location = new System.Drawing.Point(32, 525);
 			this.ccClearDecodeButton.Name = "ccClearDecodeButton";
 			this.ccClearDecodeButton.Size = new System.Drawing.Size(75, 30);
 			this.ccClearDecodeButton.TabIndex = 12;
@@ -2438,7 +2429,7 @@ namespace OtherTools
 			// 
 			this.ccDecodeButton.Enabled = false;
 			this.ccDecodeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccDecodeButton.Location = new System.Drawing.Point(1069, 469);
+			this.ccDecodeButton.Location = new System.Drawing.Point(32, 471);
 			this.ccDecodeButton.Name = "ccDecodeButton";
 			this.ccDecodeButton.Size = new System.Drawing.Size(75, 30);
 			this.ccDecodeButton.TabIndex = 12;
@@ -2450,9 +2441,9 @@ namespace OtherTools
 			// 
 			this.ccSettButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.ccSettButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccSettButton.Location = new System.Drawing.Point(1069, 416);
+			this.ccSettButton.Location = new System.Drawing.Point(32, 349);
 			this.ccSettButton.Name = "ccSettButton";
-			this.ccSettButton.Size = new System.Drawing.Size(75, 30);
+			this.ccSettButton.Size = new System.Drawing.Size(88, 41);
 			this.ccSettButton.TabIndex = 12;
 			this.ccSettButton.Text = "连接中控";
 			this.ccSettButton.UseVisualStyleBackColor = false;
@@ -2461,18 +2452,18 @@ namespace OtherTools
 			// protocolEditButton
 			// 
 			this.protocolEditButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.protocolEditButton.Location = new System.Drawing.Point(1069, 357);
+			this.protocolEditButton.Location = new System.Drawing.Point(32, 417);
 			this.protocolEditButton.Name = "protocolEditButton";
 			this.protocolEditButton.Size = new System.Drawing.Size(75, 30);
 			this.protocolEditButton.TabIndex = 12;
-			this.protocolEditButton.Text = "编辑协议";
+			this.protocolEditButton.Text = "查看文件";
 			this.protocolEditButton.UseVisualStyleBackColor = true;
 			this.protocolEditButton.Click += new System.EventHandler(this.protocolEditButton_Click);
 			// 
 			// ccSearchButton
 			// 
 			this.ccSearchButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.ccSearchButton.Location = new System.Drawing.Point(954, 357);
+			this.ccSearchButton.Location = new System.Drawing.Point(463, 361);
 			this.ccSearchButton.Name = "ccSearchButton";
 			this.ccSearchButton.Size = new System.Drawing.Size(75, 30);
 			this.ccSearchButton.TabIndex = 12;
@@ -2483,7 +2474,7 @@ namespace OtherTools
 			// PS2Label
 			// 
 			this.PS2Label.AutoSize = true;
-			this.PS2Label.Location = new System.Drawing.Point(310, 362);
+			this.PS2Label.Location = new System.Drawing.Point(1014, 369);
 			this.PS2Label.Name = "PS2Label";
 			this.PS2Label.Size = new System.Drawing.Size(41, 12);
 			this.PS2Label.TabIndex = 11;
@@ -2492,7 +2483,7 @@ namespace OtherTools
 			// com1Label
 			// 
 			this.com1Label.AutoSize = true;
-			this.com1Label.Location = new System.Drawing.Point(172, 362);
+			this.com1Label.Location = new System.Drawing.Point(890, 369);
 			this.com1Label.Name = "com1Label";
 			this.com1Label.Size = new System.Drawing.Size(53, 12);
 			this.com1Label.TabIndex = 11;
@@ -2501,7 +2492,7 @@ namespace OtherTools
 			// com0Label
 			// 
 			this.com0Label.AutoSize = true;
-			this.com0Label.Location = new System.Drawing.Point(29, 362);
+			this.com0Label.Location = new System.Drawing.Point(753, 369);
 			this.com0Label.Name = "com0Label";
 			this.com0Label.Size = new System.Drawing.Size(53, 12);
 			this.com0Label.TabIndex = 11;
@@ -2510,7 +2501,7 @@ namespace OtherTools
 			// protocolComboBox
 			// 
 			this.protocolComboBox.FormattingEnabled = true;
-			this.protocolComboBox.Location = new System.Drawing.Point(102, 406);
+			this.protocolComboBox.Location = new System.Drawing.Point(676, 413);
 			this.protocolComboBox.Name = "protocolComboBox";
 			this.protocolComboBox.Size = new System.Drawing.Size(162, 20);
 			this.protocolComboBox.TabIndex = 10;
@@ -2545,7 +2536,7 @@ namespace OtherTools
 			// label22
 			// 
 			this.label22.AutoSize = true;
-			this.label22.Location = new System.Drawing.Point(315, 587);
+			this.label22.Location = new System.Drawing.Point(889, 594);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(47, 12);
 			this.label22.TabIndex = 3;
@@ -2554,7 +2545,7 @@ namespace OtherTools
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(29, 587);
+			this.label17.Location = new System.Drawing.Point(603, 594);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(47, 12);
 			this.label17.TabIndex = 3;
@@ -2563,7 +2554,7 @@ namespace OtherTools
 			// label21
 			// 
 			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(312, 543);
+			this.label21.Location = new System.Drawing.Point(886, 550);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(53, 12);
 			this.label21.TabIndex = 3;
@@ -2572,7 +2563,7 @@ namespace OtherTools
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(26, 543);
+			this.label9.Location = new System.Drawing.Point(600, 550);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(53, 12);
 			this.label9.TabIndex = 3;
@@ -2581,7 +2572,7 @@ namespace OtherTools
 			// label20
 			// 
 			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(309, 499);
+			this.label20.Location = new System.Drawing.Point(883, 506);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(59, 12);
 			this.label20.TabIndex = 3;
@@ -2590,7 +2581,7 @@ namespace OtherTools
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(23, 499);
+			this.label4.Location = new System.Drawing.Point(597, 506);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(59, 12);
 			this.label4.TabIndex = 3;
@@ -2599,7 +2590,7 @@ namespace OtherTools
 			// label19
 			// 
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(309, 455);
+			this.label19.Location = new System.Drawing.Point(883, 462);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(59, 12);
 			this.label19.TabIndex = 3;
@@ -2608,7 +2599,7 @@ namespace OtherTools
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(23, 455);
+			this.label3.Location = new System.Drawing.Point(597, 462);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(59, 12);
 			this.label3.TabIndex = 3;
@@ -2617,7 +2608,7 @@ namespace OtherTools
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(26, 410);
+			this.label18.Location = new System.Drawing.Point(600, 417);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(53, 12);
 			this.label18.TabIndex = 1;
@@ -2626,7 +2617,7 @@ namespace OtherTools
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(312, 411);
+			this.label2.Location = new System.Drawing.Point(886, 418);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(53, 12);
 			this.label2.TabIndex = 1;
@@ -3012,7 +3003,6 @@ namespace OtherTools
 		private Button kpEditButton;
 		private Button kpShowIconButton;
 		private Button kpShowListButton;
-		private Button kpListenButton;
 		private TextBox kpOrderTextBox;
 		private OpenFileDialog keyOpenFileDialog;
 		private SaveFileDialog keySaveFileDialog;

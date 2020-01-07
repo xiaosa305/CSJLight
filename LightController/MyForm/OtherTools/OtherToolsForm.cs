@@ -40,6 +40,14 @@ namespace OtherTools
 		private bool isCCConnected = false;
 		private bool isDownloading = false;
 
+		enum CONNECT_METHOD {
+			NORMAL,
+			LC,
+			CC,
+			KP,
+			TC
+		}
+
 		public OtherToolsForm()
 		{
 			InitializeComponent();
@@ -415,6 +423,7 @@ namespace OtherTools
 		}
 
 		private void debugLC() {
+
 			//TODO 此处开始，发送相应的灯光数据
 			if (isConnectByCom && comConnect != null)
 			{
@@ -559,9 +568,7 @@ namespace OtherTools
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
 			if (comConnect != null) {
-				Console.WriteLine(lcData);
-					
-					comConnect.LightControlDownload(lcData, ComLCConnectCompleted, ComLCConnectError);
+				comConnect.LightControlDownload(lcData, ComLCDownloadCompleted, ComLCDownloadError);
 			}
 		}
 
@@ -615,8 +622,8 @@ namespace OtherTools
 
 			Completed comCCStartCompleted = new Completed(ComCCStartCompleted);
 			Error comCCStartError = new Error(ComCCStartError);
-			comCCStartCompleted.Invoke(comCCStartCompleted);
-			comCCStartError.Invoke();
+			this.Invoke(comCCStartCompleted,sender);
+			this.Invoke(comCCStartError);
 
 			comConnect.CenterControlStartCopy(comCCStartCompleted,comCCStartError);
 		}
@@ -628,7 +635,16 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void clearDecodeButton_Click(object sender, EventArgs e)
 		{
-			decodeRichTextBox.Clear();
+			//decodeRichTextBox.Clear();
+
+			Completed comCCEndCompleted = new Completed(ComCCStopCompleted);
+			Error comCCEndError = new Error(ComCCEndError);
+			comCCEndCompleted.Invoke(comCCEndCompleted);
+			comCCEndError.Invoke();
+
+			comConnect.CenterControlStopCopy(comCCEndCompleted, comCCEndError);
+
+
 		}
 
 		/// <summary>
@@ -710,7 +726,7 @@ namespace OtherTools
 				return;
 			}
 
-			comConnect.CenterControlDownload(ccEntity,ComCCDownloadCompleted , ComCCDownloadError);
+			comConnect.CenterControlDownload(ccEntity,  ComCCDownloadCompleted ,  ComCCDownloadError);
 
 			//ccToolStripStatusLabel2.Text = "成功下载中控数据。";
 		}
@@ -1069,13 +1085,7 @@ namespace OtherTools
 			}			
 		}
 
-		private bool isListening = false;
-		private void kpListenButton_Click(object sender, EventArgs e)
-		{
-			isListening = !isListening;
-			kpListenButton.Text = isListening ? "停止监听" : "监听按键";
-		}
-
+		
 		/// <summary>
 		/// 两个自定义墙板键码值的输入文字的验证。
 		/// </summary>
@@ -1164,7 +1174,6 @@ namespace OtherTools
 				deviceComboBox.Enabled = true;
 				deviceComboBox.SelectedIndex = 0;
 			}
-
 		}
 
 		private void refreshButton_Click(object sender, EventArgs e)
@@ -1185,24 +1194,34 @@ namespace OtherTools
 			if (isConnectByCom)
 			{
 				if (comConnect == null) {
-					lcToolStripStatusLabel1.Text = "连接设备失败，原因是：comConnect为null";
+					setAllStatusLabel1("打开串口失败，原因是：comConnect为null");
 					return;
 				}
 
 				try
 				{
 					comConnect.OpenSerialPort(deviceComboBox.Text);
-					lcToolStripStatusLabel1.Text = "已连接设备(" + deviceComboBox.Text + ")";
+					setAllStatusLabel1( "已打开串口(" + deviceComboBox.Text + ")");
 				}
 				catch (Exception ex){
-					lcToolStripStatusLabel1.Text = "连接设备失败，原因是：" + ex.Message;
-				}
-				
+					setAllStatusLabel1("打开串口失败，原因是：" + ex.Message);
+				}				
 			}
 			else {
 				
 			}
 		}
+
+		/// <summary>
+		/// 辅助方法：统一设置左侧的状态栏的显示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		private void setAllStatusLabel1(string msg) {
+			lcToolStripStatusLabel1.Text = msg;
+			ccToolStripStatusLabel1.Text = msg;
+			kpToolStripStatusLabel1.Text = msg;
+		}
+
 
 		/// <summary>
 		/// 辅助方法：关闭连接
@@ -1226,64 +1245,71 @@ namespace OtherTools
 			//	return;
 			//}
 
-			//Completed completedDelegate = new Completed(ComLCReadCompleted);
-			//Error errorDelegate = new Error(ComLCReadError);
+			Completed completedDelegate = new Completed(ComLCReadCompleted);
+			Error errorDelegate = new Error(ComLCReadError);
 
-			//completedDelegate.Invoke(completedDelegate);
-			//errorDelegate.Invoke();
+			this.Invoke(completedDelegate,lcReadButton);
+			this.Invoke(errorDelegate);
 
-			comConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
-
-			lcData = null;
+			comConnect.LightControlRead(completedDelegate, errorDelegate);
 
 
 			//TODO 多测试检查以下代码
-			isOvertime = false;
-			while (!isOvertime && lcData == null)
-			{
-				Thread.Sleep(100);
-				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
-			}
+			//isOvertime = false;
+			//while (!isOvertime && lcData == null)
+			//{
+			//	Thread.Sleep(100);
+			//	lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			//}
 
-			if (lcData != null)
-			{
-				setLcForm();
-				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
-			}
-			else
-			{
-				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
-			}
+			//if (lcData != null)
+			//{
+			//	setLcForm();
+			//	lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+			//}
+			//else
+			//{
+			//	lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			//}
 
 		}
 	
 		public void  ComLCConnectCompleted(Object obj) {
-			Console.WriteLine("OO++++++++++++++++++++++");			
-			lcToolStripStatusLabel2.Text = "已切换成灯控配置";
+			this.Invoke((EventHandler)delegate{				
+				lcToolStripStatusLabel2.Text = "已切换成灯控配置";
+			});			
 		}
 
 		public void ComLCConnectError() {
-			//isOvertime = true;
-			Console.WriteLine("HH----------------------------------------");
-			lcToolStripStatusLabel2.Text = "切换灯控配置失败";
+			isOvertime = true;
+			MessageBox.Show("请求超时，切换灯控配置失败");
+			lcToolStripStatusLabel2.Text = "请求超时，切换灯控配置失败";
+			lcToolStripStatusLabel1.Text = "请求超时，设备可能并未连接到串口";
 		}
 
 		/// <summary>
-		/// 切换到中控连接
+		/// 成功切换到中控连接后的操作
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCConnectCompleted(Object obj)
-		{			
-			ccToolStripStatusLabel2.Text = "已切换成中控配置";
-			ccDecodeButton.Enabled = true;
-			ccDownloadButton.Enabled = true;
-
-			isCCConnected = true;	
+		{
+			this.Invoke((EventHandler)delegate {
+				ccToolStripStatusLabel2.Text = "已切换成中控配置";
+				ccDecodeButton.Enabled = true;
+				ccDownloadButton.Enabled = true;
+				isCCConnected = true;
+			});			
 		}
 
 		public void ComCCConnectError()
 		{
-			isOvertime = true;			
+			this.Invoke((EventHandler)delegate {
+				ccToolStripStatusLabel2.Text = "切换中控配置失败";
+				ccDecodeButton.Enabled = false;
+				ccDownloadButton.Enabled = false;				
+				isCCConnected = false;
+				isOvertime = false;
+			});
 		}
 
 
@@ -1300,8 +1326,11 @@ namespace OtherTools
 
 
 		public void ComLCReadCompleted(Object lcDataTemp)
-		{			
-			this.lcData = lcDataTemp as LightControlData;			
+		{
+			this.lcData = lcDataTemp as LightControlData;
+			this.Invoke((EventHandler)delegate {
+				setLcForm();
+			});
 		}
 
 		public void ComLCReadError()
@@ -1309,40 +1338,93 @@ namespace OtherTools
 			isOvertime = true;			
 		}
 
-		public void ComCCDownloadCompleted(Object lcDataTemp)
+		/// <summary>
+		/// 灯控数据下载成功回调方法
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComLCDownloadCompleted(Object obj)
 		{
-
-			ccToolStripStatusLabel2.Text = "灯控配置下载成功";
+			lcToolStripStatusLabel2.Text = "灯控控配置下载成功";
 		}
 
+		// 灯控数据下载错误回调方法
+		public void ComLCDownloadError()
+		{
+			isOvertime = true;
+			lcToolStripStatusLabel2.Text = "灯控配置下载失败";
+		}
+
+		/// <summary>
+		/// 中控配置下载成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCDownloadCompleted(Object obj)
+		{
+			ccToolStripStatusLabel2.Text = "中控配置下载成功";
+		}
+
+		/// <summary>
+		/// 中控配置下载出错
+		/// </summary>
 		public void ComCCDownloadError()
 		{
-			ccToolStripStatusLabel2.Text = "灯控配置下载失败";
+			ccToolStripStatusLabel2.Text = "中控配置下载失败";
 		}
 
+		/// <summary>
+		/// 中控调试解码启动成功
+		/// </summary>
+		/// <param name="obj"></param>
 		public void ComCCStartCompleted(Object obj)
-		{			
-			List<byte> byteList = obj as List<byte>;
-			if (byteList != null && byteList.Count != 0) {
-				String strTemp = "";
-				foreach (byte item in byteList)
+		{
+			this.Invoke((EventHandler)delegate {
+				List<byte> byteList = obj as List<byte>;
+				if (byteList != null && byteList.Count != 0)
 				{
-					strTemp += StringHelper.DecimalStringToBitHex( item.ToString(), 2) + " ";
+					String strTemp = "";
+					foreach (byte item in byteList)
+					{
+						strTemp += StringHelper.DecimalStringToBitHex(item.ToString(), 2) + " ";
+					}					
+					decodeRichTextBox.Text += strTemp + "\n";				
 				}
-				Console.WriteLine(strTemp);
-				//decodeRichTextBox.Text += strTemp;				
-			}
-			ccToolStripStatusLabel2.Text = "灯控解码成功";
+				 ccToolStripStatusLabel2.Text = "灯控解码成功";
+			 });
 		}
 
+		/// <summary>
+		/// 中控调试解码启动失败
+		/// </summary>
 		public void ComCCStartError()
 		{
-			Console.WriteLine("灯控解码失败。");
 			ccToolStripStatusLabel2.Text = "灯控解码失败";
 		}
 
+		/// <summary>
+		///  中控调试解码结束成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCStopCompleted(Object obj)
+		{
+			Console.WriteLine("成功关闭中控解码。");
+			ccToolStripStatusLabel2.Text = "成功关闭中控解码";
+		}
+
+		/// <summary>
+		/// 中控调试解码结束失败
+		/// </summary>
+		public void ComCCEndError()
+		{
+			Console.WriteLine("关闭中控解码失败。");
+			ccToolStripStatusLabel2.Text = "关闭中控解码失败";
+		}
 
 
+		/// <summary>
+		/// 事件：点击《zwjTest》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void zwjTestButton_Click(object sender, EventArgs e)
 		{
 			ccEntity.GetData();	
@@ -1350,31 +1432,124 @@ namespace OtherTools
 
 
 		/// <summary>
-		/// 事件：点击《设置中控》
+		/// 事件：点击《连接中控》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void ccSetButton_Click(object sender, EventArgs e)
 		{
-			Completed completedDelegate = new Completed(ComCCConnectCompleted);
-			Error errorDelegate = new Error(ComCCConnectError);
+			//Completed completedDelegate = new Completed(ComCCConnectCompleted);
+			//Error errorDelegate = new Error(ComCCConnectError);
+			//this.Invoke(completedDelegate,sender);
+			//this.Invoke(errorDelegate);
 
-			completedDelegate.Invoke(completedDelegate);
-			errorDelegate.Invoke();
-
-			comConnect.CenterControlConnect(completedDelegate, errorDelegate);
+			comConnect.CenterControlConnect(ComCCConnectCompleted, ComCCConnectError);
 
 		}
 
-		// 切换到灯控连接
+		/// <summary>
+		/// 事件：点击《连接灯控》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void lcSetButton_Click(object sender, EventArgs e)
 		{
-			Completed comLCConnectCompletedDelegate = new Completed(ComLCConnectCompleted);
-			Error comLCConnectErrorDelegate = new Error(ComLCConnectError);
-			comLCConnectCompletedDelegate.Invoke(comLCConnectCompletedDelegate);
-			comLCConnectErrorDelegate.Invoke();
+			//Completed comLCConnectCompletedDelegate = new Completed(ComLCConnectCompleted);
+			//Error comLCConnectErrorDelegate = new Error(ComLCConnectError);
+			//comLCConnectCompletedDelegate.Invoke(comLCConnectCompletedDelegate);
+			//comLCConnectErrorDelegate.Invoke();
+			//this.Invoke(comLCConnectCompletedDelegate, sender);
+			//this.Invoke(comLCConnectErrorDelegate);
 
-			comConnect.LightControlConnect(comLCConnectCompletedDelegate, comLCConnectErrorDelegate);
+			comConnect.LightControlConnect( ComLCConnectCompleted, ComLCConnectError) ;
 		}
+
+
+		/// <summary>
+		/// 事件：点击《连接墙板》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpConnectButton_Click(object sender, EventArgs e)
+		{
+			comConnect.KeyPressConnect(ComKPConnectCompleted, ComKPConnectError);
+			
+		}
+
+		/// <summary>
+		///  连接墙板成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPConnectCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				Console.WriteLine("成功连接墙板。");
+				kpToolStripStatusLabel2.Text = "成功连接墙板";				
+				kpReadButton_Click(null, null);
+			});
+		}
+
+		/// <summary>
+		/// 连接墙板失败
+		/// </summary>
+		public void ComKPConnectError()
+		{
+			Console.WriteLine("连接墙板失败。");
+			kpToolStripStatusLabel2.Text = "连接墙板失败";
+		}
+
+		/// <summary>
+		/// 事件：点击《读取码值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpReadButton_Click(object sender, EventArgs e)
+		{
+			comConnect.KeyPressRead(ComKPReadCompleted, ComKPReadError);
+			kpToolStripStatusLabel2.Text = "正在读取墙板码值，请稍候...";
+			this.Enabled = false;
+		}
+
+		/// <summary>
+		///  读取墙板码值成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPReadCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				KeyEntity ke = obj as KeyEntity;
+				reloadKeypressListView(ke);
+				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
+				comConnect.SetKeyPressClickListener(ComKPStartListenClick);
+				this.Enabled = true;
+			});			
+		}
+
+		/// <summary>
+		/// 读取墙板码值失败
+		/// </summary>
+		public void ComKPReadError()
+		{
+			Invoke((EventHandler)delegate
+			{
+				kpToolStripStatusLabel2.Text = "读取墙板码值失败";
+			});
+		}
+
+		/// <summary>
+		///  读取用户点击的墙板键值（键序+一种不需理会的编码）
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPStartListenClick(Object obj)
+		{			
+			Invoke((EventHandler)delegate
+			{
+				List<byte> byteList = obj as List<byte>;				
+				Console.WriteLine("键序是：" + byteList[0] );			
+			});
+		}
+
 	}
 }

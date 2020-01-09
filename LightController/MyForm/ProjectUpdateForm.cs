@@ -31,6 +31,7 @@ namespace LightController.MyForm
 
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
+		
 
 		public ProjectUpdateForm(MainFormInterface mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
@@ -147,10 +148,6 @@ namespace LightController.MyForm
 						ips.Add(d2.Value.DeviceIp);
 					}				
 				}
-				//{
-				//	networkDevicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-				//	ips.Add(device.Key);
-				//}
 				networkDevicesComboBox.Enabled = true;
 				networkDevicesComboBox.SelectedIndex = 0;
 			}
@@ -298,7 +295,9 @@ namespace LightController.MyForm
 
 		public void DownloadProject(bool isNetwork) {
 			if (isNetwork)
-			{
+			{				
+				connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]);
+				Thread.Sleep(100);
 				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(this));
 			}
 			else {

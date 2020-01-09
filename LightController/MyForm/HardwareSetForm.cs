@@ -328,26 +328,27 @@ namespace LightController.MyForm
 			connectTools.SearchDevice();
 			Thread.Sleep(1000);
 
-			Dictionary<string, string> allDevices = ConnectTools.DeviceInfos();
-			ipsComboBox.Items.Clear();
-			ips = new List<string>();
-			if (allDevices.Count > 0)
-			{
-				foreach (KeyValuePair<string, string> device in allDevices)
-				{
-					ipsComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-					ips.Add(device.Key);
-				}
-				ipsComboBox.SelectedIndex = 0;
-				ipsComboBox.Enabled = true;
-			}
-			else {
-				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
-				ipsComboBox.SelectedIndex = -1;
-				ipsComboBox.Enabled = false;
-			}
-			//搜索完成后，再将按钮开放
-			networkSearchSkinButton.Enabled = true;
+			//TODO:0109
+			//Dictionary<string, string> allDevices = ConnectTools.DeviceInfos();
+			//ipsComboBox.Items.Clear();
+			//ips = new List<string>();
+			//if (allDevices.Count > 0)
+			//{
+			//	foreach (KeyValuePair<string, string> device in allDevices)
+			//	{
+			//		ipsComboBox.Items.Add(device.Value + "(" + device.Key + ")");
+			//		ips.Add(device.Key);
+			//	}
+			//	ipsComboBox.SelectedIndex = 0;
+			//	ipsComboBox.Enabled = true;
+			//}
+			//else {
+			//	MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
+			//	ipsComboBox.SelectedIndex = -1;
+			//	ipsComboBox.Enabled = false;
+			//}
+			////搜索完成后，再将按钮开放
+			//networkSearchSkinButton.Enabled = true;
 		}
 
 

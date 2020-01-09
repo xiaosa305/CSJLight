@@ -134,16 +134,23 @@ namespace LightController.MyForm
 			// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
 			Thread.Sleep(1000);
 
-			Dictionary<string, string> allDevices = connectTools.GetDeviceInfo();
+			//TODO:0109
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos(); 
 			networkDevicesComboBox.Items.Clear();
 			ips = new List<string>();
 			if (allDevices.Count > 0)
 			{
-				foreach (KeyValuePair<string, string> device in allDevices)
-				{
-					networkDevicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-					ips.Add(device.Key);
+				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices) {
+					foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value) {
+
+						networkDevicesComboBox.Items.Add(d2.Value.DeviceName+ "(" + d2.Value.DeviceIp + ")");
+						ips.Add(d2.Value.DeviceIp);
+					}				
 				}
+				//{
+				//	networkDevicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
+				//	ips.Add(device.Key);
+				//}
 				networkDevicesComboBox.Enabled = true;
 				networkDevicesComboBox.SelectedIndex = 0;
 			}

@@ -43,17 +43,12 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    //SerialConnect.OpenSerialPort("COM14");
-                    //SerialConnect.OpenSerialPort("COM16");
-                    string aa = "";
-                    string[] bb = aa.Split(' ');
-                    Console.WriteLine();
+                    ConnectTools.GetInstance().Connect(null);
                     break;
                 case 2:
                     SerialConnect.CenterControlConnect(CCCCompleted,CCCError);
                     break;
                 case 3:
-                    //SerialConnect.CenterControlStartCopy(CCCpCompleted, CCCpError );
                     break;
                 case 4:
                     SerialConnect.CenterControlStopCopy(CCXpCompleted, CCXpError);

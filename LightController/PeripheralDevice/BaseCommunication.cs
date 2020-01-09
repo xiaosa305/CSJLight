@@ -12,9 +12,8 @@ namespace LightController.PeripheralDevice
 {
     public abstract class BaseCommunication
     {
-        private const string BEGIN_CONFIG = "BeginConfig";
-        private const string END_CONFIG = "EndConfig";
         private const int DEFAULT_PACKSIZE = 512;
+        private const double TIMEOUT = 4000;//超时等待时长
         protected const int UDPADDR = 255;
         private const int PACKHEADLENGTH = 8;//协议头大小
         private const byte PACKFLAG1 = 0xAA;//协议标记1
@@ -31,7 +30,6 @@ namespace LightController.PeripheralDevice
         private bool IsSending { get; set; }//发送进行中标记
         private bool IsStartCopy { get; set; }
         protected System.Timers.Timer TimeOutTimer { get; set; }//超时定时器
-        private const double TIMEOUT = 4000;//超时等待时长
         //private bool ThreadStatus { get; set; }//线程状态标记
         private bool IsStopThread { get; set; }//终止线程继续执行标记
         private byte[] Data { get; set; }//数据
@@ -67,14 +65,6 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="data"></param>
         protected abstract void Send(byte[] data);
-        /// <summary>
-        /// 搜索设备
-        /// </summary>
-        public abstract void AutoSearchDevice();
-        /// <summary>
-        /// 链接设备
-        /// </summary>
-        public abstract void ConnectDevice();
         /// <summary>
         /// 发送数据完成
         /// </summary>

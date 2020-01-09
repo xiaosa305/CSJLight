@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using System;
 using System.Collections.Generic;
@@ -63,58 +64,98 @@ namespace LightController.Tools
                 }
             }
         }
-        public void AddConnect(byte[] receiveBuff, int port)
+        public void AddConnect(NetworkDeviceInfo info,int port)
         {
-            string ip = null;
-            try
+            for (int i = 0; i < MaxCount; i++)
             {
-                string strBuff = Encoding.Default.GetString(receiveBuff);
-                string[] strarrau = strBuff.Split(' ');
-                ip = strBuff.Split(' ')[0];
-                string addr = strBuff.Split(' ')[1];
-                string deviceName = strBuff.Split(' ')[2];
-                if (strarrau.Length > 3)
+                if (conns[i] != null || conns[i].IsUse)
                 {
-                    for (int i = 3; i < strarrau.Length; i++)
+                    if (conns[i].Ip != null)
                     {
-                        deviceName += " " + strarrau[i];
-                    }
-                }
-                for (int i = 0; i < MaxCount; i++)
-                {
-                    if (conns[i] != null || conns[i].IsUse)
-                    {
-                        if (conns[i].Ip != null)
+                        if (conns[i].Ip.Equals(info.DeviceIp))
                         {
-                            if (conns[i].Ip.Equals(ip))
-                            {
-                                return;
-                            }
+                            return;
                         }
                     }
                 }
-                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                int index = NewIndex();
-                if (index == -1)
-                {
-                    CSJLogs.GetInstance().DebugLog("网络连接池已满");
-                }
-                else
-                {
-                    Conn conn = conns[index];
-                    socket.Connect(iPEndPoint);
-                    int.TryParse(addr, out int addrValue);
-                    conn.SetAddr(addrValue);
-                    conn.Init(socket);
-                    conn.SetDeviceName(deviceName);
-                    CSJLogs.GetInstance().DebugLog("客户端 [" + conn.Ip + "] 连接");
-                    conn.BeginReceive();
-                }
             }
-            catch (Exception ex)
+            IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(info.DeviceIp), port);
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            int index = NewIndex();
+            if (index == -1)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                CSJLogs.GetInstance().DebugLog("网络连接池已满");
+            }
+            else
+            {
+                Conn conn = conns[index];
+                socket.Connect(iPEndPoint);
+                conn.SetAddr(info.DeviceAddr);
+                conn.Init(socket);
+                conn.SetDeviceName(info.DeviceName);
+                CSJLogs.GetInstance().DebugLog("客户端 [" + conn.Ip + "] 连接");
+                conn.BeginReceive();
+            }
+        }
+        //protected void AddConnect(byte[] receiveBuff, int port)
+        //{
+        //    string ip = null;
+        //    try
+        //    {
+        //        string strBuff = Encoding.Default.GetString(receiveBuff);
+        //        string[] strarrau = strBuff.Split(' ');
+        //        ip = strBuff.Split(' ')[0];
+        //        string addr = strBuff.Split(' ')[1];
+        //        string deviceName = strBuff.Split(' ')[2];
+        //        if (strarrau.Length > 3)
+        //        {
+        //            for (int i = 3; i < strarrau.Length; i++)
+        //            {
+        //                deviceName += " " + strarrau[i];
+        //            }
+        //        }
+        //        for (int i = 0; i < MaxCount; i++)
+        //        {
+        //            if (conns[i] != null || conns[i].IsUse)
+        //            {
+        //                if (conns[i].Ip != null)
+        //                {
+        //                    if (conns[i].Ip.Equals(ip))
+        //                    {
+        //                        return;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+        //        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //        int index = NewIndex();
+        //        if (index == -1)
+        //        {
+        //            CSJLogs.GetInstance().DebugLog("网络连接池已满");
+        //        }
+        //        else
+        //        {
+        //            Conn conn = conns[index];
+        //            socket.Connect(iPEndPoint);
+        //            int.TryParse(addr, out int addrValue);
+        //            conn.SetAddr(addrValue);
+        //            conn.Init(socket);
+        //            conn.SetDeviceName(deviceName);
+        //            CSJLogs.GetInstance().DebugLog("客户端 [" + conn.Ip + "] 连接");
+        //            conn.BeginReceive();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CSJLogs.GetInstance().ErrorLog(ex);
+               
+        //    }
+        //}
+        public void CloseAll()
+        {
+            try
+            {
                 if (conns != null)
                 {
                     for (int i = 0; i < MaxCount; i++)
@@ -123,14 +164,15 @@ namespace LightController.Tools
                         {
                             if (conns[i].Ip != null)
                             {
-                                if (conns[i].Ip.Equals(ip))
-                                {
-                                    conns[i].CloseDevice();
-                                }
+                                conns[i].CloseDevice();
                             }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
         public void SetPackageSize(string ip, int size)

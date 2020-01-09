@@ -19,7 +19,6 @@ namespace LightController.Tools
         {
 
         }
-
         public static XiaosaTest GetInstance()
         {
             if (Instance == null)
@@ -28,43 +27,43 @@ namespace LightController.Tools
             }
             return Instance;
         }
-
         public void OpenSerialPort()
         {
+            NetworkDeviceInfo info = new NetworkDeviceInfo();
+            info.DeviceIp = "192.168.31.16";
+            info.DeviceName = "惊艳PLUS";
+            info.DeviceAddr = 1;
+            NetworkConnect connect = new NetworkConnect(info);
+            Thread.Sleep(300);
+            Console.WriteLine("设备连接状态 : " + connect.IsConnected());
+            connect.LightControlConnect(LCCCompleted, LCCError);
         }
-
         public void Download(CCEntity entity)
         {
-            LightControlData data = LightControlData.GetTestData();
-            data.WriteToFile(@"C:\Users\99729\Desktop\project\LightControl.cfg");
+            
         }
-
         private void KeyPressClickListener(Object obj)
         {
             List<byte> data = obj as List<byte>;
         }
-
-        private void CCDCompleted(Object obj)
+        private void LCCCompleted(Object obj)
         {
-            Console.WriteLine("中控设备下载成功");
+            Console.WriteLine("灯控设备连接成功");
         }
-
         private void KPCConpleted(Object obj)
         {
             Console.WriteLine("墙板设备连接成功");
             Thread.Sleep(500);
         }
-
         private void KPRCompleted(Object obj)
         {
             KeyEntity entity = obj as KeyEntity;
             Console.WriteLine("墙板设备读取成功");
             //SerialConnect.KeyPressDownload(entity, KPDCompleted, KPDError);
         }
-
-        private void CCDError()
+        private void LCCError()
         {
-            Console.WriteLine("中控设备下载失败");
+            Console.WriteLine("灯控设备连接失败");
         }
         private void KPCError()
         {

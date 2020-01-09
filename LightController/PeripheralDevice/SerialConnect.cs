@@ -49,14 +49,6 @@ namespace LightController.PeripheralDevice
             this.SerialPortDevice.DataBits = 8;
             this.SerialPortDevice.Parity = Parity.None;
         }
-        public override void AutoSearchDevice()
-        {
-            throw new NotImplementedException();
-        }
-        public override void ConnectDevice()
-        {
-            throw new NotImplementedException();
-        }
         protected void ReceiveData(object sender, SerialDataReceivedEventArgs s)
         {
             try

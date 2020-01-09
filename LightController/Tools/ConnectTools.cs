@@ -23,8 +23,8 @@ namespace LightController.Tools
         private Thread SendThread { get; set; }
         private string Ip { get; set; }
         private UdpClient UdpClient { get; set; }
-        private Thread receiveThread { get; set; }
-
+        private Thread ReceiveThread { get; set; }
+        public static Dictionary<string,Dictionary<string,NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
         private ConnectTools()
         {
             SocketTools.GetInstance().Start();
@@ -46,19 +46,19 @@ namespace LightController.Tools
                     IsStart = false;
                     UdpServer.Close();
                     UdpClient.Close();
-                    receiveThread.Abort();
+                    ReceiveThread.Abort();
                     Thread.Sleep(100);
-                    receiveThread = null;
+                    ReceiveThread = null;
                 }
                 ServerIp = ip;
                 UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
                 UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-                receiveThread = new Thread(RecevieMsg)
+                ReceiveThread = new Thread(RecevieMsg)
                 {
                     IsBackground = true
                 };
-                receiveThread.Start(UdpClient);
+                ReceiveThread.Start(UdpClient);
                 IsStart = true;
             }
             catch (Exception ex)
@@ -71,6 +71,12 @@ namespace LightController.Tools
         {
             if (IsStart)
             {
+                DeviceInfos.Clear();
+                SocketTools.GetInstance().CloseAll();
+                if (!DeviceInfos.ContainsKey(ServerIp))
+                {
+                    DeviceInfos.Add(ServerIp, new Dictionary<string, NetworkDeviceInfo>());
+                }
                 Console.WriteLine("Start SerchDevice");
                 List<byte> buff = new List<byte>();
                 byte[] buffData = Encoding.Default.GetBytes(Constant.UDP_ORDER);
@@ -100,10 +106,23 @@ namespace LightController.Tools
                 while (true)
                 {
                     IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 7070);
+                    NetworkDeviceInfo info = new NetworkDeviceInfo();
                     byte[] data = udpClient.Receive(ref iPEndPoint);
                     byte[] buff = new byte[data.Length - 8];
                     Array.Copy(data, 8, buff, 0, buff.Length);
-                    SocketTools.GetInstance().AddConnect(buff, 7060);
+                    string strBuff = Encoding.Default.GetString(buff);
+                    string[] strarrau = strBuff.Split(' ');
+                    info.DeviceIp = strBuff.Split(' ')[0];
+                    int.TryParse(strBuff.Split(' ')[1], out int addr);
+                    info.DeviceAddr = addr;
+                    info.DeviceName = strBuff.Split(' ')[2];
+                    if (!DeviceInfos[ServerIp].ContainsKey(info.DeviceIp))
+                    {
+                        DeviceInfos[ServerIp].Add(info.DeviceIp, info);
+                    }
+                    Connect(info);
+                    //SocketTools.GetInstance().AddConnect(info, UDP_CLIENT_PORT);
+                    //SocketTools.GetInstance().AddConnect(buff, 7060);
                 }
             }
             catch (Exception ex)
@@ -111,6 +130,10 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
            
+        }
+        public void Connect(NetworkDeviceInfo info)
+        {
+            SocketTools.GetInstance().AddConnect(info, UDP_CLIENT_PORT);
         }
         public void SetConnectPackageSize(string ip,int size)
         {
@@ -124,42 +147,42 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public IList<string> GetDevicesIp()
-        {
-            if (IsStart)
-            {
-                return SocketTools.GetInstance().GetDeviceList();
-            }
-            else
-            {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
-                throw new Exception("未启动服务");
-            }
-        }
-        public IList<string> GetDeviceNames()
-        {
-            if (IsStart)
-            {
-                return SocketTools.GetInstance().GetDeviceNameList();
-            }
-            else
-            {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
-                throw new Exception("未启动服务");
-            }
-        }
-        public Dictionary<string,string> GetDeviceInfo()
-        {
-            if (IsStart)
-            {
-                return SocketTools.GetInstance().GetDeviceInfos();
-            }
-            else
-            {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
-                throw new Exception("未启动服务");
-            }
-        }
+        //public IList<string> GetDevicesIp()
+        //{
+        //    if (IsStart)
+        //    {
+        //        return SocketTools.GetInstance().GetDeviceList();
+        //    }
+        //    else
+        //    {
+        //        CSJLogs.GetInstance().DebugLog("未启动服务");
+        //        throw new Exception("未启动服务");
+        //    }
+        //}
+        //public IList<string> GetDeviceNames()
+        //{
+        //    if (IsStart)
+        //    {
+        //        return SocketTools.GetInstance().GetDeviceNameList();
+        //    }
+        //    else
+        //    {
+        //        CSJLogs.GetInstance().DebugLog("未启动服务");
+        //        throw new Exception("未启动服务");
+        //    }
+        //}
+        //public Dictionary<string,string> GetDeviceInfo()
+        //{
+        //    if (IsStart)
+        //    {
+        //        return SocketTools.GetInstance().GetDeviceInfos();
+        //    }
+        //    else
+        //    {
+        //        CSJLogs.GetInstance().DebugLog("未启动服务");
+        //        throw new Exception("未启动服务");
+        //    }
+        //}
         public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)

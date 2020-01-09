@@ -165,9 +165,9 @@ namespace LightController.Tools.CSJ.IMPL
                     string strValue = "";
                     for (int relayIndex = 0; relayIndex < ((RelayCount - relayDataIndex * 8) > 8 ? 8 : RelayCount - relayDataIndex * 8); relayIndex++)
                     {
-                        strValue = strValue + (SceneData[sceneIndex, relayDataIndex * 8 + relayIndex] ? "1" : "0");
+                        strValue =(SceneData[sceneIndex, relayDataIndex * 8 + relayIndex] ? "1" : "0") + strValue;
                     }
-                    strValue = strValue.PadRight(8, '0');
+                    strValue = strValue.PadLeft(8, '0');
                     data.Add(Convert.ToByte(strValue, 2));
                 }
             }

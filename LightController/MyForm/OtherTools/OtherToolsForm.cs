@@ -17,35 +17,56 @@ using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using LightController.Entity;
 using LightController.PeripheralDevice;
+using static LightController.PeripheralDevice.BaseCommunication;
 using System.Timers;
-using LightController.Tools;
 
 namespace OtherTools
 {
 	public partial class OtherToolsForm : Form
 	{
+		enum ConnectStatus
+		{
+			No,
+			Normal,
+			Lc,
+			Cc,
+			Kp,
+			Tc
+		}
+
 		private IList<Button> buttonList = new List<Button>();
 		private String cfgPath; // 灯控页打开的 灯控配置文件路径(*.cfg)
 		private LightControlData lcData; //灯控封装对象
-		private int frameIndex = 0; // 灯控选中的场景，用以显示不同场景的灯光开启状态
+		private CCEntity ccEntity; // 中控封装对象
+		private KeyEntity keyEntity;  // 墙板封装对象
+
 		private bool isReadLC = false;
-		private CCEntity ccEntity;
+		private string protocolXlsPath = "C:\\Controller1.xls";
 		private HSSFWorkbook xlsWorkbook;
 		private IList<string> sheetList;
-		private string protocolXlsPath = "C:\\Controller1.xls";
-		private bool isDecoding = false; //中控是否开启解码
+
 		private bool isKeepLightOn = false;
-		private System.Timers.Timer timer;
+		private int lcFrameIndex = 0; // 灯控选中的场景，用以显示不同场景的灯光开启状态
+
+		private ConnectStatus connStatus = ConnectStatus.No;
+		
+		private bool isDecoding = false; //中控是否开启解码
+		private bool isKpShowDetails = true;
+
+		//private bool isConnected = false;  //是否已连上设备
+		//private bool isOvertime = false; //是否超时
+		//private bool isCCConnected = false;
+		//private bool isDownloading = false;
+
+		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
 		public OtherToolsForm()
 		{
-			InitializeComponent();
+			InitializeComponent();					
 
-			//MARK : 设置双缓存：网上说可以解决闪烁的问题，写在构造函数中 -->实测无效
-			//SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+			#region 初始化各组件		
 
-			#region 初始化各组件			
-
+			// 初始化强电各种配置
 			qdFrameComboBox.SelectedIndex = 0;
 
 			lightButtons[0] = lightButton1;
@@ -94,6 +115,8 @@ namespace OtherTools
 				item.SelectedIndex = 0;
 			}
 
+			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
+
 
 			// 初始化墙板配置界面的TabControl
 			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -103,7 +126,7 @@ namespace OtherTools
 			tabControl1.ItemSize = new Size(60, 100);
 
 			#endregion
-
+			
 		}
 
 		private Point mouse_offset;
@@ -126,9 +149,6 @@ namespace OtherTools
 		}
 
 
-
-
-
 		private void commonButton_Click(object sender, EventArgs e)
 		{
 			Button button = (Button)sender;
@@ -137,6 +157,10 @@ namespace OtherTools
 
 		private void OtherToolsForm_Load(object sender, EventArgs e)
 		{
+			//直接刷新串口列表
+			refreshDeviceComboBox();
+
+			// 添加皮肤列表
 			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
 			try
 			{
@@ -155,13 +179,15 @@ namespace OtherTools
 					skinComboBox.SelectedIndex = 0;
 
 					skinComboBox.Show();
-					skinChangeButton.Show();
+					skinChangeButton.Show();					
 				}
 			}
 			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
+			{				
+				Console.WriteLine(ex.Message);
 			}
+
+			
 		}
 
 		private void skinChangeButton_Click(object sender, EventArgs e)
@@ -170,7 +196,7 @@ namespace OtherTools
 
 			//TODO ：禁用皮肤的代码，还不够完美
 			if (sskName.Equals("不使用皮肤")) {
-				
+
 				this.skinEngine1.Active = false;
 				return;
 			}
@@ -197,11 +223,12 @@ namespace OtherTools
 			setLightButtonValue(lightIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
-				bool tempLightOnMode = lcData.SceneData[frameIndex, lightIndex];
+				bool tempLightOnMode = lcData.SceneData[lcFrameIndex, lightIndex];
 				for (int frameIndex = 0; frameIndex < 17; frameIndex++) {
-					lcData.SceneData[frameIndex, lightIndex] = tempLightOnMode;					
+					lcData.SceneData[frameIndex, lightIndex] = tempLightOnMode;
 				}
 			}
+			debugLC();
 		}
 
 		/// <summary>
@@ -214,8 +241,8 @@ namespace OtherTools
 			{
 				return;
 			}
-			lcData.SceneData[frameIndex, lightIndex] = !lcData.SceneData[frameIndex, lightIndex];
-			lightButtons[lightIndex].ImageIndex = lcData.SceneData[frameIndex, lightIndex] ? 1 : 0;
+			lcData.SceneData[lcFrameIndex, lightIndex] = !lcData.SceneData[lcFrameIndex, lightIndex];
+			lightButtons[lightIndex].ImageIndex = lcData.SceneData[lcFrameIndex, lightIndex] ? 1 : 0;
 		}
 
 		/// <summary>
@@ -258,13 +285,16 @@ namespace OtherTools
 		{
 			IList<string> paramList = getParamListFromPath(cfgPath);
 			lcData = new LightControlData(paramList);
-
-			setLcForm();	
-
+			setLcForm();
 			lcToolStripStatusLabel2.Text = " 已加载配置文件：" + cfgPath;
 		}
 
 		private void setLcForm() {
+			if (lcData == null) {
+				MessageBox.Show("lcData==null");
+				return;
+			}
+
 			try
 			{
 				switch (lcData.LightMode)
@@ -300,7 +330,7 @@ namespace OtherTools
 				enableAirCondition();
 				enableFan();
 			}
-			catch(Exception ex) {
+			catch (Exception ex) {
 				Console.WriteLine(ex.Message);
 			}
 		}
@@ -329,8 +359,8 @@ namespace OtherTools
 		/// <param name="isOpenFan"></param>
 		private void enableFan()
 		{
-			fanChannelComboBox.Enabled = !fanChannelComboBox.Enabled;
-			lightButton7.Visible = !fanChannelComboBox.Enabled;
+			fanChannelComboBox.Enabled = lcData.IsOpenFan;
+			lightButton7.Visible = !lcData.IsOpenFan;
 			fanButton.Text = lcData.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
 		}
 
@@ -380,7 +410,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void qdFrameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			frameIndex = qdFrameComboBox.SelectedIndex;
+			lcFrameIndex = qdFrameComboBox.SelectedIndex;
 			reloadLightGroupBox();
 		}
 
@@ -396,8 +426,28 @@ namespace OtherTools
 
 			for (int relayIndex = 0; relayIndex < lcData.RelayCount; relayIndex++)
 			{
-				lightButtons[relayIndex].ImageIndex = lcData.SceneData[frameIndex, relayIndex] ? 1 : 0;
+				lightButtons[relayIndex].ImageIndex = lcData.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
 			}
+			//debugLC();
+		}
+
+		private void debugLC() {
+			
+			if (connStatus != ConnectStatus.Lc) {				
+				return;
+			}
+
+			if (isConnectByCom )
+			{
+				byte[] tempData = lcData.GetFrameBytes(lcFrameIndex);
+				comConnect.LightControlDebug(tempData, ComLCSendCompleted, ComLCSendError);
+			}
+			else{
+
+			}
+
+
+
 		}
 
 
@@ -485,29 +535,12 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void cfgSaveFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			// 在此处理启用排风或空调通道后，把相应的SceneData设为false
-			if (lcData.IsOpenFan)
-			{
-				for (int frame = 0; frame < 17; frame++)
-				{
-					lcData.SceneData[frame, 6] = false;
-				}
-			}
+			cfgPath = cfgSaveFileDialog.FileName;
+			lcData.WriteToFile(cfgPath);
+			MessageBox.Show("成功保存配置文件(" + cfgPath + ")");
+			lcToolStripStatusLabel2.Text = "成功保存配置文件(" + cfgPath + ")";
 
-			if (lcData.IsOpenAirCondition)
-			{
-				for (int frame = 0; frame < 17; frame++)
-				{
-					int maxLightIndex = lcData.RelayCount < 12 ? lcData.RelayCount : 12;
-					for (int i = 7; i < maxLightIndex; i++)
-					{
-						lcData.SceneData[frame, i] = false;
-					}
-				}
-			}
 
-			// 最后重新加载一下按键，前面的代码会更改相关数据。
-			reloadLightGroupBox();
 		}
 
 
@@ -529,9 +562,9 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
-			lcData = LightControlData.GetTestData();
-
-
+			if (comConnect != null) {
+				comConnect.LightControlDownload(lcData, ComLCDownloadCompleted, ComLCDownloadError);
+			}
 		}
 
 
@@ -568,7 +601,7 @@ namespace OtherTools
 				isReadXLS = false;
 				MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
 				ccToolStripStatusLabel2.Text = "加载xls文件失败。";
-			}			
+			}
 		}
 
 
@@ -577,11 +610,17 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void decodeButton_Click(object sender, EventArgs e)
+		private void ccDecodeButton_Click(object sender, EventArgs e)
 		{
-			isDecoding = !isDecoding;
-			decodeButton.Text = isDecoding ? "关闭解码" : "开启解码";
-			decodeRichTextBox.Visible = isDecoding;
+			// 点击《关闭解码》
+			if (isDecoding)
+			{
+				comConnect.CenterControlStopCopy(ComCCStopCompleted, ComCCEndError);
+			}
+			// 点击《开启解码》
+			else {
+				comConnect.CenterControlStartCopy(ComCCStartCompleted, ComCCStartError, ComCCListen);
+			}
 		}
 
 		/// <summary>
@@ -591,7 +630,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void clearDecodeButton_Click(object sender, EventArgs e)
 		{
-			decodeRichTextBox.Clear();
+			ccDecodeRichTextBox.Clear();
 		}
 
 		/// <summary>
@@ -640,16 +679,16 @@ namespace OtherTools
 			for (int rowIndex = 0; rowIndex < ccEntity.CCDataList.Count; rowIndex++)
 			{
 				ListViewItem item = new ListViewItem((rowIndex + 1).ToString());
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Function);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Code);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Up);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Down);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Up);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Down);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredSend);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredReceive);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Up);
-				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down);
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Function.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Code.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Up.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com0Down.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Up.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].Com1Down.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredSend.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].InfraredReceive.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Up.Trim());
+				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down.Trim());
 				protocolListView.Items.Add(item);
 			}
 		}
@@ -672,10 +711,10 @@ namespace OtherTools
 				MessageBox.Show("请先加载xls文件并选择协议。");
 				return;
 			}
-			
 
+			comConnect.CenterControlDownload(ccEntity, ComCCDownloadCompleted, ComCCDownloadError);
 
-
+			//ccToolStripStatusLabel2.Text = "成功下载中控数据。";
 		}
 
 		/// <summary>
@@ -717,25 +756,25 @@ namespace OtherTools
 
 				CCData ccData = new CCData();
 				cell = row.GetCell(0);
-				ccData.Function = (cell == null ? "" : cell.ToString());
+				ccData.Function = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(1);
-				ccData.Code = (cell == null ? "" : cell.ToString());
+				ccData.Code = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(2);
-				ccData.Com0Up = (cell == null ? "" : cell.ToString());
+				ccData.Com0Up = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(3);
-				ccData.Com0Down = (cell == null ? "" : cell.ToString());
+				ccData.Com0Down = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(4);
-				ccData.Com1Up = (cell == null ? "" : cell.ToString());
+				ccData.Com1Up = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(5);
-				ccData.Com1Down = (cell == null ? "" : cell.ToString());
+				ccData.Com1Down = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(6);
-				ccData.InfraredSend = (cell == null ? "" : cell.ToString());
+				ccData.InfraredSend = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(7);
-				ccData.InfraredReceive = (cell == null ? "" : cell.ToString());
+				ccData.InfraredReceive = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(8);
-				ccData.PS2Up = (cell == null ? "" : cell.ToString());
+				ccData.PS2Up = (cell == null ? "" : cell.ToString().Trim());
 				cell = row.GetCell(9);
-				ccData.PS2Down = (cell == null ? "" : cell.ToString());
+				ccData.PS2Down = (cell == null ? "" : cell.ToString().Trim());
 
 				cc.CCDataList.Add(ccData);
 				rowIndex++;
@@ -813,7 +852,7 @@ namespace OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
-		{		
+		{
 			Rectangle tabArea = tabControl1.GetTabRect(e.Index);//主要是做个转换来获得TAB项的RECTANGELF
 			RectangleF tabTextArea = (RectangleF)(tabControl1.GetTabRect(e.Index));
 			Graphics g = e.Graphics;
@@ -823,51 +862,34 @@ namespace OtherTools
 			Font font = this.tabControl1.Font;
 			SolidBrush brush = new SolidBrush(Color.Black);//绘制边框的画笔
 			g.DrawString(((TabControl)(sender)).TabPages[e.Index].Text, font, brush, tabTextArea, sf);
-		}
-
-		private void addButton_Click(object sender, EventArgs e)
-		{
-			Button buttonTemp = new Button
-			{
-				Location = new Point(500, 500)
-			};
-			buttonTemp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.button1_MouseDown);
-			buttonTemp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.button1_MouseMove);
-			buttonTemp.Click += new System.EventHandler(this.addButton_Click2);
-
-			buttonList.Add(buttonTemp);
-			int buttonIndex = buttonList.Count - 1;
-			buttonList[buttonIndex].Name = "button" + buttonIndex;
-			buttonList[buttonIndex].Text = buttonList[buttonIndex].Name;
-			//panel1.Controls.Add(buttonList[buttonList.Count - 1]);
-
-		}
-
-		private void addButton_Click2(object sender, EventArgs e)
-		{
-			Button button = (Button)sender;
-			Console.WriteLine(button.Name);
-		}
+		}		
 
 		/// <summary>
-		///  事件：点击《图标显示》
+		///  事件：点击《墙板-图标|列表显示》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void showIconButton_Click(object sender, EventArgs e)
+		private void kpShowButton_Click(object sender, EventArgs e)
 		{
-			keypressListView.View = View.LargeIcon;
+			isKpShowDetails = !isKpShowDetails;
 
-			//isAutoArrange = autoArrangeToolStripMenuItem.Checked;
-			keypressListView.AllowDrop = true;
-			keypressListView.AutoArrange = false;
-			//keypressListView
+			keypressListView.View = isKpShowDetails ? View.Details : View.LargeIcon;		
+			kpShowButton.Text = isKpShowDetails ? "显示图标" : "显示列表";
 
+			kpRearrangeButton.Visible = !isKpShowDetails;
+			kpPositonSaveButton.Visible = !isKpShowDetails;
+			kpPositonLoadButton.Visible = !isKpShowDetails;
 		}
 
-		private void showListButton_Click(object sender, EventArgs e)
+		/// <summary>
+		/// 事件：点击《墙板-重新排列》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpRearrangeButton_Click(object sender, EventArgs e)
 		{
-			keypressListView.View = View.Details;
+			keypressListView.AutoArrange = true;
+			keypressListView.AutoArrange = false;
 		}
 
 
@@ -887,31 +909,32 @@ namespace OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void keyOpenFileDialog_FileOk(object sender, CancelEventArgs e)
-		{			
+		{
 			string keyPath = keyOpenFileDialog.FileName;
-			KeyEntity keyEntity  = loadKeyFile(keyPath);
+			keyEntity = loadKeyFile(keyPath);
 			if (keyEntity == null) {
 				kpToolStripStatusLabel2.Text = "加载配置文件出错。";
-				return; 
+				return;
 			}
-		
-			reloadKeypressListView(keyEntity);
+
+			reloadKeypressListView();
 			kpToolStripStatusLabel2.Text = "已加载配置文件：" + keyPath;
 		}
 
-		private void reloadKeypressListView(KeyEntity ke)
+		private void reloadKeypressListView()
 		{
 			keypressListView.Items.Clear();
+			keypressListView.Enabled = true;
 			for (int keyIndex = 0; keyIndex < 24; keyIndex++)
 			{
-				if (ke.Key0Array[keyIndex].Equals("00") && ke.Key1Array[keyIndex].Equals("00")) {
+				if (keyEntity.Key0Array[keyIndex].Equals("00") && keyEntity.Key1Array[keyIndex].Equals("00")) {
 					continue;
 				}
-				ListViewItem item = new ListViewItem( "键序" + (keyIndex + 1) . ToString() + "\n"+ke.Key0Array[keyIndex]+":" + ke.Key1Array[keyIndex] );
+				ListViewItem item = new ListViewItem("键序" + (keyIndex + 1).ToString() + "\n" + keyEntity.Key0Array[keyIndex] + ":" + keyEntity.Key1Array[keyIndex]);
 				item.ImageIndex = 2;
 				item.SubItems.Add((keyIndex + 1).ToString());
-				item.SubItems.Add(ke.Key0Array[keyIndex]);
-				item.SubItems.Add(ke.Key1Array[keyIndex]);
+				item.SubItems.Add(keyEntity.Key0Array[keyIndex]);
+				item.SubItems.Add(keyEntity.Key1Array[keyIndex]);
 				keypressListView.Items.Add(item);
 			}
 		}
@@ -933,8 +956,8 @@ namespace OtherTools
 			KeyEntity ke = new KeyEntity();
 			for (int i = 0; i < 24; i++)
 			{
-				ke.Key0Array[i] = StringHelper.DecimalStringToBitHex(paramList[i],2);
-				ke.Key1Array[i] = StringHelper.DecimalStringToBitHex(paramList[i + 24],2);
+				ke.Key0Array[i] = StringHelper.DecimalStringToBitHex(paramList[i], 2);
+				ke.Key1Array[i] = StringHelper.DecimalStringToBitHex(paramList[i + 24], 2);
 			}
 			ke.CRC = paramList[48] + paramList[49];
 			return ke;
@@ -980,11 +1003,11 @@ namespace OtherTools
 			return paramList;
 		}
 
-	   /// <summary>
-	   /// 事件：选择不同的按键，可以修改其键值（）-》原版本无此功能。
-	   /// </summary>
-	   /// <param name="sender"></param>
-	   /// <param name="e"></param>
+		/// <summary>
+		/// 事件：选择不同的按键，可以修改其键值（）-》原版本无此功能。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void keypressListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 必须判断这个字段(Count)，否则会报异常
@@ -1019,25 +1042,19 @@ namespace OtherTools
 			if (kpKey0TextBox.Text.Length == 0) {
 				MessageBox.Show("键码值0不得为空。");
 				return;
-			}			
-					
+			}
+
 			int keyIndex = keypressListView.SelectedIndices[0];
-			keypressListView.Items[keyIndex].SubItems[2].Text = kpKey0TextBox.Text.ToLower().PadLeft(2,'0');
+			keypressListView.Items[keyIndex].SubItems[2].Text = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');
 			if (kpKey1TextBox.Text.Length == 0)
 			{
 				keypressListView.Items[keyIndex].SubItems[3].Text = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');
 			}
 			else {
 				keypressListView.Items[keyIndex].SubItems[3].Text = kpKey1TextBox.Text.ToLower().PadLeft(2, '0');
-			}			
+			}
 		}
 
-		private bool isListening = false;
-		private void kpListenButton_Click(object sender, EventArgs e)
-		{
-			isListening = !isListening;
-			kpListenButton.Text = isListening ? "停止监听" : "监听按键";
-		}
 
 		/// <summary>
 		/// 两个自定义墙板键码值的输入文字的验证。
@@ -1047,9 +1064,9 @@ namespace OtherTools
 		private void kpKeyTextBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if ((e.KeyChar >= '0' && e.KeyChar <= '9')
-				 || (e.KeyChar >= 'a' && e.KeyChar <= 'f') 
+				 || (e.KeyChar >= 'a' && e.KeyChar <= 'f')
 				 || (e.KeyChar >= 'A' && e.KeyChar <= 'F')
-				 || e.KeyChar == 8 )
+				 || e.KeyChar == 8)
 			{
 				e.Handled = false;
 			}
@@ -1066,7 +1083,7 @@ namespace OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lcKeepLightOnCheckBox_CheckedChanged(object sender, EventArgs e)
-		{			
+		{
 			isKeepLightOn = keepLightOnCheckBox.Checked;
 		}
 
@@ -1081,9 +1098,9 @@ namespace OtherTools
 		{
 			isConnectByCom = !isConnectByCom;
 			switchButton.Text = isConnectByCom ? "以网络连接" : "以串口连接";
-			refreshButton.Text = isConnectByCom ? "刷新串口" : "刷新网络";
-			
-			refreshDeviceComboBox();			
+			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
+			connectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
+			refreshDeviceComboBox();
 		}
 
 		private SerialConnect comConnect;
@@ -1109,11 +1126,8 @@ namespace OtherTools
 				foreach (string comName in comList) {
 					deviceComboBox.Items.Add(comName);
 				}
-				
 			}
 			else {
-
-
 
 			}
 
@@ -1128,7 +1142,6 @@ namespace OtherTools
 				deviceComboBox.Enabled = true;
 				deviceComboBox.SelectedIndex = 0;
 			}
-
 		}
 
 		private void refreshButton_Click(object sender, EventArgs e)
@@ -1140,20 +1153,59 @@ namespace OtherTools
 		{
 			if (isConnectByCom)
 			{
-				//TODO 
 				if (comConnect == null) {
-					
+					setAllStatusLabel1("打开串口失败，原因是：comConnect为null");
 					return;
-				}	
-				comConnect.OpenSerialPort(deviceComboBox.Text);
-				lcToolStripStatusLabel1.Text = "已连接灯控(" + deviceComboBox.Text + ")";
+				}
+
+				try
+				{
+					comConnect.OpenSerialPort(deviceComboBox.Text);
+					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")");
+					connStatus = ConnectStatus.Normal;
+					enableAllTabPages();
+					enableAllButtons();
+				}
+				catch (Exception ex) {
+					setAllStatusLabel1("打开串口失败，原因是：" + ex.Message);
+					connStatus = ConnectStatus.No;
+				}
 			}
 			else {
-				
+
 			}
 		}
 
-		
+		/// <summary>
+		/// 辅助方法：打开串口连接后，才能使所有的连接可用
+		/// </summary>
+		private void enableAllTabPages()
+		{
+			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
+			ccConnectButton.Enabled = connStatus > ConnectStatus.No;
+			kpConnectButton.Enabled = connStatus > ConnectStatus.No;
+		}
+
+		/// <summary>
+		/// 辅助方法：统一设置左侧的状态栏的显示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		private void setAllStatusLabel1(string msg) {
+			lcToolStripStatusLabel1.Text = msg;
+			ccToolStripStatusLabel1.Text = msg;
+			kpToolStripStatusLabel1.Text = msg;
+		}
+
+
+		/// <summary>
+		/// 辅助方法：关闭连接
+		/// </summary>
+		private void closeConnect()
+		{
+			throw new NotImplementedException();
+		}
+
+
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
 		/// </summary>
@@ -1161,48 +1213,578 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcReadButton_Click(object sender, EventArgs e)
 		{
-			if (comConnect == null)
-			{
-				return;
-			}
+			comConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
+			lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
 
-			lcData = null;
-			comConnect.LightControlConnect(ComConnectCompleted, ComConnectError);
+			//TODO 多测试检查以下代码
+			//isOvertime = false;
+			//while (!isOvertime && lcData == null)
+			//{
+			//	Thread.Sleep(100);
+			//	lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			//}
 
-			if (lcData == null) {
-				Thread.Sleep(100);				
-				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
-			}
+			//if (lcData != null)
+			//{
+			//	setLcForm();
+			//	lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+			//}
+			//else
+			//{
+			//	lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			//}
 
-			setLcForm();
-			lcToolStripStatusLabel2.Text = "成功回读灯控配置";
-		}
-	
-		public void  ComConnectCompleted(Object obj) {
-
-			comConnect.LightControlRead(ComReadCompleted, ComReadError);
-
-		}
-
-		public void ComConnectError() {
-			lcToolStripStatusLabel1.Text = "连接灯控(" + deviceComboBox.Text + ")失败，请重试";
 		}
 
-		public void ComReadCompleted(Object lcDataTemp)
-		{			
-			this.lcData = lcDataTemp as LightControlData;
+		public void ComLCConnectCompleted(Object obj) {
+			Invoke((EventHandler)delegate {
+				connStatus = ConnectStatus.Lc;
+				enableAllButtons();
+				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc)";
+			});
 		}
 
-		public void ComReadError()
+		public void ComLCConnectError() {
+			//isOvertime = true;
+			MessageBox.Show("请求超时，切换灯控配置失败");
+			lcToolStripStatusLabel2.Text = "请求超时，切换灯控配置失败";
+			lcToolStripStatusLabel1.Text = "请求超时，设备可能并未连接到串口";
+		}
+
+		/// <summary>
+		/// 成功切换到中控连接后的操作
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCConnectCompleted(Object obj)
 		{
-			lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			Invoke((EventHandler)delegate {
+				ccToolStripStatusLabel2.Text = "已切换成中控配置(connStatus=cc)";
+				connStatus = ConnectStatus.Cc;
+				enableAllButtons();
+			});
 		}
 
+		public void ComCCConnectError()
+		{
+			Invoke((EventHandler)delegate {
+				ccToolStripStatusLabel2.Text = "切换中控配置失败";
+				ccDecodeButton.Enabled = false;
+				ccDownloadButton.Enabled = false;
+			});
+		}
+
+
+		public void ComDownloadCompleted()
+		{
+			MessageBox.Show("灯控数据下载成功");
+		}
+
+		/// <summary>
+		///  灯控debug发送成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComLCSendCompleted(Object obj)
+		{
+			//Invoke((EventHandler)delegate
+			//{
+			//	lcToolStripStatusLabel2.Text = "";
+			//});
+		}
+
+		/// <summary>
+		///  灯控debug发送出错
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComLCSendError()
+		{
+			Invoke((EventHandler)delegate
+			{
+				lcToolStripStatusLabel2.Text = "灯控已离线，发送失败，请重新连接后重试";
+			});
+		}
+
+
+		public void ComLCReadCompleted(Object lcDataTemp)
+		{
+			Invoke((EventHandler)delegate {
+				if (lcDataTemp == null)
+				{
+					MessageBox.Show("回读数据有异常(lcDataTemp==null),回读失败。");
+					lcToolStripStatusLabel2.Text = "回读数据有异常(lcDataTemp==null),回读失败。";
+					return;
+				}
+
+				lcData = lcDataTemp as LightControlData;
+				setLcForm();
+				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
+			});
+		}
+
+		public void ComLCReadError()
+		{
+			Invoke((EventHandler)delegate {
+				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
+			});
+		}
+
+		/// <summary>
+		/// 灯控数据下载成功回调方法
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComLCDownloadCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate {
+				MessageBox.Show("灯控配置下载成功。");
+				lcToolStripStatusLabel2.Text = "灯控配置下载成功";
+			});
+		}
+
+		// 灯控数据下载错误回调方法
+		public void ComLCDownloadError()
+		{
+			lcToolStripStatusLabel2.Text = "灯控配置下载失败";
+		}
+
+		/// <summary>
+		/// 中控配置下载成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCDownloadCompleted(Object obj)
+		{
+			ccToolStripStatusLabel2.Text = "中控配置下载成功";
+		}
+
+		/// <summary>
+		/// 中控配置下载出错
+		/// </summary>
+		public void ComCCDownloadError()
+		{
+			ccToolStripStatusLabel2.Text = "中控配置下载失败";
+		}
+
+		/// <summary>
+		/// 中控调试解码启动成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCStartCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "灯控解码开启成功";
+				isDecoding = true;
+				ccDecodeButton.Text = "关闭解码" ;
+				ccDecodeRichTextBox.Enabled = true;
+			});
+		}
+
+		/// <summary>
+		/// 中控调试解码启动失败
+		/// </summary>
+		public void ComCCStartError()
+		{
+			Invoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "灯控解码开启失败";
+			});
+		}
+
+		/// <summary>
+		///  中控解码 红外码值 回读
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCListen(Object obj)
+		{
+			Invoke((EventHandler)delegate {
+				List<byte> byteList = obj as List<byte>;
+				if (byteList != null && byteList.Count != 0)
+				{
+					String strTemp = "";
+					foreach (byte item in byteList)
+					{
+						strTemp += StringHelper.DecimalStringToBitHex(item.ToString(), 2) + " ";
+					}
+					ccDecodeRichTextBox.Text += strTemp + "\n";
+				}
+				ccToolStripStatusLabel2.Text = "灯控解码成功";
+			});
+		}
+
+
+		/// <summary>
+		///  中控调试解码结束成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComCCStopCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
+				isDecoding = false;
+				ccDecodeButton.Text = "开启解码";
+				ccDecodeRichTextBox.Enabled = false ;
+			});
+		}
+
+
+
+		/// <summary>
+		/// 中控调试解码结束失败
+		/// </summary>
+		public void ComCCEndError()
+		{
+			Invoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "关闭中控解码失败";
+			});
+		}
+
+
+		/// <summary>
+		/// 事件：点击《zwjTest》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void zwjTestButton_Click(object sender, EventArgs e)
 		{
-            XiaosaTest.GetInstance().OpenSerialPort();
-            Thread.Sleep(200);
-            XiaosaTest.GetInstance().Download(ccEntity);
+			ccEntity.GetData();
+		}
+
+
+		/// <summary>
+		/// 事件：点击《连接中控》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ccSetButton_Click(object sender, EventArgs e)
+		{
+			comConnect.CenterControlConnect(ComCCConnectCompleted, ComCCConnectError);
+		}
+
+		/// <summary>
+		/// 事件：点击《连接灯控》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lcSetButton_Click(object sender, EventArgs e)
+		{
+			comConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
+		}
+
+
+		/// <summary>
+		/// 事件：点击《连接墙板》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpConnectButton_Click(object sender, EventArgs e)
+		{
+			comConnect.PassThroughKeyPressConnect(ComKPFirstConnectCompleted, ComKPConnectError);
+		}
+
+		/// <summary>
+		///  连接墙板成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPFirstConnectCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
+				connStatus = ConnectStatus.Kp;
+				enableAllButtons();
+
+				Thread.Sleep(500);								
+				kpReadButton_Click(null, null);
+
+				Thread.Sleep(500);
+				kpListenButton_Click(null, null);
+
+				// 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
+				if (kpTimer == null)
+				{
+					kpTimer = new System.Timers.Timer(8000);
+					kpTimer.Elapsed += new System.Timers.ElapsedEventHandler(kpOnTimer);
+					kpTimer.AutoReset = true;
+					kpTimer.Enabled = true;
+				}
+			});
+		}
+
+		/// <summary>
+		/// 刷新所有被connStatus影响的按键
+		/// </summary>
+		private void enableAllButtons() {
+			// 灯控相关按键
+			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
+			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc;
+
+			// 灯控相关
+			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
+			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc;
+
+			// 墙板相关按键
+			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp;
+			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
+			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;
+			kpLoadButton.Enabled = connStatus == ConnectStatus.Kp;
+		}
+	
+
+		/// <summary>
+		/// 辅助方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPTimerConnectCompleted(Object obj)
+		{			
+			Invoke((EventHandler)delegate
+			{
+
+			});
+		}
+
+		/// <summary>
+		/// 辅助方法：定时器定时执行的方法
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpOnTimer(object sender, ElapsedEventArgs e)
+		{
+			Invoke((EventHandler)delegate {
+				if (comConnect != null) {
+					comConnect.PassThroughKeyPressConnect(ComKPTimerConnectCompleted, ComKPConnectError);	
+				}
+			});
+		}
+
+		/// <summary>
+		/// 连接墙板失败
+		/// </summary>
+		public void ComKPConnectError()
+		{
+			Invoke((EventHandler)delegate
+			{				
+				kpToolStripStatusLabel2.Text = "连接墙板失败";			
+
+				//MARK：连接墙板失败，是否还要进行其他操作？
+				//keypressListView.Enabled = false;
+				//clearKeypressListView();
+			});
+		}
+
+		/// <summary>
+		/// 辅助方法：清空墙板listView的所有数据，及其他相关数据。
+		/// </summary>
+		private void clearKeypressListView()
+		{
+			keypressListView.Items.Clear();
+			kpOrderTextBox.Text = "";
+			kpKey0TextBox.Text = "";
+			kpKey1TextBox.Text = "";			
+		}
+
+
+		/// <summary>
+		/// 事件：点击《监听按键》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpListenButton_Click(object sender, EventArgs e)
+		{
+			comConnect.PassThroughKeyPressSetClickListener(ComKPStartListenClick);
+		}
+
+		/// <summary>
+		/// 事件：点击《读取码值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpReadButton_Click(object sender, EventArgs e)
+		{
+			comConnect.PassThroughKeyPressRead(ComKPReadCompleted, ComKPReadError);
+			kpToolStripStatusLabel2.Text = "正在读取墙板码值，请稍候..." ;
+			this.Cursor = Cursors.WaitCursor;
+			this.Enabled = false;
+		}
+
+		/// <summary>
+		///  读取墙板码值成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPReadCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				if (obj == null) {
+					kpToolStripStatusLabel2.Text = "异常:执行kpReadCompleted时返回的对象为null";
+					return;
+				}
+
+				keyEntity = obj as KeyEntity;
+				reloadKeypressListView();
+				kpToolStripStatusLabel2.Text = "读取墙板码值成功";				
+				this.Enabled = true;
+				this.Cursor = Cursors.Default;
+			});			
+		}
+
+		/// <summary>
+		/// 读取墙板码值失败
+		/// </summary>
+		public void ComKPReadError()
+		{
+			Invoke((EventHandler)delegate
+			{
+				kpToolStripStatusLabel2.Text = "读取墙板码值失败";
+				//clearKeypressListView();
+				this.Enabled = true;
+				this.Cursor = Cursors.Default;
+			});
+		}
+
+		/// <summary>
+		///  读取用户点击的墙板键值（键序+一种不需理会的编码）
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPStartListenClick(Object obj)
+		{			
+			Invoke((EventHandler)delegate
+			{
+				if (obj == null) {
+					return;
+				}
+				List<byte> byteList = obj as List<byte>;
+				int keyNum = byteList[0];
+
+				//因为是多选，所以每次点击按键，先清空当前选择（否则会不停添加选中）
+				keypressListView.SelectedItems.Clear();
+				foreach (ListViewItem item in keypressListView.Items)
+				{					
+					if (Convert.ToByte(item.SubItems[1].Text) == keyNum)
+					{
+						Console.WriteLine("Dickov:KeyPressNum: "+  keyNum); 
+						item.Selected = true;						
+						break;
+					}
+				}
+				keypressListView.Select();
+			});
+		}
+
+		#region 几个事件，用以允许拖拽墙板按键，以自定义图标位置
+
+		private Point startPoint = Point.Empty;
+		/// <summary>
+		///  获取两点间的距离
+		/// </summary>
+		/// <param name="pt1"></param>
+		/// <param name="pt2"></param>
+		/// <returns></returns>
+		private double getVector(Point pt1, Point pt2) 
+		{
+			var x = Math.Pow((pt1.X - pt2.X), 2);
+			var y = Math.Pow((pt1.Y - pt2.Y), 2);
+			return Math.Abs(Math.Sqrt(x - y));
+		}
+
+		/// <summary>
+		/// 事件：鼠标拖动对象时发生（VS:将对象拖过空间边界时发生）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keypressListView_DragOver(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
+				e.Effect = DragDropEffects.Move;
+		}
+
+		/// <summary>
+		/// 事件：松开鼠标时发生（VS：拖动操作时发生）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keypressListView_DragDrop(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
+			{
+				var items = e.Data.GetData(typeof(ListViewItem[])) as ListViewItem[];
+
+				var pos = keypressListView.PointToClient(new Point(e.X, e.Y));
+
+				var offset = new Point(pos.X - startPoint.X, pos.Y - startPoint.Y);
+
+				foreach (var item in items)
+				{
+					pos = item.Position;
+					pos.Offset(offset);
+					item.Position = pos;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：按下鼠标时发生 （VS：在组件上方且按下鼠标时发生）
+		/// </summary>
+		private void keypressListView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+				startPoint = e.Location;
+		}
+
+		/// <summary>
+		/// 事件：listView鼠标移动
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keypressListView_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (keypressListView.SelectedItems.Count == 0)
+				return;
+
+			if (e.Button == MouseButtons.Left)
+			{
+				var vector = getVector(startPoint, e.Location);
+				if (vector < 10) return;
+
+				var data = keypressListView.SelectedItems.OfType<ListViewItem>().ToArray();
+				keypressListView.DoDragDrop(data, DragDropEffects.Move);
+			}
+		}
+
+
+
+
+		#endregion
+
+
+		/// <summary>
+		/// 事件：点击《墙板-保存按键位置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpPositonSaveButton_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		/// <summary>
+		/// 事件：点击《墙板-读取按键位置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpPositonLoadButton_Click(object sender, EventArgs e)
+		{
+
+		}
+
+
+		/// <summary>
+		/// 事件：点击《墙板-保存文件》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpSaveButton_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

@@ -203,5 +203,45 @@ namespace LightController.Tools.CSJ.IMPL
 		{
 			return base.ToString();
 		}
+
+		public byte[] GetFrameBytes(int frame)
+		{
+
+			byte[] data = new byte[RelayDataSize];
+
+			string tempStr = "";
+			for (int relayIndex = 0; relayIndex < RelayCount; relayIndex++)
+			{
+				tempStr += SceneData[frame, relayIndex] ? "1" : "0";
+			}
+
+			if (RelayCount <= 8)
+			{
+				tempStr = StringHelper.ReverseString(tempStr.PadRight(8, '0'));
+				data[0] = Convert.ToByte(tempStr, 2);
+			}
+			else if (RelayCount <= 16)
+			{
+				tempStr = tempStr.PadRight(16, '0');
+				string str1 = StringHelper.ReverseString(tempStr.Substring(0, 8));
+				data[0] = Convert.ToByte(str1, 2);
+				Console.WriteLine(tempStr.Length);
+				string str2 = StringHelper.ReverseString(tempStr.Substring(8, 8));
+				data[1] = Convert.ToByte(str2, 2);
+			}
+			else
+			{
+				tempStr = tempStr.PadRight(24, '0');
+
+				string str1 = StringHelper.ReverseString(tempStr.Substring(0, 8));
+				data[0] = Convert.ToByte(str1, 2);
+				string str2 = StringHelper.ReverseString(tempStr.Substring(8, 8));
+				data[1] = Convert.ToByte(str2, 2);
+				string str3 = StringHelper.ReverseString(tempStr.Substring(16, 8));
+				data[2] = Convert.ToByte(str3, 2);
+			}
+
+			return data;
+		}
 	}
 }

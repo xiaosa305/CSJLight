@@ -183,6 +183,18 @@
     <Compile Include="Entity\DB_FineTune.cs" />
     <Compile Include="Entity\CCEntity.cs" />
     <Compile Include="Entity\KeyEntity.cs" />
+    <Compile Include="MyForm\OtherTools\KpPositionLoadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\KpPositionLoadForm.Designer.cs">
+      <DependentUpon>KpPositionLoadForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\KpPositionSaveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\OtherTools\KpPositionSaveForm.Designer.cs">
+      <DependentUpon>KpPositionSaveForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\OtherTools\OtherToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -393,6 +405,12 @@
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
+    <EmbeddedResource Include="MyForm\OtherTools\KpPositionLoadForm.resx">
+      <DependentUpon>KpPositionLoadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\OtherTools\KpPositionSaveForm.resx">
+      <DependentUpon>KpPositionSaveForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\OtherToolsForm.resx">
       <DependentUpon>OtherToolsForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -2189,19 +2189,21 @@ namespace LightController.MyForm
 					connectTools.SearchDevice();
 					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
 					Thread.Sleep(500);
-					Dictionary<string, string> devList = connectTools.GetDeviceInfo();
-					if (devList.Count > 0)
-					{
-						foreach (KeyValuePair<string, string> device in devList)
-						{
-							string localIPLast = ip.ToString().Substring(ip.ToString().LastIndexOf("."));
-							deviceSkinComboBox.Items.Add(device.Value + "(" + device.Key + ")" + localIPLast);
-							ipAstList.Add(new IPAst() {
-								LocalIP = ip.ToString() ,
-								DeviceIP = device.Key ,
-								DeviceName = device.Value }  );
-						}					
-					}
+
+					//TODO:0109
+					//Dictionary<string, string> devList = connectTools.GetDeviceInfo();
+					//if (devList.Count > 0)
+					//{
+					//	foreach (KeyValuePair<string, string> device in devList)
+					//	{
+					//		string localIPLast = ip.ToString().Substring(ip.ToString().LastIndexOf("."));
+					//		deviceSkinComboBox.Items.Add(device.Value + "(" + device.Key + ")" + localIPLast);
+					//		ipAstList.Add(new IPAst() {
+					//			LocalIP = ip.ToString() ,
+					//			DeviceIP = device.Key ,
+					//			DeviceName = device.Value }  );
+					//	}					
+					//}
 				}
 			}
 

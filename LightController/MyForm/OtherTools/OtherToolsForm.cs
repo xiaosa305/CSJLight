@@ -34,8 +34,7 @@ namespace OtherTools
 			Tc
 		}
 
-		private IList<Button> buttonList = new List<Button>();
-		private String cfgPath; // 灯控页打开的 灯控配置文件路径(*.cfg)
+		private IList<Button> buttonList = new List<Button>();		
 		private LightControlData lcData; //灯控封装对象
 		private CCEntity ccEntity; // 中控封装对象
 		private KeyEntity keyEntity;  // 墙板封装对象
@@ -262,7 +261,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void cfgOpenFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			cfgPath = cfgOpenFileDialog.FileName;
+			string cfgPath = cfgOpenFileDialog.FileName;
 			loadLCParam(cfgPath);
 			//ReadCompleted(lcData);
 		}
@@ -535,12 +534,10 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void cfgSaveFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			cfgPath = cfgSaveFileDialog.FileName;
+			string cfgPath = cfgSaveFileDialog.FileName;
 			lcData.WriteToFile(cfgPath);
 			MessageBox.Show("成功保存配置文件(" + cfgPath + ")");
 			lcToolStripStatusLabel2.Text = "成功保存配置文件(" + cfgPath + ")";
-
-
 		}
 
 
@@ -918,6 +915,7 @@ namespace OtherTools
 			}
 
 			reloadKeypressListView();
+			enableAllButtons();
 			kpToolStripStatusLabel2.Text = "已加载配置文件：" + keyPath;
 		}
 
@@ -1044,15 +1042,22 @@ namespace OtherTools
 				return;
 			}
 
-			int keyIndex = keypressListView.SelectedIndices[0];
-			keypressListView.Items[keyIndex].SubItems[2].Text = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');
+			// 处理TextBox内容，填入相应的listView中
+			int keyIndex = keypressListView.SelectedIndices[0];		
+			keypressListView.Items[keyIndex].SubItems[2].Text = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');			
 			if (kpKey1TextBox.Text.Length == 0)
 			{
-				keypressListView.Items[keyIndex].SubItems[3].Text = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');
+				keypressListView.Items[keyIndex].SubItems[3].Text = kpKey0TextBox.Text.ToLower().PadLeft(2, '0');				
 			}
 			else {
 				keypressListView.Items[keyIndex].SubItems[3].Text = kpKey1TextBox.Text.ToLower().PadLeft(2, '0');
 			}
+
+			// 将改变后的值填入keyEntity中
+			int keyArrayIndex = Convert.ToInt16(kpOrderTextBox.Text) - 1; //keyEntity中的array索引号
+			keyEntity.Key0Array[keyArrayIndex] = kpKey0TextBox.Text;
+			keyEntity.Key1Array[keyArrayIndex] = kpKey1TextBox.Text;
+
 		}
 
 
@@ -1163,7 +1168,6 @@ namespace OtherTools
 					comConnect.OpenSerialPort(deviceComboBox.Text);
 					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")");
 					connStatus = ConnectStatus.Normal;
-					enableAllTabPages();
 					enableAllButtons();
 				}
 				catch (Exception ex) {
@@ -1175,16 +1179,7 @@ namespace OtherTools
 
 			}
 		}
-
-		/// <summary>
-		/// 辅助方法：打开串口连接后，才能使所有的连接可用
-		/// </summary>
-		private void enableAllTabPages()
-		{
-			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
-			ccConnectButton.Enabled = connStatus > ConnectStatus.No;
-			kpConnectButton.Enabled = connStatus > ConnectStatus.No;
-		}
+	
 
 		/// <summary>
 		/// 辅助方法：统一设置左侧的状态栏的显示信息
@@ -1504,14 +1499,13 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{
 				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
-				connStatus = ConnectStatus.Kp;
-				enableAllButtons();
+				connStatus = ConnectStatus.Kp;				
 
 				Thread.Sleep(500);								
 				kpReadButton_Click(null, null);
 
 				Thread.Sleep(500);
-				kpListenButton_Click(null, null);
+				kpListenButton_Click(null, null);				
 
 				// 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
 				if (kpTimer == null)
@@ -1528,6 +1522,13 @@ namespace OtherTools
 		/// 刷新所有被connStatus影响的按键
 		/// </summary>
 		private void enableAllButtons() {
+
+			// 三个连接按键
+			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
+			ccConnectButton.Enabled = connStatus > ConnectStatus.No;
+			kpConnectButton.Enabled = connStatus > ConnectStatus.No;
+
+
 			// 灯控相关按键
 			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
 			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc;
@@ -1536,13 +1537,14 @@ namespace OtherTools
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
 			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc;
 
-			// 墙板相关按键
-			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp;
-			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
-			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;
-			kpLoadButton.Enabled = connStatus == ConnectStatus.Kp;
+			// 墙板相关按键			
+			kpReadButton.Enabled = connStatus == ConnectStatus.Kp; 			
+			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;			
+			bool keNotNull = keyEntity != null;
+			kpSaveButton.Enabled = keNotNull; 
+			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp && keNotNull;
 		}
-	
+
 
 		/// <summary>
 		/// 辅助方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作
@@ -1635,7 +1637,8 @@ namespace OtherTools
 
 				keyEntity = obj as KeyEntity;
 				reloadKeypressListView();
-				kpToolStripStatusLabel2.Text = "读取墙板码值成功";				
+				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
+				enableAllButtons();
 				this.Enabled = true;
 				this.Cursor = Cursors.Default;
 			});			
@@ -1798,7 +1801,29 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpSaveButton_Click(object sender, EventArgs e)
 		{
+			keySaveFileDialog.ShowDialog();
+		}
 
+		/// <summary>
+		/// 事件：《墙板-保存文件》确认文件路径后
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keySaveFileDialog_FileOk(object sender, CancelEventArgs e)
+		{
+			string keyPath = keySaveFileDialog.FileName;
+			keyEntity.WriteToFile(keyPath);
+			MessageBox.Show("成功保存墙板配置文件(" + keyPath + ")");			
+		}
+
+		/// <summary>
+		/// 事件：点击《墙板-下载文件》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void kpDownloadButton_Click(object sender, EventArgs e)
+		{
+			//comConnect.PassThroughCenterControlDownload();
 		}
 	}
 }

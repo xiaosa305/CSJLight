@@ -351,7 +351,7 @@ namespace OtherTools
 			// 
 			// switchButton
 			// 
-			this.switchButton.Location = new System.Drawing.Point(11, 17);
+			this.switchButton.Location = new System.Drawing.Point(18, 17);
 			this.switchButton.Margin = new System.Windows.Forms.Padding(2);
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(91, 54);
@@ -658,6 +658,7 @@ namespace OtherTools
 			this.kpShowButton.TabIndex = 5;
 			this.kpShowButton.Text = "显示图标";
 			this.kpShowButton.UseVisualStyleBackColor = true;
+			this.kpShowButton.Visible = false;
 			this.kpShowButton.Click += new System.EventHandler(this.kpShowButton_Click);
 			// 
 			// kpOrderTextBox
@@ -706,9 +707,11 @@ namespace OtherTools
 			this.kpDownloadButton.TabIndex = 5;
 			this.kpDownloadButton.Text = "下载文件";
 			this.kpDownloadButton.UseVisualStyleBackColor = true;
+			this.kpDownloadButton.Click += new System.EventHandler(this.kpDownloadButton_Click);
 			// 
 			// kpSaveButton
 			// 
+			this.kpSaveButton.Enabled = false;
 			this.kpSaveButton.Location = new System.Drawing.Point(57, 497);
 			this.kpSaveButton.Name = "kpSaveButton";
 			this.kpSaveButton.Size = new System.Drawing.Size(105, 40);
@@ -1380,7 +1383,7 @@ namespace OtherTools
 			this.tgGroupBox.Controls.Add(this.tgPanel1);
 			this.tgGroupBox.Location = new System.Drawing.Point(847, 28);
 			this.tgGroupBox.Name = "tgGroupBox";
-			this.tgGroupBox.Size = new System.Drawing.Size(293, 310);
+			this.tgGroupBox.Size = new System.Drawing.Size(293, 313);
 			this.tgGroupBox.TabIndex = 3;
 			this.tgGroupBox.TabStop = false;
 			this.tgGroupBox.Text = "调光通道设置";
@@ -1392,7 +1395,7 @@ namespace OtherTools
 			this.tgPanel4.Controls.Add(this.trackBar5);
 			this.tgPanel4.Location = new System.Drawing.Point(220, 44);
 			this.tgPanel4.Name = "tgPanel4";
-			this.tgPanel4.Size = new System.Drawing.Size(69, 259);
+			this.tgPanel4.Size = new System.Drawing.Size(69, 263);
 			this.tgPanel4.TabIndex = 3;
 			// 
 			// numericUpDown5
@@ -1428,7 +1431,7 @@ namespace OtherTools
 			this.tgPanel3.Controls.Add(this.trackBar4);
 			this.tgPanel3.Location = new System.Drawing.Point(146, 44);
 			this.tgPanel3.Name = "tgPanel3";
-			this.tgPanel3.Size = new System.Drawing.Size(69, 259);
+			this.tgPanel3.Size = new System.Drawing.Size(69, 263);
 			this.tgPanel3.TabIndex = 3;
 			// 
 			// numericUpDown4
@@ -1464,7 +1467,7 @@ namespace OtherTools
 			this.tgPanel2.Controls.Add(this.trackBar3);
 			this.tgPanel2.Location = new System.Drawing.Point(75, 44);
 			this.tgPanel2.Name = "tgPanel2";
-			this.tgPanel2.Size = new System.Drawing.Size(69, 259);
+			this.tgPanel2.Size = new System.Drawing.Size(69, 263);
 			this.tgPanel2.TabIndex = 3;
 			// 
 			// numericUpDown3
@@ -1500,7 +1503,7 @@ namespace OtherTools
 			this.tgPanel1.Controls.Add(this.trackBar2);
 			this.tgPanel1.Location = new System.Drawing.Point(4, 44);
 			this.tgPanel1.Name = "tgPanel1";
-			this.tgPanel1.Size = new System.Drawing.Size(69, 259);
+			this.tgPanel1.Size = new System.Drawing.Size(69, 263);
 			this.tgPanel1.TabIndex = 3;
 			// 
 			// numericUpDown2
@@ -2781,6 +2784,7 @@ namespace OtherTools
 			// keySaveFileDialog
 			// 
 			this.keySaveFileDialog.Filter = "墙板配置文件(key)|*.key";
+			this.keySaveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.keySaveFileDialog_FileOk);
 			// 
 			// myInfoToolTip
 			// 

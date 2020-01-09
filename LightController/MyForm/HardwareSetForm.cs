@@ -328,7 +328,7 @@ namespace LightController.MyForm
 			connectTools.SearchDevice();
 			Thread.Sleep(1000);
 
-			Dictionary<string,string> allDevices = 	connectTools.GetDeviceInfo();			
+			Dictionary<string, string> allDevices = ConnectTools.DeviceInfos();
 			ipsComboBox.Items.Clear();
 			ips = new List<string>();
 			if (allDevices.Count > 0)

@@ -167,7 +167,7 @@ namespace LightController.Tools.CSJ.IMPL
                     {
                         strValue = strValue + (SceneData[sceneIndex, relayDataIndex * 8 + relayIndex] ? "1" : "0");
                     }
-                    strValue = strValue.PadLeft(8, '0');
+                    strValue = strValue.PadRight(8, '0');
                     data.Add(Convert.ToByte(strValue, 2));
                 }
             }
@@ -187,14 +187,15 @@ namespace LightController.Tools.CSJ.IMPL
             string strValue = "";
             for (int i = 0; i < data.Length; i++)
             {
-                if (i == data.Length - 1)
-                {
-                    strValue = strValue + data[i].ToString();
-                }
-                else
-                {
-                    strValue = strValue + data[i].ToString() + "\r\n\n";
-                }
+                strValue = strValue + data[i].ToString() + "\r\n\n";
+                //if (i == data.Length - 1)
+                //{
+                //    strValue = strValue + data[i].ToString();
+                //}
+                //else
+                //{
+                //    strValue = strValue + data[i].ToString() + "\r\n\n";
+                //}
             }
             File.WriteAllText(filepath, strValue);
         }

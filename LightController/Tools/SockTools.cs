@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,40 @@ namespace LightController.Tools
                 }
             }
         }
-        public void AddConnect(byte[] receiveBuff, int port)
+        public void AddConnect(NetworkDeviceInfo info,int port)
+        {
+            for (int i = 0; i < MaxCount; i++)
+            {
+                if (conns[i] != null || conns[i].IsUse)
+                {
+                    if (conns[i].Ip != null)
+                    {
+                        if (conns[i].Ip.Equals(info.DeviceIp))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(info.DeviceIp), port);
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            int index = NewIndex();
+            if (index == -1)
+            {
+                CSJLogs.GetInstance().DebugLog("网络连接池已满");
+            }
+            else
+            {
+                Conn conn = conns[index];
+                socket.Connect(iPEndPoint);
+                conn.SetAddr(info.DeviceAddr);
+                conn.Init(socket);
+                conn.SetDeviceName(info.DeviceName);
+                CSJLogs.GetInstance().DebugLog("客户端 [" + conn.Ip + "] 连接");
+                conn.BeginReceive();
+            }
+        }
+        protected void AddConnect(byte[] receiveBuff, int port)
         {
             string ip = null;
             try
@@ -115,6 +149,13 @@ namespace LightController.Tools
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
+               
+            }
+        }
+        public void CloseAll()
+        {
+            try
+            {
                 if (conns != null)
                 {
                     for (int i = 0; i < MaxCount; i++)
@@ -123,14 +164,15 @@ namespace LightController.Tools
                         {
                             if (conns[i].Ip != null)
                             {
-                                if (conns[i].Ip.Equals(ip))
-                                {
-                                    conns[i].CloseDevice();
-                                }
+                                conns[i].CloseDevice();
                             }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
         public void SetPackageSize(string ip, int size)

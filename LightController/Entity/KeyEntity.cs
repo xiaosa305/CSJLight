@@ -2,6 +2,7 @@
 using LightController.Tools;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -55,5 +56,16 @@ namespace LightController.Entity
             data.AddRange(CRCTools.GetInstance().GetLightControlCRC(data.ToArray()));
             return data.ToArray() ;
         }
-	}
+
+        public void WriteToFile(string filepath)
+        {
+            byte[] data = this.GetData();
+            string strValue = "";
+            for (int i = 0; i < data.Length; i++)
+            {
+                strValue = strValue + data[i].ToString() + "\r\n\n";
+            }
+            File.WriteAllText(filepath, strValue);
+        }
+    }
 }

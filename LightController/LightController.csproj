@@ -378,6 +378,8 @@
     <Compile Include="Tools\CSJ\IMPL\CSJ_SceneData.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightControlData.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
+    <Compile Include="Tools\CSJ\IMPL\NetworkDeviceInfo.cs" />
+    <Compile Include="Tools\Dmx512Test.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />

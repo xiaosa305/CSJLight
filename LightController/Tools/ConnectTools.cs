@@ -24,9 +24,10 @@ namespace LightController.Tools
         private string Ip { get; set; }
         private UdpClient UdpClient { get; set; }
         private Thread ReceiveThread { get; set; }
-        public static Dictionary<string,Dictionary<string,NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
+        public Dictionary<string,Dictionary<string,NetworkDeviceInfo>> DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
         private ConnectTools()
         {
+            DeviceInfos = new Dictionary<string, Dictionary<string, NetworkDeviceInfo>>();
             SocketTools.GetInstance().Start();
         }
         public static ConnectTools GetInstance()
@@ -71,9 +72,11 @@ namespace LightController.Tools
         {
             if (IsStart)
             {
-                DeviceInfos.Clear();
-                SocketTools.GetInstance().CloseAll();
-                if (!DeviceInfos.ContainsKey(ServerIp))
+                if (DeviceInfos.ContainsKey(ServerIp))
+                {
+                    DeviceInfos[ServerIp].Clear();
+                }
+                else
                 {
                     DeviceInfos.Add(ServerIp, new Dictionary<string, NetworkDeviceInfo>());
                 }
@@ -146,6 +149,10 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().DebugLog("未启动服务");
                 throw new Exception("未启动服务");
             }
+        }
+        public Dictionary<string,Dictionary<string,NetworkDeviceInfo>> GetDeivceInfos()
+        {
+            return DeviceInfos;
         }
         //public IList<string> GetDevicesIp()
         //{

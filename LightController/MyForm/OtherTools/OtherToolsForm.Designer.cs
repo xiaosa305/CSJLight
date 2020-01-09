@@ -1331,7 +1331,7 @@ namespace OtherTools
 			this.lcConnectButton.TabIndex = 4;
 			this.lcConnectButton.Text = "连接灯控";
 			this.lcConnectButton.UseVisualStyleBackColor = false;
-			this.lcConnectButton.Click += new System.EventHandler(this.lcSetButton_Click);
+			this.lcConnectButton.Click += new System.EventHandler(this.lcConnectButton_Click);
 			// 
 			// groupBox2
 			// 
@@ -2498,7 +2498,7 @@ namespace OtherTools
 			this.ccConnectButton.TabIndex = 12;
 			this.ccConnectButton.Text = "连接中控";
 			this.ccConnectButton.UseVisualStyleBackColor = false;
-			this.ccConnectButton.Click += new System.EventHandler(this.ccSetButton_Click);
+			this.ccConnectButton.Click += new System.EventHandler(this.ccConnectButton_Click);
 			// 
 			// protocolEditButton
 			// 

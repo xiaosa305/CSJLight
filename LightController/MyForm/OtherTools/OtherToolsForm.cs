@@ -1280,15 +1280,15 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		///  灯控debug发送成功
+		///  灯控debug(实时调试的数据)发送成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComLCSendCompleted(Object obj)
 		{
-			//Invoke((EventHandler)delegate
-			//{
-			//	lcToolStripStatusLabel2.Text = "";
-			//});
+			Invoke((EventHandler)delegate
+			{
+				
+			});
 		}
 
 		/// <summary>
@@ -1334,15 +1334,20 @@ namespace OtherTools
 		public void ComLCDownloadCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("灯控配置下载成功。");
-				lcToolStripStatusLabel2.Text = "灯控配置下载成功";
+				lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";
+				MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");				
+				Thread.Sleep(5000);
+				lcConnectButton_Click(null, null);
 			});
 		}
 
 		// 灯控数据下载错误回调方法
 		public void ComLCDownloadError()
 		{
-			lcToolStripStatusLabel2.Text = "灯控配置下载失败";
+			Invoke((EventHandler)delegate
+			{
+				lcToolStripStatusLabel2.Text = "灯控配置下载失败";
+			});
 		}
 
 		/// <summary>
@@ -1351,7 +1356,13 @@ namespace OtherTools
 		/// <param name="obj"></param>
 		public void ComCCDownloadCompleted(Object obj)
 		{
-			ccToolStripStatusLabel2.Text = "中控配置下载成功";
+			Invoke((EventHandler)delegate {
+				ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";
+				MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
+				Thread.Sleep(5000);
+				ccConnectButton_Click(null, null);
+			});	
+
 		}
 
 		/// <summary>
@@ -1359,11 +1370,14 @@ namespace OtherTools
 		/// </summary>
 		public void ComCCDownloadError()
 		{
-			ccToolStripStatusLabel2.Text = "中控配置下载失败";
+			Invoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "中控配置下载失败";
+			});
 		}
 
 		/// <summary>
-		/// 中控调试解码启动成功
+		/// 启动《中控调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCStartCompleted(Object obj)
@@ -1378,7 +1392,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 中控调试解码启动失败
+		/// 启动《中控调试解码》失败
 		/// </summary>
 		public void ComCCStartError()
 		{
@@ -1411,7 +1425,7 @@ namespace OtherTools
 
 
 		/// <summary>
-		///  中控调试解码结束成功
+		///  结束《中控调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCStopCompleted(Object obj)
@@ -1428,7 +1442,7 @@ namespace OtherTools
 
 
 		/// <summary>
-		/// 中控调试解码结束失败
+		/// 结束《中控调试解码》失败
 		/// </summary>
 		public void ComCCEndError()
 		{
@@ -1455,7 +1469,7 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ccSetButton_Click(object sender, EventArgs e)
+		private void ccConnectButton_Click(object sender, EventArgs e)
 		{
 			comConnect.CenterControlConnect(ComCCConnectCompleted, ComCCConnectError);
 		}
@@ -1465,7 +1479,7 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void lcSetButton_Click(object sender, EventArgs e)
+		private void lcConnectButton_Click(object sender, EventArgs e)
 		{
 			comConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
 		}

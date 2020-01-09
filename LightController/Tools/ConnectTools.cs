@@ -147,42 +147,42 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-        public IList<string> GetDevicesIp()
-        {
-            if (IsStart)
-            {
-                return SocketTools.GetInstance().GetDeviceList();
-            }
-            else
-            {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
-                throw new Exception("未启动服务");
-            }
-        }
-        public IList<string> GetDeviceNames()
-        {
-            if (IsStart)
-            {
-                return SocketTools.GetInstance().GetDeviceNameList();
-            }
-            else
-            {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
-                throw new Exception("未启动服务");
-            }
-        }
-        public Dictionary<string,string> GetDeviceInfo()
-        {
-            if (IsStart)
-            {
-                return SocketTools.GetInstance().GetDeviceInfos();
-            }
-            else
-            {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
-                throw new Exception("未启动服务");
-            }
-        }
+        //public IList<string> GetDevicesIp()
+        //{
+        //    if (IsStart)
+        //    {
+        //        return SocketTools.GetInstance().GetDeviceList();
+        //    }
+        //    else
+        //    {
+        //        CSJLogs.GetInstance().DebugLog("未启动服务");
+        //        throw new Exception("未启动服务");
+        //    }
+        //}
+        //public IList<string> GetDeviceNames()
+        //{
+        //    if (IsStart)
+        //    {
+        //        return SocketTools.GetInstance().GetDeviceNameList();
+        //    }
+        //    else
+        //    {
+        //        CSJLogs.GetInstance().DebugLog("未启动服务");
+        //        throw new Exception("未启动服务");
+        //    }
+        //}
+        //public Dictionary<string,string> GetDeviceInfo()
+        //{
+        //    if (IsStart)
+        //    {
+        //        return SocketTools.GetInstance().GetDeviceInfos();
+        //    }
+        //    else
+        //    {
+        //        CSJLogs.GetInstance().DebugLog("未启动服务");
+        //        throw new Exception("未启动服务");
+        //    }
+        //}
         public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)

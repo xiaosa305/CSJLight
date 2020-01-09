@@ -1823,7 +1823,33 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpDownloadButton_Click(object sender, EventArgs e)
 		{
-			//comConnect.PassThroughCenterControlDownload();
+			comConnect.PassThroughKeyPressDownload(keyEntity,KeypressDownloadCompleted,KeypressDownladError);
+		}
+
+		/// <summary>
+		/// 若是下载墙板成功，运行此回调方法
+		/// </summary>
+		/// <param name="obj"></param>
+		private void KeypressDownloadCompleted(object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				kpToolStripStatusLabel2.Text = "成功下载墙板码值";
+				MessageBox.Show("成功下载墙板码值");
+			});
+
+		}
+
+		/// <summary>
+		/// 若下载墙板失败，运行此回调方法
+		/// </summary>
+		private void KeypressDownladError()
+		{
+			Invoke((EventHandler)delegate
+			{
+				kpToolStripStatusLabel2.Text = "下载墙板码值失败";
+				MessageBox.Show("下载墙板码值失败");
+			});
 		}
 	}
 }

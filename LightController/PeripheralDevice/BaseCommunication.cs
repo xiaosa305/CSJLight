@@ -340,10 +340,10 @@ namespace LightController.PeripheralDevice
             //TODO 与占位下载进度显示部分
             this.Send(pack.ToArray());
         }
-        /// <summary>
-        /// 接收数据处理
-        /// </summary>
-        protected void Receive()
+		/// <summary>
+		/// 接收数据处理
+		/// </summary>
+		protected void Receive()
         {
             if (ReadBuff.Count >= PACKHEADLENGTH)
             {
@@ -359,7 +359,7 @@ namespace LightController.PeripheralDevice
                         if (packCRC[0] == CaluPackCRC[0] && packCRC[1] == CaluPackCRC[1])
                         {
                             List<byte> data =  ReadBuff.Skip(PACKHEADLENGTH).ToList();
-                            Console.WriteLine(Encoding.Default.GetString(data.ToArray()));
+							Console.WriteLine("XIAOSA 1-->" + Encoding.Default.GetString(data.ToArray()));
                             this.ReceiveManege(data);
                             ReadBuff.Clear();
                         }
@@ -708,6 +708,7 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void KeyPressDownloadReceive(List<byte> data)
         {
+			Console.WriteLine("XIAOSA-->"  + Encoding.Default.GetString(data.ToArray()));
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
                 this.StopTimeOut();

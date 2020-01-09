@@ -55,8 +55,8 @@ namespace LightController.PeripheralDevice
             {
                 while (this.IsDeviceOpen)
                 {
-                    ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
-                    this.Receive();
+					ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
+					this.Receive();
                 }
                 ReadBuff.Clear();
             }

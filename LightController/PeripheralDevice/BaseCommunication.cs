@@ -1,4 +1,5 @@
-﻿using LightController.Entity;
+﻿using LightController.Common;
+using LightController.Entity;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using System;
@@ -36,6 +37,7 @@ namespace LightController.PeripheralDevice
         private int PackCount { get; set; }//通信分包总数
         private int PackIndex { get; set; }//当前发送分包编号
         private bool IsCenterControlDownload { get; set; }
+        private bool IsDone { get; set; }
 
         public delegate void Completed(Object obj);
         public delegate void Error();
@@ -253,7 +255,13 @@ namespace LightController.PeripheralDevice
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
             Console.WriteLine("发送数据为:" + Encoding.Default.GetString(packData.ToArray()));
+            string testStr = "";
             this.Send(pack.ToArray());
+            for (int i = 0; i < pack.Count; i++)
+            {
+                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + "-";
+            }
+            Console.WriteLine("打印命令: " + testStr);
         }
         /// <summary>
         /// 发送命令通信包，命令带额外数据
@@ -337,6 +345,12 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
+            string testStr = "";
+            for (int i = 0; i < pack.Count; i++)
+            {
+                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + "-";
+            }
+            Console.WriteLine("打印数据: " + testStr);
             //TODO 与占位下载进度显示部分
             this.Send(pack.ToArray());
         }
@@ -476,10 +490,18 @@ namespace LightController.PeripheralDevice
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals("ack\r\n"))
             {
+                this.IsAck = true;
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsDone = true;
+            }
+
+            if (this.IsAck &&this.IsDone)
+            {
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null);
-
             }
         }
         /// <summary>
@@ -493,16 +515,23 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.SendData();
             }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsDone = true;
+            }
             else
             {
-                byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
-                Console.WriteLine("灯控数据读取大小:" + data.Count);
-                if (crcBuff[0] == data[data.Count - 2] && crcBuff[1] == data[data.Count - 1])
+                if (this.IsDone == true)
                 {
-                    this.StopTimeOut();
-                    this.IsSending = false;
-					LightControlData value = new LightControlData(data);
-                    this.Completed_Event(value);
+                    byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
+                    Console.WriteLine("灯控数据读取大小:" + data.Count);
+                    if (crcBuff[0] == data[data.Count - 2] && crcBuff[1] == data[data.Count - 1])
+                    {
+                        this.StopTimeOut();
+                        this.IsSending = false;
+                        LightControlData value = new LightControlData(data);
+                        this.Completed_Event(value);
+                    }
                 }
             }
         }
@@ -519,8 +548,19 @@ namespace LightController.PeripheralDevice
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_ACK))
             {
-                this.StopTimeOut();
+                if (this.IsDone)
+                {
+                    this.StopTimeOut();
+                }
                 this.IsAck = true;
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                if (this.IsAck)
+                {
+                    this.StopTimeOut();
+                }
+                this.IsDone = true;
             }
             else
             {
@@ -537,7 +577,9 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
-                Thread.Sleep(200);
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null);
@@ -580,6 +622,14 @@ namespace LightController.PeripheralDevice
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals("ack\r\n"))
             {
+                this.IsAck = true;
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsDone = true;
+            }
+            if (this.IsDone && this.IsAck)
+            {
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null);
@@ -595,11 +645,10 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
-                Thread.Sleep(100);
-                this.StopTimeOut();
-                this.IsStartCopy = true;
-                this.IsSending = false;
-                this.Completed_Event(null);
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsDone = true;
             }
             else
             {
@@ -612,6 +661,13 @@ namespace LightController.PeripheralDevice
                     this.Error_Event();
                 }
             }
+            if (this.IsDone)
+            {
+                this.StopTimeOut();
+                this.IsStartCopy = true;
+                this.IsSending = false;
+                this.Completed_Event(null);
+            }
         }
         /// <summary>
         /// 中控设备关闭解码回复消息处理
@@ -623,15 +679,22 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
-                Thread.Sleep(100);
-                this.StopTimeOut();
-                this.IsStartCopy = false;
-                this.IsSending = false;
-                this.Completed_Event(null);
+              
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsDone = true;
             }
             else
             {
                 this.Error_Event();
+            }
+            if (this.IsDone)
+            {
+                this.StopTimeOut();
+                this.IsStartCopy = false;
+                this.IsSending = false;
+                this.Completed_Event(null);
             }
         }
         /// <summary>
@@ -645,9 +708,28 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.SendData();
             }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                if (this.IsAck)
+                {
+                    this.StopTimeOut();
+                }
+                this.IsDone = true;
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_SENDNEXT))
+            {
+                if (this.IsAck)
+                {
+                    this.StopTimeOut();
+                }
+                this.IsDone = true;
+            }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_ACK))
             {
-                this.StopTimeOut();
+                if (this.IsDone)
+                {
+                    this.StopTimeOut();
+                }
                 this.IsAck = true;
             }
             else
@@ -669,6 +751,14 @@ namespace LightController.PeripheralDevice
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals("ack\r\n"))
             {
+                this.IsAck = true;
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsDone = true;
+            }
+            if (IsAck && IsDone)
+            {
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null);
@@ -685,6 +775,11 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.SendData();
             }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsAck = true;
+                this.IsDone = true;
+            }
             else
             {
                 byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
@@ -693,12 +788,6 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                     this.IsSending = false;
                     this.Completed_Event(new KeyEntity(data));
-                }
-                else
-                {
-                    this.StopTimeOut();
-                    this.IsSending = false;
-                    this.Error_Event();
                 }
             }
         }
@@ -713,15 +802,35 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
+                Console.WriteLine("墙板设备下载回复Ok:Decoed");
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_ACK))
             {
-                this.StopTimeOut();
+                if (this.IsDone)
+                {
+                    this.StopTimeOut();
+                }
                 this.IsAck = true;
+                Console.WriteLine("墙板设备下载回复ack");
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                if (this.IsAck)
+                {
+                    this.StopTimeOut();
+
+                }
+                this.IsDone = true;
+                Console.WriteLine("墙板设备下载回复Done");
             }
             else
             {
-                Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()));
+                string aa = "";
+                for (int i = 0; i < data.Count; i++)
+                {
+                    aa = aa + data[i] + "-";
+                }
+                Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()) + "--->" + aa);
             }
         }
         /// <summary>
@@ -759,6 +868,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.ZG;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -793,6 +904,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.RG;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_READ);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ ,data.Length.ToString()});
             }
             catch (Exception ex)
@@ -829,14 +942,16 @@ namespace LightController.PeripheralDevice
                 List<byte> data = new List<byte>();
                 data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD));
                 this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
                 while (true)
                 {
-                    if (this.IsAck)
+                    if (this.IsAck && this.IsDone)
                     {
                         data.Clear();
                         data.AddRange((obj as LightControlData).GetData());
                         this.IsAck = false;
+                        this.IsDone = false;
                         this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
                         break;
                     }
@@ -847,9 +962,10 @@ namespace LightController.PeripheralDevice
                 }
                 while (true)
                 {
-                    if (this.IsAck)
+                    if (this.IsAck && this.IsDone)
                     {
                         this.IsAck = false;
+                        this.IsDone = false;
                         this.IsSending = false;
                         this.StopTimeOut();
                         this.Completed_Event(null);
@@ -894,6 +1010,8 @@ namespace LightController.PeripheralDevice
                 List<byte> data = new List<byte>();
                 data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG));
                 data.AddRange(obj as byte[]);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
             }
             catch (Exception ex)
@@ -931,6 +1049,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.LK;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -965,6 +1085,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.CP;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1000,6 +1122,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.XP;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1035,14 +1159,16 @@ namespace LightController.PeripheralDevice
             List<byte> data = new List<byte>();
             data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD));
             this.IsAck = false;
+            this.IsDone = false;
             this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
             while (true)
             {
-                if (this.IsAck)
+                if (this.IsAck&& this.IsDone)
                 {
                     data.Clear();
                     data.AddRange((obj as CCEntity).GetData());
                     this.IsAck = false;
+                    this.IsDone = false;
                     int dataLength = data.ToArray().Length + (2 * 32);
                     this.IsCenterControlDownload = true;
                     this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, dataLength.ToString() });
@@ -1055,9 +1181,10 @@ namespace LightController.PeripheralDevice
             }
             while (true)
             {
-                if (this.IsAck)
+                if (this.IsAck && this.IsDone)
                 {
                     this.IsAck = false;
+                    this.IsDone = false;
                     if (this.PackIndex == this.PackCount)
                     {
                         this.IsSending = false;
@@ -1104,6 +1231,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.ZC;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_KEYPRESS_CONNECT);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_CONNECT, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1125,7 +1254,7 @@ namespace LightController.PeripheralDevice
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughKeyPressReadStart), null);
+                //ThreadPool.QueueUserWorkItem(new WaitCallback(PassThroughKeyPressReadStart), null);
                 this.PassThroughKeyPressReadStart(null);
             }
         }
@@ -1139,6 +1268,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.RC;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_KEYPRESS_READ);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_READ, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1177,6 +1308,7 @@ namespace LightController.PeripheralDevice
                 List<byte> data = new List<byte>();
                 data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_KEYPRESS_DOWNLOAD));
                 this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_DOWNLOAD, data.ToArray().Length.ToString() });
                 while (true)
                 {
@@ -1184,11 +1316,13 @@ namespace LightController.PeripheralDevice
                     {
                         return;
                     }
-                    if (this.IsAck)
+                    if (this.IsAck && this.IsDone)
                     {
                         this.IsAck = false;
+                        this.IsDone = false;
                         data.Clear();
                         data.AddRange((obj as KeyEntity).GetData());
+                        Thread.Sleep(75);
                         this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_DOWNLOAD, data.ToArray().Length.ToString() });
                         break;
                     }
@@ -1199,9 +1333,10 @@ namespace LightController.PeripheralDevice
                     {
                         return;
                     }
-                    if (this.IsAck)
+                    if (this.IsAck && this.IsDone)
                     {
                         this.IsAck = false;
+                        this.IsDone = false;
                         this.IsSending = false;
                         this.StopTimeOut();
                         this.Completed_Event(null);
@@ -1250,6 +1385,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.ZG;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1284,6 +1421,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.RG;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_READ);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1320,14 +1459,16 @@ namespace LightController.PeripheralDevice
                 List<byte> data = new List<byte>();
                 data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD));
                 this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
                 while (true)
                 {
-                    if (this.IsAck)
+                    if (this.IsAck && this.IsDone)
                     {
                         data.Clear();
                         data.AddRange((obj as LightControlData).GetData());
                         this.IsAck = false;
+                        this.IsDone = false;
                         this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
                         break;
                     }
@@ -1338,7 +1479,7 @@ namespace LightController.PeripheralDevice
                 }
                 while (true)
                 {
-                    if (this.IsAck)
+                    if (this.IsAck && this.IsDone)
                     {
                         this.IsAck = false;
                         this.IsSending = false;
@@ -1385,6 +1526,8 @@ namespace LightController.PeripheralDevice
                 List<byte> data = new List<byte>();
                 data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG));
                 data.AddRange(obj as byte[]);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG, data.ToArray().Length.ToString() });
             }
             catch (Exception ex)
@@ -1422,6 +1565,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.LK;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_CONNECT, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1456,6 +1601,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.CP;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_START_STUDY, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1491,6 +1638,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.XP;
                 byte[] data = Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY);
+                this.IsAck = false;
+                this.IsDone = false;
                 this.SendOrder(data, Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_STOP_STUDY, data.Length.ToString() });
             }
             catch (Exception ex)
@@ -1527,14 +1676,16 @@ namespace LightController.PeripheralDevice
             List<byte> data = new List<byte>();
             data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD));
             this.IsAck = false;
+            this.IsDone = false;
             this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
             while (true)
             {
-                if (this.IsAck)
+                if (this.IsAck && this.IsDone)
                 {
                     data.Clear();
                     data.AddRange((obj as CCEntity).GetData());
                     this.IsAck = false;
+                    this.IsDone = false;
                     int dataLength = data.ToArray().Length + (2 * 32);
                     this.IsCenterControlDownload = true;
                     this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, dataLength.ToString() });
@@ -1547,9 +1698,10 @@ namespace LightController.PeripheralDevice
             }
             while (true)
             {
-                if (this.IsAck)
+                if (this.IsAck && this.IsDone)
                 {
                     this.IsAck = false;
+                    this.IsDone = false;
                     if (this.PackIndex == this.PackCount)
                     {
                         this.IsSending = false;

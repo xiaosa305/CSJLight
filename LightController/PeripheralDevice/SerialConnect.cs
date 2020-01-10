@@ -77,5 +77,15 @@ namespace LightController.PeripheralDevice
             this.SerialPortDevice.Write(data, 0, data.Length);
             this.SendDataCompleted();
         }
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        protected override void DisConnect()
+        {
+            if (this.SerialPortDevice.IsOpen)
+            {
+                this.SerialPortDevice.Close();
+            }
+        }
     }
 }

@@ -57,13 +57,6 @@ namespace LightController.PeripheralDevice
             return RECEIVEBUFFSIZE - this.BuffCount;
         }
         /// <summary>
-        /// 断开连接
-        /// </summary>
-        private void Disconnect()
-        {
-            this.Socket.Close();
-        }
-        /// <summary>
         /// 网络发送数据
         /// </summary>
         /// <param name="data"></param>
@@ -98,6 +91,13 @@ namespace LightController.PeripheralDevice
             ReadBuff.AddRange(buff);
             this.Receive();
             connect.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
+        }
+        /// <summary>
+        /// 断开连接
+        /// </summary>
+        protected override void DisConnect()
+        {
+            this.Socket.Close();
         }
     }
 }

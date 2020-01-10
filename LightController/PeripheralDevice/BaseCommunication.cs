@@ -68,6 +68,10 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         protected abstract void Send(byte[] data);
         /// <summary>
+        /// 断开连接
+        /// </summary>
+        protected abstract void DisConnect();
+        /// <summary>
         /// 发送数据完成
         /// </summary>
         protected void SendDataCompleted()
@@ -839,7 +843,10 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void KeyPressClickListenerReceive(List<byte> data)
         {
-            this.KeyPressClick_Event(data);
+            if (this.KeyPressClick_Event != null)
+            {
+                this.KeyPressClick_Event(data);
+            }
         }
         //灯控设备配置
         /// <summary>
@@ -1357,6 +1364,13 @@ namespace LightController.PeripheralDevice
         public void PassThroughKeyPressSetClickListener(KeyPressClick click)
         {
             this.KeyPressClick_Event = click;
+        }
+        /// <summary>
+        /// 关闭墙板按键点击事件监听
+        /// </summary>
+        public void PassThroughKeyPressCloseClickListener()
+        {
+            this.KeyPressClick_Event = null;
         }
         //透传模式灯控设备配置
         /// <summary>

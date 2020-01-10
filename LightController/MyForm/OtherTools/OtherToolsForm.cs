@@ -140,7 +140,7 @@ namespace OtherTools
 		/// <summary>
 		/// 刷新所有被connStatus影响的按键
 		/// </summary>
-		private void refreshAllButtons()
+		private void refreshButtons()
 		{
 			// 三个连接按键
 			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
@@ -155,7 +155,7 @@ namespace OtherTools
 
 			// 灯控相关
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
-			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc;
+			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null;
 
 			// 墙板相关按键			
 			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
@@ -590,7 +590,6 @@ namespace OtherTools
 				lcToolStripStatusLabel2.Text = "当前myConnect==null，无法下载数据";
 				return;				
 			}
-
 			myConnect.LightControlDownload(lcEntity, ComLCDownloadCompleted, ComLCDownloadError);			
 		}
 
@@ -718,6 +717,8 @@ namespace OtherTools
 				item.SubItems.Add(ccEntity.CCDataList[rowIndex].PS2Down.Trim());
 				protocolListView.Items.Add(item);
 			}
+
+			refreshButtons();
 		}
 
 
@@ -945,7 +946,7 @@ namespace OtherTools
 			}
 
 			reloadKeypressListView();
-			refreshAllButtons();
+			refreshButtons();
 			kpToolStripStatusLabel2.Text = "已加载配置文件：" + keyPath;
 		}
 
@@ -1092,7 +1093,7 @@ namespace OtherTools
 
 
 		/// <summary>
-		/// 两个自定义墙板键码值的输入文字的验证。
+		/// 辅助方法：两个自定义墙板键码值的输入文字的验证。
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1110,7 +1111,6 @@ namespace OtherTools
 				e.Handled = true;
 			}
 		}
-
 
 		/// <summary>
 		/// 事件：勾选《灯控 - 常亮模式》
@@ -1131,13 +1131,18 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void switchButton_Click(object sender, EventArgs e)
 		{
+			// 切换前都先断开连接
+			if (myConnect != null) {
+				myConnect.DisConnect();
+				myConnect = null ;
+			}
+			
 			isConnectByCom = !isConnectByCom;
 			switchButton.Text = isConnectByCom ? "以网络连接" : "以串口连接";
 			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
 			connectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
 			refreshDeviceComboBox();
 		}
-
 
 		/// <summary>
 		/// 辅助方法：通过不同的isConnectByCom来刷新deviceComboBox。
@@ -1177,8 +1182,7 @@ namespace OtherTools
 						connectTools.Start(ip.ToString());
 						connectTools.SearchDevice();
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(500);
-					
+						Thread.Sleep(500);					
 						Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();						
 						if (allDevices.Count > 0)
 						{
@@ -1213,6 +1217,7 @@ namespace OtherTools
 			}
 		}
 
+		//事件：点击《刷新串口|网络》
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
 			refreshDeviceComboBox();
@@ -1223,7 +1228,7 @@ namespace OtherTools
 			if (isConnectByCom)
 			{
 				if (myConnect == null) {
-					setAllStatusLabel1("打开串口失败，原因是：comConnect为null");
+					setAllStatusLabel1("打开串口失败，原因是：myConnect为null");
 					setConnStatus(ConnectStatus.No);
 					return;
 				}
@@ -1292,10 +1297,11 @@ namespace OtherTools
 		/// 辅助回调方法：灯控连接成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComLCConnectCompleted(Object obj) {
+		public void LCConnectCompleted(Object obj) {
 			Invoke((EventHandler)delegate {				
 				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc)";
 				setConnStatus(ConnectStatus.Lc);
+				lcReadButton_Click(null,null);
 			});
 		}
 
@@ -1303,18 +1309,19 @@ namespace OtherTools
 		/// 辅助回调方法：灯控连接出错
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComLCConnectError() {
-			//isOvertime = true;
-			MessageBox.Show("请求超时，切换灯控配置失败");
-			lcToolStripStatusLabel2.Text = "请求超时，切换灯控配置失败";
-			lcToolStripStatusLabel1.Text = "请求超时，设备可能并未连接到串口";
+		public void LCConnectError() {
+			Invoke((EventHandler)delegate
+			{
+				MessageBox.Show("请求超时，切换灯控配置失败");
+				lcToolStripStatusLabel2.Text = "请求超时，切换灯控配置失败";
+			});
 		}
 
 		/// <summary>
 		/// 辅助回调方法：中控连接成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComCCConnectCompleted(Object obj)
+		public void CCConnectCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
 				ccToolStripStatusLabel2.Text = "已切换成中控配置(connStatus=cc)";
@@ -1325,7 +1332,7 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：中控连接失败
 		/// </summary>
-		public void ComCCConnectError()
+		public void CCConnectError()
 		{
 			Invoke((EventHandler)delegate {
 				ccToolStripStatusLabel2.Text = "切换中控配置失败";
@@ -1405,10 +1412,9 @@ namespace OtherTools
 				else {
 					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";
 					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
-					Thread.Sleep(5000);
-					lcEntity= null;
-					lcSetForm();
+					Thread.Sleep(5000);										
 					setConnStatus(ConnectStatus.No);
+					networkDeviceRestart();
 				}				
 			});
 		}
@@ -1431,10 +1437,20 @@ namespace OtherTools
 		public void ComCCDownloadCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
-				ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";
-				MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
-				Thread.Sleep(5000);
-				ccConnectButton_Click(null, null);
+				if (isConnectByCom)
+				{
+					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";
+					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
+					Thread.Sleep(5000);
+					ccConnectButton_Click(null, null);
+				}
+				else {
+					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";
+					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
+					Thread.Sleep(5000);
+					setConnStatus(ConnectStatus.No);
+					networkDeviceRestart();
+				}
 			});	
 
 		}
@@ -1545,7 +1561,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void ccConnectButton_Click(object sender, EventArgs e)
 		{
-			myConnect.CenterControlConnect(ComCCConnectCompleted, ComCCConnectError);
+			myConnect.CenterControlConnect(CCConnectCompleted, CCConnectError);
 		}
 
 		/// <summary>
@@ -1555,7 +1571,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcConnectButton_Click(object sender, EventArgs e)
 		{
-			myConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
+			myConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
 		}
 
 
@@ -1604,20 +1620,23 @@ namespace OtherTools
 		private void setConnStatus(ConnectStatus cs)
 		{
 			connStatus = cs;
-
 			refreshStatusLabels();
-			refreshAllButtons();			
+			refreshButtons();					
+		}
 
-			if ( ! isConnectByCom && cs == ConnectStatus.No) {
+		/// <summary>
+		/// 辅助方法：当下载中控或灯控数据后，应该执行此方法，以引导用户进行新的操作
+		/// </summary>
+		private void networkDeviceRestart() {
+			if (!isConnectByCom && connStatus == ConnectStatus.No)
+			{
 				deviceComboBox.Items.Clear();
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
 				connectButton.Enabled = false;
 				setAllStatusLabel1("设备已重启，请重新搜索并重连网络设备");
 			}
-			
 		}
-
 
 
 		/// <summary>
@@ -1714,7 +1733,7 @@ namespace OtherTools
 				keyEntity = obj as KeyEntity;
 				reloadKeypressListView();
 				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
-				refreshAllButtons();
+				refreshButtons();
 				this.Enabled = true;
 				this.Cursor = Cursors.Default;
 			});			

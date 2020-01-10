@@ -1499,23 +1499,23 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{
 				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
-				connStatus = ConnectStatus.Kp;				
+				connStatus = ConnectStatus.Kp;
 
-				Thread.Sleep(500);								
-				kpReadButton_Click(null, null);
+                Thread.Sleep(500);
+                kpReadButton_Click(null, null);
 
-				Thread.Sleep(500);
-				kpListenButton_Click(null, null);				
+                Thread.Sleep(500);
+                kpListenButton_Click(null, null);
 
-				// 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
-				if (kpTimer == null)
-				{
-					kpTimer = new System.Timers.Timer(8000);
-					kpTimer.Elapsed += new System.Timers.ElapsedEventHandler(kpOnTimer);
-					kpTimer.AutoReset = true;
-					kpTimer.Enabled = true;
-				}
-			});
+                // 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
+                //if (kpTimer == null)
+                //{
+                //	kpTimer = new System.Timers.Timer(8000);
+                //	kpTimer.Elapsed += new System.Timers.ElapsedEventHandler(kpOnTimer);
+                //	kpTimer.AutoReset = true;
+                //	kpTimer.Enabled = true;
+                //}
+            });
 		}
 
 		/// <summary>

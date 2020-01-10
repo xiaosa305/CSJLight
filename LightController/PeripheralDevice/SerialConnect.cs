@@ -73,6 +73,7 @@ namespace LightController.PeripheralDevice
         }
         protected override void Send(byte[] data)
         {
+            this.SerialPortDevice.DiscardOutBuffer();
             this.SerialPortDevice.Write(data, 0, data.Length);
             this.SendDataCompleted();
         }

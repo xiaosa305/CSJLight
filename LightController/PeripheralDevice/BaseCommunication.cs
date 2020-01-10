@@ -1,4 +1,5 @@
-﻿using LightController.Entity;
+﻿using LightController.Common;
+using LightController.Entity;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using System;
@@ -253,7 +254,13 @@ namespace LightController.PeripheralDevice
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
             Console.WriteLine("发送数据为:" + Encoding.Default.GetString(packData.ToArray()));
+            string testStr = "";
             this.Send(pack.ToArray());
+            for (int i = 0; i < pack.Count; i++)
+            {
+                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + "-";
+            }
+            Console.WriteLine("打印命令: " + testStr);
         }
         /// <summary>
         /// 发送命令通信包，命令带额外数据
@@ -337,6 +344,12 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
+            string testStr = "";
+            for (int i = 0; i < pack.Count; i++)
+            {
+                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + "-";
+            }
+            Console.WriteLine("打印数据: " + testStr);
             //TODO 与占位下载进度显示部分
             this.Send(pack.ToArray());
         }
@@ -721,7 +734,12 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()));
+                string aa = "";
+                for (int i = 0; i < data.Count; i++)
+                {
+                    aa = aa + data[i] + "-";
+                }
+                Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()) + "--->" + aa);
             }
         }
         /// <summary>
@@ -1189,6 +1207,7 @@ namespace LightController.PeripheralDevice
                         this.IsAck = false;
                         data.Clear();
                         data.AddRange((obj as KeyEntity).GetData());
+                        Thread.Sleep(90);
                         this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_KEYPRESS_DOWNLOAD, data.ToArray().Length.ToString() });
                         break;
                     }

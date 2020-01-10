@@ -68,6 +68,10 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         protected abstract void Send(byte[] data);
         /// <summary>
+        /// 断开连接
+        /// </summary>
+        protected abstract void DisConnect();
+        /// <summary>
         /// 发送数据完成
         /// </summary>
         protected void SendDataCompleted()

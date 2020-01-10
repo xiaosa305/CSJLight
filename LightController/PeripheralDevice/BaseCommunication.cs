@@ -70,7 +70,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 断开连接
         /// </summary>
-        protected abstract void DisConnect();
+        public abstract void DisConnect();
         /// <summary>
         /// 发送数据完成
         /// </summary>
@@ -263,7 +263,7 @@ namespace LightController.PeripheralDevice
             this.Send(pack.ToArray());
             for (int i = 0; i < pack.Count; i++)
             {
-                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + "-";
+                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + " ";
             }
             Console.WriteLine("打印命令: " + testStr);
         }
@@ -352,7 +352,7 @@ namespace LightController.PeripheralDevice
             string testStr = "";
             for (int i = 0; i < pack.Count; i++)
             {
-                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + "-";
+                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + " ";
             }
             Console.WriteLine("打印数据: " + testStr);
             //TODO 与占位下载进度显示部分
@@ -735,6 +735,7 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsDone = true;
+                Console.WriteLine("中控下载 Done");
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_SENDNEXT))
             {
@@ -743,6 +744,7 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsDone = true;
+                Console.WriteLine("中控下载 SendNext");
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_ACK))
             {
@@ -751,6 +753,7 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsAck = true;
+                Console.WriteLine("中控下载 Ack");
             }
             else
             {

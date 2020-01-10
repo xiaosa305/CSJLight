@@ -81,16 +81,20 @@ namespace LightController.PeripheralDevice
             NetworkConnect connect = asyncResult.AsyncState as NetworkConnect;
             int aa = connect.Socket.ReceiveBufferSize;
             int count = connect.Socket.EndReceive(asyncResult);
+            Console.WriteLine("网络接收数据大小："+ count);
             if (count <= 0)
             {
                 Console.WriteLine("设备断开连接");
                 return;
             }
-            byte[] buff = new byte[count];
-            Array.Copy(connect.ReceiveBuff, buff, count);
-            ReadBuff.AddRange(buff);
-            this.Receive();
-            connect.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
+            else
+            {
+                byte[] buff = new byte[count];
+                Array.Copy(connect.ReceiveBuff, buff, count);
+                ReadBuff.AddRange(buff);
+                this.Receive();
+                connect.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
+            }
         }
         /// <summary>
         /// 断开连接

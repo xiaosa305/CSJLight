@@ -143,7 +143,6 @@ namespace LightController.MyForm
 			{
 				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices) {
 					foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value) {
-
 						networkDevicesComboBox.Items.Add(d2.Value.DeviceName+ "(" + d2.Value.DeviceIp + ")");
 						ips.Add(d2.Value.DeviceIp);
 					}				

@@ -201,22 +201,22 @@
     <Compile Include="MyForm\OtherTools\OtherToolsForm.Designer.cs">
       <DependentUpon>OtherToolsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\GlobalSetForm.cs">
+    <Compile Include="MyForm\GlobalSet\GlobalSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\GlobalSetForm.Designer.cs">
+    <Compile Include="MyForm\GlobalSet\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\HardwareSetChooseForm.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareSetChooseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwareSetChooseForm.Designer.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareSetChooseForm.Designer.cs">
       <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\HardwareSetForm.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwareSetForm.Designer.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MultiStepCopyForm.cs">
@@ -294,12 +294,6 @@
     <Compile Include="MyForm\MaterialUseForm.Designer.cs">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\NetworkSetForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\NetworkSetForm.Designer.cs">
-      <DependentUpon>NetworkSetForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\NewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,10 +305,10 @@
     <Compile Include="Entity\DB_StepCount.cs" />
     <Compile Include="Entity\DB_ValuePK.cs" />
     <Compile Include="Entity\DB_Value.cs" />
-    <Compile Include="MyForm\HardwareSaveForm.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwareSaveForm.Designer.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareSaveForm.Designer.cs">
       <DependentUpon>HardwareSaveForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\SkinMainForm.cs">
@@ -329,22 +323,16 @@
     <Compile Include="MyForm\OpenForm.Designer.cs">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\QDTestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\QDTestForm.Designer.cs">
-      <DependentUpon>QDTestForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\OtherTools\ToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\OtherTools\ToolsForm.Designer.cs">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\HardwareUpdateForm.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwareUpdateForm.Designer.cs">
+    <Compile Include="MyForm\HardwaereSet\HardwareUpdateForm.Designer.cs">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\ProjectUpdateForm.cs">
@@ -359,10 +347,10 @@
     <Compile Include="MyForm\UseFrameForm.Designer.cs">
       <DependentUpon>UseFrameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\YMSetForm.cs">
+    <Compile Include="MyForm\GlobalSet\YMSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\YMSetForm.Designer.cs">
+    <Compile Include="MyForm\GlobalSet\YMSetForm.Designer.cs">
       <DependentUpon>YMSetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PeripheralDevice\BaseCommunication.cs" />
@@ -414,13 +402,13 @@
     <EmbeddedResource Include="MyForm\OtherTools\OtherToolsForm.resx">
       <DependentUpon>OtherToolsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\GlobalSetForm.resx">
+    <EmbeddedResource Include="MyForm\GlobalSet\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwareSetChooseForm.resx">
+    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareSetChooseForm.resx">
       <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwareSetForm.resx">
+    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MultiStepCopyForm.resx">
@@ -459,13 +447,10 @@
     <EmbeddedResource Include="MyForm\MaterialUseForm.resx">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\NetworkSetForm.resx">
-      <DependentUpon>NetworkSetForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwareSaveForm.resx">
+    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareSaveForm.resx">
       <DependentUpon>HardwareSaveForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\SkinMainForm.resx">
@@ -475,13 +460,10 @@
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\QDTestForm.resx">
-      <DependentUpon>QDTestForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwareUpdateForm.resx">
+    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareUpdateForm.resx">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\ProjectUpdateForm.resx">
@@ -490,7 +472,7 @@
     <EmbeddedResource Include="MyForm\UseFrameForm.resx">
       <DependentUpon>UseFrameForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\YMSetForm.resx">
+    <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -19,6 +19,11 @@ using LightController.Entity;
 using LightController.PeripheralDevice;
 using static LightController.PeripheralDevice.BaseCommunication;
 using System.Timers;
+using LightController.Ast;
+using LightController.Tools;
+using System.Net;
+using System.Net.Sockets;
+using LightController.MyForm.OtherTools;
 
 namespace OtherTools
 {
@@ -51,6 +56,10 @@ namespace OtherTools
 		
 		private bool isDecoding = false; //中控是否开启解码
 		private bool isKpShowDetails = true;
+
+		private BaseCommunication myConnect;
+		private IList<IPAst> ipaList;
+		private ConnectTools connectTools;
 
 		//private bool isConnected = false;  //是否已连上设备
 		//private bool isOvertime = false; //是否超时
@@ -128,31 +137,35 @@ namespace OtherTools
 			
 		}
 
-		private Point mouse_offset;
-		private void button1_MouseDown(object sender, MouseEventArgs e)
+		/// <summary>
+		/// 刷新所有被connStatus影响的按键
+		/// </summary>
+		private void enableAllButtons()
 		{
-			mouse_offset = new Point(-e.X, -e.Y);
+
+			// 三个连接按键
+			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
+			ccConnectButton.Enabled = connStatus > ConnectStatus.No;
+			kpConnectButton.Enabled = connStatus > ConnectStatus.No;
+
+
+			// 灯控相关按键
+			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
+			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc;
+
+			// 灯控相关
+			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
+			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc;
+
+			// 墙板相关按键			
+			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
+			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;
+			bool keNotNull = keyEntity != null;
+			kpSaveButton.Enabled = keNotNull;
+			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp && keNotNull;
 		}
 
-		private void button1_MouseMove(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-			{
-				Point mousePos = Control.MousePosition;
-				mousePos.Offset(mouse_offset.X, mouse_offset.Y);
-				((Control)sender).Location = ((Control)sender).Parent.PointToClient(mousePos);
-			}
 
-			//this.button1.Text = "横坐标:" + mouse_offset.X + "纵坐标" + mouse_offset.Y;
-			//this.button2.Text = "横坐标:" + mouse_offset.X + "纵坐标" + mouse_offset.Y;
-		}
-
-
-		private void commonButton_Click(object sender, EventArgs e)
-		{
-			Button button = (Button)sender;
-			Console.WriteLine(button.Name);
-		}
 
 		private void OtherToolsForm_Load(object sender, EventArgs e)
 		{
@@ -439,7 +452,7 @@ namespace OtherTools
 			if (isConnectByCom )
 			{
 				byte[] tempData = lcData.GetFrameBytes(lcFrameIndex);
-				comConnect.LightControlDebug(tempData, ComLCSendCompleted, ComLCSendError);
+				myConnect.LightControlDebug(tempData, ComLCSendCompleted, ComLCSendError);
 			}
 			else{
 
@@ -559,8 +572,8 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
-			if (comConnect != null) {
-				comConnect.LightControlDownload(lcData, ComLCDownloadCompleted, ComLCDownloadError);
+			if (myConnect != null) {
+				myConnect.LightControlDownload(lcData, ComLCDownloadCompleted, ComLCDownloadError);
 			}
 		}
 
@@ -612,11 +625,11 @@ namespace OtherTools
 			// 点击《关闭解码》
 			if (isDecoding)
 			{
-				comConnect.CenterControlStopCopy(ComCCStopCompleted, ComCCEndError);
+				myConnect.CenterControlStopCopy(ComCCStopCompleted, ComCCEndError);
 			}
 			// 点击《开启解码》
 			else {
-				comConnect.CenterControlStartCopy(ComCCStartCompleted, ComCCStartError, ComCCListen);
+				myConnect.CenterControlStartCopy(ComCCStartCompleted, ComCCStartError, ComCCListen);
 			}
 		}
 
@@ -709,7 +722,7 @@ namespace OtherTools
 				return;
 			}
 
-			comConnect.CenterControlDownload(ccEntity, ComCCDownloadCompleted, ComCCDownloadError);
+			myConnect.CenterControlDownload(ccEntity, ComCCDownloadCompleted, ComCCDownloadError);
 
 			//ccToolStripStatusLabel2.Text = "成功下载中控数据。";
 		}
@@ -1108,20 +1121,22 @@ namespace OtherTools
 			refreshDeviceComboBox();
 		}
 
-		private SerialConnect comConnect;
+
 		/// <summary>
 		/// 辅助方法：通过不同的isConnectByCom来刷新deviceComboBox。
 		/// </summary>
 		private void refreshDeviceComboBox()
 		{
 			deviceComboBox.Items.Clear();
+
+			// 获取串口列表（不代表一定能连上，串口需用户自行确认）
 			if (isConnectByCom)
 			{
-				if (comConnect == null) {
-					comConnect = new SerialConnect();
+				if (myConnect == null) {
+					myConnect = new SerialConnect();
 				}
 
-				List<string> comList = comConnect.GetSerialPortNames();
+				List<string> comList = (myConnect as SerialConnect).GetSerialPortNames();
 				if (comList == null || comList.Count == 0)
 				{
 					//MessageBox.Show();
@@ -1132,14 +1147,46 @@ namespace OtherTools
 					deviceComboBox.Items.Add(comName);
 				}
 			}
+			// 获取网络设备列表
 			else {
+				connectTools = ConnectTools.GetInstance();
+				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+				ipaList = new List<IPAst>();
 
+				foreach (IPAddress ip in ipe.AddressList)
+				{
+					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
+					{
+						connectTools.Start(ip.ToString());
+						connectTools.SearchDevice();
+						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
+						Thread.Sleep(500);
+					
+						Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();						
+						if (allDevices.Count > 0)
+						{
+							foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
+							{
+								foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
+								{
+									deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
+									ipaList.Add(new IPAst() {
+										LocalIP = ip.ToString(),
+										DeviceIP = d2.Value.DeviceIp,
+										DeviceName = d2.Value.DeviceName
+									});
+								}
+							}
+						}
+					}
+				}							
 			}
 
 			if (deviceComboBox.Items.Count == 0)
 			{
-				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");				
 				connectButton.Enabled = false;
+				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
 			}
 			else {
@@ -1158,14 +1205,14 @@ namespace OtherTools
 		{
 			if (isConnectByCom)
 			{
-				if (comConnect == null) {
+				if (myConnect == null) {
 					setAllStatusLabel1("打开串口失败，原因是：comConnect为null");
 					return;
 				}
 
 				try
 				{
-					comConnect.OpenSerialPort(deviceComboBox.Text);
+					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
 					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")");
 					connStatus = ConnectStatus.Normal;
 					enableAllButtons();
@@ -1176,6 +1223,11 @@ namespace OtherTools
 				}
 			}
 			else {
+				string localIP =  ipaList[deviceComboBox.SelectedIndex].LocalIP; 
+				string deviceIP = ipaList[deviceComboBox.SelectedIndex].DeviceIP;
+				myConnect = new NetworkConnect( connectTools.GetDeivceInfos()[localIP][deviceIP]);
+				Console.WriteLine(myConnect);
+
 
 			}
 		}
@@ -1208,27 +1260,8 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcReadButton_Click(object sender, EventArgs e)
 		{
-			comConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
+			myConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
 			lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
-
-			//TODO 多测试检查以下代码
-			//isOvertime = false;
-			//while (!isOvertime && lcData == null)
-			//{
-			//	Thread.Sleep(100);
-			//	lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
-			//}
-
-			//if (lcData != null)
-			//{
-			//	setLcForm();
-			//	lcToolStripStatusLabel2.Text = "成功回读灯控配置";
-			//}
-			//else
-			//{
-			//	lcToolStripStatusLabel2.Text = "回读灯控配置失败";
-			//}
-
 		}
 
 		public void ComLCConnectCompleted(Object obj) {
@@ -1271,7 +1304,11 @@ namespace OtherTools
 
 		public void ComDownloadCompleted()
 		{
-			MessageBox.Show("灯控数据下载成功");
+			Invoke((EventHandler)delegate {
+				
+				MessageBox.Show("灯控数据下载成功");
+			});
+			
 		}
 
 		/// <summary>
@@ -1466,7 +1503,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void ccConnectButton_Click(object sender, EventArgs e)
 		{
-			comConnect.CenterControlConnect(ComCCConnectCompleted, ComCCConnectError);
+			myConnect.CenterControlConnect(ComCCConnectCompleted, ComCCConnectError);
 		}
 
 		/// <summary>
@@ -1476,7 +1513,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcConnectButton_Click(object sender, EventArgs e)
 		{
-			comConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
+			myConnect.LightControlConnect(ComLCConnectCompleted, ComLCConnectError);
 		}
 
 
@@ -1487,7 +1524,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpConnectButton_Click(object sender, EventArgs e)
 		{
-			comConnect.PassThroughKeyPressConnect(ComKPFirstConnectCompleted, ComKPConnectError);
+			myConnect.PassThroughKeyPressConnect(ComKPFirstConnectCompleted, ComKPConnectError);
 		}
 
 		/// <summary>
@@ -1501,11 +1538,11 @@ namespace OtherTools
 				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
 				connStatus = ConnectStatus.Kp;				
 
-				Thread.Sleep(500);								
-				kpReadButton_Click(null, null);
+				//Thread.Sleep(500);								
+				//kpReadButton_Click(null, null);
 
-				Thread.Sleep(500);
-				kpListenButton_Click(null, null);				
+				//Thread.Sleep(500);
+				//kpListenButton_Click(null, null);
 
 				// 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
 				if (kpTimer == null)
@@ -1516,47 +1553,7 @@ namespace OtherTools
 					kpTimer.Enabled = true;
 				}
 			});
-		}
-
-		/// <summary>
-		/// 刷新所有被connStatus影响的按键
-		/// </summary>
-		private void enableAllButtons() {
-
-			// 三个连接按键
-			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
-			ccConnectButton.Enabled = connStatus > ConnectStatus.No;
-			kpConnectButton.Enabled = connStatus > ConnectStatus.No;
-
-
-			// 灯控相关按键
-			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
-			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc;
-
-			// 灯控相关
-			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
-			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc;
-
-			// 墙板相关按键			
-			kpReadButton.Enabled = connStatus == ConnectStatus.Kp; 			
-			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;			
-			bool keNotNull = keyEntity != null;
-			kpSaveButton.Enabled = keNotNull; 
-			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp && keNotNull;
-		}
-
-
-		/// <summary>
-		/// 辅助方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作
-		/// </summary>
-		/// <param name="obj"></param>
-		public void ComKPTimerConnectCompleted(Object obj)
-		{			
-			Invoke((EventHandler)delegate
-			{
-
-			});
-		}
+		}		
 
 		/// <summary>
 		/// 辅助方法：定时器定时执行的方法
@@ -1566,14 +1563,26 @@ namespace OtherTools
 		private void kpOnTimer(object sender, ElapsedEventArgs e)
 		{
 			Invoke((EventHandler)delegate {
-				if (comConnect != null) {
-					comConnect.PassThroughKeyPressConnect(ComKPTimerConnectCompleted, ComKPConnectError);	
+				if (myConnect != null) {
+					myConnect.PassThroughKeyPressConnect(ComKPTimerConnectCompleted, ComKPConnectError);	
 				}
 			});
 		}
 
 		/// <summary>
-		/// 连接墙板失败
+		/// 辅助方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作
+		/// </summary>
+		/// <param name="obj"></param>
+		public void ComKPTimerConnectCompleted(Object obj)
+		{
+			Invoke((EventHandler)delegate
+			{
+				Console.WriteLine("Dickov：墙板定时重连成功...");
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：连接墙板失败
 		/// </summary>
 		public void ComKPConnectError()
 		{
@@ -1586,6 +1595,8 @@ namespace OtherTools
 				//clearKeypressListView();
 			});
 		}
+
+
 
 		/// <summary>
 		/// 辅助方法：清空墙板listView的所有数据，及其他相关数据。
@@ -1606,7 +1617,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpListenButton_Click(object sender, EventArgs e)
 		{
-			comConnect.PassThroughKeyPressSetClickListener(ComKPStartListenClick);
+			myConnect.PassThroughKeyPressSetClickListener(ComKPStartListenClick);
 		}
 
 		/// <summary>
@@ -1616,7 +1627,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpReadButton_Click(object sender, EventArgs e)
 		{
-			comConnect.PassThroughKeyPressRead(ComKPReadCompleted, ComKPReadError);
+			myConnect.PassThroughKeyPressRead(ComKPReadCompleted, ComKPReadError);
 			kpToolStripStatusLabel2.Text = "正在读取墙板码值，请稍候..." ;
 			this.Cursor = Cursors.WaitCursor;
 			this.Enabled = false;
@@ -1665,10 +1676,12 @@ namespace OtherTools
 		public void ComKPStartListenClick(Object obj)
 		{			
 			Invoke((EventHandler)delegate
-			{
-				if (obj == null) {
+			{	
+				// 当keyEntity为null时，表示还未加载任何键盘键值数据，此方法不再执行。
+				if (obj == null || keyEntity == null) { 
 					return;
 				}
+
 				List<byte> byteList = obj as List<byte>;
 				int keyNum = byteList[0];
 
@@ -1684,6 +1697,12 @@ namespace OtherTools
 					}
 				}
 				keypressListView.Select();
+
+				// 一旦收到这个回复，就重启定时器(避免不停重连)
+				if (kpTimer != null) {
+					kpTimer.Stop();
+					kpTimer.Start();
+				}
 			});
 		}
 
@@ -1780,7 +1799,33 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpPositonSaveButton_Click(object sender, EventArgs e)
 		{
+			int keyCount = keypressListView.Items.Count;
+			new KpPositionSaveForm(this, keyCount).ShowDialog();
+		}
 
+		/// <summary>
+		/// 辅助方法：由KpPositionSaveForm对象来使用的方法，保存位置文件
+		/// </summary>
+		/// <returns></returns>
+		internal bool KPSavePosition(string arrangeIniPath) {
+			try
+			{
+				// 保存操作
+				IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+				iniFileAst.WriteInt("Common", "Count", keypressListView.Items.Count);
+				for (int i = 0; i < keypressListView.Items.Count; i++)
+				{
+					iniFileAst.WriteInt("Position", i + "X", keypressListView.Items[i].Position.X);
+					iniFileAst.WriteInt("Position", i + "Y", keypressListView.Items[i].Position.Y);
+				}
+
+				MessageBox.Show("墙板位置保存成功。");
+				return true;
+			}
+			catch (Exception ex) {
+				MessageBox.Show("墙板位置保存失败，原因是:\n" + ex.Message);
+				return false;
+			}
 		}
 
 		/// <summary>
@@ -1790,7 +1835,54 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpPositonLoadButton_Click(object sender, EventArgs e)
 		{
+			int keyCount = keypressListView.Items.Count;
+			new KpPositionLoadForm(this,keyCount).ShowDialog();
+		}
 
+		/// <summary>
+		/// 辅助方法：由KpPositionLoadForm对象来使用的方法，读取数据文件
+		/// </summary>
+		/// <param name="arrangeIniPath"></param>
+		/// <returns></returns>
+		internal bool KPLoadPosition(string arrangeIniPath) {
+
+			// 1.先验证ini文件是否存在
+			if (!File.Exists(arrangeIniPath))
+			{
+				MessageBox.Show("未找到墙板位置文件，无法读取。");
+				return false; 
+			}
+
+			//2.验证灯具数目是否一致
+			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			int keyCount = iniFileAst.ReadInt("Common", "Count", 0);
+			if (keyCount == 0)
+			{
+				MessageBox.Show("墙板位置文件的按键数量为0，此文件无实际效果。");
+				return false;
+			}
+
+			//3. 验证灯具数量是否一致
+			if (keyCount != keypressListView.Items.Count)
+			{
+				MessageBox.Show("墙板位置文件的按键数量不匹配，无法读取。");
+				return false;
+			}
+
+			// 4.开始读取并绘制		
+			//MARK : SkinMainForm 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
+			keypressListView.BeginUpdate();
+			for (int i = 0; i < keypressListView.Items.Count; i++)
+			{				
+				int tempX = iniFileAst.ReadInt("Position", i + "X", 0);
+				int tempY = iniFileAst.ReadInt("Position", i + "Y", 0);
+				keypressListView.Items[i].Position = new Point(0, 0);
+				keypressListView.Items[i].Position = new Point(tempX, tempY);
+			}
+
+			keypressListView.EndUpdate();
+			MessageBox.Show("墙板位置读取成功。");
+			return true;
 		}
 
 
@@ -1823,7 +1915,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpDownloadButton_Click(object sender, EventArgs e)
 		{
-			comConnect.PassThroughKeyPressDownload(keyEntity,KeypressDownloadCompleted,KeypressDownladError);
+			myConnect.PassThroughKeyPressDownload(keyEntity,KeypressDownloadCompleted,KeypressDownladError);
 		}
 
 		/// <summary>

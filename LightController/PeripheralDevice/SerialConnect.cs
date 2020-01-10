@@ -55,8 +55,9 @@ namespace LightController.PeripheralDevice
             {
                 while (this.IsDeviceOpen)
                 {
-					ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
-					this.Receive();
+                    ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
+                    Console.WriteLine("TAG-XIAOSA-Class:SerialConnect-Method:ReceiveData=>" + "串口开启状态:" + this.SerialPortDevice.IsOpen + ",串口开启状态标记位:" + this.IsDeviceOpen + "串口读取缓存区大小：" + ReadBuff.Count);
+                    this.Receive();
                 }
                 ReadBuff.Clear();
             }
@@ -74,6 +75,7 @@ namespace LightController.PeripheralDevice
         protected override void Send(byte[] data)
         {
             this.SerialPortDevice.DiscardOutBuffer();
+            this.SerialPortDevice.DiscardInBuffer();
             this.SerialPortDevice.Write(data, 0, data.Length);
             this.SendDataCompleted();
         }

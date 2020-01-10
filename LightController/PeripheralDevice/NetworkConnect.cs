@@ -99,7 +99,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 断开连接
         /// </summary>
-        protected override void DisConnect()
+        public override void DisConnect()
         {
             this.Socket.Close();
         }

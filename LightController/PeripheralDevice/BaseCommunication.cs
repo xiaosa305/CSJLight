@@ -335,6 +335,7 @@ namespace LightController.PeripheralDevice
             {
                 byte[] crc = CRCTools.GetInstance().GetLightControlCRC(packData.ToArray());
                 packData.AddRange(crc);
+                Console.WriteLine("当前包数:" + this.PackIndex + ",总包数:" + this.PackCount + ",当前包大小:" + packData.Count);
             }
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2

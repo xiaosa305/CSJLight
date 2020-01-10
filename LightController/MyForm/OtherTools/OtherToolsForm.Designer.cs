@@ -34,6 +34,7 @@ namespace OtherTools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OtherToolsForm));
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.tcButton = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
@@ -274,6 +275,7 @@ namespace OtherTools
 			// 
 			this.panel2.BackColor = System.Drawing.Color.Silver;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel2.Controls.Add(this.tcButton);
 			this.panel2.Controls.Add(this.panel1);
 			this.panel2.Controls.Add(this.zwjTestButton);
 			this.panel2.Controls.Add(this.switchButton);
@@ -288,6 +290,16 @@ namespace OtherTools
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(1264, 93);
 			this.panel2.TabIndex = 1;
+			// 
+			// tcButton
+			// 
+			this.tcButton.Location = new System.Drawing.Point(913, 17);
+			this.tcButton.Name = "tcButton";
+			this.tcButton.Size = new System.Drawing.Size(75, 48);
+			this.tcButton.TabIndex = 28;
+			this.tcButton.Text = "开启透传";
+			this.tcButton.UseVisualStyleBackColor = true;
+			this.tcButton.Click += new System.EventHandler(this.tcButton_Click);
 			// 
 			// panel1
 			// 
@@ -860,8 +872,6 @@ namespace OtherTools
 			this.fcloseChannelComboBox.BackColor = System.Drawing.Color.Linen;
 			this.fcloseChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.fcloseChannelComboBox.FormattingEnabled = true;
-			this.fcloseChannelComboBox.Items.AddRange(new object[] {
-            "通道12"});
 			this.fcloseChannelComboBox.Location = new System.Drawing.Point(8, 23);
 			this.fcloseChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.fcloseChannelComboBox.Name = "fcloseChannelComboBox";
@@ -892,8 +902,6 @@ namespace OtherTools
 			this.fopenChannelComboBox.BackColor = System.Drawing.Color.Linen;
 			this.fopenChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.fopenChannelComboBox.FormattingEnabled = true;
-			this.fopenChannelComboBox.Items.AddRange(new object[] {
-            "通道11"});
 			this.fopenChannelComboBox.Location = new System.Drawing.Point(8, 23);
 			this.fopenChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.fopenChannelComboBox.Name = "fopenChannelComboBox";
@@ -924,8 +932,6 @@ namespace OtherTools
 			this.lowFanChannelComboBox.BackColor = System.Drawing.Color.Linen;
 			this.lowFanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.lowFanChannelComboBox.FormattingEnabled = true;
-			this.lowFanChannelComboBox.Items.AddRange(new object[] {
-            "通道8"});
 			this.lowFanChannelComboBox.Location = new System.Drawing.Point(8, 23);
 			this.lowFanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.lowFanChannelComboBox.Name = "lowFanChannelComboBox";
@@ -956,8 +962,6 @@ namespace OtherTools
 			this.midFanChannelComboBox.BackColor = System.Drawing.Color.Linen;
 			this.midFanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.midFanChannelComboBox.FormattingEnabled = true;
-			this.midFanChannelComboBox.Items.AddRange(new object[] {
-            "通道9"});
 			this.midFanChannelComboBox.Location = new System.Drawing.Point(8, 23);
 			this.midFanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.midFanChannelComboBox.Name = "midFanChannelComboBox";
@@ -988,8 +992,6 @@ namespace OtherTools
 			this.highFanChannelComboBox.BackColor = System.Drawing.Color.Linen;
 			this.highFanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.highFanChannelComboBox.FormattingEnabled = true;
-			this.highFanChannelComboBox.Items.AddRange(new object[] {
-            "通道10"});
 			this.highFanChannelComboBox.Location = new System.Drawing.Point(8, 23);
 			this.highFanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.highFanChannelComboBox.Name = "highFanChannelComboBox";
@@ -1020,8 +1022,6 @@ namespace OtherTools
 			this.fanChannelComboBox.BackColor = System.Drawing.Color.Linen;
 			this.fanChannelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.fanChannelComboBox.FormattingEnabled = true;
-			this.fanChannelComboBox.Items.AddRange(new object[] {
-            "通道7"});
 			this.fanChannelComboBox.Location = new System.Drawing.Point(8, 23);
 			this.fanChannelComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.fanChannelComboBox.Name = "fanChannelComboBox";
@@ -1295,7 +1295,6 @@ namespace OtherTools
 			// 
 			// lcLoadButton
 			// 
-			this.lcLoadButton.Enabled = false;
 			this.lcLoadButton.Location = new System.Drawing.Point(185, 18);
 			this.lcLoadButton.Name = "lcLoadButton";
 			this.lcLoadButton.Size = new System.Drawing.Size(75, 30);
@@ -1396,15 +1395,15 @@ namespace OtherTools
 			this.tgPanel4.Controls.Add(this.numericUpDown5);
 			this.tgPanel4.Controls.Add(this.tgLabel4);
 			this.tgPanel4.Controls.Add(this.trackBar5);
-			this.tgPanel4.Location = new System.Drawing.Point(220, 44);
+			this.tgPanel4.Location = new System.Drawing.Point(220, 27);
 			this.tgPanel4.Name = "tgPanel4";
-			this.tgPanel4.Size = new System.Drawing.Size(69, 263);
+			this.tgPanel4.Size = new System.Drawing.Size(69, 280);
 			this.tgPanel4.TabIndex = 3;
 			// 
 			// numericUpDown5
 			// 
 			this.numericUpDown5.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown5.Location = new System.Drawing.Point(17, 226);
+			this.numericUpDown5.Location = new System.Drawing.Point(17, 241);
 			this.numericUpDown5.Name = "numericUpDown5";
 			this.numericUpDown5.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown5.TabIndex = 5;
@@ -1416,11 +1415,11 @@ namespace OtherTools
 			this.tgLabel4.Name = "tgLabel4";
 			this.tgLabel4.Size = new System.Drawing.Size(35, 12);
 			this.tgLabel4.TabIndex = 4;
-			this.tgLabel4.Text = "通道1";
+			this.tgLabel4.Text = "通道4";
 			// 
 			// trackBar5
 			// 
-			this.trackBar5.Location = new System.Drawing.Point(23, 24);
+			this.trackBar5.Location = new System.Drawing.Point(23, 33);
 			this.trackBar5.Name = "trackBar5";
 			this.trackBar5.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.trackBar5.Size = new System.Drawing.Size(45, 196);
@@ -1432,15 +1431,15 @@ namespace OtherTools
 			this.tgPanel3.Controls.Add(this.numericUpDown4);
 			this.tgPanel3.Controls.Add(this.tgLabel3);
 			this.tgPanel3.Controls.Add(this.trackBar4);
-			this.tgPanel3.Location = new System.Drawing.Point(146, 44);
+			this.tgPanel3.Location = new System.Drawing.Point(146, 27);
 			this.tgPanel3.Name = "tgPanel3";
-			this.tgPanel3.Size = new System.Drawing.Size(69, 263);
+			this.tgPanel3.Size = new System.Drawing.Size(69, 280);
 			this.tgPanel3.TabIndex = 3;
 			// 
 			// numericUpDown4
 			// 
 			this.numericUpDown4.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown4.Location = new System.Drawing.Point(17, 226);
+			this.numericUpDown4.Location = new System.Drawing.Point(17, 241);
 			this.numericUpDown4.Name = "numericUpDown4";
 			this.numericUpDown4.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown4.TabIndex = 5;
@@ -1452,11 +1451,11 @@ namespace OtherTools
 			this.tgLabel3.Name = "tgLabel3";
 			this.tgLabel3.Size = new System.Drawing.Size(35, 12);
 			this.tgLabel3.TabIndex = 4;
-			this.tgLabel3.Text = "通道1";
+			this.tgLabel3.Text = "通道3";
 			// 
 			// trackBar4
 			// 
-			this.trackBar4.Location = new System.Drawing.Point(23, 24);
+			this.trackBar4.Location = new System.Drawing.Point(23, 33);
 			this.trackBar4.Name = "trackBar4";
 			this.trackBar4.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.trackBar4.Size = new System.Drawing.Size(45, 196);
@@ -1468,15 +1467,15 @@ namespace OtherTools
 			this.tgPanel2.Controls.Add(this.numericUpDown3);
 			this.tgPanel2.Controls.Add(this.tgLabel2);
 			this.tgPanel2.Controls.Add(this.trackBar3);
-			this.tgPanel2.Location = new System.Drawing.Point(75, 44);
+			this.tgPanel2.Location = new System.Drawing.Point(75, 27);
 			this.tgPanel2.Name = "tgPanel2";
-			this.tgPanel2.Size = new System.Drawing.Size(69, 263);
+			this.tgPanel2.Size = new System.Drawing.Size(69, 280);
 			this.tgPanel2.TabIndex = 3;
 			// 
 			// numericUpDown3
 			// 
 			this.numericUpDown3.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown3.Location = new System.Drawing.Point(17, 226);
+			this.numericUpDown3.Location = new System.Drawing.Point(17, 241);
 			this.numericUpDown3.Name = "numericUpDown3";
 			this.numericUpDown3.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown3.TabIndex = 5;
@@ -1488,11 +1487,11 @@ namespace OtherTools
 			this.tgLabel2.Name = "tgLabel2";
 			this.tgLabel2.Size = new System.Drawing.Size(35, 12);
 			this.tgLabel2.TabIndex = 4;
-			this.tgLabel2.Text = "通道1";
+			this.tgLabel2.Text = "通道2";
 			// 
 			// trackBar3
 			// 
-			this.trackBar3.Location = new System.Drawing.Point(23, 24);
+			this.trackBar3.Location = new System.Drawing.Point(23, 33);
 			this.trackBar3.Name = "trackBar3";
 			this.trackBar3.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.trackBar3.Size = new System.Drawing.Size(45, 196);
@@ -1504,15 +1503,15 @@ namespace OtherTools
 			this.tgPanel1.Controls.Add(this.numericUpDown2);
 			this.tgPanel1.Controls.Add(this.tgLabel1);
 			this.tgPanel1.Controls.Add(this.trackBar2);
-			this.tgPanel1.Location = new System.Drawing.Point(4, 44);
+			this.tgPanel1.Location = new System.Drawing.Point(4, 27);
 			this.tgPanel1.Name = "tgPanel1";
-			this.tgPanel1.Size = new System.Drawing.Size(69, 263);
+			this.tgPanel1.Size = new System.Drawing.Size(69, 280);
 			this.tgPanel1.TabIndex = 3;
 			// 
 			// numericUpDown2
 			// 
 			this.numericUpDown2.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown2.Location = new System.Drawing.Point(17, 226);
+			this.numericUpDown2.Location = new System.Drawing.Point(17, 241);
 			this.numericUpDown2.Name = "numericUpDown2";
 			this.numericUpDown2.Size = new System.Drawing.Size(40, 19);
 			this.numericUpDown2.TabIndex = 5;
@@ -1528,7 +1527,7 @@ namespace OtherTools
 			// 
 			// trackBar2
 			// 
-			this.trackBar2.Location = new System.Drawing.Point(23, 24);
+			this.trackBar2.Location = new System.Drawing.Point(23, 33);
 			this.trackBar2.Name = "trackBar2";
 			this.trackBar2.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.trackBar2.Size = new System.Drawing.Size(45, 196);
@@ -3074,6 +3073,7 @@ namespace OtherTools
 		private StatusStrip ccStatusStrip;
 		private ToolStripStatusLabel ccToolStripStatusLabel1;
 		private ToolStripStatusLabel ccToolStripStatusLabel2;
+		private Button tcButton;
 	}
 }
 

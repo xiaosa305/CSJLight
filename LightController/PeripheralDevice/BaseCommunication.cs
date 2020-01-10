@@ -365,6 +365,18 @@ namespace LightController.PeripheralDevice
         {
             if (ReadBuff.Count >= PACKHEADLENGTH)
             {
+                if (ReadBuff[0] != 0xAA)
+                {
+                    Console.WriteLine("标记位1:AA is Error:" + ReadBuff[0]);
+                }
+                if (ReadBuff[1] != 0xBB)
+                {
+                    Console.WriteLine("标记位2:BB is Error:" + ReadBuff[1]);
+                }
+                if (ReadBuff[2] != 0x00)
+                {
+                    Console.WriteLine("地址位:00 is Error:" + ReadBuff[2]);
+                }
                 if (ReadBuff[0] == 0xAA && ReadBuff[1] == 0xBB && ReadBuff[2] == 0x00 && ReadBuff[5] == 2)
                 {
                     int packDataSize = (ReadBuff[3] & 0xFF) | ((ReadBuff[4] << 8) & 0xFF);
@@ -381,6 +393,10 @@ namespace LightController.PeripheralDevice
                             this.ReceiveManege(data);
                             ReadBuff.Clear();
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("数据长度 Is Error：" + ReadBuff.Count + ",Right 长度is" + (packDataSize + PACKHEADLENGTH));
                     }
                 }
                 else

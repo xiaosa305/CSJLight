@@ -52,6 +52,9 @@ namespace OtherTools
 			this.cfgOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.cfgSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.keyTabPage = new System.Windows.Forms.TabPage();
+			this.kpStatusStrip = new System.Windows.Forms.StatusStrip();
+			this.kpToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.kpToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.kpReadButton = new System.Windows.Forms.Button();
 			this.kpListenButton = new System.Windows.Forms.Button();
 			this.keypressListView = new System.Windows.Forms.ListView();
@@ -174,6 +177,9 @@ namespace OtherTools
 			this.lightButton23 = new CCWin.SkinControl.SkinButton();
 			this.lightButton24 = new CCWin.SkinControl.SkinButton();
 			this.centerTabPage = new System.Windows.Forms.TabPage();
+			this.ccStatusStrip = new System.Windows.Forms.StatusStrip();
+			this.ccToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ccToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.loadProtocolButton = new System.Windows.Forms.Button();
 			this.ccSearchTextBox = new System.Windows.Forms.TextBox();
 			this.ccDecodeRichTextBox = new System.Windows.Forms.RichTextBox();
@@ -222,15 +228,10 @@ namespace OtherTools
 			this.keyOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.keySaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.myInfoToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.kpStatusStrip = new System.Windows.Forms.StatusStrip();
-			this.kpToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.kpToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.ccStatusStrip = new System.Windows.Forms.StatusStrip();
-			this.ccToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.ccToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.panel2.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.keyTabPage.SuspendLayout();
+			this.kpStatusStrip.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
 			this.lcStatusStrip.SuspendLayout();
 			this.groupBox11.SuspendLayout();
@@ -265,9 +266,8 @@ namespace OtherTools
 			this.lightGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.centerTabPage.SuspendLayout();
-			this.tabControl1.SuspendLayout();
-			this.kpStatusStrip.SuspendLayout();
 			this.ccStatusStrip.SuspendLayout();
+			this.tabControl1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel2
@@ -481,6 +481,32 @@ namespace OtherTools
 			this.keyTabPage.Size = new System.Drawing.Size(1196, 660);
 			this.keyTabPage.TabIndex = 2;
 			this.keyTabPage.Text = "墙板配置";
+			// 
+			// kpStatusStrip
+			// 
+			this.kpStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.kpStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kpToolStripStatusLabel1,
+            this.kpToolStripStatusLabel2});
+			this.kpStatusStrip.Location = new System.Drawing.Point(3, 635);
+			this.kpStatusStrip.Name = "kpStatusStrip";
+			this.kpStatusStrip.Size = new System.Drawing.Size(1190, 22);
+			this.kpStatusStrip.SizingGrip = false;
+			this.kpStatusStrip.TabIndex = 10;
+			// 
+			// kpToolStripStatusLabel1
+			// 
+			this.kpToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
+			this.kpToolStripStatusLabel1.Name = "kpToolStripStatusLabel1";
+			this.kpToolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
+			this.kpToolStripStatusLabel1.Spring = true;
+			// 
+			// kpToolStripStatusLabel2
+			// 
+			this.kpToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
+			this.kpToolStripStatusLabel2.Name = "kpToolStripStatusLabel2";
+			this.kpToolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
+			this.kpToolStripStatusLabel2.Spring = true;
 			// 
 			// kpReadButton
 			// 
@@ -1258,6 +1284,7 @@ namespace OtherTools
 			// 
 			// lcDownloadButton
 			// 
+			this.lcDownloadButton.Enabled = false;
 			this.lcDownloadButton.Location = new System.Drawing.Point(93, 18);
 			this.lcDownloadButton.Name = "lcDownloadButton";
 			this.lcDownloadButton.Size = new System.Drawing.Size(75, 30);
@@ -1268,6 +1295,7 @@ namespace OtherTools
 			// 
 			// lcLoadButton
 			// 
+			this.lcLoadButton.Enabled = false;
 			this.lcLoadButton.Location = new System.Drawing.Point(185, 18);
 			this.lcLoadButton.Name = "lcLoadButton";
 			this.lcLoadButton.Size = new System.Drawing.Size(75, 30);
@@ -1290,6 +1318,7 @@ namespace OtherTools
 			// lcReadButton
 			// 
 			this.lcReadButton.BackColor = System.Drawing.Color.Transparent;
+			this.lcReadButton.Enabled = false;
 			this.lcReadButton.Location = new System.Drawing.Point(13, 18);
 			this.lcReadButton.Name = "lcReadButton";
 			this.lcReadButton.Size = new System.Drawing.Size(75, 30);
@@ -2327,6 +2356,32 @@ namespace OtherTools
 			this.centerTabPage.TabIndex = 0;
 			this.centerTabPage.Text = "中控配置";
 			// 
+			// ccStatusStrip
+			// 
+			this.ccStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.ccStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ccToolStripStatusLabel1,
+            this.ccToolStripStatusLabel2});
+			this.ccStatusStrip.Location = new System.Drawing.Point(3, 635);
+			this.ccStatusStrip.Name = "ccStatusStrip";
+			this.ccStatusStrip.Size = new System.Drawing.Size(1190, 22);
+			this.ccStatusStrip.SizingGrip = false;
+			this.ccStatusStrip.TabIndex = 16;
+			// 
+			// ccToolStripStatusLabel1
+			// 
+			this.ccToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
+			this.ccToolStripStatusLabel1.Name = "ccToolStripStatusLabel1";
+			this.ccToolStripStatusLabel1.Size = new System.Drawing.Size(587, 17);
+			this.ccToolStripStatusLabel1.Spring = true;
+			// 
+			// ccToolStripStatusLabel2
+			// 
+			this.ccToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
+			this.ccToolStripStatusLabel2.Name = "ccToolStripStatusLabel2";
+			this.ccToolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
+			this.ccToolStripStatusLabel2.Spring = true;
+			// 
 			// loadProtocolButton
 			// 
 			this.loadProtocolButton.BackColor = System.Drawing.Color.Transparent;
@@ -2738,58 +2793,6 @@ namespace OtherTools
 			// 
 			this.myInfoToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			// 
-			// kpStatusStrip
-			// 
-			this.kpStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.kpStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kpToolStripStatusLabel1,
-            this.kpToolStripStatusLabel2});
-			this.kpStatusStrip.Location = new System.Drawing.Point(3, 635);
-			this.kpStatusStrip.Name = "kpStatusStrip";
-			this.kpStatusStrip.Size = new System.Drawing.Size(1190, 22);
-			this.kpStatusStrip.SizingGrip = false;
-			this.kpStatusStrip.TabIndex = 10;
-			// 
-			// kpToolStripStatusLabel1
-			// 
-			this.kpToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
-			this.kpToolStripStatusLabel1.Name = "kpToolStripStatusLabel1";
-			this.kpToolStripStatusLabel1.Size = new System.Drawing.Size(590, 17);
-			this.kpToolStripStatusLabel1.Spring = true;
-			// 
-			// kpToolStripStatusLabel2
-			// 
-			this.kpToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
-			this.kpToolStripStatusLabel2.Name = "kpToolStripStatusLabel2";
-			this.kpToolStripStatusLabel2.Size = new System.Drawing.Size(590, 17);
-			this.kpToolStripStatusLabel2.Spring = true;
-			// 
-			// ccStatusStrip
-			// 
-			this.ccStatusStrip.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.ccStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ccToolStripStatusLabel1,
-            this.ccToolStripStatusLabel2});
-			this.ccStatusStrip.Location = new System.Drawing.Point(3, 635);
-			this.ccStatusStrip.Name = "ccStatusStrip";
-			this.ccStatusStrip.Size = new System.Drawing.Size(1190, 22);
-			this.ccStatusStrip.SizingGrip = false;
-			this.ccStatusStrip.TabIndex = 16;
-			// 
-			// ccToolStripStatusLabel1
-			// 
-			this.ccToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Top;
-			this.ccToolStripStatusLabel1.Name = "ccToolStripStatusLabel1";
-			this.ccToolStripStatusLabel1.Size = new System.Drawing.Size(572, 17);
-			this.ccToolStripStatusLabel1.Spring = true;
-			// 
-			// ccToolStripStatusLabel2
-			// 
-			this.ccToolStripStatusLabel2.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)));
-			this.ccToolStripStatusLabel2.Name = "ccToolStripStatusLabel2";
-			this.ccToolStripStatusLabel2.Size = new System.Drawing.Size(572, 17);
-			this.ccToolStripStatusLabel2.Spring = true;
-			// 
 			// OtherToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2809,6 +2812,8 @@ namespace OtherTools
 			this.panel1.PerformLayout();
 			this.keyTabPage.ResumeLayout(false);
 			this.keyTabPage.PerformLayout();
+			this.kpStatusStrip.ResumeLayout(false);
+			this.kpStatusStrip.PerformLayout();
 			this.lightTabPage.ResumeLayout(false);
 			this.lightTabPage.PerformLayout();
 			this.lcStatusStrip.ResumeLayout(false);
@@ -2861,11 +2866,9 @@ namespace OtherTools
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.centerTabPage.ResumeLayout(false);
 			this.centerTabPage.PerformLayout();
-			this.tabControl1.ResumeLayout(false);
-			this.kpStatusStrip.ResumeLayout(false);
-			this.kpStatusStrip.PerformLayout();
 			this.ccStatusStrip.ResumeLayout(false);
 			this.ccStatusStrip.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

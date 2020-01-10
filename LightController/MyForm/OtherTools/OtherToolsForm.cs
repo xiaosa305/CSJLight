@@ -150,8 +150,10 @@ namespace OtherTools
 
 
 			// 灯控相关按键
-			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;
+			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;			
 			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc;
+			lcLoadButton.Enabled = connStatus == ConnectStatus.Lc;
+			lcSaveButton.Enabled = (ccEntity != null);
 
 			// 灯控相关
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
@@ -276,11 +278,10 @@ namespace OtherTools
 		{
 			string cfgPath = cfgOpenFileDialog.FileName;
 			loadLCParam(cfgPath);
-			//ReadCompleted(lcData);
 		}
 
 		/// <summary>
-		/// 辅助方法，当《灯控配置页》加载cfg文件后，lcTagPage的其他控件才开始可用。
+		/// 辅助方法，当《灯控配置(页)》加载cfg文件后，lcTagPage的其他控件才开始可用。
 		/// </summary>
 		private void enableLCInit()
 		{
@@ -397,10 +398,6 @@ namespace OtherTools
 			acButton.Text = lcData.IsOpenAirCondition ? "点击禁用\r\n空调通道" : "点击启用\r\n空调通道";
 		}
 
-
-
-
-
 		/// <summary>
 		/// 事件：监听选择通道，若选中的通道已被占用，则恢复原先设置。
 		/// </summary>
@@ -440,29 +437,19 @@ namespace OtherTools
 			{
 				lightButtons[relayIndex].ImageIndex = lcData.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
 			}
-			//debugLC();
+			debugLC();
 		}
 
+		// 向设备发送当前场景的灯光通道数据。
 		private void debugLC() {
-			
+					
 			if (connStatus != ConnectStatus.Lc) {				
 				return;
 			}
 
-			if (isConnectByCom )
-			{
-				byte[] tempData = lcData.GetFrameBytes(lcFrameIndex);
-				myConnect.LightControlDebug(tempData, ComLCSendCompleted, ComLCSendError);
-			}
-			else{
-
-			}
-
-
-
+			byte[] tempData = lcData.GetFrameBytes(lcFrameIndex);
+			myConnect.LightControlDebug(tempData, ComLCSendCompleted, ComLCSendError);
 		}
-
-
 
 		/// <summary>
 		/// 事件：切换《灯光模式》的选择项
@@ -572,9 +559,12 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
-			if (myConnect != null) {
-				myConnect.LightControlDownload(lcData, ComLCDownloadCompleted, ComLCDownloadError);
+			if (myConnect == null) {
+				lcToolStripStatusLabel2.Text = "当前myConnect==null，无法下载数据";
+				return;				
 			}
+
+			myConnect.LightControlDownload(lcData, ComLCDownloadCompleted, ComLCDownloadError);			
 		}
 
 
@@ -625,7 +615,7 @@ namespace OtherTools
 			// 点击《关闭解码》
 			if (isDecoding)
 			{
-				myConnect.CenterControlStopCopy(ComCCStopCompleted, ComCCEndError);
+				myConnect.CenterControlStopCopy(ComCCStopCompleted, ComCCStopError);
 			}
 			// 点击《开启解码》
 			else {
@@ -1225,7 +1215,18 @@ namespace OtherTools
 			else {
 				string localIP =  ipaList[deviceComboBox.SelectedIndex].LocalIP; 
 				string deviceIP = ipaList[deviceComboBox.SelectedIndex].DeviceIP;
+				string deviceName = ipaList[deviceComboBox.SelectedIndex].DeviceName;
 				myConnect = new NetworkConnect( connectTools.GetDeivceInfos()[localIP][deviceIP]);
+				if ((myConnect as NetworkConnect).IsConnected())
+				{
+					
+					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")");
+					setConnStatus(ConnectStatus.Normal);
+				}
+				else {
+					setAllStatusLabel1("连接网络设备(" + deviceName + ")失败");
+					setConnStatus(ConnectStatus.No);
+				}
 			}
 		}
 	
@@ -1241,14 +1242,6 @@ namespace OtherTools
 		}
 
 
-		/// <summary>
-		/// 辅助方法：关闭连接
-		/// </summary>
-		private void closeConnect()
-		{
-			throw new NotImplementedException();
-		}
-
 
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
@@ -1261,6 +1254,10 @@ namespace OtherTools
 			lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
 		}
 
+		/// <summary>
+		/// 辅助回调方法：灯控连接成功
+		/// </summary>
+		/// <param name="obj"></param>
 		public void ComLCConnectCompleted(Object obj) {
 			Invoke((EventHandler)delegate {				
 				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc)";
@@ -1268,6 +1265,10 @@ namespace OtherTools
 			});
 		}
 
+		/// <summary>
+		/// 辅助回调方法：灯控连接出错
+		/// </summary>
+		/// <param name="obj"></param>
 		public void ComLCConnectError() {
 			//isOvertime = true;
 			MessageBox.Show("请求超时，切换灯控配置失败");
@@ -1276,7 +1277,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 成功切换到中控连接后的操作
+		/// 辅助回调方法：中控连接成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCConnectCompleted(Object obj)
@@ -1287,6 +1288,9 @@ namespace OtherTools
 			});
 		}
 
+		/// <summary>
+		/// 辅助回调方法：中控连接失败
+		/// </summary>
 		public void ComCCConnectError()
 		{
 			Invoke((EventHandler)delegate {
@@ -1296,18 +1300,8 @@ namespace OtherTools
 			});
 		}
 
-
-		public void ComDownloadCompleted()
-		{
-			Invoke((EventHandler)delegate {
-				
-				MessageBox.Show("灯控数据下载成功");
-			});
-			
-		}
-
 		/// <summary>
-		///  灯控debug(实时调试的数据)发送成功
+		///  辅助回调方法：灯控debug(实时调试的数据)发送成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComLCSendCompleted(Object obj)
@@ -1319,7 +1313,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		///  灯控debug发送出错
+		///  辅助回调方法：灯控debug发送出错
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComLCSendError()
@@ -1330,14 +1324,17 @@ namespace OtherTools
 			});
 		}
 
-
+		/// <summary>
+		/// 辅助回调方法：灯控数据回读成功
+		/// </summary>
+		/// <param name="lcDataTemp"></param>
 		public void ComLCReadCompleted(Object lcDataTemp)
 		{
 			Invoke((EventHandler)delegate {
 				if (lcDataTemp == null)
 				{
-					MessageBox.Show("回读数据有异常(lcDataTemp==null),回读失败。");
-					lcToolStripStatusLabel2.Text = "回读数据有异常(lcDataTemp==null),回读失败。";
+					MessageBox.Show("灯控回读配置异常(lcDataTemp==null)");
+					lcToolStripStatusLabel2.Text = "灯控回读配置异常(lcDataTemp==null)";
 					return;
 				}
 
@@ -1347,6 +1344,9 @@ namespace OtherTools
 			});
 		}
 
+		/// <summary>
+		/// 辅助回调方法：灯控配置回读失败
+		/// </summary>
 		public void ComLCReadError()
 		{
 			Invoke((EventHandler)delegate {
@@ -1355,7 +1355,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 灯控数据下载成功回调方法
+		/// 辅助回调方法：灯控配置下载成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComLCDownloadCompleted(Object obj)
@@ -1368,7 +1368,9 @@ namespace OtherTools
 			});
 		}
 
-		// 灯控数据下载错误回调方法
+		/// <summary>
+		/// 辅助回调方法：灯控配置下载错误
+		/// </summary>
 		public void ComLCDownloadError()
 		{
 			Invoke((EventHandler)delegate
@@ -1378,7 +1380,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 中控配置下载成功
+		/// 辅助回调方法：中控配置下载成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCDownloadCompleted(Object obj)
@@ -1393,7 +1395,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 中控配置下载出错
+		///  辅助回调方法：中控配置下载失败
 		/// </summary>
 		public void ComCCDownloadError()
 		{
@@ -1404,7 +1406,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 启动《中控调试解码》成功
+		/// 辅助回调方法：启动《中控-调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCStartCompleted(Object obj)
@@ -1419,7 +1421,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 启动《中控调试解码》失败
+		/// 辅助回调方法：启动《中控-调试解码》失败
 		/// </summary>
 		public void ComCCStartError()
 		{
@@ -1430,7 +1432,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		///  中控解码 红外码值 回读
+		/// 辅助回调方法：成功回读《中控-点击的红外码值》
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCListen(Object obj)
@@ -1452,7 +1454,7 @@ namespace OtherTools
 
 
 		/// <summary>
-		///  结束《中控调试解码》成功
+		///  辅助回调方法：结束《中控-调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComCCStopCompleted(Object obj)
@@ -1469,9 +1471,9 @@ namespace OtherTools
 
 
 		/// <summary>
-		/// 结束《中控调试解码》失败
+		/// 辅助回调方法：结束《中控-调试解码》失败
 		/// </summary>
-		public void ComCCEndError()
+		public void ComCCStopError()
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1523,7 +1525,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		///  连接墙板成功
+		/// 辅助回调方法： 连接墙板成功
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComKPFirstConnectCompleted(Object obj)
@@ -1550,6 +1552,10 @@ namespace OtherTools
 			});
 		}
 
+		/// <summary>
+		/// 辅助方法：设置connStatus值，并根据此值刷新按键是否可用；
+		/// </summary>
+		/// <param name="cs"></param>
 		private void setConnStatus(ConnectStatus cs)
 		{
 			connStatus = cs;
@@ -1571,7 +1577,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 辅助方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作
+		/// 辅助回调方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作（代码中只有后台打印的代码，方便调试）
 		/// </summary>
 		/// <param name="obj"></param>
 		public void ComKPTimerConnectCompleted(Object obj)

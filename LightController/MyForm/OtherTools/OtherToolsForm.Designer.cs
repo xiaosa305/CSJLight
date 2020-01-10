@@ -82,10 +82,10 @@ namespace OtherTools
 			this.lcStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.lcToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lcToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.groupBox11 = new System.Windows.Forms.GroupBox();
+			this.lcGroupBox3 = new System.Windows.Forms.GroupBox();
 			this.fanButton = new System.Windows.Forms.Button();
 			this.acButton = new System.Windows.Forms.Button();
-			this.groupBox10 = new System.Windows.Forms.GroupBox();
+			this.lcGroupBox4 = new System.Windows.Forms.GroupBox();
 			this.panel12 = new System.Windows.Forms.Panel();
 			this.label16 = new System.Windows.Forms.Label();
 			this.fcloseChannelComboBox = new System.Windows.Forms.ComboBox();
@@ -104,7 +104,7 @@ namespace OtherTools
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.fanChannelComboBox = new System.Windows.Forms.ComboBox();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.lcGroupBox5 = new System.Windows.Forms.GroupBox();
 			this.ktmsGroupBox = new System.Windows.Forms.GroupBox();
 			this.ktCloseRadioButton = new System.Windows.Forms.RadioButton();
 			this.ktMidRadioButton = new System.Windows.Forms.RadioButton();
@@ -234,15 +234,15 @@ namespace OtherTools
 			this.kpStatusStrip.SuspendLayout();
 			this.lightTabPage.SuspendLayout();
 			this.lcStatusStrip.SuspendLayout();
-			this.groupBox11.SuspendLayout();
-			this.groupBox10.SuspendLayout();
+			this.lcGroupBox3.SuspendLayout();
+			this.lcGroupBox4.SuspendLayout();
 			this.panel12.SuspendLayout();
 			this.panel11.SuspendLayout();
 			this.panel10.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.panel8.SuspendLayout();
 			this.panel3.SuspendLayout();
-			this.groupBox4.SuspendLayout();
+			this.lcGroupBox5.SuspendLayout();
 			this.ktmsGroupBox.SuspendLayout();
 			this.fjGroupBox.SuspendLayout();
 			this.ktwdGroupBox.SuspendLayout();
@@ -735,9 +735,9 @@ namespace OtherTools
 			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
 			this.lightTabPage.Controls.Add(this.keepLightOnCheckBox);
 			this.lightTabPage.Controls.Add(this.lcStatusStrip);
-			this.lightTabPage.Controls.Add(this.groupBox11);
-			this.lightTabPage.Controls.Add(this.groupBox10);
-			this.lightTabPage.Controls.Add(this.groupBox4);
+			this.lightTabPage.Controls.Add(this.lcGroupBox3);
+			this.lightTabPage.Controls.Add(this.lcGroupBox4);
+			this.lightTabPage.Controls.Add(this.lcGroupBox5);
 			this.lightTabPage.Controls.Add(this.groupBox3);
 			this.lightTabPage.Controls.Add(this.lcConnectButton);
 			this.lightTabPage.Controls.Add(this.groupBox2);
@@ -789,16 +789,16 @@ namespace OtherTools
 			this.lcToolStripStatusLabel2.Size = new System.Drawing.Size(587, 17);
 			this.lcToolStripStatusLabel2.Spring = true;
 			// 
-			// groupBox11
+			// lcGroupBox3
 			// 
-			this.groupBox11.Controls.Add(this.fanButton);
-			this.groupBox11.Controls.Add(this.acButton);
-			this.groupBox11.Location = new System.Drawing.Point(30, 380);
-			this.groupBox11.Name = "groupBox11";
-			this.groupBox11.Size = new System.Drawing.Size(135, 174);
-			this.groupBox11.TabIndex = 7;
-			this.groupBox11.TabStop = false;
-			this.groupBox11.Text = "空调与排风";
+			this.lcGroupBox3.Controls.Add(this.fanButton);
+			this.lcGroupBox3.Controls.Add(this.acButton);
+			this.lcGroupBox3.Location = new System.Drawing.Point(30, 380);
+			this.lcGroupBox3.Name = "lcGroupBox3";
+			this.lcGroupBox3.Size = new System.Drawing.Size(135, 174);
+			this.lcGroupBox3.TabIndex = 7;
+			this.lcGroupBox3.TabStop = false;
+			this.lcGroupBox3.Text = "空调与排风";
 			// 
 			// fanButton
 			// 
@@ -821,20 +821,20 @@ namespace OtherTools
 			this.acButton.UseVisualStyleBackColor = true;
 			this.acButton.Click += new System.EventHandler(this.acButton_Click);
 			// 
-			// groupBox10
+			// lcGroupBox4
 			// 
-			this.groupBox10.Controls.Add(this.panel12);
-			this.groupBox10.Controls.Add(this.panel11);
-			this.groupBox10.Controls.Add(this.panel10);
-			this.groupBox10.Controls.Add(this.panel9);
-			this.groupBox10.Controls.Add(this.panel8);
-			this.groupBox10.Controls.Add(this.panel3);
-			this.groupBox10.Location = new System.Drawing.Point(187, 380);
-			this.groupBox10.Name = "groupBox10";
-			this.groupBox10.Size = new System.Drawing.Size(366, 175);
-			this.groupBox10.TabIndex = 6;
-			this.groupBox10.TabStop = false;
-			this.groupBox10.Text = "空调与排风通道设置";
+			this.lcGroupBox4.Controls.Add(this.panel12);
+			this.lcGroupBox4.Controls.Add(this.panel11);
+			this.lcGroupBox4.Controls.Add(this.panel10);
+			this.lcGroupBox4.Controls.Add(this.panel9);
+			this.lcGroupBox4.Controls.Add(this.panel8);
+			this.lcGroupBox4.Controls.Add(this.panel3);
+			this.lcGroupBox4.Location = new System.Drawing.Point(187, 380);
+			this.lcGroupBox4.Name = "lcGroupBox4";
+			this.lcGroupBox4.Size = new System.Drawing.Size(366, 175);
+			this.lcGroupBox4.TabIndex = 6;
+			this.lcGroupBox4.TabStop = false;
+			this.lcGroupBox4.Text = "空调与排风通道设置";
 			// 
 			// panel12
 			// 
@@ -1028,18 +1028,18 @@ namespace OtherTools
 			this.fanChannelComboBox.Size = new System.Drawing.Size(75, 20);
 			this.fanChannelComboBox.TabIndex = 3;
 			// 
-			// groupBox4
+			// lcGroupBox5
 			// 
-			this.groupBox4.Controls.Add(this.ktmsGroupBox);
-			this.groupBox4.Controls.Add(this.fjGroupBox);
-			this.groupBox4.Controls.Add(this.ktwdGroupBox);
-			this.groupBox4.Controls.Add(this.lrGroupBox);
-			this.groupBox4.Location = new System.Drawing.Point(575, 380);
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(568, 174);
-			this.groupBox4.TabIndex = 6;
-			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = "空调控制";
+			this.lcGroupBox5.Controls.Add(this.ktmsGroupBox);
+			this.lcGroupBox5.Controls.Add(this.fjGroupBox);
+			this.lcGroupBox5.Controls.Add(this.ktwdGroupBox);
+			this.lcGroupBox5.Controls.Add(this.lrGroupBox);
+			this.lcGroupBox5.Location = new System.Drawing.Point(575, 380);
+			this.lcGroupBox5.Name = "lcGroupBox5";
+			this.lcGroupBox5.Size = new System.Drawing.Size(568, 174);
+			this.lcGroupBox5.TabIndex = 6;
+			this.lcGroupBox5.TabStop = false;
+			this.lcGroupBox5.Text = "空调控制";
 			// 
 			// ktmsGroupBox
 			// 
@@ -1285,7 +1285,7 @@ namespace OtherTools
 			// lcDownloadButton
 			// 
 			this.lcDownloadButton.Enabled = false;
-			this.lcDownloadButton.Location = new System.Drawing.Point(93, 18);
+			this.lcDownloadButton.Location = new System.Drawing.Point(92, 18);
 			this.lcDownloadButton.Name = "lcDownloadButton";
 			this.lcDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcDownloadButton.TabIndex = 4;
@@ -1319,7 +1319,7 @@ namespace OtherTools
 			// 
 			this.lcReadButton.BackColor = System.Drawing.Color.Transparent;
 			this.lcReadButton.Enabled = false;
-			this.lcReadButton.Location = new System.Drawing.Point(13, 18);
+			this.lcReadButton.Location = new System.Drawing.Point(11, 18);
 			this.lcReadButton.Name = "lcReadButton";
 			this.lcReadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcReadButton.TabIndex = 4;
@@ -2818,8 +2818,8 @@ namespace OtherTools
 			this.lightTabPage.PerformLayout();
 			this.lcStatusStrip.ResumeLayout(false);
 			this.lcStatusStrip.PerformLayout();
-			this.groupBox11.ResumeLayout(false);
-			this.groupBox10.ResumeLayout(false);
+			this.lcGroupBox3.ResumeLayout(false);
+			this.lcGroupBox4.ResumeLayout(false);
 			this.panel12.ResumeLayout(false);
 			this.panel12.PerformLayout();
 			this.panel11.ResumeLayout(false);
@@ -2832,7 +2832,7 @@ namespace OtherTools
 			this.panel8.PerformLayout();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
-			this.groupBox4.ResumeLayout(false);
+			this.lcGroupBox5.ResumeLayout(false);
 			this.ktmsGroupBox.ResumeLayout(false);
 			this.ktmsGroupBox.PerformLayout();
 			this.fjGroupBox.ResumeLayout(false);
@@ -2900,10 +2900,10 @@ namespace OtherTools
 		private StatusStrip lcStatusStrip;
 		private ToolStripStatusLabel lcToolStripStatusLabel1;
 		private ToolStripStatusLabel lcToolStripStatusLabel2;
-		private GroupBox groupBox11;
+		private GroupBox lcGroupBox3;
 		private Button fanButton;
 		private Button acButton;
-		private GroupBox groupBox10;
+		private GroupBox lcGroupBox4;
 		private Panel panel12;
 		private Label label16;
 		private ComboBox fcloseChannelComboBox;
@@ -2922,7 +2922,7 @@ namespace OtherTools
 		private Panel panel3;
 		private Label label1;
 		private ComboBox fanChannelComboBox;
-		private GroupBox groupBox4;
+		private GroupBox lcGroupBox5;
 		private GroupBox ktmsGroupBox;
 		private RadioButton ktCloseRadioButton;
 		private RadioButton ktMidRadioButton;

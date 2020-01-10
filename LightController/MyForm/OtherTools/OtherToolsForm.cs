@@ -40,7 +40,7 @@ namespace OtherTools
 		}
 
 		private IList<Button> buttonList = new List<Button>();		
-		private LightControlData lcData; //灯控封装对象
+		private LightControlData lcEntity; //灯控封装对象
 		private CCEntity ccEntity; // 中控封装对象
 		private KeyEntity keyEntity;  // 墙板封装对象
 
@@ -140,20 +140,18 @@ namespace OtherTools
 		/// <summary>
 		/// 刷新所有被connStatus影响的按键
 		/// </summary>
-		private void enableAllButtons()
+		private void refreshAllButtons()
 		{
-
 			// 三个连接按键
 			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
 			ccConnectButton.Enabled = connStatus > ConnectStatus.No;
 			kpConnectButton.Enabled = connStatus > ConnectStatus.No;
 
-
 			// 灯控相关按键
 			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;			
-			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc;
+			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc && lcEntity != null ;
 			lcLoadButton.Enabled = connStatus == ConnectStatus.Lc;
-			lcSaveButton.Enabled = (ccEntity != null);
+			lcSaveButton.Enabled = ccEntity != null;
 
 			// 灯控相关
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
@@ -164,7 +162,23 @@ namespace OtherTools
 			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;
 			bool keNotNull = keyEntity != null;
 			kpSaveButton.Enabled = keNotNull;
-			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp && keNotNull;
+			kpDownloadButton.Enabled = connStatus == ConnectStatus.Kp && keNotNull ;
+		}
+
+		/// <summary>
+		/// 刷新所有被connStatus影响的statusLabel
+		/// </summary>
+		private void refreshStatusLabels()
+		{
+			switch (connStatus)
+			{
+				case ConnectStatus.Lc: setAllStatusLabel2("已切换为灯控配置"); break;
+				case ConnectStatus.Cc: setAllStatusLabel2("已切换为中控模式"); break;
+				case ConnectStatus.Kp: setAllStatusLabel2("已切换为墙板配置"); break;
+				case ConnectStatus.Tc: setAllStatusLabel2("已切换为透传模式"); break;
+				default: setAllStatusLabel2(""); break;
+			}
+
 		}
 
 
@@ -237,9 +251,9 @@ namespace OtherTools
 			setLightButtonValue(lightIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
-				bool tempLightOnMode = lcData.SceneData[lcFrameIndex, lightIndex];
+				bool tempLightOnMode = lcEntity.SceneData[lcFrameIndex, lightIndex];
 				for (int frameIndex = 0; frameIndex < 17; frameIndex++) {
-					lcData.SceneData[frameIndex, lightIndex] = tempLightOnMode;
+					lcEntity.SceneData[frameIndex, lightIndex] = tempLightOnMode;
 				}
 			}
 			debugLC();
@@ -255,8 +269,8 @@ namespace OtherTools
 			{
 				return;
 			}
-			lcData.SceneData[lcFrameIndex, lightIndex] = !lcData.SceneData[lcFrameIndex, lightIndex];
-			lightButtons[lightIndex].ImageIndex = lcData.SceneData[lcFrameIndex, lightIndex] ? 1 : 0;
+			lcEntity.SceneData[lcFrameIndex, lightIndex] = !lcEntity.SceneData[lcFrameIndex, lightIndex];
+			lightButtons[lightIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, lightIndex] ? 1 : 0;
 		}
 
 		/// <summary>
@@ -297,33 +311,46 @@ namespace OtherTools
 		private void loadLCParam(string cfgPath)
 		{
 			IList<string> paramList = getParamListFromPath(cfgPath);
-			lcData = new LightControlData(paramList);
-			setLcForm();
+			lcEntity = new LightControlData(paramList);
+			lcSetForm();
 			lcToolStripStatusLabel2.Text = " 已加载配置文件：" + cfgPath;
 		}
 
-		private void setLcForm() {
-			if (lcData == null) {
-				MessageBox.Show("lcData==null");
+		private void lcSetForm() {
+
+			if (lcEntity == null) {
+				//MessageBox.Show("lcEntity==null");
+				Console.WriteLine("lcEntity为null。");
+				lightGroupBox.Enabled = false;
+				tgGroupBox.Enabled = false;
+				lcGroupBox3.Enabled = false;
+				lcGroupBox4.Enabled = false;
+				lcGroupBox5.Enabled = false;
 				return;
 			}
 
 			try
 			{
-				switch (lcData.LightMode)
+				lightGroupBox.Enabled = true;
+				tgGroupBox.Enabled = true;
+				lcGroupBox3.Enabled = true;
+				lcGroupBox4.Enabled = true;
+				lcGroupBox5.Enabled = true;
+
+				switch (lcEntity.LightMode)
 				{
 					case 0: lightModeDJRadioButton.Checked = true; break;
 					case 1: lightModeQHRadioButton.Checked = true; break;
 				}
 
-				switch (lcData.AirControlSwitch)
+				switch (lcEntity.AirControlSwitch)
 				{
 					case 0: fjJYRadioButton.Checked = true; break;
 					case 1: fjDXFRadioButton.Checked = true; break;
 					case 2: fjSXFRadioButton.Checked = true; break;
 				}
 
-				if (lcData.RelayCount == 0)
+				if (lcEntity.RelayCount == 0)
 				{
 					lightGroupBox.Enabled = false;
 				}
@@ -333,7 +360,7 @@ namespace OtherTools
 					{
 						btn.Visible = false;
 					}
-					for (int relayIndex = 0; relayIndex < lcData.RelayCount; relayIndex++)
+					for (int relayIndex = 0; relayIndex < lcEntity.RelayCount; relayIndex++)
 					{
 						lightButtons[relayIndex].Visible = true;
 					}
@@ -372,9 +399,9 @@ namespace OtherTools
 		/// <param name="isOpenFan"></param>
 		private void enableFan()
 		{
-			fanChannelComboBox.Enabled = lcData.IsOpenFan;
-			lightButton7.Visible = !lcData.IsOpenFan;
-			fanButton.Text = lcData.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
+			fanChannelComboBox.Enabled = lcEntity.IsOpenFan;
+			lightButton7.Visible = !lcEntity.IsOpenFan;
+			fanButton.Text = lcEntity.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
 		}
 
 		// <summary>
@@ -383,19 +410,19 @@ namespace OtherTools
 		/// <param name="isOpenAirCondition"></param>
 		private void enableAirCondition()
 		{
-			highFanChannelComboBox.Enabled = lcData.IsOpenAirCondition;
-			midFanChannelComboBox.Enabled = lcData.IsOpenAirCondition;
-			lowFanChannelComboBox.Enabled = lcData.IsOpenAirCondition;
-			fopenChannelComboBox.Enabled = lcData.IsOpenAirCondition;
-			fcloseChannelComboBox.Enabled = lcData.IsOpenAirCondition;
+			highFanChannelComboBox.Enabled = lcEntity.IsOpenAirCondition;
+			midFanChannelComboBox.Enabled = lcEntity.IsOpenAirCondition;
+			lowFanChannelComboBox.Enabled = lcEntity.IsOpenAirCondition;
+			fopenChannelComboBox.Enabled = lcEntity.IsOpenAirCondition;
+			fcloseChannelComboBox.Enabled = lcEntity.IsOpenAirCondition;
 
 			// 在启用或禁用空调后，应该让空调占用的通道隐藏或显示出来，为避免错误，先用一个三目运算取出相应的数据。
-			int maxLightIndex = lcData.RelayCount < 12 ? lcData.RelayCount : 12;
+			int maxLightIndex = lcEntity.RelayCount < 12 ? lcEntity.RelayCount : 12;
 			for (int i = 7; i < maxLightIndex; i++)
 			{
-				lightButtons[i].Visible = !lcData.IsOpenAirCondition;
+				lightButtons[i].Visible = !lcEntity.IsOpenAirCondition;
 			}
-			acButton.Text = lcData.IsOpenAirCondition ? "点击禁用\r\n空调通道" : "点击启用\r\n空调通道";
+			acButton.Text = lcEntity.IsOpenAirCondition ? "点击禁用\r\n空调通道" : "点击启用\r\n空调通道";
 		}
 
 		/// <summary>
@@ -433,9 +460,9 @@ namespace OtherTools
 				return;
 			}
 
-			for (int relayIndex = 0; relayIndex < lcData.RelayCount; relayIndex++)
+			for (int relayIndex = 0; relayIndex < lcEntity.RelayCount; relayIndex++)
 			{
-				lightButtons[relayIndex].ImageIndex = lcData.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
+				lightButtons[relayIndex].ImageIndex = lcEntity.SceneData[lcFrameIndex, relayIndex] ? 1 : 0;
 			}
 			debugLC();
 		}
@@ -447,7 +474,7 @@ namespace OtherTools
 				return;
 			}
 
-			byte[] tempData = lcData.GetFrameBytes(lcFrameIndex);
+			byte[] tempData = lcEntity.GetFrameBytes(lcFrameIndex);
 			myConnect.LightControlDebug(tempData, ComLCSendCompleted, ComLCSendError);
 		}
 
@@ -464,7 +491,7 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
-			lcData.LightMode = Convert.ToInt16(radio.Tag);
+			lcEntity.LightMode = Convert.ToInt16(radio.Tag);
 		}
 
 		/// <summary>
@@ -480,7 +507,7 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
-			lcData.AirControlSwitch = Convert.ToInt16(radio.Tag);
+			lcEntity.AirControlSwitch = Convert.ToInt16(radio.Tag);
 		}
 
 		/// <summary>
@@ -495,7 +522,7 @@ namespace OtherTools
 				return;
 			}
 
-			lcData.IsOpenFan = !lcData.IsOpenFan;
+			lcEntity.IsOpenFan = !lcEntity.IsOpenFan;
 			enableFan();
 		}
 
@@ -511,7 +538,7 @@ namespace OtherTools
 				return;
 			}
 
-			lcData.IsOpenAirCondition = !lcData.IsOpenAirCondition;
+			lcEntity.IsOpenAirCondition = !lcEntity.IsOpenAirCondition;
 			enableAirCondition();
 		}
 
@@ -535,7 +562,7 @@ namespace OtherTools
 		private void cfgSaveFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
 			string cfgPath = cfgSaveFileDialog.FileName;
-			lcData.WriteToFile(cfgPath);
+			lcEntity.WriteToFile(cfgPath);
 			MessageBox.Show("成功保存配置文件(" + cfgPath + ")");
 			lcToolStripStatusLabel2.Text = "成功保存配置文件(" + cfgPath + ")";
 		}
@@ -564,7 +591,7 @@ namespace OtherTools
 				return;				
 			}
 
-			myConnect.LightControlDownload(lcData, ComLCDownloadCompleted, ComLCDownloadError);			
+			myConnect.LightControlDownload(lcEntity, ComLCDownloadCompleted, ComLCDownloadError);			
 		}
 
 
@@ -918,7 +945,7 @@ namespace OtherTools
 			}
 
 			reloadKeypressListView();
-			enableAllButtons();
+			refreshAllButtons();
 			kpToolStripStatusLabel2.Text = "已加载配置文件：" + keyPath;
 		}
 
@@ -1200,7 +1227,6 @@ namespace OtherTools
 					setConnStatus(ConnectStatus.No);
 					return;
 				}
-
 				try
 				{
 					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
@@ -1218,8 +1244,7 @@ namespace OtherTools
 				string deviceName = ipaList[deviceComboBox.SelectedIndex].DeviceName;
 				myConnect = new NetworkConnect( connectTools.GetDeivceInfos()[localIP][deviceIP]);
 				if ((myConnect as NetworkConnect).IsConnected())
-				{
-					
+				{					
 					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")");
 					setConnStatus(ConnectStatus.Normal);
 				}
@@ -1241,7 +1266,16 @@ namespace OtherTools
 			kpToolStripStatusLabel1.Text = msg;
 		}
 
-
+		/// <summary>
+		/// 辅助方法：统一设置右侧的状态栏的显示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		private void setAllStatusLabel2(string msg)
+		{
+			lcToolStripStatusLabel2.Text = msg;
+			ccToolStripStatusLabel2.Text = msg;
+			kpToolStripStatusLabel2.Text = msg;
+		}
 
 		/// <summary>
 		/// 事件：点击《灯控 - 回读配置》
@@ -1338,8 +1372,8 @@ namespace OtherTools
 					return;
 				}
 
-				lcData = lcDataTemp as LightControlData;
-				setLcForm();
+				lcEntity = lcDataTemp as LightControlData;
+				lcSetForm();
 				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 			});
 		}
@@ -1361,10 +1395,21 @@ namespace OtherTools
 		public void ComLCDownloadCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
-				lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";
-				MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");				
-				Thread.Sleep(5000);
-				lcConnectButton_Click(null, null);
+				if (isConnectByCom)
+				{
+					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";
+					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");
+					Thread.Sleep(5000);
+					lcConnectButton_Click(null, null);
+				}
+				else {
+					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";
+					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
+					Thread.Sleep(5000);
+					lcEntity= null;
+					lcSetForm();
+					setConnStatus(ConnectStatus.No);
+				}				
 			});
 		}
 
@@ -1559,8 +1604,21 @@ namespace OtherTools
 		private void setConnStatus(ConnectStatus cs)
 		{
 			connStatus = cs;
-			enableAllButtons();
+
+			refreshStatusLabels();
+			refreshAllButtons();			
+
+			if ( ! isConnectByCom && cs == ConnectStatus.No) {
+				deviceComboBox.Items.Clear();
+				deviceComboBox.Text = "";
+				deviceComboBox.Enabled = false;
+				connectButton.Enabled = false;
+				setAllStatusLabel1("设备已重启，请重新搜索并重连网络设备");
+			}
+			
 		}
+
+
 
 		/// <summary>
 		/// 辅助方法：定时器定时执行的方法
@@ -1656,7 +1714,7 @@ namespace OtherTools
 				keyEntity = obj as KeyEntity;
 				reloadKeypressListView();
 				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
-				enableAllButtons();
+				refreshAllButtons();
 				this.Enabled = true;
 				this.Cursor = Cursors.Default;
 			});			

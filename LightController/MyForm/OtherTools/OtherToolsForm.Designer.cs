@@ -495,7 +495,7 @@ namespace OtherTools
 			// kpListenButton
 			// 
 			this.kpListenButton.Enabled = false;
-			this.kpListenButton.Location = new System.Drawing.Point(57, 161);
+			this.kpListenButton.Location = new System.Drawing.Point(58, 161);
 			this.kpListenButton.Name = "kpListenButton";
 			this.kpListenButton.Size = new System.Drawing.Size(105, 40);
 			this.kpListenButton.TabIndex = 5;
@@ -658,7 +658,6 @@ namespace OtherTools
 			this.kpShowButton.TabIndex = 5;
 			this.kpShowButton.Text = "显示图标";
 			this.kpShowButton.UseVisualStyleBackColor = true;
-			this.kpShowButton.Visible = false;
 			this.kpShowButton.Click += new System.EventHandler(this.kpShowButton_Click);
 			// 
 			// kpOrderTextBox

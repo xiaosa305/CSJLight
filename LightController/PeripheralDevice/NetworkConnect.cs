@@ -2,6 +2,7 @@
 using LightController.Tools.CSJ.IMPL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -20,6 +21,9 @@ namespace LightController.PeripheralDevice
         private Socket Socket { get; set; }//网络连接套接字
         private byte[] ReceiveBuff { get; set; }//接收缓存区
         private int BuffCount { get; set; }
+
+        
+        private Socket ReceiveSocket { get; set; }
 
         public NetworkConnect(NetworkDeviceInfo deviceInfo)
         {
@@ -43,10 +47,9 @@ namespace LightController.PeripheralDevice
             this.DevicePort = TCPPORT;
             this.DeviceAddr = deviceInfo.DeviceAddr;
             this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
             this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
-            Thread.Sleep(200);
             this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
-
         }
         /// <summary>
         /// 获取缓存区大小
@@ -78,22 +81,28 @@ namespace LightController.PeripheralDevice
         /// <param name="asyncResult"></param>
         private void NetworkReceive(IAsyncResult asyncResult)
         {
-            NetworkConnect connect = asyncResult.AsyncState as NetworkConnect;
-            int aa = connect.Socket.ReceiveBufferSize;
-            int count = connect.Socket.EndReceive(asyncResult);
-            Console.WriteLine("网络接收数据大小："+ count);
-            if (count <= 0)
+            try
             {
-                Console.WriteLine("设备断开连接");
-                return;
+                NetworkConnect connect = asyncResult.AsyncState as NetworkConnect;
+                int count = connect.Socket.EndReceive(asyncResult);
+                if (count <= 0)
+                {
+                    Console.WriteLine("设备断开连接");
+                    return;
+                }
+                else
+                {
+                    byte[] buff = new byte[count];
+                    Array.Copy(connect.ReceiveBuff, buff, count);
+                    ReadBuff.AddRange(buff);
+                    this.Receive();
+                    connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
+                    this.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                byte[] buff = new byte[count];
-                Array.Copy(connect.ReceiveBuff, buff, count);
-                ReadBuff.AddRange(buff);
-                this.Receive();
-                connect.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
+                Console.WriteLine("网络设备已断开");
             }
         }
         /// <summary>

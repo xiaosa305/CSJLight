@@ -96,14 +96,14 @@ namespace LightController.PeripheralDevice
         /// </summary>
         private void StartTimeOut()
         {
+            Console.WriteLine("启动超时处理定时器");
             if (this.TimeOutTimer == null)
             {
                 this.TimeOutTimer = new System.Timers.Timer(TIMEOUT);
                 this.TimeOutTimer.Elapsed += SendTimeOut;
-                this.TimeOutTimer.Enabled = true;
+                //this.TimeOutTimer.Enabled = true;
                 this.TimeOutTimer.AutoReset = false;
             }
-            Console.WriteLine("启动超时处理定时器");
             this.TimeOutTimer.Start();
         }
         /// <summary>
@@ -113,8 +113,8 @@ namespace LightController.PeripheralDevice
         {
             if (TimeOutTimer != null)
             {
-                TimeOutTimer.Stop();
                 Console.WriteLine("停止超时定时器");
+                TimeOutTimer.Stop();
             }
         }
         /// <summary>
@@ -335,6 +335,7 @@ namespace LightController.PeripheralDevice
             {
                 byte[] crc = CRCTools.GetInstance().GetLightControlCRC(packData.ToArray());
                 packData.AddRange(crc);
+                Console.WriteLine("当前包数:" + this.PackIndex + ",总包数:" + this.PackCount + ",当前包大小:" + packData.Count);
             }
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2
@@ -726,6 +727,7 @@ namespace LightController.PeripheralDevice
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
                 this.StopTimeOut();
+                Thread.Sleep(100);
                 this.SendData();
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
@@ -733,9 +735,9 @@ namespace LightController.PeripheralDevice
                 if (this.IsAck)
                 {
                     this.StopTimeOut();
+                    Console.WriteLine("中控下载 Done,关闭超时");
                 }
                 this.IsDone = true;
-                Console.WriteLine("中控下载 Done");
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_SENDNEXT))
             {
@@ -751,6 +753,7 @@ namespace LightController.PeripheralDevice
                 if (this.IsDone)
                 {
                     this.StopTimeOut();
+                    Console.WriteLine("中控下载 Ack，关闭超时");
                 }
                 this.IsAck = true;
                 Console.WriteLine("中控下载 Ack");

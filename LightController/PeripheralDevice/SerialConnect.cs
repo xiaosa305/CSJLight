@@ -84,9 +84,12 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public override void DisConnect()
         {
-            if (this.SerialPortDevice.IsOpen)
+            if (this.SerialPortDevice != null)
             {
-                this.SerialPortDevice.Close();
+                if (this.SerialPortDevice.IsOpen)
+                {
+                    this.SerialPortDevice.Close();
+                }
             }
         }
     }

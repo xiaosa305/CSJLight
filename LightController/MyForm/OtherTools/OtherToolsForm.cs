@@ -722,9 +722,9 @@ namespace OtherTools
 				return;
 			}
 
+			ccToolStripStatusLabel2.Text = "正在下载中控数据，请稍候...";
 			myConnect.CenterControlDownload(ccEntity, ComCCDownloadCompleted, ComCCDownloadError);
-
-			//ccToolStripStatusLabel2.Text = "成功下载中控数据。";
+			
 		}
 
 		/// <summary>
@@ -1207,6 +1207,7 @@ namespace OtherTools
 			{
 				if (myConnect == null) {
 					setAllStatusLabel1("打开串口失败，原因是：comConnect为null");
+					setConnStatus(ConnectStatus.No);
 					return;
 				}
 
@@ -1214,21 +1215,17 @@ namespace OtherTools
 				{
 					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
 					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")");
-					connStatus = ConnectStatus.Normal;
-					enableAllButtons();
+					setConnStatus(ConnectStatus.Normal);
 				}
 				catch (Exception ex) {
 					setAllStatusLabel1("打开串口失败，原因是：" + ex.Message);
-					connStatus = ConnectStatus.No;
+					setConnStatus(ConnectStatus.No);
 				}
 			}
 			else {
 				string localIP =  ipaList[deviceComboBox.SelectedIndex].LocalIP; 
 				string deviceIP = ipaList[deviceComboBox.SelectedIndex].DeviceIP;
 				myConnect = new NetworkConnect( connectTools.GetDeivceInfos()[localIP][deviceIP]);
-				Console.WriteLine(myConnect);
-
-
 			}
 		}
 	
@@ -1265,10 +1262,9 @@ namespace OtherTools
 		}
 
 		public void ComLCConnectCompleted(Object obj) {
-			Invoke((EventHandler)delegate {
-				connStatus = ConnectStatus.Lc;
-				enableAllButtons();
+			Invoke((EventHandler)delegate {				
 				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc)";
+				setConnStatus(ConnectStatus.Lc);
 			});
 		}
 
@@ -1287,8 +1283,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				ccToolStripStatusLabel2.Text = "已切换成中控配置(connStatus=cc)";
-				connStatus = ConnectStatus.Cc;
-				enableAllButtons();
+				setConnStatus(ConnectStatus.Cc);
 			});
 		}
 
@@ -1536,7 +1531,7 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{
 				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
-				connStatus = ConnectStatus.Kp;				
+				setConnStatus(ConnectStatus.Kp);
 
 				//Thread.Sleep(500);								
 				//kpReadButton_Click(null, null);
@@ -1553,7 +1548,13 @@ namespace OtherTools
 					kpTimer.Enabled = true;
 				}
 			});
-		}		
+		}
+
+		private void setConnStatus(ConnectStatus cs)
+		{
+			connStatus = cs;
+			enableAllButtons();
+		}
 
 		/// <summary>
 		/// 辅助方法：定时器定时执行的方法

@@ -82,7 +82,7 @@ namespace LightController.PeripheralDevice
         /// <summary>
         /// 关闭连接
         /// </summary>
-        protected override void DisConnect()
+        public override void DisConnect()
         {
             if (this.SerialPortDevice.IsOpen)
             {

@@ -100,9 +100,9 @@ namespace LightController.MyForm
 		{
 			localIP = localIPsComboBox.Text;
 
-			networkDevicesComboBox.Text = "";
-			networkDevicesComboBox.SelectedIndex = -1;
-			networkDevicesComboBox.Enabled = false;
+			ipsComboBox.Text = "";
+			ipsComboBox.SelectedIndex = -1;
+			ipsComboBox.Enabled = false;
 
 			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
 		}
@@ -129,32 +129,33 @@ namespace LightController.MyForm
 		/// 辅助方法：刷新《网络设备》列表
 		/// </summary>
 		private void RefreshNetworkDevice() {
+
+			ipsComboBox.Items.Clear();
+			ips = new List<string>();
+
 			connectTools = ConnectTools.GetInstance();
 			connectTools.Start(localIP);
 			connectTools.SearchDevice();
 			// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-			Thread.Sleep(1000);
-
-			//TODO:0109
-			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos(); 
-			networkDevicesComboBox.Items.Clear();
-			ips = new List<string>();
-			if (allDevices.Count > 0)
+			Thread.Sleep(500);
+						
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])
 			{
-				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices) {
-					foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value) {
-						networkDevicesComboBox.Items.Add(d2.Value.DeviceName+ "(" + d2.Value.DeviceIp + ")");
-						ips.Add(d2.Value.DeviceIp);
-					}				
-				}
-				networkDevicesComboBox.Enabled = true;
-				networkDevicesComboBox.SelectedIndex = 0;
+				ipsComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
+				ips.Add(d2.Value.DeviceIp);
+			}
+
+			if (ipsComboBox.Items.Count > 0)
+			{
+				ipsComboBox.SelectedIndex = 0;
+				ipsComboBox.Enabled = true;
 			}
 			else
 			{
-				networkDevicesComboBox.Enabled = false;
-				networkDevicesComboBox.SelectedIndex = -1;
-				MessageBox.Show("未找到可用设备，请确认后重试。");
+				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
+				ipsComboBox.SelectedIndex = -1;
+				ipsComboBox.Enabled = false;
 			}
 		}
 
@@ -199,7 +200,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (networkDevicesComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(networkDevicesComboBox.Text))
+			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text))
 			{
 				//MessageBox.Show(" --------- ");
 				networkdUpdateSkinButton.Enabled = false;
@@ -207,7 +208,7 @@ namespace LightController.MyForm
 			}
 
 			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);
+			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);
 			networkdUpdateSkinButton.Enabled = true;
 		}
 
@@ -253,7 +254,7 @@ namespace LightController.MyForm
 			if (   buttonName.Equals("networkdUpdateSkinButton") )  //网络升级的途径
 			{
 				networkdUpdateSkinButton.Enabled = false;
-				networkDevicesComboBox.Enabled = false;				
+				ipsComboBox.Enabled = false;				
 				if (rightNow)
 				{					
 					SetLabelText(true, "正在实时生成工程数据，请耐心等待...");
@@ -285,7 +286,7 @@ namespace LightController.MyForm
 			localIPsComboBox.Enabled = !busy;
 			networkSearchSkinButton.Enabled = !busy;
 			networkdUpdateSkinButton.Enabled = !busy;
-			networkDevicesComboBox.Enabled = !busy;
+			ipsComboBox.Enabled = !busy;
 			comSearchSkinButton.Enabled = !busy;
 			comComboBox.Enabled = !busy;
 			comOpenSkinButton.Enabled = !busy;
@@ -362,8 +363,8 @@ namespace LightController.MyForm
 
 		internal void ClearNetworkDevices()
 		{
-			networkDevicesComboBox.Text = "";
-			networkDevicesComboBox.Enabled = false;
+			ipsComboBox.Text = "";
+			ipsComboBox.Enabled = false;
 			ips = new List<string>();
 		}
 	}

@@ -307,7 +307,7 @@ namespace OtherTools
 			this.panel1.Controls.Add(this.label7);
 			this.panel1.Controls.Add(this.label8);
 			this.panel1.Controls.Add(this.label6);
-			this.panel1.Location = new System.Drawing.Point(353, 11);
+			this.panel1.Location = new System.Drawing.Point(361, 11);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(200, 68);
 			this.panel1.TabIndex = 27;
@@ -375,10 +375,10 @@ namespace OtherTools
 			// connectButton
 			// 
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(232, 44);
+			this.connectButton.Location = new System.Drawing.Point(243, 44);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(85, 27);
+			this.connectButton.Size = new System.Drawing.Size(91, 27);
 			this.connectButton.TabIndex = 23;
 			this.connectButton.Text = "打开串口";
 			this.connectButton.UseVisualStyleBackColor = true;
@@ -389,7 +389,7 @@ namespace OtherTools
 			this.refreshButton.Location = new System.Drawing.Point(135, 44);
 			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(85, 27);
+			this.refreshButton.Size = new System.Drawing.Size(91, 27);
 			this.refreshButton.TabIndex = 23;
 			this.refreshButton.Text = "刷新串口";
 			this.refreshButton.UseVisualStyleBackColor = true;
@@ -423,7 +423,7 @@ namespace OtherTools
 			this.deviceComboBox.Location = new System.Drawing.Point(135, 17);
 			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceComboBox.Name = "deviceComboBox";
-			this.deviceComboBox.Size = new System.Drawing.Size(182, 20);
+			this.deviceComboBox.Size = new System.Drawing.Size(199, 20);
 			this.deviceComboBox.TabIndex = 22;
 			// 
 			// skinComboBox

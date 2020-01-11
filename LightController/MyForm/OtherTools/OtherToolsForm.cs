@@ -1184,7 +1184,8 @@ namespace OtherTools
 				if (connStatus > ConnectStatus.No)
 				{
 					myConnect.DisConnect();
-				}				
+				}
+				setConnStatus(ConnectStatus.No);
 				myConnect = null ;
 			}
 			
@@ -1226,6 +1227,7 @@ namespace OtherTools
 				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
 				ipaList = new List<IPAst>();
 
+				setAllStatusLabel1("正在搜索网络设备，请稍候...");
 				foreach (IPAddress ip in ipe.AddressList)
 				{
 					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
@@ -1233,38 +1235,40 @@ namespace OtherTools
 						connectTools.Start(ip.ToString());
 						connectTools.SearchDevice();
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(500);					
-						Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();						
-						if (allDevices.Count > 0)
+						Thread.Sleep(500);						
+					}					
+				}
+
+				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+				if (allDevices.Count > 0)
+				{
+					foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
+					{
+						foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
 						{
-							foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
-							{
-								foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
-								{
-									deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
-									ipaList.Add(new IPAst() {
-										LocalIP = ip.ToString(),
-										DeviceIP = d2.Value.DeviceIp,
-										DeviceName = d2.Value.DeviceName
-									});
-								}
-							}
+							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
+							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")" + localIPLast);
+							ipaList.Add(new IPAst()	{LocalIP = device.Key,DeviceIP = d2.Value.DeviceIp,DeviceName = d2.Value.DeviceName});
 						}
 					}
-				}							
+				}
 			}
 
 			if (deviceComboBox.Items.Count == 0)
 			{
-				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");				
+				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
 				connectButton.Enabled = false;
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
+				setConnStatus(ConnectStatus.No);
 			}
 			else {
 				connectButton.Enabled = true;
 				deviceComboBox.Enabled = true;
 				deviceComboBox.SelectedIndex = 0;
+				setAllStatusLabel1("已搜到可用设备列表。");
+				setConnStatus(ConnectStatus.No);
 			}
 		}
 
@@ -1697,7 +1701,7 @@ namespace OtherTools
 		private void kpOnTimer(object sender, ElapsedEventArgs e)
 		{
 			Invoke((EventHandler)delegate {
-				if (myConnect != null) {
+				if (myConnect != null && connStatus == ConnectStatus.Kp) {				
 					myConnect.PassThroughKeyPressConnect(KPTimerConnectCompleted, KPConnectError);	
 				}
 			});
@@ -1722,9 +1726,10 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{				
-				kpToolStripStatusLabel2.Text = "连接墙板失败";			
+				kpToolStripStatusLabel2.Text = "连接墙板失败";
 
 				//MARK：连接墙板失败，是否还要进行其他操作？
+				setConnStatus(ConnectStatus.No);
 				//keypressListView.Enabled = false;
 				//clearKeypressListView();
 			});

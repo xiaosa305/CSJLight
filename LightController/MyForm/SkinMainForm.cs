@@ -2176,45 +2176,46 @@ namespace LightController.MyForm
 
 			deviceSkinComboBox.Items.Clear();
 			deviceSkinComboBox.Enabled = false;
-			ipAstList = new List<IPAst>();
+			ipaList = new List<IPAst>();
 
 			connectTools = ConnectTools.GetInstance();
-			// 先获取本地ip列表
-			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
+			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());			
 			foreach (IPAddress ip in ipe.AddressList)
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
 				{
 					connectTools.Start( ip.ToString() );
-					connectTools.SearchDevice();
-					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-					Thread.Sleep(500);
+					connectTools.SearchDevice();					
+					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
+					Thread.Sleep(500); 								
+				}			
+			}
 
-					//TODO:0109
-					//Dictionary<string, string> devList = connectTools.GetDeviceInfo();
-					//if (devList.Count > 0)
-					//{
-					//	foreach (KeyValuePair<string, string> device in devList)
-					//	{
-					//		string localIPLast = ip.ToString().Substring(ip.ToString().LastIndexOf("."));
-					//		deviceSkinComboBox.Items.Add(device.Value + "(" + device.Key + ")" + localIPLast);
-					//		ipAstList.Add(new IPAst() {
-					//			LocalIP = ip.ToString() ,
-					//			DeviceIP = device.Key ,
-					//			DeviceName = device.Value }  );
-					//	}					
-					//}
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+			if (allDevices.Count > 0)
+			{
+				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
+				{
+					foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
+					{
+						string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
+						deviceSkinComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);
+						ipaList.Add(new IPAst(){LocalIP = device.Key,	DeviceIP = d2.Value.DeviceIp,	DeviceName = d2.Value.DeviceName	});
+					}
 				}
 			}
 
-			if (ipAstList.Count > 0) {
+			if (ipaList.Count > 0)
+			{
 				deviceSkinComboBox.Enabled = true;
 				deviceSkinComboBox.SelectedIndex = 0;
 			}
 			else
 			{
-				MessageBox.Show("未找到可用的网络设备，请确认后重试。");				
+				MessageBox.Show("未找到可用的网络设备，请确认后重试。");
 			}
+
 		}
 
 		/// <summary>
@@ -2261,7 +2262,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void connectSkinButton_Click(object sender, EventArgs e)
 		{
-			playTools = PlayTools.GetInstance();
+			 playTools = PlayTools.GetInstance();
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if (!isConnected)
 			{
@@ -2281,7 +2282,7 @@ namespace LightController.MyForm
 						return;
 					}
 
-					IPAst ipAst = ipAstList[deviceSkinComboBox.SelectedIndex];
+					IPAst ipAst = ipaList[deviceSkinComboBox.SelectedIndex];
 					ConnectTools.GetInstance().Start(ipAst.LocalIP);					
 					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 				}				

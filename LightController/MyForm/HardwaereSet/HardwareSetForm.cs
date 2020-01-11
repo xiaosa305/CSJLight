@@ -318,6 +318,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkSearchSkinButton_Click(object sender, EventArgs e)
 		{
+			ipsComboBox.Items.Clear();
+			ips = new List<string>();
+
 			//搜索期间不可进行其他操作
 			networkSearchSkinButton.Enabled = false;
 			networkUploadSkinButton.Enabled = false;
@@ -326,29 +329,28 @@ namespace LightController.MyForm
 			connectTools = ConnectTools.GetInstance();
 			connectTools.Start(localIP);
 			connectTools.SearchDevice();
-			Thread.Sleep(1000);
+			Thread.Sleep(500);
 
-			//TODO:0109
-			//Dictionary<string, string> allDevices = ConnectTools.DeviceInfos();
-			//ipsComboBox.Items.Clear();
-			//ips = new List<string>();
-			//if (allDevices.Count > 0)
-			//{
-			//	foreach (KeyValuePair<string, string> device in allDevices)
-			//	{
-			//		ipsComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-			//		ips.Add(device.Key);
-			//	}
-			//	ipsComboBox.SelectedIndex = 0;
-			//	ipsComboBox.Enabled = true;
-			//}
-			//else {
-			//	MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
-			//	ipsComboBox.SelectedIndex = -1;
-			//	ipsComboBox.Enabled = false;
-			//}
-			////搜索完成后，再将按钮开放
-			//networkSearchSkinButton.Enabled = true;
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();			
+			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])
+			{
+				ipsComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
+				ips.Add(d2.Value.DeviceIp);				
+			}
+						
+			if (ipsComboBox.Items.Count > 0)
+			{
+				ipsComboBox.SelectedIndex = 0;
+				ipsComboBox.Enabled = true;
+			}
+			else {
+					MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
+					ipsComboBox.SelectedIndex = -1;
+					ipsComboBox.Enabled = false;
+			}
+
+			//搜索完成后，再将按钮开放
+			networkSearchSkinButton.Enabled = true;
 		}
 
 
@@ -366,8 +368,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);
+			selectedIPs = new List<string>	{ips[ipsComboBox.SelectedIndex]	};
 			networkUploadSkinButton.Enabled = true;
 			networkDownloadSkinButton.Enabled = true;
 		}	

@@ -97,14 +97,12 @@ namespace LightController.MyForm
 		{
 			localIP = localIPsComboBox.Text;
 
-			networkDevicesComboBox.Text = "";
-			networkDevicesComboBox.SelectedIndex = -1;
-			networkDevicesComboBox.Enabled = false;
+			ipsComboBox.Text = "";
+			ipsComboBox.SelectedIndex = -1;
+			ipsComboBox.Enabled = false;
 
 			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
-		}
-
-		
+		}		
 
 		/// <summary>
 		///事件：点击《搜索网络/串口设备》，两个按钮点击事件集成在一起
@@ -114,35 +112,37 @@ namespace LightController.MyForm
 		private void searchButton_Click(object sender, EventArgs e)
 		{
 			string buttonName =((SkinButton)sender).Name;
+
 			//点击《搜索网络设备》
 			if (buttonName.Equals("networkSearchSkinButton")) 
 			{
+				ipsComboBox.Items.Clear();
+				ips = new List<string>();
+
 				connectTools = ConnectTools.GetInstance();
 				connectTools.Start(localIP);
 				connectTools.SearchDevice();
-				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-				Thread.Sleep(1000);
-				
-				//TODO:0109
-				//Dictionary<string, string> allDevices = connectTools.GetDeviceInfo();
-				//networkDevicesComboBox.Items.Clear();
-				//ips = new List<string>();
-				//if (allDevices.Count > 0)
-				//{
-				//	foreach (KeyValuePair<string, string> device in allDevices)
-				//	{
-				//		networkDevicesComboBox.Items.Add(device.Value + "(" + device.Key + ")");
-				//		ips.Add(device.Key);
-				//	}
-				//	networkDevicesComboBox.Enabled = true;
-				//	networkDevicesComboBox.SelectedIndex = 0;
-				//}
-				//else
-				//{
-				//	networkDevicesComboBox.Enabled = false;
-				//	networkDevicesComboBox.SelectedIndex = -1;
-				//	MessageBox.Show("未找到可用设备，请确认后重试。");
-				//}
+				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
+				Thread.Sleep(500);
+
+				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+				foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])
+				{
+					ipsComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
+					ips.Add(d2.Value.DeviceIp);
+				}
+
+				if (ipsComboBox.Items.Count > 0)
+				{
+					ipsComboBox.SelectedIndex = 0;
+					ipsComboBox.Enabled = true;
+				}
+				else
+				{
+					MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
+					ipsComboBox.SelectedIndex = -1;
+					ipsComboBox.Enabled = false;
+				}
 			}
 			// 点击《搜索串口设备》
 			else {
@@ -190,13 +190,13 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (networkDevicesComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(networkDevicesComboBox.Text)) {
+			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text)) {
 				networkdUpdateSkinButton.Enabled = false;
 				return;
 			}
 
 			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[networkDevicesComboBox.SelectedIndex]);	
+			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);	
 			networkdUpdateSkinButton.Enabled = isChooseFile;
 		}
 
@@ -231,7 +231,7 @@ namespace LightController.MyForm
 			if (buttonName.Equals("networkdUpdateSkinButton"))
 			{
 				networkdUpdateSkinButton.Enabled = false;
-				networkDevicesComboBox.Enabled = false;
+				ipsComboBox.Enabled = false;
 				connectTools.Update( selectedIPs , binPath,  new HardwareUpdateReceiveCallBack(this,true));
 			}
 			else {
@@ -271,7 +271,7 @@ namespace LightController.MyForm
 			mainForm.SetBinPath(binPath);
 
 			isChooseFile = !String.IsNullOrEmpty(binPath);
-			networkdUpdateSkinButton.Enabled = isChooseFile && !String.IsNullOrEmpty(networkDevicesComboBox.Text);
+			networkdUpdateSkinButton.Enabled = isChooseFile && !String.IsNullOrEmpty(ipsComboBox.Text);
 			comUpdateSkinButton.Enabled = isChooseFile && !String.IsNullOrEmpty(comName);	
 
 		}

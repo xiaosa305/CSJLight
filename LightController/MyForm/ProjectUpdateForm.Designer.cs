@@ -31,7 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectUpdateForm));
 			this.label1 = new System.Windows.Forms.Label();
-			this.networkDevicesComboBox = new System.Windows.Forms.ComboBox();
+			this.ipsComboBox = new System.Windows.Forms.ComboBox();
 			this.networkFileLabel = new System.Windows.Forms.Label();
 			this.networkFileShowLabel = new System.Windows.Forms.Label();
 			this.networkSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
@@ -77,14 +77,14 @@
 			// 
 			// networkDevicesComboBox
 			// 
-			this.networkDevicesComboBox.Enabled = false;
-			this.networkDevicesComboBox.FormattingEnabled = true;
-			this.networkDevicesComboBox.Location = new System.Drawing.Point(160, 85);
-			this.networkDevicesComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.networkDevicesComboBox.Name = "networkDevicesComboBox";
-			this.networkDevicesComboBox.Size = new System.Drawing.Size(274, 20);
-			this.networkDevicesComboBox.TabIndex = 5;
-			this.networkDevicesComboBox.SelectedIndexChanged += new System.EventHandler(this.networkDevicesComboBox_SelectedIndexChanged);
+			this.ipsComboBox.Enabled = false;
+			this.ipsComboBox.FormattingEnabled = true;
+			this.ipsComboBox.Location = new System.Drawing.Point(160, 85);
+			this.ipsComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.ipsComboBox.Name = "networkDevicesComboBox";
+			this.ipsComboBox.Size = new System.Drawing.Size(274, 20);
+			this.ipsComboBox.TabIndex = 5;
+			this.ipsComboBox.SelectedIndexChanged += new System.EventHandler(this.networkDevicesComboBox_SelectedIndexChanged);
 			// 
 			// networkFileLabel
 			// 
@@ -203,7 +203,7 @@
 			this.networkPanel.Controls.Add(this.networkSkinProgressBar);
 			this.networkPanel.Controls.Add(this.localIPsComboBox);
 			this.networkPanel.Controls.Add(this.networkFileLabel);
-			this.networkPanel.Controls.Add(this.networkDevicesComboBox);
+			this.networkPanel.Controls.Add(this.ipsComboBox);
 			this.networkPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkPanel.Location = new System.Drawing.Point(0, 0);
 			this.networkPanel.Name = "networkPanel";
@@ -467,7 +467,7 @@
 
 		#endregion
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox networkDevicesComboBox;
+		private System.Windows.Forms.ComboBox ipsComboBox;
 		private System.Windows.Forms.Label networkFileLabel;
 		private System.Windows.Forms.Label networkFileShowLabel;
 		private CCWin.SkinControl.SkinProgressBar networkSkinProgressBar;

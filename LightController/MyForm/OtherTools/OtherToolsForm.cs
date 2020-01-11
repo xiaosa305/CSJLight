@@ -35,8 +35,10 @@ namespace OtherTools
 			Normal,
 			Lc,
 			Cc,
-			Kp,
-			Tc
+			Kp
+			//	,			
+			//Tclc,
+			//Tccc
 		}
 
 		private IList<Button> buttonList = new List<Button>();		
@@ -149,7 +151,7 @@ namespace OtherTools
 
 			// 灯控相关
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
-			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null;
+			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null && !isDecoding;
 
 			// 墙板相关按键			
 			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
@@ -169,7 +171,8 @@ namespace OtherTools
 				case ConnectStatus.Lc: setAllStatusLabel2("已切换为灯控配置"); break;
 				case ConnectStatus.Cc: setAllStatusLabel2("已切换为中控模式"); break;
 				case ConnectStatus.Kp: setAllStatusLabel2("已切换为墙板配置"); break;
-				case ConnectStatus.Tc: setAllStatusLabel2("已切换为透传模式"); break;
+				//case ConnectStatus.Tclc: setAllStatusLabel2("已切换为透传灯控模式"); break;
+				//case ConnectStatus.Tccc: setAllStatusLabel2("已切换为透传中控模式"); break;
 				default: setAllStatusLabel2(""); break;
 			}
 
@@ -503,7 +506,14 @@ namespace OtherTools
 			}
 
 			byte[] tempData = lcEntity.GetFrameBytes(lcFrameIndex);
-			myConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
+			if (tcCheckBox.Checked) {
+				myConnect.PassThroughLightControlDebug(tempData, LCSendCompleted, LCSendError);
+			}
+			else
+			{
+				myConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
+			}
+
 		}
 
 		/// <summary>
@@ -638,7 +648,15 @@ namespace OtherTools
 				lcToolStripStatusLabel2.Text = "当前myConnect==null，无法下载数据";
 				return;				
 			}
-			myConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);			
+
+			if (tcCheckBox.Checked) {
+				myConnect.PassThroughLightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
+			}
+			else
+			{
+				myConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
+			}
+		
 		}
 
 
@@ -694,6 +712,7 @@ namespace OtherTools
 			// 点击《开启解码》
 			else {
 				myConnect.CenterControlStartCopy(CCStartCompleted, CCStartError, CCListen);
+				
 			}
 		}
 
@@ -1344,8 +1363,16 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcReadButton_Click(object sender, EventArgs e)
 		{
-			myConnect.LightControlRead(LCReadCompleted, LCReadError);
-			lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			if (tcCheckBox.Checked) {
+				myConnect.PassThroughLightControlRead(LCReadCompleted, LCReadError);
+				lcToolStripStatusLabel2.Text = "正在回读灯控配置(tc)，请稍候...";
+			}
+			else
+			{
+				myConnect.LightControlRead(LCReadCompleted, LCReadError);
+				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			}
+
 		}
 
 		/// <summary>
@@ -1353,10 +1380,10 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="obj"></param>
 		public void LCConnectCompleted(Object obj) {
-			Invoke((EventHandler)delegate {				
-				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc)";
+			Invoke((EventHandler)delegate {
+				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked?"-tc":"") +")";
 				setConnStatus(ConnectStatus.Lc);
-				lcReadButton_Click(null,null);
+				lcReadButton_Click(null, null);
 			});
 		}
 
@@ -1496,6 +1523,11 @@ namespace OtherTools
 					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";
 					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
 					Thread.Sleep(5000);
+
+					isDecoding = false;
+					ccDecodeButton.Text = "开启解码";
+					ccDecodeButton.Enabled = false;
+
 					ccConnectButton_Click(null, null);
 				}
 				else {
@@ -1532,6 +1564,7 @@ namespace OtherTools
 				isDecoding = true;
 				ccDecodeButton.Text = "关闭解码" ;
 				ccDecodeRichTextBox.Enabled = true;
+				refreshButtons();
 			});
 		}
 
@@ -1580,6 +1613,7 @@ namespace OtherTools
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
 				ccDecodeRichTextBox.Enabled = false ;
+				refreshButtons();
 			});
 		}
 
@@ -1607,7 +1641,6 @@ namespace OtherTools
 			ccEntity.GetData();
 		}
 
-
 		/// <summary>
 		/// 事件：点击《连接中控》
 		/// </summary>
@@ -1625,7 +1658,14 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcConnectButton_Click(object sender, EventArgs e)
 		{
-			myConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
+			if (tcCheckBox.Checked)
+			{
+				myConnect.PassThroughLightControlConnect(LCConnectCompleted, LCConnectError);
+			}
+			else {
+				myConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
+			}
+			
 		}
 
 
@@ -2083,9 +2123,9 @@ namespace OtherTools
 			});
 		}
 
-		private void tcButton_Click(object sender, EventArgs e)
+		private void tcCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-
+			setConnStatus(ConnectStatus.Normal);
 		}
 	}
 }

@@ -34,7 +34,6 @@ namespace OtherTools
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OtherToolsForm));
 			this.panel2 = new System.Windows.Forms.Panel();
-			this.tcButton = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
@@ -79,6 +78,7 @@ namespace OtherTools
 			this.kpSaveButton = new System.Windows.Forms.Button();
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
+			this.tcCheckBox = new System.Windows.Forms.CheckBox();
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.lcStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.lcToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -275,7 +275,6 @@ namespace OtherTools
 			// 
 			this.panel2.BackColor = System.Drawing.Color.Silver;
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.panel2.Controls.Add(this.tcButton);
 			this.panel2.Controls.Add(this.panel1);
 			this.panel2.Controls.Add(this.zwjTestButton);
 			this.panel2.Controls.Add(this.switchButton);
@@ -290,16 +289,6 @@ namespace OtherTools
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(1264, 93);
 			this.panel2.TabIndex = 1;
-			// 
-			// tcButton
-			// 
-			this.tcButton.Location = new System.Drawing.Point(913, 17);
-			this.tcButton.Name = "tcButton";
-			this.tcButton.Size = new System.Drawing.Size(75, 48);
-			this.tcButton.TabIndex = 28;
-			this.tcButton.Text = "开启透传";
-			this.tcButton.UseVisualStyleBackColor = true;
-			this.tcButton.Click += new System.EventHandler(this.tcButton_Click);
 			// 
 			// panel1
 			// 
@@ -745,6 +734,7 @@ namespace OtherTools
 			// lightTabPage
 			// 
 			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
+			this.lightTabPage.Controls.Add(this.tcCheckBox);
 			this.lightTabPage.Controls.Add(this.keepLightOnCheckBox);
 			this.lightTabPage.Controls.Add(this.lcStatusStrip);
 			this.lightTabPage.Controls.Add(this.lcGroupBox3);
@@ -764,10 +754,21 @@ namespace OtherTools
 			this.lightTabPage.TabIndex = 1;
 			this.lightTabPage.Text = "灯控配置";
 			// 
+			// tcCheckBox
+			// 
+			this.tcCheckBox.AutoSize = true;
+			this.tcCheckBox.Location = new System.Drawing.Point(146, 94);
+			this.tcCheckBox.Name = "tcCheckBox";
+			this.tcCheckBox.Size = new System.Drawing.Size(72, 16);
+			this.tcCheckBox.TabIndex = 9;
+			this.tcCheckBox.Text = "透传模式";
+			this.tcCheckBox.UseVisualStyleBackColor = true;
+			this.tcCheckBox.CheckedChanged += new System.EventHandler(this.tcCheckBox_CheckedChanged);
+			// 
 			// keepLightOnCheckBox
 			// 
 			this.keepLightOnCheckBox.AutoSize = true;
-			this.keepLightOnCheckBox.Location = new System.Drawing.Point(34, 96);
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(34, 94);
 			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
 			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.keepLightOnCheckBox.TabIndex = 9;
@@ -1537,7 +1538,7 @@ namespace OtherTools
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(150, 37);
+			this.label13.Location = new System.Drawing.Point(150, 34);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(71, 12);
 			this.label13.TabIndex = 2;
@@ -1566,7 +1567,7 @@ namespace OtherTools
             "场景14",
             "场景15",
             "场景16"});
-			this.qdFrameComboBox.Location = new System.Drawing.Point(146, 59);
+			this.qdFrameComboBox.Location = new System.Drawing.Point(146, 56);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
 			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
@@ -3073,7 +3074,7 @@ namespace OtherTools
 		private StatusStrip ccStatusStrip;
 		private ToolStripStatusLabel ccToolStripStatusLabel1;
 		private ToolStripStatusLabel ccToolStripStatusLabel2;
-		private Button tcButton;
+		private CheckBox tcCheckBox;
 	}
 }
 

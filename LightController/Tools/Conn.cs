@@ -146,7 +146,10 @@ namespace LightController.Tools
                 {
                     this.Ip = "";
                     this.DeviceName = null;
-                    this.Socket.Close();
+                    if (this.Socket.Connected)
+                    {
+                        this.Socket.Close();
+                    }
                     this.IsSending = false;
                     this.IsUse = false;
                 }

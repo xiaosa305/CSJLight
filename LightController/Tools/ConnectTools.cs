@@ -80,6 +80,7 @@ namespace LightController.Tools
                 {
                     DeviceInfos.Add(ServerIp, new Dictionary<string, NetworkDeviceInfo>());
                 }
+                SocketTools.GetInstance().CloseAll();
                 Console.WriteLine("Start SerchDevice");
                 List<byte> buff = new List<byte>();
                 byte[] buffData = Encoding.Default.GetBytes(Constant.UDP_ORDER);

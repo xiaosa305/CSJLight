@@ -24,6 +24,7 @@ using LightController.Tools;
 using System.Net;
 using System.Net.Sockets;
 using LightController.MyForm.OtherTools;
+using LightController.MyForm;
 
 namespace OtherTools
 {
@@ -47,7 +48,7 @@ namespace OtherTools
 		private KeyEntity keyEntity;  // 墙板封装对象
 
 		private bool isReadLC = false;
-		private string protocolXlsPath = "C:\\Controller1.xls";
+		private string protocolXlsPath = Application.StartupPath + @"\CenterController\Controller.xls";
 		private HSSFWorkbook xlsWorkbook;
 		private IList<string> sheetList;
 
@@ -667,33 +668,40 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void loadProtocolButton_Click(object sender, EventArgs e)
 		{
-			using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
+			try
 			{
-				xlsWorkbook = new HSSFWorkbook(file);
-			}
-			sheetList = new List<string>();
-			protocolComboBox.Items.Clear();
-			protocolComboBox.SelectedIndex = -1;
-			for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
-			{
-				ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
-				sheetList.Add(sheet.SheetName);
-				protocolComboBox.Items.Add(sheet.SheetName);
-			}
+				using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
+				{
+					xlsWorkbook = new HSSFWorkbook(file);
+				}
+				sheetList = new List<string>();
+				protocolComboBox.Items.Clear();
+				protocolComboBox.SelectedIndex = -1;
+				for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
+				{
+					ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
+					sheetList.Add(sheet.SheetName);
+					protocolComboBox.Items.Add(sheet.SheetName);
+				}
 
-			if (sheetList.Count > 0)
-			{
-				protocolComboBox.SelectedIndex = 0;
-				isReadXLS = true;
-				reloadProtocolListView();
-				ccToolStripStatusLabel2.Text = "已加载xls文件：" + protocolXlsPath;
+				if (sheetList.Count > 0)
+				{
+					protocolComboBox.SelectedIndex = 0;
+					isReadXLS = true;
+					reloadProtocolListView();
+					ccToolStripStatusLabel2.Text = "已加载xls文件：" + protocolXlsPath;
+				}
+				else
+				{
+					isReadXLS = false;
+					MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
+					ccToolStripStatusLabel2.Text = "加载xls文件失败。";
+				}
 			}
-			else
-			{
-				isReadXLS = false;
-				MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
-				ccToolStripStatusLabel2.Text = "加载xls文件失败。";
+			catch (Exception ex) {
+				MessageBox.Show(ex.Message);
 			}
+			
 		}
 
 
@@ -1254,7 +1262,7 @@ namespace OtherTools
 						connectTools.Start(ip.ToString());
 						connectTools.SearchDevice();
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(500);						
+						Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);						
 					}					
 				}
 

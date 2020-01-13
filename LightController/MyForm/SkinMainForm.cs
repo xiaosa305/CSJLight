@@ -24,7 +24,7 @@ namespace LightController.MyForm
 	public partial class SkinMainForm : MainFormInterface
 	{
 		private bool isPainting = false;
-		
+		public static int NETWORK_WAITTIME = 1000;
 		public SkinMainForm()
 		{
 			InitializeComponent();
@@ -2147,8 +2147,7 @@ namespace LightController.MyForm
 		private void refreshComList()
 		{
 			// 动态加载可用的dmx512串口列表		 
-			deviceSkinComboBox.Items.Clear();
-			//Thread.Sleep(500);
+			deviceSkinComboBox.Items.Clear();			
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
 			if (comList != null && comList.Length > 0)
@@ -2188,7 +2187,7 @@ namespace LightController.MyForm
 					connectTools.Start( ip.ToString() );
 					connectTools.SearchDevice();					
 					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-					Thread.Sleep(500); 								
+					Thread.Sleep(SkinMainForm.NETWORK_WAITTIME); 								
 				}			
 			}
 

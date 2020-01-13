@@ -329,7 +329,7 @@ namespace LightController.MyForm
 			connectTools = ConnectTools.GetInstance();
 			connectTools.Start(localIP);
 			connectTools.SearchDevice();
-			Thread.Sleep(500);
+			Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);
 
 			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();			
 			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])

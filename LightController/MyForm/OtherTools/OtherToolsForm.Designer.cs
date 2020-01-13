@@ -529,6 +529,7 @@ namespace OtherTools
 			this.kpListenButton.TabIndex = 5;
 			this.kpListenButton.Text = "监听按键";
 			this.kpListenButton.UseVisualStyleBackColor = true;
+			this.kpListenButton.Visible = false;
 			this.kpListenButton.Click += new System.EventHandler(this.kpListenButton_Click);
 			// 
 			// keypressListView
@@ -735,7 +736,6 @@ namespace OtherTools
 			// 
 			this.lightTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(192)))), ((int)(((byte)(222)))));
 			this.lightTabPage.Controls.Add(this.tcCheckBox);
-			this.lightTabPage.Controls.Add(this.keepLightOnCheckBox);
 			this.lightTabPage.Controls.Add(this.lcStatusStrip);
 			this.lightTabPage.Controls.Add(this.lcGroupBox3);
 			this.lightTabPage.Controls.Add(this.lcGroupBox4);
@@ -757,7 +757,7 @@ namespace OtherTools
 			// tcCheckBox
 			// 
 			this.tcCheckBox.AutoSize = true;
-			this.tcCheckBox.Location = new System.Drawing.Point(146, 94);
+			this.tcCheckBox.Location = new System.Drawing.Point(35, 28);
 			this.tcCheckBox.Name = "tcCheckBox";
 			this.tcCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.tcCheckBox.TabIndex = 9;
@@ -768,7 +768,7 @@ namespace OtherTools
 			// keepLightOnCheckBox
 			// 
 			this.keepLightOnCheckBox.AutoSize = true;
-			this.keepLightOnCheckBox.Location = new System.Drawing.Point(34, 94);
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(96, -2);
 			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
 			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
 			this.keepLightOnCheckBox.TabIndex = 9;
@@ -1276,9 +1276,9 @@ namespace OtherTools
 			this.groupBox3.Controls.Add(this.lcLoadButton);
 			this.groupBox3.Controls.Add(this.lcSaveButton);
 			this.groupBox3.Controls.Add(this.lcReadButton);
-			this.groupBox3.Location = new System.Drawing.Point(482, 28);
+			this.groupBox3.Location = new System.Drawing.Point(482, 32);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(347, 58);
+			this.groupBox3.Size = new System.Drawing.Size(347, 63);
 			this.groupBox3.TabIndex = 5;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "系统";
@@ -1286,7 +1286,7 @@ namespace OtherTools
 			// lcDownloadButton
 			// 
 			this.lcDownloadButton.Enabled = false;
-			this.lcDownloadButton.Location = new System.Drawing.Point(92, 18);
+			this.lcDownloadButton.Location = new System.Drawing.Point(92, 20);
 			this.lcDownloadButton.Name = "lcDownloadButton";
 			this.lcDownloadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcDownloadButton.TabIndex = 4;
@@ -1296,7 +1296,7 @@ namespace OtherTools
 			// 
 			// lcLoadButton
 			// 
-			this.lcLoadButton.Location = new System.Drawing.Point(185, 18);
+			this.lcLoadButton.Location = new System.Drawing.Point(185, 20);
 			this.lcLoadButton.Name = "lcLoadButton";
 			this.lcLoadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcLoadButton.TabIndex = 4;
@@ -1307,7 +1307,7 @@ namespace OtherTools
 			// lcSaveButton
 			// 
 			this.lcSaveButton.Enabled = false;
-			this.lcSaveButton.Location = new System.Drawing.Point(266, 18);
+			this.lcSaveButton.Location = new System.Drawing.Point(266, 20);
 			this.lcSaveButton.Name = "lcSaveButton";
 			this.lcSaveButton.Size = new System.Drawing.Size(75, 30);
 			this.lcSaveButton.TabIndex = 4;
@@ -1319,7 +1319,7 @@ namespace OtherTools
 			// 
 			this.lcReadButton.BackColor = System.Drawing.Color.Transparent;
 			this.lcReadButton.Enabled = false;
-			this.lcReadButton.Location = new System.Drawing.Point(11, 18);
+			this.lcReadButton.Location = new System.Drawing.Point(11, 20);
 			this.lcReadButton.Name = "lcReadButton";
 			this.lcReadButton.Size = new System.Drawing.Size(75, 30);
 			this.lcReadButton.TabIndex = 4;
@@ -1331,9 +1331,9 @@ namespace OtherTools
 			// 
 			this.lcConnectButton.BackColor = System.Drawing.Color.SandyBrown;
 			this.lcConnectButton.Enabled = false;
-			this.lcConnectButton.Location = new System.Drawing.Point(29, 28);
+			this.lcConnectButton.Location = new System.Drawing.Point(32, 52);
 			this.lcConnectButton.Name = "lcConnectButton";
-			this.lcConnectButton.Size = new System.Drawing.Size(75, 51);
+			this.lcConnectButton.Size = new System.Drawing.Size(75, 38);
 			this.lcConnectButton.TabIndex = 4;
 			this.lcConnectButton.Text = "连接灯控";
 			this.lcConnectButton.UseVisualStyleBackColor = false;
@@ -1343,9 +1343,9 @@ namespace OtherTools
 			// 
 			this.groupBox2.Controls.Add(this.lightModeQHRadioButton);
 			this.groupBox2.Controls.Add(this.lightModeDJRadioButton);
-			this.groupBox2.Location = new System.Drawing.Point(283, 28);
+			this.groupBox2.Location = new System.Drawing.Point(283, 32);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(181, 58);
+			this.groupBox2.Size = new System.Drawing.Size(181, 63);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "灯光模式";
@@ -1538,7 +1538,7 @@ namespace OtherTools
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(150, 34);
+			this.label13.Location = new System.Drawing.Point(153, 35);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(71, 12);
 			this.label13.TabIndex = 2;
@@ -1567,7 +1567,7 @@ namespace OtherTools
             "场景14",
             "场景15",
             "场景16"});
-			this.qdFrameComboBox.Location = new System.Drawing.Point(146, 56);
+			this.qdFrameComboBox.Location = new System.Drawing.Point(149, 62);
 			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.qdFrameComboBox.Name = "qdFrameComboBox";
 			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
@@ -1577,7 +1577,8 @@ namespace OtherTools
 			// lightGroupBox
 			// 
 			this.lightGroupBox.Controls.Add(this.flowLayoutPanel1);
-			this.lightGroupBox.Location = new System.Drawing.Point(29, 130);
+			this.lightGroupBox.Controls.Add(this.keepLightOnCheckBox);
+			this.lightGroupBox.Location = new System.Drawing.Point(29, 129);
 			this.lightGroupBox.Name = "lightGroupBox";
 			this.lightGroupBox.Size = new System.Drawing.Size(812, 211);
 			this.lightGroupBox.TabIndex = 2;
@@ -2863,6 +2864,7 @@ namespace OtherTools
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
 			this.lightGroupBox.ResumeLayout(false);
+			this.lightGroupBox.PerformLayout();
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.centerTabPage.ResumeLayout(false);
 			this.centerTabPage.PerformLayout();

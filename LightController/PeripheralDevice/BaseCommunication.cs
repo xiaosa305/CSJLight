@@ -31,7 +31,6 @@ namespace LightController.PeripheralDevice
         private bool IsSending { get; set; }//发送进行中标记
         private bool IsStartCopy { get; set; }
         protected System.Timers.Timer TimeOutTimer { get; set; }//超时定时器
-        //private bool ThreadStatus { get; set; }//线程状态标记
         private bool IsStopThread { get; set; }//终止线程继续执行标记
         private byte[] Data { get; set; }//数据
         private int PackCount { get; set; }//通信分包总数
@@ -711,7 +710,6 @@ namespace LightController.PeripheralDevice
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
                 this.StopTimeOut();
-                Thread.Sleep(100);
                 this.SendData();
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
@@ -719,7 +717,6 @@ namespace LightController.PeripheralDevice
                 if (this.IsAck)
                 {
                     this.StopTimeOut();
-                    Console.WriteLine("中控下载 Done,关闭超时");
                 }
                 this.IsDone = true;
             }
@@ -730,21 +727,14 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsDone = true;
-                Console.WriteLine("中控下载 SendNext");
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_ACK))
             {
                 if (this.IsDone)
                 {
                     this.StopTimeOut();
-                    Console.WriteLine("中控下载 Ack，关闭超时");
                 }
                 this.IsAck = true;
-                Console.WriteLine("中控下载 Ack");
-            }
-            else
-            {
-                Console.WriteLine("中控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()));
             }
         }
         //墙板回复管理

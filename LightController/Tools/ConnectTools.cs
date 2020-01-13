@@ -153,6 +153,7 @@ namespace LightController.Tools
         }
         public Dictionary<string,Dictionary<string,NetworkDeviceInfo>> GetDeivceInfos()
         {
+            Thread.Sleep(500);
             return DeviceInfos;
         }
         //public IList<string> GetDevicesIp()

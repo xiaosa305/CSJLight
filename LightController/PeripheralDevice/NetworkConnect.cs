@@ -21,10 +21,6 @@ namespace LightController.PeripheralDevice
         private Socket Socket { get; set; }//网络连接套接字
         private byte[] ReceiveBuff { get; set; }//接收缓存区
         private int BuffCount { get; set; }
-
-        
-        private Socket ReceiveSocket { get; set; }
-
         public NetworkConnect(NetworkDeviceInfo deviceInfo)
         {
             this.Init();
@@ -94,8 +90,11 @@ namespace LightController.PeripheralDevice
                 {
                     byte[] buff = new byte[count];
                     Array.Copy(connect.ReceiveBuff, buff, count);
-                    ReadBuff.AddRange(buff);
-                    this.Receive();
+                    for (int i = 0; i < count; i++)
+                    {
+                        ReadBuff.Add(buff[i]);
+                        this.Receive();
+                    }
                     connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
                     this.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
                 }

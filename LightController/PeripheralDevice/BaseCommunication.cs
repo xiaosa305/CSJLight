@@ -711,7 +711,7 @@ namespace LightController.PeripheralDevice
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
                 this.StopTimeOut();
-                //Thread.Sleep(100);
+                Thread.Sleep(100);
                 this.SendData();
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))

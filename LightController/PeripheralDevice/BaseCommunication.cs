@@ -489,7 +489,7 @@ namespace LightController.PeripheralDevice
         {
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
-                this.StopTimeOut();
+				this.StopTimeOut();
                 this.SendData();
 
             }

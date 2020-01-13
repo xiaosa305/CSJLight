@@ -86,7 +86,7 @@ namespace LightController.MyForm
 
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected ConnectTools connectTools;
-		protected IList<IPAst> ipAstList; // 此列表存储所有建立连接的ipAst
+		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
 
 
 		// 动态导入场景到此静态变量中

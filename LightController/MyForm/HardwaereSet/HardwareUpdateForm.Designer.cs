@@ -30,7 +30,7 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HardwareUpdateForm));
-			this.networkDevicesComboBox = new System.Windows.Forms.ComboBox();
+			this.ipsComboBox = new System.Windows.Forms.ComboBox();
 			this.networkSearchSkinButton = new CCWin.SkinControl.SkinButton();
 			this.networkdUpdateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
@@ -63,14 +63,14 @@
 			// 
 			// networkDevicesComboBox
 			// 
-			this.networkDevicesComboBox.Enabled = false;
-			this.networkDevicesComboBox.FormattingEnabled = true;
-			this.networkDevicesComboBox.Location = new System.Drawing.Point(163, 80);
-			this.networkDevicesComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.networkDevicesComboBox.Name = "networkDevicesComboBox";
-			this.networkDevicesComboBox.Size = new System.Drawing.Size(281, 20);
-			this.networkDevicesComboBox.TabIndex = 5;
-			this.networkDevicesComboBox.SelectedIndexChanged += new System.EventHandler(this.networkDevicesComboBox_SelectedIndexChanged);
+			this.ipsComboBox.Enabled = false;
+			this.ipsComboBox.FormattingEnabled = true;
+			this.ipsComboBox.Location = new System.Drawing.Point(163, 80);
+			this.ipsComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.ipsComboBox.Name = "networkDevicesComboBox";
+			this.ipsComboBox.Size = new System.Drawing.Size(281, 20);
+			this.ipsComboBox.TabIndex = 5;
+			this.ipsComboBox.SelectedIndexChanged += new System.EventHandler(this.networkDevicesComboBox_SelectedIndexChanged);
 			// 
 			// networkSearchSkinButton
 			// 
@@ -155,7 +155,7 @@
 			this.networkPanel.Controls.Add(this.networkSearchSkinButton);
 			this.networkPanel.Controls.Add(this.networkdUpdateSkinButton);
 			this.networkPanel.Controls.Add(this.localIPsComboBox);
-			this.networkPanel.Controls.Add(this.networkDevicesComboBox);
+			this.networkPanel.Controls.Add(this.ipsComboBox);
 			this.networkPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkPanel.Location = new System.Drawing.Point(0, 0);
 			this.networkPanel.Name = "networkPanel";
@@ -412,7 +412,7 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.ComboBox networkDevicesComboBox;
+		private System.Windows.Forms.ComboBox ipsComboBox;
 		private CCWin.SkinControl.SkinButton networkSearchSkinButton;
 		private CCWin.SkinControl.SkinButton networkdUpdateSkinButton;
 		private CCWin.SkinControl.SkinTabControl skinTabControl;

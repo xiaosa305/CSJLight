@@ -24,6 +24,7 @@ using LightController.Tools;
 using System.Net;
 using System.Net.Sockets;
 using LightController.MyForm.OtherTools;
+using LightController.MyForm;
 
 namespace OtherTools
 {
@@ -35,8 +36,10 @@ namespace OtherTools
 			Normal,
 			Lc,
 			Cc,
-			Kp,
-			Tc
+			Kp
+			//	,			
+			//Tclc,
+			//Tccc
 		}
 
 		private IList<Button> buttonList = new List<Button>();		
@@ -45,7 +48,7 @@ namespace OtherTools
 		private KeyEntity keyEntity;  // 墙板封装对象
 
 		private bool isReadLC = false;
-		private string protocolXlsPath = "C:\\Controller1.xls";
+		private string protocolXlsPath = Application.StartupPath + @"\CenterController\Controller.xls";
 		private HSSFWorkbook xlsWorkbook;
 		private IList<string> sheetList;
 
@@ -74,7 +77,7 @@ namespace OtherTools
 
 			#region 初始化各组件		
 
-			// 初始化强电各种配置
+			// 初始化灯控（强电）各配置
 			qdFrameComboBox.SelectedIndex = 0;
 
 			lightButtons[0] = lightButton1;
@@ -112,19 +115,13 @@ namespace OtherTools
 			tgPanels[3] = tgPanel4;
 
 			fanChannelComboBoxes[0] = fanChannelComboBox;
-			fanChannelComboBoxes[1] = highFanChannelComboBox;
+			fanChannelComboBoxes[1] = lowFanChannelComboBox;
 			fanChannelComboBoxes[2] = midFanChannelComboBox;
-			fanChannelComboBoxes[3] = lowFanChannelComboBox;
+			fanChannelComboBoxes[3] = highFanChannelComboBox;
 			fanChannelComboBoxes[4] = fopenChannelComboBox;
-			fanChannelComboBoxes[5] = fcloseChannelComboBox;
-
-			foreach (ComboBox item in fanChannelComboBoxes)
-			{
-				item.SelectedIndex = 0;
-			}
+			fanChannelComboBoxes[5] = fcloseChannelComboBox;			
 
 			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
-
 
 			// 初始化墙板配置界面的TabControl
 			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -150,12 +147,12 @@ namespace OtherTools
 			// 灯控相关按键
 			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;			
 			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc && lcEntity != null ;
-			lcLoadButton.Enabled = connStatus == ConnectStatus.Lc;
+			//lcLoadButton.Enabled = connStatus == ConnectStatus.Lc;
 			lcSaveButton.Enabled = ccEntity != null;
 
 			// 灯控相关
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
-			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null;
+			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null && !isDecoding;
 
 			// 墙板相关按键			
 			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
@@ -175,7 +172,8 @@ namespace OtherTools
 				case ConnectStatus.Lc: setAllStatusLabel2("已切换为灯控配置"); break;
 				case ConnectStatus.Cc: setAllStatusLabel2("已切换为中控模式"); break;
 				case ConnectStatus.Kp: setAllStatusLabel2("已切换为墙板配置"); break;
-				case ConnectStatus.Tc: setAllStatusLabel2("已切换为透传模式"); break;
+				//case ConnectStatus.Tclc: setAllStatusLabel2("已切换为透传灯控模式"); break;
+				//case ConnectStatus.Tccc: setAllStatusLabel2("已切换为透传中控模式"); break;
 				default: setAllStatusLabel2(""); break;
 			}
 
@@ -326,6 +324,7 @@ namespace OtherTools
 				lcGroupBox3.Enabled = false;
 				lcGroupBox4.Enabled = false;
 				lcGroupBox5.Enabled = false;
+				refreshButtons();
 				return;
 			}
 
@@ -366,9 +365,41 @@ namespace OtherTools
 					}
 				}
 
+				//TODO : 直接通过通道数量，把后六位给固定的排风及空调通道
+				//for (int lightIndex = 0; lightIndex < 6;  lightIndex++) {
+				//		fanChannelComboBoxes[lightIndex].Items.Add("通道"+ (lcEntity.RelayCount - 6 + lightIndex + 1) );
+				//		fanChannelComboBoxes[lightIndex].SelectedIndex = 0;
+				//}
+
+				fanChannelComboBox.Items.Clear();
+				fanChannelComboBox.Items.Add("通道"+(lcEntity.FanChannel + 1));
+				fanChannelComboBox.SelectedIndex = 0;
+
+				lowFanChannelComboBox.Items.Clear();
+				lowFanChannelComboBox.Items.Add("通道" +( lcEntity.LowFanChannel + 1));
+				lowFanChannelComboBox.SelectedIndex = 0;
+
+				highFanChannelComboBox.Items.Clear();
+				highFanChannelComboBox.Items.Add("通道" + (lcEntity.HighFanChannel + 1));
+				highFanChannelComboBox.SelectedIndex = 0;
+
+				midFanChannelComboBox.Items.Clear();
+				midFanChannelComboBox.Items.Add("通道" + (lcEntity.MiddleFanChannel + 1 ));
+				midFanChannelComboBox.SelectedIndex = 0;
+
+				fopenChannelComboBox.Items.Clear();
+				fopenChannelComboBox.Items.Add("通道" + ( lcEntity.OpenAirConditionChannel+ 1));
+				fopenChannelComboBox.SelectedIndex = 0;
+
+				fcloseChannelComboBox.Items.Clear();
+				fcloseChannelComboBox.Items.Add("通道" + (lcEntity.CloseAirConditionChannel +1) );
+				fcloseChannelComboBox.SelectedIndex = 0;
+
 				enableLCInit();
 				enableAirCondition();
 				enableFan();
+
+				refreshButtons();
 			}
 			catch (Exception ex) {
 				Console.WriteLine(ex.Message);
@@ -400,7 +431,8 @@ namespace OtherTools
 		private void enableFan()
 		{
 			fanChannelComboBox.Enabled = lcEntity.IsOpenFan;
-			lightButton7.Visible = !lcEntity.IsOpenFan;
+			int lightIndex = Convert.ToInt16(fanChannelComboBox.Text.Substring(2)) -1 ;
+			lightButtons[lightIndex].Visible = !lcEntity.IsOpenFan;
 			fanButton.Text = lcEntity.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
 		}
 
@@ -416,11 +448,11 @@ namespace OtherTools
 			fopenChannelComboBox.Enabled = lcEntity.IsOpenAirCondition;
 			fcloseChannelComboBox.Enabled = lcEntity.IsOpenAirCondition;
 
-			// 在启用或禁用空调后，应该让空调占用的通道隐藏或显示出来，为避免错误，先用一个三目运算取出相应的数据。
-			int maxLightIndex = lcEntity.RelayCount < 12 ? lcEntity.RelayCount : 12;
-			for (int i = 7; i < maxLightIndex; i++)
+			// 在启用或禁用空调后，应该让空调占用的通道隐藏或显示出来，为避免错误，先用一个三目运算取出相应的数据。			
+			for (int lightIndex = 1; lightIndex < 6; lightIndex++)
 			{
-				lightButtons[i].Visible = !lcEntity.IsOpenAirCondition;
+				int tempIndex = lcEntity.RelayCount - 6 + lightIndex;
+				lightButtons[tempIndex].Visible = !lcEntity.IsOpenAirCondition;
 			}
 			acButton.Text = lcEntity.IsOpenAirCondition ? "点击禁用\r\n空调通道" : "点击启用\r\n空调通道";
 		}
@@ -475,7 +507,14 @@ namespace OtherTools
 			}
 
 			byte[] tempData = lcEntity.GetFrameBytes(lcFrameIndex);
-			myConnect.LightControlDebug(tempData, ComLCSendCompleted, ComLCSendError);
+			if (tcCheckBox.Checked) {
+				myConnect.PassThroughLightControlDebug(tempData, LCSendCompleted, LCSendError);
+			}
+			else
+			{
+				myConnect.LightControlDebug(tempData, LCSendCompleted, LCSendError);
+			}
+
 		}
 
 		/// <summary>
@@ -562,7 +601,27 @@ namespace OtherTools
 		private void cfgSaveFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
 			string cfgPath = cfgSaveFileDialog.FileName;
+
+			// 保存之前，因为设备处理的原因，需要把屏蔽掉的通道（启用排风或空调）的SceneData都设为false（若未保存，则无需如此；可供用户正常使用，避免误删）
+			for (int frame = 0; frame < 17; frame++)
+			{
+				if (lcEntity.IsOpenFan) {				
+					lcEntity.SceneData[frame, lcEntity.FanChannel] = false;
+				}
+				if (lcEntity.IsOpenAirCondition)
+				{
+					lcEntity.SceneData[frame, lcEntity.LowFanChannel] = false;
+					lcEntity.SceneData[frame, lcEntity.MiddleFanChannel] = false;
+					lcEntity.SceneData[frame, lcEntity.HighFanChannel] = false;
+					lcEntity.SceneData[frame, lcEntity.OpenAirConditionChannel] = false;
+					lcEntity.SceneData[frame, lcEntity.CloseAirConditionChannel] = false;
+				}			
+			}
+
 			lcEntity.WriteToFile(cfgPath);
+
+			//保存成功后，手动重新加载一下LightGroupBox(因为没有更换场景）
+			reloadLightGroupBox();
 			MessageBox.Show("成功保存配置文件(" + cfgPath + ")");
 			lcToolStripStatusLabel2.Text = "成功保存配置文件(" + cfgPath + ")";
 		}
@@ -590,7 +649,15 @@ namespace OtherTools
 				lcToolStripStatusLabel2.Text = "当前myConnect==null，无法下载数据";
 				return;				
 			}
-			myConnect.LightControlDownload(lcEntity, ComLCDownloadCompleted, ComLCDownloadError);			
+
+			if (tcCheckBox.Checked) {
+				myConnect.PassThroughLightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
+			}
+			else
+			{
+				myConnect.LightControlDownload(lcEntity, LCDownloadCompleted, LCDownloadError);
+			}
+		
 		}
 
 
@@ -601,33 +668,40 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void loadProtocolButton_Click(object sender, EventArgs e)
 		{
-			using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
+			try
 			{
-				xlsWorkbook = new HSSFWorkbook(file);
-			}
-			sheetList = new List<string>();
-			protocolComboBox.Items.Clear();
-			protocolComboBox.SelectedIndex = -1;
-			for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
-			{
-				ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
-				sheetList.Add(sheet.SheetName);
-				protocolComboBox.Items.Add(sheet.SheetName);
-			}
+				using (FileStream file = new FileStream(protocolXlsPath, FileMode.Open, FileAccess.Read))
+				{
+					xlsWorkbook = new HSSFWorkbook(file);
+				}
+				sheetList = new List<string>();
+				protocolComboBox.Items.Clear();
+				protocolComboBox.SelectedIndex = -1;
+				for (int protocolIndex = 0; protocolIndex < xlsWorkbook.NumberOfSheets; protocolIndex++)
+				{
+					ISheet sheet = xlsWorkbook.GetSheetAt(protocolIndex);
+					sheetList.Add(sheet.SheetName);
+					protocolComboBox.Items.Add(sheet.SheetName);
+				}
 
-			if (sheetList.Count > 0)
-			{
-				protocolComboBox.SelectedIndex = 0;
-				isReadXLS = true;
-				reloadProtocolListView();
-				ccToolStripStatusLabel2.Text = "已加载xls文件：" + protocolXlsPath;
+				if (sheetList.Count > 0)
+				{
+					protocolComboBox.SelectedIndex = 0;
+					isReadXLS = true;
+					reloadProtocolListView();
+					ccToolStripStatusLabel2.Text = "已加载xls文件：" + protocolXlsPath;
+				}
+				else
+				{
+					isReadXLS = false;
+					MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
+					ccToolStripStatusLabel2.Text = "加载xls文件失败。";
+				}
 			}
-			else
-			{
-				isReadXLS = false;
-				MessageBox.Show("请检查打开的xls文件是否正确，该文件的Sheet数量为0。");
-				ccToolStripStatusLabel2.Text = "加载xls文件失败。";
+			catch (Exception ex) {
+				MessageBox.Show(ex.Message);
 			}
+			
 		}
 
 
@@ -641,11 +715,12 @@ namespace OtherTools
 			// 点击《关闭解码》
 			if (isDecoding)
 			{
-				myConnect.CenterControlStopCopy(ComCCStopCompleted, ComCCStopError);
+				myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
 			}
 			// 点击《开启解码》
 			else {
-				myConnect.CenterControlStartCopy(ComCCStartCompleted, ComCCStartError, ComCCListen);
+				myConnect.CenterControlStartCopy(CCStartCompleted, CCStartError, CCListen);
+				
 			}
 		}
 
@@ -741,7 +816,7 @@ namespace OtherTools
 			}
 
 			ccToolStripStatusLabel2.Text = "正在下载中控数据，请稍候...";
-			myConnect.CenterControlDownload(ccEntity, ComCCDownloadCompleted, ComCCDownloadError);
+			myConnect.CenterControlDownload(ccEntity, CCDownloadCompleted, CCDownloadError);
 			
 		}
 
@@ -1133,7 +1208,11 @@ namespace OtherTools
 		{
 			// 切换前都先断开连接
 			if (myConnect != null) {
-				myConnect.DisConnect();
+				if (connStatus > ConnectStatus.No)
+				{
+					myConnect.DisConnect();
+				}
+				setConnStatus(ConnectStatus.No);
 				myConnect = null ;
 			}
 			
@@ -1175,6 +1254,7 @@ namespace OtherTools
 				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
 				ipaList = new List<IPAst>();
 
+				setAllStatusLabel1("正在搜索网络设备，请稍候...");
 				foreach (IPAddress ip in ipe.AddressList)
 				{
 					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
@@ -1182,38 +1262,40 @@ namespace OtherTools
 						connectTools.Start(ip.ToString());
 						connectTools.SearchDevice();
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(500);					
-						Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();						
-						if (allDevices.Count > 0)
+						Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);						
+					}					
+				}
+
+				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+				if (allDevices.Count > 0)
+				{
+					foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
+					{
+						foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
 						{
-							foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
-							{
-								foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
-								{
-									deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
-									ipaList.Add(new IPAst() {
-										LocalIP = ip.ToString(),
-										DeviceIP = d2.Value.DeviceIp,
-										DeviceName = d2.Value.DeviceName
-									});
-								}
-							}
+							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
+							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")" + localIPLast);
+							ipaList.Add(new IPAst()	{LocalIP = device.Key,DeviceIP = d2.Value.DeviceIp,DeviceName = d2.Value.DeviceName});
 						}
 					}
-				}							
+				}
 			}
 
 			if (deviceComboBox.Items.Count == 0)
 			{
-				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");				
+				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
 				connectButton.Enabled = false;
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
+				setConnStatus(ConnectStatus.No);
 			}
 			else {
 				connectButton.Enabled = true;
 				deviceComboBox.Enabled = true;
 				deviceComboBox.SelectedIndex = 0;
+				setAllStatusLabel1("已搜到可用设备列表。");
+				setConnStatus(ConnectStatus.No);
 			}
 		}
 
@@ -1289,8 +1371,16 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcReadButton_Click(object sender, EventArgs e)
 		{
-			myConnect.LightControlRead(ComLCReadCompleted, ComLCReadError);
-			lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			if (tcCheckBox.Checked) {
+				myConnect.PassThroughLightControlRead(LCReadCompleted, LCReadError);
+				lcToolStripStatusLabel2.Text = "正在回读灯控配置(tc)，请稍候...";
+			}
+			else
+			{
+				myConnect.LightControlRead(LCReadCompleted, LCReadError);
+				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
+			}
+
 		}
 
 		/// <summary>
@@ -1298,10 +1388,10 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="obj"></param>
 		public void LCConnectCompleted(Object obj) {
-			Invoke((EventHandler)delegate {				
-				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc)";
+			Invoke((EventHandler)delegate {
+				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked?"-tc":"") +")";
 				setConnStatus(ConnectStatus.Lc);
-				lcReadButton_Click(null,null);
+				lcReadButton_Click(null, null);
 			});
 		}
 
@@ -1336,8 +1426,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate {
 				ccToolStripStatusLabel2.Text = "切换中控配置失败";
-				ccDecodeButton.Enabled = false;
-				ccDownloadButton.Enabled = false;
+				refreshButtons();
 			});
 		}
 
@@ -1345,11 +1434,11 @@ namespace OtherTools
 		///  辅助回调方法：灯控debug(实时调试的数据)发送成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComLCSendCompleted(Object obj)
+		public void LCSendCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate
 			{
-				
+				Console.WriteLine("灯控debug(实时调试的数据)发送成功");
 			});
 		}
 
@@ -1357,11 +1446,11 @@ namespace OtherTools
 		///  辅助回调方法：灯控debug发送出错
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComLCSendError()
+		public void LCSendError()
 		{
 			Invoke((EventHandler)delegate
 			{
-				lcToolStripStatusLabel2.Text = "灯控已离线，发送失败，请重新连接后重试";
+				lcToolStripStatusLabel2.Text = "灯控已离线，发送debug数据失败，请重新连接后重试";
 			});
 		}
 
@@ -1369,7 +1458,7 @@ namespace OtherTools
 		/// 辅助回调方法：灯控数据回读成功
 		/// </summary>
 		/// <param name="lcDataTemp"></param>
-		public void ComLCReadCompleted(Object lcDataTemp)
+		public void LCReadCompleted(Object lcDataTemp)
 		{
 			Invoke((EventHandler)delegate {
 				if (lcDataTemp == null)
@@ -1380,7 +1469,7 @@ namespace OtherTools
 				}
 
 				lcEntity = lcDataTemp as LightControlData;
-				lcSetForm();
+				lcSetForm();								
 				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 			});
 		}
@@ -1388,7 +1477,7 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：灯控配置回读失败
 		/// </summary>
-		public void ComLCReadError()
+		public void LCReadError()
 		{
 			Invoke((EventHandler)delegate {
 				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
@@ -1399,7 +1488,7 @@ namespace OtherTools
 		/// 辅助回调方法：灯控配置下载成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComLCDownloadCompleted(Object obj)
+		public void LCDownloadCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
 				if (isConnectByCom)
@@ -1422,7 +1511,7 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：灯控配置下载错误
 		/// </summary>
-		public void ComLCDownloadError()
+		public void LCDownloadError()
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1434,7 +1523,7 @@ namespace OtherTools
 		/// 辅助回调方法：中控配置下载成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComCCDownloadCompleted(Object obj)
+		public void CCDownloadCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
 				if (isConnectByCom)
@@ -1442,6 +1531,11 @@ namespace OtherTools
 					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";
 					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
 					Thread.Sleep(5000);
+
+					isDecoding = false;
+					ccDecodeButton.Text = "开启解码";
+					ccDecodeButton.Enabled = false;
+
 					ccConnectButton_Click(null, null);
 				}
 				else {
@@ -1458,7 +1552,7 @@ namespace OtherTools
 		/// <summary>
 		///  辅助回调方法：中控配置下载失败
 		/// </summary>
-		public void ComCCDownloadError()
+		public void CCDownloadError()
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1470,7 +1564,7 @@ namespace OtherTools
 		/// 辅助回调方法：启动《中控-调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComCCStartCompleted(Object obj)
+		public void CCStartCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1478,13 +1572,14 @@ namespace OtherTools
 				isDecoding = true;
 				ccDecodeButton.Text = "关闭解码" ;
 				ccDecodeRichTextBox.Enabled = true;
+				refreshButtons();
 			});
 		}
 
 		/// <summary>
 		/// 辅助回调方法：启动《中控-调试解码》失败
 		/// </summary>
-		public void ComCCStartError()
+		public void CCStartError()
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1496,7 +1591,7 @@ namespace OtherTools
 		/// 辅助回调方法：成功回读《中控-点击的红外码值》
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComCCListen(Object obj)
+		public void CCListen(Object obj)
 		{
 			Invoke((EventHandler)delegate {
 				List<byte> byteList = obj as List<byte>;
@@ -1518,7 +1613,7 @@ namespace OtherTools
 		///  辅助回调方法：结束《中控-调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComCCStopCompleted(Object obj)
+		public void CCStopCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1526,6 +1621,7 @@ namespace OtherTools
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
 				ccDecodeRichTextBox.Enabled = false ;
+				refreshButtons();
 			});
 		}
 
@@ -1534,7 +1630,7 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：结束《中控-调试解码》失败
 		/// </summary>
-		public void ComCCStopError()
+		public void CCStopError()
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1553,7 +1649,6 @@ namespace OtherTools
 			ccEntity.GetData();
 		}
 
-
 		/// <summary>
 		/// 事件：点击《连接中控》
 		/// </summary>
@@ -1571,7 +1666,14 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcConnectButton_Click(object sender, EventArgs e)
 		{
-			myConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
+			if (tcCheckBox.Checked)
+			{
+				myConnect.PassThroughLightControlConnect(LCConnectCompleted, LCConnectError);
+			}
+			else {
+				myConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
+			}
+			
 		}
 
 
@@ -1582,14 +1684,14 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpConnectButton_Click(object sender, EventArgs e)
 		{
-			myConnect.PassThroughKeyPressConnect(ComKPFirstConnectCompleted, ComKPConnectError);
+			myConnect.PassThroughKeyPressConnect(KPFirstConnectCompleted, KPConnectError);
 		}
 
 		/// <summary>
 		/// 辅助回调方法： 连接墙板成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComKPFirstConnectCompleted(Object obj)
+		public void KPFirstConnectCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1647,8 +1749,8 @@ namespace OtherTools
 		private void kpOnTimer(object sender, ElapsedEventArgs e)
 		{
 			Invoke((EventHandler)delegate {
-				if (myConnect != null) {
-					myConnect.PassThroughKeyPressConnect(ComKPTimerConnectCompleted, ComKPConnectError);	
+				if (myConnect != null && connStatus == ConnectStatus.Kp) {				
+					myConnect.PassThroughKeyPressConnect(KPTimerConnectCompleted, KPConnectError);	
 				}
 			});
 		}
@@ -1657,7 +1759,7 @@ namespace OtherTools
 		/// 辅助回调方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作（代码中只有后台打印的代码，方便调试）
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComKPTimerConnectCompleted(Object obj)
+		public void KPTimerConnectCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1668,13 +1770,14 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：连接墙板失败
 		/// </summary>
-		public void ComKPConnectError()
+		public void KPConnectError()
 		{
 			Invoke((EventHandler)delegate
 			{				
-				kpToolStripStatusLabel2.Text = "连接墙板失败";			
+				kpToolStripStatusLabel2.Text = "连接墙板失败";
 
 				//MARK：连接墙板失败，是否还要进行其他操作？
+				setConnStatus(ConnectStatus.No);
 				//keypressListView.Enabled = false;
 				//clearKeypressListView();
 			});
@@ -1701,7 +1804,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpListenButton_Click(object sender, EventArgs e)
 		{
-			myConnect.PassThroughKeyPressSetClickListener(ComKPStartListenClick);
+			myConnect.PassThroughKeyPressSetClickListener(KPStartListenClick);
 		}
 
 		/// <summary>
@@ -1711,17 +1814,17 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpReadButton_Click(object sender, EventArgs e)
 		{
-			myConnect.PassThroughKeyPressRead(ComKPReadCompleted, ComKPReadError);
+			myConnect.PassThroughKeyPressRead(KPReadCompleted, KPReadError);
 			kpToolStripStatusLabel2.Text = "正在读取墙板码值，请稍候..." ;
 			this.Cursor = Cursors.WaitCursor;
 			this.Enabled = false;
 		}
 
 		/// <summary>
-		///  读取墙板码值成功
+		///  辅助回调方法：读取墙板码值成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComKPReadCompleted(Object obj)
+		public void KPReadCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1740,9 +1843,9 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 读取墙板码值失败
+		/// 辅助回调方法：读取墙板码值失败
 		/// </summary>
-		public void ComKPReadError()
+		public void KPReadError()
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1757,7 +1860,7 @@ namespace OtherTools
 		///  读取用户点击的墙板键值（键序+一种不需理会的编码）
 		/// </summary>
 		/// <param name="obj"></param>
-		public void ComKPStartListenClick(Object obj)
+		public void KPStartListenClick(Object obj)
 		{			
 			Invoke((EventHandler)delegate
 			{	
@@ -2003,7 +2106,7 @@ namespace OtherTools
 		}
 
 		/// <summary>
-		/// 若是下载墙板成功，运行此回调方法
+		/// 辅助回调方法：下载墙板成功
 		/// </summary>
 		/// <param name="obj"></param>
 		private void KeypressDownloadCompleted(object obj)
@@ -2026,6 +2129,11 @@ namespace OtherTools
 				kpToolStripStatusLabel2.Text = "下载墙板码值失败";
 				MessageBox.Show("下载墙板码值失败");
 			});
+		}
+
+		private void tcCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			setConnStatus(ConnectStatus.Normal);
 		}
 	}
 }

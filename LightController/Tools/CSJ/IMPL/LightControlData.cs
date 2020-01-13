@@ -187,15 +187,7 @@ namespace LightController.Tools.CSJ.IMPL
             string strValue = "";
             for (int i = 0; i < data.Length; i++)
             {
-                strValue = strValue + data[i].ToString() + "\r\n\n";
-                //if (i == data.Length - 1)
-                //{
-                //    strValue = strValue + data[i].ToString();
-                //}
-                //else
-                //{
-                //    strValue = strValue + data[i].ToString() + "\r\n\n";
-                //}
+                strValue = strValue + data[i].ToString() + "\r\n";
             }
             File.WriteAllText(filepath, strValue);
         }

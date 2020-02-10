@@ -48,7 +48,8 @@ namespace LightController.MyForm
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
 			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.ymSkinButton = new CCWin.SkinControl.SkinButton();
-			this.otherToolsSkinButton = new CCWin.SkinControl.SkinButton();
+			this.otherToolsSkinButton1 = new CCWin.SkinControl.SkinButton();
+			this.otherToolsSkinButton2 = new CCWin.SkinControl.SkinButton();
 			this.exitSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.projectLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -596,7 +597,7 @@ namespace LightController.MyForm
 			// 
 			// bigTestButton
 			// 
-			this.bigTestButton.Location = new System.Drawing.Point(854, 19);
+			this.bigTestButton.Location = new System.Drawing.Point(937, 21);
 			this.bigTestButton.Name = "bigTestButton";
 			this.bigTestButton.Size = new System.Drawing.Size(129, 63);
 			this.bigTestButton.TabIndex = 21;
@@ -611,7 +612,7 @@ namespace LightController.MyForm
 			this.testGroupBox.Controls.Add(this.test3Button);
 			this.testGroupBox.Controls.Add(this.test2Button);
 			this.testGroupBox.Controls.Add(this.test1Button);
-			this.testGroupBox.Location = new System.Drawing.Point(1034, 19);
+			this.testGroupBox.Location = new System.Drawing.Point(1096, 21);
 			this.testGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.testGroupBox.Name = "testGroupBox";
 			this.testGroupBox.Padding = new System.Windows.Forms.Padding(2);
@@ -673,10 +674,11 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.lightListSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.globalSetSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.ymSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.otherToolsSkinButton);
+			this.flowLayoutPanel1.Controls.Add(this.otherToolsSkinButton1);
+			this.flowLayoutPanel1.Controls.Add(this.otherToolsSkinButton2);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 2);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(758, 100);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(859, 100);
 			this.flowLayoutPanel1.TabIndex = 5;
 			// 
 			// lightLibrarySkinButton
@@ -874,33 +876,61 @@ namespace LightController.MyForm
 			this.ymSkinButton.UseVisualStyleBackColor = false;
 			this.ymSkinButton.Click += new System.EventHandler(this.ymSkinButton_Click);
 			// 
-			// otherToolsSkinButton
+			// otherToolsSkinButton1
 			// 
-			this.otherToolsSkinButton.AutoSize = true;
-			this.otherToolsSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.otherToolsSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.otherToolsSkinButton.BorderColor = System.Drawing.Color.White;
-			this.otherToolsSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.otherToolsSkinButton.DownBack = null;
-			this.otherToolsSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.otherToolsSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.otherToolsSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.otherToolsSkinButton.ForeColorSuit = true;
-			this.otherToolsSkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
-			this.otherToolsSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.otherToolsSkinButton.InheritColor = true;
-			this.otherToolsSkinButton.IsDrawBorder = false;
-			this.otherToolsSkinButton.Location = new System.Drawing.Point(660, 2);
-			this.otherToolsSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.otherToolsSkinButton.MouseBack = null;
-			this.otherToolsSkinButton.Name = "otherToolsSkinButton";
-			this.otherToolsSkinButton.NormlBack = null;
-			this.otherToolsSkinButton.Size = new System.Drawing.Size(90, 96);
-			this.otherToolsSkinButton.TabIndex = 5;
-			this.otherToolsSkinButton.Text = "其他工具";
-			this.otherToolsSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.otherToolsSkinButton.UseVisualStyleBackColor = false;
-			this.otherToolsSkinButton.Click += new System.EventHandler(this.otherToolsSkinButton_Click);
+			this.otherToolsSkinButton1.AutoSize = true;
+			this.otherToolsSkinButton1.BackColor = System.Drawing.Color.Transparent;
+			this.otherToolsSkinButton1.BaseColor = System.Drawing.Color.Transparent;
+			this.otherToolsSkinButton1.BorderColor = System.Drawing.Color.White;
+			this.otherToolsSkinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.otherToolsSkinButton1.DownBack = null;
+			this.otherToolsSkinButton1.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.otherToolsSkinButton1.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.otherToolsSkinButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.otherToolsSkinButton1.ForeColorSuit = true;
+			this.otherToolsSkinButton1.Image = global::LightController.Properties.Resources.灯库编辑;
+			this.otherToolsSkinButton1.ImageSize = new System.Drawing.Size(50, 50);
+			this.otherToolsSkinButton1.InheritColor = true;
+			this.otherToolsSkinButton1.IsDrawBorder = false;
+			this.otherToolsSkinButton1.Location = new System.Drawing.Point(660, 2);
+			this.otherToolsSkinButton1.Margin = new System.Windows.Forms.Padding(2);
+			this.otherToolsSkinButton1.MouseBack = null;
+			this.otherToolsSkinButton1.Name = "otherToolsSkinButton1";
+			this.otherToolsSkinButton1.NormlBack = null;
+			this.otherToolsSkinButton1.Size = new System.Drawing.Size(90, 96);
+			this.otherToolsSkinButton1.TabIndex = 5;
+			this.otherToolsSkinButton1.Text = "外设配置";
+			this.otherToolsSkinButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.otherToolsSkinButton1.UseVisualStyleBackColor = false;
+			this.otherToolsSkinButton1.Click += new System.EventHandler(this.otherToolsSkinButton_Click);
+			// 
+			// otherToolsSkinButton2
+			// 
+			this.otherToolsSkinButton2.AutoSize = true;
+			this.otherToolsSkinButton2.BackColor = System.Drawing.Color.Transparent;
+			this.otherToolsSkinButton2.BaseColor = System.Drawing.Color.Transparent;
+			this.otherToolsSkinButton2.BorderColor = System.Drawing.Color.White;
+			this.otherToolsSkinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.otherToolsSkinButton2.DownBack = null;
+			this.otherToolsSkinButton2.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.otherToolsSkinButton2.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.otherToolsSkinButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.otherToolsSkinButton2.ForeColorSuit = true;
+			this.otherToolsSkinButton2.Image = global::LightController.Properties.Resources.灯库编辑;
+			this.otherToolsSkinButton2.ImageSize = new System.Drawing.Size(50, 50);
+			this.otherToolsSkinButton2.InheritColor = true;
+			this.otherToolsSkinButton2.IsDrawBorder = false;
+			this.otherToolsSkinButton2.Location = new System.Drawing.Point(754, 2);
+			this.otherToolsSkinButton2.Margin = new System.Windows.Forms.Padding(2);
+			this.otherToolsSkinButton2.MouseBack = null;
+			this.otherToolsSkinButton2.Name = "otherToolsSkinButton2";
+			this.otherToolsSkinButton2.NormlBack = null;
+			this.otherToolsSkinButton2.Size = new System.Drawing.Size(95, 96);
+			this.otherToolsSkinButton2.TabIndex = 5;
+			this.otherToolsSkinButton2.Text = "旧外设配置";
+			this.otherToolsSkinButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.otherToolsSkinButton2.UseVisualStyleBackColor = false;
+			this.otherToolsSkinButton2.Click += new System.EventHandler(this.otherToolsSkinButton2_Click);
 			// 
 			// exitSkinButton
 			// 
@@ -7116,7 +7146,7 @@ namespace LightController.MyForm
 		private ToolStripMenuItem hideProjectPanelToolStripMenuItem;
 		private ToolStripMenuItem hideAstPanelToolStripMenuItem;
 		private ToolStripMenuItem hidePlayPanelToolStripMenuItem;
-		private SkinButton otherToolsSkinButton;
+		private SkinButton otherToolsSkinButton1;
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripMenuItem hideMenuPanelToolStripMenuItem2;
 		private ToolStripMenuItem hideProjectPanelToolStripMenuItem2;
@@ -7140,5 +7170,6 @@ namespace LightController.MyForm
 		private System.ComponentModel.BackgroundWorker bgWorker;
 		private StatusStrip noticeStatusStrip;
 		private ToolStripStatusLabel noticeLabel;
+		private SkinButton otherToolsSkinButton2;
 	}
 }

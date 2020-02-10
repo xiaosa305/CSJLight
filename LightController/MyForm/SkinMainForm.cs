@@ -487,8 +487,7 @@ namespace LightController.MyForm
 				connectSkinButton_Click(null, null);
 			}
 
-			new OtherToolsForm(this).ShowDialog();
-			new ToolsForm(this).ShowDialog();
+			new NewToolsForm(this).ShowDialog();			
 		}
 
 		/// <summary>
@@ -3026,6 +3025,20 @@ namespace LightController.MyForm
 			noticeLabel.Text = noticeText;
 		}
 
+		/// <summary>
+		/// 事件：点击《旧版外设配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void otherToolsSkinButton2_Click(object sender, EventArgs e)
+		{
+			// 若要进入《其他工具》，应该先将连接断开
+			if (isConnected)
+			{
+				connectSkinButton_Click(null, null);
+			}
+			new OldToolsForm(this).ShowDialog();
+		}
 	}
 
 

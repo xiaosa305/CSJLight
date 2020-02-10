@@ -14,10 +14,10 @@ namespace LightController.MyForm.OtherTools
 {
 	public partial class KpPositionSaveForm : Form
 	{
-		private OtherToolsForm otForm;
+		private NewToolsForm otForm;
 		private string kpPosPath;
 
-		public KpPositionSaveForm(OtherToolsForm otForm,int keyCount)
+		public KpPositionSaveForm(NewToolsForm otForm,int keyCount)
 		{
 			InitializeComponent();
 

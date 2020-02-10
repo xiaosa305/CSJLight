@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace OtherTools
 {
-	partial class OtherToolsForm
+	partial class NewToolsForm
 	{
 		/// <summary>
 		/// 必需的设计器变量。
@@ -32,7 +32,7 @@ namespace OtherTools
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OtherToolsForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewToolsForm));
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label5 = new System.Windows.Forms.Label();
@@ -79,7 +79,6 @@ namespace OtherTools
 			this.kpKey0TextBox = new System.Windows.Forms.TextBox();
 			this.lightTabPage = new System.Windows.Forms.TabPage();
 			this.tcCheckBox = new System.Windows.Forms.CheckBox();
-			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.lcStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.lcToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lcToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -112,6 +111,10 @@ namespace OtherTools
 			this.ktAutoRadioButton = new System.Windows.Forms.RadioButton();
 			this.ktHighRadioButton = new System.Windows.Forms.RadioButton();
 			this.ktLowRadioButton = new System.Windows.Forms.RadioButton();
+			this.lrGroupBox = new System.Windows.Forms.GroupBox();
+			this.zlRadioButton3 = new System.Windows.Forms.RadioButton();
+			this.zlRadioButton1 = new System.Windows.Forms.RadioButton();
+			this.zlRadioButton2 = new System.Windows.Forms.RadioButton();
 			this.fjGroupBox = new System.Windows.Forms.GroupBox();
 			this.fjJYRadioButton = new System.Windows.Forms.RadioButton();
 			this.fjDXFRadioButton = new System.Windows.Forms.RadioButton();
@@ -119,10 +122,6 @@ namespace OtherTools
 			this.ktwdGroupBox = new System.Windows.Forms.GroupBox();
 			this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
 			this.label10 = new System.Windows.Forms.Label();
-			this.lrGroupBox = new System.Windows.Forms.GroupBox();
-			this.zlRadioButton3 = new System.Windows.Forms.RadioButton();
-			this.zlRadioButton1 = new System.Windows.Forms.RadioButton();
-			this.zlRadioButton2 = new System.Windows.Forms.RadioButton();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.lcDownloadButton = new System.Windows.Forms.Button();
 			this.lcLoadButton = new System.Windows.Forms.Button();
@@ -177,6 +176,7 @@ namespace OtherTools
 			this.lightButton22 = new CCWin.SkinControl.SkinButton();
 			this.lightButton23 = new CCWin.SkinControl.SkinButton();
 			this.lightButton24 = new CCWin.SkinControl.SkinButton();
+			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.centerTabPage = new System.Windows.Forms.TabPage();
 			this.ccStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.ccToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -245,10 +245,10 @@ namespace OtherTools
 			this.panel3.SuspendLayout();
 			this.lcGroupBox5.SuspendLayout();
 			this.ktmsGroupBox.SuspendLayout();
+			this.lrGroupBox.SuspendLayout();
 			this.fjGroupBox.SuspendLayout();
 			this.ktwdGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-			this.lrGroupBox.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tgGroupBox.SuspendLayout();
@@ -348,6 +348,7 @@ namespace OtherTools
 			this.zwjTestButton.TabIndex = 26;
 			this.zwjTestButton.Text = "zwjTest";
 			this.zwjTestButton.UseVisualStyleBackColor = true;
+			this.zwjTestButton.Visible = false;
 			this.zwjTestButton.Click += new System.EventHandler(this.zwjTestButton_Click);
 			// 
 			// switchButton
@@ -661,6 +662,7 @@ namespace OtherTools
 			this.kpShowButton.TabIndex = 5;
 			this.kpShowButton.Text = "显示图标";
 			this.kpShowButton.UseVisualStyleBackColor = true;
+			this.kpShowButton.Visible = false;
 			this.kpShowButton.Click += new System.EventHandler(this.kpShowButton_Click);
 			// 
 			// kpOrderTextBox
@@ -764,17 +766,6 @@ namespace OtherTools
 			this.tcCheckBox.Text = "透传模式";
 			this.tcCheckBox.UseVisualStyleBackColor = true;
 			this.tcCheckBox.CheckedChanged += new System.EventHandler(this.tcCheckBox_CheckedChanged);
-			// 
-			// keepLightOnCheckBox
-			// 
-			this.keepLightOnCheckBox.AutoSize = true;
-			this.keepLightOnCheckBox.Location = new System.Drawing.Point(96, -2);
-			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
-			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
-			this.keepLightOnCheckBox.TabIndex = 9;
-			this.keepLightOnCheckBox.Text = "常亮模式";
-			this.keepLightOnCheckBox.UseVisualStyleBackColor = true;
-			this.keepLightOnCheckBox.CheckedChanged += new System.EventHandler(this.lcKeepLightOnCheckBox_CheckedChanged);
 			// 
 			// lcStatusStrip
 			// 
@@ -1032,9 +1023,9 @@ namespace OtherTools
 			// lcGroupBox5
 			// 
 			this.lcGroupBox5.Controls.Add(this.ktmsGroupBox);
+			this.lcGroupBox5.Controls.Add(this.lrGroupBox);
 			this.lcGroupBox5.Controls.Add(this.fjGroupBox);
 			this.lcGroupBox5.Controls.Add(this.ktwdGroupBox);
-			this.lcGroupBox5.Controls.Add(this.lrGroupBox);
 			this.lcGroupBox5.Location = new System.Drawing.Point(575, 380);
 			this.lcGroupBox5.Name = "lcGroupBox5";
 			this.lcGroupBox5.Size = new System.Drawing.Size(568, 174);
@@ -1050,12 +1041,13 @@ namespace OtherTools
 			this.ktmsGroupBox.Controls.Add(this.ktHighRadioButton);
 			this.ktmsGroupBox.Controls.Add(this.ktLowRadioButton);
 			this.ktmsGroupBox.Enabled = false;
-			this.ktmsGroupBox.Location = new System.Drawing.Point(178, 26);
+			this.ktmsGroupBox.Location = new System.Drawing.Point(182, 103);
 			this.ktmsGroupBox.Name = "ktmsGroupBox";
 			this.ktmsGroupBox.Size = new System.Drawing.Size(375, 58);
 			this.ktmsGroupBox.TabIndex = 1;
 			this.ktmsGroupBox.TabStop = false;
 			this.ktmsGroupBox.Text = "空调模式";
+			this.ktmsGroupBox.Visible = false;
 			// 
 			// ktCloseRadioButton
 			// 
@@ -1122,12 +1114,62 @@ namespace OtherTools
 			this.ktLowRadioButton.UseVisualStyleBackColor = true;
 			this.ktLowRadioButton.Click += new System.EventHandler(this.ktRadioButton_Click);
 			// 
+			// lrGroupBox
+			// 
+			this.lrGroupBox.Controls.Add(this.zlRadioButton3);
+			this.lrGroupBox.Controls.Add(this.zlRadioButton1);
+			this.lrGroupBox.Controls.Add(this.zlRadioButton2);
+			this.lrGroupBox.Enabled = false;
+			this.lrGroupBox.Location = new System.Drawing.Point(299, 28);
+			this.lrGroupBox.Name = "lrGroupBox";
+			this.lrGroupBox.Size = new System.Drawing.Size(258, 58);
+			this.lrGroupBox.TabIndex = 1;
+			this.lrGroupBox.TabStop = false;
+			this.lrGroupBox.Text = "冷热模式";
+			this.lrGroupBox.Visible = false;
+			// 
+			// zlRadioButton3
+			// 
+			this.zlRadioButton3.AutoSize = true;
+			this.zlRadioButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zlRadioButton3.Location = new System.Drawing.Point(160, 25);
+			this.zlRadioButton3.Name = "zlRadioButton3";
+			this.zlRadioButton3.Size = new System.Drawing.Size(47, 16);
+			this.zlRadioButton3.TabIndex = 0;
+			this.zlRadioButton3.TabStop = true;
+			this.zlRadioButton3.Text = "送风";
+			this.zlRadioButton3.UseVisualStyleBackColor = true;
+			// 
+			// zlRadioButton1
+			// 
+			this.zlRadioButton1.AutoSize = true;
+			this.zlRadioButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zlRadioButton1.Location = new System.Drawing.Point(22, 26);
+			this.zlRadioButton1.Name = "zlRadioButton1";
+			this.zlRadioButton1.Size = new System.Drawing.Size(47, 16);
+			this.zlRadioButton1.TabIndex = 0;
+			this.zlRadioButton1.TabStop = true;
+			this.zlRadioButton1.Text = "制冷";
+			this.zlRadioButton1.UseVisualStyleBackColor = true;
+			// 
+			// zlRadioButton2
+			// 
+			this.zlRadioButton2.AutoSize = true;
+			this.zlRadioButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zlRadioButton2.Location = new System.Drawing.Point(91, 26);
+			this.zlRadioButton2.Name = "zlRadioButton2";
+			this.zlRadioButton2.Size = new System.Drawing.Size(47, 16);
+			this.zlRadioButton2.TabIndex = 0;
+			this.zlRadioButton2.TabStop = true;
+			this.zlRadioButton2.Text = "制热";
+			this.zlRadioButton2.UseVisualStyleBackColor = true;
+			// 
 			// fjGroupBox
 			// 
 			this.fjGroupBox.Controls.Add(this.fjJYRadioButton);
 			this.fjGroupBox.Controls.Add(this.fjDXFRadioButton);
 			this.fjGroupBox.Controls.Add(this.fjSXFRadioButton);
-			this.fjGroupBox.Location = new System.Drawing.Point(296, 102);
+			this.fjGroupBox.Location = new System.Drawing.Point(25, 28);
 			this.fjGroupBox.Name = "fjGroupBox";
 			this.fjGroupBox.Size = new System.Drawing.Size(257, 58);
 			this.fjGroupBox.TabIndex = 1;
@@ -1181,12 +1223,13 @@ namespace OtherTools
 			this.ktwdGroupBox.Controls.Add(this.numericUpDown6);
 			this.ktwdGroupBox.Controls.Add(this.label10);
 			this.ktwdGroupBox.Enabled = false;
-			this.ktwdGroupBox.Location = new System.Drawing.Point(21, 26);
+			this.ktwdGroupBox.Location = new System.Drawing.Point(25, 103);
 			this.ktwdGroupBox.Name = "ktwdGroupBox";
 			this.ktwdGroupBox.Size = new System.Drawing.Size(114, 58);
 			this.ktwdGroupBox.TabIndex = 1;
 			this.ktwdGroupBox.TabStop = false;
 			this.ktwdGroupBox.Text = "设定温度";
+			this.ktwdGroupBox.Visible = false;
 			// 
 			// numericUpDown6
 			// 
@@ -1220,55 +1263,6 @@ namespace OtherTools
 			this.label10.Size = new System.Drawing.Size(24, 16);
 			this.label10.TabIndex = 0;
 			this.label10.Text = "℃";
-			// 
-			// lrGroupBox
-			// 
-			this.lrGroupBox.Controls.Add(this.zlRadioButton3);
-			this.lrGroupBox.Controls.Add(this.zlRadioButton1);
-			this.lrGroupBox.Controls.Add(this.zlRadioButton2);
-			this.lrGroupBox.Enabled = false;
-			this.lrGroupBox.Location = new System.Drawing.Point(21, 102);
-			this.lrGroupBox.Name = "lrGroupBox";
-			this.lrGroupBox.Size = new System.Drawing.Size(258, 58);
-			this.lrGroupBox.TabIndex = 1;
-			this.lrGroupBox.TabStop = false;
-			this.lrGroupBox.Text = "冷热模式";
-			// 
-			// zlRadioButton3
-			// 
-			this.zlRadioButton3.AutoSize = true;
-			this.zlRadioButton3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton3.Location = new System.Drawing.Point(160, 25);
-			this.zlRadioButton3.Name = "zlRadioButton3";
-			this.zlRadioButton3.Size = new System.Drawing.Size(47, 16);
-			this.zlRadioButton3.TabIndex = 0;
-			this.zlRadioButton3.TabStop = true;
-			this.zlRadioButton3.Text = "送风";
-			this.zlRadioButton3.UseVisualStyleBackColor = true;
-			// 
-			// zlRadioButton1
-			// 
-			this.zlRadioButton1.AutoSize = true;
-			this.zlRadioButton1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton1.Location = new System.Drawing.Point(22, 26);
-			this.zlRadioButton1.Name = "zlRadioButton1";
-			this.zlRadioButton1.Size = new System.Drawing.Size(47, 16);
-			this.zlRadioButton1.TabIndex = 0;
-			this.zlRadioButton1.TabStop = true;
-			this.zlRadioButton1.Text = "制冷";
-			this.zlRadioButton1.UseVisualStyleBackColor = true;
-			// 
-			// zlRadioButton2
-			// 
-			this.zlRadioButton2.AutoSize = true;
-			this.zlRadioButton2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zlRadioButton2.Location = new System.Drawing.Point(91, 26);
-			this.zlRadioButton2.Name = "zlRadioButton2";
-			this.zlRadioButton2.Size = new System.Drawing.Size(47, 16);
-			this.zlRadioButton2.TabIndex = 0;
-			this.zlRadioButton2.TabStop = true;
-			this.zlRadioButton2.Text = "制热";
-			this.zlRadioButton2.UseVisualStyleBackColor = true;
 			// 
 			// groupBox3
 			// 
@@ -2313,6 +2307,17 @@ namespace OtherTools
 			this.lightButton24.UseVisualStyleBackColor = false;
 			this.lightButton24.Visible = false;
 			// 
+			// keepLightOnCheckBox
+			// 
+			this.keepLightOnCheckBox.AutoSize = true;
+			this.keepLightOnCheckBox.Location = new System.Drawing.Point(96, -2);
+			this.keepLightOnCheckBox.Name = "keepLightOnCheckBox";
+			this.keepLightOnCheckBox.Size = new System.Drawing.Size(72, 16);
+			this.keepLightOnCheckBox.TabIndex = 9;
+			this.keepLightOnCheckBox.Text = "常亮模式";
+			this.keepLightOnCheckBox.UseVisualStyleBackColor = true;
+			this.keepLightOnCheckBox.CheckedChanged += new System.EventHandler(this.lcKeepLightOnCheckBox_CheckedChanged);
+			// 
 			// centerTabPage
 			// 
 			this.centerTabPage.BackColor = System.Drawing.Color.PowderBlue;
@@ -2794,7 +2799,7 @@ namespace OtherTools
 			// 
 			this.myInfoToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
 			// 
-			// OtherToolsForm
+			// NewToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -2805,7 +2810,7 @@ namespace OtherTools
 			this.MaximumSize = new System.Drawing.Size(1280, 800);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(1280, 800);
-			this.Name = "OtherToolsForm";
+			this.Name = "NewToolsForm";
 			this.Text = "其它配置";
 			this.Load += new System.EventHandler(this.OtherToolsForm_Load);
 			this.panel2.ResumeLayout(false);
@@ -2836,13 +2841,13 @@ namespace OtherTools
 			this.lcGroupBox5.ResumeLayout(false);
 			this.ktmsGroupBox.ResumeLayout(false);
 			this.ktmsGroupBox.PerformLayout();
+			this.lrGroupBox.ResumeLayout(false);
+			this.lrGroupBox.PerformLayout();
 			this.fjGroupBox.ResumeLayout(false);
 			this.fjGroupBox.PerformLayout();
 			this.ktwdGroupBox.ResumeLayout(false);
 			this.ktwdGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-			this.lrGroupBox.ResumeLayout(false);
-			this.lrGroupBox.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();

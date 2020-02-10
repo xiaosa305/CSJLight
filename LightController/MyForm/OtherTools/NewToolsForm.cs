@@ -28,7 +28,7 @@ using LightController.MyForm;
 
 namespace OtherTools
 {
-	public partial class OtherToolsForm : Form
+	public partial class NewToolsForm : Form
 	{
 		enum ConnectStatus
 		{
@@ -68,7 +68,7 @@ namespace OtherTools
 
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
-		public OtherToolsForm(MainFormInterface mainForm)
+		public NewToolsForm(MainFormInterface mainForm)
 		{
 			InitializeComponent();
 
@@ -121,6 +121,7 @@ namespace OtherTools
 			fanChannelComboBoxes[5] = fcloseChannelComboBox;			
 
 			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
+			myInfoToolTip.SetToolTip(tcCheckBox, "选中透传模式后，可由当前设备串联旧设备(如ISC-080C、ISC-075A等)，\n并对该设备进行配置。");
 
 			// 初始化墙板配置界面的TabControl
 			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -141,35 +142,38 @@ namespace OtherTools
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 
+			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton"); ;
+			zwjTestButton.Visible = isShowTestButton;
+
 			//直接刷新串口列表
 			refreshDeviceComboBox();
 
-			// 添加皮肤列表
-			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
-			try
-			{
-				FileInfo[] file = fdir.GetFiles();
-				if (file.Length > 0)
-				{
-					//TODO：禁用irisSkin皮肤的代码，不够完美，暂不启用。
-					//skinComboBox.Items.Add("不使用皮肤");
-					foreach (var item in file)
-					{
-						if (item.FullName.EndsWith(".ssk"))
-						{
-							skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
-						}
-					}
-					skinComboBox.SelectedIndex = 0;
+			// MARK:添加皮肤列表（暂时屏蔽）
+			//DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
+			//try
+			//{
+			//	FileInfo[] file = fdir.GetFiles();
+			//	if (file.Length > 0)
+			//	{
+			//		//TODO：禁用irisSkin皮肤的代码，不够完美，暂不启用。
+			//		//skinComboBox.Items.Add("不使用皮肤");
+			//		foreach (var item in file)
+			//		{
+			//			if (item.FullName.EndsWith(".ssk"))
+			//			{
+			//				skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
+			//			}
+			//		}
+			//		skinComboBox.SelectedIndex = 0;
 
-					skinComboBox.Show();
-					skinChangeButton.Show();
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+			//		skinComboBox.Show();
+			//		skinChangeButton.Show();
+			//	}
+			//}
+			//catch (Exception ex)
+			//{
+			//	Console.WriteLine(ex.Message);
+			//}
 		}
 
 
@@ -217,10 +221,11 @@ namespace OtherTools
 			}
 		}
 
-
-
-
-
+		/// <summary>
+		/// 事件：点击《使用皮肤》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void skinChangeButton_Click(object sender, EventArgs e)
 		{
 			string sskName = skinComboBox.Text;
@@ -231,9 +236,7 @@ namespace OtherTools
 				this.skinEngine1.Active = false;
 				return;
 			}
-
-			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
-			//this.skinEngine1.Active = true;		
+			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";	
 		}
 
 
@@ -1243,15 +1246,13 @@ namespace OtherTools
 				}
 
 				List<string> comList = (myConnect as SerialConnect).GetSerialPortNames();
-				if (comList == null || comList.Count == 0)
-				{
-					//MessageBox.Show();
-					return;
-				}
-
-				foreach (string comName in comList) {
-					deviceComboBox.Items.Add(comName);
-				}
+				if (comList != null && comList.Count > 0)
+				{				
+					foreach (string comName in comList)
+					{
+						deviceComboBox.Items.Add(comName);
+					}
+				}				
 			}
 			// 获取网络设备列表
 			else {
@@ -1288,7 +1289,7 @@ namespace OtherTools
 
 			if (deviceComboBox.Items.Count == 0)
 			{
-				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				//MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
 				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
 				connectButton.Enabled = false;
 				deviceComboBox.Text = "";

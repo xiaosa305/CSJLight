@@ -233,10 +233,10 @@ namespace LightController
 			this.changeModeComboBoxes[30] = changeModeComboBox31;
 			this.changeModeComboBoxes[31] = changeModeComboBox32;
 
-			foreach (string frame in AllFrameList)
-			{
-				this.frameComboBox.Items.Add(frame);
-			}
+			//foreach (string frame in AllFrameList)
+			//{
+			//	this.frameComboBox.Items.Add(frame);
+			//}
 
 			for (int i = 0; i < FrameCount ; i++) {
 				changeModeComboBoxes[i].Items.Clear();
@@ -255,30 +255,30 @@ namespace LightController
 
 			#endregion
 
-			//动态加载可用的串口
-			SerialPortTools comTools = SerialPortTools.GetInstance();
-			comList = comTools.GetDMX512DeviceList();
+			////动态加载可用的串口
+			//SerialPortTools comTools = SerialPortTools.GetInstance();
+			//comList = comTools.GetDMX512DeviceList();
 
-			if (comList!=null && comList.Length > 0)
-			{
-				foreach (string com in comList)
-				{
-					comComboBox.Items.Add(com);
-				}
-				comComboBox.SelectedIndex = 0;
-				comComboBox.Enabled = true;
-				chooseComButton.Enabled = true;
-			}
-			else {
-				comComboBox.SelectedIndex = -1;
-				comComboBox.Enabled = false;
-				chooseComButton.Enabled = false;
-			}
+			//if (comList!=null && comList.Length > 0)
+			//{
+			//	foreach (string com in comList)
+			//	{
+			//		comComboBox.Items.Add(com);
+			//	}
+			//	comComboBox.SelectedIndex = 0;
+			//	comComboBox.Enabled = true;
+			//	chooseComButton.Enabled = true;
+			//}
+			//else {
+			//	comComboBox.SelectedIndex = -1;
+			//	comComboBox.Enabled = false;
+			//	chooseComButton.Enabled = false;
+			//}
 
-			// 设置几个下拉框默认值
-			modeComboBox.SelectedIndex = 0;
-			frameComboBox.SelectedIndex = 0;
-			cmComboBox.SelectedIndex = 0; // 统一跳渐变ComboBox
+			//// 设置几个下拉框默认值
+			//modeComboBox.SelectedIndex = 0;
+			//frameComboBox.SelectedIndex = 0;
+			//cmComboBox.SelectedIndex = 0; // 统一跳渐变ComboBox
 
 			isInit = true;					
 

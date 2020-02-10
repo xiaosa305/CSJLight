@@ -195,11 +195,11 @@
     <Compile Include="MyForm\OtherTools\KpPositionSaveForm.Designer.cs">
       <DependentUpon>KpPositionSaveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OtherTools\OtherToolsForm.cs">
+    <Compile Include="MyForm\OtherTools\NewToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\OtherTools\OtherToolsForm.Designer.cs">
-      <DependentUpon>OtherToolsForm.cs</DependentUpon>
+    <Compile Include="MyForm\OtherTools\NewToolsForm.Designer.cs">
+      <DependentUpon>NewToolsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\GlobalSet\GlobalSetForm.cs">
       <SubType>Form</SubType>
@@ -323,11 +323,11 @@
     <Compile Include="MyForm\OpenForm.Designer.cs">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OtherTools\ToolsForm.cs">
+    <Compile Include="MyForm\OtherTools\OldToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\OtherTools\ToolsForm.Designer.cs">
-      <DependentUpon>ToolsForm.cs</DependentUpon>
+    <Compile Include="MyForm\OtherTools\OldToolsForm.Designer.cs">
+      <DependentUpon>OldToolsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\HardwaereSet\HardwareUpdateForm.cs">
       <SubType>Form</SubType>
@@ -399,8 +399,8 @@
     <EmbeddedResource Include="MyForm\OtherTools\KpPositionSaveForm.resx">
       <DependentUpon>KpPositionSaveForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OtherTools\OtherToolsForm.resx">
-      <DependentUpon>OtherToolsForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\OtherTools\NewToolsForm.resx">
+      <DependentUpon>NewToolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
@@ -460,8 +460,8 @@
     <EmbeddedResource Include="MyForm\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OtherTools\ToolsForm.resx">
-      <DependentUpon>ToolsForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\OtherTools\OldToolsForm.resx">
+      <DependentUpon>OldToolsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\HardwaereSet\HardwareUpdateForm.resx">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>

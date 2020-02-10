@@ -1,6 +1,6 @@
 ﻿namespace LightController.MyForm
 {
-	partial class ToolsForm
+	partial class OldToolsForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -190,7 +190,7 @@
 			this.label1.TabIndex = 7;
 			this.label1.Text = "2.系统必须安装MicroSoft Office Excel，才能使用中控工具。";
 			// 
-			// ToolsForm
+			// OldToolsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -201,8 +201,8 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "ToolsForm";
-			this.Text = "其它工具";
+			this.Name = "OldToolsForm";
+			this.Text = "旧版外设配置工具";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ToolsForm_FormClosed);
 			this.Load += new System.EventHandler(this.ToolsForm_Load);
 			this.toolsSkinFlowLayoutPanel.ResumeLayout(false);

@@ -9,12 +9,12 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
-	public partial class ToolsForm : Form
+	public partial class OldToolsForm : Form
 	{
 
 		private MainFormInterface mainForm;
 
-		public ToolsForm(MainFormInterface mainForm)
+		public OldToolsForm(MainFormInterface mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();

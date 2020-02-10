@@ -14,12 +14,12 @@ namespace LightController.MyForm.OtherTools
 {
 	public partial class KpPositionLoadForm : Form
 	{
-		private OtherToolsForm otForm;
+		private NewToolsForm otForm;
 		private string kpPosPath;
 		// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；故需要有一个标记位来处理这个情况
 		private bool ifJustDelete = false;
 
-		public KpPositionLoadForm(OtherToolsForm otForm , int keyCount)
+		public KpPositionLoadForm(NewToolsForm otForm , int keyCount)
 		{
 			InitializeComponent();
 			this.otForm = otForm;

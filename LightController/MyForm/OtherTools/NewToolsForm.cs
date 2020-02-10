@@ -28,7 +28,7 @@ using LightController.MyForm;
 
 namespace OtherTools
 {
-	public partial class OtherToolsForm : Form
+	public partial class NewToolsForm : Form
 	{
 		enum ConnectStatus
 		{
@@ -64,16 +64,15 @@ namespace OtherTools
 		private IList<IPAst> ipaList;
 		private ConnectTools connectTools;
 
-		//private bool isConnected = false;  //是否已连上设备
-		//private bool isOvertime = false; //是否超时
-		//private bool isCCConnected = false;
-		//private bool isDownloading = false;
+		private MainFormInterface mainForm; 
 
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
-		public OtherToolsForm()
+		public NewToolsForm(MainFormInterface mainForm)
 		{
-			InitializeComponent();					
+			InitializeComponent();
+
+			this.mainForm = mainForm;
 
 			#region 初始化各组件		
 
@@ -122,6 +121,7 @@ namespace OtherTools
 			fanChannelComboBoxes[5] = fcloseChannelComboBox;			
 
 			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
+			myInfoToolTip.SetToolTip(tcCheckBox, "选中透传模式后，可由当前设备串联旧设备(如ISC-080C、ISC-075A等)，\n并对该设备进行配置。");
 
 			// 初始化墙板配置界面的TabControl
 			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -130,9 +130,52 @@ namespace OtherTools
 			tabControl1.Multiline = true;
 			tabControl1.ItemSize = new Size(60, 100);
 
-			#endregion
-			
+			#endregion			
 		}
+
+		/// <summary>
+		/// 事件：加载窗体（设置窗体初始位置等）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OtherToolsForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+
+			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton"); ;
+			zwjTestButton.Visible = isShowTestButton;
+
+			//直接刷新串口列表
+			refreshDeviceComboBox();
+
+			// MARK:添加皮肤列表（暂时屏蔽）
+			//DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
+			//try
+			//{
+			//	FileInfo[] file = fdir.GetFiles();
+			//	if (file.Length > 0)
+			//	{
+			//		//TODO：禁用irisSkin皮肤的代码，不够完美，暂不启用。
+			//		//skinComboBox.Items.Add("不使用皮肤");
+			//		foreach (var item in file)
+			//		{
+			//			if (item.FullName.EndsWith(".ssk"))
+			//			{
+			//				skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
+			//			}
+			//		}
+			//		skinComboBox.SelectedIndex = 0;
+
+			//		skinComboBox.Show();
+			//		skinChangeButton.Show();
+			//	}
+			//}
+			//catch (Exception ex)
+			//{
+			//	Console.WriteLine(ex.Message);
+			//}
+		}
+
 
 		/// <summary>
 		/// 刷新所有被connStatus影响的按键
@@ -148,7 +191,7 @@ namespace OtherTools
 			lcReadButton.Enabled = connStatus == ConnectStatus.Lc;			
 			lcDownloadButton.Enabled = connStatus == ConnectStatus.Lc && lcEntity != null ;
 			//lcLoadButton.Enabled = connStatus == ConnectStatus.Lc;
-			lcSaveButton.Enabled = ccEntity != null;
+			lcSaveButton.Enabled = lcEntity != null;
 
 			// 灯控相关
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
@@ -176,46 +219,13 @@ namespace OtherTools
 				//case ConnectStatus.Tccc: setAllStatusLabel2("已切换为透传中控模式"); break;
 				default: setAllStatusLabel2(""); break;
 			}
-
 		}
 
-
-
-		private void OtherToolsForm_Load(object sender, EventArgs e)
-		{
-			//直接刷新串口列表
-			refreshDeviceComboBox();
-
-			// 添加皮肤列表
-			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
-			try
-			{
-				FileInfo[] file = fdir.GetFiles();
-				if (file.Length > 0)
-				{
-					//TODO：禁用irisSkin皮肤的代码，不够完美，暂不启用。
-					//skinComboBox.Items.Add("不使用皮肤");
-					foreach (var item in file)
-					{
-						if (item.FullName.EndsWith(".ssk"))
-						{
-							skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
-						}
-					}
-					skinComboBox.SelectedIndex = 0;
-
-					skinComboBox.Show();
-					skinChangeButton.Show();					
-				}
-			}
-			catch (Exception ex)
-			{				
-				Console.WriteLine(ex.Message);
-			}
-
-			
-		}
-
+		/// <summary>
+		/// 事件：点击《使用皮肤》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void skinChangeButton_Click(object sender, EventArgs e)
 		{
 			string sskName = skinComboBox.Text;
@@ -226,9 +236,7 @@ namespace OtherTools
 				this.skinEngine1.Active = false;
 				return;
 			}
-
-			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
-			//this.skinEngine1.Active = true;		
+			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";	
 		}
 
 
@@ -1238,15 +1246,13 @@ namespace OtherTools
 				}
 
 				List<string> comList = (myConnect as SerialConnect).GetSerialPortNames();
-				if (comList == null || comList.Count == 0)
-				{
-					//MessageBox.Show();
-					return;
-				}
-
-				foreach (string comName in comList) {
-					deviceComboBox.Items.Add(comName);
-				}
+				if (comList != null && comList.Count > 0)
+				{				
+					foreach (string comName in comList)
+					{
+						deviceComboBox.Items.Add(comName);
+					}
+				}				
 			}
 			// 获取网络设备列表
 			else {
@@ -1283,7 +1289,7 @@ namespace OtherTools
 
 			if (deviceComboBox.Items.Count == 0)
 			{
-				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				//MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
 				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
 				connectButton.Enabled = false;
 				deviceComboBox.Text = "";
@@ -1380,7 +1386,6 @@ namespace OtherTools
 				myConnect.LightControlRead(LCReadCompleted, LCReadError);
 				lcToolStripStatusLabel2.Text = "正在回读灯控配置，请稍候...";
 			}
-
 		}
 
 		/// <summary>
@@ -1491,19 +1496,21 @@ namespace OtherTools
 		public void LCDownloadCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
-				if (isConnectByCom)
+				// 当使用串口连接时，下载成功会重启设备，但因为用串口连接，代码可以主动帮助重连；
+				// 同理，若是使用透传模式，则下载成功重启的并非主设备，而是透传的设备，其重启后仍会主动连上主设备，主动点击重连键即可。
+				if (isConnectByCom || tcCheckBox.Checked)
 				{
 					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";
 					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");
 					Thread.Sleep(5000);
 					lcConnectButton_Click(null, null);
 				}
-				else {
+				else {				
 					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";
 					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
-					Thread.Sleep(5000);										
+					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
-					networkDeviceRestart();
+					networkDeviceRestart();					
 				}				
 			});
 		}
@@ -1701,8 +1708,8 @@ namespace OtherTools
 				//Thread.Sleep(500);								
 				//kpReadButton_Click(null, null);
 
-				//Thread.Sleep(500);
-				//kpListenButton_Click(null, null);
+				Thread.Sleep(500);
+				kpListenButton_Click(null, null);
 
 				// 切换成功后，开启定时器让墙板自动更新（切换到其他的模式时，应将kpTimer停止或设为null）
 				if (kpTimer == null)
@@ -2116,7 +2123,6 @@ namespace OtherTools
 				kpToolStripStatusLabel2.Text = "成功下载墙板码值";
 				MessageBox.Show("成功下载墙板码值");
 			});
-
 		}
 
 		/// <summary>
@@ -2131,9 +2137,15 @@ namespace OtherTools
 			});
 		}
 
+		/// <summary>
+		/// 事件：是否勾选《透传模式》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void tcCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			setConnStatus(ConnectStatus.Normal);
+			lcToolStripStatusLabel2.Text = "已" + (tcCheckBox.Checked?"开启" : "关闭") + "透传模式，请重新连接灯控。";
 		}
 	}
 }

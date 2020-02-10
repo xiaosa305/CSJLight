@@ -18,6 +18,7 @@ using System.Net;
 using System.Net.Sockets;
 using LightController.Utils;
 using LightController.Tools.CSJ.IMPL;
+using OtherTools;
 
 namespace LightController.MyForm
 {
@@ -481,7 +482,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void otherToolsSkinButton_Click(object sender, EventArgs e)
 		{
-			new ToolsForm(this).ShowDialog();
+			// 若要进入《其他工具》，应该先将连接断开
+			if (isConnected) {
+				connectSkinButton_Click(null, null);
+			}
+
+			new NewToolsForm(this).ShowDialog();			
 		}
 
 		/// <summary>
@@ -2251,8 +2257,6 @@ namespace LightController.MyForm
 				MessageBox.Show("未选中可用串口");
 			}
 		}
-
-
 		
 		/// <summary>
 		///  事件：点击《连接设备|断开连接》按钮
@@ -3021,6 +3025,20 @@ namespace LightController.MyForm
 			noticeLabel.Text = noticeText;
 		}
 
+		/// <summary>
+		/// 事件：点击《旧版外设配置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void otherToolsSkinButton2_Click(object sender, EventArgs e)
+		{
+			// 若要进入《其他工具》，应该先将连接断开
+			if (isConnected)
+			{
+				connectSkinButton_Click(null, null);
+			}
+			new OldToolsForm(this).ShowDialog();
+		}
 	}
 
 

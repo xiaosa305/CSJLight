@@ -38,8 +38,9 @@ namespace MultiLedController.Entity
             this.UDP_Send = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             this.UDP_Send.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             //this.UDP_Send.Bind(new IPEndPoint(IPAddress.Parse(CurrentIp), PORT));
+
             //配置UDP接收器
-            //this.UDP_Receive = new UdpClient(new IPEndPoint(IPAddress.Any, PORT));
+            //将UDP接收器配置为复用端口
             this.UDP_Receive = new UdpClient();
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);

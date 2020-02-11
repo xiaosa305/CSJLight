@@ -20,9 +20,9 @@ namespace MultiLedController
         private void button1_Click(object sender, EventArgs e)
         {
             Console.WriteLine("开始测试");
-            Art_Net_Client client1 = new Art_Net_Client("192.168.1.14", "192.168.1.235");
-            Art_Net_Client client2 = new Art_Net_Client("192.168.1.14", "192.168.1.236");
-            Art_Net_Client client3 = new Art_Net_Client("192.168.1.14", "192.168.1.237");
+            Art_Net_Client client1 = new Art_Net_Client("192.168.1.12", "192.168.1.8");
+            Art_Net_Client client2 = new Art_Net_Client("192.168.1.12", "192.168.1.9");
+            Art_Net_Client client3 = new Art_Net_Client("192.168.1.12", "192.168.1.10");
 
         }
     }

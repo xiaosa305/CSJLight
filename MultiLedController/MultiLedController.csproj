@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
+    <Compile Include="Entity\ArtDMX.cs" />
+    <Compile Include="Entity\Art_Net_Client.cs" />
     <Compile Include="MyForm\NetworkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +57,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Constant.cs" />
     <EmbeddedResource Include="MyForm\NetworkForm.resx">
       <DependentUpon>NetworkForm.cs</DependentUpon>
     </EmbeddedResource>

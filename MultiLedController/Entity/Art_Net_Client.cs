@@ -11,34 +11,35 @@ namespace MultiLedController.Entity
 {
     public class Art_Net_Client
     {
+        private const int PORTCOUNT = 4;
+
         private const int PORT = 6454;
         private Socket UDP_Send { get; set; }
         private UdpClient UDP_Receive { get; set; }
         private string SeriveIp { get; set; }
         private string CurrentIp { get; set; }
-        private int Field_1 { get; set; }
-        private int Field_2 { get; set; }
-        private int Field_3 { get; set; }
-        private int Field_4 { get; set; }
+        private List<int> Fields { get; set; }
         private Thread ReceiveThread { get; set; }
-        private byte Test { get; set; }
+        private byte Addr { get; set; }
 
 
-        public Art_Net_Client(string seriveIp,string currentIp)
+        public Art_Net_Client(string seriveIp,string currentIp,int number)
         {
             //配置服务IP
             this.SeriveIp = seriveIp;
             //配置本地IP
             this.CurrentIp = currentIp;
             //配置子空间编号
-            this.Field_1 = 0;
-            this.Field_2 = 1;
-            this.Field_3 = 2;
-            this.Field_4 = 3;
+            this.Fields = new List<int>();
+            for (int i = 0; i < PORTCOUNT; i++)
+            {
+                this.Fields.Add(number * 4 + i);
+            }
             //配置UDP发送器
             this.UDP_Send = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             this.UDP_Send.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            //this.UDP_Send.Bind(new IPEndPoint(IPAddress.Parse(CurrentIp), PORT));
+
+            this.UDP_Send.Bind(new IPEndPoint(IPAddress.Parse(CurrentIp), PORT));
 
             //配置UDP接收器
             //将UDP接收器配置为复用端口
@@ -55,10 +56,7 @@ namespace MultiLedController.Entity
             //启动接收线程
             this.ReceiveThread.Start(UDP_Receive);
             Console.WriteLine("控制器" + CurrentIp +  "配置完成并且启动成功");
-
-            string addr = CurrentIp.Split('.')[3];
-            Test = Convert.ToByte(Convert.ToInt16(addr));
-            Console.WriteLine("Test value is:" + Test);
+            Addr = Convert.ToByte(Convert.ToInt16(CurrentIp.Split('.')[3]));
         }
 
         private void ReceiveMsg(Object obj)
@@ -68,7 +66,6 @@ namespace MultiLedController.Entity
             {
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, PORT);
                 byte[] receiveData = client.Receive(ref endPoint);
-                Console.WriteLine("控制器-" + CurrentIp + ": 接收到数据" + receiveData.Length + "字节");
                 StringBuilder stringBuilder = new StringBuilder();
                 foreach (byte b in receiveData)
                 {
@@ -81,8 +78,7 @@ namespace MultiLedController.Entity
                 }
                 else if (receiveData[8] == 0x00 && receiveData[9] == 0x20)//接收到ArtPoll包
                 {
-                    Console.WriteLine("控制器" + CurrentIp + "接收数据为：" + stringBuilder);
-                    Console.WriteLine("控制器" + CurrentIp + "接收数据完成");
+                    Console.WriteLine("接收到搜索包");
                     this.SearchDevice_Receive();
                 }
                 else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
@@ -92,20 +88,34 @@ namespace MultiLedController.Entity
                 }
                 else if (receiveData[8] == 0x00 && receiveData[9] == 0x50)//这是ArtDMX数据包
                 {
-                    Console.WriteLine("控制器" + CurrentIp + "接收数据为：" + stringBuilder);
-                    Console.WriteLine("控制器" + CurrentIp + "接收数据完成");
+                    int physicalPortIndex = Convert.ToInt16(receiveData[13]);
+                    int universe = (int)(receiveData[14] & 0xFF) | ((receiveData[15] & 0xFF) << 8);
+                    if (this.Fields[physicalPortIndex] == universe)
+                    {
+                        Console.WriteLine("控制器" + CurrentIp + "接收到DMX数据");
+                    }
+                    //int universeLow = Convert.ToInt16(receiveData[14]);
+                    //int universeHight = Convert.ToInt16(receiveData[15]);
                 }
-
             }
         }
 
         private void SearchDevice_Receive()
         {
-            byte[] data = Constant.GetReceiveDataBySerchDeviceOrder();
-            data[13] = this.Test;
-            
+            byte[] souce = Constant.GetReceiveDataBySerchDeviceOrder();
+            byte[] data = new byte[souce.Length];
+            Array.Copy(souce, data, souce.Length);
+            data[13] = this.Addr;
+            data[186] = Convert.ToByte(this.Fields[0]);
+            data[187] = Convert.ToByte(this.Fields[1]);
+            data[188] = Convert.ToByte(this.Fields[2]);
+            data[189] = Convert.ToByte(this.Fields[3]);
+            data[190] = Convert.ToByte(this.Fields[0]);
+            data[191] = Convert.ToByte(this.Fields[1]);
+            data[192] = Convert.ToByte(this.Fields[2]);
+            data[193] = Convert.ToByte(this.Fields[3]);
+            Thread.Sleep(30);
             this.UDP_Send.SendTo(data, new IPEndPoint(IPAddress.Broadcast, PORT));
-            Console.WriteLine("控制器" + CurrentIp + "发送成功，发送数据大小：" + data.Length.ToString());
         }
     }
 }

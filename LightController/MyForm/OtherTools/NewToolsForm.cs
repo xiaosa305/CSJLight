@@ -64,11 +64,11 @@ namespace OtherTools
 		private IList<IPAst> ipaList;
 		private ConnectTools connectTools;
 
-		private MainFormInterface mainForm; 
+		private Form mainForm; 
 
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
-		public NewToolsForm(MainFormInterface mainForm)
+		public NewToolsForm(Form mainForm)
 		{
 			InitializeComponent();
 

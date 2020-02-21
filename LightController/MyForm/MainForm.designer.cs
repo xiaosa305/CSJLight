@@ -3393,6 +3393,7 @@ namespace LightController
 			this.skinComboBox.Size = new System.Drawing.Size(92, 20);
 			this.skinComboBox.TabIndex = 20;
 			this.skinComboBox.Visible = false;
+			this.skinComboBox.SelectedIndexChanged += new System.EventHandler(this.skinComboBox_SelectedIndexChanged);
 			// 
 			// skinButton
 			// 

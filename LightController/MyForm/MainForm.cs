@@ -1598,5 +1598,10 @@ namespace LightController
 		{
 
 		}
+
+		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

@@ -70,7 +70,6 @@ namespace LightController.MyForm
 			this.connectSkinButton = new CCWin.SkinControl.SkinButton();
 			this.realtimeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
-			this.oneLightOneStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
 			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
 			this.endviewSkinButton = new CCWin.SkinControl.SkinButton();
@@ -690,7 +689,7 @@ namespace LightController.MyForm
 			this.lightLibrarySkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.lightLibrarySkinButton.DownBack = null;
 			this.lightLibrarySkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.lightLibrarySkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightLibrarySkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightLibrarySkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightLibrarySkinButton.ForeColorSuit = true;
 			this.lightLibrarySkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
@@ -717,7 +716,7 @@ namespace LightController.MyForm
 			this.hardwareSetSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.hardwareSetSkinButton.DownBack = null;
 			this.hardwareSetSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.hardwareSetSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.hardwareSetSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.hardwareSetSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.hardwareSetSkinButton.ForeColorSuit = true;
 			this.hardwareSetSkinButton.Image = global::LightController.Properties.Resources.硬件设置;
@@ -744,7 +743,7 @@ namespace LightController.MyForm
 			this.hardwareUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.hardwareUpdateSkinButton.DownBack = null;
 			this.hardwareUpdateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.hardwareUpdateSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.hardwareUpdateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.hardwareUpdateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.hardwareUpdateSkinButton.ForeColorSuit = true;
 			this.hardwareUpdateSkinButton.Image = global::LightController.Properties.Resources.网络设置;
@@ -773,7 +772,7 @@ namespace LightController.MyForm
 			this.updateSkinButton.DownBack = null;
 			this.updateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.updateSkinButton.Enabled = false;
-			this.updateSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.updateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.updateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.updateSkinButton.ForeColorSuit = true;
 			this.updateSkinButton.Image = global::LightController.Properties.Resources.在线升级;
@@ -801,7 +800,7 @@ namespace LightController.MyForm
 			this.lightListSkinButton.DownBack = null;
 			this.lightListSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.lightListSkinButton.Enabled = false;
-			this.lightListSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightListSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightListSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.lightListSkinButton.ForeColorSuit = true;
 			this.lightListSkinButton.Image = global::LightController.Properties.Resources.灯具编辑;
@@ -829,7 +828,7 @@ namespace LightController.MyForm
 			this.globalSetSkinButton.DownBack = null;
 			this.globalSetSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.globalSetSkinButton.Enabled = false;
-			this.globalSetSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.globalSetSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.globalSetSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.globalSetSkinButton.ForeColorSuit = true;
 			this.globalSetSkinButton.Image = global::LightController.Properties.Resources.全局配置;
@@ -857,7 +856,7 @@ namespace LightController.MyForm
 			this.ymSkinButton.DownBack = null;
 			this.ymSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.ymSkinButton.Enabled = false;
-			this.ymSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.ymSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.ymSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.ymSkinButton.ForeColorSuit = true;
 			this.ymSkinButton.Image = global::LightController.Properties.Resources.摇麦设置;
@@ -885,7 +884,7 @@ namespace LightController.MyForm
 			this.otherToolsSkinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.otherToolsSkinButton1.DownBack = null;
 			this.otherToolsSkinButton1.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.otherToolsSkinButton1.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.otherToolsSkinButton1.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.otherToolsSkinButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.otherToolsSkinButton1.ForeColorSuit = true;
 			this.otherToolsSkinButton1.Image = global::LightController.Properties.Resources.灯库编辑;
@@ -913,7 +912,7 @@ namespace LightController.MyForm
 			this.otherToolsSkinButton2.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.otherToolsSkinButton2.DownBack = null;
 			this.otherToolsSkinButton2.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.otherToolsSkinButton2.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.otherToolsSkinButton2.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.otherToolsSkinButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.otherToolsSkinButton2.ForeColorSuit = true;
 			this.otherToolsSkinButton2.Image = global::LightController.Properties.Resources.灯库编辑;
@@ -1018,7 +1017,7 @@ namespace LightController.MyForm
 			this.exportSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.exportSkinButton.Enabled = false;
 			this.exportSkinButton.FadeGlow = false;
-			this.exportSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.exportSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.exportSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.exportSkinButton.ForeColorSuit = true;
 			this.exportSkinButton.Image = global::LightController.Properties.Resources.导出25;
@@ -1049,7 +1048,7 @@ namespace LightController.MyForm
 			this.frameSaveSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.frameSaveSkinButton.Enabled = false;
 			this.frameSaveSkinButton.FadeGlow = false;
-			this.frameSaveSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.frameSaveSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.frameSaveSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.frameSaveSkinButton.ForeColorSuit = true;
 			this.frameSaveSkinButton.Image = global::LightController.Properties.Resources.保存工程2;
@@ -1080,7 +1079,7 @@ namespace LightController.MyForm
 			this.saveSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.saveSkinButton.Enabled = false;
 			this.saveSkinButton.FadeGlow = false;
-			this.saveSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.saveSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.saveSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.saveSkinButton.ForeColorSuit = true;
 			this.saveSkinButton.Image = global::LightController.Properties.Resources.保存工程2;
@@ -1109,7 +1108,7 @@ namespace LightController.MyForm
 			this.newSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.newSkinButton.DownBack = null;
 			this.newSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.newSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.newSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.newSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.newSkinButton.ForeColorSuit = true;
 			this.newSkinButton.Image = global::LightController.Properties.Resources.新建工程2;
@@ -1140,7 +1139,7 @@ namespace LightController.MyForm
 			this.closeSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.closeSkinButton.Enabled = false;
 			this.closeSkinButton.FadeGlow = false;
-			this.closeSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.closeSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.closeSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.closeSkinButton.ForeColorSuit = true;
 			this.closeSkinButton.Image = global::LightController.Properties.Resources.打开工程3;
@@ -1170,7 +1169,7 @@ namespace LightController.MyForm
 			this.openSkinButton.DownBack = null;
 			this.openSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.openSkinButton.FadeGlow = false;
-			this.openSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.openSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.openSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.openSkinButton.ForeColorSuit = true;
 			this.openSkinButton.Image = global::LightController.Properties.Resources.打开工程3;
@@ -1219,13 +1218,12 @@ namespace LightController.MyForm
 			this.playFlowLayoutPanel.Controls.Add(this.connectSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.realtimeSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.keepSkinButton);
-			this.playFlowLayoutPanel.Controls.Add(this.oneLightOneStepSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.makeSoundSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.endviewSkinButton);
-			this.playFlowLayoutPanel.Location = new System.Drawing.Point(81, 7);
+			this.playFlowLayoutPanel.Location = new System.Drawing.Point(118, 8);
 			this.playFlowLayoutPanel.Name = "playFlowLayoutPanel";
-			this.playFlowLayoutPanel.Size = new System.Drawing.Size(893, 100);
+			this.playFlowLayoutPanel.Size = new System.Drawing.Size(809, 100);
 			this.playFlowLayoutPanel.TabIndex = 13;
 			this.playFlowLayoutPanel.Visible = false;
 			// 
@@ -1320,7 +1318,7 @@ namespace LightController.MyForm
 			this.connectSkinButton.DownBack = null;
 			this.connectSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.connectSkinButton.Enabled = false;
-			this.connectSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.connectSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.connectSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.connectSkinButton.ForeColorSuit = true;
 			this.connectSkinButton.Image = global::LightController.Properties.Resources.连接;
@@ -1349,7 +1347,7 @@ namespace LightController.MyForm
 			this.realtimeSkinButton.DownBack = null;
 			this.realtimeSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.realtimeSkinButton.Enabled = false;
-			this.realtimeSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.realtimeSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.realtimeSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.realtimeSkinButton.ForeColorSuit = true;
 			this.realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
@@ -1378,7 +1376,7 @@ namespace LightController.MyForm
 			this.keepSkinButton.DownBack = null;
 			this.keepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.keepSkinButton.Enabled = false;
-			this.keepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.keepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.keepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.keepSkinButton.ForeColorSuit = true;
 			this.keepSkinButton.Image = global::LightController.Properties.Resources.保持状态1;
@@ -1398,35 +1396,6 @@ namespace LightController.MyForm
 			this.keepSkinButton.UseVisualStyleBackColor = false;
 			this.keepSkinButton.Click += new System.EventHandler(this.keepSkinButton_Click);
 			// 
-			// oneLightOneStepSkinButton
-			// 
-			this.oneLightOneStepSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.oneLightOneStepSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.oneLightOneStepSkinButton.BorderColor = System.Drawing.Color.White;
-			this.oneLightOneStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.oneLightOneStepSkinButton.DownBack = null;
-			this.oneLightOneStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.oneLightOneStepSkinButton.Enabled = false;
-			this.oneLightOneStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.oneLightOneStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.oneLightOneStepSkinButton.ForeColorSuit = true;
-			this.oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
-			this.oneLightOneStepSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.oneLightOneStepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.oneLightOneStepSkinButton.InheritColor = true;
-			this.oneLightOneStepSkinButton.IsDrawBorder = false;
-			this.oneLightOneStepSkinButton.Location = new System.Drawing.Point(533, 2);
-			this.oneLightOneStepSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.oneLightOneStepSkinButton.MouseBack = null;
-			this.oneLightOneStepSkinButton.Name = "oneLightOneStepSkinButton";
-			this.oneLightOneStepSkinButton.NormlBack = null;
-			this.oneLightOneStepSkinButton.Size = new System.Drawing.Size(84, 96);
-			this.oneLightOneStepSkinButton.TabIndex = 8;
-			this.oneLightOneStepSkinButton.Text = "单灯单步";
-			this.oneLightOneStepSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.oneLightOneStepSkinButton.UseVisualStyleBackColor = false;
-			this.oneLightOneStepSkinButton.Click += new System.EventHandler(this.oneLightOneStepSkinButton_Click);
-			// 
 			// previewSkinButton
 			// 
 			this.previewSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -1436,7 +1405,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.DownBack = null;
 			this.previewSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.previewSkinButton.Enabled = false;
-			this.previewSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.previewSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.previewSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.previewSkinButton.ForeColorSuit = true;
 			this.previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
@@ -1444,7 +1413,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.previewSkinButton.InheritColor = true;
 			this.previewSkinButton.IsDrawBorder = false;
-			this.previewSkinButton.Location = new System.Drawing.Point(621, 2);
+			this.previewSkinButton.Location = new System.Drawing.Point(533, 2);
 			this.previewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewSkinButton.MouseBack = null;
 			this.previewSkinButton.Name = "previewSkinButton";
@@ -1465,7 +1434,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.DownBack = null;
 			this.makeSoundSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.makeSoundSkinButton.Enabled = false;
-			this.makeSoundSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.makeSoundSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.makeSoundSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.makeSoundSkinButton.ForeColorSuit = true;
 			this.makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
@@ -1473,7 +1442,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.makeSoundSkinButton.InheritColor = true;
 			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(709, 2);
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(621, 2);
 			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundSkinButton.MouseBack = null;
 			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
@@ -1494,7 +1463,7 @@ namespace LightController.MyForm
 			this.endviewSkinButton.DownBack = null;
 			this.endviewSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
 			this.endviewSkinButton.Enabled = false;
-			this.endviewSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.endviewSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.endviewSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.endviewSkinButton.ForeColorSuit = true;
 			this.endviewSkinButton.Image = global::LightController.Properties.Resources.结束浏览;
@@ -1502,7 +1471,7 @@ namespace LightController.MyForm
 			this.endviewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.endviewSkinButton.InheritColor = true;
 			this.endviewSkinButton.IsDrawBorder = false;
-			this.endviewSkinButton.Location = new System.Drawing.Point(797, 2);
+			this.endviewSkinButton.Location = new System.Drawing.Point(709, 2);
 			this.endviewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.endviewSkinButton.MouseBack = null;
 			this.endviewSkinButton.Name = "endviewSkinButton";
@@ -1959,7 +1928,7 @@ namespace LightController.MyForm
 			this.commonStepTimeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.commonStepTimeSkinButton.DownBack = null;
 			this.commonStepTimeSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.commonStepTimeSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.commonStepTimeSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.commonStepTimeSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.commonStepTimeSkinButton.ForeColorSuit = true;
 			this.commonStepTimeSkinButton.Image = global::LightController.Properties.Resources.统一步时间;
@@ -2022,7 +1991,7 @@ namespace LightController.MyForm
 			this.zeroSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.zeroSkinButton.DownBack = null;
 			this.zeroSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.zeroSkinButton.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zeroSkinButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.zeroSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.zeroSkinButton.ForeColorSuit = true;
 			this.zeroSkinButton.Image = global::LightController.Properties.Resources.全部归零;
@@ -2060,7 +2029,7 @@ namespace LightController.MyForm
 			this.commonValueSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.commonValueSkinButton.DownBack = null;
 			this.commonValueSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.commonValueSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.commonValueSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.commonValueSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.commonValueSkinButton.ForeColorSuit = true;
 			this.commonValueSkinButton.Image = global::LightController.Properties.Resources.统一通道值;
@@ -2088,7 +2057,7 @@ namespace LightController.MyForm
 			this.commonChangeModeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.commonChangeModeSkinButton.DownBack = null;
 			this.commonChangeModeSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.commonChangeModeSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.commonChangeModeSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.commonChangeModeSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.commonChangeModeSkinButton.ForeColorSuit = true;
 			this.commonChangeModeSkinButton.Image = global::LightController.Properties.Resources.统一跳渐变;
@@ -2131,7 +2100,7 @@ namespace LightController.MyForm
 			this.multiSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.multiSkinButton.DownBack = null;
 			this.multiSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiSkinButton.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiSkinButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.multiSkinButton.ForeColorSuit = true;
 			this.multiSkinButton.Image = global::LightController.Properties.Resources.统一跳渐变;
@@ -2159,7 +2128,7 @@ namespace LightController.MyForm
 			this.initSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.initSkinButton.DownBack = null;
 			this.initSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.initSkinButton.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.initSkinButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.initSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.initSkinButton.ForeColorSuit = true;
 			this.initSkinButton.Image = global::LightController.Properties.Resources.初始值;
@@ -2223,7 +2192,7 @@ namespace LightController.MyForm
 			this.syncSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.syncSkinButton.DownBack = null;
 			this.syncSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.syncSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.syncSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.syncSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.syncSkinButton.ForeColorSuit = true;
 			this.syncSkinButton.Image = global::LightController.Properties.Resources.复制灯1;
@@ -2252,7 +2221,7 @@ namespace LightController.MyForm
 			this.chooseStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.chooseStepSkinButton.DownBack = null;
 			this.chooseStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.chooseStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.chooseStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.chooseStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.chooseStepSkinButton.ForeColorSuit = true;
 			this.chooseStepSkinButton.Image = global::LightController.Properties.Resources.跳转;
@@ -2260,13 +2229,13 @@ namespace LightController.MyForm
 			this.chooseStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.chooseStepSkinButton.InheritColor = true;
 			this.chooseStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.chooseStepSkinButton.Location = new System.Drawing.Point(615, 9);
+			this.chooseStepSkinButton.Location = new System.Drawing.Point(609, 9);
 			this.chooseStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.chooseStepSkinButton.MouseBack = null;
 			this.chooseStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.chooseStepSkinButton.Name = "chooseStepSkinButton";
 			this.chooseStepSkinButton.NormlBack = null;
-			this.chooseStepSkinButton.Size = new System.Drawing.Size(30, 42);
+			this.chooseStepSkinButton.Size = new System.Drawing.Size(32, 42);
 			this.chooseStepSkinButton.TabIndex = 25;
 			this.chooseStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.chooseStepSkinButton.UseVisualStyleBackColor = false;
@@ -2309,7 +2278,7 @@ namespace LightController.MyForm
 			this.useFrameSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.useFrameSkinButton.DownBack = null;
 			this.useFrameSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.useFrameSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.useFrameSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.useFrameSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.useFrameSkinButton.ForeColorSuit = true;
 			this.useFrameSkinButton.Image = global::LightController.Properties.Resources.粘贴灯1;
@@ -2323,7 +2292,7 @@ namespace LightController.MyForm
 			this.useFrameSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.useFrameSkinButton.Name = "useFrameSkinButton";
 			this.useFrameSkinButton.NormlBack = null;
-			this.useFrameSkinButton.Size = new System.Drawing.Size(96, 45);
+			this.useFrameSkinButton.Size = new System.Drawing.Size(90, 45);
 			this.useFrameSkinButton.TabIndex = 7;
 			this.useFrameSkinButton.Text = "调用场景";
 			this.useFrameSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2332,8 +2301,8 @@ namespace LightController.MyForm
 			// 
 			// chooseStepNumericUpDown
 			// 
-			this.chooseStepNumericUpDown.Font = new System.Drawing.Font("新宋体", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(563, 21);
+			this.chooseStepNumericUpDown.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(559, 21);
 			this.chooseStepNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.chooseStepNumericUpDown.Maximum = new decimal(new int[] {
             1,
@@ -2346,7 +2315,7 @@ namespace LightController.MyForm
             0,
             0});
 			this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
-			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(50, 19);
+			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(50, 23);
 			this.chooseStepNumericUpDown.TabIndex = 24;
 			this.chooseStepNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.chooseStepNumericUpDown.Value = new decimal(new int[] {
@@ -2364,7 +2333,7 @@ namespace LightController.MyForm
 			this.multiLightSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.multiLightSkinButton.DownBack = null;
 			this.multiLightSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiLightSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiLightSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiLightSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.multiLightSkinButton.ForeColorSuit = true;
 			this.multiLightSkinButton.Image = global::LightController.Properties.Resources.复制灯1;
@@ -2378,7 +2347,7 @@ namespace LightController.MyForm
 			this.multiLightSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.multiLightSkinButton.Name = "multiLightSkinButton";
 			this.multiLightSkinButton.NormlBack = null;
-			this.multiLightSkinButton.Size = new System.Drawing.Size(96, 45);
+			this.multiLightSkinButton.Size = new System.Drawing.Size(90, 45);
 			this.multiLightSkinButton.TabIndex = 7;
 			this.multiLightSkinButton.Text = "多灯模式";
 			this.multiLightSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2393,7 +2362,7 @@ namespace LightController.MyForm
 			this.nextStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.nextStepSkinButton.DownBack = null;
 			this.nextStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.nextStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.nextStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.nextStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.nextStepSkinButton.ForeColorSuit = true;
 			this.nextStepSkinButton.Image = global::LightController.Properties.Resources.下一步;
@@ -2407,7 +2376,7 @@ namespace LightController.MyForm
 			this.nextStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.nextStepSkinButton.Name = "nextStepSkinButton";
 			this.nextStepSkinButton.NormlBack = null;
-			this.nextStepSkinButton.Size = new System.Drawing.Size(79, 42);
+			this.nextStepSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.nextStepSkinButton.TabIndex = 5;
 			this.nextStepSkinButton.Text = "下一步";
 			this.nextStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2423,7 +2392,7 @@ namespace LightController.MyForm
 			this.useMaterialSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.useMaterialSkinButton.DownBack = null;
 			this.useMaterialSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.useMaterialSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.useMaterialSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.useMaterialSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.useMaterialSkinButton.ForeColorSuit = true;
 			this.useMaterialSkinButton.Image = global::LightController.Properties.Resources.使用素材;
@@ -2437,7 +2406,7 @@ namespace LightController.MyForm
 			this.useMaterialSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.useMaterialSkinButton.Name = "useMaterialSkinButton";
 			this.useMaterialSkinButton.NormlBack = null;
-			this.useMaterialSkinButton.Size = new System.Drawing.Size(99, 45);
+			this.useMaterialSkinButton.Size = new System.Drawing.Size(90, 45);
 			this.useMaterialSkinButton.TabIndex = 4;
 			this.useMaterialSkinButton.Text = "使用素材";
 			this.useMaterialSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2452,7 +2421,7 @@ namespace LightController.MyForm
 			this.saveMaterialSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.saveMaterialSkinButton.DownBack = null;
 			this.saveMaterialSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.saveMaterialSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.saveMaterialSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.saveMaterialSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.saveMaterialSkinButton.ForeColorSuit = true;
 			this.saveMaterialSkinButton.Image = global::LightController.Properties.Resources.保存素材2;
@@ -2460,13 +2429,13 @@ namespace LightController.MyForm
 			this.saveMaterialSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.saveMaterialSkinButton.InheritColor = true;
 			this.saveMaterialSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.saveMaterialSkinButton.Location = new System.Drawing.Point(851, 12);
+			this.saveMaterialSkinButton.Location = new System.Drawing.Point(851, 8);
 			this.saveMaterialSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.saveMaterialSkinButton.MouseBack = null;
 			this.saveMaterialSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.saveMaterialSkinButton.Name = "saveMaterialSkinButton";
 			this.saveMaterialSkinButton.NormlBack = null;
-			this.saveMaterialSkinButton.Size = new System.Drawing.Size(99, 36);
+			this.saveMaterialSkinButton.Size = new System.Drawing.Size(90, 45);
 			this.saveMaterialSkinButton.TabIndex = 4;
 			this.saveMaterialSkinButton.Text = "保存素材";
 			this.saveMaterialSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2482,7 +2451,7 @@ namespace LightController.MyForm
 			this.multiCopySkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.multiCopySkinButton.DownBack = null;
 			this.multiCopySkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiCopySkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiCopySkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiCopySkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.multiCopySkinButton.ForeColorSuit = true;
 			this.multiCopySkinButton.Image = global::LightController.Properties.Resources.复制步;
@@ -2490,13 +2459,13 @@ namespace LightController.MyForm
 			this.multiCopySkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiCopySkinButton.InheritColor = true;
 			this.multiCopySkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiCopySkinButton.Location = new System.Drawing.Point(746, 8);
+			this.multiCopySkinButton.Location = new System.Drawing.Point(744, 8);
 			this.multiCopySkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiCopySkinButton.MouseBack = null;
 			this.multiCopySkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.multiCopySkinButton.Name = "multiCopySkinButton";
 			this.multiCopySkinButton.NormlBack = null;
-			this.multiCopySkinButton.Size = new System.Drawing.Size(93, 44);
+			this.multiCopySkinButton.Size = new System.Drawing.Size(90, 45);
 			this.multiCopySkinButton.TabIndex = 4;
 			this.multiCopySkinButton.Text = "复制多步";
 			this.multiCopySkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2511,7 +2480,7 @@ namespace LightController.MyForm
 			this.multiPasteSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.multiPasteSkinButton.DownBack = null;
 			this.multiPasteSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.multiPasteSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiPasteSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiPasteSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.multiPasteSkinButton.ForeColorSuit = true;
 			this.multiPasteSkinButton.Image = global::LightController.Properties.Resources.粘贴步;
@@ -2519,13 +2488,13 @@ namespace LightController.MyForm
 			this.multiPasteSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.multiPasteSkinButton.InheritColor = true;
 			this.multiPasteSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.multiPasteSkinButton.Location = new System.Drawing.Point(746, 53);
+			this.multiPasteSkinButton.Location = new System.Drawing.Point(742, 53);
 			this.multiPasteSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.multiPasteSkinButton.MouseBack = null;
 			this.multiPasteSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.multiPasteSkinButton.Name = "multiPasteSkinButton";
 			this.multiPasteSkinButton.NormlBack = null;
-			this.multiPasteSkinButton.Size = new System.Drawing.Size(93, 44);
+			this.multiPasteSkinButton.Size = new System.Drawing.Size(90, 45);
 			this.multiPasteSkinButton.TabIndex = 4;
 			this.multiPasteSkinButton.Text = "粘贴多步";
 			this.multiPasteSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2541,7 +2510,7 @@ namespace LightController.MyForm
 			this.copyStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.copyStepSkinButton.DownBack = null;
 			this.copyStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.copyStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.copyStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.copyStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.copyStepSkinButton.ForeColorSuit = true;
 			this.copyStepSkinButton.Image = global::LightController.Properties.Resources.复制步;
@@ -2549,13 +2518,13 @@ namespace LightController.MyForm
 			this.copyStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.copyStepSkinButton.InheritColor = true;
 			this.copyStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.copyStepSkinButton.Location = new System.Drawing.Point(651, 8);
+			this.copyStepSkinButton.Location = new System.Drawing.Point(647, 9);
 			this.copyStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.copyStepSkinButton.MouseBack = null;
 			this.copyStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.copyStepSkinButton.Name = "copyStepSkinButton";
 			this.copyStepSkinButton.NormlBack = null;
-			this.copyStepSkinButton.Size = new System.Drawing.Size(83, 44);
+			this.copyStepSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.copyStepSkinButton.TabIndex = 4;
 			this.copyStepSkinButton.Text = "复制步";
 			this.copyStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2570,7 +2539,7 @@ namespace LightController.MyForm
 			this.pasteStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.pasteStepSkinButton.DownBack = null;
 			this.pasteStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.pasteStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.pasteStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.pasteStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.pasteStepSkinButton.ForeColorSuit = true;
 			this.pasteStepSkinButton.Image = global::LightController.Properties.Resources.粘贴步;
@@ -2578,13 +2547,13 @@ namespace LightController.MyForm
 			this.pasteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.pasteStepSkinButton.InheritColor = true;
 			this.pasteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.pasteStepSkinButton.Location = new System.Drawing.Point(651, 53);
+			this.pasteStepSkinButton.Location = new System.Drawing.Point(648, 53);
 			this.pasteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.pasteStepSkinButton.MouseBack = null;
 			this.pasteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.pasteStepSkinButton.Name = "pasteStepSkinButton";
 			this.pasteStepSkinButton.NormlBack = null;
-			this.pasteStepSkinButton.Size = new System.Drawing.Size(83, 44);
+			this.pasteStepSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.pasteStepSkinButton.TabIndex = 4;
 			this.pasteStepSkinButton.Text = "粘贴步";
 			this.pasteStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2599,7 +2568,7 @@ namespace LightController.MyForm
 			this.deleteStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.deleteStepSkinButton.DownBack = null;
 			this.deleteStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.deleteStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.deleteStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.deleteStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.deleteStepSkinButton.ForeColorSuit = true;
 			this.deleteStepSkinButton.Image = global::LightController.Properties.Resources.删除步;
@@ -2607,13 +2576,13 @@ namespace LightController.MyForm
 			this.deleteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.deleteStepSkinButton.InheritColor = true;
 			this.deleteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.deleteStepSkinButton.Location = new System.Drawing.Point(556, 53);
+			this.deleteStepSkinButton.Location = new System.Drawing.Point(554, 53);
 			this.deleteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteStepSkinButton.MouseBack = null;
 			this.deleteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.deleteStepSkinButton.Name = "deleteStepSkinButton";
 			this.deleteStepSkinButton.NormlBack = null;
-			this.deleteStepSkinButton.Size = new System.Drawing.Size(83, 44);
+			this.deleteStepSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.deleteStepSkinButton.TabIndex = 4;
 			this.deleteStepSkinButton.Text = "删除步";
 			this.deleteStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2628,7 +2597,7 @@ namespace LightController.MyForm
 			this.addStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.addStepSkinButton.DownBack = null;
 			this.addStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.addStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.addStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.addStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.addStepSkinButton.ForeColorSuit = true;
 			this.addStepSkinButton.Image = global::LightController.Properties.Resources.追加步;
@@ -2636,13 +2605,13 @@ namespace LightController.MyForm
 			this.addStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.addStepSkinButton.InheritColor = true;
 			this.addStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.addStepSkinButton.Location = new System.Drawing.Point(461, 53);
+			this.addStepSkinButton.Location = new System.Drawing.Point(460, 53);
 			this.addStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addStepSkinButton.MouseBack = null;
 			this.addStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.addStepSkinButton.Name = "addStepSkinButton";
 			this.addStepSkinButton.NormlBack = null;
-			this.addStepSkinButton.Size = new System.Drawing.Size(83, 44);
+			this.addStepSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.addStepSkinButton.TabIndex = 4;
 			this.addStepSkinButton.Text = "追加步";
 			this.addStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2657,7 +2626,7 @@ namespace LightController.MyForm
 			this.insertAfterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.insertAfterSkinButton.DownBack = null;
 			this.insertAfterSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.insertAfterSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.insertAfterSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.insertAfterSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.insertAfterSkinButton.ForeColorSuit = true;
 			this.insertAfterSkinButton.Image = global::LightController.Properties.Resources.后插入步1;
@@ -2671,7 +2640,7 @@ namespace LightController.MyForm
 			this.insertAfterSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.insertAfterSkinButton.Name = "insertAfterSkinButton";
 			this.insertAfterSkinButton.NormlBack = null;
-			this.insertAfterSkinButton.Size = new System.Drawing.Size(83, 44);
+			this.insertAfterSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.insertAfterSkinButton.TabIndex = 4;
 			this.insertAfterSkinButton.Text = "后插步";
 			this.insertAfterSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2687,7 +2656,7 @@ namespace LightController.MyForm
 			this.insertBeforeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.insertBeforeSkinButton.DownBack = null;
 			this.insertBeforeSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.insertBeforeSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.insertBeforeSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.insertBeforeSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.insertBeforeSkinButton.ForeColorSuit = true;
 			this.insertBeforeSkinButton.Image = global::LightController.Properties.Resources.前插入步1;
@@ -2695,13 +2664,13 @@ namespace LightController.MyForm
 			this.insertBeforeSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.insertBeforeSkinButton.InheritColor = true;
 			this.insertBeforeSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.insertBeforeSkinButton.Location = new System.Drawing.Point(271, 53);
+			this.insertBeforeSkinButton.Location = new System.Drawing.Point(272, 53);
 			this.insertBeforeSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.insertBeforeSkinButton.MouseBack = null;
 			this.insertBeforeSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.insertBeforeSkinButton.Name = "insertBeforeSkinButton";
 			this.insertBeforeSkinButton.NormlBack = null;
-			this.insertBeforeSkinButton.Size = new System.Drawing.Size(83, 44);
+			this.insertBeforeSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.insertBeforeSkinButton.TabIndex = 4;
 			this.insertBeforeSkinButton.Text = "前插步";
 			this.insertBeforeSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2717,7 +2686,7 @@ namespace LightController.MyForm
 			this.backStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.backStepSkinButton.DownBack = null;
 			this.backStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.backStepSkinButton.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.backStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.backStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.backStepSkinButton.ForeColorSuit = true;
 			this.backStepSkinButton.GlowColor = System.Drawing.Color.DarkSalmon;
@@ -2726,13 +2695,13 @@ namespace LightController.MyForm
 			this.backStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.backStepSkinButton.InheritColor = true;
 			this.backStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.backStepSkinButton.Location = new System.Drawing.Point(271, 9);
+			this.backStepSkinButton.Location = new System.Drawing.Point(273, 9);
 			this.backStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.backStepSkinButton.MouseBack = null;
 			this.backStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.backStepSkinButton.Name = "backStepSkinButton";
 			this.backStepSkinButton.NormlBack = null;
-			this.backStepSkinButton.Size = new System.Drawing.Size(83, 42);
+			this.backStepSkinButton.Size = new System.Drawing.Size(75, 45);
 			this.backStepSkinButton.TabIndex = 4;
 			this.backStepSkinButton.Text = "上一步";
 			this.backStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2758,11 +2727,11 @@ namespace LightController.MyForm
 			this.stepLabel.AutoSize = true;
 			this.stepLabel.BackColor = System.Drawing.Color.Transparent;
 			this.stepLabel.BorderColor = System.Drawing.Color.White;
-			this.stepLabel.Font = new System.Drawing.Font("华文细黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.stepLabel.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(381, 23);
+			this.stepLabel.Location = new System.Drawing.Point(373, 24);
 			this.stepLabel.Name = "stepLabel";
-			this.stepLabel.Size = new System.Drawing.Size(53, 15);
+			this.stepLabel.Size = new System.Drawing.Size(70, 14);
 			this.stepLabel.TabIndex = 0;
 			this.stepLabel.Text = " 0  /  0 ";
 			// 
@@ -6806,7 +6775,6 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton previewSkinButton;
 		private CCWin.SkinControl.SkinButton endviewSkinButton;
 		private CCWin.SkinControl.SkinButton realtimeSkinButton;
-		private CCWin.SkinControl.SkinButton oneLightOneStepSkinButton;
 		private CCWin.SkinControl.SkinPanel lightInfoSkinPanel;
 		private PictureBox currentLightPictureBox;
 		private CCWin.SkinControl.SkinPanel tdCommonLabelSkinPanel;

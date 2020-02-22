@@ -144,6 +144,8 @@
     </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Messaging" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -183,6 +185,12 @@
     <Compile Include="Entity\DB_FineTune.cs" />
     <Compile Include="Entity\CCEntity.cs" />
     <Compile Include="Entity\KeyEntity.cs" />
+    <Compile Include="MyForm\NewMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\NewMainForm.Designer.cs">
+      <DependentUpon>NewMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\OtherTools\KpPositionLoadForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -393,6 +401,9 @@
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
+    <EmbeddedResource Include="MyForm\NewMainForm.resx">
+      <DependentUpon>NewMainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\KpPositionLoadForm.resx">
       <DependentUpon>KpPositionLoadForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -827,6 +838,12 @@
     <None Include="Properties\app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\DataSources\DMX512.DB_FineTune.datasource" />
+    <None Include="Properties\DataSources\DMX512.DB_Light.datasource" />
+    <None Include="Properties\DataSources\DMX512.DB_StepCount.datasource" />
+    <None Include="Properties\DataSources\DMX512.DB_StepCountPK.datasource" />
+    <None Include="Properties\DataSources\DMX512.DB_Value.datasource" />
+    <None Include="Properties\DataSources\DMX512.DB_ValuePK.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

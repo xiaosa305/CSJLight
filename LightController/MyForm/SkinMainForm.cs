@@ -969,8 +969,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public override void ResetSyncMode()
 		{			
-			syncSkinButton.Text = "进入同步";
-			oneLightOneStepSkinButton.Text = "单灯单步";
+			syncSkinButton.Text = "进入同步";			
 			isSyncMode = false;			
 		}
 
@@ -1421,7 +1420,6 @@ namespace LightController.MyForm
 			modeSkinComboBox.Enabled = isSingleMode;
 			useFrameSkinButton.Enabled = isSingleMode;
 
-			oneLightOneStepSkinButton.Text = isSingleMode ? "单灯单步" : "多灯单步";
 			multiLightSkinButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
 			
 		}
@@ -2323,7 +2321,6 @@ namespace LightController.MyForm
 
 			keepSkinButton.Enabled = connected;
 			realtimeSkinButton.Enabled = connected;
-			oneLightOneStepSkinButton.Enabled = connected;
 			makeSoundSkinButton.Enabled = connected;
 			previewSkinButton.Enabled = connected;
 			endviewSkinButton.Enabled = connected;
@@ -2389,22 +2386,7 @@ namespace LightController.MyForm
 		}
 
 
-		/// <summary>
-		///  事件：点击《单灯单步》
-		///  (-- 先设按钮为有颜色，但跑完就立刻恢复正常！)
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void oneLightOneStepSkinButton_Click(object sender, EventArgs e)
-		{
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;
-			this.Refresh();
-
-			oneStepWork();
-
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
-		}
-
+	
 		/// <summary>
 		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
 		/// </summary>
@@ -2477,7 +2459,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void endview() {
 			// 1.几个按钮图标设置
-			oneLightOneStepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 
@@ -2953,10 +2934,7 @@ namespace LightController.MyForm
 			if (isSyncMode)
 			{
 				isSyncMode = false;
-				syncSkinButton.Text = "进入同步";
-				if (!isMultiMode) {
-					oneLightOneStepSkinButton.Text = "单灯单步";
-				}				
+				syncSkinButton.Text = "进入同步";	
 				return;
 			}
 
@@ -2969,7 +2947,6 @@ namespace LightController.MyForm
 
 			isSyncMode = true;
 			syncSkinButton.Text = "退出同步";
-			oneLightOneStepSkinButton.Text = "多灯单步";
 		}
 
 		//MARK:12.9 bgWorker相关事件

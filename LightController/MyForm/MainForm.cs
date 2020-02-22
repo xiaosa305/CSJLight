@@ -1593,5 +1593,15 @@ namespace LightController
 		{
 			new HardwareUpdateForm(this,binPath).ShowDialog();
 		}
+
+		private void tongdaoGroupBox_Enter(object sender, EventArgs e)
+		{
+
+		}
+
+		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

@@ -47,9 +47,7 @@ namespace LightController
 			this.tongdaoGroupBox = new System.Windows.Forms.GroupBox();
 			this.addStepCheckBox = new System.Windows.Forms.CheckBox();
 			this.materialUseButton = new System.Windows.Forms.Button();
-			this.pasteLightButton = new System.Windows.Forms.Button();
 			this.materialSaveButton = new System.Windows.Forms.Button();
-			this.copyLightButton = new System.Windows.Forms.Button();
 			this.tongdaoPanel = new System.Windows.Forms.Panel();
 			this.tongdaoGroupBox1 = new System.Windows.Forms.GroupBox();
 			this.changeModeLabel = new System.Windows.Forms.Label();
@@ -430,6 +428,7 @@ namespace LightController
 			this.lightsListView.BackColor = System.Drawing.Color.Snow;
 			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lightType});
+			this.lightsListView.HideSelection = false;
 			this.lightsListView.LargeImageList = this.LargeImageList;
 			this.lightsListView.Location = new System.Drawing.Point(0, 112);
 			this.lightsListView.Margin = new System.Windows.Forms.Padding(2);
@@ -504,9 +503,7 @@ namespace LightController
 			this.tongdaoGroupBox.BackColor = System.Drawing.Color.Transparent;
 			this.tongdaoGroupBox.Controls.Add(this.addStepCheckBox);
 			this.tongdaoGroupBox.Controls.Add(this.materialUseButton);
-			this.tongdaoGroupBox.Controls.Add(this.pasteLightButton);
 			this.tongdaoGroupBox.Controls.Add(this.materialSaveButton);
-			this.tongdaoGroupBox.Controls.Add(this.copyLightButton);
 			this.tongdaoGroupBox.Controls.Add(this.tongdaoPanel);
 			this.tongdaoGroupBox.Controls.Add(this.cmComboBox);
 			this.tongdaoGroupBox.Controls.Add(this.commonValueNumericUpDown);
@@ -538,7 +535,7 @@ namespace LightController
 			this.tongdaoGroupBox.Size = new System.Drawing.Size(1436, 416);
 			this.tongdaoGroupBox.TabIndex = 8;
 			this.tongdaoGroupBox.TabStop = false;
-			this.tongdaoGroupBox.Visible = false;
+			this.tongdaoGroupBox.Enter += new System.EventHandler(this.tongdaoGroupBox_Enter);
 			// 
 			// addStepCheckBox
 			// 
@@ -550,11 +547,10 @@ namespace LightController
 			this.addStepCheckBox.TabIndex = 22;
 			this.addStepCheckBox.Text = "添加步时使用模板数据";
 			this.addStepCheckBox.UseVisualStyleBackColor = true;
-			//this.addStepCheckBox.CheckedChanged += new System.EventHandler(this.addStepCheckBox_CheckedChanged);
 			// 
 			// materialUseButton
 			// 
-			this.materialUseButton.Location = new System.Drawing.Point(138, 110);
+			this.materialUseButton.Location = new System.Drawing.Point(138, 64);
 			this.materialUseButton.Margin = new System.Windows.Forms.Padding(2);
 			this.materialUseButton.Name = "materialUseButton";
 			this.materialUseButton.Size = new System.Drawing.Size(74, 28);
@@ -563,21 +559,9 @@ namespace LightController
 			this.materialUseButton.UseVisualStyleBackColor = true;
 			this.materialUseButton.Click += new System.EventHandler(this.materialUseButton_Click);
 			// 
-			// pasteLightButton
-			// 
-			this.pasteLightButton.Enabled = false;
-			this.pasteLightButton.Location = new System.Drawing.Point(138, 66);
-			this.pasteLightButton.Margin = new System.Windows.Forms.Padding(2);
-			this.pasteLightButton.Name = "pasteLightButton";
-			this.pasteLightButton.Size = new System.Drawing.Size(74, 28);
-			this.pasteLightButton.TabIndex = 21;
-			this.pasteLightButton.Text = "粘贴灯";
-			this.pasteLightButton.UseVisualStyleBackColor = true;
-			//this.pasteLightButton.Click += new System.EventHandler(this.pasteLightButton_Click);
-			// 
 			// materialSaveButton
 			// 
-			this.materialSaveButton.Location = new System.Drawing.Point(48, 110);
+			this.materialSaveButton.Location = new System.Drawing.Point(48, 64);
 			this.materialSaveButton.Margin = new System.Windows.Forms.Padding(2);
 			this.materialSaveButton.Name = "materialSaveButton";
 			this.materialSaveButton.Size = new System.Drawing.Size(74, 28);
@@ -585,17 +569,6 @@ namespace LightController
 			this.materialSaveButton.Text = "保存素材";
 			this.materialSaveButton.UseVisualStyleBackColor = true;
 			this.materialSaveButton.Click += new System.EventHandler(this.materialSaveButton_Click);
-			// 
-			// copyLightButton
-			// 
-			this.copyLightButton.Location = new System.Drawing.Point(48, 66);
-			this.copyLightButton.Margin = new System.Windows.Forms.Padding(2);
-			this.copyLightButton.Name = "copyLightButton";
-			this.copyLightButton.Size = new System.Drawing.Size(74, 28);
-			this.copyLightButton.TabIndex = 21;
-			this.copyLightButton.Text = "复制灯";
-			this.copyLightButton.UseVisualStyleBackColor = true;
-			//this.copyLightButton.Click += new System.EventHandler(this.copyLightButton_Click);
 			// 
 			// tongdaoPanel
 			// 
@@ -3182,21 +3155,21 @@ namespace LightController
 			// hardwareSetNewToolStripMenuItem
 			// 
 			this.hardwareSetNewToolStripMenuItem.Name = "hardwareSetNewToolStripMenuItem";
-			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.hardwareSetNewToolStripMenuItem.Text = "新建配置";
 			this.hardwareSetNewToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetNewToolStripMenuItem_Click);
 			// 
 			// hardwareSetOpenToolStripMenuItem
 			// 
 			this.hardwareSetOpenToolStripMenuItem.Name = "hardwareSetOpenToolStripMenuItem";
-			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.hardwareSetOpenToolStripMenuItem.Text = "打开配置";
 			this.hardwareSetOpenToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetOpenToolStripMenuItem_Click);
 			// 
 			// hardwareUpdateToolStripMenuItem
 			// 
 			this.hardwareUpdateToolStripMenuItem.Name = "hardwareUpdateToolStripMenuItem";
-			this.hardwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hardwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.hardwareUpdateToolStripMenuItem.Text = "硬件升级";
 			this.hardwareUpdateToolStripMenuItem.Visible = false;
 			this.hardwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.hardwareUpdateToolStripMenuItem_Click);
@@ -3420,6 +3393,7 @@ namespace LightController
 			this.skinComboBox.Size = new System.Drawing.Size(92, 20);
 			this.skinComboBox.TabIndex = 20;
 			this.skinComboBox.Visible = false;
+			this.skinComboBox.SelectedIndexChanged += new System.EventHandler(this.skinComboBox_SelectedIndexChanged);
 			// 
 			// skinButton
 			// 
@@ -3543,6 +3517,7 @@ namespace LightController
 			this.testGroupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
+
 		}
 
 		#endregion
@@ -3780,9 +3755,7 @@ namespace LightController
 		private Panel tongdaoPanel;
 		private ToolStripMenuItem ymSetToolStripMenuItem;
 		private Button materialUseButton;
-		private Button pasteLightButton;
 		private Button materialSaveButton;
-		private Button copyLightButton;
 		private Button insertBeforeStepButton;
 		private Button soundButton;
 		private Button initButton;

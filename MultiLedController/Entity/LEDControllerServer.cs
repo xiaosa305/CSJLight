@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiLedController.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,6 +12,7 @@ namespace MultiLedController.Entity
     public class LEDControllerServer
     {
         private static LEDControllerServer Instance { get; set; }
+        private Art_Net_Manager Manager { get; set; }
         private const int PORT = 9999;
         private Socket UDPSend { get; set; }
         private UdpClient UDPReceiveClient { get; set; }
@@ -18,11 +20,13 @@ namespace MultiLedController.Entity
         private bool IsStart { get; set; }
         private bool ReceiveStartStatus { get; set; }
         private Thread ReceiveThread { get; set; }
+        private Dictionary<string,ControlDevice> ControlDevices { get; set; }
 
         private LEDControllerServer()
         {
             this.IsStart = false;
             this.ReceiveStartStatus = false;
+            this.ControlDevices = new Dictionary<string, ControlDevice>();
         }
         public static LEDControllerServer GetInstance()
         {
@@ -31,6 +35,11 @@ namespace MultiLedController.Entity
                 Instance = new LEDControllerServer();
             }
             return Instance;
+        }
+
+        public void SetManager(Art_Net_Manager manager)
+        {
+            this.Manager = manager;
         }
         /// <summary>
         /// 配置本地服务器IP并启动服务器
@@ -76,11 +85,12 @@ namespace MultiLedController.Entity
                     byte[] receiveData = client.Receive(ref endPoint);
                     if (Encoding.Default.GetString(receiveData).Equals("OK:poweron"))//发送起始命令回复
                     {
-
+                        this.Manager.StartDebug();
                     }
                     else if (receiveData.Length == 41)//设备探索回复
                     {
-
+                        ControlDevice controlDevice = new ControlDevice(receiveData);
+                        this.ControlDevices.Add(controlDevice.Mac,controlDevice);
                     }
                 }
             }
@@ -96,6 +106,11 @@ namespace MultiLedController.Entity
         public void SendDebugData(List<byte> data)
         {
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
+        }
+
+        public Dictionary<string,ControlDevice> GetControlDevices()
+        {
+            return this.ControlDevices;
         }
     }
 }

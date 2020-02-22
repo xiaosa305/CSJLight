@@ -68,6 +68,10 @@ namespace MultiLedController.Entity
             this.Addr = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
         }
 
+        /// <summary>
+        /// 网络数据接收模块
+        /// </summary>
+        /// <param name="obj"></param>
         private void ReceiveMsg(Object obj)
         {
             try
@@ -119,7 +123,9 @@ namespace MultiLedController.Entity
                 Console.WriteLine("关闭UDPClient");
             }
         }
-
+        /// <summary>
+        /// 终端搜索回复虚拟控制器信息
+        /// </summary>
         private void SearchDevice_Receive()
         {
             byte[] souce = Constant.GetReceiveDataBySerchDeviceOrder();
@@ -137,7 +143,9 @@ namespace MultiLedController.Entity
             Thread.Sleep(30);
             this.UDP_Send.SendTo(data, new IPEndPoint(IPAddress.Broadcast, PORT));
         }
-
+        /// <summary>
+        /// 关闭虚拟控制器
+        /// </summary>
         public void Close()
         {
             this.ReceiveStartStatus = false;

@@ -51,6 +51,7 @@
     <Compile Include="Entity\Art_Net_Client.cs" />
     <Compile Include="Entity\ControlDevice.cs" />
     <Compile Include="Entity\LEDControllerServer.cs" />
+    <Compile Include="Entity\VirtualControlInfo.cs" />
     <Compile Include="MyForm\NetworkForm.cs">
       <SubType>Form</SubType>
     </Compile>

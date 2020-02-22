@@ -45,6 +45,7 @@ namespace MultiLedController.Utils
             this.FieldsData = new Dictionary<int, List<byte>>();
             this.FieldsReceiveDataSize = new Dictionary<int, int>();
             this.DebugStatus = false;
+            LEDControllerServer.GetInstance().SetManager(this);
         }
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
@@ -92,6 +93,30 @@ namespace MultiLedController.Utils
             //启动控制器通信服务
             LEDControllerServer.GetInstance().StartServer("192.168.1.8");
         }
+        public void Start(List<VirtualControlInfo> virtuals)
+        {
+            if (this.Clients.Count != 0)
+            {
+                foreach (Art_Net_Client item in this.Clients)
+                {
+                    item.Close();
+                }
+                this.Init();
+                Thread.Sleep(500);
+            }
+            if (virtuals.Count == 0)
+            {
+                return;
+            }
+            for (int i = 0; i < virtuals.Count; i++)
+            {
+                for (int j = 0; j < virtuals[i].SpaceNum; j++)
+                {
+
+                }
+            }
+        }
+
         /// <summary>
         /// 接收DMX数据包处理
         /// </summary>
@@ -246,15 +271,22 @@ namespace MultiLedController.Utils
             }
         }
         /// <summary>
-        /// 启动实时调试
+        /// 发送启动实时调试命令
         /// </summary>
-        public void StartDebug()
+        public void SendStartDebugOrder()
         {
             //发送起始命令
             List<byte> beginOrder = new List<byte>();
             beginOrder.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x00, 0x00, 0x00, 0x07 });
             beginOrder.AddRange(Encoding.Default.GetBytes("preweron"));
             LEDControllerServer.GetInstance().SendDebugData(beginOrder);
+        }
+        /// <summary>
+        /// 启动实时调试
+        /// </summary>
+        public void StartDebug()
+        {
+            this.DebugStatus = true;
         }
         /// <summary>
         /// 关闭实时调试

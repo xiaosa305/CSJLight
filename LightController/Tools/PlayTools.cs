@@ -407,7 +407,7 @@ namespace LightController.Tools
                                 this.PlayData[item - 1] = MusicDataBuff[item];
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             Console.WriteLine("音频数据生成中。。。。。。。。");
                         }

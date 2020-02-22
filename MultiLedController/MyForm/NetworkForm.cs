@@ -22,6 +22,7 @@ using System.IO;
 using MultiLedController.Ast;
 using System.Net;
 using MultiLedController.Common;
+using MultiLedController.Utils;
 
 namespace MultiLedController
 {
@@ -253,7 +254,7 @@ namespace MultiLedController
 
 		private void testButton_Click(object sender, EventArgs e)
 		{
-				
+            XiaosaTest.Test1();
 		}
 
 		/// <summary>

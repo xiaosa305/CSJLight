@@ -26,14 +26,7 @@ namespace MultiLedController.Entity
         private Dictionary<int,List<byte>> Field_Datas { get; set; }
         private Dictionary<int,bool> Field_Datas_Status { get; set; }
 
-        private void Init()
-        {
-            this.Fields = new List<int>();
-            this.ReceiveStartStatus = false;
-            this.Field_Datas = new Dictionary<int, List<byte>>();
-            this.Field_Datas_Status = new Dictionary<int, bool>();
-        }
-        public Art_Net_Client(string currentIp,int number, Art_Net_Manager manager)
+        public Art_Net_Client(string currentIp, int startIndex, int spaceNum, Art_Net_Manager manager)
         {
             //初始化
             this.Init();
@@ -41,9 +34,9 @@ namespace MultiLedController.Entity
             this.CurrentIp = currentIp;
             //将管理器传入用于数据组包
             this.Manager = manager;
-            for (int i = 0; i < PORTCOUNT; i++)
+            for (int i = startIndex; i < startIndex + spaceNum; i++)
             {
-                this.Fields.Add(number * 4 + i);
+                this.Fields.Add(i);
                 this.Field_Datas.Add(i, new List<byte>());
                 this.Field_Datas_Status.Add(i, false);
             }
@@ -67,7 +60,13 @@ namespace MultiLedController.Entity
             this.ReceiveThread.Start(this.UDP_Receive);
             this.Addr = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
         }
-
+        private void Init()
+        {
+            this.Fields = new List<int>();
+            this.ReceiveStartStatus = false;
+            this.Field_Datas = new Dictionary<int, List<byte>>();
+            this.Field_Datas_Status = new Dictionary<int, bool>();
+        }
         /// <summary>
         /// 网络数据接收模块
         /// </summary>

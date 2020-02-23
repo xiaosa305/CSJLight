@@ -48,9 +48,9 @@ namespace MultiLedController.Utils
             LEDControllerServer.GetInstance().SetManager(this);
         }
         /// <summary>
-        /// 启动虚拟控制器对接麦爵士
+        /// 测试启动器
         /// </summary>
-        public void Start()
+        public void TestStart()
         {
             if (this.Clients.Count != 0)
             {
@@ -62,7 +62,7 @@ namespace MultiLedController.Utils
                 Thread.Sleep(500);
             }
             //Test用添加
-            Clients.Add(new Art_Net_Client("192.168.1.8", 0, this));
+            Clients.Add(new Art_Net_Client("192.168.1.8", 0, 4, this));
 
             //Clients.Add(new Art_Net_Client( "192.168.1.115", 0,this));
             //Clients.Add(new Art_Net_Client( "192.168.1.116", 1, this));
@@ -93,6 +93,9 @@ namespace MultiLedController.Utils
             //启动控制器通信服务
             LEDControllerServer.GetInstance().StartServer("192.168.1.8");
         }
+        /// <summary>
+        /// 启动虚拟控制器对接麦爵士
+        /// </summary>
         public void Start(List<VirtualControlInfo> virtuals)
         {
             if (this.Clients.Count != 0)
@@ -108,15 +111,32 @@ namespace MultiLedController.Utils
             {
                 return;
             }
+            int startIndex = 0;
+            //添加虚拟设备信息
             for (int i = 0; i < virtuals.Count; i++)
             {
+                //添加虚拟设备客户端
+                Clients.Add(new Art_Net_Client(virtuals[i].IP, startIndex, virtuals[i].SpaceNum, this));
+                //添虚拟设备子空间接收状态、接收数据缓存、接收数据大小缓存
                 for (int j = 0; j < virtuals[i].SpaceNum; j++)
                 {
-
+                    int fieldNum = startIndex + j;
+                    this.FieldsReceiveStatus.Add(fieldNum, false);
+                    this.FieldsData.Add(fieldNum, new List<byte>());
+                    this.FieldsReceiveDataSize.Add(fieldNum, 0);
                 }
+                startIndex += virtuals[i].SpaceNum;
             }
+            //文件写入预设文件头
+            List<byte> emptyData = new List<byte>();
+            for (int i = 0; i < 35; i++)
+            {
+                emptyData.Add(0x00);
+            }
+            FileUtils.WriteToFileByCreate(emptyData, "Art_Net_DMX.bin");
+            //启动控制器通信服务
+            LEDControllerServer.GetInstance().StartServer("192.168.1.8");
         }
-
         /// <summary>
         /// 接收DMX数据包处理
         /// </summary>

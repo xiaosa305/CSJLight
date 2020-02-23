@@ -11,7 +11,7 @@ namespace MultiLedController.Utils
     {
         public static void Test1()
         {
-            Art_Net_Manager.GetInstance().Start();
+            Art_Net_Manager.GetInstance().TestStart();
         }
     }
 }

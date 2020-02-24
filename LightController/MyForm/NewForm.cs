@@ -19,9 +19,10 @@ namespace LightController
 {
 	public partial class NewForm :Form
 	{
-		private MainFormInterface mainForm;
 		private string savePath;
+		
 
+		private MainFormInterface mainForm;
 		public NewForm(MainFormInterface mainForm)
 		{
 			this.mainForm = mainForm;
@@ -32,7 +33,6 @@ namespace LightController
 		{
 			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 		}
-
 
 		/// <summary>
 		///  事件：点击《新建》按钮：
@@ -51,49 +51,47 @@ namespace LightController
 				MessageBox.Show("工程名包含非法字符，请重新输入！");
 				return;
 			}
-			if (!String.IsNullOrEmpty(projectName))
-			{
-				savePath = @IniFileAst.GetSavePath(Application.StartupPath);
-				string directoryPath = savePath + @"\LightProject\" + projectName;
-				DirectoryInfo di = null;
-				try
-				{
-					 di = new DirectoryInfo(directoryPath);
-				}
-				catch (Exception ex) {
-					MessageBox.Show(ex.Message);
-					return;
-				}
-				
-				if (di.Exists)
-				{
-					MessageBox.Show("这个名称已经被使用了，请使用其他名称。");
-					return;
-				}
-				else
-				{
-					// 1.由新建时取的工程名，来新建相关文件夹
-					di.Create();
-					// 2.将相关global.ini和data.db3拷贝到文件夹内
-					string sourcePath = Application.StartupPath;
-					string globalIniFilePath = directoryPath + @"\global.ini";					
-					File.Copy( sourcePath+@"\global.ini",  globalIniFilePath);
 
-					// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
-					// SQLiteHelper.SetPassword(dbFile);
-					mainForm.NewProject(projectName);
-					MessageBox.Show("成功新建工程，请为此工程添加灯具。");
-					this.Dispose();
-					mainForm.IsCreateSuccess = true;
-					mainForm.Activate();					
-				}				
+			if (String.IsNullOrEmpty(projectName)) {
+				MessageBox.Show("请输入工程名");				
+				return;
+			}
+
+			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			string directoryPath = savePath + @"\LightProject\" + projectName;
+			DirectoryInfo di = null;
+			try
+			{
+				 di = new DirectoryInfo(directoryPath);
+			}
+			catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+				return;
+			}
+			
+			if (di.Exists)
+			{
+				MessageBox.Show("这个名称已经被使用了，请使用其他名称。");
+				return;
 			}
 			else
 			{
-				MessageBox.Show("请输入工程名");
-				mainForm.IsCreateSuccess = false;
-				return;
-			}
+				// 1.由新建时取的工程名，来新建相关文件夹
+				di.Create();
+				// 2.将相关global.ini和data.db3拷贝到文件夹内
+				string sourcePath = Application.StartupPath;
+				string globalIniFilePath = directoryPath + @"\global.ini";					
+				File.Copy( sourcePath+@"\global.ini",  globalIniFilePath);
+
+				// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
+				// SQLiteHelper.SetPassword(dbFile);
+				mainForm.NewProject(projectName);
+				MessageBox.Show("成功新建工程，请为此工程添加灯具。");
+				this.Dispose();
+				mainForm.IsCreateSuccess = true;
+				mainForm.Activate();					
+			}						
+			
 		}
 		
 

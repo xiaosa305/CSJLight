@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define OLDMAINFORM
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,21 +21,13 @@ namespace LightController.MyForm
 	public class MainFormInterface : System.Windows.Forms.Form
 	{
 		// 辅助的bool变量：	
-		/// <summary>
-		/// 点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false		
-		/// </summary>
-		protected bool isNew = true;
-		/// <summary>
-		/// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
-		/// </summary>
-		protected bool isInit = false;
-		/// <summary>
-		/// 点击新建后，用这个变量决定是否打开灯具编辑列表
-		/// </summary>
-		public bool IsCreateSuccess = false;
-		//protected bool isReadDelay = true;  // 是否延迟从数据库中读数据
+		protected bool isNew = true;  //点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
+		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
+		public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
+		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
 
 		// 全局配置及数据库连接		
+		protected string softwareName = "TRANS-JOY Dimmer System";
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
 		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
@@ -62,7 +55,6 @@ namespace LightController.MyForm
 		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；											
 		protected bool isCopyAll = false;   // 11.20 新功能： 多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
-
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
 		protected IList<int> selectedIndices = new List<int>(); //选择的灯具的index列表（多选情况下）		
 
@@ -73,7 +65,7 @@ namespace LightController.MyForm
 		// protected bool isUseStepTemplate = false ; // 是否勾选了《使用模板生成步》 =>11.26 去除此方法，使用中有点多余。
 		// protected LightWrapper tempLight = null; // 辅助灯变量，用以复制及粘贴灯 
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到
-		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
+		
 
 		// 调试变量
 		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例
@@ -110,9 +102,10 @@ namespace LightController.MyForm
 		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayFlowLayoutPanel
 		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
 		protected virtual void chooseStep(int stepNum) { }  //选步
+
+		protected virtual void setBusy(bool buzy) { } //设置是否忙时
 		public virtual void ResetSyncMode() { } // 清空syncStep
 		public virtual void SetNotice(string notice) { } //设置提示信息
-		protected virtual void SetBusy(bool buzy) { } //设置是否忙时
 
 		#endregion
 
@@ -215,7 +208,7 @@ namespace LightController.MyForm
 		public void OpenProject(string projectName)
 		{
 			SetNotice("正在打开工程，请稍候...");
-			SetBusy(true);		
+			setBusy(true);		
 
 			DateTime beforDT = System.DateTime.Now;
 
@@ -235,9 +228,12 @@ namespace LightController.MyForm
 			{
 				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 				SetNotice("成功打开工程(" + projectName + ")");
+
 				if (dr == DialogResult.OK)
 				{
+#if OLDMAINFORM
 					new LightsForm(this, null).ShowDialog();
+#endif
 				}				
 			}
 			//10.17 若非空工程，则继续执行以下代码。
@@ -343,7 +339,7 @@ namespace LightController.MyForm
 				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
 				SetNotice("成功打开工程("+ projectName + ")");
 			}
-			SetBusy(false);
+			setBusy(false);
 		}
 
 		/// <summary>
@@ -354,7 +350,7 @@ namespace LightController.MyForm
 		{
 			MessageBox.Show("打开工程出错，可能是灯库不匹配。\n异常信息:" + exMessage);
 			clearAllData();
-			SetBusy(false);
+			setBusy(false);
 			SetNotice("打开工程失败,请验证后重试");
 		}
 
@@ -692,7 +688,7 @@ namespace LightController.MyForm
 
 
 		/// <summary>
-		///  辅助方法：通过fromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
+		///  辅助方法：通过isFromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
 		/// </summary>
 		/// <returns></returns>
 		protected DBWrapper GetDBWrapper(bool isFromDB)
@@ -2015,6 +2011,20 @@ namespace LightController.MyForm
 				}
 			}			
 			return tdList;
+		}
+
+		/// <summary>
+		/// 辅助方法：打开《灯库软件》
+		/// </summary>
+		protected void openLightEditor() {
+			try
+			{
+				System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 	}
 }

@@ -42,9 +42,10 @@ namespace LightController
 			this.lightName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.LightAddr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
-			this.deleteSkinButton = new CCWin.SkinControl.SkinButton();
-			this.addSkinButton = new CCWin.SkinControl.SkinButton();
+			this.addButton = new System.Windows.Forms.Button();
+			this.deleteButton = new System.Windows.Forms.Button();
+			this.enterButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// largeImageList
@@ -157,6 +158,7 @@ namespace LightController
 			this.lightsSkinListView.FullRowSelect = true;
 			this.lightsSkinListView.GridLines = true;
 			this.lightsSkinListView.HeadColor = System.Drawing.Color.White;
+			this.lightsSkinListView.HideSelection = false;
 			this.lightsSkinListView.Location = new System.Drawing.Point(419, 0);
 			this.lightsSkinListView.Name = "lightsSkinListView";
 			this.lightsSkinListView.OwnerDraw = true;
@@ -183,69 +185,57 @@ namespace LightController
 			this.LightAddr.Text = "通道地址";
 			this.LightAddr.Width = 86;
 			// 
-			// enterSkinButton
+			// addButton
 			// 
-			this.enterSkinButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.enterSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.enterSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.enterSkinButton.DownBack = null;
-			this.enterSkinButton.Location = new System.Drawing.Point(290, 448);
-			this.enterSkinButton.MouseBack = null;
-			this.enterSkinButton.Name = "enterSkinButton";
-			this.enterSkinButton.NormlBack = null;
-			this.enterSkinButton.Size = new System.Drawing.Size(73, 32);
-			this.enterSkinButton.TabIndex = 9;
-			this.enterSkinButton.Text = "确定";
-			this.enterSkinButton.UseVisualStyleBackColor = false;
-			this.enterSkinButton.Click += new System.EventHandler(this.enterButton_Click);
+			this.addButton.Location = new System.Drawing.Point(290, 63);
+			this.addButton.Name = "addButton";
+			this.addButton.Size = new System.Drawing.Size(75, 28);
+			this.addButton.TabIndex = 10;
+			this.addButton.Text = "添加 ->";
+			this.addButton.UseVisualStyleBackColor = true;
+			this.addButton.Click += new System.EventHandler(this.addLightButton_Click);
 			// 
-			// deleteSkinButton
+			// deleteButton
 			// 
-			this.deleteSkinButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.deleteSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.deleteSkinButton.BaseColor = System.Drawing.Color.MistyRose;
-			this.deleteSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.deleteSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.deleteSkinButton.DownBack = null;
-			this.deleteSkinButton.Location = new System.Drawing.Point(290, 109);
-			this.deleteSkinButton.MouseBack = null;
-			this.deleteSkinButton.Name = "deleteSkinButton";
-			this.deleteSkinButton.NormlBack = null;
-			this.deleteSkinButton.Size = new System.Drawing.Size(73, 32);
-			this.deleteSkinButton.TabIndex = 9;
-			this.deleteSkinButton.Text = "<- 删除";
-			this.deleteSkinButton.UseVisualStyleBackColor = false;
-			this.deleteSkinButton.Click += new System.EventHandler(this.deleteLightButton_Click);
+			this.deleteButton.Location = new System.Drawing.Point(290, 118);
+			this.deleteButton.Name = "deleteButton";
+			this.deleteButton.Size = new System.Drawing.Size(75, 28);
+			this.deleteButton.TabIndex = 10;
+			this.deleteButton.Text = "<- 删除";
+			this.deleteButton.UseVisualStyleBackColor = true;
+			this.deleteButton.Click += new System.EventHandler(this.deleteLightButton_Click);
 			// 
-			// addSkinButton
+			// enterButton
 			// 
-			this.addSkinButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.addSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.addSkinButton.BaseColor = System.Drawing.Color.LightSalmon;
-			this.addSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.addSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.addSkinButton.DownBack = null;
-			this.addSkinButton.Location = new System.Drawing.Point(290, 57);
-			this.addSkinButton.MouseBack = null;
-			this.addSkinButton.Name = "addSkinButton";
-			this.addSkinButton.NormlBack = null;
-			this.addSkinButton.Size = new System.Drawing.Size(73, 32);
-			this.addSkinButton.TabIndex = 9;
-			this.addSkinButton.Text = "添加 ->";
-			this.addSkinButton.UseVisualStyleBackColor = false;
-			this.addSkinButton.Click += new System.EventHandler(this.addLightButton_Click);
+			this.enterButton.Location = new System.Drawing.Point(290, 380);
+			this.enterButton.Name = "enterButton";
+			this.enterButton.Size = new System.Drawing.Size(75, 28);
+			this.enterButton.TabIndex = 11;
+			this.enterButton.Text = "确定";
+			this.enterButton.UseVisualStyleBackColor = true;
+			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
+			// 
+			// cancelButton
+			// 
+			this.cancelButton.Location = new System.Drawing.Point(290, 435);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(75, 28);
+			this.cancelButton.TabIndex = 11;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// LightsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.BackColor = System.Drawing.Color.MintCream;
+			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(747, 509);
-			this.Controls.Add(this.addSkinButton);
-			this.Controls.Add(this.deleteSkinButton);
-			this.Controls.Add(this.enterSkinButton);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.enterButton);
+			this.Controls.Add(this.deleteButton);
+			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lightsSkinListView);
 			this.Controls.Add(this.skinTreeView1);
 			this.Controls.Add(this.label1);
@@ -270,8 +260,9 @@ namespace LightController
 		private ColumnHeader lightName;
 		private ColumnHeader LightType;
 		private ColumnHeader LightAddr;
-		private CCWin.SkinControl.SkinButton enterSkinButton;
-		private CCWin.SkinControl.SkinButton deleteSkinButton;
-		private CCWin.SkinControl.SkinButton addSkinButton;
+		private Button addButton;
+		private Button deleteButton;
+		private Button enterButton;
+		private Button cancelButton;
 	}
 }

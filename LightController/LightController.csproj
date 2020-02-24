@@ -281,12 +281,6 @@
     <Compile Include="MyForm\LightsForm.designer.cs">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\MainForm.designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\MainFormInterface.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -448,9 +442,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MaterialSaveForm.resx">
       <DependentUpon>MaterialSaveForm.cs</DependentUpon>

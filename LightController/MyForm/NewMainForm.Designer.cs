@@ -1,4 +1,6 @@
-﻿namespace LightController.MyForm
+﻿using System.Windows.Forms;
+
+namespace LightController.MyForm
 {
 	partial class NewMainForm
 	{
@@ -38,11 +40,12 @@
 			this.hardwareSetOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.hardwareUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.工程灯具编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.全局配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.摇麦设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.工程更新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ymToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.传视界工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -50,12 +53,13 @@
 			this.CenterControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.KeyPressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.button1 = new System.Windows.Forms.Button();
-			this.chooseComButton = new System.Windows.Forms.Button();
+			this.playPanel = new System.Windows.Forms.Panel();
+			this.changeConnectMethodButton = new System.Windows.Forms.Button();
+			this.refreshDeviceButton = new System.Windows.Forms.Button();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
 			this.connectButton = new System.Windows.Forms.Button();
 			this.soundButton = new System.Windows.Forms.Button();
+			this.endviewButton = new System.Windows.Forms.Button();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.lightsAddrLabel = new System.Windows.Forms.Label();
@@ -75,19 +79,18 @@
 			this.unifySteptimeButton = new System.Windows.Forms.Button();
 			this.initButton = new System.Windows.Forms.Button();
 			this.zeroButton = new System.Windows.Forms.Button();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.panel10 = new System.Windows.Forms.Panel();
-			this.label16 = new System.Windows.Forms.Label();
-			this.label17 = new System.Windows.Forms.Label();
-			this.comboBox9 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown18 = new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown19 = new System.Windows.Forms.NumericUpDown();
-			this.trackBar9 = new System.Windows.Forms.TrackBar();
+			this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.tdPanel1 = new System.Windows.Forms.Panel();
+			this.tdNameLabel1 = new System.Windows.Forms.Label();
+			this.tdNoLabel1 = new System.Windows.Forms.Label();
+			this.tdCmComboBox1 = new System.Windows.Forms.ComboBox();
+			this.tdStNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.tdTrackBar1 = new System.Windows.Forms.TrackBar();
 			this.buttonPanel = new System.Windows.Forms.Panel();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.multiButton = new System.Windows.Forms.Button();
-			this.panel5 = new System.Windows.Forms.Panel();
+			this.playBasePanel = new System.Windows.Forms.Panel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
@@ -101,14 +104,14 @@
 			this.closeProjectButton = new System.Windows.Forms.Button();
 			this.lightsListView = new System.Windows.Forms.ListView();
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.panel6 = new System.Windows.Forms.Panel();
-			this.panel4 = new System.Windows.Forms.Panel();
+			this.stepBasePanel = new System.Windows.Forms.Panel();
+			this.stepPanel = new System.Windows.Forms.Panel();
 			this.saveMaterialButton = new System.Windows.Forms.Button();
 			this.modeComboBox = new System.Windows.Forms.ComboBox();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.stepLabel = new System.Windows.Forms.Label();
 			this.frameChooseLabel = new System.Windows.Forms.Label();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.chooseStepNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.modeChooseLabel = new System.Windows.Forms.Label();
 			this.syncButton = new System.Windows.Forms.Button();
 			this.multiLightButton = new System.Windows.Forms.Button();
@@ -125,27 +128,27 @@
 			this.addStepButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.topPanel = new System.Windows.Forms.Panel();
+			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.mainMenuStrip.SuspendLayout();
-			this.panel1.SuspendLayout();
+			this.playPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.lightInfoGroupBox.SuspendLayout();
 			this.labelPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifySteptimeNumericUpDown)).BeginInit();
-			this.flowLayoutPanel1.SuspendLayout();
-			this.panel10.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar9)).BeginInit();
+			this.tdFlowLayoutPanel.SuspendLayout();
+			this.tdPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).BeginInit();
 			this.buttonPanel.SuspendLayout();
-			this.panel3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-			this.panel5.SuspendLayout();
+			this.unifyPanel.SuspendLayout();
+			this.playBasePanel.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.panel7.SuspendLayout();
-			this.panel6.SuspendLayout();
-			this.panel4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.stepBasePanel.SuspendLayout();
+			this.stepPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
 			this.topPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -166,7 +169,7 @@
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
-            this.updateToolStripMenuItem,
+            this.projectToolStripMenuItem,
             this.传视界工具ToolStripMenuItem,
             this.ExitToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
@@ -199,12 +202,14 @@
 			this.hardwareSetNewToolStripMenuItem.Name = "hardwareSetNewToolStripMenuItem";
 			this.hardwareSetNewToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.hardwareSetNewToolStripMenuItem.Text = "新建配置";
+			this.hardwareSetNewToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetNewToolStripMenuItem_Click);
 			// 
 			// hardwareSetOpenToolStripMenuItem
 			// 
 			this.hardwareSetOpenToolStripMenuItem.Name = "hardwareSetOpenToolStripMenuItem";
 			this.hardwareSetOpenToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.hardwareSetOpenToolStripMenuItem.Text = "打开配置";
+			this.hardwareSetOpenToolStripMenuItem.Click += new System.EventHandler(this.hardwareSetOpenToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
@@ -216,42 +221,53 @@
 			this.hardwareUpdateToolStripMenuItem.Name = "hardwareUpdateToolStripMenuItem";
 			this.hardwareUpdateToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
 			this.hardwareUpdateToolStripMenuItem.Text = "硬件升级";
+			this.hardwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.hardwareUpdateToolStripMenuItem_Click);
 			// 
-			// updateToolStripMenuItem
+			// projectToolStripMenuItem
 			// 
-			this.updateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.工程灯具编辑ToolStripMenuItem,
-            this.全局配置ToolStripMenuItem,
-            this.摇麦设置ToolStripMenuItem,
-            this.工程更新ToolStripMenuItem});
-			this.updateToolStripMenuItem.Enabled = false;
-			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-			this.updateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.updateToolStripMenuItem.Text = "工程相关";
+			this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lightListToolStripMenuItem,
+            this.globalSetToolStripMenuItem,
+            this.ymToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.projectUpdateToolStripMenuItem});
+			this.projectToolStripMenuItem.Enabled = false;
+			this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
+			this.projectToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.projectToolStripMenuItem.Text = "工程相关";
 			// 
-			// 工程灯具编辑ToolStripMenuItem
+			// lightListToolStripMenuItem
 			// 
-			this.工程灯具编辑ToolStripMenuItem.Name = "工程灯具编辑ToolStripMenuItem";
-			this.工程灯具编辑ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.工程灯具编辑ToolStripMenuItem.Text = "灯具编辑";
+			this.lightListToolStripMenuItem.Name = "lightListToolStripMenuItem";
+			this.lightListToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.lightListToolStripMenuItem.Text = "灯具列表";
+			this.lightListToolStripMenuItem.Click += new System.EventHandler(this.lightListToolStripMenuItem_Click);
 			// 
-			// 全局配置ToolStripMenuItem
+			// globalSetToolStripMenuItem
 			// 
-			this.全局配置ToolStripMenuItem.Name = "全局配置ToolStripMenuItem";
-			this.全局配置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.全局配置ToolStripMenuItem.Text = "全局配置";
+			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
+			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.globalSetToolStripMenuItem.Text = "全局配置";
+			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globalSetToolStripMenuItem_Click);
 			// 
-			// 摇麦设置ToolStripMenuItem
+			// ymToolStripMenuItem
 			// 
-			this.摇麦设置ToolStripMenuItem.Name = "摇麦设置ToolStripMenuItem";
-			this.摇麦设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.摇麦设置ToolStripMenuItem.Text = "摇麦设置";
+			this.ymToolStripMenuItem.Name = "ymToolStripMenuItem";
+			this.ymToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.ymToolStripMenuItem.Text = "摇麦配置";
+			this.ymToolStripMenuItem.Click += new System.EventHandler(this.ymToolStripMenuItem_Click);
 			// 
-			// 工程更新ToolStripMenuItem
+			// toolStripSeparator2
 			// 
-			this.工程更新ToolStripMenuItem.Name = "工程更新ToolStripMenuItem";
-			this.工程更新ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.工程更新ToolStripMenuItem.Text = "工程更新";
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(121, 6);
+			// 
+			// projectUpdateToolStripMenuItem
+			// 
+			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
+			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.projectUpdateToolStripMenuItem.Text = "工程更新";
+			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
 			// 
 			// 传视界工具ToolStripMenuItem
 			// 
@@ -282,18 +298,21 @@
 			this.QDControllerToolStripMenuItem.Name = "QDControllerToolStripMenuItem";
 			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.QDControllerToolStripMenuItem.Text = "传视界灯控工具";
+			this.QDControllerToolStripMenuItem.Click += new System.EventHandler(this.QDControllerToolStripMenuItem_Click);
 			// 
 			// CenterControllerToolStripMenuItem
 			// 
 			this.CenterControllerToolStripMenuItem.Name = "CenterControllerToolStripMenuItem";
 			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.CenterControllerToolStripMenuItem.Text = "传视界中控工具";
+			this.CenterControllerToolStripMenuItem.Click += new System.EventHandler(this.CenterControllerToolStripMenuItem_Click);
 			// 
 			// KeyPressToolStripMenuItem
 			// 
 			this.KeyPressToolStripMenuItem.Name = "KeyPressToolStripMenuItem";
 			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
+			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
 			// 
 			// ExitToolStripMenuItem
 			// 
@@ -303,41 +322,42 @@
 			this.ExitToolStripMenuItem.Text = "退出程序";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
 			// 
-			// panel1
+			// playPanel
 			// 
-			this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.panel1.Controls.Add(this.button1);
-			this.panel1.Controls.Add(this.chooseComButton);
-			this.panel1.Controls.Add(this.deviceComboBox);
-			this.panel1.Controls.Add(this.connectButton);
-			this.panel1.Controls.Add(this.soundButton);
-			this.panel1.Controls.Add(this.previewButton);
-			this.panel1.Location = new System.Drawing.Point(412, 3);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(457, 68);
-			this.panel1.TabIndex = 30;
+			this.playPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.playPanel.Controls.Add(this.changeConnectMethodButton);
+			this.playPanel.Controls.Add(this.refreshDeviceButton);
+			this.playPanel.Controls.Add(this.deviceComboBox);
+			this.playPanel.Controls.Add(this.connectButton);
+			this.playPanel.Controls.Add(this.soundButton);
+			this.playPanel.Controls.Add(this.endviewButton);
+			this.playPanel.Controls.Add(this.previewButton);
+			this.playPanel.Location = new System.Drawing.Point(366, 3);
+			this.playPanel.Name = "playPanel";
+			this.playPanel.Size = new System.Drawing.Size(533, 68);
+			this.playPanel.TabIndex = 30;
 			// 
-			// button1
+			// changeConnectMethodButton
 			// 
-			this.button1.Enabled = false;
-			this.button1.Location = new System.Drawing.Point(17, 6);
-			this.button1.Margin = new System.Windows.Forms.Padding(2);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(74, 54);
-			this.button1.TabIndex = 20;
-			this.button1.Text = "以网络连接";
-			this.button1.UseVisualStyleBackColor = true;
+			this.changeConnectMethodButton.Location = new System.Drawing.Point(17, 6);
+			this.changeConnectMethodButton.Margin = new System.Windows.Forms.Padding(2);
+			this.changeConnectMethodButton.Name = "changeConnectMethodButton";
+			this.changeConnectMethodButton.Size = new System.Drawing.Size(74, 54);
+			this.changeConnectMethodButton.TabIndex = 20;
+			this.changeConnectMethodButton.Text = "以网络连接";
+			this.changeConnectMethodButton.UseVisualStyleBackColor = true;
+			this.changeConnectMethodButton.Click += new System.EventHandler(this.changeConnectMethodButton_Click);
 			// 
-			// chooseComButton
+			// refreshDeviceButton
 			// 
-			this.chooseComButton.Enabled = false;
-			this.chooseComButton.Location = new System.Drawing.Point(105, 36);
-			this.chooseComButton.Margin = new System.Windows.Forms.Padding(2);
-			this.chooseComButton.Name = "chooseComButton";
-			this.chooseComButton.Size = new System.Drawing.Size(80, 26);
-			this.chooseComButton.TabIndex = 20;
-			this.chooseComButton.Text = "刷新列表";
-			this.chooseComButton.UseVisualStyleBackColor = true;
+			this.refreshDeviceButton.Location = new System.Drawing.Point(105, 34);
+			this.refreshDeviceButton.Margin = new System.Windows.Forms.Padding(2);
+			this.refreshDeviceButton.Name = "refreshDeviceButton";
+			this.refreshDeviceButton.Size = new System.Drawing.Size(80, 26);
+			this.refreshDeviceButton.TabIndex = 20;
+			this.refreshDeviceButton.Text = "刷新列表";
+			this.refreshDeviceButton.UseVisualStyleBackColor = true;
+			this.refreshDeviceButton.Click += new System.EventHandler(this.refreshDeviceButton_Click);
 			// 
 			// deviceComboBox
 			// 
@@ -353,23 +373,35 @@
 			// 
 			this.connectButton.BackColor = System.Drawing.Color.Transparent;
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(202, 36);
+			this.connectButton.Location = new System.Drawing.Point(202, 34);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
 			this.connectButton.Size = new System.Drawing.Size(80, 26);
 			this.connectButton.TabIndex = 23;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = false;
+			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// soundButton
 			// 
-			this.soundButton.Location = new System.Drawing.Point(377, 8);
+			this.soundButton.Location = new System.Drawing.Point(376, 8);
 			this.soundButton.Margin = new System.Windows.Forms.Padding(2);
 			this.soundButton.Name = "soundButton";
 			this.soundButton.Size = new System.Drawing.Size(69, 54);
 			this.soundButton.TabIndex = 25;
 			this.soundButton.Text = "触发音频";
 			this.soundButton.UseVisualStyleBackColor = true;
+			// 
+			// endviewButton
+			// 
+			this.endviewButton.Location = new System.Drawing.Point(451, 8);
+			this.endviewButton.Margin = new System.Windows.Forms.Padding(2);
+			this.endviewButton.Name = "endviewButton";
+			this.endviewButton.Size = new System.Drawing.Size(69, 54);
+			this.endviewButton.TabIndex = 24;
+			this.endviewButton.Text = "结束预览";
+			this.endviewButton.UseVisualStyleBackColor = true;
+			this.endviewButton.Click += new System.EventHandler(this.endviewButton_Click);
 			// 
 			// previewButton
 			// 
@@ -404,9 +436,9 @@
 			// 
 			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightsAddrLabel.Location = new System.Drawing.Point(6, 150);
+			this.lightsAddrLabel.Location = new System.Drawing.Point(6, 209);
 			this.lightsAddrLabel.Name = "lightsAddrLabel";
-			this.lightsAddrLabel.Size = new System.Drawing.Size(251, 148);
+			this.lightsAddrLabel.Size = new System.Drawing.Size(165, 83);
 			this.lightsAddrLabel.TabIndex = 5;
 			this.lightsAddrLabel.Text = " ";
 			// 
@@ -414,28 +446,29 @@
 			// 
 			this.lightTypeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeLabel.Location = new System.Drawing.Point(6, 92);
+			this.lightTypeLabel.Location = new System.Drawing.Point(6, 175);
 			this.lightTypeLabel.Name = "lightTypeLabel";
-			this.lightTypeLabel.Size = new System.Drawing.Size(127, 39);
+			this.lightTypeLabel.Size = new System.Drawing.Size(166, 18);
 			this.lightTypeLabel.TabIndex = 7;
 			this.lightTypeLabel.Text = " ";
 			// 
 			// lightNameLabel
 			// 
+			this.lightNameLabel.BackColor = System.Drawing.Color.Transparent;
 			this.lightNameLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightNameLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightNameLabel.Location = new System.Drawing.Point(6, 34);
+			this.lightNameLabel.Location = new System.Drawing.Point(6, 141);
 			this.lightNameLabel.Name = "lightNameLabel";
-			this.lightNameLabel.Size = new System.Drawing.Size(127, 39);
+			this.lightNameLabel.Size = new System.Drawing.Size(166, 18);
 			this.lightNameLabel.TabIndex = 8;
 			this.lightNameLabel.Text = " ";
 			// 
 			// currentLightPictureBox
 			// 
 			this.currentLightPictureBox.InitialImage = null;
-			this.currentLightPictureBox.Location = new System.Drawing.Point(139, 18);
+			this.currentLightPictureBox.Location = new System.Drawing.Point(34, 16);
 			this.currentLightPictureBox.Name = "currentLightPictureBox";
-			this.currentLightPictureBox.Size = new System.Drawing.Size(118, 113);
+			this.currentLightPictureBox.Size = new System.Drawing.Size(110, 115);
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 6;
 			this.currentLightPictureBox.TabStop = false;
@@ -449,16 +482,17 @@
 			this.lightInfoGroupBox.Controls.Add(this.lightNameLabel);
 			this.lightInfoGroupBox.Controls.Add(this.lightTypeLabel);
 			this.lightInfoGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
-			this.lightInfoGroupBox.Location = new System.Drawing.Point(1006, 0);
+			this.lightInfoGroupBox.Location = new System.Drawing.Point(1089, 0);
 			this.lightInfoGroupBox.Name = "lightInfoGroupBox";
-			this.lightInfoGroupBox.Size = new System.Drawing.Size(258, 296);
+			this.lightInfoGroupBox.Size = new System.Drawing.Size(175, 296);
 			this.lightInfoGroupBox.TabIndex = 51;
 			this.lightInfoGroupBox.TabStop = false;
 			this.lightInfoGroupBox.Text = "当前灯具";
 			// 
 			// labelPanel
 			// 
-			this.labelPanel.BackColor = System.Drawing.Color.MintCream;
+			this.labelPanel.BackColor = System.Drawing.Color.Transparent;
+			this.labelPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.labelPanel.Controls.Add(this.thirdLabel1);
 			this.labelPanel.Controls.Add(this.secondLabel1);
 			this.labelPanel.Controls.Add(this.firstLabel1);
@@ -471,16 +505,16 @@
 			// thirdLabel1
 			// 
 			this.thirdLabel1.AutoSize = true;
-			this.thirdLabel1.Location = new System.Drawing.Point(33, 280);
+			this.thirdLabel1.Location = new System.Drawing.Point(24, 278);
 			this.thirdLabel1.Name = "thirdLabel1";
-			this.thirdLabel1.Size = new System.Drawing.Size(41, 12);
+			this.thirdLabel1.Size = new System.Drawing.Size(59, 12);
 			this.thirdLabel1.TabIndex = 0;
-			this.thirdLabel1.Text = "步时间";
+			this.thirdLabel1.Text = "步时间(s)";
 			// 
 			// secondLabel1
 			// 
 			this.secondLabel1.AutoSize = true;
-			this.secondLabel1.Location = new System.Drawing.Point(33, 255);
+			this.secondLabel1.Location = new System.Drawing.Point(33, 253);
 			this.secondLabel1.Name = "secondLabel1";
 			this.secondLabel1.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel1.TabIndex = 0;
@@ -489,7 +523,7 @@
 			// firstLabel1
 			// 
 			this.firstLabel1.AutoSize = true;
-			this.firstLabel1.Location = new System.Drawing.Point(33, 230);
+			this.firstLabel1.Location = new System.Drawing.Point(33, 227);
 			this.firstLabel1.Name = "firstLabel1";
 			this.firstLabel1.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel1.TabIndex = 0;
@@ -509,7 +543,7 @@
 			// 
 			// unifyValueNumericUpDown
 			// 
-			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(12, 202);
+			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(12, 221);
 			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -549,7 +583,7 @@
 			// unifyValueButton
 			// 
 			this.unifyValueButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyValueButton.Location = new System.Drawing.Point(83, 200);
+			this.unifyValueButton.Location = new System.Drawing.Point(83, 219);
 			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyValueButton.Name = "unifyValueButton";
 			this.unifyValueButton.Size = new System.Drawing.Size(84, 23);
@@ -570,7 +604,7 @@
 			// 
 			// initButton
 			// 
-			this.initButton.Location = new System.Drawing.Point(12, 74);
+			this.initButton.Location = new System.Drawing.Point(12, 76);
 			this.initButton.Margin = new System.Windows.Forms.Padding(2);
 			this.initButton.Name = "initButton";
 			this.initButton.Size = new System.Drawing.Size(75, 23);
@@ -580,107 +614,108 @@
 			// 
 			// zeroButton
 			// 
-			this.zeroButton.Location = new System.Drawing.Point(12, 47);
+			this.zeroButton.Location = new System.Drawing.Point(12, 49);
 			this.zeroButton.Margin = new System.Windows.Forms.Padding(2);
 			this.zeroButton.Name = "zeroButton";
 			this.zeroButton.Size = new System.Drawing.Size(75, 23);
 			this.zeroButton.TabIndex = 56;
 			this.zeroButton.Text = "全部归零";
 			this.zeroButton.UseVisualStyleBackColor = true;
+			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
 			// 
-			// flowLayoutPanel1
+			// tdFlowLayoutPanel
 			// 
-			this.flowLayoutPanel1.AutoScroll = true;
-			this.flowLayoutPanel1.BackColor = System.Drawing.Color.MintCream;
-			this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.flowLayoutPanel1.Controls.Add(this.panel10);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(95, 0);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(994, 335);
-			this.flowLayoutPanel1.TabIndex = 54;
-			this.flowLayoutPanel1.WrapContents = false;
+			this.tdFlowLayoutPanel.AutoScroll = true;
+			this.tdFlowLayoutPanel.BackColor = System.Drawing.Color.MintCream;
+			this.tdFlowLayoutPanel.Controls.Add(this.tdPanel1);
+			this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tdFlowLayoutPanel.Location = new System.Drawing.Point(95, 0);
+			this.tdFlowLayoutPanel.Name = "tdFlowLayoutPanel";
+			this.tdFlowLayoutPanel.Size = new System.Drawing.Size(994, 335);
+			this.tdFlowLayoutPanel.TabIndex = 54;
+			this.tdFlowLayoutPanel.WrapContents = false;
 			// 
-			// panel10
+			// tdPanel1
 			// 
-			this.panel10.Controls.Add(this.label16);
-			this.panel10.Controls.Add(this.label17);
-			this.panel10.Controls.Add(this.comboBox9);
-			this.panel10.Controls.Add(this.numericUpDown18);
-			this.panel10.Controls.Add(this.numericUpDown19);
-			this.panel10.Controls.Add(this.trackBar9);
-			this.panel10.Location = new System.Drawing.Point(3, 3);
-			this.panel10.Name = "panel10";
-			this.panel10.Size = new System.Drawing.Size(74, 297);
-			this.panel10.TabIndex = 1;
+			this.tdPanel1.Controls.Add(this.tdNameLabel1);
+			this.tdPanel1.Controls.Add(this.tdNoLabel1);
+			this.tdPanel1.Controls.Add(this.tdCmComboBox1);
+			this.tdPanel1.Controls.Add(this.tdStNumericUpDown1);
+			this.tdPanel1.Controls.Add(this.tdValueNumericUpDown1);
+			this.tdPanel1.Controls.Add(this.tdTrackBar1);
+			this.tdPanel1.Location = new System.Drawing.Point(3, 3);
+			this.tdPanel1.Name = "tdPanel1";
+			this.tdPanel1.Size = new System.Drawing.Size(84, 297);
+			this.tdPanel1.TabIndex = 24;
+			this.tdPanel1.Visible = false;
 			// 
-			// label16
+			// tdNameLabel1
 			// 
-			this.label16.Font = new System.Drawing.Font("宋体", 8F);
-			this.label16.Location = new System.Drawing.Point(15, 58);
-			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(14, 143);
-			this.label16.TabIndex = 23;
-			this.label16.Text = "x/y轴转速";
-			this.label16.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.tdNameLabel1.Font = new System.Drawing.Font("宋体", 8F);
+			this.tdNameLabel1.Location = new System.Drawing.Point(17, 47);
+			this.tdNameLabel1.Name = "tdNameLabel1";
+			this.tdNameLabel1.Size = new System.Drawing.Size(14, 153);
+			this.tdNameLabel1.TabIndex = 23;
+			this.tdNameLabel1.Text = "x/y轴转速";
+			this.tdNameLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
-			// label17
+			// tdNoLabel1
 			// 
-			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(15, 18);
-			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(47, 12);
-			this.label17.TabIndex = 3;
-			this.label17.Text = "通道555";
+			this.tdNoLabel1.AutoSize = true;
+			this.tdNoLabel1.Location = new System.Drawing.Point(15, 18);
+			this.tdNoLabel1.Name = "tdNoLabel1";
+			this.tdNoLabel1.Size = new System.Drawing.Size(47, 12);
+			this.tdNoLabel1.TabIndex = 3;
+			this.tdNoLabel1.Text = "通道555";
 			// 
-			// comboBox9
+			// tdCmComboBox1
 			// 
-			this.comboBox9.FormattingEnabled = true;
-			this.comboBox9.Location = new System.Drawing.Point(8, 247);
-			this.comboBox9.Name = "comboBox9";
-			this.comboBox9.Size = new System.Drawing.Size(60, 20);
-			this.comboBox9.TabIndex = 2;
+			this.tdCmComboBox1.FormattingEnabled = true;
+			this.tdCmComboBox1.Location = new System.Drawing.Point(12, 247);
+			this.tdCmComboBox1.Name = "tdCmComboBox1";
+			this.tdCmComboBox1.Size = new System.Drawing.Size(60, 20);
+			this.tdCmComboBox1.TabIndex = 2;
 			// 
-			// numericUpDown18
+			// tdStNumericUpDown1
 			// 
-			this.numericUpDown18.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown18.Location = new System.Drawing.Point(8, 271);
-			this.numericUpDown18.Name = "numericUpDown18";
-			this.numericUpDown18.Size = new System.Drawing.Size(60, 20);
-			this.numericUpDown18.TabIndex = 1;
-			this.numericUpDown18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdStNumericUpDown1.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdStNumericUpDown1.Location = new System.Drawing.Point(12, 271);
+			this.tdStNumericUpDown1.Name = "tdStNumericUpDown1";
+			this.tdStNumericUpDown1.Size = new System.Drawing.Size(60, 20);
+			this.tdStNumericUpDown1.TabIndex = 1;
+			this.tdStNumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// numericUpDown19
+			// tdValueNumericUpDown1
 			// 
-			this.numericUpDown19.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown19.Location = new System.Drawing.Point(8, 223);
-			this.numericUpDown19.Maximum = new decimal(new int[] {
+			this.tdValueNumericUpDown1.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(17, 223);
+			this.tdValueNumericUpDown1.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-			this.numericUpDown19.Name = "numericUpDown19";
-			this.numericUpDown19.Size = new System.Drawing.Size(60, 20);
-			this.numericUpDown19.TabIndex = 1;
-			this.numericUpDown19.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdValueNumericUpDown1.Name = "tdValueNumericUpDown1";
+			this.tdValueNumericUpDown1.Size = new System.Drawing.Size(50, 20);
+			this.tdValueNumericUpDown1.TabIndex = 1;
+			this.tdValueNumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// trackBar9
+			// tdTrackBar1
 			// 
-			this.trackBar9.AutoSize = false;
-			this.trackBar9.BackColor = System.Drawing.Color.MintCream;
-			this.trackBar9.Location = new System.Drawing.Point(32, 43);
-			this.trackBar9.Maximum = 255;
-			this.trackBar9.Name = "trackBar9";
-			this.trackBar9.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.trackBar9.Size = new System.Drawing.Size(30, 163);
-			this.trackBar9.TabIndex = 0;
-			this.trackBar9.TickFrequency = 0;
-			this.trackBar9.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.tdTrackBar1.AutoSize = false;
+			this.tdTrackBar1.BackColor = System.Drawing.Color.MintCream;
+			this.tdTrackBar1.Location = new System.Drawing.Point(33, 33);
+			this.tdTrackBar1.Maximum = 255;
+			this.tdTrackBar1.Name = "tdTrackBar1";
+			this.tdTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.tdTrackBar1.Size = new System.Drawing.Size(35, 184);
+			this.tdTrackBar1.TabIndex = 0;
+			this.tdTrackBar1.TickFrequency = 0;
+			this.tdTrackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
 			// buttonPanel
 			// 
-			this.buttonPanel.Controls.Add(this.flowLayoutPanel1);
-			this.buttonPanel.Controls.Add(this.panel3);
+			this.buttonPanel.Controls.Add(this.tdFlowLayoutPanel);
+			this.buttonPanel.Controls.Add(this.unifyPanel);
 			this.buttonPanel.Controls.Add(this.labelPanel);
 			this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.buttonPanel.Location = new System.Drawing.Point(0, 413);
@@ -688,38 +723,28 @@
 			this.buttonPanel.Size = new System.Drawing.Size(1264, 335);
 			this.buttonPanel.TabIndex = 63;
 			// 
-			// panel3
+			// unifyPanel
 			// 
-			this.panel3.BackColor = System.Drawing.Color.White;
-			this.panel3.Controls.Add(this.trackBar1);
-			this.panel3.Controls.Add(this.zeroButton);
-			this.panel3.Controls.Add(this.multiButton);
-			this.panel3.Controls.Add(this.initButton);
-			this.panel3.Controls.Add(this.unifyChangeModeComboBox);
-			this.panel3.Controls.Add(this.unifyValueNumericUpDown);
-			this.panel3.Controls.Add(this.unifySteptimeButton);
-			this.panel3.Controls.Add(this.unifySteptimeNumericUpDown);
-			this.panel3.Controls.Add(this.unifyValueButton);
-			this.panel3.Controls.Add(this.unifyChangemodeButton);
-			this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel3.Location = new System.Drawing.Point(1089, 0);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(175, 335);
-			this.panel3.TabIndex = 64;
-			// 
-			// trackBar1
-			// 
-			this.trackBar1.AutoSize = false;
-			this.trackBar1.Location = new System.Drawing.Point(10, 229);
-			this.trackBar1.Maximum = 255;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(153, 20);
-			this.trackBar1.TabIndex = 63;
-			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.unifyPanel.BackColor = System.Drawing.Color.White;
+			this.unifyPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.unifyPanel.Controls.Add(this.zeroButton);
+			this.unifyPanel.Controls.Add(this.multiButton);
+			this.unifyPanel.Controls.Add(this.initButton);
+			this.unifyPanel.Controls.Add(this.unifyChangeModeComboBox);
+			this.unifyPanel.Controls.Add(this.unifyValueNumericUpDown);
+			this.unifyPanel.Controls.Add(this.unifySteptimeButton);
+			this.unifyPanel.Controls.Add(this.unifySteptimeNumericUpDown);
+			this.unifyPanel.Controls.Add(this.unifyValueButton);
+			this.unifyPanel.Controls.Add(this.unifyChangemodeButton);
+			this.unifyPanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.unifyPanel.Location = new System.Drawing.Point(1089, 0);
+			this.unifyPanel.Name = "unifyPanel";
+			this.unifyPanel.Size = new System.Drawing.Size(175, 335);
+			this.unifyPanel.TabIndex = 64;
 			// 
 			// multiButton
 			// 
-			this.multiButton.Location = new System.Drawing.Point(91, 47);
+			this.multiButton.Location = new System.Drawing.Point(91, 49);
 			this.multiButton.Margin = new System.Windows.Forms.Padding(2);
 			this.multiButton.Name = "multiButton";
 			this.multiButton.Size = new System.Drawing.Size(75, 50);
@@ -727,24 +752,25 @@
 			this.multiButton.Text = "多步调节";
 			this.multiButton.UseVisualStyleBackColor = true;
 			// 
-			// panel5
+			// playBasePanel
 			// 
-			this.panel5.BackColor = System.Drawing.Color.White;
-			this.panel5.Controls.Add(this.statusStrip1);
-			this.panel5.Controls.Add(this.panel1);
-			this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel5.Location = new System.Drawing.Point(0, 748);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(1264, 96);
-			this.panel5.TabIndex = 67;
+			this.playBasePanel.BackColor = System.Drawing.Color.White;
+			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.playBasePanel.Controls.Add(this.statusStrip1);
+			this.playBasePanel.Controls.Add(this.playPanel);
+			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.playBasePanel.Location = new System.Drawing.Point(0, 748);
+			this.playBasePanel.Name = "playBasePanel";
+			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
+			this.playBasePanel.TabIndex = 67;
 			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 74);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 72);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1264, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(1262, 22);
 			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 31;
 			this.statusStrip1.Text = "statusStrip1";
@@ -753,7 +779,7 @@
 			// 
 			this.myStatusLabel.AutoSize = false;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(1249, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(1216, 17);
 			this.myStatusLabel.Spring = true;
 			// 
 			// skinComboBox
@@ -792,6 +818,7 @@
 			this.newProjectButton.TabIndex = 26;
 			this.newProjectButton.Text = "新建工程";
 			this.newProjectButton.UseVisualStyleBackColor = true;
+			this.newProjectButton.Click += new System.EventHandler(this.newProjectButton_Click);
 			// 
 			// exportProjectButton
 			// 
@@ -806,6 +833,7 @@
 			// 
 			// useFrameButton
 			// 
+			this.useFrameButton.Enabled = false;
 			this.useFrameButton.Location = new System.Drawing.Point(10, 124);
 			this.useFrameButton.Name = "useFrameButton";
 			this.useFrameButton.Size = new System.Drawing.Size(74, 40);
@@ -822,6 +850,7 @@
 			this.openProjectButton.TabIndex = 27;
 			this.openProjectButton.Text = "打开工程";
 			this.openProjectButton.UseVisualStyleBackColor = true;
+			this.openProjectButton.Click += new System.EventHandler(this.openProjectButton_Click);
 			// 
 			// saveProjectButton
 			// 
@@ -858,7 +887,7 @@
 			// 
 			// lightsListView
 			// 
-			this.lightsListView.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.lightsListView.BackColor = System.Drawing.Color.MintCream;
 			this.lightsListView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lightType});
@@ -871,50 +900,51 @@
 			this.lightsListView.Size = new System.Drawing.Size(1169, 383);
 			this.lightsListView.TabIndex = 50;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
+			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
 			// 
 			// lightType
 			// 
 			this.lightType.Text = "LightType";
 			// 
-			// panel6
+			// stepBasePanel
 			// 
-			this.panel6.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-			this.panel6.Controls.Add(this.panel4);
-			this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel6.Location = new System.Drawing.Point(95, 296);
-			this.panel6.Name = "panel6";
-			this.panel6.Size = new System.Drawing.Size(1169, 87);
-			this.panel6.TabIndex = 68;
+			this.stepBasePanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.stepBasePanel.Controls.Add(this.stepPanel);
+			this.stepBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.stepBasePanel.Location = new System.Drawing.Point(95, 296);
+			this.stepBasePanel.Name = "stepBasePanel";
+			this.stepBasePanel.Size = new System.Drawing.Size(1169, 87);
+			this.stepBasePanel.TabIndex = 68;
 			// 
-			// panel4
+			// stepPanel
 			// 
-			this.panel4.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.panel4.BackColor = System.Drawing.Color.Transparent;
-			this.panel4.Controls.Add(this.saveMaterialButton);
-			this.panel4.Controls.Add(this.modeComboBox);
-			this.panel4.Controls.Add(this.frameComboBox);
-			this.panel4.Controls.Add(this.stepLabel);
-			this.panel4.Controls.Add(this.frameChooseLabel);
-			this.panel4.Controls.Add(this.numericUpDown1);
-			this.panel4.Controls.Add(this.modeChooseLabel);
-			this.panel4.Controls.Add(this.syncButton);
-			this.panel4.Controls.Add(this.multiLightButton);
-			this.panel4.Controls.Add(this.backStepButton);
-			this.panel4.Controls.Add(this.multiPasteButton);
-			this.panel4.Controls.Add(this.insertAfterButton);
-			this.panel4.Controls.Add(this.nextStepButton);
-			this.panel4.Controls.Add(this.useMaterialButton);
-			this.panel4.Controls.Add(this.deleteStepButton);
-			this.panel4.Controls.Add(this.chooseStepButton);
-			this.panel4.Controls.Add(this.multiCopyButton);
-			this.panel4.Controls.Add(this.insertBeforeButton);
-			this.panel4.Controls.Add(this.copyStepButton);
-			this.panel4.Controls.Add(this.addStepButton);
-			this.panel4.Controls.Add(this.pasteStepButton);
-			this.panel4.Location = new System.Drawing.Point(82, 1);
-			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(938, 83);
-			this.panel4.TabIndex = 65;
+			this.stepPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.stepPanel.BackColor = System.Drawing.Color.Transparent;
+			this.stepPanel.Controls.Add(this.saveMaterialButton);
+			this.stepPanel.Controls.Add(this.modeComboBox);
+			this.stepPanel.Controls.Add(this.frameComboBox);
+			this.stepPanel.Controls.Add(this.stepLabel);
+			this.stepPanel.Controls.Add(this.frameChooseLabel);
+			this.stepPanel.Controls.Add(this.chooseStepNumericUpDown);
+			this.stepPanel.Controls.Add(this.modeChooseLabel);
+			this.stepPanel.Controls.Add(this.syncButton);
+			this.stepPanel.Controls.Add(this.multiLightButton);
+			this.stepPanel.Controls.Add(this.backStepButton);
+			this.stepPanel.Controls.Add(this.multiPasteButton);
+			this.stepPanel.Controls.Add(this.insertAfterButton);
+			this.stepPanel.Controls.Add(this.nextStepButton);
+			this.stepPanel.Controls.Add(this.useMaterialButton);
+			this.stepPanel.Controls.Add(this.deleteStepButton);
+			this.stepPanel.Controls.Add(this.chooseStepButton);
+			this.stepPanel.Controls.Add(this.multiCopyButton);
+			this.stepPanel.Controls.Add(this.insertBeforeButton);
+			this.stepPanel.Controls.Add(this.copyStepButton);
+			this.stepPanel.Controls.Add(this.addStepButton);
+			this.stepPanel.Controls.Add(this.pasteStepButton);
+			this.stepPanel.Location = new System.Drawing.Point(98, 1);
+			this.stepPanel.Name = "stepPanel";
+			this.stepPanel.Size = new System.Drawing.Size(938, 83);
+			this.stepPanel.TabIndex = 65;
 			// 
 			// saveMaterialButton
 			// 
@@ -965,13 +995,13 @@
 			this.frameChooseLabel.TabIndex = 20;
 			this.frameChooseLabel.Text = "场景：";
 			// 
-			// numericUpDown1
+			// chooseStepNumericUpDown
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(546, 17);
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(54, 21);
-			this.numericUpDown1.TabIndex = 52;
-			this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(546, 17);
+			this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
+			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(54, 21);
+			this.chooseStepNumericUpDown.TabIndex = 52;
+			this.chooseStepNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// modeChooseLabel
 			// 
@@ -1126,7 +1156,7 @@
 			// topPanel
 			// 
 			this.topPanel.Controls.Add(this.lightInfoGroupBox);
-			this.topPanel.Controls.Add(this.panel6);
+			this.topPanel.Controls.Add(this.stepBasePanel);
 			this.topPanel.Controls.Add(this.lightsListView);
 			this.topPanel.Controls.Add(this.panel7);
 			this.topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1134,6 +1164,70 @@
 			this.topPanel.Name = "topPanel";
 			this.topPanel.Size = new System.Drawing.Size(1264, 383);
 			this.topPanel.TabIndex = 70;
+			// 
+			// lightLargeImageList
+			// 
+			this.lightLargeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightLargeImageList.ImageStream")));
+			this.lightLargeImageList.TransparentColor = System.Drawing.Color.Gainsboro;
+			this.lightLargeImageList.Images.SetKeyName(0, "2.bmp");
+			this.lightLargeImageList.Images.SetKeyName(1, "3.bmp");
+			this.lightLargeImageList.Images.SetKeyName(2, "4.bmp");
+			this.lightLargeImageList.Images.SetKeyName(3, "5.bmp");
+			this.lightLargeImageList.Images.SetKeyName(4, "6.bmp");
+			this.lightLargeImageList.Images.SetKeyName(5, "7.bmp");
+			this.lightLargeImageList.Images.SetKeyName(6, "8.bmp");
+			this.lightLargeImageList.Images.SetKeyName(7, "9.bmp");
+			this.lightLargeImageList.Images.SetKeyName(8, "10.bmp");
+			this.lightLargeImageList.Images.SetKeyName(9, "11.bmp");
+			this.lightLargeImageList.Images.SetKeyName(10, "12.bmp");
+			this.lightLargeImageList.Images.SetKeyName(11, "13.bmp");
+			this.lightLargeImageList.Images.SetKeyName(12, "14.bmp");
+			this.lightLargeImageList.Images.SetKeyName(13, "15.bmp");
+			this.lightLargeImageList.Images.SetKeyName(14, "16.bmp");
+			this.lightLargeImageList.Images.SetKeyName(15, "17.bmp");
+			this.lightLargeImageList.Images.SetKeyName(16, "18.bmp");
+			this.lightLargeImageList.Images.SetKeyName(17, "19.bmp");
+			this.lightLargeImageList.Images.SetKeyName(18, "20.bmp");
+			this.lightLargeImageList.Images.SetKeyName(19, "21.bmp");
+			this.lightLargeImageList.Images.SetKeyName(20, "22.bmp");
+			this.lightLargeImageList.Images.SetKeyName(21, "23.bmp");
+			this.lightLargeImageList.Images.SetKeyName(22, "24.bmp");
+			this.lightLargeImageList.Images.SetKeyName(23, "25.bmp");
+			this.lightLargeImageList.Images.SetKeyName(24, "27.bmp");
+			this.lightLargeImageList.Images.SetKeyName(25, "28.bmp");
+			this.lightLargeImageList.Images.SetKeyName(26, "29.gif");
+			this.lightLargeImageList.Images.SetKeyName(27, "30.bmp");
+			this.lightLargeImageList.Images.SetKeyName(28, "31.bmp");
+			this.lightLargeImageList.Images.SetKeyName(29, "ledpar.bmp");
+			this.lightLargeImageList.Images.SetKeyName(30, "RGB.ico");
+			this.lightLargeImageList.Images.SetKeyName(31, "灯带.bmp");
+			this.lightLargeImageList.Images.SetKeyName(32, "二合一.bmp");
+			this.lightLargeImageList.Images.SetKeyName(33, "二合一50.bmp");
+			this.lightLargeImageList.Images.SetKeyName(34, "魔球.bmp");
+			this.lightLargeImageList.Images.SetKeyName(35, "帕灯.bmp");
+			this.lightLargeImageList.Images.SetKeyName(36, "未知.ico");
+			this.lightLargeImageList.Images.SetKeyName(37, "1.bmp");
+			this.lightLargeImageList.Images.SetKeyName(38, "1.jpg");
+			this.lightLargeImageList.Images.SetKeyName(39, "灯光图.png");
+			this.lightLargeImageList.Images.SetKeyName(40, "3.jpg");
+			this.lightLargeImageList.Images.SetKeyName(41, "4.jpg");
+			this.lightLargeImageList.Images.SetKeyName(42, "5.jpg");
+			this.lightLargeImageList.Images.SetKeyName(43, "60w.jpg");
+			this.lightLargeImageList.Images.SetKeyName(44, "j(1).png");
+			this.lightLargeImageList.Images.SetKeyName(45, "j(2).png");
+			this.lightLargeImageList.Images.SetKeyName(46, "j(3).png");
+			this.lightLargeImageList.Images.SetKeyName(47, "j(4).png");
+			this.lightLargeImageList.Images.SetKeyName(48, "j(5).png");
+			this.lightLargeImageList.Images.SetKeyName(49, "j(6).png");
+			this.lightLargeImageList.Images.SetKeyName(50, "j(7).png");
+			this.lightLargeImageList.Images.SetKeyName(51, "j(8).png");
+			this.lightLargeImageList.Images.SetKeyName(52, "j(9).png");
+			this.lightLargeImageList.Images.SetKeyName(53, "j(10).png");
+			this.lightLargeImageList.Images.SetKeyName(54, "j(11).png");
+			this.lightLargeImageList.Images.SetKeyName(55, "a (1).jpg");
+			this.lightLargeImageList.Images.SetKeyName(56, "a (1).png");
+			this.lightLargeImageList.Images.SetKeyName(57, "a (2).jpg");
+			this.lightLargeImageList.Images.SetKeyName(58, "a (2).png");
 			// 
 			// NewMainForm
 			// 
@@ -1145,38 +1239,37 @@
 			this.Controls.Add(this.skinComboBox);
 			this.Controls.Add(this.buttonPanel);
 			this.Controls.Add(this.mainMenuStrip);
-			this.Controls.Add(this.panel5);
+			this.Controls.Add(this.playBasePanel);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "NewMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
-			this.panel1.ResumeLayout(false);
+			this.playPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
 			this.lightInfoGroupBox.ResumeLayout(false);
 			this.labelPanel.ResumeLayout(false);
 			this.labelPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifySteptimeNumericUpDown)).EndInit();
-			this.flowLayoutPanel1.ResumeLayout(false);
-			this.panel10.ResumeLayout(false);
-			this.panel10.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown18)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown19)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar9)).EndInit();
+			this.tdFlowLayoutPanel.ResumeLayout(false);
+			this.tdPanel1.ResumeLayout(false);
+			this.tdPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).EndInit();
 			this.buttonPanel.ResumeLayout(false);
-			this.panel3.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-			this.panel5.ResumeLayout(false);
-			this.panel5.PerformLayout();
+			this.unifyPanel.ResumeLayout(false);
+			this.playBasePanel.ResumeLayout(false);
+			this.playBasePanel.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.panel7.ResumeLayout(false);
-			this.panel6.ResumeLayout(false);
-			this.panel4.ResumeLayout(false);
-			this.panel4.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			this.stepBasePanel.ResumeLayout(false);
+			this.stepPanel.ResumeLayout(false);
+			this.stepPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).EndInit();
 			this.topPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -1190,7 +1283,7 @@
 		private System.Windows.Forms.ToolStripMenuItem hardwareSetNewToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hardwareSetOpenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hardwareUpdateToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 传视界工具ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -1198,18 +1291,18 @@
 		private System.Windows.Forms.ToolStripMenuItem CenterControllerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem KeyPressToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem 工程灯具编辑ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 全局配置ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 摇麦设置ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem lightListToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem globalSetToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem ymToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 工程更新ToolStripMenuItem;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button chooseComButton;
+		private System.Windows.Forms.ToolStripMenuItem projectUpdateToolStripMenuItem;
+		private System.Windows.Forms.Panel playPanel;
+		private System.Windows.Forms.Button refreshDeviceButton;
 		private System.Windows.Forms.ComboBox deviceComboBox;
 		private System.Windows.Forms.Button connectButton;
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.Button soundButton;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button changeConnectMethodButton;
 		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.Label lightsAddrLabel;
 		private System.Windows.Forms.Label lightTypeLabel;
@@ -1228,17 +1321,10 @@
 		private System.Windows.Forms.Button unifySteptimeButton;
 		private System.Windows.Forms.Button initButton;
 		private System.Windows.Forms.Button zeroButton;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-		private System.Windows.Forms.Panel panel10;
-		public System.Windows.Forms.Label label16;
-		private System.Windows.Forms.Label label17;
-		private System.Windows.Forms.ComboBox comboBox9;
-		private System.Windows.Forms.NumericUpDown numericUpDown18;
-		private System.Windows.Forms.NumericUpDown numericUpDown19;
-		private System.Windows.Forms.TrackBar trackBar9;
+		private System.Windows.Forms.FlowLayoutPanel tdFlowLayoutPanel;
 		private System.Windows.Forms.Panel buttonPanel;
-		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.Panel panel5;
+		private System.Windows.Forms.Panel unifyPanel;
+		private System.Windows.Forms.Panel playBasePanel;
 		private System.Windows.Forms.Button multiButton;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ComboBox skinComboBox;
@@ -1252,14 +1338,14 @@
 		private System.Windows.Forms.Button closeProjectButton;
 		private System.Windows.Forms.ListView lightsListView;
 		private System.Windows.Forms.ColumnHeader lightType;
-		private System.Windows.Forms.Panel panel6;
-		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.Panel stepBasePanel;
+		private System.Windows.Forms.Panel stepPanel;
 		private System.Windows.Forms.Button saveMaterialButton;
 		private System.Windows.Forms.ComboBox modeComboBox;
 		private System.Windows.Forms.ComboBox frameComboBox;
 		private System.Windows.Forms.Label stepLabel;
 		private System.Windows.Forms.Label frameChooseLabel;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown chooseStepNumericUpDown;
 		private System.Windows.Forms.Label modeChooseLabel;
 		private System.Windows.Forms.Button syncButton;
 		private System.Windows.Forms.Button multiLightButton;
@@ -1276,7 +1362,24 @@
 		private System.Windows.Forms.Button addStepButton;
 		private System.Windows.Forms.Button pasteStepButton;
 		private System.Windows.Forms.Panel topPanel;
-		private System.Windows.Forms.TrackBar trackBar1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ImageList lightLargeImageList;
+
+		private Panel[] tdPanels = new Panel[32];
+		private Label[] tdNoLabels = new Label[32];
+		private Label[] tdNameLabels = new Label[32];
+		private TrackBar[] tdTrackBars = new TrackBar[32];
+		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
+		private ComboBox[] tdCmComboBoxes = new ComboBox[32];
+		private NumericUpDown[] tdStNumericUpDowns = new NumericUpDown[32];
+		private Panel tdPanel1;
+		private Label tdNameLabel1;
+		private Label tdNoLabel1;
+		private ComboBox tdCmComboBox1;
+		private NumericUpDown tdStNumericUpDown1;
+		private NumericUpDown tdValueNumericUpDown1;
+		private TrackBar tdTrackBar1;
+		private Button endviewButton;
 	}
 }

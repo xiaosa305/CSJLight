@@ -158,8 +158,7 @@ namespace LightController.MyForm
 		{
 			this.Dispose();
 			this.mainForm.Activate();
-			HardwareSetForm hsForm = new HardwareSetForm(mainForm, null, null);
-			hsForm.ShowDialog();			
+			new HardwareSetForm(mainForm, null, null).ShowDialog();			
 		}
 	}
 }

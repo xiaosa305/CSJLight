@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,20 +16,15 @@ namespace LightController
 {
 	public partial class LightsForm : System.Windows.Forms.Form
 	{
-		public const int MAX_TD = 512;
-
-		private MainFormInterface mainForm;		
-		//每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
-		private int minNum = 1;
+		public const int MAX_TD = 512;		
+		private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private IList<LightAst> lightAstList = new List<LightAst>();
 		private string savePath;
 
-		/// <summary>
-		///  构造函数：传mainForm值，并通过lightAstList判断是否旧项目
-		/// </summary>
-		/// <param name="mainForm"></param>
-		/// <param name="lightAstListFromMain"></param>
-		public LightsForm(MainFormInterface mainForm,IList<LightAst> lightAstListFromMain)
+
+
+		private MainFormInterface mainForm;		
+		public LightsForm(MainFormInterface mainForm, IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -265,6 +261,11 @@ namespace LightController
 				return true;
 			}			
 		}
-		
+
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
 	}
 }

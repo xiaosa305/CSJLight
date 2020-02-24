@@ -19,7 +19,7 @@ namespace LightController.MyForm
 		private string savePath;   // 辅助变量，获取软件的存储目录。
 		private string selectedProjectName; // 临时变量，存储右键选中后弹出的重命名菜单
 
-		public OpenForm(MainFormInterface mainForm , string currentProjectName)
+		public OpenForm(MainFormInterface mainForm, string currentProjectName)
 		{
 			InitializeComponent();
 		
@@ -78,7 +78,7 @@ namespace LightController.MyForm
 			{
 				this.Dispose();
 				mainForm.Activate();
-				mainForm.OpenProject(projectName);
+				//mainForm.OpenProject(projectName);
 			}
 			else
 			{

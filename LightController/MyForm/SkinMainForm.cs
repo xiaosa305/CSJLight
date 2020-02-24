@@ -26,6 +26,8 @@ namespace LightController.MyForm
 	{
 		private bool isPainting = false;
 		public static int NETWORK_WAITTIME = 1000;
+
+
 		public SkinMainForm()
 		{
 			InitializeComponent();
@@ -340,7 +342,7 @@ namespace LightController.MyForm
 
 			#region 各类监听器
 			// MARK：SkinMainForm 各种td监听器
-			for (int i = 0; i < FrameCount; i++) {
+			for (int i = 0; i < 32; i++) {
 
 				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdSkinTrackBars[i].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
@@ -402,14 +404,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightLibrarySkinButton_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+			openLightEditor();
 		}
 
 		/// <summary>
@@ -501,9 +496,9 @@ namespace LightController.MyForm
 		}
 
 
-		#endregion
+#endregion
 
-		#region 工程相关 及 初始化辅助方法		
+#region 工程相关 及 初始化辅助方法		
 		//MARK：SkinMainForm工程相关 及 初始化辅助方法			
 
 		/// <summary>
@@ -516,10 +511,11 @@ namespace LightController.MyForm
 			// 9.10 每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
 
-			new NewForm(this).ShowDialog();
+			//new NewForm(this).ShowDialog();
 
 			//8.21 ：当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具编辑
-			if (IsCreateSuccess) {
+			if (IsCreateSuccess)
+			{
 				lightListSkinButton_Click(null, null);
 			}
 		}
@@ -532,7 +528,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void openSkinButton_Click(object sender, EventArgs e)
 		{
-			new OpenForm(this, currentProjectName).ShowDialog();
+			//new OpenForm(this, currentProjectName).ShowDialog();
 		}
 
 		/// <summary>
@@ -543,9 +539,9 @@ namespace LightController.MyForm
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
 			SetNotice("正在保存工程,请稍候...");
-			SetBusy(true);			
+			setBusy(true);			
 			saveAll();			
-			SetBusy(false);
+			setBusy(false);
 			SetNotice("成功保存工程");
 		}
 
@@ -557,9 +553,9 @@ namespace LightController.MyForm
 		private void frameSaveSkinButton_Click(object sender, EventArgs e)
 		{
 			SetNotice("正在保存场景,请稍候...");
-			SetBusy(true);			
+			setBusy(true);			
 			saveFrame();			
-			SetBusy(false);
+			setBusy(false);
 			SetNotice("成功保存场景(" + AllFrameList[frame] + ")");
 		}
 
@@ -598,7 +594,7 @@ namespace LightController.MyForm
 			}
 
 			SetNotice("正在导出工程，请稍候...");
-			SetBusy(true);
+			setBusy(true);
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));	
 		}
 
@@ -619,7 +615,7 @@ namespace LightController.MyForm
 				MessageBox.Show("导出工程出错。");
 			}
 			
-			SetBusy(false);
+			setBusy(false);
 			SetNotice("导出工程" + (success ? "成功" : "出错"));
 		}
 
@@ -628,7 +624,7 @@ namespace LightController.MyForm
 		///  辅助方法：进行某些操作时，应避免让控件可用（如导出工程、保存工程）；完成后再设回来。
 		/// </summary>
 		/// <param name="busy">是否处于忙时（不要操作其他控件）</param>
-		protected override void SetBusy(bool busy)
+		protected override void setBusy(bool busy)
 		{
 			this.Cursor = busy?Cursors.WaitCursor : Cursors.Default;
 			this.middleTableLayoutPanel.Enabled = !busy;
@@ -674,7 +670,7 @@ namespace LightController.MyForm
 		protected override void clearAllData()
 		{			
 			base.clearAllData();
-
+			//MARK＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋1111
 			//单独针对本MainForm的代码: 
 			// ①清空listView列表；
 			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
@@ -754,9 +750,9 @@ namespace LightController.MyForm
 			hideAllTDPanels();
 		}
 
-		#endregion
+#endregion
 
-		#region 选中listView中的灯具
+#region 选中listView中的灯具
 
 		/// <summary>
 		/// 事件：改变选中的灯时进行的操作
@@ -836,9 +832,9 @@ namespace LightController.MyForm
 			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
 		}
 
-		#endregion
+#endregion
 
-		#region 步数相关的按钮及辅助方法
+#region 步数相关的按钮及辅助方法
 		//MARK：SkinMainForm步数相关的按钮及辅助方法起点	
 
 		/// <summary>
@@ -864,9 +860,9 @@ namespace LightController.MyForm
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
 			{
-				SetBusy(true);
+				setBusy(true);
 				saveFrame();
-				SetBusy(false);
+				setBusy(false);
 			}
 
 			frame = frameSkinComboBox.SelectedIndex;
@@ -1445,9 +1441,9 @@ namespace LightController.MyForm
 			return result;
 		}
 
-		#endregion
+#endregion
 
-		#region tdPanels内部数值的调整事件及辅助方法
+#region tdPanels内部数值的调整事件及辅助方法
 		//MARK：SkinMainForm：tdPanels内部数值调整及辅助方法
 
 		/// <summary>
@@ -1833,10 +1829,10 @@ namespace LightController.MyForm
 			labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
 		}
 
-		#endregion
+#endregion
 
 
-		#region 统一调整框的组件及事件绑定
+#region 统一调整框的组件及事件绑定
 		//MARK：SkinMainForm统一调整框各事件处理
 
 		/// <summary>
@@ -2105,10 +2101,10 @@ namespace LightController.MyForm
 			MultiStepForm msForm = new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), mode);
 			msForm.ShowDialog();
 		}
-		#endregion
+#endregion
 
 
-		#region 素材相关按钮及辅助方法
+#region 素材相关按钮及辅助方法
 		//MARK：SkinMainForm素材相关按钮及辅助方法
 
 		/// <summary>
@@ -2137,10 +2133,10 @@ namespace LightController.MyForm
 			}
 		}
 
-		#endregion
+#endregion
 
 
-		#region 调试相关按钮
+#region 调试相关按钮
 		//MARK：SkinMainForm调试相关按钮
 
 		/// <summary>
@@ -2480,10 +2476,10 @@ namespace LightController.MyForm
 			test.Start(buttonIndex);
 		}
 
-		#endregion
+#endregion
 
 
-		#region  灯具listView相关（右键菜单+位置等）
+#region  灯具listView相关（右键菜单+位置等）
 		//MARK：SkinMainForm灯具listView相关（右键菜单+位置等）
 
 		private Point startPoint = Point.Empty;	
@@ -2771,10 +2767,10 @@ namespace LightController.MyForm
 
 		}
 
-		#endregion
+#endregion
 
 
-		#region 几个显示或隐藏面板的菜单项
+#region 几个显示或隐藏面板的菜单项
 
 		private void hideMenuPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -2804,34 +2800,9 @@ namespace LightController.MyForm
 			hidePlayPanelToolStripMenuItem2.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
 		}
 
-		#endregion
+#endregion
 			   
-
-		//UNDONE : listView切换大小图标
-		///// <summary>
-		///// 事件：点击《显示大、小图标》
-		///// </summary>
-		///// <param name="sender"></param>
-		///// <param name="e"></param>
-		//private void toggleSizeToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//	if (lightsSkinListView.View == View.LargeIcon) {
-
-		//		lightsSkinListView.View = View.SmallIcon;
-		//		foreach (ListViewItem item in lightsSkinListView.Items) {
-		//			item.Text = "" ;
-		//		}
-		//		toggleSizeToolStripMenuItem.Text = "显示大图标 ";
-		//	}
-		//	else
-		//	{
-		//		lightsSkinListView.View = View.LargeIcon;
-		//		toggleSizeToolStripMenuItem.Text = "显示小图标 ";
-
-		//	}
-		//}
-
-
+		
 		/// <summary>
 		/// 事件：点击《自定义测试按钮》
 		/// </summary>
@@ -2950,7 +2921,7 @@ namespace LightController.MyForm
 		}
 
 		//MARK:12.9 bgWorker相关事件
-		#region
+#region
 		/// <summary>
 		/// 事件：bgWorker的后台工作
 		/// </summary>
@@ -2994,7 +2965,7 @@ namespace LightController.MyForm
 			//else
 			//	this.label1.Text = "处理终止!";
 		}
-		#endregion
+#endregion
 
 
 		public override void SetNotice(string noticeText)
@@ -3019,7 +2990,7 @@ namespace LightController.MyForm
 	}
 
 
-	#region 废弃方法块
+#region 废弃方法块
 
 	///// <summary>
 	/////  事件：勾选《（是否）使用模板生成步》（11.25去掉这个勾选框）
@@ -3033,7 +3004,7 @@ namespace LightController.MyForm
 
 
 
-	#endregion
+#endregion
 
 	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
 	{
@@ -3070,15 +3041,6 @@ namespace LightController.MyForm
 
 	public class NetworkEndDebugReceiveCallBack : ICommunicatorCallBack
 	{
-		//public void SendCompleted(string deviceName, string order)
-		//{
-		//	//MessageBox.Show("设备：" + deviceName + "  断开成功。");
-		//}
-		//public void SendError(string deviceName, string order)
-		//{
-		//	//MessageBox.Show("设备：" + deviceName + "  断开失败。");
-		//}
-
 		public void Completed(string deviceTag)
 		{
 			throw new NotImplementedException();

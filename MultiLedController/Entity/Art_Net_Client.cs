@@ -17,6 +17,7 @@ namespace MultiLedController.Entity
         private Socket UDP_Send { get; set; }
         private UdpClient UDP_Receive { get; set; }
         private string CurrentIp { get; set; }
+        private string ServerIp { get; set; }
         private List<int> Fields { get; set; }
         private Thread ReceiveThread { get; set; }
         private byte Addr { get; set; }
@@ -26,12 +27,13 @@ namespace MultiLedController.Entity
         private Dictionary<int,List<byte>> Field_Datas { get; set; }
         private Dictionary<int,bool> Field_Datas_Status { get; set; }
 
-        public Art_Net_Client(string currentIp, int startIndex, int spaceNum, Art_Net_Manager manager)
+        public Art_Net_Client(string currentIp,string serverIp, int startIndex, int spaceNum, Art_Net_Manager manager)
         {
             //初始化
             this.Init();
             //配置本地IP
             this.CurrentIp = currentIp;
+            this.ServerIp = serverIp;
             //将管理器传入用于数据组包
             this.Manager = manager;
             for (int i = startIndex; i < startIndex + spaceNum; i++)

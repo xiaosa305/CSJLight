@@ -26,7 +26,7 @@ namespace MultiLedController.Entity
         {
             this.IsStart = false;
             this.ReceiveStartStatus = false;
-            this.ControlDevices = new Dictionary<string, ControlDevice>();
+            this.InitDeviceList();
         }
         public static LEDControllerServer GetInstance()
         {
@@ -106,6 +106,13 @@ namespace MultiLedController.Entity
         public void SendDebugData(List<byte> data)
         {
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
+        }
+        /// <summary>
+        /// 初始化设备存储缓存区
+        /// </summary>
+        public void InitDeviceList()
+        {
+            this.ControlDevices = new Dictionary<string, ControlDevice>();
         }
 
         public Dictionary<string,ControlDevice> GetControlDevices()

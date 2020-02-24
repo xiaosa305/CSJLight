@@ -96,7 +96,7 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
         /// </summary>
-        public void Start(List<VirtualControlInfo> virtuals)
+        public void Start(List<VirtualControlInfo> virtuals,string currentMainIp,string serverIp)
         {
             if (this.Clients.Count != 0)
             {
@@ -116,7 +116,7 @@ namespace MultiLedController.Utils
             for (int i = 0; i < virtuals.Count; i++)
             {
                 //添加虚拟设备客户端
-                Clients.Add(new Art_Net_Client(virtuals[i].IP, startIndex, virtuals[i].SpaceNum, this));
+                Clients.Add(new Art_Net_Client(virtuals[i].IP,serverIp, startIndex, virtuals[i].SpaceNum, this));
                 //添虚拟设备子空间接收状态、接收数据缓存、接收数据大小缓存
                 for (int j = 0; j < virtuals[i].SpaceNum; j++)
                 {
@@ -135,7 +135,7 @@ namespace MultiLedController.Utils
             }
             FileUtils.WriteToFileByCreate(emptyData, "Art_Net_DMX.bin");
             //启动控制器通信服务
-            LEDControllerServer.GetInstance().StartServer("192.168.1.8");
+            LEDControllerServer.GetInstance().StartServer(currentMainIp);
         }
         /// <summary>
         /// 接收DMX数据包处理
@@ -320,10 +320,19 @@ namespace MultiLedController.Utils
         /// </summary>
         public void SearchDevice()
         {
+            LEDControllerServer.GetInstance().InitDeviceList();
             List<byte> order = new List<byte>();
             order.Add(0xEA);
             order.Add(0x55);
             LEDControllerServer.GetInstance().SendDebugData(order);
+        }
+        /// <summary>
+        /// 获取控制器列表
+        /// </summary>
+        /// <returns></returns>
+        public  Dictionary<string,ControlDevice> GetLedControlDevices()
+        {
+            return LEDControllerServer.GetInstance().GetControlDevices();
         }
     }
 }

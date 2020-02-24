@@ -96,7 +96,7 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
         /// </summary>
-        public void Start(List<VirtualControlInfo> virtuals,string currentMainIp,string serverIp)
+        public void Start(List<VirtualControlInfo> virtuals,string serverIp)
         {
             if (this.Clients.Count != 0)
             {
@@ -135,7 +135,6 @@ namespace MultiLedController.Utils
             }
             FileUtils.WriteToFileByCreate(emptyData, "Art_Net_DMX.bin");
             //启动控制器通信服务
-            LEDControllerServer.GetInstance().StartServer(currentMainIp);
         }
         /// <summary>
         /// 接收DMX数据包处理
@@ -318,8 +317,9 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 搜索设备
         /// </summary>
-        public void SearchDevice()
+        public void SearchDevice(string currentMainIp)
         {
+            LEDControllerServer.GetInstance().StartServer(currentMainIp);
             LEDControllerServer.GetInstance().InitDeviceList();
             List<byte> order = new List<byte>();
             order.Add(0xEA);

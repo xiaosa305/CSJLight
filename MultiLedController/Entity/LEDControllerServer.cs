@@ -53,6 +53,7 @@ namespace MultiLedController.Entity
             {
                 this.UDPSend.Close();
                 this.UDPReceiveClient.Close();
+                Thread.Sleep(100);
             }
             IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ServerCurrentIp), PORT);
             this.UDPSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);

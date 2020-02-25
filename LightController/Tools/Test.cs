@@ -43,15 +43,14 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    ConnectTools.GetInstance().Connect(null);
+                    PlayTools.GetInstance().SetTest();
                     break;
                 case 2:
-                    SerialConnect.CenterControlConnect(CCCCompleted,CCCError);
+                    PlayTools.GetInstance().TestOpen();
                     break;
                 case 3:
                     break;
                 case 4:
-                    SerialConnect.CenterControlStopCopy(CCXpCompleted, CCXpError);
                     break;
                 default:
                     break;

@@ -106,7 +106,6 @@ namespace LightController.Tools
             try
             {
                 UdpClient udpClient = obj as UdpClient;
-                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
                 while (true)
                 {
                     IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 7070);

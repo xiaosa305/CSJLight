@@ -407,7 +407,7 @@ namespace LightController.Tools
                                 this.PlayData[item - 1] = MusicDataBuff[item];
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             Console.WriteLine("音频数据生成中。。。。。。。。");
                         }
@@ -548,9 +548,9 @@ namespace LightController.Tools
                 }
                 TestCom.PortName = "COM15";
                 TestCom.Parity = Parity.None;
-                TestCom.StopBits = StopBits.Two;
+                TestCom.StopBits = StopBits.One;
                 TestCom.DataBits = 8;
-                TestCom.BaudRate = 250000;
+                TestCom.BaudRate = 256000;
                 this.TestCom.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
                 TestCom.Open();
                 PreviewWayState = STATE_TEST;
@@ -572,7 +572,7 @@ namespace LightController.Tools
         private void TestStart()
         {
             List<byte> buff = new List<byte>();
-            //buff.AddRange(this.StartCode);
+            buff.AddRange(this.StartCode);
             buff.AddRange(this.PlayData);
             if (TestCom.IsOpen)
             {

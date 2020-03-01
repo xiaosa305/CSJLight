@@ -192,6 +192,7 @@ namespace LightController.MyForm
 				this.tdPanels[i].TabIndex = 24;
 
 				this.tdPanels[i].Visible = true;
+				this.tdPanels[i].Tag = 9999;
 
 				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[i]);
 

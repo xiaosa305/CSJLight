@@ -511,7 +511,7 @@ namespace LightController.MyForm
 			// 9.10 每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
 
-			//new NewForm(this).ShowDialog();
+			new NewForm(this).ShowDialog();
 
 			//8.21 ：当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具编辑
 			if (IsCreateSuccess)
@@ -528,7 +528,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void openSkinButton_Click(object sender, EventArgs e)
 		{
-			//new OpenForm(this, currentProjectName).ShowDialog();
+			new OpenForm(this, currentProjectName).ShowDialog();
 		}
 
 		/// <summary>

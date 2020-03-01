@@ -94,7 +94,7 @@ namespace LightController.MyForm
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）
 		protected Dictionary<int, int> lightDictionary = null ;
 
-		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           #region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
 		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
 		protected virtual void enableSave(bool enable) { }  // 是否显示《保存工程》等

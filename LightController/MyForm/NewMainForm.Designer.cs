@@ -779,7 +779,7 @@ namespace LightController.MyForm
 			// 
 			this.myStatusLabel.AutoSize = false;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(1216, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(1247, 17);
 			this.myStatusLabel.Spring = true;
 			// 
 			// skinComboBox

@@ -433,6 +433,7 @@ namespace OtherTools
 			this.skinEngine1.@__DrawButtonFocusRectangle = true;
 			this.skinEngine1.DisabledButtonTextColor = System.Drawing.Color.Gray;
 			this.skinEngine1.DisabledMenuFontColor = System.Drawing.SystemColors.GrayText;
+			this.skinEngine1.DisableTag = 520;
 			this.skinEngine1.InactiveCaptionColor = System.Drawing.SystemColors.InactiveCaptionText;
 			this.skinEngine1.SerialNumber = "";
 			this.skinEngine1.SkinFile = null;
@@ -1635,6 +1636,7 @@ namespace OtherTools
 			this.lightButton1.NormlBack = null;
 			this.lightButton1.Size = new System.Drawing.Size(63, 85);
 			this.lightButton1.TabIndex = 12;
+			this.lightButton1.Tag = "9999";
 			this.lightButton1.Text = "灯光1";
 			this.lightButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton1.UseVisualStyleBackColor = true;
@@ -1665,6 +1667,7 @@ namespace OtherTools
 			this.lightButton2.NormlBack = null;
 			this.lightButton2.Size = new System.Drawing.Size(63, 85);
 			this.lightButton2.TabIndex = 12;
+			this.lightButton2.Tag = "9999";
 			this.lightButton2.Text = "灯光2";
 			this.lightButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton2.UseVisualStyleBackColor = false;
@@ -1694,6 +1697,7 @@ namespace OtherTools
 			this.lightButton3.NormlBack = null;
 			this.lightButton3.Size = new System.Drawing.Size(63, 85);
 			this.lightButton3.TabIndex = 12;
+			this.lightButton3.Tag = "9999";
 			this.lightButton3.Text = "灯光3";
 			this.lightButton3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton3.UseVisualStyleBackColor = false;
@@ -1723,6 +1727,7 @@ namespace OtherTools
 			this.lightButton4.NormlBack = null;
 			this.lightButton4.Size = new System.Drawing.Size(63, 85);
 			this.lightButton4.TabIndex = 12;
+			this.lightButton4.Tag = "9999";
 			this.lightButton4.Text = "灯光4";
 			this.lightButton4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton4.UseVisualStyleBackColor = false;
@@ -1752,6 +1757,7 @@ namespace OtherTools
 			this.lightButton5.NormlBack = null;
 			this.lightButton5.Size = new System.Drawing.Size(63, 85);
 			this.lightButton5.TabIndex = 12;
+			this.lightButton5.Tag = "9999";
 			this.lightButton5.Text = "灯光5";
 			this.lightButton5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton5.UseVisualStyleBackColor = false;
@@ -1781,6 +1787,7 @@ namespace OtherTools
 			this.lightButton6.NormlBack = null;
 			this.lightButton6.Size = new System.Drawing.Size(63, 85);
 			this.lightButton6.TabIndex = 12;
+			this.lightButton6.Tag = "9999";
 			this.lightButton6.Text = "灯光6";
 			this.lightButton6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton6.UseVisualStyleBackColor = false;
@@ -1810,6 +1817,7 @@ namespace OtherTools
 			this.lightButton7.NormlBack = null;
 			this.lightButton7.Size = new System.Drawing.Size(63, 85);
 			this.lightButton7.TabIndex = 12;
+			this.lightButton7.Tag = "9999";
 			this.lightButton7.Text = "灯光7";
 			this.lightButton7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton7.UseVisualStyleBackColor = false;
@@ -1839,6 +1847,7 @@ namespace OtherTools
 			this.lightButton8.NormlBack = null;
 			this.lightButton8.Size = new System.Drawing.Size(63, 85);
 			this.lightButton8.TabIndex = 12;
+			this.lightButton8.Tag = "9999";
 			this.lightButton8.Text = "灯光8";
 			this.lightButton8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton8.UseVisualStyleBackColor = false;
@@ -1868,6 +1877,7 @@ namespace OtherTools
 			this.lightButton9.NormlBack = null;
 			this.lightButton9.Size = new System.Drawing.Size(63, 85);
 			this.lightButton9.TabIndex = 12;
+			this.lightButton9.Tag = "9999";
 			this.lightButton9.Text = "灯光9";
 			this.lightButton9.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton9.UseVisualStyleBackColor = false;
@@ -1897,6 +1907,7 @@ namespace OtherTools
 			this.lightButton10.NormlBack = null;
 			this.lightButton10.Size = new System.Drawing.Size(63, 85);
 			this.lightButton10.TabIndex = 12;
+			this.lightButton10.Tag = "9999";
 			this.lightButton10.Text = "灯光10";
 			this.lightButton10.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton10.UseVisualStyleBackColor = false;
@@ -1926,6 +1937,7 @@ namespace OtherTools
 			this.lightButton11.NormlBack = null;
 			this.lightButton11.Size = new System.Drawing.Size(63, 85);
 			this.lightButton11.TabIndex = 12;
+			this.lightButton11.Tag = "9999";
 			this.lightButton11.Text = "灯光11";
 			this.lightButton11.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton11.UseVisualStyleBackColor = false;
@@ -1955,6 +1967,7 @@ namespace OtherTools
 			this.lightButton12.NormlBack = null;
 			this.lightButton12.Size = new System.Drawing.Size(63, 85);
 			this.lightButton12.TabIndex = 12;
+			this.lightButton12.Tag = "9999";
 			this.lightButton12.Text = "灯光12";
 			this.lightButton12.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton12.UseVisualStyleBackColor = false;
@@ -1984,6 +1997,7 @@ namespace OtherTools
 			this.lightButton13.NormlBack = null;
 			this.lightButton13.Size = new System.Drawing.Size(63, 85);
 			this.lightButton13.TabIndex = 12;
+			this.lightButton13.Tag = "9999";
 			this.lightButton13.Text = "灯光13";
 			this.lightButton13.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton13.UseVisualStyleBackColor = false;
@@ -2013,6 +2027,7 @@ namespace OtherTools
 			this.lightButton14.NormlBack = null;
 			this.lightButton14.Size = new System.Drawing.Size(63, 85);
 			this.lightButton14.TabIndex = 12;
+			this.lightButton14.Tag = "9999";
 			this.lightButton14.Text = "灯光14";
 			this.lightButton14.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton14.UseVisualStyleBackColor = false;
@@ -2042,6 +2057,7 @@ namespace OtherTools
 			this.lightButton15.NormlBack = null;
 			this.lightButton15.Size = new System.Drawing.Size(63, 85);
 			this.lightButton15.TabIndex = 12;
+			this.lightButton15.Tag = "9999";
 			this.lightButton15.Text = "灯光15";
 			this.lightButton15.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton15.UseVisualStyleBackColor = false;
@@ -2071,6 +2087,7 @@ namespace OtherTools
 			this.lightButton16.NormlBack = null;
 			this.lightButton16.Size = new System.Drawing.Size(63, 85);
 			this.lightButton16.TabIndex = 12;
+			this.lightButton16.Tag = "9999";
 			this.lightButton16.Text = "灯光16";
 			this.lightButton16.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton16.UseVisualStyleBackColor = false;
@@ -2100,6 +2117,7 @@ namespace OtherTools
 			this.lightButton17.NormlBack = null;
 			this.lightButton17.Size = new System.Drawing.Size(63, 85);
 			this.lightButton17.TabIndex = 12;
+			this.lightButton17.Tag = "9999";
 			this.lightButton17.Text = "灯光17";
 			this.lightButton17.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton17.UseVisualStyleBackColor = false;
@@ -2129,6 +2147,7 @@ namespace OtherTools
 			this.lightButton18.NormlBack = null;
 			this.lightButton18.Size = new System.Drawing.Size(63, 85);
 			this.lightButton18.TabIndex = 12;
+			this.lightButton18.Tag = "9999";
 			this.lightButton18.Text = "灯光18";
 			this.lightButton18.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton18.UseVisualStyleBackColor = false;
@@ -2158,6 +2177,7 @@ namespace OtherTools
 			this.lightButton19.NormlBack = null;
 			this.lightButton19.Size = new System.Drawing.Size(63, 85);
 			this.lightButton19.TabIndex = 12;
+			this.lightButton19.Tag = "9999";
 			this.lightButton19.Text = "灯光19";
 			this.lightButton19.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton19.UseVisualStyleBackColor = false;
@@ -2187,6 +2207,7 @@ namespace OtherTools
 			this.lightButton20.NormlBack = null;
 			this.lightButton20.Size = new System.Drawing.Size(63, 85);
 			this.lightButton20.TabIndex = 12;
+			this.lightButton20.Tag = "9999";
 			this.lightButton20.Text = "灯光20";
 			this.lightButton20.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton20.UseVisualStyleBackColor = false;
@@ -2216,6 +2237,7 @@ namespace OtherTools
 			this.lightButton21.NormlBack = null;
 			this.lightButton21.Size = new System.Drawing.Size(63, 85);
 			this.lightButton21.TabIndex = 12;
+			this.lightButton21.Tag = "9999";
 			this.lightButton21.Text = "灯光21";
 			this.lightButton21.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton21.UseVisualStyleBackColor = false;
@@ -2245,6 +2267,7 @@ namespace OtherTools
 			this.lightButton22.NormlBack = null;
 			this.lightButton22.Size = new System.Drawing.Size(63, 85);
 			this.lightButton22.TabIndex = 12;
+			this.lightButton22.Tag = "9999";
 			this.lightButton22.Text = "灯光22";
 			this.lightButton22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton22.UseVisualStyleBackColor = false;
@@ -2274,6 +2297,7 @@ namespace OtherTools
 			this.lightButton23.NormlBack = null;
 			this.lightButton23.Size = new System.Drawing.Size(63, 85);
 			this.lightButton23.TabIndex = 12;
+			this.lightButton23.Tag = "9999";
 			this.lightButton23.Text = "灯光23";
 			this.lightButton23.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton23.UseVisualStyleBackColor = false;
@@ -2302,6 +2326,7 @@ namespace OtherTools
 			this.lightButton24.NormlBack = null;
 			this.lightButton24.Size = new System.Drawing.Size(63, 85);
 			this.lightButton24.TabIndex = 12;
+			this.lightButton24.Tag = "9999";
 			this.lightButton24.Text = "灯光24";
 			this.lightButton24.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.lightButton24.UseVisualStyleBackColor = false;

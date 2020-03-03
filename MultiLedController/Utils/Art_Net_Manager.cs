@@ -198,7 +198,7 @@ namespace MultiLedController.Utils
                                 routeDatas.AddRange(this.FieldsData[num]);
                             }
                         }
-                        if (routeDatas.Count < 512 * 4)
+                        if (routeDatas.Count < 512 * 4 && routeDatas.Count > 0)
                         {
                             routeDatas.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 4) - routeDatas.Count));
                         }

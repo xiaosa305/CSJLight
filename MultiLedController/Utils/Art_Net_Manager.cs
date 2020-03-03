@@ -62,16 +62,15 @@ namespace MultiLedController.Utils
                 Thread.Sleep(500);
             }
             //Test用添加
-            Clients.Add(new Art_Net_Client("192.168.1.8", 0, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.8","192.168.1.14", 0, 4, this));
 
-            //Clients.Add(new Art_Net_Client( "192.168.1.115", 0,this));
-            //Clients.Add(new Art_Net_Client( "192.168.1.116", 1, this));
-            //Clients.Add(new Art_Net_Client( "192.168.1.117", 2, this));
-            //Clients.Add(new Art_Net_Client( "192.168.1.118", 3, this));
-            //Clients.Add(new Art_Net_Client( "192.168.1.119", 4, this));
-            //Clients.Add(new Art_Net_Client( "192.168.1.120", 5, this));
-            //Clients.Add(new Art_Net_Client( "192.168.1.121", 6, this));
-            //Clients.Add(new Art_Net_Client("192.168.1.122", 7, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.115", "192.168.1.14", 4, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.116", "192.168.1.14", 8, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.117", "192.168.1.14", 12, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.118", "192.168.1.14", 16, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.119", "192.168.1.14", 20, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.120", "192.168.1.14", 24, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.121", "192.168.1.14", 28, 4, this));
 
             for (int i = 0; i < Clients.Count; i++)
             {

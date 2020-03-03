@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiLedController.MyForm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,7 +16,7 @@ namespace MultiLedController
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new NetworkForm());
+			Application.Run(new MainForm());
 		}
 	}
 }

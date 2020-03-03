@@ -62,7 +62,7 @@ namespace MultiLedController.Utils
                 Thread.Sleep(500);
             }
             //Test用添加
-            Clients.Add(new Art_Net_Client("192.168.1.8", 0, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.8", 0, 4, this));
 
             //Clients.Add(new Art_Net_Client( "192.168.1.115", 0,this));
             //Clients.Add(new Art_Net_Client( "192.168.1.116", 1, this));

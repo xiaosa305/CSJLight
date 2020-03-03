@@ -23,6 +23,7 @@ using MultiLedController.Ast;
 using System.Net;
 using MultiLedController.Common;
 using MultiLedController.Utils;
+using MultiLedController.MyForm;
 
 namespace MultiLedController
 {
@@ -32,13 +33,21 @@ namespace MultiLedController
 		private IList<ManagementObject> moList;
 		private IPAst tempIpAst;
 		private int netcardIndex = -1;
+		private MainForm mainForm;
+		private IList<string> virtualIPList;
 
-		public NetworkForm()
+
+		public NetworkForm(MainForm mainForm)
 		{
 			InitializeComponent();
 			refreshNetcard();
+			this.mainForm = mainForm;
 		}
 
+		private void NetworkForm_Load(object sender, EventArgs e)
+		{
+			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+		}
 
 		private void refreshNetcardButton_Click(object sender, EventArgs e)
 		{
@@ -64,8 +73,9 @@ namespace MultiLedController
 			}
 			netcardComboBox.SelectedIndex = 0;
 			netcardIndex = 0;
-
 		}	
+
+		
 	
 
 		/// <summary>
@@ -88,7 +98,7 @@ namespace MultiLedController
 					return;
 				}
 				else if(dr == DialogResult.OK){
-					saveButton_Click(null, null);
+					saveButton_Click(null, null);					
 				}
 			}
 
@@ -103,6 +113,14 @@ namespace MultiLedController
 					"192.168.1." + firstIP++,
 					"192.168.1." + firstIP++,
 					"192.168.1." + firstIP };
+
+			virtualIPList = new List<string>();
+			firstIP = Decimal.ToInt32(numericUpDown1.Value);
+			for (int i = 0; i < 8; i++)
+			{
+				virtualIPList.Add("192.168.1." + ++firstIP);
+			}
+
 			string[] submaskArray = new string[] {
 					"255.255.255.0",
 					"255.255.255.0",
@@ -115,7 +133,15 @@ namespace MultiLedController
 					"255.255.255.0" };
 
 			SetIPAddress(ipArray , submaskArray, null,null);
+
 			setStatusLabel("已设置多IP，请刷新");
+			setAddButtonEnable(true);
+		}
+
+
+		private void setAddButtonEnable(bool v)
+		{
+			this.addVirtualIpButton.Enabled = v;
 		}
 
 		/// <summary>
@@ -158,6 +184,8 @@ namespace MultiLedController
 		{
 			mo.InvokeMethod("SetDNSServerSearchOrder", null);
 			mo.InvokeMethod("EnableDHCP", null);
+
+			mainForm.ClearIPListView();
 			setStatusLabel("已启用DHCP，请刷新");
 		}
 
@@ -277,6 +305,16 @@ namespace MultiLedController
 		{
 			SetIPAddress(tempIpAst);
 			setStatusLabel("已成功恢复保存的设置，请刷新");
+		}
+
+		/// <summary>
+		/// 事件：点击《添加到主界面》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addVirtualIpButton_Click(object sender, EventArgs e)
+		{
+			mainForm.AddVirtualIPS(virtualIPList);
 		}
 	}
 }

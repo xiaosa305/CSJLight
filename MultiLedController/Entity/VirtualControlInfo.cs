@@ -7,7 +7,7 @@ namespace MultiLedController.Entity
 {
     public class VirtualControlInfo
     {
-        public string IP { get; set; }
+        public string IP { get; set; } 
         public int SpaceNum { get; set; }
 
         public VirtualControlInfo(string ip, ControlDevice device)

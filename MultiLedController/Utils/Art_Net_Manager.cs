@@ -11,6 +11,7 @@ namespace MultiLedController.Utils
 {
     public class Art_Net_Manager
     {
+        private static string SaveFileName = "Art_Net_DMX.bin";
 
         private static Art_Net_Manager Instance { get; set; }
         private List<Art_Net_Client> Clients { get; set; }
@@ -182,7 +183,7 @@ namespace MultiLedController.Utils
                         head.Add(Convert.ToByte((length >> 16) & 0xFF));
                         head.Add(Convert.ToByte((length >> 24) & 0xFF));
                     }
-                    FileUtils.WriteToFileBySeek(head, "Art_Net_DMX.bin", 0);
+                    FileUtils.WriteToFileBySeek(head, SaveFileName, 0);
 
                     //已经接受到第二帧数据，开始组包第一帧数据
                     List<byte> framData = new List<byte>();
@@ -203,7 +204,7 @@ namespace MultiLedController.Utils
                         }
                         framData.AddRange(routeDatas);
                     }
-                    FileUtils.WriteToFile(framData, "Art_Net_DMX.bin");
+                    FileUtils.WriteToFile(framData, SaveFileName);
                     Console.WriteLine("接收完一帧数据");
 
                     //启动实时调试状态
@@ -332,6 +333,22 @@ namespace MultiLedController.Utils
         public  Dictionary<string,ControlDevice> GetLedControlDevices()
         {
             return LEDControllerServer.GetInstance().GetControlDevices();
+        }
+        /// <summary>
+        /// 修改存储文件路径
+        /// </summary>
+        /// <param name="dirPath"></param>
+        public void SetSaveDirPath(string dirPath)
+        {
+            FileUtils.SetSaveDirPath(dirPath);
+        }
+        /// <summary>
+        /// 修改存储文件的名称
+        /// </summary>
+        /// <param name="fileName"></param>
+        public void SetSaveFileName(string fileName)
+        {
+            SaveFileName = fileName;
         }
     }
 }

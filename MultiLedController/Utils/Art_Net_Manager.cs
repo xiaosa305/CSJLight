@@ -22,6 +22,7 @@ namespace MultiLedController.Utils
         private List<double> FramTimes { get; set; }
         private Dictionary<int, int> FieldsReceiveDataSize { get; set; }
         private bool DebugStatus { get; set; }
+        private bool IsSaveToFile { get; set; }
 
         private Socket DebugServer { get; set; }
 
@@ -41,6 +42,7 @@ namespace MultiLedController.Utils
 
         private void Init()
         {
+            this.IsSaveToFile = false;
             this.Clients = new List<Art_Net_Client>();
             this.FieldsReceiveStatus = new Dictionary<int, bool>();
             this.FieldsData = new Dictionary<int, List<byte>>();
@@ -96,6 +98,8 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
         /// </summary>
+        /// <param name="virtuals">虚拟控制器信息，包含虚拟控制器使用的Ip地址以及虚拟控制器空间数量</param>
+        /// <param name="serverIp">麦爵士所在的服务器IP</param>
         public void Start(List<VirtualControlInfo> virtuals,string serverIp)
         {
             if (this.Clients.Count != 0)
@@ -127,20 +131,12 @@ namespace MultiLedController.Utils
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
-            //文件写入预设文件头
-            List<byte> emptyData = new List<byte>();
-            for (int i = 0; i < 35; i++)
-            {
-                emptyData.Add(0x00);
-            }
-            FileUtils.WriteToFileByCreate(emptyData, "Art_Net_DMX.bin");
-            //启动控制器通信服务
         }
         /// <summary>
         /// 接收DMX数据包处理
         /// </summary>
-        /// <param name="fieldNum"></param>
-        /// <param name="data"></param>
+        /// <param name="fieldNum">空间编号</param>
+        /// <param name="data">接收到的DMX数据</param>
         public void AddFieldData(int fieldNum, List<byte> data)
         {
             if (Stopwatch == null)
@@ -171,10 +167,12 @@ namespace MultiLedController.Utils
                     }
                     int frame_time = (int)(temp / this.FramTimes.Count);
 
-                    List<byte> head = new List<byte>();
-                    head.Add(Convert.ToByte(led_Interface_num));
-                    head.Add(Convert.ToByte(led_space));
-                    head.Add(Convert.ToByte(frame_time));
+                    List<byte> head = new List<byte>
+                    {
+                        Convert.ToByte(led_Interface_num),
+                        Convert.ToByte(led_space),
+                        Convert.ToByte(frame_time)
+                    };
                     for (int i = 0; i < this.Clients.Count; i++)
                     {
                         int length = this.FieldsReceiveDataSize[i * 4] + this.FieldsReceiveDataSize[i * 4 + 1] + this.FieldsReceiveDataSize[i * 4 + 2] + this.FieldsReceiveDataSize[i * 4 + 3];
@@ -183,30 +181,31 @@ namespace MultiLedController.Utils
                         head.Add(Convert.ToByte((length >> 16) & 0xFF));
                         head.Add(Convert.ToByte((length >> 24) & 0xFF));
                     }
-                    FileUtils.WriteToFileBySeek(head, SaveFileName, 0);
-
                     //已经接受到第二帧数据，开始组包第一帧数据
-                    List<byte> framData = new List<byte>();
-                    for (int i = 0; i < this.Clients.Count; i++)
+                    if (this.IsSaveToFile)
                     {
-                        List<byte> routeDatas = new List<byte>();
-                        for (int j = 0; j < 4; j++)
+                        FileUtils.WriteToFileBySeek(head, SaveFileName, 0);
+                        List<byte> framData = new List<byte>();
+                        for (int i = 0; i < this.Clients.Count; i++)
                         {
-                            int num = i * 4 + j;
-                            if (this.FieldsReceiveStatus[num])
+                            List<byte> routeDatas = new List<byte>();
+                            for (int j = 0; j < 4; j++)
                             {
-                                routeDatas.AddRange(this.FieldsData[num]);
+                                int num = i * 4 + j;
+                                if (this.FieldsReceiveStatus[num])
+                                {
+                                    routeDatas.AddRange(this.FieldsData[num]);
+                                }
                             }
+                            if (routeDatas.Count < 512 * 4 && routeDatas.Count > 0)
+                            {
+                                routeDatas.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 4) - routeDatas.Count));
+                            }
+                            framData.AddRange(routeDatas);
                         }
-                        if (routeDatas.Count < 512 * 4 && routeDatas.Count > 0)
-                        {
-                            routeDatas.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 4) - routeDatas.Count));
-                        }
-                        framData.AddRange(routeDatas);
+                        FileUtils.WriteToFile(framData, SaveFileName);
                     }
-                    FileUtils.WriteToFile(framData, SaveFileName);
                     Console.WriteLine("接收完一帧数据");
-
                     //启动实时调试状态
                     if (this.DebugStatus)
                     {
@@ -240,7 +239,7 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 发送调试数据
         /// </summary>
-        /// <param name="frameTime"></param>
+        /// <param name="frameTime">帧间隔时间</param>
         private void DebugMode(int frameTime)
         {
             List<byte> sendBuff = new List<byte>();
@@ -317,6 +316,7 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 搜索设备
         /// </summary>
+        /// <param name="currentMainIp">本机主要IP</param>
         public void SearchDevice(string currentMainIp)
         {
             LEDControllerServer.GetInstance().StartServer(currentMainIp);
@@ -329,7 +329,7 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 获取控制器列表
         /// </summary>
-        /// <returns></returns>
+        /// <returns>搜索到的设备信息字典，KEY为控制器MAC，VALUE为控制器信息</returns>
         public  Dictionary<string,ControlDevice> GetLedControlDevices()
         {
             return LEDControllerServer.GetInstance().GetControlDevices();
@@ -337,7 +337,7 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 修改存储文件路径
         /// </summary>
-        /// <param name="dirPath"></param>
+        /// <param name="dirPath">新的文件存储路径</param>
         public void SetSaveDirPath(string dirPath)
         {
             FileUtils.SetSaveDirPath(dirPath);
@@ -345,10 +345,31 @@ namespace MultiLedController.Utils
         /// <summary>
         /// 修改存储文件的名称
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">新的文件名称</param>
         public void SetSaveFileName(string fileName)
         {
             SaveFileName = fileName;
+        }
+        /// <summary>
+        /// 启动数据存储至文件
+        /// </summary>
+        public void StartSaveToFile()
+        {
+            //文件写入预设文件头
+            List<byte> emptyData = new List<byte>();
+            for (int i = 0; i < 35; i++)
+            {
+                emptyData.Add(0x00);
+            }
+            FileUtils.WriteToFileByCreate(emptyData,SaveFileName);
+            this.IsSaveToFile = true;
+        }
+        /// <summary>
+        /// 关闭数据存储至文件
+        /// </summary>
+        public void StopSaveToFile()
+        {
+            this.IsSaveToFile = false;
         }
     }
 }

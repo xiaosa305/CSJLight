@@ -322,7 +322,7 @@ namespace MultiLedController.Utils
             LEDControllerServer.GetInstance().StartServer(currentMainIp);
             LEDControllerServer.GetInstance().InitDeviceList();
             List<byte> order = new List<byte>();
-            order.Add(0xEA);
+            order.Add(0xEB);
             order.Add(0x55);
             LEDControllerServer.GetInstance().SendDebugData(order);
         }

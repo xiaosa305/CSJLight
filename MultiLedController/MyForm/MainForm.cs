@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MultiLedController.MyForm
@@ -107,6 +108,7 @@ namespace MultiLedController.MyForm
 			controllorListView.Items.Clear();
 
 			Art_Net_Manager.GetInstance().SearchDevice(localIPComboBox.Text);
+			Thread.Sleep(1000);
 			Dictionary<string, ControlDevice> ledControlDevices = Art_Net_Manager.GetInstance().GetLedControlDevices();
 			
 			foreach (ControlDevice led in ledControlDevices.Values)

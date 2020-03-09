@@ -42,7 +42,7 @@ namespace MultiLedController.Utils
 
         private void Init()
         {
-            this.IsSaveToFile = false;
+            this.IsSaveToFile = true;
             this.Clients = new List<Art_Net_Client>();
             this.FieldsReceiveStatus = new Dictionary<int, bool>();
             this.FieldsData = new Dictionary<int, List<byte>>();
@@ -65,13 +65,13 @@ namespace MultiLedController.Utils
                 Thread.Sleep(500);
             }
             //Test用添加
-            Clients.Add(new Art_Net_Client("192.168.1.8","192.168.1.14", 0, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.22","192.168.1.4", 0, 4, this));
 
-            //Clients.Add(new Art_Net_Client("192.168.1.115", "192.168.1.14", 4, 4, this));
-            //Clients.Add(new Art_Net_Client("192.168.1.116", "192.168.1.14", 8, 4, this));
-            //Clients.Add(new Art_Net_Client("192.168.1.117", "192.168.1.14", 12, 4, this));
-            //Clients.Add(new Art_Net_Client("192.168.1.118", "192.168.1.14", 16, 4, this));
-            //Clients.Add(new Art_Net_Client("192.168.1.119", "192.168.1.14", 20, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.23", "192.168.1.4", 4, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.24", "192.168.1.4", 8, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.25", "192.168.1.4", 12, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.26", "192.168.1.4", 16, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.27", "192.168.1.4", 20, 4, this));
             //Clients.Add(new Art_Net_Client("192.168.1.120", "192.168.1.14", 24, 4, this));
             //Clients.Add(new Art_Net_Client("192.168.1.121", "192.168.1.14", 28, 4, this));
 
@@ -85,15 +85,15 @@ namespace MultiLedController.Utils
                     this.FieldsReceiveDataSize.Add(fieldNum, 0);
                 }
             }
-            List<byte> emptyData = new List<byte>();
-            for (int i = 0; i < 35; i++)
-            {
-                emptyData.Add(0x00);
-            }
-            FileUtils.WriteToFileByCreate(emptyData, "Art_Net_DMX.bin");
+            //List<byte> emptyData = new List<byte>();
+            //for (int i = 0; i < 35; i++)
+            //{
+            //    emptyData.Add(0x00);
+            //}
+            //FileUtils.WriteToFileByCreate(emptyData, "Art_Net_DMX.bin");
 
-            //启动控制器通信服务
-            LEDControllerServer.GetInstance().StartServer("192.168.1.8");
+            ////启动控制器通信服务
+            LEDControllerServer.GetInstance().StartServer("192.168.1.21");
         }
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
@@ -255,7 +255,7 @@ namespace MultiLedController.Utils
                 {
                     if (i == this.Clients.Count - 1)
                     {
-                        sendBuff.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x20, Convert.ToByte(i * 2), 0x00, 0x00 });
+                        sendBuff.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x20, Convert.ToByte(i * 2 + 1), 0x00, 0x00 });
                         sendBuff.Add(0x00);
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                     }
@@ -273,9 +273,9 @@ namespace MultiLedController.Utils
                         sendBuff.AddRange(data.Take(1024).ToList());
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                         sendBuff.Clear();
-                        Thread.Sleep(frameTime);
+                        //Thread.Sleep(frameTime);
                         //发送第二包数据
-                        sendBuff.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x20, Convert.ToByte(i * 2), Convert.ToByte(((data.Count - 1024) >> 8) & 0xFF), Convert.ToByte((data.Count - 1024) & 0xFF) });
+                        sendBuff.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x20, Convert.ToByte(i * 2 + 1), Convert.ToByte(((data.Count - 1024) >> 8) & 0xFF), Convert.ToByte((data.Count - 1024) & 0xFF) });
                         sendBuff.AddRange(data.Skip(1024).Take(1024).ToList());
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                     }
@@ -296,7 +296,7 @@ namespace MultiLedController.Utils
             //发送起始命令
             List<byte> beginOrder = new List<byte>();
             beginOrder.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x00, 0x00, 0x00, 0x07 });
-            beginOrder.AddRange(Encoding.Default.GetBytes("preweron"));
+            beginOrder.AddRange(Encoding.Default.GetBytes("poweron"));
             LEDControllerServer.GetInstance().SendDebugData(beginOrder);
         }
         /// <summary>
@@ -324,7 +324,7 @@ namespace MultiLedController.Utils
             List<byte> order = new List<byte>();
             order.Add(0xEB);
             order.Add(0x55);
-            LEDControllerServer.GetInstance().SendDebugData(order);
+            LEDControllerServer.GetInstance().SearchDevice(order);
         }
         /// <summary>
         /// 获取控制器列表

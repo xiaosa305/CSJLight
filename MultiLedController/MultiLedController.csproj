@@ -70,6 +70,7 @@
     <Compile Include="Utils\CalMD5Value.cs" />
     <Compile Include="Utils\Constant.cs" />
     <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\StringHelper.cs" />
     <Compile Include="Utils\XiaosaTest.cs" />
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

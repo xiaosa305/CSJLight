@@ -10,7 +10,7 @@ namespace MultiLedController.Utils
     public class FileUtils
     {
         //private static string ProjectDownloadDir = Application.StartupPath + @"\DataCache\Download\CSJ";
-        private static string ProjectDownloadDir = @"G:\WorkSpace\Save";
+        private static string ProjectDownloadDir = @"C:\WorkSpace\Save";
 
         public static void WriteToFile(List<byte> data,string fileName)
         {

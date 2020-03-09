@@ -27,6 +27,14 @@ namespace MultiLedController.Entity
         private Dictionary<int,List<byte>> Field_Datas { get; set; }
         private Dictionary<int,bool> Field_Datas_Status { get; set; }
 
+        /// <summary>
+        /// 虚拟控制器客户端构造函数
+        /// </summary>
+        /// <param name="currentIp">分配给虚拟控制器的IP地址</param>
+        /// <param name="serverIp">麦爵士所在服务器IP地址</param>
+        /// <param name="startIndex">控制器空间起始编号</param>
+        /// <param name="spaceNum">控制器空间数量</param>
+        /// <param name="manager">管理器既Art_Net_Manager</param>
         public Art_Net_Client(string currentIp,string serverIp, int startIndex, int spaceNum, Art_Net_Manager manager)
         {
             //初始化

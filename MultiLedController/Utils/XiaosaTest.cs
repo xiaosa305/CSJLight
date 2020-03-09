@@ -9,6 +9,8 @@ namespace MultiLedController.Utils
 {
     public static class XiaosaTest
     {
+        private static int Temp = 0;
+
         /// <summary>
         /// 1.调用Art_Net_Manager:SearchDevice()方法传入本机主IP进行搜索设备
         /// 2.搜索成功才允许软件的其他操作，调用Art_Net_Manager:GetLedControlDevices()获取搜索到的设备目录
@@ -18,7 +20,18 @@ namespace MultiLedController.Utils
         /// </summary>
         public static void Test1()
         {
-            Art_Net_Manager.GetInstance().TestStart();
+            switch (Temp)
+            {
+                case 0:
+                    //Art_Net_Manager.GetInstance().TestStart();
+                    //break;
+                case 1:
+                default:
+                    Art_Net_Manager.GetInstance().SearchDevice("192.168.1.21");
+                    //Art_Net_Manager.GetInstance().SendStartDebugOrder();
+                    break;
+            }
+            Temp++;
         }
     }
 }

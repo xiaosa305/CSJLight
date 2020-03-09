@@ -10,7 +10,7 @@ namespace MultiLedController.Utils
     public class FileUtils
     {
         //private static string ProjectDownloadDir = Application.StartupPath + @"\DataCache\Download\CSJ";
-        private static readonly string ProjectDownloadDir = @"G:\WorkSpace\Save";
+        private static string ProjectDownloadDir = @"G:\WorkSpace\Save";
 
         public static void WriteToFile(List<byte> data,string fileName)
         {
@@ -41,6 +41,11 @@ namespace MultiLedController.Utils
                 stream.Write(data.ToArray(), 0, data.Count);
                 stream.Flush();
             }
+        }
+
+        public static void SetSaveDirPath(string dirPath)
+        {
+            ProjectDownloadDir = dirPath;
         }
     }
 }

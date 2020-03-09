@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiLedController.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,25 +29,25 @@ namespace MultiLedController.Entity
             this.LedName = Encoding.Default.GetString(LedNameBuff);
             this.Addr = (int)((data[18] & 0xFF) | ((data[19] & 0xFF) << 8));
             this.LinkMode = Convert.ToInt16(data[20]);
-            this.IP = Convert.ToInt16(data[21]).ToString()
-                     + "."
-                     + Convert.ToInt16(data[22]).ToString()
+            this.IP = Convert.ToInt16(data[24]).ToString()
                      + "."
                      + Convert.ToInt16(data[23]).ToString()
                      + "."
-                     + Convert.ToInt16(data[24]).ToString();
+                     + Convert.ToInt16(data[22]).ToString()
+                     + "."
+                     + Convert.ToInt16(data[21]).ToString();
             this.LinkPort = (int)((data[25] & 0xFF) | ((data[26] & 0xFF) << 8));
-            this.Mac = Convert.ToInt16(data[27]).ToString()
+            this.Mac = StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[27]).ToString(),2)   
                      + "-"
-                     + Convert.ToInt16(data[28]).ToString()
+                     + StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[28]).ToString(), 2)
                      + "-"
-                     + Convert.ToInt16(data[29]).ToString()
+                     + StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[29]).ToString(), 2)
                      + "-"
-                     + Convert.ToInt16(data[30]).ToString()
+                     + StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[30]).ToString(), 2)
                      + "-"
-                     + Convert.ToInt16(data[31]).ToString()
+                     + StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[31]).ToString(), 2)
                      + "-"
-                     + Convert.ToInt16(data[32]).ToString();
+                     + StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[32]).ToString(), 2);
             this.Baud = Convert.ToInt16(data[33]);
             this.Led_space = Convert.ToInt16(data[34]);
             this.Frame_time = Convert.ToInt16(data[35]);

@@ -13,7 +13,7 @@ namespace MultiLedController.Entity
     {
         private static LEDControllerServer Instance { get; set; }
         private Art_Net_Manager Manager { get; set; }
-        private const int PORT = 9999;
+        private const int PORT = 1025;
         private Socket UDPSend { get; set; }
         private UdpClient UDPReceiveClient { get; set; }
         private string ServerCurrentIp { get; set; }
@@ -84,12 +84,14 @@ namespace MultiLedController.Entity
                 {
                     IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, PORT);
                     byte[] receiveData = client.Receive(ref endPoint);
-                    if (Encoding.Default.GetString(receiveData).Equals("OK:poweron"))//发送起始命令回复
+                    Console.WriteLine(Encoding.Default.GetString(receiveData));
+                    if (Encoding.Default.GetString(receiveData).Equals("OK:poweron>"))//发送起始命令回复
                     {
                         this.Manager.StartDebug();
                     }
                     else if (receiveData.Length == 41)//设备探索回复
                     {
+                        Console.WriteLine("搜索到一台设备");
                         ControlDevice controlDevice = new ControlDevice(receiveData);
                         this.ControlDevices.Add(controlDevice.Mac,controlDevice);
                     }
@@ -107,7 +109,18 @@ namespace MultiLedController.Entity
         public void SendDebugData(List<byte> data)
         {
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
+
         }
+        /// <summary>
+        /// 搜索设备
+        /// </summary>
+        /// <param name="data"></param>
+        public void SearchDevice(List<byte> data)
+        {
+            this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, 9999));
+
+        }
+
         /// <summary>
         /// 初始化设备存储缓存区
         /// </summary>

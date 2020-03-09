@@ -65,13 +65,13 @@ namespace MultiLedController.Utils
                 Thread.Sleep(500);
             }
             //Test用添加
-            Clients.Add(new Art_Net_Client("192.168.1.22","192.168.1.4", 0, 4, this));
+            Clients.Add(new Art_Net_Client("192.168.1.32","192.168.1.31", 0, 4, this));
 
-            Clients.Add(new Art_Net_Client("192.168.1.23", "192.168.1.4", 4, 4, this));
-            Clients.Add(new Art_Net_Client("192.168.1.24", "192.168.1.4", 8, 4, this));
-            Clients.Add(new Art_Net_Client("192.168.1.25", "192.168.1.4", 12, 4, this));
-            Clients.Add(new Art_Net_Client("192.168.1.26", "192.168.1.4", 16, 4, this));
-            Clients.Add(new Art_Net_Client("192.168.1.27", "192.168.1.4", 20, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.23", "192.168.1.4", 4, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.24", "192.168.1.4", 8, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.25", "192.168.1.4", 12, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.26", "192.168.1.4", 16, 4, this));
+            //Clients.Add(new Art_Net_Client("192.168.1.27", "192.168.1.4", 20, 4, this));
             //Clients.Add(new Art_Net_Client("192.168.1.120", "192.168.1.14", 24, 4, this));
             //Clients.Add(new Art_Net_Client("192.168.1.121", "192.168.1.14", 28, 4, this));
 
@@ -93,7 +93,7 @@ namespace MultiLedController.Utils
             //FileUtils.WriteToFileByCreate(emptyData, "Art_Net_DMX.bin");
 
             ////启动控制器通信服务
-            LEDControllerServer.GetInstance().StartServer("192.168.1.21");
+            LEDControllerServer.GetInstance().StartServer("192.168.1.31");
         }
         /// <summary>
         /// 启动虚拟控制器对接麦爵士

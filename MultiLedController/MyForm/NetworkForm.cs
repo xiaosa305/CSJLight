@@ -73,9 +73,7 @@ namespace MultiLedController
 			}
 			netcardComboBox.SelectedIndex = 0;
 			netcardIndex = 0;
-		}	
-
-		
+		}		
 	
 
 		/// <summary>
@@ -103,36 +101,19 @@ namespace MultiLedController
 			}
 
 			int firstIP =Decimal.ToInt32( numericUpDown1.Value);
-			string[] ipArray = new string[] {
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP };
-
 			virtualIPList = new List<string>();
+			IList<string> submaskList = new List<string>();
 			firstIP = Decimal.ToInt32(numericUpDown1.Value);
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 9; i++)
 			{
-				virtualIPList.Add("192.168.1." + ++firstIP);
+				virtualIPList.Add("192.168.1." + firstIP++);
+				submaskList.Add("255.255.255.0");
 			}
 
-			string[] submaskArray = new string[] {
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0" };
-
-			SetIPAddress(ipArray , submaskArray, null,null);
+			SetIPAddress(virtualIPList.ToArray(),
+				submaskList.ToArray(),
+				new string[] { "192.168.1.1" }, 
+				new string[] { "192.168.1.1","114.114.114.114" });
 
 			setStatusLabel("已设置多IP，请刷新");
 			setAddButtonEnable(true);
@@ -251,7 +232,6 @@ namespace MultiLedController
 			netcardIndex = netcardComboBox.SelectedIndex;
 			if (netcardIndex > -1) {
 				IPAst ipAst = new IPAst(moList[netcardIndex]);
-
 				try
 				{
 					ipLabel2.Text = ipAst.IpArray[0];

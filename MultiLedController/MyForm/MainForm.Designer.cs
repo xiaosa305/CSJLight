@@ -28,6 +28,11 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            "",
+            "192.168.1.1",
+            "",
+            ""}, -1);
 			this.networkButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.localIPComboBox = new System.Windows.Forms.ComboBox();
@@ -41,12 +46,14 @@
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.recordButton = new System.Windows.Forms.Button();
+			this.debugButton = new System.Windows.Forms.Button();
 			this.startButton = new System.Windows.Forms.Button();
 			this.linkButton = new System.Windows.Forms.Button();
-			this.controllorListView = new System.Windows.Forms.ListView();
+			this.controllerListView = new System.Windows.Forms.ListView();
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.button1 = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -125,9 +132,11 @@
 			// 
 			this.tabPage1.Controls.Add(this.virtualIPListView);
 			this.tabPage1.Controls.Add(this.recordButton);
+			this.tabPage1.Controls.Add(this.debugButton);
 			this.tabPage1.Controls.Add(this.startButton);
 			this.tabPage1.Controls.Add(this.linkButton);
-			this.tabPage1.Controls.Add(this.controllorListView);
+			this.tabPage1.Controls.Add(this.button1);
+			this.tabPage1.Controls.Add(this.controllerListView);
 			this.tabPage1.Location = new System.Drawing.Point(4, 40);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -135,6 +144,7 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "设备列表";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
 			// 
 			// virtualIPListView
 			// 
@@ -147,12 +157,15 @@
 			this.virtualIPListView.FullRowSelect = true;
 			this.virtualIPListView.GridLines = true;
 			this.virtualIPListView.HideSelection = false;
+			this.virtualIPListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem6});
 			this.virtualIPListView.Location = new System.Drawing.Point(466, 3);
 			this.virtualIPListView.Name = "virtualIPListView";
 			this.virtualIPListView.Size = new System.Drawing.Size(323, 320);
 			this.virtualIPListView.TabIndex = 2;
 			this.virtualIPListView.UseCompatibleStateImageBehavior = false;
 			this.virtualIPListView.View = System.Windows.Forms.View.Details;
+			this.virtualIPListView.SelectedIndexChanged += new System.EventHandler(this.virtualIPListView_SelectedIndexChanged);
 			// 
 			// columnHeader1
 			// 
@@ -173,17 +186,29 @@
 			// 
 			// recordButton
 			// 
-			this.recordButton.Location = new System.Drawing.Point(357, 239);
+			this.recordButton.Location = new System.Drawing.Point(357, 248);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(75, 23);
 			this.recordButton.TabIndex = 1;
 			this.recordButton.Text = "录制DMX";
 			this.recordButton.UseVisualStyleBackColor = true;
+			this.recordButton.Visible = false;
 			this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
+			// 
+			// debugButton
+			// 
+			this.debugButton.Enabled = false;
+			this.debugButton.Location = new System.Drawing.Point(357, 211);
+			this.debugButton.Name = "debugButton";
+			this.debugButton.Size = new System.Drawing.Size(75, 23);
+			this.debugButton.TabIndex = 1;
+			this.debugButton.Text = "实时调试";
+			this.debugButton.UseVisualStyleBackColor = true;
+			this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
 			// 
 			// startButton
 			// 
-			this.startButton.Location = new System.Drawing.Point(357, 187);
+			this.startButton.Location = new System.Drawing.Point(357, 174);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(75, 23);
 			this.startButton.TabIndex = 1;
@@ -193,7 +218,7 @@
 			// 
 			// linkButton
 			// 
-			this.linkButton.Location = new System.Drawing.Point(357, 64);
+			this.linkButton.Location = new System.Drawing.Point(357, 72);
 			this.linkButton.Name = "linkButton";
 			this.linkButton.Size = new System.Drawing.Size(75, 23);
 			this.linkButton.TabIndex = 1;
@@ -201,24 +226,25 @@
 			this.linkButton.UseVisualStyleBackColor = true;
 			this.linkButton.Click += new System.EventHandler(this.linkButton_Click);
 			// 
-			// controllorListView
+			// controllerListView
 			// 
-			this.controllorListView.BackColor = System.Drawing.Color.PowderBlue;
-			this.controllorListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.controllerListView.BackColor = System.Drawing.Color.PowderBlue;
+			this.controllerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader6});
-			this.controllorListView.Dock = System.Windows.Forms.DockStyle.Left;
-			this.controllorListView.FullRowSelect = true;
-			this.controllorListView.GridLines = true;
-			this.controllorListView.HideSelection = false;
-			this.controllorListView.Location = new System.Drawing.Point(3, 3);
-			this.controllorListView.MultiSelect = false;
-			this.controllorListView.Name = "controllorListView";
-			this.controllorListView.Size = new System.Drawing.Size(323, 320);
-			this.controllorListView.TabIndex = 0;
-			this.controllorListView.UseCompatibleStateImageBehavior = false;
-			this.controllorListView.View = System.Windows.Forms.View.Details;
+			this.controllerListView.Dock = System.Windows.Forms.DockStyle.Left;
+			this.controllerListView.FullRowSelect = true;
+			this.controllerListView.GridLines = true;
+			this.controllerListView.HideSelection = false;
+			this.controllerListView.Location = new System.Drawing.Point(3, 3);
+			this.controllerListView.MultiSelect = false;
+			this.controllerListView.Name = "controllerListView";
+			this.controllerListView.Size = new System.Drawing.Size(323, 320);
+			this.controllerListView.TabIndex = 0;
+			this.controllerListView.UseCompatibleStateImageBehavior = false;
+			this.controllerListView.View = System.Windows.Forms.View.Details;
+			this.controllerListView.SelectedIndexChanged += new System.EventHandler(this.controllerListView_SelectedIndexChanged);
 			// 
 			// columnHeader2
 			// 
@@ -233,9 +259,19 @@
 			// 
 			// columnHeader6
 			// 
-			this.columnHeader6.Text = "设备信息";
+			this.columnHeader6.Text = "设备名称";
 			this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader6.Width = 166;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(357, 35);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 0;
+			this.button1.Text = "网络设置";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.networkButton_Click);
 			// 
 			// MainForm
 			// 
@@ -249,6 +285,7 @@
 			this.Controls.Add(this.refreshButton);
 			this.Controls.Add(this.localIPComboBox);
 			this.Controls.Add(this.networkButton);
+			this.MinimumSize = new System.Drawing.Size(816, 503);
 			this.Name = "MainForm";
 			this.Text = "多彩灯带控制器";
 			this.Load += new System.EventHandler(this.MainForm_Load);
@@ -271,7 +308,7 @@
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.ListView controllorListView;
+		private System.Windows.Forms.ListView controllerListView;
 		private System.Windows.Forms.Button linkButton;
 		private System.Windows.Forms.ListView virtualIPListView;
 		private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -282,5 +319,7 @@
 		private System.Windows.Forms.Button recordButton;
 		private System.Windows.Forms.Button startButton;
 		private System.Windows.Forms.ColumnHeader columnHeader6;
+		private System.Windows.Forms.Button debugButton;
+		private System.Windows.Forms.Button button1;
 	}
 }

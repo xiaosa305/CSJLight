@@ -28,8 +28,6 @@ namespace LightController.MyForm
 
 			#region 动态读取全局配置
 
-
-
 			// 动态更改软件名称
 			softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY Dimmer System");
 			Text = softwareName;
@@ -195,15 +193,20 @@ namespace LightController.MyForm
 				this.tdPanels[i].Tag = 9999;
 
 				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[i]);
-
 			}
-
 
 		}
 
 
 		#region 几个基类的纯虚函数在子类的实现
-		protected override void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
+
+		/// <summary>
+		///  辅助方法：将所有工程相关的按钮（灯具列表、工程升级、全局设置、摇麦设置）Enabled设为传入bool值
+		/// </summary>
+		/// <param name="v"></param>
+		protected override void enableGlobalSet(bool enable) {
+			projectToolStripMenuItem.Enabled = enable;
+		} 
 
 		/// <summary>
 		///  辅助方法：是否显示《 存、取 灯具位置》	
@@ -262,6 +265,7 @@ namespace LightController.MyForm
 		public override void SetNotice(string notice)
 		{
 			myStatusLabel.Text = notice;
+			this.Refresh();
 		}
 
 		/// <summary>
@@ -271,17 +275,12 @@ namespace LightController.MyForm
 		protected override void setBusy(bool busy)
 		{
 			this.Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
-
-
-
 		}
-
 
 		#endregion
 
 
 		#region 各类点击事件
-
 
 		/// <summary>
 		/// 事件：点击《灯库编辑》
@@ -292,8 +291,6 @@ namespace LightController.MyForm
 		{
 			openLightEditor();
 		}
-
-
 
 		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -383,6 +380,37 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///辅助方法：添加lightAst列表到主界面内存中,主要供 LightsForm以及OpenProject调用）
+		/// --对比删除后，生成新的lightWrapperList；
+		/// --lightListView也更新为最新的数据
+		/// </summary>
+		/// <param name="lightAstList2"></param>
+		public override void AddLightAstList(IList<LightAst> lightAstList2)
+		{
+			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
+			base.AddLightAstList(lightAstList2);
+
+			//下列为针对本Form的处理代码：listView更新为最新数据
+
+			// 1.清空lightListView,重新填充新数据
+			lightsListView.Items.Clear();
+			for (int i = 0; i < lightAstList2.Count; i++)
+			{
+				// 添加灯具数据到LightsListView中
+				lightsListView.Items.Add(new ListViewItem(
+						lightAstList2[i].LightName + ":" + lightAstList2[i].LightType +
+						"\n(" + lightAstList2[i].LightAddr + ")",
+					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
+				)
+				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
+				);
+			}
+
+			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
+			hideAllTDPanels();
+		}
+
+		/// <summary>
 		/// 辅助方法：显示步数
 		/// </summary>		
 		private void showStepLabel(int currentStep, int totalStep)
@@ -420,11 +448,14 @@ namespace LightController.MyForm
 			chooseStepButton.Enabled = totalStep != 0;
 		}
 
+		/// <summary>
+		///辅助方法：隐藏所有的TdPanel
+		/// </summary>
 		private void hideAllTDPanels()
 		{
 			for (int i = 0; i < 32; i++)
 			{
-				//tdPanels[i].Hide();
+				tdPanels[i].Hide();
 			}
 			unifyPanel.Enabled = false;
 		}

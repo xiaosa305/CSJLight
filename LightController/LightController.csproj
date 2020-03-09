@@ -215,91 +215,91 @@
     <Compile Include="MyForm\GlobalSet\GlobalSetForm.Designer.cs">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\HardwaereSet\HardwareSetChooseForm.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareSetChooseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwaereSet\HardwareSetChooseForm.Designer.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareSetChooseForm.Designer.cs">
       <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\HardwaereSet\HardwareSetForm.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareSetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwaereSet\HardwareSetForm.Designer.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MultiStepCopyForm.cs">
+    <Compile Include="MyForm\MainFormAst\MultiStepCopyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MultiStepCopyForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\MultiStepCopyForm.Designer.cs">
       <DependentUpon>MultiStepCopyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MultiLightForm.cs">
+    <Compile Include="MyForm\MainFormAst\MultiLightForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MultiLightForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\MultiLightForm.Designer.cs">
       <DependentUpon>MultiLightForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MultiStepForm.cs">
+    <Compile Include="MyForm\MainFormAst\MultiStepForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MultiStepForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\MultiStepForm.Designer.cs">
       <DependentUpon>MultiStepForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MultiStepPasteForm.cs">
+    <Compile Include="MyForm\MainFormAst\MultiStepPasteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MultiStepPasteForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\MultiStepPasteForm.Designer.cs">
       <DependentUpon>MultiStepPasteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\ProjectRenameOrCopyForm.cs">
+    <Compile Include="MyForm\MainFormAst\ProjectRenameOrCopyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\ProjectRenameOrCopyForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\ProjectRenameOrCopyForm.Designer.cs">
       <DependentUpon>ProjectRenameOrCopyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\SKForm.cs">
+    <Compile Include="MyForm\MainFormAst\SKForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\SKForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\SKForm.Designer.cs">
       <DependentUpon>SKForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\LightsEditForm.cs">
+    <Compile Include="MyForm\LightList\LightsEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightsEditForm.Designer.cs">
+    <Compile Include="MyForm\LightList\LightsEditForm.Designer.cs">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\LightsAstForm.cs">
+    <Compile Include="MyForm\LightList\LightsAstForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightsAstForm.designer.cs">
+    <Compile Include="MyForm\LightList\LightsAstForm.designer.cs">
       <DependentUpon>LightsAstForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\LightsForm.cs">
+    <Compile Include="MyForm\LightList\LightsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightsForm.designer.cs">
+    <Compile Include="MyForm\LightList\LightsForm.designer.cs">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MaterialSaveForm.cs">
+    <Compile Include="MyForm\MainFormAst\MaterialSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MaterialSaveForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\MaterialSaveForm.Designer.cs">
       <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MaterialUseForm.cs">
+    <Compile Include="MyForm\MainFormAst\MaterialUseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MaterialUseForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\MaterialUseForm.Designer.cs">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\NewForm.cs">
+    <Compile Include="MyForm\MainFormAst\NewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\NewForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity\DB_Light.cs" />
@@ -307,10 +307,10 @@
     <Compile Include="Entity\DB_StepCount.cs" />
     <Compile Include="Entity\DB_ValuePK.cs" />
     <Compile Include="Entity\DB_Value.cs" />
-    <Compile Include="MyForm\HardwaereSet\HardwareSaveForm.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwaereSet\HardwareSaveForm.Designer.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareSaveForm.Designer.cs">
       <DependentUpon>HardwareSaveForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\SkinMainForm.cs">
@@ -319,10 +319,10 @@
     <Compile Include="MyForm\SkinMainForm.Designer.cs">
       <DependentUpon>SkinMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\OpenForm.cs">
+    <Compile Include="MyForm\MainFormAst\OpenForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\OpenForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\OpenForm.Designer.cs">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\OtherTools\OldToolsForm.cs">
@@ -331,22 +331,22 @@
     <Compile Include="MyForm\OtherTools\OldToolsForm.Designer.cs">
       <DependentUpon>OldToolsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\HardwaereSet\HardwareUpdateForm.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\HardwaereSet\HardwareUpdateForm.Designer.cs">
+    <Compile Include="MyForm\HardwareSet\HardwareUpdateForm.Designer.cs">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\ProjectUpdateForm.cs">
+    <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\ProjectUpdateForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\ProjectUpdateForm.Designer.cs">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\UseFrameForm.cs">
+    <Compile Include="MyForm\MainFormAst\UseFrameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\UseFrameForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\UseFrameForm.Designer.cs">
       <DependentUpon>UseFrameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\GlobalSet\YMSetForm.cs">
@@ -410,68 +410,68 @@
     <EmbeddedResource Include="MyForm\GlobalSet\GlobalSetForm.resx">
       <DependentUpon>GlobalSetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareSetChooseForm.resx">
+    <EmbeddedResource Include="MyForm\HardwareSet\HardwareSetChooseForm.resx">
       <DependentUpon>HardwareSetChooseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareSetForm.resx">
+    <EmbeddedResource Include="MyForm\HardwareSet\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MultiStepCopyForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\MultiStepCopyForm.resx">
       <DependentUpon>MultiStepCopyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MultiLightForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\MultiLightForm.resx">
       <DependentUpon>MultiLightForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MultiStepForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\MultiStepForm.resx">
       <DependentUpon>MultiStepForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\multiStepPasteForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\multiStepPasteForm.resx">
       <DependentUpon>MultiStepPasteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\ProjectRenameOrCopyForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\ProjectRenameOrCopyForm.resx">
       <DependentUpon>ProjectRenameOrCopyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\SKForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\SKForm.resx">
       <DependentUpon>SKForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightsEditForm.resx">
+    <EmbeddedResource Include="MyForm\LightList\LightsEditForm.resx">
       <DependentUpon>LightsEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightsAstForm.resx">
+    <EmbeddedResource Include="MyForm\LightList\LightsAstForm.resx">
       <DependentUpon>LightsAstForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightsForm.resx">
+    <EmbeddedResource Include="MyForm\LightList\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MaterialSaveForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\MaterialSaveForm.resx">
       <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MaterialUseForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\MaterialUseForm.resx">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\NewForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\NewForm.resx">
       <DependentUpon>NewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareSaveForm.resx">
+    <EmbeddedResource Include="MyForm\HardwareSet\HardwareSaveForm.resx">
       <DependentUpon>HardwareSaveForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\SkinMainForm.resx">
       <DependentUpon>SkinMainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\OpenForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\OpenForm.resx">
       <DependentUpon>OpenForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\OtherTools\OldToolsForm.resx">
       <DependentUpon>OldToolsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\HardwaereSet\HardwareUpdateForm.resx">
+    <EmbeddedResource Include="MyForm\HardwareSet\HardwareUpdateForm.resx">
       <DependentUpon>HardwareUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\ProjectUpdateForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\ProjectUpdateForm.resx">
       <DependentUpon>ProjectUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\UseFrameForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\UseFrameForm.resx">
       <DependentUpon>UseFrameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">

@@ -698,7 +698,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：将所有全局配置相关的按钮（灯具、升级、全局、摇麦、网络、连接设备）Enabled设为传入bool值
+		///  辅助方法：将所有全局配置相关的按钮（灯具列表、工程升级、全局设置、摇麦设置）Enabled设为传入bool值
 		/// </summary>
 		/// <param name="v"></param>
 		protected override void enableGlobalSet(bool enable)
@@ -708,7 +708,6 @@ namespace LightController.MyForm
 			lightListSkinButton.Enabled = enable;
 			globalSetSkinButton.Enabled = enable;
 			ymSkinButton.Enabled = enable;
-			hardwareUpdateSkinButton.Enabled = enable;
 		}
 
 		/// <summary>

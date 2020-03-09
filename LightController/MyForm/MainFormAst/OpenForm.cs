@@ -78,7 +78,7 @@ namespace LightController.MyForm
 			{
 				this.Dispose();
 				mainForm.Activate();
-				//mainForm.OpenProject(projectName);
+				mainForm.OpenProject(projectName);
 			}
 			else
 			{

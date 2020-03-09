@@ -61,7 +61,6 @@ namespace LightController.MyForm
 			this.soundButton = new System.Windows.Forms.Button();
 			this.endviewButton = new System.Windows.Forms.Button();
 			this.previewButton = new System.Windows.Forms.Button();
-			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.lightsAddrLabel = new System.Windows.Forms.Label();
 			this.lightTypeLabel = new System.Windows.Forms.Label();
 			this.lightNameLabel = new System.Windows.Forms.Label();
@@ -239,33 +238,33 @@ namespace LightController.MyForm
 			// lightListToolStripMenuItem
 			// 
 			this.lightListToolStripMenuItem.Name = "lightListToolStripMenuItem";
-			this.lightListToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.lightListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.lightListToolStripMenuItem.Text = "灯具列表";
 			this.lightListToolStripMenuItem.Click += new System.EventHandler(this.lightListToolStripMenuItem_Click);
 			// 
 			// globalSetToolStripMenuItem
 			// 
 			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
-			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.globalSetToolStripMenuItem.Text = "全局配置";
 			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globalSetToolStripMenuItem_Click);
 			// 
 			// ymToolStripMenuItem
 			// 
 			this.ymToolStripMenuItem.Name = "ymToolStripMenuItem";
-			this.ymToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.ymToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.ymToolStripMenuItem.Text = "摇麦配置";
 			this.ymToolStripMenuItem.Click += new System.EventHandler(this.ymToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(121, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
 			// 
 			// projectUpdateToolStripMenuItem
 			// 
 			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
-			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.projectUpdateToolStripMenuItem.Text = "工程更新";
 			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
 			// 
@@ -412,25 +411,6 @@ namespace LightController.MyForm
 			this.previewButton.TabIndex = 24;
 			this.previewButton.Text = "预览效果";
 			this.previewButton.UseVisualStyleBackColor = true;
-			// 
-			// imageList1
-			// 
-			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-			this.imageList1.Images.SetKeyName(0, "上一步.png");
-			this.imageList1.Images.SetKeyName(1, "保存素材2.png");
-			this.imageList1.Images.SetKeyName(2, "多灯模式.png");
-			this.imageList1.Images.SetKeyName(3, "复制步.png");
-			this.imageList1.Images.SetKeyName(4, "复制灯1.png");
-			this.imageList1.Images.SetKeyName(5, "后插入步1.png");
-			this.imageList1.Images.SetKeyName(6, "前插入步1.png");
-			this.imageList1.Images.SetKeyName(7, "删除步.png");
-			this.imageList1.Images.SetKeyName(8, "使用素材.png");
-			this.imageList1.Images.SetKeyName(9, "跳转.png");
-			this.imageList1.Images.SetKeyName(10, "下一步.png");
-			this.imageList1.Images.SetKeyName(11, "粘贴步.png");
-			this.imageList1.Images.SetKeyName(12, "粘贴灯1.png");
-			this.imageList1.Images.SetKeyName(13, "追加步.png");
 			// 
 			// lightsAddrLabel
 			// 
@@ -893,6 +873,7 @@ namespace LightController.MyForm
             this.lightType});
 			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lightsListView.HideSelection = false;
+			this.lightsListView.LargeImageList = this.lightLargeImageList;
 			this.lightsListView.Location = new System.Drawing.Point(95, 0);
 			this.lightsListView.Margin = new System.Windows.Forms.Padding(2);
 			this.lightsListView.MultiSelect = false;
@@ -975,14 +956,13 @@ namespace LightController.MyForm
 			// 
 			// stepLabel
 			// 
-			this.stepLabel.AutoSize = true;
 			this.stepLabel.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(398, 21);
+			this.stepLabel.Location = new System.Drawing.Point(377, 20);
 			this.stepLabel.Name = "stepLabel";
-			this.stepLabel.Size = new System.Drawing.Size(31, 14);
+			this.stepLabel.Size = new System.Drawing.Size(72, 14);
 			this.stepLabel.TabIndex = 53;
-			this.stepLabel.Text = "0/0";
+			this.stepLabel.Text = "  0 / 0";
 			// 
 			// frameChooseLabel
 			// 
@@ -1101,7 +1081,6 @@ namespace LightController.MyForm
 			this.chooseStepButton.FlatAppearance.BorderSize = 0;
 			this.chooseStepButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.chooseStepButton.ImageKey = "跳转.png";
-			this.chooseStepButton.ImageList = this.imageList1;
 			this.chooseStepButton.Location = new System.Drawing.Point(602, 18);
 			this.chooseStepButton.Name = "chooseStepButton";
 			this.chooseStepButton.Size = new System.Drawing.Size(24, 18);
@@ -1303,7 +1282,6 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.Button soundButton;
 		private System.Windows.Forms.Button changeConnectMethodButton;
-		private System.Windows.Forms.ImageList imageList1;
 		private System.Windows.Forms.Label lightsAddrLabel;
 		private System.Windows.Forms.Label lightTypeLabel;
 		private System.Windows.Forms.Label lightNameLabel;

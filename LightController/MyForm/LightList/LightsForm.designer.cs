@@ -217,6 +217,7 @@ namespace LightController
 			// 
 			// cancelButton
 			// 
+			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelButton.Location = new System.Drawing.Point(290, 435);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 28);
@@ -229,7 +230,7 @@ namespace LightController
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.MintCream;
+			this.BackColor = System.Drawing.Color.LightSteelBlue;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(747, 509);
 			this.Controls.Add(this.cancelButton);

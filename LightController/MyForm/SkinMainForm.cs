@@ -833,7 +833,7 @@ namespace LightController.MyForm
 
 #endregion
 
-#region 步数相关的按钮及辅助方法
+
 		//MARK：SkinMainForm步数相关的按钮及辅助方法起点	
 
 		/// <summary>
@@ -958,6 +958,8 @@ namespace LightController.MyForm
 			//最后都要用上RefreshStep()
 			RefreshStep();
 		}
+
+		#region  stepPanel相关的方法
 
 		/// <summary>
 		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
@@ -1316,7 +1318,6 @@ namespace LightController.MyForm
 				chooseStepNumericUpDown.Minimum = 1;
 			}
 		}
-
 
 		/// <summary>
 		/// 事件：界面的Size发生变化
@@ -3007,9 +3008,9 @@ namespace LightController.MyForm
 
 	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
 	{
-		private SkinMainForm mainForm;
+		private MainFormInterface mainForm;
 
-		public NetworkDebugReceiveCallBack(SkinMainForm mainForm)
+		public NetworkDebugReceiveCallBack(MainFormInterface mainForm)
 		{
 			this.mainForm = mainForm;
 		}

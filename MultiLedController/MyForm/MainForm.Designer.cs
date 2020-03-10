@@ -28,11 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-            "",
-            "192.168.1.1",
-            "",
-            ""}, -1);
 			this.networkButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.localIPComboBox = new System.Windows.Forms.ComboBox();
@@ -49,11 +44,11 @@
 			this.debugButton = new System.Windows.Forms.Button();
 			this.startButton = new System.Windows.Forms.Button();
 			this.linkButton = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
 			this.controllerListView = new System.Windows.Forms.ListView();
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.button1 = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -157,8 +152,6 @@
 			this.virtualIPListView.FullRowSelect = true;
 			this.virtualIPListView.GridLines = true;
 			this.virtualIPListView.HideSelection = false;
-			this.virtualIPListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem6});
 			this.virtualIPListView.Location = new System.Drawing.Point(466, 3);
 			this.virtualIPListView.Name = "virtualIPListView";
 			this.virtualIPListView.Size = new System.Drawing.Size(323, 320);
@@ -208,6 +201,7 @@
 			// 
 			// startButton
 			// 
+			this.startButton.Enabled = false;
 			this.startButton.Location = new System.Drawing.Point(357, 174);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(75, 23);
@@ -225,6 +219,16 @@
 			this.linkButton.Text = "关联到IP->";
 			this.linkButton.UseVisualStyleBackColor = true;
 			this.linkButton.Click += new System.EventHandler(this.linkButton_Click);
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(357, 35);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 0;
+			this.button1.Text = "网络设置";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.networkButton_Click);
 			// 
 			// controllerListView
 			// 
@@ -262,16 +266,6 @@
 			this.columnHeader6.Text = "设备名称";
 			this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader6.Width = 166;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(357, 35);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "网络设置";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.networkButton_Click);
 			// 
 			// MainForm
 			// 

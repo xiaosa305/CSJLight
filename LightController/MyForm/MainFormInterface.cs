@@ -105,6 +105,7 @@ namespace LightController.MyForm
 		protected virtual void setBusy(bool buzy) { } //设置是否忙时
 		public virtual void ResetSyncMode() { } // 清空syncStep
 		public virtual void SetNotice(string notice) { } //设置提示信息
+		public virtual void EnableConnectedButtons(bool connected) { } //设置《连接按钮组》是否可用
 
 		#endregion
 
@@ -444,7 +445,7 @@ namespace LightController.MyForm
 			lightDictionary = new Dictionary<int, int>();
 			for (int i = 0; i < lightAstList.Count; i++)
 			{
-				lightDictionary.Add(lightAstList[i].StartNum, i);
+				lightDictionary.Add( lightAstList[i].StartNum , i );
 			}
 		}
 

@@ -230,7 +230,7 @@ namespace MultiLedController.MyForm
 				return;
 			}
 			if (virtualIPSelectedIndex == -1) {
-				setNotice("请选择虚拟IP地址");
+				setNotice("请选择虚拟IP地址");				
 				return;
 			}
 
@@ -244,15 +244,24 @@ namespace MultiLedController.MyForm
 
 			foreach (ListViewItem item in virtualIPListView.Items)
 			{
-				item.SubItems[2].Text = "";				
+				item.SubItems[2].Text = "";			
 			}
 
 			foreach (ListViewItem item in virtualIPListView.SelectedItems)
 			{
 				item.SubItems[2].Text = ledIp;				
 				virtuals.Add(new VirtualControlInfo(item.SubItems[1].Text, device));				
-			}					
+			}
 
+			if (virtuals == null || virtuals.Count == 0)
+			{
+				setNotice("已清空旧的关联");
+				startButton.Enabled = false;
+			}
+			else {
+				setNotice("成功关联虚拟IP");
+				startButton.Enabled = true;
+			}
 		}
 
 		/// <summary>
@@ -288,10 +297,10 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "实时调试";
 			if (isDebuging)
 			{
-				Art_Net_Manager.GetInstance().EndDebug();
+				Art_Net_Manager.GetInstance().SendStartDebugOrder();
 			}
 			else {
-				Art_Net_Manager.GetInstance().SendStartDebugOrder();
+				Art_Net_Manager.GetInstance().EndDebug();
 			}			
 		}
 

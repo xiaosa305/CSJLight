@@ -273,7 +273,6 @@ namespace MultiLedController.Utils
                         sendBuff.AddRange(data.Take(1024).ToList());
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                         sendBuff.Clear();
-                        //Thread.Sleep(frameTime);
                         //发送第二包数据
                         sendBuff.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x20, Convert.ToByte(i * 2 + 1), Convert.ToByte(((data.Count - 1024) >> 8) & 0xFF), Convert.ToByte((data.Count - 1024) & 0xFF) });
                         sendBuff.AddRange(data.Skip(1024).Take(1024).ToList());
@@ -286,6 +285,7 @@ namespace MultiLedController.Utils
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                     }
                 }
+                //Thread.Sleep(10);
             }
         }
         /// <summary>

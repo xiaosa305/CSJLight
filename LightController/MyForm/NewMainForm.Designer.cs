@@ -56,6 +56,8 @@ namespace LightController.MyForm
 			this.playPanel = new System.Windows.Forms.Panel();
 			this.changeConnectMethodButton = new System.Windows.Forms.Button();
 			this.refreshDeviceButton = new System.Windows.Forms.Button();
+			this.realtimeButton = new System.Windows.Forms.Button();
+			this.keepButton = new System.Windows.Forms.Button();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
 			this.connectButton = new System.Windows.Forms.Button();
 			this.makeSoundButton = new System.Windows.Forms.Button();
@@ -129,8 +131,6 @@ namespace LightController.MyForm
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.keepButton = new System.Windows.Forms.Button();
-			this.realtimeButton = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
@@ -354,14 +354,35 @@ namespace LightController.MyForm
 			// 
 			// refreshDeviceButton
 			// 
-			this.refreshDeviceButton.Location = new System.Drawing.Point(109, 34);
+			this.refreshDeviceButton.Location = new System.Drawing.Point(104, 34);
 			this.refreshDeviceButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshDeviceButton.Name = "refreshDeviceButton";
-			this.refreshDeviceButton.Size = new System.Drawing.Size(80, 26);
+			this.refreshDeviceButton.Size = new System.Drawing.Size(88, 26);
 			this.refreshDeviceButton.TabIndex = 20;
 			this.refreshDeviceButton.Text = "刷新列表";
 			this.refreshDeviceButton.UseVisualStyleBackColor = true;
 			this.refreshDeviceButton.Click += new System.EventHandler(this.refreshDeviceButton_Click);
+			// 
+			// realtimeButton
+			// 
+			this.realtimeButton.Location = new System.Drawing.Point(307, 6);
+			this.realtimeButton.Margin = new System.Windows.Forms.Padding(2);
+			this.realtimeButton.Name = "realtimeButton";
+			this.realtimeButton.Size = new System.Drawing.Size(69, 54);
+			this.realtimeButton.TabIndex = 25;
+			this.realtimeButton.Text = "实时调试";
+			this.realtimeButton.UseVisualStyleBackColor = true;
+			this.realtimeButton.Click += new System.EventHandler(this.realtimeButton_Click);
+			// 
+			// keepButton
+			// 
+			this.keepButton.Location = new System.Drawing.Point(386, 6);
+			this.keepButton.Margin = new System.Windows.Forms.Padding(2);
+			this.keepButton.Name = "keepButton";
+			this.keepButton.Size = new System.Drawing.Size(69, 54);
+			this.keepButton.TabIndex = 24;
+			this.keepButton.Text = "保持状态";
+			this.keepButton.UseVisualStyleBackColor = true;
 			// 
 			// deviceComboBox
 			// 
@@ -376,11 +397,10 @@ namespace LightController.MyForm
 			// connectButton
 			// 
 			this.connectButton.BackColor = System.Drawing.Color.Transparent;
-			this.connectButton.Enabled = false;
 			this.connectButton.Location = new System.Drawing.Point(206, 34);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(80, 26);
+			this.connectButton.Size = new System.Drawing.Size(88, 26);
 			this.connectButton.TabIndex = 23;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = false;
@@ -1226,27 +1246,6 @@ namespace LightController.MyForm
 			this.topPanel.Name = "topPanel";
 			this.topPanel.Size = new System.Drawing.Size(1264, 383);
 			this.topPanel.TabIndex = 70;
-			// 
-			// keepButton
-			// 
-			this.keepButton.Location = new System.Drawing.Point(386, 6);
-			this.keepButton.Margin = new System.Windows.Forms.Padding(2);
-			this.keepButton.Name = "keepButton";
-			this.keepButton.Size = new System.Drawing.Size(69, 54);
-			this.keepButton.TabIndex = 24;
-			this.keepButton.Text = "保持状态";
-			this.keepButton.UseVisualStyleBackColor = true;
-			this.keepButton.Click += new System.EventHandler(this.endviewButton_Click);
-			// 
-			// realtimeButton
-			// 
-			this.realtimeButton.Location = new System.Drawing.Point(307, 6);
-			this.realtimeButton.Margin = new System.Windows.Forms.Padding(2);
-			this.realtimeButton.Name = "realtimeButton";
-			this.realtimeButton.Size = new System.Drawing.Size(69, 54);
-			this.realtimeButton.TabIndex = 25;
-			this.realtimeButton.Text = "实时调试";
-			this.realtimeButton.UseVisualStyleBackColor = true;
 			// 
 			// NewMainForm
 			// 

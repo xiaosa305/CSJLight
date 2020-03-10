@@ -483,85 +483,7 @@ namespace LightController.MyForm
 
 
 
-		/// <summary>
-		/// 事件：点击《连接设备|断开连接》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void connectButton_Click(object sender, EventArgs e)
-		{
-			playTools = PlayTools.GetInstance();
-
-			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if (!isConnected)
-			{
-				if (isConnectCom)
-				{
-					if (String.IsNullOrEmpty(comName))
-					{
-						MessageBox.Show("未选中可用串口。");
-						return;
-					}
-					playTools.ConnectDevice(comName);
-					EnableConnectedButtons(true);
-				}
-				else
-				{
-					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
-					{
-						MessageBox.Show("未选中可用网络连接。");
-						return;
-					}
-
-					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
-					ConnectTools.GetInstance().Start(ipAst.LocalIP);
-					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
-				}
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				if (isConnectCom)
-				{
-					playTools.CloseDevice();
-				}
-				else
-				{
-					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
-				}
-
-				//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				EnableConnectedButtons(false);
-
-				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
-				if (!isConnectCom)
-				{
-					Thread.Sleep(500);
-					refreshNetworkList();
-				}
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：选择串口按钮、刷新串口按钮、调试的按钮组是否显示
-		/// </summary>
-		/// <param name="v"></param>
-		public override void EnableConnectedButtons(bool connected)
-		{
-			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
-			changeConnectMethodButton.Enabled = !connected;
-			deviceComboBox.Enabled = !connected;
-			refreshDeviceButton.Enabled = !connected;
-
-			realtimeButton.Enabled = connected;
-			keepButton.Enabled = connected;
-			makeSoundButton.Enabled = connected;
-			previewButton.Enabled = connected;
-			endviewButton.Enabled = connected;
-
-			// 是否连接
-			isConnected = connected;
-			connectButton.Text = isConnected ? "断开连接" : "连接设备";
-		}
+		
 
 
 		/// <summary>
@@ -705,22 +627,7 @@ namespace LightController.MyForm
 			exit();
 		}
 
-		/// <summary>
-		/// 事件:点击《playPanel - 刷新列表》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void refreshDeviceButton_Click(object sender, EventArgs e)
-		{
-			if (isConnectCom)
-			{
-				refreshComList();
-			}
-			else
-			{
-				refreshNetworkList();
-			}
-		}
+		
 
 		#endregion
 
@@ -809,88 +716,9 @@ namespace LightController.MyForm
 
 				//isPainting = false;
 			}
-
 		}
 
-
-
-		/// <summary>
-		/// 辅助方法：重新搜索com列表：供启动时及需要重新搜索设备时使用。
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void refreshComList()
-		{
-			// 动态加载可用的dmx512串口列表		 
-			deviceComboBox.Items.Clear();
-			SerialPortTools comTools = SerialPortTools.GetInstance();
-			comList = comTools.GetDMX512DeviceList();
-			if (comList != null && comList.Length > 0)
-			{
-				foreach (string com in comList)
-				{
-					deviceComboBox.Items.Add(com);
-				}
-				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;
-			}
-			else
-			{
-				deviceComboBox.Text = "";
-				deviceComboBox.Enabled = false;
-				deviceComboBox.Enabled = false;
-			}
-		}
-
-
-		/// <summary>
-		/// TODO：11.22 网络连接
-		/// 辅助方法：重新搜索ip列表-》填入deviceComboBox中
-		/// </summary>
-		private void refreshNetworkList()
-		{
-
-			deviceComboBox.Items.Clear();
-			deviceComboBox.Enabled = false;
-			ipaList = new List<IPAst>();
-
-			connectTools = ConnectTools.GetInstance();
-			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
-			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
-			foreach (IPAddress ip in ipe.AddressList)
-			{
-				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
-				{
-					connectTools.Start(ip.ToString());
-					connectTools.SearchDevice();
-					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-					Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《以网络|串口连接》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void changeConnectMethodButton_Click(object sender, EventArgs e)
-		{
-			isConnectCom = !isConnectCom;
-			changeConnectMethodButton.Text = isConnectCom ? "以网络连接" : "以串口连接";			
-			refreshDeviceButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
-		}
-
-		/// <summary>
-		/// 事件：点击《结束预览》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void endviewButton_Click(object sender, EventArgs e)
-		{
-			endview();
-			SetNotice("已结束预览。");
-		}
+		
 		
 		/// <summary>
 		/// 事件：点击《全部归零》
@@ -1661,6 +1489,209 @@ namespace LightController.MyForm
 
 		#endregion
 
+		#region 灯控调试按钮组点击事件及辅助方法
+
+		/// <summary>
+		/// 事件：点击《以网络|串口连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void changeConnectMethodButton_Click(object sender, EventArgs e)
+		{
+			isConnectCom = !isConnectCom;
+			changeConnectMethodButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
+			refreshDeviceButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
+		}
+
+
+		/// <summary>
+		/// 事件:点击《playPanel - 刷新列表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshDeviceButton_Click(object sender, EventArgs e)
+		{
+			if (isConnectCom)
+			{
+				refreshComList();
+			}
+			else
+			{
+				refreshNetworkList();
+			}
+		}
+
+
+		/// <summary>
+		/// 辅助方法：重新搜索com列表：供启动时及需要重新搜索设备时使用。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshComList()
+		{
+			// 动态加载可用的dmx512串口列表		 
+			deviceComboBox.Items.Clear();
+			SerialPortTools comTools = SerialPortTools.GetInstance();
+			comList = comTools.GetDMX512DeviceList();
+			if (comList != null && comList.Length > 0)
+			{
+				foreach (string com in comList)
+				{
+					deviceComboBox.Items.Add(com);
+				}
+				deviceComboBox.SelectedIndex = 0;
+				deviceComboBox.Enabled = true;
+			}
+			else
+			{
+				deviceComboBox.Text = "";
+				deviceComboBox.Enabled = false;
+				deviceComboBox.Enabled = false;
+			}
+		}
+
+
+		/// <summary>
+		/// TODO：11.22 网络连接
+		/// 辅助方法：重新搜索ip列表-》填入deviceComboBox中
+		/// </summary>
+		private void refreshNetworkList()
+		{
+
+			deviceComboBox.Items.Clear();
+			deviceComboBox.Enabled = false;
+			ipaList = new List<IPAst>();
+
+			connectTools = ConnectTools.GetInstance();
+			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
+			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+			foreach (IPAddress ip in ipe.AddressList)
+			{
+				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
+				{
+					connectTools.Start(ip.ToString());
+					connectTools.SearchDevice();
+					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
+					Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);
+				}
+			}
+		}
+
+		
+
+		/// <summary>
+		/// 事件：点击《结束预览》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void endviewButton_Click(object sender, EventArgs e)
+		{
+			endview();
+			SetNotice("已结束预览。");
+		}
+
+
+		/// <summary>
+		/// 事件：点击《连接设备|断开连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void connectButton_Click(object sender, EventArgs e)
+		{
+			playTools = PlayTools.GetInstance();
+
+			// 如果还没连接（按钮显示为“连接设备”)，那就连接
+			if (!isConnected)
+			{
+				if (isConnectCom)
+				{
+					if (String.IsNullOrEmpty(comName))
+					{
+						MessageBox.Show("未选中可用串口。");
+						return;
+					}
+					playTools.ConnectDevice(comName);
+					EnableConnectedButtons(true);
+				}
+				else
+				{
+					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
+					{
+						MessageBox.Show("未选中可用网络连接。");
+						return;
+					}
+
+					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
+					ConnectTools.GetInstance().Start(ipAst.LocalIP);
+					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				}
+			}
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{
+				if (isConnectCom)
+				{
+					playTools.CloseDevice();
+				}
+				else
+				{
+					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
+				}
+
+				//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
+				EnableConnectedButtons(false);
+
+				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
+				if (!isConnectCom)
+				{
+					Thread.Sleep(500);
+					refreshNetworkList();
+				}
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：选择串口按钮、刷新串口按钮、调试的按钮组是否显示
+		/// </summary>
+		/// <param name="v"></param>
+		public override void EnableConnectedButtons(bool connected)
+		{
+			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
+			changeConnectMethodButton.Enabled = !connected;
+			deviceComboBox.Enabled = !connected;
+			refreshDeviceButton.Enabled = !connected;
+
+			realtimeButton.Enabled = connected;
+			keepButton.Enabled = connected;
+			makeSoundButton.Enabled = connected;
+			previewButton.Enabled = connected;
+			endviewButton.Enabled = connected;
+
+			// 是否连接
+			isConnected = connected;
+			connectButton.Text = isConnected ? "断开连接" : "连接设备";
+		}
+
+		/// <summary>
+		/// 事件：点击《实时调试》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void realtimeButton_Click(object sender, EventArgs e)
+		{
+			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+			if (!isRealtime)
+			{				
+				realtimeButton.Text = "关闭实时";
+				isRealtime = true;
+			}
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{
+				realtimeButton.Text = "实时调试";
+				isRealtime = false;
+			}
+		}
+
+#endregion
 
 	}
 }

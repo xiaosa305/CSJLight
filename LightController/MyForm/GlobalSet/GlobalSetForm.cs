@@ -91,7 +91,7 @@ namespace LightController.MyForm
 			//	9.12 动态添加各种场景panel
 			frameCount =  MainFormInterface.AllFrameList.Count;
 			skPanels = new Panel[frameCount];
-			skFrameSkinButtons = new SkinButton[frameCount];
+			skFrameButtons = new Button[frameCount];
 			skStepTimeNumericUpDowns = new NumericUpDown[frameCount];
 			skTrueTimeLabels = new Label[frameCount];
 			skJGTimeNumericUpDowns = new NumericUpDown[frameCount];
@@ -99,11 +99,11 @@ namespace LightController.MyForm
 			for (int panelIndex = 0;panelIndex< frameCount; panelIndex++)
 			{
 				addFramePanel(panelIndex, MainFormInterface.AllFrameList[panelIndex]);
-				skFrameSkinButtons[panelIndex].Click += new EventHandler(skFrameSkinButton_Click);
+				skFrameButtons[panelIndex].Click += new EventHandler(skFrameSkinButton_Click);
 				skStepTimeNumericUpDowns[panelIndex].ValueChanged += new EventHandler(skStepTimeNumericUpDowns_ValueChanged);
 			}
 			skFrameFlowLayoutPanel.Controls.Add(mFrameLKPanel);
-			skFrameFlowLayoutPanel.Controls.Add(skFrameSaveSkinButton);
+			skFrameFlowLayoutPanel.Controls.Add(skFrameSaveButton);
 
 			#endregion
 
@@ -115,69 +115,62 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：添加自动添加的panel到skFrameFlowLayoutPanel中；
 		/// </summary>
-		/// <param name="panelIndex"></param>
-		private void addFramePanel(int panelIndex, string frameName)
+		/// <param name="frameIndex"></param>
+		private void addFramePanel(int frameIndex, string frameName)
 		{
-
-			skPanels[panelIndex] = new Panel
+			skPanels[frameIndex] = new Panel
 			{
 				Location = new System.Drawing.Point(3, 3),
-				Name = "skPanel" + (panelIndex + 1),
+				Name = "skPanel" + (frameIndex + 1),
 				Size = new System.Drawing.Size(61, 127),
 				BorderStyle = BorderStyle.Fixed3D
 			};
 
 			//按钮(并附带场景名称）
-			skFrameSkinButtons[panelIndex] = new SkinButton
+			skFrameButtons[frameIndex] = new Button
 			{
-				BackColor = System.Drawing.Color.Transparent,
-				BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192))))),
-				BorderColor = System.Drawing.Color.Transparent,
-				ControlState = CCWin.SkinClass.ControlState.Normal,
-				DownBack = null,
-				Location = new System.Drawing.Point(6, 11),
-				MouseBack = null,
-				Name = "skinFrameButton" + (panelIndex + 1),
-				NormlBack = null,
+				Location = new System.Drawing.Point(6, 11),				
+				Name = "skinFrameButton" + (frameIndex + 1),				
 				Size = new System.Drawing.Size(50, 25),
 				TabIndex = 0,
-				Text = frameName,
-				UseVisualStyleBackColor = false
+				Text = frameName			
 			};
+			myToolTip.SetToolTip(skFrameButtons[frameIndex], frameName);
+
 			// 步时间
-			skStepTimeNumericUpDowns[panelIndex] = new NumericUpDown
+			skStepTimeNumericUpDowns[frameIndex] = new NumericUpDown
 			{
 				Location = new System.Drawing.Point(6, 44),
-				Name = "steptTimeNumericUpDown" + (panelIndex + 1),
+				Name = "steptTimeNumericUpDown" + (frameIndex + 1),
 				Size = new System.Drawing.Size(48, 21),
 				TextAlign = HorizontalAlignment.Center
 			};
 			// 步时间换算后Label
-			skTrueTimeLabels[panelIndex] = new Label
+			skTrueTimeLabels[frameIndex] = new Label
 			{
 				AutoSize = true,
 				Location = new System.Drawing.Point(7, 69),
-				Name = "trueTimeLabel" + (panelIndex + 1),
+				Name = "trueTimeLabel" + (frameIndex + 1),
 				Size = new System.Drawing.Size(47, 12),
-				Text = "label" + (panelIndex + 1)
+				Text = "label" + (frameIndex + 1)
 			};
 
 			// 间隔时间
-			skJGTimeNumericUpDowns[panelIndex] = new NumericUpDown
+			skJGTimeNumericUpDowns[frameIndex] = new NumericUpDown
 			{
 				Location = new System.Drawing.Point(4, 89),
 				Maximum = new decimal(new int[] { 10000, 0, 0, 0 }),
-				Name = "jgNumericUpDown" + (panelIndex + 1),
+				Name = "jgNumericUpDown" + (frameIndex + 1),
 				Size = new System.Drawing.Size(55, 21),
 				TextAlign = HorizontalAlignment.Center
 			};
 
-			skPanels[panelIndex].Controls.Add(skFrameSkinButtons[panelIndex]);
-			skPanels[panelIndex].Controls.Add(skStepTimeNumericUpDowns[panelIndex]);
-			skPanels[panelIndex].Controls.Add(skTrueTimeLabels[panelIndex]);
-			skPanels[panelIndex].Controls.Add(skJGTimeNumericUpDowns[panelIndex]);
+			skPanels[frameIndex].Controls.Add(skFrameButtons[frameIndex]);
+			skPanels[frameIndex].Controls.Add(skStepTimeNumericUpDowns[frameIndex]);
+			skPanels[frameIndex].Controls.Add(skTrueTimeLabels[frameIndex]);
+			skPanels[frameIndex].Controls.Add(skJGTimeNumericUpDowns[frameIndex]);
 
-			skFrameFlowLayoutPanel.Controls.Add(skPanels[panelIndex]);
+			skFrameFlowLayoutPanel.Controls.Add(skPanels[frameIndex]);
 
 		}
 		
@@ -403,7 +396,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mNoticeSkinButton_Click(object sender, EventArgs e)
+		private void mNoticeButton_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("请在文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。");
 		}
@@ -413,7 +406,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mLKSaveSkinButton_Click(object sender, EventArgs e)
+		private void mLKSaveButton_Click(object sender, EventArgs e)
 		{
 			if (frameIndex != -1)
 			{

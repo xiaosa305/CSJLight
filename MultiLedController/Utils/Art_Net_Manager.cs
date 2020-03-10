@@ -100,7 +100,8 @@ namespace MultiLedController.Utils
         /// </summary>
         /// <param name="virtuals">虚拟控制器信息，包含虚拟控制器使用的Ip地址以及虚拟控制器空间数量</param>
         /// <param name="serverIp">麦爵士所在的服务器IP</param>
-        public void Start(List<VirtualControlInfo> virtuals,string serverIp)
+        /// <param name="currentMainIP">本地主IP</param>
+        public void Start(List<VirtualControlInfo> virtuals, string currentMainIP ,string serverIp)
         {
             if (this.Clients.Count != 0)
             {
@@ -120,7 +121,7 @@ namespace MultiLedController.Utils
             for (int i = 0; i < virtuals.Count; i++)
             {
                 //添加虚拟设备客户端
-                Clients.Add(new Art_Net_Client(virtuals[i].IP,serverIp, startIndex, virtuals[i].SpaceNum, this));
+                Clients.Add(new Art_Net_Client(virtuals[i].IP, serverIp, startIndex, virtuals[i].SpaceNum, this));
                 //添虚拟设备子空间接收状态、接收数据缓存、接收数据大小缓存
                 for (int j = 0; j < virtuals[i].SpaceNum; j++)
                 {
@@ -131,6 +132,7 @@ namespace MultiLedController.Utils
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
+            LEDControllerServer.GetInstance().StartServer(currentMainIP);
         }
         /// <summary>
         /// 接收DMX数据包处理

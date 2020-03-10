@@ -267,8 +267,6 @@ namespace LightController.MyForm
 			playPanel.Visible = visible;
 		}
 
-
-
 		/// <summary>
 		/// 设置提示信息
 		/// </summary>
@@ -290,8 +288,7 @@ namespace LightController.MyForm
 
 		#endregion
 
-
-		#region 各类点击事件
+		#region 菜单栏点击事件
 
 		/// <summary>
 		/// 事件：点击《灯库编辑》
@@ -344,22 +341,7 @@ namespace LightController.MyForm
 			endview(); // 清空数据时，应该结束预览。
 		}
 
-		/// <summary>
-		/// 辅助方法：结束预览
-		/// </summary>
-		private void endview()
-		{
-
-		}
-
-		/// <summary>
-		/// 辅助方法：进入《单灯模式》
-		/// </summary>
-		/// <param name="v"></param>
-		private void enableSingleMode(bool v)
-		{
-
-		}
+		
 
 		/// <summary>
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
@@ -422,7 +404,6 @@ namespace LightController.MyForm
 			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
 			hideAllTDPanels();
 		}
-
 	
 
 		/// <summary>
@@ -466,7 +447,6 @@ namespace LightController.MyForm
 			new LightsForm(this, lightAstList).ShowDialog();
 		}
 
-
 		/// <summary>
 		/// 事件：更改lightsListView的选中项
 		/// </summary>
@@ -479,11 +459,7 @@ namespace LightController.MyForm
 				selectedIndex = lightsListView.SelectedIndices[0];
 				generateLightData();
 			}
-		}
-
-
-
-		
+		}		
 
 
 		/// <summary>
@@ -625,9 +601,7 @@ namespace LightController.MyForm
 		private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			exit();
-		}
-
-		
+		}	
 
 		#endregion
 
@@ -666,8 +640,6 @@ namespace LightController.MyForm
 			RefreshStep();
 		}
 
-
-
 		/// <summary>
 		/// 辅助方法：通过传来的数值，生成通道列表的数据
 		/// </summary>
@@ -681,17 +653,16 @@ namespace LightController.MyForm
 				hideAllTDPanels();
 				return;
 			}
+
 			//2.将dataWrappers的内容渲染到起VScrollBar中
 			else
 			{
-				//isPainting = true;
-
 				for (int i = 0; i < tongdaoList.Count; i++)
 				{
-					//tdTrackBars[i].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
-					//tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-					//tdCmComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					//tdStepTimeNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[i].ValueChanged -= new System.EventHandler(this.tdTrackBars_ValueChanged);
+					tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdCmComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+					tdStNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
@@ -699,13 +670,12 @@ namespace LightController.MyForm
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
-					tdStNumericUpDowns[i].Text = tongdaoList[i].StepTime.ToString();
-					
+					tdStNumericUpDowns[i].Text = tongdaoList[i].StepTime.ToString();					
 
-					//tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
-					//tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-					//tdChangeModeSkinComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					//tdStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
+					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdCmComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+					tdStNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdPanels[i].Show();
 				}
@@ -713,12 +683,8 @@ namespace LightController.MyForm
 				{
 					tdPanels[i].Hide();
 				}
-
-				//isPainting = false;
 			}
-		}
-
-		
+		}		
 		
 		/// <summary>
 		/// 事件：点击《全部归零》
@@ -1321,7 +1287,6 @@ namespace LightController.MyForm
 			RefreshStep();
 		}
 
-
 		/// <summary>
 		/// 事件：点击《跳转步》按钮
 		/// </summary>
@@ -1486,6 +1451,15 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 		}
+			   
+		/// <summary>
+		/// 辅助方法：进入《单灯模式》
+		/// </summary>
+		/// <param name="v"></param>
+		private void enableSingleMode(bool v)
+		{
+
+		}
 
 		#endregion
 
@@ -1521,6 +1495,24 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：更改《设备列表》选项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			comName = deviceComboBox.Text;
+			if (!comName.Trim().Equals(""))
+			{
+				connectButton.Enabled = true;
+			}
+			else
+			{
+				connectButton.Enabled = false;
+				MessageBox.Show("未选中可用串口");
+			}
+		}
 
 		/// <summary>
 		/// 辅助方法：重新搜索com列表：供启动时及需要重新搜索设备时使用。
@@ -1549,8 +1541,7 @@ namespace LightController.MyForm
 				deviceComboBox.Enabled = false;
 			}
 		}
-
-
+		
 		/// <summary>
 		/// TODO：11.22 网络连接
 		/// 辅助方法：重新搜索ip列表-》填入deviceComboBox中
@@ -1576,21 +1567,7 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
-		
-
-		/// <summary>
-		/// 事件：点击《结束预览》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void endviewButton_Click(object sender, EventArgs e)
-		{
-			endview();
-			SetNotice("已结束预览。");
-		}
-
-
+				
 		/// <summary>
 		/// 事件：点击《连接设备|断开连接》
 		/// </summary>
@@ -1599,7 +1576,6 @@ namespace LightController.MyForm
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			playTools = PlayTools.GetInstance();
-
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接
 			if (!isConnected)
 			{
@@ -1691,7 +1667,32 @@ namespace LightController.MyForm
 			}
 		}
 
-#endregion
+		/// <summary>
+		/// 事件：点击《结束预览》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void endviewButton_Click(object sender, EventArgs e)
+		{
+			endview();
+			SetNotice("已结束预览。");
+		}
 
+		/// <summary>
+		/// 辅助方法：结束预览
+		/// </summary>
+		private void endview()
+		{
+			// 1.几个按钮图标设置
+			//makeSoundButton.Image = global::LightController.Properties.Resources.触发音频;
+			//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
+
+			// 2.调用结束预览方法
+			playTools.EndView();
+		}
+
+		#endregion
+
+		
 	}
 }

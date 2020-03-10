@@ -36,6 +36,7 @@
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.clearLinkButton = new System.Windows.Forms.Button();
 			this.virtualIPListView = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,7 +52,9 @@
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.mjsTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.clearLinkButton = new System.Windows.Forms.Button();
+			this.dmxSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.setFilePathButton = new System.Windows.Forms.Button();
+			this.filePathLabel = new System.Windows.Forms.Label();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -143,7 +146,16 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "设备列表";
 			this.tabPage1.UseVisualStyleBackColor = true;
-			this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+			// 
+			// clearLinkButton
+			// 
+			this.clearLinkButton.Location = new System.Drawing.Point(357, 107);
+			this.clearLinkButton.Name = "clearLinkButton";
+			this.clearLinkButton.Size = new System.Drawing.Size(75, 23);
+			this.clearLinkButton.TabIndex = 3;
+			this.clearLinkButton.Text = "<-清除关联";
+			this.clearLinkButton.UseVisualStyleBackColor = true;
+			this.clearLinkButton.Click += new System.EventHandler(this.clearLinkButton_Click);
 			// 
 			// virtualIPListView
 			// 
@@ -183,19 +195,19 @@
 			// 
 			// recordButton
 			// 
-			this.recordButton.Location = new System.Drawing.Point(357, 281);
+			this.recordButton.Enabled = false;
+			this.recordButton.Location = new System.Drawing.Point(357, 283);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(75, 23);
 			this.recordButton.TabIndex = 1;
-			this.recordButton.Text = "录制DMX";
+			this.recordButton.Text = "录制数据";
 			this.recordButton.UseVisualStyleBackColor = true;
-			this.recordButton.Visible = false;
 			this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
 			// 
 			// debugButton
 			// 
 			this.debugButton.Enabled = false;
-			this.debugButton.Location = new System.Drawing.Point(357, 244);
+			this.debugButton.Location = new System.Drawing.Point(357, 246);
 			this.debugButton.Name = "debugButton";
 			this.debugButton.Size = new System.Drawing.Size(75, 23);
 			this.debugButton.TabIndex = 1;
@@ -206,7 +218,7 @@
 			// startButton
 			// 
 			this.startButton.Enabled = false;
-			this.startButton.Location = new System.Drawing.Point(357, 207);
+			this.startButton.Location = new System.Drawing.Point(357, 209);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(75, 23);
 			this.startButton.TabIndex = 1;
@@ -273,29 +285,46 @@
 			// 
 			// mjsTextBox
 			// 
-			this.mjsTextBox.Location = new System.Drawing.Point(344, 16);
+			this.mjsTextBox.Location = new System.Drawing.Point(361, 10);
 			this.mjsTextBox.Name = "mjsTextBox";
-			this.mjsTextBox.Size = new System.Drawing.Size(164, 21);
+			this.mjsTextBox.Size = new System.Drawing.Size(130, 21);
 			this.mjsTextBox.TabIndex = 29;
 			this.mjsTextBox.Text = "192.168.1.31";
+			this.mjsTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(277, 19);
+			this.label1.Location = new System.Drawing.Point(269, 15);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(53, 12);
+			this.label1.Size = new System.Drawing.Size(65, 12);
 			this.label1.TabIndex = 30;
-			this.label1.Text = "麦爵士IP";
+			this.label1.Text = "麦爵士IP：";
 			// 
-			// clearLinkButton
+			// dmxSaveFileDialog
 			// 
-			this.clearLinkButton.Location = new System.Drawing.Point(357, 107);
-			this.clearLinkButton.Name = "clearLinkButton";
-			this.clearLinkButton.Size = new System.Drawing.Size(75, 23);
-			this.clearLinkButton.TabIndex = 3;
-			this.clearLinkButton.Text = "<-清除关联";
-			this.clearLinkButton.UseVisualStyleBackColor = true;
+			this.dmxSaveFileDialog.FileName = "record.bin";
+			this.dmxSaveFileDialog.Filter = "二进制文件(bin)|*.bin";
+			this.dmxSaveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.dmxSaveFileDialog_FileOk);
+			// 
+			// setFilePathButton
+			// 
+			this.setFilePathButton.Location = new System.Drawing.Point(269, 39);
+			this.setFilePathButton.Name = "setFilePathButton";
+			this.setFilePathButton.Size = new System.Drawing.Size(87, 24);
+			this.setFilePathButton.TabIndex = 1;
+			this.setFilePathButton.Text = "录制文件路径";
+			this.setFilePathButton.UseVisualStyleBackColor = true;
+			this.setFilePathButton.Click += new System.EventHandler(this.setFilePathButton_Click);
+			// 
+			// filePathLabel
+			// 
+			this.filePathLabel.AutoSize = true;
+			this.filePathLabel.Location = new System.Drawing.Point(361, 45);
+			this.filePathLabel.Name = "filePathLabel";
+			this.filePathLabel.Size = new System.Drawing.Size(191, 12);
+			this.filePathLabel.TabIndex = 31;
+			this.filePathLabel.Text = "C:\\Temp\\MultiLedFile\\record.bin";
 			// 
 			// MainForm
 			// 
@@ -303,7 +332,9 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.ClientSize = new System.Drawing.Size(800, 464);
+			this.Controls.Add(this.filePathLabel);
 			this.Controls.Add(this.label1);
+			this.Controls.Add(this.setFilePathButton);
 			this.Controls.Add(this.mjsTextBox);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
@@ -350,5 +381,8 @@
 		private System.Windows.Forms.TextBox mjsTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button clearLinkButton;
+		private System.Windows.Forms.SaveFileDialog dmxSaveFileDialog;
+		private System.Windows.Forms.Button setFilePathButton;
+		private System.Windows.Forms.Label filePathLabel;
 	}
 }

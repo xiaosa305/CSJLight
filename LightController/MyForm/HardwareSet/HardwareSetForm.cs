@@ -105,7 +105,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void cancelSkinButton_Click(object sender, EventArgs e)
+		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
 			this.mainForm.Activate();
@@ -262,7 +262,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
+		private void getLocalIPsButton_Click(object sender, EventArgs e)
 		{
 			getLocalIPs();
 		}
@@ -304,11 +304,11 @@ namespace LightController.MyForm
 			localIP = localIPsComboBox.Text;
 
 			ipsComboBox.Text = "";
-			ipsComboBox.Enabled = false;		
+			ipsComboBox.Enabled = false;
 
-			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
-			networkUploadSkinButton.Enabled = false;
-			networkDownloadSkinButton.Enabled = false; 			
+			networkSearchButton.Enabled = !String.IsNullOrEmpty(localIP);
+			networkReadButton.Enabled = false;
+			networkDownloadButton.Enabled = false; 			
 		}
 
 		/// <summary>
@@ -316,15 +316,15 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void networkSearchSkinButton_Click(object sender, EventArgs e)
+		private void networkSearchButton_Click(object sender, EventArgs e)
 		{
 			ipsComboBox.Items.Clear();
 			ips = new List<string>();
 
 			//搜索期间不可进行其他操作
-			networkSearchSkinButton.Enabled = false;
-			networkUploadSkinButton.Enabled = false;
-			networkDownloadSkinButton.Enabled = false;
+			networkSearchButton.Enabled = false;
+			networkReadButton.Enabled = false;
+			networkDownloadButton.Enabled = false;
 
 			connectTools = ConnectTools.GetInstance();
 			connectTools.Start(localIP);
@@ -350,7 +350,7 @@ namespace LightController.MyForm
 			}
 
 			//搜索完成后，再将按钮开放
-			networkSearchSkinButton.Enabled = true;
+			networkSearchButton.Enabled = true;
 		}
 
 
@@ -363,14 +363,14 @@ namespace LightController.MyForm
 		{
 			// 若未选中任何项或选中项为空字符串，则使不能回读或下载，并退出。			
 			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text) ) {				
-				networkUploadSkinButton.Enabled = false;
-				networkDownloadSkinButton.Enabled = false;
+				networkReadButton.Enabled = false;
+				networkDownloadButton.Enabled = false;
 				return;
 			}
 
 			selectedIPs = new List<string>	{ips[ipsComboBox.SelectedIndex]	};
-			networkUploadSkinButton.Enabled = true;
-			networkDownloadSkinButton.Enabled = true;
+			networkReadButton.Enabled = true;
+			networkDownloadButton.Enabled = true;
 		}	
 
 		/// <summary>
@@ -378,7 +378,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void uploadSkinButton_Click(object sender, EventArgs e)
+		private void networkReadButton_Click(object sender, EventArgs e)
 		{			
 			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
 			afterReadOrWrite();
@@ -409,8 +409,8 @@ namespace LightController.MyForm
 		/// </summary>
 		private void afterReadOrWrite() {
 			ipsComboBox.Enabled = false;
-			networkUploadSkinButton.Enabled = false;
-			networkDownloadSkinButton.Enabled = false;
+			networkReadButton.Enabled = false;
+			networkDownloadButton.Enabled = false;
 		}	
 
 		#endregion
@@ -433,11 +433,11 @@ namespace LightController.MyForm
 		/// </summary>
 		private void comSearch()
 		{
-			comSearchSkinButton.Enabled = false;
+			comSearchButton.Enabled = false;
 			comComboBox.Enabled = false;
-			comConnectSkinButton.Enabled = false;
-			comUploadSkinButton.Enabled = false;
-			comDownloadSkinButton.Enabled = false;
+			comConnectButton.Enabled = false;
+			comReadButton.Enabled = false;
+			comDownloadButton.Enabled = false;
 
 			comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetSerialPortNameList();
@@ -450,14 +450,14 @@ namespace LightController.MyForm
 				}
 				comComboBox.Enabled = true;
 				comComboBox.SelectedIndex = 0;
-				comConnectSkinButton.Enabled = true;
+				comConnectButton.Enabled = true;
 			}
 			else
 			{
 				MessageBox.Show("未找到可用串口，请重试");
 				comComboBox.SelectedIndex = -1;
 			}
-			comSearchSkinButton.Enabled = true;
+			comSearchButton.Enabled = true;
 		}
 
 		/// <summary>
@@ -470,8 +470,8 @@ namespace LightController.MyForm
 				comName = comComboBox.Text;
 				comTools.OpenCom(comName);
 				MessageBox.Show("已选中串口设备");
-				comUploadSkinButton.Enabled = true;
-				comDownloadSkinButton.Enabled = true;			
+				comReadButton.Enabled = true;
+				comDownloadButton.Enabled = true;			
 		}
 
 		/// <summary>
@@ -479,7 +479,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void comUploadSkinButton_Click(object sender, EventArgs e)
+		private void comReadButton_Click(object sender, EventArgs e)
 		{
 			comTools.GetParam(new UploadCallBackHardwareSet(this));
 		}

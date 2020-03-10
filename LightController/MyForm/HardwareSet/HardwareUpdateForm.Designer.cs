@@ -28,18 +28,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HardwareUpdateForm));
 			this.ipsComboBox = new System.Windows.Forms.ComboBox();
-			this.networkSearchSkinButton = new CCWin.SkinControl.SkinButton();
-			this.networkdUpdateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
 			this.networkTab = new CCWin.SkinControl.SkinTabPage();
 			this.networkPanel = new System.Windows.Forms.Panel();
+			this.networkdUpdateButton = new System.Windows.Forms.Button();
+			this.networkSearchButton = new System.Windows.Forms.Button();
+			this.getLocalIPsButton = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.networkSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
 			this.localIPLabel = new System.Windows.Forms.Label();
-			this.getLocalIPsSkinButton = new CCWin.SkinControl.SkinButton();
 			this.localIPsComboBox = new System.Windows.Forms.ComboBox();
 			this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
 			this.comPanel = new System.Windows.Forms.Panel();
@@ -47,13 +46,13 @@
 			this.comSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
 			this.comNameLabel = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.comSearchSkinButton = new CCWin.SkinControl.SkinButton();
-			this.comUpdateSkinButton = new CCWin.SkinControl.SkinButton();
-			this.comChooseSkinButton = new CCWin.SkinControl.SkinButton();
 			this.comComboBox = new System.Windows.Forms.ComboBox();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.fileOpenSkinButton = new CCWin.SkinControl.SkinButton();
 			this.filePathLabel = new System.Windows.Forms.Label();
+			this.fileOpenButton = new System.Windows.Forms.Button();
+			this.comSearchButton = new System.Windows.Forms.Button();
+			this.comConnectButton = new System.Windows.Forms.Button();
+			this.comUpdateButton = new System.Windows.Forms.Button();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -61,52 +60,16 @@
 			this.comPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// networkDevicesComboBox
+			// ipsComboBox
 			// 
 			this.ipsComboBox.Enabled = false;
 			this.ipsComboBox.FormattingEnabled = true;
 			this.ipsComboBox.Location = new System.Drawing.Point(163, 80);
 			this.ipsComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.ipsComboBox.Name = "networkDevicesComboBox";
+			this.ipsComboBox.Name = "ipsComboBox";
 			this.ipsComboBox.Size = new System.Drawing.Size(281, 20);
 			this.ipsComboBox.TabIndex = 5;
 			this.ipsComboBox.SelectedIndexChanged += new System.EventHandler(this.networkDevicesComboBox_SelectedIndexChanged);
-			// 
-			// networkSearchSkinButton
-			// 
-			this.networkSearchSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.networkSearchSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.networkSearchSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.networkSearchSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.networkSearchSkinButton.DownBack = null;
-			this.networkSearchSkinButton.Enabled = false;
-			this.networkSearchSkinButton.Location = new System.Drawing.Point(36, 74);
-			this.networkSearchSkinButton.MouseBack = null;
-			this.networkSearchSkinButton.Name = "networkSearchSkinButton";
-			this.networkSearchSkinButton.NormlBack = null;
-			this.networkSearchSkinButton.Size = new System.Drawing.Size(107, 31);
-			this.networkSearchSkinButton.TabIndex = 8;
-			this.networkSearchSkinButton.Text = "搜索网络设备";
-			this.networkSearchSkinButton.UseVisualStyleBackColor = false;
-			this.networkSearchSkinButton.Click += new System.EventHandler(this.searchButton_Click);
-			// 
-			// networkdUpdateSkinButton
-			// 
-			this.networkdUpdateSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.networkdUpdateSkinButton.BaseColor = System.Drawing.Color.Tan;
-			this.networkdUpdateSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.networkdUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.networkdUpdateSkinButton.DownBack = null;
-			this.networkdUpdateSkinButton.Enabled = false;
-			this.networkdUpdateSkinButton.Location = new System.Drawing.Point(463, 73);
-			this.networkdUpdateSkinButton.MouseBack = null;
-			this.networkdUpdateSkinButton.Name = "networkdUpdateSkinButton";
-			this.networkdUpdateSkinButton.NormlBack = null;
-			this.networkdUpdateSkinButton.Size = new System.Drawing.Size(76, 32);
-			this.networkdUpdateSkinButton.TabIndex = 8;
-			this.networkdUpdateSkinButton.Text = "升级";
-			this.networkdUpdateSkinButton.UseVisualStyleBackColor = false;
-			this.networkdUpdateSkinButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
 			// skinTabControl
 			// 
@@ -148,12 +111,12 @@
 			// 
 			// networkPanel
 			// 
+			this.networkPanel.Controls.Add(this.networkdUpdateButton);
+			this.networkPanel.Controls.Add(this.networkSearchButton);
+			this.networkPanel.Controls.Add(this.getLocalIPsButton);
 			this.networkPanel.Controls.Add(this.label1);
 			this.networkPanel.Controls.Add(this.networkSkinProgressBar);
 			this.networkPanel.Controls.Add(this.localIPLabel);
-			this.networkPanel.Controls.Add(this.getLocalIPsSkinButton);
-			this.networkPanel.Controls.Add(this.networkSearchSkinButton);
-			this.networkPanel.Controls.Add(this.networkdUpdateSkinButton);
 			this.networkPanel.Controls.Add(this.localIPsComboBox);
 			this.networkPanel.Controls.Add(this.ipsComboBox);
 			this.networkPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -161,6 +124,37 @@
 			this.networkPanel.Name = "networkPanel";
 			this.networkPanel.Size = new System.Drawing.Size(564, 184);
 			this.networkPanel.TabIndex = 9;
+			// 
+			// networkdUpdateButton
+			// 
+			this.networkdUpdateButton.Enabled = false;
+			this.networkdUpdateButton.Location = new System.Drawing.Point(463, 72);
+			this.networkdUpdateButton.Name = "networkdUpdateButton";
+			this.networkdUpdateButton.Size = new System.Drawing.Size(76, 32);
+			this.networkdUpdateButton.TabIndex = 16;
+			this.networkdUpdateButton.Text = "升级";
+			this.networkdUpdateButton.UseVisualStyleBackColor = true;
+			this.networkdUpdateButton.Click += new System.EventHandler(this.updateButton_Click);
+			// 
+			// networkSearchButton
+			// 
+			this.networkSearchButton.Location = new System.Drawing.Point(35, 73);
+			this.networkSearchButton.Name = "networkSearchButton";
+			this.networkSearchButton.Size = new System.Drawing.Size(108, 31);
+			this.networkSearchButton.TabIndex = 15;
+			this.networkSearchButton.Text = "搜索网络设备";
+			this.networkSearchButton.UseVisualStyleBackColor = true;
+			this.networkSearchButton.Click += new System.EventHandler(this.searchButton_Click);
+			// 
+			// getLocalIPsButton
+			// 
+			this.getLocalIPsButton.Location = new System.Drawing.Point(35, 26);
+			this.getLocalIPsButton.Name = "getLocalIPsButton";
+			this.getLocalIPsButton.Size = new System.Drawing.Size(108, 31);
+			this.getLocalIPsButton.TabIndex = 14;
+			this.getLocalIPsButton.Text = "获取本机IP列表";
+			this.getLocalIPsButton.UseVisualStyleBackColor = true;
+			this.getLocalIPsButton.Click += new System.EventHandler(this.getLocalIPsButton_Click);
 			// 
 			// label1
 			// 
@@ -184,6 +178,7 @@
 			this.networkSkinProgressBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
 			this.networkSkinProgressBar.Size = new System.Drawing.Size(413, 23);
 			this.networkSkinProgressBar.TabIndex = 13;
+			this.networkSkinProgressBar.Tag = "9999";
 			// 
 			// localIPLabel
 			// 
@@ -192,23 +187,6 @@
 			this.localIPLabel.Name = "localIPLabel";
 			this.localIPLabel.Size = new System.Drawing.Size(0, 12);
 			this.localIPLabel.TabIndex = 9;
-			// 
-			// getLocalIPsSkinButton
-			// 
-			this.getLocalIPsSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.getLocalIPsSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.getLocalIPsSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.getLocalIPsSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.getLocalIPsSkinButton.DownBack = null;
-			this.getLocalIPsSkinButton.Location = new System.Drawing.Point(36, 26);
-			this.getLocalIPsSkinButton.MouseBack = null;
-			this.getLocalIPsSkinButton.Name = "getLocalIPsSkinButton";
-			this.getLocalIPsSkinButton.NormlBack = null;
-			this.getLocalIPsSkinButton.Size = new System.Drawing.Size(108, 31);
-			this.getLocalIPsSkinButton.TabIndex = 8;
-			this.getLocalIPsSkinButton.Text = "获取本机ip列表";
-			this.getLocalIPsSkinButton.UseVisualStyleBackColor = false;
-			this.getLocalIPsSkinButton.Click += new System.EventHandler(this.getLocalIPsSkinButton_Click);
 			// 
 			// localIPsComboBox
 			// 
@@ -235,13 +213,13 @@
 			// 
 			// comPanel
 			// 
+			this.comPanel.Controls.Add(this.comUpdateButton);
+			this.comPanel.Controls.Add(this.comConnectButton);
+			this.comPanel.Controls.Add(this.comSearchButton);
 			this.comPanel.Controls.Add(this.label4);
 			this.comPanel.Controls.Add(this.comSkinProgressBar);
 			this.comPanel.Controls.Add(this.comNameLabel);
 			this.comPanel.Controls.Add(this.label6);
-			this.comPanel.Controls.Add(this.comSearchSkinButton);
-			this.comPanel.Controls.Add(this.comUpdateSkinButton);
-			this.comPanel.Controls.Add(this.comChooseSkinButton);
 			this.comPanel.Controls.Add(this.comComboBox);
 			this.comPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comPanel.Location = new System.Drawing.Point(0, 0);
@@ -289,59 +267,6 @@
 			this.label6.TabIndex = 11;
 			this.label6.Text = "已选串口：";
 			// 
-			// comSearchSkinButton
-			// 
-			this.comSearchSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.comSearchSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.comSearchSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.comSearchSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.comSearchSkinButton.DownBack = null;
-			this.comSearchSkinButton.Location = new System.Drawing.Point(36, 46);
-			this.comSearchSkinButton.MouseBack = null;
-			this.comSearchSkinButton.Name = "comSearchSkinButton";
-			this.comSearchSkinButton.NormlBack = null;
-			this.comSearchSkinButton.Size = new System.Drawing.Size(88, 31);
-			this.comSearchSkinButton.TabIndex = 8;
-			this.comSearchSkinButton.Text = "搜索串口设备";
-			this.comSearchSkinButton.UseVisualStyleBackColor = false;
-			this.comSearchSkinButton.Click += new System.EventHandler(this.searchButton_Click);
-			// 
-			// comUpdateSkinButton
-			// 
-			this.comUpdateSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.comUpdateSkinButton.BaseColor = System.Drawing.Color.Tan;
-			this.comUpdateSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.comUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.comUpdateSkinButton.DownBack = null;
-			this.comUpdateSkinButton.Enabled = false;
-			this.comUpdateSkinButton.Location = new System.Drawing.Point(463, 46);
-			this.comUpdateSkinButton.MouseBack = null;
-			this.comUpdateSkinButton.Name = "comUpdateSkinButton";
-			this.comUpdateSkinButton.NormlBack = null;
-			this.comUpdateSkinButton.Size = new System.Drawing.Size(76, 31);
-			this.comUpdateSkinButton.TabIndex = 8;
-			this.comUpdateSkinButton.Text = "升级";
-			this.comUpdateSkinButton.UseVisualStyleBackColor = false;
-			this.comUpdateSkinButton.Click += new System.EventHandler(this.updateButton_Click);
-			// 
-			// comChooseSkinButton
-			// 
-			this.comChooseSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.comChooseSkinButton.BaseColor = System.Drawing.Color.SeaGreen;
-			this.comChooseSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.comChooseSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.comChooseSkinButton.DownBack = null;
-			this.comChooseSkinButton.Enabled = false;
-			this.comChooseSkinButton.Location = new System.Drawing.Point(369, 46);
-			this.comChooseSkinButton.MouseBack = null;
-			this.comChooseSkinButton.Name = "comChooseSkinButton";
-			this.comChooseSkinButton.NormlBack = null;
-			this.comChooseSkinButton.Size = new System.Drawing.Size(76, 31);
-			this.comChooseSkinButton.TabIndex = 8;
-			this.comChooseSkinButton.Text = "打开串口";
-			this.comChooseSkinButton.UseVisualStyleBackColor = false;
-			this.comChooseSkinButton.Click += new System.EventHandler(this.comChooseButton_Click);
-			// 
 			// comComboBox
 			// 
 			this.comComboBox.Enabled = false;
@@ -358,23 +283,6 @@
 			this.openFileDialog.Filter = "*.xbin(自定义二进制文件)|*.xbin";
 			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 
-			// fileOpenSkinButton
-			// 
-			this.fileOpenSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.fileOpenSkinButton.BaseColor = System.Drawing.Color.Silver;
-			this.fileOpenSkinButton.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.fileOpenSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.fileOpenSkinButton.DownBack = null;
-			this.fileOpenSkinButton.Location = new System.Drawing.Point(36, 19);
-			this.fileOpenSkinButton.MouseBack = null;
-			this.fileOpenSkinButton.Name = "fileOpenSkinButton";
-			this.fileOpenSkinButton.NormlBack = null;
-			this.fileOpenSkinButton.Size = new System.Drawing.Size(86, 33);
-			this.fileOpenSkinButton.TabIndex = 10;
-			this.fileOpenSkinButton.Text = "选择升级文件";
-			this.fileOpenSkinButton.UseVisualStyleBackColor = false;
-			this.fileOpenSkinButton.Click += new System.EventHandler(this.fileOpenSkinButton_Click);
-			// 
 			// filePathLabel
 			// 
 			this.filePathLabel.Location = new System.Drawing.Point(152, 19);
@@ -382,14 +290,55 @@
 			this.filePathLabel.Size = new System.Drawing.Size(387, 33);
 			this.filePathLabel.TabIndex = 11;
 			// 
+			// fileOpenButton
+			// 
+			this.fileOpenButton.Location = new System.Drawing.Point(36, 19);
+			this.fileOpenButton.Name = "fileOpenButton";
+			this.fileOpenButton.Size = new System.Drawing.Size(86, 33);
+			this.fileOpenButton.TabIndex = 12;
+			this.fileOpenButton.Text = "选择升级文件";
+			this.fileOpenButton.UseVisualStyleBackColor = true;
+			this.fileOpenButton.Click += new System.EventHandler(this.fileOpenButton_Click);
+			// 
+			// comSearchButton
+			// 
+			this.comSearchButton.Location = new System.Drawing.Point(33, 46);
+			this.comSearchButton.Name = "comSearchButton";
+			this.comSearchButton.Size = new System.Drawing.Size(88, 31);
+			this.comSearchButton.TabIndex = 16;
+			this.comSearchButton.Text = "搜索串口设备";
+			this.comSearchButton.UseVisualStyleBackColor = true;
+			// 
+			// comConnectButton
+			// 
+			this.comConnectButton.Enabled = false;
+			this.comConnectButton.Location = new System.Drawing.Point(369, 46);
+			this.comConnectButton.Name = "comConnectButton";
+			this.comConnectButton.Size = new System.Drawing.Size(75, 31);
+			this.comConnectButton.TabIndex = 17;
+			this.comConnectButton.Text = "打开串口";
+			this.comConnectButton.UseVisualStyleBackColor = true;
+			this.comConnectButton.Click += new System.EventHandler(this.comConnectButton_Click);
+			// 
+			// comUpdateButton
+			// 
+			this.comUpdateButton.Enabled = false;
+			this.comUpdateButton.Location = new System.Drawing.Point(464, 46);
+			this.comUpdateButton.Name = "comUpdateButton";
+			this.comUpdateButton.Size = new System.Drawing.Size(75, 31);
+			this.comUpdateButton.TabIndex = 17;
+			this.comUpdateButton.Text = "升级";
+			this.comUpdateButton.UseVisualStyleBackColor = true;
+			this.comUpdateButton.Click += new System.EventHandler(this.updateButton_Click);
+			// 
 			// HardwareUpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.ClientSize = new System.Drawing.Size(564, 296);
+			this.Controls.Add(this.fileOpenButton);
 			this.Controls.Add(this.filePathLabel);
-			this.Controls.Add(this.fileOpenSkinButton);
 			this.Controls.Add(this.skinTabControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.HelpButton = true;
@@ -413,28 +362,28 @@
 
 		#endregion
 		private System.Windows.Forms.ComboBox ipsComboBox;
-		private CCWin.SkinControl.SkinButton networkSearchSkinButton;
-		private CCWin.SkinControl.SkinButton networkdUpdateSkinButton;
 		private CCWin.SkinControl.SkinTabControl skinTabControl;
 		private CCWin.SkinControl.SkinTabPage networkTab;
 		private System.Windows.Forms.Panel networkPanel;
 		private CCWin.SkinControl.SkinTabPage skinTabPage2;
 		private System.Windows.Forms.Panel comPanel;
-		private CCWin.SkinControl.SkinButton comSearchSkinButton;
-		private CCWin.SkinControl.SkinButton comUpdateSkinButton;
-		private CCWin.SkinControl.SkinButton comChooseSkinButton;
 		private System.Windows.Forms.ComboBox comComboBox;
-		private CCWin.SkinControl.SkinButton getLocalIPsSkinButton;
 		private System.Windows.Forms.ComboBox localIPsComboBox;
 		private System.Windows.Forms.Label localIPLabel;
 		private System.Windows.Forms.Label comNameLabel;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
-		private CCWin.SkinControl.SkinButton fileOpenSkinButton;
 		private System.Windows.Forms.Label filePathLabel;
 		private System.Windows.Forms.Label label1;
 		private CCWin.SkinControl.SkinProgressBar networkSkinProgressBar;
 		private System.Windows.Forms.Label label4;
 		private CCWin.SkinControl.SkinProgressBar comSkinProgressBar;
+		private System.Windows.Forms.Button fileOpenButton;
+		private System.Windows.Forms.Button getLocalIPsButton;
+		private System.Windows.Forms.Button networkSearchButton;
+		private System.Windows.Forms.Button networkdUpdateButton;
+		private System.Windows.Forms.Button comSearchButton;
+		private System.Windows.Forms.Button comUpdateButton;
+		private System.Windows.Forms.Button comConnectButton;
 	}
 }

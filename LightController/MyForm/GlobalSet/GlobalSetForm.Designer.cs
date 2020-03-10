@@ -39,7 +39,6 @@ private System.ComponentModel.IContainer components = null;
 			this.components = new System.ComponentModel.Container();
 			this.dmxGroupBox = new System.Windows.Forms.GroupBox();
 			this.globalGroupBox = new System.Windows.Forms.GroupBox();
-			this.globalSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.eachChangeModeLabel = new System.Windows.Forms.Label();
 			this.eachStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.eachStepTimeLabel = new System.Windows.Forms.Label();
@@ -49,7 +48,6 @@ private System.ComponentModel.IContainer components = null;
 			this.label1 = new System.Windows.Forms.Label();
 			this.tongdaoCountComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheGroupBox = new System.Windows.Forms.GroupBox();
-			this.mFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.zuheFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.zuheCheckBox = new System.Windows.Forms.CheckBox();
 			this.zuheEnableGroupBox = new System.Windows.Forms.GroupBox();
@@ -71,18 +69,6 @@ private System.ComponentModel.IContainer components = null;
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.circleTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.qdGroupBox = new System.Windows.Forms.GroupBox();
-			this.label13 = new System.Windows.Forms.Label();
-			this.qdSaveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.checkBox8 = new System.Windows.Forms.CheckBox();
-			this.checkBox7 = new System.Windows.Forms.CheckBox();
-			this.checkBox6 = new System.Windows.Forms.CheckBox();
-			this.checkBox5 = new System.Windows.Forms.CheckBox();
-			this.checkBox4 = new System.Windows.Forms.CheckBox();
-			this.checkBox3 = new System.Windows.Forms.CheckBox();
-			this.checkBox2 = new System.Windows.Forms.CheckBox();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
@@ -105,6 +91,20 @@ private System.ComponentModel.IContainer components = null;
 			this.mLKSaveSkinButton = new CCWin.SkinControl.SkinButton();
 			this.mCurrentFrameLabel = new System.Windows.Forms.Label();
 			this.skFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
+			this.qdFrameComboBox = new System.Windows.Forms.ComboBox();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.checkBox2 = new System.Windows.Forms.CheckBox();
+			this.checkBox3 = new System.Windows.Forms.CheckBox();
+			this.checkBox4 = new System.Windows.Forms.CheckBox();
+			this.checkBox5 = new System.Windows.Forms.CheckBox();
+			this.checkBox6 = new System.Windows.Forms.CheckBox();
+			this.checkBox7 = new System.Windows.Forms.CheckBox();
+			this.checkBox8 = new System.Windows.Forms.CheckBox();
+			this.label13 = new System.Windows.Forms.Label();
+			this.qdGroupBox = new System.Windows.Forms.GroupBox();
+			this.globalSaveButton = new System.Windows.Forms.Button();
+			this.mFrameSaveButton = new System.Windows.Forms.Button();
+			this.qdSaveButton = new System.Windows.Forms.Button();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -116,7 +116,6 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).BeginInit();
-			this.qdGroupBox.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.flowLayoutPanel3.SuspendLayout();
@@ -125,6 +124,7 @@ private System.ComponentModel.IContainer components = null;
 			this.panel1.SuspendLayout();
 			this.skFrameFlowLayoutPanel.SuspendLayout();
 			this.mFrameLKPanel.SuspendLayout();
+			this.qdGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
@@ -143,7 +143,7 @@ private System.ComponentModel.IContainer components = null;
 			// globalGroupBox
 			// 
 			this.globalGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.globalGroupBox.Controls.Add(this.globalSaveSkinButton);
+			this.globalGroupBox.Controls.Add(this.globalSaveButton);
 			this.globalGroupBox.Controls.Add(this.eachChangeModeLabel);
 			this.globalGroupBox.Controls.Add(this.eachStepTimeNumericUpDown);
 			this.globalGroupBox.Controls.Add(this.eachStepTimeLabel);
@@ -159,23 +159,6 @@ private System.ComponentModel.IContainer components = null;
 			this.globalGroupBox.Size = new System.Drawing.Size(266, 241);
 			this.globalGroupBox.TabIndex = 0;
 			this.globalGroupBox.TabStop = false;
-			// 
-			// globalSaveSkinButton
-			// 
-			this.globalSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.globalSaveSkinButton.BaseColor = System.Drawing.Color.LightSkyBlue;
-			this.globalSaveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.globalSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.globalSaveSkinButton.DownBack = null;
-			this.globalSaveSkinButton.Location = new System.Drawing.Point(160, 185);
-			this.globalSaveSkinButton.MouseBack = null;
-			this.globalSaveSkinButton.Name = "globalSaveSkinButton";
-			this.globalSaveSkinButton.NormlBack = null;
-			this.globalSaveSkinButton.Size = new System.Drawing.Size(70, 25);
-			this.globalSaveSkinButton.TabIndex = 1;
-			this.globalSaveSkinButton.Text = "保存设置";
-			this.globalSaveSkinButton.UseVisualStyleBackColor = false;
-			this.globalSaveSkinButton.Click += new System.EventHandler(this.globalSaveButton_Click);
 			// 
 			// eachChangeModeLabel
 			// 
@@ -283,7 +266,7 @@ private System.ComponentModel.IContainer components = null;
 			// zuheGroupBox
 			// 
 			this.zuheGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.zuheGroupBox.Controls.Add(this.mFrameSaveSkinButton);
+			this.zuheGroupBox.Controls.Add(this.mFrameSaveButton);
 			this.zuheGroupBox.Controls.Add(this.zuheFrameComboBox);
 			this.zuheGroupBox.Controls.Add(this.zuheCheckBox);
 			this.zuheGroupBox.Controls.Add(this.zuheEnableGroupBox);
@@ -297,23 +280,6 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheGroupBox.TabIndex = 1;
 			this.zuheGroupBox.TabStop = false;
 			this.zuheGroupBox.Text = "多场景组合播放设置";
-			// 
-			// mFrameSaveSkinButton
-			// 
-			this.mFrameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.mFrameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.mFrameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.mFrameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mFrameSaveSkinButton.DownBack = null;
-			this.mFrameSaveSkinButton.Location = new System.Drawing.Point(578, 21);
-			this.mFrameSaveSkinButton.MouseBack = null;
-			this.mFrameSaveSkinButton.Name = "mFrameSaveSkinButton";
-			this.mFrameSaveSkinButton.NormlBack = null;
-			this.mFrameSaveSkinButton.Size = new System.Drawing.Size(70, 25);
-			this.mFrameSaveSkinButton.TabIndex = 1;
-			this.mFrameSaveSkinButton.Text = "保存当前";
-			this.mFrameSaveSkinButton.UseVisualStyleBackColor = false;
-			this.mFrameSaveSkinButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
 			// 
 			// zuheFrameComboBox
 			// 
@@ -571,155 +537,6 @@ private System.ComponentModel.IContainer components = null;
             0,
             0});
 			// 
-			// qdGroupBox
-			// 
-			this.qdGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.qdGroupBox.Controls.Add(this.label13);
-			this.qdGroupBox.Controls.Add(this.qdSaveSkinButton);
-			this.qdGroupBox.Controls.Add(this.checkBox8);
-			this.qdGroupBox.Controls.Add(this.checkBox7);
-			this.qdGroupBox.Controls.Add(this.checkBox6);
-			this.qdGroupBox.Controls.Add(this.checkBox5);
-			this.qdGroupBox.Controls.Add(this.checkBox4);
-			this.qdGroupBox.Controls.Add(this.checkBox3);
-			this.qdGroupBox.Controls.Add(this.checkBox2);
-			this.qdGroupBox.Controls.Add(this.checkBox1);
-			this.qdGroupBox.Controls.Add(this.qdFrameComboBox);
-			this.qdGroupBox.Enabled = false;
-			this.qdGroupBox.Location = new System.Drawing.Point(990, 11);
-			this.qdGroupBox.Margin = new System.Windows.Forms.Padding(2);
-			this.qdGroupBox.Name = "qdGroupBox";
-			this.qdGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.qdGroupBox.Size = new System.Drawing.Size(189, 258);
-			this.qdGroupBox.TabIndex = 0;
-			this.qdGroupBox.TabStop = false;
-			this.qdGroupBox.Text = "智能灯光控制器设置";
-			this.qdGroupBox.Visible = false;
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(31, 33);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(41, 12);
-			this.label13.TabIndex = 2;
-			this.label13.Text = "场景：";
-			// 
-			// qdSaveSkinButton
-			// 
-			this.qdSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.qdSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.qdSaveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.qdSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.qdSaveSkinButton.DownBack = null;
-			this.qdSaveSkinButton.Location = new System.Drawing.Point(95, 197);
-			this.qdSaveSkinButton.MouseBack = null;
-			this.qdSaveSkinButton.Name = "qdSaveSkinButton";
-			this.qdSaveSkinButton.NormlBack = null;
-			this.qdSaveSkinButton.Size = new System.Drawing.Size(70, 25);
-			this.qdSaveSkinButton.TabIndex = 1;
-			this.qdSaveSkinButton.Text = "保存当前";
-			this.qdSaveSkinButton.UseVisualStyleBackColor = false;
-			this.qdSaveSkinButton.Click += new System.EventHandler(this.qdSaveButton_Click);
-			// 
-			// checkBox8
-			// 
-			this.checkBox8.AutoSize = true;
-			this.checkBox8.Location = new System.Drawing.Point(110, 166);
-			this.checkBox8.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox8.Name = "checkBox8";
-			this.checkBox8.Size = new System.Drawing.Size(54, 16);
-			this.checkBox8.TabIndex = 1;
-			this.checkBox8.Text = "开关8";
-			this.checkBox8.UseVisualStyleBackColor = true;
-			// 
-			// checkBox7
-			// 
-			this.checkBox7.AutoSize = true;
-			this.checkBox7.Location = new System.Drawing.Point(29, 166);
-			this.checkBox7.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox7.Name = "checkBox7";
-			this.checkBox7.Size = new System.Drawing.Size(54, 16);
-			this.checkBox7.TabIndex = 1;
-			this.checkBox7.Text = "开关7";
-			this.checkBox7.UseVisualStyleBackColor = true;
-			// 
-			// checkBox6
-			// 
-			this.checkBox6.AutoSize = true;
-			this.checkBox6.Location = new System.Drawing.Point(110, 133);
-			this.checkBox6.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox6.Name = "checkBox6";
-			this.checkBox6.Size = new System.Drawing.Size(54, 16);
-			this.checkBox6.TabIndex = 1;
-			this.checkBox6.Text = "开关6";
-			this.checkBox6.UseVisualStyleBackColor = true;
-			// 
-			// checkBox5
-			// 
-			this.checkBox5.AutoSize = true;
-			this.checkBox5.Location = new System.Drawing.Point(29, 133);
-			this.checkBox5.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox5.Name = "checkBox5";
-			this.checkBox5.Size = new System.Drawing.Size(54, 16);
-			this.checkBox5.TabIndex = 1;
-			this.checkBox5.Text = "开关5";
-			this.checkBox5.UseVisualStyleBackColor = true;
-			// 
-			// checkBox4
-			// 
-			this.checkBox4.AutoSize = true;
-			this.checkBox4.Location = new System.Drawing.Point(110, 100);
-			this.checkBox4.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox4.Name = "checkBox4";
-			this.checkBox4.Size = new System.Drawing.Size(54, 16);
-			this.checkBox4.TabIndex = 1;
-			this.checkBox4.Text = "开关4";
-			this.checkBox4.UseVisualStyleBackColor = true;
-			// 
-			// checkBox3
-			// 
-			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(29, 100);
-			this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox3.Name = "checkBox3";
-			this.checkBox3.Size = new System.Drawing.Size(54, 16);
-			this.checkBox3.TabIndex = 1;
-			this.checkBox3.Text = "开关3";
-			this.checkBox3.UseVisualStyleBackColor = true;
-			// 
-			// checkBox2
-			// 
-			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(110, 67);
-			this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox2.Name = "checkBox2";
-			this.checkBox2.Size = new System.Drawing.Size(54, 16);
-			this.checkBox2.TabIndex = 1;
-			this.checkBox2.Text = "开关2";
-			this.checkBox2.UseVisualStyleBackColor = true;
-			// 
-			// checkBox1
-			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(29, 67);
-			this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(54, 16);
-			this.checkBox1.TabIndex = 1;
-			this.checkBox1.Text = "开关1";
-			this.checkBox1.UseVisualStyleBackColor = true;
-			// 
-			// qdFrameComboBox
-			// 
-			this.qdFrameComboBox.FormattingEnabled = true;
-			this.qdFrameComboBox.Location = new System.Drawing.Point(83, 30);
-			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.qdFrameComboBox.Name = "qdFrameComboBox";
-			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
-			this.qdFrameComboBox.TabIndex = 0;
-			this.qdFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
-			// 
 			// groupBox1
 			// 
 			this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -967,6 +784,168 @@ private System.ComponentModel.IContainer components = null;
 			this.skFrameSaveSkinButton.UseVisualStyleBackColor = false;
 			this.skFrameSaveSkinButton.Click += new System.EventHandler(this.skFrameSaveSkinButton_Click);
 			// 
+			// qdFrameComboBox
+			// 
+			this.qdFrameComboBox.FormattingEnabled = true;
+			this.qdFrameComboBox.Location = new System.Drawing.Point(83, 30);
+			this.qdFrameComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.qdFrameComboBox.Name = "qdFrameComboBox";
+			this.qdFrameComboBox.Size = new System.Drawing.Size(75, 20);
+			this.qdFrameComboBox.TabIndex = 0;
+			this.qdFrameComboBox.SelectedIndexChanged += new System.EventHandler(this.qdFrameComboBox_SelectedIndexChanged);
+			// 
+			// checkBox1
+			// 
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Location = new System.Drawing.Point(29, 67);
+			this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(54, 16);
+			this.checkBox1.TabIndex = 1;
+			this.checkBox1.Text = "开关1";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			// 
+			// checkBox2
+			// 
+			this.checkBox2.AutoSize = true;
+			this.checkBox2.Location = new System.Drawing.Point(110, 67);
+			this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox2.Name = "checkBox2";
+			this.checkBox2.Size = new System.Drawing.Size(54, 16);
+			this.checkBox2.TabIndex = 1;
+			this.checkBox2.Text = "开关2";
+			this.checkBox2.UseVisualStyleBackColor = true;
+			// 
+			// checkBox3
+			// 
+			this.checkBox3.AutoSize = true;
+			this.checkBox3.Location = new System.Drawing.Point(29, 100);
+			this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox3.Name = "checkBox3";
+			this.checkBox3.Size = new System.Drawing.Size(54, 16);
+			this.checkBox3.TabIndex = 1;
+			this.checkBox3.Text = "开关3";
+			this.checkBox3.UseVisualStyleBackColor = true;
+			// 
+			// checkBox4
+			// 
+			this.checkBox4.AutoSize = true;
+			this.checkBox4.Location = new System.Drawing.Point(110, 100);
+			this.checkBox4.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox4.Name = "checkBox4";
+			this.checkBox4.Size = new System.Drawing.Size(54, 16);
+			this.checkBox4.TabIndex = 1;
+			this.checkBox4.Text = "开关4";
+			this.checkBox4.UseVisualStyleBackColor = true;
+			// 
+			// checkBox5
+			// 
+			this.checkBox5.AutoSize = true;
+			this.checkBox5.Location = new System.Drawing.Point(29, 133);
+			this.checkBox5.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox5.Name = "checkBox5";
+			this.checkBox5.Size = new System.Drawing.Size(54, 16);
+			this.checkBox5.TabIndex = 1;
+			this.checkBox5.Text = "开关5";
+			this.checkBox5.UseVisualStyleBackColor = true;
+			// 
+			// checkBox6
+			// 
+			this.checkBox6.AutoSize = true;
+			this.checkBox6.Location = new System.Drawing.Point(110, 133);
+			this.checkBox6.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox6.Name = "checkBox6";
+			this.checkBox6.Size = new System.Drawing.Size(54, 16);
+			this.checkBox6.TabIndex = 1;
+			this.checkBox6.Text = "开关6";
+			this.checkBox6.UseVisualStyleBackColor = true;
+			// 
+			// checkBox7
+			// 
+			this.checkBox7.AutoSize = true;
+			this.checkBox7.Location = new System.Drawing.Point(29, 166);
+			this.checkBox7.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox7.Name = "checkBox7";
+			this.checkBox7.Size = new System.Drawing.Size(54, 16);
+			this.checkBox7.TabIndex = 1;
+			this.checkBox7.Text = "开关7";
+			this.checkBox7.UseVisualStyleBackColor = true;
+			// 
+			// checkBox8
+			// 
+			this.checkBox8.AutoSize = true;
+			this.checkBox8.Location = new System.Drawing.Point(110, 166);
+			this.checkBox8.Margin = new System.Windows.Forms.Padding(2);
+			this.checkBox8.Name = "checkBox8";
+			this.checkBox8.Size = new System.Drawing.Size(54, 16);
+			this.checkBox8.TabIndex = 1;
+			this.checkBox8.Text = "开关8";
+			this.checkBox8.UseVisualStyleBackColor = true;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(31, 33);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(41, 12);
+			this.label13.TabIndex = 2;
+			this.label13.Text = "场景：";
+			// 
+			// qdGroupBox
+			// 
+			this.qdGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.qdGroupBox.Controls.Add(this.qdSaveButton);
+			this.qdGroupBox.Controls.Add(this.label13);
+			this.qdGroupBox.Controls.Add(this.checkBox8);
+			this.qdGroupBox.Controls.Add(this.checkBox7);
+			this.qdGroupBox.Controls.Add(this.checkBox6);
+			this.qdGroupBox.Controls.Add(this.checkBox5);
+			this.qdGroupBox.Controls.Add(this.checkBox4);
+			this.qdGroupBox.Controls.Add(this.checkBox3);
+			this.qdGroupBox.Controls.Add(this.checkBox2);
+			this.qdGroupBox.Controls.Add(this.checkBox1);
+			this.qdGroupBox.Controls.Add(this.qdFrameComboBox);
+			this.qdGroupBox.Enabled = false;
+			this.qdGroupBox.Location = new System.Drawing.Point(990, 11);
+			this.qdGroupBox.Margin = new System.Windows.Forms.Padding(2);
+			this.qdGroupBox.Name = "qdGroupBox";
+			this.qdGroupBox.Padding = new System.Windows.Forms.Padding(2);
+			this.qdGroupBox.Size = new System.Drawing.Size(189, 258);
+			this.qdGroupBox.TabIndex = 0;
+			this.qdGroupBox.TabStop = false;
+			this.qdGroupBox.Text = "智能灯光控制器设置";
+			this.qdGroupBox.Visible = false;
+			// 
+			// globalSaveButton
+			// 
+			this.globalSaveButton.Location = new System.Drawing.Point(155, 191);
+			this.globalSaveButton.Name = "globalSaveButton";
+			this.globalSaveButton.Size = new System.Drawing.Size(75, 23);
+			this.globalSaveButton.TabIndex = 7;
+			this.globalSaveButton.Text = "保存设置";
+			this.globalSaveButton.UseVisualStyleBackColor = true;
+			this.globalSaveButton.Click += new System.EventHandler(this.globalSaveButton_Click);
+			// 
+			// mFrameSaveButton
+			// 
+			this.mFrameSaveButton.Location = new System.Drawing.Point(573, 21);
+			this.mFrameSaveButton.Name = "mFrameSaveButton";
+			this.mFrameSaveButton.Size = new System.Drawing.Size(70, 25);
+			this.mFrameSaveButton.TabIndex = 3;
+			this.mFrameSaveButton.Text = "保存当前";
+			this.mFrameSaveButton.UseVisualStyleBackColor = true;
+			this.mFrameSaveButton.Click += new System.EventHandler(this.multipleFrameSaveButton_Click);
+			// 
+			// qdSaveButton
+			// 
+			this.qdSaveButton.Location = new System.Drawing.Point(94, 203);
+			this.qdSaveButton.Name = "qdSaveButton";
+			this.qdSaveButton.Size = new System.Drawing.Size(70, 25);
+			this.qdSaveButton.TabIndex = 3;
+			this.qdSaveButton.Text = "保存当前";
+			this.qdSaveButton.UseVisualStyleBackColor = true;
+			this.qdSaveButton.Click += new System.EventHandler(this.qdSaveButton_Click);
+			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1000,8 +979,6 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).EndInit();
-			this.qdGroupBox.ResumeLayout(false);
-			this.qdGroupBox.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.flowLayoutPanel3.ResumeLayout(false);
@@ -1014,6 +991,8 @@ private System.ComponentModel.IContainer components = null;
 			this.skFrameFlowLayoutPanel.ResumeLayout(false);
 			this.mFrameLKPanel.ResumeLayout(false);
 			this.mFrameLKPanel.PerformLayout();
+			this.qdGroupBox.ResumeLayout(false);
+			this.qdGroupBox.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -1021,17 +1000,7 @@ private System.ComponentModel.IContainer components = null;
 		#endregion
 
 		private System.Windows.Forms.GroupBox dmxGroupBox;
-		private System.Windows.Forms.GroupBox qdGroupBox;
 		private System.Windows.Forms.CheckBox[] qdCheckBoxes = new System.Windows.Forms.CheckBox[8];
-		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.CheckBox checkBox2;
-		private System.Windows.Forms.CheckBox checkBox3;
-		private System.Windows.Forms.CheckBox checkBox4;
-		private System.Windows.Forms.CheckBox checkBox5;
-		private System.Windows.Forms.CheckBox checkBox6;
-		private System.Windows.Forms.CheckBox checkBox7;
-		private System.Windows.Forms.CheckBox checkBox8;
-		private System.Windows.Forms.ComboBox qdFrameComboBox;
 		private System.Windows.Forms.GroupBox zuheGroupBox;
 		private System.Windows.Forms.CheckBox zuheCheckBox;
 		private System.Windows.Forms.GroupBox zuheEnableGroupBox;
@@ -1069,12 +1038,6 @@ private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.ComboBox startupComboBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox tongdaoCountComboBox;
-		private CCWin.SkinControl.SkinButton qdSaveSkinButton;
-		private CCWin.SkinControl.SkinButton globalSaveSkinButton;
-
-		private SkinButton mFrameSaveSkinButton;
-
-		private Label label13;
 		private GroupBox groupBox1;
 		private TableLayoutPanel tableLayoutPanel1;
 		private FlowLayoutPanel flowLayoutPanel3;
@@ -1103,5 +1066,19 @@ private System.ComponentModel.IContainer components = null;
 		private Label label8;
 		private Label label10;
 		private Label label11;
+		private Button globalSaveButton;
+		private ComboBox qdFrameComboBox;
+		private CheckBox checkBox1;
+		private CheckBox checkBox2;
+		private CheckBox checkBox3;
+		private CheckBox checkBox4;
+		private CheckBox checkBox5;
+		private CheckBox checkBox6;
+		private CheckBox checkBox7;
+		private CheckBox checkBox8;
+		private Label label13;
+		private GroupBox qdGroupBox;
+		private Button mFrameSaveButton;
+		private Button qdSaveButton;
 	}
 }

@@ -393,6 +393,7 @@ namespace LightController.MyForm
 			this.deviceComboBox.Name = "deviceComboBox";
 			this.deviceComboBox.Size = new System.Drawing.Size(196, 20);
 			this.deviceComboBox.TabIndex = 19;
+			this.deviceComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
 			// 
 			// connectButton
 			// 
@@ -1067,6 +1068,7 @@ namespace LightController.MyForm
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(72, 14);
 			this.stepLabel.TabIndex = 53;
+			this.stepLabel.Tag = "9999";
 			this.stepLabel.Text = "  0 / 0";
 			// 
 			// frameChooseLabel

@@ -20,6 +20,7 @@ namespace MultiLedController.MyForm
 		//private IList<string> ipList;
 		private bool isRecording = false;
 		private bool isDebuging = false;
+		private string filePath = @"C:\Temp\MultiLedFile\record.bin";
 
 		/// <summary>
 		/// 左侧栏的首要选中项索引值
@@ -40,6 +41,7 @@ namespace MultiLedController.MyForm
 			InitializeComponent();
 			this.Text = appName;
 		}
+
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
@@ -170,14 +172,32 @@ namespace MultiLedController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《录制DMX | 停止录制》
+		/// 事件：点击《录制数据 | 停止录制》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void recordButton_Click(object sender, EventArgs e)
 		{
-			isRecording = !isRecording;
-			recordButton.Text = isRecording ? "停止录制" : "录制DMX";
+			if (isRecording)
+			{
+				Art_Net_Manager.GetInstance().StopSaveToFile();
+
+				isRecording = false;
+				recordButton.Text = "录制数据";				
+			}
+			else {
+
+				string dirPath = filePath.Substring(0, filePath.LastIndexOf(@"\"));
+				string fileName = filePath.Substring(filePath.LastIndexOf(@"\") + 1);
+
+				Art_Net_Manager.GetInstance().SetSaveDirPath(dirPath);
+				Art_Net_Manager.GetInstance().SetSaveFileName(fileName);
+				Art_Net_Manager.GetInstance().StartSaveToFile();
+
+				isRecording = true;
+				recordButton.Text = "停止录制";		
+			}			
+
 		}
 
 
@@ -189,12 +209,13 @@ namespace MultiLedController.MyForm
 		private void startButton_Click(object sender, EventArgs e)
 		{
 			if (virtuals == null || virtuals.Count == 0) {
-				setNotice("尚未绑定数据。");
+				setNotice("尚未绑定虚拟IP。");
 				return;
-			}
-			Console.WriteLine(localIPComboBox.Text);
+			}			
 			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text);
+
 			debugButton.Enabled = true;
+			recordButton.Enabled = true;
 		}
 
 
@@ -308,9 +329,41 @@ namespace MultiLedController.MyForm
 			}			
 		}
 
-		private void tabPage1_Click(object sender, EventArgs e)
-		{
 
+
+		/// <summary>
+		/// 事件：点击《录制文件路径》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setFilePathButton_Click(object sender, EventArgs e)
+		{
+			dmxSaveFileDialog.ShowDialog();	
+		}
+
+		/// <summary>
+		/// 事件：确认《录制文件路径》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dmxSaveFileDialog_FileOk(object sender, CancelEventArgs e)
+		{
+			filePath = dmxSaveFileDialog.FileName;
+			this.filePathLabel.Text = filePath;
+		}
+
+		/// <summary>
+		/// 事件：点击《清除关联》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void clearLinkButton_Click(object sender, EventArgs e)
+		{
+			virtuals = new List<VirtualControlInfo>();
+			foreach (ListViewItem item in virtualIPListView.Items)
+			{
+				item.SubItems[2].Text = "";
+			}
 		}
 	}
 }

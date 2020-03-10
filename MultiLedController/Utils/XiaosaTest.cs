@@ -23,12 +23,12 @@ namespace MultiLedController.Utils
             switch (Temp)
             {
                 case 0:
-                    //Art_Net_Manager.GetInstance().TestStart();
-                    //break;
+                    Art_Net_Manager.GetInstance().TestStart();
+                    break;
                 case 1:
                 default:
-                    Art_Net_Manager.GetInstance().SearchDevice("192.168.1.21");
-                    //Art_Net_Manager.GetInstance().SendStartDebugOrder();
+                    //Art_Net_Manager.GetInstance().SearchDevice("192.168.1.21");
+                    Art_Net_Manager.GetInstance().SendStartDebugOrder();
                     break;
             }
             Temp++;

@@ -84,7 +84,6 @@ namespace MultiLedController.Entity
                 {
                     IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, PORT);
                     byte[] receiveData = client.Receive(ref endPoint);
-                    Console.WriteLine(Encoding.Default.GetString(receiveData));
                     if (Encoding.Default.GetString(receiveData).Equals("OK:poweron>"))//发送起始命令回复
                     {
                         this.Manager.StartDebug();
@@ -108,6 +107,7 @@ namespace MultiLedController.Entity
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
+            Thread.Sleep(2);
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
 
         }

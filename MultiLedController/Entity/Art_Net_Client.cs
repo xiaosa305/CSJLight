@@ -107,8 +107,6 @@ namespace MultiLedController.Entity
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
                     {
-                        Console.WriteLine("控制器" + CurrentIp + "接收数据为：" + stringBuilder);
-                        Console.WriteLine("控制器" + CurrentIp + "接收数据完成");
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x50)//这是ArtDMX数据包
                     {

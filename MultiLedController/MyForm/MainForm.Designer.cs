@@ -49,6 +49,8 @@
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.mjsTextBox = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -267,12 +269,31 @@
 			this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader6.Width = 166;
 			// 
+			// mjsTextBox
+			// 
+			this.mjsTextBox.Location = new System.Drawing.Point(344, 16);
+			this.mjsTextBox.Name = "mjsTextBox";
+			this.mjsTextBox.Size = new System.Drawing.Size(164, 21);
+			this.mjsTextBox.TabIndex = 29;
+			this.mjsTextBox.Text = "192.168.1.";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(277, 19);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(53, 12);
+			this.label1.TabIndex = 30;
+			this.label1.Text = "麦爵士IP";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.ClientSize = new System.Drawing.Size(800, 464);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.mjsTextBox);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.searchButton);
@@ -315,5 +336,7 @@
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.Button debugButton;
 		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.TextBox mjsTextBox;
+		private System.Windows.Forms.Label label1;
 	}
 }

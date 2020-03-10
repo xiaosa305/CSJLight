@@ -191,7 +191,7 @@ namespace MultiLedController.MyForm
 				return;
 			}
 
-			Art_Net_Manager.GetInstance().Start(virtuals , "192.168.1.31");
+			Art_Net_Manager.GetInstance().Start(virtuals ,  mjsTextBox.Text);
 			debugButton.Enabled = true;
 		}
 

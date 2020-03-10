@@ -51,6 +51,7 @@
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.mjsTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
+			this.clearLinkButton = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -68,7 +69,7 @@
 			// 
 			// refreshButton
 			// 
-			this.refreshButton.Location = new System.Drawing.Point(21, 39);
+			this.refreshButton.Location = new System.Drawing.Point(22, 39);
 			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshButton.Name = "refreshButton";
 			this.refreshButton.Size = new System.Drawing.Size(90, 24);
@@ -88,7 +89,7 @@
 			// 
 			// searchButton
 			// 
-			this.searchButton.Location = new System.Drawing.Point(116, 39);
+			this.searchButton.Location = new System.Drawing.Point(117, 39);
 			this.searchButton.Margin = new System.Windows.Forms.Padding(2);
 			this.searchButton.Name = "searchButton";
 			this.searchButton.Size = new System.Drawing.Size(90, 24);
@@ -127,6 +128,7 @@
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.clearLinkButton);
 			this.tabPage1.Controls.Add(this.virtualIPListView);
 			this.tabPage1.Controls.Add(this.recordButton);
 			this.tabPage1.Controls.Add(this.debugButton);
@@ -175,13 +177,13 @@
 			// 
 			// columnHeader5
 			// 
-			this.columnHeader5.Text = "关联设备";
+			this.columnHeader5.Text = "关联设备mac";
 			this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader5.Width = 153;
 			// 
 			// recordButton
 			// 
-			this.recordButton.Location = new System.Drawing.Point(357, 248);
+			this.recordButton.Location = new System.Drawing.Point(357, 281);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(75, 23);
 			this.recordButton.TabIndex = 1;
@@ -193,7 +195,7 @@
 			// debugButton
 			// 
 			this.debugButton.Enabled = false;
-			this.debugButton.Location = new System.Drawing.Point(357, 211);
+			this.debugButton.Location = new System.Drawing.Point(357, 244);
 			this.debugButton.Name = "debugButton";
 			this.debugButton.Size = new System.Drawing.Size(75, 23);
 			this.debugButton.TabIndex = 1;
@@ -204,7 +206,7 @@
 			// startButton
 			// 
 			this.startButton.Enabled = false;
-			this.startButton.Location = new System.Drawing.Point(357, 174);
+			this.startButton.Location = new System.Drawing.Point(357, 207);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(75, 23);
 			this.startButton.TabIndex = 1;
@@ -214,7 +216,7 @@
 			// 
 			// linkButton
 			// 
-			this.linkButton.Location = new System.Drawing.Point(357, 72);
+			this.linkButton.Location = new System.Drawing.Point(357, 71);
 			this.linkButton.Name = "linkButton";
 			this.linkButton.Size = new System.Drawing.Size(75, 23);
 			this.linkButton.TabIndex = 1;
@@ -259,13 +261,13 @@
 			// 
 			// columnHeader3
 			// 
-			this.columnHeader3.Text = "设备Mac";
+			this.columnHeader3.Text = "设备名称";
 			this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader3.Width = 151;
 			// 
 			// columnHeader6
 			// 
-			this.columnHeader6.Text = "设备名称";
+			this.columnHeader6.Text = "设备mac";
 			this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader6.Width = 166;
 			// 
@@ -275,7 +277,7 @@
 			this.mjsTextBox.Name = "mjsTextBox";
 			this.mjsTextBox.Size = new System.Drawing.Size(164, 21);
 			this.mjsTextBox.TabIndex = 29;
-			this.mjsTextBox.Text = "192.168.1.";
+			this.mjsTextBox.Text = "192.168.1.31";
 			// 
 			// label1
 			// 
@@ -285,6 +287,15 @@
 			this.label1.Size = new System.Drawing.Size(53, 12);
 			this.label1.TabIndex = 30;
 			this.label1.Text = "麦爵士IP";
+			// 
+			// clearLinkButton
+			// 
+			this.clearLinkButton.Location = new System.Drawing.Point(357, 107);
+			this.clearLinkButton.Name = "clearLinkButton";
+			this.clearLinkButton.Size = new System.Drawing.Size(75, 23);
+			this.clearLinkButton.TabIndex = 3;
+			this.clearLinkButton.Text = "<-清除关联";
+			this.clearLinkButton.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
@@ -338,5 +349,6 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.TextBox mjsTextBox;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Button clearLinkButton;
 	}
 }

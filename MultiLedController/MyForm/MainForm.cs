@@ -137,13 +137,15 @@ namespace MultiLedController.MyForm
 		{			
 			this.controllerListView.Items.Add(
 				new ListViewItem(new string[]{
-					"",					
-					led.Mac,
-					led.LedName
+					"",										
+					led.LedName,
+					led.Mac
 				})	{
 					Tag = led.IP + "," +
 					led.Led_interface_num+"," + 
-					led.Led_space
+					led.Led_space + "," +
+					led.Mac + "," +
+					led.LedName
 				}
 			);
 		}
@@ -157,7 +159,7 @@ namespace MultiLedController.MyForm
 			virtualIPListView.Items.Clear();
 			for(int i=1;i<virtualIPList.Count; i++)
 			{
-				ListViewItem lvItem = new ListViewItem(new String[] { (i+1).ToString() , virtualIPList[i] , ""});
+				ListViewItem lvItem = new ListViewItem(new String[] { i.ToString() , virtualIPList[i] , ""});
 				virtualIPListView.Items.Add(lvItem);
 			}
 		}
@@ -190,8 +192,8 @@ namespace MultiLedController.MyForm
 				setNotice("尚未绑定数据。");
 				return;
 			}
-
-			Art_Net_Manager.GetInstance().Start(virtuals ,  mjsTextBox.Text);
+			Console.WriteLine(localIPComboBox.Text);
+			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text);
 			debugButton.Enabled = true;
 		}
 
@@ -238,6 +240,8 @@ namespace MultiLedController.MyForm
 			string ledIp = args[0];
 			int interfaceCount = int.Parse(args[1]);
 			int spaceCount = int.Parse(args[2]);
+			string mac = args[3];
+			string ledName = args[4];
 
 			ControlDevice device = getSelectedLedControl(controllerSelectedIndex);
 			virtuals = new List<VirtualControlInfo>();
@@ -249,7 +253,7 @@ namespace MultiLedController.MyForm
 
 			foreach (ListViewItem item in virtualIPListView.SelectedItems)
 			{
-				item.SubItems[2].Text = ledIp;				
+				item.SubItems[2].Text =mac;				
 				virtuals.Add(new VirtualControlInfo(item.SubItems[1].Text, device));				
 			}
 

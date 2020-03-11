@@ -253,7 +253,7 @@ namespace OtherTools
 				return;
 			}
 
-			int lightIndex = MathAst.GetIndexNum(((SkinButton)sender).Name, -1);
+			int lightIndex = MathAst.GetIndexNum(((Button)sender).Name, -1);
 			setLightButtonValue(lightIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {

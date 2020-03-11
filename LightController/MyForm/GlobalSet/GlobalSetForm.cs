@@ -384,9 +384,9 @@ namespace LightController.MyForm
 		{
 			if (isInit)
 			{
-				frameIndex = MathAst.GetIndexNum(((SkinButton)sender).Name, -1);
+				frameIndex = MathAst.GetIndexNum(((Button)sender).Name, -1);
 				mFrameLKPanel.Enabled = true;
-				mCurrentFrameLabel.Text = "选中场景：" + ((SkinButton)sender).Text;
+				mCurrentFrameLabel.Text = "选中场景：" + ((Button)sender).Text;
 				mFrameTextBox.Text = iniAst.ReadString("SK", frameIndex + "LK", "");
 			}
 		}		

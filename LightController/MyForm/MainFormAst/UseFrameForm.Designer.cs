@@ -28,80 +28,59 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
-			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
 			this.label1 = new System.Windows.Forms.Label();
-			this.frameSkinComboBox = new CCWin.SkinControl.SkinComboBox();
+			this.frameComboBox = new System.Windows.Forms.ComboBox();
+			this.enterButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
-			// 
-			// cancelSkinButton
-			// 
-			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(126, 83);
-			this.cancelSkinButton.MouseBack = null;
-			this.cancelSkinButton.Name = "cancelSkinButton";
-			this.cancelSkinButton.NormlBack = null;
-			this.cancelSkinButton.Size = new System.Drawing.Size(78, 26);
-			this.cancelSkinButton.TabIndex = 6;
-			this.cancelSkinButton.Text = "取消";
-			this.cancelSkinButton.UseVisualStyleBackColor = false;
-			this.cancelSkinButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
-			// 
-			// enterSkinButton
-			// 
-			this.enterSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.enterSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.enterSkinButton.DownBack = null;
-			this.enterSkinButton.Location = new System.Drawing.Point(32, 83);
-			this.enterSkinButton.MouseBack = null;
-			this.enterSkinButton.Name = "enterSkinButton";
-			this.enterSkinButton.NormlBack = null;
-			this.enterSkinButton.Size = new System.Drawing.Size(78, 26);
-			this.enterSkinButton.TabIndex = 7;
-			this.enterSkinButton.Text = "确定";
-			this.enterSkinButton.UseVisualStyleBackColor = false;
-			this.enterSkinButton.Click += new System.EventHandler(this.enterSkinButton_Click);
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(42, 38);
+			this.label1.Location = new System.Drawing.Point(39, 38);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(53, 12);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "场景名：";
 			// 
-			// frameSkinComboBox
+			// frameComboBox
 			// 
-			this.frameSkinComboBox.BaseColor = System.Drawing.Color.Gray;
-			this.frameSkinComboBox.BorderColor = System.Drawing.Color.Gray;
-			this.frameSkinComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.frameSkinComboBox.Font = new System.Drawing.Font("华文细黑", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.frameSkinComboBox.FormattingEnabled = true;
-			this.frameSkinComboBox.Location = new System.Drawing.Point(110, 32);
-			this.frameSkinComboBox.Name = "frameSkinComboBox";
-			this.frameSkinComboBox.Size = new System.Drawing.Size(94, 25);
-			this.frameSkinComboBox.TabIndex = 9;
-			this.frameSkinComboBox.WaterText = "";
+			this.frameComboBox.FormattingEnabled = true;
+			this.frameComboBox.Location = new System.Drawing.Point(101, 34);
+			this.frameComboBox.Name = "frameComboBox";
+			this.frameComboBox.Size = new System.Drawing.Size(103, 20);
+			this.frameComboBox.TabIndex = 10;
+			// 
+			// enterButton
+			// 
+			this.enterButton.Location = new System.Drawing.Point(32, 79);
+			this.enterButton.Name = "enterButton";
+			this.enterButton.Size = new System.Drawing.Size(78, 26);
+			this.enterButton.TabIndex = 11;
+			this.enterButton.Text = "确定";
+			this.enterButton.UseVisualStyleBackColor = true;
+			this.enterButton.Click += new System.EventHandler(this.enterSkinButton_Click);
+			// 
+			// cancelButton
+			// 
+			this.cancelButton.Location = new System.Drawing.Point(126, 79);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(78, 26);
+			this.cancelButton.TabIndex = 11;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
 			// 
 			// UseFrameForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.cancelSkinButton;
+			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(230, 134);
-			this.Controls.Add(this.frameSkinComboBox);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.enterButton);
+			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.cancelSkinButton);
-			this.Controls.Add(this.enterSkinButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "UseFrameForm";
 			this.Text = "使用其他场景";
@@ -112,10 +91,9 @@
 		}
 
 		#endregion
-
-		private CCWin.SkinControl.SkinButton cancelSkinButton;
-		private CCWin.SkinControl.SkinButton enterSkinButton;
 		private System.Windows.Forms.Label label1;
-		private CCWin.SkinControl.SkinComboBox frameSkinComboBox;
+		private System.Windows.Forms.ComboBox frameComboBox;
+		private System.Windows.Forms.Button enterButton;
+		private System.Windows.Forms.Button cancelButton;
 	}
 }

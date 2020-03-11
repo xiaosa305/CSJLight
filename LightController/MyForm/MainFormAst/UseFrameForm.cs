@@ -25,11 +25,11 @@ namespace LightController.MyForm
 			{
 				if (frameIndex != currentFrameIndex)
 				{
-					frameSkinComboBox.Items.Add(MainFormInterface.AllFrameList[frameIndex]);
+					frameComboBox.Items.Add(MainFormInterface.AllFrameList[frameIndex]);
 					frameIndexList.Add(frameIndex); 
 				}
-			}									
-			frameSkinComboBox.SelectedIndex = 0;
+			}
+			frameComboBox.SelectedIndex = 0;
 		}
 
 
@@ -73,7 +73,7 @@ namespace LightController.MyForm
 			// return frameSkinComboBox.SelectedIndex;
 
 			// 2. 获取当前选中项，然后取出其在frameIndexList中的位置
-			int  selectedIndex = frameSkinComboBox.SelectedIndex;
+			int  selectedIndex = frameComboBox.SelectedIndex;
 			int selectedFrameIndex = frameIndexList[selectedIndex];
 			return selectedFrameIndex ;
 		}

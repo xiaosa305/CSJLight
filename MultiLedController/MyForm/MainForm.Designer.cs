@@ -45,7 +45,7 @@
 			this.debugButton = new System.Windows.Forms.Button();
 			this.startButton = new System.Windows.Forms.Button();
 			this.linkButton = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
+			this.networkButton2 = new System.Windows.Forms.Button();
 			this.controllerListView = new System.Windows.Forms.ListView();
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,6 +55,7 @@
 			this.dmxSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.setFilePathButton = new System.Windows.Forms.Button();
 			this.filePathLabel = new System.Windows.Forms.Label();
+			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -137,7 +138,7 @@
 			this.tabPage1.Controls.Add(this.debugButton);
 			this.tabPage1.Controls.Add(this.startButton);
 			this.tabPage1.Controls.Add(this.linkButton);
-			this.tabPage1.Controls.Add(this.button1);
+			this.tabPage1.Controls.Add(this.networkButton2);
 			this.tabPage1.Controls.Add(this.controllerListView);
 			this.tabPage1.Location = new System.Drawing.Point(4, 40);
 			this.tabPage1.Name = "tabPage1";
@@ -160,6 +161,7 @@
 			// virtualIPListView
 			// 
 			this.virtualIPListView.BackColor = System.Drawing.Color.LightSkyBlue;
+			this.virtualIPListView.CheckBoxes = true;
 			this.virtualIPListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader4,
@@ -228,6 +230,7 @@
 			// 
 			// linkButton
 			// 
+			this.linkButton.Enabled = false;
 			this.linkButton.Location = new System.Drawing.Point(357, 71);
 			this.linkButton.Name = "linkButton";
 			this.linkButton.Size = new System.Drawing.Size(75, 23);
@@ -236,15 +239,16 @@
 			this.linkButton.UseVisualStyleBackColor = true;
 			this.linkButton.Click += new System.EventHandler(this.linkButton_Click);
 			// 
-			// button1
+			// networkButton2
 			// 
-			this.button1.Location = new System.Drawing.Point(357, 35);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "网络设置";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.networkButton_Click);
+			this.networkButton2.Enabled = false;
+			this.networkButton2.Location = new System.Drawing.Point(357, 35);
+			this.networkButton2.Name = "networkButton2";
+			this.networkButton2.Size = new System.Drawing.Size(75, 23);
+			this.networkButton2.TabIndex = 0;
+			this.networkButton2.Text = "网络设置";
+			this.networkButton2.UseVisualStyleBackColor = true;
+			this.networkButton2.Click += new System.EventHandler(this.networkButton2_Click);
 			// 
 			// controllerListView
 			// 
@@ -377,12 +381,13 @@
 		private System.Windows.Forms.Button startButton;
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.Button debugButton;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button networkButton2;
 		private System.Windows.Forms.TextBox mjsTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button clearLinkButton;
 		private System.Windows.Forms.SaveFileDialog dmxSaveFileDialog;
 		private System.Windows.Forms.Button setFilePathButton;
 		private System.Windows.Forms.Label filePathLabel;
+		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 	}
 }

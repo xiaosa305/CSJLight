@@ -84,7 +84,7 @@ namespace LightController.MyForm
 			// 必须判断这个字段(Count)，否则会报异常
 			if (lightsSkinListView.SelectedIndices.Count > 0) {
 				selectedIndex = lightsSkinListView.SelectedIndices[0];
-				enterSkinButton.Enabled = true;
+				enterButton.Enabled = true;
 			}
 		}
 	}

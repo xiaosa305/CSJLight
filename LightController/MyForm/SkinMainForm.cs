@@ -598,7 +598,7 @@ namespace LightController.MyForm
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));	
 		}
 
-		public void ExportProject(string exportPath, bool success)
+		public override void ExportProject(string exportPath, bool success)
 		{
 			if (success)
 			{
@@ -2309,7 +2309,7 @@ namespace LightController.MyForm
 		///  辅助方法：选择串口按钮、刷新串口按钮、调试的按钮组是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		public void EnableConnectedButtons(bool connected)
+		public override void EnableConnectedButtons(bool connected)
 		{
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !connected;
@@ -3086,9 +3086,9 @@ namespace LightController.MyForm
 
 	public class ExportCallBack : ISaveProjectCallBack
 	{
-		private SkinMainForm mainForm;
+		private MainFormInterface mainForm;
 		private string exportFolder;
-		public ExportCallBack(SkinMainForm mainForm , string exportFolder)
+		public ExportCallBack(MainFormInterface mainForm , string exportFolder)
 		{
 			this.mainForm = mainForm;
 			this.exportFolder = exportFolder;

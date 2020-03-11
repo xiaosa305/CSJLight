@@ -80,7 +80,7 @@ namespace LightController
 		private void LightsForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-			this.lightsSkinListView.HideSelection = true;
+			this.lightsListView.HideSelection = true;
 		}
 			
 		/// <summary>
@@ -164,7 +164,7 @@ namespace LightController
 			item.SubItems.Add(lightType);
 			item.SubItems.Add(lightAddr);
 			item.ImageKey = lightPic;
-			lightsSkinListView.Items.Add(item);
+			lightsListView.Items.Add(item);
 		}
 
 		/// <summary>
@@ -174,7 +174,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void deleteLightButton_Click(object sender, EventArgs e)
 		{
-			if (lightsSkinListView.SelectedIndices.Count == 0) {
+			if (lightsListView.SelectedIndices.Count == 0) {
 					MessageBox.Show("请先选择要删除的灯具");
 			}
 			else
@@ -185,13 +185,12 @@ namespace LightController
 				//lightAstList.RemoveAt(deleteIndex);
 
 				// 多灯情况下的删除方法：通过item来删除数据
-				foreach (ListViewItem item in lightsSkinListView.SelectedItems)
+				foreach (ListViewItem item in lightsListView.SelectedItems)
 				{
 						lightAstList.RemoveAt(item.Index);
 						item.Remove();						
 				}
-				lightsSkinListView.Refresh();
-				
+				lightsListView.Refresh();				
 			}								
 		}
 
@@ -232,7 +231,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void lightsListView_DoubleClick(object sender, EventArgs e)
 		{
-			int lightIndex = lightsSkinListView.SelectedIndices[0];
+			int lightIndex = lightsListView.SelectedIndices[0];
 			LightsEditForm lightsEditForm = new LightsEditForm(this, lightAstList[lightIndex], lightIndex);
 			lightsEditForm.ShowDialog();
 		}
@@ -257,7 +256,7 @@ namespace LightController
 				lightAstList[lightIndex].LightAddr = startNum + "-" + endNum;
 
 				// 2.修改lightListView
-				lightsSkinListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
+				lightsListView.Items[lightIndex].SubItems[2].Text = lightAstList[lightIndex].LightAddr;
 				return true;
 			}			
 		}

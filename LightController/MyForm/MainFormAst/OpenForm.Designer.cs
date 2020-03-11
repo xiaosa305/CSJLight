@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.treeView1 = new System.Windows.Forms.TreeView();
+			this.projectTreeView = new System.Windows.Forms.TreeView();
 			this.mySkinContextMenuStrip = new CCWin.SkinControl.SkinContextMenuStrip();
 			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.copyProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,17 +38,17 @@
 			this.mySkinContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// treeView1
+			// projectTreeView
 			// 
-			this.treeView1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.treeView1.Location = new System.Drawing.Point(0, 0);
-			this.treeView1.Margin = new System.Windows.Forms.Padding(2);
-			this.treeView1.Name = "treeView1";
-			this.treeView1.Size = new System.Drawing.Size(309, 233);
-			this.treeView1.TabIndex = 0;
-			this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
-			this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
-			this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
+			this.projectTreeView.Dock = System.Windows.Forms.DockStyle.Top;
+			this.projectTreeView.Location = new System.Drawing.Point(0, 0);
+			this.projectTreeView.Margin = new System.Windows.Forms.Padding(2);
+			this.projectTreeView.Name = "projectTreeView";
+			this.projectTreeView.Size = new System.Drawing.Size(309, 233);
+			this.projectTreeView.TabIndex = 0;
+			this.projectTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+			this.projectTreeView.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+			this.projectTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
 			// 
 			// mySkinContextMenuStrip
 			// 
@@ -132,7 +132,7 @@
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.deleteButton);
 			this.Controls.Add(this.enterButton);
-			this.Controls.Add(this.treeView1);
+			this.Controls.Add(this.projectTreeView);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -147,7 +147,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.TreeView treeView1;
+		private System.Windows.Forms.TreeView projectTreeView;
 		private CCWin.SkinControl.SkinContextMenuStrip mySkinContextMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem copyProjectToolStripMenuItem;

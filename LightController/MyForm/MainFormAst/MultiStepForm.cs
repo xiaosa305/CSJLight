@@ -84,21 +84,21 @@ namespace LightController.MyForm
 			if (mode == 0)
 			{
 				modeLabel.Text = "当前模式：常规模式";
-				this.commonChangeModeComboBox.Items.Add("跳变");
-				this.commonChangeModeComboBox.Items.Add("渐变");
-				this.commonChangeModeComboBox.Items.Add("屏蔽");
-				this.commonChangeModeComboBox.SelectedIndex = 0;
+				this.unifyCmComboBox.Items.Add("跳变");
+				this.unifyCmComboBox.Items.Add("渐变");
+				this.unifyCmComboBox.Items.Add("屏蔽");
+				this.unifyCmComboBox.SelectedIndex = 0;
 			}
 			else {
 				modeLabel.Text = "当前模式：音频模式";
-				this.commonChangeModeSkinButton.Text =  "统一声控";
-				this.commonChangeModeComboBox.Items.Add("屏蔽");
-				this.commonChangeModeComboBox.Items.Add("跳变");
+				this.unifyCmButton.Text =  "统一声控";
+				this.unifyCmComboBox.Items.Add("屏蔽");
+				this.unifyCmComboBox.Items.Add("跳变");
 				//this.commonChangeModeComboBox.Items.Add("渐变");
-				this.commonChangeModeComboBox.SelectedIndex = 0;
+				this.unifyCmComboBox.SelectedIndex = 0;
 				// 音频模式下：《步时间调整值》两个按钮隐藏。
-				commonStepTimetNumericUpDown.Hide();
-				commonStepTimeSkinButton.Hide();
+				unifyStNumericUpDown.Hide();
+				unifyStButton.Hide();
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void commonValueSkinButton_Click(object sender, EventArgs e)
+		private void unifyValueButton_Click(object sender, EventArgs e)
 		{
 			//通过了验证，才能继续运行核心代码
 			if (checkStepAndTds()) {
@@ -161,11 +161,11 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void commonChangeModeSkinButton_Click(object sender, EventArgs e)
+		private void unifyCmButton_Click(object sender, EventArgs e)
 		{
 			if (checkStepAndTds())
 			{
-				int  commonChangeModeSelectedIndex = commonChangeModeComboBox.SelectedIndex;
+				int  commonChangeModeSelectedIndex = unifyCmComboBox.SelectedIndex;
 				mainForm.SetMultiStepValues(MainFormInterface.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, commonChangeModeSelectedIndex);
 			}
 		}
@@ -175,11 +175,11 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void commonStepTimeSkinButton_Click(object sender, EventArgs e)
+		private void unifyStButton_Click(object sender, EventArgs e)
 		{
 			if (checkStepAndTds())
 			{
-				int commonStepTime = Decimal.ToInt16(commonStepTimetNumericUpDown.Value);
+				int commonStepTime = Decimal.ToInt16(unifyStNumericUpDown.Value);
 				mainForm.SetMultiStepValues(MainFormInterface.WHERE.STEP_TIME, tdIndexList, startStep, endStep, commonStepTime);
 			}
 		}

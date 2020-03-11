@@ -55,7 +55,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void networkButton_Click(object sender, EventArgs e)
 		{
-			new NetworkForm(this).ShowDialog();
+			new NetworkForm( this ).ShowDialog();
 		}
 
 		//事件：点击《刷新IP列表》
@@ -238,7 +238,17 @@ namespace MultiLedController.MyForm
 			if (controllerListView.SelectedIndices.Count > 0)
 			{
 				controllerSelectedIndex = controllerListView.SelectedIndices[0];
+				enableLinkButtons();
 			}		
+		}
+
+		/// <summary>
+		/// 辅助方法：由是否选中控制器，来决定是否中间三个按钮是否可用
+		/// </summary>
+		private void enableLinkButtons()
+		{
+			networkButton2.Enabled = controllerSelectedIndex > -1;
+			linkButton.Enabled = controllerSelectedIndex > -1;
 		}
 
 		/// <summary>
@@ -275,7 +285,7 @@ namespace MultiLedController.MyForm
 			foreach (ListViewItem item in virtualIPListView.SelectedItems)
 			{
 				item.SubItems[2].Text =mac;				
-				virtuals.Add(new VirtualControlInfo(item.SubItems[1].Text, device));				
+				virtuals.Add(new VirtualControlInfo(item.SubItems[1].Text ,  device));				
 			}
 
 			if (virtuals == null || virtuals.Count == 0)
@@ -364,6 +374,30 @@ namespace MultiLedController.MyForm
 			{
 				item.SubItems[2].Text = "";
 			}
+		}
+
+		/// <summary>
+		/// 事件：点击《网络设置（小）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkButton2_Click(object sender, EventArgs e)
+		{
+			if (controllerSelectedIndex == -1)
+			{
+				setNotice("请选择物理设备");
+				return;
+			}
+
+			string[] args = controllerListView.Items[controllerSelectedIndex].Tag.ToString().Split(',');
+			int ipLast = int.Parse(localIPComboBox.Text.Split('.')[3]);
+			int interfaceCount = int.Parse(args[1]);
+			//int spaceCount = int.Parse(args[2]);
+			//string mac = args[3];
+			//string ledName = args[4];
+
+			new NetworkForm(this, ipLast, interfaceCount).ShowDialog(); 
+
 		}
 	}
 }

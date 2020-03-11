@@ -2,6 +2,7 @@
 using LightController.Ast;
 using LightController.Common;
 using LightController.Tools;
+using LightController.Utils;
 using OtherTools;
 using System;
 using System.Collections;
@@ -215,8 +216,7 @@ namespace LightController.MyForm
 			}
 		}
 
-
-		#region 几个基类的纯虚函数在子类的实现
+		#region 几个基类的抽象函数在子类的实现
 
 		/// <summary>
 		///  辅助方法：将所有工程相关的按钮（灯具列表、工程升级、全局设置、摇麦设置）Enabled设为传入bool值
@@ -300,6 +300,11 @@ namespace LightController.MyForm
 			openLightEditor();
 		}
 
+		/// <summary>
+		/// 事件：更换《更换皮肤》选项（直接按选中项更换皮肤）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string sskName = skinComboBox.Text;
@@ -310,132 +315,8 @@ namespace LightController.MyForm
 			}
 			this.skinEngine1.Active = true;
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
-		}
-
-		/// <summary>
-		/// 事件：点击《打开工程》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void openProjectButton_Click(object sender, EventArgs e)
-		{
-			new OpenForm(this, currentProjectName).ShowDialog();
-		}
-
-
-		/// <summary>
-		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
-		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
-		/// </summary>
-		protected override void clearAllData()
-		{
-			// 从此处起为子类的实现
-			//MARK＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋2222
-			this.Text = "Dimmer System";
-			lightsListView.Clear();
-			stepPanel.Enabled = false;
-			hideAllTDPanels();
-			showStepLabel(0, 0);
-			editLightInfo(null);
-			enableSingleMode(true);
-			endview(); // 清空数据时，应该结束预览。
-		}
-
+		}		
 		
-
-		/// <summary>
-		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
-		/// </summary>
-		/// <param name="lightAst"></param>
-		private void editLightInfo(LightAst lightAst)
-		{
-			if (lightAst == null)
-			{
-				currentLightPictureBox.Image = null;
-				lightNameLabel.Text = null;
-				lightTypeLabel.Text = null;
-				lightsAddrLabel.Text = null;
-				return;
-			}
-
-			lightNameLabel.Text = "灯具厂商：" + lightAst.LightName;
-			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
-			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
-			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
-			try
-			{
-				currentLightPictureBox.Image = Image.FromFile(savePath + @"\LightPic\" + lightAst.LightPic);
-			}
-			catch (Exception)
-			{
-				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
-			}
-		}
-
-		/// <summary>
-		///辅助方法：添加lightAst列表到主界面内存中,主要供 LightsForm以及OpenProject调用）
-		/// --对比删除后，生成新的lightWrapperList；
-		/// --lightListView也更新为最新的数据
-		/// </summary>
-		/// <param name="lightAstList2"></param>
-		public override void AddLightAstList(IList<LightAst> lightAstList2)
-		{
-			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
-			base.AddLightAstList(lightAstList2);
-
-			//下列为针对本Form的处理代码：listView更新为最新数据
-
-			// 1.清空lightListView,重新填充新数据
-			lightsListView.Items.Clear();
-			for (int i = 0; i < lightAstList2.Count; i++)
-			{
-				// 添加灯具数据到LightsListView中
-				lightsListView.Items.Add(new ListViewItem(
-						//lightAstList2[i].LightName + ":" + 
-						lightAstList2[i].LightType +
-						"\n" +
-						"(" + lightAstList2[i].LightAddr + ")",
-					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
-				)
-				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
-				);
-			}
-
-			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
-			hideAllTDPanels();
-		}
-	
-
-		/// <summary>
-		///辅助方法：隐藏所有的TdPanel
-		/// </summary>
-		private void hideAllTDPanels()
-		{
-			for (int i = 0; i < 32; i++)
-			{
-				tdPanels[i].Hide();
-			}
-			unifyPanel.Enabled = false;
-		}
-
-		/// <summary>
-		/// 事件：点击《新建工程》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void newProjectButton_Click(object sender, EventArgs e)
-		{
-			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
-			IsCreateSuccess = false;
-
-			new NewForm(this).ShowDialog();
-
-			//当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
-			if (IsCreateSuccess)
-			{
-				lightListToolStripMenuItem_Click(null, null);
-			}
-		}
 
 		/// <summary>
 		/// 事件：点击《灯具列表》
@@ -460,7 +341,6 @@ namespace LightController.MyForm
 				generateLightData();
 			}
 		}		
-
 
 		/// <summary>
 		/// 事件：点击《硬件配置 - 打开配置》
@@ -559,6 +439,7 @@ namespace LightController.MyForm
 				MessageBox.Show(ex.Message);
 			}
 		}
+
 		/// <summary>
 		/// 事件：点击《其他工具 - 传视界中控工具》
 		/// </summary>
@@ -604,7 +485,6 @@ namespace LightController.MyForm
 		}	
 
 		#endregion
-
 
 		/// <summary>
 		/// 辅助方法：初始化灯具数据。
@@ -707,6 +587,61 @@ namespace LightController.MyForm
 			RefreshStep();
 		}
 
+		#region 工程及场景相关（打开新建保存等）点击事件及辅助方法
+
+		/// <summary>
+		/// 事件：点击《新建工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void newProjectButton_Click(object sender, EventArgs e)
+		{
+			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
+			IsCreateSuccess = false;
+
+			new NewForm(this).ShowDialog();
+
+			//当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
+			if (IsCreateSuccess)
+			{
+				lightListToolStripMenuItem_Click(null, null);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《打开工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void openProjectButton_Click(object sender, EventArgs e)
+		{
+			new OpenForm(this, currentProjectName).ShowDialog();
+		}
+
+		/// <summary>
+		/// 事件：点击《调用场景》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void useFrameButton_Click(object sender, EventArgs e)
+		{
+			new UseFrameForm(this, frame).ShowDialog();
+		}
+
+		/// <summary>
+		/// 事件：点击《保存场景》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveFrameButton_Click(object sender, EventArgs e)
+		{
+			SetNotice("正在保存场景,请稍候...");
+			setBusy(true);
+			saveFrame();
+			setBusy(false);
+			SetNotice("成功保存场景(" + AllFrameList[frame] + ")");
+		}
+
 		/// <summary>
 		/// 事件：点击《保存工程》
 		/// </summary>
@@ -721,7 +656,98 @@ namespace LightController.MyForm
 			SetNotice("成功保存工程");
 		}
 
+		/// <summary>
+		/// 事件：点击《导出工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void exportProjectButton_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = MessageBox.Show("请确保工程已保存后再进行导出，否则可能会出错。确定现在导出吗？",
+				"导出工程",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Question);
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
 
+			dr = exportFolderBrowserDialog.ShowDialog();
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
+			DirectoryInfo di = new DirectoryInfo(exportPath);
+			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
+			{
+				dr = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
+						"覆盖工程？",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question);
+				if (dr == DialogResult.Cancel)
+				{
+					return;
+				}
+			}
+
+			SetNotice("正在导出工程，请稍候...");
+			setBusy(true);
+			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));
+		}
+
+		/// <summary>
+		/// 辅助方法：导出工程的实现
+		/// </summary>
+		/// <param name="exportPath"></param>
+		/// <param name="success"></param>
+		public override void ExportProject(string exportPath, bool success)
+		{
+			if (success)
+			{
+				FileUtils.ExportProjectFile(exportPath);
+				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
+						"打开导出文件夹？",
+						MessageBoxButtons.OKCancel,
+						MessageBoxIcon.Question);
+				if (dr == DialogResult.OK)
+				{
+					System.Diagnostics.Process.Start(exportPath);
+				}
+			}
+			else
+			{
+				MessageBox.Show("导出工程出错。");
+			}
+
+			setBusy(false);
+			SetNotice("导出工程" + (success ? "成功" : "出错"));
+		}
+
+		/// <summary>
+		/// 事件：点击《关闭工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void closeProjectButton_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = MessageBox.Show("关闭工程前是否保存工程?",
+						"保存工程？",
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Question);
+			if (dr == DialogResult.Yes)
+			{
+				saveProjectButton_Click(null, null);
+			}
+
+			clearAllData();
+			SetNotice("成功关闭工程。");
+			MessageBox.Show("成功关闭工程。");
+		}		
+	
+		#endregion
+		
 		#region tdPanel的监听事件
 
 		/// <summary>
@@ -1092,7 +1118,6 @@ namespace LightController.MyForm
 			//最后都要用上RefreshStep()
 			RefreshStep();
 		}
-
 	
 		/// <summary>
 		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
@@ -1691,7 +1716,101 @@ namespace LightController.MyForm
 			playTools.EndView();
 		}
 
+
 		#endregion
+
+
+		/// <summary>
+		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
+		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
+		/// </summary>
+		protected override void clearAllData()
+		{
+			// 从此处起为子类的实现
+			//MARK＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋2222
+			this.Text = "Dimmer System";
+			lightsListView.Clear();
+			stepPanel.Enabled = false;
+			hideAllTDPanels();
+			showStepLabel(0, 0);
+			editLightInfo(null);
+			enableSingleMode(true);
+			endview(); // 清空数据时，应该结束预览。
+		}
+
+		/// <summary>
+		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
+		/// </summary>
+		/// <param name="lightAst"></param>
+		private void editLightInfo(LightAst lightAst)
+		{
+			if (lightAst == null)
+			{
+				currentLightPictureBox.Image = null;
+				lightNameLabel.Text = null;
+				lightTypeLabel.Text = null;
+				lightsAddrLabel.Text = null;
+				return;
+			}
+
+			lightNameLabel.Text = "灯具厂商：" + lightAst.LightName;
+			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
+			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
+			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
+			try
+			{
+				currentLightPictureBox.Image = Image.FromFile(savePath + @"\LightPic\" + lightAst.LightPic);
+			}
+			catch (Exception)
+			{
+				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
+			}
+		}
+
+		/// <summary>
+		///辅助方法：添加lightAst列表到主界面内存中,主要供 LightsForm以及OpenProject调用）
+		/// --对比删除后，生成新的lightWrapperList；
+		/// --lightListView也更新为最新的数据
+		/// </summary>
+		/// <param name="lightAstList2"></param>
+		public override void AddLightAstList(IList<LightAst> lightAstList2)
+		{
+			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
+			base.AddLightAstList(lightAstList2);
+
+			//下列为针对本Form的处理代码：listView更新为最新数据
+
+			// 1.清空lightListView,重新填充新数据
+			lightsListView.Items.Clear();
+			for (int i = 0; i < lightAstList2.Count; i++)
+			{
+				// 添加灯具数据到LightsListView中
+				lightsListView.Items.Add(new ListViewItem(
+						//lightAstList2[i].LightName + ":" + 
+						lightAstList2[i].LightType +
+						"\n" +
+						"(" + lightAstList2[i].LightAddr + ")",
+					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
+				)
+				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
+				);
+			}
+
+			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
+			hideAllTDPanels();
+		}
+
+		/// <summary>
+		///辅助方法：隐藏所有的TdPanel
+		/// </summary>
+		private void hideAllTDPanels()
+		{
+			for (int i = 0; i < 32; i++)
+			{
+				tdPanels[i].Hide();
+			}
+			unifyPanel.Enabled = false;
+		}
 
 		
 	}

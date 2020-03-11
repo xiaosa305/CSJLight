@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.panel26 = new System.Windows.Forms.Panel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label37 = new System.Windows.Forms.Label();
@@ -40,9 +39,9 @@
 			this.jgtNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.frameStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.mFrameLKTextBox = new System.Windows.Forms.TextBox();
-			this.mFrameSaveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.noticeLabel = new System.Windows.Forms.Label();
+			this.saveButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.panel26.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.jgtNumericUpDown)).BeginInit();
@@ -157,41 +156,6 @@
 			this.mFrameLKTextBox.TabIndex = 8;
 			this.mFrameLKTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameLKTextBox_KeyPress);
 			// 
-			// mFrameSaveSkinButton
-			// 
-			this.mFrameSaveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.mFrameSaveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.mFrameSaveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.mFrameSaveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.mFrameSaveSkinButton.DownBack = null;
-			this.mFrameSaveSkinButton.Location = new System.Drawing.Point(26, 285);
-			this.mFrameSaveSkinButton.MouseBack = null;
-			this.mFrameSaveSkinButton.Name = "mFrameSaveSkinButton";
-			this.mFrameSaveSkinButton.NormlBack = null;
-			this.mFrameSaveSkinButton.Size = new System.Drawing.Size(80, 25);
-			this.mFrameSaveSkinButton.TabIndex = 7;
-			this.mFrameSaveSkinButton.Text = "保存设置";
-			this.mFrameSaveSkinButton.UseVisualStyleBackColor = false;
-			this.mFrameSaveSkinButton.Click += new System.EventHandler(this.mFrameSaveSkinButton_Click);
-			// 
-			// cancelSkinButton
-			// 
-			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(136, 285);
-			this.cancelSkinButton.MouseBack = null;
-			this.cancelSkinButton.Name = "cancelSkinButton";
-			this.cancelSkinButton.NormlBack = null;
-			this.cancelSkinButton.Size = new System.Drawing.Size(80, 25);
-			this.cancelSkinButton.TabIndex = 7;
-			this.cancelSkinButton.Text = "取消";
-			this.cancelSkinButton.UseVisualStyleBackColor = false;
-			this.cancelSkinButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
-			// 
 			// noticeLabel
 			// 
 			this.noticeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -202,16 +166,36 @@
 			this.noticeLabel.Text = "提示：请在下面文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式;链表数量不可超" +
     "过20个。";
 			// 
+			// saveButton
+			// 
+			this.saveButton.Location = new System.Drawing.Point(26, 283);
+			this.saveButton.Name = "saveButton";
+			this.saveButton.Size = new System.Drawing.Size(80, 25);
+			this.saveButton.TabIndex = 11;
+			this.saveButton.Text = "保存设置";
+			this.saveButton.UseVisualStyleBackColor = true;
+			this.saveButton.Click += new System.EventHandler(this.mFrameSaveSkinButton_Click);
+			// 
+			// cancelButton
+			// 
+			this.cancelButton.Location = new System.Drawing.Point(136, 283);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(80, 25);
+			this.cancelButton.TabIndex = 11;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
+			// 
 			// SKForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.cancelSkinButton;
+			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(247, 327);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.noticeLabel);
 			this.Controls.Add(this.mFrameLKTextBox);
-			this.Controls.Add(this.cancelSkinButton);
-			this.Controls.Add(this.mFrameSaveSkinButton);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.panel26);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -240,10 +224,10 @@
 		private System.Windows.Forms.NumericUpDown frameStepTimeNumericUpDown;
 		private System.Windows.Forms.Label frameLabel;
 		private System.Windows.Forms.TextBox mFrameLKTextBox;
-		private CCWin.SkinControl.SkinButton mFrameSaveSkinButton;
-		private CCWin.SkinControl.SkinButton cancelSkinButton;
 		private System.Windows.Forms.Label noticeLabel;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label trueSTLabel;
+		private System.Windows.Forms.Button saveButton;
+		private System.Windows.Forms.Button cancelButton;
 	}
 }

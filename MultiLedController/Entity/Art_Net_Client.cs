@@ -89,7 +89,7 @@ namespace MultiLedController.Entity
                 UdpClient client = obj as UdpClient;
                 while (this.ReceiveStartStatus)
                 {
-                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, PORT);
+                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ServerIp), PORT);
                     byte[] receiveData = client.Receive(ref endPoint);
                     StringBuilder stringBuilder = new StringBuilder();
                     foreach (byte b in receiveData)
@@ -103,7 +103,6 @@ namespace MultiLedController.Entity
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x20)//接收到ArtPoll包
                     {
-                        Console.WriteLine("接收到搜索包");
                         this.SearchDevice_Receive();
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
@@ -113,10 +112,6 @@ namespace MultiLedController.Entity
                     {
                         int physicalPortIndex = Convert.ToInt16(receiveData[13]);
                         int universe = (int)(receiveData[14] & 0xFF) | ((receiveData[15] & 0xFF) << 8);
-                        if (this.Fields[physicalPortIndex] == universe)
-                        {
-                            Console.WriteLine("控制器" + CurrentIp + "接收到DMX数据-端口：" + physicalPortIndex + "、" + universe);
-                        }
                         int dataLength = (int)(receiveData[17] & 0xFF) | ((receiveData[16] & 0xFF) << 8);
                         byte[] dmxData = new byte[dataLength];
                         Array.Copy(receiveData, 18, dmxData, 0, dataLength);
@@ -126,9 +121,9 @@ namespace MultiLedController.Entity
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(CurrentIp + "关闭UDPClient");
+                Console.WriteLine(CurrentIp + "关闭UDPClient == >" + ex.Message);
             }
         }
         /// <summary>

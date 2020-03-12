@@ -1,6 +1,7 @@
 ﻿using MultiLedController.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -107,9 +108,7 @@ namespace MultiLedController.Entity
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
-            Console.WriteLine("包序:" + Convert.ToInt16(data[4]));
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
-
         }
         /// <summary>
         /// 搜索设备

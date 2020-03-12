@@ -101,7 +101,7 @@ namespace MultiLedController.Utils
         /// <param name="virtuals">虚拟控制器信息，包含虚拟控制器使用的Ip地址以及虚拟控制器空间数量</param>
         /// <param name="serverIp">麦爵士所在的服务器IP</param>
         /// <param name="currentMainIP">本地主IP</param>
-        public void Start(List<VirtualControlInfo> virtuals,string serverIp)
+        public void Start(List<VirtualControlInfo> virtuals,string currentIP, string serverIp)
         {
             if (this.Clients.Count != 0)
             {
@@ -131,7 +131,7 @@ namespace MultiLedController.Utils
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
-            LEDControllerServer.GetInstance().StartServer("192.168.1.21");
+            LEDControllerServer.GetInstance().StartServer(currentIP);
         }
         /// <summary>
         /// 接收DMX数据包处理

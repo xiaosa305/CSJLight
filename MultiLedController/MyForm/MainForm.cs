@@ -22,6 +22,8 @@ namespace MultiLedController.MyForm
 		private bool isDebuging = false;
 		private string filePath = @"C:\Temp\MultiLedFile\record.bin";
 
+		private string localIp ; 
+
 		/// <summary>
 		/// 左侧栏的首要选中项索引值
 		/// </summary>
@@ -91,7 +93,7 @@ namespace MultiLedController.MyForm
 				localIPComboBox.SelectedIndex = -1;
 				setSearchEnable(false);
 				setNotice("本地无可用IP，请设置后重试。");
-			}		
+			}
 		}
 
 		/// <summary>
@@ -166,6 +168,9 @@ namespace MultiLedController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：清除virtualIPListView的选项
+		/// </summary>
 		internal void ClearIPListView()
 		{
 			virtualIPListView.Items.Clear();
@@ -239,7 +244,7 @@ namespace MultiLedController.MyForm
 			{
 				controllerSelectedIndex = controllerListView.SelectedIndices[0];
 				enableLinkButtons();
-			}		
+			}
 		}
 
 		/// <summary>

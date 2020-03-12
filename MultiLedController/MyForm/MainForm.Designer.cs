@@ -55,7 +55,6 @@
 			this.dmxSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.setFilePathButton = new System.Windows.Forms.Button();
 			this.filePathLabel = new System.Windows.Forms.Label();
-			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -161,7 +160,6 @@
 			// virtualIPListView
 			// 
 			this.virtualIPListView.BackColor = System.Drawing.Color.LightSkyBlue;
-			this.virtualIPListView.CheckBoxes = true;
 			this.virtualIPListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader4,
@@ -388,6 +386,5 @@
 		private System.Windows.Forms.SaveFileDialog dmxSaveFileDialog;
 		private System.Windows.Forms.Button setFilePathButton;
 		private System.Windows.Forms.Label filePathLabel;
-		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 	}
 }

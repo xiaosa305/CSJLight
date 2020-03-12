@@ -286,9 +286,13 @@ namespace MultiLedController.Utils
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                     }
                 }
-                if (i == 1 || i == 3)
+                //if (i == 1 || i == 3)
+                //{
+                //    Thread.Sleep(4);
+                //}
+                if (i == 2)
                 {
-                    Thread.Sleep(3);
+                    Thread.Sleep(5);
                 }
             }
         }

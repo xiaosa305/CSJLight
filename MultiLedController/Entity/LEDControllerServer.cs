@@ -107,7 +107,7 @@ namespace MultiLedController.Entity
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
-            Thread.Sleep(2);
+            Console.WriteLine("包序:" + Convert.ToInt16(data[4]));
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
 
         }

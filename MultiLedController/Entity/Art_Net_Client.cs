@@ -69,6 +69,7 @@ namespace MultiLedController.Entity
             //启动接收线程
             this.ReceiveThread.Start(this.UDP_Receive);
             this.Addr = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
+            Console.WriteLine(currentIp + "虚拟客户端启动");
         }
         private void Init()
         {
@@ -127,7 +128,7 @@ namespace MultiLedController.Entity
             }
             catch (Exception)
             {
-                Console.WriteLine("关闭UDPClient");
+                Console.WriteLine(CurrentIp + "关闭UDPClient");
             }
         }
         /// <summary>
@@ -156,9 +157,9 @@ namespace MultiLedController.Entity
         public void Close()
         {
             this.ReceiveStartStatus = false;
-            Thread.Sleep(100);
             this.UDP_Receive.Close();
             this.UDP_Send.Close();
+            Console.WriteLine(CurrentIp + "关闭客户端");
         }
     }
 }

@@ -379,6 +379,7 @@ namespace LightController.MyForm
 			isInit = true;
 		}
 
+
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 启动时刷新可用串口列表;
@@ -437,7 +438,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightListSkinButton_Click(object sender, EventArgs e)
 		{
-			new LightsForm(this, lightAstList).ShowDialog();
+			editLightList();
 		}
 
 		/// <summary>
@@ -496,10 +497,10 @@ namespace LightController.MyForm
 		}
 
 
-#endregion
+		#endregion
 
-#region 工程相关 及 初始化辅助方法		
 		//MARK：SkinMainForm工程相关 及 初始化辅助方法			
+		#region 工程相关 及 初始化辅助方法		
 
 		/// <summary>
 		/// 事件： 点击《新建工程》按钮
@@ -508,16 +509,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newSkinButton_Click(object sender, EventArgs e)
 		{
-			// 9.10 每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
-			IsCreateSuccess = false;
-
-			new NewForm(this).ShowDialog();
-
-			//8.21 ：当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具编辑
-			if (IsCreateSuccess)
-			{
-				lightListSkinButton_Click(null, null);
-			}
+			newProjectClick();
 		}
 
 		/// <summary>
@@ -538,11 +530,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在保存工程,请稍候...");
-			setBusy(true);			
-			saveAll();			
-			setBusy(false);
-			SetNotice("成功保存工程");
+			saveProjectClick();
 		}
 
 		/// <summary>
@@ -552,11 +540,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void frameSaveSkinButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在保存场景,请稍候...");
-			setBusy(true);			
-			saveFrame();			
-			setBusy(false);
-			SetNotice("成功保存场景(" + AllFrameList[frame] + ")");
+			saveFrameClick();
 		}
 
 		/// <summary>
@@ -2114,8 +2098,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void useMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			LightAst la = lightAstList[selectedIndex];
-			new MaterialUseForm(this, mode, la.LightName, la.LightType).ShowDialog();
+			useMaterial();
 		}
 
 		/// <summary>
@@ -2125,12 +2108,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveMaterialSkinButton_Click(object sender, EventArgs e)
 		{
-			LightAst lightAst = lightAstList[selectedIndex];
-			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, lightAst.LightName, lightAst.LightType);
-			if (materialForm != null && !materialForm.IsDisposed)
-			{
-				materialForm.ShowDialog();
-			}
+			saveMaterial();
 		}
 
 #endregion
@@ -2214,7 +2192,6 @@ namespace LightController.MyForm
 			{
 				MessageBox.Show("未找到可用的网络设备，请确认后重试。");
 			}
-
 		}
 
 		/// <summary>
@@ -2417,10 +2394,6 @@ namespace LightController.MyForm
 			}
 		}
 
-		public void Preview() {
-
-			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);
-		}
 
 		/// <summary>
 		///  事件：点击《触发音频》
@@ -2687,11 +2660,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiCopySkinButton_Click(object sender, EventArgs e)
 		{
-			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, selectedLightName, getCurrentStep());
-			if (mscForm != null && !mscForm.IsDisposed)
-			{
-				mscForm.ShowDialog();
-			}
+			multiCopyClick();
 		}
 
 		/// <summary>	
@@ -2701,18 +2670,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiPasteSkinButton_Click(object sender, EventArgs e)
 		{
-			if (TempMaterialAst == null)
-			{
-				MessageBox.Show("还未复制多步，无法粘贴。");
-				return;
-			}
-			if (TempMaterialAst.Mode != mode)
-			{
-				MessageBox.Show("复制的多步与当前模式不同，无法粘贴。");
-				return;
-			}
-			new MultiStepPasteForm(this).ShowDialog();
+			multiPasteClick();
 		}
+
+
 
 		/// <summary>
 		///  事件：点击《调用其他场景》
@@ -2921,7 +2882,7 @@ namespace LightController.MyForm
 		}
 
 		//MARK:12.9 bgWorker相关事件
-#region
+		#region
 		/// <summary>
 		/// 事件：bgWorker的后台工作
 		/// </summary>
@@ -2965,7 +2926,7 @@ namespace LightController.MyForm
 			//else
 			//	this.label1.Text = "处理终止!";
 		}
-#endregion
+		#endregion
 
 
 		public override void SetNotice(string noticeText)
@@ -3006,104 +2967,5 @@ namespace LightController.MyForm
 
 #endregion
 
-	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
-	{
-		private MainFormInterface mainForm;
 
-		public NetworkDebugReceiveCallBack(MainFormInterface mainForm)
-		{
-			this.mainForm = mainForm;
-		}
-
-		public void Completed(string deviceTag)
-		{
-			MessageBox.Show("网络设备(" + deviceTag + ")连接成功。");
-			mainForm.SetNotice("网络设备(" + deviceTag + ")连接成功。");
-			mainForm.EnableConnectedButtons(true);
-		}
-
-		public void Error(string deviceTag, string errorMessage)
-		{
-			MessageBox.Show("网络设备(" + deviceTag + ")连接失败。");
-			mainForm.SetNotice("网络设备(" + deviceTag + ")连接失败");
-		}
-
-		public void GetParam(CSJ_Hardware hardware)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-		{
-			throw new NotImplementedException();
-		}
-	}
-
-	public class NetworkEndDebugReceiveCallBack : ICommunicatorCallBack
-	{
-		public void Completed(string deviceTag)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Error(string deviceTag, string errorMessage)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void GetParam(CSJ_Hardware hardware)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-		{
-			throw new NotImplementedException();
-		}
-	}
-
-	public class PreviewCallBack : ISaveProjectCallBack
-	{
-		SkinMainForm mainForm;
-		public PreviewCallBack(SkinMainForm mainForm) {
-			this.mainForm = mainForm;
-		}
-		public void Completed()
-		{
-			mainForm.SetNotice("预览数据生成成功,正在进行预览。");
-			mainForm.Preview();
-		}
-		public void Error()
-		{
-			mainForm.SetNotice("");
-			MessageBox.Show("预览数据生成出错。");
-		}
-		public void UpdateProgress(string name)
-		{
-			mainForm.SetNotice(name);
-		}
-	}
-
-	public class ExportCallBack : ISaveProjectCallBack
-	{
-		private MainFormInterface mainForm;
-		private string exportFolder;
-		public ExportCallBack(MainFormInterface mainForm , string exportFolder)
-		{
-			this.mainForm = mainForm;
-			this.exportFolder = exportFolder;
-		}
-		public void Completed()
-		{			
-			mainForm.ExportProject(exportFolder ,true);			
-		}
-		public void Error()
-		{			
-			mainForm.ExportProject(exportFolder,false);			
-		}
-		public void UpdateProgress(string name)
-		{
-			mainForm.SetNotice( name );
-		}
-	}
 }

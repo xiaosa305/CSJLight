@@ -2,6 +2,7 @@
 using LightController.Ast;
 using LightController.Common;
 using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using OtherTools;
 using System;
@@ -30,8 +31,8 @@ namespace LightController.MyForm
 			#region 动态读取全局配置
 
 			// 动态更改软件名称
-			softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY Dimmer System");
-			Text = softwareName;
+			softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY");
+			Text = softwareName + " Dimmer System";
 			// 动态设定软件存储目录
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 			// 动态显示测试按钮
@@ -40,7 +41,7 @@ namespace LightController.MyForm
 			hardwareUpdateToolStripMenuItem.Enabled = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");
 
 			//MARK：添加这一句，会去掉其他线程使用本ui空间的问题。
-			//CheckForIllegalCrossThreadCalls = false;
+			CheckForIllegalCrossThreadCalls = false;
 
 			#endregion
 
@@ -119,11 +120,12 @@ namespace LightController.MyForm
 				this.tdNoLabels[i].Size = new System.Drawing.Size(47, 12);
 				this.tdNoLabels[i].TabIndex = 3;
 				this.tdNoLabels[i].Text = "通道" + (i + 1);
+				
 				// 
 				// tdTrackBar1
 				// 
 				this.tdTrackBars[i].AutoSize = false;
-				this.tdTrackBars[i].BackColor = System.Drawing.Color.MintCream;
+				this.tdTrackBars[i].BackColor = System.Drawing.SystemColors.Window;
 				this.tdTrackBars[i].Location = new System.Drawing.Point(32, 35);
 				this.tdTrackBars[i].Maximum = 255;
 				this.tdTrackBars[i].Name = "tdTrackBar" + (i+1);
@@ -214,6 +216,14 @@ namespace LightController.MyForm
 				tdStNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 			}
+
+			// 启动时刷新可用串口列表;
+			refreshComList();
+
+			// 几个按钮添加提示
+			myToolTip.SetToolTip(useFrameButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
+			myToolTip.SetToolTip(chooseStepButton, "跳转指定步");
+			myToolTip.SetToolTip(keepButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
 		}
 
 		#region 几个基类的抽象函数在子类的实现
@@ -315,18 +325,9 @@ namespace LightController.MyForm
 			}
 			this.skinEngine1.Active = true;
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
-		}		
-		
+		}				
 
-		/// <summary>
-		/// 事件：点击《灯具列表》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lightListToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			new LightsForm(this, lightAstList).ShowDialog();
-		}
+		
 
 		/// <summary>
 		/// 事件：更改lightsListView的选中项
@@ -372,6 +373,18 @@ namespace LightController.MyForm
 			new HardwareUpdateForm(this, binPath).ShowDialog();
 		}
 
+		#region 工程相关（打开工程后才能打开一下设置）
+
+		/// <summary>
+		/// 事件：点击《工程相关 - 灯具列表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightListToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			editLightList();
+		}
+
 		/// <summary>
 		/// 事件：点击《工程相关 - 全局配置》
 		/// </summary>
@@ -406,6 +419,8 @@ namespace LightController.MyForm
 
 			new ProjectUpdateForm(this, GetDBWrapper(false), globalIniPath, projectPath).ShowDialog();
 		}
+
+		#endregion
 
 		/// <summary>
 		/// 事件：点击《其他工具 - 外设配置》
@@ -565,27 +580,7 @@ namespace LightController.MyForm
 				}
 			}
 		}		
-		
-		/// <summary>
-		/// 事件：点击《全部归零》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void zeroButton_Click(object sender, EventArgs e)
-		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
-			}
-
-			if (isMultiMode)
-			{
-				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, 0);
-			}
-
-			RefreshStep();
-		}
+				
 
 		#region 工程及场景相关（打开新建保存等）点击事件及辅助方法
 
@@ -596,16 +591,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newProjectButton_Click(object sender, EventArgs e)
 		{
-			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
-			IsCreateSuccess = false;
-
-			new NewForm(this).ShowDialog();
-
-			//当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
-			if (IsCreateSuccess)
-			{
-				lightListToolStripMenuItem_Click(null, null);
-			}
+			newProjectClick();
 		}
 
 		/// <summary>
@@ -635,11 +621,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveFrameButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在保存场景,请稍候...");
-			setBusy(true);
-			saveFrame();
-			setBusy(false);
-			SetNotice("成功保存场景(" + AllFrameList[frame] + ")");
+			saveFrameClick();
 		}
 
 		/// <summary>
@@ -649,11 +631,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveProjectButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在保存工程,请稍候...");
-			setBusy(true);
-			saveAll();
-			setBusy(false);
-			SetNotice("成功保存工程");
+			saveProjectClick();
 		}
 
 		/// <summary>
@@ -664,9 +642,9 @@ namespace LightController.MyForm
 		private void exportProjectButton_Click(object sender, EventArgs e)
 		{
 			DialogResult dr = MessageBox.Show("请确保工程已保存后再进行导出，否则可能会出错。确定现在导出吗？",
-				"导出工程",
-				MessageBoxButtons.OKCancel,
-				MessageBoxIcon.Question);
+					"导出工程？",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
 			if (dr == DialogResult.Cancel)
 			{
 				return;
@@ -748,251 +726,7 @@ namespace LightController.MyForm
 	
 		#endregion
 		
-		#region tdPanel的监听事件
-
-		/// <summary>
-		/// 事件:鼠标进入tdTrackBar时，把焦点切换到其对应的tdValueNumericUpDown中
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
-		{
-			int tdIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
-			tdValueNumericUpDowns[tdIndex].Select();			
-		}
-
-		/// <summary>
-		///  事件：鼠标滚动时，通道值每次只变动一个Increment值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdTrackBars_MouseWheel(object sender, MouseEventArgs e)
-		{			
-			int tdIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				//获取或设置是否应将此事件转发到控件的父容器。
-				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
-				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
-				hme.Handled = true;
-			}
-
-			// 向上滚
-			if (e.Delta > 0)
-			{
-				decimal dd = tdTrackBars[tdIndex].Value + tdTrackBars[tdIndex].SmallChange;
-				if (dd <= tdTrackBars[tdIndex].Maximum)
-				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
-				}
-			}
-			// 向下滚
-			else if (e.Delta < 0)
-			{
-				decimal dd = tdTrackBars[tdIndex].Value - tdTrackBars[tdIndex].SmallChange;
-				if (dd >= tdTrackBars[tdIndex].Minimum)
-				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
-				}
-			}
-		}
-
-		/// <summary>
-		///  事件：TrackBar滚轴值改变时的操作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdTrackBars_ValueChanged(object sender, EventArgs e)
-		{
-			//Console.WriteLine("tdSkinTrackBars_ValueChanged");
-			// 1.先找出对应tdSkinTrackBars的index 
-			int tongdaoIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
-			int tdValue = tdTrackBars[tongdaoIndex].Value;
-
-			//2.把滚动条的值赋给tdValueNumericUpDowns
-			// 8.28	：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
-			tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-			tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
-			tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-
-			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			changeScrollValue(tongdaoIndex, tdValue);
-		}
-
-		/// <summary>
-		/// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
-		{
-			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
-			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			int tdValue = Convert.ToInt16(Double.Parse(tdValueNumericUpDowns[tongdaoIndex].Text));
-
-			// 2.调整相应的vScrollBar的数值；
-			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
-			tdTrackBars[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdTrackBars_ValueChanged);
-			tdTrackBars[tongdaoIndex].Value = tdValue;
-			tdTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
-
-			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			changeScrollValue(tongdaoIndex, tdValue);
-		}
-
-		/// <summary>
-		/// 事件：鼠标进入通道值输入框时，切换焦点;
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
-		{
-			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			tdValueNumericUpDowns[tdIndex].Select();
-		}
-
-		/// <summary>
-		///  事件：鼠标滚动时，通道值每次只变动一个Increment值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
-		{
-			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				//获取或设置是否应将此事件转发到控件的父容器。
-				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
-				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
-				hme.Handled = true;
-			}
-			// 向上滚
-			if (e.Delta > 0)
-			{
-				decimal dd = tdValueNumericUpDowns[tdIndex].Value + tdValueNumericUpDowns[tdIndex].Increment;
-				if (dd <= tdValueNumericUpDowns[tdIndex].Maximum)
-				{
-					tdValueNumericUpDowns[tdIndex].Value = dd;
-				}
-			}
-			// 向下滚
-			else if (e.Delta < 0)
-			{
-				decimal dd = tdValueNumericUpDowns[tdIndex].Value - tdValueNumericUpDowns[tdIndex].Increment;
-				if (dd >= tdValueNumericUpDowns[tdIndex].Minimum)
-				{
-					tdValueNumericUpDowns[tdIndex].Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		///  事件：每个通道对应的变化模式下拉框，值改变后，对应的tongdaoWrapper也应该设置参数 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			// 1.先找出对应changeModeComboBoxes的index
-			int tdIndex = MathAst.GetIndexNum(((ComboBox)sender).Name, -1);
-
-			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
-			StepWrapper step = getCurrentStepWrapper();
-			int changeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
-			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
-
-			//3.多灯模式下，需要把调整复制到各个灯具去
-			if (isMultiMode)
-			{
-				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
-			}
-		}
-
-		/// <summary>
-		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
-		///  --9.4禁用此功能，即无论是否屏蔽，
-		/// </summary>
-		/// <param name="tongdaoIndex">tongdaoList的Index</param>
-		/// <param name="shielded">是否被屏蔽</param>
-		private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-		{
-			tdTrackBars[tongdaoIndex].Enabled = shielded;
-			tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-			tdStNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		}
-
-		/// <summary>
-		/// 事件：鼠标进入步时间输入框时，切换焦点;
-		/// 注意：用MouseEnter事件，而非MouseHover事件;这样才会无延时响应
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
-		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			tdStNumericUpDowns[tdIndex].Select();
-		}
-
-		/// <summary>
-		///  事件：鼠标滚动时，步时间值每次只变动一个Increment值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
-		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = tdStNumericUpDowns[tdIndex].Value + tdStNumericUpDowns[tdIndex].Increment;
-				if (dd <= tdStNumericUpDowns[tdIndex].Maximum)
-				{
-					tdStNumericUpDowns[tdIndex].Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = tdStNumericUpDowns[tdIndex].Value - tdStNumericUpDowns[tdIndex].Increment;
-				if (dd >= tdStNumericUpDowns[tdIndex].Minimum)
-				{
-					tdStNumericUpDowns[tdIndex].Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件： tdStepTimeNumericUpDown值变化时,修改内存中相应Step的tongdaoList的stepTime值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
-		{
-			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-
-			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
-			StepWrapper step = getCurrentStepWrapper();
-			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value);
-			step.TongdaoList[tdIndex].StepTime = stepTime;
-			//TDOO : 3.10 td设为实际步时间长度（直接换算好）
-			//this.tdTrueTimeLabels[tdIndex].Text = (float)step.TongdaoList[tdIndex].StepTime * eachStepTime / 1000 + "s";
-
-			if (isMultiMode)
-			{
-				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
-			}
-		}
-
-		#endregion
+	
 
 		#region stepPanel相关的事件和辅助方法
 
@@ -1118,7 +852,110 @@ namespace LightController.MyForm
 			//最后都要用上RefreshStep()
 			RefreshStep();
 		}
-	
+
+		/// <summary>
+		/// 事件：点击《多灯模式|单灯模式》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiLightButton_Click(object sender, EventArgs e)
+		{
+			// 进入多灯模式
+			if (!isMultiMode)
+			{
+				if (lightsListView.SelectedIndices.Count < 2)
+				{
+					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
+					return;
+				}
+				if (!checkSameLights())
+				{
+					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+					return;
+				}
+				selectedIndices = new List<int>();
+				foreach (int item in lightsListView.SelectedIndices)
+				{
+					selectedIndices.Add(item);
+				}
+				new MultiLightForm(this, isCopyAll, lightAstList, selectedIndices).ShowDialog();
+			}
+			// 退出多灯模式
+			else
+			{
+				lightsAddrLabel.Text = "灯具地址：" + lightAstList[selectedIndex].LightAddr;
+				for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
+				{
+					lightsListView.Items[lightIndex].BackColor = Color.White;
+				}
+				enableSingleMode(true);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法: 确认选中灯具是否否同一种灯具：是则返回true,否则返回false。
+		/// 验证方法：取出第一个选中灯具的名字，若后面的灯具的全名（Tag =lightName + ":" + lightType)与它不同，说明不是同种灯具。（只要一个不同即可判断）
+		/// </summary>
+		/// <returns></returns>
+		private bool checkSameLights()
+		{
+			bool result = true;
+			string firstTag = lightsListView.SelectedItems[0].Tag.ToString();
+			for (int i = 1; i < lightsListView.SelectedItems.Count; i++) // 从第二个选中灯具开始比对
+			{
+				string tempTag = lightsListView.SelectedItems[i].Tag.ToString();
+				if (!firstTag.Equals(tempTag))
+				{
+					result = false;
+					break;
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		///  9.16 辅助方法：进入《多灯模式》
+		/// </summary>
+		/// <param name="groupSelectedIndex"></param>
+		public override void EnterMultiMode(int groupSelectedIndex, bool isCopyAll)
+		{
+			// 基类中统一的处理
+			base.EnterMultiMode(groupSelectedIndex, isCopyAll);
+
+			// 以下为单独针对本Form的方法：			
+			lightsAddrLabel.Text = "灯具地址列表：";
+			foreach (int lightIndex in selectedIndices)
+			{
+				if (lightIndex == selectedIndex)
+				{
+					lightsAddrLabel.Text += "(" + lightAstList[lightIndex].LightAddr + ") ";
+					lightsListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
+				}
+				else
+				{
+					lightsAddrLabel.Text += lightAstList[lightIndex].LightAddr + " ";
+					lightsListView.Items[lightIndex].BackColor = Color.SkyBlue;
+				}
+			}
+			enableSingleMode(false);
+		}
+
+		/// <summary>
+		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
+		/// </summary>
+		/// <param name="isSingleMode"></param>
+		private void enableSingleMode(bool isSingleMode)
+		{
+			isMultiMode = !isSingleMode;
+
+			lightsListView.Enabled = isSingleMode;
+			frameComboBox.Enabled = isSingleMode;
+			modeComboBox.Enabled = isSingleMode;
+			useFrameButton.Enabled = isSingleMode;
+
+			multiLightButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
+		}
+
 		/// <summary>
 		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
@@ -1391,6 +1228,26 @@ namespace LightController.MyForm
 
 		}
 
+		/// <summary>
+		/// 事件：点击《复制多步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiCopyButton_Click(object sender, EventArgs e)
+		{
+			multiCopyClick();
+		}
+
+		/// <summary>
+		/// 事件：点击《粘贴多步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiPasteButton_Click(object sender, EventArgs e)
+		{
+			multiPasteClick();
+		}
+
 		//MARK：chooseStep(int)子类的实现。
 		/// <summary>
 		/// 辅助方法：抽象了【选择某一个指定步数后，统一的操作；NextStep和BackStep等应该都使用这个方法】
@@ -1476,19 +1333,276 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 		}
-			   
-		/// <summary>
-		/// 辅助方法：进入《单灯模式》
-		/// </summary>
-		/// <param name="v"></param>
-		private void enableSingleMode(bool v)
-		{
 
+		/// <summary>
+		/// 事件：点击《保存素材》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveMaterialButton_Click(object sender, EventArgs e)
+		{
+			saveMaterial();
+		}
+
+		/// <summary>
+		/// 事件：点击《使用素材》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void useMaterialButton_Click(object sender, EventArgs e)
+		{
+			useMaterial();
 		}
 
 		#endregion
 
-		#region 灯控调试按钮组点击事件及辅助方法
+		#region tdPanel的监听事件
+
+		/// <summary>
+		/// 事件:鼠标进入tdTrackBar时，把焦点切换到其对应的tdValueNumericUpDown中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
+			tdValueNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		///  事件：鼠标滚动时，通道值每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTrackBars_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				//获取或设置是否应将此事件转发到控件的父容器。
+				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
+				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
+				hme.Handled = true;
+			}
+
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = tdTrackBars[tdIndex].Value + tdTrackBars[tdIndex].SmallChange;
+				if (dd <= tdTrackBars[tdIndex].Maximum)
+				{
+					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = tdTrackBars[tdIndex].Value - tdTrackBars[tdIndex].SmallChange;
+				if (dd >= tdTrackBars[tdIndex].Minimum)
+				{
+					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+				}
+			}
+		}
+
+		/// <summary>
+		///  事件：TrackBar滚轴值改变时的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTrackBars_ValueChanged(object sender, EventArgs e)
+		{
+			//Console.WriteLine("tdSkinTrackBars_ValueChanged");
+			// 1.先找出对应tdSkinTrackBars的index 
+			int tongdaoIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
+			int tdValue = tdTrackBars[tongdaoIndex].Value;
+
+			//2.把滚动条的值赋给tdValueNumericUpDowns
+			// 8.28	：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
+			tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+			tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
+			tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex, tdValue);
+		}
+
+		/// <summary>
+		/// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
+		{
+			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
+			// 1. 找出对应的index
+			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdValue = Convert.ToInt16(Double.Parse(tdValueNumericUpDowns[tongdaoIndex].Text));
+
+			// 2.调整相应的vScrollBar的数值；
+			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
+			tdTrackBars[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdTrackBars_ValueChanged);
+			tdTrackBars[tongdaoIndex].Value = tdValue;
+			tdTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
+
+			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+			changeScrollValue(tongdaoIndex, tdValue);
+		}
+
+		/// <summary>
+		/// 事件：鼠标进入通道值输入框时，切换焦点;
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
+		{
+			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			tdValueNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		///  事件：鼠标滚动时，通道值每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
+		{
+			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				//获取或设置是否应将此事件转发到控件的父容器。
+				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
+				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = tdValueNumericUpDowns[tdIndex].Value + tdValueNumericUpDowns[tdIndex].Increment;
+				if (dd <= tdValueNumericUpDowns[tdIndex].Maximum)
+				{
+					tdValueNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = tdValueNumericUpDowns[tdIndex].Value - tdValueNumericUpDowns[tdIndex].Increment;
+				if (dd >= tdValueNumericUpDowns[tdIndex].Minimum)
+				{
+					tdValueNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		///  事件：每个通道对应的变化模式下拉框，值改变后，对应的tongdaoWrapper也应该设置参数 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应changeModeComboBoxes的index
+			int tdIndex = MathAst.GetIndexNum(((ComboBox)sender).Name, -1);
+
+			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			int changeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
+			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
+
+			//3.多灯模式下，需要把调整复制到各个灯具去
+			if (isMultiMode)
+			{
+				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
+			}
+		}
+
+		/// <summary>
+		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
+		///  --9.4禁用此功能，即无论是否屏蔽，
+		/// </summary>
+		/// <param name="tongdaoIndex">tongdaoList的Index</param>
+		/// <param name="shielded">是否被屏蔽</param>
+		private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
+		{
+			tdTrackBars[tongdaoIndex].Enabled = shielded;
+			tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+			tdStNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		}
+
+		/// <summary>
+		/// 事件：鼠标进入步时间输入框时，切换焦点;
+		/// 注意：用MouseEnter事件，而非MouseHover事件;这样才会无延时响应
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
+		{
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			tdStNumericUpDowns[tdIndex].Select();
+		}
+
+		/// <summary>
+		///  事件：鼠标滚动时，步时间值每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
+		{
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = tdStNumericUpDowns[tdIndex].Value + tdStNumericUpDowns[tdIndex].Increment;
+				if (dd <= tdStNumericUpDowns[tdIndex].Maximum)
+				{
+					tdStNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = tdStNumericUpDowns[tdIndex].Value - tdStNumericUpDowns[tdIndex].Increment;
+				if (dd >= tdStNumericUpDowns[tdIndex].Minimum)
+				{
+					tdStNumericUpDowns[tdIndex].Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件： tdStepTimeNumericUpDown值变化时,修改内存中相应Step的tongdaoList的stepTime值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
+		{
+			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+
+			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
+			StepWrapper step = getCurrentStepWrapper();
+			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value);
+			step.TongdaoList[tdIndex].StepTime = stepTime;
+			//TDOO : 3.10 td设为实际步时间长度（直接换算好）
+			//this.tdTrueTimeLabels[tdIndex].Text = (float)step.TongdaoList[tdIndex].StepTime * eachStepTime / 1000 + "s";
+
+			if (isMultiMode)
+			{
+				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
+			}
+		}
+
+		#endregion
+
+		#region 灯控调试按钮组（playPanel）点击事件及辅助方法
 
 		/// <summary>
 		/// 事件：点击《以网络|串口连接》
@@ -1498,17 +1612,18 @@ namespace LightController.MyForm
 		private void changeConnectMethodButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			changeConnectMethodButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
-			refreshDeviceButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
-		}
+			changeConnectMethodButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 
+			deviceRefreshButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
+		}
 
 		/// <summary>
 		/// 事件:点击《playPanel - 刷新列表》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void refreshDeviceButton_Click(object sender, EventArgs e)
+		private void deviceRefreshButton_Click(object sender, EventArgs e)
 		{
 			if (isConnectCom)
 			{
@@ -1573,7 +1688,6 @@ namespace LightController.MyForm
 		/// </summary>
 		private void refreshNetworkList()
 		{
-
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Enabled = false;
 			ipaList = new List<IPAst>();
@@ -1591,6 +1705,31 @@ namespace LightController.MyForm
 					Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);
 				}
 			}
+
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+			if (allDevices.Count > 0)
+			{
+				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
+				{
+					foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
+					{
+						string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
+						deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);
+						ipaList.Add(new IPAst() { LocalIP = device.Key, DeviceIP = d2.Value.DeviceIp, DeviceName = d2.Value.DeviceName });
+					}
+				}
+			}
+
+			if (ipaList.Count > 0)
+			{
+				deviceComboBox.Enabled = true;
+				deviceComboBox.SelectedIndex = 0;
+			}
+			else
+			{
+				MessageBox.Show("未找到可用的网络设备，请确认后重试。");
+			}
+
 		}
 				
 		/// <summary>
@@ -1656,10 +1795,10 @@ namespace LightController.MyForm
 		/// <param name="v"></param>
 		public override void EnableConnectedButtons(bool connected)
 		{
-			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
+			// 《设备列表》《刷新列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			changeConnectMethodButton.Enabled = !connected;
 			deviceComboBox.Enabled = !connected;
-			refreshDeviceButton.Enabled = !connected;
+			deviceRefreshButton.Enabled = !connected;
 
 			realtimeButton.Enabled = connected;
 			keepButton.Enabled = connected;
@@ -1693,6 +1832,32 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《预览效果》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void previewButton_Click(object sender, EventArgs e)
+		{
+			if (lightAstList == null || lightAstList.Count == 0)
+			{
+				MessageBox.Show("当前工程还未添加灯具，无法预览。");
+				//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
+				return;
+			}
+
+			//previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;
+			SetNotice("正在生成预览数据，请稍候...");
+			try
+			{
+				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, frame, new PreviewCallBack(this));
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+		
+		/// <summary>
 		/// 事件：点击《结束预览》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -1716,9 +1881,18 @@ namespace LightController.MyForm
 			playTools.EndView();
 		}
 
+		/// <summary>
+		/// 事件：点击《触发音频》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void makeSoundButton_Click(object sender, EventArgs e)
+		{
+			playTools.MusicControl();
+			//SetNotice("触发音频");
+		}
 
 		#endregion
-
 
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
@@ -1811,6 +1985,138 @@ namespace LightController.MyForm
 			}
 			unifyPanel.Enabled = false;
 		}
+
+		#region 辅助调节面板
+
+		/// <summary>
+		/// 事件：点击《全部归零》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zeroButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			{
+				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
+			}
+
+			if (isMultiMode)
+			{
+				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, 0);
+			}
+
+			RefreshStep();
+		}
+
+		/// <summary>
+		/// 事件：点击《设为初值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void initButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper stepNow = getCurrentStepWrapper();
+			StepWrapper stepMode = getCurrentStepTemplate();
+			for (int i = 0; i < stepNow.TongdaoList.Count; i++)
+			{
+				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
+			}
+			if (isMultiMode)
+			{
+				// 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
+				copyStepToAll(getCurrentStep(), WHERE.SCROLL_VALUE);
+			}
+			RefreshStep();
+		}
+
+		/// <summary>
+		/// 事件：点击《多步调节》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiButton_Click(object sender, EventArgs e)
+		{
+			MultiStepForm msForm = new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), mode);
+			msForm.ShowDialog();
+		}
+
+		/// <summary>
+		/// 事件：点击《统一通道值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyValueButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+
+			int commonValue = Convert.ToInt16(unifyValueNumericUpDown.Text);
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			{
+				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
+			}
+
+			if (isMultiMode)
+			{
+				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
+			}
+			RefreshStep();
+		}
+
+		/// <summary>
+		/// 事件：点击《统一跳渐变》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyChangeModeButton_Click(object sender, EventArgs e)
+		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+			int commonChangeMode = unifyChangeModeComboBox.SelectedIndex;
+
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+			{
+				getCurrentStepWrapper().TongdaoList[i].ChangeMode = commonChangeMode;
+			}
+			if (isMultiMode)
+			{
+				copyCommonValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
+			}
+			RefreshStep();
+		}
+
+		/// <summary>
+		/// 事件：点击《统一步时间》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyStepTimeButton_Click(object sender, EventArgs e)
+		{
+			string buttonText = unifyStepTimeNumericUpDown.Text;
+			if (buttonText.Equals("统一步时间"))
+			{
+				StepWrapper currentStep = getCurrentStepWrapper();
+				int commonStepTime = Convert.ToInt16(unifyStepTimeNumericUpDown.Text);
+				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
+				{
+					getCurrentStepWrapper().TongdaoList[i].StepTime = commonStepTime;
+				}
+				if (isMultiMode)
+				{
+					copyCommonValueToAll(getCurrentStep(), WHERE.STEP_TIME, commonStepTime);
+				}
+				RefreshStep();
+			}
+			else
+			{
+				new SKForm(this, globalIniPath, frame, frameComboBox.Text).ShowDialog();
+			}
+		}
+
+
+
+
+
+		#endregion
 
 		
 	}

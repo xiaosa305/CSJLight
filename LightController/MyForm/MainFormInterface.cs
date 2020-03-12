@@ -14,6 +14,8 @@ using LightController.Common;
 using LightController.Tools;
 using System.Windows.Forms;
 using System.Threading;
+using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 
 namespace LightController.MyForm
 {
@@ -2011,5 +2013,218 @@ namespace LightController.MyForm
 		//	}
 		//}
 
+
+		#region 一些点击事件的统一实现
+
+		/// <summary>
+		///  辅助方法：使用素材
+		/// </summary>
+		protected void useMaterial()
+		{
+			LightAst la = lightAstList[selectedIndex];
+			new MaterialUseForm(this, mode, la.LightName, la.LightType).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：保存素材
+		/// </summary>
+		protected void saveMaterial() {
+
+			LightAst lightAst = lightAstList[selectedIndex];
+			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, lightAst.LightName, lightAst.LightType);
+			if (materialForm != null && !materialForm.IsDisposed)
+			{
+				materialForm.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《复制多步》
+		/// </summary>
+		protected void multiCopyClick() {
+
+			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, selectedLightName, getCurrentStep());
+			if (mscForm != null && !mscForm.IsDisposed)
+			{
+				mscForm.ShowDialog();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《粘贴多步》
+		/// </summary>
+		protected void multiPasteClick()
+		{
+			if (TempMaterialAst == null)
+			{
+				MessageBox.Show("还未复制多步，无法粘贴。");
+				return;
+			}
+			if (TempMaterialAst.Mode != mode)
+			{
+				MessageBox.Show("复制的多步与当前模式不同，无法粘贴。");
+				return;
+			}
+			new MultiStepPasteForm(this).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：保存场景
+		/// </summary>
+		protected void saveFrameClick() {
+
+			SetNotice("正在保存场景,请稍候...");
+			setBusy(true);
+			saveFrame();
+			setBusy(false);
+			SetNotice("成功保存场景(" + AllFrameList[frame] + ")");
+		}
+
+		/// <summary>
+		/// 辅助方法：保存工程
+		/// </summary>
+		protected void saveProjectClick() {
+			SetNotice("正在保存工程,请稍候...");
+			setBusy(true);
+			saveAll();
+			setBusy(false);
+			SetNotice("成功保存工程");
+		}
+			   
+		/// <summary>
+		/// 辅助方法：预览效果
+		/// </summary>
+		internal void Preview()
+		{
+			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);
+		}
+
+		/// <summary>
+		/// 辅助方法：点击新建工程
+		/// </summary>
+		protected void newProjectClick() {
+
+			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
+			IsCreateSuccess = false;
+			new NewForm(this).ShowDialog();
+
+			//当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
+			if (IsCreateSuccess)
+			{
+				editLightList();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：打开《灯具列表》
+		/// </summary>
+		protected void editLightList() {
+			new LightsForm(this, lightAstList).ShowDialog();
+		}
+
+		#endregion
 	}
+
+	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
+	{
+		private MainFormInterface mainForm;
+
+		public NetworkDebugReceiveCallBack(MainFormInterface mainForm)
+		{
+			this.mainForm = mainForm;
+		}
+
+		public void Completed(string deviceTag)
+		{
+			MessageBox.Show("网络设备(" + deviceTag + ")连接成功。");
+			mainForm.SetNotice("网络设备(" + deviceTag + ")连接成功。");
+			mainForm.EnableConnectedButtons(true);
+		}
+
+		public void Error(string deviceTag, string errorMessage)
+		{
+			MessageBox.Show("网络设备(" + deviceTag + ")连接失败。");
+			mainForm.SetNotice("网络设备(" + deviceTag + ")连接失败");
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class NetworkEndDebugReceiveCallBack : ICommunicatorCallBack
+	{
+		public void Completed(string deviceTag)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Error(string deviceTag, string errorMessage)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GetParam(CSJ_Hardware hardware)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+	public class PreviewCallBack : ISaveProjectCallBack
+	{
+		MainFormInterface mainForm;
+		public PreviewCallBack(MainFormInterface mainForm)
+		{
+			this.mainForm = mainForm;
+		}
+		public void Completed()
+		{
+			mainForm.SetNotice("预览数据生成成功,正在进行预览。");
+			mainForm.Preview();
+		}
+		public void Error()
+		{
+			mainForm.SetNotice("");
+			MessageBox.Show("预览数据生成出错。");
+		}
+		public void UpdateProgress(string name)
+		{
+			mainForm.SetNotice(name);
+		}
+	}
+
+	public class ExportCallBack : ISaveProjectCallBack
+	{
+		private MainFormInterface mainForm;
+		private string exportFolder;
+		public ExportCallBack(MainFormInterface mainForm, string exportFolder)
+		{
+			this.mainForm = mainForm;
+			this.exportFolder = exportFolder;
+		}
+		public void Completed()
+		{
+			mainForm.ExportProject(exportFolder, true);
+		}
+		public void Error()
+		{
+			mainForm.ExportProject(exportFolder, false);
+		}
+		public void UpdateProgress(string name)
+		{
+			mainForm.SetNotice(name);
+		}
+	}
+
 }

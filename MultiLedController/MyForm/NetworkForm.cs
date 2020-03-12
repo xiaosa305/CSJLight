@@ -36,12 +36,25 @@ namespace MultiLedController
 		private MainForm mainForm;
 		private IList<string> virtualIPList;
 
+		private int interfaceCount = 9;
 
 		public NetworkForm(MainForm mainForm)
 		{
 			InitializeComponent();
 			refreshNetcard();
 			this.mainForm = mainForm;
+		}
+
+		public NetworkForm(MainForm mainForm, int ipLast, int interfaceCount) 
+		{
+			InitializeComponent();
+			refreshNetcard();
+			this.mainForm = mainForm;
+
+			
+			numericUpDown1.Value = ipLast ;
+			this.interfaceCount = interfaceCount;
+			set9IPButton.Text = "设置连续" + (interfaceCount + 1) + "个IP地址";
 		}
 
 		private void NetworkForm_Load(object sender, EventArgs e)
@@ -104,7 +117,7 @@ namespace MultiLedController
 			virtualIPList = new List<string>();
 			IList<string> submaskList = new List<string>();
 			firstIP = Decimal.ToInt32(numericUpDown1.Value);
-			for (int i = 0; i < 9; i++)
+			for (int i = 0; i < interfaceCount+1; i++)
 			{
 				virtualIPList.Add("192.168.1." + firstIP++);
 				submaskList.Add("255.255.255.0");
@@ -184,8 +197,7 @@ namespace MultiLedController
 			ManagementBaseObject inPar = null;
 			ManagementBaseObject outPar = null;
 
-			ManagementObject mo = moList[netcardIndex];
-			
+			ManagementObject mo = moList[netcardIndex];			
 			
 			//设置IP地址和掩码
 			if (ipArray != null && submaskArray != null)

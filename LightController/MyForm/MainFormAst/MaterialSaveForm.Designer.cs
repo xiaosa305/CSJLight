@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.nameTextBox = new System.Windows.Forms.TextBox();
 			this.mNameLabel = new System.Windows.Forms.Label();
 			this.tongdaoPanel = new System.Windows.Forms.Panel();
@@ -66,8 +65,6 @@
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
 			this.noticeLabel = new System.Windows.Forms.Label();
-			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
 			this.addNameCheckBox = new System.Windows.Forms.CheckBox();
 			this.lightLabel = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -75,7 +72,9 @@
 			this.startNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label2 = new System.Windows.Forms.Label();
 			this.endNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.allStepSkinButton = new CCWin.SkinControl.SkinButton();
+			this.allStepButton = new System.Windows.Forms.Button();
+			this.saveButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.tongdaoPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
@@ -94,7 +93,7 @@
 			// mNameLabel
 			// 
 			this.mNameLabel.AutoSize = true;
-			this.mNameLabel.Location = new System.Drawing.Point(316, 303);
+			this.mNameLabel.Location = new System.Drawing.Point(317, 303);
 			this.mNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.mNameLabel.Name = "mNameLabel";
 			this.mNameLabel.Size = new System.Drawing.Size(65, 12);
@@ -584,46 +583,11 @@
 			this.noticeLabel.TabIndex = 1;
 			this.noticeLabel.Text = "请勾选要保存的通道";
 			// 
-			// saveSkinButton
-			// 
-			this.saveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.saveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.saveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.saveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.saveSkinButton.DownBack = null;
-			this.saveSkinButton.Location = new System.Drawing.Point(317, 350);
-			this.saveSkinButton.MouseBack = null;
-			this.saveSkinButton.Name = "saveSkinButton";
-			this.saveSkinButton.NormlBack = null;
-			this.saveSkinButton.Size = new System.Drawing.Size(78, 26);
-			this.saveSkinButton.TabIndex = 5;
-			this.saveSkinButton.Text = "保存";
-			this.saveSkinButton.UseVisualStyleBackColor = false;
-			this.saveSkinButton.Click += new System.EventHandler(this.saveButton_Click);
-			// 
-			// cancelSkinButton
-			// 
-			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(434, 350);
-			this.cancelSkinButton.MouseBack = null;
-			this.cancelSkinButton.Name = "cancelSkinButton";
-			this.cancelSkinButton.NormlBack = null;
-			this.cancelSkinButton.Size = new System.Drawing.Size(78, 26);
-			this.cancelSkinButton.TabIndex = 5;
-			this.cancelSkinButton.Text = "取消";
-			this.cancelSkinButton.UseVisualStyleBackColor = false;
-			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
 			// addNameCheckBox
 			// 
 			this.addNameCheckBox.AutoSize = true;
 			this.addNameCheckBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.addNameCheckBox.Location = new System.Drawing.Point(318, 266);
+			this.addNameCheckBox.Location = new System.Drawing.Point(317, 266);
 			this.addNameCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.addNameCheckBox.Name = "addNameCheckBox";
 			this.addNameCheckBox.Size = new System.Drawing.Size(152, 18);
@@ -644,7 +608,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(315, 110);
+			this.label1.Location = new System.Drawing.Point(317, 110);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(125, 12);
@@ -688,7 +652,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(412, 145);
+			this.label2.Location = new System.Drawing.Point(414, 145);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(17, 12);
 			this.label2.TabIndex = 11;
@@ -696,7 +660,7 @@
 			// 
 			// endNumericUpDown
 			// 
-			this.endNumericUpDown.Location = new System.Drawing.Point(450, 141);
+			this.endNumericUpDown.Location = new System.Drawing.Point(453, 141);
 			this.endNumericUpDown.Maximum = new decimal(new int[] {
             48,
             0,
@@ -717,30 +681,45 @@
             0,
             0});
 			// 
-			// allStepSkinButton
+			// allStepButton
 			// 
-			this.allStepSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.allStepSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.allStepSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.allStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.allStepSkinButton.DownBack = null;
-			this.allStepSkinButton.Location = new System.Drawing.Point(443, 105);
-			this.allStepSkinButton.MouseBack = null;
-			this.allStepSkinButton.Name = "allStepSkinButton";
-			this.allStepSkinButton.NormlBack = null;
-			this.allStepSkinButton.Size = new System.Drawing.Size(78, 22);
-			this.allStepSkinButton.TabIndex = 12;
-			this.allStepSkinButton.Text = "全选";
-			this.allStepSkinButton.UseVisualStyleBackColor = false;
-			this.allStepSkinButton.Click += new System.EventHandler(this.allStepSkinButton_Click);
+			this.allStepButton.Location = new System.Drawing.Point(443, 105);
+			this.allStepButton.Name = "allStepButton";
+			this.allStepButton.Size = new System.Drawing.Size(78, 22);
+			this.allStepButton.TabIndex = 13;
+			this.allStepButton.Text = "全选";
+			this.allStepButton.UseVisualStyleBackColor = true;
+			this.allStepButton.Click += new System.EventHandler(this.allStepSkinButton_Click);
+			// 
+			// saveButton
+			// 
+			this.saveButton.Location = new System.Drawing.Point(323, 349);
+			this.saveButton.Name = "saveButton";
+			this.saveButton.Size = new System.Drawing.Size(78, 26);
+			this.saveButton.TabIndex = 14;
+			this.saveButton.Text = "保存";
+			this.saveButton.UseVisualStyleBackColor = true;
+			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+			// 
+			// cancelButton
+			// 
+			this.cancelButton.Location = new System.Drawing.Point(439, 349);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(78, 26);
+			this.cancelButton.TabIndex = 14;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// MaterialSaveForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.cancelSkinButton;
-			this.ClientSize = new System.Drawing.Size(556, 407);
-			this.Controls.Add(this.allStepSkinButton);
+			this.CancelButton = this.cancelButton;
+			this.ClientSize = new System.Drawing.Size(542, 407);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.saveButton);
+			this.Controls.Add(this.allStepButton);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.endNumericUpDown);
 			this.Controls.Add(this.startNumericUpDown);
@@ -748,8 +727,6 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lightLabel);
 			this.Controls.Add(this.addNameCheckBox);
-			this.Controls.Add(this.cancelSkinButton);
-			this.Controls.Add(this.saveSkinButton);
 			this.Controls.Add(this.mNameLabel);
 			this.Controls.Add(this.nameTextBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -812,8 +789,6 @@
 		private System.Windows.Forms.CheckBox checkBox31;
 		private System.Windows.Forms.CheckBox checkBox32;
 		private System.Windows.Forms.CheckBox selectAllCheckBox;
-		private CCWin.SkinControl.SkinButton saveSkinButton;
-		private CCWin.SkinControl.SkinButton cancelSkinButton;
 		private System.Windows.Forms.CheckBox addNameCheckBox;
 		private System.Windows.Forms.Label lightLabel;
 		private System.Windows.Forms.Label label1;
@@ -821,6 +796,8 @@
 		private System.Windows.Forms.NumericUpDown startNumericUpDown;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.NumericUpDown endNumericUpDown;
-		private CCWin.SkinControl.SkinButton allStepSkinButton;
+		private System.Windows.Forms.Button allStepButton;
+		private System.Windows.Forms.Button saveButton;
+		private System.Windows.Forms.Button cancelButton;
 	}
 }

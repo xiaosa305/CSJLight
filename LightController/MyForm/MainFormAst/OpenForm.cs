@@ -45,7 +45,7 @@ namespace LightController.MyForm
 		/// </summary>
 		internal void RefreshTreeView1()
 		{
-			treeView1.Nodes.Clear();
+			projectTreeView.Nodes.Clear();
 			string path = savePath + @"\LightProject";
 			if (Directory.Exists(path))
 			{			
@@ -54,7 +54,7 @@ namespace LightController.MyForm
 				{
 					DirectoryInfo di = new DirectoryInfo(dir);
 					TreeNode treeNode = new TreeNode(di.Name);
-					treeView1.Nodes.Add(treeNode);
+					projectTreeView.Nodes.Add(treeNode);
 				}
 			}
 		}
@@ -67,13 +67,13 @@ namespace LightController.MyForm
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.先验证是否刚删除项目 或 空选项
-			if (isJustDelete  || treeView1.SelectedNode == null)
+			if (isJustDelete  || projectTreeView.SelectedNode == null)
 			{
 				MessageBox.Show("请选择正确的项目名");
 				return;
 			}
 
-			string projectName =  treeView1.SelectedNode.Text;			
+			string projectName =  projectTreeView.SelectedNode.Text;			
 			if ( ! String.IsNullOrEmpty(projectName) )
 			{
 				this.Dispose();
@@ -94,13 +94,13 @@ namespace LightController.MyForm
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
 			// 1.先验证是否刚删除项目
-			if (isJustDelete || treeView1.SelectedNode == null) {
+			if (isJustDelete || projectTreeView.SelectedNode == null) {
 				MessageBox.Show("请选择要删除的工程:");
 				return;
 			}
 
 			// 1. 先取出目录path
-			string projectName = treeView1.SelectedNode.Text;		
+			string projectName = projectTreeView.SelectedNode.Text;		
 
 			// 8.21 验证是否当前项目，若是则不可删除
 			if (projectName.Equals(currentProjectName)) {
@@ -128,7 +128,7 @@ namespace LightController.MyForm
 				return;
 			}
 			// 3.删除treeView1.SelectedNode;并设置ifJustDelete属性为true，避免客户误操作
-			treeView1.SelectedNode.Remove();
+			projectTreeView.SelectedNode.Remove();
 			isJustDelete = true;			
 		}		
 
@@ -163,11 +163,11 @@ namespace LightController.MyForm
 			if (e.Button == MouseButtons.Right)//判断你点的是不是右键
 			{
 				Point ClickPoint = new Point(e.X, e.Y);
-				TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+				TreeNode CurrentNode = projectTreeView.GetNodeAt(ClickPoint);
 				if (CurrentNode != null)//判断你点的是不是一个节点
 				{					
-					treeView1.SelectedNode = CurrentNode;//选中这个节点
-					selectedProjectName = treeView1.SelectedNode.Text;
+					projectTreeView.SelectedNode = CurrentNode;//选中这个节点
+					selectedProjectName = projectTreeView.SelectedNode.Text;
 					CurrentNode.ContextMenuStrip = mySkinContextMenuStrip;
 				}
 			}

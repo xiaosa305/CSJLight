@@ -20,6 +20,7 @@ namespace MultiLedController.MyForm
 		//private IList<string> ipList;
 		private bool isRecording = false;
 		private bool isDebuging = false;
+		private string filePath = @"C:\Temp\MultiLedFile\record.bin";
 
 		/// <summary>
 		/// 左侧栏的首要选中项索引值
@@ -41,6 +42,7 @@ namespace MultiLedController.MyForm
 			this.Text = appName;
 		}
 
+
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			refreshIPList();
@@ -53,7 +55,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void networkButton_Click(object sender, EventArgs e)
 		{
-			new NetworkForm(this).ShowDialog();
+			new NetworkForm( this ).ShowDialog();
 		}
 
 		//事件：点击《刷新IP列表》
@@ -137,13 +139,15 @@ namespace MultiLedController.MyForm
 		{			
 			this.controllerListView.Items.Add(
 				new ListViewItem(new string[]{
-					"",					
-					led.Mac,
-					led.LedName
+					"",										
+					led.LedName,
+					led.Mac
 				})	{
 					Tag = led.IP + "," +
 					led.Led_interface_num+"," + 
-					led.Led_space
+					led.Led_space + "," +
+					led.Mac + "," +
+					led.LedName
 				}
 			);
 		}
@@ -157,7 +161,7 @@ namespace MultiLedController.MyForm
 			virtualIPListView.Items.Clear();
 			for(int i=1;i<virtualIPList.Count; i++)
 			{
-				ListViewItem lvItem = new ListViewItem(new String[] { (i+1).ToString() , virtualIPList[i] , ""});
+				ListViewItem lvItem = new ListViewItem(new String[] { i.ToString() , virtualIPList[i] , ""});
 				virtualIPListView.Items.Add(lvItem);
 			}
 		}
@@ -168,14 +172,32 @@ namespace MultiLedController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《录制DMX | 停止录制》
+		/// 事件：点击《录制数据 | 停止录制》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void recordButton_Click(object sender, EventArgs e)
 		{
-			isRecording = !isRecording;
-			recordButton.Text = isRecording ? "停止录制" : "录制DMX";
+			if (isRecording)
+			{
+				Art_Net_Manager.GetInstance().StopSaveToFile();
+
+				isRecording = false;
+				recordButton.Text = "录制数据";				
+			}
+			else {
+
+				string dirPath = filePath.Substring(0, filePath.LastIndexOf(@"\"));
+				string fileName = filePath.Substring(filePath.LastIndexOf(@"\") + 1);
+
+				Art_Net_Manager.GetInstance().SetSaveDirPath(dirPath);
+				Art_Net_Manager.GetInstance().SetSaveFileName(fileName);
+				Art_Net_Manager.GetInstance().StartSaveToFile();
+
+				isRecording = true;
+				recordButton.Text = "停止录制";		
+			}			
+
 		}
 
 
@@ -187,12 +209,13 @@ namespace MultiLedController.MyForm
 		private void startButton_Click(object sender, EventArgs e)
 		{
 			if (virtuals == null || virtuals.Count == 0) {
-				setNotice("尚未绑定数据。");
+				setNotice("尚未绑定虚拟IP。");
 				return;
-			}
+			}			
+			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text);
 
-			Art_Net_Manager.GetInstance().Start(virtuals ,  mjsTextBox.Text);
 			debugButton.Enabled = true;
+			recordButton.Enabled = true;
 		}
 
 
@@ -215,7 +238,17 @@ namespace MultiLedController.MyForm
 			if (controllerListView.SelectedIndices.Count > 0)
 			{
 				controllerSelectedIndex = controllerListView.SelectedIndices[0];
+				enableLinkButtons();
 			}		
+		}
+
+		/// <summary>
+		/// 辅助方法：由是否选中控制器，来决定是否中间三个按钮是否可用
+		/// </summary>
+		private void enableLinkButtons()
+		{
+			networkButton2.Enabled = controllerSelectedIndex > -1;
+			linkButton.Enabled = controllerSelectedIndex > -1;
 		}
 
 		/// <summary>
@@ -238,6 +271,8 @@ namespace MultiLedController.MyForm
 			string ledIp = args[0];
 			int interfaceCount = int.Parse(args[1]);
 			int spaceCount = int.Parse(args[2]);
+			string mac = args[3];
+			string ledName = args[4];
 
 			ControlDevice device = getSelectedLedControl(controllerSelectedIndex);
 			virtuals = new List<VirtualControlInfo>();
@@ -249,8 +284,8 @@ namespace MultiLedController.MyForm
 
 			foreach (ListViewItem item in virtualIPListView.SelectedItems)
 			{
-				item.SubItems[2].Text = ledIp;				
-				virtuals.Add(new VirtualControlInfo(item.SubItems[1].Text, device));				
+				item.SubItems[2].Text =mac;				
+				virtuals.Add(new VirtualControlInfo(item.SubItems[1].Text ,  device));				
 			}
 
 			if (virtuals == null || virtuals.Count == 0)
@@ -304,8 +339,64 @@ namespace MultiLedController.MyForm
 			}			
 		}
 
-		private void tabPage1_Click(object sender, EventArgs e)
+
+
+		/// <summary>
+		/// 事件：点击《录制文件路径》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setFilePathButton_Click(object sender, EventArgs e)
 		{
+			dmxSaveFileDialog.ShowDialog();	
+		}
+
+		/// <summary>
+		/// 事件：确认《录制文件路径》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dmxSaveFileDialog_FileOk(object sender, CancelEventArgs e)
+		{
+			filePath = dmxSaveFileDialog.FileName;
+			this.filePathLabel.Text = filePath;
+		}
+
+		/// <summary>
+		/// 事件：点击《清除关联》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void clearLinkButton_Click(object sender, EventArgs e)
+		{
+			virtuals = new List<VirtualControlInfo>();
+			foreach (ListViewItem item in virtualIPListView.Items)
+			{
+				item.SubItems[2].Text = "";
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《网络设置（小）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkButton2_Click(object sender, EventArgs e)
+		{
+			if (controllerSelectedIndex == -1)
+			{
+				setNotice("请选择物理设备");
+				return;
+			}
+
+			string[] args = controllerListView.Items[controllerSelectedIndex].Tag.ToString().Split(',');
+			int ipLast = int.Parse(localIPComboBox.Text.Split('.')[3]);
+			int interfaceCount = int.Parse(args[1]);
+			//int spaceCount = int.Parse(args[2]);
+			//string mac = args[3];
+			//string ledName = args[4];
+
+			new NetworkForm(this, ipLast, interfaceCount).ShowDialog(); 
 
 		}
 	}

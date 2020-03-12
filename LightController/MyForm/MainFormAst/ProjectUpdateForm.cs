@@ -104,7 +104,7 @@ namespace LightController.MyForm
 			ipsComboBox.SelectedIndex = -1;
 			ipsComboBox.Enabled = false;
 
-			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
+			networkSearchButton.Enabled = !String.IsNullOrEmpty(localIP);
 		}
 
 
@@ -115,8 +115,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void searchButton_Click(object sender, EventArgs e)
 		{
-			string buttonName = ((SkinButton)sender).Name;
-			if (buttonName.Equals("networkSearchSkinButton"))
+			string buttonName = ((Button)sender).Name;
+			if (buttonName.Equals("networkSearchButton"))
 			{
 				RefreshNetworkDevice();
 			}			
@@ -164,9 +164,9 @@ namespace LightController.MyForm
 		/// </summary>
 		private void searchCOMList()
 		{
-			comSearchSkinButton.Enabled = false;
-			comOpenSkinButton.Enabled = false;
-			comUpdateSkinButton.Enabled = false;
+			comSearchButton.Enabled = false;
+			comOpenButton.Enabled = false;
+			comUpdateButton.Enabled = false;
 
 			comTools = SerialPortTools.GetInstance();
 			string[] comList = comTools.GetSerialPortNameList();
@@ -179,16 +179,16 @@ namespace LightController.MyForm
 				}
 				comComboBox.Enabled = true;
 				comComboBox.SelectedIndex = 0;
-				comOpenSkinButton.Enabled = true;
+				comOpenButton.Enabled = true;
 			}
 			else
 			{
 				comComboBox.Enabled = false;
 				comComboBox.SelectedIndex = -1;
-				comOpenSkinButton.Enabled = false;
+				comOpenButton.Enabled = false;
 				MessageBox.Show("未找到可用串口，请重试");
 			}
-			comSearchSkinButton.Enabled = true;
+			comSearchButton.Enabled = true;
 		}
 
 
@@ -201,29 +201,28 @@ namespace LightController.MyForm
 		private void networkDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text))
-			{
-				//MessageBox.Show(" --------- ");
-				networkdUpdateSkinButton.Enabled = false;
+			{				
+				networkUpdateButton.Enabled = false;
 				return;
 			}
 
 			selectedIPs = new List<string>();
 			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);
-			networkdUpdateSkinButton.Enabled = true;
+			networkUpdateButton.Enabled = true;
 		}
 
 		/// <summary>
-		/// 事件：点击《《选择串口》
+		/// 事件：点击《《打开串口》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void choosetButton_Click(object sender, EventArgs e)
+		private void comOpenButton_Click(object sender, EventArgs e)
 		{
 			comName = comComboBox.Text ;
-			MessageBox.Show("已选中串口设备" + comName);
+			MessageBox.Show("已打开串口设备" + comName);
 			comNameLabel.Text = comName;
 			comTools.OpenCom(comName);
-			comUpdateSkinButton.Enabled = true;			
+			comUpdateButton.Enabled = true;			
 		}
 
 
@@ -250,10 +249,10 @@ namespace LightController.MyForm
 				rightNow = true;
 			}
 
-			string buttonName = ((SkinButton)sender).Name;
-			if (   buttonName.Equals("networkdUpdateSkinButton") )  //网络升级的途径
+			string buttonName = ((Button)sender).Name;
+			if (   buttonName.Equals("networkUpdateButton") )  //网络升级的途径
 			{
-				networkdUpdateSkinButton.Enabled = false;
+				networkUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;				
 				if (rightNow)
 				{					
@@ -264,8 +263,8 @@ namespace LightController.MyForm
 					FileUtils.CopyFileToDownloadDir(projectPath);
 					DownloadProject(true);					
 				}										
-			}
-			else {				
+			} 
+			else {				 /// 串口升级的操作
 				if (rightNow) { 					
 					SetLabelText(false, "正在实时生成工程数据，请耐心等待...");
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this,false));
@@ -280,17 +279,17 @@ namespace LightController.MyForm
 		public void SetBusy(bool busy)
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
-			fileOpenSkinButton.Enabled = !busy;
-			clearSkinButton.Enabled = !busy;
-			getLocalIPsSkinButton.Enabled = !busy;
+			fileOpenButton.Enabled = !busy;
+			clearButton.Enabled = !busy;
+			getLocalIPsButton.Enabled = !busy;
 			localIPsComboBox.Enabled = !busy;
-			networkSearchSkinButton.Enabled = !busy;
-			networkdUpdateSkinButton.Enabled = !busy;
+			networkSearchButton.Enabled = !busy;
+			networkUpdateButton.Enabled = !busy;
 			ipsComboBox.Enabled = !busy;
-			comSearchSkinButton.Enabled = !busy;
+			comSearchButton.Enabled = !busy;
 			comComboBox.Enabled = !busy;
-			comOpenSkinButton.Enabled = !busy;
-			comUpdateSkinButton.Enabled = !busy;
+			comOpenButton.Enabled = !busy;
+			comUpdateButton.Enabled = !busy;
 		}
 
 		public void DownloadProject(bool isNetwork) {

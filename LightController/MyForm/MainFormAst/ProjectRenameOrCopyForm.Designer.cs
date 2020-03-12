@@ -28,49 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
-			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
 			this.projectNameTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.projectNameLabel = new System.Windows.Forms.Label();
+			this.enterButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
-			// 
-			// cancelSkinButton
-			// 
-			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(160, 111);
-			this.cancelSkinButton.MouseBack = null;
-			this.cancelSkinButton.Name = "cancelSkinButton";
-			this.cancelSkinButton.NormlBack = null;
-			this.cancelSkinButton.Size = new System.Drawing.Size(72, 26);
-			this.cancelSkinButton.TabIndex = 6;
-			this.cancelSkinButton.Text = "取消";
-			this.cancelSkinButton.UseVisualStyleBackColor = false;
-			this.cancelSkinButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
-			// 
-			// enterSkinButton
-			// 
-			this.enterSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.enterSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.enterSkinButton.DownBack = null;
-			this.enterSkinButton.Location = new System.Drawing.Point(45, 111);
-			this.enterSkinButton.MouseBack = null;
-			this.enterSkinButton.Name = "enterSkinButton";
-			this.enterSkinButton.NormlBack = null;
-			this.enterSkinButton.Size = new System.Drawing.Size(72, 26);
-			this.enterSkinButton.TabIndex = 7;
-			this.enterSkinButton.Text = "确定";
-			this.enterSkinButton.UseVisualStyleBackColor = false;
-			this.enterSkinButton.Click += new System.EventHandler(this.enterSkinButton_Click);
 			// 
 			// projectNameTextBox
 			// 
@@ -109,20 +73,41 @@
 			this.projectNameLabel.TabIndex = 9;
 			this.projectNameLabel.Text = "原工程名";
 			// 
-			// ProjectRenameForm
+			// enterButton
+			// 
+			this.enterButton.Location = new System.Drawing.Point(43, 114);
+			this.enterButton.Name = "enterButton";
+			this.enterButton.Size = new System.Drawing.Size(72, 26);
+			this.enterButton.TabIndex = 10;
+			this.enterButton.Text = "确定";
+			this.enterButton.UseVisualStyleBackColor = true;
+			this.enterButton.Click += new System.EventHandler(this.enterSkinButton_Click);
+			// 
+			// cancelButton
+			// 
+			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelButton.Location = new System.Drawing.Point(159, 114);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(72, 26);
+			this.cancelButton.TabIndex = 10;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
+			// 
+			// ProjectRenameOrCopyForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.cancelSkinButton;
+			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(265, 161);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.projectNameLabel);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.cancelSkinButton);
-			this.Controls.Add(this.enterSkinButton);
 			this.Controls.Add(this.projectNameTextBox);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "ProjectRenameForm";
+			this.Name = "ProjectRenameOrCopyForm";
 			this.Text = "工程重命名";
 			this.Load += new System.EventHandler(this.RenameForm_Load);
 			this.ResumeLayout(false);
@@ -131,12 +116,11 @@
 		}
 
 		#endregion
-
-		private CCWin.SkinControl.SkinButton cancelSkinButton;
-		private CCWin.SkinControl.SkinButton enterSkinButton;
 		private System.Windows.Forms.TextBox projectNameTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label projectNameLabel;
+		private System.Windows.Forms.Button enterButton;
+		private System.Windows.Forms.Button cancelButton;
 	}
 }

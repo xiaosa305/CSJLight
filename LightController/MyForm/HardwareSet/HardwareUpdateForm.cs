@@ -57,7 +57,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
+		private void getLocalIPsButton_Click(object sender, EventArgs e)
 		{
 			getLocalIPs();
 		}
@@ -101,7 +101,7 @@ namespace LightController.MyForm
 			ipsComboBox.SelectedIndex = -1;
 			ipsComboBox.Enabled = false;
 
-			networkSearchSkinButton.Enabled = !String.IsNullOrEmpty(localIP);
+			networkSearchButton.Enabled = !String.IsNullOrEmpty(localIP);
 		}		
 
 		/// <summary>
@@ -111,10 +111,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void searchButton_Click(object sender, EventArgs e)
 		{
-			string buttonName =((SkinButton)sender).Name;
+			string buttonName =((Button)sender).Name;
 
 			//点击《搜索网络设备》
-			if (buttonName.Equals("networkSearchSkinButton")) 
+			if (buttonName.Equals("networkSearchButton")) 
 			{
 				ipsComboBox.Items.Clear();
 				ips = new List<string>();
@@ -155,9 +155,9 @@ namespace LightController.MyForm
 		/// </summary>
 		private void searchCOMList()
 		{
-			comSearchSkinButton.Enabled = false;
-			comChooseSkinButton.Enabled = false;
-			comUpdateSkinButton.Enabled = false;
+			comSearchButton.Enabled = false;
+			comConnectButton.Enabled = false;
+			comUpdateButton.Enabled = false;
 
 			comTools = SerialPortTools.GetInstance();
 			string[] comList = comTools.GetSerialPortNameList();
@@ -170,16 +170,16 @@ namespace LightController.MyForm
 				}
 				comComboBox.Enabled = true;
 				comComboBox.SelectedIndex = 0;
-				comChooseSkinButton.Enabled = true;
+				comConnectButton.Enabled = true;
 			}
 			else
 			{
 				comComboBox.Enabled = false;
 				comComboBox.SelectedIndex = -1;
-				comChooseSkinButton.Enabled = false;
+				comConnectButton.Enabled = false;
 				MessageBox.Show("未找到可用串口，请重试");
 			}
-			comSearchSkinButton.Enabled = true;
+			comSearchButton.Enabled = true;
 		}
 
 
@@ -191,13 +191,13 @@ namespace LightController.MyForm
 		private void networkDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text)) {
-				networkdUpdateSkinButton.Enabled = false;
+				networkdUpdateButton.Enabled = false;
 				return;
 			}
 
 			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);	
-			networkdUpdateSkinButton.Enabled = isChooseFile;
+			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);
+			networkdUpdateButton.Enabled = isChooseFile;
 		}
 
 		/// <summary>
@@ -205,13 +205,13 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void comChooseButton_Click(object sender, EventArgs e)
+		private void comConnectButton_Click(object sender, EventArgs e)
 		{
 			comName = comComboBox.Text;
 			MessageBox.Show("已打开串口：" + comName);
 			comNameLabel.Text = comName;
 			comTools.OpenCom(comName);
-			comUpdateSkinButton.Enabled = isChooseFile;
+			comUpdateButton.Enabled = isChooseFile;
 		}
 
 
@@ -227,10 +227,10 @@ namespace LightController.MyForm
 				return;
 			}
 
-			string buttonName = ((SkinButton)sender).Name;
-			if (buttonName.Equals("networkdUpdateSkinButton"))
+			string buttonName = ((Button)sender).Name;
+			if (buttonName.Equals("networkdUpdateButton"))
 			{
-				networkdUpdateSkinButton.Enabled = false;
+				networkdUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;
 				connectTools.Update( selectedIPs , binPath,  new HardwareUpdateReceiveCallBack(this,true));
 			}
@@ -245,7 +245,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void fileOpenSkinButton_Click(object sender, EventArgs e)
+		private void fileOpenButton_Click(object sender, EventArgs e)
 		{
 			openFileDialog.ShowDialog();
 		}
@@ -271,9 +271,8 @@ namespace LightController.MyForm
 			mainForm.SetBinPath(binPath);
 
 			isChooseFile = !String.IsNullOrEmpty(binPath);
-			networkdUpdateSkinButton.Enabled = isChooseFile && !String.IsNullOrEmpty(ipsComboBox.Text);
-			comUpdateSkinButton.Enabled = isChooseFile && !String.IsNullOrEmpty(comName);	
-
+			networkdUpdateButton.Enabled = isChooseFile && !String.IsNullOrEmpty(ipsComboBox.Text);
+			comUpdateButton.Enabled = isChooseFile && !String.IsNullOrEmpty(comName);	
 		}
 
 		private void HardwareUpdateForm_HelpButtonClicked(object sender, CancelEventArgs e)

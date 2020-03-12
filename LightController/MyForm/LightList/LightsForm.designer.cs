@@ -38,14 +38,14 @@ namespace LightController
 			this.largeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.label1 = new System.Windows.Forms.Label();
 			this.skinTreeView1 = new CCWin.SkinControl.SkinTreeView();
-			this.lightsSkinListView = new CCWin.SkinControl.SkinListView();
-			this.lightName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.LightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.LightAddr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.addButton = new System.Windows.Forms.Button();
 			this.deleteButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.lightsListView = new System.Windows.Forms.ListView();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
 			// 
 			// largeImageList
@@ -146,45 +146,6 @@ namespace LightController
 			this.skinTreeView1.TabIndex = 7;
 			this.skinTreeView1.DoubleClick += new System.EventHandler(this.addLightButton_Click);
 			// 
-			// lightsSkinListView
-			// 
-			this.lightsSkinListView.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.lightsSkinListView.BorderColor = System.Drawing.Color.Black;
-			this.lightsSkinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.lightName,
-            this.LightType,
-            this.LightAddr});
-			this.lightsSkinListView.Dock = System.Windows.Forms.DockStyle.Right;
-			this.lightsSkinListView.FullRowSelect = true;
-			this.lightsSkinListView.GridLines = true;
-			this.lightsSkinListView.HeadColor = System.Drawing.Color.White;
-			this.lightsSkinListView.HideSelection = false;
-			this.lightsSkinListView.Location = new System.Drawing.Point(419, 0);
-			this.lightsSkinListView.Name = "lightsSkinListView";
-			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.RowBackColor1 = System.Drawing.Color.Transparent;
-			this.lightsSkinListView.RowBackColor2 = System.Drawing.Color.Transparent;
-			this.lightsSkinListView.Size = new System.Drawing.Size(328, 509);
-			this.lightsSkinListView.TabIndex = 8;
-			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
-			this.lightsSkinListView.View = System.Windows.Forms.View.Details;
-			this.lightsSkinListView.DoubleClick += new System.EventHandler(this.lightsListView_DoubleClick);
-			// 
-			// lightName
-			// 
-			this.lightName.Text = "厂商名";
-			this.lightName.Width = 97;
-			// 
-			// LightType
-			// 
-			this.LightType.Text = "型号";
-			this.LightType.Width = 92;
-			// 
-			// LightAddr
-			// 
-			this.LightAddr.Text = "通道地址";
-			this.LightAddr.Width = 86;
-			// 
 			// addButton
 			// 
 			this.addButton.Location = new System.Drawing.Point(290, 63);
@@ -226,6 +187,39 @@ namespace LightController
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
+			// lightsListView
+			// 
+			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
+			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lightsListView.FullRowSelect = true;
+			this.lightsListView.GridLines = true;
+			this.lightsListView.HideSelection = false;
+			this.lightsListView.Location = new System.Drawing.Point(419, 0);
+			this.lightsListView.Name = "lightsListView";
+			this.lightsListView.Size = new System.Drawing.Size(328, 509);
+			this.lightsListView.TabIndex = 12;
+			this.lightsListView.UseCompatibleStateImageBehavior = false;
+			this.lightsListView.View = System.Windows.Forms.View.Details;
+			this.lightsListView.DoubleClick += new System.EventHandler(this.lightsListView_DoubleClick);
+			// 
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "厂商名";
+			this.columnHeader1.Width = 90;
+			// 
+			// columnHeader2
+			// 
+			this.columnHeader2.Text = "型号";
+			this.columnHeader2.Width = 120;
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "通道地址";
+			this.columnHeader3.Width = 100;
+			// 
 			// LightsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -233,11 +227,11 @@ namespace LightController
 			this.BackColor = System.Drawing.Color.LightSteelBlue;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(747, 509);
+			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.deleteButton);
 			this.Controls.Add(this.addButton);
-			this.Controls.Add(this.lightsSkinListView);
 			this.Controls.Add(this.skinTreeView1);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -257,13 +251,13 @@ namespace LightController
 		private ImageList largeImageList;
 		private Label label1;
 		private CCWin.SkinControl.SkinTreeView skinTreeView1;
-		private CCWin.SkinControl.SkinListView lightsSkinListView;
-		private ColumnHeader lightName;
-		private ColumnHeader LightType;
-		private ColumnHeader LightAddr;
 		private Button addButton;
 		private Button deleteButton;
 		private Button enterButton;
 		private Button cancelButton;
+		private ListView lightsListView;
+		private ColumnHeader columnHeader1;
+		private ColumnHeader columnHeader2;
+		private ColumnHeader columnHeader3;
 	}
 }

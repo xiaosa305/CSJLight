@@ -32,6 +32,9 @@ namespace LightController.MyForm
 		{
 			this.components = new System.ComponentModel.Container();
 			this.skGroupBox = new System.Windows.Forms.GroupBox();
+			this.saveButton = new System.Windows.Forms.Button();
+			this.unifyZXButton = new System.Windows.Forms.Button();
+			this.unifyJGButton = new System.Windows.Forms.Button();
 			this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.label4 = new System.Windows.Forms.Label();
@@ -46,12 +49,10 @@ namespace LightController.MyForm
 			this.label32 = new System.Windows.Forms.Label();
 			this.label33 = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.saveSkinButton = new CCWin.SkinControl.SkinButton();
-			this.commonZXSkinButton = new CCWin.SkinControl.SkinButton();
-			this.commonJGSkinButton = new CCWin.SkinControl.SkinButton();
 			this.allCheckBox = new System.Windows.Forms.CheckBox();
 			this.commonZXNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.commonJGNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.skGroupBox.SuspendLayout();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.panel2.SuspendLayout();
@@ -64,11 +65,11 @@ namespace LightController.MyForm
 			// skGroupBox
 			// 
 			this.skGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.skGroupBox.Controls.Add(this.saveButton);
+			this.skGroupBox.Controls.Add(this.unifyZXButton);
+			this.skGroupBox.Controls.Add(this.unifyJGButton);
 			this.skGroupBox.Controls.Add(this.flowLayoutPanel2);
 			this.skGroupBox.Controls.Add(this.flowLayoutPanel1);
-			this.skGroupBox.Controls.Add(this.saveSkinButton);
-			this.skGroupBox.Controls.Add(this.commonZXSkinButton);
-			this.skGroupBox.Controls.Add(this.commonJGSkinButton);
 			this.skGroupBox.Controls.Add(this.allCheckBox);
 			this.skGroupBox.Controls.Add(this.commonZXNumericUpDown);
 			this.skGroupBox.Controls.Add(this.commonJGNumericUpDown);
@@ -81,6 +82,36 @@ namespace LightController.MyForm
 			this.skGroupBox.TabIndex = 3;
 			this.skGroupBox.TabStop = false;
 			this.skGroupBox.Text = "各场景摇麦设置";
+			// 
+			// saveButton
+			// 
+			this.saveButton.Location = new System.Drawing.Point(805, 518);
+			this.saveButton.Name = "saveButton";
+			this.saveButton.Size = new System.Drawing.Size(75, 32);
+			this.saveButton.TabIndex = 15;
+			this.saveButton.Text = "保存设置";
+			this.saveButton.UseVisualStyleBackColor = true;
+			this.saveButton.Click += new System.EventHandler(this.ymSaveButton_Click);
+			// 
+			// unifyZXButton
+			// 
+			this.unifyZXButton.Location = new System.Drawing.Point(548, 521);
+			this.unifyZXButton.Name = "unifyZXButton";
+			this.unifyZXButton.Size = new System.Drawing.Size(110, 26);
+			this.unifyZXButton.TabIndex = 14;
+			this.unifyZXButton.Text = "统一摇麦执行时间";
+			this.unifyZXButton.UseVisualStyleBackColor = true;
+			this.unifyZXButton.Click += new System.EventHandler(this.unifyZXButton_Click);
+			// 
+			// unifyJGButton
+			// 
+			this.unifyJGButton.Location = new System.Drawing.Point(324, 521);
+			this.unifyJGButton.Name = "unifyJGButton";
+			this.unifyJGButton.Size = new System.Drawing.Size(110, 26);
+			this.unifyJGButton.TabIndex = 14;
+			this.unifyJGButton.Text = "统一摇麦间隔时间";
+			this.unifyJGButton.UseVisualStyleBackColor = true;
+			this.unifyJGButton.Click += new System.EventHandler(this.unifyJGButton_Click);
 			// 
 			// flowLayoutPanel2
 			// 
@@ -219,61 +250,10 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(869, 455);
 			this.flowLayoutPanel1.TabIndex = 12;
 			// 
-			// saveSkinButton
-			// 
-			this.saveSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.saveSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.saveSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.saveSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.saveSkinButton.DownBack = null;
-			this.saveSkinButton.Location = new System.Drawing.Point(831, 514);
-			this.saveSkinButton.MouseBack = null;
-			this.saveSkinButton.Name = "saveSkinButton";
-			this.saveSkinButton.NormlBack = null;
-			this.saveSkinButton.Size = new System.Drawing.Size(75, 32);
-			this.saveSkinButton.TabIndex = 11;
-			this.saveSkinButton.Text = "保存设置";
-			this.saveSkinButton.UseVisualStyleBackColor = false;
-			this.saveSkinButton.Click += new System.EventHandler(this.ymSaveButton_Click);
-			// 
-			// commonZXSkinButton
-			// 
-			this.commonZXSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.commonZXSkinButton.BaseColor = System.Drawing.Color.Tan;
-			this.commonZXSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.commonZXSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.commonZXSkinButton.DownBack = null;
-			this.commonZXSkinButton.Location = new System.Drawing.Point(548, 517);
-			this.commonZXSkinButton.MouseBack = null;
-			this.commonZXSkinButton.Name = "commonZXSkinButton";
-			this.commonZXSkinButton.NormlBack = null;
-			this.commonZXSkinButton.Size = new System.Drawing.Size(110, 26);
-			this.commonZXSkinButton.TabIndex = 10;
-			this.commonZXSkinButton.Text = "统一摇麦执行时间";
-			this.commonZXSkinButton.UseVisualStyleBackColor = false;
-			this.commonZXSkinButton.Click += new System.EventHandler(this.commonZXButton_Click);
-			// 
-			// commonJGSkinButton
-			// 
-			this.commonJGSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.commonJGSkinButton.BaseColor = System.Drawing.Color.Tan;
-			this.commonJGSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.commonJGSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.commonJGSkinButton.DownBack = null;
-			this.commonJGSkinButton.Location = new System.Drawing.Point(324, 517);
-			this.commonJGSkinButton.MouseBack = null;
-			this.commonJGSkinButton.Name = "commonJGSkinButton";
-			this.commonJGSkinButton.NormlBack = null;
-			this.commonJGSkinButton.Size = new System.Drawing.Size(110, 26);
-			this.commonJGSkinButton.TabIndex = 10;
-			this.commonJGSkinButton.Text = "统一摇麦间隔时间";
-			this.commonJGSkinButton.UseVisualStyleBackColor = false;
-			this.commonJGSkinButton.Click += new System.EventHandler(this.commonJGButton_Click);
-			// 
 			// allCheckBox
 			// 
 			this.allCheckBox.AutoSize = true;
-			this.allCheckBox.Location = new System.Drawing.Point(155, 523);
+			this.allCheckBox.Location = new System.Drawing.Point(155, 529);
 			this.allCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.allCheckBox.Name = "allCheckBox";
 			this.allCheckBox.Size = new System.Drawing.Size(72, 16);
@@ -284,7 +264,7 @@ namespace LightController.MyForm
 			// 
 			// commonZXNumericUpDown
 			// 
-			this.commonZXNumericUpDown.Location = new System.Drawing.Point(499, 521);
+			this.commonZXNumericUpDown.Location = new System.Drawing.Point(499, 524);
 			this.commonZXNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonZXNumericUpDown.Maximum = new decimal(new int[] {
             60,
@@ -308,7 +288,7 @@ namespace LightController.MyForm
 			// 
 			// commonJGNumericUpDown
 			// 
-			this.commonJGNumericUpDown.Location = new System.Drawing.Point(275, 521);
+			this.commonJGNumericUpDown.Location = new System.Drawing.Point(275, 524);
 			this.commonJGNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonJGNumericUpDown.Maximum = new decimal(new int[] {
             10,
@@ -372,10 +352,6 @@ namespace LightController.MyForm
 		private CheckBox[] ymCheckBoxes = new CheckBox[24];
 		private NumericUpDown[] zxNumericUpDowns = new NumericUpDown[24];
 		private NumericUpDown[] jgNumericUpDowns = new NumericUpDown[24];
-
-		private CCWin.SkinControl.SkinButton saveSkinButton;
-		private CCWin.SkinControl.SkinButton commonZXSkinButton;
-		private CCWin.SkinControl.SkinButton commonJGSkinButton;
 		private FlowLayoutPanel flowLayoutPanel2;
 		private Panel panel2;
 		private FlowLayoutPanel flowLayoutPanel1;
@@ -387,5 +363,9 @@ namespace LightController.MyForm
 		private Label label30;
 		private Label label32;
 		private Label label33;
+		private Button unifyZXButton;
+		private Button unifyJGButton;
+		private Button saveButton;
+		private ToolTip myToolTip;
 	}
 }

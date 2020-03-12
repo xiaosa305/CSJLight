@@ -28,11 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.hNameTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.cancelSkinButton = new CCWin.SkinControl.SkinButton();
-			this.enterSkinButton = new CCWin.SkinControl.SkinButton();
+			this.enterButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// hNameTextBox
@@ -53,49 +52,33 @@
 			this.label1.TabIndex = 2;
 			this.label1.Text = "硬件配置名：";
 			// 
-			// cancelSkinButton
+			// enterButton
 			// 
-			this.cancelSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.cancelSkinButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.cancelSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.cancelSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.cancelSkinButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelSkinButton.DownBack = null;
-			this.cancelSkinButton.Location = new System.Drawing.Point(166, 71);
-			this.cancelSkinButton.MouseBack = null;
-			this.cancelSkinButton.Name = "cancelSkinButton";
-			this.cancelSkinButton.NormlBack = null;
-			this.cancelSkinButton.Size = new System.Drawing.Size(72, 26);
-			this.cancelSkinButton.TabIndex = 4;
-			this.cancelSkinButton.Text = "取消";
-			this.cancelSkinButton.UseVisualStyleBackColor = false;
-			this.cancelSkinButton.Click += new System.EventHandler(this.cancelButton_Click);
+			this.enterButton.Location = new System.Drawing.Point(51, 74);
+			this.enterButton.Name = "enterButton";
+			this.enterButton.Size = new System.Drawing.Size(75, 23);
+			this.enterButton.TabIndex = 6;
+			this.enterButton.Text = "确认";
+			this.enterButton.UseVisualStyleBackColor = true;
+			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
-			// enterSkinButton
+			// cancelButton
 			// 
-			this.enterSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.enterSkinButton.BaseColor = System.Drawing.Color.SkyBlue;
-			this.enterSkinButton.BorderColor = System.Drawing.Color.Black;
-			this.enterSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.enterSkinButton.DownBack = null;
-			this.enterSkinButton.Location = new System.Drawing.Point(51, 71);
-			this.enterSkinButton.MouseBack = null;
-			this.enterSkinButton.Name = "enterSkinButton";
-			this.enterSkinButton.NormlBack = null;
-			this.enterSkinButton.Size = new System.Drawing.Size(72, 26);
-			this.enterSkinButton.TabIndex = 5;
-			this.enterSkinButton.Text = "确定";
-			this.enterSkinButton.UseVisualStyleBackColor = false;
-			this.enterSkinButton.Click += new System.EventHandler(this.enterButton_Click);
+			this.cancelButton.Location = new System.Drawing.Point(171, 74);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(75, 23);
+			this.cancelButton.TabIndex = 6;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// HardwareSaveForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.cancelSkinButton;
-			this.ClientSize = new System.Drawing.Size(293, 122);
-			this.Controls.Add(this.cancelSkinButton);
-			this.Controls.Add(this.enterSkinButton);
+			this.ClientSize = new System.Drawing.Size(293, 118);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.hNameTextBox);
 			this.Controls.Add(this.label1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -117,7 +100,7 @@
 
 		private System.Windows.Forms.TextBox hNameTextBox;
 		private System.Windows.Forms.Label label1;
-		private CCWin.SkinControl.SkinButton cancelSkinButton;
-		private CCWin.SkinControl.SkinButton enterSkinButton;
+		private System.Windows.Forms.Button enterButton;
+		private System.Windows.Forms.Button cancelButton;
 	}
 }

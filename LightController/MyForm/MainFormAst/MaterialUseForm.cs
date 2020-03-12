@@ -102,7 +102,7 @@ namespace LightController.MyForm
 			string iniPath = getIniPath();
 			if (iniPath != null) {
 				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
-				InsertMethod method = ((Button)sender).Name == "insertSkinButton" ? InsertMethod.INSERT : InsertMethod.COVER;
+				InsertMethod method = ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER;
 				mainForm.InsertOrCoverMaterial(materialAst, method);
 
 				this.Dispose();

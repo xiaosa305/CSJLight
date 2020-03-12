@@ -91,21 +91,22 @@ namespace LightController.MyForm
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
 		protected string projectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）
-		protected Dictionary<int, int> lightDictionary = null ;		       
+		protected Dictionary<int, int> lightDictionary = null ;
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
 		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
-		protected virtual void enableSave(bool enable) { }  // 是否显示《保存工程》等
-		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { }  //是否显示《 存、取 灯具位置》		
-		protected virtual void showPlayPanel(bool visible) { } // 是否显示PlayFlowLayoutPanel
-		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
-		protected virtual void chooseStep(int stepNum) { }  //选步
+		protected virtual void enableSave(bool enable){} // 是否显示《保存工程》等
+		protected virtual void enableSLArrange(bool enableSave, bool enableLoad){} //是否显示《 存、取 灯具位置》		
+		protected virtual void showPlayPanel(bool visible){}// 是否显示PlayFlowLayoutPanel
+		protected virtual void enableRefreshPic(bool enable){} // 是否使能《重新加载灯具图片》
+		protected virtual void chooseStep(int stepNum){} //选步
+		protected virtual void setBusy(bool buzy){} //设置是否忙时
 
-		protected virtual void setBusy(bool buzy) { } //设置是否忙时
-		public virtual void ResetSyncMode() { } // 清空syncStep
-		public virtual void SetNotice(string notice) { } //设置提示信息
-		public virtual void EnableConnectedButtons(bool connected) { } //设置《连接按钮组》是否可用
+		public virtual void ResetSyncMode(){} // 清空syncStep
+		public virtual void SetNotice(string notice){} //设置提示信息
+		public virtual void EnableConnectedButtons(bool connected){} //设置《连接按钮组》是否可用
+		public virtual void ExportProject(string exportPath, bool success){} // 导出工程实际代码
 
 		#endregion
 

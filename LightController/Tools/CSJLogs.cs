@@ -13,29 +13,32 @@ namespace LightController.Tools
         private string FileName { get; set; }
         private const string LogFileDirector = @"C:\Temp\LightLog";
         private FileStream Stream { get; set; }
+        private static bool IsCatchhLog = false;
 
         private CSJLogs()
         {
-            if (!Directory.Exists(LogFileDirector))
+            if (IsCatchhLog)
             {
-                Directory.CreateDirectory(LogFileDirector);
+                if (!Directory.Exists(LogFileDirector))
+                {
+                    Directory.CreateDirectory(LogFileDirector);
+                }
+                string year = DateTime.Now.Year.ToString();
+                string month = string.Empty;
+                string day = string.Empty;
+                if (DateTime.Now.Month < 10)
+                {
+                    month = "0";
+                }
+                month += DateTime.Now.Month.ToString(); ;
+                if (DateTime.Now.Day < 10)
+                {
+                    day = "0";
+                }
+                day += DateTime.Now.Day.ToString();
+                FileName = year + month + day + ".ini";
+                Stream = new FileStream(LogFileDirector + @"\" + FileName, FileMode.Append);
             }
-            string year = DateTime.Now.Year.ToString();
-            string month = string.Empty;
-            string day = string.Empty;
-            if (DateTime.Now.Month < 10)
-            {
-                month = "0";
-            }
-            month += DateTime.Now.Month.ToString(); ;
-            if (DateTime.Now.Day < 10)
-            {
-                day = "0";
-            }
-            day += DateTime.Now.Day.ToString();
-            FileName = year + month + day + ".ini";
-            Stream = new FileStream(LogFileDirector + @"\" + FileName, FileMode.Append);
-
         }
 
         public static CSJLogs GetInstance()
@@ -49,26 +52,35 @@ namespace LightController.Tools
 
         public void ErrorLog(Exception ex)
         {
-            string message = ex.StackTrace + ":" + ex.Message + "\r\n";
-            byte[] data = Encoding.Default.GetBytes(@"[ERROR]" + DateTime.Now + ":" + message);
-            Stream.Write(data, 0, data.Length);
-            Stream.Flush();
-            Console.WriteLine("CSJ_LOG_PRINT=======>" + ex.StackTrace);
+            if (IsCatchhLog)
+            {
+                string message = ex.StackTrace + ":" + ex.Message + "\r\n";
+                byte[] data = Encoding.Default.GetBytes(@"[ERROR]" + DateTime.Now + ":" + message);
+                Stream.Write(data, 0, data.Length);
+                Stream.Flush();
+                Console.WriteLine("CSJ_LOG_PRINT=======>" + ex.StackTrace);
+            }
         }
 
         public void ErrorLog(Exception ex,string errorStr)
         {
-            string message = ex.StackTrace + ":" + ex.Message + "\r\n" + errorStr + "\r\n";
-            byte[] data = Encoding.Default.GetBytes(@"[ERROR]" + DateTime.Now + ":" + message);
-            Stream.Write(data, 0, data.Length);
-            Stream.Flush();
+            if (IsCatchhLog)
+            {
+                string message = ex.StackTrace + ":" + ex.Message + "\r\n" + errorStr + "\r\n";
+                byte[] data = Encoding.Default.GetBytes(@"[ERROR]" + DateTime.Now + ":" + message);
+                Stream.Write(data, 0, data.Length);
+                Stream.Flush();
+            }
         }
 
         public void DebugLog(string debugStr)
         {
-            byte[] data = Encoding.Default.GetBytes(@"[DEBUG]" + DateTime.Now + ":" + debugStr + "\r\n");
-            Stream.Write(data, 0, data.Length);
-            Stream.Flush();
+            if (IsCatchhLog)
+            {
+                byte[] data = Encoding.Default.GetBytes(@"[DEBUG]" + DateTime.Now + ":" + debugStr + "\r\n");
+                Stream.Write(data, 0, data.Length);
+                Stream.Flush();
+            }
         }
     }
 }

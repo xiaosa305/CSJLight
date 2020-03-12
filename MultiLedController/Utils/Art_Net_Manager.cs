@@ -24,6 +24,8 @@ namespace MultiLedController.Utils
         private bool DebugStatus { get; set; }
         private bool IsSaveToFile { get; set; }
 
+        private Dictionary<int,int> Test { get; set; }
+
         private Socket DebugServer { get; set; }
 
         private Art_Net_Manager()
@@ -48,6 +50,7 @@ namespace MultiLedController.Utils
             this.FieldsData = new Dictionary<int, List<byte>>();
             this.FieldsReceiveDataSize = new Dictionary<int, int>();
             this.DebugStatus = false;
+            this.Test = new Dictionary<int, int>();
             LEDControllerServer.GetInstance().SetManager(this);
         }
         /// <summary>
@@ -128,6 +131,7 @@ namespace MultiLedController.Utils
                     this.FieldsReceiveStatus.Add(fieldNum, false);
                     this.FieldsData.Add(fieldNum, new List<byte>());
                     this.FieldsReceiveDataSize.Add(fieldNum, 0);
+                    this.Test.Add(fieldNum, -1);
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
@@ -157,6 +161,7 @@ namespace MultiLedController.Utils
                     }
                     this.Stopwatch.Stop();
                     this.FramTimes.Add(this.Stopwatch.Elapsed.TotalMilliseconds);
+                    Console.WriteLine("帧间隔时间：" + this.Stopwatch.Elapsed.TotalMilliseconds);
 
                     //写文件头
                     int led_Interface_num = this.Clients.Count;
@@ -207,10 +212,22 @@ namespace MultiLedController.Utils
                         FileUtils.WriteToFile(framData, SaveFileName);
                     }
                     Console.WriteLine("接收完一帧数据");
+
+
+                    if (this.Test[fieldNum] != -1 && this.Test[fieldNum] != data.Count)
+                    {
+                        Console.WriteLine((fieldNum + 1) +"空间数据大小有变化");
+                    }
+
                     //启动实时调试状态
                     if (this.DebugStatus)
                     {
-                        this.DebugMode(frame_time);
+                        Thread thread = new Thread(this.DebugMode)
+                        {
+                            IsBackground = true
+                        };
+                        thread.Start(FieldsData);
+                        //this.DebugMode(frame_time);
                     }
 
                     //组包完成，清除包数据缓存区以及数据包接收标记
@@ -235,14 +252,16 @@ namespace MultiLedController.Utils
 
                 //记录包大小
                 this.FieldsReceiveDataSize[fieldNum] = data.Count;
+                this.Test[fieldNum] = data.Count;
             }
         }
         /// <summary>
         /// 发送调试数据
         /// </summary>
         /// <param name="frameTime">帧间隔时间</param>
-        private void DebugMode(int frameTime)
+        private void DebugMode(Object obj)
         {
+            Dictionary<int, List<byte>> Data = (Dictionary<int, List<byte>>)obj;
             List<byte> sendBuff = new List<byte>();
             for (int i = 0; i < this.Clients.Count; i++)
             {
@@ -292,7 +311,7 @@ namespace MultiLedController.Utils
                 //}
                 if (i == 2)
                 {
-                    Thread.Sleep(5);
+                    Thread.Sleep(8);
                 }
             }
         }

@@ -51,6 +51,7 @@
     <Compile Include="Entity\Art_Net_Client.cs" />
     <Compile Include="Entity\ControlDevice.cs" />
     <Compile Include="Entity\LEDControllerServer.cs" />
+    <Compile Include="Entity\QueueCacheData.cs" />
     <Compile Include="Entity\VirtualControlInfo.cs" />
     <Compile Include="MyForm\MainForm.cs">
       <SubType>Form</SubType>
@@ -69,6 +70,7 @@
     <Compile Include="Utils\Art_Net_Manager.cs" />
     <Compile Include="Utils\CalMD5Value.cs" />
     <Compile Include="Utils\Constant.cs" />
+    <Compile Include="Utils\DataQueue.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\StringHelper.cs" />
     <Compile Include="Utils\XiaosaTest.cs" />

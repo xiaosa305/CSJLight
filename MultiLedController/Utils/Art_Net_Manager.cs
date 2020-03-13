@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Timers;
 
 namespace MultiLedController.Utils
 {
@@ -24,7 +25,8 @@ namespace MultiLedController.Utils
         private bool DebugStatus { get; set; }
         private bool IsSaveToFile { get; set; }
 
-        private Dictionary<int,int> Test { get; set; }
+        private System.Timers.Timer Timer { get; set; }
+
 
         private Socket DebugServer { get; set; }
 
@@ -44,13 +46,17 @@ namespace MultiLedController.Utils
 
         private void Init()
         {
-            this.IsSaveToFile = true;
+            this.IsSaveToFile = false;
             this.Clients = new List<Art_Net_Client>();
             this.FieldsReceiveStatus = new Dictionary<int, bool>();
             this.FieldsData = new Dictionary<int, List<byte>>();
             this.FieldsReceiveDataSize = new Dictionary<int, int>();
             this.DebugStatus = false;
-            this.Test = new Dictionary<int, int>();
+            //启动定时器
+            this.Timer = new System.Timers.Timer(5);
+            this.Timer.Elapsed += this.OnTimer;
+            this.Timer.AutoReset = true;
+            this.Timer.Start();
             LEDControllerServer.GetInstance().SetManager(this);
         }
         /// <summary>
@@ -131,7 +137,6 @@ namespace MultiLedController.Utils
                     this.FieldsReceiveStatus.Add(fieldNum, false);
                     this.FieldsData.Add(fieldNum, new List<byte>());
                     this.FieldsReceiveDataSize.Add(fieldNum, 0);
-                    this.Test.Add(fieldNum, -1);
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
@@ -188,45 +193,43 @@ namespace MultiLedController.Utils
                         head.Add(Convert.ToByte((length >> 24) & 0xFF));
                     }
                     //已经接受到第二帧数据，开始组包第一帧数据
+
+                    //存储文件
                     if (this.IsSaveToFile)
                     {
-                        FileUtils.WriteToFileBySeek(head, SaveFileName, 0);
-                        List<byte> framData = new List<byte>();
-                        for (int i = 0; i < this.Clients.Count; i++)
-                        {
-                            List<byte> routeDatas = new List<byte>();
-                            for (int j = 0; j < 4; j++)
-                            {
-                                int num = i * 4 + j;
-                                if (this.FieldsReceiveStatus[num])
-                                {
-                                    routeDatas.AddRange(this.FieldsData[num]);
-                                }
-                            }
-                            if (routeDatas.Count < 512 * 4 && routeDatas.Count > 0)
-                            {
-                                routeDatas.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 4) - routeDatas.Count));
-                            }
-                            framData.AddRange(routeDatas);
-                        }
-                        FileUtils.WriteToFile(framData, SaveFileName);
+                        DataQueue.GetInstance().SaveEnqueue(FieldsData, frame_time);
+                        //FileUtils.WriteToFileBySeek(head, SaveFileName, 0);
+                        //List<byte> framData = new List<byte>();
+                        //for (int i = 0; i < this.Clients.Count; i++)
+                        //{
+                        //    List<byte> routeDatas = new List<byte>();
+                        //    for (int j = 0; j < 4; j++)
+                        //    {
+                        //        int num = i * 4 + j;
+                        //        if (this.FieldsReceiveStatus[num])
+                        //        {
+                        //            routeDatas.AddRange(this.FieldsData[num]);
+                        //        }
+                        //    }
+                        //    if (routeDatas.Count < 512 * 4 && routeDatas.Count > 0)
+                        //    {
+                        //        routeDatas.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 4) - routeDatas.Count));
+                        //    }
+                        //    framData.AddRange(routeDatas);
+                        //}
+                        //FileUtils.WriteToFile(framData, SaveFileName);
                     }
                     Console.WriteLine("接收完一帧数据");
-
-
-                    if (this.Test[fieldNum] != -1 && this.Test[fieldNum] != data.Count)
-                    {
-                        Console.WriteLine((fieldNum + 1) +"空间数据大小有变化");
-                    }
 
                     //启动实时调试状态
                     if (this.DebugStatus)
                     {
-                        Thread thread = new Thread(this.DebugMode)
-                        {
-                            IsBackground = true
-                        };
-                        thread.Start(FieldsData);
+                        DataQueue.GetInstance().DebugEnqueue(FieldsData, frame_time);
+                        //Thread thread = new Thread(this.DebugMode)
+                        //{
+                        //    IsBackground = true
+                        //};
+                        //thread.Start(FieldsData);
                         //this.DebugMode(frame_time);
                     }
 
@@ -252,7 +255,6 @@ namespace MultiLedController.Utils
 
                 //记录包大小
                 this.FieldsReceiveDataSize[fieldNum] = data.Count;
-                this.Test[fieldNum] = data.Count;
             }
         }
         /// <summary>
@@ -305,10 +307,6 @@ namespace MultiLedController.Utils
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                     }
                 }
-                //if (i == 1 || i == 3)
-                //{
-                //    Thread.Sleep(4);
-                //}
                 if (i == 2)
                 {
                     Thread.Sleep(8);
@@ -397,6 +395,22 @@ namespace MultiLedController.Utils
         public void StopSaveToFile()
         {
             this.IsSaveToFile = false;
+        }
+
+        public void OnTimer(object sender, ElapsedEventArgs e)
+        {
+            if (this.DebugStatus)
+            {
+                QueueCacheData data =  DataQueue.GetInstance().DebugDequeue();
+                this.DebugMode(data.FieldDatas);
+                Thread.Sleep(data.FramTime - 5);
+                Console.WriteLine("定时器执行-----Debug : " + data ==null);
+            }
+            if (IsSaveToFile)
+            {
+                QueueCacheData data = DataQueue.GetInstance().SaveDequeue();
+                Console.WriteLine("定时器执行-----Save : " + data == null);
+            }
         }
     }
 }

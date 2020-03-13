@@ -1268,7 +1268,7 @@ namespace OtherTools
 						connectTools.Start(ip.ToString());
 						connectTools.SearchDevice();
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);						
+						Thread.Sleep(MainFormInterface.NETWORK_WAITTIME);						
 					}					
 				}
 

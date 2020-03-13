@@ -287,21 +287,21 @@
 			// 
 			// mjsTextBox
 			// 
-			this.mjsTextBox.Location = new System.Drawing.Point(361, 10);
+			this.mjsTextBox.Location = new System.Drawing.Point(250, 41);
 			this.mjsTextBox.Name = "mjsTextBox";
-			this.mjsTextBox.Size = new System.Drawing.Size(130, 21);
+			this.mjsTextBox.Size = new System.Drawing.Size(97, 21);
 			this.mjsTextBox.TabIndex = 29;
-			this.mjsTextBox.Text = "192.168.1.31";
+			this.mjsTextBox.Text = "192.168.31.";
 			this.mjsTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(269, 15);
+			this.label1.Location = new System.Drawing.Point(250, 16);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 12);
+			this.label1.Size = new System.Drawing.Size(47, 12);
 			this.label1.TabIndex = 30;
-			this.label1.Text = "麦爵士IP：";
+			this.label1.Text = "mjsIP：";
 			// 
 			// dmxSaveFileDialog
 			// 
@@ -311,7 +311,7 @@
 			// 
 			// setFilePathButton
 			// 
-			this.setFilePathButton.Location = new System.Drawing.Point(269, 39);
+			this.setFilePathButton.Location = new System.Drawing.Point(397, 11);
 			this.setFilePathButton.Name = "setFilePathButton";
 			this.setFilePathButton.Size = new System.Drawing.Size(87, 24);
 			this.setFilePathButton.TabIndex = 1;
@@ -322,7 +322,7 @@
 			// filePathLabel
 			// 
 			this.filePathLabel.AutoSize = true;
-			this.filePathLabel.Location = new System.Drawing.Point(361, 45);
+			this.filePathLabel.Location = new System.Drawing.Point(397, 45);
 			this.filePathLabel.Name = "filePathLabel";
 			this.filePathLabel.Size = new System.Drawing.Size(191, 12);
 			this.filePathLabel.TabIndex = 31;

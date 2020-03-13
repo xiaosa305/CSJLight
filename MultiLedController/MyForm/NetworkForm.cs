@@ -36,7 +36,7 @@ namespace MultiLedController
 		private MainForm mainForm;
 		private IList<string> virtualIPList;
 
-		private int interfaceCount = 9;
+		private int ipCount = 9;
 
 		public NetworkForm(MainForm mainForm)
 		{
@@ -50,11 +50,11 @@ namespace MultiLedController
 			InitializeComponent();
 			refreshNetcard();
 			this.mainForm = mainForm;
-
 			
 			numericUpDown1.Value = ipLast ;
-			this.interfaceCount = interfaceCount;
-			set9IPButton.Text = "设置连续" + (interfaceCount + 1) + "个IP地址";
+			ipCount = interfaceCount + 1;
+			numericUpDown2.Value = ipCount;		
+			
 		}
 
 		private void NetworkForm_Load(object sender, EventArgs e)
@@ -90,7 +90,7 @@ namespace MultiLedController
 	
 
 		/// <summary>
-		/// 事件：点击《设置连续9个ip地址》
+		/// 事件：点击《设置连续IP地址》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -117,16 +117,16 @@ namespace MultiLedController
 			virtualIPList = new List<string>();
 			IList<string> submaskList = new List<string>();
 			firstIP = Decimal.ToInt32(numericUpDown1.Value);
-			for (int i = 0; i < interfaceCount+1; i++)
+			for (int i = 0; i < ipCount; i++)
 			{
-				virtualIPList.Add("192.168.1." + firstIP++);
+				virtualIPList.Add("192.168.31." + firstIP++);
 				submaskList.Add("255.255.255.0");
 			}
 
 			SetIPAddress(virtualIPList.ToArray(),
 				submaskList.ToArray(),
-				new string[] { "192.168.1.1" }, 
-				new string[] { "192.168.1.1","114.114.114.114" });
+				new string[] { "192.168.31.1" }, 
+				new string[] { "192.168.31.1","114.114.114.114" });
 
 			setStatusLabel("已设置多IP，请刷新");
 			setAddButtonEnable(true);
@@ -307,6 +307,14 @@ namespace MultiLedController
 		private void addVirtualIpButton_Click(object sender, EventArgs e)
 		{
 			mainForm.AddVirtualIPS(virtualIPList);
+		}
+
+
+
+		private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+		{
+			this.ipCount = Decimal.ToInt16(numericUpDown2.Value);
+
 		}
 	}
 }

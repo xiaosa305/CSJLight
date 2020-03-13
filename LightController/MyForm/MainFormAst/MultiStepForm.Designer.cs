@@ -561,13 +561,13 @@
 			this.label1.TabIndex = 7;
 			this.label1.Text = "-";
 			// 
-			// commonChangeModeComboBox
+			// unifyCmComboBox
 			// 
 			this.unifyCmComboBox.FormattingEnabled = true;
 			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 277);
 			this.unifyCmComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyCmComboBox.Name = "commonChangeModeComboBox";
-			this.unifyCmComboBox.Size = new System.Drawing.Size(62, 20);
+			this.unifyCmComboBox.Name = "unifyCmComboBox";
+			this.unifyCmComboBox.Size = new System.Drawing.Size(87, 20);
 			this.unifyCmComboBox.TabIndex = 27;
 			// 
 			// commonValueNumericUpDown
@@ -580,11 +580,11 @@
             0,
             0});
 			this.commonValueNumericUpDown.Name = "commonValueNumericUpDown";
-			this.commonValueNumericUpDown.Size = new System.Drawing.Size(62, 21);
+			this.commonValueNumericUpDown.Size = new System.Drawing.Size(87, 21);
 			this.commonValueNumericUpDown.TabIndex = 25;
 			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// commonStepTimetNumericUpDown
+			// unifyStNumericUpDown
 			// 
 			this.unifyStNumericUpDown.Location = new System.Drawing.Point(30, 315);
 			this.unifyStNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
@@ -593,8 +593,8 @@
             0,
             0,
             0});
-			this.unifyStNumericUpDown.Name = "commonStepTimetNumericUpDown";
-			this.unifyStNumericUpDown.Size = new System.Drawing.Size(62, 21);
+			this.unifyStNumericUpDown.Name = "unifyStNumericUpDown";
+			this.unifyStNumericUpDown.Size = new System.Drawing.Size(87, 21);
 			this.unifyStNumericUpDown.TabIndex = 26;
 			this.unifyStNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 

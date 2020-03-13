@@ -53,9 +53,12 @@
 			this.testButton = new System.Windows.Forms.Button();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.addVirtualIpButton = new System.Windows.Forms.Button();
+			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.label3 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.myStatusStrip.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// netcardComboBox
@@ -130,18 +133,18 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(241, 66);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(125, 12);
+			this.label1.Size = new System.Drawing.Size(131, 12);
 			this.label1.TabIndex = 28;
-			this.label1.Text = "起始地址：192.168.1.";
+			this.label1.Text = "起始地址：192.168.31.";
 			// 
 			// set9IPButton
 			// 
 			this.set9IPButton.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.set9IPButton.Location = new System.Drawing.Point(241, 94);
+			this.set9IPButton.Location = new System.Drawing.Point(241, 118);
 			this.set9IPButton.Name = "set9IPButton";
 			this.set9IPButton.Size = new System.Drawing.Size(179, 20);
 			this.set9IPButton.TabIndex = 0;
-			this.set9IPButton.Text = "设置连续9个IP地址";
+			this.set9IPButton.Text = "设置连续IP地址";
 			this.set9IPButton.UseVisualStyleBackColor = true;
 			this.set9IPButton.Click += new System.EventHandler(this.set9IPButton_Click);
 			// 
@@ -318,6 +321,40 @@
 			this.addVirtualIpButton.UseVisualStyleBackColor = true;
 			this.addVirtualIpButton.Click += new System.EventHandler(this.addVirtualIpButton_Click);
 			// 
+			// numericUpDown2
+			// 
+			this.numericUpDown2.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.numericUpDown2.Location = new System.Drawing.Point(372, 90);
+			this.numericUpDown2.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+			this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDown2.Name = "numericUpDown2";
+			this.numericUpDown2.Size = new System.Drawing.Size(45, 19);
+			this.numericUpDown2.TabIndex = 27;
+			this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.numericUpDown2.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+			this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(241, 91);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(89, 12);
+			this.label3.TabIndex = 28;
+			this.label3.Text = "连续IP的数量：";
+			// 
 			// NetworkForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -329,7 +366,9 @@
 			this.Controls.Add(this.testButton);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.myStatusStrip);
+			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
+			this.Controls.Add(this.numericUpDown2);
 			this.Controls.Add(this.numericUpDown1);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.netcardComboBox);
@@ -348,6 +387,7 @@
 			this.myStatusStrip.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -378,6 +418,8 @@
 		private System.Windows.Forms.Button loadButton;
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.Button addVirtualIpButton;
+		private System.Windows.Forms.NumericUpDown numericUpDown2;
+		private System.Windows.Forms.Label label3;
 	}
 }
 

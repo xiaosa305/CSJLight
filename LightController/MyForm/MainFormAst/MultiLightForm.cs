@@ -29,7 +29,7 @@ namespace LightController.MyForm
 				item.SubItems.Add(tempLA.LightType);
 				item.SubItems.Add(tempLA.LightAddr);
 
-				lightsSkinListView.Items.Add(item);
+				lightsListView.Items.Add(item);
 			}			
 		}		
 
@@ -79,11 +79,11 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void lightsSkinListView_SelectedIndexChanged(object sender, EventArgs e)
+		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 必须判断这个字段(Count)，否则会报异常
-			if (lightsSkinListView.SelectedIndices.Count > 0) {
-				selectedIndex = lightsSkinListView.SelectedIndices[0];
+			if (lightsListView.SelectedIndices.Count > 0) {
+				selectedIndex = lightsListView.SelectedIndices[0];
 				enterButton.Enabled = true;
 			}
 		}

@@ -1,4 +1,5 @@
-﻿using MultiLedController.Entity;
+﻿using MultiLedController.Common;
+using MultiLedController.Entity;
 using MultiLedController.Utils;
 using System;
 using System.Collections.Generic;
@@ -216,9 +217,14 @@ namespace MultiLedController.MyForm
 			if (virtuals == null || virtuals.Count == 0) {
 				setNotice("尚未绑定虚拟IP。");
 				return;
-			}			
-			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text);
+			}
 
+			if (!IPHelper.IsIPV4(mjsTextBox.Text)) {
+				setNotice("请输入完整的mjsIP。");
+				return;
+			}
+
+			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text);
 			debugButton.Enabled = true;
 			recordButton.Enabled = true;
 		}

@@ -44,7 +44,7 @@ namespace LightController.MyForm
 			this.lightLibrarySkinButton = new CCWin.SkinControl.SkinButton();
 			this.hardwareSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.hardwareUpdateSkinButton = new CCWin.SkinControl.SkinButton();
-			this.updateSkinButton = new CCWin.SkinControl.SkinButton();
+			this.projectUpdateSkinButton = new CCWin.SkinControl.SkinButton();
 			this.lightListSkinButton = new CCWin.SkinControl.SkinButton();
 			this.globalSetSkinButton = new CCWin.SkinControl.SkinButton();
 			this.ymSkinButton = new CCWin.SkinControl.SkinButton();
@@ -669,7 +669,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.lightLibrarySkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.hardwareSetSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.hardwareUpdateSkinButton);
-			this.flowLayoutPanel1.Controls.Add(this.updateSkinButton);
+			this.flowLayoutPanel1.Controls.Add(this.projectUpdateSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.lightListSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.globalSetSkinButton);
 			this.flowLayoutPanel1.Controls.Add(this.ymSkinButton);
@@ -757,39 +757,39 @@ namespace LightController.MyForm
 			this.hardwareUpdateSkinButton.NormlBack = null;
 			this.hardwareUpdateSkinButton.Size = new System.Drawing.Size(90, 96);
 			this.hardwareUpdateSkinButton.TabIndex = 4;
-			this.hardwareUpdateSkinButton.Text = "硬件更新";
+			this.hardwareUpdateSkinButton.Text = "硬件升级";
 			this.hardwareUpdateSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.hardwareUpdateSkinButton.UseVisualStyleBackColor = false;
 			this.hardwareUpdateSkinButton.Visible = false;
-			this.hardwareUpdateSkinButton.Click += new System.EventHandler(this.networkSkinButton_Click);
+			this.hardwareUpdateSkinButton.Click += new System.EventHandler(this.hardwareUpdateButton_Click);
 			// 
-			// updateSkinButton
+			// projectUpdateSkinButton
 			// 
-			this.updateSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.updateSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.updateSkinButton.BorderColor = System.Drawing.Color.White;
-			this.updateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.updateSkinButton.DownBack = null;
-			this.updateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.updateSkinButton.Enabled = false;
-			this.updateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.updateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.updateSkinButton.ForeColorSuit = true;
-			this.updateSkinButton.Image = global::LightController.Properties.Resources.在线升级;
-			this.updateSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.updateSkinButton.InheritColor = true;
-			this.updateSkinButton.IsDrawBorder = false;
-			this.updateSkinButton.Location = new System.Drawing.Point(284, 2);
-			this.updateSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.updateSkinButton.MouseBack = null;
-			this.updateSkinButton.Name = "updateSkinButton";
-			this.updateSkinButton.NormlBack = null;
-			this.updateSkinButton.Size = new System.Drawing.Size(90, 96);
-			this.updateSkinButton.TabIndex = 4;
-			this.updateSkinButton.Text = "工程更新";
-			this.updateSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.updateSkinButton.UseVisualStyleBackColor = false;
-			this.updateSkinButton.Click += new System.EventHandler(this.updateSkinButton_Click);
+			this.projectUpdateSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.projectUpdateSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.projectUpdateSkinButton.BorderColor = System.Drawing.Color.White;
+			this.projectUpdateSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.projectUpdateSkinButton.DownBack = null;
+			this.projectUpdateSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.projectUpdateSkinButton.Enabled = false;
+			this.projectUpdateSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.projectUpdateSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.projectUpdateSkinButton.ForeColorSuit = true;
+			this.projectUpdateSkinButton.Image = global::LightController.Properties.Resources.在线升级;
+			this.projectUpdateSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.projectUpdateSkinButton.InheritColor = true;
+			this.projectUpdateSkinButton.IsDrawBorder = false;
+			this.projectUpdateSkinButton.Location = new System.Drawing.Point(284, 2);
+			this.projectUpdateSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.projectUpdateSkinButton.MouseBack = null;
+			this.projectUpdateSkinButton.Name = "projectUpdateSkinButton";
+			this.projectUpdateSkinButton.NormlBack = null;
+			this.projectUpdateSkinButton.Size = new System.Drawing.Size(90, 96);
+			this.projectUpdateSkinButton.TabIndex = 4;
+			this.projectUpdateSkinButton.Text = "工程更新";
+			this.projectUpdateSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.projectUpdateSkinButton.UseVisualStyleBackColor = false;
+			this.projectUpdateSkinButton.Click += new System.EventHandler(this.projectUpdateSkinButton_Click);
 			// 
 			// lightListSkinButton
 			// 
@@ -954,7 +954,7 @@ namespace LightController.MyForm
 			this.exitSkinButton.NormlBack = null;
 			this.exitSkinButton.Size = new System.Drawing.Size(90, 96);
 			this.exitSkinButton.TabIndex = 4;
-			this.exitSkinButton.Text = "退出应用";
+			this.exitSkinButton.Text = "退出程序";
 			this.exitSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.exitSkinButton.UseVisualStyleBackColor = false;
 			this.exitSkinButton.Click += new System.EventHandler(this.exitSkinButton_Click);
@@ -1306,7 +1306,7 @@ namespace LightController.MyForm
 			this.deviceSkinComboBox.Size = new System.Drawing.Size(224, 22);
 			this.deviceSkinComboBox.TabIndex = 15;
 			this.deviceSkinComboBox.WaterText = "";
-			this.deviceSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.comSkinComboBox_SelectedIndexChanged);
+			this.deviceSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceSkinComboBox_SelectedIndexChanged);
 			// 
 			// connectSkinButton
 			// 
@@ -1543,7 +1543,7 @@ namespace LightController.MyForm
 			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
 			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
 			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 214);
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(181, 236);
 			this.mySkinContextMenuStrip.SkinAllColor = true;
 			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
 			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -1557,7 +1557,7 @@ namespace LightController.MyForm
 			this.autoArrangeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.autoArrangeToolStripMenuItem.Name = "autoArrangeToolStripMenuItem";
 			this.autoArrangeToolStripMenuItem.ShowShortcutKeys = false;
-			this.autoArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.autoArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.autoArrangeToolStripMenuItem.Text = "自动排列";
 			this.autoArrangeToolStripMenuItem.Click += new System.EventHandler(this.autoArrangeToolStripMenuItem_Click);
 			// 
@@ -1565,7 +1565,7 @@ namespace LightController.MyForm
 			// 
 			this.arrangeToolStripMenuItem.Name = "arrangeToolStripMenuItem";
 			this.arrangeToolStripMenuItem.ShowShortcutKeys = false;
-			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.arrangeToolStripMenuItem.Text = "重新排列";
 			this.arrangeToolStripMenuItem.Click += new System.EventHandler(this.arrangeToolStripMenuItem_Click);
 			// 
@@ -1573,7 +1573,7 @@ namespace LightController.MyForm
 			// 
 			this.saveArrangeToolStripMenuItem.Enabled = false;
 			this.saveArrangeToolStripMenuItem.Name = "saveArrangeToolStripMenuItem";
-			this.saveArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.saveArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.saveArrangeToolStripMenuItem.Text = "保存灯具位置";
 			this.saveArrangeToolStripMenuItem.Click += new System.EventHandler(this.saveArrangeToolStripMenuItem_Click);
 			// 
@@ -1581,53 +1581,53 @@ namespace LightController.MyForm
 			// 
 			this.loadArrangeToolStripMenuItem.Enabled = false;
 			this.loadArrangeToolStripMenuItem.Name = "loadArrangeToolStripMenuItem";
-			this.loadArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.loadArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.loadArrangeToolStripMenuItem.Text = "读取灯具位置";
 			this.loadArrangeToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
 			// 
 			// refreshPicToolStripMenuItem
 			// 
 			this.refreshPicToolStripMenuItem.Enabled = false;
 			this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
-			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
 			this.refreshPicToolStripMenuItem.Click += new System.EventHandler(this.refreshPicToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
 			// 
 			// hideMenuPanelToolStripMenuItem2
 			// 
 			this.hideMenuPanelToolStripMenuItem2.Name = "hideMenuPanelToolStripMenuItem2";
-			this.hideMenuPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideMenuPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideMenuPanelToolStripMenuItem2.Text = "隐藏主菜单面板";
 			this.hideMenuPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
 			// 
 			// hideProjectPanelToolStripMenuItem2
 			// 
 			this.hideProjectPanelToolStripMenuItem2.Name = "hideProjectPanelToolStripMenuItem2";
-			this.hideProjectPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideProjectPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideProjectPanelToolStripMenuItem2.Text = "隐藏工程面板";
 			this.hideProjectPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
 			// 
 			// hideAstPanelToolStripMenuItem2
 			// 
 			this.hideAstPanelToolStripMenuItem2.Name = "hideAstPanelToolStripMenuItem2";
-			this.hideAstPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideAstPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideAstPanelToolStripMenuItem2.Text = "隐藏辅助面板";
 			this.hideAstPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideAstPanelToolStripMenuItem_Click);
 			// 
 			// hidePlayPanelToolStripMenuItem2
 			// 
 			this.hidePlayPanelToolStripMenuItem2.Name = "hidePlayPanelToolStripMenuItem2";
-			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hidePlayPanelToolStripMenuItem2.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem2.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
 			// 
@@ -6743,7 +6743,7 @@ namespace LightController.MyForm
 		#endregion
 		private CCWin.SkinControl.SkinButton globalSetSkinButton;
 		private CCWin.SkinControl.SkinButton lightListSkinButton;
-		private CCWin.SkinControl.SkinButton updateSkinButton;
+		private CCWin.SkinControl.SkinButton projectUpdateSkinButton;
 		private CCWin.SkinControl.SkinButton hardwareSetSkinButton;
 		private CCWin.SkinControl.SkinButton lightLibrarySkinButton;
 		private CCWin.SkinControl.SkinButton hardwareUpdateSkinButton;

@@ -114,6 +114,9 @@ namespace MultiLedController.Utils
         {
             if (this.Clients.Count != 0)
             {
+                this.Timer.Stop();
+                DataQueue.GetInstance().Reset();
+                this.Timer.Start();
                 foreach (Art_Net_Client item in this.Clients)
                 {
                     item.Close();

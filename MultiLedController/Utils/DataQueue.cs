@@ -13,8 +13,7 @@ namespace MultiLedController.Utils
         private Queue<QueueCacheData> SaveQueue { get; set; }
         private DataQueue()
         {
-            this.DebugQueue = new Queue<QueueCacheData>();
-            this.SaveQueue = new Queue<QueueCacheData>();
+            this.Reset();
         }
         public static DataQueue GetInstance()
         {
@@ -23,6 +22,12 @@ namespace MultiLedController.Utils
                 Instance = new DataQueue();
             }
             return Instance;
+        }
+
+        public void Reset()
+        {
+            this.DebugQueue = new Queue<QueueCacheData>();
+            this.SaveQueue = new Queue<QueueCacheData>();
         }
 
         public void DebugEnqueue(Dictionary<int,List<byte>> data,int framTime)

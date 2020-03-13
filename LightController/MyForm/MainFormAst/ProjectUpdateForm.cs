@@ -137,7 +137,7 @@ namespace LightController.MyForm
 			connectTools.Start(localIP);
 			connectTools.SearchDevice();
 			// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-			Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);
+			Thread.Sleep(MainFormInterface.NETWORK_WAITTIME);
 						
 			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
 			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])

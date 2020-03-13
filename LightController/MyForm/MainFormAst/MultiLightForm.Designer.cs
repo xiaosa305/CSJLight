@@ -28,56 +28,15 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.lightsSkinListView = new CCWin.SkinControl.SkinListView();
-			this.lightName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.LightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.LightAddr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.noticeLabel = new System.Windows.Forms.Label();
 			this.copyAllCheckBox = new System.Windows.Forms.CheckBox();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.lightsListView = new System.Windows.Forms.ListView();
+			this.lightName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.lightAddr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
-			// 
-			// lightsSkinListView
-			// 
-			this.lightsSkinListView.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.lightsSkinListView.BorderColor = System.Drawing.Color.Black;
-			this.lightsSkinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.lightName,
-            this.LightType,
-            this.LightAddr});
-			this.lightsSkinListView.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lightsSkinListView.FullRowSelect = true;
-			this.lightsSkinListView.GridLines = true;
-			this.lightsSkinListView.HeadColor = System.Drawing.Color.White;
-			this.lightsSkinListView.HideSelection = false;
-			this.lightsSkinListView.Location = new System.Drawing.Point(0, 0);
-			this.lightsSkinListView.MultiSelect = false;
-			this.lightsSkinListView.Name = "lightsSkinListView";
-			this.lightsSkinListView.OwnerDraw = true;
-			this.lightsSkinListView.RowBackColor1 = System.Drawing.Color.Transparent;
-			this.lightsSkinListView.RowBackColor2 = System.Drawing.Color.Transparent;
-			this.lightsSkinListView.Size = new System.Drawing.Size(349, 337);
-			this.lightsSkinListView.TabIndex = 9;
-			this.lightsSkinListView.UseCompatibleStateImageBehavior = false;
-			this.lightsSkinListView.View = System.Windows.Forms.View.Details;
-			this.lightsSkinListView.SelectedIndexChanged += new System.EventHandler(this.lightsSkinListView_SelectedIndexChanged);
-			this.lightsSkinListView.DoubleClick += new System.EventHandler(this.enterSkinButton_Click);
-			// 
-			// lightName
-			// 
-			this.lightName.Text = "厂商名";
-			this.lightName.Width = 97;
-			// 
-			// LightType
-			// 
-			this.LightType.Text = "型号";
-			this.LightType.Width = 92;
-			// 
-			// LightAddr
-			// 
-			this.LightAddr.Text = "通道地址";
-			this.LightAddr.Width = 86;
 			// 
 			// noticeLabel
 			// 
@@ -119,17 +78,52 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
 			// 
+			// lightsListView
+			// 
+			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lightName,
+            this.lightType,
+            this.lightAddr});
+			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lightsListView.FullRowSelect = true;
+			this.lightsListView.GridLines = true;
+			this.lightsListView.HideSelection = false;
+			this.lightsListView.Location = new System.Drawing.Point(0, 0);
+			this.lightsListView.Name = "lightsListView";
+			this.lightsListView.Size = new System.Drawing.Size(349, 337);
+			this.lightsListView.TabIndex = 14;
+			this.lightsListView.UseCompatibleStateImageBehavior = false;
+			this.lightsListView.View = System.Windows.Forms.View.Details;
+			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
+			// 
+			// lightName
+			// 
+			this.lightName.Text = "厂商名";
+			this.lightName.Width = 102;
+			// 
+			// lightType
+			// 
+			this.lightType.Text = "型号";
+			this.lightType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.lightType.Width = 129;
+			// 
+			// lightAddr
+			// 
+			this.lightAddr.Text = "通道地址";
+			this.lightAddr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.lightAddr.Width = 92;
+			// 
 			// MultiLightForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(349, 469);
+			this.ClientSize = new System.Drawing.Size(349, 474);
+			this.Controls.Add(this.lightsListView);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.copyAllCheckBox);
 			this.Controls.Add(this.noticeLabel);
-			this.Controls.Add(this.lightsSkinListView);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -141,14 +135,13 @@
 		}
 
 		#endregion
-
-		private CCWin.SkinControl.SkinListView lightsSkinListView;
-		private System.Windows.Forms.ColumnHeader lightName;
-		private System.Windows.Forms.ColumnHeader LightType;
-		private System.Windows.Forms.ColumnHeader LightAddr;
 		private System.Windows.Forms.Label noticeLabel;
 		private System.Windows.Forms.CheckBox copyAllCheckBox;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.ListView lightsListView;
+		private System.Windows.Forms.ColumnHeader lightName;
+		private System.Windows.Forms.ColumnHeader lightType;
+		private System.Windows.Forms.ColumnHeader lightAddr;
 	}
 }

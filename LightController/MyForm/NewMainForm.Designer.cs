@@ -67,11 +67,15 @@ namespace LightController.MyForm
 			this.lightTypeLabel = new System.Windows.Forms.Label();
 			this.lightNameLabel = new System.Windows.Forms.Label();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
-			this.lightInfoGroupBox = new System.Windows.Forms.GroupBox();
+			this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.hideMenuStriplToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hideUnifyPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelPanel = new System.Windows.Forms.Panel();
-			this.thirdLabel1 = new System.Windows.Forms.Label();
-			this.secondLabel1 = new System.Windows.Forms.Label();
-			this.firstLabel1 = new System.Windows.Forms.Label();
+			this.firstLabel = new System.Windows.Forms.Label();
+			this.secondLabel = new System.Windows.Forms.Label();
+			this.thirdLabel = new System.Windows.Forms.Label();
 			this.unifyChangeModeComboBox = new System.Windows.Forms.ComboBox();
 			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.unifyStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -88,14 +92,14 @@ namespace LightController.MyForm
 			this.tdStNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdTrackBar1 = new System.Windows.Forms.TrackBar();
-			this.buttonPanel = new System.Windows.Forms.Panel();
+			this.tdPanel = new System.Windows.Forms.Panel();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
-			this.panel7 = new System.Windows.Forms.Panel();
+			this.projectPanel = new System.Windows.Forms.Panel();
 			this.newProjectButton = new System.Windows.Forms.Button();
 			this.exportProjectButton = new System.Windows.Forms.Button();
 			this.useFrameButton = new System.Windows.Forms.Button();
@@ -132,10 +136,11 @@ namespace LightController.MyForm
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.lightInfoPanel = new System.Windows.Forms.Panel();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
-			this.lightInfoGroupBox.SuspendLayout();
+			this.myContextMenuStrip.SuspendLayout();
 			this.labelPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).BeginInit();
@@ -144,15 +149,16 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).BeginInit();
-			this.buttonPanel.SuspendLayout();
+			this.tdPanel.SuspendLayout();
 			this.unifyPanel.SuspendLayout();
 			this.playBasePanel.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
-			this.panel7.SuspendLayout();
+			this.myStatusStrip.SuspendLayout();
+			this.projectPanel.SuspendLayout();
 			this.stepBasePanel.SuspendLayout();
 			this.stepPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
 			this.topPanel.SuspendLayout();
+			this.lightInfoPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// skinEngine1
@@ -337,7 +343,7 @@ namespace LightController.MyForm
 			this.playPanel.Controls.Add(this.makeSoundButton);
 			this.playPanel.Controls.Add(this.endviewButton);
 			this.playPanel.Controls.Add(this.previewButton);
-			this.playPanel.Location = new System.Drawing.Point(265, 3);
+			this.playPanel.Location = new System.Drawing.Point(272, 1);
 			this.playPanel.Name = "playPanel";
 			this.playPanel.Size = new System.Drawing.Size(708, 68);
 			this.playPanel.TabIndex = 30;
@@ -387,6 +393,7 @@ namespace LightController.MyForm
 			this.keepButton.TabIndex = 24;
 			this.keepButton.Text = "保持状态";
 			this.keepButton.UseVisualStyleBackColor = true;
+			this.keepButton.Click += new System.EventHandler(this.keepButton_Click);
 			// 
 			// deviceComboBox
 			// 
@@ -451,7 +458,7 @@ namespace LightController.MyForm
 			// 
 			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightsAddrLabel.Location = new System.Drawing.Point(6, 209);
+			this.lightsAddrLabel.Location = new System.Drawing.Point(4, 211);
 			this.lightsAddrLabel.Name = "lightsAddrLabel";
 			this.lightsAddrLabel.Size = new System.Drawing.Size(165, 83);
 			this.lightsAddrLabel.TabIndex = 5;
@@ -461,7 +468,7 @@ namespace LightController.MyForm
 			// 
 			this.lightTypeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeLabel.Location = new System.Drawing.Point(6, 175);
+			this.lightTypeLabel.Location = new System.Drawing.Point(4, 177);
 			this.lightTypeLabel.Name = "lightTypeLabel";
 			this.lightTypeLabel.Size = new System.Drawing.Size(166, 18);
 			this.lightTypeLabel.TabIndex = 7;
@@ -472,7 +479,7 @@ namespace LightController.MyForm
 			this.lightNameLabel.BackColor = System.Drawing.Color.Transparent;
 			this.lightNameLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightNameLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightNameLabel.Location = new System.Drawing.Point(6, 141);
+			this.lightNameLabel.Location = new System.Drawing.Point(4, 143);
 			this.lightNameLabel.Name = "lightNameLabel";
 			this.lightNameLabel.Size = new System.Drawing.Size(166, 18);
 			this.lightNameLabel.TabIndex = 8;
@@ -481,68 +488,90 @@ namespace LightController.MyForm
 			// currentLightPictureBox
 			// 
 			this.currentLightPictureBox.InitialImage = null;
-			this.currentLightPictureBox.Location = new System.Drawing.Point(34, 16);
+			this.currentLightPictureBox.Location = new System.Drawing.Point(32, 17);
 			this.currentLightPictureBox.Name = "currentLightPictureBox";
 			this.currentLightPictureBox.Size = new System.Drawing.Size(110, 115);
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 6;
 			this.currentLightPictureBox.TabStop = false;
 			// 
-			// lightInfoGroupBox
+			// myContextMenuStrip
 			// 
-			this.lightInfoGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.lightInfoGroupBox.BackColor = System.Drawing.Color.Transparent;
-			this.lightInfoGroupBox.Controls.Add(this.currentLightPictureBox);
-			this.lightInfoGroupBox.Controls.Add(this.lightsAddrLabel);
-			this.lightInfoGroupBox.Controls.Add(this.lightNameLabel);
-			this.lightInfoGroupBox.Controls.Add(this.lightTypeLabel);
-			this.lightInfoGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
-			this.lightInfoGroupBox.Location = new System.Drawing.Point(1089, 0);
-			this.lightInfoGroupBox.Name = "lightInfoGroupBox";
-			this.lightInfoGroupBox.Size = new System.Drawing.Size(175, 296);
-			this.lightInfoGroupBox.TabIndex = 51;
-			this.lightInfoGroupBox.TabStop = false;
-			this.lightInfoGroupBox.Text = "当前灯具";
+			this.myContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hideMenuStriplToolStripMenuItem,
+            this.hideProjectPanelToolStripMenuItem,
+            this.hideUnifyPanelToolStripMenuItem,
+            this.hidePlayPanelToolStripMenuItem});
+			this.myContextMenuStrip.Name = "myContextMenuStrip";
+			this.myContextMenuStrip.Size = new System.Drawing.Size(161, 92);
+			// 
+			// hideMenuStriplToolStripMenuItem
+			// 
+			this.hideMenuStriplToolStripMenuItem.Name = "hideMenuStriplToolStripMenuItem";
+			this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hideMenuStriplToolStripMenuItem.Text = "隐藏主菜单面板";
+			this.hideMenuStriplToolStripMenuItem.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
+			// 
+			// hideProjectPanelToolStripMenuItem
+			// 
+			this.hideProjectPanelToolStripMenuItem.Name = "hideProjectPanelToolStripMenuItem";
+			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hideProjectPanelToolStripMenuItem.Text = "隐藏工程面板";
+			this.hideProjectPanelToolStripMenuItem.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
+			// 
+			// hideUnifyPanelToolStripMenuItem
+			// 
+			this.hideUnifyPanelToolStripMenuItem.Name = "hideUnifyPanelToolStripMenuItem";
+			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hideUnifyPanelToolStripMenuItem.Text = "隐藏辅助面板";
+			this.hideUnifyPanelToolStripMenuItem.Click += new System.EventHandler(this.hideUnifyPanelToolStripMenuItem_Click);
+			// 
+			// hidePlayPanelToolStripMenuItem
+			// 
+			this.hidePlayPanelToolStripMenuItem.Name = "hidePlayPanelToolStripMenuItem";
+			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hidePlayPanelToolStripMenuItem.Text = "隐藏调试面板";
+			this.hidePlayPanelToolStripMenuItem.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
 			// 
 			// labelPanel
 			// 
 			this.labelPanel.BackColor = System.Drawing.Color.Transparent;
-			this.labelPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.labelPanel.Controls.Add(this.thirdLabel1);
-			this.labelPanel.Controls.Add(this.secondLabel1);
-			this.labelPanel.Controls.Add(this.firstLabel1);
+			this.labelPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.labelPanel.Controls.Add(this.firstLabel);
+			this.labelPanel.Controls.Add(this.secondLabel);
+			this.labelPanel.Controls.Add(this.thirdLabel);
 			this.labelPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.labelPanel.Location = new System.Drawing.Point(0, 0);
 			this.labelPanel.Name = "labelPanel";
 			this.labelPanel.Size = new System.Drawing.Size(95, 335);
 			this.labelPanel.TabIndex = 28;
 			// 
-			// thirdLabel1
+			// firstLabel
 			// 
-			this.thirdLabel1.AutoSize = true;
-			this.thirdLabel1.Location = new System.Drawing.Point(24, 278);
-			this.thirdLabel1.Name = "thirdLabel1";
-			this.thirdLabel1.Size = new System.Drawing.Size(59, 12);
-			this.thirdLabel1.TabIndex = 0;
-			this.thirdLabel1.Text = "步时间(s)";
+			this.firstLabel.AutoSize = true;
+			this.firstLabel.Location = new System.Drawing.Point(33, 227);
+			this.firstLabel.Name = "firstLabel";
+			this.firstLabel.Size = new System.Drawing.Size(41, 12);
+			this.firstLabel.TabIndex = 0;
+			this.firstLabel.Text = "通道值";
 			// 
-			// secondLabel1
+			// secondLabel
 			// 
-			this.secondLabel1.AutoSize = true;
-			this.secondLabel1.Location = new System.Drawing.Point(33, 253);
-			this.secondLabel1.Name = "secondLabel1";
-			this.secondLabel1.Size = new System.Drawing.Size(41, 12);
-			this.secondLabel1.TabIndex = 0;
-			this.secondLabel1.Text = "跳渐变";
+			this.secondLabel.AutoSize = true;
+			this.secondLabel.Location = new System.Drawing.Point(33, 253);
+			this.secondLabel.Name = "secondLabel";
+			this.secondLabel.Size = new System.Drawing.Size(41, 12);
+			this.secondLabel.TabIndex = 0;
+			this.secondLabel.Text = "跳渐变";
 			// 
-			// firstLabel1
+			// thirdLabel
 			// 
-			this.firstLabel1.AutoSize = true;
-			this.firstLabel1.Location = new System.Drawing.Point(33, 227);
-			this.firstLabel1.Name = "firstLabel1";
-			this.firstLabel1.Size = new System.Drawing.Size(41, 12);
-			this.firstLabel1.TabIndex = 0;
-			this.firstLabel1.Text = "通道值";
+			this.thirdLabel.AutoSize = true;
+			this.thirdLabel.Location = new System.Drawing.Point(24, 278);
+			this.thirdLabel.Name = "thirdLabel";
+			this.thirdLabel.Size = new System.Drawing.Size(59, 12);
+			this.thirdLabel.TabIndex = 0;
+			this.thirdLabel.Text = "步时间(s)";
 			// 
 			// unifyChangeModeComboBox
 			// 
@@ -647,6 +676,7 @@ namespace LightController.MyForm
 			// 
 			this.tdFlowLayoutPanel.AutoScroll = true;
 			this.tdFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
+			this.tdFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.tdFlowLayoutPanel.Controls.Add(this.tdPanel1);
 			this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tdFlowLayoutPanel.Location = new System.Drawing.Point(95, 0);
@@ -733,21 +763,21 @@ namespace LightController.MyForm
 			this.tdTrackBar1.TickFrequency = 0;
 			this.tdTrackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
-			// buttonPanel
+			// tdPanel
 			// 
-			this.buttonPanel.Controls.Add(this.tdFlowLayoutPanel);
-			this.buttonPanel.Controls.Add(this.unifyPanel);
-			this.buttonPanel.Controls.Add(this.labelPanel);
-			this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.buttonPanel.Location = new System.Drawing.Point(0, 413);
-			this.buttonPanel.Name = "buttonPanel";
-			this.buttonPanel.Size = new System.Drawing.Size(1264, 335);
-			this.buttonPanel.TabIndex = 63;
+			this.tdPanel.Controls.Add(this.tdFlowLayoutPanel);
+			this.tdPanel.Controls.Add(this.labelPanel);
+			this.tdPanel.Controls.Add(this.unifyPanel);
+			this.tdPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.tdPanel.Location = new System.Drawing.Point(0, 413);
+			this.tdPanel.Name = "tdPanel";
+			this.tdPanel.Size = new System.Drawing.Size(1264, 335);
+			this.tdPanel.TabIndex = 63;
 			// 
 			// unifyPanel
 			// 
 			this.unifyPanel.BackColor = System.Drawing.Color.White;
-			this.unifyPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.unifyPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.unifyPanel.Controls.Add(this.zeroButton);
 			this.unifyPanel.Controls.Add(this.multiButton);
 			this.unifyPanel.Controls.Add(this.initButton);
@@ -777,8 +807,8 @@ namespace LightController.MyForm
 			// playBasePanel
 			// 
 			this.playBasePanel.BackColor = System.Drawing.Color.White;
-			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.playBasePanel.Controls.Add(this.statusStrip1);
+			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.playBasePanel.Controls.Add(this.myStatusStrip);
 			this.playBasePanel.Controls.Add(this.playPanel);
 			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.playBasePanel.Location = new System.Drawing.Point(0, 748);
@@ -786,22 +816,21 @@ namespace LightController.MyForm
 			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
 			this.playBasePanel.TabIndex = 67;
 			// 
-			// statusStrip1
+			// myStatusStrip
 			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 72);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1262, 22);
-			this.statusStrip1.SizingGrip = false;
-			this.statusStrip1.TabIndex = 31;
-			this.statusStrip1.Text = "statusStrip1";
+			this.myStatusStrip.Location = new System.Drawing.Point(0, 70);
+			this.myStatusStrip.Name = "myStatusStrip";
+			this.myStatusStrip.Size = new System.Drawing.Size(1260, 22);
+			this.myStatusStrip.SizingGrip = false;
+			this.myStatusStrip.TabIndex = 33;
+			this.myStatusStrip.Text = "statusStrip1";
 			// 
 			// myStatusLabel
 			// 
-			this.myStatusLabel.AutoSize = false;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(1247, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(1245, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -818,20 +847,21 @@ namespace LightController.MyForm
 			this.skinComboBox.Visible = false;
 			this.skinComboBox.SelectedIndexChanged += new System.EventHandler(this.skinComboBox_SelectedIndexChanged);
 			// 
-			// panel7
+			// projectPanel
 			// 
-			this.panel7.Controls.Add(this.newProjectButton);
-			this.panel7.Controls.Add(this.exportProjectButton);
-			this.panel7.Controls.Add(this.useFrameButton);
-			this.panel7.Controls.Add(this.openProjectButton);
-			this.panel7.Controls.Add(this.saveProjectButton);
-			this.panel7.Controls.Add(this.saveFrameButton);
-			this.panel7.Controls.Add(this.closeProjectButton);
-			this.panel7.Dock = System.Windows.Forms.DockStyle.Left;
-			this.panel7.Location = new System.Drawing.Point(0, 0);
-			this.panel7.Name = "panel7";
-			this.panel7.Size = new System.Drawing.Size(95, 383);
-			this.panel7.TabIndex = 69;
+			this.projectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.projectPanel.Controls.Add(this.newProjectButton);
+			this.projectPanel.Controls.Add(this.exportProjectButton);
+			this.projectPanel.Controls.Add(this.useFrameButton);
+			this.projectPanel.Controls.Add(this.openProjectButton);
+			this.projectPanel.Controls.Add(this.saveProjectButton);
+			this.projectPanel.Controls.Add(this.saveFrameButton);
+			this.projectPanel.Controls.Add(this.closeProjectButton);
+			this.projectPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.projectPanel.Location = new System.Drawing.Point(0, 0);
+			this.projectPanel.Name = "projectPanel";
+			this.projectPanel.Size = new System.Drawing.Size(95, 383);
+			this.projectPanel.TabIndex = 69;
 			// 
 			// newProjectButton
 			// 
@@ -917,19 +947,22 @@ namespace LightController.MyForm
 			// lightsListView
 			// 
 			this.lightsListView.BackColor = System.Drawing.SystemColors.Window;
-			this.lightsListView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lightsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lightType});
+			this.lightsListView.ContextMenuStrip = this.myContextMenuStrip;
 			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lightsListView.HideSelection = false;
 			this.lightsListView.LargeImageList = this.lightLargeImageList;
 			this.lightsListView.Location = new System.Drawing.Point(95, 0);
 			this.lightsListView.Margin = new System.Windows.Forms.Padding(2);
 			this.lightsListView.Name = "lightsListView";
-			this.lightsListView.Size = new System.Drawing.Size(1169, 383);
+			this.lightsListView.Size = new System.Drawing.Size(994, 296);
 			this.lightsListView.TabIndex = 50;
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
 			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
+			this.lightsListView.DragOver += new System.Windows.Forms.DragEventHandler(this.lightsListView_DragOver);
+			this.lightsListView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lightsListView_MouseDown);
+			this.lightsListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lightsListView_MouseMove);
 			// 
 			// lightType
 			// 
@@ -1034,7 +1067,7 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.copyStepButton);
 			this.stepPanel.Controls.Add(this.addStepButton);
 			this.stepPanel.Controls.Add(this.pasteStepButton);
-			this.stepPanel.Location = new System.Drawing.Point(98, 1);
+			this.stepPanel.Location = new System.Drawing.Point(111, 1);
 			this.stepPanel.Name = "stepPanel";
 			this.stepPanel.Size = new System.Drawing.Size(938, 83);
 			this.stepPanel.TabIndex = 65;
@@ -1138,6 +1171,7 @@ namespace LightController.MyForm
 			this.syncButton.TabIndex = 49;
 			this.syncButton.Text = "进入同步";
 			this.syncButton.UseVisualStyleBackColor = false;
+			this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
 			// 
 			// multiLightButton
 			// 
@@ -1266,10 +1300,10 @@ namespace LightController.MyForm
 			// 
 			// topPanel
 			// 
-			this.topPanel.Controls.Add(this.lightInfoGroupBox);
-			this.topPanel.Controls.Add(this.stepBasePanel);
 			this.topPanel.Controls.Add(this.lightsListView);
-			this.topPanel.Controls.Add(this.panel7);
+			this.topPanel.Controls.Add(this.lightInfoPanel);
+			this.topPanel.Controls.Add(this.stepBasePanel);
+			this.topPanel.Controls.Add(this.projectPanel);
 			this.topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.topPanel.Location = new System.Drawing.Point(0, 30);
 			this.topPanel.Name = "topPanel";
@@ -1281,6 +1315,19 @@ namespace LightController.MyForm
 			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
 			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
 			// 
+			// lightInfoPanel
+			// 
+			this.lightInfoPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lightInfoPanel.Controls.Add(this.currentLightPictureBox);
+			this.lightInfoPanel.Controls.Add(this.lightsAddrLabel);
+			this.lightInfoPanel.Controls.Add(this.lightTypeLabel);
+			this.lightInfoPanel.Controls.Add(this.lightNameLabel);
+			this.lightInfoPanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lightInfoPanel.Location = new System.Drawing.Point(1089, 0);
+			this.lightInfoPanel.Name = "lightInfoPanel";
+			this.lightInfoPanel.Size = new System.Drawing.Size(175, 296);
+			this.lightInfoPanel.TabIndex = 9;
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1289,9 +1336,9 @@ namespace LightController.MyForm
 			this.ClientSize = new System.Drawing.Size(1264, 844);
 			this.Controls.Add(this.topPanel);
 			this.Controls.Add(this.skinComboBox);
-			this.Controls.Add(this.buttonPanel);
-			this.Controls.Add(this.mainMenuStrip);
+			this.Controls.Add(this.tdPanel);
 			this.Controls.Add(this.playBasePanel);
+			this.Controls.Add(this.mainMenuStrip);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "NewMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1300,7 +1347,7 @@ namespace LightController.MyForm
 			this.mainMenuStrip.PerformLayout();
 			this.playPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
-			this.lightInfoGroupBox.ResumeLayout(false);
+			this.myContextMenuStrip.ResumeLayout(false);
 			this.labelPanel.ResumeLayout(false);
 			this.labelPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
@@ -1311,18 +1358,19 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).EndInit();
-			this.buttonPanel.ResumeLayout(false);
+			this.tdPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
 			this.playBasePanel.ResumeLayout(false);
 			this.playBasePanel.PerformLayout();
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
-			this.panel7.ResumeLayout(false);
+			this.myStatusStrip.ResumeLayout(false);
+			this.myStatusStrip.PerformLayout();
+			this.projectPanel.ResumeLayout(false);
 			this.stepBasePanel.ResumeLayout(false);
 			this.stepPanel.ResumeLayout(false);
 			this.stepPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).EndInit();
 			this.topPanel.ResumeLayout(false);
+			this.lightInfoPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -1361,11 +1409,10 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Label lightTypeLabel;
 		private System.Windows.Forms.Label lightNameLabel;
 		private System.Windows.Forms.PictureBox currentLightPictureBox;
-		private System.Windows.Forms.GroupBox lightInfoGroupBox;
 		private System.Windows.Forms.Panel labelPanel;
-		private System.Windows.Forms.Label thirdLabel1;
-		private System.Windows.Forms.Label secondLabel1;
-		private System.Windows.Forms.Label firstLabel1;
+		private System.Windows.Forms.Label thirdLabel;
+		private System.Windows.Forms.Label secondLabel;
+		private System.Windows.Forms.Label firstLabel;
 		private System.Windows.Forms.ComboBox unifyChangeModeComboBox;
 		private System.Windows.Forms.NumericUpDown unifyValueNumericUpDown;
 		private System.Windows.Forms.NumericUpDown unifyStepTimeNumericUpDown;
@@ -1375,13 +1422,12 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button initButton;
 		private System.Windows.Forms.Button zeroButton;
 		private System.Windows.Forms.FlowLayoutPanel tdFlowLayoutPanel;
-		private System.Windows.Forms.Panel buttonPanel;
+		private System.Windows.Forms.Panel tdPanel;
 		private System.Windows.Forms.Panel unifyPanel;
 		private System.Windows.Forms.Panel playBasePanel;
 		private System.Windows.Forms.Button multiButton;
-		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ComboBox skinComboBox;
-		private System.Windows.Forms.Panel panel7;
+		private System.Windows.Forms.Panel projectPanel;
 		private System.Windows.Forms.Button newProjectButton;
 		private System.Windows.Forms.Button exportProjectButton;
 		private System.Windows.Forms.Button useFrameButton;
@@ -1414,7 +1460,6 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button addStepButton;
 		private System.Windows.Forms.Button pasteStepButton;
 		private System.Windows.Forms.Panel topPanel;
-		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ImageList lightLargeImageList;
 
@@ -1438,5 +1483,13 @@ namespace LightController.MyForm
 		private Button realtimeButton;
 		private Button keepButton;
 		private FolderBrowserDialog exportFolderBrowserDialog;
+		private StatusStrip myStatusStrip;
+		private ToolStripStatusLabel myStatusLabel;
+		private ContextMenuStrip myContextMenuStrip;
+		private ToolStripMenuItem hideMenuStriplToolStripMenuItem;
+		private ToolStripMenuItem hideProjectPanelToolStripMenuItem;
+		private ToolStripMenuItem hideUnifyPanelToolStripMenuItem;
+		private ToolStripMenuItem hidePlayPanelToolStripMenuItem;
+		private Panel lightInfoPanel;
 	}
 }

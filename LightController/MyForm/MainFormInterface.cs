@@ -21,6 +21,8 @@ namespace LightController.MyForm
 {
 	public class MainFormInterface : System.Windows.Forms.Form
 	{
+		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
+
 		// 辅助的bool变量：	
 		protected bool isNew = true;  //点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -2017,7 +2019,7 @@ namespace LightController.MyForm
 		#region 一些点击事件的统一实现
 
 		/// <summary>
-		///  辅助方法：使用素材
+		///  辅助方法：点击《使用素材》
 		/// </summary>
 		protected void useMaterial()
 		{
@@ -2026,7 +2028,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：保存素材
+		/// 辅助方法：点击《保存素材》
 		/// </summary>
 		protected void saveMaterial() {
 
@@ -2069,7 +2071,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：保存场景
+		/// 辅助方法：点击《保存场景》
 		/// </summary>
 		protected void saveFrameClick() {
 
@@ -2081,7 +2083,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：保存工程
+		/// 辅助方法：点击《保存工程》
 		/// </summary>
 		protected void saveProjectClick() {
 			SetNotice("正在保存工程,请稍候...");
@@ -2092,7 +2094,7 @@ namespace LightController.MyForm
 		}
 			   
 		/// <summary>
-		/// 辅助方法：预览效果
+		/// 辅助方法：点击《预览效果》
 		/// </summary>
 		internal void Preview()
 		{
@@ -2100,7 +2102,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击新建工程
+		/// 辅助方法：点击《新建工程》
 		/// </summary>
 		protected void newProjectClick() {
 
@@ -2116,11 +2118,52 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 辅助方法：点击《打开工程》
+		/// </summary>
+		protected void openProjectClick() {
+			new OpenForm(this, currentProjectName).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《调用场景》
+		/// </summary>
+		protected void useFrameClick()
+		{
+			new UseFrameForm(this, frame).ShowDialog();
+		}	
+
+		/// <summary>
 		/// 辅助方法：打开《灯具列表》
 		/// </summary>
 		protected void editLightList() {
 			new LightsForm(this, lightAstList).ShowDialog();
 		}
+
+		/// <summary>
+		/// 辅助方法：打开《全局设置》
+		/// </summary>
+		protected void globalSetClick() {
+			new GlobalSetForm(this, globalIniPath).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：打开《摇麦设置》
+		/// </summary>
+		protected void ymSetClick()
+		{
+			new YMSetForm(this, globalIniPath).ShowDialog();
+		}
+
+
+		/// <summary>
+		/// 辅助方法：结束预览
+		/// </summary>
+		protected void endview()
+		{		
+			playTools.EndView();
+			SetNotice("已结束预览。");
+		}
+
 
 		#endregion
 	}

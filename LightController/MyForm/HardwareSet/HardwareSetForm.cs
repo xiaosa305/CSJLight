@@ -18,7 +18,7 @@ namespace LightController.MyForm
 {
 	public partial class HardwareSetForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private string iniPath;  
 		private string hName;
 		private bool isNew = true;
@@ -39,7 +39,7 @@ namespace LightController.MyForm
 		/// 构造函数：初始化各个变量
 		/// </summary>
 		/// <param name="iniPath">通过传入iniPath（空值或有值）来决定要生成的数据的模板</param>
-		public HardwareSetForm(MainFormInterface mainForm, string iniPath, string hName)
+		public HardwareSetForm(MainFormBase mainForm, string iniPath, string hName)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -329,7 +329,7 @@ namespace LightController.MyForm
 			connectTools = ConnectTools.GetInstance();
 			connectTools.Start(localIP);
 			connectTools.SearchDevice();
-			Thread.Sleep(MainFormInterface.NETWORK_WAITTIME);
+			Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
 
 			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();			
 			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])

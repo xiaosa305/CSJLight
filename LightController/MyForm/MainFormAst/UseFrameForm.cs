@@ -11,21 +11,21 @@ namespace LightController.MyForm
 {
 	public partial class UseFrameForm : Form
 	{
-		private MainFormInterface mainForm;	
+		private MainFormBase mainForm;	
 		private IList<int> frameIndexList  = new List<int>();  // 辅助变量，用于存储场景列表的index列表 
 
 
-		public UseFrameForm(MainFormInterface mainForm, int currentFrameIndex)
+		public UseFrameForm(MainFormBase mainForm, int currentFrameIndex)
 		{
 			InitializeComponent();
 
 			this.mainForm = mainForm;
 			
-			for (int frameIndex = 0; frameIndex < MainFormInterface.AllFrameList.Count; frameIndex++)
+			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 				if (frameIndex != currentFrameIndex)
 				{
-					frameComboBox.Items.Add(MainFormInterface.AllFrameList[frameIndex]);
+					frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
 					frameIndexList.Add(frameIndex); 
 				}
 			}

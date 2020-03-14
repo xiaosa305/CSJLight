@@ -13,13 +13,13 @@ namespace LightController.MyForm
 {
 	public partial class OpenForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private string currentProjectName = "";  // 辅助变量：若当前已在打开某工程状态下，不应该可以删除这个工程。此变量便于与选中工程进行比较，避免误删		
 		private bool isJustDelete = false;  // 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；此时为用户体验考虑，不应该可以删除，
 		private string savePath;   // 辅助变量，获取软件的存储目录。
 		private string selectedProjectName; // 临时变量，存储右键选中后弹出的重命名菜单
 
-		public OpenForm(MainFormInterface mainForm, string currentProjectName)
+		public OpenForm(MainFormBase mainForm, string currentProjectName)
 		{
 			InitializeComponent();
 		

@@ -23,8 +23,8 @@ namespace LightController
 
 
 
-		private MainFormInterface mainForm;		
-		public LightsForm(MainFormInterface mainForm, IList<LightAst> lightAstListFromMain)
+		private MainFormBase mainForm;		
+		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -120,11 +120,14 @@ namespace LightController
 		internal void AddListViewAndLightAst(String lightPath,string lightName, string lightType, 
 					string lightAddr,string lightPic,int startNum,int endNum,int lightCount)
 		{
-			// 先检查lightPic：若lightPic不在imageList中，则设置默认图片
-			if (! this.largeImageList.Images.ContainsKey(lightPic))
-			{
-				lightPic = "灯光图.png";
-			}
+
+			//MARK 0314 删除LightsForm的ImageList
+
+			//// 先检查lightPic：若lightPic不在imageList中，则设置默认图片
+			//if (! this.largeImageList.Images.ContainsKey(lightPic))
+			//{
+			//	lightPic = "灯光图.png";
+			//}
 
 			// 新增时，1.直接往listView加数据，
 			addListViewItem(lightName, lightType, lightAddr, lightPic);

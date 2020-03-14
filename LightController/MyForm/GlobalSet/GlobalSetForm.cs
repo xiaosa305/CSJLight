@@ -13,7 +13,7 @@ namespace LightController.MyForm
 {
 	public partial class GlobalSetForm : Form
 	{
-		public MainFormInterface mainForm;
+		public MainFormBase mainForm;
 		private string iniFilePath;
 		private IniFileAst iniAst ;
 		private bool isInit = false;
@@ -23,7 +23,7 @@ namespace LightController.MyForm
 		private int frameCount = 0 ;
 		public static int MULTI_SCENE_COUNT = 16 ;
 
-		public GlobalSetForm(MainFormInterface mainForm,string iniFilePath) {
+		public GlobalSetForm(MainFormBase mainForm,string iniFilePath) {
 
 			this.mainForm = mainForm;
 			this.iniFilePath = iniFilePath;
@@ -54,7 +54,7 @@ namespace LightController.MyForm
 			this.frameNumericUpDowns[3] = frame4numericUpDown;
 						
 			// 将所有的场景加入到《开机启动场景》及《强电选择框》中			
-			foreach (string frame in MainFormInterface.AllFrameList)
+			foreach (string frame in MainFormBase.AllFrameList)
 			{
 				qdFrameComboBox.Items.Add(frame);
 				startupComboBox.Items.Add(frame);
@@ -62,15 +62,15 @@ namespace LightController.MyForm
 			// 组合播放只有前面 n 个场景可以用(全局静态变量，便于随时改动)。
 			for (int i = 0; i < MULTI_SCENE_COUNT; i++)
 			{
-				zuheFrameComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
+				zuheFrameComboBox.Items.Add(MainFormBase.AllFrameList[i]);
 			}
 			// 组合播放可调用的子场景--》目前全部可用
 			for (int i = 0; i < 32; i++)
 			{
-				frame1ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
-				frame2ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
-				frame3ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
-				frame4ComboBox.Items.Add(MainFormInterface.AllFrameList[i]);
+				frame1ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
+				frame2ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
+				frame3ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
+				frame4ComboBox.Items.Add(MainFormBase.AllFrameList[i]);
 			}
 
 
@@ -89,7 +89,7 @@ namespace LightController.MyForm
 			frame4ComboBox.SelectedIndex = 0;
 
 			//	9.12 动态添加各种场景panel
-			frameCount =  MainFormInterface.AllFrameList.Count;
+			frameCount =  MainFormBase.AllFrameList.Count;
 			skPanels = new Panel[frameCount];
 			skFrameButtons = new Button[frameCount];
 			skStepTimeNumericUpDowns = new NumericUpDown[frameCount];
@@ -98,7 +98,7 @@ namespace LightController.MyForm
 
 			for (int panelIndex = 0;panelIndex< frameCount; panelIndex++)
 			{
-				addFramePanel(panelIndex, MainFormInterface.AllFrameList[panelIndex]);
+				addFramePanel(panelIndex, MainFormBase.AllFrameList[panelIndex]);
 				skFrameButtons[panelIndex].Click += new EventHandler(skFrameSkinButton_Click);
 				skStepTimeNumericUpDowns[panelIndex].ValueChanged += new EventHandler(skStepTimeNumericUpDowns_ValueChanged);
 			}
@@ -331,7 +331,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：刷新 实际 事件（步时间*时间因子）
+		/// 辅助方法：刷新 实际 时间（步时间*时间因子）
 		/// </summary>
 		private void refreshSKSet()
 		{

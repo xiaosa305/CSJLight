@@ -14,13 +14,13 @@ namespace LightController.MyForm
 {
 	public partial class MultiStepCopyForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private IList<StepWrapper> stepWrapperList;
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
 		private int mode;
 
-		public MultiStepCopyForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode,string lightFullName,int currentStep)
+		public MultiStepCopyForm(MainFormBase mainForm, IList<StepWrapper> stepWrapperList ,int mode,string lightFullName,int currentStep)
 		{
 			if (currentStep == 0 || stepWrapperList == null || stepWrapperList.Count == 0)
 			{

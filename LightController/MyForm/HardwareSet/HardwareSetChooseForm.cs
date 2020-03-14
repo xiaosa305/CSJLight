@@ -13,11 +13,11 @@ namespace LightController.MyForm
 {
 	public partial class HardwareSetChooseForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private bool isJustDelete = false;
 		private string savePath ;
 
-		public HardwareSetChooseForm(MainFormInterface mainForm)
+		public HardwareSetChooseForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();

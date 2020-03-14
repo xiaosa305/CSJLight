@@ -24,9 +24,9 @@ namespace LightController.Tools
         private DBWrapper DBWrapper { get; set; }
         private ValueDAO ValueDAO { get; set; }
         private string ConfigPath { get; set; }
-        private MainFormInterface MainForm { get; set; }
+        private MainFormBase MainForm { get; set; }
         private static SerialConnect SerialConnect { get; set; }
-        public Test(DBWrapper dBWrapper, MainFormInterface mainForm, string configPath)
+        public Test(DBWrapper dBWrapper, MainFormBase mainForm, string configPath)
         {
             this.DBWrapper = dBWrapper;
             this.MainForm = mainForm;

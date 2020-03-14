@@ -66,8 +66,10 @@ namespace LightController.MyForm
 			this.lightsAddrLabel = new System.Windows.Forms.Label();
 			this.lightTypeLabel = new System.Windows.Forms.Label();
 			this.lightNameLabel = new System.Windows.Forms.Label();
-			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.addLightRemarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.hideMenuStriplToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideUnifyPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,7 +111,7 @@ namespace LightController.MyForm
 			this.closeProjectButton = new System.Windows.Forms.Button();
 			this.lightsListView = new System.Windows.Forms.ListView();
 			this.lightType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
+			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.stepBasePanel = new System.Windows.Forms.Panel();
 			this.stepPanel = new System.Windows.Forms.Panel();
 			this.chooseStepButton = new System.Windows.Forms.Button();
@@ -134,12 +136,10 @@ namespace LightController.MyForm
 			this.addStepButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.topPanel = new System.Windows.Forms.Panel();
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
+			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.myContextMenuStrip.SuspendLayout();
 			this.labelPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
@@ -159,6 +159,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
 			this.topPanel.SuspendLayout();
 			this.lightInfoPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// skinEngine1
@@ -485,51 +486,64 @@ namespace LightController.MyForm
 			this.lightNameLabel.TabIndex = 8;
 			this.lightNameLabel.Text = " ";
 			// 
-			// currentLightPictureBox
-			// 
-			this.currentLightPictureBox.InitialImage = null;
-			this.currentLightPictureBox.Location = new System.Drawing.Point(32, 17);
-			this.currentLightPictureBox.Name = "currentLightPictureBox";
-			this.currentLightPictureBox.Size = new System.Drawing.Size(110, 115);
-			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.currentLightPictureBox.TabIndex = 6;
-			this.currentLightPictureBox.TabStop = false;
-			// 
 			// myContextMenuStrip
 			// 
 			this.myContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addLightRemarkToolStripMenuItem,
+            this.refreshPicToolStripMenuItem,
+            this.toolStripSeparator4,
             this.hideMenuStriplToolStripMenuItem,
             this.hideProjectPanelToolStripMenuItem,
             this.hideUnifyPanelToolStripMenuItem,
             this.hidePlayPanelToolStripMenuItem});
 			this.myContextMenuStrip.Name = "myContextMenuStrip";
-			this.myContextMenuStrip.Size = new System.Drawing.Size(161, 92);
+			this.myContextMenuStrip.Size = new System.Drawing.Size(181, 164);
+			// 
+			// addLightRemarkToolStripMenuItem
+			// 
+			this.addLightRemarkToolStripMenuItem.Name = "addLightRemarkToolStripMenuItem";
+			this.addLightRemarkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.addLightRemarkToolStripMenuItem.Text = "为灯具添加备注";
+			this.addLightRemarkToolStripMenuItem.Click += new System.EventHandler(this.addLightRemarkToolStripMenuItem_Click);
+			// 
+			// refreshPicToolStripMenuItem
+			// 
+			this.refreshPicToolStripMenuItem.Enabled = false;
+			this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
+			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
+			this.refreshPicToolStripMenuItem.Click += new System.EventHandler(this.refreshPicToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
 			// 
 			// hideMenuStriplToolStripMenuItem
 			// 
 			this.hideMenuStriplToolStripMenuItem.Name = "hideMenuStriplToolStripMenuItem";
-			this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hideMenuStriplToolStripMenuItem.Text = "隐藏主菜单面板";
 			this.hideMenuStriplToolStripMenuItem.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
 			// 
 			// hideProjectPanelToolStripMenuItem
 			// 
 			this.hideProjectPanelToolStripMenuItem.Name = "hideProjectPanelToolStripMenuItem";
-			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hideProjectPanelToolStripMenuItem.Text = "隐藏工程面板";
 			this.hideProjectPanelToolStripMenuItem.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
 			// 
 			// hideUnifyPanelToolStripMenuItem
 			// 
 			this.hideUnifyPanelToolStripMenuItem.Name = "hideUnifyPanelToolStripMenuItem";
-			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hideUnifyPanelToolStripMenuItem.Text = "隐藏辅助面板";
 			this.hideUnifyPanelToolStripMenuItem.Click += new System.EventHandler(this.hideUnifyPanelToolStripMenuItem_Click);
 			// 
 			// hidePlayPanelToolStripMenuItem
 			// 
 			this.hidePlayPanelToolStripMenuItem.Name = "hidePlayPanelToolStripMenuItem";
-			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hidePlayPanelToolStripMenuItem.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
 			// 
@@ -729,7 +743,13 @@ namespace LightController.MyForm
 			// 
 			// tdStNumericUpDown1
 			// 
+			this.tdStNumericUpDown1.DecimalPlaces = 2;
 			this.tdStNumericUpDown1.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdStNumericUpDown1.Increment = new decimal(new int[] {
+            3,
+            0,
+            0,
+            131072});
 			this.tdStNumericUpDown1.Location = new System.Drawing.Point(12, 271);
 			this.tdStNumericUpDown1.Name = "tdStNumericUpDown1";
 			this.tdStNumericUpDown1.Size = new System.Drawing.Size(60, 20);
@@ -952,7 +972,7 @@ namespace LightController.MyForm
 			this.lightsListView.ContextMenuStrip = this.myContextMenuStrip;
 			this.lightsListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lightsListView.HideSelection = false;
-			this.lightsListView.LargeImageList = this.lightLargeImageList;
+			this.lightsListView.LargeImageList = this.lightImageList;
 			this.lightsListView.Location = new System.Drawing.Point(95, 0);
 			this.lightsListView.Margin = new System.Windows.Forms.Padding(2);
 			this.lightsListView.Name = "lightsListView";
@@ -968,73 +988,74 @@ namespace LightController.MyForm
 			// 
 			this.lightType.Text = "LightType";
 			// 
-			// lightLargeImageList
+			// lightImageList
 			// 
-			this.lightLargeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightLargeImageList.ImageStream")));
-			this.lightLargeImageList.TransparentColor = System.Drawing.Color.Gainsboro;
-			this.lightLargeImageList.Images.SetKeyName(0, "2.bmp");
-			this.lightLargeImageList.Images.SetKeyName(1, "3.bmp");
-			this.lightLargeImageList.Images.SetKeyName(2, "4.bmp");
-			this.lightLargeImageList.Images.SetKeyName(3, "5.bmp");
-			this.lightLargeImageList.Images.SetKeyName(4, "6.bmp");
-			this.lightLargeImageList.Images.SetKeyName(5, "7.bmp");
-			this.lightLargeImageList.Images.SetKeyName(6, "8.bmp");
-			this.lightLargeImageList.Images.SetKeyName(7, "9.bmp");
-			this.lightLargeImageList.Images.SetKeyName(8, "10.bmp");
-			this.lightLargeImageList.Images.SetKeyName(9, "11.bmp");
-			this.lightLargeImageList.Images.SetKeyName(10, "12.bmp");
-			this.lightLargeImageList.Images.SetKeyName(11, "13.bmp");
-			this.lightLargeImageList.Images.SetKeyName(12, "14.bmp");
-			this.lightLargeImageList.Images.SetKeyName(13, "15.bmp");
-			this.lightLargeImageList.Images.SetKeyName(14, "16.bmp");
-			this.lightLargeImageList.Images.SetKeyName(15, "17.bmp");
-			this.lightLargeImageList.Images.SetKeyName(16, "18.bmp");
-			this.lightLargeImageList.Images.SetKeyName(17, "19.bmp");
-			this.lightLargeImageList.Images.SetKeyName(18, "20.bmp");
-			this.lightLargeImageList.Images.SetKeyName(19, "21.bmp");
-			this.lightLargeImageList.Images.SetKeyName(20, "22.bmp");
-			this.lightLargeImageList.Images.SetKeyName(21, "23.bmp");
-			this.lightLargeImageList.Images.SetKeyName(22, "24.bmp");
-			this.lightLargeImageList.Images.SetKeyName(23, "25.bmp");
-			this.lightLargeImageList.Images.SetKeyName(24, "27.bmp");
-			this.lightLargeImageList.Images.SetKeyName(25, "28.bmp");
-			this.lightLargeImageList.Images.SetKeyName(26, "29.gif");
-			this.lightLargeImageList.Images.SetKeyName(27, "30.bmp");
-			this.lightLargeImageList.Images.SetKeyName(28, "31.bmp");
-			this.lightLargeImageList.Images.SetKeyName(29, "ledpar.bmp");
-			this.lightLargeImageList.Images.SetKeyName(30, "RGB.ico");
-			this.lightLargeImageList.Images.SetKeyName(31, "灯带.bmp");
-			this.lightLargeImageList.Images.SetKeyName(32, "二合一.bmp");
-			this.lightLargeImageList.Images.SetKeyName(33, "二合一50.bmp");
-			this.lightLargeImageList.Images.SetKeyName(34, "魔球.bmp");
-			this.lightLargeImageList.Images.SetKeyName(35, "帕灯.bmp");
-			this.lightLargeImageList.Images.SetKeyName(36, "未知.ico");
-			this.lightLargeImageList.Images.SetKeyName(37, "1.bmp");
-			this.lightLargeImageList.Images.SetKeyName(38, "1.jpg");
-			this.lightLargeImageList.Images.SetKeyName(39, "灯光图.png");
-			this.lightLargeImageList.Images.SetKeyName(40, "3.jpg");
-			this.lightLargeImageList.Images.SetKeyName(41, "4.jpg");
-			this.lightLargeImageList.Images.SetKeyName(42, "5.jpg");
-			this.lightLargeImageList.Images.SetKeyName(43, "60w.jpg");
-			this.lightLargeImageList.Images.SetKeyName(44, "j(1).png");
-			this.lightLargeImageList.Images.SetKeyName(45, "j(2).png");
-			this.lightLargeImageList.Images.SetKeyName(46, "j(3).png");
-			this.lightLargeImageList.Images.SetKeyName(47, "j(4).png");
-			this.lightLargeImageList.Images.SetKeyName(48, "j(5).png");
-			this.lightLargeImageList.Images.SetKeyName(49, "j(6).png");
-			this.lightLargeImageList.Images.SetKeyName(50, "j(7).png");
-			this.lightLargeImageList.Images.SetKeyName(51, "j(8).png");
-			this.lightLargeImageList.Images.SetKeyName(52, "j(9).png");
-			this.lightLargeImageList.Images.SetKeyName(53, "j(10).png");
-			this.lightLargeImageList.Images.SetKeyName(54, "j(11).png");
-			this.lightLargeImageList.Images.SetKeyName(55, "a (1).jpg");
-			this.lightLargeImageList.Images.SetKeyName(56, "a (1).png");
-			this.lightLargeImageList.Images.SetKeyName(57, "a (2).jpg");
-			this.lightLargeImageList.Images.SetKeyName(58, "a (2).png");
+			this.lightImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightImageList.ImageStream")));
+			this.lightImageList.TransparentColor = System.Drawing.Color.Gainsboro;
+			this.lightImageList.Images.SetKeyName(0, "2.bmp");
+			this.lightImageList.Images.SetKeyName(1, "3.bmp");
+			this.lightImageList.Images.SetKeyName(2, "4.bmp");
+			this.lightImageList.Images.SetKeyName(3, "5.bmp");
+			this.lightImageList.Images.SetKeyName(4, "6.bmp");
+			this.lightImageList.Images.SetKeyName(5, "7.bmp");
+			this.lightImageList.Images.SetKeyName(6, "8.bmp");
+			this.lightImageList.Images.SetKeyName(7, "9.bmp");
+			this.lightImageList.Images.SetKeyName(8, "10.bmp");
+			this.lightImageList.Images.SetKeyName(9, "11.bmp");
+			this.lightImageList.Images.SetKeyName(10, "12.bmp");
+			this.lightImageList.Images.SetKeyName(11, "13.bmp");
+			this.lightImageList.Images.SetKeyName(12, "14.bmp");
+			this.lightImageList.Images.SetKeyName(13, "15.bmp");
+			this.lightImageList.Images.SetKeyName(14, "16.bmp");
+			this.lightImageList.Images.SetKeyName(15, "17.bmp");
+			this.lightImageList.Images.SetKeyName(16, "18.bmp");
+			this.lightImageList.Images.SetKeyName(17, "19.bmp");
+			this.lightImageList.Images.SetKeyName(18, "20.bmp");
+			this.lightImageList.Images.SetKeyName(19, "21.bmp");
+			this.lightImageList.Images.SetKeyName(20, "22.bmp");
+			this.lightImageList.Images.SetKeyName(21, "23.bmp");
+			this.lightImageList.Images.SetKeyName(22, "24.bmp");
+			this.lightImageList.Images.SetKeyName(23, "25.bmp");
+			this.lightImageList.Images.SetKeyName(24, "27.bmp");
+			this.lightImageList.Images.SetKeyName(25, "28.bmp");
+			this.lightImageList.Images.SetKeyName(26, "29.gif");
+			this.lightImageList.Images.SetKeyName(27, "30.bmp");
+			this.lightImageList.Images.SetKeyName(28, "31.bmp");
+			this.lightImageList.Images.SetKeyName(29, "ledpar.bmp");
+			this.lightImageList.Images.SetKeyName(30, "RGB.ico");
+			this.lightImageList.Images.SetKeyName(31, "灯带.bmp");
+			this.lightImageList.Images.SetKeyName(32, "二合一.bmp");
+			this.lightImageList.Images.SetKeyName(33, "二合一50.bmp");
+			this.lightImageList.Images.SetKeyName(34, "魔球.bmp");
+			this.lightImageList.Images.SetKeyName(35, "帕灯.bmp");
+			this.lightImageList.Images.SetKeyName(36, "未知.ico");
+			this.lightImageList.Images.SetKeyName(37, "1.bmp");
+			this.lightImageList.Images.SetKeyName(38, "1.jpg");
+			this.lightImageList.Images.SetKeyName(39, "灯光图.png");
+			this.lightImageList.Images.SetKeyName(40, "3.jpg");
+			this.lightImageList.Images.SetKeyName(41, "4.jpg");
+			this.lightImageList.Images.SetKeyName(42, "5.jpg");
+			this.lightImageList.Images.SetKeyName(43, "60w.jpg");
+			this.lightImageList.Images.SetKeyName(44, "j(1).png");
+			this.lightImageList.Images.SetKeyName(45, "j(2).png");
+			this.lightImageList.Images.SetKeyName(46, "j(3).png");
+			this.lightImageList.Images.SetKeyName(47, "j(4).png");
+			this.lightImageList.Images.SetKeyName(48, "j(5).png");
+			this.lightImageList.Images.SetKeyName(49, "j(6).png");
+			this.lightImageList.Images.SetKeyName(50, "j(7).png");
+			this.lightImageList.Images.SetKeyName(51, "j(8).png");
+			this.lightImageList.Images.SetKeyName(52, "j(9).png");
+			this.lightImageList.Images.SetKeyName(53, "j(10).png");
+			this.lightImageList.Images.SetKeyName(54, "j(11).png");
+			this.lightImageList.Images.SetKeyName(55, "a (1).jpg");
+			this.lightImageList.Images.SetKeyName(56, "a (1).png");
+			this.lightImageList.Images.SetKeyName(57, "a (2).jpg");
+			this.lightImageList.Images.SetKeyName(58, "a (2).png");
 			// 
 			// stepBasePanel
 			// 
 			this.stepBasePanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.stepBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.stepBasePanel.Controls.Add(this.stepPanel);
 			this.stepBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.stepBasePanel.Location = new System.Drawing.Point(95, 296);
@@ -1067,10 +1088,11 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.copyStepButton);
 			this.stepPanel.Controls.Add(this.addStepButton);
 			this.stepPanel.Controls.Add(this.pasteStepButton);
-			this.stepPanel.Location = new System.Drawing.Point(111, 1);
+			this.stepPanel.Location = new System.Drawing.Point(109, -1);
 			this.stepPanel.Name = "stepPanel";
 			this.stepPanel.Size = new System.Drawing.Size(938, 83);
 			this.stepPanel.TabIndex = 65;
+			this.stepPanel.Tag = "";
 			// 
 			// chooseStepButton
 			// 
@@ -1095,6 +1117,7 @@ namespace LightController.MyForm
 			// 
 			// modeComboBox
 			// 
+			this.modeComboBox.Enabled = false;
 			this.modeComboBox.FormattingEnabled = true;
 			this.modeComboBox.Location = new System.Drawing.Point(68, 49);
 			this.modeComboBox.Margin = new System.Windows.Forms.Padding(2);
@@ -1105,6 +1128,7 @@ namespace LightController.MyForm
 			// 
 			// frameComboBox
 			// 
+			this.frameComboBox.Enabled = false;
 			this.frameComboBox.FormattingEnabled = true;
 			this.frameComboBox.Location = new System.Drawing.Point(68, 17);
 			this.frameComboBox.Margin = new System.Windows.Forms.Padding(2);
@@ -1121,7 +1145,7 @@ namespace LightController.MyForm
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(72, 14);
 			this.stepLabel.TabIndex = 53;
-			this.stepLabel.Tag = "9999";
+			this.stepLabel.Tag = "999";
 			this.stepLabel.Text = "  0 / 0";
 			// 
 			// frameChooseLabel
@@ -1134,7 +1158,7 @@ namespace LightController.MyForm
 			this.frameChooseLabel.Name = "frameChooseLabel";
 			this.frameChooseLabel.Size = new System.Drawing.Size(41, 12);
 			this.frameChooseLabel.TabIndex = 20;
-			this.frameChooseLabel.Tag = "9999";
+			this.frameChooseLabel.Tag = "999";
 			this.frameChooseLabel.Text = "场景：";
 			// 
 			// chooseStepNumericUpDown
@@ -1155,7 +1179,7 @@ namespace LightController.MyForm
 			this.modeChooseLabel.Name = "modeChooseLabel";
 			this.modeChooseLabel.Size = new System.Drawing.Size(41, 12);
 			this.modeChooseLabel.TabIndex = 19;
-			this.modeChooseLabel.Tag = "9999";
+			this.modeChooseLabel.Tag = "999";
 			this.modeChooseLabel.Text = "模式：";
 			// 
 			// syncButton
@@ -1310,11 +1334,6 @@ namespace LightController.MyForm
 			this.topPanel.Size = new System.Drawing.Size(1264, 383);
 			this.topPanel.TabIndex = 70;
 			// 
-			// exportFolderBrowserDialog
-			// 
-			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
-			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
-			// 
 			// lightInfoPanel
 			// 
 			this.lightInfoPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -1328,6 +1347,16 @@ namespace LightController.MyForm
 			this.lightInfoPanel.Size = new System.Drawing.Size(175, 296);
 			this.lightInfoPanel.TabIndex = 9;
 			// 
+			// currentLightPictureBox
+			// 
+			this.currentLightPictureBox.InitialImage = null;
+			this.currentLightPictureBox.Location = new System.Drawing.Point(32, 17);
+			this.currentLightPictureBox.Name = "currentLightPictureBox";
+			this.currentLightPictureBox.Size = new System.Drawing.Size(110, 115);
+			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.currentLightPictureBox.TabIndex = 6;
+			this.currentLightPictureBox.TabStop = false;
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1340,13 +1369,13 @@ namespace LightController.MyForm
 			this.Controls.Add(this.playBasePanel);
 			this.Controls.Add(this.mainMenuStrip);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MinimumSize = new System.Drawing.Size(1280, 883);
 			this.Name = "NewMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
 			this.playPanel.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
 			this.myContextMenuStrip.ResumeLayout(false);
 			this.labelPanel.ResumeLayout(false);
 			this.labelPanel.PerformLayout();
@@ -1371,6 +1400,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).EndInit();
 			this.topPanel.ResumeLayout(false);
 			this.lightInfoPanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -1461,7 +1491,6 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button pasteStepButton;
 		private System.Windows.Forms.Panel topPanel;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ImageList lightLargeImageList;
 
 		private Panel[] tdPanels = new Panel[32];
 		private Label[] tdNoLabels = new Label[32];
@@ -1478,11 +1507,9 @@ namespace LightController.MyForm
 		private NumericUpDown tdValueNumericUpDown1;
 		private TrackBar tdTrackBar1;
 		private Button endviewButton;
-		private ToolTip myToolTip;
 		private Button chooseStepButton;
 		private Button realtimeButton;
 		private Button keepButton;
-		private FolderBrowserDialog exportFolderBrowserDialog;
 		private StatusStrip myStatusStrip;
 		private ToolStripStatusLabel myStatusLabel;
 		private ContextMenuStrip myContextMenuStrip;
@@ -1491,5 +1518,9 @@ namespace LightController.MyForm
 		private ToolStripMenuItem hideUnifyPanelToolStripMenuItem;
 		private ToolStripMenuItem hidePlayPanelToolStripMenuItem;
 		private Panel lightInfoPanel;
+		private ImageList lightImageList;
+		private ToolStripMenuItem refreshPicToolStripMenuItem;
+		private ToolStripSeparator toolStripSeparator4;
+		private ToolStripMenuItem addLightRemarkToolStripMenuItem;
 	}
 }

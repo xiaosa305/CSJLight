@@ -182,6 +182,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// eachStepTimeNumericUpDown
 			// 
+			this.eachStepTimeNumericUpDown.Enabled = false;
 			this.eachStepTimeNumericUpDown.Location = new System.Drawing.Point(146, 60);
 			this.eachStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.eachStepTimeNumericUpDown.Maximum = new decimal(new int[] {

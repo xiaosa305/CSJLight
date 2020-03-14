@@ -12,12 +12,12 @@ namespace LightController.MyForm
 {
 	public partial class SKForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private int frame;
 		private IniFileAst iniAst;
 		private int eachStepTime = 30;
 
-		public SKForm(MainFormInterface mainForm, string iniPath,int frame,string frameName)
+		public SKForm(MainFormBase mainForm, string iniPath,int frame,string frameName)
 		{
 			this.mainForm = mainForm;
 			this.frame = frame;

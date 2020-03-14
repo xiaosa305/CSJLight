@@ -21,18 +21,27 @@ using System.Windows.Forms;
 
 namespace LightController.MyForm
 {
-	public partial class NewMainForm : MainFormInterface
+	public partial class NewMainForm:MainFormBase 
 	{
+		#region 此处定义一些全局变量，用以界面风格的统一设置
+
 		private BorderStyle unifyBorderStyle = BorderStyle.Fixed3D; //统一为局内的所有panel设置统一的BorderStyle
+		//private Color unifyColor = Color.FromArgb(166,173,189);
+		private Color unifyColor = SystemColors.Window;
+		//private Color unifyColor2 = Color.FromArgb(232, 235, 241);
+		private Color unifyColor2 = SystemColors.Window;
+
+		#endregion
 
 		public NewMainForm()
-		{
+		{	
+			initGeneralControls(); //几个全局控件的初始化
 			InitializeComponent();
 
 			// 动态更改软件名称
-			softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY") 
+			appName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY") 
 				+" Dimmer System";
-			Text = softwareName;
+			Text = appName;
 			// 动态设定软件存储目录
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 			// 动态显示测试按钮
@@ -67,7 +76,7 @@ namespace LightController.MyForm
 				// tdTrackBar
 				// 
 				this.tdTrackBars[i].AutoSize = false;
-				this.tdTrackBars[i].BackColor = System.Drawing.SystemColors.Window;
+				this.tdTrackBars[i].BackColor = unifyColor2;
 				this.tdTrackBars[i].Location = new System.Drawing.Point(32, 35);
 				this.tdTrackBars[i].Maximum = 255;
 				this.tdTrackBars[i].Name = "tdTrackBar" + (i + 1);
@@ -123,6 +132,8 @@ namespace LightController.MyForm
 				this.tdStNumericUpDowns[i].Size = new System.Drawing.Size(60, 20);
 				this.tdStNumericUpDowns[i].TabIndex = 1;
 				this.tdStNumericUpDowns[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+				this.tdStNumericUpDowns[i].Increment = 0.03m;
+				this.tdStNumericUpDowns[i].DecimalPlaces = 2;
 
 				// 
 				// tdPanel
@@ -157,8 +168,7 @@ namespace LightController.MyForm
 				tdStNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
 				tdStNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 			}
-
-
+			
 			// 场景选项框		
 			//添加FramList.txt中的场景列表
 			AllFrameList = TextAst.Read(Application.StartupPath + @"\FrameList.txt");				
@@ -187,18 +197,30 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(useFrameButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepButton, "跳转指定步");
 			myToolTip.SetToolTip(keepButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
-
-
-			#region 皮肤相关代码
+			
+			#region 皮肤 及 panel样式 相关代码
 						
 			projectPanel.BorderStyle = unifyBorderStyle;
 			lightsListView.BorderStyle = unifyBorderStyle;
 			lightInfoPanel.BorderStyle = unifyBorderStyle;
-			labelPanel.BorderStyle = unifyBorderStyle;
-			tdFlowLayoutPanel.BorderStyle = unifyBorderStyle;
+			stepBasePanel.BorderStyle = unifyBorderStyle;
+			labelPanel.BorderStyle = unifyBorderStyle;			
+			tdFlowLayoutPanel.BorderStyle = unifyBorderStyle;			
 			unifyPanel.BorderStyle = unifyBorderStyle;
 			playBasePanel.BorderStyle = unifyBorderStyle;
 
+			mainMenuStrip.BackColor = unifyColor;
+			projectPanel.BackColor = unifyColor;
+			lightInfoPanel.BackColor = unifyColor;
+			labelPanel.BackColor = unifyColor;
+			unifyPanel.BackColor = unifyColor;
+			playBasePanel.BackColor = unifyColor;
+			//stepBasePanel.BackColor = unifyColor;
+
+			lightsListView.BackColor = unifyColor2;
+			tdFlowLayoutPanel.BackColor = unifyColor2;			
+
+			//更换IrisSkin4的皮肤
 			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
 			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
 			if (!String.IsNullOrEmpty(skin))
@@ -227,17 +249,16 @@ namespace LightController.MyForm
 			{
 				MessageBox.Show(ex.Message);
 			}
+
 			#endregion
 
+			isInit = true;
 		}
 
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
-
 			// 启动时刷新可用串口列表;
-			refreshComList();
-
-			
+			refreshComList();			
 		}
 				
 		#region 菜单栏 - 非工程相关
@@ -257,6 +278,10 @@ namespace LightController.MyForm
 			}
 			this.skinEngine1.Active = true;
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
+
+			//为避免label颜色看不见，每次更换皮肤后，可主动设置stepPanel背景色
+			//stepBasePanel.BackColor = SystemColors.ControlDarkDark;
+			//stepPanel.BackColor = SystemColors.ControlDarkDark;
 		}
 
 		/// <summary>
@@ -278,7 +303,7 @@ namespace LightController.MyForm
 		{
 			new HardwareSetChooseForm(this).ShowDialog();
 		}
-
+				
 		/// <summary>
 		/// 时间：点击《硬件配置 - 新建配置》
 		/// </summary>
@@ -296,9 +321,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void hardwareUpdateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new HardwareUpdateForm(this, binPath).ShowDialog();
+			hardwareUpdateClick();
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《其他工具 - 外设配置》
 		/// </summary>
@@ -306,15 +331,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			// 若要进入《其他工具》，应该先将连接断开
-			if (isConnected)
-			{
-				connectButton_Click(null, null);
-			}
-
-			new NewToolsForm(this).ShowDialog();
+			newToolClick();
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《其他工具 - 传视界灯控工具》
 		/// </summary>
@@ -417,14 +436,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void projectUpdateToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (isConnected)
-			{
-				connectButton_Click(null, null);
-			}
-
-			new ProjectUpdateForm(this, GetDBWrapper(false), globalIniPath, projectPath).ShowDialog();
+			projectUpdateClick();
 		}
-
+		
 		#endregion
 
 		#region 工程及场景相关：点击事件及辅助方法
@@ -486,38 +500,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void exportProjectButton_Click(object sender, EventArgs e)
 		{
-			DialogResult dr = MessageBox.Show("请确保工程已保存后再进行导出，否则可能会出错。确定现在导出吗？",
-					"导出工程？",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question);
-			if (dr == DialogResult.Cancel)
-			{
-				return;
-			}
-
-			dr = exportFolderBrowserDialog.ShowDialog();
-			if (dr == DialogResult.Cancel)
-			{
-				return;
-			}
-
-			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
-			DirectoryInfo di = new DirectoryInfo(exportPath);
-			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
-			{
-				dr = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
-						"覆盖工程？",
-						MessageBoxButtons.OKCancel,
-						MessageBoxIcon.Question);
-				if (dr == DialogResult.Cancel)
-				{
-					return;
-				}
-			}
-
-			SetNotice("正在导出工程，请稍候...");
-			setBusy(true);
-			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));
+			exportProjectClick(); 
 		}
 		
 		/// <summary>
@@ -527,47 +510,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void closeProjectButton_Click(object sender, EventArgs e)
 		{
-			DialogResult dr = MessageBox.Show("关闭工程前是否保存工程?",
-						"保存工程？",
-						MessageBoxButtons.YesNo,
-						MessageBoxIcon.Question);
-			if (dr == DialogResult.Yes)
-			{
-				saveProjectButton_Click(null, null);
-			}
-
-			clearAllData();
-			SetNotice("成功关闭工程。");
-			MessageBox.Show("成功关闭工程。");
-		}
-
-		/// <summary>
-		/// 辅助方法：导出工程的实现
-		/// </summary>
-		/// <param name="exportPath"></param>
-		/// <param name="success"></param>
-		public override void ExportProject(string exportPath, bool success)
-		{
-			if (success)
-			{
-				FileUtils.ExportProjectFile(exportPath);
-				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
-						"打开导出文件夹？",
-						MessageBoxButtons.OKCancel,
-						MessageBoxIcon.Question);
-				if (dr == DialogResult.OK)
-				{
-					System.Diagnostics.Process.Start(exportPath);
-				}
-			}
-			else
-			{
-				MessageBox.Show("导出工程出错。");
-			}
-
-			setBusy(false);
-			SetNotice("导出工程" + (success ? "成功" : "出错"));
-		}
+			closeProjectClick();
+		}	
 
 		/// <summary>
 		/// 辅助方法：是否显示《保存工程》等
@@ -588,9 +532,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void clearAllData()
 		{
+			base.clearAllData();
+
 			// 从此处起为子类的实现
 			//MARK＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋2222
-			this.Text = "Dimmer System";
+			this.Text = appName ;
 			lightsListView.Clear();
 			stepPanel.Enabled = false;
 			hideAllTDPanels();
@@ -620,10 +566,9 @@ namespace LightController.MyForm
 				// 添加灯具数据到LightsListView中
 				lightsListView.Items.Add(new ListViewItem(
 						//lightAstList2[i].LightName + ":" + 
-						lightAstList2[i].LightType +
-						"\n" +
+						lightAstList2[i].LightType + "\n" +
 						"(" + lightAstList2[i].LightAddr + ")",
-					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
+					lightImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				)
 				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
 				);
@@ -668,46 +613,12 @@ namespace LightController.MyForm
 				generateLightData();
 			}
 		}
-
-		/// <summary>
-		/// 辅助方法：初始化灯具数据。
-		/// 0.先查看当前内存是否已有此数据 
-		/// 1.若还未有，则取出相关的ini进行渲染
-		/// 2.若内存内 或 数据库内已有相关数据，则使用这个数据。
-		/// </summary>
-		/// <param name="la"></param>
-		private void generateLightData()
-		{
-			if (selectedIndex == -1)
-			{
-				return;
-			}
-			LightAst lightAst = lightAstList[selectedIndex];
-
-			// 1.在右侧灯具信息内显示选中灯具相关信息
-			editLightInfo(lightAst);
-
-			//2.判断是不是已经有stepTemplate了
-			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
-			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
-			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
-			//			若不为null，则说明已有数据，
-			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
-			if (lightWrapper.StepTemplate == null)
-			{
-				lightWrapper.StepTemplate = generateStepTemplate(lightAst);
-			}
-			stepPanel.Enabled = true;
-
-			//3.手动刷新当前步信息
-			RefreshStep();
-		}
-
+			
 		/// <summary>
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
 		/// </summary>
 		/// <param name="lightAst"></param>
-		private void editLightInfo(LightAst lightAst)
+		protected override void editLightInfo(LightAst lightAst)
 		{
 			if (lightAst == null)
 			{
@@ -731,7 +642,19 @@ namespace LightController.MyForm
 				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
 			}
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：初始化灯具数据。
+		/// 0.先查看当前内存是否已有此数据 
+		/// 1.若还未有，则取出相关的ini进行渲染
+		/// 2.若内存内 或 数据库内已有相关数据，则使用这个数据。
+		/// </summary>
+		/// <param name="la"></param>
+		protected override void enableStepPanel(bool enable)
+		{
+			stepPanel.Enabled = enable;
+		}
+
 		/// <summary>
 		/// 辅助方法: 确认选中灯具是否否同一种灯具：是则返回true,否则返回false。
 		/// 验证方法：取出第一个选中灯具的名字，若后面的灯具的全名（Tag =lightName + ":" + lightType)与它不同，说明不是同种灯具。（只要一个不同即可判断）
@@ -758,7 +681,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		/// <param name="startNum"></param>
-		private void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
+		protected override void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum)
 		{
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
@@ -783,7 +706,9 @@ namespace LightController.MyForm
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
-					tdStNumericUpDowns[i].Text = tongdaoList[i].StepTime.ToString();
+					
+					//MARK 0313 步时间 主动 乘以时间因子 后 再展示
+					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString() ;
 
 					tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
 					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
@@ -802,7 +727,7 @@ namespace LightController.MyForm
 		/// <summary>
 		///辅助方法：隐藏所有的TdPanel
 		/// </summary>
-		private void hideAllTDPanels()
+		protected override void hideAllTDPanels()
 		{
 			for (int i = 0; i < 32; i++)
 			{
@@ -815,6 +740,58 @@ namespace LightController.MyForm
 
 		//MARK：SkinMainForm灯具listView相关（右键菜单+位置等）
 		#region  灯具listView相关（右键菜单+位置等）
+
+		/// <summary>
+		/// 事件：点击《为灯具添加备注》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addLightRemarkToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (selectedIndex == -1)
+			{
+				Console.WriteLine("尚未选中灯具");
+				return;
+			}
+
+			lightsListView.SelectedItems[0].SubItems[0].Text += "\nhahah";
+
+		}
+
+		/// <summary>
+		/// 事件：重新加载灯具图片
+		///	-- 工程中添加的灯具，是忘了加图片的灯库文件，保存工程后其Pic属性是空的；
+		///	-- 而在修改灯具后这个值不会主动更新，此功能可手动修复此问题。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshPicToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			HashSet<string> lightPathHashSet = new HashSet<string>();
+			foreach (LightAst la in lightAstList)
+			{
+				lightPathHashSet.Add(la.LightPath);
+			}
+
+			Dictionary<string, string> lightDict = new Dictionary<string, string>();
+			foreach (var lightPath in lightPathHashSet)
+			{
+				string picStr = IniFileAst_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
+				if (String.IsNullOrEmpty(picStr))
+				{
+					picStr = "灯光图.png";
+				}
+				lightDict.Add(lightPath, picStr);
+			}
+
+			for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
+			{
+				string tempPicStr = lightDict[lightAstList[lightIndex].LightPath];
+				lightAstList[lightIndex].LightPic = tempPicStr;
+				lightsListView.Items[lightIndex].ImageKey = tempPicStr;
+			}
+
+		}
 		
 		// listView1.AllowDrop = true; 
 		// listView1.AutoArrange = false;
@@ -1019,41 +996,15 @@ namespace LightController.MyForm
 
 			lightsListView.EndUpdate();
 			MessageBox.Show("灯具位置读取成功。");
-		}
-			   
+		}			   
+		
 		/// <summary>
-		/// 事件：重新加载灯具图片
-		///	-- 工程中添加的灯具，是忘了加图片的灯库文件，保存工程后其Pic属性是空的；
-		///	-- 而在修改灯具后这个值不会主动更新，此功能可手动修复此问题。
+		/// 辅助方法：是否使能重新加载灯具图片
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void refreshPicToolStripMenuItem_Click(object sender, EventArgs e)
+		/// <param name="enable"></param>
+		protected override void enableRefreshPic(bool enable)
 		{
-			HashSet<string> lightPathHashSet = new HashSet<string>();
-			foreach (LightAst la in lightAstList)
-			{
-				lightPathHashSet.Add(la.LightPath);
-			}
-
-			Dictionary<string, string> lightDict = new Dictionary<string, string>();
-			foreach (var lightPath in lightPathHashSet)
-			{
-				string picStr = IniFileAst_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
-				if (String.IsNullOrEmpty(picStr))
-				{
-					picStr = "灯光图.png";
-				}
-				lightDict.Add(lightPath, picStr);
-			}
-
-			for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
-			{
-				string tempPicStr = lightDict[lightAstList[lightIndex].LightPath];
-				lightAstList[lightIndex].LightPic = tempPicStr;
-				lightsListView.Items[lightIndex].ImageKey = tempPicStr;
-			}
-
+			refreshPicToolStripMenuItem.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1066,16 +1017,7 @@ namespace LightController.MyForm
 			//saveArrangeToolStripMenuItem.Enabled = enableSave;
 			//loadArrangeToolStripMenuItem.Enabled = enableLoad;
 		}
-
-		/// <summary>
-		/// 辅助方法：是否使能重新加载灯具图片
-		/// </summary>
-		/// <param name="enable"></param>
-		protected override void enableRefreshPic(bool enable)
-		{
-			//refreshPicToolStripMenuItem.Enabled = enable;
-		}
-
+			   
 		#endregion
 
 		#region 几个显示或隐藏面板的菜单项
@@ -1146,7 +1088,7 @@ namespace LightController.MyForm
 			endview();
 
 			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[frame] + ")？",
-				"保存场景",
+				"保存场景?",
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
@@ -1162,7 +1104,7 @@ namespace LightController.MyForm
 				changeFrameMode();
 			}
 			SetNotice("成功切换场景");
-		}
+		}		
 
 		/// <summary>
 		/// 事件：更改《选择模式》选项后
@@ -1188,8 +1130,7 @@ namespace LightController.MyForm
 				{
 					this.tdCmComboBoxes[i].Items.Clear();
 					this.tdCmComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
-					this.tdStNumericUpDowns[i].Hide();
-					//this.tdTrueTimeLabels[i].Hide();
+					this.tdStNumericUpDowns[i].Hide();					
 				}
 				unifyChangeModeButton.Text = "统一声控";
 				unifyChangeModeComboBox.Items.Clear();
@@ -1200,9 +1141,6 @@ namespace LightController.MyForm
 				unifyStepTimeButton.Text = "修改此音频场景全局设置";
 				unifyStepTimeButton.Size = new System.Drawing.Size(210, 27);
 
-				//thirdLabel1.Hide();
-				//thirdLabel2.Hide();
-				//thirdLabel3.Hide();
 			}
 			else //mode=0，常规模式
 			{
@@ -1221,10 +1159,6 @@ namespace LightController.MyForm
 				unifyStepTimeNumericUpDown.Show();
 				unifyStepTimeButton.Text = "统一步时间";
 				unifyStepTimeButton.Size = new System.Drawing.Size(111, 27);
-
-				//thirdLabel1.Show();
-				//thirdLabel2.Show();
-				//thirdLabel3.Show();
 			}
 
 			if (lightAstList != null && lightAstList.Count > 0)
@@ -1314,9 +1248,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void backStepButton_Click(object sender, EventArgs e)
 		{
-			int currentStep = getCurrentStep();
-			chooseStep(currentStep > 1 ? currentStep - 1 : getTotalStep());
-		}
+			backStepClick();
+		}	
 
 		/// <summary>
 		///  事件：点击《下一步》
@@ -1326,10 +1259,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void nextStepButton_Click(object sender, EventArgs e)
 		{
-			int currentStep = getCurrentStep();
-			int totalStep = getTotalStep();
-			chooseStep(currentStep < totalStep ? currentStep + 1 : 1);
-		}
+			nextStepClick();
+		}		
 
 		/// <summary>
 		/// 事件：点击《跳转步》按钮
@@ -1353,71 +1284,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void insertStepButton_Click(object sender, EventArgs e)
 		{
-			// 获取当前步与最高值，总步数			
-			// 若当前步 <= 总步数，则可以插入，并将之后的步数往后移动
-			// 否则报错
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			if (lsWrapper.CurrentStep > lsWrapper.TotalStep)
-			{
-				MessageBox.Show("Dickov:当前步大于总步数");
-				return;
-			}
-
-			bool insertBefore = ((Button)sender).Name.Equals("insertBeforeButton"); // 插入的方式：前插(true）还是后插（false)			
-			int currentStep = lsWrapper.CurrentStep;    // 当前步
-			int stepIndex = currentStep - 1;  //插入的位置：InsertStep方法中有针对前后插的判断，无需处理
-
-			StepWrapper newStep;
-			if (insertBefore)
-			{
-				newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getCurrentStepTemplate() : getSelectedLightSelectedStepWrapper(selectedIndex, stepIndex - 1), mode);
-			}
-			else
-			{
-				newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getCurrentStepTemplate() : getCurrentStepWrapper(), mode);
-			}
-			lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
-
-			if (isSyncMode)
-			{
-				for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
-				{
-					if (lightIndex != selectedIndex)
-					{
-						if (insertBefore)
-						{
-							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), mode);
-						}
-						else
-						{
-							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), mode);
-						}
-						getSelectedLightStepWrapper(lightIndex).InsertStep(stepIndex, newStep, insertBefore);
-					}
-				}
-			}
-			else if (isMultiMode)
-			{
-				foreach (int lightIndex in selectedIndices)
-				{
-					if (lightIndex != selectedIndex)
-					{
-						if (insertBefore)
-						{
-							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), mode);
-						}
-						else
-						{
-							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), mode);
-						}
-						getSelectedLightStepWrapper(lightIndex).InsertStep(stepIndex, newStep, insertBefore);
-					}
-				}
-			}
-
-			RefreshStep();
+			bool insertBefore = ((Button)sender).Name.Equals("insertBeforeButton"); // 插入的方式：前插(true）还是后插（false)		
+			insertStepClick(insertBefore);
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《追加步》
 		/// </summary>
@@ -1425,38 +1295,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void addStepButton_Click(object sender, EventArgs e)
 		{
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-
-			//1.若当前灯具在本F/M下总步数为0 ，则使用stepTemplate数据，
-			//2.否则使用本灯当前最大步的数据			 
-			bool addTemplate = getTotalStep() == 0;
-			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), mode);
-			lsWrapper.AddStep(newStep);
-			if (isSyncMode)
-			{
-				for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
-				{
-					if (lightIndex != selectedIndex) //多一层保险...
-					{
-						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex), mode);
-						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
-					}
-				}
-			}
-			else if (isMultiMode)
-			{
-				foreach (int lightIndex in selectedIndices)
-				{
-					if (lightIndex != selectedIndex)
-					{
-						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex), mode);
-						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
-					}
-				}
-			}
-			RefreshStep();
+			addStepClick();
 		}
-
+		
 		/// <summary>
 		///  事件：点击《删除步》
 		///  1.获取当前步，当前步对应的stepIndex
@@ -1467,43 +1308,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deleteStepButton_Click(object sender, EventArgs e)
 		{
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			int stepIndex = getCurrentStep() - 1;
+			deleteStepClick();
+		}		
 
-			// 调用包装类内部的方法:删除某一步
-			try
-			{
-				lsWrapper.DeleteStep(stepIndex);
-				if (isSyncMode)
-				{
-					for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
-					{
-						if (lightIndex != selectedIndex)
-						{
-							getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
-						}
-					}
-				}
-				else if (isMultiMode)
-				{
-					foreach (int lightIndex in selectedIndices)
-					{
-						if (lightIndex != selectedIndex)
-						{
-							getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-				return;
-			}
-
-			RefreshStep();
-		}
-		
 		/// <summary>
 		/// 事件：点击《复制步》
 		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
@@ -1531,43 +1338,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void pasteStepButton_Click(object sender, EventArgs e)
 		{
-			// 1. 先判断是不是同模式及同一种灯具（非同一个灯具也可以复制，但需类型(同一个灯库内容)一样)
-			StepWrapper currentStep = getCurrentStepWrapper();
-			if (currentStep == null)
-			{
-				MessageBox.Show("当前步数据为空，无法粘贴步");
-				return;
-			}
-			if (currentStep.LightMode != tempStep.LightMode)
-			{
-				MessageBox.Show("不同模式下无法复制步");
-				return;
-			}
-			if (currentStep.LightFullName != tempStep.LightFullName)
-			{
-				MessageBox.Show("不同类型灯具无法复制步");
-				return;
-			}
-
-			// 2.逐一将TongdaoList的某些数值填入tempStep中，而非粗暴地将currentStep 设为tempStep
-			for (int i = 0; i < tempStep.TongdaoList.Count; i++)
-			{
-				currentStep.TongdaoList[i].ScrollValue = tempStep.TongdaoList[i].ScrollValue;
-				currentStep.TongdaoList[i].ChangeMode = tempStep.TongdaoList[i].ChangeMode;
-				currentStep.TongdaoList[i].StepTime = tempStep.TongdaoList[i].StepTime;
-			}
-
-
-			//3.如果是多灯模式，则需要在复制步之后处理下每个灯具的信息
-			if (isMultiMode)
-			{
-				copyStepToAll(getCurrentStep(), WHERE.ALL);
-			}
-
-			//4.刷新当前步
-			RefreshStep();
-
-		}
+			pasteStepClick();
+		}		
 
 		/// <summary>
 		/// 事件：点击《复制多步》
@@ -1608,25 +1380,7 @@ namespace LightController.MyForm
 		{
 			useMaterial();
 		}
-
-		/// <summary>
-		/// 辅助方法： 改变了模式和场景后的操作		
-		/// </summary>
-		private void changeFrameMode()
-		{
-			// 9.2 不可让selectedIndex为-1  , 否则会出现数组越界错误
-			if (selectedIndex == -1)
-			{
-				return;
-			}
-
-			/// 添加处理SyncSkinButton的显示（Visible和 Text)，以及相应的全局变量isSysn；
-			ResetSyncMode();
-
-			//最后都要用上RefreshStep()
-			RefreshStep();
-		}
-
+		
 		/// <summary>
 		///  9.16 辅助方法：进入《多灯模式》
 		/// </summary>
@@ -1678,59 +1432,11 @@ namespace LightController.MyForm
 			syncButton.Text = "进入同步";
 			isSyncMode = false;
 		}
-
-		//MARK：chooseStep(int)子类的实现。
-		/// <summary>
-		/// 辅助方法：抽象了【选择某一个指定步数后，统一的操作；NextStep和BackStep等应该都使用这个方法】
-		/// --所有更换通道数据的操作后，都应该使用这个方法。
-		/// </summary>
-		protected override void chooseStep(int stepNum)
-		{
-			if (stepNum == 0)
-			{
-				showTDPanels(null, 0);
-				showStepLabel(0, 0);
-				return;
-			}
-
-			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
-			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
-			lightStepWrapper.CurrentStep = stepNum;
-
-			//TODO：chooseStep()使用isReadDelay属性后的代码，暂时隐藏。
-			//if (isReadDelay) {
-			//	MakeCurrentStepWrapperData(stepNum); 
-			//}		
-
-			if (isMultiMode)
-			{
-				foreach (int lightIndex in selectedIndices)
-				{
-					getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum;
-				}
-			}
-			//11.27 若是同步状态，则选择步时，将所有灯都设为一致的步数
-			if (isSyncMode)
-			{
-				for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
-				{
-					getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum;
-				}
-			}
-
-			showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
-			showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
-
-			if (isConnected && isRealtime)
-			{
-				oneStepWork();
-			}
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：显示步数标签，并判断stepPanel按钮组是否可用
 		/// </summary>		
-		private void showStepLabel(int currentStep, int totalStep)
+		protected override void showStepLabel(int currentStep, int totalStep)
 		{
 			// 1. 设label的Text值					   
 			stepLabel.Text = MathAst.GetFourWidthNumStr(currentStep, true) + "/" + MathAst.GetFourWidthNumStr(totalStep, false);
@@ -1983,13 +1689,20 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
+			Console.WriteLine("here");
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
 			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
-			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value);
+
+			// MARK 0313 将 步时间* 时间因子 后再进行存储
+			// int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value);  
+
+			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 );
 			step.TongdaoList[tdIndex].StepTime = stepTime;
+			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2 ;
+
 			//TDOO : 3.10 td设为实际步时间长度（直接换算好）
 			//this.tdTrueTimeLabels[tdIndex].Text = (float)step.TongdaoList[tdIndex].StepTime * eachStepTime / 1000 + "s";
 
@@ -2001,7 +1714,7 @@ namespace LightController.MyForm
 
 		#endregion
 
-		//MARK：NewMainForm统一调整框各事件处理
+		//MARK：NewMainForm：统一调整框各事件处理
 		#region unifyPanel（辅助调节面板）
 
 		/// <summary>
@@ -2071,18 +1784,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void zeroButton_Click(object sender, EventArgs e)
 		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
-			}
-
-			if (isMultiMode)
-			{
-				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, 0);
-			}
-
-			RefreshStep();
+			zeroButtonClick();
 		}
 
 		/// <summary>
@@ -2092,18 +1794,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void initButton_Click(object sender, EventArgs e)
 		{
-			StepWrapper stepNow = getCurrentStepWrapper();
-			StepWrapper stepMode = getCurrentStepTemplate();
-			for (int i = 0; i < stepNow.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
-			}
-			if (isMultiMode)
-			{
-				// 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
-				copyStepToAll(getCurrentStep(), WHERE.SCROLL_VALUE);
-			}
-			RefreshStep();
+			initButtonClick();
 		}
 
 		/// <summary>
@@ -2113,8 +1804,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void multiButton_Click(object sender, EventArgs e)
 		{
-			MultiStepForm msForm = new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), mode);
-			msForm.ShowDialog();
+			multiButtonClick();
 		}
 
 		/// <summary>
@@ -2190,6 +1880,7 @@ namespace LightController.MyForm
 
 		#endregion
 
+		//MARK:NewMainForm：playPanel相关点击事件及辅助方法
 		#region 灯控调试按钮组（playPanel）点击事件及辅助方法
 
 		/// <summary>
@@ -2249,54 +1940,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void connectButton_Click(object sender, EventArgs e)
 		{
-			playTools = PlayTools.GetInstance();
-			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if (!isConnected)
-			{
-				if (isConnectCom)
-				{
-					if (String.IsNullOrEmpty(comName))
-					{
-						MessageBox.Show("未选中可用串口。");
-						return;
-					}
-					playTools.ConnectDevice(comName);
-					EnableConnectedButtons(true);
-				}
-				else
-				{
-					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
-					{
-						MessageBox.Show("未选中可用网络连接。");
-						return;
-					}
-
-					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
-					ConnectTools.GetInstance().Start(ipAst.LocalIP);
-					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
-				}
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				if (isConnectCom)
-				{
-					playTools.CloseDevice();
-				}
-				else
-				{
-					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
-				}
-
-				//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				EnableConnectedButtons(false);
-
-				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
-				if (!isConnectCom)
-				{
-					Thread.Sleep(500);
-					refreshNetworkList();
-				}
-			}
+			connectButtonClick();
 		}		
 
 		/// <summary>
@@ -2436,7 +2080,7 @@ namespace LightController.MyForm
 					connectTools.Start(ip.ToString());
 					connectTools.SearchDevice();
 					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-					Thread.Sleep(MainFormInterface.NETWORK_WAITTIME);
+					Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
 				}
 			}
 
@@ -2463,7 +2107,6 @@ namespace LightController.MyForm
 			{
 				MessageBox.Show("未找到可用的网络设备，请确认后重试。");
 			}
-
 		}
 
 		/// <summary>
@@ -2488,9 +2131,62 @@ namespace LightController.MyForm
 			connectButton.Text = isConnected ? "断开连接" : "连接设备";
 		}
 
+		/// <summary>
+		/// 辅助方法：点击《连接设备|断开连接》的子类实现
+		/// </summary>
+		protected override void connectButtonClick()
+		{
+			playTools = PlayTools.GetInstance();
+			// 如果还没连接（按钮显示为“连接设备”)，那就连接
+			if (!isConnected)
+			{
+				if (isConnectCom)
+				{
+					if (String.IsNullOrEmpty(comName))
+					{
+						MessageBox.Show("未选中可用串口。");
+						return;
+					}
+					playTools.ConnectDevice(comName);
+					EnableConnectedButtons(true);
+				}
+				else
+				{
+					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
+					{
+						MessageBox.Show("未选中可用网络连接。");
+						return;
+					}
+
+					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
+					ConnectTools.GetInstance().Start(ipAst.LocalIP);
+					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				}
+			}
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{
+				if (isConnectCom)
+				{
+					playTools.CloseDevice();
+				}
+				else
+				{
+					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
+				}
+
+				//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
+				EnableConnectedButtons(false);
+
+				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
+				if (!isConnectCom)
+				{
+					Thread.Sleep(500);
+					refreshNetworkList();
+				}
+			}
+		}
+
 		#endregion
-			   		 	  	  	   
-	
 
 		#region 全局辅助方法
 
@@ -2514,5 +2210,7 @@ namespace LightController.MyForm
 		}
 
 		#endregion
+
+		
 	}
 }

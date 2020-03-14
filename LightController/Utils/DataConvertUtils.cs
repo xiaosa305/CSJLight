@@ -41,7 +41,7 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="valueDAO"></param>
         /// <param name="configPath"></param>
-        public static void SaveProjectFile(DBWrapper wrapper, MainFormInterface mainForm, string configPath,ISaveProjectCallBack callBack)
+        public static void SaveProjectFile(DBWrapper wrapper, MainFormBase mainForm, string configPath,ISaveProjectCallBack callBack)
         {
             InitThreadPool();
             CallBack = callBack;
@@ -67,7 +67,7 @@ namespace LightController.Utils
             DBData data = obj as DBData;
             DBWrapper wrapper = data.Wrapper;
             string configPath = data.ConfigPath;
-            MainFormInterface mainForm = data.MianForm;
+            MainFormBase mainForm = data.MianForm;
             List<int> c_SceneNos = new List<int>();
             List<int> m_SceneNos = new List<int>();
             Console.WriteLine("Start");
@@ -968,9 +968,9 @@ namespace LightController.Utils
             public DBWrapper Wrapper { get; set; }
             public int Mode { get; set; }
             public string ConfigPath { get; set; }
-            public MainFormInterface MainForm { get; set; }
+            public MainFormBase MainForm { get; set; }
             public int SceneNo { get; set; }
-            public SceneThreadDataInfo(int sceneNo, DBWrapper wrapper, MainFormInterface mainForm, int mode, string configPath)
+            public SceneThreadDataInfo(int sceneNo, DBWrapper wrapper, MainFormBase mainForm, int mode, string configPath)
             {
                 this.Wrapper = wrapper;
                 this.Mode = mode;
@@ -983,8 +983,8 @@ namespace LightController.Utils
         {
             public DBWrapper Wrapper { get; set; }
             public string ConfigPath { get; set; }
-            public MainFormInterface MianForm { get; set; }
-            public DBData(DBWrapper wrapper, MainFormInterface mianForm, string configPath)
+            public MainFormBase MianForm { get; set; }
+            public DBData(DBWrapper wrapper, MainFormBase mianForm, string configPath)
             {
                 this.Wrapper = wrapper;
                 this.ConfigPath = configPath;

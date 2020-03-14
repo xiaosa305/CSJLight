@@ -12,9 +12,9 @@ namespace LightController.MyForm
 	public partial class OldToolsForm : Form
 	{
 
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 
-		public OldToolsForm(MainFormInterface mainForm)
+		public OldToolsForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();

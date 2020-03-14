@@ -33,9 +33,6 @@ namespace LightController
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LightsForm));
-			this.largeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.label1 = new System.Windows.Forms.Label();
 			this.skinTreeView1 = new CCWin.SkinControl.SkinTreeView();
 			this.addButton = new System.Windows.Forms.Button();
@@ -47,82 +44,6 @@ namespace LightController
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.SuspendLayout();
-			// 
-			// largeImageList
-			// 
-			this.largeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("largeImageList.ImageStream")));
-			this.largeImageList.TransparentColor = System.Drawing.Color.Transparent;
-			this.largeImageList.Images.SetKeyName(0, "RGB.ico");
-			this.largeImageList.Images.SetKeyName(1, "XY轴.ico");
-			this.largeImageList.Images.SetKeyName(2, "对焦.ico");
-			this.largeImageList.Images.SetKeyName(3, "虹膜.ico");
-			this.largeImageList.Images.SetKeyName(4, "混色.ico");
-			this.largeImageList.Images.SetKeyName(5, "棱镜.ico");
-			this.largeImageList.Images.SetKeyName(6, "频闪.ico");
-			this.largeImageList.Images.SetKeyName(7, "速度.ico");
-			this.largeImageList.Images.SetKeyName(8, "调光.ico");
-			this.largeImageList.Images.SetKeyName(9, "图案.ico");
-			this.largeImageList.Images.SetKeyName(10, "图案自转.ico");
-			this.largeImageList.Images.SetKeyName(11, "未知.ico");
-			this.largeImageList.Images.SetKeyName(12, "颜色.ico");
-			this.largeImageList.Images.SetKeyName(13, "1.bmp");
-			this.largeImageList.Images.SetKeyName(14, "2.bmp");
-			this.largeImageList.Images.SetKeyName(15, "3.bmp");
-			this.largeImageList.Images.SetKeyName(16, "4.bmp");
-			this.largeImageList.Images.SetKeyName(17, "5.bmp");
-			this.largeImageList.Images.SetKeyName(18, "6.bmp");
-			this.largeImageList.Images.SetKeyName(19, "7.bmp");
-			this.largeImageList.Images.SetKeyName(20, "8.bmp");
-			this.largeImageList.Images.SetKeyName(21, "9.bmp");
-			this.largeImageList.Images.SetKeyName(22, "10.bmp");
-			this.largeImageList.Images.SetKeyName(23, "11.bmp");
-			this.largeImageList.Images.SetKeyName(24, "12.bmp");
-			this.largeImageList.Images.SetKeyName(25, "13.bmp");
-			this.largeImageList.Images.SetKeyName(26, "14.bmp");
-			this.largeImageList.Images.SetKeyName(27, "15.bmp");
-			this.largeImageList.Images.SetKeyName(28, "16.bmp");
-			this.largeImageList.Images.SetKeyName(29, "17.bmp");
-			this.largeImageList.Images.SetKeyName(30, "18.bmp");
-			this.largeImageList.Images.SetKeyName(31, "19.bmp");
-			this.largeImageList.Images.SetKeyName(32, "20.bmp");
-			this.largeImageList.Images.SetKeyName(33, "21.bmp");
-			this.largeImageList.Images.SetKeyName(34, "22.bmp");
-			this.largeImageList.Images.SetKeyName(35, "23.bmp");
-			this.largeImageList.Images.SetKeyName(36, "24.bmp");
-			this.largeImageList.Images.SetKeyName(37, "25.bmp");
-			this.largeImageList.Images.SetKeyName(38, "27.bmp");
-			this.largeImageList.Images.SetKeyName(39, "28.bmp");
-			this.largeImageList.Images.SetKeyName(40, "29.gif");
-			this.largeImageList.Images.SetKeyName(41, "30.bmp");
-			this.largeImageList.Images.SetKeyName(42, "31.bmp");
-			this.largeImageList.Images.SetKeyName(43, "ledpar.bmp");
-			this.largeImageList.Images.SetKeyName(44, "灯带.bmp");
-			this.largeImageList.Images.SetKeyName(45, "二合一.bmp");
-			this.largeImageList.Images.SetKeyName(46, "二合一50.bmp");
-			this.largeImageList.Images.SetKeyName(47, "魔球.bmp");
-			this.largeImageList.Images.SetKeyName(48, "帕灯.bmp");
-			this.largeImageList.Images.SetKeyName(49, "1.jpg");
-			this.largeImageList.Images.SetKeyName(50, "灯光图.png");
-			this.largeImageList.Images.SetKeyName(51, "3.jpg");
-			this.largeImageList.Images.SetKeyName(52, "4.jpg");
-			this.largeImageList.Images.SetKeyName(53, "5.jpg");
-			this.largeImageList.Images.SetKeyName(54, "60w.jpg");
-			this.largeImageList.Images.SetKeyName(55, "未知.ico");
-			this.largeImageList.Images.SetKeyName(56, "j(1).png");
-			this.largeImageList.Images.SetKeyName(57, "j(2).png");
-			this.largeImageList.Images.SetKeyName(58, "j(3).png");
-			this.largeImageList.Images.SetKeyName(59, "j(4).png");
-			this.largeImageList.Images.SetKeyName(60, "j(5).png");
-			this.largeImageList.Images.SetKeyName(61, "j(6).png");
-			this.largeImageList.Images.SetKeyName(62, "j(7).png");
-			this.largeImageList.Images.SetKeyName(63, "j(8).png");
-			this.largeImageList.Images.SetKeyName(64, "j(9).png");
-			this.largeImageList.Images.SetKeyName(65, "j(10).png");
-			this.largeImageList.Images.SetKeyName(66, "j(11).png");
-			this.largeImageList.Images.SetKeyName(67, "a (1).jpg");
-			this.largeImageList.Images.SetKeyName(68, "a (1).png");
-			this.largeImageList.Images.SetKeyName(69, "a (2).jpg");
-			this.largeImageList.Images.SetKeyName(70, "a (2).png");
 			// 
 			// label1
 			// 
@@ -248,7 +169,6 @@ namespace LightController
 		}
 
 		#endregion
-		private ImageList largeImageList;
 		private Label label1;
 		private CCWin.SkinControl.SkinTreeView skinTreeView1;
 		private Button addButton;

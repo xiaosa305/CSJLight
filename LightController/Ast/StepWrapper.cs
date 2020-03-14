@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static LightController.MyForm.MainFormInterface;
+using static LightController.MyForm.MainFormBase;
 
 namespace LightController.Ast
 {

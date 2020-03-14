@@ -12,10 +12,10 @@ namespace LightController.MyForm
 {
 	public partial class MultiLightForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private int selectedIndex = -1;
 
-		public MultiLightForm(MainFormInterface mainForm, bool isCopyAll,IList<Ast.LightAst> lightAstList, IList<int> lightIndices)
+		public MultiLightForm(MainFormBase mainForm, bool isCopyAll,IList<Ast.LightAst> lightAstList, IList<int> lightIndices)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();

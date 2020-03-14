@@ -19,7 +19,7 @@ namespace LightController.MyForm
 {
 	public partial class HardwareUpdateForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private string binPath;
 		private bool isChooseFile = false; 
 
@@ -31,7 +31,7 @@ namespace LightController.MyForm
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
 
-		public HardwareUpdateForm(MainFormInterface mainForm , string binPath) 
+		public HardwareUpdateForm(MainFormBase mainForm , string binPath) 
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -123,7 +123,7 @@ namespace LightController.MyForm
 				connectTools.Start(localIP);
 				connectTools.SearchDevice();
 				// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-				Thread.Sleep(MainFormInterface.NETWORK_WAITTIME);
+				Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
 
 				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
 				foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])

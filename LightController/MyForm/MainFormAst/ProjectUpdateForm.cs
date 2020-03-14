@@ -19,7 +19,7 @@ namespace LightController.MyForm
 {
 	public partial class ProjectUpdateForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private DBWrapper dbWrapper;
 		private string projectPath;
 		private string globalSetPath;
@@ -33,7 +33,7 @@ namespace LightController.MyForm
 		private SerialPortTools comTools;
 		
 
-		public ProjectUpdateForm(MainFormInterface mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
+		public ProjectUpdateForm(MainFormBase mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
@@ -137,7 +137,7 @@ namespace LightController.MyForm
 			connectTools.Start(localIP);
 			connectTools.SearchDevice();
 			// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-			Thread.Sleep(MainFormInterface.NETWORK_WAITTIME);
+			Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
 						
 			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
 			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])

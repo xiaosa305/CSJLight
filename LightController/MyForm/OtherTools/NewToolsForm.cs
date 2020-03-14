@@ -64,11 +64,11 @@ namespace OtherTools
 		private IList<IPAst> ipaList;
 		private ConnectTools connectTools;
 
-		private Form mainForm; 
+		private MainFormBase mainForm; 
 
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
-		public NewToolsForm(Form mainForm)
+		public NewToolsForm(MainFormBase mainForm)
 		{
 			InitializeComponent();
 
@@ -147,33 +147,7 @@ namespace OtherTools
 
 			//直接刷新串口列表
 			refreshDeviceComboBox();
-
-			// MARK:添加皮肤列表（暂时屏蔽）
-			//DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
-			//try
-			//{
-			//	FileInfo[] file = fdir.GetFiles();
-			//	if (file.Length > 0)
-			//	{
-			//		//TODO：禁用irisSkin皮肤的代码，不够完美，暂不启用。
-			//		//skinComboBox.Items.Add("不使用皮肤");
-			//		foreach (var item in file)
-			//		{
-			//			if (item.FullName.EndsWith(".ssk"))
-			//			{
-			//				skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
-			//			}
-			//		}
-			//		skinComboBox.SelectedIndex = 0;
-
-			//		skinComboBox.Show();
-			//		skinChangeButton.Show();
-			//	}
-			//}
-			//catch (Exception ex)
-			//{
-			//	Console.WriteLine(ex.Message);
-			//}
+		
 		}
 
 
@@ -220,26 +194,7 @@ namespace OtherTools
 				default: setAllStatusLabel2(""); break;
 			}
 		}
-
-		/// <summary>
-		/// 事件：点击《使用皮肤》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void skinChangeButton_Click(object sender, EventArgs e)
-		{
-			string sskName = skinComboBox.Text;
-
-			//TODO ：禁用皮肤的代码，还不够完美
-			if (sskName.Equals("不使用皮肤")) {
-
-				this.skinEngine1.Active = false;
-				return;
-			}
-			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";	
-		}
-
-
+			
 
 		/// <summary>
 		/// 事件：点击《灯光通道按键》
@@ -1268,7 +1223,7 @@ namespace OtherTools
 						connectTools.Start(ip.ToString());
 						connectTools.SearchDevice();
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(MainFormInterface.NETWORK_WAITTIME);						
+						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);						
 					}					
 				}
 

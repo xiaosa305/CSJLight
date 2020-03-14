@@ -281,7 +281,7 @@
     <Compile Include="MyForm\LightList\LightsForm.designer.cs">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormInterface.cs">
+    <Compile Include="MyForm\MainFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MyForm\MainFormAst\MaterialSaveForm.cs">
@@ -395,6 +395,9 @@
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
+    <EmbeddedResource Include="MyForm\MainFormBase.resx">
+      <DependentUpon>MainFormBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewMainForm.resx">
       <DependentUpon>NewMainForm.cs</DependentUpon>
     </EmbeddedResource>

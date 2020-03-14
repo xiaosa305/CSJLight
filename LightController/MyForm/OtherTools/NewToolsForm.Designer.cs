@@ -43,11 +43,8 @@ namespace OtherTools
 			this.switchButton = new System.Windows.Forms.Button();
 			this.connectButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
-			this.skinChangeButton = new System.Windows.Forms.Button();
 			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
-			this.skinComboBox = new System.Windows.Forms.ComboBox();
-			this.skinEngine1 = new Sunisoft.IrisSkin.SkinEngine();
 			this.lightImageList = new System.Windows.Forms.ImageList(this.components);
 			this.cfgOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.cfgSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -280,10 +277,8 @@ namespace OtherTools
 			this.panel2.Controls.Add(this.switchButton);
 			this.panel2.Controls.Add(this.connectButton);
 			this.panel2.Controls.Add(this.refreshButton);
-			this.panel2.Controls.Add(this.skinChangeButton);
 			this.panel2.Controls.Add(this.comboBox2);
 			this.panel2.Controls.Add(this.deviceComboBox);
-			this.panel2.Controls.Add(this.skinComboBox);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
@@ -385,19 +380,6 @@ namespace OtherTools
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
-			// skinChangeButton
-			// 
-			this.skinChangeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.skinChangeButton.Location = new System.Drawing.Point(1125, 44);
-			this.skinChangeButton.Margin = new System.Windows.Forms.Padding(2);
-			this.skinChangeButton.Name = "skinChangeButton";
-			this.skinChangeButton.Size = new System.Drawing.Size(91, 27);
-			this.skinChangeButton.TabIndex = 23;
-			this.skinChangeButton.Text = "切换皮肤";
-			this.skinChangeButton.UseVisualStyleBackColor = true;
-			this.skinChangeButton.Visible = false;
-			this.skinChangeButton.Click += new System.EventHandler(this.skinChangeButton_Click);
-			// 
 			// comboBox2
 			// 
 			this.comboBox2.FormattingEnabled = true;
@@ -415,28 +397,6 @@ namespace OtherTools
 			this.deviceComboBox.Name = "deviceComboBox";
 			this.deviceComboBox.Size = new System.Drawing.Size(199, 20);
 			this.deviceComboBox.TabIndex = 22;
-			// 
-			// skinComboBox
-			// 
-			this.skinComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.skinComboBox.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.skinComboBox.FormattingEnabled = true;
-			this.skinComboBox.Location = new System.Drawing.Point(1124, 17);
-			this.skinComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.skinComboBox.Name = "skinComboBox";
-			this.skinComboBox.Size = new System.Drawing.Size(92, 18);
-			this.skinComboBox.TabIndex = 22;
-			this.skinComboBox.Visible = false;
-			// 
-			// skinEngine1
-			// 
-			this.skinEngine1.@__DrawButtonFocusRectangle = true;
-			this.skinEngine1.DisabledButtonTextColor = System.Drawing.Color.Gray;
-			this.skinEngine1.DisabledMenuFontColor = System.Drawing.SystemColors.GrayText;
-			this.skinEngine1.DisableTag = 520;
-			this.skinEngine1.InactiveCaptionColor = System.Drawing.SystemColors.InactiveCaptionText;
-			this.skinEngine1.SerialNumber = "";
-			this.skinEngine1.SkinFile = null;
 			// 
 			// lightImageList
 			// 
@@ -2831,8 +2791,6 @@ namespace OtherTools
 			this.ClientSize = new System.Drawing.Size(1264, 761);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.tabControl1);
-			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(1280, 800);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(1280, 800);
 			this.Name = "NewToolsForm";
@@ -2907,10 +2865,7 @@ namespace OtherTools
 
 		#endregion
 		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.Button skinChangeButton;
-		private System.Windows.Forms.ComboBox skinComboBox;
 		private System.Windows.Forms.ComboBox deviceComboBox;
-		private Sunisoft.IrisSkin.SkinEngine skinEngine1;
 		private System.Windows.Forms.Button switchButton;
 		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.ComboBox comboBox2;

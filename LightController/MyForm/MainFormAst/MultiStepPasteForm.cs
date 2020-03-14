@@ -13,9 +13,9 @@ namespace LightController.MyForm
 	public partial class MultiStepPasteForm : Form
 	{
 
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 
-		public MultiStepPasteForm(MainFormInterface mainForm)
+		public MultiStepPasteForm(MainFormBase mainForm)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;

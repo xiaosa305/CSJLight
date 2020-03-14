@@ -14,7 +14,7 @@ namespace LightController.MyForm
 {
 	public partial class MaterialSaveForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private IList<StepWrapper> stepWrapperList;
 		private int tongdaoCount = 0;
 		private int stepCount = 0;
@@ -23,7 +23,7 @@ namespace LightController.MyForm
 		private string lightName;
 		private string lightType;
 
-		public MaterialSaveForm(MainFormInterface mainForm, IList<StepWrapper> stepWrapperList ,int mode,string lightName,string lightType)
+		public MaterialSaveForm(MainFormBase mainForm, IList<StepWrapper> stepWrapperList ,int mode,string lightName,string lightType)
 		{			
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
 			{

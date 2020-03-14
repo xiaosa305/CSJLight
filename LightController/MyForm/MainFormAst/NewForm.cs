@@ -22,8 +22,8 @@ namespace LightController
 		private string savePath;
 		
 
-		private MainFormInterface mainForm;
-		public NewForm(MainFormInterface mainForm)
+		private MainFormBase mainForm;
+		public NewForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();

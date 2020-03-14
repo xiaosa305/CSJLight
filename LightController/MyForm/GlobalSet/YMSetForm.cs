@@ -13,11 +13,11 @@ namespace LightController.MyForm
 {
 	public partial class YMSetForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private IniFileAst iniFileAst;
 		private int frameCount = 0;
 
-		public YMSetForm(MainFormInterface mainForm,string iniPath)
+		public YMSetForm(MainFormBase mainForm,string iniPath)
 		{
 			this.mainForm = mainForm;
 			iniFileAst = new IniFileAst(iniPath);
@@ -25,7 +25,7 @@ namespace LightController.MyForm
 
 			#region 初始化几个数组			
 
-			frameCount = MainFormInterface.AllFrameList.Count;
+			frameCount = MainFormBase.AllFrameList.Count;
 
 			framePanels = new Panel[frameCount]; 
 			frameLabels = new Label[frameCount];
@@ -35,7 +35,7 @@ namespace LightController.MyForm
 
 			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
 			{
-				addFramePanel(frameIndex,MainFormInterface.AllFrameList[frameIndex]);
+				addFramePanel(frameIndex,MainFormBase.AllFrameList[frameIndex]);
 				ymCheckBoxes[frameIndex].CheckedChanged += new EventHandler(ymCheckBox_CheckedChanged);
 				jgNumericUpDowns[frameIndex].ValueChanged += new EventHandler(jgNumericUpDown_ValueChanged);
 				zxNumericUpDowns[frameIndex].ValueChanged += new EventHandler(zxNumericUpDown_ValueChanged);

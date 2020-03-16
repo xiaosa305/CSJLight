@@ -2603,26 +2603,22 @@ namespace LightController.MyForm
 
 			this.components = new System.ComponentModel.Container();
 
-			// exportFolderBrowserDialog
+			// exportFolderBrowserDialog : 导出工程相关
 			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.SuspendLayout(); 
 			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
-			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;			
-		
+			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;		
 
-			// myToolTip
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.SuspendLayout();
+			//// myToolTip：悬停提示
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);			
 		}
 
 		private void InitializeComponent()
 		{
-
 			// 
-			// MainFormInterface
+			// MainFormBase
 			// 
 			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Name = "MainFormInterface";
+			this.Name = "MainFormBase";
 			this.ResumeLayout(false);
 
 		}
@@ -2707,6 +2703,7 @@ namespace LightController.MyForm
 
 		#endregion
 
+	
 	}
 
 	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack

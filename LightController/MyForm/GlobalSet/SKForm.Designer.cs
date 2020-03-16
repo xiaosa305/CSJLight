@@ -30,7 +30,6 @@
 		{
 			this.panel26 = new System.Windows.Forms.Panel();
 			this.label1 = new System.Windows.Forms.Label();
-			this.label37 = new System.Windows.Forms.Label();
 			this.label36 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.panel2 = new System.Windows.Forms.Panel();
@@ -51,40 +50,30 @@
 			// panel26
 			// 
 			this.panel26.Controls.Add(this.label1);
-			this.panel26.Controls.Add(this.label37);
 			this.panel26.Controls.Add(this.label36);
 			this.panel26.Controls.Add(this.label8);
 			this.panel26.Location = new System.Drawing.Point(12, 12);
 			this.panel26.Name = "panel26";
-			this.panel26.Size = new System.Drawing.Size(138, 132);
+			this.panel26.Size = new System.Drawing.Size(138, 115);
 			this.panel26.TabIndex = 5;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(17, 103);
+			this.label1.Location = new System.Drawing.Point(17, 81);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(119, 12);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "叠加后间隔时间(ms):";
 			// 
-			// label37
-			// 
-			this.label37.AutoSize = true;
-			this.label37.Location = new System.Drawing.Point(17, 75);
-			this.label37.Name = "label37";
-			this.label37.Size = new System.Drawing.Size(101, 12);
-			this.label37.TabIndex = 0;
-			this.label37.Text = "换算后步时间(s):";
-			// 
 			// label36
 			// 
 			this.label36.AutoSize = true;
-			this.label36.Location = new System.Drawing.Point(17, 47);
+			this.label36.Location = new System.Drawing.Point(17, 50);
 			this.label36.Name = "label36";
-			this.label36.Size = new System.Drawing.Size(77, 12);
+			this.label36.Size = new System.Drawing.Size(95, 12);
 			this.label36.TabIndex = 0;
-			this.label36.Text = "音频步时间：";
+			this.label36.Text = "音频步时间(s)：";
 			// 
 			// label8
 			// 
@@ -103,7 +92,7 @@
 			this.panel2.Controls.Add(this.frameStepTimeNumericUpDown);
 			this.panel2.Location = new System.Drawing.Point(156, 12);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(73, 132);
+			this.panel2.Size = new System.Drawing.Size(73, 115);
 			this.panel2.TabIndex = 3;
 			// 
 			// trueSTLabel
@@ -125,7 +114,7 @@
 			// 
 			// jgtNumericUpDown
 			// 
-			this.jgtNumericUpDown.Location = new System.Drawing.Point(9, 102);
+			this.jgtNumericUpDown.Location = new System.Drawing.Point(9, 77);
 			this.jgtNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -134,21 +123,23 @@
 			this.jgtNumericUpDown.Name = "jgtNumericUpDown";
 			this.jgtNumericUpDown.Size = new System.Drawing.Size(55, 21);
 			this.jgtNumericUpDown.TabIndex = 1;
+			this.jgtNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// frameStepTimeNumericUpDown
 			// 
-			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(9, 43);
+			this.frameStepTimeNumericUpDown.DecimalPlaces = 2;
+			this.frameStepTimeNumericUpDown.Location = new System.Drawing.Point(9, 44);
 			this.frameStepTimeNumericUpDown.Name = "frameStepTimeNumericUpDown";
 			this.frameStepTimeNumericUpDown.Size = new System.Drawing.Size(55, 21);
 			this.frameStepTimeNumericUpDown.TabIndex = 1;
-			this.frameStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.frameStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.frameStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.frameStepTimeNumericUpDown_ValueChanged);
 			// 
 			// mFrameLKTextBox
 			// 
 			this.mFrameLKTextBox.BackColor = System.Drawing.Color.White;
 			this.mFrameLKTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mFrameLKTextBox.Location = new System.Drawing.Point(12, 241);
+			this.mFrameLKTextBox.Location = new System.Drawing.Point(12, 242);
 			this.mFrameLKTextBox.MaxLength = 20;
 			this.mFrameLKTextBox.Multiline = true;
 			this.mFrameLKTextBox.Name = "mFrameLKTextBox";
@@ -159,16 +150,16 @@
 			// noticeLabel
 			// 
 			this.noticeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.noticeLabel.Location = new System.Drawing.Point(14, 158);
+			this.noticeLabel.Location = new System.Drawing.Point(14, 145);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(215, 70);
+			this.noticeLabel.Size = new System.Drawing.Size(215, 79);
 			this.noticeLabel.TabIndex = 10;
 			this.noticeLabel.Text = "提示：请在下面文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式;链表数量不可超" +
     "过20个。";
 			// 
 			// saveButton
 			// 
-			this.saveButton.Location = new System.Drawing.Point(26, 283);
+			this.saveButton.Location = new System.Drawing.Point(26, 282);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(80, 25);
 			this.saveButton.TabIndex = 11;
@@ -178,6 +169,7 @@
 			// 
 			// cancelButton
 			// 
+			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelButton.Location = new System.Drawing.Point(136, 283);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(80, 25);
@@ -216,7 +208,6 @@
 
 		#endregion
 		private System.Windows.Forms.Panel panel26;
-		private System.Windows.Forms.Label label37;
 		private System.Windows.Forms.Label label36;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Panel panel2;

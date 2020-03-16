@@ -563,7 +563,7 @@ namespace LightController.MyForm
 			// firstLabel
 			// 
 			this.firstLabel.AutoSize = true;
-			this.firstLabel.Location = new System.Drawing.Point(33, 227);
+			this.firstLabel.Location = new System.Drawing.Point(24, 227);
 			this.firstLabel.Name = "firstLabel";
 			this.firstLabel.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel.TabIndex = 0;
@@ -572,7 +572,7 @@ namespace LightController.MyForm
 			// secondLabel
 			// 
 			this.secondLabel.AutoSize = true;
-			this.secondLabel.Location = new System.Drawing.Point(33, 253);
+			this.secondLabel.Location = new System.Drawing.Point(24, 253);
 			this.secondLabel.Name = "secondLabel";
 			this.secondLabel.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel.TabIndex = 0;
@@ -581,7 +581,7 @@ namespace LightController.MyForm
 			// thirdLabel
 			// 
 			this.thirdLabel.AutoSize = true;
-			this.thirdLabel.Location = new System.Drawing.Point(24, 278);
+			this.thirdLabel.Location = new System.Drawing.Point(23, 278);
 			this.thirdLabel.Name = "thirdLabel";
 			this.thirdLabel.Size = new System.Drawing.Size(59, 12);
 			this.thirdLabel.TabIndex = 0;

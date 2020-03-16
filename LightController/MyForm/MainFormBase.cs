@@ -1683,15 +1683,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：在《在全局配置》中改变了时间因子并保存后，mainForm的时间因子变量也跟着改变，同时刷新当前步
-		/// </summary>
-		public void ChangeEachStepTime(int eachStepTime) {
-			this.eachStepTime = eachStepTime;
-			this.eachStepTime2 = eachStepTime / 1000;
-			RefreshStep();
-		}
-
-		/// <summary>
 		/// 9.16 辅助方法：进入多灯模式
 		///		1.取出选中的组长，
 		///		2.使用组长数据，替代其他灯具（在该F/M）的所有步数集合。
@@ -2637,6 +2628,17 @@ namespace LightController.MyForm
 		}
 
 		#region 弃用方法区
+
+
+		///// <summary>
+		///// 辅助方法：在《在全局配置》中改变了时间因子并保存后，mainForm的时间因子变量也跟着改变，同时刷新当前步
+		///// </summary>
+		//public void ChangeEachStepTime(int eachStepTime)
+		//{
+		//	this.eachStepTime = eachStepTime;
+		//	this.eachStepTime2 = eachStepTime / 1000;
+		//	RefreshStep();
+		//}
 
 		//TODO：SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
 		/// <summary>

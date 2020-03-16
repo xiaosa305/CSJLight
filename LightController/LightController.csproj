@@ -257,10 +257,10 @@
     <Compile Include="MyForm\MainFormAst\ProjectRenameOrCopyForm.Designer.cs">
       <DependentUpon>ProjectRenameOrCopyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\SKForm.cs">
+    <Compile Include="MyForm\GlobalSet\SKForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\SKForm.Designer.cs">
+    <Compile Include="MyForm\GlobalSet\SKForm.Designer.cs">
       <DependentUpon>SKForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\LightList\LightsEditForm.cs">
@@ -434,7 +434,7 @@
     <EmbeddedResource Include="MyForm\MainFormAst\ProjectRenameOrCopyForm.resx">
       <DependentUpon>ProjectRenameOrCopyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\SKForm.resx">
+    <EmbeddedResource Include="MyForm\GlobalSet\SKForm.resx">
       <DependentUpon>SKForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightList\LightsEditForm.resx">

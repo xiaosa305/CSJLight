@@ -21,8 +21,11 @@ namespace LightController.MyForm
 		private MainFormBase mainForm;
 		private string iniPath;  
 		private string hName;
-		private bool isNew = true;
-		private bool isSaved = false;
+
+		/// <summary>
+		/// 是否新建：亦即是否已设定存储目录
+		/// </summary>
+		private bool isNew = true; 
 
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
@@ -49,13 +52,13 @@ namespace LightController.MyForm
 			// 若iniPath 为空，则新建-》读取默认Hardware.ini，并载入到当前form中
 			if (String.IsNullOrEmpty(iniPath)) {
 				isNew = true;
-				isSaved = false;
+				//isSetDir = false;
 				iniPath = Application.StartupPath + @"\HardwareSet.ini";
 				this.Text = "硬件设置(未保存)";
 			}// 否则打开相应配置文件，并载入到当前form中
 			else {
 				isNew = false;
-				isSaved = true;
+				//isSetDir = true;
 				this.hName = hName;
 				this.Text = "硬件设置(" + hName + ")";
 			}
@@ -158,7 +161,7 @@ namespace LightController.MyForm
 
 			this.isNew = false;
 			this.Text = "硬件设置(" + hName + ")";
-			this.isSaved = true;
+			//this.isSetDir = true;
 
 		}
 		
@@ -174,7 +177,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
 
 		#region 几个输入监视器
 
@@ -253,7 +255,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
 
 		#region 网络相关读写
 
@@ -383,7 +384,7 @@ namespace LightController.MyForm
 			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
 			afterReadOrWrite();
 		}
-		
+
 		/// <summary>
 		///  事件：点击《网络下载》按钮
 		/// </summary>
@@ -391,17 +392,30 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkDownloadButton_Click(object sender, EventArgs e)
 		{
-			if (isSaved)
+			if (isNew)
 			{
-				// 11.7 保存前，先保存一遍当前数据。
-				saveAll(iniPath,hName);
-				// 此语句只发送《硬件配置》到选中的设备中
-				connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
-				afterReadOrWrite();
+				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
+				return;
 			}
-			else {
-				MessageBox.Show("下载之前需先保存当前设置。");
-			}
+
+			// 若被去掉了勾选，则需要提示用户
+			if (!autoSaveCheckBox.Checked) {
+				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",
+				"继续下载？",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Warning
+			);
+				if (dr == DialogResult.Cancel)
+				{
+					return;
+				}
+			}		
+
+			// 11.7 保存前，先保存一遍当前数据。
+			saveAll(iniPath,hName);
+			// 此语句只发送《硬件配置》到选中的设备中
+			connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+			afterReadOrWrite();			
 		}
 
 		/// <summary>
@@ -414,7 +428,6 @@ namespace LightController.MyForm
 		}	
 
 		#endregion
-
 
 		#region  串口读写相关
 
@@ -491,21 +504,32 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comDownloadSkinButton_Click(object sender, EventArgs e)
 		{
-			if (isSaved)
-			{
-				// 11.7 保存前，先保存一遍当前数据。
-				saveAll(iniPath, hName);
-				// 此语句只发送《硬件配置》到选中的设备中
-				comTools.PutParam(iniPath, new DownloadCallBackHardwareSet());
+			if ( isNew ) {
+				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
+				return;
 			}
-			else
+
+			// 若被去掉了勾选，则需要提示用户
+			if (!autoSaveCheckBox.Checked)
 			{
-				MessageBox.Show("下载之前需先保存当前设置。");
-			}			
+				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",
+					"继续下载？",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Warning
+				);
+				if (dr == DialogResult.Cancel)
+				{
+					return;
+				}
+			}
+
+			// 11.7 保存前，先保存一遍当前数据。
+			saveAll(iniPath, hName);
+			// 此语句只发送《硬件配置》到选中的设备中
+			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet());	
 		}
 
 		#endregion
-
 
 		#region 几个通用辅助方法
 

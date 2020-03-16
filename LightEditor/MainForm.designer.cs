@@ -379,10 +379,10 @@ namespace LightEditor
 			// 
 			// tongdaoEditButton
 			// 
-			this.tongdaoEditButton.Location = new System.Drawing.Point(242, 114);
+			this.tongdaoEditButton.Location = new System.Drawing.Point(250, 108);
 			this.tongdaoEditButton.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoEditButton.Name = "tongdaoEditButton";
-			this.tongdaoEditButton.Size = new System.Drawing.Size(68, 41);
+			this.tongdaoEditButton.Size = new System.Drawing.Size(61, 47);
 			this.tongdaoEditButton.TabIndex = 3;
 			this.tongdaoEditButton.Text = "通道编辑";
 			this.tongdaoEditButton.UseVisualStyleBackColor = true;
@@ -1589,7 +1589,7 @@ namespace LightEditor
 			this.label1.TabIndex = 10;
 			this.label1.Text = "总调光1";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label1.Visible = false;
+			this.label1.Visible = false;			
 			this.label1.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar16
@@ -1886,7 +1886,7 @@ namespace LightEditor
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.AutoSize = true;
-			this.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(828, 530);
 			this.Controls.Add(this.connectPanel);
 			this.Controls.Add(this.editGroupBox);

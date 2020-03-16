@@ -73,6 +73,7 @@
 			this.domainNameTextBox = new System.Windows.Forms.TextBox();
 			this.label15 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.autoSaveCheckBox = new System.Windows.Forms.CheckBox();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
@@ -610,6 +611,7 @@
 			// panel1
 			// 
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.autoSaveCheckBox);
 			this.panel1.Controls.Add(this.cancelButton);
 			this.panel1.Controls.Add(this.saveButton);
 			this.panel1.Controls.Add(this.skinTabControl);
@@ -619,10 +621,22 @@
 			this.panel1.Size = new System.Drawing.Size(226, 525);
 			this.panel1.TabIndex = 3;
 			// 
+			// autoSaveCheckBox
+			// 
+			this.autoSaveCheckBox.AutoSize = true;
+			this.autoSaveCheckBox.Checked = true;
+			this.autoSaveCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.autoSaveCheckBox.Location = new System.Drawing.Point(39, 438);
+			this.autoSaveCheckBox.Name = "autoSaveCheckBox";
+			this.autoSaveCheckBox.Size = new System.Drawing.Size(108, 16);
+			this.autoSaveCheckBox.TabIndex = 5;
+			this.autoSaveCheckBox.Text = "下载前自动保存";
+			this.autoSaveCheckBox.UseVisualStyleBackColor = true;
+			// 
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(128, 464);
+			this.cancelButton.Location = new System.Drawing.Point(127, 470);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(70, 33);
 			this.cancelButton.TabIndex = 4;
@@ -632,11 +646,11 @@
 			// 
 			// saveButton
 			// 
-			this.saveButton.Location = new System.Drawing.Point(35, 464);
+			this.saveButton.Location = new System.Drawing.Point(34, 470);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(70, 33);
 			this.saveButton.TabIndex = 4;
-			this.saveButton.Text = "保存";
+			this.saveButton.Text = "保存配置";
 			this.saveButton.UseVisualStyleBackColor = true;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
@@ -660,14 +674,14 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
-			this.skinTabControl.Size = new System.Drawing.Size(224, 388);
+			this.skinTabControl.SelectedIndex = 1;
+			this.skinTabControl.Size = new System.Drawing.Size(224, 409);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 3;
 			// 
 			// networkTab
 			// 
-			this.networkTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.networkTab.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.networkTab.Controls.Add(this.networkDownloadButton);
 			this.networkTab.Controls.Add(this.networkReadButton);
 			this.networkTab.Controls.Add(this.networkSearchButton);
@@ -677,7 +691,7 @@
 			this.networkTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.networkTab.Location = new System.Drawing.Point(0, 36);
 			this.networkTab.Name = "networkTab";
-			this.networkTab.Size = new System.Drawing.Size(224, 352);
+			this.networkTab.Size = new System.Drawing.Size(224, 373);
 			this.networkTab.TabIndex = 0;
 			this.networkTab.TabItemImage = null;
 			this.networkTab.Text = "网络连接";
@@ -691,6 +705,7 @@
 			this.networkDownloadButton.TabIndex = 7;
 			this.networkDownloadButton.Text = "网络下载";
 			this.networkDownloadButton.UseVisualStyleBackColor = true;
+			this.networkDownloadButton.Click += new System.EventHandler(this.networkDownloadButton_Click);
 			// 
 			// networkReadButton
 			// 
@@ -745,7 +760,7 @@
 			// 
 			// comTab
 			// 
-			this.comTab.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.comTab.BackColor = System.Drawing.SystemColors.Window;
 			this.comTab.Controls.Add(this.comDownloadButton);
 			this.comTab.Controls.Add(this.comReadButton);
 			this.comTab.Controls.Add(this.comConnectButton);
@@ -754,7 +769,7 @@
 			this.comTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comTab.Location = new System.Drawing.Point(0, 36);
 			this.comTab.Name = "comTab";
-			this.comTab.Size = new System.Drawing.Size(224, 352);
+			this.comTab.Size = new System.Drawing.Size(224, 373);
 			this.comTab.TabIndex = 1;
 			this.comTab.TabItemImage = null;
 			this.comTab.Text = "串口连接";
@@ -768,6 +783,7 @@
 			this.comDownloadButton.TabIndex = 12;
 			this.comDownloadButton.Text = "串口下载";
 			this.comDownloadButton.UseVisualStyleBackColor = true;
+			this.comDownloadButton.Click += new System.EventHandler(this.comDownloadSkinButton_Click);
 			// 
 			// comReadButton
 			// 
@@ -797,7 +813,7 @@
 			this.comSearchButton.Name = "comSearchButton";
 			this.comSearchButton.Size = new System.Drawing.Size(164, 33);
 			this.comSearchButton.TabIndex = 11;
-			this.comSearchButton.Text = "搜索串口连接";
+			this.comSearchButton.Text = "获取串口连接列表";
 			this.comSearchButton.UseVisualStyleBackColor = true;
 			this.comSearchButton.Click += new System.EventHandler(this.comSearchSkinButton_Click);
 			// 
@@ -839,6 +855,7 @@
 			this.otherGroupBox.ResumeLayout(false);
 			this.otherGroupBox.PerformLayout();
 			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.skinTabControl.ResumeLayout(false);
 			this.networkTab.ResumeLayout(false);
 			this.comTab.ResumeLayout(false);
@@ -908,5 +925,6 @@
 		private System.Windows.Forms.Button networkReadButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button saveButton;
+		private System.Windows.Forms.CheckBox autoSaveCheckBox;
 	}
 }

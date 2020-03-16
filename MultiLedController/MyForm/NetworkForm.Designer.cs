@@ -33,7 +33,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.refreshNetcardButton = new System.Windows.Forms.Button();
 			this.getNetworkButton = new System.Windows.Forms.Button();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.finalNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.set9IPButton = new System.Windows.Forms.Button();
 			this.dhcpButton = new System.Windows.Forms.Button();
@@ -53,12 +53,14 @@
 			this.testButton = new System.Windows.Forms.Button();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.addVirtualIpButton = new System.Windows.Forms.Button();
-			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.countNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label3 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.thirdNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			((System.ComponentModel.ISupportInitialize)(this.finalNumericUpDown)).BeginInit();
 			this.myStatusStrip.SuspendLayout();
 			this.groupBox1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.countNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.thirdNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// netcardComboBox
@@ -104,25 +106,25 @@
 			this.getNetworkButton.UseVisualStyleBackColor = true;
 			this.getNetworkButton.Click += new System.EventHandler(this.refreshNetcardButton_Click);
 			// 
-			// numericUpDown1
+			// finalNumericUpDown
 			// 
-			this.numericUpDown1.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown1.Location = new System.Drawing.Point(372, 65);
-			this.numericUpDown1.Maximum = new decimal(new int[] {
+			this.finalNumericUpDown.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.finalNumericUpDown.Location = new System.Drawing.Point(371, 61);
+			this.finalNumericUpDown.Maximum = new decimal(new int[] {
             246,
             0,
             0,
             0});
-			this.numericUpDown1.Minimum = new decimal(new int[] {
+			this.finalNumericUpDown.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(45, 19);
-			this.numericUpDown1.TabIndex = 27;
-			this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.numericUpDown1.Value = new decimal(new int[] {
+			this.finalNumericUpDown.Name = "finalNumericUpDown";
+			this.finalNumericUpDown.Size = new System.Drawing.Size(45, 19);
+			this.finalNumericUpDown.TabIndex = 27;
+			this.finalNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.finalNumericUpDown.Value = new decimal(new int[] {
             2,
             0,
             0,
@@ -131,11 +133,11 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(241, 66);
+			this.label1.Location = new System.Drawing.Point(242, 51);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(131, 12);
+			this.label1.Size = new System.Drawing.Size(77, 24);
 			this.label1.TabIndex = 28;
-			this.label1.Text = "起始地址：192.168.31.";
+			this.label1.Text = "起始地址：\r\n    192.168.\r\n";
 			// 
 			// set9IPButton
 			// 
@@ -167,7 +169,7 @@
             this.toolStripStatusLabel1});
 			this.myStatusStrip.Location = new System.Drawing.Point(0, 257);
 			this.myStatusStrip.Name = "myStatusStrip";
-			this.myStatusStrip.Size = new System.Drawing.Size(434, 22);
+			this.myStatusStrip.Size = new System.Drawing.Size(439, 22);
 			this.myStatusStrip.SizingGrip = false;
 			this.myStatusStrip.TabIndex = 29;
 			this.myStatusStrip.Text = "statusStrip1";
@@ -175,7 +177,7 @@
 			// toolStripStatusLabel1
 			// 
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(419, 17);
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(424, 17);
 			this.toolStripStatusLabel1.Spring = true;
 			this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -321,30 +323,30 @@
 			this.addVirtualIpButton.UseVisualStyleBackColor = true;
 			this.addVirtualIpButton.Click += new System.EventHandler(this.addVirtualIpButton_Click);
 			// 
-			// numericUpDown2
+			// countNumericUpDown
 			// 
-			this.numericUpDown2.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.numericUpDown2.Location = new System.Drawing.Point(372, 90);
-			this.numericUpDown2.Maximum = new decimal(new int[] {
+			this.countNumericUpDown.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.countNumericUpDown.Location = new System.Drawing.Point(370, 90);
+			this.countNumericUpDown.Maximum = new decimal(new int[] {
             20,
             0,
             0,
             0});
-			this.numericUpDown2.Minimum = new decimal(new int[] {
+			this.countNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-			this.numericUpDown2.Name = "numericUpDown2";
-			this.numericUpDown2.Size = new System.Drawing.Size(45, 19);
-			this.numericUpDown2.TabIndex = 27;
-			this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.numericUpDown2.Value = new decimal(new int[] {
+			this.countNumericUpDown.Name = "countNumericUpDown";
+			this.countNumericUpDown.Size = new System.Drawing.Size(45, 19);
+			this.countNumericUpDown.TabIndex = 27;
+			this.countNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.countNumericUpDown.Value = new decimal(new int[] {
             9,
             0,
             0,
             0});
-			this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+			this.countNumericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
 			// 
 			// label3
 			// 
@@ -355,12 +357,31 @@
 			this.label3.TabIndex = 28;
 			this.label3.Text = "连续IP的数量：";
 			// 
+			// thirdNumericUpDown3
+			// 
+			this.thirdNumericUpDown.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.thirdNumericUpDown.Location = new System.Drawing.Point(320, 61);
+			this.thirdNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.thirdNumericUpDown.Name = "thirdNumericUpDown3";
+			this.thirdNumericUpDown.Size = new System.Drawing.Size(45, 19);
+			this.thirdNumericUpDown.TabIndex = 27;
+			this.thirdNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.thirdNumericUpDown.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+			// 
 			// NetworkForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-			this.ClientSize = new System.Drawing.Size(434, 279);
+			this.ClientSize = new System.Drawing.Size(439, 279);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.addVirtualIpButton);
 			this.Controls.Add(this.testButton);
@@ -368,8 +389,9 @@
 			this.Controls.Add(this.myStatusStrip);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.numericUpDown2);
-			this.Controls.Add(this.numericUpDown1);
+			this.Controls.Add(this.countNumericUpDown);
+			this.Controls.Add(this.thirdNumericUpDown);
+			this.Controls.Add(this.finalNumericUpDown);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.netcardComboBox);
 			this.Controls.Add(this.loadButton);
@@ -382,12 +404,13 @@
 			this.Name = "NetworkForm";
 			this.Text = "网络设置";
 			this.Load += new System.EventHandler(this.NetworkForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.finalNumericUpDown)).EndInit();
 			this.myStatusStrip.ResumeLayout(false);
 			this.myStatusStrip.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.countNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.thirdNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -398,7 +421,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button refreshNetcardButton;
 		private System.Windows.Forms.Button getNetworkButton;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown finalNumericUpDown;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button set9IPButton;
 		private System.Windows.Forms.Button dhcpButton;
@@ -418,8 +441,9 @@
 		private System.Windows.Forms.Button loadButton;
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.Button addVirtualIpButton;
-		private System.Windows.Forms.NumericUpDown numericUpDown2;
+		private System.Windows.Forms.NumericUpDown countNumericUpDown;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.NumericUpDown thirdNumericUpDown;
 	}
 }
 

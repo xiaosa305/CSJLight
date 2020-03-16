@@ -51,9 +51,9 @@ namespace MultiLedController
 			refreshNetcard();
 			this.mainForm = mainForm;
 			
-			numericUpDown1.Value = ipLast ;
+			finalNumericUpDown.Value = ipLast ;
 			ipCount = interfaceCount + 1;
-			numericUpDown2.Value = ipCount;		
+			countNumericUpDown.Value = ipCount;		
 			
 		}
 
@@ -113,20 +113,20 @@ namespace MultiLedController
 				}
 			}
 
-			int firstIP =Decimal.ToInt32( numericUpDown1.Value);
+			int firstIP =Decimal.ToInt32( finalNumericUpDown.Value);
 			virtualIPList = new List<string>();
 			IList<string> submaskList = new List<string>();
-			firstIP = Decimal.ToInt32(numericUpDown1.Value);
+			firstIP = Decimal.ToInt32(finalNumericUpDown.Value);
 			for (int i = 0; i < ipCount; i++)
 			{
-				virtualIPList.Add("192.168.31." + firstIP++);
+				virtualIPList.Add("192.168."+ thirdNumericUpDown.Value+ "." + firstIP++);
 				submaskList.Add("255.255.255.0");
 			}
 
 			SetIPAddress(virtualIPList.ToArray(),
 				submaskList.ToArray(),
-				new string[] { "192.168.31.1" }, 
-				new string[] { "192.168.31.1","114.114.114.114" });
+				new string[] { "192.168." + thirdNumericUpDown.Value + ".1"}, 
+				new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" });
 
 			setStatusLabel("已设置多IP，请刷新");
 			setAddButtonEnable(true);
@@ -313,7 +313,7 @@ namespace MultiLedController
 
 		private void numericUpDown2_ValueChanged(object sender, EventArgs e)
 		{
-			this.ipCount = Decimal.ToInt16(numericUpDown2.Value);
+			this.ipCount = Decimal.ToInt16(countNumericUpDown.Value);
 
 		}
 	}

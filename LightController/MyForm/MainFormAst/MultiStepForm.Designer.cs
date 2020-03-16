@@ -586,6 +586,7 @@
 			// 
 			// unifyStNumericUpDown
 			// 
+			this.unifyStNumericUpDown.DecimalPlaces = 2;
 			this.unifyStNumericUpDown.Location = new System.Drawing.Point(30, 315);
 			this.unifyStNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStNumericUpDown.Maximum = new decimal(new int[] {
@@ -597,6 +598,7 @@
 			this.unifyStNumericUpDown.Size = new System.Drawing.Size(87, 21);
 			this.unifyStNumericUpDown.TabIndex = 26;
 			this.unifyStNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.unifyStNumericUpDown.ValueChanged += new System.EventHandler(this.unifyStNumericUpDown_ValueChanged);
 			// 
 			// modeLabel
 			// 

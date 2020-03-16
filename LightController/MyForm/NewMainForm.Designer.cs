@@ -497,12 +497,12 @@ namespace LightController.MyForm
             this.hideUnifyPanelToolStripMenuItem,
             this.hidePlayPanelToolStripMenuItem});
 			this.myContextMenuStrip.Name = "myContextMenuStrip";
-			this.myContextMenuStrip.Size = new System.Drawing.Size(181, 164);
+			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 142);
 			// 
 			// addLightRemarkToolStripMenuItem
 			// 
 			this.addLightRemarkToolStripMenuItem.Name = "addLightRemarkToolStripMenuItem";
-			this.addLightRemarkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.addLightRemarkToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.addLightRemarkToolStripMenuItem.Text = "为灯具添加备注";
 			this.addLightRemarkToolStripMenuItem.Click += new System.EventHandler(this.addLightRemarkToolStripMenuItem_Click);
 			// 
@@ -510,40 +510,40 @@ namespace LightController.MyForm
 			// 
 			this.refreshPicToolStripMenuItem.Enabled = false;
 			this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
-			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
 			this.refreshPicToolStripMenuItem.Click += new System.EventHandler(this.refreshPicToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
 			// 
 			// hideMenuStriplToolStripMenuItem
 			// 
 			this.hideMenuStriplToolStripMenuItem.Name = "hideMenuStriplToolStripMenuItem";
-			this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.hideMenuStriplToolStripMenuItem.Text = "隐藏主菜单面板";
 			this.hideMenuStriplToolStripMenuItem.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
 			// 
 			// hideProjectPanelToolStripMenuItem
 			// 
 			this.hideProjectPanelToolStripMenuItem.Name = "hideProjectPanelToolStripMenuItem";
-			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.hideProjectPanelToolStripMenuItem.Text = "隐藏工程面板";
 			this.hideProjectPanelToolStripMenuItem.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
 			// 
 			// hideUnifyPanelToolStripMenuItem
 			// 
 			this.hideUnifyPanelToolStripMenuItem.Name = "hideUnifyPanelToolStripMenuItem";
-			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.hideUnifyPanelToolStripMenuItem.Text = "隐藏辅助面板";
 			this.hideUnifyPanelToolStripMenuItem.Click += new System.EventHandler(this.hideUnifyPanelToolStripMenuItem_Click);
 			// 
 			// hidePlayPanelToolStripMenuItem
 			// 
 			this.hidePlayPanelToolStripMenuItem.Name = "hidePlayPanelToolStripMenuItem";
-			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.hidePlayPanelToolStripMenuItem.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
 			// 
@@ -594,7 +594,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.unifyChangeModeComboBox.Location = new System.Drawing.Point(10, 255);
+			this.unifyChangeModeComboBox.Location = new System.Drawing.Point(10, 252);
 			this.unifyChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyChangeModeComboBox.Name = "unifyChangeModeComboBox";
 			this.unifyChangeModeComboBox.Size = new System.Drawing.Size(58, 20);
@@ -602,7 +602,7 @@ namespace LightController.MyForm
 			// 
 			// unifyValueNumericUpDown
 			// 
-			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(12, 221);
+			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(10, 221);
 			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -616,10 +616,11 @@ namespace LightController.MyForm
 			// 
 			// unifyStepTimeNumericUpDown
 			// 
-			this.unifyStepTimeNumericUpDown.Location = new System.Drawing.Point(12, 285);
+			this.unifyStepTimeNumericUpDown.DecimalPlaces = 2;
+			this.unifyStepTimeNumericUpDown.Location = new System.Drawing.Point(10, 284);
 			this.unifyStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStepTimeNumericUpDown.Maximum = new decimal(new int[] {
-            255,
+            10,
             0,
             0,
             0});
@@ -627,14 +628,15 @@ namespace LightController.MyForm
 			this.unifyStepTimeNumericUpDown.Size = new System.Drawing.Size(57, 21);
 			this.unifyStepTimeNumericUpDown.TabIndex = 61;
 			this.unifyStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.unifyStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.unifyStepTimeNumericUpDown_ValueChanged);
 			// 
 			// unifyChangeModeButton
 			// 
 			this.unifyChangeModeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyChangeModeButton.Location = new System.Drawing.Point(83, 253);
+			this.unifyChangeModeButton.Location = new System.Drawing.Point(82, 251);
 			this.unifyChangeModeButton.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyChangeModeButton.Name = "unifyChangeModeButton";
-			this.unifyChangeModeButton.Size = new System.Drawing.Size(83, 23);
+			this.unifyChangeModeButton.Size = new System.Drawing.Size(84, 23);
 			this.unifyChangeModeButton.TabIndex = 57;
 			this.unifyChangeModeButton.Text = "统一跳渐变";
 			this.unifyChangeModeButton.UseVisualStyleBackColor = true;
@@ -643,7 +645,7 @@ namespace LightController.MyForm
 			// unifyValueButton
 			// 
 			this.unifyValueButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyValueButton.Location = new System.Drawing.Point(83, 219);
+			this.unifyValueButton.Location = new System.Drawing.Point(82, 219);
 			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyValueButton.Name = "unifyValueButton";
 			this.unifyValueButton.Size = new System.Drawing.Size(84, 23);
@@ -655,10 +657,10 @@ namespace LightController.MyForm
 			// unifyStepTimeButton
 			// 
 			this.unifyStepTimeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyStepTimeButton.Location = new System.Drawing.Point(83, 283);
+			this.unifyStepTimeButton.Location = new System.Drawing.Point(82, 283);
 			this.unifyStepTimeButton.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStepTimeButton.Name = "unifyStepTimeButton";
-			this.unifyStepTimeButton.Size = new System.Drawing.Size(83, 23);
+			this.unifyStepTimeButton.Size = new System.Drawing.Size(84, 23);
 			this.unifyStepTimeButton.TabIndex = 59;
 			this.unifyStepTimeButton.Text = "统一步时间";
 			this.unifyStepTimeButton.UseVisualStyleBackColor = true;
@@ -987,6 +989,7 @@ namespace LightController.MyForm
 			// lightType
 			// 
 			this.lightType.Text = "LightType";
+			this.lightType.Width = 414;
 			// 
 			// lightImageList
 			// 

@@ -12,7 +12,6 @@ namespace LightController.MyForm
 {
 	public partial class MultiStepForm : Form
 	{
-
 		private MainFormBase mainForm;
 		private int currentStep; // 当前步
 		private int totalStep ;  // 最大步数
@@ -20,8 +19,7 @@ namespace LightController.MyForm
 		private int mode;
 		private int startStep = 1, endStep =1;
 		private IList<int> tdIndexList = new List<int>();
-
-
+		
 		public MultiStepForm(MainFormBase mainForm, int currentStep,int totalStep,StepWrapper stepTemplate, int mode)
 		{
 			this.mainForm = mainForm;
@@ -88,6 +86,10 @@ namespace LightController.MyForm
 				this.unifyCmComboBox.Items.Add("渐变");
 				this.unifyCmComboBox.Items.Add("屏蔽");
 				this.unifyCmComboBox.SelectedIndex = 0;
+
+				this.unifyStNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyStepTimeNumericUpDown_MouseWheel);
+				this.unifyStNumericUpDown.Maximum = MainFormBase.MaxStTimes * mainForm.eachStepTime2;
+				this.unifyStNumericUpDown.Increment = mainForm.eachStepTime2;				
 			}
 			else {
 				modeLabel.Text = "当前模式：音频模式";
@@ -106,7 +108,6 @@ namespace LightController.MyForm
 		{
 			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 		}
-
 
 		#region 各种事件
 
@@ -179,8 +180,8 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				int commonStepTime = Decimal.ToInt16(unifyStNumericUpDown.Value);
-				mainForm.SetMultiStepValues(MainFormBase.WHERE.STEP_TIME, tdIndexList, startStep, endStep, commonStepTime);
+				int unifyStepTime = Decimal.ToInt16(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
+				mainForm.SetMultiStepValues(MainFormBase.WHERE.STEP_TIME, tdIndexList, startStep, endStep, unifyStepTime);
 			}
 		}
 
@@ -252,6 +253,46 @@ namespace LightController.MyForm
 			}			
 		}
 
+		/// <summary>
+		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件（只+/-1）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = unifyStNumericUpDown.Value + unifyStNumericUpDown.Increment;
+				if (dd <= unifyStNumericUpDown.Maximum)
+				{
+					unifyStNumericUpDown.Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = unifyStNumericUpDown.Value - unifyStNumericUpDown.Increment;
+				if (dd >= unifyStNumericUpDown.Minimum)
+				{
+					unifyStNumericUpDown.Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：《统一设置步时间numericUpDown》值被用户主动变化时，需要验证，并主动设置值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyStNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			int stepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
+			unifyStNumericUpDown.Value = stepTime * mainForm.eachStepTime2;
+		}
 
 	}
 }

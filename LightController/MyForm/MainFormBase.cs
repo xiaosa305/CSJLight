@@ -27,8 +27,9 @@ namespace LightController.MyForm
 		// 打开程序时，即需导入的变量
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
+		public const int MaxStTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量
 		protected string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）				
-		
+
 		// 辅助的bool变量：	
 		protected bool isNew = true;  //点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -47,9 +48,9 @@ namespace LightController.MyForm
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
 		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
-		protected bool isEncrypt = false; //是否加密
-		protected int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
-		protected decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
+		protected bool isEncrypt = false; //是否加密		
+		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
+		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
 
 		// 数据库DAO(data access object：数据访问对象）
 		protected LightDAO lightDAO;
@@ -65,7 +66,7 @@ namespace LightController.MyForm
 
 		protected IList<LightAst> lightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用
 		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 辅助的灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
-		
+
 		protected Dictionary<int, int> lightDictionary = null;
 
 		// 通道数据操作时的变量
@@ -88,14 +89,14 @@ namespace LightController.MyForm
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 
-		
+
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
 
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
-		
+
 
 		// 几个全局的辅助控件（导出文件、toolTip提示等）
 		protected FolderBrowserDialog exportFolderBrowserDialog;
@@ -105,17 +106,18 @@ namespace LightController.MyForm
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
 		protected virtual void enableGlobalSet(bool enable) { } // 是否显示《全局设置》等
-		protected virtual void enableSave(bool enable){} // 是否显示《保存工程》等
-		protected virtual void enableSLArrange(bool enableSave, bool enableLoad){} //是否显示《 存、取 灯具位置》		
-		protected virtual void showPlayPanel(bool visible){}// 是否显示PlayFlowLayoutPanel
-		protected virtual void enableRefreshPic(bool enable){} // 是否使能《重新加载灯具图片》
-		protected virtual void setBusy(bool buzy){} //设置是否忙时
+		protected virtual void enableSave(bool enable) { } // 是否显示《保存工程》等
+		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { } //是否显示《 存、取 灯具位置》		
+		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
+		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
+		protected virtual void setBusy(bool buzy) { } //设置是否忙时
 		protected virtual void editLightInfo(LightAst lightAst) { }  //显示灯具详情到面板中
 		protected virtual void enableStepPanel(bool enable) { } //是否使能步数面板
 		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据
 		protected virtual void hideAllTDPanels() { } //隐藏所有通道
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用
 		protected virtual void connectButtonClick() { }//点击连接按钮，但需子类实现
+		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值
 
 		public virtual void ResetSyncMode(){} // 清空syncStep
 		public virtual void SetNotice(string notice){} //设置提示信息
@@ -180,6 +182,7 @@ namespace LightController.MyForm
 			IniFileAst iniAst = new IniFileAst(globalIniPath);
 			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
 			eachStepTime2 = eachStepTime / 1000m;
+			initStNumericUpDowns();  //更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
 
 			// 2.创建数据库:（10.15修改）
 			// 因为是初始化，所以让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
@@ -1749,7 +1752,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="where"></param>
 		/// <param name="value"></param>
-		protected void copyCommonValueToAll(int stepNum, WHERE where, int value) {
+		protected void copyUnifyValueToAll(int stepNum, WHERE where, int value) {
 
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长			
 			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
@@ -1806,7 +1809,6 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
 
 		/// <summary>
 		///  辅助方法：供MultiLightForm使用，检查当前的所有选中灯具的所有步数，是否一致。--》只需都和第一个灯进行对比，稍有不同，即不通过。
@@ -1951,7 +1953,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void newProjectClick()
 		{
-
 			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
 			new NewForm(this).ShowDialog();
@@ -2546,7 +2547,7 @@ namespace LightController.MyForm
 
 			if (isMultiMode)
 			{
-				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, 0);
+				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, 0);
 			}
 
 			RefreshStep();

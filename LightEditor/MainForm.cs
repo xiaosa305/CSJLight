@@ -17,7 +17,9 @@ using LighEditor;
 namespace LightEditor
 {
 	public partial class MainForm : Form
-	{		
+	{
+
+		private string appName;  //动态更改软件名
 		public bool isGenerated = false;
 		// 打开文件 或 保存文件 后，将isSaved设成true；这个吧变量决定是否填充*.ini内[data]内容
 		public bool isSaved = false;
@@ -31,11 +33,31 @@ namespace LightEditor
 		private string savePath; 
 		private string picDirectory;
 		private string lightDirectory;
+		
 
 		public MainForm()
 		{
 			InitializeComponent();
-			//this.skinEngine2.SkinFile = Application.StartupPath + @"\Vista2_color7.ssk";
+		
+			// 动态加载软件配置
+			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");			
+
+			appName = iniFileAst.ReadString("Show", "softwareName", "TRANS-JOY") + " 灯库编辑工具"; 
+			this.Text = appName;
+
+			// 换皮肤相关代码
+			//string skin = iniFileAst.ReadString("SkinSet", "skin", "");
+			//if (!String.IsNullOrEmpty(skin))
+			//{
+			//	this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
+			//}
+
+			// 9.6 图片加载使用当前软件所在文件夹
+			savePath = IniFileAst.GetSavePath(Application.StartupPath);
+			picDirectory = @savePath + @"\LightPic";
+			this.openImageDialog.InitialDirectory = picDirectory;
+			lightDirectory = @savePath + @"\LightLibrary";
+			this.openFileDialog.InitialDirectory = lightDirectory;
 
 			#region 初始化几个数组
 
@@ -142,7 +164,8 @@ namespace LightEditor
 			{
 				countComboBox.Items.Add(i + 1);
 				valueNumericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
-				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
+				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);				
+				labels[i].Click += new System.EventHandler(this.labels_Click);
 			}
 			firstTDNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.firstTDNumericUpDown_MouseWheel);
 			commonValueNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
@@ -150,6 +173,12 @@ namespace LightEditor
 			#endregion
 
 			refreshComList();
+		}
+
+		
+		private void MainForm_Load(object sender, EventArgs e)	{
+
+
 		}
 
 		private void refreshComList() {
@@ -177,29 +206,7 @@ namespace LightEditor
 
 		}
 
-		/// <summary>
-		///  事件：渲染Form时，选择皮肤
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MainForm_Load(object sender, EventArgs e)
-		{			
-			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
-			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
-			if (!String.IsNullOrEmpty(skin))
-			{
-				this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
-			}
-			String softwareName = iniFileAst.ReadString("Show", "softwareName", "JKC810");
-			this.Text = softwareName + "-灯库编辑工具";
-
-			// 9.6 图片加载使用当前软件所在文件夹
-			savePath = IniFileAst.GetSavePath(Application.StartupPath);
-			picDirectory = @savePath + @"\LightPic";
-			this.openImageDialog.InitialDirectory = picDirectory;
-			lightDirectory = @savePath + @"\LightLibrary";
-			this.openFileDialog.InitialDirectory = lightDirectory;			
-		}
+	
 
 		
 
@@ -617,8 +624,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
 		{				
-			WaySetForm wsf = new WaySetForm(this);
-			wsf.ShowDialog();				
+			new WaySetForm(this,-1).ShowDialog();
 		}
 		
 		/// <summary>
@@ -666,7 +672,7 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 辅助方法:鼠标进入label时，把焦点切换到其numericUpDown中
+		/// 事件:鼠标进入label时，把焦点切换到其numericUpDown中
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -677,7 +683,18 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
+		/// 事件：点击《通道名（Labels）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void labels_Click(object sender, EventArgs e)
+		{
+			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
+			new WaySetForm(this, labelIndex).ShowDialog();
+		}
+
+		/// <summary>
+		/// 事件：调节或输入numericUpDown的值后，1.调节通道值 2.调节tongdaoWrapper的相关值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1018,5 +1035,7 @@ namespace LightEditor
 			comName = comComboBox.Text;
 			connectButton.Enabled = true;
 		}
+
+		
 	}
 }

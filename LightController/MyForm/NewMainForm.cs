@@ -131,9 +131,8 @@ namespace LightController.MyForm
 				this.tdStNumericUpDowns[i].Name = "tdStNumericUpDown" + (i + 1);
 				this.tdStNumericUpDowns[i].Size = new System.Drawing.Size(60, 20);
 				this.tdStNumericUpDowns[i].TabIndex = 1;
-				this.tdStNumericUpDowns[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-				this.tdStNumericUpDowns[i].Increment = 0.03m;
-				this.tdStNumericUpDowns[i].DecimalPlaces = 2;
+				this.tdStNumericUpDowns[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;				
+				this.tdStNumericUpDowns[i].DecimalPlaces = 2;				
 
 				// 
 				// tdPanel
@@ -595,6 +594,20 @@ namespace LightController.MyForm
 		{
 			playPanel.Visible = visible;
 		}
+		
+		/// <summary>
+		/// 辅助方法：初始化unifyPanel内各控件（主要是unifyStepTime）的属性值
+		/// </summary>
+		protected override void initStNumericUpDowns()
+		{
+			unifyStepTimeNumericUpDown.Maximum = eachStepTime2 * MaxStTimes; ;
+			unifyStepTimeNumericUpDown.Increment = eachStepTime2;
+
+			for (int i = 0; i < 32; i++) {
+				tdStNumericUpDowns[i].Maximum = eachStepTime2 * MaxStTimes;
+				tdStNumericUpDowns[i].Increment = eachStepTime2;
+			}			
+		}
 
 		#endregion
 
@@ -755,7 +768,6 @@ namespace LightController.MyForm
 			}
 
 			lightsListView.SelectedItems[0].SubItems[0].Text += "\nhahah";
-
 		}
 
 		/// <summary>
@@ -1130,16 +1142,19 @@ namespace LightController.MyForm
 				{
 					this.tdCmComboBoxes[i].Items.Clear();
 					this.tdCmComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
-					this.tdStNumericUpDowns[i].Hide();					
+					this.tdStNumericUpDowns[i].Hide();
+					this.thirdLabel.Hide();
 				}
-				unifyChangeModeButton.Text = "统一声控";
+
 				unifyChangeModeComboBox.Items.Clear();
 				unifyChangeModeComboBox.Items.AddRange(new object[] { "屏蔽", "跳变" });
 				unifyChangeModeComboBox.SelectedIndex = 0;
+				unifyChangeModeButton.Text = "统一声控";
 
 				unifyStepTimeNumericUpDown.Hide();
 				unifyStepTimeButton.Text = "修改此音频场景全局设置";
-				unifyStepTimeButton.Size = new System.Drawing.Size(210, 27);
+				unifyStepTimeButton.Location = new Point(10,283);
+				unifyStepTimeButton.Size = new System.Drawing.Size(154, 23);
 
 			}
 			else //mode=0，常规模式
@@ -1149,16 +1164,18 @@ namespace LightController.MyForm
 					this.tdCmComboBoxes[i].Items.Clear();
 					this.tdCmComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
 					this.tdStNumericUpDowns[i].Show();
-					//this.tdTrueTimeLabels[i].Show();
+					this.thirdLabel.Show();
 				}
-				unifyChangeModeButton.Text = "统一跳渐变";
+				
 				unifyChangeModeComboBox.Items.Clear();
 				unifyChangeModeComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
 				unifyChangeModeComboBox.SelectedIndex = 0;
+				unifyChangeModeButton.Text = "统一跳渐变";
 
 				unifyStepTimeNumericUpDown.Show();
 				unifyStepTimeButton.Text = "统一步时间";
-				unifyStepTimeButton.Size = new System.Drawing.Size(111, 27);
+				unifyStepTimeButton.Location = new Point(82,283);
+				unifyStepTimeButton.Size = new System.Drawing.Size(83, 23);
 			}
 
 			if (lightAstList != null && lightAstList.Count > 0)
@@ -1689,22 +1706,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
-			Console.WriteLine("here");
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
 			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			// MARK 0313 将 步时间* 时间因子 后再进行存储
-			// int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value);  
-
-			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 );
+			// MARK 0313 处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 ); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
-			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2 ;
-
-			//TDOO : 3.10 td设为实际步时间长度（直接换算好）
-			//this.tdTrueTimeLabels[tdIndex].Text = (float)step.TongdaoList[tdIndex].StepTime * eachStepTime / 1000 + "s";
+			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2 ; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
 			if (isMultiMode)
 			{
@@ -1716,6 +1727,36 @@ namespace LightController.MyForm
 
 		//MARK：NewMainForm：统一调整框各事件处理
 		#region unifyPanel（辅助调节面板）
+
+		/// <summary>
+		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = unifyValueNumericUpDown.Value + unifyValueNumericUpDown.Increment;
+				if (dd <= unifyValueNumericUpDown.Maximum)
+				{
+					unifyValueNumericUpDown.Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = unifyValueNumericUpDown.Value - unifyValueNumericUpDown.Increment;
+				if (dd >= unifyValueNumericUpDown.Minimum)
+				{
+					unifyValueNumericUpDown.Value = dd;
+				}
+			}
+		}
 
 		/// <summary>
 		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件（只+/-1）
@@ -1748,35 +1789,16 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
+		/// 事件：《统一设置步时间numericUpDown》值被用户主动变化时，需要验证，并主动设置值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void unifyValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value + unifyValueNumericUpDown.Increment;
-				if (dd <= unifyValueNumericUpDown.Maximum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value - unifyValueNumericUpDown.Increment;
-				if (dd >= unifyValueNumericUpDown.Minimum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
+			int stepTime = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
+			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
 		}
-			
+
 		/// <summary>
 		/// 事件：点击《全部归零》
 		/// </summary>
@@ -1824,7 +1846,7 @@ namespace LightController.MyForm
 
 			if (isMultiMode)
 			{
-				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
+				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
 			}
 			RefreshStep();
 		}
@@ -1845,7 +1867,7 @@ namespace LightController.MyForm
 			}
 			if (isMultiMode)
 			{
-				copyCommonValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
+				copyUnifyValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
 			}
 			RefreshStep();
 		}
@@ -1860,18 +1882,20 @@ namespace LightController.MyForm
 			string buttonText = unifyStepTimeButton.Text;
 			if (buttonText.Equals("统一步时间"))
 			{
+				int unifyStepTimeParsed = Decimal.ToInt16( unifyStepTimeNumericUpDown.Value / eachStepTime2);
+
 				StepWrapper currentStep = getCurrentStepWrapper();
-				int commonStepTime = Convert.ToInt16(unifyStepTimeNumericUpDown.Text);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
-					getCurrentStepWrapper().TongdaoList[i].StepTime = commonStepTime;
+					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
 				}
 				if (isMultiMode)
 				{
-					copyCommonValueToAll(getCurrentStep(), WHERE.STEP_TIME, commonStepTime);
+					copyUnifyValueToAll(getCurrentStep(), WHERE.STEP_TIME, unifyStepTimeParsed);
 				}
 				RefreshStep();
 			}
+			//若按键名称变动，则说明是音频模式
 			else
 			{
 				new SKForm(this, globalIniPath, frame, frameComboBox.Text).ShowDialog();
@@ -2209,8 +2233,9 @@ namespace LightController.MyForm
 			this.Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 		}
 
+
 		#endregion
 
-		
+	
 	}
 }

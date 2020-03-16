@@ -2050,7 +2050,7 @@ namespace LightController.MyForm
 
 			if (isMultiMode)
 			{
-				copyCommonValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
+				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
 			}
 			RefreshStep();
 		}
@@ -2071,7 +2071,7 @@ namespace LightController.MyForm
 			}
 			if (isMultiMode)
 			{
-				copyCommonValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
+				copyUnifyValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
 			}
 			RefreshStep();
 		}
@@ -2094,7 +2094,7 @@ namespace LightController.MyForm
 				}
 				if (isMultiMode)
 				{
-					copyCommonValueToAll(getCurrentStep(), WHERE.STEP_TIME, commonStepTime);
+					copyUnifyValueToAll(getCurrentStep(), WHERE.STEP_TIME, commonStepTime);
 				}
 				RefreshStep();
 			}

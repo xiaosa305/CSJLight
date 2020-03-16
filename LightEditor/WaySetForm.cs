@@ -13,15 +13,15 @@ namespace LightEditor
 {
 	public partial class WaySetForm : Form
 	{
-		private int tongdaoCount;
-		private List<TongdaoWrapper> tongdaoList;
+		private int tongdaoCount; //通道数量
+		private List<TongdaoWrapper> tongdaoList; 
 		private MainForm mainForm; 
 
 		/// <summary>
 		///  初始化，并将mainForm（及其相关内容）也传进来；并显示tdPanel相关数据
 		/// </summary>
 		/// <param name="mainForm"></param>
-		public WaySetForm(MainForm mainForm)
+		public WaySetForm(MainForm mainForm,int tdIndex)
 		{
 			this.mainForm = mainForm;
 			this.tongdaoCount = mainForm.tongdaoCount;
@@ -63,7 +63,6 @@ namespace LightEditor
 			tdLabels[30] = tdLabel31;
 			tdLabels[31] = tdLabel32;
 
-
 			tdTextBoxes[0] = textBox1;
 			tdTextBoxes[1] = textBox2;
 			tdTextBoxes[2] = textBox3;
@@ -96,7 +95,6 @@ namespace LightEditor
 			tdTextBoxes[29] = textBox30;
 			tdTextBoxes[30] = textBox31;
 			tdTextBoxes[31] = textBox32;
-
 
 			tdNumericUpDowns[0] = numericUpDown1;
 			tdNumericUpDowns[1] = numericUpDown2;
@@ -146,7 +144,12 @@ namespace LightEditor
 			#endregion
 
 			hideAllTongdao();
-			generateTongdaoList();			
+			generateTongdaoList();
+
+			if (tdIndex > -1) {
+				tdTextBoxes[tdIndex].Select();
+				selectedTextBox = tdTextBoxes[tdIndex];
+			}		
 
 		}
 
@@ -253,9 +256,9 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 点击确认按钮后：
-		/// 1. 确认操作；
-		/// 2.关闭窗口
+		/// 事件：点击《确认》
+		/// 1.确认操作；
+		/// 2.关闭窗口。
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

@@ -48,6 +48,7 @@ namespace MultiLedController.Utils
             }
             else
             {
+                //Console.WriteLine("队列大小" + this.DebugQueue.Count);
                 return this.DebugQueue.Dequeue();
             }
         }

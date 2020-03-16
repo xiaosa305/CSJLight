@@ -84,8 +84,8 @@ namespace MultiLedController.Entity
         /// <param name="obj"></param>
         private void ReceiveMsg(Object obj)
         {
-            try
-            {
+            //try
+            //{
                 UdpClient client = obj as UdpClient;
                 while (this.ReceiveStartStatus)
                 {
@@ -120,11 +120,11 @@ namespace MultiLedController.Entity
                         this.Manager.AddFieldData(universe, data);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(CurrentIp + "关闭UDPClient == >" + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(CurrentIp + "关闭UDPClient == >" + ex.Message);
+            //}
         }
         /// <summary>
         /// 终端搜索回复虚拟控制器信息
@@ -134,6 +134,7 @@ namespace MultiLedController.Entity
             byte[] souce = Constant.GetReceiveDataBySerchDeviceOrder();
             byte[] data = new byte[souce.Length];
             Array.Copy(souce, data, souce.Length);
+            data[12] = 0x1F;
             data[13] = this.Addr;
             data[186] = Convert.ToByte(this.Fields[0]);
             data[187] = Convert.ToByte(this.Fields[1]);

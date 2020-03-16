@@ -442,11 +442,6 @@ namespace LightController.Tools
                         Device.SetBreak(false);
                     }
                 }
-                //TODO Test
-                else if (this.PreviewWayState == STATE_TEST)
-                {
-                    TestStart();
-                }
                 else
                 {
                     if (IsInitIntentDebug)
@@ -529,67 +524,6 @@ namespace LightController.Tools
             }
            
         }
-
-        //TODO Test
-        public void TestOpen()
-        {
-            try
-            {
-                if (TestCom == null)
-                {
-                    TestCom = new SerialPort();
-                }
-                else
-                {
-                    if (TestCom.IsOpen)
-                    {
-                        TestCom.Close();
-                    }
-                }
-                TestCom.PortName = "COM15";
-                TestCom.Parity = Parity.None;
-                TestCom.StopBits = StopBits.One;
-                TestCom.DataBits = 8;
-                TestCom.BaudRate = 256000;
-                this.TestCom.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
-                TestCom.Open();
-                PreviewWayState = STATE_TEST;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine(ex.Message);
-            }
-            
-        }
-
-        public void SetTest()
-        {
-            PreviewWayState = STATE_TEST;
-        }
-
-        //TODO TEST
-        private void TestStart()
-        {
-            List<byte> buff = new List<byte>();
-            buff.AddRange(this.StartCode);
-            buff.AddRange(this.PlayData);
-            if (TestCom.IsOpen)
-            {
-                //TestCom.BreakState = true;
-                //Thread.Sleep(0);
-                //TestCom.BreakState = false;
-                //Thread.Sleep(0);
-                TestCom.Write(buff.ToArray(), 0, buff.ToArray().Length);
-                //TestCom.BreakState = false;
-            }
-        }
-
-        protected void Recive(object sender, SerialDataReceivedEventArgs s)
-        {
-            Console.WriteLine("搜到串口消息");
-        }
-
     }
     enum PreViewState
     {

@@ -12,6 +12,7 @@ namespace MultiLedController.Entity
         
         public QueueCacheData(Dictionary<int,List<byte>> data,int framTime)
         {
+            this.FieldDatas = new Dictionary<int, List<byte>>();
             foreach (int key in data.Keys)
             {
                 this.FieldDatas.Add(key, data[key]);

@@ -398,6 +398,7 @@ namespace LightController.MyForm
 			// 
 			// deviceComboBox
 			// 
+			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.deviceComboBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.deviceComboBox.FormattingEnabled = true;
 			this.deviceComboBox.Location = new System.Drawing.Point(101, 8);

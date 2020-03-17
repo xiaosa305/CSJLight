@@ -25,11 +25,9 @@ namespace LightController.MyForm
 	{
 		#region 此处定义一些全局变量，用以界面风格的统一设置
 
-		private BorderStyle unifyBorderStyle = BorderStyle.Fixed3D; //统一为局内的所有panel设置统一的BorderStyle
-		private Color unifyColor = Color.FromArgb(166,173,189);
-		//private Color unifyColor = SystemColors.Window;
-		private Color unifyColor2 = Color.FromArgb(232, 235, 241);
-		//private Color unifyColor2 = SystemColors.Window;
+		private BorderStyle unifyBorderStyle = BorderStyle.Fixed3D; //统一为局内的所有panel设置统一的BorderStyle		
+		private Color unifyColor = SystemColors.Window;
+		private Color unifyColor2 = SystemColors.Window;
 
 		#endregion
 
@@ -196,28 +194,10 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(useFrameButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepButton, "跳转指定步");
 			myToolTip.SetToolTip(keepButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
-			
+
 			#region 皮肤 及 panel样式 相关代码
-						
-			projectPanel.BorderStyle = unifyBorderStyle;
-			lightsListView.BorderStyle = unifyBorderStyle;
-			lightInfoPanel.BorderStyle = unifyBorderStyle;
-			stepBasePanel.BorderStyle = unifyBorderStyle;
-			labelPanel.BorderStyle = unifyBorderStyle;			
-			tdFlowLayoutPanel.BorderStyle = unifyBorderStyle;			
-			unifyPanel.BorderStyle = unifyBorderStyle;
-			playBasePanel.BorderStyle = unifyBorderStyle;
-
-			mainMenuStrip.BackColor = unifyColor;
-			projectPanel.BackColor = unifyColor;
-			lightInfoPanel.BackColor = unifyColor;
-			labelPanel.BackColor = unifyColor;
-			unifyPanel.BackColor = unifyColor;
-			playBasePanel.BackColor = unifyColor;
-			//stepBasePanel.BackColor = unifyColor;
-
-			lightsListView.BackColor = unifyColor2;
-			tdFlowLayoutPanel.BackColor = unifyColor2;			
+			
+			setDeepStyle(false);
 
 			//更换IrisSkin4的皮肤
 			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
@@ -232,7 +212,9 @@ namespace LightController.MyForm
 				FileInfo[] file = fdir.GetFiles();
 				if (file.Length > 0)
 				{
-					skinComboBox.Items.Add("更改皮肤");
+					skinComboBox.Items.Add("浅色皮肤");
+					skinComboBox.Items.Add("深色皮肤");
+
 					foreach (var item in file)
 					{
 						if (item.FullName.EndsWith(".ssk"))
@@ -259,6 +241,46 @@ namespace LightController.MyForm
 			// 启动时刷新可用串口列表;
 			refreshComList();			
 		}
+
+		/// <summary>
+		/// 辅助方法：根据传进来的bool值，决定界面是深色系还是浅色系（相应的BorderStyle也发生变化）
+		/// </summary>
+		/// <param name="deep"></param>
+		private void setDeepStyle(bool deep)
+		{
+			if (deep) {
+				unifyColor = Color.FromArgb(166, 173, 189);
+				unifyColor2 = Color.FromArgb(232, 235, 241);
+				unifyBorderStyle = BorderStyle.FixedSingle;
+			} else {
+				unifyColor = SystemColors.Window;
+				unifyColor2 = SystemColors.Window;
+				unifyBorderStyle = BorderStyle.Fixed3D;
+			}
+
+			mainMenuStrip.BackColor = unifyColor;
+			projectPanel.BackColor = unifyColor;
+			lightInfoPanel.BackColor = unifyColor;
+			labelPanel.BackColor = unifyColor;
+			unifyPanel.BackColor = unifyColor;
+			playBasePanel.BackColor = unifyColor;
+
+			lightsListView.BackColor = unifyColor2;
+			tdFlowLayoutPanel.BackColor = unifyColor2;
+			foreach (TrackBar  item in tdTrackBars)
+			{
+				item.BackColor = unifyColor2;
+			}
+
+			projectPanel.BorderStyle = unifyBorderStyle;
+			lightsListView.BorderStyle = unifyBorderStyle;
+			lightInfoPanel.BorderStyle = unifyBorderStyle;
+			stepBasePanel.BorderStyle = unifyBorderStyle;
+			labelPanel.BorderStyle = unifyBorderStyle;
+			tdFlowLayoutPanel.BorderStyle = unifyBorderStyle;
+			unifyPanel.BorderStyle = unifyBorderStyle;
+			playBasePanel.BorderStyle = unifyBorderStyle;
+		}
 				
 		#region 菜单栏 - 非工程相关
 
@@ -270,9 +292,17 @@ namespace LightController.MyForm
 		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string sskName = skinComboBox.Text;
-			if (String.IsNullOrEmpty(sskName) || sskName.Equals("更改皮肤"))
+
+			if (String.IsNullOrEmpty(sskName)  || sskName.Equals("浅色皮肤"))
 			{
 				this.skinEngine1.Active = false;
+				setDeepStyle(false);
+				return;
+			}
+			if (sskName.Equals("深色皮肤"))
+			{
+				this.skinEngine1.Active = false;
+				setDeepStyle(true);
 				return;
 			}
 

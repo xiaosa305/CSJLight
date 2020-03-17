@@ -26,10 +26,10 @@ namespace LightController.MyForm
 		#region 此处定义一些全局变量，用以界面风格的统一设置
 
 		private BorderStyle unifyBorderStyle = BorderStyle.Fixed3D; //统一为局内的所有panel设置统一的BorderStyle
-		//private Color unifyColor = Color.FromArgb(166,173,189);
-		private Color unifyColor = SystemColors.Window;
-		//private Color unifyColor2 = Color.FromArgb(232, 235, 241);
-		private Color unifyColor2 = SystemColors.Window;
+		private Color unifyColor = Color.FromArgb(166,173,189);
+		//private Color unifyColor = SystemColors.Window;
+		private Color unifyColor2 = Color.FromArgb(232, 235, 241);
+		//private Color unifyColor2 = SystemColors.Window;
 
 		#endregion
 
@@ -114,22 +114,22 @@ namespace LightController.MyForm
 				// tdCmComboBox
 				// 
 				this.tdCmComboBoxes[i].FormattingEnabled = true;
-				this.tdCmComboBoxes[i].Location = new System.Drawing.Point(12, 247);
+				this.tdCmComboBoxes[i].Location = new System.Drawing.Point(17, 247);
 				this.tdCmComboBoxes[i].Name = "tdCmComboBox" + (i + 1);
-				this.tdCmComboBoxes[i].Size = new System.Drawing.Size(60, 20);
+				this.tdCmComboBoxes[i].Size = new System.Drawing.Size(50, 20);
 				this.tdCmComboBoxes[i].TabIndex = 2;
 				this.tdCmComboBoxes[i].Items.AddRange(new object[] {
 			"跳变",
 			"渐变",
 			"屏蔽"});
-
+				
 				// 
 				// tdStNumericUpDown
 				// 
 				this.tdStNumericUpDowns[i].Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-				this.tdStNumericUpDowns[i].Location = new System.Drawing.Point(12, 271);
+				this.tdStNumericUpDowns[i].Location = new System.Drawing.Point(17, 271);
 				this.tdStNumericUpDowns[i].Name = "tdStNumericUpDown" + (i + 1);
-				this.tdStNumericUpDowns[i].Size = new System.Drawing.Size(60, 20);
+				this.tdStNumericUpDowns[i].Size = new System.Drawing.Size(50, 20);
 				this.tdStNumericUpDowns[i].TabIndex = 1;
 				this.tdStNumericUpDowns[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;				
 				this.tdStNumericUpDowns[i].DecimalPlaces = 2;				
@@ -1977,7 +1977,7 @@ namespace LightController.MyForm
 			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
 			if (!isRealtime)
 			{				
-				realtimeButton.Text = "关闭实时";
+				realtimeButton.Text = "关闭\n实时调试";
 				isRealtime = true;
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
@@ -1997,13 +1997,13 @@ namespace LightController.MyForm
 			// 默认情况下，《保持其它灯状态》还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
 			if (!isKeepOtherLights)
 			{
-				keepButton.Image = global::LightController.Properties.Resources.保持状态2;
-				keepButton.Text = "取消保持";
+				//keepButton.Image = global::LightController.Properties.Resources.保持状态2;
+				keepButton.Text = "取消\n保持状态";
 				isKeepOtherLights = true;
 			}
 			else //否则( 按钮显示为“保持其他灯状态”）断开连接
 			{
-				keepButton.Image = global::LightController.Properties.Resources.保持状态1;
+				//keepButton.Image = global::LightController.Properties.Resources.保持状态1;
 				keepButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}

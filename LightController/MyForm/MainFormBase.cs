@@ -28,7 +28,7 @@ namespace LightController.MyForm
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
 		public const int MaxStTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量
-		protected string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）				
+		protected string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
 
 		// 辅助的bool变量：	
 		protected bool isNew = true;  //点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
@@ -2625,7 +2625,7 @@ namespace LightController.MyForm
 
 		#region 弃用方法区
 
-
+		//弃用原因：不再支持可更改时间因子。
 		///// <summary>
 		///// 辅助方法：在《在全局配置》中改变了时间因子并保存后，mainForm的时间因子变量也跟着改变，同时刷新当前步
 		///// </summary>
@@ -2702,7 +2702,6 @@ namespace LightController.MyForm
 		//}
 
 		#endregion
-
 	
 	}
 

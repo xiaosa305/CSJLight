@@ -54,7 +54,7 @@ namespace LightController.MyForm
 
 			// 这一层判断，若用户选中《局部多灯模式》则需要所有编组的成员都有一样的步数，否则后期处理十分麻烦（比如添加灯之类的）。
 			if ( !copyAllCheckBox.Checked && !mainForm.CheckSameStepCounts()) {
-				MessageBox.Show("列表中灯具的步数并非完全一致，无法进入（局部）多灯模式。");
+				MessageBox.Show("列表中灯具的步数并非完全一致，无法进入多灯模式。");
 				return;				
 			}
 

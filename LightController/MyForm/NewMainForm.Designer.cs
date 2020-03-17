@@ -738,9 +738,9 @@ namespace LightController.MyForm
 			// tdCmComboBox1
 			// 
 			this.tdCmComboBox1.FormattingEnabled = true;
-			this.tdCmComboBox1.Location = new System.Drawing.Point(12, 247);
+			this.tdCmComboBox1.Location = new System.Drawing.Point(17, 247);
 			this.tdCmComboBox1.Name = "tdCmComboBox1";
-			this.tdCmComboBox1.Size = new System.Drawing.Size(60, 20);
+			this.tdCmComboBox1.Size = new System.Drawing.Size(51, 20);
 			this.tdCmComboBox1.TabIndex = 2;
 			// 
 			// tdStNumericUpDown1
@@ -752,9 +752,9 @@ namespace LightController.MyForm
             0,
             0,
             131072});
-			this.tdStNumericUpDown1.Location = new System.Drawing.Point(12, 271);
+			this.tdStNumericUpDown1.Location = new System.Drawing.Point(17, 271);
 			this.tdStNumericUpDown1.Name = "tdStNumericUpDown1";
-			this.tdStNumericUpDown1.Size = new System.Drawing.Size(60, 20);
+			this.tdStNumericUpDown1.Size = new System.Drawing.Size(51, 20);
 			this.tdStNumericUpDown1.TabIndex = 1;
 			this.tdStNumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 

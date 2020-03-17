@@ -43,10 +43,8 @@ namespace LightController.Tools
             switch (index)
             {
                 case 1:
-                    PlayTools.GetInstance().SetTest();
                     break;
                 case 2:
-                    PlayTools.GetInstance().TestOpen();
                     break;
                 case 3:
                     break;

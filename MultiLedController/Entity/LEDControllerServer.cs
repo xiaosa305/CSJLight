@@ -95,6 +95,10 @@ namespace MultiLedController.Entity
                         ControlDevice controlDevice = new ControlDevice(receiveData);
                         this.ControlDevices.Add(controlDevice.Mac,controlDevice);
                     }
+                    else
+                    {
+                        //Console.WriteLine("接收到数据包，包大小：" + receiveData.Length + "-------包序为：" + receiveData[4]);
+                    }
                 }
             }
             catch (Exception)
@@ -108,6 +112,7 @@ namespace MultiLedController.Entity
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
+            //this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Parse("192.168.31.10"), PORT));
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
         }
         /// <summary>
@@ -117,7 +122,6 @@ namespace MultiLedController.Entity
         public void SearchDevice(List<byte> data)
         {
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, 9999));
-
         }
 
         /// <summary>

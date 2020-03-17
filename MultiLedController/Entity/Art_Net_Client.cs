@@ -84,8 +84,8 @@ namespace MultiLedController.Entity
         /// <param name="obj"></param>
         private void ReceiveMsg(Object obj)
         {
-            //try
-            //{
+            try
+            {
                 UdpClient client = obj as UdpClient;
                 while (this.ReceiveStartStatus)
                 {
@@ -107,6 +107,7 @@ namespace MultiLedController.Entity
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
                     {
+
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x50)//这是ArtDMX数据包
                     {
@@ -119,12 +120,16 @@ namespace MultiLedController.Entity
                         data.AddRange(dmxData);
                         this.Manager.AddFieldData(universe, data);
                     }
+                    else
+                    {
+                        Console.WriteLine(CurrentIp + "其他数据包,包大小:" + receiveData.Length);
+                    }
                 }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(CurrentIp + "关闭UDPClient == >" + ex.Message);
-            //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(CurrentIp + "关闭UDPClient == >" + ex.Message);
+            }
         }
         /// <summary>
         /// 终端搜索回复虚拟控制器信息
@@ -134,8 +139,8 @@ namespace MultiLedController.Entity
             byte[] souce = Constant.GetReceiveDataBySerchDeviceOrder();
             byte[] data = new byte[souce.Length];
             Array.Copy(souce, data, souce.Length);
-            data[12] = 0x1F;
-            data[13] = this.Addr;
+            data[12] = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[2]));
+            data[13] = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
             data[186] = Convert.ToByte(this.Fields[0]);
             data[187] = Convert.ToByte(this.Fields[1]);
             data[188] = Convert.ToByte(this.Fields[2]);

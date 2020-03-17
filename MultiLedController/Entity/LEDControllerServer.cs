@@ -112,16 +112,8 @@ namespace MultiLedController.Entity
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
-            if (data[4] == 0x00)
-            {
-                Console.WriteLine("addr-8：" + data[7] + ",addr-9：" + data[8] + ",addr-10：" + data[9]);
-                if (data[7] == 0 && data[8] == 0 & data[9] == 0)
-                {
-                    Console.WriteLine("全0");
-                }
-            }
-            //Console.WriteLine("addr-11：" + data[10] + ",addr-12：" + data[11] + ",addr-13：" + data[12]);
-            this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Parse("192.168.31.10"), PORT));
+            //this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Parse("192.168.31.10"), PORT));
+            this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
         }
         /// <summary>
         /// 搜索设备

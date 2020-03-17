@@ -9,8 +9,8 @@ namespace MultiLedController.Utils
     public class DataQueue
     {
         private static DataQueue Instance { get; set; }
-        private Queue<QueueCacheData> DebugQueue { get; set; }
-        private Queue<QueueCacheData> SaveQueue { get; set; }
+        private Queue<DebugQueueCacheData> DebugQueue { get; set; }
+        private Queue<SaveQueueCacheData> SaveQueue { get; set; }
         private DataQueue()
         {
             this.Reset();
@@ -26,21 +26,22 @@ namespace MultiLedController.Utils
 
         public void Reset()
         {
-            this.DebugQueue = new Queue<QueueCacheData>();
-            this.SaveQueue = new Queue<QueueCacheData>();
+            this.DebugQueue = new Queue<DebugQueueCacheData>();
+            this.SaveQueue = new Queue<SaveQueueCacheData>();
         }
 
         public void DebugEnqueue(Dictionary<int,List<byte>> data,int framTime)
         {
-            this.DebugQueue.Enqueue(new QueueCacheData(data, framTime));
+            Console.WriteLine("队列消息数量" + this.DebugQueue.Count);
+            this.DebugQueue.Enqueue(new DebugQueueCacheData(data, framTime));
         }
 
-        public void SaveEnqueue(Dictionary<int, List<byte>> data, int framTime)
+        public void SaveEnqueue(Dictionary<int, List<byte>> data, int framTime,int led_Interface_num,int led_space)
         {
-            this.SaveQueue.Enqueue(new QueueCacheData(data, framTime));
+            this.SaveQueue.Enqueue(new SaveQueueCacheData(data, framTime,led_Interface_num,led_space));
         }
 
-        public QueueCacheData DebugDequeue()
+        public DebugQueueCacheData DebugDequeue()
         {
             if (this.DebugQueue.Count == 0)
             {
@@ -53,7 +54,7 @@ namespace MultiLedController.Utils
             }
         }
 
-        public QueueCacheData SaveDequeue()
+        public SaveQueueCacheData SaveDequeue()
         {
             if (this.SaveQueue.Count == 0)
             {

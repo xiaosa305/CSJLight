@@ -52,6 +52,7 @@
     <Compile Include="Entity\ControlDevice.cs" />
     <Compile Include="Entity\LEDControllerServer.cs" />
     <Compile Include="Entity\QueueCacheData.cs" />
+    <Compile Include="Entity\SaveQueueCacheData.cs" />
     <Compile Include="Entity\VirtualControlInfo.cs" />
     <Compile Include="MyForm\MainForm.cs">
       <SubType>Form</SubType>

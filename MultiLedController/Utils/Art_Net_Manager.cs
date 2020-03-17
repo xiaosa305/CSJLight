@@ -19,7 +19,6 @@ namespace MultiLedController.Utils
         private Dictionary<int, bool> FieldsReceiveStatus { get; set; }
         private Dictionary<int, List<byte>> FieldsData { get; set; }
         private static readonly Object KEY = new object();
-        private List<double> FramTimes { get; set; }
         private Dictionary<int, int> FieldsReceiveDataSize { get; set; }
         private bool DebugStatus { get; set; }
         private bool IsSaveToFile { get; set; }
@@ -69,7 +68,6 @@ namespace MultiLedController.Utils
             this.SendTimers.Start();
             this.Flag = 0;
             this.PackNumSum = 0;
-            this.FramTimes = new List<double>();
             LEDControllerServer.GetInstance().SetManager(this);
 
 
@@ -162,6 +160,12 @@ namespace MultiLedController.Utils
                 startIndex += virtuals[i].SpaceNum;
             }
             LEDControllerServer.GetInstance().StartServer(currentIP);
+            List<byte> emptyData = new List<byte>();
+            for (int i = 0; i < 35; i++)
+            {
+                emptyData.Add(0x00);
+            }
+            FileUtils.WriteToFileByCreate(emptyData, SaveFileName);
         }
         /// <summary>
         /// 接收DMX数据包处理
@@ -195,9 +199,9 @@ namespace MultiLedController.Utils
                         }
                     }
                 }
-                //if (this.FieldsReceiveStatus[fieldNum])
                 else if (time > 10 && this.Flag == 1)
                 {
+                    //计算包序
                     int sum = 0;
                     foreach (int key in this.FieldsReceiveStatus.Keys)
                     {
@@ -206,30 +210,19 @@ namespace MultiLedController.Utils
                             sum += key;
                         }
                     }
+                    //检测包序累加和
                     if (sum == this.PackNumSum)
                     {
-                        //计时
-                        if (this.FramTimes.Count > 100)
-                        {
-                            this.FramTimes.RemoveRange(0, 90);
-                        }
-                        this.FramTimes.Add(time);
-
                         //写文件头
                         int led_Interface_num = this.Clients.Count;
                         int led_space = 4;
                         double temp = 0;
-                        foreach (double item in this.FramTimes)
-                        {
-                            temp += item;
-                        }
-                        int frame_time = (int)(temp / this.FramTimes.Count);
 
                         List<byte> head = new List<byte>
                         {
                             Convert.ToByte(led_Interface_num),
                             Convert.ToByte(led_space),
-                            Convert.ToByte(frame_time )
+                            Convert.ToByte(Convert.ToInt16(time) & 0xFF )
                         };
 
 
@@ -246,7 +239,7 @@ namespace MultiLedController.Utils
                         //存储文件
                         if (this.IsSaveToFile)
                         {
-                            DataQueue.GetInstance().SaveEnqueue(FieldsData, frame_time);
+                            DataQueue.GetInstance().SaveEnqueue(FieldsData, Convert.ToInt16(time), this.Clients.Count,4);
                             //FileUtils.WriteToFileBySeek(head, SaveFileName, 0);
                             //List<byte> framData = new List<byte>();
                             //for (int i = 0; i < this.Clients.Count; i++)
@@ -272,7 +265,7 @@ namespace MultiLedController.Utils
                         //启动实时调试状态
                         if (this.DebugStatus)
                         {
-                            DataQueue.GetInstance().DebugEnqueue(FieldsData, frame_time);
+                            DataQueue.GetInstance().DebugEnqueue(FieldsData, Convert.ToInt16(time));
                         }
 
                         //组包完成，清除包数据缓存区以及数据包接收标记
@@ -464,31 +457,75 @@ namespace MultiLedController.Utils
 
         public void OnTimer(object sender, ElapsedEventArgs e)
         {
+            this.SendTimers.Stop();
+            //发送实时调试数据
             if (this.DebugStatus)
             {
-                QueueCacheData data = DataQueue.GetInstance().DebugDequeue();
+                DebugQueueCacheData data = DataQueue.GetInstance().DebugDequeue();
                 if (data != null)
                 {
-                    this.SendTimers.Stop();
                     int runTime = this.DebugMode(data.FieldDatas);
                     this.CountFlag = true;
 
                     long beforTime = DateTime.Now.Ticks;
                     while (this.CountFlag)
                     {
-                        if ((DateTime.Now.Ticks - beforTime) / 10000 > 15)
+                        if ((DateTime.Now.Ticks - beforTime) / 10000 > 10)
                         {
                             break;
                         }
                         Thread.Sleep(0);
                     }
-                    this.SendTimers.Start();
                 }
             }
+            //数据录制
             if (IsSaveToFile)
             {
-                QueueCacheData data = DataQueue.GetInstance().SaveDequeue();
+                SaveQueueCacheData data = DataQueue.GetInstance().SaveDequeue();
+                if (data != null)
+                {
+                    List<byte> head = new List<byte>()
+                    {
+                        Convert.ToByte(data.Led_Interface_num),
+                        Convert.ToByte(data.Led_space),
+                        Convert.ToByte(data.FramTime & 0xFF),
+                    };
+                    for (int interficeIndex = 0; interficeIndex < data.Led_Interface_num; interficeIndex++)
+                    {
+                        int dataLength = 0;
+                        for (int ledSpaceIndex = 0; ledSpaceIndex < data.Led_space; ledSpaceIndex++)
+                        {
+                            dataLength += data.FieldDatas[interficeIndex * data.Led_space + ledSpaceIndex].Count;
+                        }
+                        head.Add(Convert.ToByte(dataLength & 0xFF));
+                        head.Add(Convert.ToByte((dataLength >> 8) & 0xFF));
+                        head.Add(Convert.ToByte((dataLength >> 16) & 0xFF));
+                        head.Add(Convert.ToByte((dataLength >> 24) & 0xFF));
+                    }
+                    FileUtils.WriteToFileBySeek(head, SaveFileName, 0);
+                    List<byte> framData = new List<byte>();
+                    for (int interficeIndex = 0; interficeIndex < data.Led_Interface_num; interficeIndex++)
+                    {
+                        List<byte> routeDatas = new List<byte>();
+                        for (int ledSpaceIndex = 0; ledSpaceIndex < data.Led_space; ledSpaceIndex++)
+                        {
+                            int num = interficeIndex * 4 + ledSpaceIndex;
+                            if (this.FieldsReceiveStatus[num])
+                            {
+                                routeDatas.AddRange(data.FieldDatas[num]);
+                            }
+                        }
+                        if (routeDatas.Count < 512 * 4 && routeDatas.Count > 0)
+                        {
+                            routeDatas.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 4) - routeDatas.Count));
+                        }
+                        framData.AddRange(routeDatas);
+                    }
+                    FileUtils.WriteToFile(framData, SaveFileName);
+                    Console.WriteLine("录制一帧数据");
+                }
             }
+            this.SendTimers.Start();
         }
 
         public void OnSaveFileTimers(object sender, ElapsedEventArgs e)

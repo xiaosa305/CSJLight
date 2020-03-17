@@ -15,9 +15,9 @@ namespace LightController
 		static void Main()
 		{
 			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);			
+			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new NewMainForm());
-			Application.Run(new SkinMainForm());
+			//Application.Run(new SkinMainForm());
 		}
 	}
 }

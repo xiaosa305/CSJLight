@@ -275,12 +275,11 @@ namespace LightController.MyForm
 				this.skinEngine1.Active = false;
 				return;
 			}
-			this.skinEngine1.Active = true;
-			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
 
-			//为避免label颜色看不见，每次更换皮肤后，可主动设置stepPanel背景色
-			//stepBasePanel.BackColor = SystemColors.ControlDarkDark;
-			//stepPanel.BackColor = SystemColors.ControlDarkDark;
+			this.skinEngine1.Active = true;  
+			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
+			//额外加一句其他的句子(需要与SkniFile相关又不影响效果)，可以解决有些控件无法被渲染的问题
+			this.skinEngine1.SkinFile = sskName + ".ssk";
 		}
 
 		/// <summary>
@@ -1914,9 +1913,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodButton_Click(object sender, EventArgs e)
 		{
+			SetNotice("正在切换连接模式");
 			isConnectCom = !isConnectCom;
 			changeConnectMethodButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
+			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接") );
 
 			deviceRefreshButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
 		}
@@ -2063,6 +2064,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void refreshComList()
 		{
+			SetNotice("正在刷新串口列表，请稍候...");
 			// 动态加载可用的dmx512串口列表		 
 			deviceComboBox.Items.Clear();
 			SerialPortTools comTools = SerialPortTools.GetInstance();
@@ -2075,13 +2077,16 @@ namespace LightController.MyForm
 				}
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
+				SetNotice("已刷新串口列表，可选择并连接设备进行调试");
 			}
 			else
 			{
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
 				deviceComboBox.Enabled = false;
+				SetNotice("未找到可用串口。");
 			}
+
 		}
 
 		/// <summary>
@@ -2090,6 +2095,7 @@ namespace LightController.MyForm
 		/// </summary>
 		private void refreshNetworkList()
 		{
+			SetNotice("正在搜索网络设备，请稍候...");
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Enabled = false;
 			ipaList = new List<IPAst>();
@@ -2126,10 +2132,12 @@ namespace LightController.MyForm
 			{
 				deviceComboBox.Enabled = true;
 				deviceComboBox.SelectedIndex = 0;
+				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
 			}
 			else
 			{
-				MessageBox.Show("未找到可用的网络设备，请确认后重试。");
+				//MessageBox.Show("未找到可用的网络设备，请确认后重试。");
+				SetNotice("未找到可用的网络设备，请确认后重试。");
 			}
 		}
 

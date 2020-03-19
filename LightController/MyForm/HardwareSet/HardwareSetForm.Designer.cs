@@ -105,7 +105,7 @@
 			// 
 			// commonGroupBox
 			// 
-			this.commonGroupBox.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.commonGroupBox.BackColor = System.Drawing.SystemColors.Window;
 			this.commonGroupBox.Controls.Add(this.playFlagComboBox);
 			this.commonGroupBox.Controls.Add(this.addrNumericUpDown);
 			this.commonGroupBox.Controls.Add(this.baudComboBox);
@@ -371,7 +371,7 @@
 			// 
 			// networkGroupBox
 			// 
-			this.networkGroupBox.BackColor = System.Drawing.SystemColors.Control;
+			this.networkGroupBox.BackColor = System.Drawing.SystemColors.Window;
 			this.networkGroupBox.Controls.Add(this.linkModeComboBox);
 			this.networkGroupBox.Controls.Add(this.linkPortTextBox);
 			this.networkGroupBox.Controls.Add(this.gatewayTextBox);
@@ -513,7 +513,7 @@
 			// 
 			// otherGroupBox
 			// 
-			this.otherGroupBox.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.otherGroupBox.BackColor = System.Drawing.SystemColors.Window;
 			this.otherGroupBox.Controls.Add(this.remotePortTextBox);
 			this.otherGroupBox.Controls.Add(this.domainServerTextBox);
 			this.otherGroupBox.Controls.Add(this.label11);
@@ -610,6 +610,7 @@
 			// 
 			// panel1
 			// 
+			this.panel1.BackColor = System.Drawing.Color.LightGray;
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel1.Controls.Add(this.autoSaveCheckBox);
 			this.panel1.Controls.Add(this.cancelButton);
@@ -674,14 +675,14 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 1;
+			this.skinTabControl.SelectedIndex = 0;
 			this.skinTabControl.Size = new System.Drawing.Size(224, 409);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 3;
 			// 
 			// networkTab
 			// 
-			this.networkTab.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.networkTab.BackColor = System.Drawing.SystemColors.Control;
 			this.networkTab.Controls.Add(this.networkDownloadButton);
 			this.networkTab.Controls.Add(this.networkReadButton);
 			this.networkTab.Controls.Add(this.networkSearchButton);

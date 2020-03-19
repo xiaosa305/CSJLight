@@ -353,7 +353,7 @@ namespace OtherTools
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(91, 54);
 			this.switchButton.TabIndex = 24;
-			this.switchButton.Text = "以网络连接";
+			this.switchButton.Text = "切换为\r\n网络连接";
 			this.switchButton.UseVisualStyleBackColor = true;
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 

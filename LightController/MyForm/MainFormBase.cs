@@ -157,6 +157,20 @@ namespace LightController.MyForm
 			AutosetEnabledPlayAndRefreshPic();
 		}
 
+		internal void RequestSave(string msg)
+		{
+			DialogResult dr = MessageBox.Show(
+				msg,
+				"保存工程?",
+				MessageBoxButtons.YesNo,
+				 MessageBoxIcon.Question
+			);
+
+			if (dr == DialogResult.Yes) {
+				saveProjectClick();
+			}
+		}
+
 		/// <summary>
 		/// 基类辅助方法：①ClearAllData()；②设置内部的一些工程路径及变量；③初始化数据库
 		/// </summary>
@@ -244,7 +258,10 @@ namespace LightController.MyForm
 			//10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
 			if (dbLightList == null || dbLightList.Count == 0)
 			{
-				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？", 
+					"",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
 				SetNotice("成功打开工程(" + projectName + ")");
 				if (dr == DialogResult.OK)
 				{
@@ -1323,6 +1340,7 @@ namespace LightController.MyForm
 						foreach (TongdaoWrapper td in stepWrapper.TongdaoList)
 						{
 							int tongdaoIndex = td.Address - 1;
+							//Console.WriteLine(td.ScrollValue);
 							stepBytes[tongdaoIndex] = (byte)(td.ScrollValue);
 						}
 					}
@@ -1338,6 +1356,7 @@ namespace LightController.MyForm
 		/// <param name="tdIndex"></param>
 		protected void changeScrollValue(int tdIndex, int tdValue)
 		{
+			//Console.WriteLine("changeScrollValue");
 			// 设tongdaoWrapper的值
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[tdIndex].ScrollValue = tdValue;
@@ -1999,8 +2018,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void exportProjectClick()
 		{
-
-			DialogResult dr = MessageBox.Show("请确保工程已保存后再进行导出，否则可能会出错。确定现在导出吗？",
+			DialogResult dr = MessageBox.Show("请确保工程已保存后再进行导出，否则可能导出非预期效果。确定现在导出吗？",
 					"导出工程？",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
@@ -2032,7 +2050,6 @@ namespace LightController.MyForm
 			SetNotice("正在导出工程，请稍候...");
 			setBusy(true);
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));
-
 
 		}
 
@@ -2531,6 +2548,13 @@ namespace LightController.MyForm
 		protected void zeroButtonClick()
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
+			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+			{
+				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！");
+				return;
+			}
+
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
@@ -2549,9 +2573,15 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void initButtonClick()
 		{
-			StepWrapper stepNow = getCurrentStepWrapper();
+			StepWrapper currentStep = getCurrentStepWrapper();
+			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0) {
+				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！");
+				return;
+			}
+
 			StepWrapper stepMode = getCurrentStepTemplate();
-			for (int i = 0; i < stepNow.TongdaoList.Count; i++)
+			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
 			}
@@ -2568,6 +2598,14 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void multiButtonClick()
 		{
+			StepWrapper currentStep = getCurrentStepWrapper();
+			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+			{
+				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！");
+				return;
+			}
+
 			new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), mode).ShowDialog();
 		}
 

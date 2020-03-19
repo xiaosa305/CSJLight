@@ -238,7 +238,7 @@ namespace LightController.MyForm
 			if (String.IsNullOrEmpty(projectPath))
 			{
 				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
-					"下载工程",
+					"下载工程?",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 				if (dr == DialogResult.Cancel)
@@ -367,7 +367,6 @@ namespace LightController.MyForm
 			ips = new List<string>();
 		}
 	}
-
 
 	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
 	{

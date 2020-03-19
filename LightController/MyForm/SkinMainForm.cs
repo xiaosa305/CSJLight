@@ -336,7 +336,7 @@ namespace LightController.MyForm
 			modeSkinComboBox.SelectedIndex = 0;
 
 			// 《统一跳渐变》numericUpDown不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
-			commonChangeModeSkinComboBox.SelectedIndex = 1;
+			unifyChangeModeSkinComboBox.SelectedIndex = 1;
 			#endregion
 
 			#region 各类监听器
@@ -362,16 +362,16 @@ namespace LightController.MyForm
 			labelFlowLayoutPanel.MouseWheel += new MouseEventHandler(this.labelFlowLayoutPanel_MouseWheel);
 
 			// 几个《统一调整区》的鼠标滚动事件绑定
-			commonValueNumericUpDown.MouseEnter += new EventHandler(this.commonValueNumericUpDown_MouseEnter);
-			commonValueNumericUpDown.MouseWheel += new MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
-			commonValueNumericUpDown.ValueChanged += new System.EventHandler(this.commonValueNumericUpDown_ValueChanged);
+			unifyValueNumericUpDown.MouseEnter += new EventHandler(this.commonValueNumericUpDown_MouseEnter);
+			unifyValueNumericUpDown.MouseWheel += new MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
+			unifyValueNumericUpDown.ValueChanged += new System.EventHandler(this.commonValueNumericUpDown_ValueChanged);
 
-			commonValueTrackBar.MouseEnter += new EventHandler(this.commonValueTrackBar_MouseEnter);
-			commonValueTrackBar.MouseWheel += new MouseEventHandler(this.commonValueTrackBar_MouseWheel);
-			commonValueTrackBar.ValueChanged += new EventHandler(this.commonValueTrackBar_ValuiChanged);
+			unifyValueTrackBar.MouseEnter += new EventHandler(this.commonValueTrackBar_MouseEnter);
+			unifyValueTrackBar.MouseWheel += new MouseEventHandler(this.commonValueTrackBar_MouseWheel);
+			unifyValueTrackBar.ValueChanged += new EventHandler(this.commonValueTrackBar_ValuiChanged);
 
-			commonStepTimeNumericUpDown.MouseEnter += new EventHandler(this.commonStepTimeNumericUpDown_MouseEnter);
-			commonStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
+			unifyStepTimeNumericUpDown.MouseEnter += new EventHandler(this.commonStepTimeNumericUpDown_MouseEnter);
+			unifyStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.commonStepTimeNumericUpDown_MouseWheel);
 
 			#endregion
 
@@ -805,7 +805,6 @@ namespace LightController.MyForm
 
 				isPainting = false;
 			}
-
 		}
 
 		/// <summary>
@@ -818,8 +817,7 @@ namespace LightController.MyForm
 			for (int i = 0; i < 32; i++)
 			{
 				tdPanels[i].Hide();
-			}
-			tdCommonPanel.Enabled = false;
+			}			
 
 			isPainting = false;
 		}
@@ -1185,14 +1183,14 @@ namespace LightController.MyForm
 					this.tdStepTimeNumericUpDowns[i].Hide();
 					this.tdTrueTimeLabels[i].Hide();
 				}
-				commonChangeModeSkinButton.Text = "统一声控";
-				commonChangeModeSkinComboBox.Items.Clear();
-				commonChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变" });
-				commonChangeModeSkinComboBox.SelectedIndex = 0;
+				unifyChangeModeSkinButton.Text = "统一声控";
+				unifyChangeModeSkinComboBox.Items.Clear();
+				unifyChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变" });
+				unifyChangeModeSkinComboBox.SelectedIndex = 0;
 
-				commonStepTimeNumericUpDown.Hide();
-				commonStepTimeSkinButton.Text = "修改此音频场景全局设置";
-				commonStepTimeSkinButton.Size = new System.Drawing.Size(210, 27);
+				unifyStepTimeNumericUpDown.Hide();
+				unifyStepTimeSkinButton.Text = "修改此音频场景全局设置";
+				unifyStepTimeSkinButton.Size = new System.Drawing.Size(210, 27);
 
 				thirdLabel1.Hide();
 				thirdLabel2.Hide();
@@ -1207,14 +1205,14 @@ namespace LightController.MyForm
 					this.tdStepTimeNumericUpDowns[i].Show();
 					this.tdTrueTimeLabels[i].Show();
 				}
-				commonChangeModeSkinButton.Text = "统一跳渐变";
-				commonChangeModeSkinComboBox.Items.Clear();
-				commonChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
-				commonChangeModeSkinComboBox.SelectedIndex = 0;
+				unifyChangeModeSkinButton.Text = "统一跳渐变";
+				unifyChangeModeSkinComboBox.Items.Clear();
+				unifyChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
+				unifyChangeModeSkinComboBox.SelectedIndex = 0;
 
-				commonStepTimeNumericUpDown.Show();
-				commonStepTimeSkinButton.Text = "统一步时间";
-				commonStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);
+				unifyStepTimeNumericUpDown.Show();
+				unifyStepTimeSkinButton.Text = "统一步时间";
+				unifyStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);
 
 				thirdLabel1.Show();
 				thirdLabel2.Show();
@@ -1523,12 +1521,20 @@ namespace LightController.MyForm
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
-
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == mode;
 
 			// 3.设定统一调整区是否可用
-			tdCommonPanel.Enabled = totalStep != 0;
+			zeroSkinButton.Enabled = totalStep != 0;
+			initSkinButton.Enabled = totalStep != 0;
+			multiSkinButton.Enabled = totalStep != 0;
+			unifyValueSkinButton.Enabled = totalStep != 0;
+			unifyChangeModeSkinButton.Enabled = totalStep != 0;
+			unifyStepTimeSkinButton.Enabled = (totalStep != 0) || (mode == 1);
+			unifyValueNumericUpDown.Enabled = totalStep != 0;
+			unifyValueTrackBar.Enabled = totalStep != 0;
+			unifyChangeModeSkinComboBox.Enabled = totalStep != 0;
+			unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
 
 			// 10.9 添加一个选择步数的框
 			chooseStepNumericUpDown.Enabled = totalStep != 0;
@@ -1626,7 +1632,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
 			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			int tdValue = Convert.ToInt16(Double.Parse(tdValueNumericUpDowns[tongdaoIndex].Text));
+			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值；
 			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -1871,18 +1877,18 @@ namespace LightController.MyForm
 			}
 			if (e.Delta > 0)
 			{
-				decimal dd = commonStepTimeNumericUpDown.Value + commonStepTimeNumericUpDown.Increment;
-				if (dd <= commonStepTimeNumericUpDown.Maximum)
+				decimal dd = unifyStepTimeNumericUpDown.Value + unifyStepTimeNumericUpDown.Increment;
+				if (dd <= unifyStepTimeNumericUpDown.Maximum)
 				{
-					commonStepTimeNumericUpDown.Value = dd;
+					unifyStepTimeNumericUpDown.Value = dd;
 				}
 			}
 			else if (e.Delta < 0)
 			{
-				decimal dd = commonStepTimeNumericUpDown.Value - commonStepTimeNumericUpDown.Increment;
-				if (dd >= commonStepTimeNumericUpDown.Minimum)
+				decimal dd = unifyStepTimeNumericUpDown.Value - unifyStepTimeNumericUpDown.Increment;
+				if (dd >= unifyStepTimeNumericUpDown.Minimum)
 				{
-					commonStepTimeNumericUpDown.Value = dd;
+					unifyStepTimeNumericUpDown.Value = dd;
 				}
 			}
 		}
@@ -1894,7 +1900,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonStepTimeNumericUpDown_MouseEnter(object sender, EventArgs e)
 		{
-			commonStepTimeNumericUpDown.Select();
+			unifyStepTimeNumericUpDown.Select();
 		}
 
 		/// <summary>
@@ -1911,18 +1917,18 @@ namespace LightController.MyForm
 			}
 			if (e.Delta > 0)
 			{
-				decimal dd = commonValueNumericUpDown.Value + commonValueNumericUpDown.Increment;
-				if (dd <= commonValueNumericUpDown.Maximum)
+				decimal dd = unifyValueNumericUpDown.Value + unifyValueNumericUpDown.Increment;
+				if (dd <= unifyValueNumericUpDown.Maximum)
 				{
-					commonValueNumericUpDown.Value = dd;
+					unifyValueNumericUpDown.Value = dd;
 				}
 			}
 			else if (e.Delta < 0)
 			{
-				decimal dd = commonValueNumericUpDown.Value - commonValueNumericUpDown.Increment;
-				if (dd >= commonValueNumericUpDown.Minimum)
+				decimal dd = unifyValueNumericUpDown.Value - unifyValueNumericUpDown.Increment;
+				if (dd >= unifyValueNumericUpDown.Minimum)
 				{
-					commonValueNumericUpDown.Value = dd;
+					unifyValueNumericUpDown.Value = dd;
 				}
 			}
 		}
@@ -1934,7 +1940,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonValueNumericUpDown_MouseEnter(object sender, EventArgs e)
 		{
-			commonValueNumericUpDown.Select();
+			unifyValueNumericUpDown.Select();
 		}
 
 		/// <summary>		
@@ -1955,19 +1961,19 @@ namespace LightController.MyForm
 			// 向上滚
 			if (e.Delta > 0)
 			{
-				decimal dd = commonValueTrackBar.Value + commonValueTrackBar.SmallChange;
-				if (dd <= commonValueTrackBar.Maximum)
+				decimal dd = unifyValueTrackBar.Value + unifyValueTrackBar.SmallChange;
+				if (dd <= unifyValueTrackBar.Maximum)
 				{
-					commonValueTrackBar.Value = Decimal.ToInt16(dd);
+					unifyValueTrackBar.Value = Decimal.ToInt16(dd);
 				}
 			}
 			// 向下滚
 			else if (e.Delta < 0)
 			{
-				decimal dd = commonValueTrackBar.Value - commonValueTrackBar.SmallChange;
-				if (dd >= commonValueTrackBar.Minimum)
+				decimal dd = unifyValueTrackBar.Value - unifyValueTrackBar.SmallChange;
+				if (dd >= unifyValueTrackBar.Minimum)
 				{
-					commonValueTrackBar.Value = Decimal.ToInt16(dd);
+					unifyValueTrackBar.Value = Decimal.ToInt16(dd);
 				}
 			}
 		}
@@ -1979,7 +1985,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonValueTrackBar_MouseEnter(object sender, EventArgs e)
 		{
-			commonValueNumericUpDown.Select();
+			unifyValueNumericUpDown.Select();
 		}
 
 		/// <summary>
@@ -1989,7 +1995,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonValueTrackBar_ValuiChanged(object sender, EventArgs e)
 		{
-			commonValueNumericUpDown.Value = commonValueTrackBar.Value;
+			unifyValueNumericUpDown.Value = unifyValueTrackBar.Value;
 		}
 
 		/// <summary>
@@ -1999,7 +2005,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonValueNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			commonValueTrackBar.Value = Decimal.ToInt16(commonValueNumericUpDown.Value);
+			unifyValueTrackBar.Value = Decimal.ToInt16(unifyValueNumericUpDown.Value);
 		}	
 
 		/// <summary>
@@ -2041,8 +2047,13 @@ namespace LightController.MyForm
 		private void commonValueSkinButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
+			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0) {
+				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！");
+				return;
+			}
 
-			int commonValue = Convert.ToInt16(commonValueNumericUpDown.Text);
+			int commonValue = Decimal.ToInt16(unifyValueNumericUpDown.Value);
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
@@ -2063,7 +2074,14 @@ namespace LightController.MyForm
 		private void commonChangeModeSkinButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
-			int commonChangeMode = commonChangeModeSkinComboBox.SelectedIndex;
+			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+			{
+				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！");
+				return;
+			}
+
+			int commonChangeMode = unifyChangeModeSkinComboBox.SelectedIndex;
 
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
@@ -2083,11 +2101,18 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void commonStepTimeSkinButton_Click(object sender, EventArgs e)
 		{
-			string buttonText = commonStepTimeSkinButton.Text;
+			string buttonText = unifyStepTimeSkinButton.Text;
 			if (buttonText.Equals("统一步时间"))
 			{
 				StepWrapper currentStep = getCurrentStepWrapper();
-				int commonStepTime = Convert.ToInt16(commonStepTimeNumericUpDown.Text);
+				if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+				{
+					MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+					SetNotice("请先选中任意步数，才能进行统一调整！");
+					return;
+				}
+
+				int commonStepTime = Convert.ToInt16(unifyStepTimeNumericUpDown.Value);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime = commonStepTime;
@@ -2165,50 +2190,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void connectSkinButton_Click(object sender, EventArgs e)
 		{
-			 playTools = PlayTools.GetInstance();
-			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if (!isConnected)
-			{
-				if (isConnectCom)
-				{
-					if (String.IsNullOrEmpty(comName))
-					{
-						MessageBox.Show("未选中可用串口。");
-						return;
-					}
-					playTools.ConnectDevice(comName);
-					EnableConnectedButtons(true);
-				}
-				else {
-					if (String.IsNullOrEmpty(comName) || deviceSkinComboBox.SelectedIndex < 0) {
-						MessageBox.Show("未选中可用网络连接。");
-						return;
-					}
-
-					IPAst ipAst = ipaList[deviceSkinComboBox.SelectedIndex];
-					ConnectTools.GetInstance().Start(ipAst.LocalIP);					
-					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
-				}				
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				if (isConnectCom)
-				{
-					playTools.CloseDevice();
-				}
-				else {
-					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());				
-				}				
-
-				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				EnableConnectedButtons(false);
-
-				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
-				if ( !isConnectCom) {
-					Thread.Sleep(500);
-					refreshNetworkList();
-				}
-			}
+			connectButtonClick();
 		}	
 
 		/// <summary>
@@ -2343,7 +2325,6 @@ namespace LightController.MyForm
 		/// </summary>
 		private void refreshNetworkList()
 		{
-
 			deviceSkinComboBox.Items.Clear();
 			deviceSkinComboBox.Enabled = false;
 			ipaList = new List<IPAst>();
@@ -2427,6 +2408,63 @@ namespace LightController.MyForm
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 		}
 
+		/// <summary>
+		/// 辅助方法：点击《连接设备》
+		/// </summary>
+		protected override void connectButtonClick()
+		{
+			playTools = PlayTools.GetInstance();
+			// 如果还没连接（按钮显示为“连接设备”)，那就连接
+			if (!isConnected)
+			{
+				if (isConnectCom)
+				{
+					if (String.IsNullOrEmpty(comName))
+					{
+						MessageBox.Show("未选中可用串口。");
+						return;
+					}
+					playTools.ConnectDevice(comName);
+					EnableConnectedButtons(true);
+				}
+				else
+				{
+					if (String.IsNullOrEmpty(comName) || deviceSkinComboBox.SelectedIndex < 0)
+					{
+						MessageBox.Show("未选中可用网络连接。");
+						return;
+					}
+
+					IPAst ipAst = ipaList[deviceSkinComboBox.SelectedIndex];
+					ConnectTools.GetInstance().Start(ipAst.LocalIP);
+					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				}
+			}
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{
+				if (isConnectCom)
+				{
+					playTools.CloseDevice();
+					
+				}
+				else
+				{
+					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
+				}
+
+				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+				EnableConnectedButtons(false);
+				SetNotice("已断开连接");
+
+				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
+				if (!isConnectCom)
+				{
+					Thread.Sleep(500);
+					refreshNetworkList();
+				}
+			}
+		}
+
 		#endregion
 
 		#region 几个全局辅助方法
@@ -2498,7 +2536,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
 
 		#region 测试按钮及废弃方法块
 
@@ -2603,9 +2640,7 @@ namespace LightController.MyForm
 			tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
 			tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
 			tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		}
-
-		
+		}		
 
 		#endregion
 

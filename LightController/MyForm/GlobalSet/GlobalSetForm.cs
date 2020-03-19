@@ -187,7 +187,8 @@ namespace LightController.MyForm
 				Name = "skinFrameButton" + (frameIndex + 1),
 				Size = new System.Drawing.Size(50, 25),
 				TabIndex = 0,
-				Text = frameName
+				Text = frameName,
+				BackColor = SystemColors.Control 
 			};
 			myToolTip.SetToolTip(skFrameButtons[frameIndex], frameName);
 

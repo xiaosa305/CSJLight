@@ -59,7 +59,7 @@ namespace LightController.MyForm
 			this.realtimeButton = new System.Windows.Forms.Button();
 			this.keepButton = new System.Windows.Forms.Button();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
-			this.connectButton = new System.Windows.Forms.Button();
+			this.deviceConnectButton = new System.Windows.Forms.Button();
 			this.makeSoundButton = new System.Windows.Forms.Button();
 			this.endviewButton = new System.Windows.Forms.Button();
 			this.previewButton = new System.Windows.Forms.Button();
@@ -340,7 +340,7 @@ namespace LightController.MyForm
 			this.playPanel.Controls.Add(this.realtimeButton);
 			this.playPanel.Controls.Add(this.keepButton);
 			this.playPanel.Controls.Add(this.deviceComboBox);
-			this.playPanel.Controls.Add(this.connectButton);
+			this.playPanel.Controls.Add(this.deviceConnectButton);
 			this.playPanel.Controls.Add(this.makeSoundButton);
 			this.playPanel.Controls.Add(this.endviewButton);
 			this.playPanel.Controls.Add(this.previewButton);
@@ -398,7 +398,6 @@ namespace LightController.MyForm
 			// 
 			// deviceComboBox
 			// 
-			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.deviceComboBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.deviceComboBox.FormattingEnabled = true;
 			this.deviceComboBox.Location = new System.Drawing.Point(101, 8);
@@ -408,17 +407,17 @@ namespace LightController.MyForm
 			this.deviceComboBox.TabIndex = 19;
 			this.deviceComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
 			// 
-			// connectButton
+			// deviceConnectButton
 			// 
-			this.connectButton.BackColor = System.Drawing.Color.Transparent;
-			this.connectButton.Location = new System.Drawing.Point(206, 34);
-			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(88, 26);
-			this.connectButton.TabIndex = 23;
-			this.connectButton.Text = "连接设备";
-			this.connectButton.UseVisualStyleBackColor = false;
-			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+			this.deviceConnectButton.BackColor = System.Drawing.Color.Transparent;
+			this.deviceConnectButton.Location = new System.Drawing.Point(206, 34);
+			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceConnectButton.Name = "deviceConnectButton";
+			this.deviceConnectButton.Size = new System.Drawing.Size(88, 26);
+			this.deviceConnectButton.TabIndex = 23;
+			this.deviceConnectButton.Text = "连接设备";
+			this.deviceConnectButton.UseVisualStyleBackColor = false;
+			this.deviceConnectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// makeSoundButton
 			// 
@@ -505,6 +504,7 @@ namespace LightController.MyForm
 			this.addLightRemarkToolStripMenuItem.Name = "addLightRemarkToolStripMenuItem";
 			this.addLightRemarkToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.addLightRemarkToolStripMenuItem.Text = "为灯具添加备注";
+			this.addLightRemarkToolStripMenuItem.Visible = false;
 			this.addLightRemarkToolStripMenuItem.Click += new System.EventHandler(this.addLightRemarkToolStripMenuItem_Click);
 			// 
 			// refreshPicToolStripMenuItem
@@ -590,6 +590,7 @@ namespace LightController.MyForm
 			// 
 			// unifyChangeModeComboBox
 			// 
+			this.unifyChangeModeComboBox.Enabled = false;
 			this.unifyChangeModeComboBox.FormattingEnabled = true;
 			this.unifyChangeModeComboBox.Items.AddRange(new object[] {
             "跳变",
@@ -603,6 +604,7 @@ namespace LightController.MyForm
 			// 
 			// unifyValueNumericUpDown
 			// 
+			this.unifyValueNumericUpDown.Enabled = false;
 			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(10, 221);
 			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
@@ -618,6 +620,7 @@ namespace LightController.MyForm
 			// unifyStepTimeNumericUpDown
 			// 
 			this.unifyStepTimeNumericUpDown.DecimalPlaces = 2;
+			this.unifyStepTimeNumericUpDown.Enabled = false;
 			this.unifyStepTimeNumericUpDown.Location = new System.Drawing.Point(10, 284);
 			this.unifyStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStepTimeNumericUpDown.Maximum = new decimal(new int[] {
@@ -633,6 +636,7 @@ namespace LightController.MyForm
 			// 
 			// unifyChangeModeButton
 			// 
+			this.unifyChangeModeButton.Enabled = false;
 			this.unifyChangeModeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.unifyChangeModeButton.Location = new System.Drawing.Point(82, 251);
 			this.unifyChangeModeButton.Margin = new System.Windows.Forms.Padding(2);
@@ -645,6 +649,7 @@ namespace LightController.MyForm
 			// 
 			// unifyValueButton
 			// 
+			this.unifyValueButton.Enabled = false;
 			this.unifyValueButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.unifyValueButton.Location = new System.Drawing.Point(82, 219);
 			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(2);
@@ -657,6 +662,7 @@ namespace LightController.MyForm
 			// 
 			// unifyStepTimeButton
 			// 
+			this.unifyStepTimeButton.Enabled = false;
 			this.unifyStepTimeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.unifyStepTimeButton.Location = new System.Drawing.Point(82, 283);
 			this.unifyStepTimeButton.Margin = new System.Windows.Forms.Padding(2);
@@ -669,6 +675,7 @@ namespace LightController.MyForm
 			// 
 			// initButton
 			// 
+			this.initButton.Enabled = false;
 			this.initButton.Location = new System.Drawing.Point(12, 76);
 			this.initButton.Margin = new System.Windows.Forms.Padding(2);
 			this.initButton.Name = "initButton";
@@ -680,6 +687,7 @@ namespace LightController.MyForm
 			// 
 			// zeroButton
 			// 
+			this.zeroButton.Enabled = false;
 			this.zeroButton.Location = new System.Drawing.Point(12, 49);
 			this.zeroButton.Margin = new System.Windows.Forms.Padding(2);
 			this.zeroButton.Name = "zeroButton";
@@ -818,6 +826,7 @@ namespace LightController.MyForm
 			// 
 			// multiButton
 			// 
+			this.multiButton.Enabled = false;
 			this.multiButton.Location = new System.Drawing.Point(91, 49);
 			this.multiButton.Margin = new System.Windows.Forms.Padding(2);
 			this.multiButton.Name = "multiButton";
@@ -1435,7 +1444,7 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Panel playPanel;
 		private System.Windows.Forms.Button deviceRefreshButton;
 		private System.Windows.Forms.ComboBox deviceComboBox;
-		private System.Windows.Forms.Button connectButton;
+		private System.Windows.Forms.Button deviceConnectButton;
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.Button makeSoundButton;
 		private System.Windows.Forms.Button changeConnectMethodButton;

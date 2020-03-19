@@ -199,13 +199,7 @@ namespace LightController.MyForm
 			
 			setDeepStyle(false);
 
-			//更换IrisSkin4的皮肤
-			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
-			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
-			if (!String.IsNullOrEmpty(skin))
-			{
-				this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + skin;
-			}
+			//加载皮肤列表			
 			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
 			try
 			{
@@ -238,6 +232,14 @@ namespace LightController.MyForm
 
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
+			// 启动时选择皮肤
+			//IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
+			//string skin = iniFileAst.ReadString("SkinSet", "skin", "");
+			//if (!String.IsNullOrEmpty(skin))
+			//{
+			//	this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + skin;
+			//}
+
 			// 启动时刷新可用串口列表;
 			refreshComList();			
 		}
@@ -291,8 +293,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			string sskName = skinComboBox.Text;
+			if (!isInit) {
+				return;
+			}
 
+			string sskName = skinComboBox.Text;
 			if (String.IsNullOrEmpty(sskName)  || sskName.Equals("浅色皮肤"))
 			{
 				this.skinEngine1.Active = false;
@@ -310,6 +315,8 @@ namespace LightController.MyForm
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
 			//额外加一句其他的句子(需要与SkniFile相关又不影响效果)，可以解决有些控件无法被渲染的问题
 			this.skinEngine1.SkinFile = sskName + ".ssk";
+
+			new IniFileAst(Application.StartupPath+@"\GlobalSet.ini").WriteString("SkinSet", "skin", sskName + ".ssk");
 		}
 
 		/// <summary>
@@ -775,7 +782,6 @@ namespace LightController.MyForm
 			{
 				tdPanels[i].Hide();
 			}
-			unifyPanel.Enabled = false;
 		}
 
 		#endregion
@@ -1058,7 +1064,7 @@ namespace LightController.MyForm
 			//saveArrangeToolStripMenuItem.Enabled = enableSave;
 			//loadArrangeToolStripMenuItem.Enabled = enableLoad;
 		}
-			   
+		
 		#endregion
 
 		#region 几个显示或隐藏面板的菜单项
@@ -1507,8 +1513,17 @@ namespace LightController.MyForm
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == mode;
 
-			// 4.设定统一调整区是否可用
-			unifyPanel.Enabled = totalStep != 0;
+			// 4.设定统一调整区是否可用			
+			zeroButton.Enabled = totalStep != 0;
+			initButton.Enabled = totalStep != 0; 
+			multiButton.Enabled = totalStep != 0;
+			unifyValueButton.Enabled = totalStep != 0;
+			unifyChangeModeButton.Enabled = totalStep != 0;
+			unifyStepTimeButton.Enabled = (totalStep != 0) || (mode == 1 ) ;
+			unifyValueNumericUpDown.Enabled = totalStep != 0;
+			unifyChangeModeComboBox.Enabled = totalStep != 0;
+			unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
+
 
 			// 5.处理选择步数的框及按钮
 			chooseStepNumericUpDown.Enabled = totalStep != 0;
@@ -1540,6 +1555,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdTrackBars_MouseWheel(object sender, MouseEventArgs e)
 		{
+			//Console.WriteLine(	"trackBar_mouseWheel");
 			int tdIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
@@ -1602,7 +1618,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
 			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			int tdValue = Convert.ToInt16(Double.Parse(tdValueNumericUpDowns[tongdaoIndex].Text));
+			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值；
 			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -1742,7 +1758,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			// MARK 0313 处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 ); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = Decimal.ToInt16(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 ); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2 ; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -1824,7 +1840,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
+			int stepTime = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
 			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
 		}
 
@@ -1866,6 +1882,12 @@ namespace LightController.MyForm
 		private void unifyValueButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
+			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+			{
+				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！");
+				return;
+			}
 
 			int commonValue = Convert.ToInt16(unifyValueNumericUpDown.Text);
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
@@ -1888,6 +1910,13 @@ namespace LightController.MyForm
 		private void unifyChangeModeButton_Click(object sender, EventArgs e)
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
+			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+			{
+				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！");
+				return;
+			}
+
 			int commonChangeMode = unifyChangeModeComboBox.SelectedIndex;
 
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
@@ -1914,6 +1943,13 @@ namespace LightController.MyForm
 				int unifyStepTimeParsed = Decimal.ToInt16( unifyStepTimeNumericUpDown.Value / eachStepTime2);
 
 				StepWrapper currentStep = getCurrentStepWrapper();
+				if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
+				{
+					MessageBox.Show("请先选中任意步数，才能进行统一调整！");
+					SetNotice("请先选中任意步数，才能进行统一调整！");
+					return;
+				}
+
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
@@ -1979,11 +2015,11 @@ namespace LightController.MyForm
 			comName = deviceComboBox.Text;
 			if (!comName.Trim().Equals(""))
 			{
-				connectButton.Enabled = true;
+				deviceConnectButton.Enabled = true;
 			}
 			else
 			{
-				connectButton.Enabled = false;
+				deviceConnectButton.Enabled = false;
 				MessageBox.Show("未选中可用串口");
 			}
 		}		
@@ -2050,11 +2086,10 @@ namespace LightController.MyForm
 			if (lightAstList == null || lightAstList.Count == 0)
 			{
 				MessageBox.Show("当前工程还未添加灯具，无法预览。");
-				//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
 				return;
 			}
 
-			//previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;
+			setBusy(true);
 			SetNotice("正在生成预览数据，请稍候...");
 			try
 			{
@@ -2063,6 +2098,9 @@ namespace LightController.MyForm
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
+			}
+			finally {
+				setBusy(false);
 			}
 		}
 
@@ -2190,7 +2228,7 @@ namespace LightController.MyForm
 
 			// 是否连接
 			isConnected = connected;
-			connectButton.Text = isConnected ? "断开连接" : "连接设备";
+			deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
 		}
 
 		/// <summary>
@@ -2222,6 +2260,7 @@ namespace LightController.MyForm
 
 					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
 					ConnectTools.GetInstance().Start(ipAst.LocalIP);
+					
 					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 				}
 			}
@@ -2230,21 +2269,29 @@ namespace LightController.MyForm
 				if (isConnectCom)
 				{
 					playTools.CloseDevice();
+					EnableConnectedButtons(false);
+					SetNotice("已断开连接。");
 				}
 				else
 				{
 					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
+					EnableConnectedButtons(false);
+
+					// 200319 需特别处理以下按钮
+					deviceComboBox.Enabled = false;				
+					deviceConnectButton.Enabled = false;
+					SetNotice("已断开连接（断开网络连接后，需要刷新网络设备列表，才可重连设备）。");
 				}
 
-				//previewButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				EnableConnectedButtons(false);
+				
+				
 
-				//MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
-				if (!isConnectCom)
-				{
-					Thread.Sleep(500);
-					refreshNetworkList();
-				}
+				////MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
+				//if (!isConnectCom)
+				//{
+				//	Thread.Sleep(500);
+				//	refreshNetworkList();
+				//}
 			}
 		}
 

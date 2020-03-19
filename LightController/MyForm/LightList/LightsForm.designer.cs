@@ -57,7 +57,7 @@ namespace LightController
 			// 
 			// skinTreeView1
 			// 
-			this.skinTreeView1.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.skinTreeView1.BackColor = System.Drawing.SystemColors.Window;
 			this.skinTreeView1.BorderColor = System.Drawing.Color.Black;
 			this.skinTreeView1.Dock = System.Windows.Forms.DockStyle.Left;
 			this.skinTreeView1.ForeColor = System.Drawing.Color.Black;
@@ -145,7 +145,7 @@ namespace LightController
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.LightSteelBlue;
+			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(747, 509);
 			this.Controls.Add(this.lightsListView);

@@ -553,6 +553,7 @@ namespace LightEditor
 			this.tongdaoGroupBox2.Size = new System.Drawing.Size(789, 255);
 			this.tongdaoGroupBox2.TabIndex = 9;
 			this.tongdaoGroupBox2.TabStop = false;
+			this.tongdaoGroupBox2.Tag = "999";
 			this.tongdaoGroupBox2.Visible = false;
 			// 
 			// numericUpDown32
@@ -1174,6 +1175,7 @@ namespace LightEditor
 			this.tongdaoGroupBox1.Size = new System.Drawing.Size(789, 255);
 			this.tongdaoGroupBox1.TabIndex = 8;
 			this.tongdaoGroupBox1.TabStop = false;
+			this.tongdaoGroupBox1.Tag = "999";
 			this.tongdaoGroupBox1.Visible = false;
 			// 
 			// numericUpDown16
@@ -1589,7 +1591,7 @@ namespace LightEditor
 			this.label1.TabIndex = 10;
 			this.label1.Text = "总调光1";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.label1.Visible = false;			
+			this.label1.Visible = false;
 			this.label1.MouseEnter += new System.EventHandler(this.label_MouseEnter);
 			// 
 			// vScrollBar16
@@ -1791,7 +1793,7 @@ namespace LightEditor
 			this.groupBox1.Controls.Add(this.commonValueNumericUpDown);
 			this.groupBox1.Controls.Add(this.zeroButton);
 			this.groupBox1.Controls.Add(this.commonValueButton);
-			this.groupBox1.Location = new System.Drawing.Point(344, 30);
+			this.groupBox1.Location = new System.Drawing.Point(334, 30);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -1901,6 +1903,7 @@ namespace LightEditor
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 3);
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MainForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.lightTestGroupBox.ResumeLayout(false);

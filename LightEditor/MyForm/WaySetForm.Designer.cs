@@ -30,7 +30,6 @@ namespace LightEditor
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tdGroupBox = new System.Windows.Forms.GroupBox();
 			this.tdPanel = new System.Windows.Forms.Panel();
 			this.numericUpDown32 = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDown31 = new System.Windows.Forms.NumericUpDown();
@@ -132,12 +131,23 @@ namespace LightEditor
 			this.tdAddrLabel = new System.Windows.Forms.Label();
 			this.tdNameLabel = new System.Windows.Forms.Label();
 			this.nameListBox = new System.Windows.Forms.ListBox();
-			this.nameGroupBox = new System.Windows.Forms.GroupBox();
 			this.noticeLabel = new System.Windows.Forms.Label();
 			this.resetButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.applyButton = new System.Windows.Forms.Button();
-			this.tdGroupBox.SuspendLayout();
+			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.tdNumLabel = new System.Windows.Forms.Label();
+			this.saAddButton = new System.Windows.Forms.Button();
+			this.saClearButton = new System.Windows.Forms.Button();
+			this.saPanel = new System.Windows.Forms.Panel();
+			this.endValueLabel = new System.Windows.Forms.Label();
+			this.lineLabel = new System.Windows.Forms.Label();
+			this.startValueLabel = new System.Windows.Forms.Label();
+			this.saDeleteButton = new System.Windows.Forms.Button();
+			this.saEditButton = new System.Windows.Forms.Button();
+			this.saNameLabel = new System.Windows.Forms.Label();
+			this.tdNamePanel = new System.Windows.Forms.Panel();
+			this.allTdPanel = new System.Windows.Forms.Panel();
 			this.tdPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).BeginInit();
@@ -171,23 +181,11 @@ namespace LightEditor
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).BeginInit();
-			this.nameGroupBox.SuspendLayout();
+			this.saFlowLayoutPanel.SuspendLayout();
+			this.saPanel.SuspendLayout();
+			this.tdNamePanel.SuspendLayout();
+			this.allTdPanel.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// tdGroupBox
-			// 
-			this.tdGroupBox.Controls.Add(this.tdPanel);
-			this.tdGroupBox.Controls.Add(this.tdInitLlabel);
-			this.tdGroupBox.Controls.Add(this.tdAddrLabel);
-			this.tdGroupBox.Controls.Add(this.tdNameLabel);
-			this.tdGroupBox.Dock = System.Windows.Forms.DockStyle.Left;
-			this.tdGroupBox.Location = new System.Drawing.Point(0, 2);
-			this.tdGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.tdGroupBox.Name = "tdGroupBox";
-			this.tdGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.tdGroupBox.Size = new System.Drawing.Size(262, 575);
-			this.tdGroupBox.TabIndex = 1;
-			this.tdGroupBox.TabStop = false;
 			// 
 			// tdPanel
 			// 
@@ -288,16 +286,17 @@ namespace LightEditor
 			this.tdPanel.Controls.Add(this.tdLabel23);
 			this.tdPanel.Controls.Add(this.numericUpDown11);
 			this.tdPanel.Controls.Add(this.tdLabel7);
-			this.tdPanel.Location = new System.Drawing.Point(2, 31);
+			this.tdPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.tdPanel.Location = new System.Drawing.Point(0, 36);
 			this.tdPanel.Margin = new System.Windows.Forms.Padding(2, 80, 2, 2);
 			this.tdPanel.Name = "tdPanel";
-			this.tdPanel.Size = new System.Drawing.Size(258, 541);
+			this.tdPanel.Size = new System.Drawing.Size(256, 485);
 			this.tdPanel.TabIndex = 2;
 			// 
 			// numericUpDown32
 			// 
-			this.numericUpDown32.Location = new System.Drawing.Point(161, 781);
-			this.numericUpDown32.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown32.Location = new System.Drawing.Point(161, 775);
+			this.numericUpDown32.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown32.Maximum = new decimal(new int[] {
             255,
             0,
@@ -311,8 +310,8 @@ namespace LightEditor
 			// 
 			// numericUpDown31
 			// 
-			this.numericUpDown31.Location = new System.Drawing.Point(161, 756);
-			this.numericUpDown31.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown31.Location = new System.Drawing.Point(161, 750);
+			this.numericUpDown31.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown31.Maximum = new decimal(new int[] {
             255,
             0,
@@ -326,8 +325,8 @@ namespace LightEditor
 			// 
 			// numericUpDown30
 			// 
-			this.numericUpDown30.Location = new System.Drawing.Point(161, 731);
-			this.numericUpDown30.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown30.Location = new System.Drawing.Point(161, 725);
+			this.numericUpDown30.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown30.Maximum = new decimal(new int[] {
             255,
             0,
@@ -341,8 +340,8 @@ namespace LightEditor
 			// 
 			// numericUpDown29
 			// 
-			this.numericUpDown29.Location = new System.Drawing.Point(161, 706);
-			this.numericUpDown29.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown29.Location = new System.Drawing.Point(161, 700);
+			this.numericUpDown29.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown29.Maximum = new decimal(new int[] {
             255,
             0,
@@ -356,8 +355,8 @@ namespace LightEditor
 			// 
 			// numericUpDown28
 			// 
-			this.numericUpDown28.Location = new System.Drawing.Point(161, 682);
-			this.numericUpDown28.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown28.Location = new System.Drawing.Point(161, 676);
+			this.numericUpDown28.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown28.Maximum = new decimal(new int[] {
             255,
             0,
@@ -371,8 +370,8 @@ namespace LightEditor
 			// 
 			// numericUpDown27
 			// 
-			this.numericUpDown27.Location = new System.Drawing.Point(161, 657);
-			this.numericUpDown27.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown27.Location = new System.Drawing.Point(161, 651);
+			this.numericUpDown27.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown27.Maximum = new decimal(new int[] {
             255,
             0,
@@ -386,8 +385,8 @@ namespace LightEditor
 			// 
 			// numericUpDown26
 			// 
-			this.numericUpDown26.Location = new System.Drawing.Point(161, 632);
-			this.numericUpDown26.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown26.Location = new System.Drawing.Point(161, 626);
+			this.numericUpDown26.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown26.Maximum = new decimal(new int[] {
             255,
             0,
@@ -401,8 +400,8 @@ namespace LightEditor
 			// 
 			// numericUpDown25
 			// 
-			this.numericUpDown25.Location = new System.Drawing.Point(161, 607);
-			this.numericUpDown25.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown25.Location = new System.Drawing.Point(161, 601);
+			this.numericUpDown25.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown25.Maximum = new decimal(new int[] {
             255,
             0,
@@ -416,8 +415,8 @@ namespace LightEditor
 			// 
 			// numericUpDown24
 			// 
-			this.numericUpDown24.Location = new System.Drawing.Point(161, 582);
-			this.numericUpDown24.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown24.Location = new System.Drawing.Point(161, 576);
+			this.numericUpDown24.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown24.Maximum = new decimal(new int[] {
             255,
             0,
@@ -431,8 +430,8 @@ namespace LightEditor
 			// 
 			// numericUpDown23
 			// 
-			this.numericUpDown23.Location = new System.Drawing.Point(161, 558);
-			this.numericUpDown23.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown23.Location = new System.Drawing.Point(161, 552);
+			this.numericUpDown23.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown23.Maximum = new decimal(new int[] {
             255,
             0,
@@ -446,8 +445,8 @@ namespace LightEditor
 			// 
 			// numericUpDown22
 			// 
-			this.numericUpDown22.Location = new System.Drawing.Point(161, 533);
-			this.numericUpDown22.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown22.Location = new System.Drawing.Point(161, 527);
+			this.numericUpDown22.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown22.Maximum = new decimal(new int[] {
             255,
             0,
@@ -461,8 +460,8 @@ namespace LightEditor
 			// 
 			// numericUpDown21
 			// 
-			this.numericUpDown21.Location = new System.Drawing.Point(161, 508);
-			this.numericUpDown21.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown21.Location = new System.Drawing.Point(161, 502);
+			this.numericUpDown21.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown21.Maximum = new decimal(new int[] {
             255,
             0,
@@ -476,8 +475,8 @@ namespace LightEditor
 			// 
 			// numericUpDown20
 			// 
-			this.numericUpDown20.Location = new System.Drawing.Point(161, 483);
-			this.numericUpDown20.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown20.Location = new System.Drawing.Point(161, 477);
+			this.numericUpDown20.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown20.Maximum = new decimal(new int[] {
             255,
             0,
@@ -491,8 +490,8 @@ namespace LightEditor
 			// 
 			// numericUpDown19
 			// 
-			this.numericUpDown19.Location = new System.Drawing.Point(161, 458);
-			this.numericUpDown19.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown19.Location = new System.Drawing.Point(161, 452);
+			this.numericUpDown19.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown19.Maximum = new decimal(new int[] {
             255,
             0,
@@ -506,8 +505,8 @@ namespace LightEditor
 			// 
 			// numericUpDown18
 			// 
-			this.numericUpDown18.Location = new System.Drawing.Point(161, 434);
-			this.numericUpDown18.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown18.Location = new System.Drawing.Point(161, 428);
+			this.numericUpDown18.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown18.Maximum = new decimal(new int[] {
             255,
             0,
@@ -521,8 +520,8 @@ namespace LightEditor
 			// 
 			// numericUpDown17
 			// 
-			this.numericUpDown17.Location = new System.Drawing.Point(161, 409);
-			this.numericUpDown17.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown17.Location = new System.Drawing.Point(161, 403);
+			this.numericUpDown17.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown17.Maximum = new decimal(new int[] {
             255,
             0,
@@ -536,8 +535,8 @@ namespace LightEditor
 			// 
 			// textBox32
 			// 
-			this.textBox32.Location = new System.Drawing.Point(66, 781);
-			this.textBox32.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox32.Location = new System.Drawing.Point(66, 775);
+			this.textBox32.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox32.Name = "textBox32";
 			this.textBox32.Size = new System.Drawing.Size(76, 21);
 			this.textBox32.TabIndex = 18;
@@ -546,8 +545,8 @@ namespace LightEditor
 			// 
 			// textBox31
 			// 
-			this.textBox31.Location = new System.Drawing.Point(66, 756);
-			this.textBox31.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox31.Location = new System.Drawing.Point(66, 750);
+			this.textBox31.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox31.Name = "textBox31";
 			this.textBox31.Size = new System.Drawing.Size(76, 21);
 			this.textBox31.TabIndex = 17;
@@ -556,8 +555,8 @@ namespace LightEditor
 			// 
 			// textBox30
 			// 
-			this.textBox30.Location = new System.Drawing.Point(66, 731);
-			this.textBox30.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox30.Location = new System.Drawing.Point(66, 725);
+			this.textBox30.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox30.Name = "textBox30";
 			this.textBox30.Size = new System.Drawing.Size(76, 21);
 			this.textBox30.TabIndex = 16;
@@ -566,8 +565,8 @@ namespace LightEditor
 			// 
 			// textBox29
 			// 
-			this.textBox29.Location = new System.Drawing.Point(66, 706);
-			this.textBox29.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox29.Location = new System.Drawing.Point(66, 700);
+			this.textBox29.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox29.Name = "textBox29";
 			this.textBox29.Size = new System.Drawing.Size(76, 21);
 			this.textBox29.TabIndex = 15;
@@ -576,8 +575,8 @@ namespace LightEditor
 			// 
 			// textBox28
 			// 
-			this.textBox28.Location = new System.Drawing.Point(66, 682);
-			this.textBox28.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox28.Location = new System.Drawing.Point(66, 676);
+			this.textBox28.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox28.Name = "textBox28";
 			this.textBox28.Size = new System.Drawing.Size(76, 21);
 			this.textBox28.TabIndex = 14;
@@ -586,8 +585,8 @@ namespace LightEditor
 			// 
 			// textBox27
 			// 
-			this.textBox27.Location = new System.Drawing.Point(66, 657);
-			this.textBox27.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox27.Location = new System.Drawing.Point(66, 651);
+			this.textBox27.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox27.Name = "textBox27";
 			this.textBox27.Size = new System.Drawing.Size(76, 21);
 			this.textBox27.TabIndex = 13;
@@ -596,8 +595,8 @@ namespace LightEditor
 			// 
 			// textBox26
 			// 
-			this.textBox26.Location = new System.Drawing.Point(66, 632);
-			this.textBox26.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox26.Location = new System.Drawing.Point(66, 626);
+			this.textBox26.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox26.Name = "textBox26";
 			this.textBox26.Size = new System.Drawing.Size(76, 21);
 			this.textBox26.TabIndex = 12;
@@ -606,8 +605,8 @@ namespace LightEditor
 			// 
 			// textBox25
 			// 
-			this.textBox25.Location = new System.Drawing.Point(66, 607);
-			this.textBox25.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox25.Location = new System.Drawing.Point(66, 601);
+			this.textBox25.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox25.Name = "textBox25";
 			this.textBox25.Size = new System.Drawing.Size(76, 21);
 			this.textBox25.TabIndex = 11;
@@ -616,8 +615,8 @@ namespace LightEditor
 			// 
 			// textBox24
 			// 
-			this.textBox24.Location = new System.Drawing.Point(66, 582);
-			this.textBox24.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox24.Location = new System.Drawing.Point(66, 576);
+			this.textBox24.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox24.Name = "textBox24";
 			this.textBox24.Size = new System.Drawing.Size(76, 21);
 			this.textBox24.TabIndex = 10;
@@ -626,8 +625,8 @@ namespace LightEditor
 			// 
 			// textBox23
 			// 
-			this.textBox23.Location = new System.Drawing.Point(66, 558);
-			this.textBox23.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox23.Location = new System.Drawing.Point(66, 552);
+			this.textBox23.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox23.Name = "textBox23";
 			this.textBox23.Size = new System.Drawing.Size(76, 21);
 			this.textBox23.TabIndex = 9;
@@ -636,8 +635,8 @@ namespace LightEditor
 			// 
 			// textBox22
 			// 
-			this.textBox22.Location = new System.Drawing.Point(66, 533);
-			this.textBox22.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox22.Location = new System.Drawing.Point(66, 527);
+			this.textBox22.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox22.Name = "textBox22";
 			this.textBox22.Size = new System.Drawing.Size(76, 21);
 			this.textBox22.TabIndex = 8;
@@ -646,8 +645,8 @@ namespace LightEditor
 			// 
 			// textBox21
 			// 
-			this.textBox21.Location = new System.Drawing.Point(66, 508);
-			this.textBox21.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox21.Location = new System.Drawing.Point(66, 502);
+			this.textBox21.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox21.Name = "textBox21";
 			this.textBox21.Size = new System.Drawing.Size(76, 21);
 			this.textBox21.TabIndex = 7;
@@ -656,8 +655,8 @@ namespace LightEditor
 			// 
 			// textBox20
 			// 
-			this.textBox20.Location = new System.Drawing.Point(66, 483);
-			this.textBox20.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox20.Location = new System.Drawing.Point(66, 477);
+			this.textBox20.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox20.Name = "textBox20";
 			this.textBox20.Size = new System.Drawing.Size(76, 21);
 			this.textBox20.TabIndex = 6;
@@ -666,8 +665,8 @@ namespace LightEditor
 			// 
 			// textBox19
 			// 
-			this.textBox19.Location = new System.Drawing.Point(66, 458);
-			this.textBox19.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox19.Location = new System.Drawing.Point(66, 452);
+			this.textBox19.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox19.Name = "textBox19";
 			this.textBox19.Size = new System.Drawing.Size(76, 21);
 			this.textBox19.TabIndex = 5;
@@ -676,8 +675,8 @@ namespace LightEditor
 			// 
 			// textBox18
 			// 
-			this.textBox18.Location = new System.Drawing.Point(66, 434);
-			this.textBox18.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox18.Location = new System.Drawing.Point(66, 428);
+			this.textBox18.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox18.Name = "textBox18";
 			this.textBox18.Size = new System.Drawing.Size(76, 21);
 			this.textBox18.TabIndex = 4;
@@ -686,8 +685,8 @@ namespace LightEditor
 			// 
 			// textBox17
 			// 
-			this.textBox17.Location = new System.Drawing.Point(66, 409);
-			this.textBox17.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox17.Location = new System.Drawing.Point(66, 403);
+			this.textBox17.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox17.Name = "textBox17";
 			this.textBox17.Size = new System.Drawing.Size(76, 21);
 			this.textBox17.TabIndex = 3;
@@ -697,7 +696,7 @@ namespace LightEditor
 			// tdLabel1
 			// 
 			this.tdLabel1.AutoSize = true;
-			this.tdLabel1.Location = new System.Drawing.Point(28, 16);
+			this.tdLabel1.Location = new System.Drawing.Point(28, 10);
 			this.tdLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel1.Name = "tdLabel1";
 			this.tdLabel1.Size = new System.Drawing.Size(11, 12);
@@ -707,8 +706,8 @@ namespace LightEditor
 			// 
 			// numericUpDown16
 			// 
-			this.numericUpDown16.Location = new System.Drawing.Point(161, 386);
-			this.numericUpDown16.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown16.Location = new System.Drawing.Point(161, 380);
+			this.numericUpDown16.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown16.Maximum = new decimal(new int[] {
             255,
             0,
@@ -722,8 +721,8 @@ namespace LightEditor
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(66, 14);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox1.Location = new System.Drawing.Point(66, 8);
+			this.textBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(76, 21);
 			this.textBox1.TabIndex = 1;
@@ -733,7 +732,7 @@ namespace LightEditor
 			// tdLabel17
 			// 
 			this.tdLabel17.AutoSize = true;
-			this.tdLabel17.Location = new System.Drawing.Point(26, 413);
+			this.tdLabel17.Location = new System.Drawing.Point(26, 407);
 			this.tdLabel17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel17.Name = "tdLabel17";
 			this.tdLabel17.Size = new System.Drawing.Size(17, 12);
@@ -743,8 +742,8 @@ namespace LightEditor
 			// 
 			// numericUpDown8
 			// 
-			this.numericUpDown8.Location = new System.Drawing.Point(161, 188);
-			this.numericUpDown8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown8.Location = new System.Drawing.Point(161, 182);
+			this.numericUpDown8.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown8.Maximum = new decimal(new int[] {
             255,
             0,
@@ -759,7 +758,7 @@ namespace LightEditor
 			// tdLabel9
 			// 
 			this.tdLabel9.AutoSize = true;
-			this.tdLabel9.Location = new System.Drawing.Point(28, 214);
+			this.tdLabel9.Location = new System.Drawing.Point(28, 208);
 			this.tdLabel9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel9.Name = "tdLabel9";
 			this.tdLabel9.Size = new System.Drawing.Size(11, 12);
@@ -769,8 +768,8 @@ namespace LightEditor
 			// 
 			// textBox16
 			// 
-			this.textBox16.Location = new System.Drawing.Point(66, 386);
-			this.textBox16.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox16.Location = new System.Drawing.Point(66, 380);
+			this.textBox16.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox16.Name = "textBox16";
 			this.textBox16.Size = new System.Drawing.Size(76, 21);
 			this.textBox16.TabIndex = 1;
@@ -780,7 +779,7 @@ namespace LightEditor
 			// tdLabel25
 			// 
 			this.tdLabel25.AutoSize = true;
-			this.tdLabel25.Location = new System.Drawing.Point(26, 611);
+			this.tdLabel25.Location = new System.Drawing.Point(26, 605);
 			this.tdLabel25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel25.Name = "tdLabel25";
 			this.tdLabel25.Size = new System.Drawing.Size(17, 12);
@@ -790,8 +789,8 @@ namespace LightEditor
 			// 
 			// textBox9
 			// 
-			this.textBox9.Location = new System.Drawing.Point(66, 212);
-			this.textBox9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox9.Location = new System.Drawing.Point(66, 206);
+			this.textBox9.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox9.Name = "textBox9";
 			this.textBox9.Size = new System.Drawing.Size(76, 21);
 			this.textBox9.TabIndex = 1;
@@ -800,8 +799,8 @@ namespace LightEditor
 			// 
 			// textBox8
 			// 
-			this.textBox8.Location = new System.Drawing.Point(66, 187);
-			this.textBox8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox8.Location = new System.Drawing.Point(66, 181);
+			this.textBox8.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox8.Name = "textBox8";
 			this.textBox8.Size = new System.Drawing.Size(76, 21);
 			this.textBox8.TabIndex = 1;
@@ -811,7 +810,7 @@ namespace LightEditor
 			// tdLabel2
 			// 
 			this.tdLabel2.AutoSize = true;
-			this.tdLabel2.Location = new System.Drawing.Point(28, 41);
+			this.tdLabel2.Location = new System.Drawing.Point(28, 35);
 			this.tdLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel2.Name = "tdLabel2";
 			this.tdLabel2.Size = new System.Drawing.Size(11, 12);
@@ -821,8 +820,8 @@ namespace LightEditor
 			// 
 			// numericUpDown15
 			// 
-			this.numericUpDown15.Location = new System.Drawing.Point(161, 362);
-			this.numericUpDown15.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown15.Location = new System.Drawing.Point(161, 356);
+			this.numericUpDown15.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown15.Maximum = new decimal(new int[] {
             255,
             0,
@@ -837,7 +836,7 @@ namespace LightEditor
 			// tdLabel18
 			// 
 			this.tdLabel18.AutoSize = true;
-			this.tdLabel18.Location = new System.Drawing.Point(26, 438);
+			this.tdLabel18.Location = new System.Drawing.Point(26, 432);
 			this.tdLabel18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel18.Name = "tdLabel18";
 			this.tdLabel18.Size = new System.Drawing.Size(17, 12);
@@ -848,7 +847,7 @@ namespace LightEditor
 			// tdLabel10
 			// 
 			this.tdLabel10.AutoSize = true;
-			this.tdLabel10.Location = new System.Drawing.Point(26, 239);
+			this.tdLabel10.Location = new System.Drawing.Point(26, 233);
 			this.tdLabel10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel10.Name = "tdLabel10";
 			this.tdLabel10.Size = new System.Drawing.Size(17, 12);
@@ -858,8 +857,8 @@ namespace LightEditor
 			// 
 			// numericUpDown7
 			// 
-			this.numericUpDown7.Location = new System.Drawing.Point(161, 163);
-			this.numericUpDown7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown7.Location = new System.Drawing.Point(161, 157);
+			this.numericUpDown7.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown7.Maximum = new decimal(new int[] {
             255,
             0,
@@ -874,7 +873,7 @@ namespace LightEditor
 			// tdLabel26
 			// 
 			this.tdLabel26.AutoSize = true;
-			this.tdLabel26.Location = new System.Drawing.Point(26, 636);
+			this.tdLabel26.Location = new System.Drawing.Point(26, 630);
 			this.tdLabel26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel26.Name = "tdLabel26";
 			this.tdLabel26.Size = new System.Drawing.Size(17, 12);
@@ -884,8 +883,8 @@ namespace LightEditor
 			// 
 			// numericUpDown1
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(161, 14);
-			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown1.Location = new System.Drawing.Point(161, 8);
+			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown1.Maximum = new decimal(new int[] {
             255,
             0,
@@ -899,8 +898,8 @@ namespace LightEditor
 			// 
 			// textBox15
 			// 
-			this.textBox15.Location = new System.Drawing.Point(66, 361);
-			this.textBox15.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox15.Location = new System.Drawing.Point(66, 355);
+			this.textBox15.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox15.Name = "textBox15";
 			this.textBox15.Size = new System.Drawing.Size(76, 21);
 			this.textBox15.TabIndex = 1;
@@ -909,8 +908,8 @@ namespace LightEditor
 			// 
 			// numericUpDown9
 			// 
-			this.numericUpDown9.Location = new System.Drawing.Point(161, 213);
-			this.numericUpDown9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown9.Location = new System.Drawing.Point(161, 207);
+			this.numericUpDown9.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown9.Maximum = new decimal(new int[] {
             255,
             0,
@@ -924,8 +923,8 @@ namespace LightEditor
 			// 
 			// textBox7
 			// 
-			this.textBox7.Location = new System.Drawing.Point(66, 162);
-			this.textBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox7.Location = new System.Drawing.Point(66, 156);
+			this.textBox7.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox7.Name = "textBox7";
 			this.textBox7.Size = new System.Drawing.Size(76, 21);
 			this.textBox7.TabIndex = 1;
@@ -935,7 +934,7 @@ namespace LightEditor
 			// tdLabel3
 			// 
 			this.tdLabel3.AutoSize = true;
-			this.tdLabel3.Location = new System.Drawing.Point(28, 66);
+			this.tdLabel3.Location = new System.Drawing.Point(28, 60);
 			this.tdLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel3.Name = "tdLabel3";
 			this.tdLabel3.Size = new System.Drawing.Size(11, 12);
@@ -945,8 +944,8 @@ namespace LightEditor
 			// 
 			// numericUpDown14
 			// 
-			this.numericUpDown14.Location = new System.Drawing.Point(161, 337);
-			this.numericUpDown14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown14.Location = new System.Drawing.Point(161, 331);
+			this.numericUpDown14.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown14.Maximum = new decimal(new int[] {
             255,
             0,
@@ -961,7 +960,7 @@ namespace LightEditor
 			// tdLabel19
 			// 
 			this.tdLabel19.AutoSize = true;
-			this.tdLabel19.Location = new System.Drawing.Point(26, 462);
+			this.tdLabel19.Location = new System.Drawing.Point(26, 456);
 			this.tdLabel19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel19.Name = "tdLabel19";
 			this.tdLabel19.Size = new System.Drawing.Size(17, 12);
@@ -972,7 +971,7 @@ namespace LightEditor
 			// tdLabel11
 			// 
 			this.tdLabel11.AutoSize = true;
-			this.tdLabel11.Location = new System.Drawing.Point(26, 264);
+			this.tdLabel11.Location = new System.Drawing.Point(26, 258);
 			this.tdLabel11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel11.Name = "tdLabel11";
 			this.tdLabel11.Size = new System.Drawing.Size(17, 12);
@@ -982,8 +981,8 @@ namespace LightEditor
 			// 
 			// numericUpDown6
 			// 
-			this.numericUpDown6.Location = new System.Drawing.Point(161, 138);
-			this.numericUpDown6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown6.Location = new System.Drawing.Point(161, 132);
+			this.numericUpDown6.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown6.Maximum = new decimal(new int[] {
             255,
             0,
@@ -998,7 +997,7 @@ namespace LightEditor
 			// tdLabel27
 			// 
 			this.tdLabel27.AutoSize = true;
-			this.tdLabel27.Location = new System.Drawing.Point(26, 661);
+			this.tdLabel27.Location = new System.Drawing.Point(26, 655);
 			this.tdLabel27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel27.Name = "tdLabel27";
 			this.tdLabel27.Size = new System.Drawing.Size(17, 12);
@@ -1008,8 +1007,8 @@ namespace LightEditor
 			// 
 			// textBox2
 			// 
-			this.textBox2.Location = new System.Drawing.Point(66, 38);
-			this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox2.Location = new System.Drawing.Point(66, 32);
+			this.textBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(76, 21);
 			this.textBox2.TabIndex = 1;
@@ -1018,8 +1017,8 @@ namespace LightEditor
 			// 
 			// textBox14
 			// 
-			this.textBox14.Location = new System.Drawing.Point(66, 336);
-			this.textBox14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox14.Location = new System.Drawing.Point(66, 330);
+			this.textBox14.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox14.Name = "textBox14";
 			this.textBox14.Size = new System.Drawing.Size(76, 21);
 			this.textBox14.TabIndex = 1;
@@ -1028,8 +1027,8 @@ namespace LightEditor
 			// 
 			// textBox10
 			// 
-			this.textBox10.Location = new System.Drawing.Point(66, 237);
-			this.textBox10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox10.Location = new System.Drawing.Point(66, 231);
+			this.textBox10.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox10.Name = "textBox10";
 			this.textBox10.Size = new System.Drawing.Size(76, 21);
 			this.textBox10.TabIndex = 1;
@@ -1038,8 +1037,8 @@ namespace LightEditor
 			// 
 			// textBox6
 			// 
-			this.textBox6.Location = new System.Drawing.Point(66, 138);
-			this.textBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox6.Location = new System.Drawing.Point(66, 132);
+			this.textBox6.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox6.Name = "textBox6";
 			this.textBox6.Size = new System.Drawing.Size(76, 21);
 			this.textBox6.TabIndex = 1;
@@ -1049,7 +1048,7 @@ namespace LightEditor
 			// tdLabel4
 			// 
 			this.tdLabel4.AutoSize = true;
-			this.tdLabel4.Location = new System.Drawing.Point(28, 91);
+			this.tdLabel4.Location = new System.Drawing.Point(28, 85);
 			this.tdLabel4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel4.Name = "tdLabel4";
 			this.tdLabel4.Size = new System.Drawing.Size(11, 12);
@@ -1059,8 +1058,8 @@ namespace LightEditor
 			// 
 			// numericUpDown13
 			// 
-			this.numericUpDown13.Location = new System.Drawing.Point(161, 312);
-			this.numericUpDown13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown13.Location = new System.Drawing.Point(161, 306);
+			this.numericUpDown13.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown13.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1075,7 +1074,7 @@ namespace LightEditor
 			// tdLabel20
 			// 
 			this.tdLabel20.AutoSize = true;
-			this.tdLabel20.Location = new System.Drawing.Point(26, 487);
+			this.tdLabel20.Location = new System.Drawing.Point(26, 481);
 			this.tdLabel20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel20.Name = "tdLabel20";
 			this.tdLabel20.Size = new System.Drawing.Size(17, 12);
@@ -1086,7 +1085,7 @@ namespace LightEditor
 			// tdLabel12
 			// 
 			this.tdLabel12.AutoSize = true;
-			this.tdLabel12.Location = new System.Drawing.Point(26, 289);
+			this.tdLabel12.Location = new System.Drawing.Point(26, 283);
 			this.tdLabel12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel12.Name = "tdLabel12";
 			this.tdLabel12.Size = new System.Drawing.Size(17, 12);
@@ -1096,8 +1095,8 @@ namespace LightEditor
 			// 
 			// numericUpDown5
 			// 
-			this.numericUpDown5.Location = new System.Drawing.Point(161, 114);
-			this.numericUpDown5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown5.Location = new System.Drawing.Point(161, 108);
+			this.numericUpDown5.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown5.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1112,7 +1111,7 @@ namespace LightEditor
 			// tdLabel28
 			// 
 			this.tdLabel28.AutoSize = true;
-			this.tdLabel28.Location = new System.Drawing.Point(26, 686);
+			this.tdLabel28.Location = new System.Drawing.Point(26, 680);
 			this.tdLabel28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel28.Name = "tdLabel28";
 			this.tdLabel28.Size = new System.Drawing.Size(17, 12);
@@ -1122,8 +1121,8 @@ namespace LightEditor
 			// 
 			// numericUpDown2
 			// 
-			this.numericUpDown2.Location = new System.Drawing.Point(161, 39);
-			this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown2.Location = new System.Drawing.Point(161, 33);
+			this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown2.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1137,8 +1136,8 @@ namespace LightEditor
 			// 
 			// textBox13
 			// 
-			this.textBox13.Location = new System.Drawing.Point(66, 311);
-			this.textBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox13.Location = new System.Drawing.Point(66, 305);
+			this.textBox13.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox13.Name = "textBox13";
 			this.textBox13.Size = new System.Drawing.Size(76, 21);
 			this.textBox13.TabIndex = 1;
@@ -1147,8 +1146,8 @@ namespace LightEditor
 			// 
 			// numericUpDown10
 			// 
-			this.numericUpDown10.Location = new System.Drawing.Point(161, 238);
-			this.numericUpDown10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown10.Location = new System.Drawing.Point(161, 232);
+			this.numericUpDown10.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown10.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1162,8 +1161,8 @@ namespace LightEditor
 			// 
 			// textBox5
 			// 
-			this.textBox5.Location = new System.Drawing.Point(66, 113);
-			this.textBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox5.Location = new System.Drawing.Point(66, 107);
+			this.textBox5.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox5.Name = "textBox5";
 			this.textBox5.Size = new System.Drawing.Size(76, 21);
 			this.textBox5.TabIndex = 1;
@@ -1173,7 +1172,7 @@ namespace LightEditor
 			// tdLabel5
 			// 
 			this.tdLabel5.AutoSize = true;
-			this.tdLabel5.Location = new System.Drawing.Point(28, 115);
+			this.tdLabel5.Location = new System.Drawing.Point(28, 109);
 			this.tdLabel5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel5.Name = "tdLabel5";
 			this.tdLabel5.Size = new System.Drawing.Size(11, 12);
@@ -1183,8 +1182,8 @@ namespace LightEditor
 			// 
 			// numericUpDown12
 			// 
-			this.numericUpDown12.Location = new System.Drawing.Point(161, 287);
-			this.numericUpDown12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown12.Location = new System.Drawing.Point(161, 281);
+			this.numericUpDown12.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown12.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1199,7 +1198,7 @@ namespace LightEditor
 			// tdLabel21
 			// 
 			this.tdLabel21.AutoSize = true;
-			this.tdLabel21.Location = new System.Drawing.Point(26, 512);
+			this.tdLabel21.Location = new System.Drawing.Point(26, 506);
 			this.tdLabel21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel21.Name = "tdLabel21";
 			this.tdLabel21.Size = new System.Drawing.Size(17, 12);
@@ -1210,7 +1209,7 @@ namespace LightEditor
 			// tdLabel13
 			// 
 			this.tdLabel13.AutoSize = true;
-			this.tdLabel13.Location = new System.Drawing.Point(26, 314);
+			this.tdLabel13.Location = new System.Drawing.Point(26, 308);
 			this.tdLabel13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel13.Name = "tdLabel13";
 			this.tdLabel13.Size = new System.Drawing.Size(17, 12);
@@ -1220,8 +1219,8 @@ namespace LightEditor
 			// 
 			// numericUpDown4
 			// 
-			this.numericUpDown4.Location = new System.Drawing.Point(161, 89);
-			this.numericUpDown4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown4.Location = new System.Drawing.Point(161, 83);
+			this.numericUpDown4.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown4.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1236,7 +1235,7 @@ namespace LightEditor
 			// tdLabel29
 			// 
 			this.tdLabel29.AutoSize = true;
-			this.tdLabel29.Location = new System.Drawing.Point(26, 710);
+			this.tdLabel29.Location = new System.Drawing.Point(26, 704);
 			this.tdLabel29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel29.Name = "tdLabel29";
 			this.tdLabel29.Size = new System.Drawing.Size(17, 12);
@@ -1247,7 +1246,7 @@ namespace LightEditor
 			// tdLabel32
 			// 
 			this.tdLabel32.AutoSize = true;
-			this.tdLabel32.Location = new System.Drawing.Point(26, 785);
+			this.tdLabel32.Location = new System.Drawing.Point(26, 779);
 			this.tdLabel32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel32.Name = "tdLabel32";
 			this.tdLabel32.Size = new System.Drawing.Size(17, 12);
@@ -1257,8 +1256,8 @@ namespace LightEditor
 			// 
 			// textBox3
 			// 
-			this.textBox3.Location = new System.Drawing.Point(66, 63);
-			this.textBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox3.Location = new System.Drawing.Point(66, 57);
+			this.textBox3.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox3.Name = "textBox3";
 			this.textBox3.Size = new System.Drawing.Size(76, 21);
 			this.textBox3.TabIndex = 1;
@@ -1268,7 +1267,7 @@ namespace LightEditor
 			// tdLabel16
 			// 
 			this.tdLabel16.AutoSize = true;
-			this.tdLabel16.Location = new System.Drawing.Point(26, 388);
+			this.tdLabel16.Location = new System.Drawing.Point(26, 382);
 			this.tdLabel16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel16.Name = "tdLabel16";
 			this.tdLabel16.Size = new System.Drawing.Size(17, 12);
@@ -1279,7 +1278,7 @@ namespace LightEditor
 			// tdLabel24
 			// 
 			this.tdLabel24.AutoSize = true;
-			this.tdLabel24.Location = new System.Drawing.Point(26, 586);
+			this.tdLabel24.Location = new System.Drawing.Point(26, 580);
 			this.tdLabel24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel24.Name = "tdLabel24";
 			this.tdLabel24.Size = new System.Drawing.Size(17, 12);
@@ -1289,8 +1288,8 @@ namespace LightEditor
 			// 
 			// textBox11
 			// 
-			this.textBox11.Location = new System.Drawing.Point(66, 262);
-			this.textBox11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox11.Location = new System.Drawing.Point(66, 256);
+			this.textBox11.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox11.Name = "textBox11";
 			this.textBox11.Size = new System.Drawing.Size(76, 21);
 			this.textBox11.TabIndex = 1;
@@ -1300,7 +1299,7 @@ namespace LightEditor
 			// tdLabel8
 			// 
 			this.tdLabel8.AutoSize = true;
-			this.tdLabel8.Location = new System.Drawing.Point(28, 190);
+			this.tdLabel8.Location = new System.Drawing.Point(28, 184);
 			this.tdLabel8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel8.Name = "tdLabel8";
 			this.tdLabel8.Size = new System.Drawing.Size(11, 12);
@@ -1311,7 +1310,7 @@ namespace LightEditor
 			// tdLabel6
 			// 
 			this.tdLabel6.AutoSize = true;
-			this.tdLabel6.Location = new System.Drawing.Point(28, 140);
+			this.tdLabel6.Location = new System.Drawing.Point(28, 134);
 			this.tdLabel6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel6.Name = "tdLabel6";
 			this.tdLabel6.Size = new System.Drawing.Size(11, 12);
@@ -1321,8 +1320,8 @@ namespace LightEditor
 			// 
 			// textBox12
 			// 
-			this.textBox12.Location = new System.Drawing.Point(66, 286);
-			this.textBox12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox12.Location = new System.Drawing.Point(66, 280);
+			this.textBox12.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox12.Name = "textBox12";
 			this.textBox12.Size = new System.Drawing.Size(76, 21);
 			this.textBox12.TabIndex = 1;
@@ -1332,7 +1331,7 @@ namespace LightEditor
 			// tdLabel22
 			// 
 			this.tdLabel22.AutoSize = true;
-			this.tdLabel22.Location = new System.Drawing.Point(26, 537);
+			this.tdLabel22.Location = new System.Drawing.Point(26, 531);
 			this.tdLabel22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel22.Name = "tdLabel22";
 			this.tdLabel22.Size = new System.Drawing.Size(17, 12);
@@ -1343,7 +1342,7 @@ namespace LightEditor
 			// tdLabel14
 			// 
 			this.tdLabel14.AutoSize = true;
-			this.tdLabel14.Location = new System.Drawing.Point(26, 338);
+			this.tdLabel14.Location = new System.Drawing.Point(26, 332);
 			this.tdLabel14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel14.Name = "tdLabel14";
 			this.tdLabel14.Size = new System.Drawing.Size(17, 12);
@@ -1353,8 +1352,8 @@ namespace LightEditor
 			// 
 			// textBox4
 			// 
-			this.textBox4.Location = new System.Drawing.Point(66, 88);
-			this.textBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBox4.Location = new System.Drawing.Point(66, 82);
+			this.textBox4.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox4.Name = "textBox4";
 			this.textBox4.Size = new System.Drawing.Size(76, 21);
 			this.textBox4.TabIndex = 1;
@@ -1364,7 +1363,7 @@ namespace LightEditor
 			// tdLabel30
 			// 
 			this.tdLabel30.AutoSize = true;
-			this.tdLabel30.Location = new System.Drawing.Point(26, 735);
+			this.tdLabel30.Location = new System.Drawing.Point(26, 729);
 			this.tdLabel30.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel30.Name = "tdLabel30";
 			this.tdLabel30.Size = new System.Drawing.Size(17, 12);
@@ -1375,7 +1374,7 @@ namespace LightEditor
 			// tdLabel31
 			// 
 			this.tdLabel31.AutoSize = true;
-			this.tdLabel31.Location = new System.Drawing.Point(26, 760);
+			this.tdLabel31.Location = new System.Drawing.Point(26, 754);
 			this.tdLabel31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel31.Name = "tdLabel31";
 			this.tdLabel31.Size = new System.Drawing.Size(17, 12);
@@ -1385,8 +1384,8 @@ namespace LightEditor
 			// 
 			// numericUpDown3
 			// 
-			this.numericUpDown3.Location = new System.Drawing.Point(161, 64);
-			this.numericUpDown3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown3.Location = new System.Drawing.Point(161, 58);
+			this.numericUpDown3.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown3.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1401,7 +1400,7 @@ namespace LightEditor
 			// tdLabel15
 			// 
 			this.tdLabel15.AutoSize = true;
-			this.tdLabel15.Location = new System.Drawing.Point(26, 363);
+			this.tdLabel15.Location = new System.Drawing.Point(26, 357);
 			this.tdLabel15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel15.Name = "tdLabel15";
 			this.tdLabel15.Size = new System.Drawing.Size(17, 12);
@@ -1412,7 +1411,7 @@ namespace LightEditor
 			// tdLabel23
 			// 
 			this.tdLabel23.AutoSize = true;
-			this.tdLabel23.Location = new System.Drawing.Point(26, 562);
+			this.tdLabel23.Location = new System.Drawing.Point(26, 556);
 			this.tdLabel23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel23.Name = "tdLabel23";
 			this.tdLabel23.Size = new System.Drawing.Size(17, 12);
@@ -1422,8 +1421,8 @@ namespace LightEditor
 			// 
 			// numericUpDown11
 			// 
-			this.numericUpDown11.Location = new System.Drawing.Point(161, 262);
-			this.numericUpDown11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown11.Location = new System.Drawing.Point(161, 256);
+			this.numericUpDown11.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown11.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1438,7 +1437,7 @@ namespace LightEditor
 			// tdLabel7
 			// 
 			this.tdLabel7.AutoSize = true;
-			this.tdLabel7.Location = new System.Drawing.Point(28, 165);
+			this.tdLabel7.Location = new System.Drawing.Point(28, 159);
 			this.tdLabel7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdLabel7.Name = "tdLabel7";
 			this.tdLabel7.Size = new System.Drawing.Size(11, 12);
@@ -1449,7 +1448,7 @@ namespace LightEditor
 			// tdInitLlabel
 			// 
 			this.tdInitLlabel.AutoSize = true;
-			this.tdInitLlabel.Location = new System.Drawing.Point(161, 18);
+			this.tdInitLlabel.Location = new System.Drawing.Point(160, 11);
 			this.tdInitLlabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdInitLlabel.Name = "tdInitLlabel";
 			this.tdInitLlabel.Size = new System.Drawing.Size(65, 12);
@@ -1459,7 +1458,7 @@ namespace LightEditor
 			// tdAddrLabel
 			// 
 			this.tdAddrLabel.AutoSize = true;
-			this.tdAddrLabel.Location = new System.Drawing.Point(9, 18);
+			this.tdAddrLabel.Location = new System.Drawing.Point(8, 11);
 			this.tdAddrLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdAddrLabel.Name = "tdAddrLabel";
 			this.tdAddrLabel.Size = new System.Drawing.Size(53, 12);
@@ -1469,7 +1468,7 @@ namespace LightEditor
 			// tdNameLabel
 			// 
 			this.tdNameLabel.AutoSize = true;
-			this.tdNameLabel.Location = new System.Drawing.Point(79, 17);
+			this.tdNameLabel.Location = new System.Drawing.Point(78, 11);
 			this.tdNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tdNameLabel.Name = "tdNameLabel";
 			this.tdNameLabel.Size = new System.Drawing.Size(53, 12);
@@ -1482,39 +1481,26 @@ namespace LightEditor
 			this.nameListBox.Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.nameListBox.FormattingEnabled = true;
 			this.nameListBox.ItemHeight = 14;
-			this.nameListBox.Location = new System.Drawing.Point(2, 65);
-			this.nameListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.nameListBox.Location = new System.Drawing.Point(0, 39);
+			this.nameListBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameListBox.Name = "nameListBox";
-			this.nameListBox.Size = new System.Drawing.Size(168, 508);
+			this.nameListBox.Size = new System.Drawing.Size(164, 480);
 			this.nameListBox.TabIndex = 0;
 			this.nameListBox.DoubleClick += new System.EventHandler(this.nameListBox_DoubleClick);
 			// 
-			// nameGroupBox
-			// 
-			this.nameGroupBox.Controls.Add(this.noticeLabel);
-			this.nameGroupBox.Controls.Add(this.nameListBox);
-			this.nameGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
-			this.nameGroupBox.Location = new System.Drawing.Point(438, 2);
-			this.nameGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.nameGroupBox.Name = "nameGroupBox";
-			this.nameGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.nameGroupBox.Size = new System.Drawing.Size(172, 575);
-			this.nameGroupBox.TabIndex = 2;
-			this.nameGroupBox.TabStop = false;
-			// 
 			// noticeLabel
 			// 
-			this.noticeLabel.Location = new System.Drawing.Point(20, 18);
+			this.noticeLabel.Location = new System.Drawing.Point(4, 4);
 			this.noticeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(136, 33);
+			this.noticeLabel.Size = new System.Drawing.Size(160, 33);
 			this.noticeLabel.TabIndex = 1;
 			this.noticeLabel.Text = "双击可将选中项填入左侧通道名称的文本框中";
 			// 
 			// resetButton
 			// 
-			this.resetButton.Location = new System.Drawing.Point(356, 397);
-			this.resetButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.resetButton.Location = new System.Drawing.Point(286, 337);
+			this.resetButton.Margin = new System.Windows.Forms.Padding(2);
 			this.resetButton.Name = "resetButton";
 			this.resetButton.Size = new System.Drawing.Size(65, 29);
 			this.resetButton.TabIndex = 3;
@@ -1524,8 +1510,8 @@ namespace LightEditor
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(356, 438);
-			this.enterButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.enterButton.Location = new System.Drawing.Point(286, 478);
+			this.enterButton.Margin = new System.Windows.Forms.Padding(2);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(65, 29);
 			this.enterButton.TabIndex = 3;
@@ -1535,8 +1521,8 @@ namespace LightEditor
 			// 
 			// applyButton
 			// 
-			this.applyButton.Location = new System.Drawing.Point(286, 438);
-			this.applyButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.applyButton.Location = new System.Drawing.Point(286, 434);
+			this.applyButton.Margin = new System.Windows.Forms.Padding(2);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(65, 29);
 			this.applyButton.TabIndex = 3;
@@ -1544,19 +1530,161 @@ namespace LightEditor
 			this.applyButton.UseVisualStyleBackColor = true;
 			this.applyButton.Click += new System.EventHandler(this.applyButton_Click);
 			// 
+			// saFlowLayoutPanel
+			// 
+			this.saFlowLayoutPanel.AutoScroll = true;
+			this.saFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.saFlowLayoutPanel.Controls.Add(this.tdNumLabel);
+			this.saFlowLayoutPanel.Controls.Add(this.saAddButton);
+			this.saFlowLayoutPanel.Controls.Add(this.saClearButton);
+			this.saFlowLayoutPanel.Controls.Add(this.saPanel);
+			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.saFlowLayoutPanel.Enabled = false;
+			this.saFlowLayoutPanel.Location = new System.Drawing.Point(542, 2);
+			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(218, 523);
+			this.saFlowLayoutPanel.TabIndex = 4;
+			this.saFlowLayoutPanel.Visible = false;
+			// 
+			// tdNumLabel
+			// 
+			this.tdNumLabel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.tdNumLabel.Location = new System.Drawing.Point(3, 0);
+			this.tdNumLabel.Name = "tdNumLabel";
+			this.tdNumLabel.Size = new System.Drawing.Size(192, 33);
+			this.tdNumLabel.TabIndex = 2;
+			this.tdNumLabel.Text = "选中的通道地址:";
+			this.tdNumLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// saAddButton
+			// 
+			this.saAddButton.Location = new System.Drawing.Point(3, 36);
+			this.saAddButton.Name = "saAddButton";
+			this.saAddButton.Size = new System.Drawing.Size(93, 33);
+			this.saAddButton.TabIndex = 0;
+			this.saAddButton.Text = "添加子属性";
+			this.saAddButton.UseVisualStyleBackColor = true;
+			this.saAddButton.Click += new System.EventHandler(this.addSAButton_Click);
+			// 
+			// saClearButton
+			// 
+			this.saClearButton.Location = new System.Drawing.Point(102, 36);
+			this.saClearButton.Name = "saClearButton";
+			this.saClearButton.Size = new System.Drawing.Size(93, 33);
+			this.saClearButton.TabIndex = 0;
+			this.saClearButton.Text = "清空子属性";
+			this.saClearButton.UseVisualStyleBackColor = true;
+			this.saClearButton.Click += new System.EventHandler(this.addSAButton_Click);
+			// 
+			// saPanel
+			// 
+			this.saPanel.BackColor = System.Drawing.Color.Transparent;
+			this.saPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.saPanel.Controls.Add(this.endValueLabel);
+			this.saPanel.Controls.Add(this.lineLabel);
+			this.saPanel.Controls.Add(this.startValueLabel);
+			this.saPanel.Controls.Add(this.saDeleteButton);
+			this.saPanel.Controls.Add(this.saEditButton);
+			this.saPanel.Controls.Add(this.saNameLabel);
+			this.saPanel.Location = new System.Drawing.Point(3, 75);
+			this.saPanel.Name = "saPanel";
+			this.saPanel.Size = new System.Drawing.Size(192, 52);
+			this.saPanel.TabIndex = 1;
+			// 
+			// endValueLabel
+			// 
+			this.endValueLabel.Location = new System.Drawing.Point(154, 4);
+			this.endValueLabel.Name = "endValueLabel";
+			this.endValueLabel.Size = new System.Drawing.Size(25, 12);
+			this.endValueLabel.TabIndex = 4;
+			this.endValueLabel.Text = "255";
+			this.endValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lineLabel
+			// 
+			this.lineLabel.AutoSize = true;
+			this.lineLabel.Location = new System.Drawing.Point(138, 4);
+			this.lineLabel.Name = "lineLabel";
+			this.lineLabel.Size = new System.Drawing.Size(11, 12);
+			this.lineLabel.TabIndex = 3;
+			this.lineLabel.Text = "-";
+			// 
+			// startValueLabel
+			// 
+			this.startValueLabel.Location = new System.Drawing.Point(112, 4);
+			this.startValueLabel.Name = "startValueLabel";
+			this.startValueLabel.Size = new System.Drawing.Size(25, 12);
+			this.startValueLabel.TabIndex = 2;
+			this.startValueLabel.Text = "0";
+			this.startValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// saDeleteButton
+			// 
+			this.saDeleteButton.Location = new System.Drawing.Point(111, 23);
+			this.saDeleteButton.Name = "saDeleteButton";
+			this.saDeleteButton.Size = new System.Drawing.Size(75, 23);
+			this.saDeleteButton.TabIndex = 1;
+			this.saDeleteButton.Text = "删除";
+			this.saDeleteButton.UseVisualStyleBackColor = true;
+			// 
+			// saEditButton
+			// 
+			this.saEditButton.Location = new System.Drawing.Point(12, 23);
+			this.saEditButton.Name = "saEditButton";
+			this.saEditButton.Size = new System.Drawing.Size(75, 23);
+			this.saEditButton.TabIndex = 1;
+			this.saEditButton.Text = "修改";
+			this.saEditButton.UseVisualStyleBackColor = true;
+			this.saEditButton.Click += new System.EventHandler(this.saEditButton_Click);
+			// 
+			// saNameLabel
+			// 
+			this.saNameLabel.AutoSize = true;
+			this.saNameLabel.Location = new System.Drawing.Point(11, 4);
+			this.saNameLabel.Name = "saNameLabel";
+			this.saNameLabel.Size = new System.Drawing.Size(41, 12);
+			this.saNameLabel.TabIndex = 0;
+			this.saNameLabel.Text = "saName";
+			// 
+			// tdNamePanel
+			// 
+			this.tdNamePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.tdNamePanel.Controls.Add(this.noticeLabel);
+			this.tdNamePanel.Controls.Add(this.nameListBox);
+			this.tdNamePanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.tdNamePanel.Location = new System.Drawing.Point(374, 2);
+			this.tdNamePanel.Name = "tdNamePanel";
+			this.tdNamePanel.Size = new System.Drawing.Size(168, 523);
+			this.tdNamePanel.TabIndex = 5;
+			// 
+			// allTdPanel
+			// 
+			this.allTdPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.allTdPanel.Controls.Add(this.tdPanel);
+			this.allTdPanel.Controls.Add(this.tdAddrLabel);
+			this.allTdPanel.Controls.Add(this.tdInitLlabel);
+			this.allTdPanel.Controls.Add(this.tdNameLabel);
+			this.allTdPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.allTdPanel.Location = new System.Drawing.Point(0, 2);
+			this.allTdPanel.Name = "allTdPanel";
+			this.allTdPanel.Size = new System.Drawing.Size(258, 523);
+			this.allTdPanel.TabIndex = 6;
+			// 
 			// WaySetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(610, 581);
+			this.BackColor = System.Drawing.SystemColors.Window;
+			this.ClientSize = new System.Drawing.Size(760, 529);
+			this.Controls.Add(this.allTdPanel);
+			this.Controls.Add(this.tdNamePanel);
 			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.resetButton);
-			this.Controls.Add(this.nameGroupBox);
-			this.Controls.Add(this.tdGroupBox);
+			this.Controls.Add(this.saFlowLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.HelpButton = true;
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "WaySetForm";
@@ -1564,8 +1692,7 @@ namespace LightEditor
 			this.Text = "通道编辑";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.WaySetForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaySetForm_FormClosed);
-			this.tdGroupBox.ResumeLayout(false);
-			this.tdGroupBox.PerformLayout();
+			this.Load += new System.EventHandler(this.WaySetForm_Load);
 			this.tdPanel.ResumeLayout(false);
 			this.tdPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).EndInit();
@@ -1600,17 +1727,19 @@ namespace LightEditor
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).EndInit();
-			this.nameGroupBox.ResumeLayout(false);
+			this.saFlowLayoutPanel.ResumeLayout(false);
+			this.saPanel.ResumeLayout(false);
+			this.saPanel.PerformLayout();
+			this.tdNamePanel.ResumeLayout(false);
+			this.allTdPanel.ResumeLayout(false);
+			this.allTdPanel.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox tdGroupBox;
-
 		private System.Windows.Forms.ListBox nameListBox;
-		private System.Windows.Forms.GroupBox nameGroupBox;
 
 		private System.Windows.Forms.Panel tdPanel;
 		private System.Windows.Forms.Label tdAddrLabel;
@@ -1722,5 +1851,19 @@ namespace LightEditor
 		private TextBox textBox19;
 		private TextBox textBox18;
 		private TextBox textBox17;
+		private FlowLayoutPanel saFlowLayoutPanel;
+		private Button saAddButton;
+		private Panel tdNamePanel;
+		private Panel allTdPanel;
+
+		private Panel saPanel;
+		private Label saNameLabel;
+		private Button saDeleteButton;
+		private Button saEditButton;
+		private Button saClearButton;
+		private Label tdNumLabel;
+		private Label endValueLabel;
+		private Label lineLabel;
+		private Label startValueLabel;
 	}
 }

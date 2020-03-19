@@ -31,7 +31,6 @@ namespace LightController.MyForm
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.skGroupBox = new System.Windows.Forms.GroupBox();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.unifyZXButton = new System.Windows.Forms.Button();
 			this.unifyJGButton = new System.Windows.Forms.Button();
@@ -53,35 +52,15 @@ namespace LightController.MyForm
 			this.commonZXNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.commonJGNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.skGroupBox.SuspendLayout();
+			this.skGroupBox = new System.Windows.Forms.GroupBox();
 			this.flowLayoutPanel2.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.panel3.SuspendLayout();
 			this.panel27.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.commonZXNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonJGNumericUpDown)).BeginInit();
+			this.skGroupBox.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// skGroupBox
-			// 
-			this.skGroupBox.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.skGroupBox.Controls.Add(this.saveButton);
-			this.skGroupBox.Controls.Add(this.unifyZXButton);
-			this.skGroupBox.Controls.Add(this.unifyJGButton);
-			this.skGroupBox.Controls.Add(this.flowLayoutPanel2);
-			this.skGroupBox.Controls.Add(this.flowLayoutPanel1);
-			this.skGroupBox.Controls.Add(this.allCheckBox);
-			this.skGroupBox.Controls.Add(this.commonZXNumericUpDown);
-			this.skGroupBox.Controls.Add(this.commonJGNumericUpDown);
-			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.skGroupBox.Location = new System.Drawing.Point(0, 0);
-			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2);
-			this.skGroupBox.Name = "skGroupBox";
-			this.skGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.skGroupBox.Size = new System.Drawing.Size(1020, 610);
-			this.skGroupBox.TabIndex = 3;
-			this.skGroupBox.TabStop = false;
-			this.skGroupBox.Text = "各场景摇麦设置";
 			// 
 			// saveButton
 			// 
@@ -253,7 +232,7 @@ namespace LightController.MyForm
 			// allCheckBox
 			// 
 			this.allCheckBox.AutoSize = true;
-			this.allCheckBox.Location = new System.Drawing.Point(155, 529);
+			this.allCheckBox.Location = new System.Drawing.Point(155, 525);
 			this.allCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.allCheckBox.Name = "allCheckBox";
 			this.allCheckBox.Size = new System.Drawing.Size(72, 16);
@@ -310,6 +289,26 @@ namespace LightController.MyForm
             0,
             0});
 			// 
+			// skGroupBox
+			// 
+			this.skGroupBox.BackColor = System.Drawing.SystemColors.Window;
+			this.skGroupBox.Controls.Add(this.saveButton);
+			this.skGroupBox.Controls.Add(this.unifyZXButton);
+			this.skGroupBox.Controls.Add(this.unifyJGButton);
+			this.skGroupBox.Controls.Add(this.flowLayoutPanel2);
+			this.skGroupBox.Controls.Add(this.flowLayoutPanel1);
+			this.skGroupBox.Controls.Add(this.allCheckBox);
+			this.skGroupBox.Controls.Add(this.commonZXNumericUpDown);
+			this.skGroupBox.Controls.Add(this.commonJGNumericUpDown);
+			this.skGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.skGroupBox.Location = new System.Drawing.Point(0, 0);
+			this.skGroupBox.Margin = new System.Windows.Forms.Padding(2);
+			this.skGroupBox.Name = "skGroupBox";
+			this.skGroupBox.Padding = new System.Windows.Forms.Padding(2);
+			this.skGroupBox.Size = new System.Drawing.Size(1020, 610);
+			this.skGroupBox.TabIndex = 3;
+			this.skGroupBox.TabStop = false;
+			// 
 			// YMSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -322,8 +321,6 @@ namespace LightController.MyForm
 			this.Text = "摇麦设置";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.YMSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.YMSetForm_Load);
-			this.skGroupBox.ResumeLayout(false);
-			this.skGroupBox.PerformLayout();
 			this.flowLayoutPanel2.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
@@ -333,13 +330,13 @@ namespace LightController.MyForm
 			this.panel27.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.commonZXNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonJGNumericUpDown)).EndInit();
+			this.skGroupBox.ResumeLayout(false);
+			this.skGroupBox.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.GroupBox skGroupBox;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label4;	
@@ -367,5 +364,6 @@ namespace LightController.MyForm
 		private Button unifyJGButton;
 		private Button saveButton;
 		private ToolTip myToolTip;
+		private GroupBox skGroupBox;
 	}
 }

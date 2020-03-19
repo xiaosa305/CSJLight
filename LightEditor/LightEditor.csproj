@@ -95,24 +95,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\SA.cs" />
+    <Compile Include="Ast\SAWrapper.cs" />
     <Compile Include="Common\FileAst.cs" />
     <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\MathAst.cs" />
     <Compile Include="Common\TextAst.cs" />
-    <Compile Include="TongdaoWrapper.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Ast\TongdaoWrapper.cs" />
+    <Compile Include="MyForm\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.designer.cs">
+    <Compile Include="MyForm\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\SAForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\SAForm.Designer.cs">
+      <DependentUpon>SAForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\OneLightOneStep.cs" />
-    <Compile Include="WaySetForm.cs">
+    <Compile Include="MyForm\WaySetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WaySetForm.Designer.cs">
+    <Compile Include="MyForm\WaySetForm.Designer.cs">
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </Compile>
     <Content Include="灯库软件.ico" />
@@ -120,8 +128,11 @@
     <Content Include="Source\IrisSkin4.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\SAForm.resx">
+      <DependentUpon>SAForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,7 +144,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="WaySetForm.resx">
+    <EmbeddedResource Include="MyForm\WaySetForm.resx">
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />

@@ -209,11 +209,14 @@ namespace LightController
 			mainForm.AddLightAstList(lightAstList);
 			mainForm.GenerateAllStepTemplates();
 			mainForm.AutosetEnabledPlayAndRefreshPic();
-			mainForm.ResetSyncMode();
+			mainForm.ResetSyncMode();			
 
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
 			mainForm.Activate();
+			
+			//3.提示保存工程
+			mainForm.RequestSave("修改灯具列表后，是否保存工程");
 		}
 
 		/// <summary>

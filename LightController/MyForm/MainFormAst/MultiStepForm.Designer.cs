@@ -69,6 +69,7 @@
 			this.unifyStNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.modeLabel = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.label = new System.Windows.Forms.Label();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.unifyStButton = new System.Windows.Forms.Button();
 			this.ignoreButton = new System.Windows.Forms.Button();
@@ -567,7 +568,7 @@
 			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 277);
 			this.unifyCmComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyCmComboBox.Name = "unifyCmComboBox";
-			this.unifyCmComboBox.Size = new System.Drawing.Size(87, 20);
+			this.unifyCmComboBox.Size = new System.Drawing.Size(68, 20);
 			this.unifyCmComboBox.TabIndex = 27;
 			// 
 			// commonValueNumericUpDown
@@ -580,7 +581,7 @@
             0,
             0});
 			this.commonValueNumericUpDown.Name = "commonValueNumericUpDown";
-			this.commonValueNumericUpDown.Size = new System.Drawing.Size(87, 21);
+			this.commonValueNumericUpDown.Size = new System.Drawing.Size(68, 21);
 			this.commonValueNumericUpDown.TabIndex = 25;
 			this.commonValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -595,7 +596,7 @@
             0,
             0});
 			this.unifyStNumericUpDown.Name = "unifyStNumericUpDown";
-			this.unifyStNumericUpDown.Size = new System.Drawing.Size(87, 21);
+			this.unifyStNumericUpDown.Size = new System.Drawing.Size(67, 21);
 			this.unifyStNumericUpDown.TabIndex = 26;
 			this.unifyStNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.unifyStNumericUpDown.ValueChanged += new System.EventHandler(this.unifyStNumericUpDown_ValueChanged);
@@ -613,6 +614,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.panel1.Controls.Add(this.label);
 			this.panel1.Controls.Add(this.zeroButton);
 			this.panel1.Controls.Add(this.unifyStButton);
 			this.panel1.Controls.Add(this.ignoreButton);
@@ -632,6 +634,16 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(245, 358);
 			this.panel1.TabIndex = 31;
+			// 
+			// label
+			// 
+			this.label.AutoSize = true;
+			this.label.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label.Location = new System.Drawing.Point(102, 317);
+			this.label.Name = "label";
+			this.label.Size = new System.Drawing.Size(16, 16);
+			this.label.TabIndex = 35;
+			this.label.Text = "s";
 			// 
 			// zeroButton
 			// 
@@ -705,6 +717,7 @@
 			// 
 			// panel3
 			// 
+			this.panel3.BackColor = System.Drawing.SystemColors.Window;
 			this.panel3.Controls.Add(this.selectAllCheckBox);
 			this.panel3.Controls.Add(this.noticeLabel);
 			this.panel3.Location = new System.Drawing.Point(3, 3);
@@ -829,5 +842,6 @@
 		private System.Windows.Forms.Button unifyValueButton;
 		private System.Windows.Forms.Button unifyCmButton;
 		private System.Windows.Forms.Button unifyStButton;
+		private System.Windows.Forms.Label label;
 	}
 }

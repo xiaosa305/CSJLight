@@ -1180,7 +1180,7 @@ namespace OtherTools
 			}
 			
 			isConnectByCom = !isConnectByCom;
-			switchButton.Text = isConnectByCom ? "以网络连接" : "以串口连接";
+			switchButton.Text = isConnectByCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
 			connectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
 			refreshDeviceComboBox();

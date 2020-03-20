@@ -1,4 +1,5 @@
-﻿using MultiLedController.Utils;
+﻿using MultiLedController.Entity;
+using MultiLedController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,12 +9,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace MultiLedController.Entity
+namespace MultiLedController.Utils.IMPL
 {
-    public class LEDControllerServer
+    public class LEDControllerServer : ILEDControllerServer
     {
         private static LEDControllerServer Instance { get; set; }
-        private Art_Net_Manager Manager { get; set; }
+        private IArt_Net_Manager Manager { get; set; }
         private const int PORT = 1025;
         private Socket UDPSend { get; set; }
         private UdpClient UDPReceiveClient { get; set; }
@@ -29,7 +30,7 @@ namespace MultiLedController.Entity
             this.ReceiveStartStatus = false;
             this.InitDeviceList();
         }
-        public static LEDControllerServer GetInstance()
+        public static ILEDControllerServer GetInstance()
         {
             if (Instance == null)
             {
@@ -37,8 +38,7 @@ namespace MultiLedController.Entity
             }
             return Instance;
         }
-
-        public void SetManager(Art_Net_Manager manager)
+        public void SetManager(IArt_Net_Manager manager)
         {
             this.Manager = manager;
         }
@@ -87,7 +87,7 @@ namespace MultiLedController.Entity
                     byte[] receiveData = client.Receive(ref endPoint);
                     if (Encoding.Default.GetString(receiveData).Equals("OK:poweron>"))//发送起始命令回复
                     {
-                        this.Manager.StartDebug();
+                        this.Manager.StartDebugMode();
                     }
                     else if (receiveData.Length == 41)//设备探索回复
                     {
@@ -123,7 +123,6 @@ namespace MultiLedController.Entity
         {
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, 9999));
         }
-
         /// <summary>
         /// 初始化设备存储缓存区
         /// </summary>
@@ -131,7 +130,6 @@ namespace MultiLedController.Entity
         {
             this.ControlDevices = new Dictionary<string, ControlDevice>();
         }
-
         public Dictionary<string,ControlDevice> GetControlDevices()
         {
             return this.ControlDevices;

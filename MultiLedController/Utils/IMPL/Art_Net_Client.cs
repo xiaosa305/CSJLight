@@ -7,12 +7,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace MultiLedController.Entity
+namespace MultiLedController.Utils.IMPL
 {
-    public class Art_Net_Client
+    public class Art_Net_Client : IArt_Net_Client
     {
-        private const int PORTCOUNT = 4;
-
         private const int PORT = 6454;
         private Socket UDP_Send { get; set; }
         private UdpClient UDP_Receive { get; set; }
@@ -28,14 +26,14 @@ namespace MultiLedController.Entity
         private Dictionary<int,bool> Field_Datas_Status { get; set; }
 
         /// <summary>
-        /// 虚拟控制器客户端构造函数
+        /// 功能：虚拟控制器客户端构造函数
         /// </summary>
         /// <param name="currentIp">分配给虚拟控制器的IP地址</param>
         /// <param name="serverIp">麦爵士所在服务器IP地址</param>
         /// <param name="startIndex">控制器空间起始编号</param>
         /// <param name="spaceNum">控制器空间数量</param>
         /// <param name="manager">管理器既Art_Net_Manager</param>
-        public Art_Net_Client(string currentIp,string serverIp, int startIndex, int spaceNum, Art_Net_Manager manager)
+        public Art_Net_Client(string currentIp, string serverIp, int startIndex, int spaceNum, Art_Net_Manager manager)
         {
             //初始化
             this.Init();
@@ -71,6 +69,9 @@ namespace MultiLedController.Entity
             this.Addr = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
             Console.WriteLine(currentIp + "虚拟客户端启动");
         }
+        /// <summary>
+        /// 功能：初始化缓存区
+        /// </summary>
         private void Init()
         {
             this.Fields = new List<int>();
@@ -79,7 +80,7 @@ namespace MultiLedController.Entity
             this.Field_Datas_Status = new Dictionary<int, bool>();
         }
         /// <summary>
-        /// 网络数据接收模块
+        /// 功能：网络数据接收模块
         /// </summary>
         /// <param name="obj"></param>
         private void ReceiveMsg(Object obj)
@@ -132,7 +133,7 @@ namespace MultiLedController.Entity
             }
         }
         /// <summary>
-        /// 终端搜索回复虚拟控制器信息
+        /// 功能：终端搜索回复虚拟控制器信息
         /// </summary>
         private void SearchDevice_Receive()
         {
@@ -153,13 +154,16 @@ namespace MultiLedController.Entity
             this.UDP_Send.SendTo(data, new IPEndPoint(IPAddress.Broadcast, PORT));
         }
         /// <summary>
-        /// 关闭虚拟控制器
+        ///功能： 关闭虚拟控制器
         /// </summary>
         public void Close()
         {
             this.ReceiveStartStatus = false;
+            Thread.Sleep(100);
             this.UDP_Receive.Close();
             this.UDP_Send.Close();
+            this.UDP_Receive = null;
+            this.UDP_Send = null;
             Console.WriteLine(CurrentIp + "关闭客户端");
         }
     }

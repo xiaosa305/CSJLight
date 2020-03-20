@@ -5,47 +5,44 @@ using System.Linq;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace MultiLedController.Utils
+namespace MultiLedController.Utils.IMPL
 {
-    public class FileUtils
+    public class FileUtils : IFileUtils
     {
-        //private static string ProjectDownloadDir = Application.StartupPath + @"\DataCache\Download\CSJ";
-        private static string ProjectDownloadDir = @"C:\WorkSpace\Save";
-
-        public static void WriteToFile(List<byte> data,string fileName)
+        private static FileUtils Instance { get; set; }
+        private FileUtils() { }
+        public static IFileUtils GetInstance()
         {
-            string filePath = ProjectDownloadDir + @"\" + fileName;
+            if (Instance == null)
+            {
+                Instance = new FileUtils();
+            }
+            return Instance;
+        }
+        public  void WriteToFile(List<byte> data,string filePath)
+        {
             using (FileStream stream = new FileStream(filePath,FileMode.Append))
             {
                 stream.Write(data.ToArray(), 0, data.Count);
                 stream.Flush();
             }
         }
-
-        public static void WriteToFileByCreate(List<byte> data, string fileName)
+        public  void WriteToFileByCreate(List<byte> data, string filePath)
         {
-            string filePath = ProjectDownloadDir + @"\" + fileName;
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
                 stream.Write(data.ToArray(), 0, data.Count);
                 stream.Flush();
             }
         }
-
-        public static void WriteToFileBySeek(List<byte> data,string fileName,long seek)
+        public  void WriteToFileBySeek(List<byte> data,string filePath, long seek)
         {
-            string filePath = ProjectDownloadDir + @"\" + fileName;
             using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate))
             {
                 stream.Seek(seek, SeekOrigin.Begin);
                 stream.Write(data.ToArray(), 0, data.Count);
                 stream.Flush();
             }
-        }
-
-        public static void SetSaveDirPath(string dirPath)
-        {
-            ProjectDownloadDir = dirPath;
         }
     }
 }

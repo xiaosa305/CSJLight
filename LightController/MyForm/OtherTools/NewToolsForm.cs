@@ -142,7 +142,7 @@ namespace OtherTools
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 
-			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton"); ;
+			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
 
 			//直接刷新串口列表

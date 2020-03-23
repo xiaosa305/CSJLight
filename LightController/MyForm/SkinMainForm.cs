@@ -35,7 +35,7 @@ namespace LightController.MyForm
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 
 			// 动态显示测试按钮
-			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");			;
+			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");			;
 			String softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY");
 			this.Text = softwareName + " Dimmer System";
 			testGroupBox.Visible = isShowTestButton;
@@ -44,7 +44,7 @@ namespace LightController.MyForm
 			CheckForIllegalCrossThreadCalls = false;
 
 			// 动态显示硬件升级按钮
-			bool isShowHardwareUpddate = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");
+			bool isShowHardwareUpddate = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
 			hardwareUpdateSkinButton.Visible = isShowHardwareUpddate;
 
 			#region 初始化各种辅助数组

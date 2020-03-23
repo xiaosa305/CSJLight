@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MultiLedController.Utils
+namespace MultiLedController.Utils.IMPL
 {
     public  class CalMD5Value
     {

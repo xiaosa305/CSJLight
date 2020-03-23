@@ -19,6 +19,7 @@ namespace MultiLedController.Utils.IMPL
         private Socket UDPSend { get; set; }
         private UdpClient UDPReceiveClient { get; set; }
         private string ServerCurrentIp { get; set; }
+        private string DeviceIp { get; set; }
         private bool IsStart { get; set; }
         private bool ReceiveStartStatus { get; set; }
         private Thread ReceiveThread { get; set; }
@@ -112,7 +113,6 @@ namespace MultiLedController.Utils.IMPL
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
-            //this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Parse("192.168.31.10"), PORT));
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
         }
         /// <summary>
@@ -133,6 +133,23 @@ namespace MultiLedController.Utils.IMPL
         public Dictionary<string,ControlDevice> GetControlDevices()
         {
             return this.ControlDevices;
+        }
+        /// <summary>
+        /// 功能：关闭控制卡服务器
+        /// </summary>
+        public void Close()
+        {
+            this.ReceiveStartStatus = false;
+            this.UDPSend.Close();
+            this.UDPReceiveClient.Close();
+            this.UDPSend = null;
+            this.UDPReceiveClient = null;
+            this.InitDeviceList();
+        }
+
+        public void SetDeviceIp(string deviceIp)
+        {
+            this.DeviceIp = deviceIp;
         }
     }
 }

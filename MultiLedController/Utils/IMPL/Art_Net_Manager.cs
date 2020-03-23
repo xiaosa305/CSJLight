@@ -76,8 +76,17 @@ namespace MultiLedController.Utils.IMPL
                     item.Close();
                 }
             }
-           
-            this.OnTimeThread.Abort();
+            LEDControllerServer.GetInstance().Close();
+            Thread.Sleep(1000);
+            this.Init();
+            try
+            {
+                this.OnTimeThread.Abort();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("关闭定时器");
+            }
         }
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
@@ -85,11 +94,10 @@ namespace MultiLedController.Utils.IMPL
         /// <param name="virtuals">虚拟控制器信息，包含虚拟控制器使用的Ip地址以及虚拟控制器空间数量</param>
         /// <param name="serverIp">麦爵士所在的服务器IP</param>
         /// <param name="currentMainIP">本地主IP</param>
-        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp)
+        /// <param name="deviceIp">控制卡IP</param>
+        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp,string deviceIp)
         {
             this.Close();
-            Thread.Sleep(1000);
-            this.Init();
             if (virtuals.Count == 0)
             {
                 return;
@@ -110,6 +118,7 @@ namespace MultiLedController.Utils.IMPL
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
+            LEDControllerServer.GetInstance().SetDeviceIp(deviceIp);
             LEDControllerServer.GetInstance().StartServer(currentIP);
         }
         /// <summary>

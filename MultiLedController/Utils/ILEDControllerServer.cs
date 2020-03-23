@@ -37,5 +37,13 @@ namespace MultiLedController.Utils
         /// </summary>
         /// <returns></returns>
         Dictionary<string, ControlDevice> GetControlDevices();
+        /// <summary>
+        /// 功能：关闭控制卡服务器
+        /// </summary>
+        void Close();
+        /// <summary>
+        /// 功能：设置控制卡IP
+        /// </summary>
+        void SetDeviceIp(string deviceIp);
     }
 }

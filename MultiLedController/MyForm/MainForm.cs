@@ -1,6 +1,7 @@
 ﻿using MultiLedController.Common;
 using MultiLedController.Entity;
 using MultiLedController.Utils;
+using MultiLedController.Utils.IMPL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -192,12 +193,10 @@ namespace MultiLedController.MyForm
 				recordButton.Text = "录制数据";				
 			}
 			else {
+				//string dirPath = filePath.Substring(0, filePath.LastIndexOf(@"\"));
+				//string fileName = filePath.Substring(filePath.LastIndexOf(@"\") + 1);
 
-				string dirPath = filePath.Substring(0, filePath.LastIndexOf(@"\"));
-				string fileName = filePath.Substring(filePath.LastIndexOf(@"\") + 1);
-
-				Art_Net_Manager.GetInstance().SetSaveDirPath(dirPath);
-				Art_Net_Manager.GetInstance().SetSaveFileName(fileName);
+				Art_Net_Manager.GetInstance().SetSaveFilePath(filePath);
 				Art_Net_Manager.GetInstance().StartSaveToFile();
 
 				isRecording = true;
@@ -343,10 +342,10 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "实时调试";
 			if (isDebuging)
 			{
-				Art_Net_Manager.GetInstance().SendStartDebugOrder();
+				Art_Net_Manager.GetInstance().StartDebug();
 			}
 			else {
-				Art_Net_Manager.GetInstance().EndDebug();
+				Art_Net_Manager.GetInstance().StopDebug();
 			}			
 		}
 

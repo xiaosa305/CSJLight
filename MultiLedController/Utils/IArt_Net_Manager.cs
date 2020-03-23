@@ -14,7 +14,7 @@ namespace MultiLedController.Utils
         /// <param name="virtuals">虚拟控制器信息，包含虚拟控制器使用的Ip地址以及虚拟控制器空间数量</param>
         /// <param name="serverIp">麦爵士所在的服务器IP</param>
         /// <param name="currentMainIP">本地主IP</param>
-        void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp);
+        void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp,string deviceIp);
         /// <summary>
         /// 功能：关闭服务器
         /// </summary>

@@ -24,7 +24,7 @@ namespace MultiLedController.MyForm
 		private bool isDebuging = false;
 		private string filePath = @"C:\Temp\MultiLedFile\record.bin";
 
-		private string localIp ; 
+		private string deviceIP ; 
 
 		/// <summary>
 		/// 左侧栏的首要选中项索引值
@@ -223,7 +223,10 @@ namespace MultiLedController.MyForm
 				return;
 			}
 
-			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text);
+			string[] args = controllerListView.Items[controllerSelectedIndex].Tag.ToString().Split(',');
+			deviceIP = args[0];
+
+			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text , deviceIP);
 			debugButton.Enabled = true;
 			recordButton.Enabled = true;
 		}

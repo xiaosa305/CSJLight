@@ -870,6 +870,7 @@ namespace LightController.MyForm
 			// 
 			this.skinComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.skinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.skinComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.skinComboBox.FormattingEnabled = true;
 			this.skinComboBox.Location = new System.Drawing.Point(1145, 6);
 			this.skinComboBox.Margin = new System.Windows.Forms.Padding(2);

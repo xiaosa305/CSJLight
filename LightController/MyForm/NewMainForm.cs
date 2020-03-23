@@ -238,6 +238,7 @@ namespace LightController.MyForm
 			//{
 			//	this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + skin;
 			//}
+		
 
 			// 启动时刷新可用串口列表;
 			refreshComList();			
@@ -310,6 +311,8 @@ namespace LightController.MyForm
 				return;
 			}
 
+		
+
 			this.skinEngine1.Active = true;  
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
 			//额外加一句其他的句子(需要与SkniFile相关又不影响效果)，可以解决有些控件无法被渲染的问题
@@ -317,6 +320,11 @@ namespace LightController.MyForm
 
 			// 若需保存用户自选的皮肤，则启用下句
 			//new IniFileAst(Application.StartupPath+@"\GlobalSet.ini").WriteString("SkinSet", "skin", sskName + ".ssk");
+
+			// 网上搜到的处理闪烁的解决方案，测试有没有效果
+			//SetStyle(ControlStyles.DoubleBuffer, true);    //设置双缓冲，防止图像抖动      
+			//SetStyle(ControlStyles.AllPaintingInWmPaint, true);    //忽略系统消息，防止图像闪烁
+
 		}
 
 		/// <summary>

@@ -328,6 +328,11 @@ namespace MultiLedController.Utils.IMPL
         public void SetSaveFilePath(string filePath)
         {
             this.SaveFilePath = filePath;
+            DirectoryInfo directoryInfo = Directory.GetParent(filePath);
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
             if (!File.Exists(this.SaveFilePath))
             {
                 File.Create(this.SaveFilePath).Dispose();

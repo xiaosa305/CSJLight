@@ -188,10 +188,6 @@
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Ast\TongdaoWrapper.cs" />
-    <Compile Include="MyForm\LightEditor\Common\FileAst.cs" />
-    <Compile Include="MyForm\LightEditor\Common\IniFileAst.cs" />
-    <Compile Include="MyForm\LightEditor\Common\MathAst.cs" />
-    <Compile Include="MyForm\LightEditor\Common\TextAst.cs" />
     <Compile Include="MyForm\LightEditor\LightEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>

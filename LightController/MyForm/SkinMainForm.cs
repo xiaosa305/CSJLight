@@ -35,11 +35,13 @@ namespace LightController.MyForm
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 
 			// 动态显示测试按钮
-			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");			;
-			String softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY");
+			softwareName = IniFileAst_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
 			this.Text = softwareName + " Dimmer System";
+
+			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
 			testGroupBox.Visible = isShowTestButton;
 			bigTestButton.Visible = isShowTestButton;
+
 			//MARK：添加这一句，会去掉其他线程使用本ui空间的问题。
 			CheckForIllegalCrossThreadCalls = false;
 

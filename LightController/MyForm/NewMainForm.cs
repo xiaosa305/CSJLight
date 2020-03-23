@@ -37,8 +37,10 @@ namespace LightController.MyForm
 			InitializeComponent();
 
 			// 动态更改软件名称
-			softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY");		
+			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码
+			softwareName = IniFileAst_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
 			Text = softwareName + " Dimmer System" ; 
+
 			// 动态设定软件存储目录
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 			// 动态显示测试按钮
@@ -47,7 +49,7 @@ namespace LightController.MyForm
 			hardwareUpdateToolStripMenuItem.Enabled = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
-			CheckForIllegalCrossThreadCalls = false;			
+			CheckForIllegalCrossThreadCalls = false;	
 
 			//动态添加32个tdPanel的内容及其监听事件
 			for (int i = 0; i < 32; i++)
@@ -68,7 +70,6 @@ namespace LightController.MyForm
 				this.tdNoLabels[i].Size = new System.Drawing.Size(47, 12);
 				this.tdNoLabels[i].TabIndex = 3;
 				this.tdNoLabels[i].Text = "通道" + (i + 1);
-
 				// 
 				// tdTrackBar
 				// 
@@ -232,15 +233,6 @@ namespace LightController.MyForm
 
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
-			// 启动时选择皮肤
-			//IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");
-			//string skin = iniFileAst.ReadString("SkinSet", "skin", "");
-			//if (!String.IsNullOrEmpty(skin))
-			//{
-			//	this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + skin;
-			//}
-		
-
 			// 启动时刷新可用串口列表;
 			refreshComList();			
 		}
@@ -2055,6 +2047,7 @@ namespace LightController.MyForm
 			{				
 				realtimeButton.Text = "关闭\n实时调试";
 				isRealtime = true;
+				RefreshStep();
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
@@ -2083,6 +2076,7 @@ namespace LightController.MyForm
 				keepButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -2109,6 +2103,7 @@ namespace LightController.MyForm
 				MessageBox.Show(ex.Message);
 			}
 			finally {
+				SetNotice("正在预览效果");
 				setBusy(false);
 			}
 		}

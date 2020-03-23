@@ -7,8 +7,13 @@ namespace LightEditor.Ast
 {
 	public class SAWrapper
 	{
-		public int TdAddress { get; set; }
-		public int SaCount { get; }
+		//public int TdAddress { get; set; }
+		//public int SaCount { get; }
 		public IList<SA> SaList{ get; set; }
+
+		public SAWrapper()
+		{
+			SaList = new List<SA>();
+		}
 	}
 }

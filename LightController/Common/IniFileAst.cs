@@ -11,6 +11,15 @@ namespace LightController.Common
 	{
 		public string filePath;
 
+		/// <summary>
+		/// 构造函数
+		/// </summary>
+		/// <param name="aFileName">Ini文件路径</param>
+		public IniFileAst(string filePath)
+		{
+			this.filePath = filePath;
+		}
+
 		[DllImport("kernel32.dll")]
 		private static extern int GetPrivateProfileInt(
 			string lpAppName,
@@ -27,9 +36,7 @@ namespace LightController.Common
 			StringBuilder lpReturnedString,
 			int nSize,
 			string lpFileName
-			);
-
-		
+			);		
 
 		[DllImport("kernel32.dll")]
 		private static extern int WritePrivateProfileString(
@@ -38,16 +45,6 @@ namespace LightController.Common
 			string lpString,
 			string lpFileName
 			);
-
-		/// <summary>
-		/// 构造函数
-		/// </summary>
-		/// <param name="aFileName">Ini文件路径</param>
-		public IniFileAst(string filePath)
-		{
-			this.filePath = filePath;
-		}
-
 
 		/// <summary>
 		/// [扩展]读Int数值
@@ -72,6 +69,7 @@ namespace LightController.Common
 		{
 			StringBuilder vRetSb = new StringBuilder(2048);
 			GetPrivateProfileString(section, name, def, vRetSb, 2048, this.filePath);
+			//Console.WriteLine( " -----" +  vRetSb .ToString() );
 			return vRetSb.ToString();
 		}
 		
@@ -193,6 +191,13 @@ namespace LightController.Common
 				return false;
 			}
 		}
-			
+
+
+		//与ini交互必须统一编码格式
+		private static byte[] getBytes(string s, string encodingName)
+		{
+			return null == s ? null : Encoding.GetEncoding(encodingName).GetBytes(s);
+		}
+		
 	}
 }

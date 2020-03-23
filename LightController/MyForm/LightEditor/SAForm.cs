@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightEditor.Ast;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -86,7 +87,12 @@ namespace LightEditor.MyForm
 
 			if (add)
 			{
-				wsForm.AddSA(saNameTextBox.Text, Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value));
+				wsForm.AddSAPanel( saNameTextBox.Text.Trim(), Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value)) ;
+				wsForm.AddSA(new SA() {
+					SAName = saNameTextBox.Text.Trim(),
+					StartValue = Decimal.ToInt16(startValueNumericUpDown.Value),
+					EndValue = Decimal.ToInt16(endValueNumericUpDown.Value)
+				} );
 			}
 			else {
 				wsForm.EditSA(saIndex, saNameTextBox.Text, Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value));

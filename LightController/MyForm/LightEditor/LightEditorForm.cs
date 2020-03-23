@@ -11,9 +11,10 @@ using System.IO;
 using System.Threading;
 using System.Collections;
 using LighEditor.Tools;
-using LightEditor.Common;
 using LighEditor;
 using LightController.MyForm;
+using LightEditor.Ast;
+using LightController.Common;
 
 namespace LightEditor
 {
@@ -32,6 +33,7 @@ namespace LightEditor
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
 		private bool isRealTime = false; //是否勾选“实时调试”
 		private bool isConnect = false; // 辅助变量：是否连接设备	
+		public SAWrapper[] sawArray; 
 	
 		public LightEditorForm(MainFormBase mainForm)
 		{
@@ -372,7 +374,7 @@ namespace LightEditor
 				this.setImage(picDirectory + "\\" + imagePath);
 			}
 
-			string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取 
+			string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取
 																
 			this.countComboBox.Text = selectItem;   // 此处请注意：并不是用SelectedText，而是直接设Text
 			this.tongdaoCount = int.Parse(selectItem);
@@ -383,21 +385,42 @@ namespace LightEditor
 			if (lineCount > 5)
 			{
 				// 先通过tongdaoCount2,将ini已有的数据，添加进tongdaoList中
-				int tongdaoCount2 = (lineCount - 6) / 3 ;
+				//int tongdaoCount2 = (lineCount - 6) / 3 ;
 				tongdaoList = new List<TongdaoWrapper>();
-				for (int i = 0; i < tongdaoCount2; i++)
+				for (int i = 0; i < tongdaoCount; i++)
 				{
 					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
 					tongdaoList.Add(new TongdaoWrapper(tongdaoName, initNum, address, initNum));
-				}
-				// 当小于设定值时，应该输出错误信息，并调用generateTongdaoList()方法：多出的通道设初值
-				if (tongdaoCount2 < tongdaoCount)
+				}				
+			
+				if (!String.IsNullOrEmpty(iniPath))
 				{
-					MessageBox.Show("记录的tongdao信息小于所需信息");
-					this.generateTongdaoList();
+					IniFileAst iniAst = new IniFileAst(iniPath);
+					sawArray = new SAWrapper[tongdaoCount];
+					for (int tdIndex = 0; tdIndex < iniAst.ReadInt("set", "count", 0); tdIndex++)
+					{
+						sawArray[tdIndex] = new SAWrapper();
+						for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
+						{
+							SA sa = new SA
+							{
+								SAName = IniFileAst_UTF8.ReadString(iniPath,"sa", tdIndex + "_" + saIndex + "_saName", ""),
+								StartValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0),
+								EndValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0)
+							};
+							sawArray[tdIndex].SaList.Add(sa);
+						}
+					}
 				}
+				
+				// MARK：（可能会删掉）当小于设定值时，应该输出错误信息，并调用generateTongdaoList()方法：多出的通道设初值
+				//if (tongdaoCount2 < tongdaoCount)
+				//{
+				//	MessageBox.Show("记录的tongdao信息小于所需信息");
+				//	this.generateTongdaoList();
+				//}
 			}
 			else {
 				Console.WriteLine("文件异常，行数缺失");
@@ -506,6 +529,8 @@ namespace LightEditor
 			NewShowVScrollBars();			
 		}
 
+		
+
 		/// <summary>
 		///  显示通道编辑按钮(true)或生成(false)按钮（二选一）
 		/// </summary>
@@ -522,7 +547,9 @@ namespace LightEditor
 				generateButton.Show();
 			}				
 		}
-				
+
+	
+
 		/// <summary>
 		///  (新）辅助方法：
 		///  1.将tongdaoList渲染进下拉条组中
@@ -633,7 +660,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
 		{				
-			new WaySetForm(this,iniPath,-1).ShowDialog();
+			new WaySetForm(this,sawArray, -1).ShowDialog();
 		}
 		
 		/// <summary>
@@ -659,7 +686,7 @@ namespace LightEditor
 		private void valueVScrollBar_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应vScrollBars的index 
-			int tongdaoIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name, -1);
 
 			//2.把滚动条的值赋给valueNumericUpDowns
 			valueNumericUpDowns[tongdaoIndex].Value = 255 - valueVScrollBars[tongdaoIndex].Value;
@@ -675,7 +702,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void vScrollBar_MouseEnter(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.getIndexNum(((VScrollBar)sender).Name, -1);
+			int labelIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
 		}
 
@@ -686,7 +713,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void label_MouseEnter(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
+			int labelIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
 		}
 
@@ -697,8 +724,8 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void labels_Click(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
-			new WaySetForm(this,savePath, labelIndex).ShowDialog();
+			int labelIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			new WaySetForm(this, sawArray, labelIndex).ShowDialog();
 		}
 
 		/// <summary>
@@ -709,7 +736,7 @@ namespace LightEditor
 		private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			// 2.调整相应的vScrollBar的数值
 			valueVScrollBars[tongdaoIndex].Value = 255 - Decimal.ToInt32(valueNumericUpDowns[tongdaoIndex].Value);
@@ -740,7 +767,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);			
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);			
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1061,5 +1088,22 @@ namespace LightEditor
 
 		#endregion
 
+		private void button1_Click(object sender, EventArgs e)
+		{
+			if (sawArray == null || sawArray.Length == 0)
+			{
+				return;
+			}
+			foreach (SAWrapper saw in sawArray)
+			{				
+				foreach (SA sa  in saw.SaList)
+				{
+					Console.WriteLine(sa.SAName + "   " + sa.StartValue + " - " + sa.EndValue );
+				}
+				Console.WriteLine();
+			}
+
+			
+		}
 	}
 }

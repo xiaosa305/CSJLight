@@ -1,7 +1,8 @@
-﻿using LightEditor.Ast;
-using LightEditor.Common;
+﻿using LightController.Common;
+using LightEditor.Ast;
 using LightEditor.MyForm;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,13 +18,12 @@ namespace LightEditor
 	{
 		private LightEditorForm mainForm;
 		private int tongdaoCount; //通道数量
-		private List<TongdaoWrapper> tongdaoList;  		
+		private List<TongdaoWrapper> tongdaoList;
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
+		private int selectedTdIndex = -1 ;
 
-		//子属性相关
-		private string iniPath;
-		private SAWrapper[] saWrapperList;
-
+		//子属性相关		
+		private IList<SAWrapper> sawList;
 		private IList<Panel> saPanels = new List<Panel>();
 		private IList<Label> saNameLabels = new List<Label>();
 		private IList<Label> startValueLabels = new List<Label>();
@@ -35,14 +35,13 @@ namespace LightEditor
 		///  初始化，并将mainForm（及其相关内容）也传进来；并显示tdPanel相关数据
 		/// </summary>
 		/// <param name="mainForm"></param>
-		public WaySetForm(LightEditorForm mainForm,string iniPath, int tdIndex)
+		public WaySetForm(LightEditorForm mainForm, SAWrapper[] sawArray , int tdIndex)
 		{
 			this.mainForm = mainForm;
-			this.iniPath = iniPath ; 
 			this.tongdaoCount = mainForm.tongdaoCount;
 			this.tongdaoList = mainForm.tongdaoList;
-			this.saWrapperList = new SAWrapper[tongdaoCount];
-
+			this.sawList = sawArray.ToList() ;
+			
 			InitializeComponent();
 
 			#region 初始化几个通道值数组
@@ -145,7 +144,7 @@ namespace LightEditor
 			tdNumericUpDowns[30] = numericUpDown31;
 			tdNumericUpDowns[31] = numericUpDown32;
 
-			foreach(NumericUpDown item in tdNumericUpDowns)
+			foreach (NumericUpDown item in tdNumericUpDowns)
 			{
 				item.MouseWheel += new MouseEventHandler(valueNumericUpDown_MouseWheel);
 			}
@@ -161,14 +160,29 @@ namespace LightEditor
 
 			hideAllTongdao();
 			generateTongdaoList();
-			generateSAWrapperList(); 
-
-
+			
 			if (tdIndex > -1) {
 				selectedTextBox = tdTextBoxes[tdIndex];
 				tdTextBoxes[tdIndex].Select();
-				selectedTDChanged();
-			}		
+				selectedTdIndex = tdIndex;
+
+				refreshSAPanels() ; 
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新SAPanels
+		/// </summary>
+		private void refreshSAPanels() {
+
+			saFlowLayoutPanel.Enabled = true;
+			tdNumLabel.Text = "选中的通道地址：" + (selectedTdIndex + 1);
+
+			clearSaPanels();
+			foreach (SA sa in sawList[selectedTdIndex].SaList)
+			{
+				this.AddSAPanel(sa);
+			}
 		}
 
 		/// <summary>
@@ -179,8 +193,9 @@ namespace LightEditor
 		private void WaySetForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-			//TODO: 下列句子，当子属性功能开放后，应该去掉。
-			this.Size = new Size(558, 568);
+
+			//MARK: WaySetForm 下列句子，当子属性功能开放后，应该去掉。
+			//this.Size = new Size(558, 568);
 		}
 
 		/// <summary>
@@ -201,7 +216,7 @@ namespace LightEditor
 		{
 			for (int i = 0; i < 32; i++)
 			{
-				this.tdLabels[i].Visible = false ;
+				this.tdLabels[i].Visible = false;
 				this.tdTextBoxes[i].Visible = false;
 				this.tdNumericUpDowns[i].Visible = false;
 			}
@@ -221,48 +236,8 @@ namespace LightEditor
 				this.tdTextBoxes[i].Show();
 				this.tdNumericUpDowns[i].Show();
 			}
-		}
+		}	
 
-		/// <summary>
-		/// 辅助方法：通过tongdaoCount，读取相关的灯库ini文件，读出已有的子属性列表
-		/// </summary>
-		private void generateSAWrapperList()
-		{
-			if (!String.IsNullOrEmpty(iniPath)) {
-				IniFileAst iniAst = new IniFileAst( iniPath );
-
-				for (int tdIndex = 0; tdIndex < iniAst.ReadInt("set","count",0); tdIndex ++)
-				{
-					saWrapperList[tdIndex] = new SAWrapper();
-					for (int saIndex = 0;  saIndex < iniAst.ReadInt("sa", tdIndex +"_saCount", 0); saIndex++)
-					{
-						SA sa = new SA
-						{
-							SAName = iniAst.ReadString("sa", tdIndex + "_" + saIndex + "_saName", ""),
-							StartValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0),
-							EndValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0)
-						};
-						saWrapperList[tdIndex].SaList.Add(sa);
-					}
-				}
-			}
-
-			Console.WriteLine(saWrapperList);
-
-		}
-
-		/// <summary>
-		/// 辅助方法：通过tdIndex，把SAWrapper[tdIndex]的内容，渲染到saFlowLayoutPanel中（应该先Clear，再foreach AddSA()）
-		/// </summary>
-		/// <param name="tdIndex"></param>
-		private void generateSAPanels(int tdIndex) {
-
-
-
-
-		}
-
-		
 		/// <summary>
 		///  双击把右侧选择的通道名称值填入左侧选择的文本框中
 		/// </summary>
@@ -276,7 +251,7 @@ namespace LightEditor
 			}
 			else {
 				MessageBox.Show("请先选择通道名称文本框！");
-			}			
+			}
 		}
 
 		/// <summary>
@@ -285,25 +260,26 @@ namespace LightEditor
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void tdTextBox_MouseClick(object sender, MouseEventArgs e)
-		{		
-			selectedTextBox = ((TextBox)sender);
-			selectedTDChanged();
+		{
+			selectedTextBox = (TextBox)sender;
+			if (selectedTextBox != null)
+			{
+				selectedTdIndex = MathAst.GetIndexNum(selectedTextBox.Name, -1);
+				if (selectedTdIndex > -1)
+				{
+					refreshSAPanels();
+				}
+			}
 		}
 
 		/// <summary>
-		/// 辅助方法：更改了选中的通道
+		/// 辅助方法：清空所有的SAPanel
 		/// </summary>
-		private void selectedTDChanged()
+		private void clearSaPanels()
 		{
-
-			if (selectedTextBox != null)
+			foreach (Panel saPanel in saPanels)
 			{
-				int tdIndex = MathAst.getIndexNum(selectedTextBox.Name, -1);
-				if (tdIndex > -1)
-				{
-					saFlowLayoutPanel.Enabled = true;
-					tdNumLabel.Text = "选中的通道地址：" + (tdIndex + 1);
-				}
+				saFlowLayoutPanel.Controls.Remove(saPanel);
 			}
 		}
 
@@ -314,7 +290,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.getIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
@@ -350,7 +326,7 @@ namespace LightEditor
 		private void resetButton_Click(object sender, EventArgs e)
 		{
 			tongdaoCount = mainForm.tongdaoCount;
-			tongdaoList = mainForm.tongdaoList ;
+			tongdaoList = mainForm.tongdaoList;
 			generateTongdaoList();
 		}
 
@@ -394,7 +370,7 @@ namespace LightEditor
 				}
 				else
 				{
-					tongdaoList[i].TongdaoName = tdTextBoxes[i].Text.Trim();					
+					tongdaoList[i].TongdaoName = tdTextBoxes[i].Text.Trim();
 					tongdaoList[i].InitValue = Decimal.ToInt16(tdNumericUpDowns[i].Value);
 				}
 			}
@@ -402,8 +378,6 @@ namespace LightEditor
 			// 2.设置tongdaoList到mainForm中；
 			mainForm.SetTongdaoList(this.tongdaoList);
 		}
-
-	
 
 		/// <summary>
 		/// 事件：点击《右上角？》按钮，提示X、Y轴微调相关设置
@@ -416,7 +390,7 @@ namespace LightEditor
 				"2.X轴微调和Y轴微调，因各灯具情况不同，若非正常变化(满255进1），可在试验之后确定该微调通道的上限值，并将其填入初始值中；若将初始值设为0或255，则程序会视此通道为常规微调通道，后期不再做特殊处理。");
 			e.Cancel = true;
 		}
-				
+
 		/// <summary>
 		/// 事件：点击《添加子属性》
 		/// </summary>
@@ -424,14 +398,14 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void addSAButton_Click(object sender, EventArgs e)
 		{
-			new SAForm(this,true,null,-1,0,255).ShowDialog();
+			new SAForm(this, true, null, -1, 0, 255).ShowDialog();
 		}
 
 		/// <summary>
-		/// 辅助方法：添加子属性，主要供SAForm回调使用
+		/// 辅助方法：添加saPanel，主要供SAForm回调使用
 		/// </summary>
-		public void AddSA(string saName, int startValue,int endValue) {
-			
+		public void AddSAPanel(string saName, int startValue, int endValue) {
+
 			Panel saPanelTemp = new Panel();
 			Label saNameLabelTemp = new Label();
 			Label startLabelTemp = new Label();
@@ -458,12 +432,12 @@ namespace LightEditor
 			saPanelTemp.Controls.Add(lineLabelTemp);
 			saPanelTemp.Controls.Add(endLabelTemp);
 			saPanelTemp.Controls.Add(saEditButtonTemp);
-			saPanelTemp.Controls.Add(saDeleteButtonTemp);			
+			saPanelTemp.Controls.Add(saDeleteButtonTemp);
 			saPanelTemp.Location = new System.Drawing.Point(3, 42);
 			saPanelTemp.Name = "attrPanel";
 			saPanelTemp.Size = new System.Drawing.Size(192, 52);
 			saPanelTemp.TabIndex = 1;
-			
+
 			// 
 			// saNameLabel
 			// 
@@ -502,8 +476,6 @@ namespace LightEditor
 			endLabelTemp.Text = endValue.ToString();
 			endLabelTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-
-			// 
 			// saEditButton
 			// 
 			saEditButtonTemp.Location = new System.Drawing.Point(8, 23);
@@ -527,13 +499,18 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 辅助方法：修改子属性，主要供SAForm回调使用
+		/// 辅助方法：添加saPanel，主要供SAForm回调使用
 		/// </summary>
-		public void EditSA(int saIndex,string saName, int startValue, int endValue)
+		public void AddSAPanel(SA sa)
 		{
-			saNameLabels[saIndex].Text = saName;
-			startValueLabels[saIndex].Text = startValue.ToString();
-			endValueLabels[saIndex].Text = endValue.ToString();
+			AddSAPanel(sa.SAName, sa.StartValue, sa.EndValue);
+		}
+
+		/// <summary>
+		/// 辅助方法：添加SA到当前选中的通道的saList中，供SAForm回调使用
+		/// </summary>
+		public void AddSA(SA sa) {
+			sawList[selectedTdIndex].SaList.Add(sa);
 		}
 
 		/// <summary>
@@ -555,8 +532,21 @@ namespace LightEditor
 				saIndex,
 				int.Parse(startValueLabels[saIndex].Text),
 				int.Parse(endValueLabels[saIndex].Text)
-			).ShowDialog();
-			
+			).ShowDialog();			
+		}
+
+		/// <summary>
+		/// 辅助方法：修改子属性，主要供SAForm回调使用
+		/// </summary>
+		public void EditSA(int saIndex, string saName, int startValue, int endValue)
+		{
+			saNameLabels[saIndex].Text = saName;
+			startValueLabels[saIndex].Text = startValue.ToString();
+			endValueLabels[saIndex].Text = endValue.ToString();
+
+			sawList[selectedTdIndex].SaList[saIndex].SAName = saName;
+			sawList[selectedTdIndex].SaList[saIndex].StartValue = startValue;
+			sawList[selectedTdIndex].SaList[saIndex].EndValue = endValue;
 		}
 	}
 }

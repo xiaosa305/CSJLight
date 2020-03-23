@@ -169,6 +169,7 @@ namespace LightEditor
 			this.connectPanel = new System.Windows.Forms.Panel();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.button1 = new System.Windows.Forms.Button();
 			this.lightTestGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
@@ -1870,6 +1871,16 @@ namespace LightEditor
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(426, 31);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 8;
+			this.button1.Text = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
 			// LightEditorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1878,6 +1889,7 @@ namespace LightEditor
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(828, 530);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.connectPanel);
 			this.Controls.Add(this.editGroupBox);
 			this.Controls.Add(this.saveLightButton);
@@ -2090,6 +2102,7 @@ namespace LightEditor
 		private Panel connectPanel;
 		private Button refreshButton;
 		private ToolTip myToolTip;
+		private Button button1;
 	}
 }
 

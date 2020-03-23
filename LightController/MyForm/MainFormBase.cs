@@ -25,6 +25,7 @@ namespace LightController.MyForm
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
 
 		// 全局配置及数据库连接		
+		protected IniFileAst globalSetFileAst; //GlobalSet.ini 文件读取的 辅助对象
 		public string softwareName ;	
 		public string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
 
@@ -1350,6 +1351,7 @@ namespace LightController.MyForm
 			}
 
 			playTools.OLOSView(stepBytes);
+			SetNotice("正在实时调试当前步");
 		}
 
 		/// <summary>
@@ -1949,8 +1951,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor() {
 
-			new LightEditor.LightEditorForm(this).ShowDialog();
-
 			//try
 			//{
 			//	System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
@@ -1959,8 +1959,11 @@ namespace LightController.MyForm
 			//{
 			//	MessageBox.Show(ex.Message);
 			//}
+
+			// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
+			new LightEditor.LightEditorForm(this).ShowDialog();
 		}
-		
+
 		#region projectPanel相关
 
 		/// <summary>
@@ -2822,7 +2825,7 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			mainForm.SetNotice(name);
+			mainForm.SetNotice("预览数据生成中(" + name + ")");
 		}
 	}
 
@@ -2845,7 +2848,7 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			mainForm.SetNotice(name);
+			mainForm.SetNotice("正在生成工程文件("+name+")");
 		}
 	}
 

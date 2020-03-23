@@ -1490,10 +1490,10 @@ namespace LightEditor
 			// 
 			// noticeLabel
 			// 
-			this.noticeLabel.Location = new System.Drawing.Point(4, 4);
+			this.noticeLabel.Location = new System.Drawing.Point(11, 6);
 			this.noticeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(160, 33);
+			this.noticeLabel.Size = new System.Drawing.Size(143, 30);
 			this.noticeLabel.TabIndex = 1;
 			this.noticeLabel.Text = "双击可将选中项填入左侧通道名称的文本框中";
 			// 
@@ -1544,7 +1544,6 @@ namespace LightEditor
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
 			this.saFlowLayoutPanel.Size = new System.Drawing.Size(218, 523);
 			this.saFlowLayoutPanel.TabIndex = 4;
-			this.saFlowLayoutPanel.Visible = false;
 			// 
 			// tdNumLabel
 			// 
@@ -1590,6 +1589,7 @@ namespace LightEditor
 			this.saPanel.Name = "saPanel";
 			this.saPanel.Size = new System.Drawing.Size(192, 52);
 			this.saPanel.TabIndex = 1;
+			this.saPanel.Visible = false;
 			// 
 			// endValueLabel
 			// 

@@ -13,51 +13,39 @@ using System.Collections;
 using LighEditor.Tools;
 using LightEditor.Common;
 using LighEditor;
+using LightController.MyForm;
 
 namespace LightEditor
 {
-	public partial class MainForm : Form
-	{
-
+	public partial class LightEditorForm : Form
+	{		
+		private MainFormBase mainForm;
 		private string softwareName;  //动态更改软件名
-		public bool isGenerated = false;
-		// 打开文件 或 保存文件 后，将isSaved设成true；这个吧变量决定是否填充*.ini内[data]内容
-		public bool isSaved = false;
+		private string savePath;  //软件各项功能保存的路径(软件目录或C:\Temp)
+		private string picDirectory;     // 图片目录
+		private string lightDirectory;   // ini保存目录
+		private string iniPath; // ini文件路径
+
+		public bool isGenerated = false;   		
+		public bool isSaved = false;// 打开文件 或 保存文件 后，将isSaved设成true；这个变量决定是否填充*.ini内[data]内容
 		private OneLightOneStep player; // 灯具测试的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
 		private bool isRealTime = false; //是否勾选“实时调试”
 		private bool isConnect = false; // 辅助变量：是否连接设备	
-
-		string comName;
-		// 9.6 把图片路径放到软件中来
-		private string savePath;  //保存的路径		
-		private string picDirectory;	 // 图片目录
-		private string lightDirectory;   // ini保存目录
-		private string iniPath; // ini文件路径
-
-		public MainForm()
+	
+		public LightEditorForm(MainFormBase mainForm)
 		{
+			this.mainForm = mainForm;
+
 			InitializeComponent();
-		
-			// 动态加载软件配置
-			IniFileAst iniFileAst = new IniFileAst(Application.StartupPath + @"\GlobalSet.ini");			
 
-			softwareName = iniFileAst.ReadString("Show", "softwareName", "TRANS-JOY") + " 灯库编辑工具"; 
-			this.Text = softwareName;
-
-			// 换皮肤相关代码
-			string skin = iniFileAst.ReadString("SkinSet", "skin", "");
-			if (!String.IsNullOrEmpty(skin))
-			{
-				//this.skinEngine2.SkinFile = Application.StartupPath + "\\" + skin;
-			}
-
-			// 9.6 图片加载使用当前软件所在文件夹
-			savePath = IniFileAst.GetSavePath(Application.StartupPath);
+			softwareName = mainForm.softwareName;
+			this.Text = softwareName + " Light Editor";
+			savePath = mainForm.savePath;
 			picDirectory = @savePath + @"\LightPic";
-			this.openImageDialog.InitialDirectory = picDirectory;
+			this.openImageDialog.InitialDirectory = picDirectory; //图片加载路径使用当前软件所在文件夹
 			lightDirectory = @savePath + @"\LightLibrary";
-			this.openFileDialog.InitialDirectory = lightDirectory;
+			this.openFileDialog.InitialDirectory = lightDirectory;  //灯具目录
 
 			#region 初始化几个数组
 
@@ -164,7 +152,7 @@ namespace LightEditor
 			{
 				countComboBox.Items.Add(i + 1);
 				valueNumericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
-				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);				
+				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
 				labels[i].Click += new System.EventHandler(this.labels_Click);
 			}
 			firstTDNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.firstTDNumericUpDown_MouseWheel);
@@ -174,18 +162,39 @@ namespace LightEditor
 
 			refreshComList();
 		}
-		
-		private void MainForm_Load(object sender, EventArgs e)	{		}
 
 		/// <summary>
-		/// 事件：点击《退出》
+		/// 事件：初始化窗口
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void exitButton_Click(object sender, EventArgs e)
-		{
-			System.Environment.Exit(0);
+		private void MainForm_Load(object sender, EventArgs e) {
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
+
+		/// <summary>
+		/// 事件：关闭LightEditorForm
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void LightEditorForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
+
+		/// <summary>
+		/// 事件：点击《(右上角?)Help》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void LightEditorForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("灯具的厂家名及型号名都不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
+			e.Cancel = true;
+		}
+
+		#region 灯具相关按钮事件及辅助方法
 
 		/// <summary>
 		/// 事件：点击《新建灯具》
@@ -204,24 +213,11 @@ namespace LightEditor
 					);
 				if (dr == DialogResult.OK)
 				{
-					isSaved = false;
-					isGenerated = false;
-					countComboBox.SelectedIndex = -1;
-					tongdaoList = null;
-					nameTextBox.Enabled = true;
-					nameTextBox.Text = "";
-					typeTextBox.Enabled = true;
-					typeTextBox.Text = "";
-					tongdaoEditButton.Hide();
-					generateButton.Show();
-					tongdaoGroupBox1.Hide();
-					tongdaoGroupBox2.Hide();
-					picTextBox.Text = "";
-					openPictureBox.Image = null;
-					firstTDNumericUpDown.Value = 1;					
+					initLightWindow();
 				}
 			}
-			else {
+			else
+			{
 				editGroupBox.Visible = true;
 				connectPanel.Show();
 			}
@@ -235,6 +231,105 @@ namespace LightEditor
 		private void openLightButton_Click(object sender, EventArgs e)
 		{
 			openFileDialog.ShowDialog();
+		}	
+
+		/// <summary>
+		/// 事件：点击《保存灯具》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveLightButton_Click(object sender, EventArgs e)
+		{
+			//如果检查通道为false(未选择)，此时!false=true,方法不再运行。 
+			if (!CheckCountComboBox())
+			{
+				return;
+			}
+
+			string name = nameTextBox.Text;
+			string type = typeTextBox.Text;
+
+			if (String.IsNullOrEmpty(name))
+			{
+				MessageBox.Show("请输入厂家名。");
+				return;
+			}
+			if (!FileAst.CheckFileName(name))
+			{
+				MessageBox.Show("厂家名含有非法字符，无法保存。");
+				return;
+			}
+
+
+			if (String.IsNullOrEmpty(type))
+			{
+				MessageBox.Show("请输入型号名");
+				return;
+			}
+			if (!FileAst.CheckFileName(type))
+			{
+				MessageBox.Show("型号名含有非法字符，无法保存。");
+				return;
+			}
+
+			string pic = picTextBox.Text;
+			int count = int.Parse(countComboBox.SelectedItem.ToString());
+
+			DirectoryInfo di = new DirectoryInfo(lightDirectory + "\\" + name);
+			if (!di.Exists)
+			{
+				di.Create();
+			}
+
+			string fileName = lightDirectory + "\\" + name + "\\" + type;
+
+			using (StreamWriter iniWriter = new StreamWriter(fileName + ".ini"))
+			{
+				// 写[set]的数据
+				iniWriter.WriteLine("[set]");
+				iniWriter.WriteLine("type=" + type);
+				iniWriter.WriteLine("pic=" + pic);
+				iniWriter.WriteLine("count=" + count);
+				iniWriter.WriteLine("name=" + name);
+
+				//写[Data]数据;先判断是否已经点击生成按钮（已打开也应将此值设为true）
+				if (isGenerated)
+				{
+					iniWriter.WriteLine("[Data]");
+					for (int i = 0; i < tongdaoList.Count; i++)
+					{
+						// 未满10的前面加0
+						string index = (i < 9) ? ("0" + (i + 1)) : ("" + (i + 1));
+						iniWriter.WriteLine(index + "A=" + tongdaoList[i].TongdaoName);
+						iniWriter.WriteLine(index + "B=" + tongdaoList[i].InitValue);
+						iniWriter.WriteLine(index + "C=" + tongdaoList[i].Address);
+					}
+				}
+			}
+			MessageBox.Show("已成功保存。");
+
+		}
+
+		/// <summary>
+		/// 辅助方法：初始化灯具窗口
+		/// </summary>
+		private void initLightWindow()
+		{
+			isSaved = false;
+			isGenerated = false;
+			countComboBox.SelectedIndex = -1;
+			tongdaoList = null;
+			nameTextBox.Enabled = true;
+			nameTextBox.Text = "";
+			typeTextBox.Enabled = true;
+			typeTextBox.Text = "";
+			tongdaoEditButton.Hide();
+			generateButton.Show();
+			tongdaoGroupBox1.Hide();
+			tongdaoGroupBox2.Hide();
+			picTextBox.Text = "";
+			openPictureBox.Image = null;
+			firstTDNumericUpDown.Value = 1;
 		}
 
 		/// <summary>
@@ -314,82 +409,7 @@ namespace LightEditor
 
 		}
 
-		/// <summary>
-		/// 事件：点击《保存灯具》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saveLightButton_Click(object sender, EventArgs e)
-		{
-			//如果检查通道为false(未选择)，此时!false=true,方法不再运行。 
-			if (!CheckCountComboBox())
-			{
-				return;
-			}
-
-			string name = nameTextBox.Text;
-			string type = typeTextBox.Text;
-
-			if (String.IsNullOrEmpty(name))
-			{
-				MessageBox.Show("请输入厂家名。");
-				return;
-			}
-			if (!FileAst.CheckFileName(name))
-			{
-				MessageBox.Show("厂家名含有非法字符，无法保存。");
-				return;
-			}
-
-
-			if (String.IsNullOrEmpty(type))
-			{
-				MessageBox.Show("请输入型号名");
-				return;
-			}
-			if (!FileAst.CheckFileName(type))
-			{
-				MessageBox.Show("型号名含有非法字符，无法保存。");
-				return;
-			}
-
-			string pic = picTextBox.Text;
-			int count = int.Parse(countComboBox.SelectedItem.ToString());
-
-			DirectoryInfo di = new DirectoryInfo(lightDirectory + "\\" + name);
-			if (!di.Exists)
-			{
-				di.Create();
-			}
-
-			string fileName = lightDirectory + "\\" + name + "\\" + type;
-
-			using (StreamWriter iniWriter = new StreamWriter(fileName + ".ini"))
-			{
-				// 写[set]的数据
-				iniWriter.WriteLine("[set]");
-				iniWriter.WriteLine("type=" + type);
-				iniWriter.WriteLine("pic=" + pic);
-				iniWriter.WriteLine("count=" + count);
-				iniWriter.WriteLine("name=" + name);
-
-				//写[Data]数据;先判断是否已经点击生成按钮（已打开也应将此值设为true）
-				if (isGenerated)
-				{
-					iniWriter.WriteLine("[Data]");
-					for (int i = 0; i < tongdaoList.Count; i++)
-					{
-						// 未满10的前面加0
-						string index = (i < 9) ? ("0" + (i + 1)) : ("" + (i + 1));
-						iniWriter.WriteLine(index + "A=" + tongdaoList[i].TongdaoName);
-						iniWriter.WriteLine(index + "B=" + tongdaoList[i].InitValue);
-						iniWriter.WriteLine(index + "C=" + tongdaoList[i].Address);
-					}
-				}
-			}
-			MessageBox.Show("已成功保存。");
-
-		}		
+		#endregion
 
 		/// <summary>
 		///  通过改变通道List，来重新渲染tdPanel（注意：tongdaoCount不会发生变化）
@@ -400,37 +420,7 @@ namespace LightEditor
 			this.tongdaoList = tongdaoList;
 			this.NewShowVScrollBars();
 		}
-
-		/// <summary>
-		/// 辅助方法：刷新串口列表
-		/// </summary>
-		private void refreshComList()
-		{
-
-			player = OneLightOneStep.GetInstance();
-			// 填充comComboBox
-			IList<string> comList = player.GetDMX512DeviceList();
-			comComboBox.Items.Clear();
-			comComboBox.Text = "";
-			if (comList.Count > 0)
-			{
-				foreach (string com in comList)
-				{
-					comComboBox.Items.Add(com);
-				}
-				comComboBox.SelectedIndex = 0;
-				comComboBox.Enabled = true;
-				connectButton.Enabled = true;
-			}
-			else
-			{
-				comComboBox.SelectedIndex = -1;
-				comComboBox.Enabled = false;
-				connectButton.Enabled = false;
-			}
-
-		}
-
+		
 		/// <summary>
 		/// 事件：点击《灯具图片框》
 		/// </summary>
@@ -803,10 +793,10 @@ namespace LightEditor
 					firstTDNumericUpDown.Value = dd;
 				}
 			}
-		}
+		}	
 
 		/// <summary>
-		/// 统一通道值NumericUpDown鼠标中轴滚动时的操作：
+		/// 事件：统一通道值NumericUpDown鼠标中轴滚动时的操作：
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -898,6 +888,58 @@ namespace LightEditor
 		}
 
 		/// <summary>
+		/// 事件：点击《统一通道值》
+		/// --将当前所有通道值设为commonValueNumericUpDown 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void commonValueButton_Click(object sender, EventArgs e)
+		{
+			int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
+			for (int i = 0; i < tongdaoList.Count; i++)
+			{
+				valueVScrollBars[i].Value = commonValue;
+				tongdaoList[i].CurrentValue = commonValue;
+				valueNumericUpDowns[i].Value = commonValue;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《设当前通道值为初始值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setCurrentToInitButton_Click(object sender, EventArgs e)
+		{
+			for (int i = 0; i < tongdaoList.Count; i++)
+			{
+				tongdaoList[i].InitValue = tongdaoList[i].CurrentValue;
+			}
+		}
+
+		#region 实时调试相关按钮（连接设备+调试）
+		
+		/// <summary>
+		///  事件：点击《刷新串口》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			refreshComList();
+		}
+
+		/// <summary>
+		///  事件：更改《串口列表》选择项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{			
+			connectButton.Enabled = true;
+		}
+				
+		/// <summary>
 		/// 事件：点击《连接设备|断开连接》按钮
 		/// </summary>
 		/// <param name="sender"></param>
@@ -907,7 +949,7 @@ namespace LightEditor
 			// 如果还没连接，那就连接  -->连接状态下《选择串口》不可用
 			if (!isConnect)
 			{
-				if(	player.ConnectDevice(comName))  //判断是否连接成功
+				if(	player.ConnectDevice( comComboBox.Text  ))  //判断是否连接成功
 				{
 					setDMX512TestButtonsEnable(true);
 					comComboBox.Enabled = false;
@@ -916,7 +958,7 @@ namespace LightEditor
 				}
 				else
 				{
-					MessageBox.Show("串口：" + comName + " 连接失败") ;
+					MessageBox.Show("串口：" + comComboBox.Text + " 连接失败") ;
 				}
 			}
 			else //否则断开连接: --> 《选择串口》设为可用
@@ -928,17 +970,7 @@ namespace LightEditor
 				isConnect = false;
 			}
 		}
-
-		/// <summary>
-		///  辅助方法：一次性配置DMX512调试按钮组可见与否
-		/// </summary>
-		/// <param name="visible"></param>
-		private void setDMX512TestButtonsEnable(bool visible)
-		{
-			lightTestGroupBox.Visible = visible;			
-			refreshButton.Enabled = !visible;
-		}
-
+			   
 		/// <summary>
 		/// 事件：勾选《实时调试》：将该全局变量设为勾选与否的值
 		/// </summary>
@@ -970,6 +1002,44 @@ namespace LightEditor
 		}
 
 		/// <summary>
+		/// 辅助方法：刷新串口列表
+		/// </summary>
+		private void refreshComList()
+		{
+			player = OneLightOneStep.GetInstance();
+			// 填充comComboBox
+			IList<string> comList = player.GetDMX512DeviceList();
+			comComboBox.Items.Clear();
+			comComboBox.Text = "";
+			if (comList.Count > 0)
+			{
+				foreach (string com in comList)
+				{
+					comComboBox.Items.Add(com);
+				}
+				comComboBox.SelectedIndex = 0;
+				comComboBox.Enabled = true;
+				connectButton.Enabled = true;
+			}
+			else
+			{
+				comComboBox.SelectedIndex = -1;
+				comComboBox.Enabled = false;
+				connectButton.Enabled = false;
+			}
+		}
+
+		/// <summary>
+		///  辅助方法：一次性配置DMX512调试按钮组是否可用
+		/// </summary>
+		/// <param name="visible"></param>
+		private void setDMX512TestButtonsEnable(bool enable)
+		{
+			lightTestGroupBox.Enabled = enable;
+			refreshButton.Enabled = !enable;
+		}
+
+		/// <summary>
 		///  辅助方法：单灯单步的操作
 		/// </summary>
 		private void oneLightOneStep()
@@ -983,69 +1053,9 @@ namespace LightEditor
 				stepBytes[tongdaoIndex] = (byte)(td.CurrentValue);
 			}
 			player.Preview(stepBytes);
-		}		
-
-		/// <summary>
-		/// 事件：点击《统一通道值》
-		/// --将当前所有通道值设为commonValueNumericUpDown 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void commonValueButton_Click(object sender, EventArgs e)
-		{
-			int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
-			for (int i = 0; i < tongdaoList.Count; i++)
-			{
-				valueVScrollBars[i].Value = commonValue;
-				tongdaoList[i].CurrentValue = commonValue;
-				valueNumericUpDowns[i].Value = commonValue;
-			}
 		}
 
-		/// <summary>
-		/// 事件：点击《设当前通道值为初始值》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void setCurrentToInitButton_Click(object sender, EventArgs e)
-		{
-			for (int i = 0; i < tongdaoList.Count; i++)
-			{
-				tongdaoList[i].InitValue = tongdaoList[i].CurrentValue;
-			}
-		}
+		#endregion
 
-		/// <summary>
-		/// 事件：点击《右上角？》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MainForm_HelpButtonClicked(object sender, CancelEventArgs e)
-		{
-			MessageBox.Show("灯具的厂家名及型号名都不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
-			e.Cancel = true;
-		}
-
-		/// <summary>
-		///  事件：点击《刷新》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void refreshButton_Click(object sender, EventArgs e)
-		{
-			refreshComList();
-		}
-
-		/// <summary>
-		///  事件：切换串口选择
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			comName = comComboBox.Text;
-			connectButton.Enabled = true;
-		}
-		
 	}
 }

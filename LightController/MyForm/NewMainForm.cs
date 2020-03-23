@@ -37,9 +37,8 @@ namespace LightController.MyForm
 			InitializeComponent();
 
 			// 动态更改软件名称
-			appName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY") 
-				+" Dimmer System";
-			Text = appName;
+			softwareName = new IniFileAst(Application.StartupPath + @"/GlobalSet.ini").ReadString("Show", "softwareName", "TRANS-JOY");		
+			Text = softwareName + " Dimmer System" ; 
 			// 动态设定软件存储目录
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 			// 动态显示测试按钮
@@ -316,7 +315,8 @@ namespace LightController.MyForm
 			//额外加一句其他的句子(需要与SkniFile相关又不影响效果)，可以解决有些控件无法被渲染的问题
 			this.skinEngine1.SkinFile = sskName + ".ssk";
 
-			new IniFileAst(Application.StartupPath+@"\GlobalSet.ini").WriteString("SkinSet", "skin", sskName + ".ssk");
+			// 若需保存用户自选的皮肤，则启用下句
+			//new IniFileAst(Application.StartupPath+@"\GlobalSet.ini").WriteString("SkinSet", "skin", sskName + ".ssk");
 		}
 
 		/// <summary>
@@ -571,7 +571,7 @@ namespace LightController.MyForm
 
 			// 从此处起为子类的实现
 			//MARK＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋2222
-			this.Text = appName ;
+			this.Text = softwareName + " Dimmer System" ;
 			lightsListView.Clear();
 			stepPanel.Enabled = false;
 			hideAllTDPanels();

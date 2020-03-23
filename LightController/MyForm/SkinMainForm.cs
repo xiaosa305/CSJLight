@@ -614,7 +614,7 @@ namespace LightController.MyForm
 			//单独针对本MainForm的代码: 
 			// ①清空listView列表；
 			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
-			this.Text = appName;
+			this.Text = softwareName;
 			lightsSkinListView.Clear();
 			stepSkinPanel.Enabled = false;
 			hideAllTDPanels();
@@ -2643,7 +2643,6 @@ namespace LightController.MyForm
 		}		
 
 		#endregion
-
 
 	}
 

@@ -15,7 +15,7 @@ namespace LightEditor
 {
 	public partial class WaySetForm : Form
 	{
-		private MainForm mainForm;
+		private LightEditorForm mainForm;
 		private int tongdaoCount; //通道数量
 		private List<TongdaoWrapper> tongdaoList;  		
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
@@ -35,7 +35,7 @@ namespace LightEditor
 		///  初始化，并将mainForm（及其相关内容）也传进来；并显示tdPanel相关数据
 		/// </summary>
 		/// <param name="mainForm"></param>
-		public WaySetForm(MainForm mainForm,string iniPath, int tdIndex)
+		public WaySetForm(LightEditorForm mainForm,string iniPath, int tdIndex)
 		{
 			this.mainForm = mainForm;
 			this.iniPath = iniPath ; 

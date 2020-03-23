@@ -24,11 +24,15 @@ namespace LightController.MyForm
 	{
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
 
+		// 全局配置及数据库连接		
+		public string softwareName ;	
+		public string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+
 		// 打开程序时，即需导入的变量
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
 		public const int MaxStTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量
-		protected string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+		
 
 		// 辅助的bool变量：	
 		protected bool isNew = true;  //点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
@@ -41,10 +45,8 @@ namespace LightController.MyForm
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
 		protected string projectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
-		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）
+		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
 
-		// 全局配置及数据库连接		
-		protected string appName = "TRANS-JOY Dimmer System";
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
 		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
@@ -186,7 +188,7 @@ namespace LightController.MyForm
 			string directoryPath = savePath + @"\LightProject\" + projectName;
 			globalIniPath = directoryPath + @"\global.ini";
 			dbFilePath = directoryPath + @"\data.db3";
-			this.Text = "TRANS-JOY Dimmer System(当前工程:" + projectName + ")";
+			this.Text = softwareName +" Dimmer System(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 
 			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
@@ -1946,14 +1948,17 @@ namespace LightController.MyForm
 		/// 辅助方法：打开《灯库软件》
 		/// </summary>
 		protected void openLightEditor() {
-			try
-			{
-				System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+
+			new LightEditor.LightEditorForm(this).ShowDialog();
+
+			//try
+			//{
+			//	System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
+			//}
+			//catch (Exception ex)
+			//{
+			//	MessageBox.Show(ex.Message);
+			//}
 		}
 		
 		#region projectPanel相关
@@ -2058,7 +2063,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void closeProjectClick()
 		{
-
 			DialogResult dr = MessageBox.Show("关闭工程前是否保存工程?",
 						"保存工程？",
 						MessageBoxButtons.YesNo,

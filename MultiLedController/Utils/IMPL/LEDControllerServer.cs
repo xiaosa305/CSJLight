@@ -113,7 +113,7 @@ namespace MultiLedController.Utils.IMPL
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
-            this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
+            this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Parse(this.DeviceIp), PORT));
         }
         /// <summary>
         /// 搜索设备

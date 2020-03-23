@@ -42,8 +42,26 @@ namespace MultiLedController.Utils.IMPL
             }
             return Instance;
         }
+
+
+        private List<string> MD5List { get; set; }
+        private int FirstIndex { get; set; }
+        private int SecondIndex { get; set; }
+        private int ThreadIndex { get; set; }
+
+
+        private void Test()
+        {
+            this.MD5List = new List<string>();
+            this.FirstIndex = 0;
+            this.SecondIndex = -1;
+            this.ThreadIndex = -1;
+        }
+
         private void Init()
         {
+            this.Test();
+
             this.StopDebug();
             this.StopSaveToFile();
             this.TimerStatus = false;
@@ -410,7 +428,31 @@ namespace MultiLedController.Utils.IMPL
                             framData.AddRange(routeDatas);
                         }
                         FileUtils.GetInstance().WriteToFile(framData, SaveFilePath);
-                        Console.WriteLine("录制一帧数据");
+
+
+                        ////测试
+
+                        //string md5 = CalMD5Value.GetInstance().GetMD5Value(framData.ToArray());
+                        //this.MD5List.Add(md5);
+                        //if (this.MD5List.Count > 1)
+                        //{
+                        //    if (md5.Equals(this.MD5List[this.FirstIndex]))
+                        //    {
+                        //        if (this.SecondIndex == -1)
+                        //        {
+                        //            this.SecondIndex = this.MD5List.Count - 1;
+                        //            Console.WriteLine("第二次重复");
+                        //        }
+                        //        else if (this.SecondIndex != -1 && this.ThreadIndex == -1)
+                        //        {
+                        //            this.ThreadIndex = this.MD5List.Count - 1;
+                        //            Console.WriteLine("First:" + this.FirstIndex);
+                        //            Console.WriteLine("SecondIndex:" + this.SecondIndex);
+                        //            Console.WriteLine("ThreadIndex:" + this.ThreadIndex);
+                        //        }
+                        //    }
+                        //}
+                        //Console.WriteLine("XIAOSA============> MD5 Value :" + md5);
                     }
                 }
                 Thread.Sleep(0);

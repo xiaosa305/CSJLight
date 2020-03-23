@@ -48,6 +48,7 @@
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
     <Compile Include="Utils\IArt_Net_Client.cs" />
+    <Compile Include="Utils\ICalMD5Value.cs" />
     <Compile Include="Utils\IMPL\Art_Net_Client.cs" />
     <Compile Include="Entity\ControlDevice.cs" />
     <Compile Include="Utils\IMPL\LEDControllerServer.cs" />

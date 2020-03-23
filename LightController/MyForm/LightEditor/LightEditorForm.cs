@@ -373,8 +373,8 @@ namespace LightEditor
 			}
 
 			string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取 
-																	// 此处请注意：并不是用SelectedText，而是直接设Text
-			this.countComboBox.Text = selectItem;
+																
+			this.countComboBox.Text = selectItem;   // 此处请注意：并不是用SelectedText，而是直接设Text
 			this.tongdaoCount = int.Parse(selectItem);
 			this.nameTextBox.Enabled = false;
 			this.nameTextBox.Text = lineList[4].ToString().Substring(5);
@@ -383,7 +383,7 @@ namespace LightEditor
 			if (lineCount > 5)
 			{
 				// 先通过tongdaoCount2,将ini已有的数据，添加进tongdaoList中
-				int tongdaoCount2 = (lineCount - 6) / 3;
+				int tongdaoCount2 = (lineCount - 6) / 3 ;
 				tongdaoList = new List<TongdaoWrapper>();
 				for (int i = 0; i < tongdaoCount2; i++)
 				{
@@ -398,8 +398,12 @@ namespace LightEditor
 					MessageBox.Show("记录的tongdao信息小于所需信息");
 					this.generateTongdaoList();
 				}
-
 			}
+			else {
+				Console.WriteLine("文件异常，行数缺失");
+				return;
+			}
+
 			this.NewShowVScrollBars();
 			this.showTongdaoButton(true);
 			this.connectPanel.Show();

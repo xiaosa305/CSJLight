@@ -42,9 +42,9 @@ namespace LightController.MyForm
 			// 动态设定软件存储目录
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 			// 动态显示测试按钮
-			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton");
+			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
 			// 动态显示硬件升级按钮
-			hardwareUpdateToolStripMenuItem.Enabled = IniFileAst.GetButtonShow(Application.StartupPath, "hardwareUpdateButton");
+			hardwareUpdateToolStripMenuItem.Enabled = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;			
@@ -195,34 +195,35 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(keepButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
 
 			#region 皮肤 及 panel样式 相关代码
-			
+					   		
 			setDeepStyle(false);
-
-			//加载皮肤列表			
-			DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
-			try
-			{
-				FileInfo[] file = fdir.GetFiles();
-				if (file.Length > 0)
+			if (IniFileAst.GetControlShow(Application.StartupPath, "useSkin") ) {
+				//加载皮肤列表		
+				DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
+				try
 				{
-					skinComboBox.Items.Add("浅色皮肤");
-					skinComboBox.Items.Add("深色皮肤");
-
-					foreach (var item in file)
+					FileInfo[] file = fdir.GetFiles();
+					if (file.Length > 0)
 					{
-						if (item.FullName.EndsWith(".ssk"))
+						skinComboBox.Items.Add("浅色皮肤");
+						skinComboBox.Items.Add("深色皮肤");
+
+						foreach (var item in file)
 						{
-							skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
+							if (item.FullName.EndsWith(".ssk"))
+							{
+								skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
+							}
 						}
+						skinComboBox.SelectedIndex = 0;
+						skinComboBox.Show();
 					}
-					skinComboBox.SelectedIndex = 0;
-					skinComboBox.Show();
 				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+				}
+			}			
 
 			#endregion
 

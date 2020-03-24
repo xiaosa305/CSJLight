@@ -95,8 +95,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\SA.cs" />
-    <Compile Include="Ast\SAWrapper.cs" />
     <Compile Include="Common\FileAst.cs" />
     <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\MathAst.cs" />
@@ -107,12 +105,6 @@
     </Compile>
     <Compile Include="MyForm\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyForm\SAForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\SAForm.Designer.cs">
-      <DependentUpon>SAForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,9 +122,6 @@
     </Content>
     <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\SAForm.resx">
-      <DependentUpon>SAForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

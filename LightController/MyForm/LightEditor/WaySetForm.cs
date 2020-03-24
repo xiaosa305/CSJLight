@@ -34,28 +34,14 @@ namespace LightEditor
 		/// <summary>
 		///  初始化，并将mainForm（及其相关内容）也传进来；并显示tdPanel相关数据
 		/// </summary>
-		/// <param name="mainForm"></param>
-		public WaySetForm(LightEditorForm mainForm, SAWrapper[] sawArray , int tdIndex)
+		/// <param name="lightEditorForm"></param>
+		public WaySetForm(LightEditorForm lightEditorForm, int tdIndex)
 		{
-			this.mainForm = mainForm;
-			tongdaoCount = mainForm.tongdaoCount;
-			tongdaoList = mainForm.tongdaoList;			
-			// 只能一一拷贝，才能实现真正的深拷贝（因为数组sawArray内的变量，是列表IList，其值也是引用传递）
-			sawArray2 = new SAWrapper[tongdaoCount];
-			for (int tdIndex2 = 0; tdIndex2 <tongdaoCount; tdIndex2++)
-			{
-				sawArray2[tdIndex2] = new SAWrapper();
-				for (int saIndex2 = 0; saIndex2 < sawArray[tdIndex2].SaList.Count; saIndex2++)
-				{
-					SA sa = new SA
-					{
-						SAName = sawArray[tdIndex2].SaList[saIndex2].SAName,
-						StartValue = sawArray[tdIndex2].SaList[saIndex2].StartValue,
-						EndValue = sawArray[tdIndex2].SaList[saIndex2].EndValue
-					};
-					sawArray2[tdIndex2].SaList.Add(sa);
-				}
-			}
+			this.mainForm = lightEditorForm;
+			tongdaoCount = lightEditorForm.tongdaoCount;
+			tongdaoList = lightEditorForm.tongdaoList;
+
+			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.sawArray);
 
 			InitializeComponent();
 
@@ -196,7 +182,7 @@ namespace LightEditor
 			clearSaPanels();
 			foreach (SA sa in sawArray2[selectedTdIndex].SaList)
 			{
-				this.AddSAPanel(sa);
+				AddSAPanel(sa);
 			}
 		}
 
@@ -294,8 +280,14 @@ namespace LightEditor
 		{
 			foreach (Panel saPanel in saPanels)
 			{
-				saFlowLayoutPanel.Controls.Remove(saPanel);
+				saFlowLayoutPanel.Controls.Remove(saPanel);				
 			}
+			saPanels.Clear();
+			saNameLabels.Clear();
+			startValueLabels.Clear();
+			endValueLabels.Clear();
+			saEditButtons.Clear();
+			saDeleteButtons.Clear();			
 		}
 
 		/// <summary>
@@ -354,7 +346,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			enterAndApply();
+			applyChange();
 			this.Dispose();
 			mainForm.Activate();
 		}
@@ -366,7 +358,7 @@ namespace LightEditor
 		/// <param name="e"></param
 		private void applyButton_Click(object sender, EventArgs e)
 		{
-			enterAndApply();
+			applyChange();
 		}
 
 		/// <summary>
@@ -374,7 +366,7 @@ namespace LightEditor
 		/// 1. 先检查所有的 tdTextBoxes.Text是不是为空,并设置tongdaoList的相应数据(只改tongdaoName和initValue)
 		/// 2.设置tongdaoList到mainForm中
 		/// </summary>
-		private void enterAndApply() {
+		private void applyChange() {
 			// 1.逐一检查textBoxes值;同时设置tongdaoList值
 			for (int i = 0; i < tongdaoCount; i++)
 			{
@@ -392,6 +384,7 @@ namespace LightEditor
 
 			// 2.设置tongdaoList到mainForm中；
 			mainForm.SetTongdaoList(this.tongdaoList);
+			mainForm.SetSawArray(sawArray2);
 		}
 
 		/// <summary>
@@ -413,7 +406,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void addSAButton_Click(object sender, EventArgs e)
 		{
-			new SAForm(this, true, null, -1, 0, 255).ShowDialog();
+			new SAForm(this, -1, null, 0, 255).ShowDialog();
 		}
 
 		/// <summary>
@@ -510,6 +503,7 @@ namespace LightEditor
 			saDeleteButtonTemp.TabIndex = 1;
 			saDeleteButtonTemp.Text = "删除";
 			saDeleteButtonTemp.UseVisualStyleBackColor = true;
+			saDeleteButtonTemp.Click += new System.EventHandler(this.saDeleteButton_Click);
 
 		}
 
@@ -541,10 +535,10 @@ namespace LightEditor
 				return;
 			}
 
-			new SAForm(this,
-				false, 
-				saNameLabels[saIndex].Text,
+			new SAForm(
+				this,
 				saIndex,
+				saNameLabels[saIndex].Text,
 				int.Parse(startValueLabels[saIndex].Text),
 				int.Parse(endValueLabels[saIndex].Text)
 			).ShowDialog();			
@@ -563,5 +557,42 @@ namespace LightEditor
 			sawArray2[selectedTdIndex].SaList[saIndex].StartValue = startValue;
 			sawArray2[selectedTdIndex].SaList[saIndex].EndValue = endValue;
 		}
+
+		/// <summary>
+		/// 事件：点击《删除（子属性）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saDeleteButton_Click(object sender, EventArgs e)
+		{
+			int saIndex = saDeleteButtons.IndexOf((Button)sender);
+			if (saIndex == -1)
+			{
+				MessageBox.Show("这个按键不属于saDeleteButtons");
+				return;
+			}
+
+			saFlowLayoutPanel.Controls.Remove(saPanels[saIndex]);
+			saPanels.RemoveAt(saIndex);
+			saNameLabels.RemoveAt(saIndex);
+			startValueLabels.RemoveAt(saIndex);
+			endValueLabels.RemoveAt(saIndex);
+			saEditButtons.RemoveAt(saIndex);
+			saDeleteButtons.RemoveAt(saIndex);
+
+			sawArray2[selectedTdIndex].SaList.RemoveAt(saIndex);
+		}
+
+		/// <summary>
+		/// 事件：点击《清空子属性（当前选定通道）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saClearButton_Click(object sender, EventArgs e)
+		{
+			sawArray2[selectedTdIndex].SaList.Clear();
+			clearSaPanels();
+		}
+
 	}
 }

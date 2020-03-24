@@ -290,19 +290,20 @@ namespace LightEditor
 				// 先通过tongdaoCount2,将ini已有的数据，添加进tongdaoList中
 				int tongdaoCount2 = (lineCount - 6) / 3;
 				tongdaoList = new List<TongdaoWrapper>();
-				for (int i = 0; i < tongdaoCount2; i++)
+				for (int i = 0; i < tongdaoCount; i++)
 				{
 					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
 					tongdaoList.Add(new TongdaoWrapper(tongdaoName, initNum, address, initNum));
 				}
-				// 当小于设定值时，应该输出错误信息，并调用generateTongdaoList()方法：多出的通道设初值
-				if (tongdaoCount2 < tongdaoCount)
-				{
-					MessageBox.Show("记录的tongdao信息小于所需信息");
-					this.generateTongdaoList();
-				}
+				
+				//// 当小于设定值时，应该输出错误信息，并调用generateTongdaoList()方法：多出的通道设初值
+				//if (tongdaoCount2 < tongdaoCount)
+				//{
+				//	MessageBox.Show("记录的tongdao信息小于所需信息");
+				//	this.generateTongdaoList();
+				//}
 
 			}
 			this.NewShowVScrollBars();
@@ -639,7 +640,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
 		{				
-			new WaySetForm(this,iniPath,-1).ShowDialog();
+			new WaySetForm(this,-1).ShowDialog();
 		}
 		
 		/// <summary>
@@ -704,7 +705,7 @@ namespace LightEditor
 		private void labels_Click(object sender, EventArgs e)
 		{
 			int labelIndex = MathAst.getIndexNum(((Label)sender).Name, -1);
-			new WaySetForm(this,savePath, labelIndex).ShowDialog();
+			new WaySetForm(this, labelIndex).ShowDialog();
 		}
 
 		/// <summary>

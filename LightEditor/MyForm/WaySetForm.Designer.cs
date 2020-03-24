@@ -135,17 +135,6 @@ namespace LightEditor
 			this.resetButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.applyButton = new System.Windows.Forms.Button();
-			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.tdNumLabel = new System.Windows.Forms.Label();
-			this.saAddButton = new System.Windows.Forms.Button();
-			this.saClearButton = new System.Windows.Forms.Button();
-			this.saPanel = new System.Windows.Forms.Panel();
-			this.endValueLabel = new System.Windows.Forms.Label();
-			this.lineLabel = new System.Windows.Forms.Label();
-			this.startValueLabel = new System.Windows.Forms.Label();
-			this.saDeleteButton = new System.Windows.Forms.Button();
-			this.saEditButton = new System.Windows.Forms.Button();
-			this.saNameLabel = new System.Windows.Forms.Label();
 			this.tdNamePanel = new System.Windows.Forms.Panel();
 			this.allTdPanel = new System.Windows.Forms.Panel();
 			this.tdPanel.SuspendLayout();
@@ -181,8 +170,6 @@ namespace LightEditor
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).BeginInit();
-			this.saFlowLayoutPanel.SuspendLayout();
-			this.saPanel.SuspendLayout();
 			this.tdNamePanel.SuspendLayout();
 			this.allTdPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -1530,129 +1517,13 @@ namespace LightEditor
 			this.applyButton.UseVisualStyleBackColor = true;
 			this.applyButton.Click += new System.EventHandler(this.applyButton_Click);
 			// 
-			// saFlowLayoutPanel
-			// 
-			this.saFlowLayoutPanel.AutoScroll = true;
-			this.saFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.saFlowLayoutPanel.Controls.Add(this.tdNumLabel);
-			this.saFlowLayoutPanel.Controls.Add(this.saAddButton);
-			this.saFlowLayoutPanel.Controls.Add(this.saClearButton);
-			this.saFlowLayoutPanel.Controls.Add(this.saPanel);
-			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.saFlowLayoutPanel.Enabled = false;
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(542, 2);
-			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(218, 523);
-			this.saFlowLayoutPanel.TabIndex = 4;
-			this.saFlowLayoutPanel.Visible = false;
-			// 
-			// tdNumLabel
-			// 
-			this.tdNumLabel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.tdNumLabel.Location = new System.Drawing.Point(3, 0);
-			this.tdNumLabel.Name = "tdNumLabel";
-			this.tdNumLabel.Size = new System.Drawing.Size(192, 33);
-			this.tdNumLabel.TabIndex = 2;
-			this.tdNumLabel.Text = "选中的通道地址:";
-			this.tdNumLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// saAddButton
-			// 
-			this.saAddButton.Location = new System.Drawing.Point(3, 36);
-			this.saAddButton.Name = "saAddButton";
-			this.saAddButton.Size = new System.Drawing.Size(93, 33);
-			this.saAddButton.TabIndex = 0;
-			this.saAddButton.Text = "添加子属性";
-			this.saAddButton.UseVisualStyleBackColor = true;
-			this.saAddButton.Click += new System.EventHandler(this.addSAButton_Click);
-			// 
-			// saClearButton
-			// 
-			this.saClearButton.Location = new System.Drawing.Point(102, 36);
-			this.saClearButton.Name = "saClearButton";
-			this.saClearButton.Size = new System.Drawing.Size(93, 33);
-			this.saClearButton.TabIndex = 0;
-			this.saClearButton.Text = "清空子属性";
-			this.saClearButton.UseVisualStyleBackColor = true;
-			this.saClearButton.Click += new System.EventHandler(this.addSAButton_Click);
-			// 
-			// saPanel
-			// 
-			this.saPanel.BackColor = System.Drawing.Color.Transparent;
-			this.saPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.saPanel.Controls.Add(this.endValueLabel);
-			this.saPanel.Controls.Add(this.lineLabel);
-			this.saPanel.Controls.Add(this.startValueLabel);
-			this.saPanel.Controls.Add(this.saDeleteButton);
-			this.saPanel.Controls.Add(this.saEditButton);
-			this.saPanel.Controls.Add(this.saNameLabel);
-			this.saPanel.Location = new System.Drawing.Point(3, 75);
-			this.saPanel.Name = "saPanel";
-			this.saPanel.Size = new System.Drawing.Size(192, 52);
-			this.saPanel.TabIndex = 1;
-			// 
-			// endValueLabel
-			// 
-			this.endValueLabel.Location = new System.Drawing.Point(154, 4);
-			this.endValueLabel.Name = "endValueLabel";
-			this.endValueLabel.Size = new System.Drawing.Size(25, 12);
-			this.endValueLabel.TabIndex = 4;
-			this.endValueLabel.Text = "255";
-			this.endValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// lineLabel
-			// 
-			this.lineLabel.AutoSize = true;
-			this.lineLabel.Location = new System.Drawing.Point(138, 4);
-			this.lineLabel.Name = "lineLabel";
-			this.lineLabel.Size = new System.Drawing.Size(11, 12);
-			this.lineLabel.TabIndex = 3;
-			this.lineLabel.Text = "-";
-			// 
-			// startValueLabel
-			// 
-			this.startValueLabel.Location = new System.Drawing.Point(112, 4);
-			this.startValueLabel.Name = "startValueLabel";
-			this.startValueLabel.Size = new System.Drawing.Size(25, 12);
-			this.startValueLabel.TabIndex = 2;
-			this.startValueLabel.Text = "0";
-			this.startValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// saDeleteButton
-			// 
-			this.saDeleteButton.Location = new System.Drawing.Point(111, 23);
-			this.saDeleteButton.Name = "saDeleteButton";
-			this.saDeleteButton.Size = new System.Drawing.Size(75, 23);
-			this.saDeleteButton.TabIndex = 1;
-			this.saDeleteButton.Text = "删除";
-			this.saDeleteButton.UseVisualStyleBackColor = true;
-			// 
-			// saEditButton
-			// 
-			this.saEditButton.Location = new System.Drawing.Point(12, 23);
-			this.saEditButton.Name = "saEditButton";
-			this.saEditButton.Size = new System.Drawing.Size(75, 23);
-			this.saEditButton.TabIndex = 1;
-			this.saEditButton.Text = "修改";
-			this.saEditButton.UseVisualStyleBackColor = true;
-			this.saEditButton.Click += new System.EventHandler(this.saEditButton_Click);
-			// 
-			// saNameLabel
-			// 
-			this.saNameLabel.AutoSize = true;
-			this.saNameLabel.Location = new System.Drawing.Point(11, 4);
-			this.saNameLabel.Name = "saNameLabel";
-			this.saNameLabel.Size = new System.Drawing.Size(41, 12);
-			this.saNameLabel.TabIndex = 0;
-			this.saNameLabel.Text = "saName";
-			// 
 			// tdNamePanel
 			// 
 			this.tdNamePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.tdNamePanel.Controls.Add(this.noticeLabel);
 			this.tdNamePanel.Controls.Add(this.nameListBox);
 			this.tdNamePanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tdNamePanel.Location = new System.Drawing.Point(374, 2);
+			this.tdNamePanel.Location = new System.Drawing.Point(373, 2);
 			this.tdNamePanel.Name = "tdNamePanel";
 			this.tdNamePanel.Size = new System.Drawing.Size(168, 523);
 			this.tdNamePanel.TabIndex = 5;
@@ -1675,13 +1546,12 @@ namespace LightEditor
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(760, 529);
+			this.ClientSize = new System.Drawing.Size(541, 529);
 			this.Controls.Add(this.allTdPanel);
 			this.Controls.Add(this.tdNamePanel);
 			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.resetButton);
-			this.Controls.Add(this.saFlowLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -1727,9 +1597,6 @@ namespace LightEditor
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).EndInit();
-			this.saFlowLayoutPanel.ResumeLayout(false);
-			this.saPanel.ResumeLayout(false);
-			this.saPanel.PerformLayout();
 			this.tdNamePanel.ResumeLayout(false);
 			this.allTdPanel.ResumeLayout(false);
 			this.allTdPanel.PerformLayout();
@@ -1851,19 +1718,7 @@ namespace LightEditor
 		private TextBox textBox19;
 		private TextBox textBox18;
 		private TextBox textBox17;
-		private FlowLayoutPanel saFlowLayoutPanel;
-		private Button saAddButton;
 		private Panel tdNamePanel;
 		private Panel allTdPanel;
-
-		private Panel saPanel;
-		private Label saNameLabel;
-		private Button saDeleteButton;
-		private Button saEditButton;
-		private Button saClearButton;
-		private Label tdNumLabel;
-		private Label endValueLabel;
-		private Label lineLabel;
-		private Label startValueLabel;
 	}
 }

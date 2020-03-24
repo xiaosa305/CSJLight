@@ -86,15 +86,16 @@ namespace LightController.Tools
             this.IsInitIntentDebug = true;
             this.TimeFactory = timeFactory;
             this.IsSendEmptyData = true;
-            SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
-            SendEmptyDebugDataThread.Start();
+            if (this.SendEmptyDebugDataThread == null)
+            {
+                this.SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
+                this.SendEmptyDebugDataThread.Start();
+            }
         }
         public void StopInternetPreview(ICommunicatorCallBack receiveCallBack)
         {
             this.IsSendEmptyData = false;
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
-            //TODO 待删除
-            Console.WriteLine("关闭网络调试");
             IsInitIntentDebug = false;
         }
         private void SendEmptyDataStart()
@@ -170,6 +171,8 @@ namespace LightController.Tools
                 //    this.SendEmptyDebugDataThread.Start();
                 //}
                 this.IsSendEmptyData = false;
+                Thread.Sleep(100);
+                this.SendEmptyDebugDataThread = null;
                 this.IsMusicControl = false;
                 this.MusicWaiting = true;
                 this.MusicStepPoint = 0;

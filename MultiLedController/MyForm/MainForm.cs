@@ -226,7 +226,7 @@ namespace MultiLedController.MyForm
 			string[] args = controllerListView.Items[controllerSelectedIndex].Tag.ToString().Split(',');
 			deviceIP = args[0];
 
-			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text , deviceIP);
+			Art_Net_Manager.GetInstance().Start(virtuals , localIPComboBox.Text  ,mjsTextBox.Text , getSelectedLedControl(controllerSelectedIndex) );
 			debugButton.Enabled = true;
 			recordButton.Enabled = true;
 		}

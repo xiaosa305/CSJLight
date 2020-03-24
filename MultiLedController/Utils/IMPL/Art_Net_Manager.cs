@@ -113,7 +113,7 @@ namespace MultiLedController.Utils.IMPL
         /// <param name="serverIp">麦爵士所在的服务器IP</param>
         /// <param name="currentMainIP">本地主IP</param>
         /// <param name="deviceIp">控制卡IP</param>
-        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp,string deviceIp)
+        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp,ControlDevice device)
         {
             this.Close();
             if (virtuals.Count == 0)
@@ -136,7 +136,7 @@ namespace MultiLedController.Utils.IMPL
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
-            LEDControllerServer.GetInstance().SetDeviceIp(deviceIp);
+            LEDControllerServer.GetInstance().SetControlDevice(device);
             LEDControllerServer.GetInstance().StartServer(currentIP);
         }
         /// <summary>
@@ -349,6 +349,12 @@ namespace MultiLedController.Utils.IMPL
         /// </summary>
         public void StartSaveToFile()
         {
+            this.FirstIndex = 0;
+            this.SecondIndex = -1;
+            this.ThreadIndex = -1;
+
+
+
             if (!File.Exists(this.SaveFilePath))
             {
                 File.Create(this.SaveFilePath).Dispose();
@@ -454,6 +460,7 @@ namespace MultiLedController.Utils.IMPL
                         //            Console.WriteLine("First:" + this.FirstIndex);
                         //            Console.WriteLine("SecondIndex:" + this.SecondIndex);
                         //            Console.WriteLine("ThreadIndex:" + this.ThreadIndex);
+                        //            this.IsSaveToFile = false;
                         //        }
                         //    }
                         //}

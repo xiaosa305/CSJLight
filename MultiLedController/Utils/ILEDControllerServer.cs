@@ -42,8 +42,8 @@ namespace MultiLedController.Utils
         /// </summary>
         void Close();
         /// <summary>
-        /// 功能：设置控制卡IP
+        /// 功能：设置控制卡信息
         /// </summary>
-        void SetDeviceIp(string deviceIp);
+        void SetControlDevice(ControlDevice device);
     }
 }

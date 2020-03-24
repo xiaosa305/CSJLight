@@ -233,11 +233,9 @@ namespace LightController.MyForm
 
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
-			// 启动时刷新可用串口列表;
+			//MARK：思考启动时是否刷新可用串口列表;
 			//refreshComList();	
 
-			//TODO：20-03-24 为方便调试，将软件一打开 就启用《灯库编辑》,后期要删掉
-			openLightEditor();
 		}
 
 		/// <summary>

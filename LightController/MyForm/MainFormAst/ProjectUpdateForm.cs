@@ -257,17 +257,17 @@ namespace LightController.MyForm
 				if (rightNow)
 				{					
 					SetLabelText(true, "正在实时生成工程数据，请耐心等待...");
-					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this, true));
+					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this, true));
 				}			
 				else {					
 					FileUtils.CopyFileToDownloadDir(projectPath);
 					DownloadProject(true);					
 				}										
 			} 
-			else {				 /// 串口升级的操作
+			else {				 // 串口升级的操作
 				if (rightNow) { 					
 					SetLabelText(false, "正在实时生成工程数据，请耐心等待...");
-					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new DownloadSaveCallBack(this,false));
+					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this,false));
 				}
 				else {					
 					FileUtils.CopyFileToDownloadDir(projectPath);
@@ -292,11 +292,14 @@ namespace LightController.MyForm
 			comUpdateButton.Enabled = !busy;
 		}
 
+		/// <summary>
+		/// 辅助方法：下载工程
+		/// </summary>
+		/// <param name="isNetwork"></param>
 		public void DownloadProject(bool isNetwork) {
 			if (isNetwork)
 			{				
-				connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]);
-				Thread.Sleep(100);
+				connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]);				
 				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(this));
 			}
 			else {
@@ -378,14 +381,13 @@ namespace LightController.MyForm
 
 		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("设备：" + deviceTag + "  下载成功并断开连接");		
-			puForm.SetBusy(false);			
-			puForm.ClearNetworkDevices();			
+			MessageBox.Show("设备：" + deviceTag + "  下载成功");		
+			puForm.SetBusy(false);								
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("设备：" + deviceTag + " 下载失败并断开连接\n错误原因是:" + errorMessage);			
+			MessageBox.Show("设备：" + deviceTag + " 下载失败\n错误原因是:" + errorMessage);			
 			puForm.SetBusy(false);			
 			puForm.ClearNetworkDevices();
 		}
@@ -432,11 +434,11 @@ namespace LightController.MyForm
 		}
 	}
 
-	public class DownloadSaveCallBack : ISaveProjectCallBack
+	public class GenerateProjectCallBack : ISaveProjectCallBack
 	{
 		private ProjectUpdateForm puForm;
 		private bool isNetwork;
-		public DownloadSaveCallBack(ProjectUpdateForm downloadForm, bool isNetwork)
+		public GenerateProjectCallBack(ProjectUpdateForm downloadForm, bool isNetwork)
 		{
 			this.puForm = downloadForm;
 			this.isNetwork = isNetwork;

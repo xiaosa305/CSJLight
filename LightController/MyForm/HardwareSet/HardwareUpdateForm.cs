@@ -232,6 +232,7 @@ namespace LightController.MyForm
 			{
 				networkdUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;
+				connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]);
 				connectTools.Update( selectedIPs , binPath,  new HardwareUpdateReceiveCallBack(this,true));
 			}
 			else {

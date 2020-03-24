@@ -2048,12 +2048,15 @@ namespace LightController.MyForm
 			{				
 				realtimeButton.Text = "关闭\n实时调试";
 				isRealtime = true;
+				IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];				
+				playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 				RefreshStep();
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
 				realtimeButton.Text = "实时调试";
 				isRealtime = false;
+				playTools.ResetIntentDebugMode();
 			}
 		}
 
@@ -2289,10 +2292,7 @@ namespace LightController.MyForm
 					deviceComboBox.Enabled = false;				
 					deviceConnectButton.Enabled = false;
 					SetNotice("已断开连接（断开网络连接后，需要刷新网络设备列表，才可重连设备）。");
-				}
-
-				
-				
+				}				
 
 				////MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
 				//if (!isConnectCom)

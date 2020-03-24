@@ -80,7 +80,7 @@ namespace LightController.Tools
                 {
                     DeviceInfos.Add(ServerIp, new Dictionary<string, NetworkDeviceInfo>());
                 }
-                SocketTools.GetInstance().CloseAll();
+                //this.Disconnected();
                 Console.WriteLine("Start SerchDevice");
                 List<byte> buff = new List<byte>();
                 byte[] buffData = Encoding.Default.GetBytes(Constant.UDP_ORDER);
@@ -123,7 +123,7 @@ namespace LightController.Tools
                     {
                         DeviceInfos[ServerIp].Add(info.DeviceIp, info);
                     }
-                    Connect(info);
+                    //Connect(info);
                     //SocketTools.GetInstance().AddConnect(info, UDP_CLIENT_PORT);
                     //SocketTools.GetInstance().AddConnect(buff, 7060);
                 }
@@ -133,6 +133,10 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
            
+        }
+        public void Disconnected()
+        {
+            SocketTools.GetInstance().CloseAll();
         }
         public void Connect(NetworkDeviceInfo info)
         {

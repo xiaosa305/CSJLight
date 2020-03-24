@@ -530,8 +530,9 @@ namespace LightController.MyForm
 					}
 					else
 					{
-						int tongdaoCount2 = (lineCount - 6) / 3;
 						int tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));
+
+						int tongdaoCount2 = (lineCount - 6) / 3;						
 						if (tongdaoCount2 < tongdaoCount)
 						{							
 							throw new Exception("打开的灯库文件的count值与实际值不符合，无法生成StepTemplate");

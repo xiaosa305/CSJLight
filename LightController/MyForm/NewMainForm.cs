@@ -2187,7 +2187,9 @@ namespace LightController.MyForm
 				}
 			}
 
-			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+			allNetworkDevices = new List<NetworkDeviceInfo>();
+
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices =  connectTools.GetDeivceInfos();			
 			if (allDevices.Count > 0)
 			{
 				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
@@ -2197,6 +2199,7 @@ namespace LightController.MyForm
 						string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
 						deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);
 						ipaList.Add(new IPAst() { LocalIP = device.Key, DeviceIP = d2.Value.DeviceIp, DeviceName = d2.Value.DeviceName });
+						allNetworkDevices.Add(d2.Value);
 					}
 				}
 			}
@@ -2265,7 +2268,7 @@ namespace LightController.MyForm
 
 					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
 					ConnectTools.GetInstance().Start(ipAst.LocalIP);
-					
+					ConnectTools.GetInstance().Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
 					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 				}
 			}

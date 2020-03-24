@@ -29,11 +29,15 @@ namespace LightController.MyForm
 		public string softwareName ;	
 		public string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
 
+		// 几个全局的辅助控件（导出文件、toolTip提示等）
+		protected FolderBrowserDialog exportFolderBrowserDialog;
+		protected System.ComponentModel.IContainer components;
+		protected ToolTip myToolTip;
+
 		// 打开程序时，即需导入的变量
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
-		public const int MaxStTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量
-		
+		public const int MaxStTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量		
 
 		// 辅助的bool变量：	
 		protected bool isNew = true;  //点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
@@ -92,19 +96,13 @@ namespace LightController.MyForm
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 
-
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
 
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
-
-
-		// 几个全局的辅助控件（导出文件、toolTip提示等）
-		protected FolderBrowserDialog exportFolderBrowserDialog;
-		protected System.ComponentModel.IContainer components;
-		protected ToolTip myToolTip;
+		protected IList<NetworkDeviceInfo> allNetworkDevices; 
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 

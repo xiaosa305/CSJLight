@@ -163,12 +163,13 @@ namespace LightController.Tools
                         this.MusicControlThread = null;
                     }
                 }
-                if (this.PreviewWayState == STATE_INTENETPREVIEW && !this.IsSendEmptyData)
-                {
-                    this.IsSendEmptyData = true;
-                    this.SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
-                    this.SendEmptyDebugDataThread.Start();
-                }
+                //if (this.PreviewWayState == STATE_INTENETPREVIEW && !this.IsSendEmptyData)
+                //{
+                //    this.IsSendEmptyData = true;
+                //    this.SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
+                //    this.SendEmptyDebugDataThread.Start();
+                //}
+                this.IsSendEmptyData = false;
                 this.IsMusicControl = false;
                 this.MusicWaiting = true;
                 this.MusicStepPoint = 0;
@@ -178,6 +179,10 @@ namespace LightController.Tools
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
+        }
+        public void ResetIntentDebugMode()
+        {
+            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
         }
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {

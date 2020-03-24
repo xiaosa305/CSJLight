@@ -49,6 +49,8 @@ namespace LightEditor
 			lightDirectory = @savePath + @"\LightLibrary";
 			this.openFileDialog.InitialDirectory = lightDirectory;  //灯具目录
 
+			testButton.Visible = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
+
 			#region 初始化几个数组
 
 			valueVScrollBars[0] = vScrollBar1;
@@ -1017,7 +1019,7 @@ namespace LightEditor
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void testButton_Click(object sender, EventArgs e)
+		private void oneStepButton_Click(object sender, EventArgs e)
 		{
 			oneLightOneStep();
 		}	
@@ -1088,7 +1090,7 @@ namespace LightEditor
 
 		#endregion
 
-		private void button1_Click(object sender, EventArgs e)
+		private void testButton_Click(object sender, EventArgs e)
 		{
 			if (sawArray == null || sawArray.Length == 0)
 			{

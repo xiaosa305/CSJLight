@@ -43,7 +43,7 @@ namespace LightEditor
 			this.realtimeCheckBox = new System.Windows.Forms.CheckBox();
 			this.firstTDNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.endTestButton = new System.Windows.Forms.Button();
-			this.testButton = new System.Windows.Forms.Button();
+			this.oneStepButton = new System.Windows.Forms.Button();
 			this.setFirstTDButton = new System.Windows.Forms.Button();
 			this.setInitButton = new System.Windows.Forms.Button();
 			this.zeroButton = new System.Windows.Forms.Button();
@@ -169,7 +169,7 @@ namespace LightEditor
 			this.connectPanel = new System.Windows.Forms.Panel();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.button1 = new System.Windows.Forms.Button();
+			this.testButton = new System.Windows.Forms.Button();
 			this.lightTestGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
@@ -262,7 +262,7 @@ namespace LightEditor
 			this.lightTestGroupBox.Controls.Add(this.realtimeCheckBox);
 			this.lightTestGroupBox.Controls.Add(this.firstTDNumericUpDown);
 			this.lightTestGroupBox.Controls.Add(this.endTestButton);
-			this.lightTestGroupBox.Controls.Add(this.testButton);
+			this.lightTestGroupBox.Controls.Add(this.oneStepButton);
 			this.lightTestGroupBox.Controls.Add(this.setFirstTDButton);
 			this.lightTestGroupBox.Cursor = System.Windows.Forms.Cursors.Default;
 			this.lightTestGroupBox.Enabled = false;
@@ -322,16 +322,16 @@ namespace LightEditor
 			this.endTestButton.UseVisualStyleBackColor = true;
 			this.endTestButton.Click += new System.EventHandler(this.endTestButton_Click);
 			// 
-			// testButton
+			// oneStepButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(99, 74);
-			this.testButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(64, 23);
-			this.testButton.TabIndex = 0;
-			this.testButton.Text = "单灯单步";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Click += new System.EventHandler(this.testButton_Click);
+			this.oneStepButton.Location = new System.Drawing.Point(99, 74);
+			this.oneStepButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.oneStepButton.Name = "oneStepButton";
+			this.oneStepButton.Size = new System.Drawing.Size(64, 23);
+			this.oneStepButton.TabIndex = 0;
+			this.oneStepButton.Text = "单灯单步";
+			this.oneStepButton.UseVisualStyleBackColor = true;
+			this.oneStepButton.Click += new System.EventHandler(this.oneStepButton_Click);
 			// 
 			// setFirstTDButton
 			// 
@@ -1871,15 +1871,15 @@ namespace LightEditor
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
-			// button1
+			// testButton
 			// 
-			this.button1.Location = new System.Drawing.Point(426, 31);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 8;
-			this.button1.Text = "button1";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.testButton.Location = new System.Drawing.Point(389, 19);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(99, 46);
+			this.testButton.TabIndex = 8;
+			this.testButton.Text = "TestButton";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
 			// LightEditorForm
 			// 
@@ -1889,7 +1889,7 @@ namespace LightEditor
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(828, 530);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.testButton);
 			this.Controls.Add(this.connectPanel);
 			this.Controls.Add(this.editGroupBox);
 			this.Controls.Add(this.saveLightButton);
@@ -2091,7 +2091,7 @@ namespace LightEditor
 		private FlowLayoutPanel flowLayoutPanel1;
 		private NumericUpDown firstTDNumericUpDown;
 		private Button setFirstTDButton;
-		private Button testButton;
+		private Button oneStepButton;
 		private CheckBox realtimeCheckBox;
 		private Button endTestButton;
 		private Button connectButton;
@@ -2102,7 +2102,7 @@ namespace LightEditor
 		private Panel connectPanel;
 		private Button refreshButton;
 		private ToolTip myToolTip;
-		private Button button1;
+		private Button testButton;
 	}
 }
 

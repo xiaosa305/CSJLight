@@ -23,7 +23,7 @@ namespace LightEditor
 		private int selectedTdIndex = -1 ;
 
 		//子属性相关		
-		private IList<SAWrapper> sawList;
+		private SAWrapper[] sawArray2;
 		private IList<Panel> saPanels = new List<Panel>();
 		private IList<Label> saNameLabels = new List<Label>();
 		private IList<Label> startValueLabels = new List<Label>();
@@ -38,10 +38,25 @@ namespace LightEditor
 		public WaySetForm(LightEditorForm mainForm, SAWrapper[] sawArray , int tdIndex)
 		{
 			this.mainForm = mainForm;
-			this.tongdaoCount = mainForm.tongdaoCount;
-			this.tongdaoList = mainForm.tongdaoList;
-			this.sawList = sawArray.ToList() ;
-			
+			tongdaoCount = mainForm.tongdaoCount;
+			tongdaoList = mainForm.tongdaoList;			
+			// 只能一一拷贝，才能实现真正的深拷贝（因为数组sawArray内的变量，是列表IList，其值也是引用传递）
+			sawArray2 = new SAWrapper[tongdaoCount];
+			for (int tdIndex2 = 0; tdIndex2 <tongdaoCount; tdIndex2++)
+			{
+				sawArray2[tdIndex2] = new SAWrapper();
+				for (int saIndex2 = 0; saIndex2 < sawArray[tdIndex2].SaList.Count; saIndex2++)
+				{
+					SA sa = new SA
+					{
+						SAName = sawArray[tdIndex2].SaList[saIndex2].SAName,
+						StartValue = sawArray[tdIndex2].SaList[saIndex2].StartValue,
+						EndValue = sawArray[tdIndex2].SaList[saIndex2].EndValue
+					};
+					sawArray2[tdIndex2].SaList.Add(sa);
+				}
+			}
+
 			InitializeComponent();
 
 			#region 初始化几个通道值数组
@@ -179,7 +194,7 @@ namespace LightEditor
 			tdNumLabel.Text = "选中的通道地址：" + (selectedTdIndex + 1);
 
 			clearSaPanels();
-			foreach (SA sa in sawList[selectedTdIndex].SaList)
+			foreach (SA sa in sawArray2[selectedTdIndex].SaList)
 			{
 				this.AddSAPanel(sa);
 			}
@@ -510,7 +525,7 @@ namespace LightEditor
 		/// 辅助方法：添加SA到当前选中的通道的saList中，供SAForm回调使用
 		/// </summary>
 		public void AddSA(SA sa) {
-			sawList[selectedTdIndex].SaList.Add(sa);
+			sawArray2[selectedTdIndex].SaList.Add(sa);
 		}
 
 		/// <summary>
@@ -544,9 +559,9 @@ namespace LightEditor
 			startValueLabels[saIndex].Text = startValue.ToString();
 			endValueLabels[saIndex].Text = endValue.ToString();
 
-			sawList[selectedTdIndex].SaList[saIndex].SAName = saName;
-			sawList[selectedTdIndex].SaList[saIndex].StartValue = startValue;
-			sawList[selectedTdIndex].SaList[saIndex].EndValue = endValue;
+			sawArray2[selectedTdIndex].SaList[saIndex].SAName = saName;
+			sawArray2[selectedTdIndex].SaList[saIndex].StartValue = startValue;
+			sawArray2[selectedTdIndex].SaList[saIndex].EndValue = endValue;
 		}
 	}
 }

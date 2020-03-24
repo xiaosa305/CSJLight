@@ -485,7 +485,7 @@ namespace LightEditor
 			// 
 			// tongdaoGroupBox2
 			// 
-			this.tongdaoGroupBox2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.tongdaoGroupBox2.BackColor = System.Drawing.Color.MintCream;
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown32);
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown31);
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown30);
@@ -1107,7 +1107,7 @@ namespace LightEditor
 			// 
 			// tongdaoGroupBox1
 			// 
-			this.tongdaoGroupBox1.BackColor = System.Drawing.Color.MediumTurquoise;
+			this.tongdaoGroupBox1.BackColor = System.Drawing.Color.PowderBlue;
 			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown16);
 			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown15);
 			this.tongdaoGroupBox1.Controls.Add(this.numericUpDown14);

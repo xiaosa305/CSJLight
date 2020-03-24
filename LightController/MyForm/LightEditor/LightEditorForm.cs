@@ -235,7 +235,110 @@ namespace LightEditor
 		private void openLightButton_Click(object sender, EventArgs e)
 		{
 			openFileDialog.ShowDialog();
-		}	
+		}
+
+		/// <summary>
+		///  事件：在《打开灯具》对话框内选择文件，并点击确认时
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+		{
+			iniPath = openFileDialog.FileName;
+			// 简单读取文本文件-->打开ini文件
+
+			FileStream file = new FileStream(iniPath, FileMode.Open);
+			// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
+			StreamReader reader = new StreamReader(file, Encoding.UTF8);
+			string s = "";
+			ArrayList lineList = new ArrayList();
+			int lineCount = 0;
+			while ((s = reader.ReadLine()) != null)
+			{
+				lineList.Add(s);
+				lineCount++;
+			}
+
+			if (lineCount < 5)
+			{
+				MessageBox.Show("打开的ini文件格式有误");
+				return;
+			}
+
+			this.isGenerated = true;
+			this.isSaved = true;
+
+			this.typeTextBox.Enabled = false;
+			this.typeTextBox.Text = lineList[1].ToString().Substring(5);
+			this.picTextBox.Enabled = false;
+			string imagePath = lineList[2].ToString().Substring(4);
+			if (imagePath != null && !imagePath.Trim().Equals(""))
+			{
+				this.setImage(picDirectory + "\\" + imagePath);
+			}
+
+			string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取
+
+			this.countComboBox.Text = selectItem;   // 此处请注意：并不是用SelectedText，而是直接设Text
+			this.tongdaoCount = int.Parse(selectItem);
+			this.nameTextBox.Enabled = false;
+			this.nameTextBox.Text = lineList[4].ToString().Substring(5);
+			this.editGroupBox.Show();
+
+			if (lineCount > 5)
+			{
+				// 先通过tongdaoCount2,将ini已有的数据，添加进tongdaoList中
+				//int tongdaoCount2 = (lineCount - 6) / 3 ;
+				tongdaoList = new List<TongdaoWrapper>();
+				for (int i = 0; i < tongdaoCount; i++)
+				{
+					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
+					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
+					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
+					tongdaoList.Add(new TongdaoWrapper(tongdaoName, initNum, address, initNum));
+				}
+
+				if (!String.IsNullOrEmpty(iniPath))
+				{
+					IniFileAst iniAst = new IniFileAst(iniPath);
+					sawArray = new SAWrapper[tongdaoCount];
+					for (int tdIndex = 0; tdIndex < iniAst.ReadInt("set", "count", 0); tdIndex++)
+					{
+						sawArray[tdIndex] = new SAWrapper();
+						for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
+						{
+							SA sa = new SA
+							{
+								SAName = IniFileAst_UTF8.ReadString(iniPath, "sa", tdIndex + "_" + saIndex + "_saName", ""),
+								StartValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0),
+								EndValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0)
+							};
+							sawArray[tdIndex].SaList.Add(sa);
+						}
+					}
+				}
+
+				// MARK：（可能会删掉）当小于设定值时，应该输出错误信息，并调用generateTongdaoList()方法：多出的通道设初值
+				//if (tongdaoCount2 < tongdaoCount)
+				//{
+				//	MessageBox.Show("记录的tongdao信息小于所需信息");
+				//	this.generateTongdaoList();
+				//}
+			}
+			else
+			{
+				Console.WriteLine("文件异常，行数缺失");
+				return;
+			}
+
+			this.NewShowVScrollBars();
+			this.showTongdaoButton(true);
+			this.connectPanel.Show();
+
+			reader.Close();
+			file.Close();
+
+		}
 
 		/// <summary>
 		/// 事件：点击《保存灯具》
@@ -263,7 +366,6 @@ namespace LightEditor
 				MessageBox.Show("厂家名含有非法字符，无法保存。");
 				return;
 			}
-
 
 			if (String.IsNullOrEmpty(type))
 			{
@@ -308,6 +410,21 @@ namespace LightEditor
 						iniWriter.WriteLine(index + "B=" + tongdaoList[i].InitValue);
 						iniWriter.WriteLine(index + "C=" + tongdaoList[i].Address);
 					}
+					
+					iniWriter.WriteLine("[sa]");
+					if (sawArray != null && sawArray.Length > 0)
+					{
+						for (int tdIndex = 0; tdIndex < sawArray.Length; tdIndex++)
+						{
+							iniWriter.WriteLine(tdIndex + "_saCount="+ sawArray[tdIndex].SaList.Count);
+							for (int saIndex = 0; saIndex < sawArray[tdIndex].SaList.Count; saIndex++)
+							{
+								iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saName=" + sawArray[tdIndex].SaList[saIndex].SAName);
+								iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saStart=" + sawArray[tdIndex].SaList[saIndex].StartValue);
+								iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saEnd=" + sawArray[tdIndex].SaList[saIndex].EndValue);
+							}						
+						}
+					}
 				}
 			}
 			MessageBox.Show("已成功保存。");
@@ -334,114 +451,12 @@ namespace LightEditor
 			picTextBox.Text = "";
 			openPictureBox.Image = null;
 			firstTDNumericUpDown.Value = 1;
-		}
-
-		/// <summary>
-		///  事件：在《打开灯具》对话框内选择文件，并点击确认时
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void openFileDialog_FileOk(object sender, CancelEventArgs e)
-		{
-			iniPath = openFileDialog.FileName;
-			// 简单读取文本文件-->打开ini文件
-
-			FileStream file = new FileStream(iniPath, FileMode.Open);
-			// 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
-			StreamReader reader = new StreamReader(file, Encoding.UTF8);
-			string s = "";
-			ArrayList lineList = new ArrayList();
-			int lineCount = 0;
-			while ((s = reader.ReadLine()) != null)
-			{
-				lineList.Add(s);
-				lineCount++;
-			}
-
-			if (lineCount < 5)
-			{
-				MessageBox.Show("打开的ini文件格式有误");
-				return;
-			}
-
-			this.isGenerated = true;
-			this.isSaved = true;
-
-			this.typeTextBox.Enabled = false;
-			this.typeTextBox.Text = lineList[1].ToString().Substring(5);
-			this.picTextBox.Enabled = false;
-			string imagePath = lineList[2].ToString().Substring(4);
-			if (imagePath != null && !imagePath.Trim().Equals(""))
-			{
-				this.setImage(picDirectory + "\\" + imagePath);
-			}
-
-			string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取
-																
-			this.countComboBox.Text = selectItem;   // 此处请注意：并不是用SelectedText，而是直接设Text
-			this.tongdaoCount = int.Parse(selectItem);
-			this.nameTextBox.Enabled = false;
-			this.nameTextBox.Text = lineList[4].ToString().Substring(5);
-			this.editGroupBox.Show();
-
-			if (lineCount > 5)
-			{
-				// 先通过tongdaoCount2,将ini已有的数据，添加进tongdaoList中
-				//int tongdaoCount2 = (lineCount - 6) / 3 ;
-				tongdaoList = new List<TongdaoWrapper>();
-				for (int i = 0; i < tongdaoCount; i++)
-				{
-					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-					int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
-					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-					tongdaoList.Add(new TongdaoWrapper(tongdaoName, initNum, address, initNum));
-				}				
-			
-				if (!String.IsNullOrEmpty(iniPath))
-				{
-					IniFileAst iniAst = new IniFileAst(iniPath);
-					sawArray = new SAWrapper[tongdaoCount];
-					for (int tdIndex = 0; tdIndex < iniAst.ReadInt("set", "count", 0); tdIndex++)
-					{
-						sawArray[tdIndex] = new SAWrapper();
-						for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
-						{
-							SA sa = new SA
-							{
-								SAName = IniFileAst_UTF8.ReadString(iniPath,"sa", tdIndex + "_" + saIndex + "_saName", ""),
-								StartValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0),
-								EndValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0)
-							};
-							sawArray[tdIndex].SaList.Add(sa);
-						}
-					}
-				}
-				
-				// MARK：（可能会删掉）当小于设定值时，应该输出错误信息，并调用generateTongdaoList()方法：多出的通道设初值
-				//if (tongdaoCount2 < tongdaoCount)
-				//{
-				//	MessageBox.Show("记录的tongdao信息小于所需信息");
-				//	this.generateTongdaoList();
-				//}
-			}
-			else {
-				Console.WriteLine("文件异常，行数缺失");
-				return;
-			}
-
-			this.NewShowVScrollBars();
-			this.showTongdaoButton(true);
-			this.connectPanel.Show();
-
-			reader.Close();
-			file.Close();
-
-		}
-
+		}		
+		
 		#endregion
 
 		/// <summary>
-		///  通过改变通道List，来重新渲染tdPanel（注意：tongdaoCount不会发生变化）
+		///  辅助方法：通过改变通道List，来重新渲染tdPanel（注意：tongdaoCount不会发生变化）
 		/// </summary>
 		/// <param name="tongdaoList"></param>
 		internal void SetTongdaoList(List<TongdaoWrapper> tongdaoList)
@@ -449,7 +464,16 @@ namespace LightEditor
 			this.tongdaoList = tongdaoList;
 			this.NewShowVScrollBars();
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：供《WaySetForm》回调使用，用sawArray2的值，来填充本Form中的sawArray
+		/// </summary>
+		/// <param name="sawArray2">waySetForm中独立的SAWrapper数组</param>
+		internal void SetSawArray(SAWrapper[] sawArray2)
+		{
+			this.sawArray = SAWrapper.DeepCopy(sawArray2);
+		}
+
 		/// <summary>
 		/// 事件：点击《灯具图片框》
 		/// </summary>
@@ -530,9 +554,7 @@ namespace LightEditor
 			generateTongdaoList();
 			NewShowVScrollBars();			
 		}
-
 		
-
 		/// <summary>
 		///  显示通道编辑按钮(true)或生成(false)按钮（二选一）
 		/// </summary>
@@ -548,9 +570,7 @@ namespace LightEditor
 				tongdaoEditButton.Hide();
 				generateButton.Show();
 			}				
-		}
-
-	
+		}	
 
 		/// <summary>
 		///  (新）辅助方法：
@@ -662,7 +682,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
 		{				
-			new WaySetForm(this,sawArray, -1).ShowDialog();
+			new WaySetForm(this, -1).ShowDialog();
 		}
 		
 		/// <summary>
@@ -726,8 +746,8 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void labels_Click(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
-			new WaySetForm(this, sawArray, labelIndex).ShowDialog();
+			int tdIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			new WaySetForm(this,  tdIndex).ShowDialog();
 		}
 
 		/// <summary>

@@ -13,18 +13,16 @@ namespace LightEditor.MyForm
 	public partial class SAForm : Form
 	{
 		public WaySetForm wsForm;
-		private bool add;
 		private int saIndex = -1;
 
-		public SAForm(WaySetForm wsForm, bool add ,string saName,int saIndex,int startValue, int endValue)
+		public SAForm(WaySetForm wsForm , int saIndex, string saName,int startValue, int endValue)
 		{
 			this.wsForm = wsForm;
-			this.add = add;
 			this.saIndex = saIndex ;
 
 			InitializeComponent();
 
-			if(add)
+			if( saIndex == -1)
 			{
 				Text = "添加子属性";
 				this.startValueNumericUpDown.Value = startValue;							
@@ -85,7 +83,7 @@ namespace LightEditor.MyForm
 				return;
 			}
 
-			if (add)
+			if ( saIndex == -1)
 			{
 				wsForm.AddSAPanel( saNameTextBox.Text.Trim(), Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value)) ;
 				wsForm.AddSA(new SA() {

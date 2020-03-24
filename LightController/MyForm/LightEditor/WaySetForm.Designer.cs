@@ -1573,7 +1573,7 @@ namespace LightEditor
 			this.saClearButton.TabIndex = 0;
 			this.saClearButton.Text = "清空子属性";
 			this.saClearButton.UseVisualStyleBackColor = true;
-			this.saClearButton.Click += new System.EventHandler(this.addSAButton_Click);
+			this.saClearButton.Click += new System.EventHandler(this.saClearButton_Click);
 			// 
 			// saPanel
 			// 
@@ -1626,6 +1626,7 @@ namespace LightEditor
 			this.saDeleteButton.TabIndex = 1;
 			this.saDeleteButton.Text = "删除";
 			this.saDeleteButton.UseVisualStyleBackColor = true;
+			this.saDeleteButton.Click += new System.EventHandler(this.saDeleteButton_Click);
 			// 
 			// saEditButton
 			// 

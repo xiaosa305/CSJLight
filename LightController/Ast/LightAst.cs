@@ -95,7 +95,7 @@ namespace LightController.Ast
 		public LightAst() { }
 
 		/// <summary>
-		/// 构造函数，为了用旧对象完全创造一个新的对象
+		/// 构造函数，用旧对象完全创造一个新的对象
 		/// </summary>
 		public LightAst(LightAst laOld) {
 			LightPath = laOld.LightPath;

@@ -388,7 +388,7 @@ namespace LightController.MyForm
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 启动时刷新可用串口列表;
-			refreshComList();
+			//refreshComList();
 			
 			//MARK：额外处理 lightsSkinListView 会被VS吞掉的问题
 			this.lightsSkinListView.HideSelection = true;

@@ -124,7 +124,6 @@ namespace LightController.Tools
                     {
                         DeviceInfos[ServerIp].Add(info.DeviceIp, info);
                     }
-                    Connect(info);
                 }
             }
             catch (Exception ex)

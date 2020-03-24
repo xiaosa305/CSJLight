@@ -15,15 +15,14 @@ namespace MultiLedController.Utils.IMPL
     {
         private static LEDControllerServer Instance { get; set; }
         private IArt_Net_Manager Manager { get; set; }
-        private const int PORT = 1025;
         private Socket UDPSend { get; set; }
         private UdpClient UDPReceiveClient { get; set; }
         private string ServerCurrentIp { get; set; }
-        private string DeviceIp { get; set; }
         private bool IsStart { get; set; }
         private bool ReceiveStartStatus { get; set; }
         private Thread ReceiveThread { get; set; }
         private Dictionary<string,ControlDevice> ControlDevices { get; set; }
+        private ControlDevice CurrentDevice { get; set; }
 
         private LEDControllerServer()
         {
@@ -39,12 +38,16 @@ namespace MultiLedController.Utils.IMPL
             }
             return Instance;
         }
+        /// <summary>
+        /// 功能：配置管理器
+        /// </summary>
+        /// <param name="manager"></param>
         public void SetManager(IArt_Net_Manager manager)
         {
             this.Manager = manager;
         }
         /// <summary>
-        /// 配置本地服务器IP并启动服务器
+        /// 功能：配置本地服务器IP并启动服务器
         /// </summary>
         /// <param name="ip"></param>
         public void StartServer(string ip)
@@ -57,7 +60,7 @@ namespace MultiLedController.Utils.IMPL
                 this.UDPReceiveClient.Close();
                 Thread.Sleep(100);
             }
-            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ServerCurrentIp), PORT);
+            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ServerCurrentIp), this.CurrentDevice.LinkPort);
             this.UDPSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             this.UDPSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             this.UDPSend.Bind(iPEnd);
@@ -74,7 +77,7 @@ namespace MultiLedController.Utils.IMPL
             this.IsStart = true;
         }
         /// <summary>
-        /// 网络接收监听模块
+        /// 功能：网络接收监听模块
         /// </summary>
         /// <param name="obj"></param>
         private void ReceiveMsg(Object obj)
@@ -84,7 +87,7 @@ namespace MultiLedController.Utils.IMPL
                 UdpClient client = obj as UdpClient;
                 while (this.ReceiveStartStatus)
                 {
-                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, PORT);
+                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, this.CurrentDevice.LinkPort);
                     byte[] receiveData = client.Receive(ref endPoint);
                     if (Encoding.Default.GetString(receiveData).Equals("OK:poweron>"))//发送起始命令回复
                     {
@@ -108,15 +111,15 @@ namespace MultiLedController.Utils.IMPL
             }
         }
         /// <summary>
-        /// 网络发送模块
+        /// 功能：网络发送模块
         /// </summary>
         /// <param name="data"></param>
         public void SendDebugData(List<byte> data)
         {
-            this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, PORT));
+            this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Parse(this.CurrentDevice.IP), this.CurrentDevice.LinkPort));
         }
         /// <summary>
-        /// 搜索设备
+        /// 功能：搜索设备
         /// </summary>
         /// <param name="data"></param>
         public void SearchDevice(List<byte> data)
@@ -124,12 +127,16 @@ namespace MultiLedController.Utils.IMPL
             this.UDPSend.SendTo(data.ToArray(), new IPEndPoint(IPAddress.Broadcast, 9999));
         }
         /// <summary>
-        /// 初始化设备存储缓存区
+        /// 功能：初始化设备存储缓存区
         /// </summary>
         public void InitDeviceList()
         {
             this.ControlDevices = new Dictionary<string, ControlDevice>();
         }
+        /// <summary>
+        /// 功能：获取所有控制卡信息
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string,ControlDevice> GetControlDevices()
         {
             return this.ControlDevices;
@@ -146,10 +153,12 @@ namespace MultiLedController.Utils.IMPL
             this.UDPReceiveClient = null;
             this.InitDeviceList();
         }
-
-        public void SetDeviceIp(string deviceIp)
+        /// <summary>
+        /// 功能：设置控制卡信息
+        /// </summary>
+        public void SetControlDevice(ControlDevice device)
         {
-            this.DeviceIp = deviceIp;
+            this.CurrentDevice = device;
         }
     }
 }

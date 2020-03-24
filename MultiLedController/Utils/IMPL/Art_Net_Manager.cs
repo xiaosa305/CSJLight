@@ -42,8 +42,26 @@ namespace MultiLedController.Utils.IMPL
             }
             return Instance;
         }
+
+
+        private List<string> MD5List { get; set; }
+        private int FirstIndex { get; set; }
+        private int SecondIndex { get; set; }
+        private int ThreadIndex { get; set; }
+
+
+        private void Test()
+        {
+            this.MD5List = new List<string>();
+            this.FirstIndex = 0;
+            this.SecondIndex = -1;
+            this.ThreadIndex = -1;
+        }
+
         private void Init()
         {
+            this.Test();
+
             this.StopDebug();
             this.StopSaveToFile();
             this.TimerStatus = false;
@@ -95,7 +113,7 @@ namespace MultiLedController.Utils.IMPL
         /// <param name="serverIp">麦爵士所在的服务器IP</param>
         /// <param name="currentMainIP">本地主IP</param>
         /// <param name="deviceIp">控制卡IP</param>
-        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp,string deviceIp)
+        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp,ControlDevice device)
         {
             this.Close();
             if (virtuals.Count == 0)
@@ -118,7 +136,7 @@ namespace MultiLedController.Utils.IMPL
                 }
                 startIndex += virtuals[i].SpaceNum;
             }
-            LEDControllerServer.GetInstance().SetDeviceIp(deviceIp);
+            LEDControllerServer.GetInstance().SetControlDevice(device);
             LEDControllerServer.GetInstance().StartServer(currentIP);
         }
         /// <summary>
@@ -310,6 +328,11 @@ namespace MultiLedController.Utils.IMPL
         public void SetSaveFilePath(string filePath)
         {
             this.SaveFilePath = filePath;
+            DirectoryInfo directoryInfo = Directory.GetParent(filePath);
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
             if (!File.Exists(this.SaveFilePath))
             {
                 File.Create(this.SaveFilePath).Dispose();
@@ -326,6 +349,12 @@ namespace MultiLedController.Utils.IMPL
         /// </summary>
         public void StartSaveToFile()
         {
+            this.FirstIndex = 0;
+            this.SecondIndex = -1;
+            this.ThreadIndex = -1;
+
+
+
             if (!File.Exists(this.SaveFilePath))
             {
                 File.Create(this.SaveFilePath).Dispose();
@@ -410,7 +439,32 @@ namespace MultiLedController.Utils.IMPL
                             framData.AddRange(routeDatas);
                         }
                         FileUtils.GetInstance().WriteToFile(framData, SaveFilePath);
-                        Console.WriteLine("录制一帧数据");
+
+
+                        ////测试
+
+                        //string md5 = CalMD5Value.GetInstance().GetMD5Value(framData.ToArray());
+                        //this.MD5List.Add(md5);
+                        //if (this.MD5List.Count > 1)
+                        //{
+                        //    if (md5.Equals(this.MD5List[this.FirstIndex]))
+                        //    {
+                        //        if (this.SecondIndex == -1)
+                        //        {
+                        //            this.SecondIndex = this.MD5List.Count - 1;
+                        //            Console.WriteLine("第二次重复");
+                        //        }
+                        //        else if (this.SecondIndex != -1 && this.ThreadIndex == -1)
+                        //        {
+                        //            this.ThreadIndex = this.MD5List.Count - 1;
+                        //            Console.WriteLine("First:" + this.FirstIndex);
+                        //            Console.WriteLine("SecondIndex:" + this.SecondIndex);
+                        //            Console.WriteLine("ThreadIndex:" + this.ThreadIndex);
+                        //            this.IsSaveToFile = false;
+                        //        }
+                        //    }
+                        //}
+                        //Console.WriteLine("XIAOSA============> MD5 Value :" + md5);
                     }
                 }
                 Thread.Sleep(0);

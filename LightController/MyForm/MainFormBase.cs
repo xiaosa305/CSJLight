@@ -2641,8 +2641,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void endview()
 		{
-			playTools.EndView();
-			SetNotice("已结束预览。");
+			playTools.EndView();	
 		}
 
 		#endregion		

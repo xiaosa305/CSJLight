@@ -2138,7 +2138,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void endviewButton_Click(object sender, EventArgs e)
 		{
-			endview();			
+			endview();
+			SetNotice("已结束预览。");
 		}
 
 		/// <summary>

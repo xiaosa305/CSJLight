@@ -250,7 +250,7 @@ namespace LightController.MyForm
 			}
 
 			string buttonName = ((Button)sender).Name;
-			if (   buttonName.Equals("networkUpdateButton") )  //网络升级的途径
+			if (   buttonName.Equals("networkUpdateButton") )  //使用网络升级
 			{
 				networkUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;				
@@ -263,8 +263,10 @@ namespace LightController.MyForm
 					FileUtils.CopyFileToDownloadDir(projectPath);
 					DownloadProject(true);					
 				}										
-			} 
-			else {				 // 串口升级的操作
+			}
+			// 使用串口升级
+			else
+			{	
 				if (rightNow) { 					
 					SetLabelText(false, "正在实时生成工程数据，请耐心等待...");
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this,false));
@@ -298,9 +300,14 @@ namespace LightController.MyForm
 		/// <param name="isNetwork"></param>
 		public void DownloadProject(bool isNetwork) {
 			if (isNetwork)
-			{				
-				connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]);				
-				connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(this));
+			{
+				if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]])) {
+					connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(this));
+				}
+				else
+				{
+					MessageBox.Show("网络设备连接失败，无法下载工程。");
+				}				
 			}
 			else {
 				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(this));

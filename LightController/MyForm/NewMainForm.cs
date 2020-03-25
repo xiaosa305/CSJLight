@@ -2051,16 +2051,20 @@ namespace LightController.MyForm
 			if (!isRealtime)
 			{				
 				realtimeButton.Text = "关闭\n实时调试";
-				isRealtime = true;
-				IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];				
-				playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				isRealtime = true;				
+				if (!isConnectCom)
+				{
+					playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				}				
 				RefreshStep();
+				SetNotice("已开启实时调试。");
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
 				realtimeButton.Text = "实时调试";
 				isRealtime = false;
-				playTools.ResetIntentDebugMode();
+				playTools.ResetDebugDataToEmpty();
+				SetNotice("已退出实时调试。");
 			}
 		}
 
@@ -2259,7 +2263,7 @@ namespace LightController.MyForm
 				{
 					if (String.IsNullOrEmpty(comName))
 					{
-						MessageBox.Show("未选中可用串口。");
+						MessageBox.Show("未选中可用串口，请选中后再点击连接。");
 						return;
 					}
 					playTools.ConnectDevice(comName);
@@ -2269,44 +2273,36 @@ namespace LightController.MyForm
 				{
 					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
 					{
-						MessageBox.Show("未选中可用网络连接。");
+						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
 						return;
 					}
-
-					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
-					ConnectTools.GetInstance().Start(ipAst.LocalIP);
-					ConnectTools.GetInstance().Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
-					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+					selectedIpAst = ipaList[deviceComboBox.SelectedIndex];
+					ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
+					if (ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex]))
+					{
+						playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+						SetNotice("网络设备连接成功。");
+					}
+					else {
+						MessageBox.Show("设备连接失败，请重试。");
+					}
 				}
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
+				playTools.StopSend();
 				if (isConnectCom)
-				{
-					playTools.CloseDevice();
-					EnableConnectedButtons(false);
-					SetNotice("已断开连接。");
+				{					
+					playTools.CloseDevice();					
 				}
 				else
 				{
-					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
-					EnableConnectedButtons(false);
-
-					// 200319 需特别处理以下按钮
-					deviceComboBox.Enabled = false;				
-					deviceConnectButton.Enabled = false;
-					SetNotice("已断开连接（断开网络连接后，需要刷新网络设备列表，才可重连设备）。");
+					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());			
 				}
-
-				////MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
-				//if (!isConnectCom)
-				//{
-				//	Thread.Sleep(500);
-				//	refreshNetworkList();
-				//}
+				EnableConnectedButtons(false);
+				SetNotice("已断开连接。");
 			}
 		}
-
 		#endregion
 
 		#region 全局辅助方法

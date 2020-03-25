@@ -297,33 +297,33 @@ namespace LightController.MyForm
 			// newToolStripMenuItem
 			// 
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.newToolStripMenuItem.Text = "外设配置";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
 			// 
 			// QDControllerToolStripMenuItem
 			// 
 			this.QDControllerToolStripMenuItem.Name = "QDControllerToolStripMenuItem";
-			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.QDControllerToolStripMenuItem.Text = "传视界灯控工具";
 			this.QDControllerToolStripMenuItem.Click += new System.EventHandler(this.QDControllerToolStripMenuItem_Click);
 			// 
 			// CenterControllerToolStripMenuItem
 			// 
 			this.CenterControllerToolStripMenuItem.Name = "CenterControllerToolStripMenuItem";
-			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.CenterControllerToolStripMenuItem.Text = "传视界中控工具";
 			this.CenterControllerToolStripMenuItem.Click += new System.EventHandler(this.CenterControllerToolStripMenuItem_Click);
 			// 
 			// KeyPressToolStripMenuItem
 			// 
 			this.KeyPressToolStripMenuItem.Name = "KeyPressToolStripMenuItem";
-			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
 			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
 			// 
@@ -740,7 +740,7 @@ namespace LightController.MyForm
 			// zeroButton
 			// 
 			this.zeroButton.Enabled = false;
-			this.zeroButton.Location = new System.Drawing.Point(8, 155);
+			this.zeroButton.Location = new System.Drawing.Point(8, 171);
 			this.zeroButton.Margin = new System.Windows.Forms.Padding(2);
 			this.zeroButton.Name = "zeroButton";
 			this.zeroButton.Size = new System.Drawing.Size(75, 23);
@@ -752,7 +752,7 @@ namespace LightController.MyForm
 			// multiButton
 			// 
 			this.multiButton.Enabled = false;
-			this.multiButton.Location = new System.Drawing.Point(91, 153);
+			this.multiButton.Location = new System.Drawing.Point(91, 169);
 			this.multiButton.Margin = new System.Windows.Forms.Padding(2);
 			this.multiButton.Name = "multiButton";
 			this.multiButton.Size = new System.Drawing.Size(75, 50);
@@ -764,7 +764,7 @@ namespace LightController.MyForm
 			// initButton
 			// 
 			this.initButton.Enabled = false;
-			this.initButton.Location = new System.Drawing.Point(8, 182);
+			this.initButton.Location = new System.Drawing.Point(8, 198);
 			this.initButton.Margin = new System.Windows.Forms.Padding(2);
 			this.initButton.Name = "initButton";
 			this.initButton.Size = new System.Drawing.Size(75, 23);
@@ -781,7 +781,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.unifyChangeModeComboBox.Location = new System.Drawing.Point(10, 252);
+			this.unifyChangeModeComboBox.Location = new System.Drawing.Point(10, 268);
 			this.unifyChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyChangeModeComboBox.Name = "unifyChangeModeComboBox";
 			this.unifyChangeModeComboBox.Size = new System.Drawing.Size(58, 20);
@@ -790,7 +790,7 @@ namespace LightController.MyForm
 			// unifyValueNumericUpDown
 			// 
 			this.unifyValueNumericUpDown.Enabled = false;
-			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(10, 221);
+			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(10, 237);
 			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -806,7 +806,7 @@ namespace LightController.MyForm
 			// 
 			this.unifyStepTimeButton.Enabled = false;
 			this.unifyStepTimeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyStepTimeButton.Location = new System.Drawing.Point(82, 283);
+			this.unifyStepTimeButton.Location = new System.Drawing.Point(82, 299);
 			this.unifyStepTimeButton.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStepTimeButton.Name = "unifyStepTimeButton";
 			this.unifyStepTimeButton.Size = new System.Drawing.Size(84, 23);
@@ -819,7 +819,7 @@ namespace LightController.MyForm
 			// 
 			this.unifyStepTimeNumericUpDown.DecimalPlaces = 2;
 			this.unifyStepTimeNumericUpDown.Enabled = false;
-			this.unifyStepTimeNumericUpDown.Location = new System.Drawing.Point(10, 284);
+			this.unifyStepTimeNumericUpDown.Location = new System.Drawing.Point(10, 300);
 			this.unifyStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStepTimeNumericUpDown.Maximum = new decimal(new int[] {
             10,
@@ -836,7 +836,7 @@ namespace LightController.MyForm
 			// 
 			this.unifyValueButton.Enabled = false;
 			this.unifyValueButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyValueButton.Location = new System.Drawing.Point(82, 219);
+			this.unifyValueButton.Location = new System.Drawing.Point(82, 235);
 			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyValueButton.Name = "unifyValueButton";
 			this.unifyValueButton.Size = new System.Drawing.Size(84, 23);
@@ -849,7 +849,7 @@ namespace LightController.MyForm
 			// 
 			this.unifyChangeModeButton.Enabled = false;
 			this.unifyChangeModeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyChangeModeButton.Location = new System.Drawing.Point(82, 251);
+			this.unifyChangeModeButton.Location = new System.Drawing.Point(82, 267);
 			this.unifyChangeModeButton.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyChangeModeButton.Name = "unifyChangeModeButton";
 			this.unifyChangeModeButton.Size = new System.Drawing.Size(84, 23);

@@ -382,8 +382,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkReadButton_Click(object sender, EventArgs e)
 		{
-			connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]);
-			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
+			if( connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]) ){
+				connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
+			}else{
+				MessageBox.Show("网络设备连接失败，无法回读配置。");
+			}
 		}
 
 		/// <summary>
@@ -416,8 +419,13 @@ namespace LightController.MyForm
 			saveAll(iniPath,hName);
 
 			// 此语句只发送《硬件配置》到选中的设备中
-			connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]);
-			connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
+			{
+				connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+			}
+			else {
+				MessageBox.Show("网络设备连接失败，无法下载配置。");
+			}
 		}
 	
 

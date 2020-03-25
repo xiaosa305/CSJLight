@@ -101,6 +101,7 @@ namespace LightController.MyForm
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
+		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
 		protected IList<NetworkDeviceInfo> allNetworkDevices; 
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
@@ -2626,8 +2627,13 @@ namespace LightController.MyForm
 		/// 辅助方法：点击《预览效果》
 		/// </summary>
 		internal void Preview()
-		{
-			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);
+		{			
+			if (!isConnectCom)
+			{
+				playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+			}
+			SetNotice("预览数据生成成功,即将开始预览。");
+			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);			
 		}
 
 		/// <summary>
@@ -2761,15 +2767,13 @@ namespace LightController.MyForm
 
 		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("网络设备(" + deviceTag + ")连接成功。");
-			mainForm.SetNotice("网络设备(" + deviceTag + ")连接成功。");
+			//mainForm.SetNotice("网络设备(" + deviceTag + ")成功进入网络调试模式。");
 			mainForm.EnableConnectedButtons(true);
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("网络设备(" + deviceTag + ")连接失败。");
-			mainForm.SetNotice("网络设备(" + deviceTag + ")连接失败");
+			mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。");
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -2814,14 +2818,12 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 		}
 		public void Completed()
-		{
-			mainForm.SetNotice("预览数据生成成功,正在进行预览。");
+		{			
 			mainForm.Preview();
 		}
 		public void Error()
 		{
-			mainForm.SetNotice("");
-			MessageBox.Show("预览数据生成出错。");
+			mainForm.SetNotice("预览数据生成出错,无法预览。");			
 		}
 		public void UpdateProgress(string name)
 		{

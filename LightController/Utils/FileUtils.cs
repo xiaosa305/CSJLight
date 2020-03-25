@@ -580,7 +580,7 @@ namespace LightController.Utils
         {
             return File.Exists(PreviewDataFilePath + @"\M1.bin") && File.Exists(PreviewDataFilePath + @"\C1.bin");
         }
-        public static bool IsDefaultFIle()
+        public static bool IsDefaultFile()
         {
             return File.Exists(PreviewDataFilePath + @"\C1.bin");
         }

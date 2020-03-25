@@ -60,7 +60,7 @@ namespace MultiLedController.Utils.IMPL
                 this.UDPReceiveClient.Close();
                 Thread.Sleep(100);
             }
-            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ServerCurrentIp), this.CurrentDevice.LinkPort);
+            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ServerCurrentIp), 9999);
             this.UDPSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             this.UDPSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             this.UDPSend.Bind(iPEnd);
@@ -87,7 +87,7 @@ namespace MultiLedController.Utils.IMPL
                 UdpClient client = obj as UdpClient;
                 while (this.ReceiveStartStatus)
                 {
-                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, this.CurrentDevice.LinkPort);
+                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 9999);
                     byte[] receiveData = client.Receive(ref endPoint);
                     if (Encoding.Default.GetString(receiveData).Equals("OK:poweron>"))//发送起始命令回复
                     {
@@ -105,7 +105,7 @@ namespace MultiLedController.Utils.IMPL
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine("关闭UDPClient");
             }

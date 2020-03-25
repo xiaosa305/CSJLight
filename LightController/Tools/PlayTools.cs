@@ -152,6 +152,12 @@ namespace LightController.Tools
         {
             this.SendTimer.Stop();
         }
+
+        private long Time1 { get; set; }
+        private long Time2 { get; set; }
+        private long Time3 { get; set; }
+
+
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
             try
@@ -280,9 +286,9 @@ namespace LightController.Tools
                     this.PlayData[item - 1] = MusicDataBuff[item];
                 }
             }
-            if (!this.SendTimer.Enabled)
+            if (this.SendTimer.Enabled)
             {
-                this.SendTimer.Start();
+                this.SendTimer.Stop();
             }
             this.Play();
         }
@@ -295,7 +301,6 @@ namespace LightController.Tools
         {
             try
             {
-                Console.WriteLine(this.MusicControlTimer.Enabled);
                 if (this.MusicStepPoint == this.StepListCount)
                 {
                     this.MusicStepPoint = 0;

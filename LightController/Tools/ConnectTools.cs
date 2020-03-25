@@ -81,8 +81,6 @@ namespace LightController.Tools
                     DeviceInfos.Add(ServerIp, new Dictionary<string, NetworkDeviceInfo>());
                 }
                 this.Disconnected();
-                Thread.Sleep(500);
-                Console.WriteLine("Start SerchDevice");
                 List<byte> buff = new List<byte>();
                 byte[] buffData = Encoding.Default.GetBytes(Constant.UDP_ORDER);
                 byte[] buffDataLength = new byte[] {Convert.ToByte(buffData.Length & 0xFF),Convert.ToByte((buffData.Length >> 8) & 0xFF) };
@@ -157,42 +155,6 @@ namespace LightController.Tools
             Thread.Sleep(500);
             return DeviceInfos;
         }
-        //public IList<string> GetDevicesIp()
-        //{
-        //    if (IsStart)
-        //    {
-        //        return SocketTools.GetInstance().GetDeviceList();
-        //    }
-        //    else
-        //    {
-        //        CSJLogs.GetInstance().DebugLog("未启动服务");
-        //        throw new Exception("未启动服务");
-        //    }
-        //}
-        //public IList<string> GetDeviceNames()
-        //{
-        //    if (IsStart)
-        //    {
-        //        return SocketTools.GetInstance().GetDeviceNameList();
-        //    }
-        //    else
-        //    {
-        //        CSJLogs.GetInstance().DebugLog("未启动服务");
-        //        throw new Exception("未启动服务");
-        //    }
-        //}
-        //public Dictionary<string,string> GetDeviceInfo()
-        //{
-        //    if (IsStart)
-        //    {
-        //        return SocketTools.GetInstance().GetDeviceInfos();
-        //    }
-        //    else
-        //    {
-        //        CSJLogs.GetInstance().DebugLog("未启动服务");
-        //        throw new Exception("未启动服务");
-        //    }
-        //}
         public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)
@@ -208,8 +170,6 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
-
-        //TODO 新版网络下载
         public void Download(string ip, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)

@@ -46,7 +46,9 @@ namespace LightController.Ast
 					Address = stepTemplate.TongdaoList[tdIndex].Address,
 					StepTime = value.StepTime,
 					ChangeMode = value.ChangeMode,
-					ScrollValue = value.ScrollValue
+					ScrollValue = value.ScrollValue,
+					//TODO：20.03.25 以模板数据生成备注
+					Remark = stepTemplate.TongdaoList[tdIndex].Remark
 				};
 				tongdaoList.Add(td);
 			}

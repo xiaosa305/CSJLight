@@ -72,9 +72,8 @@ namespace LightController.MyForm
 		protected IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
 
 		protected IList<LightAst> lightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用
-		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 辅助的灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
-
-		protected Dictionary<int, int> lightDictionary = null;
+		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
+		protected Dictionary<int, int> lightDictionary = null;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
 		// 通道数据操作时的变量
 		protected const int MAX_STEP = 100;
@@ -523,8 +522,6 @@ namespace LightController.MyForm
 					if (lineCount < 5)
 					{						
 						throw new Exception("打开的灯库文件格式有误，无法生成StepTemplate");
-						//MessageBox.Show("Dickov：打开的灯库文件格式有误，无法生成StepTemplate！");
-						//return null;     //原代码：这样程序会继续下去，是错误的处理方式。
 					}
 					else
 					{
@@ -537,18 +534,31 @@ namespace LightController.MyForm
 						}
 
 						List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();						
-						for (int i = 0; i < tongdaoCount; i++)
+						for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 						{
-							string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-							int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
-							int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
+							string tongdaoName = lineList[3 * tdIndex + 6].ToString().Substring(4);
+							int initNum = int.Parse(lineList[3 * tdIndex + 7].ToString().Substring(4));
+							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));
+
+							//TODO：20.03.25 生成模板数据时，取出子属性的列表
+							IniFileAst iniAst = new IniFileAst(lightAst.LightPath);
+							string remark = tongdaoName + "\n";							
+							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
+							{
+								remark += IniFileAst_UTF8.ReadString(lightAst.LightPath, "sa", tdIndex + "_" + saIndex + "_saName", "") + " : ";
+								remark += iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0) + " - ";
+								remark += iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0) + "\n";
+							}							
+
 							tongdaoList.Add(new TongdaoWrapper()
 							{
 								TongdaoName = tongdaoName,
 								ScrollValue = initNum,
 								StepTime = 66,
 								ChangeMode = -1,
-								Address = lightAst.StartNum + (address - 1)
+								Address = lightAst.StartNum + (address - 1),
+								//TODO：20.03.25 生成模板数据时，加入备注
+								Remark = remark
 							});
 						}
 						return new StepWrapper()
@@ -2442,7 +2452,6 @@ namespace LightController.MyForm
 			}
 		}
 
-
 		/// <summary>
 		/// 辅助方法： 改变了模式和场景后的操作		
 		/// </summary>
@@ -2470,7 +2479,6 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		protected void generateLightData()
 		{
-
 			if (selectedIndex == -1)
 			{
 				return;
@@ -2513,11 +2521,6 @@ namespace LightController.MyForm
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
 			lightStepWrapper.CurrentStep = stepNum;
-
-			//TODO：chooseStep()使用isReadDelay属性后的代码，暂时隐藏。
-			//if (isReadDelay) {
-			//	MakeCurrentStepWrapperData(stepNum); 
-			//}		
 
 			if (isMultiMode)
 			{
@@ -2636,9 +2639,7 @@ namespace LightController.MyForm
 			SetNotice("已结束预览。");
 		}
 
-		#endregion
-
-		
+		#endregion		
 
 		/// <summary>
 		/// 辅助方法：在此初始化一些子类都会用到的控件，并需在子类构造函数中优先调用这个方法
@@ -2653,7 +2654,8 @@ namespace LightController.MyForm
 			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;		
 
 			//// myToolTip：悬停提示
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);			
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.myToolTip.IsBalloon = true;
 		}
 
 		private void InitializeComponent()
@@ -2664,7 +2666,6 @@ namespace LightController.MyForm
 			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Name = "MainFormBase";
 			this.ResumeLayout(false);
-
 		}
 
 		#region 弃用方法区

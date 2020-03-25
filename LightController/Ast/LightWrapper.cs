@@ -59,6 +59,5 @@ namespace LightController.Ast
 			}
 			return newLight;
 		}	
-
 	}
 }

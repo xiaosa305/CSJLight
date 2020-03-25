@@ -752,8 +752,12 @@ namespace LightController.MyForm
 					tdStNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
+
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoName);
+					//myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoName);
+					//TODO：20.03.25 添加各个通道的子属性值到myToolTip中
+					myToolTip.SetToolTip(tdTrackBars[i], tongdaoList[i].Remark);
+
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
@@ -2292,7 +2296,7 @@ namespace LightController.MyForm
 					deviceComboBox.Enabled = false;				
 					deviceConnectButton.Enabled = false;
 					SetNotice("已断开连接（断开网络连接后，需要刷新网络设备列表，才可重连设备）。");
-				}				
+				}
 
 				////MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
 				//if (!isConnectCom)
@@ -2327,8 +2331,8 @@ namespace LightController.MyForm
 		}
 
 
-		#endregion
 
-	
+		#endregion
+		
 	}
 }

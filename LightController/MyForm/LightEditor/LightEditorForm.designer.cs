@@ -1877,7 +1877,7 @@ namespace LightEditor
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(99, 46);
 			this.testButton.TabIndex = 8;
-			this.testButton.Text = "TestButton";
+			this.testButton.Text = "测试按钮";
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 

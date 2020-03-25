@@ -1482,7 +1482,6 @@ namespace LightController.MyForm
 			useFrameSkinButton.Enabled = isSingleMode;
 
 			multiLightSkinButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
-
 		}
 
 		/// <summary>

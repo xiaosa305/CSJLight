@@ -136,9 +136,9 @@ namespace LightController.Tools
         {
             SocketTools.GetInstance().CloseAll();
         }
-        public void Connect(NetworkDeviceInfo info)
+        public bool Connect(NetworkDeviceInfo info)
         {
-            SocketTools.GetInstance().AddConnect(info, UDP_CLIENT_PORT);
+            return SocketTools.GetInstance().AddConnect(info, UDP_CLIENT_PORT);
         }
         public void SetConnectPackageSize(string ip,int size)
         {
@@ -210,7 +210,6 @@ namespace LightController.Tools
         }
 
         //TODO 新版网络下载
-        public void Download() { }
         public void Download(string ip, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)

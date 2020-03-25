@@ -56,7 +56,7 @@ namespace LightController.Tools
                 }
             }
         }
-        public void AddConnect(NetworkDeviceInfo info,int port)
+        public bool AddConnect(NetworkDeviceInfo info,int port)
         {
             for (int i = 0; i < MaxCount; i++)
             {
@@ -66,7 +66,7 @@ namespace LightController.Tools
                     {
                         if (conns[i].Ip.Equals(info.DeviceIp))
                         {
-                            return;
+                            return conns[i].Socket.Connected;
                         }
                     }
                 }
@@ -87,7 +87,9 @@ namespace LightController.Tools
                 conn.SetDeviceName(info.DeviceName);
                 CSJLogs.GetInstance().DebugLog("客户端 [" + conn.Ip + "] 连接");
                 conn.BeginReceive();
+                return conn.Socket.Connected;
             }
+            return false;
         }
         public void CloseAll()
         {

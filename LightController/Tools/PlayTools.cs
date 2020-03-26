@@ -152,12 +152,6 @@ namespace LightController.Tools
         {
             this.SendTimer.Stop();
         }
-
-        private long Time1 { get; set; }
-        private long Time2 { get; set; }
-        private long Time3 { get; set; }
-
-
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
             try

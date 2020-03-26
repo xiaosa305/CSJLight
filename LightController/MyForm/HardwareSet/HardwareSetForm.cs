@@ -382,10 +382,13 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void networkReadButton_Click(object sender, EventArgs e)
 		{
-			if( connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]) ){
+			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
+			{
 				connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
-			}else{
-				MessageBox.Show("网络设备连接失败，无法回读配置。");
+			}
+			else
+			{
+				MessageBox.Show("网络设备连接失败，无法回读配置。");			
 			}
 		}
 
@@ -401,7 +404,7 @@ namespace LightController.MyForm
 				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
 				return;
 			}
-
+			
 			// 若被去掉了勾选，则需要提示用户
 			if (!autoSaveCheckBox.Checked) {
 				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",

@@ -110,5 +110,16 @@ namespace LightEditor.MyForm
 			this.Dispose();
 			wsForm.Activate();
 		}
+
+		/// <summary>
+		/// 事件：点击《(右上角)？》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SAForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("子属性名称，请勿使用任何标点符号及空格，并尽可能简短。");
+			e.Cancel = true;
+		}
 	}
 }

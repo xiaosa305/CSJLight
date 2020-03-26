@@ -18,10 +18,10 @@ namespace LightController.Ast
 		// lightMode则用以区分常规场景和声控场景-->常规场景无法复制到声控场景中，反之亦然
 		public int LightMode { get; set; }
 		public string LightFullName { get; set; }
-		public int StartNum { get; set; }		
-		
+		public int StartNum { get; set; }
+
 		//MARK：StepWrapper.Class 新增的Flag字段：用以记录该StepWrapper状态（因为单个页面只能显示一个StepWrapper(哪怕进入多灯时，也可以用此字段控制））
-		public int Flag { get; set; }
+		//public int Flag { get; set; } 
 
 		// 这个列表记录通道数据
 		public IList<TongdaoWrapper> TongdaoList { get; set; }
@@ -109,9 +109,10 @@ namespace LightController.Ast
 				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList, mode),
 				LightMode = mode,
 				LightFullName = stepTemplate.LightFullName,
-				StartNum = stepTemplate.StartNum,
+				StartNum = stepTemplate.StartNum
+
 				//UNDONE：此处添加Flag，所有新加的步，Flag=0（ )
-				Flag = 0  
+				//,Flag = 0  
 			};
 		}
 

@@ -17,6 +17,7 @@ using System.Threading;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using OtherTools;
+using LightEditor.Ast;
 
 namespace LightController.MyForm
 {
@@ -384,36 +385,7 @@ namespace LightController.MyForm
 		/// <param name="binPath"></param>
 		internal void SetProjectPath(string projectPath) {
 			this.projectPath = projectPath;
-		}	
-
-		/// <summary>
-		///  辅助方法：实时读取（渲染）单灯单步的数据（单线程即可）
-		/// </summary>
-		protected void MakeCurrentStepWrapperData(int stepNum) {
-
-			//TODO : 10.X （优化计划）从数据库中取单灯单步数据，并渲染进内存。
-			if (getCurrentLightStepWrapper().StepWrapperList[stepNum - 1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0) {
-
-				LightAst la = lightAstList[selectedIndex];
-				int lightIndex = la.StartNum;
-				IList<DB_Value> tempValueList = valueDAO.getStepValueList(lightIndex, frame, mode, getCurrentStep());
-
-				if (tempValueList.Count == getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList.Count) {
-					for (int tdIndex = 0; tdIndex < tempValueList.Count; tdIndex++)
-					{
-						DB_Value stepValue = tempValueList[tdIndex];
-						getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = tempValueList[tdIndex].ScrollValue;
-						getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = tempValueList[tdIndex].StepTime;
-						getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = tempValueList[tdIndex].ChangeMode;
-					}
-				}
-				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag = 1;
-				Console.WriteLine("此步成功渲染。");
-			}
-			else {
-				Console.WriteLine("此步已渲染过了。");
-			}
-		}
+		}			
 
 		/// <summary>
 		///  辅助方法：判断是否可以显示 playPanel及 刷新图片(主要供《打开工程》和《添加灯具Form》使用）
@@ -534,22 +506,28 @@ namespace LightController.MyForm
 							throw new Exception("打开的灯库文件的count值与实际值不符合，无法生成StepTemplate");
 						}
 
-						List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();						
+						List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
+						IniFileAst iniAst = new IniFileAst(lightAst.LightPath);
+						lightAst.SawList = new List<SAWrapper>();
+
 						for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 						{
 							string tongdaoName = lineList[3 * tdIndex + 6].ToString().Substring(4);
 							int initNum = int.Parse(lineList[3 * tdIndex + 7].ToString().Substring(4));
 							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));
 
-							//TODO：20.03.25 生成模板数据时，取出子属性的列表
-							IniFileAst iniAst = new IniFileAst(lightAst.LightPath);
-							string remark = tongdaoName + "\n";							
+							//TODO：20.03.25 生成模板数据时，取出子属性的列表							
+							string remark = tongdaoName + "\n";
+							IList<SA> saList = new List<SA>();
 							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
-							{
-								remark += IniFileAst_UTF8.ReadString(lightAst.LightPath, "sa", tdIndex + "_" + saIndex + "_saName", "") + " : ";
-								remark += iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0) + " - ";
-								remark += iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0) + "\n";
-							}							
+							{								
+								string saName = IniFileAst_UTF8.ReadString(lightAst.LightPath, "sa", tdIndex + "_" + saIndex + "_saName", "");
+								int startValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0);
+								int endValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0);								
+								remark += saName + " : " + startValue +" - " + endValue +"\n";
+								saList.Add(new SA() { SAName = saName, StartValue = startValue, EndValue = endValue });
+							}
+							lightAst.SawList.Add(new SAWrapper() { SaList = saList });
 
 							tongdaoList.Add(new TongdaoWrapper()
 							{
@@ -701,7 +679,7 @@ namespace LightController.MyForm
 			dbLightList = new List<DB_Light>();
 			foreach (LightAst la in lightAstList)
 			{
-				DB_Light light = LightAst.GenerateLight(la);
+				DB_Light light = DB_Light.GenerateLight(la);
 				dbLightList.Add(light);
 			}
 		}
@@ -1969,7 +1947,7 @@ namespace LightController.MyForm
 			//{
 			//	MessageBox.Show(ex.Message);
 			//}
-
+			this.Hide();
 			// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
 			new LightEditor.LightEditorForm(this).ShowDialog();
 		}
@@ -2658,19 +2636,23 @@ namespace LightController.MyForm
 			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
 			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;		
 
-			//// myToolTip：悬停提示
+			//// myToolTip：悬停提示,延迟600ms
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.myToolTip.IsBalloon = true;
+			this.myToolTip.InitialDelay = 600;
 		}
 
 		private void InitializeComponent()
 		{
+			this.SuspendLayout();
 			// 
 			// MainFormBase
 			// 
 			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Name = "MainFormBase";
+			this.Load += new System.EventHandler(this.MainFormBase_Load);
 			this.ResumeLayout(false);
+
 		}
 
 		#region 弃用方法区
@@ -2751,8 +2733,46 @@ namespace LightController.MyForm
 		//	}
 		//}
 
+
+		/// <summary>
+		///  辅助方法：实时读取（渲染）单灯单步的数据（单线程即可）
+		/// </summary>
+		//protected void MakeCurrentStepWrapperData(int stepNum)
+		//{
+
+		//	TODO : 10.X （优化计划）从数据库中取单灯单步数据，并渲染进内存。
+		//	if (getCurrentLightStepWrapper().StepWrapperList[stepNum - 1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0)
+		//	{
+
+		//		LightAst la = lightAstList[selectedIndex];
+		//		int lightIndex = la.StartNum;
+		//		IList<DB_Value> tempValueList = valueDAO.getStepValueList(lightIndex, frame, mode, getCurrentStep());
+
+		//		if (tempValueList.Count == getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList.Count)
+		//		{
+		//			for (int tdIndex = 0; tdIndex < tempValueList.Count; tdIndex++)
+		//			{
+		//				DB_Value stepValue = tempValueList[tdIndex];
+		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = tempValueList[tdIndex].ScrollValue;
+		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = tempValueList[tdIndex].StepTime;
+		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = tempValueList[tdIndex].ChangeMode;
+		//			}
+		//		}
+		//		getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag = 1;
+		//		Console.WriteLine("此步成功渲染。");
+		//	}
+		//	else
+		//	{
+		//		Console.WriteLine("此步已渲染过了。");
+		//	}
+		//}
+
 		#endregion
-	
+
+		private void MainFormBase_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack

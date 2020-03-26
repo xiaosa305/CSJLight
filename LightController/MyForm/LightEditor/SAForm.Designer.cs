@@ -43,7 +43,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(141, 133);
+			this.cancelButton.Location = new System.Drawing.Point(141, 137);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(70, 27);
 			this.cancelButton.TabIndex = 15;
@@ -53,7 +53,7 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(34, 133);
+			this.enterButton.Location = new System.Drawing.Point(34, 137);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(70, 27);
 			this.enterButton.TabIndex = 14;
@@ -63,7 +63,7 @@
 			// 
 			// startValueNumericUpDown
 			// 
-			this.startValueNumericUpDown.Location = new System.Drawing.Point(134, 57);
+			this.startValueNumericUpDown.Location = new System.Drawing.Point(134, 61);
 			this.startValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.startValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -77,7 +77,7 @@
 			// 
 			// endValueNumericUpDown
 			// 
-			this.endValueNumericUpDown.Location = new System.Drawing.Point(134, 90);
+			this.endValueNumericUpDown.Location = new System.Drawing.Point(134, 94);
 			this.endValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.endValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -92,7 +92,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(32, 59);
+			this.label2.Location = new System.Drawing.Point(32, 63);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(77, 12);
@@ -112,7 +112,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(32, 91);
+			this.label1.Location = new System.Drawing.Point(32, 95);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(77, 12);
@@ -132,7 +132,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(243, 185);
+			this.ClientSize = new System.Drawing.Size(243, 188);
 			this.Controls.Add(this.saNameTextBox);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
@@ -141,11 +141,13 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.HelpButton = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "SAForm";
 			this.Text = "增加子属性";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.SAForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.SAForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.startValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.endValueNumericUpDown)).EndInit();

@@ -89,7 +89,6 @@ namespace LightController.MyForm
 			this.tdPanel = new System.Windows.Forms.Panel();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.saButton = new System.Windows.Forms.Button();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.initButton = new System.Windows.Forms.Button();
@@ -151,7 +150,6 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).BeginInit();
 			this.tdPanel.SuspendLayout();
 			this.unifyPanel.SuspendLayout();
-			this.saFlowLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).BeginInit();
 			this.playBasePanel.SuspendLayout();
@@ -722,20 +720,10 @@ namespace LightController.MyForm
 			// saFlowLayoutPanel
 			// 
 			this.saFlowLayoutPanel.AutoScroll = true;
-			this.saFlowLayoutPanel.Controls.Add(this.saButton);
 			this.saFlowLayoutPanel.Location = new System.Drawing.Point(4, 5);
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
 			this.saFlowLayoutPanel.Size = new System.Drawing.Size(165, 128);
 			this.saFlowLayoutPanel.TabIndex = 63;
-			// 
-			// saButton
-			// 
-			this.saButton.Location = new System.Drawing.Point(3, 3);
-			this.saButton.Name = "saButton";
-			this.saButton.Size = new System.Drawing.Size(70, 23);
-			this.saButton.TabIndex = 0;
-			this.saButton.Text = "saButton";
-			this.saButton.UseVisualStyleBackColor = true;
 			// 
 			// zeroButton
 			// 
@@ -1423,7 +1411,6 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).EndInit();
 			this.tdPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
-			this.saFlowLayoutPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).EndInit();
 			this.playBasePanel.ResumeLayout(false);
@@ -1551,7 +1538,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem addLightRemarkToolStripMenuItem;
 		private Panel unifyPanel;
 		private FlowLayoutPanel saFlowLayoutPanel;
-		private Button saButton;
 		private Button zeroButton;
 		private Button multiButton;
 		private Button initButton;

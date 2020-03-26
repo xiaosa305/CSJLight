@@ -43,6 +43,7 @@
     <DocumentationFile>
     </DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -181,10 +182,10 @@
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="Ast\TongdaoWrapper.cs" />
     <Compile Include="Common\MD5Helper.cs" />
-    <Compile Include="Entity\CCData.cs" />
-    <Compile Include="Entity\DB_FineTune.cs" />
-    <Compile Include="Entity\CCEntity.cs" />
-    <Compile Include="Entity\KeyEntity.cs" />
+    <Compile Include="Ast\Entity\CCData.cs" />
+    <Compile Include="Ast\Entity\DB_FineTune.cs" />
+    <Compile Include="Ast\Entity\CCEntity.cs" />
+    <Compile Include="Ast\Entity\KeyEntity.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Ast\TongdaoWrapper.cs" />
@@ -324,11 +325,11 @@
     <Compile Include="MyForm\MainFormAst\NewForm.Designer.cs">
       <DependentUpon>NewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entity\DB_Light.cs" />
-    <Compile Include="Entity\DB_StepCountPK.cs" />
-    <Compile Include="Entity\DB_StepCount.cs" />
-    <Compile Include="Entity\DB_ValuePK.cs" />
-    <Compile Include="Entity\DB_Value.cs" />
+    <Compile Include="Ast\Entity\DB_Light.cs" />
+    <Compile Include="Ast\Entity\DB_StepCountPK.cs" />
+    <Compile Include="Ast\Entity\DB_StepCount.cs" />
+    <Compile Include="Ast\Entity\DB_ValuePK.cs" />
+    <Compile Include="Ast\Entity\DB_Value.cs" />
     <Compile Include="MyForm\HardwareSet\HardwareSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,6 @@ namespace LightEditor.Ast
 {
 	public class SAWrapper
 	{
-		//public int TdAddress { get; set; }
-		//public int SaCount { get; }
 		public IList<SA> SaList{ get; set; }
 
 		public SAWrapper()
@@ -17,7 +16,7 @@ namespace LightEditor.Ast
 		}
 
 		/// <summary>
-		/// 辅助静态方法：深度复制sawArray，《LightEditorForm》及《WaySetForm》皆会用到
+		/// 静态辅助方法：深度复制sawArray，《LightEditorForm》及《WaySetForm》皆会用到
 		/// </summary>
 		/// <param name="sourceSawArray"></param>
 		/// <returns></returns>
@@ -42,5 +41,36 @@ namespace LightEditor.Ast
 			return destSawArray;
 		}
 
+		/// <summary>
+		/// 静态辅助方法：由ini，生成相应的SawArray
+		/// </summary>
+		/// <returns></returns>
+		public static SAWrapper[] GetSawArrayFromIni(string iniPath) {
+
+			if (!String.IsNullOrEmpty(iniPath))
+			{
+				IniFileAst iniAst = new IniFileAst(iniPath);
+				int tongdaoCount = iniAst.ReadInt("set", "count", 0);
+				SAWrapper[]  sawArray = new SAWrapper[tongdaoCount];
+				for (int tdIndex = 0; tdIndex < tongdaoCount ; tdIndex++)
+				{
+					sawArray[tdIndex] = new SAWrapper();
+					for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
+					{
+						SA sa = new SA
+						{
+							SAName = IniFileAst_UTF8.ReadString(iniPath, "sa", tdIndex + "_" + saIndex + "_saName", ""),
+							StartValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0),
+							EndValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0)
+						};
+						sawArray[tdIndex].SaList.Add(sa);
+					}
+				}
+				return sawArray;
+			}
+			else{
+				throw new Exception("iniPath不得为null或控制符串,这样无法获取子属性数组。");				
+			}
+		}
 	}
 }

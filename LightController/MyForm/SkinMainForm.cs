@@ -1482,7 +1482,6 @@ namespace LightController.MyForm
 			useFrameSkinButton.Enabled = isSingleMode;
 
 			multiLightSkinButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
-
 		}
 
 		/// <summary>
@@ -2287,7 +2286,6 @@ namespace LightController.MyForm
 		private void endviewSkinButton_Click(object sender, EventArgs e)
 		{
 			endview();
-
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;	
 

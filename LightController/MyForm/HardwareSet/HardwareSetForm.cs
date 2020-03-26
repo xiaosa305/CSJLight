@@ -27,7 +27,7 @@ namespace LightController.MyForm
 		/// </summary>
 		private bool isNew = true; 
 
-		private ConnectTools connectTools;
+		private ConnectTools connectTools;		
 		private SerialPortTools comTools;
 
 		private IList<string> ips;  //搜索到的ip列表 ，将填进ipsComboBox
@@ -332,11 +332,12 @@ namespace LightController.MyForm
 			connectTools.SearchDevice();
 			Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
 
+			
 			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();			
 			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])
 			{
 				ipsComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
-				ips.Add(d2.Value.DeviceIp);				
+				ips.Add(d2.Value.DeviceIp);
 			}
 						
 			if (ipsComboBox.Items.Count > 0)
@@ -380,9 +381,15 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void networkReadButton_Click(object sender, EventArgs e)
-		{			
-			connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
-			afterReadOrWrite();
+		{
+			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
+			{
+				connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
+			}
+			else
+			{
+				MessageBox.Show("网络设备连接失败，无法回读配置。");			
+			}
 		}
 
 		/// <summary>
@@ -397,7 +404,7 @@ namespace LightController.MyForm
 				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
 				return;
 			}
-
+			
 			// 若被去掉了勾选，则需要提示用户
 			if (!autoSaveCheckBox.Checked) {
 				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",
@@ -413,19 +420,17 @@ namespace LightController.MyForm
 
 			// 11.7 保存前，先保存一遍当前数据。
 			saveAll(iniPath,hName);
-			// 此语句只发送《硬件配置》到选中的设备中
-			connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
-			afterReadOrWrite();			
-		}
 
-		/// <summary>
-		/// 辅助方法：网络下载或回读不论成功失败，都会把所有按钮都设为不可用，应重新搜索网络设备才行
-		/// </summary>
-		private void afterReadOrWrite() {
-			ipsComboBox.Enabled = false;
-			networkReadButton.Enabled = false;
-			networkDownloadButton.Enabled = false;
-		}	
+			// 此语句只发送《硬件配置》到选中的设备中
+			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
+			{
+				connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+			}
+			else {
+				MessageBox.Show("网络设备连接失败，无法下载配置。");
+			}
+		}
+	
 
 		#endregion
 

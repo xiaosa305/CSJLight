@@ -216,7 +216,7 @@ namespace LightController.MyForm
 
 
 		/// <summary>
-		/// 事件：点击《下载数据》，两个按钮点击事件集成在一起
+		/// 事件：点击《升级》，两个按钮点击事件集成在一起
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -232,7 +232,13 @@ namespace LightController.MyForm
 			{
 				networkdUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;
-				connectTools.Update( selectedIPs , binPath,  new HardwareUpdateReceiveCallBack(this,true));
+				if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
+				{
+					connectTools.Update(selectedIPs, binPath, new HardwareUpdateReceiveCallBack(this, true));
+				}
+				else {
+					MessageBox.Show("网络设备连接失败，无法升级。");
+				}
 			}
 			else {
 				comTools.Update(binPath, new HardwareUpdateReceiveCallBack(this,false));

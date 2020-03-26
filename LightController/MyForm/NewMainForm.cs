@@ -4,6 +4,7 @@ using LightController.Common;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
+using LightEditor.Ast;
 using OtherTools;
 using System;
 using System.Collections;
@@ -164,6 +165,8 @@ namespace LightController.MyForm
 				tdStNumericUpDowns[i].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
 				tdStNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
 				tdStNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+
+				tdNameLabels[i].Click += new EventHandler(this.tdNameLabels_Click);
 			}
 			
 			// 场景选项框		
@@ -234,8 +237,8 @@ namespace LightController.MyForm
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
 			//MARK：思考启动时是否刷新可用串口列表;
-			//refreshComList();	
-
+			refreshComList();
+			SetNotice("");
 		}
 
 		/// <summary>
@@ -342,7 +345,7 @@ namespace LightController.MyForm
 		}
 				
 		/// <summary>
-		/// 时间：点击《硬件配置 - 新建配置》
+		/// 事件：点击《硬件配置 - 新建配置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -662,9 +665,10 @@ namespace LightController.MyForm
 			{
 				selectedIndex = lightsListView.SelectedIndices[0];
 				generateLightData();
+				generateSAButtons();
 			}
 		}
-			
+		
 		/// <summary>
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
 		/// </summary>
@@ -752,8 +756,12 @@ namespace LightController.MyForm
 					tdStNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
+
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoName);
+					//myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoName);
+					//TODO：20.03.25 添加各个通道的子属性值到myToolTip中
+					myToolTip.SetToolTip(tdTrackBars[i], tongdaoList[i].Remark);
+
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
@@ -784,6 +792,65 @@ namespace LightController.MyForm
 			{
 				tdPanels[i].Hide();
 			}
+		}
+
+		/// <summary>
+		/// 辅助方法：通过选中的灯具，生成相应的saButtons
+		/// </summary>
+		private void generateSAButtons()
+		{
+			saFlowLayoutPanel.Controls.Clear();
+
+			LightAst la = lightAstList[selectedIndex];
+			for (int tdIndex = 0; tdIndex<la.SawList.Count; tdIndex++)
+			{
+				for(int saIndex=0; saIndex<la.SawList[tdIndex].SaList.Count; saIndex++)
+				{
+					SA sa = la.SawList[tdIndex].SaList[saIndex];
+					Button saButton = new Button
+					{
+						Text = sa.SAName,
+						Size = new Size(70, 20),
+						Tag = tdIndex+ "*" + sa.StartValue,
+						UseVisualStyleBackColor = true
+				};
+					saButton.Click += new EventHandler(saButton_Click);
+					myToolTip.SetToolTip(saButton,sa.SAName);
+					saFlowLayoutPanel.Controls.Add(saButton);
+				}
+			}
+
+			// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
+			if (getCurrentStep() == 0)
+			{
+				this.saFlowLayoutPanel.Enabled = false;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《saButton》按钮组的任意按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saButton_Click(object sender, EventArgs e)
+		{
+			if (getCurrentStepWrapper() == null) {
+				SetNotice("当前无选中步，不可点击子属性按钮");
+				return;
+			}
+
+			Button btn = (Button)sender;
+			string[] btnTagArr = btn.Tag.ToString().Split('*');
+			int tdIndex = int.Parse(btnTagArr[0]);
+			int tdValue = int.Parse(btnTagArr[1]);
+
+			getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;	
+			if (isMultiMode)
+			{
+				copyValueToAll(  tdIndex, WHERE.SCROLL_VALUE, tdValue );
+			}
+
+			RefreshStep();
 		}
 
 		#endregion
@@ -1532,6 +1599,9 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
+
+			// 6.判断子属性按钮组是否可用
+			saFlowLayoutPanel.Enabled = totalStep != 0;
 		}
 
 		#endregion
@@ -1767,6 +1837,32 @@ namespace LightController.MyForm
 			if (isMultiMode)
 			{
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《tdNameLabels》时，右侧的子属性按钮组，会显示当前通道相关的子属性，其他通道的子属性，则隐藏掉
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdNameLabels_Click(object sender, EventArgs e)
+		{
+			saFlowLayoutPanel.Controls.Clear();
+			LightAst la = lightAstList[selectedIndex];
+			int tdIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+			{
+				SA sa = la.SawList[tdIndex].SaList[saIndex];
+				Button saButton = new Button
+				{
+						Text = sa.SAName,
+						Size = new Size(70, 20),
+						Tag = tdIndex + "*" + sa.StartValue,
+						UseVisualStyleBackColor = true
+				};
+				saButton.Click += new EventHandler(saButton_Click);
+				myToolTip.SetToolTip(saButton, sa.SAName);
+				saFlowLayoutPanel.Controls.Add(saButton);
 			}
 		}
 
@@ -2047,13 +2143,20 @@ namespace LightController.MyForm
 			if (!isRealtime)
 			{				
 				realtimeButton.Text = "关闭\n实时调试";
-				isRealtime = true;
+				isRealtime = true;				
+				if (!isConnectCom)
+				{
+					playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				}				
 				RefreshStep();
+				SetNotice("已开启实时调试。");
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
 				realtimeButton.Text = "实时调试";
 				isRealtime = false;
+				playTools.ResetDebugDataToEmpty();
+				SetNotice("已退出实时调试。");
 			}
 		}
 
@@ -2127,7 +2230,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void endviewButton_Click(object sender, EventArgs e)
 		{
-			endview();			
+			endview();
+			SetNotice("已结束预览。");
 		}
 
 		/// <summary>
@@ -2252,7 +2356,7 @@ namespace LightController.MyForm
 				{
 					if (String.IsNullOrEmpty(comName))
 					{
-						MessageBox.Show("未选中可用串口。");
+						MessageBox.Show("未选中可用串口，请选中后再点击连接。");
 						return;
 					}
 					playTools.ConnectDevice(comName);
@@ -2262,47 +2366,36 @@ namespace LightController.MyForm
 				{
 					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
 					{
-						MessageBox.Show("未选中可用网络连接。");
+						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
 						return;
 					}
-
-					IPAst ipAst = ipaList[deviceComboBox.SelectedIndex];
-					ConnectTools.GetInstance().Start(ipAst.LocalIP);
-					ConnectTools.GetInstance().Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
-					playTools.StartInternetPreview(ipAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+					selectedIpAst = ipaList[deviceComboBox.SelectedIndex];
+					ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
+					if (ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex]))
+					{
+						playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+						SetNotice("网络设备连接成功。");
+					}
+					else {
+						MessageBox.Show("设备连接失败，请重试。");
+					}
 				}
 			}
 			else //否则( 按钮显示为“断开连接”）断开连接
 			{
+				playTools.StopSend();
 				if (isConnectCom)
-				{
-					playTools.CloseDevice();
-					EnableConnectedButtons(false);
-					SetNotice("已断开连接。");
+				{					
+					playTools.CloseDevice();					
 				}
 				else
 				{
-					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());
-					EnableConnectedButtons(false);
-
-					// 200319 需特别处理以下按钮
-					deviceComboBox.Enabled = false;				
-					deviceConnectButton.Enabled = false;
-					SetNotice("已断开连接（断开网络连接后，需要刷新网络设备列表，才可重连设备）。");
+					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());			
 				}
-
-				
-				
-
-				////MARK：11.23 延迟的骗术，在每次断开连接后立即重新搜索网络设备并建立socket连接。
-				//if (!isConnectCom)
-				//{
-				//	Thread.Sleep(500);
-				//	refreshNetworkList();
-				//}
+				EnableConnectedButtons(false);
+				SetNotice("已断开连接。");
 			}
 		}
-
 		#endregion
 
 		#region 全局辅助方法
@@ -2327,8 +2420,8 @@ namespace LightController.MyForm
 		}
 
 
-		#endregion
 
-	
+		#endregion
+		
 	}
 }

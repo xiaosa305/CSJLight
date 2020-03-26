@@ -46,7 +46,7 @@ namespace LightController.MyForm
 			this.ymToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.传视界工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.QDControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,14 +78,6 @@ namespace LightController.MyForm
 			this.firstLabel = new System.Windows.Forms.Label();
 			this.secondLabel = new System.Windows.Forms.Label();
 			this.thirdLabel = new System.Windows.Forms.Label();
-			this.unifyChangeModeComboBox = new System.Windows.Forms.ComboBox();
-			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.unifyStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.unifyChangeModeButton = new System.Windows.Forms.Button();
-			this.unifyValueButton = new System.Windows.Forms.Button();
-			this.unifyStepTimeButton = new System.Windows.Forms.Button();
-			this.initButton = new System.Windows.Forms.Button();
-			this.zeroButton = new System.Windows.Forms.Button();
 			this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.tdPanel1 = new System.Windows.Forms.Panel();
 			this.tdNameLabel1 = new System.Windows.Forms.Label();
@@ -96,7 +88,16 @@ namespace LightController.MyForm
 			this.tdTrackBar1 = new System.Windows.Forms.TrackBar();
 			this.tdPanel = new System.Windows.Forms.Panel();
 			this.unifyPanel = new System.Windows.Forms.Panel();
+			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.zeroButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
+			this.initButton = new System.Windows.Forms.Button();
+			this.unifyChangeModeComboBox = new System.Windows.Forms.ComboBox();
+			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.unifyStepTimeButton = new System.Windows.Forms.Button();
+			this.unifyStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.unifyValueButton = new System.Windows.Forms.Button();
+			this.unifyChangeModeButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -142,8 +143,6 @@ namespace LightController.MyForm
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
 			this.labelPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).BeginInit();
 			this.tdFlowLayoutPanel.SuspendLayout();
 			this.tdPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).BeginInit();
@@ -151,6 +150,8 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).BeginInit();
 			this.tdPanel.SuspendLayout();
 			this.unifyPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).BeginInit();
 			this.playBasePanel.SuspendLayout();
 			this.myStatusStrip.SuspendLayout();
 			this.projectPanel.SuspendLayout();
@@ -180,7 +181,7 @@ namespace LightController.MyForm
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
             this.projectToolStripMenuItem,
-            this.传视界工具ToolStripMenuItem,
+            this.otherToolStripMenuItem,
             this.ExitToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.mainMenuStrip.Name = "mainMenuStrip";
@@ -279,17 +280,17 @@ namespace LightController.MyForm
 			this.projectUpdateToolStripMenuItem.Text = "工程更新";
 			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
 			// 
-			// 传视界工具ToolStripMenuItem
+			// otherToolStripMenuItem
 			// 
-			this.传视界工具ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.toolStripSeparator1,
             this.QDControllerToolStripMenuItem,
             this.CenterControllerToolStripMenuItem,
             this.KeyPressToolStripMenuItem});
-			this.传视界工具ToolStripMenuItem.Name = "传视界工具ToolStripMenuItem";
-			this.传视界工具ToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.传视界工具ToolStripMenuItem.Text = "其他工具";
+			this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
+			this.otherToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.otherToolStripMenuItem.Text = "其他工具";
 			// 
 			// newToolStripMenuItem
 			// 
@@ -588,115 +589,6 @@ namespace LightController.MyForm
 			this.thirdLabel.TabIndex = 0;
 			this.thirdLabel.Text = "步时间(s)";
 			// 
-			// unifyChangeModeComboBox
-			// 
-			this.unifyChangeModeComboBox.Enabled = false;
-			this.unifyChangeModeComboBox.FormattingEnabled = true;
-			this.unifyChangeModeComboBox.Items.AddRange(new object[] {
-            "跳变",
-            "渐变",
-            "屏蔽"});
-			this.unifyChangeModeComboBox.Location = new System.Drawing.Point(10, 252);
-			this.unifyChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyChangeModeComboBox.Name = "unifyChangeModeComboBox";
-			this.unifyChangeModeComboBox.Size = new System.Drawing.Size(58, 20);
-			this.unifyChangeModeComboBox.TabIndex = 62;
-			// 
-			// unifyValueNumericUpDown
-			// 
-			this.unifyValueNumericUpDown.Enabled = false;
-			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(10, 221);
-			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.unifyValueNumericUpDown.Name = "unifyValueNumericUpDown";
-			this.unifyValueNumericUpDown.Size = new System.Drawing.Size(57, 21);
-			this.unifyValueNumericUpDown.TabIndex = 60;
-			this.unifyValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// unifyStepTimeNumericUpDown
-			// 
-			this.unifyStepTimeNumericUpDown.DecimalPlaces = 2;
-			this.unifyStepTimeNumericUpDown.Enabled = false;
-			this.unifyStepTimeNumericUpDown.Location = new System.Drawing.Point(10, 284);
-			this.unifyStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyStepTimeNumericUpDown.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-			this.unifyStepTimeNumericUpDown.Name = "unifyStepTimeNumericUpDown";
-			this.unifyStepTimeNumericUpDown.Size = new System.Drawing.Size(57, 21);
-			this.unifyStepTimeNumericUpDown.TabIndex = 61;
-			this.unifyStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.unifyStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.unifyStepTimeNumericUpDown_ValueChanged);
-			// 
-			// unifyChangeModeButton
-			// 
-			this.unifyChangeModeButton.Enabled = false;
-			this.unifyChangeModeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyChangeModeButton.Location = new System.Drawing.Point(82, 251);
-			this.unifyChangeModeButton.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyChangeModeButton.Name = "unifyChangeModeButton";
-			this.unifyChangeModeButton.Size = new System.Drawing.Size(84, 23);
-			this.unifyChangeModeButton.TabIndex = 57;
-			this.unifyChangeModeButton.Text = "统一跳渐变";
-			this.unifyChangeModeButton.UseVisualStyleBackColor = true;
-			this.unifyChangeModeButton.Click += new System.EventHandler(this.unifyChangeModeButton_Click);
-			// 
-			// unifyValueButton
-			// 
-			this.unifyValueButton.Enabled = false;
-			this.unifyValueButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyValueButton.Location = new System.Drawing.Point(82, 219);
-			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyValueButton.Name = "unifyValueButton";
-			this.unifyValueButton.Size = new System.Drawing.Size(84, 23);
-			this.unifyValueButton.TabIndex = 58;
-			this.unifyValueButton.Text = "统一通道值";
-			this.unifyValueButton.UseVisualStyleBackColor = true;
-			this.unifyValueButton.Click += new System.EventHandler(this.unifyValueButton_Click);
-			// 
-			// unifyStepTimeButton
-			// 
-			this.unifyStepTimeButton.Enabled = false;
-			this.unifyStepTimeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.unifyStepTimeButton.Location = new System.Drawing.Point(82, 283);
-			this.unifyStepTimeButton.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyStepTimeButton.Name = "unifyStepTimeButton";
-			this.unifyStepTimeButton.Size = new System.Drawing.Size(84, 23);
-			this.unifyStepTimeButton.TabIndex = 59;
-			this.unifyStepTimeButton.Text = "统一步时间";
-			this.unifyStepTimeButton.UseVisualStyleBackColor = true;
-			this.unifyStepTimeButton.Click += new System.EventHandler(this.unifyStepTimeButton_Click);
-			// 
-			// initButton
-			// 
-			this.initButton.Enabled = false;
-			this.initButton.Location = new System.Drawing.Point(12, 76);
-			this.initButton.Margin = new System.Windows.Forms.Padding(2);
-			this.initButton.Name = "initButton";
-			this.initButton.Size = new System.Drawing.Size(75, 23);
-			this.initButton.TabIndex = 55;
-			this.initButton.Text = "设为初值";
-			this.initButton.UseVisualStyleBackColor = true;
-			this.initButton.Click += new System.EventHandler(this.initButton_Click);
-			// 
-			// zeroButton
-			// 
-			this.zeroButton.Enabled = false;
-			this.zeroButton.Location = new System.Drawing.Point(12, 49);
-			this.zeroButton.Margin = new System.Windows.Forms.Padding(2);
-			this.zeroButton.Name = "zeroButton";
-			this.zeroButton.Size = new System.Drawing.Size(75, 23);
-			this.zeroButton.TabIndex = 56;
-			this.zeroButton.Text = "全部归零";
-			this.zeroButton.UseVisualStyleBackColor = true;
-			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
-			// 
 			// tdFlowLayoutPanel
 			// 
 			this.tdFlowLayoutPanel.AutoScroll = true;
@@ -809,6 +701,7 @@ namespace LightController.MyForm
 			// 
 			this.unifyPanel.BackColor = System.Drawing.Color.White;
 			this.unifyPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.unifyPanel.Controls.Add(this.saFlowLayoutPanel);
 			this.unifyPanel.Controls.Add(this.zeroButton);
 			this.unifyPanel.Controls.Add(this.multiButton);
 			this.unifyPanel.Controls.Add(this.initButton);
@@ -824,10 +717,30 @@ namespace LightController.MyForm
 			this.unifyPanel.Size = new System.Drawing.Size(175, 335);
 			this.unifyPanel.TabIndex = 64;
 			// 
+			// saFlowLayoutPanel
+			// 
+			this.saFlowLayoutPanel.AutoScroll = true;
+			this.saFlowLayoutPanel.Location = new System.Drawing.Point(4, 5);
+			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(165, 128);
+			this.saFlowLayoutPanel.TabIndex = 63;
+			// 
+			// zeroButton
+			// 
+			this.zeroButton.Enabled = false;
+			this.zeroButton.Location = new System.Drawing.Point(8, 171);
+			this.zeroButton.Margin = new System.Windows.Forms.Padding(2);
+			this.zeroButton.Name = "zeroButton";
+			this.zeroButton.Size = new System.Drawing.Size(75, 23);
+			this.zeroButton.TabIndex = 56;
+			this.zeroButton.Text = "全部归零";
+			this.zeroButton.UseVisualStyleBackColor = true;
+			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
+			// 
 			// multiButton
 			// 
 			this.multiButton.Enabled = false;
-			this.multiButton.Location = new System.Drawing.Point(91, 49);
+			this.multiButton.Location = new System.Drawing.Point(91, 169);
 			this.multiButton.Margin = new System.Windows.Forms.Padding(2);
 			this.multiButton.Name = "multiButton";
 			this.multiButton.Size = new System.Drawing.Size(75, 50);
@@ -835,6 +748,103 @@ namespace LightController.MyForm
 			this.multiButton.Text = "多步调节";
 			this.multiButton.UseVisualStyleBackColor = true;
 			this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
+			// 
+			// initButton
+			// 
+			this.initButton.Enabled = false;
+			this.initButton.Location = new System.Drawing.Point(8, 198);
+			this.initButton.Margin = new System.Windows.Forms.Padding(2);
+			this.initButton.Name = "initButton";
+			this.initButton.Size = new System.Drawing.Size(75, 23);
+			this.initButton.TabIndex = 55;
+			this.initButton.Text = "设为初值";
+			this.initButton.UseVisualStyleBackColor = true;
+			this.initButton.Click += new System.EventHandler(this.initButton_Click);
+			// 
+			// unifyChangeModeComboBox
+			// 
+			this.unifyChangeModeComboBox.Enabled = false;
+			this.unifyChangeModeComboBox.FormattingEnabled = true;
+			this.unifyChangeModeComboBox.Items.AddRange(new object[] {
+            "跳变",
+            "渐变",
+            "屏蔽"});
+			this.unifyChangeModeComboBox.Location = new System.Drawing.Point(10, 268);
+			this.unifyChangeModeComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyChangeModeComboBox.Name = "unifyChangeModeComboBox";
+			this.unifyChangeModeComboBox.Size = new System.Drawing.Size(58, 20);
+			this.unifyChangeModeComboBox.TabIndex = 62;
+			// 
+			// unifyValueNumericUpDown
+			// 
+			this.unifyValueNumericUpDown.Enabled = false;
+			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(10, 237);
+			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.unifyValueNumericUpDown.Name = "unifyValueNumericUpDown";
+			this.unifyValueNumericUpDown.Size = new System.Drawing.Size(57, 21);
+			this.unifyValueNumericUpDown.TabIndex = 60;
+			this.unifyValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// unifyStepTimeButton
+			// 
+			this.unifyStepTimeButton.Enabled = false;
+			this.unifyStepTimeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.unifyStepTimeButton.Location = new System.Drawing.Point(82, 299);
+			this.unifyStepTimeButton.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyStepTimeButton.Name = "unifyStepTimeButton";
+			this.unifyStepTimeButton.Size = new System.Drawing.Size(84, 23);
+			this.unifyStepTimeButton.TabIndex = 59;
+			this.unifyStepTimeButton.Text = "统一步时间";
+			this.unifyStepTimeButton.UseVisualStyleBackColor = true;
+			this.unifyStepTimeButton.Click += new System.EventHandler(this.unifyStepTimeButton_Click);
+			// 
+			// unifyStepTimeNumericUpDown
+			// 
+			this.unifyStepTimeNumericUpDown.DecimalPlaces = 2;
+			this.unifyStepTimeNumericUpDown.Enabled = false;
+			this.unifyStepTimeNumericUpDown.Location = new System.Drawing.Point(10, 300);
+			this.unifyStepTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyStepTimeNumericUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.unifyStepTimeNumericUpDown.Name = "unifyStepTimeNumericUpDown";
+			this.unifyStepTimeNumericUpDown.Size = new System.Drawing.Size(57, 21);
+			this.unifyStepTimeNumericUpDown.TabIndex = 61;
+			this.unifyStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.unifyStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.unifyStepTimeNumericUpDown_ValueChanged);
+			// 
+			// unifyValueButton
+			// 
+			this.unifyValueButton.Enabled = false;
+			this.unifyValueButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.unifyValueButton.Location = new System.Drawing.Point(82, 235);
+			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyValueButton.Name = "unifyValueButton";
+			this.unifyValueButton.Size = new System.Drawing.Size(84, 23);
+			this.unifyValueButton.TabIndex = 58;
+			this.unifyValueButton.Text = "统一通道值";
+			this.unifyValueButton.UseVisualStyleBackColor = true;
+			this.unifyValueButton.Click += new System.EventHandler(this.unifyValueButton_Click);
+			// 
+			// unifyChangeModeButton
+			// 
+			this.unifyChangeModeButton.Enabled = false;
+			this.unifyChangeModeButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.unifyChangeModeButton.Location = new System.Drawing.Point(82, 267);
+			this.unifyChangeModeButton.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyChangeModeButton.Name = "unifyChangeModeButton";
+			this.unifyChangeModeButton.Size = new System.Drawing.Size(84, 23);
+			this.unifyChangeModeButton.TabIndex = 57;
+			this.unifyChangeModeButton.Text = "统一跳渐变";
+			this.unifyChangeModeButton.UseVisualStyleBackColor = true;
+			this.unifyChangeModeButton.Click += new System.EventHandler(this.unifyChangeModeButton_Click);
 			// 
 			// playBasePanel
 			// 
@@ -1393,8 +1403,6 @@ namespace LightController.MyForm
 			this.myContextMenuStrip.ResumeLayout(false);
 			this.labelPanel.ResumeLayout(false);
 			this.labelPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).EndInit();
 			this.tdFlowLayoutPanel.ResumeLayout(false);
 			this.tdPanel1.ResumeLayout(false);
 			this.tdPanel1.PerformLayout();
@@ -1403,6 +1411,8 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).EndInit();
 			this.tdPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).EndInit();
 			this.playBasePanel.ResumeLayout(false);
 			this.playBasePanel.PerformLayout();
 			this.myStatusStrip.ResumeLayout(false);
@@ -1431,7 +1441,7 @@ namespace LightController.MyForm
 		private System.Windows.Forms.ToolStripMenuItem hardwareUpdateToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 传视界工具ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem QDControllerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem CenterControllerToolStripMenuItem;
@@ -1457,19 +1467,9 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Label thirdLabel;
 		private System.Windows.Forms.Label secondLabel;
 		private System.Windows.Forms.Label firstLabel;
-		private System.Windows.Forms.ComboBox unifyChangeModeComboBox;
-		private System.Windows.Forms.NumericUpDown unifyValueNumericUpDown;
-		private System.Windows.Forms.NumericUpDown unifyStepTimeNumericUpDown;
-		private System.Windows.Forms.Button unifyChangeModeButton;
-		private System.Windows.Forms.Button unifyValueButton;
-		private System.Windows.Forms.Button unifyStepTimeButton;
-		private System.Windows.Forms.Button initButton;
-		private System.Windows.Forms.Button zeroButton;
 		private System.Windows.Forms.FlowLayoutPanel tdFlowLayoutPanel;
 		private System.Windows.Forms.Panel tdPanel;
-		private System.Windows.Forms.Panel unifyPanel;
 		private System.Windows.Forms.Panel playBasePanel;
-		private System.Windows.Forms.Button multiButton;
 		private System.Windows.Forms.ComboBox skinComboBox;
 		private System.Windows.Forms.Panel projectPanel;
 		private System.Windows.Forms.Button newProjectButton;
@@ -1536,5 +1536,16 @@ namespace LightController.MyForm
 		private ToolStripMenuItem refreshPicToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator4;
 		private ToolStripMenuItem addLightRemarkToolStripMenuItem;
+		private Panel unifyPanel;
+		private FlowLayoutPanel saFlowLayoutPanel;
+		private Button zeroButton;
+		private Button multiButton;
+		private Button initButton;
+		private ComboBox unifyChangeModeComboBox;
+		private NumericUpDown unifyValueNumericUpDown;
+		private Button unifyStepTimeButton;
+		private NumericUpDown unifyStepTimeNumericUpDown;
+		private Button unifyValueButton;
+		private Button unifyChangeModeButton;
 	}
 }

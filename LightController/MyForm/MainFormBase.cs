@@ -17,6 +17,7 @@ using System.Threading;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using OtherTools;
+using LightEditor.Ast;
 
 namespace LightController.MyForm
 {
@@ -72,9 +73,8 @@ namespace LightController.MyForm
 		protected IList<DB_FineTune> dbFineTuneList = new List<DB_FineTune>();
 
 		protected IList<LightAst> lightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用
-		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 辅助的灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
-
-		protected Dictionary<int, int> lightDictionary = null;
+		protected IList<LightWrapper> lightWrapperList = new List<LightWrapper>(); // 灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
+		protected Dictionary<int, int> lightDictionary = null;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
 		// 通道数据操作时的变量
 		protected const int MAX_STEP = 100;
@@ -102,6 +102,7 @@ namespace LightController.MyForm
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
+		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
 		protected IList<NetworkDeviceInfo> allNetworkDevices; 
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
@@ -384,36 +385,7 @@ namespace LightController.MyForm
 		/// <param name="binPath"></param>
 		internal void SetProjectPath(string projectPath) {
 			this.projectPath = projectPath;
-		}	
-
-		/// <summary>
-		///  辅助方法：实时读取（渲染）单灯单步的数据（单线程即可）
-		/// </summary>
-		protected void MakeCurrentStepWrapperData(int stepNum) {
-
-			//TODO : 10.X （优化计划）从数据库中取单灯单步数据，并渲染进内存。
-			if (getCurrentLightStepWrapper().StepWrapperList[stepNum - 1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0) {
-
-				LightAst la = lightAstList[selectedIndex];
-				int lightIndex = la.StartNum;
-				IList<DB_Value> tempValueList = valueDAO.getStepValueList(lightIndex, frame, mode, getCurrentStep());
-
-				if (tempValueList.Count == getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList.Count) {
-					for (int tdIndex = 0; tdIndex < tempValueList.Count; tdIndex++)
-					{
-						DB_Value stepValue = tempValueList[tdIndex];
-						getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = tempValueList[tdIndex].ScrollValue;
-						getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = tempValueList[tdIndex].StepTime;
-						getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = tempValueList[tdIndex].ChangeMode;
-					}
-				}
-				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag = 1;
-				Console.WriteLine("此步成功渲染。");
-			}
-			else {
-				Console.WriteLine("此步已渲染过了。");
-			}
-		}
+		}			
 
 		/// <summary>
 		///  辅助方法：判断是否可以显示 playPanel及 刷新图片(主要供《打开工程》和《添加灯具Form》使用）
@@ -523,8 +495,6 @@ namespace LightController.MyForm
 					if (lineCount < 5)
 					{						
 						throw new Exception("打开的灯库文件格式有误，无法生成StepTemplate");
-						//MessageBox.Show("Dickov：打开的灯库文件格式有误，无法生成StepTemplate！");
-						//return null;     //原代码：这样程序会继续下去，是错误的处理方式。
 					}
 					else
 					{
@@ -536,19 +506,38 @@ namespace LightController.MyForm
 							throw new Exception("打开的灯库文件的count值与实际值不符合，无法生成StepTemplate");
 						}
 
-						List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();						
-						for (int i = 0; i < tongdaoCount; i++)
+						List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
+						IniFileAst iniAst = new IniFileAst(lightAst.LightPath);
+						lightAst.SawList = new List<SAWrapper>();
+
+						for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 						{
-							string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-							int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
-							int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
+							string tongdaoName = lineList[3 * tdIndex + 6].ToString().Substring(4);
+							int initNum = int.Parse(lineList[3 * tdIndex + 7].ToString().Substring(4));
+							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));
+
+							//TODO：20.03.25 生成模板数据时，取出子属性的列表							
+							string remark = tongdaoName + "\n";
+							IList<SA> saList = new List<SA>();
+							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
+							{								
+								string saName = IniFileAst_UTF8.ReadString(lightAst.LightPath, "sa", tdIndex + "_" + saIndex + "_saName", "");
+								int startValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0);
+								int endValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0);								
+								remark += saName + " : " + startValue +" - " + endValue +"\n";
+								saList.Add(new SA() { SAName = saName, StartValue = startValue, EndValue = endValue });
+							}
+							lightAst.SawList.Add(new SAWrapper() { SaList = saList });
+
 							tongdaoList.Add(new TongdaoWrapper()
 							{
 								TongdaoName = tongdaoName,
 								ScrollValue = initNum,
 								StepTime = 66,
 								ChangeMode = -1,
-								Address = lightAst.StartNum + (address - 1)
+								Address = lightAst.StartNum + (address - 1),
+								//TODO：20.03.25 生成模板数据时，加入备注
+								Remark = remark
 							});
 						}
 						return new StepWrapper()
@@ -690,7 +679,7 @@ namespace LightController.MyForm
 			dbLightList = new List<DB_Light>();
 			foreach (LightAst la in lightAstList)
 			{
-				DB_Light light = LightAst.GenerateLight(la);
+				DB_Light light = DB_Light.GenerateLight(la);
 				dbLightList.Add(light);
 			}
 		}
@@ -1958,7 +1947,7 @@ namespace LightController.MyForm
 			//{
 			//	MessageBox.Show(ex.Message);
 			//}
-
+			this.Hide();
 			// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
 			new LightEditor.LightEditorForm(this).ShowDialog();
 		}
@@ -2442,7 +2431,6 @@ namespace LightController.MyForm
 			}
 		}
 
-
 		/// <summary>
 		/// 辅助方法： 改变了模式和场景后的操作		
 		/// </summary>
@@ -2470,7 +2458,6 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		protected void generateLightData()
 		{
-
 			if (selectedIndex == -1)
 			{
 				return;
@@ -2513,11 +2500,6 @@ namespace LightController.MyForm
 			LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 			StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
 			lightStepWrapper.CurrentStep = stepNum;
-
-			//TODO：chooseStep()使用isReadDelay属性后的代码，暂时隐藏。
-			//if (isReadDelay) {
-			//	MakeCurrentStepWrapperData(stepNum); 
-			//}		
 
 			if (isMultiMode)
 			{
@@ -2623,8 +2605,13 @@ namespace LightController.MyForm
 		/// 辅助方法：点击《预览效果》
 		/// </summary>
 		internal void Preview()
-		{
-			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);
+		{			
+			if (!isConnectCom)
+			{
+				playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+			}
+			SetNotice("预览数据生成成功,即将开始预览。");
+			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);			
 		}
 
 		/// <summary>
@@ -2632,13 +2619,10 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void endview()
 		{
-			playTools.EndView();
-			SetNotice("已结束预览。");
+			playTools.EndView();	
 		}
 
-		#endregion
-
-		
+		#endregion		
 
 		/// <summary>
 		/// 辅助方法：在此初始化一些子类都会用到的控件，并需在子类构造函数中优先调用这个方法
@@ -2652,17 +2636,21 @@ namespace LightController.MyForm
 			this.exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
 			this.exportFolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;		
 
-			//// myToolTip：悬停提示
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);			
+			//// myToolTip：悬停提示,延迟600ms
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.myToolTip.IsBalloon = true;
+			this.myToolTip.InitialDelay = 600;
 		}
 
 		private void InitializeComponent()
 		{
+			this.SuspendLayout();
 			// 
 			// MainFormBase
 			// 
 			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Name = "MainFormBase";
+			this.Load += new System.EventHandler(this.MainFormBase_Load);
 			this.ResumeLayout(false);
 
 		}
@@ -2745,8 +2733,46 @@ namespace LightController.MyForm
 		//	}
 		//}
 
+
+		/// <summary>
+		///  辅助方法：实时读取（渲染）单灯单步的数据（单线程即可）
+		/// </summary>
+		//protected void MakeCurrentStepWrapperData(int stepNum)
+		//{
+
+		//	TODO : 10.X （优化计划）从数据库中取单灯单步数据，并渲染进内存。
+		//	if (getCurrentLightStepWrapper().StepWrapperList[stepNum - 1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0)
+		//	{
+
+		//		LightAst la = lightAstList[selectedIndex];
+		//		int lightIndex = la.StartNum;
+		//		IList<DB_Value> tempValueList = valueDAO.getStepValueList(lightIndex, frame, mode, getCurrentStep());
+
+		//		if (tempValueList.Count == getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList.Count)
+		//		{
+		//			for (int tdIndex = 0; tdIndex < tempValueList.Count; tdIndex++)
+		//			{
+		//				DB_Value stepValue = tempValueList[tdIndex];
+		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ScrollValue = tempValueList[tdIndex].ScrollValue;
+		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].StepTime = tempValueList[tdIndex].StepTime;
+		//				getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].TongdaoList[tdIndex].ChangeMode = tempValueList[tdIndex].ChangeMode;
+		//			}
+		//		}
+		//		getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag = 1;
+		//		Console.WriteLine("此步成功渲染。");
+		//	}
+		//	else
+		//	{
+		//		Console.WriteLine("此步已渲染过了。");
+		//	}
+		//}
+
 		#endregion
-	
+
+		private void MainFormBase_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack
@@ -2760,15 +2786,13 @@ namespace LightController.MyForm
 
 		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("网络设备(" + deviceTag + ")连接成功。");
-			mainForm.SetNotice("网络设备(" + deviceTag + ")连接成功。");
+			//mainForm.SetNotice("网络设备(" + deviceTag + ")成功进入网络调试模式。");
 			mainForm.EnableConnectedButtons(true);
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("网络设备(" + deviceTag + ")连接失败。");
-			mainForm.SetNotice("网络设备(" + deviceTag + ")连接失败");
+			mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。");
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -2813,14 +2837,12 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 		}
 		public void Completed()
-		{
-			mainForm.SetNotice("预览数据生成成功,正在进行预览。");
+		{			
 			mainForm.Preview();
 		}
 		public void Error()
 		{
-			mainForm.SetNotice("");
-			MessageBox.Show("预览数据生成出错。");
+			mainForm.SetNotice("预览数据生成出错,无法预览。");			
 		}
 		public void UpdateProgress(string name)
 		{

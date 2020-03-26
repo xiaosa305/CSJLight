@@ -431,7 +431,7 @@ namespace MultiLedController.Utils.IMPL
                             for (int ledSpaceIndex = 0; ledSpaceIndex < data.Led_space; ledSpaceIndex++)
                             {
                                 int num = interficeIndex * 4 + ledSpaceIndex;
-                                if (this.FieldsReceiveStatus[num])
+                                if (this.FieldsReceiveStatus[num] || data.FieldDatas[num].Count > 0)
                                 {
                                     routeDatas.AddRange(data.FieldDatas[num]);
                                 }

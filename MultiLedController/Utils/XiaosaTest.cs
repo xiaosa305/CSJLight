@@ -1,9 +1,11 @@
 ﻿using MultiLedController.Entity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace MultiLedController.Utils
 {
@@ -23,12 +25,62 @@ namespace MultiLedController.Utils
             switch (Temp)
             {
                 case 0:
-                    break;
                 case 1:
                 default:
+                    Thread thread = new Thread(FileTest)
+                    {
+                        IsBackground = true
+                    };
+                    thread.Start();
                     break;
             }
             Temp++;
+        }
+
+        public static void FileTest()
+        {
+            using (FileStream fileStream = new FileStream(@"C:\WorkSpace\新建文件夹\SC00.bin", FileMode.Open))
+            {
+                List<byte> data = new List<byte>();
+                Console.WriteLine(fileStream.Length);
+
+                List<byte> Temp = new List<byte>();
+                List<byte> Temp1 = new List<byte>();
+                for (int i = 0; i < fileStream.Length; i++)
+                {
+                    data.Add(Convert.ToByte(fileStream.ReadByte()));
+                }
+                for (int i = 35; i < data.Count; i = i + 3)
+                {
+                    Temp1.Add(data[i]);
+                    Temp1.Add(data[i + 1]);
+                    Temp1.Add(data[i + 2]);
+
+                    if (Temp1.Count == 450)
+                    {
+                        if (i < 500)
+                        {
+                            Temp.AddRange(Temp1);
+                            Temp1.Clear();
+                        }
+                        else
+                        {
+                            for (int j = 0; j < 450; j++)
+                            {
+                                if (Temp[j] != Temp1[j])
+                                {
+                                    Console.WriteLine("数据不同" + j);
+                                }
+                            }
+                            Temp.Clear();
+                            Temp.AddRange(Temp1);
+                            Temp1.Clear();
+                        }
+                    }
+                    //Console.WriteLine("XIAOSA Index Is" + i + "             :G:" + data[i] + ",R:" + data[i + 1] + ",B:" + data[i + 2]);
+                }
+                Console.WriteLine("结束");
+            }
         }
     }
 }

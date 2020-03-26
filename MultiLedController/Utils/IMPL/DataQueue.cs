@@ -47,7 +47,6 @@ namespace MultiLedController.Utils.IMPL
         /// <param name="framTime">帧间隔时间</param>
         public void DebugEnqueue(Dictionary<int,List<byte>> data,int framTime)
         {
-            Console.WriteLine("队列大小 :" + this.DebugQueue.Count);
             this.DebugQueue.Enqueue(new DebugQueueCacheData(data, framTime));
         }
         /// <summary>

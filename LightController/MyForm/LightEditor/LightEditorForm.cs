@@ -1091,6 +1091,11 @@ namespace LightEditor
 
 		#endregion
 
+		/// <summary>
+		/// 事件：点击《测试按钮》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
 			if (sawArray == null || sawArray.Length == 0)
@@ -1102,11 +1107,9 @@ namespace LightEditor
 				foreach (SA sa  in saw.SaList)
 				{
 					Console.WriteLine(sa.SAName + "   " + sa.StartValue + " - " + sa.EndValue );
-				}
-				Console.WriteLine();
+				}				
 			}
-
-			
+			Console.WriteLine();	
 		}
 	}
 }

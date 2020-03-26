@@ -20,9 +20,7 @@ namespace LightController
 		private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
 		private IList<LightAst> lightAstList = new List<LightAst>();
 		private string savePath;
-
-
-
+			   
 		private MainFormBase mainForm;		
 		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
 		{

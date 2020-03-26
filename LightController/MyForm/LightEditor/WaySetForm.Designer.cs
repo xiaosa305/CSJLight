@@ -30,6 +30,7 @@ namespace LightEditor
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.tdPanel = new System.Windows.Forms.Panel();
 			this.numericUpDown32 = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDown31 = new System.Windows.Forms.NumericUpDown();
@@ -143,11 +144,11 @@ namespace LightEditor
 			this.endValueLabel = new System.Windows.Forms.Label();
 			this.lineLabel = new System.Windows.Forms.Label();
 			this.startValueLabel = new System.Windows.Forms.Label();
-			this.saDeleteButton = new System.Windows.Forms.Button();
-			this.saEditButton = new System.Windows.Forms.Button();
 			this.saNameLabel = new System.Windows.Forms.Label();
+			this.saDeleteButton = new System.Windows.Forms.Button();
 			this.tdNamePanel = new System.Windows.Forms.Panel();
 			this.allTdPanel = new System.Windows.Forms.Panel();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.tdPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown32)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown31)).BeginInit();
@@ -1538,6 +1539,7 @@ namespace LightEditor
 			this.saFlowLayoutPanel.Controls.Add(this.saAddButton);
 			this.saFlowLayoutPanel.Controls.Add(this.saClearButton);
 			this.saFlowLayoutPanel.Controls.Add(this.saPanel);
+			this.saFlowLayoutPanel.Controls.Add(this.saDeleteButton);
 			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.saFlowLayoutPanel.Enabled = false;
 			this.saFlowLayoutPanel.Location = new System.Drawing.Point(542, 2);
@@ -1582,70 +1584,62 @@ namespace LightEditor
 			this.saPanel.Controls.Add(this.endValueLabel);
 			this.saPanel.Controls.Add(this.lineLabel);
 			this.saPanel.Controls.Add(this.startValueLabel);
-			this.saPanel.Controls.Add(this.saDeleteButton);
-			this.saPanel.Controls.Add(this.saEditButton);
 			this.saPanel.Controls.Add(this.saNameLabel);
 			this.saPanel.Location = new System.Drawing.Point(3, 75);
 			this.saPanel.Name = "saPanel";
-			this.saPanel.Size = new System.Drawing.Size(192, 52);
+			this.saPanel.Size = new System.Drawing.Size(168, 33);
 			this.saPanel.TabIndex = 1;
 			this.saPanel.Visible = false;
 			// 
 			// endValueLabel
 			// 
-			this.endValueLabel.Location = new System.Drawing.Point(154, 4);
+			this.endValueLabel.Location = new System.Drawing.Point(143, 9);
 			this.endValueLabel.Name = "endValueLabel";
-			this.endValueLabel.Size = new System.Drawing.Size(25, 12);
+			this.endValueLabel.Size = new System.Drawing.Size(23, 12);
 			this.endValueLabel.TabIndex = 4;
+			this.endValueLabel.Tag = "-1";
 			this.endValueLabel.Text = "255";
 			this.endValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lineLabel
 			// 
 			this.lineLabel.AutoSize = true;
-			this.lineLabel.Location = new System.Drawing.Point(138, 4);
+			this.lineLabel.Location = new System.Drawing.Point(128, 9);
 			this.lineLabel.Name = "lineLabel";
 			this.lineLabel.Size = new System.Drawing.Size(11, 12);
 			this.lineLabel.TabIndex = 3;
+			this.lineLabel.Tag = "-1";
 			this.lineLabel.Text = "-";
 			// 
 			// startValueLabel
 			// 
-			this.startValueLabel.Location = new System.Drawing.Point(112, 4);
+			this.startValueLabel.Location = new System.Drawing.Point(101, 9);
 			this.startValueLabel.Name = "startValueLabel";
-			this.startValueLabel.Size = new System.Drawing.Size(25, 12);
+			this.startValueLabel.Size = new System.Drawing.Size(23, 12);
 			this.startValueLabel.TabIndex = 2;
-			this.startValueLabel.Text = "0";
+			this.startValueLabel.Tag = "-1";
+			this.startValueLabel.Text = "255";
 			this.startValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// saDeleteButton
-			// 
-			this.saDeleteButton.Location = new System.Drawing.Point(111, 23);
-			this.saDeleteButton.Name = "saDeleteButton";
-			this.saDeleteButton.Size = new System.Drawing.Size(75, 23);
-			this.saDeleteButton.TabIndex = 1;
-			this.saDeleteButton.Text = "删除";
-			this.saDeleteButton.UseVisualStyleBackColor = true;
-			this.saDeleteButton.Click += new System.EventHandler(this.saDeleteButton_Click);
-			// 
-			// saEditButton
-			// 
-			this.saEditButton.Location = new System.Drawing.Point(12, 23);
-			this.saEditButton.Name = "saEditButton";
-			this.saEditButton.Size = new System.Drawing.Size(75, 23);
-			this.saEditButton.TabIndex = 1;
-			this.saEditButton.Text = "修改";
-			this.saEditButton.UseVisualStyleBackColor = true;
-			this.saEditButton.Click += new System.EventHandler(this.saEditButton_Click);
 			// 
 			// saNameLabel
 			// 
-			this.saNameLabel.AutoSize = true;
-			this.saNameLabel.Location = new System.Drawing.Point(11, 4);
+			this.saNameLabel.Location = new System.Drawing.Point(4, 9);
 			this.saNameLabel.Name = "saNameLabel";
-			this.saNameLabel.Size = new System.Drawing.Size(41, 12);
+			this.saNameLabel.Size = new System.Drawing.Size(90, 12);
 			this.saNameLabel.TabIndex = 0;
-			this.saNameLabel.Text = "saName";
+			this.saNameLabel.Tag = "-1";
+			this.saNameLabel.Text = "假如这个文字有八";
+			// 
+			// saDeleteButton
+			// 
+			this.saDeleteButton.Location = new System.Drawing.Point(177, 75);
+			this.saDeleteButton.Name = "saDeleteButton";
+			this.saDeleteButton.Size = new System.Drawing.Size(19, 33);
+			this.saDeleteButton.TabIndex = 1;
+			this.saDeleteButton.Text = "-";
+			this.saDeleteButton.UseVisualStyleBackColor = true;
+			this.saDeleteButton.Visible = false;
+			this.saDeleteButton.Click += new System.EventHandler(this.saDeleteButton_Click);
 			// 
 			// tdNamePanel
 			// 
@@ -1860,11 +1854,11 @@ namespace LightEditor
 		private Panel saPanel;
 		private Label saNameLabel;
 		private Button saDeleteButton;
-		private Button saEditButton;
 		private Button saClearButton;
 		private Label tdNumLabel;
 		private Label endValueLabel;
 		private Label lineLabel;
 		private Label startValueLabel;
+		private ToolTip myToolTip;
 	}
 }

@@ -69,10 +69,7 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		private int getFrameIndex()
 		{
-			// 1.  返回当前选中项的index, ( 缺点在于需要列表中有全部的场景名，优点在于简单 ) ，弃用：为了用户体验，当前frame不在调用列表中
-			// return frameSkinComboBox.SelectedIndex;
-
-			// 2. 获取当前选中项，然后取出其在frameIndexList中的位置
+			// 获取当前选中项，然后取出其在frameIndexList中的位置
 			int  selectedIndex = frameComboBox.SelectedIndex;
 			int selectedFrameIndex = frameIndexList[selectedIndex];
 			return selectedFrameIndex ;

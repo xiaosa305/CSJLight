@@ -17,11 +17,7 @@ namespace LightEditor
 
 	public partial class WaySetForm : Form
 	{
-		
-
-		private LightEditorForm mainForm;
-		private int tongdaoCount; //通道数量
-		private List<TongdaoWrapper> tongdaoList;
+		private LightEditorForm lightEditorForm;
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
 		private int selectedTdIndex = -1 ;
 
@@ -40,11 +36,8 @@ namespace LightEditor
 		/// <param name="lightEditorForm"></param>
 		public WaySetForm(LightEditorForm lightEditorForm, int tdIndex)
 		{
-			this.mainForm = lightEditorForm;
-			tongdaoCount = lightEditorForm.tongdaoCount;
-			tongdaoList = lightEditorForm.tongdaoList;
-
-			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.sawArray);
+			this.lightEditorForm = lightEditorForm;			
+			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.SawArray);
 
 			InitializeComponent();
 
@@ -169,7 +162,6 @@ namespace LightEditor
 				selectedTextBox = tdTextBoxes[tdIndex];
 				tdTextBoxes[tdIndex].Select();
 				selectedTdIndex = tdIndex;
-
 				refreshSAPanels() ; 
 			}
 		}
@@ -196,7 +188,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void WaySetForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			this.Location = new Point(lightEditorForm.Location.X + 100, lightEditorForm.Location.Y + 100);
 
 			//MARK: WaySetForm 下列句子，当子属性功能开放后，应该去掉。
 			//this.Size = new Size(558, 568);
@@ -210,7 +202,7 @@ namespace LightEditor
 		private void WaySetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();
-			mainForm.Activate();
+			lightEditorForm.Activate();
 		}
 
 		/// <summary>
@@ -231,10 +223,10 @@ namespace LightEditor
 		/// </summary>
 		private void generateTongdaoList()
 		{
-			for (int i = 0; i < tongdaoCount; i++)
+			for (int i = 0; i < lightEditorForm.TongdaoCount; i++)
 			{
-				this.tdTextBoxes[i].Text = tongdaoList[i].TongdaoName;
-				this.tdNumericUpDowns[i].Value = tongdaoList[i].InitValue;
+				this.tdTextBoxes[i].Text = lightEditorForm.TongdaoList[i].TongdaoName;
+				this.tdNumericUpDowns[i].Value = lightEditorForm.TongdaoList[i].InitValue;
 
 				this.tdLabels[i].Show();
 				this.tdTextBoxes[i].Show();
@@ -339,9 +331,9 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void resetButton_Click(object sender, EventArgs e)
 		{
-			tongdaoCount = mainForm.tongdaoCount;
-			tongdaoList = mainForm.tongdaoList;
 			generateTongdaoList();
+			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.SawArray);
+			refreshSAPanels();
 		}
 
 		/// <summary>
@@ -355,7 +347,7 @@ namespace LightEditor
 		{
 			applyChange();
 			this.Dispose();
-			mainForm.Activate();
+			lightEditorForm.Activate();
 		}
 
 		/// <summary>
@@ -374,24 +366,25 @@ namespace LightEditor
 		/// 2.设置tongdaoList到mainForm中
 		/// </summary>
 		private void applyChange() {
+
 			// 1.逐一检查textBoxes值;同时设置tongdaoList值
-			for (int i = 0; i < tongdaoCount; i++)
+			for (int tdIndex = 0; tdIndex < lightEditorForm.TongdaoCount; tdIndex++)
 			{
-				if (tdTextBoxes[i].Text == null || tdTextBoxes[i].Text.Trim() == "")
+				if (tdTextBoxes[tdIndex].Text == null || tdTextBoxes[tdIndex].Text.Trim() == "")
 				{
 					MessageBox.Show("Dickov:通道名称不得为空");
 					break;
 				}
 				else
 				{
-					tongdaoList[i].TongdaoName = tdTextBoxes[i].Text.Trim();
-					tongdaoList[i].InitValue = Decimal.ToInt16(tdNumericUpDowns[i].Value);
+					lightEditorForm.TongdaoList[tdIndex].TongdaoName = tdTextBoxes[tdIndex].Text.Trim();
+					lightEditorForm.TongdaoList[tdIndex].InitValue = Decimal.ToInt16(tdNumericUpDowns[tdIndex].Value);
 				}
 			}
 
 			// 2.设置tongdaoList到mainForm中；
-			mainForm.SetTongdaoList(this.tongdaoList);
-			mainForm.SetSawArray(sawArray2);
+			lightEditorForm.NewShowVScrollBars();
+			lightEditorForm.SetSawArray(sawArray2);
 		}
 
 		/// <summary>

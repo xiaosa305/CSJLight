@@ -1903,11 +1903,11 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="text"></param>
 		public void UseOtherForm(int selectedFrameIndex)
-		{
-			//MessageBox.Show(selectedFrameIndex  + " - " + AllFrameList[selectedFrameIndex]); 
+		{			
 			foreach (LightWrapper lightWrapper in lightWrapperList)
 			{
-				lightWrapper.LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, mode], lightWrapper.StepTemplate, mode);
+				lightWrapper.LightStepWrapperList[frame, mode] 
+					= LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, mode], lightWrapper.StepTemplate, mode);
 			}
 			ResetSyncMode();
 			RefreshStep();
@@ -1947,7 +1947,7 @@ namespace LightController.MyForm
 			//{
 			//	MessageBox.Show(ex.Message);
 			//}
-			this.Hide();
+			
 			// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
 			new LightEditor.LightEditorForm(this).ShowDialog();
 		}

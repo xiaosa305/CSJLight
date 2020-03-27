@@ -1059,7 +1059,7 @@ namespace LightEditor
 			// 
 			// numericUpDown13
 			// 
-			this.numericUpDown13.Location = new System.Drawing.Point(161, 306);
+			this.numericUpDown13.Location = new System.Drawing.Point(161, 300);
 			this.numericUpDown13.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown13.Maximum = new decimal(new int[] {
             255,

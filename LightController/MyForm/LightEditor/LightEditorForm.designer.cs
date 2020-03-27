@@ -2082,9 +2082,8 @@ namespace LightEditor
 		private NumericUpDown numericUpDown31;
 		private NumericUpDown numericUpDown32;
 
-		public List<TongdaoWrapper> tongdaoList;
-		private OpenFileDialog openFileDialog;
-		public int tongdaoCount;
+
+		private OpenFileDialog openFileDialog;		
 		private Sunisoft.IrisSkin.SkinEngine skinEngine2;
 		private Button setInitButton;
 		private GroupBox editGroupBox;

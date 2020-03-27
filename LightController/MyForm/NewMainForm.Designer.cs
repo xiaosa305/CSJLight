@@ -722,7 +722,7 @@ namespace LightController.MyForm
 			this.saFlowLayoutPanel.AutoScroll = true;
 			this.saFlowLayoutPanel.Location = new System.Drawing.Point(4, 5);
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(165, 128);
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(166, 128);
 			this.saFlowLayoutPanel.TabIndex = 63;
 			// 
 			// zeroButton

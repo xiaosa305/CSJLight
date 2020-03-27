@@ -635,9 +635,9 @@ namespace LightController.MyForm
 		{
 			playPanel.Visible = visible;
 		}
-		
+
 		/// <summary>
-		/// 辅助方法：初始化unifyPanel内各控件（主要是unifyStepTime）的属性值
+		/// 辅助方法：初始化（StepTime）各控件的属性值
 		/// </summary>
 		protected override void initStNumericUpDowns()
 		{
@@ -756,17 +756,13 @@ namespace LightController.MyForm
 					tdStNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
-
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					//myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].TongdaoName);
-					//TODO：20.03.25 添加各个通道的子属性值到myToolTip中
 					myToolTip.SetToolTip(tdTrackBars[i], tongdaoList[i].Remark);
-
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 					
-					//MARK 0313 步时间 主动 乘以时间因子 后 再展示
+					//MARK 0313 步时间：主动 乘以时间因子 后 再展示
 					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString() ;
 
 					tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
@@ -804,27 +800,12 @@ namespace LightController.MyForm
 			LightAst la = lightAstList[selectedIndex];
 			for (int tdIndex = 0; tdIndex<la.SawList.Count; tdIndex++)
 			{
-				for(int saIndex=0; saIndex<la.SawList[tdIndex].SaList.Count; saIndex++)
-				{
-					SA sa = la.SawList[tdIndex].SaList[saIndex];
-					Button saButton = new Button
-					{
-						Text = sa.SAName,
-						Size = new Size(70, 20),
-						Tag = tdIndex+ "*" + sa.StartValue,
-						UseVisualStyleBackColor = true
-				};
-					saButton.Click += new EventHandler(saButton_Click);
-					myToolTip.SetToolTip(saButton,sa.SAName);
-					saFlowLayoutPanel.Controls.Add(saButton);
-				}
+				addTdSaButtons(la, tdIndex);
 			}
 
 			// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
-			if (getCurrentStep() == 0)
-			{
-				this.saFlowLayoutPanel.Enabled = false;
-			}
+			saFlowLayoutPanel.Enabled = getCurrentStep() != 0;				
+			saFlowLayoutPanel.Refresh();
 		}
 
 		/// <summary>
@@ -1257,7 +1238,7 @@ namespace LightController.MyForm
 
 				unifyStepTimeNumericUpDown.Hide();
 				unifyStepTimeButton.Text = "修改此音频场景全局设置";
-				unifyStepTimeButton.Location = new Point(10,283);
+				unifyStepTimeButton.Location = new Point(10,299);
 				unifyStepTimeButton.Size = new System.Drawing.Size(154, 23);
 
 			}
@@ -1278,7 +1259,7 @@ namespace LightController.MyForm
 
 				unifyStepTimeNumericUpDown.Show();
 				unifyStepTimeButton.Text = "统一步时间";
-				unifyStepTimeButton.Location = new Point(82,283);
+				unifyStepTimeButton.Location = new Point(82,299);
 				unifyStepTimeButton.Size = new System.Drawing.Size(83, 23);
 			}
 
@@ -1575,7 +1556,7 @@ namespace LightController.MyForm
 			backStepButton.Enabled = totalStep > 1;
 			nextStepButton.Enabled = totalStep > 1;
 
-			// 3 设定《复制(多)步》是否可用
+			// 3. 设定《复制(多)步》是否可用
 			copyStepButton.Enabled = currentStep > 0;
 			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
 
@@ -1829,13 +1810,12 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			// MARK 0313 处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			// MARK 0313 步时间：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
 			int stepTime = Decimal.ToInt16(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 ); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2 ; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
-			if (isMultiMode)
-			{
+			if (isMultiMode)	{
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
 			}
 		}
@@ -1850,15 +1830,26 @@ namespace LightController.MyForm
 			saFlowLayoutPanel.Controls.Clear();
 			LightAst la = lightAstList[selectedIndex];
 			int tdIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			addTdSaButtons(la, tdIndex);
+			saFlowLayoutPanel.Refresh();
+		}
+
+		/// <summary>
+		/// 辅助方法：抽象出添加通道相关的saButtons，供《切换灯具》及点击《通道名label》时使用
+		/// </summary>
+		/// <param name="la"></param>
+		/// <param name="tdIndex"></param>
+		private void addTdSaButtons(LightAst la, int tdIndex)
+		{
 			for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
 			{
 				SA sa = la.SawList[tdIndex].SaList[saIndex];
 				Button saButton = new Button
 				{
-						Text = sa.SAName,
-						Size = new Size(70, 20),
-						Tag = tdIndex + "*" + sa.StartValue,
-						UseVisualStyleBackColor = true
+					Text = sa.SAName,
+					Size = new Size(68, 20),
+					Tag = tdIndex + "*" + sa.StartValue,
+					UseVisualStyleBackColor = true
 				};
 				saButton.Click += new EventHandler(saButton_Click);
 				myToolTip.SetToolTip(saButton, sa.SAName);
@@ -1870,77 +1861,6 @@ namespace LightController.MyForm
 
 		//MARK：NewMainForm：统一调整框各事件处理
 		#region unifyPanel（辅助调节面板）
-
-		/// <summary>
-		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
-		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value + unifyValueNumericUpDown.Increment;
-				if (dd <= unifyValueNumericUpDown.Maximum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value - unifyValueNumericUpDown.Increment;
-				if (dd >= unifyValueNumericUpDown.Minimum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件（只+/-1）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
-		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyStepTimeNumericUpDown.Value + unifyStepTimeNumericUpDown.Increment;
-				if (dd <= unifyStepTimeNumericUpDown.Maximum)
-				{
-					unifyStepTimeNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyStepTimeNumericUpDown.Value - unifyStepTimeNumericUpDown.Increment;
-				if (dd >= unifyStepTimeNumericUpDown.Minimum)
-				{
-					unifyStepTimeNumericUpDown.Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：《统一设置步时间numericUpDown》值被用户主动变化时，需要验证，并主动设置值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			int stepTime = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
-			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
-		}
 
 		/// <summary>
 		/// 事件：点击《全部归零》
@@ -1970,6 +1890,36 @@ namespace LightController.MyForm
 		private void multiButton_Click(object sender, EventArgs e)
 		{
 			multiButtonClick();
+		}
+
+		/// <summary>
+		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = unifyValueNumericUpDown.Value + unifyValueNumericUpDown.Increment;
+				if (dd <= unifyValueNumericUpDown.Maximum)
+				{
+					unifyValueNumericUpDown.Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = unifyValueNumericUpDown.Value - unifyValueNumericUpDown.Increment;
+				if (dd >= unifyValueNumericUpDown.Minimum)
+				{
+					unifyValueNumericUpDown.Value = dd;
+				}
+			}
 		}
 
 		/// <summary>
@@ -2029,6 +1979,47 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件（只+/-1）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd = unifyStepTimeNumericUpDown.Value + unifyStepTimeNumericUpDown.Increment;
+				if (dd <= unifyStepTimeNumericUpDown.Maximum)
+				{
+					unifyStepTimeNumericUpDown.Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd = unifyStepTimeNumericUpDown.Value - unifyStepTimeNumericUpDown.Increment;
+				if (dd >= unifyStepTimeNumericUpDown.Minimum)
+				{
+					unifyStepTimeNumericUpDown.Value = dd;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：《统一设置步时间numericUpDown》值被用户主动变化时，需要验证，并主动设置值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			int stepTime = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
+			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
+		}
+		
+		/// <summary>
 		/// 事件：点击《统一步时间》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -2038,8 +2029,6 @@ namespace LightController.MyForm
 			string buttonText = unifyStepTimeButton.Text;
 			if (buttonText.Equals("统一步时间"))
 			{
-				int unifyStepTimeParsed = Decimal.ToInt16( unifyStepTimeNumericUpDown.Value / eachStepTime2);
-
 				StepWrapper currentStep = getCurrentStepWrapper();
 				if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
 				{
@@ -2048,6 +2037,8 @@ namespace LightController.MyForm
 					return;
 				}
 
+				//MARK 0313 步时间：点击《统一步时间》的处理
+				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
@@ -2315,8 +2306,7 @@ namespace LightController.MyForm
 				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
 			}
 			else
-			{
-				//MessageBox.Show("未找到可用的网络设备，请确认后重试。");
+			{				
 				SetNotice("未找到可用的网络设备，请确认后重试。");
 			}
 		}
@@ -2331,7 +2321,7 @@ namespace LightController.MyForm
 			changeConnectMethodButton.Enabled = !connected;
 			deviceComboBox.Enabled = !connected;
 			deviceRefreshButton.Enabled = !connected;
-
+									
 			realtimeButton.Enabled = connected;
 			keepButton.Enabled = connected;
 			makeSoundButton.Enabled = connected;
@@ -2396,6 +2386,7 @@ namespace LightController.MyForm
 				SetNotice("已断开连接。");
 			}
 		}
+
 		#endregion
 
 		#region 全局辅助方法
@@ -2406,8 +2397,7 @@ namespace LightController.MyForm
 		/// <param name="notice"></param>
 		public override void SetNotice(string notice)
 		{
-			myStatusLabel.Text = notice;
-			this.Refresh();
+			myStatusLabel.Text = notice;			
 		}
 
 		/// <summary>

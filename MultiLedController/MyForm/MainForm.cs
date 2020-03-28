@@ -1,7 +1,7 @@
 ﻿using MultiLedController.Common;
-using MultiLedController.Entity;
-using MultiLedController.Utils;
-using MultiLedController.Utils.IMPL;
+using MultiLedController.entity;
+using MultiLedController.utils;
+using MultiLedController.utils.impl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

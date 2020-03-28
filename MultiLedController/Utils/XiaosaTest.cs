@@ -1,4 +1,4 @@
-﻿using MultiLedController.Entity;
+﻿using MultiLedController.entity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace MultiLedController.Utils
+namespace MultiLedController.utils
 {
     public static class XiaosaTest
     {

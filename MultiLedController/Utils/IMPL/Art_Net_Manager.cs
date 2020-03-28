@@ -1,5 +1,5 @@
-﻿using MultiLedController.Entity;
-using MultiLedController.Utils.IMPL;
+﻿using MultiLedController.entity;
+using MultiLedController.utils.impl;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 
-namespace MultiLedController.Utils.IMPL
+namespace MultiLedController.utils.impl
 {
     public class Art_Net_Manager: IArt_Net_Manager
     {
@@ -30,6 +30,8 @@ namespace MultiLedController.Utils.IMPL
         private Thread OnTimeThread { get; set; }
         private System.Timers.Timer SaveTimers { get; set; }
         private Socket DebugServer { get; set; }
+        private long RecodeFrameCount { get; set; }
+        private long PlayFrameCount { get; set; }
         private Art_Net_Manager()
         {
             this.Init();
@@ -42,26 +44,10 @@ namespace MultiLedController.Utils.IMPL
             }
             return Instance;
         }
-
-
-        private List<string> MD5List { get; set; }
-        private int FirstIndex { get; set; }
-        private int SecondIndex { get; set; }
-        private int ThreadIndex { get; set; }
-
-
-        private void Test()
-        {
-            this.MD5List = new List<string>();
-            this.FirstIndex = 0;
-            this.SecondIndex = -1;
-            this.ThreadIndex = -1;
-        }
-
         private void Init()
         {
-            this.Test();
-
+            this.RecodeFrameCount = 0;
+            this.PlayFrameCount = 0;
             this.StopDebug();
             this.StopSaveToFile();
             this.TimerStatus = false;
@@ -290,6 +276,7 @@ namespace MultiLedController.Utils.IMPL
         {
             this.Flag = 0;
             this.PackNumSum = 0;
+            this.PlayFrameCount = 0;
             this.DebugStatus = true;
             DataQueue.GetInstance().Reset();
         }
@@ -349,12 +336,7 @@ namespace MultiLedController.Utils.IMPL
         /// </summary>
         public void StartSaveToFile()
         {
-            this.FirstIndex = 0;
-            this.SecondIndex = -1;
-            this.ThreadIndex = -1;
-
-
-
+            this.RecodeFrameCount = 0;
             if (!File.Exists(this.SaveFilePath))
             {
                 File.Create(this.SaveFilePath).Dispose();
@@ -389,6 +371,7 @@ namespace MultiLedController.Utils.IMPL
                     if (data != null)
                     {
                         this.DebugMode(data.FieldDatas);
+                        this.PlayFrameCount++;
                         long beforTime = DateTime.Now.Ticks;
                         while (true)
                         {
@@ -439,36 +422,27 @@ namespace MultiLedController.Utils.IMPL
                             framData.AddRange(routeDatas);
                         }
                         FileUtils.GetInstance().WriteToFile(framData, SaveFilePath);
-
-
-                        ////测试
-
-                        //string md5 = CalMD5Value.GetInstance().GetMD5Value(framData.ToArray());
-                        //this.MD5List.Add(md5);
-                        //if (this.MD5List.Count > 1)
-                        //{
-                        //    if (md5.Equals(this.MD5List[this.FirstIndex]))
-                        //    {
-                        //        if (this.SecondIndex == -1)
-                        //        {
-                        //            this.SecondIndex = this.MD5List.Count - 1;
-                        //            Console.WriteLine("第二次重复");
-                        //        }
-                        //        else if (this.SecondIndex != -1 && this.ThreadIndex == -1)
-                        //        {
-                        //            this.ThreadIndex = this.MD5List.Count - 1;
-                        //            Console.WriteLine("First:" + this.FirstIndex);
-                        //            Console.WriteLine("SecondIndex:" + this.SecondIndex);
-                        //            Console.WriteLine("ThreadIndex:" + this.ThreadIndex);
-                        //            this.IsSaveToFile = false;
-                        //        }
-                        //    }
-                        //}
-                        //Console.WriteLine("XIAOSA============> MD5 Value :" + md5);
+                        this.RecodeFrameCount++;
                     }
                 }
                 Thread.Sleep(0);
             }
+        }
+        /// <summary>
+        /// 功能：获取当前播放总帧数
+        /// </summary>
+        /// <returns></returns>
+        public long GetPlayFrameCount()
+        {
+            return this.PlayFrameCount;
+        }
+        /// <summary>
+        /// 功能：获取当前录制总帧数
+        /// </summary>
+        /// <returns></returns>
+        public long GetRecodeFrameCount()
+        {
+            return this.RecodeFrameCount;
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using MultiLedController.Entity;
+﻿using MultiLedController.entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MultiLedController.Utils
+namespace MultiLedController.utils
 {
     public interface IArt_Net_Manager
     {
@@ -54,5 +54,15 @@ namespace MultiLedController.Utils
         /// 功能：关闭数据存储至文件
         /// </summary>
         void StopSaveToFile();
+        /// <summary>
+        /// 功能：获取当前播放总帧数
+        /// </summary>
+        /// <returns></returns>
+        long GetPlayFrameCount();
+        /// <summary>
+        /// 功能：获取当前录制总帧数
+        /// </summary>
+        /// <returns></returns>
+        long GetRecodeFrameCount();
     }
 }

@@ -1,11 +1,11 @@
-﻿using MultiLedController.Entity;
+﻿using MultiLedController.entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace MultiLedController.Utils.IMPL
+namespace MultiLedController.utils.impl
 {
     public class DataQueue : IDataQueue
     {

@@ -1,4 +1,4 @@
-﻿using MultiLedController.Utils;
+﻿using MultiLedController.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace MultiLedController.Utils.IMPL
+namespace MultiLedController.utils.impl
 {
     public class Art_Net_Client : IArt_Net_Client
     {
@@ -140,6 +140,8 @@ namespace MultiLedController.Utils.IMPL
             byte[] souce = Constant.GetReceiveDataBySerchDeviceOrder();
             byte[] data = new byte[souce.Length];
             Array.Copy(souce, data, souce.Length);
+            data[10] = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[0]));
+            data[11] = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[1]));
             data[12] = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[2]));
             data[13] = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
             data[186] = Convert.ToByte(this.Fields[0]);

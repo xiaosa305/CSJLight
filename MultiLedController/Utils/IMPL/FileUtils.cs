@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace MultiLedController.Utils.IMPL
+namespace MultiLedController.utils.impl
 {
     public class FileUtils : IFileUtils
     {

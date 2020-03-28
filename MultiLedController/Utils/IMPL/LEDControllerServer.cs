@@ -1,5 +1,5 @@
-﻿using MultiLedController.Entity;
-using MultiLedController.Utils;
+﻿using MultiLedController.entity;
+using MultiLedController.utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace MultiLedController.Utils.IMPL
+namespace MultiLedController.utils.impl
 {
     public class LEDControllerServer : ILEDControllerServer
     {

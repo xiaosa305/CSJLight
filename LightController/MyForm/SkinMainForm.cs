@@ -43,7 +43,7 @@ namespace LightController.MyForm
 			testGroupBox.Visible = isShowTestButton;
 			bigTestButton.Visible = isShowTestButton;
 
-			//MARK：添加这一句，会去掉其他线程使用本ui空间的问题。
+			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
 			// 动态显示硬件升级按钮
@@ -366,12 +366,13 @@ namespace LightController.MyForm
 		
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
+			openLightEditor();
+
 			// 启动时刷新可用串口列表;
 			refreshComList();
 			
-			//MARK：额外处理 lightsSkinListView 会被VS吞掉的问题
+			// 额外处理 lightsSkinListView 会被VS吞掉的问题
 			this.lightsSkinListView.HideSelection = true;
-
 		}
 
 		/// <summary>
@@ -591,8 +592,7 @@ namespace LightController.MyForm
 		{			
 			base.clearAllData();
 
-			//MARK＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋1111
-			//单独针对本MainForm的代码: 
+			//MARK：ClearAllData()在SkinMainForm的实现
 			// ①清空listView列表；
 			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
 			this.Text = softwareName;
@@ -674,6 +674,15 @@ namespace LightController.MyForm
 				tdStepTimeNumericUpDowns[i].Maximum = eachStepTime2 * MaxStTimes;
 				tdStepTimeNumericUpDowns[i].Increment = eachStepTime2;
 			}
+		}
+
+		//MARK 0328大变动：2.0.1 (SkinMainForm)改变当前Frame
+		protected override void changeCurrentFrame(int frameIndex)
+		{
+			currentFrame = frameIndex;
+			this.frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
+			frameSkinComboBox.SelectedIndex = currentFrame;
+			this.frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 		}
 
 		#endregion
@@ -782,7 +791,7 @@ namespace LightController.MyForm
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
+					myToolTip.SetToolTip(tdSkinTrackBars[i], tongdaoList[i].Remark);
 					tdSkinTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
@@ -1092,7 +1101,7 @@ namespace LightController.MyForm
 			}
 
 			// 4.开始读取并绘制		
-			//MARK : SkinMainForm 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
+			// 在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
 			lightsSkinListView.BeginUpdate();
 			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
 			{
@@ -1180,7 +1189,7 @@ namespace LightController.MyForm
 			// 只要更改了场景，直接结束预览
 			endview();
 
-			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[frame] + ")？",
+			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[currentFrame] + ")？",
 				"保存场景?",
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
@@ -1191,7 +1200,7 @@ namespace LightController.MyForm
 				setBusy(false);
 			}
 
-			frame = frameSkinComboBox.SelectedIndex;
+			currentFrame = frameSkinComboBox.SelectedIndex;
 			if (lightAstList != null && lightAstList.Count > 0)
 			{
 				changeFrameMode();
@@ -1206,7 +1215,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			mode = modeSkinComboBox.SelectedIndex;
+			currentMode = modeSkinComboBox.SelectedIndex;
 
 			//11.13 若未初始化，直接return；
 			if (!isInit)
@@ -1218,7 +1227,7 @@ namespace LightController.MyForm
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
 			// 3.所有步时间值的调节，改为enabled=false						
-			if (mode == 1)
+			if (currentMode == 1)
 			{
 				for (int i = 0; i < FrameCount; i++)
 				{
@@ -1562,7 +1571,7 @@ namespace LightController.MyForm
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
 			multiCopySkinButton.Enabled = currentStep > 0;
-			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == mode;
+			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
 			// 4.设定统一调整区是否可用
 			zeroSkinButton.Enabled = totalStep != 0;
@@ -1570,7 +1579,7 @@ namespace LightController.MyForm
 			multiSkinButton.Enabled = totalStep != 0;
 			unifyValueSkinButton.Enabled = totalStep != 0;
 			unifyChangeModeSkinButton.Enabled = totalStep != 0;
-			unifyStepTimeSkinButton.Enabled = (totalStep != 0) || (mode == 1);
+			unifyStepTimeSkinButton.Enabled = (totalStep != 0) || (currentMode == 1);
 			unifyValueNumericUpDown.Enabled = totalStep != 0;
 			unifyValueTrackBar.Enabled = totalStep != 0;
 			unifyChangeModeSkinComboBox.Enabled = totalStep != 0;
@@ -1581,11 +1590,9 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
-
-			//TODO 0327子属性按钮组是否可用
+						
 			// 6.子属性按钮组是否可用
-
-
+			saFlowLayoutPanel.Enabled = totalStep != 0;
 		}
 
 		#endregion
@@ -1846,12 +1853,15 @@ namespace LightController.MyForm
 			for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
 			{
 				SA sa = la.SawList[tdIndex].SaList[saIndex];
-				Button saButton = new Button
+				SkinButton saButton = new SkinButton
 				{
+					BackColor = System.Drawing.Color.Transparent,
+					BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224))))),
+					BorderColor = System.Drawing.Color.Silver,
+					ForeColor = System.Drawing.Color.Black,
 					Text = sa.SAName,
 					Size = new Size(68, 20),
-					Tag = tdIndex + "*" + sa.StartValue
-					//,UseVisualStyleBackColor = true
+					Tag = tdIndex + "*" + sa.StartValue					
 				};
 				saButton.Click += new EventHandler(saButton_Click);
 				myToolTip.SetToolTip(saButton, sa.SAName);
@@ -2218,7 +2228,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				new SKForm(this, globalIniPath, frame, frameSkinComboBox.Text).ShowDialog();
+				new SKForm(this, globalIniPath, currentFrame, frameSkinComboBox.Text).ShowDialog();
 			}
 		}
 
@@ -2354,15 +2364,20 @@ namespace LightController.MyForm
 				return;
 			}
 
+			setBusy(true);
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
 			SetNotice("正在生成预览数据，请稍候...");
 			try
-			{				
-				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, frame, new PreviewCallBack(this));
+			{
+				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, currentFrame, new PreviewCallBack(this));
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
+			}
+			finally {
+				SetNotice("正在预览效果");
+				setBusy(false);
 			}
 		}
 
@@ -2390,8 +2405,8 @@ namespace LightController.MyForm
 		{
 			endview();
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;	
-
+			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+			SetNotice("已结束预览。");
 		}				
 
 		/// <summary>

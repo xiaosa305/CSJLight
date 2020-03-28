@@ -1089,7 +1089,6 @@ namespace LightController.MyForm
 			// 
 			// stepPanel
 			// 
-			this.stepPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.stepPanel.BackColor = System.Drawing.Color.Transparent;
 			this.stepPanel.Controls.Add(this.chooseStepButton);
 			this.stepPanel.Controls.Add(this.saveMaterialButton);
@@ -1112,6 +1111,7 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.copyStepButton);
 			this.stepPanel.Controls.Add(this.addStepButton);
 			this.stepPanel.Controls.Add(this.pasteStepButton);
+			this.stepPanel.Enabled = false;
 			this.stepPanel.Location = new System.Drawing.Point(109, -1);
 			this.stepPanel.Name = "stepPanel";
 			this.stepPanel.Size = new System.Drawing.Size(938, 83);
@@ -1163,14 +1163,15 @@ namespace LightController.MyForm
 			// 
 			// stepLabel
 			// 
+			this.stepLabel.AutoSize = true;
 			this.stepLabel.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(377, 20);
+			this.stepLabel.Location = new System.Drawing.Point(374, 20);
 			this.stepLabel.Name = "stepLabel";
-			this.stepLabel.Size = new System.Drawing.Size(72, 14);
+			this.stepLabel.Size = new System.Drawing.Size(71, 14);
 			this.stepLabel.TabIndex = 53;
 			this.stepLabel.Tag = "999";
-			this.stepLabel.Text = "  0 / 0";
+			this.stepLabel.Text = "  0 /  0";
 			// 
 			// frameChooseLabel
 			// 

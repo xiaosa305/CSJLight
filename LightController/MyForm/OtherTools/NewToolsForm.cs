@@ -2019,7 +2019,7 @@ namespace OtherTools
 			}
 
 			// 4.开始读取并绘制		
-			//MARK : SkinMainForm 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
+			// 在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
 			keypressListView.BeginUpdate();
 			for (int i = 0; i < keypressListView.Items.Count; i++)
 			{				

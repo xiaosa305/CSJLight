@@ -90,8 +90,7 @@ namespace LightController
 				this.Dispose();
 				mainForm.IsCreateSuccess = true;
 				mainForm.Activate();					
-			}						
-			
+			}	
 		}
 		
 

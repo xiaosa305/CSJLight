@@ -18,7 +18,7 @@ namespace LightController.Ast
 		/// </summary>
 		/// <param name="lightIndex"></param>
 		/// <returns></returns>
-		public IList<DB_StepCount> getStepCountList(int lightIndex)
+		public IList<DB_StepCount> GetStepCountList(int lightIndex)
 		{
 			using (var session = sessionFactory.OpenSession())
 			{
@@ -30,5 +30,23 @@ namespace LightController.Ast
 			}
 		}
 
+		///MARK 0328大变动：3.0 添加取步数值的辅助方法
+		/// <summary>
+		/// 辅助方法：通过lightIndex及frame值，获取指定场景的StepCount值列表
+		/// </summary>
+		/// <param name="frame"></param>
+		/// <param name="mode"></param>
+		/// <returns></returns>
+		public IList<DB_StepCount> GetStepCountListByFrame(int lightIndex,int frame) {
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<DB_StepCount> scList = (IList<DB_StepCount>)session
+					.CreateQuery("FROM DB_StepCount sc WHERE sc.PK.LightIndex =:lightIndex AND sc.PK.Frame=:frame")
+					.SetInt32("lightIndex", lightIndex)
+					.SetInt32("frame", frame)
+					.List<DB_StepCount>();
+				return scList;
+			}
+		}
 	}		
 }

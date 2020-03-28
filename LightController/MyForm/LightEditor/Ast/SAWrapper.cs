@@ -22,11 +22,18 @@ namespace LightEditor.Ast
 		/// <returns></returns>
 		public static SAWrapper[] DeepCopy(SAWrapper[] sourceSawArray) {
 
+			// 先验证是否为null
+			if (sourceSawArray == null) {
+				return null;
+			}
 			// 只能一一拷贝，才能实现真正的深拷贝（因为数组sawArray内的变量，是列表IList，其值也是引用传递）
 			SAWrapper[] destSawArray = new SAWrapper[sourceSawArray.Length];
 			for (int tdIndex = 0; tdIndex < sourceSawArray.Length; tdIndex++)
 			{
 				destSawArray[tdIndex] = new SAWrapper();
+				
+
+
 				for (int saIndex2 = 0; saIndex2 < sourceSawArray[tdIndex].SaList.Count; saIndex2++)
 				{
 					SA sa = new SA

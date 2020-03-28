@@ -24,7 +24,6 @@ namespace LightController.Ast
 		public int StartNum { get; set; }
 		public int EndNum { get; set; }
 
-		//MARK：LightAst.SawList相关
 		// 记录子属性列表
 		public IList<SAWrapper> SawList { get; set; } 
 
@@ -46,7 +45,6 @@ namespace LightController.Ast
 			LightAddr = laOld.LightAddr;
 			StartNum = laOld.StartNum;
 			EndNum = laOld.EndNum;
-			//MARK：LightAst.SawList相关
 			SawList = laOld.SawList;
 		}	
 		

@@ -36,7 +36,7 @@ namespace LightEditor
 		/// <param name="lightEditorForm"></param>
 		public WaySetForm(LightEditorForm lightEditorForm, int tdIndex)
 		{
-			this.lightEditorForm = lightEditorForm;			
+			this.lightEditorForm = lightEditorForm;
 			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.SawArray);
 
 			InitializeComponent();
@@ -189,9 +189,6 @@ namespace LightEditor
 		private void WaySetForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(lightEditorForm.Location.X + 100, lightEditorForm.Location.Y + 100);
-
-			//MARK: WaySetForm 下列句子，当子属性功能开放后，应该去掉。
-			//this.Size = new Size(558, 568);
 		}
 
 		/// <summary>
@@ -383,7 +380,7 @@ namespace LightEditor
 			}
 
 			// 2.设置tongdaoList到mainForm中；
-			lightEditorForm.NewShowVScrollBars();
+			lightEditorForm.ShowTds();
 			lightEditorForm.SetSawArray(sawArray2);
 		}
 

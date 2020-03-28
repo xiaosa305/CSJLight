@@ -35,6 +35,8 @@
 			this.enterButton = new System.Windows.Forms.Button();
 			this.deleteButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.frameLabel = new System.Windows.Forms.Label();
+			this.frameComboBox = new System.Windows.Forms.ComboBox();
 			this.mySkinContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -95,7 +97,7 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(22, 254);
+			this.enterButton.Location = new System.Drawing.Point(22, 290);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 23);
 			this.enterButton.TabIndex = 1;
@@ -105,7 +107,7 @@
 			// 
 			// deleteButton
 			// 
-			this.deleteButton.Location = new System.Drawing.Point(118, 254);
+			this.deleteButton.Location = new System.Drawing.Point(118, 290);
 			this.deleteButton.Name = "deleteButton";
 			this.deleteButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteButton.TabIndex = 1;
@@ -116,19 +118,38 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(214, 254);
+			this.cancelButton.Location = new System.Drawing.Point(214, 290);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 1;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			// 
+			// frameLabel
+			// 
+			this.frameLabel.AutoSize = true;
+			this.frameLabel.Location = new System.Drawing.Point(20, 257);
+			this.frameLabel.Name = "frameLabel";
+			this.frameLabel.Size = new System.Drawing.Size(83, 12);
+			this.frameLabel.TabIndex = 2;
+			this.frameLabel.Text = "选择初始场景:";
+			// 
+			// frameComboBox
+			// 
+			this.frameComboBox.FormattingEnabled = true;
+			this.frameComboBox.Location = new System.Drawing.Point(109, 253);
+			this.frameComboBox.Name = "frameComboBox";
+			this.frameComboBox.Size = new System.Drawing.Size(93, 20);
+			this.frameComboBox.TabIndex = 3;
+			// 
 			// OpenForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(309, 294);
+			this.ClientSize = new System.Drawing.Size(309, 332);
+			this.Controls.Add(this.frameComboBox);
+			this.Controls.Add(this.frameLabel);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.deleteButton);
 			this.Controls.Add(this.enterButton);
@@ -142,6 +163,7 @@
 			this.Load += new System.EventHandler(this.OpenForm_Load);
 			this.mySkinContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -154,5 +176,7 @@
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button deleteButton;
 		private System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.Label frameLabel;
+		private System.Windows.Forms.ComboBox frameComboBox;
 	}
 }

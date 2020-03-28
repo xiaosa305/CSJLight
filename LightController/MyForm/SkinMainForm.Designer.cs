@@ -100,6 +100,7 @@ namespace LightController.MyForm
 			this.dqdjLabel = new System.Windows.Forms.Label();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.tdCommonPanel = new System.Windows.Forms.Panel();
+			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.unifyStepTimeSkinButton = new CCWin.SkinControl.SkinButton();
@@ -382,8 +383,6 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
-			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.button1 = new System.Windows.Forms.Button();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -542,7 +541,6 @@ namespace LightController.MyForm
 			this.labelPanel3.SuspendLayout();
 			this.middleTableLayoutPanel.SuspendLayout();
 			this.myMenuStrip.SuspendLayout();
-			this.saFlowLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuSkinPanel
@@ -1868,6 +1866,14 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Name = "tdCommonPanel";
 			this.tdCommonPanel.Size = new System.Drawing.Size(246, 406);
 			this.tdCommonPanel.TabIndex = 29;
+			// 
+			// saFlowLayoutPanel
+			// 
+			this.saFlowLayoutPanel.AutoScroll = true;
+			this.saFlowLayoutPanel.Location = new System.Drawing.Point(3, 255);
+			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(243, 126);
+			this.saFlowLayoutPanel.TabIndex = 28;
 			// 
 			// noticeStatusStrip
 			// 
@@ -6132,23 +6138,6 @@ namespace LightController.MyForm
 			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
 			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
 			// 
-			// saFlowLayoutPanel
-			// 
-			this.saFlowLayoutPanel.Controls.Add(this.button1);
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(6, 255);
-			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(237, 126);
-			this.saFlowLayoutPanel.TabIndex = 28;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(3, 3);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "button1";
-			this.button1.UseVisualStyleBackColor = true;
-			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -6373,7 +6362,6 @@ namespace LightController.MyForm
 			this.middleTableLayoutPanel.ResumeLayout(false);
 			this.myMenuStrip.ResumeLayout(false);
 			this.myMenuStrip.PerformLayout();
-			this.saFlowLayoutPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -6745,6 +6733,5 @@ namespace LightController.MyForm
 		private SkinButton otherToolsSkinButton2;
 		private ImageList middleImageList;
 		private FlowLayoutPanel saFlowLayoutPanel;
-		private Button button1;
 	}
 }

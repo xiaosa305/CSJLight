@@ -29,6 +29,7 @@ namespace LightEditor
 
 		public bool isGenerated = false;   		
 		public bool isSaved = false;// 打开文件 或 保存文件 后，将isSaved设成true；这个变量决定是否填充*.ini内[data]内容
+		private bool isNew = true; // 如果是新建灯具，在保存时，需要检查是否已存在文件，并弹出相应提示；若为打开灯具，则无需提示
 		private OneLightOneStep player; // 灯具测试的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
 		private bool isRealTime = false; //是否勾选“实时调试”
@@ -36,7 +37,7 @@ namespace LightEditor
 			
 		public List<TongdaoWrapper> TongdaoList;
 		public int TongdaoCount;
-		public SAWrapper[] SawArray; 
+		public SAWrapper[] SawArray;		
 	
 		public LightEditorForm(MainFormBase mainForm)
 		{
@@ -44,8 +45,8 @@ namespace LightEditor
 
 			InitializeComponent();
 
-			softwareName = mainForm.softwareName;
-			this.Text = softwareName + " Light Editor";
+			softwareName = mainForm.softwareName + " Light Editor";
+			this.Text = softwareName ;
 			savePath = mainForm.savePath;
 			picDirectory = @savePath + @"\LightPic";
 			this.openImageDialog.InitialDirectory = picDirectory; //图片加载路径使用当前软件所在文件夹
@@ -162,6 +163,7 @@ namespace LightEditor
 				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
 				labels[i].Click += new System.EventHandler(this.labels_Click);
 			}
+			countComboBox.SelectedIndex = 0;			
 			firstTDNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.firstTDNumericUpDown_MouseWheel);
 			commonValueNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
 
@@ -226,14 +228,30 @@ namespace LightEditor
 					);
 				if (dr == DialogResult.OK)
 				{
-					initLightWindow();
+					isSaved = false;
+					isGenerated = false;
+					isNew = true;
+					countComboBox.SelectedIndex = -1;
+					TongdaoList = null;
+					nameTextBox.Enabled = true;
+					nameTextBox.Text = "";
+					typeTextBox.Enabled = true;
+					typeTextBox.Text = "";
+					tongdaoEditButton.Hide();
+					generateButton.Show();
+					tongdaoGroupBox1.Hide();
+					tongdaoGroupBox2.Hide();
+					picTextBox.Text = "";
+					openPictureBox.Image = null;
+					firstTDNumericUpDown.Value = 1;
+					SawArray = null;					
 				}
 			}
 			else
 			{
 				editGroupBox.Visible = true;
 				connectPanel.Show();
-			}
+			}			
 		}
 
 		/// <summary>
@@ -275,8 +293,8 @@ namespace LightEditor
 
 				this.isGenerated = true;
 				this.isSaved = true;
+				isNew = false;
 
-				this.typeTextBox.Enabled = false;
 				this.typeTextBox.Text = lineList[1].ToString().Substring(5);
 				this.picTextBox.Enabled = false;
 				string imagePath = lineList[2].ToString().Substring(4);
@@ -289,7 +307,7 @@ namespace LightEditor
 
 				this.countComboBox.Text = selectItem;   // 此处请注意：并不是用SelectedText，而是直接设Text
 				this.TongdaoCount = int.Parse(selectItem);
-				this.nameTextBox.Enabled = false;
+				
 				this.nameTextBox.Text = lineList[4].ToString().Substring(5);
 				this.editGroupBox.Show();
 
@@ -299,9 +317,14 @@ namespace LightEditor
 					for (int i = 0; i < TongdaoCount; i++)
 					{
 						string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
-						int initNum = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
+						int initValue = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 						int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-						TongdaoList.Add(new TongdaoWrapper(tongdaoName, initNum, address, initNum));
+						TongdaoList.Add(new TongdaoWrapper() {
+							TongdaoName=tongdaoName,
+							InitValue = initValue,
+							Address = address,
+							CurrentValue = initValue
+						});
 					}
 
 					try
@@ -318,8 +341,8 @@ namespace LightEditor
 					Console.WriteLine("文件异常，行数缺失");
 					return;
 				}
-
-				this.NewShowVScrollBars();
+				
+				this.ShowTds();
 				this.showTongdaoButton(true);
 				this.connectPanel.Show();
 			}
@@ -351,7 +374,6 @@ namespace LightEditor
 				MessageBox.Show("厂家名含有非法字符，无法保存。");
 				return;
 			}
-
 			if (String.IsNullOrEmpty(type))
 			{
 				MessageBox.Show("请输入型号名");
@@ -367,11 +389,17 @@ namespace LightEditor
 			int count = int.Parse(countComboBox.SelectedItem.ToString());
 
 			DirectoryInfo di = new DirectoryInfo(lightDirectory + "\\" + name);
-			if (!di.Exists)
+			if (di.Exists)
 			{
-				di.Create();
+				if (isNew) {
+					DialogResult dr = MessageBox.Show("检查到系统中已存在同名灯具，是否覆盖？", "覆盖灯具？", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+					if (dr == DialogResult.No) {
+						return;
+					}					
+				}
 			}
 
+			di.Create();
 			string fileName = lightDirectory + "\\" + name + "\\" + type;
 
 			using (StreamWriter iniWriter = new StreamWriter(fileName + ".ini"))
@@ -387,7 +415,7 @@ namespace LightEditor
 				if (isGenerated)
 				{
 					iniWriter.WriteLine("[Data]");
-					for (int i = 0; i < TongdaoList.Count; i++)
+					for (int i = 0; i < TongdaoCount; i++)
 					{
 						// 未满10的前面加0
 						string index = (i < 9) ? ("0" + (i + 1)) : ("" + (i + 1));
@@ -397,46 +425,21 @@ namespace LightEditor
 					}
 					
 					iniWriter.WriteLine("[sa]");
-					if (SawArray != null && SawArray.Length > 0)
+					for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
 					{
-						for (int tdIndex = 0; tdIndex < SawArray.Length; tdIndex++)
+						iniWriter.WriteLine(tdIndex + "_saCount="+ SawArray[tdIndex].SaList.Count);
+						for (int saIndex = 0; saIndex < SawArray[tdIndex].SaList.Count; saIndex++)
 						{
-							iniWriter.WriteLine(tdIndex + "_saCount="+ SawArray[tdIndex].SaList.Count);
-							for (int saIndex = 0; saIndex < SawArray[tdIndex].SaList.Count; saIndex++)
-							{
-								iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saName=" + SawArray[tdIndex].SaList[saIndex].SAName);
-								iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saStart=" + SawArray[tdIndex].SaList[saIndex].StartValue);
-								iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saEnd=" + SawArray[tdIndex].SaList[saIndex].EndValue);
-							}						
+							iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saName=" + SawArray[tdIndex].SaList[saIndex].SAName);
+							iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saStart=" + SawArray[tdIndex].SaList[saIndex].StartValue);
+							iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saEnd=" + SawArray[tdIndex].SaList[saIndex].EndValue);
 						}
 					}
 				}
 			}
 			MessageBox.Show("已成功保存。");
-
 		}
 
-		/// <summary>
-		/// 辅助方法：初始化灯具窗口
-		/// </summary>
-		private void initLightWindow()
-		{
-			isSaved = false;
-			isGenerated = false;
-			countComboBox.SelectedIndex = -1;
-			TongdaoList = null;
-			nameTextBox.Enabled = true;
-			nameTextBox.Text = "";
-			typeTextBox.Enabled = true;
-			typeTextBox.Text = "";
-			tongdaoEditButton.Hide();
-			generateButton.Show();
-			tongdaoGroupBox1.Hide();
-			tongdaoGroupBox2.Hide();
-			picTextBox.Text = "";
-			openPictureBox.Image = null;
-			firstTDNumericUpDown.Value = 1;
-		}		
 		
 		#endregion
 
@@ -509,42 +512,27 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  点击生成按钮后的操作：
+		///  事件：点击生成按钮后的操作：
 		///  1.检查通道数 ；
 		///  2.检查若通过，则生成默认通道列表		
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void generateButton_Click(object sender, EventArgs e)
-		{
-			//如果检查通道为false(未选择)，此时!false=true,方法不再运行。 
-			if (!CheckCountComboBox())
-			{
-				return;
-			}
-			
+		{		
 			isGenerated = true;
 			showTongdaoButton(true);
-
 			generateTongdaoList();
-			NewShowVScrollBars();			
+			ShowTds();			
 		}
 		
 		/// <summary>
-		///  显示通道编辑按钮(true)或生成(false)按钮（二选一）
+		///  辅助方法：显示通道编辑按钮(true)或生成(false)按钮（二选一）
 		/// </summary>
 		/// <param name="showEditButton"></param>
 		private void showTongdaoButton(bool showEditButton) {
-			//显示《通道编辑》按钮
-			if (showEditButton)
-			{
-				tongdaoEditButton.Show();
-				generateButton.Hide();
-			}//显示《生成》按钮
-			else {
-				tongdaoEditButton.Hide();
-				generateButton.Show();
-			}				
+			tongdaoEditButton.Visible = showEditButton;
+			generateButton.Visible = !showEditButton;			
 		}	
 
 		/// <summary>
@@ -553,22 +541,9 @@ namespace LightEditor
 		///  2.先隐藏所有，再显示当前数量的下拉条
 		///  3.根据通道数，显示相应的GroupBox
 		/// </summary> 
-		internal void NewShowVScrollBars()
+		internal void ShowTds()
 		{
-			// 1.tongdaoList的数据渲染进各个通道显示项(label+valueLabel+vScrollBar)中
-			generateVScrollBars();
-			// 2.显示所需通道（groupBox+通道）
-			showNeedTDs();			
-		}
-
-		/// <summary>
-		///  显示
-		///  1.tongdaoCount数量的通道(nameLabel+vscrollbar+valueLabel)
-		///  2.所需的通道groupBox
-		/// </summary>
-		private void showNeedTDs() {
-
-			// 1.显示tongdaoCount数量的通道
+			// 1.tongdaoList的数据渲染进各个通道显示项(label+valueLabel+vScrollBar)中, 并显示有数据的通道
 			for (int i = TongdaoCount; i < 32; i++)
 			{
 				valueVScrollBars[i].Visible = false;
@@ -577,57 +552,69 @@ namespace LightEditor
 			}
 			for (int i = 0; i < TongdaoCount; i++)
 			{
-				valueVScrollBars[i].Show();
+				labels[i].Text = (firstTDValue + i) + "-  " + TongdaoList[i].TongdaoName;
 				labels[i].Show();
+				valueVScrollBars[i].Value = 255 - TongdaoList[i].CurrentValue;
+				valueVScrollBars[i].Show();
+				valueNumericUpDowns[i].Value = TongdaoList[i].CurrentValue;
 				valueNumericUpDowns[i].Show();
+				myToolTip.SetToolTip(labels[i], TongdaoList[i].TongdaoName);
 			}
 
 			// 2.按需显示通道GroupBox
-			if (TongdaoCount > 0 && TongdaoCount <= 16)
-			{
-				tongdaoGroupBox1.Show();
-				tongdaoGroupBox2.Hide();
-			}
-			else if (TongdaoCount > 16 && TongdaoCount <= 32)
-			{
-				tongdaoGroupBox1.Show();
-				tongdaoGroupBox2.Show();
-			}
-			else if (TongdaoCount == 0)
-			{
-				tongdaoGroupBox1.Hide();
-				tongdaoGroupBox2.Hide();
-			}
-			else
-			{
-				MessageBox.Show("Dickov:TongdaoCount错误！");
-			}
+			tongdaoGroupBox1.Visible = TongdaoCount > 0;
+			tongdaoGroupBox2.Visible = TongdaoCount > 16;			
 		}
 
 		/// <summary>
 		/// 辅助方法：用于生成默认的tongdaoList（由tongdaoCount决定）
 		/// 1.若之前列表为空，则从头开始添加列表数据
 		/// 2.若之前列表已有数据，
-		///   ①当tongdaoCount > tongdaoList.Count，添加新的数据到列表中去.
-		///   ②当tongdaoCount <= tongdaoList.Count，不进行任何操作(数据仍放在tongdaoList中）
+		///   ①当tongdaoCount > tongdaoList.Count，添加新的数据到列表中去. -->相应的，SawArray也进行填充
+		///   ②当tongdaoCount 小于等于 tongdaoList.Count，不进行任何操作(数据仍放在tongdaoList中）-- 但后期并不会存起来
 		/// </summary>
 		private void generateTongdaoList()
 		{
+			//点击生成了，此时需要真的设置TongdaoCount了--》之前的版本只要改了《CountComboBox》就会更改TongdaoCount，显然有问题，但并未触发而已
+			TongdaoCount = int.Parse(countComboBox.SelectedItem.ToString());
+			
 			if (TongdaoList == null || TongdaoList.Count == 0)
 			{
 				TongdaoList = new List<TongdaoWrapper>();
-				for (int i = 0; i < TongdaoCount; i++)
+				SawArray = new SAWrapper[TongdaoCount];
+
+				for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
 				{
-					int j = i + 1;
-					TongdaoList.Add(new TongdaoWrapper("通道" + j, 0, j ,0));
+					TongdaoList.Add(new TongdaoWrapper() {
+						TongdaoName = "通道" + (tdIndex + 1),
+						Address = tdIndex+1,
+						InitValue = 0,
+						CurrentValue = 0
+					});
+					SawArray[tdIndex] = new SAWrapper();
 				}
 			}
 			else {
 				if (TongdaoCount > TongdaoList.Count) {
-					for (int i = TongdaoList.Count; i < TongdaoCount; i++)
+
+					//先把旧数据存起来
+					SAWrapper[] sawArrayTemp = SAWrapper.DeepCopy(SawArray);
+					SawArray = new SAWrapper[TongdaoCount];
+					// 小于等于新通道数量的数据，用旧数据填充
+					for (int tdIndex = 0; tdIndex < sawArrayTemp.Length; tdIndex++) {
+						SawArray[tdIndex] = sawArrayTemp[tdIndex];
+					}
+
+					for (int tdIndex = TongdaoList.Count; tdIndex < TongdaoCount; tdIndex++)
 					{
-						int j = i + 1;
-						TongdaoList.Add(new TongdaoWrapper("通道" + j, 0, j, 0));
+						TongdaoList.Add(new TongdaoWrapper() {
+							TongdaoName = "通道" + (tdIndex + 1),
+							Address = tdIndex + 1,
+							InitValue = 0,
+							CurrentValue = 0
+						});
+						// 大于新通道数量的数据，用空数据填充
+						SawArray[tdIndex] = new SAWrapper();
 					}
 				}
 			}
@@ -643,8 +630,14 @@ namespace LightEditor
 		private void countComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (isGenerated) {
-				TongdaoCount = int.Parse(countComboBox.SelectedItem.ToString());
-				showTongdaoButton(false);				
+				int  selectedCount = int.Parse(countComboBox.SelectedItem.ToString());
+				if (selectedCount != TongdaoCount)
+				{
+					showTongdaoButton(false);
+				}
+				else {
+					showTongdaoButton(true);
+				}					
 			}				
 		}
 
@@ -660,20 +653,7 @@ namespace LightEditor
 			new WaySetForm(this, -1).ShowDialog();
 		}
 		
-		/// <summary>
-		/// 辅助方法：通过注入值后的tongdaoList,为vScrollBars赋值；
-		/// </summary>
-		/// <param name="tongdaoCount"></param>
-		public void generateVScrollBars()
-		{				
-			for (int i = 0; i < TongdaoCount; i++)
-			{				
-				this.labels[i].Text = (firstTDValue+i )+ "-  " + TongdaoList[i].TongdaoName;
-				myToolTip.SetToolTip(labels[i], TongdaoList[i].TongdaoName);
-				this.valueVScrollBars[i].Value = 255- TongdaoList[i].CurrentValue;
-				this.valueNumericUpDowns[i].Value =   TongdaoList[i].CurrentValue;
-			}
-		}	
+
 
 		/// <summary>
 		///  事件：滚轴值改变时的操作
@@ -1096,11 +1076,12 @@ namespace LightEditor
 			{
 				return;
 			}
-			foreach (SAWrapper saw in SawArray)
-			{				
-				foreach (SA sa  in saw.SaList)
+			for (int saIndex=0;  saIndex< SawArray.Length; saIndex++)
+			{
+				Console.WriteLine("sawArray["+saIndex+"]:");
+				foreach (SA sa  in SawArray[saIndex].SaList)
 				{
-					Console.WriteLine(sa.SAName + "   " + sa.StartValue + " - " + sa.EndValue );
+					Console.WriteLine("  "+ sa.SAName + "   " + sa.StartValue + " - " + sa.EndValue );
 				}				
 			}
 			Console.WriteLine();	

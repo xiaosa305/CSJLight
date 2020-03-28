@@ -463,6 +463,7 @@ namespace LightEditor
 			// 
 			// countComboBox
 			// 
+			this.countComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.countComboBox.Font = new System.Drawing.Font("宋体", 10F);
 			this.countComboBox.FormattingEnabled = true;
 			this.countComboBox.Location = new System.Drawing.Point(100, 134);
@@ -485,7 +486,7 @@ namespace LightEditor
 			// 
 			// tongdaoGroupBox2
 			// 
-			this.tongdaoGroupBox2.BackColor = System.Drawing.Color.MintCream;
+			this.tongdaoGroupBox2.BackColor = System.Drawing.Color.SkyBlue;
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown32);
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown31);
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown30);

@@ -574,8 +574,7 @@ namespace LightController.MyForm
 		{
 			base.clearAllData();
 
-			// 从此处起为子类的实现
-			//MARK＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋2222
+			//MARK：ClearAllData()在NewMainForm的实现
 			this.Text = softwareName + " Dimmer System" ;
 			lightsListView.Clear();
 			stepPanel.Enabled = false;
@@ -648,6 +647,14 @@ namespace LightController.MyForm
 				tdStNumericUpDowns[i].Maximum = eachStepTime2 * MaxStTimes;
 				tdStNumericUpDowns[i].Increment = eachStepTime2;
 			}			
+		}
+
+		//MARK 0328大变动：2.0.1 (NewMainForm)改变当前Frame
+		protected override void changeCurrentFrame(int frameIndex) {
+			currentFrame = frameIndex;
+			frameComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
+			frameComboBox.SelectedIndex = currentFrame;
+			frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 		}
 
 		#endregion
@@ -1080,7 +1087,7 @@ namespace LightController.MyForm
 			}
 
 			// 4.开始读取并绘制		
-			//MARK : SkinMainForm 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
+			// 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
 			lightsListView.BeginUpdate();
 			for (int i = 0; i < lightsListView.Items.Count; i++)
 			{
@@ -1184,7 +1191,7 @@ namespace LightController.MyForm
 			// 只要更改了场景，直接结束预览
 			endview();
 
-			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[frame] + ")？",
+			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[currentFrame] + ")？",
 				"保存场景?",
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
@@ -1195,7 +1202,7 @@ namespace LightController.MyForm
 				setBusy(false);
 			}
 
-			frame = frameComboBox.SelectedIndex;
+			currentFrame = frameComboBox.SelectedIndex;
 			if (lightAstList != null && lightAstList.Count > 0)
 			{
 				changeFrameMode();
@@ -1216,12 +1223,12 @@ namespace LightController.MyForm
 				return;
 			}
 
-			mode = modeComboBox.SelectedIndex;
+			currentMode = modeComboBox.SelectedIndex;
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
 			// 3.所有步时间值的调节，改为enabled=false						
-			if (mode == 1)
+			if (currentMode == 1)
 			{
 				for (int i = 0; i < FrameCount; i++)
 				{
@@ -1561,7 +1568,7 @@ namespace LightController.MyForm
 			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
 
 			multiCopyButton.Enabled = currentStep > 0;
-			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == mode;
+			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
 			// 4.设定统一调整区是否可用			
 			zeroButton.Enabled = totalStep != 0;
@@ -1569,7 +1576,7 @@ namespace LightController.MyForm
 			multiButton.Enabled = totalStep != 0;
 			unifyValueButton.Enabled = totalStep != 0;
 			unifyChangeModeButton.Enabled = totalStep != 0;
-			unifyStepTimeButton.Enabled = (totalStep != 0) || (mode == 1 ) ;
+			unifyStepTimeButton.Enabled = (totalStep != 0) || (currentMode == 1 ) ;
 			unifyValueNumericUpDown.Enabled = totalStep != 0;
 			unifyChangeModeComboBox.Enabled = totalStep != 0;
 			unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
@@ -2052,13 +2059,13 @@ namespace LightController.MyForm
 			//若按键名称变动，则说明是音频模式
 			else
 			{
-				new SKForm(this, globalIniPath, frame, frameComboBox.Text).ShowDialog();
+				new SKForm(this, globalIniPath, currentFrame, frameComboBox.Text).ShowDialog();
 			}
 		}
 
 		#endregion
 
-		//MARK:NewMainForm：playPanel相关点击事件及辅助方法
+		//MARK：NewMainForm：playPanel相关点击事件及辅助方法
 		#region 灯控调试按钮组（playPanel）点击事件及辅助方法
 
 		/// <summary>
@@ -2191,7 +2198,7 @@ namespace LightController.MyForm
 			SetNotice("正在生成预览数据，请稍候...");
 			try
 			{
-				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, frame, new PreviewCallBack(this));
+				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, currentFrame, new PreviewCallBack(this));
 			}
 			catch (Exception ex)
 			{

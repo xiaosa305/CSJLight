@@ -119,7 +119,7 @@ namespace LightController
 					string lightAddr,string lightPic,int startNum,int endNum,int lightCount)
 		{
 
-			//MARK 0314 删除LightsForm的ImageList
+			//MARK 200314 删除LightsForm的ImageList
 
 			//// 先检查lightPic：若lightPic不在imageList中，则设置默认图片
 			//if (! this.largeImageList.Images.ContainsKey(lightPic))
@@ -214,7 +214,7 @@ namespace LightController
 			mainForm.Activate();
 			
 			//3.提示保存工程
-			mainForm.RequestSave("修改灯具列表后，是否保存工程");
+			mainForm.RequestSave("修改灯具列表后，是否保存工程（如不保存，预览效果时可能会出错）");
 		}
 
 		/// <summary>

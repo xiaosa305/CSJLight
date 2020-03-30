@@ -27,8 +27,10 @@ namespace LightController.MyForm
 
 		// 全局配置及数据库连接		
 		protected IniFileAst globalSetFileAst; //GlobalSet.ini 文件读取的 辅助对象
-		public string softwareName ;	
-		public string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+		public string SoftwareName ;	
+		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+		public bool IsShowTestButton = false;
+		public bool IsShowHardwareUpdate = false;
 
 		// 几个全局的辅助控件（导出文件、toolTip提示等）
 		protected FolderBrowserDialog exportFolderBrowserDialog;
@@ -60,9 +62,9 @@ namespace LightController.MyForm
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）		
 
-        //MARK 0328大变动：4.0 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
+        //MARK 大变动 ：0.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
 	   	protected bool[] frameSaveArray;
-		//MARK 0328大变动：4.1 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
+		//MARK 大变动 ：0.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
 		protected bool[] frameLoadArray;
 
 
@@ -126,7 +128,7 @@ namespace LightController.MyForm
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用
 		protected virtual void connectButtonClick() { }//点击连接按钮，但需子类实现
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
-		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 0328大变动：2.0 改变当前Frame
+		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 大变动 ：2.0 改变当前Frame
 
 		public virtual void ResetSyncMode(){} // 清空syncStep
 		public virtual void SetNotice(string notice){} //设置提示信息
@@ -162,13 +164,18 @@ namespace LightController.MyForm
 			enableSLArrange(false, false);
 			enableSave(false);
 
-			//MARK 0328大变动：5.0 clearAllData()内清空frameSaveArray
+			//MARK 大变动 ：3.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
+			frameLoadArray = null;
 
 			ResetSyncMode();
 			AutosetEnabledPlayAndRefreshPic();
 		}
 
+		/// <summary>
+		/// 辅助方法：请求保存工程，并显示提示消息
+		/// </summary>
+		/// <param name="msg"></param>
 		internal void RequestSave(string msg)
 		{
 			DialogResult dr = MessageBox.Show(
@@ -188,17 +195,17 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="projectName"></param>
 		/// <param name="isNew"></param>
-		public void InitProject(string projectName, bool isNew) {
+		public void InitProject(string projectName, int selectedFrameIndex , bool isNew) {
 
 			//0.清空所有list
 			clearAllData();
 
 			// 1.全局设置
 			currentProjectName = projectName;
-			string directoryPath = savePath + @"\LightProject\" + projectName;
+			string directoryPath = SavePath + @"\LightProject\" + projectName;
 			globalIniPath = directoryPath + @"\global.ini";
 			dbFilePath = directoryPath + @"\data.db3";
-			this.Text = softwareName +" Dimmer System(当前工程:" + projectName + ")";
+			this.Text = SoftwareName +" Dimmer System(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 
 			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
@@ -224,14 +231,15 @@ namespace LightController.MyForm
 				lightDAO.CreateSchema(true, true);
 			}
 
-			//MARK 0328大变动：5.1 InitProject()内初始化rameSaveArray
+			//MARK 大变动 ：4.0 InitProject()内初始化frameSaveArray、frameLoadArray
+			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的fsa一定是true的！（原则：当前打开场景的）
+			changeCurrentFrame(selectedFrameIndex);
 			frameSaveArray = new bool[FrameCount];
+			frameLoadArray = new bool[FrameCount];
 			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++) {
-				frameSaveArray[frameIndex] = false;
-				if (frameIndex == currentFrame) {
-					frameSaveArray[frameIndex] = true;
-				}
-			}
+				frameSaveArray[frameIndex] = frameIndex == selectedFrameIndex;
+				frameLoadArray[frameIndex] = false;
+			}			
 
 			// 设置各按键是否可用
 			enableGlobalSet(true);
@@ -242,10 +250,13 @@ namespace LightController.MyForm
 		///  辅助方法: 通过工程名，新建工程; 主要通过调用InitProject(),但在前后加了鼠标特效的处理。（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
 		/// </summary>
 		/// <param name="projectName">工程名(无需isNew参数)</param>
-		public void NewProject(string projectName)
+		public void NewProject(string projectName,int selectedFrameIndex)
 		{
 			this.Cursor = Cursors.WaitCursor;			
-			InitProject(projectName, true);
+			InitProject(projectName, selectedFrameIndex,  true);
+			//MARK 大变动 ：1.2 NewProject时，要frameLoadArray[selectedFrame]=true；
+			frameLoadArray[selectedFrameIndex] = true;
+			MessageBox.Show("成功新建工程，请为此工程添加灯具。");
 			this.Cursor = Cursors.Default;
 		}
 
@@ -261,13 +272,12 @@ namespace LightController.MyForm
 		public void OpenProject(string projectName,int frameIndex)
 		{
 			SetNotice("正在打开工程，请稍候...");			
-			setBusy(true);
-			changeCurrentFrame(frameIndex);
+			setBusy(true);	
 
 			DateTime beforDT = System.DateTime.Now;
 
 			// 0.初始化
-			InitProject(projectName, false);
+			InitProject(projectName, frameIndex,false);
 
 			//10.9 设置listView右键菜单中读取配置的可用项					
 			if (!isAutoArrange)
@@ -289,7 +299,7 @@ namespace LightController.MyForm
 				{
 					new LightsForm(this, null).ShowDialog();
 				}				
-			}
+			}//MARK 大变动 
 			//10.17 若非空工程，则继续执行以下代码。
 			else
 			{
@@ -307,68 +317,9 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)				
-				Thread[] threadArray = new Thread[dbLightList.Count];
-				for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
-				{
-					int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
-					int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
-
-					//MARK 0328大变动：3.1 修改要取的步数（由列表[全部]->列表[当前场景的两个模式]） 取出这0-2个大小的列表值，则后面的代码无需大改。
-					IList<DB_StepCount> scList = stepCountDAO.GetStepCountList(tempLightNo); //取出数据库内的步数列表		
-					//IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, currentFrame);
-
-					IList<DB_Value> tempDbValueList = null;
-					tempDbValueList = valueDAO.GetByLightNo(tempLightNo);
-					threadArray[tempLightIndex] = new Thread(delegate ()
-					{
-						//Console.WriteLine(tempLightIndex + " ++ 线程开始了");
-						if (scList != null && scList.Count > 0)
-						{
-							for (int scIndex = 0; scIndex < scList.Count; scIndex++)
-							{
-								DB_StepCount sc = scList[scIndex];
-								int frame = sc.PK.Frame;
-								int mode = sc.PK.Mode;
-								int lightIndex = sc.PK.LightIndex;
-								int stepCount = sc.StepCount;
-
-								lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
-
-								for (int step = 1; step <= stepCount; step++)
-								{
-									StepWrapper stepWrapper = null;																	
-									var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
-									stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
-									lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
-								}
-							}
-						}
-						//Console.WriteLine(tempLightIndex + " -- 线程结束了");
-					});
-					threadArray[tempLightIndex].Start();
-				}
-
-				// 下列代码，用以监视所有线程是否已经结束运行。
-				while (true)
-				{
-					int unFinishedCount = 0;
-					foreach (var thread in threadArray)
-					{
-						unFinishedCount += thread.IsAlive ? 1 : 0;
-					}
-
-					if (unFinishedCount == 0)
-					{
-						Console.WriteLine("Dickov:所有线程已结束。");
-						break;
-					}
-					else
-					{
-						Thread.Sleep(100);
-					}
-				}
-
+				//MARK 大变动 ：7.2 generateFrameData():在OpenProject内调用
+				generateFrameData(currentFrame);
+				
 				AutosetEnabledPlayAndRefreshPic();
 
 				DateTime afterDT = System.DateTime.Now;
@@ -378,6 +329,78 @@ namespace LightController.MyForm
 				SetNotice("成功打开工程("+ projectName + ")");
 			}
 			setBusy(false);
+		}
+
+		/// <summary>
+		/// MARK 大变动 ：7.0 generateFrameData(int):抽象从DB读Frame数据的代码（多线程）
+		/// 辅助方法：通过传入frame的值，来读取相关的Frame场景数据（两种mode）
+		/// </summary>
+		/// <param name="frameIndex"></param>
+		protected void generateFrameData(int selectedFrameIndex) {
+
+			//MARK： 采用多线程方法优化(每个灯开启一个线程)
+			Thread[] threadArray = new Thread[dbLightList.Count];
+			for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
+			{
+				int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
+				int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
+
+				//MARK 大变动 ：7.1 generateFrameData()内:修改要取的步数（由列表[全部]->列表[当前场景的两个模式]；因为都是IList<DB_StepCount>,故后面的代码无需大改。
+				//IList<DB_StepCount> scList = stepCountDAO.GetStepCountList(tempLightNo); //取出数据库内的步数列表		
+				IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, selectedFrameIndex);
+
+				IList<DB_Value> tempDbValueList = null;
+				tempDbValueList = valueDAO.GetByLightNo(tempLightNo);
+				threadArray[tempLightIndex] = new Thread(delegate ()
+				{
+					//Console.WriteLine(tempLightIndex + " ++ 线程开始了");
+					if (scList != null && scList.Count > 0)
+					{
+						for (int scIndex = 0; scIndex < scList.Count; scIndex++)
+						{
+							DB_StepCount sc = scList[scIndex];
+							int frame = sc.PK.Frame;
+							int mode = sc.PK.Mode;
+							int lightIndex = sc.PK.LightIndex;
+							int stepCount = sc.StepCount;
+
+							lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
+
+							for (int step = 1; step <= stepCount; step++)
+							{
+								StepWrapper stepWrapper = null;
+								var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
+								stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
+								lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+							}
+						}
+					}
+					//Console.WriteLine(tempLightIndex + " -- 线程结束了");
+				});
+				threadArray[tempLightIndex].Start();
+			}
+
+			// 下列代码，用以监视所有线程是否已经结束运行。
+			while (true)
+			{
+				int unFinishedCount = 0;
+				foreach (var thread in threadArray)
+				{
+					unFinishedCount += thread.IsAlive ? 1 : 0;
+				}
+
+				if (unFinishedCount == 0)
+				{
+					Console.WriteLine("Dickov:所有线程已结束。");
+					break;
+				}
+				else
+				{
+					Thread.Sleep(100);
+				}
+			}
+			//MARK 大变动 ：7.0.1 从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true
+			frameLoadArray[selectedFrameIndex] = true;
 		}
 
 		/// <summary>
@@ -538,7 +561,7 @@ namespace LightController.MyForm
 							int initNum = int.Parse(lineList[3 * tdIndex + 7].ToString().Substring(4));
 							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));
 
-							//TODO：20.03.25 生成模板数据时，取出子属性的列表							
+							//MARK 200325 生成模板数据时，取出子属性的列表							
 							string remark = tongdaoName + "\n";
 							IList<SA> saList = new List<SA>();
 							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
@@ -558,7 +581,7 @@ namespace LightController.MyForm
 								StepTime = 66,
 								ChangeMode = -1,
 								Address = lightAst.StartNum + (address - 1),
-								//TODO：20.03.25 生成模板数据时，加入备注
+								//MARK 200325 生成模板数据时，加入备注
 								Remark = remark
 							});
 						}
@@ -1026,9 +1049,13 @@ namespace LightController.MyForm
 			}
 
 			// 2.保存各项数据
+
+			
 			saveAllLights();
+			//TODO 200330:检查下列代码是否冗余了！
 			saveAllStepCounts();
 			saveAllSCAndValues();
+
 			//saveAllStepCounts();
 
 			DateTime afterDT = System.DateTime.Now;
@@ -1043,9 +1070,18 @@ namespace LightController.MyForm
 		/// </summary>
 		private void saveAllSCAndValues()
 		{
-			for (int tempFrame = 0; tempFrame < FrameCount; tempFrame++)
+			//MARK 大变动 ：8.0 保存所有场景数据（两张表），StepCount和Value；并通过frameSaveArray，判断是否要进行保存
+			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
 			{
-				saveFrameSCAndValue(tempFrame);
+				if (frameSaveArray[frameIndex])
+				{
+					saveFrameSCAndValue(frameIndex);
+					//MARK 大变动 ：8.1 如遍历到的frameIndex非当前场景，则frameSaveArray[frameIndex]设为false;意味着之后不需要进行保存了;而当前场景的值仍为true；
+					if (frameIndex != currentFrame)
+					{
+						frameSaveArray[frameIndex] = false;
+					}
+				}
 			}
 		}
 
@@ -1979,7 +2015,7 @@ namespace LightController.MyForm
 		{
 			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
-			new NewForm(this).ShowDialog();
+			new NewForm(this,currentFrame).ShowDialog();
 
 			//当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
 			if (IsCreateSuccess)
@@ -2008,7 +2044,6 @@ namespace LightController.MyForm
 		/// 辅助方法：点击《保存场景》
 		/// </summary>
 		protected void saveFrameClick() {
-
 			SetNotice("正在保存场景,请稍候...");
 			setBusy(true);
 			saveFrame();
@@ -2460,7 +2495,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			/// 添加处理SyncSkinButton的显示（Visible和 Text)，以及相应的全局变量isSysn；
+			/// 复位同步状态为false
 			ResetSyncMode();
 
 			//最后都要用上RefreshStep()
@@ -2643,7 +2678,7 @@ namespace LightController.MyForm
 		#endregion		
 
 		/// <summary>
-		/// 辅助方法：在此初始化一些子类都会用到的控件，并需在子类构造函数中优先调用这个方法
+		/// 辅助方法：在此初始化一些子类都会用到的控件，并需在子类构造函数中优先调用这个方法;以及一些全局变量的取出
 		/// </summary>
 		protected void initGeneralControls() {
 
@@ -2658,6 +2693,12 @@ namespace LightController.MyForm
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.myToolTip.IsBalloon = true;
 			this.myToolTip.InitialDelay = 600;
+
+			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码			
+			SoftwareName = IniFileAst_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
+			SavePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			IsShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
+			IsShowHardwareUpdate = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
 		}
 
 		private void InitializeComponent()

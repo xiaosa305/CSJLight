@@ -47,7 +47,7 @@ namespace LightController.Ast
 					StepTime = value.StepTime,
 					ChangeMode = value.ChangeMode,
 					ScrollValue = value.ScrollValue,
-					//TODO：20.03.25 以模板数据生成备注
+					//MARK 200325 以模板数据生成备注
 					Remark = stepTemplate.TongdaoList[tdIndex].Remark
 				};
 				tongdaoList.Add(td);
@@ -110,9 +110,6 @@ namespace LightController.Ast
 				LightMode = mode,
 				LightFullName = stepTemplate.LightFullName,
 				StartNum = stepTemplate.StartNum
-
-				//UNDONE：此处添加Flag，所有新加的步，Flag=0（ )
-				//,Flag = 0  
 			};
 		}
 

@@ -99,6 +99,7 @@ namespace LightController.MyForm
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
+			this.testButton = new System.Windows.Forms.Button();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
@@ -850,6 +851,7 @@ namespace LightController.MyForm
 			// 
 			this.playBasePanel.BackColor = System.Drawing.Color.White;
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.playBasePanel.Controls.Add(this.testButton);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
 			this.playBasePanel.Controls.Add(this.playPanel);
 			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -857,6 +859,17 @@ namespace LightController.MyForm
 			this.playBasePanel.Name = "playBasePanel";
 			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
 			this.playBasePanel.TabIndex = 67;
+			// 
+			// testButton
+			// 
+			this.testButton.Location = new System.Drawing.Point(1171, 7);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(84, 54);
+			this.testButton.TabIndex = 34;
+			this.testButton.Text = "Test";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Visible = false;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
 			// myStatusStrip
 			// 
@@ -1548,5 +1561,6 @@ namespace LightController.MyForm
 		private NumericUpDown unifyStepTimeNumericUpDown;
 		private Button unifyValueButton;
 		private Button unifyChangeModeButton;
+		private Button testButton;
 	}
 }

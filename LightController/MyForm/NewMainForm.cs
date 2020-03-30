@@ -36,18 +36,10 @@ namespace LightController.MyForm
 		{	
 			initGeneralControls(); //几个全局控件的初始化
 			InitializeComponent();
-
-			// 动态更改软件名称
-			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码
-			softwareName = IniFileAst_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
-			Text = softwareName + " Dimmer System" ; 
-
-			// 动态设定软件存储目录
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
-			// 动态显示测试按钮
-			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
-			// 动态显示硬件升级按钮
-			hardwareUpdateToolStripMenuItem.Enabled = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
+			
+			Text = SoftwareName + " Dimmer System";// 动态更改软件名称			
+			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
+			testButton.Visible = IsShowTestButton;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;	
@@ -575,7 +567,7 @@ namespace LightController.MyForm
 			base.clearAllData();
 
 			//MARK：ClearAllData()在NewMainForm的实现
-			this.Text = softwareName + " Dimmer System" ;
+			this.Text = SoftwareName + " Dimmer System" ;
 			lightsListView.Clear();
 			stepPanel.Enabled = false;
 			hideAllTDPanels();
@@ -649,7 +641,7 @@ namespace LightController.MyForm
 			}			
 		}
 
-		//MARK 0328大变动：2.0.1 (NewMainForm)改变当前Frame
+		//MARK 大变动 ：2.0.1 (NewMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex) {
 			currentFrame = frameIndex;
 			frameComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
@@ -697,7 +689,7 @@ namespace LightController.MyForm
 			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
 			try
 			{
-				currentLightPictureBox.Image = Image.FromFile(savePath + @"\LightPic\" + lightAst.LightPic);
+				currentLightPictureBox.Image = Image.FromFile(SavePath + @"\LightPic\" + lightAst.LightPic);
 			}
 			catch (Exception)
 			{
@@ -764,12 +756,12 @@ namespace LightController.MyForm
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					myToolTip.SetToolTip(tdTrackBars[i], tongdaoList[i].Remark);
+					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
 					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 					
-					//MARK 0313 步时间：主动 乘以时间因子 后 再展示
+					//MARK 200313 步时间：主动 乘以时间因子 后 再展示
 					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString() ;
 
 					tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
@@ -1196,17 +1188,24 @@ namespace LightController.MyForm
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
-			{
+			{				
 				setBusy(true);
 				saveFrame();
+				//MARK 大变动 ：6.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+				frameSaveArray[currentFrame] = false;
 				setBusy(false);
 			}
 
 			currentFrame = frameComboBox.SelectedIndex;
-			if (lightAstList != null && lightAstList.Count > 0)
-			{
-				changeFrameMode();
+
+			//MARK 大变动 ：7.3.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明加载了，不用再进行读取！
+			if (!frameLoadArray[currentFrame]) {				
+				generateFrameData(currentFrame);
 			}
+			//MARK 大变动 ：7.4.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			frameSaveArray[currentFrame] = true;
+
+			changeFrameMode();		
 			SetNotice("成功切换场景");
 		}		
 
@@ -1223,6 +1222,7 @@ namespace LightController.MyForm
 				return;
 			}
 
+			SetNotice("正在切换模式");
 			currentMode = modeComboBox.SelectedIndex;
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
@@ -1270,10 +1270,8 @@ namespace LightController.MyForm
 				unifyStepTimeButton.Size = new System.Drawing.Size(83, 23);
 			}
 
-			if (lightAstList != null && lightAstList.Count > 0)
-			{
-				changeFrameMode();
-			}
+			changeFrameMode();			
+			SetNotice("成功切换模式");
 		}
 
 		/// <summary>
@@ -1344,7 +1342,7 @@ namespace LightController.MyForm
 				MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
 				return;
 			}
-
+			// 通过检查，则可以进行设值等相关操作了
 			isSyncMode = true;
 			syncButton.Text = "退出同步";
 		}
@@ -1817,7 +1815,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			// MARK 0313 步时间：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			// MARK 200313 步时间：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
 			int stepTime = Decimal.ToInt16(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 ); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2 ; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
@@ -1859,7 +1857,7 @@ namespace LightController.MyForm
 					UseVisualStyleBackColor = true
 				};
 				saButton.Click += new EventHandler(saButton_Click);
-				myToolTip.SetToolTip(saButton, sa.SAName);
+				myToolTip.SetToolTip(saButton, sa.SAName +"\n"  + sa.StartValue+" - " + sa.EndValue);
 				saFlowLayoutPanel.Controls.Add(saButton);
 			}
 		}
@@ -2044,7 +2042,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK 0313 步时间：点击《统一步时间》的处理
+				//MARK 200313 步时间：点击《统一步时间》的处理
 				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
@@ -2265,7 +2263,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// TODO：11.22 网络连接
 		/// 辅助方法：重新搜索ip列表-》填入deviceComboBox中
 		/// </summary>
 		private void refreshNetworkList()
@@ -2419,6 +2416,19 @@ namespace LightController.MyForm
 
 
 		#endregion
-		
+
+		/// <summary>
+		/// 事件：点击《测试按钮》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			Console.WriteLine("场景名\tfsa\tfla");
+			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
+			{
+				Console.WriteLine(AllFrameList[frameIndex]+" : " + frameSaveArray[frameIndex] +" - " + frameLoadArray[frameIndex]);
+			}
+		}
 	}
 }

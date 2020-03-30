@@ -380,8 +380,8 @@ namespace LightEditor
 			}
 
 			// 2.设置tongdaoList到mainForm中；
-			lightEditorForm.ShowTds();
 			lightEditorForm.SetSawArray(sawArray2);
+			lightEditorForm.ShowTds();			
 		}
 
 		/// <summary>

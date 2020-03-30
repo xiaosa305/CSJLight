@@ -32,23 +32,13 @@ namespace LightController.MyForm
 			initGeneralControls();
 			InitializeComponent();
 
-			// 动态设定软件存储目录
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
-
-			// 动态显示测试按钮
-			softwareName = IniFileAst_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
-			this.Text = softwareName + " Dimmer System";
-
-			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
-			testGroupBox.Visible = isShowTestButton;
-			bigTestButton.Visible = isShowTestButton;
+			Text = SoftwareName + " Dimmer System";
+			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;
+			testGroupBox.Visible = IsShowTestButton;
+			bigTestButton.Visible = IsShowTestButton;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
-			CheckForIllegalCrossThreadCalls = false;
-
-			// 动态显示硬件升级按钮
-			bool isShowHardwareUpddate = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
-			hardwareUpdateSkinButton.Visible = isShowHardwareUpddate;
+			CheckForIllegalCrossThreadCalls = false;			
 
 			#region 初始化各种辅助数组
 
@@ -283,7 +273,7 @@ namespace LightController.MyForm
 			tdStepTimeNumericUpDowns[30] = tdStepTimeNumericUpDown31;
 			tdStepTimeNumericUpDowns[31] = tdStepTimeNumericUpDown32;
 
-			//MARK 0327 td的各个NumericUpDown添加DecimalPlaces,及居中对齐
+			//MARK 200327 td的各个NumericUpDown添加DecimalPlaces,及居中对齐
 			for (int tdIndex = 0; tdIndex<32;tdIndex++) {
 				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameLabels_Click);
 
@@ -366,8 +356,6 @@ namespace LightController.MyForm
 		
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
-			openLightEditor();
-
 			// 启动时刷新可用串口列表;
 			refreshComList();
 			
@@ -595,7 +583,7 @@ namespace LightController.MyForm
 			//MARK：ClearAllData()在SkinMainForm的实现
 			// ①清空listView列表；
 			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
-			this.Text = softwareName;
+			this.Text = SoftwareName;
 			lightsSkinListView.Clear();
 			stepSkinPanel.Enabled = false;
 			hideAllTDPanels();
@@ -676,7 +664,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK 0328大变动：2.0.1 (SkinMainForm)改变当前Frame
+		//MARK 大变动 ：2.0.2 (SkinMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
@@ -719,7 +707,7 @@ namespace LightController.MyForm
 
 			try
 			{
-				currentLightPictureBox.Image = Image.FromFile(savePath + @"\LightPic\" + lightAst.LightPic);
+				currentLightPictureBox.Image = Image.FromFile(SavePath + @"\LightPic\" + lightAst.LightPic);
 			}
 			catch (Exception)
 			{
@@ -784,25 +772,25 @@ namespace LightController.MyForm
 
 				for (int i = 0; i < tongdaoList.Count; i++)
 				{
-					tdSkinTrackBars[i].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdSkinTrackBars[i].ValueChanged -= new System.EventHandler(tdSkinTrackBars_ValueChanged);
+					tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(tdValueNumericUpDowns_ValueChanged);
 					tdChangeModeSkinComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStepTimeNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+					tdStepTimeNumericUpDowns[i].ValueChanged -= new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdNoLabels[i].Text = "通道" + (startNum + i);
 					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					myToolTip.SetToolTip(tdSkinTrackBars[i], tongdaoList[i].Remark);
+					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
 					tdSkinTrackBars[i].Value = tongdaoList[i].ScrollValue;
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 
-					//MARK 0327 步时间：主动 乘以时间因子 后 再展示
+					//MARK 200327 步时间：主动 乘以时间因子 后 再展示
 					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString();
 
-					tdSkinTrackBars[i].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdSkinTrackBars[i].ValueChanged += new System.EventHandler(tdSkinTrackBars_ValueChanged);
+					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(tdValueNumericUpDowns_ValueChanged);
 					tdChangeModeSkinComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+					tdStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(tdStepTimeNumericUpDowns_ValueChanged);
 
 					tdPanels[i].Show();
 				}
@@ -810,7 +798,6 @@ namespace LightController.MyForm
 				{
 					tdPanels[i].Hide();
 				}
-
 				isPainting = false;
 			}
 		}
@@ -1201,10 +1188,8 @@ namespace LightController.MyForm
 			}
 
 			currentFrame = frameSkinComboBox.SelectedIndex;
-			if (lightAstList != null && lightAstList.Count > 0)
-			{
-				changeFrameMode();
-			}
+
+			changeFrameMode();			
 			SetNotice("成功切换场景");
 		}
 
@@ -1270,10 +1255,8 @@ namespace LightController.MyForm
 				thirdLabel3.Show();
 			}
 
-			if (lightAstList != null && lightAstList.Count > 0)
-			{
-				changeFrameMode();
-			}
+			changeFrameMode();
+			SetNotice("成功切换模式");
 		}
 
 		/// <summary>
@@ -1819,7 +1802,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			//MARK 0327 步时间：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			//MARK 200327 步时间：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
 			int stepTime = Decimal.ToInt16(tdStepTimeNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
@@ -1864,7 +1847,7 @@ namespace LightController.MyForm
 					Tag = tdIndex + "*" + sa.StartValue					
 				};
 				saButton.Click += new EventHandler(saButton_Click);
-				myToolTip.SetToolTip(saButton, sa.SAName);
+				myToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
 				saFlowLayoutPanel.Controls.Add(saButton);
 			}
 		}
@@ -2214,7 +2197,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK 0327 步时间：点击《统一步时间》的处理
+				//MARK 200327 步时间：点击《统一步时间》的处理
 				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
@@ -2441,7 +2424,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// TODO：11.22 网络连接
 		/// 辅助方法：重新搜索ip列表-》填入deviceComboBox中
 		/// </summary>
 		private void refreshNetworkList()

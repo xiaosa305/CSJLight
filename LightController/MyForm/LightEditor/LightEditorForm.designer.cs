@@ -1791,6 +1791,7 @@ namespace LightEditor
 			this.groupBox1.TabIndex = 11;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "设通道值";
+			this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
 			// 
 			// setCurrentToInitButton
 			// 

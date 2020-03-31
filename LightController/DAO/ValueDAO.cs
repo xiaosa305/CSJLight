@@ -12,7 +12,6 @@ namespace LightController.Ast
 {
 	public class ValueDAO : BaseDAO<DB_Value>
 	{
-
 		public ValueDAO(string dbFile, bool isEncrypt) : base(dbFile, isEncrypt)
 		{
 			//this.dbFile = dbFile;
@@ -22,7 +21,7 @@ namespace LightController.Ast
 		/// <summary>
 		/// 辅助方法：通过lightIndex,frame,mode ,step ；来获取某一步的tongdaoList
 		/// </summary>
-		internal IList<DB_Value> getStepValueList(int lightIndex, int frame, int mode, int step)
+		internal IList<DB_Value> GetStepValueList(int lightIndex, int frame, int mode, int step)
 		{
 			using (var session = sessionFactory.OpenSession())
 			{
@@ -42,12 +41,36 @@ namespace LightController.Ast
 			}
 		}
 
+
+		/// <summary>
+		/// MARK 大变动：11.0 ValueDAO中添加一个GetTDValueListOrderByStep(),作用为获取某一个TD特定FM的所有步信息
+		/// 辅助方法：通过lightIndex,frame,mode；来获取某一FM的tongdao的所有步
+		/// </summary>
+		internal IList<DB_Value> GetTDValueListOrderByStep(DB_ValuePK pk)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<DB_Value> valueList = (IList<DB_Value>)session
+					.CreateQuery("FROM DB_Value v WHERE" +
+						" v.PK.LightID=:lightID " +
+						"AND v.PK.Frame = :frame " +
+						"AND v.PK.Mode = :mode " +									
+						"ORDER BY v.PK.Step")
+					.SetInt32("lightID", pk.LightID)
+					.SetInt32("frame", pk.Frame)
+					.SetInt32("mode", pk.Mode)		
+					.List<DB_Value>();
+				return valueList;
+			}
+		}
+
+
 		/// <summary>
 		/// 10.16 辅助方法：通过灯具起始通道值，获取该灯具所有value数据
 		/// </summary>
 		/// <param name="lightNo"></param>
 		/// <returns></returns>
-		internal IList<DB_Value> GetByLightNo(int lightIndex)
+		internal IList<DB_Value> GetByLightIndex(int lightIndex)
 		{
 			using (var session = sessionFactory.OpenSession())
 			{
@@ -57,7 +80,27 @@ namespace LightController.Ast
 						"ORDER BY v.PK.LightID")
 					.SetInt32("lightIndex", lightIndex)
 					.List<DB_Value>();
+				return valueList;
+			}
+		}
 
+		/// <summary>
+		/// 10.16 辅助方法：通过灯具起始通道值，获取该灯具所有value数据
+		/// </summary>
+		/// <param name="lightNo"></param>
+		/// <returns></returns>
+		internal IList<DB_Value> GetByLightIndexAndFrame(int lightIndex,int frame)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<DB_Value> valueList = (IList<DB_Value>)session
+					.CreateQuery("FROM DB_Value v WHERE " +
+						"v.PK.LightIndex =:lightIndex " +
+						"AND v.PK.Frame =:frame " +
+						"ORDER BY v.PK.LightID")
+					.SetInt32("lightIndex", lightIndex)
+					.SetInt32("frame",frame)
+					.List<DB_Value>();
 				return valueList;
 			}
 		}
@@ -181,6 +224,8 @@ namespace LightController.Ast
 				return tdList;
 			}
 		}
+
+	
 	}
 
 

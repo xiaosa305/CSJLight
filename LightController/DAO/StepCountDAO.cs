@@ -30,7 +30,7 @@ namespace LightController.Ast
 			}
 		}
 
-		///MARK 大变动：5.0 添加取步数值的辅助方法
+		///MARK 大变动：05.0 添加取步数值的辅助方法
 		/// <summary>
 		/// 辅助方法：通过lightIndex及frame值，获取指定场景的StepCount值列表
 		/// </summary>
@@ -46,6 +46,28 @@ namespace LightController.Ast
 					.SetInt32("frame", frame)
 					.List<DB_StepCount>();
 				return scList;
+			}
+		}
+
+		/// <summary>
+		/// MARK 大变动：12.4 StepCountDAO内添加通过pk取值的方法
+		/// </summary>
+		/// <param name="stepCountPK"></param>
+		/// <returns></returns>
+		internal DB_StepCount GetStepCountByPK(DB_StepCountPK pk)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				DB_StepCount sc = (DB_StepCount)session
+					.CreateQuery("FROM DB_StepCount sc " +
+						"WHERE sc.PK.LightIndex =:lightIndex " +
+						"AND sc.PK.Frame=:frame " +
+						"AND sc.PK.Mode = :mode")
+					.SetInt32("lightIndex", pk.LightIndex)
+					.SetInt32("frame", pk.Frame)
+					.SetInt32("mode",pk.Mode)
+					.UniqueResult();
+				return sc;
 			}
 		}
 	}		

@@ -10,5 +10,10 @@ namespace DMX512
 	{
 		public virtual DB_StepCountPK PK { get; set; }
         public virtual int StepCount { get; set; }
+
+		public override string ToString()
+		{
+			return PK + " -- " + StepCount; 
+		}
 	}
 }

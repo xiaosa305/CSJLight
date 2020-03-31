@@ -40,6 +40,7 @@ namespace LightController.MyForm
 			Text = SoftwareName + " Dimmer System";// 动态更改软件名称			
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
 			testButton.Visible = IsShowTestButton;
+			testButton2.Visible = IsShowTestButton;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;	
@@ -573,8 +574,6 @@ namespace LightController.MyForm
 			hideAllTDPanels();
 			showStepLabel(0, 0);
 			editLightInfo(null);
-			enableSingleMode(true);
-			endview(); // 清空数据时，应该结束预览。
 		}
 
 		/// <summary>
@@ -641,7 +640,7 @@ namespace LightController.MyForm
 			}			
 		}
 
-		//MARK 大变动：2.0.1 (NewMainForm)改变当前Frame
+		//MARK 大变动：02.0.1 (NewMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
@@ -688,14 +687,10 @@ namespace LightController.MyForm
 			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
 			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
-			try
-			{
-				currentLightPictureBox.Image = Image.FromFile(SavePath + @"\LightPic\" + lightAst.LightPic);
-			}
-			catch (Exception)
-			{
-				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
-			}
+
+			string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;
+			FileInfo fi = new FileInfo(imagePath); 
+			currentLightPictureBox.Image = fi.Exists? Image.FromFile(imagePath) : global::LightController.Properties.Resources.灯光图;
 		}
 
 		/// <summary>
@@ -1179,7 +1174,8 @@ namespace LightController.MyForm
 			{
 				return;
 			}
-			SetNotice("正在切换场景...");
+			setBusy(true);
+			SetNotice("正在切换场景,请稍候...");			
 
 			// 只要更改了场景，直接结束预览
 			endview();
@@ -1192,22 +1188,23 @@ namespace LightController.MyForm
 			{				
 				setBusy(true);
 				saveFrame();
-				//MARK 大变动：6.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+				//MARK 大变动：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
 				frameSaveArray[currentFrame] = false;
 				setBusy(false);
 			}
 
 			currentFrame = frameComboBox.SelectedIndex;
-			//MARK 大变动：6.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明已经加载因而无需重复读取。
+			//MARK 大变动：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明已经加载因而无需重复读取。
 			if (!frameLoadArray[currentFrame])
 			{				
 				generateFrameData(currentFrame);
 			}
-			//MARK 大变动：6.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			//MARK 大变动：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
 			frameSaveArray[currentFrame] = true;
 
-			changeFrameMode();		
-			SetNotice("成功切换场景");
+			changeFrameMode();
+			setBusy(false);
+			SetNotice("成功切换为场景("+AllFrameList[currentFrame]+")");
 		}		
 
 		/// <summary>
@@ -1520,7 +1517,7 @@ namespace LightController.MyForm
 		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
 		/// </summary>
 		/// <param name="isSingleMode"></param>
-		private void enableSingleMode(bool isSingleMode)
+		protected override void enableSingleMode(bool isSingleMode)
 		{
 			isMultiMode = !isSingleMode;
 
@@ -2419,7 +2416,7 @@ namespace LightController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 事件：点击《测试按钮》
+		/// 事件：点击《Test》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -2431,5 +2428,20 @@ namespace LightController.MyForm
 				Console.WriteLine(AllFrameList[frameIndex]+" : " + frameSaveArray[frameIndex] +" - " + frameLoadArray[frameIndex]);
 			}
 		}
+
+		/// <summary>
+		/// 事件：点击《Test2》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton2_Click(object sender, EventArgs e)
+		{
+			generateDBStepCountList();
+			foreach (DB_StepCount sc in dbStepCountList)
+			{
+				Console.WriteLine("遍历sc:" + sc.ToString());
+			}
+		}
+
 	}
 }

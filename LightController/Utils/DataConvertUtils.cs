@@ -67,7 +67,7 @@ namespace LightController.Utils
             DBData data = obj as DBData;
             DBWrapper wrapper = data.Wrapper;
             string configPath = data.ConfigPath;
-            MainFormBase mainForm = data.MianForm;
+            MainFormInterface mainForm = data.MianForm;
             List<int> c_SceneNos = new List<int>();
             List<int> m_SceneNos = new List<int>();
             Console.WriteLine("Start");
@@ -968,9 +968,9 @@ namespace LightController.Utils
             public DBWrapper Wrapper { get; set; }
             public int Mode { get; set; }
             public string ConfigPath { get; set; }
-            public MainFormBase MainForm { get; set; }
+            public MainFormInterface MainForm { get; set; }
             public int SceneNo { get; set; }
-            public SceneThreadDataInfo(int sceneNo, DBWrapper wrapper, MainFormBase mainForm, int mode, string configPath)
+            public SceneThreadDataInfo(int sceneNo, DBWrapper wrapper, MainFormInterface mainForm, int mode, string configPath)
             {
                 this.Wrapper = wrapper;
                 this.Mode = mode;
@@ -983,8 +983,8 @@ namespace LightController.Utils
         {
             public DBWrapper Wrapper { get; set; }
             public string ConfigPath { get; set; }
-            public MainFormBase MianForm { get; set; }
-            public DBData(DBWrapper wrapper, MainFormBase mianForm, string configPath)
+            public MainFormInterface MianForm { get; set; }
+            public DBData(DBWrapper wrapper, MainFormInterface mianForm, string configPath)
             {
                 this.Wrapper = wrapper;
                 this.ConfigPath = configPath;

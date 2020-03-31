@@ -41,7 +41,7 @@ namespace LightController.Utils
         /// <param name="wrapper"></param>
         /// <param name="valueDAO"></param>
         /// <param name="configPath"></param>
-        public static void SaveProjectFile(DBWrapper wrapper, MainFormBase mainForm, string configPath,ISaveProjectCallBack callBack)
+        public static void SaveProjectFile(DBWrapper wrapper, MainFormInterface mainForm, string configPath,ISaveProjectCallBack callBack)
         {
             InitThreadPool();
             CallBack = callBack;

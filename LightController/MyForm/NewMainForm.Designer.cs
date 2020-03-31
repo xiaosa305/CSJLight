@@ -99,6 +99,7 @@ namespace LightController.MyForm
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
+			this.testButton = new System.Windows.Forms.Button();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
@@ -722,7 +723,7 @@ namespace LightController.MyForm
 			this.saFlowLayoutPanel.AutoScroll = true;
 			this.saFlowLayoutPanel.Location = new System.Drawing.Point(4, 5);
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(165, 128);
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(166, 128);
 			this.saFlowLayoutPanel.TabIndex = 63;
 			// 
 			// zeroButton
@@ -850,6 +851,7 @@ namespace LightController.MyForm
 			// 
 			this.playBasePanel.BackColor = System.Drawing.Color.White;
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.playBasePanel.Controls.Add(this.testButton);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
 			this.playBasePanel.Controls.Add(this.playPanel);
 			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -857,6 +859,17 @@ namespace LightController.MyForm
 			this.playBasePanel.Name = "playBasePanel";
 			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
 			this.playBasePanel.TabIndex = 67;
+			// 
+			// testButton
+			// 
+			this.testButton.Location = new System.Drawing.Point(1171, 7);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(84, 54);
+			this.testButton.TabIndex = 34;
+			this.testButton.Text = "Test";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Visible = false;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
 			// myStatusStrip
 			// 
@@ -1089,7 +1102,6 @@ namespace LightController.MyForm
 			// 
 			// stepPanel
 			// 
-			this.stepPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.stepPanel.BackColor = System.Drawing.Color.Transparent;
 			this.stepPanel.Controls.Add(this.chooseStepButton);
 			this.stepPanel.Controls.Add(this.saveMaterialButton);
@@ -1112,6 +1124,7 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.copyStepButton);
 			this.stepPanel.Controls.Add(this.addStepButton);
 			this.stepPanel.Controls.Add(this.pasteStepButton);
+			this.stepPanel.Enabled = false;
 			this.stepPanel.Location = new System.Drawing.Point(109, -1);
 			this.stepPanel.Name = "stepPanel";
 			this.stepPanel.Size = new System.Drawing.Size(938, 83);
@@ -1163,14 +1176,15 @@ namespace LightController.MyForm
 			// 
 			// stepLabel
 			// 
+			this.stepLabel.AutoSize = true;
 			this.stepLabel.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(377, 20);
+			this.stepLabel.Location = new System.Drawing.Point(374, 20);
 			this.stepLabel.Name = "stepLabel";
-			this.stepLabel.Size = new System.Drawing.Size(72, 14);
+			this.stepLabel.Size = new System.Drawing.Size(71, 14);
 			this.stepLabel.TabIndex = 53;
 			this.stepLabel.Tag = "999";
-			this.stepLabel.Text = "  0 / 0";
+			this.stepLabel.Text = "  0 /  0";
 			// 
 			// frameChooseLabel
 			// 
@@ -1547,5 +1561,6 @@ namespace LightController.MyForm
 		private NumericUpDown unifyStepTimeNumericUpDown;
 		private Button unifyValueButton;
 		private Button unifyChangeModeButton;
+		private Button testButton;
 	}
 }

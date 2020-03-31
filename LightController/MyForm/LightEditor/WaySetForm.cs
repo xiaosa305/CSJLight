@@ -14,11 +14,10 @@ using System.Windows.Forms;
 
 namespace LightEditor
 {
+
 	public partial class WaySetForm : Form
 	{
-		private LightEditorForm mainForm;
-		private int tongdaoCount; //通道数量
-		private List<TongdaoWrapper> tongdaoList;
+		private LightEditorForm lightEditorForm;
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
 		private int selectedTdIndex = -1 ;
 
@@ -27,8 +26,8 @@ namespace LightEditor
 		private IList<Panel> saPanels = new List<Panel>();
 		private IList<Label> saNameLabels = new List<Label>();
 		private IList<Label> startValueLabels = new List<Label>();
+		private IList<Label> lineLabels = new List<Label>();
 		private IList<Label> endValueLabels = new List<Label>();
-		private IList<Button> saEditButtons = new List<Button>();
 		private IList<Button> saDeleteButtons = new List<Button>();
 
 		/// <summary>
@@ -37,11 +36,8 @@ namespace LightEditor
 		/// <param name="lightEditorForm"></param>
 		public WaySetForm(LightEditorForm lightEditorForm, int tdIndex)
 		{
-			this.mainForm = lightEditorForm;
-			tongdaoCount = lightEditorForm.tongdaoCount;
-			tongdaoList = lightEditorForm.tongdaoList;
-
-			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.sawArray);
+			this.lightEditorForm = lightEditorForm;
+			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.SawArray);
 
 			InitializeComponent();
 
@@ -166,7 +162,6 @@ namespace LightEditor
 				selectedTextBox = tdTextBoxes[tdIndex];
 				tdTextBoxes[tdIndex].Select();
 				selectedTdIndex = tdIndex;
-
 				refreshSAPanels() ; 
 			}
 		}
@@ -193,10 +188,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void WaySetForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
-
-			//MARK: WaySetForm 下列句子，当子属性功能开放后，应该去掉。
-			//this.Size = new Size(558, 568);
+			this.Location = new Point(lightEditorForm.Location.X + 100, lightEditorForm.Location.Y + 100);
 		}
 
 		/// <summary>
@@ -207,7 +199,7 @@ namespace LightEditor
 		private void WaySetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.Dispose();
-			mainForm.Activate();
+			lightEditorForm.Activate();
 		}
 
 		/// <summary>
@@ -228,10 +220,10 @@ namespace LightEditor
 		/// </summary>
 		private void generateTongdaoList()
 		{
-			for (int i = 0; i < tongdaoCount; i++)
+			for (int i = 0; i < lightEditorForm.TongdaoCount; i++)
 			{
-				this.tdTextBoxes[i].Text = tongdaoList[i].TongdaoName;
-				this.tdNumericUpDowns[i].Value = tongdaoList[i].InitValue;
+				this.tdTextBoxes[i].Text = lightEditorForm.TongdaoList[i].TongdaoName;
+				this.tdNumericUpDowns[i].Value = lightEditorForm.TongdaoList[i].InitValue;
 
 				this.tdLabels[i].Show();
 				this.tdTextBoxes[i].Show();
@@ -280,13 +272,17 @@ namespace LightEditor
 		{
 			foreach (Panel saPanel in saPanels)
 			{
-				saFlowLayoutPanel.Controls.Remove(saPanel);				
+				saFlowLayoutPanel.Controls.Remove(saPanel);							
+			}
+			foreach (Button saDelButton in saDeleteButtons)
+			{
+				saFlowLayoutPanel.Controls.Remove(saDelButton);
 			}
 			saPanels.Clear();
 			saNameLabels.Clear();
 			startValueLabels.Clear();
+			lineLabels.Clear();
 			endValueLabels.Clear();
-			saEditButtons.Clear();
 			saDeleteButtons.Clear();			
 		}
 
@@ -332,9 +328,9 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void resetButton_Click(object sender, EventArgs e)
 		{
-			tongdaoCount = mainForm.tongdaoCount;
-			tongdaoList = mainForm.tongdaoList;
 			generateTongdaoList();
+			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.SawArray);
+			refreshSAPanels();
 		}
 
 		/// <summary>
@@ -348,7 +344,7 @@ namespace LightEditor
 		{
 			applyChange();
 			this.Dispose();
-			mainForm.Activate();
+			lightEditorForm.Activate();
 		}
 
 		/// <summary>
@@ -367,24 +363,25 @@ namespace LightEditor
 		/// 2.设置tongdaoList到mainForm中
 		/// </summary>
 		private void applyChange() {
+
 			// 1.逐一检查textBoxes值;同时设置tongdaoList值
-			for (int i = 0; i < tongdaoCount; i++)
+			for (int tdIndex = 0; tdIndex < lightEditorForm.TongdaoCount; tdIndex++)
 			{
-				if (tdTextBoxes[i].Text == null || tdTextBoxes[i].Text.Trim() == "")
+				if (tdTextBoxes[tdIndex].Text == null || tdTextBoxes[tdIndex].Text.Trim() == "")
 				{
 					MessageBox.Show("Dickov:通道名称不得为空");
 					break;
 				}
 				else
 				{
-					tongdaoList[i].TongdaoName = tdTextBoxes[i].Text.Trim();
-					tongdaoList[i].InitValue = Decimal.ToInt16(tdNumericUpDowns[i].Value);
+					lightEditorForm.TongdaoList[tdIndex].TongdaoName = tdTextBoxes[tdIndex].Text.Trim();
+					lightEditorForm.TongdaoList[tdIndex].InitValue = Decimal.ToInt16(tdNumericUpDowns[tdIndex].Value);
 				}
 			}
 
 			// 2.设置tongdaoList到mainForm中；
-			mainForm.SetTongdaoList(this.tongdaoList);
-			mainForm.SetSawArray(sawArray2);
+			lightEditorForm.SetSawArray(sawArray2);
+			lightEditorForm.ShowTds();			
 		}
 
 		/// <summary>
@@ -419,18 +416,18 @@ namespace LightEditor
 			Label saNameLabelTemp = new Label();
 			Label startLabelTemp = new Label();
 			Label lineLabelTemp = new Label();
-			Label endLabelTemp = new Label();
-			Button saEditButtonTemp = new Button();
+			Label endLabelTemp = new Label();			
 			Button saDeleteButtonTemp = new Button();
 
 			saPanels.Add(saPanelTemp);
 			saNameLabels.Add(saNameLabelTemp);
 			startValueLabels.Add(startLabelTemp);
+			lineLabels.Add(lineLabelTemp);
 			endValueLabels.Add(endLabelTemp);
-			saEditButtons.Add(saEditButtonTemp);
 			saDeleteButtons.Add(saDeleteButtonTemp);
 
 			this.saFlowLayoutPanel.Controls.Add(saPanelTemp);
+			this.saFlowLayoutPanel.Controls.Add(saDeleteButtonTemp);
 			// 
 			// saPanel
 			// 
@@ -439,73 +436,64 @@ namespace LightEditor
 			saPanelTemp.Controls.Add(saNameLabelTemp);
 			saPanelTemp.Controls.Add(startLabelTemp);
 			saPanelTemp.Controls.Add(lineLabelTemp);
-			saPanelTemp.Controls.Add(endLabelTemp);
-			saPanelTemp.Controls.Add(saEditButtonTemp);
-			saPanelTemp.Controls.Add(saDeleteButtonTemp);
+			saPanelTemp.Controls.Add(endLabelTemp);			
 			saPanelTemp.Location = new System.Drawing.Point(3, 42);
-			saPanelTemp.Name = "attrPanel";
-			saPanelTemp.Size = new System.Drawing.Size(192, 52);
+			saPanelTemp.Name = "saPanel";
+			saPanelTemp.Size = new System.Drawing.Size(168, 33);
 			saPanelTemp.TabIndex = 1;
+			saPanelTemp.Click += new EventHandler(saPanel_Click);
 
 			// 
 			// saNameLabel
 			// 
-			saNameLabelTemp.AutoSize = true;
-			saNameLabelTemp.Location = new System.Drawing.Point(11, 4);
-			saNameLabelTemp.Name = "attrNameLabel";
-			saNameLabelTemp.Size = new System.Drawing.Size(89, 12);
+			saNameLabelTemp.Location = new System.Drawing.Point(4,9);
+			saNameLabelTemp.Name = "saNameLabel";
+			saNameLabelTemp.Size = new System.Drawing.Size(90, 12);
 			saNameLabelTemp.TabIndex = 0;
 			saNameLabelTemp.Text = saName;
-
+			saNameLabelTemp.Click += new EventHandler(saLabel_Click);
+			myToolTip.SetToolTip(saNameLabelTemp, saName);
 			// 
 			// startValueLabel
 			// 
-			startLabelTemp.Location = new System.Drawing.Point(110, 4);
+			startLabelTemp.Location = new System.Drawing.Point(101, 9);
 			startLabelTemp.Name = "startValueLabel";
-			startLabelTemp.Size = new System.Drawing.Size(25, 12);
+			startLabelTemp.Size = new System.Drawing.Size(23, 12);
 			startLabelTemp.TabIndex = 2;
 			startLabelTemp.Text = startValue.ToString();
 			startLabelTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			startLabelTemp.Click += new EventHandler(saLabel_Click);
 			// 
 			// lineLabel
 			// 
 			lineLabelTemp.AutoSize = true;
-			lineLabelTemp.Location = new System.Drawing.Point(139, 4);
+			lineLabelTemp.Location = new System.Drawing.Point(128, 9);
 			lineLabelTemp.Name = "lineLabel";
 			lineLabelTemp.Size = new System.Drawing.Size(11, 12);
 			lineLabelTemp.TabIndex = 3;
 			lineLabelTemp.Text = "-";
+			lineLabelTemp.Click += new EventHandler(saLabel_Click);
 			// 
 			// endValueLabel
 			// 
-			endLabelTemp.Location = new System.Drawing.Point(154, 4);
+			endLabelTemp.Location = new System.Drawing.Point(143, 9);
 			endLabelTemp.Name = "endValueLabel";
-			endLabelTemp.Size = new System.Drawing.Size(25, 12);
+			endLabelTemp.Size = new System.Drawing.Size(23, 12);
 			endLabelTemp.TabIndex = 4;
 			endLabelTemp.Text = endValue.ToString();
 			endLabelTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// saEditButton
-			// 
-			saEditButtonTemp.Location = new System.Drawing.Point(8, 23);
-			saEditButtonTemp.Name = "saEditButton";
-			saEditButtonTemp.Size = new System.Drawing.Size(75, 23);
-			saEditButtonTemp.TabIndex = 1;
-			saEditButtonTemp.Text = "修改";
-			saEditButtonTemp.UseVisualStyleBackColor = true;
-			saEditButtonTemp.Click += new System.EventHandler(this.saEditButton_Click);
+			endLabelTemp.Click += new EventHandler(saLabel_Click);
 
 			// 
 			// saDeleteButton
 			// 
-			saDeleteButtonTemp.Location = new System.Drawing.Point(109, 23);
+			//saDeleteButtonTemp.Location = new System.Drawing.Point(170, 4);
 			saDeleteButtonTemp.Name = "saDeleteButton";
-			saDeleteButtonTemp.Size = new System.Drawing.Size(75, 23);
+			saDeleteButtonTemp.Size = new System.Drawing.Size(19, 33);
 			saDeleteButtonTemp.TabIndex = 1;
-			saDeleteButtonTemp.Text = "删除";
+			saDeleteButtonTemp.Text = "-";
 			saDeleteButtonTemp.UseVisualStyleBackColor = true;
 			saDeleteButtonTemp.Click += new System.EventHandler(this.saDeleteButton_Click);
-
 		}
 
 		/// <summary>
@@ -524,26 +512,52 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 事件：点击《saPanel-修改》按钮
+		/// 事件：点击《saPanel内的saLabels(包括saNameLabel、startValueLabel、lineLabel、endValueLabel)》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saEditButton_Click(object sender, EventArgs e)
+		private void saLabel_Click(object sender, EventArgs e)
 		{
-			int saIndex = saEditButtons.IndexOf((Button)sender);
-			if (saIndex == -1) {
-				MessageBox.Show("这个按键不属于saEditButtons");
+			int saIndex;
+			Label label = ((Label)sender);
+			switch ( label.Name ){			
+				case "saNameLabel": saIndex = saNameLabels.IndexOf(label);break;
+				case "startValueLabel": saIndex = startValueLabels.IndexOf(label); break;
+				case "lineLabel": saIndex = lineLabels.IndexOf(label); break;
+				case "endValueLable": saIndex =endValueLabels.IndexOf(label); break;
+				default : return;
+			}
+			saPanelsClick(saIndex);
+		}
+
+		/// <summary>
+		/// 事件：点击《saPanel内的剩余空白区域》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saPanel_Click(object sender, EventArgs e)
+		{
+			int saIndex = saPanels.IndexOf((Panel)sender);
+			saPanelsClick(saIndex);
+		}
+
+		private void saPanelsClick(int saIndex) {
+
+			if (saIndex == -1)
+			{
+				MessageBox.Show("所点击区域不属于saPanels");
 				return;
 			}
-
 			new SAForm(
 				this,
 				saIndex,
 				saNameLabels[saIndex].Text,
 				int.Parse(startValueLabels[saIndex].Text),
 				int.Parse(endValueLabels[saIndex].Text)
-			).ShowDialog();			
+			).ShowDialog();
 		}
+
+
 
 		/// <summary>
 		/// 辅助方法：修改子属性，主要供SAForm回调使用
@@ -574,11 +588,12 @@ namespace LightEditor
 			}
 
 			saFlowLayoutPanel.Controls.Remove(saPanels[saIndex]);
+			saFlowLayoutPanel.Controls.Remove(saDeleteButtons[saIndex]);
 			saPanels.RemoveAt(saIndex);
 			saNameLabels.RemoveAt(saIndex);
 			startValueLabels.RemoveAt(saIndex);
+			lineLabels.RemoveAt(saIndex);
 			endValueLabels.RemoveAt(saIndex);
-			saEditButtons.RemoveAt(saIndex);
 			saDeleteButtons.RemoveAt(saIndex);
 
 			sawArray2[selectedTdIndex].SaList.RemoveAt(saIndex);

@@ -32,6 +32,8 @@
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.frameComboBox = new System.Windows.Forms.ComboBox();
+			this.frameLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -46,15 +48,15 @@
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(83, 30);
+			this.textBox1.Location = new System.Drawing.Point(91, 30);
 			this.textBox1.Margin = new System.Windows.Forms.Padding(2);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(155, 21);
+			this.textBox1.Size = new System.Drawing.Size(139, 21);
 			this.textBox1.TabIndex = 1;
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(39, 78);
+			this.enterButton.Location = new System.Drawing.Point(34, 111);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 23);
 			this.enterButton.TabIndex = 2;
@@ -65,7 +67,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(154, 78);
+			this.cancelButton.Location = new System.Drawing.Point(150, 111);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 2;
@@ -73,13 +75,32 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
+			// frameComboBox
+			// 
+			this.frameComboBox.FormattingEnabled = true;
+			this.frameComboBox.Location = new System.Drawing.Point(130, 71);
+			this.frameComboBox.Name = "frameComboBox";
+			this.frameComboBox.Size = new System.Drawing.Size(100, 20);
+			this.frameComboBox.TabIndex = 5;
+			// 
+			// frameLabel
+			// 
+			this.frameLabel.AutoSize = true;
+			this.frameLabel.Location = new System.Drawing.Point(26, 74);
+			this.frameLabel.Name = "frameLabel";
+			this.frameLabel.Size = new System.Drawing.Size(83, 12);
+			this.frameLabel.TabIndex = 4;
+			this.frameLabel.Text = "选择初始场景:";
+			// 
 			// NewForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(265, 124);
+			this.ClientSize = new System.Drawing.Size(260, 152);
+			this.Controls.Add(this.frameComboBox);
+			this.Controls.Add(this.frameLabel);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
 			this.Controls.Add(this.textBox1);
@@ -104,5 +125,7 @@
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.ComboBox frameComboBox;
+		private System.Windows.Forms.Label frameLabel;
 	}
 }

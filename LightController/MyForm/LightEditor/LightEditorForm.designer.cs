@@ -463,6 +463,7 @@ namespace LightEditor
 			// 
 			// countComboBox
 			// 
+			this.countComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.countComboBox.Font = new System.Drawing.Font("宋体", 10F);
 			this.countComboBox.FormattingEnabled = true;
 			this.countComboBox.Location = new System.Drawing.Point(100, 134);
@@ -485,7 +486,7 @@ namespace LightEditor
 			// 
 			// tongdaoGroupBox2
 			// 
-			this.tongdaoGroupBox2.BackColor = System.Drawing.Color.MintCream;
+			this.tongdaoGroupBox2.BackColor = System.Drawing.Color.SkyBlue;
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown32);
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown31);
 			this.tongdaoGroupBox2.Controls.Add(this.numericUpDown30);
@@ -1790,6 +1791,7 @@ namespace LightEditor
 			this.groupBox1.TabIndex = 11;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "设通道值";
+			this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
 			// 
 			// setCurrentToInitButton
 			// 
@@ -2082,9 +2084,8 @@ namespace LightEditor
 		private NumericUpDown numericUpDown31;
 		private NumericUpDown numericUpDown32;
 
-		public List<TongdaoWrapper> tongdaoList;
-		private OpenFileDialog openFileDialog;
-		public int tongdaoCount;
+
+		private OpenFileDialog openFileDialog;		
 		private Sunisoft.IrisSkin.SkinEngine skinEngine2;
 		private Button setInitButton;
 		private GroupBox editGroupBox;

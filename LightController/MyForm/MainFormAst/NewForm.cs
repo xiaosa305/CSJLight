@@ -20,13 +20,19 @@ namespace LightController
 	public partial class NewForm :Form
 	{
 		private string savePath;
-		
 
 		private MainFormBase mainForm;
-		public NewForm(MainFormBase mainForm)
+		public NewForm(MainFormBase mainForm,int currentFrame)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
+
+			//MARK 大变动：0.1 NewForm加场景选择
+			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
+			{
+				frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
+			}
+			frameComboBox.SelectedIndex = currentFrame;
 		}
 
 		private void NewForm_Load(object sender, EventArgs e)
@@ -85,13 +91,12 @@ namespace LightController
 
 				// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 				// SQLiteHelper.SetPassword(dbFile);
-				mainForm.NewProject(projectName);
-				MessageBox.Show("成功新建工程，请为此工程添加灯具。");
+				//MARK 大变动：1.1 NewForm点确定时，传入frameIndex
+				mainForm.NewProject(projectName,frameComboBox.SelectedIndex);				
 				this.Dispose();
 				mainForm.IsCreateSuccess = true;
 				mainForm.Activate();					
-			}						
-			
+			}	
 		}
 		
 
@@ -105,7 +110,6 @@ namespace LightController
 			this.Dispose();
 			mainForm.Activate();
 		}
-
 		
 		/// <summary>
 		///  事件：点击《右上角？》按钮提示

@@ -21,14 +21,16 @@ using LightEditor.Ast;
 
 namespace LightController.MyForm
 {
-	public class MainFormBase : System.Windows.Forms.Form
+	public class MainFormBase : System.Windows.Forms.Form,MainFormInterface
 	{
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
 
 		// 全局配置及数据库连接		
 		protected IniFileAst globalSetFileAst; //GlobalSet.ini 文件读取的 辅助对象
-		public string softwareName ;	
-		public string savePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+		public string SoftwareName ;	
+		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+		public bool IsShowTestButton = false;
+		public bool IsShowHardwareUpdate = false;
 
 		// 几个全局的辅助控件（导出文件、toolTip提示等）
 		protected FolderBrowserDialog exportFolderBrowserDialog;
@@ -58,7 +60,13 @@ namespace LightController.MyForm
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密		
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
-		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
+		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）		
+
+        //MARK 大变动：0.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
+	   	protected bool[] frameSaveArray;
+		//MARK 大变动：0.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
+		protected bool[] frameLoadArray;
+
 
 		// 数据库DAO(data access object：数据访问对象）
 		protected LightDAO lightDAO;
@@ -85,8 +93,8 @@ namespace LightController.MyForm
 		protected IList<int> selectedIndices = new List<int>(); //选择的灯具的index列表（多选情况下）
 		protected string selectedLightName = ""; //选中的灯具的名字（lightName + lightType）
 
-		protected int frame = 0; // 表示场景编号(selectedIndex )
-		protected int mode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
+		protected int currentFrame = 0; // 表示场景编号(selectedIndex )
+		protected int currentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
 
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
 
@@ -119,7 +127,8 @@ namespace LightController.MyForm
 		protected virtual void hideAllTDPanels() { } //隐藏所有通道
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用
 		protected virtual void connectButtonClick() { }//点击连接按钮，但需子类实现
-		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值
+		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
+		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 大变动：2.0 改变当前Frame
 
 		public virtual void ResetSyncMode(){} // 清空syncStep
 		public virtual void SetNotice(string notice){} //设置提示信息
@@ -155,10 +164,18 @@ namespace LightController.MyForm
 			enableSLArrange(false, false);
 			enableSave(false);
 
+			//MARK 大变动：3.0 clearAllData()内清空frameSaveArray、frameLoadArray
+			frameSaveArray = null;
+			frameLoadArray = null;
+
 			ResetSyncMode();
 			AutosetEnabledPlayAndRefreshPic();
 		}
 
+		/// <summary>
+		/// 辅助方法：请求保存工程，并显示提示消息
+		/// </summary>
+		/// <param name="msg"></param>
 		internal void RequestSave(string msg)
 		{
 			DialogResult dr = MessageBox.Show(
@@ -178,17 +195,17 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="projectName"></param>
 		/// <param name="isNew"></param>
-		public void InitProject(string projectName, bool isNew) {
+		public void InitProject(string projectName, int selectedFrameIndex , bool isNew) {
 
 			//0.清空所有list
 			clearAllData();
 
 			// 1.全局设置
 			currentProjectName = projectName;
-			string directoryPath = savePath + @"\LightProject\" + projectName;
+			string directoryPath = SavePath + @"\LightProject\" + projectName;
 			globalIniPath = directoryPath + @"\global.ini";
 			dbFilePath = directoryPath + @"\data.db3";
-			this.Text = softwareName +" Dimmer System(当前工程:" + projectName + ")";
+			this.Text = SoftwareName +" Dimmer System(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 
 			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
@@ -214,6 +231,16 @@ namespace LightController.MyForm
 				lightDAO.CreateSchema(true, true);
 			}
 
+			//MARK 大变动：4.0 InitProject()内初始化frameSaveArray、frameLoadArray
+			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的fsa一定是true的！（原则：当前打开场景的）
+			changeCurrentFrame(selectedFrameIndex);
+			frameSaveArray = new bool[FrameCount];
+			frameLoadArray = new bool[FrameCount];
+			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++) {
+				frameSaveArray[frameIndex] = frameIndex == selectedFrameIndex;
+				frameLoadArray[frameIndex] = false;
+			}			
+
 			// 设置各按键是否可用
 			enableGlobalSet(true);
 			enableSave(true);
@@ -223,10 +250,13 @@ namespace LightController.MyForm
 		///  辅助方法: 通过工程名，新建工程; 主要通过调用InitProject(),但在前后加了鼠标特效的处理。（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
 		/// </summary>
 		/// <param name="projectName">工程名(无需isNew参数)</param>
-		public void NewProject(string projectName)
+		public void NewProject(string projectName,int selectedFrameIndex)
 		{
-			this.Cursor = Cursors.WaitCursor;
-			InitProject(projectName, true);
+			this.Cursor = Cursors.WaitCursor;			
+			InitProject(projectName, selectedFrameIndex,  true);
+			//MARK 大变动：1.2 NewProject时，要frameLoadArray[selectedFrame]=true；
+			frameLoadArray[selectedFrameIndex] = true;
+			MessageBox.Show("成功新建工程，请为此工程添加灯具。");
 			this.Cursor = Cursors.Default;
 		}
 
@@ -239,15 +269,15 @@ namespace LightController.MyForm
 		/// （此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
 		/// </summary>
 		/// <param name="directoryPath"></param>
-		public void OpenProject(string projectName)
+		public void OpenProject(string projectName,int frameIndex)
 		{
 			SetNotice("正在打开工程，请稍候...");			
-			setBusy(true);		
+			setBusy(true);	
 
 			DateTime beforDT = System.DateTime.Now;
 
 			// 0.初始化
-			InitProject(projectName, false);
+			InitProject(projectName, frameIndex,false);
 
 			//10.9 设置listView右键菜单中读取配置的可用项					
 			if (!isAutoArrange)
@@ -287,66 +317,9 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK：MainFormInterface.OpenProject()内 : 针对每个lightWrapper，获取其已有步数的场景和模式；采用多线程优化(每个灯开启一个线程)				
-				Thread[] threadArray = new Thread[dbLightList.Count];
-				for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
-				{
-					int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
-					int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
-
-					IList<DB_StepCount> scList = stepCountDAO.getStepCountList(tempLightNo);
-					IList<DB_Value> tempDbValueList = null;
-					tempDbValueList = valueDAO.GetByLightNo(tempLightNo);
-					threadArray[tempLightIndex] = new Thread(delegate ()
-					{
-						//Console.WriteLine(tempLightIndex + " ++ 线程开始了");
-						if (scList != null && scList.Count > 0)
-						{
-							for (int scIndex = 0; scIndex < scList.Count; scIndex++)
-							{
-								DB_StepCount sc = scList[scIndex];
-								int frame = sc.PK.Frame;
-								int mode = sc.PK.Mode;
-								int lightIndex = sc.PK.LightIndex;
-								int stepCount = sc.StepCount;
-
-								lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
-
-								for (int step = 1; step <= stepCount; step++)
-								{
-									StepWrapper stepWrapper = null;
-																	
-									var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
-									stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
-									lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
-								}
-							}
-						}
-						//Console.WriteLine(tempLightIndex + " -- 线程结束了");
-					});
-					threadArray[tempLightIndex].Start();
-				}
-
-				// 下列代码，用以监视所有线程是否已经结束运行。
-				while (true)
-				{
-					int unFinishedCount = 0;
-					foreach (var thread in threadArray)
-					{
-						unFinishedCount += thread.IsAlive ? 1 : 0;
-					}
-
-					if (unFinishedCount == 0)
-					{
-						Console.WriteLine("Dickov:所有线程已结束。");
-						break;
-					}
-					else
-					{
-						Thread.Sleep(100);
-					}
-				}
-
+				//MARK 大变动：7.2 generateFrameData():在OpenProject内调用
+				generateFrameData(currentFrame);
+				
 				AutosetEnabledPlayAndRefreshPic();
 
 				DateTime afterDT = System.DateTime.Now;
@@ -356,6 +329,79 @@ namespace LightController.MyForm
 				SetNotice("成功打开工程("+ projectName + ")");
 			}
 			setBusy(false);
+		}
+
+		/// <summary>
+		/// MARK 大变动：7.0 generateFrameData(int):抽象从DB读Frame数据的代码（多线程）
+		/// 辅助方法：通过传入frame的值，来读取相关的Frame场景数据（两种mode）
+		/// </summary>
+		/// <param name="frameIndex"></param>
+		protected void generateFrameData(int selectedFrameIndex) {
+
+			//MARK： 采用多线程方法优化(每个灯开启一个线程)
+			Thread[] threadArray = new Thread[dbLightList.Count];
+			for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
+			{
+				int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
+				int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
+
+				//MARK 大变动：7.1 generateFrameData()内:修改要取的步数（由列表[全部]->列表[当前场景的两个模式]；因为都是IList<DB_StepCount>,故后面的代码无需大改。
+				//IList<DB_StepCount> scList = stepCountDAO.GetStepCountList(tempLightNo); //取出数据库内的步数列表		
+				IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, selectedFrameIndex);
+
+				IList<DB_Value> tempDbValueList = null;
+				tempDbValueList = valueDAO.GetByLightNo(tempLightNo);
+				threadArray[tempLightIndex] = new Thread(delegate ()
+				{
+					//Console.WriteLine(tempLightIndex + " ++ 线程开始了");
+					if (scList != null && scList.Count > 0)
+					{
+						for (int scIndex = 0; scIndex < scList.Count; scIndex++)
+						{
+							DB_StepCount sc = scList[scIndex];
+							int frame = sc.PK.Frame;
+							int mode = sc.PK.Mode;
+							int lightIndex = sc.PK.LightIndex;
+							int stepCount = sc.StepCount;
+
+							lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
+
+							for (int step = 1; step <= stepCount; step++)
+							{
+								StepWrapper stepWrapper = null;
+								var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
+								stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
+								lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+							}
+						}
+					}
+					//Console.WriteLine(tempLightIndex + " -- 线程结束了");
+				});
+				threadArray[tempLightIndex].Start();
+			}
+
+			// 下列代码，用以监视所有线程是否已经结束运行。
+			while (true)
+			{
+				int unFinishedCount = 0;
+				foreach (var thread in threadArray)
+				{
+					unFinishedCount += thread.IsAlive ? 1 : 0;
+				}
+
+				if (unFinishedCount == 0)
+				{
+					//Console.WriteLine("Dickov:所有线程已结束。");
+					break;
+				}
+				else
+				{
+					Thread.Sleep(100);
+				}
+			}
+			//MARK 大变动：7.0.1 从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true			
+			frameLoadArray[selectedFrameIndex] = true;
+			Console.WriteLine("场景("+AllFrameList[selectedFrameIndex]+")加载完成,其fla设为true");
 		}
 
 		/// <summary>
@@ -516,7 +562,7 @@ namespace LightController.MyForm
 							int initNum = int.Parse(lineList[3 * tdIndex + 7].ToString().Substring(4));
 							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));
 
-							//TODO：20.03.25 生成模板数据时，取出子属性的列表							
+							//MARK 200325 生成模板数据时，取出子属性的列表							
 							string remark = tongdaoName + "\n";
 							IList<SA> saList = new List<SA>();
 							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
@@ -536,7 +582,7 @@ namespace LightController.MyForm
 								StepTime = 66,
 								ChangeMode = -1,
 								Address = lightAst.StartNum + (address - 1),
-								//TODO：20.03.25 生成模板数据时，加入备注
+								//MARK 200325 生成模板数据时，加入备注
 								Remark = remark
 							});
 						}
@@ -646,7 +692,7 @@ namespace LightController.MyForm
 				generateDBFineTuneList();
 
 				//generateDBValueList();
-				IList<DB_Value> dbValueListTemp = generateDBValueList(frame);
+				IList<DB_Value> dbValueListTemp = generateDBValueList(currentFrame);
 
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
 				return allData;
@@ -1004,9 +1050,13 @@ namespace LightController.MyForm
 			}
 
 			// 2.保存各项数据
+
+			
 			saveAllLights();
+			//TODO 200330:检查下列代码是否冗余了！
 			saveAllStepCounts();
 			saveAllSCAndValues();
+
 			//saveAllStepCounts();
 
 			DateTime afterDT = System.DateTime.Now;
@@ -1021,9 +1071,18 @@ namespace LightController.MyForm
 		/// </summary>
 		private void saveAllSCAndValues()
 		{
-			for (int tempFrame = 0; tempFrame < FrameCount; tempFrame++)
+			//MARK 大变动：8.0 保存所有场景数据（两张表），StepCount和Value；并通过frameSaveArray，判断是否要进行保存
+			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
 			{
-				saveFrameSCAndValue(tempFrame);
+				if (frameSaveArray[frameIndex])
+				{
+					saveFrameSCAndValue(frameIndex);
+					//MARK 大变动：8.1 如遍历到的frameIndex非当前场景，则frameSaveArray[frameIndex]设为false;意味着之后不需要进行保存了;而当前场景的值仍为true；
+					if (frameIndex != currentFrame)
+					{
+						frameSaveArray[frameIndex] = false;
+					}
+				}
 			}
 		}
 
@@ -1049,7 +1108,7 @@ namespace LightController.MyForm
 			saveAllFineTunes();
 
 			// 只保存当前场景（两种模式）的stepCount和value
-			saveFrameSCAndValue(frame);
+			saveFrameSCAndValue(currentFrame);
 
 			MessageBox.Show("成功保存当前场景数据。");
 		}
@@ -1057,7 +1116,6 @@ namespace LightController.MyForm
 		#region 素材相关
 
 		/// <summary>
-		/// MARK：调用素材 或 多灯粘贴 
 		/// 辅助方法:调用素材
 		/// </summary>
 		/// <param name="materialAst"></param>
@@ -1096,7 +1154,7 @@ namespace LightController.MyForm
 				StepWrapper newStep = null;
 				for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 				{
-					newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
+					newStep = StepWrapper.GenerateNewStep(stepTemplate, currentMode);
 					// 改造下newStep,将素材值赋给newStep 
 					changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
 					// 使用后插法：避免当前无数据的情况下调用素材失败
@@ -1109,7 +1167,7 @@ namespace LightController.MyForm
 							// 多灯模式下，依然使用上面的步骤来插入素材。
 							for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 							{
-								newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), mode);
+								newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), currentMode);
 								changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
 								getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
 							}
@@ -1122,7 +1180,7 @@ namespace LightController.MyForm
 					{
 						for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 						{
-							newStep = StepWrapper.GenerateNewStep(getSelectedLightCurrentStepWrapper(lightIndex), mode);
+							newStep = StepWrapper.GenerateNewStep(getSelectedLightCurrentStepWrapper(lightIndex), currentMode);
 							getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
 						}
 					}
@@ -1161,7 +1219,7 @@ namespace LightController.MyForm
 				{
 					for (int i = 0; i < finalStep - totalStep; i++)
 					{
-						newStep = StepWrapper.GenerateNewStep(stepTemplate, mode);
+						newStep = StepWrapper.GenerateNewStep(stepTemplate, currentMode);
 						lsWrapper.AddStep(newStep);
 					}
 				}
@@ -1183,7 +1241,7 @@ namespace LightController.MyForm
 							{
 								for (int i = 0; i < finalStep - totalStep; i++)
 								{
-									newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), mode);
+									newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), currentMode);
 									getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 								}
 							}
@@ -1203,7 +1261,7 @@ namespace LightController.MyForm
 						for (int i = 0; i < finalStep - totalStep; i++)
 						{
 							// 只有超过了当前步数，才需要addStep,故取当前步或最大步皆可。
-							newStep = StepWrapper.GenerateNewStep(getSelectedLightCurrentStepWrapper(lightIndex), mode);
+							newStep = StepWrapper.GenerateNewStep(getSelectedLightCurrentStepWrapper(lightIndex), currentMode);
 							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 						}
 					}
@@ -1237,8 +1295,7 @@ namespace LightController.MyForm
 				}
 			}
 			return sameTDIndexList;
-		}
-		
+		}		
 
 		/// <summary>
 		/// 辅助方法：用传进来的素材数据，重新包装StepWrapper
@@ -1417,14 +1474,14 @@ namespace LightController.MyForm
 			else
 			{
 				//若为空，则立刻创建一个
-				if (lightWrapper.LightStepWrapperList[frame, mode] == null)
+				if (lightWrapper.LightStepWrapperList[currentFrame, currentMode] == null)
 				{
-					lightWrapper.LightStepWrapperList[frame, mode] = new LightStepWrapper()
+					lightWrapper.LightStepWrapperList[currentFrame, currentMode] = new LightStepWrapper()
 					{
 						StepWrapperList = new List<StepWrapper>()
 					};
 				};
-				return lightWrapper.LightStepWrapperList[frame, mode];
+				return lightWrapper.LightStepWrapperList[currentFrame, currentMode];
 			}
 		}
 
@@ -1614,12 +1671,12 @@ namespace LightController.MyForm
 		protected StepWrapper getSelectedStepWrapper(int lightIndex)
 		{
 			LightWrapper lightWrapper = lightWrapperList[lightIndex];
-			if (lightWrapper == null || lightWrapper.LightStepWrapperList[frame, mode] == null) {
+			if (lightWrapper == null || lightWrapper.LightStepWrapperList[currentFrame, currentMode] == null) {
 				return null;
 			}
 
-			int currentStep = lightWrapper.LightStepWrapperList[frame, mode].CurrentStep;
-			int totalStep = lightWrapper.LightStepWrapperList[frame, mode].TotalStep;
+			int currentStep = lightWrapper.LightStepWrapperList[currentFrame, currentMode].CurrentStep;
+			int totalStep = lightWrapper.LightStepWrapperList[currentFrame, currentMode].TotalStep;
 
 			// 当前步或最大步某一种为0的情况下，返回null
 			if (currentStep == 0 || totalStep == 0)
@@ -1628,7 +1685,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				return lightWrapper.LightStepWrapperList[frame, mode].StepWrapperList[currentStep - 1];
+				return lightWrapper.LightStepWrapperList[currentFrame, currentMode].StepWrapperList[currentStep - 1];
 			}
 		}
 
@@ -1682,11 +1739,9 @@ namespace LightController.MyForm
 			// 刷新当前tdPanels数据。
 			RefreshStep();
 		}
-
-		//MARK：RefreshStep()
+				
 		/// <summary>
 		/// 辅助方法：刷新当前步;
-		/// MARK：MainFormInterface.RefreshStep():不一定使用chooseStep方法 
 		/// </summary>
 		public void RefreshStep()
 		{
@@ -1720,7 +1775,7 @@ namespace LightController.MyForm
 				{
 					//通过组长生成相关的数据
 					StepWrapper currentStepTemplate = lightWrapperList[index].StepTemplate;
-					lightWrapperList[index].LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, mode);
+					lightWrapperList[index].LightStepWrapperList[currentFrame, currentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, currentMode);
 				}
 			}
 		}
@@ -1858,9 +1913,9 @@ namespace LightController.MyForm
 		{
 			foreach (LightWrapper item in lightWrapperList)
 			{
-				if (item.LightStepWrapperList[frame, mode] != null)
+				if (item.LightStepWrapperList[currentFrame, currentMode] != null)
 				{
-					Console.WriteLine(item.StepTemplate.LightFullName + ":" + item.LightStepWrapperList[frame, mode].CurrentStep + "/" + item.LightStepWrapperList[frame, mode].TotalStep);
+					Console.WriteLine(item.StepTemplate.LightFullName + ":" + item.LightStepWrapperList[currentFrame, currentMode].CurrentStep + "/" + item.LightStepWrapperList[currentFrame, currentMode].TotalStep);
 				}
 			}
 		}
@@ -1904,11 +1959,17 @@ namespace LightController.MyForm
 		/// <param name="text"></param>
 		public void UseOtherForm(int selectedFrameIndex)
 		{
-			//MessageBox.Show(selectedFrameIndex  + " - " + AllFrameList[selectedFrameIndex]); 
+			//MARK 大变动：9.1 调用场景时，若是已打开的场景，保持原样不动；若是未打开的场景，主动帮着打开
+			if (!frameLoadArray[selectedFrameIndex]) {
+				generateFrameData(selectedFrameIndex);
+			}
+
 			foreach (LightWrapper lightWrapper in lightWrapperList)
 			{
-				lightWrapper.LightStepWrapperList[frame, mode] = LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, mode], lightWrapper.StepTemplate, mode);
+				lightWrapper.LightStepWrapperList[currentFrame, currentMode]
+					= LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, currentMode], lightWrapper.StepTemplate, currentMode);
 			}
+
 			ResetSyncMode();
 			RefreshStep();
 			MessageBox.Show("成功调用场景:" + AllFrameList[selectedFrameIndex]);
@@ -1947,7 +2008,7 @@ namespace LightController.MyForm
 			//{
 			//	MessageBox.Show(ex.Message);
 			//}
-			this.Hide();
+			
 			// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
 			new LightEditor.LightEditorForm(this).ShowDialog();
 		}
@@ -1961,7 +2022,7 @@ namespace LightController.MyForm
 		{
 			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
-			new NewForm(this).ShowDialog();
+			new NewForm(this,currentFrame).ShowDialog();
 
 			//当IsCreateSuccess==true时(NewForm中确定新建之后会修改IsCreateSuccess值)，打开灯具列表
 			if (IsCreateSuccess)
@@ -1975,7 +2036,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openProjectClick()
 		{
-			new OpenForm(this, currentProjectName).ShowDialog();
+			new OpenForm(this, currentFrame, currentProjectName).ShowDialog();
 		}
 
 		/// <summary>
@@ -1983,19 +2044,24 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void useFrameClick()
 		{
-			new UseFrameForm(this, frame).ShowDialog();
+			//MARK 大变动：9.0 调用场景增加只有一个场景（0场景的情况软件不会打开，无需考虑）情况的判断--》不进入useFrameForm；
+			if (MainFormBase.AllFrameList.Count == 1)
+			{
+				MessageBox.Show("软件中只存在一种场景，无法使用调用场景功能。");
+				return;
+			}
+			new UseFrameForm(this, currentFrame).ShowDialog();
 		}	
 
 		/// <summary>
 		/// 辅助方法：点击《保存场景》
 		/// </summary>
 		protected void saveFrameClick() {
-
 			SetNotice("正在保存场景,请稍候...");
 			setBusy(true);
 			saveFrame();
 			setBusy(false);
-			SetNotice("成功保存场景(" + AllFrameList[frame] + ")");
+			SetNotice("成功保存场景(" + AllFrameList[currentFrame] + ")");
 		}
 
 		/// <summary>
@@ -2046,7 +2112,6 @@ namespace LightController.MyForm
 			SetNotice("正在导出工程，请稍候...");
 			setBusy(true);
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));
-
 		}
 
 		/// <summary>
@@ -2208,11 +2273,11 @@ namespace LightController.MyForm
 			StepWrapper newStep;
 			if (insertBefore)
 			{
-				newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getCurrentStepTemplate() : getSelectedLightSelectedStepWrapper(selectedIndex, stepIndex - 1), mode);
+				newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getCurrentStepTemplate() : getSelectedLightSelectedStepWrapper(selectedIndex, stepIndex - 1), currentMode);
 			}
 			else
 			{
-				newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getCurrentStepTemplate() : getCurrentStepWrapper(), mode);
+				newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getCurrentStepTemplate() : getCurrentStepWrapper(), currentMode);
 			}
 			lsWrapper.InsertStep(stepIndex, newStep, insertBefore);
 
@@ -2224,11 +2289,11 @@ namespace LightController.MyForm
 					{
 						if (insertBefore)
 						{
-							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), mode);
+							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), currentMode);
 						}
 						else
 						{
-							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), mode);
+							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), currentMode);
 						}
 						getSelectedLightStepWrapper(lightIndex).InsertStep(stepIndex, newStep, insertBefore);
 					}
@@ -2242,11 +2307,11 @@ namespace LightController.MyForm
 					{
 						if (insertBefore)
 						{
-							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), mode);
+							newStep = StepWrapper.GenerateNewStep(stepIndex == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightSelectedStepWrapper(lightIndex, stepIndex - 1), currentMode);
 						}
 						else
 						{
-							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), mode);
+							newStep = StepWrapper.GenerateNewStep(currentStep == 0 ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightCurrentStepWrapper(lightIndex), currentMode);
 						}
 						getSelectedLightStepWrapper(lightIndex).InsertStep(stepIndex, newStep, insertBefore);
 					}
@@ -2266,7 +2331,7 @@ namespace LightController.MyForm
 			//1.若当前灯具在本F/M下总步数为0 ，则使用stepTemplate数据，
 			//2.否则使用本灯当前最大步的数据			 
 			bool addTemplate = getTotalStep() == 0;
-			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), mode);
+			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), currentMode);
 			lsWrapper.AddStep(newStep);
 			if (isSyncMode)
 			{
@@ -2274,7 +2339,7 @@ namespace LightController.MyForm
 				{
 					if (lightIndex != selectedIndex) //多一层保险...
 					{
-						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex), mode);
+						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex), currentMode);
 						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 					}
 				}
@@ -2285,7 +2350,7 @@ namespace LightController.MyForm
 				{
 					if (lightIndex != selectedIndex)
 					{
-						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex), mode);
+						newStep = StepWrapper.GenerateNewStep(addTemplate ? getSelectedLightStepTemplate(lightIndex) : getSelectedLightLastStepWrapper(lightIndex), currentMode);
 						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 					}
 				}
@@ -2383,7 +2448,7 @@ namespace LightController.MyForm
 		protected void multiCopyClick()
 		{
 
-			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, selectedLightName, getCurrentStep());
+			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, currentMode, selectedLightName, getCurrentStep());
 			if (mscForm != null && !mscForm.IsDisposed)
 			{
 				mscForm.ShowDialog();
@@ -2400,7 +2465,7 @@ namespace LightController.MyForm
 				MessageBox.Show("还未复制多步，无法粘贴。");
 				return;
 			}
-			if (TempMaterialAst.Mode != mode)
+			if (TempMaterialAst.Mode != currentMode)
 			{
 				MessageBox.Show("复制的多步与当前模式不同，无法粘贴。");
 				return;
@@ -2414,7 +2479,7 @@ namespace LightController.MyForm
 		protected void useMaterial()
 		{
 			LightAst la = lightAstList[selectedIndex];
-			new MaterialUseForm(this, mode, la.LightName, la.LightType).ShowDialog();
+			new MaterialUseForm(this, currentMode, la.LightName, la.LightType).ShowDialog();
 		}
 
 		/// <summary>
@@ -2424,7 +2489,7 @@ namespace LightController.MyForm
 		{
 
 			LightAst lightAst = lightAstList[selectedIndex];
-			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, mode, lightAst.LightName, lightAst.LightType);
+			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, currentMode, lightAst.LightName, lightAst.LightType);
 			if (materialForm != null && !materialForm.IsDisposed)
 			{
 				materialForm.ShowDialog();
@@ -2442,7 +2507,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			/// 添加处理SyncSkinButton的显示（Visible和 Text)，以及相应的全局变量isSysn；
+			/// 复位同步状态为false
 			ResetSyncMode();
 
 			//最后都要用上RefreshStep()
@@ -2594,7 +2659,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), mode).ShowDialog();
+			new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), currentMode).ShowDialog();
 		}
 
 		#endregion
@@ -2611,7 +2676,7 @@ namespace LightController.MyForm
 				playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 			}
 			SetNotice("预览数据生成成功,即将开始预览。");
-			playTools.PreView(GetDBWrapper(false), globalIniPath, frame);			
+			playTools.PreView(GetDBWrapper(false), globalIniPath, currentFrame);			
 		}
 
 		/// <summary>
@@ -2625,7 +2690,7 @@ namespace LightController.MyForm
 		#endregion		
 
 		/// <summary>
-		/// 辅助方法：在此初始化一些子类都会用到的控件，并需在子类构造函数中优先调用这个方法
+		/// 辅助方法：在此初始化一些子类都会用到的控件，并需在子类构造函数中优先调用这个方法;以及一些全局变量的取出
 		/// </summary>
 		protected void initGeneralControls() {
 
@@ -2640,6 +2705,12 @@ namespace LightController.MyForm
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.myToolTip.IsBalloon = true;
 			this.myToolTip.InitialDelay = 600;
+
+			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码			
+			SoftwareName = IniFileAst_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
+			SavePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			IsShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
+			IsShowHardwareUpdate = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
 		}
 
 		private void InitializeComponent()

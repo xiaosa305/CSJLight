@@ -59,7 +59,7 @@
 			this.enterButton.TabIndex = 11;
 			this.enterButton.Text = "确定";
 			this.enterButton.UseVisualStyleBackColor = true;
-			this.enterButton.Click += new System.EventHandler(this.enterSkinButton_Click);
+			this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
 			// 
 			// cancelButton
 			// 
@@ -70,7 +70,7 @@
 			this.cancelButton.TabIndex = 11;
 			this.cancelButton.Text = "取消";
 			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.cancelSkinButton_Click);
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// UseFrameForm
 			// 

@@ -42,6 +42,17 @@ namespace LightEditor.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《(右上角)？》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SAForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("子属性名称，请勿使用任何标点符号及空格，并尽可能简短。");
+			e.Cancel = true;
+		}
+
+		/// <summary>
 		/// 辅助方法：检查截止数值是否大于等于起始数值
 		/// </summary>
 		/// <returns></returns>
@@ -53,17 +64,17 @@ namespace LightEditor.MyForm
 			return true;
 		}
 
+		/// <summary>
+		/// 辅助方法：检查SAName是否符合要求
+		/// </summary>
+		/// <returns></returns>
 		private bool checkSAName() {
-			if(String.IsNullOrEmpty(saNameTextBox.Text))
+
+			if (String.IsNullOrEmpty(saNameTextBox.Text.Trim()))
 			{
 				MessageBox.Show("子属性名不得为空!");
 				return false;
 			}
-
-			//TODO : （需考虑有无必要）检查是否重复，相对比较麻烦。
-			//if (wsForm.CheckSAName( saNameTextBox.Text) ) {
-			//	MessageBox.Show()				
-			//}
 
 			return true;
 		}
@@ -74,15 +85,15 @@ namespace LightEditor.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
-		{
-			if ( !checkStartAndEnd() ) {
-				MessageBox.Show("截止值不能小于起始值,请检查后重试。");
-				return;
-			}
+		{		
 			if (!checkSAName()) {
 				return;
 			}
-
+			if (!checkStartAndEnd())
+			{
+				MessageBox.Show("截止值不能小于起始值,请检查后重试。");
+				return;
+			}
 			if ( saIndex == -1)
 			{
 				wsForm.AddSAPanel( saNameTextBox.Text.Trim(), Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value)) ;
@@ -111,15 +122,6 @@ namespace LightEditor.MyForm
 			wsForm.Activate();
 		}
 
-		/// <summary>
-		/// 事件：点击《(右上角)？》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void SAForm_HelpButtonClicked(object sender, CancelEventArgs e)
-		{
-			MessageBox.Show("子属性名称，请勿使用任何标点符号及空格，并尽可能简短。");
-			e.Cancel = true;
-		}
+		
 	}
 }

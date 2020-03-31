@@ -930,7 +930,6 @@ namespace LightController.MyForm
 			// 调用此方法，会先删除之前的表数据，再将当前dbValueList保存到数据库中
 
 			valueDAO.SaveAll("Value", dbValueList);
-
 		}
 
 		/// <summary>
@@ -940,7 +939,6 @@ namespace LightController.MyForm
 		{
 			// 需要先清空valueList
 			dbValueList = new List<DB_Value>();
-
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
 				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
@@ -987,9 +985,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected IList<DB_Value> generateDBValueList(int tempFrame)
 		{
-			// 需要先清空valueList
 			IList<DB_Value> result = new List<DB_Value>();
-
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
 				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
@@ -1026,7 +1022,6 @@ namespace LightController.MyForm
 					}
 				}
 			}
-
 			return result;
 		}
 

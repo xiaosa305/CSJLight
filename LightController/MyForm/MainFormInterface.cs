@@ -7,9 +7,8 @@ using System.Text;
 
 namespace LightController.MyForm
 {
-	interface MainFormInterface
+	public interface MainFormInterface
 	{
 		IList<TongdaoWrapper> GetFMTDList(DB_ValuePK pk);
-
 	}
 }

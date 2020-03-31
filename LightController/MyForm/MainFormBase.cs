@@ -21,7 +21,7 @@ using LightEditor.Ast;
 
 namespace LightController.MyForm
 {
-	public class MainFormBase : System.Windows.Forms.Form
+	public class MainFormBase : System.Windows.Forms.Form,MainFormInterface
 	{
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
 
@@ -62,9 +62,9 @@ namespace LightController.MyForm
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）		
 
-        //MARK 大变动 ：0.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
+        //MARK 大变动：0.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
 	   	protected bool[] frameSaveArray;
-		//MARK 大变动 ：0.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
+		//MARK 大变动：0.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
 		protected bool[] frameLoadArray;
 
 
@@ -128,7 +128,7 @@ namespace LightController.MyForm
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用
 		protected virtual void connectButtonClick() { }//点击连接按钮，但需子类实现
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
-		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 大变动 ：2.0 改变当前Frame
+		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 大变动：2.0 改变当前Frame
 
 		public virtual void ResetSyncMode(){} // 清空syncStep
 		public virtual void SetNotice(string notice){} //设置提示信息
@@ -164,7 +164,7 @@ namespace LightController.MyForm
 			enableSLArrange(false, false);
 			enableSave(false);
 
-			//MARK 大变动 ：3.0 clearAllData()内清空frameSaveArray、frameLoadArray
+			//MARK 大变动：3.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
 			frameLoadArray = null;
 
@@ -231,7 +231,7 @@ namespace LightController.MyForm
 				lightDAO.CreateSchema(true, true);
 			}
 
-			//MARK 大变动 ：4.0 InitProject()内初始化frameSaveArray、frameLoadArray
+			//MARK 大变动：4.0 InitProject()内初始化frameSaveArray、frameLoadArray
 			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的fsa一定是true的！（原则：当前打开场景的）
 			changeCurrentFrame(selectedFrameIndex);
 			frameSaveArray = new bool[FrameCount];
@@ -254,7 +254,7 @@ namespace LightController.MyForm
 		{
 			this.Cursor = Cursors.WaitCursor;			
 			InitProject(projectName, selectedFrameIndex,  true);
-			//MARK 大变动 ：1.2 NewProject时，要frameLoadArray[selectedFrame]=true；
+			//MARK 大变动：1.2 NewProject时，要frameLoadArray[selectedFrame]=true；
 			frameLoadArray[selectedFrameIndex] = true;
 			MessageBox.Show("成功新建工程，请为此工程添加灯具。");
 			this.Cursor = Cursors.Default;
@@ -299,7 +299,7 @@ namespace LightController.MyForm
 				{
 					new LightsForm(this, null).ShowDialog();
 				}				
-			}//MARK 大变动 
+			}
 			//10.17 若非空工程，则继续执行以下代码。
 			else
 			{
@@ -317,7 +317,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK 大变动 ：7.2 generateFrameData():在OpenProject内调用
+				//MARK 大变动：7.2 generateFrameData():在OpenProject内调用
 				generateFrameData(currentFrame);
 				
 				AutosetEnabledPlayAndRefreshPic();
@@ -332,7 +332,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// MARK 大变动 ：7.0 generateFrameData(int):抽象从DB读Frame数据的代码（多线程）
+		/// MARK 大变动：7.0 generateFrameData(int):抽象从DB读Frame数据的代码（多线程）
 		/// 辅助方法：通过传入frame的值，来读取相关的Frame场景数据（两种mode）
 		/// </summary>
 		/// <param name="frameIndex"></param>
@@ -345,7 +345,7 @@ namespace LightController.MyForm
 				int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
 				int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
 
-				//MARK 大变动 ：7.1 generateFrameData()内:修改要取的步数（由列表[全部]->列表[当前场景的两个模式]；因为都是IList<DB_StepCount>,故后面的代码无需大改。
+				//MARK 大变动：7.1 generateFrameData()内:修改要取的步数（由列表[全部]->列表[当前场景的两个模式]；因为都是IList<DB_StepCount>,故后面的代码无需大改。
 				//IList<DB_StepCount> scList = stepCountDAO.GetStepCountList(tempLightNo); //取出数据库内的步数列表		
 				IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, selectedFrameIndex);
 
@@ -391,7 +391,7 @@ namespace LightController.MyForm
 
 				if (unFinishedCount == 0)
 				{
-					Console.WriteLine("Dickov:所有线程已结束。");
+					//Console.WriteLine("Dickov:所有线程已结束。");
 					break;
 				}
 				else
@@ -399,8 +399,9 @@ namespace LightController.MyForm
 					Thread.Sleep(100);
 				}
 			}
-			//MARK 大变动 ：7.0.1 从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true
+			//MARK 大变动：7.0.1 从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true			
 			frameLoadArray[selectedFrameIndex] = true;
+			Console.WriteLine("场景("+AllFrameList[selectedFrameIndex]+")加载完成,其fla设为true");
 		}
 
 		/// <summary>
@@ -1070,13 +1071,13 @@ namespace LightController.MyForm
 		/// </summary>
 		private void saveAllSCAndValues()
 		{
-			//MARK 大变动 ：8.0 保存所有场景数据（两张表），StepCount和Value；并通过frameSaveArray，判断是否要进行保存
+			//MARK 大变动：8.0 保存所有场景数据（两张表），StepCount和Value；并通过frameSaveArray，判断是否要进行保存
 			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
 			{
 				if (frameSaveArray[frameIndex])
 				{
 					saveFrameSCAndValue(frameIndex);
-					//MARK 大变动 ：8.1 如遍历到的frameIndex非当前场景，则frameSaveArray[frameIndex]设为false;意味着之后不需要进行保存了;而当前场景的值仍为true；
+					//MARK 大变动：8.1 如遍历到的frameIndex非当前场景，则frameSaveArray[frameIndex]设为false;意味着之后不需要进行保存了;而当前场景的值仍为true；
 					if (frameIndex != currentFrame)
 					{
 						frameSaveArray[frameIndex] = false;
@@ -1957,12 +1958,18 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="text"></param>
 		public void UseOtherForm(int selectedFrameIndex)
-		{			
+		{
+			//MARK 大变动：9.1 调用场景时，若是已打开的场景，保持原样不动；若是未打开的场景，主动帮着打开
+			if (!frameLoadArray[selectedFrameIndex]) {
+				generateFrameData(selectedFrameIndex);
+			}
+
 			foreach (LightWrapper lightWrapper in lightWrapperList)
 			{
-				lightWrapper.LightStepWrapperList[currentFrame, currentMode] 
+				lightWrapper.LightStepWrapperList[currentFrame, currentMode]
 					= LightStepWrapper.GenerateLightStepWrapper(lightWrapper.LightStepWrapperList[selectedFrameIndex, currentMode], lightWrapper.StepTemplate, currentMode);
 			}
+
 			ResetSyncMode();
 			RefreshStep();
 			MessageBox.Show("成功调用场景:" + AllFrameList[selectedFrameIndex]);
@@ -2037,6 +2044,12 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void useFrameClick()
 		{
+			//MARK 大变动：9.0 调用场景增加只有一个场景（0场景的情况软件不会打开，无需考虑）情况的判断--》不进入useFrameForm；
+			if (MainFormBase.AllFrameList.Count == 1)
+			{
+				MessageBox.Show("软件中只存在一种场景，无法使用调用场景功能。");
+				return;
+			}
 			new UseFrameForm(this, currentFrame).ShowDialog();
 		}	
 
@@ -2099,7 +2112,6 @@ namespace LightController.MyForm
 			SetNotice("正在导出工程，请稍候...");
 			setBusy(true);
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));
-
 		}
 
 		/// <summary>

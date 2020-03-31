@@ -27,7 +27,7 @@ namespace LightController
 			this.mainForm = mainForm;
 			InitializeComponent();
 
-			//MARK 大变动 ：0.1 NewForm加场景选择
+			//MARK 大变动：0.1 NewForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 				frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
@@ -91,7 +91,7 @@ namespace LightController
 
 				// 3.添加密码 -- 正式使用时添加，测试时就不要加了。
 				// SQLiteHelper.SetPassword(dbFile);
-				//MARK 大变动 ：1.1 NewForm点确定时，传入frameIndex
+				//MARK 大变动：1.1 NewForm点确定时，传入frameIndex
 				mainForm.NewProject(projectName,frameComboBox.SelectedIndex);				
 				this.Dispose();
 				mainForm.IsCreateSuccess = true;
@@ -110,7 +110,6 @@ namespace LightController
 			this.Dispose();
 			mainForm.Activate();
 		}
-
 		
 		/// <summary>
 		///  事件：点击《右上角？》按钮提示

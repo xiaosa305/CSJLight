@@ -30,7 +30,7 @@ namespace LightController.Ast
 			}
 		}
 
-		///MARK 大变动 ：5.0 添加取步数值的辅助方法
+		///MARK 大变动：5.0 添加取步数值的辅助方法
 		/// <summary>
 		/// 辅助方法：通过lightIndex及frame值，获取指定场景的StepCount值列表
 		/// </summary>

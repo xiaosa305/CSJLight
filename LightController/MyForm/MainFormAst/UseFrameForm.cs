@@ -14,13 +14,10 @@ namespace LightController.MyForm
 		private MainFormBase mainForm;	
 		private IList<int> frameIndexList  = new List<int>();  // 辅助变量，用于存储场景列表的index列表 
 
-
 		public UseFrameForm(MainFormBase mainForm, int currentFrameIndex)
 		{
 			InitializeComponent();
-
 			this.mainForm = mainForm;
-			
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 				if (frameIndex != currentFrameIndex)
@@ -32,19 +29,17 @@ namespace LightController.MyForm
 			frameComboBox.SelectedIndex = 0;
 		}
 
-
 		private void UseFrameForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);
+			this.Location = new Point(mainForm.Location.X + 300, mainForm.Location.Y + 300);			
 		}
-
 		
 		/// <summary>
 		/// 事件：点击《取消、右上角关闭》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void cancelSkinButton_Click(object sender, EventArgs e)
+		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
 			mainForm.Activate();
@@ -55,7 +50,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void enterSkinButton_Click(object sender, EventArgs e)
+		private void enterButton_Click(object sender, EventArgs e)
 		{			
 			mainForm.UseOtherForm(getFrameIndex()); 
 			this.Dispose();
@@ -70,10 +65,8 @@ namespace LightController.MyForm
 		private int getFrameIndex()
 		{
 			// 获取当前选中项，然后取出其在frameIndexList中的位置
-			int  selectedIndex = frameComboBox.SelectedIndex;
-			int selectedFrameIndex = frameIndexList[selectedIndex];
+			int selectedFrameIndex = frameIndexList[frameComboBox.SelectedIndex];
 			return selectedFrameIndex ;
-		}
-		
+		}		
 	}
 }

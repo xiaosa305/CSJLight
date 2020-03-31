@@ -641,8 +641,9 @@ namespace LightController.MyForm
 			}			
 		}
 
-		//MARK 大变动 ：2.0.1 (NewMainForm)改变当前Frame
-		protected override void changeCurrentFrame(int frameIndex) {
+		//MARK 大变动：2.0.1 (NewMainForm)改变当前Frame
+		protected override void changeCurrentFrame(int frameIndex)
+		{
 			currentFrame = frameIndex;
 			frameComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 			frameComboBox.SelectedIndex = currentFrame;
@@ -1191,18 +1192,18 @@ namespace LightController.MyForm
 			{				
 				setBusy(true);
 				saveFrame();
-				//MARK 大变动 ：6.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+				//MARK 大变动：6.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
 				frameSaveArray[currentFrame] = false;
 				setBusy(false);
 			}
 
 			currentFrame = frameComboBox.SelectedIndex;
-
-			//MARK 大变动 ：7.3.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明加载了，不用再进行读取！
-			if (!frameLoadArray[currentFrame]) {				
+			//MARK 大变动：6.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明已经加载因而无需重复读取。
+			if (!frameLoadArray[currentFrame])
+			{				
 				generateFrameData(currentFrame);
 			}
-			//MARK 大变动 ：7.4.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			//MARK 大变动：6.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
 			frameSaveArray[currentFrame] = true;
 
 			changeFrameMode();		

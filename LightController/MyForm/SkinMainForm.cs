@@ -273,7 +273,7 @@ namespace LightController.MyForm
 			tdStepTimeNumericUpDowns[30] = tdStepTimeNumericUpDown31;
 			tdStepTimeNumericUpDowns[31] = tdStepTimeNumericUpDown32;
 
-			//MARK 200327 td的各个NumericUpDown添加DecimalPlaces,及居中对齐
+			
 			for (int tdIndex = 0; tdIndex<32;tdIndex++) {
 				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameLabels_Click);
 
@@ -664,7 +664,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK 大变动 ：2.0.2 (SkinMainForm)改变当前Frame
+		//MARK 大变动：2.0.2 (SkinMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
@@ -1184,10 +1184,19 @@ namespace LightController.MyForm
 			{
 				setBusy(true);
 				saveFrame();
+				//MARK 大变动：6.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+				frameSaveArray[currentFrame] = false;
 				setBusy(false);
 			}
 
 			currentFrame = frameSkinComboBox.SelectedIndex;
+			//MARK 大变动：6.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则若为true，则说明已经加载因而无需重复读取。！
+			if (!frameLoadArray[currentFrame])
+			{
+				generateFrameData(currentFrame);
+			}
+			//MARK 大变动：6.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			frameSaveArray[currentFrame] = true;
 
 			changeFrameMode();			
 			SetNotice("成功切换场景");

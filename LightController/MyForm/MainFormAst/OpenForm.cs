@@ -27,7 +27,7 @@ namespace LightController.MyForm
 			this.currentProjectName = currentProjectName;
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 
-			//MARK 大变动 ：0.0 OpenForm加场景选择
+			//MARK 大变动：0.0 OpenForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 					frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
@@ -85,7 +85,7 @@ namespace LightController.MyForm
 			{
 				this.Dispose();
 				mainForm.Activate();
-				//MARK 大变动 ：1.0 OpenForm点确定时，只打开单个场景，故传入frameIndex
+				//MARK 大变动：1.0 OpenForm点确定时，只打开单个场景，故传入frameIndex
 				mainForm.OpenProject(projectName,frameComboBox.SelectedIndex);
 			}
 			else

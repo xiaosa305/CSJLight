@@ -595,10 +595,10 @@ namespace LightController.MyForm
 		/// --lightListView也更新为最新的数据
 		/// </summary>
 		/// <param name="lightAstList2"></param>
-		public override void AddLightAstList(IList<LightAst> lightAstList2)
+		public override void AddLightAstList(IList<LightAst> lightAstList2,bool isFirstTime)
 		{
 			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
-			base.AddLightAstList(lightAstList2);
+			base.AddLightAstList(lightAstList2,isFirstTime);
 
 			//下列为针对本Form的处理代码：listView更新为最新数据
 

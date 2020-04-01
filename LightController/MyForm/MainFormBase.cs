@@ -67,6 +67,8 @@ namespace LightController.MyForm
 	   	protected bool[] frameSaveArray;
 		//MARK 大变动：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
 		protected bool[] frameLoadArray;
+		//MARK 大变动：14.0 需有一个IList<int>变量，记录灯具列表更改后，保留着的旧灯具的列表->这些灯具在AddLightAstList内不需删除数据，此列表外的灯具则在DB中进行删除
+		protected IList<int> retainLightIndices;
 
 
 		// 数据库DAO(data access object：数据访问对象）
@@ -178,10 +180,10 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：请求保存工程，并显示提示消息
+		/// 辅助方法：请求保存工程，显示提示消息,并根据isFirstTime决定是否删除冗余灯具数据（StepCount和Value）
 		/// </summary>
 		/// <param name="msg"></param>
-		internal void RequestSave(string msg)
+		internal void RequestSave(bool isFirstTime , string msg)
 		{
 			DialogResult dr = MessageBox.Show(
 				msg,
@@ -191,9 +193,15 @@ namespace LightController.MyForm
 			);
 
 			if (dr == DialogResult.Yes) {
+				if (!isFirstTime) {
+					clearRedundantData();
+				}
 				saveProjectClick();
 			}
 		}
+
+
+
 
 		/// <summary>
 		/// 基类辅助方法：①ClearAllData()；②设置内部的一些工程路径及变量；③初始化数据库
@@ -312,7 +320,7 @@ namespace LightController.MyForm
 				dbStepCountList = getStepCountList();
 				dbFineTuneList = getFineTuneList();
 				lightAstList = reCreateLightAstList(dbLightList); // 通过lightList填充lightAstList
-				AddLightAstList(lightAstList); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容				
+				AddLightAstList(lightAstList,true); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容				
 				Refresh(); //强行刷新显示灯具列表
 				try
 				{
@@ -469,15 +477,18 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法（虚）：添加lightAst列表到主界面内存中,主要供 LightsForm调用（以及OpenProject调用）
 		/// </summary>
-		public virtual void AddLightAstList(IList<LightAst> lightAstList2)
+		public virtual void AddLightAstList(IList<LightAst> lightAstList2,bool isFirstTime)
 		{
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
+			//MARK 大变动：14.2 AddLightAstList()方法体内，对retainLightIndices进行初始化
+			retainLightIndices = new List<int>();
+
 			for (int i = 0; i < lightAstList2.Count; i++)
 			{
 				// 如果addOld改成true，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
 				bool addOld = false;
 				if (lightWrapperList != null && lightWrapperList.Count > 0)
-				{
+				{					
 					for (int j = 0; j < lightAstList.Count; j++)
 					{
 						if (j < lightWrapperList.Count
@@ -486,6 +497,8 @@ namespace LightController.MyForm
 						{
 							lightWrapperList2.Add(lightWrapperList[j]);
 							addOld = true;
+							//MARK 大变动：14.3 AddLightAstList()方法体内，为retainLightIndices添加旧灯具的数据
+							retainLightIndices.Add(lightAstList2[i].StartNum);
 							break;
 						}
 					}
@@ -496,6 +509,12 @@ namespace LightController.MyForm
 					lightWrapperList2.Add(new LightWrapper());
 				}
 			}
+
+			//MARK 大变动：14.4 AddLightAstList()方法体内，若非初始编辑灯具列表，则需处理相关的灯具数据
+			if (!isFirstTime) {
+				
+			}			
+
 			lightAstList = new List<LightAst>(lightAstList2);
 			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
 
@@ -509,8 +528,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：在《打开工程》、《添加灯具》时统一生成所有的LightWrapper的StepTemplate（步数模板）
 		/// </summary>
-		public void GenerateAllStepTemplates() {
-			Console.WriteLine("GenerateAllStepTemplates");
+		public void GenerateAllStepTemplates() {			
 			if (lightWrapperList.Count != lightAstList.Count) {
 				MessageBox.Show("统一生成步数模板时验证错误：lightWrapperList和lightAstList数量不合！");
 				return;
@@ -1057,18 +1075,17 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		protected void saveAll()
-		{
-			DateTime beforeDT = System.DateTime.Now;
-
+		{			
+			DateTime beforeDT = System.DateTime.Now;			
 			// 1.先判断是否有灯具数据；若无，则直接停止
 			if (lightAstList == null || lightAstList.Count == 0)
 			{
 				MessageBox.Show("当前并没有灯具数据，无法保存！");
+				SetNotice("因无灯具数据，保存失败。");
 				return;
 			}
 
 			// 2.保存各项数据
-
 			
 			saveAllLights();
 			//TODO 200330:检查下列代码是否冗余了！
@@ -1081,6 +1098,8 @@ namespace LightController.MyForm
 			TimeSpan ts = afterDT.Subtract(beforeDT);
 
 			MessageBox.Show("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
+			SetNotice("成功保存工程");
+			return;
 		}
 
 		/// <summary>
@@ -2111,8 +2130,7 @@ namespace LightController.MyForm
 			SetNotice("正在保存工程,请稍候...");
 			setBusy(true);
 			saveAll();
-			setBusy(false);
-			SetNotice("成功保存工程");
+			setBusy(false);			
 		}
 
 		/// <summary>

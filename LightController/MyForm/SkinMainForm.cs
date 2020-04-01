@@ -34,6 +34,7 @@ namespace LightController.MyForm
 
 			Text = SoftwareName + " Dimmer System";
 			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;
+			oldToolsSkinButton.Visible = IsLinkOldTools;
 			testGroupBox.Visible = IsShowTestButton;
 			bigTestButton.Visible = IsShowTestButton;
 
@@ -372,7 +373,17 @@ namespace LightController.MyForm
 		{
 			tdSkinFlowLayoutPanel.AutoScrollPosition = new Point(0, 0); ;
 		}
-		
+
+		/// <summary>
+		/// 事件：关闭Form前的操作，在此事件内可取消关闭窗体
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SkinMainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			formClosing(e);
+		}
+
 		// MARK：SkinMainForm各种工具按钮起点
 		#region 工具按钮组 - 非工程相关
 
@@ -438,7 +449,23 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void exitSkinButton_Click(object sender, EventArgs e)
 		{
-			exit();
+			//MARK 大变动：13.1 退出MainForm前提示保存->专门针对《(单独的)退出应用》按钮
+			if (frameSaveArray != null)
+			{
+				DialogResult dr = MessageBox.Show("退出应用前是否保存工程？",
+					 "保存工程？",
+					 MessageBoxButtons.YesNoCancel,
+					 MessageBoxIcon.Asterisk
+				);
+				switch (dr)
+				{
+					case DialogResult.Yes: saveProjectClick(); exit(); break;
+					case DialogResult.No: exit(); break;
+				}
+			}
+			else {
+				exit();
+			}
 		}
 
 		#endregion
@@ -1491,7 +1518,7 @@ namespace LightController.MyForm
 				if (lightIndex == selectedIndex)
 				{
 					lightsAddrLabel.Text += "(" + lightAstList[lightIndex].LightAddr + ") ";
-					lightsSkinListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
+					lightsSkinListView.Items[lightIndex].BackColor = Color.Gold;
 				}
 				else
 				{
@@ -2743,15 +2770,16 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoIndex">tongdaoList的Index</param>
 		/// <param name="shielded">是否被屏蔽</param>
-		private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-		{
-			tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
-			tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-			tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		}		
+		//private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
+		//{
+		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
+		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//}		
 
 		#endregion
 
+		
 	}
 
 

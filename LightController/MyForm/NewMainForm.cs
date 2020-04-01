@@ -39,6 +39,9 @@ namespace LightController.MyForm
 			
 			Text = SoftwareName + " Dimmer System";// 动态更改软件名称			
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
+			QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
+			CenterControllerToolStripMenuItem.Enabled = IsLinkOldTools;//旧外设是否进行关联
+			KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			testButton.Visible = IsShowTestButton;
 			testButton2.Visible = IsShowTestButton;
 
@@ -232,6 +235,16 @@ namespace LightController.MyForm
 			//MARK：思考启动时是否刷新可用串口列表;
 			refreshComList();
 			SetNotice("");
+		}
+
+		/// <summary>
+		/// 事件：关闭Form前的操作，在此事件内可取消关闭窗体
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewMainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			formClosing(e);
 		}
 
 		/// <summary>
@@ -1510,6 +1523,7 @@ namespace LightController.MyForm
 					lightsListView.Items[lightIndex].BackColor = Color.SkyBlue;
 				}
 			}
+
 			enableSingleMode(false);
 		}
 
@@ -1521,7 +1535,7 @@ namespace LightController.MyForm
 		{
 			isMultiMode = !isSingleMode;
 
-			lightsListView.Enabled = isSingleMode;
+			lightsListView.Enabled = isSingleMode;		
 			frameComboBox.Enabled = isSingleMode;
 			modeComboBox.Enabled = isSingleMode;
 			useFrameButton.Enabled = isSingleMode;
@@ -2443,5 +2457,7 @@ namespace LightController.MyForm
 			}
 		}
 
+		
+		
 	}
 }

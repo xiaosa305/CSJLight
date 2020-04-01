@@ -48,7 +48,7 @@ namespace OtherTools
 		private KeyEntity keyEntity;  // 墙板封装对象
 
 		private bool isReadLC = false;
-		private string protocolXlsPath = Application.StartupPath + @"\CenterController\Controller.xls";
+		private string protocolXlsPath = Application.StartupPath + @"\Controller.xls";
 		private HSSFWorkbook xlsWorkbook;
 		private IList<string> sheetList;
 
@@ -146,8 +146,7 @@ namespace OtherTools
 			zwjTestButton.Visible = isShowTestButton;
 
 			//直接刷新串口列表
-			refreshDeviceComboBox();
-		
+			refreshDeviceComboBox();		
 		}
 
 
@@ -663,8 +662,7 @@ namespace OtherTools
 			}
 			catch (Exception ex) {
 				MessageBox.Show(ex.Message);
-			}
-			
+			}			
 		}
 
 

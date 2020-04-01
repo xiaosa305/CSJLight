@@ -26,11 +26,12 @@ namespace LightController.MyForm
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
 
 		// 全局配置及数据库连接		
-		protected IniFileAst globalSetFileAst; //GlobalSet.ini 文件读取的 辅助对象
-		public string SoftwareName ;	
+		public string SoftwareName ;	 //动态载入软件名（前半部分）后半部分需自行封装
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
 		public bool IsShowTestButton = false;
 		public bool IsShowHardwareUpdate = false;
+		public bool IsLinkLightEditor = false;
+		public bool IsLinkOldTools = false;
 
 		// 几个全局的辅助控件（导出文件、toolTip提示等）
 		protected FolderBrowserDialog exportFolderBrowserDialog;
@@ -275,7 +276,8 @@ namespace LightController.MyForm
 		/// <param name="directoryPath"></param>
 		public void OpenProject(string projectName,int frameIndex)
 		{
-			SetNotice("正在打开工程，请稍候...");			
+			SetNotice("正在打开工程，请稍候...");
+			Refresh(); //强行刷新显示Notice
 			setBusy(true);	
 
 			DateTime beforDT = System.DateTime.Now;
@@ -311,6 +313,7 @@ namespace LightController.MyForm
 				dbFineTuneList = getFineTuneList();
 				lightAstList = reCreateLightAstList(dbLightList); // 通过lightList填充lightAstList
 				AddLightAstList(lightAstList); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容				
+				Refresh(); //强行刷新显示灯具列表
 				try
 				{
 					GenerateAllStepTemplates(); // 8.29 统一生成步数模板
@@ -2033,17 +2036,21 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor() {
 
-			//try
-			//{
-			//	System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
-			//}
-			//catch (Exception ex)
-			//{
-			//	MessageBox.Show(ex.Message);
-			//}
-			
-			// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
-			new LightEditor.LightEditorForm(this).ShowDialog();
+			if (IsLinkLightEditor)
+			{
+				try
+				{
+					System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+				}
+			}
+			else {
+				// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
+				new LightEditor.LightEditorForm(this).ShowDialog();
+			}
 		}
 
 		#region projectPanel相关
@@ -2744,6 +2751,31 @@ namespace LightController.MyForm
 			SavePath = @IniFileAst.GetSavePath(Application.StartupPath);
 			IsShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton");
 			IsShowHardwareUpdate = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
+			IsLinkLightEditor = IniFileAst.GetIsLink(Application.StartupPath, "lightEditor");
+			IsLinkOldTools = IniFileAst.GetIsLink(Application.StartupPath, "oldTools");
+		}
+
+		/// <summary>
+		/// 辅助方法：点击退出时FormClosing事件；
+		/// </summary>
+		/// <param name="e"></param>
+		protected void formClosing(FormClosingEventArgs e)
+		{
+			//MARK 大变动：13.0 退出MainForm前提示保存
+			if (frameSaveArray != null)
+			{
+				DialogResult dr = MessageBox.Show("退出应用前是否保存工程？",
+					 "保存工程？",
+					 MessageBoxButtons.YesNoCancel,
+					 MessageBoxIcon.Asterisk
+				);
+				switch (dr)
+				{
+					case DialogResult.Yes: saveProjectClick(); break;
+					case DialogResult.Cancel: e.Cancel = true; break;
+					default: break;
+				}
+			}
 		}
 
 		private void InitializeComponent()

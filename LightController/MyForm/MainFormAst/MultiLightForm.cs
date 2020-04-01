@@ -58,7 +58,7 @@ namespace LightController.MyForm
 				return;				
 			}
 
-			mainForm.EnterMultiMode( selectedIndex  ,  copyAllCheckBox.Checked);
+			mainForm.EnterMultiMode( selectedIndex , copyAllCheckBox.Checked);
 			Dispose();
 			mainForm.Activate();			
 		}	

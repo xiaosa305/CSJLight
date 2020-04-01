@@ -861,6 +861,9 @@
     <Content Include="irisSkins\XPSilver.ssk">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Controller.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="PreTDNameList">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

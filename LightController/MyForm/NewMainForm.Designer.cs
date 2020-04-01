@@ -1422,6 +1422,7 @@ namespace LightController.MyForm
 			this.MinimumSize = new System.Drawing.Size(1280, 883);
 			this.Name = "NewMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewMainForm_FormClosing);
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();

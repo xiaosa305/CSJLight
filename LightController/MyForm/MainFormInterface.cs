@@ -9,6 +9,7 @@ namespace LightController.MyForm
 {
 	public interface MainFormInterface
 	{
+		//MARK 大变动：10.0 抽象出GetFMTDList() 
 		IList<TongdaoWrapper> GetFMTDList(DB_ValuePK pk);
 	}
 }

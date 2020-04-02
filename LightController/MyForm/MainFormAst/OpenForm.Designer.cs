@@ -28,16 +28,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.projectTreeView = new System.Windows.Forms.TreeView();
-			this.mySkinContextMenuStrip = new CCWin.SkinControl.SkinContextMenuStrip();
-			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.copyProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.deleteButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.frameLabel = new System.Windows.Forms.Label();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
-			this.mySkinContextMenuStrip.SuspendLayout();
+			this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.renameButton = new System.Windows.Forms.ToolStripMenuItem();
+			this.copyButton = new System.Windows.Forms.ToolStripMenuItem();
+			this.myContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// projectTreeView
@@ -51,49 +52,6 @@
 			this.projectTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
 			this.projectTreeView.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
 			this.projectTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
-			// 
-			// mySkinContextMenuStrip
-			// 
-			this.mySkinContextMenuStrip.Arrow = System.Drawing.Color.Black;
-			this.mySkinContextMenuStrip.Back = System.Drawing.Color.White;
-			this.mySkinContextMenuStrip.BackRadius = 4;
-			this.mySkinContextMenuStrip.Base = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(200)))), ((int)(((byte)(254)))));
-			this.mySkinContextMenuStrip.DropDownImageSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
-			this.mySkinContextMenuStrip.Fore = System.Drawing.Color.Black;
-			this.mySkinContextMenuStrip.HoverFore = System.Drawing.Color.White;
-			this.mySkinContextMenuStrip.ItemAnamorphosis = true;
-			this.mySkinContextMenuStrip.ItemBorder = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
-			this.mySkinContextMenuStrip.ItemBorderShow = true;
-			this.mySkinContextMenuStrip.ItemHover = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
-			this.mySkinContextMenuStrip.ItemPressed = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
-			this.mySkinContextMenuStrip.ItemRadius = 4;
-			this.mySkinContextMenuStrip.ItemRadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.renameToolStripMenuItem,
-            this.copyProjectToolStripMenuItem});
-			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
-			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
-			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(137, 48);
-			this.mySkinContextMenuStrip.SkinAllColor = true;
-			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
-			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
-			this.mySkinContextMenuStrip.TitleRadius = 4;
-			this.mySkinContextMenuStrip.TitleRadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			// 
-			// renameToolStripMenuItem
-			// 
-			this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-			this.renameToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-			this.renameToolStripMenuItem.Text = "工程重命名";
-			this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
-			// 
-			// copyProjectToolStripMenuItem
-			// 
-			this.copyProjectToolStripMenuItem.Name = "copyProjectToolStripMenuItem";
-			this.copyProjectToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-			this.copyProjectToolStripMenuItem.Text = "工程复制";
-			this.copyProjectToolStripMenuItem.Click += new System.EventHandler(this.copyProjectToolStripMenuItem_Click);
 			// 
 			// enterButton
 			// 
@@ -142,6 +100,28 @@
 			this.frameComboBox.Size = new System.Drawing.Size(93, 20);
 			this.frameComboBox.TabIndex = 3;
 			// 
+			// myContextMenuStrip
+			// 
+			this.myContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renameButton,
+            this.copyButton});
+			this.myContextMenuStrip.Name = "contextMenuStrip1";
+			this.myContextMenuStrip.Size = new System.Drawing.Size(181, 70);
+			// 
+			// renameButton
+			// 
+			this.renameButton.Name = "renameButton";
+			this.renameButton.Size = new System.Drawing.Size(180, 22);
+			this.renameButton.Text = "工程重命名";
+			this.renameButton.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+			// 
+			// copyButton
+			// 
+			this.copyButton.Name = "copyButton";
+			this.copyButton.Size = new System.Drawing.Size(180, 22);
+			this.copyButton.Text = "工程复制";
+			this.copyButton.Click += new System.EventHandler(this.copyProjectToolStripMenuItem_Click);
+			// 
 			// OpenForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -161,7 +141,7 @@
 			this.Name = "OpenForm";
 			this.Text = "打开工程";
 			this.Load += new System.EventHandler(this.OpenForm_Load);
-			this.mySkinContextMenuStrip.ResumeLayout(false);
+			this.myContextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -170,13 +150,13 @@
 		#endregion
 
 		private System.Windows.Forms.TreeView projectTreeView;
-		private CCWin.SkinControl.SkinContextMenuStrip mySkinContextMenuStrip;
-		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem copyProjectToolStripMenuItem;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button deleteButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Label frameLabel;
 		private System.Windows.Forms.ComboBox frameComboBox;
+		private System.Windows.Forms.ContextMenuStrip myContextMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem renameButton;
+		private System.Windows.Forms.ToolStripMenuItem copyButton;
 	}
 }

@@ -19,7 +19,7 @@ namespace LightController.Ast
 		public BaseDAO(string dbFile, bool isEncrypt)
 		{
 			config = new Configuration().Configure();
-			
+
 			if (isEncrypt)
 			{
 				config.SetProperty("connection.connection_string", @"Data Source=" + dbFile + ";password=" + MD5Helper.MD5("Dickov" + dbFile));
@@ -31,8 +31,6 @@ namespace LightController.Ast
 			sessionFactory = config.BuildSessionFactory();
 		}
 
-		
-
 		/// <summary>
 		///  慎用此功能：根据现有的映射文件，重建数据库表
 		/// </summary>
@@ -40,8 +38,6 @@ namespace LightController.Ast
 		{
 			new SchemaExport(config).Create(ifPrint, ifDeleteOld);
 		}
-
-
 
 		/// <summary>
 		/// 获取当前session
@@ -51,6 +47,7 @@ namespace LightController.Ast
 		{
 			return sessionFactory.GetCurrentSession();
 		}
+
 		/// <summary>
 		/// 获取新session
 		/// </summary>
@@ -59,7 +56,6 @@ namespace LightController.Ast
 		{
 			return sessionFactory.OpenSession();
 		}
-
 
 		/// <summary>
 		///  执行各种操作
@@ -95,7 +91,6 @@ namespace LightController.Ast
 				}
 			}
 		}
-
 
 		/// <summary>
 		///  执行保存操作
@@ -158,7 +153,7 @@ namespace LightController.Ast
 		///  1. 先采用删除数据；
 		///  2.再保存所有传进的T
 		/// </summary>
-		internal void SaveAll(String tableName, IList<T> objList)
+		public void SaveAll(String tableName, IList<T> objList)
 		{
 			using (var session = sessionFactory.OpenSession())
 			{
@@ -183,12 +178,12 @@ namespace LightController.Ast
 			}
 		}
 
-
 		/// <summary>
 		/// 保存或更新所有传进来的T
 		/// </summary>
 		/// <param name="objList"></param>
-		public void SaveOrUpdateAll(IList<T> objList) {
+		public void SaveOrUpdateAll(IList<T> objList)
+		{
 			using (var session = sessionFactory.OpenSession())
 			{
 				using (var tx = session.BeginTransaction())
@@ -208,6 +203,42 @@ namespace LightController.Ast
 						tx.Rollback();
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// MARK 大变动：14.5 BaseDAO中清空相关表内的所有数据
+		///删除相应的表内所有数据
+		/// </summary>
+		public void Clear()
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				Type t = typeof(T);
+				string hql = "DELETE FROM " + t.Name;
+				session.CreateQuery(hql).ExecuteUpdate();
+			}
+		}
+
+		/// <summary>
+		/// MARK 大变动：14.6 BaseDAO中清空相关表内的不在灯具列表内的所有数据
+		///删除相应的表内所有数据
+		/// </summary>
+		public void DeleteRedundantData(IList<int> retainLightIndices)
+		{
+			using (var session = sessionFactory.OpenSession())
+			{
+				if (retainLightIndices == null || retainLightIndices.Count == 0)
+				{
+					Clear();
+					return;
+				}
+				
+				Type t = typeof(T);								
+				session
+					.CreateQuery("DELETE FROM " + t.Name + " t WHERE t.PK.LightIndex NOT IN (:lightIndices)")
+					.SetParameterList("lightIndices",retainLightIndices)
+					.ExecuteUpdate();				
 			}
 		}
 	}

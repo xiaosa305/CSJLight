@@ -1,5 +1,6 @@
 ﻿using CCWin.SkinControl;
 using LightController.Ast;
+using LightController.Common;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -246,7 +247,7 @@ namespace LightController.MyForm
 					SetBusy(false);
 					return;
 				}
-				rightNow = true;
+				rightNow = true;//只有当前无projectPath且选择继续后会rightNow
 			}
 
 			string buttonName = ((Button)sender).Name;
@@ -260,8 +261,8 @@ namespace LightController.MyForm
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this, true));
 				}			
 				else {					
-					FileUtils.CopyFileToDownloadDir(projectPath);
-					DownloadProject(true);					
+					FileUtils.CopyFileToDownloadDir(projectPath);					
+					DownloadProject(true);
 				}										
 			}
 			// 使用串口升级
@@ -298,7 +299,7 @@ namespace LightController.MyForm
 		/// 辅助方法：下载工程
 		/// </summary>
 		/// <param name="isNetwork"></param>
-		public void DownloadProject(bool isNetwork) {
+		public void DownloadProject(bool isNetwork) {				
 			if (isNetwork)
 			{
 				if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]])) {
@@ -376,6 +377,19 @@ namespace LightController.MyForm
 			ipsComboBox.Enabled = false;
 			ips = new List<string>();
 		}
+
+		/// <summary>
+		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的目录也要拷到这里来
+		/// </summary>
+		/// <param name="destDir"></param>
+		public void GenerateSourceProject(string destDir)
+		{
+			if (mainForm.GenerateSourceProject())
+			{
+				FileAst.CopyDirectory(mainForm.SavePath + @"\Source", destDir);
+			}
+		}
+
 	}
 
 	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
@@ -445,9 +459,9 @@ namespace LightController.MyForm
 	{
 		private ProjectUpdateForm puForm;
 		private bool isNetwork;
-		public GenerateProjectCallBack(ProjectUpdateForm downloadForm, bool isNetwork)
+		public GenerateProjectCallBack(ProjectUpdateForm puForm, bool isNetwork)
 		{
-			this.puForm = downloadForm;
+			this.puForm = puForm;
 			this.isNetwork = isNetwork;
 		}
 
@@ -455,6 +469,7 @@ namespace LightController.MyForm
 		{
 			puForm.SetLabelText(isNetwork,"数据生成成功，即将传输数据到设备。");
 			FileUtils.CopyProjectFileToDownloadDir();
+			puForm.GenerateSourceProject(Application.StartupPath + @"\DataCache\Download\CSJ\Source");		   
 			puForm.DownloadProject(isNetwork);
 		}
 

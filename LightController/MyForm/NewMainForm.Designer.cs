@@ -99,6 +99,7 @@ namespace LightController.MyForm
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
+			this.testButton2 = new System.Windows.Forms.Button();
 			this.testButton = new System.Windows.Forms.Button();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -851,6 +852,7 @@ namespace LightController.MyForm
 			// 
 			this.playBasePanel.BackColor = System.Drawing.Color.White;
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.playBasePanel.Controls.Add(this.testButton2);
 			this.playBasePanel.Controls.Add(this.testButton);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
 			this.playBasePanel.Controls.Add(this.playPanel);
@@ -860,9 +862,19 @@ namespace LightController.MyForm
 			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
 			this.playBasePanel.TabIndex = 67;
 			// 
+			// testButton2
+			// 
+			this.testButton2.Location = new System.Drawing.Point(1174, 7);
+			this.testButton2.Name = "testButton2";
+			this.testButton2.Size = new System.Drawing.Size(84, 54);
+			this.testButton2.TabIndex = 34;
+			this.testButton2.Text = "Test2";
+			this.testButton2.UseVisualStyleBackColor = true;
+			this.testButton2.Click += new System.EventHandler(this.testButton2_Click);
+			// 
 			// testButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(1171, 7);
+			this.testButton.Location = new System.Drawing.Point(1088, 7);
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(84, 54);
 			this.testButton.TabIndex = 34;
@@ -1410,6 +1422,7 @@ namespace LightController.MyForm
 			this.MinimumSize = new System.Drawing.Size(1280, 883);
 			this.Name = "NewMainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NewMainForm_FormClosing);
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
@@ -1562,5 +1575,6 @@ namespace LightController.MyForm
 		private Button unifyValueButton;
 		private Button unifyChangeModeButton;
 		private Button testButton;
+		private Button testButton2;
 	}
 }

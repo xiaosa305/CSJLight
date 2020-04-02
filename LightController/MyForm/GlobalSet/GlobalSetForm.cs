@@ -177,7 +177,7 @@ namespace LightController.MyForm
 				Location = new System.Drawing.Point(3, 3),
 				Name = "skPanel" + (frameIndex + 1),
 				Size = new System.Drawing.Size(61, 92),
-				BorderStyle = BorderStyle.Fixed3D
+				BorderStyle = BorderStyle.FixedSingle
 			};
 
 			//按钮(并附带场景名称）

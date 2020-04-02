@@ -166,7 +166,7 @@ namespace LightController.Common
 
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
 			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  
-			if (appPath.Trim().Equals("true"))
+			if (appPath.Trim().ToLower().Equals("true"))
 			{
 				return appPathStr;
 			}
@@ -184,10 +184,28 @@ namespace LightController.Common
 		{
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
 			string isShow = iniFileAst.ReadString("Show", buttonName, "false");
-			if (isShow.Trim().Equals("true")){
+			if (isShow.Trim().ToLower().Equals("true")){
 				return true;
 			}
 			else {
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：取出是否关联外部的软件
+		/// </summary>
+		/// <returns></returns>
+		public static bool GetIsLink(string appPathStr, string appName)
+		{
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			string isLink = iniFileAst.ReadString("Link", appName, "false");
+			if (isLink.Trim().ToLower().Equals("true"))
+			{
+				return true;
+			}
+			else
+			{
 				return false;
 			}
 		}

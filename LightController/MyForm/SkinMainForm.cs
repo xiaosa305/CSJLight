@@ -34,6 +34,7 @@ namespace LightController.MyForm
 
 			Text = SoftwareName + " Dimmer System";
 			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;
+			oldToolsSkinButton.Visible = IsLinkOldTools;
 			testGroupBox.Visible = IsShowTestButton;
 			bigTestButton.Visible = IsShowTestButton;
 
@@ -372,7 +373,17 @@ namespace LightController.MyForm
 		{
 			tdSkinFlowLayoutPanel.AutoScrollPosition = new Point(0, 0); ;
 		}
-		
+
+		/// <summary>
+		/// 事件：关闭Form前的操作，在此事件内可取消关闭窗体
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SkinMainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			formClosing(e);
+		}
+
 		// MARK：SkinMainForm各种工具按钮起点
 		#region 工具按钮组 - 非工程相关
 
@@ -438,7 +449,23 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void exitSkinButton_Click(object sender, EventArgs e)
 		{
-			exit();
+			//MARK 大变动：13.1 退出MainForm前提示保存->专门针对《(单独的)退出应用》按钮
+			if (frameSaveArray != null)
+			{
+				DialogResult dr = MessageBox.Show("退出应用前是否保存工程？",
+					 "保存工程？",
+					 MessageBoxButtons.YesNoCancel,
+					 MessageBoxIcon.Asterisk
+				);
+				switch (dr)
+				{
+					case DialogResult.Yes: saveProjectClick(); exit(); break;
+					case DialogResult.No: exit(); break;
+				}
+			}
+			else {
+				exit();
+			}
 		}
 
 		#endregion
@@ -583,16 +610,12 @@ namespace LightController.MyForm
 			//MARK：ClearAllData()在SkinMainForm的实现
 			// ①清空listView列表；
 			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
-			this.Text = SoftwareName;
+			this.Text = SoftwareName + " Dimmer System";
 			lightsSkinListView.Clear();
 			stepSkinPanel.Enabled = false;
 			hideAllTDPanels();
 			showStepLabel(0, 0);
 			editLightInfo(null);
-			enableSingleMode(true);
-
-			// 10.17 清空数据时，应该结束预览。
-			endview();
 		}
 
 		/// <summary>
@@ -664,7 +687,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK 大变动：2.0.2 (SkinMainForm)改变当前Frame
+		//MARK 大变动：02.0.2 (SkinMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
@@ -704,19 +727,14 @@ namespace LightController.MyForm
 				lightsAddrLabel.Text = null;
 				return;
 			}
-
-			try
-			{
-				currentLightPictureBox.Image = Image.FromFile(SavePath + @"\LightPic\" + lightAst.LightPic);
-			}
-			catch (Exception)
-			{
-				currentLightPictureBox.Image = global::LightController.Properties.Resources.灯光图;
-			}
 			lightNameLabel.Text = "灯具厂商：" + lightAst.LightName;
 			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
 			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
+
+			string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;
+			FileInfo fi = new FileInfo(imagePath);
+			currentLightPictureBox.Image = fi.Exists ? Image.FromFile(imagePath) : global::LightController.Properties.Resources.灯光图;
 		}
 
 		/// <summary>
@@ -1171,7 +1189,8 @@ namespace LightController.MyForm
 			{
 				return;
 			}
-			SetNotice("正在切换场景...");
+			setBusy(true);
+			SetNotice("正在切换场景,请稍候...");			
 
 			// 只要更改了场景，直接结束预览
 			endview();
@@ -1184,22 +1203,23 @@ namespace LightController.MyForm
 			{
 				setBusy(true);
 				saveFrame();
-				//MARK 大变动：6.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+				//MARK 大变动：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
 				frameSaveArray[currentFrame] = false;
 				setBusy(false);
 			}
 
 			currentFrame = frameSkinComboBox.SelectedIndex;
-			//MARK 大变动：6.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则若为true，则说明已经加载因而无需重复读取。！
+			//MARK 大变动：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则若为true，则说明已经加载因而无需重复读取。！
 			if (!frameLoadArray[currentFrame])
 			{
 				generateFrameData(currentFrame);
 			}
-			//MARK 大变动：6.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			//MARK 大变动：06.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
 			frameSaveArray[currentFrame] = true;
 
-			changeFrameMode();			
-			SetNotice("成功切换场景");
+			changeFrameMode();
+			setBusy(false);
+			SetNotice("成功切换为场景(" + AllFrameList[currentFrame] + ")");
 		}
 
 		/// <summary>
@@ -1498,7 +1518,7 @@ namespace LightController.MyForm
 				if (lightIndex == selectedIndex)
 				{
 					lightsAddrLabel.Text += "(" + lightAstList[lightIndex].LightAddr + ") ";
-					lightsSkinListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
+					lightsSkinListView.Items[lightIndex].BackColor = Color.Gold;
 				}
 				else
 				{
@@ -1513,7 +1533,7 @@ namespace LightController.MyForm
 		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
 		/// </summary>
 		/// <param name="isSingleMode"></param>
-		private void enableSingleMode(bool isSingleMode)
+		protected override void enableSingleMode(bool isSingleMode)
 		{
 			isMultiMode = !isSingleMode;
 
@@ -2750,15 +2770,16 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tongdaoIndex">tongdaoList的Index</param>
 		/// <param name="shielded">是否被屏蔽</param>
-		private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-		{
-			tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
-			tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-			tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		}		
+		//private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
+		//{
+		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
+		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//}		
 
 		#endregion
 
+		
 	}
 
 

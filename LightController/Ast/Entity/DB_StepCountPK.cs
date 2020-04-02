@@ -38,5 +38,14 @@ namespace DMX512
 			return base.GetHashCode();
 		}
 
+
+		/// <summary>
+		/// 重写ToString(),便于观察
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return LightIndex+"(" + Frame + ")(" + Mode + ")";
+		}
 	}
 }

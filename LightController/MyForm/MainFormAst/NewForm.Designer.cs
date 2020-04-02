@@ -98,7 +98,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(260, 152);
+			this.ClientSize = new System.Drawing.Size(255, 152);
 			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.frameLabel);
 			this.Controls.Add(this.cancelButton);
@@ -111,7 +111,6 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "NewForm";
-			this.Text = "新建工程";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.NewForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.NewForm_Load);
 			this.ResumeLayout(false);

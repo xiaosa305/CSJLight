@@ -595,10 +595,10 @@ namespace LightController.MyForm
 		/// --lightListView也更新为最新的数据
 		/// </summary>
 		/// <param name="lightAstList2"></param>
-		public override void AddLightAstList(IList<LightAst> lightAstList2,bool isFirstTime)
+		public override void AddLightAstList(IList<LightAst> lightAstList2)
 		{
 			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
-			base.AddLightAstList(lightAstList2,isFirstTime);
+			base.AddLightAstList(lightAstList2);
 
 			//下列为针对本Form的处理代码：listView更新为最新数据
 
@@ -661,6 +661,7 @@ namespace LightController.MyForm
 			frameComboBox.SelectedIndex = currentFrame;
 			frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 		}
+		
 
 		#endregion
 
@@ -2425,8 +2426,6 @@ namespace LightController.MyForm
 			this.Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 		}
 
-
-
 		#endregion
 
 		/// <summary>
@@ -2450,11 +2449,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton2_Click(object sender, EventArgs e)
 		{
-			generateDBStepCountList();
-			foreach (DB_StepCount sc in dbStepCountList)
-			{
-				Console.WriteLine("遍历sc:" + sc.ToString());
-			}
+			//generateDBStepCountList();
+			//foreach (DB_StepCount sc in dbStepCountList)
+			//{
+			//	Console.WriteLine("遍历sc:" + sc.ToString());
+			//}
+			GenerateSourceProject();
 		}
 
 		

@@ -730,6 +730,7 @@ namespace LightController.Tools.CSJ
         }
         protected void DownloadStart()
         {
+			//TODO:200402
             string projectDirPath = Application.StartupPath + @"\DataCache\Download\CSJ";
             this.CurrentDownloadCompletedSize = 0;
             this.DownloadFileToTalSize = 0;

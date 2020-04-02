@@ -53,10 +53,11 @@ namespace LightController.MyForm
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
-		protected string projectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
+		protected string tempProjectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
 
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
+		protected string projectPath; //存放当前工程所在目录
 		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密		
@@ -67,9 +68,8 @@ namespace LightController.MyForm
 	   	protected bool[] frameSaveArray;
 		//MARK 大变动：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
 		protected bool[] frameLoadArray;
-		//MARK 大变动：14.0 需有一个IList<int>变量，记录灯具列表更改后，保留着的旧灯具的列表->这些灯具在AddLightAstList内不需删除数据，此列表外的灯具则在DB中进行删除
-		protected IList<int> retainLightIndices;
-
+		//MARK 大变动：14.0 必须有一个存储[旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
+		protected IList<int> retainLightIndices ;
 
 		// 数据库DAO(data access object：数据访问对象）
 		protected LightDAO lightDAO;
@@ -114,7 +114,7 @@ namespace LightController.MyForm
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
 		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
-		protected IList<NetworkDeviceInfo> allNetworkDevices; 
+		protected IList<NetworkDeviceInfo> allNetworkDevices;  
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
@@ -180,10 +180,29 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：请求保存工程，显示提示消息,并根据isFirstTime决定是否删除冗余灯具数据（StepCount和Value）
+		/// MARK 大变动：14.3 clearRedundantData()方法体：清空不在list内的DB数据，包括StepCount表及Value表
+		/// 辅助方法：清空不在list内的DB数据，包括StepCount表及Value表
 		/// </summary>
-		/// <param name="msg"></param>
-		internal void RequestSave(bool isFirstTime , string msg)
+		protected virtual void deleteRedundantData() {
+			Console.WriteLine(retainLightIndices);
+			// MARK 大变动：14.4 若retainLightIndices为空，说明所有数据皆可删除，因为没有旧灯具
+			// （全部是新加的灯具，点《确定》后删掉也无所谓了 - 若新加灯具也是空，则本来无一物何处惹尘埃）
+			if (retainLightIndices == null || retainLightIndices.Count == 0)
+			{
+				stepCountDAO.Clear();
+				valueDAO.Clear();
+			}
+			else {
+				stepCountDAO.DeleteRedundantData(retainLightIndices);
+				valueDAO.DeleteRedundantData(retainLightIndices);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：请求保存工程，显示提示消息，并在确认后先清空冗余灯具的DB数据，再进行数据的保存 --》界面及内存的相应数据，则在其他方法体中处理过了
+		/// </summary>
+		/// <param name="msg">请求保存的提示消息</param>
+		internal void RequestSave(string msg)
 		{
 			DialogResult dr = MessageBox.Show(
 				msg,
@@ -193,15 +212,10 @@ namespace LightController.MyForm
 			);
 
 			if (dr == DialogResult.Yes) {
-				if (!isFirstTime) {
-					clearRedundantData();
-				}
+				deleteRedundantData();
 				saveProjectClick();
 			}
 		}
-
-
-
 
 		/// <summary>
 		/// 基类辅助方法：①ClearAllData()；②设置内部的一些工程路径及变量；③初始化数据库
@@ -215,14 +229,14 @@ namespace LightController.MyForm
 
 			// 1.全局设置
 			currentProjectName = projectName;
-			string directoryPath = SavePath + @"\LightProject\" + projectName;
-			globalIniPath = directoryPath + @"\global.ini";
-			dbFilePath = directoryPath + @"\data.db3";
+			projectPath = SavePath + @"\LightProject\" + projectName;
+			globalIniPath = projectPath + @"\global.ini";
+			dbFilePath = projectPath + @"\data.db3";
 			this.Text = SoftwareName +" Dimmer System(当前工程:" + projectName + ")";
 			this.isNew = isNew;
 
 			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
-			arrangeIniPath = directoryPath + @"\arrange.ini";
+			arrangeIniPath = projectPath + @"\arrange.ini";
 
 			// 9.5 读取时间因子
 			IniFileAst iniAst = new IniFileAst(globalIniPath);
@@ -320,7 +334,7 @@ namespace LightController.MyForm
 				dbStepCountList = getStepCountList();
 				dbFineTuneList = getFineTuneList();
 				lightAstList = reCreateLightAstList(dbLightList); // 通过lightList填充lightAstList
-				AddLightAstList(lightAstList,true); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容				
+				AddLightAstList(lightAstList); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容				
 				Refresh(); //强行刷新显示灯具列表
 				try
 				{
@@ -445,8 +459,58 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="binPath"></param>
 		internal void SetProjectPath(string projectPath) {
-			this.projectPath = projectPath;
-		}			
+			tempProjectPath = projectPath;
+		}
+
+		/// <summary>
+		/// 辅助方法：以当前打开的工程信息，生成源文件（Source->工程文件夹、LightLibrary）；
+		/// </summary>
+		public bool GenerateSourceProject()
+		{
+			try
+			{
+				//若存在Source文件夹，则先删除
+				DirectoryInfo di = new DirectoryInfo(SavePath + @"\Source");
+				if (di.Exists)
+				{
+					di.Delete(true);
+				}			
+				// 删除后直接创建下一级目录，并拷贝相关目录
+				string destPath = SavePath + @"\Source\"+currentProjectName;
+				di = new DirectoryInfo(destPath);
+				di.Create();
+				FileAst.CopyDirectory(projectPath, destPath);
+
+				if (lightAstList != null && lightAstList.Count > 0) {
+					string lightLibPath = SavePath + @"\Source\LightLibrary";
+					di = new DirectoryInfo(lightLibPath);
+					di.Create();
+
+					HashSet<string> lightSet = new HashSet<string>();
+					HashSet<string> dirSet = new HashSet<string>();
+					foreach (LightAst la in lightAstList)
+					{
+						dirSet.Add(la.LightName);
+						lightSet.Add(la.LightName + "\\" + la.LightType+".ini" );
+					}
+
+					foreach (string libDir in dirSet)
+					{
+						di = new DirectoryInfo(SavePath + @"\Source\LightLibrary\"+libDir);
+						di.Create();
+					}
+					foreach (string lightPath in lightSet) {
+						File.Copy(SavePath + @"\LightLibrary\" + lightPath, SavePath + @"\Source\LightLibrary\" + lightPath, true);
+					}	
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				return false;
+			}
+			return true;
+		}
 
 		/// <summary>
 		///  辅助方法：判断是否可以显示 playPanel及 刷新图片(主要供《打开工程》和《灯具列表Form》使用）
@@ -477,10 +541,10 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法（虚）：添加lightAst列表到主界面内存中,主要供 LightsForm调用（以及OpenProject调用）
 		/// </summary>
-		public virtual void AddLightAstList(IList<LightAst> lightAstList2,bool isFirstTime)
+		public virtual void AddLightAstList(IList<LightAst> lightAstList2)
 		{
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
-			//MARK 大变动：14.2 AddLightAstList()方法体内，对retainLightIndices进行初始化
+			//MARK 大变动：14.1 AddLightAstList()方法体内，对retainLightIndices进行初始化
 			retainLightIndices = new List<int>();
 
 			for (int i = 0; i < lightAstList2.Count; i++)
@@ -497,7 +561,7 @@ namespace LightController.MyForm
 						{
 							lightWrapperList2.Add(lightWrapperList[j]);
 							addOld = true;
-							//MARK 大变动：14.3 AddLightAstList()方法体内，为retainLightIndices添加旧灯具的数据
+							//MARK 大变动：14.2 AddLightAstList()方法体内，为retainLightIndices添加旧灯具的数据
 							retainLightIndices.Add(lightAstList2[i].StartNum);
 							break;
 						}
@@ -509,12 +573,7 @@ namespace LightController.MyForm
 					lightWrapperList2.Add(new LightWrapper());
 				}
 			}
-
-			//MARK 大变动：14.4 AddLightAstList()方法体内，若非初始编辑灯具列表，则需处理相关的灯具数据
-			if (!isFirstTime) {
-				
-			}			
-
+			
 			lightAstList = new List<LightAst>(lightAstList2);
 			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
 
@@ -1076,30 +1135,31 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		protected void saveAll()
 		{			
-			DateTime beforeDT = System.DateTime.Now;			
-			// 1.先判断是否有灯具数据；若无，则直接停止
+			DateTime beforeDT = System.DateTime.Now;
+
+			// 1.先判断是否有灯具数据；若无，则清空所有表数据
 			if (lightAstList == null || lightAstList.Count == 0)
 			{
-				MessageBox.Show("当前并没有灯具数据，无法保存！");
-				SetNotice("因无灯具数据，保存失败。");
-				return;
+				lightDAO.Clear();
+				fineTuneDAO.Clear();
+				stepCountDAO.Clear();
+				valueDAO.Clear();
 			}
-
-			// 2.保存各项数据
-			
-			saveAllLights();
-			//TODO 200330:检查下列代码是否冗余了！
-			saveAllStepCounts();
-			saveAllSCAndValues();
-
-			//saveAllStepCounts();
+			// 2.保存各项数据			
+			else
+			{				
+				saveAllLights();
+				//TODO 200330:检查下列代码是否冗余了！
+				saveAllStepCounts();
+				saveAllSCAndValues();
+				//saveAllStepCounts();
+			}
 
 			DateTime afterDT = System.DateTime.Now;
 			TimeSpan ts = afterDT.Subtract(beforeDT);
 
 			MessageBox.Show("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
-			SetNotice("成功保存工程");
-			return;
+			SetNotice("成功保存工程");			
 		}
 
 		/// <summary>
@@ -2168,7 +2228,8 @@ namespace LightController.MyForm
 			}
 
 			SetNotice("正在导出工程，请稍候...");
-			setBusy(true);
+			setBusy(true);			
+
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));
 		}
 
@@ -2201,6 +2262,10 @@ namespace LightController.MyForm
 			if (success)
 			{
 				FileUtils.ExportProjectFile(exportPath);
+				if (GenerateSourceProject()) {
+					FileAst.CopyDirectory(SavePath+@"\Source", exportPath+@"\Source");
+				}
+
 				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
 						"打开导出文件夹？",
 						MessageBoxButtons.OKCancel,
@@ -2257,7 +2322,7 @@ namespace LightController.MyForm
 				connectButtonClick();
 			}
 
-			new ProjectUpdateForm(this, GetDBWrapper(false), globalIniPath, projectPath).ShowDialog();
+			new ProjectUpdateForm(this, GetDBWrapper(false), globalIniPath, tempProjectPath).ShowDialog();
 		}
 
 		#endregion

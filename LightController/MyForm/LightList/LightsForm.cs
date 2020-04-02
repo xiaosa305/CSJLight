@@ -21,8 +21,6 @@ namespace LightController
 		private IList<LightAst> lightAstList = new List<LightAst>();
 		private string savePath;		   
 		private MainFormBase mainForm;
-		//MARK 大变动：14.1 LightsForm内需要一个isFirstTime变量，用以存储进入本Form时，主界面是否已有灯具列表：①如有，在点击确认时，需要删除冗余数据；②若无，不需处理
-		private bool isFirstTime = true; 
 
 		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
 		{
@@ -60,8 +58,6 @@ namespace LightController
 						
 			// 2.只有加载旧项目（已有LightAst列表）时，才加载lightAstList到右边
 			if (lightAstListFromMain != null && lightAstListFromMain.Count > 0) {
-				//MARK 
-				isFirstTime = false;
 				foreach (LightAst laOld in lightAstListFromMain)
 				{
 					lightAstList.Add(new LightAst(laOld));
@@ -173,7 +169,7 @@ namespace LightController
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
-			mainForm.AddLightAstList(lightAstList, isFirstTime);
+			mainForm.AddLightAstList(lightAstList);
 			mainForm.GenerateAllStepTemplates();
 			mainForm.AutosetEnabledPlayAndRefreshPic();
 			mainForm.ResetSyncMode();
@@ -183,7 +179,7 @@ namespace LightController
 			mainForm.Activate();
 
 			//3.提示保存工程
-			mainForm.RequestSave(isFirstTime,"修改灯具列表后，是否保存工程（如不保存，预览效果时可能会出错）");
+			mainForm.RequestSave("修改灯具列表后，是否保存工程（如不保存，预览效果及后期保存时可能会出错）");
 		}	
 
 		/// <summary>

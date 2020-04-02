@@ -210,12 +210,24 @@ namespace LightController.Common
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：取出系统的一些数值
+		/// </summary>
+		/// <param name="startupPath"></param>
+		/// <param name="v"></param>
+		/// <returns></returns>
+		public static int GetSystemCount(string appPathStr, string attrName)
+		{
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			return iniFileAst.ReadInt("System", attrName, 0);
+		}
 
 		//与ini交互必须统一编码格式
 		private static byte[] getBytes(string s, string encodingName)
 		{
 			return null == s ? null : Encoding.GetEncoding(encodingName).GetBytes(s);
 		}
-		
+
+	
 	}
 }

@@ -359,6 +359,7 @@ namespace LightController.MyForm
 		{
 			// 启动时刷新可用串口列表;
 			refreshComList();
+			SetNotice("");
 			
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
 			this.lightsSkinListView.HideSelection = true;
@@ -1602,8 +1603,9 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
-						
-			// 6.子属性按钮组是否可用
+
+			// 6.子属性按钮组是否可用(及可见（当步数为空时，设为不可见）)			
+			saFlowLayoutPanel.Visible = totalStep != 0;
 			saFlowLayoutPanel.Enabled = totalStep != 0;
 		}
 

@@ -41,7 +41,7 @@ namespace LightController.MyForm
 		// 打开程序时，即需导入的变量
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
-		public const int MaxStTimes = 500;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量	-》200331确认为15s=0.03*500
+		public static int MaxStTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量	-》200331确认为15s=0.03*500	
 
 		// 辅助的bool变量：	
 		protected bool isNew = true;  //点击新建后 到 点击保存前，这个属性是true；如果是使用打开文件或已经点击了保存按钮，则设为false
@@ -576,12 +576,12 @@ namespace LightController.MyForm
 			
 			lightAstList = new List<LightAst>(lightAstList2);
 			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
-
 			lightDictionary = new Dictionary<int, int>();
 			for (int i = 0; i < lightAstList.Count; i++)
 			{
 				lightDictionary.Add( lightAstList[i].StartNum , i );
 			}
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -1563,6 +1563,11 @@ namespace LightController.MyForm
 			if (lightIndex < 0) {
 				return null;
 			}
+
+			if (lightWrapperList == null || lightWrapperList.Count == 0) {
+				return null;
+			}
+
 			LightWrapper lightWrapper = lightWrapperList[lightIndex];
 			if (lightWrapper == null) {
 				return null;
@@ -2836,6 +2841,7 @@ namespace LightController.MyForm
 			IsShowHardwareUpdate = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
 			IsLinkLightEditor = IniFileAst.GetIsLink(Application.StartupPath, "lightEditor");
 			IsLinkOldTools = IniFileAst.GetIsLink(Application.StartupPath, "oldTools");
+			MaxStTimes = IniFileAst.GetSystemCount(Application.StartupPath, "maxStTimes");
 		}
 
 		/// <summary>

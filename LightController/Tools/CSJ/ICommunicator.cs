@@ -765,7 +765,7 @@ namespace LightController.Tools.CSJ
                             break;
                         }
                     }
-                    foreach (string filePath in Directory.GetFileSystemEntries(projectDirPath))
+					foreach (string filePath in Directory.GetFileSystemEntries(projectDirPath))
                     {
                         FileInfo info = new FileInfo(filePath);
                         fileName = info.Name;

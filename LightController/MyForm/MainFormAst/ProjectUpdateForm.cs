@@ -469,7 +469,7 @@ namespace LightController.MyForm
 		{
 			puForm.SetLabelText(isNetwork,"数据生成成功，即将传输数据到设备。");
 			FileUtils.CopyProjectFileToDownloadDir();
-			puForm.GenerateSourceProject(Application.StartupPath + @"\DataCache\Download\CSJ\Source");		   
+			//puForm.GenerateSourceProject(Application.StartupPath + @"\DataCache\Download\CSJ\Source");		   
 			puForm.DownloadProject(isNetwork);
 		}
 

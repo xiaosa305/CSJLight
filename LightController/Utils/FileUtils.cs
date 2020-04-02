@@ -336,10 +336,14 @@ namespace LightController.Utils
                 }
                 if (Directory.Exists(dirPath))
                 {
-                    foreach (string filePath in Directory.GetFileSystemEntries(dirPath))
+					string[] strs = Directory.GetFileSystemEntries(dirPath);
+
+					foreach (string filePath in Directory.GetFileSystemEntries(dirPath))
                     {
-                        FileInfo info = new FileInfo(filePath);
-                        info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+						if ( File.Exists(filePath)){
+							FileInfo info = new FileInfo(filePath);
+							info.CopyTo(ProjectDownloadDir + @"\" + info.Name, true);
+						}							
                     }
                     result = true;
                 }

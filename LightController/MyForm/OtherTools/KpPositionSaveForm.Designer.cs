@@ -34,10 +34,10 @@
 			this.enterButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
-			// filenameTextBox
+			// fileNameTextBox
 			// 
 			this.fileNameTextBox.Location = new System.Drawing.Point(102, 39);
-			this.fileNameTextBox.Name = "filenameTextBox";
+			this.fileNameTextBox.Name = "fileNameTextBox";
 			this.fileNameTextBox.Size = new System.Drawing.Size(160, 21);
 			this.fileNameTextBox.TabIndex = 10;
 			// 
@@ -75,6 +75,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.Window;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(301, 147);
 			this.Controls.Add(this.fileNameTextBox);

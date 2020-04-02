@@ -12,21 +12,15 @@ namespace LightController.Ast
 	/// </summary>
 	public class LightWrapper
 	{
-		/// <summary>
-		/// 每一步的模型。每次新建StepList的数据时，先采用这个模型。
-		/// </summary>
-		public StepWrapper StepTemplate { get; set; }
-
-		// StepAstList类:是某一个场景模式（FＭ）下步数的集合;　
-		// StepList 数组:所有FM的StepAstList的集合
-		public LightStepWrapper[,] LightStepWrapperList { get; set; }
+		public StepWrapper StepTemplate { get; set; } // 每一步的模型。每次新建StepList的数据时，先采用这个模型。	
+		public LightStepWrapper[,] LightStepWrapperList { get; set; }   //各个模式和场景的组合下，所有步数的集合
 
 		/// <summary>
 		///  初始化时，就定义这些集合的数量
 		/// </summary>
 		public LightWrapper()
 		{
-			LightStepWrapperList = new LightStepWrapper[MainFormInterface.FrameCount , 2];
+			LightStepWrapperList = new LightStepWrapper[MainFormBase.FrameCount , 2];
 		}
 
 		/// <summary>
@@ -38,7 +32,7 @@ namespace LightController.Ast
 		{
 			LightWrapper newLight = new LightWrapper();
 			newLight.StepTemplate = selectedLight.StepTemplate;
-			for (int frame = 0; frame < MainFormInterface.FrameCount; frame++) {
+			for (int frame = 0; frame < MainFormBase.FrameCount; frame++) {
 				for (int mode = 0; mode < 2; mode++)
 				{
 					if (tempLight.LightStepWrapperList[frame, mode] != null) {
@@ -59,6 +53,5 @@ namespace LightController.Ast
 			}
 			return newLight;
 		}	
-
 	}
 }

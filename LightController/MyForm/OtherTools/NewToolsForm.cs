@@ -48,7 +48,7 @@ namespace OtherTools
 		private KeyEntity keyEntity;  // 墙板封装对象
 
 		private bool isReadLC = false;
-		private string protocolXlsPath = Application.StartupPath + @"\CenterController\Controller.xls";
+		private string protocolXlsPath = Application.StartupPath + @"\Controller.xls";
 		private HSSFWorkbook xlsWorkbook;
 		private IList<string> sheetList;
 
@@ -64,11 +64,11 @@ namespace OtherTools
 		private IList<IPAst> ipaList;
 		private ConnectTools connectTools;
 
-		private Form mainForm; 
+		private MainFormBase mainForm; 
 
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
-		public NewToolsForm(Form mainForm)
+		public NewToolsForm(MainFormBase mainForm)
 		{
 			InitializeComponent();
 
@@ -142,38 +142,11 @@ namespace OtherTools
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 
-			bool isShowTestButton = IniFileAst.GetButtonShow(Application.StartupPath, "testButton"); ;
+			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
 
 			//直接刷新串口列表
-			refreshDeviceComboBox();
-
-			// MARK:添加皮肤列表（暂时屏蔽）
-			//DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
-			//try
-			//{
-			//	FileInfo[] file = fdir.GetFiles();
-			//	if (file.Length > 0)
-			//	{
-			//		//TODO：禁用irisSkin皮肤的代码，不够完美，暂不启用。
-			//		//skinComboBox.Items.Add("不使用皮肤");
-			//		foreach (var item in file)
-			//		{
-			//			if (item.FullName.EndsWith(".ssk"))
-			//			{
-			//				skinComboBox.Items.Add(item.Name.Substring(0, item.Name.Length - 4));
-			//			}
-			//		}
-			//		skinComboBox.SelectedIndex = 0;
-
-			//		skinComboBox.Show();
-			//		skinChangeButton.Show();
-			//	}
-			//}
-			//catch (Exception ex)
-			//{
-			//	Console.WriteLine(ex.Message);
-			//}
+			refreshDeviceComboBox();		
 		}
 
 
@@ -220,26 +193,7 @@ namespace OtherTools
 				default: setAllStatusLabel2(""); break;
 			}
 		}
-
-		/// <summary>
-		/// 事件：点击《使用皮肤》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void skinChangeButton_Click(object sender, EventArgs e)
-		{
-			string sskName = skinComboBox.Text;
-
-			//TODO ：禁用皮肤的代码，还不够完美
-			if (sskName.Equals("不使用皮肤")) {
-
-				this.skinEngine1.Active = false;
-				return;
-			}
-			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";	
-		}
-
-
+			
 
 		/// <summary>
 		/// 事件：点击《灯光通道按键》
@@ -253,7 +207,7 @@ namespace OtherTools
 				return;
 			}
 
-			int lightIndex = MathAst.GetIndexNum(((SkinButton)sender).Name, -1);
+			int lightIndex = MathAst.GetIndexNum(((Button)sender).Name, -1);
 			setLightButtonValue(lightIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
@@ -708,8 +662,7 @@ namespace OtherTools
 			}
 			catch (Exception ex) {
 				MessageBox.Show(ex.Message);
-			}
-			
+			}			
 		}
 
 
@@ -1225,7 +1178,7 @@ namespace OtherTools
 			}
 			
 			isConnectByCom = !isConnectByCom;
-			switchButton.Text = isConnectByCom ? "以网络连接" : "以串口连接";
+			switchButton.Text = isConnectByCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
 			connectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
 			refreshDeviceComboBox();
@@ -1268,7 +1221,7 @@ namespace OtherTools
 						connectTools.Start(ip.ToString());
 						connectTools.SearchDevice();
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-						Thread.Sleep(SkinMainForm.NETWORK_WAITTIME);						
+						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);						
 					}					
 				}
 
@@ -2064,7 +2017,7 @@ namespace OtherTools
 			}
 
 			// 4.开始读取并绘制		
-			//MARK : SkinMainForm 特别奇怪的一个地方，在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
+			// 在选择自动排列再去掉自动排列后，必须要先设一个不同的position，才能让读取到的position真正给到items[i].Position?
 			keypressListView.BeginUpdate();
 			for (int i = 0; i < keypressListView.Items.Count; i++)
 			{				

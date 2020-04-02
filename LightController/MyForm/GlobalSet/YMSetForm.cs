@@ -13,11 +13,11 @@ namespace LightController.MyForm
 {
 	public partial class YMSetForm : Form
 	{
-		private MainFormInterface mainForm;
+		private MainFormBase mainForm;
 		private IniFileAst iniFileAst;
 		private int frameCount = 0;
 
-		public YMSetForm(MainFormInterface mainForm,string iniPath)
+		public YMSetForm(MainFormBase mainForm,string iniPath)
 		{
 			this.mainForm = mainForm;
 			iniFileAst = new IniFileAst(iniPath);
@@ -25,7 +25,7 @@ namespace LightController.MyForm
 
 			#region 初始化几个数组			
 
-			frameCount = MainFormInterface.AllFrameList.Count;
+			frameCount = MainFormBase.AllFrameList.Count;
 
 			framePanels = new Panel[frameCount]; 
 			frameLabels = new Label[frameCount];
@@ -35,7 +35,7 @@ namespace LightController.MyForm
 
 			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
 			{
-				addFramePanel(frameIndex,MainFormInterface.AllFrameList[frameIndex]);
+				addFramePanel(frameIndex,MainFormBase.AllFrameList[frameIndex]);
 				ymCheckBoxes[frameIndex].CheckedChanged += new EventHandler(ymCheckBox_CheckedChanged);
 				jgNumericUpDowns[frameIndex].ValueChanged += new EventHandler(jgNumericUpDown_ValueChanged);
 				zxNumericUpDowns[frameIndex].ValueChanged += new EventHandler(zxNumericUpDown_ValueChanged);
@@ -45,7 +45,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：
+		/// 辅助方法：添加每个场景的相关设置到FlowLayout中去
 		/// </summary>
 		private void addFramePanel(int frameIndex , string frameName) {
 			
@@ -65,13 +65,15 @@ namespace LightController.MyForm
 			frameLabels[frameIndex] = new Label
 			{
 				AutoSize = true,
-				Font = new System.Drawing.Font("宋体", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
-				Location = new System.Drawing.Point(8, 12),
+				Font = new System.Drawing.Font("黑体", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
+				Location = new System.Drawing.Point(8, 20),
 				Margin = new System.Windows.Forms.Padding(2, 0, 2, 0),
 				Name = "frameLabel" + (frameIndex + 1),
 				Size = new System.Drawing.Size(45, 14),
 				Text = frameName
 			};
+			myToolTip.SetToolTip(frameLabels[frameIndex], frameName);
+
 			// 
 			// 选中与否
 			// 
@@ -176,7 +178,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void commonJGButton_Click(object sender, EventArgs e)
+		private void unifyJGButton_Click(object sender, EventArgs e)
 		{
 			int tempValue = Convert.ToInt16(Double.Parse(commonJGNumericUpDown.Text));
 			commonJGNumericUpDown.Value = tempValue;
@@ -191,7 +193,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void commonZXButton_Click(object sender, EventArgs e)
+		private void unifyZXButton_Click(object sender, EventArgs e)
 		{
 			int tempValue = Convert.ToInt16(Double.Parse(commonZXNumericUpDown.Text));
 			commonZXNumericUpDown.Value = tempValue;

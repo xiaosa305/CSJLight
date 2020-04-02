@@ -11,6 +11,15 @@ namespace LightController.Common
 	{
 		public string filePath;
 
+		/// <summary>
+		/// 构造函数
+		/// </summary>
+		/// <param name="aFileName">Ini文件路径</param>
+		public IniFileAst(string filePath)
+		{
+			this.filePath = filePath;
+		}
+
 		[DllImport("kernel32.dll")]
 		private static extern int GetPrivateProfileInt(
 			string lpAppName,
@@ -27,9 +36,7 @@ namespace LightController.Common
 			StringBuilder lpReturnedString,
 			int nSize,
 			string lpFileName
-			);
-
-		
+			);		
 
 		[DllImport("kernel32.dll")]
 		private static extern int WritePrivateProfileString(
@@ -38,16 +45,6 @@ namespace LightController.Common
 			string lpString,
 			string lpFileName
 			);
-
-		/// <summary>
-		/// 构造函数
-		/// </summary>
-		/// <param name="aFileName">Ini文件路径</param>
-		public IniFileAst(string filePath)
-		{
-			this.filePath = filePath;
-		}
-
 
 		/// <summary>
 		/// [扩展]读Int数值
@@ -72,6 +69,7 @@ namespace LightController.Common
 		{
 			StringBuilder vRetSb = new StringBuilder(2048);
 			GetPrivateProfileString(section, name, def, vRetSb, 2048, this.filePath);
+			//Console.WriteLine( " -----" +  vRetSb .ToString() );
 			return vRetSb.ToString();
 		}
 		
@@ -168,7 +166,7 @@ namespace LightController.Common
 
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
 			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  
-			if (appPath.Trim().Equals("true"))
+			if (appPath.Trim().ToLower().Equals("true"))
 			{
 				return appPathStr;
 			}
@@ -182,17 +180,54 @@ namespace LightController.Common
 		/// 辅助方法：取出是否显示按钮
 		/// </summary>
 		/// <returns></returns>
-		public static bool GetButtonShow(string appPathStr, string buttonName)
+		public static bool GetControlShow(string appPathStr, string buttonName)
 		{
 			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
 			string isShow = iniFileAst.ReadString("Show", buttonName, "false");
-			if (isShow.Trim().Equals("true")){
+			if (isShow.Trim().ToLower().Equals("true")){
 				return true;
 			}
 			else {
 				return false;
 			}
 		}
-			
+
+		/// <summary>
+		/// 辅助方法：取出是否关联外部的软件
+		/// </summary>
+		/// <returns></returns>
+		public static bool GetIsLink(string appPathStr, string appName)
+		{
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			string isLink = iniFileAst.ReadString("Link", appName, "false");
+			if (isLink.Trim().ToLower().Equals("true"))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：取出系统的一些数值
+		/// </summary>
+		/// <param name="startupPath"></param>
+		/// <param name="v"></param>
+		/// <returns></returns>
+		public static int GetSystemCount(string appPathStr, string attrName)
+		{
+			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			return iniFileAst.ReadInt("System", attrName, 0);
+		}
+
+		//与ini交互必须统一编码格式
+		private static byte[] getBytes(string s, string encodingName)
+		{
+			return null == s ? null : Encoding.GetEncoding(encodingName).GetBytes(s);
+		}
+
+	
 	}
 }

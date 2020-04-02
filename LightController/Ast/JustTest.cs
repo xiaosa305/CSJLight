@@ -17,7 +17,6 @@ namespace LightController.Ast
 			{			
 				Console.WriteLine(iPAddress.ToString());				
 			}
-
 		}
 
 

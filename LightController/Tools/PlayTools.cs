@@ -30,11 +30,7 @@ namespace LightController.Tools
         private int SceneNo { get; set; }
         private int TimeFactory { get; set; }
         private byte[] PlayData { get; set; }
-        private Thread OLOSThread { get; set; }
-        private Thread PreViewThread { get; set; }
-        private Thread MusicControlThread { get; set; }
         private bool IsMusicControl { get; set; }
-        private bool IsPausePlay { get; set; }
         private bool IsSendEmptyData { get; set; }
         private bool MusicData { get; set; }
         private bool MusicWaiting { get; set; }
@@ -45,7 +41,12 @@ namespace LightController.Tools
         private int StepListCount { get; set; }
         private int MusicIntervalTime { get; set; }
         private int MusicStepPoint { get; set; }
-       
+
+
+        private System.Timers.Timer PreviewTimer { get; set; }
+        private System.Timers.Timer MusicControlTimer { get; set; }
+        private System.Timers.Timer SendTimer { get; set; }
+
         private System.Timers.Timer Timer { get; set; }
         private Dictionary<int,byte> MusicDataBuff { get; set; }
         private List<PlayPoint> M_PlayPoints { get; set; }
@@ -64,13 +65,33 @@ namespace LightController.Tools
         {
             try
             {
-                TimeFactory = 32;
-                MusicStepTime = 0;
-                State = PreViewState.Null;
+                this.TimeFactory = 32;
+                this.MusicStepTime = 0;
+                this.State = PreViewState.Null;
                 Device = new FTDI();
                 this.IsSendEmptyData = false;
-                Timer = new System.Timers.Timer();
-                MusicWaiting = true;
+
+                this.Timer = new System.Timers.Timer
+                {
+                    AutoReset = false,
+                };
+                this.Timer.Elapsed += this.MusicWaitingHandl;
+                this.MusicWaiting = true;
+
+
+                this.PreviewTimer = new System.Timers.Timer
+                {
+                    Interval = this.TimeFactory,
+                    AutoReset = true
+                };
+                this.PreviewTimer.Elapsed += this.PreviewOnTimer;
+
+                this.SendTimer = new System.Timers.Timer()
+                {
+                    Interval = this.TimeFactory,
+                    AutoReset = true
+                };
+                this.SendTimer.Elapsed += this.SendOnTimer;
             }
             catch (Exception ex)
             {
@@ -85,26 +106,15 @@ namespace LightController.Tools
             this.IntentDebugCallback = receiveCallBack;
             this.IsInitIntentDebug = true;
             this.TimeFactory = timeFactory;
-            this.IsSendEmptyData = true;
-            SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
-            SendEmptyDebugDataThread.Start();
+            if (!this.SendTimer.Enabled)
+            {
+                this.SendTimer.Start();
+            }
         }
         public void StopInternetPreview(ICommunicatorCallBack receiveCallBack)
         {
-            this.IsSendEmptyData = false;
             ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
-            //TODO 待删除
-            Console.WriteLine("关闭网络调试");
-            IsInitIntentDebug = false;
-        }
-        private void SendEmptyDataStart()
-        {
-            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-            while (IsSendEmptyData)
-            {
-                this.Play();
-                Thread.Sleep(this.TimeFactory - 21);
-            }
+            this.IsInitIntentDebug = false;
         }
         public static PlayTools GetInstance()
         {
@@ -118,127 +128,68 @@ namespace LightController.Tools
         {
             try
             {
-                if (PreViewThread != null)
-                {
-                    try
-                    {
-                        PreViewThread.Abort();
-                    }
-                    catch (Exception ex)
-                    {
-                        CSJLogs.GetInstance().ErrorLog(ex);
-                    }
-                    finally
-                    {
-                        PreViewThread = null;
-                    }
-                }
-                if (OLOSThread != null)
-                {
-                    try
-                    {
-                        OLOSThread.Abort();
-                    }
-                    catch (Exception ex)
-                    {
-                        CSJLogs.GetInstance().ErrorLog(ex);
-                    }
-                    finally
-                    {
-                        OLOSThread = null;
-                    }
-                }
-                if (this.MusicControlThread != null)
-                {
-                    try
-                    {
-                        this.MusicControlThread.Abort();
-                    }
-                    catch (Exception ex)
-                    {
-                        CSJLogs.GetInstance().ErrorLog(ex);
-                    }
-                    finally
-                    {
-                        this.MusicControlThread = null;
-                    }
-                }
-                if (this.PreviewWayState == STATE_INTENETPREVIEW && !this.IsSendEmptyData)
-                {
-                    this.IsSendEmptyData = true;
-                    this.SendEmptyDebugDataThread = new Thread(new ThreadStart(SendEmptyDataStart));
-                    this.SendEmptyDebugDataThread.Start();
-                }
-                this.IsMusicControl = false;
+                this.PreviewTimer.Stop();
                 this.MusicWaiting = true;
+                this.IsMusicControl = false;
                 this.MusicStepPoint = 0;
                 this.State = PreViewState.Null;
+                this.ResetDebugDataToEmpty();
+                if (!this.SendTimer.Enabled)
+                {
+                    this.SendTimer.Start();
+                }
             }
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
+        public void ResetDebugDataToEmpty()
+        {
+            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+        }
+        public void StopSend()
+        {
+            this.SendTimer.Stop();
+        }
         public void PreView(DBWrapper wrapper, string configPath, int sceneNo)
         {
-            EndView();
-            //TODO 实时预览入口处执行线程休眠延迟
-            Thread.Sleep(1000);
             try
             {
-                //暂停播放准备生成数据
-                if (!FileUtils.IsDefaultFIle())
+                if (!FileUtils.IsDefaultFile())
                 {
                     return;
                 }
-                IsPausePlay = true;
-                MusicData = false;
+                this.MusicData = false;
                 this.DBWrapper = wrapper;
                 this.ConfigPath = configPath;
                 this.SceneNo = sceneNo;
-                //获取全局配置信息
                 this.Config = new CSJ_Config(wrapper, configPath);
-                C_PlayPoints = FileUtils.GetCPlayPoints();
-                TimeFactory = Config.TimeFactory;
-                try
+                this.C_PlayPoints = FileUtils.GetCPlayPoints();
+                this.TimeFactory = Config.TimeFactory;
+                if (FileUtils.IsMusicFile())
                 {
-                    //如果单灯单步线程运行中，将其强制关闭
-                    if (OLOSThread != null)
-                    {
-                        OLOSThread.Abort();
-                    }
+                    this.MusicData = true;
+                    this.MusicStepPoint = 0;
+                    this.MusicStepTime = FileUtils.GetMusicTime();
+                    this.StepListCount = FileUtils.GetMusicStepCount();
+                    this.MusicIntervalTime = FileUtils.GetMusicIntervalTime();
+                    this.StepList = FileUtils.GetMusicStepList();
+                    this.M_PlayPoints = FileUtils.GetMPlayPoints();
                 }
-                finally
+                this.MusicStep = this.Config.Music_Control_Enable[SceneNo];
+                this.State = PreViewState.PreView;
+                if (this.PreviewTimer.Enabled)
                 {
-                    //将单灯单步线程置为null
-                    OLOSThread = null;
-                    //是否有音频
-                    if (FileUtils.IsMusicFile())
-                    {
-                        this.MusicData = true;
-                        this.MusicStepPoint = 0;
-                        this.MusicStepTime = FileUtils.GetMusicTime();
-                        this.StepListCount = FileUtils.GetMusicStepCount();
-                        this.MusicIntervalTime = FileUtils.GetMusicIntervalTime();
-                        this.StepList = FileUtils.GetMusicStepList();
-                        M_PlayPoints = FileUtils.GetMPlayPoints();
-                    }
-                    MusicStep = this.Config.Music_Control_Enable[SceneNo];
-                    //关闭暂停播放
-                    IsPausePlay = false;
-                    IsSendEmptyData = false;
-                    //启动项目预览线程
-                    if (PreViewThread == null)
-                    {
-                        PreViewThread = new Thread(new ThreadStart(PreViewThreadStart))
-                        {
-                            //将线程设置为后台运行
-                            IsBackground = true
-                        };
-                        PreViewThread.Start();
-                    }
-                    State = PreViewState.PreView;
+                    this.PreviewTimer.Stop();
                 }
+                this.PreviewTimer.Interval = this.TimeFactory;
+                this.SendTimer.Interval = this.TimeFactory;
+                if (this.SendTimer.Enabled)
+                {
+                    this.SendTimer.Stop();
+                }
+                this.PreviewTimer.Start();
             }
             catch (Exception ex)
             {
@@ -250,8 +201,10 @@ namespace LightController.Tools
         {
             try
             {
-                this.IsPausePlay = true;
-                this.IsSendEmptyData = false;
+                if (this.PreviewTimer.Enabled)
+                {
+                    this.PreviewTimer.Stop();
+                }
                 if (this.Config != null)
                 {
                     this.TimeFactory = this.Config.TimeFactory;
@@ -260,27 +213,12 @@ namespace LightController.Tools
                 {
                     this.TimeFactory = 32;
                 }
-                try
+                this.State = PreViewState.OLOSView;
+                this.PlayData = data;
+                this.SendTimer.Interval = this.TimeFactory;
+                if (!this.SendTimer.Enabled)
                 {
-                    if (this.PreViewThread != null)
-                    {
-                        this.PreViewThread.Abort();
-                    }
-                }
-                finally
-                {
-                    this.PreViewThread = null;
-                    this.PlayData = data;
-                    this.IsPausePlay = false;
-                    if (this.OLOSThread == null)
-                    {
-                        this.OLOSThread = new Thread(new ThreadStart(this.OLOSViewThreadStart))
-                        {
-                            IsBackground = true
-                        };
-                        this.OLOSThread.Start();
-                    }
-                    this.State = PreViewState.OLOSView;
+                    this.SendTimer.Start();
                 }
             }
             catch (Exception ex)
@@ -288,77 +226,29 @@ namespace LightController.Tools
                 CSJLogs.GetInstance().ErrorLog(ex);
                 this.EndView();
             }
-            
         }
         public void MusicControl()
         {
             try
             {
-                if (this.Config.Music_Control_Enable[this.SceneNo] == 0)
-                {
-                    return;
-                }
-                if (this.PreViewThread == null)
-                {
-                    return;
-                }
-                if (!this.MusicData)
+                if (this.Config.Music_Control_Enable[this.SceneNo] == 0 || !this.PreviewTimer.Enabled || !this.MusicData)
                 {
                     return;
                 }
                 if (this.MusicWaiting)
                 {
                     this.Timer.Stop();
-                    this.MusicControlThread = new Thread(new ThreadStart(this.MusicControlThreadStart))
+                    if (this.MusicControlTimer == null)
                     {
-                        IsBackground = true
-                    };
-                    this.MusicWaiting = false;
-                    this.MusicControlThread.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }
-        }
-        private void MusicControlThreadStart()
-        {
-            try
-            {
-                if (this.MusicStepPoint == this.StepListCount)
-                {
-                    this.MusicStepPoint = 0;
-                }
-
-                this.MusicStep = this.StepList[this.MusicStepPoint++];
-                //TODO 打印音频步数
-                Console.WriteLine("音频步数 : " + MusicStep);
-                for (int i = 0; i < this.MusicStep; i++)
-                {
-                    MusicDataBuff = new Dictionary<int, byte>();
-                    foreach (PlayPoint item in M_PlayPoints)
-                    {
-                        MusicDataBuff.Add(item.ChannelNo,item.Read());
+                        this.MusicControlTimer = new System.Timers.Timer();
+                        this.MusicControlTimer.Elapsed += this.MusicControlOnTimer;
+                        this.MusicControlTimer.AutoReset = false;
                     }
-                    Console.WriteLine("音频触发" + MusicStep + "步");
-                    this.IsMusicControl = true;
-                    Thread.Sleep(this.TimeFactory * this.MusicStepTime);
-                }
-                if (this.MusicIntervalTime != 0)
-                {
-                    this.Timer.Interval = this.MusicIntervalTime;
-                    this.Timer.AutoReset = false;
-                    this.Timer.Elapsed += this.MusicWaitingHandl;
-                    this.Timer.Start();
-                    this.MusicWaiting = true;
-                    this.MusicControlThread = null;
-                }
-                else
-                {
-                    this.IsMusicControl = false;
-                    this.MusicWaiting = true;
-                    this.MusicControlThread = null;
+                    if (!this.MusicControlTimer.Enabled)
+                    {
+                        this.MusicWaiting = false;
+                        this.MusicControlTimer.Start();
+                    }
                 }
             }
             catch (Exception ex)
@@ -370,56 +260,82 @@ namespace LightController.Tools
         {
             this.IsMusicControl = false;
         }
-        private void OLOSViewThreadStart()
+        /// <summary>
+        /// 功能：预览定时器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PreviewOnTimer(object sender,ElapsedEventArgs e)
         {
-            try
+            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+            foreach (PlayPoint item in C_PlayPoints)
             {
-                while (true)
+                this.PlayData[item.ChannelNo - 1] = item.Read();
+            }
+            if (IsMusicControl)
+            {
+                List<int> keys =  MusicDataBuff.Keys.ToList();
+                foreach (int item in keys)
                 {
-                    this.Play();
-                    Thread.Sleep(this.TimeFactory);
+                    this.PlayData[item - 1] = MusicDataBuff[item];
                 }
             }
-            catch (Exception ex)
+            if (this.SendTimer.Enabled)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }   
-           
+                this.SendTimer.Stop();
+            }
+            this.Play();
         }
-        private void PreViewThreadStart()
+        /// <summary>
+        /// 功能：音频触发定时器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MusicControlOnTimer(object sender, ElapsedEventArgs e)
         {
             try
             {
-                Thread.Sleep(500);
-                this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-                while (true)
+                if (this.MusicStepPoint == this.StepListCount)
                 {
-                    foreach (PlayPoint item in C_PlayPoints)
+                    this.MusicStepPoint = 0;
+                }
+
+                this.MusicStep = this.StepList[this.MusicStepPoint++];
+                for (int i = 0; i < this.MusicStep; i++)
+                {
+                    this.MusicDataBuff = new Dictionary<int, byte>();
+                    foreach (PlayPoint item in M_PlayPoints)
                     {
-                        this.PlayData[item.ChannelNo - 1] = item.Read();
+                        this.MusicDataBuff.Add(item.ChannelNo, item.Read());
                     }
-                    if (IsMusicControl)
-                    {
-                        try
-                        {
-                            foreach (int item in MusicDataBuff.Keys)
-                            {
-                                this.PlayData[item - 1] = MusicDataBuff[item];
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("音频数据生成中。。。。。。。。");
-                        }
-                    }
-                    this.Play();
-                    Thread.Sleep(this.TimeFactory - 21);
+                    this.IsMusicControl = true;
+                    Thread.Sleep(this.TimeFactory * this.MusicStepTime);
+                }
+                if (this.MusicIntervalTime != 0)
+                {
+                    this.Timer.Interval = this.MusicIntervalTime;
+                    this.Timer.Start();
+                    this.MusicWaiting = true;
+                }
+                else
+                {
+                    this.IsMusicControl = false;
+                    this.MusicWaiting = true;
                 }
             }
             catch (Exception ex)
             {
                 CSJLogs.GetInstance().ErrorLog(ex);
             }
+        }
+        /// <summary>
+        /// 发送数据定时器
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SendOnTimer(object sender, ElapsedEventArgs e)
+        {
+            this.Play();
         }
         private void Play()
         {
@@ -442,20 +358,13 @@ namespace LightController.Tools
                         Device.SetBreak(false);
                     }
                 }
-                //TODO Test
-                else if (this.PreviewWayState == STATE_TEST)
-                {
-                    TestStart();
-                }
                 else
                 {
                     if (IsInitIntentDebug)
                     {
                         ConnectTools.GetInstance().StartIntentPreview(this.DeviceIpByIntentPreview, TimeFactory, this.IntentDebugCallback);
                         IsInitIntentDebug = false;
-                        Thread.Sleep(300);
                     }
-                    Thread.Sleep(21);
                     ConnectTools.GetInstance().SendIntenetPreview(DeviceIpByIntentPreview, buff.ToArray());
                 }
             }
@@ -529,67 +438,6 @@ namespace LightController.Tools
             }
            
         }
-
-        //TODO Test
-        public void TestOpen()
-        {
-            try
-            {
-                if (TestCom == null)
-                {
-                    TestCom = new SerialPort();
-                }
-                else
-                {
-                    if (TestCom.IsOpen)
-                    {
-                        TestCom.Close();
-                    }
-                }
-                TestCom.PortName = "COM15";
-                TestCom.Parity = Parity.None;
-                TestCom.StopBits = StopBits.One;
-                TestCom.DataBits = 8;
-                TestCom.BaudRate = 256000;
-                this.TestCom.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
-                TestCom.Open();
-                PreviewWayState = STATE_TEST;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine(ex.Message);
-            }
-            
-        }
-
-        public void SetTest()
-        {
-            PreviewWayState = STATE_TEST;
-        }
-
-        //TODO TEST
-        private void TestStart()
-        {
-            List<byte> buff = new List<byte>();
-            buff.AddRange(this.StartCode);
-            buff.AddRange(this.PlayData);
-            if (TestCom.IsOpen)
-            {
-                //TestCom.BreakState = true;
-                //Thread.Sleep(0);
-                //TestCom.BreakState = false;
-                //Thread.Sleep(0);
-                TestCom.Write(buff.ToArray(), 0, buff.ToArray().Length);
-                //TestCom.BreakState = false;
-            }
-        }
-
-        protected void Recive(object sender, SerialDataReceivedEventArgs s)
-        {
-            Console.WriteLine("搜到串口消息");
-        }
-
     }
     enum PreViewState
     {

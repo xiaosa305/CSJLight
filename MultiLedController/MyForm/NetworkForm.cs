@@ -22,7 +22,7 @@ using System.IO;
 using MultiLedController.Ast;
 using System.Net;
 using MultiLedController.Common;
-using MultiLedController.Utils;
+using MultiLedController.utils;
 using MultiLedController.MyForm;
 
 namespace MultiLedController
@@ -36,12 +36,25 @@ namespace MultiLedController
 		private MainForm mainForm;
 		private IList<string> virtualIPList;
 
+		private int ipCount = 9;
 
 		public NetworkForm(MainForm mainForm)
 		{
 			InitializeComponent();
 			refreshNetcard();
 			this.mainForm = mainForm;
+		}
+
+		public NetworkForm(MainForm mainForm, int ipLast, int interfaceCount) 
+		{
+			InitializeComponent();
+			refreshNetcard();
+			this.mainForm = mainForm;
+			
+			finalNumericUpDown.Value = ipLast ;
+			ipCount = interfaceCount + 1;
+			countNumericUpDown.Value = ipCount;		
+			
 		}
 
 		private void NetworkForm_Load(object sender, EventArgs e)
@@ -73,13 +86,11 @@ namespace MultiLedController
 			}
 			netcardComboBox.SelectedIndex = 0;
 			netcardIndex = 0;
-		}	
-
-		
+		}		
 	
 
 		/// <summary>
-		/// 事件：点击《设置连续9个ip地址》
+		/// 事件：点击《设置连续IP地址》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -102,37 +113,20 @@ namespace MultiLedController
 				}
 			}
 
-			int firstIP =Decimal.ToInt32( numericUpDown1.Value);
-			string[] ipArray = new string[] {
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP++,
-					"192.168.1." + firstIP };
-
+			int firstIP =Decimal.ToInt32( finalNumericUpDown.Value);
 			virtualIPList = new List<string>();
-			firstIP = Decimal.ToInt32(numericUpDown1.Value);
-			for (int i = 0; i < 8; i++)
+			IList<string> submaskList = new List<string>();
+			firstIP = Decimal.ToInt32(finalNumericUpDown.Value);
+			for (int i = 0; i < ipCount; i++)
 			{
-				virtualIPList.Add("192.168.1." + ++firstIP);
+				virtualIPList.Add("192.168."+ thirdNumericUpDown.Value+ "." + firstIP++);
+				submaskList.Add("255.255.255.0");
 			}
 
-			string[] submaskArray = new string[] {
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0",
-					"255.255.255.0" };
-
-			SetIPAddress(ipArray , submaskArray, null,null);
+			SetIPAddress(virtualIPList.ToArray(),
+				submaskList.ToArray(),
+				new string[] { "192.168." + thirdNumericUpDown.Value + ".1"}, 
+				new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" });
 
 			setStatusLabel("已设置多IP，请刷新");
 			setAddButtonEnable(true);
@@ -203,8 +197,7 @@ namespace MultiLedController
 			ManagementBaseObject inPar = null;
 			ManagementBaseObject outPar = null;
 
-			ManagementObject mo = moList[netcardIndex];
-			
+			ManagementObject mo = moList[netcardIndex];			
 			
 			//设置IP地址和掩码
 			if (ipArray != null && submaskArray != null)
@@ -251,7 +244,6 @@ namespace MultiLedController
 			netcardIndex = netcardComboBox.SelectedIndex;
 			if (netcardIndex > -1) {
 				IPAst ipAst = new IPAst(moList[netcardIndex]);
-
 				try
 				{
 					ipLabel2.Text = ipAst.IpArray[0];
@@ -315,6 +307,14 @@ namespace MultiLedController
 		private void addVirtualIpButton_Click(object sender, EventArgs e)
 		{
 			mainForm.AddVirtualIPS(virtualIPList);
+		}
+
+
+
+		private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+		{
+			this.ipCount = Decimal.ToInt16(countNumericUpDown.Value);
+
 		}
 	}
 }

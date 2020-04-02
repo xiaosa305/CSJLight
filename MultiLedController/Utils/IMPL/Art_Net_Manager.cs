@@ -27,7 +27,8 @@ namespace MultiLedController.utils.impl
         private long SystemTime { get; set; }
         private int Flag { get; set; }
         private int PackNumSum { get; set; }
-        private Thread OnTimeThread { get; set; }
+        private Thread OnPlayThread { get; set; }
+        private Thread OnRecodeThread { get; set; }
         private System.Timers.Timer SaveTimers { get; set; }
         private Socket DebugServer { get; set; }
         private long RecodeFrameCount { get; set; }
@@ -35,6 +36,18 @@ namespace MultiLedController.utils.impl
         private Art_Net_Manager()
         {
             this.Init();
+            //启动播放器
+            this.OnPlayThread = new Thread(this.OnPlayStart)
+            {
+                IsBackground = true
+            };
+            this.OnPlayThread.Start();
+            //启动录制器
+            this.OnRecodeThread = new Thread(this.OnRecodeStart)
+            {
+                IsBackground = true
+            };
+            this.OnRecodeThread.Start();
         }
         public static IArt_Net_Manager GetInstance()
         {
@@ -55,12 +68,7 @@ namespace MultiLedController.utils.impl
             this.FieldsReceiveStatus = new Dictionary<int, bool>();
             this.FieldsData = new Dictionary<int, List<byte>>();
             this.FieldsReceiveDataSize = new Dictionary<int, int>();
-            //启动定时器
-            this.OnTimeThread = new Thread(this.OnTimer)
-            {
-                IsBackground = true
-            };
-            this.OnTimeThread.Start();
+          
             this.Flag = 0;
             this.PackNumSum = 0;
             this.SystemTime = -1;
@@ -83,14 +91,14 @@ namespace MultiLedController.utils.impl
             LEDControllerServer.GetInstance().Close();
             Thread.Sleep(1000);
             this.Init();
-            try
-            {
-                this.OnTimeThread.Abort();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("关闭定时器");
-            }
+            //try
+            //{
+            //    this.OnPlayThread.Abort();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("关闭定时器");
+            //}
         }
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
@@ -349,6 +357,7 @@ namespace MultiLedController.utils.impl
             }
             FileUtils.GetInstance().WriteToFileByCreate(emptyData, SaveFilePath);
             this.IsSaveToFile = true;
+            
         }
         /// <summary>
         /// 关闭数据存储至文件
@@ -358,10 +367,10 @@ namespace MultiLedController.utils.impl
             this.IsSaveToFile = false;
         }
         /// <summary>
-        /// 定时器
+        /// 功能：定时器
         /// </summary>
         /// <param name="obj"></param>
-        private void OnTimer(Object obj)
+        private void OnPlayStart(Object obj)
         {
             while (true)
             {
@@ -383,6 +392,17 @@ namespace MultiLedController.utils.impl
                         }
                     }
                 }
+                Thread.Sleep(0);
+            }
+        }
+        /// <summary>
+        /// 功能：录制定时器
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnRecodeStart(Object obj)
+        {
+            while (true)
+            {
                 if (IsSaveToFile)
                 {
                     SaveQueueCacheData data = DataQueue.GetInstance().SaveDequeue();

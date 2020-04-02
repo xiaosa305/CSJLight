@@ -401,7 +401,6 @@ namespace LightController.Utils
                 {
                     foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
                     {
-
                         FileInfo info = new FileInfo(filePath);
                         Console.WriteLine("拷贝工程文件到指定目录：==>" + info.Name);
                         info.CopyTo(dirPath + @"\" + info.Name, true);

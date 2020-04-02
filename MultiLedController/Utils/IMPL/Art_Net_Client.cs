@@ -48,7 +48,7 @@ namespace MultiLedController.utils.impl
                 this.Field_Datas.Add(i, new List<byte>());
                 this.Field_Datas_Status.Add(i, false);
             }
-            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(CurrentIp), PORT);
+            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(this.CurrentIp), PORT);
             //配置UDP发送器
             this.UDP_Send = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             this.UDP_Send.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
@@ -90,14 +90,8 @@ namespace MultiLedController.utils.impl
                 UdpClient client = obj as UdpClient;
                 while (this.ReceiveStartStatus)
                 {
-                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ServerIp), PORT);
+                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(this.ServerIp), PORT);
                     byte[] receiveData = client.Receive(ref endPoint);
-                    StringBuilder stringBuilder = new StringBuilder();
-                    foreach (byte b in receiveData)
-                    {
-                        stringBuilder.Append("" + b + " ");
-                    }
-
                     if (receiveData[8] == 0x00 && receiveData[9] == 0x21)//接收到其他设备发送ArtPollReply包
                     {
                         continue;
@@ -108,7 +102,7 @@ namespace MultiLedController.utils.impl
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
                     {
-
+                        Console.WriteLine("接收到地址分组包");
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x50)//这是ArtDMX数据包
                     {

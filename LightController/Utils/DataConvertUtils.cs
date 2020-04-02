@@ -132,8 +132,6 @@ namespace LightController.Utils
         {
             SceneThreadDataInfo data = obj as SceneThreadDataInfo;
             IList<CSJ_ChannelData> channelDatas = new List<CSJ_ChannelData>();
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             foreach (DB_Light light in data.Wrapper.lightList)
             {
                 for (int i = 0; i < light.Count; i++)
@@ -213,8 +211,6 @@ namespace LightController.Utils
                     }
                 }
             }
-            stopwatch.Stop();
-            Console.WriteLine("**************************************************数据库读取耗时:" + stopwatch.Elapsed.TotalMilliseconds);
             CSJ_SceneData sceneData = new CSJ_SceneData()
             {
                 SceneNo = data.SceneNo,
@@ -395,12 +391,10 @@ namespace LightController.Utils
             int isGradualChange;
             int stepValue;
             float inc = 0;
-            Stopwatch stopwatch = new Stopwatch();
             List<byte> WriteBuffer = new List<byte>();
             int startValue = channelData.StepValues[0];
             try
             {
-                stopwatch.Start();
                 FileUtils.Write(((flag == 2) ? Convert.ToByte(0) : Convert.ToByte(startValue)), fileName, BuildMode == MODE_MAKEFILE, true, true);
                 for (int step = 1; step < channelData.StepCount + 1; step++)
                 {
@@ -460,8 +454,6 @@ namespace LightController.Utils
                     }
                     startValue = stepValue;
                 }
-                stopwatch.Stop();
-                Console.WriteLine("/////计算耗时：" + stopwatch.Elapsed.TotalMilliseconds);
                 DataCacheWriteCompleted(Constant.GetNumber(sceneNo), Constant.GetNumber(dataInfo.ChannelNo), Constant.MODE_C);
             }
             catch (Exception ex)

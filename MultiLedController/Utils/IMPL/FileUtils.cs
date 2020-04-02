@@ -23,10 +23,6 @@ namespace MultiLedController.utils.impl
         {
             using (FileStream stream = new FileStream(filePath,FileMode.Append))
             {
-                if (data[1] != 0xFF)
-                {
-                    Console.WriteLine("G:" + data[0] + ",R:" + data[1] + ",B:" + data[2]);
-                }
                 stream.Write(data.ToArray(), 0, data.Count);
                 stream.Flush();
             }

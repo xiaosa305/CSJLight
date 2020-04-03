@@ -1029,6 +1029,7 @@ namespace LightController.MyForm
 			this.lightsListView.UseCompatibleStateImageBehavior = false;
 			this.lightsListView.SelectedIndexChanged += new System.EventHandler(this.lightsListView_SelectedIndexChanged);
 			this.lightsListView.DragOver += new System.Windows.Forms.DragEventHandler(this.lightsListView_DragOver);
+			this.lightsListView.DoubleClick += new System.EventHandler(this.lightsListView_DoubleClick);
 			this.lightsListView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lightsListView_MouseDown);
 			this.lightsListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lightsListView_MouseMove);
 			// 

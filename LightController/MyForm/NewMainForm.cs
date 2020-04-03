@@ -438,7 +438,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			exit();
+			exitClick();
 		}
 
 		#endregion
@@ -560,17 +560,24 @@ namespace LightController.MyForm
 		}	
 
 		/// <summary>
-		/// 辅助方法：是否显示《保存工程》等
+		/// 辅助方法：是否显示《（打开工程后）工程相关》的各种按钮及控件
 		/// </summary>
 		/// <param name="enable"></param>
-		protected override void enableSave(bool enable)
+		protected override void enableProjectRelative(bool enable)
 		{
+			//常规的四个按钮
 			saveProjectButton.Enabled = enable;
-			exportProjectButton.Enabled = enable;
-			saveFrameButton.Enabled = enable;
-			useFrameButton.Enabled = enable;
+			exportProjectButton.Enabled = enable && lightAstList!=null && lightAstList.Count>0;
+			saveFrameButton.Enabled = enable;			
 			closeProjectButton.Enabled = enable;
-		}
+
+			// 不同MainForm在不同位置的按钮
+			useFrameButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
+
+			// 菜单栏相关按钮组
+			projectToolStripMenuItem.Enabled = enable;		
+
+		}		
 
 		/// <summary>
 		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
@@ -587,6 +594,7 @@ namespace LightController.MyForm
 			hideAllTDPanels();
 			showStepLabel(0, 0);
 			editLightInfo(null);
+			saFlowLayoutPanel.Controls.Clear();
 		}
 
 		/// <summary>
@@ -595,14 +603,12 @@ namespace LightController.MyForm
 		/// --lightListView也更新为最新的数据
 		/// </summary>
 		/// <param name="lightAstList2"></param>
-		public override void AddLightAstList(IList<LightAst> lightAstList2)
+		public override void BuildLightList(IList<LightAst> lightAstList2)
 		{
-			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
-			base.AddLightAstList(lightAstList2);
+			//先调用统一的操作，填充lightAstList和lightWrapperList
+			base.BuildLightList(lightAstList2);
 
-			//下列为针对本Form的处理代码：listView更新为最新数据
-
-			// 1.清空lightListView,重新填充新数据
+			//针对本Form的处理代码：listView更新为最新数据			
 			lightsListView.Items.Clear();
 			for (int i = 0; i < lightAstList2.Count; i++)
 			{
@@ -616,20 +622,8 @@ namespace LightController.MyForm
 				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
 				);
 			}
-
-			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
-			hideAllTDPanels();
 		}
-
-		/// <summary>
-		///  辅助方法：将所有工程相关的按钮（灯具列表、工程升级、全局设置、摇麦设置）Enabled设为传入bool值
-		/// </summary>
-		/// <param name="v"></param>
-		protected override void enableGlobalSet(bool enable)
-		{
-			projectToolStripMenuItem.Enabled = enable;
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：是否显示playPanel
 		/// </summary>
@@ -660,8 +654,7 @@ namespace LightController.MyForm
 			frameComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 			frameComboBox.SelectedIndex = currentFrame;
 			frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
-		}
-		
+		}		
 
 		#endregion
 
@@ -1199,12 +1192,10 @@ namespace LightController.MyForm
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
-			{				
-				setBusy(true);
-				saveFrame();
+			{
+				saveFrameClick();
 				//MARK 大变动：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[currentFrame] = false;
-				setBusy(false);
+				frameSaveArray[currentFrame] = false;				
 			}
 
 			currentFrame = frameComboBox.SelectedIndex;
@@ -1536,6 +1527,8 @@ namespace LightController.MyForm
 		{
 			isMultiMode = !isSingleMode;
 
+			//MARK 大变动：15.1 《灯具列表》是否可用，由单灯模式决定
+			lightListToolStripMenuItem.Enabled = isSingleMode;
 			lightsListView.Enabled = isSingleMode;		
 			frameComboBox.Enabled = isSingleMode;
 			modeComboBox.Enabled = isSingleMode;
@@ -1547,10 +1540,10 @@ namespace LightController.MyForm
 		/// <summary>
 		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
-		public override void ResetSyncMode()
+		public override void EnterSyncMode(bool isSyncMode)
 		{
-			syncButton.Text = "进入同步";
-			isSyncMode = false;
+			this.isSyncMode = isSyncMode;
+			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
 		}
 		
 		/// <summary>
@@ -1599,7 +1592,8 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 
-			// 6.判断子属性按钮组是否可用
+			// 6.判断子属性按钮组是否可用			
+			saFlowLayoutPanel.Visible = totalStep != 0;
 			saFlowLayoutPanel.Enabled = totalStep != 0;
 		}
 
@@ -2457,7 +2451,18 @@ namespace LightController.MyForm
 			GenerateSourceProject();
 		}
 
-		
+
+		/// <summary>
+		/// 事件：双击《LightListView》内灯具，更改备注
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightsListView_DoubleClick(object sender, EventArgs e)
+		{
+			int lightIndex = lightsListView.SelectedIndices[0];
+			lightsListViewDoubleClick(lightIndex);
+		}
+
 		
 	}
 }

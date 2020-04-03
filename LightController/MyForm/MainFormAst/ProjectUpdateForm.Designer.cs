@@ -395,7 +395,7 @@
 			this.MinimizeBox = false;
 			this.Name = "ProjectUpdateForm";
 			this.Text = "更新工程到设备";
-			this.Load += new System.EventHandler(this.UpdateForm_Load);
+			this.Load += new System.EventHandler(this.ProjectUpdateForm_Load);
 			this.skinTabControl.ResumeLayout(false);
 			this.networkTab.ResumeLayout(false);
 			this.networkPanel.ResumeLayout(false);

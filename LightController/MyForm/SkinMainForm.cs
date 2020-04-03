@@ -444,30 +444,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《退出应用》
+		///  事件：点击《退出程序》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void exitSkinButton_Click(object sender, EventArgs e)
 		{
-			//MARK 大变动：13.1 退出MainForm前提示保存->专门针对《(单独的)退出应用》按钮
-			if (frameSaveArray != null)
-			{
-				DialogResult dr = MessageBox.Show("退出应用前是否保存工程？",
-					 "保存工程？",
-					 MessageBoxButtons.YesNoCancel,
-					 MessageBoxIcon.Asterisk
-				);
-				switch (dr)
-				{
-					case DialogResult.Yes: saveProjectClick(); exit(); break;
-					case DialogResult.No: exit(); break;
-				}
-			}
-			else {
-				exit();
-			}
+			exitClick();
 		}
+
 
 		#endregion
 
@@ -592,12 +577,22 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助方法：以传入值设置《保存工程》《导出工程》按钮是否可用
 		/// </summary>
-		protected override void enableSave(bool enable)
+		protected override void enableProjectRelative(bool enable)
 		{
+			//常规的四个按钮
 			saveSkinButton.Enabled = enable;
-			exportSkinButton.Enabled = enable;
+			exportSkinButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
 			frameSaveSkinButton.Enabled = enable;
 			closeSkinButton.Enabled = enable;
+
+			// 不同MainForm在不同位置的按钮
+			useFrameSkinButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
+
+			// 菜单栏相关按钮
+			lightListSkinButton.Enabled = enable;
+			globalSetSkinButton.Enabled = enable;
+			ymSkinButton.Enabled = enable;
+			projectUpdateSkinButton.Enabled = enable;
 		}
 
 		/// <summary>
@@ -617,6 +612,7 @@ namespace LightController.MyForm
 			hideAllTDPanels();
 			showStepLabel(0, 0);
 			editLightInfo(null);
+			saFlowLayoutPanel.Controls.Clear();
 		}
 
 		/// <summary>
@@ -625,14 +621,12 @@ namespace LightController.MyForm
 		/// --lightListView也更新为最新的数据
 		/// </summary>
 		/// <param name="lightAstList2"></param>
-		public override void AddLightAstList(IList<LightAst> lightAstList2)
+		public override void BuildLightList(IList<LightAst> lightAstList2)
 		{
-			// 0.先调用统一的操作，填充lightAstList和lightWrapperList
-			base.AddLightAstList(lightAstList2);
+			//先调用统一的操作，填充lightAstList和lightWrapperList（并生成stepTemplate）
+			base.BuildLightList(lightAstList2);
 
-			//下列为针对本Form的处理代码：listView更新为最新数据
-
-			// 1.清空lightListView,重新填充新数据
+			//针对本Form的处理代码：listView更新为最新数据			
 			lightsSkinListView.Items.Clear();
 			for (int i = 0; i < lightAstList2.Count; i++)
 			{
@@ -647,23 +641,14 @@ namespace LightController.MyForm
 				);
 			}
 
-			// 2.最后处理通道显示：每次调用此方法后应该隐藏通道数据，避免误操作。
-			hideAllTDPanels();
+			//MARK 大变动：16.0.2 若新增的灯具为空，则设置几个地方不可用
+			if (lightAstList2.Count == 0)
+			{
+				useFrameSkinButton.Enabled = false;
+				exportSkinButton.Enabled = false;
+			}
 		}
-
-		/// <summary>
-		///  辅助方法：将所有全局配置相关的按钮（灯具列表、工程升级、全局设置、摇麦设置）Enabled设为传入bool值
-		/// </summary>
-		/// <param name="v"></param>
-		protected override void enableGlobalSet(bool enable)
-		{
-			// 菜单栏几个工程相关按钮
-			projectUpdateSkinButton.Enabled = enable;
-			lightListSkinButton.Enabled = enable;
-			globalSetSkinButton.Enabled = enable;
-			ymSkinButton.Enabled = enable;
-		}
-
+		
 		/// <summary>
 		///  辅助方法：设定是否显示《 （调试区域的N个按钮）panel》
 		/// </summary>
@@ -920,6 +905,8 @@ namespace LightController.MyForm
 			}
 
 		}
+
+
 
 		// 这个别忘了
 		// listView1.AllowDrop = true;
@@ -1202,11 +1189,9 @@ namespace LightController.MyForm
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
 			{
-				setBusy(true);
-				saveFrame();
+				saveFrameClick();
 				//MARK 大变动：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[currentFrame] = false;
-				setBusy(false);
+				frameSaveArray[currentFrame] = false;				
 			}
 
 			currentFrame = frameSkinComboBox.SelectedIndex;
@@ -1346,20 +1331,20 @@ namespace LightController.MyForm
 			// 如果当前已经是同步模式，则退出同步模式，这比较简单，不需要进行任何比较，直接操作即可。
 			if (isSyncMode)
 			{
-				isSyncMode = false;
-				syncSkinButton.Text = "进入同步";
+				EnterSyncMode(false);
 				return;
 			}
+			else {
+				// 异步时，要切换到同步模式，需要先进行检查。
+				if (!CheckAllSameStepCounts())
+				{
+					MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
+					return;
+				}
 
-			// 异步时，要切换到同步模式，需要先进行检查。
-			if (!CheckAllSameStepCounts())
-			{
-				MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
-				return;
+				EnterSyncMode(true);
 			}
-
-			isSyncMode = true;
-			syncSkinButton.Text = "退出同步";
+			
 		}
 
 		/// <summary>
@@ -1519,7 +1504,7 @@ namespace LightController.MyForm
 				if (lightIndex == selectedIndex)
 				{
 					lightsAddrLabel.Text += "(" + lightAstList[lightIndex].LightAddr + ") ";
-					lightsSkinListView.Items[lightIndex].BackColor = Color.Gold;
+					lightsSkinListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
 				}
 				else
 				{
@@ -1538,10 +1523,12 @@ namespace LightController.MyForm
 		{
 			isMultiMode = !isSingleMode;
 
+			//MARK 大变动：15.2 《灯具列表》是否可用，由单灯模式决定
+			lightListSkinButton.Enabled = isSingleMode;
 			lightsSkinListView.Enabled = isSingleMode;
 			frameSkinComboBox.Enabled = isSingleMode;
 			modeSkinComboBox.Enabled = isSingleMode;
-			useFrameSkinButton.Enabled = isSingleMode;
+			useFrameSkinButton.Enabled = isSingleMode;		
 
 			multiLightSkinButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
 		}
@@ -1549,10 +1536,11 @@ namespace LightController.MyForm
 		/// <summary>
 		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
-		public override void ResetSyncMode()
+		public override void EnterSyncMode(bool isSyncMode)
 		{
-			syncSkinButton.Text = "进入同步";
-			isSyncMode = false;
+			this.isSyncMode = isSyncMode;
+			syncSkinButton.Text = isSyncMode? "退出同步":"进入同步";
+			
 		}	
 
 		/// <summary>
@@ -2766,6 +2754,7 @@ namespace LightController.MyForm
 
 		}
 
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2781,7 +2770,17 @@ namespace LightController.MyForm
 
 		#endregion
 
-		
+		/// <summary>
+		///  事件：双击《灯具列表的灯具》，修改备注
+		/// </summary>
+		private void lightsSkinListView_DoubleClick(object sender, EventArgs e)
+		{
+			int lightIndex = lightsSkinListView.SelectedIndices[0];
+			lightsListViewDoubleClick(lightIndex);
+		}
+
+
+
 	}
 
 

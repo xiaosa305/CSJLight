@@ -106,19 +106,19 @@
             this.renameButton,
             this.copyButton});
 			this.myContextMenuStrip.Name = "contextMenuStrip1";
-			this.myContextMenuStrip.Size = new System.Drawing.Size(181, 70);
+			this.myContextMenuStrip.Size = new System.Drawing.Size(137, 48);
 			// 
 			// renameButton
 			// 
 			this.renameButton.Name = "renameButton";
-			this.renameButton.Size = new System.Drawing.Size(180, 22);
+			this.renameButton.Size = new System.Drawing.Size(136, 22);
 			this.renameButton.Text = "工程重命名";
 			this.renameButton.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
 			// 
 			// copyButton
 			// 
 			this.copyButton.Name = "copyButton";
-			this.copyButton.Size = new System.Drawing.Size(180, 22);
+			this.copyButton.Size = new System.Drawing.Size(136, 22);
 			this.copyButton.Text = "工程复制";
 			this.copyButton.Click += new System.EventHandler(this.copyProjectToolStripMenuItem_Click);
 			// 
@@ -136,8 +136,9 @@
 			this.Controls.Add(this.projectTreeView);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(325, 371);
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(325, 333);
+			this.MinimumSize = new System.Drawing.Size(325, 371);
 			this.Name = "OpenForm";
 			this.Text = "打开工程";
 			this.Load += new System.EventHandler(this.OpenForm_Load);

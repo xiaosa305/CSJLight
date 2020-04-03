@@ -31,8 +31,7 @@ namespace LightController.MyForm
 		private string comName;
 
 		private ConnectTools connectTools;
-		private SerialPortTools comTools;
-		
+		private SerialPortTools comTools;	
 
 		public ProjectUpdateForm(MainFormBase mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
@@ -46,7 +45,7 @@ namespace LightController.MyForm
 			this.skinTabControl.SelectedIndex = 0;
 		}
 
-		private void UpdateForm_Load(object sender, EventArgs e)
+		private void ProjectUpdateForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			// 设false可在其他文件中修改本类的UI
@@ -107,7 +106,6 @@ namespace LightController.MyForm
 
 			networkSearchButton.Enabled = !String.IsNullOrEmpty(localIP);
 		}
-
 
 		/// <summary>
 		///事件：点击《搜索网络/串口设备》，两个按钮点击事件集成在一起
@@ -192,8 +190,6 @@ namespace LightController.MyForm
 			comSearchButton.Enabled = true;
 		}
 
-
-
 		/// <summary>
 		/// 辅助方法：修改网络设备的选项之后，设置相关的值。
 		/// </summary>
@@ -226,7 +222,6 @@ namespace LightController.MyForm
 			comUpdateButton.Enabled = true;			
 		}
 
-
 		/// <summary>
 		/// 事件：点击《下载数据》，两个按钮点击事件集成在一起
 		/// </summary>
@@ -235,7 +230,7 @@ namespace LightController.MyForm
 		private void updateButton_Click(object sender, EventArgs e)
 		{
 			SetBusy(true);
-			bool rightNow = false;
+			bool generateNow = false;
 			if (String.IsNullOrEmpty(projectPath))
 			{
 				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
@@ -247,15 +242,25 @@ namespace LightController.MyForm
 					SetBusy(false);
 					return;
 				}
-				rightNow = true;//只有当前无projectPath且选择继续后会rightNow
+
+				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
+				{
+					MessageBox.Show("当前工程无灯具，无法更新工程。");
+					SetBusy(false);
+					return;
+				}
+
+				generateNow = true;//只有当前无projectPath且选择继续后会rightNow
 			}
+
+
 
 			string buttonName = ((Button)sender).Name;
 			if (   buttonName.Equals("networkUpdateButton") )  //使用网络升级
 			{
 				networkUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;				
-				if (rightNow)
+				if (generateNow)
 				{					
 					SetLabelText(true, "正在实时生成工程数据，请耐心等待...");
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this, true));
@@ -268,7 +273,7 @@ namespace LightController.MyForm
 			// 使用串口升级
 			else
 			{	
-				if (rightNow) { 					
+				if (generateNow) { 					
 					SetLabelText(false, "正在实时生成工程数据，请耐心等待...");
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this,false));
 				}
@@ -279,6 +284,10 @@ namespace LightController.MyForm
 			}		
 		}
 
+		/// <summary>
+		/// 辅助方法：显示提示消息
+		/// </summary>
+		/// <param name="busy"></param>
 		public void SetBusy(bool busy)
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
@@ -299,10 +308,10 @@ namespace LightController.MyForm
 		/// 辅助方法：下载工程
 		/// </summary>
 		/// <param name="isNetwork"></param>
-		public void DownloadProject(bool isNetwork) {				
+		public void DownloadProject(bool isNetwork) {	
 			if (isNetwork)
 			{
-				if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]])) {
+				if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]])) {					
 					connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(this));
 				}
 				else
@@ -360,6 +369,11 @@ namespace LightController.MyForm
 			mainForm.SetProjectPath(null);
 		}
 
+		/// <summary>
+		/// 辅助方法：设置 当前更新文件Label的 文字
+		/// </summary>
+		/// <param name="isNetwork"></param>
+		/// <param name="msg"></param>
 		internal void SetLabelText(bool isNetwork,string msg)
 		{
 			if (isNetwork)

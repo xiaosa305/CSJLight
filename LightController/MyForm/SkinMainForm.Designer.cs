@@ -1472,6 +1472,7 @@ namespace LightController.MyForm
 			this.lightsSkinListView.SelectedIndexChanged += new System.EventHandler(this.lightsSkinListView_SelectedIndexChanged);
 			this.lightsSkinListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.lightsSkinListView_DragDrop);
 			this.lightsSkinListView.DragOver += new System.Windows.Forms.DragEventHandler(this.lightsSkinListView_DragOver);
+			this.lightsSkinListView.DoubleClick += new System.EventHandler(this.lightsSkinListView_DoubleClick);
 			this.lightsSkinListView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lightsSkinListView_MouseDown);
 			this.lightsSkinListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lightsSkinListView_MouseMove);
 			// 

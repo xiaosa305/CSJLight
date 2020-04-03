@@ -39,7 +39,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《统一模式》按钮（或双击灯具也可选择组长）
+		/// 事件：点击《确认》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -58,7 +58,7 @@ namespace LightController.MyForm
 				return;				
 			}
 
-			mainForm.EnterMultiMode( selectedIndex , copyAllCheckBox.Checked);
+			mainForm.EnterMultiMode(selectedIndex , copyAllCheckBox.Checked);
 			Dispose();
 			mainForm.Activate();			
 		}	

@@ -111,6 +111,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "NewForm";
+			this.Text = "新建工程";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.NewForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.NewForm_Load);
 			this.ResumeLayout(false);

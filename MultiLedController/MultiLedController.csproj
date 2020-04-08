@@ -48,6 +48,12 @@
   <ItemGroup>
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
+    <Compile Include="MyForm\NewMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\NewMainForm.Designer.cs">
+      <DependentUpon>NewMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +98,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NetworkForm.resx">
       <DependentUpon>NetworkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\NewMainForm.resx">
+      <DependentUpon>NewMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>

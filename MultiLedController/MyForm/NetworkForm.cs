@@ -31,8 +31,8 @@ namespace MultiLedController
 	{		
 		
 		private IList<ManagementObject> moList;
-		private IPAst tempIpAst;
 		private int netcardIndex = -1;
+		private IPAst tempIpAst;		
 		private MainForm mainForm;
 		private IList<string> virtualIPList;
 
@@ -62,15 +62,23 @@ namespace MultiLedController
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
 
+		/// <summary>
+		/// 事件：点击《刷新（网卡列表）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void refreshNetcardButton_Click(object sender, EventArgs e)
 		{
 			refreshNetcard();
 			setStatusLabel("已刷新网卡列表");
 		}
 
+		/// <summary>
+		/// 辅助方法：刷新网卡列表
+		/// </summary>
 		private void refreshNetcard()	{
 
-			clearIPList();
+			clearNetcardList();
 
 			// 获取本地计算机所有网卡信息			
 			ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_NetWorkAdapterConfiguration");						
@@ -86,8 +94,7 @@ namespace MultiLedController
 			}
 			netcardComboBox.SelectedIndex = 0;
 			netcardIndex = 0;
-		}		
-	
+		}			
 
 		/// <summary>
 		/// 事件：点击《设置连续IP地址》
@@ -132,16 +139,19 @@ namespace MultiLedController
 			setAddButtonEnable(true);
 		}
 
-
+		/// <summary>
+		/// 辅助方法：设置《添加》按钮可用
+		/// </summary>
+		/// <param name="v"></param>
 		private void setAddButtonEnable(bool v)
 		{
 			this.addVirtualIpButton.Enabled = v;
 		}
 
 		/// <summary>
-		/// 辅助方法：清空所有ip列表
+		/// 辅助方法：清空网卡列表
 		/// </summary>
-		private void clearIPList()
+		private void clearNetcardList()
 		{
 			netcardComboBox.Items.Clear();
 			netcardComboBox.Text = "";
@@ -167,6 +177,10 @@ namespace MultiLedController
 			
 		}
 
+		/// <summary>
+		/// 辅助方法：设置提示label的文本
+		/// </summary>
+		/// <param name="msg"></param>
 		private void setStatusLabel(string msg) {
 			toolStripStatusLabel1.Text = msg;
 		}
@@ -246,7 +260,7 @@ namespace MultiLedController
 				IPAst ipAst = new IPAst(moList[netcardIndex]);
 				try
 				{
-					ipLabel2.Text = ipAst.IpArray[0];
+					ipLabel2.Text = ipAst.IpArray[ipAst.IpArray.Length-1];
 				}
 				catch (Exception) { }
 
@@ -258,8 +272,7 @@ namespace MultiLedController
 
 				try
 				{
-					gatewayLabel2.Text = ipAst.GatewayArray[0];
-					
+					gatewayLabel2.Text = ipAst.GatewayArray[0];					
 				}
 				catch (Exception) { }
 
@@ -271,12 +284,7 @@ namespace MultiLedController
 
 			}
 		}
-
-		private void testButton_Click(object sender, EventArgs e)
-		{
-            XiaosaTest.Test1();
-		}
-
+				
 		/// <summary>
 		/// 保存初始设置
 		/// </summary>
@@ -308,13 +316,26 @@ namespace MultiLedController
 		{
 			mainForm.AddVirtualIPS(virtualIPList);
 		}
-
-
-
+			   
+		/// <summary>
+		/// 事件：更改ip数量的值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void numericUpDown2_ValueChanged(object sender, EventArgs e)
 		{
 			this.ipCount = Decimal.ToInt16(countNumericUpDown.Value);
-
 		}
+
+		/// <summary>
+		/// 事件：点击《测试》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			XiaosaTest.Test1();
+		}
+
 	}
 }

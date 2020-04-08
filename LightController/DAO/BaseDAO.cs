@@ -207,7 +207,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// MARK 大变动：14.5 BaseDAO中清空相关表内的所有数据
+		/// MARK 只开单场景：14.5 BaseDAO中清空相关表内的所有数据
 		///删除相应的表内所有数据
 		/// </summary>
 		public void Clear()
@@ -221,7 +221,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// MARK 大变动：14.6 BaseDAO中清空相关表内的不在灯具列表内的所有数据
+		/// MARK 只开单场景：14.6 BaseDAO中清空相关表内的不在灯具列表内的所有数据
 		///删除相应的表内所有数据
 		/// </summary>
 		public void DeleteRedundantData(IList<int> retainLightIndices)

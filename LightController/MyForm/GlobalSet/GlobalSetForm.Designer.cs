@@ -255,6 +255,7 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// tongdaoCountComboBox
 			// 
+			this.tongdaoCountComboBox.Enabled = false;
 			this.tongdaoCountComboBox.FormattingEnabled = true;
 			this.tongdaoCountComboBox.Items.AddRange(new object[] {
             "512",
@@ -589,7 +590,7 @@ private System.ComponentModel.IContainer components = null;
 			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
 			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-			this.flowLayoutPanel3.Size = new System.Drawing.Size(134, 300);
+			this.flowLayoutPanel3.Size = new System.Drawing.Size(134, 306);
 			this.flowLayoutPanel3.TabIndex = 0;
 			// 
 			// panel27
@@ -712,7 +713,7 @@ private System.ComponentModel.IContainer components = null;
 			this.skFrameFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.skFrameFlowLayoutPanel.Location = new System.Drawing.Point(143, 3);
 			this.skFrameFlowLayoutPanel.Name = "skFrameFlowLayoutPanel";
-			this.skFrameFlowLayoutPanel.Size = new System.Drawing.Size(818, 300);
+			this.skFrameFlowLayoutPanel.Size = new System.Drawing.Size(818, 306);
 			this.skFrameFlowLayoutPanel.TabIndex = 0;
 			// 
 			// mFrameLKPanel

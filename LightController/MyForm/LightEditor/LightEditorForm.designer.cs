@@ -169,7 +169,7 @@ namespace LightEditor
 			this.connectPanel = new System.Windows.Forms.Panel();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.testButton = new System.Windows.Forms.Button();
+			this.renameButton = new System.Windows.Forms.Button();
 			this.lightTestGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
@@ -237,7 +237,7 @@ namespace LightEditor
 			// 
 			// openLightButton
 			// 
-			this.openLightButton.Location = new System.Drawing.Point(140, 19);
+			this.openLightButton.Location = new System.Drawing.Point(139, 19);
 			this.openLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openLightButton.Name = "openLightButton";
 			this.openLightButton.Size = new System.Drawing.Size(99, 46);
@@ -248,7 +248,7 @@ namespace LightEditor
 			// 
 			// saveLightButton
 			// 
-			this.saveLightButton.Location = new System.Drawing.Point(264, 19);
+			this.saveLightButton.Location = new System.Drawing.Point(260, 19);
 			this.saveLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveLightButton.Name = "saveLightButton";
 			this.saveLightButton.Size = new System.Drawing.Size(99, 46);
@@ -1791,7 +1791,6 @@ namespace LightEditor
 			this.groupBox1.TabIndex = 11;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "设通道值";
-			this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
 			// 
 			// setCurrentToInitButton
 			// 
@@ -1843,10 +1842,10 @@ namespace LightEditor
 			// connectButton
 			// 
 			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(145, 13);
+			this.connectButton.Location = new System.Drawing.Point(132, 13);
 			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(86, 46);
+			this.connectButton.Size = new System.Drawing.Size(99, 46);
 			this.connectButton.TabIndex = 4;
 			this.connectButton.Text = "连接设备";
 			this.connectButton.UseVisualStyleBackColor = true;
@@ -1873,15 +1872,15 @@ namespace LightEditor
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
-			// testButton
+			// renameButton
 			// 
-			this.testButton.Location = new System.Drawing.Point(389, 19);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(99, 46);
-			this.testButton.TabIndex = 8;
-			this.testButton.Text = "测试按钮";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Click += new System.EventHandler(this.testButton_Click);
+			this.renameButton.Location = new System.Drawing.Point(381, 19);
+			this.renameButton.Name = "renameButton";
+			this.renameButton.Size = new System.Drawing.Size(99, 46);
+			this.renameButton.TabIndex = 8;
+			this.renameButton.Text = "允许改名另存";
+			this.renameButton.UseVisualStyleBackColor = true;
+			this.renameButton.Click += new System.EventHandler(this.renameButton_Click);
 			// 
 			// LightEditorForm
 			// 
@@ -1891,7 +1890,7 @@ namespace LightEditor
 			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(828, 530);
-			this.Controls.Add(this.testButton);
+			this.Controls.Add(this.renameButton);
 			this.Controls.Add(this.connectPanel);
 			this.Controls.Add(this.editGroupBox);
 			this.Controls.Add(this.saveLightButton);
@@ -2103,7 +2102,7 @@ namespace LightEditor
 		private Panel connectPanel;
 		private Button refreshButton;
 		private ToolTip myToolTip;
-		private Button testButton;
+		private Button renameButton;
 	}
 }
 

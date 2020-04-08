@@ -169,16 +169,14 @@ namespace LightController
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
-			mainForm.BuildLightList(lightAstList);			
-			mainForm.EnterSyncMode(false);
-			mainForm.AutosetEnabledPlayAndRefreshPic();			
+			mainForm.BuildLightList(lightAstList);
 
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();
 			mainForm.Activate();
 
 			//3.修改灯具列表后，提示保存工程
-			mainForm.AfterLightListUpdate();
+			mainForm.RequestSaveProject("修改灯具列表后，是否保存工程（如不保存，预览效果及后期保存时可能会出错）",true);
 		}	
 
 		/// <summary>

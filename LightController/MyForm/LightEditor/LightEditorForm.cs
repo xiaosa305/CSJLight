@@ -27,22 +27,17 @@ namespace LightEditor
 		private string picDirectory;     // 图片目录
 		private string lightDirectory;   // ini保存目录
 
-		// 与当前灯具相关的变量，最后会进行存储
-		private string iniPath; // ini文件路径
+		// 与当前灯具相关的变量，最后会进行存储		
 		public List<TongdaoWrapper> TongdaoList;
 		public int TongdaoCount = 0;
 		public SAWrapper[] SawArray;
-
-		// 与展示及存储相关的变量，但不会存储
-		public bool isGenerated = false;   		
-		public bool isSaved = false;// 打开文件 或 保存文件 后，将isSaved设成true；这个变量决定是否填充*.ini内[data]内容
-		private bool isNew = true; // 如果是新建灯具，在保存时，需要检查是否已存在文件，并弹出相应提示；若为打开灯具，则无需提示
+		private bool isNew = true; 
 
 		//调试相关变量，最无关紧要
 		private OneLightOneStep player; // 灯具测试的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
 		private bool isRealTime = false; //是否勾选“实时调试”
-		private bool isConnect = false; // 辅助变量：是否连接设备	
+		private bool isConnect = false; // 辅助变量：是否连接设备			
 	
 		public LightEditorForm(MainFormBase mainForm)
 		{
@@ -56,9 +51,7 @@ namespace LightEditor
 			picDirectory = @savePath + @"\LightPic";
 			openImageDialog.InitialDirectory = picDirectory; //图片加载路径使用当前软件所在文件夹
 			lightDirectory = @savePath + @"\LightLibrary";
-			openFileDialog.InitialDirectory = lightDirectory;  //灯具目录
-
-			testButton.Visible = mainForm.IsShowTestButton;
+			openFileDialog.InitialDirectory = lightDirectory;  //灯具目录					
 
 			#region 初始化几个数组
 
@@ -223,40 +216,24 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void newLightButton_Click(object sender, EventArgs e)
 		{
-			if (editGroupBox.Visible)
+			if (RequestSaveLight("新建灯具前，是否保存当前灯具？"))
 			{
-				DialogResult dr = MessageBox.Show(
-					"确认要新建吗？",
-					"",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question
-					);
-				if (dr == DialogResult.OK)
-				{
-					isSaved = false;
-					isGenerated = false;
-					isNew = true;
-					countComboBox.SelectedIndex = -1;
-					TongdaoList = null;
-					nameTextBox.Enabled = true;
-					nameTextBox.Text = "";
-					typeTextBox.Enabled = true;
-					typeTextBox.Text = "";
-					tongdaoEditButton.Hide();
-					generateButton.Show();
-					tongdaoGroupBox1.Hide();
-					tongdaoGroupBox2.Hide();
-					picTextBox.Text = "";
-					openPictureBox.Image = null;
-					firstTDNumericUpDown.Value = 1;
-					SawArray = null;					
-				}
-			}
-			else
-			{
-				editGroupBox.Visible = true;
+				countComboBox.SelectedIndex = 0;
+				TongdaoCount = 0;
+				TongdaoList = null;
+				SawArray = null;
+				nameTextBox.Text = "";
+				typeTextBox.Text = "";
+				picTextBox.Text = "";
+				openPictureBox.Image = null;
+				
+				firstTDNumericUpDown.Value = 1;
+
+				ShowTds();				
+				enableRename(true);
+				editGroupBox.Show();
 				connectPanel.Show();
-			}			
+			}
 		}
 
 		/// <summary>
@@ -266,7 +243,9 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void openLightButton_Click(object sender, EventArgs e)
 		{
-			openFileDialog.ShowDialog();
+			if ( RequestSaveLight("打开灯具前，是否保存当前灯具？") ) {
+				openFileDialog.ShowDialog();
+			}			
 		}
 
 		/// <summary>
@@ -276,7 +255,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void openFileDialog_FileOk(object sender, CancelEventArgs e)
 		{
-			iniPath = openFileDialog.FileName;
+			string iniPath = openFileDialog.FileName;
 			// 简单读取文本文件-->打开ini文件
 			using (FileStream file = new FileStream(iniPath, FileMode.Open))
 			using (StreamReader reader = new StreamReader(file, Encoding.UTF8))   // 可指定编码，默认的用Default，它会读取系统的编码（ANSI-->针对不同地区的系统使用不同编码，中文就是GBK）
@@ -305,9 +284,8 @@ namespace LightEditor
 					this.setImage(picDirectory + "\\" + imagePath);
 				}
 
-				string selectItem = lineList[3].ToString().Substring(6);//第七个字符开始截取
-				countComboBox.Text = selectItem;   // 此处请注意：并不是用SelectedText，而是直接设Text
-				TongdaoCount = int.Parse(selectItem);
+				TongdaoCount =  int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取
+				countComboBox.SelectedIndex  = TongdaoCount - 1 ;   // 此处请注意：并不是用SelectedText，而是直接设Text			
 
 				TongdaoList = new List<TongdaoWrapper>();
 				for (int i = 0; i < TongdaoCount; i++)
@@ -331,14 +309,12 @@ namespace LightEditor
 				{
 					MessageBox.Show(ex.Message);
 				}
-
-				isGenerated = true;
-				isSaved = true; 
-				isNew = false; //打开文件后，isNew肯定是false
-				ShowTds(); 
-				showTongdaoEditButton(true);
+							   
+				ShowTds();
+				enableRename(false);
 				editGroupBox.Show();
-				connectPanel.Show();				
+				connectPanel.Show();
+				
 			}
 		}
 
@@ -350,8 +326,8 @@ namespace LightEditor
 		private void saveLightButton_Click(object sender, EventArgs e)
 		{
 			// 记住一个大原则，保存灯具时不对Form内任何内容进行改动，只读取！
-			// 新建时未生成通道，则无法保存
-			if (!isGenerated) {
+			// 若修改了通道数后，未点击《生成》，则无法保存(不再有冗余的isGenerated属性，而直接由按键是否可用来判断是否已经生成过TongdaoList)
+			if ( generateButton.Visible ) {			
 				MessageBox.Show("请先点击《生成》按钮以生成新通道列表");
 				return;
 			}
@@ -383,18 +359,20 @@ namespace LightEditor
 			///检查文件是否已经存在
 			string fileName = lightDirectory + "\\" + name + "\\" + type + ".ini";
 			FileInfo fi = new FileInfo(fileName);
-			if (fi.Exists)
+			if ( fi.Exists )
 			{
-				if (isNew)
-				{
-					DialogResult dr = MessageBox.Show("检查到系统中已存在同名灯具，是否覆盖？", "覆盖灯具？", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (isNew) {
+					DialogResult dr = MessageBox.Show("检查到系统中已存在同名灯具，是否覆盖？",
+					"覆盖灯具？",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question);
 					//选中否（不覆盖），则退出本方法
-					if (dr == DialogResult.No) 
+					if (dr == DialogResult.No)
 					{
 						return;
 					}
-				}
-			}//若文件已存在，说明目录肯定也存在，此时就无需判断目录是否存在了；只有fi.Exists!=true时，才走else内语句
+				}				
+			}//若文件已存在，说明目录肯定也存在，此时就无需判断目录是否存在了；只有fi.Exists == false 时，才走else内语句
 			else {
 				DirectoryInfo di = new DirectoryInfo(lightDirectory + "\\" + name);
 				if (!di.Exists)
@@ -437,9 +415,65 @@ namespace LightEditor
 					}
 				}			
 			}
-			MessageBox.Show("已成功保存。");
+			enableRename(false);
+			MessageBox.Show("已成功保存灯具。");
 		}
-		
+
+		/// <summary>
+		/// 事件：点击《改名另存》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void renameButton_Click(object sender, EventArgs e)
+		{
+			enableRename(true);
+		}
+
+		/// <summary>
+		/// 辅助方法：允许更名-》此后将isNew设为true，可在保存前多一层验证
+		/// </summary>
+		/// <param name="enable"></param>
+		private void enableRename(bool enable) {
+			isNew = enable;
+			nameTextBox.Enabled = enable;
+			typeTextBox.Enabled = enable;
+		}
+
+		/// <summary>
+		/// 辅助方法：请求保存
+		/// </summary>
+		/// <returns>返回true，则继续下去；返回false，则不再往下走</returns>
+		/// <param name="v"></param>
+		private bool RequestSaveLight(string msg)
+		{
+			// 若下面的灯具不可见，说明还没有打开或新建灯具，则直接返回true，无需进行保存。
+			if (editGroupBox.Visible == false)
+			{
+				return true;
+			}
+
+			DialogResult dr = MessageBox.Show(
+				msg,
+				"保存灯具?",
+				MessageBoxButtons.YesNoCancel,
+				 MessageBoxIcon.Question
+			);
+
+			if (dr == DialogResult.Yes)
+			{
+				saveLightButton_Click(null, null);
+				return true;
+			}
+			else if (dr == DialogResult.No)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -491,13 +525,8 @@ namespace LightEditor
 		private void countComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			int  tempSelectedCount = int.Parse(countComboBox.SelectedItem.ToString());
-			if (tempSelectedCount != TongdaoCount)
-			{
-				showTongdaoEditButton(false);
-			}
-			else {
-				showTongdaoEditButton(true);
-			}											
+			// 两者相同，则显示修改按键（editButton）；不同的话，则显示生成按钮
+			showTongdaoEditButton(tempSelectedCount == TongdaoCount);														
 		}
 
 		/// <summary>
@@ -527,12 +556,11 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		///  辅助方法：显示通道编辑按钮(true)或生成(false)按钮（二选一），并设置isGenerated
+		///  辅助方法：显示通道编辑按钮(true)或生成(false)按钮（二选一）
 		/// </summary>
 		/// <param name="isShowEditButton"></param>
 		private void showTongdaoEditButton(bool isShowEditButton)
 		{
-			isGenerated = isShowEditButton;
 			tongdaoEditButton.Visible = isShowEditButton;
 			generateButton.Visible = !isShowEditButton;
 		}
@@ -1050,32 +1078,6 @@ namespace LightEditor
 		}
 
 		#endregion
-
-		/// <summary>
-		/// 事件：点击《测试按钮》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void testButton_Click(object sender, EventArgs e)
-		{
-			if (SawArray == null || SawArray.Length == 0)
-			{
-				return;
-			}
-			for (int saIndex=0;  saIndex< SawArray.Length; saIndex++)
-			{
-				Console.WriteLine("sawArray["+saIndex+"]:");
-				foreach (SA sa  in SawArray[saIndex].SaList)
-				{
-					Console.WriteLine("  "+ sa.SAName + "   " + sa.StartValue + " - " + sa.EndValue );
-				}				
-			}
-			Console.WriteLine();	
-		}
-
-		private void groupBox1_Enter(object sender, EventArgs e)
-		{
-
-		}
+				
 	}
 }

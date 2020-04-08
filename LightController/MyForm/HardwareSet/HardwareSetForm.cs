@@ -384,6 +384,8 @@ namespace LightController.MyForm
 		{
 			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
 			{
+				dhcpCheckBox.Checked = false;
+				macCheckBox.Checked = false;
 				connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
 			}
 			else
@@ -499,6 +501,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comReadButton_Click(object sender, EventArgs e)
 		{
+			dhcpCheckBox.Checked = false;
+			macCheckBox.Checked = false;
 			comTools.GetParam(new UploadCallBackHardwareSet(this));
 		}
 
@@ -606,7 +610,56 @@ namespace LightController.MyForm
 				MessageBox.Show("回读异常:" + ex.Message);
 			}
 		}
-		#endregion		
+		#endregion
+
+
+		/// <summary>
+		/// 事件：勾选《启用DHCP》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dhcpCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			bool enableDHCP = dhcpCheckBox.Checked;			
+			
+			IPTextBox.Enabled = !enableDHCP;
+			netmaskTextBox.Enabled = !enableDHCP; 		
+			gatewayTextBox.Enabled = !enableDHCP;
+
+			if ( enableDHCP) {
+				IPTextBox.Text = "0.0.0.0";
+				netmaskTextBox.Text = "255.255.255.0";
+				gatewayTextBox.Text = "0.0.0.0";
+			}
+		}
+
+		/// <summary>
+		/// 事件：勾选《自动获取MAC地址》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void macCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			bool autosetMac = macTextBox.Enabled;
+			macTextBox.Enabled = !autosetMac ;
+			if (autosetMac)
+			{
+				macTextBox.Text = "00-00-00-00-00-00";
+			}				
+		}
+
+		/// <summary>
+		/// 事件：点击《右上角？》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HardwareSetForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络设置》内的相关设置；其他设置暂时没有作用，无需更改。\n" +
+				"2.常规的操作步骤：先从设备回读配置，再修改需要变动的配置后，下载新配置。\n" +
+				"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。");
+			e.Cancel = true;
+		}
 	}
 
 	/// <summary>

@@ -199,7 +199,7 @@ namespace LightController.MyForm
 				Name = "steptTimeNumericUpDown" + (frameIndex + 1),
 				Size = new System.Drawing.Size(48, 21),
 				TextAlign = HorizontalAlignment.Center,
-				Maximum = MainFormBase.MaxStTimes * eachStepTime2,
+				Maximum = MainFormBase.MAX_StTimes * eachStepTime2,
 				Increment = eachStepTime2,
 				DecimalPlaces = 2
 			};

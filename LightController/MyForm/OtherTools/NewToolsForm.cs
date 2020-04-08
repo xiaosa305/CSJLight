@@ -1735,7 +1735,6 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{				
 				kpToolStripStatusLabel2.Text = "连接墙板失败";
-
 				//MARK：连接墙板失败，是否还要进行其他操作？
 				setConnStatus(ConnectStatus.No);
 				//keypressListView.Enabled = false;

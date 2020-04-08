@@ -41,7 +41,8 @@ namespace LightController.MyForm
 		// 打开程序时，即需导入的变量
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
-		public static int MaxStTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量	-》200331确认为15s=0.03*500	
+		public static int MAX_StTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量	-》200331确认为15s=0.03*500	
+		protected int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取
 
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -63,11 +64,11 @@ namespace LightController.MyForm
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）		
 
-        //MARK 大变动：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
+        //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
 	   	protected bool[] frameSaveArray;
-		//MARK 大变动：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
+		//MARK 只开单场景：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
 		protected bool[] frameLoadArray;
-		//MARK 大变动：14.0 必须有一个存储[旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
+		//MARK 只开单场景：14.0 必须有一个存储[旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
 		protected IList<int> retainLightIndices ;
 
 		// 数据库DAO(data access object：数据访问对象）
@@ -86,8 +87,7 @@ namespace LightController.MyForm
 		protected IList<LightWrapper> lightWrapperList;// 灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
 		protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
-		// 通道数据操作时的变量
-		protected const int MAX_STEP = 100;
+		// 通道数据操作时的变量		
 		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；											
 		protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
@@ -113,10 +113,19 @@ namespace LightController.MyForm
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
 		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
-		protected IList<NetworkDeviceInfo> allNetworkDevices;  
+		protected IList<NetworkDeviceInfo> allNetworkDevices;
+
+		/// <summary>
+		/// 枚举类型：《多步(多通道)调节》参数的一种
+		/// </summary>
+		public enum WHERE
+		{
+			SCROLL_VALUE, CHANGE_MODE, STEP_TIME, ALL
+		}
+
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
-			
+
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
 		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { } //是否显示《 存、取 灯具位置》		
 		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
@@ -129,7 +138,7 @@ namespace LightController.MyForm
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用
 		protected virtual void connectButtonClick() { }//点击连接按钮，但需子类实现
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
-		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 大变动：02.0 改变当前Frame
+		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 只开单场景：02.0 改变当前Frame
 		protected virtual void enableSingleMode(bool enable) { }  //退出多灯模式或单灯模式后的相关操作
 
 		public virtual void EnterSyncMode(bool isSyncMode){} // 设置是否 同步模式
@@ -138,298 +147,8 @@ namespace LightController.MyForm
 
 		#endregion
 			   
-		/// <summary>
-		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
-		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
-		/// </summary>
-		protected virtual void clearAllData()
-		{
-			endview(); // 清空数据时，应该结束预览。
 
-			currentProjectName = null;
-
-			dbLightList = null;
-			dbFineTuneList = null;
-			dbStepCountList = null;				
-
-			lightAstList = null;
-			lightWrapperList = null;
-			lightDictionary = null;
-
-			selectedIndex = -1;
-			selectedLightName = "";
-			selectedIndices = new List<int>();
-
-			tempStep = null;
-			TempMaterialAst = null;
-
-			arrangeIniPath = null;
-
-			//MARK 大变动：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
-			frameSaveArray = null;
-			frameLoadArray = null;
-
-			EnterSyncMode(false);  //退出同步模式
-			enableSingleMode(true); // 使用《单灯模式》
-			enableSLArrange(false, false);  // 《保存|读取灯具位置》不可用
-			enableProjectRelative(false);  // 工程相关的所有按钮，设为不可用
-			AutosetEnabledPlayAndRefreshPic();  //是否可以显示 playPanel及 刷新图片
-		}
-
-		/// <summary>
-		/// MARK 大变动：14.3 clearRedundantData()方法体：清空不在list内的DB数据，包括StepCount表及Value表
-		/// 辅助方法：清空不在list内的DB数据，包括StepCount表及Value表
-		/// </summary>
-		protected virtual void deleteRedundantData() {
-			Console.WriteLine(retainLightIndices);
-			// MARK 大变动：14.4 若retainLightIndices为空，说明所有数据皆可删除，因为没有旧灯具
-			// （全部是新加的灯具，点《确定》后删掉也无所谓了 - 若新加灯具也是空，则本来无一物何处惹尘埃）
-			if (retainLightIndices == null || retainLightIndices.Count == 0)
-			{
-				stepCountDAO.Clear();
-				valueDAO.Clear();
-			}
-			else {
-				stepCountDAO.DeleteRedundantData(retainLightIndices);
-				valueDAO.DeleteRedundantData(retainLightIndices);
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：请求保存工程，显示提示消息，并在确认后先清空冗余灯具的DB数据，再进行数据的保存 --》界面及内存的相应数据，则在其他方法体中处理过了
-		/// </summary>
-		/// <param name="msg">请求保存的提示消息</param>
-		internal void AfterLightListUpdate()
-		{
-			DialogResult dr = MessageBox.Show(
-				"修改灯具列表后，是否保存工程（如不保存，预览效果及后期保存时可能会出错）",
-				"保存工程?",
-				MessageBoxButtons.YesNo,
-				 MessageBoxIcon.Question
-			);
-
-			if (dr == DialogResult.Yes) {
-				deleteRedundantData();
-				saveProjectClick();
-			}
-		}
-
-		/// <summary>
-		/// 基类辅助方法：①ClearAllData()；②设置内部的一些工程路径及变量；③初始化数据库
-		/// </summary>
-		/// <param name="projectName"></param>
-		/// <param name="isNew"></param>
-		public void InitProject(string projectName, int selectedFrameIndex , bool isNew) {
-
-			//0.清空所有内存数据及重置控件情况
-			clearAllData();
-
-			// 1.全局设置
-			currentProjectName = projectName;
-			projectPath = SavePath + @"\LightProject\" + projectName;
-			globalIniPath = projectPath + @"\global.ini";
-			dbFilePath = projectPath + @"\data.db3";
-			Text = SoftwareName +" Dimmer System(当前工程:" + projectName + ")";
-
-			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
-			arrangeIniPath = projectPath + @"\arrange.ini";
-
-			// 9.5 读取时间因子
-			IniFileAst iniAst = new IniFileAst(globalIniPath);
-			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
-			eachStepTime2 = eachStepTime / 1000m;
-			initStNumericUpDowns();  //更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
-
-			// 2.创建数据库:（10.15修改）
-			// 因为是初始化，所以让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
-			// --若isNew为true时，为初始化数据库，可随即用其中一个DAO运行CreateSchema方法（用实体类建表）
-			lightDAO = new LightDAO(dbFilePath, isEncrypt);
-			stepCountDAO = new StepCountDAO(dbFilePath, isEncrypt);
-			valueDAO = new ValueDAO(dbFilePath, isEncrypt);
-			fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
-
-			// 若为新建，则初始化db的table(随机使用一个DAO即可初始化）
-			if (isNew)
-			{
-				lightDAO.CreateSchema(true, true);
-			}
-
-			//MARK 大变动：04.0 InitProject()内初始化frameSaveArray、frameLoadArray
-			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的fsa一定是true的！（原则：当前打开场景的）
-			changeCurrentFrame(selectedFrameIndex);
-			frameSaveArray = new bool[FrameCount];
-			frameLoadArray = new bool[FrameCount];
-			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++) {
-				frameSaveArray[frameIndex] = frameIndex == selectedFrameIndex;
-				frameLoadArray[frameIndex] = false;
-			}			
-
-			// 设置各按键是否可用			
-			enableProjectRelative(true);
-		}
-
-		/// <summary>
-		///  辅助方法: 通过工程名，新建工程; 主要通过调用InitProject(),但在前后加了鼠标特效的处理。（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
-		/// </summary>
-		/// <param name="projectName">工程名</param>
-		public void NewProject(string projectName,int selectedFrameIndex)
-		{
-			this.Cursor = Cursors.WaitCursor;			
-			InitProject(projectName, selectedFrameIndex,  true);
-			//MARK 大变动：01.2 NewProject时，要frameLoadArray[selectedFrame]=true；
-			frameLoadArray[selectedFrameIndex] = true;
-			MessageBox.Show("成功新建工程，请为此工程添加灯具。");
-			this.Cursor = Cursors.Default;
-		}
-
-		/// <summary>
-		///  辅助方法，通过打开已有的工程，来加载各种数据到mainForm中
-		/// data.db3的载入：把相关内容，放到数据列表中
-		///    ①lightList 、stepCountList、valueList
-		///    ②lightAstList（由lightList生成）
-		///    ③lightWrapperList(由lightAstList生成)
-		/// （此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
-		/// </summary>
-		/// <param name="directoryPath"></param>
-		public void OpenProject(string projectName,int frameIndex)
-		{
-			SetNotice("正在打开工程，请稍候...");
-			Refresh(); //强行刷新显示Notice
-			setBusy(true);	
-
-			DateTime beforDT = System.DateTime.Now;
-
-			// 0.初始化
-			InitProject(projectName, frameIndex,false);
-
-			//10.9 设置listView右键菜单中读取配置的可用项					
-			if (!isAutoArrange)
-			{
-				enableSLArrange(true, File.Exists(arrangeIniPath));
-			}
-
-			// 把各数据库表的内容填充进来。
-			dbLightList = getLightList();
-			//10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
-			if (dbLightList == null || dbLightList.Count == 0)
-			{
-				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？", 
-					"",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question);
-				SetNotice("成功打开工程(" + projectName + ")");
-				if (dr == DialogResult.OK)
-				{
-					new LightsForm(this, null).ShowDialog();
-				}				
-			}
-			//10.17 若非空工程，则继续执行以下代码。
-			else
-			{
-				dbStepCountList = getStepCountList();
-				dbFineTuneList = getFineTuneList();
-				lightAstList = reCreateLightAstList(dbLightList); // 通过lightList填充lightAstList
-				BuildLightList(lightAstList); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容、并生成所有灯具的Template
-				Refresh(); //刷新灯具列表放到界面上去，优化显示体验
-
-				//MARK 大变动：07.0 generateFrameData():在OpenProject内调用
-				generateFrameData(currentFrame);				
-				AutosetEnabledPlayAndRefreshPic();
-
-				DateTime afterDT = System.DateTime.Now;
-				TimeSpan ts = afterDT.Subtract(beforDT);
-
-				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
-				SetNotice("成功打开工程("+ projectName + ")");
-			}
-			setBusy(false);
-		}
-
-		/// <summary>
-		/// MARK 大变动：07.1 generateFrameData(int):抽象从DB读Frame数据的代码（多线程）
-		/// 辅助方法：通过传入frame的值，来读取相关的Frame场景数据（两种mode）
-		/// </summary>
-		/// <param name="frameIndex"></param>
-		protected void generateFrameData(int selectedFrameIndex) {
-
-			//MARK： 采用多线程方法优化(每个灯开启一个线程)
-			Thread[] threadArray = new Thread[dbLightList.Count];
-			for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
-			{
-				int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
-				int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
-
-				//MARK 大变动：07.2 generateFrameData(int)内:修改要取的步数（由列表[全部]->列表[当前场景的两个模式]；因为都是IList<DB_StepCount>,故后面的代码无需大改。
-				//IList<DB_StepCount> scList = stepCountDAO.GetStepCountList(tempLightNo); //取出数据库内的步数列表		
-				IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, selectedFrameIndex);
-
-				//MARK 大变动：07.3 generateFrameData(int)内:此处还有优化的空间 IList<DB_Value> tempDbValueList =valueDAO.GetByLightNo(tempLightNo);
-				IList<DB_Value> tempDbValueList =valueDAO.GetByLightIndexAndFrame(tempLightNo,selectedFrameIndex);
-
-				threadArray[tempLightIndex] = new Thread(delegate ()
-				{
-					//Console.WriteLine(tempLightIndex + " ++ 线程开始了");
-					if (scList != null && scList.Count > 0)
-					{
-						for (int scIndex = 0; scIndex < scList.Count; scIndex++)
-						{
-							DB_StepCount sc = scList[scIndex];
-							int frame = sc.PK.Frame;
-							int mode = sc.PK.Mode;
-							int lightIndex = sc.PK.LightIndex;
-							int stepCount = sc.StepCount;
-
-							lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
-
-							for (int step = 1; step <= stepCount; step++)
-							{
-								StepWrapper stepWrapper = null;
-								var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
-								stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
-								lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
-							}
-						}
-					}
-					//Console.WriteLine(tempLightIndex + " -- 线程结束了");
-				});
-				threadArray[tempLightIndex].Start();
-			}
-
-			// 下列代码，用以监视所有线程是否已经结束运行。
-			while (true)
-			{
-				int unFinishedCount = 0;
-				foreach (var thread in threadArray)
-				{
-					unFinishedCount += thread.IsAlive ? 1 : 0;
-				}
-
-				if (unFinishedCount == 0)
-				{
-					//Console.WriteLine("Dickov:所有线程已结束。");
-					break;
-				}
-				else
-				{
-					Thread.Sleep(100);
-				}
-			}
-			//MARK 大变动：07.4 generateFrameData(int)内:从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true			
-			frameLoadArray[selectedFrameIndex] = true;
-			//Console.WriteLine("场景("+AllFrameList[selectedFrameIndex]+")加载完成,其frameLoadArray设为true");
-		}
-
-		/// <summary>
-		/// 辅助方法：提示工程与灯库不匹配，并clearAll
-		/// </summary>
-		/// <param name="ex"></param>
-		private void openProjectError(string exMessage)
-		{
-			MessageBox.Show("打开工程出错，可能是灯库不匹配。\n异常信息:" + exMessage);
-			clearAllData();
-			setBusy(false);
-			SetNotice("打开工程失败,请验证后重试");
-		}
+		#region 存储一些供其他Form使用的变量，比如已打开的升级文件、工程文件等
 
 		/// <summary>
 		/// 辅助方法：当xbin文件选中后，让mainForm留一个xbin路径的备份，下次重新打开《硬件升级》时可以用到，避免重复打开。
@@ -447,6 +166,8 @@ namespace LightController.MyForm
 		internal void SetProjectPath(string projectPath) {
 			tempProjectPath = projectPath;
 		}
+
+		#endregion
 
 		/// <summary>
 		/// 辅助方法：以当前打开的工程信息，生成源文件（Source->工程文件夹、LightLibrary）；
@@ -499,10 +220,10 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：判断是否可以显示 playPanel及 刷新图片(主要供《打开工程》和《灯具列表Form》使用）
+		///  辅助方法：判断是否可以显示 playPanel及 刷新图片(主要供《打开工程》和《灯具列表Form》使用），故可以在BuildLightList中使用
 		///  --这两个功能都依赖于当前Form中的lightAstList是否为空。
 		/// </summary>
-		public void AutosetEnabledPlayAndRefreshPic()
+		protected void autosetEnabledPlayAndRefreshPic()
 		{
 			bool enable = lightAstList != null && lightAstList.Count > 0;
 			showPlayPanel(enable);
@@ -530,7 +251,7 @@ namespace LightController.MyForm
 		public virtual void BuildLightList(IList<LightAst> lightAstList2)
 		{
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
-			//MARK 大变动：14.1 AddLightAstList()方法体内，对retainLightIndices进行初始化
+			//MARK 只开单场景：14.1 AddLightAstList()方法体内，对retainLightIndices进行初始化
 			retainLightIndices = new List<int>();
 
 			for (int i = 0; i < lightAstList2.Count; i++)			{
@@ -546,7 +267,7 @@ namespace LightController.MyForm
 						{
 							lightWrapperList2.Add(lightWrapperList[j]);
 							addOld = true;
-							//MARK 大变动：14.2 AddLightAstList()方法体内，为retainLightIndices添加旧灯具的数据
+							//MARK 只开单场景：14.2 AddLightAstList()方法体内，为retainLightIndices添加旧灯具的数据
 							retainLightIndices.Add(lightAstList2[i].StartNum);
 							break;
 						}
@@ -567,12 +288,14 @@ namespace LightController.MyForm
 				lightDictionary.Add( lightAstList[i].StartNum , i );				
 			}	
 
-			//MARK 大变动：15.0 AddLightAstList时，一定要清空selectedIndex及selectedIndices,否则若删除了灯具，则一定会出问题！
+			//MARK 只开单场景：15.0 AddLightAstList时，一定要清空selectedIndex及selectedIndices,否则若删除了灯具，则一定会出问题！
 			selectedIndex = -1;
 			selectedIndices = new List<int>(); 
 			RefreshStep();
 
-			enableProjectRelative(true);
+			EnterSyncMode(false);
+			enableProjectRelative(true);			
+			autosetEnabledPlayAndRefreshPic();
 		}
 			   
 		/// <summary>
@@ -732,7 +455,7 @@ namespace LightController.MyForm
 				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 				generateDBLightList();
 				generateDBFineTuneList();
-				//MARK 大变动：12.0 GetDBWrapper中，重写generateDBStepCountList();
+				//MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList();
 				generateDBStepCountList();
 
 				IList<DB_Value> dbValueListTemp = generateDBValueList(currentFrame);
@@ -820,7 +543,7 @@ namespace LightController.MyForm
 				DB_Light light = dbLightList[lightWrapperList.IndexOf(lightTemp)];
 				LightStepWrapper[,] allLightStepWrappers = lightTemp.LightStepWrapperList;
 
-				//MARK 大变动：12.1 generateDBStepCountLit()的重写实现
+				//MARK 只开单场景：12.1 generateDBStepCountLit()的重写实现
 				// 取出灯具的每个常规场景，并将它们保存起来（但若为空，则不保存）
 				for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
 				{
@@ -832,7 +555,7 @@ namespace LightController.MyForm
 							Mode = mode,
 							LightIndex = light.LightNo
 						};
-						//MARK 大变动：12.2 generateDBStepCountLit()重写：判断是否已经加载，加载过的用内存数据
+						//MARK 只开单场景：12.2 generateDBStepCountLit()重写：判断是否已经加载，加载过的用内存数据
 						if (frameLoadArray[frameIndex])
 						{
 							LightStepWrapper lsTemp = allLightStepWrappers[frameIndex, mode];
@@ -846,7 +569,7 @@ namespace LightController.MyForm
 								dbStepCountList.Add(stepCount);
 							}
 						}
-						//MARK 大变动：12.3 generateDBStepCountLit()重写：判断是否已经加载，未加载过的用DB数据
+						//MARK 只开单场景：12.3 generateDBStepCountLit()重写：判断是否已经加载，未加载过的用DB数据
 						else
 						{
 							DB_StepCount sc = stepCountDAO.GetStepCountByPK(stepCountPK);
@@ -908,8 +631,7 @@ namespace LightController.MyForm
 			return tempValueList;
 		}
 
-		#endregion
-			
+		#endregion			
 
 		#region 素材相关
 
@@ -1219,7 +941,6 @@ namespace LightController.MyForm
 			}
 		}
 
-
 		#region 获取各种当前（步数、灯具）等的辅助方法
 
 		/// <summary>
@@ -1494,47 +1215,7 @@ namespace LightController.MyForm
 
 		#endregion
 
-		/// <summary>
-		/// 辅助方法：点击《退出程序》
-		/// </summary>
-		protected void exitClick()
-		{
-			//MARK 大变动：13.1 退出MainForm前提示保存->专门针对《(单独的)退出应用》按钮
-			if (frameSaveArray != null)
-			{
-				DialogResult dr = MessageBox.Show("退出应用前是否保存工程？",
-					 "保存工程？",
-					 MessageBoxButtons.YesNoCancel,
-					 MessageBoxIcon.Asterisk
-				);
-				switch (dr)
-				{
-					case DialogResult.Yes: saveProjectClick(); exit(); break;
-					case DialogResult.No: exit(); break;
-				}
-			}
-			else
-			{
-				exit();
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：彻底退出程序
-		/// </summary>
-		protected void exit()
-		{
-			System.Environment.Exit(0);
-		}
-
-		/// <summary>
-		/// 枚举类型：《多步(多通道)调节》参数的一种
-		/// </summary>
-		public enum WHERE
-		{
-			SCROLL_VALUE, CHANGE_MODE, STEP_TIME, ALL
-		}
-
+		
 		/// <summary>
 		///  辅助方法：供《多步(多通道)调节》使用
 		/// </summary>
@@ -1790,7 +1471,7 @@ namespace LightController.MyForm
 			int tdIndex = pk.LightID - pk.LightIndex;
 			IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
 
-			//MARK 大变动：10.1 GetFMTDList() 的实现改动，添加判断
+			//MARK 只开单场景：10.1 GetFMTDList() 的实现改动，添加判断
 			int frame = pk.Frame;
 			if (frameLoadArray[frame])
 			{
@@ -1804,7 +1485,7 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			//MARK 大变动：10.2 GetFMTDList() 的实现改动：添加从DB取数据的代码
+			//MARK 只开单场景：10.2 GetFMTDList() 的实现改动：添加从DB取数据的代码
 			else
 			{
 				IList<DB_Value>  valueList = valueDAO.GetTDValueListOrderByStep(pk);
@@ -1819,7 +1500,7 @@ namespace LightController.MyForm
 			}
 			return tdList;
 		}
-			   
+
 		#region projectPanel相关
 
 		/// <summary>
@@ -1827,6 +1508,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void newProjectClick()
 		{
+			//MARK 只开单场景：17.1 新建工程前，申请保存工程
+			if (!RequestSaveProject("新建工程前，是否保存当前工程？", false)) {
+				return;
+			}		
+
 			//每次打开新建窗口时，先将isCreateSuccess设为false;避免取消新建，仍会打开添加灯。
 			IsCreateSuccess = false;
 			new NewForm(this,currentFrame).ShowDialog();
@@ -1839,26 +1525,300 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///  辅助方法: 通过工程名，新建工程; 主要通过调用InitProject(),但在前后加了鼠标特效的处理。（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
+		/// </summary>
+		/// <param name="projectName">工程名</param>
+		public void NewProject(string projectName, int selectedFrameIndex)
+		{
+			this.Cursor = Cursors.WaitCursor;
+			InitProject(projectName, selectedFrameIndex, true);
+			//MARK 只开单场景：01.2 NewProject时，要frameLoadArray[selectedFrame]=true；
+			frameLoadArray[selectedFrameIndex] = true;
+			MessageBox.Show("成功新建工程，请为此工程添加灯具。");
+			this.Cursor = Cursors.Default;
+		}
+
+		/// <summary>
+		/// 基类辅助方法：①ClearAllData()；②设置内部的一些工程路径及变量；③初始化数据库
+		/// </summary>
+		/// <param name="projectName"></param>
+		/// <param name="isNew"></param>
+		public void InitProject(string projectName, int selectedFrameIndex, bool isNew)
+		{
+			//0.清空所有内存数据及重置控件情况
+			clearAllData();
+
+			// 1.全局设置
+			currentProjectName = projectName;
+			projectPath = SavePath + @"\LightProject\" + projectName;
+			globalIniPath = projectPath + @"\global.ini";
+			dbFilePath = projectPath + @"\data.db3";
+			Text = SoftwareName + " Dimmer System(当前工程:" + projectName + ")";
+
+			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
+			arrangeIniPath = projectPath + @"\arrange.ini";
+
+			// 9.5 读取时间因子
+			IniFileAst iniAst = new IniFileAst(globalIniPath);
+			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
+			eachStepTime2 = eachStepTime / 1000m;
+			initStNumericUpDowns();  //更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
+
+			// 2.创建数据库:（10.15修改）
+			// 因为是初始化，所以让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
+			// --若isNew为true时，为初始化数据库，可随即用其中一个DAO运行CreateSchema方法（用实体类建表）
+			lightDAO = new LightDAO(dbFilePath, isEncrypt);
+			stepCountDAO = new StepCountDAO(dbFilePath, isEncrypt);
+			valueDAO = new ValueDAO(dbFilePath, isEncrypt);
+			fineTuneDAO = new FineTuneDAO(dbFilePath, isEncrypt);
+
+			// 若为新建，则初始化db的table(随机使用一个DAO即可初始化）
+			if (isNew)
+			{
+				lightDAO.CreateSchema(true, true);
+			}
+
+			//MARK 只开单场景：04.0 InitProject()内初始化frameSaveArray、frameLoadArray
+			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的fsa一定是true的！（原则：当前打开场景的）
+			changeCurrentFrame(selectedFrameIndex);
+			frameSaveArray = new bool[FrameCount];
+			frameLoadArray = new bool[FrameCount];
+			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
+			{
+				frameSaveArray[frameIndex] = frameIndex == selectedFrameIndex;
+				frameLoadArray[frameIndex] = false;
+			}
+
+			// 设置各按键是否可用			
+			enableProjectRelative(true);
+		}
+
+		/// <summary>
+		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
+		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
+		/// </summary>
+		protected virtual void clearAllData()
+		{
+			endview(); // 清空数据时，应该结束预览。
+
+			currentProjectName = null;
+
+			dbLightList = null;
+			dbFineTuneList = null;
+			dbStepCountList = null;
+
+			lightAstList = null;
+			lightWrapperList = null;
+			lightDictionary = null;
+
+			selectedIndex = -1;
+			selectedLightName = "";
+			selectedIndices = new List<int>();
+
+			tempStep = null;
+			TempMaterialAst = null;
+
+			arrangeIniPath = null;
+
+			//MARK 只开单场景：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
+			frameSaveArray = null;
+			frameLoadArray = null;
+
+			Text = SoftwareName + " Dimmer System";
+
+			EnterSyncMode(false);  //退出同步模式
+			enableSingleMode(true); // 使用《单灯模式》
+			enableSLArrange(false, false);  // 《保存|读取灯具位置》不可用
+			enableProjectRelative(false);  // 工程相关的所有按钮，设为不可用
+			autosetEnabledPlayAndRefreshPic();  //是否可以显示 playPanel及 刷新图片
+
+			hideAllTDPanels();
+			showStepLabel(0, 0);
+		}
+
+		/// <summary>
+		/// MARK 只开单场景：14.3 clearRedundantData()方法体：清空不在list内的DB数据，包括StepCount表及Value表
+		/// 辅助方法：清空不在list内的DB数据，包括StepCount表及Value表
+		/// </summary>
+		protected virtual void deleteRedundantData()
+		{
+			Console.WriteLine(retainLightIndices);
+			// MARK 只开单场景：14.4 若retainLightIndices为空，说明所有数据皆可删除，因为没有旧灯具
+			// （全部是新加的灯具，点《确定》后删掉也无所谓了 - 若新加灯具也是空，则本来无一物何处惹尘埃）
+			if (retainLightIndices == null || retainLightIndices.Count == 0)
+			{
+				stepCountDAO.Clear();
+				valueDAO.Clear();
+			}
+			else
+			{
+				stepCountDAO.DeleteRedundantData(retainLightIndices);
+				valueDAO.DeleteRedundantData(retainLightIndices);
+			}
+		}
+
+		/// <summary>
 		/// 辅助方法：点击《打开工程》
 		/// </summary>
 		protected void openProjectClick()
 		{
+			//MARK 只开单场景：17.2 打开工程前，申请保存工程
+			if (!RequestSaveProject("打开工程前，是否保存当前工程？",false)) {
+				return;
+			}
 			new OpenForm(this, currentFrame, currentProjectName).ShowDialog();
 		}
+
+		/// <summary>
+		///  辅助方法，通过打开已有的工程，来加载各种数据到mainForm中
+		/// data.db3的载入：把相关内容，放到数据列表中
+		///    ①lightList 、stepCountList、valueList
+		///    ②lightAstList（由lightList生成）
+		///    ③lightWrapperList(由lightAstList生成)
+		/// （此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
+		/// </summary>
+		/// <param name="directoryPath"></param>
+		public void OpenProject(string projectName, int frameIndex)
+		{
+			SetNotice("正在打开工程，请稍候...");
+			Refresh(); //强行刷新显示Notice
+			setBusy(true);
+
+			DateTime beforeDT = System.DateTime.Now;
+
+			// 0.初始化
+			InitProject(projectName, frameIndex, false);
+
+			//10.9 设置listView右键菜单中读取配置的可用项					
+			if (!isAutoArrange)
+			{
+				enableSLArrange(true, File.Exists(arrangeIniPath));
+			}
+
+			// 把各数据库表的内容填充进来。
+			dbLightList = getLightList();
+			//10.17 此处添加验证 : 如果是空工程(无任何灯具可认为是空工程)，后面的数据无需读取。
+			if (dbLightList == null || dbLightList.Count == 0)
+			{
+				DialogResult dr = MessageBox.Show("成功打开空工程：" + projectName + "  , 要为此工程添加灯具吗？",
+					"",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+				SetNotice("成功打开工程(" + projectName + ")");
+				if (dr == DialogResult.OK)
+				{
+					new LightsForm(this, null).ShowDialog();
+				}
+			}
+			//10.17 若非空工程，则继续执行以下代码。
+			else
+			{
+				dbStepCountList = getStepCountList();
+				dbFineTuneList = getFineTuneList();
+				lightAstList = reCreateLightAstList(dbLightList); // 通过lightList填充lightAstList
+				BuildLightList(lightAstList); // 通过初步lightAstList，生成 最终版的 lightAstList、lightsListView、lightWrapperList的内容、并生成所有灯具的Template
+				Refresh(); //刷新灯具列表放到界面上去，优化显示体验
+
+				//MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用
+				generateFrameData(currentFrame);
+				autosetEnabledPlayAndRefreshPic();
+
+				DateTime afterDT = System.DateTime.Now;
+				TimeSpan ts = afterDT.Subtract(beforeDT);
+
+				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
+				SetNotice("成功打开工程(" + projectName + ")");
+			}
+			setBusy(false);
+		}	
+
+		/// <summary>
+		/// MARK 只开单场景：07.1 generateFrameData(int):抽象从DB读Frame数据的代码（多线程）
+		/// 辅助方法：通过传入frame的值，来读取相关的Frame场景数据（两种mode）
+		/// </summary>
+		/// <param name="frameIndex"></param>
+		protected void generateFrameData(int selectedFrameIndex)
+		{
+			//MARK：generateFrameData(int)采用多线程方法优化(每个灯开启一个线程)
+			Thread[] threadArray = new Thread[dbLightList.Count];
+			for (int lightListIndex = 0; lightListIndex < dbLightList.Count; lightListIndex++)
+			{
+				int tempLightIndex = lightListIndex; // 必须在循环内使用一个临时变量来记录这个index，否则线程运行时lightListIndex会发生变化。
+				int tempLightNo = dbLightList[tempLightIndex].LightNo;   //记录了数据库中灯具的起始地址（不同灯具有1-32个通道，但只要是同个灯，就公用此LightNo)				
+
+				//MARK 只开单场景：07.2 generateFrameData(int)内:修改要取的步数（由列表[全部]->列表[当前场景的两个模式]；因为都是IList<DB_StepCount>,故后面的代码无需大改。
+				//IList<DB_StepCount> scList = stepCountDAO.GetStepCountList(tempLightNo); //取出数据库内的步数列表		
+				IList<DB_StepCount> scList = stepCountDAO.GetStepCountListByFrame(tempLightNo, selectedFrameIndex);
+
+				//MARK 只开单场景：07.3 generateFrameData(int)内:此处还有优化的空间 IList<DB_Value> tempDbValueList =valueDAO.GetByLightNo(tempLightNo);
+				IList<DB_Value> tempDbValueList = valueDAO.GetByLightIndexAndFrame(tempLightNo, selectedFrameIndex);
+
+				threadArray[tempLightIndex] = new Thread(delegate ()
+				{
+					//Console.WriteLine(tempLightIndex + " ++ 线程开始了");
+					if (scList != null && scList.Count > 0)
+					{
+						for (int scIndex = 0; scIndex < scList.Count; scIndex++)
+						{
+							DB_StepCount sc = scList[scIndex];
+							int frame = sc.PK.Frame;
+							int mode = sc.PK.Mode;
+							int lightIndex = sc.PK.LightIndex;
+							int stepCount = sc.StepCount;
+
+							lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
+
+							for (int step = 1; step <= stepCount; step++)
+							{
+								StepWrapper stepWrapper = null;
+								var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
+								stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
+								lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+							}
+						}
+					}
+					//Console.WriteLine(tempLightIndex + " -- 线程结束了");
+				});
+				threadArray[tempLightIndex].Start();
+			}
+
+			// 下列代码，用以监视所有线程是否已经结束运行。
+			while (true)
+			{
+				int unFinishedCount = 0;
+				foreach (var thread in threadArray)
+				{
+					unFinishedCount += thread.IsAlive ? 1 : 0;
+				}
+
+				if (unFinishedCount == 0)
+				{
+					//Console.WriteLine("Dickov:所有线程已结束。");
+					break;
+				}
+				else
+				{
+					Thread.Sleep(100);
+				}
+			}
+			//MARK 只开单场景：07.4 generateFrameData(int)内:从DB生成FrameData后，设frameLoadArray[selectedFrameIndex]=true			
+			frameLoadArray[selectedFrameIndex] = true;
+			//Console.WriteLine("场景("+AllFrameList[selectedFrameIndex]+")加载完成,其frameLoadArray设为true");
+		}			   
 
 		/// <summary>
 		/// 辅助方法：点击《调用场景》
 		/// </summary>
 		protected void useFrameClick()
 		{
-			//MARK 大变动：09.0 调用场景增加只有一个场景（0场景的情况软件不会打开，无需考虑）情况的判断--》不进入useFrameForm；
+			//MARK 只开单场景：09.0 调用场景增加只有一个场景（0场景的情况软件不会打开，无需考虑）情况的判断--》不进入useFrameForm；
 			if (MainFormBase.AllFrameList.Count == 1)
 			{
 				MessageBox.Show("软件中只存在一种场景，无法使用调用场景功能。");
 				return;
 			}
 
-			//MARK 大变动：09.1 调用场景增加当前工程没有灯具数据时，不能使用此功能的校验
+			//MARK 只开单场景：09.1 调用场景增加当前工程没有灯具数据时，不能使用此功能的校验
 			if (lightAstList == null || lightAstList.Count == 0)
 			{
 				MessageBox.Show("当前工程没有灯具，无法使用调用场景功能。");
@@ -1977,18 +1937,15 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void closeProjectClick()
 		{
-			DialogResult dr = MessageBox.Show("关闭工程前是否保存工程?",
-						"保存工程？",
-						MessageBoxButtons.YesNo,
-						MessageBoxIcon.Question);
-			if (dr == DialogResult.Yes)
+			if (!RequestSaveProject("关闭工程前，是否保存当前工程?", false))
 			{
-				saveProjectClick();
+				return;
 			}
 
+			string tempProjectName = currentProjectName;
 			clearAllData();
-			SetNotice("成功关闭工程。");
-			MessageBox.Show("成功关闭工程。");
+			SetNotice("成功关闭工程("+tempProjectName+")。");
+			MessageBox.Show("成功关闭工程(" + tempProjectName + ")。");
 		}
 		
 		/// <summary>
@@ -2159,13 +2116,13 @@ namespace LightController.MyForm
 		/// </summary>
 		private void saveAllSCAndValues()
 		{
-			//MARK 大变动：08.0 保存所有场景数据（两张表），StepCount和Value；并通过frameSaveArray，判断是否要进行保存
+			//MARK 只开单场景：08.0 保存所有场景数据（两张表），StepCount和Value；并通过frameSaveArray，判断是否要进行保存
 			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
 			{
 				if (frameSaveArray[frameIndex])
 				{
 					saveFrameSCAndValue(frameIndex);
-					//MARK 大变动：08.1 如遍历到的frameIndex非当前场景，则frameSaveArray[frameIndex]设为false;意味着之后不需要进行保存了;而当前场景的值仍为true；
+					//MARK 只开单场景：08.1 如遍历到的frameIndex非当前场景，则frameSaveArray[frameIndex]设为false;意味着之后不需要进行保存了;而当前场景的值仍为true；
 					if (frameIndex != currentFrame)
 					{
 						frameSaveArray[frameIndex] = false;
@@ -2180,7 +2137,7 @@ namespace LightController.MyForm
 		/// <param name="text"></param>
 		public void UseOtherForm(int selectedFrameIndex)
 		{
-			//MARK 大变动：09.1 调用场景时，若是已打开的场景，保持原样不动；若是未打开的场景，主动帮着打开
+			//MARK 只开单场景：09.1 调用场景时，若是已打开的场景，保持原样不动；若是未打开的场景，主动帮着打开
 			if (!frameLoadArray[selectedFrameIndex])
 			{
 				generateFrameData(selectedFrameIndex);
@@ -2198,6 +2155,46 @@ namespace LightController.MyForm
 			EnterSyncMode(false);
 			RefreshStep();
 			MessageBox.Show("成功调用场景:" + AllFrameList[selectedFrameIndex]);
+		}
+
+		/// <summary>
+		/// MARK 只开单场景：17.0 请求保存工程的辅助方法：RequestSaveProject（string msg,bool isAfterUpdateLightList)
+		/// 辅助方法：请求保存工程
+		/// </summary>
+		/// <returns>若在本方法之后继续下去，则返回true；若是不再往下执行，则返回false</returns>
+		/// <param name="msg">提示保存的消息</param>
+		/// <param name="isAfterUpdateLightList">是否刚刚添加或修改完灯具列表</param>
+		public bool RequestSaveProject(string msg, bool isAfterUpdateLightList)
+		{
+			if (frameSaveArray == null)
+			{
+				return true;
+			}
+
+			DialogResult dr = MessageBox.Show(
+				msg,
+				"保存工程?",
+				MessageBoxButtons.YesNoCancel,
+				 MessageBoxIcon.Question
+			);
+
+			if (dr == DialogResult.Yes)
+			{
+				if (isAfterUpdateLightList)
+				{
+					deleteRedundantData();
+				}
+				saveProjectClick();
+				return true;
+			}
+			else if (dr == DialogResult.No)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		#endregion
@@ -2790,32 +2787,10 @@ namespace LightController.MyForm
 			IsShowHardwareUpdate = IniFileAst.GetControlShow(Application.StartupPath, "hardwareUpdateButton");
 			IsLinkLightEditor = IniFileAst.GetIsLink(Application.StartupPath, "lightEditor");
 			IsLinkOldTools = IniFileAst.GetIsLink(Application.StartupPath, "oldTools");
-			MaxStTimes = IniFileAst.GetSystemCount(Application.StartupPath, "maxStTimes");
+			MAX_StTimes = IniFileAst.GetSystemCount(Application.StartupPath, "maxStTimes");
+			MAX_STEP = IniFileAst.GetSystemCount(Application.StartupPath, "maxStep");
 		}
-
-		/// <summary>
-		/// 辅助方法：点击退出时FormClosing事件；
-		/// </summary>
-		/// <param name="e"></param>
-		protected void formClosing(FormClosingEventArgs e)
-		{
-			//MARK 大变动：13.0 退出MainForm前提示保存
-			if (frameSaveArray != null)
-			{
-				DialogResult dr = MessageBox.Show("退出应用前是否保存工程？",
-					 "保存工程？",
-					 MessageBoxButtons.YesNoCancel,
-					 MessageBoxIcon.Asterisk
-				);
-				switch (dr)
-				{
-					case DialogResult.Yes: saveProjectClick(); break;
-					case DialogResult.Cancel: e.Cancel = true; break;
-					default: break;
-				}
-			}
-		}
-
+			   
 		private void InitializeComponent()
 		{
 			this.SuspendLayout();
@@ -2827,6 +2802,40 @@ namespace LightController.MyForm
 			this.Load += new System.EventHandler(this.MainFormBase_Load);
 			this.ResumeLayout(false);
 
+		}
+
+		/// <summary>
+		/// 辅助方法：点击退出时FormClosing事件；
+		/// </summary>
+		/// <param name="e"></param>
+		protected void formClosing(FormClosingEventArgs e)
+		{
+			//MARK 只开单场景：17.4 FormClosing前提示保存工程
+			if (!RequestSaveProject("关闭窗口前，是否保存当前工程？", false))
+			{
+				e.Cancel = true;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《退出程序》
+		/// </summary>
+		protected void exitClick()
+		{
+			//MARK 只开单场景：17.3 点击《退出程序》时，申请保存工程
+			if (!RequestSaveProject("退出应用前，是否保存当前工程？", false))
+			{
+				return;
+			}
+			exit();
+		}
+
+		/// <summary>
+		///  辅助方法：彻底退出程序
+		/// </summary>
+		protected void exit()
+		{
+			System.Environment.Exit(0);
 		}
 
 		#endregion
@@ -2844,7 +2853,7 @@ namespace LightController.MyForm
 		//	RefreshStep();
 		//}
 
-		//TODO：SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
+		//SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
 		/// <summary>
 		///  辅助方法：通过场景编号（0-31），来读取数据库相关数据填入虚假空白数据（NewStep 、Flag==0）中，并将Flag设为1
 		/// </summary>
@@ -2914,8 +2923,7 @@ namespace LightController.MyForm
 		/// </summary>
 		//protected void MakeCurrentStepWrapperData(int stepNum)
 		//{
-
-		//	TODO : 10.X （优化计划）从数据库中取单灯单步数据，并渲染进内存。
+		
 		//	if (getCurrentLightStepWrapper().StepWrapperList[stepNum - 1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0)
 		//	{
 
@@ -3037,6 +3045,17 @@ namespace LightController.MyForm
 		//	}
 		//}
 
+		/// <summary>
+		/// 辅助方法：提示工程与灯库不匹配，并clearAll
+		/// </summary>
+		/// <param name="ex"></param>
+		//private void openProjectError(string exMessage)
+		//{
+		//	MessageBox.Show("打开工程出错，可能是灯库不匹配。\n异常信息:" + exMessage);
+		//	clearAllData();
+		//	setBusy(false);
+		//	SetNotice("打开工程失败,请验证后重试");
+		//}
 
 		#endregion
 

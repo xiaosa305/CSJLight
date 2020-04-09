@@ -20,9 +20,6 @@ namespace LightController.Ast
 		public string LightFullName { get; set; }
 		public int StartNum { get; set; }
 
-		//MARK：StepWrapper.Class 新增的Flag字段：用以记录该StepWrapper状态（因为单个页面只能显示一个StepWrapper(哪怕进入多灯时，也可以用此字段控制））
-		//public int Flag { get; set; } 
-
 		// 这个列表记录通道数据
 		public IList<TongdaoWrapper> TongdaoList { get; set; }
 

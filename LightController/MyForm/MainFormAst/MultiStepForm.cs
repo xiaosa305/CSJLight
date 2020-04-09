@@ -88,7 +88,7 @@ namespace LightController.MyForm
 				this.unifyCmComboBox.SelectedIndex = 0;
 
 				this.unifyStNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyStepTimeNumericUpDown_MouseWheel);
-				this.unifyStNumericUpDown.Maximum = MainFormBase.MaxStTimes * mainForm.eachStepTime2;
+				this.unifyStNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.eachStepTime2;
 				this.unifyStNumericUpDown.Increment = mainForm.eachStepTime2;				
 			}
 			else {

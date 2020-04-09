@@ -43,7 +43,7 @@ namespace LightController.Ast
 
 
 		/// <summary>
-		/// MARK 大变动：11.0 ValueDAO中添加一个GetTDValueListOrderByStep(),作用为获取某一个TD特定FM的所有步信息
+		/// MARK 只开单场景：11.0 ValueDAO中添加一个GetTDValueListOrderByStep(),作用为获取某一个TD特定FM的所有步信息
 		/// 辅助方法：通过lightIndex,frame,mode；来获取某一FM的tongdao的所有步
 		/// </summary>
 		internal IList<DB_Value> GetTDValueListOrderByStep(DB_ValuePK pk)

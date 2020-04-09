@@ -62,7 +62,7 @@
 			// 
 			// networkButton
 			// 
-			this.networkButton.Location = new System.Drawing.Point(708, 12);
+			this.networkButton.Location = new System.Drawing.Point(708, 18);
 			this.networkButton.Name = "networkButton";
 			this.networkButton.Size = new System.Drawing.Size(80, 48);
 			this.networkButton.TabIndex = 0;
@@ -72,7 +72,7 @@
 			// 
 			// refreshButton
 			// 
-			this.refreshButton.Location = new System.Drawing.Point(22, 39);
+			this.refreshButton.Location = new System.Drawing.Point(22, 42);
 			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshButton.Name = "refreshButton";
 			this.refreshButton.Size = new System.Drawing.Size(90, 24);
@@ -84,7 +84,7 @@
 			// localIPComboBox
 			// 
 			this.localIPComboBox.FormattingEnabled = true;
-			this.localIPComboBox.Location = new System.Drawing.Point(21, 11);
+			this.localIPComboBox.Location = new System.Drawing.Point(21, 14);
 			this.localIPComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.localIPComboBox.Name = "localIPComboBox";
 			this.localIPComboBox.Size = new System.Drawing.Size(186, 20);
@@ -92,7 +92,7 @@
 			// 
 			// searchButton
 			// 
-			this.searchButton.Location = new System.Drawing.Point(117, 39);
+			this.searchButton.Location = new System.Drawing.Point(117, 42);
 			this.searchButton.Margin = new System.Windows.Forms.Padding(2);
 			this.searchButton.Name = "searchButton";
 			this.searchButton.Size = new System.Drawing.Size(90, 24);
@@ -105,7 +105,7 @@
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 442);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 578);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(800, 22);
 			this.statusStrip1.SizingGrip = false;
@@ -123,10 +123,10 @@
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tabControl1.ItemSize = new System.Drawing.Size(60, 36);
-			this.tabControl1.Location = new System.Drawing.Point(0, 72);
+			this.tabControl1.Location = new System.Drawing.Point(0, 87);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(800, 370);
+			this.tabControl1.Size = new System.Drawing.Size(800, 491);
 			this.tabControl1.TabIndex = 28;
 			// 
 			// tabPage1
@@ -142,7 +142,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 40);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(792, 326);
+			this.tabPage1.Size = new System.Drawing.Size(792, 447);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "设备列表";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -170,7 +170,7 @@
 			this.virtualIPListView.HideSelection = false;
 			this.virtualIPListView.Location = new System.Drawing.Point(466, 3);
 			this.virtualIPListView.Name = "virtualIPListView";
-			this.virtualIPListView.Size = new System.Drawing.Size(323, 320);
+			this.virtualIPListView.Size = new System.Drawing.Size(323, 441);
 			this.virtualIPListView.TabIndex = 2;
 			this.virtualIPListView.UseCompatibleStateImageBehavior = false;
 			this.virtualIPListView.View = System.Windows.Forms.View.Details;
@@ -262,7 +262,7 @@
 			this.controllerListView.Location = new System.Drawing.Point(3, 3);
 			this.controllerListView.MultiSelect = false;
 			this.controllerListView.Name = "controllerListView";
-			this.controllerListView.Size = new System.Drawing.Size(323, 320);
+			this.controllerListView.Size = new System.Drawing.Size(323, 441);
 			this.controllerListView.TabIndex = 0;
 			this.controllerListView.UseCompatibleStateImageBehavior = false;
 			this.controllerListView.View = System.Windows.Forms.View.Details;
@@ -287,7 +287,7 @@
 			// 
 			// mjsTextBox
 			// 
-			this.mjsTextBox.Location = new System.Drawing.Point(250, 41);
+			this.mjsTextBox.Location = new System.Drawing.Point(281, 44);
 			this.mjsTextBox.Name = "mjsTextBox";
 			this.mjsTextBox.Size = new System.Drawing.Size(97, 21);
 			this.mjsTextBox.TabIndex = 29;
@@ -297,7 +297,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(250, 16);
+			this.label1.Location = new System.Drawing.Point(283, 17);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(47, 12);
 			this.label1.TabIndex = 30;
@@ -311,7 +311,7 @@
 			// 
 			// setFilePathButton
 			// 
-			this.setFilePathButton.Location = new System.Drawing.Point(397, 11);
+			this.setFilePathButton.Location = new System.Drawing.Point(427, 18);
 			this.setFilePathButton.Name = "setFilePathButton";
 			this.setFilePathButton.Size = new System.Drawing.Size(87, 24);
 			this.setFilePathButton.TabIndex = 1;
@@ -322,7 +322,7 @@
 			// filePathLabel
 			// 
 			this.filePathLabel.AutoSize = true;
-			this.filePathLabel.Location = new System.Drawing.Point(397, 45);
+			this.filePathLabel.Location = new System.Drawing.Point(427, 52);
 			this.filePathLabel.Name = "filePathLabel";
 			this.filePathLabel.Size = new System.Drawing.Size(191, 12);
 			this.filePathLabel.TabIndex = 31;
@@ -333,7 +333,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-			this.ClientSize = new System.Drawing.Size(800, 464);
+			this.ClientSize = new System.Drawing.Size(800, 600);
 			this.Controls.Add(this.filePathLabel);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.setFilePathButton);

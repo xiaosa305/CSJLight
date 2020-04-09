@@ -27,14 +27,14 @@ namespace LightController.MyForm
 			this.currentProjectName = currentProjectName;
 			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
 
-			//MARK 大变动：00.0 OpenForm加场景选择
+			//MARK 只开单场景：00.0 OpenForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 					frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
 			}
 			frameComboBox.SelectedIndex = currentFrame;	
 
-			RefreshTreeView1();
+			RefreshDirTreeView();
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：刷新treeView1的节点列表
 		/// </summary>
-		internal void RefreshTreeView1()
+		internal void RefreshDirTreeView()
 		{
 			projectTreeView.Nodes.Clear();
 			string path = savePath + @"\LightProject";
@@ -85,7 +85,7 @@ namespace LightController.MyForm
 			{
 				this.Dispose();
 				mainForm.Activate();
-				//MARK 大变动：01.0 OpenForm点确定时，只打开单个场景，故传入frameIndex
+				//MARK 只开单场景：01.0 OpenForm点确定时，只打开单个场景，故传入frameIndex
 				mainForm.OpenProject(projectName,frameComboBox.SelectedIndex);
 			}
 			else

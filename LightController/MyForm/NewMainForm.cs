@@ -232,7 +232,7 @@ namespace LightController.MyForm
 
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
-			//MARK：思考启动时是否刷新可用串口列表;
+			//启动时刷新可用串口列表，但把显示给删除
 			refreshComList();
 			SetNotice("");
 		}
@@ -580,21 +580,16 @@ namespace LightController.MyForm
 		}		
 
 		/// <summary>
-		/// 辅助方法： 清空相关的所有数据（关闭工程、新建工程、打开工程都会用到）
-		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
+		/// 辅助方法： ClearAllData()最后一步
+		///MARK：ClearAllData() in NewMainForm
 		/// </summary>
 		protected override void clearAllData()
 		{
 			base.clearAllData();
-
-			//MARK：ClearAllData()在NewMainForm的实现
-			this.Text = SoftwareName + " Dimmer System" ;
+	
 			lightsListView.Clear();
 			stepPanel.Enabled = false;
-			hideAllTDPanels();
-			showStepLabel(0, 0);
-			editLightInfo(null);
-			saFlowLayoutPanel.Controls.Clear();
+			editLightInfo(null);	
 		}
 
 		/// <summary>
@@ -615,8 +610,9 @@ namespace LightController.MyForm
 				// 添加灯具数据到LightsListView中
 				lightsListView.Items.Add(new ListViewItem(
 						//lightAstList2[i].LightName + ":" + 
-						lightAstList2[i].LightType + "\n" +
-						"(" + lightAstList2[i].LightAddr + ")",
+						lightAstList2[i].LightType + "\n" +	"(" + lightAstList2[i].LightAddr + ")"
+						+"\n这是备注哦"
+						,
 					lightImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				)
 				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
@@ -638,16 +634,16 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void initStNumericUpDowns()
 		{
-			unifyStepTimeNumericUpDown.Maximum = eachStepTime2 * MaxStTimes; ;
+			unifyStepTimeNumericUpDown.Maximum = eachStepTime2 * MAX_StTimes; ;
 			unifyStepTimeNumericUpDown.Increment = eachStepTime2;
 
 			for (int i = 0; i < 32; i++) {
-				tdStNumericUpDowns[i].Maximum = eachStepTime2 * MaxStTimes;
+				tdStNumericUpDowns[i].Maximum = eachStepTime2 * MAX_StTimes;
 				tdStNumericUpDowns[i].Increment = eachStepTime2;
 			}			
 		}
 
-		//MARK 大变动：02.0.1 (NewMainForm)改变当前Frame
+		//MARK 只开单场景：02.0.1 (NewMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
@@ -764,7 +760,7 @@ namespace LightController.MyForm
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 					
-					//MARK 200313 步时间：主动 乘以时间因子 后 再展示
+					//MARK 步时间改动 NewMainForm：主动 乘以时间因子 后 再展示
 					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString() ;
 
 					tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
@@ -834,6 +830,17 @@ namespace LightController.MyForm
 			}
 
 			RefreshStep();
+		}
+
+		/// <summary>
+		/// 事件：双击《LightListView》内灯具，更改备注
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void lightsListView_DoubleClick(object sender, EventArgs e)
+		{
+			int lightIndex = lightsListView.SelectedIndices[0];
+			lightsListViewDoubleClick(lightIndex);
 		}
 
 		#endregion
@@ -1194,17 +1201,17 @@ namespace LightController.MyForm
 			if (dr == DialogResult.OK)
 			{
 				saveFrameClick();
-				//MARK 大变动：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+				//MARK 只开单场景：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
 				frameSaveArray[currentFrame] = false;				
 			}
 
 			currentFrame = frameComboBox.SelectedIndex;
-			//MARK 大变动：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明已经加载因而无需重复读取。
+			//MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明已经加载因而无需重复读取。
 			if (!frameLoadArray[currentFrame])
 			{				
 				generateFrameData(currentFrame);
 			}
-			//MARK 大变动：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			//MARK 只开单场景：06.2.1 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
 			frameSaveArray[currentFrame] = true;
 
 			changeFrameMode();
@@ -1527,7 +1534,7 @@ namespace LightController.MyForm
 		{
 			isMultiMode = !isSingleMode;
 
-			//MARK 大变动：15.1 《灯具列表》是否可用，由单灯模式决定
+			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
 			lightListToolStripMenuItem.Enabled = isSingleMode;
 			lightsListView.Enabled = isSingleMode;		
 			frameComboBox.Enabled = isSingleMode;
@@ -1538,7 +1545,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
+		/// 辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
 		public override void EnterSyncMode(bool isSyncMode)
 		{
@@ -1822,7 +1829,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			// MARK 200313 步时间：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			// MARK 步时间改动 NewMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
 			int stepTime = Decimal.ToInt16(tdStNumericUpDowns[tdIndex].Value / eachStepTime2 ); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2 ; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
@@ -2049,7 +2056,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK 200313 步时间：点击《统一步时间》的处理
+				//MARK 步时间改动 NewMainForm：点击《统一步时间》的处理
 				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
@@ -2080,7 +2087,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式");
+			SetNotice("正在切换连接模式,请稍候...");
+			Refresh();
 			isConnectCom = !isConnectCom;
 			changeConnectMethodButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
@@ -2451,17 +2459,6 @@ namespace LightController.MyForm
 			GenerateSourceProject();
 		}
 
-
-		/// <summary>
-		/// 事件：双击《LightListView》内灯具，更改备注
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lightsListView_DoubleClick(object sender, EventArgs e)
-		{
-			int lightIndex = lightsListView.SelectedIndices[0];
-			lightsListViewDoubleClick(lightIndex);
-		}
 
 		
 	}

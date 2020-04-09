@@ -385,7 +385,7 @@ namespace LightController.MyForm
 			formClosing(e);
 		}
 
-		// MARK：SkinMainForm各种工具按钮起点
+		// MARK：SkinMainForm各种工具按钮
 		#region 工具按钮组 - 非工程相关
 
 		/// <summary>
@@ -452,6 +452,8 @@ namespace LightController.MyForm
 		{
 			exitClick();
 		}
+
+
 
 
 		#endregion
@@ -597,22 +599,15 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 辅助方法：ClearAllDate()最后一步，但需针对不同的MainForm子类来实现。
-		/// MARK：SkinMainFormForm.ClearAllData()：子类中针对本Form清除数据
+		/// MARK：ClearAllData() in SkinMainForm
 		/// </summary>
 		protected override void clearAllData()
 		{			
 			base.clearAllData();
 
-			//MARK：ClearAllData()在SkinMainForm的实现
-			// ①清空listView列表；
-			// ②禁用步调节按钮组、隐藏所有通道、stepLabel设为0/0、选中灯具信息清空
-			this.Text = SoftwareName + " Dimmer System";
-			lightsSkinListView.Clear();
+			lightsSkinListView.Clear();			
 			stepSkinPanel.Enabled = false;
-			hideAllTDPanels();
-			showStepLabel(0, 0);
-			editLightInfo(null);
-			saFlowLayoutPanel.Controls.Clear();
+			editLightInfo(null);			
 		}
 
 		/// <summary>
@@ -633,15 +628,16 @@ namespace LightController.MyForm
 				// 添加灯具数据到LightsListView中
 				lightsSkinListView.Items.Add(new ListViewItem(
 						//lightAstList2[i].LightName + ":" + 
-						lightAstList2[i].LightType +
-						"\n(" + lightAstList2[i].LightAddr + ")",
+						lightAstList2[i].LightType +"\n(" + lightAstList2[i].LightAddr + ")"
+						//+"\n这是备注哦"
+						,
 					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				)
 				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
 				);
 			}
 
-			//MARK 大变动：16.0.2 若新增的灯具为空，则设置几个地方不可用
+			//MARK 只开单场景：16.0.2 若新增的灯具为空，则设置几个地方不可用
 			if (lightAstList2.Count == 0)
 			{
 				useFrameSkinButton.Enabled = false;
@@ -663,17 +659,17 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void initStNumericUpDowns()
 		{
-			unifyStepTimeNumericUpDown.Maximum = eachStepTime2 * MaxStTimes; ;
+			unifyStepTimeNumericUpDown.Maximum = eachStepTime2 * MAX_StTimes; ;
 			unifyStepTimeNumericUpDown.Increment = eachStepTime2;
 
 			for (int i = 0; i < 32; i++)
 			{
-				tdStepTimeNumericUpDowns[i].Maximum = eachStepTime2 * MaxStTimes;
+				tdStepTimeNumericUpDowns[i].Maximum = eachStepTime2 * MAX_StTimes;
 				tdStepTimeNumericUpDowns[i].Increment = eachStepTime2;
 			}
 		}
 
-		//MARK 大变动：02.0.2 (SkinMainForm)改变当前Frame
+		//MARK 只开单场景：02.0.2 (SkinMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
@@ -788,7 +784,7 @@ namespace LightController.MyForm
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 
-					//MARK 200327 步时间：主动 乘以时间因子 后 再展示
+					//MARK 步时间改动 SkinMainForm：主动 乘以时间因子 后 再展示
 					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString();
 
 					tdSkinTrackBars[i].ValueChanged += new System.EventHandler(tdSkinTrackBars_ValueChanged);
@@ -866,6 +862,15 @@ namespace LightController.MyForm
 			RefreshStep();
 		}
 
+		/// <summary>
+		///  事件：双击《灯具列表的灯具》，修改备注
+		/// </summary>
+		private void lightsSkinListView_DoubleClick(object sender, EventArgs e)
+		{
+			int lightIndex = lightsSkinListView.SelectedIndices[0];
+			lightsListViewDoubleClick(lightIndex);
+		}
+
 		#endregion
 
 		//MARK：SkinMainForm灯具listView相关（右键菜单+位置等）
@@ -905,8 +910,6 @@ namespace LightController.MyForm
 			}
 
 		}
-
-
 
 		// 这个别忘了
 		// listView1.AllowDrop = true;
@@ -1177,6 +1180,13 @@ namespace LightController.MyForm
 			{
 				return;
 			}
+
+			//若选中项与当前项相同，则不再往下执行
+			int tempFrame = frameSkinComboBox.SelectedIndex;
+			if (tempFrame == currentFrame) {
+				return;
+			}
+
 			setBusy(true);
 			SetNotice("正在切换场景,请稍候...");			
 
@@ -1185,22 +1195,22 @@ namespace LightController.MyForm
 
 			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[currentFrame] + ")？",
 				"保存场景?",
-				MessageBoxButtons.OKCancel,
+				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
-			if (dr == DialogResult.OK)
+			if (dr == DialogResult.Yes)
 			{
 				saveFrameClick();
-				//MARK 大变动：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
+				//MARK 只开单场景：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
 				frameSaveArray[currentFrame] = false;				
 			}
 
 			currentFrame = frameSkinComboBox.SelectedIndex;
-			//MARK 大变动：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则若为true，则说明已经加载因而无需重复读取。！
+			//MARK 只开单场景：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则若为true，则说明已经加载因而无需重复读取。！
 			if (!frameLoadArray[currentFrame])
 			{
 				generateFrameData(currentFrame);
 			}
-			//MARK 大变动：06.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
+			//MARK 只开单场景：06.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
 			frameSaveArray[currentFrame] = true;
 
 			changeFrameMode();
@@ -1523,7 +1533,7 @@ namespace LightController.MyForm
 		{
 			isMultiMode = !isSingleMode;
 
-			//MARK 大变动：15.2 《灯具列表》是否可用，由单灯模式决定
+			//MARK 只开单场景：15.2 《灯具列表》是否可用，由单灯模式决定
 			lightListSkinButton.Enabled = isSingleMode;
 			lightsSkinListView.Enabled = isSingleMode;
 			frameSkinComboBox.Enabled = isSingleMode;
@@ -1534,7 +1544,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// TODO：辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
+		///辅助方法：重置syncMode的相关属性，ChangeFrameMode、ClearAllData()、更改灯具列表后等？应该进行处理。
 		/// </summary>
 		public override void EnterSyncMode(bool isSyncMode)
 		{
@@ -1821,7 +1831,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			//MARK 200327 步时间：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			//MARK 步时间改动 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
 			int stepTime = Decimal.ToInt16(tdStepTimeNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
@@ -2216,7 +2226,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK 200327 步时间：点击《统一步时间》的处理
+				//MARK 步时间改动 SkinMainForm：点击《统一步时间》的处理
 				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
@@ -2246,7 +2256,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodSkinButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式");
+			SetNotice("正在切换连接模式,请稍候...");
+			Refresh();
 			isConnectCom = !isConnectCom;
 			changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
@@ -2769,15 +2780,6 @@ namespace LightController.MyForm
 		//}		
 
 		#endregion
-
-		/// <summary>
-		///  事件：双击《灯具列表的灯具》，修改备注
-		/// </summary>
-		private void lightsSkinListView_DoubleClick(object sender, EventArgs e)
-		{
-			int lightIndex = lightsSkinListView.SelectedIndices[0];
-			lightsListViewDoubleClick(lightIndex);
-		}
 
 
 

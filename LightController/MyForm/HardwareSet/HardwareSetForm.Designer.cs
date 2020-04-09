@@ -51,6 +51,8 @@
 			this.deviceNameTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.networkGroupBox = new System.Windows.Forms.GroupBox();
+			this.macCheckBox = new System.Windows.Forms.CheckBox();
+			this.dhcpCheckBox = new System.Windows.Forms.CheckBox();
 			this.linkModeComboBox = new System.Windows.Forms.ComboBox();
 			this.linkPortTextBox = new System.Windows.Forms.TextBox();
 			this.gatewayTextBox = new System.Windows.Forms.TextBox();
@@ -182,6 +184,7 @@
 			// 
 			// currUseTimeNumericUpDown
 			// 
+			this.currUseTimeNumericUpDown.Enabled = false;
 			this.currUseTimeNumericUpDown.Location = new System.Drawing.Point(319, 118);
 			this.currUseTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.currUseTimeNumericUpDown.Maximum = new decimal(new int[] {
@@ -207,6 +210,7 @@
 			// 
 			// sumUseTimeNumericUpDown
 			// 
+			this.sumUseTimeNumericUpDown.Enabled = false;
 			this.sumUseTimeNumericUpDown.Location = new System.Drawing.Point(101, 118);
 			this.sumUseTimeNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.sumUseTimeNumericUpDown.Maximum = new decimal(new int[] {
@@ -232,6 +236,7 @@
 			// 
 			// heartbeatCycleNumericUpDown
 			// 
+			this.heartbeatCycleNumericUpDown.Enabled = false;
 			this.heartbeatCycleNumericUpDown.Location = new System.Drawing.Point(319, 151);
 			this.heartbeatCycleNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.heartbeatCycleNumericUpDown.Maximum = new decimal(new int[] {
@@ -261,6 +266,7 @@
 			// 
 			// heartbeatTextBox
 			// 
+			this.heartbeatTextBox.Enabled = false;
 			this.heartbeatTextBox.Location = new System.Drawing.Point(101, 151);
 			this.heartbeatTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.heartbeatTextBox.MaxLength = 8;
@@ -372,6 +378,8 @@
 			// networkGroupBox
 			// 
 			this.networkGroupBox.BackColor = System.Drawing.SystemColors.Window;
+			this.networkGroupBox.Controls.Add(this.macCheckBox);
+			this.networkGroupBox.Controls.Add(this.dhcpCheckBox);
 			this.networkGroupBox.Controls.Add(this.linkModeComboBox);
 			this.networkGroupBox.Controls.Add(this.linkPortTextBox);
 			this.networkGroupBox.Controls.Add(this.gatewayTextBox);
@@ -393,6 +401,28 @@
 			this.networkGroupBox.TabIndex = 0;
 			this.networkGroupBox.TabStop = false;
 			this.networkGroupBox.Text = "网络设置";
+			// 
+			// macCheckBox
+			// 
+			this.macCheckBox.AutoSize = true;
+			this.macCheckBox.Location = new System.Drawing.Point(318, 32);
+			this.macCheckBox.Name = "macCheckBox";
+			this.macCheckBox.Size = new System.Drawing.Size(114, 16);
+			this.macCheckBox.TabIndex = 4;
+			this.macCheckBox.Text = "自动获取MAC地址";
+			this.macCheckBox.UseVisualStyleBackColor = true;
+			this.macCheckBox.CheckedChanged += new System.EventHandler(this.macCheckBox_CheckedChanged);
+			// 
+			// dhcpCheckBox
+			// 
+			this.dhcpCheckBox.AutoSize = true;
+			this.dhcpCheckBox.Location = new System.Drawing.Point(232, 32);
+			this.dhcpCheckBox.Name = "dhcpCheckBox";
+			this.dhcpCheckBox.Size = new System.Drawing.Size(72, 16);
+			this.dhcpCheckBox.TabIndex = 4;
+			this.dhcpCheckBox.Text = "启用DHCP";
+			this.dhcpCheckBox.UseVisualStyleBackColor = true;
+			this.dhcpCheckBox.CheckedChanged += new System.EventHandler(this.dhcpCheckBox_CheckedChanged);
 			// 
 			// linkModeComboBox
 			// 
@@ -534,6 +564,7 @@
 			// 
 			// remotePortTextBox
 			// 
+			this.remotePortTextBox.Enabled = false;
 			this.remotePortTextBox.Location = new System.Drawing.Point(289, 32);
 			this.remotePortTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.remotePortTextBox.Name = "remotePortTextBox";
@@ -543,6 +574,7 @@
 			// 
 			// domainServerTextBox
 			// 
+			this.domainServerTextBox.Enabled = false;
 			this.domainServerTextBox.Location = new System.Drawing.Point(288, 69);
 			this.domainServerTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.domainServerTextBox.Name = "domainServerTextBox";
@@ -572,6 +604,7 @@
 			// 
 			// remoteHostTextBox
 			// 
+			this.remoteHostTextBox.Enabled = false;
 			this.remoteHostTextBox.Location = new System.Drawing.Point(76, 32);
 			this.remoteHostTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.remoteHostTextBox.Name = "remoteHostTextBox";
@@ -591,6 +624,7 @@
 			// 
 			// domainNameTextBox
 			// 
+			this.domainNameTextBox.Enabled = false;
 			this.domainNameTextBox.Location = new System.Drawing.Point(76, 69);
 			this.domainNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.domainNameTextBox.MaxLength = 32;
@@ -837,12 +871,14 @@
 			this.Controls.Add(this.commonGroupBox);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(696, 524);
 			this.Name = "HardwareSetForm";
 			this.Text = "硬件设置";
+			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareSetForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.HardwareSetForm_Load);
 			this.commonGroupBox.ResumeLayout(false);
@@ -927,5 +963,7 @@
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.CheckBox autoSaveCheckBox;
+		private System.Windows.Forms.CheckBox macCheckBox;
+		private System.Windows.Forms.CheckBox dhcpCheckBox;
 	}
 }

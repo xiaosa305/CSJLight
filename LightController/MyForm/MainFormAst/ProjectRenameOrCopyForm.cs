@@ -97,7 +97,7 @@ namespace LightController.MyForm
 					Directory.Move(sourceDirPath, destDirPath);
 					MessageBox.Show("工程重命名成功。");
 				}
-				openForm.RefreshTreeView1();				
+				openForm.RefreshDirTreeView();				
 				this.Dispose();
 				openForm.Activate();
 			}

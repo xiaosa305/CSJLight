@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MultiLedController.Ast;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -98,6 +100,73 @@ namespace MultiLedController.Common
 				}
 			}
 			return totalBits;
+		}
+
+		/// <summary>
+		/// 静态辅助方法： 设置IP地址，掩码，网关和DNS
+		/// </summary>
+		/// <param name="ipArray">ip列表：要设置的ip列表</param>
+		/// <param name="submaskArray">子网掩码列表：有多少个ip，就要对应多少个子网掩码</param>
+		/// <param name="gateway">网关列表：与ip独立，只需设置一次即可</param>
+		/// <param name="dns">dns列表：有多少个DNS，就设置几个</param>
+		public static void SetIPAddress(ManagementObject mo ,string[] ipArray, string[] submaskArray, string[] gatewayArray, string[] dnsArray)
+		{
+			ManagementClass wmi = new ManagementClass("Win32_NetworkAdapterConfiguration");
+			ManagementObjectCollection moc = wmi.GetInstances();
+			ManagementBaseObject inPar = null;
+			ManagementBaseObject outPar = null;			
+
+			//设置IP地址和掩码
+			if (ipArray != null && submaskArray != null)
+			{
+				inPar = mo.GetMethodParameters("EnableStatic");
+				inPar["IPAddress"] = ipArray;
+				inPar["SubnetMask"] = submaskArray;
+				outPar = mo.InvokeMethod("EnableStatic", inPar, null);
+			}
+
+			//设置网关地址
+			if (gatewayArray != null)
+			{
+				inPar = mo.GetMethodParameters("SetGateways");
+				inPar["DefaultIPGateway"] = gatewayArray;
+				outPar = mo.InvokeMethod("SetGateways", inPar, null);
+			}
+
+			//设置DNS地址
+			if (dnsArray != null)
+			{
+				inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
+				inPar["DNSServerSearchOrder"] = dnsArray;
+				outPar = mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
+			}
+		}
+
+		/// <summary>
+		/// 静态辅助方法：通过ipAst来设置本地ip
+		/// </summary>
+		/// <param name="ipAst"></param>
+		public static void SetIPAddress(ManagementObject mo, IPAst ipAst)
+		{
+			SetIPAddress(mo ,ipAst.IpArray, ipAst.SubmaskArray, ipAst.GatewayArray, ipAst.DnsArray);
+		}
+
+		/// <summary>
+		/// 辅助方法：由网卡名，获取当前网卡的ManagementObject
+		/// </summary>
+		/// <param name="carName"></param>
+		/// <returns></returns>
+		public static ManagementObject GetNetCardMO(string carName)
+		{
+			ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_NetWorkAdapterConfiguration WHERE Description = '" + carName + "'");
+			foreach (ManagementObject mo in search.Get())
+			{
+				if (mo["IPAddress"] != null)
+				{
+					return mo;
+				}
+			}
+			return null;
 		}
 
 	}

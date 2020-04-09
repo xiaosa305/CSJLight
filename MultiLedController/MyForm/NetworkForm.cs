@@ -130,7 +130,9 @@ namespace MultiLedController
 				submaskList.Add("255.255.255.0");
 			}
 
-			SetIPAddress(virtualIPList.ToArray(),
+			IPHelper.SetIPAddress(
+				moList[netcardIndex],
+				virtualIPList.ToArray(),
 				submaskList.ToArray(),
 				new string[] { "192.168." + thirdNumericUpDown.Value + ".1"}, 
 				new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" });
@@ -196,57 +198,7 @@ namespace MultiLedController
 			mainForm.ClearIPListView();
 			setStatusLabel("已启用DHCP，请刷新");
 		}
-
-		/// <summary>
-		/// 设置IP地址，掩码，网关和DNS
-		/// </summary>
-		/// <param name="ipArray">ip列表：要设置的ip列表</param>
-		/// <param name="submaskArray">子网掩码列表：有多少个ip，就要对应多少个子网掩码</param>
-		/// <param name="gateway">网关列表：与ip独立，只需设置一次即可</param>
-		/// <param name="dns">dns列表：有多少个DNS，就设置几个</param>
-		private void SetIPAddress(string[] ipArray, string[] submaskArray, string[] gatewayArray, string[] dnsArray)
-		{
-			ManagementClass wmi = new ManagementClass("Win32_NetworkAdapterConfiguration");
-			ManagementObjectCollection moc = wmi.GetInstances();
-			ManagementBaseObject inPar = null;
-			ManagementBaseObject outPar = null;
-
-			ManagementObject mo = moList[netcardIndex];			
-			
-			//设置IP地址和掩码
-			if (ipArray != null && submaskArray != null)
-			{
-					inPar = mo.GetMethodParameters("EnableStatic");
-					inPar["IPAddress"] = ipArray;
-					inPar["SubnetMask"] = submaskArray;
-					outPar = mo.InvokeMethod("EnableStatic", inPar, null);
-			}
-
-			//设置网关地址
-			if (gatewayArray != null)
-			{
-				inPar = mo.GetMethodParameters("SetGateways");
-				inPar["DefaultIPGateway"] = gatewayArray;
-				outPar = mo.InvokeMethod("SetGateways", inPar, null);
-			}
-
-			//设置DNS地址
-			if (dnsArray != null)
-			{
-				inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
-				inPar["DNSServerSearchOrder"] = dnsArray;
-				outPar = mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
-			}				
-		}
-
-		/// <summary>
-		/// 辅助方法：通过ipAst来设置本地ip
-		/// </summary>
-		/// <param name="ipAst"></param>
-		private void SetIPAddress(IPAst ipAst)
-		{
-			SetIPAddress(ipAst.IpArray, ipAst.SubmaskArray, ipAst.GatewayArray, ipAst.DnsArray);
-		}
+		
 
 		/// <summary>
 		/// 事件：选中不同网卡(ipComboBox)
@@ -281,7 +233,6 @@ namespace MultiLedController
 					dnsLabel2.Text = ipAst.DnsArray[0];
 				}
 				catch (Exception) { }
-
 			}
 		}
 				
@@ -303,7 +254,7 @@ namespace MultiLedController
 		/// <param name="e"></param>
 		private void loadButton_Click(object sender, EventArgs e)
 		{
-			SetIPAddress(tempIpAst);
+			IPHelper.SetIPAddress(  moList[netcardIndex] , tempIpAst);
 			setStatusLabel("已成功恢复保存的设置，请刷新");
 		}
 

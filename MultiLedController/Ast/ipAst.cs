@@ -43,18 +43,6 @@ namespace MultiLedController.Ast
 			GatewayArray = (string[])mo["DefaultIPGateway"];
 			DnsArray = (string[])mo["DNSServerSearchOrder"];
 		}
-
-
-		/// <summary>
-		/// 以ManagementObject为形参的构造函数，在此函数内做相应的处理(去除ipv6的ip)
-		/// </summary>
-		/// <param name="mo"></param>
-		public IPAst(IPAst ip)
-		{
-			IpArray = ip.IpArray;			
-			SubmaskArray = ip.SubmaskArray;
-			GatewayArray = ip.GatewayArray;
-			DnsArray = ip.DnsArray;
-		}
+	
 	}
 }

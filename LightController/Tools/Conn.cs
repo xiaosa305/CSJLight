@@ -1,5 +1,6 @@
 ﻿using LightController.Ast;
 using LightController.Tools.CSJ;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace LightController.Tools
                 int count = conn.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
-                    CSJLogs.GetInstance().DebugLog("收到 [" + this.Ip + "] 断开连接");
+                    LogTools.Debug(Constant.TAG_XIAOSA, "[" + this.Ip + "] 断开连接");
                     conn.CloseDevice();
                     return;
                 }
@@ -110,14 +111,14 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "网络连接模块关闭或网络连接接收模块发生异常", ex);
                 conn.CloseDevice();
             }
         }
         public override void CloseDevice()
         {
             if (!IsUse) return;
-            Console.WriteLine(this.Ip + "断开连接");
+            LogTools.Debug(Constant.TAG_XIAOSA, "[" + this.Ip + "] 断开连接");
             this.DownloadStatus = false;
             try
             {

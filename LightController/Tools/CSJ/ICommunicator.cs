@@ -310,8 +310,7 @@ namespace LightController.Tools.CSJ
                     }
                     if (!this.IsReceive)
                     {
-                        Console.WriteLine();
-                        CSJLogs.GetInstance().DebugLog(CurrentFileName + "==>" + Order + "SendDataTimeout");
+                        LogTools.Debug(Constant.TAG_XIAOSA, this.Order + "任务执行超时");
                         string deviceName = this.DeviceName;
                         if (this.TimeOutCount == Constant.TIMEMAXCOUNT)
                         {
@@ -382,7 +381,6 @@ namespace LightController.Tools.CSJ
             Thread.Sleep(1);
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
-            Console.WriteLine("通信接收：" + rxStr);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:
@@ -394,7 +392,6 @@ namespace LightController.Tools.CSJ
                             long DiskUsableSize = intValue * 1024 * 1024;
                             if (DiskUsableSize >= DownloadFileToTalSize)
                             {
-                                Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作成功");
                                 this.DownloadStatus = true;
                             }
                             else
@@ -408,7 +405,6 @@ namespace LightController.Tools.CSJ
                                 }
                                 finally
                                 {
-                                    Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作失败==>设备空间不足");
                                     this.DownloadStatus = false;
                                     this.IsSending = false;
                                     this.CallBack.UpdateProgress("", "", 0);
@@ -427,7 +423,6 @@ namespace LightController.Tools.CSJ
                             }
                             finally
                             {
-                                Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作失败");
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
                                 this.CallBack.UpdateProgress("", "", 0);
@@ -446,7 +441,6 @@ namespace LightController.Tools.CSJ
                             }
                             finally
                             {
-                                Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "操作失败");
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
                                 this.CallBack.UpdateProgress("", "", 0);
@@ -460,15 +454,12 @@ namespace LightController.Tools.CSJ
                     switch (rxStr)
                     {
                         case Constant.RECEIVE_ORDER_PUT:
-                            Console.WriteLine("XIAOSA:" + CurrentFileName + "Put" + "操作成功");
                             this.DownloadStatus = true;
                             break;
                         case Constant.RECEIVE_ORDER_SENDNEXT:
-                            Console.WriteLine("XIAOSA:" + CurrentFileName + "发送数据包" + "操作成功");
                             this.DownloadStatus = true;
                             break;
                         case Constant.RECEIVE_ORDER_DONE:
-                            Console.WriteLine("XIAOSA:" + CurrentFileName + "全部发送成功" + "");
                             this.DownloadStatus = true;
                             break;
                         default:
@@ -481,7 +472,6 @@ namespace LightController.Tools.CSJ
                             }
                             finally
                             {
-                                Console.WriteLine("XIAOSA:" + "" + "Put" + "操作失败");
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
                                 this.CallBack.UpdateProgress("", "", 0);
@@ -500,7 +490,6 @@ namespace LightController.Tools.CSJ
                             this.CallBack.UpdateProgress("", "", 0);
                             this.CallBack.Completed(devicename);
                             this.CloseDevice();
-                            Console.WriteLine("XIAOSA:" + "" + "EndSend" + "操作成功");
                             break;
                         case Constant.RECEIVE_ORDER_ENDSEND_ERROR:
                         default:
@@ -513,7 +502,6 @@ namespace LightController.Tools.CSJ
                             }
                             finally
                             {
-                                Console.WriteLine("XIAOSA:" + "" + "EndSend" + "操作失败");
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
                                 this.CallBack.UpdateProgress("", "", 0);
@@ -756,7 +744,6 @@ namespace LightController.Tools.CSJ
                         return;
                     }
                     this.SendData(null, Constant.ORDER_BEGIN_SEND, null);
-                    Console.WriteLine("XIAOSA:" + "" + "BeginSend" + "发送完成");
                     while (true)
                     {
                         if (DownloadStatus)
@@ -774,7 +761,6 @@ namespace LightController.Tools.CSJ
                         fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
                         this.CurrentFileName = fileName;
                         this.SendData(null, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
-                        Console.WriteLine("XIAOSA:" +  fileName + "Put" + "发送完成");
                         while (true)
                         {
                             if (DownloadStatus)
@@ -795,12 +781,10 @@ namespace LightController.Tools.CSJ
                                 {
                                     SendDataPackageByDownload(readBuff, readSize, false);
                                 }
-                                Console.WriteLine("XIAOSA:" + fileName + "数据包" + "发送完成");
                                 while (true)
                                 {
                                     if (DownloadStatus)
                                     {
-                                        Console.WriteLine("XIAOSA:" + fileName + "数据包" + "接收成功");
                                         this.DownloadStatus = false;
                                         break;
                                     }
@@ -809,12 +793,11 @@ namespace LightController.Tools.CSJ
                         }
                     }
                     this.SendData(null, Constant.ORDER_END_SEND, null);
-                    Console.WriteLine("XIAOSA:" + "" + "SendData" + "发送完成");
                 }
             }
             catch(Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "下载工程到灯控设备发生异常", ex);
                 this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
@@ -847,13 +830,13 @@ namespace LightController.Tools.CSJ
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置信息到灯控设备发生异常", ex);
                 this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
                     if (null != this.CallBack)
                     {
-                        this.CallBack.Error(this.DeviceName, "更新硬件配置谢谢失败");
+                        this.CallBack.Error(this.DeviceName, "更新硬件配置信息失败");
                     }
                 }
             }
@@ -872,7 +855,7 @@ namespace LightController.Tools.CSJ
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "读取硬件配置信息到灯控设备发生异常", ex);
                 this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
@@ -893,7 +876,7 @@ namespace LightController.Tools.CSJ
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "发送控制命令" + this.Order +"到灯控设备发生异常", ex);
                 this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
@@ -925,7 +908,7 @@ namespace LightController.Tools.CSJ
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "升级灯控设备任务启动发生异常", ex);
                 this.IsSending = false;
                 if (null != this.CallBack)
                 {
@@ -956,7 +939,6 @@ namespace LightController.Tools.CSJ
                 fileStream.Read(data, 0, data.Length);
                 string fileSize = data.Length.ToString();
                 this.DownloadFileToTalSize = data.Length;
-                //string fileName = info.Name;
                 string fileName = "Update.xbin";
                 this.CurrentFileName = fileName;
                 byte[] crc = CRCTools.GetInstance().GetCRC(data);
@@ -965,7 +947,7 @@ namespace LightController.Tools.CSJ
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "升级灯控设备任务执行发生异常", ex);
                 this.IsSending = false;
                 if (!TimeOutIsStart)
                 {
@@ -976,222 +958,6 @@ namespace LightController.Tools.CSJ
                         this.CallBack.Error(this.DeviceName,"文件读取失败");
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// 910灯控设备链接
-        /// </summary>
-        /// <param name="callBack"></param>
-        public void NewLightControlConnect(ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT;
-                    SendData(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT, "0" });
-                }
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }
-        }
-        /// <summary>
-        /// 910读取灯控数据
-        /// </summary>
-        /// <param name="callBack"></param>
-        public void NewLightControlRead(ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_READ;
-                    SendData(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_READ,"0" });
-                }
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }
-        }
-        /// <summary>
-        /// 910下载灯控数据
-        /// </summary>
-        /// <param name="lightControl"></param>
-        /// <param name="callBack"></param>
-        public void NewLightControlDownload(LightControlData lightControl, ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    //TODO 发送命令下载灯控数据到设备
-                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD;
-                    SendData(lightControl.GetData(), Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD,lightControl.GetData().Length.ToString() });
-                }
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }
-        }
-        /// <summary>
-        /// 910调试灯控数据
-        /// </summary>
-        /// <param name="callBack"></param>
-        public void NewLightControlDebug(ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    //TODO 发送调试信息=>带参命令
-                    byte[] debugInfo = new byte[] { 0x00, 0x3B, 0x5A};
-                    string debugData = "yg";
-                    for (int i = 0; i < debugInfo.Length; i++)
-                    {
-                        debugData += debugInfo[i].ToString();
-                    }
-                    this.SecondOrder = Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG;
-                    SendData(null, Constant.NEW_DEVICE_LIGHTCONTROL, new string[] { debugData,"0"});
-                }
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }
-        }
-
-
-
-        //810读取灯控数据入口
-        public void OldLightControlRead(ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    this.OldDeviceThread = new Thread(OldLightControlReadStart)
-                    {
-                        IsBackground = true
-                    };
-                    this.OldDeviceThread.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
-            }
-        }
-        //810读取灯控数据执行线程
-        private void OldLightControlReadStart()
-        {
-            try
-            {
-                this.Send(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_CONNECT));
-                this.IsAckCheckByOldDevice = false;
-                while (true)
-                {
-                    if (IsAckCheckByOldDevice)
-                    {
-                        this.Send(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_READ));
-                        this.IsAckCheckByOldDevice = false;
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }
-        }
-       
-        //810下载灯控数据入口
-        public void OldLightControlDownload(LightControlData lightControlData, ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    this.OldDeviceThread = new Thread(OldLightControlDownloadStart)
-                    {
-                        IsBackground = true
-                    };
-                    this.OldDeviceThread.Start(lightControlData);
-                }
-            }
-            catch (Exception ex)
-            {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                this.IsSending = false;
-            }
-        }
-        //810下载灯控数据执行线程
-        private void OldLightControlDownloadStart(object obj)
-        {
-            try
-            {
-                LightControlData data = obj as LightControlData;
-                this.Send(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DOWNLOAD));
-                this.IsAckCheckByOldDevice = false;
-                while (true)
-                {
-                    if (IsAckCheckByOldDevice)
-                    {
-                        this.Send(data.GetData());
-                        this.IsAckCheckByOldDevice = false;
-                        break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
-            }
-        }
-      
-        //810调试灯控数据
-        public void OldLightControlDebug(ICommunicatorCallBack callBack)
-        {
-            try
-            {
-                if (!this.IsSending)
-                {
-                    this.IsSending = true;
-                    this.CallBack = callBack;
-                    byte[] debugInfo = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-                    List<byte> data = new List<byte>();
-                    data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_LIGHTCONTROL_DEBUG));
-                    data.AddRange(debugInfo);
-                    Send(data.ToArray());
-                }
-            }
-            catch (Exception ex)
-            {
-                this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
             }
         }
     }

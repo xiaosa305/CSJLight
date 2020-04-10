@@ -405,14 +405,11 @@
     <Compile Include="Tools\CSJ\IMPL\LightControlData.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\NetworkDeviceInfo.cs" />
-    <Compile Include="Tools\Dmx512Test.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />
     <Compile Include="Tools\XiaosaTest.cs" />
-    <Compile Include="Utils\CSJThread.cs" />
-    <Compile Include="Utils\CSJThreadManager.cs" />
     <Compile Include="Utils\DataConvertUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\LogTools.cs" />

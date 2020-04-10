@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace MultiLedController.utils.impl
 {
@@ -13,26 +14,29 @@ namespace MultiLedController.utils.impl
         private const string BORDER_DOWN = "";
         private LogTools() { }
 
-        public static void Debug(string tag,string debugInfo)
+        public static void Debug(string tag, string debugInfo)
         {
             MethodBase method = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
             Console.WriteLine(BORDER_UP);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "<调试信息>");
             Console.WriteLine(tag + "：类名==>         " + method.DeclaringType.FullName);
-            Console.WriteLine(tag + "：方法名==>：     " + method.Name);
+            Console.WriteLine(tag + "：方法名==>       " + method.Name);
+            Console.WriteLine(tag + "：线程编号==>     " + Thread.CurrentThread.ManagedThreadId);
             Console.WriteLine(tag + "：调试信息==>     " + debugInfo);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "</调试信息>");
             Console.WriteLine(BORDER_DOWN);
             Console.WriteLine(BORDER_DOWN);
         }
 
-        public static void Error(string tag ,string errorInfo, Exception exception)
+        public static void Error(string tag, string errorInfo, Exception exception)
         {
             MethodBase method = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
             Console.WriteLine(BORDER_UP);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "<错误信息>");
             Console.WriteLine(tag + "：类名==>         " + method.DeclaringType.FullName);
-            Console.WriteLine(tag + "：方法名==>：     " + method.Name);
+            Console.WriteLine(tag + "：方法名==>       " + method.Name);
+            Console.WriteLine(tag + "：线程编号==>     " + Thread.CurrentThread.ManagedThreadId);
+            Console.WriteLine(tag + "：错误描述==>     " + errorInfo);
             Console.WriteLine(tag + "：错误类型==>     " + exception.GetType());
             Console.WriteLine(tag + "：错误信息==>     " + exception.Message);
             Console.WriteLine(tag + "：报错所在位置==> " + exception.StackTrace);
@@ -46,7 +50,9 @@ namespace MultiLedController.utils.impl
             Console.WriteLine(BORDER_UP);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "<错误信息>");
             Console.WriteLine(tag + "：类名==>         " + method.DeclaringType.FullName);
-            Console.WriteLine(tag + "：方法名==>：     " + method.Name);
+            Console.WriteLine(tag + "：方法名==>       " + method.Name);
+            Console.WriteLine(tag + "：线程编号==>     " + Thread.CurrentThread.ManagedThreadId);
+            Console.WriteLine(tag + "：错误描述==>     " + errorInfo);
             Console.WriteLine(tag + "：错误类型==>     " + exception.GetType());
             Console.WriteLine(tag + "：错误信息==>     " + exception.Message);
             Console.WriteLine(tag + "：报错所在位置==> " + exception.StackTrace);

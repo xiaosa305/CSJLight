@@ -115,7 +115,7 @@ namespace MultiLedController.utils.impl
             }
             catch (Exception ex)
             {
-                Console.WriteLine("关闭UDPClient");
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭控制卡服务器", ex);
             }
         }
         /// <summary>

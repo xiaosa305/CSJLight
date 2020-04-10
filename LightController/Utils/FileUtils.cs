@@ -50,8 +50,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "初始化缓存文件夹出错", ex);
             }
         }
         public static void ClearCacheData()
@@ -65,8 +64,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "重建工程文件碎片缓存建文件夹出错", ex);
             }
         }
         public static void ClearProjectData()
@@ -80,8 +78,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "重建工程文件缓存建文件夹出错", ex);
             }
         }
         public static void ClearPreviewCacheData()
@@ -95,8 +92,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "重建预览缓存建文件夹出错", ex);
             }
         }
         public static void ClearPreviewProjectData()
@@ -110,8 +106,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
             }
         }
         public static void Write(byte[] datas,int length, string fileName,bool isMakeFile, bool isCreate, bool isCache)
@@ -139,8 +134,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
             }
         }
         public static void Write(byte data, string fileName,bool isMakeFile, bool isCreate, bool isCache)
@@ -168,8 +162,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.ToString());
+                LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
             }
         }
         public static void Write(byte[] datas,int length, long seek, string fileName,bool isMakeFile, bool isCreate,bool isCache)
@@ -198,8 +191,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("******************" + Thread.CurrentThread.ManagedThreadId + "==============>" + ex.ToString());
+                LogTools.Error(Constant.TAG_XIAOSA,"写数据到文件出错",ex);
             }
         }
         public static void MergeFile(int sceneNo, int mode, bool isMakeFile, bool isCompleted , ISaveProjectCallBack callBack)
@@ -296,7 +288,7 @@ namespace LightController.Utils
                     }
 
                 }
-                Console.WriteLine(projectFileInfo.Name + "文件整合完成");
+                LogTools.Debug(Constant.TAG_XIAOSA, "文件整合完成");
             }
             catch (Exception ex)
             {
@@ -305,7 +297,7 @@ namespace LightController.Utils
                     readStream.Close();
                 }
                 callBack.Error();
-                Console.WriteLine("********************数据整合出错" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA,"数据整合出错",ex);
             }finally
             {
                 if (isCompleted)
@@ -314,7 +306,7 @@ namespace LightController.Utils
                     {
                         CreateGradientData();
                     }
-                    Console.WriteLine("XIAOSA：==>数据全部整合完毕");
+                    LogTools.Debug(Constant.TAG_XIAOSA, "数据全部整合完毕");
                     callBack.Completed();
                 }
                 DataConvertUtils.Flag = true;
@@ -346,8 +338,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("拷贝文件到下载目录报错" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝文件到下载目录报错", ex);
             }
             return result;
         }
@@ -377,8 +368,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("拷贝工程文件到下载目录报错" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝工程文件到下载目录失败", ex);
             }
             return result;
         }
@@ -402,7 +392,7 @@ namespace LightController.Utils
                     foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
                     {
                         FileInfo info = new FileInfo(filePath);
-                        Console.WriteLine("拷贝工程文件到指定目录：==>" + info.Name);
+                        LogTools.Debug(Constant.TAG_XIAOSA, "拷贝工程文件到指定目录" + info.Name);
                         info.CopyTo(dirPath + @"\" + info.Name, true);
                     }
                     result = true;
@@ -410,8 +400,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("拷贝工程文件到指定目录" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝工程文件到指定目录失败", ex);
             }
           
             return result;
@@ -590,8 +579,8 @@ namespace LightController.Utils
             FileStream readStream = null;
             int fileSize = 4;
             long seek = 9;
-            //try
-            //{
+            try
+            {
                 for (int i = 0; i < 32; i++)
                 {
                     gradientData[i] = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
@@ -661,13 +650,11 @@ namespace LightController.Utils
                     writeBuff.AddRange(gradientData[i]);
                 }
                 Write(writeBuff.ToArray(), writeBuff.Count, "GradientData.bin", true, true, false);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine("场景渐变数据生成报错" + ex.Message);
-            //}
-           
-            
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "场景渐变数据生成报错", ex);
+            }
         }
         public static void CreateConfig(CSJ_Config config)
         {

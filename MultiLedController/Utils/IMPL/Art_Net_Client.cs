@@ -123,7 +123,7 @@ namespace MultiLedController.utils.impl
             }
             catch (Exception ex)
             {
-                Console.WriteLine(CurrentIp + "关闭UDPClient == >" + ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭虚拟客户端：" + CurrentIp, ex);
             }
         }
         /// <summary>

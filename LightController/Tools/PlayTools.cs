@@ -42,6 +42,10 @@ namespace LightController.Tools
         private int MusicIntervalTime { get; set; }
         private int MusicStepPoint { get; set; }
 
+        private static int PreviewTimerStatus = 0;
+        private static int MusicControlTimerStatus = 0;
+        private static int SendTimerStatus = 0;
+
 
         private System.Timers.Timer PreviewTimer { get; set; }
         private System.Timers.Timer MusicControlTimer { get; set; }
@@ -95,7 +99,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "初始化播放工具失败", ex);
             }
            
         }
@@ -141,7 +145,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "结束预览出错", ex);
             }
         }
         public void ResetDebugDataToEmpty()
@@ -193,7 +197,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "实时预览发生错误", ex);
                 EndView();
             }
         }
@@ -223,7 +227,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "单灯单步预览发生错误", ex);
                 this.EndView();
             }
         }
@@ -253,7 +257,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "音频控制触发预览发生错误", ex);
             }
         }
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
@@ -267,24 +271,28 @@ namespace LightController.Tools
         /// <param name="e"></param>
         private void PreviewOnTimer(object sender,ElapsedEventArgs e)
         {
-            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-            foreach (PlayPoint item in C_PlayPoints)
+            if (Interlocked.Exchange(ref PreviewTimerStatus, 1) == 0)
             {
-                this.PlayData[item.ChannelNo - 1] = item.Read();
-            }
-            if (IsMusicControl)
-            {
-                List<int> keys =  MusicDataBuff.Keys.ToList();
-                foreach (int item in keys)
+                this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                foreach (PlayPoint item in C_PlayPoints)
                 {
-                    this.PlayData[item - 1] = MusicDataBuff[item];
+                    this.PlayData[item.ChannelNo - 1] = item.Read();
                 }
+                if (IsMusicControl)
+                {
+                    List<int> keys = MusicDataBuff.Keys.ToList();
+                    foreach (int item in keys)
+                    {
+                        this.PlayData[item - 1] = MusicDataBuff[item];
+                    }
+                }
+                if (this.SendTimer.Enabled)
+                {
+                    this.SendTimer.Stop();
+                }
+                this.Play();
+                Interlocked.Exchange(ref PreviewTimerStatus, 0);
             }
-            if (this.SendTimer.Enabled)
-            {
-                this.SendTimer.Stop();
-            }
-            this.Play();
         }
         /// <summary>
         /// 功能：音频触发定时器
@@ -295,37 +303,41 @@ namespace LightController.Tools
         {
             try
             {
-                if (this.MusicStepPoint == this.StepListCount)
+                if (Interlocked.Exchange(ref MusicControlTimerStatus, 1) == 0)
                 {
-                    this.MusicStepPoint = 0;
-                }
-
-                this.MusicStep = this.StepList[this.MusicStepPoint++];
-                for (int i = 0; i < this.MusicStep; i++)
-                {
-                    this.MusicDataBuff = new Dictionary<int, byte>();
-                    foreach (PlayPoint item in M_PlayPoints)
+                    if (this.MusicStepPoint == this.StepListCount)
                     {
-                        this.MusicDataBuff.Add(item.ChannelNo, item.Read());
+                        this.MusicStepPoint = 0;
                     }
-                    this.IsMusicControl = true;
-                    Thread.Sleep(this.TimeFactory * this.MusicStepTime);
-                }
-                if (this.MusicIntervalTime != 0)
-                {
-                    this.Timer.Interval = this.MusicIntervalTime;
-                    this.Timer.Start();
-                    this.MusicWaiting = true;
-                }
-                else
-                {
-                    this.IsMusicControl = false;
-                    this.MusicWaiting = true;
+
+                    this.MusicStep = this.StepList[this.MusicStepPoint++];
+                    for (int i = 0; i < this.MusicStep; i++)
+                    {
+                        this.MusicDataBuff = new Dictionary<int, byte>();
+                        foreach (PlayPoint item in M_PlayPoints)
+                        {
+                            this.MusicDataBuff.Add(item.ChannelNo, item.Read());
+                        }
+                        this.IsMusicControl = true;
+                        Thread.Sleep(this.TimeFactory * this.MusicStepTime);
+                    }
+                    if (this.MusicIntervalTime != 0)
+                    {
+                        this.Timer.Interval = this.MusicIntervalTime;
+                        this.Timer.Start();
+                        this.MusicWaiting = true;
+                    }
+                    else
+                    {
+                        this.IsMusicControl = false;
+                        this.MusicWaiting = true;
+                    }
+                    Interlocked.Exchange(ref MusicControlTimerStatus, 0);
                 }
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "音频控制数据叠加发生错误", ex);
             }
         }
         /// <summary>
@@ -335,7 +347,11 @@ namespace LightController.Tools
         /// <param name="e"></param>
         private void SendOnTimer(object sender, ElapsedEventArgs e)
         {
-            this.Play();
+            if (Interlocked.Exchange(ref SendTimerStatus, 1) == 0)
+            {
+                this.Play();
+                Interlocked.Exchange(ref SendTimerStatus, 0);
+            }
         }
         private void Play()
         {
@@ -370,7 +386,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "播放数据输出发生错误", ex);
                 this.EndView();
             }
         }
@@ -415,7 +431,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "连接DMX串口设备失败", ex);
             }
             return false;
         }
@@ -434,7 +450,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭DMX串口设备失败", ex);
             }
            
         }

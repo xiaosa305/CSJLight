@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace LightController.Utils
 {
@@ -18,7 +19,8 @@ namespace LightController.Utils
             Console.WriteLine(BORDER_UP);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "<调试信息>");
             Console.WriteLine(tag + "：类名==>         " + method.DeclaringType.FullName);
-            Console.WriteLine(tag + "：方法名==>：     " + method.Name);
+            Console.WriteLine(tag + "：方法名==>       " + method.Name);
+            Console.WriteLine(tag + "：线程编号==>     " + Thread.CurrentThread.ManagedThreadId);
             Console.WriteLine(tag + "：调试信息==>     " + debugInfo);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "</调试信息>");
             Console.WriteLine(BORDER_DOWN);
@@ -31,7 +33,9 @@ namespace LightController.Utils
             Console.WriteLine(BORDER_UP);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "<错误信息>");
             Console.WriteLine(tag + "：类名==>         " + method.DeclaringType.FullName);
-            Console.WriteLine(tag + "：方法名==>：     " + method.Name);
+            Console.WriteLine(tag + "：方法名==>       " + method.Name);
+            Console.WriteLine(tag + "：线程编号==>     " + Thread.CurrentThread.ManagedThreadId);
+            Console.WriteLine(tag + "：错误描述==>     " + errorInfo);
             Console.WriteLine(tag + "：错误类型==>     " + exception.GetType());
             Console.WriteLine(tag + "：错误信息==>     " + exception.Message);
             Console.WriteLine(tag + "：报错所在位置==> " + exception.StackTrace);
@@ -45,7 +49,9 @@ namespace LightController.Utils
             Console.WriteLine(BORDER_UP);
             Console.WriteLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "<错误信息>");
             Console.WriteLine(tag + "：类名==>         " + method.DeclaringType.FullName);
-            Console.WriteLine(tag + "：方法名==>：     " + method.Name);
+            Console.WriteLine(tag + "：方法名==>       " + method.Name);
+            Console.WriteLine(tag + "：线程编号==>     " + Thread.CurrentThread.ManagedThreadId);
+            Console.WriteLine(tag + "：错误描述==>     " + errorInfo);
             Console.WriteLine(tag + "：错误类型==>     " + exception.GetType());
             Console.WriteLine(tag + "：错误信息==>     " + exception.Message);
             Console.WriteLine(tag + "：报错所在位置==> " + exception.StackTrace);

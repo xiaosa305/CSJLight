@@ -154,12 +154,22 @@ namespace MultiLedController.utils.impl
         /// </summary>
         public void Close()
         {
-            this.ReceiveStartStatus = false;
-            this.UDPSend.Close();
-            this.UDPReceiveClient.Close();
-            this.UDPSend = null;
-            this.UDPReceiveClient = null;
-            this.InitDeviceList();
+            try
+            {
+                if (UDPSend != null)
+                {
+                    this.ReceiveStartStatus = false;
+                    this.UDPSend.Close();
+                    this.UDPReceiveClient.Close();
+                    this.UDPSend = null;
+                    this.UDPReceiveClient = null;
+                    this.InitDeviceList();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭控制器服务器失败", ex);
+            }
         }
         /// <summary>
         /// 功能：设置控制卡信息

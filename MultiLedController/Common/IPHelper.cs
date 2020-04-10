@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace MultiLedController.Common
 {
@@ -139,6 +142,49 @@ namespace MultiLedController.Common
 				inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
 				inPar["DNSServerSearchOrder"] = dnsArray;
 				outPar = mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
+			}
+			
+			// 在这里验证是否设置成功，设置成功才跳出循环
+			while (true)
+			{
+				if (checkSetIPListSuccess(ipArray))
+				{
+					break;
+				}
+				Thread.Sleep(100);				
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：检查是否已经成功设置好指定IP列表（看newIPArray是否是系统当前已有的ip列表的子集）
+		/// </summary>
+		/// <param name="newIPList"></param>
+		/// <returns></returns>
+		public static bool checkSetIPListSuccess(string[] newIPArray)
+		{
+			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+			IList<string> curIPList = new List<string>();
+			if (ipe.AddressList != null && ipe.AddressList.Length > 0)
+			{
+				foreach (IPAddress ip in ipe.AddressList)
+				{
+					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
+					{
+						curIPList.Add(ip.ToString());
+					}
+				}				
+				foreach (string tempIp in newIPArray)
+				{
+					if (!curIPList.Contains(tempIp))
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+			else
+			{
+				return false;
 			}
 		}
 

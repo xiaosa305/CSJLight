@@ -175,8 +175,7 @@ namespace MultiLedController
 				return;
 			}
 			ManagementObject mo = moList[netcardIndex];
-			EnableDHCP(mo);
-			
+			EnableDHCP(mo);			
 		}
 
 		/// <summary>

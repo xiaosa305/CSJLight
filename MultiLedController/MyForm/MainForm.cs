@@ -352,8 +352,6 @@ namespace MultiLedController.MyForm
 			}			
 		}
 
-
-
 		/// <summary>
 		/// 事件：点击《录制文件路径》
 		/// </summary>

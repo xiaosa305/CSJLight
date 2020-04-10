@@ -39,7 +39,6 @@ namespace MultiLedController.Ast
 				}
 			}
 			SubmaskArray = submaskList.ToArray();
-
 			GatewayArray = (string[])mo["DefaultIPGateway"];
 			DnsArray = (string[])mo["DNSServerSearchOrder"];
 		}

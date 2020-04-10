@@ -415,6 +415,7 @@
     <Compile Include="Utils\CSJThreadManager.cs" />
     <Compile Include="Utils\DataConvertUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\LogTools.cs" />
     <Compile Include="Utils\PlayPoint.cs" />
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />

@@ -52,29 +52,37 @@ namespace MultiLedController.utils.impl
         /// <param name="ip"></param>
         public void StartServer(string ip)
         {
-            this.ReceiveStartStatus = false;
-            this.ServerCurrentIp = ip;
-            if (this.UDPSend != null)
+            try
             {
-                this.UDPSend.Close();
-                this.UDPReceiveClient.Close();
-                Thread.Sleep(100);
+                this.ReceiveStartStatus = false;
+                this.ServerCurrentIp = ip;
+                if (this.UDPSend != null)
+                {
+                    this.UDPSend.Close();
+                    this.UDPReceiveClient.Close();
+                    Thread.Sleep(100);
+                }
+                IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ServerCurrentIp), 9999);
+                this.UDPSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                this.UDPSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                this.UDPSend.Bind(iPEnd);
+                this.UDPReceiveClient = new UdpClient()
+                {
+                    Client = this.UDPSend
+                };
+                this.ReceiveThread = new Thread(this.ReceiveMsg)
+                {
+                    IsBackground = true
+                };
+                this.ReceiveThread.Start(this.UDPReceiveClient);
+                this.ReceiveStartStatus = true;
+                this.IsStart = true;
             }
-            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ServerCurrentIp), 9999);
-            this.UDPSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            this.UDPSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            this.UDPSend.Bind(iPEnd);
-            this.UDPReceiveClient = new UdpClient()
+            catch (Exception ex)
             {
-                Client = this.UDPSend
-            };
-            this.ReceiveThread = new Thread(this.ReceiveMsg)
-            {
-                IsBackground = true
-            };
-            this.ReceiveThread.Start(this.UDPReceiveClient);
-            this.ReceiveStartStatus = true;
-            this.IsStart = true;
+                LogTools.Error(Constant.TAG_XIAOSA, "控制卡服务器绑定本地IP失败", ex, true, "控制卡服务器绑定本地IP失败");
+            }
+            
         }
         /// <summary>
         /// 功能：网络接收监听模块

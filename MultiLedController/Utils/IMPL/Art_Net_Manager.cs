@@ -275,8 +275,9 @@ namespace MultiLedController.utils.impl
         /// <summary>
         /// 发送启动实时调试命令
         /// </summary>
-        public void StartDebug()
+        public void StartDebug(GetPlayFrameCount frameCount)
         {
+            this.GetPlayFrameCount_Event = frameCount;
             //发送起始命令
             List<byte> beginOrder = new List<byte>();
             beginOrder.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x00, 0x00, 0x00, 0x07 });
@@ -348,9 +349,10 @@ namespace MultiLedController.utils.impl
         /// <summary>
         /// 启动数据存储至文件
         /// </summary>
-        public void StartSaveToFile()
+        public void StartSaveToFile(GetRecodeFrameCount frameCount)
         {
             this.RecodeFrameCount = 0;
+            this.GetRecodeFrameCount_Event = frameCount;
             if (!File.Exists(this.SaveFilePath))
             {
                 File.Create(this.SaveFilePath).Dispose();
@@ -456,23 +458,5 @@ namespace MultiLedController.utils.impl
                 Thread.Sleep(0);
             }
         }
-        /// <summary>
-        /// 功能：设置获取当前播放总帧数委托事件
-        /// </summary>
-        /// <returns></returns>
-        public void SetGetPlayFrameCountFunction(GetPlayFrameCount frameCount)
-        {
-            this.GetPlayFrameCount_Event = frameCount;
-        }
-        /// <summary>
-        /// 功能：设置获取当前录制总帧数委托事件
-        /// </summary>
-        /// <returns></returns>
-        public void SetGetRecodeFrameCountFunction(GetRecodeFrameCount frameCount)
-        {
-            this.GetRecodeFrameCount_Event = frameCount;
-        }
-
-
     }
 }

@@ -95,6 +95,7 @@
     <Compile Include="utils\IArt_Net_Manager.cs" />
     <Compile Include="utils\IDataQueue.cs" />
     <Compile Include="utils\IFileUtils.cs" />
+    <Compile Include="utils\impl\LogTools.cs" />
     <Compile Include="utils\StringHelper.cs" />
     <Compile Include="utils\XiaosaTest.cs" />
     <EmbeddedResource Include="MyForm\MainForm.resx">

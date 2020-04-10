@@ -159,8 +159,8 @@ namespace LightController.Tools.CSJ.IMPL
             data.Add(Convert.ToByte(GateWay.Split('.')[1]));
             data.Add(Convert.ToByte(GateWay.Split('.')[2]));
             data.Add(Convert.ToByte(GateWay.Split('.')[3]));
-            //string[] macBuff = Mac.Split('-');
-            string[] macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
+            string[] macBuff = Mac.Split('-');
+            //string[] macBuff = new string[] { "00", "00", "00", "00", "00", "00" };
             data.Add(Convert.ToByte(macBuff[0], 16));
             data.Add(Convert.ToByte(macBuff[1], 16));
             data.Add(Convert.ToByte(macBuff[2], 16));

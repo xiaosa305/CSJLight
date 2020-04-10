@@ -52,7 +52,7 @@ namespace LightController.Utils
             this.ReadCBytesFromPreviewFile(null);
             ChannelDataBuff2.CopyTo(ChannelDataBuff1, 0);
             this.ReadCBytesFromPreviewFile(null);
-            Console.WriteLine("通道" + ChannelNo + "预览数据预加载完成");
+            LogTools.Debug(Constant.TAG_XIAOSA, "通道" + ChannelNo + "预览数据预加载完成");
         }
 
         public byte Read()
@@ -62,41 +62,55 @@ namespace LightController.Utils
                 this.BuffPoint = 0;
                 ChannelDataBuff2.CopyTo(ChannelDataBuff1, 0);
                 this.ReadCBytesFromPreviewFile(null);
-                Console.WriteLine("");
             }
             return ChannelDataBuff1[BuffPoint++];
         }
 
         private void ReadCBytesFromPreviewFile(Object obj)
         {
-            FileStream readStream = null;
-            int loadedSize = 0;
-            long unLoadDataSize;
-            int readSize;
-            using (readStream = new FileStream(FilePath, FileMode.Open))
+            try
             {
-                while (loadedSize < BUFFSIZE)
+                FileStream readStream = null;
+                int loadedSize = 0;
+                long unLoadDataSize;
+                int readSize;
+                using (readStream = new FileStream(FilePath, FileMode.Open))
                 {
-                    readStream.Seek(this.CurrentSeek, SeekOrigin.Begin);
-                    unLoadDataSize = Convert.ToInt64(DataLength) + DefaultSeek - CurrentSeek;
-                    if (unLoadDataSize < (BUFFSIZE - loadedSize))
+                    while (loadedSize < BUFFSIZE)
                     {
-                        readSize = readStream.Read(ChannelDataBuff2, loadedSize, Convert.ToInt32(unLoadDataSize));
-                        loadedSize += readSize;
-                        CurrentSeek = DefaultSeek;
-                    }
-                    else
-                    {
-                        readSize = readStream.Read(ChannelDataBuff2, loadedSize, BUFFSIZE - loadedSize);
-                        loadedSize += readSize;
-                        CurrentSeek = (CurrentSeek + loadedSize) == (DefaultSeek + DataLength) ? DefaultSeek : (CurrentSeek + readSize);
-                        if (readSize == 0 || loadedSize == BUFFSIZE)
+                        readStream.Seek(this.CurrentSeek, SeekOrigin.Begin);
+                        unLoadDataSize = Convert.ToInt64(DataLength) + DefaultSeek - CurrentSeek;
+                        if (unLoadDataSize < (BUFFSIZE - loadedSize))
                         {
-                            break;
+                            readSize = readStream.Read(ChannelDataBuff2, loadedSize, Convert.ToInt32(unLoadDataSize));
+                            loadedSize += readSize;
+                            CurrentSeek = DefaultSeek;
+                        }
+                        else
+                        {
+                            readSize = readStream.Read(ChannelDataBuff2, loadedSize, BUFFSIZE - loadedSize);
+                            loadedSize += readSize;
+                            CurrentSeek = (CurrentSeek + loadedSize) == (DefaultSeek + DataLength) ? DefaultSeek : (CurrentSeek + readSize);
+                            if (readSize == 0 || loadedSize == BUFFSIZE)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                if (FilePath == M_DIRPATH)
+                {
+                    LogTools.Error(Constant.TAG_XIAOSA, "读取音频场景预览数据失败", ex);
+                }
+                else
+                {
+                    LogTools.Error(Constant.TAG_XIAOSA, "读取基础场景预览数据失败", ex);
+                }
+            }
+           
         }
     }
 }

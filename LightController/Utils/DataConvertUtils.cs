@@ -49,7 +49,6 @@ namespace LightController.Utils
             FileUtils.ClearCacheData();
             FileUtils.ClearProjectData();
             FileUtils.CreateConfig(new CSJ_Config(wrapper, configPath));
-            CSJThreadManager.CloseAllThread();
             //初始化状态存储器
             C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
             C_DMXSceneState = new Dictionary<int, bool>();
@@ -70,7 +69,6 @@ namespace LightController.Utils
             MainFormInterface mainForm = data.MianForm;
             List<int> c_SceneNos = new List<int>();
             List<int> m_SceneNos = new List<int>();
-            Console.WriteLine("Start");
             foreach (DB_StepCount item in data.Wrapper.stepCountList)
             {
                 if (!c_SceneNos.Contains(item.PK.Frame) && item.PK.Mode == Constant.MODE_C)
@@ -132,8 +130,6 @@ namespace LightController.Utils
         {
             SceneThreadDataInfo data = obj as SceneThreadDataInfo;
             IList<CSJ_ChannelData> channelDatas = new List<CSJ_ChannelData>();
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             foreach (DB_Light light in data.Wrapper.lightList)
             {
                 for (int i = 0; i < light.Count; i++)
@@ -213,8 +209,6 @@ namespace LightController.Utils
                     }
                 }
             }
-            stopwatch.Stop();
-            Console.WriteLine("**************************************************数据库读取耗时:" + stopwatch.Elapsed.TotalMilliseconds);
             CSJ_SceneData sceneData = new CSJ_SceneData()
             {
                 SceneNo = data.SceneNo,
@@ -241,7 +235,6 @@ namespace LightController.Utils
                     C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
                     C_DMXSceneState = new Dictionary<int, bool>();
                     FileUtils.CreateGradientData();
-                    Console.WriteLine("XIAOSA  2：==>数据全部整合完毕");
                     CallBack.Completed();
                 }
                 else
@@ -395,12 +388,10 @@ namespace LightController.Utils
             int isGradualChange;
             int stepValue;
             float inc = 0;
-            Stopwatch stopwatch = new Stopwatch();
             List<byte> WriteBuffer = new List<byte>();
             int startValue = channelData.StepValues[0];
             try
             {
-                stopwatch.Start();
                 FileUtils.Write(((flag == 2) ? Convert.ToByte(0) : Convert.ToByte(startValue)), fileName, BuildMode == MODE_MAKEFILE, true, true);
                 for (int step = 1; step < channelData.StepCount + 1; step++)
                 {
@@ -460,13 +451,11 @@ namespace LightController.Utils
                     }
                     startValue = stepValue;
                 }
-                stopwatch.Stop();
-                Console.WriteLine("/////计算耗时：" + stopwatch.Elapsed.TotalMilliseconds);
                 DataCacheWriteCompleted(Constant.GetNumber(sceneNo), Constant.GetNumber(dataInfo.ChannelNo), Constant.MODE_C);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error:" + fileName + "=====>" + ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "计算生成常规文件数据出错-" + fileName,ex);
             }
         }
         /// <summary>
@@ -685,7 +674,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error" + fileName + "======>" + ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "计算生成音频数据出错-" + fileName, ex);
             }
            
         }
@@ -700,7 +689,6 @@ namespace LightController.Utils
             switch (mode)
             {
                 case Constant.MODE_C:
-                    Console.WriteLine("基础场景" + sceneNo + "-" + channelNo + "完成");
                     if (CallBack != null)
                     {
                         CallBack.UpdateProgress("基础场景" + (sceneNo + 1) + "-" + channelNo + "完成");

@@ -280,6 +280,10 @@ namespace MultiLedController.MyForm
 			else {
 				setBusy(true);
 				setNotice("正在关闭模拟，请稍候...");
+				if (isDebuging)
+				{
+					debugButton_Click(null, null);
+				}
 				Art_Net_Manager.GetInstance().Close();
 				enableStartButtons(false);				
 				setNotice("已关闭模拟。");
@@ -363,7 +367,13 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void recordTextBox_LostFocus(object sender, EventArgs e)
 		{
-			recordIndex = int.Parse(recordTextBox.Text);
+			if (recordTextBox.Text.Length == 0)
+			{
+				recordIndex = 0;
+			}
+			else {
+				recordIndex = int.Parse(recordTextBox.Text);
+			}			
 			recordTextBox.Text = transformRecordIndex(recordIndex);
 		}
 
@@ -407,18 +417,20 @@ namespace MultiLedController.MyForm
 		{
 			if (isRecording)
 			{
+				
 				Art_Net_Manager.GetInstance().StopSaveToFile();
-
 				isRecording = false;
+				setNotice("已停止录制。");
 				recordButton.Text = "录制数据";
 			}
 			else
 			{
+				setNotice("正在录制文件...");
 				string recordFilePath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
 				Art_Net_Manager.GetInstance().SetSaveFilePath(recordFilePath);
 				Art_Net_Manager.GetInstance().StartSaveToFile();
 
-				isRecording = true;
+				isRecording = true;				
 				recordButton.Text = "停止录制";
 			}
 		}

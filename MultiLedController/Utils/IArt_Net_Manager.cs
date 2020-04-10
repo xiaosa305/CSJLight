@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static MultiLedController.utils.impl.Art_Net_Manager;
 
 namespace MultiLedController.utils
 {
@@ -55,14 +56,14 @@ namespace MultiLedController.utils
         /// </summary>
         void StopSaveToFile();
         /// <summary>
-        /// 功能：获取当前播放总帧数
+        /// 功能：设置获取当前播放总帧数委托事件
         /// </summary>
         /// <returns></returns>
-        long GetPlayFrameCount();
+        void SetGetPlayFrameCountFunction(GetPlayFrameCount frameCount);
         /// <summary>
-        /// 功能：获取当前录制总帧数
+        /// 功能：设置获取当前录制总帧数委托事件
         /// </summary>
         /// <returns></returns>
-        long GetRecodeFrameCount();
+        void SetGetRecodeFrameCountFunction(GetRecodeFrameCount frameCount);
     }
 }

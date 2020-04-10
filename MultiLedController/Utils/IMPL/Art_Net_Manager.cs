@@ -12,7 +12,7 @@ using System.Timers;
 
 namespace MultiLedController.utils.impl
 {
-    public class Art_Net_Manager: IArt_Net_Manager
+    public class Art_Net_Manager : IArt_Net_Manager
     {
         private string SaveFilePath = @"C:\WorkSpace\Save\SC00.bin";
         private static IArt_Net_Manager Instance { get; set; }
@@ -33,6 +33,12 @@ namespace MultiLedController.utils.impl
         private Socket DebugServer { get; set; }
         private long RecodeFrameCount { get; set; }
         private long PlayFrameCount { get; set; }
+
+        public delegate void GetPlayFrameCount(long count);
+        public delegate void GetRecodeFrameCount(long count);
+        private event GetPlayFrameCount GetPlayFrameCount_Event;
+        private event GetRecodeFrameCount GetRecodeFrameCount_Event;
+
         private Art_Net_Manager()
         {
             this.Init();
@@ -68,7 +74,7 @@ namespace MultiLedController.utils.impl
             this.FieldsReceiveStatus = new Dictionary<int, bool>();
             this.FieldsData = new Dictionary<int, List<byte>>();
             this.FieldsReceiveDataSize = new Dictionary<int, int>();
-          
+
             this.Flag = 0;
             this.PackNumSum = 0;
             this.SystemTime = -1;
@@ -107,7 +113,7 @@ namespace MultiLedController.utils.impl
         /// <param name="serverIp">麦爵士所在的服务器IP</param>
         /// <param name="currentMainIP">本地主IP</param>
         /// <param name="deviceIp">控制卡IP</param>
-        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp,ControlDevice device)
+        public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp, ControlDevice device)
         {
             this.Close();
             if (virtuals.Count == 0)
@@ -181,7 +187,7 @@ namespace MultiLedController.utils.impl
                         //存储文件
                         if (this.IsSaveToFile)
                         {
-                            DataQueue.GetInstance().SaveEnqueue(FieldsData, Convert.ToInt16(time), this.Clients.Count,4);
+                            DataQueue.GetInstance().SaveEnqueue(FieldsData, Convert.ToInt16(time), this.Clients.Count, 4);
                         }
                         //启动实时调试状态
                         if (this.DebugStatus)
@@ -357,7 +363,7 @@ namespace MultiLedController.utils.impl
             }
             FileUtils.GetInstance().WriteToFileByCreate(emptyData, SaveFilePath);
             this.IsSaveToFile = true;
-            
+
         }
         /// <summary>
         /// 关闭数据存储至文件
@@ -381,6 +387,7 @@ namespace MultiLedController.utils.impl
                     {
                         this.DebugMode(data.FieldDatas);
                         this.PlayFrameCount++;
+                        this.GetPlayFrameCount_Event(this.PlayFrameCount);
                         long beforTime = DateTime.Now.Ticks;
                         while (true)
                         {
@@ -443,26 +450,29 @@ namespace MultiLedController.utils.impl
                         }
                         FileUtils.GetInstance().WriteToFile(framData, SaveFilePath);
                         this.RecodeFrameCount++;
+                        this.GetRecodeFrameCount_Event(this.RecodeFrameCount);
                     }
                 }
                 Thread.Sleep(0);
             }
         }
         /// <summary>
-        /// 功能：获取当前播放总帧数
+        /// 功能：设置获取当前播放总帧数委托事件
         /// </summary>
         /// <returns></returns>
-        public long GetPlayFrameCount()
+        public void SetGetPlayFrameCountFunction(GetPlayFrameCount frameCount)
         {
-            return this.PlayFrameCount;
+            this.GetPlayFrameCount_Event = frameCount;
         }
         /// <summary>
-        /// 功能：获取当前录制总帧数
+        /// 功能：设置获取当前录制总帧数委托事件
         /// </summary>
         /// <returns></returns>
-        public long GetRecodeFrameCount()
+        public void SetGetRecodeFrameCountFunction(GetRecodeFrameCount frameCount)
         {
-            return this.RecodeFrameCount;
+            this.GetRecodeFrameCount_Event = frameCount;
         }
+
+
     }
 }

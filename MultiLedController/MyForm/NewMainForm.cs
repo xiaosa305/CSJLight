@@ -616,6 +616,7 @@ namespace MultiLedController.MyForm
 				setNotice(1,"开始搜索设备，请稍候...");
 				
 				controllerListView.Items.Clear();
+				startButton.Enabled = false;
 
 				Art_Net_Manager.GetInstance().SearchDevice(ipLabel2.Text);
 				Thread.Sleep(1000);
@@ -634,6 +635,7 @@ namespace MultiLedController.MyForm
 					AddLedController(tempIndex++, led);
 				}
 				controllerListView.Items[0].Selected = true;
+
 				setNotice(1,"已将搜索到的设备添加设备列表中,并选中了第一个设备。");
 			}
 		}

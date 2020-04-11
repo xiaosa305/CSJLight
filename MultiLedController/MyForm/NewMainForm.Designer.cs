@@ -30,8 +30,9 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewMainForm));
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusStrip = new System.Windows.Forms.StatusStrip();
+			this.myStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.myStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.recordButton = new System.Windows.Forms.Button();
 			this.debugButton = new System.Windows.Forms.Button();
 			this.startButton = new System.Windows.Forms.Button();
@@ -59,8 +60,6 @@
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.netcardInfoGroupBox = new System.Windows.Forms.GroupBox();
-			this.saveButton = new System.Windows.Forms.Button();
-			this.loadButton = new System.Windows.Forms.Button();
 			this.dhcpButton = new System.Windows.Forms.Button();
 			this.refreshCurButton = new System.Windows.Forms.Button();
 			this.dnsLabel2 = new System.Windows.Forms.Label();
@@ -72,28 +71,37 @@
 			this.ipLabel2 = new System.Windows.Forms.Label();
 			this.ipLabel = new System.Windows.Forms.Label();
 			this.searchButton = new System.Windows.Forms.Button();
-			this.statusStrip1.SuspendLayout();
+			this.statusStrip.SuspendLayout();
 			this.topPanel.SuspendLayout();
 			this.netcardInfoGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// statusStrip1
+			// statusStrip
 			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 539);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(664, 22);
-			this.statusStrip1.SizingGrip = false;
-			this.statusStrip1.TabIndex = 32;
-			this.statusStrip1.Text = "statusStrip1";
+			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.myStatusLabel1,
+            this.myStatusLabel2});
+			this.statusStrip.Location = new System.Drawing.Point(0, 539);
+			this.statusStrip.Name = "statusStrip";
+			this.statusStrip.Size = new System.Drawing.Size(664, 22);
+			this.statusStrip.SizingGrip = false;
+			this.statusStrip.TabIndex = 32;
+			this.statusStrip.Text = "statusStrip1";
 			// 
-			// myStatusLabel
+			// myStatusLabel1
 			// 
-			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(649, 17);
-			this.myStatusLabel.Spring = true;
-			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.myStatusLabel1.Name = "myStatusLabel1";
+			this.myStatusLabel1.Size = new System.Drawing.Size(324, 17);
+			this.myStatusLabel1.Spring = true;
+			this.myStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// myStatusLabel2
+			// 
+			this.myStatusLabel2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+			this.myStatusLabel2.Name = "myStatusLabel2";
+			this.myStatusLabel2.Size = new System.Drawing.Size(324, 17);
+			this.myStatusLabel2.Spring = true;
+			this.myStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// recordButton
 			// 
@@ -254,7 +262,6 @@
 			// 
 			// networkButton
 			// 
-			this.networkButton.Enabled = false;
 			this.networkButton.Location = new System.Drawing.Point(579, 12);
 			this.networkButton.Name = "networkButton";
 			this.networkButton.Size = new System.Drawing.Size(75, 25);
@@ -341,8 +348,6 @@
 			// 
 			// netcardInfoGroupBox
 			// 
-			this.netcardInfoGroupBox.Controls.Add(this.saveButton);
-			this.netcardInfoGroupBox.Controls.Add(this.loadButton);
 			this.netcardInfoGroupBox.Controls.Add(this.dhcpButton);
 			this.netcardInfoGroupBox.Controls.Add(this.refreshCurButton);
 			this.netcardInfoGroupBox.Controls.Add(this.dnsLabel2);
@@ -360,32 +365,10 @@
 			this.netcardInfoGroupBox.TabStop = false;
 			this.netcardInfoGroupBox.Text = "选中网卡基本信息";
 			// 
-			// saveButton
-			// 
-			this.saveButton.Enabled = false;
-			this.saveButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.saveButton.Location = new System.Drawing.Point(9, 81);
-			this.saveButton.Name = "saveButton";
-			this.saveButton.Size = new System.Drawing.Size(70, 20);
-			this.saveButton.TabIndex = 30;
-			this.saveButton.Text = "存储配置";
-			this.saveButton.UseVisualStyleBackColor = true;
-			// 
-			// loadButton
-			// 
-			this.loadButton.Enabled = false;
-			this.loadButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.loadButton.Location = new System.Drawing.Point(88, 81);
-			this.loadButton.Name = "loadButton";
-			this.loadButton.Size = new System.Drawing.Size(70, 20);
-			this.loadButton.TabIndex = 28;
-			this.loadButton.Text = "恢复配置";
-			this.loadButton.UseVisualStyleBackColor = true;
-			// 
 			// dhcpButton
 			// 
 			this.dhcpButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.dhcpButton.Location = new System.Drawing.Point(175, 81);
+			this.dhcpButton.Location = new System.Drawing.Point(12, 81);
 			this.dhcpButton.Name = "dhcpButton";
 			this.dhcpButton.Size = new System.Drawing.Size(70, 20);
 			this.dhcpButton.TabIndex = 27;
@@ -513,7 +496,7 @@
 			this.Controls.Add(this.recordButton);
 			this.Controls.Add(this.debugButton);
 			this.Controls.Add(this.startButton);
-			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.statusStrip);
 			this.ForeColor = System.Drawing.SystemColors.InfoText;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
@@ -521,11 +504,12 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(680, 600);
 			this.Name = "NewMainForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "幻彩灯带控制器";
 			this.Activated += new System.EventHandler(this.NewMainForm_Activated);
 			this.Load += new System.EventHandler(this.NewMainForm_Load);
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
+			this.statusStrip.ResumeLayout(false);
+			this.statusStrip.PerformLayout();
 			this.topPanel.ResumeLayout(false);
 			this.topPanel.PerformLayout();
 			this.netcardInfoGroupBox.ResumeLayout(false);
@@ -536,8 +520,8 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.StatusStrip statusStrip1;
-		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
+		private System.Windows.Forms.StatusStrip statusStrip;
+		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel1;
 		private System.Windows.Forms.Button recordButton;
 		private System.Windows.Forms.Button debugButton;
 		private System.Windows.Forms.Button startButton;
@@ -565,8 +549,6 @@
 		private System.Windows.Forms.ColumnHeader columnHeader4;
 		private System.Windows.Forms.ColumnHeader columnHeader5;
 		private System.Windows.Forms.GroupBox netcardInfoGroupBox;
-		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.Button loadButton;
 		private System.Windows.Forms.Button dhcpButton;
 		private System.Windows.Forms.Button refreshCurButton;
 		private System.Windows.Forms.Label dnsLabel2;
@@ -578,5 +560,6 @@
 		private System.Windows.Forms.Label ipLabel2;
 		private System.Windows.Forms.Label ipLabel;
 		private System.Windows.Forms.Button searchButton;
+		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel2;
 	}
 }

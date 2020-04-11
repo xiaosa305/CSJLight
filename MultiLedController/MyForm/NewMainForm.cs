@@ -22,25 +22,30 @@ namespace MultiLedController.MyForm
 	public partial class NewMainForm : Form
 	{
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新
-		private int netcardIndex = -1;
-		private ManagementObject mo;
+		private int netcardIndex = -1; //选中网卡index
+		private ManagementObject mo; //存放当前网卡的mo对象
 		
-		private string mainIP;
-		private string mainMask;
-		private IList<string> vipList;
+		private string mainIP;  //当前网卡的主IP(第一个设的IP，mo对象取回来时在最后面)
+		private string mainMask; // 当前网卡的主掩码
+		private IList<string> vipList; //当前网卡的虚拟IP列表（不包含主ip）
 
-		private Dictionary<string, ControlDevice> ledControlDevices;		
-		private int controllerSelectedIndex = -1;
+		private Dictionary<string, ControlDevice> ledControlDevices; //搜索到的设备 字典（key为mac）
+		private int controllerSelectedIndex = -1;  //选中的设备index
 
-		private bool isStart = false;
-		private bool isDebuging = false;
-		private string recordPath = "C:\\Temp\\MultiLedFile";
-		private int recordIndex = 0;
-		private bool isRecording = false;
+		private bool isStart = false; //是否启动模拟
+		private bool isDebuging = false;  //是否启用调试
+		private bool isRecording = false; // 是否正在录制
+		private string recordPath = "C:\\Temp\\MultiLedFile"; //录制文件存储路径
+		private int recordIndex = 0; //录制文件序号
+
+		private bool networkChanged = false; //是否由《NewNetworkForm》更改网络设置：点过《多ip设置》《DHCP》《恢复设置》这三个按钮后需要设为true
 
 		public NewMainForm()
 		{
 			InitializeComponent();
+
+			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
+			CheckForIllegalCrossThreadCalls = false;
 		}
 
 		private void NewMainForm_Load(object sender, EventArgs e)
@@ -58,6 +63,32 @@ namespace MultiLedController.MyForm
 				refreshNetcardList();
 				isFirstTime = false;
 			}				
+		}
+
+		/// <summary>
+		/// 事件：点击《网络设置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void networkButton_Click(object sender, EventArgs e)
+		{
+			new NewNetworkForm(this).ShowDialog();
+
+			if (networkChanged) {
+				// 网络设置后，应该提醒用户刷新
+				DialogResult dr = MessageBox.Show("检查到您已更改了网络设置，请刷新当前网卡信息，否则接下来的操作可能会报错。是否立即刷新？",
+					"刷新当前网卡信息？",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Warning
+				);
+				if (dr == DialogResult.Yes)
+				{
+					refreshCurButton_Click(null, null);
+				}
+				//不论是否刷新，都将这个值设为false；表示不再计较了...
+				networkChanged = false;
+			}
+			
 		}
 
 		/// <summary>
@@ -97,7 +128,7 @@ namespace MultiLedController.MyForm
 		{
 			if (netcardIndex == -1)
 			{
-				setNotice("未选中可用网卡，请刷新后重试");
+				setNotice(1,"未选中可用网卡，请刷新后重试");
 				return;
 			}
 			mo.InvokeMethod("SetDNSServerSearchOrder", null);
@@ -105,7 +136,7 @@ namespace MultiLedController.MyForm
 
 			Thread.Sleep(1000);
 			refreshNetcardInfo();
-			setNotice("已成功启用DHCP，即将自动为您搜索设备。");
+			setNotice(1,"已启用DHCP，即将自动为您搜索设备。");
 			Thread.Sleep(1000);
 			searchDevices();
 		}
@@ -167,7 +198,7 @@ namespace MultiLedController.MyForm
 
 				if (addVIPCount > 0)
 				{
-					setNotice("应用将自动为您添加相应路数数量的虚拟IP,请稍候...");
+					setNotice(1,"即将为您添加相应路数数量的虚拟IP,请稍候...");
 					string firstIP;
 					if (vipList == null || vipList.Count == 0)
 					{
@@ -188,7 +219,8 @@ namespace MultiLedController.MyForm
 					for (; lastStr < 255; lastStr++)
 					{
 						string addIP = top3str + lastStr;
-						setNotice("正在检测" + addIP + "是否可用，请稍候...");
+						setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
+						
 						IPStatus ipStatus = ping.Send(addIP).Status;
 						if (ipStatus != IPStatus.Success)
 						{
@@ -207,7 +239,8 @@ namespace MultiLedController.MyForm
 						for (lastStr = 2; lastStr < 255; lastStr++)
 						{
 							string addIP = top3str + lastStr;
-							setNotice("正在检测" + addIP + "是否可用，请稍候...");
+							setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
+							
 							IPStatus ipStatus = ping.Send(addIP).Status;
 							if (ipStatus != IPStatus.Success)
 							{
@@ -227,7 +260,8 @@ namespace MultiLedController.MyForm
 					if (addVIPCount > 0)
 					{
 						MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
-						setNotice("检测到当前网段无足够可用的IP地址，已中断操作。");
+						setNotice(1,"检测到当前网段无足够可用的IP地址，已中断操作。");
+						
 						setBusy(false);
 						return;
 					}
@@ -255,7 +289,8 @@ namespace MultiLedController.MyForm
 						SubmaskArray = newMaskList.ToArray()
 					};
 
-					setNotice("正在为您设置虚拟IP，请稍候...");
+					setNotice(1,"正在为您设置虚拟IP，请稍候...");
+					
 					IPHelper.SetIPAddress(mo, ipAst);
 					refreshVirtualIPListView(newIPList);
 				}
@@ -269,41 +304,28 @@ namespace MultiLedController.MyForm
 					virtuals.Add(new VirtualControlInfo(virtualIPListView.Items[interfaceIndex].SubItems[1].Text, device));
 				}
 
-				setNotice("正在关联虚拟IP与设备，请稍候...");
+				setNotice(1,"正在关联虚拟IP与设备，请稍候...");
+				
 				Art_Net_Manager.GetInstance().Start(virtuals, mainIP, mainIP, device);
 
 				enableStartButtons(true);
 			
-				setNotice("已启动模拟。");
+				setNotice(1,"已启动模拟。");
 				setBusy(false);
 			}
 			else {
 				setBusy(true);
-				setNotice("正在关闭模拟，请稍候...");
+				setNotice(1,"正在关闭模拟，请稍候...");
 				if (isDebuging)
 				{
 					debugButton_Click(null, null);
 				}
 				Art_Net_Manager.GetInstance().Close();
 				enableStartButtons(false);				
-				setNotice("已关闭模拟。");
+				setNotice(1,"已关闭模拟。");
 				setBusy(false);
 			}
 			
-		}
-
-
-		/// <summary>
-		/// 辅助方法：根据入参bool，设置当前《启动》相关的按键的可用性
-		/// </summary>
-		/// <param name="enable"></param>
-		private void enableStartButtons(bool enable) {
-
-			topPanel.Enabled = !enable;
-			startButton.Text = enable ? "关闭模拟" : "启动模拟";
-			debugButton.Enabled = enable;
-			recordButton.Enabled = enable;
-			isStart = enable;	
 		}
 
 		/// <summary>
@@ -317,7 +339,7 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "开始调试";
 			if (isDebuging)
 			{
-				Art_Net_Manager.GetInstance().StartDebug();
+				Art_Net_Manager.GetInstance().StartDebug(showDebugFrame);
 			}
 			else
 			{
@@ -339,7 +361,7 @@ namespace MultiLedController.MyForm
 			{
 				recordPath = recordFolderBrowserDialog.SelectedPath;
 				setRecordPathLabel();
-				setNotice("已设置存放目录为：" + recordPath);
+				setNotice(2,"已设置存放目录为：" + recordPath);
 			}
 		}
 
@@ -385,11 +407,11 @@ namespace MultiLedController.MyForm
 		private void plusButton_Click(object sender, EventArgs e)
 		{
 			if (recordIndex >= 999 ) {
-				setNotice("录制文件序号不得大于999。");
+				setNotice(2,"录制文件序号不得大于999。");
 				return;
 			}
 			recordTextBox.Text = transformRecordIndex(++recordIndex);
-			setNotice("成功设置录制文件名为：SC"+ recordTextBox.Text + ".bin");
+			setNotice(2,"已设置录制文件名为：SC"+ recordTextBox.Text + ".bin");
 		}
 
 		/// <summary>
@@ -401,11 +423,11 @@ namespace MultiLedController.MyForm
 		{			
 			if (recordIndex <= 0)
 			{
-				setNotice("录制文件序号不得小于000。");
+				setNotice(2,"录制文件序号不得小于000。");
 				return;
 			}
 			recordTextBox.Text = transformRecordIndex(--recordIndex);
-			setNotice("成功设置录制文件名为：SC" + recordTextBox.Text + ".bin");
+			setNotice(2,"已设置录制文件名为：SC" + recordTextBox.Text + ".bin");
 		}
 
 		/// <summary>
@@ -416,36 +438,40 @@ namespace MultiLedController.MyForm
 		private void recordButton_Click(object sender, EventArgs e)
 		{
 			if (isRecording)
-			{
-				
+			{				
 				Art_Net_Manager.GetInstance().StopSaveToFile();
-				isRecording = false;
-				setNotice("已停止录制。");
-				recordButton.Text = "录制数据";
+				enableRecordButtons(false);
+				plusButton_Click(null, null);
+				setNotice(2,"已停止录制,并把录制序号加1。");
+				recordButton.Text = "录制数据";				
 			}
 			else
 			{
-				setNotice("正在录制文件...");
+				setNotice(2,"正在录制文件...");				
 				string recordFilePath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
 				Art_Net_Manager.GetInstance().SetSaveFilePath(recordFilePath);
-				Art_Net_Manager.GetInstance().StartSaveToFile();
-
-				isRecording = true;				
+				Art_Net_Manager.GetInstance().StartSaveToFile(showRecordFrame);
+				enableRecordButtons(true);
 				recordButton.Text = "停止录制";
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：设置录制相关控件是否可用
+		/// </summary>
+		/// <param name="recording"></param>
+		private void enableRecordButtons(bool recording)
+		{
+			isRecording = recording;
+			setFilePathButton.Enabled = !recording;
+			recordTextBox.Enabled = !recording;
+			plusButton.Enabled = !recording;
+			minusButton.Enabled = !recording;
+		}
+
 		#endregion
 
-		/// <summary>
-		/// 事件：点击《网络设置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void networkButton_Click(object sender, EventArgs e)
-		{
-			//new NetworkForm(this).ShowDialog();
-		}
+
 
 		/// <summary>
 		/// 辅助方法：把所有的组件都设为最初的空值
@@ -587,7 +613,8 @@ namespace MultiLedController.MyForm
 		{
 			if (searchButton.Enabled)
 			{
-				setNotice("开始搜索设备，请稍候...");
+				setNotice(1,"开始搜索设备，请稍候...");
+				
 				controllerListView.Items.Clear();
 
 				Art_Net_Manager.GetInstance().SearchDevice(ipLabel2.Text);
@@ -597,7 +624,7 @@ namespace MultiLedController.MyForm
 				controllerListView.Items.Clear();
 				if (ledControlDevices.Count == 0)
 				{
-					setNotice("未搜索到任何设备，请确认后重试。");
+					setNotice(1,"未搜索到任何设备，请确认后重试。");
 					return;
 				}
 
@@ -607,26 +634,8 @@ namespace MultiLedController.MyForm
 					AddLedController(tempIndex++, led);
 				}
 				controllerListView.Items[0].Selected = true;
-				setNotice("已将搜索到的设备添加设备列表中,并已为您选中了第一个设备。");
+				setNotice(1,"已将搜索到的设备添加设备列表中,并选中了第一个设备。");
 			}
-		}
-
-		/// <summary>
-		/// 辅助方法：设置提示信息
-		/// </summary>
-		/// <param name="msg"></param>
-		private void setNotice(string msg) {
-			myStatusLabel.Text = msg;
-			Refresh();
-		}
-
-		/// <summary>
-		/// 辅助方法：设置是否忙时
-		/// </summary>
-		/// <param name="v"></param>
-		private void setBusy(bool busy)
-		{
-			this.Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 		}
 
 		/// <summary>
@@ -664,5 +673,76 @@ namespace MultiLedController.MyForm
 			recordPathLabel.Text = recordPath;
 			myToolTip.SetToolTip(recordPathLabel, recordPath);
 		}
+
+		/// <summary>
+		/// 辅助方法：根据入参bool，设置当前《启动》相关的按键的可用性
+		/// </summary>
+		/// <param name="enable"></param>
+		private void enableStartButtons(bool enable)
+		{
+
+			topPanel.Enabled = !enable;
+			startButton.Text = enable ? "关闭模拟" : "启动模拟";
+			debugButton.Enabled = enable;
+			recordButton.Enabled = enable;
+			isStart = enable;
+		}
+
+		/// <summary>
+		/// 辅助方法：设置提示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		private void setNotice(int place, string msg)
+		{
+			if (place == 1)
+			{
+				myStatusLabel1.Text = msg;
+				statusStrip.Refresh();
+			}
+			if (place == 2)
+			{
+				myStatusLabel2.Text = msg;
+				statusStrip.Refresh();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：设置是否忙时
+		/// </summary>
+		/// <param name="v"></param>
+		private void setBusy(bool busy)
+		{
+			this.Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+		}
+
+		#region 几个由外部调用本Form控件的方法：包括委托及其他方法
+
+		/// <summary>
+		/// 辅助方法：实现展示调试帧数的委托
+		/// </summary>
+		/// <param name="count"></param>
+		private void showDebugFrame(long count)
+		{
+			setNotice(1,"当前调试帧数：" + count);
+		}
+
+		/// <summary>
+		/// 辅助方法：实现展示录制帧数的委托
+		/// </summary>
+		/// <param name="count"></param>
+		private void showRecordFrame(long count)
+		{
+			setNotice(2,"当前录制帧数：" + count);
+		}
+
+		/// <summary>
+		/// 辅助方法：一旦网络设置发送变化，立即设置setChanged为true
+		/// </summary>
+		public void SetNetworkChangedTrue() {
+			networkChanged = true;
+		}
+
+		#endregion
+	
 	}
 }

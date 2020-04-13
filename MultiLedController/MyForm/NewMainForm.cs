@@ -504,8 +504,6 @@ namespace MultiLedController.MyForm
 
 		#endregion
 
-
-
 		/// <summary>
 		/// 辅助方法：把所有的组件都设为最初的空值
 		/// </summary>

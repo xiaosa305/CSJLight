@@ -337,11 +337,13 @@ namespace MultiLedController.MyForm
 					Art_Net_Manager.GetInstance().Start(virtuals, mainIP, mainIP, device);
 				}
 				catch (Exception ex) {
-					MessageBox.Show("启动模拟失败\n原因是：" + ex.Message);
-					setNotice(1, "启动模拟失败.");
+					MessageBox.Show("启动模拟失败。\n" +
+						"原因（异常）是：" + ex.Message+"。\n" +
+						"若因IP配置失败，可《启用DHCP》或《清空虚拟IP》后重试。");
+					setNotice(1, "启动模拟失败。");
 					setBusy(false);
 					return;
-				}				
+				}
 
 				enableStartButtons(true);			
 				setNotice(1,"已启动模拟。");

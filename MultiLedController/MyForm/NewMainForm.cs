@@ -331,11 +331,19 @@ namespace MultiLedController.MyForm
 				}
 
 				setNotice(1,"正在关联虚拟IP与设备，请稍候...");
-				
-				Art_Net_Manager.GetInstance().Start(virtuals, mainIP, mainIP, device);
 
-				enableStartButtons(true);
-			
+				try
+				{
+					Art_Net_Manager.GetInstance().Start(virtuals, mainIP, mainIP, device);
+				}
+				catch (Exception ex) {
+					MessageBox.Show("启动模拟失败\n原因是：" + ex.Message);
+					setNotice(1, "启动模拟失败.");
+					setBusy(false);
+					return;
+				}				
+
+				enableStartButtons(true);			
 				setNotice(1,"已启动模拟。");
 				setBusy(false);
 			}
@@ -350,8 +358,7 @@ namespace MultiLedController.MyForm
 				enableStartButtons(false);				
 				setNotice(1,"已关闭模拟。");
 				setBusy(false);
-			}
-			
+			}			
 		}
 
 		/// <summary>

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MultiLedController.utils.impl
 {
@@ -72,7 +73,7 @@ namespace MultiLedController.utils.impl
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "绑定虚拟客户端失败", ex, true, "IP：" + currentIp + "未配置成功");
+                LogTools.Error(Constant.TAG_XIAOSA, "绑定虚拟客户端" + currentIp +"失败", ex, true, "IP：" + currentIp + "未配置成功");
             }
         }
         /// <summary>

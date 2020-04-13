@@ -71,6 +71,7 @@
 			this.ipLabel2 = new System.Windows.Forms.Label();
 			this.ipLabel = new System.Windows.Forms.Label();
 			this.searchButton = new System.Windows.Forms.Button();
+			this.clearVIPButton = new System.Windows.Forms.Button();
 			this.statusStrip.SuspendLayout();
 			this.topPanel.SuspendLayout();
 			this.netcardInfoGroupBox.SuspendLayout();
@@ -348,6 +349,7 @@
 			// 
 			// netcardInfoGroupBox
 			// 
+			this.netcardInfoGroupBox.Controls.Add(this.clearVIPButton);
 			this.netcardInfoGroupBox.Controls.Add(this.dhcpButton);
 			this.netcardInfoGroupBox.Controls.Add(this.refreshCurButton);
 			this.netcardInfoGroupBox.Controls.Add(this.dnsLabel2);
@@ -370,7 +372,7 @@
 			this.dhcpButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.dhcpButton.Location = new System.Drawing.Point(12, 81);
 			this.dhcpButton.Name = "dhcpButton";
-			this.dhcpButton.Size = new System.Drawing.Size(70, 20);
+			this.dhcpButton.Size = new System.Drawing.Size(89, 20);
 			this.dhcpButton.TabIndex = 27;
 			this.dhcpButton.Text = "启用DHCP";
 			this.dhcpButton.UseVisualStyleBackColor = true;
@@ -479,6 +481,17 @@
 			this.searchButton.UseVisualStyleBackColor = true;
 			this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
 			// 
+			// clearVIPButton
+			// 
+			this.clearVIPButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.clearVIPButton.Location = new System.Drawing.Point(170, 81);
+			this.clearVIPButton.Name = "clearVIPButton";
+			this.clearVIPButton.Size = new System.Drawing.Size(89, 20);
+			this.clearVIPButton.TabIndex = 27;
+			this.clearVIPButton.Text = "清空虚拟IP";
+			this.clearVIPButton.UseVisualStyleBackColor = true;
+			this.clearVIPButton.Click += new System.EventHandler(this.clearVIPButton_Click);
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -561,5 +574,6 @@
 		private System.Windows.Forms.Label ipLabel;
 		private System.Windows.Forms.Button searchButton;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel2;
+		private System.Windows.Forms.Button clearVIPButton;
 	}
 }

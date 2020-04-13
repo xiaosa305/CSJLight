@@ -142,6 +142,32 @@ namespace MultiLedController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《清空虚拟IP》（作用和启用DHCP相似，但主要是为了在无DHCP环境下，主动只保留当前主IP的设定）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void clearVIPButton_Click(object sender, EventArgs e)
+		{
+			if (netcardIndex == -1)
+			{
+				setNotice(1, "未选中可用网卡，请刷新后重试");
+				return;
+			}
+
+			setBusy(true);
+			IPAst ipAst = new IPAst(mo)
+			{
+				IpArray = new string[] { mainIP},
+				SubmaskArray = new string[] { mainMask },
+			};
+
+			setNotice(1, "正在为您清空虚拟IP,清空后将刷新当前网卡信息，请稍候...");
+			IPHelper.SetIPAddress(mo, ipAst);
+			refreshCurButton_Click(null, null);
+			setBusy(false);
+		}
+
+		/// <summary>
 		/// 事件：点击《刷新当前网卡信息》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -745,6 +771,7 @@ namespace MultiLedController.MyForm
 		}
 
 		#endregion
-	
+
+		
 	}
 }

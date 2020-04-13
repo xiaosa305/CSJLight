@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MultiLedController.utils.impl
 {

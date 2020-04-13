@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Timers;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MultiLedController.utils.impl
 {

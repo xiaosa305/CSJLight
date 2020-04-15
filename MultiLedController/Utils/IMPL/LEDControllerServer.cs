@@ -103,13 +103,8 @@ namespace MultiLedController.utils.impl
                     }
                     else if (receiveData.Length == 41)//设备探索回复
                     {
-                        Console.WriteLine("搜索到一台设备");
                         ControlDevice controlDevice = new ControlDevice(receiveData);
                         this.ControlDevices.Add(controlDevice.Mac,controlDevice);
-                    }
-                    else
-                    {
-                        //Console.WriteLine("接收到数据包，包大小：" + receiveData.Length + "-------包序为：" + receiveData[4]);
                     }
                 }
             }

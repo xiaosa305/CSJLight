@@ -467,129 +467,136 @@ namespace LightController.Utils
         /// <returns></returns>
         private static void GeneratedM_SceneData(CSJ_SceneData scenedata, DBWrapper wrapperdata, string configpath)
         {
-            CSJ_SceneData sceneData = scenedata;
-            DBWrapper wrapper = wrapperdata;
-            string configPath = configpath;
-            string sceneFileName = "M" + (sceneData.SceneNo + 1) + ".bin";
-            StreamReader reader;
-            List<int> stepList = new List<int>();
-            int channelCount = sceneData.ChannelCount;
-            int sceneNo = Constant.GetNumber(sceneData.SceneNo);
-            int frameTime = 0;
-            int musicIntervalTime = 0;
-            int mainIndex = 0;
-            float rate = 255;
-            int flag;
-            if (scenedata.ChannelCount == 0)
+            try
             {
-                return;
-            }
-            using (reader = new StreamReader(configPath))
-            {
-                string lineStr;
-                string strValue = string.Empty;
-                int intValue;
-                while (true)
+                CSJ_SceneData sceneData = scenedata;
+                DBWrapper wrapper = wrapperdata;
+                string configPath = configpath;
+                string sceneFileName = "M" + (sceneData.SceneNo + 1) + ".bin";
+                StreamReader reader;
+                List<int> stepList = new List<int>();
+                int channelCount = sceneData.ChannelCount;
+                int sceneNo = Constant.GetNumber(sceneData.SceneNo);
+                int frameTime = 0;
+                int musicIntervalTime = 0;
+                int mainIndex = 0;
+                float rate = 255;
+                int flag;
+                if (scenedata.ChannelCount == 0)
                 {
-                    lineStr = reader.ReadLine();
-                    if (lineStr.Equals("[SK]"))
-                    {
-                        for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
-                        {
-                            lineStr = reader.ReadLine();
-                            string sceneNumber = "";
-                            if (lineStr.Split('=')[0].Length > 3)
-                            {
-                                sceneNumber = lineStr[0].ToString() + lineStr[1].ToString();
-                            }
-                            else
-                            {
-                                sceneNumber = lineStr[0].ToString();
-                            }
-                            if (sceneNumber.Equals(sceneData.SceneNo.ToString()))
-                            {
-                                strValue = lineStr.Split('=')[1];
-                                for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
-                                {
-                                    intValue = int.Parse(strValue[strIndex].ToString());
-                                    if (intValue != 0)
-                                    {
-                                        stepList.Add(intValue);
-                                    }
-                                }
-                                lineStr = reader.ReadLine();
-                                strValue = lineStr.Split('=')[1];
-                                intValue = int.Parse(strValue.ToString());
-                                frameTime = intValue;
-                                lineStr = reader.ReadLine();
-                                strValue = lineStr.Split('=')[1];
-                                intValue = int.Parse(strValue.ToString());
-                                musicIntervalTime = intValue;
-                            }
-                            else
-                            {
-                                lineStr = reader.ReadLine();
-                                lineStr = reader.ReadLine();
-                            }
-                        }
-                        break;
-                    }
+                    return;
                 }
-            }
-            List<byte> data = new List<byte>();
-            data.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
-            data.Add(Convert.ToByte(frameTime));
-            data.Add(Convert.ToByte(musicIntervalTime & 0xFF));
-            data.Add(Convert.ToByte((musicIntervalTime >> 8) & 0xFF));
-            data.Add(Convert.ToByte(stepList.Count));
-            for (int i = 0; i < stepList.Count; i++)
-            {
-                data.Add(Convert.ToByte(stepList[i]));
-            }
-            for (int i = stepList.Count; i < Constant.STEPLISTMAX; i++)
-            {
-                data.Add(Convert.ToByte(0x00));
-            }
-            data.Add(Convert.ToByte(channelCount & 0xFF));
-            data.Add(Convert.ToByte((channelCount >> 8 ) & 0xFF));
-            FileUtils.Write(data.ToArray(), data.Count, sceneFileName, BuildMode == MODE_MAKEFILE, true, false);
-            foreach (CSJ_ChannelData cSJ_ChannelData in sceneData.ChannelDatas)
-            {
-                flag = 0;
-                CSJ_ChannelData currentChannelData = cSJ_ChannelData;
-                if (null != wrapper.fineTuneList)
+                using (reader = new StreamReader(configPath))
                 {
-                    foreach (DB_FineTune fineTune in wrapper.fineTuneList)
+                    string lineStr;
+                    string strValue = string.Empty;
+                    int intValue;
+                    while (true)
                     {
-
-                        if (cSJ_ChannelData.ChannelNo == fineTune.FineTuneIndex)
+                        lineStr = reader.ReadLine();
+                        if (lineStr.Equals("[SK]"))
                         {
-                            flag = 2;
-                            mainIndex = fineTune.MainIndex;
-                            rate = fineTune.MaxValue;
-                            if (0 == rate)
+                            for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
                             {
-                                rate = 255;
+                                lineStr = reader.ReadLine();
+                                string sceneNumber = "";
+                                if (lineStr.Split('=')[0].Length > 3)
+                                {
+                                    sceneNumber = lineStr[0].ToString() + lineStr[1].ToString();
+                                }
+                                else
+                                {
+                                    sceneNumber = lineStr[0].ToString();
+                                }
+                                if (sceneNumber.Equals(sceneData.SceneNo.ToString()))
+                                {
+                                    strValue = lineStr.Split('=')[1];
+                                    for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
+                                    {
+                                        intValue = int.Parse(strValue[strIndex].ToString());
+                                        if (intValue != 0)
+                                        {
+                                            stepList.Add(intValue);
+                                        }
+                                    }
+                                    lineStr = reader.ReadLine();
+                                    strValue = lineStr.Split('=')[1];
+                                    intValue = int.Parse(strValue.ToString());
+                                    frameTime = intValue;
+                                    lineStr = reader.ReadLine();
+                                    strValue = lineStr.Split('=')[1];
+                                    intValue = int.Parse(strValue.ToString());
+                                    musicIntervalTime = intValue;
+                                }
+                                else
+                                {
+                                    lineStr = reader.ReadLine();
+                                    lineStr = reader.ReadLine();
+                                }
                             }
                             break;
                         }
                     }
-                    if (2 == flag)
+                }
+                List<byte> data = new List<byte>();
+                data.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
+                data.Add(Convert.ToByte(frameTime));
+                data.Add(Convert.ToByte(musicIntervalTime & 0xFF));
+                data.Add(Convert.ToByte((musicIntervalTime >> 8) & 0xFF));
+                data.Add(Convert.ToByte(stepList.Count));
+                for (int i = 0; i < stepList.Count; i++)
+                {
+                    data.Add(Convert.ToByte(stepList[i]));
+                }
+                for (int i = stepList.Count; i < Constant.STEPLISTMAX; i++)
+                {
+                    data.Add(Convert.ToByte(0x00));
+                }
+                data.Add(Convert.ToByte(channelCount & 0xFF));
+                data.Add(Convert.ToByte((channelCount >> 8) & 0xFF));
+                FileUtils.Write(data.ToArray(), data.Count, sceneFileName, BuildMode == MODE_MAKEFILE, true, false);
+                foreach (CSJ_ChannelData cSJ_ChannelData in sceneData.ChannelDatas)
+                {
+                    flag = 0;
+                    CSJ_ChannelData currentChannelData = cSJ_ChannelData;
+                    if (null != wrapper.fineTuneList)
                     {
-                        foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
+                        foreach (DB_FineTune fineTune in wrapper.fineTuneList)
                         {
-                            if (mainIndex == item.ChannelNo)
+
+                            if (cSJ_ChannelData.ChannelNo == fineTune.FineTuneIndex)
                             {
-                                currentChannelData = item;
+                                flag = 2;
+                                mainIndex = fineTune.MainIndex;
+                                rate = fineTune.MaxValue;
+                                if (0 == rate)
+                                {
+                                    rate = 255;
+                                }
                                 break;
                             }
                         }
+                        if (2 == flag)
+                        {
+                            foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
+                            {
+                                if (mainIndex == item.ChannelNo)
+                                {
+                                    currentChannelData = item;
+                                    break;
+                                }
+                            }
+                        }
                     }
+                    M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
+                    //TODO 测试同步语句效率-音频场景
+                    ConvertM_DataWaitCallback(dataInfo);
+                    //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
                 }
-                M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
-                //TODO 测试同步语句效率-音频场景
-                ConvertM_DataWaitCallback(dataInfo);
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "音频场景数据处理出现异常", ex);
             }
         }
         private static void ConvertM_DataWaitCallback(Object obj)

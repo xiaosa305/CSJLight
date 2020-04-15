@@ -17,10 +17,6 @@ namespace LightController.Tools
 {
     public class PlayTools
     {
-        //TODO Test
-        private SerialPort TestCom { get; set; }
-
-
         private static PlayTools Instance { get; set; }
         private static FTDI Device { get; set; }                    
         private readonly byte[] StartCode = new byte[] { 0x00 };
@@ -41,6 +37,8 @@ namespace LightController.Tools
         private int StepListCount { get; set; }
         private int MusicIntervalTime { get; set; }
         private int MusicStepPoint { get; set; }
+
+        
 
         private static int PreviewTimerStatus = 0;
         private static int MusicControlTimerStatus = 0;
@@ -65,10 +63,20 @@ namespace LightController.Tools
         private ICommunicatorCallBack IntentDebugCallback { get; set; }
         private Thread SendEmptyDebugDataThread { get; set; }
 
+
+        //TODO 待删除测试
+        private bool IsTest { get; set; }
+        private SerialPort TestComDevice { get; set; }
+
+
+
         private PlayTools()
         {
             try
             {
+                //TODO 待删除测试
+                this.IsTest = false;
+
                 this.TimeFactory = 32;
                 this.MusicStepTime = 0;
                 this.State = PreViewState.Null;
@@ -360,7 +368,11 @@ namespace LightController.Tools
                 List<byte> buff = new List<byte>();
                 buff.AddRange(this.StartCode);
                 buff.AddRange(this.PlayData);
-                if (this.PreviewWayState == STATE_SERIALPREVIEW)
+                if (this.IsTest)
+                {
+                    this.SendTestData(buff.ToArray());
+                }
+                else if (this.PreviewWayState == STATE_SERIALPREVIEW)
                 {
                     UInt32 count = 0;
                     if (Device.IsOpen)
@@ -453,6 +465,70 @@ namespace LightController.Tools
                 LogTools.Error(Constant.TAG_XIAOSA, "关闭DMX串口设备失败", ex);
             }
            
+        }
+
+
+
+        //TODO 测试模块
+        public void StartTestMode(string comName)
+        {
+            if (this.TestComDevice == null)
+            {
+                this.TestComDevice = new SerialPort();
+                this.TestComDevice.PortName = comName;
+                this.TestComDevice.BaudRate = 250000;
+                this.TestComDevice.DataBits = 8;
+                this.TestComDevice.StopBits = StopBits.Two;
+                this.TestComDevice.Parity = Parity.None;
+                this.TestComDevice.DataReceived += new SerialDataReceivedEventHandler(this.TestComDeviceReceive);
+            }
+            if (this.TestComDevice.IsOpen)
+            {
+                this.TestComDevice.Close();
+            }
+            this.TestComDevice.Open();
+            this.IsTest = true;
+        }
+        private void SendTestData(byte[] data)
+        {
+            if (this.TestComDevice != null)
+            {
+                if (this.TestComDevice.IsOpen)
+                {
+                    this.TestComDevice.Write(data, 0, data.Length);
+                }
+            }
+        }
+        public void CloseTestMode()
+        {
+            this.IsTest = false;
+            if (this.TestComDevice != null)
+            {
+                if (this.TestComDevice.IsOpen)
+                {
+                    this.TestComDevice.Close();
+                }
+            }
+        }
+        public string[] GetTestSerialPortNameList()
+        {
+            try
+            {
+                string[] ports = SerialPort.GetPortNames();
+                return ports;
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "获取串口列表失败", ex);
+                return null;
+            }
+        }
+        private void TestComDeviceReceive(object sender, SerialDataReceivedEventArgs s)
+        {
+            //while (this.IsTest)
+            //{
+
+            //}
         }
     }
     enum PreViewState

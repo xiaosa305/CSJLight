@@ -381,6 +381,12 @@
     <Compile Include="MyForm\GlobalSet\YMSetForm.Designer.cs">
       <DependentUpon>YMSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Test\TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Test\TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PeripheralDevice\BaseCommunication.cs" />
     <Compile Include="PeripheralDevice\NetworkConnect.cs" />
     <Compile Include="PeripheralDevice\SerialConnect.cs" />
@@ -512,6 +518,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Test\TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

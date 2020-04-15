@@ -454,7 +454,7 @@ namespace LightController.MyForm
 				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 				generateDBLightList();
 				generateDBFineTuneList();
-				//MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList();
+				//MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList(); 
 				generateDBStepCountList();
 				IList<DB_Value> dbValueListTemp = generateDBValueList(currentFrame);
 
@@ -553,10 +553,12 @@ namespace LightController.MyForm
 							Mode = mode,
 							LightIndex = light.LightNo
 						};
-						//MARK 只开单场景：12.2 generateDBStepCountLit()重写：判断是否已经加载，加载过的用内存数据
+
+						//MARK 只开单场景：12.2 generateDBStepCountLit()重写：加载过的用内存数据
 						if (frameLoadArray[frameIndex])
 						{
 							LightStepWrapper lsTemp = allLightStepWrappers[frameIndex, mode];
+							//MARK 只开单场景：12.2.补 generateDBStepCountLit()重写：若加载过的场景，此灯具并未被选中过，则其lsTemp为空！此时可能最终会传一个Count==
 							if (lsTemp != null)
 							{
 								DB_StepCount stepCount = new DB_StepCount()
@@ -565,9 +567,9 @@ namespace LightController.MyForm
 									PK = stepCountPK
 								};
 								dbStepCountList.Add(stepCount);
-							}
+							}			
 						}
-						//MARK 只开单场景：12.3 generateDBStepCountLit()重写：判断是否已经加载，未加载过的用DB数据
+						//MARK 只开单场景：12.3 generateDBStepCountLit()重写：未加载过的用DB数据
 						else
 						{
 							DB_StepCount sc = stepCountDAO.GetStepCountByPK(stepCountPK);

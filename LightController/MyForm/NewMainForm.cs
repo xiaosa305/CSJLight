@@ -2,6 +2,7 @@
 using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
+using LightController.MyForm.Test;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -45,6 +46,7 @@ namespace LightController.MyForm
 			KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			testButton.Visible = IsShowTestButton;
 			testButton2.Visible = IsShowTestButton;
+			wjTestButton.Visible = IsShowTestButton;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;	
@@ -2467,7 +2469,7 @@ namespace LightController.MyForm
 
 		private void wjTestButton_Click(object sender, EventArgs e)
 		{
-
+			new TestForm().ShowDialog();
 		}
 	}
 }

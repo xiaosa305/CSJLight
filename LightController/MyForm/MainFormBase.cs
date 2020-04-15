@@ -1959,11 +1959,13 @@ namespace LightController.MyForm
 			if (success)
 			{
 				FileUtils.ExportProjectFile(exportPath);
-				if (GenerateSourceProject()) {
+				// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
+				if (GenerateSourceProject())
+				{
 					SetNotice("正在压缩源文件,请稍候...");
 					string dirPath = SavePath + @"\Source";
 					string zipPath = exportPath + @"\Source.zip";
-					ZipAst.CompressAllToZip(dirPath, zipPath, 9, null, SavePath+@"\");
+					ZipAst.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
 					SetNotice("已成功压缩源文件(Source.zip)。");
 				}
 

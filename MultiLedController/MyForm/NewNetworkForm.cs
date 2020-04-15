@@ -177,7 +177,7 @@ namespace MultiLedController.MyForm
 					saveButton_Click(null, null);
 				}
 			}
-
+			setBusy(true);
 			setNotice("正在为您设置多个IP地址，请稍候...");
 			int thirdIP = Decimal.ToInt16(thirdNumericUpDown.Value);
 			int firstIP = Decimal.ToInt16(finalNumericUpDown.Value);			
@@ -192,14 +192,21 @@ namespace MultiLedController.MyForm
 				submaskList.Add("255.255.255.0");
 			}
 
-			IPHelper.SetIPAddress(
-				moList[netcardIndex],
-				virtualIPList.ToArray(),
-				submaskList.ToArray(),
-				new string[] { "192.168." + thirdNumericUpDown.Value + ".1" },
-				new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" });
-			mainForm.SetNetworkChangedTrue();
-			setNotice("已设置多IP，请刷新。");
+			if (IPHelper.SetIPAddress(
+					moList[netcardIndex],
+					virtualIPList.ToArray(),
+					submaskList.ToArray(),
+					new string[] { "192.168." + thirdNumericUpDown.Value + ".1" },
+					new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" }))
+			{
+				mainForm.SetNetworkChangedTrue();
+				setNotice("已设置多IP，请刷新。");
+				setBusy(false);
+			}
+			else {				
+				setNotice("设置多IP失败，已恢复初始配置，请刷新。");
+				setBusy(false);
+			}
 		}
 
 		/// <summary>
@@ -254,6 +261,14 @@ namespace MultiLedController.MyForm
 		{
 			toolStripStatusLabel1.Text = msg;
 			Refresh();
+		}
+
+		/// <summary>
+		/// 辅助方法：设置是否忙时
+		/// </summary>
+		/// <param name="busy"></param>
+		private void setBusy(bool busy) {
+			this.Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 		}
 
 	}

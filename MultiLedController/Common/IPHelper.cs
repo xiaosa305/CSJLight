@@ -108,16 +108,18 @@ namespace MultiLedController.Common
 		/// <summary>
 		/// 静态辅助方法： 设置IP地址，掩码，网关和DNS
 		/// </summary>
+		/// <returns>设置成功true；设置失败则恢复原始设置（mo中取）并设为false</returns>
 		/// <param name="ipArray">ip列表：要设置的ip列表</param>
 		/// <param name="submaskArray">子网掩码列表：有多少个ip，就要对应多少个子网掩码</param>
 		/// <param name="gateway">网关列表：与ip独立，只需设置一次即可</param>
 		/// <param name="dns">dns列表：有多少个DNS，就设置几个</param>
-		public static void SetIPAddress(ManagementObject mo ,string[] ipArray, string[] submaskArray, string[] gatewayArray, string[] dnsArray)
+		public static bool SetIPAddress(ManagementObject mo ,string[] ipArray, string[] submaskArray, string[] gatewayArray, string[] dnsArray)
 		{
 			ManagementClass wmi = new ManagementClass("Win32_NetworkAdapterConfiguration");
 			ManagementObjectCollection moc = wmi.GetInstances();
 			ManagementBaseObject inPar = null;
-			ManagementBaseObject outPar = null;			
+			ManagementBaseObject outPar = null;
+			IPAst tempIPAst = new IPAst(mo);
 
 			//设置IP地址和掩码
 			if (ipArray != null && submaskArray != null)
@@ -143,7 +145,8 @@ namespace MultiLedController.Common
 				inPar["DNSServerSearchOrder"] = dnsArray;
 				outPar = mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
 			}
-			
+
+			int i = 0;
 			// 在这里验证是否设置成功，设置成功才跳出循环
 			while (true)
 			{
@@ -151,8 +154,29 @@ namespace MultiLedController.Common
 				{
 					break;
 				}
-				Thread.Sleep(100);				
+				Thread.Sleep(100);
+				i++;
+				if( i >= 80)
+				{
+					//恢复之前的设置
+					inPar = mo.GetMethodParameters("EnableStatic");
+					inPar["IPAddress"] = tempIPAst.IpArray;
+					inPar["SubnetMask"] = tempIPAst.SubmaskArray;
+					mo.InvokeMethod("EnableStatic", inPar, null);
+					//Console.WriteLine("超过10S仍未设置成功，已恢复初始设置");
+					return false;
+				}
 			}
+			return true;
+		}
+		
+		/// <summary>
+		/// 静态辅助方法：通过ipAst来设置本地ip
+		/// </summary>
+		/// <param name="ipAst"></param>
+		public static bool SetIPAddress(ManagementObject mo, IPAst ipAst)
+		{
+			return SetIPAddress(mo ,ipAst.IpArray, ipAst.SubmaskArray, ipAst.GatewayArray, ipAst.DnsArray);
 		}
 
 		/// <summary>
@@ -172,7 +196,7 @@ namespace MultiLedController.Common
 					{
 						curIPList.Add(ip.ToString());
 					}
-				}				
+				}
 				foreach (string tempIp in newIPArray)
 				{
 					if (!curIPList.Contains(tempIp))
@@ -186,15 +210,6 @@ namespace MultiLedController.Common
 			{
 				return false;
 			}
-		}
-
-		/// <summary>
-		/// 静态辅助方法：通过ipAst来设置本地ip
-		/// </summary>
-		/// <param name="ipAst"></param>
-		public static void SetIPAddress(ManagementObject mo, IPAst ipAst)
-		{
-			SetIPAddress(mo ,ipAst.IpArray, ipAst.SubmaskArray, ipAst.GatewayArray, ipAst.DnsArray);
 		}
 
 		/// <summary>

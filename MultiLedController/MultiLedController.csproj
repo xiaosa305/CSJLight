@@ -7,10 +7,11 @@
     <ProjectGuid>{06E9C9CD-7EE3-4826-B44E-614BADD383F0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MultiLedController</RootNamespace>
-    <AssemblyName>MultiLedController</AssemblyName>
+    <AssemblyName>CSJ幻彩灯带控制器</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>

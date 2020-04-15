@@ -164,6 +164,7 @@
     <Compile Include="Ast\MaterialAst.cs" />
     <Compile Include="Ast\MaterialIndexAst.cs" />
     <Compile Include="Common\DBGetter.cs" />
+    <Compile Include="Common\DirectoryAst.cs" />
     <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\IniFileAst_UTF8.cs" />
     <Compile Include="Common\MathAst.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Common\FileAst.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\TextAst.cs" />
+    <Compile Include="Common\ZipAst.cs" />
     <Compile Include="DAO\FineTuneDAO.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
@@ -379,6 +381,12 @@
     <Compile Include="MyForm\GlobalSet\YMSetForm.Designer.cs">
       <DependentUpon>YMSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Test\TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Test\TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PeripheralDevice\BaseCommunication.cs" />
     <Compile Include="PeripheralDevice\NetworkConnect.cs" />
     <Compile Include="PeripheralDevice\SerialConnect.cs" />
@@ -510,6 +518,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Test\TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -167,21 +167,6 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 辅助方法：刷新SAPanels
-		/// </summary>
-		private void refreshSAPanels() {
-
-			saFlowLayoutPanel.Enabled = true;
-			tdNumLabel.Text = "选中的通道地址：" + (selectedTdIndex + 1);
-
-			clearSaPanels();
-			foreach (SA sa in sawArray2[selectedTdIndex].SaList)
-			{
-				AddSAPanel(sa);
-			}
-		}
-
-		/// <summary>
 		/// load事件：初始化起始位置
 		/// </summary>
 		/// <param name="sender"></param>
@@ -190,6 +175,22 @@ namespace LightEditor
 		{
 			this.Location = new Point(lightEditorForm.Location.X + 100, lightEditorForm.Location.Y + 100);
 		}
+
+		/// <summary>
+		/// 事件：点击《右上角？》按钮，提示X、Y轴微调相关设置
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void WaySetForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		{
+			MessageBox.Show("1.请尽量使用右侧列表中已有的通道名进行填充，便于素材保存；\n" +
+				"2.X轴微调和Y轴微调，因各灯具情况不同，若非正常变化(满255进1），可在试验之后确定该微调通道的上限值，并将其填入初始值中；若将初始值设为0或255，则程序会视此通道为常规微调通道，后期不再做特殊处理；\n" +
+				"3.子属性名称，请勿使用任何标点符号及空格，并尽可能简短；\n" +
+				"4.点击子属性显示区，可对该子属性进行修改；点击右侧的'-'按钮，可以删除相应的子属性。");
+			e.Cancel = true;
+		}
+
+		#region 点击《应用、确定、重置、关闭》等操作
 
 		/// <summary>
 		/// 事件：点击《右上角关闭》按钮
@@ -203,52 +204,75 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 辅助方法：隐藏所有的通道
-		/// </summary>
-		private void hideAllTongdao()
-		{
-			for (int i = 0; i < 32; i++)
-			{
-				this.tdLabels[i].Visible = false;
-				this.tdTextBoxes[i].Visible = false;
-				this.tdNumericUpDowns[i].Visible = false;
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：通过tongdaoCount和tongdaoList，将数据填入tdPanel中，并显示对应数量的通道
-		/// </summary>
-		private void generateTongdaoList()
-		{
-			for (int i = 0; i < lightEditorForm.TongdaoCount; i++)
-			{
-				this.tdTextBoxes[i].Text = lightEditorForm.TongdaoList[i].TongdaoName;
-				this.tdNumericUpDowns[i].Value = lightEditorForm.TongdaoList[i].InitValue;
-
-				this.tdLabels[i].Show();
-				this.tdTextBoxes[i].Show();
-				this.tdNumericUpDowns[i].Show();
-			}
-		}	
-
-		/// <summary>
-		///  双击把右侧选择的通道名称值填入左侧选择的文本框中
+		/// 事件：点击《重置》后的操作：将所有的通道数据重设为mainForm的tongdaoList内的值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void nameListBox_DoubleClick(object sender, EventArgs e)
+		private void resetButton_Click(object sender, EventArgs e)
 		{
-			if (selectedTextBox != null)
-			{
-				selectedTextBox.Text = (nameListBox.Text);
-			}
-			else {
-				MessageBox.Show("请先选择通道名称文本框！");
-			}
+			generateTongdaoList();
+			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.SawArray);
+			refreshSAPanels();
 		}
 
 		/// <summary>
-		/// 鼠标点击tdTextBox后，更改selectedTextBox
+		///  事件：点击《应用》后:确认操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param
+		private void applyButton_Click(object sender, EventArgs e)
+		{
+			applyChange();
+		}
+
+		/// <summary>
+		/// 事件：点击《确认》
+		/// 1.确认操作；
+		/// 2.关闭窗口。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void enterButton_Click(object sender, EventArgs e)
+		{
+			applyChange();
+			this.Dispose();
+			lightEditorForm.Activate();
+		}
+
+		/// <summary>
+		/// 辅助方法：确认操作(《应用》《确认》按钮通用
+		/// 1. 先检查所有的 tdTextBoxes.Text是不是为空,并设置tongdaoList的相应数据(只改tongdaoName和initValue)
+		/// 2.设置tongdaoList到mainForm中
+		/// </summary>
+		private void applyChange()
+		{
+
+			// 1.逐一检查textBoxes值;同时设置tongdaoList值
+			for (int tdIndex = 0; tdIndex < lightEditorForm.TongdaoCount; tdIndex++)
+			{
+				if (tdTextBoxes[tdIndex].Text == null || tdTextBoxes[tdIndex].Text.Trim() == "")
+				{
+					MessageBox.Show("Dickov:通道名称不得为空");
+					break;
+				}
+				else
+				{
+					lightEditorForm.TongdaoList[tdIndex].TongdaoName = tdTextBoxes[tdIndex].Text.Trim();
+					lightEditorForm.TongdaoList[tdIndex].InitValue = Decimal.ToInt16(tdNumericUpDowns[tdIndex].Value);
+				}
+			}
+
+			// 2.设置tongdaoList到mainForm中；
+			lightEditorForm.SetSawArray(sawArray2);
+			lightEditorForm.ShowTds();
+		}
+
+		#endregion
+
+		#region 通道名称相关
+
+		/// <summary>
+		/// 事件：鼠标点击tdTextBox后，更改selectedTextBox
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -266,24 +290,19 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 辅助方法：清空所有的SAPanel
+		///  事件：双击把《右侧选择的通道名称值》填入左侧选择的《文本框》中
 		/// </summary>
-		private void clearSaPanels()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void nameListBox_DoubleClick(object sender, EventArgs e)
 		{
-			foreach (Panel saPanel in saPanels)
+			if (selectedTextBox != null)
 			{
-				saFlowLayoutPanel.Controls.Remove(saPanel);							
+				selectedTextBox.Text = (nameListBox.Text);
 			}
-			foreach (Button saDelButton in saDeleteButtons)
-			{
-				saFlowLayoutPanel.Controls.Remove(saDelButton);
+			else {
+				MessageBox.Show("请先选择通道名称文本框！");
 			}
-			saPanels.Clear();
-			saNameLabels.Clear();
-			startValueLabels.Clear();
-			lineLabels.Clear();
-			endValueLabels.Clear();
-			saDeleteButtons.Clear();			
 		}
 
 		/// <summary>
@@ -322,80 +341,37 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 点击重置后的操作：将所有的通道数据重设为mainForm的tongdaoList内的值
+		///  辅助方法：通过tongdaoCount和tongdaoList，将数据填入tdPanel中，并显示对应数量的通道
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void resetButton_Click(object sender, EventArgs e)
+		private void generateTongdaoList()
 		{
-			generateTongdaoList();
-			sawArray2 = SAWrapper.DeepCopy(lightEditorForm.SawArray);
-			refreshSAPanels();
-		}
-
-		/// <summary>
-		/// 事件：点击《确认》
-		/// 1.确认操作；
-		/// 2.关闭窗口。
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void enterButton_Click(object sender, EventArgs e)
-		{
-			applyChange();
-			this.Dispose();
-			lightEditorForm.Activate();
-		}
-
-		/// <summary>
-		///  事件：点击《应用》后:确认操作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param
-		private void applyButton_Click(object sender, EventArgs e)
-		{
-			applyChange();
-		}
-
-		/// <summary>
-		/// 辅助方法：确认操作(《应用》《确认》按钮通用
-		/// 1. 先检查所有的 tdTextBoxes.Text是不是为空,并设置tongdaoList的相应数据(只改tongdaoName和initValue)
-		/// 2.设置tongdaoList到mainForm中
-		/// </summary>
-		private void applyChange() {
-
-			// 1.逐一检查textBoxes值;同时设置tongdaoList值
-			for (int tdIndex = 0; tdIndex < lightEditorForm.TongdaoCount; tdIndex++)
+			for (int i = 0; i < lightEditorForm.TongdaoCount; i++)
 			{
-				if (tdTextBoxes[tdIndex].Text == null || tdTextBoxes[tdIndex].Text.Trim() == "")
-				{
-					MessageBox.Show("Dickov:通道名称不得为空");
-					break;
-				}
-				else
-				{
-					lightEditorForm.TongdaoList[tdIndex].TongdaoName = tdTextBoxes[tdIndex].Text.Trim();
-					lightEditorForm.TongdaoList[tdIndex].InitValue = Decimal.ToInt16(tdNumericUpDowns[tdIndex].Value);
-				}
-			}
+				this.tdTextBoxes[i].Text = lightEditorForm.TongdaoList[i].TongdaoName;
+				this.tdNumericUpDowns[i].Value = lightEditorForm.TongdaoList[i].InitValue;
 
-			// 2.设置tongdaoList到mainForm中；
-			lightEditorForm.SetSawArray(sawArray2);
-			lightEditorForm.ShowTds();			
+				this.tdLabels[i].Show();
+				this.tdTextBoxes[i].Show();
+				this.tdNumericUpDowns[i].Show();
+			}
 		}
 
 		/// <summary>
-		/// 事件：点击《右上角？》按钮，提示X、Y轴微调相关设置
+		/// 辅助方法：隐藏所有的通道
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void WaySetForm_HelpButtonClicked(object sender, CancelEventArgs e)
+		private void hideAllTongdao()
 		{
-			MessageBox.Show("1.请尽量使用右侧列表中已有的通道名进行填充，便于素材保存；\n" +
-				"2.X轴微调和Y轴微调，因各灯具情况不同，若非正常变化(满255进1），可在试验之后确定该微调通道的上限值，并将其填入初始值中；若将初始值设为0或255，则程序会视此通道为常规微调通道，后期不再做特殊处理；\n" +
-				"3.子属性名称，请勿使用任何标点符号及空格，并尽可能简短。");
-			e.Cancel = true;
+			for (int i = 0; i < 32; i++)
+			{
+				this.tdLabels[i].Visible = false;
+				this.tdTextBoxes[i].Visible = false;
+				this.tdNumericUpDowns[i].Visible = false;
+			}
 		}
+
+		#endregion
+
+		#region 子属性相关
 
 		/// <summary>
 		/// 事件：点击《添加子属性》
@@ -404,7 +380,113 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void addSAButton_Click(object sender, EventArgs e)
 		{
-			new SAForm(this, -1, null, 0, 255).ShowDialog();
+			int startEndValue = getCurMaxSAValue();
+			new SAForm(this, -1, "", startEndValue, startEndValue).ShowDialog();
+		}
+
+		/// <summary>
+		/// 事件：点击《清空子属性（当前选定通道）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saClearButton_Click(object sender, EventArgs e)
+		{
+			sawArray2[selectedTdIndex].SaList.Clear();
+			clearSaPanels();
+		}
+
+		/// <summary>
+		/// 事件：点击《saPanel内的saLabels(包括saNameLabel、startValueLabel、lineLabel、endValueLabel)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saLabel_Click(object sender, EventArgs e)
+		{
+			int saIndex;
+			Label label = ((Label)sender);
+			switch (label.Name)
+			{
+				case "saNameLabel": saIndex = saNameLabels.IndexOf(label); break;
+				case "startValueLabel": saIndex = startValueLabels.IndexOf(label); break;
+				case "lineLabel": saIndex = lineLabels.IndexOf(label); break;
+				case "endValueLable": saIndex = endValueLabels.IndexOf(label); break;
+				default: return;
+			}
+			saPanelsClick(saIndex);
+		}
+
+		/// <summary>
+		/// 事件：点击《saPanel内的剩余空白区域》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saPanel_Click(object sender, EventArgs e)
+		{
+			int saIndex = saPanels.IndexOf((Panel)sender);
+			saPanelsClick(saIndex);
+		}
+
+		/// <summary>
+		/// 事件：点击《-（删除子属性）》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saDeleteButton_Click(object sender, EventArgs e)
+		{
+			int saIndex = saDeleteButtons.IndexOf((Button)sender);
+			if (saIndex == -1)
+			{
+				MessageBox.Show("这个按键不属于saDeleteButtons");
+				return;
+			}
+
+			saFlowLayoutPanel.Controls.Remove(saPanels[saIndex]);
+			saFlowLayoutPanel.Controls.Remove(saDeleteButtons[saIndex]);
+			saPanels.RemoveAt(saIndex);
+			saNameLabels.RemoveAt(saIndex);
+			startValueLabels.RemoveAt(saIndex);
+			lineLabels.RemoveAt(saIndex);
+			endValueLabels.RemoveAt(saIndex);
+			saDeleteButtons.RemoveAt(saIndex);
+
+			sawArray2[selectedTdIndex].SaList.RemoveAt(saIndex);
+		}
+
+		/// <summary>
+		/// 辅助方法：清空所有的SAPanel
+		/// </summary>
+		private void clearSaPanels()
+		{
+			foreach (Panel saPanel in saPanels)
+			{
+				saFlowLayoutPanel.Controls.Remove(saPanel);
+			}
+			foreach (Button saDelButton in saDeleteButtons)
+			{
+				saFlowLayoutPanel.Controls.Remove(saDelButton);
+			}
+			saPanels.Clear();
+			saNameLabels.Clear();
+			startValueLabels.Clear();
+			lineLabels.Clear();
+			endValueLabels.Clear();
+			saDeleteButtons.Clear();
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新SAPanels
+		/// </summary>
+		private void refreshSAPanels()
+		{
+
+			saFlowLayoutPanel.Enabled = true;
+			tdNumLabel.Text = "选中的通道地址：" + (selectedTdIndex + 1);
+
+			clearSaPanels();
+			foreach (SA sa in sawArray2[selectedTdIndex].SaList)
+			{
+				AddSAPanel(sa);
+			}
 		}
 
 		/// <summary>
@@ -512,35 +594,9 @@ namespace LightEditor
 		}
 
 		/// <summary>
-		/// 事件：点击《saPanel内的saLabels(包括saNameLabel、startValueLabel、lineLabel、endValueLabel)》
+		/// 辅助方法：在saPanels内点击任意区域，皆可弹出子属性修改栏
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saLabel_Click(object sender, EventArgs e)
-		{
-			int saIndex;
-			Label label = ((Label)sender);
-			switch ( label.Name ){			
-				case "saNameLabel": saIndex = saNameLabels.IndexOf(label);break;
-				case "startValueLabel": saIndex = startValueLabels.IndexOf(label); break;
-				case "lineLabel": saIndex = lineLabels.IndexOf(label); break;
-				case "endValueLable": saIndex =endValueLabels.IndexOf(label); break;
-				default : return;
-			}
-			saPanelsClick(saIndex);
-		}
-
-		/// <summary>
-		/// 事件：点击《saPanel内的剩余空白区域》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saPanel_Click(object sender, EventArgs e)
-		{
-			int saIndex = saPanels.IndexOf((Panel)sender);
-			saPanelsClick(saIndex);
-		}
-
+		/// <param name="saIndex"></param>
 		private void saPanelsClick(int saIndex) {
 
 			if (saIndex == -1)
@@ -557,8 +613,6 @@ namespace LightEditor
 			).ShowDialog();
 		}
 
-
-
 		/// <summary>
 		/// 辅助方法：修改子属性，主要供SAForm回调使用
 		/// </summary>
@@ -573,42 +627,26 @@ namespace LightEditor
 			sawArray2[selectedTdIndex].SaList[saIndex].EndValue = endValue;
 		}
 
-		/// <summary>
-		/// 事件：点击《删除（子属性）》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saDeleteButton_Click(object sender, EventArgs e)
-		{
-			int saIndex = saDeleteButtons.IndexOf((Button)sender);
-			if (saIndex == -1)
+		private int getCurMaxSAValue() {
+			if (selectedTdIndex == -1 || sawArray2[selectedTdIndex].SaList==null || sawArray2[selectedTdIndex].SaList.Count == 0)
 			{
-				MessageBox.Show("这个按键不属于saDeleteButtons");
-				return;
+				return 0;
 			}
-
-			saFlowLayoutPanel.Controls.Remove(saPanels[saIndex]);
-			saFlowLayoutPanel.Controls.Remove(saDeleteButtons[saIndex]);
-			saPanels.RemoveAt(saIndex);
-			saNameLabels.RemoveAt(saIndex);
-			startValueLabels.RemoveAt(saIndex);
-			lineLabels.RemoveAt(saIndex);
-			endValueLabels.RemoveAt(saIndex);
-			saDeleteButtons.RemoveAt(saIndex);
-
-			sawArray2[selectedTdIndex].SaList.RemoveAt(saIndex);
+			else {
+				List<int> endValueList = new List<int>();
+				foreach (SA sa in sawArray2[selectedTdIndex].SaList)
+				{
+					endValueList.Add(sa.EndValue);
+				}
+				endValueList.Sort();//升序排序;注意：IList没有Sort方法
+				int result = endValueList[endValueList.Count - 1] + 1 ;
+				if (result > 255) { //若超过255，则只返回255
+					result = 255;
+				}
+				return result;
+			}
 		}
 
-		/// <summary>
-		/// 事件：点击《清空子属性（当前选定通道）》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saClearButton_Click(object sender, EventArgs e)
-		{
-			sawArray2[selectedTdIndex].SaList.Clear();
-			clearSaPanels();
-		}
-
+		#endregion
 	}
 }

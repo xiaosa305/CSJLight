@@ -141,6 +141,8 @@ namespace LightController.MyForm
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
+			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
+			this.wjTestButton = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -852,6 +854,7 @@ namespace LightController.MyForm
 			// 
 			this.playBasePanel.BackColor = System.Drawing.Color.White;
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.playBasePanel.Controls.Add(this.wjTestButton);
 			this.playBasePanel.Controls.Add(this.testButton2);
 			this.playBasePanel.Controls.Add(this.testButton);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
@@ -878,7 +881,7 @@ namespace LightController.MyForm
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(84, 54);
 			this.testButton.TabIndex = 34;
-			this.testButton.Text = "Test";
+			this.testButton.Text = "Test1";
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Visible = false;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
@@ -1408,6 +1411,80 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.TabIndex = 6;
 			this.currentLightPictureBox.TabStop = false;
 			// 
+			// lightLargeImageList
+			// 
+			this.lightLargeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lightLargeImageList.ImageStream")));
+			this.lightLargeImageList.TransparentColor = System.Drawing.Color.Gainsboro;
+			this.lightLargeImageList.Images.SetKeyName(0, "2.bmp");
+			this.lightLargeImageList.Images.SetKeyName(1, "3.bmp");
+			this.lightLargeImageList.Images.SetKeyName(2, "4.bmp");
+			this.lightLargeImageList.Images.SetKeyName(3, "5.bmp");
+			this.lightLargeImageList.Images.SetKeyName(4, "6.bmp");
+			this.lightLargeImageList.Images.SetKeyName(5, "7.bmp");
+			this.lightLargeImageList.Images.SetKeyName(6, "8.bmp");
+			this.lightLargeImageList.Images.SetKeyName(7, "9.bmp");
+			this.lightLargeImageList.Images.SetKeyName(8, "10.bmp");
+			this.lightLargeImageList.Images.SetKeyName(9, "11.bmp");
+			this.lightLargeImageList.Images.SetKeyName(10, "12.bmp");
+			this.lightLargeImageList.Images.SetKeyName(11, "13.bmp");
+			this.lightLargeImageList.Images.SetKeyName(12, "14.bmp");
+			this.lightLargeImageList.Images.SetKeyName(13, "15.bmp");
+			this.lightLargeImageList.Images.SetKeyName(14, "16.bmp");
+			this.lightLargeImageList.Images.SetKeyName(15, "17.bmp");
+			this.lightLargeImageList.Images.SetKeyName(16, "18.bmp");
+			this.lightLargeImageList.Images.SetKeyName(17, "19.bmp");
+			this.lightLargeImageList.Images.SetKeyName(18, "20.bmp");
+			this.lightLargeImageList.Images.SetKeyName(19, "21.bmp");
+			this.lightLargeImageList.Images.SetKeyName(20, "22.bmp");
+			this.lightLargeImageList.Images.SetKeyName(21, "23.bmp");
+			this.lightLargeImageList.Images.SetKeyName(22, "24.bmp");
+			this.lightLargeImageList.Images.SetKeyName(23, "25.bmp");
+			this.lightLargeImageList.Images.SetKeyName(24, "27.bmp");
+			this.lightLargeImageList.Images.SetKeyName(25, "28.bmp");
+			this.lightLargeImageList.Images.SetKeyName(26, "29.gif");
+			this.lightLargeImageList.Images.SetKeyName(27, "30.bmp");
+			this.lightLargeImageList.Images.SetKeyName(28, "31.bmp");
+			this.lightLargeImageList.Images.SetKeyName(29, "ledpar.bmp");
+			this.lightLargeImageList.Images.SetKeyName(30, "RGB.ico");
+			this.lightLargeImageList.Images.SetKeyName(31, "灯带.bmp");
+			this.lightLargeImageList.Images.SetKeyName(32, "二合一.bmp");
+			this.lightLargeImageList.Images.SetKeyName(33, "二合一50.bmp");
+			this.lightLargeImageList.Images.SetKeyName(34, "魔球.bmp");
+			this.lightLargeImageList.Images.SetKeyName(35, "帕灯.bmp");
+			this.lightLargeImageList.Images.SetKeyName(36, "未知.ico");
+			this.lightLargeImageList.Images.SetKeyName(37, "1.bmp");
+			this.lightLargeImageList.Images.SetKeyName(38, "1.jpg");
+			this.lightLargeImageList.Images.SetKeyName(39, "灯光图.png");
+			this.lightLargeImageList.Images.SetKeyName(40, "3.jpg");
+			this.lightLargeImageList.Images.SetKeyName(41, "4.jpg");
+			this.lightLargeImageList.Images.SetKeyName(42, "5.jpg");
+			this.lightLargeImageList.Images.SetKeyName(43, "60w.jpg");
+			this.lightLargeImageList.Images.SetKeyName(44, "j(1).png");
+			this.lightLargeImageList.Images.SetKeyName(45, "j(2).png");
+			this.lightLargeImageList.Images.SetKeyName(46, "j(3).png");
+			this.lightLargeImageList.Images.SetKeyName(47, "j(4).png");
+			this.lightLargeImageList.Images.SetKeyName(48, "j(5).png");
+			this.lightLargeImageList.Images.SetKeyName(49, "j(6).png");
+			this.lightLargeImageList.Images.SetKeyName(50, "j(7).png");
+			this.lightLargeImageList.Images.SetKeyName(51, "j(8).png");
+			this.lightLargeImageList.Images.SetKeyName(52, "j(9).png");
+			this.lightLargeImageList.Images.SetKeyName(53, "j(10).png");
+			this.lightLargeImageList.Images.SetKeyName(54, "j(11).png");
+			this.lightLargeImageList.Images.SetKeyName(55, "a (1).jpg");
+			this.lightLargeImageList.Images.SetKeyName(56, "a (1).png");
+			this.lightLargeImageList.Images.SetKeyName(57, "a (2).jpg");
+			this.lightLargeImageList.Images.SetKeyName(58, "a (2).png");
+			// 
+			// wjTestButton
+			// 
+			this.wjTestButton.Location = new System.Drawing.Point(6, 7);
+			this.wjTestButton.Name = "wjTestButton";
+			this.wjTestButton.Size = new System.Drawing.Size(84, 54);
+			this.wjTestButton.TabIndex = 35;
+			this.wjTestButton.Text = "wjTest";
+			this.wjTestButton.UseVisualStyleBackColor = true;
+			this.wjTestButton.Click += new System.EventHandler(this.wjTestButton_Click);
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1577,5 +1654,7 @@ namespace LightController.MyForm
 		private Button unifyChangeModeButton;
 		private Button testButton;
 		private Button testButton2;
+		private ImageList lightLargeImageList;
+		private Button wjTestButton;
 	}
 }

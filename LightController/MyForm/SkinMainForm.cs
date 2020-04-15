@@ -700,23 +700,27 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助方法：通过LightAst，显示选中灯具信息
 		/// </summary>
-		protected override void editLightInfo(LightAst lightAst)
+		protected override void editLightInfo(LightAst la)
 		{
-			if (lightAst == null) {
+			if (la == null) {
 				currentLightPictureBox.Image = null;
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
+				selectedLightName = "";
 				return;
 			}
-			lightNameLabel.Text = "灯具厂商：" + lightAst.LightName;
-			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
-			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
-			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
+			
+			currentLightPictureBox.Image =lightLargeImageList.Images[la.LightPic]!=null ? lightLargeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
+			lightNameLabel.Text = "灯具厂商：" + la.LightName;
+			lightTypeLabel.Text = "灯具型号：" + la.LightType;
+			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
+			selectedLightName = la.LightName + "-" + la.LightType;
 
-			string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;
-			FileInfo fi = new FileInfo(imagePath);
-			currentLightPictureBox.Image = fi.Exists ? Image.FromFile(imagePath) : global::LightController.Properties.Resources.灯光图;
+			// 旧版取图片的代码：主要是需要从硬盘读取，无法满足《打开导出工程》功能，故弃用。
+			//string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;
+			//FileInfo fi = new FileInfo(imagePath);
+			//currentLightPictureBox.Image = fi.Exists ? Image.FromFile(imagePath) : global::LightController.Properties.Resources.灯光图;
 		}
 
 		/// <summary>
@@ -1577,12 +1581,14 @@ namespace LightController.MyForm
 			backStepSkinButton.Enabled = totalStep > 1;
 			nextStepSkinButton.Enabled = totalStep > 1;
 
-			//3 设定《复制(多)步》是否可用
+			//3 设定《复制(多)步、保存素材》是否可用
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
+
+			frameSaveSkinButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用
 			zeroSkinButton.Enabled = totalStep != 0;
@@ -2240,7 +2246,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				new SKForm(this, globalIniPath, currentFrame, frameSkinComboBox.Text).ShowDialog();
+				new SKForm(this,  currentFrame, frameSkinComboBox.Text).ShowDialog();
 			}
 		}
 
@@ -2382,7 +2388,7 @@ namespace LightController.MyForm
 			SetNotice("正在生成预览数据，请稍候...");
 			try
 			{
-				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, currentFrame, new PreviewCallBack(this));
+				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
 			}
 			catch (Exception ex)
 			{
@@ -2684,7 +2690,7 @@ namespace LightController.MyForm
 		{
 			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
-			Test test = new Test(GetDBWrapper(true), this, globalIniPath);
+			Tools.Test test = new Tools.Test(GetDBWrapper(true), this, GlobalIniPath);
 			//Test test = new Test(GetDBWrapper(true) );
 			test.Start(buttonIndex);
 		}

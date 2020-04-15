@@ -1,6 +1,8 @@
 ﻿using DMX512;
+using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
+using LightController.MyForm.Test;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -44,6 +46,7 @@ namespace LightController.MyForm
 			KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			testButton.Visible = IsShowTestButton;
 			testButton2.Visible = IsShowTestButton;
+			wjTestButton.Visible = IsShowTestButton;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;	
@@ -611,7 +614,7 @@ namespace LightController.MyForm
 				lightsListView.Items.Add(new ListViewItem(
 						//lightAstList2[i].LightName + ":" + 
 						lightAstList2[i].LightType + "\n" +	"(" + lightAstList2[i].LightAddr + ")"
-						+"\n这是备注哦"
+						//+"\n这是备注哦"
 						,
 					lightImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				)
@@ -683,17 +686,15 @@ namespace LightController.MyForm
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
+				selectedLightName = "";
 				return;
 			}
 
+			currentLightPictureBox.Image = lightLargeImageList.Images[lightAst.LightPic] != null ? lightLargeImageList.Images[lightAst.LightPic] : global::LightController.Properties.Resources.灯光图;
 			lightNameLabel.Text = "灯具厂商：" + lightAst.LightName;
 			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
 			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
-
-			string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;
-			FileInfo fi = new FileInfo(imagePath); 
-			currentLightPictureBox.Image = fi.Exists? Image.FromFile(imagePath) : global::LightController.Properties.Resources.灯光图;
 		}
 
 		/// <summary>
@@ -1581,6 +1582,8 @@ namespace LightController.MyForm
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
+			saveFrameButton.Enabled = currentStep > 0;
+
 			// 4.设定统一调整区是否可用			
 			zeroButton.Enabled = totalStep != 0;
 			initButton.Enabled = totalStep != 0; 
@@ -1591,7 +1594,6 @@ namespace LightController.MyForm
 			unifyValueNumericUpDown.Enabled = totalStep != 0;
 			unifyChangeModeComboBox.Enabled = totalStep != 0;
 			unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
-
 
 			// 5.处理选择步数的框及按钮
 			chooseStepNumericUpDown.Enabled = totalStep != 0;
@@ -2071,7 +2073,7 @@ namespace LightController.MyForm
 			//若按键名称变动，则说明是音频模式
 			else
 			{
-				new SKForm(this, globalIniPath, currentFrame, frameComboBox.Text).ShowDialog();
+				new SKForm(this,  currentFrame, frameComboBox.Text).ShowDialog();
 			}
 		}
 
@@ -2211,7 +2213,7 @@ namespace LightController.MyForm
 			SetNotice("正在生成预览数据，请稍候...");
 			try
 			{
-				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, currentFrame, new PreviewCallBack(this));
+				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
 			}
 			catch (Exception ex)
 			{
@@ -2431,7 +2433,7 @@ namespace LightController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 事件：点击《Test》
+		/// 事件：点击《Test1》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -2440,7 +2442,7 @@ namespace LightController.MyForm
 			Console.WriteLine("场景名\tfsa\tfla");
 			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
 			{
-				Console.WriteLine(AllFrameList[frameIndex]+" : " + frameSaveArray[frameIndex] +" - " + frameLoadArray[frameIndex]);
+				Console.WriteLine(AllFrameList[frameIndex] + " : " + frameSaveArray[frameIndex] + " - " + frameLoadArray[frameIndex]);
 			}
 		}
 
@@ -2451,15 +2453,23 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton2_Click(object sender, EventArgs e)
 		{
-			//generateDBStepCountList();
-			//foreach (DB_StepCount sc in dbStepCountList)
-			//{
-			//	Console.WriteLine("遍历sc:" + sc.ToString());
-			//}
-			GenerateSourceProject();
+			////GenerateSourceProject();
+
+			//setBusy(true);
+			//SetNotice("正在压缩文件");
+			//Refresh();
+
+			//string dirPath = @"Z:\MC100\mcdata\demo1";
+			//string zipPath = @"Z:\GUAN\demo1.zip";
+			//ZipAst.CompressAllToZip(dirPath, zipPath, 0, null, @"Z:\MC100\mcdata\");
+
+			//SetNotice("已完成压缩");
+			//setBusy(false);
 		}
 
-
-		
+		private void wjTestButton_Click(object sender, EventArgs e)
+		{
+			new TestForm().ShowDialog();
+		}
 	}
 }

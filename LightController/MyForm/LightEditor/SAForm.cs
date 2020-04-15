@@ -22,18 +22,10 @@ namespace LightEditor.MyForm
 
 			InitializeComponent();
 
-			if( saIndex == -1)
-			{
-				Text = "添加子属性";
-				this.startValueNumericUpDown.Value = startValue;							
-			}
-			else
-			{
-				Text = "修改子属性";
-				this.saNameTextBox.Text = saName;
-				this.startValueNumericUpDown.Value = startValue;
-				this.endValueNumericUpDown.Value = endValue;
-			}
+			Text = saIndex == -1 ? "添加子属性": "修改子属性";					
+			saNameTextBox.Text = saName;
+			startValueNumericUpDown.Value = startValue;
+			endValueNumericUpDown.Value = endValue;
 		}		
 
 		private void SAForm_Load(object sender, EventArgs e)
@@ -121,7 +113,6 @@ namespace LightEditor.MyForm
 			this.Dispose();
 			wsForm.Activate();
 		}
-
 		
 	}
 }

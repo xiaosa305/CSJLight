@@ -93,7 +93,7 @@
 			this.networkFileLabel.Name = "networkFileLabel";
 			this.networkFileLabel.Size = new System.Drawing.Size(89, 12);
 			this.networkFileLabel.TabIndex = 6;
-			this.networkFileLabel.Text = "当前下载文件：";
+			this.networkFileLabel.Text = "当前操作内容：";
 			// 
 			// networkFileShowLabel
 			// 
@@ -335,7 +335,7 @@
 			this.comFileLabel.Name = "comFileLabel";
 			this.comFileLabel.Size = new System.Drawing.Size(89, 12);
 			this.comFileLabel.TabIndex = 6;
-			this.comFileLabel.Text = "当前下载文件：";
+			this.comFileLabel.Text = "当前操作内容：";
 			// 
 			// comComboBox
 			// 

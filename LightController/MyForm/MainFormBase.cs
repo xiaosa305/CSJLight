@@ -172,8 +172,7 @@ namespace LightController.MyForm
 		/// 辅助方法：以当前打开的工程信息，生成源文件（Source->工程文件夹、LightLibrary）；
 		/// </summary>
 		public bool GenerateSourceProject()
-		{
-			SetNotice("正在导出工程源文件,请稍候...");
+		{			
 			try
 			{
 				//若存在Source文件夹，则先删除
@@ -213,11 +212,9 @@ namespace LightController.MyForm
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
-				SetNotice("导出工程源文件失败。");
+				MessageBox.Show(ex.Message);				
 				return false;
-			}
-			SetNotice("已导出工程源文件...");
+			}		
 			return true;
 		}
 
@@ -308,7 +305,7 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		protected StepWrapper generateStepTemplate(LightAst lightAst)
 		{
-			//Console.WriteLine("Dickov :为 " + lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")生成模板文件(StepTemplate)：" );			
+			Console.WriteLine("Dickov :为 " + lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")生成模板文件(StepTemplate)：" );			
 			try{
 				using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
 				{					
@@ -451,7 +448,7 @@ namespace LightController.MyForm
 				DBWrapper allData = dbGetter.getAll();
 				return allData;
 			}
-			// 由内存几个实时的List实时生成
+			// 由内存几个List实时生成
 			else
 			{
 				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
@@ -459,7 +456,6 @@ namespace LightController.MyForm
 				generateDBFineTuneList();
 				//MARK 只开单场景：12.0 GetDBWrapper中，重写generateDBStepCountList();
 				generateDBStepCountList();
-
 				IList<DB_Value> dbValueListTemp = generateDBValueList(currentFrame);
 
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
@@ -538,7 +534,7 @@ namespace LightController.MyForm
 			{
 				return;
 			}
-
+			
 			// 取出每个灯具的所有【非null】stepCount,填入stepCountList中
 			foreach (LightWrapper lightTemp in lightWrapperList)
 			{
@@ -1613,7 +1609,7 @@ namespace LightController.MyForm
 			lightDictionary = null;
 
 			selectedIndex = -1;
-			selectedLightName = null;
+			selectedLightName = "";
 			selectedIndices = new List<int>();
 
 			tempStep = null;

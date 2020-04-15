@@ -142,6 +142,7 @@ namespace LightController.MyForm
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
+			this.wjTestButton = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -853,6 +854,7 @@ namespace LightController.MyForm
 			// 
 			this.playBasePanel.BackColor = System.Drawing.Color.White;
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.playBasePanel.Controls.Add(this.wjTestButton);
 			this.playBasePanel.Controls.Add(this.testButton2);
 			this.playBasePanel.Controls.Add(this.testButton);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
@@ -879,7 +881,7 @@ namespace LightController.MyForm
 			this.testButton.Name = "testButton";
 			this.testButton.Size = new System.Drawing.Size(84, 54);
 			this.testButton.TabIndex = 34;
-			this.testButton.Text = "Test";
+			this.testButton.Text = "Test1";
 			this.testButton.UseVisualStyleBackColor = true;
 			this.testButton.Visible = false;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
@@ -1473,6 +1475,16 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(57, "a (2).jpg");
 			this.lightLargeImageList.Images.SetKeyName(58, "a (2).png");
 			// 
+			// wjTestButton
+			// 
+			this.wjTestButton.Location = new System.Drawing.Point(6, 7);
+			this.wjTestButton.Name = "wjTestButton";
+			this.wjTestButton.Size = new System.Drawing.Size(84, 54);
+			this.wjTestButton.TabIndex = 35;
+			this.wjTestButton.Text = "wjTest";
+			this.wjTestButton.UseVisualStyleBackColor = true;
+			this.wjTestButton.Click += new System.EventHandler(this.wjTestButton_Click);
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1643,5 +1655,6 @@ namespace LightController.MyForm
 		private Button testButton;
 		private Button testButton2;
 		private ImageList lightLargeImageList;
+		private Button wjTestButton;
 	}
 }

@@ -684,7 +684,7 @@ namespace LightController.MyForm
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
-				selectedLightName = null;
+				selectedLightName = "";
 				return;
 			}
 
@@ -2465,7 +2465,9 @@ namespace LightController.MyForm
 			//setBusy(false);
 		}
 
+		private void wjTestButton_Click(object sender, EventArgs e)
+		{
 
-		
+		}
 	}
 }

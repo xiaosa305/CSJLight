@@ -325,21 +325,21 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
-		/// <param name="a"></param>		
-		public void networkPaintProgress(string fileName,int a)
+		/// <param name="processPercent"></param>		
+		public void networkPaintProgress(string fileName,int processPercent)
 		{
-			networkFileShowLabel.Text = fileName;
-			networkSkinProgressBar.Value =  a;		
+			networkFileShowLabel.Text = "正在传输文件：" + fileName;
+			networkSkinProgressBar.Value =  processPercent;		
 		}
 
 		/// <summary>
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
-		/// <param name="a"></param>		
-		public void comPaintProgress(string fileName, int a)
+		/// <param name="processPercent"></param>		
+		public void comPaintProgress(string fileName, int processPercent)
 		{
-			comFileShowLabel.Text = fileName;
-			comSkinProgressBar.Value = a;
+			comFileShowLabel.Text = "正在传输文件：" +  fileName;
+			comSkinProgressBar.Value = processPercent;
 		}
 			   
 		/// <summary>
@@ -381,6 +381,8 @@ namespace LightController.MyForm
 			else {
 				comFileShowLabel.Text = msg;
 			}
+
+
 		}
 
 		internal void ClearNetworkDevices()
@@ -391,17 +393,16 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的目录也要拷到这里来
+		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的Source也要压缩到这里来（Source.zip）
 		/// </summary>
-		/// <param name="destDir"></param>
-		public void GenerateSourceProject(string destDir)
+		/// <param name="zipPath"></param>
+		public void GenerateSourceZip(string zipPath)
 		{
 			if (mainForm.GenerateSourceProject())
-			{
-				DirectoryAst.CopyDirectory(mainForm.SavePath + @"\Source", destDir);
+			{						
+				ZipAst.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");							
 			}
 		}
-
 	}
 
 	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
@@ -481,7 +482,7 @@ namespace LightController.MyForm
 		{
 			puForm.SetLabelText(isNetwork,"数据生成成功，即将传输数据到设备。");
 			FileUtils.CopyProjectFileToDownloadDir();
-			//puForm.GenerateSourceProject(Application.StartupPath + @"\DataCache\Download\CSJ\Source");	
+			puForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");	
 			puForm.DownloadProject(isNetwork);
 		}
 
@@ -492,7 +493,7 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			//MessageBox.Show("数据：" + name+"生成成功。");
+			puForm.SetLabelText(isNetwork, name);
 		}
 	}
 }

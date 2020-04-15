@@ -63,7 +63,7 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.Location = new System.Drawing.Point(23, 299);
+			this.enterButton.Location = new System.Drawing.Point(24, 299);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(75, 23);
 			this.enterButton.TabIndex = 1;
@@ -73,7 +73,7 @@
 			// 
 			// deleteButton
 			// 
-			this.deleteButton.Location = new System.Drawing.Point(119, 299);
+			this.deleteButton.Location = new System.Drawing.Point(120, 299);
 			this.deleteButton.Name = "deleteButton";
 			this.deleteButton.Size = new System.Drawing.Size(75, 23);
 			this.deleteButton.TabIndex = 1;
@@ -84,7 +84,7 @@
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(215, 299);
+			this.cancelButton.Location = new System.Drawing.Point(216, 299);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 23);
 			this.cancelButton.TabIndex = 1;
@@ -94,7 +94,7 @@
 			// frameLabel
 			// 
 			this.frameLabel.AutoSize = true;
-			this.frameLabel.Location = new System.Drawing.Point(21, 267);
+			this.frameLabel.Location = new System.Drawing.Point(23, 267);
 			this.frameLabel.Name = "frameLabel";
 			this.frameLabel.Size = new System.Drawing.Size(83, 12);
 			this.frameLabel.TabIndex = 2;
@@ -103,7 +103,7 @@
 			// frameComboBox
 			// 
 			this.frameComboBox.FormattingEnabled = true;
-			this.frameComboBox.Location = new System.Drawing.Point(110, 263);
+			this.frameComboBox.Location = new System.Drawing.Point(112, 263);
 			this.frameComboBox.Name = "frameComboBox";
 			this.frameComboBox.Size = new System.Drawing.Size(93, 20);
 			this.frameComboBox.TabIndex = 3;
@@ -210,7 +210,11 @@
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.deleteButton);
 			this.Controls.Add(this.enterButton);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(325, 377);
+			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(325, 370);
 			this.Name = "OpenForm";
 			this.Text = "打开工程";

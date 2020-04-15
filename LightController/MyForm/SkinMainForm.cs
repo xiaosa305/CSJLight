@@ -707,7 +707,7 @@ namespace LightController.MyForm
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
-				selectedLightName = null;
+				selectedLightName = "";
 				return;
 			}
 			

@@ -17,10 +17,10 @@ namespace LightController.MyForm
 		private IniFileAst iniFileAst;
 		private int frameCount = 0;
 
-		public YMSetForm(MainFormBase mainForm,string iniPath)
+		public YMSetForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
-			iniFileAst = new IniFileAst(iniPath);
+			iniFileAst = new IniFileAst(mainForm.GlobalIniPath);
 			InitializeComponent();
 
 			#region 初始化几个数组			

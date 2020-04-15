@@ -128,15 +128,18 @@ namespace MultiLedController
 				submaskList.Add("255.255.255.0");
 			}
 
-			IPHelper.SetIPAddress(
-				moList[netcardIndex],
-				virtualIPList.ToArray(),
-				submaskList.ToArray(),
-				new string[] { "192.168." + thirdNumericUpDown.Value + ".1"}, 
-				new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" });
-
-			setStatusLabel("已设置多IP，请刷新");
-			setAddButtonEnable(true);
+			if (IPHelper.SetIPAddress(
+						moList[netcardIndex],
+						virtualIPList.ToArray(),
+						submaskList.ToArray(),
+						new string[] { "192.168." + thirdNumericUpDown.Value + ".1" },
+						new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" })) {
+				setStatusLabel("已设置多IP，请刷新");
+				setAddButtonEnable(true);
+			}
+			else{
+				setStatusLabel("配置多IP失败，已恢复初始设置。");
+			}
 		}
 
 		/// <summary>

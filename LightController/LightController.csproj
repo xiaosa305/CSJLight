@@ -164,6 +164,7 @@
     <Compile Include="Ast\MaterialAst.cs" />
     <Compile Include="Ast\MaterialIndexAst.cs" />
     <Compile Include="Common\DBGetter.cs" />
+    <Compile Include="Common\DirectoryAst.cs" />
     <Compile Include="Common\IniFileAst.cs" />
     <Compile Include="Common\IniFileAst_UTF8.cs" />
     <Compile Include="Common\MathAst.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Common\FileAst.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\TextAst.cs" />
+    <Compile Include="Common\ZipAst.cs" />
     <Compile Include="DAO\FineTuneDAO.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />

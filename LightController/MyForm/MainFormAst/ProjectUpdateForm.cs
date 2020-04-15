@@ -249,14 +249,12 @@ namespace LightController.MyForm
 					SetBusy(false);
 					return;
 				}
-
 				generateNow = true;//只有当前无projectPath且选择继续后会rightNow
 			}
 
-
-
 			string buttonName = ((Button)sender).Name;
-			if (   buttonName.Equals("networkUpdateButton") )  //使用网络升级
+			//使用网络升级
+			if (   buttonName.Equals("networkUpdateButton") ) 
 			{
 				networkUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;				
@@ -400,7 +398,7 @@ namespace LightController.MyForm
 		{
 			if (mainForm.GenerateSourceProject())
 			{
-				FileAst.CopyDirectory(mainForm.SavePath + @"\Source", destDir);
+				DirectoryAst.CopyDirectory(mainForm.SavePath + @"\Source", destDir);
 			}
 		}
 
@@ -483,7 +481,7 @@ namespace LightController.MyForm
 		{
 			puForm.SetLabelText(isNetwork,"数据生成成功，即将传输数据到设备。");
 			FileUtils.CopyProjectFileToDownloadDir();
-			//puForm.GenerateSourceProject(Application.StartupPath + @"\DataCache\Download\CSJ\Source");		   
+			//puForm.GenerateSourceProject(Application.StartupPath + @"\DataCache\Download\CSJ\Source");	
 			puForm.DownloadProject(isNetwork);
 		}
 

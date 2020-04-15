@@ -23,9 +23,18 @@ namespace LightController.MyForm
 {
 	public class MainFormBase : System.Windows.Forms.Form,MainFormInterface
 	{
-		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
+		/// <summary>
+		/// 枚举类型：《多步(多通道)调节》参数的一种
+		/// </summary>
+		public enum WHERE
+		{
+			SCROLL_VALUE,
+			CHANGE_MODE,
+			STEP_TIME, ALL
+		}
 
 		// 全局配置及数据库连接		
+		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
 		public string SoftwareName ;	 //动态载入软件名（前半部分）后半部分需自行封装
 		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
 		public bool IsShowTestButton = false;
@@ -58,7 +67,7 @@ namespace LightController.MyForm
 
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
 		protected string projectPath; //存放当前工程所在目录
-		protected string globalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
+		public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密		
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
@@ -115,15 +124,6 @@ namespace LightController.MyForm
 		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
 		protected IList<NetworkDeviceInfo> allNetworkDevices;
 
-		/// <summary>
-		/// 枚举类型：《多步(多通道)调节》参数的一种
-		/// </summary>
-		public enum WHERE
-		{
-			SCROLL_VALUE, CHANGE_MODE, STEP_TIME, ALL
-		}
-
-
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
@@ -145,8 +145,7 @@ namespace LightController.MyForm
 		public virtual void SetNotice(string notice){} //设置提示信息
 		public virtual void EnableConnectedButtons(bool connected){} //设置《连接按钮组》是否可用
 
-		#endregion
-			   
+		#endregion			   
 
 		#region 存储一些供其他Form使用的变量，比如已打开的升级文件、工程文件等
 
@@ -174,6 +173,7 @@ namespace LightController.MyForm
 		/// </summary>
 		public bool GenerateSourceProject()
 		{
+			SetNotice("正在导出工程源文件,请稍候...");
 			try
 			{
 				//若存在Source文件夹，则先删除
@@ -183,10 +183,10 @@ namespace LightController.MyForm
 					di.Delete(true);
 				}			
 				// 删除后直接创建下一级目录，并拷贝相关目录
-				string destPath = SavePath + @"\Source\"+currentProjectName;
+				string destPath = SavePath + @"\Source\LightProject\"+currentProjectName;
 				di = new DirectoryInfo(destPath);
 				di.Create();
-				FileAst.CopyDirectory(projectPath, destPath);
+				DirectoryAst.CopyDirectory(projectPath, destPath);
 
 				if (lightAstList != null && lightAstList.Count > 0) {
 					string lightLibPath = SavePath + @"\Source\LightLibrary";
@@ -214,8 +214,10 @@ namespace LightController.MyForm
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
+				SetNotice("导出工程源文件失败。");
 				return false;
 			}
+			SetNotice("已导出工程源文件...");
 			return true;
 		}
 
@@ -1214,7 +1216,6 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
 		
 		/// <summary>
 		///  辅助方法：供《多步(多通道)调节》使用
@@ -1551,7 +1552,7 @@ namespace LightController.MyForm
 			// 1.全局设置
 			currentProjectName = projectName;
 			projectPath = SavePath + @"\LightProject\" + projectName;
-			globalIniPath = projectPath + @"\global.ini";
+			GlobalIniPath = projectPath + @"\global.ini";
 			dbFilePath = projectPath + @"\data.db3";
 			Text = SoftwareName + " Dimmer System(当前工程:" + projectName + ")";
 
@@ -1559,7 +1560,7 @@ namespace LightController.MyForm
 			arrangeIniPath = projectPath + @"\arrange.ini";
 
 			// 9.5 读取时间因子
-			IniFileAst iniAst = new IniFileAst(globalIniPath);
+			IniFileAst iniAst = new IniFileAst(GlobalIniPath);
 			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
 			eachStepTime2 = eachStepTime / 1000m;
 			initStNumericUpDowns();  //更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
@@ -1612,7 +1613,7 @@ namespace LightController.MyForm
 			lightDictionary = null;
 
 			selectedIndex = -1;
-			selectedLightName = "";
+			selectedLightName = null;
 			selectedIndices = new List<int>();
 
 			tempStep = null;
@@ -1929,7 +1930,7 @@ namespace LightController.MyForm
 			SetNotice("正在导出工程，请稍候...");
 			setBusy(true);			
 
-			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, globalIniPath, new ExportCallBack(this, exportPath));
+			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportCallBack(this, exportPath));
 		}
 
 		/// <summary>
@@ -1949,17 +1950,21 @@ namespace LightController.MyForm
 		}
 		
 		/// <summary>
-		/// 辅助方法：导出工程的实现，在SaveProjectFile成功后回调
+		/// 辅助方法：拷贝已生成工程到指定目录（并在此期间生成并压缩源文件），在SaveProjectFile成功后回调
 		/// </summary>
 		/// <param name="exportPath"></param>
 		/// <param name="success"></param>
-		public void ExportProject(string exportPath, bool success)
+		public void CopyProject(string exportPath, bool success)
 		{
 			if (success)
 			{
 				FileUtils.ExportProjectFile(exportPath);
 				if (GenerateSourceProject()) {
-					FileAst.CopyDirectory(SavePath+@"\Source", exportPath+@"\Source");
+					SetNotice("正在压缩源文件,请稍候...");
+					string dirPath = SavePath + @"\Source";
+					string zipPath = exportPath + @"\Source.zip";
+					ZipAst.CompressAllToZip(dirPath, zipPath, 9, null, SavePath+@"\");
+					SetNotice("已成功压缩源文件(Source.zip)。");
 				}
 
 				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
@@ -2214,7 +2219,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void globalSetClick()
 		{
-			new GlobalSetForm(this, globalIniPath).ShowDialog();
+			new GlobalSetForm(this).ShowDialog();
 		}
 
 		/// <summary>
@@ -2222,7 +2227,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void ymSetClick()
 		{
-			new YMSetForm(this, globalIniPath).ShowDialog();
+			new YMSetForm(this).ShowDialog();
 		}
 
 		/// <summary>
@@ -2235,7 +2240,7 @@ namespace LightController.MyForm
 				connectButtonClick();
 			}
 
-			new ProjectUpdateForm(this, GetDBWrapper(false), globalIniPath, tempProjectPath).ShowDialog();
+			new ProjectUpdateForm(this, GetDBWrapper(false), GlobalIniPath, tempProjectPath).ShowDialog();
 		}
 
 		#endregion
@@ -2507,7 +2512,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void multiCopyClick()
 		{
-
 			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, currentMode, selectedLightName, getCurrentStep());
 			if (mscForm != null && !mscForm.IsDisposed)
 			{
@@ -2736,7 +2740,7 @@ namespace LightController.MyForm
 				playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 			}
 			SetNotice("预览数据生成成功,即将开始预览。");
-			playTools.PreView(GetDBWrapper(false), globalIniPath, currentFrame);			
+			playTools.PreView(GetDBWrapper(false), GlobalIniPath, currentFrame);			
 		}
 
 		/// <summary>
@@ -3151,11 +3155,11 @@ namespace LightController.MyForm
 		}
 		public void Completed()
 		{
-			mainForm.ExportProject(exportFolder, true);
+			mainForm.CopyProject(exportFolder, true);
 		}
 		public void Error()
 		{
-			mainForm.ExportProject(exportFolder, false);
+			mainForm.CopyProject(exportFolder, false);
 		}
 		public void UpdateProgress(string name)
 		{

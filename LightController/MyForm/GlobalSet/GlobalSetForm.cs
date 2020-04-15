@@ -13,8 +13,7 @@ namespace LightController.MyForm
 {
 	public partial class GlobalSetForm : Form
 	{
-		public MainFormBase mainForm;
-		private string iniFilePath;
+		public MainFormBase mainForm;		
 		private IniFileAst iniAst ;
 		private bool isInit = false;
 		private int frameIndex = -1;
@@ -24,10 +23,9 @@ namespace LightController.MyForm
 		private int frameCount = 0 ;
 		public static int MULTI_SCENE_COUNT = 16 ;
 
-		public GlobalSetForm(MainFormBase mainForm,string iniFilePath) {
+		public GlobalSetForm(MainFormBase mainForm) {
 
-			this.mainForm = mainForm;
-			this.iniFilePath = iniFilePath;
+			this.mainForm = mainForm;			
 
 			InitializeComponent();
 
@@ -87,7 +85,7 @@ namespace LightController.MyForm
 			#endregion
 
 			// 初始化iniAst
-			iniAst = new IniFileAst(iniFilePath);
+			iniAst = new IniFileAst(mainForm.GlobalIniPath);
 			isInit = true;			
 		}
 

@@ -1843,7 +1843,7 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.InitialImage = null;
 			this.currentLightPictureBox.Location = new System.Drawing.Point(66, 31);
 			this.currentLightPictureBox.Name = "currentLightPictureBox";
-			this.currentLightPictureBox.Size = new System.Drawing.Size(112, 125);
+			this.currentLightPictureBox.Size = new System.Drawing.Size(119, 125);
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 0;
 			this.currentLightPictureBox.TabStop = false;

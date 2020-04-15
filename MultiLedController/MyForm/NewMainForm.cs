@@ -316,9 +316,17 @@ namespace MultiLedController.MyForm
 					};
 
 					setNotice(1,"正在为您设置虚拟IP，请稍候...");
-					
-					IPHelper.SetIPAddress(mo, ipAst);
-					refreshVirtualIPListView(newIPList);
+
+					if (IPHelper.SetIPAddress(mo, ipAst))
+					{
+						refreshVirtualIPListView(newIPList);
+					}
+					else {
+						MessageBox.Show("虚拟IP设置失败，已恢复初始设置。");
+						setNotice(1, "启动模拟失败。");
+						setBusy(false);
+						return;
+					}					
 				}
 
 				ControlDevice device = getSelectedLedControl(controllerSelectedIndex);

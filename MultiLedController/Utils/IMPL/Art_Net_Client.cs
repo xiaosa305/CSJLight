@@ -19,7 +19,6 @@ namespace MultiLedController.utils.impl
         private string ServerIp { get; set; }
         private List<int> Fields { get; set; }
         private Thread ReceiveThread { get; set; }
-        private byte Addr { get; set; }
         private bool ReceiveStartStatus { get; set; }
         private Art_Net_Manager Manager { get; set; }
 
@@ -69,7 +68,7 @@ namespace MultiLedController.utils.impl
                 this.ReceiveStartStatus = true;
                 //启动接收线程
                 this.ReceiveThread.Start(this.UDP_Receive);
-                this.Addr = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
+                LogTools.Debug(Constant.TAG_XIAOSA,"虚拟客户端" + currentIp + "启动成功");
             }
             catch (Exception ex)
             {

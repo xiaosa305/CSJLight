@@ -66,14 +66,23 @@ namespace MultiLedController.utils.impl
         /// <returns>实时调试数据</returns>
         public DebugQueueCacheData DebugDequeue()
         {
-            if (this.DebugQueue.Count == 0)
+            try
             {
+                if (this.DebugQueue.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return this.DebugQueue.Dequeue();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "获取调试队列消息出错", ex);
                 return null;
             }
-            else
-            {
-                return this.DebugQueue.Dequeue();
-            }
+            
         }
         /// <summary>
         /// 功能：提取队列存储数据
@@ -81,13 +90,21 @@ namespace MultiLedController.utils.impl
         /// <returns>存储数据</returns>
         public SaveQueueCacheData SaveDequeue()
         {
-            if (this.SaveQueue.Count == 0)
+            try
             {
-                return null;
+                if (this.SaveQueue.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return this.SaveQueue.Dequeue();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return this.SaveQueue.Dequeue();
+                LogTools.Error(Constant.TAG_XIAOSA, "获取存储队列消息出错", ex);
+                return null;
             }
         }
     }

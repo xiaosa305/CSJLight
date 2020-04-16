@@ -156,7 +156,7 @@ namespace MultiLedController.Common
 				}
 				Thread.Sleep(100);
 				i++;
-				if( i >= 80)
+				if( i >= 200)
 				{
 					//恢复之前的设置
 					inPar = mo.GetMethodParameters("EnableStatic");

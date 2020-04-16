@@ -18,6 +18,7 @@ using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using OtherTools;
 using LightEditor.Ast;
+using LightController.MyForm.LightList;
 
 namespace LightController.MyForm
 {
@@ -344,7 +345,7 @@ namespace LightController.MyForm
 							int initNum = int.Parse(lineList[3 * tdIndex + 7].ToString().Substring(4));
 							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));
 
-							//MARK 200325 生成模板数据时，取出子属性的列表							
+							//MARK 200325 生成模板数据时，取出子属性的列表（显示各个子属性数值）					
 							string remark = tongdaoName + "\n";
 							IList<SA> saList = new List<SA>();
 							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
@@ -364,7 +365,7 @@ namespace LightController.MyForm
 								StepTime = 66,
 								ChangeMode = -1,
 								Address = lightAst.StartNum + (address - 1),
-								//MARK 200325 生成模板数据时，加入备注
+								//MARK 200325 生成模板数据时，加入备注（显示各个子属性数值）
 								Remark = remark
 							});
 						}
@@ -558,16 +559,14 @@ namespace LightController.MyForm
 						if (frameLoadArray[frameIndex])
 						{
 							LightStepWrapper lsTemp = allLightStepWrappers[frameIndex, mode];
-							//MARK 只开单场景：12.2.补 generateDBStepCountLit()重写：若加载过的场景，此灯具并未被选中过，则其lsTemp为空！此时可能最终会传一个Count==
-							if (lsTemp != null)
+							//MARK 只开单场景：12.2.补 generateDBStepCountLit()重写：若加载过的场景，此灯具并未被选中过，则其lsTemp为空！
+							//	此时可能最终会传一个Count =0 的 dbStepCountList，而使用这种列表，程序会卡住，故需要处理
+							DB_StepCount stepCount = new DB_StepCount()
 							{
-								DB_StepCount stepCount = new DB_StepCount()
-								{
-									StepCount = lsTemp.TotalStep,
+									StepCount = lsTemp == null? 0 : lsTemp.TotalStep ,
 									PK = stepCountPK
-								};
-								dbStepCountList.Add(stepCount);
-							}			
+							};
+							dbStepCountList.Add(stepCount);						
 						}
 						//MARK 只开单场景：12.3 generateDBStepCountLit()重写：未加载过的用DB数据
 						else
@@ -2759,7 +2758,21 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void lightsListViewDoubleClick(int lightIndex)
 		{
-			Console.WriteLine(lightIndex);
+			LightAst la = lightAstList[lightIndex];
+			new LightRemarkForm(this, la, lightIndex).ShowDialog();
+		}
+
+		/// <summary>
+		/// MARK 修改备注：EditLightRemark()基类实现
+		/// 辅助方法：添加或修改备注
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <param name="remark"></param>
+		public virtual void EditLightRemark(int lightIndex, string remark)
+		{
+			// 内存的lightAstList[lightIndex]要改动相应的值；
+			lightAstList[lightIndex].Remark = remark;
+			editLightInfo(lightAstList[lightIndex]);
 		}
 
 		#endregion
@@ -3067,6 +3080,8 @@ namespace LightController.MyForm
 		{
 
 		}
+
+		
 	}
 
 	public class NetworkDebugReceiveCallBack : ICommunicatorCallBack

@@ -18,6 +18,7 @@ namespace LightController.Ast
 		public string LightType { get; set; }
 		public string LightPic { get; set; }
 		public int Count { get; set; }
+		public string Remark { get; set; }
 
 		// 此三个属性，每个灯都不一样，在灯库编辑时添加
 		public string LightAddr { get; set; }
@@ -46,6 +47,7 @@ namespace LightController.Ast
 			StartNum = laOld.StartNum;
 			EndNum = laOld.EndNum;
 			SawList = laOld.SawList;
+			Remark = laOld.Remark;
 		}	
 		
 
@@ -70,7 +72,8 @@ namespace LightController.Ast
 				LightPic = light.Pic,
 				Count = light.Count,
 				LightAddr = lightAddr,
-				LightPath = path
+				LightPath = path,
+				Remark = light.Remark
 			};
 		}
 

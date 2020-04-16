@@ -627,9 +627,9 @@ namespace LightController.MyForm
 			{
 				// 添加灯具数据到LightsListView中
 				lightsSkinListView.Items.Add(new ListViewItem(
-						//lightAstList2[i].LightName + ":" + 
-						lightAstList2[i].LightType +"\n(" + lightAstList2[i].LightAddr + ")"
-						//+"\n这是备注哦"
+						lightAstList2[i].LightType +"\n(" 
+						+ lightAstList2[i].LightAddr +")"
+						+ lightAstList2[i].Remark
 						,
 					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				)
@@ -707,6 +707,7 @@ namespace LightController.MyForm
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
+				lightRemarkLabel.Text = null;
 				selectedLightName = "";
 				return;
 			}
@@ -715,6 +716,7 @@ namespace LightController.MyForm
 			lightNameLabel.Text = "灯具厂商：" + la.LightName;
 			lightTypeLabel.Text = "灯具型号：" + la.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
+			lightRemarkLabel.Text = "灯具备注：" + la.Remark;			
 			selectedLightName = la.LightName + "-" + la.LightType;
 
 			// 旧版取图片的代码：主要是需要从硬盘读取，无法满足《打开导出工程》功能，故弃用。
@@ -873,6 +875,23 @@ namespace LightController.MyForm
 		{
 			int lightIndex = lightsSkinListView.SelectedIndices[0];
 			lightsListViewDoubleClick(lightIndex);
+		}
+
+		/// <summary>
+		/// MARK 修改备注：EditLightRemark()子类实现（SkinMainForm）
+		/// 辅助方法：添加或修改备注
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <param name="remark"></param>
+		public override void EditLightRemark(int lightIndex, string remark)
+		{
+			base.EditLightRemark(lightIndex, remark);
+			// 界面的Items[lightIndex]也要改动相应的值；			
+			lightsSkinListView.Items[lightIndex].SubItems[0].Text =
+				lightAstList[lightIndex].LightType + "\n("
+				+ lightAstList[lightIndex].LightAddr + ")"
+				+ lightAstList[lightIndex].Remark;
+			lightsSkinListView.Refresh();
 		}
 
 		#endregion

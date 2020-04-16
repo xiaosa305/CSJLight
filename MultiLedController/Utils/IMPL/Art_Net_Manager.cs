@@ -116,29 +116,37 @@ namespace MultiLedController.utils.impl
         /// <param name="deviceIp">控制卡IP</param>
         public void Start(List<VirtualControlInfo> virtuals, string currentIP, string serverIp, ControlDevice device)
         {
-            this.Close();
-            if (virtuals.Count == 0)
+            try
             {
-                return;
-            }
-            int startIndex = 0;
-            //添加虚拟设备信息
-            for (int i = 0; i < virtuals.Count; i++)
-            {
-                //添加虚拟设备客户端
-                this.Clients.Add(new Art_Net_Client(virtuals[i].IP, serverIp, startIndex, virtuals[i].SpaceNum, this));
-                //添虚拟设备子空间接收状态、接收数据缓存、接收数据大小缓存
-                for (int j = 0; j < virtuals[i].SpaceNum; j++)
+                this.Close();
+                if (virtuals.Count == 0)
                 {
-                    int fieldNum = startIndex + j;
-                    this.FieldsReceiveStatus.Add(fieldNum, false);
-                    this.FieldsData.Add(fieldNum, new List<byte>());
-                    this.FieldsReceiveDataSize.Add(fieldNum, 0);
+                    return;
                 }
-                startIndex += virtuals[i].SpaceNum;
+                int startIndex = 0;
+                //添加虚拟设备信息
+                for (int i = 0; i < virtuals.Count; i++)
+                {
+                    //添加虚拟设备客户端
+                    this.Clients.Add(new Art_Net_Client(virtuals[i].IP, serverIp, startIndex, virtuals[i].SpaceNum, this));
+                    //添虚拟设备子空间接收状态、接收数据缓存、接收数据大小缓存
+                    for (int j = 0; j < virtuals[i].SpaceNum; j++)
+                    {
+                        int fieldNum = startIndex + j;
+                        this.FieldsReceiveStatus.Add(fieldNum, false);
+                        this.FieldsData.Add(fieldNum, new List<byte>());
+                        this.FieldsReceiveDataSize.Add(fieldNum, 0);
+                    }
+                    startIndex += virtuals[i].SpaceNum;
+                }
+                LEDControllerServer.GetInstance().SetControlDevice(device);
+                LEDControllerServer.GetInstance().StartServer(currentIP);
             }
-            LEDControllerServer.GetInstance().SetControlDevice(device);
-            LEDControllerServer.GetInstance().StartServer(currentIP);
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "启动模拟失败",ex,true,"启动模拟失败");
+            }
+            
         }
         /// <summary>
         /// 接收DMX数据包处理
@@ -267,7 +275,7 @@ namespace MultiLedController.utils.impl
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                     }
                 }
-                if (i == 2)
+                if (i % 2 == 0)
                 {
                     Thread.Sleep(3);
                 }

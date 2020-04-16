@@ -69,6 +69,10 @@ namespace LightController.Utils
             MainFormInterface mainForm = data.MianForm;
             List<int> c_SceneNos = new List<int>();
             List<int> m_SceneNos = new List<int>();
+            if (wrapper.stepCountList.Count == 0)
+            {
+                CallBack.Completed();
+            }
             foreach (DB_StepCount item in data.Wrapper.stepCountList)
             {
                 if (!c_SceneNos.Contains(item.PK.Frame) && item.PK.Mode == Constant.MODE_C)

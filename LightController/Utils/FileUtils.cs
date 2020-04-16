@@ -342,7 +342,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "拷贝文件到下载目录报错", ex,true,ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝文件到下载目录报错", ex);
             }
             return result;
         }
@@ -372,7 +372,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "拷贝工程文件到下载目录失败", ex,true,ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝工程文件到下载目录失败", ex);
             }
             return result;
         }

@@ -1958,7 +1958,26 @@ namespace LightController.MyForm
 		{
 			if (success)
 			{
-				FileUtils.ExportProjectFile(exportPath);
+				try
+				{
+					FileUtils.ExportProjectFile(exportPath);
+				}
+				catch (Exception ex) {
+					DialogResult dialogResult = MessageBox.Show("拷贝工程文件失败，原因为：\n"+ ex.Message+"\n请在处理完成后点击《重试》或《取消》拷贝。" ,
+						"是否重试？",
+						MessageBoxButtons.RetryCancel,
+						MessageBoxIcon.Error);
+					if (dialogResult == DialogResult.Retry)
+					{
+						CopyProject(exportPath, success); //若点击重试，则再跑一遍本方法						
+					}
+					else {
+						//若点击取消，则直接把忙时设为false，因为不会再往下走了，没有机会进行更改操作了。
+						setBusy(false);
+					}					
+					return; //只要出现异常，就一定要退出本方法；
+				}
+
 				// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
 				if (GenerateSourceProject())
 				{

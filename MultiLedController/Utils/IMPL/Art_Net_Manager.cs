@@ -25,12 +25,12 @@ namespace MultiLedController.utils.impl
         private bool DebugStatus { get; set; }
         private bool IsSaveToFile { get; set; }
         private bool TimerStatus { get; set; }
+        private bool IsStartedServer { get; set; }
         private long SystemTime { get; set; }
         private int Flag { get; set; }
         private int PackNumSum { get; set; }
         private Thread OnPlayThread { get; set; }
         private Thread OnRecodeThread { get; set; }
-        private System.Timers.Timer SaveTimers { get; set; }
         private Socket DebugServer { get; set; }
         private long RecodeFrameCount { get; set; }
         private long PlayFrameCount { get; set; }
@@ -66,6 +66,7 @@ namespace MultiLedController.utils.impl
         }
         private void Init()
         {
+            this.IsStartedServer = false;
             this.RecodeFrameCount = 0;
             this.PlayFrameCount = 0;
             this.StopDebug();
@@ -87,6 +88,7 @@ namespace MultiLedController.utils.impl
         /// </summary>
         public void Close()
         {
+            this.IsStartedServer = false;
             if (this.Clients.Count != 0)
             {
                 DataQueue.GetInstance().Reset();
@@ -98,14 +100,6 @@ namespace MultiLedController.utils.impl
             LEDControllerServer.GetInstance().Close();
             Thread.Sleep(1000);
             this.Init();
-            //try
-            //{
-            //    this.OnPlayThread.Abort();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine("关闭定时器");
-            //}
         }
         /// <summary>
         /// 启动虚拟控制器对接麦爵士
@@ -118,6 +112,9 @@ namespace MultiLedController.utils.impl
         {
             try
             {
+
+           
+           
                 this.Close();
                 if (virtuals.Count == 0)
                 {
@@ -141,12 +138,13 @@ namespace MultiLedController.utils.impl
                 }
                 LEDControllerServer.GetInstance().SetControlDevice(device);
                 LEDControllerServer.GetInstance().StartServer(currentIP);
+                this.IsStartedServer = true;
             }
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "启动模拟失败",ex,true,"启动模拟失败");
             }
-            
+
         }
         /// <summary>
         /// 接收DMX数据包处理
@@ -157,71 +155,74 @@ namespace MultiLedController.utils.impl
         {
             lock (KEY)
             {
-                long time = 0;
-                if (this.SystemTime == -1)
+                if (this.IsStartedServer)
                 {
-                    this.SystemTime = DateTime.Now.Ticks;
-                }
-                else
-                {
-                    long temp = DateTime.Now.Ticks;
-                    time = (temp - this.SystemTime) / 10000;
-                    this.SystemTime = temp;
-                }
-                if (time > 5 && this.Flag == 0)
-                {
-                    this.Flag = 1;
-                    foreach (int key in this.FieldsReceiveStatus.Keys)
+                    long time = 0;
+                    if (this.SystemTime == -1)
                     {
-                        if (this.FieldsReceiveStatus[key])
+                        this.SystemTime = DateTime.Now.Ticks;
+                    }
+                    else
+                    {
+                        long temp = DateTime.Now.Ticks;
+                        time = (temp - this.SystemTime) / 10000;
+                        this.SystemTime = temp;
+                    }
+                    if (time > 5 && this.Flag == 0)
+                    {
+                        this.Flag = 1;
+                        foreach (int key in this.FieldsReceiveStatus.Keys)
                         {
-                            this.PackNumSum += key;
+                            if (this.FieldsReceiveStatus[key])
+                            {
+                                this.PackNumSum += key;
+                            }
                         }
                     }
-                }
-                else if (time > 5 && this.Flag == 1)
-                {
-                    //计算包序
-                    int sum = 0;
-                    foreach (int key in this.FieldsReceiveStatus.Keys)
+                    else if (time > 5 && this.Flag == 1)
                     {
-                        if (this.FieldsReceiveStatus[key])
+                        //计算包序
+                        int sum = 0;
+                        foreach (int key in this.FieldsReceiveStatus.Keys)
                         {
-                            sum += key;
+                            if (this.FieldsReceiveStatus[key])
+                            {
+                                sum += key;
+                            }
                         }
+                        //检测与上一包包序累加和
+                        if (sum == this.PackNumSum)
+                        {
+                            //存储文件
+                            if (this.IsSaveToFile)
+                            {
+                                DataQueue.GetInstance().SaveEnqueue(FieldsData, Convert.ToInt16(time), this.Clients.Count, 4);
+                            }
+                            //启动实时调试状态
+                            if (this.DebugStatus)
+                            {
+                                DataQueue.GetInstance().DebugEnqueue(FieldsData, Convert.ToInt16(time));
+                            }
+                            //组包完成，清除包数据缓存区以及数据包接收标记
+                            List<int> keys = new List<int>();
+                            keys.AddRange(this.FieldsData.Keys);
+                            foreach (int item in keys)
+                            {
+                                this.FieldsData[item] = new List<byte>();
+                            }
+                            keys.Clear();
+                            keys.AddRange(this.FieldsReceiveStatus.Keys);
+                            foreach (int item in keys)
+                            {
+                                this.FieldsReceiveStatus[item] = false;
+                            }
+                        }
+                        this.PackNumSum = sum;
                     }
-                    //检测与上一包包序累加和
-                    if (sum == this.PackNumSum)
-                    {
-                        //存储文件
-                        if (this.IsSaveToFile)
-                        {
-                            DataQueue.GetInstance().SaveEnqueue(FieldsData, Convert.ToInt16(time), this.Clients.Count, 4);
-                        }
-                        //启动实时调试状态
-                        if (this.DebugStatus)
-                        {
-                            DataQueue.GetInstance().DebugEnqueue(FieldsData, Convert.ToInt16(time));
-                        }
-                        //组包完成，清除包数据缓存区以及数据包接收标记
-                        List<int> keys = new List<int>();
-                        keys.AddRange(this.FieldsData.Keys);
-                        foreach (int item in keys)
-                        {
-                            this.FieldsData[item] = new List<byte>();
-                        }
-                        keys.Clear();
-                        keys.AddRange(this.FieldsReceiveStatus.Keys);
-                        foreach (int item in keys)
-                        {
-                            this.FieldsReceiveStatus[item] = false;
-                        }
-                    }
-                    this.PackNumSum = sum;
+                    this.FieldsData[fieldNum] = data;
+                    this.FieldsReceiveStatus[fieldNum] = true;
+                    this.FieldsReceiveDataSize[fieldNum] = data.Count;
                 }
-                this.FieldsData[fieldNum] = data;
-                this.FieldsReceiveStatus[fieldNum] = true;
-                this.FieldsReceiveDataSize[fieldNum] = data.Count;
             }
         }
         /// <summary>
@@ -275,7 +276,7 @@ namespace MultiLedController.utils.impl
                         LEDControllerServer.GetInstance().SendDebugData(sendBuff);
                     }
                 }
-                if (i % 2 == 0)
+                if ((i + 1) % 3 == 0)
                 {
                     Thread.Sleep(3);
                 }

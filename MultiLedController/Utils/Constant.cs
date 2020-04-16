@@ -8,7 +8,7 @@ namespace MultiLedController.utils
     public class Constant
     {
         public const string TAG_XIAOSA = "XiaoSa";
-        public static bool IsLogInFile = true;
+        public static bool IsLogInFile = false;
         private static readonly byte[] Receive_SearchDevice = new byte[]
         {
             0x41,0x72,0x74,0x2D,0x4E,0x65,0x74,0x00

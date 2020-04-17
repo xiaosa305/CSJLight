@@ -110,8 +110,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void netcardComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (netcardIndex != netcardComboBox.SelectedIndex) {
-				Console.WriteLine("Here");
+			if (netcardIndex != netcardComboBox.SelectedIndex) {				
 				netcardIndex = netcardComboBox.SelectedIndex;
 				refreshNetcardInfo();
 				//搜索设备，只需在点击事件最后添加即可，不要放在实际方法内，避免重复操作
@@ -239,16 +238,15 @@ namespace MultiLedController.MyForm
 
 					IList<string> addIPList = new List<string>();
 
-					Ping ping = new Ping();
-
+					
 					// 此处为第一层获取可用IP的方法；
 					for (; lastStr < 255; lastStr++)
 					{
 						string addIP = top3str + lastStr;
 						setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
-						
-						IPStatus ipStatus = ping.Send(addIP).Status;
-						if (ipStatus != IPStatus.Success)
+
+						//若IP未被占用，则可以添加到addIPList中
+						if ( IPHelper.CheckIPAvailable( mainIP,addIP) ) 
 						{
 							addIPList.Add(addIP);
 							addVIPCount--;
@@ -266,9 +264,9 @@ namespace MultiLedController.MyForm
 						{
 							string addIP = top3str + lastStr;
 							setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
-							
-							IPStatus ipStatus = ping.Send(addIP).Status;
-							if (ipStatus != IPStatus.Success)
+
+							//若IP未被占用，则可以添加到addIPList中
+							if ( IPHelper.CheckIPAvailable(mainIP, addIP))
 							{
 								addIPList.Add(addIP);
 								addVIPCount--;
@@ -279,15 +277,13 @@ namespace MultiLedController.MyForm
 								break;
 							}
 						}
-					}
-					ping.Dispose();//试试主动释放ping
+					}					
 
 					// 若仍未完成，则必须提示用户无可用ip并中断操作
 					if (addVIPCount > 0)
 					{
 						MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
-						setNotice(1,"检测到当前网段无足够可用的IP地址，已中断操作。");
-						
+						setNotice(1,"检测到当前网段无足够可用的IP地址，已中断操作。");						
 						setBusy(false);
 						return;
 					}
@@ -323,7 +319,7 @@ namespace MultiLedController.MyForm
 					}
 					else {
 						MessageBox.Show("虚拟IP设置失败，已恢复初始设置。");
-						setNotice(1, "启动模拟失败。");
+						setNotice(1, "启动模拟失败(虚拟IP设置失败，已恢复初始设置)。");
 						setBusy(false);
 						return;
 					}					
@@ -785,8 +781,17 @@ namespace MultiLedController.MyForm
 			networkChanged = true;
 		}
 
+
 		#endregion
 
-		
+		/// <summary>
+		/// 事件：点击《Test》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show(IPHelper.CheckIPAvailableARPOnly("192.168.31.14","114.114.114.114").ToString());
+		}
 	}
 }

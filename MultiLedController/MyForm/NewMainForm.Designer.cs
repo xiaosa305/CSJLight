@@ -46,6 +46,7 @@
 			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.topPanel = new System.Windows.Forms.Panel();
+			this.testButton = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.refreshNetcardButton = new System.Windows.Forms.Button();
 			this.netcardComboBox = new System.Windows.Forms.ComboBox();
@@ -60,6 +61,7 @@
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.netcardInfoGroupBox = new System.Windows.Forms.GroupBox();
+			this.clearVIPButton = new System.Windows.Forms.Button();
 			this.dhcpButton = new System.Windows.Forms.Button();
 			this.refreshCurButton = new System.Windows.Forms.Button();
 			this.dnsLabel2 = new System.Windows.Forms.Label();
@@ -71,7 +73,6 @@
 			this.ipLabel2 = new System.Windows.Forms.Label();
 			this.ipLabel = new System.Windows.Forms.Label();
 			this.searchButton = new System.Windows.Forms.Button();
-			this.clearVIPButton = new System.Windows.Forms.Button();
 			this.statusStrip.SuspendLayout();
 			this.topPanel.SuspendLayout();
 			this.netcardInfoGroupBox.SuspendLayout();
@@ -214,6 +215,7 @@
 			// 
 			// topPanel
 			// 
+			this.topPanel.Controls.Add(this.testButton);
 			this.topPanel.Controls.Add(this.label2);
 			this.topPanel.Controls.Add(this.refreshNetcardButton);
 			this.topPanel.Controls.Add(this.netcardComboBox);
@@ -228,11 +230,22 @@
 			this.topPanel.Size = new System.Drawing.Size(664, 450);
 			this.topPanel.TabIndex = 48;
 			// 
+			// testButton
+			// 
+			this.testButton.Location = new System.Drawing.Point(111, 184);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(88, 31);
+			this.testButton.TabIndex = 56;
+			this.testButton.Text = "Test";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Visible = false;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
+			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.label2.Location = new System.Drawing.Point(23, 25);
+			this.label2.Location = new System.Drawing.Point(23, 22);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(35, 12);
 			this.label2.TabIndex = 55;
@@ -241,7 +254,7 @@
 			// refreshNetcardButton
 			// 
 			this.refreshNetcardButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.refreshNetcardButton.Location = new System.Drawing.Point(339, 17);
+			this.refreshNetcardButton.Location = new System.Drawing.Point(340, 16);
 			this.refreshNetcardButton.Name = "refreshNetcardButton";
 			this.refreshNetcardButton.Size = new System.Drawing.Size(62, 25);
 			this.refreshNetcardButton.TabIndex = 53;
@@ -254,7 +267,7 @@
 			this.netcardComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.netcardComboBox.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.netcardComboBox.FormattingEnabled = true;
-			this.netcardComboBox.Location = new System.Drawing.Point(62, 20);
+			this.netcardComboBox.Location = new System.Drawing.Point(62, 18);
 			this.netcardComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.netcardComboBox.Name = "netcardComboBox";
 			this.netcardComboBox.Size = new System.Drawing.Size(270, 20);
@@ -263,7 +276,7 @@
 			// 
 			// networkButton
 			// 
-			this.networkButton.Location = new System.Drawing.Point(579, 12);
+			this.networkButton.Location = new System.Drawing.Point(579, 16);
 			this.networkButton.Name = "networkButton";
 			this.networkButton.Size = new System.Drawing.Size(75, 25);
 			this.networkButton.TabIndex = 52;
@@ -366,6 +379,17 @@
 			this.netcardInfoGroupBox.TabIndex = 50;
 			this.netcardInfoGroupBox.TabStop = false;
 			this.netcardInfoGroupBox.Text = "选中网卡基本信息";
+			// 
+			// clearVIPButton
+			// 
+			this.clearVIPButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.clearVIPButton.Location = new System.Drawing.Point(170, 81);
+			this.clearVIPButton.Name = "clearVIPButton";
+			this.clearVIPButton.Size = new System.Drawing.Size(89, 20);
+			this.clearVIPButton.TabIndex = 27;
+			this.clearVIPButton.Text = "清空虚拟IP";
+			this.clearVIPButton.UseVisualStyleBackColor = true;
+			this.clearVIPButton.Click += new System.EventHandler(this.clearVIPButton_Click);
 			// 
 			// dhcpButton
 			// 
@@ -481,17 +505,6 @@
 			this.searchButton.UseVisualStyleBackColor = true;
 			this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
 			// 
-			// clearVIPButton
-			// 
-			this.clearVIPButton.Font = new System.Drawing.Font("黑体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.clearVIPButton.Location = new System.Drawing.Point(170, 81);
-			this.clearVIPButton.Name = "clearVIPButton";
-			this.clearVIPButton.Size = new System.Drawing.Size(89, 20);
-			this.clearVIPButton.TabIndex = 27;
-			this.clearVIPButton.Text = "清空虚拟IP";
-			this.clearVIPButton.UseVisualStyleBackColor = true;
-			this.clearVIPButton.Click += new System.EventHandler(this.clearVIPButton_Click);
-			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -575,5 +588,6 @@
 		private System.Windows.Forms.Button searchButton;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel2;
 		private System.Windows.Forms.Button clearVIPButton;
+		private System.Windows.Forms.Button testButton;
 	}
 }

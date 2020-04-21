@@ -54,7 +54,6 @@ namespace MultiLedController.Common
 		/// <returns></returns>
 		public static bool IsSubmask(string mask)
 		{
-
 			//11111 0000  是否分割 标志位
 			bool zero = false;
 			//分割成四段

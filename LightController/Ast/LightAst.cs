@@ -56,12 +56,12 @@ namespace LightController.Ast
 		/// </summary>
 		/// <param name="light"></param>
 		/// <returns></returns>
-		public static LightAst GenerateLightAst(DB_Light light)
+		public static LightAst GenerateLightAst(DB_Light light , string savePath)
 		{
 			int endNum = light.StartID + light.Count - 1;
 			string lightAddr = light.StartID + "-" + endNum;
 			
-			string path = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightLibrary\" + light.Name + @"\" + light.Type + ".ini";
+			string path =  savePath+ @"\LightLibrary\" + light.Name + @"\" + light.Type + ".ini";
 
 			return new LightAst()
 			{

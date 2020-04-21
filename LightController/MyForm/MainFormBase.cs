@@ -240,7 +240,7 @@ namespace LightController.MyForm
 			IList<LightAst> lightAstList = new List<LightAst>();
 			foreach (DB_Light light in lightList)
 			{
-				lightAstList.Add(LightAst.GenerateLightAst(light));
+				lightAstList.Add(LightAst.GenerateLightAst(light,SavePath));
 			}
 			return lightAstList;
 		}

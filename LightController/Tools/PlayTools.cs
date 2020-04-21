@@ -371,7 +371,7 @@ namespace LightController.Tools
                 if (this.IsTest)
                 {
                     this.SendTestData(buff.ToArray());
-                    Thread.Sleep(50);
+                    Thread.Sleep(30);
                 }
                 else if (this.PreviewWayState == STATE_SERIALPREVIEW)
                 {
@@ -477,7 +477,8 @@ namespace LightController.Tools
             {
                 this.TestComDevice = new SerialPort();
                 this.TestComDevice.PortName = comName;
-                this.TestComDevice.BaudRate = 256000;
+                //this.TestComDevice.BaudRate = 256000;
+                this.TestComDevice.BaudRate = 115200;
                 this.TestComDevice.DataBits = 8;
                 this.TestComDevice.StopBits = StopBits.One;
                 this.TestComDevice.Parity = Parity.None;
@@ -496,10 +497,6 @@ namespace LightController.Tools
             {
                 if (this.TestComDevice.IsOpen)
                 {
-                    data[1] = 0x10;
-                    data[2] = 0x20;
-                    data[3] = 0x30;
-                    data[4] = 0x40;
                     this.TestComDevice.Write(data, 0, data.Length);
                 }
             }
@@ -528,12 +525,16 @@ namespace LightController.Tools
                 return null;
             }
         }
-
         private void TestComDeviceReceive(object sender, SerialDataReceivedEventArgs s)
         {
             List<byte> RxBuff = new List<byte>();
             while (this.IsTest)
             {
+                RxBuff.Add(Convert.ToByte(TestComDevice.ReadByte()));
+                if (RxBuff.Count == 513) 
+                {
+                    RxBuff.Clear();
+                }
             }
         }
     }

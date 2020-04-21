@@ -52,7 +52,7 @@ namespace LightController.Utils
             this.ReadCBytesFromPreviewFile(null);
             ChannelDataBuff2.CopyTo(ChannelDataBuff1, 0);
             this.ReadCBytesFromPreviewFile(null);
-            LogTools.Debug(Constant.TAG_XIAOSA, "通道" + ChannelNo + "预览数据预加载完成");
+            //LogTools.Debug(Constant.TAG_XIAOSA, "通道" + ChannelNo + "预览数据预加载完成");
         }
 
         public byte Read()

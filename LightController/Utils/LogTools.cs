@@ -92,10 +92,14 @@ namespace LightController.Utils
             {
                 try
                 {
-                    string dirPath = LogFileDirectPath + DateTime.Now.Month;
+                    string dirPath = LogFileDirectPath + DateTime.Now.Year + "-" + DateTime.Now.Month;
                     Directory.CreateDirectory(dirPath);
                     string logFilePath = dirPath + @"\" + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + @".log";
-                    using (FileStream fileStream = File.OpenWrite(logFilePath))
+                    if (!File.Exists(logFilePath))
+                    {
+                        File.Create(logFilePath).Dispose();
+                    }
+                    using (FileStream fileStream = File.Open(logFilePath,FileMode.Append))
                     {
                         byte[] infoBuff = Encoding.Default.GetBytes(logInfo);
                         fileStream.Write(infoBuff, 0, infoBuff.Length);

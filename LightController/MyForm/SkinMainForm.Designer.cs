@@ -383,6 +383,7 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
+			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -1772,6 +1773,7 @@ namespace LightController.MyForm
 			// 
 			this.lightInfoSkinPanel.BackColor = System.Drawing.Color.Transparent;
 			this.lightInfoSkinPanel.Controls.Add(this.lightsAddrLabel);
+			this.lightInfoSkinPanel.Controls.Add(this.lightRemarkLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.lightTypeLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.lightNameLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.currentLightSkinPanel);
@@ -1790,9 +1792,9 @@ namespace LightController.MyForm
 			// 
 			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightsAddrLabel.Location = new System.Drawing.Point(24, 224);
+			this.lightsAddrLabel.Location = new System.Drawing.Point(24, 242);
 			this.lightsAddrLabel.Name = "lightsAddrLabel";
-			this.lightsAddrLabel.Size = new System.Drawing.Size(210, 94);
+			this.lightsAddrLabel.Size = new System.Drawing.Size(210, 74);
 			this.lightsAddrLabel.TabIndex = 0;
 			// 
 			// lightTypeLabel
@@ -1800,7 +1802,7 @@ namespace LightController.MyForm
 			this.lightTypeLabel.AutoSize = true;
 			this.lightTypeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeLabel.Location = new System.Drawing.Point(24, 199);
+			this.lightTypeLabel.Location = new System.Drawing.Point(24, 190);
 			this.lightTypeLabel.Name = "lightTypeLabel";
 			this.lightTypeLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightTypeLabel.TabIndex = 4;
@@ -1810,7 +1812,7 @@ namespace LightController.MyForm
 			this.lightNameLabel.AutoSize = true;
 			this.lightNameLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightNameLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightNameLabel.Location = new System.Drawing.Point(24, 174);
+			this.lightNameLabel.Location = new System.Drawing.Point(24, 164);
 			this.lightNameLabel.Name = "lightNameLabel";
 			this.lightNameLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightNameLabel.TabIndex = 4;
@@ -6141,6 +6143,16 @@ namespace LightController.MyForm
 			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
 			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
 			// 
+			// lightRemarkLabel
+			// 
+			this.lightRemarkLabel.AutoSize = true;
+			this.lightRemarkLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightRemarkLabel.ForeColor = System.Drawing.Color.Black;
+			this.lightRemarkLabel.Location = new System.Drawing.Point(24, 216);
+			this.lightRemarkLabel.Name = "lightRemarkLabel";
+			this.lightRemarkLabel.Size = new System.Drawing.Size(0, 17);
+			this.lightRemarkLabel.TabIndex = 4;
+			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -6737,5 +6749,6 @@ namespace LightController.MyForm
 		private SkinButton oldToolsSkinButton;
 		private ImageList middleImageList;
 		private FlowLayoutPanel saFlowLayoutPanel;
+		private Label lightRemarkLabel;
 	}
 }

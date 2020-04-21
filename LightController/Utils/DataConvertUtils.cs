@@ -754,21 +754,29 @@ namespace LightController.Utils
         /// </summary>
         public static void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo,ISaveProjectCallBack callBack)
         {
-            CallBack = callBack;
-            FileUtils.ClearPreviewCacheData();
-            FileUtils.ClearPreviewProjectData();
-            BuildMode = MODE_PREVIEW;
-            C_PreviewDataState = new Dictionary<int, bool>();
-            M_PreviewDataState = new Dictionary<int, bool>();
-            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-            C_DMXSceneState = new Dictionary<int, bool>();
-            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-            M_DMXSceneState = new Dictionary<int, bool>();
-            C_PreviewSceneData = null;
-            M_PreviewSceneData = null;
-            //TODO 测试同步语句效率-整理预览数据
-            GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
-            //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+			try
+			{
+				CallBack = callBack;
+				FileUtils.ClearPreviewCacheData();
+				FileUtils.ClearPreviewProjectData();
+				BuildMode = MODE_PREVIEW;
+				C_PreviewDataState = new Dictionary<int, bool>();
+				M_PreviewDataState = new Dictionary<int, bool>();
+				C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+				C_DMXSceneState = new Dictionary<int, bool>();
+				M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+				M_DMXSceneState = new Dictionary<int, bool>();
+				C_PreviewSceneData = null;
+				M_PreviewSceneData = null;
+				//TODO 测试同步语句效率-整理预览数据
+				GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+				//ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+			}
+			catch (Exception ex)
+			{
+				LogTools.Error(Constant.TAG_XIAOSA, "预览数据生成出错", ex, true, "预览数据生成出错");
+			}
+            
 
         }
         /// <summary>

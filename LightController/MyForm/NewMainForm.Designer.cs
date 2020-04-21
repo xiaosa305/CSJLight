@@ -67,7 +67,6 @@ namespace LightController.MyForm
 			this.lightTypeLabel = new System.Windows.Forms.Label();
 			this.lightNameLabel = new System.Windows.Forms.Label();
 			this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.addLightRemarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.refreshPicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.hideMenuStriplToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +98,7 @@ namespace LightController.MyForm
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
+			this.wjTestButton = new System.Windows.Forms.Button();
 			this.testButton2 = new System.Windows.Forms.Button();
 			this.testButton = new System.Windows.Forms.Button();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
@@ -141,8 +141,8 @@ namespace LightController.MyForm
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
+			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
-			this.wjTestButton = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -464,7 +464,7 @@ namespace LightController.MyForm
 			// 
 			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightsAddrLabel.Location = new System.Drawing.Point(4, 211);
+			this.lightsAddrLabel.Location = new System.Drawing.Point(4, 210);
 			this.lightsAddrLabel.Name = "lightsAddrLabel";
 			this.lightsAddrLabel.Size = new System.Drawing.Size(165, 83);
 			this.lightsAddrLabel.TabIndex = 5;
@@ -474,7 +474,7 @@ namespace LightController.MyForm
 			// 
 			this.lightTypeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeLabel.Location = new System.Drawing.Point(4, 177);
+			this.lightTypeLabel.Location = new System.Drawing.Point(4, 156);
 			this.lightTypeLabel.Name = "lightTypeLabel";
 			this.lightTypeLabel.Size = new System.Drawing.Size(166, 18);
 			this.lightTypeLabel.TabIndex = 7;
@@ -485,7 +485,7 @@ namespace LightController.MyForm
 			this.lightNameLabel.BackColor = System.Drawing.Color.Transparent;
 			this.lightNameLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightNameLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightNameLabel.Location = new System.Drawing.Point(4, 143);
+			this.lightNameLabel.Location = new System.Drawing.Point(4, 129);
 			this.lightNameLabel.Name = "lightNameLabel";
 			this.lightNameLabel.Size = new System.Drawing.Size(166, 18);
 			this.lightNameLabel.TabIndex = 8;
@@ -494,7 +494,6 @@ namespace LightController.MyForm
 			// myContextMenuStrip
 			// 
 			this.myContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addLightRemarkToolStripMenuItem,
             this.refreshPicToolStripMenuItem,
             this.toolStripSeparator4,
             this.hideMenuStriplToolStripMenuItem,
@@ -502,15 +501,7 @@ namespace LightController.MyForm
             this.hideUnifyPanelToolStripMenuItem,
             this.hidePlayPanelToolStripMenuItem});
 			this.myContextMenuStrip.Name = "myContextMenuStrip";
-			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 142);
-			// 
-			// addLightRemarkToolStripMenuItem
-			// 
-			this.addLightRemarkToolStripMenuItem.Name = "addLightRemarkToolStripMenuItem";
-			this.addLightRemarkToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.addLightRemarkToolStripMenuItem.Text = "为灯具添加备注";
-			this.addLightRemarkToolStripMenuItem.Visible = false;
-			this.addLightRemarkToolStripMenuItem.Click += new System.EventHandler(this.addLightRemarkToolStripMenuItem_Click);
+			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 120);
 			// 
 			// refreshPicToolStripMenuItem
 			// 
@@ -864,6 +855,16 @@ namespace LightController.MyForm
 			this.playBasePanel.Name = "playBasePanel";
 			this.playBasePanel.Size = new System.Drawing.Size(1264, 96);
 			this.playBasePanel.TabIndex = 67;
+			// 
+			// wjTestButton
+			// 
+			this.wjTestButton.Location = new System.Drawing.Point(6, 7);
+			this.wjTestButton.Name = "wjTestButton";
+			this.wjTestButton.Size = new System.Drawing.Size(84, 54);
+			this.wjTestButton.TabIndex = 35;
+			this.wjTestButton.Text = "wjTest";
+			this.wjTestButton.UseVisualStyleBackColor = true;
+			this.wjTestButton.Click += new System.EventHandler(this.wjTestButton_Click);
 			// 
 			// testButton2
 			// 
@@ -1393,6 +1394,7 @@ namespace LightController.MyForm
 			this.lightInfoPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lightInfoPanel.Controls.Add(this.currentLightPictureBox);
 			this.lightInfoPanel.Controls.Add(this.lightsAddrLabel);
+			this.lightInfoPanel.Controls.Add(this.lightRemarkLabel);
 			this.lightInfoPanel.Controls.Add(this.lightTypeLabel);
 			this.lightInfoPanel.Controls.Add(this.lightNameLabel);
 			this.lightInfoPanel.Dock = System.Windows.Forms.DockStyle.Right;
@@ -1404,12 +1406,22 @@ namespace LightController.MyForm
 			// currentLightPictureBox
 			// 
 			this.currentLightPictureBox.InitialImage = null;
-			this.currentLightPictureBox.Location = new System.Drawing.Point(32, 17);
+			this.currentLightPictureBox.Location = new System.Drawing.Point(32, 8);
 			this.currentLightPictureBox.Name = "currentLightPictureBox";
 			this.currentLightPictureBox.Size = new System.Drawing.Size(110, 115);
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 6;
 			this.currentLightPictureBox.TabStop = false;
+			// 
+			// lightRemarkLabel
+			// 
+			this.lightRemarkLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightRemarkLabel.ForeColor = System.Drawing.Color.Black;
+			this.lightRemarkLabel.Location = new System.Drawing.Point(4, 183);
+			this.lightRemarkLabel.Name = "lightRemarkLabel";
+			this.lightRemarkLabel.Size = new System.Drawing.Size(166, 18);
+			this.lightRemarkLabel.TabIndex = 7;
+			this.lightRemarkLabel.Text = " ";
 			// 
 			// lightLargeImageList
 			// 
@@ -1474,16 +1486,6 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(56, "a (1).png");
 			this.lightLargeImageList.Images.SetKeyName(57, "a (2).jpg");
 			this.lightLargeImageList.Images.SetKeyName(58, "a (2).png");
-			// 
-			// wjTestButton
-			// 
-			this.wjTestButton.Location = new System.Drawing.Point(6, 7);
-			this.wjTestButton.Name = "wjTestButton";
-			this.wjTestButton.Size = new System.Drawing.Size(84, 54);
-			this.wjTestButton.TabIndex = 35;
-			this.wjTestButton.Text = "wjTest";
-			this.wjTestButton.UseVisualStyleBackColor = true;
-			this.wjTestButton.Click += new System.EventHandler(this.wjTestButton_Click);
 			// 
 			// NewMainForm
 			// 
@@ -1640,7 +1642,6 @@ namespace LightController.MyForm
 		private ImageList lightImageList;
 		private ToolStripMenuItem refreshPicToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator4;
-		private ToolStripMenuItem addLightRemarkToolStripMenuItem;
 		private Panel unifyPanel;
 		private FlowLayoutPanel saFlowLayoutPanel;
 		private Button zeroButton;
@@ -1656,5 +1657,6 @@ namespace LightController.MyForm
 		private Button testButton2;
 		private ImageList lightLargeImageList;
 		private Button wjTestButton;
+		private Label lightRemarkLabel;
 	}
 }

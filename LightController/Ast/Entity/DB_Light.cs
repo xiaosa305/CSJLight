@@ -14,15 +14,7 @@ namespace DMX512
         public virtual string Pic { get; set; }
         public virtual int StartID { get; set; }
         public virtual int Count { get; set; }
-
-		public override string ToString()
-		{
-			return "LightNo:" + LightNo + "\n"
-				+ "Name:" + Name + "\n"
-				+ "Type:" + Type + "\n"
-				+ "Pic:" + Pic + "\n"
-				+ "Count:" + Count;
-		}
+		public virtual string Remark { get; set; }
 
 		/// <summary>
 		///  内置静态辅助方法 : 使用LightAst生成DB_Light
@@ -38,9 +30,19 @@ namespace DMX512
 				Name = la.LightName,
 				Type = la.LightType,
 				Pic = la.LightPic,
-				Count = la.Count
+				Count = la.Count,
+				Remark = la.Remark
 			};
 		}
 
+		// 重写ToString()；
+		//public override string ToString()
+		//{
+		//	return "LightNo:" + LightNo + "\n"
+		//		+ "Name:" + Name + "\n"
+		//		+ "Type:" + Type + "\n"
+		//		+ "Pic:" + Pic + "\n"
+		//		+ "Count:" + Count;
+		//}
 	}
 }

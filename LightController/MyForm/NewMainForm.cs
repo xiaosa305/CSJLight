@@ -612,10 +612,9 @@ namespace LightController.MyForm
 			{
 				// 添加灯具数据到LightsListView中
 				lightsListView.Items.Add(new ListViewItem(
-						//lightAstList2[i].LightName + ":" + 
-						lightAstList2[i].LightType + "\n" +	"(" + lightAstList2[i].LightAddr + ")"
-						//+"\n这是备注哦"
-						,
+					lightAstList2[i].LightType + "\n"+
+						"(" + lightAstList2[i].LightAddr + ")\n" +
+						lightAstList2[i].Remark,
 					lightImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
 				)
 				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
@@ -677,24 +676,27 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
 		/// </summary>
-		/// <param name="lightAst"></param>
-		protected override void editLightInfo(LightAst lightAst)
+		/// <param name="la"></param>
+		protected override void editLightInfo(LightAst la)
 		{
-			if (lightAst == null)
+			if (la == null)
 			{
 				currentLightPictureBox.Image = null;
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
+				lightRemarkLabel.Text = null;
 				selectedLightName = "";
 				return;
 			}
 
-			currentLightPictureBox.Image = lightLargeImageList.Images[lightAst.LightPic] != null ? lightLargeImageList.Images[lightAst.LightPic] : global::LightController.Properties.Resources.灯光图;
-			lightNameLabel.Text = "灯具厂商：" + lightAst.LightName;
-			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
-			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
-			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
+			currentLightPictureBox.Image = lightLargeImageList.Images[la.LightPic] != null ? lightLargeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
+			lightNameLabel.Text = "厂商：" + la.LightName;
+			lightTypeLabel.Text = "型号：" + la.LightType;
+			lightsAddrLabel.Text = "地址：" + la.LightAddr;
+			lightRemarkLabel.Text = "备注：" + la.Remark;
+			myToolTip.SetToolTip(lightRemarkLabel, "备注：\n" + la.Remark);
+			selectedLightName = la.LightName + "-" + la.LightType;
 		}
 
 		/// <summary>
@@ -844,26 +846,27 @@ namespace LightController.MyForm
 			lightsListViewDoubleClick(lightIndex);
 		}
 
+		/// <summary>
+		/// MARK 修改备注：EditLightRemark()子类实现（NewMainForm）
+		/// 辅助方法：添加或修改备注
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <param name="remark"></param>
+		public override void EditLightRemark(int lightIndex, string remark)
+		{
+			base.EditLightRemark(lightIndex, remark);
+			// 界面的Items[lightIndex]也要改动相应的值；			
+			lightsListView.Items[lightIndex].SubItems[0].Text =
+				lightAstList[lightIndex].LightType + "\n(" 
+				+ lightAstList[lightIndex].LightAddr + ")\n"
+				+ lightAstList[lightIndex].Remark;
+			lightsListView.Refresh();
+		}
+
 		#endregion
 
 		//MARK：SkinMainForm灯具listView相关（右键菜单+位置等）
-		#region  灯具listView相关（右键菜单+位置等）
-
-		/// <summary>
-		/// 事件：点击《为灯具添加备注》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void addLightRemarkToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (selectedIndex == -1)
-			{
-				Console.WriteLine("尚未选中灯具");
-				return;
-			}
-
-			lightsListView.SelectedItems[0].SubItems[0].Text += "\nhahah";
-		}
+		#region  灯具listView相关（右键菜单+位置等）					
 
 		/// <summary>
 		/// 事件：重新加载灯具图片
@@ -2467,9 +2470,15 @@ namespace LightController.MyForm
 			//setBusy(false);
 		}
 
+		/// <summary>
+		/// 事件：点击《wjTest》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void wjTestButton_Click(object sender, EventArgs e)
 		{
 			new TestForm().ShowDialog();
 		}
+
 	}
 }

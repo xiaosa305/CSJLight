@@ -59,6 +59,9 @@
   <PropertyGroup>
     <ApplicationIcon>favicon-20191029044630870.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MultiLedController.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

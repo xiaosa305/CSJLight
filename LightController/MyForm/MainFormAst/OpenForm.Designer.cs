@@ -51,6 +51,7 @@
 			// 
 			// projectTreeView
 			// 
+			this.projectTreeView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.projectTreeView.Dock = System.Windows.Forms.DockStyle.Left;
 			this.projectTreeView.Location = new System.Drawing.Point(0, 0);
 			this.projectTreeView.Margin = new System.Windows.Forms.Padding(2);
@@ -156,6 +157,7 @@
 			// 
 			// sortCreateTimeButton
 			// 
+			this.sortCreateTimeButton.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.sortCreateTimeButton.Location = new System.Drawing.Point(243, 86);
 			this.sortCreateTimeButton.Name = "sortCreateTimeButton";
 			this.sortCreateTimeButton.Size = new System.Drawing.Size(63, 45);
@@ -166,6 +168,7 @@
 			// 
 			// sortNameButton
 			// 
+			this.sortNameButton.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.sortNameButton.Location = new System.Drawing.Point(243, 32);
 			this.sortNameButton.Name = "sortNameButton";
 			this.sortNameButton.Size = new System.Drawing.Size(63, 45);
@@ -176,6 +179,7 @@
 			// 
 			// changeWorkspaceButton
 			// 
+			this.changeWorkspaceButton.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.changeWorkspaceButton.Location = new System.Drawing.Point(243, 194);
 			this.changeWorkspaceButton.Name = "changeWorkspaceButton";
 			this.changeWorkspaceButton.Size = new System.Drawing.Size(63, 45);
@@ -186,6 +190,7 @@
 			// 
 			// sortLastTimeButton
 			// 
+			this.sortLastTimeButton.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.sortLastTimeButton.Location = new System.Drawing.Point(243, 140);
 			this.sortLastTimeButton.Name = "sortLastTimeButton";
 			this.sortLastTimeButton.Size = new System.Drawing.Size(63, 45);
@@ -203,7 +208,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(309, 338);
+			this.ClientSize = new System.Drawing.Size(309, 331);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.frameLabel);
@@ -213,7 +218,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(325, 377);
+			this.MaximumSize = new System.Drawing.Size(325, 370);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(325, 370);
 			this.Name = "OpenForm";

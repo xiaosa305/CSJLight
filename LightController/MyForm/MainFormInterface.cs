@@ -10,6 +10,6 @@ namespace LightController.MyForm
 	public interface MainFormInterface
 	{
 		//MARK 只开单场景：10.0 抽象出GetFMTDList() 
-		IList<TongdaoWrapper> GetFMTDList(DB_ValuePK pk);
+		IList<TongdaoWrapper> GetFMTDList(DB_ValuePK pk);		
 	}
 }

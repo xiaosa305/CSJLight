@@ -460,6 +460,7 @@ namespace LightController.Utils
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "计算生成常规文件数据出错-" + fileName,ex);
+                
             }
         }
         /// <summary>
@@ -809,10 +810,21 @@ namespace LightController.Utils
                 if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_C)
                 {
                     c_StepCount = item.StepCount;
+                    if (c_StepCount != 0)
+                    {
+                        break;
+                    }
                 }
+            }
+            foreach (DB_StepCount item in wrapper.stepCountList)
+            {
                 if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_M)
                 {
                     m_StepCount = item.StepCount;
+                    if (m_StepCount != 0)
+                    {
+                        break;
+                    }
                 }
             }
             if (c_StepCount > 0)

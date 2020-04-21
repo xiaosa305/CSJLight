@@ -151,7 +151,7 @@ namespace LightController.Tools
                 this.ComDevice.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
                 ComDevice.Open();
                 this.IsOpenComdevice = true;
-                LogTools.Debug(Constant.TAG_XIAOSA, "串口" + PortName + "打开成功");
+                //LogTools.Debug(Constant.TAG_XIAOSA, "串口" + PortName + "打开成功");
                 return ComDevice.IsOpen;
             }
             catch (Exception ex)

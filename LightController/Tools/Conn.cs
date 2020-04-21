@@ -73,7 +73,7 @@ namespace LightController.Tools
                 int count = conn.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
-                    LogTools.Debug(Constant.TAG_XIAOSA, "[" + this.Ip + "] 断开连接");
+                    //LogTools.Debug(Constant.TAG_XIAOSA, "[" + this.Ip + "] 断开连接");
                     conn.CloseDevice();
                     return;
                 }
@@ -118,7 +118,7 @@ namespace LightController.Tools
         public override void CloseDevice()
         {
             if (!IsUse) return;
-            LogTools.Debug(Constant.TAG_XIAOSA, "[" + this.Ip + "] 断开连接");
+            //LogTools.Debug(Constant.TAG_XIAOSA, "[" + this.Ip + "] 断开连接");
             this.DownloadStatus = false;
             try
             {

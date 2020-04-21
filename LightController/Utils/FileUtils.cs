@@ -288,7 +288,7 @@ namespace LightController.Utils
                     }
 
                 }
-                LogTools.Debug(Constant.TAG_XIAOSA, "文件整合完成");
+                //LogTools.Debug(Constant.TAG_XIAOSA, "文件整合完成");
             }
             catch (Exception ex)
             {
@@ -306,7 +306,7 @@ namespace LightController.Utils
                     {
                         CreateGradientData();
                     }
-                    LogTools.Debug(Constant.TAG_XIAOSA, "数据全部整合完毕");
+                    //LogTools.Debug(Constant.TAG_XIAOSA, "数据全部整合完毕");
                     callBack.Completed();
                 }
                 DataConvertUtils.Flag = true;
@@ -396,7 +396,7 @@ namespace LightController.Utils
                     foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
                     {
                         FileInfo info = new FileInfo(filePath);
-                        LogTools.Debug(Constant.TAG_XIAOSA, "拷贝工程文件到指定目录" + info.Name);
+                        //LogTools.Debug(Constant.TAG_XIAOSA, "拷贝工程文件到指定目录" + info.Name);
                         info.CopyTo(dirPath + @"\" + info.Name, true);
                     }
                     result = true;

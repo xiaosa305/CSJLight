@@ -85,7 +85,7 @@ namespace LightController.PeripheralDevice
                 int count = connect.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
-                    LogTools.Debug(Constant.TAG_XIAOSA, "设备断开连接");
+                    //LogTools.Debug(Constant.TAG_XIAOSA, "设备断开连接");
                     return;
                 }
                 else

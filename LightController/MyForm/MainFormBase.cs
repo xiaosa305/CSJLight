@@ -561,7 +561,8 @@ namespace LightController.MyForm
 							LightStepWrapper lsTemp = allLightStepWrappers[frameIndex, mode];
 							//MARK 只开单场景：12.2.补 generateDBStepCountLit()重写：若加载过的场景，此灯具并未被选中过，则其lsTemp为空！
 							//	此时可能最终会传一个Count =0 的 dbStepCountList，而使用这种列表，程序会卡住，故需要处理
-							if (lsTemp != null) {
+							if (lsTemp != null)
+							{
 								DB_StepCount stepCount = new DB_StepCount()
 								{
 									StepCount = lsTemp.TotalStep,
@@ -569,7 +570,15 @@ namespace LightController.MyForm
 								};
 								dbStepCountList.Add(stepCount);
 							}
-									
+							//MARK 只开单场景：12.2.补2 generateDBStepCountLit()重写：若加载过的场景，此灯具并未被选中过，则其lsTemp为空,此时不需要添加dbStepCount数据
+							//else {
+							//	DB_StepCount stepCount = new DB_StepCount()
+							//	{
+							//		StepCount =0,
+							//		PK = stepCountPK
+							//	};
+							//	dbStepCountList.Add(stepCount);
+							//}									
 						}
 						//MARK 只开单场景：12.3 generateDBStepCountLit()重写：未加载过的用DB数据
 						else

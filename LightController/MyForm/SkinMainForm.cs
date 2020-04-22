@@ -2405,6 +2405,7 @@ namespace LightController.MyForm
 			setBusy(true);
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
 			SetNotice("正在生成预览数据，请稍候...");
+			Refresh();
 			try
 			{
 				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));

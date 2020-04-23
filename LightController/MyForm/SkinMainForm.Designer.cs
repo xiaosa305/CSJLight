@@ -94,6 +94,7 @@ namespace LightController.MyForm
 			this.tytzLabel = new System.Windows.Forms.Label();
 			this.lightInfoSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.lightsAddrLabel = new System.Windows.Forms.Label();
+			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.lightTypeLabel = new System.Windows.Forms.Label();
 			this.lightNameLabel = new System.Windows.Forms.Label();
 			this.currentLightSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -383,7 +384,6 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
-			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -1004,6 +1004,7 @@ namespace LightController.MyForm
 			this.exportSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.exportSkinButton.UseVisualStyleBackColor = false;
 			this.exportSkinButton.Click += new System.EventHandler(this.exportSkinButton_Click);
+			this.exportSkinButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportSkinButton_MouseDown);
 			// 
 			// frameSaveSkinButton
 			// 
@@ -1796,6 +1797,16 @@ namespace LightController.MyForm
 			this.lightsAddrLabel.Name = "lightsAddrLabel";
 			this.lightsAddrLabel.Size = new System.Drawing.Size(210, 74);
 			this.lightsAddrLabel.TabIndex = 0;
+			// 
+			// lightRemarkLabel
+			// 
+			this.lightRemarkLabel.AutoSize = true;
+			this.lightRemarkLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightRemarkLabel.ForeColor = System.Drawing.Color.Black;
+			this.lightRemarkLabel.Location = new System.Drawing.Point(24, 216);
+			this.lightRemarkLabel.Name = "lightRemarkLabel";
+			this.lightRemarkLabel.Size = new System.Drawing.Size(0, 17);
+			this.lightRemarkLabel.TabIndex = 4;
 			// 
 			// lightTypeLabel
 			// 
@@ -6142,16 +6153,6 @@ namespace LightController.MyForm
 			this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
 			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
 			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
-			// 
-			// lightRemarkLabel
-			// 
-			this.lightRemarkLabel.AutoSize = true;
-			this.lightRemarkLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightRemarkLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightRemarkLabel.Location = new System.Drawing.Point(24, 216);
-			this.lightRemarkLabel.Name = "lightRemarkLabel";
-			this.lightRemarkLabel.Size = new System.Drawing.Size(0, 17);
-			this.lightRemarkLabel.TabIndex = 4;
 			// 
 			// SkinMainForm
 			// 

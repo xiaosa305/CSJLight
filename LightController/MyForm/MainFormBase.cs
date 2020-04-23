@@ -72,7 +72,7 @@ namespace LightController.MyForm
 		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息
 		protected bool isEncrypt = false; //是否加密		
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
-		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）		
+		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
 
         //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
 	   	protected bool[] frameSaveArray;
@@ -1895,7 +1895,8 @@ namespace LightController.MyForm
 			setBusy(false);
 			SetNotice("成功保存工程");
 		}
-		
+
+
 		/// <summary>
 		/// 辅助方法：点击《导出工程》
 		/// </summary>
@@ -1939,7 +1940,55 @@ namespace LightController.MyForm
 			SetNotice("正在导出工程，请稍候...");
 			setBusy(true);			
 
-			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportCallBack(this, exportPath));
+			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath));
+		}
+
+
+		/// <summary>
+		/// 辅助方法：右键点击《导出工程》->即导出当前场景
+		/// </summary>
+		protected void exportFrameClick()
+		{
+			if (lightAstList == null || lightAstList.Count == 0)
+			{
+				MessageBox.Show("当前工程没有灯具，无法导出场景。请添加灯具后再使用本功能。");
+				return;
+			}
+
+			DialogResult dr = MessageBox.Show("请确保场景已保存后再进行导出，否则可能导出非预期效果。确定现在导出吗？",
+					"导出单场景数据？",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			dr = exportFolderBrowserDialog.ShowDialog();
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
+
+			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
+			//TODO 4.23 监测场景文件不为空？似乎没有必要做这一步
+			//DirectoryInfo di = new DirectoryInfo(exportPath);
+			//if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
+			//{
+			//	dr = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
+			//			"覆盖工程？",
+			//			MessageBoxButtons.OKCancel,
+			//			MessageBoxIcon.Question);
+			//	if (dr == DialogResult.Cancel)
+			//	{
+			//		return;
+			//	}
+			//}
+
+			SetNotice("正在导出单场景数据，请稍候...");
+			setBusy(true);
+		
+			DataConvertUtils.SaveSingleProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportFrameCallBack(this, exportPath), currentFrame);
 		}
 
 		/// <summary>
@@ -3189,11 +3238,11 @@ namespace LightController.MyForm
 		}
 	}
 
-	public class ExportCallBack : ISaveProjectCallBack
+	public class ExportProjectCallBack : ISaveProjectCallBack
 	{
 		private MainFormBase mainForm;
 		private string exportFolder;
-		public ExportCallBack(MainFormBase mainForm, string exportFolder)
+		public ExportProjectCallBack(MainFormBase mainForm, string exportFolder)
 		{
 			this.mainForm = mainForm;
 			this.exportFolder = exportFolder;
@@ -3211,5 +3260,30 @@ namespace LightController.MyForm
 			mainForm.SetNotice("正在生成工程文件("+name+")");
 		}
 	}
+
+	public class ExportFrameCallBack : ISaveProjectCallBack
+	{
+		private MainFormBase mainForm;
+		private string exportFolder;
+		public ExportFrameCallBack(MainFormBase mainForm, string exportFolder)
+		{
+			this.mainForm = mainForm;
+			this.exportFolder = exportFolder;
+		}
+		public void Completed()
+		{
+			mainForm.CopyProject(exportFolder, true);
+		}
+		public void Error()
+		{
+			mainForm.CopyProject(exportFolder, false);
+		}
+		public void UpdateProgress(string name)
+		{
+			mainForm.SetNotice("正在生成单场景文件(" + name + ")");
+		}
+	}
+
+
 
 }

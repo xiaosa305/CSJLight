@@ -957,6 +957,7 @@ namespace LightController.MyForm
 			this.exportProjectButton.Text = "导出工程";
 			this.exportProjectButton.UseVisualStyleBackColor = true;
 			this.exportProjectButton.Click += new System.EventHandler(this.exportProjectButton_Click);
+			this.exportProjectButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportProjectButton_MouseDown);
 			// 
 			// useFrameButton
 			// 

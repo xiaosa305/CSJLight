@@ -557,15 +557,32 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///事件：点击《导出工程》按钮：将当前保存好的内容，导出到项目目录下
+		/// 事件：《导出工程》鼠标下压事件（判断是左键还是右键）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void exportSkinButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				exportProjectClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				exportFrameClick();
+			}			
+		}
+
+		/// <summary>
+		/// 事件：点击《导出工程》（空方法：主要作用是方便查找鼠标下压方法）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void exportSkinButton_Click(object sender, EventArgs e)
 		{
-			exportProjectClick();
+
 		}
-				
+
 		/// <summary>
 		/// 事件：点击《关闭工程》
 		/// </summary>
@@ -2792,6 +2809,10 @@ namespace LightController.MyForm
 		}
 
 
+
+
+
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2806,7 +2827,6 @@ namespace LightController.MyForm
 		//}		
 
 		#endregion
-
 
 
 	}

@@ -36,6 +36,19 @@ namespace LightController.Utils
         }
 
         /// <summary>
+        /// 生成单场景数据入口
+        /// </summary>
+        /// <param name=""></param>
+        /// <param name="mainForm"></param>
+        /// <param name="configPath"></param>
+        /// <param name="callBack"></param>
+        /// <param name="sceneNo"></param>
+        public static void SaveSingleProjectFile(DBWrapper wrapper,MainFormInterface mainForm,string configPath,ISaveProjectCallBack callBack,int sceneNo)
+        {
+
+        }
+
+        /// <summary>
         ///生成全场景数据入口
         /// </summary>
         /// <param name="wrapper"></param>

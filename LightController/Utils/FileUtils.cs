@@ -109,6 +109,24 @@ namespace LightController.Utils
                 LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
             }
         }
+        public static void ClearSingleProjectData(int sceneNo)
+        {
+            try
+            {
+                if (Directory.Exists(ProjectDataFilePath))
+                {
+                    string filePath = ProjectDataFilePath + @"\C" + (sceneNo + 1) + @".bin";
+                    if (File.Exists(filePath))
+                    {
+                        //File.Delete(filePath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "清除单场景文件失败", ex);
+            }
+        }
         public static void Write(byte[] datas,int length, string fileName,bool isMakeFile, bool isCreate, bool isCache)
         {
             InitFilePath();

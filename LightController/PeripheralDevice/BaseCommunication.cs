@@ -629,6 +629,8 @@ namespace LightController.PeripheralDevice
             }
             if (this.IsDone && this.IsAck)
             {
+                this.IsAck = false;
+                this.IsDone = false;
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null);
@@ -665,6 +667,7 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.IsStartCopy = true;
                 this.IsSending = false;
+                this.IsDone = false;
                 this.Completed_Event(null);
             }
         }
@@ -693,6 +696,7 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.IsStartCopy = false;
                 this.IsSending = false;
+                this.IsDone = false;
                 this.Completed_Event(null);
             }
         }

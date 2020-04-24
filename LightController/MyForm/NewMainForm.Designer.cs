@@ -100,7 +100,7 @@ namespace LightController.MyForm
 			this.playBasePanel = new System.Windows.Forms.Panel();
 			this.wjTestButton = new System.Windows.Forms.Button();
 			this.testButton2 = new System.Windows.Forms.Button();
-			this.testButton = new System.Windows.Forms.Button();
+			this.testButton1 = new System.Windows.Forms.Button();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
@@ -847,7 +847,7 @@ namespace LightController.MyForm
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.playBasePanel.Controls.Add(this.wjTestButton);
 			this.playBasePanel.Controls.Add(this.testButton2);
-			this.playBasePanel.Controls.Add(this.testButton);
+			this.playBasePanel.Controls.Add(this.testButton1);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
 			this.playBasePanel.Controls.Add(this.playPanel);
 			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -876,16 +876,16 @@ namespace LightController.MyForm
 			this.testButton2.UseVisualStyleBackColor = true;
 			this.testButton2.Click += new System.EventHandler(this.testButton2_Click);
 			// 
-			// testButton
+			// testButton1
 			// 
-			this.testButton.Location = new System.Drawing.Point(1088, 7);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(84, 54);
-			this.testButton.TabIndex = 34;
-			this.testButton.Text = "Test1";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Visible = false;
-			this.testButton.Click += new System.EventHandler(this.testButton_Click);
+			this.testButton1.Location = new System.Drawing.Point(1088, 7);
+			this.testButton1.Name = "testButton1";
+			this.testButton1.Size = new System.Drawing.Size(84, 54);
+			this.testButton1.TabIndex = 34;
+			this.testButton1.Text = "Test1";
+			this.testButton1.UseVisualStyleBackColor = true;
+			this.testButton1.Visible = false;
+			this.testButton1.Click += new System.EventHandler(this.testButton1_Click);
 			// 
 			// myStatusStrip
 			// 
@@ -1654,7 +1654,7 @@ namespace LightController.MyForm
 		private NumericUpDown unifyStepTimeNumericUpDown;
 		private Button unifyValueButton;
 		private Button unifyChangeModeButton;
-		private Button testButton;
+		private Button testButton1;
 		private Button testButton2;
 		private ImageList lightLargeImageList;
 		private Button wjTestButton;

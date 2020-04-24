@@ -44,7 +44,7 @@ namespace LightController.MyForm
 			QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			CenterControllerToolStripMenuItem.Enabled = IsLinkOldTools;//旧外设是否进行关联
 			KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
-			testButton.Visible = IsShowTestButton;
+			testButton1.Visible = IsShowTestButton;
 			testButton2.Visible = IsShowTestButton;
 			wjTestButton.Visible = IsShowTestButton;
 
@@ -596,8 +596,7 @@ namespace LightController.MyForm
 			useFrameButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
 
 			// 菜单栏相关按钮组
-			projectToolStripMenuItem.Enabled = enable;		
-
+			projectToolStripMenuItem.Enabled = enable;	
 		}		
 
 		/// <summary>
@@ -2458,15 +2457,18 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void testButton_Click(object sender, EventArgs e)
+		private void testButton1_Click(object sender, EventArgs e)
 		{
-			Console.WriteLine("场景名\tfsa\tfla");
-			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
-			{
-				Console.WriteLine(AllFrameList[frameIndex] + " : " + frameSaveArray[frameIndex] + " - " + frameLoadArray[frameIndex]);
-			}
+			//Console.WriteLine("场景名\tfsa\tfla");
+			//for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
+			//{
+			//	Console.WriteLine(AllFrameList[frameIndex] + " : " + frameSaveArray[frameIndex] + " - " + frameLoadArray[frameIndex]);
+			//}
+			
+			tempFS = File.Open(@"C:\Users\Dickov\source\repos\CSJLight\LightController\bin\Debug\DataCache\Project\CSJ\C1.bin",FileMode.Open);
 		}
 
+		FileStream tempFS;
 		/// <summary>
 		/// 事件：点击《Test2》
 		/// </summary>
@@ -2486,6 +2488,15 @@ namespace LightController.MyForm
 
 			//SetNotice("已完成压缩");
 			//setBusy(false);
+
+			//测试拷贝单文件
+			//FileAst.CopyFile(@"C:\Users\Dickov\Desktop\hehe\CSJ\C1.bin", @"C: \Users\Dickov\Desktop\hehe\CSJ\Dest" , true);
+
+
+			if (tempFS != null) {
+				tempFS.Dispose();
+			}
+			
 		}
 
 		/// <summary>

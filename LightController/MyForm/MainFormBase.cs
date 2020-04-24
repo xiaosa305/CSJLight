@@ -1917,11 +1917,13 @@ namespace LightController.MyForm
 				return;
 			}
 
+			exportFolderBrowserDialog.Description = "请选择要导出的目录，程序会自动在选中位置创建\"CSJ\"文件夹；并在导出成功后打开该目录。若工程文件过大，导出过程中软件可能会卡住，请稍等片刻即可。";
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
 				return;
 			}
+
 
 			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
 			DirectoryInfo di = new DirectoryInfo(exportPath);
@@ -1945,6 +1947,7 @@ namespace LightController.MyForm
 
 
 		/// <summary>
+		/// MARK 导出单场景具体实现
 		/// 辅助方法：右键点击《导出工程》->即导出当前场景
 		/// </summary>
 		protected void exportFrameClick()
@@ -1955,7 +1958,8 @@ namespace LightController.MyForm
 				return;
 			}
 
-			DialogResult dr = MessageBox.Show("请确保场景已保存后再进行导出，否则可能导出非预期效果。确定现在导出吗？",
+			//MARK 导出单场景具体实现 1.修改弹窗的提示
+			DialogResult dr = MessageBox.Show("请确保灯具列表未发生变化，并且与选择的导出工程相比，只改动了当前场景的数据！否则可能产生非预期效果。确定现在导出单场景数据吗？",
 					"导出单场景数据？",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
@@ -1964,31 +1968,65 @@ namespace LightController.MyForm
 				return;
 			}
 
+			//MARK 导出单场景具体实现 2.修改打开文件夹对话框的提示
+			exportFolderBrowserDialog.Description = "请选择当前工程之前已导出过的工程文件夹(CSJ文件夹上一层)，导出单场景时，程序将只改动当前场景的两个bin文件、Config.bin及GradientData文件，其他文件不会发生变化，请稍等片刻即可。";
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
 				return;
 			}
 
+			//MARK 导出单场景具体实现 3. 检测选中的文件夹不为空（数据数量不得为0），若此文件夹为空，则不应导出单场景（与导出工程刚好相反！）
 			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
-			//TODO 4.23 监测场景文件不为空？似乎没有必要做这一步
-			//DirectoryInfo di = new DirectoryInfo(exportPath);
-			//if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
-			//{
-			//	dr = MessageBox.Show("检测到目标文件夹不为空，是否覆盖？",
-			//			"覆盖工程？",
-			//			MessageBoxButtons.OKCancel,
-			//			MessageBoxIcon.Question);
-			//	if (dr == DialogResult.Cancel)
-			//	{
-			//		return;
-			//	}
-			//}
+			DirectoryInfo di = new DirectoryInfo(exportPath);
+			if (di.GetFiles().Length == 0)
+			{
+				MessageBox.Show("检测到目标文件夹为空，说明该文件夹并不存在已导出工程，请选中正确的已导出工程的文件夹（有一些bin文件）！");
+				return;
+			}
 
-			SetNotice("正在导出单场景数据，请稍候...");
+			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...");
 			setBusy(true);
-		
-			DataConvertUtils.SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, new ExportFrameCallBack(this, exportPath), currentFrame);
+
+			ExportFrame(exportPath);		
+		}
+
+		//MARK 导出单场景具体实现 4. 把选中文件夹内的所有数据拷到临时文件夹中（DataCache\Project\CSJ），拷贝前需要先清空目标文件夹；并逐一把所有CX.bin、MX.bin文件都拷贝过去		
+		/// <summary>
+		/// 辅助方法：当拷贝文件发生错误时，用递归的方法重新操作
+		/// </summary>
+		/// <param name="exportPath"></param>
+		private void ExportFrame(string exportPath)
+		{
+			try
+			{
+				FileUtils.ClearProjectData();
+				string destPath = Application.StartupPath + @"\DataCache\Project\CSJ";
+				for (int frame = 1; frame <= FrameCount; frame++)
+				{
+					FileAst.CopyFile(exportPath + @"\C" + frame + ".bin", destPath, true);
+					FileAst.CopyFile(exportPath + @"\M" + frame + ".bin", destPath, true);
+				}
+			}
+			catch (Exception ex) {
+				DialogResult dialogResult = MessageBox.Show("拷贝工程文件到工作目录失败，原因为：\n" + ex.Message + "\n请稍等后点击《重试》或《取消》拷贝。",
+						"是否重试？",
+						MessageBoxButtons.RetryCancel,
+						MessageBoxIcon.Error);
+				if (dialogResult == DialogResult.Retry)
+				{
+					ExportFrame(exportPath);
+				}
+				else
+				{
+					//若点击取消，则直接把忙时设为false，因为不会再往下走了，没有机会进行更改操作了。
+					setBusy(false);
+				}
+				return; //只要出现异常，就一定要退出本方法；
+			}
+
+			//MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；
+			DataConvertUtils.SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath), currentFrame);
 		}
 
 		/// <summary>
@@ -3260,30 +3298,5 @@ namespace LightController.MyForm
 			mainForm.SetNotice("正在生成工程文件("+name+")");
 		}
 	}
-
-	public class ExportFrameCallBack : ISaveProjectCallBack
-	{
-		private MainFormBase mainForm;
-		private string exportFolder;
-		public ExportFrameCallBack(MainFormBase mainForm, string exportFolder)
-		{
-			this.mainForm = mainForm;
-			this.exportFolder = exportFolder;
-		}
-		public void Completed()
-		{
-			mainForm.CopyProject(exportFolder, true);
-		}
-		public void Error()
-		{
-			mainForm.CopyProject(exportFolder, false);
-		}
-		public void UpdateProgress(string name)
-		{
-			mainForm.SetNotice("正在生成单场景文件(" + name + ")");
-		}
-	}
-
-
 
 }

@@ -1361,7 +1361,7 @@ namespace OtherTools
 		/// <param name="obj"></param>
 		public void LCConnectCompleted(Object obj) {
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked ? "-tc" : "") + ")");
+				MessageBox.Show("已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked ? "-tc" : "") + ")，将自动回读设备内的灯控配置。");
 				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked?"-tc":"") +")";
 				setConnStatus(ConnectStatus.Lc);
 				lcReadButton_Click(null, null);

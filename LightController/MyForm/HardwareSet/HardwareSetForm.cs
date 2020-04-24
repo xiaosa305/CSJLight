@@ -173,6 +173,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			if (isComConnected) {
+				comTools.CloseDevice();
+			}
 			this.Dispose();
 			mainForm.Activate();
 		}
@@ -503,7 +506,6 @@ namespace LightController.MyForm
 			comConnectButton.Text = (isComConnected ? "关闭" : "打开") + "串口连接";
 			comReadButton.Enabled = isComConnected;
 			comDownloadButton.Enabled = isComConnected;
-
 
 			MessageBox.Show("已" + (isComConnected?"打开":"关闭") + "串口连接");
 		}

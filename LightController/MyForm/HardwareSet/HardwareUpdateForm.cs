@@ -30,6 +30,7 @@ namespace LightController.MyForm
 
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
+		private bool isComConnected = false;
 
 		public HardwareUpdateForm(MainFormBase mainForm , string binPath) 
 		{
@@ -156,7 +157,7 @@ namespace LightController.MyForm
 		private void searchCOMList()
 		{
 			comSearchButton.Enabled = false;
-			comConnectButton.Enabled = false;
+			comOpenButton.Enabled = false;
 			comUpdateButton.Enabled = false;
 
 			comTools = SerialPortTools.GetInstance();
@@ -170,13 +171,13 @@ namespace LightController.MyForm
 				}
 				comComboBox.Enabled = true;
 				comComboBox.SelectedIndex = 0;
-				comConnectButton.Enabled = true;
+				comOpenButton.Enabled = true;
 			}
 			else
 			{
 				comComboBox.Enabled = false;
 				comComboBox.SelectedIndex = -1;
-				comConnectButton.Enabled = false;
+				comOpenButton.Enabled = false;
 				MessageBox.Show("未找到可用串口，请重试");
 			}
 			comSearchButton.Enabled = true;
@@ -201,17 +202,31 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《打开串口》
+		/// 事件：点击《打开|关闭串口》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void comConnectButton_Click(object sender, EventArgs e)
+		private void comOpenButton_Click(object sender, EventArgs e)
 		{
-			comName = comComboBox.Text;
-			MessageBox.Show("已打开串口：" + comName);
-			comNameLabel.Text = comName;
-			comTools.OpenCom(comName);
-			comUpdateButton.Enabled = isChooseFile;
+			isComConnected =! isComConnected;
+
+			if (isComConnected)
+			{
+				comName = comComboBox.Text;
+				comTools.OpenCom(comName);
+			}
+			else
+			{
+				comTools.CloseDevice();			
+			}
+
+			comSearchButton.Enabled = !isComConnected;
+			comComboBox.Enabled = !isComConnected;
+			comNameLabel.Text = isComConnected?comName:"";
+			comOpenButton.Text = isComConnected?"关闭串口":"打开串口";
+			comUpdateButton.Enabled = isComConnected && isChooseFile; //要满足两个条件，才能允许升级
+
+			MessageBox.Show( (isComConnected?"已打开串口" : "已关闭串口") + comName  );
 		}
 
 
@@ -301,7 +316,22 @@ namespace LightController.MyForm
 			else {
 				comSkinProgressBar.Value = progressPercent;
 			}		
-		}	
+		}
+
+		/// <summary>
+		/// 事件：《窗口关闭》时，若已打开串口设备，则需要断开连接
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HardwareUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if(isComConnected)
+			{
+				comTools.CloseDevice();
+			}
+			Dispose();
+			mainForm.Activate();
+		}
 	}
 
 	internal class HardwareUpdateReceiveCallBack : ICommunicatorCallBack

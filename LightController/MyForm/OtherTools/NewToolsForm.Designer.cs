@@ -2791,6 +2791,8 @@ namespace OtherTools
 			this.ClientSize = new System.Drawing.Size(1264, 761);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.tabControl1);
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(1280, 800);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(1280, 800);
 			this.Name = "NewToolsForm";

@@ -45,7 +45,7 @@ namespace LightController.Utils
         /// <param name="sceneNo"></param>
         public static void SaveSingleProjectFile(DBWrapper wrapper,MainFormInterface mainForm,string configPath,ISaveProjectCallBack callBack,int sceneNo)
         {
-
+            Console.WriteLine("");
         }
 
         /// <summary>
@@ -165,7 +165,6 @@ namespace LightController.Utils
                             LightID = light.StartID + i,
                             LightIndex = light.LightNo
                         });
-                       
                         if (values.Count > 0)
                         {
                             List<int> isGradualChange = new List<int>();

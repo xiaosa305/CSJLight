@@ -1167,21 +1167,29 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void switchButton_Click(object sender, EventArgs e)
 		{
-			// 切换前都先断开连接
-			if (myConnect != null) {
-				if (connStatus > ConnectStatus.No)
-				{
-					myConnect.DisConnect();
-				}
-				setConnStatus(ConnectStatus.No);
-				myConnect = null ;
-			}
+			disConnect();
 			
 			isConnectByCom = !isConnectByCom;
 			switchButton.Text = isConnectByCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
 			connectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
 			refreshDeviceComboBox();
+		}
+
+		/// <summary>
+		/// 辅助方法：断开连接（退出Form及切换连接方式时，都跑一次这个方法）
+		/// </summary>
+		private void disConnect() {
+			// 切换前都先断开连接
+			if (myConnect != null)
+			{
+				if (connStatus > ConnectStatus.No)
+				{
+					myConnect.DisConnect();
+				}
+				setConnStatus(ConnectStatus.No);
+				myConnect = null;
+			}
 		}
 
 		/// <summary>
@@ -1276,6 +1284,7 @@ namespace OtherTools
 				try
 				{
 					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
+					
 					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")");
 					setConnStatus(ConnectStatus.Normal);
 				}
@@ -2098,6 +2107,18 @@ namespace OtherTools
 		{
 			setConnStatus(ConnectStatus.Normal);
 			lcToolStripStatusLabel2.Text = "已" + (tcCheckBox.Checked?"开启" : "关闭") + "透传模式，请重新连接灯控。";
+		}
+
+		/// <summary>
+		/// 事件：《窗口关闭》时释放使用的串口资源
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewToolsForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			disConnect();
+			Dispose();
+			mainForm.Activate();
 		}
 	}
 }

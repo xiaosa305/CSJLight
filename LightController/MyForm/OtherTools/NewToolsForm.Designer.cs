@@ -2795,6 +2795,7 @@ namespace OtherTools
 			this.MinimumSize = new System.Drawing.Size(1280, 800);
 			this.Name = "NewToolsForm";
 			this.Text = "其它配置";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewToolsForm_FormClosed);
 			this.Load += new System.EventHandler(this.OtherToolsForm_Load);
 			this.panel2.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);

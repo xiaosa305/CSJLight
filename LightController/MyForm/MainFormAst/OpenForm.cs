@@ -30,10 +30,10 @@ namespace LightController.MyForm
 			
 			changeWorkspaceButton.Visible = IniFileAst.GetControlShow(Application.StartupPath, "useExportProject"); //是否支持打开导出工程
 
-			//MARK 只开单场景：00.0 OpenForm加场景选择
+			//MARK 只开单场景：00.1 OpenForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
-					frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
+				frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
 			}
 			frameComboBox.SelectedIndex = currentFrame;	
 

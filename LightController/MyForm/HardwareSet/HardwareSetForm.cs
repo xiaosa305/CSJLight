@@ -29,6 +29,7 @@ namespace LightController.MyForm
 
 		private ConnectTools connectTools;		
 		private SerialPortTools comTools;
+		private bool isComConnected = false ;
 
 		private IList<string> ips;  //搜索到的ip列表 ，将填进ipsComboBox
 		private IList<string> selectedIPs;  //填充进去的ip列表，用以发送数据
@@ -481,17 +482,30 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《选择串口设备》
+		/// 事件：点击《打开|关闭串口连接》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void comConnectSkinButton_Click(object sender, EventArgs e)
 		{
+			isComConnected = !isComConnected;
+
+			if (isComConnected) {
 				comName = comComboBox.Text;
-				comTools.OpenCom(comName);
-				MessageBox.Show("已选中串口设备");
-				comReadButton.Enabled = true;
-				comDownloadButton.Enabled = true;			
+				comTools.OpenCom(comName);				
+			}
+			else
+			{
+				comTools.CloseDevice();
+			}
+			comSearchButton.Enabled =! isComConnected;
+			comComboBox.Enabled = !isComConnected;
+			comConnectButton.Text = (isComConnected ? "关闭" : "打开") + "串口连接";
+			comReadButton.Enabled = isComConnected;
+			comDownloadButton.Enabled = isComConnected;
+
+
+			MessageBox.Show("已" + (isComConnected?"打开":"关闭") + "串口连接");
 		}
 
 		/// <summary>

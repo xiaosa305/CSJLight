@@ -27,7 +27,7 @@ namespace LightController
 			this.mainForm = mainForm;
 			InitializeComponent();
 
-			//MARK 只开单场景：00.1 NewForm加场景选择
+			//MARK 只开单场景：00.0 NewForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 				frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);

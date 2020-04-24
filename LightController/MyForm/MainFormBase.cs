@@ -74,9 +74,9 @@ namespace LightController.MyForm
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
 
-        //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存，默认为false；便于后期编写代码；
+        //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
 	   	protected bool[] frameSaveArray;
-		//MARK 只开单场景：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了，默认为false；便于后期编写代码；
+		//MARK 只开单场景：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了
 		protected bool[] frameLoadArray;
 		//MARK 只开单场景：14.0 必须有一个存储[旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
 		protected IList<int> retainLightIndices ;
@@ -1482,13 +1482,12 @@ namespace LightController.MyForm
 			IList<TongdaoWrapper> tdList = new List<TongdaoWrapper>();
 
 			//MARK 只开单场景：10.1 GetFMTDList() 的实现改动，添加判断
-			int frame = pk.Frame;
-			if (frameLoadArray[frame])
+			if (frameLoadArray[pk.Frame])
 			{
-				if (lightWrapperList[selectedLightIndex].LightStepWrapperList[frame, pk.Mode] != null
-						&& lightWrapperList[selectedLightIndex].LightStepWrapperList[frame, pk.Mode].StepWrapperList != null)
+				if (lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode] != null
+						&& lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList != null)
 				{
-					IList<StepWrapper> stepWrapperList = lightWrapperList[selectedLightIndex].LightStepWrapperList[frame, pk.Mode].StepWrapperList;
+					IList<StepWrapper> stepWrapperList = lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList;
 					for (int step = 0; step < stepWrapperList.Count; step++)
 					{
 						tdList.Add(stepWrapperList[step].TongdaoList[tdIndex]);
@@ -1498,15 +1497,17 @@ namespace LightController.MyForm
 			//MARK 只开单场景：10.2 GetFMTDList() 的实现改动：添加从DB取数据的代码
 			else
 			{
-				IList<DB_Value>  valueList = valueDAO.GetTDValueListOrderByStep(pk);
-				foreach(DB_Value value in valueList) {
-					tdList.Add(new TongdaoWrapper() {
+				IList<DB_Value> valueList = valueDAO.GetTDValueListOrderByStep(pk);				
+				foreach (DB_Value value in valueList)
+				{
+					tdList.Add(new TongdaoWrapper()
+					{
 						Address = pk.LightID,
 						ScrollValue = value.ScrollValue,
 						StepTime = value.StepTime,
 						ChangeMode = value.ChangeMode
-					} );
-				}				
+					});
+				}
 			}
 			return tdList;
 		}
@@ -1589,7 +1590,8 @@ namespace LightController.MyForm
 			}
 
 			//MARK 只开单场景：04.0 InitProject()内初始化frameSaveArray、frameLoadArray
-			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的fsa一定是true的！（原则：当前打开场景的）
+			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的frameSaveArray一定要设为true的！
+			//   -->（原则：当前打开的场景点击保存时一定要保存，因为在此处可能进行更改数据）
 			changeCurrentFrame(selectedFrameIndex);
 			frameSaveArray = new bool[FrameCount];
 			frameLoadArray = new bool[FrameCount];
@@ -1883,8 +1885,6 @@ namespace LightController.MyForm
 			{
 				saveAllLights();
 				saveAllFineTunes();
-				//保存全部场景数据
-				//saveAllStepCounts();
 				saveAllSCAndValues();
 			}
 

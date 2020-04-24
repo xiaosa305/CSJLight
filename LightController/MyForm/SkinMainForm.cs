@@ -690,9 +690,9 @@ namespace LightController.MyForm
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
-			this.frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
+			frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 			frameSkinComboBox.SelectedIndex = currentFrame;
-			this.frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
+			frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 		}
 
 		#endregion

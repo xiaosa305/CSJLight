@@ -43,9 +43,80 @@ namespace LightController.Utils
         /// <param name="configPath"></param>
         /// <param name="callBack"></param>
         /// <param name="sceneNo"></param>
-        public static void SaveSingleProjectFile(DBWrapper wrapper,MainFormInterface mainForm,string configPath,ISaveProjectCallBack callBack,int sceneNo)
+        public static void SaveSingleFrameFile(DBWrapper wrapper,MainFormInterface mainForm,string configPath,ISaveProjectCallBack callBack,int sceneNo)
         {
-            Console.WriteLine("");
+            InitThreadPool();
+            CallBack = callBack;
+            BuildMode = MODE_MAKEFILE;
+            FileUtils.ClearCacheData();
+            FileUtils.ClearSingleFrameData(sceneNo);
+            FileUtils.CreateConfig(new CSJ_Config(wrapper, configPath));
+            //初始化状态存储器
+            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            C_DMXSceneState = new Dictionary<int, bool>();
+            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            M_DMXSceneState = new Dictionary<int, bool>();
+            //启动线程开始执行数据生成及数据导出文件
+            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSingleFrameDBSceneData), new SingleFrameDBData(wrapper, mainForm, configPath,sceneNo));
+        }
+
+        private static void GeneratedSingleFrameDBSceneData(Object obj)
+        {
+            SingleFrameDBData data = obj as SingleFrameDBData;
+            DBWrapper wrapper = data.Wrapper;
+            string configPath = data.ConfigPath;
+            MainFormInterface mainForm = data.MianForm;
+            int sceneNo = data.SceneNo;
+            bool c_SceneStatus = false;
+            bool m_SceneStatus = false;
+            //基础场景数据生成
+            foreach (DB_StepCount item in data.Wrapper.stepCountList)
+            {
+                if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_C)
+                {
+                    C_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
+                    C_DMXSceneState.Add(sceneNo, false);
+                    c_SceneStatus = true;
+                    break;
+                }
+            }
+            foreach (DB_StepCount item in data.Wrapper.stepCountList)
+            {
+               
+                if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_M)
+                {
+                    M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
+                    M_DMXSceneState.Add(sceneNo, false);
+                    m_SceneStatus = true;
+                    break;
+                }
+            }
+            if (c_SceneStatus)
+            {
+                Flag = false;
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_C, configPath));
+                //TODO 测试
+                while (true)
+                {
+                    if (Flag)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (m_SceneStatus)
+            {
+                Flag = false;
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_M, configPath));
+                //TODO 测试
+                while (true)
+                {
+                    if (Flag)
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1020,6 +1091,20 @@ namespace LightController.Utils
                 this.Wrapper = wrapper;
                 this.ConfigPath = configPath;
                 this.MianForm = mianForm;
+            }
+        }
+        private class SingleFrameDBData
+        {
+            public DBWrapper Wrapper { get; set; }
+            public string ConfigPath { get; set; }
+            public MainFormInterface MianForm { get; set; }
+            public int SceneNo { get; set; }
+            public SingleFrameDBData(DBWrapper wrapper, MainFormInterface mianForm, string configPath,int sceneNo)
+            {
+                this.Wrapper = wrapper;
+                this.ConfigPath = configPath;
+                this.MianForm = mianForm;
+                this.SceneNo = sceneNo;
             }
         }
         private class PreviewData

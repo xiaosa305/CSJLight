@@ -109,7 +109,7 @@ namespace LightController.Utils
                 LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
             }
         }
-        public static void ClearSingleProjectData(int sceneNo)
+        public static void ClearSingleFrameData(int sceneNo)
         {
             try
             {
@@ -118,7 +118,12 @@ namespace LightController.Utils
                     string filePath = ProjectDataFilePath + @"\C" + (sceneNo + 1) + @".bin";
                     if (File.Exists(filePath))
                     {
-                        //File.Delete(filePath);
+                        File.Delete(filePath);
+                    }
+                    filePath = ProjectDataFilePath + @"\M" + (sceneNo + 1) + @".bin";
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
                     }
                 }
             }

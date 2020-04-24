@@ -1988,7 +1988,7 @@ namespace LightController.MyForm
 			SetNotice("正在导出单场景数据，请稍候...");
 			setBusy(true);
 		
-			DataConvertUtils.SaveSingleProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportFrameCallBack(this, exportPath), currentFrame);
+			DataConvertUtils.SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, new ExportFrameCallBack(this, exportPath), currentFrame);
 		}
 
 		/// <summary>

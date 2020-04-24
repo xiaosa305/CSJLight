@@ -34,7 +34,6 @@ namespace LightController.Utils
         {
             ThreadPool.SetMaxThreads(100, 10);
         }
-
         /// <summary>
         /// 生成单场景数据入口
         /// </summary>
@@ -59,7 +58,10 @@ namespace LightController.Utils
             //启动线程开始执行数据生成及数据导出文件
             ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSingleFrameDBSceneData), new SingleFrameDBData(wrapper, mainForm, configPath,sceneNo));
         }
-
+        /// <summary>
+        /// 单场景数据库检索获取数据
+        /// </summary>
+        /// <param name="obj"></param>
         private static void GeneratedSingleFrameDBSceneData(Object obj)
         {
             SingleFrameDBData data = obj as SingleFrameDBData;
@@ -118,7 +120,6 @@ namespace LightController.Utils
                 }
             }
         }
-
         /// <summary>
         ///生成全场景数据入口
         /// </summary>
@@ -723,6 +724,7 @@ namespace LightController.Utils
                         }
                         else
                         {
+                            //目前尚未使用渐变模式
                             if (isGradualChange == Constant.MODE_M_GRADUAL)
                             {
                                 value = startValue + inc * (fram + 1);
@@ -756,8 +758,11 @@ namespace LightController.Utils
                                 else
                                 {
                                     WriteBuffer.Add(Convert.ToByte(stepValue));
-                                    FileUtils.Write(WriteBuffer.ToArray(), WriteBuffer.Count, fileName, BuildMode == MODE_MAKEFILE, false, true);
-                                    WriteBuffer.Clear();
+                                    if (WriteBuffer.Count == 2048)
+                                    {
+                                        FileUtils.Write(WriteBuffer.ToArray(), WriteBuffer.Count, fileName, BuildMode == MODE_MAKEFILE, false, true);
+                                        WriteBuffer.Clear();
+                                    }
                                     break;
                                 }
                             }

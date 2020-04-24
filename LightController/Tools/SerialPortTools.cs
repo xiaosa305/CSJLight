@@ -276,6 +276,10 @@ namespace LightController.Tools
             }
             finally
             {
+                if (this.ComDevice.IsOpen)
+                {
+                    this.ComDevice.Close();
+                }
                 InitParameters();
             }
         }

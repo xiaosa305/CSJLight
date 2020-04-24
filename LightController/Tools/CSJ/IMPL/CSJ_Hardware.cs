@@ -100,13 +100,13 @@ namespace LightController.Tools.CSJ.IMPL
             SumUseTimes = 5000;
             DiskFlag = 0;
             PlayFlag = 1;
-            DeviceName = "910出场配置";
+            DeviceName = "910出场配置3";
             Addr = 0;
             LinkMode = 0;
             LinkPort = 7060;
-            IP = "192.168.31.10";
+            IP = "192.168.2.11";
             NetMask = "255.255.255.0";
-            GateWay = "192.168.31.1";
+            GateWay = "192.168.2.1";
             RemoteHost = "192.168.31.1";
             RemotePort = 7070;
             Mac = "00-00-00-00-00-00";

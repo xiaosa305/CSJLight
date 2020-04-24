@@ -74,6 +74,7 @@ namespace LightController.Tools
         {
             try
             {
+                CSJ_Hardware.Test();
                 //TODO 待删除测试
                 this.IsTest = false;
 

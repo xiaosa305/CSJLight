@@ -1217,13 +1217,13 @@ namespace LightController.MyForm
 
 			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[currentFrame] + ")？",
 				"保存场景?",
-				MessageBoxButtons.OKCancel,
+				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
-			if (dr == DialogResult.OK)
+			if (dr == DialogResult.Yes)
 			{
 				saveFrameClick();
 				//MARK 只开单场景：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[currentFrame] = false;				
+				frameSaveArray[currentFrame] = false;	
 			}
 
 			currentFrame = frameComboBox.SelectedIndex;

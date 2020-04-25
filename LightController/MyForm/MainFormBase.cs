@@ -1590,7 +1590,7 @@ namespace LightController.MyForm
 			}
 
 			//MARK 只开单场景：04.0 InitProject()内初始化frameSaveArray、frameLoadArray
-			//   -->都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的frameSaveArray一定要设为true的！
+			//   --> 都先设为false;并将frameSaveArray[selectedFrameIndex]为true，因为只要打开了工程（New或Open）其选中场景的frameSaveArray一定要设为true的！
 			//   -->（原则：当前打开的场景点击保存时一定要保存，因为在此处可能进行更改数据）
 			changeCurrentFrame(selectedFrameIndex);
 			frameSaveArray = new bool[FrameCount];
@@ -1922,10 +1922,7 @@ namespace LightController.MyForm
 			if (dr == DialogResult.Cancel)
 			{
 				return;
-			}
-
-
-			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
+			}			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
 			DirectoryInfo di = new DirectoryInfo(exportPath);
 			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
 			{
@@ -1954,13 +1951,13 @@ namespace LightController.MyForm
 		{
 			if (lightAstList == null || lightAstList.Count == 0)
 			{
-				MessageBox.Show("当前工程没有灯具，无法导出场景。请添加灯具后再使用本功能。");
+				MessageBox.Show("当前工程没有灯具，无法导出工程。请添加灯具后再使用本功能。");
 				return;
 			}
 
 			//MARK 导出单场景具体实现 1.修改弹窗的提示
-			DialogResult dr = MessageBox.Show("请确保灯具列表未发生变化，并且与选择的导出工程相比，只改动了当前场景的数据！否则可能产生非预期效果。确定现在导出单场景数据吗？",
-					"导出单场景数据？",
+			DialogResult dr = MessageBox.Show("请确保灯具列表未发生变化，并且与选择的已导出工程相比，只改动了当前场景的数据，否则可能产生错误的效果？\n确定现在导出工程（只修改当前场景数据）吗？",
+					"导出工程（只修改当前场景数据）？",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 			if (dr == DialogResult.Cancel)
@@ -1969,17 +1966,17 @@ namespace LightController.MyForm
 			}
 
 			//MARK 导出单场景具体实现 2.修改打开文件夹对话框的提示
-			exportFolderBrowserDialog.Description = "请选择当前工程之前已导出过的工程文件夹(CSJ文件夹上一层)，导出单场景时，程序将只改动当前场景的两个bin文件、Config.bin及GradientData文件，其他文件不会发生变化，请稍等片刻即可。";
+			exportFolderBrowserDialog.Description = "请选择当前工程之前已导出过的工程文件夹(CSJ文件夹的上一层)，导出工程（只修改当前场景数据）时，程序将只改动当前场景的两个bin文件、Config.bin及GradientData文件，其他文件不会发生变化，请稍等片刻即可。";
 			dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
 				return;
 			}
 
-			//MARK 导出单场景具体实现 3. 检测选中的文件夹不为空（数据数量不得为0），若此文件夹为空，则不应导出单场景（与导出工程刚好相反！）
+			//MARK 导出单场景具体实现 3. 检测选中的文件夹不为空（数据数量不得为0），若此文件夹为空，则不应导出单场景
 			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
 			DirectoryInfo di = new DirectoryInfo(exportPath);
-			if (di.GetFiles().Length == 0)
+			if (!di.Exists || di.GetFiles().Length == 0)
 			{
 				MessageBox.Show("检测到目标文件夹为空，说明该文件夹并不存在已导出工程，请选中正确的已导出工程的文件夹（有一些bin文件）！");
 				return;
@@ -1988,7 +1985,7 @@ namespace LightController.MyForm
 			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...");
 			setBusy(true);
 
-			ExportFrame(exportPath);		
+			ExportFrame(exportPath);			
 		}
 
 		//MARK 导出单场景具体实现 4. 把选中文件夹内的所有数据拷到临时文件夹中（DataCache\Project\CSJ），拷贝前需要先清空目标文件夹；并逐一把所有CX.bin、MX.bin文件都拷贝过去		
@@ -2014,18 +2011,19 @@ namespace LightController.MyForm
 						MessageBoxButtons.RetryCancel,
 						MessageBoxIcon.Error);
 				if (dialogResult == DialogResult.Retry)
-				{
+				{					
 					ExportFrame(exportPath);
 				}
 				else
 				{
 					//若点击取消，则直接把忙时设为false，因为不会再往下走了，没有机会进行更改操作了。
 					setBusy(false);
-				}
+					SetNotice("因发生异常，已取消导出工程(只修改当前场景数据)的操作。");
+				}				
 				return; //只要出现异常，就一定要退出本方法；
 			}
 
-			//MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；
+			//MARK 导出单场景具体实现 5. 调用维佳的生成单场景方法，将只生成CFrame.bin、MFrame.bin、Config.bin和GradientData.bin；（其余文件都是拷贝两次：先拷到工作目录，调用完成后再拷回导出目录）
 			DataConvertUtils.SaveSingleFrameFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath), currentFrame);
 		}
 

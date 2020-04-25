@@ -59,7 +59,7 @@ namespace LightController.MyForm
 		{
 			string projectName = projectNameTextBox.Text;
 
-			if (!FileAst.CheckFileName(projectName))
+			if (!FileHelper.CheckFileName(projectName))
 			{
 				MessageBox.Show("工程名包含非法字符，请重新输入。");
 				return;
@@ -71,7 +71,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
 			string destDirPath = savePath + @"\LightProject\" + projectName;
 			if (Directory.Exists(destDirPath)) {
 				MessageBox.Show("当前工程名已存在同名工程，请重新输入。");

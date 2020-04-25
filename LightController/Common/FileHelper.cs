@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LightController.Common
 {
-	public class FileAst
+	public class FileHelper
 	{
 		/// <summary>
 		/// 静态辅助方法：用以验证文件名是否含有非法字符:返回true为合法，false非法

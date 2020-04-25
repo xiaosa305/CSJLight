@@ -31,6 +31,5 @@ namespace LightController.Common
 			return new DBWrapper(lightList, stepCountList, valueList, fineTuneList);
 		}
 
-
 	}
 }

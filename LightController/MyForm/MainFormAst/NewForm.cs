@@ -53,7 +53,7 @@ namespace LightController
 		{
 			string projectName = textBox1.Text;
 
-			if ( ! FileAst.CheckFileName(projectName)) {
+			if ( ! FileHelper.CheckFileName(projectName)) {
 				MessageBox.Show("工程名包含非法字符，请重新输入！");
 				return;
 			}
@@ -63,7 +63,7 @@ namespace LightController
 				return;
 			}
 
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
 			string directoryPath = savePath + @"\LightProject\" + projectName;
 			DirectoryInfo di = null;
 			try

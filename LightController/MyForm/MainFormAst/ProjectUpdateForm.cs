@@ -410,7 +410,7 @@ namespace LightController.MyForm
 		{
 			if (mainForm.GenerateSourceProject())
 			{						
-				ZipAst.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");							
+				ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");							
 			}
 		}
 

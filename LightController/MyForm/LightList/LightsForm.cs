@@ -28,7 +28,7 @@ namespace LightController
 			this.mainForm = mainForm;			
 
 			// 1. 生成左边的灯具列表，树状形式
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
 			string path =  savePath  + @"\LightLibrary" ;
 			if (Directory.Exists(path))
 			{
@@ -169,7 +169,7 @@ namespace LightController
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			// 1.当点击确认时，应该将所有的listViewItem 传回到mainForm里。
-			mainForm.BuildLightList(lightAstList);
+			mainForm.ReBuildLightList(lightAstList);
 
 			// 2.关闭窗口（ShowDialog()情况下,资源不会释放）
 			this.Dispose();

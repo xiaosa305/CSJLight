@@ -139,7 +139,7 @@ namespace OtherTools
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 
-			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton"); ;
+			bool isShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
 
 			//直接刷新串口列表
@@ -204,7 +204,7 @@ namespace OtherTools
 				return;
 			}
 
-			int lightIndex = MathAst.GetIndexNum(((Button)sender).Name, -1);
+			int lightIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
 			setLightButtonValue(lightIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
@@ -1982,7 +1982,7 @@ namespace OtherTools
 			try
 			{
 				// 保存操作
-				IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+				IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 				iniFileAst.WriteInt("Common", "Count", keypressListView.Items.Count);
 				for (int i = 0; i < keypressListView.Items.Count; i++)
 				{
@@ -2025,7 +2025,7 @@ namespace OtherTools
 			}
 
 			//2.验证灯具数目是否一致
-			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 			int keyCount = iniFileAst.ReadInt("Common", "Count", 0);
 			if (keyCount == 0)
 			{

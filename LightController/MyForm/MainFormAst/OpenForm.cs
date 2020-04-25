@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using static LightController.Common.DirectoryAst;
+using static LightController.Common.DirectoryHelper;
 
 namespace LightController.MyForm
 {
@@ -28,7 +28,7 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 			this.currentProjectName = currentProjectName;
 			
-			changeWorkspaceButton.Visible = IniFileAst.GetControlShow(Application.StartupPath, "useExportProject"); //是否支持打开导出工程
+			changeWorkspaceButton.Visible = IniFileHelper.GetControlShow(Application.StartupPath, "useExportProject"); //是否支持打开导出工程
 
 			//MARK 只开单场景：00.1 OpenForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
@@ -270,14 +270,14 @@ namespace LightController.MyForm
 			if (Directory.Exists(path))
 			{
 				string[] dirs = Directory.GetDirectories(path);
-				DirectoryInfo[] diArray = DirectoryAst.GenerateDiretoryInfoArray(dirs);
+				DirectoryInfo[] diArray = DirectoryHelper.GenerateDiretoryInfoArray(dirs);
 				if (diArray == null) {
 					return;
 				}
 
 				switch(sortMethod){
-					case SortMethodEnum.CREATION_TIME: DirectoryAst.SortAsFolderByCreationTime(ref diArray);  break;
-					case SortMethodEnum.LAST_WRITE_TIME: DirectoryAst.SortAsFolderByLastWriteTime(ref diArray); break;
+					case SortMethodEnum.CREATION_TIME: DirectoryHelper.SortAsFolderByCreationTime(ref diArray);  break;
+					case SortMethodEnum.LAST_WRITE_TIME: DirectoryHelper.SortAsFolderByLastWriteTime(ref diArray); break;
 					default:break;
 				}
 				

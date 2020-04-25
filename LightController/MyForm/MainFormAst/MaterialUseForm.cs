@@ -38,7 +38,7 @@ namespace LightController.MyForm
 			this.lightName = lightName;
 			this.lightType = lightType;
 
-			materialPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightMaterial\" ; 
+			materialPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\" ; 
 			materialPath +=  mode==0?"Normal":"Sound";
 
 			// 添加通用的素材

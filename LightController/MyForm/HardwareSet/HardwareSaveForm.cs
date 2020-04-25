@@ -30,7 +30,7 @@ namespace LightController.MyForm
 		private void NewHardwareForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
-			hardwareLibraryPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\HardwareLibrary\";
+			hardwareLibraryPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\HardwareLibrary\";
 		}
 
 

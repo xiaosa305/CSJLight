@@ -134,7 +134,7 @@ namespace LightController.MyForm
 
 			this.iniPath = iniPath;
 			this.hName = hName;
-			IniFileAst iniFileAst = new IniFileAst(iniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(iniPath);
 
 			// 9.28 直接保存numericUpDown表面上看到的Text(因为写到ini中去了）
 			iniFileAst.WriteString("Common", "SumUseTimes", sumUseTimeNumericUpDown.Text);
@@ -564,7 +564,7 @@ namespace LightController.MyForm
 		/// <param name="iniPath"></param>
 		private void readIniFile(string iniPath)
 		{
-			IniFileAst iniFileAst = new IniFileAst(iniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(iniPath);
 
 			deviceNameTextBox.Text = iniFileAst.ReadString("Common", "DeviceName", "");
 			addrNumericUpDown.Value = iniFileAst.ReadInt("Common", "Addr", 0);

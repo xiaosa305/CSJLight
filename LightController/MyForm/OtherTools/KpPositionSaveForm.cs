@@ -22,7 +22,7 @@ namespace LightController.MyForm.OtherTools
 			InitializeComponent();
 
 			this.otForm = otForm;
-			kpPosPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\KeypressPosition\" + keyCount + @"\";
+			kpPosPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\KeypressPosition\" + keyCount + @"\";
 			Text = "保存墙板位置(" + keyCount + "键)";
 		}
 
@@ -50,7 +50,7 @@ namespace LightController.MyForm.OtherTools
 				MessageBox.Show("请输入文件名。");
 				return;
 			}					   			
-			if (!FileAst.CheckFileName(fileName))
+			if (!FileHelper.CheckFileName(fileName))
 			{
 				MessageBox.Show("文件命名不规范，无法保存。");
 				return;

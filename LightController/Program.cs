@@ -17,7 +17,7 @@ namespace LightController
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			if (IniFileAst.GetControlShow(Application.StartupPath, "newMainForm"))
+			if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
 			{
 				Application.Run(new NewMainForm());
 			}

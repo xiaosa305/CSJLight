@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LightController.Common
 {
-	class ZipAst
+	class ZipHelper
 	{
 		/// <summary>
 		/// 压缩成zip(只压缩文件，不压缩文件夹)

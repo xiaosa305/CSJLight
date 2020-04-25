@@ -90,7 +90,7 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// 辅助方法（静态）：通过传来的组长的数据，以及相关的StepTemplate的数据，来生成LightStepWrapper
+		/// 辅助方法（静态）：通过传来的组长（或需被深复制的灯具）的数据，以及相关的StepTemplate的数据，来生成LightStepWrapper
 		/// </summary>
 		/// <param name="mainLSWrapper"></param>
 		/// <param name="currentStepTemplate"></param>

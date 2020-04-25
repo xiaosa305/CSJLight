@@ -8,7 +8,7 @@ namespace LightController.Common
 	/// <summary>
 	/// 这是个数字与字符串等相关的辅助转换类，内置一些静态的方法，用来实现不同的目的
 	/// </summary>
-	public class MathAst
+	public class MathHelper
 	{
 		/// <summary>
 		///  由输入的num，自动补零的两位数字符串

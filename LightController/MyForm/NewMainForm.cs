@@ -878,7 +878,8 @@ namespace LightController.MyForm
 		#endregion
 
 		//MARK：SkinMainForm灯具listView相关（右键菜单+位置等）
-		#region  灯具listView相关（右键菜单+位置等）					
+
+		#region  灯具listView相关（重新加载图片）
 
 		/// <summary>
 		/// 事件：重新加载灯具图片
@@ -913,7 +914,20 @@ namespace LightController.MyForm
 				lightsListView.Items[lightIndex].ImageKey = tempPicStr;
 			}
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：是否使能重新加载灯具图片
+		/// </summary>
+		/// <param name="enable"></param>
+		protected override void enableRefreshPic(bool enable)
+		{
+			refreshPicToolStripMenuItem.Enabled = enable;
+		}
+
+		#endregion
+
+		#region 灯具listView相关（右键菜单+位置等）newMainForm内暂时不采用可以移动灯具图标，故下列代码暂时无用
+
 		// listView1.AllowDrop = true; 
 		// listView1.AutoArrange = false;
 		private Point startPoint = Point.Empty;
@@ -924,7 +938,7 @@ namespace LightController.MyForm
 		/// <param name="pt1"></param>
 		/// <param name="pt2"></param>
 		/// <returns></returns>
-		private double getVector(Point pt1, Point pt2) 
+		private double getVector(Point pt1, Point pt2)
 		{
 			var x = Math.Pow((pt1.X - pt2.X), 2);
 			var y = Math.Pow((pt1.Y - pt2.Y), 2);
@@ -1004,7 +1018,7 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void autoArrangeToolStripMenuItem_Click(object sender, EventArgs e)
-		{			
+		{
 			//isAutoArrange = autoArrangeToolStripMenuItem.Checked;
 			//lightsListView.AllowDrop = !isAutoArrange;
 			//lightsListView.AutoArrange = isAutoArrange;
@@ -1109,15 +1123,6 @@ namespace LightController.MyForm
 
 			lightsListView.EndUpdate();
 			MessageBox.Show("灯具位置读取成功。");
-		}			   
-		
-		/// <summary>
-		/// 辅助方法：是否使能重新加载灯具图片
-		/// </summary>
-		/// <param name="enable"></param>
-		protected override void enableRefreshPic(bool enable)
-		{
-			refreshPicToolStripMenuItem.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1130,7 +1135,7 @@ namespace LightController.MyForm
 			//saveArrangeToolStripMenuItem.Enabled = enableSave;
 			//loadArrangeToolStripMenuItem.Enabled = enableLoad;
 		}
-		
+
 		#endregion
 
 		#region 几个显示或隐藏面板的菜单项

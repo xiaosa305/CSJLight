@@ -1625,7 +1625,7 @@ namespace LightController.MyForm
 
 			Text = SoftwareName + " Dimmer System";
 
-			EnterSyncMode(false);  //退出同步模式
+			EnterSyncMode(false);  //退出《同步模式》
 			enableSingleMode(true); // 使用《单灯模式》
 			autoEnableSLArrange();  // 《保存|读取灯具位置》不可用
 			enableProjectRelative(false);  // clearAllData()内：工程相关的所有按钮，设为不可用
@@ -1726,8 +1726,7 @@ namespace LightController.MyForm
 					});
 					lightDictionary.Add( la.StartNum, lightIndex);
 				}
-
-				EnterSyncMode(false);
+								
 				enableProjectRelative(true);    //OpenProject内设置
 				autosetEnabledPlayAndRefreshPic();
 				reBuildLightListView();				

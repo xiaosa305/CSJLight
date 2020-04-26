@@ -216,10 +216,17 @@ namespace MultiLedController.MyForm
 			if (!isStart)
 			{
 				setBusy(true);
-
+							
 				string mac = controllerListView.Items[controllerSelectedIndex].SubItems[2].Text;
 				int interfaceCount = ledControlDevices[mac].Led_interface_num - 1;
 				int addVIPCount = interfaceCount - vipList.Count;
+
+				//避免更改路数之后，虚拟IP显示错误，先清空所有的《关联路数》Text
+				foreach (ListViewItem item in virtualIPListView.Items)
+				{
+					item.SubItems[2].Text = "";
+				}
+				Refresh();
 
 				if (addVIPCount > 0)
 				{
@@ -780,7 +787,6 @@ namespace MultiLedController.MyForm
 		public void SetNetworkChangedTrue() {
 			networkChanged = true;
 		}
-
 
 		#endregion
 

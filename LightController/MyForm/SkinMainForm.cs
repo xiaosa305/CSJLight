@@ -1025,19 +1025,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void autoArrangeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//MessageBox.Show(autoArrangeToolStripMenuItem.Checked.ToString());
 			isAutoArrange = autoArrangeToolStripMenuItem.Checked;
 			lightsSkinListView.AllowDrop = !isAutoArrange;
 			lightsSkinListView.AutoArrange = isAutoArrange;
-
-			if (isAutoArrange)
-			{
-				enableSLArrange(false, false);
-			}
-			else
-			{
-				enableSLArrange(true, File.Exists(arrangeIniPath));
-			}
+			autoEnableSLArrange();			
 		}
 
 		/// <summary>
@@ -1089,7 +1080,7 @@ namespace LightController.MyForm
 				iniFileAst.WriteInt("Position", i + "X", lightsSkinListView.Items[i].Position.X);
 				iniFileAst.WriteInt("Position", i + "Y", lightsSkinListView.Items[i].Position.Y);
 			}
-			enableSLArrange(true, File.Exists(arrangeIniPath));
+			autoEnableSLArrange();
 
 			MessageBox.Show("灯具位置保存成功。");
 		}
@@ -1153,10 +1144,10 @@ namespace LightController.MyForm
 		///  辅助方法：《保存|读取灯具位置》按钮是否可用
 		/// </summary>
 		/// <param name="enable"></param>
-		protected override void enableSLArrange(bool enableSave, bool enableLoad)
+		protected override void autoEnableSLArrange()
 		{
-			saveArrangeToolStripMenuItem.Enabled = enableSave;
-			loadArrangeToolStripMenuItem.Enabled = enableLoad;
+			saveArrangeToolStripMenuItem.Enabled = ! isAutoArrange;
+			loadArrangeToolStripMenuItem.Enabled = File.Exists(arrangeIniPath);
 		}
 
 		#endregion

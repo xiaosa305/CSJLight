@@ -912,7 +912,6 @@ namespace LightController.MyForm
 				lightAstList[lightIndex].LightPic = tempPicStr;
 				lightsListView.Items[lightIndex].ImageKey = tempPicStr;
 			}
-
 		}
 		
 		// listView1.AllowDrop = true; 
@@ -1007,17 +1006,9 @@ namespace LightController.MyForm
 		private void autoArrangeToolStripMenuItem_Click(object sender, EventArgs e)
 		{			
 			//isAutoArrange = autoArrangeToolStripMenuItem.Checked;
-			lightsListView.AllowDrop = !isAutoArrange;
-			lightsListView.AutoArrange = isAutoArrange;
-
-			if (isAutoArrange)
-			{
-				enableSLArrange(false, false);
-			}
-			else
-			{
-				enableSLArrange(true, File.Exists(arrangeIniPath));
-			}
+			//lightsListView.AllowDrop = !isAutoArrange;
+			//lightsListView.AutoArrange = isAutoArrange;
+			//autoEnableSLArrange();
 		}
 
 		/// <summary>
@@ -1027,10 +1018,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void arrangeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			bool tempAutoArrange = lightsListView.AutoArrange;
-			lightsListView.AutoArrange = true;
-			lightsListView.AutoArrange = tempAutoArrange;
-			lightsListView.Update();
+			//bool tempAutoArrange = lightsListView.AutoArrange;
+			//lightsListView.AutoArrange = true;
+			//lightsListView.AutoArrange = tempAutoArrange;
+			//lightsListView.Update();
 		}
 
 		/// <summary>
@@ -1069,7 +1060,7 @@ namespace LightController.MyForm
 				iniFileAst.WriteInt("Position", i + "X", lightsListView.Items[i].Position.X);
 				iniFileAst.WriteInt("Position", i + "Y", lightsListView.Items[i].Position.Y);
 			}
-			enableSLArrange(true, File.Exists(arrangeIniPath));
+			autoEnableSLArrange();
 
 			MessageBox.Show("灯具位置保存成功。");
 		}
@@ -1134,7 +1125,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="enableSave"></param>
 		/// <param name="enableLoad"></param>
-		protected override void enableSLArrange(bool enableSave, bool enableLoad)
+		protected override void autoEnableSLArrange()
 		{
 			//saveArrangeToolStripMenuItem.Enabled = enableSave;
 			//loadArrangeToolStripMenuItem.Enabled = enableLoad;

@@ -127,7 +127,7 @@ namespace LightController.MyForm
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
-		protected virtual void enableSLArrange(bool enableSave, bool enableLoad) { } //是否显示《 存、取 灯具位置》		
+		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
 		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
 		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
 		protected virtual void setBusy(bool buzy) { } //设置是否忙时
@@ -1627,7 +1627,7 @@ namespace LightController.MyForm
 
 			EnterSyncMode(false);  //退出同步模式
 			enableSingleMode(true); // 使用《单灯模式》
-			enableSLArrange(false, false);  // 《保存|读取灯具位置》不可用
+			autoEnableSLArrange();  // 《保存|读取灯具位置》不可用
 			enableProjectRelative(false);  // clearAllData()内：工程相关的所有按钮，设为不可用
 			autosetEnabledPlayAndRefreshPic();  //是否可以显示 playPanel及 刷新图片
 
@@ -1687,11 +1687,8 @@ namespace LightController.MyForm
 			// 0.初始化
 			InitProject(projectName, frameIndex, false);
 
-			//10.9 设置listView右键菜单中读取配置的可用项	
-			if (!isAutoArrange)
-			{
-				enableSLArrange(true, File.Exists(arrangeIniPath));
-			}
+			// 设置listView右键菜单中读取位置配置的可用项	
+			autoEnableSLArrange();		
 
 			// 把各数据库表的内容填充进来。
 			dbLightList = getLightList(); 

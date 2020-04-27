@@ -71,10 +71,11 @@ namespace LightController.Utils
         {
             try
             {
-                if (Directory.Exists(ProjectDataFilePath))
-                {
-                    Directory.Delete(ProjectDataFilePath, true);
-                }
+                //if (Directory.Exists(ProjectDataFilePath))
+                //{
+                //    Directory.Delete(ProjectDataFilePath, true);
+                //}
+                DeleteDir(ProjectDataFilePath);
             }
             catch (Exception ex)
             {
@@ -686,6 +687,30 @@ namespace LightController.Utils
         public static void CreateConfig(CSJ_Config config)
         {
             config.WriteToFile(ProjectDataFilePath);
+        }
+
+        private static void DeleteDir(string dir)
+        {
+            if (Directory.Exists(dir)) //判断是否存在   
+            {
+                foreach (string childName in Directory.GetFileSystemEntries(dir))//获取子文件和子文件夹
+                {
+                    if (File.Exists(childName)) //如果是文件
+                    {
+                        FileInfo fi = new FileInfo(childName);
+                        if (fi.IsReadOnly)
+                        {
+                            fi.IsReadOnly = false; //更改文件的只读属性
+                        }
+                        File.Delete(childName); //直接删除其中的文件    
+                    }
+                    else
+                    {
+                        DeleteDir(childName);
+                    }
+                }
+                Directory.Delete(dir, true); //删除空文件夹                    
+            }
         }
     }
 }

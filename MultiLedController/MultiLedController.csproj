@@ -99,8 +99,10 @@
     </Compile>
     <Compile Include="utils\IArt_Net_Client.cs" />
     <Compile Include="utils\ICalMD5Value.cs" />
+    <Compile Include="utils\ILEDControllerClient.cs" />
     <Compile Include="utils\impl\Art_Net_Client.cs" />
     <Compile Include="entity\ControlDevice.cs" />
+    <Compile Include="utils\impl\LEDControllerClient.cs" />
     <Compile Include="utils\impl\LEDControllerServer.cs" />
     <Compile Include="entity\QueueCacheData.cs" />
     <Compile Include="entity\SaveQueueCacheData.cs" />

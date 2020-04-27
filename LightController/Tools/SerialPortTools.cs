@@ -1,5 +1,6 @@
 ﻿using FTD2XX_NET;
 using LightController.Ast;
+using LightController.PeripheralDevice;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;

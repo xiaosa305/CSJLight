@@ -112,9 +112,6 @@ namespace MultiLedController.utils.impl
         {
             try
             {
-
-           
-           
                 this.Close();
                 if (virtuals.Count == 0)
                 {
@@ -144,7 +141,25 @@ namespace MultiLedController.utils.impl
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "启动模拟失败",ex,true,"启动模拟失败");
             }
+        }
 
+        /// <summary>
+        /// 测试用启动器
+        /// </summary>
+        /// <param name="virtuals"></param>
+        /// <param name="currentIP"></param>
+        /// <param name="serverIp"></param>
+        /// <param name="devices"></param>
+        public void Start(Dictionary<int,List<VirtualControlInfo>> virtuals,string currentIP,string serverIp,Dictionary<int,ControlDevice> devices)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "启动模拟失败", ex, true, "启动模拟失败");
+            }
         }
         /// <summary>
         /// 接收DMX数据包处理

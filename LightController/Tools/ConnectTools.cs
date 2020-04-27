@@ -95,7 +95,7 @@ namespace LightController.Tools
             }
             else
             {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
+                LogTools.Debug(Constant.TAG_XIAOSA, "搜索设备失败");
                 throw new Exception("未启动服务");
             }
             

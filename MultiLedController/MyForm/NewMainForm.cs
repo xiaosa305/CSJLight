@@ -213,20 +213,20 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void startButton_Click(object sender, EventArgs e)
 		{
+			//避免更改路数之后，虚拟IP显示错误，先清空所有的《关联路数》Text ( 不论是启动还是关闭模拟，都先清空关联 )
+			foreach (ListViewItem item in virtualIPListView.Items)
+			{
+				item.SubItems[2].Text = "";
+			}
+			Refresh();
+
 			if (!isStart)
 			{
 				setBusy(true);
 							
 				string mac = controllerListView.Items[controllerSelectedIndex].SubItems[2].Text;
 				int interfaceCount = ledControlDevices[mac].Led_interface_num - 1;
-				int addVIPCount = interfaceCount - vipList.Count;
-
-				//避免更改路数之后，虚拟IP显示错误，先清空所有的《关联路数》Text
-				foreach (ListViewItem item in virtualIPListView.Items)
-				{
-					item.SubItems[2].Text = "";
-				}
-				Refresh();
+				int addVIPCount = interfaceCount - vipList.Count;		
 
 				if (addVIPCount > 0)
 				{
@@ -363,6 +363,7 @@ namespace MultiLedController.MyForm
 			else {
 				setBusy(true);
 				setNotice(1,"正在关闭模拟，请稍候...");
+
 				if (isDebuging)
 				{
 					debugButton_Click(null, null);

@@ -97,7 +97,7 @@ namespace LightController.MyForm
 		protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
 		// 通道数据操作时的变量		
-		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；											
+		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
 		protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
@@ -231,7 +231,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// MARK 重构BuildLightList：BuildLightList改名为reBuildLightList()，并且只是纯方法，不再被继承，只是会调用子类的reBuildLightListView()
+		/// MARK 重构BuildLightList：BuildLightList改名为ReBuildLightList()，并且是完整的方法，不再需要子类完成剩余部分；只是会调用子类的reBuildLightListView()
 		/// 辅助方法：添加新的lightAst列表到主界面内存中,只供 LightsForm调用）
 		/// </summary>
 		public void ReBuildLightList(IList<LightAst> lightAstList2)
@@ -278,8 +278,8 @@ namespace LightController.MyForm
 			selectedIndex = -1;
 			selectedIndices = new List<int>(); 
 			RefreshStep();
-
-			EnterSyncMode(false);
+			
+			EnterSyncMode(false); // 修改了灯具后，一定要退出同步模式
 			enableProjectRelative(true);	//ReBuildLightAst内设置
 			autosetEnabledPlayAndRefreshPic();
 			reBuildLightListView();
@@ -1589,7 +1589,7 @@ namespace LightController.MyForm
 				frameLoadArray[frameIndex] = frameIndex == selectedFrameIndex;
 			}
 			
-			enableProjectRelative(true);// 初始化时设置，各按键是否可用			
+			enableProjectRelative(true);	// InitProject()时设置，各按键是否可用
 		}
 
 		/// <summary>
@@ -1726,14 +1726,14 @@ namespace LightController.MyForm
 					});
 					lightDictionary.Add( la.StartNum, lightIndex);
 				}
-								
+
+				EnterSyncMode(false); //需要退出同步模式
 				enableProjectRelative(true);    //OpenProject内设置
-				autosetEnabledPlayAndRefreshPic();
-				reBuildLightListView();				
+				autosetEnabledPlayAndRefreshPic();				
+				reBuildLightListView();	
 
 				//MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用
-				generateFrameData(currentFrame);
-				autosetEnabledPlayAndRefreshPic();
+				generateFrameData(currentFrame);				
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);

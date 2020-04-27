@@ -604,7 +604,6 @@ namespace LightController.Utils
         {
             string dirpath = Application.StartupPath + @"\DataCache\Project\CSJ";
             byte[][] gradientData = new byte[32][];
-            FileStream readStream = null;
             int fileSize = 4;
             long seek = 9;
             try
@@ -631,41 +630,42 @@ namespace LightController.Utils
                         string name = strArray[0];
                         string strScene = name.Length > 2 ? (name[1].ToString() + name[2].ToString()) : name[1].ToString();
                         int.TryParse(strScene, out int intScneNo);
-                        readStream = new FileStream(filePath, FileMode.Open);
-                        byte[] channelNumberBuff = new byte[2];
-                        int channelCount = 0;
-                        readStream.Seek(seek, SeekOrigin.Begin);
-                        readStream.Read(channelNumberBuff, 0, channelNumberBuff.Count());
-                        channelCount = (channelNumberBuff[0] & 0xFF) | ((channelNumberBuff[1] & 0xFF) << 8);
-                        seek = seek + 2;
-                        for (int i = 0; i < channelCount; i++)
+                        using (FileStream readStream = new FileStream(filePath, FileMode.Open))
                         {
-                            int channelNo = 0;
-                            int length = 0;
-                            byte[] channelNoBuff = new byte[2];
-                            byte[] seekBuff = new byte[4];
-                            byte[] lengthBuff = new byte[2];
+                            byte[] channelNumberBuff = new byte[2];
+                            int channelCount = 0;
                             readStream.Seek(seek, SeekOrigin.Begin);
-                            readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
-                            channelNo = (channelNoBuff[0] & 0xFF) | ((channelNoBuff[1] & 0xFF) << 8);
+                            readStream.Read(channelNumberBuff, 0, channelNumberBuff.Count());
+                            channelCount = (channelNumberBuff[0] & 0xFF) | ((channelNumberBuff[1] & 0xFF) << 8);
                             seek = seek + 2;
-                            readStream.Seek(seek, SeekOrigin.Begin);
-                            readStream.Read(lengthBuff, 0, lengthBuff.Length);
-                            length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
-                            //版本2.0
-                            //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
-                            seek = seek + 2;
-                            readStream.Seek(seek, SeekOrigin.Begin);
-                            readStream.Read(seekBuff, 0, seekBuff.Length);
-                            seek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
-                            readStream.Seek(seek, SeekOrigin.Begin);
-                            int value = readStream.ReadByte();
-                            gradientData[intScneNo - 1][channelNo - 1] = Convert.ToByte(value);
-                            seek = seek + length;
+                            for (int i = 0; i < channelCount; i++)
+                            {
+                                int channelNo = 0;
+                                int length = 0;
+                                byte[] channelNoBuff = new byte[2];
+                                byte[] seekBuff = new byte[4];
+                                byte[] lengthBuff = new byte[2];
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
+                                channelNo = (channelNoBuff[0] & 0xFF) | ((channelNoBuff[1] & 0xFF) << 8);
+                                seek = seek + 2;
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(lengthBuff, 0, lengthBuff.Length);
+                                length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
+                                //版本2.0
+                                //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
+                                seek = seek + 2;
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(seekBuff, 0, seekBuff.Length);
+                                seek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                int value = readStream.ReadByte();
+                                gradientData[intScneNo - 1][channelNo - 1] = Convert.ToByte(value);
+                                seek = seek + length;
+                            }
                         }
                     }
                 }
-                readStream.Close();
                 for (int i = 0; i < 32; i++)
                 {
                     fileSize = fileSize + gradientData[i].Count();

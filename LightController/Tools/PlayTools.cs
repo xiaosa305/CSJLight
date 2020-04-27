@@ -67,9 +67,6 @@ namespace LightController.Tools
         //TODO 待删除测试
         public bool IsTest { get; set; }
         private SerialPort TestComDevice { get; set; }
-
-
-
         private PlayTools()
         {
             try

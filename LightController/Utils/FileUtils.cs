@@ -71,11 +71,11 @@ namespace LightController.Utils
         {
             try
             {
-                //if (Directory.Exists(ProjectDataFilePath))
-                //{
-                //    Directory.Delete(ProjectDataFilePath, true);
-                //}
-                DeleteDir(ProjectDataFilePath);
+                if (Directory.Exists(ProjectDataFilePath))
+                {
+                    Directory.Delete(ProjectDataFilePath, true);
+                }
+                //DeleteDir(ProjectDataFilePath);
             }
             catch (Exception ex)
             {

@@ -709,7 +709,7 @@
 			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
 			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
 			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
+			this.skinTabControl.SelectedIndex = 1;
 			this.skinTabControl.Size = new System.Drawing.Size(224, 409);
 			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.skinTabControl.TabIndex = 3;
@@ -812,7 +812,7 @@
 			// comDownloadButton
 			// 
 			this.comDownloadButton.Enabled = false;
-			this.comDownloadButton.Location = new System.Drawing.Point(129, 229);
+			this.comDownloadButton.Location = new System.Drawing.Point(129, 208);
 			this.comDownloadButton.Name = "comDownloadButton";
 			this.comDownloadButton.Size = new System.Drawing.Size(70, 33);
 			this.comDownloadButton.TabIndex = 12;
@@ -823,7 +823,7 @@
 			// comReadButton
 			// 
 			this.comReadButton.Enabled = false;
-			this.comReadButton.Location = new System.Drawing.Point(35, 229);
+			this.comReadButton.Location = new System.Drawing.Point(35, 208);
 			this.comReadButton.Name = "comReadButton";
 			this.comReadButton.Size = new System.Drawing.Size(70, 33);
 			this.comReadButton.TabIndex = 12;

@@ -14,13 +14,13 @@ namespace LightController.MyForm
 	public partial class YMSetForm : Form
 	{
 		private MainFormBase mainForm;
-		private IniFileAst iniFileAst;
+		private IniFileHelper iniFileAst;
 		private int frameCount = 0;
 
 		public YMSetForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
-			iniFileAst = new IniFileAst(mainForm.GlobalIniPath);
+			iniFileAst = new IniFileHelper(mainForm.GlobalIniPath);
 			InitializeComponent();
 
 			#region 初始化几个数组			
@@ -144,17 +144,17 @@ namespace LightController.MyForm
 
 		private void ymCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			int frameIndex = MathAst.GetIndexNum(((CheckBox)sender).Name, -1 );
+			int frameIndex = MathHelper.GetIndexNum(((CheckBox)sender).Name, -1 );
 				
 		}
 		private void jgNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int frameIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int frameIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			//MessageBox.Show("frameIndex:" + ((NumericUpDown)sender).Value);
 		}
 		private void zxNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int frameIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int frameIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			//MessageBox.Show("frameIndex:" + ((NumericUpDown)sender).Value);
 		}
 

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LightController.Common
 {
-	public class TextAst
+	public class TextHelper
 	{
 		/// <summary>
 		/// 静态辅助方法：读取文本文件，把每一行的文本，输出到一个IList<string>中

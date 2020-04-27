@@ -290,7 +290,7 @@ namespace LightController.MyForm
 			#region 几个下拉框的初始化及赋值
 
 			//添加FramList文本中的场景列表
-			AllFrameList = TextAst.Read(Application.StartupPath + @"\FrameList.txt");
+			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
 			// 场景选项框			
 			foreach (string frame in AllFrameList)
 			{
@@ -628,38 +628,26 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///辅助方法：添加lightAst列表到主界面内存中,主要供 LightsForm以及OpenProject调用）
-		/// --对比删除后，生成新的lightWrapperList；
-		/// --lightListView也更新为最新的数据
+		/// MARK 重构BuildLightList：reBuildLightListView() in SkinMainForm
+		///辅助方法：根据现有的lightAstList，重新渲染listView
 		/// </summary>
-		/// <param name="lightAstList2"></param>
-		public override void BuildLightList(IList<LightAst> lightAstList2)
-		{
-			//先调用统一的操作，填充lightAstList和lightWrapperList（并生成stepTemplate）
-			base.BuildLightList(lightAstList2);
-
-			//针对本Form的处理代码：listView更新为最新数据			
+		protected override void reBuildLightListView()
+		{			
 			lightsSkinListView.Items.Clear();
-			for (int i = 0; i < lightAstList2.Count; i++)
+			for (int i = 0; i < lightAstList.Count; i++)
 			{
 				// 添加灯具数据到LightsListView中
 				lightsSkinListView.Items.Add(new ListViewItem(
-						lightAstList2[i].LightType +"\n(" 
-						+ lightAstList2[i].LightAddr +")"
-						+ lightAstList2[i].Remark
+						lightAstList[i].LightType +"\n(" 
+						+ lightAstList[i].LightAddr +")"
+						+ lightAstList[i].Remark
 						,
-					lightLargeImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
+					lightLargeImageList.Images.ContainsKey(lightAstList[i].LightPic) ? lightAstList[i].LightPic : "灯光图.png"
 				)
-				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
+				{ Tag = lightAstList[i].LightName + ":" + lightAstList[i].LightType }
 				);
 			}
-
-			//MARK 只开单场景：16.0.2 若新增的灯具为空，则设置几个地方不可用
-			if (lightAstList2.Count == 0)
-			{
-				useFrameSkinButton.Enabled = false;
-				exportSkinButton.Enabled = false;
-			}
+			Refresh(); 
 		}
 		
 		/// <summary>
@@ -690,9 +678,9 @@ namespace LightController.MyForm
 		protected override void changeCurrentFrame(int frameIndex)
 		{
 			currentFrame = frameIndex;
-			this.frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
+			frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 			frameSkinComboBox.SelectedIndex = currentFrame;
-			this.frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
+			frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 		}
 
 		#endregion
@@ -934,7 +922,7 @@ namespace LightController.MyForm
 			Dictionary<string, string> lightDict = new Dictionary<string, string>();
 			foreach (var lightPath in lightPathHashSet)
 			{
-				string picStr = IniFileAst_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
+				string picStr = IniFileHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
 				if (String.IsNullOrEmpty(picStr))
 				{
 					picStr = "灯光图.png";
@@ -1037,19 +1025,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void autoArrangeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//MessageBox.Show(autoArrangeToolStripMenuItem.Checked.ToString());
 			isAutoArrange = autoArrangeToolStripMenuItem.Checked;
 			lightsSkinListView.AllowDrop = !isAutoArrange;
 			lightsSkinListView.AutoArrange = isAutoArrange;
-
-			if (isAutoArrange)
-			{
-				enableSLArrange(false, false);
-			}
-			else
-			{
-				enableSLArrange(true, File.Exists(arrangeIniPath));
-			}
+			autoEnableSLArrange();			
 		}
 
 		/// <summary>
@@ -1094,14 +1073,14 @@ namespace LightController.MyForm
 			}
 
 			// 4.保存操作
-			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 			iniFileAst.WriteInt("Common", "Count", lightsSkinListView.Items.Count);
 			for (int i = 0; i < lightsSkinListView.Items.Count; i++)
 			{
 				iniFileAst.WriteInt("Position", i + "X", lightsSkinListView.Items[i].Position.X);
 				iniFileAst.WriteInt("Position", i + "Y", lightsSkinListView.Items[i].Position.Y);
 			}
-			enableSLArrange(true, File.Exists(arrangeIniPath));
+			autoEnableSLArrange();
 
 			MessageBox.Show("灯具位置保存成功。");
 		}
@@ -1121,7 +1100,7 @@ namespace LightController.MyForm
 			}
 
 			//2.验证灯具数目是否一致
-			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 			int lightCount = iniFileAst.ReadInt("Common", "Count", 0);
 			if (lightCount == 0)
 			{
@@ -1165,10 +1144,10 @@ namespace LightController.MyForm
 		///  辅助方法：《保存|读取灯具位置》按钮是否可用
 		/// </summary>
 		/// <param name="enable"></param>
-		protected override void enableSLArrange(bool enableSave, bool enableLoad)
+		protected override void autoEnableSLArrange()
 		{
-			saveArrangeToolStripMenuItem.Enabled = enableSave;
-			loadArrangeToolStripMenuItem.Enabled = enableLoad;
+			saveArrangeToolStripMenuItem.Enabled = ! isAutoArrange;
+			loadArrangeToolStripMenuItem.Enabled = File.Exists(arrangeIniPath);
 		}
 
 		#endregion
@@ -1245,7 +1224,7 @@ namespace LightController.MyForm
 			}
 
 			currentFrame = frameSkinComboBox.SelectedIndex;
-			//MARK 只开单场景：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则若为true，则说明已经加载因而无需重复读取。！
+			//MARK 只开单场景：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
 			if (!frameLoadArray[currentFrame])
 			{
 				generateFrameData(currentFrame);
@@ -1602,7 +1581,7 @@ namespace LightController.MyForm
 		protected override void showStepLabel(int currentStep, int totalStep)
 		{
 			// 1. 设label的Text值					   
-			stepLabel.Text = MathAst.GetFourWidthNumStr(currentStep, true) + "/" + MathAst.GetFourWidthNumStr(totalStep, false);
+			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
 
 			// 2.1 设定《删除步》按钮是否可用
 			deleteStepSkinButton.Enabled = totalStep != 0;
@@ -1623,8 +1602,6 @@ namespace LightController.MyForm
 
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
-
-			frameSaveSkinButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用
 			zeroSkinButton.Enabled = totalStep != 0;
@@ -1661,7 +1638,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1673,7 +1650,7 @@ namespace LightController.MyForm
 		private void tdSkinTrackBars_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdSkinTrackBars_MouseWheel");
-			int tdIndex = MathAst.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1712,7 +1689,7 @@ namespace LightController.MyForm
 		{
 			//Console.WriteLine("tdSkinTrackBars_ValueChanged");
 			// 1.先找出对应tdSkinTrackBars的index 
-			int tongdaoIndex = MathAst.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tongdaoIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			int tdValue = tdSkinTrackBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给tdValueNumericUpDowns
@@ -1734,7 +1711,7 @@ namespace LightController.MyForm
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值；
@@ -1755,7 +1732,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1767,7 +1744,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1804,7 +1781,7 @@ namespace LightController.MyForm
 		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int tdIndex = MathAst.GetIndexNum(((ComboBox)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((ComboBox)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1825,7 +1802,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdStepTimeNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1836,7 +1813,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1868,7 +1845,7 @@ namespace LightController.MyForm
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1892,7 +1869,7 @@ namespace LightController.MyForm
 		{
 			saFlowLayoutPanel.Controls.Clear();
 			LightAst la = lightAstList[selectedIndex];
-			int tdIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
 			addTdSaButtons(la, tdIndex);
 			saFlowLayoutPanel.Refresh();
 		}
@@ -2299,7 +2276,6 @@ namespace LightController.MyForm
 		private void changeConnectMethodSkinButton_Click(object sender, EventArgs e)
 		{
 			SetNotice("正在切换连接模式,请稍候...");
-			Refresh();
 			isConnectCom = !isConnectCom;
 			changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
@@ -2421,8 +2397,7 @@ namespace LightController.MyForm
 
 			setBusy(true);
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
-			SetNotice("正在生成预览数据，请稍候...");
-			Refresh();
+			SetNotice("正在生成预览数据，请稍候...");			
 			try
 			{
 				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
@@ -2432,7 +2407,7 @@ namespace LightController.MyForm
 				MessageBox.Show(ex.Message);
 			}
 			finally {
-				SetNotice("正在预览效果");
+				SetNotice("正在预览效果...");
 				setBusy(false);
 			}
 		}
@@ -2445,7 +2420,7 @@ namespace LightController.MyForm
 		private void makeSoundSkinButton_Click(object sender, EventArgs e)
 		{
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频后;
-			this.Refresh();
+			Refresh();
 
 			playTools.MusicControl();
 
@@ -2655,6 +2630,7 @@ namespace LightController.MyForm
 		public override void SetNotice(string noticeText)
 		{
 			noticeLabel.Text = noticeText;
+			noticeStatusStrip.Refresh();
 		}
 
 		/// <summary>
@@ -2725,7 +2701,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
-			int buttonIndex = MathAst.GetIndexNum(((Button)sender).Name, 0);
+			int buttonIndex = MathHelper.GetIndexNum(((Button)sender).Name, 0);
 			Console.WriteLine(buttonIndex);
 			Tools.Test test = new Tools.Test(GetDBWrapper(true), this, GlobalIniPath);
 			//Test test = new Test(GetDBWrapper(true) );

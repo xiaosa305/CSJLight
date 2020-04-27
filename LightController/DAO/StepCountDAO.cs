@@ -32,7 +32,7 @@ namespace LightController.Ast
 
 		///MARK 只开单场景：05.0 添加取步数值的辅助方法
 		/// <summary>
-		/// 辅助方法：通过lightIndex及frame值，获取指定场景的StepCount值列表
+		/// 辅助方法：通过lightIndex及frame值，获取指定场景的StepCount值列表（注意会拿到两个模式的灯具数据)
 		/// </summary>
 		/// <param name="frame"></param>
 		/// <param name="mode"></param>
@@ -41,7 +41,9 @@ namespace LightController.Ast
 			using (var session = sessionFactory.OpenSession())
 			{
 				IList<DB_StepCount> scList = (IList<DB_StepCount>)session
-					.CreateQuery("FROM DB_StepCount sc WHERE sc.PK.LightIndex =:lightIndex AND sc.PK.Frame=:frame")
+					.CreateQuery("FROM DB_StepCount sc " +
+							"WHERE sc.PK.LightIndex =:lightIndex " +
+							"AND sc.PK.Frame=:frame")
 					.SetInt32("lightIndex", lightIndex)
 					.SetInt32("frame", frame)
 					.List<DB_StepCount>();
@@ -50,7 +52,8 @@ namespace LightController.Ast
 		}
 
 		/// <summary>
-		/// MARK 只开单场景：12.4 StepCountDAO内添加通过pk取值的方法
+		/// MARK 只开单场景：13.0 StepCountDAO内添加通过pk取值的方法（12.3辅助方法）
+		/// 辅助方法：通过pk取StepCount对象的方法
 		/// </summary>
 		/// <param name="stepCountPK"></param>
 		/// <returns></returns>

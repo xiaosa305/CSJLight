@@ -100,13 +100,13 @@ namespace LightController.MyForm
 			this.playBasePanel = new System.Windows.Forms.Panel();
 			this.wjTestButton = new System.Windows.Forms.Button();
 			this.testButton2 = new System.Windows.Forms.Button();
-			this.testButton = new System.Windows.Forms.Button();
+			this.testButton1 = new System.Windows.Forms.Button();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.skinComboBox = new System.Windows.Forms.ComboBox();
 			this.projectPanel = new System.Windows.Forms.Panel();
 			this.newProjectButton = new System.Windows.Forms.Button();
-			this.exportProjectButton = new System.Windows.Forms.Button();
+			this.exportButton = new System.Windows.Forms.Button();
 			this.useFrameButton = new System.Windows.Forms.Button();
 			this.openProjectButton = new System.Windows.Forms.Button();
 			this.saveProjectButton = new System.Windows.Forms.Button();
@@ -847,7 +847,7 @@ namespace LightController.MyForm
 			this.playBasePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.playBasePanel.Controls.Add(this.wjTestButton);
 			this.playBasePanel.Controls.Add(this.testButton2);
-			this.playBasePanel.Controls.Add(this.testButton);
+			this.playBasePanel.Controls.Add(this.testButton1);
 			this.playBasePanel.Controls.Add(this.myStatusStrip);
 			this.playBasePanel.Controls.Add(this.playPanel);
 			this.playBasePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -876,16 +876,16 @@ namespace LightController.MyForm
 			this.testButton2.UseVisualStyleBackColor = true;
 			this.testButton2.Click += new System.EventHandler(this.testButton2_Click);
 			// 
-			// testButton
+			// testButton1
 			// 
-			this.testButton.Location = new System.Drawing.Point(1088, 7);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(84, 54);
-			this.testButton.TabIndex = 34;
-			this.testButton.Text = "Test1";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Visible = false;
-			this.testButton.Click += new System.EventHandler(this.testButton_Click);
+			this.testButton1.Location = new System.Drawing.Point(1088, 7);
+			this.testButton1.Name = "testButton1";
+			this.testButton1.Size = new System.Drawing.Size(84, 54);
+			this.testButton1.TabIndex = 34;
+			this.testButton1.Text = "Test1";
+			this.testButton1.UseVisualStyleBackColor = true;
+			this.testButton1.Visible = false;
+			this.testButton1.Click += new System.EventHandler(this.testButton1_Click);
 			// 
 			// myStatusStrip
 			// 
@@ -923,7 +923,7 @@ namespace LightController.MyForm
 			// 
 			this.projectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.projectPanel.Controls.Add(this.newProjectButton);
-			this.projectPanel.Controls.Add(this.exportProjectButton);
+			this.projectPanel.Controls.Add(this.exportButton);
 			this.projectPanel.Controls.Add(this.useFrameButton);
 			this.projectPanel.Controls.Add(this.openProjectButton);
 			this.projectPanel.Controls.Add(this.saveProjectButton);
@@ -948,16 +948,16 @@ namespace LightController.MyForm
 			// 
 			// exportProjectButton
 			// 
-			this.exportProjectButton.Enabled = false;
-			this.exportProjectButton.Location = new System.Drawing.Point(11, 281);
-			this.exportProjectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.exportProjectButton.Name = "exportProjectButton";
-			this.exportProjectButton.Size = new System.Drawing.Size(74, 40);
-			this.exportProjectButton.TabIndex = 29;
-			this.exportProjectButton.Text = "导出工程";
-			this.exportProjectButton.UseVisualStyleBackColor = true;
-			this.exportProjectButton.Click += new System.EventHandler(this.exportProjectButton_Click);
-			this.exportProjectButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportProjectButton_MouseDown);
+			this.exportButton.Enabled = false;
+			this.exportButton.Location = new System.Drawing.Point(11, 281);
+			this.exportButton.Margin = new System.Windows.Forms.Padding(2);
+			this.exportButton.Name = "exportProjectButton";
+			this.exportButton.Size = new System.Drawing.Size(74, 40);
+			this.exportButton.TabIndex = 29;
+			this.exportButton.Text = "导出工程";
+			this.exportButton.UseVisualStyleBackColor = true;
+			this.exportButton.Click += new System.EventHandler(this.exportProjectButton_Click);
+			this.exportButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportProjectButton_MouseDown);
 			// 
 			// useFrameButton
 			// 
@@ -1581,7 +1581,7 @@ namespace LightController.MyForm
 		private System.Windows.Forms.ComboBox skinComboBox;
 		private System.Windows.Forms.Panel projectPanel;
 		private System.Windows.Forms.Button newProjectButton;
-		private System.Windows.Forms.Button exportProjectButton;
+		private System.Windows.Forms.Button exportButton;
 		private System.Windows.Forms.Button useFrameButton;
 		private System.Windows.Forms.Button openProjectButton;
 		private System.Windows.Forms.Button saveProjectButton;
@@ -1654,7 +1654,7 @@ namespace LightController.MyForm
 		private NumericUpDown unifyStepTimeNumericUpDown;
 		private Button unifyValueButton;
 		private Button unifyChangeModeButton;
-		private Button testButton;
+		private Button testButton1;
 		private Button testButton2;
 		private ImageList lightLargeImageList;
 		private Button wjTestButton;

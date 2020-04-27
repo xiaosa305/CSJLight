@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LightController.Common
 {
-	public class DirectoryAst
+	public class DirectoryHelper
 	{
 		public enum SortMethodEnum{
 			FILE_NAME,

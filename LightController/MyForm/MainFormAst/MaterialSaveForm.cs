@@ -47,7 +47,7 @@ namespace LightController.MyForm
 			this.mode = mode;
 			lightLabel.Text += lightName + " - " + lightType;
 
-			materialPath = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightMaterial\";
+			materialPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\LightMaterial\";
 			materialPath += mode == 0 ? "Normal" : "Sound";
 			this.lightName = lightName ;
 			this.lightType = lightType;
@@ -120,7 +120,7 @@ namespace LightController.MyForm
 			}				
 				
 			//1.2 判断是否有非法字符 "\"和“/”
-			if ( ! FileAst.CheckFileName(materialName))
+			if ( ! FileHelper.CheckFileName(materialName))
 			{
 				MessageBox.Show("素材命名不规范，无法保存。");
 				return;
@@ -204,7 +204,7 @@ namespace LightController.MyForm
 			File.Copy(sourcePath, filePath,true);
 
 			//3.修改其中的数据
-			IniFileAst iniFileAst = new IniFileAst(filePath);
+			IniFileHelper iniFileAst = new IniFileHelper(filePath);
 
 			// 3.1 写[Set]内数据，包括几个要被记录的通道名
 			iniFileAst.WriteString("Set","name", materialName);

@@ -31,7 +31,8 @@ namespace LightController.MyForm
 		private string comName;
 
 		private ConnectTools connectTools;
-		private SerialPortTools comTools;	
+		private SerialPortTools comTools;
+		private bool isComConnected = false;
 
 		public ProjectUpdateForm(MainFormBase mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
@@ -209,17 +210,28 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《《打开串口》
+		/// 事件：点击《《打开|关闭串口》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void comOpenButton_Click(object sender, EventArgs e)
 		{
-			comName = comComboBox.Text ;
-			MessageBox.Show("已打开串口设备" + comName);
-			comNameLabel.Text = comName;
-			comTools.OpenCom(comName);
-			comUpdateButton.Enabled = true;			
+			isComConnected = !isComConnected;
+			if (isComConnected)
+			{
+				comName = comComboBox.Text;
+				comTools.OpenCom(comName);
+			}
+			else
+			{
+				comTools.CloseDevice();
+			}
+			comSearchButton.Enabled = !isComConnected;
+			comComboBox.Enabled = !isComConnected;
+			comNameLabel.Text = isComConnected ? comName : "";
+			comOpenButton.Text = isComConnected ? "关闭串口" : "打开串口";
+			comUpdateButton.Enabled = isComConnected; //只需满足"串口已打开"即可进行升级
+			MessageBox.Show((isComConnected ? "已打开串口" : "已关闭串口") + comName);
 		}
 
 		/// <summary>
@@ -381,8 +393,6 @@ namespace LightController.MyForm
 			else {
 				comFileShowLabel.Text = msg;
 			}
-
-
 		}
 
 		internal void ClearNetworkDevices()
@@ -400,8 +410,23 @@ namespace LightController.MyForm
 		{
 			if (mainForm.GenerateSourceProject())
 			{						
-				ZipAst.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");							
+				ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");							
 			}
+		}
+
+		/// <summary>
+		/// 事件：《窗口关闭》时，主动关闭串口连接
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (isComConnected)
+			{
+				comTools.CloseDevice();
+			}
+			Dispose();
+			mainForm.Activate();
 		}
 	}
 

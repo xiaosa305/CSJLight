@@ -27,7 +27,7 @@ namespace LightController
 			this.mainForm = mainForm;
 			InitializeComponent();
 
-			//MARK 只开单场景：00.1 NewForm加场景选择
+			//MARK 只开单场景：00.0 NewForm加场景选择
 			for (int frameIndex = 0; frameIndex < MainFormBase.AllFrameList.Count; frameIndex++)
 			{
 				frameComboBox.Items.Add(MainFormBase.AllFrameList[frameIndex]);
@@ -53,7 +53,7 @@ namespace LightController
 		{
 			string projectName = textBox1.Text;
 
-			if ( ! FileAst.CheckFileName(projectName)) {
+			if ( ! FileHelper.CheckFileName(projectName)) {
 				MessageBox.Show("工程名包含非法字符，请重新输入！");
 				return;
 			}
@@ -63,7 +63,7 @@ namespace LightController
 				return;
 			}
 
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
 			string directoryPath = savePath + @"\LightProject\" + projectName;
 			DirectoryInfo di = null;
 			try

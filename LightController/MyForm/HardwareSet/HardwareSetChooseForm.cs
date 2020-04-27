@@ -23,7 +23,7 @@ namespace LightController.MyForm
 			InitializeComponent();
 
 			// 读取硬盘上的,硬件设置列表
-			savePath = @IniFileAst.GetSavePath(Application.StartupPath);
+			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
 			string  hardwareLibraryPath = savePath + @"\HardwareLibrary";
 			if (Directory.Exists(hardwareLibraryPath))
 			{

@@ -41,7 +41,7 @@ namespace DMX512
 		}
 
 		/// <summary>
-		/// 重写ToString()
+		/// 重写ToString()-->LightIndex + " - " + LightID + " - " + Frame + " - " + Mode + " - " + Step;
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString()

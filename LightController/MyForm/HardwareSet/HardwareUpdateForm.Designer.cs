@@ -42,6 +42,9 @@
 			this.localIPsComboBox = new System.Windows.Forms.ComboBox();
 			this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
 			this.comPanel = new System.Windows.Forms.Panel();
+			this.comUpdateButton = new System.Windows.Forms.Button();
+			this.comOpenButton = new System.Windows.Forms.Button();
+			this.comSearchButton = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.comSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
 			this.comNameLabel = new System.Windows.Forms.Label();
@@ -50,9 +53,6 @@
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.filePathLabel = new System.Windows.Forms.Label();
 			this.fileOpenButton = new System.Windows.Forms.Button();
-			this.comSearchButton = new System.Windows.Forms.Button();
-			this.comConnectButton = new System.Windows.Forms.Button();
-			this.comUpdateButton = new System.Windows.Forms.Button();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
@@ -214,7 +214,7 @@
 			// comPanel
 			// 
 			this.comPanel.Controls.Add(this.comUpdateButton);
-			this.comPanel.Controls.Add(this.comConnectButton);
+			this.comPanel.Controls.Add(this.comOpenButton);
 			this.comPanel.Controls.Add(this.comSearchButton);
 			this.comPanel.Controls.Add(this.label4);
 			this.comPanel.Controls.Add(this.comSkinProgressBar);
@@ -226,6 +226,37 @@
 			this.comPanel.Name = "comPanel";
 			this.comPanel.Size = new System.Drawing.Size(564, 184);
 			this.comPanel.TabIndex = 10;
+			// 
+			// comUpdateButton
+			// 
+			this.comUpdateButton.Enabled = false;
+			this.comUpdateButton.Location = new System.Drawing.Point(464, 46);
+			this.comUpdateButton.Name = "comUpdateButton";
+			this.comUpdateButton.Size = new System.Drawing.Size(75, 31);
+			this.comUpdateButton.TabIndex = 17;
+			this.comUpdateButton.Text = "升级";
+			this.comUpdateButton.UseVisualStyleBackColor = true;
+			this.comUpdateButton.Click += new System.EventHandler(this.updateButton_Click);
+			// 
+			// comOpenButton
+			// 
+			this.comOpenButton.Enabled = false;
+			this.comOpenButton.Location = new System.Drawing.Point(369, 46);
+			this.comOpenButton.Name = "comOpenButton";
+			this.comOpenButton.Size = new System.Drawing.Size(75, 31);
+			this.comOpenButton.TabIndex = 17;
+			this.comOpenButton.Text = "打开串口";
+			this.comOpenButton.UseVisualStyleBackColor = true;
+			this.comOpenButton.Click += new System.EventHandler(this.comOpenButton_Click);
+			// 
+			// comSearchButton
+			// 
+			this.comSearchButton.Location = new System.Drawing.Point(33, 46);
+			this.comSearchButton.Name = "comSearchButton";
+			this.comSearchButton.Size = new System.Drawing.Size(88, 31);
+			this.comSearchButton.TabIndex = 16;
+			this.comSearchButton.Text = "搜索串口设备";
+			this.comSearchButton.UseVisualStyleBackColor = true;
 			// 
 			// label4
 			// 
@@ -300,37 +331,6 @@
 			this.fileOpenButton.UseVisualStyleBackColor = true;
 			this.fileOpenButton.Click += new System.EventHandler(this.fileOpenButton_Click);
 			// 
-			// comSearchButton
-			// 
-			this.comSearchButton.Location = new System.Drawing.Point(33, 46);
-			this.comSearchButton.Name = "comSearchButton";
-			this.comSearchButton.Size = new System.Drawing.Size(88, 31);
-			this.comSearchButton.TabIndex = 16;
-			this.comSearchButton.Text = "搜索串口设备";
-			this.comSearchButton.UseVisualStyleBackColor = true;
-			// 
-			// comConnectButton
-			// 
-			this.comConnectButton.Enabled = false;
-			this.comConnectButton.Location = new System.Drawing.Point(369, 46);
-			this.comConnectButton.Name = "comConnectButton";
-			this.comConnectButton.Size = new System.Drawing.Size(75, 31);
-			this.comConnectButton.TabIndex = 17;
-			this.comConnectButton.Text = "打开串口";
-			this.comConnectButton.UseVisualStyleBackColor = true;
-			this.comConnectButton.Click += new System.EventHandler(this.comConnectButton_Click);
-			// 
-			// comUpdateButton
-			// 
-			this.comUpdateButton.Enabled = false;
-			this.comUpdateButton.Location = new System.Drawing.Point(464, 46);
-			this.comUpdateButton.Name = "comUpdateButton";
-			this.comUpdateButton.Size = new System.Drawing.Size(75, 31);
-			this.comUpdateButton.TabIndex = 17;
-			this.comUpdateButton.Text = "升级";
-			this.comUpdateButton.UseVisualStyleBackColor = true;
-			this.comUpdateButton.Click += new System.EventHandler(this.updateButton_Click);
-			// 
 			// HardwareUpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -348,6 +348,7 @@
 			this.Name = "HardwareUpdateForm";
 			this.Text = "手动更新硬件";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareUpdateForm_HelpButtonClicked);
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareUpdateForm_FormClosed);
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
 			this.skinTabControl.ResumeLayout(false);
 			this.networkTab.ResumeLayout(false);
@@ -384,6 +385,6 @@
 		private System.Windows.Forms.Button networkdUpdateButton;
 		private System.Windows.Forms.Button comSearchButton;
 		private System.Windows.Forms.Button comUpdateButton;
-		private System.Windows.Forms.Button comConnectButton;
+		private System.Windows.Forms.Button comOpenButton;
 	}
 }

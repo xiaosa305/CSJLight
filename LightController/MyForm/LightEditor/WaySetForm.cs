@@ -147,7 +147,7 @@ namespace LightEditor
 			}
 
 			// 动态添加通道预选名称
-			IList<string> tdNameList = TextAst.Read(Application.StartupPath + @"\PreTDNameList");
+			IList<string> tdNameList = TextHelper.Read(Application.StartupPath + @"\PreTDNameList");
 			foreach (string item in tdNameList)
 			{
 				this.nameListBox.Items.Add(item);
@@ -281,7 +281,7 @@ namespace LightEditor
 			selectedTextBox = (TextBox)sender;
 			if (selectedTextBox != null)
 			{
-				selectedTdIndex = MathAst.GetIndexNum(selectedTextBox.Name, -1);
+				selectedTdIndex = MathHelper.GetIndexNum(selectedTextBox.Name, -1);
 				if (selectedTdIndex > -1)
 				{
 					refreshSAPanels();
@@ -312,7 +312,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)

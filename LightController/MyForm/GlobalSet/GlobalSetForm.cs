@@ -14,7 +14,7 @@ namespace LightController.MyForm
 	public partial class GlobalSetForm : Form
 	{
 		public MainFormBase mainForm;		
-		private IniFileAst iniAst ;
+		private IniFileHelper iniAst ;
 		private bool isInit = false;
 		private int frameIndex = -1;
 		private int eachStepTime = 30;
@@ -85,7 +85,7 @@ namespace LightController.MyForm
 			#endregion
 
 			// 初始化iniAst
-			iniAst = new IniFileAst(mainForm.GlobalIniPath);
+			iniAst = new IniFileHelper(mainForm.GlobalIniPath);
 			isInit = true;			
 		}
 
@@ -308,7 +308,7 @@ namespace LightController.MyForm
 		{
 			if (isInit)
 			{
-				frameIndex = MathAst.GetIndexNum(((Button)sender).Name, -1);
+				frameIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
 				mFrameLKPanel.Enabled = true;
 				mCurrentFrameLabel.Text = "选中场景：" + ((Button)sender).Text;
 				mFrameTextBox.Text = iniAst.ReadString("SK", frameIndex + "LK", "");
@@ -394,7 +394,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void skStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{

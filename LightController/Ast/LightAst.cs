@@ -50,7 +50,6 @@ namespace LightController.Ast
 			Remark = laOld.Remark;
 		}	
 		
-
 		/// <summary>
 		///  通过DB_Light来生成对应的LightAst
 		/// </summary>
@@ -103,7 +102,6 @@ namespace LightController.Ast
 				return false;
 			}
 		}
-
-	
+			
 	}
 }

@@ -2001,8 +2001,8 @@ namespace LightController.MyForm
 		{
 			try
 			{
-				FileUtils.ClearProjectData();
-				string destPath = Application.StartupPath + @"\DataCache\Project\CSJ";
+                FileUtils.ClearProjectData();
+                string destPath = Application.StartupPath + @"\DataCache\Project\CSJ";
 				for (int frame = 1; frame <= FrameCount; frame++)
 				{
 					FileHelper.CopyFile(exportPath + @"\C" + frame + ".bin", destPath, true);

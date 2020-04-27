@@ -1603,8 +1603,6 @@ namespace LightController.MyForm
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
-			frameSaveSkinButton.Enabled = currentStep > 0;
-
 			// 4.设定统一调整区是否可用
 			zeroSkinButton.Enabled = totalStep != 0;
 			initSkinButton.Enabled = totalStep != 0;

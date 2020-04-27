@@ -1593,8 +1593,6 @@ namespace LightController.MyForm
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
-			saveFrameButton.Enabled = currentStep > 0;
-
 			// 4.设定统一调整区是否可用			
 			zeroButton.Enabled = totalStep != 0;
 			initButton.Enabled = totalStep != 0; 

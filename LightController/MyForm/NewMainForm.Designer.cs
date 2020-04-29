@@ -734,14 +734,16 @@ namespace LightController.MyForm
 			// 
 			// multiButton
 			// 
+			this.multiButton.BackColor = System.Drawing.Color.DarkGray;
 			this.multiButton.Enabled = false;
+			this.multiButton.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiButton.Location = new System.Drawing.Point(91, 169);
 			this.multiButton.Margin = new System.Windows.Forms.Padding(2);
 			this.multiButton.Name = "multiButton";
 			this.multiButton.Size = new System.Drawing.Size(75, 50);
 			this.multiButton.TabIndex = 55;
 			this.multiButton.Text = "多步调节";
-			this.multiButton.UseVisualStyleBackColor = true;
+			this.multiButton.UseVisualStyleBackColor = false;
 			this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
 			// 
 			// initButton
@@ -937,21 +939,23 @@ namespace LightController.MyForm
 			// 
 			// newProjectButton
 			// 
+			this.newProjectButton.BackColor = System.Drawing.Color.Coral;
+			this.newProjectButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.newProjectButton.Location = new System.Drawing.Point(10, 16);
 			this.newProjectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newProjectButton.Name = "newProjectButton";
 			this.newProjectButton.Size = new System.Drawing.Size(74, 40);
 			this.newProjectButton.TabIndex = 26;
 			this.newProjectButton.Text = "新建工程";
-			this.newProjectButton.UseVisualStyleBackColor = true;
+			this.newProjectButton.UseVisualStyleBackColor = false;
 			this.newProjectButton.Click += new System.EventHandler(this.newProjectButton_Click);
 			// 
-			// exportProjectButton
+			// exportButton
 			// 
 			this.exportButton.Enabled = false;
-			this.exportButton.Location = new System.Drawing.Point(11, 281);
+			this.exportButton.Location = new System.Drawing.Point(11, 268);
 			this.exportButton.Margin = new System.Windows.Forms.Padding(2);
-			this.exportButton.Name = "exportProjectButton";
+			this.exportButton.Name = "exportButton";
 			this.exportButton.Size = new System.Drawing.Size(74, 40);
 			this.exportButton.TabIndex = 29;
 			this.exportButton.Text = "导出工程";
@@ -972,19 +976,21 @@ namespace LightController.MyForm
 			// 
 			// openProjectButton
 			// 
+			this.openProjectButton.BackColor = System.Drawing.Color.CadetBlue;
+			this.openProjectButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.openProjectButton.Location = new System.Drawing.Point(10, 65);
 			this.openProjectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openProjectButton.Name = "openProjectButton";
 			this.openProjectButton.Size = new System.Drawing.Size(74, 40);
 			this.openProjectButton.TabIndex = 27;
 			this.openProjectButton.Text = "打开工程";
-			this.openProjectButton.UseVisualStyleBackColor = true;
+			this.openProjectButton.UseVisualStyleBackColor = false;
 			this.openProjectButton.Click += new System.EventHandler(this.openProjectButton_Click);
 			// 
 			// saveProjectButton
 			// 
 			this.saveProjectButton.Enabled = false;
-			this.saveProjectButton.Location = new System.Drawing.Point(10, 222);
+			this.saveProjectButton.Location = new System.Drawing.Point(10, 220);
 			this.saveProjectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveProjectButton.Name = "saveProjectButton";
 			this.saveProjectButton.Size = new System.Drawing.Size(74, 40);
@@ -996,7 +1002,7 @@ namespace LightController.MyForm
 			// saveFrameButton
 			// 
 			this.saveFrameButton.Enabled = false;
-			this.saveFrameButton.Location = new System.Drawing.Point(10, 173);
+			this.saveFrameButton.Location = new System.Drawing.Point(10, 172);
 			this.saveFrameButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveFrameButton.Name = "saveFrameButton";
 			this.saveFrameButton.Size = new System.Drawing.Size(74, 40);

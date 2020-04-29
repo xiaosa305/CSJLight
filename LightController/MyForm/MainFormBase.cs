@@ -1960,7 +1960,9 @@ namespace LightController.MyForm
 			}
 
 			//MARK 导出单场景具体实现 1. 修改弹窗的提示
-			DialogResult dr = MessageBox.Show("请确保灯具列表未发生变化，并且与选择的已导出工程相比，只改动了当前场景的数据，否则可能产生错误的效果？\n确定现在导出工程（只修改当前场景数据）吗？",
+			DialogResult dr = MessageBox.Show(
+					"请确保灯具列表未发生变化，并且与选择的已导出工程相比，只改动了当前场景的数据，否则可能产生错误的效果!\n" +
+					"确定现在导出工程（只修改当前场景数据）吗？",
 					"导出工程（只修改当前场景数据）？",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
@@ -2360,7 +2362,6 @@ namespace LightController.MyForm
 			{
 				connectButtonClick();
 			}
-
 			new ProjectUpdateForm(this, GetDBWrapper(false), GlobalIniPath, tempProjectPath).ShowDialog();
 		}
 

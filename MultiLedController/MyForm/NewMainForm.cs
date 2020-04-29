@@ -724,10 +724,9 @@ namespace MultiLedController.MyForm
 		/// <summary>
 		/// 辅助方法：根据入参bool，设置当前《启动》相关的按键的可用性
 		/// </summary>
-		/// <param name="enable"></param>
+		/// <param name="enable">true为按键可用</param>
 		private void enableStartButtons(bool enable)
 		{
-
 			topPanel.Enabled = !enable;
 			startButton.Text = enable ? "关闭模拟" : "启动模拟";
 			debugButton.Enabled = enable;
@@ -743,14 +742,13 @@ namespace MultiLedController.MyForm
 		{
 			if (place == 1)
 			{
-				myStatusLabel1.Text = msg;
-				statusStrip.Refresh();
+				myStatusLabel1.Text = msg;				
 			}
 			if (place == 2)
 			{
 				myStatusLabel2.Text = msg;
-				statusStrip.Refresh();
 			}
+			statusStrip.Refresh();
 		}
 
 		/// <summary>

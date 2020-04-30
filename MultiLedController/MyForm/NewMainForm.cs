@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Management;
@@ -21,16 +22,14 @@ namespace MultiLedController.MyForm
 {
 	public partial class NewMainForm : Form
 	{
-		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新
-		private int netcardIndex = -1; //选中网卡index
+		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新	
 		private ManagementObject mo; //存放当前网卡的mo对象
 		
 		private string mainIP;  //当前网卡的主IP(第一个设的IP，mo对象取回来时在最后面)
 		private string mainMask; // 当前网卡的主掩码
 		private IList<string> vipList; //当前网卡的虚拟IP列表（不包含主ip）
 
-		private Dictionary<string, ControlDevice> ledControlDevices; //搜索到的设备 字典（key为mac）
-		private int controllerSelectedIndex = -1;  //选中的设备index
+		private Dictionary<string, ControlDevice> ledControlDevices; //搜索到的设备 字典（key为mac）		
 
 		private bool isStart = false; //是否启动模拟
 		private bool isDebuging = false;  //是否启用调试
@@ -43,6 +42,11 @@ namespace MultiLedController.MyForm
 		public NewMainForm()
 		{
 			InitializeComponent();
+
+			// 为软件添加版本号显示
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
+			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			Text += " v" + appFileVersion ;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
@@ -62,7 +66,7 @@ namespace MultiLedController.MyForm
 			{
 				refreshNetcardList();
 				isFirstTime = false;
-			}				
+			}
 		}
 
 		/// <summary>
@@ -83,7 +87,7 @@ namespace MultiLedController.MyForm
 				);
 				if (dr == DialogResult.Yes)
 				{
-					refreshCurButton_Click(null, null);
+					refreshNetcardinfoButton_Click(null, null);
 				}
 				//不论是否刷新，都将这个值设为false；表示不再计较了...
 				networkChanged = false;
@@ -98,9 +102,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void refreshNetcardButton_Click(object sender, EventArgs e)
 		{
-			refreshNetcardList();
-			//搜索设备，只需在点击事件最后添加即可，不要放在实际方法内，避免重复操作
-			searchDevices();
+			refreshNetcardList();	
 		}		
 
 		/// <summary>
@@ -110,12 +112,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void netcardComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (netcardIndex != netcardComboBox.SelectedIndex) {				
-				netcardIndex = netcardComboBox.SelectedIndex;
-				refreshNetcardInfo();
-				//搜索设备，只需在点击事件最后添加即可，不要放在实际方法内，避免重复操作
-				searchDevices();
-			}
+			refreshNetcardInfo();	
 		}
 
 		/// <summary>
@@ -125,19 +122,18 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void dhcpButton_Click(object sender, EventArgs e)
 		{
-			if (netcardIndex == -1)
+			if (netcardComboBox.SelectedIndex == -1)
 			{
 				setNotice(1,"未选中可用网卡，请刷新后重试");
 				return;
 			}
 			mo.InvokeMethod("SetDNSServerSearchOrder", null);
 			mo.InvokeMethod("EnableDHCP", null);
+			setNotice(1, "正在启用DHCP，请稍候...");
+			Refresh();
 
-			Thread.Sleep(1000);
+			Thread.Sleep(1000);			
 			refreshNetcardInfo();
-			setNotice(1,"已启用DHCP，即将自动为您搜索设备。");
-			Thread.Sleep(1000);
-			searchDevices();
 		}
 
 		/// <summary>
@@ -147,22 +143,30 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void clearVIPButton_Click(object sender, EventArgs e)
 		{
-			if (netcardIndex == -1)
+			if (netcardComboBox.SelectedIndex == -1)
 			{
 				setNotice(1, "未选中可用网卡，请刷新后重试");
 				return;
 			}
 
 			setBusy(true);
-			IPAst ipAst = new IPAst(mo)
-			{
-				IpArray = new string[] { mainIP},
-				SubmaskArray = new string[] { mainMask },
-			};
 
-			setNotice(1, "正在为您清空虚拟IP,清空后将刷新当前网卡信息，请稍候...");
-			IPHelper.SetIPAddress(mo, ipAst);
-			refreshCurButton_Click(null, null);
+			if (vipList != null && vipList.Count > 0)
+			{
+				IPAst ipAst = new IPAst(mo)
+				{
+					IpArray = new string[] { mainIP },
+					SubmaskArray = new string[] { mainMask },
+				};
+
+				setNotice(1, "正在为您清空虚拟IP,清空后将刷新当前网卡信息，请稍候...");
+				IPHelper.SetIPAddress(mo, ipAst);
+				refreshNetcardInfo(); // 无论设置成功与否，都主动刷新网卡信息			
+			}
+			else {
+				setNotice(1, "检测到当前网卡并无虚拟IP，无需清空。");
+			}	
+
 			setBusy(false);
 		}
 
@@ -171,11 +175,10 @@ namespace MultiLedController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void refreshCurButton_Click(object sender, EventArgs e)
-		{
-			refreshNetcardInfo();
-			//搜索设备，只需在点击事件最后添加即可，不要放在实际方法内，避免重复操作
-			searchDevices();
+		private void refreshNetcardinfoButton_Click(object sender, EventArgs e)
+		{	
+			refreshNetcardInfo();		
+			
 		}
 
 		/// <summary>
@@ -184,7 +187,7 @@ namespace MultiLedController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void searchButton_Click(object sender, EventArgs e)
-		{
+		{		
 			searchDevices();
 		}
 
@@ -195,15 +198,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void controllerListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (controllerListView.SelectedIndices.Count > 0)
-			{
-				controllerSelectedIndex = controllerListView.SelectedIndices[0];
-				startButton.Enabled = true;
-			}
-			else {
-				//controllerSelectedIndex = -1;
-				startButton.Enabled = false ;
-			}
+			startButton.Enabled = controllerListView.SelectedIndices.Count > 0;			
 		}
 
 		/// <summary>
@@ -223,7 +218,8 @@ namespace MultiLedController.MyForm
 			if (!isStart)
 			{
 				setBusy(true);
-							
+
+				int controllerSelectedIndex = controllerListView.SelectedIndices[0];
 				string mac = controllerListView.Items[controllerSelectedIndex].SubItems[2].Text;
 				int interfaceCount = ledControlDevices[mac].Led_interface_num - 1;
 				int addVIPCount = interfaceCount - vipList.Count;		
@@ -243,57 +239,57 @@ namespace MultiLedController.MyForm
 					string top3str = firstIP.Substring(0, firstIP.LastIndexOf('.') + 1);
 					int lastStr = int.Parse(firstIP.Substring(firstIP.LastIndexOf('.') + 1));
 
-					IList<string> addIPList = new List<string>();
+					IList<string> addIPList = getAvailableIPList(new List<string>(), addVIPCount, top3str, lastStr+1);
+					Console.WriteLine(addIPList);
 
-					
-					// 此处为第一层获取可用IP的方法；
-					for (; lastStr < 255; lastStr++)
-					{
-						string addIP = top3str + lastStr;
-						setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
+					//// 此处为第一层获取可用IP的方法；
+					//for (; lastStr < 255; lastStr++)
+					//{
+					//	string addIP = top3str + lastStr;
+					//	setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
 
-						//若IP未被占用，则可以添加到addIPList中
-						if ( IPHelper.CheckIPAvailable( mainIP,addIP) ) 
-						{
-							addIPList.Add(addIP);
-							addVIPCount--;
-						}
+					//	//若IP未被占用，则可以添加到addIPList中
+					//	if ( IPHelper.CheckIPAvailable( mainIP,addIP) ) 
+					//	{
+					//		addIPList.Add(addIP);
+					//		addVIPCount--;
+					//	}
 
-						if (addVIPCount <= 0)
-						{
-							break;
-						}
-					}
-					// 若以上循环走完后，仍未达到所需的VIP数量，则从2开始，再走一遍获取可用IP的方法；
-					if (addVIPCount > 0)
-					{
-						for (lastStr = 2; lastStr < 255; lastStr++)
-						{
-							string addIP = top3str + lastStr;
-							setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
+					//	if (addVIPCount <= 0)
+					//	{
+					//		break;
+					//	}
+					//}
+					//// 若以上循环走完后，仍未达到所需的VIP数量，则从2开始，再走一遍获取可用IP的方法；
+					//if (addVIPCount > 0)
+					//{
+					//	for (lastStr = 2; lastStr < 255; lastStr++)
+					//	{
+					//		string addIP = top3str + lastStr;
+					//		setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
 
-							//若IP未被占用，则可以添加到addIPList中
-							if ( IPHelper.CheckIPAvailable(mainIP, addIP))
-							{
-								addIPList.Add(addIP);
-								addVIPCount--;
-							}
+					//		//若IP未被占用，则可以添加到addIPList中
+					//		if ( IPHelper.CheckIPAvailable(mainIP, addIP))
+					//		{
+					//			addIPList.Add(addIP);
+					//			addVIPCount--;
+					//		}
 
-							if (addVIPCount <= 0)
-							{
-								break;
-							}
-						}
-					}					
+					//		if (addVIPCount <= 0)
+					//		{
+					//			break;
+					//		}
+					//	}
+					//}
 
-					// 若仍未完成，则必须提示用户无可用ip并中断操作
-					if (addVIPCount > 0)
-					{
-						MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
-						setNotice(1,"检测到当前网段无足够可用的IP地址，已中断操作。");						
-						setBusy(false);
-						return;
-					}
+					//// 若仍未完成，则必须提示用户无可用ip并中断操作
+					//if (addVIPCount > 0)
+					//{
+					//	MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
+					//	setNotice(1,"检测到当前网段无足够可用的IP地址，已中断操作。");						
+					//	setBusy(false);
+					//	return;
+					//}
 
 					//以新IP及掩码列表， 改造IPAst；并将（mainIP及新的ipList）设置到系统中
 					foreach (string tempIP in addIPList)
@@ -332,7 +328,7 @@ namespace MultiLedController.MyForm
 					}					
 				}
 
-				ControlDevice device = getSelectedLedControl(controllerSelectedIndex);
+				ControlDevice device = ledControlDevices.Values.ElementAt(controllerSelectedIndex);
 				List<VirtualControlInfo> virtuals = new List<VirtualControlInfo>();
 				////补充相应的虚拟IP后（可能原来已经足够了），利用interfaceCount数量（N）， 在右侧取前N个虚拟IP（N可能小于ipList.Count）；并填充virtuals列表
 				for (int interfaceIndex = 0; interfaceIndex < interfaceCount; interfaceIndex++)
@@ -519,27 +515,43 @@ namespace MultiLedController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 辅助方法：把所有的组件都设为最初的空值
+		/// 辅助方法：把所有的组件都设为最初的空值;按钮Enabled还原为false
 		/// </summary>
 		private void clearAll()
 		{
+			clearNetcardInfo();
+
+			netcardInfoGroupBox.Enabled = false;
+						
+			netcardComboBox.SelectedIndex = -1;
+			netcardComboBox.Items.Clear();			
+			netcardComboBox.Text = "";
+		}
+
+		/// <summary>
+		/// 只清空当前网卡及相关的显示（原则：先清内存后清界面）
+		/// </summary>
+		private void clearNetcardInfo() {
+
 			mo = null;
+
 			mainIP = null;
 			mainMask = null;
+			ipLabel2.Text = "";
+			submaskLabel2.Text = "";
+			gatewayLabel2.Text = "";
+			dnsLabel2.Text = "";
+
 			vipList = null;
+			virtualIPListView.Items.Clear();		
+
 			ledControlDevices = null;
-			controllerSelectedIndex = -1;			
-			netcardIndex = -1;
-
-			netcardComboBox.Items.Clear();
-			netcardComboBox.Text = "";			
-
-			virtualIPListView.Items.Clear();
+			controllerListView.Items.Clear();
 
 			searchButton.Enabled = false;
 			startButton.Enabled = false;
 			debugButton.Enabled = false;
-			recordButton.Enabled = false;
+			recordButton.Enabled = false;			
 		}
 
 		/// <summary>
@@ -547,23 +559,27 @@ namespace MultiLedController.MyForm
 		/// </summary>
 		private void refreshNetcardList()
 		{
-			clearAll();
+			setNotice(1, "正在刷新网卡列表...");
+			clearAll();			
 
 			// 获取本地计算机所有网卡信息			
-			ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_NetWorkAdapterConfiguration");
-						
+			ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_NetWorkAdapterConfiguration");						
 			foreach (ManagementObject mo in search.Get())
 			{
 				if (mo["IPAddress"] != null)
 				{
-					string carName = mo["Description"].ToString().Trim();					
-					netcardComboBox.Items.Add(carName);					
+					string netcardName = mo["Description"].ToString().Trim();					
+					netcardComboBox.Items.Add(netcardName);
 				}
 			}
 
-			if (netcardComboBox.Items.Count > 0) {
+			if (netcardComboBox.Items.Count > 0)
+			{
 				netcardComboBox.SelectedIndex = 0;
-				netcardIndex = 0;				
+				netcardInfoGroupBox.Enabled = true;
+			}
+			else {
+				setNotice(1, "未找到可用网卡,请处理后《刷新列表》。");
 			}
 		}
 		
@@ -571,23 +587,40 @@ namespace MultiLedController.MyForm
 		/// 辅助方法：刷新网卡信息，主要用于更改网卡列表及主动刷新网卡时
 		/// </summary>
 		private void refreshNetcardInfo()
-		{
-			virtualIPListView.Items.Clear();
-			controllerListView.Items.Clear();
+		{			
+			clearNetcardInfo();
+			vipList = new List<string>();	
 
-			if (netcardIndex > -1)
+			if (netcardComboBox.SelectedIndex > -1)
 			{
 				mo = IPHelper.GetNetCardMO(netcardComboBox.Text);
-				IPAst ipAst = new IPAst(mo);
-				vipList = new List<string>();
+				if(mo == null) {
+					setNotice(1, "当前网卡不可用,请处理后《刷新当前网卡信息》。");
+					return;
+				}
+							
+				IPAst ipAst = new IPAst(mo);				
 				if (ipAst.IpArray.Length > 0)
 				{
 					mainIP = ipAst.IpArray[ipAst.IpArray.Length - 1];
-					ipLabel2.Text = mainIP;
 					mainMask = ipAst.SubmaskArray[ipAst.SubmaskArray.Length - 1];
+
+					ipLabel2.Text = mainIP;					
 					submaskLabel2.Text = mainMask;
-					gatewayLabel2.Text = ipAst.GatewayArray[0];
-					dnsLabel2.Text = ipAst.DnsArray[0];
+					if (ipAst.GatewayArray != null && ipAst.GatewayArray.Length > 0) {
+						gatewayLabel2.Text = ipAst.GatewayArray[0];
+					}
+					if (ipAst.DnsArray != null && ipAst.DnsArray.Length > 0)
+					{
+						dnsLabel2.Text = ipAst.DnsArray[0];
+					}
+					searchButton.Enabled = true;
+
+					//刷新当前网卡信息后，都主动搜索设备
+					setNotice(1, "已刷新当前网卡信息，即将自动为您搜索设备...");			
+					Refresh();
+					Thread.Sleep(1000);
+					searchDevices();
 
 					int tempIndex = 1;
 					for (int i = ipAst.IpArray.Length - 2; i >= 0; i--)
@@ -599,12 +632,8 @@ namespace MultiLedController.MyForm
 						});
 						virtualIPListView.Items.Add(item);
 						vipList.Add(ipAst.IpArray[i]);
-					}
-					searchButton.Enabled = true;		
-				}
-				else {
-					searchButton.Enabled = false;
-				}				
+					}					
+				}					
 			}
 		}
 
@@ -641,48 +670,51 @@ namespace MultiLedController.MyForm
 				})				
 			);
 		}
-
-		/// <summary>
-		/// 辅助方法：通过index，取出字典中Values内对应的设备对象
-		/// </summary>
-		/// <returns></returns>
-		private ControlDevice getSelectedLedControl(int index)
-		{
-			return ledControlDevices.Values.ElementAt(index);
-		}
-
+		
 		/// <summary>
 		///辅助方法：搜索设备
 		/// </summary>
 		private void searchDevices()
 		{
-			if (searchButton.Enabled)
-			{
-				setNotice(1,"开始搜索设备，请稍候...");
-				
-				controllerListView.Items.Clear();
-				startButton.Enabled = false;
+			Console.WriteLine("searchDevices...");
 
-				Art_Net_Manager.GetInstance().SearchDevice(ipLabel2.Text);
-				Thread.Sleep(1000);
-				ledControlDevices = Art_Net_Manager.GetInstance().GetLedControlDevices();
-
-				controllerListView.Items.Clear();
-				if (ledControlDevices.Count == 0)
-				{
-					setNotice(1,"未搜索到任何设备，请确认后重试。");
-					return;
-				}
-
-				int tempIndex = 1;
-				foreach (ControlDevice led in ledControlDevices.Values)
-				{
-					AddLedController(tempIndex++, led);
-				}
-				controllerListView.Items[0].Selected = true;
-
-				setNotice(1,"已将搜索到的设备添加设备列表中,并选中了第一个设备。");
+			if (netcardComboBox.SelectedIndex == -1  ) {				
+				setNotice( 1, "未选中可用网卡，无法搜索设备");
+				return;
 			}
+			if (string.IsNullOrEmpty(mainIP)) {
+				setNotice(1, "未设置主IP地址，无法搜索设备");
+				return;
+			}
+			if ( ! searchButton.Enabled ) {
+				setNotice(1, "搜索按钮不可用，不可搜索设备！");
+				return;
+			}
+
+			setNotice(1,"正在搜索设备，请稍候...");
+			
+			controllerListView.Items.Clear();
+			startButton.Enabled = false;
+
+			Art_Net_Manager.GetInstance().SearchDevice(ipLabel2.Text);
+			Thread.Sleep(1000);
+			ledControlDevices = Art_Net_Manager.GetInstance().GetLedControlDevices();
+
+			controllerListView.Items.Clear();
+			if (ledControlDevices.Count == 0)
+			{
+				setNotice(1,"未搜索到任何设备，请确认后重试。");
+				return;
+			}
+
+			int tempIndex = 1;
+			foreach (ControlDevice led in ledControlDevices.Values)
+			{
+				AddLedController(tempIndex++, led);
+			}
+			controllerListView.Items[0].Selected = true;
+
+			setNotice(1,"已将搜索到的设备添加列表中,并选中了第一个设备。");			
 		}
 
 		/// <summary>
@@ -737,6 +769,7 @@ namespace MultiLedController.MyForm
 		/// <summary>
 		/// 辅助方法：设置提示信息
 		/// </summary>
+		/// <param name="place">1 | 2 左1右2</param>
 		/// <param name="msg"></param>
 		private void setNotice(int place, string msg)
 		{
@@ -788,6 +821,59 @@ namespace MultiLedController.MyForm
 		}
 
 		#endregion
+
+		/// <summary>
+		/// 采用多线程去检测一些IP是否可用，并传回列表
+		/// </summary>
+		private IList<string> getAvailableIPList(IList<string> addIPList,int addVIPCount, string top3str,int lastStr) {
+
+			Thread[] threadArray = new Thread[addVIPCount];				
+			for (int addIndex = 0; addIndex < addVIPCount; addIndex++)
+			{
+				int tempAddIndex = addIndex;
+				threadArray[tempAddIndex] = new Thread(delegate ()
+				{
+					string addIP = top3str + (lastStr+ tempAddIndex) ;
+					Console.WriteLine( "正在检测" + addIP + "是否可用...");
+					if (IPHelper.CheckIPAvailable(mainIP, addIP))
+					{
+						Console.WriteLine(addIP);
+						addIPList.Add(addIP);
+						addVIPCount--;
+					}
+				});
+				Thread.Sleep(100);
+				threadArray[addIndex].Start();
+			}
+
+			// 下列代码，用以监视所有线程是否已经结束运行。每隔0.1s，去计算尚存活的线程数量，若数量为0，则说明所有线程已经结束了。
+			while (true)
+			{
+				int unFinishedCount = 0;
+				foreach (var thread in threadArray)
+				{
+					unFinishedCount += thread.IsAlive ? 1 : 0;
+				}
+
+				if (unFinishedCount == 0)
+				{				
+					break;
+				}
+				else
+				{
+					Thread.Sleep(100);
+				}
+			}
+
+			if (addVIPCount > 0)
+			{
+				return getAvailableIPList(addIPList, addVIPCount, top3str, lastStr + addIPList.Count);
+			}
+			else {
+				return addIPList;
+			}			
+		}
+
 
 		/// <summary>
 		/// 事件：点击《Test》

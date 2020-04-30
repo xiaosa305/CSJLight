@@ -564,7 +564,7 @@ namespace LightController.MyForm
 			// 
 			// bigTestButton
 			// 
-			this.bigTestButton.Location = new System.Drawing.Point(937, 21);
+			this.bigTestButton.Location = new System.Drawing.Point(953, 25);
 			this.bigTestButton.Name = "bigTestButton";
 			this.bigTestButton.Size = new System.Drawing.Size(129, 63);
 			this.bigTestButton.TabIndex = 21;
@@ -579,11 +579,11 @@ namespace LightController.MyForm
 			this.testGroupBox.Controls.Add(this.test3Button);
 			this.testGroupBox.Controls.Add(this.test2Button);
 			this.testGroupBox.Controls.Add(this.test1Button);
-			this.testGroupBox.Location = new System.Drawing.Point(1096, 21);
+			this.testGroupBox.Location = new System.Drawing.Point(1091, 25);
 			this.testGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.testGroupBox.Name = "testGroupBox";
 			this.testGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.testGroupBox.Size = new System.Drawing.Size(190, 63);
+			this.testGroupBox.Size = new System.Drawing.Size(177, 63);
 			this.testGroupBox.TabIndex = 20;
 			this.testGroupBox.TabStop = false;
 			this.testGroupBox.Visible = false;
@@ -645,7 +645,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.oldToolsSkinButton);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 2);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(859, 100);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(865, 100);
 			this.flowLayoutPanel1.TabIndex = 5;
 			// 
 			// lightLibrarySkinButton
@@ -6165,6 +6165,8 @@ namespace LightController.MyForm
 			this.Controls.Add(this.astSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
 			this.Controls.Add(this.myMenuStrip);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.myMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(2);

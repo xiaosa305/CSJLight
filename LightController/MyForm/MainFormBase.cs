@@ -19,6 +19,7 @@ using LightController.Utils;
 using OtherTools;
 using LightEditor.Ast;
 using LightController.MyForm.LightList;
+using System.Diagnostics;
 
 namespace LightController.MyForm
 {
@@ -1551,7 +1552,7 @@ namespace LightController.MyForm
 			projectPath = SavePath + @"\LightProject\" + projectName;
 			GlobalIniPath = projectPath + @"\global.ini";
 			dbFilePath = projectPath + @"\data.db3";
-			Text = SoftwareName + " Dimmer System(当前工程:" + projectName + ")";
+			Text = SoftwareName + "(当前工程:" + projectName + ")";
 
 			//10.9 设置当前工程的 arrange.ini 的地址,以及先把各种可用性屏蔽掉
 			arrangeIniPath = projectPath + @"\arrange.ini";
@@ -1623,7 +1624,7 @@ namespace LightController.MyForm
 			frameSaveArray = null;
 			frameLoadArray = null;
 
-			Text = SoftwareName + " Dimmer System";
+			Text = SoftwareName;
 
 			EnterSyncMode(false);  //退出《同步模式》
 			enableSingleMode(true); // 使用《单灯模式》
@@ -2922,6 +2923,13 @@ namespace LightController.MyForm
 
 			//softwareName =globalSetFileAst.ReadString("Show", "softwareName", "TRANS-JOY");   // 使用这行代码,则中文会乱码			
 			SoftwareName = IniFileHelper_UTF8.ReadString(Application.StartupPath + @"/GlobalSet.ini", "Show", "softwareName", "TRANS-JOY");
+			SoftwareName += " Dimmer System ";
+
+			string loadexeName = Application.ExecutablePath;
+			FileVersionInfo fileVersionInfo =FileVersionInfo.GetVersionInfo(loadexeName);
+			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			SoftwareName += "v" + appFileVersion + " ";
+
 			SavePath = IniFileHelper.GetSavePath(Application.StartupPath);
 			IsShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton");
 			IsShowHardwareUpdate = IniFileHelper.GetControlShow(Application.StartupPath, "hardwareUpdateButton");

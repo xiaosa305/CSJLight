@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -39,7 +40,8 @@ namespace LightController.MyForm
 			initGeneralControls(); //几个全局控件的初始化
 			InitializeComponent();
 			
-			Text = SoftwareName + " Dimmer System";// 动态更改软件名称			
+			Text = SoftwareName ;// 动态更改软件名称
+
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
 			QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			CenterControllerToolStripMenuItem.Enabled = IsLinkOldTools;//旧外设是否进行关联
@@ -2505,6 +2507,16 @@ namespace LightController.MyForm
 			new TestForm().ShowDialog();
 		}
 
+		private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string loadexeName = System.Windows.Forms.Application.ExecutablePath;
+			//loadexeName : "D:\\YokiSystem\\Yoki.UI\\bin\\Debug\\Yoki.UI.exe"
+
+			FileVersionInfo fileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(loadexeName);
+
+			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			MessageBox.Show(serverFileVersion);
+		}
 		
 	}
 }

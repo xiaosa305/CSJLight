@@ -32,7 +32,7 @@ namespace LightController.MyForm
 			initGeneralControls();
 			InitializeComponent();
 
-			Text = SoftwareName + " Dimmer System";
+			Text = SoftwareName;
 			hardwareUpdateSkinButton.Visible = IsShowHardwareUpdate;
 			oldToolsSkinButton.Visible = IsLinkOldTools;
 			testGroupBox.Visible = IsShowTestButton;
@@ -2789,6 +2789,7 @@ namespace LightController.MyForm
 
 
 
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2803,8 +2804,7 @@ namespace LightController.MyForm
 		//}		
 
 		#endregion
-
-
+		
 	}
 
 

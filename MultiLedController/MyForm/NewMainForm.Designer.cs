@@ -63,7 +63,7 @@
 			this.netcardInfoGroupBox = new System.Windows.Forms.GroupBox();
 			this.clearVIPButton = new System.Windows.Forms.Button();
 			this.dhcpButton = new System.Windows.Forms.Button();
-			this.refreshCurButton = new System.Windows.Forms.Button();
+			this.refreshNetcardInfoButton = new System.Windows.Forms.Button();
 			this.dnsLabel2 = new System.Windows.Forms.Label();
 			this.dnsLabel = new System.Windows.Forms.Label();
 			this.gatewayLabel2 = new System.Windows.Forms.Label();
@@ -364,7 +364,7 @@
 			// 
 			this.netcardInfoGroupBox.Controls.Add(this.clearVIPButton);
 			this.netcardInfoGroupBox.Controls.Add(this.dhcpButton);
-			this.netcardInfoGroupBox.Controls.Add(this.refreshCurButton);
+			this.netcardInfoGroupBox.Controls.Add(this.refreshNetcardInfoButton);
 			this.netcardInfoGroupBox.Controls.Add(this.dnsLabel2);
 			this.netcardInfoGroupBox.Controls.Add(this.dnsLabel);
 			this.netcardInfoGroupBox.Controls.Add(this.gatewayLabel2);
@@ -373,6 +373,7 @@
 			this.netcardInfoGroupBox.Controls.Add(this.submaskLabel);
 			this.netcardInfoGroupBox.Controls.Add(this.ipLabel2);
 			this.netcardInfoGroupBox.Controls.Add(this.ipLabel);
+			this.netcardInfoGroupBox.Enabled = false;
 			this.netcardInfoGroupBox.Location = new System.Drawing.Point(17, 57);
 			this.netcardInfoGroupBox.Name = "netcardInfoGroupBox";
 			this.netcardInfoGroupBox.Size = new System.Drawing.Size(390, 114);
@@ -402,16 +403,16 @@
 			this.dhcpButton.UseVisualStyleBackColor = true;
 			this.dhcpButton.Click += new System.EventHandler(this.dhcpButton_Click);
 			// 
-			// refreshCurButton
+			// refreshNetcardInfoButton
 			// 
-			this.refreshCurButton.Font = new System.Drawing.Font("黑体", 8F);
-			this.refreshCurButton.Location = new System.Drawing.Point(317, 29);
-			this.refreshCurButton.Name = "refreshCurButton";
-			this.refreshCurButton.Size = new System.Drawing.Size(66, 72);
-			this.refreshCurButton.TabIndex = 27;
-			this.refreshCurButton.Text = "刷新当前\r\n网卡信息";
-			this.refreshCurButton.UseVisualStyleBackColor = true;
-			this.refreshCurButton.Click += new System.EventHandler(this.refreshCurButton_Click);
+			this.refreshNetcardInfoButton.Font = new System.Drawing.Font("黑体", 8F);
+			this.refreshNetcardInfoButton.Location = new System.Drawing.Point(317, 26);
+			this.refreshNetcardInfoButton.Name = "refreshNetcardInfoButton";
+			this.refreshNetcardInfoButton.Size = new System.Drawing.Size(66, 72);
+			this.refreshNetcardInfoButton.TabIndex = 27;
+			this.refreshNetcardInfoButton.Text = "刷新当前\r\n网卡信息";
+			this.refreshNetcardInfoButton.UseVisualStyleBackColor = true;
+			this.refreshNetcardInfoButton.Click += new System.EventHandler(this.refreshNetcardinfoButton_Click);
 			// 
 			// dnsLabel2
 			// 
@@ -576,7 +577,7 @@
 		private System.Windows.Forms.ColumnHeader columnHeader5;
 		private System.Windows.Forms.GroupBox netcardInfoGroupBox;
 		private System.Windows.Forms.Button dhcpButton;
-		private System.Windows.Forms.Button refreshCurButton;
+		private System.Windows.Forms.Button refreshNetcardInfoButton;
 		private System.Windows.Forms.Label dnsLabel2;
 		private System.Windows.Forms.Label dnsLabel;
 		private System.Windows.Forms.Label gatewayLabel2;

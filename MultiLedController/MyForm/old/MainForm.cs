@@ -197,7 +197,7 @@ namespace MultiLedController.MyForm
 				//string fileName = filePath.Substring(filePath.LastIndexOf(@"\") + 1);
 
 				Art_Net_Manager.GetInstance().SetSaveFilePath(filePath);
-				//TODO:MainForm委托
+				//TODO:MainForm委托（弃用的MainForm不再处理）
 				//Art_Net_Manager.GetInstance().StartSaveToFile();
 
 				isRecording = true;
@@ -346,7 +346,7 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "实时调试";
 			if (isDebuging)
 			{
-				//TODO:MainForm委托
+				//TODO:MainForm委托（弃用的MainForm不再处理）
 				//Art_Net_Manager.GetInstance().StartDebug();
 			}
 			else {

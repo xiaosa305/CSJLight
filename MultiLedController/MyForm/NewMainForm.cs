@@ -218,8 +218,15 @@ namespace MultiLedController.MyForm
 			if (!isStart)
 			{
 				setBusy(true);
+                                
+                if (controllerListView.SelectedIndices.Count == 0) {
+                    MessageBox.Show("尚未选中设备，无法启动模拟。");
+                    setNotice(1, "尚未选中设备，无法启动模拟。");
+                    setBusy(false);
+                    return;                    
+                }
 
-				int controllerSelectedIndex = controllerListView.SelectedIndices[0];
+                int controllerSelectedIndex = controllerListView.SelectedIndices[0];
 				string mac = controllerListView.Items[controllerSelectedIndex].SubItems[2].Text;
 				int interfaceCount = ledControlDevices[mac].Led_interface_num - 1;
 				int addVIPCount = interfaceCount - vipList.Count;		
@@ -239,60 +246,61 @@ namespace MultiLedController.MyForm
 					string top3str = firstIP.Substring(0, firstIP.LastIndexOf('.') + 1);
 					int lastStr = int.Parse(firstIP.Substring(firstIP.LastIndexOf('.') + 1));
 
-					IList<string> addIPList = getAvailableIPList(new List<string>(), addVIPCount, top3str, lastStr+1);
-					Console.WriteLine(addIPList);
+                    IList<string> addIPList = new List<string>();
+                    //IList<string> addIPList = getAvailableIPList(new List<string>(), addVIPCount, top3str, lastStr+1);
+                    //Console.WriteLine(addIPList);
 
-					//// 此处为第一层获取可用IP的方法；
-					//for (; lastStr < 255; lastStr++)
-					//{
-					//	string addIP = top3str + lastStr;
-					//	setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
+                    //此处为第一层获取可用IP的方法；
+                    for (; lastStr < 255; lastStr++)
+                    {
+                        string addIP = top3str + lastStr;
+                        setNotice(1, "正在检测" + addIP + "是否可用，请稍候...");
 
-					//	//若IP未被占用，则可以添加到addIPList中
-					//	if ( IPHelper.CheckIPAvailable( mainIP,addIP) ) 
-					//	{
-					//		addIPList.Add(addIP);
-					//		addVIPCount--;
-					//	}
+                        //若IP未被占用，则可以添加到addIPList中
+                        if (IPHelper.CheckIPAvailable(mainIP, addIP))
+                        {
+                            addIPList.Add(addIP);
+                            addVIPCount--;
+                        }
 
-					//	if (addVIPCount <= 0)
-					//	{
-					//		break;
-					//	}
-					//}
-					//// 若以上循环走完后，仍未达到所需的VIP数量，则从2开始，再走一遍获取可用IP的方法；
-					//if (addVIPCount > 0)
-					//{
-					//	for (lastStr = 2; lastStr < 255; lastStr++)
-					//	{
-					//		string addIP = top3str + lastStr;
-					//		setNotice(1,"正在检测" + addIP + "是否可用，请稍候...");
+                        if (addVIPCount <= 0)
+                        {
+                            break;
+                        }
+                    }
+                    //若以上循环走完后，仍未达到所需的VIP数量，则从2开始，再走一遍获取可用IP的方法；
+                    if (addVIPCount > 0)
+                    {
+                        for (lastStr = 2; lastStr < 255; lastStr++)
+                        {
+                            string addIP = top3str + lastStr;
+                            setNotice(1, "正在检测" + addIP + "是否可用，请稍候...");
 
-					//		//若IP未被占用，则可以添加到addIPList中
-					//		if ( IPHelper.CheckIPAvailable(mainIP, addIP))
-					//		{
-					//			addIPList.Add(addIP);
-					//			addVIPCount--;
-					//		}
+                            //若IP未被占用，则可以添加到addIPList中
+                            if (IPHelper.CheckIPAvailable(mainIP, addIP))
+                            {
+                                addIPList.Add(addIP);
+                                addVIPCount--;
+                            }
 
-					//		if (addVIPCount <= 0)
-					//		{
-					//			break;
-					//		}
-					//	}
-					//}
+                            if (addVIPCount <= 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
 
-					//// 若仍未完成，则必须提示用户无可用ip并中断操作
-					//if (addVIPCount > 0)
-					//{
-					//	MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
-					//	setNotice(1,"检测到当前网段无足够可用的IP地址，已中断操作。");						
-					//	setBusy(false);
-					//	return;
-					//}
+                    //若仍未完成，则必须提示用户无可用ip并中断操作
+                    if (addVIPCount > 0)
+                    {
+                        MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
+                        setNotice(1, "检测到当前网段无足够可用的IP地址，已中断操作。");
+                        setBusy(false);
+                        return;
+                    }
 
-					//以新IP及掩码列表， 改造IPAst；并将（mainIP及新的ipList）设置到系统中
-					foreach (string tempIP in addIPList)
+                    //以新IP及掩码列表， 改造IPAst；并将（mainIP及新的ipList）设置到系统中
+                    foreach (string tempIP in addIPList)
 					{
 						vipList.Add(tempIP);
 					}
@@ -330,7 +338,8 @@ namespace MultiLedController.MyForm
 
 				ControlDevice device = ledControlDevices.Values.ElementAt(controllerSelectedIndex);
 				List<VirtualControlInfo> virtuals = new List<VirtualControlInfo>();
-				////补充相应的虚拟IP后（可能原来已经足够了），利用interfaceCount数量（N）， 在右侧取前N个虚拟IP（N可能小于ipList.Count）；并填充virtuals列表
+                // 补充相应的虚拟IP后（可能原来已经足够了），利用interfaceCount数量（N）， 
+                // 在右侧取前N个虚拟IP（N可能小于ipList.Count）；并填充virtuals列表
 				for (int interfaceIndex = 0; interfaceIndex < interfaceCount; interfaceIndex++)
 				{
 					virtualIPListView.Items[interfaceIndex].SubItems[2].Text = (interfaceIndex + 1).ToString();
@@ -825,7 +834,7 @@ namespace MultiLedController.MyForm
 		/// <summary>
 		/// 采用多线程去检测一些IP是否可用，并传回列表
 		/// </summary>
-		private IList<string> getAvailableIPList(IList<string> addIPList,int addVIPCount, string top3str,int lastStr) {
+		private List<string> getAvailableIPList(List<string> addIPList,int addVIPCount, string top3str,int lastStr) {
 
 			Thread[] threadArray = new Thread[addVIPCount];				
 			for (int addIndex = 0; addIndex < addVIPCount; addIndex++)
@@ -882,7 +891,12 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show(IPHelper.CheckIPAvailableARPOnly("192.168.31.14","114.114.114.114").ToString());
+            //MessageBox.Show(IPHelper.CheckIPAvailableARPOnly("192.168.31.14","114.114.114.114").ToString());
+
+            List<string> addIPList = getAvailableIPList(new List<string>(), 8, "192.168.14.", 96);
+            //addIPList.Sort(x,y,);
+            Console.WriteLine(addIPList);
+
 		}
 	}
 }

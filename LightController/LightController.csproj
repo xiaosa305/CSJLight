@@ -158,23 +158,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\IPAst.cs" />
-    <Compile Include="Ast\InsertMethod.cs" />
-    <Compile Include="Ast\JustTest.cs" />
+    <Compile Include="Ast\Enum\InsertMethod.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />
     <Compile Include="Ast\MaterialIndexAst.cs" />
     <Compile Include="Common\DBGetter.cs" />
-    <Compile Include="Common\IniFileAst.cs" />
-    <Compile Include="Common\IniFileAst_UTF8.cs" />
-    <Compile Include="Common\MathAst.cs" />
+    <Compile Include="Common\DirectoryHelper.cs" />
+    <Compile Include="Common\IniFileHelper.cs" />
+    <Compile Include="Common\IniFileHelper_UTF8.cs" />
+    <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\SQLiteHelper.cs" />
     <Compile Include="Ast\DBWrapper.cs" />
     <Compile Include="Ast\LightAst.cs" />
     <Compile Include="Ast\LightStepWrapper.cs" />
     <Compile Include="Ast\StepWrapper.cs" />
-    <Compile Include="Common\FileAst.cs" />
+    <Compile Include="Common\FileHelper.cs" />
     <Compile Include="Common\StringHelper.cs" />
-    <Compile Include="Common\TextAst.cs" />
+    <Compile Include="Common\TextHelper.cs" />
+    <Compile Include="Common\ZipHelper.cs" />
     <Compile Include="DAO\FineTuneDAO.cs" />
     <Compile Include="DAO\ValueDAO.cs" />
     <Compile Include="DAO\StepCountDAO.cs" />
@@ -186,6 +187,12 @@
     <Compile Include="Ast\Entity\DB_FineTune.cs" />
     <Compile Include="Ast\Entity\CCEntity.cs" />
     <Compile Include="Ast\Entity\KeyEntity.cs" />
+    <Compile Include="MyForm\LightList\LightRemarkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightList\LightRemarkForm.Designer.cs">
+      <DependentUpon>LightRemarkForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
@@ -379,6 +386,12 @@
     <Compile Include="MyForm\GlobalSet\YMSetForm.Designer.cs">
       <DependentUpon>YMSetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Test\TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Test\TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PeripheralDevice\BaseCommunication.cs" />
     <Compile Include="PeripheralDevice\NetworkConnect.cs" />
     <Compile Include="PeripheralDevice\SerialConnect.cs" />
@@ -405,16 +418,14 @@
     <Compile Include="Tools\CSJ\IMPL\LightControlData.cs" />
     <Compile Include="Tools\CSJ\IMPL\LightInfo.cs" />
     <Compile Include="Tools\CSJ\IMPL\NetworkDeviceInfo.cs" />
-    <Compile Include="Tools\Dmx512Test.cs" />
     <Compile Include="Tools\PlayTools.cs" />
     <Compile Include="Tools\SerialPortTools.cs" />
     <Compile Include="Tools\SockTools.cs" />
     <Compile Include="Tools\Test.cs" />
     <Compile Include="Tools\XiaosaTest.cs" />
-    <Compile Include="Utils\CSJThread.cs" />
-    <Compile Include="Utils\CSJThreadManager.cs" />
     <Compile Include="Utils\DataConvertUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\LogTools.cs" />
     <Compile Include="Utils\PlayPoint.cs" />
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
@@ -427,6 +438,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightEditor\WaySetForm.resx">
       <DependentUpon>WaySetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightList\LightRemarkForm.resx">
+      <DependentUpon>LightRemarkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
@@ -512,6 +526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\GlobalSet\YMSetForm.resx">
       <DependentUpon>YMSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Test\TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

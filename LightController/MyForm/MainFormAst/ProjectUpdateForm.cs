@@ -31,7 +31,8 @@ namespace LightController.MyForm
 		private string comName;
 
 		private ConnectTools connectTools;
-		private SerialPortTools comTools;	
+		private SerialPortTools comTools;
+		private bool isComConnected = false;
 
 		public ProjectUpdateForm(MainFormBase mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
@@ -209,17 +210,28 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《《打开串口》
+		/// 事件：点击《《打开|关闭串口》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void comOpenButton_Click(object sender, EventArgs e)
 		{
-			comName = comComboBox.Text ;
-			MessageBox.Show("已打开串口设备" + comName);
-			comNameLabel.Text = comName;
-			comTools.OpenCom(comName);
-			comUpdateButton.Enabled = true;			
+			isComConnected = !isComConnected;
+			if (isComConnected)
+			{
+				comName = comComboBox.Text;
+				comTools.OpenCom(comName);
+			}
+			else
+			{
+				comTools.CloseDevice();
+			}
+			comSearchButton.Enabled = !isComConnected;
+			comComboBox.Enabled = !isComConnected;
+			comNameLabel.Text = isComConnected ? comName : "";
+			comOpenButton.Text = isComConnected ? "关闭串口" : "打开串口";
+			comUpdateButton.Enabled = isComConnected; //只需满足"串口已打开"即可进行升级
+			MessageBox.Show((isComConnected ? "已打开串口" : "已关闭串口") + comName);
 		}
 
 		/// <summary>
@@ -249,14 +261,12 @@ namespace LightController.MyForm
 					SetBusy(false);
 					return;
 				}
-
 				generateNow = true;//只有当前无projectPath且选择继续后会rightNow
 			}
 
-
-
 			string buttonName = ((Button)sender).Name;
-			if (   buttonName.Equals("networkUpdateButton") )  //使用网络升级
+			//使用网络升级
+			if (   buttonName.Equals("networkUpdateButton") ) 
 			{
 				networkUpdateButton.Enabled = false;
 				ipsComboBox.Enabled = false;				
@@ -327,21 +337,21 @@ namespace LightController.MyForm
 		/// <summary>
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
-		/// <param name="a"></param>		
-		public void networkPaintProgress(string fileName,int a)
+		/// <param name="processPercent"></param>		
+		public void networkPaintProgress(string fileName,int processPercent)
 		{
-			networkFileShowLabel.Text = fileName;
-			networkSkinProgressBar.Value =  a;		
+			networkFileShowLabel.Text = "正在传输文件：" + fileName;
+			networkSkinProgressBar.Value =  processPercent;		
 		}
 
 		/// <summary>
 		///  辅助委托方法：将数据写进度条
 		/// </summary>
-		/// <param name="a"></param>		
-		public void comPaintProgress(string fileName, int a)
+		/// <param name="processPercent"></param>		
+		public void comPaintProgress(string fileName, int processPercent)
 		{
-			comFileShowLabel.Text = fileName;
-			comSkinProgressBar.Value = a;
+			comFileShowLabel.Text = "正在传输文件：" +  fileName;
+			comSkinProgressBar.Value = processPercent;
 		}
 			   
 		/// <summary>
@@ -393,17 +403,31 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的目录也要拷到这里来
+		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的Source也要压缩到这里来（Source.zip）
 		/// </summary>
-		/// <param name="destDir"></param>
-		public void GenerateSourceProject(string destDir)
+		/// <param name="zipPath"></param>
+		public void GenerateSourceZip(string zipPath)
 		{
 			if (mainForm.GenerateSourceProject())
-			{
-				FileAst.CopyDirectory(mainForm.SavePath + @"\Source", destDir);
+			{						
+				ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");							
 			}
 		}
 
+		/// <summary>
+		/// 事件：《窗口关闭》时，主动关闭串口连接
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (isComConnected)
+			{
+				comTools.CloseDevice();
+			}
+			Dispose();
+			mainForm.Activate();
+		}
 	}
 
 	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
@@ -483,7 +507,7 @@ namespace LightController.MyForm
 		{
 			puForm.SetLabelText(isNetwork,"数据生成成功，即将传输数据到设备。");
 			FileUtils.CopyProjectFileToDownloadDir();
-			//puForm.GenerateSourceProject(Application.StartupPath + @"\DataCache\Download\CSJ\Source");		   
+			puForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");	
 			puForm.DownloadProject(isNetwork);
 		}
 
@@ -494,7 +518,7 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			//MessageBox.Show("数据：" + name+"生成成功。");
+			puForm.SetLabelText(isNetwork, name);
 		}
 	}
 }

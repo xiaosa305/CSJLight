@@ -9,6 +9,9 @@ namespace LightController.Tools
 {
     class Constant
     {
+        public const string TAG_XIAOSA = "XiaoSa";
+        public static bool IsLogInFile = true;
+
         public static int[] DMX512ChannelNos;
         public const int DMX512BAUD = 250000;
         public const int SCENECOUNTMAX = 32;

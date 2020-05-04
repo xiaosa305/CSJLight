@@ -27,7 +27,7 @@ namespace LightController.Ast
 		/// <returns></returns>
 		public static MaterialAst GenerateMaterialAst(string materialPath) {
 			// 1.初始化IniFileAst
-			IniFileAst iniFileAst = new IniFileAst(materialPath);
+			IniFileHelper iniFileAst = new IniFileHelper(materialPath);
 
 			// 2.取[Set]和[TD]的值
 			int stepCount = iniFileAst.ReadInt("Set", "step", 0);

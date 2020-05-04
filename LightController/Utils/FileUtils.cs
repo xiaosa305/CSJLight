@@ -50,8 +50,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "初始化缓存文件夹出错", ex);
             }
         }
         public static void ClearCacheData()
@@ -65,8 +64,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "重建工程文件碎片缓存建文件夹出错", ex);
             }
         }
         public static void ClearProjectData()
@@ -77,11 +75,11 @@ namespace LightController.Utils
                 {
                     Directory.Delete(ProjectDataFilePath, true);
                 }
+                //DeleteDir(ProjectDataFilePath);
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "重建工程文件缓存建文件夹出错", ex);
             }
         }
         public static void ClearPreviewCacheData()
@@ -95,8 +93,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "重建预览缓存建文件夹出错", ex);
             }
         }
         public static void ClearPreviewProjectData()
@@ -110,8 +107,30 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
+            }
+        }
+        public static void ClearSingleFrameData(int sceneNo)
+        {
+            try
+            {
+                if (Directory.Exists(ProjectDataFilePath))
+                {
+                    string filePath = ProjectDataFilePath + @"\C" + (sceneNo + 1) + @".bin";
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                    filePath = ProjectDataFilePath + @"\M" + (sceneNo + 1) + @".bin";
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "清除单场景文件失败", ex);
             }
         }
         public static void Write(byte[] datas,int length, string fileName,bool isMakeFile, bool isCreate, bool isCache)
@@ -139,8 +158,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
             }
         }
         public static void Write(byte data, string fileName,bool isMakeFile, bool isCreate, bool isCache)
@@ -168,8 +186,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine(ex.ToString());
+                LogTools.Error(Constant.TAG_XIAOSA, "写数据到文件出错", ex);
             }
         }
         public static void Write(byte[] datas,int length, long seek, string fileName,bool isMakeFile, bool isCreate,bool isCache)
@@ -198,8 +215,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("******************" + Thread.CurrentThread.ManagedThreadId + "==============>" + ex.ToString());
+                LogTools.Error(Constant.TAG_XIAOSA,"写数据到文件出错",ex);
             }
         }
         public static void MergeFile(int sceneNo, int mode, bool isMakeFile, bool isCompleted , ISaveProjectCallBack callBack)
@@ -296,7 +312,7 @@ namespace LightController.Utils
                     }
 
                 }
-                Console.WriteLine(projectFileInfo.Name + "文件整合完成");
+                //LogTools.Debug(Constant.TAG_XIAOSA, "文件整合完成");
             }
             catch (Exception ex)
             {
@@ -305,7 +321,7 @@ namespace LightController.Utils
                     readStream.Close();
                 }
                 callBack.Error();
-                Console.WriteLine("********************数据整合出错" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA,"数据整合出错",ex);
             }finally
             {
                 if (isCompleted)
@@ -314,7 +330,7 @@ namespace LightController.Utils
                     {
                         CreateGradientData();
                     }
-                    Console.WriteLine("XIAOSA：==>数据全部整合完毕");
+                    //LogTools.Debug(Constant.TAG_XIAOSA, "数据全部整合完毕");
                     callBack.Completed();
                 }
                 DataConvertUtils.Flag = true;
@@ -350,8 +366,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("拷贝文件到下载目录报错" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝文件到下载目录报错", ex);
             }
             return result;
         }
@@ -381,8 +396,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("拷贝工程文件到下载目录报错" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝工程文件到下载目录失败", ex);
             }
             return result;
         }
@@ -405,9 +419,8 @@ namespace LightController.Utils
                 {
                     foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
                     {
-
                         FileInfo info = new FileInfo(filePath);
-                        Console.WriteLine("拷贝工程文件到指定目录：==>" + info.Name);
+                        //LogTools.Debug(Constant.TAG_XIAOSA, "拷贝工程文件到指定目录" + info.Name);
                         info.CopyTo(dirPath + @"\" + info.Name, true);
                     }
                     result = true;
@@ -415,8 +428,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
-                Console.WriteLine("拷贝工程文件到指定目录" + ex.StackTrace);
+                LogTools.Error(Constant.TAG_XIAOSA, "拷贝工程文件到指定目录失败", ex,true,ex.Message);
             }
           
             return result;
@@ -592,11 +604,10 @@ namespace LightController.Utils
         {
             string dirpath = Application.StartupPath + @"\DataCache\Project\CSJ";
             byte[][] gradientData = new byte[32][];
-            FileStream readStream = null;
             int fileSize = 4;
             long seek = 9;
-            //try
-            //{
+            try
+            {
                 for (int i = 0; i < 32; i++)
                 {
                     gradientData[i] = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
@@ -619,41 +630,42 @@ namespace LightController.Utils
                         string name = strArray[0];
                         string strScene = name.Length > 2 ? (name[1].ToString() + name[2].ToString()) : name[1].ToString();
                         int.TryParse(strScene, out int intScneNo);
-                        readStream = new FileStream(filePath, FileMode.Open);
-                        byte[] channelNumberBuff = new byte[2];
-                        int channelCount = 0;
-                        readStream.Seek(seek, SeekOrigin.Begin);
-                        readStream.Read(channelNumberBuff, 0, channelNumberBuff.Count());
-                        channelCount = (channelNumberBuff[0] & 0xFF) | ((channelNumberBuff[1] & 0xFF) << 8);
-                        seek = seek + 2;
-                        for (int i = 0; i < channelCount; i++)
+                        using (FileStream readStream = new FileStream(filePath, FileMode.Open))
                         {
-                            int channelNo = 0;
-                            int length = 0;
-                            byte[] channelNoBuff = new byte[2];
-                            byte[] seekBuff = new byte[4];
-                            byte[] lengthBuff = new byte[2];
+                            byte[] channelNumberBuff = new byte[2];
+                            int channelCount = 0;
                             readStream.Seek(seek, SeekOrigin.Begin);
-                            readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
-                            channelNo = (channelNoBuff[0] & 0xFF) | ((channelNoBuff[1] & 0xFF) << 8);
+                            readStream.Read(channelNumberBuff, 0, channelNumberBuff.Count());
+                            channelCount = (channelNumberBuff[0] & 0xFF) | ((channelNumberBuff[1] & 0xFF) << 8);
                             seek = seek + 2;
-                            readStream.Seek(seek, SeekOrigin.Begin);
-                            readStream.Read(lengthBuff, 0, lengthBuff.Length);
-                            length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
-                            //版本2.0
-                            //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
-                            seek = seek + 2;
-                            readStream.Seek(seek, SeekOrigin.Begin);
-                            readStream.Read(seekBuff, 0, seekBuff.Length);
-                            seek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
-                            readStream.Seek(seek, SeekOrigin.Begin);
-                            int value = readStream.ReadByte();
-                            gradientData[intScneNo - 1][channelNo - 1] = Convert.ToByte(value);
-                            seek = seek + length;
+                            for (int i = 0; i < channelCount; i++)
+                            {
+                                int channelNo = 0;
+                                int length = 0;
+                                byte[] channelNoBuff = new byte[2];
+                                byte[] seekBuff = new byte[4];
+                                byte[] lengthBuff = new byte[2];
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(channelNoBuff, 0, channelNoBuff.Length);
+                                channelNo = (channelNoBuff[0] & 0xFF) | ((channelNoBuff[1] & 0xFF) << 8);
+                                seek = seek + 2;
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(lengthBuff, 0, lengthBuff.Length);
+                                length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8);
+                                //版本2.0
+                                //length = (lengthBuff[0] & 0xFF) | ((lengthBuff[1] & 0xFF) << 8) | ((lengthBuff[2] & 0xFF) << 16) | ((lengthBuff[3] & 0xFF) << 24);
+                                seek = seek + 2;
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                readStream.Read(seekBuff, 0, seekBuff.Length);
+                                seek = (seekBuff[0] & 0xFF) | ((seekBuff[1] & 0xFF) << 8) | ((seekBuff[2] & 0xFF) << 16) | ((seekBuff[3] & 0xFF) << 24);
+                                readStream.Seek(seek, SeekOrigin.Begin);
+                                int value = readStream.ReadByte();
+                                gradientData[intScneNo - 1][channelNo - 1] = Convert.ToByte(value);
+                                seek = seek + length;
+                            }
                         }
                     }
                 }
-                readStream.Close();
                 for (int i = 0; i < 32; i++)
                 {
                     fileSize = fileSize + gradientData[i].Count();
@@ -666,17 +678,39 @@ namespace LightController.Utils
                     writeBuff.AddRange(gradientData[i]);
                 }
                 Write(writeBuff.ToArray(), writeBuff.Count, "GradientData.bin", true, true, false);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine("场景渐变数据生成报错" + ex.Message);
-            //}
-           
-            
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "场景渐变数据生成报错", ex);
+            }
         }
         public static void CreateConfig(CSJ_Config config)
         {
             config.WriteToFile(ProjectDataFilePath);
+        }
+
+        private static void DeleteDir(string dir)
+        {
+            if (Directory.Exists(dir)) //判断是否存在   
+            {
+                foreach (string childName in Directory.GetFileSystemEntries(dir))//获取子文件和子文件夹
+                {
+                    if (File.Exists(childName)) //如果是文件
+                    {
+                        FileInfo fi = new FileInfo(childName);
+                        if (fi.IsReadOnly)
+                        {
+                            fi.IsReadOnly = false; //更改文件的只读属性
+                        }
+                        File.Delete(childName); //直接删除其中的文件    
+                    }
+                    else
+                    {
+                        DeleteDir(childName);
+                    }
+                }
+                Directory.Delete(dir, true); //删除空文件夹                    
+            }
         }
     }
 }

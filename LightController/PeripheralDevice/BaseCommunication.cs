@@ -2,6 +2,7 @@
 using LightController.Entity;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +88,7 @@ namespace LightController.PeripheralDevice
         {
             this.IsStopThread = true;
             this.IsSending = false;
-            Console.WriteLine("发送超时");
+            LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
             this.Error_Event();
         }
         /// <summary>
@@ -334,7 +335,7 @@ namespace LightController.PeripheralDevice
             {
                 byte[] crc = CRCTools.GetInstance().GetLightControlCRC(packData.ToArray());
                 packData.AddRange(crc);
-                Console.WriteLine("当前包数:" + this.PackIndex + ",总包数:" + this.PackCount + ",当前包大小:" + packData.Count);
+                LogTools.Debug(Constant.TAG_XIAOSA, "CurrentPack:" + this.PackIndex + ",PackCount:" + this.PackCount + "，CurrentPackSize:" + packData.Count);
             }
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2
@@ -354,7 +355,6 @@ namespace LightController.PeripheralDevice
             {
                 testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + " ";
             }
-            Console.WriteLine("打印数据: " + testStr);
             //TODO 与占位下载进度显示部分
             this.Send(pack.ToArray());
         }
@@ -376,8 +376,8 @@ namespace LightController.PeripheralDevice
                         byte[] CaluPackCRC = CRCTools.GetInstance().GetCRC(ReadBuff.ToArray());
                         if (packCRC[0] == CaluPackCRC[0] && packCRC[1] == CaluPackCRC[1])
                         {
-                            List<byte> data =  ReadBuff.Skip(PACKHEADLENGTH).ToList();
-							Console.WriteLine("XIAOSA Receive-->" + Encoding.Default.GetString(data.ToArray()));
+                            List<byte> data = ReadBuff.Skip(PACKHEADLENGTH).ToList();
+                            LogTools.Debug(Constant.TAG_XIAOSA, "Receive Data:" + Encoding.Default.GetString(data.ToArray()));
                             this.ReceiveManege(data);
                             ReadBuff.Clear();
                         }
@@ -528,7 +528,6 @@ namespace LightController.PeripheralDevice
                 if (this.IsDone == true)
                 {
                     byte[] crcBuff = CRCTools.GetInstance().GetLightControlCRC(data.Take(data.Count - 2).ToArray());
-                    Console.WriteLine("灯控数据读取大小:" + data.Count);
                     if (crcBuff[0] == data[data.Count - 2] && crcBuff[1] == data[data.Count - 1])
                     {
                         this.StopTimeOut();
@@ -565,10 +564,6 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsDone = true;
-            }
-            else
-            {
-                Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()));
             }
         }
         /// <summary>
@@ -634,6 +629,8 @@ namespace LightController.PeripheralDevice
             }
             if (this.IsDone && this.IsAck)
             {
+                this.IsAck = false;
+                this.IsDone = false;
                 this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null);
@@ -670,6 +667,7 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.IsStartCopy = true;
                 this.IsSending = false;
+                this.IsDone = false;
                 this.Completed_Event(null);
             }
         }
@@ -698,6 +696,7 @@ namespace LightController.PeripheralDevice
                 this.StopTimeOut();
                 this.IsStartCopy = false;
                 this.IsSending = false;
+                this.IsDone = false;
                 this.Completed_Event(null);
             }
         }
@@ -797,12 +796,10 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void KeyPressDownloadReceive(List<byte> data)
         {
-			Console.WriteLine("XIAOSA-->"  + Encoding.Default.GetString(data.ToArray()));
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
                 this.StopTimeOut();
                 this.SendData();
-                Console.WriteLine("墙板设备下载回复Ok:Decoed");
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_ACK))
             {
@@ -811,7 +808,6 @@ namespace LightController.PeripheralDevice
                     this.StopTimeOut();
                 }
                 this.IsAck = true;
-                Console.WriteLine("墙板设备下载回复ack");
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
             {
@@ -821,16 +817,6 @@ namespace LightController.PeripheralDevice
 
                 }
                 this.IsDone = true;
-                Console.WriteLine("墙板设备下载回复Done");
-            }
-            else
-            {
-                string aa = "";
-                for (int i = 0; i < data.Count; i++)
-                {
-                    aa = aa + data[i] + "-";
-                }
-                Console.WriteLine("灯控下载配置数据接收到其他回复消息" + Encoding.Default.GetString(data.ToArray()) + "--->" + aa);
             }
         }
         /// <summary>
@@ -852,7 +838,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-				Console.WriteLine("开始连接灯控设备");
 				this.IsSending = true;
 				this.IsStopThread = false;
 				this.Completed_Event = completed;
@@ -878,7 +863,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "灯控设备链接失败", ex);
             }
         }
         /// <summary>
@@ -888,7 +873,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始读取灯控设备配置数据");
                 this.StartTimeOut();
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -914,7 +898,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "灯控设备读取数据失败", ex);
             }
         }
         /// <summary>
@@ -924,7 +908,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始下载灯控设备配置数据");
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
@@ -983,7 +966,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "下载数据到灯控设备失败", ex);
             }
         }
         /// <summary>
@@ -1020,7 +1003,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "发送调试数据到灯控设备失败", ex);
             }
         }
         //中控设备配置
@@ -1033,7 +1016,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始连接中控设备");
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
@@ -1059,7 +1041,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "链接中控设备失败", ex);
             }
         }
         /// <summary>
@@ -1095,7 +1077,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "中控设备开启解码失败", ex);
             }
         }
         /// <summary>
@@ -1132,7 +1114,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = true;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "中控设备关闭解码失败", ex);
             }
         }
         /// <summary>
@@ -1158,52 +1140,59 @@ namespace LightController.PeripheralDevice
         /// <param name="obj"></param>
         private void CenterControlDownloadStart(Object obj)
         {
-            this.SecondOrder = Order.DK;
-            List<byte> data = new List<byte>();
-            data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD));
-            this.IsAck = false;
-            this.IsDone = false;
-            this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
-            while (true)
+            try
             {
-                if (this.IsAck&& this.IsDone)
+                this.SecondOrder = Order.DK;
+                List<byte> data = new List<byte>();
+                data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD));
+                this.IsAck = false;
+                this.IsDone = false;
+                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
+                while (true)
                 {
-                    data.Clear();
-                    data.AddRange((obj as CCEntity).GetData());
-                    this.IsAck = false;
-                    this.IsDone = false;
-                    int dataLength = data.ToArray().Length + (2 * 32);
-                    this.IsCenterControlDownload = true;
-                    this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, dataLength.ToString() });
-                    break;
-                }
-                if (IsStopThread)
-                {
-                    return;
-                }
-            }
-            while (true)
-            {
-                if (this.IsAck && this.IsDone)
-                {
-                    this.IsAck = false;
-                    this.IsDone = false;
-                    if (this.PackIndex == this.PackCount)
+                    if (this.IsAck && this.IsDone)
                     {
-                        this.IsSending = false;
-                        this.IsCenterControlDownload = false;
-                        this.Completed_Event(null);
+                        data.Clear();
+                        data.AddRange((obj as CCEntity).GetData());
+                        this.IsAck = false;
+                        this.IsDone = false;
+                        int dataLength = data.ToArray().Length + (2 * 32);
+                        this.IsCenterControlDownload = true;
+                        this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_CENTRALCONTROL, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, dataLength.ToString() });
                         break;
                     }
-                    else if(this.PackIndex < this.PackCount)
+                    if (IsStopThread)
                     {
-                        this.SendData();
+                        return;
                     }
                 }
-                if (this.IsStopThread)
+                while (true)
                 {
-                    return;
+                    if (this.IsAck && this.IsDone)
+                    {
+                        this.IsAck = false;
+                        this.IsDone = false;
+                        if (this.PackIndex == this.PackCount)
+                        {
+                            this.IsSending = false;
+                            this.IsCenterControlDownload = false;
+                            this.Completed_Event(null);
+                            break;
+                        }
+                        else if (this.PackIndex < this.PackCount)
+                        {
+                            this.SendData();
+                        }
+                    }
+                    if (this.IsStopThread)
+                    {
+                        return;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "下载协议数据到中控设备失败", ex);
             }
         }
         //透传模式墙板设备配置
@@ -1241,7 +1230,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式链接墙板设备失败", ex);
             }
         }
         /// <summary>
@@ -1278,7 +1267,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式读取墙板设备数据失败", ex);
             }
         }
         /// <summary>
@@ -1350,7 +1339,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式下载配置数据到墙板设备失败", ex);
             }
         }
         /// <summary>
@@ -1376,7 +1365,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始连接灯控设备");
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
@@ -1402,7 +1390,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式链接灯控设备失败", ex);
             }
         }
         /// <summary>
@@ -1412,7 +1400,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始读取灯控设备配置数据");
                 this.StartTimeOut();
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1438,7 +1425,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式读取灯控设备数据失败", ex);
             }
         }
         /// <summary>
@@ -1448,7 +1435,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始下载灯控设备配置数据");
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
@@ -1506,7 +1492,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式下载配置数据到灯控设备失败", ex);
             }
         }
         /// <summary>
@@ -1543,7 +1529,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式发送调试数据到灯控设备失败", ex);
             }
         }
         //透传模式中控设备配置
@@ -1556,7 +1542,6 @@ namespace LightController.PeripheralDevice
         {
             if (!this.IsSending)
             {
-                Console.WriteLine("开始连接中控设备");
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
@@ -1582,7 +1567,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式链接中控设备失败", ex);
             }
         }
         /// <summary>
@@ -1618,7 +1603,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式中控设备开启解码模式失败", ex);
             }
         }
         /// <summary>
@@ -1655,7 +1640,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = true;
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式中控设备关闭解码模式失败", ex);
             }
         }
         /// <summary>
@@ -1682,52 +1667,59 @@ namespace LightController.PeripheralDevice
         /// <param name="obj"></param>
         private void PassThroughCenterControlDownloadStart(Object obj)
         {
-            this.SecondOrder = Order.DK;
-            List<byte> data = new List<byte>();
-            data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD));
-            this.IsAck = false;
-            this.IsDone = false;
-            this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
-            while (true)
+            try
             {
-                if (this.IsAck && this.IsDone)
+                this.SecondOrder = Order.DK;
+                List<byte> data = new List<byte>();
+                data.AddRange(Encoding.Default.GetBytes(Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD));
+                this.IsAck = false;
+                this.IsDone = false;
+                this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, data.ToArray().Length.ToString() });
+                while (true)
                 {
-                    data.Clear();
-                    data.AddRange((obj as CCEntity).GetData());
-                    this.IsAck = false;
-                    this.IsDone = false;
-                    int dataLength = data.ToArray().Length + (2 * 32);
-                    this.IsCenterControlDownload = true;
-                    this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, dataLength.ToString() });
-                    break;
-                }
-                if (IsStopThread)
-                {
-                    return;
-                }
-            }
-            while (true)
-            {
-                if (this.IsAck && this.IsDone)
-                {
-                    this.IsAck = false;
-                    this.IsDone = false;
-                    if (this.PackIndex == this.PackCount)
+                    if (this.IsAck && this.IsDone)
                     {
-                        this.IsSending = false;
-                        this.IsCenterControlDownload = false;
-                        this.Completed_Event(null);
+                        data.Clear();
+                        data.AddRange((obj as CCEntity).GetData());
+                        this.IsAck = false;
+                        this.IsDone = false;
+                        int dataLength = data.ToArray().Length + (2 * 32);
+                        this.IsCenterControlDownload = true;
+                        this.SendOrder(data.ToArray(), Constant.NEW_DEVICE_PASSTHROUGH, new string[] { Constant.OLD_DEVICE_CENTRALCONTROL_DOWNLOAD, dataLength.ToString() });
                         break;
                     }
-                    else if (this.PackIndex < this.PackCount)
+                    if (IsStopThread)
                     {
-                        this.SendData();
+                        return;
                     }
                 }
-                if (this.IsStopThread)
+                while (true)
                 {
-                    return;
+                    if (this.IsAck && this.IsDone)
+                    {
+                        this.IsAck = false;
+                        this.IsDone = false;
+                        if (this.PackIndex == this.PackCount)
+                        {
+                            this.IsSending = false;
+                            this.IsCenterControlDownload = false;
+                            this.Completed_Event(null);
+                            break;
+                        }
+                        else if (this.PackIndex < this.PackCount)
+                        {
+                            this.SendData();
+                        }
+                    }
+                    if (this.IsStopThread)
+                    {
+                        return;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "透传模式下载协议数据到中控设备失败", ex);
             }
         }
     }

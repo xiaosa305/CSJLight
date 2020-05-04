@@ -50,12 +50,12 @@
 			this.ipLabel = new System.Windows.Forms.Label();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.loadButton = new System.Windows.Forms.Button();
-			this.testButton = new System.Windows.Forms.Button();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.addVirtualIpButton = new System.Windows.Forms.Button();
 			this.countNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label3 = new System.Windows.Forms.Label();
 			this.thirdNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.addVirtualIpButton = new System.Windows.Forms.Button();
+			this.testButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.finalNumericUpDown)).BeginInit();
 			this.myStatusStrip.SuspendLayout();
 			this.groupBox1.SuspendLayout();
@@ -301,28 +301,6 @@
 			this.loadButton.UseVisualStyleBackColor = true;
 			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
 			// 
-			// testButton
-			// 
-			this.testButton.Location = new System.Drawing.Point(345, 165);
-			this.testButton.Name = "testButton";
-			this.testButton.Size = new System.Drawing.Size(75, 23);
-			this.testButton.TabIndex = 31;
-			this.testButton.Text = "BigTest";
-			this.testButton.UseVisualStyleBackColor = true;
-			this.testButton.Click += new System.EventHandler(this.testButton_Click);
-			// 
-			// addVirtualIpButton
-			// 
-			this.addVirtualIpButton.Enabled = false;
-			this.addVirtualIpButton.Font = new System.Drawing.Font("黑体", 9F);
-			this.addVirtualIpButton.Location = new System.Drawing.Point(243, 213);
-			this.addVirtualIpButton.Name = "addVirtualIpButton";
-			this.addVirtualIpButton.Size = new System.Drawing.Size(177, 20);
-			this.addVirtualIpButton.TabIndex = 31;
-			this.addVirtualIpButton.Text = "添加虚拟IP到主界面";
-			this.addVirtualIpButton.UseVisualStyleBackColor = true;
-			this.addVirtualIpButton.Click += new System.EventHandler(this.addVirtualIpButton_Click);
-			// 
 			// countNumericUpDown
 			// 
 			this.countNumericUpDown.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -357,7 +335,7 @@
 			this.label3.TabIndex = 28;
 			this.label3.Text = "连续IP的数量：";
 			// 
-			// thirdNumericUpDown3
+			// thirdNumericUpDown
 			// 
 			this.thirdNumericUpDown.Font = new System.Drawing.Font("宋体", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.thirdNumericUpDown.Location = new System.Drawing.Point(320, 61);
@@ -366,7 +344,7 @@
             0,
             0,
             0});
-			this.thirdNumericUpDown.Name = "thirdNumericUpDown3";
+			this.thirdNumericUpDown.Name = "thirdNumericUpDown";
 			this.thirdNumericUpDown.Size = new System.Drawing.Size(45, 19);
 			this.thirdNumericUpDown.TabIndex = 27;
 			this.thirdNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -375,6 +353,28 @@
             0,
             0,
             0});
+			// 
+			// addVirtualIpButton
+			// 
+			this.addVirtualIpButton.Enabled = false;
+			this.addVirtualIpButton.Font = new System.Drawing.Font("黑体", 9F);
+			this.addVirtualIpButton.Location = new System.Drawing.Point(243, 213);
+			this.addVirtualIpButton.Name = "addVirtualIpButton";
+			this.addVirtualIpButton.Size = new System.Drawing.Size(177, 20);
+			this.addVirtualIpButton.TabIndex = 31;
+			this.addVirtualIpButton.Text = "添加虚拟IP到主界面";
+			this.addVirtualIpButton.UseVisualStyleBackColor = true;
+			this.addVirtualIpButton.Click += new System.EventHandler(this.addVirtualIpButton_Click);
+			// 
+			// testButton
+			// 
+			this.testButton.Location = new System.Drawing.Point(345, 165);
+			this.testButton.Name = "testButton";
+			this.testButton.Size = new System.Drawing.Size(75, 23);
+			this.testButton.TabIndex = 31;
+			this.testButton.Text = "BigTest";
+			this.testButton.UseVisualStyleBackColor = true;
+			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
 			// NetworkForm
 			// 
@@ -432,7 +432,6 @@
 		private System.Windows.Forms.Label gatewayLabel;
 		private System.Windows.Forms.Label submaskLabel;
 		private System.Windows.Forms.Label ipLabel;
-		private System.Windows.Forms.Button testButton;
 		private System.Windows.Forms.Label dnsLabel2;
 		private System.Windows.Forms.Label gatewayLabel2;
 		private System.Windows.Forms.Label submaskLabel2;
@@ -440,10 +439,11 @@
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.Button loadButton;
 		private System.Windows.Forms.ToolTip myToolTip;
-		private System.Windows.Forms.Button addVirtualIpButton;
 		private System.Windows.Forms.NumericUpDown countNumericUpDown;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.NumericUpDown thirdNumericUpDown;
+		private System.Windows.Forms.Button addVirtualIpButton;
+		private System.Windows.Forms.Button testButton;
 	}
 }
 

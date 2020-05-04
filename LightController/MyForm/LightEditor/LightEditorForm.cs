@@ -340,7 +340,7 @@ namespace LightEditor
 				MessageBox.Show("请输入厂家名。");
 				return;
 			}
-			if (!FileAst.CheckFileName(name))
+			if (!FileHelper.CheckFileName(name))
 			{
 				MessageBox.Show("厂家名含有非法字符，无法保存。");
 				return;
@@ -350,7 +350,7 @@ namespace LightEditor
 				MessageBox.Show("请输入型号名");
 				return;
 			}
-			if (!FileAst.CheckFileName(type))
+			if (!FileHelper.CheckFileName(type))
 			{
 				MessageBox.Show("型号名含有非法字符，无法保存。");
 				return;
@@ -677,7 +677,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void label_MouseEnter(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			int labelIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
 		}
 
@@ -688,7 +688,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void labels_Click(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
 			new WaySetForm(this, tdIndex).ShowDialog();
 		}
 
@@ -699,7 +699,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void vScrollBar_MouseEnter(object sender, EventArgs e)
 		{
-			int labelIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name, -1);
+			int labelIndex = MathHelper.GetIndexNum(((VScrollBar)sender).Name, -1);
 			valueNumericUpDowns[labelIndex].Select();
 		}
 
@@ -711,7 +711,7 @@ namespace LightEditor
 		private void valueVScrollBar_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应vScrollBars的index 
-			int tongdaoIndex = MathAst.GetIndexNum(((VScrollBar)sender).Name, -1);
+			int tongdaoIndex = MathHelper.GetIndexNum(((VScrollBar)sender).Name, -1);
 
 			//2.把滚动条的值赋给valueNumericUpDowns
 			valueNumericUpDowns[tongdaoIndex].Value = 255 - valueVScrollBars[tongdaoIndex].Value;
@@ -727,7 +727,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void valueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -762,7 +762,7 @@ namespace LightEditor
 		private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			// 2.调整相应的vScrollBar的数值
 			valueVScrollBars[tongdaoIndex].Value = 255 - Decimal.ToInt32(valueNumericUpDowns[tongdaoIndex].Value);

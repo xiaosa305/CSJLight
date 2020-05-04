@@ -34,7 +34,92 @@ namespace LightController.Utils
         {
             ThreadPool.SetMaxThreads(100, 10);
         }
-
+        /// <summary>
+        /// 生成单场景数据入口
+        /// </summary>
+        /// <param name=""></param>
+        /// <param name="mainForm"></param>
+        /// <param name="configPath"></param>
+        /// <param name="callBack"></param>
+        /// <param name="sceneNo"></param>
+        public static void SaveSingleFrameFile(DBWrapper wrapper,MainFormInterface mainForm,string configPath,ISaveProjectCallBack callBack,int sceneNo)
+        {
+            InitThreadPool();
+            CallBack = callBack;
+            BuildMode = MODE_MAKEFILE;
+            FileUtils.ClearCacheData();
+            FileUtils.ClearSingleFrameData(sceneNo);
+            FileUtils.CreateConfig(new CSJ_Config(wrapper, configPath));
+            //初始化状态存储器
+            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            C_DMXSceneState = new Dictionary<int, bool>();
+            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+            M_DMXSceneState = new Dictionary<int, bool>();
+            //启动线程开始执行数据生成及数据导出文件
+            ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedSingleFrameDBSceneData), new SingleFrameDBData(wrapper, mainForm, configPath,sceneNo));
+        }
+        /// <summary>
+        /// 单场景数据库检索获取数据
+        /// </summary>
+        /// <param name="obj"></param>
+        private static void GeneratedSingleFrameDBSceneData(Object obj)
+        {
+            SingleFrameDBData data = obj as SingleFrameDBData;
+            DBWrapper wrapper = data.Wrapper;
+            string configPath = data.ConfigPath;
+            MainFormInterface mainForm = data.MianForm;
+            int sceneNo = data.SceneNo;
+            bool c_SceneStatus = false;
+            bool m_SceneStatus = false;
+            //基础场景数据生成
+            foreach (DB_StepCount item in data.Wrapper.stepCountList)
+            {
+                if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_C)
+                {
+                    C_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
+                    C_DMXSceneState.Add(sceneNo, false);
+                    c_SceneStatus = true;
+                    break;
+                }
+            }
+            foreach (DB_StepCount item in data.Wrapper.stepCountList)
+            {
+               
+                if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_M)
+                {
+                    M_DMXSceneChannelData.Add(sceneNo, new Dictionary<int, bool>());
+                    M_DMXSceneState.Add(sceneNo, false);
+                    m_SceneStatus = true;
+                    break;
+                }
+            }
+            if (c_SceneStatus)
+            {
+                Flag = false;
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_C, configPath));
+                //TODO 测试
+                while (true)
+                {
+                    if (Flag)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (m_SceneStatus)
+            {
+                Flag = false;
+                GetSceneDataWaitCallback(new SceneThreadDataInfo(sceneNo, wrapper, mainForm, Constant.MODE_M, configPath));
+                //TODO 测试
+                while (true)
+                {
+                    if (Flag)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
         /// <summary>
         ///生成全场景数据入口
         /// </summary>
@@ -49,7 +134,6 @@ namespace LightController.Utils
             FileUtils.ClearCacheData();
             FileUtils.ClearProjectData();
             FileUtils.CreateConfig(new CSJ_Config(wrapper, configPath));
-            CSJThreadManager.CloseAllThread();
             //初始化状态存储器
             C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
             C_DMXSceneState = new Dictionary<int, bool>();
@@ -70,7 +154,10 @@ namespace LightController.Utils
             MainFormInterface mainForm = data.MianForm;
             List<int> c_SceneNos = new List<int>();
             List<int> m_SceneNos = new List<int>();
-            Console.WriteLine("Start");
+            if (wrapper.stepCountList.Count == 0)
+            {
+                CallBack.Completed();
+            }
             foreach (DB_StepCount item in data.Wrapper.stepCountList)
             {
                 if (!c_SceneNos.Contains(item.PK.Frame) && item.PK.Mode == Constant.MODE_C)
@@ -132,8 +219,6 @@ namespace LightController.Utils
         {
             SceneThreadDataInfo data = obj as SceneThreadDataInfo;
             IList<CSJ_ChannelData> channelDatas = new List<CSJ_ChannelData>();
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             foreach (DB_Light light in data.Wrapper.lightList)
             {
                 for (int i = 0; i < light.Count; i++)
@@ -152,7 +237,6 @@ namespace LightController.Utils
                             LightID = light.StartID + i,
                             LightIndex = light.LightNo
                         });
-                       
                         if (values.Count > 0)
                         {
                             List<int> isGradualChange = new List<int>();
@@ -213,8 +297,6 @@ namespace LightController.Utils
                     }
                 }
             }
-            stopwatch.Stop();
-            Console.WriteLine("**************************************************数据库读取耗时:" + stopwatch.Elapsed.TotalMilliseconds);
             CSJ_SceneData sceneData = new CSJ_SceneData()
             {
                 SceneNo = data.SceneNo,
@@ -241,7 +323,6 @@ namespace LightController.Utils
                     C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
                     C_DMXSceneState = new Dictionary<int, bool>();
                     FileUtils.CreateGradientData();
-                    Console.WriteLine("XIAOSA  2：==>数据全部整合完毕");
                     CallBack.Completed();
                 }
                 else
@@ -395,12 +476,10 @@ namespace LightController.Utils
             int isGradualChange;
             int stepValue;
             float inc = 0;
-            Stopwatch stopwatch = new Stopwatch();
             List<byte> WriteBuffer = new List<byte>();
             int startValue = channelData.StepValues[0];
             try
             {
-                stopwatch.Start();
                 FileUtils.Write(((flag == 2) ? Convert.ToByte(0) : Convert.ToByte(startValue)), fileName, BuildMode == MODE_MAKEFILE, true, true);
                 for (int step = 1; step < channelData.StepCount + 1; step++)
                 {
@@ -460,13 +539,12 @@ namespace LightController.Utils
                     }
                     startValue = stepValue;
                 }
-                stopwatch.Stop();
-                Console.WriteLine("/////计算耗时：" + stopwatch.Elapsed.TotalMilliseconds);
                 DataCacheWriteCompleted(Constant.GetNumber(sceneNo), Constant.GetNumber(dataInfo.ChannelNo), Constant.MODE_C);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error:" + fileName + "=====>" + ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "计算生成常规文件数据出错-" + fileName,ex);
+                
             }
         }
         /// <summary>
@@ -478,129 +556,136 @@ namespace LightController.Utils
         /// <returns></returns>
         private static void GeneratedM_SceneData(CSJ_SceneData scenedata, DBWrapper wrapperdata, string configpath)
         {
-            CSJ_SceneData sceneData = scenedata;
-            DBWrapper wrapper = wrapperdata;
-            string configPath = configpath;
-            string sceneFileName = "M" + (sceneData.SceneNo + 1) + ".bin";
-            StreamReader reader;
-            List<int> stepList = new List<int>();
-            int channelCount = sceneData.ChannelCount;
-            int sceneNo = Constant.GetNumber(sceneData.SceneNo);
-            int frameTime = 0;
-            int musicIntervalTime = 0;
-            int mainIndex = 0;
-            float rate = 255;
-            int flag;
-            if (scenedata.ChannelCount == 0)
+            try
             {
-                return;
-            }
-            using (reader = new StreamReader(configPath))
-            {
-                string lineStr;
-                string strValue = string.Empty;
-                int intValue;
-                while (true)
+                CSJ_SceneData sceneData = scenedata;
+                DBWrapper wrapper = wrapperdata;
+                string configPath = configpath;
+                string sceneFileName = "M" + (sceneData.SceneNo + 1) + ".bin";
+                StreamReader reader;
+                List<int> stepList = new List<int>();
+                int channelCount = sceneData.ChannelCount;
+                int sceneNo = Constant.GetNumber(sceneData.SceneNo);
+                int frameTime = 0;
+                int musicIntervalTime = 0;
+                int mainIndex = 0;
+                float rate = 255;
+                int flag;
+                if (scenedata.ChannelCount == 0)
                 {
-                    lineStr = reader.ReadLine();
-                    if (lineStr.Equals("[SK]"))
-                    {
-                        for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
-                        {
-                            lineStr = reader.ReadLine();
-                            string sceneNumber = "";
-                            if (lineStr.Split('=')[0].Length > 3)
-                            {
-                                sceneNumber = lineStr[0].ToString() + lineStr[1].ToString();
-                            }
-                            else
-                            {
-                                sceneNumber = lineStr[0].ToString();
-                            }
-                            if (sceneNumber.Equals(sceneData.SceneNo.ToString()))
-                            {
-                                strValue = lineStr.Split('=')[1];
-                                for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
-                                {
-                                    intValue = int.Parse(strValue[strIndex].ToString());
-                                    if (intValue != 0)
-                                    {
-                                        stepList.Add(intValue);
-                                    }
-                                }
-                                lineStr = reader.ReadLine();
-                                strValue = lineStr.Split('=')[1];
-                                intValue = int.Parse(strValue.ToString());
-                                frameTime = intValue;
-                                lineStr = reader.ReadLine();
-                                strValue = lineStr.Split('=')[1];
-                                intValue = int.Parse(strValue.ToString());
-                                musicIntervalTime = intValue;
-                            }
-                            else
-                            {
-                                lineStr = reader.ReadLine();
-                                lineStr = reader.ReadLine();
-                            }
-                        }
-                        break;
-                    }
+                    return;
                 }
-            }
-            List<byte> data = new List<byte>();
-            data.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
-            data.Add(Convert.ToByte(frameTime));
-            data.Add(Convert.ToByte(musicIntervalTime & 0xFF));
-            data.Add(Convert.ToByte((musicIntervalTime >> 8) & 0xFF));
-            data.Add(Convert.ToByte(stepList.Count));
-            for (int i = 0; i < stepList.Count; i++)
-            {
-                data.Add(Convert.ToByte(stepList[i]));
-            }
-            for (int i = stepList.Count; i < Constant.STEPLISTMAX; i++)
-            {
-                data.Add(Convert.ToByte(0x00));
-            }
-            data.Add(Convert.ToByte(channelCount & 0xFF));
-            data.Add(Convert.ToByte((channelCount >> 8 ) & 0xFF));
-            FileUtils.Write(data.ToArray(), data.Count, sceneFileName, BuildMode == MODE_MAKEFILE, true, false);
-            foreach (CSJ_ChannelData cSJ_ChannelData in sceneData.ChannelDatas)
-            {
-                flag = 0;
-                CSJ_ChannelData currentChannelData = cSJ_ChannelData;
-                if (null != wrapper.fineTuneList)
+                using (reader = new StreamReader(configPath))
                 {
-                    foreach (DB_FineTune fineTune in wrapper.fineTuneList)
+                    string lineStr;
+                    string strValue = string.Empty;
+                    int intValue;
+                    while (true)
                     {
-
-                        if (cSJ_ChannelData.ChannelNo == fineTune.FineTuneIndex)
+                        lineStr = reader.ReadLine();
+                        if (lineStr.Equals("[SK]"))
                         {
-                            flag = 2;
-                            mainIndex = fineTune.MainIndex;
-                            rate = fineTune.MaxValue;
-                            if (0 == rate)
+                            for (int i = 0; i < Constant.SCENECOUNTMAX; i++)
                             {
-                                rate = 255;
+                                lineStr = reader.ReadLine();
+                                string sceneNumber = "";
+                                if (lineStr.Split('=')[0].Length > 3)
+                                {
+                                    sceneNumber = lineStr[0].ToString() + lineStr[1].ToString();
+                                }
+                                else
+                                {
+                                    sceneNumber = lineStr[0].ToString();
+                                }
+                                if (sceneNumber.Equals(sceneData.SceneNo.ToString()))
+                                {
+                                    strValue = lineStr.Split('=')[1];
+                                    for (int strIndex = 0; strIndex < strValue.Length; strIndex++)
+                                    {
+                                        intValue = int.Parse(strValue[strIndex].ToString());
+                                        if (intValue != 0)
+                                        {
+                                            stepList.Add(intValue);
+                                        }
+                                    }
+                                    lineStr = reader.ReadLine();
+                                    strValue = lineStr.Split('=')[1];
+                                    intValue = int.Parse(strValue.ToString());
+                                    frameTime = intValue;
+                                    lineStr = reader.ReadLine();
+                                    strValue = lineStr.Split('=')[1];
+                                    intValue = int.Parse(strValue.ToString());
+                                    musicIntervalTime = intValue;
+                                }
+                                else
+                                {
+                                    lineStr = reader.ReadLine();
+                                    lineStr = reader.ReadLine();
+                                }
                             }
                             break;
                         }
                     }
-                    if (2 == flag)
+                }
+                List<byte> data = new List<byte>();
+                data.AddRange(new byte[] { 0x00, 0x00, 0x00, 0x00 });
+                data.Add(Convert.ToByte(frameTime));
+                data.Add(Convert.ToByte(musicIntervalTime & 0xFF));
+                data.Add(Convert.ToByte((musicIntervalTime >> 8) & 0xFF));
+                data.Add(Convert.ToByte(stepList.Count));
+                for (int i = 0; i < stepList.Count; i++)
+                {
+                    data.Add(Convert.ToByte(stepList[i]));
+                }
+                for (int i = stepList.Count; i < Constant.STEPLISTMAX; i++)
+                {
+                    data.Add(Convert.ToByte(0x00));
+                }
+                data.Add(Convert.ToByte(channelCount & 0xFF));
+                data.Add(Convert.ToByte((channelCount >> 8) & 0xFF));
+                FileUtils.Write(data.ToArray(), data.Count, sceneFileName, BuildMode == MODE_MAKEFILE, true, false);
+                foreach (CSJ_ChannelData cSJ_ChannelData in sceneData.ChannelDatas)
+                {
+                    flag = 0;
+                    CSJ_ChannelData currentChannelData = cSJ_ChannelData;
+                    if (null != wrapper.fineTuneList)
                     {
-                        foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
+                        foreach (DB_FineTune fineTune in wrapper.fineTuneList)
                         {
-                            if (mainIndex == item.ChannelNo)
+
+                            if (cSJ_ChannelData.ChannelNo == fineTune.FineTuneIndex)
                             {
-                                currentChannelData = item;
+                                flag = 2;
+                                mainIndex = fineTune.MainIndex;
+                                rate = fineTune.MaxValue;
+                                if (0 == rate)
+                                {
+                                    rate = 255;
+                                }
                                 break;
                             }
                         }
+                        if (2 == flag)
+                        {
+                            foreach (CSJ_ChannelData item in sceneData.ChannelDatas)
+                            {
+                                if (mainIndex == item.ChannelNo)
+                                {
+                                    currentChannelData = item;
+                                    break;
+                                }
+                            }
+                        }
                     }
+                    M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
+                    //TODO 测试同步语句效率-音频场景
+                    ConvertM_DataWaitCallback(dataInfo);
+                    //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
                 }
-                M_ChannelThreadDataInfo dataInfo = new M_ChannelThreadDataInfo(currentChannelData, Constant.GetNumber(cSJ_ChannelData.ChannelNo), flag, Constant.GetNumber(sceneNo), rate, frameTime);
-                //TODO 测试同步语句效率-音频场景
-                ConvertM_DataWaitCallback(dataInfo);
-                //ThreadPool.QueueUserWorkItem(new WaitCallback(ConvertM_DataWaitCallback), dataInfo);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "音频场景数据处理出现异常", ex);
             }
         }
         private static void ConvertM_DataWaitCallback(Object obj)
@@ -639,6 +724,7 @@ namespace LightController.Utils
                         }
                         else
                         {
+                            //目前尚未使用渐变模式
                             if (isGradualChange == Constant.MODE_M_GRADUAL)
                             {
                                 value = startValue + inc * (fram + 1);
@@ -672,8 +758,11 @@ namespace LightController.Utils
                                 else
                                 {
                                     WriteBuffer.Add(Convert.ToByte(stepValue));
-                                    FileUtils.Write(WriteBuffer.ToArray(), WriteBuffer.Count, fileName, BuildMode == MODE_MAKEFILE, false, true);
-                                    WriteBuffer.Clear();
+                                    if (WriteBuffer.Count == 2048)
+                                    {
+                                        FileUtils.Write(WriteBuffer.ToArray(), WriteBuffer.Count, fileName, BuildMode == MODE_MAKEFILE, false, true);
+                                        WriteBuffer.Clear();
+                                    }
                                     break;
                                 }
                             }
@@ -685,7 +774,7 @@ namespace LightController.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error" + fileName + "======>" + ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "计算生成音频数据出错-" + fileName, ex);
             }
            
         }
@@ -700,7 +789,6 @@ namespace LightController.Utils
             switch (mode)
             {
                 case Constant.MODE_C:
-                    Console.WriteLine("基础场景" + sceneNo + "-" + channelNo + "完成");
                     if (CallBack != null)
                     {
                         CallBack.UpdateProgress("基础场景" + (sceneNo + 1) + "-" + channelNo + "完成");
@@ -755,21 +843,29 @@ namespace LightController.Utils
         /// </summary>
         public static void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo,ISaveProjectCallBack callBack)
         {
-            CallBack = callBack;
-            FileUtils.ClearPreviewCacheData();
-            FileUtils.ClearPreviewProjectData();
-            BuildMode = MODE_PREVIEW;
-            C_PreviewDataState = new Dictionary<int, bool>();
-            M_PreviewDataState = new Dictionary<int, bool>();
-            C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-            C_DMXSceneState = new Dictionary<int, bool>();
-            M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-            M_DMXSceneState = new Dictionary<int, bool>();
-            C_PreviewSceneData = null;
-            M_PreviewSceneData = null;
-            //TODO 测试同步语句效率-整理预览数据
-            GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
-            //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+			try
+			{
+				CallBack = callBack;
+				FileUtils.ClearPreviewCacheData();
+				FileUtils.ClearPreviewProjectData();
+				BuildMode = MODE_PREVIEW;
+				C_PreviewDataState = new Dictionary<int, bool>();
+				M_PreviewDataState = new Dictionary<int, bool>();
+				C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+				C_DMXSceneState = new Dictionary<int, bool>();
+				M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+				M_DMXSceneState = new Dictionary<int, bool>();
+				C_PreviewSceneData = null;
+				M_PreviewSceneData = null;
+				//TODO 测试同步语句效率-整理预览数据
+				GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+				//ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+			}
+			catch (Exception ex)
+			{
+				LogTools.Error(Constant.TAG_XIAOSA, "预览数据生成出错", ex, true, "预览数据生成出错");
+			}
+            
 
         }
         /// <summary>
@@ -802,10 +898,21 @@ namespace LightController.Utils
                 if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_C)
                 {
                     c_StepCount = item.StepCount;
+                    if (c_StepCount != 0)
+                    {
+                        break;
+                    }
                 }
+            }
+            foreach (DB_StepCount item in wrapper.stepCountList)
+            {
                 if (item.PK.Frame == sceneNo && item.PK.Mode == Constant.MODE_M)
                 {
                     m_StepCount = item.StepCount;
+                    if (m_StepCount != 0)
+                    {
+                        break;
+                    }
                 }
             }
             if (c_StepCount > 0)
@@ -989,6 +1096,20 @@ namespace LightController.Utils
                 this.Wrapper = wrapper;
                 this.ConfigPath = configPath;
                 this.MianForm = mianForm;
+            }
+        }
+        private class SingleFrameDBData
+        {
+            public DBWrapper Wrapper { get; set; }
+            public string ConfigPath { get; set; }
+            public MainFormInterface MianForm { get; set; }
+            public int SceneNo { get; set; }
+            public SingleFrameDBData(DBWrapper wrapper, MainFormInterface mianForm, string configPath,int sceneNo)
+            {
+                this.Wrapper = wrapper;
+                this.ConfigPath = configPath;
+                this.MianForm = mianForm;
+                this.SceneNo = sceneNo;
             }
         }
         private class PreviewData

@@ -111,7 +111,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA,"关闭所有连接失败",ex);
             }
         }
         public void SetPackageSize(string ip, int size)

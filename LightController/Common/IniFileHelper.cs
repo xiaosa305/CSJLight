@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace LightController.Common
 {
-	public class IniFileAst
+	public class IniFileHelper
 	{
 		public string filePath;
 
@@ -15,7 +15,7 @@ namespace LightController.Common
 		/// 构造函数
 		/// </summary>
 		/// <param name="aFileName">Ini文件路径</param>
-		public IniFileAst(string filePath)
+		public IniFileHelper(string filePath)
 		{
 			this.filePath = filePath;
 		}
@@ -164,7 +164,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static string GetSavePath(string appPathStr) {
 
-			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
 			string appPath = iniFileAst.ReadString("SavePath", "useAppPath", "false");  
 			if (appPath.Trim().ToLower().Equals("true"))
 			{
@@ -182,7 +182,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static bool GetControlShow(string appPathStr, string buttonName)
 		{
-			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
 			string isShow = iniFileAst.ReadString("Show", buttonName, "false");
 			if (isShow.Trim().ToLower().Equals("true")){
 				return true;
@@ -198,7 +198,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static bool GetIsLink(string appPathStr, string appName)
 		{
-			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
 			string isLink = iniFileAst.ReadString("Link", appName, "false");
 			if (isLink.Trim().ToLower().Equals("true"))
 			{
@@ -218,7 +218,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static int GetSystemCount(string appPathStr, string attrName)
 		{
-			IniFileAst iniFileAst = new IniFileAst(appPathStr + @"\GlobalSet.ini");
+			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
 			return iniFileAst.ReadInt("System", attrName, 0);
 		}
 

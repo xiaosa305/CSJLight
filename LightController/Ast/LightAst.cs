@@ -18,6 +18,7 @@ namespace LightController.Ast
 		public string LightType { get; set; }
 		public string LightPic { get; set; }
 		public int Count { get; set; }
+		public string Remark { get; set; }
 
 		// 此三个属性，每个灯都不一样，在灯库编辑时添加
 		public string LightAddr { get; set; }
@@ -46,20 +47,20 @@ namespace LightController.Ast
 			StartNum = laOld.StartNum;
 			EndNum = laOld.EndNum;
 			SawList = laOld.SawList;
+			Remark = laOld.Remark;
 		}	
 		
-
 		/// <summary>
 		///  通过DB_Light来生成对应的LightAst
 		/// </summary>
 		/// <param name="light"></param>
 		/// <returns></returns>
-		public static LightAst GenerateLightAst(DB_Light light)
+		public static LightAst GenerateLightAst(DB_Light light , string savePath)
 		{
 			int endNum = light.StartID + light.Count - 1;
 			string lightAddr = light.StartID + "-" + endNum;
 			
-			string path = @IniFileAst.GetSavePath(Application.StartupPath) + @"\LightLibrary\" + light.Name + @"\" + light.Type + ".ini";
+			string path =  savePath+ @"\LightLibrary\" + light.Name + @"\" + light.Type + ".ini";
 
 			return new LightAst()
 			{
@@ -70,7 +71,8 @@ namespace LightController.Ast
 				LightPic = light.Pic,
 				Count = light.Count,
 				LightAddr = lightAddr,
-				LightPath = path
+				LightPath = path,
+				Remark = light.Remark
 			};
 		}
 
@@ -100,7 +102,6 @@ namespace LightController.Ast
 				return false;
 			}
 		}
-
-	
+			
 	}
 }

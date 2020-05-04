@@ -28,14 +28,12 @@ using MultiLedController.MyForm;
 namespace MultiLedController
 {
 	public partial class NetworkForm : Form
-	{		
-		
+	{				
 		private IList<ManagementObject> moList;
 		private int netcardIndex = -1;
 		private IPAst tempIpAst;		
 		private MainForm mainForm;
 		private IList<string> virtualIPList;
-
 		private int ipCount = 9;
 
 		public NetworkForm(MainForm mainForm)
@@ -115,7 +113,7 @@ namespace MultiLedController
 					setStatusLabel("你已取消多IP设置");
 					return;
 				}
-				else if(dr == DialogResult.OK){
+				else if(dr == DialogResult.Yes){
 					saveButton_Click(null, null);					
 				}
 			}
@@ -130,15 +128,18 @@ namespace MultiLedController
 				submaskList.Add("255.255.255.0");
 			}
 
-			IPHelper.SetIPAddress(
-				moList[netcardIndex],
-				virtualIPList.ToArray(),
-				submaskList.ToArray(),
-				new string[] { "192.168." + thirdNumericUpDown.Value + ".1"}, 
-				new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" });
-
-			setStatusLabel("已设置多IP，请刷新");
-			setAddButtonEnable(true);
+			if (IPHelper.SetIPAddress(
+						moList[netcardIndex],
+						virtualIPList.ToArray(),
+						submaskList.ToArray(),
+						new string[] { "192.168." + thirdNumericUpDown.Value + ".1" },
+						new string[] { "192.168." + thirdNumericUpDown.Value + ".1", "114.114.114.114" })) {
+				setStatusLabel("已设置多IP，请刷新");
+				setAddButtonEnable(true);
+			}
+			else{
+				setStatusLabel("配置多IP失败，已恢复初始设置。");
+			}
 		}
 
 		/// <summary>
@@ -175,8 +176,7 @@ namespace MultiLedController
 				return;
 			}
 			ManagementObject mo = moList[netcardIndex];
-			EnableDHCP(mo);
-			
+			EnableDHCP(mo);			
 		}
 
 		/// <summary>

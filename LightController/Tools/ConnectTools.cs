@@ -64,7 +64,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA,"启动灯控服务器失败",ex);
             }
             
         }
@@ -95,7 +95,7 @@ namespace LightController.Tools
             }
             else
             {
-                CSJLogs.GetInstance().DebugLog("未启动服务");
+                LogTools.Debug(Constant.TAG_XIAOSA, "搜索设备失败");
                 throw new Exception("未启动服务");
             }
             
@@ -126,7 +126,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭灯控服务器或服务器接收模块发生异常", ex);
             }
            
         }

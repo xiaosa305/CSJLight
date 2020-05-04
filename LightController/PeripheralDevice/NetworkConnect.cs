@@ -1,5 +1,7 @@
 ﻿using CCWin.Win32.Const;
+using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -83,7 +85,7 @@ namespace LightController.PeripheralDevice
                 int count = connect.Socket.EndReceive(asyncResult);
                 if (count <= 0)
                 {
-                    Console.WriteLine("设备断开连接");
+                    //LogTools.Debug(Constant.TAG_XIAOSA, "设备断开连接");
                     return;
                 }
                 else
@@ -101,7 +103,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
-                Console.WriteLine("网络设备已断开");
+                LogTools.Error(Constant.TAG_XIAOSA, "网络设备已断开或网络接收模块发生异常", ex);
             }
         }
         /// <summary>

@@ -37,9 +37,6 @@ namespace OtherTools
 			Lc,
 			Cc,
 			Kp
-			//	,			
-			//Tclc,
-			//Tccc
 		}
 
 		private IList<Button> buttonList = new List<Button>();		
@@ -142,7 +139,7 @@ namespace OtherTools
 		{
 			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 
-			bool isShowTestButton = IniFileAst.GetControlShow(Application.StartupPath, "testButton"); ;
+			bool isShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
 
 			//直接刷新串口列表
@@ -207,7 +204,7 @@ namespace OtherTools
 				return;
 			}
 
-			int lightIndex = MathAst.GetIndexNum(((Button)sender).Name, -1);
+			int lightIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
 			setLightButtonValue(lightIndex);
 			//若勾选常亮模式，则需要主动把所有场景的选中灯光亮暗设为一致。
 			if (isKeepLightOn) {
@@ -273,7 +270,8 @@ namespace OtherTools
 			IList<string> paramList = getParamListFromPath(cfgPath);
 			lcEntity = new LightControlData(paramList);
 			lcSetForm();
-			lcToolStripStatusLabel2.Text = " 已加载配置文件：" + cfgPath;
+			//MessageBox.Show("已加载配置文件：" + cfgPath);
+			lcToolStripStatusLabel2.Text = "已加载配置文件：" + cfgPath;
 		}
 
 		private void lcSetForm() {
@@ -608,6 +606,7 @@ namespace OtherTools
 		private void lcDownloadButton_Click(object sender, EventArgs e)
 		{
 			if (myConnect == null) {
+				MessageBox.Show("当前myConnect==null，无法下载数据");
 				lcToolStripStatusLabel2.Text = "当前myConnect==null，无法下载数据";
 				return;				
 			}
@@ -977,13 +976,15 @@ namespace OtherTools
 			string keyPath = keyOpenFileDialog.FileName;
 			keyEntity = loadKeyFile(keyPath);
 			if (keyEntity == null) {
-				kpToolStripStatusLabel2.Text = "加载配置文件出错。";
+				MessageBox.Show("加载墙板配置文件出错。");
+				kpToolStripStatusLabel2.Text = "加载墙板配置文件出错。";
 				return;
 			}
 
 			reloadKeypressListView();
 			refreshButtons();
-			kpToolStripStatusLabel2.Text = "已加载配置文件：" + keyPath;
+			//MessageBox.Show("成功加载墙板配置文件：\n"+ keyPath);
+			kpToolStripStatusLabel2.Text = "已加载墙板配置文件：" + keyPath;
 		}
 
 		private void reloadKeypressListView()
@@ -1167,21 +1168,29 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void switchButton_Click(object sender, EventArgs e)
 		{
-			// 切换前都先断开连接
-			if (myConnect != null) {
-				if (connStatus > ConnectStatus.No)
-				{
-					myConnect.DisConnect();
-				}
-				setConnStatus(ConnectStatus.No);
-				myConnect = null ;
-			}
+			disConnect();
 			
 			isConnectByCom = !isConnectByCom;
 			switchButton.Text = isConnectByCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
 			connectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
 			refreshDeviceComboBox();
+		}
+
+		/// <summary>
+		/// 辅助方法：断开连接（退出Form及切换连接方式时，都跑一次这个方法）
+		/// </summary>
+		private void disConnect() {
+			// 切换前都先断开连接
+			if (myConnect != null)
+			{
+				if (connStatus > ConnectStatus.No)
+				{
+					myConnect.DisConnect();
+				}
+				setConnStatus(ConnectStatus.No);
+				myConnect = null;
+			}
 		}
 
 		/// <summary>
@@ -1242,7 +1251,7 @@ namespace OtherTools
 
 			if (deviceComboBox.Items.Count == 0)
 			{
-				//MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
 				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
 				connectButton.Enabled = false;
 				deviceComboBox.Text = "";
@@ -1269,6 +1278,7 @@ namespace OtherTools
 			if (isConnectByCom)
 			{
 				if (myConnect == null) {
+					MessageBox.Show("打开串口失败，原因是：myConnect为null");
 					setAllStatusLabel1("打开串口失败，原因是：myConnect为null");
 					setConnStatus(ConnectStatus.No);
 					return;
@@ -1276,10 +1286,12 @@ namespace OtherTools
 				try
 				{
 					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
+					MessageBox.Show("已打开串口(" + deviceComboBox.Text + ")");
 					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")");
 					setConnStatus(ConnectStatus.Normal);
 				}
 				catch (Exception ex) {
+					MessageBox.Show("打开串口失败，原因是：" + ex.Message);
 					setAllStatusLabel1("打开串口失败，原因是：" + ex.Message);
 					setConnStatus(ConnectStatus.No);
 				}
@@ -1290,11 +1302,13 @@ namespace OtherTools
 				string deviceName = ipaList[deviceComboBox.SelectedIndex].DeviceName;
 				myConnect = new NetworkConnect( connectTools.GetDeivceInfos()[localIP][deviceIP]);
 				if ((myConnect as NetworkConnect).IsConnected())
-				{					
+				{
+					MessageBox.Show("成功连接网络设备(" + deviceName + ")");
 					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")");
 					setConnStatus(ConnectStatus.Normal);
 				}
 				else {
+					MessageBox.Show("连接网络设备(" + deviceName + ")失败");
 					setAllStatusLabel1("连接网络设备(" + deviceName + ")失败");
 					setConnStatus(ConnectStatus.No);
 				}
@@ -1347,6 +1361,7 @@ namespace OtherTools
 		/// <param name="obj"></param>
 		public void LCConnectCompleted(Object obj) {
 			Invoke((EventHandler)delegate {
+				MessageBox.Show("已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked ? "-tc" : "") + ")，将自动回读设备内的灯控配置。");
 				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked?"-tc":"") +")";
 				setConnStatus(ConnectStatus.Lc);
 				lcReadButton_Click(null, null);
@@ -1372,6 +1387,7 @@ namespace OtherTools
 		public void CCConnectCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate {
+				MessageBox.Show("已切换成中控配置(connStatus=cc)");
 				ccToolStripStatusLabel2.Text = "已切换成中控配置(connStatus=cc)";
 				setConnStatus(ConnectStatus.Cc);
 			});
@@ -1383,6 +1399,7 @@ namespace OtherTools
 		public void CCConnectError()
 		{
 			Invoke((EventHandler)delegate {
+				MessageBox.Show("切换中控配置失败");
 				ccToolStripStatusLabel2.Text = "切换中控配置失败";
 				refreshButtons();
 			});
@@ -1427,7 +1444,8 @@ namespace OtherTools
 				}
 
 				lcEntity = lcDataTemp as LightControlData;
-				lcSetForm();								
+				lcSetForm();
+				MessageBox.Show("成功回读灯控配置");
 				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 			});
 		}
@@ -1438,6 +1456,7 @@ namespace OtherTools
 		public void LCReadError()
 		{
 			Invoke((EventHandler)delegate {
+				MessageBox.Show("回读灯控配置失败");
 				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
 			});
 		}
@@ -1453,14 +1472,14 @@ namespace OtherTools
 				// 同理，若是使用透传模式，则下载成功重启的并非主设备，而是透传的设备，其重启后仍会主动连上主设备，主动点击重连键即可。
 				if (isConnectByCom || tcCheckBox.Checked)
 				{
-					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";
 					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");
+					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";					
 					Thread.Sleep(5000);
 					lcConnectButton_Click(null, null);
 				}
-				else {				
-					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";
+				else {
 					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
+					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";					
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
 					networkDeviceRestart();					
@@ -1475,7 +1494,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				lcToolStripStatusLabel2.Text = "灯控配置下载失败";
+				MessageBox.Show("灯控配置下载失败");
+				lcToolStripStatusLabel2.Text = "灯控配置下载失败";				
 			});
 		}
 
@@ -1488,8 +1508,8 @@ namespace OtherTools
 			Invoke((EventHandler)delegate {
 				if (isConnectByCom)
 				{
-					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";
 					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
+					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";					
 					Thread.Sleep(5000);
 
 					isDecoding = false;
@@ -1499,8 +1519,8 @@ namespace OtherTools
 					ccConnectButton_Click(null, null);
 				}
 				else {
-					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";
 					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
+					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";					
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
 					networkDeviceRestart();
@@ -1516,7 +1536,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				ccToolStripStatusLabel2.Text = "中控配置下载失败";
+				MessageBox.Show("中控配置下载失败");
+				ccToolStripStatusLabel2.Text = "中控配置下载失败";				
 			});
 		}
 
@@ -1527,7 +1548,7 @@ namespace OtherTools
 		public void CCStartCompleted(Object obj)
 		{
 			Invoke((EventHandler)delegate
-			{
+			{				
 				ccToolStripStatusLabel2.Text = "灯控解码开启成功";
 				isDecoding = true;
 				ccDecodeButton.Text = "关闭解码" ;
@@ -1543,7 +1564,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				ccToolStripStatusLabel2.Text = "灯控解码开启失败";
+				MessageBox.Show("灯控解码开启失败");
+				ccToolStripStatusLabel2.Text = "灯控解码开启失败";				
 			});
 		}
 
@@ -1577,6 +1599,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
+				MessageBox.Show("成功关闭中控解码");
 				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
@@ -1585,8 +1608,6 @@ namespace OtherTools
 			});
 		}
 
-
-
 		/// <summary>
 		/// 辅助回调方法：结束《中控-调试解码》失败
 		/// </summary>
@@ -1594,7 +1615,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				ccToolStripStatusLabel2.Text = "关闭中控解码失败";
+				MessageBox.Show("关闭中控解码失败");
+				ccToolStripStatusLabel2.Text = "关闭中控解码失败";				
 			});
 		}
 
@@ -1632,8 +1654,7 @@ namespace OtherTools
 			}
 			else {
 				myConnect.LightControlConnect(LCConnectCompleted, LCConnectError);
-			}
-			
+			}			
 		}
 
 
@@ -1655,6 +1676,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
+				MessageBox.Show("成功连接墙板(connStatus=kp)");
 				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
 				setConnStatus(ConnectStatus.Kp);
 
@@ -1733,7 +1755,8 @@ namespace OtherTools
 		public void KPConnectError()
 		{
 			Invoke((EventHandler)delegate
-			{				
+			{
+				MessageBox.Show("连接墙板失败");
 				kpToolStripStatusLabel2.Text = "连接墙板失败";
 				//MARK：连接墙板失败，是否还要进行其他操作？
 				setConnStatus(ConnectStatus.No);
@@ -1794,6 +1817,7 @@ namespace OtherTools
 
 				keyEntity = obj as KeyEntity;
 				reloadKeypressListView();
+				MessageBox.Show("读取墙板码值成功");
 				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
 				refreshButtons();
 				this.Enabled = true;
@@ -1808,6 +1832,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
+				MessageBox.Show("读取墙板码值失败");
 				kpToolStripStatusLabel2.Text = "读取墙板码值失败";
 				//clearKeypressListView();
 				this.Enabled = true;
@@ -1957,7 +1982,7 @@ namespace OtherTools
 			try
 			{
 				// 保存操作
-				IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+				IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 				iniFileAst.WriteInt("Common", "Count", keypressListView.Items.Count);
 				for (int i = 0; i < keypressListView.Items.Count; i++)
 				{
@@ -2000,7 +2025,7 @@ namespace OtherTools
 			}
 
 			//2.验证灯具数目是否一致
-			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 			int keyCount = iniFileAst.ReadInt("Common", "Count", 0);
 			if (keyCount == 0)
 			{
@@ -2030,7 +2055,6 @@ namespace OtherTools
 			MessageBox.Show("墙板位置读取成功。");
 			return true;
 		}
-
 
 		/// <summary>
 		/// 事件：点击《墙板-保存文件》
@@ -2072,8 +2096,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				kpToolStripStatusLabel2.Text = "成功下载墙板码值";
 				MessageBox.Show("成功下载墙板码值");
+				kpToolStripStatusLabel2.Text = "成功下载墙板码值";				
 			});
 		}
 
@@ -2084,8 +2108,8 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				kpToolStripStatusLabel2.Text = "下载墙板码值失败";
 				MessageBox.Show("下载墙板码值失败");
+				kpToolStripStatusLabel2.Text = "下载墙板码值失败";				
 			});
 		}
 
@@ -2096,8 +2120,20 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void tcCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			setConnStatus(ConnectStatus.Normal);
+			MessageBox.Show("已" + (tcCheckBox.Checked ? "开启" : "关闭") + "透传模式，请重新连接灯控。");
 			lcToolStripStatusLabel2.Text = "已" + (tcCheckBox.Checked?"开启" : "关闭") + "透传模式，请重新连接灯控。";
+		}
+
+		/// <summary>
+		/// 事件：《窗口关闭》时释放使用的串口资源
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NewToolsForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			disConnect();
+			Dispose();
+			mainForm.Activate();
 		}
 	}
 }

@@ -17,10 +17,6 @@ namespace LightController.Tools
 {
     public class PlayTools
     {
-        //TODO Test
-        private SerialPort TestCom { get; set; }
-
-
         private static PlayTools Instance { get; set; }
         private static FTDI Device { get; set; }                    
         private readonly byte[] StartCode = new byte[] { 0x00 };
@@ -42,6 +38,12 @@ namespace LightController.Tools
         private int MusicIntervalTime { get; set; }
         private int MusicStepPoint { get; set; }
 
+        
+
+        private static int PreviewTimerStatus = 0;
+        private static int MusicControlTimerStatus = 0;
+        private static int SendTimerStatus = 0;
+
 
         private System.Timers.Timer PreviewTimer { get; set; }
         private System.Timers.Timer MusicControlTimer { get; set; }
@@ -61,10 +63,17 @@ namespace LightController.Tools
         private ICommunicatorCallBack IntentDebugCallback { get; set; }
         private Thread SendEmptyDebugDataThread { get; set; }
 
+
+        //TODO 待删除测试
+        public bool IsTest { get; set; }
+        private SerialPort TestComDevice { get; set; }
         private PlayTools()
         {
             try
             {
+                //TODO 待删除测试
+                this.IsTest = false;
+
                 this.TimeFactory = 32;
                 this.MusicStepTime = 0;
                 this.State = PreViewState.Null;
@@ -95,7 +104,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "初始化播放工具失败", ex);
             }
            
         }
@@ -141,7 +150,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "结束预览出错", ex);
             }
         }
         public void ResetDebugDataToEmpty()
@@ -193,7 +202,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "实时预览发生错误", ex);
                 EndView();
             }
         }
@@ -223,7 +232,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "单灯单步预览发生错误", ex);
                 this.EndView();
             }
         }
@@ -253,7 +262,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "音频控制触发预览发生错误", ex);
             }
         }
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
@@ -267,24 +276,28 @@ namespace LightController.Tools
         /// <param name="e"></param>
         private void PreviewOnTimer(object sender,ElapsedEventArgs e)
         {
-            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
-            foreach (PlayPoint item in C_PlayPoints)
+            if (Interlocked.Exchange(ref PreviewTimerStatus, 1) == 0)
             {
-                this.PlayData[item.ChannelNo - 1] = item.Read();
-            }
-            if (IsMusicControl)
-            {
-                List<int> keys =  MusicDataBuff.Keys.ToList();
-                foreach (int item in keys)
+                this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                foreach (PlayPoint item in C_PlayPoints)
                 {
-                    this.PlayData[item - 1] = MusicDataBuff[item];
+                    this.PlayData[item.ChannelNo - 1] = item.Read();
                 }
+                if (IsMusicControl)
+                {
+                    List<int> keys = MusicDataBuff.Keys.ToList();
+                    foreach (int item in keys)
+                    {
+                        this.PlayData[item - 1] = MusicDataBuff[item];
+                    }
+                }
+                if (this.SendTimer.Enabled)
+                {
+                    this.SendTimer.Stop();
+                }
+                this.Play();
+                Interlocked.Exchange(ref PreviewTimerStatus, 0);
             }
-            if (this.SendTimer.Enabled)
-            {
-                this.SendTimer.Stop();
-            }
-            this.Play();
         }
         /// <summary>
         /// 功能：音频触发定时器
@@ -295,37 +308,41 @@ namespace LightController.Tools
         {
             try
             {
-                if (this.MusicStepPoint == this.StepListCount)
+                if (Interlocked.Exchange(ref MusicControlTimerStatus, 1) == 0)
                 {
-                    this.MusicStepPoint = 0;
-                }
-
-                this.MusicStep = this.StepList[this.MusicStepPoint++];
-                for (int i = 0; i < this.MusicStep; i++)
-                {
-                    this.MusicDataBuff = new Dictionary<int, byte>();
-                    foreach (PlayPoint item in M_PlayPoints)
+                    if (this.MusicStepPoint == this.StepListCount)
                     {
-                        this.MusicDataBuff.Add(item.ChannelNo, item.Read());
+                        this.MusicStepPoint = 0;
                     }
-                    this.IsMusicControl = true;
-                    Thread.Sleep(this.TimeFactory * this.MusicStepTime);
-                }
-                if (this.MusicIntervalTime != 0)
-                {
-                    this.Timer.Interval = this.MusicIntervalTime;
-                    this.Timer.Start();
-                    this.MusicWaiting = true;
-                }
-                else
-                {
-                    this.IsMusicControl = false;
-                    this.MusicWaiting = true;
+
+                    this.MusicStep = this.StepList[this.MusicStepPoint++];
+                    for (int i = 0; i < this.MusicStep; i++)
+                    {
+                        this.MusicDataBuff = new Dictionary<int, byte>();
+                        foreach (PlayPoint item in M_PlayPoints)
+                        {
+                            this.MusicDataBuff.Add(item.ChannelNo, item.Read());
+                        }
+                        this.IsMusicControl = true;
+                        Thread.Sleep(this.TimeFactory * this.MusicStepTime);
+                    }
+                    if (this.MusicIntervalTime != 0)
+                    {
+                        this.Timer.Interval = this.MusicIntervalTime;
+                        this.Timer.Start();
+                        this.MusicWaiting = true;
+                    }
+                    else
+                    {
+                        this.IsMusicControl = false;
+                        this.MusicWaiting = true;
+                    }
+                    Interlocked.Exchange(ref MusicControlTimerStatus, 0);
                 }
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "音频控制数据叠加发生错误", ex);
             }
         }
         /// <summary>
@@ -335,7 +352,11 @@ namespace LightController.Tools
         /// <param name="e"></param>
         private void SendOnTimer(object sender, ElapsedEventArgs e)
         {
-            this.Play();
+            if (Interlocked.Exchange(ref SendTimerStatus, 1) == 0)
+            {
+                this.Play();
+                Interlocked.Exchange(ref SendTimerStatus, 0);
+            }
         }
         private void Play()
         {
@@ -344,7 +365,12 @@ namespace LightController.Tools
                 List<byte> buff = new List<byte>();
                 buff.AddRange(this.StartCode);
                 buff.AddRange(this.PlayData);
-                if (this.PreviewWayState == STATE_SERIALPREVIEW)
+                if (this.IsTest)
+                {
+                    this.SendTestData(buff.ToArray());
+                    Thread.Sleep(30);
+                }
+                else if (this.PreviewWayState == STATE_SERIALPREVIEW)
                 {
                     UInt32 count = 0;
                     if (Device.IsOpen)
@@ -370,7 +396,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "播放数据输出发生错误", ex);
                 this.EndView();
             }
         }
@@ -415,7 +441,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "连接DMX串口设备失败", ex);
             }
             return false;
         }
@@ -434,9 +460,79 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭DMX串口设备失败", ex);
             }
            
+        }
+
+
+
+        //TODO 测试模块
+        public void StartTestMode(string comName)
+        {
+            if (this.TestComDevice == null)
+            {
+                this.TestComDevice = new SerialPort();
+                this.TestComDevice.PortName = comName;
+                //this.TestComDevice.BaudRate = 256000;
+                this.TestComDevice.BaudRate = 115200;
+                this.TestComDevice.DataBits = 8;
+                this.TestComDevice.StopBits = StopBits.One;
+                this.TestComDevice.Parity = Parity.None;
+                this.TestComDevice.DataReceived += new SerialDataReceivedEventHandler(this.TestComDeviceReceive);
+            }
+            if (this.TestComDevice.IsOpen)
+            {
+                this.TestComDevice.Close();
+            }
+            this.TestComDevice.Open();
+            this.IsTest = true;
+        }
+        private void SendTestData(byte[] data)
+        {
+            if (this.TestComDevice != null)
+            {
+                if (this.TestComDevice.IsOpen)
+                {
+                    this.TestComDevice.Write(data, 0, data.Length);
+                }
+            }
+        }
+        public void CloseTestMode()
+        {
+            this.IsTest = false;
+            if (this.TestComDevice != null)
+            {
+                if (this.TestComDevice.IsOpen)
+                {
+                    this.TestComDevice.Close();
+                }
+            }
+        }
+        public string[] GetTestSerialPortNameList()
+        {
+            try
+            {
+                string[] ports = SerialPort.GetPortNames();
+                return ports;
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "获取串口列表失败", ex);
+                return null;
+            }
+        }
+        private void TestComDeviceReceive(object sender, SerialDataReceivedEventArgs s)
+        {
+            List<byte> RxBuff = new List<byte>();
+            while (this.IsTest)
+            {
+                RxBuff.Add(Convert.ToByte(TestComDevice.ReadByte()));
+                if (RxBuff.Count == 513) 
+                {
+                    RxBuff.Clear();
+                }
+            }
         }
     }
     enum PreViewState

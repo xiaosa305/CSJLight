@@ -56,7 +56,7 @@ namespace LightEditor.Ast
 
 			if (!String.IsNullOrEmpty(iniPath))
 			{
-				IniFileAst iniAst = new IniFileAst(iniPath);
+				IniFileHelper iniAst = new IniFileHelper(iniPath);
 				int tongdaoCount = iniAst.ReadInt("set", "count", 0);
 				SAWrapper[]  sawArray = new SAWrapper[tongdaoCount];
 				for (int tdIndex = 0; tdIndex < tongdaoCount ; tdIndex++)
@@ -66,7 +66,7 @@ namespace LightEditor.Ast
 					{
 						SA sa = new SA
 						{
-							SAName = IniFileAst_UTF8.ReadString(iniPath, "sa", tdIndex + "_" + saIndex + "_saName", ""),
+							SAName = IniFileHelper_UTF8.ReadString(iniPath, "sa", tdIndex + "_" + saIndex + "_saName", ""),
 							StartValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0),
 							EndValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0)
 						};

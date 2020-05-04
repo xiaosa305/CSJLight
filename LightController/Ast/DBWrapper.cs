@@ -15,10 +15,10 @@ namespace LightController.Ast
 
 		public DBWrapper(IList<DB_Light> lightList, IList<DB_StepCount> stepCountList, IList<DB_Value> valueList, IList<DB_FineTune> fineTuneList)
 		{
-				this.lightList =lightList;
-				this.stepCountList =stepCountList;
-				this.valueList = valueList;
-				this.fineTuneList = fineTuneList;
+			this.lightList = lightList;
+			this.stepCountList = stepCountList;
+			this.valueList = valueList;
+			this.fineTuneList = fineTuneList;
 		}
 	}
 }

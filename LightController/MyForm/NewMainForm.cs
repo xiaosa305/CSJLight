@@ -1,6 +1,8 @@
 ﻿using DMX512;
+using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
+using LightController.MyForm.Test;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -11,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -37,13 +40,15 @@ namespace LightController.MyForm
 			initGeneralControls(); //几个全局控件的初始化
 			InitializeComponent();
 			
-			Text = SoftwareName + " Dimmer System";// 动态更改软件名称			
+			Text = SoftwareName ;// 动态更改软件名称
+
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
 			QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			CenterControllerToolStripMenuItem.Enabled = IsLinkOldTools;//旧外设是否进行关联
 			KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
-			testButton.Visible = IsShowTestButton;
+			testButton1.Visible = IsShowTestButton;
 			testButton2.Visible = IsShowTestButton;
+			wjTestButton.Visible = IsShowTestButton;
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;	
@@ -167,7 +172,7 @@ namespace LightController.MyForm
 			
 			// 场景选项框		
 			//添加FramList.txt中的场景列表
-			AllFrameList = TextAst.Read(Application.StartupPath + @"\FrameList.txt");				
+			AllFrameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");				
 			foreach (string frame in AllFrameList)
 			{
 				frameComboBox.Items.Add(frame);
@@ -197,7 +202,7 @@ namespace LightController.MyForm
 			#region 皮肤 及 panel样式 相关代码
 					   		
 			setDeepStyle(false);
-			if (IniFileAst.GetControlShow(Application.StartupPath, "useSkin") ) {
+			if (IniFileHelper.GetControlShow(Application.StartupPath, "useSkin") ) {
 				//加载皮肤列表		
 				DirectoryInfo fdir = new DirectoryInfo(Application.StartupPath + "\\irisSkins");
 				try
@@ -540,15 +545,33 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《导出工程》
+		/// 事件：《导出工程》鼠标下压事件（判断是左键还是右键）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void exportProjectButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				exportProjectClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				exportFrameClick();
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《导出工程》（空方法：主要作用是方便查找鼠标下压方法）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void exportProjectButton_Click(object sender, EventArgs e)
 		{
-			exportProjectClick(); 
+
 		}
-		
+
+
 		/// <summary>
 		/// 事件：点击《关闭工程》
 		/// </summary>
@@ -567,7 +590,7 @@ namespace LightController.MyForm
 		{
 			//常规的四个按钮
 			saveProjectButton.Enabled = enable;
-			exportProjectButton.Enabled = enable && lightAstList!=null && lightAstList.Count>0;
+			exportButton.Enabled = enable && lightAstList!=null && lightAstList.Count>0;
 			saveFrameButton.Enabled = enable;			
 			closeProjectButton.Enabled = enable;
 
@@ -575,8 +598,7 @@ namespace LightController.MyForm
 			useFrameButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
 
 			// 菜单栏相关按钮组
-			projectToolStripMenuItem.Enabled = enable;		
-
+			projectToolStripMenuItem.Enabled = enable;	
 		}		
 
 		/// <summary>
@@ -593,33 +615,27 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///辅助方法：添加lightAst列表到主界面内存中,主要供 LightsForm以及OpenProject调用）
-		/// --对比删除后，生成新的lightWrapperList；
-		/// --lightListView也更新为最新的数据
+		/// MARK 重构BuildLightList：reBuildLightListView() in NewMainForm
+		///辅助方法：根据现有的lightAstList，重新渲染listView
 		/// </summary>
-		/// <param name="lightAstList2"></param>
-		public override void BuildLightList(IList<LightAst> lightAstList2)
-		{
-			//先调用统一的操作，填充lightAstList和lightWrapperList
-			base.BuildLightList(lightAstList2);
-
-			//针对本Form的处理代码：listView更新为最新数据			
+		protected override void reBuildLightListView()
+		{		
 			lightsListView.Items.Clear();
-			for (int i = 0; i < lightAstList2.Count; i++)
+			for (int i = 0; i < lightAstList.Count; i++)
 			{
 				// 添加灯具数据到LightsListView中
 				lightsListView.Items.Add(new ListViewItem(
-						//lightAstList2[i].LightName + ":" + 
-						lightAstList2[i].LightType + "\n" +	"(" + lightAstList2[i].LightAddr + ")"
-						+"\n这是备注哦"
-						,
-					lightImageList.Images.ContainsKey(lightAstList2[i].LightPic) ? lightAstList2[i].LightPic : "灯光图.png"
+					lightAstList[i].LightType + "\n"+
+						"(" + lightAstList[i].LightAddr + ")\n" +
+						lightAstList[i].Remark,
+					lightImageList.Images.ContainsKey(lightAstList[i].LightPic) ? lightAstList[i].LightPic : "灯光图.png"
 				)
-				{ Tag = lightAstList2[i].LightName + ":" + lightAstList2[i].LightType }
+				{ Tag = lightAstList[i].LightName + ":" + lightAstList[i].LightType }
 				);
 			}
+			Refresh();
 		}
-		
+
 		/// <summary>
 		/// 辅助方法：是否显示playPanel
 		/// </summary>
@@ -674,26 +690,27 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
 		/// </summary>
-		/// <param name="lightAst"></param>
-		protected override void editLightInfo(LightAst lightAst)
+		/// <param name="la"></param>
+		protected override void editLightInfo(LightAst la)
 		{
-			if (lightAst == null)
+			if (la == null)
 			{
 				currentLightPictureBox.Image = null;
 				lightNameLabel.Text = null;
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
+				lightRemarkLabel.Text = null;
+				selectedLightName = "";
 				return;
 			}
 
-			lightNameLabel.Text = "灯具厂商：" + lightAst.LightName;
-			lightTypeLabel.Text = "灯具型号：" + lightAst.LightType;
-			lightsAddrLabel.Text = "灯具地址：" + lightAst.LightAddr;
-			selectedLightName = lightAst.LightName + "-" + lightAst.LightType;
-
-			string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;
-			FileInfo fi = new FileInfo(imagePath); 
-			currentLightPictureBox.Image = fi.Exists? Image.FromFile(imagePath) : global::LightController.Properties.Resources.灯光图;
+			currentLightPictureBox.Image = lightLargeImageList.Images[la.LightPic] != null ? lightLargeImageList.Images[la.LightPic] : global::LightController.Properties.Resources.灯光图;
+			lightNameLabel.Text = "厂商：" + la.LightName;
+			lightTypeLabel.Text = "型号：" + la.LightType;
+			lightsAddrLabel.Text = "地址：" + la.LightAddr;
+			lightRemarkLabel.Text = "备注：" + la.Remark;
+			myToolTip.SetToolTip(lightRemarkLabel, "备注：\n" + la.Remark);
+			selectedLightName = la.LightName + "-" + la.LightType;
 		}
 
 		/// <summary>
@@ -843,26 +860,28 @@ namespace LightController.MyForm
 			lightsListViewDoubleClick(lightIndex);
 		}
 
+		/// <summary>
+		/// MARK 修改备注：EditLightRemark()子类实现（NewMainForm）
+		/// 辅助方法：添加或修改备注
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		/// <param name="remark"></param>
+		public override void EditLightRemark(int lightIndex, string remark)
+		{
+			base.EditLightRemark(lightIndex, remark);
+			// 界面的Items[lightIndex]也要改动相应的值；			
+			lightsListView.Items[lightIndex].SubItems[0].Text =
+				lightAstList[lightIndex].LightType + "\n(" 
+				+ lightAstList[lightIndex].LightAddr + ")\n"
+				+ lightAstList[lightIndex].Remark;
+			lightsListView.Refresh();
+		}
+
 		#endregion
 
 		//MARK：SkinMainForm灯具listView相关（右键菜单+位置等）
-		#region  灯具listView相关（右键菜单+位置等）
 
-		/// <summary>
-		/// 事件：点击《为灯具添加备注》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void addLightRemarkToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (selectedIndex == -1)
-			{
-				Console.WriteLine("尚未选中灯具");
-				return;
-			}
-
-			lightsListView.SelectedItems[0].SubItems[0].Text += "\nhahah";
-		}
+		#region  灯具listView相关（重新加载图片）
 
 		/// <summary>
 		/// 事件：重新加载灯具图片
@@ -882,7 +901,7 @@ namespace LightController.MyForm
 			Dictionary<string, string> lightDict = new Dictionary<string, string>();
 			foreach (var lightPath in lightPathHashSet)
 			{
-				string picStr = IniFileAst_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
+				string picStr = IniFileHelper_UTF8.ReadString(lightPath, "set", "pic", "灯光图.png");
 				if (String.IsNullOrEmpty(picStr))
 				{
 					picStr = "灯光图.png";
@@ -896,9 +915,21 @@ namespace LightController.MyForm
 				lightAstList[lightIndex].LightPic = tempPicStr;
 				lightsListView.Items[lightIndex].ImageKey = tempPicStr;
 			}
-
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：是否使能重新加载灯具图片
+		/// </summary>
+		/// <param name="enable"></param>
+		protected override void enableRefreshPic(bool enable)
+		{
+			refreshPicToolStripMenuItem.Enabled = enable;
+		}
+
+		#endregion
+
+		#region 灯具listView相关（右键菜单+位置等）newMainForm内暂时不采用可以移动灯具图标，故下列代码暂时无用
+
 		// listView1.AllowDrop = true; 
 		// listView1.AutoArrange = false;
 		private Point startPoint = Point.Empty;
@@ -909,7 +940,7 @@ namespace LightController.MyForm
 		/// <param name="pt1"></param>
 		/// <param name="pt2"></param>
 		/// <returns></returns>
-		private double getVector(Point pt1, Point pt2) 
+		private double getVector(Point pt1, Point pt2)
 		{
 			var x = Math.Pow((pt1.X - pt2.X), 2);
 			var y = Math.Pow((pt1.Y - pt2.Y), 2);
@@ -989,19 +1020,11 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void autoArrangeToolStripMenuItem_Click(object sender, EventArgs e)
-		{			
+		{
 			//isAutoArrange = autoArrangeToolStripMenuItem.Checked;
-			lightsListView.AllowDrop = !isAutoArrange;
-			lightsListView.AutoArrange = isAutoArrange;
-
-			if (isAutoArrange)
-			{
-				enableSLArrange(false, false);
-			}
-			else
-			{
-				enableSLArrange(true, File.Exists(arrangeIniPath));
-			}
+			//lightsListView.AllowDrop = !isAutoArrange;
+			//lightsListView.AutoArrange = isAutoArrange;
+			//autoEnableSLArrange();
 		}
 
 		/// <summary>
@@ -1011,10 +1034,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void arrangeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			bool tempAutoArrange = lightsListView.AutoArrange;
-			lightsListView.AutoArrange = true;
-			lightsListView.AutoArrange = tempAutoArrange;
-			lightsListView.Update();
+			//bool tempAutoArrange = lightsListView.AutoArrange;
+			//lightsListView.AutoArrange = true;
+			//lightsListView.AutoArrange = tempAutoArrange;
+			//lightsListView.Update();
 		}
 
 		/// <summary>
@@ -1046,14 +1069,14 @@ namespace LightController.MyForm
 			}
 
 			// 4.保存操作
-			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 			iniFileAst.WriteInt("Common", "Count", lightsListView.Items.Count);
 			for (int i = 0; i < lightsListView.Items.Count; i++)
 			{
 				iniFileAst.WriteInt("Position", i + "X", lightsListView.Items[i].Position.X);
 				iniFileAst.WriteInt("Position", i + "Y", lightsListView.Items[i].Position.Y);
 			}
-			enableSLArrange(true, File.Exists(arrangeIniPath));
+			autoEnableSLArrange();
 
 			MessageBox.Show("灯具位置保存成功。");
 		}
@@ -1073,7 +1096,7 @@ namespace LightController.MyForm
 			}
 
 			//2.验证灯具数目是否一致
-			IniFileAst iniFileAst = new IniFileAst(arrangeIniPath);
+			IniFileHelper iniFileAst = new IniFileHelper(arrangeIniPath);
 			int lightCount = iniFileAst.ReadInt("Common", "Count", 0);
 			if (lightCount == 0)
 			{
@@ -1102,15 +1125,6 @@ namespace LightController.MyForm
 
 			lightsListView.EndUpdate();
 			MessageBox.Show("灯具位置读取成功。");
-		}			   
-		
-		/// <summary>
-		/// 辅助方法：是否使能重新加载灯具图片
-		/// </summary>
-		/// <param name="enable"></param>
-		protected override void enableRefreshPic(bool enable)
-		{
-			refreshPicToolStripMenuItem.Enabled = enable;
 		}
 
 		/// <summary>
@@ -1118,12 +1132,12 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="enableSave"></param>
 		/// <param name="enableLoad"></param>
-		protected override void enableSLArrange(bool enableSave, bool enableLoad)
+		protected override void autoEnableSLArrange()
 		{
 			//saveArrangeToolStripMenuItem.Enabled = enableSave;
 			//loadArrangeToolStripMenuItem.Enabled = enableLoad;
 		}
-		
+
 		#endregion
 
 		#region 几个显示或隐藏面板的菜单项
@@ -1196,17 +1210,17 @@ namespace LightController.MyForm
 
 			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[currentFrame] + ")？",
 				"保存场景?",
-				MessageBoxButtons.OKCancel,
+				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
-			if (dr == DialogResult.OK)
+			if (dr == DialogResult.Yes)
 			{
 				saveFrameClick();
 				//MARK 只开单场景：06.0.1 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[currentFrame] = false;				
+				frameSaveArray[currentFrame] = false;	
 			}
 
 			currentFrame = frameComboBox.SelectedIndex;
-			//MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据；若为true，则说明已经加载因而无需重复读取。
+			//MARK 只开单场景：06.1.1 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
 			if (!frameLoadArray[currentFrame])
 			{				
 				generateFrameData(currentFrame);
@@ -1559,7 +1573,7 @@ namespace LightController.MyForm
 		protected override void showStepLabel(int currentStep, int totalStep)
 		{
 			// 1. 设label的Text值					   
-			stepLabel.Text = MathAst.GetFourWidthNumStr(currentStep, true) + "/" + MathAst.GetFourWidthNumStr(totalStep, false);
+			stepLabel.Text = MathHelper.GetFourWidthNumStr(currentStep, true) + "/" + MathHelper.GetFourWidthNumStr(totalStep, false);
 
 			// 2.1 设定《删除步》按钮是否可用
 			deleteStepButton.Enabled = totalStep != 0;
@@ -1592,7 +1606,6 @@ namespace LightController.MyForm
 			unifyChangeModeComboBox.Enabled = totalStep != 0;
 			unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
 
-
 			// 5.处理选择步数的框及按钮
 			chooseStepNumericUpDown.Enabled = totalStep != 0;
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
@@ -1616,7 +1629,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1628,7 +1641,7 @@ namespace LightController.MyForm
 		private void tdTrackBars_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine(	"trackBar_mouseWheel");
-			int tdIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1667,7 +1680,7 @@ namespace LightController.MyForm
 		{
 			//Console.WriteLine("tdSkinTrackBars_ValueChanged");
 			// 1.先找出对应tdSkinTrackBars的index 
-			int tongdaoIndex = MathAst.GetIndexNum(((TrackBar)sender).Name, -1);
+			int tongdaoIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
 			int tdValue = tdTrackBars[tongdaoIndex].Value;
 
 			//2.把滚动条的值赋给tdValueNumericUpDowns
@@ -1689,7 +1702,7 @@ namespace LightController.MyForm
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
-			int tongdaoIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值；
@@ -1710,7 +1723,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1722,7 +1735,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1759,7 +1772,7 @@ namespace LightController.MyForm
 		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int tdIndex = MathAst.GetIndexNum(((ComboBox)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((ComboBox)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1781,7 +1794,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdStNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1792,7 +1805,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1824,7 +1837,7 @@ namespace LightController.MyForm
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int tdIndex = MathAst.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1848,7 +1861,7 @@ namespace LightController.MyForm
 		{
 			saFlowLayoutPanel.Controls.Clear();
 			LightAst la = lightAstList[selectedIndex];
-			int tdIndex = MathAst.GetIndexNum(((Label)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
 			addTdSaButtons(la, tdIndex);
 			saFlowLayoutPanel.Refresh();
 		}
@@ -2071,7 +2084,7 @@ namespace LightController.MyForm
 			//若按键名称变动，则说明是音频模式
 			else
 			{
-				new SKForm(this, globalIniPath, currentFrame, frameComboBox.Text).ShowDialog();
+				new SKForm(this,  currentFrame, frameComboBox.Text).ShowDialog();
 			}
 		}
 
@@ -2087,8 +2100,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式,请稍候...");
-			Refresh();
+			SetNotice("正在切换连接模式,请稍候...");		
 			isConnectCom = !isConnectCom;
 			changeConnectMethodButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
@@ -2208,17 +2220,17 @@ namespace LightController.MyForm
 			}
 
 			setBusy(true);
-			SetNotice("正在生成预览数据，请稍候...");
+			SetNotice("正在生成预览数据，请稍候...");			
 			try
 			{
-				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), globalIniPath, currentFrame, new PreviewCallBack(this));
+				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
 			}
 			finally {
-				SetNotice("正在预览效果");
+				SetNotice("正在预览效果...");
 				setBusy(false);
 			}
 		}
@@ -2416,7 +2428,8 @@ namespace LightController.MyForm
 		/// <param name="notice"></param>
 		public override void SetNotice(string notice)
 		{
-			myStatusLabel.Text = notice;			
+			myStatusLabel.Text = notice;
+			myStatusStrip.Refresh();
 		}
 
 		/// <summary>
@@ -2431,19 +2444,28 @@ namespace LightController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 事件：点击《Test》
+		/// 事件：点击《Test1》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void testButton_Click(object sender, EventArgs e)
+		private void testButton1_Click(object sender, EventArgs e)
 		{
-			Console.WriteLine("场景名\tfsa\tfla");
-			for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
-			{
-				Console.WriteLine(AllFrameList[frameIndex]+" : " + frameSaveArray[frameIndex] +" - " + frameLoadArray[frameIndex]);
+			if (frameSaveArray != null && frameLoadArray != null) {
+				Console.WriteLine("场景名:\tfsa\tfla");
+				for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
+				{
+					Console.WriteLine(AllFrameList[frameIndex] + " \t " + frameSaveArray[frameIndex] + "\t" + frameLoadArray[frameIndex]);
+				}
+			}		
+
+			if (tempFS == null) {
+				Console.WriteLine("占用C1.bin");
+				tempFS = File.Open(@"C:\Users\Dickov\source\repos\CSJLight\LightController\bin\Debug\DataCache\Project\CSJ\C1.bin", FileMode.Open);
 			}
+			
 		}
 
+		FileStream tempFS;
 		/// <summary>
 		/// 事件：点击《Test2》
 		/// </summary>
@@ -2451,15 +2473,50 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton2_Click(object sender, EventArgs e)
 		{
-			//generateDBStepCountList();
-			//foreach (DB_StepCount sc in dbStepCountList)
-			//{
-			//	Console.WriteLine("遍历sc:" + sc.ToString());
-			//}
-			GenerateSourceProject();
+			////GenerateSourceProject();
+
+			//setBusy(true);
+			//SetNotice("正在压缩文件");
+			//Refresh();
+
+			//string dirPath = @"Z:\MC100\mcdata\demo1";
+			//string zipPath = @"Z:\GUAN\demo1.zip";
+			//ZipAst.CompressAllToZip(dirPath, zipPath, 0, null, @"Z:\MC100\mcdata\");
+
+			//SetNotice("已完成压缩");
+			//setBusy(false);
+
+			//测试拷贝单文件
+			//FileAst.CopyFile(@"C:\Users\Dickov\Desktop\hehe\CSJ\C1.bin", @"C: \Users\Dickov\Desktop\hehe\CSJ\Dest" , true);
+
+
+			if (tempFS != null) {
+				Console.WriteLine("释放C1.bin");
+				tempFS.Dispose();
+			}
+			
 		}
 
+		/// <summary>
+		/// 事件：点击《wjTest》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void wjTestButton_Click(object sender, EventArgs e)
+		{
+			new TestForm().ShowDialog();
+		}
 
+		private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string loadexeName = System.Windows.Forms.Application.ExecutablePath;
+			//loadexeName : "D:\\YokiSystem\\Yoki.UI\\bin\\Debug\\Yoki.UI.exe"
+
+			FileVersionInfo fileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(loadexeName);
+
+			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			MessageBox.Show(serverFileVersion);
+		}
 		
 	}
 }

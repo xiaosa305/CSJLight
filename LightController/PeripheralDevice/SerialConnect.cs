@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LightController.Tools;
+using LightController.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
@@ -56,16 +58,13 @@ namespace LightController.PeripheralDevice
                 while (this.IsDeviceOpen)
                 {
                     ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
-                    //Console.WriteLine("TAG-XIAOSA-Class:SerialConnect-Method:ReceiveData=>" + "串口开启状态:" + this.SerialPortDevice.IsOpen + ",串口开启状态标记位:" + this.IsDeviceOpen + "串口读取缓存区大小：" + ReadBuff.Count);
                     this.Receive();
                 }
                 ReadBuff.Clear();
             }
             catch (Exception ex)
             {
-                //Console.WriteLine("XIAOSA-ERROR：" + ex.Message);
-                //Console.WriteLine("XIAOSA-ERROR：" + ex.StackTrace);
-                //Console.WriteLine("关闭串口");
+                LogTools.Error(Constant.TAG_XIAOSA, "串口已关闭或串口接收模块发生异常", ex);
             }
             finally
             {

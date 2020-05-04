@@ -1,5 +1,6 @@
 ﻿using FTD2XX_NET;
 using LightController.Ast;
+using LightController.PeripheralDevice;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -46,9 +47,9 @@ namespace LightController.Tools
                 this.ComDevice.WriteBufferSize = this.PackageSize + 8;
                 this.TimeOutThread.Start();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                CSJLogs.GetInstance().DebugLog("Init Error");
+                LogTools.Error(Constant.TAG_XIAOSA, "初始化串口工具失败", ex);
             }
         }
         public static SerialPortTools GetInstance()
@@ -68,9 +69,9 @@ namespace LightController.Tools
                 this.Parity = Parity.None;
                 this.DataBits = 8;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                CSJLogs.GetInstance().DebugLog("SetDefaultSerialPort Error");
+                LogTools.Error(Constant.TAG_XIAOSA, "设置串口默认配置失败", ex);
             }
         }
         public string[] GetSerialPortNameList()
@@ -82,7 +83,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "获取串口列表失败", ex);
                 return null;
             }
         }
@@ -124,7 +125,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "获取DMX串口列表失败", ex);
                 return null;
             }
         }
@@ -151,12 +152,12 @@ namespace LightController.Tools
                 this.ComDevice.DataReceived += new SerialDataReceivedEventHandler(this.Recive);
                 ComDevice.Open();
                 this.IsOpenComdevice = true;
-                CSJLogs.GetInstance().DebugLog("串口" + PortName + "已打开");
+                //LogTools.Debug(Constant.TAG_XIAOSA, "串口" + PortName + "打开成功");
                 return ComDevice.IsOpen;
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "打开串口失败", ex);
                 return false;
             }
         }
@@ -170,7 +171,7 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "搜索设备失败", ex);
             }
             
         }
@@ -244,8 +245,7 @@ namespace LightController.Tools
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("串口接收发生错误:" + ex.StackTrace);
-                    CSJLogs.GetInstance().ErrorLog(ex);
+                    LogTools.Error(Constant.TAG_XIAOSA, "串口已关闭", ex);
                 }
             }
             this.RxBuff.Clear();
@@ -264,7 +264,6 @@ namespace LightController.Tools
                     case Constant.ORDER_PUT:
                     case Constant.ORDER_BEGIN_SEND:
                     case Constant.ORDER_END_SEND:
-                        Console.WriteLine("-----------------------关闭下载线程");
                         DownloadThread.Abort();
                         break;
                     default:
@@ -273,11 +272,15 @@ namespace LightController.Tools
             }
             catch(Exception ex)
             {
-                CSJLogs.GetInstance().ErrorLog(ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭串口失败", ex);
                 CallBack.Error(this.DeviceName, "");
             }
             finally
             {
+                if (this.ComDevice.IsOpen)
+                {
+                    this.ComDevice.Close();
+                }
                 InitParameters();
             }
         }

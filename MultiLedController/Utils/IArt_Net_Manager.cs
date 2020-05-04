@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static MultiLedController.utils.impl.Art_Net_Manager;
 
 namespace MultiLedController.utils
 {
@@ -22,7 +23,7 @@ namespace MultiLedController.utils
         /// <summary>
         /// 功能：发送启动实时调试命令
         /// </summary>
-        void StartDebug();
+        void StartDebug(GetPlayFrameCount frameCount);
         /// <summary>
         /// 功能：启动实时调试
         /// </summary>
@@ -49,20 +50,10 @@ namespace MultiLedController.utils
         /// <summary>
         /// 功能：启动数据存储至文件
         /// </summary>
-        void StartSaveToFile();
+        void StartSaveToFile(GetRecodeFrameCount frameCount);
         /// <summary>
         /// 功能：关闭数据存储至文件
         /// </summary>
         void StopSaveToFile();
-        /// <summary>
-        /// 功能：获取当前播放总帧数
-        /// </summary>
-        /// <returns></returns>
-        long GetPlayFrameCount();
-        /// <summary>
-        /// 功能：获取当前录制总帧数
-        /// </summary>
-        /// <returns></returns>
-        long GetRecodeFrameCount();
     }
 }

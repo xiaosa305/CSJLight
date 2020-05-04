@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MultiLedController.utils.impl
 {
@@ -18,7 +19,6 @@ namespace MultiLedController.utils.impl
         private string ServerIp { get; set; }
         private List<int> Fields { get; set; }
         private Thread ReceiveThread { get; set; }
-        private byte Addr { get; set; }
         private bool ReceiveStartStatus { get; set; }
         private Art_Net_Manager Manager { get; set; }
 
@@ -35,39 +35,45 @@ namespace MultiLedController.utils.impl
         /// <param name="manager">管理器既Art_Net_Manager</param>
         public Art_Net_Client(string currentIp, string serverIp, int startIndex, int spaceNum, Art_Net_Manager manager)
         {
-            //初始化
-            this.Init();
-            //配置本地IP
-            this.CurrentIp = currentIp;
-            this.ServerIp = serverIp;
-            //将管理器传入用于数据组包
-            this.Manager = manager;
-            for (int i = startIndex; i < startIndex + spaceNum; i++)
+            try
             {
-                this.Fields.Add(i);
-                this.Field_Datas.Add(i, new List<byte>());
-                this.Field_Datas_Status.Add(i, false);
+                //初始化
+                this.Init();
+                //配置本地IP
+                this.CurrentIp = currentIp;
+                this.ServerIp = serverIp;
+                //将管理器传入用于数据组包
+                this.Manager = manager;
+                for (int i = startIndex; i < startIndex + spaceNum; i++)
+                {
+                    this.Fields.Add(i);
+                    this.Field_Datas.Add(i, new List<byte>());
+                    this.Field_Datas_Status.Add(i, false);
+                }
+                IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(this.CurrentIp), PORT);
+                //配置UDP发送器
+                this.UDP_Send = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                this.UDP_Send.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                this.UDP_Send.Bind(iPEnd);
+                //配置UDP接收器
+                this.UDP_Receive = new UdpClient
+                {
+                    Client = this.UDP_Send
+                };
+                //配置线程接收UDP数据包
+                this.ReceiveThread = new Thread(this.ReceiveMsg)
+                {
+                    IsBackground = true
+                };
+                this.ReceiveStartStatus = true;
+                //启动接收线程
+                this.ReceiveThread.Start(this.UDP_Receive);
+                LogTools.Debug(Constant.TAG_XIAOSA,"虚拟客户端" + currentIp + "启动成功");
             }
-            IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(CurrentIp), PORT);
-            //配置UDP发送器
-            this.UDP_Send = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            this.UDP_Send.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            this.UDP_Send.Bind(iPEnd);
-            //配置UDP接收器
-            this.UDP_Receive = new UdpClient
+            catch (Exception ex)
             {
-                Client = this.UDP_Send
-            };
-            //配置线程接收UDP数据包
-            this.ReceiveThread = new Thread(this.ReceiveMsg)
-            {
-                IsBackground = true
-            };
-            this.ReceiveStartStatus = true;
-            //启动接收线程
-            this.ReceiveThread.Start(this.UDP_Receive);
-            this.Addr = Convert.ToByte(Convert.ToInt16(this.CurrentIp.Split('.')[3]));
-            Console.WriteLine(currentIp + "虚拟客户端启动");
+                LogTools.Error(Constant.TAG_XIAOSA, "绑定虚拟客户端" + currentIp +"失败", ex, true, "IP：" + currentIp + "未配置成功");
+            }
         }
         /// <summary>
         /// 功能：初始化缓存区
@@ -90,14 +96,8 @@ namespace MultiLedController.utils.impl
                 UdpClient client = obj as UdpClient;
                 while (this.ReceiveStartStatus)
                 {
-                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ServerIp), PORT);
+                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(this.ServerIp), PORT);
                     byte[] receiveData = client.Receive(ref endPoint);
-                    StringBuilder stringBuilder = new StringBuilder();
-                    foreach (byte b in receiveData)
-                    {
-                        stringBuilder.Append("" + b + " ");
-                    }
-
                     if (receiveData[8] == 0x00 && receiveData[9] == 0x21)//接收到其他设备发送ArtPollReply包
                     {
                         continue;
@@ -108,7 +108,6 @@ namespace MultiLedController.utils.impl
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
                     {
-
                     }
                     else if (receiveData[8] == 0x00 && receiveData[9] == 0x50)//这是ArtDMX数据包
                     {
@@ -121,15 +120,11 @@ namespace MultiLedController.utils.impl
                         data.AddRange(dmxData);
                         this.Manager.AddFieldData(universe, data);
                     }
-                    else
-                    {
-                        Console.WriteLine(CurrentIp + "其他数据包,包大小:" + receiveData.Length);
-                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(CurrentIp + "关闭UDPClient == >" + ex.Message);
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭虚拟客户端：" + CurrentIp, ex);
             }
         }
         /// <summary>
@@ -152,7 +147,6 @@ namespace MultiLedController.utils.impl
             data[191] = Convert.ToByte(this.Fields[1]);
             data[192] = Convert.ToByte(this.Fields[2]);
             data[193] = Convert.ToByte(this.Fields[3]);
-            Thread.Sleep(30);
             this.UDP_Send.SendTo(data, new IPEndPoint(IPAddress.Broadcast, PORT));
         }
         /// <summary>
@@ -166,7 +160,7 @@ namespace MultiLedController.utils.impl
             this.UDP_Send.Close();
             this.UDP_Receive = null;
             this.UDP_Send = null;
-            Console.WriteLine(CurrentIp + "关闭客户端");
+            LogTools.Debug(Constant.TAG_XIAOSA, CurrentIp + "关闭客户端");
         }
     }
 }

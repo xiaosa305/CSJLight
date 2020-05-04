@@ -197,7 +197,8 @@ namespace MultiLedController.MyForm
 				//string fileName = filePath.Substring(filePath.LastIndexOf(@"\") + 1);
 
 				Art_Net_Manager.GetInstance().SetSaveFilePath(filePath);
-				Art_Net_Manager.GetInstance().StartSaveToFile();
+				//TODO:MainForm委托（弃用的MainForm不再处理）
+				//Art_Net_Manager.GetInstance().StartSaveToFile();
 
 				isRecording = true;
 				recordButton.Text = "停止录制";		
@@ -345,14 +346,13 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "实时调试";
 			if (isDebuging)
 			{
-				Art_Net_Manager.GetInstance().StartDebug();
+				//TODO:MainForm委托（弃用的MainForm不再处理）
+				//Art_Net_Manager.GetInstance().StartDebug();
 			}
 			else {
 				Art_Net_Manager.GetInstance().StopDebug();
 			}			
 		}
-
-
 
 		/// <summary>
 		/// 事件：点击《录制文件路径》

@@ -94,6 +94,7 @@ namespace LightController.MyForm
 			this.tytzLabel = new System.Windows.Forms.Label();
 			this.lightInfoSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.lightsAddrLabel = new System.Windows.Forms.Label();
+			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.lightTypeLabel = new System.Windows.Forms.Label();
 			this.lightNameLabel = new System.Windows.Forms.Label();
 			this.currentLightSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -563,7 +564,7 @@ namespace LightController.MyForm
 			// 
 			// bigTestButton
 			// 
-			this.bigTestButton.Location = new System.Drawing.Point(937, 21);
+			this.bigTestButton.Location = new System.Drawing.Point(953, 25);
 			this.bigTestButton.Name = "bigTestButton";
 			this.bigTestButton.Size = new System.Drawing.Size(129, 63);
 			this.bigTestButton.TabIndex = 21;
@@ -578,11 +579,11 @@ namespace LightController.MyForm
 			this.testGroupBox.Controls.Add(this.test3Button);
 			this.testGroupBox.Controls.Add(this.test2Button);
 			this.testGroupBox.Controls.Add(this.test1Button);
-			this.testGroupBox.Location = new System.Drawing.Point(1096, 21);
+			this.testGroupBox.Location = new System.Drawing.Point(1091, 25);
 			this.testGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.testGroupBox.Name = "testGroupBox";
 			this.testGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.testGroupBox.Size = new System.Drawing.Size(190, 63);
+			this.testGroupBox.Size = new System.Drawing.Size(177, 63);
 			this.testGroupBox.TabIndex = 20;
 			this.testGroupBox.TabStop = false;
 			this.testGroupBox.Visible = false;
@@ -644,7 +645,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.oldToolsSkinButton);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 2);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(859, 100);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(865, 100);
 			this.flowLayoutPanel1.TabIndex = 5;
 			// 
 			// lightLibrarySkinButton
@@ -1003,6 +1004,7 @@ namespace LightController.MyForm
 			this.exportSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.exportSkinButton.UseVisualStyleBackColor = false;
 			this.exportSkinButton.Click += new System.EventHandler(this.exportSkinButton_Click);
+			this.exportSkinButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.exportSkinButton_MouseDown);
 			// 
 			// frameSaveSkinButton
 			// 
@@ -1772,6 +1774,7 @@ namespace LightController.MyForm
 			// 
 			this.lightInfoSkinPanel.BackColor = System.Drawing.Color.Transparent;
 			this.lightInfoSkinPanel.Controls.Add(this.lightsAddrLabel);
+			this.lightInfoSkinPanel.Controls.Add(this.lightRemarkLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.lightTypeLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.lightNameLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.currentLightSkinPanel);
@@ -1790,17 +1793,27 @@ namespace LightController.MyForm
 			// 
 			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightsAddrLabel.Location = new System.Drawing.Point(24, 224);
+			this.lightsAddrLabel.Location = new System.Drawing.Point(24, 242);
 			this.lightsAddrLabel.Name = "lightsAddrLabel";
-			this.lightsAddrLabel.Size = new System.Drawing.Size(210, 94);
+			this.lightsAddrLabel.Size = new System.Drawing.Size(210, 74);
 			this.lightsAddrLabel.TabIndex = 0;
+			// 
+			// lightRemarkLabel
+			// 
+			this.lightRemarkLabel.AutoSize = true;
+			this.lightRemarkLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightRemarkLabel.ForeColor = System.Drawing.Color.Black;
+			this.lightRemarkLabel.Location = new System.Drawing.Point(24, 216);
+			this.lightRemarkLabel.Name = "lightRemarkLabel";
+			this.lightRemarkLabel.Size = new System.Drawing.Size(0, 17);
+			this.lightRemarkLabel.TabIndex = 4;
 			// 
 			// lightTypeLabel
 			// 
 			this.lightTypeLabel.AutoSize = true;
 			this.lightTypeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeLabel.Location = new System.Drawing.Point(24, 199);
+			this.lightTypeLabel.Location = new System.Drawing.Point(24, 190);
 			this.lightTypeLabel.Name = "lightTypeLabel";
 			this.lightTypeLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightTypeLabel.TabIndex = 4;
@@ -1810,7 +1823,7 @@ namespace LightController.MyForm
 			this.lightNameLabel.AutoSize = true;
 			this.lightNameLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightNameLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightNameLabel.Location = new System.Drawing.Point(24, 174);
+			this.lightNameLabel.Location = new System.Drawing.Point(24, 164);
 			this.lightNameLabel.Name = "lightNameLabel";
 			this.lightNameLabel.Size = new System.Drawing.Size(0, 17);
 			this.lightNameLabel.TabIndex = 4;
@@ -1843,7 +1856,7 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.InitialImage = null;
 			this.currentLightPictureBox.Location = new System.Drawing.Point(66, 31);
 			this.currentLightPictureBox.Name = "currentLightPictureBox";
-			this.currentLightPictureBox.Size = new System.Drawing.Size(112, 125);
+			this.currentLightPictureBox.Size = new System.Drawing.Size(119, 125);
 			this.currentLightPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.currentLightPictureBox.TabIndex = 0;
 			this.currentLightPictureBox.TabStop = false;
@@ -6152,6 +6165,8 @@ namespace LightController.MyForm
 			this.Controls.Add(this.astSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
 			this.Controls.Add(this.myMenuStrip);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.myMenuStrip;
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -6737,5 +6752,6 @@ namespace LightController.MyForm
 		private SkinButton oldToolsSkinButton;
 		private ImageList middleImageList;
 		private FlowLayoutPanel saFlowLayoutPanel;
+		private Label lightRemarkLabel;
 	}
 }

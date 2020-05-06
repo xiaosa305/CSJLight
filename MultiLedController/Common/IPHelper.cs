@@ -278,10 +278,10 @@ namespace MultiLedController.Common
 			try
 			{
 				Ping ping = new Ping();
-				IPStatus ipStatus = ping.Send(remoteIP).Status;
+				IPStatus ipStatus = ping.Send(remoteIP).Status;				
 				//若能ping通，则返回false
 				if (ipStatus == IPStatus.Success)
-				{
+				{					
 					result = false;
 				}
 			}
@@ -294,7 +294,7 @@ namespace MultiLedController.Common
 			//若ping不通或出现异常（此时result仍为true,即值未被tryCatch内改动过），则检查arp
 			if (result)
 			{
-				string remoteMac = GetRemoteMac(localIP, remoteIP);
+				string remoteMac = GetRemoteMac(localIP, remoteIP);				
 				// ARP获取该IP的Mac，若返回值不为空或“0”，则返回false，表示这个IP已被占用不可用
 				if (remoteMac != null && !remoteMac.Equals("0"))
 				{

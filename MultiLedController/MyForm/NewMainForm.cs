@@ -834,34 +834,39 @@ namespace MultiLedController.MyForm
 		/// <summary>
 		/// 采用多线程去检测一些IP是否可用，并传回列表
 		/// </summary>
-		private List<int> getAvailableIPList(List<int> addIPList,int addVIPCount, string top3str,int lastStr) {
+		private HashSet<int> getAvailableIPList(HashSet<int> addIPList,int addVIPCount, string top3str,int lastStr) {
 
 			Console.WriteLine("addVIPCount:" + addVIPCount );
+			int overAddIP = 0;
 
 			Thread[] threadArray = new Thread[addVIPCount];				
 			for (int addIndex = 0; addIndex < addVIPCount; addIndex++)
 			{
-				int tempAddIndex = addIndex;
+				int tempAddIndex = addIndex ;
 				threadArray[tempAddIndex] = new Thread(delegate ()
 				{
-					int addIP =  lastStr+ tempAddIndex ;
+					int addIP =lastStr + tempAddIndex ;
+					if (addIP > 254) {
+						addIP = addIP % 255 + 2;
+						overAddIP = addIP > overAddIP ? addIP : overAddIP ;
+					}
 
 					Console.WriteLine( "正在检测" +  top3str + addIP + "是否可用...");
-					if (IPHelper.CheckIPAvailable(mainIP, top3str + addIP))
-					{						
+					if ( IPHelper.CheckIPAvailable(mainIP, top3str + addIP) )
+					{
+						Console.WriteLine(addIP + " add...");
 						addIPList.Add(addIP);
 						addVIPCount--;
 					}
-				});
-				Thread.Sleep(100);
-				threadArray[addIndex].Start();
+				});				
+				threadArray[tempAddIndex].Start();
 			}
 
 			// 下列代码，用以监视所有线程是否已经结束运行。每隔0.1s，去计算尚存活的线程数量，若数量为0，则说明所有线程已经结束了。
 			while (true)
 			{
 				int unFinishedCount = 0;
-				foreach (var thread in threadArray)
+				foreach (Thread thread in threadArray)
 				{
 					unFinishedCount += thread.IsAlive ? 1 : 0;
 				}
@@ -874,13 +879,11 @@ namespace MultiLedController.MyForm
 				{
 					Thread.Sleep(100);
 				}
-			}
-
-			addIPList.Sort();
+			}			
 
 			if (addVIPCount > 0)
-			{
-				return getAvailableIPList(addIPList, addVIPCount, top3str, addIPList[addIPList.Count-1] + 1);
+			{		
+				return getAvailableIPList(addIPList, addVIPCount, top3str, overAddIP == 0 ? lastStr : overAddIP);
 			}
 			else {
 				return addIPList;
@@ -895,15 +898,17 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-            //MessageBox.Show(IPHelper.CheckIPAvailableARPOnly("192.168.31.14","114.114.114.114").ToString());
+			//MessageBox.Show(IPHelper.CheckIPAvailableARPOnly("192.168.31.14","114.114.114.114").ToString());
 
-            List<int> addIPList = getAvailableIPList(new List<int>(), 8, "192.168.14.", 96);
+			HashSet<int> addIPList = getAvailableIPList(new HashSet<int>(), 8, "192.168.31.", 250);
 
 			Console.WriteLine("LIST<int>:");
 			foreach (int ip in addIPList)
 			{
 				Console.WriteLine(ip);
 			}
+
+			//Console.WriteLine(IPHelper.CheckIPAvailable("192.168.31.14" , "192.168.31.97"));
 
 		}
 	}

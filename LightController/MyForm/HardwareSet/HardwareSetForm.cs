@@ -518,8 +518,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comReadButton_Click(object sender, EventArgs e)
 		{
+			if (String.IsNullOrEmpty(comName))
+			{
+				MessageBox.Show("请选择串口设备。");
+				return;
+			}
+
 			dhcpCheckBox.Checked = false;
 			macCheckBox.Checked = false;
+			
+			comTools.OpenCom(comName); // 为保证串口没有断开，需主动连接一次
 			comTools.GetParam(new UploadCallBackHardwareSet(this));
 		}
 
@@ -530,7 +538,13 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comDownloadSkinButton_Click(object sender, EventArgs e)
 		{
-			if(isNew ) {
+			if (String.IsNullOrEmpty(comName))
+			{
+				MessageBox.Show("请选择串口设备。");
+				return;
+			}
+
+			if (isNew ) {
 				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
 				return;
 			}
@@ -552,6 +566,7 @@ namespace LightController.MyForm
 			// 11.7 保存前，先保存一遍当前数据。
 			saveAll(iniPath, hName);
 			// 此语句只发送《硬件配置》到选中的设备中
+			comTools.OpenCom(comName);// 为保证串口没有断开，需主动连接一次
 			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet(this));	
 		}
 
@@ -712,7 +727,7 @@ namespace LightController.MyForm
 
 		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("硬件设置下载成功，请稍等片刻等待设备重启。\n如使用网络模式，需重新搜索并连接网络设备。");
+			MessageBox.Show("硬件设置下载成功，请稍等片刻，等待设备重启。\n如使用网络模式，需重新搜索并连接网络设备。");
 			huForm.ResetNetworkButtons();				
 		}
 

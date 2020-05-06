@@ -812,7 +812,7 @@
 			// comDownloadButton
 			// 
 			this.comDownloadButton.Enabled = false;
-			this.comDownloadButton.Location = new System.Drawing.Point(129, 208);
+			this.comDownloadButton.Location = new System.Drawing.Point(129, 218);
 			this.comDownloadButton.Name = "comDownloadButton";
 			this.comDownloadButton.Size = new System.Drawing.Size(70, 33);
 			this.comDownloadButton.TabIndex = 12;
@@ -823,7 +823,7 @@
 			// comReadButton
 			// 
 			this.comReadButton.Enabled = false;
-			this.comReadButton.Location = new System.Drawing.Point(35, 208);
+			this.comReadButton.Location = new System.Drawing.Point(35, 218);
 			this.comReadButton.Name = "comReadButton";
 			this.comReadButton.Size = new System.Drawing.Size(70, 33);
 			this.comReadButton.TabIndex = 12;
@@ -834,7 +834,7 @@
 			// comConnectButton
 			// 
 			this.comConnectButton.Enabled = false;
-			this.comConnectButton.Location = new System.Drawing.Point(35, 141);
+			this.comConnectButton.Location = new System.Drawing.Point(35, 155);
 			this.comConnectButton.Name = "comConnectButton";
 			this.comConnectButton.Size = new System.Drawing.Size(164, 33);
 			this.comConnectButton.TabIndex = 11;
@@ -855,7 +855,7 @@
 			// comComboBox
 			// 
 			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(35, 98);
+			this.comComboBox.Location = new System.Drawing.Point(35, 105);
 			this.comComboBox.Name = "comComboBox";
 			this.comComboBox.Size = new System.Drawing.Size(164, 20);
 			this.comComboBox.TabIndex = 10;

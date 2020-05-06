@@ -2415,6 +2415,21 @@ namespace LightController.MyForm
 			new NewToolsForm(this).ShowDialog();
 		}
 
+		/// <summary>
+		/// 辅助方法：点击《使用说明》
+		/// </summary>
+		protected void helpButtonClick()
+		{
+			try
+			{
+				System.Diagnostics.Process.Start(Application.StartupPath + @"\使用手册.pdf");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
 		#endregion
 
 		#region stepPanel相关

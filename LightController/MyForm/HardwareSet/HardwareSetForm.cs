@@ -206,7 +206,7 @@ namespace LightController.MyForm
 		/// </summary>
 		private void validateIP_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if ( (e.KeyChar >= '0' && e.KeyChar <= '9') || (e.KeyChar == 8) || e.KeyChar == '.')
+			if ( (e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8 || e.KeyChar == '.')
 			{
 				e.Handled = false;
 			}
@@ -394,7 +394,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				MessageBox.Show("网络设备连接失败，无法回读配置。");			
+				MessageBox.Show("网络设备连接失败，无法回读配置。");	
 			}
 		}
 
@@ -430,7 +430,8 @@ namespace LightController.MyForm
 			// 此语句只发送《硬件配置》到选中的设备中
 			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
 			{
-				connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet());
+				connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet( this ));
+
 			}
 			else {
 				MessageBox.Show("网络设备连接失败，无法下载配置。");
@@ -529,7 +530,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void comDownloadSkinButton_Click(object sender, EventArgs e)
 		{
-			if ( isNew ) {
+			if(isNew ) {
 				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
 				return;
 			}
@@ -551,7 +552,7 @@ namespace LightController.MyForm
 			// 11.7 保存前，先保存一遍当前数据。
 			saveAll(iniPath, hName);
 			// 此语句只发送《硬件配置》到选中的设备中
-			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet());	
+			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet(this));	
 		}
 
 		#endregion
@@ -615,6 +616,13 @@ namespace LightController.MyForm
 				netmaskTextBox.Text = ch.NetMask;
 				gatewayTextBox.Text = ch.GateWay;
 				macTextBox.Text = ch.Mac;
+				// 根据回读的配置，主动勾选《DHCP》及《mac》
+				if (ch.IP.Equals("0.0.0.0")) {
+					dhcpCheckBox.Checked = true;
+				}
+				if (ch.Mac.Equals("00-00-00-00-00-00")) {
+					macCheckBox.Checked = true;
+				}
 
 				remoteHostTextBox.Text = ch.RemoteHost;
 				remotePortTextBox.Text = ch.RemotePort.ToString();
@@ -676,6 +684,19 @@ namespace LightController.MyForm
 				"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。");
 			e.Cancel = true;
 		}
+
+		/// <summary>
+		/// 辅助方法：重置《网络相关按钮组》
+		/// </summary>
+		internal void ResetNetworkButtons()
+		{
+			ipsComboBox.SelectedIndex = -1;
+			ipsComboBox.Text = "";
+			ipsComboBox.Enabled = false;
+
+			networkReadButton.Enabled = false;
+			networkDownloadButton.Enabled = false;
+		}
 	}
 
 	/// <summary>
@@ -683,14 +704,22 @@ namespace LightController.MyForm
 	/// </summary>
 	class DownloadCallBackHardwareSet : ICommunicatorCallBack
 	{
+		private HardwareSetForm huForm;		
+		public DownloadCallBackHardwareSet(HardwareSetForm huForm)
+		{
+			this.huForm = huForm;
+		}
+
 		public void Completed(string deviceTag)
 		{
-			MessageBox.Show("下载成功。");
+			MessageBox.Show("硬件设置下载成功，请稍等片刻等待设备重启。\n如使用网络模式，需重新搜索并连接网络设备。");
+			huForm.ResetNetworkButtons();				
 		}
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("下载失败。");
+			MessageBox.Show("硬件设置下载失败\n。如使用网络模式，需重新搜索并连接网络设备。");
+			huForm.ResetNetworkButtons();
 		}
 
 		public void GetParam(CSJ_Hardware hardware)

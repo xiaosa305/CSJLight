@@ -209,6 +209,7 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
+
         public void PutPara(IList<string> ips, string filePath, ICommunicatorCallBack receiveCallBack)
         {
             if (IsStart)

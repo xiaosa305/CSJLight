@@ -906,6 +906,9 @@
     <Content Include="global.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="使用手册.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -990,6 +993,7 @@
     <None Include="Resources\Ok3w.Net图标13.png" />
     <None Include="Resources\Ok3w.Net图标14.png" />
     <None Include="Resources\Ok3w.Net图标15.png" />
+    <None Include="Resources\问号1.png" />
     <Content Include="Source\CSkin.dll" />
     <Content Include="Source\CSkin.XML" />
     <Content Include="Source\IrisSkin4.dll" />

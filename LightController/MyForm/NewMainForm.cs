@@ -437,6 +437,16 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《菜单栏 - 使用说明》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			helpButtonClick();
+		}
+
+		/// <summary>
 		/// 事件：点击《退出程序》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -570,8 +580,7 @@ namespace LightController.MyForm
 		{
 
 		}
-
-
+		
 		/// <summary>
 		/// 事件：点击《关闭工程》
 		/// </summary>
@@ -2517,6 +2526,8 @@ namespace LightController.MyForm
 			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			MessageBox.Show(serverFileVersion);
 		}
-		
+
+
+	
 	}
 }

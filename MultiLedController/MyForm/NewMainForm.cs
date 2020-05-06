@@ -834,7 +834,9 @@ namespace MultiLedController.MyForm
 		/// <summary>
 		/// 采用多线程去检测一些IP是否可用，并传回列表
 		/// </summary>
-		private List<string> getAvailableIPList(List<string> addIPList,int addVIPCount, string top3str,int lastStr) {
+		private List<int> getAvailableIPList(List<int> addIPList,int addVIPCount, string top3str,int lastStr) {
+
+			Console.WriteLine("addVIPCount:" + addVIPCount );
 
 			Thread[] threadArray = new Thread[addVIPCount];				
 			for (int addIndex = 0; addIndex < addVIPCount; addIndex++)
@@ -842,11 +844,11 @@ namespace MultiLedController.MyForm
 				int tempAddIndex = addIndex;
 				threadArray[tempAddIndex] = new Thread(delegate ()
 				{
-					string addIP = top3str + (lastStr+ tempAddIndex) ;
-					Console.WriteLine( "正在检测" + addIP + "是否可用...");
-					if (IPHelper.CheckIPAvailable(mainIP, addIP))
-					{
-						Console.WriteLine(addIP);
+					int addIP =  lastStr+ tempAddIndex ;
+
+					Console.WriteLine( "正在检测" +  top3str + addIP + "是否可用...");
+					if (IPHelper.CheckIPAvailable(mainIP, top3str + addIP))
+					{						
 						addIPList.Add(addIP);
 						addVIPCount--;
 					}
@@ -874,9 +876,11 @@ namespace MultiLedController.MyForm
 				}
 			}
 
+			addIPList.Sort();
+
 			if (addVIPCount > 0)
 			{
-				return getAvailableIPList(addIPList, addVIPCount, top3str, lastStr + addIPList.Count);
+				return getAvailableIPList(addIPList, addVIPCount, top3str, addIPList[addIPList.Count-1] + 1);
 			}
 			else {
 				return addIPList;
@@ -893,9 +897,13 @@ namespace MultiLedController.MyForm
 		{
             //MessageBox.Show(IPHelper.CheckIPAvailableARPOnly("192.168.31.14","114.114.114.114").ToString());
 
-            List<string> addIPList = getAvailableIPList(new List<string>(), 8, "192.168.14.", 96);
-            //addIPList.Sort(x,y,);
-            Console.WriteLine(addIPList);
+            List<int> addIPList = getAvailableIPList(new List<int>(), 8, "192.168.14.", 96);
+
+			Console.WriteLine("LIST<int>:");
+			foreach (int ip in addIPList)
+			{
+				Console.WriteLine(ip);
+			}
 
 		}
 	}

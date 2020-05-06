@@ -453,7 +453,14 @@ namespace LightController.MyForm
 			exitClick();
 		}
 
-
+		/// <summary>
+		/// 事件：点击《使用说明》
+		/// </summary>
+		/// <param name="noticeText"></param>
+		private void helpSkinButton_Click(object sender, EventArgs e)
+		{
+			helpButtonClick();
+		}
 
 
 		#endregion
@@ -2783,13 +2790,7 @@ namespace LightController.MyForm
 			// flag ?  "frh":"flh";
 
 		}
-
-
-
-
-
-
-
+			   		 
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2804,7 +2805,11 @@ namespace LightController.MyForm
 		//}		
 
 		#endregion
+
+
 		
+
+	
 	}
 
 

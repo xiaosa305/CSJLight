@@ -112,7 +112,7 @@
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(88, 31);
 			this.recordButton.TabIndex = 35;
-			this.recordButton.Text = "录制";
+			this.recordButton.Text = "录制数据";
 			this.recordButton.UseVisualStyleBackColor = true;
 			this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
 			// 
@@ -241,6 +241,7 @@
 			this.testButton.TabIndex = 56;
 			this.testButton.Text = "Test";
 			this.testButton.UseVisualStyleBackColor = false;
+			this.testButton.Visible = false;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
 			// label2

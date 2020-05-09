@@ -1554,7 +1554,7 @@ namespace LightEditor
 			this.tdNumLabel.Name = "tdNumLabel";
 			this.tdNumLabel.Size = new System.Drawing.Size(192, 33);
 			this.tdNumLabel.TabIndex = 2;
-			this.tdNumLabel.Text = "选中的通道地址:";
+			this.tdNumLabel.Text = "选中的通道地址：";
 			this.tdNumLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// saAddButton

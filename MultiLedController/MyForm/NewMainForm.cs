@@ -217,6 +217,8 @@ namespace MultiLedController.MyForm
 
 			if (!isStart)
 			{
+				DateTime beforeDT = System.DateTime.Now;
+
 				setBusy(true);
                                 
                 if (controllerListView.SelectedIndices.Count == 0) {
@@ -243,55 +245,15 @@ namespace MultiLedController.MyForm
 					{
 						firstIP = vipList[0];
 					}
-					string top3str = firstIP.Substring(0, firstIP.LastIndexOf('.') + 1);
-					int lastStr = int.Parse(firstIP.Substring(firstIP.LastIndexOf('.') + 1));
+					string ipTop3Str = firstIP.Substring(0, firstIP.LastIndexOf('.') + 1);
+					int ipLastStr = int.Parse( firstIP.Substring(firstIP.LastIndexOf('.') + 1)	) + 1;
 
-                    IList<string> addIPList = new List<string>();
-                    //IList<string> addIPList = getAvailableIPList(new List<string>(), addVIPCount, top3str, lastStr+1);
-                    //Console.WriteLine(addIPList);
+					SortedSet<int> addVIPSet = new SortedSet<int>();
+					generateAvailableIPListMultiThread(ref addVIPSet, ref addVIPCount , ipTop3Str, ipLastStr,253) ;
+					//generateAvailableIPList(ref addVIPSet, ref addVIPCount, ipTop3Str, ipLastStr);
 
-                    //此处为第一层获取可用IP的方法；
-                    for (; lastStr < 255; lastStr++)
-                    {
-                        string addIP = top3str + lastStr;
-                        setNotice(1, "正在检测" + addIP + "是否可用，请稍候...");
-
-                        //若IP未被占用，则可以添加到addIPList中
-                        if (IPHelper.CheckIPAvailable(mainIP, addIP))
-                        {
-                            addIPList.Add(addIP);
-                            addVIPCount--;
-                        }
-
-                        if (addVIPCount <= 0)
-                        {
-                            break;
-                        }
-                    }
-                    //若以上循环走完后，仍未达到所需的VIP数量，则从2开始，再走一遍获取可用IP的方法；
-                    if (addVIPCount > 0)
-                    {
-                        for (lastStr = 2; lastStr < 255; lastStr++)
-                        {
-                            string addIP = top3str + lastStr;
-                            setNotice(1, "正在检测" + addIP + "是否可用，请稍候...");
-
-                            //若IP未被占用，则可以添加到addIPList中
-                            if (IPHelper.CheckIPAvailable(mainIP, addIP))
-                            {
-                                addIPList.Add(addIP);
-                                addVIPCount--;
-                            }
-
-                            if (addVIPCount <= 0)
-                            {
-                                break;
-                            }
-                        }
-                    }
-
-                    //若仍未完成，则必须提示用户无可用ip并中断操作
-                    if (addVIPCount > 0)
+					//若仍未完成，则必须提示用户无可用ip并中断操作
+					if (addVIPCount > 0)
                     {
                         MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
                         setNotice(1, "检测到当前网段无足够可用的IP地址，已中断操作。");
@@ -300,9 +262,9 @@ namespace MultiLedController.MyForm
                     }
 
                     //以新IP及掩码列表， 改造IPAst；并将（mainIP及新的ipList）设置到系统中
-                    foreach (string tempIP in addIPList)
+                    foreach (int tempIP in addVIPSet)
 					{
-						vipList.Add(tempIP);
+						vipList.Add(ipTop3Str + tempIP);
 					}
 
 					List<string> newIPList = new List<string>();
@@ -361,8 +323,11 @@ namespace MultiLedController.MyForm
 					return;
 				}
 
+				DateTime afterDT = System.DateTime.Now;
+				TimeSpan ts = afterDT.Subtract(beforeDT);
+			
 				enableStartButtons(true);			
-				setNotice(1,"已启动模拟。");
+				setNotice(1, "已启动模拟,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
 				setBusy(false);
 			}
 			else {
@@ -832,42 +797,136 @@ namespace MultiLedController.MyForm
 		#endregion
 
 		/// <summary>
-		/// 采用多线程去检测一些IP是否可用，并传回列表
+		/// 辅助方法：采用非多线程方式，监测一些IP是否未被占用
 		/// </summary>
-		private List<int> getAvailableIPList(List<int> addIPList,int addVIPCount, string top3str,int lastStr) {
+		/// <param name="addVIPList"></param>
+		/// <param name="addVIPCount"></param>
+		/// <param name="ipTop3str"></param>
+		/// <param name="ipLastStr"></param>
+		/// <returns></returns>
+		private void generateAvailableIPList(ref SortedSet<int> addVIPSet,ref int addVIPCount, string ipTop3str, int ipLastStr)
+		{			
+			//此处为第一层获取可用IP的方法；
+			for (; ipLastStr < 255; ipLastStr++)
+			{
+				string addIP = ipTop3str + ipLastStr;
+				setNotice(1, "正在检测" + addIP + "是否可用，请稍候...");
 
-			Console.WriteLine("addVIPCount:" + addVIPCount );
+				//若IP未被占用，则可以添加到addIPList中
+				if (IPHelper.CheckIPAvailable(mainIP, addIP))
+				{
+					addVIPSet.Add(ipLastStr);
+					addVIPCount--;
+				}
+				if (addVIPCount <= 0)
+				{
+					break;
+				}
+			}
+			//若以上循环走完后，仍未达到所需的VIP数量，则从2开始，再走一遍获取可用IP的方法；
+			if (addVIPCount > 0)
+			{
+				for (ipLastStr = 2; ipLastStr < 255; ipLastStr++)
+				{
+					string addIP = ipTop3str + ipLastStr;
+					setNotice(1, "正在检测" + addIP + "是否可用，请稍候...");
 
-			Thread[] threadArray = new Thread[addVIPCount];				
-			for (int addIndex = 0; addIndex < addVIPCount; addIndex++)
+					//若IP未被占用，则可以添加到addIPList中
+					if (IPHelper.CheckIPAvailable(mainIP, addIP))
+					{
+						addVIPSet.Add(ipLastStr);
+						addVIPCount--;
+					}
+					if (addVIPCount <= 0)
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：采用多线程方式，检测一些IP是否未被占用
+		/// </summary>
+		private void generateAvailableIPListMultiThread(ref SortedSet<int> addVIPSet, ref int addVIPCount, string top3IPStr, int lastIPStr, int  retainIPCount)  {
+
+			Console.WriteLine("retainIPCount = " + retainIPCount + " | addVIPCount = " + addVIPCount);
+			// 当剩余次数小于1时，退出本方法
+			if (retainIPCount < 1) {
+				Console.WriteLine("当剩余次数小于1时，退出本方法。");
+				return;
+			}	
+
+			if (addVIPCount > 254) {
+				Console.WriteLine("虚拟IP数量不得超过254个。");
+				return;
+			}
+			
+			SortedSet<int> addVIPSetTemp = new SortedSet<int>();
+			retainIPCount -= addVIPCount; //一旦开始执行此方法，则可以直接处理retianIPCount
+			
+			//从这里分割：
+			int firstCount = 255 - lastIPStr;
+			int overCount = 0;
+			int lastStr2 = 0;
+			if (firstCount > addVIPCount)
+			{
+				firstCount = addVIPCount;
+				lastStr2 = lastIPStr + firstCount;
+			}
+			else {
+				overCount = addVIPCount - firstCount;
+				lastStr2 = 2 + overCount;
+			}
+
+			Thread[] threadArray = new Thread[addVIPCount];
+
+			for (int addIndex = 0; addIndex < firstCount; addIndex++)
 			{
 				int tempAddIndex = addIndex;
 				threadArray[tempAddIndex] = new Thread(delegate ()
 				{
-					int addIP =  lastStr+ tempAddIndex ;
-
-					Console.WriteLine( "正在检测" +  top3str + addIP + "是否可用...");
-					if (IPHelper.CheckIPAvailable(mainIP, top3str + addIP))
-					{						
-						addIPList.Add(addIP);
-						addVIPCount--;
+					int addIP = lastIPStr + tempAddIndex;
+					Console.WriteLine("正在(多线程ThreadIndex:" + tempAddIndex + ")检测" + top3IPStr + addIP + "是否可用...");
+					
+					if (IPHelper.CheckIPAvailableARPOnly(mainIP, top3IPStr + addIP))
+					{
+						lock (addVIPSetTemp) {
+							addVIPSetTemp.Add(addIP);
+						}
 					}
 				});
-				Thread.Sleep(100);
-				threadArray[addIndex].Start();
+				threadArray[tempAddIndex].Start();
+			}
+
+			for (int addIndex = 0; addIndex < overCount; addIndex++)
+			{
+				int tempAddIndex = addIndex;
+				threadArray[tempAddIndex + firstCount] = new Thread(delegate ()
+				{					
+					int addIP = 2 + tempAddIndex;
+					Console.WriteLine("正在(多线程ThreadIndex:"+tempAddIndex+firstCount+")检测" + top3IPStr + addIP + "是否可用...");
+					if (IPHelper.CheckIPAvailableARPOnly(mainIP, top3IPStr + addIP))
+					{
+						lock (addVIPSetTemp)
+						{
+							addVIPSetTemp.Add(addIP);
+						}					
+					}
+				});
+				threadArray[tempAddIndex + firstCount].Start();
 			}
 
 			// 下列代码，用以监视所有线程是否已经结束运行。每隔0.1s，去计算尚存活的线程数量，若数量为0，则说明所有线程已经结束了。
 			while (true)
 			{
 				int unFinishedCount = 0;
-				foreach (var thread in threadArray)
+				foreach (Thread thread in threadArray)
 				{
 					unFinishedCount += thread.IsAlive ? 1 : 0;
 				}
-
 				if (unFinishedCount == 0)
-				{				
+				{
 					break;
 				}
 				else
@@ -875,18 +934,21 @@ namespace MultiLedController.MyForm
 					Thread.Sleep(100);
 				}
 			}
-
-			addIPList.Sort();
-
-			if (addVIPCount > 0)
+			
+			foreach (int item in addVIPSetTemp)
 			{
-				return getAvailableIPList(addIPList, addVIPCount, top3str, addIPList[addIPList.Count-1] + 1);
+				// 若添加成功，则返回true，否则不处理addVIPCount
+				if (addVIPSet.Add(item))
+				{
+					addVIPCount--;
+				}
 			}
-			else {
-				return addIPList;
-			}			
-		}
-
+						
+			// 若①数量仍然不够；②且剩下未监测的IP数量大于addVIPCount, 才继续递归本方法；除此以外，则无意义（因为再也没有相应数量的IP可供使用了）
+			if (addVIPCount > 0 && addVIPCount <= retainIPCount) {				
+				generateAvailableIPListMultiThread(ref addVIPSet , ref addVIPCount , top3IPStr,lastStr2, retainIPCount);
+			}
+		}		
 
 		/// <summary>
 		/// 事件：点击《Test》
@@ -895,16 +957,45 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-            //MessageBox.Show(IPHelper.CheckIPAvailableARPOnly("192.168.31.14","114.114.114.114").ToString());
+			//SortedSet<int> addVIPSet = new SortedSet<int>();
+			//int addVIPCount = 8;
+			//generateAvailableIPListMultiThread(ref addVIPSet, ref addVIPCount, "192.168.31.", 14 , 253);
+			//foreach (int ip in addVIPSet)
+			//{
+			//	Console.WriteLine(ip);
+			//}
 
-            List<int> addIPList = getAvailableIPList(new List<int>(), 8, "192.168.14.", 96);
-
-			Console.WriteLine("LIST<int>:");
-			foreach (int ip in addIPList)
+			// 测试多线程未锁时，操作（写）同一个对象时，出现”未将对象引用设置到对象的实例“异常的问题
+			Thread[] threadArray = new Thread[100];
+			SortedSet<int> ss = new SortedSet<int>();
+			for (int i = 0; i < 100; i++)
 			{
-				Console.WriteLine(ip);
-			}
+				int tempI = i;
+				threadArray[tempI] = new Thread(delegate ()
+				{
+					for (int j = 0; j < 1000; j++)
+					{
+						ss.Add(j);
+
+						//lock (ss) {							
+						//	ss.Add(j);
+						//}
+
+						//try
+						//{
+						//	ss.Add(j);
+						//}
+						//catch (Exception ex)
+						//{
+						//	Console.WriteLine(ss == null);
+						//}
+					}
+				});
+				threadArray[tempI].Start();
+			}		
+
 
 		}
+
 	}
 }

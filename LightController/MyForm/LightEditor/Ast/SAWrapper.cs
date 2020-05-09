@@ -31,8 +31,6 @@ namespace LightEditor.Ast
 			for (int tdIndex = 0; tdIndex < sourceSawArray.Length; tdIndex++)
 			{
 				destSawArray[tdIndex] = new SAWrapper();
-				
-
 
 				for (int saIndex2 = 0; saIndex2 < sourceSawArray[tdIndex].SaList.Count; saIndex2++)
 				{

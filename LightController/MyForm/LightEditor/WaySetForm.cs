@@ -478,14 +478,20 @@ namespace LightEditor
 		/// </summary>
 		private void refreshSAPanels()
 		{
-
-			saFlowLayoutPanel.Enabled = true;
-			tdNumLabel.Text = "选中的通道地址：" + (selectedTdIndex + 1);
-
-			clearSaPanels();
-			foreach (SA sa in sawArray2[selectedTdIndex].SaList)
+			if (selectedTdIndex > -1)
 			{
-				AddSAPanel(sa);
+				saFlowLayoutPanel.Enabled = true;
+				tdNumLabel.Text = "选中的通道地址：" + (selectedTdIndex + 1);
+				clearSaPanels();
+				foreach (SA sa in sawArray2[selectedTdIndex].SaList)
+				{
+					AddSAPanel(sa);
+				}
+			}
+			else {
+				saFlowLayoutPanel.Enabled = false;
+				tdNumLabel.Text = "选中的通道地址：";
+				clearSaPanels();
 			}
 		}
 

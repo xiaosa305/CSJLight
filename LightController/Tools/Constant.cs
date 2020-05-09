@@ -39,7 +39,8 @@ namespace LightController.Tools
         public const string UDP_ORDER = "UdpBroadCast";
         public const string RECEIVE_ORDER_BEGIN_OK = "Ok";
         public const string RECEIVE_ORDER_BEGIN_ERROR = "Error";
-        public const string RECEIVE_ORDER_BEGIN_ERROR_DISK = "Error:DiskUnmount";
+        public const string RECEIVE_ORDER_BEGIN_ERROR_DISK_Old = "Error:DiskUnmount";
+        public const string RECEIVE_ORDER_BEGIN_ERROR_DISK = "DiskUnmount";
         public const string RECEIVE_ORDER_ENDSEND_OK = "Ok";
         public const string RECEIVE_ORDER_ENDSEND_ERROR = "Error";
         public const string RECEIVE_ORDER_SENDNEXT = "SendNext";

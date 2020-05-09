@@ -33,10 +33,10 @@ namespace LightController.Utils
             stringBuilder.AppendLine(BORDER_DOWN);
             stringBuilder.AppendLine(BORDER_DOWN);
             Console.WriteLine(stringBuilder);
-            if (Constant.IsLogInFile)
-            {
-                WriteLogToFile(stringBuilder.ToString());
-            }
+            //if (Constant.IsLogInFile)
+            //{
+            //    WriteLogToFile(stringBuilder.ToString());
+            //}
         }
         public static void Error(string tag, string errorInfo, Exception exception)
         {

@@ -386,23 +386,23 @@ namespace LightController.Tools.CSJ
                 case Constant.ORDER_BEGIN_SEND:
                     switch (rxStr.Split(':')[0])
                     {
-                        case Constant.RECEIVE_ORDER_BEGIN_ERROR_DISK:
-                            try
-                            {
-                                if (null != this.DownloadThread)
-                                {
-                                    this.DownloadThread.Abort();
-                                }
-                            }
-                            finally
-                            {
-                                this.DownloadStatus = false;
-                                this.IsSending = false;
-                                this.CallBack.UpdateProgress("", "", 0);
-                                this.CallBack.Error(devicename, "设备未插入SD卡，更新失败");
-                                this.CloseDevice();
-                            }
-                            break;
+                        //case Constant.RECEIVE_ORDER_BEGIN_ERROR_DISK:
+                        //    try
+                        //    {
+                        //        if (null != this.DownloadThread)
+                        //        {
+                        //            this.DownloadThread.Abort();
+                        //        }
+                        //    }
+                        //    finally
+                        //    {
+                        //        this.DownloadStatus = false;
+                        //        this.IsSending = false;
+                        //        this.CallBack.UpdateProgress("", "", 0);
+                        //        this.CallBack.Error(devicename, "设备未插入SD卡，更新失败");
+                        //        this.CloseDevice();
+                        //    }
+                        //    break;
                         case Constant.RECEIVE_ORDER_BEGIN_ERROR:
                             try
                             {
@@ -416,7 +416,14 @@ namespace LightController.Tools.CSJ
                                 this.DownloadStatus = false;
                                 this.IsSending = false;
                                 this.CallBack.UpdateProgress("", "", 0);
-                                this.CallBack.Error(devicename, "更新失败");
+                                if (rxStr.Split(':')[1].Equals(Constant.RECEIVE_ORDER_BEGIN_ERROR_DISK))
+                                {
+                                    this.CallBack.Error(devicename, "设备未插入SD卡，更新失败");
+                                }
+                                else
+                                {
+                                    this.CallBack.Error(devicename, "更新失败");
+                                }
                                 this.CloseDevice();
                             }
                             break;

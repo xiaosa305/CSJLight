@@ -430,6 +430,9 @@
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
+    <Content Include="安装说明.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="MyForm\LightEditor\LightEditorForm.resx">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
     </EmbeddedResource>

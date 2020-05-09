@@ -68,7 +68,7 @@ namespace MultiLedController.utils.impl
                 this.ReceiveStartStatus = true;
                 //启动接收线程
                 this.ReceiveThread.Start(this.UDP_Receive);
-                LogTools.Debug(Constant.TAG_XIAOSA,"虚拟客户端" + currentIp + "启动成功");
+                //LogTools.Debug(Constant.TAG_XIAOSA,"虚拟客户端" + currentIp + "启动成功");
             }
             catch (Exception ex)
             {
@@ -160,7 +160,7 @@ namespace MultiLedController.utils.impl
             this.UDP_Send.Close();
             this.UDP_Receive = null;
             this.UDP_Send = null;
-            LogTools.Debug(Constant.TAG_XIAOSA, CurrentIp + "关闭客户端");
+            //LogTools.Debug(Constant.TAG_XIAOSA, CurrentIp + "关闭客户端");
         }
     }
 }

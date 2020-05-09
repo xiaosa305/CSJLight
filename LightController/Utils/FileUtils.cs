@@ -406,21 +406,18 @@ namespace LightController.Utils
             string dirPath = exportPath;
             try
             {
-                if (!Directory.Exists(dirPath))
-                {
-                    Directory.CreateDirectory(dirPath);
-                }
-                else
+                if (Directory.Exists(dirPath))
                 {
                     Directory.Delete(dirPath, true);
-                    Directory.CreateDirectory(dirPath);
                 }
+                Thread.Sleep(200);
+                Directory.CreateDirectory(dirPath);
                 if (Directory.Exists(ProjectDataFilePath))
                 {
                     foreach (string filePath in Directory.GetFileSystemEntries(ProjectDataFilePath))
                     {
                         FileInfo info = new FileInfo(filePath);
-                        //LogTools.Debug(Constant.TAG_XIAOSA, "拷贝工程文件到指定目录" + info.Name);
+                        LogTools.Debug(Constant.TAG_XIAOSA, "拷贝工程文件" + info.Name + "到指定目录：" + dirPath);
                         info.CopyTo(dirPath + @"\" + info.Name, true);
                     }
                     result = true;

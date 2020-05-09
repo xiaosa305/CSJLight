@@ -110,7 +110,7 @@ namespace MultiLedController.utils.impl
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA, "关闭控制卡服务器", ex);
+                //LogTools.Error(Constant.TAG_XIAOSA, "关闭控制卡服务器", ex);
             }
         }
         /// <summary>

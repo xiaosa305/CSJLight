@@ -381,6 +381,7 @@ namespace LightController.Tools.CSJ
             Thread.Sleep(1);
             string devicename = this.DeviceName;
             string rxStr = Encoding.UTF8.GetString(rxBuff, 0, rxCount);
+            LogTools.Debug(Constant.TAG_XIAOSA,rxStr,true);
             switch (this.Order)
             {
                 case Constant.ORDER_BEGIN_SEND:

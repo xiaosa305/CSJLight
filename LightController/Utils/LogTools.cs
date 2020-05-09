@@ -38,6 +38,25 @@ namespace LightController.Utils
             //    WriteLogToFile(stringBuilder.ToString());
             //}
         }
+        public static void Debug(string tag, string debugInfo,bool isLogInFile)
+        {
+            MethodBase method = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(BORDER_UP);
+            stringBuilder.AppendLine(tag + "：" + DateTime.Now.TimeOfDay + "    " + "<调试信息>");
+            stringBuilder.AppendLine(tag + "：类名==>         " + method.DeclaringType.FullName);
+            stringBuilder.AppendLine(tag + "：方法名==>       " + method.Name);
+            stringBuilder.AppendLine(tag + "：线程编号==>     " + Thread.CurrentThread.ManagedThreadId);
+            stringBuilder.AppendLine(tag + "：调试信息==>     " + debugInfo);
+            stringBuilder.AppendLine(tag + "：" + DateTime.Now.TimeOfDay.ToString() + "    " + "</调试信息>");
+            stringBuilder.AppendLine(BORDER_DOWN);
+            stringBuilder.AppendLine(BORDER_DOWN);
+            Console.WriteLine(stringBuilder);
+            if (Constant.IsLogInFile)
+            {
+                WriteLogToFile(stringBuilder.ToString());
+            }
+        }
         public static void Error(string tag, string errorInfo, Exception exception)
         {
             MethodBase method = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();

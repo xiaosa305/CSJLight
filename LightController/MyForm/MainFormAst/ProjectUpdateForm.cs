@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -263,6 +264,15 @@ namespace LightController.MyForm
 				}
 				generateNow = true;//只有当前无projectPath且选择继续后会rightNow
 			}
+			//若用户选择了已存在目录，则需要验证是否空目录
+			else {
+				if (Directory.GetFiles(projectPath).Length == 0)
+				{
+					MessageBox.Show("所选目录为空,无法下载工程。请选择正确的已有工程目录，并重新下载。");
+					SetBusy(false);
+					return;
+				}
+			}
 
 			string buttonName = ((Button)sender).Name;
 			//使用网络升级
@@ -275,7 +285,7 @@ namespace LightController.MyForm
 					SetLabelText(true, "正在实时生成工程数据，请耐心等待...");
 					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this, true));
 				}			
-				else {					
+				else {
 					FileUtils.CopyFileToDownloadDir(projectPath);					
 					DownloadProject(true);
 				}										
@@ -340,7 +350,7 @@ namespace LightController.MyForm
 		/// <param name="processPercent"></param>		
 		public void networkPaintProgress(string fileName,int processPercent)
 		{
-			networkFileShowLabel.Text = "正在传输文件：" + fileName;
+			networkFileShowLabel.Text = string.IsNullOrEmpty(fileName) ? "" : "正在传输文件：" + fileName;
 			networkSkinProgressBar.Value =  processPercent;		
 		}
 
@@ -350,7 +360,7 @@ namespace LightController.MyForm
 		/// <param name="processPercent"></param>		
 		public void comPaintProgress(string fileName, int processPercent)
 		{
-			comFileShowLabel.Text = "正在传输文件：" +  fileName;
+			comFileShowLabel.Text = string.IsNullOrEmpty(fileName)?"" : "正在传输文件：" + fileName;
 			comSkinProgressBar.Value = processPercent;
 		}
 			   
@@ -478,7 +488,7 @@ namespace LightController.MyForm
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			MessageBox.Show("下载失败");
+			MessageBox.Show("下载失败，错误原因是:\n" + errorMessage);
 			puForm.SetBusy(false);
 		}
 

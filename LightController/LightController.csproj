@@ -912,9 +912,9 @@
     <None Include="使用手册.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="更新日志\v2.3.8.512">
+    <Content Include="更新日志\v2.3.8.512.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -1020,7 +1020,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="FTD2XX_NET.XML" />
-    <None Include="更新日志\about" />
+    <Content Include="更新日志\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

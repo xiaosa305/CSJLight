@@ -245,6 +245,7 @@ namespace LightController.Tools
                 }
                 catch (Exception ex)
                 {
+                    this.IsOpenComdevice = false;
                     LogTools.Debug(Constant.TAG_XIAOSA, "串口已关闭");
                 }
             }

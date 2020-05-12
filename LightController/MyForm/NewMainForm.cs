@@ -392,14 +392,15 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void QDControllerToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				System.Diagnostics.Process.Start(Application.StartupPath + @"\QDController\灯光控制器.exe");
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+
+			//try
+			//{
+			//	System.Diagnostics.Process.Start(Application.StartupPath + @"\QDController\灯光控制器.exe");
+			//}
+			//catch (Exception ex)
+			//{
+			//	MessageBox.Show(ex.Message);
+			//}
 		}
 
 		/// <summary>

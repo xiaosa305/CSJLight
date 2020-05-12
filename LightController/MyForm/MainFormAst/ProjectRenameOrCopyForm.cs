@@ -14,13 +14,14 @@ namespace LightController.MyForm
 	public partial class ProjectRenameOrCopyForm : Form
 	{
 		private OpenForm openForm;
-		private string oldProjectName;
 		private string savePath;
+		private string oldProjectName;
 		private bool copy = false;
 
-		public ProjectRenameOrCopyForm(OpenForm openForm, string oldProjectName, bool copy = false)
+		public ProjectRenameOrCopyForm(OpenForm openForm, string savePath,string oldProjectName, bool copy = false)
 		{
 			this.openForm = openForm;
+			this.savePath = savePath;
 			this.oldProjectName = oldProjectName;
 			this.copy = copy;		
 
@@ -71,7 +72,6 @@ namespace LightController.MyForm
 				return;
 			}
 
-			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
 			string destDirPath = savePath + @"\LightProject\" + projectName;
 			if (Directory.Exists(destDirPath)) {
 				MessageBox.Show("当前工程名已存在同名工程，请重新输入。");

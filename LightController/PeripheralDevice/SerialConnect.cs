@@ -64,6 +64,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
+                this.IsDeviceOpen = false;
                 LogTools.Debug(Constant.TAG_XIAOSA, "串口已关闭或串口接收模块发生异常");
             }
             finally

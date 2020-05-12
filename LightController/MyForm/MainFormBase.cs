@@ -1477,10 +1477,15 @@ namespace LightController.MyForm
 				{
 					IList<StepWrapper> stepWrapperList = lightWrapperList[selectedLightIndex].LightStepWrapperList[pk.Frame, pk.Mode].StepWrapperList;
 					for (int step = 0; step < stepWrapperList.Count; step++)
-					{
-						tdList.Add(stepWrapperList[step].TongdaoList[tdIndex]);
+					{						
+						if (stepWrapperList[step].TongdaoList != null && stepWrapperList[step].TongdaoList .Count>0)
+						{
+							TongdaoWrapper tw = stepWrapperList[step].TongdaoList[tdIndex];
+							tdList.Add(tw);
+						}										
 					}
 				}
+
 			}
 			//MARK 只开单场景：10.2 GetFMTDList() 的实现改动：添加判断是否已加载的场景，若否则从DB读数据
 			else
@@ -1717,16 +1722,25 @@ namespace LightController.MyForm
 				lightWrapperList = new List<LightWrapper>();
 				lightDictionary = new Dictionary<int, int>();
 
-				for(int lightIndex= 0; lightIndex<dbLightList.Count; lightIndex++)
+				try
 				{
-					LightAst la = LightAst.GenerateLightAst(dbLightList[lightIndex], SavePath);
-					lightAstList.Add(la);
-					lightWrapperList.Add(new LightWrapper()
+					for (int lightIndex = 0; lightIndex < dbLightList.Count; lightIndex++)
 					{
-						StepTemplate = generateStepTemplate( la )
-					});
-					lightDictionary.Add( la.StartNum, lightIndex);
+						LightAst la = LightAst.GenerateLightAst(dbLightList[lightIndex], SavePath);
+						lightAstList.Add(la);
+						lightWrapperList.Add(new LightWrapper()
+						{
+							StepTemplate = generateStepTemplate(la)
+						});
+						lightDictionary.Add(la.StartNum, lightIndex);
+					}
 				}
+				catch (Exception ex) {
+					MessageBox.Show("加载工程时发生异常，可能是部分灯库文件已丢失。\n("+ex.Message+")");
+					clearAllData();
+					setBusy(false);
+					return;
+				}				
 
 				EnterSyncMode(false); //需要退出同步模式
 				enableProjectRelative(true);    //OpenProject内设置
@@ -1788,11 +1802,15 @@ namespace LightController.MyForm
 							lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode] = new LightStepWrapper();
 
 							for (int step = 1; step <= stepCount; step++)
-							{
-								StepWrapper stepWrapper = null;
-								var stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step);
-								stepWrapper = StepWrapper.GenerateStepWrapper(lightWrapperList[tempLightIndex].StepTemplate, stepValueListTemp.ToList<DB_Value>(), mode);
-								lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+							{								
+								IList<DB_Value> stepValueListTemp = tempDbValueList.Where(t => t.PK.LightIndex == lightIndex && t.PK.Frame == frame && t.PK.Mode == mode && t.PK.Step == step).ToList<DB_Value>();
+								//当找到的stepValueListTemp ①不为空；②通道数量与模板相同 时，才继续往下走，否则不继续运行
+								if( stepValueListTemp != null && stepValueListTemp.Count == lightWrapperList[tempLightIndex].StepTemplate.TongdaoList.Count) { 
+									StepWrapper stepWrapper = StepWrapper.GenerateStepWrapper( lightWrapperList[tempLightIndex].StepTemplate ,  stepValueListTemp, mode);
+									if (stepWrapper != null) {
+										lightWrapperList[tempLightIndex].LightStepWrapperList[frame, mode].AddStep(stepWrapper);
+									}									
+								}								
 							}
 						}
 					}

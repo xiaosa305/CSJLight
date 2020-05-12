@@ -33,6 +33,11 @@ namespace LightController.Ast
 		/// <returns></returns>
 		public static StepWrapper GenerateStepWrapper(StepWrapper stepTemplate, IList<DB_Value> stepValueList, int mode)
 		{
+			// 此处需要多一重验证， 若传进来的valueList的数量与stepTemplate的tongdaoList数量不合，则直接返回null，不再往下走
+			if (stepTemplate.TongdaoList.Count != stepValueList.Count) {
+				return null;
+			}
+
 			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
 			for (int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
 			{

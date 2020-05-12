@@ -274,54 +274,35 @@ namespace LightController.MyForm
 				}
 			}
 
-			string buttonName = ((Button)sender).Name;
-			//使用网络升级
-			if (   buttonName.Equals("networkUpdateButton") ) 
+			bool isNetwork = ((Button)sender).Name.Equals("networkUpdateButton");
+			//使用串口升级，需要先打开串口，避免出错
+			if( !isNetwork ) 
 			{
-				networkUpdateButton.Enabled = false;
-				ipsComboBox.Enabled = false;				
-				if (generateNow)
-				{					
-					SetLabelText(true, "正在实时生成工程数据，请耐心等待...");
-					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this, true));
-				}			
-				else {
-					FileUtils.CopyFileToDownloadDir(projectPath);					
-					DownloadProject(true);
-				}										
+				comTools.OpenCom(comName);				
 			}
-			// 使用串口升级
+
+			if (generateNow)
+			{
+				SetLabelText(isNetwork, "正在实时生成工程数据，请耐心等待...");
+				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this, isNetwork));
+			}
 			else
-			{	
-				if (generateNow) { 					
-					SetLabelText(false, "正在实时生成工程数据，请耐心等待...");
-					DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this,false));
-				}
-				else {					
-					FileUtils.CopyFileToDownloadDir(projectPath);
-					DownloadProject(false);
-				}
-			}		
+			{
+				FileUtils.CopyFileToDownloadDir(projectPath);
+				DownloadProject(isNetwork);
+			}
 		}
 
 		/// <summary>
 		/// 辅助方法：显示提示消息
 		/// </summary>
 		/// <param name="busy"></param>
-		public void SetBusy(bool busy)
+		public void SetBusy( bool busy )
 		{
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 			fileOpenButton.Enabled = !busy;
 			clearButton.Enabled = !busy;
-			getLocalIPsButton.Enabled = !busy;
-			localIPsComboBox.Enabled = !busy;
-			networkSearchButton.Enabled = !busy;
-			networkUpdateButton.Enabled = !busy;
-			ipsComboBox.Enabled = !busy;
-			comSearchButton.Enabled = !busy;
-			comComboBox.Enabled = !busy;
-			comOpenButton.Enabled = !busy;
-			comUpdateButton.Enabled = !busy;
+			skinTabControl.Enabled = !busy;
 		}
 
 		/// <summary>

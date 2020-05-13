@@ -17,13 +17,15 @@ namespace LightController
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
 			if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
 			{
 				Application.Run(new NewMainForm());
 			}
-			else {
+			else
+			{
 				Application.Run(new SkinMainForm());
-			}			
+			}
 		}
 	}
 }

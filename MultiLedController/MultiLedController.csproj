@@ -172,7 +172,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="更新日志\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -183,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon-20191029044630870.ico" />
+    <Content Include="更新日志\v1.3.4.513.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

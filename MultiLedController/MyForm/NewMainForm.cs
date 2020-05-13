@@ -34,7 +34,7 @@ namespace MultiLedController.MyForm
 		private bool isStart = false; //是否启动模拟
 		private bool isDebuging = false;  //是否启用调试
 		private bool isRecording = false; // 是否正在录制
-		private string recordPath = "C:\\Temp\\MultiLedFile"; //录制文件存储路径
+		private string recordPath = "C:\\Temp\\CSJ_SC"; //录制文件存储路径
 		private int recordIndex = 0; //录制文件序号
 
 		private bool networkChanged = false; //是否由《NewNetworkForm》更改网络设置：点过《多ip设置》《DHCP》《恢复设置》这三个按钮后需要设为true
@@ -448,7 +448,7 @@ namespace MultiLedController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《录制》
+		/// 事件：点击《录制数据 | 停止录制》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

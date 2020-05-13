@@ -127,6 +127,7 @@ namespace LightController.MyForm
 			this.useMaterialSkinButton = new CCWin.SkinControl.SkinButton();
 			this.saveMaterialSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiCopySkinButton = new CCWin.SkinControl.SkinButton();
+			this.multiplexSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiPasteSkinButton = new CCWin.SkinControl.SkinButton();
 			this.copyStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.pasteStepSkinButton = new CCWin.SkinControl.SkinButton();
@@ -2194,6 +2195,7 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Controls.Add(this.useMaterialSkinButton);
 			this.stepSkinPanel.Controls.Add(this.saveMaterialSkinButton);
 			this.stepSkinPanel.Controls.Add(this.multiCopySkinButton);
+			this.stepSkinPanel.Controls.Add(this.multiplexSkinButton);
 			this.stepSkinPanel.Controls.Add(this.multiPasteSkinButton);
 			this.stepSkinPanel.Controls.Add(this.copyStepSkinButton);
 			this.stepSkinPanel.Controls.Add(this.pasteStepSkinButton);
@@ -2229,20 +2231,20 @@ namespace LightController.MyForm
 			this.syncSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.syncSkinButton.ForeColorSuit = true;
 			this.syncSkinButton.Image = global::LightController.Properties.Resources.复制灯1;
-			this.syncSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.syncSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.syncSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.syncSkinButton.InheritColor = true;
 			this.syncSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.syncSkinButton.Location = new System.Drawing.Point(964, 18);
+			this.syncSkinButton.Location = new System.Drawing.Point(956, 8);
 			this.syncSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.syncSkinButton.MouseBack = null;
 			this.syncSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.syncSkinButton.Name = "syncSkinButton";
 			this.syncSkinButton.NormlBack = null;
-			this.syncSkinButton.Size = new System.Drawing.Size(81, 57);
+			this.syncSkinButton.Size = new System.Drawing.Size(90, 45);
 			this.syncSkinButton.TabIndex = 26;
 			this.syncSkinButton.Text = "进入同步";
-			this.syncSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.syncSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.syncSkinButton.UseVisualStyleBackColor = false;
 			this.syncSkinButton.Click += new System.EventHandler(this.syncSkinButton_Click);
 			// 
@@ -2504,6 +2506,36 @@ namespace LightController.MyForm
 			this.multiCopySkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.multiCopySkinButton.UseVisualStyleBackColor = false;
 			this.multiCopySkinButton.Click += new System.EventHandler(this.multiCopySkinButton_Click);
+			// 
+			// multiplexSkinButton
+			// 
+			this.multiplexSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.multiplexSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.multiplexSkinButton.BorderColor = System.Drawing.Color.Transparent;
+			this.multiplexSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.multiplexSkinButton.DownBack = null;
+			this.multiplexSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.multiplexSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiplexSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.multiplexSkinButton.ForeColorSuit = true;
+			this.multiplexSkinButton.Image = global::LightController.Properties.Resources.粘贴步;
+			this.multiplexSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.multiplexSkinButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.multiplexSkinButton.InheritColor = true;
+			this.multiplexSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
+			this.multiplexSkinButton.Location = new System.Drawing.Point(956, 53);
+			this.multiplexSkinButton.Margin = new System.Windows.Forms.Padding(0);
+			this.multiplexSkinButton.MouseBack = null;
+			this.multiplexSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.multiplexSkinButton.Name = "multiplexSkinButton";
+			this.multiplexSkinButton.NormlBack = null;
+			this.multiplexSkinButton.Size = new System.Drawing.Size(90, 45);
+			this.multiplexSkinButton.TabIndex = 4;
+			this.multiplexSkinButton.Text = "多步复用";
+			this.multiplexSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.multiplexSkinButton.UseVisualStyleBackColor = false;
+			this.multiplexSkinButton.Visible = false;
+			this.multiplexSkinButton.Click += new System.EventHandler(this.multiplexSkinButton_Click);
 			// 
 			// multiPasteSkinButton
 			// 
@@ -6785,5 +6817,6 @@ namespace LightController.MyForm
 		private FlowLayoutPanel saFlowLayoutPanel;
 		private Label lightRemarkLabel;
 		private SkinButton helpSkinButton;
+		private SkinButton multiplexSkinButton;
 	}
 }

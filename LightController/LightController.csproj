@@ -216,6 +216,12 @@
     <Compile Include="MyForm\LightEditor\WaySetForm.Designer.cs">
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\MultiplexForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\MultiplexForm.Designer.cs">
+      <DependentUpon>MultiplexForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,28 +264,28 @@
     <Compile Include="MyForm\HardwareSet\HardwareSetForm.Designer.cs">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiStepCopyForm.cs">
+    <Compile Include="MyForm\Multiplex\MultiStepCopyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiStepCopyForm.Designer.cs">
+    <Compile Include="MyForm\Multiplex\MultiStepCopyForm.Designer.cs">
       <DependentUpon>MultiStepCopyForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiLightForm.cs">
+    <Compile Include="MyForm\Multiplex\MultiLightForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiLightForm.Designer.cs">
+    <Compile Include="MyForm\Multiplex\MultiLightForm.Designer.cs">
       <DependentUpon>MultiLightForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiStepForm.cs">
+    <Compile Include="MyForm\Multiplex\MultiStepForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiStepForm.Designer.cs">
+    <Compile Include="MyForm\Multiplex\MultiStepForm.Designer.cs">
       <DependentUpon>MultiStepForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiStepPasteForm.cs">
+    <Compile Include="MyForm\Multiplex\MultiStepPasteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MultiStepPasteForm.Designer.cs">
+    <Compile Include="MyForm\Multiplex\MultiStepPasteForm.Designer.cs">
       <DependentUpon>MultiStepPasteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormAst\ProjectRenameOrCopyForm.cs">
@@ -315,16 +321,16 @@
     <Compile Include="MyForm\MainFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MaterialSaveForm.cs">
+    <Compile Include="MyForm\Multiplex\MaterialSaveForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MaterialSaveForm.Designer.cs">
+    <Compile Include="MyForm\Multiplex\MaterialSaveForm.Designer.cs">
       <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MaterialUseForm.cs">
+    <Compile Include="MyForm\Multiplex\MaterialUseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\MaterialUseForm.Designer.cs">
+    <Compile Include="MyForm\Multiplex\MaterialUseForm.Designer.cs">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormAst\NewForm.cs">
@@ -448,6 +454,9 @@
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\MultiplexForm.resx">
+      <DependentUpon>MultiplexForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewMainForm.resx">
       <DependentUpon>NewMainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -469,16 +478,16 @@
     <EmbeddedResource Include="MyForm\HardwareSet\HardwareSetForm.resx">
       <DependentUpon>HardwareSetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\MultiStepCopyForm.resx">
+    <EmbeddedResource Include="MyForm\Multiplex\MultiStepCopyForm.resx">
       <DependentUpon>MultiStepCopyForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\MultiLightForm.resx">
+    <EmbeddedResource Include="MyForm\Multiplex\MultiLightForm.resx">
       <DependentUpon>MultiLightForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\MultiStepForm.resx">
+    <EmbeddedResource Include="MyForm\Multiplex\MultiStepForm.resx">
       <DependentUpon>MultiStepForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\multiStepPasteForm.resx">
+    <EmbeddedResource Include="MyForm\Multiplex\multiStepPasteForm.resx">
       <DependentUpon>MultiStepPasteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\ProjectRenameOrCopyForm.resx">
@@ -496,10 +505,10 @@
     <EmbeddedResource Include="MyForm\LightList\LightsForm.resx">
       <DependentUpon>LightsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\MaterialSaveForm.resx">
+    <EmbeddedResource Include="MyForm\Multiplex\MaterialSaveForm.resx">
       <DependentUpon>MaterialSaveForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\MaterialUseForm.resx">
+    <EmbeddedResource Include="MyForm\Multiplex\MaterialUseForm.resx">
       <DependentUpon>MaterialUseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\NewForm.resx">

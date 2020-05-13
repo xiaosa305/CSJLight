@@ -20,6 +20,7 @@ using OtherTools;
 using LightEditor.Ast;
 using LightController.MyForm.LightList;
 using System.Diagnostics;
+using LightController.MyForm.Multiplex;
 
 namespace LightController.MyForm
 {
@@ -49,11 +50,11 @@ namespace LightController.MyForm
 		protected System.ComponentModel.IContainer components;
 		protected ToolTip myToolTip;
 
-		// 打开程序时，即需导入的变量
+		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
 		public static int MAX_StTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量	-》200331确认为15s=0.03*500	
-		protected int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取
+		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取
 
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -1459,7 +1460,7 @@ namespace LightController.MyForm
 		{
 			InsertOrCoverMaterial(TempMaterialAst, method);
 		}
-
+			   
 		/// <summary>
 		/// 辅助：由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
 		/// </summary>
@@ -2714,6 +2715,55 @@ namespace LightController.MyForm
 			{
 				materialForm.ShowDialog();
 			}
+		}
+
+		/// <summary>
+		///  辅助方法：点击《进入|退出同步》
+		/// </summary>
+		protected void syncButtonClick()
+		{
+			// 如果当前已经是同步模式，则退出同步模式，这比较简单，不需要进行任何比较，直接操作即可。
+			if (isSyncMode)
+			{
+				EnterSyncMode(false);
+				return;
+			}
+			else
+			{
+				// 异步时，要切换到同步模式，需要先进行检查。
+				if (!CheckAllSameStepCounts())
+				{
+					MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
+					return;
+				}
+				EnterSyncMode(true);
+			}
+
+		}
+
+		/// <summary>
+		///辅助方法：点击《多步复用》
+		/// </summary>
+		protected void multiplexButtonClick()
+		{
+			// 只有在同步模式下，才能启用本功能
+			if (!isSyncMode) {
+				MessageBox.Show("非同步模式，无法使用多步复用功能。");
+				return;
+			}
+
+			if (lightWrapperList == null || lightWrapperList.Count == 0) {
+				MessageBox.Show("当前工程没有灯具，无法使用多步复用功能。");
+				return;
+			}
+
+			if ( getSelectedLightStepCounts(0)  == 0) {
+				MessageBox.Show("灯具没有步数，无法使用多步复用功能。");
+				return;
+			}
+
+			new MultiplexForm(this,lightAstList, getSelectedLightStepCounts(0)).ShowDialog();
+			
 		}
 
 		/// <summary>

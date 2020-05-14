@@ -1,4 +1,5 @@
-﻿using LightController.Tools;
+﻿using LightController.Ast;
+using LightController.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ namespace LightController.MyForm.Test
 {
 	public partial class TestForm : Form
 	{
-		public TestForm()
+		public TestForm(DBWrapper wrapper,string configPath)
 		{
             InitializeComponent();
             SetSerialPortBox();

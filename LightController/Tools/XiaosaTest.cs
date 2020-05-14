@@ -1,4 +1,5 @@
-﻿using LightController.Entity;
+﻿using LightController.Ast;
+using LightController.Entity;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
 using System;
@@ -26,6 +27,11 @@ namespace LightController.Tools
                 Instance = new XiaosaTest();
             }
             return Instance;
+        }
+
+        public void NewConnectTest(DBWrapper wrapper,string configPath,string paramFilePath)
+        {
+
         }
         public void OpenSerialPort()
         {

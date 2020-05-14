@@ -18,7 +18,6 @@ namespace LightController.MyForm.Test
             SetSerialPortBox();
             SetSerialPortStartText();
 		}
-
         private void TestPicture()
         {
             float startX = 50;
@@ -57,7 +56,6 @@ namespace LightController.MyForm.Test
             ////第六条边
             //graphics.DrawLine(pen1, startX - triangleSide / 2, startY + triangleHSide, startX, startY);
         }
-
         private void SetSerialPortStartText()
         {
             if (PlayTools.GetInstance().IsTest)
@@ -69,7 +67,6 @@ namespace LightController.MyForm.Test
                 this.StartTestMode.Text = "启动测试模块";
             }
         }
-
         private void SetSerialPortBox()
         {
             if (PlayTools.GetInstance().GetTestSerialPortNameList() != null)
@@ -78,7 +75,6 @@ namespace LightController.MyForm.Test
                 this.SerialPortBox.SelectedIndex = 0;
             }
         }
-
         private void ReLoadSerialPortBox_Click(object sender, EventArgs e)
         {
             this.SerialPortBox.Items.Clear();
@@ -88,9 +84,6 @@ namespace LightController.MyForm.Test
                 this.SerialPortBox.SelectedIndex = 0;
             }
         }
-
-       
-
         private void StartTestMode_Click(object sender, EventArgs e)
         {
             if (PlayTools.GetInstance().IsTest)
@@ -104,16 +97,22 @@ namespace LightController.MyForm.Test
                 this.StartTestMode.Text = "关闭测试模块";
             }
         }
-
         private void StartDrawPicture_Click(object sender, EventArgs e)
         {
             TestPicture();
         }
-
         private void ClearPictureBox_Click(object sender, EventArgs e)
         {
             Graphics graphics = PictureBox.CreateGraphics();
             graphics.Clear(Color.White);
+        }
+
+
+
+
+        private void NewConnectedTestBtn_Click(object sender, EventArgs e)
+        {
+            XiaosaTest.GetInstance().NewConnectTest();
         }
     }
 }

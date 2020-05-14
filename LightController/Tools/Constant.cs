@@ -36,7 +36,8 @@ namespace LightController.Tools
         public const int MUSIC_CONTROL_GRADUAL = 1;
         public const int MUSIC_CONTROL_JUMP = 0;
         public const int MUSIC_CONTROL_OFF = 2;
-        public const string UDP_ORDER = "UdpBroadCast";
+
+
         public const string RECEIVE_ORDER_BEGIN_OK = "Ok";
         public const string RECEIVE_ORDER_BEGIN_ERROR = "Error";
         public const string RECEIVE_ORDER_BEGIN_ERROR_DISK_Old = "Error:DiskUnmount";
@@ -59,6 +60,10 @@ namespace LightController.Tools
         public const string RECEIVE_ORDER_END_DEBUG_ERROR = "Error:EndDebug";
         public const string RECEIVE_OK = "Ok";
         public const string RECEIVE_ERROR = "Error";
+
+
+        public const string UDP_ORDER = "UdpBroadCast";
+
         public const string ORDER_PUT = "Put";
         public const string ORDER_PUT_PARAM = "PutParam";
         public const string ORDER_BEGIN_SEND = "BeginSend";
@@ -69,6 +74,8 @@ namespace LightController.Tools
         public const string ORDER_START_DEBUG = "StartDebug";
         public const string ORDER_END_DEBUG = "EndDebug";
         public const string ORDER_SEND_DEBUG_DATA = "SendPreviewData";
+
+
         public const string MARK_ORDER_TAKE_DATA = "00000101";
         public const string MARK_ORDER_NO_TAKE_DATA = "00000001";
         public const string MARK_DATA_NO_END = "00000110";

@@ -152,16 +152,15 @@ namespace LightController.MyForm.Multiplex
 				return;
 			}
 
-			//if (mainForm.MultiplexSteps(selectedIndices, decimal.ToInt16(startNumericUpDown.Value),
-			//		decimal.ToInt16(endNumericUpDown.Value), decimal.ToInt16(timesNumericUpDown.Value)))
-			//{
-				
+			if (mainForm.UseMultiplexSteps(selectedIndices, decimal.ToInt16(startNumericUpDown.Value),
+					decimal.ToInt16(endNumericUpDown.Value), decimal.ToInt16(timesNumericUpDown.Value)))
+			{
 
-			//}
-			//else {
-			//	MessageBox.Show("使用复用功能时出错，请重试。");				
-			//}
-			
+			}
+			else
+			{
+				MessageBox.Show("使用复用功能时出错，请重试。");
+			}
 		}
 
 		/// <summary>

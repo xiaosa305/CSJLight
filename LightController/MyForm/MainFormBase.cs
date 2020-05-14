@@ -106,6 +106,8 @@ namespace LightController.MyForm
 		protected IList<int> selectedIndices ; //选择的灯具的index列表（多选情况下）
 		protected string selectedLightName = ""; //选中的灯具的名字（lightName + lightType）
 
+		
+
 		protected int currentFrame = 0; // 表示场景编号(selectedIndex )
 		protected int currentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
 
@@ -2859,6 +2861,20 @@ namespace LightController.MyForm
 			{
 				oneStepWork();
 			}
+		}
+
+		/// <summary>
+		/// 辅助方法：复用多灯多步
+		/// </summary>
+		/// <param name="selectedIndices"></param>
+		/// <param name="startStep"></param>
+		/// <param name="endStep"></param>
+		/// <param name="times">复用次数</param>
+		/// <returns></returns>
+		internal bool UseMultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times)
+		{
+			//TODO
+			return false;
 		}
 
 		#endregion

@@ -40,7 +40,7 @@ namespace LightController.Tools
             {
                 //this.Connect.DownloadProject(wrapper, configPath, DownloadCompleted, DownloadError, DownloadProgress);
                 //this.Connect.PutParam(@"C:\Users\99729\Dev\Gitee\CSJLight\LightController\HardwareSet.ini", DownloadCompleted, DownloadError);
-                this.Connect.GetParam(DownloadCompleted, DownloadError);
+                //this.Connect.GetParam(DownloadCompleted, DownloadError);
             }
         }
 

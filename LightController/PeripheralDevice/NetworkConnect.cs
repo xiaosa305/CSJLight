@@ -55,6 +55,10 @@ namespace LightController.PeripheralDevice
                 this.DeviceAddr = deviceInfo.DeviceAddr;
                 this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
+
+                //TODO XIAOSA Test
+                this.Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 500);
+
                 this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
                 this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
                 return true;

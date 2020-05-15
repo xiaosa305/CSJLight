@@ -112,9 +112,6 @@ namespace LightController.MyForm.Test
             graphics.Clear(Color.White);
         }
 
-
-
-
         private void NewConnectedTestBtn_Click(object sender, EventArgs e)
         {
             XiaosaTest.GetInstance().NewConnectTest(Wrapper,ConfigPath);

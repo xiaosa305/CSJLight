@@ -3,6 +3,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
 using LightController.MyForm.Test;
+using LightController.PeripheralDevice;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -2400,7 +2401,11 @@ namespace LightController.MyForm
 					}
 					selectedIpAst = ipaList[deviceComboBox.SelectedIndex];
 					ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
-					if (ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex]))
+
+					myConnect = new NetworkConnect(allNetworkDevices[deviceComboBox.SelectedIndex]);
+					
+
+					if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
 					{
 						playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 						SetNotice("网络设备连接成功。");

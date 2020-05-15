@@ -21,6 +21,7 @@ using LightEditor.Ast;
 using LightController.MyForm.LightList;
 using System.Diagnostics;
 using LightController.MyForm.Multiplex;
+using LightController.PeripheralDevice;
 
 namespace LightController.MyForm
 {
@@ -104,9 +105,7 @@ namespace LightController.MyForm
 
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
 		protected IList<int> selectedIndices ; //选择的灯具的index列表（多选情况下）
-		protected string selectedLightName = ""; //选中的灯具的名字（lightName + lightType）
-
-		
+		protected string selectedLightName = ""; //选中的灯具的名字（lightName + lightType）		
 
 		protected int currentFrame = 0; // 表示场景编号(selectedIndex )
 		protected int currentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
@@ -114,7 +113,7 @@ namespace LightController.MyForm
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
 
 		// 调试变量
-		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例
+		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
 		protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
@@ -127,6 +126,7 @@ namespace LightController.MyForm
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
 		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
 		protected IList<NetworkDeviceInfo> allNetworkDevices;
+		protected BaseCommunication myConnect ;  
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 

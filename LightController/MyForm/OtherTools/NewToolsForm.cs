@@ -57,9 +57,9 @@ namespace OtherTools
 		private bool isDecoding = false; //中控是否开启解码
 		private bool isKpShowDetails = true;
 
-		private BaseCommunication myConnect;
+		private BaseCommunication myConnect;  
 		private IList<IPAst> ipaList;
-		private ConnectTools connectTools;
+		private ConnectTools connectTools; 
 
 		private MainFormBase mainForm; 
 

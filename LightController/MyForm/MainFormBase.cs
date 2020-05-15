@@ -126,7 +126,7 @@ namespace LightController.MyForm
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
 		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
 		protected IList<NetworkDeviceInfo> allNetworkDevices;
-		protected BaseCommunication myConnect ;  
+		protected BaseCommunication myConnect ;  // 新的连接方法【connectTools目前只保留搜索设备的功能】
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 

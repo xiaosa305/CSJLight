@@ -1552,7 +1552,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{				
-				ccToolStripStatusLabel2.Text = "灯控解码开启成功["+msg+"]";
+				ccToolStripStatusLabel2.Text = msg ;
 				isDecoding = true;
 				ccDecodeButton.Text = "关闭解码" ;
 				ccDecodeRichTextBox.Enabled = true;
@@ -1602,7 +1602,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("成功关闭中控解码\n" + msg);
+				MessageBox.Show(msg);
 				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
@@ -1618,7 +1618,7 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("关闭中控解码失败");
+				MessageBox.Show(msg);
 				ccToolStripStatusLabel2.Text = "关闭中控解码失败";				
 			});
 		}

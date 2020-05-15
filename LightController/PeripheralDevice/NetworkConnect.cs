@@ -23,14 +23,14 @@ namespace LightController.PeripheralDevice
         private Socket Socket { get; set; }//网络连接套接字
         private byte[] ReceiveBuff { get; set; }//接收缓存区
         private int BuffCount { get; set; }
-        public NetworkConnect(NetworkDeviceInfo deviceInfo)
+        public NetworkConnect()
         {
             this.Init();
             this.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
             this.BuffCount = 0;
-            this.Connect(deviceInfo);
+            //this.Connect(deviceInfo);
         }
-        public bool IsConnected()
+        public override  bool IsConnected()
         {
             if (this.Socket != null)
             {
@@ -61,7 +61,7 @@ namespace LightController.PeripheralDevice
                 this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
 
                 //TODO XIAOSA Test
-                this.Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 500);
+                //this.Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 500);
 
                 this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
                 this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
@@ -148,5 +148,6 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "关闭网络连接失败", ex);
             }
         }
+        
     }
 }

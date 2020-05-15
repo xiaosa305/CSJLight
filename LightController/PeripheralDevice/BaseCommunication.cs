@@ -73,6 +73,11 @@ namespace LightController.PeripheralDevice
         /// 断开连接
         /// </summary>
         public abstract void DisConnect();
+        /// <summary>
+        /// 功能：获取连接状态
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool IsConnected();
 
         /// <summary>
         /// 初始化
@@ -1818,7 +1823,6 @@ namespace LightController.PeripheralDevice
         }
 
         //910灯控功能整合到新的通信模块
-
         /// <summary>
         /// 功能：灯光工厂下载更新专属发包处理模块
         /// </summary>
@@ -2292,7 +2296,6 @@ namespace LightController.PeripheralDevice
         }
 
         //910灯控功能回复管理模块
-
         /// <summary>
         /// 功能：灯光工程下载回复消息管理
         /// </summary>

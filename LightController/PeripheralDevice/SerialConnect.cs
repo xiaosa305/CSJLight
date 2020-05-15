@@ -91,5 +91,17 @@ namespace LightController.PeripheralDevice
                 }
             }
         }
+
+        public override bool IsConnected()
+        {
+            if (this.SerialPortDevice != null)
+            {
+                return this.SerialPortDevice.IsOpen;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

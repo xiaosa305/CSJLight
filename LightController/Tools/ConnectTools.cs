@@ -299,6 +299,8 @@ namespace LightController.Tools
         {
             SocketTools.GetInstance().EndDebug(ip,receiveCallBack);
         }
+
+
         public void SendIntenetPreview(String ip,byte[] data)
         {
             UdpServer.SendTo(data, new IPEndPoint(IPAddress.Parse(ip), UDP_DEBUG_PORT));

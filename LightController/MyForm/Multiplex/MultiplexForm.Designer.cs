@@ -273,7 +273,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(620, 420);
 			this.Name = "MultiplexForm";
-			this.Text = "多灯多步复用";
+			this.Text = "同步复用";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MultiplexForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MultiplexForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).EndInit();

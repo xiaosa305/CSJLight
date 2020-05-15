@@ -1012,7 +1012,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：取出选中灯具的当前F/M的所有步数据
+		/// 辅助方法：取出选中灯具的当前F/M的步数
 		/// </summary>
 		/// <param name="selectedIndex"></param>
 		/// <returns></returns>
@@ -1064,8 +1064,8 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：获取指定灯当前F/M, 指定步的数据。
 		/// </summary>
-		/// <param name="lightIndex"></param>
-		/// <param name="stepIndex">从0开始算</param>
+		/// <param name="lightIndex">灯具索引值(从0开始算)</param>
+		/// <param name="stepIndex">步数索引值(从0开始算)</param>
 		/// <returns></returns>
 		protected StepWrapper getSelectedLightSelectedStepWrapper(int lightIndex, int stepIndex)
 		{
@@ -1439,7 +1439,7 @@ namespace LightController.MyForm
 			IList<int> allIndices = new List<int>();
 			for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
 			{
-				if (isMultiMode)
+				if (isMultiMode) 
 				{
 					if (!selectedIndices.Contains(lightIndex))
 						allIndices.Add(lightIndex);
@@ -1488,7 +1488,6 @@ namespace LightController.MyForm
 						}										
 					}
 				}
-
 			}
 			//MARK 只开单场景：10.2 GetFMTDList() 的实现改动：添加判断是否已加载的场景，若否则从DB读数据
 			else
@@ -2870,11 +2869,56 @@ namespace LightController.MyForm
 		/// <param name="startStep"></param>
 		/// <param name="endStep"></param>
 		/// <param name="times">复用次数</param>
-		/// <returns></returns>
-		internal bool UseMultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times)
+		/// <returns>复用成功返回null，否则返回相应的错误信息</returns>
+		public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times)
 		{
-			//TODO
-			return false;
+			// 非同步模式
+			if (!isSyncMode) {
+				return "非同步模式无法复用步数";
+			}
+
+			// 剩余步数不够复用会添加的的步数
+			//Console.WriteLine("剩余步数：" + (MAX_STEP - getSelectedLightStepCounts(0) ) );
+			//Console.WriteLine("复用占用步数：" + (endStep - startStep + 1) * times );
+			int addStepCount = (endStep - startStep + 1) * times;
+
+			if (  (MAX_STEP - getSelectedLightStepCounts(0) ) < addStepCount ) {
+				return "剩余步数小于复用占用步数，无法复用。";
+			}
+
+			// 解决方案（两种）：
+			// (1)先把所有的步数用新步数填上，再通过SelectedIndices来更改相应的数据 X
+			// (2)分开操作，不在列表内的直接加步，在表内的则复用 √
+			//		①不在表内的都添加最后一步
+			//		②在列表中的使用复制的方法
+
+			for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
+			{
+				if (selectedIndices.Contains(lightIndex))
+				{
+					for (int time = 1; time <= times; time++) //循环次数
+					{
+						for (int copyStepIndex = startStep - 1; copyStepIndex < endStep; copyStepIndex++)
+						{
+							StepWrapper copyStep = getSelectedLightSelectedStepWrapper(lightIndex, copyStepIndex);
+							StepWrapper newStep = StepWrapper.GenerateNewStep(copyStep, currentMode);
+							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+						} 
+					}				
+				}
+				else
+				{
+					StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
+					StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, currentMode);
+					for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
+					{
+						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+					}
+				}
+			}
+
+			RefreshStep();
+			return null;
 		}
 
 		#endregion

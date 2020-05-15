@@ -2531,7 +2531,7 @@ namespace LightController.MyForm
 			this.multiplexSkinButton.NormlBack = null;
 			this.multiplexSkinButton.Size = new System.Drawing.Size(90, 45);
 			this.multiplexSkinButton.TabIndex = 4;
-			this.multiplexSkinButton.Text = "多步复用";
+			this.multiplexSkinButton.Text = "同步复用";
 			this.multiplexSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.multiplexSkinButton.UseVisualStyleBackColor = false;
 			this.multiplexSkinButton.Visible = false;

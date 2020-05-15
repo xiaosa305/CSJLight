@@ -62,9 +62,11 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void MultiplexForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("1.使用复用功能，将会复制选中灯具的指定步数，并将这些步数粘贴到最大步数之后；\n" +
-				"2.用户可通过更改复用次数，自行设置复制的次数；\n" +
-				"3.未选中的灯具，仍会添加相应数量的步，并以该灯具最大步的数据填充新步。");
+			MessageBox.Show("1.点击灯具左侧的方格，或双击灯具，皆可选中灯具；\n" +
+				"2.使用同步复用功能，将会复制选中灯具的指定步数，并将这些步粘贴到最大步之后；\n" +
+				"3.用户可通过更改复用次数输入框的数值，自行设置复制的次数；\n" +
+				"4.未选中的灯具，仍会添加相应数量的新步，并以该灯具最大步的数据填充新步；"	
+				);
 			e.Cancel = true;
 		}
 
@@ -152,14 +154,17 @@ namespace LightController.MyForm.Multiplex
 				return;
 			}
 
-			if (mainForm.UseMultiplexSteps(selectedIndices, decimal.ToInt16(startNumericUpDown.Value),
-					decimal.ToInt16(endNumericUpDown.Value), decimal.ToInt16(timesNumericUpDown.Value)))
+			string result = mainForm.MultiplexSteps(selectedIndices,	decimal.ToInt16(startNumericUpDown.Value),
+				decimal.ToInt16(endNumericUpDown.Value),decimal.ToInt16(timesNumericUpDown.Value));
+			if( result == null)
 			{
-
+				MessageBox.Show("成功复用多灯多步。");
+				Dispose();
+				mainForm.Activate();
 			}
 			else
 			{
-				MessageBox.Show("使用复用功能时出错，请重试。");
+				MessageBox.Show(result);
 			}
 		}
 

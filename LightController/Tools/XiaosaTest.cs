@@ -44,14 +44,14 @@ namespace LightController.Tools
             }
         }
 
-        public void DownloadCompleted(Object obj)
+        public void DownloadCompleted(Object obj,string msg)
         {
             CSJ_Hardware hardware = obj as CSJ_Hardware;
-            Console.WriteLine("下载成功");
+            Console.WriteLine("下载成功[" + msg + "]");
         }
-        public void DownloadError()
+        public void DownloadError(string msg)
         {
-            Console.WriteLine("下载失败");
+            Console.WriteLine("下载失败[" + msg + "]");
         }
         public  void DownloadProgress(string fileName,int progress)
         {
@@ -92,9 +92,9 @@ namespace LightController.Tools
         {
             List<byte> data = obj as List<byte>;
         }
-        private void LCCCompleted(Object obj)
+        private void LCCCompleted(Object obj,string msg)
         {
-            Console.WriteLine("灯控设备连接成功");
+            Console.WriteLine("灯控设备连接成功\n" + msg);
         }
         private void KPCConpleted(Object obj)
         {
@@ -107,9 +107,9 @@ namespace LightController.Tools
             Console.WriteLine("墙板设备读取成功");
             //SerialConnect.KeyPressDownload(entity, KPDCompleted, KPDError);
         }
-        private void LCCError()
+        private void LCCError(string msg)
         {
-            Console.WriteLine("灯控设备连接失败");
+            Console.WriteLine("灯控设备连接失败[" + msg + "]");
         }
         private void KPCError()
         {

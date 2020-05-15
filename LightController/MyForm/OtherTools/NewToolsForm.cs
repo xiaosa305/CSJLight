@@ -1359,9 +1359,9 @@ namespace OtherTools
 		/// 辅助回调方法：灯控连接成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void LCConnectCompleted(Object obj) {
+		public void LCConnectCompleted(Object obj,string  msg) {
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked ? "-tc" : "") + ")，将自动回读设备内的灯控配置。");
+				MessageBox.Show("已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked ? "-tc" : "") + ")，将自动回读设备内的灯控配置。\n" + msg);
 				lcToolStripStatusLabel2.Text = "已切换成灯控配置(connStatus=lc" + (tcCheckBox.Checked?"-tc":"") +")";
 				setConnStatus(ConnectStatus.Lc);
 				lcReadButton_Click(null, null);
@@ -1372,10 +1372,10 @@ namespace OtherTools
 		/// 辅助回调方法：灯控连接出错
 		/// </summary>
 		/// <param name="obj"></param>
-		public void LCConnectError() {
+		public void LCConnectError(string msg) {
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("请求超时，切换灯控配置失败");
+				MessageBox.Show("请求超时，切换灯控配置失败[" + msg + "]");
 				lcToolStripStatusLabel2.Text = "请求超时，切换灯控配置失败";
 			});
 		}
@@ -1384,7 +1384,7 @@ namespace OtherTools
 		/// 辅助回调方法：中控连接成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void CCConnectCompleted(Object obj)
+		public void CCConnectCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate {
 				MessageBox.Show("已切换成中控配置(connStatus=cc)");
@@ -1396,10 +1396,10 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：中控连接失败
 		/// </summary>
-		public void CCConnectError()
+		public void CCConnectError(string msg)
 		{
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("切换中控配置失败");
+				MessageBox.Show("切换中控配置失败[" + msg + "]");
 				ccToolStripStatusLabel2.Text = "切换中控配置失败";
 				refreshButtons();
 			});
@@ -1409,11 +1409,11 @@ namespace OtherTools
 		///  辅助回调方法：灯控debug(实时调试的数据)发送成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void LCSendCompleted(Object obj)
+		public void LCSendCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				Console.WriteLine("灯控debug(实时调试的数据)发送成功");
+				Console.WriteLine("灯控debug(实时调试的数据)发送成功\n" + msg);
 			});
 		}
 
@@ -1421,11 +1421,11 @@ namespace OtherTools
 		///  辅助回调方法：灯控debug发送出错
 		/// </summary>
 		/// <param name="obj"></param>
-		public void LCSendError()
+		public void LCSendError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				lcToolStripStatusLabel2.Text = "灯控已离线，发送debug数据失败，请重新连接后重试";
+				lcToolStripStatusLabel2.Text = "灯控已离线，发送debug数据失败，请重新连接后重试["+msg+"]";
 			});
 		}
 
@@ -1433,7 +1433,7 @@ namespace OtherTools
 		/// 辅助回调方法：灯控数据回读成功
 		/// </summary>
 		/// <param name="lcDataTemp"></param>
-		public void LCReadCompleted(Object lcDataTemp)
+		public void LCReadCompleted(Object lcDataTemp,string msg)
 		{
 			Invoke((EventHandler)delegate {
 				if (lcDataTemp == null)
@@ -1445,7 +1445,7 @@ namespace OtherTools
 
 				lcEntity = lcDataTemp as LightControlData;
 				lcSetForm();
-				MessageBox.Show("成功回读灯控配置");
+				MessageBox.Show("成功回读灯控配置[" + msg + "]");
 				lcToolStripStatusLabel2.Text = "成功回读灯控配置";
 			});
 		}
@@ -1453,10 +1453,10 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：灯控配置回读失败
 		/// </summary>
-		public void LCReadError()
+		public void LCReadError(string msg)
 		{
 			Invoke((EventHandler)delegate {
-				MessageBox.Show("回读灯控配置失败");
+				MessageBox.Show("回读灯控配置失败[" + msg + "]");
 				lcToolStripStatusLabel2.Text = "回读灯控配置失败";
 			});
 		}
@@ -1465,20 +1465,20 @@ namespace OtherTools
 		/// 辅助回调方法：灯控配置下载成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void LCDownloadCompleted(Object obj)
+		public void LCDownloadCompleted(Object obj , string msg)
 		{
 			Invoke((EventHandler)delegate {
 				// 当使用串口连接时，下载成功会重启设备，但因为用串口连接，代码可以主动帮助重连；
 				// 同理，若是使用透传模式，则下载成功重启的并非主设备，而是透传的设备，其重启后仍会主动连上主设备，主动点击重连键即可。
 				if (isConnectByCom || tcCheckBox.Checked)
 				{
-					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");
-					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";					
+					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。\n"+msg);
+					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";	
 					Thread.Sleep(5000);
 					lcConnectButton_Click(null, null);
 				}
 				else {
-					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
+					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。\n" + msg);
 					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";					
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
@@ -1490,11 +1490,11 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：灯控配置下载错误
 		/// </summary>
-		public void LCDownloadError()
+		public void LCDownloadError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("灯控配置下载失败");
+				MessageBox.Show("灯控配置下载失败["+msg+"]");
 				lcToolStripStatusLabel2.Text = "灯控配置下载失败";				
 			});
 		}
@@ -1503,12 +1503,12 @@ namespace OtherTools
 		/// 辅助回调方法：中控配置下载成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void CCDownloadCompleted(Object obj)
+		public void CCDownloadCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
 				if (isConnectByCom)
 				{
-					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
+					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。\n" + msg);
 					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";					
 					Thread.Sleep(5000);
 
@@ -1519,7 +1519,7 @@ namespace OtherTools
 					ccConnectButton_Click(null, null);
 				}
 				else {
-					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
+					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。\n" + msg);
 					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";					
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
@@ -1532,11 +1532,11 @@ namespace OtherTools
 		/// <summary>
 		///  辅助回调方法：中控配置下载失败
 		/// </summary>
-		public void CCDownloadError()
+		public void CCDownloadError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("中控配置下载失败");
+				MessageBox.Show("中控配置下载失败["+msg+"]");
 				ccToolStripStatusLabel2.Text = "中控配置下载失败";				
 			});
 		}
@@ -1545,11 +1545,11 @@ namespace OtherTools
 		/// 辅助回调方法：启动《中控-调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void CCStartCompleted(Object obj)
+		public void CCStartCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
 			{				
-				ccToolStripStatusLabel2.Text = "灯控解码开启成功";
+				ccToolStripStatusLabel2.Text = "灯控解码开启成功["+msg+"]";
 				isDecoding = true;
 				ccDecodeButton.Text = "关闭解码" ;
 				ccDecodeRichTextBox.Enabled = true;
@@ -1560,11 +1560,11 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：启动《中控-调试解码》失败
 		/// </summary>
-		public void CCStartError()
+		public void CCStartError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("灯控解码开启失败");
+				MessageBox.Show("灯控解码开启失败["+msg+"]");
 				ccToolStripStatusLabel2.Text = "灯控解码开启失败";				
 			});
 		}
@@ -1595,11 +1595,11 @@ namespace OtherTools
 		///  辅助回调方法：结束《中控-调试解码》成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void CCStopCompleted(Object obj)
+		public void CCStopCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("成功关闭中控解码");
+				MessageBox.Show("成功关闭中控解码\n" + msg);
 				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
@@ -1611,7 +1611,7 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：结束《中控-调试解码》失败
 		/// </summary>
-		public void CCStopError()
+		public void CCStopError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1672,11 +1672,11 @@ namespace OtherTools
 		/// 辅助回调方法： 连接墙板成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void KPFirstConnectCompleted(Object obj)
+		public void KPFirstConnectCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("成功连接墙板(connStatus=kp)");
+				MessageBox.Show("成功连接墙板(connStatus=kp)[" + msg + "]");
 				kpToolStripStatusLabel2.Text = "成功连接墙板(connStatus=kp)";
 				setConnStatus(ConnectStatus.Kp);
 
@@ -1741,7 +1741,7 @@ namespace OtherTools
 		/// 辅助回调方法：定时器自动重连墙板的方法，此回调方法无需定义执行任何操作（代码中只有后台打印的代码，方便调试）
 		/// </summary>
 		/// <param name="obj"></param>
-		public void KPTimerConnectCompleted(Object obj)
+		public void KPTimerConnectCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1752,11 +1752,11 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：连接墙板失败
 		/// </summary>
-		public void KPConnectError()
+		public void KPConnectError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("连接墙板失败");
+				MessageBox.Show("连接墙板失败[" + msg + "]");
 				kpToolStripStatusLabel2.Text = "连接墙板失败";
 				//MARK：连接墙板失败，是否还要进行其他操作？
 				setConnStatus(ConnectStatus.No);
@@ -1806,7 +1806,7 @@ namespace OtherTools
 		///  辅助回调方法：读取墙板码值成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void KPReadCompleted(Object obj)
+		public void KPReadCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -1817,7 +1817,7 @@ namespace OtherTools
 
 				keyEntity = obj as KeyEntity;
 				reloadKeypressListView();
-				MessageBox.Show("读取墙板码值成功");
+				MessageBox.Show("读取墙板码值成功[" + msg + "]");
 				kpToolStripStatusLabel2.Text = "读取墙板码值成功";
 				refreshButtons();
 				this.Enabled = true;
@@ -1828,11 +1828,11 @@ namespace OtherTools
 		/// <summary>
 		/// 辅助回调方法：读取墙板码值失败
 		/// </summary>
-		public void KPReadError()
+		public void KPReadError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("读取墙板码值失败");
+				MessageBox.Show("读取墙板码值失败[" + msg + "]");
 				kpToolStripStatusLabel2.Text = "读取墙板码值失败";
 				//clearKeypressListView();
 				this.Enabled = true;
@@ -2092,11 +2092,11 @@ namespace OtherTools
 		/// 辅助回调方法：下载墙板成功
 		/// </summary>
 		/// <param name="obj"></param>
-		private void KeypressDownloadCompleted(object obj)
+		private void KeypressDownloadCompleted(object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("成功下载墙板码值");
+				MessageBox.Show("成功下载墙板码值[" + msg + "]");
 				kpToolStripStatusLabel2.Text = "成功下载墙板码值";				
 			});
 		}
@@ -2104,11 +2104,11 @@ namespace OtherTools
 		/// <summary>
 		/// 若下载墙板失败，运行此回调方法
 		/// </summary>
-		private void KeypressDownladError()
+		private void KeypressDownladError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("下载墙板码值失败");
+				MessageBox.Show("下载墙板码值失败[" + msg + "]");
 				kpToolStripStatusLabel2.Text = "下载墙板码值失败";				
 			});
 		}

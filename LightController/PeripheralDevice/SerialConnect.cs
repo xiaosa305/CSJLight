@@ -11,14 +11,13 @@ namespace LightController.PeripheralDevice
 {
     public class SerialConnect : BaseCommunication
     {
-        private const int DEFAULT_BAUDRATE = 115200;
         private SerialPort SerialPortDevice { get; set; }
         private int CurrentBaudRate { get; set; }
         private bool IsDeviceOpen { get; set; }
         private Order Order { get; set; }
         public SerialConnect()
         {
-            this.CurrentBaudRate = DEFAULT_BAUDRATE;
+            this.CurrentBaudRate = 115200;
             this.Init();
             this.DeviceAddr = UDPADDR;
         }
@@ -29,7 +28,7 @@ namespace LightController.PeripheralDevice
         public void OpenSerialPort(string portName)
         {
             this.IsDeviceOpen = false;
-            this.CurrentBaudRate = DEFAULT_BAUDRATE;
+            this.CurrentBaudRate = 115200;
             if (this.SerialPortDevice == null)
             {
                 this.SerialPortDevice = new SerialPort();
@@ -61,6 +60,7 @@ namespace LightController.PeripheralDevice
                     ReadBuff.Add(Convert.ToByte(SerialPortDevice.ReadByte()));
                     this.Receive();
                 }
+                ReadBuff.Clear();
             }
             catch (Exception ex)
             {
@@ -74,17 +74,8 @@ namespace LightController.PeripheralDevice
         }
         protected override void Send(byte[] data)
         {
-            try
-            {
-                this.SerialPortDevice.DiscardOutBuffer();
-                this.SerialPortDevice.DiscardInBuffer();
-                this.SerialPortDevice.Write(data, 0, data.Length);
-                this.SendDataCompleted();
-            }
-            catch (Exception ex)
-            {
-                LogTools.Debug(Constant.TAG_XIAOSA, "串口发送数据失败");
-            }
+            this.SerialPortDevice.Write(data, 0, data.Length);
+            this.SendDataCompleted();
         }
         /// <summary>
         /// 关闭连接

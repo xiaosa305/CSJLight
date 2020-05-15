@@ -19,8 +19,6 @@ namespace LightController
 {
 	public partial class NewForm :Form
 	{
-		private string savePath;
-
 		private MainFormBase mainForm;
 		public NewForm(MainFormBase mainForm,int currentFrame)
 		{
@@ -63,8 +61,7 @@ namespace LightController
 				return;
 			}
 
-			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
-			string directoryPath = savePath + @"\LightProject\" + projectName;
+			string directoryPath = mainForm.SavePath + @"\LightProject\" + projectName;
 			DirectoryInfo di = null;
 			try
 			{

@@ -298,7 +298,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void allStepSkinButton_Click(object sender, EventArgs e)
 		{
-			startNumericUpDown.Value = 1;
+			startNumericUpDown.Value = startNumericUpDown.Minimum;
+			endNumericUpDown.Value = endNumericUpDown.Maximum;
 		}
 	}
 }

@@ -18,8 +18,7 @@ namespace LightController
 	{
 		public const int MAX_TD = 512;		
 		private int minNum = 1; //每次new LightsAstForm的时候，需要填入的最小值；也就是当前所有灯具通道占用的最大值+1
-		private IList<LightAst> lightAstList = new List<LightAst>();
-		private string savePath;		   
+		private IList<LightAst> lightAstList = new List<LightAst>();		
 		private MainFormBase mainForm;
 
 		public LightsForm(MainFormBase mainForm, IList<LightAst> lightAstListFromMain)
@@ -27,9 +26,8 @@ namespace LightController
 			InitializeComponent();
 			this.mainForm = mainForm;			
 
-			// 1. 生成左边的灯具列表，树状形式
-			savePath = IniFileHelper.GetSavePath(Application.StartupPath);
-			string path =  savePath  + @"\LightLibrary" ;
+			// 1. 生成左边的灯具列表，树状形式		
+			string path = mainForm.SavePath  + @"\LightLibrary" ;
 			if (Directory.Exists(path))
 			{
 				string[] dirs = Directory.GetDirectories(path);
@@ -118,7 +116,7 @@ namespace LightController
 			} else {
 				if (skinTreeView1.SelectedNode.Parent != null)
 				{
-					string fullPath = savePath + @"\LightLibrary\" + skinTreeView1.SelectedNode.FullPath + ".ini";
+					string fullPath = mainForm.SavePath + @"\LightLibrary\" + skinTreeView1.SelectedNode.FullPath + ".ini";
 					LightsAstForm lightsAstForm = new LightsAstForm(this, fullPath, minNum);
 					lightsAstForm.ShowDialog();
 				}

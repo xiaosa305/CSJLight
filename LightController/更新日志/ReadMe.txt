@@ -2,6 +2,7 @@
 	①NHibernate4最后版本；
 	②FTD2XX :调用DMX512设备的驱动
 	③IrisSkin4 ：皮肤包
+	④ICSharpCode.SharpZipLib.dll 压缩文件的相关包
 
 1.几个文件夹及文件夹说明
 	①Ast：存放的是一些辅助的包装类；用于数据打包或临时变量的存储

@@ -48,7 +48,7 @@ namespace LightController.MyForm
 			InsertMethod method = ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER;
 			mainForm.InsertOrCoverMaterial(mainForm.TempMaterialAst  ,method);
 
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 

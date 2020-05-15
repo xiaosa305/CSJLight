@@ -392,14 +392,15 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void QDControllerToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				System.Diagnostics.Process.Start(Application.StartupPath + @"\QDController\灯光控制器.exe");
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+
+			//try
+			//{
+			//	System.Diagnostics.Process.Start(Application.StartupPath + @"\QDController\灯光控制器.exe");
+			//}
+			//catch (Exception ex)
+			//{
+			//	MessageBox.Show(ex.Message);
+			//}
 		}
 
 		/// <summary>
@@ -1355,32 +1356,6 @@ namespace LightController.MyForm
 		}
 	
 		/// <summary>
-		/// 事件：点击切换《进入同步|退出同步》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void syncButton_Click(object sender, EventArgs e)
-		{
-			// 如果当前已经是同步模式，则退出同步模式，这比较简单，不需要进行任何比较，直接操作即可。
-			if (isSyncMode)
-			{
-				isSyncMode = false;
-				syncButton.Text = "进入同步";
-				return;
-			}
-
-			// 异步时，要切换到同步模式，需要先进行检查。
-			if (!CheckAllSameStepCounts())
-			{
-				MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
-				return;
-			}
-			// 通过检查，则可以进行设值等相关操作了
-			isSyncMode = true;
-			syncButton.Text = "退出同步";
-		}
-
-		/// <summary>
 		///  事件：点击《上一步》
 		///  先判断currentStep，再调用chooseStep(stepValue)
 		/// </summary>
@@ -1522,6 +1497,26 @@ namespace LightController.MyForm
 		}
 		
 		/// <summary>
+		/// 事件：点击《进入同步|退出同步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void syncButton_Click(object sender, EventArgs e)
+		{
+			syncButtonClick();
+		}
+
+		/// <summary>
+		/// 事件：点击《多步复用》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiplexButton_Click(object sender, EventArgs e)
+		{
+			multiplexButtonClick();
+		}
+
+		/// <summary>
 		///  9.16 辅助方法：进入《多灯模式》
 		/// </summary>
 		/// <param name="groupSelectedIndex"></param>
@@ -1574,6 +1569,8 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
+			multiplexButton.Enabled = isSyncMode;
+			multiplexButton.Visible = isSyncMode;
 		}
 		
 		/// <summary>
@@ -1603,6 +1600,8 @@ namespace LightController.MyForm
 
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
+
+			multiplexButton.Enabled = currentStep > 0 && isSyncMode;
 
 			// 4.设定统一调整区是否可用			
 			zeroButton.Enabled = totalStep != 0;
@@ -2527,7 +2526,6 @@ namespace LightController.MyForm
 			MessageBox.Show(serverFileVersion);
 		}
 
-
-	
+		
 	}
 }

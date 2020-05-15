@@ -211,7 +211,7 @@
 			// recordFolderBrowserDialog
 			// 
 			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
-			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\MultiLedFile";
+			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
 			// 
 			// topPanel
 			// 

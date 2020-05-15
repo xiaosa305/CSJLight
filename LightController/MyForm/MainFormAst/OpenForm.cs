@@ -246,7 +246,7 @@ namespace LightController.MyForm
 			}
 			else {
 				// 这里用到了形参默认值的方法，在没有设置的情况下，copy值默认为false（重命名）
-				new ProjectRenameOrCopyForm(this, selectedProjectName).ShowDialog();
+				new ProjectRenameOrCopyForm(this, mainForm.SavePath ,selectedProjectName).ShowDialog();
 			}
 		}	
 
@@ -257,7 +257,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void copyProjectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			new ProjectRenameOrCopyForm(this, selectedProjectName,true).ShowDialog();
+			new ProjectRenameOrCopyForm(this, mainForm.SavePath,selectedProjectName,true).ShowDialog();
 		}
 
 		/// <summary>

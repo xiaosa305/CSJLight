@@ -1,0 +1,3 @@
+1.使用本软件,需安装.Net4.0框架；
+2.需安装dmx512相关驱动《CDM v2.08.30 WHQL Certified》，无此驱动则无法控制DMX512灯具。
+3.若压缩工程时出错，可能是缺失了ICSharpCode.SharpZipLib.dll文件

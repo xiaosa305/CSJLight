@@ -52,6 +52,7 @@ namespace LightController.MyForm
 			this.QDControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.CenterControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.KeyPressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.playPanel = new System.Windows.Forms.Panel();
 			this.changeConnectMethodButton = new System.Windows.Forms.Button();
@@ -133,6 +134,7 @@ namespace LightController.MyForm
 			this.nextStepButton = new System.Windows.Forms.Button();
 			this.useMaterialButton = new System.Windows.Forms.Button();
 			this.deleteStepButton = new System.Windows.Forms.Button();
+			this.multiplexButton = new System.Windows.Forms.Button();
 			this.multiCopyButton = new System.Windows.Forms.Button();
 			this.insertBeforeButton = new System.Windows.Forms.Button();
 			this.copyStepButton = new System.Windows.Forms.Button();
@@ -143,7 +145,6 @@ namespace LightController.MyForm
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -330,6 +331,13 @@ namespace LightController.MyForm
 			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
 			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.helpToolStripMenuItem.Text = "使用说明";
+			this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
 			// 
 			// ExitToolStripMenuItem
 			// 
@@ -1145,15 +1153,16 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.nextStepButton);
 			this.stepPanel.Controls.Add(this.useMaterialButton);
 			this.stepPanel.Controls.Add(this.deleteStepButton);
+			this.stepPanel.Controls.Add(this.multiplexButton);
 			this.stepPanel.Controls.Add(this.multiCopyButton);
 			this.stepPanel.Controls.Add(this.insertBeforeButton);
 			this.stepPanel.Controls.Add(this.copyStepButton);
 			this.stepPanel.Controls.Add(this.addStepButton);
 			this.stepPanel.Controls.Add(this.pasteStepButton);
 			this.stepPanel.Enabled = false;
-			this.stepPanel.Location = new System.Drawing.Point(109, -1);
+			this.stepPanel.Location = new System.Drawing.Point(84, 0);
 			this.stepPanel.Name = "stepPanel";
-			this.stepPanel.Size = new System.Drawing.Size(938, 83);
+			this.stepPanel.Size = new System.Drawing.Size(1004, 83);
 			this.stepPanel.TabIndex = 65;
 			this.stepPanel.Tag = "";
 			// 
@@ -1253,7 +1262,7 @@ namespace LightController.MyForm
 			this.syncButton.FlatAppearance.BorderSize = 0;
 			this.syncButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.syncButton.ImageKey = "复制步.png";
-			this.syncButton.Location = new System.Drawing.Point(183, 48);
+			this.syncButton.Location = new System.Drawing.Point(914, 16);
 			this.syncButton.Name = "syncButton";
 			this.syncButton.Size = new System.Drawing.Size(75, 23);
 			this.syncButton.TabIndex = 49;
@@ -1268,7 +1277,7 @@ namespace LightController.MyForm
 			this.multiLightButton.FlatAppearance.BorderSize = 0;
 			this.multiLightButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.multiLightButton.ImageKey = "复制步.png";
-			this.multiLightButton.Location = new System.Drawing.Point(183, 16);
+			this.multiLightButton.Location = new System.Drawing.Point(185, 16);
 			this.multiLightButton.Name = "multiLightButton";
 			this.multiLightButton.Size = new System.Drawing.Size(75, 23);
 			this.multiLightButton.TabIndex = 49;
@@ -1336,9 +1345,21 @@ namespace LightController.MyForm
 			this.deleteStepButton.UseVisualStyleBackColor = true;
 			this.deleteStepButton.Click += new System.EventHandler(this.deleteStepButton_Click);
 			// 
+			// multiplexButton
+			// 
+			this.multiplexButton.Enabled = false;
+			this.multiplexButton.Location = new System.Drawing.Point(914, 48);
+			this.multiplexButton.Name = "multiplexButton";
+			this.multiplexButton.Size = new System.Drawing.Size(75, 23);
+			this.multiplexButton.TabIndex = 49;
+			this.multiplexButton.Text = "同步复用";
+			this.multiplexButton.UseVisualStyleBackColor = true;
+			this.multiplexButton.Visible = false;
+			this.multiplexButton.Click += new System.EventHandler(this.multiplexButton_Click);
+			// 
 			// multiCopyButton
 			// 
-			this.multiCopyButton.Location = new System.Drawing.Point(743, 16);
+			this.multiCopyButton.Location = new System.Drawing.Point(744, 16);
 			this.multiCopyButton.Name = "multiCopyButton";
 			this.multiCopyButton.Size = new System.Drawing.Size(75, 23);
 			this.multiCopyButton.TabIndex = 49;
@@ -1495,13 +1516,6 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(56, "a (1).png");
 			this.lightLargeImageList.Images.SetKeyName(57, "a (2).jpg");
 			this.lightLargeImageList.Images.SetKeyName(58, "a (2).png");
-			// 
-			// helpToolStripMenuItem
-			// 
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.helpToolStripMenuItem.Text = "使用说明";
-			this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
 			// 
 			// NewMainForm
 			// 
@@ -1675,5 +1689,6 @@ namespace LightController.MyForm
 		private Button wjTestButton;
 		private Label lightRemarkLabel;
 		private ToolStripMenuItem helpToolStripMenuItem;
+		private Button multiplexButton;
 	}
 }

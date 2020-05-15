@@ -33,6 +33,11 @@ namespace LightController.Ast
 		/// <returns></returns>
 		public static StepWrapper GenerateStepWrapper(StepWrapper stepTemplate, IList<DB_Value> stepValueList, int mode)
 		{
+			// 此处需要多一重验证， 若传进来的valueList的数量与stepTemplate的tongdaoList数量不合，则直接返回null，不再往下走
+			if (stepTemplate.TongdaoList.Count != stepValueList.Count) {
+				return null;
+			}
+
 			List<TongdaoWrapper> tongdaoList = new List<TongdaoWrapper>();
 			for (int tdIndex = 0; tdIndex < stepValueList.Count; tdIndex++)
 			{
@@ -90,7 +95,7 @@ namespace LightController.Ast
 		}
 		
 		/// <summary>
-		///  辅助方法	:通过stepMode和mode，来生成新的stepWrapper
+		///  辅助方法	:通过stepTemplate和mode，来生成新的stepWrapper
 		///  （包括mode,lightName,startNum,tongdaoList等属性）;
 		///  主要供新建步、插入素材 等情况使用
 		/// </summary>
@@ -108,29 +113,7 @@ namespace LightController.Ast
 				LightFullName = stepTemplate.LightFullName,
 				StartNum = stepTemplate.StartNum
 			};
-		}
-
-		/// <summary>
-		///  辅助方法	:通过stepMode和mode，来生成新的stepWrapper
-		///  （包括mode,lightName,startNum,tongdaoList等属性）;
-		///  主要供新建步、插入素材 等情况使用
-		/// </summary>
-		/// <param name="stepTemplate"></param>
-		/// <returns></returns>
-		public static StepWrapper GenerateNewStep(StepWrapper stepTemplate, StepWrapper mainStepTemplate, int mode)
-		{
-			if (stepTemplate == null || mainStepTemplate==null)
-			{
-				return null;
-			}
-			return new StepWrapper()
-			{
-				TongdaoList = TongdaoWrapper.GenerateTongdaoList(stepTemplate.TongdaoList, mode),
-				LightMode = mode,
-				LightFullName = stepTemplate.LightFullName,
-				StartNum = stepTemplate.StartNum
-			};
-		}
+		}	
 
 		/// <summary>
 		///  辅助方法：改变这其中tongdaoList相应的值
@@ -148,5 +131,7 @@ namespace LightController.Ast
 				}
 			}
 		}
+
+
 	}
 }

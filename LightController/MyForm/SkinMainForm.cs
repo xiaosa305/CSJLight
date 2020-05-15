@@ -1356,33 +1356,7 @@ namespace LightController.MyForm
 				enableSingleMode(true);
 			}
 		}
-
-		/// <summary>
-		/// 事件：点击切换《进入同步|退出同步》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void syncSkinButton_Click(object sender, EventArgs e)
-		{
-			// 如果当前已经是同步模式，则退出同步模式，这比较简单，不需要进行任何比较，直接操作即可。
-			if (isSyncMode)
-			{
-				EnterSyncMode(false);
-				return;
-			}
-			else {
-				// 异步时，要切换到同步模式，需要先进行检查。
-				if (!CheckAllSameStepCounts())
-				{
-					MessageBox.Show("当前场景所有灯具步数不一致，无法进入同步模式。");
-					return;
-				}
-
-				EnterSyncMode(true);
-			}
-			
-		}
-
+		
 		/// <summary>
 		///  事件：点击《上一步》
 		///  先判断currentStep，再调用chooseStep(stepValue)
@@ -1525,7 +1499,27 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  9.16 辅助方法：进入《多灯模式》
+		/// 事件：点击《进入同步|退出同步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void syncSkinButton_Click(object sender, EventArgs e)
+		{
+			syncButtonClick();
+		}
+
+		/// <summary>
+		/// 事件：点击《多步复用》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiplexSkinButton_Click(object sender, EventArgs e)
+		{
+			multiplexButtonClick();
+		}
+
+		/// <summary>
+		///  辅助方法：进入《多灯模式》
 		/// </summary>
 		/// <param name="groupSelectedIndex"></param>
 		public override void EnterMultiMode(int groupSelectedIndex, bool isCopyAll)
@@ -1576,7 +1570,8 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncSkinButton.Text = isSyncMode? "退出同步":"进入同步";
-			
+			multiplexSkinButton.Enabled = isSyncMode;
+			multiplexSkinButton.Visible = isSyncMode ;
 		}	
 
 		/// <summary>
@@ -1603,12 +1598,14 @@ namespace LightController.MyForm
 			backStepSkinButton.Enabled = totalStep > 1;
 			nextStepSkinButton.Enabled = totalStep > 1;
 
-			//3 设定《复制(多)步、保存素材》是否可用
+			//3 设定《复制(多)步、保存素材》、《多步复用》等是否可用
 			copyStepSkinButton.Enabled = currentStep > 0;
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
+
+			multiplexSkinButton.Enabled = currentStep > 0 && isSyncMode;
 
 			// 4.设定统一调整区是否可用
 			zeroSkinButton.Enabled = totalStep != 0;
@@ -2790,7 +2787,11 @@ namespace LightController.MyForm
 			// flag ?  "frh":"flh";
 
 		}
-			   		 
+
+
+
+
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2806,10 +2807,7 @@ namespace LightController.MyForm
 
 		#endregion
 
-
 		
-
-	
 	}
 
 

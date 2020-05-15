@@ -11,13 +11,14 @@ namespace LightController.PeripheralDevice
 {
     public class SerialConnect : BaseCommunication
     {
+        private const int DEFAULT_BAUDRATE = 115200;
         private SerialPort SerialPortDevice { get; set; }
         private int CurrentBaudRate { get; set; }
         private bool IsDeviceOpen { get; set; }
         private Order Order { get; set; }
         public SerialConnect()
         {
-            this.CurrentBaudRate = 115200;
+            this.CurrentBaudRate = DEFAULT_BAUDRATE;
             this.Init();
             this.DeviceAddr = UDPADDR;
         }
@@ -28,7 +29,7 @@ namespace LightController.PeripheralDevice
         public void OpenSerialPort(string portName)
         {
             this.IsDeviceOpen = false;
-            this.CurrentBaudRate = 115200;
+            this.CurrentBaudRate = DEFAULT_BAUDRATE;
             if (this.SerialPortDevice == null)
             {
                 this.SerialPortDevice = new SerialPort();

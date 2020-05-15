@@ -711,7 +711,6 @@ namespace LightController.MyForm
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
 				lightRemarkLabel.Text = null;
-				selectedLightName = "";
 				return;
 			}
 
@@ -721,7 +720,6 @@ namespace LightController.MyForm
 			lightsAddrLabel.Text = "地址：" + la.LightAddr;
 			lightRemarkLabel.Text = "备注：" + la.Remark;
 			myToolTip.SetToolTip(lightRemarkLabel, "备注：\n" + la.Remark);
-			selectedLightName = la.LightName + " - " + la.LightType;
 		}
 
 		/// <summary>

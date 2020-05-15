@@ -20,7 +20,7 @@ namespace LightController.MyForm
 		private int stepCount = 0;
 		private int mode;
 
-		public MultiStepCopyForm(MainFormBase mainForm, IList<StepWrapper> stepWrapperList ,int mode,string lightFullName,int currentStep)
+		public MultiStepCopyForm(MainFormBase mainForm, IList<StepWrapper> stepWrapperList ,int mode,LightAst la ,int currentStep)
 		{
 			if (currentStep == 0 || stepWrapperList == null || stepWrapperList.Count == 0)
 			{
@@ -43,7 +43,7 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 			this.stepWrapperList = stepWrapperList;
 			this.mode = mode;
-			lightNameLabel.Text = lightFullName;
+			lightNameLabel.Text = la.LightName + " - " + la.LightType;
 
 			startNumericUpDown.Maximum = stepCount;			
 			endNumericUpDown.Maximum = stepCount;

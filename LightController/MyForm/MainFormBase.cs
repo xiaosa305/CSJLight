@@ -105,7 +105,6 @@ namespace LightController.MyForm
 
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
 		protected IList<int> selectedIndices ; //选择的灯具的index列表（多选情况下）
-		protected string selectedLightName = ""; //选中的灯具的名字（lightName + lightType）		
 
 		protected int currentFrame = 0; // 表示场景编号(selectedIndex )
 		protected int currentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
@@ -1619,7 +1618,6 @@ namespace LightController.MyForm
 			lightDictionary = null;
 
 			selectedIndex = -1;
-			selectedLightName = "";
 			selectedIndices = new List<int>();
 
 			tempStep = null;
@@ -2670,7 +2668,13 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void multiCopyClick()
 		{
-			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, currentMode, selectedLightName, getCurrentStep());
+			LightAst la = lightAstList[selectedIndex];
+			if (la == null) {
+				MessageBox.Show("未选中灯具，无法复制多步");
+				return;
+			}
+
+			MultiStepCopyForm mscForm = new MultiStepCopyForm(this, getCurrentLightStepWrapper().StepWrapperList, currentMode, la , getCurrentStep());
 			if (mscForm != null && !mscForm.IsDisposed)
 			{
 				mscForm.ShowDialog();
@@ -2709,7 +2713,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void saveMaterial()
 		{
-
 			LightAst lightAst = lightAstList[selectedIndex];
 			MaterialSaveForm materialForm = new MaterialSaveForm(this, getCurrentLightStepWrapper().StepWrapperList, currentMode, lightAst.LightName, lightAst.LightType);
 			if (materialForm != null && !materialForm.IsDisposed)

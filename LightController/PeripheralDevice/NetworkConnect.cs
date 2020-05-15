@@ -18,7 +18,7 @@ namespace LightController.PeripheralDevice
         private const int TCPPORT = 7060;
         private const int RECEIVEBUFFSIZE = 2048;
         private string DeviceName { get; set; }//设备名称
-        private string DeviceIp { get; set; }//设备IP地址
+        public string DeviceIp { get; set; }//设备IP地址
         private int DevicePort { get; set; }//设备端口
         private Socket Socket { get; set; }//网络连接套接字
         private byte[] ReceiveBuff { get; set; }//接收缓存区

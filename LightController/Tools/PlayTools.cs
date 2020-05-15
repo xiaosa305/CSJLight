@@ -1,5 +1,6 @@
 ﻿using FTD2XX_NET;
 using LightController.Ast;
+using LightController.PeripheralDevice;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -58,10 +59,15 @@ namespace LightController.Tools
         public const int STATE_INTENETPREVIEW = 1;
         public const int STATE_TEST = 2;
         private int PreviewWayState { get; set; }
-        private string DeviceIpByIntentPreview { get; set; }
         private bool IsInitIntentDebug { get; set; }
-        private ICommunicatorCallBack IntentDebugCallback { get; set; }
         private Thread SendEmptyDebugDataThread { get; set; }
+
+
+        private BaseCommunication Communication { get; set; }
+        private BaseCommunication.Completed StartIntentPreviewCompleted { get; set; }
+        private BaseCommunication.Error StartIntentPreviewError { get; set; }
+        private BaseCommunication.Completed StopIntentPreviewCompleted { get; set; }
+        private BaseCommunication.Error StopIntentPreviewError { get; set; }
 
 
         //TODO 待删除测试
@@ -108,11 +114,13 @@ namespace LightController.Tools
             }
            
         }
-        public void StartInternetPreview(string deviceIp, ICommunicatorCallBack receiveCallBack, int timeFactory)
+
+        public void StartInternetPreview(BaseCommunication communication, BaseCommunication.Completed completed, BaseCommunication.Error error, int timeFactory)
         {
+            this.Communication = communication;
+            this.StartIntentPreviewCompleted = completed;
+            this.StartIntentPreviewError = error;
             this.PreviewWayState = STATE_INTENETPREVIEW;
-            this.DeviceIpByIntentPreview = deviceIp;
-            this.IntentDebugCallback = receiveCallBack;
             this.IsInitIntentDebug = true;
             this.TimeFactory = timeFactory;
             if (!this.SendTimer.Enabled)
@@ -120,9 +128,15 @@ namespace LightController.Tools
                 this.SendTimer.Start();
             }
         }
-        public void StopInternetPreview(ICommunicatorCallBack receiveCallBack)
+
+        public void StopInternetPreview(BaseCommunication.Completed completed, BaseCommunication.Error error)
         {
-            ConnectTools.GetInstance().StopIntentPreview(this.DeviceIpByIntentPreview, receiveCallBack);
+            this.StopIntentPreviewCompleted = completed;
+            this.StopIntentPreviewError = error;
+            if (this.Communication != null)
+            {
+                this.Communication.StopIntentPreview(completed, error);
+            }
             this.IsInitIntentDebug = false;
         }
         public static PlayTools GetInstance()
@@ -388,10 +402,16 @@ namespace LightController.Tools
                 {
                     if (IsInitIntentDebug)
                     {
-                        ConnectTools.GetInstance().StartIntentPreview(this.DeviceIpByIntentPreview, TimeFactory, this.IntentDebugCallback);
+                        if (this.Communication != null)
+                        {
+                            this.Communication.StartIntentPreview(TimeFactory, StartIntentPreviewCompleted, StartIntentPreviewError);
+                        }
                         IsInitIntentDebug = false;
                     }
-                    ConnectTools.GetInstance().SendIntenetPreview(DeviceIpByIntentPreview, buff.ToArray());
+                    if (this.Communication != null)
+                    {
+                        ConnectTools.GetInstance().SendIntenetPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
+                    }
                 }
             }
             catch (Exception ex)

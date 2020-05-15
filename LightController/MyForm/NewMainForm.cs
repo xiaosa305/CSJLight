@@ -2403,7 +2403,7 @@ namespace LightController.MyForm
 					//ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
 
 					myConnect = new NetworkConnect();
-					(myConnect as NetworkConnect).Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
+					myConnect.Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
 
 					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
 					if( myConnect.IsConnected() )					 

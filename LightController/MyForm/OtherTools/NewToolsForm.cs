@@ -1303,7 +1303,7 @@ namespace OtherTools
 				string deviceName = ipaList[deviceComboBox.SelectedIndex].DeviceName;
 
 				myConnect = new NetworkConnect( );
-				(myConnect as NetworkConnect).Connect(connectTools.GetDeivceInfos()[localIP][deviceIP]);
+				myConnect.Connect(connectTools.GetDeivceInfos()[localIP][deviceIP]);
 				if ( myConnect.IsConnected() )
 				{
 					MessageBox.Show("成功连接网络设备(" + deviceName + ")");

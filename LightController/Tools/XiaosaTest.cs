@@ -34,7 +34,7 @@ namespace LightController.Tools
         {
             if (this.Connect == null)
             {
-                this.Connect = new NetworkConnect(new NetworkDeviceInfo() { DeviceAddr = 1, DeviceIp = "192.168.31.153", DeviceName = "大房101" });
+                //this.Connect = new NetworkConnect(new NetworkDeviceInfo() { DeviceAddr = 1, DeviceIp = "192.168.31.153", DeviceName = "大房101" });
             }
             if (this.Connect.IsConnected())
             {
@@ -79,10 +79,10 @@ namespace LightController.Tools
             info.DeviceIp = "192.168.31.16";
             info.DeviceName = "惊艳PLUS";
             info.DeviceAddr = 1;
-            NetworkConnect connect = new NetworkConnect(info);
+            //NetworkConnect connect = new NetworkConnect(info);
             Thread.Sleep(300);
-            Console.WriteLine("设备连接状态 : " + connect.IsConnected());
-            connect.LightControlConnect(LCCCompleted, LCCError);
+            //Console.WriteLine("设备连接状态 : " + connect.IsConnected());
+            //connect.LightControlConnect(LCCCompleted, LCCError);
         }
         public void Download(CCEntity entity)
         {

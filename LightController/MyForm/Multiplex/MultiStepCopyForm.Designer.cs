@@ -72,6 +72,7 @@
 			this.allStepButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.lightNameLabel = new System.Windows.Forms.Label();
 			this.tongdaoPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
@@ -679,6 +680,16 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
+			// lightNameLabel
+			// 
+			this.lightNameLabel.AutoSize = true;
+			this.lightNameLabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightNameLabel.Location = new System.Drawing.Point(331, 53);
+			this.lightNameLabel.Name = "lightNameLabel";
+			this.lightNameLabel.Size = new System.Drawing.Size(57, 12);
+			this.lightNameLabel.TabIndex = 7;
+			this.lightNameLabel.Text = "灯具名称";
+			// 
 			// MultiStepCopyForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -694,6 +705,7 @@
 			this.Controls.Add(this.startNumericUpDown);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.label1);
+			this.Controls.Add(this.lightNameLabel);
 			this.Controls.Add(this.lightLabel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -760,5 +772,6 @@
 		private System.Windows.Forms.Button allStepButton;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.Label lightNameLabel;
 	}
 }

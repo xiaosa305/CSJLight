@@ -729,7 +729,7 @@ namespace LightController.MyForm
 			lightTypeLabel.Text = "灯具型号：" + la.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
 			lightRemarkLabel.Text = "灯具备注：" + la.Remark;			
-			selectedLightName = la.LightName + "-" + la.LightType;
+			selectedLightName = la.LightName + " - " + la.LightType;
 
 			// 旧版取图片的代码：主要是需要从硬盘读取，无法满足《打开导出工程》功能，故弃用。
 			//string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;

@@ -694,9 +694,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSetForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络设置》内的相关设置；其他设置暂时没有作用，无需更改。\n" +
-				"2.常规的操作步骤：先从设备回读配置，再修改需要变动的配置后，下载新配置。\n" +
-				"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。");
+			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络设置》内的相关设置；其他设置暂时没有作用，无需更改；\n" +
+					"2.常规的操作步骤：先从设备回读配置，在修改需要变动的配置后，下载新配置；\n" +
+					"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。",
+				"使用提示或说明",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Information);
 			e.Cancel = true;
 		}
 

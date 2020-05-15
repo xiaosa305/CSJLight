@@ -110,7 +110,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSaveForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("硬件设置名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
+			MessageBox.Show("硬件设置名不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。",
+				"使用提示或说明",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Information
+				);
 			e.Cancel = true;
 		}
 	}

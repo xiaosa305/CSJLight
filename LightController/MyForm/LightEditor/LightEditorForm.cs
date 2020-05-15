@@ -203,7 +203,10 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void LightEditorForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("灯具的厂家名及型号名都不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。");
+			MessageBox.Show("灯具的厂家名及型号名都不可使用\\、/、:、*、?、\"、<、>、| 等字符，否则操作系统(windows)无法保存，会出现错误。",
+				"使用提示或说明",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Information);
 			e.Cancel = true;
 		}
 

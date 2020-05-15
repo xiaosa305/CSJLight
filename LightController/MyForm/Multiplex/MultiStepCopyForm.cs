@@ -43,7 +43,7 @@ namespace LightController.MyForm
 			this.mainForm = mainForm;
 			this.stepWrapperList = stepWrapperList;
 			this.mode = mode;
-			lightLabel.Text += lightFullName;
+			lightNameLabel.Text = lightFullName;
 
 			startNumericUpDown.Maximum = stepCount;			
 			endNumericUpDown.Maximum = stepCount;

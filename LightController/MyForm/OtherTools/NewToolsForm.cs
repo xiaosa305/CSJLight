@@ -1273,6 +1273,7 @@ namespace OtherTools
 			refreshDeviceComboBox();
 		}
 
+
 		private void connectButton_Click(object sender, EventArgs e)
 		{
 			if (isConnectByCom)
@@ -1300,8 +1301,10 @@ namespace OtherTools
 				string localIP =  ipaList[deviceComboBox.SelectedIndex].LocalIP; 
 				string deviceIP = ipaList[deviceComboBox.SelectedIndex].DeviceIP;
 				string deviceName = ipaList[deviceComboBox.SelectedIndex].DeviceName;
-				myConnect = new NetworkConnect( connectTools.GetDeivceInfos()[localIP][deviceIP]);
-				if ((myConnect as NetworkConnect).IsConnected())
+
+				myConnect = new NetworkConnect( );
+				(myConnect as NetworkConnect).Connect(connectTools.GetDeivceInfos()[localIP][deviceIP]);
+				if ( myConnect.IsConnected() )
 				{
 					MessageBox.Show("成功连接网络设备(" + deviceName + ")");
 					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")");

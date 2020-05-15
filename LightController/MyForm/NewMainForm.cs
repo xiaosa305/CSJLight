@@ -2400,12 +2400,13 @@ namespace LightController.MyForm
 						return;
 					}
 					selectedIpAst = ipaList[deviceComboBox.SelectedIndex];
-					ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
+					//ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
 
-					myConnect = new NetworkConnect(allNetworkDevices[deviceComboBox.SelectedIndex]);
-					
+					myConnect = new NetworkConnect();
+					(myConnect as NetworkConnect).Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
 
-					if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
+					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
+					if( myConnect.IsConnected() )					 
 					{
 						playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
 						SetNotice("网络设备连接成功。");

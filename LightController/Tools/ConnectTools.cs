@@ -13,9 +13,9 @@ namespace LightController.Tools
 {
     public class ConnectTools
     {
-        private readonly int UDP_SERVER_PORT = 7070;
-        private readonly int UDP_CLIENT_PORT = 7060;
-        private readonly int UDP_DEBUG_PORT = 7080;
+        private const int UDP_SERVER_PORT = 7070;
+        private const int UDP_CLIENT_PORT = 7060;
+        private const int UDP_DEBUG_PORT = 7080;
         private static ConnectTools Instance { get; set; }
         private Socket UdpServer { get; set; }
         private string ServerIp { get; set; }
@@ -47,14 +47,17 @@ namespace LightController.Tools
                     IsStart = false;
                     UdpServer.Close();
                     UdpClient.Close();
+                    UdpServer = null;
+                    UdpClient = null;
                     ReceiveThread.Abort();
-                    Thread.Sleep(100);
                     ReceiveThread = null;
+                    Thread.Sleep(100);
                 }
                 ServerIp = ip;
                 UdpServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
                 UdpServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
+
                 ReceiveThread = new Thread(RecevieMsg)
                 {
                     IsBackground = true
@@ -96,7 +99,7 @@ namespace LightController.Tools
             else
             {
                 LogTools.Debug(Constant.TAG_XIAOSA, "搜索设备失败");
-                throw new Exception("未启动服务");
+                //throw new Exception("未启动服务");
             }
             
         }
@@ -128,7 +131,6 @@ namespace LightController.Tools
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "关闭灯控服务器或服务器接收模块发生异常", ex);
             }
-           
         }
         public void Disconnected()
         {
@@ -152,7 +154,6 @@ namespace LightController.Tools
         }
         public Dictionary<string,Dictionary<string,NetworkDeviceInfo>> GetDeivceInfos()
         {
-            Thread.Sleep(500);
             return DeviceInfos;
         }
         public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)

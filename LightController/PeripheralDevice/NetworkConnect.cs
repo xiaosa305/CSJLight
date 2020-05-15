@@ -38,7 +38,7 @@ namespace LightController.PeripheralDevice
         /// 连接目标设备
         /// </summary>
         /// <param name="deviceInfo"></param>
-        private void Connect(NetworkDeviceInfo deviceInfo)
+        private bool Connect(NetworkDeviceInfo deviceInfo)
         {
             try
             {
@@ -50,12 +50,13 @@ namespace LightController.PeripheralDevice
                 this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
                 this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
                 this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+                return true;
             }
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "设备链接超时", ex);
+                return false;
             }
-           
         }
         /// <summary>
         /// 获取缓存区大小

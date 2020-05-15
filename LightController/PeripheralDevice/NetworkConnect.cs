@@ -32,13 +32,20 @@ namespace LightController.PeripheralDevice
         }
         public bool IsConnected()
         {
-            return this.Socket.Connected;
+            if (this.Socket != null)
+            {
+                return this.Socket.Connected;
+            }
+            else
+            {
+                return false;
+            }
         }
         /// <summary>
         /// 连接目标设备
         /// </summary>
         /// <param name="deviceInfo"></param>
-        private bool Connect(NetworkDeviceInfo deviceInfo)
+        public bool Connect(NetworkDeviceInfo deviceInfo)
         {
             try
             {
@@ -120,7 +127,18 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public override void DisConnect()
         {
-            this.Socket.Close();
+            try
+            {
+                if (this.Socket != null)
+                {
+                    this.Socket.Close();
+                    this.Socket = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭网络连接失败", ex);
+            }
         }
     }
 }

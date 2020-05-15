@@ -20,6 +20,7 @@ using LightController.Utils;
 using LightController.Tools.CSJ.IMPL;
 using OtherTools;
 using LightEditor.Ast;
+using LightController.PeripheralDevice;
 
 namespace LightController.MyForm
 {
@@ -2312,12 +2313,14 @@ namespace LightController.MyForm
 			comName = deviceSkinComboBox.Text;
 			if (!comName.Trim().Equals(""))
 			{
+				deviceSelectedIndex = deviceSkinComboBox.SelectedIndex;				
 				connectSkinButton.Enabled = true;
 			}
 			else
 			{
+				deviceSelectedIndex = -1;
 				connectSkinButton.Enabled = false;
-				MessageBox.Show("未选中可用串口");
+				MessageBox.Show("未选中可用设备");
 			}
 		}
 		
@@ -2461,12 +2464,15 @@ namespace LightController.MyForm
 					deviceSkinComboBox.Items.Add(com);
 				}
 				deviceSkinComboBox.SelectedIndex = 0;
+				deviceSelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
 				SetNotice("已刷新串口列表，可选择并连接设备进行调试");
 			}
 			else
 			{
 				deviceSkinComboBox.Text = "";
+				deviceSkinComboBox.SelectedIndex = -1;
+				deviceSelectedIndex = -1;
 				deviceSkinComboBox.Enabled = false;
 				connectSkinButton.Enabled = false;
 				SetNotice("未找到可用串口。");
@@ -2480,6 +2486,8 @@ namespace LightController.MyForm
 		{
 			SetNotice("正在搜索网络设备，请稍候...");
 			deviceSkinComboBox.Items.Clear();
+			deviceSkinComboBox.SelectedIndex = -1;
+			deviceSelectedIndex = -1;
 			deviceSkinComboBox.Enabled = false;
 			ipaList = new List<IPAst>();
 
@@ -2517,6 +2525,7 @@ namespace LightController.MyForm
 			{
 				deviceSkinComboBox.Enabled = true;
 				deviceSkinComboBox.SelectedIndex = 0;
+				deviceSelectedIndex = 0;
 				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
 			}
 			else
@@ -2565,62 +2574,7 @@ namespace LightController.MyForm
 			base.oneStepWork();
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 		}
-
-		/// <summary>
-		/// 辅助方法：点击《连接设备》
-		/// </summary>
-		protected override void connectButtonClick()
-		{
-			playTools = PlayTools.GetInstance();
-			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if (!isConnected)
-			{
-				if (isConnectCom)
-				{
-					if (String.IsNullOrEmpty(comName))
-					{
-						MessageBox.Show("未选中可用串口，请选中后再点击连接。。");
-						return;
-					}
-					playTools.ConnectDevice(comName);
-					EnableConnectedButtons(true);
-				}
-				else
-				{
-					if (String.IsNullOrEmpty(comName) || deviceSkinComboBox.SelectedIndex < 0)
-					{
-						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
-						return;
-					}
-
-					selectedIpAst = ipaList[deviceSkinComboBox.SelectedIndex];
-					if (ConnectTools.GetInstance().Connect(allNetworkDevices[deviceSkinComboBox.SelectedIndex]))
-					{
-						playTools.StartInternetPreview(myConnect, CommonCompleted, CommonError, eachStepTime);
-						SetNotice("网络设备连接成功。");
-					}
-					else
-					{
-						MessageBox.Show("设备连接失败，请重试。");
-					}
-				}
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				playTools.StopSend();
-				if (isConnectCom)
-				{
-					playTools.CloseDevice();					
-				}
-				else
-				{
-					playTools.StopInternetPreview( CommonCompleted, CommonError);
-				}				
-				EnableConnectedButtons(false);
-				SetNotice("已断开连接");
-			}
-		}
-
+			   
 		#endregion
 
 		#region 几个全局辅助方法

@@ -2140,15 +2140,17 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			comName = deviceComboBox.Text;
+			comName = deviceComboBox.Text;		
 			if (!comName.Trim().Equals(""))
 			{
+				deviceSelectedIndex = deviceComboBox.SelectedIndex;
 				deviceConnectButton.Enabled = true;
 			}
 			else
 			{
+				deviceSelectedIndex = -1;
 				deviceConnectButton.Enabled = false;
-				MessageBox.Show("未选中可用串口");
+				MessageBox.Show("未选中可用设备");
 			}
 		}		
 				
@@ -2289,6 +2291,8 @@ namespace LightController.MyForm
 			else
 			{
 				deviceComboBox.Text = "";
+				deviceComboBox.SelectedIndex = -1;
+				deviceSelectedIndex = -1;
 				deviceComboBox.Enabled = false;
 				deviceComboBox.Enabled = false;
 				SetNotice("未找到可用串口。");
@@ -2303,6 +2307,8 @@ namespace LightController.MyForm
 		{
 			SetNotice("正在搜索网络设备，请稍候...");
 			deviceComboBox.Items.Clear();
+			deviceComboBox.SelectedIndex = -1;
+			deviceSelectedIndex = -1;
 			deviceComboBox.Enabled = false;
 			ipaList = new List<IPAst>();
 
@@ -2341,6 +2347,7 @@ namespace LightController.MyForm
 			{
 				deviceComboBox.Enabled = true;
 				deviceComboBox.SelectedIndex = 0;
+				deviceSelectedIndex = 0;
 				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
 			}
 			else
@@ -2370,65 +2377,7 @@ namespace LightController.MyForm
 			isConnected = connected;
 			deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
 		}
-
-		/// <summary>
-		/// 辅助方法：点击《连接设备|断开连接》的子类实现
-		/// </summary>
-		protected override void connectButtonClick()
-		{
-			playTools = PlayTools.GetInstance();
-			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if (!isConnected)
-			{
-				if (isConnectCom)
-				{
-					if (String.IsNullOrEmpty(comName))
-					{
-						MessageBox.Show("未选中可用串口，请选中后再点击连接。");
-						return;
-					}
-					playTools.ConnectDevice(comName);
-					EnableConnectedButtons(true);
-				}
-				else
-				{
-					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
-					{
-						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
-						return;
-					}
-					selectedIpAst = ipaList[deviceComboBox.SelectedIndex];
-					//ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
-
-					myConnect = new NetworkConnect();
-					myConnect.Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
-
-					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
-					if( myConnect.IsConnected() )					 
-					{
-						playTools.StartInternetPreview(myConnect, CommonCompleted, CommonError , eachStepTime);
-						SetNotice("网络设备连接成功。");
-					}
-					else {
-						MessageBox.Show("设备连接失败，请重试。");
-					}
-				}
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				playTools.StopSend();
-				if (isConnectCom)
-				{					
-					playTools.CloseDevice();					
-				}
-				else
-				{
-					playTools.StopInternetPreview( CommonCompleted, CommonError);			
-				}
-				EnableConnectedButtons(false);
-				SetNotice("已断开连接。");
-			}
-		}
+		
 
 		#endregion
 

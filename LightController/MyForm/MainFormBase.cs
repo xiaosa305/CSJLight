@@ -119,6 +119,7 @@ namespace LightController.MyForm
 
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
+		protected int deviceSelectedIndex = -1 ;
 
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
@@ -138,8 +139,7 @@ namespace LightController.MyForm
 		protected virtual void enableStepPanel(bool enable) { } //是否使能步数面板
 		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据
 		protected virtual void hideAllTDPanels() { } //隐藏所有通道
-		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用
-		protected virtual void connectButtonClick() { }//点击连接按钮，但需子类实现
+		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
 		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 只开单场景：02.0 改变当前Frame
 		protected virtual void enableSingleMode(bool enable) { }  //退出多灯模式或单灯模式后的相关操作
@@ -149,7 +149,10 @@ namespace LightController.MyForm
 		public virtual void SetNotice(string notice){} //设置提示信息
 		public virtual void EnableConnectedButtons(bool connected){} //设置《连接按钮组》是否可用
 
-		#endregion			   
+		
+
+
+		#endregion
 
 		#region 存储一些供其他Form使用的变量，比如已打开的升级文件、工程文件等
 
@@ -3000,6 +3003,68 @@ namespace LightController.MyForm
 		#region playPanel相关
 
 		/// <summary>
+		/// 辅助方法：点击《连接设备 | 断开连接》
+		/// </summary>
+		protected void connectButtonClick()
+		{
+			playTools = PlayTools.GetInstance();
+			// 如果还没连接（按钮显示为“连接设备”)，那就连接
+			if (!isConnected)
+			{
+				if (isConnectCom)
+				{
+					if (String.IsNullOrEmpty(comName))
+					{
+						MessageBox.Show("未选中可用串口，请选中后再点击连接。。");
+						return;
+					}
+					playTools.ConnectDevice(comName);
+					EnableConnectedButtons(true);
+				}
+				else
+				{
+					if (String.IsNullOrEmpty(comName) || deviceSelectedIndex < 0)
+					{
+						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
+						return;
+					}
+
+					selectedIpAst = ipaList[deviceSelectedIndex];
+					//TODO : 待删除
+					connectTools.Start(selectedIpAst.LocalIP);
+
+					myConnect = new NetworkConnect();
+					myConnect.Connect(allNetworkDevices[deviceSelectedIndex]);
+
+					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
+					if (myConnect.IsConnected())
+					{
+						playTools.StartInternetPreview(myConnect, CommonCompleted, CommonError, eachStepTime);
+						SetNotice("网络设备连接成功。");
+					}
+					else
+					{
+						MessageBox.Show("设备连接失败，请重试。");
+					}
+				}
+			}
+			else //否则( 按钮显示为“断开连接”）断开连接
+			{
+				playTools.StopSend();
+				if (isConnectCom)
+				{
+					playTools.CloseDevice();
+				}
+				else
+				{
+					playTools.StopInternetPreview(CommonCompleted, CommonError);
+				}
+				EnableConnectedButtons(false);
+				SetNotice("已断开连接");
+			}
+		}
+
+		/// <summary>
 		/// 辅助方法：点击《预览效果》
 		/// </summary>
 		internal void Preview()
@@ -3143,6 +3208,7 @@ namespace LightController.MyForm
 		public void CommonCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
+				EnableConnectedButtons(true);
 				SetNotice(msg);
 			});
 		}

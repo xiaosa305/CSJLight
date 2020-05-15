@@ -1,4 +1,5 @@
 ﻿using LightController.Tools;
+using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace LightController.PeripheralDevice
         {
             return SerialPort.GetPortNames().ToList();
         }
-        public void OpenSerialPort(string portName)
+        public override void OpenSerialPort(string portName)
         {
             this.IsDeviceOpen = false;
             this.CurrentBaudRate = DEFAULT_BAUDRATE;
@@ -102,6 +103,16 @@ namespace LightController.PeripheralDevice
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 串口模式下不操作
+        /// </summary>
+        /// <param name="deviceInfo"></param>
+        /// <returns></returns>
+        public override bool Connect(NetworkDeviceInfo deviceInfo)
+        {
+            return false;
         }
     }
 }

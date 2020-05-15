@@ -45,7 +45,7 @@ namespace LightController.PeripheralDevice
         /// 连接目标设备
         /// </summary>
         /// <param name="deviceInfo"></param>
-        public bool Connect(NetworkDeviceInfo deviceInfo)
+        public override bool Connect(NetworkDeviceInfo deviceInfo)
         {
             try
             {
@@ -148,6 +148,14 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "关闭网络连接失败", ex);
             }
         }
-        
+
+        /// <summary>
+        /// 串口专属，网络模块不操作
+        /// </summary>
+        /// <param name="portName"></param>
+        public override void OpenSerialPort(string portName)
+        {
+
+        }
     }
 }

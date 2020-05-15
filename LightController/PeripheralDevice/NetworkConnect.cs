@@ -49,6 +49,10 @@ namespace LightController.PeripheralDevice
         {
             try
             {
+                if (this.IsConnected())
+                {
+                    return true;
+                }
                 this.DeviceName = deviceInfo.DeviceName;
                 this.DeviceIp = deviceInfo.DeviceIp;
                 this.DevicePort = TCPPORT;

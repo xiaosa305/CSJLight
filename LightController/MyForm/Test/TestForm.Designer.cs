@@ -34,6 +34,7 @@
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.StartDrawPicture = new System.Windows.Forms.Button();
             this.ClearPictureBox = new System.Windows.Forms.Button();
+            this.NewConnectedTestBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -93,11 +94,22 @@
             this.ClearPictureBox.UseVisualStyleBackColor = true;
             this.ClearPictureBox.Click += new System.EventHandler(this.ClearPictureBox_Click);
             // 
+            // NewConnectedTestBtn
+            // 
+            this.NewConnectedTestBtn.Location = new System.Drawing.Point(32, 91);
+            this.NewConnectedTestBtn.Name = "NewConnectedTestBtn";
+            this.NewConnectedTestBtn.Size = new System.Drawing.Size(75, 23);
+            this.NewConnectedTestBtn.TabIndex = 7;
+            this.NewConnectedTestBtn.Text = "新网络测试";
+            this.NewConnectedTestBtn.UseVisualStyleBackColor = true;
+            this.NewConnectedTestBtn.Click += new System.EventHandler(this.NewConnectedTestBtn_Click);
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.NewConnectedTestBtn);
             this.Controls.Add(this.ClearPictureBox);
             this.Controls.Add(this.StartDrawPicture);
             this.Controls.Add(this.PictureBox);
@@ -120,5 +132,6 @@
         private System.Windows.Forms.PictureBox PictureBox;
         private System.Windows.Forms.Button StartDrawPicture;
         private System.Windows.Forms.Button ClearPictureBox;
+        private System.Windows.Forms.Button NewConnectedTestBtn;
     }
 }

@@ -32,22 +32,38 @@ namespace LightController.PeripheralDevice
         }
         public bool IsConnected()
         {
-            return this.Socket.Connected;
+            if (this.Socket != null)
+            {
+                return this.Socket.Connected;
+            }
+            else
+            {
+                return false;
+            }
         }
         /// <summary>
         /// 连接目标设备
         /// </summary>
         /// <param name="deviceInfo"></param>
-        private void Connect(NetworkDeviceInfo deviceInfo)
+        public bool Connect(NetworkDeviceInfo deviceInfo)
         {
-            this.DeviceName = deviceInfo.DeviceName;
-            this.DeviceIp = deviceInfo.DeviceIp;
-            this.DevicePort = TCPPORT;
-            this.DeviceAddr = deviceInfo.DeviceAddr;
-            this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
-            this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
-            this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+            try
+            {
+                this.DeviceName = deviceInfo.DeviceName;
+                this.DeviceIp = deviceInfo.DeviceIp;
+                this.DevicePort = TCPPORT;
+                this.DeviceAddr = deviceInfo.DeviceAddr;
+                this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
+                this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
+                this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "设备链接超时", ex);
+                return false;
+            }
         }
         /// <summary>
         /// 获取缓存区大小
@@ -111,7 +127,18 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public override void DisConnect()
         {
-            this.Socket.Close();
+            try
+            {
+                if (this.Socket != null)
+                {
+                    this.Socket.Close();
+                    this.Socket = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭网络连接失败", ex);
+            }
         }
     }
 }

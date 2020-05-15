@@ -1,14 +1,18 @@
-﻿using LightController.Common;
+﻿using LightController.Ast;
+using LightController.Common;
 using LightController.Entity;
 using LightController.Tools;
+using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace LightController.PeripheralDevice
 {
@@ -39,29 +43,30 @@ namespace LightController.PeripheralDevice
         private bool IsCenterControlDownload { get; set; }
         private bool IsDone { get; set; }
 
-        public delegate void Completed(Object obj);
-        public delegate void Error();
+        public delegate void Completed(Object obj,string message);
+        public delegate void Error(string message);
         public delegate void KeyPressClick(Object obj);
         public delegate void CopyListener(Object obj);
         private event Completed Completed_Event;
         private event Error Error_Event;
         private event KeyPressClick KeyPressClick_Event;
         private event CopyListener CopyListener_Event;
-        //初始化
-        protected void Init()
-        {
-            this.IsStopThread = false;
-            this.IsSending = false;
-            this.IsStartCopy = false;
-            this.PackSize = DEFAULT_PACKSIZE;
-            this.IsCenterControlDownload = false;
-        }
-        protected bool IsReceiveAck(byte[] data)
-        {
-            bool result = false;
-            result = data[0] == 0x61 && data[1] == 0x63 && data[2] == 0x6B && data[3] == 0x0D && data[4] == 0x0A;
-            return result;
-        }
+
+
+        //910灯控新增参数
+        protected const int PACKAGESIZE = 512;//数据包大小
+        protected const int ORDER = 1;
+        protected const int DATA = 2;
+        private System.Timers.Timer TransactionTimer { get; set; }//灯控操作执行定时器
+        public delegate void Progress(string filename, int progress);//进度更新事件委托
+        private event Progress ProgressEvent;//进度更新事件
+        protected long DownloadFileToTalSize { get; set; }//工程项目文件总大小
+        protected long CurrentDownloadCompletedSize { get; set; }//当前文件大小
+        protected string CurrentFileName { get; set; }//当前下载文件名称
+        protected bool DownloadProjectStatus { get; set; }//下载状态标记
+        protected int OrderOrData { get; set; }//当前数据包类型
+
+
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -71,13 +76,29 @@ namespace LightController.PeripheralDevice
         /// 断开连接
         /// </summary>
         public abstract void DisConnect();
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        protected void Init()
+        {
+            this.IsStopThread = false;
+            this.IsSending = false;
+            this.IsStartCopy = false;
+            this.PackSize = DEFAULT_PACKSIZE;
+            this.IsCenterControlDownload = false;
+        }
         /// <summary>
         /// 发送数据完成
         /// </summary>
         protected void SendDataCompleted()
         {
             this.StartTimeOut();
-            Console.WriteLine("发送成功");
+            if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
+            {
+                int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
+                this.ProgressEvent(this.CurrentFileName, progress);
+            }
         }
         /// <summary>
         /// 定时器执行语句
@@ -89,19 +110,19 @@ namespace LightController.PeripheralDevice
             this.IsStopThread = true;
             this.IsSending = false;
             LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
-            this.Error_Event();
+            this.Error_Event("通信超时");
+            this.CloseTransactionTimer();
         }
         /// <summary>
         /// 启动定时器计时
         /// </summary>
         private void StartTimeOut()
         {
-            Console.WriteLine("启动超时处理定时器");
+            LogTools.Debug(Constant.TAG_XIAOSA, "启动超时处理定时器");
             if (this.TimeOutTimer == null)
             {
                 this.TimeOutTimer = new System.Timers.Timer(TIMEOUT);
                 this.TimeOutTimer.Elapsed += SendTimeOut;
-                //this.TimeOutTimer.Enabled = true;
                 this.TimeOutTimer.AutoReset = false;
             }
             this.TimeOutTimer.Start();
@@ -113,7 +134,7 @@ namespace LightController.PeripheralDevice
         {
             if (TimeOutTimer != null)
             {
-                Console.WriteLine("停止超时定时器");
+                LogTools.Debug(Constant.TAG_XIAOSA, "关闭超时定时器");
                 TimeOutTimer.Stop();
             }
         }
@@ -151,6 +172,30 @@ namespace LightController.PeripheralDevice
                     break;
                 case Constant.NEW_DEVICE_PASSTHROUGH:
                     result = this.GetPassThroughMark();
+                    break;
+                case Constant.ORDER_BEGIN_SEND:
+                    result = this.GetOrderForBeginSendMark();
+                    break;
+                case Constant.ORDER_PUT:
+                    result = this.GetOrderForPutMark();
+                    break;
+                case Constant.ORDER_END_SEND:
+                    result = this.GetOrderForEndSendMark();
+                    break;
+                case Constant.ORDER_PUT_PARAM:
+                    result = this.GetOrderForPutParamMark();
+                    break;
+                case Constant.ORDER_GET_PARAM:
+                    result = this.GetOrderForGetParamMark();
+                    break;
+                case Constant.ORDER_UPDATE:
+                    result = this.GetOrderForUpdateDeviceSystemMark();
+                    break;
+                case Constant.ORDER_START_DEBUG:
+                    result = this.GetOrderForStartIntentPreviewMark();
+                    break;
+                case Constant.ORDER_END_DEBUG:
+                    result = this.GetOrderForStopIntentPreviewMark();
                     break;
             }
             return result;
@@ -216,6 +261,76 @@ namespace LightController.PeripheralDevice
             }
             return result;
         }
+
+        //获取灯控功能操作命令对应标记位
+        /// <summary>
+        /// 功能：获取BeginSend标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForBeginSendMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+        }
+        /// <summary>
+        /// 功能：获取Put标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForPutMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
+        }
+        /// <summary>
+        /// 功能：获取EndSend标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForEndSendMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+        }
+        /// <summary>
+        /// 功能：获取PutParam标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForPutParamMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
+
+        }
+        /// <summary>
+        /// 功能：获取GetParam标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForGetParamMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+        }
+        /// <summary>
+        /// 功能：获取UpdateDeviceSystem标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForUpdateDeviceSystemMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_TAKE_DATA, 2);
+
+        }
+        /// <summary>
+        /// 功能：获取StartIntentPreview标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForStartIntentPreviewMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+        }
+        /// <summary>
+        /// 功能：获取StopIntentPreview标记位
+        /// </summary>
+        /// <returns></returns>
+        private Byte GetOrderForStopIntentPreviewMark()
+        {
+            return Convert.ToByte(Constant.MARK_ORDER_NO_TAKE_DATA, 2);
+        }
+
+
         /// <summary>
         /// 发送命令通信包
         /// </summary>
@@ -258,55 +373,9 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
-            Console.WriteLine("发送数据为:" + Encoding.Default.GetString(packData.ToArray()));
-            string testStr = "";
-            this.Send(pack.ToArray());
-            for (int i = 0; i < pack.Count; i++)
-            {
-                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + " ";
-            }
-            Console.WriteLine("打印命令: " + testStr);
-        }
-        /// <summary>
-        /// 发送命令通信包，命令带额外数据
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="order"></param>
-        /// <param name="orderData"></param>
-        /// <param name="paramList"></param>
-        private void SendOrder(byte[] data, string order, byte[] param)
-        {
-            this.Data = data;
-            this.MainOrder = order;
-            if (this.Data != null)
-            {
-                this.PackCount = this.Data.Length / PackSize;
-                this.PackCount += (this.Data.Length % PackSize == 0) ? 0 : 1;
-                this.PackIndex = 0;
-            }
-            List<byte> pack = new List<byte>();
-            List<byte> packHead = new List<byte>();
-            List<byte> packData = new List<byte>();
-            packData.AddRange(Encoding.Default.GetBytes(this.MainOrder));//添加命令
-            if (param != null)
-            {
-                packData.AddRange(param);
-            }
-            packHead.Add(PACKFLAG1);//添加标记位1
-            packHead.Add(PACKFLAG2);//添加标记位2
-            packHead.Add(Convert.ToByte(this.DeviceAddr));//添加地址位
-            packHead.Add(Convert.ToByte(packData.Count & 0xFF));//添加数据包长度前8位
-            packHead.Add(Convert.ToByte((packData.Count >> 8) & 0xFF));//添加数据包长度后8位
-            packHead.Add(this.GetOrderMark());//添加标记位
-            packHead.Add(PLACEHOLDER);//添加通信包CRC前8位占位符
-            packHead.Add(PLACEHOLDER);//添加通信包CRC后8位占位符
-            pack.AddRange(packHead);//通信包添加包头
-            pack.AddRange(packData);//通信包添加包体
-            byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
-            pack[6] = packCRC[0];//添加通信包CRC前8位
-            pack[7] = packCRC[1];//添加通信包CRC后8位
             this.Send(pack.ToArray());
         }
+
         /// <summary>
         /// 发送数据包
         /// </summary>
@@ -335,7 +404,7 @@ namespace LightController.PeripheralDevice
             {
                 byte[] crc = CRCTools.GetInstance().GetLightControlCRC(packData.ToArray());
                 packData.AddRange(crc);
-                LogTools.Debug(Constant.TAG_XIAOSA, "CurrentPack:" + this.PackIndex + ",PackCount:" + this.PackCount + "，CurrentPackSize:" + packData.Count);
+                //LogTools.Debug(Constant.TAG_XIAOSA, "CurrentPack:" + this.PackIndex + ",PackCount:" + this.PackCount + "，CurrentPackSize:" + packData.Count);
             }
             packHead.Add(PACKFLAG1);//添加标记位1
             packHead.Add(PACKFLAG2);//添加标记位2
@@ -350,12 +419,13 @@ namespace LightController.PeripheralDevice
             byte[] packCRC = CRCTools.GetInstance().GetCRC(pack.ToArray());//获取通信包16位CRC校验码
             pack[6] = packCRC[0];//添加通信包CRC前8位
             pack[7] = packCRC[1];//添加通信包CRC后8位
-            string testStr = "";
-            for (int i = 0; i < pack.Count; i++)
+
+            //TODO 下载进度显示部分
+            if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
             {
-                testStr = testStr + StringHelper.DecimalStringToBitHex(Convert.ToInt16(pack[i]).ToString(), 2) + " ";
+                this.CurrentDownloadCompletedSize += packData.Count();
             }
-            //TODO 与占位下载进度显示部分
+            this.OrderOrData = DATA;
             this.Send(pack.ToArray());
         }
 		/// <summary>
@@ -406,10 +476,29 @@ namespace LightController.PeripheralDevice
                 case Constant.NEW_DEVICE_PASSTHROUGH:
                     this.PassThroughReceive(data);
                     break;
-                default:
+                case Constant.ORDER_BEGIN_SEND:
+                case Constant.ORDER_PUT:
+                case Constant.ORDER_END_SEND:
+                    this.DownloadProjectReceiveManager(data);
+                    break;
+                case Constant.ORDER_PUT_PARAM:
+                    this.PutParamReceiveManager(data);
+                    break;
+                case Constant.ORDER_GET_PARAM:
+                    this.GetParamReceiveManager(data);
+                    break;
+                case Constant.ORDER_UPDATE:
+                    this.UpdateDeviceSystemReceiveManager(data);
+                    break;
+                case Constant.ORDER_START_DEBUG:
+                    this.StartIntentPreviewReceiveManager(data);
+                    break;
+                case Constant.ORDER_END_DEBUG:
+                    this.StopIntentPreviewReceiveManager(data);
                     break;
             }
         }
+
         //透传回复管理
         private void PassThroughReceive(List<byte> data)
         {
@@ -457,6 +546,7 @@ namespace LightController.PeripheralDevice
                 }
             }
         }
+
         //灯控回复管理
         /// <summary>
         /// 灯光控制继电器通信接收回复消息处理
@@ -505,7 +595,7 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.IsSending = false;
-                this.Completed_Event(null);
+                this.Completed_Event(null,"灯控连接成功");
             }
         }
         /// <summary>
@@ -533,7 +623,7 @@ namespace LightController.PeripheralDevice
                         this.StopTimeOut();
                         this.IsSending = false;
                         LightControlData value = new LightControlData(data);
-                        this.Completed_Event(value);
+                        this.Completed_Event(value,"灯控读取配置数据成功");
                     }
                 }
             }
@@ -581,9 +671,10 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.IsSending = false;
-                this.Completed_Event(null);
+                this.Completed_Event(null,"灯控调试数据发送成功");
             }
         }
+
         //中控回复管理
         /// <summary>
         /// 中控通信接收回复消息处理
@@ -633,7 +724,7 @@ namespace LightController.PeripheralDevice
                 this.IsDone = false;
                 this.StopTimeOut();
                 this.IsSending = false;
-                this.Completed_Event(null);
+                this.Completed_Event(null,"中控设备连接成功");
             }
         }
         /// <summary>
@@ -659,7 +750,7 @@ namespace LightController.PeripheralDevice
                 }
                 else
                 {
-                    this.Error_Event();
+                    this.Error_Event("中控设备未启动解码模式");
                 }
             }
             if (this.IsDone)
@@ -668,7 +759,7 @@ namespace LightController.PeripheralDevice
                 this.IsStartCopy = true;
                 this.IsSending = false;
                 this.IsDone = false;
-                this.Completed_Event(null);
+                this.Completed_Event(null,"中控设备启动解码模式成功");
             }
         }
         /// <summary>
@@ -689,7 +780,7 @@ namespace LightController.PeripheralDevice
             }
             else
             {
-                this.Error_Event();
+                this.Error_Event("中控设备关闭解码模式失败");
             }
             if (this.IsDone)
             {
@@ -697,7 +788,7 @@ namespace LightController.PeripheralDevice
                 this.IsStartCopy = false;
                 this.IsSending = false;
                 this.IsDone = false;
-                this.Completed_Event(null);
+                this.Completed_Event(null,"中控设备关闭解码模式成功");
             }
         }
         /// <summary>
@@ -736,6 +827,7 @@ namespace LightController.PeripheralDevice
                 this.IsAck = true;
             }
         }
+
         //墙板回复管理
         /// <summary>
         /// 墙板设备连接回复消息处理
@@ -760,7 +852,7 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.IsSending = false;
-                this.Completed_Event(null);
+                this.Completed_Event(null,"墙板设备连接成功");
             }
         }
         /// <summary>
@@ -786,7 +878,7 @@ namespace LightController.PeripheralDevice
                 {
                     this.StopTimeOut();
                     this.IsSending = false;
-                    this.Completed_Event(new KeyEntity(data));
+                    this.Completed_Event(new KeyEntity(data),"读取墙壁配置数据成功");
                 }
             }
         }
@@ -830,6 +922,7 @@ namespace LightController.PeripheralDevice
                 this.KeyPressClick_Event(data);
             }
         }
+
         //灯控设备配置
         /// <summary>
         /// 灯控设备链接
@@ -954,7 +1047,7 @@ namespace LightController.PeripheralDevice
                         this.IsDone = false;
                         this.IsSending = false;
                         this.StopTimeOut();
-                        this.Completed_Event(null);
+                        this.Completed_Event(null,"灯控设备下载数据成功");
                         break;
                     }
                     if (IsStopThread)
@@ -1006,6 +1099,7 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "发送调试数据到灯控设备失败", ex);
             }
         }
+
         //中控设备配置
         /// <summary>
         /// 中控设备连接
@@ -1041,7 +1135,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsSending = false;
-                LogTools.Error(Constant.TAG_XIAOSA, "链接中控设备失败", ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "连接中控设备失败", ex);
             }
         }
         /// <summary>
@@ -1176,7 +1270,7 @@ namespace LightController.PeripheralDevice
                         {
                             this.IsSending = false;
                             this.IsCenterControlDownload = false;
-                            this.Completed_Event(null);
+                            this.Completed_Event(null,"中控设备下载协议数据成功");
                             break;
                         }
                         else if (this.PackIndex < this.PackCount)
@@ -1195,6 +1289,7 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "下载协议数据到中控设备失败", ex);
             }
         }
+
         //透传模式墙板设备配置
         /// <summary>
         /// 透传模式墙板设备连接
@@ -1331,7 +1426,7 @@ namespace LightController.PeripheralDevice
                         this.IsDone = false;
                         this.IsSending = false;
                         this.StopTimeOut();
-                        this.Completed_Event(null);
+                        this.Completed_Event(null,"透传模式墙板设备下载配置数据成功");
                         break;
                     }
                 }
@@ -1357,6 +1452,7 @@ namespace LightController.PeripheralDevice
         {
             this.KeyPressClick_Event = null;
         }
+
         //透传模式灯控设备配置
         /// <summary>
         /// 透传模式灯控设备链接
@@ -1480,7 +1576,7 @@ namespace LightController.PeripheralDevice
                         this.IsAck = false;
                         this.IsSending = false;
                         this.StopTimeOut();
-                        this.Completed_Event(null);
+                        this.Completed_Event(null,"透传模式灯控设备下载数据成功");
                         break;
                     }
                     if (IsStopThread)
@@ -1532,6 +1628,7 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "透传模式发送调试数据到灯控设备失败", ex);
             }
         }
+
         //透传模式中控设备配置
         /// <summary>
         /// 透传模式中控设备连接
@@ -1703,7 +1800,7 @@ namespace LightController.PeripheralDevice
                         {
                             this.IsSending = false;
                             this.IsCenterControlDownload = false;
-                            this.Completed_Event(null);
+                            this.Completed_Event(null,"透传模式中控设备下载协议数据成功");
                             break;
                         }
                         else if (this.PackIndex < this.PackCount)
@@ -1722,9 +1819,718 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "透传模式下载协议数据到中控设备失败", ex);
             }
         }
+
+        //910灯控功能整合到新的通信模块
+
+        /// <summary>
+        /// 功能：灯光工厂下载更新专属发包处理模块
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="dataLengtgh"></param>
+        /// <param name="isLastPackage"></param>
+        private void SendDataPackageForDownload(byte[] data,int dataLengtgh,bool isLastPackage)
+        {
+            try
+            {
+                this.PackIndex++;
+                List<byte> package = new List<byte>();
+                List<byte> packageData = new List<byte>();
+                for (int i = 0; i < dataLengtgh; i++)
+                {
+                    packageData.Add(data[i]);
+                }
+                byte[] packageDataSize = new byte[]
+                {
+                    Convert.ToByte(dataLengtgh & 0xFF),
+                    Convert.ToByte((dataLengtgh >> 8) & 0xFF)
+                };
+                byte packageMark = isLastPackage ? Convert.ToByte(Constant.MARK_DATA_END, 2) : Convert.ToByte(Constant.MARK_DATA_NO_END, 2);
+                byte[] packageHead = new byte[]
+                {
+                    Convert.ToByte(0xAA),
+                    Convert.ToByte(0xBB),
+                    Convert.ToByte(this.DeviceAddr),
+                    packageDataSize[0],
+                    packageDataSize[1],
+                    packageMark,
+                    Convert.ToByte(0x00),
+                    Convert.ToByte(0x00)
+                };
+                package.AddRange(packageHead);
+                package.AddRange(packageData);
+                byte[] packageCRC = CRCTools.GetInstance().GetCRC(package.ToArray());
+                package[6] = packageCRC[0];
+                package[7] = packageCRC[1];
+                if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
+                {
+                    this.CurrentDownloadCompletedSize += packageData.Count();
+                }
+                this.OrderOrData = DATA;
+                this.Send(package.ToArray());
+            }
+            catch (Exception ex) 
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载数据发送出现异常", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("灯光工程下载更新数据包发送中止");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：灯光工程下载更新
+        /// </summary>
+        /// <param name="wrapper">数据库数据</param>
+        /// <param name="configPath">全局配置文件路径</param>
+        /// <param name="completed">成功事件委托</param>
+        /// <param name="error">失败事件委托</param>
+        public void DownloadProject(DBWrapper wrapper,string configPath,Completed completed,Error error,Progress progress)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => DownloadProjectStart(s, e,new DownloadProjectData(wrapper,configPath)));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载更新任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("灯光工程下载更新任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：灯光工程下载更新执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DownloadProjectStart(Object obj, ElapsedEventArgs e,DownloadProjectData data)
+        {
+            this.SecondOrder = Order.DOWNLOAD_PROJECT;
+            string projectDirPath = Application.StartupPath + @"\DataCache\Download\CSJ";
+            this.CurrentDownloadCompletedSize = 0;
+            this.DownloadFileToTalSize = 0;
+            string fileName = string.Empty;
+            string fileSize = string.Empty;
+            string fileCRC = string.Empty;
+            byte[] readBuff = new byte[PACKAGESIZE];
+            int readSize = 0;
+            this.DownloadProjectStatus = false;
+            try
+            {
+                //读取所有文件大小
+                if (Directory.Exists(projectDirPath))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(projectDirPath))
+                    {
+                        this.DownloadFileToTalSize += (new FileInfo(filePath)).Length;
+                    }
+                    if (this.DownloadFileToTalSize == 0)
+                    {
+                        this.IsSending = false;
+                        this.Error_Event("灯光工程下载更新失败，没有工程文件");
+                        return;
+                    }
+                    //发送灯光工程更新启动命令
+                    this.SendOrder(null, Constant.ORDER_BEGIN_SEND, null);
+                    while (true)
+                    {
+                        if (this.DownloadProjectStatus)
+                        {
+                            this.DownloadProjectStatus = false;
+                            break;
+                        }
+                        Thread.Sleep(0);
+                    }
+                    foreach (string filePath in Directory.GetFileSystemEntries(projectDirPath))
+                    {
+                        FileInfo info = new FileInfo(filePath);
+                        fileName = info.Name;
+                        fileSize = info.Length.ToString();
+                        byte[] crcBuff = CRCTools.GetInstance().GetCRC(filePath);
+                        fileCRC = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
+                        this.CurrentFileName = fileName;
+                        this.SendOrder(null, Constant.ORDER_PUT, new string[] { fileName, fileSize, fileCRC });
+                        while (true)
+                        {
+                            if (this.DownloadProjectStatus)
+                            {
+                                this.DownloadProjectStatus = false;
+                                break;
+                            }
+                            Thread.Sleep(0);
+                        }
+                        using (FileStream fileStream = info.OpenRead())
+                        {
+                            while ((readSize = fileStream.Read(readBuff, 0, readBuff.Length)) > 0)
+                            {
+                                if (readSize < PACKAGESIZE)
+                                {
+                                    SendDataPackageForDownload(readBuff, readSize, true);
+                                }
+                                else
+                                {
+                                    SendDataPackageForDownload(readBuff, readSize, false);
+                                }
+                                while (true)
+                                {
+                                    if (this.DownloadProjectStatus)
+                                    {
+                                        this.DownloadProjectStatus = false;
+                                        break;
+                                    }
+                                    Thread.Sleep(0);
+                                }
+                            }
+                        }
+                    }
+                    this.SendOrder(null, Constant.ORDER_END_SEND, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "灯光工程下载更新已中止", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("灯光工程下载更新失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：更新硬件配置
+        /// </summary>
+        /// <param name="filePath">硬件配置文件路径</param>
+        /// <param name="completed">成功事件委托</param>
+        /// <param name="error">失败事件委托</param>
+        public void PutParam(string filePath,Completed completed,Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => PutParamStart(s, e, new PutParamData(filePath)));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "更新硬件配置任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("更新硬件配置任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：更新硬件配置执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void PutParamStart(Object obj, ElapsedEventArgs e, PutParamData putParamData)
+        {
+            try
+            {
+                this.SecondOrder = Order.PUT_PARAM;
+                ICSJFile hardWareFile = new CSJ_Hardware(putParamData.FilePath);
+                byte[] data = hardWareFile.GetData();
+                string fileName = @"Hardware.bin";
+                string fileSize = data.Length.ToString();
+                byte[] crcBuff = CRCTools.GetInstance().GetCRC(data);
+                string fileCrc = Convert.ToInt32((crcBuff[0] & 0xFF) | ((crcBuff[1] & 0xFF) << 8)) + "";
+                this.SendOrder(data, Constant.ORDER_PUT_PARAM, new string[] { fileName, fileSize, fileCrc });
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA,"更新硬件配置信息失败",ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("更新硬件配置信息失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：读取硬件配置信息
+        /// </summary>
+        /// <param name="completed">成功事件委托</param>
+        /// <param name="error">失败事件委托</param>
+        public void GetParam(Completed completed,Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => GetParamStart(s, e));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "读取硬件配置任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("读取硬件配置信息任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：读取硬件配置信息执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void GetParamStart(Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                this.SecondOrder = Order.GET_PARAM;
+                this.SendOrder(null, Constant.ORDER_GET_PARAM, null);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "读取硬件配置信息失败",ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("读取硬件配置信息失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：升级硬件系统
+        /// </summary>
+        /// <param name="completed">成功事件委托</param>
+        /// <param name="error">失败事件委托</param>
+        public void UpdateDeviceSystem(string filePath, Completed completed,Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => UpdateDeviceSystemStart(s, e,new UpdateDeviceSystemData(filePath)));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "升级硬件系统任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("升级硬件系统任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：升级硬件系统执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void UpdateDeviceSystemStart(Object obj, ElapsedEventArgs e,UpdateDeviceSystemData updateDeviceSystemData)
+        {
+            try
+            {
+                this.SecondOrder = Order.UPDATE_DEVICE_SYSTEM;
+                if (File.Exists(updateDeviceSystemData.FilePath))
+                {
+                    FileStream fileStream = File.OpenRead(updateDeviceSystemData.FilePath);
+                    this.DownloadFileToTalSize = 0;
+                    this.CurrentDownloadCompletedSize = 0;
+                    byte[] data = new byte[fileStream.Length];
+                    fileStream.Read(data, 0, data.Length);
+                    string fileSize = data.Length.ToString();
+                    this.DownloadFileToTalSize = data.Length;
+                    string fileName = "Update.xbin";
+                    this.CurrentFileName = fileName;
+                    byte[] crc = CRCTools.GetInstance().GetCRC(data);
+                    string fileCrc = Convert.ToInt32((crc[0] & 0xFF) | ((crc[1] & 0xFF) << 8)) + "";
+                    this.SendOrder(data, Constant.ORDER_UPDATE, new string[] { fileName, fileSize, fileCrc });
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA,"升级硬件系统失败",ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("升级硬件系统失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：启动网络调试模式
+        /// </summary>
+        /// <param name="completed">成功事件委托</param>
+        /// <param name="error">失败事件委托</param>
+        public void StartIntentPreview(int timeFactory, Completed completed,Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => StartIntentPreviewStart(s, e,new StartIntentPreviewData(timeFactory)));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "启动网络调试模式任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("启动网络调试模式任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：启动网络调试模式执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void StartIntentPreviewStart(Object obj, ElapsedEventArgs e,StartIntentPreviewData startIntentPreviewData)
+        {
+            try
+            {
+                this.SecondOrder = Order.START_INTENT_PREVIEW;
+                this.SendOrder(null, Constant.ORDER_START_DEBUG, new string[]{ Convert.ToString(startIntentPreviewData.TimeFactory)});
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "启动网络调试模式失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("启动网络调试模式失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：关闭网络调试模式
+        /// </summary>
+        /// <param name="completed">成功事件委托</param>
+        /// <param name="error">失败事件委托</param>
+        public void StopIntentPreview(Completed completed, Error error)
+        {
+            try
+            {
+                if (!this.IsSending)
+                {
+                    this.IsSending = true;
+                    this.Completed_Event = completed;
+                    this.Error_Event = error;
+                    this.CloseTransactionTimer();
+                    this.TransactionTimer = new System.Timers.Timer
+                    {
+                        AutoReset = false
+                    };
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => StopIntentPreviewStart(s, e));
+                    this.TransactionTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭网络调试模式任务启动失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("关闭网络调试模式任务启动失败");
+                this.CloseTransactionTimer();
+            }
+        }
+        /// <summary>
+        /// 功能：关闭网络调试模式执行线程
+        /// </summary>
+        /// <param name="obj"></param>
+        private void StopIntentPreviewStart(Object obj, ElapsedEventArgs e)
+        {
+            try
+            {
+                this.SecondOrder = Order.STOP_INTENT_PREVIEW;
+                this.SendOrder(null, Constant.ORDER_END_DEBUG, null);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭网络调试模式任务失败", ex);
+                this.StopTimeOut();
+                this.IsSending = false;
+                this.Error_Event("关闭网络调试模式任务失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        //910灯控功能回复管理模块
+
+        /// <summary>
+        /// 功能：灯光工程下载回复消息管理
+        /// </summary>
+        /// <param name="data">回复消息数据</param>
+        private void DownloadProjectReceiveManager(List<byte> data)
+        {
+            this.StopTimeOut();
+            switch (this.MainOrder)
+            {
+                case Constant.ORDER_BEGIN_SEND:
+                    if (Encoding.Default.GetString(data.ToArray()).Split(':')[0].Equals(Constant.RECEIVE_ORDER_BEGIN_OK))
+                    {
+                        string value = Encoding.Default.GetString(data.ToArray()).Split(':')[1].Split(' ')[1];
+                        long.TryParse(value, out long intValue);
+                        long DiskUsableSize = intValue * 1024 * 1024;
+                        if (DiskUsableSize >= this.DownloadFileToTalSize)
+                        {
+                            this.DownloadProjectStatus = true;
+                        }
+                        else
+                        {
+                            LogTools.Debug(Constant.TAG_XIAOSA,"SD卡容量不足");
+                            this.IsSending = false;
+                            this.Error_Event("SD卡容量不足");
+                            this.CloseTransactionTimer();
+                        }
+                    }
+                    else if (Encoding.Default.GetString(data.ToArray()).Split(':')[0].Equals(Constant.RECEIVE_ORDER_BEGIN_ERROR))
+                    {
+                        string errorMessage = "";
+                        if (Encoding.Default.GetString(data.ToArray()).Split(':')[1].Equals(Constant.RECEIVE_ORDER_BEGIN_ERROR_DISK))
+                        {
+                            errorMessage = "未插入SD卡";
+                        }
+                        else
+                        {
+                            errorMessage = "灯光工程下载失败";
+                        }
+                        this.Error_Event(errorMessage);
+                        this.IsSending = false;
+                        this.CloseTransactionTimer();
+                    }
+                    break;
+                case Constant.ORDER_PUT:
+                    if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT) || Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_SENDNEXT) || Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+                    {
+                        this.DownloadProjectStatus = true;
+                    }
+                    else
+                    {
+                        this.IsSending = false;
+                        this.Error_Event("灯光工程下载失败");
+                        this.CloseTransactionTimer();
+                    }
+                    break;
+                case Constant.ORDER_END_SEND:
+                    if (Encoding.Default.GetString(data.ToArray()).Split(':')[0].Equals(Constant.RECEIVE_ORDER_ENDSEND_OK))
+                    {
+                        this.DownloadProjectStatus = true;
+                        this.Completed_Event(null,"灯光工程下载成功");
+                    }
+                    else if (Encoding.Default.GetString(data.ToArray()).Split(':')[0].Equals(Constant.RECEIVE_ORDER_ENDSEND_ERROR))
+                    {
+                        this.Error_Event("灯光工程下载失败");
+                    }
+                    this.IsSending = false;
+                    this.CloseTransactionTimer();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 功能：更新硬件配置回复消息管理
+        /// </summary>
+        /// <param name="data">回复消息数据</param>
+        private void PutParamReceiveManager(List<byte> data)
+        {
+            this.StopTimeOut();
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT_PARAM))
+            {
+                this.SendData();
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsSending = false;
+                this.Completed_Event(null, "更新硬件配置信息成功");
+                this.CloseTransactionTimer();
+                LogTools.Debug(Constant.TAG_XIAOSA, "更新硬件配置信息成功");
+            }
+            else
+            {
+                //更新硬件失败
+                this.IsSending = false;
+                this.Error_Event("更新硬件配置信息失败");
+                LogTools.Debug(Constant.TAG_XIAOSA, "更新硬件配置信息失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：读取硬件配置信息回复消息管理
+        /// </summary>
+        /// <param name="data">回复消息数据</param>
+        private void GetParamReceiveManager(List<byte> data)
+        {
+            this.StopTimeOut();
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_GET_PARAM))
+            {
+                //读取硬件配置信息失败
+                LogTools.Debug(Constant.TAG_XIAOSA, "读取硬件配置信息失败");
+                this.Error_Event("读取硬件配置信息失败");
+            }
+            else
+            {
+                CSJ_Hardware hardware = null;
+                hardware = new CSJ_Hardware(data.ToArray());
+                this.Completed_Event(hardware, "读取硬件配置信息成功");
+            }
+            this.IsSending = false;
+            this.CloseTransactionTimer();
+        }
+
+        /// <summary>
+        /// 功能：升级硬件系统回复消息管理
+        /// </summary>
+        /// <param name="data"></param>
+        private void UpdateDeviceSystemReceiveManager(List<byte> data)
+        {
+            this.StopTimeOut();
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_UPDATE_OK) || Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_SENDNEXT))
+            {
+                this.SendData();
+            }
+            else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
+            {
+                this.IsSending = false;
+                this.Completed_Event(null, "升级硬件系统成功");
+                this.CloseTransactionTimer();
+            }
+            else
+            {
+                LogTools.Debug(Constant.TAG_XIAOSA, "升级硬件系统失败");
+                this.IsSending = false;
+                this.Error_Event("升级硬件系统失败");
+                this.CloseTransactionTimer();
+            }
+        }
+
+        /// <summary>
+        /// 功能：启动网络调试模拟回复消息管理
+        /// </summary>
+        /// <param name="data"></param>
+        private void StartIntentPreviewReceiveManager(List<byte> data)
+        {
+            this.StopTimeOut();
+            if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_START_DEBUG_OK))
+            {
+                this.Completed_Event(null, "启动网络模拟调试成功");
+            }
+            else
+            {
+                LogTools.Debug(Constant.TAG_XIAOSA, "启动网络模拟调试失败");
+                this.Error_Event("启动网络模拟调试失败");
+            }
+            this.IsSending = false;
+            this.CloseTransactionTimer();
+        }
+
+        /// <summary>
+        /// 功能：关闭网络调试模拟回复消息管理
+        /// </summary>
+        /// <param name="data"></param>
+        private void StopIntentPreviewReceiveManager(List<byte> data)
+        {
+            this.StopTimeOut();
+            this.Completed_Event(null,"关闭网络调试模拟成功");
+            this.IsSending = false;
+            this.CloseTransactionTimer();
+        }
+
+        /// <summary>
+        /// 功能：关闭灯光控制事务定时器
+        /// </summary>
+        private void CloseTransactionTimer()
+        {
+            if (this.TransactionTimer != null)
+            {
+                this.TransactionTimer.Stop();
+                this.TransactionTimer = null;
+            }
+        }
     }
+
+    //事件传递数据结构
+    /// <summary>
+    /// 灯光工程下载事件执行传递数据结构
+    /// </summary>
+    public class DownloadProjectData
+    {
+        public DBWrapper Wrapper { get; set; }
+        public string ConfigPath { get; set; }
+        public DownloadProjectData(DBWrapper wrapper,string configPath)
+        {
+            this.Wrapper = wrapper;
+            this.ConfigPath = configPath;
+        }
+    }
+    public class PutParamData
+    {
+        public string FilePath { get; set; } 
+        public PutParamData(string filePath)
+        {
+            this.FilePath = filePath;
+        }
+    }
+    public class UpdateDeviceSystemData
+    {
+        public string FilePath { get; set; }
+        public UpdateDeviceSystemData(string filePath)
+        {
+            this.FilePath = filePath;
+        }
+    }
+    public class StartIntentPreviewData
+    {
+        public int TimeFactory { get; set; }
+        public StartIntentPreviewData(int timeFactory)
+        {
+            this.TimeFactory = timeFactory;
+        }
+    }
+
     enum Order
     {
-        ZG,RG,DG,YG,ZC,RC,DC,LK,DK,CP,XP
+        ZG,RG,DG,YG,ZC,RC,DC,LK,DK,CP,XP,DOWNLOAD_PROJECT,PUT_PARAM,GET_PARAM,UPDATE_DEVICE_SYSTEM,START_INTENT_PREVIEW,STOP_INTENT_PREVIEW
     }
 }

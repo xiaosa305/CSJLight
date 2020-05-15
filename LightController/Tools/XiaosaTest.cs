@@ -1,4 +1,5 @@
-﻿using LightController.Entity;
+﻿using LightController.Ast;
+using LightController.Entity;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
 using System;
@@ -14,6 +15,7 @@ namespace LightController.Tools
     {
         private static XiaosaTest Instance { get; set; }
         private SerialConnect SerialConnect { get; set; }
+        private NetworkConnect Connect { get; set; }
 
         private XiaosaTest()
         {
@@ -27,6 +29,50 @@ namespace LightController.Tools
             }
             return Instance;
         }
+
+        public void NewConnectTest(DBWrapper wrapper,string configPath)
+        {
+            if (this.Connect == null)
+            {
+                this.Connect = new NetworkConnect(new NetworkDeviceInfo() { DeviceAddr = 1, DeviceIp = "192.168.31.153", DeviceName = "大房101" });
+            }
+            if (this.Connect.IsConnected())
+            {
+                //this.Connect.DownloadProject(wrapper, configPath, DownloadCompleted, DownloadError, DownloadProgress);
+                //this.Connect.PutParam(@"C:\Users\99729\Dev\Gitee\CSJLight\LightController\HardwareSet.ini", DownloadCompleted, DownloadError);
+                this.Connect.GetParam(DownloadCompleted, DownloadError);
+            }
+        }
+
+        public void DownloadCompleted(Object obj,string msg)
+        {
+            CSJ_Hardware hardware = obj as CSJ_Hardware;
+            Console.WriteLine("下载成功[" + msg + "]");
+        }
+        public void DownloadError(string msg)
+        {
+            Console.WriteLine("下载失败[" + msg + "]");
+        }
+        public  void DownloadProgress(string fileName,int progress)
+        {
+            Console.WriteLine(fileName + "下载进度：" + progress);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public void OpenSerialPort()
         {
             NetworkDeviceInfo info = new NetworkDeviceInfo();
@@ -46,9 +92,9 @@ namespace LightController.Tools
         {
             List<byte> data = obj as List<byte>;
         }
-        private void LCCCompleted(Object obj)
+        private void LCCCompleted(Object obj,string msg)
         {
-            Console.WriteLine("灯控设备连接成功");
+            Console.WriteLine("灯控设备连接成功\n" + msg);
         }
         private void KPCConpleted(Object obj)
         {
@@ -61,9 +107,9 @@ namespace LightController.Tools
             Console.WriteLine("墙板设备读取成功");
             //SerialConnect.KeyPressDownload(entity, KPDCompleted, KPDError);
         }
-        private void LCCError()
+        private void LCCError(string msg)
         {
-            Console.WriteLine("灯控设备连接失败");
+            Console.WriteLine("灯控设备连接失败[" + msg + "]");
         }
         private void KPCError()
         {
@@ -73,12 +119,10 @@ namespace LightController.Tools
         {
             Console.WriteLine("墙板设备读取失败");
         }
-
         private void KPDCompleted(Object obj)
         {
             Console.WriteLine("墙板设备下载数据成功");
         }
-
         private void KPDError()
         {
             Console.WriteLine("墙板设备下载数据失败");

@@ -2512,7 +2512,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void wjTestButton_Click(object sender, EventArgs e)
 		{
-			new TestForm().ShowDialog();
+			new TestForm(GetDBWrapper(false), GlobalIniPath).ShowDialog();
 		}
 
 		private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)

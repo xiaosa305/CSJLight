@@ -40,14 +40,22 @@ namespace LightController.PeripheralDevice
         /// <param name="deviceInfo"></param>
         private void Connect(NetworkDeviceInfo deviceInfo)
         {
-            this.DeviceName = deviceInfo.DeviceName;
-            this.DeviceIp = deviceInfo.DeviceIp;
-            this.DevicePort = TCPPORT;
-            this.DeviceAddr = deviceInfo.DeviceAddr;
-            this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
-            this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
-            this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+            try
+            {
+                this.DeviceName = deviceInfo.DeviceName;
+                this.DeviceIp = deviceInfo.DeviceIp;
+                this.DevicePort = TCPPORT;
+                this.DeviceAddr = deviceInfo.DeviceAddr;
+                this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
+                this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
+                this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "设备链接超时", ex);
+            }
+           
         }
         /// <summary>
         /// 获取缓存区大小

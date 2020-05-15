@@ -13,11 +13,15 @@ namespace LightController.MyForm.Test
 {
 	public partial class TestForm : Form
 	{
+        private DBWrapper Wrapper { get; set; }
+        private string ConfigPath { get; set; }
 		public TestForm(DBWrapper wrapper,string configPath)
 		{
             InitializeComponent();
             SetSerialPortBox();
             SetSerialPortStartText();
+            Wrapper = wrapper;
+            ConfigPath = configPath;
 		}
         private void TestPicture()
         {
@@ -113,7 +117,7 @@ namespace LightController.MyForm.Test
 
         private void NewConnectedTestBtn_Click(object sender, EventArgs e)
         {
-            XiaosaTest.GetInstance().NewConnectTest();
+            XiaosaTest.GetInstance().NewConnectTest(Wrapper,ConfigPath);
         }
     }
 }

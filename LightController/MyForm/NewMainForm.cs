@@ -2178,7 +2178,7 @@ namespace LightController.MyForm
 				isRealtime = true;				
 				if (!isConnectCom)
 				{
-					playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+					playTools.StartInternetPreview(myConnect,CommonCompleted, CommonError ,eachStepTime);
 				}				
 				RefreshStep();
 				SetNotice("已开启实时调试。");
@@ -2408,7 +2408,7 @@ namespace LightController.MyForm
 					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
 					if( myConnect.IsConnected() )					 
 					{
-						playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+						playTools.StartInternetPreview(myConnect, CommonCompleted, CommonError , eachStepTime);
 						SetNotice("网络设备连接成功。");
 					}
 					else {
@@ -2425,7 +2425,7 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					playTools.StopInternetPreview(new NetworkEndDebugReceiveCallBack());			
+					playTools.StopInternetPreview( CommonCompleted, CommonError);			
 				}
 				EnableConnectedButtons(false);
 				SetNotice("已断开连接。");

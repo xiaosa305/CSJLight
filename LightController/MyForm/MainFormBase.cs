@@ -3003,7 +3003,7 @@ namespace LightController.MyForm
 		{			
 			if (!isConnectCom)
 			{
-				playTools.StartInternetPreview(selectedIpAst.DeviceIP, new NetworkDebugReceiveCallBack(this), eachStepTime);
+				playTools.StartInternetPreview(myConnect, CommonCompleted,CommonError, eachStepTime);
 			}
 			SetNotice("预览数据生成成功,即将开始预览。");
 			playTools.PreView(GetDBWrapper(false), GlobalIniPath, currentFrame);			
@@ -3131,6 +3131,34 @@ namespace LightController.MyForm
 
 		#endregion
 
+		#region 委托的成功或方法块 
+
+		/// <summary>
+		/// 辅助回调方法：灯控连接成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void CommonCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate {
+				SetNotice(msg);
+			});
+		}
+
+		/// <summary>
+		/// 辅助回调方法：灯控连接出错
+		/// </summary>
+		/// <param name="obj"></param>
+		public void CommonError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				MessageBox.Show(msg);
+				SetNotice(msg);
+			});
+		}
+
+		#endregion
+
 		#region 弃用方法区
 
 		//弃用原因：不再支持可更改时间因子。
@@ -3214,7 +3242,7 @@ namespace LightController.MyForm
 		/// </summary>
 		//protected void MakeCurrentStepWrapperData(int stepNum)
 		//{
-		
+
 		//	if (getCurrentLightStepWrapper().StepWrapperList[stepNum - 1] != null && getCurrentLightStepWrapper().StepWrapperList[stepNum - 1].Flag == 0)
 		//	{
 
@@ -3453,6 +3481,6 @@ namespace LightController.MyForm
 		{
 			mainForm.SetNotice("正在生成工程文件("+name+")");
 		}
-	}
+	}	
 
 }

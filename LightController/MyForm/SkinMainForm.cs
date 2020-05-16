@@ -2312,13 +2312,11 @@ namespace LightController.MyForm
 		{
 			comName = deviceSkinComboBox.Text;
 			if (!comName.Trim().Equals(""))
-			{
-				deviceSelectedIndex = deviceSkinComboBox.SelectedIndex;				
+			{	
 				connectSkinButton.Enabled = true;
 			}
 			else
 			{
-				deviceSelectedIndex = -1;
 				connectSkinButton.Enabled = false;
 				MessageBox.Show("未选中可用设备");
 			}
@@ -2330,8 +2328,8 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void connectSkinButton_Click(object sender, EventArgs e)
-		{
-			connectButtonClick();
+		{			
+			connectButtonClick(deviceSkinComboBox.SelectedIndex);
 		}	
 
 		/// <summary>
@@ -2464,7 +2462,6 @@ namespace LightController.MyForm
 					deviceSkinComboBox.Items.Add(com);
 				}
 				deviceSkinComboBox.SelectedIndex = 0;
-				deviceSelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
 				SetNotice("已刷新串口列表，可选择并连接设备进行调试");
 			}
@@ -2472,7 +2469,6 @@ namespace LightController.MyForm
 			{
 				deviceSkinComboBox.Text = "";
 				deviceSkinComboBox.SelectedIndex = -1;
-				deviceSelectedIndex = -1;
 				deviceSkinComboBox.Enabled = false;
 				connectSkinButton.Enabled = false;
 				SetNotice("未找到可用串口。");
@@ -2487,7 +2483,6 @@ namespace LightController.MyForm
 			SetNotice("正在搜索网络设备，请稍候...");
 			deviceSkinComboBox.Items.Clear();
 			deviceSkinComboBox.SelectedIndex = -1;
-			deviceSelectedIndex = -1;
 			deviceSkinComboBox.Enabled = false;
 			ipaList = new List<IPAst>();
 
@@ -2525,7 +2520,6 @@ namespace LightController.MyForm
 			{
 				deviceSkinComboBox.Enabled = true;
 				deviceSkinComboBox.SelectedIndex = 0;
-				deviceSelectedIndex = 0;
 				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
 			}
 			else

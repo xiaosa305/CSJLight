@@ -119,7 +119,6 @@ namespace LightController.MyForm
 
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
-		protected int deviceSelectedIndex = -1 ;
 
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
@@ -2382,7 +2381,7 @@ namespace LightController.MyForm
 		{
 			if (isConnected)
 			{
-				connectButtonClick();
+				connectButtonClick( -1 );
 			}
 			new ProjectUpdateForm(this, GetDBWrapper(false), GlobalIniPath, tempProjectPath).ShowDialog();
 		}
@@ -2431,7 +2430,7 @@ namespace LightController.MyForm
 			// 若要进入《其他工具》，应该先将连接断开
 			if (isConnected)
 			{
-				connectButtonClick();
+				connectButtonClick( -1 );
 			}
 			new NewToolsForm(this).ShowDialog();
 		}
@@ -3005,7 +3004,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：点击《连接设备 | 断开连接》
 		/// </summary>
-		protected void connectButtonClick()
+		protected void connectButtonClick(int deviceSelectedIndex)
 		{
 			playTools = PlayTools.GetInstance();
 			// 如果还没连接（按钮显示为“连接设备”)，那就连接

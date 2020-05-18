@@ -2176,7 +2176,7 @@ namespace LightController.MyForm
 				isRealtime = true;				
 				if (!isConnectCom)
 				{
-					playTools.StartInternetPreview(myConnect,CommonCompleted, CommonError ,eachStepTime);
+					playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError ,eachStepTime);
 				}				
 				RefreshStep();
 				SetNotice("已开启实时调试。");
@@ -2189,7 +2189,7 @@ namespace LightController.MyForm
 				SetNotice("已退出实时调试。");
 			}
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
 		/// </summary>
@@ -2290,8 +2290,7 @@ namespace LightController.MyForm
 			{
 				deviceComboBox.Text = "";
 				deviceComboBox.SelectedIndex = -1;
-				deviceComboBox.Enabled = false;
-				deviceComboBox.Enabled = false;
+				deviceComboBox.Enabled = false;			
 				SetNotice("未找到可用串口。");
 			}
 

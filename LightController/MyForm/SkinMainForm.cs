@@ -2347,7 +2347,7 @@ namespace LightController.MyForm
 				isRealtime = true;
 				if (!isConnectCom)
 				{
-					playTools.StartInternetPreview( myConnect, CommonCompleted, CommonError, eachStepTime);
+					playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 				}
 				RefreshStep();
 				SetNotice("已开启实时调试。");

@@ -3034,7 +3034,7 @@ namespace LightController.MyForm
 					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
 					if (myConnect.IsConnected())
 					{
-						playTools.StartInternetPreview(myConnect, CommonCompleted, CommonError, eachStepTime);
+						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
 						SetNotice("网络设备连接成功。");
 					}
 					else
@@ -3046,7 +3046,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：断掉连接
+		/// 辅助方法：断开连接
 		/// </summary>
 		protected void disConnect() {
 			if (isConnected) {
@@ -3055,12 +3055,12 @@ namespace LightController.MyForm
 				if (isConnectCom)
 				{
 					playTools.CloseDevice();
+					EnableConnectedButtons(false);
 				}
 				else
 				{
-					playTools.StopInternetPreview(CommonCompleted, CommonError);
-				}
-				EnableConnectedButtons(false);
+					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
+				}				
 				SetNotice("已断开连接");
 			}
 		}
@@ -3071,9 +3071,9 @@ namespace LightController.MyForm
 		/// </summary>
 		internal void Preview()
 		{			
-			if (!isConnectCom)
+			if ( ! isConnectCom)
 			{
-				playTools.StartInternetPreview(myConnect, CommonCompleted,CommonError, eachStepTime);
+				playTools.StartInternetPreview( myConnect, ConnectCompleted,ConnectAndDisconnectError, eachStepTime);
 			}
 			SetNotice("预览数据生成成功,即将开始预览。");
 			playTools.PreView(GetDBWrapper(false), GlobalIniPath, currentFrame);			
@@ -3204,22 +3204,34 @@ namespace LightController.MyForm
 		#region 委托的成功或方法块 
 
 		/// <summary>
-		/// 辅助回调方法：灯控连接成功
+		/// 辅助回调方法：设备连接成功
 		/// </summary>
 		/// <param name="obj"></param>
-		public void CommonCompleted(Object obj, string msg)
+		public void ConnectCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
 				EnableConnectedButtons(true);
 				SetNotice(msg);
 			});
+		}	
+
+		/// <summary>
+		/// 辅助回调方法：设备断开成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void DisconnectCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate {
+				EnableConnectedButtons(false);
+				SetNotice(msg);
+			});
 		}
 
 		/// <summary>
-		/// 辅助回调方法：灯控连接出错
+		/// 辅助回调方法：设备连接或断开连接出错
 		/// </summary>
 		/// <param name="obj"></param>
-		public void CommonError(string msg)
+		public void ConnectAndDisconnectError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
@@ -3227,6 +3239,7 @@ namespace LightController.MyForm
 				SetNotice(msg);
 			});
 		}
+
 
 		#endregion
 

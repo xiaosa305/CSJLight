@@ -140,7 +140,10 @@ namespace LightController.PeripheralDevice
             {
                 if (this.Socket != null)
                 {
-                    this.Socket.Close();
+                    if (this.Socket.Connected)
+                    {
+                        this.Socket.Close();
+                    }
                     this.Socket = null;
                 }
             }

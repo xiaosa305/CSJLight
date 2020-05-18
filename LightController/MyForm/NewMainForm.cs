@@ -239,7 +239,7 @@ namespace LightController.MyForm
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
 			//启动时刷新可用串口列表，但把显示给删除
-			refreshComList();
+			deviceRefreshButton_Click(null,null);
 			SetNotice("");
 		}
 
@@ -711,7 +711,6 @@ namespace LightController.MyForm
 				lightTypeLabel.Text = null;
 				lightsAddrLabel.Text = null;
 				lightRemarkLabel.Text = null;
-				selectedLightName = "";
 				return;
 			}
 
@@ -721,7 +720,6 @@ namespace LightController.MyForm
 			lightsAddrLabel.Text = "地址：" + la.LightAddr;
 			lightRemarkLabel.Text = "备注：" + la.Remark;
 			myToolTip.SetToolTip(lightRemarkLabel, "备注：\n" + la.Remark);
-			selectedLightName = la.LightName + "-" + la.LightType;
 		}
 
 		/// <summary>
@@ -2125,7 +2123,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceRefreshButton_Click(object sender, EventArgs e)
 		{
-			if (isConnectCom)
+			//	 刷新前，先清空按键等
+			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...");
+			deviceComboBox.Items.Clear();
+			deviceComboBox.Text = "";
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Enabled = false;
+			deviceConnectButton.Enabled = false;
+			Refresh();
+
+			if ( isConnectCom )
 			{
 				refreshComList();
 			}
@@ -2142,7 +2149,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			comName = deviceComboBox.Text;
+			comName = deviceComboBox.Text;		
 			if (!comName.Trim().Equals(""))
 			{
 				deviceConnectButton.Enabled = true;
@@ -2150,7 +2157,7 @@ namespace LightController.MyForm
 			else
 			{
 				deviceConnectButton.Enabled = false;
-				MessageBox.Show("未选中可用串口");
+				MessageBox.Show("未选中可用设备");
 			}
 		}		
 				
@@ -2161,7 +2168,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void connectButton_Click(object sender, EventArgs e)
 		{
-			connectButtonClick();
+			connectButtonClick( deviceComboBox.SelectedIndex );
 		}		
 
 		/// <summary>
@@ -2178,7 +2185,7 @@ namespace LightController.MyForm
 				isRealtime = true;				
 				if (!isConnectCom)
 				{
-					playTools.StartInternetPreview(myConnect,CommonCompleted, CommonError ,eachStepTime);
+					playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError ,eachStepTime);
 				}				
 				RefreshStep();
 				SetNotice("已开启实时调试。");
@@ -2191,7 +2198,7 @@ namespace LightController.MyForm
 				SetNotice("已退出实时调试。");
 			}
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
 		/// </summary>
@@ -2273,9 +2280,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void refreshComList()
 		{
-			SetNotice("正在刷新串口列表，请稍候...");
-			// 动态加载可用的dmx512串口列表		 
-			deviceComboBox.Items.Clear();
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
 			if (comList != null && comList.Length > 0)
@@ -2286,13 +2290,11 @@ namespace LightController.MyForm
 				}
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
+				deviceConnectButton.Enabled = true;
 				SetNotice("已刷新串口列表，可选择并连接设备进行调试");
 			}
 			else
-			{
-				deviceComboBox.Text = "";
-				deviceComboBox.Enabled = false;
-				deviceComboBox.Enabled = false;
+			{				
 				SetNotice("未找到可用串口。");
 			}
 
@@ -2303,11 +2305,7 @@ namespace LightController.MyForm
 		/// </summary>
 		private void refreshNetworkList()
 		{
-			SetNotice("正在搜索网络设备，请稍候...");
-			deviceComboBox.Items.Clear();
-			deviceComboBox.Enabled = false;
 			ipaList = new List<IPAst>();
-
 			connectTools = ConnectTools.GetInstance();
 			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
@@ -2323,7 +2321,6 @@ namespace LightController.MyForm
 			}
 
 			allNetworkDevices = new List<NetworkDeviceInfo>();
-
 			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices =  connectTools.GetDeivceInfos();			
 			if (allDevices.Count > 0)
 			{
@@ -2340,13 +2337,15 @@ namespace LightController.MyForm
 			}
 
 			if (ipaList.Count > 0)
-			{
-				deviceComboBox.Enabled = true;
+			{				
 				deviceComboBox.SelectedIndex = 0;
+				deviceComboBox.Enabled = true;
+				deviceConnectButton.Enabled = true;
 				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
 			}
 			else
-			{				
+			{
+				MessageBox.Show("未找到可用的网络设备，请确认后重试。");
 				SetNotice("未找到可用的网络设备，请确认后重试。");
 			}
 		}
@@ -2357,80 +2356,22 @@ namespace LightController.MyForm
 		/// <param name="v"></param>
 		public override void EnableConnectedButtons(bool connected)
 		{
-			// 《设备列表》《刷新列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
-			changeConnectMethodButton.Enabled = !connected;
-			deviceComboBox.Enabled = !connected;
-			deviceRefreshButton.Enabled = !connected;
-									
-			realtimeButton.Enabled = connected;
-			keepButton.Enabled = connected;
-			makeSoundButton.Enabled = connected;
-			previewButton.Enabled = connected;
-			endviewButton.Enabled = connected;
-
 			// 是否连接
 			isConnected = connected;
-			deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
-		}
 
-		/// <summary>
-		/// 辅助方法：点击《连接设备|断开连接》的子类实现
-		/// </summary>
-		protected override void connectButtonClick()
-		{
-			playTools = PlayTools.GetInstance();
-			// 如果还没连接（按钮显示为“连接设备”)，那就连接
-			if (!isConnected)
-			{
-				if (isConnectCom)
-				{
-					if (String.IsNullOrEmpty(comName))
-					{
-						MessageBox.Show("未选中可用串口，请选中后再点击连接。");
-						return;
-					}
-					playTools.ConnectDevice(comName);
-					EnableConnectedButtons(true);
-				}
-				else
-				{
-					if (String.IsNullOrEmpty(comName) || deviceComboBox.SelectedIndex < 0)
-					{
-						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
-						return;
-					}
-					selectedIpAst = ipaList[deviceComboBox.SelectedIndex];
-					//ConnectTools.GetInstance().Start(selectedIpAst.LocalIP);
+			// 《设备列表》《刷新列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
+			changeConnectMethodButton.Enabled = !isConnected;
+			deviceComboBox.Enabled = !isConnected;
+			deviceRefreshButton.Enabled = !isConnected;
 
-					myConnect = new NetworkConnect();
-					myConnect.Connect( allNetworkDevices[deviceComboBox.SelectedIndex] );
+			realtimeButton.Enabled = isConnected;
+			keepButton.Enabled = isConnected;
+			makeSoundButton.Enabled = isConnected;
+			previewButton.Enabled = isConnected;
+			endviewButton.Enabled = isConnected;
 
-					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
-					if( myConnect.IsConnected() )					 
-					{
-						playTools.StartInternetPreview(myConnect, CommonCompleted, CommonError , eachStepTime);
-						SetNotice("网络设备连接成功。");
-					}
-					else {
-						MessageBox.Show("设备连接失败，请重试。");
-					}
-				}
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				playTools.StopSend();
-				if (isConnectCom)
-				{					
-					playTools.CloseDevice();					
-				}
-				else
-				{
-					playTools.StopInternetPreview( CommonCompleted, CommonError);			
-				}
-				EnableConnectedButtons(false);
-				SetNotice("已断开连接。");
-			}
-		}
+			deviceConnectButton.Text = isConnected ? "断开连接":"连接设备";				
+		}		
 
 		#endregion
 

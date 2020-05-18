@@ -1279,7 +1279,7 @@ namespace LightController.MyForm
 			this.multiLightButton.ImageKey = "复制步.png";
 			this.multiLightButton.Location = new System.Drawing.Point(185, 16);
 			this.multiLightButton.Name = "multiLightButton";
-			this.multiLightButton.Size = new System.Drawing.Size(75, 23);
+			this.multiLightButton.Size = new System.Drawing.Size(75, 55);
 			this.multiLightButton.TabIndex = 49;
 			this.multiLightButton.Text = "多灯模式";
 			this.multiLightButton.UseVisualStyleBackColor = false;

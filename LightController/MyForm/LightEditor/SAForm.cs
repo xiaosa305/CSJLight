@@ -40,7 +40,10 @@ namespace LightEditor.MyForm
 		/// <param name="e"></param>
 		private void SAForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("子属性名称，请勿使用任何标点符号及空格，并尽可能简短。");
+			MessageBox.Show("子属性名称，请勿使用任何标点符号及空格，并尽可能简短。",
+				"使用提示或说明",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Information);
 			e.Cancel = true;
 		}
 

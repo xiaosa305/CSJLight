@@ -1,4 +1,5 @@
 ﻿using LightController.Common;
+using LightController.PeripheralDevice;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -30,6 +31,7 @@ namespace LightController.MyForm
 		private ConnectTools connectTools;		
 		private SerialPortTools comTools;
 		private bool isComConnected = false ;
+		//private BaseCommunication myConnect;  
 
 		private IList<string> ips;  //搜索到的ip列表 ，将填进ipsComboBox
 		private IList<string> selectedIPs;  //填充进去的ip列表，用以发送数据
@@ -335,7 +337,6 @@ namespace LightController.MyForm
 			connectTools.Start(localIP);
 			connectTools.SearchDevice();
 			Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
-
 			
 			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();			
 			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])
@@ -350,15 +351,14 @@ namespace LightController.MyForm
 				ipsComboBox.Enabled = true;
 			}
 			else {
-					MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
-					ipsComboBox.SelectedIndex = -1;
-					ipsComboBox.Enabled = false;
+				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
+				ipsComboBox.SelectedIndex = -1;
+				ipsComboBox.Enabled = false;
 			}
 
 			//搜索完成后，再将按钮开放
 			networkSearchButton.Enabled = true;
 		}
-
 
 		/// <summary>
 		/// 辅助方法：只要改变了网络设备，就更改相关的网络下载和回读之类的，并设置为选中的ip地址
@@ -436,8 +436,7 @@ namespace LightController.MyForm
 			else {
 				MessageBox.Show("网络设备连接失败，无法下载配置。");
 			}
-		}
-	
+		}	
 
 		#endregion
 
@@ -694,9 +693,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSetForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络设置》内的相关设置；其他设置暂时没有作用，无需更改。\n" +
-				"2.常规的操作步骤：先从设备回读配置，再修改需要变动的配置后，下载新配置。\n" +
-				"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。");
+			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络设置》内的相关设置；其他设置暂时没有作用，无需更改；\n" +
+					"2.常规的操作步骤：先从设备回读配置，在修改需要变动的配置后，下载新配置；\n" +
+					"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。",
+				"使用提示或说明",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Information);
 			e.Cancel = true;
 		}
 

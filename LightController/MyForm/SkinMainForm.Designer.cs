@@ -68,7 +68,7 @@ namespace LightController.MyForm
 			this.changeConnectMethodSkinButton = new CCWin.SkinControl.SkinButton();
 			this.deviceRefreshSkinButton = new CCWin.SkinControl.SkinButton();
 			this.deviceSkinComboBox = new CCWin.SkinControl.SkinComboBox();
-			this.connectSkinButton = new CCWin.SkinControl.SkinButton();
+			this.deviceConnectSkinButton = new CCWin.SkinControl.SkinButton();
 			this.realtimeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
@@ -1218,7 +1218,7 @@ namespace LightController.MyForm
 			// 
 			this.playFlowLayoutPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.playFlowLayoutPanel.Controls.Add(this.comPanel);
-			this.playFlowLayoutPanel.Controls.Add(this.connectSkinButton);
+			this.playFlowLayoutPanel.Controls.Add(this.deviceConnectSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.realtimeSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.keepSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
@@ -1313,33 +1313,33 @@ namespace LightController.MyForm
 			// 
 			// connectSkinButton
 			// 
-			this.connectSkinButton.AutoSize = true;
-			this.connectSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.connectSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.connectSkinButton.BorderColor = System.Drawing.Color.White;
-			this.connectSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.connectSkinButton.DownBack = null;
-			this.connectSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.connectSkinButton.Enabled = false;
-			this.connectSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.connectSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.connectSkinButton.ForeColorSuit = true;
-			this.connectSkinButton.Image = global::LightController.Properties.Resources.连接;
-			this.connectSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.connectSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.connectSkinButton.InheritColor = true;
-			this.connectSkinButton.IsDrawBorder = false;
-			this.connectSkinButton.Location = new System.Drawing.Point(260, 2);
-			this.connectSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.connectSkinButton.MouseBack = null;
-			this.connectSkinButton.Name = "connectSkinButton";
-			this.connectSkinButton.NormlBack = null;
-			this.connectSkinButton.Size = new System.Drawing.Size(93, 96);
-			this.connectSkinButton.TabIndex = 5;
-			this.connectSkinButton.Text = "连接设备";
-			this.connectSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.connectSkinButton.UseVisualStyleBackColor = false;
-			this.connectSkinButton.Click += new System.EventHandler(this.connectSkinButton_Click);
+			this.deviceConnectSkinButton.AutoSize = true;
+			this.deviceConnectSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.deviceConnectSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.deviceConnectSkinButton.BorderColor = System.Drawing.Color.White;
+			this.deviceConnectSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.deviceConnectSkinButton.DownBack = null;
+			this.deviceConnectSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.deviceConnectSkinButton.Enabled = false;
+			this.deviceConnectSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.deviceConnectSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.deviceConnectSkinButton.ForeColorSuit = true;
+			this.deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
+			this.deviceConnectSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.deviceConnectSkinButton.ImageSize = new System.Drawing.Size(50, 50);
+			this.deviceConnectSkinButton.InheritColor = true;
+			this.deviceConnectSkinButton.IsDrawBorder = false;
+			this.deviceConnectSkinButton.Location = new System.Drawing.Point(260, 2);
+			this.deviceConnectSkinButton.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceConnectSkinButton.MouseBack = null;
+			this.deviceConnectSkinButton.Name = "connectSkinButton";
+			this.deviceConnectSkinButton.NormlBack = null;
+			this.deviceConnectSkinButton.Size = new System.Drawing.Size(93, 96);
+			this.deviceConnectSkinButton.TabIndex = 5;
+			this.deviceConnectSkinButton.Text = "连接设备";
+			this.deviceConnectSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.deviceConnectSkinButton.UseVisualStyleBackColor = false;
+			this.deviceConnectSkinButton.Click += new System.EventHandler(this.connectSkinButton_Click);
 			// 
 			// realtimeSkinButton
 			// 
@@ -6481,7 +6481,7 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton nextStepSkinButton;
 		private CCWin.SkinControl.SkinButton useMaterialSkinButton;
 		private CCWin.SkinControl.SkinButton saveMaterialSkinButton;
-		private CCWin.SkinControl.SkinButton connectSkinButton;
+		private CCWin.SkinControl.SkinButton deviceConnectSkinButton;
 		private CCWin.SkinControl.SkinButton makeSoundSkinButton;
 		private CCWin.SkinControl.SkinButton previewSkinButton;
 		private CCWin.SkinControl.SkinButton endviewSkinButton;

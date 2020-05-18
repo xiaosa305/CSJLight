@@ -32,16 +32,17 @@ namespace LightController.Tools
 
         public void NewConnectTest(DBWrapper wrapper,string configPath)
         {
-            if (this.Connect == null)
-            {
-                //this.Connect = new NetworkConnect(new NetworkDeviceInfo() { DeviceAddr = 1, DeviceIp = "192.168.31.153", DeviceName = "大房101" });
-            }
-            if (this.Connect.IsConnected())
-            {
-                //this.Connect.DownloadProject(wrapper, configPath, DownloadCompleted, DownloadError, DownloadProgress);
-                //this.Connect.PutParam(@"C:\Users\99729\Dev\Gitee\CSJLight\LightController\HardwareSet.ini", DownloadCompleted, DownloadError);
-                //this.Connect.GetParam(DownloadCompleted, DownloadError);
-            }
+            //if (this.Connect == null)
+            //{
+            //    //this.Connect = new NetworkConnect(new NetworkDeviceInfo() { DeviceAddr = 1, DeviceIp = "192.168.31.153", DeviceName = "大房101" });
+            //}
+            //if (this.Connect.IsConnected())
+            //{
+            //    //this.Connect.DownloadProject(wrapper, configPath, DownloadCompleted, DownloadError, DownloadProgress);
+            //    //this.Connect.PutParam(@"C:\Users\99729\Dev\Gitee\CSJLight\LightController\HardwareSet.ini", DownloadCompleted, DownloadError);
+            //    //this.Connect.GetParam(DownloadCompleted, DownloadError);
+            //}
+            BaseCommunication.SearchDevice("192.168.31.235");
         }
 
         public void DownloadCompleted(Object obj,string msg)

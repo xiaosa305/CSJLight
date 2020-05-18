@@ -2132,13 +2132,59 @@ namespace LightController.MyForm
 			deviceConnectButton.Enabled = false;
 			Refresh();
 
-			if ( isConnectCom )
+			// 刷新串口连接
+			if (isConnectCom)
 			{
-				refreshComList();
+				SerialPortTools comTools = SerialPortTools.GetInstance();
+				string[] comList = comTools.GetDMX512DeviceList();
+				if (comList != null && comList.Length > 0)
+				{
+					foreach (string com in comList)
+					{
+						deviceComboBox.Items.Add(com);
+					}					
+				}
 			}
+			// 刷新网络设备
 			else
 			{
-				refreshNetworkList();
+				// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
+				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+				foreach (IPAddress ip in ipe.AddressList)
+				{
+					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
+					{
+						NetworkConnect.SearchDevice(ip.ToString());
+						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
+						Thread.Sleep(NETWORK_WAITTIME);
+					}
+				}
+
+				networkDeviceList = new List<NetworkDeviceInfo>();
+				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = NetworkConnect.GetDeviceList();
+				if (allDevices.Count > 0)
+				{
+					foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
+					{
+						foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
+						{
+							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
+							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);							
+							networkDeviceList.Add(d2.Value);
+						}
+					}
+				}
+			}
+
+			if (deviceComboBox.Items.Count > 0)
+			{
+				deviceComboBox.SelectedIndex = 0;
+				deviceComboBox.Enabled = true;
+				deviceConnectButton.Enabled = true;
+				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试");
+			}
+			else {
+				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。");
 			}
 		}
 
@@ -2149,8 +2195,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			comName = deviceComboBox.Text;		
-			if (!comName.Trim().Equals(""))
+			if (!deviceComboBox.Text.Trim().Equals(""))
 			{
 				deviceConnectButton.Enabled = true;
 			}
@@ -2168,7 +2213,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void connectButton_Click(object sender, EventArgs e)
 		{
-			connectButtonClick( deviceComboBox.SelectedIndex );
+			connectButtonClick(deviceComboBox.Text, deviceComboBox.SelectedIndex );
 		}		
 
 		/// <summary>
@@ -2271,81 +2316,6 @@ namespace LightController.MyForm
 		{
 			endview();
 			SetNotice("已结束预览。");
-		}
-
-		/// <summary>
-		/// 辅助方法：重新搜索com列表：供启动时及需要重新搜索设备时使用。
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void refreshComList()
-		{
-			SerialPortTools comTools = SerialPortTools.GetInstance();
-			comList = comTools.GetDMX512DeviceList();
-			if (comList != null && comList.Length > 0)
-			{
-				foreach (string com in comList)
-				{
-					deviceComboBox.Items.Add(com);
-				}
-				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;
-				deviceConnectButton.Enabled = true;
-				SetNotice("已刷新串口列表，可选择并连接设备进行调试");
-			}
-			else
-			{				
-				SetNotice("未找到可用串口。");
-			}
-
-		}
-
-		/// <summary>
-		/// 辅助方法：重新搜索ip列表-》填入deviceComboBox中
-		/// </summary>
-		private void refreshNetworkList()
-		{
-			ipaList = new List<IPAst>();		
-			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
-			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
-			foreach (IPAddress ip in ipe.AddressList)
-			{
-				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
-				{
-					NetworkConnect.SearchDevice(ip.ToString());
-					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
-					Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
-				}
-			}
-
-			allNetworkDevices = new List<NetworkDeviceInfo>();
-			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = NetworkConnect.GetDeviceList();			
-			if (allDevices.Count > 0)
-			{
-				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
-				{
-					foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
-					{
-						string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
-						deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);
-						ipaList.Add(new IPAst() { LocalIP = device.Key, DeviceIP = d2.Value.DeviceIp, DeviceName = d2.Value.DeviceName });
-						allNetworkDevices.Add(d2.Value);
-					}
-				}
-			}
-
-			if (ipaList.Count > 0)
-			{				
-				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;
-				deviceConnectButton.Enabled = true;
-				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
-			}
-			else
-			{
-				MessageBox.Show("未找到可用的网络设备，请确认后重试。");
-				SetNotice("未找到可用的网络设备，请确认后重试。");
-			}
 		}
 
 		/// <summary>

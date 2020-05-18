@@ -57,12 +57,10 @@ namespace OtherTools
 		private bool isDecoding = false; //中控是否开启解码
 		private bool isKpShowDetails = true;
 
-		private BaseCommunication myConnect;  
-		private IList<IPAst> ipaList;
-		private ConnectTools connectTools; 
-
+		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
+		private IList<NetworkDeviceInfo> networkDeviceList;	 // 网络设备的列表
+		
 		private MainFormBase mainForm; 
-
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
 		public NewToolsForm(MainFormBase mainForm)
@@ -189,8 +187,7 @@ namespace OtherTools
 				//case ConnectStatus.Tccc: setAllStatusLabel2("已切换为透传中控模式"); break;
 				default: setAllStatusLabel2(""); break;
 			}
-		}
-			
+		}			
 
 		/// <summary>
 		/// 事件：点击《灯光通道按键》
@@ -1128,7 +1125,6 @@ namespace OtherTools
 
 		}
 
-
 		/// <summary>
 		/// 辅助方法：两个自定义墙板键码值的输入文字的验证。
 		/// </summary>
@@ -1159,7 +1155,6 @@ namespace OtherTools
 			isKeepLightOn = keepLightOnCheckBox.Checked;
 		}
 
-
 		private bool isConnectByCom = true;
 		/// <summary>
 		///  事件：点击《切换连接方式》
@@ -1173,7 +1168,8 @@ namespace OtherTools
 			isConnectByCom = !isConnectByCom;
 			switchButton.Text = isConnectByCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
-			connectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
+			deviceConnectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
+
 			refreshDeviceComboBox();
 		}
 
@@ -1198,7 +1194,14 @@ namespace OtherTools
 		/// </summary>
 		private void refreshDeviceComboBox()
 		{
+			// 刷新前，先清空列表
+			setAllStatusLabel1("正在搜索网络设备，请稍候...");
 			deviceComboBox.Items.Clear();
+			deviceComboBox.Text = "";
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Enabled = false;
+			deviceConnectButton.Enabled = false;
+			Refresh();
 
 			// 获取串口列表（不代表一定能连上，串口需用户自行确认）
 			if (isConnectByCom)
@@ -1206,7 +1209,6 @@ namespace OtherTools
 				if (myConnect == null) {
 					myConnect = new SerialConnect();
 				}
-
 				List<string> comList = (myConnect as SerialConnect).GetSerialPortNames();
 				if (comList != null && comList.Count > 0)
 				{				
@@ -1217,24 +1219,20 @@ namespace OtherTools
 				}				
 			}
 			// 获取网络设备列表
-			else {
-				connectTools = ConnectTools.GetInstance();
-				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
-				ipaList = new List<IPAst>();
-
-				setAllStatusLabel1("正在搜索网络设备，请稍候...");
+			else {				
+				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());				
 				foreach (IPAddress ip in ipe.AddressList)
 				{
 					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
 					{
-						connectTools.Start(ip.ToString());
-						connectTools.SearchDevice();
+						NetworkConnect.SearchDevice(ip.ToString());
 						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
 						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);						
 					}					
 				}
 
-				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = NetworkConnect.GetDeviceList();
+				networkDeviceList = new List<NetworkDeviceInfo>();
 				if (allDevices.Count > 0)
 				{
 					foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
@@ -1243,26 +1241,26 @@ namespace OtherTools
 						{
 							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
 							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")" + localIPLast);
-							ipaList.Add(new IPAst()	{LocalIP = device.Key,DeviceIP = d2.Value.DeviceIp,DeviceName = d2.Value.DeviceName});
+							networkDeviceList.Add(d2.Value);
 						}
 					}
 				}
 			}
 
-			if (deviceComboBox.Items.Count == 0)
+			if (deviceComboBox.Items.Count > 0)
 			{
-				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
-				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
-				connectButton.Enabled = false;
-				deviceComboBox.Text = "";
-				deviceComboBox.Enabled = false;
-				setConnStatus(ConnectStatus.No);
-			}
-			else {
-				connectButton.Enabled = true;
+				
 				deviceComboBox.Enabled = true;
 				deviceComboBox.SelectedIndex = 0;
+				deviceConnectButton.Enabled = true;
 				setAllStatusLabel1("已搜到可用设备列表。");
+				setConnStatus(ConnectStatus.No);				
+			}
+			else {
+				
+
+				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");
 				setConnStatus(ConnectStatus.No);
 			}
 		}
@@ -1272,7 +1270,6 @@ namespace OtherTools
 		{
 			refreshDeviceComboBox();
 		}
-
 
 		private void connectButton_Click(object sender, EventArgs e)
 		{
@@ -1298,12 +1295,11 @@ namespace OtherTools
 				}
 			}
 			else {
-				string localIP =  ipaList[deviceComboBox.SelectedIndex].LocalIP; 
-				string deviceIP = ipaList[deviceComboBox.SelectedIndex].DeviceIP;
-				string deviceName = ipaList[deviceComboBox.SelectedIndex].DeviceName;
+				NetworkDeviceInfo selectedNetworkDevice = networkDeviceList[deviceComboBox.SelectedIndex];				
+				string deviceName = selectedNetworkDevice.DeviceName;
 
 				myConnect = new NetworkConnect( );
-				myConnect.Connect(connectTools.GetDeivceInfos()[localIP][deviceIP]);
+				myConnect.Connect( selectedNetworkDevice);
 				if ( myConnect.IsConnected() )
 				{
 					MessageBox.Show("成功连接网络设备(" + deviceName + ")");
@@ -1318,7 +1314,6 @@ namespace OtherTools
 			}
 		}
 	
-
 		/// <summary>
 		/// 辅助方法：统一设置左侧的状态栏的显示信息
 		/// </summary>
@@ -1719,7 +1714,7 @@ namespace OtherTools
 				deviceComboBox.Items.Clear();
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
-				connectButton.Enabled = false;
+				deviceConnectButton.Enabled = false;
 				setAllStatusLabel1("设备已重启，请重新搜索并重连网络设备");
 			}
 		}

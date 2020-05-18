@@ -41,7 +41,7 @@ namespace OtherTools
 			this.label6 = new System.Windows.Forms.Label();
 			this.zwjTestButton = new System.Windows.Forms.Button();
 			this.switchButton = new System.Windows.Forms.Button();
-			this.connectButton = new System.Windows.Forms.Button();
+			this.deviceConnectButton = new System.Windows.Forms.Button();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.comboBox2 = new System.Windows.Forms.ComboBox();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
@@ -275,7 +275,7 @@ namespace OtherTools
 			this.panel2.Controls.Add(this.panel1);
 			this.panel2.Controls.Add(this.zwjTestButton);
 			this.panel2.Controls.Add(this.switchButton);
-			this.panel2.Controls.Add(this.connectButton);
+			this.panel2.Controls.Add(this.deviceConnectButton);
 			this.panel2.Controls.Add(this.refreshButton);
 			this.panel2.Controls.Add(this.comboBox2);
 			this.panel2.Controls.Add(this.deviceComboBox);
@@ -359,15 +359,15 @@ namespace OtherTools
 			// 
 			// connectButton
 			// 
-			this.connectButton.Enabled = false;
-			this.connectButton.Location = new System.Drawing.Point(243, 44);
-			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(91, 27);
-			this.connectButton.TabIndex = 23;
-			this.connectButton.Text = "打开串口";
-			this.connectButton.UseVisualStyleBackColor = true;
-			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+			this.deviceConnectButton.Enabled = false;
+			this.deviceConnectButton.Location = new System.Drawing.Point(243, 44);
+			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceConnectButton.Name = "connectButton";
+			this.deviceConnectButton.Size = new System.Drawing.Size(91, 27);
+			this.deviceConnectButton.TabIndex = 23;
+			this.deviceConnectButton.Text = "打开串口";
+			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.Click += new System.EventHandler(this.connectButton_Click);
 			// 
 			// refreshButton
 			// 
@@ -2872,7 +2872,7 @@ namespace OtherTools
 		private System.Windows.Forms.Button switchButton;
 		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.ComboBox comboBox2;
-		private System.Windows.Forms.Button connectButton;
+		private System.Windows.Forms.Button deviceConnectButton;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label8;

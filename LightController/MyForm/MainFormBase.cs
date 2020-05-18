@@ -119,11 +119,7 @@ namespace LightController.MyForm
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 
-		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
-		protected string comName; // 存储打开的DMX512串口名称
-		
-		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst（ LocalIP、DeviceIP、DeviceName）
-		protected IList<NetworkDeviceInfo> allNetworkDevices; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
+		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
@@ -145,6 +141,8 @@ namespace LightController.MyForm
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
 		public virtual void EnableConnectedButtons(bool connected) { } //设置《连接按钮组》是否可用
+
+		
 
 		#endregion
 
@@ -2992,7 +2990,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：点击《连接设备 | 断开连接》
 		/// </summary>
-		protected void connectButtonClick(int deviceSelectedIndex)
+		protected void connectButtonClick(string deviceName , int deviceSelectedIndex)
 		{		
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
 			if ( isConnected)
@@ -3003,24 +3001,24 @@ namespace LightController.MyForm
 				playTools = PlayTools.GetInstance();
 				if (isConnectCom)
 				{
-					if (String.IsNullOrEmpty(comName))
+					if (String.IsNullOrEmpty(deviceName))
 					{
 						MessageBox.Show("未选中可用串口，请选中后再点击连接。。");
 						return;
 					}
-					playTools.ConnectDevice(comName);
+					playTools.ConnectDevice(deviceName);
 					EnableConnectedButtons(true);
 				}
 				else
 				{
-					if (String.IsNullOrEmpty(comName) || deviceSelectedIndex < 0)
+					if ( deviceSelectedIndex < 0)
 					{
 						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
 						return;
 					}
 					
 					myConnect = new NetworkConnect();
-					myConnect.Connect(allNetworkDevices[deviceSelectedIndex]);
+					myConnect.Connect(networkDeviceList[deviceSelectedIndex]);
 					if (myConnect.IsConnected())
 					{
 						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
@@ -3053,7 +3051,6 @@ namespace LightController.MyForm
 				SetNotice("已断开连接");
 			}
 		}
-
 
 		/// <summary>
 		/// 辅助方法：点击《预览效果》

@@ -39,6 +39,7 @@ namespace LightController.Tools
             return Instance;
         }
         public void Start(string ip)
+
         {
             try
             {
@@ -68,10 +69,12 @@ namespace LightController.Tools
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA,"启动灯控服务器失败",ex);
+                LogTools.Error(Constant.TAG_XIAOSA, "启动灯控服务器失败", ex);
             }
-            
+
         }
+
+        //TODO XIAOSA:需要保留
         public void SearchDevice()
         {
             if (IsStart)
@@ -152,6 +155,9 @@ namespace LightController.Tools
                 throw new Exception("未启动服务");
             }
         }
+
+
+        //TODO XIAOSA:需要保留
         public Dictionary<string,Dictionary<string,NetworkDeviceInfo>> GetDeivceInfos()
         {
             return DeviceInfos;
@@ -301,7 +307,7 @@ namespace LightController.Tools
             SocketTools.GetInstance().EndDebug(ip,receiveCallBack);
         }
 
-
+        //TODO XIAOSA:需要保留
         public void SendIntenetPreview(String ip,byte[] data)
         {
             UdpServer.SendTo(data, new IPEndPoint(IPAddress.Parse(ip), UDP_DEBUG_PORT));

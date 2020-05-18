@@ -65,6 +65,7 @@ namespace LightController.PeripheralDevice
 
                 this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
                 this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
+                LogTools.Debug(Constant.TAG_XIAOSA, "连接设备成功!");
                 return true;
             }
             catch (Exception ex)
@@ -148,6 +149,9 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA, "关闭网络连接失败", ex);
             }
         }
+
+
+
 
         /// <summary>
         /// 串口专属，网络模块不操作

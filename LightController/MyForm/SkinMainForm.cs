@@ -359,7 +359,7 @@ namespace LightController.MyForm
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 启动时刷新可用串口列表;
-			refreshComList();
+			deviceRefreshSkinButton_Click(null, null);
 			SetNotice("");
 			
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
@@ -2294,7 +2294,16 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceRefreshSkinButton_Click(object sender, EventArgs e)
 		{
-			if( isConnectCom )
+			//	 刷新前，先清空按键等
+			SetNotice("正在"+ (isConnectCom? "刷新串口列表" : "搜索网络设备")+"，请稍候...");
+			deviceSkinComboBox.Items.Clear();
+			deviceSkinComboBox.Text = "";
+			deviceSkinComboBox.SelectedIndex = -1;
+			deviceSkinComboBox.Enabled = false;
+			deviceConnectSkinButton.Enabled = false;
+			Refresh();
+
+			if ( isConnectCom )
 			{
 				refreshComList();
 			}
@@ -2313,11 +2322,11 @@ namespace LightController.MyForm
 			comName = deviceSkinComboBox.Text;
 			if (!comName.Trim().Equals(""))
 			{	
-				connectSkinButton.Enabled = true;
+				deviceConnectSkinButton.Enabled = true;
 			}
 			else
 			{
-				connectSkinButton.Enabled = false;
+				deviceConnectSkinButton.Enabled = false;
 				MessageBox.Show("未选中可用设备");
 			}
 		}
@@ -2450,9 +2459,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void refreshComList()
 		{
-			SetNotice("正在刷新串口列表，请稍候...");
-			// 动态加载可用的dmx512串口列表		 
-			deviceSkinComboBox.Items.Clear();
 			SerialPortTools comTools = SerialPortTools.GetInstance();
 			comList = comTools.GetDMX512DeviceList();
 			if (comList != null && comList.Length > 0)
@@ -2463,14 +2469,11 @@ namespace LightController.MyForm
 				}
 				deviceSkinComboBox.SelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
+				deviceConnectSkinButton.Enabled = true ;
 				SetNotice("已刷新串口列表，可选择并连接设备进行调试");
 			}
 			else
-			{
-				deviceSkinComboBox.Text = "";
-				deviceSkinComboBox.SelectedIndex = -1;
-				deviceSkinComboBox.Enabled = false;
-				connectSkinButton.Enabled = false;
+			{			
 				SetNotice("未找到可用串口。");
 			}
 		}
@@ -2479,13 +2482,8 @@ namespace LightController.MyForm
 		/// 辅助方法：重新搜索ip列表-》填入deviceComboBox中
 		/// </summary>
 		private void refreshNetworkList()
-		{
-			SetNotice("正在搜索网络设备，请稍候...");
-			deviceSkinComboBox.Items.Clear();
-			deviceSkinComboBox.SelectedIndex = -1;
-			deviceSkinComboBox.Enabled = false;
+		{			
 			ipaList = new List<IPAst>();
-
 			connectTools = ConnectTools.GetInstance();
 			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
@@ -2518,8 +2516,9 @@ namespace LightController.MyForm
 
 			if (ipaList.Count > 0)
 			{
-				deviceSkinComboBox.Enabled = true;
 				deviceSkinComboBox.SelectedIndex = 0;
+				deviceSkinComboBox.Enabled = true ;
+				deviceConnectSkinButton.Enabled = true ;
 				SetNotice("成功获取网络设备列表，可选择并连接设备进行调试。");
 			}
 			else
@@ -2535,28 +2534,28 @@ namespace LightController.MyForm
 		/// <param name="v"></param>
 		public override void EnableConnectedButtons(bool connected)
 		{
-			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
-			comPanel.Enabled = !connected;		
-						
-			realtimeSkinButton.Enabled = connected;
-			keepSkinButton.Enabled = connected;
-			makeSoundSkinButton.Enabled = connected;
-			previewSkinButton.Enabled = connected;
-			endviewSkinButton.Enabled = connected;
-
 			// 是否连接
 			isConnected = connected;
 
+			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
+			comPanel.Enabled = !isConnected;				
+						
+			realtimeSkinButton.Enabled = isConnected;
+			keepSkinButton.Enabled = isConnected;
+			makeSoundSkinButton.Enabled = isConnected;
+			previewSkinButton.Enabled = isConnected;
+			endviewSkinButton.Enabled = isConnected;
+
 			if (isConnected)
 			{
-				connectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
-				connectSkinButton.Text = "断开连接";
+				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
+				deviceConnectSkinButton.Text = "断开连接";
 			}
 			else
 			{
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				connectSkinButton.Image = global::LightController.Properties.Resources.连接;
-				connectSkinButton.Text = "连接设备";
+				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
+				deviceConnectSkinButton.Text = "连接设备";
 			}
 		}
 		

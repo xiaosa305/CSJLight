@@ -70,14 +70,14 @@ namespace LightController.Tools
         private BaseCommunication.Error StopIntentPreviewError { get; set; }
 
 
-        //TODO 待删除测试
+        //TODO XIAOSA：待删除测试
         public bool IsTest { get; set; }
         private SerialPort TestComDevice { get; set; }
         private PlayTools()
         {
             try
             {
-                //TODO 待删除测试
+                //TODO XIAOSA：待删除测试
                 this.IsTest = false;
 
                 this.TimeFactory = 32;
@@ -487,7 +487,7 @@ namespace LightController.Tools
 
 
 
-        //TODO 测试模块
+        //TODO XIAOSA：512测试模块
         public void StartTestMode(string comName)
         {
             if (this.TestComDevice == null)

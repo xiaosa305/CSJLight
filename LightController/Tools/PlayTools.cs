@@ -410,8 +410,7 @@ namespace LightController.Tools
                     }
                     if (this.Communication != null)
                     {
-                        //ConnectTools.GetInstance().SendIntenetPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
-                        this.Communication.IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
+                        (this.Communication as NetworkConnect).IntentPreview((this.Communication as NetworkConnect).DeviceIp, buff.ToArray());
                     }
                 }
             }

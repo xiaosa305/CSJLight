@@ -2496,7 +2496,7 @@ namespace LightController.PeripheralDevice
 
 
 
-
+        //TODO XIAOSA：准备删除
         //private const int UDP_INTENT_PREVIEW_PORT = 7080;
         //private Socket IntentPreviewUDPSender { get; set; }
 

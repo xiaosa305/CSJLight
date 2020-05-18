@@ -274,6 +274,13 @@ namespace LightController.PeripheralDevice
         {
             return DeviceInfos;
         }
+        /// <summary>
+        /// 功能：清除设备列表
+        /// </summary>
+        public static void ClearDeviceList()
+        {
+            DeviceInfos.Clear();
+        }
 
 
         /// <summary>

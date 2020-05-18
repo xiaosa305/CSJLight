@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
+    <Compile Include="multidevice\impl\TransactionManager.cs" />
+    <Compile Include="multidevice\ITransactionManager.cs" />
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -112,19 +112,18 @@ namespace LightController.MyForm
 		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
 
 		// 调试变量
+		protected BaseCommunication myConnect;  // 与设备的连接（串口、网口）
 		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
+		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
 		protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
 
 		protected string[] comList;  //存储DMX512串口的名称列表，用于comSkinComboBox中
 		protected string comName; // 存储打开的DMX512串口名称
-
-		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
-		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
-		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
-		protected IList<NetworkDeviceInfo> allNetworkDevices;
-		protected BaseCommunication myConnect;  // 与设备的连接（串口、网口）
+		
+		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst（ LocalIP、DeviceIP、DeviceName）
+		protected IList<NetworkDeviceInfo> allNetworkDevices; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
@@ -3019,16 +3018,9 @@ namespace LightController.MyForm
 						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
 						return;
 					}
-
-					selectedIpAst = ipaList[deviceSelectedIndex];
-
-					////TODO : 待删除
-					//connectTools.Start(selectedIpAst.LocalIP);
-
+					
 					myConnect = new NetworkConnect();
 					myConnect.Connect(allNetworkDevices[deviceSelectedIndex]);
-
-					//if (   ConnectTools.GetInstance().Connect(allNetworkDevices[deviceComboBox.SelectedIndex])  )
 					if (myConnect.IsConnected())
 					{
 						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
@@ -3207,8 +3199,7 @@ namespace LightController.MyForm
 		public void ConnectCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				EnableConnectedButtons(true);
-				SetNotice(msg);
+				EnableConnectedButtons(true);				
 			});
 		}	
 
@@ -3219,8 +3210,7 @@ namespace LightController.MyForm
 		public void DisconnectCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				EnableConnectedButtons(false);
-				SetNotice(msg);
+				EnableConnectedButtons(false);				
 			});
 		}
 

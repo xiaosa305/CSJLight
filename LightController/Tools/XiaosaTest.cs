@@ -42,7 +42,7 @@ namespace LightController.Tools
             //    //this.Connect.PutParam(@"C:\Users\99729\Dev\Gitee\CSJLight\LightController\HardwareSet.ini", DownloadCompleted, DownloadError);
             //    //this.Connect.GetParam(DownloadCompleted, DownloadError);
             //}
-            BaseCommunication.SearchDevice("192.168.31.235");
+            //BaseCommunication.SearchDevice("192.168.31.235");
         }
 
         public void DownloadCompleted(Object obj,string msg)

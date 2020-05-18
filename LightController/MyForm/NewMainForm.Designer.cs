@@ -744,7 +744,7 @@ namespace LightController.MyForm
 			// 
 			// multiButton
 			// 
-			this.multiButton.BackColor = System.Drawing.Color.DarkGray;
+			this.multiButton.BackColor = System.Drawing.Color.Transparent;
 			this.multiButton.Enabled = false;
 			this.multiButton.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiButton.Location = new System.Drawing.Point(91, 169);

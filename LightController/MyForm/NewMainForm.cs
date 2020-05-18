@@ -2312,14 +2312,14 @@ namespace LightController.MyForm
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
 				{
-					BaseCommunication.SearchDevice(ip.ToString());
+					NetworkConnect.SearchDevice(ip.ToString());
 					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
 					Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
 				}
 			}
 
 			allNetworkDevices = new List<NetworkDeviceInfo>();
-			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = BaseCommunication.GetDeviceList();			
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = NetworkConnect.GetDeviceList();			
 			if (allDevices.Count > 0)
 			{
 				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)

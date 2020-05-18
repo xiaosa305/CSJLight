@@ -106,6 +106,7 @@ namespace LightController.Tools
             }
             
         }
+        //TODO XIAOSA:需要保留
         private void RecevieMsg(object obj)
         {
             try
@@ -135,6 +136,9 @@ namespace LightController.Tools
                 LogTools.Error(Constant.TAG_XIAOSA, "关闭灯控服务器或服务器接收模块发生异常", ex);
             }
         }
+
+
+
         public void Disconnected()
         {
             SocketTools.GetInstance().CloseAll();
@@ -162,6 +166,8 @@ namespace LightController.Tools
         {
             return DeviceInfos;
         }
+
+
         public void Download(IList<string> ips, DBWrapper dBWrapper, string configPath, ICommunicatorCallBack callBack)
         {
             if (IsStart)

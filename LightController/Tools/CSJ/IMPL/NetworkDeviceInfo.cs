@@ -7,6 +7,7 @@ namespace LightController.Tools.CSJ.IMPL
 {
     public class NetworkDeviceInfo
     {
+        public string LocalIp { get; set; }
         public string DeviceName { get; set; }
         public string DeviceIp { get; set; }
         public int DeviceAddr { get; set; }

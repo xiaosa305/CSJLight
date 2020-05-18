@@ -121,11 +121,10 @@ namespace LightController.MyForm
 		protected string comName; // 存储打开的DMX512串口名称
 
 		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
-		protected ConnectTools connectTools; //连接工具（通用实例：网络及串口皆可用）
 		protected IList<IPAst> ipaList; // 此列表存储所有建立连接的ipAst
 		protected IPAst selectedIpAst; // 选中的ipast（每个下拉框选中的值）
 		protected IList<NetworkDeviceInfo> allNetworkDevices;
-		protected BaseCommunication myConnect;  // 新的连接方法【connectTools目前只保留搜索设备的功能】
+		protected BaseCommunication myConnect;  // 与设备的连接（串口、网口）
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
@@ -147,9 +146,6 @@ namespace LightController.MyForm
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
 		public virtual void EnableConnectedButtons(bool connected) { } //设置《连接按钮组》是否可用
-
-
-
 
 		#endregion
 
@@ -3025,8 +3021,9 @@ namespace LightController.MyForm
 					}
 
 					selectedIpAst = ipaList[deviceSelectedIndex];
-					//TODO : 待删除
-					connectTools.Start(selectedIpAst.LocalIP);
+
+					////TODO : 待删除
+					//connectTools.Start(selectedIpAst.LocalIP);
 
 					myConnect = new NetworkConnect();
 					myConnect.Connect(allNetworkDevices[deviceSelectedIndex]);

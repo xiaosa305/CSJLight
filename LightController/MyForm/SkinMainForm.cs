@@ -2484,22 +2484,20 @@ namespace LightController.MyForm
 		private void refreshNetworkList()
 		{			
 			ipaList = new List<IPAst>();
-			connectTools = ConnectTools.GetInstance();
 			// 先获取本地ip列表，遍历使用这些ip，搜索设备;-->都搜索完毕再统一显示
 			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
 			foreach (IPAddress ip in ipe.AddressList)
 			{
 				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
 				{
-					connectTools.Start(ip.ToString());
-					connectTools.SearchDevice();
+					BaseCommunication.SearchDevice(ip.ToString());
 					// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
 					Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
 				}
 			}
 
 			allNetworkDevices = new List<NetworkDeviceInfo>();
-			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
+			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = BaseCommunication.GetDeviceList();
 			if (allDevices.Count > 0)
 			{
 				foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)

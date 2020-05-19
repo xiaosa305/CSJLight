@@ -80,7 +80,15 @@
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
     <Compile Include="multidevice\impl\TransactionManager.cs" />
+    <Compile Include="multidevice\impl\VirtualClient.cs" />
+    <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
     <Compile Include="multidevice\ITransactionManager.cs" />
+    <Compile Include="multidevice\XiaosaTestFrom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="multidevice\XiaosaTestFrom.Designer.cs">
+      <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +143,9 @@
     <Compile Include="utils\impl\LogTools.cs" />
     <Compile Include="utils\StringHelper.cs" />
     <Compile Include="utils\XiaosaTest.cs" />
+    <EmbeddedResource Include="multidevice\XiaosaTestFrom.resx">
+      <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\old\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

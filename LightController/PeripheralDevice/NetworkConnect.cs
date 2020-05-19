@@ -202,7 +202,7 @@ namespace LightController.PeripheralDevice
                 UDPServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 UDPServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
                 UDPServer.Bind(new IPEndPoint(IPAddress.Parse(localIP), 8080));
-                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, 7070));
+                UdpClient = new UdpClient(new IPEndPoint(IPAddress.Any, UDP_SERVER_PORT));
                 UDPReceiveThread = new Thread(SearchDeviceReceiveMsg) { IsBackground = true };
                 UDPReceiveThread.Start(UdpClient);
                 UDPReceiveStatus = true;

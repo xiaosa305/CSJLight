@@ -81,8 +81,9 @@ namespace MultiLedController.utils.impl
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "控制卡服务器绑定本地IP失败", ex, true, "控制卡服务器绑定本地IP失败");
+                this.ReceiveStartStatus = false;
             }
-            
+
         }
         /// <summary>
         /// 功能：网络接收监听模块

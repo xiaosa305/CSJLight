@@ -1,4 +1,5 @@
-﻿using MultiLedController.MyForm;
+﻿using MultiLedController.multidevice;
+using MultiLedController.MyForm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,11 @@ namespace MultiLedController
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			//Application.Run(new MainForm());
-			Application.Run(new NewMainForm());
+            //Application.Run(new MainForm());
+            //Application.Run(new NewMainForm());
+
+            //xiaosa的TestForm
+            Application.Run(new XiaosaTestFrom());
 		}
 	}
 }

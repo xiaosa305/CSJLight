@@ -157,7 +157,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Ast\Enum\InsertMethod.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />

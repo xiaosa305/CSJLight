@@ -37,7 +37,6 @@ namespace MultiLedController.utils.impl
         {
             try
             {
-                //初始化
                 this.Init();
                 //配置本地IP
                 this.CurrentIp = currentIp;

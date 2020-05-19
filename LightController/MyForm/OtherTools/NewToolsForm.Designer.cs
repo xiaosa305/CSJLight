@@ -357,12 +357,12 @@ namespace OtherTools
 			this.switchButton.UseVisualStyleBackColor = true;
 			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
 			// 
-			// connectButton
+			// deviceConnectButton
 			// 
 			this.deviceConnectButton.Enabled = false;
 			this.deviceConnectButton.Location = new System.Drawing.Point(243, 44);
 			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.deviceConnectButton.Name = "connectButton";
+			this.deviceConnectButton.Name = "deviceConnectButton";
 			this.deviceConnectButton.Size = new System.Drawing.Size(91, 27);
 			this.deviceConnectButton.TabIndex = 23;
 			this.deviceConnectButton.Text = "打开串口";
@@ -397,6 +397,7 @@ namespace OtherTools
 			this.deviceComboBox.Name = "deviceComboBox";
 			this.deviceComboBox.Size = new System.Drawing.Size(199, 20);
 			this.deviceComboBox.TabIndex = 22;
+			this.deviceComboBox.SelectedIndexChanged += new System.EventHandler(this.deviceComboBox_SelectedIndexChanged);
 			// 
 			// lightImageList
 			// 
@@ -2798,7 +2799,7 @@ namespace OtherTools
 			this.Name = "NewToolsForm";
 			this.Text = "其它配置";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewToolsForm_FormClosed);
-			this.Load += new System.EventHandler(this.OtherToolsForm_Load);
+			this.Load += new System.EventHandler(this.NewToolsForm_Load);
 			this.panel2.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();

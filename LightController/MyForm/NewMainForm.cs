@@ -239,7 +239,7 @@ namespace LightController.MyForm
 		private void NewMainForm_Load(object sender, EventArgs e)
 		{
 			//启动时刷新可用串口列表，但把显示给删除
-			deviceRefreshButton_Click(null,null);
+			deviceRefresh();    //NewMainForm_Load
 			SetNotice("");
 		}
 
@@ -2113,7 +2113,7 @@ namespace LightController.MyForm
 			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接") );
 
-			deviceRefreshButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
+			deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
 		}
 
 		/// <summary>
@@ -2123,11 +2123,19 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceRefreshButton_Click(object sender, EventArgs e)
 		{
+			deviceRefresh(); //deviceRefreshButton_Click
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新设备
+		/// </summary>
+		private void deviceRefresh() {
+
 			//	 刷新前，先清空按键等
 			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...");
 			deviceComboBox.Items.Clear();
-			deviceComboBox.Text = "";
 			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Text = "";
 			deviceComboBox.Enabled = false;
 			deviceConnectButton.Enabled = false;
 			Refresh();
@@ -2142,7 +2150,7 @@ namespace LightController.MyForm
 					foreach (string com in comList)
 					{
 						deviceComboBox.Items.Add(com);
-					}					
+					}
 				}
 			}
 			// 刷新网络设备
@@ -2160,8 +2168,8 @@ namespace LightController.MyForm
 					}
 				}
 
-				networkDeviceList = new List<NetworkDeviceInfo>();
 				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = NetworkConnect.GetDeviceList();
+				networkDeviceList = new List<NetworkDeviceInfo>();
 				if (allDevices.Count > 0)
 				{
 					foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
@@ -2169,7 +2177,7 @@ namespace LightController.MyForm
 						foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
 						{
 							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
-							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);							
+							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);
 							networkDeviceList.Add(d2.Value);
 						}
 					}
@@ -2183,9 +2191,11 @@ namespace LightController.MyForm
 				deviceConnectButton.Enabled = true;
 				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试");
 			}
-			else {
+			else
+			{
 				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。");
 			}
+
 		}
 
 		/// <summary>
@@ -2211,7 +2221,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void connectButton_Click(object sender, EventArgs e)
+		private void deviceConnectButton_Click(object sender, EventArgs e)
 		{
 			connectButtonClick(deviceComboBox.Text, deviceComboBox.SelectedIndex );
 		}		

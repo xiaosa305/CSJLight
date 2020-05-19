@@ -432,7 +432,7 @@ namespace LightController.MyForm
 			this.deviceConnectButton.TabIndex = 23;
 			this.deviceConnectButton.Text = "连接设备";
 			this.deviceConnectButton.UseVisualStyleBackColor = false;
-			this.deviceConnectButton.Click += new System.EventHandler(this.connectButton_Click);
+			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
 			// 
 			// makeSoundButton
 			// 

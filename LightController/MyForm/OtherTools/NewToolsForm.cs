@@ -30,6 +30,9 @@ namespace OtherTools
 {
 	public partial class NewToolsForm : Form
 	{
+		/// <summary>
+		/// 连接状态的枚举
+		/// </summary>
 		enum ConnectStatus
 		{
 			No,
@@ -39,27 +42,43 @@ namespace OtherTools
 			Kp
 		}
 
-		private IList<Button> buttonList = new List<Button>();		
+		/// <summary>
+		/// 空调或排风模式的枚举
+		/// </summary>
+		enum airModeEnum
+		{
+			FAN,
+			HIGH,
+			MID,
+			LOW,
+			FOPEN,
+			FCLOSE
+		}
+
+		private const int END_DECODING_TIME = 200; // 关闭中控解码需要一定的时间，才能往下操作；正常情况下200毫秒应该足够，但应设为可调节的
+
+		private IList<Button> buttonList = new List<Button>();	 // 动态添加的按钮组（灯控各个开关）
 		private LightControlData lcEntity; //灯控封装对象
 		private CCEntity ccEntity; // 中控封装对象
 		private KeyEntity keyEntity;  // 墙板封装对象
 
-		private bool isReadLC = false;
-		private string protocolXlsPath = Application.StartupPath + @"\Controller.xls";
-		private HSSFWorkbook xlsWorkbook;
-		private IList<string> sheetList;
+		private bool isReadLC = false;  // 是否已回读灯控配置？
+		private string protocolXlsPath = Application.StartupPath + @"\Controller.xls"; //默认的中控配置文件路径
+		private HSSFWorkbook xlsWorkbook;  // 通过本对象实现相应的xls文件的映射
+		private IList<string> sheetList;  // 每个不同的sheet的列表（不同协议在不同的sheet中）
 
-		private bool isKeepLightOn = false;
+		private bool isKeepLightOn = false; //是否保持灯光常亮
 		private int lcFrameIndex = 0; // 灯控选中的场景，用以显示不同场景的灯光开启状态
 
-		private ConnectStatus connStatus = ConnectStatus.No;
+		private ConnectStatus connStatus = ConnectStatus.No;   //初始状态为未连接
 		
 		private bool isDecoding = false; //中控是否开启解码
-		private bool isKpShowDetails = true;
+		private bool isKpShowDetails = true; // 墙板是否显示列表
 
 		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
-		private IList<NetworkDeviceInfo> networkDeviceList;	 // 网络设备的列表
-		
+		private bool isConnectCom = true; //是否串口连接
+		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表	
+
 		private MainFormBase mainForm; 
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
 
@@ -117,6 +136,7 @@ namespace OtherTools
 
 			myInfoToolTip.SetToolTip(keepLightOnCheckBox, "选中常亮模式后，手动点亮或关闭每一个灯光通道，\n都会点亮或关闭所有场景的该灯光通道。");
 			myInfoToolTip.SetToolTip(tcCheckBox, "选中透传模式后，可由当前设备串联旧设备(如ISC-080C、ISC-075A等)，\n并对该设备进行配置。");
+			myInfoToolTip.SetToolTip(ccDecodeButton, "1.若间隔超过一分钟没有点击遥控按钮，则设备会退出解码模式，\n只需点击关闭解码，再重新开启解码即可。\n2.在开启解码状态下，不能下载数据(协议)。");
 
 			// 初始化墙板配置界面的TabControl
 			tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -133,23 +153,36 @@ namespace OtherTools
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void OtherToolsForm_Load(object sender, EventArgs e)
+		private void NewToolsForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 
 			bool isShowTestButton = IniFileHelper.GetControlShow(Application.StartupPath, "testButton"); ;
 			zwjTestButton.Visible = isShowTestButton;
 
 			//直接刷新串口列表
-			refreshDeviceComboBox();		
+			refreshDeviceComboBox(); //NewToolsForm_Load
 		}
-
-
+		
 		/// <summary>
 		/// 刷新所有被connStatus影响的按键
 		/// </summary>
 		private void refreshButtons()
 		{
+			// 刷新几个连接按键的可用性
+			switchButton.Enabled = connStatus == ConnectStatus.No ;
+			deviceComboBox.Enabled = connStatus == ConnectStatus.No;
+			refreshButton.Enabled = connStatus == ConnectStatus.No;
+
+			// 刷新连接设备的名称
+			if (isConnectCom)
+			{
+				deviceConnectButton.Text = connStatus > ConnectStatus.No ? "关闭串口" : "打开串口";
+			}
+			else {
+				deviceConnectButton.Text = connStatus > ConnectStatus.No ? "断开连接" : "连接设备";
+			}			
+
 			// 三个连接按键
 			lcConnectButton.Enabled = connStatus > ConnectStatus.No;
 			ccConnectButton.Enabled = connStatus > ConnectStatus.No;
@@ -180,11 +213,11 @@ namespace OtherTools
 		{
 			switch (connStatus)
 			{
+				case ConnectStatus.No: setAllStatusLabel1("尚未连接设备");break;
+				//case ConnectStatus.Normal: setAllStatusLabel1("已连接设备"); break;
 				case ConnectStatus.Lc: setAllStatusLabel2("已切换为灯控配置"); break;
 				case ConnectStatus.Cc: setAllStatusLabel2("已切换为中控模式"); break;
 				case ConnectStatus.Kp: setAllStatusLabel2("已切换为墙板配置"); break;
-				//case ConnectStatus.Tclc: setAllStatusLabel2("已切换为透传灯控模式"); break;
-				//case ConnectStatus.Tccc: setAllStatusLabel2("已切换为透传中控模式"); break;
 				default: setAllStatusLabel2(""); break;
 			}
 		}			
@@ -368,18 +401,7 @@ namespace OtherTools
 			fanChannelComboBoxes[(int)airMode].SelectedIndex = fanChannel;
 		}
 
-		/// <summary>
-		/// 空调或排风模式的枚举
-		/// </summary>
-		enum airModeEnum
-		{
-			FAN,
-			HIGH,
-			MID,
-			LOW,
-			FOPEN,
-			FCLOSE
-		}
+	
 
 		/// <summary>
 		/// 辅助方法：是否使用排风
@@ -661,7 +683,6 @@ namespace OtherTools
 			}			
 		}
 
-
 		/// <summary>
 		///  事件：点击《开启|关闭解码》
 		/// </summary>
@@ -671,13 +692,12 @@ namespace OtherTools
 		{
 			// 点击《关闭解码》
 			if (isDecoding)
-			{
-				myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
+			{				
+				myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);				
 			}
 			// 点击《开启解码》
 			else {
-				myConnect.CenterControlStartCopy(CCStartCompleted, CCStartError, CCListen);
-				
+				myConnect.CenterControlStartCopy(CCStartCompleted, CCStartError, CCListen);				
 			}
 		}
 
@@ -754,11 +774,6 @@ namespace OtherTools
 		}
 
 
-		private void bigTestButton2_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show(StringHelper.HexStringToDecimal("ff"));
-		}
-
 		/// <summary>
 		///  事件：点击《中控-下载数据》按钮
 		/// </summary>
@@ -772,6 +787,12 @@ namespace OtherTools
 				return;
 			}
 
+			// 正常情况下，在解码模式下不能下载数据，加这个判断以防万一
+			if(isDecoding) {
+				MessageBox.Show("在解码状态下无法下载数据，请先关闭解码");
+				return;
+			}
+				
 			ccToolStripStatusLabel2.Text = "正在下载中控数据，请稍候...";
 			myConnect.CenterControlDownload(ccEntity, CCDownloadCompleted, CCDownloadError);
 			
@@ -1155,7 +1176,6 @@ namespace OtherTools
 			isKeepLightOn = keepLightOnCheckBox.Checked;
 		}
 
-		private bool isConnectByCom = true;
 		/// <summary>
 		///  事件：点击《切换连接方式》
 		/// </summary>
@@ -1163,30 +1183,36 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void switchButton_Click(object sender, EventArgs e)
 		{
-			disConnect();
-			
-			isConnectByCom = !isConnectByCom;
-			switchButton.Text = isConnectByCom ? "切换为\n网络连接" : "切换为\n串口连接";
-			refreshButton.Text = isConnectByCom ?  "刷新串口" : "刷新网络";
-			deviceConnectButton.Text = isConnectByCom ?  "打开串口" : "连接设备";
+			isConnectCom = !isConnectCom;
+			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			refreshButton.Text = isConnectCom ?  "刷新串口" : "刷新网络";
+			deviceConnectButton.Text = isConnectCom ?  "打开串口" : "连接设备";
 
-			refreshDeviceComboBox();
+			refreshDeviceComboBox(); // switchButton_Click
 		}
 
 		/// <summary>
 		/// 辅助方法：断开连接（退出Form及切换连接方式时，都跑一次这个方法）
 		/// </summary>
 		private void disConnect() {
-			// 切换前都先断开连接
+
 			if (myConnect != null)
 			{
+				// 若正在解码状态，则先关闭解码，才能关闭连接
+				if (isDecoding)
+				{
+					myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
+					Thread.Sleep(END_DECODING_TIME);
+				}
 				if (connStatus > ConnectStatus.No)
 				{
 					myConnect.DisConnect();
 				}
 				setConnStatus(ConnectStatus.No);
+				setAllStatusLabel1("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"));
+				setAllStatusLabel2(""); // 断开连接后，设置右侧状态栏为空字符串
 				myConnect = null;
-			}
+			}		
 		}
 
 		/// <summary>
@@ -1194,7 +1220,9 @@ namespace OtherTools
 		/// </summary>
 		private void refreshDeviceComboBox()
 		{
-			// 刷新前，先清空列表
+			// 刷新前，先清空列表(也先断开连接：只是保护性再跑一次)
+			disConnect(); // refreshDeviceComboBox
+
 			setAllStatusLabel1("正在搜索网络设备，请稍候...");
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Text = "";
@@ -1204,7 +1232,7 @@ namespace OtherTools
 			Refresh();
 
 			// 获取串口列表（不代表一定能连上，串口需用户自行确认）
-			if (isConnectByCom)
+			if (isConnectCom)
 			{
 				if (myConnect == null) {
 					myConnect = new SerialConnect();
@@ -1248,39 +1276,44 @@ namespace OtherTools
 			}
 
 			if (deviceComboBox.Items.Count > 0)
-			{
-				
-				deviceComboBox.Enabled = true;
+			{								
 				deviceComboBox.SelectedIndex = 0;
+				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				setAllStatusLabel1("已搜到可用设备列表。");
-				setConnStatus(ConnectStatus.No);				
+				setAllStatusLabel1("已搜到可用设备列表。");						
 			}
 			else {
-				
-
 				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
-				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");
-				setConnStatus(ConnectStatus.No);
+				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
 			}
+			// 无论在何种情况下，只要刷新了列表，说明连接已经断开（先断开），此时应该设置为未连接状态
+			setConnStatus(ConnectStatus.No);
 		}
 
 		//事件：点击《刷新串口|网络》
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
-			refreshDeviceComboBox();
+			refreshDeviceComboBox();  // switchButton_Click
 		}
 
+		/// <summary>
+		///  事件：点击《打开串口|连接设备 || 关闭串口|断开连接》按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void connectButton_Click(object sender, EventArgs e)
 		{
-			if (isConnectByCom)
+			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
+			if (connStatus > ConnectStatus.No)
 			{
-				if (myConnect == null) {
-					MessageBox.Show("打开串口失败，原因是：myConnect为null");
-					setAllStatusLabel1("打开串口失败，原因是：myConnect为null");
-					setConnStatus(ConnectStatus.No);
-					return;
-				}
+				disConnect(); //connectButton_Click
+				return; 
+			}
+
+			// 若未连接，则连接；并分情况处理
+			if (isConnectCom)
+			{
+				myConnect = new SerialConnect();				
 				try
 				{
 					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
@@ -1375,6 +1408,7 @@ namespace OtherTools
 			{
 				MessageBox.Show("切换灯控配置失败[" + msg + "]");
 				lcToolStripStatusLabel2.Text = "切换灯控配置失败[" + msg + "]";
+				// 切换失败，只给提示，不更改原来的状态
 			});
 		}
 
@@ -1399,7 +1433,7 @@ namespace OtherTools
 			Invoke((EventHandler)delegate {
 				MessageBox.Show("切换中控配置失败[" + msg + "]");
 				ccToolStripStatusLabel2.Text = "切换中控配置失败[" + msg + "]";
-				refreshButtons();
+				// 切换失败，只给提示，不更改原来的状态
 			});
 		}
 
@@ -1468,7 +1502,7 @@ namespace OtherTools
 			Invoke((EventHandler)delegate {
 				// 当使用串口连接时，下载成功会重启设备，但因为用串口连接，代码可以主动帮助重连；
 				// 同理，若是使用透传模式，则下载成功重启的并非主设备，而是透传的设备，其重启后仍会主动连上主设备，主动点击重连键即可。
-				if (isConnectByCom || tcCheckBox.Checked)
+				if (isConnectCom || tcCheckBox.Checked)
 				{
 					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");
 					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";	
@@ -1493,7 +1527,7 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{
 				MessageBox.Show("灯控配置下载失败["+msg+"]");
-				lcToolStripStatusLabel2.Text = "灯控配置下载失败[" + msg + "]";				
+				lcToolStripStatusLabel2.Text = "灯控配置下载失败[" + msg + "]";
 			});
 		}
 
@@ -1504,16 +1538,11 @@ namespace OtherTools
 		public void CCDownloadCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				if (isConnectByCom)
+				if (isConnectCom)
 				{
 					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
 					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";					
 					Thread.Sleep(5000);
-
-					isDecoding = false;
-					ccDecodeButton.Text = "开启解码";
-					ccDecodeButton.Enabled = false;
-
 					ccConnectButton_Click(null, null);
 				}
 				else {
@@ -1596,13 +1625,12 @@ namespace OtherTools
 		public void CCStopCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
-			{
-				MessageBox.Show("成功关闭中控解码");
+			{				
 				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
-				ccDecodeRichTextBox.Enabled = false ;
-				refreshButtons();
+				ccDecodeRichTextBox.Enabled = false ;				
+				refreshButtons();			
 			});
 		}
 
@@ -1614,30 +1642,9 @@ namespace OtherTools
 			Invoke((EventHandler)delegate
 			{
 				MessageBox.Show(msg);
-				ccToolStripStatusLabel2.Text = "关闭中控解码失败";				
+				ccToolStripStatusLabel2.Text = "关闭中控解码失败";
 			});
-		}
-
-
-		/// <summary>
-		/// 事件：点击《zwjTest》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void zwjTestButton_Click(object sender, EventArgs e)
-		{
-			ccEntity.GetData();
-		}
-
-		/// <summary>
-		/// 事件：点击《连接中控》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ccConnectButton_Click(object sender, EventArgs e)
-		{
-			myConnect.CenterControlConnect(CCConnectCompleted, CCConnectError);
-		}
+		}		
 
 		/// <summary>
 		/// 事件：点击《连接灯控》
@@ -1646,6 +1653,12 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void lcConnectButton_Click(object sender, EventArgs e)
 		{
+			// 若正在解码状态，则先关闭解码，才能进行连接
+			if (myConnect != null && isDecoding ) {
+				myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
+				Thread.Sleep(END_DECODING_TIME);
+			}
+
 			if (tcCheckBox.Checked)
 			{
 				myConnect.PassThroughLightControlConnect(LCConnectCompleted, LCConnectError);
@@ -1656,12 +1669,34 @@ namespace OtherTools
 		}
 
 		/// <summary>
+		/// 事件：点击《连接中控》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ccConnectButton_Click(object sender, EventArgs e)
+		{
+			// 若正在解码状态，则先关闭解码，才能进行连接
+			if (myConnect != null && isDecoding)
+			{
+				myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
+				Thread.Sleep(END_DECODING_TIME);
+			}
+			myConnect.CenterControlConnect(CCConnectCompleted, CCConnectError);
+		}
+
+		/// <summary>
 		/// 事件：点击《连接墙板》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void kpConnectButton_Click(object sender, EventArgs e)
 		{
+			// 若正在解码状态，则先关闭解码，才能进行连接
+			if (myConnect != null && isDecoding)
+			{
+				myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
+				Thread.Sleep(END_DECODING_TIME);
+			}
 			myConnect.PassThroughKeyPressConnect(KPFirstConnectCompleted, KPConnectError);
 		}
 
@@ -1702,14 +1737,14 @@ namespace OtherTools
 		{
 			connStatus = cs;
 			refreshStatusLabels();
-			refreshButtons();					
+			refreshButtons();			
 		}
 
 		/// <summary>
 		/// 辅助方法：当下载中控或灯控数据后，应该执行此方法，以引导用户进行新的操作
 		/// </summary>
 		private void networkDeviceRestart() {
-			if (!isConnectByCom && connStatus == ConnectStatus.No)
+			if (!isConnectCom && connStatus == ConnectStatus.No)
 			{
 				deviceComboBox.Items.Clear();
 				deviceComboBox.Text = "";
@@ -1752,10 +1787,9 @@ namespace OtherTools
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show("连接墙板失败[" + msg + "]");				
-				//MARK：连接墙板失败，是否还要进行其他操作？
-				setConnStatus(ConnectStatus.No);
+				MessageBox.Show("连接墙板失败[" + msg + "]");												
 				kpToolStripStatusLabel2.Text = "连接墙板失败[" + msg + "]";
+				// 切换失败，只给提示，不更改原来的状态
 			});
 		}
 
@@ -1867,93 +1901,7 @@ namespace OtherTools
 				}
 			});
 		}
-
-		#region 几个事件，用以允许拖拽墙板按键，以自定义图标位置
-
-		private Point startPoint = Point.Empty;
-		/// <summary>
-		///  获取两点间的距离
-		/// </summary>
-		/// <param name="pt1"></param>
-		/// <param name="pt2"></param>
-		/// <returns></returns>
-		private double getVector(Point pt1, Point pt2) 
-		{
-			var x = Math.Pow((pt1.X - pt2.X), 2);
-			var y = Math.Pow((pt1.Y - pt2.Y), 2);
-			return Math.Abs(Math.Sqrt(x - y));
-		}
-
-		/// <summary>
-		/// 事件：鼠标拖动对象时发生（VS:将对象拖过空间边界时发生）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void keypressListView_DragOver(object sender, DragEventArgs e)
-		{
-			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
-				e.Effect = DragDropEffects.Move;
-		}
-
-		/// <summary>
-		/// 事件：松开鼠标时发生（VS：拖动操作时发生）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void keypressListView_DragDrop(object sender, DragEventArgs e)
-		{
-			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
-			{
-				var items = e.Data.GetData(typeof(ListViewItem[])) as ListViewItem[];
-
-				var pos = keypressListView.PointToClient(new Point(e.X, e.Y));
-
-				var offset = new Point(pos.X - startPoint.X, pos.Y - startPoint.Y);
-
-				foreach (var item in items)
-				{
-					pos = item.Position;
-					pos.Offset(offset);
-					item.Position = pos;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：按下鼠标时发生 （VS：在组件上方且按下鼠标时发生）
-		/// </summary>
-		private void keypressListView_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-				startPoint = e.Location;
-		}
-
-		/// <summary>
-		/// 事件：listView鼠标移动
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void keypressListView_MouseMove(object sender, MouseEventArgs e)
-		{
-			if (keypressListView.SelectedItems.Count == 0)
-				return;
-
-			if (e.Button == MouseButtons.Left)
-			{
-				var vector = getVector(startPoint, e.Location);
-				if (vector < 10) return;
-
-				var data = keypressListView.SelectedItems.OfType<ListViewItem>().ToArray();
-				keypressListView.DoDragDrop(data, DragDropEffects.Move);
-			}
-		}
-
-
-
-
-		#endregion
-
-
+				
 		/// <summary>
 		/// 事件：点击《墙板-保存按键位置》
 		/// </summary>
@@ -2122,9 +2070,133 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void NewToolsForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			disConnect();
+			//if (myConnect != null && isDecoding) {
+			//	myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
+			//	Thread.Sleep(END_DECODING_TIME);
+			//}
+			disConnect(); //NewToolsForm_FormClosed
 			Dispose();
 			mainForm.Activate();
+		}
+
+		/// <summary>
+		/// 事件：更改《deviceComboBox》的选中项（若设为Enabled为false或者Clear(),却不会跑这里 ）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deviceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (!deviceComboBox.Text.Trim().Equals(""))
+			{
+				deviceConnectButton.Enabled = true;
+			}
+			else
+			{
+				deviceConnectButton.Enabled = false;
+				MessageBox.Show("未选中可用设备");
+			}
+		}
+
+		#region 几个事件，用以允许拖拽墙板按键，以自定义图标位置
+
+		private Point startPoint = Point.Empty;
+		/// <summary>
+		///  获取两点间的距离
+		/// </summary>
+		/// <param name="pt1"></param>
+		/// <param name="pt2"></param>
+		/// <returns></returns>
+		private double getVector(Point pt1, Point pt2)
+		{
+			var x = Math.Pow((pt1.X - pt2.X), 2);
+			var y = Math.Pow((pt1.Y - pt2.Y), 2);
+			return Math.Abs(Math.Sqrt(x - y));
+		}
+
+		/// <summary>
+		/// 事件：鼠标拖动对象时发生（VS:将对象拖过空间边界时发生）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keypressListView_DragOver(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
+				e.Effect = DragDropEffects.Move;
+		}
+
+		/// <summary>
+		/// 事件：松开鼠标时发生（VS：拖动操作时发生）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keypressListView_DragDrop(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(typeof(ListViewItem[])))
+			{
+				var items = e.Data.GetData(typeof(ListViewItem[])) as ListViewItem[];
+
+				var pos = keypressListView.PointToClient(new Point(e.X, e.Y));
+
+				var offset = new Point(pos.X - startPoint.X, pos.Y - startPoint.Y);
+
+				foreach (var item in items)
+				{
+					pos = item.Position;
+					pos.Offset(offset);
+					item.Position = pos;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：按下鼠标时发生 （VS：在组件上方且按下鼠标时发生）
+		/// </summary>
+		private void keypressListView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+				startPoint = e.Location;
+		}
+
+		/// <summary>
+		/// 事件：listView鼠标移动
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void keypressListView_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (keypressListView.SelectedItems.Count == 0)
+				return;
+
+			if (e.Button == MouseButtons.Left)
+			{
+				var vector = getVector(startPoint, e.Location);
+				if (vector < 10) return;
+
+				var data = keypressListView.SelectedItems.OfType<ListViewItem>().ToArray();
+				keypressListView.DoDragDrop(data, DragDropEffects.Move);
+			}
+		}
+
+		#endregion
+			   
+		/// <summary>
+		///  事件：点击测试按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void bigTestButton2_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show(StringHelper.HexStringToDecimal("ff"));
+		}
+
+		/// <summary>
+		/// 事件：点击《zwjTest》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zwjTestButton_Click(object sender, EventArgs e)
+		{
+			ccEntity.GetData();
 		}
 	}
 }

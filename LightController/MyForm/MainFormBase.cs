@@ -140,9 +140,7 @@ namespace LightController.MyForm
 
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
-		public virtual void EnableConnectedButtons(bool connected) { } //设置《连接按钮组》是否可用
-
-		
+		public virtual void EnableConnectedButtons(bool connected) { } //设置《连接按钮组》是否可用	
 
 		#endregion
 

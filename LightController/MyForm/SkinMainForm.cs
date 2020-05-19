@@ -359,7 +359,7 @@ namespace LightController.MyForm
 		private void SkinMainForm_Load(object sender, EventArgs e)
 		{
 			// 启动时刷新可用串口列表;
-			deviceRefreshSkinButton_Click(null, null);
+			deviceRefresh(); //SkinMainForm_Load
 			SetNotice("");
 			
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
@@ -2284,7 +2284,7 @@ namespace LightController.MyForm
 			deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"));
 
-			deviceRefreshSkinButton_Click(null, null);  // 切换连接后，手动帮用户搜索相应的设备列表。
+			deviceRefresh(); //changeConnectMethodSkinButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
 		}
 
 		/// <summary>
@@ -2294,6 +2294,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceRefreshSkinButton_Click(object sender, EventArgs e)
 		{
+			deviceRefresh(); //deviceRefreshButton_Click
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新设备
+		/// </summary>
+		private void deviceRefresh() {
+
 			//	 刷新前，先清空按键等
 			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...");
 			deviceSkinComboBox.Items.Clear();
@@ -2314,8 +2322,8 @@ namespace LightController.MyForm
 					{
 						deviceSkinComboBox.Items.Add(com);
 					}
-				}				
-			}			
+				}
+			}
 			// 刷新网络设备
 			else
 			{
@@ -2340,11 +2348,11 @@ namespace LightController.MyForm
 						foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
 						{
 							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
-							deviceSkinComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);							
+							deviceSkinComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Key + ")" + localIPLast);
 							networkDeviceList.Add(d2.Value);
 						}
 					}
-				}				
+				}
 			}
 
 			if (deviceSkinComboBox.Items.Count > 0)
@@ -2356,9 +2364,9 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				SetNotice("未找到可用的" +(isConnectCom?"串口":"网络") +"设备，请确认后重试。");				
+				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。");
 			}
-		}		
+		}
 
 		/// <summary>
 		/// 事件：改变deviceComboBox的选中项。
@@ -2367,7 +2375,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void deviceSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{			
-			if (! deviceSkinComboBox.Text.Trim().Equals(""))
+			if (!deviceSkinComboBox.Text.Trim().Equals(""))
 			{	
 				deviceConnectSkinButton.Enabled = true;
 			}

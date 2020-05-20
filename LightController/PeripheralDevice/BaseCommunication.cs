@@ -5,6 +5,7 @@ using LightController.Tools;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -64,6 +65,8 @@ namespace LightController.PeripheralDevice
         protected long CurrentDownloadCompletedSize { get; set; }//当前文件大小
         protected string CurrentFileName { get; set; }//当前下载文件名称
         protected bool DownloadProjectStatus { get; set; }//下载状态标记
+
+
 
 
         /// <summary>
@@ -436,10 +439,11 @@ namespace LightController.PeripheralDevice
             }
             this.Send(pack.ToArray());
         }
-		/// <summary>
-		/// 接收数据处理
-		/// </summary>
-		protected void Receive()
+
+        /// <summary>
+        /// 接收数据处理
+        /// </summary>
+        protected void Receive()
         {
             if (ReadBuff.Count >= PACKHEADLENGTH)
             {
@@ -467,6 +471,8 @@ namespace LightController.PeripheralDevice
                 }
             }
         }
+
+
         /// <summary>
         /// 接收数据事务管理
         /// </summary>
@@ -716,7 +722,6 @@ namespace LightController.PeripheralDevice
             {
                 this.StopTimeOut();
                 this.SendData();
-
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals("ack\r\n"))
             {
@@ -728,9 +733,9 @@ namespace LightController.PeripheralDevice
             }
             if (this.IsDone && this.IsAck)
             {
+                this.StopTimeOut();
                 this.IsAck = false;
                 this.IsDone = false;
-                this.StopTimeOut();
                 this.IsSending = false;
                 this.Completed_Event(null,"中控设备连接成功");
             }

@@ -18,6 +18,7 @@ namespace LightController.PeripheralDevice
         private int CurrentBaudRate { get; set; }
         private bool IsDeviceOpen { get; set; }
         private Order Order { get; set; }
+
         public SerialConnect()
         {
             this.CurrentBaudRate = DEFAULT_BAUDRATE;
@@ -68,6 +69,7 @@ namespace LightController.PeripheralDevice
             catch (Exception ex)
             {
                 this.IsDeviceOpen = false;
+                ReadBuff.Clear();
                 LogTools.Debug(Constant.TAG_XIAOSA, "串口已关闭或串口接收模块发生异常");
             }
             finally
@@ -91,7 +93,6 @@ namespace LightController.PeripheralDevice
             {
                 if (this.SerialPortDevice.IsOpen)
                 {
-                    Console.WriteLine(DateTime.Now.Ticks + "----关闭串口线程编号:" + Thread.CurrentThread.ManagedThreadId);
                     this.SerialPortDevice.Close();
                 }
             }

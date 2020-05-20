@@ -91,9 +91,8 @@ namespace LightController.PeripheralDevice
             {
                 if (this.SerialPortDevice.IsOpen)
                 {
-                    LogTools.Debug(Constant.TAG_XIAOSA, "准备关闭串口");
+                    Console.WriteLine(DateTime.Now.Ticks + "----关闭串口线程编号:" + Thread.CurrentThread.ManagedThreadId);
                     this.SerialPortDevice.Close();
-                    LogTools.Debug(Constant.TAG_XIAOSA, "关闭串口成功");
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace LightController.Ast
 {
 	public class LightAst
 	{	
-		public String LightPath { get; set; }
+		public string LightPath { get; set; }
 		
 		// 此四个属性，可由ini文件获取
 		public string LightName { get; set; }

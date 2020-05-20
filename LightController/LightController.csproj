@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\Enum\InsertMethod.cs" />
+    <Compile Include="Ast\GroupAst.cs" />
     <Compile Include="Ast\LightWrapper.cs" />
     <Compile Include="Ast\MaterialAst.cs" />
     <Compile Include="Ast\MaterialIndexAst.cs" />
@@ -217,6 +218,12 @@
     </Compile>
     <Compile Include="MyForm\LightEditor\WaySetForm.Designer.cs">
       <DependentUpon>WaySetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\GroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\GroupForm.Designer.cs">
+      <DependentUpon>GroupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Multiplex\MultiplexForm.cs">
       <SubType>Form</SubType>
@@ -458,6 +465,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
+      <DependentUpon>GroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
@@ -927,6 +937,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="更新日志\v2.3.8.512.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="groupList.ini">
+      <Generator>ResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

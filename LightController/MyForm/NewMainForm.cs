@@ -2,6 +2,7 @@
 using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
+using LightController.MyForm.Multiplex;
 using LightController.MyForm.Test;
 using LightController.PeripheralDevice;
 using LightController.Tools;
@@ -1604,6 +1605,7 @@ namespace LightController.MyForm
 
 			// 4.设定统一调整区是否可用			
 			zeroButton.Enabled = totalStep != 0;
+			groupButton.Enabled = totalStep != 0;
 			initButton.Enabled = totalStep != 0; 
 			multiButton.Enabled = totalStep != 0;
 			unifyValueButton.Enabled = totalStep != 0;
@@ -1902,14 +1904,29 @@ namespace LightController.MyForm
 		#region unifyPanel（辅助调节面板）
 
 		/// <summary>
-		/// 事件：点击《全部归零》
+		/// 事件：点击《灯具编组》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void zeroButton_Click(object sender, EventArgs e)
+		private void groupButton_Click(object sender, EventArgs e)
 		{
-			zeroButtonClick();
-		}
+			if (lightsListView.SelectedIndices.Count < 2)
+			{
+				MessageBox.Show("请选择至少两个(同型)灯具，否则无法进行编组。");
+				return;
+			}
+			if (!checkSameLights())
+			{
+				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+				return;
+			}
+			selectedIndices = new List<int>();
+			foreach (int item in lightsListView.SelectedIndices)
+			{
+				selectedIndices.Add(item);
+			}
+			new GroupForm( this, selectedIndices).ShowDialog();
+		}		
 
 		/// <summary>
 		/// 事件：点击《设为初值》
@@ -1929,6 +1946,18 @@ namespace LightController.MyForm
 		private void multiButton_Click(object sender, EventArgs e)
 		{
 			multiButtonClick();
+		}
+
+		#region 弃用的快捷设置按钮组
+
+		/// <summary>
+		/// 事件：点击《全部归零》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void zeroButton_Click(object sender, EventArgs e)
+		{
+			zeroButtonClick();
 		}
 
 		/// <summary>
@@ -2094,6 +2123,8 @@ namespace LightController.MyForm
 				new SKForm(this,  currentFrame, frameComboBox.Text).ShowDialog();
 			}
 		}
+
+		#endregion 
 
 		#endregion
 
@@ -2394,8 +2425,7 @@ namespace LightController.MyForm
 			if (tempFS == null) {
 				Console.WriteLine("占用C1.bin");
 				tempFS = File.Open(@"C:\Users\Dickov\source\repos\CSJLight\LightController\bin\Debug\DataCache\Project\CSJ\C1.bin", FileMode.Open);
-			}
-			
+			}			
 		}
 
 		FileStream tempFS;
@@ -2406,28 +2436,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton2_Click(object sender, EventArgs e)
 		{
-			////GenerateSourceProject();
-
-			//setBusy(true);
-			//SetNotice("正在压缩文件");
-			//Refresh();
-
-			//string dirPath = @"Z:\MC100\mcdata\demo1";
-			//string zipPath = @"Z:\GUAN\demo1.zip";
-			//ZipAst.CompressAllToZip(dirPath, zipPath, 0, null, @"Z:\MC100\mcdata\");
-
-			//SetNotice("已完成压缩");
-			//setBusy(false);
-
-			//测试拷贝单文件
-			//FileAst.CopyFile(@"C:\Users\Dickov\Desktop\hehe\CSJ\C1.bin", @"C: \Users\Dickov\Desktop\hehe\CSJ\Dest" , true);
-
-
-			if (tempFS != null) {
-				Console.WriteLine("释放C1.bin");
-				tempFS.Dispose();
-			}
-			
+			// 测试获取编组列表
+			string iniPath = Application.StartupPath + @"\groupList.ini";
+			IList<GroupAst> groupList = GroupAst.GenerateGroupList(iniPath);
+			Console.WriteLine(groupList);
 		}
 
 		/// <summary>

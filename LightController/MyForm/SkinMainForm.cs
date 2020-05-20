@@ -21,6 +21,7 @@ using LightController.Tools.CSJ.IMPL;
 using OtherTools;
 using LightEditor.Ast;
 using LightController.PeripheralDevice;
+using LightController.MyForm.Multiplex;
 
 namespace LightController.MyForm
 {
@@ -280,9 +281,16 @@ namespace LightController.MyForm
 				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameLabels_Click);
 
 				tdStepTimeNumericUpDowns[tdIndex].DecimalPlaces = 2;
+
+				tdValueNumericUpDowns[tdIndex].Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 				tdValueNumericUpDowns[tdIndex].TextAlign = HorizontalAlignment.Center;
-							   
+				tdValueNumericUpDowns[tdIndex].Size = new System.Drawing.Size(56, 21);
+				tdValueNumericUpDowns[tdIndex].Location = new System.Drawing.Point(15, 206);
+
+				tdStepTimeNumericUpDowns[tdIndex].Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 				tdStepTimeNumericUpDowns[tdIndex].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+				tdStepTimeNumericUpDowns[tdIndex].Size = new System.Drawing.Size(56, 21);
+				tdStepTimeNumericUpDowns[tdIndex].Location = new System.Drawing.Point(15, 254);
 			}
 
 
@@ -307,9 +315,7 @@ namespace LightController.MyForm
 			//模式选项框
 			modeSkinComboBox.Items.AddRange(new object[] { "常规模式", "音频模式" });
 			modeSkinComboBox.SelectedIndex = 0;
-
-			// 《统一跳渐变》numericUpDown不得为空，否则会造成点击后所有通道的changeMode形式上为空（不过Value不是空）
-			unifyChangeModeSkinComboBox.SelectedIndex = 1;
+						
 			#endregion
 
 			#region 各类监听器
@@ -319,8 +325,8 @@ namespace LightController.MyForm
 				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdSkinTrackBars[i].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
 				tdSkinTrackBars[i].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
-
-				tdValueNumericUpDowns[i].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
+				
+				tdValueNumericUpDowns[i].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);				
 				tdValueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
 				tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
 
@@ -333,18 +339,6 @@ namespace LightController.MyForm
 			}
 			// 防止人为滚动左侧的labelPanels，用这个监听事件来处理
 			labelFlowLayoutPanel.MouseWheel += new MouseEventHandler(this.labelFlowLayoutPanel_MouseWheel);
-
-			// 几个《统一调整区》的鼠标滚动事件绑定
-			unifyValueNumericUpDown.MouseEnter += new EventHandler(this.unifyValueNumericUpDown_MouseEnter);
-			unifyValueNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyValueNumericUpDown_MouseWheel);
-			unifyValueNumericUpDown.ValueChanged += new System.EventHandler(this.unifyValueNumericUpDown_ValueChanged);
-
-			unifyValueTrackBar.MouseEnter += new EventHandler(this.unifyValueTrackBar_MouseEnter);
-			unifyValueTrackBar.MouseWheel += new MouseEventHandler(this.unifyValueTrackBar_MouseWheel);
-			unifyValueTrackBar.ValueChanged += new EventHandler(this.unifyValueTrackBar_ValuiChanged);
-
-			unifyStepTimeNumericUpDown.MouseEnter += new EventHandler(this.unifyStepTimeNumericUpDown_MouseEnter);
-			unifyStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyStepTimeNumericUpDown_MouseWheel);
 
 			#endregion
 
@@ -671,10 +665,7 @@ namespace LightController.MyForm
 		/// 辅助方法：初始化（StepTime）各控件的属性值
 		/// </summary>
 		protected override void initStNumericUpDowns()
-		{
-			unifyStepTimeNumericUpDown.Maximum = eachStepTime2 * MAX_StTimes; ;
-			unifyStepTimeNumericUpDown.Increment = eachStepTime2;
-
+		{			
 			for (int i = 0; i < 32; i++)
 			{
 				tdStepTimeNumericUpDowns[i].Maximum = eachStepTime2 * MAX_StTimes;
@@ -1269,15 +1260,7 @@ namespace LightController.MyForm
 					this.tdChangeModeSkinComboBoxes[i].Items.Clear();
 					this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
 					this.tdStepTimeNumericUpDowns[i].Hide();
-				}
-				unifyChangeModeSkinButton.Text = "统一声控";
-				unifyChangeModeSkinComboBox.Items.Clear();
-				unifyChangeModeSkinComboBox.Items.AddRange(new object[] { "屏蔽", "跳变" });
-				unifyChangeModeSkinComboBox.SelectedIndex = 0;
-
-				unifyStepTimeNumericUpDown.Hide();
-				unifyStepTimeSkinButton.Text = "修改此音频场景全局设置";
-				unifyStepTimeSkinButton.Size = new System.Drawing.Size(210, 27);
+				}			
 
 				thirdLabel1.Hide();
 				thirdLabel2.Hide();
@@ -1291,15 +1274,7 @@ namespace LightController.MyForm
 					this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
 					this.tdStepTimeNumericUpDowns[i].Show();
 				}
-				unifyChangeModeSkinButton.Text = "统一跳渐变";
-				unifyChangeModeSkinComboBox.Items.Clear();
-				unifyChangeModeSkinComboBox.Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
-				unifyChangeModeSkinComboBox.SelectedIndex = 0;
-
-				unifyStepTimeNumericUpDown.Show();
-				unifyStepTimeSkinButton.Text = "统一步时间";
-				unifyStepTimeSkinButton.Size = new System.Drawing.Size(111, 27);
-
+				
 				thirdLabel1.Show();
 				thirdLabel2.Show();
 				thirdLabel3.Show();
@@ -1607,16 +1582,9 @@ namespace LightController.MyForm
 			multiplexSkinButton.Enabled = currentStep > 0 && isSyncMode;
 
 			// 4.设定统一调整区是否可用
-			zeroSkinButton.Enabled = totalStep != 0;
+			groupSkinButton.Enabled = totalStep != 0;
 			initSkinButton.Enabled = totalStep != 0;
-			multiSkinButton.Enabled = totalStep != 0;
-			unifyValueSkinButton.Enabled = totalStep != 0;
-			unifyChangeModeSkinButton.Enabled = totalStep != 0;
-			unifyStepTimeSkinButton.Enabled = (totalStep != 0) || (currentMode == 1);
-			unifyValueNumericUpDown.Enabled = totalStep != 0;
-			unifyValueTrackBar.Enabled = totalStep != 0;
-			unifyChangeModeSkinComboBox.Enabled = totalStep != 0;
-			unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
+			multiSkinButton.Enabled = totalStep != 0;			
 
 			// 5. 处理选择步数的框及按钮
 			chooseStepNumericUpDown.Enabled = totalStep != 0;			
@@ -1979,22 +1947,37 @@ namespace LightController.MyForm
 			Point oldPoint = labelFlowLayoutPanel.AutoScrollPosition;
 			labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
 		}
-		
+
 		#endregion
 
 		#endregion
 
 		//MARK：SkinMainForm统一调整框各事件处理
 		#region 统一调整框的组件及事件绑定
-
+		
 		/// <summary>
-		/// 事件：点击《全部归零》
+		/// 事件：点击《灯具编组》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void zeroSkinButton_Click(object sender, EventArgs e)
+		private void groupSkinButton_Click(object sender, EventArgs e)
 		{
-			zeroButtonClick();
+			if (lightsSkinListView.SelectedIndices.Count < 2)
+			{
+				MessageBox.Show("请选择至少两个(同型)灯具，否则无法进行编组。");
+				return;
+			}
+			if (!checkSameLights())
+			{
+				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+				return;
+			}
+			selectedIndices = new List<int>();
+			foreach (int item in lightsSkinListView.SelectedIndices)
+			{
+				selectedIndices.Add(item);
+			}
+			new GroupForm(this, selectedIndices).ShowDialog();
 		}
 
 		/// <summary>
@@ -2018,253 +2001,6 @@ namespace LightController.MyForm
 			multiButtonClick();
 		}
 
-		/// <summary>
-		///  事件：《统一设置通道值numericUpDown》的鼠标进入区域获取焦点
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueNumericUpDown_MouseEnter(object sender, EventArgs e)
-		{
-			unifyValueNumericUpDown.Select();
-		}
-
-		/// <summary>
-		///  事件：《统一设置通道值numericUpDown》的鼠标滚动事件（只+/-1）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
-		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value + unifyValueNumericUpDown.Increment;
-				if (dd <= unifyValueNumericUpDown.Maximum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyValueNumericUpDown.Value - unifyValueNumericUpDown.Increment;
-				if (dd >= unifyValueNumericUpDown.Minimum)
-				{
-					unifyValueNumericUpDown.Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		///  事件：《统一设置通道值numericUpDown》值变动事件
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			unifyValueTrackBar.Value = Decimal.ToInt16(unifyValueNumericUpDown.Value);
-		}
-
-		/// <summary>
-		/// 事件: 《统一设置通道值trackBar》鼠标进入区域事件
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueTrackBar_MouseEnter(object sender, EventArgs e)
-		{
-			unifyValueNumericUpDown.Select();
-		}
-
-		/// <summary>		
-		/// 事件: 《统一设置通道值trackBar》鼠标滚动事件
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueTrackBar_MouseWheel(object sender, MouseEventArgs e)
-		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				//获取或设置是否应将此事件转发到控件的父容器。
-				// public bool Handled { get; set; } ==> 如果鼠标事件应转到父控件，则为 true；否则为 false。
-				// Dickov: 实际上就是当Handled设为true时，不再触发本控件的默认相关操作(即屏蔽滚动事件)
-				hme.Handled = true;
-			}
-			// 向上滚
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyValueTrackBar.Value + unifyValueTrackBar.SmallChange;
-				if (dd <= unifyValueTrackBar.Maximum)
-				{
-					unifyValueTrackBar.Value = Decimal.ToInt16(dd);
-				}
-			}
-			// 向下滚
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyValueTrackBar.Value - unifyValueTrackBar.SmallChange;
-				if (dd >= unifyValueTrackBar.Minimum)
-				{
-					unifyValueTrackBar.Value = Decimal.ToInt16(dd);
-				}
-			}
-		}
-		
-		/// <summary>
-		///  事件：《统一设置通道值trackBar》值变动事件
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueTrackBar_ValuiChanged(object sender, EventArgs e)
-		{
-			unifyValueNumericUpDown.Value = unifyValueTrackBar.Value;
-		}
-
-		/// <summary>
-		/// 事件：点击《统一通道值》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueSkinButton_Click(object sender, EventArgs e)
-		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-			{
-				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-				SetNotice("请先选中任意步数，才能进行统一调整！");
-				return;
-			}
-
-			int commonValue = Decimal.ToInt16(unifyValueNumericUpDown.Value);
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
-			}
-
-			if (isMultiMode)
-			{
-				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
-			}
-			RefreshStep();
-		}
-		
-		/// <summary>
-		/// 事件：点击《统一跳渐变》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifynChangeModeSkinButton_Click(object sender, EventArgs e)
-		{
-			StepWrapper currentStep = getCurrentStepWrapper();
-			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-			{
-				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-				SetNotice("请先选中任意步数，才能进行统一调整！");
-				return;
-			}
-
-			int commonChangeMode = unifyChangeModeSkinComboBox.SelectedIndex;
-
-			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-			{
-				getCurrentStepWrapper().TongdaoList[i].ChangeMode = commonChangeMode;
-			}
-			if (isMultiMode)
-			{
-				copyUnifyValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
-			}
-			RefreshStep();
-		}
-		
-		/// <summary>
-		///  事件：《统一设置步时间numericUpDown》的鼠标进入区域获取焦点
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeNumericUpDown_MouseEnter(object sender, EventArgs e)
-		{
-			unifyStepTimeNumericUpDown.Select();
-		}
-
-		/// <summary>
-		/// 事件：《统一设置步时间numericUpDown》的鼠标滚动事件
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
-		{
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			if (e.Delta > 0)
-			{
-				decimal dd = unifyStepTimeNumericUpDown.Value + unifyStepTimeNumericUpDown.Increment;
-				if (dd <= unifyStepTimeNumericUpDown.Maximum)
-				{
-					unifyStepTimeNumericUpDown.Value = dd;
-				}
-			}
-			else if (e.Delta < 0)
-			{
-				decimal dd = unifyStepTimeNumericUpDown.Value - unifyStepTimeNumericUpDown.Increment;
-				if (dd >= unifyStepTimeNumericUpDown.Minimum)
-				{
-					unifyStepTimeNumericUpDown.Value = dd;
-				}
-			}
-		}
-
-		/// <summary>
-		/// 事件：《统一设置步时间numericUpDown》值被用户主动变化时，需要验证，并主动设置值
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			int stepTime = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
-			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
-		}
-
-		/// <summary>
-		/// 事件：点击《统一步时间》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void commonStepTimeSkinButton_Click(object sender, EventArgs e)
-		{
-			string buttonText = unifyStepTimeSkinButton.Text;
-			if (buttonText.Equals("统一步时间"))
-			{
-				StepWrapper currentStep = getCurrentStepWrapper();
-				if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-				{
-					MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-					SetNotice("请先选中任意步数，才能进行统一调整！");
-					return;
-				}
-
-				//MARK 步时间改动 SkinMainForm：点击《统一步时间》的处理
-				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
-				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
-				{
-					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
-				}
-				if (isMultiMode)
-				{
-					copyUnifyValueToAll(getCurrentStep(), WHERE.STEP_TIME, unifyStepTimeParsed);
-				}
-				RefreshStep();
-			}
-			else
-			{
-				new SKForm(this,  currentFrame, frameSkinComboBox.Text).ShowDialog();
-			}
-		}
 
 		#endregion
 
@@ -2471,7 +2207,7 @@ namespace LightController.MyForm
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show("生成预览数据时异常：\n" + ex.Message);
 			}
 			finally {
 				SetNotice("正在预览效果...");
@@ -2712,11 +2448,7 @@ namespace LightController.MyForm
 			// flag ?  "frh":"flh";
 
 		}
-
-
-
-
-
+			   
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2732,7 +2464,9 @@ namespace LightController.MyForm
 
 		#endregion
 
-		
+
+
+
 	}
 
 

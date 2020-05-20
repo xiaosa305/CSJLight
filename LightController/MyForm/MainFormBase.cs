@@ -40,7 +40,8 @@ namespace LightController.MyForm
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
 		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
-		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）
+		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
+
 		public bool IsShowTestButton = false;
 		public bool IsShowHardwareUpdate = false;
 		public bool IsLinkLightEditor = false;
@@ -1456,7 +1457,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助：由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
+		/// 辅助方法：由内存读取 IList<TongdaoWrapper> 拿出相关通道的TongdaoWrapper，取的是 某一场景 某一模式 某一通道 的所有步信息
 		/// </summary>
 		public IList<TongdaoWrapper> GetFMTDList(DB_ValuePK pk) {
 
@@ -1497,6 +1498,17 @@ namespace LightController.MyForm
 				}
 			}
 			return tdList;
+		}
+
+		/// <summary>
+		/// 辅助方法：灯具编组执行方法，成功则返回null；否则返回失败原因（string）
+		/// </summary>
+		/// <param name="groupName"></param>
+		/// <param name="selectedIndices"></param>
+		/// <returns></returns>
+		public string CreateGroup(string groupName, IList<int> selectedIndices)
+		{
+			return "Hello world";
 		}
 
 		#region projectPanel相关
@@ -2383,7 +2395,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void openLightEditor()
 		{
-
 			if (IsLinkLightEditor)
 			{
 				try

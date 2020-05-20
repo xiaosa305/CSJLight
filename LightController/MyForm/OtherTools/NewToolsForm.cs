@@ -198,7 +198,7 @@ namespace OtherTools
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
 			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null && !isDecoding;
 
-			// 墙板相关按键			
+			// 墙板相关按键
 			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
 			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;
 			bool keNotNull = keyEntity != null;
@@ -1201,7 +1201,7 @@ namespace OtherTools
 				// 若正在解码状态，则先关闭解码，才能关闭连接
 				if (isDecoding)
 				{
-					myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
+					myConnect.CenterControlStopCopy(FakeCCStopCompleted, CCStopError);
 					Thread.Sleep(END_DECODING_TIME);
 				}
 				if (connStatus > ConnectStatus.No)
@@ -1632,6 +1632,16 @@ namespace OtherTools
 				ccDecodeRichTextBox.Enabled = false ;				
 				refreshButtons();			
 			});
+		}
+
+
+		/// <summary>
+		///  辅助回调方法：结束《中控-调试解码》成功（不做任何事）
+		/// </summary>
+		/// <param name="obj"></param>
+		public void FakeCCStopCompleted(Object obj, string msg)
+		{
+			Console.WriteLine(" FakeCCStopCompleted : " + DateTime.Now.Ticks + " -- " + Thread.CurrentThread.ManagedThreadId);
 		}
 
 		/// <summary>
@@ -2070,10 +2080,6 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void NewToolsForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			//if (myConnect != null && isDecoding) {
-			//	myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
-			//	Thread.Sleep(END_DECODING_TIME);
-			//}
 			disConnect(); //NewToolsForm_FormClosed
 			Dispose();
 			mainForm.Activate();

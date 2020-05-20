@@ -80,6 +80,7 @@ namespace LightController.Tools
                 //TODO XIAOSA：待删除测试
                 this.IsTest = false;
 
+                this.MusicDataBuff = new Dictionary<int, byte>();
                 this.TimeFactory = 32;
                 this.MusicStepTime = 0;
                 this.State = PreViewState.Null;
@@ -337,7 +338,7 @@ namespace LightController.Tools
                     {
                         lock (this.MusicDataBuff)
                         {
-                            this.MusicDataBuff = new Dictionary<int, byte>();
+                            this.MusicDataBuff.Clear();
                             foreach (PlayPoint item in M_PlayPoints)
                             {
                                 this.MusicDataBuff.Add(item.ChannelNo, item.Read());

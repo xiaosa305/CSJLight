@@ -25,6 +25,9 @@ namespace MultiLedController.multidevice.impl
         private List<ControlDevice> ControlDevices { get; set; }
 
 
+        private List<VirtualControlDevice> VirtualControlDevices { get; set; }
+
+
         private TransactionManager()
         {
             Init();
@@ -37,6 +40,7 @@ namespace MultiLedController.multidevice.impl
         {
             this.SearchReceiveStatus = false;
             this.ControlDevices = new List<ControlDevice>();
+            this.VirtualControlDevices = new List<VirtualControlDevice>();
         }
 
         public static ITransactionManager GetTransactionManager()
@@ -53,9 +57,13 @@ namespace MultiLedController.multidevice.impl
         /// </summary>
         /// <param name="devices">设备信息，绑定设备编号</param>
         /// <param name="Ips">设备对应虚拟Ip地址，绑定编号</param>
-        public void AddDevice(Dictionary<int,ControlDevice> devices,Dictionary<int,List<string>> Ips)
+        public void AddDevice(List<ControlDevice> devices,List<List<string>> ips)
         {
-
+            //每个device分配虚拟Ip，分配空间编号
+            for (int index = 0; index < devices.Count; index++)
+            {
+                this.VirtualControlDevices.Add(new VirtualControlDevice(index, devices[index], ips[index]));
+            }
         }
 
         /// <summary>

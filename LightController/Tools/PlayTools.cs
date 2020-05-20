@@ -299,10 +299,13 @@ namespace LightController.Tools
                 }
                 if (IsMusicControl)
                 {
-                    List<int> keys = MusicDataBuff.Keys.ToList();
-                    foreach (int item in keys)
+                    lock (this.MusicDataBuff)
                     {
-                        this.PlayData[item - 1] = MusicDataBuff[item];
+                        List<int> keys = MusicDataBuff.Keys.ToList();
+                        foreach (int item in keys)
+                        {
+                            this.PlayData[item - 1] = MusicDataBuff[item];
+                        }
                     }
                 }
                 if (this.SendTimer.Enabled)
@@ -332,10 +335,13 @@ namespace LightController.Tools
                     this.MusicStep = this.StepList[this.MusicStepPoint++];
                     for (int i = 0; i < this.MusicStep; i++)
                     {
-                        this.MusicDataBuff = new Dictionary<int, byte>();
-                        foreach (PlayPoint item in M_PlayPoints)
+                        lock (this.MusicDataBuff)
                         {
-                            this.MusicDataBuff.Add(item.ChannelNo, item.Read());
+                            this.MusicDataBuff = new Dictionary<int, byte>();
+                            foreach (PlayPoint item in M_PlayPoints)
+                            {
+                                this.MusicDataBuff.Add(item.ChannelNo, item.Read());
+                            }
                         }
                         this.IsMusicControl = true;
                         Thread.Sleep(this.TimeFactory * this.MusicStepTime);

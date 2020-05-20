@@ -8,7 +8,7 @@ namespace MultiLedController.multidevice.impl
 {
     public class VirtualControlDevice
     {
-        public VirtualControlDevice(ControlDevice device, List<string> ips)
+        public VirtualControlDevice(int index, ControlDevice device, List<string> ips)
         {
 
         }

@@ -127,7 +127,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         private void StartTimeOut()
         {
-            LogTools.Debug(Constant.TAG_XIAOSA, "启动超时处理定时器");
+            //LogTools.Debug(Constant.TAG_XIAOSA, "启动超时处理定时器");
             if (this.TimeOutTimer == null)
             {
                 this.TimeOutTimer = new System.Timers.Timer(TIMEOUT);
@@ -143,7 +143,7 @@ namespace LightController.PeripheralDevice
         {
             if (TimeOutTimer != null)
             {
-                LogTools.Debug(Constant.TAG_XIAOSA, "关闭超时定时器");
+                //LogTools.Debug(Constant.TAG_XIAOSA, "关闭超时定时器");
                 TimeOutTimer.Stop();
             }
         }
@@ -455,7 +455,7 @@ namespace LightController.PeripheralDevice
                         if (packCRC[0] == CaluPackCRC[0] && packCRC[1] == CaluPackCRC[1])
                         {
                             List<byte> data = ReadBuff.Skip(PACKHEADLENGTH).ToList();
-                            LogTools.Debug(Constant.TAG_XIAOSA, "Receive Data:" + Encoding.Default.GetString(data.ToArray()));
+                            //LogTools.Debug(Constant.TAG_XIAOSA, "Receive Data:" + Encoding.Default.GetString(data.ToArray()));
                             this.ReceiveManege(data);
                             ReadBuff.Clear();
                         }
@@ -776,27 +776,26 @@ namespace LightController.PeripheralDevice
         /// <param name="data"></param>
         private void CenterControlStopCopyReceive(List<byte> data)
         {
+            this.StopTimeOut();
             if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_PUT))
             {
-                this.StopTimeOut();
                 this.SendData();
-              
+                LogTools.Debug(Constant.TAG_XIAOSA, Constant.RECEIVE_ORDER_PUT);
+
             }
             else if (Encoding.Default.GetString(data.ToArray()).Equals(Constant.RECEIVE_ORDER_DONE))
             {
-                this.IsDone = true;
+                //this.IsDone = true;
+                this.IsStartCopy = false;
+                this.IsSending = false;
+                this.IsDone = false;
+                this.Completed_Event(null, "中控设备关闭解码模式成功");
+                //LogTools.Debug(Constant.TAG_XIAOSA, "中控设备关闭解码模式成功");
             }
             else
             {
                 this.Error_Event("中控设备关闭解码模式失败");
-            }
-            if (this.IsDone)
-            {
-                this.StopTimeOut();
-                this.IsStartCopy = false;
-                this.IsSending = false;
-                this.IsDone = false;
-                this.Completed_Event(null,"中控设备关闭解码模式成功");
+                LogTools.Debug(Constant.TAG_XIAOSA, "中控设备关闭解码模式失败");
             }
         }
         /// <summary>
@@ -1189,6 +1188,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void CenterControlStopCopy(Completed completed,Error error)
         {
+            //TODO XIAOSA:添加测试
             if (!this.IsSending)
             {
                 this.IsSending = true;

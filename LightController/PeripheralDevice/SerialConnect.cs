@@ -1,6 +1,7 @@
 ﻿using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -77,6 +78,7 @@ namespace LightController.PeripheralDevice
         protected override void Send(byte[] data)
         {
             this.SerialPortDevice.Write(data, 0, data.Length);
+            LogTools.Debug(Constant.TAG_XIAOSA, "发送数据");
             this.SendDataCompleted();
         }
         /// <summary>
@@ -84,11 +86,14 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public override void DisConnect()
         {
+            this.IsDeviceOpen = false;
             if (this.SerialPortDevice != null)
             {
                 if (this.SerialPortDevice.IsOpen)
                 {
+                    LogTools.Debug(Constant.TAG_XIAOSA, "准备关闭串口");
                     this.SerialPortDevice.Close();
+                    LogTools.Debug(Constant.TAG_XIAOSA, "关闭串口成功");
                 }
             }
         }

@@ -2439,8 +2439,22 @@ namespace LightController.MyForm
 			// 测试获取编组列表
 			string iniPath = Application.StartupPath + @"\groupList.ini";
 			IList<GroupAst> groupList = GroupAst.GenerateGroupList(iniPath);
-			Console.WriteLine(groupList);
+			for (int i = 0; i < groupList.Count; i++)
+			{
+
+			}
+
 		}
+
+		/// <summary>
+		/// 辅助方法：生成编组按钮组
+		/// </summary>
+		private void generateGroupButtons()
+		{
+			
+		}
+
+
 
 		/// <summary>
 		/// 事件：点击《wjTest》

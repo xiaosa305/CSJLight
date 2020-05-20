@@ -91,6 +91,7 @@ namespace LightController.PeripheralDevice
             {
                 if (this.SerialPortDevice.IsOpen)
                 {
+                    Console.WriteLine(DateTime.Now.Ticks + "----关闭串口线程编号:" + Thread.CurrentThread.ManagedThreadId);
                     this.SerialPortDevice.Close();
                 }
             }

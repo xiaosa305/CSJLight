@@ -1044,6 +1044,7 @@ namespace LightController.MyForm
 			this.saveProjectButton.Text = "保存工程";
 			this.saveProjectButton.UseVisualStyleBackColor = true;
 			this.saveProjectButton.Click += new System.EventHandler(this.saveProjectButton_Click);
+			this.saveProjectButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveProjectButton_MouseDown);
 			// 
 			// saveFrameButton
 			// 

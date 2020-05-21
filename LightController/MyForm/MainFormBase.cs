@@ -119,6 +119,7 @@ namespace LightController.MyForm
 		protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
+		protected bool isPreviewing = false; // 是否预览状态中
 
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 
@@ -141,7 +142,7 @@ namespace LightController.MyForm
 
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
-		public virtual void EnableConnectedButtons(bool connected) { } //设置《连接按钮组》是否可用	
+		public virtual void EnableConnectedButtons(bool connected,bool previewing) { } //设置《连接按钮组》是否可用	
 
 		#endregion
 
@@ -1927,6 +1928,61 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		///  辅助方法：右键点击《保存工程》将当前工程的相关文件，导出为Source.zip文件
+		/// </summary>
+		protected void exportSourceClick()
+		{
+			exportFolderBrowserDialog.Description = "即将为您导出当前工程源文件（包括工程文件和相关灯具文件），并压缩为Source.zip；请选择源文件保存目录。";
+			DialogResult dr = exportFolderBrowserDialog.ShowDialog();
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
+			string exportPath = exportFolderBrowserDialog.SelectedPath;
+			string zipPath = exportPath + @"\Source.zip";
+			if (File.Exists(zipPath)) {
+				dr =  MessageBox.Show("检测到该目录已存在一个Source.zip文件，是否覆盖？",
+					"覆盖文件？",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+				if (dr == DialogResult.Cancel)
+				{
+					return;
+				}
+			}
+						
+			setBusy(true);			
+
+			// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
+			if (GenerateSourceProject())
+			{
+				DateTime beforeDT = System.DateTime.Now;
+
+				SetNotice("正在压缩源文件,请稍候...");
+				string dirPath = SavePath + @"\Source";
+				ZipHelper.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
+				SetNotice("已成功压缩源文件(Source.zip)。");
+
+				DateTime afterDT = System.DateTime.Now;
+				TimeSpan ts = afterDT.Subtract(beforeDT);
+				dr = MessageBox.Show("成功导出工程(" + currentProjectName + ")的源文件,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s,是否打开导出文件夹?",
+							"打开导出文件夹？",
+							MessageBoxButtons.OKCancel,
+							MessageBoxIcon.Question);
+				if (dr == DialogResult.OK)
+				{
+					System.Diagnostics.Process.Start(exportPath);
+				}
+				setBusy(false);
+				SetNotice("成功导出工程源文件");
+			}
+			else {
+				setBusy(false);
+				SetNotice("导出工程源文件失败。");				
+			}			
+		}
+
+		/// <summary>
 		/// 辅助方法：点击《导出工程》
 		/// </summary>
 		protected void exportProjectClick()
@@ -2015,7 +2071,7 @@ namespace LightController.MyForm
 			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...");
 			setBusy(true);
 
-			ExportFrame(exportPath);
+			exportFrame(exportPath);
 		}
 
 		//MARK 导出单场景具体实现 4. 把选中文件夹内的所有数据拷到临时文件夹中（DataCache\Project\CSJ），拷贝前需要先清空目标文件夹；并逐一把所有CX.bin、MX.bin文件都拷贝过去		
@@ -2023,7 +2079,7 @@ namespace LightController.MyForm
 		/// 辅助方法：当拷贝文件发生错误时，用递归的方法重新操作
 		/// </summary>
 		/// <param name="exportPath"></param>
-		private void ExportFrame(string exportPath)
+		private void exportFrame(string exportPath)
 		{
 			try
 			{
@@ -2042,7 +2098,7 @@ namespace LightController.MyForm
 						MessageBoxIcon.Error);
 				if (dialogResult == DialogResult.Retry)
 				{
-					ExportFrame(exportPath);
+					exportFrame(exportPath);
 				}
 				else
 				{
@@ -3016,7 +3072,7 @@ namespace LightController.MyForm
 						return;
 					}
 					playTools.ConnectDevice(deviceName);
-					EnableConnectedButtons(true);
+					EnableConnectedButtons(true,false);
 				}
 				else
 				{
@@ -3051,7 +3107,7 @@ namespace LightController.MyForm
 				if (isConnectCom)
 				{
 					playTools.CloseDevice();
-					EnableConnectedButtons(false);
+					EnableConnectedButtons(false,false);
 				}
 				else
 				{
@@ -3071,8 +3127,11 @@ namespace LightController.MyForm
 				playTools.StartInternetPreview( myConnect, ConnectCompleted,ConnectAndDisconnectError, eachStepTime);
 			}
 			SetNotice("预览数据生成成功,即将开始预览。");
+			EnableConnectedButtons(true,true);
 			playTools.PreView(GetDBWrapper(false), GlobalIniPath, currentFrame);			
 		}
+
+		
 
 		/// <summary>
 		/// 辅助方法：结束预览
@@ -3205,7 +3264,7 @@ namespace LightController.MyForm
 		public void ConnectCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				EnableConnectedButtons(true);				
+				EnableConnectedButtons(true,false);				
 			});
 		}	
 
@@ -3216,7 +3275,7 @@ namespace LightController.MyForm
 		public void DisconnectCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				EnableConnectedButtons(false);				
+				EnableConnectedButtons(false,false);				
 			});
 		}
 
@@ -3472,9 +3531,8 @@ namespace LightController.MyForm
 		}
 
 		public void Completed(string deviceTag)
-		{
-			//mainForm.SetNotice("网络设备(" + deviceTag + ")成功进入网络调试模式。");
-			mainForm.EnableConnectedButtons(true);
+		{			
+			mainForm.EnableConnectedButtons(true,false);
 		}
 
 		public void Error(string deviceTag, string errorMessage)

@@ -548,14 +548,35 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《保存工程》
+		/// 事件：点击《保存工程》（空方法：便于查找鼠标下压方法）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saveProjectButton_Click(object sender, EventArgs e)
+		private void saveProjectButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：点击《保存工程》；根据点击按键的不同，采用不同的处理方法
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveProjectButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			saveProjectClick();
-		}
+			if (e.Button == MouseButtons.Left)
+			{
+				saveProjectClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				exportSourceClick();
+			}
+		}		
+
+		/// <summary>
+		/// 事件：点击《导出工程》（空方法：主要作用是方便查找鼠标下压方法）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void exportProjectButton_Click(object sender, EventArgs e)	{	}
 
 		/// <summary>
 		/// 事件：《导出工程》鼠标下压事件（判断是左键还是右键）
@@ -574,15 +595,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		/// <summary>
-		/// 事件：点击《导出工程》（空方法：主要作用是方便查找鼠标下压方法）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void exportProjectButton_Click(object sender, EventArgs e)
-		{
-
-		}
+		
 		
 		/// <summary>
 		/// 事件：点击《关闭工程》
@@ -2321,6 +2334,12 @@ namespace LightController.MyForm
 				return;
 			}
 
+			// 若是实时调试状态， 则先关闭实时调试
+			if (isRealtime)
+			{
+				realtimeButton_Click(null, null);
+			}
+
 			setBusy(true);
 			SetNotice("正在生成预览数据，请稍候...");			
 			try
@@ -2354,6 +2373,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void endviewButton_Click(object sender, EventArgs e)
 		{
+			if (isConnected)
+			{
+				EnableConnectedButtons(true, false);
+			}
 			endview();
 			SetNotice("已结束预览。");
 		}
@@ -2362,24 +2385,25 @@ namespace LightController.MyForm
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		public override void EnableConnectedButtons(bool connected)
+		public override void EnableConnectedButtons(bool connected,bool previewing)
 		{
-			// 是否连接
+			// 是否连接,是否预览中
 			isConnected = connected;
+			isPreviewing = previewing;
 
 			// 《设备列表》《刷新列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			changeConnectMethodButton.Enabled = !isConnected;
 			deviceComboBox.Enabled = !isConnected;
 			deviceRefreshButton.Enabled = !isConnected;
 
-			realtimeButton.Enabled = isConnected;
-			keepButton.Enabled = isConnected;
-			makeSoundButton.Enabled = isConnected;
-			previewButton.Enabled = isConnected;
-			endviewButton.Enabled = isConnected;
+			realtimeButton.Enabled = isConnected && !isPreviewing; 
+			keepButton.Enabled = isConnected && !isPreviewing; 
+			previewButton.Enabled = isConnected && !isPreviewing;
+			makeSoundButton.Enabled = isConnected && isPreviewing;
+			endviewButton.Enabled = isConnected  ;
 
-			deviceConnectButton.Text = isConnected ? "断开连接":"连接设备";				
-		}		
+			deviceConnectButton.Text = isConnected ? "断开连接":"连接设备";			
+		}
 
 		#endregion
 

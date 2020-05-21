@@ -1058,6 +1058,7 @@ namespace LightController.MyForm
 			this.saveSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.saveSkinButton.UseVisualStyleBackColor = false;
 			this.saveSkinButton.Click += new System.EventHandler(this.saveSkinButton_Click);
+			this.saveSkinButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveSkinButton_MouseDown);
 			// 
 			// newSkinButton
 			// 

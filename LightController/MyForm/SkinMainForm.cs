@@ -549,13 +549,30 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《保存工程》（此操作可能耗时较久，故在方法体前后添加鼠标样式的变化）
+		///  事件：点击《保存工程》(空方法：便于查找MouseDown方法）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
 			saveProjectClick();
+		}
+
+		/// <summary>
+		///  事件：点击《保存工程》（区分左右键）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveSkinButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				saveProjectClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				exportSourceClick();
+			}
 		}
 
 		/// <summary>
@@ -2198,6 +2215,13 @@ namespace LightController.MyForm
 				return;
 			}
 
+
+			// 若是实时调试状态， 则先关闭实时调试
+			if (isRealtime)
+			{
+				realtimeSkinButton_Click(null, null);
+			}
+			
 			setBusy(true);
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
 			SetNotice("正在生成预览数据，请稍候...");			
@@ -2236,6 +2260,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void endviewSkinButton_Click(object sender, EventArgs e)
 		{
+			if (isConnected)
+			{
+				EnableConnectedButtons(true, false);
+			}
 			endview();
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
@@ -2247,19 +2275,20 @@ namespace LightController.MyForm
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
 		/// <param name="v"></param>
-		public override void EnableConnectedButtons(bool connected)
+		public override void EnableConnectedButtons(bool connected,bool previewing)
 		{
-			// 是否连接
+			// 是否连接,是否预览中
 			isConnected = connected;
+			isPreviewing = previewing;
 
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !isConnected;				
 						
-			realtimeSkinButton.Enabled = isConnected;
-			keepSkinButton.Enabled = isConnected;
-			makeSoundSkinButton.Enabled = isConnected;
-			previewSkinButton.Enabled = isConnected;
-			endviewSkinButton.Enabled = isConnected;
+			realtimeSkinButton.Enabled = isConnected && !isPreviewing;
+			keepSkinButton.Enabled = isConnected && !isPreviewing;			
+			previewSkinButton.Enabled = isConnected && !isPreviewing;
+			makeSoundSkinButton.Enabled = isConnected && isPreviewing;
+			endviewSkinButton.Enabled = isConnected ;
 
 			if (isConnected)
 			{
@@ -2273,7 +2302,7 @@ namespace LightController.MyForm
 				deviceConnectSkinButton.Text = "连接设备";
 			}
 		}
-		
+
 		/// <summary>
 		/// 辅助方法：调用基类的单灯单步发送DMX512帧数据;并操作本类中的相关数据
 		/// </summary>
@@ -2447,7 +2476,10 @@ namespace LightController.MyForm
 			// flag ?  "frh":"flh";
 
 		}
-			   
+
+
+
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2464,8 +2496,7 @@ namespace LightController.MyForm
 		#endregion
 
 
-
-
+		
 	}
 
 

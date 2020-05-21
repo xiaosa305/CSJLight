@@ -11,6 +11,10 @@ namespace MultiLedController.multidevice.impl
         private List<VirtualClient> VirtualClients { get; set; }
         private int VirtualDeviceIndex { get; set; }
 
+
+        private Dictionary<int,List<byte>> VirtualClientDmxData { get; set; }
+        private Dictionary<int,bool> VirtualClientDmxDataResponseStatus { get; set; }
+
         public VirtualControlDevice(int index, int startLedSpace, ControlDevice device, List<string> ips,string serverIp)
         {
             this.VirtualDeviceIndex = index;
@@ -21,6 +25,7 @@ namespace MultiLedController.multidevice.impl
         private void InitParameter()
         {
             this.VirtualClients = new List<VirtualClient>();
+            this.VirtualClientDmxData = new Dictionary<int, List<byte>>();
         }
 
         private void CreateVirtualClient(int startLedSpace, ControlDevice device,List<string> ips, string serverIp)
@@ -28,12 +33,17 @@ namespace MultiLedController.multidevice.impl
             for (int virtualClientIndex = 0; virtualClientIndex < device.Led_interface_num; virtualClientIndex++)
             {
                 //新建虚拟客户端
-                VirtualClient virtualClient = new VirtualClient(startLedSpace, device, ips[virtualClientIndex], serverIp);
+                VirtualClient virtualClient = new VirtualClient(startLedSpace, device, ips[virtualClientIndex], serverIp, DmxDataResponse);
                 //将虚拟客户端添加到虚拟客户端池中
                 this.VirtualClients.Add(virtualClient);
                 //调整下一个虚拟客户端首个空间编号
                 startLedSpace += device.Led_space;
             }
+        }
+
+        private void DmxDataResponse(int ledSpaceNumber,List<byte> data)
+        {
+
         }
     }
 }

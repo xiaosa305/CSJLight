@@ -1,4 +1,5 @@
 ﻿using MultiLedController.multidevice.impl;
+using MultiLedController.utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,11 @@ namespace MultiLedController.multidevice
         private void TestBtn1_Click(object sender, EventArgs e)
         {
             TransactionManager.GetTransactionManager().SearchDevice("192.168.31.235");
+        }
+
+        private void TestBtn2_Click(object sender, EventArgs e)
+        {
+            GetMacUtils.GetMac();
         }
     }
 }

@@ -110,6 +110,7 @@
     <Compile Include="MyForm\old\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="utils\GetMacUtils.cs" />
     <Compile Include="utils\IArt_Net_Client.cs" />
     <Compile Include="utils\ICalMD5Value.cs" />
     <Compile Include="utils\ILEDControllerClient.cs" />

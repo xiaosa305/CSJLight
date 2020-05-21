@@ -50,6 +50,7 @@
             this.TestBtn2.TabIndex = 1;
             this.TestBtn2.Text = "测试按钮2";
             this.TestBtn2.UseVisualStyleBackColor = true;
+            this.TestBtn2.Click += new System.EventHandler(this.TestBtn2_Click);
             // 
             // XiaosaTestFrom
             // 

@@ -19,7 +19,7 @@ using LightController.Common;
 namespace LightEditor
 {
 	public partial class LightEditorForm : Form
-	{		
+	{
 		// 全局变量，启动时载入，之后不会更改
 		private MainFormBase mainForm;
 		private string softwareName;  //动态更改软件名
@@ -31,14 +31,16 @@ namespace LightEditor
 		public List<TongdaoWrapper> TongdaoList;
 		public int TongdaoCount = 0;
 		public SAWrapper[] SawArray;
-		private bool isNew = true; 
+		private bool isNew = true;
 
 		//调试相关变量，最无关紧要
 		private OneLightOneStep player; // 灯具测试的实例
 		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512
 		private bool isRealTime = false; //是否勾选“实时调试”
 		private bool isConnect = false; // 辅助变量：是否连接设备			
-	
+
+		private WaySetForm waySetForm;    // 设置一个全局的WaySetForm变量，默认为null （ 因为窗体需要Show而非ShowDialog，若非全局，可能创建过多的WaySetForm）
+
 		public LightEditorForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
@@ -46,7 +48,7 @@ namespace LightEditor
 			InitializeComponent();
 
 			softwareName = mainForm.SoftwareName + " Light Editor";
-			Text = softwareName ;
+			Text = softwareName;
 			savePath = mainForm.SavePath;
 			picDirectory = @savePath + @"\LightPic";
 			openImageDialog.InitialDirectory = picDirectory; //图片加载路径使用当前软件所在文件夹
@@ -157,13 +159,13 @@ namespace LightEditor
 			for (int i = 0; i < 32; i++)
 			{
 				countComboBox.Items.Add(i + 1);
-				valueNumericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueNumericUpDown_MouseWheel);
-				valueVScrollBars[i].ValueChanged += new System.EventHandler(this.valueVScrollBar_ValueChanged);
-				labels[i].Click += new System.EventHandler(this.labels_Click);
+				valueNumericUpDowns[i].MouseWheel += new System.Windows.Forms.MouseEventHandler(valueNumericUpDown_MouseWheel);
+				valueVScrollBars[i].ValueChanged += new System.EventHandler(valueVScrollBar_ValueChanged);
+				labels[i].Click += new System.EventHandler(labels_Click);
 			}
-			countComboBox.SelectedIndex = 0;			
-			firstTDNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.firstTDNumericUpDown_MouseWheel);
-			commonValueNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.commonValueNumericUpDown_MouseWheel);
+			countComboBox.SelectedIndex = 0;
+			firstTDNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(firstTDNumericUpDown_MouseWheel);
+			commonValueNumericUpDown.MouseWheel += new System.Windows.Forms.MouseEventHandler(commonValueNumericUpDown_MouseWheel);
 
 			#endregion
 
@@ -177,6 +179,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void MainForm_Load(object sender, EventArgs e) {
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			WindowState = FormWindowState.Normal;
 		}
 
 		/// <summary>
@@ -192,8 +195,14 @@ namespace LightEditor
 				player.CloseDevice();
 			}
 
-			this.Dispose();			
-			mainForm.Activate();		
+			if (waySetForm != null) {
+				waySetForm.Exit();
+				waySetForm = null;
+			}
+
+			Dispose();
+			mainForm.WindowState = FormWindowState.Normal;
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -229,10 +238,10 @@ namespace LightEditor
 				typeTextBox.Text = "";
 				picTextBox.Text = "";
 				openPictureBox.Image = null;
-				
+
 				firstTDNumericUpDown.Value = 1;
 
-				ShowTds();				
+				ShowTds();
 				enableRename(true);
 				editGroupBox.Show();
 				connectPanel.Show();
@@ -246,9 +255,9 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void openLightButton_Click(object sender, EventArgs e)
 		{
-			if ( RequestSaveLight("打开灯具前，是否保存当前灯具？") ) {
+			if (RequestSaveLight("打开灯具前，是否保存当前灯具？")) {
 				openFileDialog.ShowDialog();
-			}			
+			}
 		}
 
 		/// <summary>
@@ -280,15 +289,15 @@ namespace LightEditor
 				}
 
 				nameTextBox.Text = lineList[4].ToString().Substring(5);
-				typeTextBox.Text = lineList[1].ToString().Substring(5);				
+				typeTextBox.Text = lineList[1].ToString().Substring(5);
 				string imagePath = lineList[2].ToString().Substring(4);
 				if (imagePath != null && !imagePath.Trim().Equals(""))
 				{
 					this.setImage(picDirectory + "\\" + imagePath);
 				}
 
-				TongdaoCount =  int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取
-				countComboBox.SelectedIndex  = TongdaoCount - 1 ;   // 此处请注意：并不是用SelectedText，而是直接设Text			
+				TongdaoCount = int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取
+				countComboBox.SelectedIndex = TongdaoCount - 1;   // 此处请注意：并不是用SelectedText，而是直接设Text			
 
 				TongdaoList = new List<TongdaoWrapper>();
 				for (int i = 0; i < TongdaoCount; i++)
@@ -297,7 +306,7 @@ namespace LightEditor
 					int initValue = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
 					TongdaoList.Add(new TongdaoWrapper() {
-						TongdaoName=tongdaoName,
+						TongdaoName = tongdaoName,
 						InitValue = initValue,
 						Address = address,
 						CurrentValue = initValue
@@ -312,12 +321,12 @@ namespace LightEditor
 				{
 					MessageBox.Show(ex.Message);
 				}
-							   
+
 				ShowTds();
 				enableRename(false);
 				editGroupBox.Show();
 				connectPanel.Show();
-				
+
 			}
 		}
 
@@ -330,7 +339,7 @@ namespace LightEditor
 		{
 			// 记住一个大原则，保存灯具时不对Form内任何内容进行改动，只读取！
 			// 若修改了通道数后，未点击《生成》，则无法保存(不再有冗余的isGenerated属性，而直接由按键是否可用来判断是否已经生成过TongdaoList)
-			if ( generateButton.Visible ) {			
+			if (generateButton.Visible) {
 				MessageBox.Show("请先点击《生成》按钮以生成新通道列表");
 				return;
 			}
@@ -362,7 +371,7 @@ namespace LightEditor
 			///检查文件是否已经存在
 			string fileName = lightDirectory + "\\" + name + "\\" + type + ".ini";
 			FileInfo fi = new FileInfo(fileName);
-			if ( fi.Exists )
+			if (fi.Exists)
 			{
 				if (isNew) {
 					DialogResult dr = MessageBox.Show("检查到系统中已存在同名灯具，是否覆盖？",
@@ -374,7 +383,7 @@ namespace LightEditor
 					{
 						return;
 					}
-				}				
+				}
 			}//若文件已存在，说明目录肯定也存在，此时就无需判断目录是否存在了；只有fi.Exists == false 时，才走else内语句
 			else {
 				DirectoryInfo di = new DirectoryInfo(lightDirectory + "\\" + name);
@@ -382,10 +391,10 @@ namespace LightEditor
 				{
 					di.Create();
 				}
-			}		
+			}
 
 			//开始保存灯具
-			using (StreamWriter iniWriter = new StreamWriter(fileName) ) 
+			using (StreamWriter iniWriter = new StreamWriter(fileName))
 			{
 				// 写[set]的数据
 				iniWriter.WriteLine("[set]");
@@ -404,19 +413,19 @@ namespace LightEditor
 					iniWriter.WriteLine(index + "B=" + TongdaoList[tdIndex].InitValue);
 					iniWriter.WriteLine(index + "C=" + TongdaoList[tdIndex].Address);
 				}
-				
+
 				//写[sa]数据
 				iniWriter.WriteLine("[sa]");
 				for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
 				{
-					iniWriter.WriteLine(tdIndex + "_saCount="+ SawArray[tdIndex].SaList.Count);
+					iniWriter.WriteLine(tdIndex + "_saCount=" + SawArray[tdIndex].SaList.Count);
 					for (int saIndex = 0; saIndex < SawArray[tdIndex].SaList.Count; saIndex++)
 					{
 						iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saName=" + SawArray[tdIndex].SaList[saIndex].SAName);
 						iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saStart=" + SawArray[tdIndex].SaList[saIndex].StartValue);
 						iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saEnd=" + SawArray[tdIndex].SaList[saIndex].EndValue);
 					}
-				}			
+				}
 			}
 			enableRename(false);
 			MessageBox.Show("已成功保存灯具。");
@@ -515,9 +524,9 @@ namespace LightEditor
 			}
 			else {
 				MessageBox.Show("未找到图片");
-			}			
-		}		
-		
+			}
+		}
+
 		/// <summary>
 		///  事件：更改《通道数下拉框》选中项
 		///  1.修改tongdaoCount的值为选中值；
@@ -527,9 +536,9 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void countComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int  tempSelectedCount = int.Parse(countComboBox.SelectedItem.ToString());
+			int tempSelectedCount = int.Parse(countComboBox.SelectedItem.ToString());
 			// 两者相同，则显示修改按键（editButton）；不同的话，则显示生成按钮
-			showTongdaoEditButton(tempSelectedCount == TongdaoCount);														
+			showTongdaoEditButton(tempSelectedCount == TongdaoCount);
 		}
 
 		/// <summary>
@@ -540,7 +549,7 @@ namespace LightEditor
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void generateButton_Click(object sender, EventArgs e)
-		{				
+		{
 			generateTongdaoList();
 			showTongdaoEditButton(true);
 			ShowTds();
@@ -554,10 +563,10 @@ namespace LightEditor
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void tongdaoEditButton_Click(object sender, EventArgs e)
-		{				
-			new WaySetForm(this, -1).ShowDialog();
+		{
+			showWSForm(-1);
 		}
-
+		
 		/// <summary>
 		///  辅助方法：显示通道编辑按钮(true)或生成(false)按钮（二选一）
 		/// </summary>
@@ -692,7 +701,7 @@ namespace LightEditor
 		private void labels_Click(object sender, EventArgs e)
 		{
 			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			new WaySetForm(this, tdIndex).ShowDialog();
+			showWSForm(tdIndex);
 		}
 
 		/// <summary>
@@ -1081,6 +1090,32 @@ namespace LightEditor
 		}
 
 		#endregion
-				
+
+		/// <summary>
+		/// 辅助方法：在关闭WaySetForm时，清空waySetForm
+		/// </summary>
+		public void ClearWSForm()
+		{
+			waySetForm = null;
+		}
+
+		/// <summary>
+		/// 辅助方法：要打开wsForm，都需由这个方法统一校验
+		/// </summary>
+		/// <param name="tdIndex"></param>
+		private void showWSForm(int tdIndex)
+		{
+			if (waySetForm != null)
+			{
+				waySetForm.ChooseTD(tdIndex);
+			}
+			else
+			{
+				waySetForm = new WaySetForm(this, tdIndex);
+				waySetForm.Show();
+			}
+		}
+
+
 	}
 }

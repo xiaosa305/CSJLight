@@ -46,7 +46,6 @@ namespace LightController.Ast
 					}
 				}
 			} 
-
 			return groupList;
 		}
 
@@ -56,7 +55,7 @@ namespace LightController.Ast
 		/// </summary>
 		/// <param name="groupList"></param>
 		/// <returns>可用则为true，否则为false</returns>
-		public static bool CheckGroupBoxName(IList<GroupAst> groupList,string newName) {
+		public static bool CheckGroupName(IList<GroupAst> groupList,string newName) {
 			bool result = true;
 			foreach (GroupAst ga in groupList)
 			{

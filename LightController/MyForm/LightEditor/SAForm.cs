@@ -30,7 +30,7 @@ namespace LightEditor.MyForm
 
 		private void SAForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(wsForm.Location.X + 100, wsForm.Location.Y + 100);
+			Location = new Point(wsForm.Location.X + 100, wsForm.Location.Y + 100);
 		}
 
 		/// <summary>
@@ -48,30 +48,13 @@ namespace LightEditor.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：检查截止数值是否大于等于起始数值
+		/// 事件：点击《右上角关闭按键》
 		/// </summary>
-		/// <returns></returns>
-		private bool checkStartAndEnd()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SAForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (startValueNumericUpDown.Value > endValueNumericUpDown.Value) {
-				return false;
-			}
-			return true;
-		}
-
-		/// <summary>
-		/// 辅助方法：检查SAName是否符合要求
-		/// </summary>
-		/// <returns></returns>
-		private bool checkSAName() {
-
-			if (String.IsNullOrEmpty(saNameTextBox.Text.Trim()))
-			{
-				MessageBox.Show("子属性名不得为空!");
-				return false;
-			}
-
-			return true;
+			Exit();
 		}
 
 		/// <summary>
@@ -101,9 +84,7 @@ namespace LightEditor.MyForm
 			else {
 				wsForm.EditSA(saIndex, saNameTextBox.Text, Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value));
 			}
-			
-			this.Dispose();
-			wsForm.Activate();
+			Exit();
 		}
 
 		/// <summary>
@@ -113,9 +94,47 @@ namespace LightEditor.MyForm
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Exit();
+		}		
+
+		/// <summary>
+		/// 辅助方法：检查截止数值是否大于等于起始数值
+		/// </summary>
+		/// <returns></returns>
+		private bool checkStartAndEnd()
+		{
+			if (startValueNumericUpDown.Value > endValueNumericUpDown.Value)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// 辅助方法：检查SAName是否符合要求
+		/// </summary>
+		/// <returns></returns>
+		private bool checkSAName()
+		{
+
+			if (String.IsNullOrEmpty(saNameTextBox.Text.Trim()))
+			{
+				MessageBox.Show("子属性名不得为空!");
+				return false;
+			}
+
+			return true;
+		}		
+
+		/// <summary>
+		/// 辅助方法：退出当前窗体，并重置waySetForm内的saForm及各按键的可用性。
+		/// </summary>
+		public void Exit() {
+
+			Dispose();
+			wsForm.ClearSAForm();
 			wsForm.Activate();
 		}
-		
+
 	}
 }

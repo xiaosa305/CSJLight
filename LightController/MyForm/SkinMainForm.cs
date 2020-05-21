@@ -2209,8 +2209,7 @@ namespace LightController.MyForm
 			{
 				MessageBox.Show("生成预览数据时异常：\n" + ex.Message);
 			}
-			finally {
-				SetNotice("正在预览效果...");
+			finally {				
 				setBusy(false);
 			}
 		}

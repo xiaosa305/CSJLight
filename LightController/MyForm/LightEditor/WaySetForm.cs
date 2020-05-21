@@ -30,6 +30,8 @@ namespace LightEditor
 		private IList<Label> endValueLabels = new List<Label>();
 		private IList<Button> saDeleteButtons = new List<Button>();
 
+		private SAForm saForm = null; // 需要一个全局变量，以实现几个Form同时可用。
+
 		/// <summary>
 		///  初始化，并将mainForm（及其相关内容）也传进来；并显示tdPanel相关数据
 		/// </summary>
@@ -157,13 +159,8 @@ namespace LightEditor
 
 			hideAllTongdao();
 			generateTongdaoList();
-			
-			if (tdIndex > -1) {
-				selectedTextBox = tdTextBoxes[tdIndex];
-				tdTextBoxes[tdIndex].Select();
-				selectedTdIndex = tdIndex;
-				refreshSAPanels() ; 
-			}
+
+			ChooseTD(tdIndex);			
 		}
 
 		/// <summary>
@@ -173,7 +170,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void WaySetForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(lightEditorForm.Location.X + 100, lightEditorForm.Location.Y + 100);
+			Location = new Point(lightEditorForm.Location.X + 100, lightEditorForm.Location.Y + 100);
 		}
 
 		/// <summary>
@@ -202,7 +199,8 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void WaySetForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.Dispose();
+			Dispose();
+			lightEditorForm.ClearWSForm();
 			lightEditorForm.Activate();
 		}
 
@@ -238,8 +236,7 @@ namespace LightEditor
 		private void enterButton_Click(object sender, EventArgs e)
 		{
 			applyChange();
-			this.Dispose();
-			lightEditorForm.Activate();
+			Exit();		
 		}
 
 		/// <summary>
@@ -383,8 +380,18 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void addSAButton_Click(object sender, EventArgs e)
 		{
-			int startEndValue = getCurMaxSAValue();
-			new SAForm(this, -1, "", startEndValue, startEndValue).ShowDialog();
+			if (saForm == null)
+			{
+				Enabled = false;
+				int startEndValue = getCurMaxSAValue();				
+				saForm = new SAForm(this, -1, "", startEndValue, startEndValue);
+				saForm.Show();
+			}
+			else
+			{
+				MessageBox.Show("检测到您已打开一个子属性窗体，\n请关闭后再重新点击添加子属性。");
+				saForm.Activate();
+			}	
 		}
 
 		/// <summary>
@@ -416,6 +423,34 @@ namespace LightEditor
 				default: return;
 			}
 			saPanelsClick(saIndex);
+		}
+
+		/// <summary>
+		/// 辅助方法：在saPanels内点击任意区域，皆可弹出子属性修改栏
+		/// </summary>
+		/// <param name="saIndex"></param>
+		private void saPanelsClick(int saIndex)
+		{
+			if (saForm == null)
+			{
+				if (saIndex == -1)
+				{
+					MessageBox.Show("所点击区域不属于saPanels");
+					return;
+				}
+				Enabled = false;
+				saForm = new SAForm(this, saIndex,
+					saNameLabels[saIndex].Text,
+					int.Parse(startValueLabels[saIndex].Text),
+					int.Parse(endValueLabels[saIndex].Text)
+				);
+				saForm.Show();
+			}
+			else
+			{
+				MessageBox.Show("检测到您已打开一个子属性窗体，\n请关闭后再重新点击修改子属性。");
+				saForm.Activate();
+			}
 		}
 
 		/// <summary>
@@ -601,27 +636,7 @@ namespace LightEditor
 		public void AddSA(SA sa) {
 			sawArray2[selectedTdIndex].SaList.Add(sa);
 		}
-
-		/// <summary>
-		/// 辅助方法：在saPanels内点击任意区域，皆可弹出子属性修改栏
-		/// </summary>
-		/// <param name="saIndex"></param>
-		private void saPanelsClick(int saIndex) {
-
-			if (saIndex == -1)
-			{
-				MessageBox.Show("所点击区域不属于saPanels");
-				return;
-			}
-			new SAForm(
-				this,
-				saIndex,
-				saNameLabels[saIndex].Text,
-				int.Parse(startValueLabels[saIndex].Text),
-				int.Parse(endValueLabels[saIndex].Text)
-			).ShowDialog();
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：修改子属性，主要供SAForm回调使用
 		/// </summary>
@@ -636,6 +651,10 @@ namespace LightEditor
 			sawArray2[selectedTdIndex].SaList[saIndex].EndValue = endValue;
 		}
 
+		/// <summary>
+		/// 辅助方法：获取当前通道最大的子属性值(遍历EndValue内选)
+		/// </summary>
+		/// <returns></returns>
 		private int getCurMaxSAValue() {
 			if (selectedTdIndex == -1 || sawArray2[selectedTdIndex].SaList==null || sawArray2[selectedTdIndex].SaList.Count == 0)
 			{
@@ -654,6 +673,55 @@ namespace LightEditor
 				}
 				return result;
 			}
+		}
+		
+		/// <summary>
+		///  辅助方法：选中不同的通道
+		/// </summary>
+		/// <param name="tdIndex"></param>
+		public void ChooseTD(int tdIndex)
+		{
+			if (saForm != null) {
+				MessageBox.Show("检测到已打开一个子属性窗体，\n请先关闭后才能更改通道");
+				saForm.Activate();
+				return;
+			}
+
+			if (tdIndex > -1)
+			{
+				selectedTextBox = tdTextBoxes[tdIndex];
+				tdTextBoxes[tdIndex].Select();
+				selectedTdIndex = tdIndex;
+				refreshSAPanels();
+			}
+			Activate();		
+		}
+
+		/// <summary>
+		///  辅助方法：把当前的saForm，设为null（主要供saForm回调使用）
+		/// </summary>
+		public void ClearSAForm()
+		{
+			if (saForm != null)
+			{
+				saForm = null;
+				Enabled = true; //进入saForm时，本界面不再可以使用（避免重新点击其他按键造成故障）；退出saForm后，则应该设置回去。
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：安全退出当前界面
+		/// </summary>
+		public void Exit()
+		{
+			if (saForm != null)
+			{
+				saForm.Exit();
+				saForm = null;
+			}
+			Dispose();
+			lightEditorForm.ClearWSForm();
+			lightEditorForm.Activate();
 		}
 
 		#endregion

@@ -132,6 +132,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
+			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(243, 188);
 			this.Controls.Add(this.saNameTextBox);
 			this.Controls.Add(this.cancelButton);
@@ -147,7 +148,9 @@
 			this.MinimizeBox = false;
 			this.Name = "SAForm";
 			this.Text = "增加子属性";
+			this.TopMost = true;
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.SAForm_HelpButtonClicked);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SAForm_FormClosing);
 			this.Load += new System.EventHandler(this.SAForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.startValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.endValueNumericUpDown)).EndInit();

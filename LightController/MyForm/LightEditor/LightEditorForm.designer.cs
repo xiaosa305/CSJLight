@@ -1905,6 +1905,7 @@ namespace LightEditor
 			this.Name = "LightEditorForm";
 			this.Padding = new System.Windows.Forms.Padding(8, 2, 8, 3);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.TopMost = true;
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.LightEditorForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LightEditorForm_FormClosed);
 			this.Load += new System.EventHandler(this.MainForm_Load);

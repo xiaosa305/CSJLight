@@ -1685,6 +1685,7 @@ namespace LightEditor
 			this.Name = "WaySetForm";
 			this.Padding = new System.Windows.Forms.Padding(0, 2, 0, 4);
 			this.Text = "通道编辑";
+			this.TopMost = true;
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.WaySetForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaySetForm_FormClosed);
 			this.Load += new System.EventHandler(this.WaySetForm_Load);

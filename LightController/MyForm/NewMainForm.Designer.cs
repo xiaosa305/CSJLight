@@ -98,9 +98,6 @@ namespace LightController.MyForm
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
 			this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.groupPanel = new System.Windows.Forms.Panel();
-			this.groupInButton = new System.Windows.Forms.Button();
-			this.groupDelButton = new System.Windows.Forms.Button();
 			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.initButton = new System.Windows.Forms.Button();
@@ -166,8 +163,6 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
 			this.tdPanel.SuspendLayout();
 			this.unifyPanel.SuspendLayout();
-			this.groupFlowLayoutPanel.SuspendLayout();
-			this.groupPanel.SuspendLayout();
 			this.playBasePanel.SuspendLayout();
 			this.myStatusStrip.SuspendLayout();
 			this.projectPanel.SuspendLayout();
@@ -855,44 +850,10 @@ namespace LightController.MyForm
 			// groupFlowLayoutPanel
 			// 
 			this.groupFlowLayoutPanel.AutoScroll = true;
-			this.groupFlowLayoutPanel.Controls.Add(this.groupPanel);
 			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(4, 67);
 			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
 			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(166, 128);
 			this.groupFlowLayoutPanel.TabIndex = 63;
-			// 
-			// groupPanel
-			// 
-			this.groupPanel.Controls.Add(this.groupInButton);
-			this.groupPanel.Controls.Add(this.groupDelButton);
-			this.groupPanel.Location = new System.Drawing.Point(3, 3);
-			this.groupPanel.Name = "groupPanel";
-			this.groupPanel.Size = new System.Drawing.Size(140, 26);
-			this.groupPanel.TabIndex = 56;
-			// 
-			// groupInButton
-			// 
-			this.groupInButton.BackColor = System.Drawing.Color.SeaShell;
-			this.groupInButton.Enabled = false;
-			this.groupInButton.Location = new System.Drawing.Point(4, 2);
-			this.groupInButton.Margin = new System.Windows.Forms.Padding(2);
-			this.groupInButton.Name = "groupInButton";
-			this.groupInButton.Size = new System.Drawing.Size(110, 21);
-			this.groupInButton.TabIndex = 55;
-			this.groupInButton.Text = "灯具编组";
-			this.groupInButton.UseVisualStyleBackColor = false;
-			// 
-			// groupDelButton
-			// 
-			this.groupDelButton.BackColor = System.Drawing.Color.SeaShell;
-			this.groupDelButton.Enabled = false;
-			this.groupDelButton.Location = new System.Drawing.Point(117, 2);
-			this.groupDelButton.Margin = new System.Windows.Forms.Padding(2);
-			this.groupDelButton.Name = "groupDelButton";
-			this.groupDelButton.Size = new System.Drawing.Size(19, 20);
-			this.groupDelButton.TabIndex = 55;
-			this.groupDelButton.Text = "-";
-			this.groupDelButton.UseVisualStyleBackColor = false;
 			// 
 			// saFlowLayoutPanel
 			// 
@@ -1631,8 +1592,6 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
 			this.tdPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
-			this.groupFlowLayoutPanel.ResumeLayout(false);
-			this.groupPanel.ResumeLayout(false);
 			this.playBasePanel.ResumeLayout(false);
 			this.playBasePanel.PerformLayout();
 			this.myStatusStrip.ResumeLayout(false);
@@ -1777,8 +1736,5 @@ namespace LightController.MyForm
 		private Button groupButton;
 		private FlowLayoutPanel groupFlowLayoutPanel;
 		private System.Data.SQLite.SQLiteCommandBuilder sqLiteCommandBuilder1;
-		private Panel groupPanel;
-		private Button groupInButton;
-		private Button groupDelButton;
 	}
 }

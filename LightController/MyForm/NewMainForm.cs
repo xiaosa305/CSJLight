@@ -2331,8 +2331,7 @@ namespace LightController.MyForm
 			{
 				MessageBox.Show(ex.Message);
 			}
-			finally {
-				SetNotice("正在预览效果...");
+			finally {				
 				setBusy(false);
 			}
 		}
@@ -2402,7 +2401,8 @@ namespace LightController.MyForm
 		/// <param name="buzy"></param>
 		protected override void setBusy(bool busy)
 		{
-			this.Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+			Enabled = !busy;
 		}
 
 		#endregion
@@ -2441,10 +2441,55 @@ namespace LightController.MyForm
 			IList<GroupAst> groupList = GroupAst.GenerateGroupList(iniPath);
 			for (int i = 0; i < groupList.Count; i++)
 			{
-
+				addGroupPanel(groupList[i].GroupName);
 			}
+		}
+
+		IList<Panel> groupPanels = new List<Panel>();
+		IList<Button> groupInButtons = new List<Button>();
+		IList<Button> groupDelButtons = new List<Button>();
+
+		private void addGroupPanel(string groupName) {
+
+			Panel panel = new Panel();
+			Button inButton = new Button();
+			Button delButton = new Button();
+
+			panel.Controls.Add(inButton);
+			panel.Controls.Add(delButton);
+			panel.Location = new System.Drawing.Point(3, 3);
+			panel.Name = "groupPanel";
+			panel.Size = new System.Drawing.Size(140, 26);
+			panel.TabIndex = 56;
+
+			inButton.BackColor = System.Drawing.Color.White;
+			inButton.Enabled = true;
+			inButton.Location = new System.Drawing.Point(2, 1);
+			inButton.Margin = new System.Windows.Forms.Padding(0);			
+			inButton.Name = "groupInButton";
+			inButton.Size = new System.Drawing.Size(110, 25);
+			inButton.TabIndex = 55;
+			inButton.Text = groupName;
+			inButton.UseVisualStyleBackColor = true;			
+
+			delButton.BackColor = System.Drawing.Color.White;
+			delButton.Enabled = true;
+			delButton.Location = new System.Drawing.Point(117, 1);
+			delButton.Margin = new System.Windows.Forms.Padding(2);			
+			delButton.Name = "groupDelButton";
+			delButton.Size = new System.Drawing.Size(20, 25);
+			delButton.TabIndex = 55;
+			delButton.Text = "-";
+			delButton.UseVisualStyleBackColor = true;
+
+			groupFlowLayoutPanel.Controls.Add(panel);
+
+			groupPanels.Add(panel);
+			groupInButtons.Add(inButton);
+			groupInButtons.Add(delButton);
 
 		}
+
 
 		/// <summary>
 		/// 辅助方法：生成编组按钮组

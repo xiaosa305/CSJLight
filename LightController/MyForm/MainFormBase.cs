@@ -3526,10 +3526,11 @@ namespace LightController.MyForm
 		public void Completed()
 		{			
 			mainForm.Preview();
+			mainForm.SetNotice("正在预览效果...");
 		}
 		public void Error()
 		{
-			mainForm.SetNotice("预览数据生成出错,无法预览。");			
+			mainForm.SetNotice("预览数据生成出错,无法预览。");
 		}
 		public void UpdateProgress(string name)
 		{

@@ -940,7 +940,7 @@ namespace LightController.Utils
                         }
                         break;
                     case Constant.MODE_M:
-                        if (!m_ValuePairs.ContainsKey(item.PK.LightID))
+                        if (!m_ValuePairs.ContainsKey(item.PK.LightID) && item.ChangeMode == Constant.MODE_M_JUMP)
                         {
                             m_ValuePairs.Add((item.PK.LightID), new List<DB_Value>());
                         }
@@ -952,6 +952,12 @@ namespace LightController.Utils
                     default:
                         break;
                 }
+            }
+            if (m_ValuePairs.Count == 0)
+            {
+                m_StepCount = 0;
+                M_DMXSceneChannelData.Clear();
+                M_DMXSceneState.Clear();
             }
             foreach (int channelNo in c_ValuePairs.Keys)
             {

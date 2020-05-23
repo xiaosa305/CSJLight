@@ -101,7 +101,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击《取消》按钮
+		/// 事件：点击《取消》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

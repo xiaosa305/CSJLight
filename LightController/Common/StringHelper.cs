@@ -76,5 +76,29 @@ namespace LightController.Common
 			return new string(strArray);
 		}
 
+
+		/// <summary>
+		/// 把IList<int>转化为字符串，并用英文符号","隔开
+		/// </summary>
+		/// <param name="intList">要转化的List</param>
+		/// <param name="addNum">需要对每个表内数字添加的数字(便于用户查看索引等)</param>
+		/// <paramref name="captainIndex">若需强调其中的某个数，则输入这个参数</paramref>
+		/// <returns></returns>
+		public static string MakeIntListToString(IList<int> intList, int addNum, int captainIndex)
+		{ 
+			string result = "";
+			for (int i = 0; i < intList.Count; i++)
+			{
+				if ( i == captainIndex  )
+				{
+					result += "(" + (intList[i] + addNum) + "),";					
+				}
+				else {
+					result += intList[i] + addNum + ",";
+				}				
+			}
+			return result.Substring(0, result.Length - 1);
+		}
+
 	}
 }

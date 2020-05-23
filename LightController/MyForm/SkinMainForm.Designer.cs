@@ -378,6 +378,8 @@ namespace LightController.MyForm
 			this.hideAstPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
+			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -6607,5 +6609,7 @@ namespace LightController.MyForm
 		private Label lightRemarkLabel;
 		private SkinButton helpSkinButton;
 		private SkinButton multiplexSkinButton;
+		private ToolTip saToolTip;
+		private ToolTip groupToolTip;
 	}
 }

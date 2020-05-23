@@ -19,7 +19,8 @@ namespace LightController.MyForm
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
-			this.copyAllCheckBox.Checked = isCopyAll ; 
+
+			copyAllCheckBox.Checked = isCopyAll ; 
 
 			for (int i = 0; i < lightIndices.Count; i++)
 			{
@@ -58,13 +59,13 @@ namespace LightController.MyForm
 				return;				
 			}
 
-			mainForm.EnterMultiMode(selectedIndex , copyAllCheckBox.Checked);
+			mainForm.EnterMultiMode( selectedIndex , copyAllCheckBox.Checked);
 			Dispose();
 			mainForm.Activate();			
 		}	
 
 		/// <summary>
-		/// 事件：点击《取消》及《右上角关闭》按钮
+		/// 事件：点击《取消》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

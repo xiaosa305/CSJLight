@@ -32,7 +32,7 @@ namespace LightController.MyForm.OtherTools
 		}
 
 		/// <summary>
-		/// 事件：点击《取消》按键
+		/// 事件：点击《取消》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

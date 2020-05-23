@@ -848,6 +848,7 @@ namespace LightController.MyForm
 		private void generateSAButtons()
 		{
 			saFlowLayoutPanel.Controls.Clear();
+			saToolTip.RemoveAll();
 
 			LightAst la = lightAstList[selectedIndex];
 			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
@@ -859,33 +860,7 @@ namespace LightController.MyForm
 			saFlowLayoutPanel.Enabled = getCurrentStep() != 0;
 			saFlowLayoutPanel.Refresh();
 		}
-
-		/// <summary>
-		/// 事件：点击《saButton》按钮组的任意按键
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saButton_Click(object sender, EventArgs e)
-		{
-			if (getCurrentStepWrapper() == null)
-			{
-				SetNotice("当前无选中步，不可点击子属性按钮");
-				return;
-			}
-
-			Button btn = (Button)sender;
-			string[] btnTagArr = btn.Tag.ToString().Split('*');
-			int tdIndex = int.Parse(btnTagArr[0]);
-			int tdValue = int.Parse(btnTagArr[1]);
-
-			getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;
-			if (isMultiMode)
-			{
-				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
-			}
-
-			RefreshStep();
-		}
+				
 
 		/// <summary>
 		///  事件：双击《灯具列表的灯具》，修改备注
@@ -1883,7 +1858,7 @@ namespace LightController.MyForm
 					Tag = tdIndex + "*" + sa.StartValue					
 				};
 				saButton.Click += new EventHandler(saButton_Click);
-				myToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+				saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
 				saFlowLayoutPanel.Controls.Add(saButton);
 			}
 		}
@@ -1994,7 +1969,7 @@ namespace LightController.MyForm
 			{
 				selectedIndices.Add(item);
 			}
-			new GroupForm(this, selectedIndices).ShowDialog();
+			new GroupForm(this, lightAstList, selectedIndices).ShowDialog();
 		}
 
 		/// <summary>
@@ -2018,6 +1993,32 @@ namespace LightController.MyForm
 			multiButtonClick();
 		}
 
+		/// <summary>
+		/// 事件：点击《saButton》按钮组的任意按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saButton_Click(object sender, EventArgs e)
+		{
+			if (getCurrentStepWrapper() == null)
+			{
+				SetNotice("当前无选中步，不可点击子属性按钮");
+				return;
+			}
+
+			Button btn = (Button)sender;
+			string[] btnTagArr = btn.Tag.ToString().Split('*');
+			int tdIndex = int.Parse(btnTagArr[0]);
+			int tdValue = int.Parse(btnTagArr[1]);
+
+			getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;
+			if (isMultiMode)
+			{
+				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
+			}
+
+			RefreshStep();
+		}
 
 		#endregion
 

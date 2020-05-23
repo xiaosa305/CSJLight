@@ -98,6 +98,8 @@ namespace LightController.MyForm
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
 			this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupInButtonDemo = new System.Windows.Forms.Button();
+			this.groupDelButtonDemo = new System.Windows.Forms.Button();
 			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.initButton = new System.Windows.Forms.Button();
@@ -149,6 +151,8 @@ namespace LightController.MyForm
 			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.sqLiteCommandBuilder1 = new System.Data.SQLite.SQLiteCommandBuilder();
+			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -163,6 +167,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
 			this.tdPanel.SuspendLayout();
 			this.unifyPanel.SuspendLayout();
+			this.groupFlowLayoutPanel.SuspendLayout();
 			this.playBasePanel.SuspendLayout();
 			this.myStatusStrip.SuspendLayout();
 			this.projectPanel.SuspendLayout();
@@ -850,10 +855,35 @@ namespace LightController.MyForm
 			// groupFlowLayoutPanel
 			// 
 			this.groupFlowLayoutPanel.AutoScroll = true;
+			this.groupFlowLayoutPanel.Controls.Add(this.groupInButtonDemo);
+			this.groupFlowLayoutPanel.Controls.Add(this.groupDelButtonDemo);
 			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(4, 67);
+			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(1);
 			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
 			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(166, 128);
 			this.groupFlowLayoutPanel.TabIndex = 63;
+			// 
+			// groupInButtonDemo
+			// 
+			this.groupInButtonDemo.Location = new System.Drawing.Point(3, 3);
+			this.groupInButtonDemo.Name = "groupInButtonDemo";
+			this.groupInButtonDemo.Size = new System.Drawing.Size(118, 25);
+			this.groupInButtonDemo.TabIndex = 0;
+			this.groupInButtonDemo.Text = "进入编组";
+			this.groupInButtonDemo.UseVisualStyleBackColor = true;
+			this.groupInButtonDemo.Visible = false;
+			this.groupInButtonDemo.Click += new System.EventHandler(this.groupInButton_Click);
+			// 
+			// groupDelButtonDemo
+			// 
+			this.groupDelButtonDemo.Location = new System.Drawing.Point(127, 3);
+			this.groupDelButtonDemo.Name = "groupDelButtonDemo";
+			this.groupDelButtonDemo.Size = new System.Drawing.Size(32, 25);
+			this.groupDelButtonDemo.TabIndex = 0;
+			this.groupDelButtonDemo.Text = "-";
+			this.groupDelButtonDemo.UseVisualStyleBackColor = true;
+			this.groupDelButtonDemo.Visible = false;
+			this.groupDelButtonDemo.Click += new System.EventHandler(this.groupDelButton_Click);
 			// 
 			// saFlowLayoutPanel
 			// 
@@ -1593,6 +1623,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
 			this.tdPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
+			this.groupFlowLayoutPanel.ResumeLayout(false);
 			this.playBasePanel.ResumeLayout(false);
 			this.playBasePanel.PerformLayout();
 			this.myStatusStrip.ResumeLayout(false);
@@ -1737,5 +1768,9 @@ namespace LightController.MyForm
 		private Button groupButton;
 		private FlowLayoutPanel groupFlowLayoutPanel;
 		private System.Data.SQLite.SQLiteCommandBuilder sqLiteCommandBuilder1;
+		private Button groupInButtonDemo;
+		private Button groupDelButtonDemo;
+		private ToolTip groupToolTip;
+		private ToolTip saToolTip;
 	}
 }

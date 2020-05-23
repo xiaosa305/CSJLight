@@ -98,7 +98,7 @@ namespace LightController.MyForm
 			if (isNew)
 			{
 				HardwareSaveForm nhForm = new HardwareSaveForm(this);
-				nhForm.ShowDialog();
+				nhForm.ShowDialog(); 
 			}
 			else
 			{
@@ -107,7 +107,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《取消》按钮
+		/// 事件：点击《取消》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

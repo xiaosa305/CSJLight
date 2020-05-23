@@ -8,6 +8,7 @@ namespace MultiLedController.utils
     public class Constant
     {
         public const string TAG_XIAOSA = "XiaoSa";
+        public const string RECEIVE_START_DEBUF_MODE = "OK:poweron>";
         public static bool IsLogInFile = false;
         private static readonly byte[] Receive_SearchDevice = new byte[]
         {

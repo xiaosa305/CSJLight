@@ -67,7 +67,6 @@ namespace MultiLedController.multidevice.impl
                 startLedSpace += devices[index].Led_interface_num * devices[index].Led_space;
             }
         }
-
         /// <summary>
         /// 功能：搜索幻彩控制卡
         /// </summary>
@@ -119,8 +118,9 @@ namespace MultiLedController.multidevice.impl
                     byte[] receiveData = udpClient.Receive(ref endPoint);
                     if (receiveData.Length == 41)//设备探索回复
                     {
-                        this.ControlDevices.Add(new ControlDevice(receiveData));
-                        LogTools.Debug(Constant.TAG_XIAOSA, "搜索到一台设备");
+                        ControlDevice device = new ControlDevice(receiveData);
+                        this.ControlDevices.Add(device);
+                        LogTools.Debug(Constant.TAG_XIAOSA, "搜索到一台设备" + device.IP);
                     }
                 }
             }
@@ -144,6 +144,31 @@ namespace MultiLedController.multidevice.impl
         {
             this.ControlDevices.Clear();
         }
+        /// <summary>
+        /// 功能：关闭搜索设备服务器
+        /// </summary>
+        public void CloseSearchDeviceServers()
+        {
+            if (this.SearchUdpServer != null)
+            {
+                this.SearchReceiveStatus = false;
+                this.SearchUdpServer.Close();
+                this.SearchUdpClient.Close();
+                this.SearchUdpServer = null;
+                this.SearchUdpClient = null;
+                this.SearchReceiveThread = null;
+            }
+        }
 
+
+        //测试用
+        public void Start()
+        {
+            foreach (VirtualControlDevice virtualControlDevice in this.VirtualControlDevices)
+            {
+                virtualControlDevice.Start();
+                virtualControlDevice.Test();
+            }
+        }
     }
 }

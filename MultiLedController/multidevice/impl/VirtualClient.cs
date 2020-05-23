@@ -94,7 +94,7 @@ namespace MultiLedController.multidevice.impl
             }
             catch (Exception ex)
             {
-                LogTools.Debug(Constant.TAG_XIAOSA, "关闭虚拟客户端：" + this.VirtualClientIp);
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭虚拟客户端：" + this.VirtualClientIp,ex);
             }
         }
 
@@ -122,12 +122,12 @@ namespace MultiLedController.multidevice.impl
             data[193] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[3]);
 
             string macAddress = GetMacUtils.GetMac();
-            data[201] = Convert.ToByte(macAddress.Split(':')[0]);
-            data[202] = Convert.ToByte(macAddress.Split(':')[1]);
-            data[203] = Convert.ToByte(macAddress.Split(':')[2]);
-            data[204] = Convert.ToByte(macAddress.Split(':')[3]);
-            data[205] = Convert.ToByte(macAddress.Split(':')[4]);
-            data[206] = Convert.ToByte(macAddress.Split(':')[5]);
+            data[201] = Convert.ToByte(macAddress.Split(':')[0],16);
+            data[202] = Convert.ToByte(macAddress.Split(':')[1],16);
+            data[203] = Convert.ToByte(macAddress.Split(':')[2],16);
+            data[204] = Convert.ToByte(macAddress.Split(':')[3],16);
+            data[205] = Convert.ToByte(macAddress.Split(':')[4],16);
+            data[206] = Convert.ToByte(macAddress.Split(':')[5],16);
             this.UdpSend.SendTo(data, new IPEndPoint(IPAddress.Broadcast, PORT));
         }
     }

@@ -22,5 +22,9 @@ namespace MultiLedController.multidevice
         /// 功能：清除设备列表
         /// </summary>
         void ClearControlDeviceList();
+
+        void AddDevice(List<ControlDevice> devices, List<List<string>> ips, string serverIp);
+
+        void Start();
     }
 }

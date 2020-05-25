@@ -85,7 +85,7 @@ namespace LightController.Common
 		/// <paramref name="captainIndex">若需强调其中的某个数，则输入这个参数</paramref>
 		/// <returns></returns>
 		public static string MakeIntListToString(IList<int> intList, int addNum, int captainIndex)
-		{ 
+		{
 			string result = "";
 			for (int i = 0; i < intList.Count; i++)
 			{
@@ -99,6 +99,5 @@ namespace LightController.Common
 			}
 			return result.Substring(0, result.Length - 1);
 		}
-
 	}
 }

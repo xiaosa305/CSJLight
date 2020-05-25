@@ -64,7 +64,7 @@ namespace LightController.MyForm.Multiplex
 			{
 				MessageBox.Show("编组成功");
 				Dispose();
-				mainForm.Activate();
+				mainForm.Activate();			
 			}
 			else
 			{

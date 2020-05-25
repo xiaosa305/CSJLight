@@ -770,49 +770,7 @@ namespace LightController.MyForm
 			}
 			return result;
 		}
-
-		/// <summary>
-		/// 辅助方法: 确认选中灯具 ①是否同一种灯具 ②所有的选中灯具步数是否一致：都符合则返回true
-		/// </summary>
-		/// <returns>有个不相同的的项（名或步数），则返回false</returns>
-		private bool checkSameLightsAndSteps(IList<int> lightIndexList)
-		{
-			bool result = true;
-			int firstIndex = lightIndexList[0];
-			string firstTag = lightsListView.Items[firstIndex].Tag.ToString();
-			int firstStepCount = getSelectedLightStepCounts(firstIndex);
-
-			for (int i = 1; i < lightIndexList.Count; i++) // 从第二个选中灯具开始比对
-			{
-				int tempIndex = lightIndexList[i];
-				string tempTag = lightsListView.Items[tempIndex].Tag.ToString();
-				int tempStepCount = getSelectedLightStepCounts(tempIndex);
-
-				if( !firstTag.Equals(tempTag) || firstStepCount != tempStepCount)
-				{
-					result = false;
-					break;
-				}
-			}
-			return result;
-		}
-
-		/// <summary>
-		/// 辅助方法：校验所有列表内索引，是否都在当前工程的灯具列表中
-		/// </summary>
-		/// <param name="lightIndexList"></param>
-		/// <returns>都在则返回true</returns>
-		private bool checkIndexAllInLightList(IList<int> lightIndexList) {
-			for (int i = 0; i < lightIndexList.Count; i++)
-			{
-				int lightIndex = lightIndexList[i];
-				if (lightIndex >= lightAstList.Count) {
-					return false;
-				}
-			}
-			return true;
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：通过传来的数值，生成通道列表的数据
 		/// </summary>
@@ -880,15 +838,27 @@ namespace LightController.MyForm
 			saFlowLayoutPanel.Controls.Clear();
 			saToolTip.RemoveAll();
 
-			LightAst la = lightAstList[selectedIndex];
-			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+			if (selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0)
 			{
-				addTdSaButtons(la, tdIndex);
+				MessageBox.Show("generateSAButtons()出错\n[selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0]。");
+				return;
+			}			
+
+			LightAst la = lightAstList[selectedIndex];
+			try
+			{
+				for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+				{
+					addTdSaButtons(la, tdIndex);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
 			}
 
 			// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
-			saFlowLayoutPanel.Enabled = getCurrentStep() != 0;
-			saFlowLayoutPanel.Refresh();
+			saFlowLayoutPanel.Enabled = getCurrentStep() != 0;			
 		}
 
 		/// <summary>
@@ -1356,7 +1326,7 @@ namespace LightController.MyForm
 		private void multiLightButton_Click(object sender, EventArgs e)
 		{
 			// 进入多灯模式
-			if (! isMultiMode)
+			if (!isMultiMode)
 			{
 				if (lightsListView.SelectedIndices.Count < 2)
 				{
@@ -1383,7 +1353,7 @@ namespace LightController.MyForm
 				{
 					lightsListView.Items[lightIndex].BackColor = Color.White;
 				}
-				enableSingleMode(true);
+				exitMultiMode(true);
 			}
 		}
 
@@ -1572,26 +1542,26 @@ namespace LightController.MyForm
 					lightsListView.Items[lightIndex].BackColor = Color.SkyBlue;
 				}
 			}
-
-			enableSingleMode(false);
+			exitMultiMode(false);
 		}
 
 		/// <summary>
 		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
 		/// </summary>
-		/// <param name="isSingleMode"></param>
-		protected override void enableSingleMode(bool isSingleMode)
+		/// <param name="exit"></param>
+		protected override void exitMultiMode(bool exit)
 		{
-			isMultiMode = !isSingleMode;
+			isMultiMode = !exit;
 
 			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
-			lightListToolStripMenuItem.Enabled = isSingleMode;
-			lightsListView.Enabled = isSingleMode;
-			frameComboBox.Enabled = isSingleMode;
-			modeComboBox.Enabled = isSingleMode;
-			useFrameButton.Enabled = isSingleMode;
+			lightListToolStripMenuItem.Enabled = !isMultiMode;
+			lightsListView.Enabled = !isMultiMode;
+			frameComboBox.Enabled = !isMultiMode;
+			modeComboBox.Enabled = !isMultiMode;
+			useFrameButton.Enabled = !isMultiMode;
+			groupFlowLayoutPanel.Enabled = !isMultiMode;
 
-			multiLightButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
+			multiLightButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
 		}
 
 		/// <summary>
@@ -1637,6 +1607,7 @@ namespace LightController.MyForm
 
 			// 4.设定统一调整区是否可用						
 			groupButton.Enabled = lightAstList != null && lightsListView.SelectedIndices.Count > 1; // 只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
+			groupFlowLayoutPanel.Enabled = !isMultiMode;
 			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
 
@@ -1982,6 +1953,52 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《groupInButtons(进入编组)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void groupInButton_Click(object sender, EventArgs e)
+		{
+			groupInButtonClick(sender);
+		}
+
+		/// <summary>
+		/// 事件：点击《groupDelButtons(删除编组)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void groupDelButton_Click(object sender, EventArgs e)
+		{
+			groupDelButtonClick(sender);
+		}
+
+		/// <summary>
+		/// 事件：点击《saButton》按钮组的任意按键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saButton_Click(object sender, EventArgs e)
+		{
+			saButtonClick(sender);
+		}
+
+		/// <summary>
+		/// 辅助方法：生成编组按钮组（先清空，再由groupList直接生成新的按钮组）
+		/// </summary>
+		protected override void refreshGroupPanels()
+		{
+			groupFlowLayoutPanel.Controls.Clear();
+			groupToolTip.RemoveAll();
+			if (groupList != null && groupList.Count > 0)
+			{
+				for (int groupIndex = 0; groupIndex < groupList.Count; groupIndex++)
+				{
+					addGroupPanel(groupIndex, groupList[groupIndex]);
+				}
+			}
+		}
+
+		/// <summary>
 		///辅助方法：添加编组按钮（一个编组一个Panel，包含两个按钮：使用编组 和 删除编组）
 		/// </summary>
 		/// <param name="sender"></param>
@@ -2026,57 +2043,14 @@ namespace LightController.MyForm
 			delButton.Click += new EventHandler(groupDelButton_Click);
 
 			groupFlowLayoutPanel.Controls.Add(panel);
-			groupToolTip.SetToolTip(inButton , StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex)  );
+			groupToolTip.SetToolTip(inButton, ga.GroupName + "\n" + StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex));
 		}
 
 		/// <summary>
-		/// 事件：点击《groupInButtons(进入编组)》
+		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void groupInButton_Click(object sender, EventArgs e)
+		protected override void selectLightIndices()
 		{
-			if (isMultiMode) {
-				MessageBox.Show("当前已是多灯模式，无法进入编组。");
-				return;
-			}
-
-			int groupIndex;
-			try
-			{
-				groupIndex = int.Parse((sender as Button).Tag.ToString());
-			}
-			catch (Exception ex) {
-				MessageBox.Show("按钮的Tag无法转化为groupIndex:\n"+ ex.Message);
-				return;
-			}
-			if (groupList == null || groupList.Count == 0) {
-				MessageBox.Show("当前工程groupList为空，无法使用编组。");
-				return;
-			}
-			if (groupIndex >= groupList.Count) {
-				MessageBox.Show("groupIndex大于groupList的大小，无法使用编组。");
-				return;
-			}
-			GroupAst group = groupList[groupIndex];
-			if (group.LightIndexList == null || group.LightIndexList.Count <= 1) {
-				MessageBox.Show("选中编组的灯具数量小于2，无法使用编组。");
-				return;
-			}
-
-			if (!checkIndexAllInLightList(group.LightIndexList))
-			{
-				MessageBox.Show("编组内的部分灯具索引超过了当前工程的灯具数量，无法使用编组。");
-				return;
-			}
-
-			if ( ! checkSameLightsAndSteps(group.LightIndexList))
-			{
-				MessageBox.Show("编组内的灯具并非同一类型或步数不一致，无法使用编组。");
-				return;
-			}
-					
-			selectedIndices = group.LightIndexList;
 			foreach (ListViewItem item in lightsListView.Items)
 			{
 				item.Selected = false;
@@ -2084,76 +2058,9 @@ namespace LightController.MyForm
 			foreach (int lightIndex in selectedIndices)
 			{
 				lightsListView.Items[lightIndex].Selected = true;
-			}	
-			EnterMultiMode(group.CaptainIndex, false);
-		}
-
-				
-		/// <summary>
-		/// 事件：点击《groupDelButtons(删除编组)》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void groupDelButton_Click(object sender, EventArgs e)
-		{
-			int groupIndex;
-			try
-			{
-				groupIndex = int.Parse((sender as Button).Tag.ToString());
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("按钮的Tag无法转化为groupIndex:\n" + ex.Message);
-				return;
-			}
-			groupList.RemoveAt(groupIndex);
-			refreshGroupPanels();
-		}
-
-		/// <summary>
-		/// 辅助方法：生成编组按钮组（先清空，再由groupList直接生成新的按钮组）
-		/// </summary>
-		protected override void refreshGroupPanels()
-		{
-			groupFlowLayoutPanel.Controls.Clear();
-			groupToolTip.RemoveAll();
-			if (groupList != null && groupList.Count > 0)
-			{
-				for (int groupIndex = 0; groupIndex < groupList.Count; groupIndex++)
-				{
-					addGroupPanel(groupIndex, groupList[groupIndex]);
-				}
 			}
 		}
-
-
-		/// <summary>
-		/// 事件：点击《saButton》按钮组的任意按键
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saButton_Click(object sender, EventArgs e)
-		{
-			if (getCurrentStepWrapper() == null)
-			{
-				SetNotice("当前无选中步，不可点击子属性按钮");
-				return;
-			}
-
-			Button btn = (Button)sender;
-			string[] btnTagArr = btn.Tag.ToString().Split('*');
-			int tdIndex = int.Parse(btnTagArr[0]);
-			int tdValue = int.Parse(btnTagArr[1]);
-
-			getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;
-			if (isMultiMode)
-			{
-				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
-			}
-
-			RefreshStep();
-		}
-
+			
 		#region 弃用的快捷设置按钮组
 
 		/// <summary>
@@ -2555,8 +2462,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void makeSoundButton_Click(object sender, EventArgs e)
 		{
-			playTools.MusicControl();
-			//SetNotice("触发音频");
+			playTools.MusicControl();			
 		}
 
 		/// <summary>

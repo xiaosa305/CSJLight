@@ -101,6 +101,9 @@ namespace LightController.MyForm
 			this.dqdjLabel = new System.Windows.Forms.Label();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.tdCommonPanel = new System.Windows.Forms.Panel();
+			this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.groupInButtonDemo = new System.Windows.Forms.Button();
+			this.groupDelButtonDemo = new System.Windows.Forms.Button();
 			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -395,6 +398,7 @@ namespace LightController.MyForm
 			this.currentLightSkinPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.tdCommonPanel.SuspendLayout();
+			this.groupFlowLayoutPanel.SuspendLayout();
 			this.noticeStatusStrip.SuspendLayout();
 			this.stepSkinPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
@@ -1858,6 +1862,7 @@ namespace LightController.MyForm
 			// tdCommonPanel
 			// 
 			this.tdCommonPanel.AutoScroll = true;
+			this.tdCommonPanel.Controls.Add(this.groupFlowLayoutPanel);
 			this.tdCommonPanel.Controls.Add(this.saFlowLayoutPanel);
 			this.tdCommonPanel.Controls.Add(this.noticeStatusStrip);
 			this.tdCommonPanel.Controls.Add(this.groupSkinButton);
@@ -1869,10 +1874,45 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Size = new System.Drawing.Size(246, 406);
 			this.tdCommonPanel.TabIndex = 29;
 			// 
+			// groupFlowLayoutPanel
+			// 
+			this.groupFlowLayoutPanel.AutoScroll = true;
+			this.groupFlowLayoutPanel.Controls.Add(this.groupInButtonDemo);
+			this.groupFlowLayoutPanel.Controls.Add(this.groupDelButtonDemo);
+			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(3, 98);
+			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
+			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(243, 146);
+			this.groupFlowLayoutPanel.TabIndex = 29;
+			// 
+			// groupInButtonDemo
+			// 
+			this.groupInButtonDemo.ForeColor = System.Drawing.Color.Black;
+			this.groupInButtonDemo.Location = new System.Drawing.Point(3, 3);
+			this.groupInButtonDemo.Name = "groupInButtonDemo";
+			this.groupInButtonDemo.Size = new System.Drawing.Size(127, 23);
+			this.groupInButtonDemo.TabIndex = 0;
+			this.groupInButtonDemo.Text = "groupInButtonDemo";
+			this.groupInButtonDemo.UseVisualStyleBackColor = true;
+			this.groupInButtonDemo.Visible = false;
+			this.groupInButtonDemo.Click += new System.EventHandler(this.groupInButton_Click);
+			// 
+			// groupDelButtonDemo
+			// 
+			this.groupDelButtonDemo.ForeColor = System.Drawing.Color.Black;
+			this.groupDelButtonDemo.Location = new System.Drawing.Point(136, 3);
+			this.groupDelButtonDemo.Name = "groupDelButtonDemo";
+			this.groupDelButtonDemo.Size = new System.Drawing.Size(57, 23);
+			this.groupDelButtonDemo.TabIndex = 0;
+			this.groupDelButtonDemo.Text = "-";
+			this.groupDelButtonDemo.UseVisualStyleBackColor = true;
+			this.groupDelButtonDemo.Visible = false;
+			this.groupDelButtonDemo.Click += new System.EventHandler(this.groupDelButton_Click);
+			// 
 			// saFlowLayoutPanel
 			// 
 			this.saFlowLayoutPanel.AutoScroll = true;
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(3, 255);
+			this.saFlowLayoutPanel.Location = new System.Drawing.Point(3, 254);
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
 			this.saFlowLayoutPanel.Size = new System.Drawing.Size(243, 126);
 			this.saFlowLayoutPanel.TabIndex = 28;
@@ -1910,15 +1950,16 @@ namespace LightController.MyForm
 			this.groupSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.groupSkinButton.ForeColorSuit = true;
 			this.groupSkinButton.Image = global::LightController.Properties.Resources.灯库编辑;
+			this.groupSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.groupSkinButton.ImageSize = new System.Drawing.Size(40, 40);
 			this.groupSkinButton.InheritColor = true;
 			this.groupSkinButton.IsDrawBorder = false;
-			this.groupSkinButton.Location = new System.Drawing.Point(21, 10);
+			this.groupSkinButton.Location = new System.Drawing.Point(24, 16);
 			this.groupSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.groupSkinButton.MouseBack = null;
 			this.groupSkinButton.Name = "groupSkinButton";
 			this.groupSkinButton.NormlBack = null;
-			this.groupSkinButton.Size = new System.Drawing.Size(67, 85);
+			this.groupSkinButton.Size = new System.Drawing.Size(67, 72);
 			this.groupSkinButton.TabIndex = 5;
 			this.groupSkinButton.Text = "灯具编组";
 			this.groupSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1939,15 +1980,16 @@ namespace LightController.MyForm
 			this.multiSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.multiSkinButton.ForeColorSuit = true;
 			this.multiSkinButton.Image = global::LightController.Properties.Resources.统一跳渐变;
+			this.multiSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.multiSkinButton.ImageSize = new System.Drawing.Size(40, 40);
 			this.multiSkinButton.InheritColor = true;
 			this.multiSkinButton.IsDrawBorder = false;
-			this.multiSkinButton.Location = new System.Drawing.Point(155, 10);
+			this.multiSkinButton.Location = new System.Drawing.Point(161, 16);
 			this.multiSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.multiSkinButton.MouseBack = null;
 			this.multiSkinButton.Name = "multiSkinButton";
 			this.multiSkinButton.NormlBack = null;
-			this.multiSkinButton.Size = new System.Drawing.Size(67, 85);
+			this.multiSkinButton.Size = new System.Drawing.Size(67, 72);
 			this.multiSkinButton.TabIndex = 5;
 			this.multiSkinButton.Text = "多步调节";
 			this.multiSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -1968,15 +2010,16 @@ namespace LightController.MyForm
 			this.initSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.initSkinButton.ForeColorSuit = true;
 			this.initSkinButton.Image = global::LightController.Properties.Resources.初始值;
+			this.initSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.initSkinButton.ImageSize = new System.Drawing.Size(40, 40);
 			this.initSkinButton.InheritColor = true;
 			this.initSkinButton.IsDrawBorder = false;
-			this.initSkinButton.Location = new System.Drawing.Point(88, 10);
+			this.initSkinButton.Location = new System.Drawing.Point(94, 16);
 			this.initSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.initSkinButton.MouseBack = null;
 			this.initSkinButton.Name = "initSkinButton";
 			this.initSkinButton.NormlBack = null;
-			this.initSkinButton.Size = new System.Drawing.Size(67, 85);
+			this.initSkinButton.Size = new System.Drawing.Size(67, 72);
 			this.initSkinButton.TabIndex = 5;
 			this.initSkinButton.Text = "设为初值";
 			this.initSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -6064,6 +6107,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
 			this.tdCommonPanel.ResumeLayout(false);
 			this.tdCommonPanel.PerformLayout();
+			this.groupFlowLayoutPanel.ResumeLayout(false);
 			this.noticeStatusStrip.ResumeLayout(false);
 			this.noticeStatusStrip.PerformLayout();
 			this.stepSkinPanel.ResumeLayout(false);
@@ -6611,5 +6655,8 @@ namespace LightController.MyForm
 		private SkinButton multiplexSkinButton;
 		private ToolTip saToolTip;
 		private ToolTip groupToolTip;
+		private FlowLayoutPanel groupFlowLayoutPanel;
+		private Button groupInButtonDemo;
+		private Button groupDelButtonDemo;
 	}
 }

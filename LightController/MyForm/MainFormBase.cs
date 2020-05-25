@@ -67,8 +67,7 @@ namespace LightController.MyForm
 		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
 		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
 		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
-		protected string tempProjectPath = null; //此处记录《工程更新》时，选过的文件夹路径。
-		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
+		protected string tempProjectPath = null; //此处记录《工程更新》时，选过的文件夹路径。		
 
 		// 工程相关的变量（只在工程载入后才用到的变量）
 		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
@@ -104,6 +103,7 @@ namespace LightController.MyForm
 		protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
 		// 通道数据操作时的变量		
+		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
 		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
 		protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
@@ -140,9 +140,10 @@ namespace LightController.MyForm
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
 		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 只开单场景：02.0 改变当前Frame
-		protected virtual void enableSingleMode(bool enable) { }  //退出多灯模式或单灯模式后的相关操作
+		protected virtual void exitMultiMode(bool exit) { }  //退出多灯模式或单灯模式后的相关操作
 		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
+		protected virtual void selectLightIndices() { } // 根据selectedIndices,选择不同的灯具；需要子类来实现
 
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
@@ -1505,32 +1506,7 @@ namespace LightController.MyForm
 			return tdList;
 		}
 
-		/// <summary>
-		/// 辅助方法：灯具编组执行方法，成功则返回null；否则返回失败原因（string）
-		/// </summary>
-		/// <param name="groupName"></param>
-		/// <param name="selectedIndices"></param>
-		/// <returns></returns>
-		public string CreateGroup(string groupName, int captainIndex)
-		{
-			if (groupList == null) {
-				return "尚未生成编组列表，请先创建列表后重试。";
-			}
-			if ( ! GroupAst.CheckGroupName(groupList, groupName)) {
-				return "编组名称已被使用，请使用其他名称。";
-			}
-
-			groupList.Add(new GroupAst(){
-				GroupName = groupName,
-				LightIndexList = selectedIndices,
-				CaptainIndex = captainIndex
-			});
-
-			refreshGroupPanels();
-						
-			return null;
-		}
-
+	
 		#region projectPanel相关
 
 		/// <summary>
@@ -1667,7 +1643,7 @@ namespace LightController.MyForm
 			Text = SoftwareName;
 
 			EnterSyncMode(false);  //退出《同步模式》
-			enableSingleMode(true); // 使用《单灯模式》
+			exitMultiMode(true); // 退出《多灯模式》
 			autoEnableSLArrange();  // 《保存|读取灯具位置》不可用
 			enableProjectRelative(false);  // clearAllData()内：工程相关的所有按钮，设为不可用
 			autosetEnabledPlayAndRefreshPic();  //是否可以显示 playPanel及 刷新图片
@@ -2895,10 +2871,12 @@ namespace LightController.MyForm
 		/// <param name="la"></param>
 		protected void generateLightData()
 		{
-			if (selectedIndex == -1)
+			if (selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0)
 			{
+				MessageBox.Show("generateLightData()出错。");
 				return;
 			}
+		
 			LightAst lightAst = lightAstList[selectedIndex];
 
 			// 1.在右侧灯具信息内显示选中灯具相关信息
@@ -2933,7 +2911,7 @@ namespace LightController.MyForm
 				showStepLabel(0, 0);						
 			}
 			else
-			{
+			{				
 				LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
 				lightStepWrapper.CurrentStep = stepNum;
@@ -3093,6 +3071,195 @@ namespace LightController.MyForm
 
 			new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), currentMode).ShowDialog();
 		}
+
+		/// <summary>
+		/// 辅助方法：灯具编组执行方法，成功则返回null；否则返回失败原因（string）
+		/// </summary>
+		/// <param name="groupName"></param>
+		/// <param name="selectedIndices"></param>
+		/// <returns></returns>
+		public string CreateGroup(string groupName, int captainIndex)
+		{
+			if (groupList == null)
+			{
+				return "尚未生成编组列表，请先创建列表后重试。";
+			}
+			if (!GroupAst.CheckGroupName(groupList, groupName))
+			{
+				return "编组名称已被使用，请使用其他名称。";
+			}
+
+			groupList.Add(new GroupAst()
+			{
+				GroupName = groupName,
+				LightIndexList = selectedIndices,
+				CaptainIndex = captainIndex
+			});
+
+			refreshGroupPanels();
+
+			return null;
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《进入编组按键》
+		/// </summary>
+		/// <param name="sender"></param>
+		protected void groupInButtonClick(object sender)
+		{
+
+			if (isMultiMode)
+			{
+				MessageBox.Show("当前已是多灯模式，无法进入编组。");
+				return;
+			}
+
+			int groupIndex;
+			try
+			{
+				groupIndex = int.Parse((sender as Button).Tag.ToString());
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("按钮的Tag无法转化为groupIndex:\n" + ex.Message);
+				return;
+			}
+
+			if (groupList == null || groupList.Count == 0)
+			{
+				MessageBox.Show("当前工程groupList为空，无法使用编组。");
+				return;
+			}
+			if (groupIndex >= groupList.Count)
+			{
+				MessageBox.Show("groupIndex大于groupList的大小，无法使用编组。");
+				return;
+			}
+			GroupAst group = groupList[groupIndex];
+			if (group.LightIndexList == null || group.LightIndexList.Count <= 1)
+			{
+				MessageBox.Show("选中编组的灯具数量小于2，无法使用编组。");
+				return;
+			}
+
+			if (!checkIndexAllInLightList(group.LightIndexList))
+			{
+				MessageBox.Show("编组内的部分灯具索引超过了当前工程的灯具数量，无法使用编组。");
+				return;
+			}
+			
+			if (!checkSameLightsAndSteps(group.LightIndexList))
+			{
+				MessageBox.Show("编组内的灯具并非同一类型或步数不一致，无法使用编组。");
+				return;
+			}
+
+			selectedIndices = group.LightIndexList;
+			selectLightIndices();
+
+			EnterMultiMode(group.CaptainIndex, false);
+
+		}
+
+		/// <summary>
+		/// 辅助方法：校验所有列表内索引，是否都在当前工程的灯具列表中
+		/// </summary>
+		/// <param name="lightIndexList"></param>
+		/// <returns>都在则返回true</returns>
+		protected bool checkIndexAllInLightList(IList<int> lightIndexList)
+		{
+			for (int i = 0; i < lightIndexList.Count; i++)
+			{
+				int lightIndex = lightIndexList[i];
+				if (lightIndex >= lightAstList.Count)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// 辅助方法: 确认选中灯具 ①是否同一种灯具 ②所有的选中灯具步数是否一致：都符合则返回true
+		/// </summary>
+		/// <returns>有个不相同的的项（名或步数），则返回false</returns>
+		protected bool checkSameLightsAndSteps(IList<int> lightIndexList)
+		{
+			bool result = true;
+			int firstIndex = lightIndexList[0];
+			string firstName = lightAstList[firstIndex].LightName + "：" + lightAstList[firstIndex].LightType;
+			int firstStepCount = getSelectedLightStepCounts(firstIndex);
+
+			for (int i = 1; i < lightIndexList.Count; i++) // 从第二个选中灯具开始比对
+			{
+				int tempIndex = lightIndexList[i];
+				string tempName = lightAstList[tempIndex].LightName + "：" + lightAstList[tempIndex].LightType;
+				int tempStepCount = getSelectedLightStepCounts(tempIndex);
+
+				if (!firstName.Equals(tempName) || firstStepCount != tempStepCount)
+				{
+					result = false;
+					break;
+				}
+			}
+			return result;
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《删除编组》
+		/// </summary>
+		/// <param name="sender"></param>
+		protected void groupDelButtonClick(object sender)
+		{
+			int groupIndex;
+			try
+			{
+				groupIndex = int.Parse((sender as Button).Tag.ToString());
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("按钮的Tag无法转化为groupIndex:\n" + ex.Message);
+				return;
+			}
+
+			if (DialogResult.Cancel == MessageBox.Show(
+				"确定要删除编组【" + groupList[groupIndex].GroupName + "】吗？",
+				"删除编组?",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Warning))
+			{
+				return;
+			}
+
+			groupList.RemoveAt(groupIndex);
+			refreshGroupPanels();
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《子属性》
+		/// </summary>
+		/// <param name="sender"></param>
+		protected void saButtonClick(object sender)
+		{
+			if (getCurrentStepWrapper() == null)
+			{
+				SetNotice("当前无选中步，不可点击子属性按钮");
+				return;
+			}
+
+			Button btn = (Button)sender;
+			string[] btnTagArr = btn.Tag.ToString().Split('*');
+			int tdIndex = int.Parse(btnTagArr[0]);
+			int tdValue = int.Parse(btnTagArr[1]);
+
+			getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;
+			if (isMultiMode)
+			{
+				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
+			}
+			RefreshStep();
+		}
+
 
 		#endregion
 

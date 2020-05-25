@@ -737,11 +737,7 @@ namespace LightController.MyForm
 			lightTypeLabel.Text = "灯具型号：" + la.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
 			lightRemarkLabel.Text = "灯具备注：" + la.Remark;	
-
-			// 旧版取图片的代码：主要是需要从硬盘读取，无法满足《打开导出工程》功能，故弃用。
-			//string imagePath = SavePath + @"\LightPic\" + lightAst.LightPic;
-			//FileInfo fi = new FileInfo(imagePath);
-			//currentLightPictureBox.Image = fi.Exists ? Image.FromFile(imagePath) : global::LightController.Properties.Resources.灯光图;
+		
 		}
 
 		/// <summary>
@@ -850,18 +846,28 @@ namespace LightController.MyForm
 			saFlowLayoutPanel.Controls.Clear();
 			saToolTip.RemoveAll();
 
-			LightAst la = lightAstList[selectedIndex];
-			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+			if (selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0)
 			{
-				addTdSaButtons(la, tdIndex);
+				MessageBox.Show("generateSAButtons()出错:\n[selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0]。");
+				return;
 			}
 
+			LightAst la = lightAstList[selectedIndex];
+			try
+			{
+				for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+				{
+					addTdSaButtons(la, tdIndex);
+				}
+			}
+			catch (Exception ex) {
+				MessageBox.Show("添加子属性按键出现异常:\n" +ex.Message );				
+			}		
+
 			// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
-			saFlowLayoutPanel.Enabled = getCurrentStep() != 0;
-			saFlowLayoutPanel.Refresh();
+			saFlowLayoutPanel.Enabled = getCurrentStep() != 0;	
 		}
 				
-
 		/// <summary>
 		///  事件：双击《灯具列表的灯具》，修改备注
 		/// </summary>
@@ -1319,7 +1325,7 @@ namespace LightController.MyForm
 				{
 					lightsSkinListView.Items[lightIndex].BackColor = Color.White;
 				}
-				enableSingleMode(true);
+				exitMultiMode(true);
 			}
 		}
 		
@@ -1508,25 +1514,26 @@ namespace LightController.MyForm
 					lightsSkinListView.Items[lightIndex].BackColor = Color.SkyBlue;
 				}
 			}
-			enableSingleMode(false);
+			exitMultiMode(false);
 		}
 
 		/// <summary>
 		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
 		/// </summary>
-		/// <param name="isSingleMode"></param>
-		protected override void enableSingleMode(bool isSingleMode)
+		/// <param name="exit"></param>
+		protected override void exitMultiMode(bool exit)
 		{
-			isMultiMode = !isSingleMode;
+			isMultiMode = !exit;
 
 			//MARK 只开单场景：15.2 《灯具列表》是否可用，由单灯模式决定
-			lightListSkinButton.Enabled = isSingleMode;
-			lightsSkinListView.Enabled = isSingleMode;
-			frameSkinComboBox.Enabled = isSingleMode;
-			modeSkinComboBox.Enabled = isSingleMode;
-			useFrameSkinButton.Enabled = isSingleMode;		
+			lightListSkinButton.Enabled = !isMultiMode;
+			lightsSkinListView.Enabled = !isMultiMode;
+			frameSkinComboBox.Enabled = !isMultiMode;
+			modeSkinComboBox.Enabled = !isMultiMode;
+			useFrameSkinButton.Enabled = !isMultiMode;		
+			groupFlowLayoutPanel.Enabled = !isMultiMode;
 
-			multiLightSkinButton.Text = isSingleMode ? "多灯模式" : "单灯模式";
+			multiLightSkinButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
 		}
 
 		/// <summary>
@@ -1574,7 +1581,8 @@ namespace LightController.MyForm
 			multiplexSkinButton.Enabled = currentStep > 0 && isSyncMode;
 
 			// 4.设定统一调整区是否可用
-			groupSkinButton.Enabled = totalStep != 0;
+			groupSkinButton.Enabled = lightAstList != null && lightsSkinListView.SelectedIndices.Count > 1; //只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
+			groupFlowLayoutPanel.Enabled = !isMultiMode;
 			initSkinButton.Enabled = totalStep != 0;
 			multiSkinButton.Enabled = totalStep != 0;			
 
@@ -1992,32 +2000,111 @@ namespace LightController.MyForm
 		{
 			multiButtonClick();
 		}
+		
+		/// <summary>
+		/// 事件：点击《groupInButtons(进入编组)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void groupInButton_Click(object sender, EventArgs e)
+		{
+			groupInButtonClick(sender);
+		}
+			
+		/// <summary>
+		/// 事件：点击《groupDelButtons(删除编组)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void groupDelButton_Click(object sender, EventArgs e)
+		{
+			groupDelButtonClick(sender);		
+		}
 
 		/// <summary>
-		/// 事件：点击《saButton》按钮组的任意按键
+		/// 事件：点击《saButton(子属性)》按钮组的任意按键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			if (getCurrentStepWrapper() == null)
+			saButtonClick(sender);
+		}
+
+		/// <summary>
+		/// 辅助方法：生成编组按钮组（先清空，再由groupList直接生成新的按钮组）
+		/// </summary>
+		protected override void refreshGroupPanels()
+		{
+			groupFlowLayoutPanel.Controls.Clear();
+			groupToolTip.RemoveAll();
+			if (groupList != null && groupList.Count > 0)
 			{
-				SetNotice("当前无选中步，不可点击子属性按钮");
-				return;
+				for (int groupIndex = 0; groupIndex < groupList.Count; groupIndex++)
+				{
+					addGroupPanel(groupIndex, groupList[groupIndex]);
+				}
+			}
+		}
+	
+		/// <summary>
+		///辅助方法：添加编组按钮（一个编组一个Panel，包含两个按钮：使用编组 和 删除编组）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addGroupPanel(int groupIndex, GroupAst ga)
+		{
+			Panel panel = new Panel();
+			SkinButton inButton = new SkinButton();
+			SkinButton delButton = new SkinButton();
+
+			panel.Controls.Add(inButton);
+			panel.Controls.Add(delButton);
+			panel.Location = new System.Drawing.Point(0, 0);
+			panel.Name = "groupPanel";
+			panel.Size = new System.Drawing.Size(118, 26);
+			panel.TabIndex = 56;
+			panel.Padding = new Padding(1);
+			panel.Margin = new Padding(1);
+
+			inButton.BackColor = System.Drawing.Color.Transparent;
+			inButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			inButton.BorderColor = System.Drawing.Color.Silver;
+			inButton.ForeColor = System.Drawing.Color.Black;
+			inButton.Size = new Size(105, 24);
+			inButton.Text = ga.GroupName;
+			inButton.Tag = groupIndex;
+			inButton.Click += new EventHandler(groupInButton_Click);
+
+			delButton.BackColor = System.Drawing.Color.Transparent;
+			delButton.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			delButton.BorderColor = System.Drawing.Color.Silver;
+			delButton.ForeColor = System.Drawing.Color.Black;
+			delButton.Text = ga.GroupName;
+			delButton.Location = new Point(106, 0);
+			delButton.Size = new Size(12, 24);
+			delButton.Text = "-";
+			delButton.Tag = groupIndex;
+			delButton.Click += new EventHandler(groupDelButton_Click);
+
+			groupFlowLayoutPanel.Controls.Add(panel);
+			groupToolTip.SetToolTip(inButton, ga.GroupName + "\n" + StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex));
+		}
+		
+		/// <summary>
+		/// 辅助方法：根据selectedIndices,选中lightsSkinListView中的灯具
+		/// </summary>
+		protected override void selectLightIndices()
+		{
+			foreach (ListViewItem item in lightsSkinListView.Items)
+			{
+				item.Selected = false;
+			}
+			foreach (int lightIndex in selectedIndices)
+			{
+				lightsSkinListView.Items[lightIndex].Selected = true;
 			}
 
-			Button btn = (Button)sender;
-			string[] btnTagArr = btn.Tag.ToString().Split('*');
-			int tdIndex = int.Parse(btnTagArr[0]);
-			int tdValue = int.Parse(btnTagArr[1]);
-
-			getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;
-			if (isMultiMode)
-			{
-				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
-			}
-
-			RefreshStep();
 		}
 
 		#endregion
@@ -2409,73 +2496,20 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			// showAllLightCurrentAndTotalStep();						
+			//音频模式下，疯狂选灯
+			for (int i = 0; i < 100; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					foreach (ListViewItem item in lightsSkinListView.Items)
+					{
+						item.Selected = false;
+					}
+					lightsSkinListView.Items[j].Selected = true;
 
-			//Console.WriteLine(TempMaterialAst);
-
-			//lightsSkinListView.Dock = DockStyle.Fill;
-
-			// lightsSkinListView.AutoArrange = !lightsSkinListView.AutoArrange;
-
-			//for (int i = 0; i < lightsSkinListView.Items.Count; i++)
-			//{
-			//	Console.WriteLine(i + " :: " + lightsSkinListView.Items[i].Text);
-			//}
-
-			// 测lambda表达式取相关数据
-			//dbValueList = getValueList();
-			//var tempValueList = dbValueList.Where(t => t.PK.LightIndex == 1);
-			////Console.WriteLine(tempValueList.GetType());
-			//int i = 0;
-			//foreach (var item in tempValueList)
-			//{
-			//	i++;
-			//	Console.WriteLine(i + " : " + item.GetType());
-			//}
-
-			// 10.24 测新的读取指定通道在某FM情况下的步数列表
-			//if (valueDAO != null) {
-			//	for (int lightID = 1; lightID < 512; lightID++)
-			//	{
-			//		IList<DB_Value> pkValueList = valueDAO.GetPKList(new DB_ValuePK() { LightID = lightID, Frame = frame, Mode = mode });
-			//		Console.WriteLine(lightID + " - " +pkValueList.Count);
-			//	}
-			//}
-
-			// 10.25 测某个灯具当前FM的LightStepWrapper
-			//LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			////LightStepWrapper lsWrapper = lightWrapperList[1].LightStepWrapperList[frame, mode];
-			//Console.WriteLine(lsWrapper);		
-
-			//MakeCurrentStepWrapperData();
-
-			//SocketTools.GetInstance().Start();
-
-			// 11.27 测getNotSelectedIndices
-			//foreach (int  item in getNotSelectedIndices())
-			//{
-			//	Console.Write(item + "、");
-			//}
-			//Console.WriteLine();	
-
-			//if (selectedIndex != -1) {
-			//	DB_ValuePK pk = new DB_ValuePK();
-			//	pk.Frame = frame;
-			//	pk.Mode = mode;
-			//	pk.LightID = lightAstList[selectedIndex].StartNum;
-			//	pk.LightIndex = lightAstList[selectedIndex].StartNum;
-
-			//	IList<TongdaoWrapper> tdList = GetFMTDList(pk);
-			//	foreach (TongdaoWrapper tongdao in tdList)
-			//	{
-			//		Console.WriteLine(tongdao.ScrollValue + " : " + tongdao.ChangeMode + " : " + tongdao.StepTime);
-			//	}
-			//}
-
-			//string a = "zwj";
-			//bool flag = false ;
-			// flag ?  "frh":"flh";
-
+					Thread.Sleep(10);
+				}
+			}
 		}
 
 

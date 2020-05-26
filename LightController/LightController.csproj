@@ -448,12 +448,13 @@
     <Content Include="安装说明.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="更新日志\v2.5.1.521.txt">
+    <Content Include="更新日志\v2.5.1.525.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="更新日志\v2.4.4.520.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="更新日志\v2.5.2.526.txt" />
     <EmbeddedResource Include="MyForm\LightEditor\LightEditorForm.resx">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
     </EmbeddedResource>

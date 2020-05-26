@@ -456,8 +456,7 @@ namespace LightController.MyForm
 		{
 			helpButtonClick();
 		}
-
-
+		
 		#endregion
 
 		#region 工具按钮组 - 工程相关
@@ -709,12 +708,15 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lightsSkinListView_SelectedIndexChanged(object sender, EventArgs e)
-		{			
+		{
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
-				selectedIndex = lightsSkinListView.SelectedIndices[0];				
-				generateLightData();
-				generateSAButtons();
+				selectedIndex = lightsSkinListView.SelectedIndices[0];
+				if (generateNow)
+				{					
+					generateLightData();
+					generateSAButtons();
+				}
 			}
 		}
 		
@@ -842,7 +844,7 @@ namespace LightController.MyForm
 		/// 辅助方法：通过选中的灯具，生成相应的saButtons
 		/// </summary>
 		private void generateSAButtons()
-		{
+		{		
 			saFlowLayoutPanel.Controls.Clear();
 			saToolTip.RemoveAll();
 
@@ -1320,12 +1322,21 @@ namespace LightController.MyForm
 			// 退出多灯模式
 			else
 			{
-				lightsAddrLabel.Text = "灯具地址：" + lightAstList[selectedIndex].LightAddr;
-				for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
+				foreach (ListViewItem item in lightsSkinListView.Items)
 				{
-					lightsSkinListView.Items[lightIndex].BackColor = Color.White;
+					item.BackColor = Color.White;
 				}
-				exitMultiMode(true);
+				RefreshMultiModeButtons(false);
+
+				try {
+					for ( int i = 0;i < lightsSkinListView.Items.Count; i++)
+					{
+						lightsSkinListView.Items[i].Selected = i == selectedIndex;
+					}				
+					lightsSkinListView.Select();
+				}catch(Exception ex) { 
+					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
+				}			
 			}
 		}
 		
@@ -1491,16 +1502,21 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：进入《多灯模式》
+		///  辅助方法：实现《多灯模式》
 		/// </summary>
-		/// <param name="groupSelectedIndex"></param>
-		public override void EnterMultiMode(int groupSelectedIndex, bool isCopyAll)
+		/// <param name="captainIndex"></param>
+		public override void EnterMultiMode(int captainIndex, bool isCopyAll)
 		{
 			// 基类中统一的处理
-			base.EnterMultiMode(groupSelectedIndex, isCopyAll);
+			base.EnterMultiMode(captainIndex, isCopyAll);
 
 			// 以下为单独针对本Form的方法：			
-			lightsAddrLabel.Text = "灯具地址列表：";
+			foreach (ListViewItem item in lightsSkinListView.Items)
+			{
+				item.BackColor = Color.White;
+			}
+
+			lightsAddrLabel.Text = "灯具地址列表：";			
 			foreach (int lightIndex in selectedIndices)
 			{
 				if (lightIndex == selectedIndex)
@@ -1514,24 +1530,24 @@ namespace LightController.MyForm
 					lightsSkinListView.Items[lightIndex].BackColor = Color.SkyBlue;
 				}
 			}
-			exitMultiMode(false);
+			RefreshMultiModeButtons(true);
 		}
 
 		/// <summary>
 		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
 		/// </summary>
 		/// <param name="exit"></param>
-		protected override void exitMultiMode(bool exit)
+		protected override void RefreshMultiModeButtons(bool isMultiMode)
 		{
-			isMultiMode = !exit;
-
+			this.isMultiMode = isMultiMode;
+		
 			//MARK 只开单场景：15.2 《灯具列表》是否可用，由单灯模式决定
 			lightListSkinButton.Enabled = !isMultiMode;
 			lightsSkinListView.Enabled = !isMultiMode;
 			frameSkinComboBox.Enabled = !isMultiMode;
 			modeSkinComboBox.Enabled = !isMultiMode;
-			useFrameSkinButton.Enabled = !isMultiMode;		
-			groupFlowLayoutPanel.Enabled = !isMultiMode;
+			useFrameSkinButton.Enabled = !isMultiMode;
+			groupFlowLayoutPanel.Enabled = lightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 
 			multiLightSkinButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
 		}
@@ -1582,7 +1598,7 @@ namespace LightController.MyForm
 
 			// 4.设定统一调整区是否可用
 			groupSkinButton.Enabled = lightAstList != null && lightsSkinListView.SelectedIndices.Count > 1; //只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
-			groupFlowLayoutPanel.Enabled = !isMultiMode;
+			groupFlowLayoutPanel.Enabled = lightAstList != null ; 
 			initSkinButton.Enabled = totalStep != 0;
 			multiSkinButton.Enabled = totalStep != 0;			
 
@@ -1592,7 +1608,7 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
 
-			// 6.子属性按钮组是否可用(及可见（当步数为空时，设为不可见）)			
+			// 6.子属性按钮组是否可用(及可见（当步数为空时，设为不可见）:因只有切换灯具，才会生成，故无需担心会多次生成按钮组)			
 			saFlowLayoutPanel.Visible = totalStep != 0;
 			saFlowLayoutPanel.Enabled = totalStep != 0;
 		}
@@ -2090,21 +2106,26 @@ namespace LightController.MyForm
 			groupFlowLayoutPanel.Controls.Add(panel);
 			groupToolTip.SetToolTip(inButton, ga.GroupName + "\n" + StringHelper.MakeIntListToString(ga.LightIndexList, 1, ga.CaptainIndex));
 		}
-		
+
 		/// <summary>
-		/// 辅助方法：根据selectedIndices,选中lightsSkinListView中的灯具
+		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具(在这个过程中，就不再生成相应的灯具描述和子属性按钮组了)
 		/// </summary>
-		protected override void selectLightIndices()
+		protected override void selectLights()
 		{
+			generateNow = false;
 			foreach (ListViewItem item in lightsSkinListView.Items)
 			{
 				item.Selected = false;
 			}
-			foreach (int lightIndex in selectedIndices)
+			for (int i = 0; i < selectedIndices.Count; i++)
 			{
+				if (i == selectedIndices.Count - 1)
+				{
+					generateNow = true;
+				}
+				int lightIndex = selectedIndices[i];
 				lightsSkinListView.Items[lightIndex].Selected = true;
 			}
-
 		}
 
 		#endregion
@@ -2357,7 +2378,6 @@ namespace LightController.MyForm
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 			SetNotice("已结束预览。");
 		}				
-
 		
 		/// <summary>
 		///  辅助方法：《连接设备按钮组》是否显示
@@ -2496,20 +2516,24 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			//音频模式下，疯狂选灯
-			for (int i = 0; i < 100; i++)
-			{
-				for (int j = 0; j < 3; j++)
-				{
-					foreach (ListViewItem item in lightsSkinListView.Items)
-					{
-						item.Selected = false;
-					}
-					lightsSkinListView.Items[j].Selected = true;
+			////5.25 音频模式下，疯狂选灯
+			//for (int i = 0; i < 100; i++)
+			//{
+			//	for (int j = 0; j < 3; j++)
+			//	{
+			//		foreach (ListViewItem item in lightsSkinListView.Items)
+			//		{
+			//			item.Selected = false;
+			//		}
+			//		lightsSkinListView.Items[j].Selected = true;
 
-					Thread.Sleep(10);
-				}
-			}
+			//		Thread.Sleep(10);
+			//	}
+			//}
+
+			// 5.26 手动选灯
+			//lightsSkinListView.Items[2].Selected = true;
+			//lightsSkinListView.Select();
 		}
 
 

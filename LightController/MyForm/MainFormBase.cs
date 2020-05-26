@@ -123,8 +123,8 @@ namespace LightController.MyForm
 		protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
-		protected bool isPreviewing = false; // 是否预览状态中
-		
+		protected bool isPreviewing = false; // 是否预览状态中		
+		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
@@ -140,10 +140,10 @@ namespace LightController.MyForm
 		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
 		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
 		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 只开单场景：02.0 改变当前Frame
-		protected virtual void exitMultiMode(bool exit) { }  //退出多灯模式或单灯模式后的相关操作
+		protected virtual void RefreshMultiModeButtons(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（设置各个按键的可用性）
 		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
-		protected virtual void selectLightIndices() { } // 根据selectedIndices,选择不同的灯具；需要子类来实现
+		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons
 
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
@@ -1262,23 +1262,14 @@ namespace LightController.MyForm
 		///		1.取出选中的组长，
 		///		2.使用组长数据，替代其他灯具（在该F/M）的所有步数集合。
 		/// </summary>
-		/// <param name="groupSelectedIndex"></param>
-		public virtual void EnterMultiMode(int groupSelectedIndex, bool isCopyAll)
+		/// <param name="captainIndex"></param>
+		public virtual void EnterMultiMode(int captainIndex, bool isCopyAll)
 		{
 			this.isCopyAll = isCopyAll;
-			doMultiMode(groupSelectedIndex);
-			RefreshStep();
-		}
-
-		/// <summary>
-		/// 辅助方法：多灯模式中，利用此方法①设好组长，将selectedIndex设成组长；②若isCopyAll，则将组长所有（当前F/M）数据，赋给所有的组员。
-		/// </summary>
-		/// <param name="groupSelectedIndex"></param>
-		protected void doMultiMode(int groupSelectedIndex) {
-
-			// groupSelectedIndex是几个选中的索引中的顺序;用下列语句取出组长，并设为Form中的selectedIndex
-			selectedIndex = selectedIndices[groupSelectedIndex];
-			if (isCopyAll) {
+			// captainIndex 是组长在selectedIndices中的序号，可用之取出组长在[所有灯具]列表中的位置
+			selectedIndex = selectedIndices[captainIndex];
+			if (isCopyAll)
+			{
 				LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
 				foreach (int index in selectedIndices)
 				{
@@ -1287,6 +1278,7 @@ namespace LightController.MyForm
 					lightWrapperList[index].LightStepWrapperList[currentFrame, currentMode] = LightStepWrapper.GenerateLightStepWrapper(mainLSWrapper, currentStepTemplate, currentMode);
 				}
 			}
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -1643,7 +1635,7 @@ namespace LightController.MyForm
 			Text = SoftwareName;
 
 			EnterSyncMode(false);  //退出《同步模式》
-			exitMultiMode(true); // 退出《多灯模式》
+			RefreshMultiModeButtons(false); // 刷新为单灯状态的按钮可用性
 			autoEnableSLArrange();  // 《保存|读取灯具位置》不可用
 			enableProjectRelative(false);  // clearAllData()内：工程相关的所有按钮，设为不可用
 			autosetEnabledPlayAndRefreshPic();  //是否可以显示 playPanel及 刷新图片
@@ -3107,11 +3099,10 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		protected void groupInButtonClick(object sender)
 		{
-
 			if (isMultiMode)
-			{
-				MessageBox.Show("当前已是多灯模式，无法进入编组。");
-				return;
+			{			
+				// 若已是编组模式（多灯），则先退出多灯				
+				RefreshMultiModeButtons(false); 
 			}
 
 			int groupIndex;
@@ -3136,7 +3127,7 @@ namespace LightController.MyForm
 				return;
 			}
 			GroupAst group = groupList[groupIndex];
-			if (group.LightIndexList == null || group.LightIndexList.Count <= 1)
+			if (group.LightIndexList == null || group.LightIndexList.Count < 2)
 			{
 				MessageBox.Show("选中编组的灯具数量小于2，无法使用编组。");
 				return;
@@ -3153,12 +3144,11 @@ namespace LightController.MyForm
 				MessageBox.Show("编组内的灯具并非同一类型或步数不一致，无法使用编组。");
 				return;
 			}
-
+					
 			selectedIndices = group.LightIndexList;
-			selectLightIndices();
+			selectLights();
 
 			EnterMultiMode(group.CaptainIndex, false);
-
 		}
 
 		/// <summary>

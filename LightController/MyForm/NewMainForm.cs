@@ -709,8 +709,10 @@ namespace LightController.MyForm
 			if (lightsListView.SelectedIndices.Count > 0)
 			{
 				selectedIndex = lightsListView.SelectedIndices[0];
-				generateLightData();
-				generateSAButtons();
+				if ( generateNow) {
+					generateLightData();
+					generateSAButtons();
+				}												
 			}
 		}
 
@@ -1347,13 +1349,25 @@ namespace LightController.MyForm
 			}
 			// 退出多灯模式
 			else
-			{
-				lightsAddrLabel.Text = "灯具地址：" + lightAstList[selectedIndex].LightAddr;
-				for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
+			{				
+				foreach (ListViewItem item in lightsListView.Items)
 				{
-					lightsListView.Items[lightIndex].BackColor = Color.White;
+					item.BackColor = Color.White;					
 				}
-				exitMultiMode(true);
+				RefreshMultiModeButtons(false);
+
+				try
+				{
+					for (int i = 0; i < lightsListView.Items.Count; i++)
+					{
+						lightsListView.Items[i].Selected = i == selectedIndex;
+					}
+					lightsListView.Select();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
+				}
 			}
 		}
 
@@ -1521,37 +1535,39 @@ namespace LightController.MyForm
 		/// <summary>
 		///  9.16 辅助方法：进入《多灯模式》
 		/// </summary>
-		/// <param name="groupSelectedIndex"></param>
-		public override void EnterMultiMode(int groupSelectedIndex, bool isCopyAll)
+		/// <param name="captainIndex"></param>
+		public override void EnterMultiMode(int captainIndex, bool isCopyAll)
 		{
 			// 基类中统一的处理
-			base.EnterMultiMode(groupSelectedIndex, isCopyAll);
+			base.EnterMultiMode(captainIndex, isCopyAll);
 
 			// 以下为单独针对本Form的方法：			
+			foreach (ListViewItem item in lightsListView.Items)
+			{
+				item.BackColor = Color.White;
+			}
 			lightsAddrLabel.Text = "灯具地址列表：";
 			foreach (int lightIndex in selectedIndices)
 			{
 				if (lightIndex == selectedIndex)
 				{
 					lightsAddrLabel.Text += "(" + lightAstList[lightIndex].LightAddr + ") ";
-					lightsListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
 				}
 				else
 				{
 					lightsAddrLabel.Text += lightAstList[lightIndex].LightAddr + " ";
-					lightsListView.Items[lightIndex].BackColor = Color.SkyBlue;
 				}
 			}
-			exitMultiMode(false);
+			RefreshMultiModeButtons(true);
 		}
 
 		/// <summary>
 		/// 辅助方法：退出多灯模式或单灯模式后的相关操作
 		/// </summary>
 		/// <param name="exit"></param>
-		protected override void exitMultiMode(bool exit)
+		protected override void RefreshMultiModeButtons(bool isMultiMode)
 		{
-			isMultiMode = !exit;
+			this.isMultiMode = isMultiMode;		
 
 			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
 			lightListToolStripMenuItem.Enabled = !isMultiMode;
@@ -1559,7 +1575,7 @@ namespace LightController.MyForm
 			frameComboBox.Enabled = !isMultiMode;
 			modeComboBox.Enabled = !isMultiMode;
 			useFrameButton.Enabled = !isMultiMode;
-			groupFlowLayoutPanel.Enabled = !isMultiMode;
+			groupFlowLayoutPanel.Enabled = lightAstList != null ; // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 
 			multiLightButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
 		}
@@ -1607,7 +1623,7 @@ namespace LightController.MyForm
 
 			// 4.设定统一调整区是否可用						
 			groupButton.Enabled = lightAstList != null && lightsListView.SelectedIndices.Count > 1; // 只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
-			groupFlowLayoutPanel.Enabled = !isMultiMode;
+			groupFlowLayoutPanel.Enabled = lightAstList != null ;
 			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
 
@@ -2047,20 +2063,24 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具
+		/// 辅助方法：根据selectedIndices，选中lightsListView中的灯具(在这个过程中，就不再生成相应的灯具描述和子属性按钮组了)
 		/// </summary>
-		protected override void selectLightIndices()
+		protected override void selectLights()
 		{
+			generateNow = false;
 			foreach (ListViewItem item in lightsListView.Items)
 			{
 				item.Selected = false;
 			}
-			foreach (int lightIndex in selectedIndices)
-			{
+			for (int i = 0; i < selectedIndices.Count; i++) {
+				if (i == selectedIndices.Count - 1) {
+					generateNow = true;
+				}
+				int lightIndex = selectedIndices[i];
 				lightsListView.Items[lightIndex].Selected = true;
 			}
 		}
-			
+
 		#region 弃用的快捷设置按钮组
 
 		/// <summary>

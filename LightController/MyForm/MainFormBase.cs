@@ -3099,12 +3099,6 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		protected void groupInButtonClick(object sender)
 		{
-			if (isMultiMode)
-			{			
-				// 若已是编组模式（多灯），则先退出多灯				
-				RefreshMultiModeButtons(false); 
-			}
-
 			int groupIndex;
 			try
 			{
@@ -3143,8 +3137,8 @@ namespace LightController.MyForm
 			{
 				MessageBox.Show("编组内的灯具并非同一类型或步数不一致，无法使用编组。");
 				return;
-			}
-					
+			}	
+
 			selectedIndices = group.LightIndexList;
 			selectLights();
 

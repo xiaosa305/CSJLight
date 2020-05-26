@@ -1669,7 +1669,7 @@ namespace OtherTools
 		/// </summary>
 		public void AsynchronousCCStopError(string msg)
 		{
-			Invoke((EventHandler)delegate
+			BeginInvoke((EventHandler)delegate
 			{
 				MessageBox.Show(msg);
 				ccToolStripStatusLabel2.Text = "关闭中控解码失败";

@@ -43,7 +43,18 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  点击《打开》：打开硬件配置文件
+		///  事件：关闭窗体
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HardwareSetChooseForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
+
+		/// <summary>
+		///  事件：点击《打开》：打开硬件配置文件
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -51,7 +62,16 @@ namespace LightController.MyForm
 		{
 			openFile();
 		}
-
+		
+		/// <summary>
+		/// 事件：双击treeView1的选项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void treeView1_DoubleClick(object sender, EventArgs e)
+		{
+			openFile();
+		}
 
 		/// <summary>
 		///  重新选中节点后，设ifJusetDelete值为false
@@ -62,10 +82,9 @@ namespace LightController.MyForm
 		{
 			this.isJustDelete = false;
 		}
-
-
+		
 		/// <summary>
-		///  点击《删除》按钮
+		/// 事件：点击《删除》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -110,16 +129,17 @@ namespace LightController.MyForm
 			this.Dispose();
 			mainForm.Activate();
 		}
-
-		private void HardwareSetChooseForm_FormClosed(object sender, FormClosedEventArgs e)
+					
+		/// <summary>
+		/// 事件：点击《新建》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void newButton_Click(object sender, EventArgs e)
 		{
 			this.Dispose();
-			mainForm.Activate();
-		}
-
-		private void treeView1_DoubleClick(object sender, EventArgs e)
-		{
-			openFile();
+			this.mainForm.Activate();
+			new HardwareSetForm(mainForm, null, null).ShowDialog();
 		}
 
 		/// <summary>
@@ -138,10 +158,9 @@ namespace LightController.MyForm
 				string hName = treeView1.SelectedNode.Text;
 				if (!String.IsNullOrEmpty(hName))
 				{
-					this.Dispose();
 					// 打开相关的配置文件，再加载到HardwareSetForm中
 					string iniPath = savePath + @"\HardwareLibrary\" + hName + @"\HardwareSet.ini";
-					this.Dispose();
+					Dispose();
 					mainForm.Activate();
 					HardwareSetForm hsForm = new HardwareSetForm(mainForm, iniPath, hName);
 					hsForm.ShowDialog();
@@ -153,12 +172,6 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
-		private void newButton_Click(object sender, EventArgs e)
-		{
-			this.Dispose();
-			this.mainForm.Activate();
-			new HardwareSetForm(mainForm, null, null).ShowDialog();			
-		}
+			
 	}
 }

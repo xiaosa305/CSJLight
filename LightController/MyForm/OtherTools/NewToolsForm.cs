@@ -1295,7 +1295,7 @@ namespace OtherTools
 		//事件：点击《刷新串口|网络》
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
-			refreshDeviceComboBox();  // switchButton_Click
+			refreshDeviceComboBox();  // refreshButton_Click
 		}
 
 		/// <summary>

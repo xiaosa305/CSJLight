@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HardwareSetForm));
 			this.commonGroupBox = new System.Windows.Forms.GroupBox();
 			this.playFlagComboBox = new System.Windows.Forms.ComboBox();
 			this.addrNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -75,30 +74,15 @@
 			this.domainNameTextBox = new System.Windows.Forms.TextBox();
 			this.label15 = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.autoSaveCheckBox = new System.Windows.Forms.CheckBox();
-			this.cancelButton = new System.Windows.Forms.Button();
-			this.saveButton = new System.Windows.Forms.Button();
-			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
-			this.commonTab = new CCWin.SkinControl.SkinTabPage();
 			this.switchButton = new System.Windows.Forms.Button();
 			this.downloadButton = new System.Windows.Forms.Button();
-			this.deviceConnectButton = new System.Windows.Forms.Button();
-			this.readButton = new System.Windows.Forms.Button();
-			this.refreshButton = new System.Windows.Forms.Button();
+			this.autoSaveCheckBox = new System.Windows.Forms.CheckBox();
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
-			this.networkTab = new CCWin.SkinControl.SkinTabPage();
-			this.networkDownloadButton = new System.Windows.Forms.Button();
-			this.networkReadButton = new System.Windows.Forms.Button();
-			this.networkSearchButton = new System.Windows.Forms.Button();
-			this.getLocalIPsButton = new System.Windows.Forms.Button();
-			this.localIPsComboBox = new System.Windows.Forms.ComboBox();
-			this.ipsComboBox = new System.Windows.Forms.ComboBox();
-			this.comTab = new CCWin.SkinControl.SkinTabPage();
-			this.comDownloadButton = new System.Windows.Forms.Button();
-			this.comReadButton = new System.Windows.Forms.Button();
-			this.comConnectButton = new System.Windows.Forms.Button();
-			this.comSearchButton = new System.Windows.Forms.Button();
-			this.comComboBox = new System.Windows.Forms.ComboBox();
+			this.cancelButton = new System.Windows.Forms.Button();
+			this.deviceConnectButton = new System.Windows.Forms.Button();
+			this.saveButton = new System.Windows.Forms.Button();
+			this.refreshButton = new System.Windows.Forms.Button();
+			this.readButton = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.showPanel = new System.Windows.Forms.Panel();
@@ -110,10 +94,6 @@
 			this.networkGroupBox.SuspendLayout();
 			this.otherGroupBox.SuspendLayout();
 			this.panel1.SuspendLayout();
-			this.skinTabControl.SuspendLayout();
-			this.commonTab.SuspendLayout();
-			this.networkTab.SuspendLayout();
-			this.comTab.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.showPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -146,10 +126,10 @@
 			this.commonGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.commonGroupBox.Name = "commonGroupBox";
 			this.commonGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.commonGroupBox.Size = new System.Drawing.Size(474, 248);
+			this.commonGroupBox.Size = new System.Drawing.Size(483, 248);
 			this.commonGroupBox.TabIndex = 0;
 			this.commonGroupBox.TabStop = false;
-			this.commonGroupBox.Text = "通用设置";
+			this.commonGroupBox.Text = "通用配置";
 			// 
 			// playFlagComboBox
 			// 
@@ -410,10 +390,10 @@
 			this.networkGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.networkGroupBox.Name = "networkGroupBox";
 			this.networkGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.networkGroupBox.Size = new System.Drawing.Size(474, 192);
+			this.networkGroupBox.Size = new System.Drawing.Size(483, 192);
 			this.networkGroupBox.TabIndex = 0;
 			this.networkGroupBox.TabStop = false;
-			this.networkGroupBox.Text = "网络设置";
+			this.networkGroupBox.Text = "网络配置";
 			// 
 			// macCheckBox
 			// 
@@ -570,10 +550,10 @@
 			this.otherGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.otherGroupBox.Name = "otherGroupBox";
 			this.otherGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.otherGroupBox.Size = new System.Drawing.Size(474, 122);
+			this.otherGroupBox.Size = new System.Drawing.Size(483, 122);
 			this.otherGroupBox.TabIndex = 0;
 			this.otherGroupBox.TabStop = false;
-			this.otherGroupBox.Text = "其他设置";
+			this.otherGroupBox.Text = "其他配置";
 			// 
 			// remotePortTextBox
 			// 
@@ -657,97 +637,26 @@
 			// 
 			// panel1
 			// 
-			this.panel1.BackColor = System.Drawing.Color.LightGray;
+			this.panel1.BackColor = System.Drawing.SystemColors.InactiveBorder;
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.switchButton);
+			this.panel1.Controls.Add(this.downloadButton);
 			this.panel1.Controls.Add(this.autoSaveCheckBox);
+			this.panel1.Controls.Add(this.deviceComboBox);
 			this.panel1.Controls.Add(this.cancelButton);
+			this.panel1.Controls.Add(this.deviceConnectButton);
 			this.panel1.Controls.Add(this.saveButton);
-			this.panel1.Controls.Add(this.skinTabControl);
+			this.panel1.Controls.Add(this.refreshButton);
+			this.panel1.Controls.Add(this.readButton);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(474, 0);
+			this.panel1.Location = new System.Drawing.Point(483, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(226, 566);
+			this.panel1.Size = new System.Drawing.Size(226, 562);
 			this.panel1.TabIndex = 3;
-			// 
-			// autoSaveCheckBox
-			// 
-			this.autoSaveCheckBox.AutoSize = true;
-			this.autoSaveCheckBox.Checked = true;
-			this.autoSaveCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.autoSaveCheckBox.Location = new System.Drawing.Point(39, 460);
-			this.autoSaveCheckBox.Name = "autoSaveCheckBox";
-			this.autoSaveCheckBox.Size = new System.Drawing.Size(108, 16);
-			this.autoSaveCheckBox.TabIndex = 5;
-			this.autoSaveCheckBox.Text = "下载前自动保存";
-			this.autoSaveCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// cancelButton
-			// 
-			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(127, 492);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Size = new System.Drawing.Size(70, 33);
-			this.cancelButton.TabIndex = 4;
-			this.cancelButton.Text = "取消";
-			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
-			// saveButton
-			// 
-			this.saveButton.Location = new System.Drawing.Point(34, 492);
-			this.saveButton.Name = "saveButton";
-			this.saveButton.Size = new System.Drawing.Size(70, 33);
-			this.saveButton.TabIndex = 4;
-			this.saveButton.Text = "保存配置";
-			this.saveButton.UseVisualStyleBackColor = true;
-			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-			// 
-			// skinTabControl
-			// 
-			this.skinTabControl.AnimatorType = CCWin.SkinControl.AnimationType.HorizSlide;
-			this.skinTabControl.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
-			this.skinTabControl.Controls.Add(this.commonTab);
-			this.skinTabControl.Controls.Add(this.networkTab);
-			this.skinTabControl.Controls.Add(this.comTab);
-			this.skinTabControl.Dock = System.Windows.Forms.DockStyle.Top;
-			this.skinTabControl.HeadBack = null;
-			this.skinTabControl.ImgTxtOffset = new System.Drawing.Point(0, 0);
-			this.skinTabControl.ItemSize = new System.Drawing.Size(70, 36);
-			this.skinTabControl.Location = new System.Drawing.Point(0, 0);
-			this.skinTabControl.Name = "skinTabControl";
-			this.skinTabControl.PageArrowDown = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowDown")));
-			this.skinTabControl.PageArrowHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowHover")));
-			this.skinTabControl.PageCloseHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageCloseHover")));
-			this.skinTabControl.PageCloseNormal = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageCloseNormal")));
-			this.skinTabControl.PageDown = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageDown")));
-			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
-			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
-			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 0;
-			this.skinTabControl.Size = new System.Drawing.Size(224, 409);
-			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-			this.skinTabControl.TabIndex = 3;
-			// 
-			// commonTab
-			// 
-			this.commonTab.BackColor = System.Drawing.Color.White;
-			this.commonTab.Controls.Add(this.switchButton);
-			this.commonTab.Controls.Add(this.downloadButton);
-			this.commonTab.Controls.Add(this.deviceConnectButton);
-			this.commonTab.Controls.Add(this.readButton);
-			this.commonTab.Controls.Add(this.refreshButton);
-			this.commonTab.Controls.Add(this.deviceComboBox);
-			this.commonTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.commonTab.Location = new System.Drawing.Point(0, 36);
-			this.commonTab.Name = "commonTab";
-			this.commonTab.Size = new System.Drawing.Size(224, 373);
-			this.commonTab.TabIndex = 2;
-			this.commonTab.TabItemImage = null;
-			this.commonTab.Text = "commonTab";
 			// 
 			// switchButton
 			// 
-			this.switchButton.Location = new System.Drawing.Point(15, 43);
+			this.switchButton.Location = new System.Drawing.Point(15, 39);
 			this.switchButton.Margin = new System.Windows.Forms.Padding(2);
 			this.switchButton.Name = "switchButton";
 			this.switchButton.Size = new System.Drawing.Size(199, 36);
@@ -759,19 +668,54 @@
 			// downloadButton
 			// 
 			this.downloadButton.Enabled = false;
-			this.downloadButton.Location = new System.Drawing.Point(123, 228);
+			this.downloadButton.Location = new System.Drawing.Point(121, 222);
 			this.downloadButton.Margin = new System.Windows.Forms.Padding(2);
 			this.downloadButton.Name = "downloadButton";
 			this.downloadButton.Size = new System.Drawing.Size(91, 36);
 			this.downloadButton.TabIndex = 26;
-			this.downloadButton.Text = "下载设置";
+			this.downloadButton.Text = "下载配置";
 			this.downloadButton.UseVisualStyleBackColor = true;
 			this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
+			// 
+			// autoSaveCheckBox
+			// 
+			this.autoSaveCheckBox.AutoSize = true;
+			this.autoSaveCheckBox.Checked = true;
+			this.autoSaveCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.autoSaveCheckBox.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.autoSaveCheckBox.Location = new System.Drawing.Point(15, 458);
+			this.autoSaveCheckBox.Name = "autoSaveCheckBox";
+			this.autoSaveCheckBox.Size = new System.Drawing.Size(115, 16);
+			this.autoSaveCheckBox.TabIndex = 5;
+			this.autoSaveCheckBox.Text = "下载前自动保存";
+			this.autoSaveCheckBox.UseVisualStyleBackColor = true;
+			// 
+			// deviceComboBox
+			// 
+			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.deviceComboBox.Enabled = false;
+			this.deviceComboBox.FormattingEnabled = true;
+			this.deviceComboBox.Location = new System.Drawing.Point(15, 106);
+			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceComboBox.Name = "deviceComboBox";
+			this.deviceComboBox.Size = new System.Drawing.Size(199, 20);
+			this.deviceComboBox.TabIndex = 25;
+			// 
+			// cancelButton
+			// 
+			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelButton.Location = new System.Drawing.Point(121, 492);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Size = new System.Drawing.Size(91, 36);
+			this.cancelButton.TabIndex = 4;
+			this.cancelButton.Text = "取消";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// deviceConnectButton
 			// 
 			this.deviceConnectButton.Enabled = false;
-			this.deviceConnectButton.Location = new System.Drawing.Point(121, 161);
+			this.deviceConnectButton.Location = new System.Drawing.Point(121, 157);
 			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
 			this.deviceConnectButton.Name = "deviceConnectButton";
 			this.deviceConnectButton.Size = new System.Drawing.Size(93, 36);
@@ -780,21 +724,19 @@
 			this.deviceConnectButton.UseVisualStyleBackColor = true;
 			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
 			// 
-			// readButton
+			// saveButton
 			// 
-			this.readButton.Enabled = false;
-			this.readButton.Location = new System.Drawing.Point(15, 229);
-			this.readButton.Margin = new System.Windows.Forms.Padding(2);
-			this.readButton.Name = "readButton";
-			this.readButton.Size = new System.Drawing.Size(91, 36);
-			this.readButton.TabIndex = 27;
-			this.readButton.Text = "回读设置";
-			this.readButton.UseVisualStyleBackColor = true;
-			this.readButton.Click += new System.EventHandler(this.readButton_Click);
+			this.saveButton.Location = new System.Drawing.Point(15, 492);
+			this.saveButton.Name = "saveButton";
+			this.saveButton.Size = new System.Drawing.Size(91, 36);
+			this.saveButton.TabIndex = 4;
+			this.saveButton.Text = "保存配置";
+			this.saveButton.UseVisualStyleBackColor = true;
+			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
 			// refreshButton
 			// 
-			this.refreshButton.Location = new System.Drawing.Point(15, 161);
+			this.refreshButton.Location = new System.Drawing.Point(15, 157);
 			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
 			this.refreshButton.Name = "refreshButton";
 			this.refreshButton.Size = new System.Drawing.Size(89, 36);
@@ -803,177 +745,33 @@
 			this.refreshButton.UseVisualStyleBackColor = true;
 			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
-			// deviceComboBox
+			// readButton
 			// 
-			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.deviceComboBox.Enabled = false;
-			this.deviceComboBox.FormattingEnabled = true;
-			this.deviceComboBox.Location = new System.Drawing.Point(15, 110);
-			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.deviceComboBox.Name = "deviceComboBox";
-			this.deviceComboBox.Size = new System.Drawing.Size(199, 20);
-			this.deviceComboBox.TabIndex = 25;
-			// 
-			// networkTab
-			// 
-			this.networkTab.BackColor = System.Drawing.SystemColors.Control;
-			this.networkTab.Controls.Add(this.networkDownloadButton);
-			this.networkTab.Controls.Add(this.networkReadButton);
-			this.networkTab.Controls.Add(this.networkSearchButton);
-			this.networkTab.Controls.Add(this.getLocalIPsButton);
-			this.networkTab.Controls.Add(this.localIPsComboBox);
-			this.networkTab.Controls.Add(this.ipsComboBox);
-			this.networkTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.networkTab.Location = new System.Drawing.Point(0, 36);
-			this.networkTab.Name = "networkTab";
-			this.networkTab.Size = new System.Drawing.Size(224, 373);
-			this.networkTab.TabIndex = 0;
-			this.networkTab.TabItemImage = null;
-			this.networkTab.Text = "网络连接";
-			// 
-			// networkDownloadButton
-			// 
-			this.networkDownloadButton.Enabled = false;
-			this.networkDownloadButton.Location = new System.Drawing.Point(128, 271);
-			this.networkDownloadButton.Name = "networkDownloadButton";
-			this.networkDownloadButton.Size = new System.Drawing.Size(70, 33);
-			this.networkDownloadButton.TabIndex = 7;
-			this.networkDownloadButton.Text = "网络下载";
-			this.networkDownloadButton.UseVisualStyleBackColor = true;
-			this.networkDownloadButton.Click += new System.EventHandler(this.networkDownloadButton_Click);
-			// 
-			// networkReadButton
-			// 
-			this.networkReadButton.Enabled = false;
-			this.networkReadButton.Location = new System.Drawing.Point(35, 271);
-			this.networkReadButton.Name = "networkReadButton";
-			this.networkReadButton.Size = new System.Drawing.Size(70, 33);
-			this.networkReadButton.TabIndex = 7;
-			this.networkReadButton.Text = "网络回读";
-			this.networkReadButton.UseVisualStyleBackColor = true;
-			this.networkReadButton.Click += new System.EventHandler(this.networkReadButton_Click);
-			// 
-			// networkSearchButton
-			// 
-			this.networkSearchButton.Enabled = false;
-			this.networkSearchButton.Location = new System.Drawing.Point(35, 154);
-			this.networkSearchButton.Name = "networkSearchButton";
-			this.networkSearchButton.Size = new System.Drawing.Size(164, 33);
-			this.networkSearchButton.TabIndex = 6;
-			this.networkSearchButton.Text = "搜索网络设备";
-			this.networkSearchButton.UseVisualStyleBackColor = true;
-			this.networkSearchButton.Click += new System.EventHandler(this.networkSearchButton_Click);
-			// 
-			// getLocalIPsButton
-			// 
-			this.getLocalIPsButton.Location = new System.Drawing.Point(34, 41);
-			this.getLocalIPsButton.Name = "getLocalIPsButton";
-			this.getLocalIPsButton.Size = new System.Drawing.Size(164, 33);
-			this.getLocalIPsButton.TabIndex = 5;
-			this.getLocalIPsButton.Text = "获取本地IP列表";
-			this.getLocalIPsButton.UseVisualStyleBackColor = true;
-			this.getLocalIPsButton.Click += new System.EventHandler(this.getLocalIPsButton_Click);
-			// 
-			// localIPsComboBox
-			// 
-			this.localIPsComboBox.FormattingEnabled = true;
-			this.localIPsComboBox.Location = new System.Drawing.Point(34, 104);
-			this.localIPsComboBox.Name = "localIPsComboBox";
-			this.localIPsComboBox.Size = new System.Drawing.Size(164, 20);
-			this.localIPsComboBox.TabIndex = 4;
-			this.localIPsComboBox.SelectedIndexChanged += new System.EventHandler(this.localIPsComboBox_SelectedIndexChanged);
-			// 
-			// ipsComboBox
-			// 
-			this.ipsComboBox.Enabled = false;
-			this.ipsComboBox.FormattingEnabled = true;
-			this.ipsComboBox.Location = new System.Drawing.Point(34, 217);
-			this.ipsComboBox.Name = "ipsComboBox";
-			this.ipsComboBox.Size = new System.Drawing.Size(165, 20);
-			this.ipsComboBox.TabIndex = 4;
-			this.ipsComboBox.SelectedIndexChanged += new System.EventHandler(this.ipsComboBox_SelectedIndexChanged);
-			// 
-			// comTab
-			// 
-			this.comTab.BackColor = System.Drawing.SystemColors.Window;
-			this.comTab.Controls.Add(this.comDownloadButton);
-			this.comTab.Controls.Add(this.comReadButton);
-			this.comTab.Controls.Add(this.comConnectButton);
-			this.comTab.Controls.Add(this.comSearchButton);
-			this.comTab.Controls.Add(this.comComboBox);
-			this.comTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.comTab.Location = new System.Drawing.Point(0, 36);
-			this.comTab.Name = "comTab";
-			this.comTab.Size = new System.Drawing.Size(224, 373);
-			this.comTab.TabIndex = 1;
-			this.comTab.TabItemImage = null;
-			this.comTab.Text = "串口连接";
-			// 
-			// comDownloadButton
-			// 
-			this.comDownloadButton.Enabled = false;
-			this.comDownloadButton.Location = new System.Drawing.Point(129, 218);
-			this.comDownloadButton.Name = "comDownloadButton";
-			this.comDownloadButton.Size = new System.Drawing.Size(70, 33);
-			this.comDownloadButton.TabIndex = 12;
-			this.comDownloadButton.Text = "串口下载";
-			this.comDownloadButton.UseVisualStyleBackColor = true;
-			this.comDownloadButton.Click += new System.EventHandler(this.comDownloadSkinButton_Click);
-			// 
-			// comReadButton
-			// 
-			this.comReadButton.Enabled = false;
-			this.comReadButton.Location = new System.Drawing.Point(35, 218);
-			this.comReadButton.Name = "comReadButton";
-			this.comReadButton.Size = new System.Drawing.Size(70, 33);
-			this.comReadButton.TabIndex = 12;
-			this.comReadButton.Text = "串口回读";
-			this.comReadButton.UseVisualStyleBackColor = true;
-			this.comReadButton.Click += new System.EventHandler(this.comReadButton_Click);
-			// 
-			// comConnectButton
-			// 
-			this.comConnectButton.Enabled = false;
-			this.comConnectButton.Location = new System.Drawing.Point(35, 155);
-			this.comConnectButton.Name = "comConnectButton";
-			this.comConnectButton.Size = new System.Drawing.Size(164, 33);
-			this.comConnectButton.TabIndex = 11;
-			this.comConnectButton.Text = "打开串口连接";
-			this.comConnectButton.UseVisualStyleBackColor = true;
-			this.comConnectButton.Click += new System.EventHandler(this.comConnectSkinButton_Click);
-			// 
-			// comSearchButton
-			// 
-			this.comSearchButton.Location = new System.Drawing.Point(35, 42);
-			this.comSearchButton.Name = "comSearchButton";
-			this.comSearchButton.Size = new System.Drawing.Size(164, 33);
-			this.comSearchButton.TabIndex = 11;
-			this.comSearchButton.Text = "获取串口连接列表";
-			this.comSearchButton.UseVisualStyleBackColor = true;
-			this.comSearchButton.Click += new System.EventHandler(this.comSearchSkinButton_Click);
-			// 
-			// comComboBox
-			// 
-			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(35, 105);
-			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(164, 20);
-			this.comComboBox.TabIndex = 10;
+			this.readButton.Enabled = false;
+			this.readButton.Location = new System.Drawing.Point(13, 223);
+			this.readButton.Margin = new System.Windows.Forms.Padding(2);
+			this.readButton.Name = "readButton";
+			this.readButton.Size = new System.Drawing.Size(91, 36);
+			this.readButton.TabIndex = 27;
+			this.readButton.Text = "回读配置";
+			this.readButton.UseVisualStyleBackColor = true;
+			this.readButton.Click += new System.EventHandler(this.readButton_Click);
 			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 566);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 562);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(700, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(709, 22);
+			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 2;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
 			// myStatusLabel
 			// 
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(685, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(699, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -985,7 +783,7 @@
 			this.showPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.showPanel.Location = new System.Drawing.Point(0, 0);
 			this.showPanel.Name = "showPanel";
-			this.showPanel.Size = new System.Drawing.Size(474, 566);
+			this.showPanel.Size = new System.Drawing.Size(483, 562);
 			this.showPanel.TabIndex = 4;
 			// 
 			// HardwareSetForm
@@ -993,7 +791,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = new System.Drawing.Size(700, 588);
+			this.ClientSize = new System.Drawing.Size(709, 584);
 			this.Controls.Add(this.showPanel);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.statusStrip1);
@@ -1004,7 +802,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(696, 524);
 			this.Name = "HardwareSetForm";
-			this.Text = "硬件设置";
+			this.Text = "硬件配置";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareSetForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareSetForm_FormClosed);
 			this.Load += new System.EventHandler(this.HardwareSetForm_Load);
@@ -1020,10 +818,6 @@
 			this.otherGroupBox.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			this.skinTabControl.ResumeLayout(false);
-			this.commonTab.ResumeLayout(false);
-			this.networkTab.ResumeLayout(false);
-			this.comTab.ResumeLayout(false);
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.showPanel.ResumeLayout(false);
@@ -1078,26 +872,11 @@
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Panel panel1;
-		private CCWin.SkinControl.SkinTabControl skinTabControl;
-		private CCWin.SkinControl.SkinTabPage networkTab;
-		private CCWin.SkinControl.SkinTabPage comTab;
-		private System.Windows.Forms.ComboBox ipsComboBox;
-		private System.Windows.Forms.ComboBox comComboBox;
-		private System.Windows.Forms.ComboBox localIPsComboBox;
-		private System.Windows.Forms.Button comSearchButton;
-		private System.Windows.Forms.Button comConnectButton;
-		private System.Windows.Forms.Button comDownloadButton;
-		private System.Windows.Forms.Button comReadButton;
-		private System.Windows.Forms.Button getLocalIPsButton;
-		private System.Windows.Forms.Button networkSearchButton;
-		private System.Windows.Forms.Button networkDownloadButton;
-		private System.Windows.Forms.Button networkReadButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button saveButton;
 		private System.Windows.Forms.CheckBox autoSaveCheckBox;
 		private System.Windows.Forms.CheckBox macCheckBox;
 		private System.Windows.Forms.CheckBox dhcpCheckBox;
-		private CCWin.SkinControl.SkinTabPage commonTab;
 		private System.Windows.Forms.Button switchButton;
 		private System.Windows.Forms.Button downloadButton;
 		private System.Windows.Forms.Button deviceConnectButton;

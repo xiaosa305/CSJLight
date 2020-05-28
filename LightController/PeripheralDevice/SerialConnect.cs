@@ -56,7 +56,6 @@ namespace LightController.PeripheralDevice
                 LogTools.Error(Constant.TAG_XIAOSA,"打开串口失败",ex);
             }
             return false;
-            
         }
         private void SetSerialPort()
         {

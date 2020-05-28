@@ -81,6 +81,7 @@ namespace LightController.MyForm
 			if (isConnected)
 			{
 				myConnect.DisConnect();
+				myConnect = null ;
 			}
 
 			Dispose();

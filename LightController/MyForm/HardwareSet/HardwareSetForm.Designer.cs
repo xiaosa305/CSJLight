@@ -668,7 +668,7 @@
 			// downloadButton
 			// 
 			this.downloadButton.Enabled = false;
-			this.downloadButton.Location = new System.Drawing.Point(121, 222);
+			this.downloadButton.Location = new System.Drawing.Point(123, 222);
 			this.downloadButton.Margin = new System.Windows.Forms.Padding(2);
 			this.downloadButton.Name = "downloadButton";
 			this.downloadButton.Size = new System.Drawing.Size(91, 36);
@@ -748,7 +748,7 @@
 			// readButton
 			// 
 			this.readButton.Enabled = false;
-			this.readButton.Location = new System.Drawing.Point(13, 223);
+			this.readButton.Location = new System.Drawing.Point(15, 223);
 			this.readButton.Margin = new System.Windows.Forms.Padding(2);
 			this.readButton.Name = "readButton";
 			this.readButton.Size = new System.Drawing.Size(91, 36);
@@ -771,7 +771,7 @@
 			// myStatusLabel
 			// 
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(699, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(694, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 

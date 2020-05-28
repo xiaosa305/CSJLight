@@ -27,14 +27,10 @@ namespace LightController.MyForm
 		private string projectPath;
 		private string globalSetPath;
 
-		private IList<string> selectedIPs;
-		private IList<string> ips;
-		private string localIP;
-		private string comName;
-
-		private ConnectTools connectTools;
-		private SerialPortTools comTools;
-		private bool isComConnected = false;		
+		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
+		private bool isConnected = false; //是否连接
+		private bool isConnectCom = true; //是否串口连接
+		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
 
 		public ProjectUpdateForm(MainFormBase mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
@@ -45,7 +41,6 @@ namespace LightController.MyForm
 			this.projectPath = projectPath;
 			pathLabel.Text = projectPath;
 
-			this.skinTabControl.SelectedIndex = 0;
 		}
 
 		private void ProjectUpdateForm_Load(object sender, EventArgs e)
@@ -54,307 +49,26 @@ namespace LightController.MyForm
 			// 设false可在其他文件中修改本类的UI
 			Control.CheckForIllegalCrossThreadCalls = false;
 
-			// 9.7 进来就自动搜索本地IP列表。
-			getLocalIPs();
-			searchCOMList();
+			// 主动刷新设备列表
+			refreshDeviceComboBox();
 		}
 
 		/// <summary>
-		/// 事件：点击《获取本地ip列表》
+		/// 事件：《窗口关闭》时，主动关闭连接
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void getLocalIPsSkinButton_Click(object sender, EventArgs e)
+		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			getLocalIPs();
+			if (isConnected)
+			{
+				myConnect.DisConnect();
+				myConnect = null ;
+			}
+			Dispose();
+			mainForm.Activate();
 		}
 
-		/// <summary>
-		///  辅助方法：获取本地IP列表，①开始进来就搜到 ； ②点击后重新搜索；
-		/// </summary>
-		private void getLocalIPs() {
-			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
-			localIPsComboBox.Items.Clear();
-			foreach (IPAddress ip in ipe.AddressList)
-			{
-				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
-				{
-					localIPsComboBox.Items.Add(ip);
-				}
-			}
-			if (localIPsComboBox.Items.Count > 0)
-			{
-				localIPsComboBox.Enabled = true;
-				localIPsComboBox.SelectedIndex = 0;
-			}
-			else
-			{
-				localIPsComboBox.Enabled = false;
-				localIPsComboBox.SelectedIndex = -1;
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：改变了本地ip选项后，设置localIP的值，并清空 网络设备的选项 ；若localIP为空，则不可搜索。
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void localIPsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			localIP = localIPsComboBox.Text;
-
-			ipsComboBox.Text = "";
-			ipsComboBox.SelectedIndex = -1;
-			ipsComboBox.Enabled = false;
-
-			networkSearchButton.Enabled = !String.IsNullOrEmpty(localIP);
-		}
-
-		/// <summary>
-		///事件：点击《搜索网络/串口设备》，两个按钮点击事件集成在一起
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void searchButton_Click(object sender, EventArgs e)
-		{
-			string buttonName = ((Button)sender).Name;
-			if (buttonName.Equals("networkSearchButton"))
-			{
-				RefreshNetworkDevice();
-			}			
-			else {
-				searchCOMList();
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：刷新《网络设备》列表
-		/// </summary>
-		private void RefreshNetworkDevice() {
-
-			ipsComboBox.Items.Clear();
-			ips = new List<string>();
-
-			connectTools = ConnectTools.GetInstance();
-			connectTools.Start(localIP);
-			connectTools.SearchDevice();
-			// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停一秒
-			Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
-						
-			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
-			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])
-			{
-				ipsComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
-				ips.Add(d2.Value.DeviceIp);
-			}
-
-			if (ipsComboBox.Items.Count > 0)
-			{
-				ipsComboBox.SelectedIndex = 0;
-				ipsComboBox.Enabled = true;
-			}
-			else
-			{
-				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
-				ipsComboBox.SelectedIndex = -1;
-				ipsComboBox.Enabled = false;
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：搜索本机连接的串口列表：①load时使用；②点击《搜索串口》时
-		/// </summary>
-		private void searchCOMList()
-		{
-			comSearchButton.Enabled = false;
-			comOpenButton.Enabled = false;
-			comUpdateButton.Enabled = false;
-
-			comTools = SerialPortTools.GetInstance();
-			string[] comList = comTools.GetSerialPortNameList();
-			comComboBox.Items.Clear();
-			if (comList.Length > 0)
-			{
-				foreach (string com in comList)
-				{
-					comComboBox.Items.Add(com);
-				}
-				comComboBox.Enabled = true;
-				comComboBox.SelectedIndex = 0;
-				comOpenButton.Enabled = true;
-			}
-			else
-			{
-				comComboBox.Enabled = false;
-				comComboBox.SelectedIndex = -1;
-				comOpenButton.Enabled = false;
-				MessageBox.Show("未找到可用串口，请重试");
-			}
-			comSearchButton.Enabled = true;
-		}
-
-		/// <summary>
-		/// 辅助方法：修改网络设备的选项之后，设置相关的值。
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void networkDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text))
-			{				
-				networkUpdateButton.Enabled = false;
-				return;
-			}
-
-			selectedIPs = new List<string>();
-			selectedIPs.Add(ips[ipsComboBox.SelectedIndex]);
-			networkUpdateButton.Enabled = true;
-		}
-
-		/// <summary>
-		/// 事件：点击《《打开|关闭串口》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comOpenButton_Click(object sender, EventArgs e)
-		{
-			isComConnected = !isComConnected;
-			if (isComConnected)
-			{
-				comName = comComboBox.Text;
-				comTools.OpenCom(comName);
-			}
-			else
-			{
-				comTools.CloseDevice();
-			}
-			comSearchButton.Enabled = !isComConnected;
-			comComboBox.Enabled = !isComConnected;
-			comNameLabel.Text = isComConnected ? comName : "";
-			comOpenButton.Text = isComConnected ? "关闭串口" : "打开串口";
-			comUpdateButton.Enabled = isComConnected; //只需满足"串口已打开"即可进行升级
-			MessageBox.Show((isComConnected ? "已打开串口" : "已关闭串口") + comName);
-		}
-
-		/// <summary>
-		/// 事件：点击《下载数据》，两个按钮点击事件集成在一起
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void updateButton_Click(object sender, EventArgs e)
-		{
-			SetBusy(true);
-			bool generateNow = false;
-			if (String.IsNullOrEmpty(projectPath))
-			{
-				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
-					"下载工程?",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Question);
-				if (dr == DialogResult.Cancel)
-				{
-					SetBusy(false);
-					return;
-				}
-
-				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
-				{
-					MessageBox.Show("当前工程无灯具，无法更新工程。");
-					SetBusy(false);
-					return;
-				}
-				generateNow = true;//只有当前无projectPath且选择继续后会rightNow
-			}
-			//若用户选择了已存在目录，则需要验证是否空目录
-			else {
-				if (Directory.GetFiles(projectPath).Length == 0)
-				{
-					MessageBox.Show("所选目录为空,无法下载工程。请选择正确的已有工程目录，并重新下载。");
-					SetBusy(false);
-					return;
-				}
-			}
-
-			bool isNetwork = ((Button)sender).Name.Equals("networkUpdateButton");
-			//使用串口升级，需要先打开串口，避免出错
-			if( !isNetwork ) 
-			{
-				comTools.OpenCom(comName);				
-			}
-
-			if (generateNow)
-			{
-				SetLabelText(isNetwork, "正在实时生成工程数据，请耐心等待...");
-				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this, isNetwork));
-			}
-			else
-			{
-				FileUtils.CopyFileToDownloadDir(projectPath);
-				DownloadProject(isNetwork);
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：将本地的工程文件，传送到设备中
-		/// </summary>
-		private void DownloadProject() {
-
-			myConnect.DownloadProject(    );
-		}
-
-
-		/// <summary>
-		/// 辅助方法：显示提示消息
-		/// </summary>
-		/// <param name="busy"></param>
-		public void SetBusy( bool busy )
-		{
-			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
-			fileOpenButton.Enabled = !busy;
-			clearButton.Enabled = !busy;
-			skinTabControl.Enabled = !busy;
-		}
-
-		/// <summary>
-		/// 辅助方法：下载工程
-		/// </summary>
-		/// <param name="isNetwork"></param>
-		public void DownloadProject(bool isNetwork) {	
-			if (isNetwork)
-			{
-				if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]])) {					
-					connectTools.Download(selectedIPs, dbWrapper, globalSetPath, new NetworkDownloadReceiveCallBack(this));
-				}
-				else
-				{
-					MessageBox.Show("网络设备连接失败，无法下载工程。");
-				}				
-			}
-			else {
-				comTools.DownloadProject(dbWrapper, globalSetPath, new ComDownloadReceiveCallBack(this));
-			}
-		}
-
-		/// <summary>
-		///  辅助委托方法：将数据写进度条
-		/// </summary>
-		/// <param name="processPercent"></param>		
-		public void networkPaintProgress(string fileName,int processPercent)
-		{
-			networkFileShowLabel.Text = string.IsNullOrEmpty(fileName) ? "" : "正在传输文件：" + fileName;
-			networkSkinProgressBar.Value =  processPercent;		
-		}
-
-		/// <summary>
-		///  辅助委托方法：将数据写进度条
-		/// </summary>
-		/// <param name="processPercent"></param>		
-		public void comPaintProgress(string fileName, int processPercent)
-		{
-			comFileShowLabel.Text = string.IsNullOrEmpty(fileName)?"" : "正在传输文件：" + fileName;
-			comSkinProgressBar.Value = processPercent;
-		}
-			   
 		/// <summary>
 		/// 事件：点击《选择已有工程》
 		/// </summary>
@@ -378,64 +92,7 @@ namespace LightController.MyForm
 			projectPath = null;
 			pathLabel.Text = null;
 			mainForm.SetProjectPath(null);
-		}
-
-		/// <summary>
-		/// 辅助方法：设置 当前更新文件Label的 文字
-		/// </summary>
-		/// <param name="isNetwork"></param>
-		/// <param name="msg"></param>
-		internal void SetLabelText(bool isNetwork,string msg)
-		{
-			if (isNetwork)
-			{
-				networkFileShowLabel.Text = msg;
-			}
-			else {
-				comFileShowLabel.Text = msg;
-			}
-		}
-
-		internal void ClearNetworkDevices()
-		{
-			ipsComboBox.Text = "";
-			ipsComboBox.Enabled = false;
-			ips = new List<string>();
-		}
-
-		/// <summary>
-		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的Source也要压缩到这里来（Source.zip）
-		/// </summary>
-		/// <param name="zipPath"></param>
-		public void GenerateSourceZip(string zipPath)
-		{
-			if (mainForm.GenerateSourceProject())
-			{						
-				ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");							
-			}
-		}
-
-		/// <summary>
-		/// 事件：《窗口关闭》时，主动关闭串口连接
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ProjectUpdateForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			if (isComConnected)
-			{
-				comTools.CloseDevice();
-			}
-			Dispose();
-			mainForm.Activate();
-		}
-
-		#region 新连接方式
-
-		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
-		private bool isConnected = false; //是否连接
-		private bool isConnectCom = true; //是否串口连接
-		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
+		}								   	
 		
 		/// <summary>
 		/// 事件：点击《更换连接方式》
@@ -449,6 +106,16 @@ namespace LightController.MyForm
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
 			refreshDeviceComboBox(); // switchButton_Click
+		}
+		
+		/// <summary>
+		/// 事件：点击《刷新串口|网络》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			refreshDeviceComboBox();
 		}
 
 		/// <summary>
@@ -517,11 +184,11 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				setNotice("已搜到可用设备列表。", false);
+				SetNotice("已搜到可用设备列表。", false);
 			}
 			else
 			{
-				setNotice("未找到可用设备，请检查设备连接后重试。", true);
+				SetNotice("未找到可用设备，请检查设备连接后重试。", true);
 			}
 		}
 
@@ -536,7 +203,7 @@ namespace LightController.MyForm
 				myConnect = null;
 				isConnected = false;
 				refreshConnectButtons();
-				setNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+				SetNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
 			}
 		}
 
@@ -549,8 +216,8 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = deviceComboBox.Items.Count > 0 && !isConnected;
 			refreshButton.Enabled = !isConnected;
 			deviceConnectButton.Enabled = deviceComboBox.Items.Count > 0;
-			updateButton.Enabled = isConnected ; 
-			
+			updateButton.Enabled = isConnected;
+
 			if (isConnectCom)
 			{
 				deviceConnectButton.Text = isConnected ? "关闭串口" : "打开串口";
@@ -559,42 +226,6 @@ namespace LightController.MyForm
 			{
 				deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
 			}
-		}
-
-		/// <summary>
-		/// 事件：点击《刷新串口|网络》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void refreshButton_Click(object sender, EventArgs e)
-		{
-			refreshDeviceComboBox();
-		}
-
-		/// <summary>
-		/// 辅助方法：显示信息
-		/// </summary>
-		/// <param name="msg"></param>
-		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		private void setNotice(string msg, bool messageBoxShow)
-		{
-			if (messageBoxShow)
-			{
-				MessageBox.Show(msg);
-			}
-			myStatusLabel.Text = msg;
-			statusStrip1.Refresh();
-		}	
-
-		/// <summary>
-		/// 辅助方法：禁用设备列表下拉框,并清空其数据
-		/// </summary>
-		private void disableDeviceComboBox()
-		{
-			deviceComboBox.Items.Clear();
-			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Text = "";
-			deviceComboBox.Enabled = false;
 		}
 
 		/// <summary>
@@ -621,12 +252,12 @@ namespace LightController.MyForm
 					{
 						isConnected = true;
 						refreshConnectButtons();
-						setNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+						SetNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
 					}
 				}
 				catch (Exception ex)
 				{
-					setNotice("打开串口失败，原因是：\n" + ex.Message, true);
+					SetNotice("打开串口失败，原因是：\n" + ex.Message, true);
 				}
 			}
 			else
@@ -638,28 +269,28 @@ namespace LightController.MyForm
 				{
 					isConnected = true;
 					refreshConnectButtons();
-					setNotice("成功连接网络设备(" + deviceName + ")。", true);
+					SetNotice("成功连接网络设备(" + deviceName + ")。", true);
 				}
 				else
 				{
-					setNotice("连接网络设备(" + deviceName + ")失败。", true);
+					SetNotice("连接网络设备(" + deviceName + ")失败。", true);
 				}
 			}
 		}
 
 		/// <summary>
-		/// 事件：点击《下载工程》
+		/// 事件：点击《更新工程》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void updateButton_Click_1(object sender, EventArgs e)
+		private void updateButton_Click(object sender, EventArgs e)
 		{
 			SetBusy(true);
 			bool generateNow = false;
 			if (String.IsNullOrEmpty(projectPath))
 			{
 				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
-					"下载工程?",
+					"是否实时生成工程?",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
 				if (dr == DialogResult.Cancel)
@@ -681,7 +312,7 @@ namespace LightController.MyForm
 			{
 				if (Directory.GetFiles(projectPath).Length == 0)
 				{
-					MessageBox.Show("所选目录为空,无法下载工程。请选择正确的已有工程目录，并重新下载。");
+					MessageBox.Show("所选目录为空,无法更新工程。请选择正确的已有工程目录，并重新更新。");
 					SetBusy(false);
 					return;
 				}
@@ -689,104 +320,134 @@ namespace LightController.MyForm
 
 			if (generateNow)
 			{
-				setNotice("正在实时生成工程数据，请耐心等待...",false);
-				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath,  new GenerateProjectCallBack(this, isConnectCom) );
+				SetNotice("正在实时生成工程数据，请耐心等待...", false);
+				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath, new GenerateProjectCallBack(this));
 			}
 			else
 			{
 				FileUtils.CopyFileToDownloadDir(projectPath);
-				DownloadProject(isConnectCom);
+				DownloadProject();
 			}
 		}
 
-
-
-
-		#endregion
-
-	}
-
-	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
-	{
-		private ProjectUpdateForm puForm;
-		public NetworkDownloadReceiveCallBack(ProjectUpdateForm downloadForm)
+		/// <summary>
+		/// 辅助方法：数据生成后，会把所有的文件放到destDir中，我们生成的Source也要压缩到这里来（Source.zip）
+		/// </summary>
+		/// <param name="zipPath"></param>
+		public void GenerateSourceZip(string zipPath)
 		{
-			this.puForm = downloadForm;
+			if (mainForm.GenerateSourceProject())
+			{
+				ZipHelper.CompressAllToZip(mainForm.SavePath + @"\Source", zipPath, 9, null, mainForm.SavePath + @"\");
+			}
 		}
 
-		public void Completed(string deviceTag)
+		/// <summary>
+		/// 辅助方法：将本地的工程文件，传送到设备中
+		/// </summary>
+		public void DownloadProject()
 		{
-			MessageBox.Show("设备：" + deviceTag + "  下载成功");		
-			puForm.SetBusy(false);								
+			myConnect.DownloadProject(DownloadCompleted, DownloadError, DrawProgress);
 		}
 
-		public void Error(string deviceTag, string errorMessage)
+		/// <summary>
+		/// 辅助回调方法：工程更新成功
+		/// </summary>
+		/// <param name="obj"></param>
+		public void DownloadCompleted(Object obj, string msg)
 		{
-			MessageBox.Show("设备：" + deviceTag + " 下载失败\n错误原因是:" + errorMessage);			
-			puForm.SetBusy(false);			
-			puForm.ClearNetworkDevices();
+			Invoke((EventHandler)delegate
+			{
+				SetNotice("工程更新成功。", true);
+				myProgressBar.Value = 0;
+				SetBusy(false);
+			});
 		}
 
-		public void GetParam(CSJ_Hardware hardware)
+		/// <summary>
+		/// 辅助回调方法：回读配置失败
+		/// </summary>
+		/// <param name="obj"></param>
+		public void DownloadError(string msg)
 		{
-			throw new NotImplementedException();
+			Invoke((EventHandler)delegate
+			{
+				SetNotice("工程更新失败[" + msg + "]", true);
+				myProgressBar.Value = 0;
+				SetBusy(false);
+			});
 		}
 
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
+		/// <summary>
+		/// 辅助回调方法：写进度条
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="progress"></param>
+		public void DrawProgress(string fileName, int progressPercent)
 		{
-			puForm.networkPaintProgress(fileName, newProgress);
+			SetNotice(string.IsNullOrEmpty(fileName) ? "" : "正在传输文件：" + fileName, false);
+			myProgressBar.Value = progressPercent;
+		}
+				
+		/// <summary>
+		/// 辅助方法：显示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="messageBoxShow">是否在提示盒内提示</param>
+		public void SetNotice(string msg, bool messageBoxShow)
+		{
+			if (messageBoxShow)
+			{
+				MessageBox.Show(msg);
+			}
+			myStatusLabel.Text = msg;
+			statusStrip1.Refresh();
 		}
 
-		
-	}
-
-	public class ComDownloadReceiveCallBack : ICommunicatorCallBack
-	{
-		private ProjectUpdateForm puForm;
-		public ComDownloadReceiveCallBack(ProjectUpdateForm downloadForm)
+		/// <summary>
+		/// 辅助方法：设定忙时
+		/// </summary>
+		/// <param name="busy"></param>
+		public void SetBusy(bool busy)
 		{
-			this.puForm = downloadForm;
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+			Enabled = ! busy ;
 		}
 
-		public void Completed(string deviceTag)
+		/// <summary>
+		/// 辅助方法：禁用设备列表下拉框,并清空其数据
+		/// </summary>
+		private void disableDeviceComboBox()
 		{
-			MessageBox.Show("下载成功");
-			puForm.SetBusy(false);
+			deviceComboBox.Items.Clear();
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Text = "";
+			deviceComboBox.Enabled = false;
 		}
-
-		public void Error(string deviceTag, string errorMessage)
-		{
-			MessageBox.Show("下载失败，错误原因是:\n" + errorMessage);
-			puForm.SetBusy(false);
-		}
-
-		public void GetParam(CSJ_Hardware hardware)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-		{
-			puForm.comPaintProgress(fileName, newProgress);
-		}
+			   		
 	}
 
 	public class GenerateProjectCallBack : ISaveProjectCallBack
 	{
 		private ProjectUpdateForm puForm;
-		private bool isNetwork;
-		public GenerateProjectCallBack(ProjectUpdateForm puForm, bool isNetwork)
+
+		public GenerateProjectCallBack(ProjectUpdateForm puForm)
 		{
 			this.puForm = puForm;
-			this.isNetwork = isNetwork;
 		}
 
 		public void Completed()
 		{
-			puForm.SetLabelText(isNetwork,"数据生成成功，即将传输数据到设备。");
-			FileUtils.CopyProjectFileToDownloadDir();
-			puForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");	
-			puForm.DownloadProject(isNetwork);
+			puForm.SetNotice("数据生成成功，即将传输数据到设备。", false);
+			if (FileUtils.CopyProjectFileToDownloadDir())
+			{
+				puForm.GenerateSourceZip(Application.StartupPath + @"\DataCache\Download\CSJ\Source.zip");
+				puForm.DownloadProject();
+			}
+			else {
+				MessageBox.Show("拷贝工程文件到临时目录时出错。");
+				puForm.SetBusy(false);
+			}			
 		}
 
 		public void Error()
@@ -794,9 +455,11 @@ namespace LightController.MyForm
 			MessageBox.Show("数据生成出错");
 			puForm.SetBusy(false);
 		}
+
 		public void UpdateProgress(string name)
 		{
-			puForm.SetLabelText(isNetwork, name);
+			puForm.SetNotice("正在生成工程文件(" + name + ")" ,false);
 		}
 	}
+
 }

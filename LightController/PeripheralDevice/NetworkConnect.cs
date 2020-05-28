@@ -284,9 +284,9 @@ namespace LightController.PeripheralDevice
         /// 串口专属，网络模块不操作
         /// </summary>
         /// <param name="portName"></param>
-        public override void OpenSerialPort(string portName)
+        public override bool OpenSerialPort(string portName)
         {
-
+            return false;
         }
     }
 }

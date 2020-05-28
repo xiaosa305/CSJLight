@@ -874,9 +874,8 @@ namespace LightController.MyForm
 			{
 				NetworkDeviceInfo selectedNetworkDevice = networkDeviceList[deviceComboBox.SelectedIndex];
 				string deviceName = selectedNetworkDevice.DeviceName;
-				myConnect = new NetworkConnect();
-				myConnect.Connect(selectedNetworkDevice);
-				if (myConnect.IsConnected())
+				myConnect = new NetworkConnect();				
+				if ( myConnect.Connect(selectedNetworkDevice) )
 				{
 					isConnected = true;
 					refreshRWButtons();

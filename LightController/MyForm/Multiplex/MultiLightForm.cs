@@ -13,13 +13,14 @@ namespace LightController.MyForm
 	public partial class MultiLightForm : Form
 	{
 		private MainFormBase mainForm;
-		private int selectedIndex = -1;
+		private int captainIndex = -1; // 组长在[选中灯具列表]中的序号，默认-1，选择后改变值
 
 		public MultiLightForm(MainFormBase mainForm, bool isCopyAll,IList<Ast.LightAst> lightAstList, IList<int> lightIndices)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
-			this.copyAllCheckBox.Checked = isCopyAll ; 
+
+			copyAllCheckBox.Checked = isCopyAll ; 
 
 			for (int i = 0; i < lightIndices.Count; i++)
 			{
@@ -46,7 +47,7 @@ namespace LightController.MyForm
 		private void enterSkinButton_Click(object sender, EventArgs e)
 		{
 			// 第一层判断,避免未选中组长时就往下运行
-			if (selectedIndex < 0)
+			if (captainIndex < 0)
 			{
 				MessageBox.Show("请先选中组长。");
 				return;
@@ -58,13 +59,13 @@ namespace LightController.MyForm
 				return;				
 			}
 
-			mainForm.EnterMultiMode(selectedIndex , copyAllCheckBox.Checked);
+			mainForm.EnterMultiMode( captainIndex , copyAllCheckBox.Checked);
 			Dispose();
 			mainForm.Activate();			
 		}	
 
 		/// <summary>
-		/// 事件：点击《取消》及《右上角关闭》按钮
+		/// 事件：点击《取消》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -80,10 +81,10 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			// 必须判断这个字段(Count)，否则会报异常
+		{			
+			// 选中组长后，哪怕失去焦点，也不会改变之前的选择；除非更改选项
 			if (lightsListView.SelectedIndices.Count > 0) {
-				selectedIndex = lightsListView.SelectedIndices[0];
+				captainIndex = lightsListView.SelectedIndices[0];
 				enterButton.Enabled = true;
 			}
 		}

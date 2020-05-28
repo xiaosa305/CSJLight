@@ -241,9 +241,9 @@
 			this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.label4.Location = new System.Drawing.Point(388, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(191, 29);
+			this.label4.Size = new System.Drawing.Size(191, 40);
 			this.label4.TabIndex = 25;
-			this.label4.Text = "提示：未被选中的灯具仍会添加相应步数，但并非复用步数，";
+			this.label4.Text = "提示：未被选中的灯具仍会添加相应步数，但并非复用步数，而是采用该灯具的最后一步进行填充。";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// MultiplexForm

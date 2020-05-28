@@ -140,7 +140,7 @@ namespace LightController.Common
 		}
 
 		/// <summary>
-		/// 删除全部 节
+		/// 删除全部 节--> 目前看来（DeleteAllSection是个没有作用的方法）
 		/// </summary>
 		public void DeleteAllSection()
 		{

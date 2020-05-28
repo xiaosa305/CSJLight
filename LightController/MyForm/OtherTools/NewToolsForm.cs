@@ -63,6 +63,7 @@ namespace OtherTools
 		private KeyEntity keyEntity;  // 墙板封装对象
 
 		private bool isReadLC = false;  // 是否已回读灯控配置？
+		private bool isReadXLS = false; // 是否已加载XLS文件
 		private string protocolXlsPath = Application.StartupPath + @"\Controller.xls"; //默认的中控配置文件路径
 		private HSSFWorkbook xlsWorkbook;  // 通过本对象实现相应的xls文件的映射
 		private IList<string> sheetList;  // 每个不同的sheet的列表（不同协议在不同的sheet中）
@@ -171,7 +172,7 @@ namespace OtherTools
 		{
 			// 刷新几个连接按键的可用性
 			switchButton.Enabled = connStatus == ConnectStatus.No ;
-			deviceComboBox.Enabled = connStatus == ConnectStatus.No;
+			deviceComboBox.Enabled = connStatus == ConnectStatus.No && deviceComboBox.Items.Count > 0;
 			refreshButton.Enabled = connStatus == ConnectStatus.No;
 
 			// 刷新连接设备的名称
@@ -198,7 +199,7 @@ namespace OtherTools
 			ccDecodeButton.Enabled = connStatus == ConnectStatus.Cc;
 			ccDownloadButton.Enabled = connStatus == ConnectStatus.Cc && ccEntity != null && !isDecoding;
 
-			// 墙板相关按键			
+			// 墙板相关按键
 			kpReadButton.Enabled = connStatus == ConnectStatus.Kp;
 			kpListenButton.Enabled = connStatus == ConnectStatus.Kp;
 			bool keNotNull = keyEntity != null;
@@ -399,9 +400,7 @@ namespace OtherTools
 		private void setFanChannel(airModeEnum airMode, int fanChannel)
 		{
 			fanChannelComboBoxes[(int)airMode].SelectedIndex = fanChannel;
-		}
-
-	
+		}	
 
 		/// <summary>
 		/// 辅助方法：是否使用排风
@@ -605,7 +604,6 @@ namespace OtherTools
 			lcToolStripStatusLabel2.Text = "成功保存配置文件(" + cfgPath + ")";
 		}
 
-
 		/// <summary>
 		/// 事件：选中不同的《空调模式》radioButton
 		/// </summary>
@@ -615,7 +613,6 @@ namespace OtherTools
 		{
 
 		}
-
 
 		/// <summary>
 		///  事件：点击《下载配置》
@@ -639,7 +636,6 @@ namespace OtherTools
 			}
 		
 		}
-
 
 		/// <summary>
 		/// 事件：点击《加载协议文件》
@@ -728,7 +724,11 @@ namespace OtherTools
 			}
 		}
 
-		private bool isReadXLS = false;
+		/// <summary>
+		/// 事件：更改了《协议选项框》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void protocolComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!isReadXLS)
@@ -772,7 +772,6 @@ namespace OtherTools
 
 			refreshButtons();
 		}
-
 
 		/// <summary>
 		///  事件：点击《中控-下载数据》按钮
@@ -863,7 +862,6 @@ namespace OtherTools
 
 			return cc;
 		}
-
 
 		/// <summary>
 		/// 事件：点击《中控--搜索》
@@ -973,7 +971,6 @@ namespace OtherTools
 			keypressListView.AutoArrange = false;
 		}
 
-
 		/// <summary>
 		/// 事件：点击《墙板-读取文件》
 		/// </summary>
@@ -1005,6 +1002,9 @@ namespace OtherTools
 			kpToolStripStatusLabel2.Text = "已加载墙板配置文件：" + keyPath;
 		}
 
+		/// <summary>
+		/// 辅助方法：重新加载墙板码值
+		/// </summary>
 		private void reloadKeypressListView()
 		{
 			keypressListView.Items.Clear();
@@ -1201,9 +1201,11 @@ namespace OtherTools
 				// 若正在解码状态，则先关闭解码，才能关闭连接
 				if (isDecoding)
 				{
-					myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
-					Thread.Sleep(END_DECODING_TIME);
+					myConnect.CenterControlStopCopy(AsynchronousCCStopCompleted, AsynchronousCCStopError);
+					Thread.Sleep(END_DECODING_TIME);					
 				}
+
+				Console.WriteLine("Now IsDecoding : " + isDecoding);
 				if (connStatus > ConnectStatus.No)
 				{
 					myConnect.DisConnect();
@@ -1223,7 +1225,7 @@ namespace OtherTools
 			// 刷新前，先清空列表(也先断开连接：只是保护性再跑一次)
 			disConnect(); // refreshDeviceComboBox
 
-			setAllStatusLabel1("正在搜索网络设备，请稍候...");
+			setAllStatusLabel1("正在搜索设备，请稍候...");
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Text = "";
 			deviceComboBox.SelectedIndex = -1;
@@ -1293,7 +1295,7 @@ namespace OtherTools
 		//事件：点击《刷新串口|网络》
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
-			refreshDeviceComboBox();  // switchButton_Click
+			refreshDeviceComboBox();  // refreshButton_Click
 		}
 
 		/// <summary>
@@ -1553,7 +1555,6 @@ namespace OtherTools
 					networkDeviceRestart();
 				}
 			});	
-
 		}
 
 		/// <summary>
@@ -1617,7 +1618,6 @@ namespace OtherTools
 			});
 		}
 
-
 		/// <summary>
 		///  辅助回调方法：结束《中控-调试解码》成功
 		/// </summary>
@@ -1625,12 +1625,29 @@ namespace OtherTools
 		public void CCStopCompleted(Object obj,string msg)
 		{
 			Invoke((EventHandler)delegate
-			{				
+			{
 				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
 				isDecoding = false;
 				ccDecodeButton.Text = "开启解码";
 				ccDecodeRichTextBox.Enabled = false ;				
-				refreshButtons();			
+				refreshButtons();
+			});
+		}
+
+		/// <summary>
+		///  辅助回调方法：结束《中控-调试解码》成功
+		///  TODO: 异步处理，在disconnect方法中调用，避免界面卡死
+		/// </summary>
+		/// <param name="obj"></param>
+		public void AsynchronousCCStopCompleted(Object obj, string msg)
+		{
+			BeginInvoke((EventHandler)delegate
+			{
+				ccToolStripStatusLabel2.Text = "成功关闭中控解码";
+				isDecoding = false;
+				ccDecodeButton.Text = "开启解码";
+				ccDecodeRichTextBox.Enabled = false;
+				refreshButtons();
 			});
 		}
 
@@ -1644,7 +1661,20 @@ namespace OtherTools
 				MessageBox.Show(msg);
 				ccToolStripStatusLabel2.Text = "关闭中控解码失败";
 			});
-		}		
+		}
+
+		/// <summary>
+		/// 辅助回调方法：结束《中控-调试解码》失败
+		/// TODO：异步处理，在disConnect方法中调用，避免界面卡死
+		/// </summary>
+		public void AsynchronousCCStopError(string msg)
+		{
+			BeginInvoke((EventHandler)delegate
+			{
+				MessageBox.Show(msg);
+				ccToolStripStatusLabel2.Text = "关闭中控解码失败";
+			});
+		}
 
 		/// <summary>
 		/// 事件：点击《连接灯控》
@@ -1674,7 +1704,7 @@ namespace OtherTools
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void ccConnectButton_Click(object sender, EventArgs e)
-		{
+		{			
 			// 若正在解码状态，则先关闭解码，才能进行连接
 			if (myConnect != null && isDecoding)
 			{
@@ -2070,10 +2100,6 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void NewToolsForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			//if (myConnect != null && isDecoding) {
-			//	myConnect.CenterControlStopCopy(CCStopCompleted, CCStopError);
-			//	Thread.Sleep(END_DECODING_TIME);
-			//}
 			disConnect(); //NewToolsForm_FormClosed
 			Dispose();
 			mainForm.Activate();

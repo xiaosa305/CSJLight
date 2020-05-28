@@ -805,6 +805,8 @@
 			// 
 			// deviceComboBox
 			// 
+			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.deviceComboBox.Enabled = false;
 			this.deviceComboBox.FormattingEnabled = true;
 			this.deviceComboBox.Location = new System.Drawing.Point(15, 110);
 			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);

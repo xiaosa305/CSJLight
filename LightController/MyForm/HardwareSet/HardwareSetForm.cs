@@ -196,6 +196,12 @@ namespace LightController.MyForm
 			{
 				comTools.CloseDevice();
 			}
+
+			if (isConnected)
+			{
+				myConnect.DisConnect();
+			}
+
 			this.Dispose();
 			mainForm.Activate();
 		}
@@ -726,28 +732,37 @@ namespace LightController.MyForm
 			}
 		}
 
+		#region 新的方法：通用
 
 		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
+		private bool isConnected = false; //是否连接
 		private bool isConnectCom = true; //是否串口连接
 		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
 
+		/// <summary>
+		/// 事件：点击《切换为网络连接|串口连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
 			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
-
 			refreshDeviceComboBox(); // switchButton_Click
 		}
 
 		/// <summary>
-		/// 辅助方法：通过不同的isConnectByCom来刷新deviceComboBox。
+		/// 辅助方法：通过isConnectCom（连接方式）来刷新deviceComboBox。
 		/// </summary>
 		private void refreshDeviceComboBox()
 		{
 			// 刷新前，先清空列表(也先断开连接：只是保护性再跑一次)
-			disConnect(); // refreshDeviceComboBox
+			if (isConnected)
+			{
+				disConnect(); // refreshDeviceComboBox
+			}
 
 			deviceComboBox.Items.Clear();
 			deviceComboBox.Text = "";
@@ -811,23 +826,10 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。",true);
+				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。", true);
 			}
 		}
-
-		/// <summary>
-		/// 辅助方法：断开连接（退出Form及切换连接方式时，都跑一次这个方法）
-		/// </summary>
-		private void disConnect()
-		{
-			if (myConnect != null)
-			{
-				myConnect.DisConnect();
-				setAllStatusLabel1("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接") , true);
-				myConnect = null;
-			}
-		}
-
+		
 		/// <summary>
 		/// 事件：点击《刷新串口|网络》
 		/// </summary>
@@ -846,9 +848,9 @@ namespace LightController.MyForm
 		private void deviceConnectButton_Click(object sender, EventArgs e)
 		{
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-			if (myConnect.IsConnected())
+			if (isConnected)
 			{
-				disConnect(); //connectButton_Click
+				disConnect(); //deviceConnectButton_Click			
 				return;
 			}
 
@@ -858,38 +860,65 @@ namespace LightController.MyForm
 				myConnect = new SerialConnect();
 				try
 				{
-					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);					
-					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")" , true);
+					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
+					isConnected = true;
 					refreshRWButtons();
+					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")", true);
 				}
 				catch (Exception ex)
-				{					
-					setAllStatusLabel1("打开串口失败，原因是：" + ex.Message , true);
+				{
+					setAllStatusLabel1("打开串口失败，原因是：\n" + ex.Message, true);
 				}
 			}
 			else
 			{
 				NetworkDeviceInfo selectedNetworkDevice = networkDeviceList[deviceComboBox.SelectedIndex];
 				string deviceName = selectedNetworkDevice.DeviceName;
-
 				myConnect = new NetworkConnect();
 				myConnect.Connect(selectedNetworkDevice);
 				if (myConnect.IsConnected())
 				{
-					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")" , true);					
+					isConnected = true;
+					refreshRWButtons();
+					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")", true);
 				}
 				else
-				{					
-					setAllStatusLabel1("连接网络设备(" + deviceName + ")失败" , true);					
+				{
+					setAllStatusLabel1("连接网络设备(" + deviceName + ")失败", true);
 				}
 			}
 		}
 
-		private void refreshRWButtons() {
-
-			bool isConnected = myConnect.IsConnected();
+		/// <summary>
+		/// 辅助方法：断开连接（主动断开连接、退出Form及切换连接方式时，都跑一次这个方法）
+		/// </summary>
+		private void disConnect()
+		{
+			if (myConnect != null && myConnect.IsConnected())
+			{
+				myConnect.DisConnect();
+				isConnected = false;
+				refreshRWButtons();
+				myConnect = null;
+				setAllStatusLabel1("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+			}
+		}
+		
+		/// <summary>
+		/// 辅助方法：刷新按键[可用性]及[文字]
+		/// </summary>
+		private void refreshRWButtons()
+		{
 			readButton.Enabled = isConnected;
 			downloadButton.Enabled = isConnected;
+			if (isConnectCom)
+			{
+				deviceConnectButton.Text = isConnected ? "关闭串口" : "打开串口";
+			}
+			else
+			{
+				deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
+			}
 		}
 
 		/// <summary>
@@ -899,30 +928,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void readButton_Click(object sender, EventArgs e)
 		{
-			myConnect.GetParam(GetParamCompleted, GetParamError);
-		}
-
-		/// <summary>
-		/// 事件：点击《下载设置》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void downloadButton_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		/// <summary>
-		/// 辅助方法：显示回馈信息
-		/// </summary>
-		/// <param name="msg"></param>
-		private void setAllStatusLabel1(string msg,bool messageBoxShow)
-		{
-			if (messageBoxShow)
-			{
-				MessageBox.Show(msg);
-			}
-			myStatusLabel.Text = msg;			
+			myConnect.GetParam(	GetParamCompleted, GetParamError);
 		}
 
 		/// <summary>
@@ -934,8 +940,8 @@ namespace LightController.MyForm
 			Invoke((EventHandler)delegate
 			{
 				CSJ_Hardware ch = obj as CSJ_Hardware;
-				SetParamFromDevice(ch);				
-				setAllStatusLabel1("回读设置成功",true);
+				SetParamFromDevice(ch);
+				setAllStatusLabel1(msg, true);
 			});
 		}
 
@@ -943,13 +949,88 @@ namespace LightController.MyForm
 		/// 辅助回调方法：回读配置失败
 		/// </summary>
 		/// <param name="obj"></param>
-		public void GetParamError( string msg ) 
+		public void GetParamError(string msg)
 		{
 			Invoke((EventHandler)delegate
 			{
+				setAllStatusLabel1("回读配置失败[" + msg + "]", true);
+			});
+		}	
 
+		/// <summary>
+		/// 事件：点击《下载设置》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void downloadButton_Click(object sender, EventArgs e)
+		{
+			if (isNew)
+			{
+				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
+				return;
+			}
+
+			// 若被去掉了勾选，则需要提示用户
+			if (!autoSaveCheckBox.Checked)
+			{
+				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",
+				"继续下载？",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Warning
+			);
+				if (dr == DialogResult.Cancel)
+				{
+					return;
+				}
+			}
+
+			// 11.7 保存前，先保存一遍当前数据。
+			saveAll(iniPath, hName);
+
+			// 下载配置
+			myConnect.PutParam(iniPath, PutParamCompleted, PutParamError);
+		}
+
+		/// <summary>
+			/// 辅助回调方法：下载配置成功
+			/// </summary>
+			/// <param name="obj"></param>
+		public void PutParamCompleted(Object obj, string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setAllStatusLabel1(msg, true);
 			});
 		}
+		
+		/// <summary>
+		/// 辅助回调方法：下载配置失败
+		/// </summary>
+		/// <param name="obj"></param>
+		public void PutParamError(string msg)
+		{
+			Invoke((EventHandler)delegate
+			{
+				setAllStatusLabel1("下载配置失败[" + msg + "]", true);
+			});
+		}
+
+		/// <summary>
+		/// 辅助方法：显示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="messageBoxShow">是否在提示盒内提示</param>
+		private void setAllStatusLabel1(string msg, bool messageBoxShow)
+		{
+			if (messageBoxShow)
+			{
+				MessageBox.Show(msg);
+			}
+			myStatusLabel.Text = msg;
+		}
+
+		#endregion
+
 	}
 
 

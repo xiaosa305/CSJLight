@@ -148,12 +148,11 @@ namespace LightController.MyForm
 		/// 辅助方法：供Save()使用，主要是当 《（串口或网络）下载 》时，应先保存一遍此ini,此时不要弹出成功保存功能。
 		/// </summary>
 		/// <param name="iniPath"></param>
-		/// <param name="hName"></param>
-		private void saveAll(String iniPath, string hName)
+		/// <param name="hsName"></param>
+		private void saveAll(String iniPath, string hsName)
 		{
-
 			this.iniPath = iniPath;
-			this.hsName = hName;
+			this.hsName = hsName;
 			IniFileHelper iniFileAst = new IniFileHelper(iniPath);
 
 			// 9.28 直接保存numericUpDown表面上看到的Text(因为写到ini中去了）
@@ -181,7 +180,7 @@ namespace LightController.MyForm
 			iniFileAst.WriteString("Other", "DomainServer", domainServerTextBox.Text);
 
 			this.isNew = false;
-			this.Text = "硬件配置(" + hName + ")";
+			this.Text = "硬件配置(" + hsName + ")";
 			//this.isSetDir = true;
 
 		}
@@ -495,11 +494,12 @@ namespace LightController.MyForm
 			{
 				myConnect = new SerialConnect();
 				try
-				{
-					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
-					isConnected = true;
-					refreshConnectButtons();
-					setNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+				{			
+					if( (myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text ) ) {
+						isConnected = true;
+						refreshConnectButtons();
+						setNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+					}				
 				}
 				catch (Exception ex)
 				{

@@ -53,7 +53,7 @@ namespace LightController.PeripheralDevice
             }
             catch (Exception ex)
             {
-                LogTools.Error(Constant.TAG_XIAOSA,"打开串口失败",ex);
+                LogTools.Error(Constant.TAG_XIAOSA,"打开串口失败",ex,true,ex.Message);
             }
             return false;
         }

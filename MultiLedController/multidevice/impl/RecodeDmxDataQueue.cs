@@ -24,11 +24,11 @@ namespace MultiLedController.multidevice.impl
         {
             this.RecodeDmxDatas.Clear();
         }
-        public void Enqueue(Dictionary<int,List<byte>> dmxData, int frameIntervalTime, ControlDevice controlDevice)
+        public void Enqueue(Dictionary<int,List<byte>> dmxData, Dictionary<int, bool> virtualControlDeviceDmxDataResponseStatus, int frameIntervalTime, ControlDevice controlDevice)
         {
             lock (this.RecodeDmxDatas)
             {
-                this.RecodeDmxDatas.Enqueue(new RecodeDmxData(dmxData, frameIntervalTime, controlDevice));
+                this.RecodeDmxDatas.Enqueue(new RecodeDmxData(dmxData, virtualControlDeviceDmxDataResponseStatus, frameIntervalTime, controlDevice));
             }
         }
         public RecodeDmxData Dequeue()

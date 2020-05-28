@@ -1,6 +1,7 @@
 ﻿using MultiLedController.entity;
 using MultiLedController.multidevice.impl;
 using MultiLedController.utils;
+using MultiLedController.utils.impl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +29,7 @@ namespace MultiLedController.multidevice
 
         private void TestBtn2_Click(object sender, EventArgs e)
         {
-            List<ControlDevice> controlDevices = TransactionManager.GetTransactionManager().GetControlDevicesList();
+            Dictionary<string, ControlDevice> controlDevices = TransactionManager.GetTransactionManager().GetControlDevicesList();
             List<List<string>> ips = new List<List<string>>();
             List<string> virtualIp1 = new List<string>();
             virtualIp1.Add("192.168.31.201");
@@ -50,12 +51,38 @@ namespace MultiLedController.multidevice
             virtualIp2.Add("192.168.31.216");
             ips.Add(virtualIp1);
             ips.Add(virtualIp2);
-            TransactionManager.GetTransactionManager().AddDevice(controlDevices, ips, SERVER_IP);
+            TransactionManager.GetTransactionManager().AddDevice(controlDevices.Values.ToList(), ips, SERVER_IP);
+            LogTools.Debug(Constant.TAG_XIAOSA, "添加设备成功");
         }
 
         private void TestBtn3_Click(object sender, EventArgs e)
         {
-            TransactionManager.GetTransactionManager().Start();
+            TransactionManager.GetTransactionManager().StartReceiveDmxData();
+        }
+
+        private void TestBtn4_Click(object sender, EventArgs e)
+        {
+            TransactionManager.GetTransactionManager().StartRecode();
+        }
+
+        private void TestBtn5_Click(object sender, EventArgs e)
+        {
+            TransactionManager.GetTransactionManager().StopRecode();
+        }
+
+        private void TestBtn6_Click(object sender, EventArgs e)
+        {
+            TransactionManager.GetTransactionManager().StopReceiveDmxData();
+        }
+
+        private void TestBtn7_Click(object sender, EventArgs e)
+        {
+            TransactionManager.GetTransactionManager().StartDebug();
+        }
+
+        private void TestBtn8_Click(object sender, EventArgs e)
+        {
+            TransactionManager.GetTransactionManager().StopDebug();
         }
     }
 }

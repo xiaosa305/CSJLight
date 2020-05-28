@@ -88,7 +88,7 @@ namespace MultiLedController.multidevice.impl
                         Array.Copy(receiveDataBuff, 18, dmxData, 0, dataLength);
                         List<byte> data = new List<byte>();
                         data.AddRange(dmxData);
-                        this.DmxDataResponse_Event(universe, data);
+                        this.DmxDataResponse_Event(universe, new List<byte>(data));
                     }
                 }
             }

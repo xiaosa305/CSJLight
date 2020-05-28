@@ -116,7 +116,7 @@ namespace LightController.PeripheralDevice
                     for (int i = 0; i < count; i++)
                     {
                         ReadBuff.Add(buff[i]);
-                        //this.Receive();
+                        this.Receive();
                     }
                     connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
                     this.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);

@@ -29,24 +29,34 @@ namespace LightController.PeripheralDevice
         {
             return SerialPort.GetPortNames().ToList();
         }
-        public override void OpenSerialPort(string portName)
+        public override bool OpenSerialPort(string portName)
         {
-            this.IsDeviceOpen = false;
-            this.CurrentBaudRate = DEFAULT_BAUDRATE;
-            if (this.SerialPortDevice == null)
+            try
             {
-                this.SerialPortDevice = new SerialPort();
-                this.SetSerialPort();
+                this.IsDeviceOpen = false;
+                this.CurrentBaudRate = DEFAULT_BAUDRATE;
+                if (this.SerialPortDevice == null)
+                {
+                    this.SerialPortDevice = new SerialPort();
+                    this.SetSerialPort();
+                }
+                if (this.SerialPortDevice.IsOpen)
+                {
+                    this.SerialPortDevice.Close();
+                }
+                this.SerialPortDevice.DataReceived += new SerialDataReceivedEventHandler(ReceiveData);
+                this.SerialPortDevice.PortName = portName;
+                Thread.Sleep(100);
+                this.IsDeviceOpen = true;
+                this.SerialPortDevice.Open();
+                return true;
             }
-            if (this.SerialPortDevice.IsOpen)
+            catch (Exception ex)
             {
-                this.SerialPortDevice.Close();
+                LogTools.Error(Constant.TAG_XIAOSA,"打开串口失败",ex);
             }
-            this.SerialPortDevice.DataReceived += new SerialDataReceivedEventHandler(ReceiveData);
-            this.SerialPortDevice.PortName = portName;
-            Thread.Sleep(100);
-            this.IsDeviceOpen = true;
-            this.SerialPortDevice.Open();
+            return false;
+            
         }
         private void SetSerialPort()
         {

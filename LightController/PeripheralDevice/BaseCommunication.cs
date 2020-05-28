@@ -86,7 +86,7 @@ namespace LightController.PeripheralDevice
 
         public abstract bool Connect(NetworkDeviceInfo deviceInfo);
 
-        public abstract void OpenSerialPort(string portName);
+        public abstract bool OpenSerialPort(string portName);
 
         /// <summary>
         /// 初始化

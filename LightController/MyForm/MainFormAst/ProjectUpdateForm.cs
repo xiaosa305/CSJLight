@@ -1,6 +1,7 @@
 ﻿using CCWin.SkinControl;
 using LightController.Ast;
 using LightController.Common;
+using LightController.PeripheralDevice;
 using LightController.Tools;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
@@ -33,7 +34,7 @@ namespace LightController.MyForm
 
 		private ConnectTools connectTools;
 		private SerialPortTools comTools;
-		private bool isComConnected = false;
+		private bool isComConnected = false;		
 
 		public ProjectUpdateForm(MainFormBase mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
 		{
@@ -294,6 +295,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 辅助方法：将本地的工程文件，传送到设备中
+		/// </summary>
+		private void DownloadProject() {
+
+			myConnect.DownloadProject(    );
+		}
+
+
+		/// <summary>
 		/// 辅助方法：显示提示消息
 		/// </summary>
 		/// <param name="busy"></param>
@@ -419,6 +429,281 @@ namespace LightController.MyForm
 			Dispose();
 			mainForm.Activate();
 		}
+
+		#region 新连接方式
+
+		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
+		private bool isConnected = false; //是否连接
+		private bool isConnectCom = true; //是否串口连接
+		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
+		
+		/// <summary>
+		/// 事件：点击《更换连接方式》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void switchButton_Click(object sender, EventArgs e)
+		{
+			isConnectCom = !isConnectCom;
+			switchButton.Text = isConnectCom ? "切换为网络连接" : "切换为串口连接";
+			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
+			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
+			refreshDeviceComboBox(); // switchButton_Click
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新deviceComboBox(设备列表），区分不同的连接方法。
+		/// </summary>
+		private void refreshDeviceComboBox()
+		{
+			// 刷新前，先清空列表(也先断开连接：只是保护性再跑一次)
+			if (isConnected)
+			{
+				disConnect(); // refreshDeviceComboBox
+			}
+
+			disableDeviceComboBox();
+			deviceConnectButton.Enabled = false;
+			Refresh();
+
+			// 获取串口列表（不代表一定能连上，串口需用户自行确认）
+			if (isConnectCom)
+			{
+				if (myConnect == null)
+				{
+					myConnect = new SerialConnect();
+				}
+				List<string> comList = (myConnect as SerialConnect).GetSerialPortNames();
+				if (comList != null && comList.Count > 0)
+				{
+					foreach (string comName in comList)
+					{
+						deviceComboBox.Items.Add(comName);
+					}
+				}
+			}
+			// 获取网络设备列表
+			else
+			{
+				IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
+				foreach (IPAddress ip in ipe.AddressList)
+				{
+					if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
+					{
+						NetworkConnect.SearchDevice(ip.ToString());
+						// 需要延迟片刻，才能找到设备;	故在此期间，主动暂停片刻
+						Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
+					}
+				}
+
+				Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = NetworkConnect.GetDeviceList();
+				networkDeviceList = new List<NetworkDeviceInfo>();
+				if (allDevices.Count > 0)
+				{
+					foreach (KeyValuePair<string, Dictionary<string, NetworkDeviceInfo>> device in allDevices)
+					{
+						foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in device.Value)
+						{
+							string localIPLast = device.Key.ToString().Substring(device.Key.ToString().LastIndexOf("."));
+							deviceComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")" + localIPLast);
+							networkDeviceList.Add(d2.Value);
+						}
+					}
+				}
+			}
+
+			if (deviceComboBox.Items.Count > 0)
+			{
+				deviceComboBox.SelectedIndex = 0;
+				deviceComboBox.Enabled = true;
+				deviceConnectButton.Enabled = true;
+				setNotice("已搜到可用设备列表。", false);
+			}
+			else
+			{
+				setNotice("未找到可用设备，请检查设备连接后重试。", true);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：断开连接（主动断开连接、退出Form及切换连接方式时，都跑一次这个方法）
+		/// </summary>
+		private void disConnect()
+		{
+			if (myConnect != null && myConnect.IsConnected())
+			{
+				myConnect.DisConnect();
+				myConnect = null;
+				isConnected = false;
+				refreshConnectButtons();
+				setNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：刷新按键[可用性]及[显示的文字]
+		/// </summary>
+		private void refreshConnectButtons()
+		{
+			switchButton.Enabled = !isConnected;
+			deviceComboBox.Enabled = deviceComboBox.Items.Count > 0 && !isConnected;
+			refreshButton.Enabled = !isConnected;
+			deviceConnectButton.Enabled = deviceComboBox.Items.Count > 0;
+			updateButton.Enabled = isConnected ; 
+			
+			if (isConnectCom)
+			{
+				deviceConnectButton.Text = isConnected ? "关闭串口" : "打开串口";
+			}
+			else
+			{
+				deviceConnectButton.Text = isConnected ? "断开连接" : "连接设备";
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《刷新串口|网络》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			refreshDeviceComboBox();
+		}
+
+		/// <summary>
+		/// 辅助方法：显示信息
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="messageBoxShow">是否在提示盒内提示</param>
+		private void setNotice(string msg, bool messageBoxShow)
+		{
+			if (messageBoxShow)
+			{
+				MessageBox.Show(msg);
+			}
+			myStatusLabel.Text = msg;
+			statusStrip1.Refresh();
+		}	
+
+		/// <summary>
+		/// 辅助方法：禁用设备列表下拉框,并清空其数据
+		/// </summary>
+		private void disableDeviceComboBox()
+		{
+			deviceComboBox.Items.Clear();
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Text = "";
+			deviceComboBox.Enabled = false;
+		}
+
+		/// <summary>
+		/// 事件：点击《打开串口|关闭串口 | 连接设备|断开连接》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deviceConnectButton_Click(object sender, EventArgs e)
+		{
+			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
+			if (isConnected)
+			{
+				disConnect(); //deviceConnectButton_Click			
+				return;
+			}
+
+			// 若未连接，则连接；并分情况处理
+			if (isConnectCom)
+			{
+				myConnect = new SerialConnect();
+				try
+				{
+					if ((myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text))
+					{
+						isConnected = true;
+						refreshConnectButtons();
+						setNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+					}
+				}
+				catch (Exception ex)
+				{
+					setNotice("打开串口失败，原因是：\n" + ex.Message, true);
+				}
+			}
+			else
+			{
+				NetworkDeviceInfo selectedNetworkDevice = networkDeviceList[deviceComboBox.SelectedIndex];
+				string deviceName = selectedNetworkDevice.DeviceName;
+				myConnect = new NetworkConnect();
+				if (myConnect.Connect(selectedNetworkDevice))
+				{
+					isConnected = true;
+					refreshConnectButtons();
+					setNotice("成功连接网络设备(" + deviceName + ")。", true);
+				}
+				else
+				{
+					setNotice("连接网络设备(" + deviceName + ")失败。", true);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《下载工程》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void updateButton_Click_1(object sender, EventArgs e)
+		{
+			SetBusy(true);
+			bool generateNow = false;
+			if (String.IsNullOrEmpty(projectPath))
+			{
+				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
+					"下载工程?",
+					MessageBoxButtons.OKCancel,
+					MessageBoxIcon.Question);
+				if (dr == DialogResult.Cancel)
+				{
+					SetBusy(false);
+					return;
+				}
+
+				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
+				{
+					MessageBox.Show("当前工程无灯具，无法更新工程。");
+					SetBusy(false);
+					return;
+				}
+				generateNow = true;//只有当前无projectPath且选择继续后会rightNow
+			}
+			//若用户选择了已存在目录，则需要验证是否空目录
+			else
+			{
+				if (Directory.GetFiles(projectPath).Length == 0)
+				{
+					MessageBox.Show("所选目录为空,无法下载工程。请选择正确的已有工程目录，并重新下载。");
+					SetBusy(false);
+					return;
+				}
+			}
+
+			if (generateNow)
+			{
+				setNotice("正在实时生成工程数据，请耐心等待...",false);
+				DataConvertUtils.SaveProjectFile(dbWrapper, mainForm, globalSetPath,  new GenerateProjectCallBack(this, isConnectCom) );
+			}
+			else
+			{
+				FileUtils.CopyFileToDownloadDir(projectPath);
+				DownloadProject(isConnectCom);
+			}
+		}
+
+
+
+
+		#endregion
+
 	}
 
 	public class NetworkDownloadReceiveCallBack : ICommunicatorCallBack
@@ -451,6 +736,8 @@ namespace LightController.MyForm
 		{
 			puForm.networkPaintProgress(fileName, newProgress);
 		}
+
+		
 	}
 
 	public class ComDownloadReceiveCallBack : ICommunicatorCallBack

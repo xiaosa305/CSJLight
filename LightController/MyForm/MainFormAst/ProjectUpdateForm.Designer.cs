@@ -57,11 +57,22 @@
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.fileOpenButton = new System.Windows.Forms.Button();
 			this.clearButton = new System.Windows.Forms.Button();
+			this.switchButton = new System.Windows.Forms.Button();
+			this.deviceComboBox = new System.Windows.Forms.ComboBox();
+			this.deviceConnectButton = new System.Windows.Forms.Button();
+			this.refreshButton = new System.Windows.Forms.Button();
+			this.updateButton = new System.Windows.Forms.Button();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.myProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.skinTabControl.SuspendLayout();
 			this.networkTab.SuspendLayout();
 			this.networkPanel.SuspendLayout();
 			this.skinTabPage2.SuspendLayout();
 			this.comPanel.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -129,7 +140,7 @@
 			this.skinTabControl.HeadBack = null;
 			this.skinTabControl.ImgTxtOffset = new System.Drawing.Point(0, 0);
 			this.skinTabControl.ItemSize = new System.Drawing.Size(70, 36);
-			this.skinTabControl.Location = new System.Drawing.Point(0, 66);
+			this.skinTabControl.Location = new System.Drawing.Point(0, 215);
 			this.skinTabControl.Name = "skinTabControl";
 			this.skinTabControl.PageArrowDown = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowDown")));
 			this.skinTabControl.PageArrowHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowHover")));
@@ -297,7 +308,7 @@
 			// comFileShowLabel
 			// 
 			this.comFileShowLabel.AutoSize = true;
-			this.comFileShowLabel.Location = new System.Drawing.Point(148, 156);
+			this.comFileShowLabel.Location = new System.Drawing.Point(154, 165);
 			this.comFileShowLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.comFileShowLabel.Name = "comFileShowLabel";
 			this.comFileShowLabel.Size = new System.Drawing.Size(137, 12);
@@ -307,7 +318,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(39, 108);
+			this.label4.Location = new System.Drawing.Point(45, 117);
 			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(77, 12);
@@ -321,7 +332,7 @@
 			this.comSkinProgressBar.BarBack = null;
 			this.comSkinProgressBar.BarRadiusStyle = CCWin.SkinClass.RoundStyle.All;
 			this.comSkinProgressBar.ForeColor = System.Drawing.Color.Red;
-			this.comSkinProgressBar.Location = new System.Drawing.Point(150, 101);
+			this.comSkinProgressBar.Location = new System.Drawing.Point(156, 110);
 			this.comSkinProgressBar.Name = "comSkinProgressBar";
 			this.comSkinProgressBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
 			this.comSkinProgressBar.Size = new System.Drawing.Size(379, 23);
@@ -330,7 +341,7 @@
 			// comFileLabel
 			// 
 			this.comFileLabel.AutoSize = true;
-			this.comFileLabel.Location = new System.Drawing.Point(39, 156);
+			this.comFileLabel.Location = new System.Drawing.Point(45, 165);
 			this.comFileLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.comFileLabel.Name = "comFileLabel";
 			this.comFileLabel.Size = new System.Drawing.Size(89, 12);
@@ -379,12 +390,116 @@
 			this.clearButton.UseVisualStyleBackColor = true;
 			this.clearButton.Click += new System.EventHandler(this.clearSkinButton_Click);
 			// 
+			// switchButton
+			// 
+			this.switchButton.Location = new System.Drawing.Point(34, 30);
+			this.switchButton.Margin = new System.Windows.Forms.Padding(2);
+			this.switchButton.Name = "switchButton";
+			this.switchButton.Size = new System.Drawing.Size(88, 59);
+			this.switchButton.TabIndex = 34;
+			this.switchButton.Text = "切换为\r\n网络连接";
+			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
+			// 
+			// deviceComboBox
+			// 
+			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.deviceComboBox.Enabled = false;
+			this.deviceComboBox.FormattingEnabled = true;
+			this.deviceComboBox.Location = new System.Drawing.Point(164, 30);
+			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceComboBox.Name = "deviceComboBox";
+			this.deviceComboBox.Size = new System.Drawing.Size(246, 20);
+			this.deviceComboBox.TabIndex = 29;
+			// 
+			// deviceConnectButton
+			// 
+			this.deviceConnectButton.Enabled = false;
+			this.deviceConnectButton.Location = new System.Drawing.Point(301, 63);
+			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceConnectButton.Name = "deviceConnectButton";
+			this.deviceConnectButton.Size = new System.Drawing.Size(109, 26);
+			this.deviceConnectButton.TabIndex = 31;
+			this.deviceConnectButton.Text = "打开串口";
+			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
+			// 
+			// refreshButton
+			// 
+			this.refreshButton.Location = new System.Drawing.Point(164, 63);
+			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(107, 26);
+			this.refreshButton.TabIndex = 32;
+			this.refreshButton.Text = "刷新串口";
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			// 
+			// updateButton
+			// 
+			this.updateButton.BackColor = System.Drawing.Color.Chocolate;
+			this.updateButton.Enabled = false;
+			this.updateButton.Font = new System.Drawing.Font("幼圆", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.updateButton.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.updateButton.Location = new System.Drawing.Point(450, 30);
+			this.updateButton.Name = "updateButton";
+			this.updateButton.Size = new System.Drawing.Size(81, 59);
+			this.updateButton.TabIndex = 12;
+			this.updateButton.Text = "下载工程";
+			this.updateButton.UseVisualStyleBackColor = false;
+			this.updateButton.Click += new System.EventHandler(this.updateButton_Click_1);
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.BackColor = System.Drawing.Color.White;
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.myStatusLabel,
+            this.myProgressBar});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 193);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(566, 22);
+			this.statusStrip1.SizingGrip = false;
+			this.statusStrip1.TabIndex = 35;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// myStatusLabel
+			// 
+			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.myStatusLabel.Name = "myStatusLabel";
+			this.myStatusLabel.Size = new System.Drawing.Size(278, 17);
+			this.myStatusLabel.Spring = true;
+			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// myProgressBar
+			// 
+			this.myProgressBar.BackColor = System.Drawing.Color.Tan;
+			this.myProgressBar.Name = "myProgressBar";
+			this.myProgressBar.Size = new System.Drawing.Size(240, 16);
+			this.myProgressBar.Visible = false;
+			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.InactiveBorder;
+			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.switchButton);
+			this.panel1.Controls.Add(this.refreshButton);
+			this.panel1.Controls.Add(this.updateButton);
+			this.panel1.Controls.Add(this.deviceConnectButton);
+			this.panel1.Controls.Add(this.deviceComboBox);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panel1.Location = new System.Drawing.Point(0, 64);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(566, 129);
+			this.panel1.TabIndex = 36;
+			// 
 			// ProjectUpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(566, 331);
+			this.BackColor = System.Drawing.Color.DarkGray;
+			this.ClientSize = new System.Drawing.Size(566, 480);
+			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.clearButton);
 			this.Controls.Add(this.fileOpenButton);
 			this.Controls.Add(this.pathLabel);
@@ -404,7 +519,11 @@
 			this.skinTabPage2.ResumeLayout(false);
 			this.comPanel.ResumeLayout(false);
 			this.comPanel.PerformLayout();
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -437,5 +556,14 @@
 		private System.Windows.Forms.Button comUpdateButton;
 		private System.Windows.Forms.Button comOpenButton;
 		private System.Windows.Forms.Button comSearchButton;
+		private System.Windows.Forms.Button switchButton;
+		private System.Windows.Forms.ComboBox deviceComboBox;
+		private System.Windows.Forms.Button deviceConnectButton;
+		private System.Windows.Forms.Button refreshButton;
+		private System.Windows.Forms.Button updateButton;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
+		private System.Windows.Forms.ToolStripProgressBar myProgressBar;
+		private System.Windows.Forms.Panel panel1;
 	}
 }

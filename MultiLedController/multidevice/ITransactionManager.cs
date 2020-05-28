@@ -17,10 +17,24 @@ namespace MultiLedController.multidevice
         /// 功能：获取设备列表
         /// </summary>
         /// <returns></returns>
-        List<ControlDevice> GetControlDevicesList();
+        Dictionary<string, ControlDevice> GetControlDevicesList();
         /// <summary>
         /// 功能：清除设备列表
         /// </summary>
         void ClearControlDeviceList();
+
+        void AddDevice(List<ControlDevice> devices, List<List<string>> ips, string serverIp);
+
+        void StartReceiveDmxData();
+
+        void StopReceiveDmxData();
+
+        void StartDebug();
+
+        void StopDebug();
+
+        void StartRecode();
+
+        void StopRecode();
     }
 }

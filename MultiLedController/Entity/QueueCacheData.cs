@@ -19,8 +19,6 @@ namespace MultiLedController.entity
                 this.FieldDatas.Add(key, data[key]);
             }
             this.FramTime = framTime;
-
-           
         }
     }
 }

@@ -51,7 +51,8 @@ namespace MultiLedController.entity
             this.Baud = Convert.ToInt16(data[33]);
             this.Led_space = Convert.ToInt16(data[34]);
             this.Frame_time = Convert.ToInt16(data[35]);
-            this.Led_interface_num = Convert.ToInt16(data[36]) + 1;
+            //this.Led_interface_num = Convert.ToInt16(data[36]) + 1;
+            this.Led_interface_num = Convert.ToInt16(data[36]);
             this.Led_max_len = (int)((data[37] & 0xFF) | ((data[38] & 0xFF) << 8));
         }
     }

@@ -59,10 +59,6 @@ namespace LightController.PeripheralDevice
                 this.DeviceAddr = deviceInfo.DeviceAddr;
                 this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 this.Socket.ReceiveBufferSize = RECEIVEBUFFSIZE;
-
-                //TODO XIAOSA Test
-                //this.Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 500);
-
                 this.Socket.Connect(new IPEndPoint(IPAddress.Parse(this.DeviceIp), this.DevicePort));
                 this.Socket.BeginReceive(ReceiveBuff, this.BuffCount, this.BuffRemain(), SocketFlags.None, this.NetworkReceive, this);
                 LogTools.Debug(Constant.TAG_XIAOSA, "连接设备成功!");
@@ -120,7 +116,7 @@ namespace LightController.PeripheralDevice
                     for (int i = 0; i < count; i++)
                     {
                         ReadBuff.Add(buff[i]);
-                        //this.Receive();
+                        this.Receive();
                     }
                     connect.ReceiveBuff = new byte[RECEIVEBUFFSIZE];
                     this.Socket.BeginReceive(connect.ReceiveBuff, connect.BuffCount, connect.BuffRemain(), SocketFlags.None, NetworkReceive, connect);
@@ -256,6 +252,7 @@ namespace LightController.PeripheralDevice
                     info.DeviceAddr = addr;
                     info.LocalIp = LocalIp;
                     info.DeviceName = strBuff.Split(' ')[2];
+                    Console.WriteLine(Encoding.Default.GetString(buff));
                     if (!DeviceInfos[LocalIp].ContainsKey(info.DeviceIp))
                     {
                         DeviceInfos[LocalIp].Add(info.DeviceIp, info);

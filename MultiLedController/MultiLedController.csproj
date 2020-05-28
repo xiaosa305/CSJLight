@@ -82,6 +82,10 @@
   <ItemGroup>
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
+    <Compile Include="multidevice\impl\DebugDmxData.cs" />
+    <Compile Include="multidevice\impl\DebugDmxDataQueue.cs" />
+    <Compile Include="multidevice\impl\RecodeDmxData.cs" />
+    <Compile Include="multidevice\impl\RecodeDmxDataQueue.cs" />
     <Compile Include="multidevice\impl\TransactionManager.cs" />
     <Compile Include="multidevice\impl\VirtualClient.cs" />
     <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
@@ -110,6 +114,7 @@
     <Compile Include="MyForm\old\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="utils\GetMacUtils.cs" />
     <Compile Include="utils\IArt_Net_Client.cs" />
     <Compile Include="utils\ICalMD5Value.cs" />
     <Compile Include="utils\ILEDControllerClient.cs" />

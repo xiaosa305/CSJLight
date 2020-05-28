@@ -22,7 +22,8 @@ namespace MultiLedController.multidevice.impl
         private Thread SearchReceiveThread { get; set; }
         private string LocalIp { get; set; }
         private bool SearchReceiveStatus { get; set; }
-        private List<ControlDevice> ControlDevices { get; set; }
+        //private List<ControlDevice> ControlDevices { get; set; }
+        private Dictionary<string,ControlDevice> ControlDevices { get; set; }
 
 
         private List<VirtualControlDevice> VirtualControlDevices { get; set; }
@@ -39,7 +40,7 @@ namespace MultiLedController.multidevice.impl
         private void InitParameter()
         {
             this.SearchReceiveStatus = false;
-            this.ControlDevices = new List<ControlDevice>();
+            this.ControlDevices = new Dictionary<string, ControlDevice>();
             this.VirtualControlDevices = new List<VirtualControlDevice>();
         }
 
@@ -63,11 +64,11 @@ namespace MultiLedController.multidevice.impl
             int startLedSpace = 0;
             for (int index = 0; index < devices.Count; index++)
             {
-                this.VirtualControlDevices.Add(new VirtualControlDevice(index,startLedSpace, devices[index], ips[index],serverIp));
+                VirtualControlDevice device = new VirtualControlDevice(index, startLedSpace, devices[index], ips[index], serverIp);
+                this.VirtualControlDevices.Add(device);
                 startLedSpace += devices[index].Led_interface_num * devices[index].Led_space;
             }
         }
-
         /// <summary>
         /// 功能：搜索幻彩控制卡
         /// </summary>
@@ -82,7 +83,10 @@ namespace MultiLedController.multidevice.impl
                 if (this.SearchUdpServer != null)
                 {
                     this.SearchUdpServer.Close();
-                    this.SearchUdpClient.Close();
+                    if (this.SearchUdpClient != null)
+                    {
+                        this.SearchUdpClient.Close();
+                    }
                     this.SearchUdpServer = null;
                     this.SearchUdpClient = null;
                     this.SearchReceiveThread = null;
@@ -119,12 +123,13 @@ namespace MultiLedController.multidevice.impl
                     byte[] receiveData = udpClient.Receive(ref endPoint);
                     if (receiveData.Length == 41)//设备探索回复
                     {
-                        this.ControlDevices.Add(new ControlDevice(receiveData));
-                        LogTools.Debug(Constant.TAG_XIAOSA, "搜索到一台设备");
+                        ControlDevice device = new ControlDevice(receiveData);
+                        this.ControlDevices.Add(device.IP, device);
+                        LogTools.Debug(Constant.TAG_XIAOSA, "搜索到一台设备" + device.IP);
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //LogTools.Debug(Constant.TAG_XIAOSA, "搜索设备服务器已关闭");
             }
@@ -133,7 +138,7 @@ namespace MultiLedController.multidevice.impl
         /// 功能：获取设备列表
         /// </summary>
         /// <returns></returns>
-        public List<ControlDevice> GetControlDevicesList()
+        public Dictionary<string, ControlDevice> GetControlDevicesList()
         {
             return this.ControlDevices;
         }
@@ -144,6 +149,70 @@ namespace MultiLedController.multidevice.impl
         {
             this.ControlDevices.Clear();
         }
+        /// <summary>
+        /// 功能：关闭搜索设备服务器
+        /// </summary>
+        public void CloseSearchDeviceServers()
+        {
+            if (this.SearchUdpServer != null)
+            {
+                this.SearchReceiveStatus = false;
+                this.SearchUdpServer.Close();
+                this.SearchUdpClient.Close();
+                this.SearchUdpServer = null;
+                this.SearchUdpClient = null;
+                this.SearchReceiveThread = null;
+            }
+        }
 
+        //测试用
+        public void StartDebug()
+        {
+            for (int index = 0; index < this.VirtualControlDevices.Count; index++)
+            {
+                this.VirtualControlDevices[index].StartDebugMode();
+            }
+        }
+
+        public void StopDebug()
+        {
+            for (int index = 0; index < this.VirtualControlDevices.Count; index++)
+            {
+                this.VirtualControlDevices[index].StopDebugMode();
+            }
+        }
+
+        public void StartRecode()
+        {
+            for (int index = 0; index < this.VirtualControlDevices.Count; index++)
+            {
+                this.VirtualControlDevices[index].SetSaveFilePath(@"C:\Users\99729\Desktop\Test\SC00" + index+ @".bin");
+                this.VirtualControlDevices[index].StartRecode();
+            }
+        }
+
+        public void StopRecode()
+        {
+            for (int index = 0; index < this.VirtualControlDevices.Count; index++)
+            {
+                this.VirtualControlDevices[index].StopRecode();
+            }
+        }
+
+        public void StartReceiveDmxData()
+        {
+            for (int index = 0; index < this.VirtualControlDevices.Count; index++)
+            {
+                this.VirtualControlDevices[index].StartReceiveDMXData();
+            }
+        }
+        
+        public void StopReceiveDmxData()
+        {
+            for (int index = 0; index < this.VirtualControlDevices.Count; index++)
+            {
+                this.VirtualControlDevices[index].StopReceiveDMXData();
+            }
+        }
     }
 }

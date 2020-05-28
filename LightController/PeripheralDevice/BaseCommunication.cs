@@ -1896,7 +1896,7 @@ namespace LightController.PeripheralDevice
         /// <param name="configPath">全局配置文件路径</param>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void DownloadProject(DBWrapper wrapper,string configPath,Completed completed,Error error,Progress progress)
+        public void DownloadProject(Completed completed,Error error,Progress progress)
         {
             try
             {
@@ -1904,13 +1904,14 @@ namespace LightController.PeripheralDevice
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
+                    this.ProgressEvent = progress;
                     this.Error_Event = error;
                     this.CloseTransactionTimer();
                     this.TransactionTimer = new System.Timers.Timer
                     {
                         AutoReset = false
                     };
-                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => DownloadProjectStart(s, e,new DownloadProjectData(wrapper,configPath)));
+                    this.TransactionTimer.Elapsed += new ElapsedEventHandler((s, e) => DownloadProjectStart(s, e));
                     this.TransactionTimer.Start();
                 }
             }
@@ -1927,7 +1928,7 @@ namespace LightController.PeripheralDevice
         /// 功能：灯光工程下载更新执行线程
         /// </summary>
         /// <param name="obj"></param>
-        private void DownloadProjectStart(Object obj, ElapsedEventArgs e,DownloadProjectData data)
+        private void DownloadProjectStart(Object obj, ElapsedEventArgs e)
         {
             this.SecondOrder = Order.DOWNLOAD_PROJECT;
             string projectDirPath = Application.StartupPath + @"\DataCache\Download\CSJ";
@@ -2138,7 +2139,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         /// <param name="completed">成功事件委托</param>
         /// <param name="error">失败事件委托</param>
-        public void UpdateDeviceSystem(string filePath, Completed completed,Error error)
+        public void UpdateDeviceSystem(string filePath, Completed completed,Error error,Progress progress)
         {
             try
             {
@@ -2146,6 +2147,7 @@ namespace LightController.PeripheralDevice
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
+                    this.ProgressEvent = progress;
                     this.Error_Event = error;
                     this.CloseTransactionTimer();
                     this.TransactionTimer = new System.Timers.Timer

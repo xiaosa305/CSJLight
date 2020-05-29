@@ -302,7 +302,7 @@ namespace LightController.MyForm
 		{
 			if ( string.IsNullOrEmpty(binPath) )
 			{
-				SetNotice("尚未选择xbin文件,请在选择后重试。",true);
+				SetNotice("尚未选择xbin文件，请在选择后重试。",true);
 				return;
 			}
 
@@ -330,14 +330,14 @@ namespace LightController.MyForm
 
 				if(isConnectCom)
 				{
-					SetNotice("请继续操作。如出现错误，可先关闭再打开串口后重试。", true);
+					SetNotice("请继续操作(如出现错误，可先关闭再打开串口后重试)。", true);
 				}else{
 					myConnect.DisConnect();
 					myConnect = null;
 					isConnected = false;
 					disableDeviceComboBox();
 					refreshConnectButtons();
-					SetNotice("请刷新网络，并重新连接设备。如未找到设备，请稍等片刻重试", true);					
+					SetNotice("请刷新网络，并重新连接设备(如未找到设备，请稍等片刻后重试)。", true);					
 				}				
 				SetBusy(false);
 			});

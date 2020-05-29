@@ -168,14 +168,15 @@
 			// 
 			this.myProgressBar.BackColor = System.Drawing.Color.Black;
 			this.myProgressBar.Name = "myProgressBar";
-			this.myProgressBar.Size = new System.Drawing.Size(180, 16);
+			this.myProgressBar.Size = new System.Drawing.Size(148, 16);
 			this.myProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			// 
 			// progressStatusLabel
 			// 
 			this.progressStatusLabel.AutoSize = false;
 			this.progressStatusLabel.Name = "progressStatusLabel";
-			this.progressStatusLabel.Size = new System.Drawing.Size(30, 17);
+			this.progressStatusLabel.Size = new System.Drawing.Size(32, 17);
+			this.progressStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// HardwareUpdateForm
 			// 

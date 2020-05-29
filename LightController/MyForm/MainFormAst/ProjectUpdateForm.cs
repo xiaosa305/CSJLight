@@ -22,10 +22,10 @@ namespace LightController.MyForm
 {
 	public partial class ProjectUpdateForm : Form
 	{
-		private MainFormBase mainForm;
-		private DBWrapper dbWrapper;
-		private string projectPath;
-		private string globalSetPath;
+		private MainFormBase mainForm; 
+		private DBWrapper dbWrapper; 
+		private string globalSetPath;   // 全局配置路径
+		private string projectPath;   // 已有工程的路径（选到CSJ这一层）
 
 		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
 		private bool isConnected = false; //是否连接
@@ -102,7 +102,7 @@ namespace LightController.MyForm
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为网络连接" : "切换为串口连接";
+			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
 			refreshDeviceComboBox(); // switchButton_Click
@@ -301,7 +301,7 @@ namespace LightController.MyForm
 
 				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
 				{
-					MessageBox.Show("当前工程无灯具，无法更新工程。");
+					SetNotice("当前工程无灯具，无法更新工程。",true);
 					SetBusy(false);
 					return;
 				}
@@ -312,10 +312,16 @@ namespace LightController.MyForm
 			{
 				if (Directory.GetFiles(projectPath).Length == 0)
 				{
-					MessageBox.Show("所选目录为空,无法更新工程。请选择正确的已有工程目录，并重新更新。");
+					SetNotice("所选目录为空,无法更新工程。请选择正确的已有工程目录，并重新更新。",true);
 					SetBusy(false);
 					return;
 				}
+			}
+
+			if (myConnect == null || !isConnected) {
+				SetNotice("尚未连接设备，请连接后重试。", true);
+				SetBusy(false);
+				return;
 			}
 
 			if (generateNow)
@@ -343,7 +349,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：将本地的工程文件，传送到设备中
+		/// 辅助方法：将本地的工程文件，传送到设备中(因可能由外部类回调，故需单独写一个方法)
 		/// </summary>
 		public void DownloadProject()
 		{
@@ -365,7 +371,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助回调方法：回读配置失败
+		/// 辅助回调方法：工程更新失败
 		/// </summary>
 		/// <param name="obj"></param>
 		public void DownloadError(string msg)

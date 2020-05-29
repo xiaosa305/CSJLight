@@ -28,285 +28,22 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HardwareUpdateForm));
-			this.ipsComboBox = new System.Windows.Forms.ComboBox();
-			this.skinTabControl = new CCWin.SkinControl.SkinTabControl();
-			this.networkTab = new CCWin.SkinControl.SkinTabPage();
-			this.networkPanel = new System.Windows.Forms.Panel();
-			this.networkdUpdateButton = new System.Windows.Forms.Button();
-			this.networkSearchButton = new System.Windows.Forms.Button();
-			this.getLocalIPsButton = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
-			this.networkSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
-			this.localIPLabel = new System.Windows.Forms.Label();
-			this.localIPsComboBox = new System.Windows.Forms.ComboBox();
-			this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
-			this.comPanel = new System.Windows.Forms.Panel();
-			this.comUpdateButton = new System.Windows.Forms.Button();
-			this.comOpenButton = new System.Windows.Forms.Button();
-			this.comSearchButton = new System.Windows.Forms.Button();
-			this.label4 = new System.Windows.Forms.Label();
-			this.comSkinProgressBar = new CCWin.SkinControl.SkinProgressBar();
-			this.comNameLabel = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.comComboBox = new System.Windows.Forms.ComboBox();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.filePathLabel = new System.Windows.Forms.Label();
 			this.fileOpenButton = new System.Windows.Forms.Button();
-			this.skinTabControl.SuspendLayout();
-			this.networkTab.SuspendLayout();
-			this.networkPanel.SuspendLayout();
-			this.skinTabPage2.SuspendLayout();
-			this.comPanel.SuspendLayout();
+			this.connectPanel = new System.Windows.Forms.Panel();
+			this.switchButton = new System.Windows.Forms.Button();
+			this.refreshButton = new System.Windows.Forms.Button();
+			this.updateButton = new System.Windows.Forms.Button();
+			this.deviceConnectButton = new System.Windows.Forms.Button();
+			this.deviceComboBox = new System.Windows.Forms.ComboBox();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.myProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.progressStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.connectPanel.SuspendLayout();
+			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// ipsComboBox
-			// 
-			this.ipsComboBox.Enabled = false;
-			this.ipsComboBox.FormattingEnabled = true;
-			this.ipsComboBox.Location = new System.Drawing.Point(163, 80);
-			this.ipsComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.ipsComboBox.Name = "ipsComboBox";
-			this.ipsComboBox.Size = new System.Drawing.Size(281, 20);
-			this.ipsComboBox.TabIndex = 5;
-			this.ipsComboBox.SelectedIndexChanged += new System.EventHandler(this.networkDevicesComboBox_SelectedIndexChanged);
-			// 
-			// skinTabControl
-			// 
-			this.skinTabControl.AnimatorType = CCWin.SkinControl.AnimationType.HorizSlide;
-			this.skinTabControl.BackColor = System.Drawing.SystemColors.Control;
-			this.skinTabControl.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
-			this.skinTabControl.Controls.Add(this.networkTab);
-			this.skinTabControl.Controls.Add(this.skinTabPage2);
-			this.skinTabControl.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.skinTabControl.HeadBack = null;
-			this.skinTabControl.ImgTxtOffset = new System.Drawing.Point(0, 0);
-			this.skinTabControl.ItemSize = new System.Drawing.Size(70, 36);
-			this.skinTabControl.Location = new System.Drawing.Point(0, 76);
-			this.skinTabControl.Name = "skinTabControl";
-			this.skinTabControl.PageArrowDown = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowDown")));
-			this.skinTabControl.PageArrowHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageArrowHover")));
-			this.skinTabControl.PageCloseHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageCloseHover")));
-			this.skinTabControl.PageCloseNormal = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageCloseNormal")));
-			this.skinTabControl.PageDown = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageDown")));
-			this.skinTabControl.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl.PageHover")));
-			this.skinTabControl.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
-			this.skinTabControl.PageNorml = null;
-			this.skinTabControl.SelectedIndex = 1;
-			this.skinTabControl.Size = new System.Drawing.Size(564, 220);
-			this.skinTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-			this.skinTabControl.TabIndex = 9;
-			// 
-			// networkTab
-			// 
-			this.networkTab.BackColor = System.Drawing.Color.White;
-			this.networkTab.Controls.Add(this.networkPanel);
-			this.networkTab.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.networkTab.Location = new System.Drawing.Point(0, 36);
-			this.networkTab.Name = "networkTab";
-			this.networkTab.Size = new System.Drawing.Size(564, 184);
-			this.networkTab.TabIndex = 0;
-			this.networkTab.TabItemImage = null;
-			this.networkTab.Text = "网络模式";
-			// 
-			// networkPanel
-			// 
-			this.networkPanel.Controls.Add(this.networkdUpdateButton);
-			this.networkPanel.Controls.Add(this.networkSearchButton);
-			this.networkPanel.Controls.Add(this.getLocalIPsButton);
-			this.networkPanel.Controls.Add(this.label1);
-			this.networkPanel.Controls.Add(this.networkSkinProgressBar);
-			this.networkPanel.Controls.Add(this.localIPLabel);
-			this.networkPanel.Controls.Add(this.localIPsComboBox);
-			this.networkPanel.Controls.Add(this.ipsComboBox);
-			this.networkPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.networkPanel.Location = new System.Drawing.Point(0, 0);
-			this.networkPanel.Name = "networkPanel";
-			this.networkPanel.Size = new System.Drawing.Size(564, 184);
-			this.networkPanel.TabIndex = 9;
-			// 
-			// networkdUpdateButton
-			// 
-			this.networkdUpdateButton.Enabled = false;
-			this.networkdUpdateButton.Location = new System.Drawing.Point(463, 72);
-			this.networkdUpdateButton.Name = "networkdUpdateButton";
-			this.networkdUpdateButton.Size = new System.Drawing.Size(76, 32);
-			this.networkdUpdateButton.TabIndex = 16;
-			this.networkdUpdateButton.Text = "升级";
-			this.networkdUpdateButton.UseVisualStyleBackColor = true;
-			this.networkdUpdateButton.Click += new System.EventHandler(this.updateButton_Click);
-			// 
-			// networkSearchButton
-			// 
-			this.networkSearchButton.Location = new System.Drawing.Point(35, 73);
-			this.networkSearchButton.Name = "networkSearchButton";
-			this.networkSearchButton.Size = new System.Drawing.Size(108, 31);
-			this.networkSearchButton.TabIndex = 15;
-			this.networkSearchButton.Text = "搜索网络设备";
-			this.networkSearchButton.UseVisualStyleBackColor = true;
-			this.networkSearchButton.Click += new System.EventHandler(this.searchButton_Click);
-			// 
-			// getLocalIPsButton
-			// 
-			this.getLocalIPsButton.Location = new System.Drawing.Point(35, 26);
-			this.getLocalIPsButton.Name = "getLocalIPsButton";
-			this.getLocalIPsButton.Size = new System.Drawing.Size(108, 31);
-			this.getLocalIPsButton.TabIndex = 14;
-			this.getLocalIPsButton.Text = "获取本机IP列表";
-			this.getLocalIPsButton.UseVisualStyleBackColor = true;
-			this.getLocalIPsButton.Click += new System.EventHandler(this.getLocalIPsButton_Click);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(36, 130);
-			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(77, 12);
-			this.label1.TabIndex = 10;
-			this.label1.Text = "升级总进度：";
-			// 
-			// networkSkinProgressBar
-			// 
-			this.networkSkinProgressBar.Back = null;
-			this.networkSkinProgressBar.BackColor = System.Drawing.Color.Transparent;
-			this.networkSkinProgressBar.BarBack = null;
-			this.networkSkinProgressBar.BarRadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.networkSkinProgressBar.ForeColor = System.Drawing.Color.Red;
-			this.networkSkinProgressBar.Location = new System.Drawing.Point(126, 125);
-			this.networkSkinProgressBar.Name = "networkSkinProgressBar";
-			this.networkSkinProgressBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.networkSkinProgressBar.Size = new System.Drawing.Size(413, 23);
-			this.networkSkinProgressBar.TabIndex = 13;
-			this.networkSkinProgressBar.Tag = "9999";
-			// 
-			// localIPLabel
-			// 
-			this.localIPLabel.AutoSize = true;
-			this.localIPLabel.Location = new System.Drawing.Point(506, 40);
-			this.localIPLabel.Name = "localIPLabel";
-			this.localIPLabel.Size = new System.Drawing.Size(0, 12);
-			this.localIPLabel.TabIndex = 9;
-			// 
-			// localIPsComboBox
-			// 
-			this.localIPsComboBox.Enabled = false;
-			this.localIPsComboBox.FormattingEnabled = true;
-			this.localIPsComboBox.Location = new System.Drawing.Point(163, 32);
-			this.localIPsComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.localIPsComboBox.Name = "localIPsComboBox";
-			this.localIPsComboBox.Size = new System.Drawing.Size(281, 20);
-			this.localIPsComboBox.TabIndex = 5;
-			this.localIPsComboBox.SelectedIndexChanged += new System.EventHandler(this.localIPsComboBox_SelectedIndexChanged);
-			// 
-			// skinTabPage2
-			// 
-			this.skinTabPage2.BackColor = System.Drawing.Color.White;
-			this.skinTabPage2.Controls.Add(this.comPanel);
-			this.skinTabPage2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.skinTabPage2.Location = new System.Drawing.Point(0, 36);
-			this.skinTabPage2.Name = "skinTabPage2";
-			this.skinTabPage2.Size = new System.Drawing.Size(564, 184);
-			this.skinTabPage2.TabIndex = 1;
-			this.skinTabPage2.TabItemImage = null;
-			this.skinTabPage2.Text = "串口模式";
-			// 
-			// comPanel
-			// 
-			this.comPanel.Controls.Add(this.comUpdateButton);
-			this.comPanel.Controls.Add(this.comOpenButton);
-			this.comPanel.Controls.Add(this.comSearchButton);
-			this.comPanel.Controls.Add(this.label4);
-			this.comPanel.Controls.Add(this.comSkinProgressBar);
-			this.comPanel.Controls.Add(this.comNameLabel);
-			this.comPanel.Controls.Add(this.label6);
-			this.comPanel.Controls.Add(this.comComboBox);
-			this.comPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.comPanel.Location = new System.Drawing.Point(0, 0);
-			this.comPanel.Name = "comPanel";
-			this.comPanel.Size = new System.Drawing.Size(564, 184);
-			this.comPanel.TabIndex = 10;
-			// 
-			// comUpdateButton
-			// 
-			this.comUpdateButton.Enabled = false;
-			this.comUpdateButton.Location = new System.Drawing.Point(464, 46);
-			this.comUpdateButton.Name = "comUpdateButton";
-			this.comUpdateButton.Size = new System.Drawing.Size(75, 31);
-			this.comUpdateButton.TabIndex = 17;
-			this.comUpdateButton.Text = "升级";
-			this.comUpdateButton.UseVisualStyleBackColor = true;
-			this.comUpdateButton.Click += new System.EventHandler(this.updateButton_Click);
-			// 
-			// comOpenButton
-			// 
-			this.comOpenButton.Enabled = false;
-			this.comOpenButton.Location = new System.Drawing.Point(369, 46);
-			this.comOpenButton.Name = "comOpenButton";
-			this.comOpenButton.Size = new System.Drawing.Size(75, 31);
-			this.comOpenButton.TabIndex = 17;
-			this.comOpenButton.Text = "打开串口";
-			this.comOpenButton.UseVisualStyleBackColor = true;
-			this.comOpenButton.Click += new System.EventHandler(this.comOpenButton_Click);
-			// 
-			// comSearchButton
-			// 
-			this.comSearchButton.Location = new System.Drawing.Point(33, 46);
-			this.comSearchButton.Name = "comSearchButton";
-			this.comSearchButton.Size = new System.Drawing.Size(88, 31);
-			this.comSearchButton.TabIndex = 16;
-			this.comSearchButton.Text = "搜索串口设备";
-			this.comSearchButton.UseVisualStyleBackColor = true;
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(36, 112);
-			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(77, 12);
-			this.label4.TabIndex = 12;
-			this.label4.Text = "升级总进度：";
-			// 
-			// comSkinProgressBar
-			// 
-			this.comSkinProgressBar.Back = null;
-			this.comSkinProgressBar.BackColor = System.Drawing.Color.Transparent;
-			this.comSkinProgressBar.BarBack = null;
-			this.comSkinProgressBar.BarRadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.comSkinProgressBar.ForeColor = System.Drawing.Color.Red;
-			this.comSkinProgressBar.Location = new System.Drawing.Point(135, 107);
-			this.comSkinProgressBar.Name = "comSkinProgressBar";
-			this.comSkinProgressBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.comSkinProgressBar.Size = new System.Drawing.Size(404, 23);
-			this.comSkinProgressBar.TabIndex = 15;
-			// 
-			// comNameLabel
-			// 
-			this.comNameLabel.AutoSize = true;
-			this.comNameLabel.Location = new System.Drawing.Point(285, 64);
-			this.comNameLabel.Name = "comNameLabel";
-			this.comNameLabel.Size = new System.Drawing.Size(0, 12);
-			this.comNameLabel.TabIndex = 10;
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(278, 46);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(65, 12);
-			this.label6.TabIndex = 11;
-			this.label6.Text = "已选串口：";
-			// 
-			// comComboBox
-			// 
-			this.comComboBox.Enabled = false;
-			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(154, 52);
-			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(96, 20);
-			this.comComboBox.TabIndex = 5;
 			// 
 			// openFileDialog
 			// 
@@ -331,60 +68,156 @@
 			this.fileOpenButton.UseVisualStyleBackColor = true;
 			this.fileOpenButton.Click += new System.EventHandler(this.fileOpenButton_Click);
 			// 
+			// connectPanel
+			// 
+			this.connectPanel.BackColor = System.Drawing.SystemColors.InactiveCaption;
+			this.connectPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.connectPanel.Controls.Add(this.switchButton);
+			this.connectPanel.Controls.Add(this.refreshButton);
+			this.connectPanel.Controls.Add(this.updateButton);
+			this.connectPanel.Controls.Add(this.deviceConnectButton);
+			this.connectPanel.Controls.Add(this.deviceComboBox);
+			this.connectPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.connectPanel.Location = new System.Drawing.Point(0, 65);
+			this.connectPanel.Name = "connectPanel";
+			this.connectPanel.Size = new System.Drawing.Size(564, 129);
+			this.connectPanel.TabIndex = 38;
+			// 
+			// switchButton
+			// 
+			this.switchButton.Location = new System.Drawing.Point(37, 30);
+			this.switchButton.Margin = new System.Windows.Forms.Padding(2);
+			this.switchButton.Name = "switchButton";
+			this.switchButton.Size = new System.Drawing.Size(88, 59);
+			this.switchButton.TabIndex = 34;
+			this.switchButton.Text = "切换为\r\n网络连接";
+			this.switchButton.UseVisualStyleBackColor = true;
+			this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
+			// 
+			// refreshButton
+			// 
+			this.refreshButton.Location = new System.Drawing.Point(167, 63);
+			this.refreshButton.Margin = new System.Windows.Forms.Padding(2);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(107, 26);
+			this.refreshButton.TabIndex = 32;
+			this.refreshButton.Text = "刷新串口";
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			// 
+			// updateButton
+			// 
+			this.updateButton.BackColor = System.Drawing.Color.OrangeRed;
+			this.updateButton.Enabled = false;
+			this.updateButton.Font = new System.Drawing.Font("幼圆", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.updateButton.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.updateButton.Location = new System.Drawing.Point(453, 30);
+			this.updateButton.Name = "updateButton";
+			this.updateButton.Size = new System.Drawing.Size(81, 59);
+			this.updateButton.TabIndex = 12;
+			this.updateButton.Text = "升级";
+			this.updateButton.UseVisualStyleBackColor = false;
+			this.updateButton.Click += new System.EventHandler(this.updateButton_Click_1);
+			// 
+			// deviceConnectButton
+			// 
+			this.deviceConnectButton.Enabled = false;
+			this.deviceConnectButton.Location = new System.Drawing.Point(304, 63);
+			this.deviceConnectButton.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceConnectButton.Name = "deviceConnectButton";
+			this.deviceConnectButton.Size = new System.Drawing.Size(109, 26);
+			this.deviceConnectButton.TabIndex = 31;
+			this.deviceConnectButton.Text = "打开串口";
+			this.deviceConnectButton.UseVisualStyleBackColor = true;
+			this.deviceConnectButton.Click += new System.EventHandler(this.deviceConnectButton_Click);
+			// 
+			// deviceComboBox
+			// 
+			this.deviceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.deviceComboBox.Enabled = false;
+			this.deviceComboBox.FormattingEnabled = true;
+			this.deviceComboBox.Location = new System.Drawing.Point(167, 30);
+			this.deviceComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.deviceComboBox.Name = "deviceComboBox";
+			this.deviceComboBox.Size = new System.Drawing.Size(246, 20);
+			this.deviceComboBox.TabIndex = 29;
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.BackColor = System.Drawing.Color.White;
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.myStatusLabel,
+            this.myProgressBar,
+            this.progressStatusLabel});
+			this.statusStrip1.Location = new System.Drawing.Point(0, 194);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(564, 22);
+			this.statusStrip1.SizingGrip = false;
+			this.statusStrip1.TabIndex = 37;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// myStatusLabel
+			// 
+			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.myStatusLabel.Name = "myStatusLabel";
+			this.myStatusLabel.Size = new System.Drawing.Size(286, 17);
+			this.myStatusLabel.Spring = true;
+			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// myProgressBar
+			// 
+			this.myProgressBar.BackColor = System.Drawing.Color.Black;
+			this.myProgressBar.Name = "myProgressBar";
+			this.myProgressBar.Size = new System.Drawing.Size(180, 16);
+			this.myProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			// 
+			// progressStatusLabel
+			// 
+			this.progressStatusLabel.AutoSize = false;
+			this.progressStatusLabel.Name = "progressStatusLabel";
+			this.progressStatusLabel.Size = new System.Drawing.Size(30, 17);
+			// 
 			// HardwareUpdateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.ClientSize = new System.Drawing.Size(564, 296);
+			this.ClientSize = new System.Drawing.Size(564, 216);
+			this.Controls.Add(this.connectPanel);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.fileOpenButton);
 			this.Controls.Add(this.filePathLabel);
-			this.Controls.Add(this.skinTabControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.HelpButton = true;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "HardwareUpdateForm";
-			this.Text = "手动更新硬件";
+			this.Text = "硬件升级(固件更新)";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.HardwareUpdateForm_HelpButtonClicked);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HardwareUpdateForm_FormClosed);
 			this.Load += new System.EventHandler(this.UpdateForm_Load);
-			this.skinTabControl.ResumeLayout(false);
-			this.networkTab.ResumeLayout(false);
-			this.networkPanel.ResumeLayout(false);
-			this.networkPanel.PerformLayout();
-			this.skinTabPage2.ResumeLayout(false);
-			this.comPanel.ResumeLayout(false);
-			this.comPanel.PerformLayout();
+			this.connectPanel.ResumeLayout(false);
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
-		private System.Windows.Forms.ComboBox ipsComboBox;
-		private CCWin.SkinControl.SkinTabControl skinTabControl;
-		private CCWin.SkinControl.SkinTabPage networkTab;
-		private System.Windows.Forms.Panel networkPanel;
-		private CCWin.SkinControl.SkinTabPage skinTabPage2;
-		private System.Windows.Forms.Panel comPanel;
-		private System.Windows.Forms.ComboBox comComboBox;
-		private System.Windows.Forms.ComboBox localIPsComboBox;
-		private System.Windows.Forms.Label localIPLabel;
-		private System.Windows.Forms.Label comNameLabel;
-		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.Label filePathLabel;
-		private System.Windows.Forms.Label label1;
-		private CCWin.SkinControl.SkinProgressBar networkSkinProgressBar;
-		private System.Windows.Forms.Label label4;
-		private CCWin.SkinControl.SkinProgressBar comSkinProgressBar;
 		private System.Windows.Forms.Button fileOpenButton;
-		private System.Windows.Forms.Button getLocalIPsButton;
-		private System.Windows.Forms.Button networkSearchButton;
-		private System.Windows.Forms.Button networkdUpdateButton;
-		private System.Windows.Forms.Button comSearchButton;
-		private System.Windows.Forms.Button comUpdateButton;
-		private System.Windows.Forms.Button comOpenButton;
+		private System.Windows.Forms.Panel connectPanel;
+		private System.Windows.Forms.Button switchButton;
+		private System.Windows.Forms.Button refreshButton;
+		private System.Windows.Forms.Button updateButton;
+		private System.Windows.Forms.Button deviceConnectButton;
+		private System.Windows.Forms.ComboBox deviceComboBox;
+		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
+		private System.Windows.Forms.ToolStripProgressBar myProgressBar;
+		private System.Windows.Forms.ToolStripStatusLabel progressStatusLabel;
 	}
 }

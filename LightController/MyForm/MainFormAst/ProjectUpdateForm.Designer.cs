@@ -144,7 +144,7 @@
             this.myProgressBar});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 194);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(570, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(564, 22);
 			this.statusStrip1.SizingGrip = false;
 			this.statusStrip1.TabIndex = 35;
 			this.statusStrip1.Text = "statusStrip1";
@@ -153,7 +153,7 @@
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(282, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(342, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -176,7 +176,7 @@
 			this.connectPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.connectPanel.Location = new System.Drawing.Point(0, 65);
 			this.connectPanel.Name = "connectPanel";
-			this.connectPanel.Size = new System.Drawing.Size(570, 129);
+			this.connectPanel.Size = new System.Drawing.Size(564, 129);
 			this.connectPanel.TabIndex = 36;
 			// 
 			// ProjectUpdateForm
@@ -184,7 +184,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.DarkGray;
-			this.ClientSize = new System.Drawing.Size(570, 216);
+			this.ClientSize = new System.Drawing.Size(564, 216);
 			this.Controls.Add(this.connectPanel);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.clearButton);

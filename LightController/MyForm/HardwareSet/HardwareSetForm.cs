@@ -645,7 +645,7 @@ namespace LightController.MyForm
 				Thread.Sleep(5000);
 				if (isConnectCom)
 				{
-					setNotice("设备(以串口连接)重启成功，请继续操作。",true);					
+					setNotice("请继续操作。如出现错误，可先关闭再打开串口后重试。",true);	
 				}
 				else
 				{
@@ -654,7 +654,7 @@ namespace LightController.MyForm
 					isConnected = false;
 					disableDeviceComboBox();
 					refreshConnectButtons();					
-					setNotice("设备(以网络连接)重启成功，请刷新网络并重新连接设备。", true);					
+					setNotice("请刷新网络，并重新连接设备。如未找到设备，请稍等片刻重试。", true);					
 				}
 				setBusy(false);
 			});

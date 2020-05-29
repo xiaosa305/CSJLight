@@ -1780,7 +1780,7 @@ namespace OtherTools
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
 				deviceConnectButton.Enabled = false;
-				setAllStatusLabel1("设备已重启，请重新搜索并重连网络设备");
+				setAllStatusLabel1("请重新搜索并重连网络设备");
 			}
 		}
 

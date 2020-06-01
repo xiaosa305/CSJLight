@@ -458,7 +458,7 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				setNotice("已搜到可用设备列表。", false);
+				setNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false);
 			}
 			else
 			{

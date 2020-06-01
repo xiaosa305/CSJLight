@@ -87,7 +87,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：在《打开灯具》对话框内选择文件，并点击确认时
+		///  事件：在《选择升级文件》对话框内选择文件，并点击确认时
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -198,7 +198,7 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				SetNotice("已搜到可用设备列表。", false);
+				SetNotice("已刷新"+ (isConnectCom?"串口":"网络设备")+"列表。", false);
 			}
 			else
 			{
@@ -298,7 +298,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void updateButton_Click_1(object sender, EventArgs e)
+		private void updateButton_Click(object sender, EventArgs e)
 		{
 			if ( string.IsNullOrEmpty(binPath) )
 			{
@@ -407,8 +407,5 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = false;
 		}
 
-
-
-		
 	}
 }

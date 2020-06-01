@@ -117,7 +117,7 @@
 			this.updateButton.TabIndex = 12;
 			this.updateButton.Text = "升级";
 			this.updateButton.UseVisualStyleBackColor = false;
-			this.updateButton.Click += new System.EventHandler(this.updateButton_Click_1);
+			this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
 			// 
 			// deviceConnectButton
 			// 

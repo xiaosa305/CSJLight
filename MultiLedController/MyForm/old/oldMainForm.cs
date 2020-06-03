@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace MultiLedController.MyForm
 {
-	public partial class MainForm : Form
+	public partial class OldMainForm : Form
 	{
 		private string appName = "TRANS-JOY MultiLed Controller";
 		//private IList<string> ipList;
@@ -40,7 +40,7 @@ namespace MultiLedController.MyForm
 
 		List<VirtualControlInfo> virtuals; 
 
-		public MainForm()
+		public OldMainForm()
 		{
 			InitializeComponent();
 			this.Text = appName;
@@ -59,7 +59,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void networkButton_Click(object sender, EventArgs e)
 		{
-			new NetworkForm( this ).ShowDialog();
+			new OldNetworkForm( this ).ShowDialog();
 		}
 
 		//事件：点击《刷新IP列表》
@@ -409,7 +409,7 @@ namespace MultiLedController.MyForm
 			//string mac = args[3];
 			//string ledName = args[4];
 
-			new NetworkForm(this, ipLast, interfaceCount).ShowDialog(); 
+			new OldNetworkForm(this, ipLast, interfaceCount).ShowDialog(); 
 
 		}
 	}

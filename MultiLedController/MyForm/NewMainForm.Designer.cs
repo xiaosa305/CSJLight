@@ -409,7 +409,7 @@
 			// refreshNetcardInfoButton
 			// 
 			this.refreshNetcardInfoButton.Font = new System.Drawing.Font("黑体", 8F);
-			this.refreshNetcardInfoButton.Location = new System.Drawing.Point(317, 26);
+			this.refreshNetcardInfoButton.Location = new System.Drawing.Point(319, 23);
 			this.refreshNetcardInfoButton.Name = "refreshNetcardInfoButton";
 			this.refreshNetcardInfoButton.Size = new System.Drawing.Size(66, 72);
 			this.refreshNetcardInfoButton.TabIndex = 27;

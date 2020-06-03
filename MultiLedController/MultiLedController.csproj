@@ -96,6 +96,12 @@
     <Compile Include="multidevice\XiaosaTestFrom.Designer.cs">
       <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,12 +114,6 @@
     <Compile Include="MyForm\NewNetworkForm.Designer.cs">
       <DependentUpon>NewNetworkForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\old\TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\old\TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="utils\GetMacUtils.cs" />
     <Compile Include="utils\IArt_Net_Client.cs" />
     <Compile Include="utils\ICalMD5Value.cs" />
@@ -125,17 +125,17 @@
     <Compile Include="entity\QueueCacheData.cs" />
     <Compile Include="entity\SaveQueueCacheData.cs" />
     <Compile Include="entity\VirtualControlInfo.cs" />
-    <Compile Include="MyForm\old\MainForm.cs">
+    <Compile Include="MyForm\old\OldMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\old\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="MyForm\old\OldMainForm.Designer.cs">
+      <DependentUpon>OldMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\old\NetworkForm.cs">
+    <Compile Include="MyForm\old\OldNetworkForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\old\NetworkForm.Designer.cs">
-      <DependentUpon>NetworkForm.cs</DependentUpon>
+    <Compile Include="MyForm\old\OldNetworkForm.Designer.cs">
+      <DependentUpon>OldNetworkForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,20 +154,20 @@
     <EmbeddedResource Include="multidevice\XiaosaTestFrom.resx">
       <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\old\MainForm.resx">
+    <EmbeddedResource Include="MyForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\old\NetworkForm.resx">
-      <DependentUpon>NetworkForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\old\OldMainForm.resx">
+      <DependentUpon>OldMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\old\OldNetworkForm.resx">
+      <DependentUpon>OldNetworkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewMainForm.resx">
       <DependentUpon>NewMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewNetworkForm.resx">
       <DependentUpon>NewNetworkForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\old\TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -203,6 +203,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon-20191029044630870.ico" />
+    <Content Include="更新日志\v2.0.0.602.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="更新日志\v1.3.5.602.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="更新日志\v1.3.4.513.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

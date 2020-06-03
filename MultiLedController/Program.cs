@@ -18,11 +18,11 @@ namespace MultiLedController
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-            //Application.Run(new MainForm());
-            //Application.Run(new NewMainForm());
+			Application.Run(new MainForm());
+			//Application.Run(new NewMainForm());
 
-            //xiaosa的TestForm
-            Application.Run(new XiaosaTestFrom());
+			//xiaosa的TestForm
+			//Application.Run(new MainForm());
 		}
 	}
 }

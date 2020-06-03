@@ -1,6 +1,6 @@
 ﻿namespace MultiLedController
 {
-	partial class NetworkForm
+	partial class OldNetworkForm
 	{
 		/// <summary>
 		/// 必需的设计器变量。

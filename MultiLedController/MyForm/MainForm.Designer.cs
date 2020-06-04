@@ -467,6 +467,7 @@
 			this.minusButton.TabIndex = 72;
 			this.minusButton.Text = "-";
 			this.minusButton.UseVisualStyleBackColor = true;
+			this.minusButton.Click += new System.EventHandler(this.minusButton_Click);
 			// 
 			// plusButton
 			// 
@@ -476,6 +477,7 @@
 			this.plusButton.TabIndex = 71;
 			this.plusButton.Text = "+";
 			this.plusButton.UseVisualStyleBackColor = true;
+			this.plusButton.Click += new System.EventHandler(this.plusButton_Click);
 			// 
 			// recordTextBox
 			// 
@@ -536,6 +538,7 @@
 			this.recordButton.TabIndex = 65;
 			this.recordButton.Text = "录制数据";
 			this.recordButton.UseVisualStyleBackColor = false;
+			this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
 			// 
 			// debugButton
 			// 

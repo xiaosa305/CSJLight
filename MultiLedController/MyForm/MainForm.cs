@@ -806,8 +806,7 @@ namespace MultiLedController.MyForm
 
 				try
 				{
-					TransactionManager.GetTransactionManager().AddDevice(deviceDtoList, mainIP);
-					TransactionManager.GetTransactionManager().StartAllDeviceReceiveDmxData();					
+					TransactionManager.GetTransactionManager().AddDevice(deviceDtoList, mainIP).StartAllDeviceReceiveDmxData();					
 				}
 				catch (Exception ex)
 				{
@@ -836,7 +835,7 @@ namespace MultiLedController.MyForm
 				{
 					debugButton_Click(null, null);
 				}
-				Art_Net_Manager.GetInstance().Close();
+				TransactionManager.GetTransactionManager().StopAllDeviceReceiveDmxData();
 				enableStartButtons(false);
 				setNotice(1, "已关闭模拟。", false);
 				setBusy(false);
@@ -855,11 +854,11 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "开始调试";
 			if (isDebuging)
 			{
-				Art_Net_Manager.GetInstance().StartDebug(showDebugFrame);
+				TransactionManager.GetTransactionManager().StartAllDeviceDebug();
 			}
 			else
 			{
-				Art_Net_Manager.GetInstance().StopDebug();
+				TransactionManager.GetTransactionManager().StopAllDeviceDebug();
 			}
 		}
 
@@ -1024,9 +1023,79 @@ namespace MultiLedController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 事件：点击《+》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void plusButton_Click(object sender, EventArgs e)
+		{
+			if (recordIndex >= 999)
+			{
+				setNotice(2, "录制文件序号不得大于999。",true);
+				return;
+			}
+			recordTextBox.Text = transformRecordIndex(++recordIndex);
+			setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin", false);
+		}
 
+		/// <summary>
+		/// 事件：点击《-》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void minusButton_Click(object sender, EventArgs e)
+		{
+			if (recordIndex <= 0)
+			{
+				setNotice(2, "录制文件序号不得小于000。",true);
+				return;
+			}
+			recordTextBox.Text = transformRecordIndex(--recordIndex);
+			setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin",false);
+		}
+
+		/// <summary>
+		/// 事件：点击《录制数据 | 停止录制》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void recordButton_Click(object sender, EventArgs e)
+		{
+			if (isRecording)
+			{
+				Art_Net_Manager.GetInstance().StopSaveToFile();
+				enableRecordButtons(false);
+				plusButton_Click(null, null);
+				setNotice(2, "已停止录制,并把录制序号加1。",false);
+				recordButton.Text = "录制数据";
+			}
+			else
+			{
+				setNotice(2, "正在录制文件...",false);
+				string recordFilePath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
+				Art_Net_Manager.GetInstance().SetSaveFilePath(recordFilePath);
+				Art_Net_Manager.GetInstance().StartSaveToFile(showRecordFrame);
+				enableRecordButtons(true);
+				recordButton.Text = "停止录制";
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：设置录制相关控件是否可用
+		/// </summary>
+		/// <param name="recording"></param>
+		private void enableRecordButtons(bool recording)
+		{
+			isRecording = recording;
+			setFilePathButton.Enabled = !recording;
+			recordTextBox.Enabled = !recording;
+			plusButton.Enabled = !recording;
+			minusButton.Enabled = !recording;
+		}
 
 		#endregion
+
 
 	}
 }

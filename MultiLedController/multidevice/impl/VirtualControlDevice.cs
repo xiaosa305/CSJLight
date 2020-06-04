@@ -49,6 +49,7 @@ namespace MultiLedController.multidevice.impl
 
         private long RecodeFrameCount { get; set; }//录制帧数记录
         private string RecodeFilePath { get; set; }//录制文件存储路径
+        private string ServersIp { get; set; }
 
 
         public VirtualControlDevice(int index, int startLedSpace, ControlDevice device, List<string> ips,string serverIp)
@@ -56,10 +57,11 @@ namespace MultiLedController.multidevice.impl
             this.VirtualDeviceIndex = index;
             this.StartLedSpace = startLedSpace;
             this.ControlDevice = device;
+            this.ServersIp = serverIp;
             this.InitParameter();
             this.InitUdpServers();
             this.InitControlDeviceDebugAndRecodeThread();
-            this.CreateVirtualClient(startLedSpace, device, ips,serverIp);
+            this.CreateVirtualClient(startLedSpace, device, ips);
         }
         /// <summary>
         /// 功能：初始化参数
@@ -90,7 +92,7 @@ namespace MultiLedController.multidevice.impl
             {
                 this.ControlDeviceUdpSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 this.ControlDeviceUdpSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-                this.ControlDeviceUdpSend.Bind(new IPEndPoint(IPAddress.Parse("192.168.31.200"), 9999 + this.VirtualDeviceIndex + 1));
+                this.ControlDeviceUdpSend.Bind(new IPEndPoint(IPAddress.Parse(this.ServersIp), 9999 + this.VirtualDeviceIndex + 1));
                 this.ControlDeviceUdpClient = new UdpClient() { Client = this.ControlDeviceUdpSend};
                 this.ControlDeviceUdpReceiveThread = new Thread(this.ControlDeviceUdpReceiveMsg) { IsBackground = true };
                 this.ControlDeviceUdpReceiveThread.Start(this.ControlDeviceUdpClient);
@@ -120,12 +122,12 @@ namespace MultiLedController.multidevice.impl
         /// <param name="device"></param>
         /// <param name="ips"></param>
         /// <param name="serverIp"></param>
-        private void CreateVirtualClient(int startLedSpace, ControlDevice device,List<string> ips, string serverIp)
+        private void CreateVirtualClient(int startLedSpace, ControlDevice device,List<string> ips)
         {
             for (int virtualClientIndex = 0; virtualClientIndex < device.Led_interface_num; virtualClientIndex++)
             {
                 //新建虚拟客户端
-                VirtualClient virtualClient = new VirtualClient(startLedSpace, device, ips[virtualClientIndex], serverIp, DmxDataResponse);
+                VirtualClient virtualClient = new VirtualClient(startLedSpace, device, ips[virtualClientIndex], this.ServersIp, DmxDataResponse);
                 //将虚拟客户端添加到虚拟客户端池中
                 this.VirtualClients.Add(virtualClient);
                 for (int ledSpaceNumber = startLedSpace; ledSpaceNumber < device.Led_space + startLedSpace; ledSpaceNumber++)
@@ -427,7 +429,6 @@ namespace MultiLedController.multidevice.impl
                 }
                 else
                 {
-                    //Console.WriteLine(Constant.TAG_XIAOSA + ":----- i is" + i + "data[0] is" + data[0] + ",data[1] is" + data[1] + ",data[2] is" + data[2]);
                     if (data.Count > 1024)
                     {
                         sendBuff.AddRange(new byte[] { 0xAA, 0xFF, 0xBB, 0x20, Convert.ToByte(i * 2), Convert.ToByte((1024 >> 8) & 0xFF), Convert.ToByte(1024 & 0xFF) });
@@ -472,6 +473,22 @@ namespace MultiLedController.multidevice.impl
         public void StopReceiveDMXData()
         {
             this.IsStartResponseDmxDataStatus = false;
+        }
+        /// <summary>
+        /// 判断Ip是否为该虚拟控制器
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public bool IsThisDevice(string ip)
+        {
+            if (ip != null )
+            {
+                if (ip.Equals(this.ControlDevice.IP))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

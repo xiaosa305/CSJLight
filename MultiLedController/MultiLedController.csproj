@@ -83,6 +83,7 @@
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
     <Compile Include="entity\dto\ControlDeviceDTO.cs" />
+    <Compile Include="entity\dto\SetRecodeFilePathDTO.cs" />
     <Compile Include="multidevice\impl\DebugDmxData.cs" />
     <Compile Include="multidevice\impl\DebugDmxDataQueue.cs" />
     <Compile Include="multidevice\impl\RecodeDmxData.cs" />
@@ -90,7 +91,6 @@
     <Compile Include="multidevice\impl\TransactionManager.cs" />
     <Compile Include="multidevice\impl\VirtualClient.cs" />
     <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
-    <Compile Include="multidevice\ITransactionManager.cs" />
     <Compile Include="multidevice\XiaosaTestFrom.cs">
       <SubType>Form</SubType>
     </Compile>

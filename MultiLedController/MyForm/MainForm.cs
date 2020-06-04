@@ -383,37 +383,7 @@ namespace MultiLedController.MyForm
 			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
 			Enabled = !busy;
 		}
-
-		#region 各委托方法
-
-		/// <summary>
-		/// 辅助方法：实现展示调试帧数的委托
-		/// </summary>
-		/// <param name="count"></param>
-		private void showDebugFrame(long count)
-		{
-			setNotice(1, "当前调试帧数：" + count , false);
-		}
-
-		/// <summary>
-		/// 辅助方法：实现展示录制帧数的委托
-		/// </summary>
-		/// <param name="count"></param>
-		private void showRecordFrame(long count)
-		{
-			setNotice(2, "当前录制帧数：" + count, false);
-		}
-
-		/// <summary>
-		/// 辅助方法：一旦网络设置发送变化，立即设置setChanged为true
-		/// </summary>
-		public void SetNetworkChangedTrue()
-		{
-			networkChanged = true;
-		}
-
-		#endregion
-
+			
 		#region 设置添加到序列的列表		
 
 		/// <summary>
@@ -716,6 +686,7 @@ namespace MultiLedController.MyForm
 				}
 
 				int startInterface = 0;
+
 				deviceDtoList = new List<ControlDeviceDTO>();
 
 				for (int i = 0; i < choosenIndexList.Count; i++)
@@ -759,7 +730,6 @@ namespace MultiLedController.MyForm
 					return;
 				}
 
-
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
 
@@ -776,7 +746,7 @@ namespace MultiLedController.MyForm
 				{
 					debugButton_Click(null, null);
 				}
-				TransactionManager.GetTransactionManager().StopAllDeviceReceiveDmxData().CloseAllDevice();
+				TransactionManager.GetTransactionManager().StopAllDeviceReceiveDmxData().CloseAllDevice();			
 				enableStartButtons(false);
 				setNotice(1, "已关闭模拟。", false);
 				setBusy(false);
@@ -795,7 +765,7 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "开始调试";
 			if (isDebuging)
 			{
-				TransactionManager.GetTransactionManager().StartAllDeviceDebug();
+				TransactionManager.GetTransactionManager().StartAllDeviceDebug().SetDebugFrameCountResponse(deviceDtoList, showDebugFrame);
 			}
 			else
 			{
@@ -1058,7 +1028,7 @@ namespace MultiLedController.MyForm
 				{					
 					deviceDtoList[i].RecodeFilePath = recordPath + @"\" + (i+1) + @"("+ deviceDtoList[i].ControlDevice.LedName.Replace("\0","")+@")\SC" + recordTextBox.Text + ".bin";
 				}
-				TransactionManager.GetTransactionManager().SetRecodeFilePath(deviceDtoList).StartAllDeviceRecode();
+				TransactionManager.GetTransactionManager().SetRecodeFilePath(deviceDtoList).StartAllDeviceRecode().SetRecordFrameCountResponse(deviceDtoList , showRecordFrame);
 				enableRecordButtons(true);
 				recordButton.Text = "停止录制";
 			}
@@ -1115,9 +1085,38 @@ namespace MultiLedController.MyForm
 			recordPathLabel.Text = recordPath;
 			myToolTip.SetToolTip(recordPathLabel, recordPath);
 		}
-
+				
 		#endregion
 
+		#region 各委托方法
+
+		/// <summary>
+		/// 辅助方法：实现展示调试帧数的委托
+		/// </summary>
+		/// <param name="count"></param>
+		private void showDebugFrame(int count)
+		{
+			setNotice(1, "当前调试帧数：" + count, false);
+		}
+
+		/// <summary>
+		/// 辅助方法：实现展示录制帧数的委托
+		/// </summary>
+		/// <param name="count"></param>
+		private void showRecordFrame(int count)
+		{
+			setNotice(2, "当前录制帧数：" + count, false);
+		}
+
+		/// <summary>
+		/// 辅助方法：一旦网络设置发送变化，立即设置setChanged为true
+		/// </summary>
+		public void SetNetworkChangedTrue()
+		{
+			networkChanged = true;
+		}
+
+		#endregion
 
 	}
 }

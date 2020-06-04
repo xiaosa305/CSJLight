@@ -14,5 +14,7 @@ namespace MultiLedController.entity.dto
             this.ControlDevice = controlDevice;
             this.VirtualIps = virtualIps;
         }
+        public ControlDeviceDTO() { }
+
     }
 }

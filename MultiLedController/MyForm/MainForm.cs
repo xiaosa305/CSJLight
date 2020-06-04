@@ -1,6 +1,7 @@
 ﻿using MultiLedController.Ast;
 using MultiLedController.Common;
 using MultiLedController.entity;
+using MultiLedController.multidevice.impl;
 using MultiLedController.utils.impl;
 using System;
 using System.Collections.Generic;
@@ -783,6 +784,8 @@ namespace MultiLedController.MyForm
 					string devName = device.LedName ;
 					string ip = device.IP ; 
 
+
+
 					for (int interfaceIndex = 0 ; interfaceIndex < interfaceCount;  interfaceIndex++ )
 					{
 						Console.WriteLine("interfaceIndex + startInterface : "  + (interfaceIndex + startInterface) );
@@ -794,6 +797,9 @@ namespace MultiLedController.MyForm
 				}
 
 				setNotice(1, "正在关联虚拟IP与设备，请稍候...",false);
+
+				//TransactionManager.GetTransactionManager().AddDevice();
+
 
 				//try
 				//{

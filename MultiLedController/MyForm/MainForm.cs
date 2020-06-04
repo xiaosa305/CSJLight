@@ -337,7 +337,7 @@ namespace MultiLedController.MyForm
 			}
 			refreshLeftListView();
 
-			setNotice(1, "已将搜索到的设备添加待命列表中，请逐一添加使用的设备。", false); 
+			setNotice(1, "已将搜索到的设备添加待命列表中，请逐一添加需使用的设备。", false); 
 		}
 			
 		/// <summary>

@@ -273,6 +273,7 @@
 			// 
 			this.columnHeader5.Text = "关联路数";
 			this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader5.Width = 62;
 			// 
 			// refreshNetcardButton
 			// 

@@ -438,9 +438,9 @@
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel1,
             this.myStatusLabel2});
-			this.statusStrip.Location = new System.Drawing.Point(0, 719);
+			this.statusStrip.Location = new System.Drawing.Point(0, 715);
 			this.statusStrip.Name = "statusStrip";
-			this.statusStrip.Size = new System.Drawing.Size(749, 22);
+			this.statusStrip.Size = new System.Drawing.Size(749, 26);
 			this.statusStrip.SizingGrip = false;
 			this.statusStrip.TabIndex = 60;
 			this.statusStrip.Text = "statusStrip1";
@@ -448,16 +448,18 @@
 			// myStatusLabel1
 			// 
 			this.myStatusLabel1.Name = "myStatusLabel1";
-			this.myStatusLabel1.Size = new System.Drawing.Size(367, 17);
+			this.myStatusLabel1.Size = new System.Drawing.Size(367, 21);
 			this.myStatusLabel1.Spring = true;
+			this.myStatusLabel1.Text = "   ";
 			this.myStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// myStatusLabel2
 			// 
 			this.myStatusLabel2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
 			this.myStatusLabel2.Name = "myStatusLabel2";
-			this.myStatusLabel2.Size = new System.Drawing.Size(367, 17);
+			this.myStatusLabel2.Size = new System.Drawing.Size(367, 21);
 			this.myStatusLabel2.Spring = true;
+			this.myStatusLabel2.Text = "  ";
 			this.myStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// minusButton
@@ -584,7 +586,7 @@
 			this.panel2.Controls.Add(this.label3);
 			this.panel2.Controls.Add(this.recordTextBox);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel2.Location = new System.Drawing.Point(0, 630);
+			this.panel2.Location = new System.Drawing.Point(0, 626);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(749, 89);
 			this.panel2.TabIndex = 75;

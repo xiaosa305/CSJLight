@@ -747,6 +747,7 @@ namespace MultiLedController.MyForm
 					debugButton_Click(null, null);
 				}
 				TransactionManager.GetTransactionManager().StopAllDeviceReceiveDmxData().CloseAllDevice();			
+
 				enableStartButtons(false);
 				setNotice(1, "已关闭模拟。", false);
 				setBusy(false);

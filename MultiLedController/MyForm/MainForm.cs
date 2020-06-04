@@ -782,45 +782,43 @@ namespace MultiLedController.MyForm
 				for (int i = 0; i < choosenIndexList.Count; i++)
 				{
 					int deviceIndex = choosenIndexList[i];
-					ControlDevice device = deviceList[ deviceIndex ];
-					
+					ControlDevice device = deviceList[ deviceIndex ];				
 
 					int interfaceCount = device.Led_interface_num;
 					string devName = device.LedName ;
-					string ip = device.IP ; 
-
+					string ip = device.IP ;
+					List<string> VIPList = new List<string>();
 
 					for (int interfaceIndex = 0 ; interfaceIndex < interfaceCount;  interfaceIndex++ )
 					{
-						Console.WriteLine("interfaceIndex + startInterface : "  + (interfaceIndex + startInterface)  + " IP : " + ); 
 						virtualIPListView.Items[interfaceIndex + startInterface].SubItems[2].Text = devName;
 						virtualIPListView.Items[interfaceIndex + startInterface].SubItems[3].Text = (interfaceIndex + 1).ToString();
-						//virtuals.Add(new VirtualControlInfo(virtualIPListView.Items[interfaceIndex].SubItems[1].Text, device));
+						VIPList.Add( virtualIPListView.Items[interfaceIndex + startInterface].SubItems[1].Text  );
 					}
 					startInterface += interfaceCount;
+
+					ControlDeviceDTO deviceDTO = new ControlDeviceDTO(device,VIPList);
+					deviceDtoList.Add(deviceDTO);
+				}
+				Refresh();
+
+				setNotice(1, "正在关联虚拟IP与设备，请稍候...",false);
+
+				try
+				{
+					TransactionManager.GetTransactionManager().AddDevice(deviceDtoList, mainIP);
+					TransactionManager.GetTransactionManager().StartAllDeviceReceiveDmxData();					
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("启动模拟失败。\n" +
+						"原因（异常）是：" + ex.Message + "。\n" +
+						"若因IP配置失败，可《启用DHCP》或《清空虚拟IP》后重试。");
+					setNotice(1, "启动模拟失败。", true);
+					setBusy(false);
+					return;
 				}
 
-				//setNotice(1, "正在关联虚拟IP与设备，请稍候...",false);
-
-				
-
-
-				//TransactionManager.GetTransactionManager().AddDevice(     , mainIp );
-
-
-				//try
-				//{
-				//	Art_Net_Manager.GetInstance().Start(virtuals, mainIP, mainIP, device);
-				//}
-				//catch (Exception ex)
-				//{
-				//	MessageBox.Show("启动模拟失败。\n" +
-				//		"原因（异常）是：" + ex.Message + "。\n" +
-				//		"若因IP配置失败，可《启用DHCP》或《清空虚拟IP》后重试。");
-				//	setNotice(1, "启动模拟失败。");
-				//	setBusy(false);
-				//	return;
-				//}
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);

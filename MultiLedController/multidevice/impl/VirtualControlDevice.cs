@@ -52,8 +52,8 @@ namespace MultiLedController.multidevice.impl
         private string RecordFilePath { get; set; }//录制文件存储路径
         private string ServersIp { get; set; }
 
-        public delegate int RecordFrameCountResponse();
-        public delegate int DebugFrameCountResponse();
+        public delegate void RecordFrameCountResponse(int frameCount);
+        public delegate void DebugFrameCountResponse(int frameCount);
 
         private RecordFrameCountResponse RecordFrameCountResponse_Event { get; set; }
         private DebugFrameCountResponse DebugFrameCountResponse_Event { get; set; }
@@ -261,10 +261,10 @@ namespace MultiLedController.multidevice.impl
                 while (this.ControlDeviceUdpReceiveStatus)
                 {
                     IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(this.ControlDevice.IP), this.ControlDevice.LinkPort);
-                    //IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 9999);
                     byte[] receiveData = udpClient.Receive(ref iPEndPoint);
                     if (Encoding.Default.GetString(receiveData).Equals(Constant.RECEIVE_START_DEBUF_MODE))
                     {
+                        this.DebugFrameCount = 0;
                         this.IsDebugStatus = true;
                         Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
                     }
@@ -354,7 +354,6 @@ namespace MultiLedController.multidevice.impl
         public void StartRecord()
         {
             this.RecordFrameCount = 0;
-            //this.GetRecodeFrameCount_Event = frameCount;
             if (!File.Exists(this.RecordFilePath))
             {
                 File.Create(this.RecordFilePath).Dispose();
@@ -427,6 +426,7 @@ namespace MultiLedController.multidevice.impl
                             }
                             FileUtils.GetInstance().WriteToFile(framData, RecordFilePath);
                             this.RecordFrameCount++;
+                            this.RecordFrameCountResponse_Event?.Invoke(this.RecordFrameCount);
                             //LogTools.Debug(Constant.TAG_XIAOSA, "已录制" + this.RecodeFrameCount + "帧");
                         }
                     }
@@ -495,6 +495,8 @@ namespace MultiLedController.multidevice.impl
                     Thread.Sleep(3);
                 }
             }
+            this.DebugFrameCount++;
+            this.DebugFrameCountResponse_Event?.Invoke(this.DebugFrameCount);
         }
         /// <summary>
         /// 功能：启动接收DMX数据

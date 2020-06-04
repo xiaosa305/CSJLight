@@ -104,6 +104,34 @@ namespace MultiLedController.multidevice.impl
                 LogTools.Error(Constant.TAG_XIAOSA, "配置控制卡服务器失败", ex);
             }
         }
+        public void CloseVirtualControlDevice()
+        {
+            try
+            {
+                this.ControlDeviceDebugThreadStatus = false;
+                this.ControlDeviceRecodeThreadStatus = false;
+                this.IsStartResponseDmxDataStatus = false;
+                this.IsDebugStatus = false;
+                this.IsRecodeStatus = false;
+                this.ControlDeviceDebugThreadStatus = false;
+                this.ControlDeviceRecodeThreadStatus = false;
+                this.ControlDeviceUdpReceiveStatus = false;
+                if (this.ControlDeviceUdpSend != null)
+                {
+                    this.ControlDeviceUdpSend.Close();
+                    this.ControlDeviceUdpSend = null;
+                    if (this.ControlDeviceUdpClient != null)
+                    {
+                        this.ControlDeviceUdpClient.Close();
+                        this.ControlDeviceUdpClient = null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭虚拟控制器" + this.ControlDevice.IP + "失败", ex);
+            }
+        }
         /// <summary>
         /// 功能：初始化实时调试以及录制线程
         /// </summary>

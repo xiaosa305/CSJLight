@@ -164,7 +164,7 @@ namespace MultiLedController.multidevice.impl
         /// <summary>
         /// 功能：清除设备列表
         /// </summary>
-        public void ClearControlDeviceList()
+        private void ClearControlDeviceList()
         {
             this.ControlDevices.Clear();
         }
@@ -222,6 +222,7 @@ namespace MultiLedController.multidevice.impl
             return this;
         }
 
+
         public TransactionManager StartAllDeviceReceiveDmxData()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
@@ -261,6 +262,16 @@ namespace MultiLedController.multidevice.impl
                     }
                 }
             }
+            return this;
+        }
+
+        public TransactionManager CloseAllDevice()
+        {
+            foreach (VirtualControlDevice device in this.VirtualControlDevices)
+            {
+                device.CloseVirtualControlDevice();
+            }
+            this.ClearControlDeviceList();
             return this;
         }
     }

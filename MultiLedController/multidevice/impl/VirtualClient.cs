@@ -48,15 +48,40 @@ namespace MultiLedController.multidevice.impl
             }
         }
 
+        public void CloseVirtualClient()
+        {
+            if (this.UdpSend != null)
+            {
+                this.UdpReceiveStatus = false;
+                this.UdpSend.Close();
+                if (this.UdpClient != null)
+                {
+                    this.UdpClient.Close();
+                    this.UdpClient = null;
+                }
+                this.UdpSend.Dispose();
+                this.UdpSend = null;
+            }
+            this.DmxDataResponse_Event = null;
+        }
+
         private void InitServers()
         {
-            this.UdpSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            this.UdpSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            this.UdpSend.Bind(new IPEndPoint(IPAddress.Parse(VirtualClientIp), PORT));
-            this.UdpClient = new UdpClient() { Client = UdpSend };
-            this.UdpReceiveThread = new Thread(UdpReceiveMsg) { IsBackground = true };
-            this.UdpReceiveStatus = true;
-            this.UdpReceiveThread.Start(this.UdpClient);
+            try
+            {
+                this.UdpSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                this.UdpSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                this.UdpSend.Bind(new IPEndPoint(IPAddress.Parse(VirtualClientIp), PORT));
+                this.UdpClient = new UdpClient() { Client = UdpSend };
+                this.UdpReceiveThread = new Thread(UdpReceiveMsg) { IsBackground = true };
+                this.UdpReceiveStatus = true;
+                this.UdpReceiveThread.Start(this.UdpClient);
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, this.ControlDevice.IP + "启动虚拟客户" + VirtualClientIp + "端失败", ex);
+            }
+           
         }
 
         private void UdpReceiveMsg(Object obj)

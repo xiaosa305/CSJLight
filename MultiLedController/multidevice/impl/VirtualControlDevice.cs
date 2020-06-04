@@ -92,6 +92,7 @@ namespace MultiLedController.multidevice.impl
             {
                 this.ControlDeviceUdpSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 this.ControlDeviceUdpSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                Console.WriteLine(this.ControlDevice.IP + " ：    Port is  " + (9999 + this.VirtualDeviceIndex + 1));
                 this.ControlDeviceUdpSend.Bind(new IPEndPoint(IPAddress.Parse(this.ServersIp), 9999 + this.VirtualDeviceIndex + 1));
                 this.ControlDeviceUdpClient = new UdpClient() { Client = this.ControlDeviceUdpSend};
                 this.ControlDeviceUdpReceiveThread = new Thread(this.ControlDeviceUdpReceiveMsg) { IsBackground = true };
@@ -101,6 +102,34 @@ namespace MultiLedController.multidevice.impl
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "配置控制卡服务器失败", ex);
+            }
+        }
+        public void CloseVirtualControlDevice()
+        {
+            try
+            {
+                this.ControlDeviceDebugThreadStatus = false;
+                this.ControlDeviceRecodeThreadStatus = false;
+                this.IsStartResponseDmxDataStatus = false;
+                this.IsDebugStatus = false;
+                this.IsRecodeStatus = false;
+                this.ControlDeviceDebugThreadStatus = false;
+                this.ControlDeviceRecodeThreadStatus = false;
+                this.ControlDeviceUdpReceiveStatus = false;
+                if (this.ControlDeviceUdpSend != null)
+                {
+                    this.ControlDeviceUdpSend.Close();
+                    this.ControlDeviceUdpSend = null;
+                    if (this.ControlDeviceUdpClient != null)
+                    {
+                        this.ControlDeviceUdpClient.Close();
+                        this.ControlDeviceUdpClient = null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTools.Error(Constant.TAG_XIAOSA, "关闭虚拟控制器" + this.ControlDevice.IP + "失败", ex);
             }
         }
         /// <summary>

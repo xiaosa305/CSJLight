@@ -240,7 +240,7 @@ namespace MultiLedController.multidevice.impl
             return this;
         }
 
-        public void SetRecodeFilePath(List<SetRecodeFilePathDTO> recodeFilePathDTOs)
+        public TransactionManager SetRecodeFilePath(List<SetRecodeFilePathDTO> recodeFilePathDTOs)
         {
             if (this.VirtualControlDevices != null)
             {
@@ -261,6 +261,7 @@ namespace MultiLedController.multidevice.impl
                     }
                 }
             }
+            return this;
         }
     }
 }

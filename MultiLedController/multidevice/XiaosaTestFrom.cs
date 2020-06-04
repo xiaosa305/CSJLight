@@ -57,32 +57,32 @@ namespace MultiLedController.multidevice
 
         private void TestBtn3_Click(object sender, EventArgs e)
         {
-            TransactionManager.GetTransactionManager().StartReceiveDmxData();
+            TransactionManager.GetTransactionManager().StartAllDeviceReceiveDmxData();
         }
 
         private void TestBtn4_Click(object sender, EventArgs e)
         {
-            TransactionManager.GetTransactionManager().StartRecode();
+            TransactionManager.GetTransactionManager().StartAllDeviceRecode();
         }
 
         private void TestBtn5_Click(object sender, EventArgs e)
         {
-            TransactionManager.GetTransactionManager().StopRecode();
+            TransactionManager.GetTransactionManager().StopAllDeviceRecode();
         }
 
         private void TestBtn6_Click(object sender, EventArgs e)
         {
-            TransactionManager.GetTransactionManager().StopReceiveDmxData();
+            TransactionManager.GetTransactionManager().StopAllDeviceReceiveDmxData();
         }
 
         private void TestBtn7_Click(object sender, EventArgs e)
         {
-            TransactionManager.GetTransactionManager().StartDebug();
+            TransactionManager.GetTransactionManager().StartAllDeviceDebug();
         }
 
         private void TestBtn8_Click(object sender, EventArgs e)
         {
-            TransactionManager.GetTransactionManager().StopDebug();
+            TransactionManager.GetTransactionManager().StopAllDeviceDebug();
         }
     }
 }

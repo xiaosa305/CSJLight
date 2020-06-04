@@ -12,18 +12,17 @@ using System.Threading;
 
 namespace MultiLedController.multidevice.impl
 {
-    public class TransactionManager:ITransactionManager
+    public class TransactionManager
     {
         private const int SEARCH_DEVICE_PORT = 9999;
         private readonly byte[] SEARCH_DEVICE_ORDER = new byte[] { 0xEB,0x55};
-        private static ITransactionManager Instance { get; set; }
+        private static TransactionManager Instance { get; set; }
 
         private Socket SearchUdpServer { get; set; }
         private UdpClient SearchUdpClient { get; set; }
         private Thread SearchReceiveThread { get; set; }
         private string LocalIp { get; set; }
         private bool SearchReceiveStatus { get; set; }
-        //private List<ControlDevice> ControlDevices { get; set; }
         private Dictionary<string,ControlDevice> ControlDevices { get; set; }
 
 
@@ -45,7 +44,7 @@ namespace MultiLedController.multidevice.impl
             this.VirtualControlDevices = new List<VirtualControlDevice>();
         }
 
-        public static ITransactionManager GetTransactionManager()
+        public static TransactionManager GetTransactionManager()
         {
             if (Instance == null)
             {
@@ -184,7 +183,7 @@ namespace MultiLedController.multidevice.impl
         }
 
         //测试用
-        public void StartDebug()
+        public void StartAllDeviceDebug()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
@@ -192,7 +191,7 @@ namespace MultiLedController.multidevice.impl
             }
         }
 
-        public void StopDebug()
+        public void StopAllDeviceDebug()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
@@ -200,7 +199,7 @@ namespace MultiLedController.multidevice.impl
             }
         }
 
-        public void StartRecode()
+        public void StartAllDeviceRecode()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
@@ -209,7 +208,7 @@ namespace MultiLedController.multidevice.impl
             }
         }
 
-        public void StopRecode()
+        public void StopAllDeviceRecode()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
@@ -217,7 +216,7 @@ namespace MultiLedController.multidevice.impl
             }
         }
 
-        public void StartReceiveDmxData()
+        public void StartAllDeviceReceiveDmxData()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
@@ -225,7 +224,7 @@ namespace MultiLedController.multidevice.impl
             }
         }
         
-        public void StopReceiveDmxData()
+        public void StopAllDeviceReceiveDmxData()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {

@@ -177,8 +177,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void refreshNetcardinfoButton_Click(object sender, EventArgs e)
 		{	
-			refreshNetcardInfo();		
-			
+			refreshNetcardInfo();					
 		}
 
 		/// <summary>
@@ -230,7 +229,7 @@ namespace MultiLedController.MyForm
 
                 int controllerSelectedIndex = controllerListView.SelectedIndices[0];
 				string mac = controllerListView.Items[controllerSelectedIndex].SubItems[2].Text;
-				int interfaceCount = ledControlDevices[mac].Led_interface_num - 1;
+				int interfaceCount = ledControlDevices[mac].Led_interface_num;
 				int addVIPCount = interfaceCount - vipList.Count;		
 
 				if (addVIPCount > 0)
@@ -635,13 +634,13 @@ namespace MultiLedController.MyForm
 		/// <param name="led"></param>
 		private void AddLedController(int index,ControlDevice led)
 		{
-			this.controllerListView.Items.Add(
+			controllerListView.Items.Add(
 				new ListViewItem(new string[]{
 					index.ToString(),
 					led.LedName,
 					led.Mac,
-					(led.Led_interface_num-1).ToString()
-				})				
+					led.Led_interface_num.ToString()
+				})						
 			);
 		}
 		
@@ -674,7 +673,6 @@ namespace MultiLedController.MyForm
 			Thread.Sleep(1000);
 			ledControlDevices = Art_Net_Manager.GetInstance().GetLedControlDevices();
 
-			controllerListView.Items.Clear();
 			if (ledControlDevices.Count == 0)
 			{
 				setNotice(1,"未搜索到任何设备，请确认后重试。");

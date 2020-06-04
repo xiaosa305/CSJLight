@@ -27,23 +27,23 @@ using MultiLedController.MyForm;
 
 namespace MultiLedController
 {
-	public partial class NetworkForm : Form
+	public partial class OldNetworkForm : Form
 	{				
 		private IList<ManagementObject> moList;
 		private int netcardIndex = -1;
 		private IPAst tempIpAst;		
-		private MainForm mainForm;
+		private OldMainForm mainForm;
 		private IList<string> virtualIPList;
 		private int ipCount = 9;
 
-		public NetworkForm(MainForm mainForm)
+		public OldNetworkForm(OldMainForm mainForm)
 		{
 			InitializeComponent();
 			refreshNetcard();
 			this.mainForm = mainForm;
 		}
 
-		public NetworkForm(MainForm mainForm, int ipLast, int interfaceCount) 
+		public OldNetworkForm(OldMainForm mainForm, int ipLast, int interfaceCount) 
 		{
 			InitializeComponent();
 			refreshNetcard();

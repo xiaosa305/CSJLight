@@ -452,7 +452,12 @@
     <Content Include="更新日志\v2.4.4.520.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="更新日志\v2.5.2.526.txt" />
+    <Content Include="更新日志\v2.6.0.529.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="更新日志\v2.5.2.526.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="MyForm\LightEditor\LightEditorForm.resx">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -1050,7 +1055,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="FTD2XX_NET.XML" />
-    <Content Include="更新日志\ReadMe.txt" />
+    <Content Include="更新日志\ReadMe.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

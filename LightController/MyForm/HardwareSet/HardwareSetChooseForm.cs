@@ -28,11 +28,16 @@ namespace LightController.MyForm
 			if (Directory.Exists(hardwareLibraryPath))
 			{
 				string[] dirs = Directory.GetDirectories(hardwareLibraryPath);
-				foreach (string dir in dirs)
+				DirectoryInfo[] diArray = DirectoryHelper.GenerateDiretoryInfoArray(dirs);
+				if (diArray == null)
 				{
-					DirectoryInfo di = new DirectoryInfo(dir);
+					return;
+				}
+				DirectoryHelper.SortAsFolderByLastWriteTime(ref diArray);
+				foreach (DirectoryInfo di in diArray)
+				{
 					TreeNode treeNode = new TreeNode(di.Name);
-					this.treeView1.Nodes.Add(treeNode);
+					treeView1.Nodes.Add(treeNode);
 				}
 			}
 		}

@@ -1506,17 +1506,17 @@ namespace OtherTools
 				// 同理，若是使用透传模式，则下载成功重启的并非主设备，而是透传的设备，其重启后仍会主动连上主设备，主动点击重连键即可。
 				if (isConnectCom || tcCheckBox.Checked)
 				{
-					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)。");
-					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)...";	
+					MessageBox.Show("灯控配置下载成功,请等待设备重启(约耗时5s)。");
+					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待设备重启(约耗时5s)...";	
 					Thread.Sleep(5000);
 					lcConnectButton_Click(null, null);
 				}
 				else {
-					MessageBox.Show("灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
-					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";					
+					MessageBox.Show("灯控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。");
+					lcToolStripStatusLabel2.Text = "灯控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。";					
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
-					networkDeviceRestart();					
+					networkDeviceRestart();	
 				}				
 			});
 		}
@@ -1542,14 +1542,14 @@ namespace OtherTools
 			Invoke((EventHandler)delegate {
 				if (isConnectCom)
 				{
-					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)。");
-					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)...";					
+					MessageBox.Show("中控配置下载成功,请等待设备重启(约耗时5s)。");
+					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待设备重启(约耗时5s)...";					
 					Thread.Sleep(5000);
 					ccConnectButton_Click(null, null);
 				}
 				else {
-					MessageBox.Show("中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。");
-					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待机器重启(约耗时5s)，并重新搜索连接网络设备。";					
+					MessageBox.Show("中控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。");
+					ccToolStripStatusLabel2.Text = "中控配置下载成功,请等待设备重启(约耗时5s)，并重新搜索连接网络设备。";					
 					Thread.Sleep(5000);
 					setConnStatus(ConnectStatus.No);
 					networkDeviceRestart();
@@ -1780,7 +1780,7 @@ namespace OtherTools
 				deviceComboBox.Text = "";
 				deviceComboBox.Enabled = false;
 				deviceConnectButton.Enabled = false;
-				setAllStatusLabel1("设备已重启，请重新搜索并重连网络设备");
+				setAllStatusLabel1("请重新搜索并重连网络设备");
 			}
 		}
 

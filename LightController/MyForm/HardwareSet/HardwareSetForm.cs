@@ -20,50 +20,38 @@ namespace LightController.MyForm
 	public partial class HardwareSetForm : Form
 	{
 		private MainFormBase mainForm;
-		private string iniPath;
-		private string hName;
-
-		/// <summary>
-		/// 是否新建：亦即是否已设定存储目录
-		/// </summary>
-		private bool isNew = true;
-
-		private ConnectTools connectTools; // 网络连接实体
-		private string localIP; //设置的本地IP
-		private IList<string> ips;  //搜索到的ip列表 ，将填进ipsComboBox
-		private IList<string> selectedIPs;  //填充进去的ip列表，用以发送数据		
-
-		private SerialPortTools comTools; //串口连接实体
-		private string[] comList; // 搜索到的除DMX512外的所有串口
-		private string comName;  // 选中的串口名		
-		private bool isComConnected = false; // 串口是否连接
-
+		private string iniPath;  //配置文件(hardware.ini)路径
+		private string hsName;	// 配置文件名
+		private bool isNew = true;//是否新建：亦即是否已设定存储目录
+		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
+		private bool isConnected = false; //是否连接
+		private bool isConnectCom = true; //是否串口连接
+		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
 
 		/// <summary>
 		/// 构造函数：初始化各个变量
 		/// </summary>
 		/// <param name="iniPath">通过传入iniPath（空值或有值）来决定要生成的数据的模板</param>
-		public HardwareSetForm(MainFormBase mainForm, string iniPath, string hName)
+		public HardwareSetForm(MainFormBase mainForm, string iniPath, string hsName)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
 			this.iniPath = iniPath;
-			skinTabControl.SelectedIndex = 0;
-
+			
 			// 若iniPath 为空，则新建-》读取默认Hardware.ini，并载入到当前form中
 			if (String.IsNullOrEmpty(iniPath))
 			{
 				isNew = true;
 				//isSetDir = false;
 				iniPath = Application.StartupPath + @"\HardwareSet.ini";
-				this.Text = "硬件设置(未保存)";
+				Text = "硬件配置(未保存)";
 			}// 否则打开相应配置文件，并载入到当前form中
 			else
 			{
 				isNew = false;
 				//isSetDir = true;
-				this.hName = hName;
-				this.Text = "硬件设置(" + hName + ")";
+				this.hsName = hsName;
+				Text = "硬件配置(" + hsName + ")";
 			}
 			readIniFile(iniPath);
 		}
@@ -79,9 +67,25 @@ namespace LightController.MyForm
 			// 设false可在其他文件中修改本类的UI
 			Control.CheckForIllegalCrossThreadCalls = false;
 
-			//9.7 自动搜索本地IP列表及串口列表
-			getLocalIPs();
-			comSearch();
+			// 主动刷新设备列表
+			refreshDeviceComboBox();
+		}
+
+		/// <summary>
+		/// 事件：点击右上角关闭按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HardwareSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (isConnected)
+			{
+				myConnect.DisConnect();
+				myConnect = null ;
+			}
+
+			Dispose();
+			mainForm.Activate();
 		}
 
 		/// <summary>
@@ -91,7 +95,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void HardwareSetForm_HelpButtonClicked(object sender, CancelEventArgs e)
 		{
-			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络设置》内的相关设置；其他设置暂时没有作用，无需更改；\n" +
+			MessageBox.Show("1.此界面设置，用户需要更改的是《主动标识》及《网络配置》内的相关配置；其他输入框暂时没有作用，无需更改；\n" +
 					"2.常规的操作步骤：先从设备回读配置，在修改需要变动的配置后，下载新配置；\n" +
 					"3.下载配置前，软件需在本地生成配置文件，才能下载到设备中，避免误操作。",
 				"使用提示或说明",
@@ -99,8 +103,6 @@ namespace LightController.MyForm
 				MessageBoxIcon.Information);
 			e.Cancel = true;
 		}
-
-		#region 几个通用方法：保存、取消(关闭窗口)等
 
 		/// <summary>
 		/// 事件：点击《保存》操作：
@@ -118,7 +120,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				Save(iniPath, hName);
+				Save(iniPath, hsName);
 			}
 		}
 
@@ -147,12 +149,11 @@ namespace LightController.MyForm
 		/// 辅助方法：供Save()使用，主要是当 《（串口或网络）下载 》时，应先保存一遍此ini,此时不要弹出成功保存功能。
 		/// </summary>
 		/// <param name="iniPath"></param>
-		/// <param name="hName"></param>
-		private void saveAll(String iniPath, string hName)
+		/// <param name="hsName"></param>
+		private void saveAll(String iniPath, string hsName)
 		{
-
 			this.iniPath = iniPath;
-			this.hName = hName;
+			this.hsName = hsName;
 			IniFileHelper iniFileAst = new IniFileHelper(iniPath);
 
 			// 9.28 直接保存numericUpDown表面上看到的Text(因为写到ini中去了）
@@ -180,34 +181,11 @@ namespace LightController.MyForm
 			iniFileAst.WriteString("Other", "DomainServer", domainServerTextBox.Text);
 
 			this.isNew = false;
-			this.Text = "硬件设置(" + hName + ")";
+			this.Text = "硬件配置(" + hsName + ")";
 			//this.isSetDir = true;
 
 		}
-
-		/// <summary>
-		/// 点击右上角关闭按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void HardwareSetForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			if (isComConnected)
-			{
-				comTools.CloseDevice();
-			}
-
-			if (isConnected)
-			{
-				myConnect.DisConnect();
-			}
-
-			this.Dispose();
-			mainForm.Activate();
-		}
-
-		#endregion
-
+			   
 		#region 几个输入监视器
 
 		/// <summary>
@@ -284,337 +262,7 @@ namespace LightController.MyForm
 		}
 
 		#endregion
-
-		#region 网络相关读写
-
-		/// <summary>
-		///  事件：点击《获取本地IP列表》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void getLocalIPsButton_Click(object sender, EventArgs e)
-		{
-			getLocalIPs();
-		}
-
-		/// <summary>
-		/// 辅助方法：获取本地IP列表：①Form刚载入时（Load) ；②点击《获取本地IP列表》按钮
-		/// </summary>
-		private void getLocalIPs()
-		{
-			IPHostEntry ipe = Dns.GetHostEntry(Dns.GetHostName());
-			localIPsComboBox.Items.Clear();
-			foreach (IPAddress ip in ipe.AddressList)
-			{
-				if (ip.AddressFamily == AddressFamily.InterNetwork) //当前ip为ipv4时，才加入到列表中
-				{
-					localIPsComboBox.Items.Add(ip);
-				}
-			}
-
-			if (localIPsComboBox.Items.Count > 0)
-			{
-				localIPsComboBox.Enabled = true;
-				localIPsComboBox.SelectedIndex = 0;
-			}
-			else
-			{
-				localIPsComboBox.Enabled = false;
-				localIPsComboBox.SelectedIndex = -1;
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：直接在选中本地ip（主动或被动）的时候，设置localIP即可
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void localIPsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			localIP = localIPsComboBox.Text;
-
-			ipsComboBox.Text = "";
-			ipsComboBox.Enabled = false;
-
-			networkSearchButton.Enabled = !String.IsNullOrEmpty(localIP);
-			networkReadButton.Enabled = false;
-			networkDownloadButton.Enabled = false;
-		}
-
-		/// <summary>
-		/// 事件：点击《搜索网络连接》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void networkSearchButton_Click(object sender, EventArgs e)
-		{
-			ipsComboBox.Items.Clear();
-			ips = new List<string>();
-
-			//搜索期间不可进行其他操作
-			networkSearchButton.Enabled = false;
-			networkReadButton.Enabled = false;
-			networkDownloadButton.Enabled = false;
-
-			connectTools = ConnectTools.GetInstance();
-			connectTools.Start(localIP);
-			connectTools.SearchDevice();
-			Thread.Sleep(MainFormBase.NETWORK_WAITTIME);
-
-			Dictionary<string, Dictionary<string, NetworkDeviceInfo>> allDevices = connectTools.GetDeivceInfos();
-			foreach (KeyValuePair<string, NetworkDeviceInfo> d2 in allDevices[localIP])
-			{
-				ipsComboBox.Items.Add(d2.Value.DeviceName + "(" + d2.Value.DeviceIp + ")");
-				ips.Add(d2.Value.DeviceIp);
-			}
-
-			if (ipsComboBox.Items.Count > 0)
-			{
-				ipsComboBox.SelectedIndex = 0;
-				ipsComboBox.Enabled = true;
-			}
-			else
-			{
-				MessageBox.Show("未找到可用网络设备，请确定设备已连接后重试");
-				ipsComboBox.SelectedIndex = -1;
-				ipsComboBox.Enabled = false;
-			}
-
-			//搜索完成后，再将按钮开放
-			networkSearchButton.Enabled = true;
-		}
-
-		/// <summary>
-		/// 辅助方法：只要改变了网络设备，就更改相关的网络下载和回读之类的，并设置为选中的ip地址
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void ipsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			// 若未选中任何项或选中项为空字符串，则使不能回读或下载，并退出。			
-			if (ipsComboBox.SelectedIndex == -1 || String.IsNullOrEmpty(ipsComboBox.Text))
-			{
-				networkReadButton.Enabled = false;
-				networkDownloadButton.Enabled = false;
-				return;
-			}
-
-			selectedIPs = new List<string> { ips[ipsComboBox.SelectedIndex] };
-			networkReadButton.Enabled = true;
-			networkDownloadButton.Enabled = true;
-		}
-
-		/// <summary>
-		/// 事件：点击《网络回读》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void networkReadButton_Click(object sender, EventArgs e)
-		{
-			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
-			{
-				dhcpCheckBox.Checked = false;
-				macCheckBox.Checked = false;
-				connectTools.GetParam(selectedIPs, new UploadCallBackHardwareSet(this));
-			}
-			else
-			{
-				MessageBox.Show("网络设备连接失败，无法回读配置。");
-			}
-		}
-
-		/// <summary>
-		///  事件：点击《网络下载》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void networkDownloadButton_Click(object sender, EventArgs e)
-		{
-			if (isNew)
-			{
-				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
-				return;
-			}
-
-			// 若被去掉了勾选，则需要提示用户
-			if (!autoSaveCheckBox.Checked)
-			{
-				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",
-				"继续下载？",
-				MessageBoxButtons.OKCancel,
-				MessageBoxIcon.Warning
-			);
-				if (dr == DialogResult.Cancel)
-				{
-					return;
-				}
-			}
-
-			// 11.7 保存前，先保存一遍当前数据。
-			saveAll(iniPath, hName);
-
-			// 此语句只发送《硬件配置》到选中的设备中
-			if (connectTools.Connect(connectTools.GetDeivceInfos()[localIP][selectedIPs[0]]))
-			{
-				connectTools.PutPara(selectedIPs, iniPath, new DownloadCallBackHardwareSet(this));
-
-			}
-			else
-			{
-				MessageBox.Show("网络设备连接失败，无法下载配置。");
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：重置《网络相关按钮组》
-		/// </summary>
-		internal void ResetNetworkButtons()
-		{
-			ipsComboBox.SelectedIndex = -1;
-			ipsComboBox.Text = "";
-			ipsComboBox.Enabled = false;
-
-			networkReadButton.Enabled = false;
-			networkDownloadButton.Enabled = false;
-		}
-
-		#endregion
-
-		#region  串口读写相关
-
-		/// <summary>
-		///  事件：点击《搜索串口连接》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comSearchSkinButton_Click(object sender, EventArgs e)
-		{
-			comSearch();
-		}
-
-		/// <summary>
-		///  辅助方法：搜索串口列表：①Form载入时（load）；②点击《搜索串口连接》
-		/// </summary>
-		private void comSearch()
-		{
-			comSearchButton.Enabled = false;
-			comComboBox.Enabled = false;
-			comConnectButton.Enabled = false;
-			comReadButton.Enabled = false;
-			comDownloadButton.Enabled = false;
-
-			comTools = SerialPortTools.GetInstance();
-			comList = comTools.GetSerialPortNameList();
-			comComboBox.Items.Clear();
-			if (comList.Length > 0)
-			{
-				foreach (string com in comList)
-				{
-					comComboBox.Items.Add(com);
-				}
-				comComboBox.Enabled = true;
-				comComboBox.SelectedIndex = 0;
-				comConnectButton.Enabled = true;
-			}
-			else
-			{
-				MessageBox.Show("未找到可用串口，请重试");
-				comComboBox.SelectedIndex = -1;
-			}
-			comSearchButton.Enabled = true;
-		}
-
-		/// <summary>
-		/// 事件：点击《打开|关闭串口连接》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comConnectSkinButton_Click(object sender, EventArgs e)
-		{
-			isComConnected = !isComConnected;
-
-			if (isComConnected)
-			{
-				comName = comComboBox.Text;
-				comTools.OpenCom(comName);
-			}
-			else
-			{
-				comTools.CloseDevice();
-			}
-			comSearchButton.Enabled = !isComConnected;
-			comComboBox.Enabled = !isComConnected;
-			comConnectButton.Text = (isComConnected ? "关闭" : "打开") + "串口连接";
-			comReadButton.Enabled = isComConnected;
-			comDownloadButton.Enabled = isComConnected;
-
-			MessageBox.Show("已" + (isComConnected ? "打开" : "关闭") + "串口连接");
-		}
-
-		/// <summary>
-		/// 事件：点击《串口回读》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comReadButton_Click(object sender, EventArgs e)
-		{
-			if (String.IsNullOrEmpty(comName))
-			{
-				MessageBox.Show("请选择串口设备。");
-				return;
-			}
-
-			dhcpCheckBox.Checked = false;
-			macCheckBox.Checked = false;
-
-			comTools.OpenCom(comName); // 为保证串口没有断开，需主动连接一次
-			comTools.GetParam(new UploadCallBackHardwareSet(this));
-		}
-
-		/// <summary>
-		/// 事件：点击《串口下载》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void comDownloadSkinButton_Click(object sender, EventArgs e)
-		{
-			if (String.IsNullOrEmpty(comName))
-			{
-				MessageBox.Show("请选择串口设备。");
-				return;
-			}
-
-			if (isNew)
-			{
-				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
-				return;
-			}
-
-			// 若被去掉了勾选，则需要提示用户
-			if (!autoSaveCheckBox.Checked)
-			{
-				DialogResult dr = MessageBox.Show("下载配置时会自动保存当前配置，是否继续？",
-					"继续下载？",
-					MessageBoxButtons.OKCancel,
-					MessageBoxIcon.Warning
-				);
-				if (dr == DialogResult.Cancel)
-				{
-					return;
-				}
-			}
-
-			// 11.7 保存前，先保存一遍当前数据。
-			saveAll(iniPath, hName);
-			// 此语句只发送《硬件配置》到选中的设备中
-			comTools.OpenCom(comName);// 为保证串口没有断开，需主动连接一次
-			comTools.PutParam(iniPath, new DownloadCallBackHardwareSet(this));
-		}
-
-		#endregion
-
-		#region 几个通用辅助方法
-
+			
 		/// <summary>
 		/// 辅助方法：读取配置文件
 		/// </summary>
@@ -693,8 +341,6 @@ namespace LightController.MyForm
 				MessageBox.Show("回读异常:" + ex.Message);
 			}
 		}
-		#endregion
-
 
 		/// <summary>
 		/// 事件：勾选《启用DHCP》
@@ -731,14 +377,7 @@ namespace LightController.MyForm
 				macTextBox.Text = "00-00-00-00-00-00";
 			}
 		}
-
-		#region 新的方法：通用
-
-		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
-		private bool isConnected = false; //是否连接
-		private bool isConnectCom = true; //是否串口连接
-		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
-
+		
 		/// <summary>
 		/// 事件：点击《切换为网络连接|串口连接》
 		/// </summary>
@@ -747,14 +386,14 @@ namespace LightController.MyForm
 		private void switchButton_Click(object sender, EventArgs e)
 		{
 			isConnectCom = !isConnectCom;
-			switchButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
+			switchButton.Text = isConnectCom ? "切换为网络连接" : "切换为串口连接";
 			refreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
 			deviceConnectButton.Text = isConnectCom ? "打开串口" : "连接设备";
 			refreshDeviceComboBox(); // switchButton_Click
 		}
 
 		/// <summary>
-		/// 辅助方法：通过isConnectCom（连接方式）来刷新deviceComboBox。
+		/// 辅助方法：刷新deviceComboBox(设备列表），区分不同的连接方法。
 		/// </summary>
 		private void refreshDeviceComboBox()
 		{
@@ -764,10 +403,7 @@ namespace LightController.MyForm
 				disConnect(); // refreshDeviceComboBox
 			}
 
-			deviceComboBox.Items.Clear();
-			deviceComboBox.Text = "";
-			deviceComboBox.SelectedIndex = -1;
-			deviceComboBox.Enabled = false;
+			disableDeviceComboBox();
 			deviceConnectButton.Enabled = false;
 			Refresh();
 
@@ -822,11 +458,11 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				setAllStatusLabel1("已搜到可用设备列表。", false);
+				setNotice("已刷新" + (isConnectCom ? "串口" : "网络设备") + "列表。", false);
 			}
 			else
 			{
-				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。", true);
+				setNotice("未找到可用设备，请检查设备连接后重试。", true);
 			}
 		}
 		
@@ -859,32 +495,32 @@ namespace LightController.MyForm
 			{
 				myConnect = new SerialConnect();
 				try
-				{
-					(myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text);
-					isConnected = true;
-					refreshRWButtons();
-					setAllStatusLabel1("已打开串口(" + deviceComboBox.Text + ")", true);
+				{			
+					if( (myConnect as SerialConnect).OpenSerialPort(deviceComboBox.Text ) ) {
+						isConnected = true;
+						refreshConnectButtons();
+						setNotice("已打开串口(" + deviceComboBox.Text + ")。", true);
+					}				
 				}
 				catch (Exception ex)
 				{
-					setAllStatusLabel1("打开串口失败，原因是：\n" + ex.Message, true);
+					setNotice("打开串口失败，原因是：\n" + ex.Message, true);
 				}
 			}
 			else
 			{
 				NetworkDeviceInfo selectedNetworkDevice = networkDeviceList[deviceComboBox.SelectedIndex];
 				string deviceName = selectedNetworkDevice.DeviceName;
-				myConnect = new NetworkConnect();
-				myConnect.Connect(selectedNetworkDevice);
-				if (myConnect.IsConnected())
+				myConnect = new NetworkConnect();				
+				if ( myConnect.Connect(selectedNetworkDevice) )
 				{
 					isConnected = true;
-					refreshRWButtons();
-					setAllStatusLabel1("成功连接网络设备(" + deviceName + ")", true);
+					refreshConnectButtons();
+					setNotice("成功连接网络设备(" + deviceName + ")。", true);
 				}
 				else
 				{
-					setAllStatusLabel1("连接网络设备(" + deviceName + ")失败", true);
+					setNotice("连接网络设备(" + deviceName + ")失败。", true);
 				}
 			}
 		}
@@ -896,19 +532,23 @@ namespace LightController.MyForm
 		{
 			if (myConnect != null && myConnect.IsConnected())
 			{
-				myConnect.DisConnect();
-				isConnected = false;
-				refreshRWButtons();
+				myConnect.DisConnect();					
 				myConnect = null;
-				setAllStatusLabel1("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
+				isConnected = false;
+				refreshConnectButtons();
+				setNotice("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"), true);
 			}
 		}
 		
 		/// <summary>
-		/// 辅助方法：刷新按键[可用性]及[文字]
+		/// 辅助方法：刷新按键[可用性]及[显示的文字]
 		/// </summary>
-		private void refreshRWButtons()
+		private void refreshConnectButtons()
 		{
+			switchButton.Enabled = ! isConnected;
+			deviceComboBox.Enabled =deviceComboBox.Items.Count>0 && !isConnected;
+			refreshButton.Enabled =  !isConnected;
+			deviceConnectButton.Enabled = deviceComboBox.Items.Count > 0 ;
 			readButton.Enabled = isConnected;
 			downloadButton.Enabled = isConnected;
 			if (isConnectCom)
@@ -922,7 +562,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《回读设置》
+		/// 事件：点击《回读配置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -941,7 +581,7 @@ namespace LightController.MyForm
 			{
 				CSJ_Hardware ch = obj as CSJ_Hardware;
 				SetParamFromDevice(ch);
-				setAllStatusLabel1(msg, true);
+				setNotice("成功回读硬件配置。", true);
 			});
 		}
 
@@ -953,12 +593,12 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setAllStatusLabel1("回读配置失败[" + msg + "]", true);
+				setNotice("回读配置失败[" + msg + "]", true);
 			});
 		}	
 
 		/// <summary>
-		/// 事件：点击《下载设置》
+		/// 事件：点击《下载配置》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -966,7 +606,7 @@ namespace LightController.MyForm
 		{
 			if (isNew)
 			{
-				MessageBox.Show("下载之前需先保存配置(设置配置文件名)。");
+				MessageBox.Show("下载之前需先保存配置(设定配置文件名)。");
 				return;
 			}
 
@@ -985,9 +625,11 @@ namespace LightController.MyForm
 			}
 
 			// 11.7 保存前，先保存一遍当前数据。
-			saveAll(iniPath, hName);
+			saveAll(iniPath, hsName);
 
-			// 下载配置
+			// 下载配置			
+			setNotice("正在下载配置，请稍候...",false);
+			setBusy(true);
 			myConnect.PutParam(iniPath, PutParamCompleted, PutParamError);
 		}
 
@@ -999,10 +641,25 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setAllStatusLabel1(msg, true);
+				setNotice("硬件配置下载成功,请等待设备重启(约耗时5s)...", true);
+				Thread.Sleep(5000);
+				if (isConnectCom)
+				{
+					setNotice("请继续操作。如出现错误，可先关闭再打开串口后重试。",true);	
+				}
+				else
+				{
+					myConnect.DisConnect();
+					myConnect = null ;
+					isConnected = false;
+					disableDeviceComboBox();
+					refreshConnectButtons();					
+					setNotice("请刷新网络，并重新连接设备。如未找到设备，请稍等片刻重试。", true);					
+				}
+				setBusy(false);
 			});
 		}
-		
+	
 		/// <summary>
 		/// 辅助回调方法：下载配置失败
 		/// </summary>
@@ -1011,7 +668,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				setAllStatusLabel1("下载配置失败[" + msg + "]", true);
+				setNotice("下载配置失败[" + msg + "]", true);
 			});
 		}
 
@@ -1020,85 +677,34 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="msg"></param>
 		/// <param name="messageBoxShow">是否在提示盒内提示</param>
-		private void setAllStatusLabel1(string msg, bool messageBoxShow)
+		private void setNotice(string msg, bool messageBoxShow)
 		{
 			if (messageBoxShow)
 			{
 				MessageBox.Show(msg);
 			}
 			myStatusLabel.Text = msg;
+			statusStrip1.Refresh();
 		}
 
-		#endregion
-
-	}
-
-
-	/// <summary>
-	/// 辅助类：用以下载硬件设置时供底层调用的回调类，显示回馈信息
-	/// </summary>
-	class DownloadCallBackHardwareSet : ICommunicatorCallBack
-	{
-		private HardwareSetForm huForm;		
-		public DownloadCallBackHardwareSet(HardwareSetForm huForm)
-		{
-			this.huForm = huForm;
+		/// <summary>
+		/// 辅助方法：设定忙时（鼠标的变化）
+		/// </summary>
+		/// <param name="busy"></param>
+		private void setBusy(bool busy) {
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;			
+			Enabled = !busy;
+			Refresh();
 		}
 
-		public void Completed(string deviceTag)
-		{
-			MessageBox.Show("硬件设置下载成功，请稍等片刻，等待设备重启。\n如使用网络模式，需重新搜索并连接网络设备。");
-			huForm.ResetNetworkButtons();				
-		}
-
-		public void Error(string deviceTag, string errorMessage)
-		{
-			MessageBox.Show("硬件设置下载失败\n。如使用网络模式，需重新搜索并连接网络设备。");
-			huForm.ResetNetworkButtons();
-		}
-
-		public void GetParam(CSJ_Hardware hardware)
-		{
-			//throw new NotImplementedException();
-		}
-
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-		{
-			//throw new NotImplementedException();
-		}
-	}
-
-	/// <summary>
-	/// 辅助类：用以回读硬件设置时供底层调用的回调类，显示回馈信息
-	/// </summary>
-	class UploadCallBackHardwareSet : ICommunicatorCallBack
-	{
-
-		private HardwareSetForm hsForm;	
-
-		public UploadCallBackHardwareSet(HardwareSetForm hsForm)
-		{
-			this.hsForm = hsForm;
-		}
-
-		public void Completed(string deviceTag)
-		{
-			MessageBox.Show("回读成功");
-		}
-
-		public void Error(string deviceTag, string errorMessage)
-		{
-			MessageBox.Show("回读失败");
-		}
-
-		public void GetParam(CSJ_Hardware ch)
-		{
-			hsForm.SetParamFromDevice(ch);
-		}
-
-		public void UpdateProgress(string deviceTag, string fileName, int newProgress)
-		{
-			//throw new NotImplementedException();
+		/// <summary>
+		/// 辅助方法：禁用设备列表下拉框,并清空其数据
+		/// </summary>
+		private void disableDeviceComboBox() {
+			deviceComboBox.Items.Clear();
+			deviceComboBox.SelectedIndex = -1;
+			deviceComboBox.Text = "";
+			deviceComboBox.Enabled = false;
 		}
 	}
 

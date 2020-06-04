@@ -1,6 +1,7 @@
 ﻿using MultiLedController.Ast;
 using MultiLedController.Common;
 using MultiLedController.entity;
+using MultiLedController.entity.dto;
 using MultiLedController.multidevice.impl;
 using MultiLedController.utils.impl;
 using System;
@@ -776,19 +777,22 @@ namespace MultiLedController.MyForm
 				}
 
 				int startInterface = 0;
+				List<ControlDeviceDTO> deviceDtoList = new List<ControlDeviceDTO>();
+
 				for (int i = 0; i < choosenIndexList.Count; i++)
 				{
 					int deviceIndex = choosenIndexList[i];
 					ControlDevice device = deviceList[ deviceIndex ];
+					
+
 					int interfaceCount = device.Led_interface_num;
 					string devName = device.LedName ;
 					string ip = device.IP ; 
 
 
-
 					for (int interfaceIndex = 0 ; interfaceIndex < interfaceCount;  interfaceIndex++ )
 					{
-						Console.WriteLine("interfaceIndex + startInterface : "  + (interfaceIndex + startInterface) );
+						Console.WriteLine("interfaceIndex + startInterface : "  + (interfaceIndex + startInterface)  + " IP : " + ); 
 						virtualIPListView.Items[interfaceIndex + startInterface].SubItems[2].Text = devName;
 						virtualIPListView.Items[interfaceIndex + startInterface].SubItems[3].Text = (interfaceIndex + 1).ToString();
 						//virtuals.Add(new VirtualControlInfo(virtualIPListView.Items[interfaceIndex].SubItems[1].Text, device));
@@ -796,9 +800,12 @@ namespace MultiLedController.MyForm
 					startInterface += interfaceCount;
 				}
 
-				setNotice(1, "正在关联虚拟IP与设备，请稍候...",false);
+				//setNotice(1, "正在关联虚拟IP与设备，请稍候...",false);
 
-				//TransactionManager.GetTransactionManager().AddDevice();
+				
+
+
+				//TransactionManager.GetTransactionManager().AddDevice(     , mainIp );
 
 
 				//try

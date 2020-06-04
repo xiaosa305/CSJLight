@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.delAllButton = new System.Windows.Forms.Button();
 			this.delButton = new System.Windows.Forms.Button();
@@ -97,7 +98,7 @@
 			this.panel1.Controls.Add(this.deviceListView);
 			this.panel1.Location = new System.Drawing.Point(8, 124);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(379, 493);
+			this.panel1.Size = new System.Drawing.Size(379, 500);
 			this.panel1.TabIndex = 1;
 			// 
 			// delAllButton
@@ -144,7 +145,7 @@
 			this.choosenListView.FullRowSelect = true;
 			this.choosenListView.GridLines = true;
 			this.choosenListView.HideSelection = false;
-			this.choosenListView.Location = new System.Drawing.Point(0, 278);
+			this.choosenListView.Location = new System.Drawing.Point(0, 285);
 			this.choosenListView.MultiSelect = false;
 			this.choosenListView.Name = "choosenListView";
 			this.choosenListView.Size = new System.Drawing.Size(379, 215);
@@ -247,7 +248,7 @@
 			this.virtualIPListView.HideSelection = false;
 			this.virtualIPListView.Location = new System.Drawing.Point(393, 124);
 			this.virtualIPListView.Name = "virtualIPListView";
-			this.virtualIPListView.Size = new System.Drawing.Size(348, 493);
+			this.virtualIPListView.Size = new System.Drawing.Size(348, 500);
 			this.virtualIPListView.TabIndex = 49;
 			this.virtualIPListView.UseCompatibleStateImageBehavior = false;
 			this.virtualIPListView.View = System.Windows.Forms.View.Details;
@@ -437,7 +438,7 @@
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel1,
             this.myStatusLabel2});
-			this.statusStrip.Location = new System.Drawing.Point(0, 720);
+			this.statusStrip.Location = new System.Drawing.Point(0, 719);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(749, 22);
 			this.statusStrip.SizingGrip = false;
@@ -481,7 +482,7 @@
 			// 
 			// recordTextBox
 			// 
-			this.recordTextBox.Location = new System.Drawing.Point(405, 56);
+			this.recordTextBox.Location = new System.Drawing.Point(405, 58);
 			this.recordTextBox.MaxLength = 3;
 			this.recordTextBox.Name = "recordTextBox";
 			this.recordTextBox.Size = new System.Drawing.Size(39, 21);
@@ -532,7 +533,7 @@
 			this.recordButton.BackColor = System.Drawing.Color.Transparent;
 			this.recordButton.Enabled = false;
 			this.recordButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.recordButton.Location = new System.Drawing.Point(666, 9);
+			this.recordButton.Location = new System.Drawing.Point(666, 8);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(76, 72);
 			this.recordButton.TabIndex = 65;
@@ -544,7 +545,7 @@
 			// 
 			this.debugButton.Enabled = false;
 			this.debugButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.debugButton.Location = new System.Drawing.Point(90, 9);
+			this.debugButton.Location = new System.Drawing.Point(90, 8);
 			this.debugButton.Name = "debugButton";
 			this.debugButton.Size = new System.Drawing.Size(76, 72);
 			this.debugButton.TabIndex = 73;
@@ -557,7 +558,7 @@
 			this.startButton.BackColor = System.Drawing.Color.Coral;
 			this.startButton.Enabled = false;
 			this.startButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.startButton.Location = new System.Drawing.Point(8, 9);
+			this.startButton.Location = new System.Drawing.Point(8, 8);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(76, 72);
 			this.startButton.TabIndex = 74;
@@ -583,7 +584,7 @@
 			this.panel2.Controls.Add(this.label3);
 			this.panel2.Controls.Add(this.recordTextBox);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel2.Location = new System.Drawing.Point(0, 631);
+			this.panel2.Location = new System.Drawing.Point(0, 630);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(749, 89);
 			this.panel2.TabIndex = 75;
@@ -600,7 +601,7 @@
 			this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.topPanel.Location = new System.Drawing.Point(0, 0);
 			this.topPanel.Name = "topPanel";
-			this.topPanel.Size = new System.Drawing.Size(749, 628);
+			this.topPanel.Size = new System.Drawing.Size(749, 633);
 			this.topPanel.TabIndex = 76;
 			// 
 			// testButton
@@ -620,10 +621,15 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(749, 742);
+			this.ClientSize = new System.Drawing.Size(749, 741);
 			this.Controls.Add(this.topPanel);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.statusStrip);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MaximumSize = new System.Drawing.Size(765, 780);
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(765, 780);
 			this.Name = "MainForm";
 			this.Text = "幻彩灯带控制器(多设备版)";
 			this.TopMost = true;

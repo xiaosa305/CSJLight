@@ -41,7 +41,8 @@ namespace MultiLedController.MyForm
 
 		private int deviceSelectedIndex = -1;     // 搜到设备 的选中项
 		private int choosenSelectedIndex = -1;  // 序列设备【将使用这些设备进行模拟】 的选中项
-		
+		private List<ControlDeviceDTO> deviceDtoList;  //序列设备列表
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -715,8 +716,7 @@ namespace MultiLedController.MyForm
 				}
 
 				int startInterface = 0;
-				List<ControlDeviceDTO> deviceDtoList = new List<ControlDeviceDTO>();
-
+				deviceDtoList = new List<ControlDeviceDTO>();
 
 				for (int i = 0; i < choosenIndexList.Count; i++)
 				{
@@ -736,7 +736,10 @@ namespace MultiLedController.MyForm
 					}
 					startInterface += interfaceCount;
 
-					deviceDtoList.Add(new ControlDeviceDTO(device, VIPList));
+					deviceDtoList.Add(new ControlDeviceDTO() {
+						ControlDevice = device,
+						VirtualIps = VIPList						
+					});
 				}
 				Refresh();
 
@@ -1037,13 +1040,7 @@ namespace MultiLedController.MyForm
 		{
 			if (isRecording)
 			{
-
-
-
-				TransactionManager.GetTransactionManager().SetRecodeFilePath(  );
-
-
-				Art_Net_Manager.GetInstance().StopSaveToFile();
+				TransactionManager.GetTransactionManager().StopAllDeviceRecode();
 				enableRecordButtons(false);
 				plusButton_Click(null, null);
 				setNotice(2, "已停止录制,并把录制序号加1。",false);
@@ -1051,10 +1048,17 @@ namespace MultiLedController.MyForm
 			}
 			else
 			{
+				if (deviceDtoList == null || deviceDtoList.Count == 0) {
+					setNotice(2, "deviceDtoList数据为空，无法录制。", false);
+					return;
+				}
+
 				setNotice(2, "正在录制文件...",false);
-				string recordFilePath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
-				Art_Net_Manager.GetInstance().SetSaveFilePath(recordFilePath);
-				Art_Net_Manager.GetInstance().StartSaveToFile(showRecordFrame);
+				for (int i = 0; i < deviceDtoList.Count; i++)
+				{					
+					deviceDtoList[i].RecodeFilePath = recordPath + @"\" + (i+1) + @"("+ deviceDtoList[i].ControlDevice.LedName.Replace("\0","")+@")\SC" + recordTextBox.Text + ".bin";
+				}
+				TransactionManager.GetTransactionManager().SetRecodeFilePath(deviceDtoList).StartAllDeviceRecode();
 				enableRecordButtons(true);
 				recordButton.Text = "停止录制";
 			}

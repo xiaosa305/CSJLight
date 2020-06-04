@@ -1,4 +1,5 @@
 ﻿using MultiLedController.entity;
+using MultiLedController.entity.dto;
 using MultiLedController.utils;
 using MultiLedController.utils.impl;
 using System;
@@ -67,6 +68,23 @@ namespace MultiLedController.multidevice.impl
                 VirtualControlDevice device = new VirtualControlDevice(index, startLedSpace, devices[index], ips[index], serverIp);
                 this.VirtualControlDevices.Add(device);
                 startLedSpace += devices[index].Led_interface_num * devices[index].Led_space;
+            }
+        }
+
+        /// <summary>
+        /// 功能：添加若干个控制卡
+        /// </summary>
+        /// <param name="controlDeviceDTOs">设备包装类信息</param>
+        /// <param name="serverIp">DMX服务器IP</param>
+        public void AddDevice(List<ControlDeviceDTO> controlDeviceDTOs ,string serverIp)
+        {
+            //每个device分配虚拟Ip，分配空间编号
+            int startLedSpace = 0;
+            for (int index = 0; index < controlDeviceDTOs.Count; index++)
+            {
+                VirtualControlDevice device = new VirtualControlDevice(index, startLedSpace, controlDeviceDTOs[index].ControlDevice, controlDeviceDTOs[index].VirtualIps, serverIp);
+                this.VirtualControlDevices.Add(device);
+                startLedSpace += controlDeviceDTOs[index].ControlDevice.Led_interface_num * controlDeviceDTOs[index].ControlDevice.Led_space;
             }
         }
         /// <summary>

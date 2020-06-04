@@ -241,15 +241,15 @@ namespace MultiLedController.multidevice.impl
             return this;
         }
 
-        public TransactionManager SetRecodeFilePath(List<SetRecodeFilePathDTO> recodeFilePathDTOs)
+        public TransactionManager SetRecodeFilePath(List<ControlDeviceDTO> controlDeviceDTOs)
         {
             if (this.VirtualControlDevices != null)
             {
                 if (this.VirtualControlDevices.Count != 0)
                 {
-                    if (recodeFilePathDTOs != null)
+                    if (controlDeviceDTOs != null)
                     {
-                        foreach (SetRecodeFilePathDTO dTO in recodeFilePathDTOs)
+                        foreach (ControlDeviceDTO dTO in controlDeviceDTOs)
                         {
                             foreach (VirtualControlDevice virtualControlDevice in this.VirtualControlDevices)
                             {

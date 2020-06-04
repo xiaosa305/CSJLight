@@ -83,7 +83,6 @@
     <Compile Include="Ast\IPAst.cs" />
     <Compile Include="Common\IPHelper.cs" />
     <Compile Include="entity\dto\ControlDeviceDTO.cs" />
-    <Compile Include="entity\dto\SetRecodeFilePathDTO.cs" />
     <Compile Include="multidevice\impl\DebugDmxData.cs" />
     <Compile Include="multidevice\impl\DebugDmxDataQueue.cs" />
     <Compile Include="multidevice\impl\RecodeDmxData.cs" />

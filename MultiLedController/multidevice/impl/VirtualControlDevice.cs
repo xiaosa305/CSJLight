@@ -21,7 +21,7 @@ namespace MultiLedController.multidevice.impl
         private ControlDevice ControlDevice { get; set; }//控制卡信息
 
         private bool IsStartResponseDmxDataStatus { get; set; }//是否开始接受DMX数据标记位
-        private bool IsRecodeStatus { get; set; }//数据记录标记位
+        private bool IsRecordStatus { get; set; }//数据记录标记位
         private bool IsDebugStatus { get; set; }//实时调试标记位
         private bool IsFirstFrameDmxDataStatus { get; set; }//首帧标记位
         private int StartLedSpace { get; set; }
@@ -33,7 +33,7 @@ namespace MultiLedController.multidevice.impl
         private Dictionary<int,bool> VirtualClientDmxDataResponseStatus { get; set; }//虚拟客户端DMX数据接收状态标记池
 
         private DebugDmxDataQueue DebugDmxDataQueue { get; set; }//实时调试队列
-        private RecodeDmxDataQueue RecodeDmxDataQueue { get; set; }//录制数据队列
+        private RecodeDmxDataQueue RecordDmxDataQueue { get; set; }//录制数据队列
 
 
         private Socket ControlDeviceUdpSend { get; set; }//控制卡服务器
@@ -43,13 +43,20 @@ namespace MultiLedController.multidevice.impl
 
 
         private Thread ControlDeviceDebugThread { get; set; }//实时调试线程
-        private Thread ControlDeviceRecodeThread { get; set; }//录制线程
+        private Thread ControlDeviceRecordThread { get; set; }//录制线程
         private bool ControlDeviceDebugThreadStatus { get; set; }//实时调试线程标记位
-        private bool ControlDeviceRecodeThreadStatus { get; set; }//录制线程标记位
+        private bool ControlDeviceRecordThreadStatus { get; set; }//录制线程标记位
 
-        private long RecodeFrameCount { get; set; }//录制帧数记录
-        private string RecodeFilePath { get; set; }//录制文件存储路径
+        private int RecordFrameCount { get; set; }//录制帧数记录
+        private int DebugFrameCount { get; set; }//实时调试帧数记录
+        private string RecordFilePath { get; set; }//录制文件存储路径
         private string ServersIp { get; set; }
+
+        public delegate void RecordFrameCountResponse(int frameCount);
+        public delegate void DebugFrameCountResponse(int frameCount);
+
+        private RecordFrameCountResponse RecordFrameCountResponse_Event { get; set; }
+        private DebugFrameCountResponse DebugFrameCountResponse_Event { get; set; }
 
 
         public VirtualControlDevice(int index, int startLedSpace, ControlDevice device, List<string> ips,string serverIp)
@@ -70,18 +77,18 @@ namespace MultiLedController.multidevice.impl
         {
             this.IsStartResponseDmxDataStatus = false;
             this.DebugDmxDataQueue = new DebugDmxDataQueue();
-            this.RecodeDmxDataQueue = new RecodeDmxDataQueue();
+            this.RecordDmxDataQueue = new RecodeDmxDataQueue();
             this.VirtualClients = new List<VirtualClient>();
             this.VirtualClientDmxDatas = new Dictionary<int, List<byte>>();
             this.VirtualClientDmxDataResponseStatus = new Dictionary<int, bool>();
-            this.IsRecodeStatus = false;
+            this.IsRecordStatus = false;
             this.IsDebugStatus = false;
             this.IsFirstFrameDmxDataStatus = true;
             this.LastFrameResponseTime = -1;
             this.LastFramePacketSequence = 0;
             this.ControlDeviceUdpReceiveStatus = false;
             this.ControlDeviceDebugThreadStatus = false;
-            this.ControlDeviceRecodeThreadStatus = false;
+            this.ControlDeviceRecordThreadStatus = false;
         }
         /// <summary>
         /// 功能：初始化控制卡服务器和客户端
@@ -109,12 +116,12 @@ namespace MultiLedController.multidevice.impl
             try
             {
                 this.ControlDeviceDebugThreadStatus = false;
-                this.ControlDeviceRecodeThreadStatus = false;
+                this.ControlDeviceRecordThreadStatus = false;
                 this.IsStartResponseDmxDataStatus = false;
                 this.IsDebugStatus = false;
-                this.IsRecodeStatus = false;
+                this.IsRecordStatus = false;
                 this.ControlDeviceDebugThreadStatus = false;
-                this.ControlDeviceRecodeThreadStatus = false;
+                this.ControlDeviceRecordThreadStatus = false;
                 this.ControlDeviceUdpReceiveStatus = false;
                 if (this.ControlDeviceUdpSend != null)
                 {
@@ -138,11 +145,11 @@ namespace MultiLedController.multidevice.impl
         private void InitControlDeviceDebugAndRecodeThread()
         {
             this.ControlDeviceDebugThread = new Thread(this.ControlDeviceDebugStart) { IsBackground = true };
-            this.ControlDeviceRecodeThread = new Thread(this.ControlDeviceRecodeStart) { IsBackground = true };
+            this.ControlDeviceRecordThread = new Thread(this.ControlDeviceRecordStart) { IsBackground = true };
             this.ControlDeviceDebugThreadStatus = true;
-            this.ControlDeviceRecodeThreadStatus = true;
+            this.ControlDeviceRecordThreadStatus = true;
             this.ControlDeviceDebugThread.Start();
-            this.ControlDeviceRecodeThread.Start();
+            this.ControlDeviceRecordThread.Start();
         }
         /// <summary>
         /// 功能：穿件虚拟客户端接收DMX数据
@@ -220,11 +227,11 @@ namespace MultiLedController.multidevice.impl
                                     this.DebugDmxDataQueue.Enqueue(this.VirtualClientDmxDatas, Convert.ToInt16(frameIntervalTime), this.ControlDevice);
                                 }
                             }
-                            if (this.IsRecodeStatus)
+                            if (this.IsRecordStatus)
                             {
-                                lock (this.RecodeDmxDataQueue)
+                                lock (this.RecordDmxDataQueue)
                                 {
-                                    this.RecodeDmxDataQueue.Enqueue(this.VirtualClientDmxDatas, new Dictionary<int, bool>(this.VirtualClientDmxDataResponseStatus), Convert.ToInt16(frameIntervalTime), this.ControlDevice);
+                                    this.RecordDmxDataQueue.Enqueue(this.VirtualClientDmxDatas, new Dictionary<int, bool>(this.VirtualClientDmxDataResponseStatus), Convert.ToInt16(frameIntervalTime), this.ControlDevice);
                                 }
                             }
                             List<int> keys = this.VirtualClientDmxDatas.Keys.ToList();
@@ -254,10 +261,10 @@ namespace MultiLedController.multidevice.impl
                 while (this.ControlDeviceUdpReceiveStatus)
                 {
                     IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(this.ControlDevice.IP), this.ControlDevice.LinkPort);
-                    //IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 9999);
                     byte[] receiveData = udpClient.Receive(ref iPEndPoint);
                     if (Encoding.Default.GetString(receiveData).Equals(Constant.RECEIVE_START_DEBUF_MODE))
                     {
+                        this.DebugFrameCount = 0;
                         this.IsDebugStatus = true;
                         Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
                     }
@@ -322,66 +329,65 @@ namespace MultiLedController.multidevice.impl
         /// 功能：修改存储文件路径
         /// </summary>
         /// <param name="dirPath">新的文件存储路径</param>
-        public void SetSaveFilePath(string filePath)
+        public void SetRecordFilePath(string filePath)
         {
-            this.RecodeFilePath = filePath;
+            this.RecordFilePath = filePath;
             DirectoryInfo directoryInfo = Directory.GetParent(filePath);
             if (!directoryInfo.Exists)
             {
                 directoryInfo.Create();
             }
-            if (!File.Exists(this.RecodeFilePath))
+            if (!File.Exists(this.RecordFilePath))
             {
-                File.Create(this.RecodeFilePath).Dispose();
+                File.Create(this.RecordFilePath).Dispose();
             }
             List<byte> emptyData = new List<byte>();
             for (int i = 0; i < 35; i++)
             {
                 emptyData.Add(0x00);
             }
-            FileUtils.GetInstance().WriteToFileByCreate(emptyData, RecodeFilePath);
+            FileUtils.GetInstance().WriteToFileByCreate(emptyData, RecordFilePath);
         }
         /// <summary>
         /// 功能：启动录制
         /// </summary>
-        public void StartRecode()
+        public void StartRecord()
         {
-            this.RecodeFrameCount = 0;
-            //this.GetRecodeFrameCount_Event = frameCount;
-            if (!File.Exists(this.RecodeFilePath))
+            this.RecordFrameCount = 0;
+            if (!File.Exists(this.RecordFilePath))
             {
-                File.Create(this.RecodeFilePath).Dispose();
+                File.Create(this.RecordFilePath).Dispose();
             }
             List<byte> emptyData = new List<byte>();
             for (int i = 0; i < 35; i++)
             {
                 emptyData.Add(0x00);
             }
-            FileUtils.GetInstance().WriteToFileByCreate(emptyData, RecodeFilePath);
-            this.IsRecodeStatus = true;
+            FileUtils.GetInstance().WriteToFileByCreate(emptyData, RecordFilePath);
+            this.IsRecordStatus = true;
 
         }
         /// <summary>
         /// 功能：关闭录制
         /// </summary>
-        public void StopRecode()
+        public void StopRecord()
         {
-            this.IsRecodeStatus = false;
+            this.IsRecordStatus = false;
         }
         /// <summary>
         /// 功能：录制线程执行任务
         /// </summary>
         /// <param name="obj"></param>
-        private void ControlDeviceRecodeStart(Object obj)
+        private void ControlDeviceRecordStart(Object obj)
         {
-            this.RecodeFrameCount = 0;
-            while (this.ControlDeviceRecodeThreadStatus)
+            this.RecordFrameCount = 0;
+            while (this.ControlDeviceRecordThreadStatus)
             {
-                if (this.IsRecodeStatus)
+                if (this.IsRecordStatus)
                 {
-                    lock (this.RecodeDmxDataQueue)
+                    lock (this.RecordDmxDataQueue)
                     {
-                        RecodeDmxData recodeDnxData = this.RecodeDmxDataQueue.Dequeue();
+                        RecodeDmxData recodeDnxData = this.RecordDmxDataQueue.Dequeue();
                         if (recodeDnxData != null)
                         {
                             List<byte> head = new List<byte>
@@ -403,7 +409,7 @@ namespace MultiLedController.multidevice.impl
                                 head.Add(Convert.ToByte((dataLength >> 16) & 0xFF));
                                 head.Add(Convert.ToByte((dataLength >> 24) & 0xFF));
                             }
-                            FileUtils.GetInstance().WriteToFileBySeek(head, RecodeFilePath, 0);
+                            FileUtils.GetInstance().WriteToFileBySeek(head, RecordFilePath, 0);
                             List<byte> framData = new List<byte>();
                             for (int interficeIndex = 0; interficeIndex < recodeDnxData.ControlDevice.Led_interface_num; interficeIndex++)
                             {
@@ -418,8 +424,9 @@ namespace MultiLedController.multidevice.impl
                                 }
                                 framData.AddRange(routeDatas);
                             }
-                            FileUtils.GetInstance().WriteToFile(framData, RecodeFilePath);
-                            this.RecodeFrameCount++;
+                            FileUtils.GetInstance().WriteToFile(framData, RecordFilePath);
+                            this.RecordFrameCount++;
+                            this.RecordFrameCountResponse_Event?.Invoke(this.RecordFrameCount);
                             //LogTools.Debug(Constant.TAG_XIAOSA, "已录制" + this.RecodeFrameCount + "帧");
                         }
                     }
@@ -488,6 +495,8 @@ namespace MultiLedController.multidevice.impl
                     Thread.Sleep(3);
                 }
             }
+            this.DebugFrameCount++;
+            this.DebugFrameCountResponse_Event?.Invoke(this.DebugFrameCount);
         }
         /// <summary>
         /// 功能：启动接收DMX数据
@@ -518,6 +527,22 @@ namespace MultiLedController.multidevice.impl
                 }
             }
             return false;
+        }
+        /// <summary>
+        /// 设置读取录制帧数委托事件
+        /// </summary>
+        /// <param name="recordFrameCountResponse"></param>
+        public void SetRecordFrameCountResponse(RecordFrameCountResponse recordFrameCountResponse)
+        {
+            this.RecordFrameCountResponse_Event = recordFrameCountResponse;
+        }
+        /// <summary>
+        /// 设置实时调试帧数委托事件
+        /// </summary>
+        /// <param name="debugFrameCountResponse"></param>
+        public void SetDebugFrameCountResponse(DebugFrameCountResponse debugFrameCountResponse)
+        {
+            this.DebugFrameCountResponse_Event = debugFrameCountResponse;
         }
     }
 }

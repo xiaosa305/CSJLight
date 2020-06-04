@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using static MultiLedController.multidevice.impl.VirtualControlDevice;
 
 namespace MultiLedController.multidevice.impl
 {
@@ -207,8 +208,8 @@ namespace MultiLedController.multidevice.impl
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
-                this.VirtualControlDevices[index].SetSaveFilePath(@"C:\Users\99729\Desktop\Test\SC00" + index + @".bin");
-                this.VirtualControlDevices[index].StartRecode();
+                this.VirtualControlDevices[index].SetRecordFilePath(@"C:\Users\99729\Desktop\Test\SC00" + index + @".bin");
+                this.VirtualControlDevices[index].StartRecord();
             }
             return this;
         }
@@ -217,11 +218,10 @@ namespace MultiLedController.multidevice.impl
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
-                this.VirtualControlDevices[index].StopRecode();
+                this.VirtualControlDevices[index].StopRecord();
             }
             return this;
         }
-
 
         public TransactionManager StartAllDeviceReceiveDmxData()
         {
@@ -255,7 +255,7 @@ namespace MultiLedController.multidevice.impl
                             {
                                 if (virtualControlDevice.IsThisDevice(dTO.ControlDevice.IP))
                                 {
-                                    virtualControlDevice.SetSaveFilePath(dTO.RecodeFilePath);
+                                    virtualControlDevice.SetRecordFilePath(dTO.RecodeFilePath);
                                 }
                             }
                         }
@@ -272,6 +272,48 @@ namespace MultiLedController.multidevice.impl
                 device.CloseVirtualControlDevice();
             }
             this.ClearControlDeviceList();
+            return this;
+        }
+
+        public TransactionManager SetRecordFrameCountResponse(List<ControlDeviceDTO> controlDeviceDTOs,RecordFrameCountResponse recordFrameCountResponse)
+        {
+            if (this.VirtualControlDevices != null)
+            {
+                if (this.VirtualControlDevices.Count != 0)
+                {
+                    if (controlDeviceDTOs != null)
+                    {
+                        foreach (VirtualControlDevice virtualControlDevice in this.VirtualControlDevices)
+                        {
+                            if (virtualControlDevice.IsThisDevice(controlDeviceDTOs[0].ControlDevice.IP))
+                            {
+                                virtualControlDevice.SetRecordFrameCountResponse(recordFrameCountResponse);
+                            }
+                        }
+                    }
+                }
+            }
+            return this;
+        }
+
+        public TransactionManager SetDebugFrameCountResponse(List<ControlDeviceDTO> controlDeviceDTOs, DebugFrameCountResponse debugFrameCountResponse)
+        {
+            if (this.VirtualControlDevices != null)
+            {
+                if (this.VirtualControlDevices.Count != 0)
+                {
+                    if (controlDeviceDTOs != null)
+                    {
+                        foreach (VirtualControlDevice virtualControlDevice in this.VirtualControlDevices)
+                        {
+                            if (virtualControlDevice.IsThisDevice(controlDeviceDTOs[0].ControlDevice.IP))
+                            {
+                                virtualControlDevice.SetDebugFrameCountResponse(debugFrameCountResponse);
+                            }
+                        }
+                    }
+                }
+            }
             return this;
         }
     }

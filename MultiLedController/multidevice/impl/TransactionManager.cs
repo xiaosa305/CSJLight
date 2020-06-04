@@ -58,7 +58,7 @@ namespace MultiLedController.multidevice.impl
         /// </summary>
         /// <param name="devices">设备信息，绑定设备编号</param>
         /// <param name="Ips">设备对应虚拟Ip地址，绑定编号</param>
-        public void AddDevice(List<ControlDevice> devices,List<List<string>> ips,string serverIp)
+        public TransactionManager AddDevice(List<ControlDevice> devices,List<List<string>> ips,string serverIp)
         {
             //每个device分配虚拟Ip，分配空间编号
             int startLedSpace = 0;
@@ -68,6 +68,7 @@ namespace MultiLedController.multidevice.impl
                 this.VirtualControlDevices.Add(device);
                 startLedSpace += devices[index].Led_interface_num * devices[index].Led_space;
             }
+            return this;
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace MultiLedController.multidevice.impl
         /// </summary>
         /// <param name="controlDeviceDTOs">设备包装类信息</param>
         /// <param name="serverIp">DMX服务器IP</param>
-        public void AddDevice(List<ControlDeviceDTO> controlDeviceDTOs ,string serverIp)
+        public TransactionManager AddDevice(List<ControlDeviceDTO> controlDeviceDTOs ,string serverIp)
         {
             //每个device分配虚拟Ip，分配空间编号
             int startLedSpace = 0;
@@ -85,6 +86,7 @@ namespace MultiLedController.multidevice.impl
                 this.VirtualControlDevices.Add(device);
                 startLedSpace += controlDeviceDTOs[index].ControlDevice.Led_interface_num * controlDeviceDTOs[index].ControlDevice.Led_space;
             }
+            return this;
         }
         /// <summary>
         /// 功能：搜索幻彩控制卡
@@ -183,52 +185,81 @@ namespace MultiLedController.multidevice.impl
         }
 
         //测试用
-        public void StartAllDeviceDebug()
+        public TransactionManager StartAllDeviceDebug()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
                 this.VirtualControlDevices[index].StartDebugMode();
             }
+            return this;
         }
 
-        public void StopAllDeviceDebug()
+        public TransactionManager StopAllDeviceDebug()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
                 this.VirtualControlDevices[index].StopDebugMode();
             }
+            return this;
         }
 
-        public void StartAllDeviceRecode()
+        public TransactionManager StartAllDeviceRecode()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
-                this.VirtualControlDevices[index].SetSaveFilePath(@"C:\Users\99729\Desktop\Test\SC00" + index+ @".bin");
+                this.VirtualControlDevices[index].SetSaveFilePath(@"C:\Users\99729\Desktop\Test\SC00" + index + @".bin");
                 this.VirtualControlDevices[index].StartRecode();
             }
+            return this;
         }
 
-        public void StopAllDeviceRecode()
+        public TransactionManager StopAllDeviceRecode()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
                 this.VirtualControlDevices[index].StopRecode();
             }
+            return this;
         }
 
-        public void StartAllDeviceReceiveDmxData()
+        public TransactionManager StartAllDeviceReceiveDmxData()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
                 this.VirtualControlDevices[index].StartReceiveDMXData();
             }
+            return this;
         }
-        
-        public void StopAllDeviceReceiveDmxData()
+
+        public TransactionManager StopAllDeviceReceiveDmxData()
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
                 this.VirtualControlDevices[index].StopReceiveDMXData();
+            }
+            return this;
+        }
+
+        public void SetRecodeFilePath(List<SetRecodeFilePathDTO> recodeFilePathDTOs)
+        {
+            if (this.VirtualControlDevices != null)
+            {
+                if (this.VirtualControlDevices.Count != 0)
+                {
+                    if (recodeFilePathDTOs != null)
+                    {
+                        foreach (SetRecodeFilePathDTO dTO in recodeFilePathDTOs)
+                        {
+                            foreach (VirtualControlDevice virtualControlDevice in this.VirtualControlDevices)
+                            {
+                                if (virtualControlDevice.IsThisDevice(dTO.ControlDevice.IP))
+                                {
+                                    virtualControlDevice.SetSaveFilePath(dTO.RecodeFilePath);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

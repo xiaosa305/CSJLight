@@ -111,6 +111,9 @@ namespace MultiLedController.multidevice.impl
                 LogTools.Error(Constant.TAG_XIAOSA, "配置控制卡服务器失败", ex);
             }
         }
+        /// <summary>
+        /// 关闭并释放资源
+        /// </summary>
         public void CloseVirtualControlDevice()
         {
             try
@@ -126,13 +129,21 @@ namespace MultiLedController.multidevice.impl
                 if (this.ControlDeviceUdpSend != null)
                 {
                     this.ControlDeviceUdpSend.Close();
-                    this.ControlDeviceUdpSend = null;
                     if (this.ControlDeviceUdpClient != null)
                     {
                         this.ControlDeviceUdpClient.Close();
                         this.ControlDeviceUdpClient = null;
                     }
+                    this.ControlDeviceUdpSend.Dispose();
+                    this.ControlDeviceUdpSend = null;
                 }
+                this.DebugFrameCountResponse_Event = null;
+                this.RecordFrameCountResponse_Event = null;
+                foreach (VirtualClient client in this.VirtualClients)
+                {
+                    client.CloseVirtualClient();
+                }
+                this.VirtualClients = new List<VirtualClient>();
             }
             catch (Exception ex)
             {

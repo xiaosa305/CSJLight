@@ -208,7 +208,6 @@ namespace MultiLedController.multidevice.impl
         {
             for (int index = 0; index < this.VirtualControlDevices.Count; index++)
             {
-                this.VirtualControlDevices[index].SetRecordFilePath(@"C:\Users\99729\Desktop\Test\SC00" + index + @".bin");
                 this.VirtualControlDevices[index].StartRecord();
             }
             return this;

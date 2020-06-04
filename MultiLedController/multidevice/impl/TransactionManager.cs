@@ -168,6 +168,7 @@ namespace MultiLedController.multidevice.impl
         private void ClearControlDeviceList()
         {
             this.ControlDevices.Clear();
+            this.VirtualControlDevices.Clear();
         }
         /// <summary>
         /// 功能：关闭搜索设备服务器

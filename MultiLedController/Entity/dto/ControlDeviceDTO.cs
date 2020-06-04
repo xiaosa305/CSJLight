@@ -9,12 +9,7 @@ namespace MultiLedController.entity.dto
     {
         public ControlDevice ControlDevice { get; set; }
         public List<String> VirtualIps { get; set; }
-        public ControlDeviceDTO(ControlDevice controlDevice,List<string> virtualIps)
-        {
-            this.ControlDevice = controlDevice;
-            this.VirtualIps = virtualIps;
-        }
+        public string RecodeFilePath { get; set; }
         public ControlDeviceDTO() { }
-
     }
 }

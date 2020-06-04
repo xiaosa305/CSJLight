@@ -298,17 +298,12 @@ namespace MultiLedController.MyForm
 		{
 			Console.WriteLine("searchDevices...");
 
-			if (!searchButton.Enabled)
-			{
-				setNotice(1, "搜索按钮不可用，不可搜索设备。", false);
-				return;
-			}		
-
 			if (netcardComboBox.SelectedIndex == -1)
 			{
 				setNotice(1, "未选中可用网卡，无法搜索设备。", false);
 				return;
 			}
+
 			if (string.IsNullOrEmpty(mainIP))
 			{
 				setNotice(1, "未设置主IP地址，无法搜索设备。", false);
@@ -356,63 +351,6 @@ namespace MultiLedController.MyForm
 			netcardComboBox.Text = "";
 		}
 		
-		/// <summary>
-		/// 辅助方法：处理int型,使之成为两位数的string表示
-		/// </summary>
-		/// <param name="recordIndex"></param>
-		/// <returns></returns>
-		private string transformRecordIndex(int recordIndex)
-		{
-			if (recordIndex < 0)
-			{
-				return "000";
-			}
-			if (recordIndex > 999)
-			{
-				return "999";
-			}
-
-			if (recordIndex < 100)
-			{
-				if (recordIndex < 10)
-				{
-					return "00" + recordIndex;
-				}
-				return "0" + recordIndex;
-			}
-			else
-			{
-				return recordIndex.ToString();
-			}
-		}
-
-		/// <summary>
-		/// 辅助方法：根据当前的recordPath，设置label及toolTip
-		/// </summary>
-		private void setRecordPathLabel()
-		{
-			recordPathLabel.Text = recordPath;
-			myToolTip.SetToolTip(recordPathLabel, recordPath);
-		}
-
-		/// <summary>
-		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void recordTextBox_LostFocus(object sender, EventArgs e)
-		{
-			if (recordTextBox.Text.Length == 0)
-			{
-				recordIndex = 0;
-			}
-			else
-			{
-				recordIndex = int.Parse(recordTextBox.Text);
-			}
-			recordTextBox.Text = transformRecordIndex(recordIndex);
-		}
-
 		/// <summary>
 		/// 辅助方法：设置提示信息
 		/// </summary>
@@ -779,6 +717,7 @@ namespace MultiLedController.MyForm
 				int startInterface = 0;
 				List<ControlDeviceDTO> deviceDtoList = new List<ControlDeviceDTO>();
 
+
 				for (int i = 0; i < choosenIndexList.Count; i++)
 				{
 					int deviceIndex = choosenIndexList[i];
@@ -797,8 +736,7 @@ namespace MultiLedController.MyForm
 					}
 					startInterface += interfaceCount;
 
-					ControlDeviceDTO deviceDTO = new ControlDeviceDTO(device,VIPList);
-					deviceDtoList.Add(deviceDTO);
+					deviceDtoList.Add(new ControlDeviceDTO(device, VIPList));
 				}
 				Refresh();
 
@@ -835,7 +773,7 @@ namespace MultiLedController.MyForm
 				{
 					debugButton_Click(null, null);
 				}
-				TransactionManager.GetTransactionManager().StopAllDeviceReceiveDmxData();
+				TransactionManager.GetTransactionManager().StopAllDeviceReceiveDmxData().CloseAllDevice();
 				enableStartButtons(false);
 				setNotice(1, "已关闭模拟。", false);
 				setBusy(false);
@@ -1024,6 +962,41 @@ namespace MultiLedController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：《recordTextBox》，只能输入0-9及退格键
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void recordTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8)
+			{
+				e.Handled = false;
+			}
+			else
+			{
+				e.Handled = true;
+			}
+		}
+			
+		/// <summary>
+		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void recordTextBox_LostFocus(object sender, EventArgs e)
+		{
+			if (recordTextBox.Text.Length == 0)
+			{
+				recordIndex = 0;
+			}
+			else
+			{
+				recordIndex = int.Parse(recordTextBox.Text);
+			}
+			recordTextBox.Text = transformRecordIndex(recordIndex);
+		}
+		
+		/// <summary>
 		/// 事件：点击《+》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -1064,6 +1037,12 @@ namespace MultiLedController.MyForm
 		{
 			if (isRecording)
 			{
+
+
+
+				TransactionManager.GetTransactionManager().SetRecodeFilePath(  );
+
+
 				Art_Net_Manager.GetInstance().StopSaveToFile();
 				enableRecordButtons(false);
 				plusButton_Click(null, null);
@@ -1092,6 +1071,45 @@ namespace MultiLedController.MyForm
 			recordTextBox.Enabled = !recording;
 			plusButton.Enabled = !recording;
 			minusButton.Enabled = !recording;
+		}
+
+		/// <summary>
+		/// 辅助方法：处理int型,使之成为两位数的string表示
+		/// </summary>
+		/// <param name="recordIndex"></param>
+		/// <returns></returns>
+		private string transformRecordIndex(int recordIndex)
+		{
+			if (recordIndex < 0)
+			{
+				return "000";
+			}
+			if (recordIndex > 999)
+			{
+				return "999";
+			}
+
+			if (recordIndex < 100)
+			{
+				if (recordIndex < 10)
+				{
+					return "00" + recordIndex;
+				}
+				return "0" + recordIndex;
+			}
+			else
+			{
+				return recordIndex.ToString();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：根据当前的recordPath，设置label及toolTip
+		/// </summary>
+		private void setRecordPathLabel()
+		{
+			recordPathLabel.Text = recordPath;
+			myToolTip.SetToolTip(recordPathLabel, recordPath);
 		}
 
 		#endregion

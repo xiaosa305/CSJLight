@@ -92,6 +92,7 @@ namespace MultiLedController.multidevice.impl
             {
                 this.ControlDeviceUdpSend = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 this.ControlDeviceUdpSend.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+                Console.WriteLine(this.ControlDevice.IP + " ：    Port is  " + (9999 + this.VirtualDeviceIndex + 1));
                 this.ControlDeviceUdpSend.Bind(new IPEndPoint(IPAddress.Parse(this.ServersIp), 9999 + this.VirtualDeviceIndex + 1));
                 this.ControlDeviceUdpClient = new UdpClient() { Client = this.ControlDeviceUdpSend};
                 this.ControlDeviceUdpReceiveThread = new Thread(this.ControlDeviceUdpReceiveMsg) { IsBackground = true };

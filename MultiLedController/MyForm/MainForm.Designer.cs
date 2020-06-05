@@ -464,7 +464,7 @@
 			// 
 			// minusButton
 			// 
-			this.minusButton.Location = new System.Drawing.Point(595, 50);
+			this.minusButton.Location = new System.Drawing.Point(595, 51);
 			this.minusButton.Name = "minusButton";
 			this.minusButton.Size = new System.Drawing.Size(30, 31);
 			this.minusButton.TabIndex = 72;
@@ -474,7 +474,7 @@
 			// 
 			// plusButton
 			// 
-			this.plusButton.Location = new System.Drawing.Point(562, 50);
+			this.plusButton.Location = new System.Drawing.Point(562, 51);
 			this.plusButton.Name = "plusButton";
 			this.plusButton.Size = new System.Drawing.Size(30, 31);
 			this.plusButton.TabIndex = 71;
@@ -484,18 +484,19 @@
 			// 
 			// recordTextBox
 			// 
-			this.recordTextBox.Location = new System.Drawing.Point(405, 58);
+			this.recordTextBox.Location = new System.Drawing.Point(405, 61);
 			this.recordTextBox.MaxLength = 3;
 			this.recordTextBox.Name = "recordTextBox";
 			this.recordTextBox.Size = new System.Drawing.Size(39, 21);
 			this.recordTextBox.TabIndex = 70;
 			this.recordTextBox.Text = "000";
 			this.recordTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.recordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.recordTextBox_KeyPress);
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(447, 64);
+			this.label3.Location = new System.Drawing.Point(447, 67);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(29, 12);
 			this.label3.TabIndex = 68;
@@ -504,7 +505,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(280, 64);
+			this.label1.Location = new System.Drawing.Point(280, 67);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(119, 12);
 			this.label1.TabIndex = 69;
@@ -512,7 +513,7 @@
 			// 
 			// recordPathLabel
 			// 
-			this.recordPathLabel.Location = new System.Drawing.Point(373, 13);
+			this.recordPathLabel.Location = new System.Drawing.Point(373, 16);
 			this.recordPathLabel.Name = "recordPathLabel";
 			this.recordPathLabel.Size = new System.Drawing.Size(249, 30);
 			this.recordPathLabel.TabIndex = 67;
@@ -522,7 +523,7 @@
 			// setFilePathButton
 			// 
 			this.setFilePathButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.setFilePathButton.Location = new System.Drawing.Point(278, 9);
+			this.setFilePathButton.Location = new System.Drawing.Point(278, 12);
 			this.setFilePathButton.Name = "setFilePathButton";
 			this.setFilePathButton.Size = new System.Drawing.Size(87, 39);
 			this.setFilePathButton.TabIndex = 66;
@@ -535,7 +536,7 @@
 			this.recordButton.BackColor = System.Drawing.Color.Transparent;
 			this.recordButton.Enabled = false;
 			this.recordButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.recordButton.Location = new System.Drawing.Point(666, 8);
+			this.recordButton.Location = new System.Drawing.Point(666, 11);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(76, 72);
 			this.recordButton.TabIndex = 65;
@@ -547,7 +548,7 @@
 			// 
 			this.debugButton.Enabled = false;
 			this.debugButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.debugButton.Location = new System.Drawing.Point(90, 8);
+			this.debugButton.Location = new System.Drawing.Point(90, 11);
 			this.debugButton.Name = "debugButton";
 			this.debugButton.Size = new System.Drawing.Size(76, 72);
 			this.debugButton.TabIndex = 73;
@@ -560,7 +561,7 @@
 			this.startButton.BackColor = System.Drawing.Color.Coral;
 			this.startButton.Enabled = false;
 			this.startButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.startButton.Location = new System.Drawing.Point(8, 8);
+			this.startButton.Location = new System.Drawing.Point(8, 11);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(76, 72);
 			this.startButton.TabIndex = 74;

@@ -779,7 +779,6 @@ namespace MultiLedController.MyForm
 		/// </summary>
 		private void generateAvailableIPListMultiThread(ref SortedSet<int> addVIPSet, ref int addVIPCount, string top3IPStr, int lastIPStr, int retainIPCount)
 		{
-
 			Console.WriteLine("retainIPCount = " + retainIPCount + " | addVIPCount = " + addVIPCount);
 			// 当剩余次数小于1时，退出本方法
 			if (retainIPCount < 1)
@@ -968,6 +967,7 @@ namespace MultiLedController.MyForm
 				recordIndex = int.Parse(recordTextBox.Text);
 			}
 			recordTextBox.Text = transformRecordIndex(recordIndex);
+			setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin", false);
 		}
 		
 		/// <summary>

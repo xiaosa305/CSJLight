@@ -413,6 +413,7 @@ namespace MultiLedController.MyForm
 				recordIndex = int.Parse(recordTextBox.Text);
 			}			
 			recordTextBox.Text = transformRecordIndex(recordIndex);
+			setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin");
 		}
 
 		/// <summary>

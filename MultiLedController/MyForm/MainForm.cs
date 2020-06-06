@@ -22,26 +22,23 @@ namespace MultiLedController.MyForm
 	public partial class MainForm : Form
 	{
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新	
+
 		private ManagementObject mo; //存放当前网卡的mo对象
 		private string mainIP;  //当前网卡的主IP(第一个设的IP，mo对象取回来时在最后面)
 		private string mainMask; // 当前网卡的主掩码
 		private IList<string> vipList; //当前网卡的虚拟IP列表（不包含主ip）
-
+		
+		private int deviceSelectedIndex = -1;     // 搜到设备 的选中项
 		private IList<ControlDevice> deviceList; // 将所有设备放到列表中
-		private IList<int> choosenIndexList;  //  序列设备 的索引列表
-
+		private int choosenSelectedIndex = -1;  // 序列设备【将使用这些设备进行模拟】 的选中项
+		private IList<int> choosenIndexList;  //  序列设备 的索引列表				
+		private List<ControlDeviceDTO> deviceDtoList;  //序列 设备Dto 列表 ； 包括设备及其对应的 虚拟IP列表，以及 录制文件路径
 
 		private bool isStart = false; //是否启动模拟
-		private bool isDebuging = false;  //是否启用调试
+		private bool isDebuging = false;  //是否正在调试
 		private bool isRecording = false; // 是否正在录制
 		private string recordPath = "C:\\Temp\\CSJ_SC"; //录制文件存储路径
 		private int recordIndex = 0; //录制文件序号
-
-		private bool networkChanged = false; //是否由《NewNetworkForm》更改网络设置：点过《多ip设置》《DHCP》《恢复设置》这三个按钮后需要设为true
-
-		private int deviceSelectedIndex = -1;     // 搜到设备 的选中项
-		private int choosenSelectedIndex = -1;  // 序列设备【将使用这些设备进行模拟】 的选中项
-		private List<ControlDeviceDTO> deviceDtoList;  //序列设备列表
 
 		public MainForm()
 		{
@@ -49,7 +46,7 @@ namespace MultiLedController.MyForm
 
 			// 为软件添加版本号显示(记录【程序集版本】，单设备版本则采用【文件版本】，便于区分)
 			string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-			Text += " v" + version;
+			Text += " v" + version +" beta";
 
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
@@ -79,7 +76,7 @@ namespace MultiLedController.MyForm
 			}
 		}
 
-		#region 网卡相关
+		#region 搜索设备相关
 
 		/// <summary>
 		/// 事件：点击《刷新网卡列表》
@@ -168,6 +165,16 @@ namespace MultiLedController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《搜索设备》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void searchButton_Click(object sender, EventArgs e)
+		{
+			searchDevices();
+		}
+
+		/// <summary>
 		/// 辅助方法：刷新网卡列表
 		/// </summary>
 		private void refreshNetcardList()
@@ -196,13 +203,75 @@ namespace MultiLedController.MyForm
 				setNotice(1, "未找到可用网卡,请处理后《刷新列表》。", true);
 			}
 		}
-	
+		
+		/// <summary>
+		///辅助方法：搜索设备
+		/// </summary>
+		private void searchDevices()
+		{
+			Console.WriteLine("searchDevices...");
+
+			if (netcardComboBox.SelectedIndex == -1)
+			{
+				setNotice(1, "未选中可用网卡，无法搜索设备。", false);
+				return;
+			}
+
+			if (string.IsNullOrEmpty(mainIP))
+			{
+				setNotice(1, "未设置主IP地址，无法搜索设备。", false);
+				return;
+			}
+
+			setNotice(1, "正在搜索设备，请稍候...", false);
+
+			deviceSelectedIndex = -1;
+			deviceListView.Items.Clear();
+			choosenSelectedIndex = -1;
+			choosenListView.Items.Clear();
+			startButton.Enabled = false;
+
+			Art_Net_Manager.GetInstance().SearchDevice(ipLabel2.Text);
+			Thread.Sleep(1000);
+			Dictionary<string, ControlDevice> deviceDict = Art_Net_Manager.GetInstance().GetLedControlDevices();
+			deviceList = new List<ControlDevice>();
+			choosenIndexList = new List<int>();
+
+			if (deviceDict.Count == 0)
+			{
+				setNotice(1, "未搜索到任何设备，请确认后重试。", false);
+				return;
+			}
+
+			foreach (ControlDevice dev in deviceDict.Values)
+			{
+				deviceList.Add(dev);
+			}
+			refreshLeftListView();
+
+			setNotice(1, "已将搜索到的设备添加待命列表中，请逐一添加需使用的设备。", false);
+		}
+
+		/// <summary>
+		/// 辅助方法：把所有的组件都设为最初的空值;按钮Enabled还原为false
+		/// </summary>
+		private void clearAll()
+		{
+			clearNetcardInfo(); //clearAll()
+
+			netcardInfoGroupBox.Enabled = false;
+
+			netcardComboBox.SelectedIndex = -1;
+			netcardComboBox.Items.Clear();
+			netcardComboBox.Text = "";
+		}
+
 		/// <summary>
 		/// 辅助方法：刷新网卡信息，主要用于更改网卡列表及主动刷新网卡时
 		/// </summary>
 		private void refreshNetcardInfo()
 		{
-			clearNetcardInfo();
+			clearNetcardInfo();  //refreshNetcardInfo()
 			vipList = new List<string>();
 
 			if (netcardComboBox.SelectedIndex > -1)
@@ -271,9 +340,13 @@ namespace MultiLedController.MyForm
 			vipList = null;
 			virtualIPListView.Items.Clear();
 
-			deviceList = null;
+			deviceSelectedIndex = -1;
+			deviceList = null;			
 			deviceListView.Items.Clear();
-
+			choosenSelectedIndex = -1;
+			choosenIndexList = null;			
+			choosenListView.Items.Clear();
+			
 			searchButton.Enabled = false;
 			startButton.Enabled = false;
 			debugButton.Enabled = false;
@@ -281,110 +354,8 @@ namespace MultiLedController.MyForm
 		}
 
 		#endregion
-
-		/// <summary>
-		/// 事件：点击《搜索设备》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void searchButton_Click(object sender, EventArgs e)
-		{
-			searchDevices();
-		}
-
-		/// <summary>
-		///辅助方法：搜索设备
-		/// </summary>
-		private void searchDevices()
-		{
-			Console.WriteLine("searchDevices...");
-
-			if (netcardComboBox.SelectedIndex == -1)
-			{
-				setNotice(1, "未选中可用网卡，无法搜索设备。", false);
-				return;
-			}
-
-			if (string.IsNullOrEmpty(mainIP))
-			{
-				setNotice(1, "未设置主IP地址，无法搜索设备。", false);
-				return;
-			}			
-
-			setNotice(1, "正在搜索设备，请稍候...", false);
-
-			deviceListView.Items.Clear();
-			choosenListView.Items.Clear();
-			startButton.Enabled = false;
-
-			Art_Net_Manager.GetInstance().SearchDevice(ipLabel2.Text);
-			Thread.Sleep(1000);
-			Dictionary<string, ControlDevice> deviceDict = Art_Net_Manager.GetInstance().GetLedControlDevices();
-			deviceList = new List<ControlDevice>();
-			choosenIndexList = new List<int>();
-
-			if (deviceDict.Count == 0)
-			{
-				setNotice(1, "未搜索到任何设备，请确认后重试。", false);
-				return;
-			}
-						
-			foreach (ControlDevice dev in deviceDict.Values)
-			{
-				deviceList.Add(dev);	
-			}
-			refreshLeftListView();
-
-			setNotice(1, "已将搜索到的设备添加待命列表中，请逐一添加需使用的设备。", false); 
-		}
-			
-		/// <summary>
-		/// 辅助方法：把所有的组件都设为最初的空值;按钮Enabled还原为false
-		/// </summary>
-		private void clearAll()
-		{
-			clearNetcardInfo();
-
-			netcardInfoGroupBox.Enabled = false;
-
-			netcardComboBox.SelectedIndex = -1;
-			netcardComboBox.Items.Clear();
-			netcardComboBox.Text = "";
-		}
 		
-		/// <summary>
-		/// 辅助方法：设置提示信息
-		/// </summary>
-		/// <param name="place">1 | 2 左1右2</param>
-		/// <param name="msg"></param>
-		private void setNotice(int place, string msg, bool msgShow)
-		{
-			if (msgShow) {
-				MessageBox.Show(msg);
-			}
-
-			if (place == 1)
-			{
-				myStatusLabel1.Text = msg;
-			}
-			if (place == 2)
-			{
-				myStatusLabel2.Text = msg;
-			}
-			statusStrip.Refresh();
-		}
-
-		/// <summary>
-		/// 辅助方法：设置是否忙时
-		/// </summary>
-		/// <param name="v"></param>
-		private void setBusy(bool busy)
-		{
-			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
-			Enabled = !busy;
-		}
-			
-		#region 设置添加到序列的列表		
+		#region 设置设备序列		
 
 		/// <summary>
 		/// 事件：更改《搜到列表》的选中项
@@ -400,6 +371,7 @@ namespace MultiLedController.MyForm
 			}
 			else
 			{
+				deviceSelectedIndex = -1;
 				addButton.Enabled = false;
 			}
 		}
@@ -414,11 +386,11 @@ namespace MultiLedController.MyForm
 			if (choosenListView.SelectedIndices.Count > 0)
 			{
 				choosenSelectedIndex = choosenListView.SelectedIndices[0];
-				delButton.Enabled = true;
-				//Console.WriteLine("choosenSelectedIndex:" + choosenSelectedIndex + " || Tag:"+ choosenListView.Items[choosenSelectedIndex].Tag);
+				delButton.Enabled = true;				
 			}
 			else
 			{
+				choosenSelectedIndex = -1;
 				delButton.Enabled = false;
 			}
 		}
@@ -559,30 +531,10 @@ namespace MultiLedController.MyForm
 				}
 			);
 		}
-				
+
 		#endregion
 
-		/// <summary>
-		/// 事件：点击《Test》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void testButton_Click(object sender, EventArgs e)
-		{
-			//Console.WriteLine("deviceList : ");
-			//foreach (ControlDevice dev in deviceList)
-			//{
-			//	Console.Write( dev + " " );
-			//}
-			//Console.WriteLine();
-
-			Console.Write( "choosenIndexList : " );
-			foreach (int item in choosenIndexList)
-			{
-				Console.Write(item + "    ");
-			}
-			Console.WriteLine();
-		}
+		#region 模拟、调试相关
 
 		/// <summary>
 		/// 事件：点击《启动模拟 | 关闭模拟》
@@ -737,6 +689,7 @@ namespace MultiLedController.MyForm
 				setNotice(1, "已启动模拟,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",false);
 				setBusy(false);
 			}
+			// 关闭模拟			
 			else
 			{
 				setBusy(true);
@@ -916,6 +869,8 @@ namespace MultiLedController.MyForm
 			isStart = enable;
 		}
 
+		#endregion
+
 		#region 录制相关
 
 		/// <summary>
@@ -1086,10 +1041,43 @@ namespace MultiLedController.MyForm
 			recordPathLabel.Text = recordPath;
 			myToolTip.SetToolTip(recordPathLabel, recordPath);
 		}
-				
+
 		#endregion
 
-		#region 各委托方法
+		#region 各委托方法 及 全局提示等
+		
+		/// <summary>
+		/// 辅助方法：设置提示信息
+		/// </summary>
+		/// <param name="place">1 | 2 左1右2</param>
+		/// <param name="msg"></param>
+		private void setNotice(int place, string msg, bool msgShow)
+		{
+			if (msgShow)
+			{
+				MessageBox.Show(msg);
+			}
+
+			if (place == 1)
+			{
+				myStatusLabel1.Text = msg;
+			}
+			if (place == 2)
+			{
+				myStatusLabel2.Text = msg;
+			}
+			statusStrip.Refresh();
+		}
+
+		/// <summary>
+		/// 辅助方法：设置是否忙时
+		/// </summary>
+		/// <param name="v"></param>
+		private void setBusy(bool busy)
+		{
+			Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+			Enabled = !busy;
+		}
 
 		/// <summary>
 		/// 辅助方法：实现展示调试帧数的委托
@@ -1108,16 +1096,34 @@ namespace MultiLedController.MyForm
 		{
 			setNotice(2, "当前录制帧数：" + count, false);
 		}
+			
+		#endregion
 
 		/// <summary>
-		/// 辅助方法：一旦网络设置发送变化，立即设置setChanged为true
+		/// 事件：点击《Test》
 		/// </summary>
-		public void SetNetworkChangedTrue()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void testButton_Click(object sender, EventArgs e)
 		{
-			networkChanged = true;
+			//Console.WriteLine("deviceList : ");
+			//foreach (ControlDevice dev in deviceList)
+			//{
+			//	Console.Write( dev + " " );
+			//}
+			//Console.WriteLine();
+
+			//Console.Write( "choosenIndexList : " );
+			//foreach (int item in choosenIndexList)
+			//{
+			//	Console.Write(item + "    ");
+			//}
+			//Console.WriteLine();
+
+			Console.WriteLine(" deviceIndex = " + deviceSelectedIndex + " || choosenIndex = " + choosenSelectedIndex);
+
 		}
 
-		#endregion
 
 	}
 }

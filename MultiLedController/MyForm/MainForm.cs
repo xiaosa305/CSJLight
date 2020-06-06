@@ -28,9 +28,7 @@ namespace MultiLedController.MyForm
 		private string mainMask; // 当前网卡的主掩码
 		private IList<string> vipList; //当前网卡的虚拟IP列表（不包含主ip）
 		
-		private int deviceSelectedIndex = -1;     // 搜到设备 的选中项
-		private IList<ControlDevice> deviceList; // 将所有设备放到列表中
-		private int choosenSelectedIndex = -1;  // 序列设备【将使用这些设备进行模拟】 的选中项
+		private IList<ControlDevice> deviceList; // 将所有设备放到列表中	
 		private IList<int> choosenIndexList;  //  序列设备 的索引列表				
 		private List<ControlDeviceDTO> deviceDtoList;  //序列 设备Dto 列表 ； 包括设备及其对应的 虚拟IP列表，以及 录制文件路径
 
@@ -224,10 +222,8 @@ namespace MultiLedController.MyForm
 			}
 
 			setNotice(1, "正在搜索设备，请稍候...", false);
-
-			deviceSelectedIndex = -1;
+		
 			deviceListView.Items.Clear();
-			choosenSelectedIndex = -1;
 			choosenListView.Items.Clear();
 			startButton.Enabled = false;
 
@@ -340,10 +336,8 @@ namespace MultiLedController.MyForm
 			vipList = null;
 			virtualIPListView.Items.Clear();
 
-			deviceSelectedIndex = -1;
 			deviceList = null;			
 			deviceListView.Items.Clear();
-			choosenSelectedIndex = -1;
 			choosenIndexList = null;			
 			choosenListView.Items.Clear();
 			
@@ -364,16 +358,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void controllerListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (deviceListView.SelectedIndices.Count > 0)
-			{
-				deviceSelectedIndex = deviceListView.SelectedIndices[0];
-				addButton.Enabled = true;
-			}
-			else
-			{
-				deviceSelectedIndex = -1;
-				addButton.Enabled = false;
-			}
+			addButton.Enabled = deviceListView.SelectedIndices.Count > 0;
 		}
 
 		/// <summary>
@@ -383,16 +368,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void choosenListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (choosenListView.SelectedIndices.Count > 0)
-			{
-				choosenSelectedIndex = choosenListView.SelectedIndices[0];
-				delButton.Enabled = true;				
-			}
-			else
-			{
-				choosenSelectedIndex = -1;
-				delButton.Enabled = false;
-			}
+			delButton.Enabled = choosenListView.SelectedIndices.Count > 0 ;			
 		}
 
 		/// <summary>
@@ -402,8 +378,8 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void addButton_Click(object sender, EventArgs e)
 		{
-			if (deviceSelectedIndex != -1) {
-				int deviceIndex = int.Parse( deviceListView.Items[deviceSelectedIndex].Tag.ToString() );
+			if (deviceListView.SelectedIndices.Count > 0) {
+				int deviceIndex = int.Parse( deviceListView.Items[ deviceListView.SelectedIndices[0] ].Tag.ToString() );
 				choosenIndexList.Add(deviceIndex);
 				refreshLeftListView();
 			}
@@ -419,17 +395,17 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void delButton_Click(object sender, EventArgs e)
 		{
-			if (choosenSelectedIndex != -1)
+			if (choosenListView.SelectedIndices.Count > 0)
 			{			
-				// 先进行验证
-				int deviceIndex = int.Parse(choosenListView.Items[choosenSelectedIndex].Tag.ToString());			
-				if (deviceIndex != choosenIndexList[choosenSelectedIndex]) {
+				// 先进行验证				
+				int deviceIndex = int.Parse(choosenListView.Items[choosenListView.SelectedIndices[0]].Tag.ToString());			
+				if (deviceIndex != choosenIndexList[choosenListView.SelectedIndices[0]]) {
 					//Console.WriteLine( deviceIndex + "  -- chooseIndexList["+ choosenSelectedIndex + "] = " + choosenIndexList[choosenSelectedIndex] );
 					setNotice(1 , "删除的设备数据有错，请确认后重试。" , true);
 					return;
 				}
 				// 数据无误后，删除相应的项，并刷新列表
-				choosenIndexList.RemoveAt(choosenSelectedIndex);
+				choosenIndexList.RemoveAt(choosenListView.SelectedIndices[0]);
 				refreshLeftListView();
 			}
 			else
@@ -454,11 +430,8 @@ namespace MultiLedController.MyForm
 		/// </summary>
 		private void refreshLeftListView()
 		{
-			deviceSelectedIndex = -1;
 			deviceListView.Items.Clear();			
-			addButton.Enabled = false;
-
-			choosenSelectedIndex = -1;
+			addButton.Enabled = false;						
 			choosenListView.Items.Clear();
 			delButton.Enabled = false;
 
@@ -1106,22 +1079,18 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void testButton_Click(object sender, EventArgs e)
 		{
-			//Console.WriteLine("deviceList : ");
-			//foreach (ControlDevice dev in deviceList)
-			//{
-			//	Console.Write( dev + " " );
-			//}
-			//Console.WriteLine();
+			Console.WriteLine("deviceList : ");
+			foreach (ControlDevice dev in deviceList)
+			{
+				Console.WriteLine(dev.LedName.Replace("\0",""));
+			}
 
-			//Console.Write( "choosenIndexList : " );
-			//foreach (int item in choosenIndexList)
-			//{
-			//	Console.Write(item + "    ");
-			//}
-			//Console.WriteLine();
-
-			Console.WriteLine(" deviceIndex = " + deviceSelectedIndex + " || choosenIndex = " + choosenSelectedIndex);
-
+			Console.Write("choosenIndexList : ");
+			foreach (int item in choosenIndexList)
+			{
+				Console.Write(item + "    ");
+			}
+			Console.WriteLine();
 		}
 
 

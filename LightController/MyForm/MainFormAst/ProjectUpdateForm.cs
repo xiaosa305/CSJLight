@@ -456,7 +456,7 @@ namespace LightController.MyForm
 			}			
 		}
 
-		public void Error()
+		public void Error(string msg)
 		{
 			MessageBox.Show("数据生成出错");
 			puForm.SetBusy(false);

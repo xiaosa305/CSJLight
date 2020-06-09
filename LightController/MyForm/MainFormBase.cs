@@ -3791,11 +3791,11 @@ namespace LightController.MyForm
 			mainForm.Preview();
 			mainForm.SetNotice("正在预览效果...");
 		}
-		public void Error()
+		public void Error(string msg)
 		{
             mainForm.SetPreview(false);
-            mainForm.SetNotice("预览数据生成出错,无法预览,。");
-            MessageBox.Show("预览数据生成出错,无法预览,。");
+            mainForm.SetNotice(msg+",无法预览,。");
+            MessageBox.Show("预览数据生成出错,无法预览,。\n错误原因为：" + msg);
 		}
 		public void UpdateProgress(string name)
 		{
@@ -3816,7 +3816,7 @@ namespace LightController.MyForm
 		{
 			mainForm.CopyProject(exportFolder, true);
 		}
-		public void Error()
+		public void Error(string msg)
 		{
 			mainForm.CopyProject(exportFolder, false);
 		}

@@ -22,6 +22,7 @@ namespace LightEditor
 	{
 		// 全局变量，启动时载入，之后不会更改
 		private MainFormBase mainForm;
+
 		private string softwareName;  //动态更改软件名
 		private string savePath;  //软件各项功能保存的路径(软件目录或C:\Temp)
 		private string picDirectory;     // 图片目录
@@ -44,8 +45,8 @@ namespace LightEditor
 		public LightEditorForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
-
-			InitializeComponent();
+          
+            InitializeComponent();
 
 			softwareName = mainForm.SoftwareName + " Light Editor";
 			Text = softwareName;
@@ -200,8 +201,7 @@ namespace LightEditor
 				waySetForm = null;
 			}
 
-			Dispose();
-			mainForm.WindowState = FormWindowState.Normal;
+			Dispose();         
 			mainForm.Activate();
 		}
 
@@ -296,7 +296,8 @@ namespace LightEditor
 					this.setImage(picDirectory + "\\" + imagePath);
 				}
 
-				TongdaoCount = int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取
+				TongdaoCount = int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取              
+
 				countComboBox.SelectedIndex = TongdaoCount - 1;   // 此处请注意：并不是用SelectedText，而是直接设Text			
 
 				TongdaoList = new List<TongdaoWrapper>();
@@ -320,13 +321,13 @@ namespace LightEditor
 				catch (Exception ex)
 				{
 					MessageBox.Show(ex.Message);
+                    return;
 				}
 
 				ShowTds();
 				enableRename(false);
 				editGroupBox.Show();
 				connectPanel.Show();
-
 			}
 		}
 
@@ -496,7 +497,6 @@ namespace LightEditor
 		private void pictureBox_Click(object sender, EventArgs e)
 		{
 			openImageDialog.ShowDialog();
-
 		}
 
 		/// <summary>

@@ -56,6 +56,10 @@ namespace LightEditor.Ast
 			{
 				IniFileHelper iniAst = new IniFileHelper(iniPath);
 				int tongdaoCount = iniAst.ReadInt("set", "count", 0);
+                if (tongdaoCount == 0) {
+                    throw new Exception("打开灯库文件失败！请确认该灯库文件的保存格式为UTF-8，且count不为0。");
+                }
+
 				SAWrapper[]  sawArray = new SAWrapper[tongdaoCount];
 				for (int tdIndex = 0; tdIndex < tongdaoCount ; tdIndex++)
 				{

@@ -2320,32 +2320,39 @@ namespace LightController.MyForm
 		{			
 			if (lightAstList == null || lightAstList.Count == 0) {
 				MessageBox.Show("当前工程还未添加灯具，无法预览。");
-				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
+                SetPreview(false);
 				return;
 			}
 
             setBusy(true);
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
-			SetNotice("正在生成预览数据，请稍候...");			
+            SetPreview(true);
+            SetNotice("正在生成预览数据，请稍候...");			
 			try
 			{
 				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("生成预览数据时异常：\n" + ex.Message);
-			}
+                SetPreview(false);
+                MessageBox.Show("生成预览数据时异常：\n" + ex.Message);               
+            }
 			finally {				
 				setBusy(false);
 			}
 		}
 
-		/// <summary>
-		///  事件：点击《触发音频》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void makeSoundSkinButton_Click(object sender, EventArgs e)
+        public override void SetPreview(bool preview) {
+             previewSkinButton.Image = preview ? 
+                global::LightController.Properties.Resources.浏览效果后 : 
+                global::LightController.Properties.Resources.浏览效果前;
+        }  
+
+        /// <summary>
+        ///  事件：点击《触发音频》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void makeSoundSkinButton_Click(object sender, EventArgs e)
 		{
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频后;
 			Refresh();
@@ -2368,8 +2375,8 @@ namespace LightController.MyForm
 			}
 			endview();
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-			SetNotice("已结束预览。");
+            SetPreview(false);
+            SetNotice("已结束预览。");
 		}				
 		
 		/// <summary>
@@ -2398,8 +2405,8 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
+                SetPreview(false);
+                deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				deviceConnectSkinButton.Text = "连接设备";
 			}
 		}
@@ -2409,9 +2416,8 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void oneStepWork()
 		{
-			base.oneStepWork();
-			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
-		}
+			base.oneStepWork();            
+        }
 			   
 		#endregion
 
@@ -2532,24 +2538,28 @@ namespace LightController.MyForm
 
 
 
-		/// <summary>
-		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
-		///  --9.4禁用此功能，即无论是否屏蔽，
-		/// </summary>
-		/// <param name="tongdaoIndex">tongdaoList的Index</param>
-		/// <param name="shielded">是否被屏蔽</param>
-		//private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-		//{
-		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
-		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		//}		
-
-		#endregion
 
 
-		
-	}
+        /// <summary>
+        ///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
+        ///  --9.4禁用此功能，即无论是否屏蔽，
+        /// </summary>
+        /// <param name="tongdaoIndex">tongdaoList的Index</param>
+        /// <param name="shielded">是否被屏蔽</param>
+        //private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
+        //{
+        //	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
+        //	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+        //	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
+        //}		
+
+        #endregion
+
+        private void tdSkinTrackBar5_Scroll(object sender, EventArgs e)
+        {
+
+        }
+    }
 
 
 

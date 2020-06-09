@@ -8,7 +8,7 @@ namespace LightController.Utils
     public interface ISaveProjectCallBack
     {
         void Completed();
-        void Error();
+        void Error(string message);
         void UpdateProgress(string name);
     }
 }

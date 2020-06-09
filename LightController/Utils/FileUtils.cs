@@ -320,7 +320,7 @@ namespace LightController.Utils
                 {
                     readStream.Close();
                 }
-                callBack.Error();
+                callBack.Error("生成场景数据文件失败");
                 LogTools.Error(Constant.TAG_XIAOSA,"数据整合出错",ex);
             }finally
             {

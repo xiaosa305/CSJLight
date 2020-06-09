@@ -2937,7 +2937,7 @@ namespace LightController.MyForm
 				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 			}
 			
-			if (isConnected && isRealtime)
+			if (isConnected && isRealtime && !isPreviewing )
 			{
 				oneStepWork();
 			}

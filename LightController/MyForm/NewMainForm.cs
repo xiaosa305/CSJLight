@@ -2454,12 +2454,6 @@ namespace LightController.MyForm
 				return;
 			}
 
-			// 若是实时调试状态， 则先关闭实时调试
-			if (isRealtime)
-			{
-				realtimeButton_Click(null, null);
-			}
-
 			setBusy(true);
 			SetNotice("正在生成预览数据，请稍候...");			
 			try

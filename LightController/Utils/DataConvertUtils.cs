@@ -917,7 +917,7 @@ namespace LightController.Utils
             }
             if (c_StepCount ==0)
             {
-                CallBack.Error();
+                CallBack.Error("当前场景没有灯光数据");
             }
             if (c_StepCount > 0)
             {

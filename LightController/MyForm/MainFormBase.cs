@@ -856,7 +856,7 @@ namespace LightController.MyForm
 			// 未连接的情况下，无法发送数据。 
 			if (!isConnected)
 			{
-				MessageBox.Show("请先连接设备");
+				MessageBox.Show("请先连接设备。");
 				return;
 			}
 
@@ -887,7 +887,7 @@ namespace LightController.MyForm
 					int currentStep = getCurrentStep();
 					if (currentStep == 0)
 					{
-						MessageBox.Show("当前多灯编组未选中可用步，无法播放！");
+						SetNotice("当前多灯编组未选中可用步，无法播放。");
 						return;
 					}
 					foreach (int lightIndex in selectedIndices)
@@ -910,8 +910,8 @@ namespace LightController.MyForm
 					StepWrapper stepWrapper = getCurrentStepWrapper();
 					if (stepWrapper == null)
 					{
-						MessageBox.Show("当前灯具未选中可用步，无法播放！");
-						return;
+                        SetNotice("当前灯具未选中可用步，无法播放。");
+                        return;
 					}
 					else
 					{

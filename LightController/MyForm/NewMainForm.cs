@@ -2453,8 +2453,8 @@ namespace LightController.MyForm
 				MessageBox.Show("当前工程还未添加灯具，无法预览。");
 				return;
 			}
-
-			setBusy(true);
+            
+            setBusy(true);
 			SetNotice("正在生成预览数据，请稍候...");			
 			try
 			{

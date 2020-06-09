@@ -2323,8 +2323,8 @@ namespace LightController.MyForm
 				previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果前;
 				return;
 			}
-                       					
-			setBusy(true);
+
+            setBusy(true);
 			previewSkinButton.Image = global::LightController.Properties.Resources.浏览效果后;			
 			SetNotice("正在生成预览数据，请稍候...");			
 			try

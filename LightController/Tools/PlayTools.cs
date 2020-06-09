@@ -257,6 +257,7 @@ namespace LightController.Tools
             {
                 if (this.Config.Music_Control_Enable[this.SceneNo] == 0 || !this.PreviewTimer.Enabled || !this.MusicData)
                 {
+                    Console.WriteLine("正在触发音频，已取消1");
                     return;
                 }
                 if (this.MusicWaiting)
@@ -273,6 +274,11 @@ namespace LightController.Tools
                         this.MusicWaiting = false;
                         this.MusicControlTimer.Start();
                     }
+                }
+                else
+                {
+                    Console.WriteLine("正在触发音频，已取消2");
+                    return;
                 }
             }
             catch (Exception ex)
@@ -326,6 +332,7 @@ namespace LightController.Tools
         {
             try
             {
+                Console.WriteLine("音频触发成功");
                 if (Interlocked.Exchange(ref MusicControlTimerStatus, 1) == 0)
                 {
                     if (this.MusicStepPoint == this.StepListCount)

@@ -915,6 +915,10 @@ namespace LightController.Utils
                     }
                 }
             }
+            if (c_StepCount ==0)
+            {
+                CallBack.Error();
+            }
             if (c_StepCount > 0)
             {
                 C_DMXSceneChannelData.Add(0, new Dictionary<int, bool>());

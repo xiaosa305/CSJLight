@@ -279,6 +279,31 @@ namespace MultiLedController.multidevice.impl
                         this.IsDebugStatus = true;
                         Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
                     }
+                    //else
+                    //{
+                    //    if (receiveData[8] == 0x00 && receiveData[9] == 0x21)//接收到其他设备发送ArtPollReply包
+                    //    {
+                    //        continue;
+                    //    }
+                    //    else if (receiveData[8] == 0x00 && receiveData[9] == 0x20)//接收到ArtPoll包
+                    //    {
+                    //        //this.ResponseForSearchDevice();
+                    //    }
+                    //    else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
+                    //    {
+                    //    }
+                    //    else if (receiveData[8] == 0x00 && receiveData[9] == 0x50)//这是ArtDMX数据包
+                    //    {
+                    //        int physicalPortIndex = Convert.ToInt16(receiveData[13]);
+                    //        int universe = (int)(receiveData[14] & 0xFF) | ((receiveData[15] & 0xFF) << 8);//实际空间编号
+                    //        int dataLength = (int)(receiveData[17] & 0xFF) | ((receiveData[16] & 0xFF) << 8);
+                    //        byte[] dmxData = new byte[dataLength];
+                    //        Array.Copy(receiveData, 18, dmxData, 0, dataLength);
+                    //        List<byte> data = new List<byte>();
+                    //        data.AddRange(dmxData);
+                    //        //this.DmxDataResponse_Event(universe, new List<byte>(data));
+                    //    }
+                    //}
                 }
             }
             catch (Exception)

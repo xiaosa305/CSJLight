@@ -690,7 +690,7 @@ namespace LightController.MyForm
 							{
 								newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), currentMode);
 								changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
-								getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
+                                getSelectedLightStepWrapper(lightIndex)  .InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
 							}
 						}
 					}
@@ -701,8 +701,14 @@ namespace LightController.MyForm
 					{
 						for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 						{
-							newStep = StepWrapper.GenerateNewStep(getSelectedLightCurrentStepWrapper(lightIndex), currentMode);
-							getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
+                            StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
+                            if (stepWrapper == null) {
+                                stepWrapper = getCurrentStepTemplate();
+                            }
+                            newStep = StepWrapper.GenerateNewStep( stepWrapper , currentMode);
+
+                            getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
+                            
 						}
 					}
 				}

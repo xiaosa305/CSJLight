@@ -1214,7 +1214,14 @@ namespace OtherTools
 				setAllStatusLabel1("已" + (isConnectCom ? "关闭串口(" + deviceComboBox.Text + ")" : "断开连接"));
 				setAllStatusLabel2(""); // 断开连接后，设置右侧状态栏为空字符串
 				myConnect = null;
-			}		
+
+                // 每次断开连接时，要顺手关闭定时器（若不关闭，则在关闭窗口后，维佳的后台程序仍会调用kpTimer）
+                if (kpTimer != null)
+                {
+                    kpTimer.Dispose();
+                    kpTimer = null;
+                }
+            }		
 		}
 
 		/// <summary>
@@ -1791,7 +1798,7 @@ namespace OtherTools
 		/// <param name="e"></param>
 		private void kpOnTimer(object sender, ElapsedEventArgs e)
 		{
-			Invoke((EventHandler)delegate {
+            Invoke((EventHandler)delegate {                
 				if (myConnect != null && connStatus == ConnectStatus.Kp) {				
 					myConnect.PassThroughKeyPressConnect(KPTimerConnectCompleted, KPConnectError);	
 				}

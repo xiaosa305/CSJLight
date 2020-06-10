@@ -669,7 +669,8 @@ namespace LightController.MyForm
 			Invoke((EventHandler)delegate
 			{
 				setNotice("下载配置失败[" + msg + "]", true);
-			});
+                setBusy(false);
+            });
 		}
 
 		/// <summary>

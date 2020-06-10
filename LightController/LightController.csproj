@@ -188,10 +188,10 @@
     <Compile Include="Ast\Entity\DB_FineTune.cs" />
     <Compile Include="Ast\Entity\CCEntity.cs" />
     <Compile Include="Ast\Entity\KeyEntity.cs" />
-    <Compile Include="MyForm\LightList\LightRemarkForm.cs">
+    <Compile Include="MyForm\MainFormAst\LightRemarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightList\LightRemarkForm.Designer.cs">
+    <Compile Include="MyForm\MainFormAst\LightRemarkForm.Designer.cs">
       <DependentUpon>LightRemarkForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
@@ -470,7 +470,7 @@
     <EmbeddedResource Include="MyForm\LightEditor\WaySetForm.resx">
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightList\LightRemarkForm.resx">
+    <EmbeddedResource Include="MyForm\MainFormAst\LightRemarkForm.resx">
       <DependentUpon>LightRemarkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">

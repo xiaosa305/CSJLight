@@ -21,10 +21,7 @@ namespace LightController
 		private string lightAddr; // 地址 ： 由【初始地址 + "-" + （初始地址+通道数）】组成
 		private string lightPic; //灯的图片地址
 		private int tdCount;    // 灯具的通道数
-
-		private int startNum; // 灯具的起始地址
-		private int endNum; // 灯具的结束地址
-
+        
 		public LightsAstForm(LightsForm lightsForm, string lightPath, int startNum)
 		{
 			if (startNum >= LightsForm.MAX_TD) {
@@ -36,13 +33,18 @@ namespace LightController
 			this.lightsForm = lightsForm;
 
 			this.lightPath = lightPath;
-			this.startCountNumericUpDown.Value = startNum;
+			startAddrNumericUpDown.Value = startNum;
 
 			readFile(lightPath);
-
 		}
-		// 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
-		private void readFile(string lightPath)
+
+        private void LightsAstForm_Load(object sender, EventArgs e)
+        {
+            this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
+        }
+
+        // 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
+        private void readFile(string lightPath)
 		{
 			// 配置的每一行都要写死
 			string[] lines = File.ReadAllLines(lightPath);
@@ -51,33 +53,9 @@ namespace LightController
 			lightType = lines[1].Substring(5);
 			lightPic = lines[2].Substring(4);
 
-			this.nameTypeLabel.Text = lightName + ":" + lightType;
-
+			nameTypeLabel.Text = lightName + ":" + lightType;
 		}
-
-		/// <summary>
-		/// 辅助方法：通过(添加灯具的索引i和startNum输入框获取的值）来计算endNum和lightAddr;
-		/// </summary>
-		/// <param name="i">添加灯具的索引</param>
-		private void calcEndAddr(int i) {
-			int tempStartNum = Decimal.ToInt16(startCountNumericUpDown.Value);
-			startNum = i * tdCount + tempStartNum;
-			endNum = startNum + tdCount - 1;
-			lightAddr = startNum + "-" + endNum;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="i"></param>
-		/// <returns></returns>
-		private int calcEndAddr2(int addLightCount)
-		{
-			int tempStartNum = Decimal.ToInt16(startCountNumericUpDown.Value);
-			int endAddr = tempStartNum + addLightCount * tdCount - 1;
-			return endAddr;
-		}
-
+        
 		/// <summary>
 		///  点击确认键后，由添加的数量和开始的地址，来插入多个或一个灯具
 		/// </summary>
@@ -85,34 +63,44 @@ namespace LightController
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			int addLightCount = Decimal.ToInt16(lightCountNumericUpDown.Value);
-
-			int endTDAddr = calcEndAddr2(addLightCount);
-			if (endTDAddr > LightsForm.MAX_TD) {
-				MessageBox.Show("最后地址超过了DMX512灯具的地址上限，无法设置。");
+            int firstStartAddr = decimal.ToInt16(startAddrNumericUpDown.Value);
+            int addLightCount = decimal.ToInt16(lightCountNumericUpDown.Value);           
+            int lastEndAddr = firstStartAddr + addLightCount * tdCount - 1;  
+        
+			if ( lastEndAddr > LightsForm.MAX_TD) {
+				MessageBox.Show("添加灯具的最后地址超过了DMX512灯具的地址上限(512)，\n，请重新设置起始地址或灯具数量。");
 				return;
 			}
 
-			for (int i = 0; i < addLightCount; i++)
-			{
-				calcEndAddr(i);
-				lightsForm.AddListViewAndLightAst(
+            if ( ! lightsForm.CheckAddrAvailale(-1, decimal.ToInt16(startAddrNumericUpDown.Value), lastEndAddr) ){
+                MessageBox.Show("检测到您添加的灯具部分地址已被占用，\n请重新设置起始地址或灯具数量。");
+                return; 
+            }
+
+			for (int addLightIndex = 0; addLightIndex < addLightCount; addLightIndex++)
+			{              
+                int startAddr = addLightIndex * tdCount + firstStartAddr;
+                int endAddr = startAddr + tdCount - 1;
+                lightAddr = startAddr + "-" + endAddr;
+
+                lightsForm.AddListViewAndLightAst(
 					lightPath, lightName, lightType, lightAddr, lightPic,
-					startNum, endNum, tdCount);
+					startAddr, endAddr, tdCount);
 			}
-			this.Dispose();
+			Dispose();
 			lightsForm.Activate();
 		}
 
+        /// <summary>
+        /// 事件：关闭窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			lightsForm.Activate();
 		}
 
-		private void LightsAstForm_Load(object sender, EventArgs e)
-		{
-			this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
-		}
 	}
 }

@@ -86,7 +86,7 @@ namespace LightController
 		/// <param name="e"></param>
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			this.Dispose();
+			Dispose();
 			mainForm.Activate();
 		}
 
@@ -256,5 +256,40 @@ namespace LightController
 			item.ImageKey = lightPic;
 			lightsListView.Items.Add(item);
 		}
+
+               
+        /// <summary>
+        /// 辅助方法：检测传进来的起始地址和截止地址（同时添加多个灯具时，也会有这两个地址【第一个灯的起始地址和最后一个灯的截止地址】）
+        /// ，是否已被当前灯具所占用；
+        ///     若传进来的lightIndex==-1；则表示新加灯具，否则为修改旧灯具，先从表中删除旧灯具
+         /// </summary>
+        /// <param name="startAddr"></param>
+        /// <param name="endAddr"></param>
+        public bool CheckAddrAvailale(int lightIndex, int startAddr  , int endAddr) {
+            bool result = true;
+
+            List<int> addrList = new List<int>();
+            for (int i = 0; i < lightAstList.Count; i++)
+            {
+                if ( i != lightIndex) {
+                    LightAst la = lightAstList[i];                    
+                    for (int j = la.StartNum; j <= la.EndNum; j++)
+                    {                        
+                        addrList.Add(j);
+                    }                    
+                }
+            }           
+
+            for (int addr = startAddr ; addr <= endAddr; addr++)
+            {
+                if (addrList.Contains(addr)) {
+                    result = false;
+                    break;
+                }
+            }
+
+            return result;
+        }     
+
 	}
 }

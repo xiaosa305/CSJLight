@@ -43,8 +43,15 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			int startNum = Decimal.ToInt16(startCountNumericUpDown.Value );
-			bool editResult = lightsForm.UpdateLight(lightIndex, startNum);
+			int startAddr = decimal.ToInt16(startCountNumericUpDown.Value );
+            int endAddr = startAddr + lightAst.Count - 1;
+            if (!lightsForm.CheckAddrAvailale( lightIndex,  startAddr , endAddr))
+            {
+                MessageBox.Show("检测到您修改的新灯具地址中，有部分地址已被其他灯具占用，\n请重新设置起始地址后重试。");
+                return;
+            }
+
+            bool editResult = lightsForm.UpdateLight(lightIndex, startAddr);
 			if (editResult) {
 				this.Dispose();
 				lightsForm.Activate();

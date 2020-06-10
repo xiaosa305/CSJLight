@@ -159,9 +159,10 @@ namespace LightController.MyForm
 				return;
 			}
 
-			// 1.6 直接检查是否可以生成DirectoryInfo
-			string addName = addNameCheckBox.Checked ? @"\" + lightName + @"\" + lightType+@"\"  : @"\通用\" ; 
-			materialName = addName + materialName;			
+            // 1.6 直接检查是否可以生成DirectoryInfo
+            string addName = genericRadioButton.Checked ? @"\通用\" : @"\" + lightName + @"\" + lightType+@"\"   ;
+
+            materialName = addName + materialName;			
 			string filePath = materialPath + @materialName +"("+ (endNum - startNum + 1) + "步)"+ ".ini";	
 
 			FileInfo fi = null;

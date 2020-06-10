@@ -1626,17 +1626,18 @@ namespace LightController.MyForm
 			groupFlowLayoutPanel.Enabled = lightAstList != null ;
 			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
+            soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && currentMode == 1;
 
-			//zeroButton.Enabled = totalStep != 0;
-			//unifyValueButton.Enabled = totalStep != 0;
-			//unifyChangeModeButton.Enabled = totalStep != 0;
-			//unifyStepTimeButton.Enabled = (totalStep != 0) || (currentMode == 1 ) ;
-			//unifyValueNumericUpDown.Enabled = totalStep != 0;
-			//unifyChangeModeComboBox.Enabled = totalStep != 0;
-			//unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
+            //zeroButton.Enabled = totalStep != 0;
+            //unifyValueButton.Enabled = totalStep != 0;
+            //unifyChangeModeButton.Enabled = totalStep != 0;
+            //unifyStepTimeButton.Enabled = (totalStep != 0) || (currentMode == 1 ) ;
+            //unifyValueNumericUpDown.Enabled = totalStep != 0;
+            //unifyChangeModeComboBox.Enabled = totalStep != 0;
+            //unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
 
-			// 5.处理选择步数的框及按钮
-			chooseStepNumericUpDown.Enabled = totalStep != 0;
+            // 5.处理选择步数的框及按钮
+            chooseStepNumericUpDown.Enabled = totalStep != 0;
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
@@ -1968,12 +1969,22 @@ namespace LightController.MyForm
 			multiButtonClick();
 		}
 
-		/// <summary>
-		/// 事件：点击《groupInButtons(进入编组)》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void groupInButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 事件：点击《音频链表》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void soundListButton_Click(object sender, EventArgs e)
+        {
+            new SKForm(this, currentFrame, frameComboBox.Text).ShowDialog();
+        }
+
+        /// <summary>
+        /// 事件：点击《groupInButtons(进入编组)》
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void groupInButton_Click(object sender, EventArgs e)
 		{
 			groupInButtonClick(sender);
 		}
@@ -2585,6 +2596,6 @@ namespace LightController.MyForm
 			MessageBox.Show(serverFileVersion);
 		}
 
-		
-	}
+
+    }
 }

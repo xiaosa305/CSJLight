@@ -1668,14 +1668,26 @@ namespace LightController.MyForm
 			}
 		}
 
-		/// <summary>
-		///  事件：TrackBar滚轴值改变时的操作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdSkinTrackBars_ValueChanged(object sender, EventArgs e)
-		{
+        /// <summary>
+        ///  事件：TrackBar滚轴值改变时的操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tdSkinTrackBars_ValueChanged(object sender, EventArgs e)
+        {
+            //Console.WriteLine("tdSkinTrackBars_ValueChanged");
+            // 1.先找出对应tdSkinTrackBars的index 
+            int tongdaoIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+            int tdValue = tdSkinTrackBars[tongdaoIndex].Value;
 
+            //2.把滚动条的值赋给tdValueNumericUpDowns
+            // 8.28	：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+            tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+
+            //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+            changeScrollValue(tongdaoIndex, tdValue);
         }
 
         /// <summary>
@@ -1684,9 +1696,22 @@ namespace LightController.MyForm
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
-		{
+        {
+            //Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
+            // 1. 找出对应的index
+            int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+            int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
 
+            // 2.调整相应的vScrollBar的数值；
+            // 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
+            tdSkinTrackBars[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+            tdSkinTrackBars[tongdaoIndex].Value = tdValue;
+            tdSkinTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+
+            //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+            changeScrollValue(tongdaoIndex, tdValue);
         }
+
 
         /// <summary>
         /// 事件：鼠标进入通道值输入框时，切换焦点;

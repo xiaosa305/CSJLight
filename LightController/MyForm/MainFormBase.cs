@@ -924,7 +924,7 @@ namespace LightController.MyForm
 			}
 
 			playTools.OLOSView(stepBytes);
-			SetNotice("正在实时调试当前步");
+			SetNotice("正在实时调试("+(selectedIndex+1)+")当前步...");
 		}
 
 		/// <summary>

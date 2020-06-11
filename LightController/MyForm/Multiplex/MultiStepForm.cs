@@ -98,7 +98,7 @@ namespace LightController.MyForm
 				this.unifyCmComboBox.Items.Add("跳变");
 				//this.commonChangeModeComboBox.Items.Add("渐变");
 				this.unifyCmComboBox.SelectedIndex = 0;
-				// 音频模式下：《步时间调整值》两个按钮隐藏。
+				// 音频模式下：《步时间调整值》几个按钮和秒(Label)隐藏。
 				unifyStNumericUpDown.Hide();
 				unifyStButton.Hide();
                 sLabel.Visible = false;

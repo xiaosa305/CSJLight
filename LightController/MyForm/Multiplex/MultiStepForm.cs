@@ -101,6 +101,7 @@ namespace LightController.MyForm
 				// 音频模式下：《步时间调整值》两个按钮隐藏。
 				unifyStNumericUpDown.Hide();
 				unifyStButton.Hide();
+                sLabel.Visible = false;
 			}
 		}
 

@@ -704,10 +704,12 @@ namespace LightController.MyForm
 						{
                             StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
                             if (stepWrapper == null) {
-                                stepWrapper = getSelectedLightStepTemplate( lightIndex );
+                                stepWrapper = getCurrentStepTemplate();
                             }
                             newStep = StepWrapper.GenerateNewStep( stepWrapper , currentMode);
-                            getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);                            
+
+                            getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
+                            
 						}
 					}
 				}
@@ -786,13 +788,8 @@ namespace LightController.MyForm
 					{
 						for (int i = 0; i < finalStep - totalStep; i++)
 						{
-                            // 只有超过了当前步数，才需要addStep,故取当前步或最大步皆可。                        
-                            StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
-                            if (stepWrapper == null)
-                            {
-                                stepWrapper = getSelectedLightStepTemplate(lightIndex);
-                            }
-                            newStep = StepWrapper.GenerateNewStep( stepWrapper , currentMode);
+							// 只有超过了当前步数，才需要addStep,故取当前步或最大步皆可。
+							newStep = StepWrapper.GenerateNewStep(getSelectedLightCurrentStepWrapper(lightIndex), currentMode);
 							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
 						}
 					}

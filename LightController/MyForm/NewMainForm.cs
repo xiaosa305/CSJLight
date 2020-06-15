@@ -2590,10 +2590,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-			Console.WriteLine(lightWrapperList[0].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.Count);
-			foreach (StepWrapper sw in lightWrapperList[0].LightStepWrapperList[currentFrame, currentMode].StepWrapperList)
+			Console.WriteLine(lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.Count);
+			foreach (StepWrapper sw in lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList)
 			{
-				Console.WriteLine(lightWrapperList[0].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.IndexOf(sw) );
+				Console.WriteLine(lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.IndexOf(sw) );
 			}
 		}
 		

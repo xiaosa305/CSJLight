@@ -108,7 +108,7 @@ namespace LightController.PeripheralDevice
             this.StartTimeOut();
             if (this.MainOrder.Equals(Constant.ORDER_PUT) || this.MainOrder.Equals(Constant.ORDER_UPDATE))
             {
-                int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
+                int progress = Convert.ToInt32(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
                 this.ProgressEvent(this.CurrentFileName, progress);
             }
         }

@@ -43,7 +43,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			int startAddr = decimal.ToInt16(startCountNumericUpDown.Value );
+			int startAddr = decimal.ToInt32(startCountNumericUpDown.Value );
             int endAddr = startAddr + lightAst.Count - 1;
             if (!lightsForm.CheckAddrAvailale( lightIndex,  startAddr , endAddr))
             {

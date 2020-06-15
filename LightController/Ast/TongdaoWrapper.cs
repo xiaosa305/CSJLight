@@ -40,6 +40,9 @@ namespace LightController.Ast
 			return newList;
 		}
 
-		
+		public override string ToString()
+		{
+			return TongdaoName + " : "+ Address;
+		}
 	}
 }

@@ -154,7 +154,7 @@ namespace LightController.MyForm
 		{
 			//通过了验证，才能继续运行核心代码
 			if (checkStepAndTds()) {
-				int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
+				int commonValue = Decimal.ToInt32(commonValueNumericUpDown.Value);
 				mainForm.SetMultiStepValues(MainFormBase.WHERE.SCROLL_VALUE,  tdIndexList, startStep,  endStep,  commonValue);
 			}
 		}
@@ -181,7 +181,7 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				int unifyStepTime = Decimal.ToInt16(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
+				int unifyStepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
 				mainForm.SetMultiStepValues(MainFormBase.WHERE.STEP_TIME, tdIndexList, startStep, endStep, unifyStepTime);
 			}
 		}
@@ -226,8 +226,8 @@ namespace LightController.MyForm
 		/// </summary>
 		private bool checkStepAndTds()
 		{
-			startStep = Decimal.ToInt16(startNumericUpDown.Value);
-			endStep = Decimal.ToInt16(endNumericUpDown.Value);
+			startStep = Decimal.ToInt32(startNumericUpDown.Value);
+			endStep = Decimal.ToInt32(endNumericUpDown.Value);
 
 			if (endStep < startStep)
 			{

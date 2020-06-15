@@ -74,15 +74,15 @@ namespace LightEditor.MyForm
 			}
 			if ( saIndex == -1)
 			{
-				wsForm.AddSAPanel( saNameTextBox.Text.Trim(), Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value)) ;
+				wsForm.AddSAPanel( saNameTextBox.Text.Trim(), Decimal.ToInt32(startValueNumericUpDown.Value), Decimal.ToInt32(endValueNumericUpDown.Value)) ;
 				wsForm.AddSA(new SA() {
 					SAName = saNameTextBox.Text.Trim(),
-					StartValue = Decimal.ToInt16(startValueNumericUpDown.Value),
-					EndValue = Decimal.ToInt16(endValueNumericUpDown.Value)
+					StartValue = Decimal.ToInt32(startValueNumericUpDown.Value),
+					EndValue = Decimal.ToInt32(endValueNumericUpDown.Value)
 				} );
 			}
 			else {
-				wsForm.EditSA(saIndex, saNameTextBox.Text, Decimal.ToInt16(startValueNumericUpDown.Value), Decimal.ToInt16(endValueNumericUpDown.Value));
+				wsForm.EditSA(saIndex, saNameTextBox.Text, Decimal.ToInt32(startValueNumericUpDown.Value), Decimal.ToInt32(endValueNumericUpDown.Value));
 			}
 			Exit();
 		}

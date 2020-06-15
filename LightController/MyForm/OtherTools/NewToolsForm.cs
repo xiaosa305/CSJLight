@@ -409,7 +409,7 @@ namespace OtherTools
 		private void enableFan()
 		{
 			fanChannelComboBox.Enabled = lcEntity.IsOpenFan;
-			int lightIndex = Convert.ToInt16(fanChannelComboBox.Text.Substring(2)) -1 ;
+			int lightIndex = Convert.ToInt32(fanChannelComboBox.Text.Substring(2)) -1 ;
 			lightButtons[lightIndex].Visible = !lcEntity.IsOpenFan;
 			fanButton.Text = lcEntity.IsOpenFan ? "点击禁用\r\n排风通道" : "点击启用\r\n排风通道";
 		}
@@ -508,7 +508,7 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
-			lcEntity.LightMode = Convert.ToInt16(radio.Tag);
+			lcEntity.LightMode = Convert.ToInt32(radio.Tag);
 		}
 
 		/// <summary>
@@ -524,7 +524,7 @@ namespace OtherTools
 			}
 
 			RadioButton radio = (RadioButton)sender;
-			lcEntity.AirControlSwitch = Convert.ToInt16(radio.Tag);
+			lcEntity.AirControlSwitch = Convert.ToInt32(radio.Tag);
 		}
 
 		/// <summary>
@@ -817,11 +817,11 @@ namespace OtherTools
 			rows.MoveNext();
 			IRow row = (HSSFRow)rows.Current;
 			ICell cell = row.GetCell(0);
-			cc.Com0 = Convert.ToInt16(cell.ToString().Substring(4));
+			cc.Com0 = Convert.ToInt32(cell.ToString().Substring(4));
 			rows.MoveNext();
 			row = (HSSFRow)rows.Current;
 			cell = row.GetCell(0);
-			cc.Com1 = Convert.ToInt16(cell.ToString().Substring(4));
+			cc.Com1 = Convert.ToInt32(cell.ToString().Substring(4));
 			rows.MoveNext();
 			row = (HSSFRow)rows.Current;
 			cell = row.GetCell(0);
@@ -1140,7 +1140,7 @@ namespace OtherTools
 			}
 
 			// 将改变后的值填入keyEntity中
-			int keyArrayIndex = Convert.ToInt16(kpOrderTextBox.Text) - 1; //keyEntity中的array索引号
+			int keyArrayIndex = Convert.ToInt32(kpOrderTextBox.Text) - 1; //keyEntity中的array索引号
 			keyEntity.Key0Array[keyArrayIndex] = kpKey0TextBox.Text;
 			keyEntity.Key1Array[keyArrayIndex] = kpKey1TextBox.Text;
 

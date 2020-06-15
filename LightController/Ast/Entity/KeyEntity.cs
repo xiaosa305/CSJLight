@@ -26,8 +26,8 @@ namespace LightController.Entity
             this.Key1Array = new string[24];
             for (int i = 0; i < 24; i++)
             {
-                this.Key0Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[i]).ToString(), 2);
-                this.Key1Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt16(data[i + 24]).ToString(), 2);
+                this.Key0Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt32(data[i]).ToString(), 2);
+                this.Key1Array[i] = StringHelper.DecimalStringToBitHex(Convert.ToInt32(data[i + 24]).ToString(), 2);
             }
         }
 

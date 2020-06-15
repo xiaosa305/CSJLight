@@ -729,7 +729,7 @@ namespace LightEditor
 			valueNumericUpDowns[tongdaoIndex].Value = 255 - valueVScrollBars[tongdaoIndex].Value;
 
 			//3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
-			changeCurrentValue(tongdaoIndex, Decimal.ToInt16(valueNumericUpDowns[tongdaoIndex].Value) );
+			changeCurrentValue(tongdaoIndex, Decimal.ToInt32(valueNumericUpDowns[tongdaoIndex].Value) );
 		}
 
 		/// <summary>
@@ -843,7 +843,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void setFirstTDButton_Click(object sender, EventArgs e)
 		{
-			firstTDValue = Decimal.ToInt16(firstTDNumericUpDown.Value);
+			firstTDValue = Decimal.ToInt32(firstTDNumericUpDown.Value);
 			for (int i = 0; i < TongdaoCount; i++)
 			{
 				this.labels[i].Text = (firstTDValue + i) + "-  " + TongdaoList[i].TongdaoName;
@@ -890,7 +890,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void commonValueButton_Click(object sender, EventArgs e)
 		{
-			int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
+			int commonValue = Decimal.ToInt32(commonValueNumericUpDown.Value);
 			for (int i = 0; i < TongdaoList.Count; i++)
 			{
 				valueVScrollBars[i].Value = commonValue;

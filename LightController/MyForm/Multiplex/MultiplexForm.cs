@@ -100,7 +100,7 @@ namespace LightController.MyForm.Multiplex
 			}
 
 			// 计算将要复用的步数
-			int copyStepCount = decimal.ToInt16(endNumericUpDown.Value) - decimal.ToInt16(startNumericUpDown.Value) + 1;
+			int copyStepCount = decimal.ToInt32(endNumericUpDown.Value) - decimal.ToInt32(startNumericUpDown.Value) + 1;
 
 			// 当输入（或点选）的步数值不合规时，处理输入框
 			if (copyStepCount < 1)
@@ -157,8 +157,8 @@ namespace LightController.MyForm.Multiplex
 				return;
 			}
 
-			string result = mainForm.MultiplexSteps(selectedIndices,	decimal.ToInt16(startNumericUpDown.Value),
-				decimal.ToInt16(endNumericUpDown.Value),decimal.ToInt16(timesNumericUpDown.Value));
+			string result = mainForm.MultiplexSteps(selectedIndices,	decimal.ToInt32(startNumericUpDown.Value),
+				decimal.ToInt32(endNumericUpDown.Value),decimal.ToInt32(timesNumericUpDown.Value));
 			if( result == null)
 			{
 				MessageBox.Show("成功复用多灯多步。");

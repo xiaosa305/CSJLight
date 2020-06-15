@@ -113,7 +113,7 @@ namespace LightController.Common
 			}
 			catch (Exception) {
 				double tempValue = Double.Parse(Ival.ToString());
-				value = Convert.ToInt16(tempValue);
+				value = Convert.ToInt32(tempValue);
 			}
 
 			WritePrivateProfileString(section, name, value.ToString(), this.filePath);

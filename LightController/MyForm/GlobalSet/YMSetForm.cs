@@ -180,7 +180,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyJGButton_Click(object sender, EventArgs e)
 		{
-			int tempValue = Convert.ToInt16(Double.Parse(commonJGNumericUpDown.Text));
+			int tempValue = Convert.ToInt32(Double.Parse(commonJGNumericUpDown.Text));
 			commonJGNumericUpDown.Value = tempValue;
 			foreach (NumericUpDown item in jgNumericUpDowns)
 			{
@@ -195,7 +195,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyZXButton_Click(object sender, EventArgs e)
 		{
-			int tempValue = Convert.ToInt16(Double.Parse(commonZXNumericUpDown.Text));
+			int tempValue = Convert.ToInt32(Double.Parse(commonZXNumericUpDown.Text));
 			commonZXNumericUpDown.Value = tempValue;
 			foreach (NumericUpDown item in zxNumericUpDowns)
 			{

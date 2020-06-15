@@ -69,7 +69,7 @@ namespace LightController.Tools
             string str = "";
             for (int i = 0; i < data.Count; i++)
             {
-                str = str + " " + StringHelper.DecimalStringToHex(Convert.ToInt16(data[i]).ToString());
+                str = str + " " + StringHelper.DecimalStringToHex(Convert.ToInt32(data[i]).ToString());
             }
             Console.WriteLine("回读到红外码值:" + str);
         }

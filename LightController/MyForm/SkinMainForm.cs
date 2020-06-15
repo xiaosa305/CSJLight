@@ -554,7 +554,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
-			saveProjectClick();
+			
 		}
 
 		/// <summary>
@@ -1369,7 +1369,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void chooseStepSkinButton_Click(object sender, EventArgs e)
 		{
-			int step = Decimal.ToInt16(chooseStepNumericUpDown.Value);
+			int step = Decimal.ToInt32(chooseStepNumericUpDown.Value);
 			if (step != 0)
 			{
 				chooseStep(step);
@@ -1389,28 +1389,57 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《追加步》
+		/// 事件：空方法,为方便查找addStepSkinButton_MouseDown
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void addStepSkinButton_Click(object sender, EventArgs e)
-		{
-			addStepClick();
-		}
-		
+		private void addStepSkinButton_Click(object sender, EventArgs e)	{ }
+
 		/// <summary>
-		///  事件：点击《删除步》
-		///  1.获取当前步，当前步对应的stepIndex
-		///  2.通过stepIndex，DeleteStep(index);
-		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
+		/// 事件：鼠标（左|右键）按下《追加步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void deleteStepSkinButton_Click(object sender, EventArgs e)
+		private void addStepSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			deleteStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				addStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				addSomeStepClick();
+			}
 		}
-		
+
+		/// <summary>
+		///  事件：空方法，作用为方便查找deleteStepSkinButton_MouseDown
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteStepSkinButton_Click(object sender, EventArgs e){	}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《删除步》
+		///  左键 1.获取当前步，当前步对应的stepIndex
+		///	       2.通过stepIndex，DeleteStep(index);
+		///		   3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
+		///  右键 新建DeleteStepForm并显示
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteStepSkinButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				deleteStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				deleteSomeStepClick();
+			}
+		}
+
 		/// <summary>
 		/// 事件：点击《复制步》
 		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
@@ -1654,7 +1683,7 @@ namespace LightController.MyForm
 				decimal dd = tdSkinTrackBars[tdIndex].Value + tdSkinTrackBars[tdIndex].SmallChange;
 				if (dd <= tdSkinTrackBars[tdIndex].Maximum)
 				{
-					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 			// 向下滚
@@ -1663,7 +1692,7 @@ namespace LightController.MyForm
 				decimal dd = tdSkinTrackBars[tdIndex].Value - tdSkinTrackBars[tdIndex].SmallChange;
 				if (dd >= tdSkinTrackBars[tdIndex].Minimum)
 				{
-					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 		}
@@ -1700,7 +1729,7 @@ namespace LightController.MyForm
             //Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
             // 1. 找出对应的index
             int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-            int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
+            int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
             // 2.调整相应的vScrollBar的数值；
             // 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -1840,7 +1869,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			//MARK 步时间改动 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt16(tdStepTimeNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -2552,24 +2581,27 @@ namespace LightController.MyForm
 
 
 
-        /// <summary>
-        ///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
-        ///  --9.4禁用此功能，即无论是否屏蔽，
-        /// </summary>
-        /// <param name="tongdaoIndex">tongdaoList的Index</param>
-        /// <param name="shielded">是否被屏蔽</param>
-        //private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-        //{
-        //	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
-        //	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-        //	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-        //}		
 
-        #endregion
 
-        
+		/// <summary>
+		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
+		///  --9.4禁用此功能，即无论是否屏蔽，
+		/// </summary>
+		/// <param name="tongdaoIndex">tongdaoList的Index</param>
+		/// <param name="shielded">是否被屏蔽</param>
+		//private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
+		//{
+		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
+		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//}		
 
-    }
+		#endregion
+
+
+		
+	
+	}
 
 
 

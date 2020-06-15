@@ -30,10 +30,10 @@ namespace LightController.MyForm
 			// 添加时间因子，用以显示实际步时间（单位s）
 			eachStepTime2 = iniAst.ReadInt("Set", "EachStepTime", 30) / 1000m;
 
-			//添加frameStepTimeNumericUpDown相关初始化及监听事件
-			frameStepTimeNumericUpDown.Value = iniAst.ReadInt("SK", frame + "ST", 0) * eachStepTime2;
+			//添加frameStepTimeNumericUpDown相关初始化及监听事件			
 			frameStepTimeNumericUpDown.Increment = eachStepTime2;
 			frameStepTimeNumericUpDown.Maximum = MainFormBase.MAX_StTimes * eachStepTime2;
+			frameStepTimeNumericUpDown.Value = iniAst.ReadInt("SK", frame + "ST", 0) * eachStepTime2;
 			frameStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.frameStepTimeNumericUpDown_MouseWheel);
 
 			//其他几个动态属性

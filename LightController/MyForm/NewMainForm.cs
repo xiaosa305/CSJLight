@@ -1400,7 +1400,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void chooseStepButton_Click(object sender, EventArgs e)
 		{
-			int step = Decimal.ToInt16(chooseStepNumericUpDown.Value);
+			int step = Decimal.ToInt32(chooseStepNumericUpDown.Value);
 			if (step != 0)
 			{
 				chooseStep(step);
@@ -1420,26 +1420,54 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《追加步》
+		/// 事件：点击《追加步》(空方法)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void addStepButton_Click(object sender, EventArgs e)
+		private void addStepButton_Click(object sender, EventArgs e) {  }
+
+		/// <summary>
+		///  事件：鼠标左|右键按下《追加步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addStepButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			addStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				addStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				addSomeStepClick();
+			}
 		}
 
 		/// <summary>
-		///  事件：点击《删除步》
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteStepButton_Click(object sender, EventArgs e){	}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《删除步》
 		///  1.获取当前步，当前步对应的stepIndex
 		///  2.通过stepIndex，DeleteStep(index);
 		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void deleteStepButton_Click(object sender, EventArgs e)
+		private void deleteStepButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			deleteStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				deleteStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				deleteSomeStepClick();
+			}
 		}
 
 		/// <summary>
@@ -1687,7 +1715,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value + tdTrackBars[tdIndex].SmallChange;
 				if (dd <= tdTrackBars[tdIndex].Maximum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 			// 向下滚
@@ -1696,7 +1724,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value - tdTrackBars[tdIndex].SmallChange;
 				if (dd >= tdTrackBars[tdIndex].Minimum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 		}
@@ -1733,7 +1761,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
 			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
+			int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值；
 			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -1873,7 +1901,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			// MARK 步时间改动 NewMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt16(tdStNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -2149,7 +2177,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			int commonValue = Convert.ToInt16(unifyValueNumericUpDown.Text);
+			int commonValue = Convert.ToInt32(unifyValueNumericUpDown.Text);
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
@@ -2227,7 +2255,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
+			int stepTime = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
 			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
 		}
 		
@@ -2250,7 +2278,7 @@ namespace LightController.MyForm
 				}
 
 				//MARK 步时间改动 NewMainForm：点击《统一步时间》的处理
-				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
+				int unifyStepTimeParsed = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
@@ -2562,7 +2590,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-		
+			Console.WriteLine(lightWrapperList[0].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.Count);
+			foreach (StepWrapper sw in lightWrapperList[0].LightStepWrapperList[currentFrame, currentMode].StepWrapperList)
+			{
+				Console.WriteLine(lightWrapperList[0].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.IndexOf(sw) );
+			}
 		}
 		
 		/// <summary>
@@ -2596,6 +2628,6 @@ namespace LightController.MyForm
 			MessageBox.Show(serverFileVersion);
 		}
 
-
-    }
+		
+	}
 }

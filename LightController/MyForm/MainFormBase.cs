@@ -37,12 +37,14 @@ namespace LightController.MyForm
             STEP_TIME, ALL
         }
 
-        // 全局配置及数据库连接		
-        public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
+	
+
+		// 全局配置及数据库连接		
+		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
         public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
         public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
-
-        public bool IsShowTestButton = false;
+		
+		public bool IsShowTestButton = false;
         public bool IsShowHardwareUpdate = false;
         public bool IsLinkLightEditor = false;
         public bool IsLinkOldTools = false;
@@ -1914,7 +1916,7 @@ namespace LightController.MyForm
 		/// 辅助方法：点击《保存工程》
 		/// </summary>
 		protected void saveProjectClick() {
-
+						
 			SetNotice("正在保存工程,请稍候...");
 			setBusy(true);
 
@@ -2307,10 +2309,10 @@ namespace LightController.MyForm
 					//只有不为null且步数>0，才可能有需要保存的数据
 					if (lswTemp != null && lswTemp.TotalStep > 0)
 					{
-						IList<StepWrapper> stepWrapperList = lswTemp.StepWrapperList;
-						foreach (StepWrapper step in stepWrapperList)
+						IList<StepWrapper> stepWrapperList = lswTemp.StepWrapperList;						
+						for(int stepIndex = 0; stepIndex<stepWrapperList.Count ; stepIndex++ )
 						{
-							int stepIndex = stepWrapperList.IndexOf(step) + 1;
+							StepWrapper step = stepWrapperList[stepIndex];
 							for (int tongdaoIndex = 0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++)
 							{
 								TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
@@ -2325,12 +2327,12 @@ namespace LightController.MyForm
 										Mode = mode,
 										LightID = light.LightNo + tongdaoIndex,
 										LightIndex = light.LightNo,
-										Step = stepIndex
+										Step = stepIndex + 1
 									}
 								};
 								frameValueList.Add(valueTemp);
 							}
-						}
+						}						
 					}
 				}
 			}
@@ -2616,17 +2618,54 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《追加步》
+		/// 辅助方法：左键点击《追加步》
 		/// </summary>
 		protected void addStepClick()
 		{
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			addStep();
+			RefreshStep();
+		}
+
+		/// <summary>
+		/// 辅助方法：右键点击《追加步》（追加指定数量的步）
+		/// </summary>
+		protected void addSomeStepClick()
+		{
+			new AddStepsForm(this, MAX_STEP - getTotalStep() ).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：追加指定数量的步
+		/// </summary>
+		/// <param name="v"></param>
+		/// <returns>成功返回null，失败则返回失败的原因；</returns>
+		public string AddSteps(int addStepCount)
+		{
+			try
+			{
+				for (int i = 0; i < addStepCount; i++)
+				{
+					addStep();
+				}
+				RefreshStep();
+				return null;
+			}
+			catch (Exception ex) {
+				return ex.Message;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：追加步（供追加一步或追加多步使用）
+		/// </summary>
+		protected void addStep() {
 
 			//1.若当前灯具在本F/M下总步数为0 ，则使用stepTemplate数据，
 			//2.否则使用本灯当前最大步的数据			 
 			bool addTemplate = getTotalStep() == 0;
 			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), currentMode);
-			lsWrapper.AddStep(newStep);
+			getCurrentLightStepWrapper().AddStep(newStep);
+
 			if (isSyncMode)
 			{
 				for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
@@ -2649,21 +2688,18 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			RefreshStep();
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《删除步》
+		/// 辅助方法：左键点击《删除步》
 		/// </summary>
 		protected void deleteStepClick()
-		{
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			int stepIndex = getCurrentStep() - 1;
-
+		{			
 			// 调用包装类内部的方法:删除某一步
 			try
 			{
-				lsWrapper.DeleteStep(stepIndex);
+				int stepIndex = getCurrentStep() - 1;
+				getCurrentLightStepWrapper().DeleteStep(stepIndex);
 				if (isSyncMode)
 				{
 					for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
@@ -2692,6 +2728,63 @@ namespace LightController.MyForm
 			}
 
 			RefreshStep();
+		}
+
+		/// <summary>
+		/// 辅助方法：右键点击《删除步》（删除指定步）
+		/// </summary>
+		protected void deleteSomeStepClick()
+		{
+			if (getTotalStep() == 0) {
+				MessageBox.Show("当前灯具没有步数，无法删除步。");
+				return;
+			}
+			new DeleteStepsForm(this, getCurrentStep() , getTotalStep() ) .ShowDialog();
+		}
+
+		/// <summary>
+		///  辅助方法：删除指定步（起始步和总步数）
+		/// </summary>
+		/// <param name="firstStep"></param>
+		/// <param name="stepCount"></param>
+		/// <returns></returns>
+		public string DeleteSteps(int firstStep, int stepCount)
+		{
+			try
+			{
+				int stepIndex = firstStep - 1;
+				// 调用包装类内部的方法:删除某一步
+				for (int i = 0; i < stepCount; i++)
+				{
+					getCurrentLightStepWrapper().DeleteStep(stepIndex);
+					if (isSyncMode)
+					{
+						for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
+						{
+							if (lightIndex != selectedIndex)
+							{
+								getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
+							}
+						}
+					}
+					else if (isMultiMode)
+					{
+						foreach (int lightIndex in selectedIndices)
+						{
+							if (lightIndex != selectedIndex)
+							{
+								getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
+							}
+						}
+					}
+				}
+				RefreshStep();
+				return null;
+			}
+			catch (Exception ex)
+			{
+				return ex.Message;
+			}
 		}
 
 		/// <summary>
@@ -2999,7 +3092,7 @@ namespace LightController.MyForm
 			RefreshStep();
 			return null;
 		}
-
+		
 		#endregion
 
 		#region unifyPanel(Or astPanel)相关

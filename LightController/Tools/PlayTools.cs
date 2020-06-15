@@ -4,6 +4,7 @@ using LightController.PeripheralDevice;
 using LightController.Tools.CSJ;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
+using NPOI.SS.Formula;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -170,7 +171,10 @@ namespace LightController.Tools
         }
         public void ResetDebugDataToEmpty()
         {
-            this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+            lock (this.PlayData)
+            {
+                this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+            }
         }
         public void StopSend()
         {
@@ -218,7 +222,7 @@ namespace LightController.Tools
             catch (Exception ex)
             {
                 LogTools.Error(Constant.TAG_XIAOSA, "实时预览发生错误", ex);
-                EndView();
+                this.EndView();
             }
         }
         public void OLOSView(byte[] data)
@@ -238,7 +242,10 @@ namespace LightController.Tools
                     this.TimeFactory = 32;
                 }
                 this.State = PreViewState.OLOSView;
-                this.PlayData = data;
+                lock (this.PlayData)
+                {
+                    this.PlayData = data;
+                }
                 this.SendTimer.Interval = this.TimeFactory;
                 if (!this.SendTimer.Enabled)
                 {
@@ -392,7 +399,10 @@ namespace LightController.Tools
             {
                 List<byte> buff = new List<byte>();
                 buff.AddRange(this.StartCode);
-                buff.AddRange(this.PlayData);
+                lock (this.PlayData)
+                {
+                    buff.AddRange(this.PlayData);
+                }
                 if (this.IsTest)
                 {
                     this.SendTestData(buff.ToArray());

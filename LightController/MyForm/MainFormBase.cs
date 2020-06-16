@@ -2515,7 +2515,9 @@ namespace LightController.MyForm
 		{
 			try
 			{
-				System.Diagnostics.Process.Start(Application.StartupPath + @"\使用手册.pdf");
+				//if (MessageBox.Show("确定打开《使用手册》吗？","" , MessageBoxButtons.OKCancel , MessageBoxIcon.Asterisk) == DialogResult.OK) {
+					System.Diagnostics.Process.Start(Application.StartupPath + @"\使用手册.pdf");
+				//}				
 			}
 			catch (Exception ex)
 			{
@@ -2916,12 +2918,6 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void multiplexButtonClick()
 		{
-			// 只有在同步模式下，才能启用本功能
-			if (!isSyncMode) {
-				MessageBox.Show("非同步模式，无法使用多步复用功能。");
-				return;
-			}
-
 			if (lightWrapperList == null || lightWrapperList.Count == 0) {
 				MessageBox.Show("当前工程没有灯具，无法使用多步复用功能。");
 				return;
@@ -2932,8 +2928,20 @@ namespace LightController.MyForm
 				return;
 			}
 
-			new MultiplexForm(this, lightAstList, getSelectedLightStepCounts(0)).ShowDialog();
+			IList<int> selectedIndices2 = null;
+			if (!isSyncMode) {
+				if (!isMultiMode)
+				{
+					selectedIndices2 = new List<int>();
+					selectedIndices2.Add(selectedIndex);
+				}
+				else
+				{
+					selectedIndices2 = selectedIndices;
+				}
+			}			
 
+			new MultiplexForm(this, lightAstList, getSelectedLightStepCounts(0) , isSyncMode, selectedIndices2 ).ShowDialog();
 		}
 
 		/// <summary>
@@ -3042,27 +3050,19 @@ namespace LightController.MyForm
 		/// <param name="endStep"></param>
 		/// <param name="times">复用次数</param>
 		/// <returns>复用成功返回null，否则返回相应的错误信息</returns>
-		public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times)
+		public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times )
 		{
-			// 非同步模式
-			if (!isSyncMode) {
-				return "非同步模式无法复用步数";
-			}
-
-			// 剩余步数不够复用会添加的的步数
-			//Console.WriteLine("剩余步数：" + (MAX_STEP - getSelectedLightStepCounts(0) ) );
-			//Console.WriteLine("复用占用步数：" + (endStep - startStep + 1) * times );
+			// 检查剩余步数 是否大于 复用会添加的的步数
 			int addStepCount = (endStep - startStep + 1) * times;
-
 			if ((MAX_STEP - getSelectedLightStepCounts(0)) < addStepCount) {
 				return "剩余步数小于复用占用步数，无法复用。";
-			}
-
+			}		
+			
 			// 解决方案（两种）：
 			// (1)先把所有的步数用新步数填上，再通过SelectedIndices来更改相应的数据 X
 			// (2)分开操作，不在列表内的直接加步，在表内的则复用 √
 			//		①不在表内的都添加最后一步
-			//		②在列表中的使用复制的方法
+			//		②在列表中的使用复制的方法(同步模式才这样选择)
 
 			for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
 			{
@@ -3080,13 +3080,15 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
-					StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, currentMode);
-					for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
-					{
-						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+					if (isSyncMode) {
+						StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
+						StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, currentMode);
+						for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
+						{
+							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+						}
 					}
-				}
+				}					
 			}
 
 			RefreshStep();

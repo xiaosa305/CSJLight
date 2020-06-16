@@ -12,32 +12,45 @@ namespace LightController.MyForm.Multiplex
 {
 	public partial class MultiplexForm : Form
 	{
-		private MainFormBase mainForm;
+		private MainFormBase mainForm;		
 		private int stepCount;
 		private bool isInit = false;  //是否初始化
+		private bool isSyncMode ;
+		private IList<int> selectedIndices;
 
-		public MultiplexForm(MainFormBase mainForm, IList<LightAst> lightAstList, int stepCount)
+		public MultiplexForm(MainFormBase mainForm, IList<LightAst> lightAstList, int stepCount, bool isSyncMode ,IList<int> selectedIndices ) 
 		{
 			InitializeComponent();
 
 			this.mainForm = mainForm;
 			this.stepCount = stepCount ;
-			
+			this.isSyncMode = isSyncMode;
+
 			startNumericUpDown.Maximum = stepCount;			
 			endNumericUpDown.Maximum = stepCount;
 			endNumericUpDown.Value = stepCount;
 
-			refreshMaxTimes( stepCount );			
-
-			foreach (LightAst la in lightAstList)
+			refreshMaxTimes( stepCount );
+			
+			for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
 			{
-				ListViewItem item = new ListViewItem();
-				item.SubItems.Add(la.LightType);
-				item.SubItems.Add(la.LightAddr);
-				item.SubItems.Add(la.Remark);			
-				lightsListView.Items.Add(item);
+				if ( isSyncMode || selectedIndices.Contains(lightIndex))
+				{
+					ListViewItem item = new ListViewItem();
+					item.SubItems.Add(lightAstList[lightIndex].LightType);
+					item.SubItems.Add(lightAstList[lightIndex].LightAddr);
+					item.SubItems.Add(lightAstList[lightIndex].Remark);				
+					lightsListView.Items.Add(item);
+				}
 			}
 
+			//非同步模式，需要进行相关操作
+			if ( !isSyncMode ) {
+				lightsListView.CheckBoxes = false;
+				allCheckBox.Visible = false;
+				noticeLabel.Visible = false;
+				this.selectedIndices = selectedIndices;
+			}
 		}
 
 		/// <summary>
@@ -49,7 +62,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 			lightsListView.HideSelection = true;    //主动设置一下这个属性，避免被VS吃掉设置
-
+			
 			allCheckBox.Checked = true; //默认勾选所有灯具
 
 			isInit = true;
@@ -146,19 +159,26 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-			IList<int> selectedIndices = new List<int>();
-			foreach (int item in lightsListView.CheckedIndices)
-			{
-				selectedIndices.Add(item);
+			//若为同步模式，则需要重新填充selectedIndices
+			if ( isSyncMode) { 
+				selectedIndices = new List<int>();
+				foreach (int item in lightsListView.CheckedIndices)
+				{
+					selectedIndices.Add(item);
+				}
+
+				if (selectedIndices == null || selectedIndices.Count == 0) {
+					MessageBox.Show("请选择至少一个灯具，否则无法使用复用功能。");
+					return;
+				}
 			}
 
-			if (selectedIndices == null || selectedIndices.Count == 0) {
-				MessageBox.Show("请选择至少一个灯具，否则无法使用复用功能。");
-				return;
-			}
+			string result = mainForm.MultiplexSteps(selectedIndices,	
+				decimal.ToInt32(startNumericUpDown.Value),
+				decimal.ToInt32(endNumericUpDown.Value),
+				decimal.ToInt32(timesNumericUpDown.Value)
+				);
 
-			string result = mainForm.MultiplexSteps(selectedIndices,	decimal.ToInt32(startNumericUpDown.Value),
-				decimal.ToInt32(endNumericUpDown.Value),decimal.ToInt32(timesNumericUpDown.Value));
 			if( result == null)
 			{
 				MessageBox.Show("成功复用多灯多步。");

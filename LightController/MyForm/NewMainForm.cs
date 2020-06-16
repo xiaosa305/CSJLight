@@ -1615,8 +1615,8 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
-			multiplexButton.Enabled = isSyncMode;
-			multiplexButton.Visible = isSyncMode;
+			//multiplexButton.Enabled = isSyncMode;
+			//multiplexButton.Visible = isSyncMode;
 		}
 
 		/// <summary>
@@ -1647,7 +1647,7 @@ namespace LightController.MyForm
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
-			multiplexButton.Enabled = currentStep > 0 && isSyncMode;
+			multiplexButton.Enabled = currentStep > 0 ;
 
 			// 4.设定统一调整区是否可用						
 			groupButton.Enabled = lightAstList != null && lightsListView.SelectedIndices.Count > 1; // 只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
@@ -2628,6 +2628,7 @@ namespace LightController.MyForm
 			MessageBox.Show(serverFileVersion);
 		}
 
-		
+
+	
 	}
 }

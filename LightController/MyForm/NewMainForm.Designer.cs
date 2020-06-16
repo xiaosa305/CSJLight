@@ -1436,9 +1436,8 @@ namespace LightController.MyForm
 			this.multiplexButton.Name = "multiplexButton";
 			this.multiplexButton.Size = new System.Drawing.Size(75, 23);
 			this.multiplexButton.TabIndex = 49;
-			this.multiplexButton.Text = "同步复用";
+			this.multiplexButton.Text = "多步复用";
 			this.multiplexButton.UseVisualStyleBackColor = true;
-			this.multiplexButton.Visible = false;
 			this.multiplexButton.Click += new System.EventHandler(this.multiplexButton_Click);
 			// 
 			// multiCopyButton
@@ -1791,5 +1790,5 @@ namespace LightController.MyForm
 		private ToolTip groupToolTip;
 		private ToolTip saToolTip;
         private Button soundListButton;
-    }
+	}
 }

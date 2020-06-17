@@ -82,6 +82,7 @@ namespace LightController.Tools
                 this.IsTest = false;
 
                 this.MusicDataBuff = new Dictionary<int, byte>();
+                this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 this.TimeFactory = 32;
                 this.MusicStepTime = 0;
                 this.State = PreViewState.Null;

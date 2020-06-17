@@ -1588,8 +1588,6 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncSkinButton.Text = isSyncMode? "退出同步":"进入同步";
-			multiplexSkinButton.Enabled = isSyncMode;
-			multiplexSkinButton.Visible = isSyncMode ;
 		}	
 
 		/// <summary>
@@ -1623,7 +1621,7 @@ namespace LightController.MyForm
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
-			multiplexSkinButton.Enabled = currentStep > 0 && isSyncMode;
+			multiplexSkinButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用
 			groupButton.Enabled = lightAstList != null && lightsSkinListView.SelectedIndices.Count > 1; //只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击

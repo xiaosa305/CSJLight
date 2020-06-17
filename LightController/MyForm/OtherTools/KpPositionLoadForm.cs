@@ -15,9 +15,8 @@ namespace LightController.MyForm.OtherTools
 	public partial class KpPositionLoadForm : Form
 	{
 		private NewToolsForm otForm;
-		private string kpPosPath;
-		// 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；故需要有一个标记位来处理这个情况
-		private bool ifJustDelete = false;
+		private string kpPosPath;	
+		private bool ifJustDelete = false;  // 辅助变量，主要是是删除选中节点后，treeView1会自动选择下一个节点，但不会显示出来；故需要有一个标记位来处理这个情况
 
 		public KpPositionLoadForm(NewToolsForm otForm , int keyCount)
 		{
@@ -42,12 +41,12 @@ namespace LightController.MyForm.OtherTools
 					}
 				}				
 			}
-
 		}
 
 		private void KpPositionLoadForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(otForm.Location.X + 100, otForm.Location.Y + 100);
+			//this.Location = new Point(otForm.Location.X + 100, otForm.Location.Y + 100);
+			Location = MousePosition;
 		}
 
 		/// <summary>
@@ -132,8 +131,7 @@ namespace LightController.MyForm.OtherTools
 				ifJustDelete = true;
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 事件：鼠标点击《节点》-- 用以删除前的确认。
 		/// </summary>

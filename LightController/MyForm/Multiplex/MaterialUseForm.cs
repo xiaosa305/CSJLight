@@ -89,7 +89,8 @@ namespace LightController.MyForm
 
 		private void MaterialUseForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			//this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = MousePosition;
 		}
 	
 		/// <summary>

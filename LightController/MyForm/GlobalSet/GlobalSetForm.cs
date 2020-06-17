@@ -92,6 +92,8 @@ namespace LightController.MyForm
 		private void GlobalSetForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);			
+			
+
 			loadGlobalSet();
 			loadZuheSet(0);
 			loadSKSet();

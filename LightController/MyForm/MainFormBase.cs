@@ -1020,7 +1020,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：取出选中灯具的当前F/M的步数
+		/// 辅助方法：取出指定灯具的当前F/M的步数
 		/// </summary>
 		/// <param name="selectedIndex"></param>
 		/// <returns></returns>
@@ -1136,7 +1136,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：取出当前步的totalStep值
+		///  辅助方法：取出当前灯在本F/M下的的步数
 		/// </summary>
 		/// <returns></returns>
 		protected int getTotalStep()
@@ -2922,18 +2922,18 @@ namespace LightController.MyForm
 				MessageBox.Show("当前工程没有灯具，无法使用多步复用功能。");
 				return;
 			}
-
-			if (getSelectedLightStepCounts(0) == 0) {
+			int totalStep = getTotalStep();
+			if ( totalStep == 0) {
 				MessageBox.Show("灯具没有步数，无法使用多步复用功能。");
 				return;
 			}
 
+			// selectedIndices2 只用在非同步状态时，故可以在同步状态下传入null
 			IList<int> selectedIndices2 = null;
-			if (!isSyncMode) {
-				if (!isMultiMode)
+			if ( !isSyncMode) {
+				if (! isMultiMode)
 				{
-					selectedIndices2 = new List<int>();
-					selectedIndices2.Add(selectedIndex);
+					selectedIndices2 = new List<int>() { selectedIndex };
 				}
 				else
 				{
@@ -2941,7 +2941,7 @@ namespace LightController.MyForm
 				}
 			}			
 
-			new MultiplexForm(this, lightAstList, getSelectedLightStepCounts(0) , isSyncMode, selectedIndices2 ).ShowDialog();
+			new MultiplexForm(this, lightAstList, totalStep, isSyncMode, selectedIndices2 ).ShowDialog();
 		}
 
 		/// <summary>

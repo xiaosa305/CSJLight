@@ -236,11 +236,11 @@
 			this.allCheckBox.UseVisualStyleBackColor = true;
 			this.allCheckBox.CheckedChanged += new System.EventHandler(this.allCheckBox_CheckedChanged);
 			// 
-			// label4
+			// noticeLabel
 			// 
 			this.noticeLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.noticeLabel.Location = new System.Drawing.Point(388, 50);
-			this.noticeLabel.Name = "label4";
+			this.noticeLabel.Name = "noticeLabel";
 			this.noticeLabel.Size = new System.Drawing.Size(191, 40);
 			this.noticeLabel.TabIndex = 25;
 			this.noticeLabel.Text = "提示：未被选中的灯具仍会添加相应步数，但并非复用步数，而是采用该灯具的最后一步进行填充。";
@@ -273,7 +273,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(620, 420);
 			this.Name = "MultiplexForm";
-			this.Text = "同步复用";
+			this.Text = "多步复用（同步）";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MultiplexForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MultiplexForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).EndInit();

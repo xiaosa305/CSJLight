@@ -50,6 +50,7 @@ namespace LightController.MyForm.Multiplex
 				allCheckBox.Visible = false;
 				noticeLabel.Visible = false;
 				this.selectedIndices = selectedIndices;
+				Text = "多步复用（非同步）";
 			}
 		}
 
@@ -60,7 +61,9 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void MultiplexForm_Load(object sender, EventArgs e)
 		{
-			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			//Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = MousePosition;
+
 			lightsListView.HideSelection = true;    //主动设置一下这个属性，避免被VS吃掉设置
 			
 			allCheckBox.Checked = true; //默认勾选所有灯具

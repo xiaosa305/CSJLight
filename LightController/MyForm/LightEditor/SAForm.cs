@@ -30,7 +30,8 @@ namespace LightEditor.MyForm
 
 		private void SAForm_Load(object sender, EventArgs e)
 		{
-			Location = new Point(wsForm.Location.X + 100, wsForm.Location.Y + 100);
+			//Location = new Point(wsForm.Location.X + 100, wsForm.Location.Y + 100);
+			Location = MousePosition;
 		}
 
 		/// <summary>

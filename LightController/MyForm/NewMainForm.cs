@@ -1615,8 +1615,6 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
-			//multiplexButton.Enabled = isSyncMode;
-			//multiplexButton.Visible = isSyncMode;
 		}
 
 		/// <summary>

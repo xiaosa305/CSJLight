@@ -300,6 +300,23 @@ namespace LightController.Tools
                 LogTools.Error(Constant.TAG_XIAOSA, "音频控制触发预览发生错误", ex);
             }
         }
+
+        /// <summary>
+        /// 功能：获取音频触发状态
+        /// </summary>
+        /// <returns></returns>
+        public bool GetMusicStatus()
+        {
+            if (this.Config.Music_Control_Enable[this.SceneNo] == 0 || !this.PreviewTimer.Enabled || !this.MusicData)
+            {
+                return false;
+            }
+            if (!this.MusicWaiting)
+            {
+                return false;
+            }
+            return true;
+        }
         private void MusicWaitingHandl(object sender, ElapsedEventArgs e)
         {
             this.IsMusicControl = false;

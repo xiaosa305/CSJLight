@@ -123,7 +123,7 @@ namespace LightController.MyForm
         protected bool isConnectCom = true; //默认情况下，用串口连接设备。
         protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
         protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
-        protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
+        //protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
         protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
         protected bool isPreviewing = false; // 是否预览状态中		
         protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
@@ -854,9 +854,14 @@ namespace LightController.MyForm
 		protected virtual void oneStepWork()
 		{
 			// 未连接的情况下，无法发送数据。 
-			if (!isConnected)
+			if (!isConnected )
 			{
 				MessageBox.Show("请先连接设备。");
+				return;
+			}
+
+			if (isPreviewing) {
+				MessageBox.Show("正在预览中，无法实时调试。");
 				return;
 			}
 
@@ -945,7 +950,7 @@ namespace LightController.MyForm
 			}
 
 			// 是否实时单灯单步
-			if (isConnected && isRealtime)
+			if (isConnected && !isPreviewing)
 			{
 				oneStepWork();
 			}
@@ -2564,9 +2569,8 @@ namespace LightController.MyForm
 				return;
 			}
 
-
 			int currentStep = lsWrapper.CurrentStep;    // 当前步
-			int stepIndex = currentStep - 1;  //插入的位置：InsertStep方法中有针对前后插的判断，无需处理
+			int stepIndex = currentStep - 1;  //插入的位置：InsertStep方法中有针对前后插的判断，无需处理	
 
 			StepWrapper newStep;
 			if (insertBefore)
@@ -3036,7 +3040,7 @@ namespace LightController.MyForm
 				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 			}
 			
-			if (isConnected && isRealtime && !isPreviewing )
+			if (isConnected && !isPreviewing )
 			{
 				oneStepWork();
 			}
@@ -3359,6 +3363,9 @@ namespace LightController.MyForm
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
 			if ( isConnected)
 			{
+				playTools = PlayTools.GetInstance();
+				playTools.ResetDebugDataToEmpty();
+
 				disConnect(); //connectButtonClick
 			}
 			else {
@@ -3370,8 +3377,15 @@ namespace LightController.MyForm
 						MessageBox.Show("未选中可用串口，请选中后再点击连接。。");
 						return;
 					}
-					playTools.ConnectDevice(deviceName);
-					EnableConnectedButtons(true,false);
+					if (playTools.ConnectDevice(deviceName))
+					{
+						SetNotice("设备(以串口方式)连接成功,并进入调试模式。");
+						EnableConnectedButtons(true, false);
+						RefreshStep();
+					}
+					else {
+						MessageBox.Show("设备连接失败，请刷新串口列表后重试。");
+					}
 				}
 				else
 				{
@@ -3381,16 +3395,16 @@ namespace LightController.MyForm
 						return;
 					}
 					
-					myConnect = new NetworkConnect();
-					myConnect.Connect(networkDeviceList[deviceSelectedIndex]);
-					if (myConnect.IsConnected())
+					myConnect = new NetworkConnect();					
+					if (myConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
-						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-						SetNotice("网络设备连接成功。");
+						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
+						SetNotice("设备(以网络方式)连接成功,并进入调试模式。");
+						RefreshStep();
 					}
 					else
 					{
-						MessageBox.Show("设备连接失败，请重试。");
+						MessageBox.Show("设备连接失败，请刷新网络设备列表后重试。");
 					}
 				}
 			}			
@@ -3401,7 +3415,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void disConnect() {
 			if (isConnected) {
-				playTools = PlayTools.GetInstance();
+				playTools = PlayTools.GetInstance();				
 				playTools.StopSend();
 				if (isConnectCom)
 				{

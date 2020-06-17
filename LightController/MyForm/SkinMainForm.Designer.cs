@@ -68,7 +68,6 @@ namespace LightController.MyForm
 			this.deviceRefreshSkinButton = new CCWin.SkinControl.SkinButton();
 			this.deviceSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.deviceConnectSkinButton = new CCWin.SkinControl.SkinButton();
-			this.realtimeSkinButton = new CCWin.SkinControl.SkinButton();
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
 			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
@@ -1185,14 +1184,13 @@ namespace LightController.MyForm
 			this.playFlowLayoutPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.playFlowLayoutPanel.Controls.Add(this.comPanel);
 			this.playFlowLayoutPanel.Controls.Add(this.deviceConnectSkinButton);
-			this.playFlowLayoutPanel.Controls.Add(this.realtimeSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.keepSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.makeSoundSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.endviewSkinButton);
-			this.playFlowLayoutPanel.Location = new System.Drawing.Point(118, 8);
+			this.playFlowLayoutPanel.Location = new System.Drawing.Point(172, 5);
 			this.playFlowLayoutPanel.Name = "playFlowLayoutPanel";
-			this.playFlowLayoutPanel.Size = new System.Drawing.Size(809, 100);
+			this.playFlowLayoutPanel.Size = new System.Drawing.Size(710, 100);
 			this.playFlowLayoutPanel.TabIndex = 13;
 			this.playFlowLayoutPanel.Visible = false;
 			// 
@@ -1307,35 +1305,6 @@ namespace LightController.MyForm
 			this.deviceConnectSkinButton.UseVisualStyleBackColor = false;
 			this.deviceConnectSkinButton.Click += new System.EventHandler(this.connectSkinButton_Click);
 			// 
-			// realtimeSkinButton
-			// 
-			this.realtimeSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.realtimeSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.realtimeSkinButton.BorderColor = System.Drawing.Color.White;
-			this.realtimeSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.realtimeSkinButton.DownBack = null;
-			this.realtimeSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.realtimeSkinButton.Enabled = false;
-			this.realtimeSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.realtimeSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.realtimeSkinButton.ForeColorSuit = true;
-			this.realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
-			this.realtimeSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.realtimeSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.realtimeSkinButton.InheritColor = true;
-			this.realtimeSkinButton.IsDrawBorder = false;
-			this.realtimeSkinButton.Location = new System.Drawing.Point(357, 2);
-			this.realtimeSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.realtimeSkinButton.MouseBack = null;
-			this.realtimeSkinButton.Name = "realtimeSkinButton";
-			this.realtimeSkinButton.NormlBack = null;
-			this.realtimeSkinButton.Size = new System.Drawing.Size(84, 96);
-			this.realtimeSkinButton.TabIndex = 11;
-			this.realtimeSkinButton.Text = "实时调试";
-			this.realtimeSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.realtimeSkinButton.UseVisualStyleBackColor = false;
-			this.realtimeSkinButton.Click += new System.EventHandler(this.realtimeSkinButton_Click);
-			// 
 			// keepSkinButton
 			// 
 			this.keepSkinButton.BackColor = System.Drawing.Color.Transparent;
@@ -1353,7 +1322,7 @@ namespace LightController.MyForm
 			this.keepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.keepSkinButton.InheritColor = true;
 			this.keepSkinButton.IsDrawBorder = false;
-			this.keepSkinButton.Location = new System.Drawing.Point(445, 2);
+			this.keepSkinButton.Location = new System.Drawing.Point(357, 2);
 			this.keepSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.keepSkinButton.MouseBack = null;
 			this.keepSkinButton.Name = "keepSkinButton";
@@ -1382,7 +1351,7 @@ namespace LightController.MyForm
 			this.previewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.previewSkinButton.InheritColor = true;
 			this.previewSkinButton.IsDrawBorder = false;
-			this.previewSkinButton.Location = new System.Drawing.Point(533, 2);
+			this.previewSkinButton.Location = new System.Drawing.Point(445, 2);
 			this.previewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.previewSkinButton.MouseBack = null;
 			this.previewSkinButton.Name = "previewSkinButton";
@@ -1411,7 +1380,7 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.makeSoundSkinButton.InheritColor = true;
 			this.makeSoundSkinButton.IsDrawBorder = false;
-			this.makeSoundSkinButton.Location = new System.Drawing.Point(621, 2);
+			this.makeSoundSkinButton.Location = new System.Drawing.Point(533, 2);
 			this.makeSoundSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.makeSoundSkinButton.MouseBack = null;
 			this.makeSoundSkinButton.Name = "makeSoundSkinButton";
@@ -1440,7 +1409,7 @@ namespace LightController.MyForm
 			this.endviewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.endviewSkinButton.InheritColor = true;
 			this.endviewSkinButton.IsDrawBorder = false;
-			this.endviewSkinButton.Location = new System.Drawing.Point(709, 2);
+			this.endviewSkinButton.Location = new System.Drawing.Point(621, 2);
 			this.endviewSkinButton.Margin = new System.Windows.Forms.Padding(2);
 			this.endviewSkinButton.MouseBack = null;
 			this.endviewSkinButton.Name = "endviewSkinButton";
@@ -6297,7 +6266,6 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton makeSoundSkinButton;
 		private CCWin.SkinControl.SkinButton previewSkinButton;
 		private CCWin.SkinControl.SkinButton endviewSkinButton;
-		private CCWin.SkinControl.SkinButton realtimeSkinButton;
 		private CCWin.SkinControl.SkinPanel lightInfoSkinPanel;
 		private PictureBox currentLightPictureBox;
 		private CCWin.SkinControl.SkinPanel tdCommonLabelSkinPanel;

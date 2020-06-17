@@ -204,6 +204,7 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(useFrameButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepButton, "跳转指定步");
 			myToolTip.SetToolTip(keepButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
+			myToolTip.SetToolTip(insertButton, "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。");
 
 			#region 皮肤 及 panel样式 相关代码
 
@@ -1408,16 +1409,33 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《插入步》
-		/// --前插和后插都调用同一个方法(触发键的Name决定)
+		/// 事件：点击《插入步》	(空方法，为方便定位insertAfterButton_MouseDown)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void insertStepButton_Click(object sender, EventArgs e)
+		private void insertStepButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：鼠标左右键按下《插入步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void insertAfterButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			bool insertBefore = ((Button)sender).Name.Equals("insertBeforeButton"); // 插入的方式：前插(true）还是后插（false)		
-			insertStepClick(insertBefore);
+			if (e.Button == MouseButtons.Left)
+			{
+				insertStepClick( false);
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				if (getCurrentStep() == 0) {
+					insertStepClick(false);
+					return;
+				}
+				insertStepClick( true );
+			}
 		}
+
 
 		/// <summary>
 		/// 事件：点击《追加步》(空方法)
@@ -1631,8 +1649,8 @@ namespace LightController.MyForm
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
 			addStepButton.Enabled = insertEnabled;
-			insertAfterButton.Enabled = insertEnabled;
-			insertBeforeButton.Enabled = insertEnabled && currentStep > 0;
+			insertButton.Enabled = insertEnabled;
+			//insertBeforeButton.Enabled = insertEnabled && currentStep > 0;
 
 			// 2.3 设定《上一步》《下一步》是否可用			
 			backStepButton.Enabled = totalStep > 1;
@@ -2427,33 +2445,7 @@ namespace LightController.MyForm
 			connectButtonClick(deviceComboBox.Text, deviceComboBox.SelectedIndex );
 		}		
 
-		/// <summary>
-		/// 事件：点击《实时调试|关闭实时》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void realtimeButton_Click(object sender, EventArgs e)
-		{
-			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-			if (!isRealtime)
-			{				
-				realtimeButton.Text = "关闭\n实时调试";
-				isRealtime = true;				
-				if (!isConnectCom)
-				{
-					playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError ,eachStepTime);
-				}				
-				RefreshStep();
-				SetNotice("已开启实时调试。");
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				realtimeButton.Text = "实时调试";
-				isRealtime = false;
-				playTools.ResetDebugDataToEmpty();
-				SetNotice("已退出实时调试。");
-			}
-		}
+
 		
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
@@ -2546,7 +2538,7 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = !isConnected;
 			deviceRefreshButton.Enabled = !isConnected;
 
-			realtimeButton.Enabled = isConnected && !isPreviewing; 
+			//realtimeButton.Enabled = isConnected && !isPreviewing; 
 			keepButton.Enabled = isConnected && !isPreviewing; 
 			previewButton.Enabled = isConnected && !isPreviewing;
 			makeSoundButton.Enabled = isConnected && isPreviewing;
@@ -2626,7 +2618,33 @@ namespace LightController.MyForm
 			MessageBox.Show(serverFileVersion);
 		}
 
+		///// <summary>
+		///// 事件：点击《实时调试|关闭实时》
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void realtimeButton_Click(object sender, EventArgs e)
+		//{
+			//默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+			//if (!isRealtime)
+			//{
+			//	realtimeButton.Text = "关闭\n实时调试";
+			//	isRealtime = true;
+			//	if (!isConnectCom)
+			//	{
+			//		playTools.StartInternetPreview(myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			//	}
+			//	RefreshStep();
+			//	SetNotice("已开启实时调试。");
+			//}
+			//else //否则( 按钮显示为“断开连接”）断开连接
+			//{
+			//	realtimeButton.Text = "实时调试";
+			//	isRealtime = false;
+			//	playTools.ResetDebugDataToEmpty();
+			//	SetNotice("已退出实时调试。");
+			//}
+		//}
 
-	
 	}
 }

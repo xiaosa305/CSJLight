@@ -2297,35 +2297,7 @@ namespace LightController.MyForm
 			connectButtonClick( deviceSkinComboBox.Text , deviceSkinComboBox.SelectedIndex );
 		}	
 
-		/// <summary>
-		/// 事件：点击《实时调试》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void realtimeSkinButton_Click(object sender, EventArgs e)
-		{
-			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-			if (!isRealtime)
-			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
-				realtimeSkinButton.Text = "关闭实时";
-				isRealtime = true;
-				if (!isConnectCom)
-				{
-					playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-				}
-				RefreshStep();
-				SetNotice("已开启实时调试。");
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
-				realtimeSkinButton.Text = "实时调试";
-				isRealtime = false;
-				playTools.ResetDebugDataToEmpty();
-				SetNotice("已退出实时调试。");
-			}
-		}
+		
 
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
@@ -2431,7 +2403,6 @@ namespace LightController.MyForm
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !isConnected;				
 						
-			realtimeSkinButton.Enabled = isConnected && !isPreviewing;
 			keepSkinButton.Enabled = isConnected && !isPreviewing;			
 			previewSkinButton.Enabled = isConnected && !isPreviewing;
 			makeSoundSkinButton.Enabled = isConnected && isPreviewing;
@@ -2575,12 +2546,6 @@ namespace LightController.MyForm
 		}
 
 
-
-
-
-
-
-
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2592,13 +2557,44 @@ namespace LightController.MyForm
 		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
 		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
 		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-		//}		
+		//}
+
+		/// <summary>
+		/// 事件：点击《实时调试》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		//private void realtimeSkinButton_Click(object sender, EventArgs e)
+		//{
+			//// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+			//if (!isRealtime)
+			//{
+			//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
+			//	realtimeSkinButton.Text = "关闭实时";
+			//	isRealtime = true;
+			//	if (!isConnectCom)
+			//	{
+			//		playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			//	}
+			//	RefreshStep();
+			//	SetNotice("已开启实时调试。");
+			//}
+			//else //否则( 按钮显示为“断开连接”）断开连接
+			//{
+			//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
+			//	realtimeSkinButton.Text = "实时调试";
+			//	isRealtime = false;
+			//	playTools.ResetDebugDataToEmpty();
+			//	SetNotice("已退出实时调试。");
+			//}
+		//}
+
 
 		#endregion
 
 
-		
-	
+
+
 	}
 
 

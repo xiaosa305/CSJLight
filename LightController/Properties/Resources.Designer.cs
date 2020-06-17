@@ -213,26 +213,6 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap 保持状态1 {
-            get {
-                object obj = ResourceManager.GetObject("保持状态1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap 保持状态2 {
-            get {
-                object obj = ResourceManager.GetObject("保持状态2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap 全局配置 {
             get {
                 object obj = ResourceManager.GetObject("全局配置", resourceCulture);

@@ -175,9 +175,6 @@
   <data name="下一步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\下一步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="保持状态1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\保持状态1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="退出程序" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\退出程序.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -229,9 +226,7 @@
   <data name="复制灯1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\复制灯1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="保持状态2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\保持状态2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+
   <data name="跳转" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\跳转.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

@@ -61,7 +61,6 @@ namespace LightController.MyForm
 			this.deviceComboBox = new System.Windows.Forms.ComboBox();
 			this.deviceConnectButton = new System.Windows.Forms.Button();
 			this.makeSoundButton = new System.Windows.Forms.Button();
-			this.endviewButton = new System.Windows.Forms.Button();
 			this.previewButton = new System.Windows.Forms.Button();
 			this.lightsAddrLabel = new System.Windows.Forms.Label();
 			this.lightTypeLabel = new System.Windows.Forms.Label();
@@ -365,11 +364,10 @@ namespace LightController.MyForm
 			this.playPanel.Controls.Add(this.deviceComboBox);
 			this.playPanel.Controls.Add(this.deviceConnectButton);
 			this.playPanel.Controls.Add(this.makeSoundButton);
-			this.playPanel.Controls.Add(this.endviewButton);
 			this.playPanel.Controls.Add(this.previewButton);
-			this.playPanel.Location = new System.Drawing.Point(315, 0);
+			this.playPanel.Location = new System.Drawing.Point(364, 0);
 			this.playPanel.Name = "playPanel";
-			this.playPanel.Size = new System.Drawing.Size(629, 68);
+			this.playPanel.Size = new System.Drawing.Size(549, 68);
 			this.playPanel.TabIndex = 30;
 			this.playPanel.Visible = false;
 			// 
@@ -441,18 +439,6 @@ namespace LightController.MyForm
 			this.makeSoundButton.Text = "触发音频";
 			this.makeSoundButton.UseVisualStyleBackColor = true;
 			this.makeSoundButton.Click += new System.EventHandler(this.makeSoundButton_Click);
-			// 
-			// endviewButton
-			// 
-			this.endviewButton.Enabled = false;
-			this.endviewButton.Location = new System.Drawing.Point(544, 7);
-			this.endviewButton.Margin = new System.Windows.Forms.Padding(2);
-			this.endviewButton.Name = "endviewButton";
-			this.endviewButton.Size = new System.Drawing.Size(69, 54);
-			this.endviewButton.TabIndex = 24;
-			this.endviewButton.Text = "结束预览";
-			this.endviewButton.UseVisualStyleBackColor = true;
-			this.endviewButton.Click += new System.EventHandler(this.endviewButton_Click);
 			// 
 			// previewButton
 			// 
@@ -1722,7 +1708,6 @@ namespace LightController.MyForm
 		private NumericUpDown tdStNumericUpDown1;
 		private NumericUpDown tdValueNumericUpDown1;
 		private TrackBar tdTrackBar1;
-		private Button endviewButton;
 		private Button chooseStepButton;
 		private Button keepButton;
 		private StatusStrip myStatusStrip;

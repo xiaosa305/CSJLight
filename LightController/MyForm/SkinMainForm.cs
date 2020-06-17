@@ -2309,13 +2309,13 @@ namespace LightController.MyForm
 			// 默认情况下，《保持其它灯状态》还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
 			if (!isKeepOtherLights)
 			{
-				keepSkinButton.Image = global::LightController.Properties.Resources.保持状态2;
+				keepSkinButton.Image = global::LightController.Properties.Resources.单灯单步后;
 				keepSkinButton.Text = "取消保持";
 				isKeepOtherLights = true;
 			}
 			else //否则( 按钮显示为“保持其他灯状态”）断开连接
 			{
-				keepSkinButton.Image = global::LightController.Properties.Resources.保持状态1;
+				keepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
 				keepSkinButton.Text = "保持状态";
 				isKeepOtherLights = false;
 			}
@@ -2328,34 +2328,13 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void previewSkinButton_Click(object sender, EventArgs e)
-		{			
-			if (lightAstList == null || lightAstList.Count == 0) {
-				MessageBox.Show("当前工程还未添加灯具，无法预览。");
-                SetPreview(false);
-				return;
-			}
+		{
+			previewButtonClick();
+		}		
 
-            setBusy(true);
-            SetPreview(true);
-            SetNotice("正在生成预览数据，请稍候...");			
-			try
-			{
-				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
-			}
-			catch (Exception ex)
-			{
-                SetPreview(false);
-                MessageBox.Show("生成预览数据时异常：\n" + ex.Message);               
-            }
-			finally {				
-				setBusy(false);
-			}
-		}
-
-        public override void SetPreview(bool preview) {
-             previewSkinButton.Image = preview ? 
-                global::LightController.Properties.Resources.浏览效果后 : 
-                global::LightController.Properties.Resources.浏览效果前;
+		public override void SetPreview(bool preview) {
+            previewSkinButton.Image = preview ?  Properties.Resources.浏览效果后 :	Properties.Resources.浏览效果前;
+			previewSkinButton.Text = preview ? "停止预览" : "预览效果";
         }  
 
         /// <summary>
@@ -2365,10 +2344,11 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void makeSoundSkinButton_Click(object sender, EventArgs e)
 		{
+			
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频后;
 			Refresh();
 
-			playTools.MusicControl();
+			playTools.MusicControl();	
 
 			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
 		}
@@ -2380,14 +2360,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void endviewSkinButton_Click(object sender, EventArgs e)
 		{
-			if (isConnected)
-			{
-				EnableConnectedButtons(true, false);
-			}
-			endview();
-			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
-            SetPreview(false);
-            SetNotice("已结束预览。");
+
 		}				
 		
 		/// <summary>
@@ -2402,11 +2375,10 @@ namespace LightController.MyForm
 
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !isConnected;				
-						
+			
 			keepSkinButton.Enabled = isConnected && !isPreviewing;			
-			previewSkinButton.Enabled = isConnected && !isPreviewing;
-			makeSoundSkinButton.Enabled = isConnected && isPreviewing;
-			endviewSkinButton.Enabled = isConnected ;
+			previewSkinButton.Enabled = isConnected;
+			makeSoundSkinButton.Enabled = isConnected && isPreviewing;			
 
 			if (isConnected)
 			{
@@ -2419,6 +2391,9 @@ namespace LightController.MyForm
                 deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				deviceConnectSkinButton.Text = "连接设备";
 			}
+
+			
+
 		}
 
 		/// <summary>

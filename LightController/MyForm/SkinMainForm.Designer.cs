@@ -71,7 +71,6 @@ namespace LightController.MyForm
 			this.keepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.previewSkinButton = new CCWin.SkinControl.SkinButton();
 			this.makeSoundSkinButton = new CCWin.SkinControl.SkinButton();
-			this.endviewSkinButton = new CCWin.SkinControl.SkinButton();
 			this.lightsSkinListView = new CCWin.SkinControl.SkinListView();
 			this.lightName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.mySkinContextMenuStrip = new CCWin.SkinControl.SkinContextMenuStrip();
@@ -1187,10 +1186,9 @@ namespace LightController.MyForm
 			this.playFlowLayoutPanel.Controls.Add(this.keepSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.previewSkinButton);
 			this.playFlowLayoutPanel.Controls.Add(this.makeSoundSkinButton);
-			this.playFlowLayoutPanel.Controls.Add(this.endviewSkinButton);
-			this.playFlowLayoutPanel.Location = new System.Drawing.Point(172, 5);
+			this.playFlowLayoutPanel.Location = new System.Drawing.Point(204, 6);
 			this.playFlowLayoutPanel.Name = "playFlowLayoutPanel";
-			this.playFlowLayoutPanel.Size = new System.Drawing.Size(710, 100);
+			this.playFlowLayoutPanel.Size = new System.Drawing.Size(625, 100);
 			this.playFlowLayoutPanel.TabIndex = 13;
 			this.playFlowLayoutPanel.Visible = false;
 			// 
@@ -1317,7 +1315,7 @@ namespace LightController.MyForm
 			this.keepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.keepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
 			this.keepSkinButton.ForeColorSuit = true;
-			this.keepSkinButton.Image = global::LightController.Properties.Resources.保持状态1;
+			this.keepSkinButton.Image = global::LightController.Properties.Resources.单灯单步;
 			this.keepSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.keepSkinButton.ImageSize = new System.Drawing.Size(50, 50);
 			this.keepSkinButton.InheritColor = true;
@@ -1391,35 +1389,6 @@ namespace LightController.MyForm
 			this.makeSoundSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.makeSoundSkinButton.UseVisualStyleBackColor = false;
 			this.makeSoundSkinButton.Click += new System.EventHandler(this.makeSoundSkinButton_Click);
-			// 
-			// endviewSkinButton
-			// 
-			this.endviewSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.endviewSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.endviewSkinButton.BorderColor = System.Drawing.Color.White;
-			this.endviewSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.endviewSkinButton.DownBack = null;
-			this.endviewSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.endviewSkinButton.Enabled = false;
-			this.endviewSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.endviewSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.endviewSkinButton.ForeColorSuit = true;
-			this.endviewSkinButton.Image = global::LightController.Properties.Resources.结束浏览;
-			this.endviewSkinButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.endviewSkinButton.ImageSize = new System.Drawing.Size(50, 50);
-			this.endviewSkinButton.InheritColor = true;
-			this.endviewSkinButton.IsDrawBorder = false;
-			this.endviewSkinButton.Location = new System.Drawing.Point(621, 2);
-			this.endviewSkinButton.Margin = new System.Windows.Forms.Padding(2);
-			this.endviewSkinButton.MouseBack = null;
-			this.endviewSkinButton.Name = "endviewSkinButton";
-			this.endviewSkinButton.NormlBack = null;
-			this.endviewSkinButton.Size = new System.Drawing.Size(84, 96);
-			this.endviewSkinButton.TabIndex = 12;
-			this.endviewSkinButton.Text = "结束预览";
-			this.endviewSkinButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.endviewSkinButton.UseVisualStyleBackColor = false;
-			this.endviewSkinButton.Click += new System.EventHandler(this.endviewSkinButton_Click);
 			// 
 			// lightsSkinListView
 			// 
@@ -6265,7 +6234,6 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton deviceConnectSkinButton;
 		private CCWin.SkinControl.SkinButton makeSoundSkinButton;
 		private CCWin.SkinControl.SkinButton previewSkinButton;
-		private CCWin.SkinControl.SkinButton endviewSkinButton;
 		private CCWin.SkinControl.SkinPanel lightInfoSkinPanel;
 		private PictureBox currentLightPictureBox;
 		private CCWin.SkinControl.SkinPanel tdCommonLabelSkinPanel;

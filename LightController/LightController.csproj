@@ -1045,8 +1045,6 @@
     <None Include="Resources\保存工程2.png" />
     <None Include="Resources\打开工程3.png" />
     <None Include="Resources\跳转.png" />
-    <None Include="Resources\保持状态1.png" />
-    <None Include="Resources\保持状态2.png" />
     <Content Include="FrameList.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

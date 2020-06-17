@@ -3349,8 +3349,7 @@ namespace LightController.MyForm
 			}
 			RefreshStep();
 		}
-
-
+		
 		#endregion
 
 		#region playPanel相关
@@ -3363,9 +3362,6 @@ namespace LightController.MyForm
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
 			if ( isConnected)
 			{
-				playTools = PlayTools.GetInstance();
-				playTools.ResetDebugDataToEmpty();
-
 				disConnect(); //connectButtonClick
 			}
 			else {
@@ -3415,7 +3411,8 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void disConnect() {
 			if (isConnected) {
-				playTools = PlayTools.GetInstance();				
+				playTools = PlayTools.GetInstance();
+				playTools.ResetDebugDataToEmpty();				
 				playTools.StopSend();
 				if (isConnectCom)
 				{
@@ -3450,6 +3447,55 @@ namespace LightController.MyForm
 		protected void endview()
 		{
 			playTools.EndView();	
+		}
+
+		/// <summary>
+		/// 辅助方法：预览效果|停止预览
+		/// </summary>
+		protected void previewButtonClick()
+		{
+			if (!isConnected)
+			{
+				MessageBox.Show("尚未连接设备，无法预览效果或停止预览。");
+				EnableConnectedButtons(false, false);
+				return;
+			}
+
+			// 停止预览
+			if (isPreviewing)
+			{
+				EnableConnectedButtons(true, false);
+				endview();
+				RefreshStep();
+				SetPreview(false);
+				SetNotice("已结束预览。");
+			}
+			// 开始预览
+			else
+			{
+				if (lightAstList == null || lightAstList.Count == 0)
+				{
+					MessageBox.Show("当前工程还未添加灯具，无法预览。");
+					SetPreview(false);
+					return;
+				}
+				setBusy(true);
+				SetPreview(true);
+				SetNotice("正在生成预览数据，请稍候...");
+				try
+				{
+					DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
+				}
+				catch (Exception ex)
+				{
+					SetPreview(false);
+					MessageBox.Show("生成预览数据时异常：\n" + ex.Message);
+				}
+				finally
+				{
+					setBusy(false);
+				}
+			}
 		}
 
 		#endregion

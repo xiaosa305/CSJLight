@@ -2444,8 +2444,6 @@ namespace LightController.MyForm
 		{
 			connectButtonClick(deviceComboBox.Text, deviceComboBox.SelectedIndex );
 		}		
-
-
 		
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
@@ -2477,25 +2475,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			if (lightAstList == null || lightAstList.Count == 0)
-			{
-				MessageBox.Show("当前工程还未添加灯具，无法预览。");
-				return;
-			}
-            
-            setBusy(true);
-			SetNotice("正在生成预览数据，请稍候...");			
-			try
-			{
-				DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
-			finally {				
-				setBusy(false);
-			}
+			previewButtonClick();
 		}
 
 		/// <summary>
@@ -2506,21 +2486,6 @@ namespace LightController.MyForm
 		private void makeSoundButton_Click(object sender, EventArgs e)
 		{
 			playTools.MusicControl();			
-		}
-
-		/// <summary>
-		/// 事件：点击《结束预览》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void endviewButton_Click(object sender, EventArgs e)
-		{
-			if (isConnected)
-			{
-				EnableConnectedButtons(true, false);
-			}
-			endview();
-			SetNotice("已结束预览。");
 		}
 
 		/// <summary>
@@ -2538,13 +2503,12 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = !isConnected;
 			deviceRefreshButton.Enabled = !isConnected;
 
-			//realtimeButton.Enabled = isConnected && !isPreviewing; 
 			keepButton.Enabled = isConnected && !isPreviewing; 
-			previewButton.Enabled = isConnected && !isPreviewing;
-			makeSoundButton.Enabled = isConnected && isPreviewing;
-			endviewButton.Enabled = isConnected  ;
+			previewButton.Enabled = isConnected ;
+			makeSoundButton.Enabled = isConnected && isPreviewing;		
 
-			deviceConnectButton.Text = isConnected ? "断开连接":"连接设备";			
+			deviceConnectButton.Text = isConnected ? "断开连接":"连接设备";
+			previewButton.Text = isPreviewing ? "停止预览" : "预览效果";
 		}
 
 		#endregion

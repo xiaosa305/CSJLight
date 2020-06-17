@@ -30,8 +30,8 @@ namespace LightController.Tools
         {
             this.DBWrapper = dBWrapper;
             this.MainForm = mainForm;
-            this.ConfigPath = configPath;
             DataConvertUtils.InitThreadPool();
+            this.ConfigPath = configPath;
             if (SerialConnect == null)
             {
                 SerialConnect = new SerialConnect();

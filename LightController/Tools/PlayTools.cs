@@ -176,6 +176,12 @@ namespace LightController.Tools
             {
                 this.PlayData = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
             }
+            if (this.SendTimer != null)
+            {
+                this.SendTimer.Stop();
+                this.Play();
+                this.SendTimer.Start();
+            }
         }
         public void StopSend()
         {

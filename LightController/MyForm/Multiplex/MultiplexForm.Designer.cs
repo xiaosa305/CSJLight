@@ -43,7 +43,7 @@
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.enterButton = new System.Windows.Forms.Button();
 			this.allCheckBox = new System.Windows.Forms.CheckBox();
-			this.label4 = new System.Windows.Forms.Label();
+			this.noticeLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.timesNumericUpDown)).BeginInit();
@@ -236,15 +236,15 @@
 			this.allCheckBox.UseVisualStyleBackColor = true;
 			this.allCheckBox.CheckedChanged += new System.EventHandler(this.allCheckBox_CheckedChanged);
 			// 
-			// label4
+			// noticeLabel
 			// 
-			this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-			this.label4.Location = new System.Drawing.Point(388, 50);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(191, 40);
-			this.label4.TabIndex = 25;
-			this.label4.Text = "提示：未被选中的灯具仍会添加相应步数，但并非复用步数，而是采用该灯具的最后一步进行填充。";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.noticeLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.noticeLabel.Location = new System.Drawing.Point(388, 50);
+			this.noticeLabel.Name = "noticeLabel";
+			this.noticeLabel.Size = new System.Drawing.Size(191, 40);
+			this.noticeLabel.TabIndex = 25;
+			this.noticeLabel.Text = "提示：未被选中的灯具仍会添加相应步数，但并非复用步数，而是采用该灯具的最后一步进行填充。";
+			this.noticeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// MultiplexForm
 			// 
@@ -253,7 +253,7 @@
 			this.BackColor = System.Drawing.SystemColors.HighlightText;
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(604, 381);
-			this.Controls.Add(this.label4);
+			this.Controls.Add(this.noticeLabel);
 			this.Controls.Add(this.allCheckBox);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.enterButton);
@@ -273,7 +273,7 @@
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(620, 420);
 			this.Name = "MultiplexForm";
-			this.Text = "同步复用";
+			this.Text = "多步复用（同步）";
 			this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.MultiplexForm_HelpButtonClicked);
 			this.Load += new System.EventHandler(this.MultiplexForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).EndInit();
@@ -301,6 +301,6 @@
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button enterButton;
 		private System.Windows.Forms.CheckBox allCheckBox;
-		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label noticeLabel;
 	}
 }

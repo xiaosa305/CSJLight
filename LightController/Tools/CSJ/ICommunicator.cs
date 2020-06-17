@@ -701,7 +701,7 @@ namespace LightController.Tools.CSJ
                 Thread.Sleep(1);
                 if (this.Order.Equals(Constant.ORDER_PUT) || this.Order.Equals(Constant.ORDER_UPDATE))
                 {
-                    int progress = Convert.ToInt16(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
+                    int progress = Convert.ToInt32(this.CurrentDownloadCompletedSize / (this.DownloadFileToTalSize * 1.0) * 100);
                     this.CallBack.UpdateProgress(this.DeviceName, this.CurrentFileName, progress);
                     //TODO待删除
                     //this.DownloadProgressDelegate(this.CurrentFileName, progress);

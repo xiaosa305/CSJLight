@@ -27,7 +27,7 @@ namespace LightController.Ast
 				StepWrapperList = new List<StepWrapper>();
 			}
 			// 前插时，currentStep不变，
-			if (insertBefore) {
+			if (insertBefore) {				
 				StepWrapperList.Insert(stepIndex, newStep);
 				CurrentStep = stepIndex + 1;
 			}

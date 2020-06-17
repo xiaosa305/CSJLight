@@ -65,29 +65,29 @@ namespace LightController.Tools.CSJ.IMPL
 		}
         public LightControlData(List<byte> data)
         {
-            RelayCount = Convert.ToInt16(data[0]);//0
-            DmxCount = Convert.ToInt16(data[1]);//1
-            RelayDataSize = Convert.ToInt16(data[2]);//2
-            IsOpenFan = Convert.ToInt16(data[3]) == 1;//3
-            AirControlSwitch = Convert.ToInt16(data[4]);//4
-            IsOpenAirCondition = Convert.ToInt16(data[5]) == 1;//5
-            LightProtocol = Convert.ToInt16(data[6]);//6
-            LightMode = Convert.ToInt16(data[7]);//7
-            FanChannel = Convert.ToInt16(data[8]);//8
-            HighFanChannel = Convert.ToInt16(data[9]);//9
-            MiddleFanChannel = Convert.ToInt16(data[10]);//10
-            LowFanChannel = Convert.ToInt16(data[11]);//11
-            OpenAirConditionChannel = Convert.ToInt16(data[12]);//12
-            CloseAirConditionChannel = Convert.ToInt16(data[13]);//13
-            PlaceHolder1 = Convert.ToInt16(data[14]);//14
-            PlaceHolder2 = Convert.ToInt16(data[15]);//15
+            RelayCount = Convert.ToInt32(data[0]);//0
+            DmxCount = Convert.ToInt32(data[1]);//1
+            RelayDataSize = Convert.ToInt32(data[2]);//2
+            IsOpenFan = Convert.ToInt32(data[3]) == 1;//3
+            AirControlSwitch = Convert.ToInt32(data[4]);//4
+            IsOpenAirCondition = Convert.ToInt32(data[5]) == 1;//5
+            LightProtocol = Convert.ToInt32(data[6]);//6
+            LightMode = Convert.ToInt32(data[7]);//7
+            FanChannel = Convert.ToInt32(data[8]);//8
+            HighFanChannel = Convert.ToInt32(data[9]);//9
+            MiddleFanChannel = Convert.ToInt32(data[10]);//10
+            LowFanChannel = Convert.ToInt32(data[11]);//11
+            OpenAirConditionChannel = Convert.ToInt32(data[12]);//12
+            CloseAirConditionChannel = Convert.ToInt32(data[13]);//13
+            PlaceHolder1 = Convert.ToInt32(data[14]);//14
+            PlaceHolder2 = Convert.ToInt32(data[15]);//15
             SceneData = new bool[17, RelayCount];
             for (int frameIndex = 0; frameIndex < 17; frameIndex++)
             {
                 for (int dataIndex = 0; dataIndex < RelayDataSize; dataIndex++)
                 {
                     byte value = data[16 + 17 * dataIndex + frameIndex];
-                    string valueStr = StringHelper.ReverseString(StringHelper.DecimalStringToBitBinary(Convert.ToInt16(value).ToString(), 8));
+                    string valueStr = StringHelper.ReverseString(StringHelper.DecimalStringToBitBinary(Convert.ToInt32(value).ToString(), 8));
                     for (int i = 0; i < 8 && (dataIndex * 8 + i) < RelayCount; i++)
                     {
                         SceneData[frameIndex, dataIndex * 8 + i] = valueStr[i].Equals('1');
@@ -105,22 +105,22 @@ namespace LightController.Tools.CSJ.IMPL
         }
         public LightControlData(IList<string> data)
         {
-            RelayCount = Convert.ToInt16(data[0]);//0
-            DmxCount = Convert.ToInt16(data[1]);//1
-            RelayDataSize = Convert.ToInt16(data[2]);//2
-            IsOpenFan = Convert.ToInt16(data[3]) == 1;//3
-			AirControlSwitch = Convert.ToInt16(data[4]);//4
-            IsOpenAirCondition = Convert.ToInt16(data[5]) == 1;//5
-            LightProtocol = Convert.ToInt16(data[6]);//6
-            LightMode = Convert.ToInt16(data[7]);//7
-            FanChannel = Convert.ToInt16(data[8]);//8
-            HighFanChannel = Convert.ToInt16(data[9]);//9
-            MiddleFanChannel = Convert.ToInt16(data[10]);//10
-            LowFanChannel = Convert.ToInt16(data[11]);//11
-            OpenAirConditionChannel = Convert.ToInt16(data[12]);//12
-            CloseAirConditionChannel = Convert.ToInt16(data[13]);//13
-            PlaceHolder1 = Convert.ToInt16(data[14]);//14
-            PlaceHolder2 = Convert.ToInt16(data[15]);//15
+            RelayCount = Convert.ToInt32(data[0]);//0
+            DmxCount = Convert.ToInt32(data[1]);//1
+            RelayDataSize = Convert.ToInt32(data[2]);//2
+            IsOpenFan = Convert.ToInt32(data[3]) == 1;//3
+			AirControlSwitch = Convert.ToInt32(data[4]);//4
+            IsOpenAirCondition = Convert.ToInt32(data[5]) == 1;//5
+            LightProtocol = Convert.ToInt32(data[6]);//6
+            LightMode = Convert.ToInt32(data[7]);//7
+            FanChannel = Convert.ToInt32(data[8]);//8
+            HighFanChannel = Convert.ToInt32(data[9]);//9
+            MiddleFanChannel = Convert.ToInt32(data[10]);//10
+            LowFanChannel = Convert.ToInt32(data[11]);//11
+            OpenAirConditionChannel = Convert.ToInt32(data[12]);//12
+            CloseAirConditionChannel = Convert.ToInt32(data[13]);//13
+            PlaceHolder1 = Convert.ToInt32(data[14]);//14
+            PlaceHolder2 = Convert.ToInt32(data[15]);//15
 
 			//Dickov: 填入SceneData;
 			SceneData = new bool[ 17 , RelayCount];			

@@ -92,6 +92,8 @@ namespace LightController.MyForm
 		private void GlobalSetForm_Load(object sender, EventArgs e)
 		{
 			this.Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);			
+			
+
 			loadGlobalSet();
 			loadZuheSet(0);
 			loadSKSet();
@@ -118,7 +120,7 @@ namespace LightController.MyForm
 				eachStepTimeNumericUpDown.Value =  30;
 				eachChangeModeComboBox.SelectedIndex = 0 ;
 			}
-			eachStepTime = Decimal.ToInt16(eachStepTimeNumericUpDown.Value);
+			eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
 			eachStepTime2 = eachStepTime / 1000m;
 		}
 
@@ -260,7 +262,7 @@ namespace LightController.MyForm
 
 			// 弃用下列代码：时间因子不可在此处变动
 			//iniAst.WriteString("Set", "EachStepTime", eachStepTimeNumericUpDown.Text);
-			//eachStepTime = Decimal.ToInt16(eachStepTimeNumericUpDown.Value);
+			//eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
 			//mainForm.ChangeEachStepTime( eachStepTime );
 	
 			MessageBox.Show("保存成功");

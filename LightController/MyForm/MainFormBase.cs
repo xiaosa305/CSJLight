@@ -37,12 +37,14 @@ namespace LightController.MyForm
             STEP_TIME, ALL
         }
 
-        // 全局配置及数据库连接		
-        public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
+	
+
+		// 全局配置及数据库连接		
+		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
         public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
         public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
-
-        public bool IsShowTestButton = false;
+		
+		public bool IsShowTestButton = false;
         public bool IsShowHardwareUpdate = false;
         public bool IsLinkLightEditor = false;
         public bool IsLinkOldTools = false;
@@ -121,7 +123,7 @@ namespace LightController.MyForm
         protected bool isConnectCom = true; //默认情况下，用串口连接设备。
         protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
         protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
-        protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
+        //protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
         protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
         protected bool isPreviewing = false; // 是否预览状态中		
         protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
@@ -852,9 +854,14 @@ namespace LightController.MyForm
 		protected virtual void oneStepWork()
 		{
 			// 未连接的情况下，无法发送数据。 
-			if (!isConnected)
+			if (!isConnected )
 			{
 				MessageBox.Show("请先连接设备。");
+				return;
+			}
+
+			if (isPreviewing) {
+				MessageBox.Show("正在预览中，无法实时调试。");
 				return;
 			}
 
@@ -943,7 +950,7 @@ namespace LightController.MyForm
 			}
 
 			// 是否实时单灯单步
-			if (isConnected && isRealtime)
+			if (isConnected && !isPreviewing)
 			{
 				oneStepWork();
 			}
@@ -1018,7 +1025,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：取出选中灯具的当前F/M的步数
+		/// 辅助方法：取出指定灯具的当前F/M的步数
 		/// </summary>
 		/// <param name="selectedIndex"></param>
 		/// <returns></returns>
@@ -1134,7 +1141,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  辅助方法：取出当前步的totalStep值
+		///  辅助方法：取出当前灯在本F/M下的的步数
 		/// </summary>
 		/// <returns></returns>
 		protected int getTotalStep()
@@ -1914,7 +1921,7 @@ namespace LightController.MyForm
 		/// 辅助方法：点击《保存工程》
 		/// </summary>
 		protected void saveProjectClick() {
-
+						
 			SetNotice("正在保存工程,请稍候...");
 			setBusy(true);
 
@@ -2307,10 +2314,10 @@ namespace LightController.MyForm
 					//只有不为null且步数>0，才可能有需要保存的数据
 					if (lswTemp != null && lswTemp.TotalStep > 0)
 					{
-						IList<StepWrapper> stepWrapperList = lswTemp.StepWrapperList;
-						foreach (StepWrapper step in stepWrapperList)
+						IList<StepWrapper> stepWrapperList = lswTemp.StepWrapperList;						
+						for(int stepIndex = 0; stepIndex<stepWrapperList.Count ; stepIndex++ )
 						{
-							int stepIndex = stepWrapperList.IndexOf(step) + 1;
+							StepWrapper step = stepWrapperList[stepIndex];
 							for (int tongdaoIndex = 0; tongdaoIndex < step.TongdaoList.Count; tongdaoIndex++)
 							{
 								TongdaoWrapper tongdao = step.TongdaoList[tongdaoIndex];
@@ -2325,12 +2332,12 @@ namespace LightController.MyForm
 										Mode = mode,
 										LightID = light.LightNo + tongdaoIndex,
 										LightIndex = light.LightNo,
-										Step = stepIndex
+										Step = stepIndex + 1
 									}
 								};
 								frameValueList.Add(valueTemp);
 							}
-						}
+						}						
 					}
 				}
 			}
@@ -2513,7 +2520,9 @@ namespace LightController.MyForm
 		{
 			try
 			{
-				System.Diagnostics.Process.Start(Application.StartupPath + @"\使用手册.pdf");
+				//if (MessageBox.Show("确定打开《使用手册》吗？","" , MessageBoxButtons.OKCancel , MessageBoxIcon.Asterisk) == DialogResult.OK) {
+					System.Diagnostics.Process.Start(Application.StartupPath + @"\使用手册.pdf");
+				//}				
 			}
 			catch (Exception ex)
 			{
@@ -2560,9 +2569,8 @@ namespace LightController.MyForm
 				return;
 			}
 
-
 			int currentStep = lsWrapper.CurrentStep;    // 当前步
-			int stepIndex = currentStep - 1;  //插入的位置：InsertStep方法中有针对前后插的判断，无需处理
+			int stepIndex = currentStep - 1;  //插入的位置：InsertStep方法中有针对前后插的判断，无需处理	
 
 			StepWrapper newStep;
 			if (insertBefore)
@@ -2616,17 +2624,54 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《追加步》
+		/// 辅助方法：左键点击《追加步》
 		/// </summary>
 		protected void addStepClick()
 		{
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			addStep();
+			RefreshStep();
+		}
+
+		/// <summary>
+		/// 辅助方法：右键点击《追加步》（追加指定数量的步）
+		/// </summary>
+		protected void addSomeStepClick()
+		{
+			new AddStepsForm(this, MAX_STEP - getTotalStep() ).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：追加指定数量的步
+		/// </summary>
+		/// <param name="v"></param>
+		/// <returns>成功返回null，失败则返回失败的原因；</returns>
+		public string AddSteps(int addStepCount)
+		{
+			try
+			{
+				for (int i = 0; i < addStepCount; i++)
+				{
+					addStep();
+				}
+				RefreshStep();
+				return null;
+			}
+			catch (Exception ex) {
+				return ex.Message;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：追加步（供追加一步或追加多步使用）
+		/// </summary>
+		protected void addStep() {
 
 			//1.若当前灯具在本F/M下总步数为0 ，则使用stepTemplate数据，
 			//2.否则使用本灯当前最大步的数据			 
 			bool addTemplate = getTotalStep() == 0;
 			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), currentMode);
-			lsWrapper.AddStep(newStep);
+			getCurrentLightStepWrapper().AddStep(newStep);
+
 			if (isSyncMode)
 			{
 				for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
@@ -2649,21 +2694,18 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			RefreshStep();
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《删除步》
+		/// 辅助方法：左键点击《删除步》
 		/// </summary>
 		protected void deleteStepClick()
-		{
-			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
-			int stepIndex = getCurrentStep() - 1;
-
+		{			
 			// 调用包装类内部的方法:删除某一步
 			try
 			{
-				lsWrapper.DeleteStep(stepIndex);
+				int stepIndex = getCurrentStep() - 1;
+				getCurrentLightStepWrapper().DeleteStep(stepIndex);
 				if (isSyncMode)
 				{
 					for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
@@ -2692,6 +2734,63 @@ namespace LightController.MyForm
 			}
 
 			RefreshStep();
+		}
+
+		/// <summary>
+		/// 辅助方法：右键点击《删除步》（删除指定步）
+		/// </summary>
+		protected void deleteSomeStepClick()
+		{
+			if (getTotalStep() == 0) {
+				MessageBox.Show("当前灯具没有步数，无法删除步。");
+				return;
+			}
+			new DeleteStepsForm(this, getCurrentStep() , getTotalStep() ) .ShowDialog();
+		}
+
+		/// <summary>
+		///  辅助方法：删除指定步（起始步和总步数）
+		/// </summary>
+		/// <param name="firstStep"></param>
+		/// <param name="stepCount"></param>
+		/// <returns></returns>
+		public string DeleteSteps(int firstStep, int stepCount)
+		{
+			try
+			{
+				int stepIndex = firstStep - 1;
+				// 调用包装类内部的方法:删除某一步
+				for (int i = 0; i < stepCount; i++)
+				{
+					getCurrentLightStepWrapper().DeleteStep(stepIndex);
+					if (isSyncMode)
+					{
+						for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
+						{
+							if (lightIndex != selectedIndex)
+							{
+								getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
+							}
+						}
+					}
+					else if (isMultiMode)
+					{
+						foreach (int lightIndex in selectedIndices)
+						{
+							if (lightIndex != selectedIndex)
+							{
+								getSelectedLightStepWrapper(lightIndex).DeleteStep(stepIndex);
+							}
+						}
+					}
+				}
+				RefreshStep();
+				return null;
+			}
+			catch (Exception ex)
+			{
+				return ex.Message;
+			}
 		}
 
 		/// <summary>
@@ -2823,24 +2922,30 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void multiplexButtonClick()
 		{
-			// 只有在同步模式下，才能启用本功能
-			if (!isSyncMode) {
-				MessageBox.Show("非同步模式，无法使用多步复用功能。");
-				return;
-			}
-
 			if (lightWrapperList == null || lightWrapperList.Count == 0) {
 				MessageBox.Show("当前工程没有灯具，无法使用多步复用功能。");
 				return;
 			}
-
-			if (getSelectedLightStepCounts(0) == 0) {
+			int totalStep = getTotalStep();
+			if ( totalStep == 0) {
 				MessageBox.Show("灯具没有步数，无法使用多步复用功能。");
 				return;
 			}
 
-			new MultiplexForm(this, lightAstList, getSelectedLightStepCounts(0)).ShowDialog();
+			// selectedIndices2 只用在非同步状态时，故可以在同步状态下传入null
+			IList<int> selectedIndices2 = null;
+			if ( !isSyncMode) {
+				if (! isMultiMode)
+				{
+					selectedIndices2 = new List<int>() { selectedIndex };
+				}
+				else
+				{
+					selectedIndices2 = selectedIndices;
+				}
+			}			
 
+			new MultiplexForm(this, lightAstList, totalStep, isSyncMode, selectedIndices2 ).ShowDialog();
 		}
 
 		/// <summary>
@@ -2935,7 +3040,7 @@ namespace LightController.MyForm
 				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 			}
 			
-			if (isConnected && isRealtime && !isPreviewing )
+			if (isConnected && !isPreviewing )
 			{
 				oneStepWork();
 			}
@@ -2949,27 +3054,19 @@ namespace LightController.MyForm
 		/// <param name="endStep"></param>
 		/// <param name="times">复用次数</param>
 		/// <returns>复用成功返回null，否则返回相应的错误信息</returns>
-		public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times)
+		public string MultiplexSteps(IList<int> selectedIndices, int startStep, int endStep, int times )
 		{
-			// 非同步模式
-			if (!isSyncMode) {
-				return "非同步模式无法复用步数";
-			}
-
-			// 剩余步数不够复用会添加的的步数
-			//Console.WriteLine("剩余步数：" + (MAX_STEP - getSelectedLightStepCounts(0) ) );
-			//Console.WriteLine("复用占用步数：" + (endStep - startStep + 1) * times );
+			// 检查剩余步数 是否大于 复用会添加的的步数
 			int addStepCount = (endStep - startStep + 1) * times;
-
 			if ((MAX_STEP - getSelectedLightStepCounts(0)) < addStepCount) {
 				return "剩余步数小于复用占用步数，无法复用。";
-			}
-
+			}		
+			
 			// 解决方案（两种）：
 			// (1)先把所有的步数用新步数填上，再通过SelectedIndices来更改相应的数据 X
 			// (2)分开操作，不在列表内的直接加步，在表内的则复用 √
 			//		①不在表内的都添加最后一步
-			//		②在列表中的使用复制的方法
+			//		②在列表中的使用复制的方法(同步模式才这样选择)
 
 			for (int lightIndex = 0; lightIndex < lightWrapperList.Count; lightIndex++)
 			{
@@ -2987,19 +3084,21 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
-					StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, currentMode);
-					for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
-					{
-						getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+					if (isSyncMode) {
+						StepWrapper lastStep = getSelectedLightLastStepWrapper(lightIndex);
+						StepWrapper newStep = StepWrapper.GenerateNewStep(lastStep, currentMode);
+						for (int addStepIndex = 0; addStepIndex < addStepCount; addStepIndex++)
+						{
+							getSelectedLightStepWrapper(lightIndex).AddStep(newStep);
+						}
 					}
-				}
+				}					
 			}
 
 			RefreshStep();
 			return null;
 		}
-
+		
 		#endregion
 
 		#region unifyPanel(Or astPanel)相关
@@ -3264,6 +3363,9 @@ namespace LightController.MyForm
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
 			if ( isConnected)
 			{
+				playTools = PlayTools.GetInstance();
+				playTools.ResetDebugDataToEmpty();
+
 				disConnect(); //connectButtonClick
 			}
 			else {
@@ -3275,8 +3377,15 @@ namespace LightController.MyForm
 						MessageBox.Show("未选中可用串口，请选中后再点击连接。。");
 						return;
 					}
-					playTools.ConnectDevice(deviceName);
-					EnableConnectedButtons(true,false);
+					if (playTools.ConnectDevice(deviceName))
+					{
+						SetNotice("设备(以串口方式)连接成功,并进入调试模式。");
+						EnableConnectedButtons(true, false);
+						RefreshStep();
+					}
+					else {
+						MessageBox.Show("设备连接失败，请刷新串口列表后重试。");
+					}
 				}
 				else
 				{
@@ -3286,16 +3395,16 @@ namespace LightController.MyForm
 						return;
 					}
 					
-					myConnect = new NetworkConnect();
-					myConnect.Connect(networkDeviceList[deviceSelectedIndex]);
-					if (myConnect.IsConnected())
+					myConnect = new NetworkConnect();					
+					if (myConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
-						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-						SetNotice("网络设备连接成功。");
+						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
+						SetNotice("设备(以网络方式)连接成功,并进入调试模式。");
+						RefreshStep();
 					}
 					else
 					{
-						MessageBox.Show("设备连接失败，请重试。");
+						MessageBox.Show("设备连接失败，请刷新网络设备列表后重试。");
 					}
 				}
 			}			
@@ -3306,7 +3415,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void disConnect() {
 			if (isConnected) {
-				playTools = PlayTools.GetInstance();
+				playTools = PlayTools.GetInstance();				
 				playTools.StopSend();
 				if (isConnectCom)
 				{

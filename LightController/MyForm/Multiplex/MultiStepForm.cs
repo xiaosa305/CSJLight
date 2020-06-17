@@ -98,15 +98,17 @@ namespace LightController.MyForm
 				this.unifyCmComboBox.Items.Add("跳变");
 				//this.commonChangeModeComboBox.Items.Add("渐变");
 				this.unifyCmComboBox.SelectedIndex = 0;
-				// 音频模式下：《步时间调整值》两个按钮隐藏。
+				// 音频模式下：《步时间调整值》几个按钮和秒(Label)隐藏。
 				unifyStNumericUpDown.Hide();
 				unifyStButton.Hide();
+                sLabel.Visible = false;
 			}
 		}
 
 		private void MultiStepForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+			//this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+			Location = MousePosition;
 		}
 
 		#region 各种事件
@@ -153,7 +155,7 @@ namespace LightController.MyForm
 		{
 			//通过了验证，才能继续运行核心代码
 			if (checkStepAndTds()) {
-				int commonValue = Decimal.ToInt16(commonValueNumericUpDown.Value);
+				int commonValue = Decimal.ToInt32(commonValueNumericUpDown.Value);
 				mainForm.SetMultiStepValues(MainFormBase.WHERE.SCROLL_VALUE,  tdIndexList, startStep,  endStep,  commonValue);
 			}
 		}
@@ -180,7 +182,7 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				int unifyStepTime = Decimal.ToInt16(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
+				int unifyStepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
 				mainForm.SetMultiStepValues(MainFormBase.WHERE.STEP_TIME, tdIndexList, startStep, endStep, unifyStepTime);
 			}
 		}
@@ -225,8 +227,8 @@ namespace LightController.MyForm
 		/// </summary>
 		private bool checkStepAndTds()
 		{
-			startStep = Decimal.ToInt16(startNumericUpDown.Value);
-			endStep = Decimal.ToInt16(endNumericUpDown.Value);
+			startStep = Decimal.ToInt32(startNumericUpDown.Value);
+			endStep = Decimal.ToInt32(endNumericUpDown.Value);
 
 			if (endStep < startStep)
 			{

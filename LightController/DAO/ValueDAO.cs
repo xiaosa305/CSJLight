@@ -172,6 +172,7 @@ namespace LightController.Ast
 
 						foreach (DB_Value value in frameValueList)
 						{
+							Console.WriteLine(value.PK);
 							session.Save(value);
 						}
 						tx.Commit();
@@ -223,10 +224,7 @@ namespace LightController.Ast
 					.CreateSQLQuery("select distinct LightID from value").List<int>();												
 				return tdList;
 			}
-		}
-
-	
+		}	
 	}
-
 
 }

@@ -14,7 +14,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static string DecimalStringToBinary(string s)
 		{
-			int decimalInt = Convert.ToInt16( s );
+			int decimalInt = Convert.ToInt32( s );
 			string result = Convert.ToString(decimalInt, 2);
 			return result;
 		}
@@ -36,7 +36,7 @@ namespace LightController.Common
 		/// <returns></returns>
 		public static string DecimalStringToHex(string s)
 		{
-			int decimalInt = Convert.ToInt16(s);
+			int decimalInt = Convert.ToInt32(s);
 			string result = Convert.ToString(decimalInt, 16);
 			return result;
 		}

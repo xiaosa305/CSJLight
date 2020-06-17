@@ -217,6 +217,18 @@
     <Compile Include="MyForm\LightEditor\WaySetForm.Designer.cs">
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\AddStepsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\AddStepsForm.Designer.cs">
+      <DependentUpon>AddStepsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DeleteStepsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DeleteStepsForm.Designer.cs">
+      <DependentUpon>DeleteStepsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Multiplex\GroupForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -452,7 +464,7 @@
     <Content Include="更新日志\v2.4.4.520.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="更新日志\v2.6.7.611.txt">
+    <Content Include="更新日志\v2.6.8.611.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="更新日志\v2.6.0.529.txt">
@@ -475,6 +487,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\AddStepsForm.resx">
+      <DependentUpon>AddStepsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\DeleteStepsForm.resx">
+      <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
       <DependentUpon>GroupForm.cs</DependentUpon>

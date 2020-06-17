@@ -40,8 +40,9 @@ namespace LightController
 
         private void LightsAstForm_Load(object sender, EventArgs e)
         {
-            this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
-        }
+            //this.Location = new Point(lightsForm.Location.X + 100, lightsForm.Location.Y + 100);
+			Location = MousePosition;
+		}
 
         // 辅助方法：用以读取灯具的数据：必须有的 通道数 ；可选的 图片地址
         private void readFile(string lightPath)
@@ -63,8 +64,8 @@ namespace LightController
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
-            int firstStartAddr = decimal.ToInt16(startAddrNumericUpDown.Value);
-            int addLightCount = decimal.ToInt16(lightCountNumericUpDown.Value);           
+            int firstStartAddr = decimal.ToInt32(startAddrNumericUpDown.Value);
+            int addLightCount = decimal.ToInt32(lightCountNumericUpDown.Value);           
             int lastEndAddr = firstStartAddr + addLightCount * tdCount - 1;  
         
 			if ( lastEndAddr > LightsForm.MAX_TD) {
@@ -72,7 +73,7 @@ namespace LightController
 				return;
 			}
 
-            if ( ! lightsForm.CheckAddrAvailale(-1, decimal.ToInt16(startAddrNumericUpDown.Value), lastEndAddr) ){
+            if ( ! lightsForm.CheckAddrAvailale(-1, decimal.ToInt32(startAddrNumericUpDown.Value), lastEndAddr) ){
                 MessageBox.Show("检测到您添加的灯具部分地址已被占用，\n请重新设置起始地址或灯具数量。");
                 return; 
             }

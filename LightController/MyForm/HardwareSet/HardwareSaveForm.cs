@@ -29,7 +29,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void NewHardwareForm_Load(object sender, EventArgs e)
 		{
-			Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
+			//Location = new Point(hardwareSetForm.Location.X + 100, hardwareSetForm.Location.Y + 100);
+			Location = MousePosition;
 			hardwareLibraryPath = IniFileHelper.GetSavePath(Application.StartupPath) + @"\HardwareLibrary\";
 		}
 

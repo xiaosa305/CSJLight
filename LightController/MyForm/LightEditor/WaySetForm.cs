@@ -258,7 +258,7 @@ namespace LightEditor
 				else
 				{
 					lightEditorForm.TongdaoList[tdIndex].TongdaoName = tdTextBoxes[tdIndex].Text.Trim();
-					lightEditorForm.TongdaoList[tdIndex].InitValue = Decimal.ToInt16(tdNumericUpDowns[tdIndex].Value);
+					lightEditorForm.TongdaoList[tdIndex].InitValue = Decimal.ToInt32(tdNumericUpDowns[tdIndex].Value);
 				}
 			}
 

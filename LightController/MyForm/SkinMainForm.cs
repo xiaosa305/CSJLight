@@ -554,7 +554,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saveSkinButton_Click(object sender, EventArgs e)
 		{
-			saveProjectClick();
+			
 		}
 
 		/// <summary>
@@ -1369,7 +1369,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void chooseStepSkinButton_Click(object sender, EventArgs e)
 		{
-			int step = Decimal.ToInt16(chooseStepNumericUpDown.Value);
+			int step = Decimal.ToInt32(chooseStepNumericUpDown.Value);
 			if (step != 0)
 			{
 				chooseStep(step);
@@ -1389,28 +1389,57 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《追加步》
+		/// 事件：空方法,为方便查找addStepSkinButton_MouseDown
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void addStepSkinButton_Click(object sender, EventArgs e)
-		{
-			addStepClick();
-		}
-		
+		private void addStepSkinButton_Click(object sender, EventArgs e)	{ }
+
 		/// <summary>
-		///  事件：点击《删除步》
-		///  1.获取当前步，当前步对应的stepIndex
-		///  2.通过stepIndex，DeleteStep(index);
-		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
+		/// 事件：鼠标（左|右键）按下《追加步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void deleteStepSkinButton_Click(object sender, EventArgs e)
+		private void addStepSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			deleteStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				addStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				addSomeStepClick();
+			}
 		}
-		
+
+		/// <summary>
+		///  事件：空方法，作用为方便查找deleteStepSkinButton_MouseDown
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteStepSkinButton_Click(object sender, EventArgs e){	}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《删除步》
+		///  左键 1.获取当前步，当前步对应的stepIndex
+		///	       2.通过stepIndex，DeleteStep(index);
+		///		   3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
+		///  右键 新建DeleteStepForm并显示
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteStepSkinButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				deleteStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				deleteSomeStepClick();
+			}
+		}
+
 		/// <summary>
 		/// 事件：点击《复制步》
 		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
@@ -1559,8 +1588,6 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncSkinButton.Text = isSyncMode? "退出同步":"进入同步";
-			multiplexSkinButton.Enabled = isSyncMode;
-			multiplexSkinButton.Visible = isSyncMode ;
 		}	
 
 		/// <summary>
@@ -1594,7 +1621,7 @@ namespace LightController.MyForm
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
-			multiplexSkinButton.Enabled = currentStep > 0 && isSyncMode;
+			multiplexSkinButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用
 			groupButton.Enabled = lightAstList != null && lightsSkinListView.SelectedIndices.Count > 1; //只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
@@ -1654,7 +1681,7 @@ namespace LightController.MyForm
 				decimal dd = tdSkinTrackBars[tdIndex].Value + tdSkinTrackBars[tdIndex].SmallChange;
 				if (dd <= tdSkinTrackBars[tdIndex].Maximum)
 				{
-					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 			// 向下滚
@@ -1663,19 +1690,31 @@ namespace LightController.MyForm
 				decimal dd = tdSkinTrackBars[tdIndex].Value - tdSkinTrackBars[tdIndex].SmallChange;
 				if (dd >= tdSkinTrackBars[tdIndex].Minimum)
 				{
-					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdSkinTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 		}
 
-		/// <summary>
-		///  事件：TrackBar滚轴值改变时的操作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdSkinTrackBars_ValueChanged(object sender, EventArgs e)
-		{
+        /// <summary>
+        ///  事件：TrackBar滚轴值改变时的操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tdSkinTrackBars_ValueChanged(object sender, EventArgs e)
+        {
+            //Console.WriteLine("tdSkinTrackBars_ValueChanged");
+            // 1.先找出对应tdSkinTrackBars的index 
+            int tongdaoIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+            int tdValue = tdSkinTrackBars[tongdaoIndex].Value;
 
+            //2.把滚动条的值赋给tdValueNumericUpDowns
+            // 8.28	：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+            tdValueNumericUpDowns[tongdaoIndex].Value = tdValue;
+            tdValueNumericUpDowns[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+
+            //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+            changeScrollValue(tongdaoIndex, tdValue);
         }
 
         /// <summary>
@@ -1684,9 +1723,22 @@ namespace LightController.MyForm
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void tdValueNumericUpDowns_ValueChanged(object sender, EventArgs e)
-		{
+        {
+            //Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
+            // 1. 找出对应的index
+            int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+            int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
+            // 2.调整相应的vScrollBar的数值；
+            // 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
+            tdSkinTrackBars[tongdaoIndex].ValueChanged -= new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+            tdSkinTrackBars[tongdaoIndex].Value = tdValue;
+            tdSkinTrackBars[tongdaoIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
+
+            //3.取出recentStep,使用取出的index，给stepWrapper.TongdaoList[index]赋值；并检查是否实时生成数据进行操作
+            changeScrollValue(tongdaoIndex, tdValue);
         }
+
 
         /// <summary>
         /// 事件：鼠标进入通道值输入框时，切换焦点;
@@ -1815,7 +1867,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			//MARK 步时间改动 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt16(tdStepTimeNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -2245,35 +2297,7 @@ namespace LightController.MyForm
 			connectButtonClick( deviceSkinComboBox.Text , deviceSkinComboBox.SelectedIndex );
 		}	
 
-		/// <summary>
-		/// 事件：点击《实时调试》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void realtimeSkinButton_Click(object sender, EventArgs e)
-		{
-			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-			if (!isRealtime)
-			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
-				realtimeSkinButton.Text = "关闭实时";
-				isRealtime = true;
-				if (!isConnectCom)
-				{
-					playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-				}
-				RefreshStep();
-				SetNotice("已开启实时调试。");
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
-				realtimeSkinButton.Text = "实时调试";
-				isRealtime = false;
-				playTools.ResetDebugDataToEmpty();
-				SetNotice("已退出实时调试。");
-			}
-		}
+		
 
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
@@ -2379,7 +2403,6 @@ namespace LightController.MyForm
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !isConnected;				
 						
-			realtimeSkinButton.Enabled = isConnected && !isPreviewing;
 			keepSkinButton.Enabled = isConnected && !isPreviewing;			
 			previewSkinButton.Enabled = isConnected && !isPreviewing;
 			makeSoundSkinButton.Enabled = isConnected && isPreviewing;
@@ -2523,28 +2546,56 @@ namespace LightController.MyForm
 		}
 
 
+		/// <summary>
+		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
+		///  --9.4禁用此功能，即无论是否屏蔽，
+		/// </summary>
+		/// <param name="tongdaoIndex">tongdaoList的Index</param>
+		/// <param name="shielded">是否被屏蔽</param>
+		//private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
+		//{
+		//	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
+		//	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
+		//}
+
+		/// <summary>
+		/// 事件：点击《实时调试》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		//private void realtimeSkinButton_Click(object sender, EventArgs e)
+		//{
+			//// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+			//if (!isRealtime)
+			//{
+			//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
+			//	realtimeSkinButton.Text = "关闭实时";
+			//	isRealtime = true;
+			//	if (!isConnectCom)
+			//	{
+			//		playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			//	}
+			//	RefreshStep();
+			//	SetNotice("已开启实时调试。");
+			//}
+			//else //否则( 按钮显示为“断开连接”）断开连接
+			//{
+			//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
+			//	realtimeSkinButton.Text = "实时调试";
+			//	isRealtime = false;
+			//	playTools.ResetDebugDataToEmpty();
+			//	SetNotice("已退出实时调试。");
+			//}
+		//}
+
+
+		#endregion
 
 
 
 
-        /// <summary>
-        ///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
-        ///  --9.4禁用此功能，即无论是否屏蔽，
-        /// </summary>
-        /// <param name="tongdaoIndex">tongdaoList的Index</param>
-        /// <param name="shielded">是否被屏蔽</param>
-        //private void enableTongdaoEdit(int tongdaoIndex, bool shielded)
-        //{
-        //	tdSkinTrackBars[tongdaoIndex].Enabled = shielded;
-        //	tdValueNumericUpDowns[tongdaoIndex].Enabled = shielded;
-        //	tdStepTimeNumericUpDowns[tongdaoIndex].Enabled = shielded;
-        //}		
-
-        #endregion
-
-        
-
-    }
+	}
 
 
 

@@ -23,7 +23,8 @@ namespace LightController.MyForm
 
 		private void MultiStepPasteForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 500, mainForm.Location.Y + 500);
+			//this.Location = new Point(mainForm.Location.X + 500, mainForm.Location.Y + 500);
+			Location = MousePosition;
 		}
 
 		/// <summary>

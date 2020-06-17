@@ -134,8 +134,8 @@ namespace LightController.MyForm
 			//}
 
 			// 1.4 起始步、结束步的验证
-			int startNum = Decimal.ToInt16(startNumericUpDown.Value);
-			int endNum = Decimal.ToInt16(endNumericUpDown.Value);
+			int startNum = Decimal.ToInt32(startNumericUpDown.Value);
+			int endNum = Decimal.ToInt32(endNumericUpDown.Value);
 			if (startNum > endNum)
 			{
 				MessageBox.Show("起始步不可大于结束步；请检查后重新保存。");
@@ -262,7 +262,8 @@ namespace LightController.MyForm
 
 		private void MaterialForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			//this.Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
+			Location = MousePosition;
 		}
 		
 		/// <summary>

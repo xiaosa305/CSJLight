@@ -204,6 +204,7 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(useFrameButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepButton, "跳转指定步");
 			myToolTip.SetToolTip(keepButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
+			myToolTip.SetToolTip(insertButton, "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。");
 
 			#region 皮肤 及 panel样式 相关代码
 
@@ -1400,7 +1401,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void chooseStepButton_Click(object sender, EventArgs e)
 		{
-			int step = Decimal.ToInt16(chooseStepNumericUpDown.Value);
+			int step = Decimal.ToInt32(chooseStepNumericUpDown.Value);
 			if (step != 0)
 			{
 				chooseStep(step);
@@ -1408,38 +1409,83 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：点击《插入步》
-		/// --前插和后插都调用同一个方法(触发键的Name决定)
+		/// 事件：点击《插入步》	(空方法，为方便定位insertAfterButton_MouseDown)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void insertStepButton_Click(object sender, EventArgs e)
-		{
-			bool insertBefore = ((Button)sender).Name.Equals("insertBeforeButton"); // 插入的方式：前插(true）还是后插（false)		
-			insertStepClick(insertBefore);
-		}
+		private void insertStepButton_Click(object sender, EventArgs e)	{	}
 
 		/// <summary>
-		/// 事件：点击《追加步》
+		/// 事件：鼠标左右键按下《插入步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void addStepButton_Click(object sender, EventArgs e)
+		private void insertAfterButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			addStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				insertStepClick( false);
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				if (getCurrentStep() == 0) {
+					insertStepClick(false);
+					return;
+				}
+				insertStepClick( true );
+			}
+		}
+
+
+		/// <summary>
+		/// 事件：点击《追加步》(空方法)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addStepButton_Click(object sender, EventArgs e) {  }
+
+		/// <summary>
+		///  事件：鼠标左|右键按下《追加步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addStepButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				addStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				addSomeStepClick();
+			}
 		}
 
 		/// <summary>
-		///  事件：点击《删除步》
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void deleteStepButton_Click(object sender, EventArgs e){	}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《删除步》
 		///  1.获取当前步，当前步对应的stepIndex
 		///  2.通过stepIndex，DeleteStep(index);
 		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void deleteStepButton_Click(object sender, EventArgs e)
+		private void deleteStepButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			deleteStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				deleteStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				deleteSomeStepClick();
+			}
 		}
 
 		/// <summary>
@@ -1587,8 +1633,6 @@ namespace LightController.MyForm
 		{
 			this.isSyncMode = isSyncMode;
 			syncButton.Text = isSyncMode ? "退出同步" : "进入同步";
-			multiplexButton.Enabled = isSyncMode;
-			multiplexButton.Visible = isSyncMode;
 		}
 
 		/// <summary>
@@ -1605,8 +1649,8 @@ namespace LightController.MyForm
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
 			addStepButton.Enabled = insertEnabled;
-			insertAfterButton.Enabled = insertEnabled;
-			insertBeforeButton.Enabled = insertEnabled && currentStep > 0;
+			insertButton.Enabled = insertEnabled;
+			//insertBeforeButton.Enabled = insertEnabled && currentStep > 0;
 
 			// 2.3 设定《上一步》《下一步》是否可用			
 			backStepButton.Enabled = totalStep > 1;
@@ -1619,7 +1663,7 @@ namespace LightController.MyForm
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
-			multiplexButton.Enabled = currentStep > 0 && isSyncMode;
+			multiplexButton.Enabled = currentStep > 0 ;
 
 			// 4.设定统一调整区是否可用						
 			groupButton.Enabled = lightAstList != null && lightsListView.SelectedIndices.Count > 1; // 只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
@@ -1687,7 +1731,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value + tdTrackBars[tdIndex].SmallChange;
 				if (dd <= tdTrackBars[tdIndex].Maximum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 			// 向下滚
@@ -1696,7 +1740,7 @@ namespace LightController.MyForm
 				decimal dd = tdTrackBars[tdIndex].Value - tdTrackBars[tdIndex].SmallChange;
 				if (dd >= tdTrackBars[tdIndex].Minimum)
 				{
-					tdTrackBars[tdIndex].Value = Decimal.ToInt16(dd);
+					tdTrackBars[tdIndex].Value = Decimal.ToInt32(dd);
 				}
 			}
 		}
@@ -1733,7 +1777,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
 			// 1. 找出对应的index
 			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
-			int tdValue = Decimal.ToInt16(tdValueNumericUpDowns[tongdaoIndex].Value);
+			int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
 			// 2.调整相应的vScrollBar的数值；
 			// 8.28 ：在修改时取消其监听事件，修改成功恢复监听；这样就能避免重复触发监听事件
@@ -1873,7 +1917,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			// MARK 步时间改动 NewMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt16(tdStNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
@@ -2149,7 +2193,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			int commonValue = Convert.ToInt16(unifyValueNumericUpDown.Text);
+			int commonValue = Convert.ToInt32(unifyValueNumericUpDown.Text);
 			for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
@@ -2227,7 +2271,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
+			int stepTime = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
 			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
 		}
 		
@@ -2250,7 +2294,7 @@ namespace LightController.MyForm
 				}
 
 				//MARK 步时间改动 NewMainForm：点击《统一步时间》的处理
-				int unifyStepTimeParsed = Decimal.ToInt16(unifyStepTimeNumericUpDown.Value / eachStepTime2);
+				int unifyStepTimeParsed = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
@@ -2401,33 +2445,7 @@ namespace LightController.MyForm
 			connectButtonClick(deviceComboBox.Text, deviceComboBox.SelectedIndex );
 		}		
 
-		/// <summary>
-		/// 事件：点击《实时调试|关闭实时》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void realtimeButton_Click(object sender, EventArgs e)
-		{
-			// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-			if (!isRealtime)
-			{				
-				realtimeButton.Text = "关闭\n实时调试";
-				isRealtime = true;				
-				if (!isConnectCom)
-				{
-					playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError ,eachStepTime);
-				}				
-				RefreshStep();
-				SetNotice("已开启实时调试。");
-			}
-			else //否则( 按钮显示为“断开连接”）断开连接
-			{
-				realtimeButton.Text = "实时调试";
-				isRealtime = false;
-				playTools.ResetDebugDataToEmpty();
-				SetNotice("已退出实时调试。");
-			}
-		}
+
 		
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
@@ -2520,7 +2538,7 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = !isConnected;
 			deviceRefreshButton.Enabled = !isConnected;
 
-			realtimeButton.Enabled = isConnected && !isPreviewing; 
+			//realtimeButton.Enabled = isConnected && !isPreviewing; 
 			keepButton.Enabled = isConnected && !isPreviewing; 
 			previewButton.Enabled = isConnected && !isPreviewing;
 			makeSoundButton.Enabled = isConnected && isPreviewing;
@@ -2562,7 +2580,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-		
+			Console.WriteLine(lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.Count);
+			foreach (StepWrapper sw in lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList)
+			{
+				Console.WriteLine(lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.IndexOf(sw) );
+			}
 		}
 		
 		/// <summary>
@@ -2596,6 +2618,33 @@ namespace LightController.MyForm
 			MessageBox.Show(serverFileVersion);
 		}
 
+		///// <summary>
+		///// 事件：点击《实时调试|关闭实时》
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void realtimeButton_Click(object sender, EventArgs e)
+		//{
+			//默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+			//if (!isRealtime)
+			//{
+			//	realtimeButton.Text = "关闭\n实时调试";
+			//	isRealtime = true;
+			//	if (!isConnectCom)
+			//	{
+			//		playTools.StartInternetPreview(myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+			//	}
+			//	RefreshStep();
+			//	SetNotice("已开启实时调试。");
+			//}
+			//else //否则( 按钮显示为“断开连接”）断开连接
+			//{
+			//	realtimeButton.Text = "实时调试";
+			//	isRealtime = false;
+			//	playTools.ResetDebugDataToEmpty();
+			//	SetNotice("已退出实时调试。");
+			//}
+		//}
 
-    }
+	}
 }

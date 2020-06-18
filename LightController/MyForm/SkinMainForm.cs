@@ -346,6 +346,7 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(useFrameSkinButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
 			myToolTip.SetToolTip(chooseStepSkinButton, "跳转指定步");
 			myToolTip.SetToolTip(keepSkinButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
+			myToolTip.SetToolTip(insertSkinButton, "左键点击为后插步,右键点击为前插步。");
 
 			isInit = true;
 		}
@@ -1382,10 +1383,28 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void insertStepButton_Click(object sender, EventArgs e)
-		{			
-			bool insertBefore = ((Button)sender).Name.Equals("insertBeforeSkinButton"); // 插入的方式：前插(true）还是后插（false)			
-			insertStepClick(insertBefore);
+		private void insertSkinButton_Click(object sender, EventArgs e) 	{	}
+
+		/// <summary>
+		/// 事件：鼠标左右键按下《插入步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void insertSkinButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				insertStepClick(false);
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				if (getCurrentStep() == 0)
+				{
+					insertStepClick(false);
+					return;
+				}
+				insertStepClick(true);
+			}
 		}
 
 		/// <summary>
@@ -1439,37 +1458,7 @@ namespace LightController.MyForm
 				deleteSomeStepClick();
 			}
 		}
-
-		/// <summary>
-		/// 事件：点击《复制步》
-		/// 1.从项目中选择当前灯的当前步，(若当前步为空，则无法复制），把它赋给tempStep数据。
-		/// 2.若复制成功，则《粘贴步》按钮可用
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void copyStepSkinButton_Click(object sender, EventArgs e)
-		{
-			if (getCurrentStepWrapper() == null)
-			{
-				MessageBox.Show("当前步数据为空，无法复制");
-			}
-			else
-			{
-				tempStep = getCurrentStepWrapper();
-				pasteStepSkinButton.Enabled = true;
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《粘贴步》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void pasteStepSkinButton_Click(object sender, EventArgs e)
-		{
-			pasteStepClick();
-		}
-		
+			
 		/// <summary>		
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
 		/// </summary>
@@ -1607,17 +1596,13 @@ namespace LightController.MyForm
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
 			addStepSkinButton.Enabled = insertEnabled;
-			insertAfterSkinButton.Enabled = insertEnabled;
-			insertBeforeSkinButton.Enabled = insertEnabled && currentStep > 0;
+			insertSkinButton.Enabled = insertEnabled ;
 
 			// 2.3 设定《上一步》《下一步》是否可用			
 			backStepSkinButton.Enabled = totalStep > 1;
 			nextStepSkinButton.Enabled = totalStep > 1;
 
 			//3 设定《复制(多)步、保存素材》、《多步复用》等是否可用
-			copyStepSkinButton.Enabled = currentStep > 0;
-			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
-
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
@@ -2521,6 +2506,9 @@ namespace LightController.MyForm
 		}
 
 
+
+
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2541,33 +2529,31 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		//private void realtimeSkinButton_Click(object sender, EventArgs e)
 		//{
-			//// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-			//if (!isRealtime)
-			//{
-			//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
-			//	realtimeSkinButton.Text = "关闭实时";
-			//	isRealtime = true;
-			//	if (!isConnectCom)
-			//	{
-			//		playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-			//	}
-			//	RefreshStep();
-			//	SetNotice("已开启实时调试。");
-			//}
-			//else //否则( 按钮显示为“断开连接”）断开连接
-			//{
-			//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
-			//	realtimeSkinButton.Text = "实时调试";
-			//	isRealtime = false;
-			//	playTools.ResetDebugDataToEmpty();
-			//	SetNotice("已退出实时调试。");
-			//}
+		//// 默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+		//if (!isRealtime)
+		//{
+		//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试;
+		//	realtimeSkinButton.Text = "关闭实时";
+		//	isRealtime = true;
+		//	if (!isConnectCom)
+		//	{
+		//		playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+		//	}
+		//	RefreshStep();
+		//	SetNotice("已开启实时调试。");
+		//}
+		//else //否则( 按钮显示为“断开连接”）断开连接
+		//{
+		//	realtimeSkinButton.Image = global::LightController.Properties.Resources.实时调试02;
+		//	realtimeSkinButton.Text = "实时调试";
+		//	isRealtime = false;
+		//	playTools.ResetDebugDataToEmpty();
+		//	SetNotice("已退出实时调试。");
+		//}
 		//}
 
 
 		#endregion
-
-
 
 
 	}

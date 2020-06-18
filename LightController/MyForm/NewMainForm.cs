@@ -1649,16 +1649,15 @@ namespace LightController.MyForm
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
 			addStepButton.Enabled = insertEnabled;
-			insertButton.Enabled = insertEnabled;
-			//insertBeforeButton.Enabled = insertEnabled && currentStep > 0;
+			insertButton.Enabled = insertEnabled;			
 
 			// 2.3 设定《上一步》《下一步》是否可用			
 			backStepButton.Enabled = totalStep > 1;
 			nextStepButton.Enabled = totalStep > 1;
 
 			// 3. 设定《复制(多)步》是否可用
-			copyStepButton.Enabled = currentStep > 0;
-			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
+			//copyStepButton.Enabled = currentStep > 0;
+			//pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
 
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;

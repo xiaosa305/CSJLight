@@ -683,6 +683,8 @@ namespace LightController.MyForm
 			this.panel1.Controls.Add(this.unifyChangeModeComboBox);
 			this.panel1.Controls.Add(this.unifyStepTimeButton);
 			this.panel1.Controls.Add(this.unifyValueNumericUpDown);
+			this.panel1.Controls.Add(this.copyStepButton);
+			this.panel1.Controls.Add(this.pasteStepButton);
 			this.panel1.Location = new System.Drawing.Point(93, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(185, 297);
@@ -1209,9 +1211,7 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.deleteStepButton);
 			this.stepPanel.Controls.Add(this.multiplexButton);
 			this.stepPanel.Controls.Add(this.multiCopyButton);
-			this.stepPanel.Controls.Add(this.copyStepButton);
 			this.stepPanel.Controls.Add(this.addStepButton);
-			this.stepPanel.Controls.Add(this.pasteStepButton);
 			this.stepPanel.Enabled = false;
 			this.stepPanel.Location = new System.Drawing.Point(84, 0);
 			this.stepPanel.Name = "stepPanel";
@@ -1224,7 +1224,7 @@ namespace LightController.MyForm
 			this.chooseStepButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.chooseStepButton.Location = new System.Drawing.Point(546, 48);
 			this.chooseStepButton.Name = "chooseStepButton";
-			this.chooseStepButton.Size = new System.Drawing.Size(54, 23);
+			this.chooseStepButton.Size = new System.Drawing.Size(75, 23);
 			this.chooseStepButton.TabIndex = 54;
 			this.chooseStepButton.Text = "->";
 			this.chooseStepButton.UseVisualStyleBackColor = true;
@@ -1232,7 +1232,7 @@ namespace LightController.MyForm
 			// 
 			// saveMaterialButton
 			// 
-			this.saveMaterialButton.Location = new System.Drawing.Point(801, 16);
+			this.saveMaterialButton.Location = new System.Drawing.Point(748, 16);
 			this.saveMaterialButton.Name = "saveMaterialButton";
 			this.saveMaterialButton.Size = new System.Drawing.Size(75, 23);
 			this.saveMaterialButton.TabIndex = 49;
@@ -1291,7 +1291,7 @@ namespace LightController.MyForm
 			// 
 			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(546, 17);
 			this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
-			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(54, 21);
+			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(75, 21);
 			this.chooseStepNumericUpDown.TabIndex = 52;
 			this.chooseStepNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -1315,7 +1315,7 @@ namespace LightController.MyForm
 			this.syncButton.FlatAppearance.BorderSize = 0;
 			this.syncButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.syncButton.ImageKey = "复制步.png";
-			this.syncButton.Location = new System.Drawing.Point(886, 16);
+			this.syncButton.Location = new System.Drawing.Point(833, 16);
 			this.syncButton.Name = "syncButton";
 			this.syncButton.Size = new System.Drawing.Size(75, 23);
 			this.syncButton.TabIndex = 49;
@@ -1350,7 +1350,7 @@ namespace LightController.MyForm
 			// 
 			// multiPasteButton
 			// 
-			this.multiPasteButton.Location = new System.Drawing.Point(715, 48);
+			this.multiPasteButton.Location = new System.Drawing.Point(662, 48);
 			this.multiPasteButton.Name = "multiPasteButton";
 			this.multiPasteButton.Size = new System.Drawing.Size(75, 23);
 			this.multiPasteButton.TabIndex = 49;
@@ -1381,7 +1381,7 @@ namespace LightController.MyForm
 			// 
 			// useMaterialButton
 			// 
-			this.useMaterialButton.Location = new System.Drawing.Point(801, 48);
+			this.useMaterialButton.Location = new System.Drawing.Point(748, 48);
 			this.useMaterialButton.Name = "useMaterialButton";
 			this.useMaterialButton.Size = new System.Drawing.Size(75, 23);
 			this.useMaterialButton.TabIndex = 49;
@@ -1403,7 +1403,7 @@ namespace LightController.MyForm
 			// multiplexButton
 			// 
 			this.multiplexButton.Enabled = false;
-			this.multiplexButton.Location = new System.Drawing.Point(886, 48);
+			this.multiplexButton.Location = new System.Drawing.Point(833, 48);
 			this.multiplexButton.Name = "multiplexButton";
 			this.multiplexButton.Size = new System.Drawing.Size(75, 23);
 			this.multiplexButton.TabIndex = 49;
@@ -1413,7 +1413,7 @@ namespace LightController.MyForm
 			// 
 			// multiCopyButton
 			// 
-			this.multiCopyButton.Location = new System.Drawing.Point(716, 16);
+			this.multiCopyButton.Location = new System.Drawing.Point(663, 16);
 			this.multiCopyButton.Name = "multiCopyButton";
 			this.multiCopyButton.Size = new System.Drawing.Size(75, 23);
 			this.multiCopyButton.TabIndex = 49;
@@ -1423,7 +1423,7 @@ namespace LightController.MyForm
 			// 
 			// copyStepButton
 			// 
-			this.copyStepButton.Location = new System.Drawing.Point(631, 16);
+			this.copyStepButton.Location = new System.Drawing.Point(16, 13);
 			this.copyStepButton.Name = "copyStepButton";
 			this.copyStepButton.Size = new System.Drawing.Size(75, 23);
 			this.copyStepButton.TabIndex = 49;
@@ -1444,7 +1444,7 @@ namespace LightController.MyForm
 			// 
 			// pasteStepButton
 			// 
-			this.pasteStepButton.Location = new System.Drawing.Point(631, 48);
+			this.pasteStepButton.Location = new System.Drawing.Point(97, 13);
 			this.pasteStepButton.Name = "pasteStepButton";
 			this.pasteStepButton.Size = new System.Drawing.Size(75, 23);
 			this.pasteStepButton.TabIndex = 49;

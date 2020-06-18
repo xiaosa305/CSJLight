@@ -2484,7 +2484,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void makeSoundButton_Click(object sender, EventArgs e)
 		{
-			playTools.MusicControl();			
+			makeSoundButtonClick();
 		}
 
 		/// <summary>

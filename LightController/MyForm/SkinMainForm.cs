@@ -2281,9 +2281,7 @@ namespace LightController.MyForm
 		{			
 			connectButtonClick( deviceSkinComboBox.Text , deviceSkinComboBox.SelectedIndex );
 		}	
-
 		
-
 		/// <summary>
 		/// 事件：点击《保持状态|取消保持》
 		/// </summary>
@@ -2316,12 +2314,7 @@ namespace LightController.MyForm
 		{
 			previewButtonClick();
 		}		
-
-		public override void SetPreview(bool preview) {
-            previewSkinButton.Image = preview ?  Properties.Resources.浏览效果后 :	Properties.Resources.浏览效果前;
-			previewSkinButton.Text = preview ? "停止预览" : "预览效果";
-        }  
-
+		
         /// <summary>
         ///  事件：点击《触发音频》
         /// </summary>
@@ -2329,25 +2322,9 @@ namespace LightController.MyForm
         /// <param name="e"></param>
         private void makeSoundSkinButton_Click(object sender, EventArgs e)
 		{
-			
-			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频后;
-			Refresh();
-
-			playTools.MusicControl();	
-
-			makeSoundSkinButton.Image = global::LightController.Properties.Resources.触发音频;
+			makeSoundButtonClick();
 		}
 
-		/// <summary>
-		/// 事件： 点击《结束预览》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void endviewSkinButton_Click(object sender, EventArgs e)
-		{
-
-		}				
-		
 		/// <summary>
 		///  辅助方法：《连接设备按钮组》是否显示
 		/// </summary>
@@ -2388,7 +2365,27 @@ namespace LightController.MyForm
 		{
 			base.oneStepWork();            
         }
-			   
+
+		/// <summary>
+		/// 辅助方法：根据入参，调整《预览效果|停止预览》按键的显示
+		/// </summary>
+		/// <param name="preview"></param>
+		public override void SetPreview(bool preview)
+		{
+			previewSkinButton.Image = preview ? Properties.Resources.浏览效果后 : Properties.Resources.浏览效果前;
+			previewSkinButton.Text = preview ? "停止预览" : "预览效果";
+		}
+
+		/// <summary>
+		/// 辅助方法：根据入参，调整《触发音频》按键的显示
+		/// </summary>
+		/// <param name="preview"></param>
+		protected override void setMakeSound(bool makeSound)
+		{
+			makeSoundSkinButton.Image = makeSound ? Properties.Resources.触发音频后 : Properties.Resources.触发音频;
+			Refresh();
+		}
+
 		#endregion
 
 		#region 几个全局辅助方法
@@ -2504,11 +2501,7 @@ namespace LightController.MyForm
 			//lightsSkinListView.Items[2].Selected = true;
 			//lightsSkinListView.Select();
 		}
-
-
-
-
-
+		
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，

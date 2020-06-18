@@ -147,7 +147,8 @@ namespace LightController.MyForm
         protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
         protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons
 
-        public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，更改显示效果
+        public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
+		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
 		public virtual void EnableConnectedButtons(bool connected,bool previewing) { } //设置《连接按钮组》是否可用	
@@ -3468,7 +3469,7 @@ namespace LightController.MyForm
 				endview();
 				RefreshStep();
 				SetPreview(false);
-				SetNotice("已结束预览。");
+				SetNotice("已结束预览,并恢复到实时调试模式。");
 			}
 			// 开始预览
 			else
@@ -3496,6 +3497,22 @@ namespace LightController.MyForm
 					setBusy(false);
 				}
 			}
+		}
+
+		/// <summary>
+		/// 辅助方法：点击触发音频
+		/// </summary>
+		protected void makeSoundButtonClick() {
+			// 若还在触发状态中，则不再触发
+			if (!playTools.GetMusicStatus())
+			{
+				Console.WriteLine("Dickov:触发音频中，不再重复触发...");
+				return;
+			}
+
+			setMakeSound(true);
+			playTools.MusicControl();
+			setMakeSound(false);
 		}
 
 		#endregion

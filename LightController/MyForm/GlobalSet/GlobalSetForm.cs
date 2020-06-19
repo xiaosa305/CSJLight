@@ -305,7 +305,7 @@ namespace LightController.MyForm
 			//eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
 			//mainForm.ChangeEachStepTime( eachStepTime );
 	
-			MessageBox.Show("保存成功");
+			MessageBox.Show("开机场景、场景切换跳渐变\n等全局设置保存成功");
 		}
 			
 		/// <summary>
@@ -324,7 +324,7 @@ namespace LightController.MyForm
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  frameComboBoxes[i].SelectedIndex);
 				iniAst.WriteString("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Text );
 			}
-			MessageBox.Show("保存成功");
+			MessageBox.Show( "场景【"+zuheFrameComboBox.Text + "】的组合播放设置\n保存成功");
 		}
 
 		/// <summary>

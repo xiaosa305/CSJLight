@@ -37,7 +37,6 @@ namespace LightController.MyForm
 			InitializeComponent();
 
 			#region 初始化辅助数组，及其他默认选项
-
 		
 			// 初始化多场景组合播放输入项
 			this.frameComboBoxes[0] = frame1ComboBox;

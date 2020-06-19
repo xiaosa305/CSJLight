@@ -28,7 +28,7 @@ namespace LightController.MyForm
 		private Label[] stLabels;
 		private NumericUpDown[] skJGTimeNumericUpDowns;
 		private Label[] jgLabels;
-		private TextBox[] skTextBoxes;	
+		private TextBox[] lkTextBoxes;	
 
 		public GlobalSetForm(MainFormBase mainForm) {
 
@@ -90,7 +90,7 @@ namespace LightController.MyForm
 			stLabels = new Label[frameCount];
 			skJGTimeNumericUpDowns = new NumericUpDown[frameCount];
 			jgLabels = new Label[frameCount];
-			skTextBoxes = new TextBox[frameCount];
+			lkTextBoxes = new TextBox[frameCount];
 
 			#endregion
 
@@ -177,8 +177,8 @@ namespace LightController.MyForm
 
 				skJGTimeNumericUpDowns[frameIndex].Value = iniAst.ReadInt("SK", frameIndex + "JG", 0);
 
-				skTextBoxes[frameIndex].Text = iniAst.ReadString("SK", frameIndex + "LK","");
-				skTextBoxes[frameIndex].KeyPress += new KeyPressEventHandler(skFrameTextBox_KeyPress);
+				lkTextBoxes[frameIndex].Text = iniAst.ReadString("SK", frameIndex + "LK","");
+				lkTextBoxes[frameIndex].KeyPress += new KeyPressEventHandler(skFrameTextBox_KeyPress);
 			}
 			
 		}
@@ -198,9 +198,9 @@ namespace LightController.MyForm
 
 			skLabels[frameIndex] = new Label
 			{
-				AutoSize = false,
-				Location = new System.Drawing.Point(8, 8),
-				Size = new System.Drawing.Size(65, 12),
+				AutoSize = frameLabel.AutoSize,
+				Location = frameLabel.Location,
+				Size = frameLabel.Size,
 				Text = frameName
 			};			
 			myToolTip.SetToolTip(skLabels[frameIndex], frameName);
@@ -208,9 +208,10 @@ namespace LightController.MyForm
 			// 步时间
 			skStepTimeNumericUpDowns[frameIndex] = new NumericUpDown
 			{
-				Location = new System.Drawing.Point(100, 4),				
-				Size = new System.Drawing.Size(48, 21),
-				TextAlign = HorizontalAlignment.Center,
+				Location = stNumericUpDown.Location,
+				Size = stNumericUpDown.Size,				
+				Font  =stNumericUpDown.Font,
+				TextAlign = stNumericUpDown.TextAlign,
 				Maximum = MainFormBase.MAX_StTimes * eachStepTime2,
 				Increment = eachStepTime2,
 				DecimalPlaces = 2
@@ -219,36 +220,37 @@ namespace LightController.MyForm
 			// 步时间的Label
 			stLabels[frameIndex] = new Label
 			{
-				AutoSize = false,
-				Location = new System.Drawing.Point(154, 8),				
-				Size = new System.Drawing.Size(11, 12),				
-				Text = "s"
+				AutoSize = stLabel.AutoSize,
+				Location = stLabel.Location,				
+				Size =stLabel.Size,				
+				Text = stLabel.Text
 			};		
 
 			// 间隔时间
 			skJGTimeNumericUpDowns[frameIndex] = new NumericUpDown
 			{
-				Location = new System.Drawing.Point(188, 4),				
-				Size = new System.Drawing.Size(55, 21),
-				TextAlign = HorizontalAlignment.Center,
+				Location = jgNumericUpDown.Location,
+				Size = jgNumericUpDown.Size,
+				Font = jgNumericUpDown.Font,
+				TextAlign = jgNumericUpDown.TextAlign,
 				Maximum = new decimal(new int[] { 10000, 0, 0, 0 })
 			};
 
 			// 间隔时间的Label
 			jgLabels[frameIndex] = new Label
 			{
-				AutoSize = false,
-				Location = new System.Drawing.Point(243, 8),			
-				Size = new System.Drawing.Size(17, 12),		
-				Text = "ms"
+				AutoSize = jgLabel.AutoSize,
+				Location = jgLabel.Location,			
+				Size = jgLabel.Size,
+				Text = jgLabel.Text
 			};
 
 			// 链表输入框
-			skTextBoxes[frameIndex] = new TextBox {
-				BackColor = System.Drawing.Color.White,				
-				Location = new System.Drawing.Point(275, 3),
-				MaxLength = 20,				
-				Size = new System.Drawing.Size(170, 22)
+			lkTextBoxes[frameIndex] = new TextBox {
+				BackColor = lkTextBox.BackColor,	
+				Location = lkTextBox.Location,
+				Size = lkTextBox.Size,
+				MaxLength = 20				
 			};
 
 			skPanels[frameIndex].Controls.Add(skLabels[frameIndex]);
@@ -256,7 +258,7 @@ namespace LightController.MyForm
 			skPanels[frameIndex].Controls.Add(stLabels[frameIndex]);
 			skPanels[frameIndex].Controls.Add(skJGTimeNumericUpDowns[frameIndex]);
 			skPanels[frameIndex].Controls.Add(jgLabels[frameIndex]);
-			skPanels[frameIndex].Controls.Add(skTextBoxes[frameIndex]);
+			skPanels[frameIndex].Controls.Add(lkTextBoxes[frameIndex]);
 
 			skFlowLayoutPanel.Controls.Add(skPanels[frameIndex]);
 		}
@@ -341,13 +343,13 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void skFrameSaveSkinButton_Click(object sender, EventArgs e)
+		private void skSaveButton_Click(object sender, EventArgs e)
 		{
 			for (int i = 0; i < frameCount; i++)
 			{
 				iniAst.WriteString("SK", i + "ST", (skStepTimeNumericUpDowns[i].Value / eachStepTime2).ToString());
 				iniAst.WriteString("SK", i + "JG", skJGTimeNumericUpDowns[i].Text);
-				iniAst.WriteString("SK", i + "LK", skTextBoxes[i].Text.Trim());
+				iniAst.WriteString("SK", i + "LK", lkTextBoxes[i].Text.Trim());
 			}
 			MessageBox.Show("音频场景设置保存成功");
 		}

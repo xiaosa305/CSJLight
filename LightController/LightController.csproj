@@ -464,6 +464,9 @@
     <Content Include="更新日志\v2.4.4.520.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="更新日志\v2.7.0.619.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="更新日志\v2.6.8.611.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

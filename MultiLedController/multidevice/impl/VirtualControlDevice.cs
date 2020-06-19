@@ -19,8 +19,7 @@ namespace MultiLedController.multidevice.impl
         private readonly Object SYNCHROLOCK_KEY = new object();//同步资源锁
 
 
-        //TODO XIAOSA 待删除
-        //private List<VirtualClient> VirtualClients { get; set; }//虚拟客户端池
+        private List<VirtualClient> VirtualClients { get; set; }//虚拟客户端池
         private int VirtualDeviceIndex { get; set; }//虚拟控制卡编号
         private ControlDevice ControlDevice { get; set; }//控制卡信息
 
@@ -76,7 +75,7 @@ namespace MultiLedController.multidevice.impl
             this.InitParameter();
             this.InitUdpServers();
             this.InitControlDeviceDebugAndRecodeThread();
-            //this.CreateVirtualClient(startLedSpace, device, ips);
+            this.CreateVirtualClient(startLedSpace, device, ips);
         }
         /// <summary>
         /// 功能：初始化参数
@@ -88,8 +87,7 @@ namespace MultiLedController.multidevice.impl
             this.RecordDmxDataQueue = new RecodeDmxDataQueue();
 
 
-            //TODO XIAOSA 待删除
-            //this.VirtualClients = new List<VirtualClient>();
+            this.VirtualClients = new List<VirtualClient>();
             this.VirtualClientDmxDatas = new Dictionary<int, List<byte>>();
             this.VirtualClientDmxDataResponseStatus = new Dictionary<int, bool>();
             this.IsRecordStatus = false;
@@ -150,12 +148,11 @@ namespace MultiLedController.multidevice.impl
                 }
                 this.DebugFrameCountResponse_Event = null;
                 this.RecordFrameCountResponse_Event = null;
-                //TODO XIAOSA 待删除
-                //foreach (VirtualClient client in this.VirtualClients)
-                //{
-                //    client.CloseVirtualClient();
-                //}
-                //this.VirtualClients = new List<VirtualClient>();
+                foreach (VirtualClient client in this.VirtualClients)
+                {
+                    client.CloseVirtualClient();
+                }
+                this.VirtualClients = new List<VirtualClient>();
             }
             catch (Exception ex)
             {
@@ -175,9 +172,8 @@ namespace MultiLedController.multidevice.impl
             this.ControlDeviceRecordThread.Start();
         }
 
-        //TODO XIAOSA 待删除
         /// <summary>
-        /// 功能：穿件虚拟客户端接收DMX数据
+        /// 功能：创建虚拟客户端接收DMX数据
         /// </summary>
         /// <param name="startLedSpace"></param>
         /// <param name="device"></param>
@@ -293,31 +289,6 @@ namespace MultiLedController.multidevice.impl
                         this.IsDebugStatus = true;
                         Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
                     }
-                    else
-                    {
-                        if (receiveData[8] == 0x00 && receiveData[9] == 0x21)//接收到其他设备发送ArtPollReply包
-                        {
-                            continue;
-                        }
-                        else if (receiveData[8] == 0x00 && receiveData[9] == 0x20)//接收到ArtPoll包
-                        {
-                            this.ResponseForSearchDevice();
-                        }
-                        else if (receiveData[8] == 0x00 && receiveData[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
-                        {
-                        }
-                        else if (receiveData[8] == 0x00 && receiveData[9] == 0x50)//这是ArtDMX数据包
-                        {
-                            int physicalPortIndex = Convert.ToInt16(receiveData[13]);
-                            int universe = (int)(receiveData[14] & 0xFF) | ((receiveData[15] & 0xFF) << 8);//实际空间编号
-                            int dataLength = (int)(receiveData[17] & 0xFF) | ((receiveData[16] & 0xFF) << 8);
-                            byte[] dmxData = new byte[dataLength];
-                            Array.Copy(receiveData, 18, dmxData, 0, dataLength);
-                            List<byte> data = new List<byte>();
-                            data.AddRange(dmxData);
-                            //this.DmxDataResponse_Event(universe, new List<byte>(data));
-                        }
-                    }
                 }
             }
             catch (Exception)
@@ -325,44 +296,6 @@ namespace MultiLedController.multidevice.impl
                 //LogTools.Debug(Constant.TAG_XIAOSA, "控制卡服务器已关闭");
             }
         }
-
-
-        private void ResponseForSearchDevice()
-        {
-            byte[] data = Constant.GetReceiveDataBySerchDeviceOrder();
-            for (int index = 0; index < this.VirtualClientIPs.Count; index++)
-            {
-                string virtualIp = this.VirtualClientIPs[index];
-                //修改IP地址
-                data[10] = Convert.ToByte(Convert.ToInt16(virtualIp.Split('.')[0]));
-                data[11] = Convert.ToByte(Convert.ToInt16(virtualIp.Split('.')[1]));
-                data[12] = Convert.ToByte(Convert.ToInt16(virtualIp.Split('.')[2]));
-                data[13] = Convert.ToByte(Convert.ToInt16(virtualIp.Split('.')[3]));
-
-                //修改空间号
-                data[186] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[0]);
-                data[187] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[1]);
-                data[188] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[2]);
-                data[189] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[3]);
-                data[190] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[0]);
-                data[191] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[1]);
-                data[192] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[2]);
-                data[193] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[3]);
-
-
-                //修改MAC地址
-                string macAddress = GetMacUtils.GetMac();
-                data[201] = Convert.ToByte(macAddress.Split(':')[0], 16);
-                data[202] = Convert.ToByte(macAddress.Split(':')[1], 16);
-                data[203] = Convert.ToByte(macAddress.Split(':')[2], 16);
-                data[204] = Convert.ToByte(macAddress.Split(':')[3], 16);
-                data[205] = Convert.ToByte(macAddress.Split(':')[4], 16);
-                data[206] = Convert.ToByte(macAddress.Split(':')[5], 16);
-                this.ControlDeviceUdpSend.SendTo(data, new IPEndPoint(IPAddress.Broadcast, VIRTUAL_CLIENT_PORT));
-            }
-          
-        }
-
 
         /// <summary>
         /// 功能：启动调试模式

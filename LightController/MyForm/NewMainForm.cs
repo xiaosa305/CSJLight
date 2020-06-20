@@ -2,6 +2,7 @@
 using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
+using LightController.MyForm.MainFormAst;
 using LightController.MyForm.Multiplex;
 using LightController.MyForm.Test;
 using LightController.PeripheralDevice;
@@ -713,6 +714,19 @@ namespace LightController.MyForm
 				if ( generateNow) {
 					generateLightData();
 					generateSAButtons();
+
+					//TODO 新增代码的雏形：每个灯具有自己的子属性Form，选中后，就弹出这个Form
+					//for (int lightIndex = 0; lightIndex < saFormList.Count; lightIndex++)
+					//{
+					//	if (lightIndex == selectedIndex)
+					//	{
+					//		saFormList[lightIndex].Location = new Point (Location.X - 200 , Location .Y)   ;
+					//		saFormList[lightIndex].Show();							
+					//	}
+					//	else {
+					//		saFormList[lightIndex].Hide();
+					//	}
+					//}
 				}												
 			}
 		}
@@ -850,10 +864,12 @@ namespace LightController.MyForm
 			LightAst la = lightAstList[selectedIndex];
 			try
 			{
-				for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
-				{
-					addTdSaButtons(la, tdIndex);
-				}
+				if (la.SawList != null) {
+					for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+					{
+						addTdSaButtons(la, tdIndex);
+					}
+				} 			
 			}
 			catch (Exception ex)
 			{
@@ -2541,11 +2557,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-			Console.WriteLine(lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.Count);
-			foreach (StepWrapper sw in lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList)
-			{
-				Console.WriteLine(lightWrapperList[selectedIndex].LightStepWrapperList[currentFrame, currentMode].StepWrapperList.IndexOf(sw) );
-			}
+			
+			Console.WriteLine(lightAstList[0].SawList);
 		}
 		
 		/// <summary>

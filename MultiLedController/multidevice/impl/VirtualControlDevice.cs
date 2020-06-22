@@ -279,9 +279,9 @@ namespace MultiLedController.multidevice.impl
             try
             {
                 UdpClient udpClient = obj as UdpClient;
+                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(this.ControlDevice.IP), this.ControlDevice.LinkPort);
                 while (this.ControlDeviceUdpReceiveStatus)
                 {
-                    IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(this.ControlDevice.IP), this.ControlDevice.LinkPort);
                     byte[] receiveData = udpClient.Receive(ref iPEndPoint);
                     if (Encoding.Default.GetString(receiveData).Equals(Constant.RECEIVE_START_DEBUF_MODE))
                     {
@@ -289,6 +289,7 @@ namespace MultiLedController.multidevice.impl
                         this.IsDebugStatus = true;
                         Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
                     }
+                    Thread.Sleep(0);
                 }
             }
             catch (Exception)

@@ -89,9 +89,9 @@ namespace MultiLedController.multidevice.impl
             try
             {
                 UdpClient udpClient = obj as UdpClient;
+                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(this.ServerIp), PORT);
                 while (this.UdpReceiveStatus)
                 {
-                    IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse(this.ServerIp), PORT);
                     byte[] receiveDataBuff = udpClient.Receive(ref iPEndPoint);
                     if (receiveDataBuff[8] == 0x00 && receiveDataBuff[9] == 0x21)//接收到其他设备发送ArtPollReply包
                     {
@@ -115,6 +115,7 @@ namespace MultiLedController.multidevice.impl
                         data.AddRange(dmxData);
                         this.DmxDataResponse_Event(universe, new List<byte>(data));
                     }
+                    Thread.Sleep(0);
                 }
             }
             catch (Exception ex)

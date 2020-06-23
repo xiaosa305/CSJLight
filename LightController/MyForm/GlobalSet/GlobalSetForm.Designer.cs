@@ -68,29 +68,27 @@ private System.ComponentModel.IContainer components = null;
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.circleTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-			this.panel27 = new System.Windows.Forms.Panel();
-			this.label14 = new System.Windows.Forms.Label();
-			this.label15 = new System.Windows.Forms.Label();
-			this.label16 = new System.Windows.Forms.Label();
-			this.panel28 = new System.Windows.Forms.Panel();
+			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.label21 = new System.Windows.Forms.Label();
+			this.label22 = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
+			this.panel3 = new System.Windows.Forms.Panel();
+			this.label16 = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
+			this.skNoticeButton = new System.Windows.Forms.Button();
+			this.skSaveButton = new System.Windows.Forms.Button();
+			this.label23 = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
+			this.skFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.skFrameFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.mFrameLKPanel = new System.Windows.Forms.Panel();
-			this.mLKSaveButton = new System.Windows.Forms.Button();
-			this.mNoticeButton = new System.Windows.Forms.Button();
-			this.mFrameTextBox = new System.Windows.Forms.TextBox();
-			this.mCurrentFrameLabel = new System.Windows.Forms.Label();
-			this.skFrameSaveButton = new System.Windows.Forms.Button();
-			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.jgLabel = new System.Windows.Forms.Label();
+			this.stLabel = new System.Windows.Forms.Label();
+			this.lkTextBox = new System.Windows.Forms.TextBox();
+			this.jgNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.stNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.frameLabel = new System.Windows.Forms.Label();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.dmxGroupBox.SuspendLayout();
 			this.globalGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.eachStepTimeNumericUpDown)).BeginInit();
@@ -102,14 +100,12 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).BeginInit();
-			this.groupBox1.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
-			this.flowLayoutPanel3.SuspendLayout();
-			this.panel27.SuspendLayout();
-			this.panel28.SuspendLayout();
+			this.panel3.SuspendLayout();
+			this.skFlowLayoutPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
-			this.skFrameFlowLayoutPanel.SuspendLayout();
-			this.mFrameLKPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).BeginInit();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// dmxGroupBox
@@ -150,9 +146,9 @@ private System.ComponentModel.IContainer components = null;
 			// globalSaveButton
 			// 
 			this.globalSaveButton.BackColor = System.Drawing.Color.Gainsboro;
-			this.globalSaveButton.Location = new System.Drawing.Point(155, 191);
+			this.globalSaveButton.Location = new System.Drawing.Point(146, 187);
 			this.globalSaveButton.Name = "globalSaveButton";
-			this.globalSaveButton.Size = new System.Drawing.Size(75, 23);
+			this.globalSaveButton.Size = new System.Drawing.Size(84, 37);
 			this.globalSaveButton.TabIndex = 7;
 			this.globalSaveButton.Text = "保存设置";
 			this.globalSaveButton.UseVisualStyleBackColor = false;
@@ -289,9 +285,9 @@ private System.ComponentModel.IContainer components = null;
 			// mFrameSaveButton
 			// 
 			this.mFrameSaveButton.BackColor = System.Drawing.Color.Gainsboro;
-			this.mFrameSaveButton.Location = new System.Drawing.Point(573, 21);
+			this.mFrameSaveButton.Location = new System.Drawing.Point(583, 20);
 			this.mFrameSaveButton.Name = "mFrameSaveButton";
-			this.mFrameSaveButton.Size = new System.Drawing.Size(70, 25);
+			this.mFrameSaveButton.Size = new System.Drawing.Size(70, 37);
 			this.mFrameSaveButton.TabIndex = 3;
 			this.mFrameSaveButton.Text = "保存当前";
 			this.mFrameSaveButton.UseVisualStyleBackColor = false;
@@ -338,11 +334,11 @@ private System.ComponentModel.IContainer components = null;
 			this.zuheEnableGroupBox.Controls.Add(this.frame1numericUpDown);
 			this.zuheEnableGroupBox.Controls.Add(this.label4);
 			this.zuheEnableGroupBox.Enabled = false;
-			this.zuheEnableGroupBox.Location = new System.Drawing.Point(13, 63);
+			this.zuheEnableGroupBox.Location = new System.Drawing.Point(4, 63);
 			this.zuheEnableGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.zuheEnableGroupBox.Name = "zuheEnableGroupBox";
 			this.zuheEnableGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.zuheEnableGroupBox.Size = new System.Drawing.Size(640, 174);
+			this.zuheEnableGroupBox.Size = new System.Drawing.Size(658, 174);
 			this.zuheEnableGroupBox.TabIndex = 0;
 			this.zuheEnableGroupBox.TabStop = false;
 			this.zuheEnableGroupBox.Text = "播放设置";
@@ -553,241 +549,252 @@ private System.ComponentModel.IContainer components = null;
             0,
             0});
 			// 
-			// groupBox1
+			// label21
 			// 
-			this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-			this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.groupBox1.Location = new System.Drawing.Point(4, 275);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-			this.groupBox1.Size = new System.Drawing.Size(968, 330);
-			this.groupBox1.TabIndex = 5;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "声控场景触发步数设置";
+			this.label21.AutoSize = true;
+			this.label21.Location = new System.Drawing.Point(101, 28);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(41, 12);
+			this.label21.TabIndex = 0;
+			this.label21.Text = "步时间";
+			this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.myToolTip.SetToolTip(this.label21, "当前场景音频模式的统一步时间");
 			// 
-			// tableLayoutPanel1
+			// label22
 			// 
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.skFrameFlowLayoutPanel, 1, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 16);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(964, 312);
-			this.tableLayoutPanel1.TabIndex = 4;
-			// 
-			// flowLayoutPanel3
-			// 
-			this.flowLayoutPanel3.Controls.Add(this.panel27);
-			this.flowLayoutPanel3.Controls.Add(this.panel28);
-			this.flowLayoutPanel3.Controls.Add(this.panel1);
-			this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
-			this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-			this.flowLayoutPanel3.Size = new System.Drawing.Size(134, 306);
-			this.flowLayoutPanel3.TabIndex = 0;
-			// 
-			// panel27
-			// 
-			this.panel27.Controls.Add(this.label14);
-			this.panel27.Controls.Add(this.label15);
-			this.panel27.Controls.Add(this.label16);
-			this.panel27.Location = new System.Drawing.Point(3, 3);
-			this.panel27.Name = "panel27";
-			this.panel27.Size = new System.Drawing.Size(129, 92);
-			this.panel27.TabIndex = 0;
-			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(7, 71);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(119, 12);
-			this.label14.TabIndex = 0;
-			this.label14.Text = "叠加后间隔时间(ms):";
-			// 
-			// label15
-			// 
-			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(11, 45);
-			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(113, 12);
-			this.label15.TabIndex = 0;
-			this.label15.Text = "场景音频步时间(s):";
-			// 
-			// label16
-			// 
-			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(4, 19);
-			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(125, 12);
-			this.label16.TabIndex = 0;
-			this.label16.Text = "点击编辑音频步数链表";
-			// 
-			// panel28
-			// 
-			this.panel28.Controls.Add(this.label17);
-			this.panel28.Controls.Add(this.label18);
-			this.panel28.Controls.Add(this.label19);
-			this.panel28.Location = new System.Drawing.Point(3, 101);
-			this.panel28.Name = "panel28";
-			this.panel28.Size = new System.Drawing.Size(129, 92);
-			this.panel28.TabIndex = 1;
+			this.label22.AutoSize = true;
+			this.label22.Location = new System.Drawing.Point(188, 28);
+			this.label22.Name = "label22";
+			this.label22.Size = new System.Drawing.Size(53, 12);
+			this.label22.TabIndex = 0;
+			this.label22.Text = "间隔时间";
+			this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.myToolTip.SetToolTip(this.label22, "叠加后间隔时间");
 			// 
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(7, 71);
+			this.label17.Location = new System.Drawing.Point(656, 28);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(119, 12);
-			this.label17.TabIndex = 0;
-			this.label17.Text = "叠加后间隔时间(ms):";
+			this.label17.Size = new System.Drawing.Size(53, 12);
+			this.label17.TabIndex = 9;
+			this.label17.Text = "间隔时间";
+			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.myToolTip.SetToolTip(this.label17, "叠加后间隔时间");
 			// 
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(11, 45);
+			this.label18.Location = new System.Drawing.Point(569, 28);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(113, 12);
-			this.label18.TabIndex = 0;
-			this.label18.Text = "场景音频步时间(s):";
+			this.label18.Size = new System.Drawing.Size(41, 12);
+			this.label18.TabIndex = 10;
+			this.label18.Text = "步时间";
+			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.myToolTip.SetToolTip(this.label18, "当前场景音频模式的统一步时间");
+			// 
+			// panel3
+			// 
+			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel3.Controls.Add(this.label16);
+			this.panel3.Controls.Add(this.label17);
+			this.panel3.Controls.Add(this.label18);
+			this.panel3.Controls.Add(this.label19);
+			this.panel3.Controls.Add(this.skNoticeButton);
+			this.panel3.Controls.Add(this.skSaveButton);
+			this.panel3.Controls.Add(this.label23);
+			this.panel3.Controls.Add(this.label22);
+			this.panel3.Controls.Add(this.label21);
+			this.panel3.Controls.Add(this.label12);
+			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel3.Location = new System.Drawing.Point(3, 17);
+			this.panel3.Name = "panel3";
+			this.panel3.Size = new System.Drawing.Size(962, 58);
+			this.panel3.TabIndex = 0;
+			// 
+			// label16
+			// 
+			this.label16.AutoSize = true;
+			this.label16.Location = new System.Drawing.Point(751, 28);
+			this.label16.Name = "label16";
+			this.label16.Size = new System.Drawing.Size(53, 12);
+			this.label16.TabIndex = 8;
+			this.label16.Text = "音频链表";
 			// 
 			// label19
 			// 
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(4, 19);
+			this.label19.Location = new System.Drawing.Point(476, 28);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(125, 12);
-			this.label19.TabIndex = 0;
-			this.label19.Text = "点击编辑音频步数链表";
+			this.label19.Size = new System.Drawing.Size(41, 12);
+			this.label19.TabIndex = 11;
+			this.label19.Text = "场景名";
+			// 
+			// skNoticeButton
+			// 
+			this.skNoticeButton.Location = new System.Drawing.Point(827, 6);
+			this.skNoticeButton.Name = "skNoticeButton";
+			this.skNoticeButton.Size = new System.Drawing.Size(44, 37);
+			this.skNoticeButton.TabIndex = 6;
+			this.skNoticeButton.Text = "提示";
+			this.skNoticeButton.UseVisualStyleBackColor = true;
+			this.skNoticeButton.Click += new System.EventHandler(this.skNoticeButton_Click);
+			// 
+			// skSaveButton
+			// 
+			this.skSaveButton.Location = new System.Drawing.Point(877, 6);
+			this.skSaveButton.Name = "skSaveButton";
+			this.skSaveButton.Size = new System.Drawing.Size(75, 37);
+			this.skSaveButton.TabIndex = 7;
+			this.skSaveButton.Text = "保存设置";
+			this.skSaveButton.UseVisualStyleBackColor = true;
+			this.skSaveButton.Click += new System.EventHandler(this.skSaveButton_Click);
+			// 
+			// label23
+			// 
+			this.label23.AutoSize = true;
+			this.label23.Location = new System.Drawing.Point(282, 28);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(53, 12);
+			this.label23.TabIndex = 0;
+			this.label23.Text = "音频链表";
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(8, 28);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(41, 12);
+			this.label12.TabIndex = 0;
+			this.label12.Text = "场景名";
+			// 
+			// skFlowLayoutPanel
+			// 
+			this.skFlowLayoutPanel.AutoScroll = true;
+			this.skFlowLayoutPanel.BackColor = System.Drawing.Color.AliceBlue;
+			this.skFlowLayoutPanel.Controls.Add(this.panel1);
+			this.skFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.skFlowLayoutPanel.Location = new System.Drawing.Point(3, 75);
+			this.skFlowLayoutPanel.Name = "skFlowLayoutPanel";
+			this.skFlowLayoutPanel.Size = new System.Drawing.Size(962, 266);
+			this.skFlowLayoutPanel.TabIndex = 6;
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.label8);
-			this.panel1.Controls.Add(this.label10);
-			this.panel1.Controls.Add(this.label11);
-			this.panel1.Location = new System.Drawing.Point(3, 199);
+			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel1.Controls.Add(this.jgLabel);
+			this.panel1.Controls.Add(this.stLabel);
+			this.panel1.Controls.Add(this.lkTextBox);
+			this.panel1.Controls.Add(this.jgNumericUpDown);
+			this.panel1.Controls.Add(this.stNumericUpDown);
+			this.panel1.Controls.Add(this.frameLabel);
+			this.panel1.Location = new System.Drawing.Point(3, 3);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(129, 92);
-			this.panel1.TabIndex = 1;
+			this.panel1.Size = new System.Drawing.Size(460, 33);
+			this.panel1.TabIndex = 12;
+			this.panel1.Visible = false;
 			// 
-			// label8
+			// jgLabel
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(7, 71);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(119, 12);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "叠加后间隔时间(ms):";
+			this.jgLabel.AutoSize = true;
+			this.jgLabel.Location = new System.Drawing.Point(250, 8);
+			this.jgLabel.Name = "jgLabel";
+			this.jgLabel.Size = new System.Drawing.Size(17, 12);
+			this.jgLabel.TabIndex = 12;
+			this.jgLabel.Text = "ms";
 			// 
-			// label10
+			// stLabel
 			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(11, 45);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(113, 12);
-			this.label10.TabIndex = 0;
-			this.label10.Text = "场景音频步时间(s):";
+			this.stLabel.AutoSize = true;
+			this.stLabel.Location = new System.Drawing.Point(151, 8);
+			this.stLabel.Name = "stLabel";
+			this.stLabel.Size = new System.Drawing.Size(11, 12);
+			this.stLabel.TabIndex = 11;
+			this.stLabel.Text = "s";
 			// 
-			// label11
+			// lkTextBox
 			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(3, 19);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(125, 12);
-			this.label11.TabIndex = 0;
-			this.label11.Text = "点击编辑音频步数链表";
+			this.lkTextBox.BackColor = System.Drawing.Color.White;
+			this.lkTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.lkTextBox.Location = new System.Drawing.Point(279, 3);
+			this.lkTextBox.MaxLength = 20;
+			this.lkTextBox.Multiline = true;
+			this.lkTextBox.Name = "lkTextBox";
+			this.lkTextBox.Size = new System.Drawing.Size(172, 22);
+			this.lkTextBox.TabIndex = 10;
+			this.lkTextBox.Text = "12345678901234567890";
+			this.lkTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// skFrameFlowLayoutPanel
+			// jgNumericUpDown
 			// 
-			this.skFrameFlowLayoutPanel.AutoScroll = true;
-			this.skFrameFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
-			this.skFrameFlowLayoutPanel.Controls.Add(this.mFrameLKPanel);
-			this.skFrameFlowLayoutPanel.Controls.Add(this.skFrameSaveButton);
-			this.skFrameFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.skFrameFlowLayoutPanel.Location = new System.Drawing.Point(143, 3);
-			this.skFrameFlowLayoutPanel.Name = "skFrameFlowLayoutPanel";
-			this.skFrameFlowLayoutPanel.Size = new System.Drawing.Size(818, 306);
-			this.skFrameFlowLayoutPanel.TabIndex = 0;
+			this.jgNumericUpDown.Font = new System.Drawing.Font("宋体", 10F);
+			this.jgNumericUpDown.Location = new System.Drawing.Point(184, 4);
+			this.jgNumericUpDown.Maximum = new decimal(new int[] {
+            600000,
+            0,
+            0,
+            0});
+			this.jgNumericUpDown.Name = "jgNumericUpDown";
+			this.jgNumericUpDown.Size = new System.Drawing.Size(65, 23);
+			this.jgNumericUpDown.TabIndex = 1;
+			this.jgNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.jgNumericUpDown.Value = new decimal(new int[] {
+            500000,
+            0,
+            0,
+            0});
 			// 
-			// mFrameLKPanel
+			// stNumericUpDown
 			// 
-			this.mFrameLKPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.mFrameLKPanel.Controls.Add(this.mLKSaveButton);
-			this.mFrameLKPanel.Controls.Add(this.mNoticeButton);
-			this.mFrameLKPanel.Controls.Add(this.mFrameTextBox);
-			this.mFrameLKPanel.Controls.Add(this.mCurrentFrameLabel);
-			this.mFrameLKPanel.Enabled = false;
-			this.mFrameLKPanel.Location = new System.Drawing.Point(3, 3);
-			this.mFrameLKPanel.Name = "mFrameLKPanel";
-			this.mFrameLKPanel.Size = new System.Drawing.Size(195, 90);
-			this.mFrameLKPanel.TabIndex = 4;
+			this.stNumericUpDown.Font = new System.Drawing.Font("宋体", 10F);
+			this.stNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+			this.stNumericUpDown.Location = new System.Drawing.Point(100, 4);
+			this.stNumericUpDown.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+			this.stNumericUpDown.Name = "stNumericUpDown";
+			this.stNumericUpDown.Size = new System.Drawing.Size(50, 23);
+			this.stNumericUpDown.TabIndex = 1;
+			this.stNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stNumericUpDown.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
 			// 
-			// mLKSaveButton
+			// frameLabel
 			// 
-			this.mLKSaveButton.Location = new System.Drawing.Point(109, 57);
-			this.mLKSaveButton.Name = "mLKSaveButton";
-			this.mLKSaveButton.Size = new System.Drawing.Size(70, 25);
-			this.mLKSaveButton.TabIndex = 10;
-			this.mLKSaveButton.Text = "保存链表";
-			this.mLKSaveButton.UseVisualStyleBackColor = true;
-			this.mLKSaveButton.Click += new System.EventHandler(this.mLKSaveButton_Click);
+			this.frameLabel.AutoSize = true;
+			this.frameLabel.Location = new System.Drawing.Point(8, 8);
+			this.frameLabel.Name = "frameLabel";
+			this.frameLabel.Size = new System.Drawing.Size(77, 12);
+			this.frameLabel.TabIndex = 0;
+			this.frameLabel.Text = "辅助场景十二";
 			// 
-			// mNoticeButton
+			// groupBox1
 			// 
-			this.mNoticeButton.Location = new System.Drawing.Point(11, 57);
-			this.mNoticeButton.Name = "mNoticeButton";
-			this.mNoticeButton.Size = new System.Drawing.Size(70, 25);
-			this.mNoticeButton.TabIndex = 3;
-			this.mNoticeButton.Text = "使用提示";
-			this.mNoticeButton.UseVisualStyleBackColor = true;
-			this.mNoticeButton.Click += new System.EventHandler(this.mNoticeButton_Click);
-			// 
-			// mFrameTextBox
-			// 
-			this.mFrameTextBox.BackColor = System.Drawing.Color.White;
-			this.mFrameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mFrameTextBox.Location = new System.Drawing.Point(11, 30);
-			this.mFrameTextBox.MaxLength = 20;
-			this.mFrameTextBox.Multiline = true;
-			this.mFrameTextBox.Name = "mFrameTextBox";
-			this.mFrameTextBox.Size = new System.Drawing.Size(172, 22);
-			this.mFrameTextBox.TabIndex = 9;
-			this.mFrameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mFrameTextBox_KeyPress);
-			// 
-			// mCurrentFrameLabel
-			// 
-			this.mCurrentFrameLabel.AutoSize = true;
-			this.mCurrentFrameLabel.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.mCurrentFrameLabel.Location = new System.Drawing.Point(12, 12);
-			this.mCurrentFrameLabel.Name = "mCurrentFrameLabel";
-			this.mCurrentFrameLabel.Size = new System.Drawing.Size(65, 12);
-			this.mCurrentFrameLabel.TabIndex = 0;
-			this.mCurrentFrameLabel.Text = "选中场景：";
-			// 
-			// skFrameSaveButton
-			// 
-			this.skFrameSaveButton.BackColor = System.Drawing.Color.Gainsboro;
-			this.skFrameSaveButton.Location = new System.Drawing.Point(204, 3);
-			this.skFrameSaveButton.Name = "skFrameSaveButton";
-			this.skFrameSaveButton.Size = new System.Drawing.Size(61, 90);
-			this.skFrameSaveButton.TabIndex = 5;
-			this.skFrameSaveButton.Text = "保存设置";
-			this.skFrameSaveButton.UseVisualStyleBackColor = false;
-			this.skFrameSaveButton.Click += new System.EventHandler(this.skFrameSaveSkinButton_Click);
+			this.groupBox1.Controls.Add(this.skFlowLayoutPanel);
+			this.groupBox1.Controls.Add(this.panel3);
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.groupBox1.Location = new System.Drawing.Point(4, 277);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(968, 344);
+			this.groupBox1.TabIndex = 7;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "音频场景设置";
 			// 
 			// GlobalSetForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(976, 609);
+			this.ClientSize = new System.Drawing.Size(976, 625);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.dmxGroupBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -814,18 +821,14 @@ private System.ComponentModel.IContainer components = null;
 			((System.ComponentModel.ISupportInitialize)(this.frame2numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.frame1numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleTimeNumericUpDown)).EndInit();
-			this.groupBox1.ResumeLayout(false);
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.flowLayoutPanel3.ResumeLayout(false);
-			this.panel27.ResumeLayout(false);
-			this.panel27.PerformLayout();
-			this.panel28.ResumeLayout(false);
-			this.panel28.PerformLayout();
+			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
+			this.skFlowLayoutPanel.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			this.skFrameFlowLayoutPanel.ResumeLayout(false);
-			this.mFrameLKPanel.ResumeLayout(false);
-			this.mFrameLKPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.jgNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.stNumericUpDown)).EndInit();
+			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -870,37 +873,31 @@ private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.ComboBox startupComboBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox tongdaoCountComboBox;
-		private GroupBox groupBox1;
-		private TableLayoutPanel tableLayoutPanel1;
-		private FlowLayoutPanel flowLayoutPanel3;
-		private Panel panel27;
-		private Label label14;
-		private Label label15;
-		private Label label16;
-		private Panel panel28;
-		private Label label17;
-		private Label label18;
-		private Label label19;
-		private FlowLayoutPanel skFrameFlowLayoutPanel;
-		private Panel mFrameLKPanel;
-		private Label mCurrentFrameLabel;
-		private TextBox mFrameTextBox;
 				
-		private Panel[] skPanels ;
-		//private SkinButton[] skFrameSkinButtons;
-		private NumericUpDown[] skStepTimeNumericUpDowns ;
-		private Button[] skFrameButtons;
-		private Label[] skTrueTimeLabels;
-		private NumericUpDown[] skJGTimeNumericUpDowns;
-		private Panel panel1;
-		private Label label8;
-		private Label label10;
-		private Label label11;
+
+
 		private Button globalSaveButton;
 		private Button mFrameSaveButton;
 		private ToolTip myToolTip;
-		private Button skFrameSaveButton;
-		private Button mNoticeButton;
-		private Button mLKSaveButton;
+		private Panel panel3;
+		private FlowLayoutPanel skFlowLayoutPanel;
+		private Label label22;
+		private Label label21;
+		private Label label12;
+		private Label label23;
+		private GroupBox groupBox1;
+		private Button skNoticeButton;
+		private Button skSaveButton;
+		private Panel panel1;
+		private Label jgLabel;
+		private Label stLabel;
+		private TextBox lkTextBox;
+		private NumericUpDown jgNumericUpDown;
+		private NumericUpDown stNumericUpDown;
+		private Label frameLabel;
+		private Label label16;
+		private Label label17;
+		private Label label18;
+		private Label label19;
 	}
 }

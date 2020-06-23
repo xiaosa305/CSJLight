@@ -22,6 +22,7 @@ using LightController.MyForm.LightList;
 using System.Diagnostics;
 using LightController.MyForm.Multiplex;
 using LightController.PeripheralDevice;
+using LightController.MyForm.MainFormAst;
 
 namespace LightController.MyForm
 {
@@ -35,9 +36,7 @@ namespace LightController.MyForm
             SCROLL_VALUE,
             CHANGE_MODE,
             STEP_TIME, ALL
-        }
-
-	
+        }	
 
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
@@ -81,6 +80,7 @@ namespace LightController.MyForm
         public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
         protected string groupIniPath; // 存放编组文件存放路径
         protected IList<GroupAst> groupList; // 存放编组列表
+		//protected IList<SAUseForm> saFormList;
 
         //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
         protected bool[] frameSaveArray;
@@ -348,7 +348,7 @@ namespace LightController.MyForm
 								int startValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saStart", 0);
 								int endValue = iniAst.ReadInt("sa", tdIndex + "_" + saIndex + "_saEnd", 0);
 								remark += saName + " : " + startValue + " - " + endValue + "\n";
-								saList.Add(new SA() { SAName = saName, StartValue = startValue, EndValue = endValue });
+								saList.Add(new SA{ SAName = saName, StartValue = startValue, EndValue = endValue });
 							}
 							lightAst.SawList.Add(new SAWrapper() { SaList = saList });
 
@@ -1740,6 +1740,7 @@ namespace LightController.MyForm
 				//MARK 重构BuildLightList：原来OpenProject内用BuildLightList() --> 现把相关代码都放在方法块内
 				lightWrapperList = new List<LightWrapper>();
 				lightDictionary = new Dictionary<int, int>();
+				//saFormList = new List<SAUseForm>();
 
 				try
 				{
@@ -1751,7 +1752,8 @@ namespace LightController.MyForm
 						{
 							StepTemplate = generateStepTemplate(la)
 						});
-						lightDictionary.Add(la.StartNum, lightIndex);
+						lightDictionary.Add(la.StartNum, lightIndex);						
+						//saFormList.Add(new SAUseForm(this, la));
 					}
 				}
 				catch (Exception ex) {

@@ -16,12 +16,19 @@ namespace LightController.MyForm
 		public MainFormBase mainForm;		
 		private IniFileHelper iniAst ;
 		private bool isInit = false;
-		private int frameIndex = -1;
 		private int eachStepTime = 30;
 		private decimal eachStepTime2 = .03m;
 
 		private int frameCount = 0 ;
 		public static int MULTI_SCENE_COUNT = 16 ;
+
+		private Panel[] skPanels;
+		private Label[] skLabels;
+		private NumericUpDown[] skStepTimeNumericUpDowns;
+		private Label[] stLabels;
+		private NumericUpDown[] skJGTimeNumericUpDowns;
+		private Label[] jgLabels;
+		private TextBox[] lkTextBoxes;	
 
 		public GlobalSetForm(MainFormBase mainForm) {
 
@@ -30,7 +37,6 @@ namespace LightController.MyForm
 			InitializeComponent();
 
 			#region 初始化辅助数组，及其他默认选项
-
 		
 			// 初始化多场景组合播放输入项
 			this.frameComboBoxes[0] = frame1ComboBox;
@@ -76,11 +82,14 @@ namespace LightController.MyForm
 
 			//	9.12 动态添加各种场景panel
 			frameCount =  MainFormBase.AllFrameList.Count;
+
 			skPanels = new Panel[frameCount];
-			skFrameButtons = new Button[frameCount];
+			skLabels = new Label[frameCount];
 			skStepTimeNumericUpDowns = new NumericUpDown[frameCount];
-			skTrueTimeLabels = new Label[frameCount];
+			stLabels = new Label[frameCount];
 			skJGTimeNumericUpDowns = new NumericUpDown[frameCount];
+			jgLabels = new Label[frameCount];
+			lkTextBoxes = new TextBox[frameCount];
 
 			#endregion
 
@@ -91,14 +100,24 @@ namespace LightController.MyForm
 
 		private void GlobalSetForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);			
-			
+			this.Location = new Point(mainForm.Location.X + 30, mainForm.Location.Y + 100);						
 
 			loadGlobalSet();
 			loadZuheSet(0);
 			loadSKSet();
 		}
-			
+		
+		/// <summary>
+		/// 事件： 右上角点击关闭按钮后的操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void GlobalSetForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
+
 		#region 四个读取ini内容并载入form中的辅助方法
 
 		/// <summary>
@@ -125,7 +144,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 读取组合的配置，根据选进来的frame来设置
+		/// 辅助方法：读取组合的配置，根据选进来的frame来设置
 		/// </summary>
 		/// <param name="frame"></param>
 		private void loadZuheSet(int frame)
@@ -142,28 +161,25 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 读取声控程序的所有设置
+		/// 辅助方法：读取声控程序的所有设置
 		/// </summary>
 		private void loadSKSet()
 		{			
-			for (int panelIndex = 0; panelIndex < frameCount;  panelIndex++)
+			for (int frameIndex = 0; frameIndex < frameCount;  frameIndex++)
 			{
-				addFramePanel(panelIndex, MainFormBase.AllFrameList[panelIndex]);
+				addFramePanel(frameIndex, MainFormBase.AllFrameList[frameIndex]);
 
-				skFrameButtons[panelIndex].Click += new EventHandler(skFrameButton_Click);
+				int currentStepTime = iniAst.ReadInt("SK", frameIndex + "ST", 0);
+				skStepTimeNumericUpDowns[frameIndex].Value = currentStepTime * eachStepTime2;
+				skStepTimeNumericUpDowns[frameIndex].ValueChanged += new EventHandler(skStepTimeNumericUpDowns_ValueChanged);
+				skStepTimeNumericUpDowns[frameIndex].MouseWheel += new MouseEventHandler(this.skStepTimeNumericUpDowns_MouseWheel);
 
-				int currentStepTime = iniAst.ReadInt("SK", panelIndex + "ST", 0);
-				skStepTimeNumericUpDowns[panelIndex].Value = currentStepTime * eachStepTime2;
-				skStepTimeNumericUpDowns[panelIndex].ValueChanged += new EventHandler(skStepTimeNumericUpDowns_ValueChanged);
-				skStepTimeNumericUpDowns[panelIndex].MouseWheel += new MouseEventHandler(this.skStepTimeNumericUpDowns_MouseWheel);
+				skJGTimeNumericUpDowns[frameIndex].Value = iniAst.ReadInt("SK", frameIndex + "JG", 0);
 
-				skJGTimeNumericUpDowns[panelIndex].Value = iniAst.ReadInt("SK", panelIndex + "JG", 0);
+				lkTextBoxes[frameIndex].Text = iniAst.ReadString("SK", frameIndex + "LK","");
+				lkTextBoxes[frameIndex].KeyPress += new KeyPressEventHandler(skFrameTextBox_KeyPress);
 			}
-
-			// 加完场景panel后，再添加下列两个属性
-			// --只是决定顺序而已，如果重复添加也是可以的，只是最后的Add语句，会决定其最后出现的位置
-			skFrameFlowLayoutPanel.Controls.Add(mFrameLKPanel);
-			skFrameFlowLayoutPanel.Controls.Add(skFrameSaveButton);			
+			
 		}
 
 		/// <summary>
@@ -174,52 +190,76 @@ namespace LightController.MyForm
 		{
 			skPanels[frameIndex] = new Panel
 			{
-				Location = new System.Drawing.Point(3, 3),
-				Name = "skPanel" + (frameIndex + 1),
-				Size = new System.Drawing.Size(61, 92),
+				Location = new System.Drawing.Point(3, 42),				
+				Size = new System.Drawing.Size(460, 33),
 				BorderStyle = BorderStyle.FixedSingle
 			};
 
-			//按钮(并附带场景名称）
-			skFrameButtons[frameIndex] = new Button
+			skLabels[frameIndex] = new Label
 			{
-				Location = new System.Drawing.Point(6, 8),
-				Name = "skinFrameButton" + (frameIndex + 1),
-				Size = new System.Drawing.Size(50, 25),
-				TabIndex = 0,
-				Text = frameName,
-				BackColor = SystemColors.Control 
-			};
-			myToolTip.SetToolTip(skFrameButtons[frameIndex], frameName);
+				AutoSize = frameLabel.AutoSize,
+				Location = frameLabel.Location,
+				Size = frameLabel.Size,
+				Text = frameName
+			};			
+			myToolTip.SetToolTip(skLabels[frameIndex], frameName);
 
 			// 步时间
 			skStepTimeNumericUpDowns[frameIndex] = new NumericUpDown
 			{
-				Location = new System.Drawing.Point(6, 40),
-				Name = "steptTimeNumericUpDown" + (frameIndex + 1),
-				Size = new System.Drawing.Size(48, 21),
-				TextAlign = HorizontalAlignment.Center,
+				Location = stNumericUpDown.Location,
+				Size = stNumericUpDown.Size,				
+				Font  =stNumericUpDown.Font,
+				TextAlign = stNumericUpDown.TextAlign,
 				Maximum = MainFormBase.MAX_StTimes * eachStepTime2,
 				Increment = eachStepTime2,
 				DecimalPlaces = 2
 			};
 
+			// 步时间的Label
+			stLabels[frameIndex] = new Label
+			{
+				AutoSize = stLabel.AutoSize,
+				Location = stLabel.Location,				
+				Size =stLabel.Size,				
+				Text = stLabel.Text
+			};		
+
 			// 间隔时间
 			skJGTimeNumericUpDowns[frameIndex] = new NumericUpDown
 			{
-				Location = new System.Drawing.Point(4, 65),
-				Maximum = new decimal(new int[] { 10000, 0, 0, 0 }),
-				Name = "jgNumericUpDown" + (frameIndex + 1),
-				Size = new System.Drawing.Size(55, 21),
-				TextAlign = HorizontalAlignment.Center
+				Location = jgNumericUpDown.Location,
+				Size = jgNumericUpDown.Size,
+				Font = jgNumericUpDown.Font,
+				TextAlign = jgNumericUpDown.TextAlign,
+				Maximum = new decimal(new int[] { 10000, 0, 0, 0 })
 			};
 
-			skPanels[frameIndex].Controls.Add(skFrameButtons[frameIndex]);
+			// 间隔时间的Label
+			jgLabels[frameIndex] = new Label
+			{
+				AutoSize = jgLabel.AutoSize,
+				Location = jgLabel.Location,			
+				Size = jgLabel.Size,
+				Text = jgLabel.Text
+			};
+
+			// 链表输入框
+			lkTextBoxes[frameIndex] = new TextBox {
+				BackColor = lkTextBox.BackColor,	
+				Location = lkTextBox.Location,
+				Size = lkTextBox.Size,
+				MaxLength = 20				
+			};
+
+			skPanels[frameIndex].Controls.Add(skLabels[frameIndex]);
 			skPanels[frameIndex].Controls.Add(skStepTimeNumericUpDowns[frameIndex]);
+			skPanels[frameIndex].Controls.Add(stLabels[frameIndex]);
 			skPanels[frameIndex].Controls.Add(skJGTimeNumericUpDowns[frameIndex]);
+			skPanels[frameIndex].Controls.Add(jgLabels[frameIndex]);
+			skPanels[frameIndex].Controls.Add(lkTextBoxes[frameIndex]);
 
-			skFrameFlowLayoutPanel.Controls.Add(skPanels[frameIndex]);
-
+			skFlowLayoutPanel.Controls.Add(skPanels[frameIndex]);
 		}
 
 		#endregion
@@ -265,10 +305,9 @@ namespace LightController.MyForm
 			//eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
 			//mainForm.ChangeEachStepTime( eachStepTime );
 	
-			MessageBox.Show("保存成功");
+			MessageBox.Show("开机场景、场景切换跳渐变\n等全局设置保存成功");
 		}
-
-	
+			
 		/// <summary>
 		/// 事件：点击《(多场景组合播放)保存当前》按钮
 		/// </summary>
@@ -285,36 +324,7 @@ namespace LightController.MyForm
 				iniAst.WriteInt("Multiple", frame + "F" + (i + 1) + "F",  frameComboBoxes[i].SelectedIndex);
 				iniAst.WriteString("Multiple", frame + "F" + (i + 1) + "V",  frameNumericUpDowns[i].Text );
 			}
-			MessageBox.Show("保存成功");
-		}
-
-		/// <summary>
-		/// 事件： 右上角点击关闭按钮后的操作
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void GlobalSetForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			this.Dispose();
-			mainForm.Activate();
-		}	
-
-		#region  《声控全局配置》各种监听事件
-
-		/// <summary>
-		///  事件：点击所有《skFrameButton》时的操作：改动选中场景的文字和frameSkinTextBox的文字
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void skFrameButton_Click(object sender, EventArgs e)
-		{
-			if (isInit)
-			{
-				frameIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
-				mFrameLKPanel.Enabled = true;
-				mCurrentFrameLabel.Text = "选中场景：" + ((Button)sender).Text;
-				mFrameTextBox.Text = iniAst.ReadString("SK", frameIndex + "LK", "");
-			}
+			MessageBox.Show( "场景【"+zuheFrameComboBox.Text + "】的组合播放设置\n保存成功");
 		}
 
 		/// <summary>
@@ -322,50 +332,35 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mNoticeButton_Click(object sender, EventArgs e)
+		private void skNoticeButton_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("请在文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。");
+			MessageBox.Show("请在音频链表文本框内输入每一次执行的步数（范围为1-9），并将每步数字连在一起（如1234）；若设为\"0\"或空字符串，则表示该场景不执行声控模式；链表数量上限为20个。");
 		}
 
 		/// <summary>
-		/// 事件：点击《保存链表》按钮
+		/// 事件：点击《保存(音频场景)设置》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mLKSaveButton_Click(object sender, EventArgs e)
-		{
-			if (frameIndex != -1)
-			{
-				iniAst.WriteString("SK", frameIndex + "LK", mFrameTextBox.Text.Trim());
-				MessageBox.Show("当前场景链表保存成功");
-			}
-			else
-			{
-				MessageBox.Show("未选中场景，无法保存");
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《保存设置》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void skFrameSaveSkinButton_Click(object sender, EventArgs e)
+		private void skSaveButton_Click(object sender, EventArgs e)
 		{
 			for (int i = 0; i < frameCount; i++)
 			{
 				iniAst.WriteString("SK", i + "ST", (skStepTimeNumericUpDowns[i].Value / eachStepTime2).ToString());
 				iniAst.WriteString("SK", i + "JG", skJGTimeNumericUpDowns[i].Text);
+				iniAst.WriteString("SK", i + "LK", lkTextBoxes[i].Text.Trim());
 			}
-			MessageBox.Show("保存成功");
+			MessageBox.Show("音频场景设置保存成功");
 		}
+			   
+		#region  《声控全局配置》各种监听事件
 
 		/// <summary>
 		/// 事件：键盘按键点击事件:确保textBox内只能是0-9、回退键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void mFrameTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		private void skFrameTextBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if ((e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == 8)
 			{

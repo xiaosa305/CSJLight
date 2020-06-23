@@ -194,6 +194,12 @@
     <Compile Include="MyForm\MainFormAst\LightRemarkForm.Designer.cs">
       <DependentUpon>LightRemarkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\MainFormAst\SAUseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\MainFormAst\SAUseForm.Designer.cs">
+      <DependentUpon>SAUseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
@@ -464,6 +470,9 @@
     <Content Include="更新日志\v2.4.4.520.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="更新日志\v2.7.0.619.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="更新日志\v2.6.8.611.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -484,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\LightRemarkForm.resx">
       <DependentUpon>LightRemarkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainFormAst\SAUseForm.resx">
+      <DependentUpon>SAUseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>

@@ -35,8 +35,8 @@ namespace LightController.MyForm.Multiplex
 
 		private void GroupForm_Load(object sender, EventArgs e)
 		{
-			//Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
-			Location = MousePosition;
+			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+			//Location = MousePosition;
 		}
 
 		/// <summary>

@@ -49,8 +49,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void SKForm_Load(object sender, EventArgs e)
 		{
-			//this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
-			Location = MousePosition;
+			Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
+			//Location = MousePosition;
 		}
 
 		/// <summary>

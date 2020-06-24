@@ -15,6 +15,7 @@ namespace MultiLedController.multidevice.impl
     public class VirtualControlDevice
     {
         private const int VIRTUAL_CLIENT_PORT = 6454;
+        private const int THREAD_SLEEP_TIME = 1;
         private readonly Object SYNCHROLOCK_KEY = new object();//同步资源锁
 
         private List<VirtualClient> VirtualClients { get; set; }//虚拟客户端池
@@ -336,7 +337,7 @@ namespace MultiLedController.multidevice.impl
                         }
                     }
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(THREAD_SLEEP_TIME);
             }
         }
         /// <summary>
@@ -410,23 +411,10 @@ namespace MultiLedController.multidevice.impl
                                 Convert.ToByte(recodeDnxData.ControlDevice.Led_space),
                                 Convert.ToByte(recodeDnxData.FrameIntervalTime & 0xFF)
                             };
-                            for (int interficeIndex = 0; interficeIndex < recodeDnxData.ControlDevice.Led_interface_num; interficeIndex++)
-                            {
-                                int dataLength = 0;
-                                for (int ledSpaceIndex = 0; ledSpaceIndex < recodeDnxData.ControlDevice.Led_space; ledSpaceIndex++)
-                                {
-                                    int ledSpaceNumber = this.StartLedSpace + interficeIndex * recodeDnxData.ControlDevice.Led_space + ledSpaceIndex;
-                                    dataLength += recodeDnxData.VirtualControlDeviceDmxDatas[ledSpaceNumber].Count;
-                                }
-                                head.Add(Convert.ToByte(dataLength & 0xFF));
-                                head.Add(Convert.ToByte((dataLength >> 8) & 0xFF));
-                                head.Add(Convert.ToByte((dataLength >> 16) & 0xFF));
-                                head.Add(Convert.ToByte((dataLength >> 24) & 0xFF));
-                            }
-                            FileUtils.GetInstance().WriteToFileBySeek(head, RecordFilePath, 0);
                             List<byte> framData = new List<byte>();
                             for (int interficeIndex = 0; interficeIndex < recodeDnxData.ControlDevice.Led_interface_num; interficeIndex++)
                             {
+                                int dataLength = 0;
                                 List<byte> routeDatas = new List<byte>();
                                 for (int ledSpaceIndex = 0; ledSpaceIndex < recodeDnxData.ControlDevice.Led_space; ledSpaceIndex++)
                                 {
@@ -435,9 +423,30 @@ namespace MultiLedController.multidevice.impl
                                     {
                                         routeDatas.AddRange(recodeDnxData.VirtualControlDeviceDmxDatas[ledSpaceNumber]);
                                     }
+                                    dataLength += recodeDnxData.VirtualControlDeviceDmxDatas[ledSpaceNumber].Count;
                                 }
                                 framData.AddRange(routeDatas);
+                                head.Add(Convert.ToByte(dataLength & 0xFF));
+                                head.Add(Convert.ToByte((dataLength >> 8) & 0xFF));
+                                head.Add(Convert.ToByte((dataLength >> 16) & 0xFF));
+                                head.Add(Convert.ToByte((dataLength >> 24) & 0xFF));
                             }
+                            /**待删除
+                            //for (int interficeIndex = 0; interficeIndex < recodeDnxData.ControlDevice.Led_interface_num; interficeIndex++)
+                            //{
+                            //    List<byte> routeDatas = new List<byte>();
+                            //    for (int ledSpaceIndex = 0; ledSpaceIndex < recodeDnxData.ControlDevice.Led_space; ledSpaceIndex++)
+                            //    {
+                            //        int ledSpaceNumber = this.StartLedSpace + interficeIndex * recodeDnxData.ControlDevice.Led_space + ledSpaceIndex;
+                            //        if (recodeDnxData.VirtualControlDeviceDmxDataResponseStatus[ledSpaceNumber] || recodeDnxData.VirtualControlDeviceDmxDatas[ledSpaceNumber].Count > 0)
+                            //        {
+                            //            routeDatas.AddRange(recodeDnxData.VirtualControlDeviceDmxDatas[ledSpaceNumber]);
+                            //        }
+                            //    }
+                            //    framData.AddRange(routeDatas);
+                            //}
+                            **/
+                            FileUtils.GetInstance().WriteToFileBySeek(head, RecordFilePath, 0);
                             FileUtils.GetInstance().WriteToFile(framData, RecordFilePath);
                             this.RecordFrameCount++;
                             this.RecordFrameCountResponse_Event?.Invoke(this.RecordFrameCount);
@@ -446,7 +455,7 @@ namespace MultiLedController.multidevice.impl
                     }
                     //锁的结束
                 }
-                Thread.Sleep(0);
+                Thread.Sleep(THREAD_SLEEP_TIME);
             }
         }
         /// <summary>

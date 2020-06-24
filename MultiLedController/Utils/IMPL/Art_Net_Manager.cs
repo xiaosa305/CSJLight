@@ -48,13 +48,13 @@ namespace MultiLedController.utils.impl
             {
                 IsBackground = true
             };
-            this.OnPlayThread.Start();
+            //this.OnPlayThread.Start();
             //启动录制器
             this.OnRecodeThread = new Thread(this.OnRecodeStart)
             {
                 IsBackground = true
             };
-            this.OnRecodeThread.Start();
+            //this.OnRecodeThread.Start();
         }
         public static IArt_Net_Manager GetInstance()
         {

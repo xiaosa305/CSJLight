@@ -550,7 +550,7 @@ namespace LightController.MyForm
 			this.menuSkinPanel.MouseBack = null;
 			this.menuSkinPanel.Name = "menuSkinPanel";
 			this.menuSkinPanel.NormlBack = null;
-			this.menuSkinPanel.Size = new System.Drawing.Size(1424, 107);
+			this.menuSkinPanel.Size = new System.Drawing.Size(1178, 107);
 			this.menuSkinPanel.TabIndex = 5;
 			// 
 			// testGroupBox
@@ -565,7 +565,7 @@ namespace LightController.MyForm
 			this.testGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.testGroupBox.Name = "testGroupBox";
 			this.testGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.testGroupBox.Size = new System.Drawing.Size(176, 94);
+			this.testGroupBox.Size = new System.Drawing.Size(158, 94);
 			this.testGroupBox.TabIndex = 20;
 			this.testGroupBox.TabStop = false;
 			this.testGroupBox.Visible = false;
@@ -1674,11 +1674,11 @@ namespace LightController.MyForm
 			this.astSkinPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.astSkinPanel.DownBack = null;
 			this.astSkinPanel.ForeColor = System.Drawing.Color.White;
-			this.astSkinPanel.Location = new System.Drawing.Point(1178, 107);
+			this.astSkinPanel.Location = new System.Drawing.Point(1178, 0);
 			this.astSkinPanel.MouseBack = null;
 			this.astSkinPanel.Name = "astSkinPanel";
 			this.astSkinPanel.NormlBack = null;
-			this.astSkinPanel.Size = new System.Drawing.Size(246, 734);
+			this.astSkinPanel.Size = new System.Drawing.Size(246, 841);
 			this.astSkinPanel.TabIndex = 10;
 			// 
 			// tdCommonLabelSkinPanel
@@ -1688,11 +1688,11 @@ namespace LightController.MyForm
 			this.tdCommonLabelSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.tdCommonLabelSkinPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.tdCommonLabelSkinPanel.DownBack = null;
-			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 301);
+			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 308);
 			this.tdCommonLabelSkinPanel.MouseBack = null;
 			this.tdCommonLabelSkinPanel.Name = "tdCommonLabelSkinPanel";
 			this.tdCommonLabelSkinPanel.NormlBack = null;
-			this.tdCommonLabelSkinPanel.Size = new System.Drawing.Size(246, 27);
+			this.tdCommonLabelSkinPanel.Size = new System.Drawing.Size(246, 26);
 			this.tdCommonLabelSkinPanel.TabIndex = 2;
 			// 
 			// tytzLabel
@@ -1720,7 +1720,7 @@ namespace LightController.MyForm
 			this.lightInfoSkinPanel.MouseBack = null;
 			this.lightInfoSkinPanel.Name = "lightInfoSkinPanel";
 			this.lightInfoSkinPanel.NormlBack = null;
-			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 328);
+			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 334);
 			this.lightInfoSkinPanel.TabIndex = 0;
 			// 
 			// lightsAddrLabel
@@ -1806,9 +1806,9 @@ namespace LightController.MyForm
 			this.tdCommonPanel.Controls.Add(this.initButton);
 			this.tdCommonPanel.Controls.Add(this.soundListButton);
 			this.tdCommonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tdCommonPanel.Location = new System.Drawing.Point(0, 328);
+			this.tdCommonPanel.Location = new System.Drawing.Point(0, 334);
 			this.tdCommonPanel.Name = "tdCommonPanel";
-			this.tdCommonPanel.Size = new System.Drawing.Size(246, 406);
+			this.tdCommonPanel.Size = new System.Drawing.Size(246, 507);
 			this.tdCommonPanel.TabIndex = 29;
 			// 
 			// groupFlowLayoutPanel
@@ -1816,7 +1816,7 @@ namespace LightController.MyForm
 			this.groupFlowLayoutPanel.AutoScroll = true;
 			this.groupFlowLayoutPanel.Controls.Add(this.groupInButtonDemo);
 			this.groupFlowLayoutPanel.Controls.Add(this.groupDelButtonDemo);
-			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(3, 57);
+			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(3, 80);
 			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
 			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(243, 160);
@@ -1849,9 +1849,9 @@ namespace LightController.MyForm
 			// saFlowLayoutPanel
 			// 
 			this.saFlowLayoutPanel.AutoScroll = true;
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(3, 220);
+			this.saFlowLayoutPanel.Location = new System.Drawing.Point(3, 243);
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(243, 160);
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(243, 237);
 			this.saFlowLayoutPanel.TabIndex = 28;
 			// 
 			// groupButton
@@ -1860,7 +1860,7 @@ namespace LightController.MyForm
 			this.groupButton.Enabled = false;
 			this.groupButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.groupButton.ForeColor = System.Drawing.Color.Black;
-			this.groupButton.Location = new System.Drawing.Point(27, 4);
+			this.groupButton.Location = new System.Drawing.Point(27, 13);
 			this.groupButton.Name = "groupButton";
 			this.groupButton.Size = new System.Drawing.Size(94, 25);
 			this.groupButton.TabIndex = 30;
@@ -1874,7 +1874,7 @@ namespace LightController.MyForm
 			this.multiButton.Enabled = false;
 			this.multiButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.multiButton.ForeColor = System.Drawing.Color.Black;
-			this.multiButton.Location = new System.Drawing.Point(127, 4);
+			this.multiButton.Location = new System.Drawing.Point(127, 13);
 			this.multiButton.Name = "multiButton";
 			this.multiButton.Size = new System.Drawing.Size(94, 25);
 			this.multiButton.TabIndex = 30;
@@ -1886,7 +1886,7 @@ namespace LightController.MyForm
 			// 
 			this.noticeStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.noticeLabel});
-			this.noticeStatusStrip.Location = new System.Drawing.Point(0, 384);
+			this.noticeStatusStrip.Location = new System.Drawing.Point(0, 485);
 			this.noticeStatusStrip.Name = "noticeStatusStrip";
 			this.noticeStatusStrip.Size = new System.Drawing.Size(246, 22);
 			this.noticeStatusStrip.SizingGrip = false;
@@ -1907,7 +1907,7 @@ namespace LightController.MyForm
 			this.initButton.Enabled = false;
 			this.initButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.initButton.ForeColor = System.Drawing.Color.Black;
-			this.initButton.Location = new System.Drawing.Point(27, 30);
+			this.initButton.Location = new System.Drawing.Point(27, 44);
 			this.initButton.Name = "initButton";
 			this.initButton.Size = new System.Drawing.Size(94, 25);
 			this.initButton.TabIndex = 30;
@@ -1921,7 +1921,7 @@ namespace LightController.MyForm
 			this.soundListButton.Enabled = false;
 			this.soundListButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.soundListButton.ForeColor = System.Drawing.Color.Black;
-			this.soundListButton.Location = new System.Drawing.Point(127, 30);
+			this.soundListButton.Location = new System.Drawing.Point(127, 44);
 			this.soundListButton.Name = "soundListButton";
 			this.soundListButton.Size = new System.Drawing.Size(94, 25);
 			this.soundListButton.TabIndex = 30;
@@ -2150,7 +2150,7 @@ namespace LightController.MyForm
 			this.nextStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.nextStepSkinButton.InheritColor = true;
 			this.nextStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.nextStepSkinButton.Location = new System.Drawing.Point(504, 8);
+			this.nextStepSkinButton.Location = new System.Drawing.Point(503, 8);
 			this.nextStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.nextStepSkinButton.MouseBack = null;
 			this.nextStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2326,7 +2326,7 @@ namespace LightController.MyForm
 			this.deleteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.deleteStepSkinButton.InheritColor = true;
 			this.deleteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.deleteStepSkinButton.Location = new System.Drawing.Point(507, 53);
+			this.deleteStepSkinButton.Location = new System.Drawing.Point(503, 53);
 			this.deleteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteStepSkinButton.MouseBack = null;
 			this.deleteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2357,7 +2357,7 @@ namespace LightController.MyForm
 			this.addStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.addStepSkinButton.InheritColor = true;
 			this.addStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.addStepSkinButton.Location = new System.Drawing.Point(409, 53);
+			this.addStepSkinButton.Location = new System.Drawing.Point(408, 53);
 			this.addStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addStepSkinButton.MouseBack = null;
 			this.addStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2420,7 +2420,7 @@ namespace LightController.MyForm
 			this.backStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
 			this.backStepSkinButton.InheritColor = true;
 			this.backStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.backStepSkinButton.Location = new System.Drawing.Point(314, 8);
+			this.backStepSkinButton.Location = new System.Drawing.Point(313, 8);
 			this.backStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
 			this.backStepSkinButton.MouseBack = null;
 			this.backStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -2454,7 +2454,7 @@ namespace LightController.MyForm
 			this.stepLabel.BorderColor = System.Drawing.Color.White;
 			this.stepLabel.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.stepLabel.ForeColor = System.Drawing.Color.White;
-			this.stepLabel.Location = new System.Drawing.Point(414, 23);
+			this.stepLabel.Location = new System.Drawing.Point(410, 23);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(70, 14);
 			this.stepLabel.TabIndex = 0;
@@ -5885,8 +5885,8 @@ namespace LightController.MyForm
 			this.ClientSize = new System.Drawing.Size(1424, 841);
 			this.Controls.Add(this.middleTableLayoutPanel);
 			this.Controls.Add(this.projectSkinPanel);
-			this.Controls.Add(this.astSkinPanel);
 			this.Controls.Add(this.menuSkinPanel);
+			this.Controls.Add(this.astSkinPanel);
 			this.Controls.Add(this.myMenuStrip);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

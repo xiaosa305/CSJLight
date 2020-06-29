@@ -282,7 +282,7 @@ namespace MultiLedController.multidevice.impl
                         this.IsDebugStatus = true; 
                         Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
                     }
-                    Thread.Sleep(0);
+                    Thread.Sleep(THREAD_SLEEP_TIME);
                 }
             }
             catch (Exception)
@@ -333,7 +333,7 @@ namespace MultiLedController.multidevice.impl
                             {
                                 break;
                             }
-                            Thread.Sleep(0);
+                            Thread.Sleep(THREAD_SLEEP_TIME);
                         }
                     }
                 }

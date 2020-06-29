@@ -168,7 +168,7 @@
 			// 
 			// columnHeader10
 			// 
-			this.columnHeader10.Text = "设备mac";
+			this.columnHeader10.Text = "设备IP";
 			this.columnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader10.Width = 137;
 			// 
@@ -213,7 +213,7 @@
 			// 
 			// columnHeader6
 			// 
-			this.columnHeader6.Text = "设备mac";
+			this.columnHeader6.Text = "设备IP";
 			this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader6.Width = 150;
 			// 
@@ -631,11 +631,9 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(765, 780);
-			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(765, 780);
 			this.Name = "MainForm";
 			this.Text = "幻彩灯带控制器(多设备版)";
-			this.TopMost = true;
 			this.Activated += new System.EventHandler(this.MainForm_Activated);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.panel1.ResumeLayout(false);

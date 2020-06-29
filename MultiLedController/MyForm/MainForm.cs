@@ -470,7 +470,7 @@ namespace MultiLedController.MyForm
 				new ListViewItem(new string[]{
 					"",
 					dev.LedName,
-					dev.Mac,
+					dev.IP,
 					dev.Led_interface_num.ToString()
 				})
 				{
@@ -496,7 +496,7 @@ namespace MultiLedController.MyForm
 				new ListViewItem(new string[]{
 					chooseIndex.ToString(),
 					dev.LedName,
-					dev.Mac,
+					dev.IP,
 					dev.Led_interface_num.ToString()
 				})
 				{

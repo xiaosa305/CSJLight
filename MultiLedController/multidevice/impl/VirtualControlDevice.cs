@@ -520,7 +520,7 @@ namespace MultiLedController.multidevice.impl
                 {
                     Stopwatch stopwatch1 = new Stopwatch();
                     stopwatch1.Start();
-                    while (stopwatch1.ElapsedMilliseconds < 3)
+                    while (stopwatch1.ElapsedMilliseconds <= 3)
                     {
                         Thread.Sleep(0);
                     }

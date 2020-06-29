@@ -3,6 +3,7 @@ using MultiLedController.utils;
 using MultiLedController.utils.impl;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -239,6 +240,7 @@ namespace MultiLedController.multidevice.impl
                                 lock (this.DebugDmxDataQueue)
                                 {
                                     this.DebugDmxDataQueue.Enqueue(this.VirtualClientDmxDatas, Convert.ToInt16(frameIntervalTime), this.ControlDevice);
+                                    Console.WriteLine("Enqueue 1  pack");
                                 }
                             }
                             if (this.IsRecordStatus)
@@ -254,7 +256,7 @@ namespace MultiLedController.multidevice.impl
                                 this.VirtualClientDmxDatas[key] = new List<byte>();
                                 this.VirtualClientDmxDataResponseStatus[key] = false;
                             }
-                            //LogTools.Debug(Constant.TAG_XIAOSA,this.ControlDevice.IP + "接收到一帧");
+
                         }
                         this.LastFramePacketSequence = nowPacketSequence;
                     }
@@ -282,7 +284,7 @@ namespace MultiLedController.multidevice.impl
                         this.IsDebugStatus = true; 
                         Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
                     }
-                    Thread.Sleep(THREAD_SLEEP_TIME);
+                    Thread.Sleep(0);
                 }
             }
             catch (Exception)
@@ -333,11 +335,11 @@ namespace MultiLedController.multidevice.impl
                             {
                                 break;
                             }
-                            Thread.Sleep(THREAD_SLEEP_TIME);
+                            Thread.Sleep(0);
                         }
                     }
                 }
-                Thread.Sleep(THREAD_SLEEP_TIME);
+                Thread.Sleep(0);
             }
         }
         /// <summary>
@@ -455,7 +457,7 @@ namespace MultiLedController.multidevice.impl
                     }
                     //锁的结束
                 }
-                Thread.Sleep(THREAD_SLEEP_TIME);
+                Thread.Sleep(0);
             }
         }
         /// <summary>
@@ -516,7 +518,14 @@ namespace MultiLedController.multidevice.impl
                 }
                 if ((i + 1) % 3 == 0)
                 {
-                    Thread.Sleep(3);
+                    Stopwatch stopwatch1 = new Stopwatch();
+                    stopwatch1.Start();
+                    while (stopwatch1.ElapsedMilliseconds < 3)
+                    {
+                        Thread.Sleep(0);
+                    }
+                    stopwatch1.Stop();
+                    //Thread.Sleep(3);
                 }
             }
             this.DebugFrameCount++;

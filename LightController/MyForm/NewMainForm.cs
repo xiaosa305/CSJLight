@@ -2591,6 +2591,7 @@ namespace LightController.MyForm
 			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			MessageBox.Show(serverFileVersion);
 		}
+	
 
 		///// <summary>
 		///// 事件：点击《实时调试|关闭实时》
@@ -2599,25 +2600,25 @@ namespace LightController.MyForm
 		///// <param name="e"></param>
 		//private void realtimeButton_Click(object sender, EventArgs e)
 		//{
-			//默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
-			//if (!isRealtime)
-			//{
-			//	realtimeButton.Text = "关闭\n实时调试";
-			//	isRealtime = true;
-			//	if (!isConnectCom)
-			//	{
-			//		playTools.StartInternetPreview(myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
-			//	}
-			//	RefreshStep();
-			//	SetNotice("已开启实时调试。");
-			//}
-			//else //否则( 按钮显示为“断开连接”）断开连接
-			//{
-			//	realtimeButton.Text = "实时调试";
-			//	isRealtime = false;
-			//	playTools.ResetDebugDataToEmpty();
-			//	SetNotice("已退出实时调试。");
-			//}
+		//默认情况下，实时调试还没打开，点击后设为打开状态（文字显示为关闭实时调试，图片加颜色）
+		//if (!isRealtime)
+		//{
+		//	realtimeButton.Text = "关闭\n实时调试";
+		//	isRealtime = true;
+		//	if (!isConnectCom)
+		//	{
+		//		playTools.StartInternetPreview(myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);
+		//	}
+		//	RefreshStep();
+		//	SetNotice("已开启实时调试。");
+		//}
+		//else //否则( 按钮显示为“断开连接”）断开连接
+		//{
+		//	realtimeButton.Text = "实时调试";
+		//	isRealtime = false;
+		//	playTools.ResetDebugDataToEmpty();
+		//	SetNotice("已退出实时调试。");
+		//}
 		//}
 
 	}

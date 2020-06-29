@@ -92,6 +92,8 @@ namespace LightController.MyForm
 			this.unifyChangeModeComboBox = new System.Windows.Forms.ComboBox();
 			this.unifyStepTimeButton = new System.Windows.Forms.Button();
 			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.copyStepButton = new System.Windows.Forms.Button();
+			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.tdPanel = new System.Windows.Forms.Panel();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
@@ -140,9 +142,7 @@ namespace LightController.MyForm
 			this.deleteStepButton = new System.Windows.Forms.Button();
 			this.multiplexButton = new System.Windows.Forms.Button();
 			this.multiCopyButton = new System.Windows.Forms.Button();
-			this.copyStepButton = new System.Windows.Forms.Button();
 			this.addStepButton = new System.Windows.Forms.Button();
-			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
@@ -788,6 +788,26 @@ namespace LightController.MyForm
 			this.unifyValueNumericUpDown.TabIndex = 60;
 			this.unifyValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
+			// copyStepButton
+			// 
+			this.copyStepButton.Location = new System.Drawing.Point(16, 13);
+			this.copyStepButton.Name = "copyStepButton";
+			this.copyStepButton.Size = new System.Drawing.Size(75, 23);
+			this.copyStepButton.TabIndex = 49;
+			this.copyStepButton.Text = "复制步";
+			this.copyStepButton.UseVisualStyleBackColor = true;
+			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
+			// 
+			// pasteStepButton
+			// 
+			this.pasteStepButton.Location = new System.Drawing.Point(97, 13);
+			this.pasteStepButton.Name = "pasteStepButton";
+			this.pasteStepButton.Size = new System.Drawing.Size(75, 23);
+			this.pasteStepButton.TabIndex = 49;
+			this.pasteStepButton.Text = "粘贴步";
+			this.pasteStepButton.UseVisualStyleBackColor = true;
+			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
+			// 
 			// tdPanel
 			// 
 			this.tdPanel.Controls.Add(this.tdFlowLayoutPanel);
@@ -1421,16 +1441,6 @@ namespace LightController.MyForm
 			this.multiCopyButton.UseVisualStyleBackColor = true;
 			this.multiCopyButton.Click += new System.EventHandler(this.multiCopyButton_Click);
 			// 
-			// copyStepButton
-			// 
-			this.copyStepButton.Location = new System.Drawing.Point(16, 13);
-			this.copyStepButton.Name = "copyStepButton";
-			this.copyStepButton.Size = new System.Drawing.Size(75, 23);
-			this.copyStepButton.TabIndex = 49;
-			this.copyStepButton.Text = "复制步";
-			this.copyStepButton.UseVisualStyleBackColor = true;
-			this.copyStepButton.Click += new System.EventHandler(this.copyStepButton_Click);
-			// 
 			// addStepButton
 			// 
 			this.addStepButton.Location = new System.Drawing.Point(375, 48);
@@ -1441,16 +1451,6 @@ namespace LightController.MyForm
 			this.addStepButton.UseVisualStyleBackColor = true;
 			this.addStepButton.Click += new System.EventHandler(this.addStepButton_Click);
 			this.addStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.addStepButton_MouseDown);
-			// 
-			// pasteStepButton
-			// 
-			this.pasteStepButton.Location = new System.Drawing.Point(97, 13);
-			this.pasteStepButton.Name = "pasteStepButton";
-			this.pasteStepButton.Size = new System.Drawing.Size(75, 23);
-			this.pasteStepButton.TabIndex = 49;
-			this.pasteStepButton.Text = "粘贴步";
-			this.pasteStepButton.UseVisualStyleBackColor = true;
-			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
 			// 
 			// topPanel
 			// 

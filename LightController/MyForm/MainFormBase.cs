@@ -135,8 +135,9 @@ namespace LightController.MyForm
         protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
         protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
         protected virtual void setBusy(bool buzy) { } //设置是否忙时
-        protected virtual void editLightInfo(LightAst lightAst) { }  //显示灯具详情到面板中
-        protected virtual void enableStepPanel(bool enable) { } //是否使能步数面板
+        protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中		
+		protected virtual void showSaPanel(int lightIndex) { } // 实时生成并显示相应的子属性面板
+		protected virtual void enableStepPanel(bool enable) { } //是否使能步数面板
         protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据
         protected virtual void hideAllTDPanels() { } //隐藏所有通道
         protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
@@ -276,6 +277,11 @@ namespace LightController.MyForm
 			lightAstList = new List<LightAst>(lightAstList2);
 			lightWrapperList = new List<LightWrapper>(lightWrapperList2);
 			lightDictionary = new Dictionary<int, int>();
+
+			//MARK 0629 子属性Panel 0.2：ReBuildLightList内先调clearSaPanelArray，再初始化saPanelArray
+			clearSaPanelArray();
+			saPanelArray = new FlowLayoutPanel[lightAstList.Count];
+
 			for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
 			{
 				lightDictionary.Add(lightAstList[lightIndex].StartNum, lightIndex);
@@ -1421,21 +1427,7 @@ namespace LightController.MyForm
 			}
 			return true;
 		}
-
-		/// <summary>
-		/// 辅助方法：显示每个灯具的当前步和最大步 
-		/// </summary>
-		protected void showAllLightCurrentAndTotalStep()
-		{
-			foreach (LightWrapper item in lightWrapperList)
-			{
-				if (item.LightStepWrapperList[currentFrame, currentMode] != null)
-				{
-					Console.WriteLine(item.StepTemplate.LightFullName + ":" + item.LightStepWrapperList[currentFrame, currentMode].CurrentStep + "/" + item.LightStepWrapperList[currentFrame, currentMode].TotalStep);
-				}
-			}
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：获取当前工程未选中灯具=》主动判断是多灯还是单灯模式。
 		/// </summary>
@@ -1643,17 +1635,7 @@ namespace LightController.MyForm
 			arrangeIniPath = null;
 			groupIniPath = null ;
 
-			//MARK 0629 子属性Panel 0：清空子属性Panel
-			if (saPanelArray != null) {
-				for (int pIndex = 0; pIndex < saPanelArray.Length; pIndex++)
-				{
-					if (saPanelArray[pIndex] != null) {
-						saPanelArray[pIndex].Dispose();
-						saPanelArray[pIndex] = null;
-					}				
-				}				
-			}
-			saPanelArray = null ; 
+			clearSaPanelArray();
 
 			//MARK 只开单场景：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
@@ -1691,6 +1673,26 @@ namespace LightController.MyForm
 				stepCountDAO.DeleteRedundantData(retainLightIndices);
 				valueDAO.DeleteRedundantData(retainLightIndices);
 			}
+		}
+
+		//MARK 0629 子属性Panel 0.0：清空子属性Panel( clearAllData、重置lightAstList等方法中调用 )
+		/// <summary>
+		/// 清空子属性Panel
+		/// </summary>
+		protected void clearSaPanelArray() {
+			
+			if (saPanelArray != null)
+			{
+				for (int pIndex = 0; pIndex < saPanelArray.Length; pIndex++)
+				{
+					if (saPanelArray[pIndex] != null)
+					{
+						saPanelArray[pIndex].Dispose();
+						saPanelArray[pIndex] = null;
+					}
+				}
+			}
+			saPanelArray = null;
 		}
 
 		/// <summary>
@@ -1753,8 +1755,7 @@ namespace LightController.MyForm
 				lightWrapperList = new List<LightWrapper>();
 				lightDictionary = new Dictionary<int, int>();
 
-				//MARK 0629 子属性Panel 1：初始化saPanelArray
-				//saFormList = new List<SAUseForm>();
+				//MARK 0629 子属性Panel 0.1：初始化saPanelArray				
 				saPanelArray = new FlowLayoutPanel[dbLightList.Count];
 
 				try
@@ -2998,17 +2999,18 @@ namespace LightController.MyForm
 				MessageBox.Show("generateLightData()出错。");
 				return;
 			}
-		
-			LightAst lightAst = lightAstList[selectedIndex];
 
-			// 1.在右侧灯具信息内显示选中灯具相关信息
+			LightAst lightAst = lightAstList[selectedIndex];
+			// 1.在右侧灯具信息内显示选中灯具相关信息，并生成子属性Panel
 			editLightInfo(lightAst);
+			showSaPanel(selectedIndex);
 
 			//2.判断是不是已经有stepTemplate了
 			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
 			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
 			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
 			//			若不为null，则说明已有数据，
+			
 			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
 			if (lightWrapper.StepTemplate == null)
 			{

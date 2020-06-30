@@ -714,73 +714,16 @@ namespace LightController.MyForm
 				selectedIndex = lightsListView.SelectedIndices[0];
 				if ( generateNow) {
 					generateLightData();
-
-					//MARK 0629 子属性Panel 2：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
-					if (saPanelArray[selectedIndex] == null) {
-
-						//Console.WriteLine("正在生成saPanelArray[" + selectedIndex + "]");						
-						saPanelArray[selectedIndex] = new FlowLayoutPanel
-						{
-							AutoScroll = true,
-							Location = new System.Drawing.Point(4, 199),
-							Size = new System.Drawing.Size(166, 128)
-						};						
-						unifyPanel.Controls.Add(saPanelArray[selectedIndex]);		
-						
-						LightAst la = lightAstList[selectedIndex];
-						try
-						{
-							if (la.SawList != null)
-							{
-								for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
-								{
-									for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-									{
-										SA sa = la.SawList[tdIndex].SaList[saIndex];
-										Button saButton = new Button
-										{
-											Text = sa.SAName,
-											Size = new Size(68, 20),
-											Tag = tdIndex + "*" + sa.StartValue,
-											UseVisualStyleBackColor = true
-										};
-										saButton.Click += new EventHandler(saButton_Click);
-										saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
-
-										saPanelArray[selectedIndex].Controls.Add(saButton);
-									}
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
-						}					
-					}
-
-					//MARK 0629 子属性Panel 3：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
-					for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
-					{
-						if (saPanelArray[panelIndex] != null)
-						{
-							//Console.WriteLine("saPanelArray[" + panelIndex +"].VISIBLE = " + (selectedIndex == panelIndex) );
-							saPanelArray[panelIndex].Visible = selectedIndex == panelIndex;
-						}
-					}
-					//Console.WriteLine("================");
-					saPanelArray[selectedIndex].Enabled = getCurrentStep() != 0;
-
-				}												
+				}				
 			}
 		}	
-
 
 		/// <summary>
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
 		/// </summary>
 		/// <param name="la"></param>
 		protected override void editLightInfo(LightAst la)
-		{
+		{			
 			if (la == null)
 			{
 				currentLightPictureBox.Image = null;
@@ -796,7 +739,67 @@ namespace LightController.MyForm
 			lightTypeLabel.Text = "型号：" + la.LightType;
 			lightsAddrLabel.Text = "地址：" + la.LightAddr;
 			lightRemarkLabel.Text = "备注：" + la.Remark;
-			myToolTip.SetToolTip(lightRemarkLabel, "备注：\n" + la.Remark);
+			myToolTip.SetToolTip(lightRemarkLabel, "备注：\n" + la.Remark);		
+		}
+
+		/// <summary>
+		/// 辅助方法：
+		/// 1.根据传进的lightIndex，生成相应的SaPanel-->若已存在，则不再生成；
+		/// 2.显示相应的Panel，隐藏无关的Panel（至于Panel的Enable属性，则由ShowStepLabel方法来进行判断）
+		/// </summary>
+		/// <param name="lightIndex"></param>
+		protected override void showSaPanel(int lightIndex)
+		{
+			//MARK 0629 子属性Panel 1.1：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
+			if (saPanelArray[lightIndex] == null)
+			{
+				saPanelArray[lightIndex] = new FlowLayoutPanel
+				{
+					AutoScroll = true,
+					Location = new System.Drawing.Point(4, 199),
+					Size = new System.Drawing.Size(166, 128)
+				};
+				unifyPanel.Controls.Add(saPanelArray[lightIndex]);
+							
+				try
+				{
+					LightAst la = lightAstList[lightIndex];
+					if (la.SawList != null)
+					{
+						for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+						{
+							for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+							{
+								SA sa = la.SawList[tdIndex].SaList[saIndex];
+								Button saButton = new Button
+								{
+									Text = sa.SAName,
+									Size = new Size(68, 20),
+									Tag = tdIndex + "*" + sa.StartValue,
+									UseVisualStyleBackColor = true
+								};
+								saButton.Click += new EventHandler(saButton_Click);
+								saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+
+								saPanelArray[lightIndex].Controls.Add(saButton);
+							}
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
+				}
+			}
+
+			//MARK 0629 子属性Panel 1.2：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
+			for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
+			{
+				if (saPanelArray[panelIndex] != null)
+				{
+					saPanelArray[panelIndex].Visible = lightIndex == panelIndex;
+				}
+			}
 		}
 
 		/// <summary>
@@ -1430,11 +1433,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void chooseStepButton_Click(object sender, EventArgs e)
 		{
-			int step = Decimal.ToInt32(chooseStepNumericUpDown.Value);
-			if (step != 0)
-			{
-				chooseStep(step);
+			int step = decimal.ToInt32(chooseStepNumericUpDown.Value);
+			if (step == 0) {
+				MessageBox.Show("不可选择0步");
+				return;
 			}
+			chooseStep(step);
 		}
 
 		/// <summary>
@@ -1678,7 +1682,7 @@ namespace LightController.MyForm
 			// 2.2 设定《追加步》、《前插入步》《后插入步》按钮是否可用			
 			bool insertEnabled = totalStep < MAX_STEP;
 			addStepButton.Enabled = insertEnabled;
-			insertButton.Enabled = insertEnabled;			
+			insertButton.Enabled = insertEnabled;
 
 			// 2.3 设定《上一步》《下一步》是否可用			
 			backStepButton.Enabled = totalStep > 1;
@@ -1691,31 +1695,34 @@ namespace LightController.MyForm
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
-			multiplexButton.Enabled = currentStep > 0 ;
+			multiplexButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用						
 			groupButton.Enabled = lightAstList != null && lightsListView.SelectedIndices.Count > 1; // 只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
-			groupFlowLayoutPanel.Enabled = lightAstList != null ;
+			groupFlowLayoutPanel.Enabled = lightAstList != null;
 			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
-            soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && currentMode == 1;
+			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && currentMode == 1;
 
-            //zeroButton.Enabled = totalStep != 0;
-            //unifyValueButton.Enabled = totalStep != 0;
-            //unifyChangeModeButton.Enabled = totalStep != 0;
-            //unifyStepTimeButton.Enabled = (totalStep != 0) || (currentMode == 1 ) ;
-            //unifyValueNumericUpDown.Enabled = totalStep != 0;
-            //unifyChangeModeComboBox.Enabled = totalStep != 0;
-            //unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
+			//zeroButton.Enabled = totalStep != 0;
+			//unifyValueButton.Enabled = totalStep != 0;
+			//unifyChangeModeButton.Enabled = totalStep != 0;
+			//unifyStepTimeButton.Enabled = (totalStep != 0) || (currentMode == 1 ) ;
+			//unifyValueNumericUpDown.Enabled = totalStep != 0;
+			//unifyChangeModeComboBox.Enabled = totalStep != 0;
+			//unifyStepTimeNumericUpDown.Enabled = totalStep != 0;
 
-            // 5.处理选择步数的框及按钮
-            chooseStepNumericUpDown.Enabled = totalStep != 0;
+			// 5.处理选择步数的框及按钮
+			chooseStepNumericUpDown.Enabled = totalStep != 0;
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 
 			// 6.判断子属性按钮组是否可用
-						
+			//MARK 0629 子属性Panel 1.3：NewMainForm.showStepLabel()中，显示或使能saPanelArray
+			if (selectedIndex != -1 && saPanelArray[selectedIndex] !=null) {
+				saPanelArray[selectedIndex].Enabled = totalStep != 0;				
+			}						
 		}
 
 		#endregion
@@ -1953,7 +1960,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK 0629 子属性Panel 4：点击tdNameLabels怎么实现该通道的子属性（待完成）
+		//MARK 0629 子属性Panel 1.4：点击tdNameLabels怎么实现该通道的子属性（待完成）
 		/// <summary>
 		/// 事件：点击《tdNameLabels》时，右侧的子属性按钮组，会显示当前通道相关的子属性，其他通道的子属性，则隐藏掉
 		/// </summary>
@@ -2572,10 +2579,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-			foreach (Button btn in saPanelArray[selectedIndex].Controls)
-			{
-				Console.WriteLine( btn.Location + "("+btn.Visible+")" );
-			}			
+			
 		}
 		
 		/// <summary>
@@ -2586,6 +2590,7 @@ namespace LightController.MyForm
 		private void testButton2_Click(object sender, EventArgs e)
 		{
 			
+	
 		}
 
 		/// <summary>

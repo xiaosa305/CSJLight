@@ -716,7 +716,7 @@ namespace LightController.MyForm
 				if (generateNow)
 				{					
 					generateLightData();
-					generateSAButtons();
+					//generateSAButtons();
 				}
 			}
 		}
@@ -1370,11 +1370,13 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void chooseStepSkinButton_Click(object sender, EventArgs e)
 		{
-			int step = Decimal.ToInt32(chooseStepNumericUpDown.Value);
-			if (step != 0)
+			int step = decimal.ToInt32(chooseStepNumericUpDown.Value);
+			if (step == 0)
 			{
-				chooseStep(step);
+				MessageBox.Show("不可选择0步");
+				return;
 			}
+			chooseStep(step);
 		}
 
 		/// <summary>
@@ -1622,7 +1624,7 @@ namespace LightController.MyForm
 			chooseStepSkinButton.Enabled = totalStep != 0;
 
 			// 6.子属性按钮组是否可用(及可见（当步数为空时，设为不可见）:因只有切换灯具，才会生成，故无需担心会多次生成按钮组)			
-			saFlowLayoutPanel.Visible = totalStep != 0;
+			//saFlowLayoutPanel.Visible = totalStep != 0;
 			saFlowLayoutPanel.Enabled = totalStep != 0;
 		}
 

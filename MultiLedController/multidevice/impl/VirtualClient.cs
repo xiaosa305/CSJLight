@@ -116,7 +116,7 @@ namespace MultiLedController.multidevice.impl
                     //else if (receiveDataBuff[8] == 0x00 && receiveDataBuff[9] == 0x60)//接收到ArtAddress分组。发送DMX调试数据前会发送
                     //{
                     //}
-                    Thread.Sleep(0);
+                    //Thread.Sleep(0);
                 }
             }
             catch (Exception ex)

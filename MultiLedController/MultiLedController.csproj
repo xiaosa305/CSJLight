@@ -203,7 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon-20191029044630870.ico" />
-    <Content Include="更新日志\v2.1.1.629.txt">
+    <Content Include="更新日志\v2.1.2.630.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="更新日志\v2.0.0.602.txt">

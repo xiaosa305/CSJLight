@@ -172,7 +172,7 @@ namespace LightController.Ast
 
 						foreach (DB_Value value in frameValueList)
 						{
-							Console.WriteLine(value.PK);
+							//Console.WriteLine("ValueDAO.SaveFrameValues() ： " +value.PK);
 							session.Save(value);
 						}
 						tx.Commit();

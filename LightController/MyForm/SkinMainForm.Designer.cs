@@ -98,10 +98,9 @@ namespace LightController.MyForm
 			this.currentLightSkinPanel = new CCWin.SkinControl.SkinPanel();
 			this.dqdjLabel = new System.Windows.Forms.Label();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
-			this.tdCommonPanel = new System.Windows.Forms.Panel();
+			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupInButtonDemo = new System.Windows.Forms.Button();
 			this.groupDelButtonDemo = new System.Windows.Forms.Button();
@@ -394,7 +393,7 @@ namespace LightController.MyForm
 			this.lightInfoSkinPanel.SuspendLayout();
 			this.currentLightSkinPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
-			this.tdCommonPanel.SuspendLayout();
+			this.unifyPanel.SuspendLayout();
 			this.noticeStatusStrip.SuspendLayout();
 			this.groupFlowLayoutPanel.SuspendLayout();
 			this.commonButtonPanel.SuspendLayout();
@@ -1671,7 +1670,7 @@ namespace LightController.MyForm
 			this.astSkinPanel.BorderColor = System.Drawing.Color.LightGray;
 			this.astSkinPanel.Controls.Add(this.tdCommonLabelSkinPanel);
 			this.astSkinPanel.Controls.Add(this.lightInfoSkinPanel);
-			this.astSkinPanel.Controls.Add(this.tdCommonPanel);
+			this.astSkinPanel.Controls.Add(this.unifyPanel);
 			this.astSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.astSkinPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.astSkinPanel.DownBack = null;
@@ -1797,18 +1796,17 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.TabIndex = 0;
 			this.currentLightPictureBox.TabStop = false;
 			// 
-			// tdCommonPanel
+			// unifyPanel
 			// 
-			this.tdCommonPanel.AutoScroll = true;
-			this.tdCommonPanel.Controls.Add(this.noticeStatusStrip);
-			this.tdCommonPanel.Controls.Add(this.saFlowLayoutPanel);
-			this.tdCommonPanel.Controls.Add(this.groupFlowLayoutPanel);
-			this.tdCommonPanel.Controls.Add(this.commonButtonPanel);
-			this.tdCommonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tdCommonPanel.Location = new System.Drawing.Point(0, 334);
-			this.tdCommonPanel.Name = "tdCommonPanel";
-			this.tdCommonPanel.Size = new System.Drawing.Size(246, 507);
-			this.tdCommonPanel.TabIndex = 29;
+			this.unifyPanel.AutoScroll = true;
+			this.unifyPanel.Controls.Add(this.noticeStatusStrip);
+			this.unifyPanel.Controls.Add(this.groupFlowLayoutPanel);
+			this.unifyPanel.Controls.Add(this.commonButtonPanel);
+			this.unifyPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.unifyPanel.Location = new System.Drawing.Point(0, 334);
+			this.unifyPanel.Name = "unifyPanel";
+			this.unifyPanel.Size = new System.Drawing.Size(246, 507);
+			this.unifyPanel.TabIndex = 29;
 			// 
 			// noticeStatusStrip
 			// 
@@ -1826,24 +1824,14 @@ namespace LightController.MyForm
 			this.noticeLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.noticeLabel.ForeColor = System.Drawing.Color.DimGray;
 			this.noticeLabel.Name = "noticeLabel";
-			this.noticeLabel.Size = new System.Drawing.Size(231, 17);
+			this.noticeLabel.Size = new System.Drawing.Size(200, 17);
 			this.noticeLabel.Spring = true;
-			// 
-			// saFlowLayoutPanel
-			// 
-			this.saFlowLayoutPanel.AutoScroll = true;
-			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(0, 242);
-			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(246, 265);
-			this.saFlowLayoutPanel.TabIndex = 28;
 			// 
 			// groupFlowLayoutPanel
 			// 
 			this.groupFlowLayoutPanel.AutoScroll = true;
 			this.groupFlowLayoutPanel.Controls.Add(this.groupInButtonDemo);
 			this.groupFlowLayoutPanel.Controls.Add(this.groupDelButtonDemo);
-			this.groupFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(0, 74);
 			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
@@ -5932,8 +5920,8 @@ namespace LightController.MyForm
 			this.currentLightSkinPanel.ResumeLayout(false);
 			this.currentLightSkinPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
-			this.tdCommonPanel.ResumeLayout(false);
-			this.tdCommonPanel.PerformLayout();
+			this.unifyPanel.ResumeLayout(false);
+			this.unifyPanel.PerformLayout();
 			this.noticeStatusStrip.ResumeLayout(false);
 			this.noticeStatusStrip.PerformLayout();
 			this.groupFlowLayoutPanel.ResumeLayout(false);
@@ -6410,7 +6398,7 @@ namespace LightController.MyForm
 		private Label thirdLabel3;
 		private Label secondLabel3;
 		private Label firstLabel3;
-		private Panel tdCommonPanel;
+		private Panel unifyPanel;
 		private Panel playPanel;
 		private SkinButton exportSkinButton;
 		private SkinTrackBar tdSkinTrackBar1;
@@ -6469,7 +6457,6 @@ namespace LightController.MyForm
 		private ToolStripStatusLabel noticeLabel;
 		private SkinButton oldToolsSkinButton;
 		private ImageList middleImageList;
-		private FlowLayoutPanel saFlowLayoutPanel;
 		private Label lightRemarkLabel;
 		private SkinButton helpSkinButton;
 		private SkinButton multiplexSkinButton;

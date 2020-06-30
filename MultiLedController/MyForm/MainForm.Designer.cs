@@ -635,6 +635,7 @@
 			this.Name = "MainForm";
 			this.Text = "幻彩灯带控制器(多设备版)";
 			this.Activated += new System.EventHandler(this.MainForm_Activated);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.panel1.ResumeLayout(false);
 			this.netcardInfoGroupBox.ResumeLayout(false);

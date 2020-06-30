@@ -100,7 +100,6 @@ namespace LightController.MyForm
 			this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupInButtonDemo = new System.Windows.Forms.Button();
 			this.groupDelButtonDemo = new System.Windows.Forms.Button();
-			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.soundListButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.initButton = new System.Windows.Forms.Button();
@@ -825,7 +824,6 @@ namespace LightController.MyForm
 			this.unifyPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.unifyPanel.Controls.Add(this.groupButton);
 			this.unifyPanel.Controls.Add(this.groupFlowLayoutPanel);
-			this.unifyPanel.Controls.Add(this.saFlowLayoutPanel);
 			this.unifyPanel.Controls.Add(this.soundListButton);
 			this.unifyPanel.Controls.Add(this.multiButton);
 			this.unifyPanel.Controls.Add(this.initButton);
@@ -879,14 +877,6 @@ namespace LightController.MyForm
 			this.groupDelButtonDemo.UseVisualStyleBackColor = true;
 			this.groupDelButtonDemo.Visible = false;
 			this.groupDelButtonDemo.Click += new System.EventHandler(this.groupDelButton_Click);
-			// 
-			// saFlowLayoutPanel
-			// 
-			this.saFlowLayoutPanel.AutoScroll = true;
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(4, 199);
-			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(166, 128);
-			this.saFlowLayoutPanel.TabIndex = 63;
 			// 
 			// soundListButton
 			// 
@@ -1722,7 +1712,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem refreshPicToolStripMenuItem;
 		private ToolStripSeparator toolStripSeparator4;
 		private Panel unifyPanel;
-		private FlowLayoutPanel saFlowLayoutPanel;
 		private Button zeroButton;
 		private Button multiButton;
 		private Button initButton;

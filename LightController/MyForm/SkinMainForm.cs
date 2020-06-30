@@ -2482,24 +2482,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void bigTestButton_Click(object sender, EventArgs e)
 		{
-			////5.25 音频模式下，疯狂选灯
-			//for (int i = 0; i < 100; i++)
-			//{
-			//	for (int j = 0; j < 3; j++)
-			//	{
-			//		foreach (ListViewItem item in lightsSkinListView.Items)
-			//		{
-			//			item.Selected = false;
-			//		}
-			//		lightsSkinListView.Items[j].Selected = true;
-
-			//		Thread.Sleep(10);
-			//	}
-			//}
-
-			// 5.26 手动选灯
-			//lightsSkinListView.Items[2].Selected = true;
-			//lightsSkinListView.Select();
+			foreach (Button btn in saFlowLayoutPanel.Controls)
+			{
+				Console.WriteLine(btn.Location + "(" + btn.Visible + ")");
+			}
 		}
 		
 		/// <summary>

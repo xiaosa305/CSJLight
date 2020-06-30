@@ -79,7 +79,8 @@ namespace LightController.MyForm
         public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
         public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
         protected string groupIniPath; // 存放编组文件存放路径
-        protected IList<GroupAst> groupList; // 存放编组列表
+        protected IList<GroupAst> groupList; // 存放编组	
+		protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
 		//protected IList<SAUseForm> saFormList;
 
         //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
@@ -123,7 +124,6 @@ namespace LightController.MyForm
         protected bool isConnectCom = true; //默认情况下，用串口连接设备。
         protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
         protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
-        //protected bool isRealtime = false; // 辅助bool值，当选择《实时调试》后，设为true；反之为false			
         protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
         protected bool isPreviewing = false; // 是否预览状态中		
         protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
@@ -1643,6 +1643,18 @@ namespace LightController.MyForm
 			arrangeIniPath = null;
 			groupIniPath = null ;
 
+			//MARK 0629 子属性Panel 0：清空子属性Panel
+			if (saPanelArray != null) {
+				for (int pIndex = 0; pIndex < saPanelArray.Length; pIndex++)
+				{
+					if (saPanelArray[pIndex] != null) {
+						saPanelArray[pIndex].Dispose();
+						saPanelArray[pIndex] = null;
+					}				
+				}				
+			}
+			saPanelArray = null ; 
+
 			//MARK 只开单场景：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
 			frameLoadArray = null;
@@ -1740,7 +1752,10 @@ namespace LightController.MyForm
 				//MARK 重构BuildLightList：原来OpenProject内用BuildLightList() --> 现把相关代码都放在方法块内
 				lightWrapperList = new List<LightWrapper>();
 				lightDictionary = new Dictionary<int, int>();
+
+				//MARK 0629 子属性Panel 1：初始化saPanelArray
 				//saFormList = new List<SAUseForm>();
+				saPanelArray = new FlowLayoutPanel[dbLightList.Count];
 
 				try
 				{

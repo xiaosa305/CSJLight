@@ -34,7 +34,7 @@ namespace LightController.MyForm
 
 		private BorderStyle unifyBorderStyle = BorderStyle.Fixed3D; //统一为局内的所有panel设置统一的BorderStyle		
 		private Color unifyColor = SystemColors.Window;
-		private Color unifyColor2 = SystemColors.Window;
+		private Color unifyColor2 = SystemColors.Window;		
 
 		#endregion
 
@@ -640,7 +640,8 @@ namespace LightController.MyForm
 
 			lightsListView.Clear();
 			stepPanel.Enabled = false;
-			editLightInfo(null);
+			editLightInfo(null);			
+
 		}
 
 		/// <summary>
@@ -713,23 +714,66 @@ namespace LightController.MyForm
 				selectedIndex = lightsListView.SelectedIndices[0];
 				if ( generateNow) {
 					generateLightData();
-					generateSAButtons();
 
-					//TODO 新增代码的雏形：每个灯具有自己的子属性Form，选中后，就弹出这个Form
-					//for (int lightIndex = 0; lightIndex < saFormList.Count; lightIndex++)
-					//{
-					//	if (lightIndex == selectedIndex)
-					//	{
-					//		saFormList[lightIndex].Location = new Point (Location.X - 200 , Location .Y)   ;
-					//		saFormList[lightIndex].Show();							
-					//	}
-					//	else {
-					//		saFormList[lightIndex].Hide();
-					//	}
-					//}
+					//MARK 0629 子属性Panel 2：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
+					if (saPanelArray[selectedIndex] == null) {
+
+						//Console.WriteLine("正在生成saPanelArray[" + selectedIndex + "]");						
+						saPanelArray[selectedIndex] = new FlowLayoutPanel
+						{
+							AutoScroll = true,
+							Location = new System.Drawing.Point(4, 199),
+							Size = new System.Drawing.Size(166, 128)
+						};						
+						unifyPanel.Controls.Add(saPanelArray[selectedIndex]);		
+						
+						LightAst la = lightAstList[selectedIndex];
+						try
+						{
+							if (la.SawList != null)
+							{
+								for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+								{
+									for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+									{
+										SA sa = la.SawList[tdIndex].SaList[saIndex];
+										Button saButton = new Button
+										{
+											Text = sa.SAName,
+											Size = new Size(68, 20),
+											Tag = tdIndex + "*" + sa.StartValue,
+											UseVisualStyleBackColor = true
+										};
+										saButton.Click += new EventHandler(saButton_Click);
+										saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+
+										saPanelArray[selectedIndex].Controls.Add(saButton);
+									}
+								}
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
+						}					
+					}
+
+					//MARK 0629 子属性Panel 3：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
+					for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
+					{
+						if (saPanelArray[panelIndex] != null)
+						{
+							//Console.WriteLine("saPanelArray[" + panelIndex +"].VISIBLE = " + (selectedIndex == panelIndex) );
+							saPanelArray[panelIndex].Visible = selectedIndex == panelIndex;
+						}
+					}
+					//Console.WriteLine("================");
+					saPanelArray[selectedIndex].Enabled = getCurrentStep() != 0;
+
 				}												
 			}
-		}
+		}	
+
 
 		/// <summary>
 		/// 辅助方法：根据传进来的LightAst对象，修改当前灯具内的显示内容
@@ -847,38 +891,7 @@ namespace LightController.MyForm
 			}
 		}
 
-		/// <summary>
-		/// 辅助方法：通过选中的灯具，生成相应的saButtons
-		/// </summary>
-		private void generateSAButtons()
-		{
-			saFlowLayoutPanel.Controls.Clear();
-			saToolTip.RemoveAll();
-
-			if (selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0)
-			{
-				MessageBox.Show("generateSAButtons()出错\n[selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0]。");
-				return;
-			}			
-
-			LightAst la = lightAstList[selectedIndex];
-			try
-			{
-				if (la.SawList != null) {
-					for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
-					{
-						addTdSaButtons(la, tdIndex);
-					}
-				} 			
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
-			}
-
-			// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
-			saFlowLayoutPanel.Enabled = getCurrentStep() != 0;			
-		}
+		
 
 		/// <summary>
 		/// 事件：双击《LightListView》内灯具，更改备注
@@ -1701,9 +1714,8 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 
-			// 6.判断子属性按钮组是否可用			
-			saFlowLayoutPanel.Visible = totalStep != 0;
-			saFlowLayoutPanel.Enabled = totalStep != 0;
+			// 6.判断子属性按钮组是否可用
+						
 		}
 
 		#endregion
@@ -1941,6 +1953,7 @@ namespace LightController.MyForm
 			}
 		}
 
+		//MARK 0629 子属性Panel 4：点击tdNameLabels怎么实现该通道的子属性（待完成）
 		/// <summary>
 		/// 事件：点击《tdNameLabels》时，右侧的子属性按钮组，会显示当前通道相关的子属性，其他通道的子属性，则隐藏掉
 		/// </summary>
@@ -1948,11 +1961,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdNameLabels_Click(object sender, EventArgs e)
 		{
-			saFlowLayoutPanel.Controls.Clear();
-			LightAst la = lightAstList[selectedIndex];
-			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			addTdSaButtons(la, tdIndex);
-			saFlowLayoutPanel.Refresh();
+			//saFlowLayoutPanel.Controls.Clear();
+			//LightAst la = lightAstList[selectedIndex];
+			//int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
+			//addTdSaButtons(la, tdIndex);
+			//saFlowLayoutPanel.Refresh();
 		}
 
 		/// <summary>
@@ -1960,23 +1973,25 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="la"></param>
 		/// <param name="tdIndex"></param>
-		private void addTdSaButtons(LightAst la, int tdIndex)
-		{
-			for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-			{
-				SA sa = la.SawList[tdIndex].SaList[saIndex];
-				Button saButton = new Button
-				{
-					Text = sa.SAName,
-					Size = new Size(68, 20),
-					Tag = tdIndex + "*" + sa.StartValue,
-					UseVisualStyleBackColor = true
-				};
-				saButton.Click += new EventHandler(saButton_Click);
-				saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
-				saFlowLayoutPanel.Controls.Add(saButton);
-			}
-		}
+		//private void addTdSaButtons(LightAst la, int tdIndex)
+		//{
+
+		//	for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+		//	{
+		//		SA sa = la.SawList[tdIndex].SaList[saIndex];
+		//		Button saButton = new Button
+		//		{
+		//			Text = sa.SAName,
+		//			Size = new Size(68, 20),
+		//			Tag = tdIndex + "*" + sa.StartValue,
+		//			UseVisualStyleBackColor = true
+		//		};
+		//		saButton.Click += new EventHandler(saButton_Click);
+		//		saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+		//		saPanelArray[selectedIndex].Controls.Add(saButton);
+		//	}
+		//	Console.WriteLine( saPanelArray[selectedIndex] );
+		//}
 
 		#endregion
 
@@ -2557,8 +2572,10 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
 		{
-			
-			Console.WriteLine(lightAstList[0].SawList);
+			foreach (Button btn in saPanelArray[selectedIndex].Controls)
+			{
+				Console.WriteLine( btn.Location + "("+btn.Visible+")" );
+			}			
 		}
 		
 		/// <summary>
@@ -2591,7 +2608,8 @@ namespace LightController.MyForm
 			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			MessageBox.Show(serverFileVersion);
 		}
-	
+
+		#region 弃用方法
 
 		///// <summary>
 		///// 事件：点击《实时调试|关闭实时》
@@ -2621,5 +2639,40 @@ namespace LightController.MyForm
 		//}
 		//}
 
+		/// <summary>
+		/// 辅助方法：通过选中的灯具，生成相应的saButtons
+		/// </summary>
+		//private void generateSAButtons()
+		//{
+		//	saFlowLayoutPanel.Controls.Clear();
+		//	saToolTip.RemoveAll();
+
+		//	if (selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0)
+		//	{
+		//		MessageBox.Show("generateSAButtons()出错\n[selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0]。");
+		//		return;
+		//	}
+
+		//	LightAst la = lightAstList[selectedIndex];
+		//	try
+		//	{
+		//		if (la.SawList != null)
+		//		{
+		//			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+		//			{
+		//				addTdSaButtons(la, tdIndex);
+		//			}
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
+		//	}
+
+		//	// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
+		//	saFlowLayoutPanel.Enabled = getCurrentStep() != 0;
+		//}
+
+		#endregion
 	}
 }

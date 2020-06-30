@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Linq;
 using System.Management;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -73,6 +74,23 @@ namespace MultiLedController.MyForm
 				isFirstTime = false;
 			}
 		}
+		
+		/// <summary>
+		/// 事件：退出时，需要重设系统时间切片
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			timeEndPeriod(1);
+		}
+		
+		/// <summary>
+		/// 辅助方法：重设系统时间切片
+		/// </summary>
+		/// <param name="period"></param>
+		/// <returns></returns>
+		[DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
 
 		#region 搜索设备相关
 
@@ -661,6 +679,11 @@ namespace MultiLedController.MyForm
 				enableStartButtons(true);
 				setNotice(1, "已启动模拟,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",false);
 				setBusy(false);
+
+				/// 启动模拟后，主动点击《开始调试》
+				if (!isDebuging) {
+					debugButton_Click(null, null);
+				}
 			}
 			// 关闭模拟			
 			else
@@ -1094,5 +1117,6 @@ namespace MultiLedController.MyForm
 		}
 
 
+		
 	}
 }

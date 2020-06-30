@@ -36,6 +36,7 @@ namespace MultiLedController.multidevice.impl
             {
                 try
                 {
+                    //Console.WriteLine("queue count" + this.DebugDmxDatas.Count);
                     if (this.DebugDmxDatas.Count != 0)
                     {
                         return this.DebugDmxDatas.Dequeue();

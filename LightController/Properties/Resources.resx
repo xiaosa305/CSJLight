@@ -139,9 +139,6 @@
   <data name="全部归零" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\全部归零.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Ok3w.Net图标1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ok3w.Net图标1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="上一步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\上一步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -178,14 +175,8 @@
   <data name="退出程序" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\退出程序.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Ok3w.Net图标14" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ok3w.Net图标14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="灯光图" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\灯光图.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Ok3w.Net图标7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ok3w.Net图标7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="摇麦设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\摇麦设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -211,9 +202,6 @@
   <data name="单灯单步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\单灯单步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Ok3w.Net图标13" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ok3w.Net图标13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="导出25" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\导出25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -226,7 +214,6 @@
   <data name="复制灯1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\复制灯1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-
   <data name="跳转" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\跳转.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -241,9 +228,6 @@
   </data>
   <data name="追加步" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\追加步.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Ok3w.Net图标15" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ok3w.Net图标15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="刷新1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\刷新.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

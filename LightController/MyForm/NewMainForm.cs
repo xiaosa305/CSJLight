@@ -709,12 +709,15 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			//MARK 0701 通道子属性 2.3：NewMainForm.lightsSkinListView_SelectedIndexChanged()			
 			if (lightsListView.SelectedIndices.Count > 0)
-			{
+			{				
 				selectedIndex = lightsListView.SelectedIndices[0];
-				if ( generateNow) {
+				disposeSauForm();
+				if ( generateNow)
+				{
 					generateLightData();
-				}				
+				}
 			}
 		}	
 
@@ -1966,27 +1969,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdNameLabels_Click(object sender, EventArgs e)
 		{
-			if (sauForm != null)
-			{
-				sauForm.Dispose();
-				sauForm = null;
-			}
-			
-			LightAst la = lightAstList[selectedIndex];
-			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			string tdName = ((Label)sender).Text;
-
-			if (la.SawList[tdIndex] == null || la.SawList[tdIndex].SaList == null || la.SawList[tdIndex].SaList.Count == 0) {
-				SetNotice("通道【"+tdName+"】无可用子属性‘");
-				return;
-			}
-			
-			sauForm = new SAUseForm( this, la, tdIndex, tdName);
-			sauForm.Show();
-
-		}
-
-		
+			//MARK 0701 通道子属性 2.2：NewMainForm内调用tdNameLabelClick
+			tdNameLabelClick(sender);
+		}		
 
 		#endregion
 
@@ -2075,7 +2060,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			saButtonClick(sender);
+			SaButtonClick(sender);
 		}
 
 		/// <summary>
@@ -2577,8 +2562,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void testButton2_Click(object sender, EventArgs e)
 		{
-			
-	
+				
 		}
 
 		/// <summary>

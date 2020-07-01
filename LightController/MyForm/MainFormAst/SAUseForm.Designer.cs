@@ -30,8 +30,8 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.demoButton = new System.Windows.Forms.Button();
+			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saFlowLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -42,7 +42,7 @@
 			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.saFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(218, 175);
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(320, 175);
 			this.saFlowLayoutPanel.TabIndex = 0;
 			// 
 			// demoButton
@@ -50,18 +50,21 @@
 			this.demoButton.Location = new System.Drawing.Point(3, 3);
 			this.demoButton.Name = "demoButton";
 			this.demoButton.Size = new System.Drawing.Size(94, 23);
-			this.demoButton.TabIndex = 79;
+			this.demoButton.TabIndex = 98;
 			this.demoButton.Text = "测试达到八个汉字";
 			this.demoButton.UseVisualStyleBackColor = true;
+			this.demoButton.Visible = false;
+			this.demoButton.Click += new System.EventHandler(this.saButton_Click);
 			// 
 			// SAUseForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(218, 175);
+			this.ClientSize = new System.Drawing.Size(320, 175);
 			this.Controls.Add(this.saFlowLayoutPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "SAUseForm";
+			this.TopMost = true;
 			this.Load += new System.EventHandler(this.SAUseForm_Load);
 			this.saFlowLayoutPanel.ResumeLayout(false);
 			this.ResumeLayout(false);

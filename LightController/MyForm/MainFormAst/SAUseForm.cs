@@ -13,18 +13,19 @@ namespace LightController.MyForm.MainFormAst
 {
 	public partial class SAUseForm : Form
 	{
-		private MainFormBase mainForm;		
+		private MainFormBase mainForm;
+		private string lightAddr;
 		private int tdIndex;
 
 		public SAUseForm(MainFormBase mainForm, LightAst la,int tdIndex ,string tdName)
 		{
 			this.mainForm = mainForm;			
 			this.tdIndex = tdIndex;
+			this.lightAddr = la.LightAddr;
 
 			InitializeComponent();
 					   
-			Text = tdName +"【" + la.LightType + "(" + la.LightAddr + ")】" ;
-
+			Text = "子属性：【" + la.LightType + "：" + tdName +"】" ;
 			try
 			{
 				for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
@@ -60,7 +61,9 @@ namespace LightController.MyForm.MainFormAst
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			//saButtonClick(sender);
+			mainForm.SaButtonClick(sender,lightAddr);
 		}
+
+
 	}
 }

@@ -1506,8 +1506,7 @@ namespace LightController.MyForm
 			}
 			return tdList;
 		}
-
-	
+			
 		#region projectPanel相关
 
 		/// <summary>
@@ -1638,6 +1637,8 @@ namespace LightController.MyForm
 			groupIniPath = null ;
 
 			clearSaPanelArray();
+			//MARK 0701 通道子属性 0.1：clearAllData()内调用disposeSauForm()
+			disposeSauForm(); 
 
 			//MARK 只开单场景：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
@@ -3120,7 +3121,30 @@ namespace LightController.MyForm
 			RefreshStep();
 			return null;
 		}
-		
+
+		//MARK 0701 通道子属性 0.2：抽象tdNameLabelClick()到MainFormBase中
+		/// <summary>
+		/// 辅助方法：点击通道名，弹出相应的子属性窗口
+		/// </summary>
+		/// <param name="sender"></param>
+		protected void tdNameLabelClick(object sender)
+		{			
+			disposeSauForm();
+
+			LightAst la = lightAstList[selectedIndex];
+			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
+			string tdName = ((Label)sender).Text;
+
+			if (la.SawList[tdIndex] == null || la.SawList[tdIndex].SaList == null || la.SawList[tdIndex].SaList.Count == 0)
+			{
+				SetNotice("通道【" + tdName + "】无可用子属性。");
+				return;
+			}
+
+			sauForm = new SAUseForm(this, la, tdIndex, tdName);
+			sauForm.Show();
+		}
+
 		#endregion
 
 		#region unifyPanel(Or astPanel)相关
@@ -3347,11 +3371,26 @@ namespace LightController.MyForm
 			refreshGroupPanels();
 		}
 
+		//MARK 0701 通道子属性 0.3.1 供外部使用的SaButtonClick(sender,lightAddr)
 		/// <summary>
 		/// 辅助方法：点击《子属性》
 		/// </summary>
 		/// <param name="sender"></param>
-		protected void saButtonClick(object sender)
+		public void SaButtonClick(object sender,string lightAddr)
+		{
+			if (!lightAstList[selectedIndex].LightAddr.Equals(lightAddr)) {
+				MessageBox.Show("点击的子属性非当前灯具所有，无法调用。");
+				return;
+			}
+			SaButtonClick(sender);
+		}
+
+		//MARK 0701 通道子属性 0.3.2 供内部使用的SaButtonClick(sender)
+		/// <summary>
+		/// 辅助方法：点击《子属性》
+		/// </summary>
+		/// <param name="sender"></param>
+		protected void SaButtonClick(object sender)
 		{
 			if (getCurrentStepWrapper() == null)
 			{
@@ -3371,7 +3410,18 @@ namespace LightController.MyForm
 			}
 			RefreshStep();
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：销毁sauForm
+		/// </summary>
+		protected void disposeSauForm() {
+			if(sauForm != null)
+			{
+				sauForm.Dispose();
+				sauForm = null;
+			}
+		}
+
 		#endregion
 
 		#region playPanel相关

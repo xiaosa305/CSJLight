@@ -710,13 +710,14 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightsSkinListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			//MARK 0701 通道子属性 1.3：SkinMainForm.lightsSkinListView_SelectedIndexChanged()			
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
 				selectedIndex = lightsSkinListView.SelectedIndices[0];
+				disposeSauForm();
 				if (generateNow)
 				{					
-					generateLightData();
-					//generateSAButtons();
+					generateLightData();					
 				}
 			}
 		}
@@ -1938,12 +1939,9 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdNameLabels_Click(object sender, EventArgs e)
 		{
-			//saFlowLayoutPanel.Controls.Clear();
-			//LightAst la = lightAstList[selectedIndex];
-			//int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			//addTdSaButtons(la, tdIndex);
-			//saFlowLayoutPanel.Refresh();
-		}
+			//MARK 0701 通道子属性 1.2：SkinMainForm内调用tdNameLabelClick
+			tdNameLabelClick(sender);
+		}		
 
 		/// <summary>
 		/// 辅助方法：抽象出添加通道相关的saButtons，供《切换灯具》及点击《通道名label》时使用
@@ -2138,7 +2136,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void saButton_Click(object sender, EventArgs e)
 		{
-			saButtonClick(sender);
+			SaButtonClick(sender);
 		}
 
 		/// <summary>

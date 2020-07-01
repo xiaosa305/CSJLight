@@ -103,56 +103,6 @@ namespace LightController.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap Ok3w_Net图标1 {
-            get {
-                object obj = ResourceManager.GetObject("Ok3w.Net图标1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap Ok3w_Net图标13 {
-            get {
-                object obj = ResourceManager.GetObject("Ok3w.Net图标13", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap Ok3w_Net图标14 {
-            get {
-                object obj = ResourceManager.GetObject("Ok3w.Net图标14", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap Ok3w_Net图标15 {
-            get {
-                object obj = ResourceManager.GetObject("Ok3w.Net图标15", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap Ok3w_Net图标7 {
-            get {
-                object obj = ResourceManager.GetObject("Ok3w.Net图标7", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap 上一步 {
             get {
                 object obj = ResourceManager.GetObject("上一步", resourceCulture);

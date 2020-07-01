@@ -150,6 +150,7 @@ namespace LightController.MyForm
 			this.sqLiteCommandBuilder1 = new System.Data.SQLite.SQLiteCommandBuilder();
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.saButton = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -613,6 +614,7 @@ namespace LightController.MyForm
 			this.tdNameLabel1.TabIndex = 23;
 			this.tdNameLabel1.Text = "x/y轴转速";
 			this.tdNameLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.tdNameLabel1.Click += new System.EventHandler(this.tdNameLabels_Click);
 			// 
 			// tdNoLabel1
 			// 
@@ -850,6 +852,7 @@ namespace LightController.MyForm
 			this.groupFlowLayoutPanel.AutoScroll = true;
 			this.groupFlowLayoutPanel.Controls.Add(this.groupInButtonDemo);
 			this.groupFlowLayoutPanel.Controls.Add(this.groupDelButtonDemo);
+			this.groupFlowLayoutPanel.Controls.Add(this.saButton);
 			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(4, 67);
 			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(1);
 			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
@@ -1557,6 +1560,16 @@ namespace LightController.MyForm
 			this.sqLiteCommandBuilder1.DataAdapter = null;
 			this.sqLiteCommandBuilder1.QuoteSuffix = "]";
 			// 
+			// saButton
+			// 
+			this.saButton.Location = new System.Drawing.Point(3, 34);
+			this.saButton.Name = "saButton";
+			this.saButton.Size = new System.Drawing.Size(154, 25);
+			this.saButton.TabIndex = 1;
+			this.saButton.Text = "子属性事件";
+			this.saButton.UseVisualStyleBackColor = true;
+			this.saButton.Click += new System.EventHandler(this.saButton_Click);
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1737,5 +1750,6 @@ namespace LightController.MyForm
 		private ToolTip groupToolTip;
 		private ToolTip saToolTip;
         private Button soundListButton;
+		private Button saButton;
 	}
 }

@@ -893,9 +893,7 @@ namespace LightController.MyForm
 				tdPanels[i].Hide();
 			}
 		}
-
 		
-
 		/// <summary>
 		/// 事件：双击《LightListView》内灯具，更改备注
 		/// </summary>
@@ -1968,37 +1966,27 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdNameLabels_Click(object sender, EventArgs e)
 		{
-			//saFlowLayoutPanel.Controls.Clear();
-			//LightAst la = lightAstList[selectedIndex];
-			//int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			//addTdSaButtons(la, tdIndex);
-			//saFlowLayoutPanel.Refresh();
+			if (sauForm != null)
+			{
+				sauForm.Dispose();
+				sauForm = null;
+			}
+			
+			LightAst la = lightAstList[selectedIndex];
+			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
+			string tdName = ((Label)sender).Text;
+
+			if (la.SawList[tdIndex] == null || la.SawList[tdIndex].SaList == null || la.SawList[tdIndex].SaList.Count == 0) {
+				SetNotice("通道【"+tdName+"】无可用子属性‘");
+				return;
+			}
+			
+			sauForm = new SAUseForm( this, la, tdIndex, tdName);
+			sauForm.Show();
+
 		}
 
-		/// <summary>
-		/// 辅助方法：抽象出添加通道相关的saButtons，供《切换灯具》及点击《通道名label》时使用
-		/// </summary>
-		/// <param name="la"></param>
-		/// <param name="tdIndex"></param>
-		//private void addTdSaButtons(LightAst la, int tdIndex)
-		//{
-
-		//	for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-		//	{
-		//		SA sa = la.SawList[tdIndex].SaList[saIndex];
-		//		Button saButton = new Button
-		//		{
-		//			Text = sa.SAName,
-		//			Size = new Size(68, 20),
-		//			Tag = tdIndex + "*" + sa.StartValue,
-		//			UseVisualStyleBackColor = true
-		//		};
-		//		saButton.Click += new EventHandler(saButton_Click);
-		//		saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
-		//		saPanelArray[selectedIndex].Controls.Add(saButton);
-		//	}
-		//	Console.WriteLine( saPanelArray[selectedIndex] );
-		//}
+		
 
 		#endregion
 
@@ -2676,6 +2664,31 @@ namespace LightController.MyForm
 
 		//	// 若当前步为0，则说明该灯具没有步数，则子属性仅显示，但不可用
 		//	saFlowLayoutPanel.Enabled = getCurrentStep() != 0;
+		//}
+
+		/// <summary>
+		/// 辅助方法：抽象出添加通道相关的saButtons，供《切换灯具》及点击《通道名label》时使用
+		/// </summary>
+		/// <param name="la"></param>
+		/// <param name="tdIndex"></param>
+		//private void addTdSaButtons(LightAst la, int tdIndex)
+		//{
+
+		//	for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+		//	{
+		//		SA sa = la.SawList[tdIndex].SaList[saIndex];
+		//		Button saButton = new Button
+		//		{
+		//			Text = sa.SAName,
+		//			Size = new Size(68, 20),
+		//			Tag = tdIndex + "*" + sa.StartValue,
+		//			UseVisualStyleBackColor = true
+		//		};
+		//		saButton.Click += new EventHandler(saButton_Click);
+		//		saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+		//		saPanelArray[selectedIndex].Controls.Add(saButton);
+		//	}
+		//	Console.WriteLine( saPanelArray[selectedIndex] );
 		//}
 
 		#endregion

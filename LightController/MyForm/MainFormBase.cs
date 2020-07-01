@@ -35,7 +35,8 @@ namespace LightController.MyForm
         {
             SCROLL_VALUE,
             CHANGE_MODE,
-            STEP_TIME, ALL
+            STEP_TIME,
+			ALL
         }	
 
 		// 全局配置及数据库连接		
@@ -81,6 +82,7 @@ namespace LightController.MyForm
         protected string groupIniPath; // 存放编组文件存放路径
         protected IList<GroupAst> groupList; // 存放编组	
 		protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
+		protected SAUseForm sauForm; //存储一个全局的sauForm，当用户点击《通道名》时弹出
 		//protected IList<SAUseForm> saFormList;
 
         //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存

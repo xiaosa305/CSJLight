@@ -38,6 +38,7 @@
 			// saFlowLayoutPanel
 			// 
 			this.saFlowLayoutPanel.AutoScroll = true;
+			this.saFlowLayoutPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.saFlowLayoutPanel.Controls.Add(this.demoButton);
 			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.saFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
@@ -47,12 +48,13 @@
 			// 
 			// demoButton
 			// 
+			this.demoButton.BackColor = System.Drawing.Color.White;
 			this.demoButton.Location = new System.Drawing.Point(3, 3);
 			this.demoButton.Name = "demoButton";
 			this.demoButton.Size = new System.Drawing.Size(94, 23);
 			this.demoButton.TabIndex = 98;
 			this.demoButton.Text = "测试达到八个汉字";
-			this.demoButton.UseVisualStyleBackColor = true;
+			this.demoButton.UseVisualStyleBackColor = false;
 			this.demoButton.Visible = false;
 			this.demoButton.Click += new System.EventHandler(this.saButton_Click);
 			// 

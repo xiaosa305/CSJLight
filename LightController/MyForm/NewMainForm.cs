@@ -711,7 +711,7 @@ namespace LightController.MyForm
 		{
 			//MARK 0701 通道子属性 2.3：NewMainForm.lightsSkinListView_SelectedIndexChanged()			
 			if (lightsListView.SelectedIndices.Count > 0)
-			{				
+			{
 				selectedIndex = lightsListView.SelectedIndices[0];
 				disposeSauForm();
 				if ( generateNow)

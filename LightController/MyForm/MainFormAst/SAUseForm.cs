@@ -34,9 +34,10 @@ namespace LightController.MyForm.MainFormAst
 					Button saButton = new Button
 					{
 						Text = sa.SAName,
-						Size = new Size(94,23),
+						Size = new Size(94, 23),
 						Tag = tdIndex + "*" + sa.StartValue,
-						UseVisualStyleBackColor = true
+						BackColor = SystemColors.Window
+						//,UseVisualStyleBackColor = true
 					};
 					saButton.Click += new EventHandler(saButton_Click);
 					saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);

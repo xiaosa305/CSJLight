@@ -126,11 +126,11 @@ namespace LightDog.tools
                     this.RxBuff.Add(Convert.ToByte(this.SerialPortDevice.ReadByte()));
                     if (this.RxBuff.Count >= 8)
                     {
-                        if (this.RxBuff.Count == 13)
-                        {
-                            Console.WriteLine("");
-                        }
-                        Console.WriteLine(Encoding.Default.GetString(RxBuff.ToArray()));
+                        //if (this.RxBuff.Count == 13)
+                        //{
+                        //    Console.WriteLine("");
+                        //}
+                        //Console.WriteLine(Encoding.Default.GetString(RxBuff.ToArray()));
                         if (this.CheckData())
                         {
                             lock (this.Queue)

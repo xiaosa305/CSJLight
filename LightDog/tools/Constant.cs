@@ -13,7 +13,7 @@ namespace LightDog.tools
         public static readonly int ACTION_TIMEOUT = 2000;
         public static readonly int CHECK_TIMEOUT = 200;
 
-        public static readonly string SUPER_PASSWORD = "12345678";
+        public static readonly string SUPER_PASSWORD = "TRANSJOY";
 
         public static readonly string ORDER_SET_PASSWORD = "Set_Password";
         public static readonly string ORDER_SET_TIME = "Set_Time";

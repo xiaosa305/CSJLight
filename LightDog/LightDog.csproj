@@ -52,6 +52,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tools\Conmunicator.cs" />
+    <Compile Include="tools\Constant.cs" />
+    <Compile Include="tools\CRCTools.cs" />
+    <Compile Include="tools\SerialPortReceiveQueue.cs" />
+    <Compile Include="tools\SerialPortTool.cs" />
+    <Compile Include="tools\Test.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

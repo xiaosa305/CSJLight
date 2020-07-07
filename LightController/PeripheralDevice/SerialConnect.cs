@@ -75,7 +75,7 @@ namespace LightController.PeripheralDevice
                 }
                 ReadBuff.Clear();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.IsDeviceOpen = false;
                 ReadBuff.Clear();

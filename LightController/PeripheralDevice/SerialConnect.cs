@@ -106,7 +106,6 @@ namespace LightController.PeripheralDevice
                 }
             }
         }
-
         public override bool IsConnected()
         {
             if (this.SerialPortDevice != null)
@@ -118,7 +117,6 @@ namespace LightController.PeripheralDevice
                 return false;
             }
         }
-
         /// <summary>
         /// 串口模式下不操作
         /// </summary>

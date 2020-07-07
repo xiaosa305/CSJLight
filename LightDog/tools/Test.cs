@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static LightDog.tools.Conmunicator;
 
 namespace LightDog.tools
 {
@@ -19,42 +20,32 @@ namespace LightDog.tools
             return Instance;
         }
 
-        public void OpenSerialPortAndSearchDevice()
+        public void OpenSerialPortAndSearchDevice(Completed completed, Error error)
         {
-            SerialPortTool.GetInstant().OpenSerialPort(this.Completed,this.Error);
+            SerialPortTool.GetInstant().OpenSerialPort(completed, error);
         }
 
-        public void SetNewPassword(string password)
+        public void SetNewPassword(string password, Completed completed, Error error)
         {
-            SerialPortTool.GetInstant().SetLightControlDevicePassword(password, this.Completed, this.Error);
+            SerialPortTool.GetInstant().SetLightControlDevicePassword(password, completed, error);
         }
 
-        public void SetTime(string time)
+        public void SetTime(string time, Completed completed, Error error)
         {
-            SerialPortTool.GetInstant().SetLightControlDeviceTime(Convert.ToUInt32(time), this.Completed, this.Error);
+            SerialPortTool.GetInstant().SetLightControlDeviceTime(Convert.ToUInt32(time), completed, error);
         }
 
-        public void Login(string password)
+        public void Login(string password, Completed completed,Error error)
         {
             if (Constant.SUPER_PASSWORD.Equals(password))
             {
-                this.Completed(null, "登录成功");
+                completed(null, "登录成功");
             }
             else
             {
-                SerialPortTool.GetInstant().Login(password, this.Completed, this.Error);
+                SerialPortTool.GetInstant().Login(password, completed, error);
             }
-            SerialPortTool.GetInstant().Login(password, this.Completed, this.Error);
         }
-
-        public void Completed(Object obj,string msg)
-        {
-            Console.WriteLine("完成：" + msg);
-        }
-
-        public void Error(Object obj,string msg)
-        {
-            Console.WriteLine("失败：" + msg);
-        }
+      
     }
 }

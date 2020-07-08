@@ -24,5 +24,10 @@ namespace LightDogWPF
 		{
 			InitializeComponent();
 		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("Window_Loaded");
+		}
 	}
 }

@@ -326,8 +326,12 @@ namespace MultiLedController.MyForm
 				TimeSpan ts = afterDT.Subtract(beforeDT);
 			
 				enableStartButtons(true);			
-				setNotice(1, "已启动模拟,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
+				setNotice(1, "已启动模拟,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");				
 				setBusy(false);
+
+				if (!isDebuging) {
+					debugButton_Click(null, null);
+				}
 			}
 			else {
 				setBusy(true);

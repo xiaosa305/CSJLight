@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DogForm.Designer.cs">
+      <DependentUpon>DogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +64,9 @@
     <Compile Include="tools\SerialPortReceiveQueue.cs" />
     <Compile Include="tools\SerialPortTool.cs" />
     <Compile Include="tools\Test.cs" />
+    <EmbeddedResource Include="DogForm.resx">
+      <DependentUpon>DogForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

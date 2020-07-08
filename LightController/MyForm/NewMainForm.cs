@@ -2551,8 +2551,8 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void testButton1_Click(object sender, EventArgs e)
-		{
-			GetDBWrapper(true);
+		{			
+			XiaosaTest.GetInstance().BigDataTest(valueDAO.GetAll());
 		}
 		
 		/// <summary>

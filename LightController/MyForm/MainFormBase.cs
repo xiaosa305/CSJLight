@@ -449,7 +449,7 @@ namespace LightController.MyForm
 			// 从数据库直接读取的情况
 			if (isFromDB)
 			{
-				DBGetter dbGetter = new DBGetter(dbFilePath, isEncrypt);
+				DBGetter dbGetter = new DBGetter(dbFilePath, isEncrypt);				
 				DBWrapper allData = dbGetter.getAll();
 				return allData;
 			}
@@ -2073,6 +2073,7 @@ namespace LightController.MyForm
 				}
 			}
 
+			Console.WriteLine("导出起始时间：" + DateTime.Now.ToLocalTime().ToString());
 			SetNotice("正在导出工程，请稍候...");
 			setBusy(true);
 
@@ -2193,6 +2194,7 @@ namespace LightController.MyForm
 				try
 				{
 					FileUtils.ExportProjectFile(exportPath);
+					Console.WriteLine("导出结束时间" + DateTime.Now.ToLocalTime().ToString() );
 				}
 				catch (Exception ex) {
 					DialogResult dialogResult = MessageBox.Show("拷贝工程文件失败，原因为：\n" + ex.Message + "\n请在处理完成后点击《重试》或《取消》拷贝。",

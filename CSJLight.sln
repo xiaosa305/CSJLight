@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30225.117
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightEditor", "LightEditor\LightEditor.csproj", "{AA0D4DDD-F307-47A1-8D40-BB0CCEA2EC05}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiLedController", "MultiLedController\MultiLedController.csproj", "{06E9C9CD-7EE3-4826-B44E-614BADD383F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightDog", "LightDog\LightDog.csproj", "{63851A53-CB3A-4822-8BE9-939282F4B9FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightDogWPF", "LightDogWPF\LightDogWPF.csproj", "{720C9F19-5EF7-4175-AA8E-96365696EB26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,14 @@ Global
 		{63851A53-CB3A-4822-8BE9-939282F4B9FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63851A53-CB3A-4822-8BE9-939282F4B9FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{63851A53-CB3A-4822-8BE9-939282F4B9FC}.Release|x86.Build.0 = Release|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Debug|x86.Build.0 = Debug|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Release|x86.ActiveCfg = Release|Any CPU
+		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

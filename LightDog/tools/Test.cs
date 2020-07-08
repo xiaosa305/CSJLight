@@ -9,7 +9,10 @@ namespace LightDog.tools
     public class Test
     {
         private static Test Instance { get; set; }
-        private Test() { SerialPortTool.GetInstant().SetOldPassword("88888888"); }
+        private Test() 
+        { 
+            //SerialPortTool.GetInstant().SetOldPassword("88888888"); 
+        }
 
         public static Test GetInstance()
         {
@@ -27,12 +30,12 @@ namespace LightDog.tools
 
         public void SetNewPassword(string password, Completed completed, Error error)
         {
-            SerialPortTool.GetInstant().SetLightControlDevicePassword(password, completed, error);
+            //SerialPortTool.GetInstant().SetLightControlDevicePassword(password, completed, error);
         }
 
         public void SetTime(string time, Completed completed, Error error)
         {
-            SerialPortTool.GetInstant().SetLightControlDeviceTime(Convert.ToUInt32(time), completed, error);
+            //SerialPortTool.GetInstant().SetLightControlDeviceTime(Convert.ToUInt32(time), completed, error);
         }
 
         public void Login(string password, Completed completed,Error error)

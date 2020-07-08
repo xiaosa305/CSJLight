@@ -44,7 +44,7 @@ namespace LightController.Tools
             
         }
 
-        public void BigDataTest(List<TongdaoWrapper> values)
+        public void BigDataTest(IList<TongdaoWrapper> values)
         {
 
         }

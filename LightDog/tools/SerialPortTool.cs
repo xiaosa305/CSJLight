@@ -77,7 +77,7 @@ namespace LightDog.tools
                     this.SerialPortDevice.Open();
                     this.Flag = false;
                     this.CheckDevice();
-                    Thread.Sleep(200);
+                    Thread.Sleep(Constant.CHECK_TIMEOUT);
                     if (this.Flag)
                     {
                         Console.WriteLine("搜到设备");

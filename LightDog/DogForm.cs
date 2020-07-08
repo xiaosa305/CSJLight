@@ -82,6 +82,7 @@ namespace LightDog
 		public void LoginCompleted(Object obj, string msg)
 		{			
 			myTabControl.Enabled = true;
+			loginPanel.Enabled = false;
 			setNotice(msg,false);
 		}
 
@@ -109,7 +110,8 @@ namespace LightDog
 				return;
 			}
 
-			SerialPortTool.GetInstant().SetLightControlDevicePassword(newPassword, UpdatePasswordCompleted, UpdatePasswordError);
+			string password = pswTextBox.Text.Trim();
+			SerialPortTool.GetInstant().SetLightControlDevicePassword(password ,newPassword, UpdatePasswordCompleted, UpdatePasswordError);
 
 		}
 

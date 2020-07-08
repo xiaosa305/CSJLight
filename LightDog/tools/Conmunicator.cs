@@ -9,8 +9,8 @@ namespace LightDog.tools
 {
     public abstract class Conmunicator
     {
-        private string OldPassword { get; set; }
-        private string NewPassword { get; set; }
+        //private string OldPassword { get; set; }
+        //private string NewPassword { get; set; }
         protected List<byte> RxBuff { get; set; }
         private Thread ReceiveThread { get; set; }
         protected SerialPortReceiveQueue Queue { get; set; }
@@ -275,7 +275,7 @@ namespace LightDog.tools
             }
         }
 
-        public void SetLightControlDevicePassword(string newPassword,Completed completed,Error error)
+        public void SetLightControlDevicePassword(string newPassword,string oldPassword, Completed completed,Error error)
         {
             if (this.TranstionTimer == null || !this.TranstionTimer.Enabled)
             {
@@ -287,16 +287,16 @@ namespace LightDog.tools
                 this.CurrentOrder = Order.SetPassword;
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                this.NewPassword = newPassword;
+                //this.NewPassword = newPassword;
                 this.TranstionTimer = new System.Timers.Timer() { AutoReset = false };
-                this.TranstionTimer.Elapsed += new ElapsedEventHandler((s, e) => SetLightControlDevicePasswordTask(s, e));
+                this.TranstionTimer.Elapsed += new ElapsedEventHandler((s, e) => SetLightControlDevicePasswordTask(s, e,newPassword, oldPassword));
                 this.TranstionTimer.Start();
             }
         }
 
-        private void SetLightControlDevicePasswordTask(Object obj, ElapsedEventArgs e)
+        private void SetLightControlDevicePasswordTask(Object obj, ElapsedEventArgs e,string newPassword,string oldPassword)
         {
-            string dataStr = Constant.ORDER_SET_PASSWORD + " " + this.NewPassword + " " + this.OldPassword;
+            string dataStr = Constant.ORDER_SET_PASSWORD + " " + newPassword + " " + oldPassword;
             List<byte> data = new List<byte>(Encoding.Default.GetBytes(dataStr));
             Console.WriteLine(Encoding.Default.GetString(data.ToArray()));
             data.Add(0x00);
@@ -304,27 +304,27 @@ namespace LightDog.tools
             this.Send(data.ToArray(), 0, data.Count);
         }
 
-        public void SetLightControlDeviceTime(uint time,Completed completed,Error error)
+        public void SetLightControlDeviceTime(uint time,string password ,Completed completed,Error error)
         {
             if (this.TranstionTimer == null || !this.TranstionTimer.Enabled)
             {
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                if (this.OldPassword.Length == 0 || time < 0)
+                if (password.Length == 0 || time < 0)
                 {
                     this.Error_Event(null, "设置时间失败，时间不能为空且不能为负数");
                     return;
                 }
                 this.CurrentOrder = Order.SetTime;
                 this.TranstionTimer = new System.Timers.Timer() { AutoReset = false };
-                this.TranstionTimer.Elapsed += new ElapsedEventHandler((s, e) => SetLightControlDeviceTimeTask(s, e, time));
+                this.TranstionTimer.Elapsed += new ElapsedEventHandler((s, e) => SetLightControlDeviceTimeTask(s, e, time,password));
                 this.TranstionTimer.Start();
             }
         }
 
-        private void SetLightControlDeviceTimeTask(Object obj, ElapsedEventArgs e,uint time)
+        private void SetLightControlDeviceTimeTask(Object obj, ElapsedEventArgs e,uint time,string password)
         {
-            string dataStr = Constant.ORDER_SET_TIME + " " + time + " " + this.OldPassword;
+            string dataStr = Constant.ORDER_SET_TIME + " " + time + " " + password;
             List<byte> data = new List<byte>(Encoding.Default.GetBytes(dataStr));
             data.Add(0x00);
             data = this.AddPackageHead(data);
@@ -342,7 +342,6 @@ namespace LightDog.tools
                 }
                 this.Completed_Event = completed;
                 this.Error_Event = error;
-                this.SetOldPassword(password);
                 this.CurrentOrder = Order.Login;
                 this.TranstionTimer = new System.Timers.Timer() { AutoReset = false };
                 this.TranstionTimer.Elapsed += new ElapsedEventHandler((s, e) => LoginTask(s, e, password));
@@ -377,16 +376,6 @@ namespace LightDog.tools
             List<byte> data = new List<byte>(Encoding.Default.GetBytes(dataStr));
             data = this.AddPackageHead(data);
             this.Send(data.ToArray(), 0, data.Count);
-        }
-
-        public void SetOldPassword(string password)
-        {
-            this.OldPassword = password;
-        }
-
-        public string GetNewPassword()
-        {
-            return this.OldPassword;
         }
     }
 

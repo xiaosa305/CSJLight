@@ -1,4 +1,5 @@
-﻿using LightController.Ast;
+﻿using DMX512;
+using LightController.Ast;
 using LightController.Entity;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
@@ -32,7 +33,6 @@ namespace LightController.Tools
 
         public void NewConnectTest(DBWrapper wrapper,string configPath)
         {
-            
         }
 
         public void OpenSerialPort()
@@ -44,7 +44,7 @@ namespace LightController.Tools
             
         }
 
-        public void BigDataTest(IList<TongdaoWrapper> values)
+        public void BigDataTest(IList<DB_Value> values)
         {
 
         }

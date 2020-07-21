@@ -2561,6 +2561,21 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：点击《更新日志》
+		/// </summary>
+		protected void updateLogButtonClick()
+		{
+			try
+			{			
+				System.Diagnostics.Process.Start(Application.StartupPath + @"\更新日志\更新日志.txt");								
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
 		#endregion
 
 		#region stepPanel相关

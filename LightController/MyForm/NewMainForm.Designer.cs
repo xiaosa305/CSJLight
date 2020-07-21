@@ -53,6 +53,8 @@ namespace LightController.MyForm
 			this.CenterControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.KeyPressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.使用说明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.更新日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.playPanel = new System.Windows.Forms.Panel();
 			this.changeConnectMethodButton = new System.Windows.Forms.Button();
@@ -341,10 +343,26 @@ namespace LightController.MyForm
 			// 
 			// helpToolStripMenuItem
 			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.使用说明ToolStripMenuItem,
+            this.更新日志ToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.helpToolStripMenuItem.Text = "使用说明";
-			this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 26);
+			this.helpToolStripMenuItem.Text = "帮助";
+			// 
+			// 使用说明ToolStripMenuItem
+			// 
+			this.使用说明ToolStripMenuItem.Name = "使用说明ToolStripMenuItem";
+			this.使用说明ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.使用说明ToolStripMenuItem.Text = "使用说明";
+			this.使用说明ToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+			// 
+			// 更新日志ToolStripMenuItem
+			// 
+			this.更新日志ToolStripMenuItem.Name = "更新日志ToolStripMenuItem";
+			this.更新日志ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.更新日志ToolStripMenuItem.Text = "更新日志";
+			this.更新日志ToolStripMenuItem.Click += new System.EventHandler(this.updateLogToolStripMenuItem_Click);
 			// 
 			// ExitToolStripMenuItem
 			// 
@@ -1709,5 +1727,7 @@ namespace LightController.MyForm
 		private ToolTip saToolTip;
         private Button soundListButton;
 		private Button saButton;
+		private ToolStripMenuItem 使用说明ToolStripMenuItem;
+		private ToolStripMenuItem 更新日志ToolStripMenuItem;
 	}
 }

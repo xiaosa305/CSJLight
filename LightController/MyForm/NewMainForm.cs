@@ -454,6 +454,16 @@ namespace LightController.MyForm
 		{
 			helpButtonClick();
 		}
+			   
+		/// <summary>
+		/// 事件：点击《菜单栏 - 更新日志》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void updateLogToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			updateLogButtonClick();
+		}		
 
 		/// <summary>
 		/// 事件：点击《退出程序》
@@ -2679,5 +2689,7 @@ namespace LightController.MyForm
 		//}
 
 		#endregion
+
+		
 	}
 }

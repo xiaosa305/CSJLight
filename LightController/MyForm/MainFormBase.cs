@@ -154,7 +154,12 @@ namespace LightController.MyForm
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice) { } //设置提示信息
-		public virtual void EnableConnectedButtons(bool connected,bool previewing) { } //设置《连接按钮组》是否可用	
+		public virtual void EnableConnectedButtons(bool connected,bool previewing) {
+			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
+			// 是否连接,是否预览中
+			isConnected = connected;
+			isPreviewing = previewing;		
+		} //设置《连接按钮组》是否可用	
 
 		#endregion
 
@@ -1615,8 +1620,8 @@ namespace LightController.MyForm
 		/// -- 子类中需有针对该子类内部自己的部分代码（如重置listView或禁用stepPanel等）
 		/// </summary>
 		protected virtual void clearAllData()
-		{
-			endview(); // 清空数据时，应该结束预览。
+		{	
+			disConnect(); //clearAllData() 【原来的代码只是停止预览，用断开连接更完善】
 
 			currentProjectName = null;
 
@@ -1641,7 +1646,6 @@ namespace LightController.MyForm
 			groupIniPath = null ;
 
 			clearSaPanelArray();
-
 
 			//MARK 只开单场景：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
@@ -3148,6 +3152,7 @@ namespace LightController.MyForm
 
 			sauForm = new SAUseForm(this, la, tdIndex, tdName);
 			sauForm.Show();
+			SetNotice("已打开通道【" + tdName + "】的子属性小窗口。");
 		}
 
 		#endregion
@@ -3455,7 +3460,6 @@ namespace LightController.MyForm
 					{
 						SetNotice("设备(以串口方式)连接成功,并进入调试模式。");
 						EnableConnectedButtons(true, false);
-						RefreshStep();
 					}
 					else {
 						MessageBox.Show("设备连接失败，请刷新串口列表后重试。");
@@ -3473,8 +3477,7 @@ namespace LightController.MyForm
 					if (myConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
 						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
-						SetNotice("设备(以网络方式)连接成功,并进入调试模式。");
-						RefreshStep();
+						SetNotice("设备(以网络方式)连接成功,并进入调试模式。");						
 					}
 					else
 					{
@@ -3510,10 +3513,6 @@ namespace LightController.MyForm
 		/// </summary>
 		internal void Preview()
 		{			
-			if ( ! isConnectCom)
-			{
-				playTools.StartInternetPreview( myConnect, ConnectCompleted,ConnectAndDisconnectError, eachStepTime);
-			}
 			SetNotice("预览数据生成成功,即将开始预览。");
 			EnableConnectedButtons(true,true);
 			playTools.PreView(GetDBWrapper(false), GlobalIniPath, currentFrame);			
@@ -3531,10 +3530,10 @@ namespace LightController.MyForm
 		/// 辅助方法：预览效果|停止预览
 		/// </summary>
 		protected void previewButtonClick()
-		{
+		{			
 			if (!isConnected)
 			{
-				MessageBox.Show("尚未连接设备，无法预览效果或停止预览。");
+				MessageBox.Show("尚未连接设备，无法预览效果（或停止预览）。");
 				EnableConnectedButtons(false, false);
 				return;
 			}
@@ -3542,10 +3541,8 @@ namespace LightController.MyForm
 			// 停止预览
 			if (isPreviewing)
 			{
-				EnableConnectedButtons(true, false);
 				endview();
-				RefreshStep();
-				SetPreview(false);
+				EnableConnectedButtons(true, false);	
 				SetNotice("已结束预览,并恢复到实时调试模式。");
 			}
 			// 开始预览
@@ -3557,6 +3554,7 @@ namespace LightController.MyForm
 					SetPreview(false);
 					return;
 				}
+
 				setBusy(true);
 				SetPreview(true);
 				SetNotice("正在生成预览数据，请稍候...");
@@ -3583,7 +3581,7 @@ namespace LightController.MyForm
 			// 若还在触发状态中，则不再触发
 			if (!playTools.GetMusicStatus())
 			{
-				Console.WriteLine("Dickov:触发音频中，不再重复触发...");
+				Console.WriteLine("Dickov:GetMusicStatus==true（触发中，或无音频）,故此操作不生效...");
 				return;
 			}
 
@@ -3715,7 +3713,7 @@ namespace LightController.MyForm
 		public void ConnectCompleted(Object obj, string msg)
 		{
 			Invoke((EventHandler)delegate {
-				EnableConnectedButtons(true,false);				
+				EnableConnectedButtons(true,false);	
 			});
 		}	
 
@@ -3729,7 +3727,7 @@ namespace LightController.MyForm
 				EnableConnectedButtons(false,false);				
 			});
 		}
-
+		
 		/// <summary>
 		/// 辅助回调方法：设备连接或断开连接出错
 		/// </summary>
@@ -4034,8 +4032,7 @@ namespace LightController.MyForm
 		}
 		public void Completed()
 		{			
-			mainForm.Preview();
-			mainForm.SetNotice("正在预览效果...");
+			mainForm.Preview();			
 		}
 		public void Error(string msg)
 		{

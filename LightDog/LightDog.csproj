@@ -7,7 +7,7 @@
     <ProjectGuid>{63851A53-CB3A-4822-8BE9-939282F4B9FC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>LightDog</RootNamespace>
-    <AssemblyName>LightDog</AssemblyName>
+    <AssemblyName>JKC工具</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -2485,7 +2485,7 @@ namespace LightController.MyForm
 		{
 			previewButtonClick();
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《触发音频》
 		/// </summary>
@@ -2502,9 +2502,7 @@ namespace LightController.MyForm
 		/// <param name="v"></param>
 		public override void EnableConnectedButtons(bool connected,bool previewing)
 		{
-			// 是否连接,是否预览中
-			isConnected = connected;
-			isPreviewing = previewing;
+			base.EnableConnectedButtons(connected, previewing);
 
 			// 《设备列表》《刷新列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			changeConnectMethodButton.Enabled = !isConnected;
@@ -2517,6 +2515,11 @@ namespace LightController.MyForm
 
 			deviceConnectButton.Text = isConnected ? "断开连接":"连接设备";
 			previewButton.Text = isPreviewing ? "停止预览" : "预览效果";
+
+			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
+			if (isConnected && !isPreviewing) {
+				RefreshStep();
+			}						
 		}
 
 		#endregion

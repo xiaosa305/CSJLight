@@ -10,8 +10,8 @@ namespace LightDog.tools
 {
     public class Constant
     {
-        public static readonly int ACTION_TIMEOUT = 500;
-        public static readonly int CHECK_TIMEOUT = 100;
+        public static readonly int ACTION_TIMEOUT = 1000;
+        public static readonly int CHECK_TIMEOUT = 200;
 
         public static readonly string SUPER_PASSWORD = "TRANSJOY";
 

@@ -206,8 +206,9 @@ namespace LightDog.tools
                         Thread.Sleep(1);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+					Console.WriteLine(ex);
                     this.ReceiveThreadStatus = false;
                     break;
                 }

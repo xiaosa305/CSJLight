@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,15 @@ namespace LightDog
 		public DogForm()
 		{
 			InitializeComponent();
+
+			// 为软件添加版本信息
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
+			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			Text += " v" + appFileVersion;
+
+			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
+			CheckForIllegalCrossThreadCalls = false;
+
 		}
 
 		#region 连接相关
@@ -41,7 +51,7 @@ namespace LightDog
 		public void ConnectError(Object obj, string msg)
 		{
 			myTabControl.Enabled = false;
-			setNotice("未监测到设备，请检查串口连接后重试。", true);
+			setNotice("未检测到设备，请检查串口连接后重试。", true);
 		}
 
 		#endregion
@@ -83,18 +93,20 @@ namespace LightDog
 		{			
 			myTabControl.Enabled = true;
 			loginPanel.Enabled = false;
-			setNotice(msg,false);
+			setNotice("密码校验成功，请进行相关设置。", false);
 		}
 
 		public void LoginError(Object obj, string msg)
 		{
 			myTabControl.Enabled = false;
-			setNotice(msg, true);
+			pswTextBox.Text = null;
+
+			setNotice("密码检验失败，请重新输入密码进行校验。", true);
 		}
 
 		#endregion
 
-		#region 设置新密码、设置剩余时间
+		#region 设置新密码
 
 		/// <summary
 		/// 事件：点击《修改密码》
@@ -110,9 +122,8 @@ namespace LightDog
 				return;
 			}
 
-			string password = pswTextBox.Text.Trim();
-			SerialPortTool.GetInstant().SetLightControlDevicePassword(password ,newPassword, UpdatePasswordCompleted, UpdatePasswordError);
-
+			string password = pswTextBox.Text.Trim();			
+			SerialPortTool.GetInstant().SetLightControlDevicePassword(newPassword ,password, UpdatePasswordCompleted, UpdatePasswordError);
 		}
 
 		/// <summary>
@@ -123,18 +134,69 @@ namespace LightDog
 		public void UpdatePasswordCompleted(Object obj, string msg)
 		{
 			myTabControl.Enabled = false;
+			loginPanel.Enabled = true;
+
 			pswTextBox.Text = null;
+			pswTextBox.Select();
 			newPswTextBox.Text = null;
 
-			setNotice( "密码修改成功，请使用新密码重新验证。",true) ;
+			setNotice( "密码修改成功，请使用新密码重新校验。",true) ;
 		}
 
 		public void UpdatePasswordError(Object obj, string msg)
 		{
+			myTabControl.Enabled = false;
+			loginPanel.Enabled = false; 
+
 			setNotice("密码修改失败，请重新连接设备后重试。", true);
 		}
 
+		#endregion
 
+		#region 设置剩余时间
+
+		private void timeCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			hourNumericUpDown.Enabled = !timeCheckBox.Checked ;
+		}		
+
+		private void timeSetButton_Click(object sender, EventArgs e)
+		{
+			string password = pswTextBox.Text.Trim();
+
+			if (timeCheckBox.Checked)
+			{
+				SerialPortTool.GetInstant().SetLightControlDeviceTime(4294967295, password, TimeSetCompleted, TimeSetError);
+			}
+			else {
+				try
+				{
+					uint remainTime = uint.Parse(hourNumericUpDown.Text) * 60	;					
+					SerialPortTool.GetInstant().SetLightControlDeviceTime(remainTime, password, TimeSetCompleted, TimeSetError);
+				}
+				catch (Exception ex) {
+					setNotice(	ex.Message , true);
+				}				
+			}
+		}
+		
+
+		public void TimeSetCompleted(object obj, string message)
+		{
+			myTabControl.Enabled = false;
+			loginPanel.Enabled = false;
+
+			setNotice("可用时长设置成功，设备将自动重启，请重新连接。", false);
+
+		}
+
+		public void TimeSetError(object obj, string message)
+		{
+			myTabControl.Enabled = false;
+			loginPanel.Enabled = false;
+
+			setNotice("可用时长设置失败，请重连设备后重试。", true);
+		}
 
 		#endregion
 
@@ -147,12 +209,11 @@ namespace LightDog
 		/// <param name="msgBox"></param>
 		private void setNotice(string msg, bool msgBoxShow) {
 			this.myStatusLabel.Text = msg;
-			if (msgBoxShow) {
-				MessageBox.Show(msg);
-			}
+			//if (msgBoxShow) {
+			//	MessageBox.Show(msg);
+			//}
 		}
 
-
-
+	
 	}
 }

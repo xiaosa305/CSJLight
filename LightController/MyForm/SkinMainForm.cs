@@ -2399,9 +2399,7 @@ namespace LightController.MyForm
 		/// <param name="v"></param>
 		public override void EnableConnectedButtons(bool connected,bool previewing)
 		{
-			// 是否连接,是否预览中
-			isConnected = connected;
-			isPreviewing = previewing;
+			base.EnableConnectedButtons(connected, previewing);
 
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !isConnected;				
@@ -2416,14 +2414,17 @@ namespace LightController.MyForm
 				deviceConnectSkinButton.Text = "断开连接";
 			}
 			else
-			{
-                SetPreview(false);
+			{                
                 deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				deviceConnectSkinButton.Text = "连接设备";
 			}
+			SetPreview(isPreviewing);
 
-			
-
+			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
+			if (isConnected && !isPreviewing)
+			{
+				RefreshStep();
+			}
 		}
 
 		/// <summary>

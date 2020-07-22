@@ -202,7 +202,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				SetNotice("未找到可用设备，请检查设备连接后重试。", true);
+				SetNotice("未找到可用设备，请检查设备连接后重试。", false);
 			}
 			refreshConnectButtons();
 		}

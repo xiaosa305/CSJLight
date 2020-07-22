@@ -22,25 +22,23 @@ namespace LightController.MyForm
 {
 	public partial class ProjectUpdateForm : Form
 	{
-		private MainFormBase mainForm; 
-		private DBWrapper dbWrapper; 
+		private MainFormBase mainForm; 		
+		private string projectPath;   // 已有工程的路径（选到CSJ这一层）		
 		private string globalSetPath;   // 全局配置路径
-		private string projectPath;   // 已有工程的路径（选到CSJ这一层）
 
 		private BaseCommunication myConnect; // 保持着一个设备连接（串网口通用）
 		private bool isConnected = false; //是否连接
 		private bool isConnectCom = true; //是否串口连接
 		private IList<NetworkDeviceInfo> networkDeviceList;  // 网络设备的列表			
 
-		public ProjectUpdateForm(MainFormBase mainForm, DBWrapper dbWrapper, string globalSetPath, string projectPath)
+		public ProjectUpdateForm(MainFormBase mainForm, string globalSetPath, string projectPath)
 		{
 			InitializeComponent();
 			this.mainForm = mainForm;
-			this.dbWrapper = dbWrapper;
+			//this.dbWrapper = dbWrapper;
 			this.globalSetPath = globalSetPath;
 			this.projectPath = projectPath;
 			pathLabel.Text = projectPath;
-
 		}
 
 		private void ProjectUpdateForm_Load(object sender, EventArgs e)
@@ -188,7 +186,7 @@ namespace LightController.MyForm
 			}
 			else
 			{
-				SetNotice("未找到可用设备，请检查设备连接后重试。", true);
+				SetNotice("未找到可用设备，请检查设备连接后重试。", false);
 			}
 		}
 
@@ -287,6 +285,8 @@ namespace LightController.MyForm
 		{
 			SetBusy(true);
 			bool generateNow = false;
+			DBWrapper dbWrapper = mainForm.GetDBWrapper(false);
+
 			if (String.IsNullOrEmpty(projectPath))
 			{
 				DialogResult dr = MessageBox.Show("检查到您未选中已导出的工程文件夹，如继续操作会实时生成数据(将消耗较长时间)，是否继续？",
@@ -299,6 +299,7 @@ namespace LightController.MyForm
 					return;
 				}
 
+				
 				if (dbWrapper.lightList == null || dbWrapper.lightList.Count == 0)
 				{
 					SetNotice("当前工程无灯具，无法更新工程。",true);

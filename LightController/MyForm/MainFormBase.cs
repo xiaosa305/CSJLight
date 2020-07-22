@@ -449,7 +449,7 @@ namespace LightController.MyForm
 		///  辅助方法：通过isFromDB属性，来获取内存或数据库中的DBWrapper(三个列表的集合)
 		/// </summary>
 		/// <returns></returns>
-		protected DBWrapper GetDBWrapper(bool isFromDB)
+		public DBWrapper GetDBWrapper(bool isFromDB)
 		{
 			// 从数据库直接读取的情况
 			if (isFromDB)
@@ -2497,7 +2497,7 @@ namespace LightController.MyForm
 		protected void projectUpdateClick()
 		{
 			disConnect(); //projectUpdateClick()
-			new ProjectUpdateForm(this, GetDBWrapper(false), GlobalIniPath, tempProjectPath).ShowDialog();
+			new ProjectUpdateForm(this,  GlobalIniPath, tempProjectPath).ShowDialog();
 		}
 
 		#endregion

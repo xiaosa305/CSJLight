@@ -16,8 +16,8 @@ namespace LightController.MyForm
 		public MainFormBase mainForm;		
 		private IniFileHelper iniAst ;
 		private bool isInit = false;
-		private int eachStepTime = 30;
-		private decimal eachStepTime2 = .03m;
+		private int eachStepTime = 40;
+		private decimal eachStepTime2 = .04m;
 
 		private int frameCount = 0 ;
 		public static int MULTI_SCENE_COUNT = 16 ;
@@ -72,7 +72,7 @@ namespace LightController.MyForm
 			zuheFrameComboBox.SelectedIndex = 0; 
 			startupComboBox.SelectedIndex = 1; // 开机启动默认设为标准，但用户也可以选择不设置开机场景
 			tongdaoCountComboBox.SelectedIndex = 0;
-			eachStepTimeNumericUpDown.Value = 30;
+			eachStepTimeNumericUpDown.Value = 40;
 			eachChangeModeComboBox.SelectedIndex = 0;
 			
 			frame1ComboBox.SelectedIndex = 0;
@@ -91,12 +91,16 @@ namespace LightController.MyForm
 			jgLabels = new Label[frameCount];
 			lkTextBoxes = new TextBox[frameCount];
 
+			eachStepTimeNumericUpDown.MouseWheel += eachStepTimeNumericUpDown_MouseWheel;
+
 			#endregion
 
 			// 初始化iniAst
 			iniAst = new IniFileHelper(mainForm.GlobalIniPath);
 			isInit = true;			
 		}
+
+		
 
 		private void GlobalSetForm_Load(object sender, EventArgs e)
 		{
@@ -129,14 +133,14 @@ namespace LightController.MyForm
 			{
 				tongdaoCountComboBox.SelectedIndex = iniAst.ReadInt("Set", "TongdaoCount", 0);
 				startupComboBox.SelectedIndex = iniAst.ReadInt("Set", "StartupFrame", 1);
-				int sjyz = iniAst.ReadInt("Set", "EachStepTime", 30);
+				int sjyz = iniAst.ReadInt("Set", "EachStepTime", 40);
 				eachStepTimeNumericUpDown.Value =  sjyz<30?30:sjyz;
 				eachChangeModeComboBox.SelectedIndex = iniAst.ReadInt("Set", "EachChangeMode", 0);
 			}
 			catch (Exception) {
 				tongdaoCountComboBox.SelectedIndex = 0;
 				startupComboBox.SelectedIndex = 1;
-				eachStepTimeNumericUpDown.Value =  30;
+				eachStepTimeNumericUpDown.Value =  40;
 				eachChangeModeComboBox.SelectedIndex = 0 ;
 			}
 			eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
@@ -178,8 +182,7 @@ namespace LightController.MyForm
 
 				lkTextBoxes[frameIndex].Text = iniAst.ReadString("SK", frameIndex + "LK","");
 				lkTextBoxes[frameIndex].KeyPress += new KeyPressEventHandler(skFrameTextBox_KeyPress);
-			}
-			
+			}			
 		}
 
 		/// <summary>
@@ -300,11 +303,17 @@ namespace LightController.MyForm
 			iniAst.WriteInt("Set", "StartupFrame", startupComboBox.SelectedIndex) ;				
 			iniAst.WriteInt("Set", "EachChangeMode", eachChangeModeComboBox.SelectedIndex);
 
-			// 弃用下列代码：时间因子不可在此处变动
-			//iniAst.WriteString("Set", "EachStepTime", eachStepTimeNumericUpDown.Text);
-			//eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
-			//mainForm.ChangeEachStepTime( eachStepTime );
-	
+			// 更改时间因子
+			iniAst.WriteString("Set", "EachStepTime", eachStepTimeNumericUpDown.Text);
+			eachStepTime = Decimal.ToInt32(eachStepTimeNumericUpDown.Value);
+			eachStepTime2 = eachStepTime / 1000m;
+			for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
+			{
+				int currentStepTime = iniAst.ReadInt("SK", frameIndex + "ST", 0);
+				skStepTimeNumericUpDowns[frameIndex].Value = currentStepTime * eachStepTime2;
+			}
+			mainForm.ChangeEachStepTime(eachStepTime); // 主界面的时间因子，也要更改一下
+
 			MessageBox.Show("开机场景、场景切换跳渐变\n等全局设置保存成功");
 		}
 			
@@ -416,5 +425,59 @@ namespace LightController.MyForm
 		}
 
 		#endregion
+		
+
+		/// <summary>
+		/// 事件：单独处理时间因子输入框，以免用户手动输入时出错
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void eachStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			NumericUpDown nud = (NumericUpDown)sender;
+
+			if (nud.Value < 35)
+			{
+				nud.Value = 30;
+			}
+			else if (nud.Value < 45)
+			{
+				nud.Value = 40;
+			}
+			else {
+				nud.Value = 50;
+			}		
+		}
+
+		/// <summary>
+		///  事件：鼠标滚动时，步时间值每次只变动一个Increment值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void eachStepTimeNumericUpDown_MouseWheel(object sender, MouseEventArgs e)
+		{			
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			if (e.Delta > 0)
+			{
+				decimal dd =  eachStepTimeNumericUpDown.Value +  eachStepTimeNumericUpDown.Increment;
+				if (dd <=  eachStepTimeNumericUpDown.Maximum)
+				{
+					 eachStepTimeNumericUpDown.Value = dd;
+				}
+			}
+			else if (e.Delta < 0)
+			{
+				decimal dd =  eachStepTimeNumericUpDown.Value -  eachStepTimeNumericUpDown.Increment;
+				if (dd >=  eachStepTimeNumericUpDown.Minimum)
+				{
+					 eachStepTimeNumericUpDown.Value = dd;
+				}
+			}
+		}
+
 	}
 }

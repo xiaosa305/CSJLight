@@ -166,7 +166,6 @@ private System.ComponentModel.IContainer components = null;
 			// 
 			// eachStepTimeNumericUpDown
 			// 
-			this.eachStepTimeNumericUpDown.Enabled = false;
 			this.eachStepTimeNumericUpDown.Increment = new decimal(new int[] {
             10,
             0,
@@ -189,10 +188,11 @@ private System.ComponentModel.IContainer components = null;
 			this.eachStepTimeNumericUpDown.TabIndex = 5;
 			this.eachStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.eachStepTimeNumericUpDown.Value = new decimal(new int[] {
-            30,
+            40,
             0,
             0,
             0});
+			this.eachStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.eachStepTimeNumericUpDown_ValueChanged);
 			// 
 			// eachStepTimeLabel
 			// 

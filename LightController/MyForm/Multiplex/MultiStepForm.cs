@@ -26,10 +26,10 @@ namespace LightController.MyForm
 			this.currentStep = currentStep;
 			this.totalStep = totalStep;
 			this.stepTemplate = stepTemplate;			
-			this.mode = mode;
+			this.mode = mode;			
 
 			InitializeComponent();
-
+			
 			#region 初始化自定义数组等
 
 			tdCheckBoxes[0] = checkBox1;

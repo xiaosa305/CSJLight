@@ -57,7 +57,7 @@ namespace LightController.MyForm
         // 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）
         public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
         public static int FrameCount = 0;  //场景数量
-        public static int MAX_StTimes = 254;  //每步 时间因子可乘的 最大倍数 如 0.03s*254= 7.62s ; 应设为常量	-》200331确认为15s=0.03*500	
+        public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
         public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取
 
         // 辅助的bool变量：	
@@ -232,6 +232,16 @@ namespace LightController.MyForm
 				return false;
 			}
 			return true;
+		}
+
+		/// <summary>
+		/// 辅助方法：在《在全局配置》中改变了时间因子并保存后，mainForm的时间因子变量也跟着改变，同时刷新当前步
+		/// </summary>
+		public void ChangeEachStepTime(int eachStepTime)
+		{
+			this.eachStepTime = eachStepTime;
+			this.eachStepTime2 = eachStepTime / 1000m;
+			RefreshStep();
 		}
 
 		/// <summary>
@@ -3761,16 +3771,7 @@ namespace LightController.MyForm
 
 		#region 弃用方法区
 
-		//弃用原因：不再支持可更改时间因子。
-		///// <summary>
-		///// 辅助方法：在《在全局配置》中改变了时间因子并保存后，mainForm的时间因子变量也跟着改变，同时刷新当前步
-		///// </summary>
-		//public void ChangeEachStepTime(int eachStepTime)
-		//{
-		//	this.eachStepTime = eachStepTime;
-		//	this.eachStepTime2 = eachStepTime / 1000;
-		//	RefreshStep();
-		//}
+
 
 		//SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
 		/// <summary>

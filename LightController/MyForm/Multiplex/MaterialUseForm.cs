@@ -101,12 +101,14 @@ namespace LightController.MyForm
 		private void insertOrCoverButton_Click(object sender, EventArgs e)
 		{
 			string iniPath = getIniPath();
-			if (iniPath != null) {
+			if (iniPath != null)
+			{
 				MaterialAst materialAst = MaterialAst.GenerateMaterialAst(iniPath);
-				InsertMethod method = ((Button)sender).Name == "insertButton" ? InsertMethod.INSERT : InsertMethod.COVER;
+				InsertMethod method = (InsertMethod)int.Parse(((Button)sender).Tag.ToString());
+
 				mainForm.InsertOrCoverMaterial(materialAst, method);
 
-				this.Dispose();
+				Dispose();
 				mainForm.Activate();
 			}
 		}
@@ -137,8 +139,7 @@ namespace LightController.MyForm
 				ifJustDelete = true;
 			}
 		}
-
-
+		
 		/// <summary>
 		///  事件：点击《取消》
 		/// </summary>

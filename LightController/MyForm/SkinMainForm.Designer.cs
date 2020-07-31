@@ -2129,6 +2129,7 @@ namespace LightController.MyForm
 			this.nextStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.nextStepSkinButton.UseVisualStyleBackColor = false;
 			this.nextStepSkinButton.Click += new System.EventHandler(this.nextStepSkinButton_Click);
+			this.nextStepSkinButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nextStepSkinButton_MouseDown);
 			// 
 			// useMaterialSkinButton
 			// 
@@ -2399,6 +2400,7 @@ namespace LightController.MyForm
 			this.backStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.backStepSkinButton.UseVisualStyleBackColor = false;
 			this.backStepSkinButton.Click += new System.EventHandler(this.backStepSkinButton_Click);
+			this.backStepSkinButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.backStepSkinButton_MouseDown);
 			// 
 			// frameSkinComboBox
 			// 

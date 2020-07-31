@@ -343,10 +343,12 @@ namespace LightController.MyForm
 			#endregion
 
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(useFrameSkinButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
-			myToolTip.SetToolTip(chooseStepSkinButton, "跳转指定步");
-			myToolTip.SetToolTip(keepSkinButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
-			myToolTip.SetToolTip(insertSkinButton, "左键点击为后插步,右键点击为前插步。");
+			myToolTip.SetToolTip(useFrameSkinButton, useFrameNotice);
+			myToolTip.SetToolTip(chooseStepSkinButton, chooseStepNotice);
+			myToolTip.SetToolTip(keepSkinButton, keepNotice);
+			myToolTip.SetToolTip(insertSkinButton, insertNotice);
+			myToolTip.SetToolTip(backStepSkinButton, backStepNotice);
+			myToolTip.SetToolTip(nextStepSkinButton, nextStepNotice);
 
 			isInit = true;
 		}
@@ -826,6 +828,13 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		private bool checkSameLights()
 		{
+			if (lightsSkinListView.SelectedItems.Count == 0) {
+				return false;
+			}
+			if (lightsSkinListView.SelectedItems.Count == 1) {
+				return true;
+			}
+
 			bool result = true;
 			string firstTag = lightsSkinListView.SelectedItems[0].Tag.ToString();
 			for (int i = 1; i < lightsSkinListView.SelectedItems.Count; i++) // 从第二个选中灯具开始比对
@@ -1367,64 +1376,113 @@ namespace LightController.MyForm
 			// 进入多灯模式
 			if (!isMultiMode)
 			{
-				if (lightsSkinListView.SelectedIndices.Count < 2)
-				{
-					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
-					return;
-				}
-				if (!checkSameLights())
-				{
-					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
-					return;
-				}
-				selectedIndices = new List<int>();
-				foreach (int item in lightsSkinListView.SelectedIndices)
-				{
-					selectedIndices.Add(item);
-				}
-				new MultiLightForm(this, isCopyAll, lightAstList, selectedIndices).ShowDialog();
+				enterMultiMode();
 			}
 			// 退出多灯模式
 			else
 			{
-				foreach (ListViewItem item in lightsSkinListView.Items)
-				{
-					item.BackColor = Color.White;
-				}
-				RefreshMultiModeButtons(false);
-
-				try {
-					for ( int i = 0;i < lightsSkinListView.Items.Count; i++)
-					{
-						lightsSkinListView.Items[i].Selected = i == selectedIndex;
-					}				
-					lightsSkinListView.Select();
-				}catch(Exception ex) { 
-					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-				}			
+				exitMultiMode();
 			}
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：进入多灯模式的子类实现
+		/// </summary>
+		protected override void enterMultiMode() {
+
+			if (lightsSkinListView.SelectedIndices.Count < 2)
+			{
+				MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
+				return;
+			}
+			if (!checkSameLights())
+			{
+				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+				return;
+			}
+			selectedIndices = new List<int>();
+			foreach (int item in lightsSkinListView.SelectedIndices)
+			{
+				selectedIndices.Add(item);
+			}
+			new MultiLightForm(this, isCopyAll, lightAstList, selectedIndices).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：退出多灯模式的子类实现
+		/// </summary>
+		protected override void exitMultiMode() {
+
+			foreach (ListViewItem item in lightsSkinListView.Items)
+			{
+				item.BackColor = Color.White;
+			}
+			RefreshMultiModeButtons(false);
+
+			try
+			{
+				for (int i = 0; i < lightsSkinListView.Items.Count; i++)
+				{
+					lightsSkinListView.Items[i].Selected = i == selectedIndex;
+				}
+				lightsSkinListView.Select();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
+			}
+
+		}
+
+
 		/// <summary>
 		///  事件：点击《上一步》
 		///  先判断currentStep，再调用chooseStep(stepValue)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void backStepSkinButton_Click(object sender, EventArgs e)
+		private void backStepSkinButton_Click(object sender, EventArgs e) { }
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《上一步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void backStepSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			backStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				backStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				chooseStep(1);
+			}
 		}
-		
+
 		/// <summary>
 		///  事件：点击《下一步》
 		///  先判断currentStep，再调用chooseStep(stepValue)
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void nextStepSkinButton_Click(object sender, EventArgs e)
+		private void nextStepSkinButton_Click(object sender, EventArgs e) { }
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《下一步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void nextStepSkinButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			nextStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				nextStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				chooseStep(getTotalStep());
+			}
 		}
 
 		/// <summary>
@@ -1675,7 +1733,7 @@ namespace LightController.MyForm
 			multiplexSkinButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用
-			groupButton.Enabled = lightAstList != null && lightsSkinListView.SelectedIndices.Count > 1; //只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
+			groupButton.Enabled = lightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击
 			groupFlowLayoutPanel.Enabled = lightAstList != null ; 
 			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
@@ -2060,16 +2118,18 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void groupSkinButton_Click(object sender, EventArgs e)
 		{
-			if (lightsSkinListView.SelectedIndices.Count < 2)
+			if (lightsSkinListView.SelectedIndices.Count < 1)
 			{
-				MessageBox.Show("请选择至少两个(同型)灯具，否则无法进行编组。");
+				MessageBox.Show("请选择至少一个灯具，否则无法进行编组。");
 				return;
 			}
-			if (!checkSameLights())
+
+			if ( !checkSameLights())
 			{
-				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+				MessageBox.Show("未选中灯具或选中的灯具并非同一类型的，无法进行编组；请再次选择后重试。");
 				return;
 			}
+
 			selectedIndices = new List<int>();
 			foreach (int item in lightsSkinListView.SelectedIndices)
 			{

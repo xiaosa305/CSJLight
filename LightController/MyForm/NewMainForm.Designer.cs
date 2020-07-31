@@ -98,6 +98,16 @@ namespace LightController.MyForm
 			this.pasteStepButton = new System.Windows.Forms.Button();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.button1 = new System.Windows.Forms.Button();
+			this.button2 = new System.Windows.Forms.Button();
+			this.button3 = new System.Windows.Forms.Button();
+			this.button4 = new System.Windows.Forms.Button();
+			this.button5 = new System.Windows.Forms.Button();
+			this.button6 = new System.Windows.Forms.Button();
+			this.button7 = new System.Windows.Forms.Button();
+			this.button8 = new System.Windows.Forms.Button();
+			this.button9 = new System.Windows.Forms.Button();
+			this.button10 = new System.Windows.Forms.Button();
+			this.button11 = new System.Windows.Forms.Button();
 			this.tdPanel = new System.Windows.Forms.Panel();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
@@ -154,16 +164,6 @@ namespace LightController.MyForm
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
-			this.button7 = new System.Windows.Forms.Button();
-			this.button8 = new System.Windows.Forms.Button();
-			this.button9 = new System.Windows.Forms.Button();
-			this.button10 = new System.Windows.Forms.Button();
-			this.button11 = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -871,6 +871,97 @@ namespace LightController.MyForm
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.saButton_Click);
 			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(3, 34);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(70, 25);
+			this.button2.TabIndex = 2;
+			this.button2.Text = "子属性事";
+			this.button2.UseVisualStyleBackColor = true;
+			// 
+			// button3
+			// 
+			this.button3.Location = new System.Drawing.Point(3, 65);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(70, 25);
+			this.button3.TabIndex = 3;
+			this.button3.Text = "子属性事";
+			this.button3.UseVisualStyleBackColor = true;
+			// 
+			// button4
+			// 
+			this.button4.Location = new System.Drawing.Point(3, 96);
+			this.button4.Name = "button4";
+			this.button4.Size = new System.Drawing.Size(70, 25);
+			this.button4.TabIndex = 4;
+			this.button4.Text = "子属性事";
+			this.button4.UseVisualStyleBackColor = true;
+			// 
+			// button5
+			// 
+			this.button5.Location = new System.Drawing.Point(3, 127);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(70, 25);
+			this.button5.TabIndex = 5;
+			this.button5.Text = "子属性事";
+			this.button5.UseVisualStyleBackColor = true;
+			// 
+			// button6
+			// 
+			this.button6.Location = new System.Drawing.Point(3, 158);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(70, 25);
+			this.button6.TabIndex = 6;
+			this.button6.Text = "子属性事";
+			this.button6.UseVisualStyleBackColor = true;
+			// 
+			// button7
+			// 
+			this.button7.Location = new System.Drawing.Point(3, 189);
+			this.button7.Name = "button7";
+			this.button7.Size = new System.Drawing.Size(70, 25);
+			this.button7.TabIndex = 7;
+			this.button7.Text = "子属性事";
+			this.button7.UseVisualStyleBackColor = true;
+			// 
+			// button8
+			// 
+			this.button8.Location = new System.Drawing.Point(3, 220);
+			this.button8.Name = "button8";
+			this.button8.Size = new System.Drawing.Size(70, 25);
+			this.button8.TabIndex = 8;
+			this.button8.Text = "子属性事";
+			this.button8.UseVisualStyleBackColor = true;
+			// 
+			// button9
+			// 
+			this.button9.Location = new System.Drawing.Point(3, 251);
+			this.button9.Name = "button9";
+			this.button9.Size = new System.Drawing.Size(70, 25);
+			this.button9.TabIndex = 9;
+			this.button9.Text = "子属性事";
+			this.button9.UseVisualStyleBackColor = true;
+			// 
+			// button10
+			// 
+			this.button10.Location = new System.Drawing.Point(3, 282);
+			this.button10.Name = "button10";
+			this.button10.Size = new System.Drawing.Size(70, 25);
+			this.button10.TabIndex = 10;
+			this.button10.Text = "子属性事";
+			this.button10.UseVisualStyleBackColor = true;
+			// 
+			// button11
+			// 
+			this.button11.Location = new System.Drawing.Point(3, 313);
+			this.button11.Name = "button11";
+			this.button11.Size = new System.Drawing.Size(70, 25);
+			this.button11.TabIndex = 11;
+			this.button11.Text = "子属性事";
+			this.button11.UseVisualStyleBackColor = true;
+			this.button11.Visible = false;
+			// 
 			// tdPanel
 			// 
 			this.tdPanel.Controls.Add(this.tdFlowLayoutPanel);
@@ -1416,6 +1507,7 @@ namespace LightController.MyForm
 			this.backStepButton.Text = "上一步";
 			this.backStepButton.UseVisualStyleBackColor = true;
 			this.backStepButton.Click += new System.EventHandler(this.backStepButton_Click);
+			this.backStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.backStepButton_MouseDown);
 			// 
 			// multiPasteButton
 			// 
@@ -1447,6 +1539,7 @@ namespace LightController.MyForm
 			this.nextStepButton.Text = "下一步";
 			this.nextStepButton.UseVisualStyleBackColor = true;
 			this.nextStepButton.Click += new System.EventHandler(this.nextStepButton_Click);
+			this.nextStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nextStepButton_MouseDown);
 			// 
 			// useMaterialButton
 			// 
@@ -1593,97 +1686,6 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(39, "S60--60W三棱镜图案灯.png");
 			this.lightLargeImageList.Images.SetKeyName(40, "T90-90W八凌镜光束灯.png");
 			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(3, 34);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(70, 25);
-			this.button2.TabIndex = 2;
-			this.button2.Text = "子属性事";
-			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// button3
-			// 
-			this.button3.Location = new System.Drawing.Point(3, 65);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(70, 25);
-			this.button3.TabIndex = 3;
-			this.button3.Text = "子属性事";
-			this.button3.UseVisualStyleBackColor = true;
-			// 
-			// button4
-			// 
-			this.button4.Location = new System.Drawing.Point(3, 96);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(70, 25);
-			this.button4.TabIndex = 4;
-			this.button4.Text = "子属性事";
-			this.button4.UseVisualStyleBackColor = true;
-			// 
-			// button5
-			// 
-			this.button5.Location = new System.Drawing.Point(3, 127);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(70, 25);
-			this.button5.TabIndex = 5;
-			this.button5.Text = "子属性事";
-			this.button5.UseVisualStyleBackColor = true;
-			// 
-			// button6
-			// 
-			this.button6.Location = new System.Drawing.Point(3, 158);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(70, 25);
-			this.button6.TabIndex = 6;
-			this.button6.Text = "子属性事";
-			this.button6.UseVisualStyleBackColor = true;
-			// 
-			// button7
-			// 
-			this.button7.Location = new System.Drawing.Point(3, 189);
-			this.button7.Name = "button7";
-			this.button7.Size = new System.Drawing.Size(70, 25);
-			this.button7.TabIndex = 7;
-			this.button7.Text = "子属性事";
-			this.button7.UseVisualStyleBackColor = true;
-			// 
-			// button8
-			// 
-			this.button8.Location = new System.Drawing.Point(3, 220);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(70, 25);
-			this.button8.TabIndex = 8;
-			this.button8.Text = "子属性事";
-			this.button8.UseVisualStyleBackColor = true;
-			// 
-			// button9
-			// 
-			this.button9.Location = new System.Drawing.Point(3, 251);
-			this.button9.Name = "button9";
-			this.button9.Size = new System.Drawing.Size(70, 25);
-			this.button9.TabIndex = 9;
-			this.button9.Text = "子属性事";
-			this.button9.UseVisualStyleBackColor = true;
-			// 
-			// button10
-			// 
-			this.button10.Location = new System.Drawing.Point(3, 282);
-			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(70, 25);
-			this.button10.TabIndex = 10;
-			this.button10.Text = "子属性事";
-			this.button10.UseVisualStyleBackColor = true;
-			// 
-			// button11
-			// 
-			this.button11.Location = new System.Drawing.Point(3, 313);
-			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(70, 25);
-			this.button11.TabIndex = 11;
-			this.button11.Text = "子属性事";
-			this.button11.UseVisualStyleBackColor = true;
-			this.button11.Visible = false;
-			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1812,13 +1814,7 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Panel topPanel;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 
-		private Panel[] tdPanels = new Panel[32];
-		private Label[] tdNoLabels = new Label[32];
-		private Label[] tdNameLabels = new Label[32];
-		private TrackBar[] tdTrackBars = new TrackBar[32];
-		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
-		private ComboBox[] tdCmComboBoxes = new ComboBox[32];
-		private NumericUpDown[] tdStNumericUpDowns = new NumericUpDown[32];
+		
 		private Panel tdPanel1;
 		private Label tdNameLabel1;
 		private Label tdNoLabel1;

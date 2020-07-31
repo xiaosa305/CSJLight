@@ -37,7 +37,15 @@ namespace LightController.MyForm
             CHANGE_MODE,
             STEP_TIME,
 			ALL
-        }	
+        }
+
+		//各类提示
+		protected string useFrameNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
+		protected string chooseStepNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
+		protected string keepNotice = "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。";
+		protected string insertNotice = "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。";
+		protected string backStepNotice = "右击可跳转至第一步";
+		protected string nextStepNotice = "右击可跳转至最后一步";
 
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
@@ -160,6 +168,9 @@ namespace LightController.MyForm
 			isConnected = connected;
 			isPreviewing = previewing;		
 		} //设置《连接按钮组》是否可用	
+
+		protected virtual void enterMultiMode() { }
+		protected virtual void exitMultiMode() { }
 
 		#endregion
 
@@ -682,6 +693,14 @@ namespace LightController.MyForm
 			int currentStep = lsWrapper.CurrentStep;
 			int addStepCount = materialAst.StepCount;
 
+			// 选择《追加》时，不更改核心代码 : 而是先选择最后步(0步则不走这个)，再设置method = insert
+			if (method == InsertMethod.INSERT_LAST) {
+				if (totalStep != 0 && currentStep!=totalStep) {
+					chooseStep(totalStep);
+				}
+				method = InsertMethod.INSERT;
+			}
+
 			// 选择《插入》时的操作：后插法（往当前步后加数据）
 			// 8.28 当选择《覆盖》但总步数为0时（currentStep也是0），也用插入的方法
 			if (method == InsertMethod.INSERT || totalStep == 0)
@@ -711,33 +730,38 @@ namespace LightController.MyForm
 					lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
 				}
 
-				if (isMultiMode) {
-					foreach (int lightIndex in selectedIndices) {
-						if (lightIndex != selectedIndex) {
+				if (isMultiMode)
+				{
+					foreach (int lightIndex in selectedIndices)
+					{
+						if (lightIndex != selectedIndex)
+						{
 							// 多灯模式下，依然使用上面的步骤来插入素材。
 							for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 							{
 								newStep = StepWrapper.GenerateNewStep(getSelectedLightStepTemplate(lightIndex), currentMode);
 								changeStepFromMaterial(materialAst.TongdaoList, stepIndex, sameTDIndexList, newStep);
-                                getSelectedLightStepWrapper(lightIndex)  .InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
+								getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
 							}
 						}
 					}
 				}
 
-				if (isSyncMode) {
+				if (isSyncMode)
+				{
 					foreach (int lightIndex in getNotSelectedIndices())
 					{
 						for (int stepIndex = 0; stepIndex < addStepCount; stepIndex++)
 						{
-                            StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
-                            if (stepWrapper == null) {
-                                stepWrapper = getCurrentStepTemplate();
-                            }
-                            newStep = StepWrapper.GenerateNewStep( stepWrapper , currentMode);
+							StepWrapper stepWrapper = getSelectedLightCurrentStepWrapper(lightIndex);
+							if (stepWrapper == null)
+							{
+								stepWrapper = getCurrentStepTemplate();
+							}
+							newStep = StepWrapper.GenerateNewStep(stepWrapper, currentMode);
 
-                            getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
-                            
+							getSelectedLightStepWrapper(lightIndex).InsertStep(getSelectedLightStepWrapper(lightIndex).CurrentStep - 1, newStep, false);
+
 						}
 					}
 				}
@@ -746,7 +770,7 @@ namespace LightController.MyForm
 			}
 			// 选择覆盖时的操作：后插法
 			//（当前步也要被覆盖，除非没有当前步-》totalStep == currentStep == 0）
-			else
+			else if (method == InsertMethod.COVER)
 			{
 				int finalStep = (currentStep - 1) + addStepCount;// finalStep为覆盖后最后一步的序列，而非所有步的数量
 
@@ -811,7 +835,8 @@ namespace LightController.MyForm
 				}
 
 
-				if (isSyncMode) {
+				if (isSyncMode)
+				{
 					foreach (int lightIndex in getNotSelectedIndices())
 					{
 						for (int i = 0; i < finalStep - totalStep; i++)
@@ -825,6 +850,7 @@ namespace LightController.MyForm
 
 				chooseStep(finalStep);  // 此处不适用RefreshStep()，因为有些情况下，并没有改变currentStep，此时用refreshStep无效。但相应的，因为计算公式不同，chooseStep反而有效。
 			}
+
 		}
 
 		/// <summary>
@@ -3047,7 +3073,7 @@ namespace LightController.MyForm
 			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
 			//			若是null，则说明该FM下，并未有步数，hideAllTongdao
 			//			若不为null，则说明已有数据，
-			
+
 			LightWrapper lightWrapper = lightWrapperList[selectedIndex];
 			if (lightWrapper.StepTemplate == null)
 			{
@@ -3308,9 +3334,9 @@ namespace LightController.MyForm
 				return;
 			}
 			GroupAst group = groupList[groupIndex];
-			if (group.LightIndexList == null || group.LightIndexList.Count < 2)
+			if (group.LightIndexList == null || group.LightIndexList.Count < 1)
 			{
-				MessageBox.Show("选中编组的灯具数量小于2，无法使用编组。");
+				MessageBox.Show("选中编组的组员数量小于1，无法使用编组。");
 				return;
 			}
 
@@ -3329,7 +3355,15 @@ namespace LightController.MyForm
 			selectedIndices = group.LightIndexList;
 			selectLights();
 
-			EnterMultiMode(group.CaptainIndex, false);
+			// 如果灯数超过1，则进入多灯模式
+			if (group.LightIndexList.Count > 1)
+			{
+				EnterMultiMode(group.CaptainIndex, false);
+			}
+			// 否则退出多灯模式
+			else {
+				exitMultiMode();
+			}			
 		}
 
 		/// <summary>

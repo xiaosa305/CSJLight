@@ -34,9 +34,19 @@ namespace LightController.MyForm
 
 		private BorderStyle unifyBorderStyle = BorderStyle.Fixed3D; //统一为局内的所有panel设置统一的BorderStyle		
 		private Color unifyColor = SystemColors.Window;
-		private Color unifyColor2 = SystemColors.Window;		
+		private Color unifyColor2 = SystemColors.Window;
 
 		#endregion
+
+		private Panel[] tdPanels = new Panel[32];
+		private Label[] tdNoLabels = new Label[32];
+		private Label[] tdNameLabels = new Label[32];
+		private TrackBar[] tdTrackBars = new TrackBar[32];
+		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
+		private ComboBox[] tdCmComboBoxes = new ComboBox[32];
+		private NumericUpDown[] tdStNumericUpDowns = new NumericUpDown[32];
+
+		private Panel[] saPanels = new Panel[32];
 
 		public NewMainForm()
 		{
@@ -60,7 +70,8 @@ namespace LightController.MyForm
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
-			//动态添加32个tdPanel的内容及其监听事件
+			//动态添加32个tdPanel的内容及其监听事件 
+			// 动态添加32个saPanel 
 			for (int i = 0; i < 32; i++)
 			{
 				tdPanels[i] = new Panel();
@@ -158,8 +169,6 @@ namespace LightController.MyForm
 				this.tdPanels[i].Visible = false;
 				this.tdPanels[i].Tag = 9999;
 
-				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[i]);
-
 				tdTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdTrackBars[i].MouseWheel += new MouseEventHandler(this.tdTrackBars_MouseWheel);
 				tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
@@ -175,6 +184,19 @@ namespace LightController.MyForm
 				tdStNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
 				tdNameLabels[i].Click += new EventHandler(this.tdNameLabels_Click);
+
+				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[i]);
+
+				saPanels[i] = new Panel
+				{
+					Location = new System.Drawing.Point(3, 3),
+					Name = "saPanel" + (i + 1),
+					Size = new System.Drawing.Size(84, 300),
+					TabIndex = 24,
+					Visible = false
+				};
+
+				this.tdFlowLayoutPanel.Controls.Add(saPanels[i]);
 			}
 
 			// 场景选项框		
@@ -202,10 +224,12 @@ namespace LightController.MyForm
 			unifyStepTimeNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyStepTimeNumericUpDown_MouseWheel);
 
 			// 几个按钮添加提示
-			myToolTip.SetToolTip(useFrameButton, "使用本功能，将以选中的场景数据替换当前的场景数据。");
-			myToolTip.SetToolTip(chooseStepButton, "跳转指定步");
-			myToolTip.SetToolTip(keepButton, "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。");
-			myToolTip.SetToolTip(insertButton, "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。");
+			myToolTip.SetToolTip(useFrameButton, useFrameNotice);
+			myToolTip.SetToolTip(chooseStepButton, chooseStepNotice);
+			myToolTip.SetToolTip(keepButton, keepNotice);
+			myToolTip.SetToolTip(insertButton, insertNotice);
+			myToolTip.SetToolTip(backStepButton, backStepNotice);
+			myToolTip.SetToolTip(nextStepButton, nextStepNotice);
 
 			#region 皮肤 及 panel样式 相关代码
 
@@ -834,6 +858,15 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		private bool checkSameLights()
 		{
+			if (lightsListView.SelectedItems.Count == 0)
+			{
+				return false;
+			}
+			if (lightsListView.SelectedItems.Count == 1)
+			{
+				return true;
+			}
+
 			bool result = true;
 			string firstTag = lightsListView.SelectedItems[0].Tag.ToString();
 			for (int i = 1; i < lightsListView.SelectedItems.Count; i++) // 从第二个选中灯具开始比对
@@ -1374,44 +1407,60 @@ namespace LightController.MyForm
 			// 进入多灯模式
 			if (!isMultiMode)
 			{
-				if (lightsListView.SelectedIndices.Count < 2)
-				{
-					MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
-					return;
-				}
-				if (!checkSameLights())
-				{
-					MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
-					return;
-				}
-				selectedIndices = new List<int>();
-				foreach (int item in lightsListView.SelectedIndices)
-				{
-					selectedIndices.Add(item);
-				}
-				new MultiLightForm(this, isCopyAll, lightAstList, selectedIndices).ShowDialog();
+				enterMultiMode();
 			}
 			// 退出多灯模式
 			else
 			{				
-				foreach (ListViewItem item in lightsListView.Items)
-				{
-					item.BackColor = Color.White;					
-				}
-				RefreshMultiModeButtons(false);
+				exitMultiMode();
+			}
+		}
 
-				try
+		/// <summary>
+		/// 辅助方法：进入同步模式的子类实现
+		/// </summary>
+		protected override void enterMultiMode()
+		{
+			if (lightsListView.SelectedIndices.Count < 2)
+			{
+				MessageBox.Show("请选择至少两个(同型)灯具，否则无法使用多灯模式。");
+				return;
+			}
+			if (!checkSameLights())
+			{
+				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+				return;
+			}
+			selectedIndices = new List<int>();
+			foreach (int item in lightsListView.SelectedIndices)
+			{
+				selectedIndices.Add(item);
+			}
+			new MultiLightForm(this, isCopyAll, lightAstList, selectedIndices).ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：退出同步的子类实现
+		/// </summary>
+		protected override void exitMultiMode()
+		{
+			foreach (ListViewItem item in lightsListView.Items)
+			{
+				item.BackColor = Color.White;
+			}
+			RefreshMultiModeButtons(false);
+
+			try
+			{
+				for (int i = 0; i < lightsListView.Items.Count; i++)
 				{
-					for (int i = 0; i < lightsListView.Items.Count; i++)
-					{
-						lightsListView.Items[i].Selected = i == selectedIndex;
-					}
-					lightsListView.Select();
+					lightsListView.Items[i].Selected = i == selectedIndex;
 				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
-				}
+				lightsListView.Select();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("退出多灯模式选择灯具时出现异常：\n" + ex.Message);
 			}
 		}
 
@@ -1421,9 +1470,23 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void backStepButton_Click(object sender, EventArgs e)
+		private void backStepButton_Click(object sender, EventArgs e)	{		}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《上一步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void backStepButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			backStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				backStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				chooseStep(1);
+			}
 		}
 
 		/// <summary>
@@ -1432,9 +1495,23 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void nextStepButton_Click(object sender, EventArgs e)
+		private void nextStepButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《下一步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void nextStepButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			nextStepClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				nextStepClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				chooseStep(getTotalStep());
+			}
 		}
 
 		/// <summary>
@@ -1709,7 +1786,7 @@ namespace LightController.MyForm
 			multiplexButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用						
-			groupButton.Enabled = lightAstList != null && lightsListView.SelectedIndices.Count > 1; // 只有工程非空（有灯具列表）且选择项大于1个（2个以上）才可点击
+			groupButton.Enabled = lightAstList != null && lightsListView.SelectedIndices.Count > 0; // 只有工程非空（有灯具列表）且选择项不为空才可点击
 			groupFlowLayoutPanel.Enabled = lightAstList != null;
 			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
@@ -1995,16 +2072,18 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void groupButton_Click(object sender, EventArgs e)
 		{
-			if (lightsListView.SelectedIndices.Count < 2)
+			if (lightsListView.SelectedIndices.Count < 1)
 			{
-				MessageBox.Show("请选择至少两个(同型)灯具，否则无法进行编组。");
+				MessageBox.Show("请选择至少一个灯具，否则无法进行编组。");
 				return;
 			}
-			if (!checkSameLights())
+
+			if ( !checkSameLights())
 			{
-				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
+				MessageBox.Show("未选中灯具或选中的灯具并非同一类型，无法进行编组；请再次选择后重试。");
 				return;
 			}
+
 			selectedIndices = new List<int>();
 			foreach (int item in lightsListView.SelectedIndices)
 			{

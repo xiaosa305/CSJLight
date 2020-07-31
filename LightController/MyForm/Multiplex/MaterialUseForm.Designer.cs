@@ -34,6 +34,7 @@
 			this.coverButton = new System.Windows.Forms.Button();
 			this.helpButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.insertLastButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// treeView1
@@ -63,6 +64,7 @@
 			this.insertButton.Name = "insertButton";
 			this.insertButton.Size = new System.Drawing.Size(67, 27);
 			this.insertButton.TabIndex = 3;
+			this.insertButton.Tag = "0";
 			this.insertButton.Text = "插入";
 			this.insertButton.UseVisualStyleBackColor = true;
 			this.insertButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
@@ -73,6 +75,7 @@
 			this.coverButton.Name = "coverButton";
 			this.coverButton.Size = new System.Drawing.Size(67, 27);
 			this.coverButton.TabIndex = 3;
+			this.coverButton.Tag = "1";
 			this.coverButton.Text = "覆盖";
 			this.coverButton.UseVisualStyleBackColor = true;
 			this.coverButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
@@ -97,12 +100,24 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
+			// insertLastButton
+			// 
+			this.insertLastButton.Location = new System.Drawing.Point(118, 370);
+			this.insertLastButton.Name = "insertLastButton";
+			this.insertLastButton.Size = new System.Drawing.Size(67, 27);
+			this.insertLastButton.TabIndex = 3;
+			this.insertLastButton.Tag = "2";
+			this.insertLastButton.Text = "追加";
+			this.insertLastButton.UseVisualStyleBackColor = true;
+			this.insertLastButton.Click += new System.EventHandler(this.insertOrCoverButton_Click);
+			// 
 			// MaterialUseForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(279, 416);
 			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.insertLastButton);
 			this.Controls.Add(this.coverButton);
 			this.Controls.Add(this.helpButton);
 			this.Controls.Add(this.insertButton);
@@ -128,5 +143,6 @@
 		private System.Windows.Forms.Button coverButton;
 		private System.Windows.Forms.Button helpButton;
 		private System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.Button insertLastButton;
 	}
 }

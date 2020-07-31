@@ -612,8 +612,8 @@ namespace LightController.MyForm
 			this.tdFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
 			this.tdFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.tdFlowLayoutPanel.Controls.Add(this.tdPanel1);
-			this.tdFlowLayoutPanel.Controls.Add(this.panel1);
 			this.tdFlowLayoutPanel.Controls.Add(this.flowLayoutPanel1);
+			this.tdFlowLayoutPanel.Controls.Add(this.panel1);
 			this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tdFlowLayoutPanel.Location = new System.Drawing.Point(95, 0);
 			this.tdFlowLayoutPanel.Name = "tdFlowLayoutPanel";
@@ -717,7 +717,7 @@ namespace LightController.MyForm
 			this.panel1.Controls.Add(this.unifyValueNumericUpDown);
 			this.panel1.Controls.Add(this.copyStepButton);
 			this.panel1.Controls.Add(this.pasteStepButton);
-			this.panel1.Location = new System.Drawing.Point(93, 3);
+			this.panel1.Location = new System.Drawing.Point(188, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(185, 297);
 			this.panel1.TabIndex = 25;
@@ -854,7 +854,7 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.Controls.Add(this.button9);
 			this.flowLayoutPanel1.Controls.Add(this.button10);
 			this.flowLayoutPanel1.Controls.Add(this.button11);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(282, 1);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(91, 1);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(93, 299);
@@ -1009,7 +1009,7 @@ namespace LightController.MyForm
 			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(4, 67);
 			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(1);
 			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
-			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(166, 128);
+			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(166, 262);
 			this.groupFlowLayoutPanel.TabIndex = 63;
 			// 
 			// groupInButtonDemo

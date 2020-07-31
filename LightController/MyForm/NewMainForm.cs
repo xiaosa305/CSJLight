@@ -747,7 +747,7 @@ namespace LightController.MyForm
 			if (lightsListView.SelectedIndices.Count > 0)
 			{
 				selectedIndex = lightsListView.SelectedIndices[0];
-				disposeSauForm();
+				//disposeSauForm();
 				if ( generateNow)
 				{
 					generateLightData();
@@ -787,56 +787,70 @@ namespace LightController.MyForm
 		/// <param name="lightIndex"></param>
 		protected override void showSaPanel(int lightIndex)
 		{
-			//MARK 0629 子属性Panel 1.1：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
-			if (saPanelArray[lightIndex] == null)
-			{
-				saPanelArray[lightIndex] = new FlowLayoutPanel
-				{
-					AutoScroll = true,
-					Location = new System.Drawing.Point(4, 199),
-					Size = new System.Drawing.Size(166, 128)
-				};
-				unifyPanel.Controls.Add(saPanelArray[lightIndex]);
-							
-				try
-				{
-					LightAst la = lightAstList[lightIndex];
-					if (la.SawList != null)
-					{
-						for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
-						{
-							for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-							{
-								SA sa = la.SawList[tdIndex].SaList[saIndex];
-								Button saButton = new Button
-								{
-									Text = sa.SAName,
-									Size = new Size(68, 20),
-									Tag = tdIndex + "*" + sa.StartValue,
-									UseVisualStyleBackColor = true
-								};
-								saButton.Click += new EventHandler(saButton_Click);
-								saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+			#region 老方法：把所有的子属性统一放在unifyPanel中
 
-								saPanelArray[lightIndex].Controls.Add(saButton);
-							}
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
-				}
-			}
+			////MARK 0629 子属性Panel 1.1：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
+			//if (saPanelArray[lightIndex] == null)
+			//{
+			//	saPanelArray[lightIndex] = new FlowLayoutPanel
+			//	{
+			//		AutoScroll = true,
+			//		Location = new System.Drawing.Point(4, 199),
+			//		Size = new System.Drawing.Size(166, 128)
+			//	};
+			//	unifyPanel.Controls.Add(saPanelArray[lightIndex]);
 
-			//MARK 0629 子属性Panel 1.2：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
-			for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
-			{
-				if (saPanelArray[panelIndex] != null)
-				{
-					saPanelArray[panelIndex].Visible = lightIndex == panelIndex;
-				}
-			}
+			//	try
+			//	{
+			//		LightAst la = lightAstList[lightIndex];
+			//		if (la.SawList != null)
+			//		{
+			//			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+			//			{
+			//				for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+			//				{
+			//					SA sa = la.SawList[tdIndex].SaList[saIndex];
+			//					Button saButton = new Button
+			//					{
+			//						Text = sa.SAName,
+			//						Size = new Size(68, 20),
+			//						Tag = tdIndex + "*" + sa.StartValue,
+			//						UseVisualStyleBackColor = true
+			//					};
+			//					saButton.Click += new EventHandler(saButton_Click);
+			//					saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+
+			//					saPanelArray[lightIndex].Controls.Add(saButton);
+			//				}
+			//			}
+			//		}
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
+			//	}
+			//}
+
+			////MARK 0629 子属性Panel 1.2：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
+			//for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
+			//{
+			//	if (saPanelArray[panelIndex] != null)
+			//	{
+			//		saPanelArray[panelIndex].Visible = lightIndex == panelIndex;
+			//	}
+			//}
+			#endregion
+
+			#region 
+			//新方法：
+			//①存储一个所有灯具的子属性按钮列表； 
+			//② 如果是首次点击，则生成之，否则就用旧的； 
+			//③使用列表，实时渲染到调节界面中（按通道来进行存放）
+
+
+
+
+			#endregion
 		}
 
 		/// <summary>
@@ -2057,7 +2071,7 @@ namespace LightController.MyForm
 		private void tdNameLabels_Click(object sender, EventArgs e)
 		{
 			//MARK 0701 通道子属性 2.2：NewMainForm内调用tdNameLabelClick
-			tdNameLabelClick(sender);
+			//tdNameLabelClick(sender);
 		}		
 
 		#endregion

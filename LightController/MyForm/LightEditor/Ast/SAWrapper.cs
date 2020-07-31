@@ -3,16 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LightEditor.Ast
 {
 	public class SAWrapper
 	{
 		public IList<SA> SaList{ get; set; }
-
+		
 		public SAWrapper()
 		{
-			SaList = new List<SA>();
+			SaList = new List<SA>();			
 		}
 
 		/// <summary>

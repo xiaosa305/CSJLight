@@ -318,7 +318,7 @@ namespace LightController.MyForm
 			//MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！
 			selectedIndex = -1;
 			selectedIndices = new List<int>();
-			disposeSauForm();
+			//disposeSauForm();
 
 			RefreshStep();
 
@@ -1673,7 +1673,7 @@ namespace LightController.MyForm
 			selectedIndex = -1;
 			selectedIndices = new List<int>();     
 			//MARK 0701 通道子属性 0.1：clearAllData()内调用disposeSauForm()
-			disposeSauForm();
+			//disposeSauForm();
 
 			tempStep = null;
 			TempMaterialAst = null;
@@ -3066,7 +3066,10 @@ namespace LightController.MyForm
 			LightAst lightAst = lightAstList[selectedIndex];
 			// 1.在右侧灯具信息内显示选中灯具相关信息，并生成子属性Panel
 			editLightInfo(lightAst);
-			showSaPanel(selectedIndex);
+			//showSaPanel(selectedIndex);
+			// 用其他方式取代showSaPanel(int) 
+
+
 
 			//2.判断是不是已经有stepTemplate了
 			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
@@ -3449,7 +3452,7 @@ namespace LightController.MyForm
 		{
 			if (selectedIndex == -1 || !lightAstList[selectedIndex].LightAddr.Equals(lightAddr)) {
 				MessageBox.Show("点击的子属性非当前灯具所有，无法调用。");
-				disposeSauForm();
+				//disposeSauForm();
 				return;
 			}
 			SaButtonClick(sender);

@@ -25,7 +25,7 @@ namespace LightController.Ast
 		public int StartNum { get; set; }
 		public int EndNum { get; set; }
 
-		// 记录子属性列表
+		// 记录子属性列表（包括按键组）
 		public IList<SAWrapper> SawList { get; set; } 
 
 		/// <summary>
@@ -48,8 +48,8 @@ namespace LightController.Ast
 			EndNum = laOld.EndNum;
 			SawList = laOld.SawList;
 			Remark = laOld.Remark;
-		}	
-		
+		}
+
 		/// <summary>
 		///  通过DB_Light来生成对应的LightAst
 		/// </summary>
@@ -72,19 +72,10 @@ namespace LightController.Ast
 				Count = light.Count,
 				LightAddr = lightAddr,
 				LightPath = path,
-				Remark = light.Remark
+				Remark = light.Remark				
 			};
 		}
-
-		/// <summary>
-		/// 辅助方法：输出lightAst对象的主要属性
-		/// </summary>
-		/// <returns></returns>
-		public override string ToString()
-		{
-			return LightName + ":" + LightType + ":" + LightAddr + ":" + LightPic + ":" + Count;
-		}
-
+		
 		/// <summary>
 		///  辅助方法：重写（实际上并不算，因为形参不同）Equals语句，当地址和灯的全名一致时，基本可认为是同一个灯
 		/// </summary>
@@ -102,6 +93,15 @@ namespace LightController.Ast
 				return false;
 			}
 		}
-			
+		
+		/// <summary>
+		/// 辅助方法：输出lightAst对象的主要属性
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return LightName + ":" + LightType + ":" + LightAddr + ":" + LightPic + ":" + Count;
+		}
+
 	}
 }

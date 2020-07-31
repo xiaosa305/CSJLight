@@ -716,7 +716,7 @@ namespace LightController.MyForm
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
 				selectedIndex = lightsSkinListView.SelectedIndices[0];
-				disposeSauForm();
+				//disposeSauForm();
 				if (generateNow)
 				{					
 					generateLightData();					

@@ -27,7 +27,8 @@ namespace LightController.MyForm
 {
 	public partial class SkinMainForm : MainFormBase
 	{
-		private bool isPainting = false;		
+		private bool isPainting = false;
+		private Panel[] saPanels = new Panel[32];
 
 		public SkinMainForm()
 		{
@@ -434,7 +435,7 @@ namespace LightController.MyForm
 		private void otherToolsSkinButton2_Click(object sender, EventArgs e)
 		{
 			// 若要进入《其他工具》，应该先将连接断开
-			if (isConnected)
+			if (IsConnected)
 			{
 				connectSkinButton_Click(null, null);
 			}
@@ -687,8 +688,8 @@ namespace LightController.MyForm
 		{			
 			for (int i = 0; i < 32; i++)
 			{
-				tdStepTimeNumericUpDowns[i].Maximum = eachStepTime2 * MAX_StTimes;
-				tdStepTimeNumericUpDowns[i].Increment = eachStepTime2;
+				tdStepTimeNumericUpDowns[i].Maximum = EachStepTime2 * MAX_StTimes;
+				tdStepTimeNumericUpDowns[i].Increment = EachStepTime2;
 			}
 		}
 
@@ -742,7 +743,7 @@ namespace LightController.MyForm
 			lightNameLabel.Text = "灯具厂商：" + la.LightName;
 			lightTypeLabel.Text = "灯具型号：" + la.LightType;
 			lightsAddrLabel.Text = "灯具地址：" + la.LightAddr;
-			lightRemarkLabel.Text = "灯具备注：" + la.Remark;	
+			lightRemarkLabel.Text = "灯具备注：" + la.Remark;
 		
 		}
 
@@ -752,61 +753,63 @@ namespace LightController.MyForm
 		/// 2.显示相应的Panel，隐藏无关的Panel（至于Panel的Enable属性，则由ShowStepLabel方法来进行判断）
 		/// </summary>
 		/// <param name="lightIndex"></param>
-		protected override void showSaPanel(int lightIndex)
+		protected override void generateSaPanels()
 		{
 			//MARK 0629 子属性Panel 2.1：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
-			if (saPanelArray[lightIndex] == null)
-			{
-				saPanelArray[lightIndex] = new FlowLayoutPanel
-				{
-					AutoScroll = true,					
-					Location = new System.Drawing.Point(0, 242),
-					Size = new System.Drawing.Size(246,240)
-				};
-				unifyPanel.Controls.Add(saPanelArray[lightIndex]);
+			//if (saPanelArray[lightIndex] == null)
+			//{
+			//	saPanelArray[lightIndex] = new FlowLayoutPanel
+			//	{
+			//		AutoScroll = true,					
+			//		Location = new System.Drawing.Point(0, 242),
+			//		Size = new System.Drawing.Size(246,240)
+			//	};
+			//	unifyPanel.Controls.Add(saPanelArray[lightIndex]);
 
-				try
-				{
-					LightAst la = lightAstList[lightIndex];
-					if (la.SawList != null)
-					{
-						for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
-						{
-							for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-							{
-								SA sa = la.SawList[tdIndex].SaList[saIndex];
-								SkinButton saButton = new SkinButton
-								{
-									BackColor = System.Drawing.Color.Transparent,
-									BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224))))),
-									BorderColor = System.Drawing.Color.Silver,
-									ForeColor = System.Drawing.Color.Black,
-									Text = sa.SAName,
-									Size = new Size(68, 20),
-									Tag = tdIndex + "*" + sa.StartValue
-								};
-								saButton.Click += new EventHandler(saButton_Click);
-								saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+			//	try
+			//	{
+			//		LightAst la = lightAstList[lightIndex];
+			//		if (la.SawList != null)
+			//		{
+			//			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+			//			{
+			//				for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+			//				{
+			//					SA sa = la.SawList[tdIndex].SaList[saIndex];
+			//					SkinButton saButton = new SkinButton
+			//					{
+			//						BackColor = System.Drawing.Color.Transparent,
+			//						BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224))))),
+			//						BorderColor = System.Drawing.Color.Silver,
+			//						ForeColor = System.Drawing.Color.Black,
+			//						Text = sa.SAName,
+			//						Size = new Size(68, 20),
+			//						Tag = tdIndex + "*" + sa.StartValue
+			//					};
+			//					saButton.Click += new EventHandler(saButton_Click);
+			//					saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
 
-								saPanelArray[lightIndex].Controls.Add(saButton);
-							}
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
-				}
-			}
+			//					saPanelArray[lightIndex].Controls.Add(saButton);
+			//				}
+			//			}
+			//		}
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
+			//	}
+			//}
 
-			//MARK 0629 子属性Panel 2.2：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
-			for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
-			{
-				if (saPanelArray[panelIndex] != null)
-				{
-					saPanelArray[panelIndex].Visible = lightIndex == panelIndex;
-				}
-			}
+			////MARK 0629 子属性Panel 2.2：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
+			//for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
+			//{
+			//	if (saPanelArray[panelIndex] != null)
+			//	{
+			//		saPanelArray[panelIndex].Visible = lightIndex == panelIndex;
+			//	}
+			//}
+
+
 		}
 
 		/// <summary>
@@ -859,8 +862,7 @@ namespace LightController.MyForm
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
-				hideAllTDPanels();
-				return;
+				hideAllTDPanels();				
 			}
 			//2.将dataWrappers的内容渲染到起VScrollBar中
 			else
@@ -882,7 +884,7 @@ namespace LightController.MyForm
 					tdChangeModeSkinComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 
 					//MARK 步时间改动 SkinMainForm：主动 乘以时间因子 后 再展示
-					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString();
+					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
 
 					tdSkinTrackBars[i].ValueChanged += new System.EventHandler(tdSkinTrackBars_ValueChanged);
 					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(tdValueNumericUpDowns_ValueChanged);
@@ -1582,7 +1584,19 @@ namespace LightController.MyForm
 				deleteSomeStepClick();
 			}
 		}
-			
+
+
+		/// <summary>
+		/// 事件：点击《内置动作》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void actionButton_Click(object sender, EventArgs e)
+		{
+			actionButtonClick();
+		}
+
+
 		/// <summary>		
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
 		/// </summary>
@@ -1747,10 +1761,10 @@ namespace LightController.MyForm
 
 			// 6.子属性按钮组是否可用(及可见（当步数为空时，设为不可见）:因只有切换灯具，才会生成，故无需担心会多次生成按钮组)						
 			//MARK 0629 子属性Panel 2.3：NewMainForm.showStepLabel()中，显示或使能saPanelArray
-			if (selectedIndex != -1 && saPanelArray[selectedIndex] != null)
-			{
-				saPanelArray[selectedIndex].Enabled = totalStep != 0;
-			}
+			//if (selectedIndex != -1 && saPanelArray[selectedIndex] != null)
+			//{
+			//	saPanelArray[selectedIndex].Enabled = totalStep != 0;
+			//}
 
 		}
 
@@ -1980,9 +1994,9 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			//MARK 步时间改动 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
-			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
+			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
 			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
@@ -2462,13 +2476,13 @@ namespace LightController.MyForm
 			base.EnableConnectedButtons(connected, previewing);
 
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
-			comPanel.Enabled = !isConnected;				
+			comPanel.Enabled = !IsConnected;				
 			
-			keepSkinButton.Enabled = isConnected && !isPreviewing;			
-			previewSkinButton.Enabled = isConnected;
-			makeSoundSkinButton.Enabled = isConnected && isPreviewing;			
+			keepSkinButton.Enabled = IsConnected && !isPreviewing;			
+			previewSkinButton.Enabled = IsConnected;
+			makeSoundSkinButton.Enabled = IsConnected && isPreviewing;			
 
-			if (isConnected)
+			if (IsConnected)
 			{
 				deviceConnectSkinButton.Image = global::LightController.Properties.Resources.断开连接;
 				deviceConnectSkinButton.Text = "断开连接";
@@ -2481,7 +2495,7 @@ namespace LightController.MyForm
 			SetPreview(isPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (isConnected && !isPreviewing)
+			if (IsConnected && !isPreviewing)
 			{
 				RefreshStep();
 			}
@@ -2613,7 +2627,8 @@ namespace LightController.MyForm
 		{
 			
 		}
-		
+
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2660,7 +2675,8 @@ namespace LightController.MyForm
 
 		#endregion
 
-
+		
+		
 	}
 
 

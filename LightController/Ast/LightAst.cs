@@ -25,8 +25,9 @@ namespace LightController.Ast
 		public int StartNum { get; set; }
 		public int EndNum { get; set; }
 
-		// 记录子属性列表（包括按键组）
-		public IList<SAWrapper> SawList { get; set; } 
+		// 记录子属性列表（包括按键组）（每个通道为List的一个子项）
+		public IList<SAWrapper> SawList { get; set; }
+		public Dictionary<int, FlowLayoutPanel> saPanelDict { get; set; }
 
 		/// <summary>
 		/// 空构造函数
@@ -48,6 +49,8 @@ namespace LightController.Ast
 			EndNum = laOld.EndNum;
 			SawList = laOld.SawList;
 			Remark = laOld.Remark;
+			// TODO 校验 
+			saPanelDict = laOld.saPanelDict;
 		}
 
 		/// <summary>

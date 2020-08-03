@@ -56,9 +56,9 @@ namespace LightController.MyForm
 			Text = SoftwareName;// 动态更改软件名称
 
 			hardwareUpdateToolStripMenuItem.Enabled = IsShowHardwareUpdate;// 动态显示硬件升级按钮
-			QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
-			CenterControllerToolStripMenuItem.Enabled = IsLinkOldTools;//旧外设是否进行关联
-			KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
+			//QDControllerToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
+			//CenterControllerToolStripMenuItem.Enabled = IsLinkOldTools;//旧外设是否进行关联
+			//KeyPressToolStripMenuItem.Enabled = IsLinkOldTools; //旧外设是否进行关联
 			testButton1.Visible = IsShowTestButton;
 			testButton2.Visible = IsShowTestButton;
 			wjTestButton.Visible = IsShowTestButton;
@@ -191,11 +191,9 @@ namespace LightController.MyForm
 				{
 					Location = new System.Drawing.Point(3, 3),
 					Name = "saPanel" + (i + 1),
-					Size = new System.Drawing.Size(84, 300),
-					TabIndex = 24,
-					Visible = false
+					Size = new System.Drawing.Size(95, 297),
+					Visible = false,										
 				};
-
 				this.tdFlowLayoutPanel.Controls.Add(saPanels[i]);
 			}
 
@@ -660,8 +658,11 @@ namespace LightController.MyForm
 			// 不同MainForm在不同位置的按钮
 			useFrameButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
 
-			// 菜单栏相关按钮组
-			projectToolStripMenuItem.Enabled = enable;
+			// 菜单栏相关按钮组			
+			lightListToolStripMenuItem.Enabled = enable;
+			globalSetToolStripMenuItem.Enabled = enable;
+			ymSetToolStripMenuItem.Enabled = enable;
+			projectUpdateToolStripMenuItem.Enabled = enable;
 		}
 
 		/// <summary>
@@ -674,8 +675,7 @@ namespace LightController.MyForm
 
 			lightsListView.Clear();
 			stepPanel.Enabled = false;
-			editLightInfo(null);			
-
+			editLightInfo(null);	
 		}
 
 		/// <summary>
@@ -714,12 +714,12 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void initStNumericUpDowns()
 		{
-			unifyStepTimeNumericUpDown.Maximum = eachStepTime2 * MAX_StTimes; ;
-			unifyStepTimeNumericUpDown.Increment = eachStepTime2;
+			unifyStepTimeNumericUpDown.Maximum = EachStepTime2 * MAX_StTimes; ;
+			unifyStepTimeNumericUpDown.Increment = EachStepTime2;
 
 			for (int i = 0; i < 32; i++) {
-				tdStNumericUpDowns[i].Maximum = eachStepTime2 * MAX_StTimes;
-				tdStNumericUpDowns[i].Increment = eachStepTime2;
+				tdStNumericUpDowns[i].Maximum = EachStepTime2 * MAX_StTimes;
+				tdStNumericUpDowns[i].Increment = EachStepTime2;
 			}
 		}
 
@@ -785,7 +785,7 @@ namespace LightController.MyForm
 		/// 2.显示相应的Panel，隐藏无关的Panel（至于Panel的Enable属性，则由ShowStepLabel方法来进行判断）
 		/// </summary>
 		/// <param name="lightIndex"></param>
-		protected override void showSaPanel(int lightIndex)
+		protected override void generateSaPanels()
 		{
 			#region 老方法：把所有的子属性统一放在unifyPanel中
 
@@ -841,14 +841,66 @@ namespace LightController.MyForm
 			//}
 			#endregion
 
-			#region 
-			//新方法：
+			#region 新方法：
 			//①存储一个所有灯具的子属性按钮列表； 
 			//② 如果是首次点击，则生成之，否则就用旧的； 
 			//③使用列表，实时渲染到调节界面中（按通道来进行存放）
 
+			LightAst la = lightAstList[selectedIndex];
+			// 若已经存在saPanelDict，则不再重复生成了
+			if (la.saPanelDict == null) {
+				la.saPanelDict = new Dictionary<int, FlowLayoutPanel>();
+				for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+				{
+					// 只有尚未生成Panel 且 子属性的数量大于0时 才需要生成子属性FlowLayoutPanel
+					if (la.SawList[tdIndex].SaList.Count > 0)
+					{
+						la.saPanelDict.Add(tdIndex, new FlowLayoutPanel()
+						{
+							Size = new Size(95, 297),
+							Dock = DockStyle.Fill,
+							AutoScroll = true,
+							//BorderStyle = BorderStyle.Fixed3D
+						});
 
+						la.saPanelDict[tdIndex].Controls.Add(new Label {
+							Size = new Size(70,36),
+							TextAlign = ContentAlignment.MiddleCenter,
+							Text = "<-"
+						});
+						for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+						{
+							SA sa = la.SawList[tdIndex].SaList[saIndex];
+							Button saButton = new Button
+							{
+								Text = sa.SAName,
+								Size = new Size(68, 20),
+								Tag = tdIndex + "*" + sa.StartValue,
+								UseVisualStyleBackColor = true
+							};
+							saButton.Click += new EventHandler(saButton_Click);
+							saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+							la.saPanelDict[tdIndex].Controls.Add(saButton);
+						}
+						Console.WriteLine("灯具【" + selectedIndex + "】生成了一个saPanel，tdIndex = " + tdIndex + " ,其子属性数量 = " + la.SawList[tdIndex].SaList.Count);
+					}
+				}
+			}
 
+			// 显示Keys中有的saPanel
+			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+			{				
+				if (la.saPanelDict.ContainsKey(tdIndex))
+				{
+					saPanels[tdIndex].Controls.Clear();
+					saPanels[tdIndex].Controls.Add(la.saPanelDict[tdIndex]);
+					saPanels[tdIndex].Show();
+				}
+				else
+				{
+					saPanels[tdIndex].Hide();
+				}
+			}					
 
 			#endregion
 		}
@@ -905,41 +957,45 @@ namespace LightController.MyForm
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
-				hideAllTDPanels();
-				return;
+				hideAllTDPanels();			
 			}
-
 			//2.将dataWrappers的内容渲染到起VScrollBar中
 			else
-			{
-				for (int i = 0; i < tongdaoList.Count; i++)
+			{				
+				for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
 				{
-					tdTrackBars[i].ValueChanged -= new System.EventHandler(this.tdTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-					tdCmComboBoxes[i].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStNumericUpDowns[i].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[tdIndex].ValueChanged -= new System.EventHandler(this.tdTrackBars_ValueChanged);
+					tdValueNumericUpDowns[tdIndex].ValueChanged -= new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdCmComboBoxes[tdIndex].SelectedIndexChanged -= new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+					tdStNumericUpDowns[tdIndex].ValueChanged -= new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
-					tdNoLabels[i].Text = "通道" + (startNum + i);
-					tdNameLabels[i].Text = tongdaoList[i].TongdaoName;
-					myToolTip.SetToolTip(tdNameLabels[i], tongdaoList[i].Remark);
-					tdTrackBars[i].Value = tongdaoList[i].ScrollValue;
-					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
-					tdCmComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
+					tdNoLabels[tdIndex].Text = "通道" + (startNum + tdIndex);
+					tdNameLabels[tdIndex].Text = tongdaoList[tdIndex].TongdaoName;
+					myToolTip.SetToolTip(tdNameLabels[tdIndex], tongdaoList[tdIndex].Remark);
+					tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].ScrollValue;
+					tdValueNumericUpDowns[tdIndex].Text = tongdaoList[tdIndex].ScrollValue.ToString();
+					tdCmComboBoxes[tdIndex].SelectedIndex = tongdaoList[tdIndex].ChangeMode;
 
 					//MARK 步时间改动 NewMainForm：主动 乘以时间因子 后 再展示
-					tdStNumericUpDowns[i].Text = (tongdaoList[i].StepTime * eachStepTime2).ToString();
+					tdStNumericUpDowns[tdIndex].Text = (tongdaoList[tdIndex].StepTime * EachStepTime2).ToString();
 
-					tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
-					tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-					tdCmComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-					tdStNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+					tdTrackBars[tdIndex].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
+					tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+					tdCmComboBoxes[tdIndex].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+					tdStNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
-					tdPanels[i].Show();
+					tdPanels[tdIndex].Show();			
 				}
-				for (int i = tongdaoList.Count; i < 32; i++)
+				for (int tdIndex = tongdaoList.Count; tdIndex < 32; tdIndex++)
 				{
-					tdPanels[i].Hide();
+					tdPanels[tdIndex].Hide();
 				}
+
+				if (from0on) {
+					//Console.WriteLine("while from0on -> generateSaPanels() || " + selectedIndex );
+					generateSaPanels();
+				}
+
 			}
 		}
 
@@ -948,9 +1004,10 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void hideAllTDPanels()
 		{
-			for (int i = 0; i < 32; i++)
-			{
-				tdPanels[i].Hide();
+			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+			{				
+				tdPanels[tdIndex].Hide();
+				saPanels[tdIndex].Hide();
 			}
 		}
 		
@@ -1535,12 +1592,12 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void chooseStepButton_Click(object sender, EventArgs e)
 		{
-			int step = decimal.ToInt32(chooseStepNumericUpDown.Value);
-			if (step == 0) {
+			int stepNum = decimal.ToInt32(chooseStepNumericUpDown.Value);
+			if (stepNum == 0) {
 				MessageBox.Show("不可选择0步");
 				return;
 			}
-			chooseStep(step);
+			chooseStep(stepNum);	
 		}
 
 		/// <summary>
@@ -1621,6 +1678,16 @@ namespace LightController.MyForm
 			{
 				deleteSomeStepClick();
 			}
+		}
+
+		/// <summary>
+		/// 事件：点击《内置动作》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void actionButton_Click(object sender, EventArgs e)
+		{
+			actionButtonClick();
 		}
 
 		/// <summary>
@@ -1822,9 +1889,12 @@ namespace LightController.MyForm
 
 			// 6.判断子属性按钮组是否可用
 			//MARK 0629 子属性Panel 1.3：NewMainForm.showStepLabel()中，显示或使能saPanelArray
-			if (selectedIndex != -1 && saPanelArray[selectedIndex] !=null) {
-				saPanelArray[selectedIndex].Enabled = totalStep != 0;				
-			}						
+			//if (selectedIndex != -1 && saPanelArray[selectedIndex] !=null) {
+			//	saPanelArray[selectedIndex].Enabled = totalStep != 0;				
+			//}					
+
+			// 7. 《内置动作》是否可用
+			actionButton.Enabled = currentMode == 0;
 		}
 
 		#endregion
@@ -2053,9 +2123,9 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 
 			// MARK 步时间改动 NewMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
-			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / eachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
+			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
-			tdStNumericUpDowns[tdIndex].Value = stepTime * eachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
+			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
 			if (isMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
@@ -2384,8 +2454,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyStepTimeNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);			
-			unifyStepTimeNumericUpDown.Value = stepTime * eachStepTime2;
+			int stepTime = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / EachStepTime2);			
+			unifyStepTimeNumericUpDown.Value = stepTime * EachStepTime2;
 		}
 		
 		/// <summary>
@@ -2407,7 +2477,7 @@ namespace LightController.MyForm
 				}
 
 				//MARK 步时间改动 NewMainForm：点击《统一步时间》的处理
-				int unifyStepTimeParsed = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / eachStepTime2);
+				int unifyStepTimeParsed = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / EachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
@@ -2608,19 +2678,19 @@ namespace LightController.MyForm
 			base.EnableConnectedButtons(connected, previewing);
 
 			// 《设备列表》《刷新列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
-			changeConnectMethodButton.Enabled = !isConnected;
-			deviceComboBox.Enabled = !isConnected;
-			deviceRefreshButton.Enabled = !isConnected;
+			changeConnectMethodButton.Enabled = !IsConnected;
+			deviceComboBox.Enabled = !IsConnected;
+			deviceRefreshButton.Enabled = !IsConnected;
 
-			keepButton.Enabled = isConnected && !isPreviewing; 
-			previewButton.Enabled = isConnected ;
-			makeSoundButton.Enabled = isConnected && isPreviewing;		
+			keepButton.Enabled = IsConnected && !isPreviewing; 
+			previewButton.Enabled = IsConnected ;
+			makeSoundButton.Enabled = IsConnected && isPreviewing;		
 
-			deviceConnectButton.Text = isConnected ? "断开连接":"连接设备";
+			deviceConnectButton.Text = IsConnected ? "断开连接":"连接设备";
 			previewButton.Text = isPreviewing ? "停止预览" : "预览效果";
 
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (isConnected && !isPreviewing) {
+			if (IsConnected && !isPreviewing) {
 				RefreshStep();
 			}						
 		}
@@ -2691,6 +2761,7 @@ namespace LightController.MyForm
 			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			MessageBox.Show(serverFileVersion);
 		}
+
 
 		#region 弃用方法
 
@@ -2784,5 +2855,6 @@ namespace LightController.MyForm
 		#endregion
 
 		
+	
 	}
 }

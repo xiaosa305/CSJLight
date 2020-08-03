@@ -123,6 +123,7 @@ namespace LightController.MyForm
 			this.multiCopySkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiplexSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiPasteSkinButton = new CCWin.SkinControl.SkinButton();
+			this.actionButton = new CCWin.SkinControl.SkinButton();
 			this.deleteStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.addStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.insertSkinButton = new CCWin.SkinControl.SkinButton();
@@ -1912,6 +1913,7 @@ namespace LightController.MyForm
 			this.stepSkinPanel.Controls.Add(this.multiCopySkinButton);
 			this.stepSkinPanel.Controls.Add(this.multiplexSkinButton);
 			this.stepSkinPanel.Controls.Add(this.multiPasteSkinButton);
+			this.stepSkinPanel.Controls.Add(this.actionButton);
 			this.stepSkinPanel.Controls.Add(this.deleteStepSkinButton);
 			this.stepSkinPanel.Controls.Add(this.addStepSkinButton);
 			this.stepSkinPanel.Controls.Add(this.insertSkinButton);
@@ -2277,6 +2279,35 @@ namespace LightController.MyForm
 			this.multiPasteSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.multiPasteSkinButton.UseVisualStyleBackColor = false;
 			this.multiPasteSkinButton.Click += new System.EventHandler(this.multiPasteSkinButton_Click);
+			// 
+			// actionButton
+			// 
+			this.actionButton.BackColor = System.Drawing.Color.Transparent;
+			this.actionButton.BaseColor = System.Drawing.Color.Transparent;
+			this.actionButton.BorderColor = System.Drawing.Color.Transparent;
+			this.actionButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.actionButton.DownBack = null;
+			this.actionButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.actionButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.actionButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.actionButton.ForeColorSuit = true;
+			this.actionButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.actionButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.actionButton.InheritColor = true;
+			this.actionButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
+			this.actionButton.Location = new System.Drawing.Point(599, 53);
+			this.actionButton.Margin = new System.Windows.Forms.Padding(0);
+			this.actionButton.MouseBack = null;
+			this.actionButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.actionButton.Name = "actionButton";
+			this.actionButton.NormlBack = null;
+			this.actionButton.Size = new System.Drawing.Size(75, 45);
+			this.actionButton.TabIndex = 4;
+			this.actionButton.Text = "内置动作 ";
+			this.actionButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.actionButton.UseVisualStyleBackColor = false;
+			this.actionButton.Click += new System.EventHandler(this.actionButton_Click);
+			this.actionButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.deleteStepSkinButton_MouseDown);
 			// 
 			// deleteStepSkinButton
 			// 
@@ -6438,5 +6469,6 @@ namespace LightController.MyForm
         private Button soundListButton;
         private Button initButton;
 		private Panel commonButtonPanel;
+		private SkinButton actionButton;
 	}
 }

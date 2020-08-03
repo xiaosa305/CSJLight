@@ -7,9 +7,12 @@ using System.Windows.Forms;
 
 namespace LightEditor.Ast
 {
+	/// <summary>
+	/// 此类存储一个通道的所有子属性
+	/// </summary>
 	public class SAWrapper
 	{
-		public IList<SA> SaList{ get; set; }
+		public IList<SA> SaList{ get; set; }	
 		
 		public SAWrapper()
 		{

@@ -44,5 +44,25 @@ namespace LightController.Ast
 		{
 			return TongdaoName + " : "+ Address;
 		}
+
+		/// <summary>
+		/// 构造方法：因有非空入参的构造函数，故需要一个空的构造函数
+		/// </summary>
+		public TongdaoWrapper()	{	}
+
+		/// <summary>
+		/// 构造方法：主要被《ActionForm》调用，（因有些数据是默认统一的，不需重新添加）
+		/// </summary>
+		/// <param name="tdName"></param>
+		/// <param name="value"></param>
+		/// <param name="stepTime"></param>
+		public TongdaoWrapper(string tdName, int value,int stepTime) {
+
+			TongdaoName = tdName;
+			ScrollValue = value;			
+			StepTime = stepTime;
+			ChangeMode = 1;
+		}
+
 	}
 }

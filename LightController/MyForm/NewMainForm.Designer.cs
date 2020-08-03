@@ -40,18 +40,13 @@ namespace LightController.MyForm
 			this.hardwareSetOpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.hardwareUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.lightListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ymToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.ymSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.projectUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.QDControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.CenterControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.KeyPressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.使用说明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.更新日志ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +81,12 @@ namespace LightController.MyForm
 			this.tdStNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdTrackBar1 = new System.Windows.Forms.TrackBar();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.button8 = new System.Windows.Forms.Button();
+			this.button9 = new System.Windows.Forms.Button();
+			this.button10 = new System.Windows.Forms.Button();
+			this.button11 = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
@@ -96,18 +97,6 @@ namespace LightController.MyForm
 			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.copyStepButton = new System.Windows.Forms.Button();
 			this.pasteStepButton = new System.Windows.Forms.Button();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
-			this.button7 = new System.Windows.Forms.Button();
-			this.button8 = new System.Windows.Forms.Button();
-			this.button9 = new System.Windows.Forms.Button();
-			this.button10 = new System.Windows.Forms.Button();
-			this.button11 = new System.Windows.Forms.Button();
 			this.tdPanel = new System.Windows.Forms.Panel();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
@@ -152,6 +141,7 @@ namespace LightController.MyForm
 			this.multiPasteButton = new System.Windows.Forms.Button();
 			this.insertButton = new System.Windows.Forms.Button();
 			this.nextStepButton = new System.Windows.Forms.Button();
+			this.actionButton = new System.Windows.Forms.Button();
 			this.useMaterialButton = new System.Windows.Forms.Button();
 			this.deleteStepButton = new System.Windows.Forms.Button();
 			this.multiplexButton = new System.Windows.Forms.Button();
@@ -173,10 +163,10 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).BeginInit();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
-			this.flowLayoutPanel1.SuspendLayout();
 			this.tdPanel.SuspendLayout();
 			this.unifyPanel.SuspendLayout();
 			this.groupFlowLayoutPanel.SuspendLayout();
@@ -208,8 +198,13 @@ namespace LightController.MyForm
 			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lightLibraryToolStripMenuItem,
             this.hardwareSetToolStripMenuItem,
-            this.projectToolStripMenuItem,
-            this.otherToolStripMenuItem,
+            this.newToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.lightListToolStripMenuItem,
+            this.globalSetToolStripMenuItem,
+            this.ymSetToolStripMenuItem,
+            this.projectUpdateToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.helpToolStripMenuItem,
             this.ExitToolStripMenuItem});
 			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
@@ -263,96 +258,58 @@ namespace LightController.MyForm
 			this.hardwareUpdateToolStripMenuItem.Text = "硬件升级";
 			this.hardwareUpdateToolStripMenuItem.Click += new System.EventHandler(this.hardwareUpdateToolStripMenuItem_Click);
 			// 
-			// projectToolStripMenuItem
+			// newToolStripMenuItem
 			// 
-			this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lightListToolStripMenuItem,
-            this.globalSetToolStripMenuItem,
-            this.ymToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.projectUpdateToolStripMenuItem});
-			this.projectToolStripMenuItem.Enabled = false;
-			this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-			this.projectToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.projectToolStripMenuItem.Text = "工程相关";
+			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.newToolStripMenuItem.Text = "外设配置";
+			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Enabled = false;
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(23, 26);
+			this.toolStripMenuItem1.Text = "|";
 			// 
 			// lightListToolStripMenuItem
 			// 
+			this.lightListToolStripMenuItem.Enabled = false;
 			this.lightListToolStripMenuItem.Name = "lightListToolStripMenuItem";
-			this.lightListToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.lightListToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.lightListToolStripMenuItem.Text = "灯具列表";
 			this.lightListToolStripMenuItem.Click += new System.EventHandler(this.lightListToolStripMenuItem_Click);
 			// 
 			// globalSetToolStripMenuItem
 			// 
+			this.globalSetToolStripMenuItem.Enabled = false;
 			this.globalSetToolStripMenuItem.Name = "globalSetToolStripMenuItem";
-			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.globalSetToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.globalSetToolStripMenuItem.Text = "全局配置";
 			this.globalSetToolStripMenuItem.Click += new System.EventHandler(this.globalSetToolStripMenuItem_Click);
 			// 
-			// ymToolStripMenuItem
+			// ymSetToolStripMenuItem
 			// 
-			this.ymToolStripMenuItem.Name = "ymToolStripMenuItem";
-			this.ymToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-			this.ymToolStripMenuItem.Text = "摇麦配置";
-			this.ymToolStripMenuItem.Click += new System.EventHandler(this.ymToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(121, 6);
+			this.ymSetToolStripMenuItem.Enabled = false;
+			this.ymSetToolStripMenuItem.Name = "ymSetToolStripMenuItem";
+			this.ymSetToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
+			this.ymSetToolStripMenuItem.Text = "摇麦设置";
+			this.ymSetToolStripMenuItem.Click += new System.EventHandler(this.ymToolStripMenuItem_Click);
 			// 
 			// projectUpdateToolStripMenuItem
 			// 
+			this.projectUpdateToolStripMenuItem.Enabled = false;
 			this.projectUpdateToolStripMenuItem.Name = "projectUpdateToolStripMenuItem";
-			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.projectUpdateToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
 			this.projectUpdateToolStripMenuItem.Text = "工程更新";
 			this.projectUpdateToolStripMenuItem.Click += new System.EventHandler(this.projectUpdateToolStripMenuItem_Click);
 			// 
-			// otherToolStripMenuItem
+			// toolStripMenuItem2
 			// 
-			this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.QDControllerToolStripMenuItem,
-            this.CenterControllerToolStripMenuItem,
-            this.KeyPressToolStripMenuItem});
-			this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-			this.otherToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
-			this.otherToolStripMenuItem.Text = "其他工具";
-			// 
-			// newToolStripMenuItem
-			// 
-			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.newToolStripMenuItem.Text = "外设配置";
-			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
-			// 
-			// QDControllerToolStripMenuItem
-			// 
-			this.QDControllerToolStripMenuItem.Name = "QDControllerToolStripMenuItem";
-			this.QDControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.QDControllerToolStripMenuItem.Text = "传视界灯控工具";
-			this.QDControllerToolStripMenuItem.Click += new System.EventHandler(this.QDControllerToolStripMenuItem_Click);
-			// 
-			// CenterControllerToolStripMenuItem
-			// 
-			this.CenterControllerToolStripMenuItem.Name = "CenterControllerToolStripMenuItem";
-			this.CenterControllerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.CenterControllerToolStripMenuItem.Text = "传视界中控工具";
-			this.CenterControllerToolStripMenuItem.Click += new System.EventHandler(this.CenterControllerToolStripMenuItem_Click);
-			// 
-			// KeyPressToolStripMenuItem
-			// 
-			this.KeyPressToolStripMenuItem.Name = "KeyPressToolStripMenuItem";
-			this.KeyPressToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.KeyPressToolStripMenuItem.Text = "传视界墙板工具";
-			this.KeyPressToolStripMenuItem.Click += new System.EventHandler(this.KeyPressToolStripMenuItem_Click);
+			this.toolStripMenuItem2.Enabled = false;
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(23, 26);
+			this.toolStripMenuItem2.Text = "|";
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -706,6 +663,67 @@ namespace LightController.MyForm
 			this.tdTrackBar1.TickFrequency = 0;
 			this.tdTrackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.AutoScroll = true;
+			this.flowLayoutPanel1.Controls.Add(this.label1);
+			this.flowLayoutPanel1.Controls.Add(this.button8);
+			this.flowLayoutPanel1.Controls.Add(this.button9);
+			this.flowLayoutPanel1.Controls.Add(this.button10);
+			this.flowLayoutPanel1.Controls.Add(this.button11);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(91, 1);
+			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(93, 299);
+			this.flowLayoutPanel1.TabIndex = 63;
+			this.flowLayoutPanel1.Visible = false;
+			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(3, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(70, 36);
+			this.label1.TabIndex = 12;
+			this.label1.Text = "<-  ";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// button8
+			// 
+			this.button8.Location = new System.Drawing.Point(3, 39);
+			this.button8.Name = "button8";
+			this.button8.Size = new System.Drawing.Size(70, 25);
+			this.button8.TabIndex = 8;
+			this.button8.Text = "子属性事";
+			this.button8.UseVisualStyleBackColor = true;
+			// 
+			// button9
+			// 
+			this.button9.Location = new System.Drawing.Point(3, 70);
+			this.button9.Name = "button9";
+			this.button9.Size = new System.Drawing.Size(70, 25);
+			this.button9.TabIndex = 9;
+			this.button9.Text = "子属性事";
+			this.button9.UseVisualStyleBackColor = true;
+			// 
+			// button10
+			// 
+			this.button10.Location = new System.Drawing.Point(3, 101);
+			this.button10.Name = "button10";
+			this.button10.Size = new System.Drawing.Size(70, 25);
+			this.button10.TabIndex = 10;
+			this.button10.Text = "子属性事";
+			this.button10.UseVisualStyleBackColor = true;
+			// 
+			// button11
+			// 
+			this.button11.Location = new System.Drawing.Point(3, 132);
+			this.button11.Name = "button11";
+			this.button11.Size = new System.Drawing.Size(70, 25);
+			this.button11.TabIndex = 11;
+			this.button11.Text = "子属性事";
+			this.button11.UseVisualStyleBackColor = true;
+			this.button11.Visible = false;
+			// 
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.zeroButton);
@@ -839,128 +857,6 @@ namespace LightController.MyForm
 			this.pasteStepButton.Text = "粘贴步";
 			this.pasteStepButton.UseVisualStyleBackColor = true;
 			this.pasteStepButton.Click += new System.EventHandler(this.pasteStepButton_Click);
-			// 
-			// flowLayoutPanel1
-			// 
-			this.flowLayoutPanel1.AutoScroll = true;
-			this.flowLayoutPanel1.Controls.Add(this.button1);
-			this.flowLayoutPanel1.Controls.Add(this.button2);
-			this.flowLayoutPanel1.Controls.Add(this.button3);
-			this.flowLayoutPanel1.Controls.Add(this.button4);
-			this.flowLayoutPanel1.Controls.Add(this.button5);
-			this.flowLayoutPanel1.Controls.Add(this.button6);
-			this.flowLayoutPanel1.Controls.Add(this.button7);
-			this.flowLayoutPanel1.Controls.Add(this.button8);
-			this.flowLayoutPanel1.Controls.Add(this.button9);
-			this.flowLayoutPanel1.Controls.Add(this.button10);
-			this.flowLayoutPanel1.Controls.Add(this.button11);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(91, 1);
-			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(93, 299);
-			this.flowLayoutPanel1.TabIndex = 63;
-			this.flowLayoutPanel1.Visible = false;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(3, 3);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(70, 25);
-			this.button1.TabIndex = 1;
-			this.button1.Text = "子属性事";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.saButton_Click);
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(3, 34);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(70, 25);
-			this.button2.TabIndex = 2;
-			this.button2.Text = "子属性事";
-			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// button3
-			// 
-			this.button3.Location = new System.Drawing.Point(3, 65);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(70, 25);
-			this.button3.TabIndex = 3;
-			this.button3.Text = "子属性事";
-			this.button3.UseVisualStyleBackColor = true;
-			// 
-			// button4
-			// 
-			this.button4.Location = new System.Drawing.Point(3, 96);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(70, 25);
-			this.button4.TabIndex = 4;
-			this.button4.Text = "子属性事";
-			this.button4.UseVisualStyleBackColor = true;
-			// 
-			// button5
-			// 
-			this.button5.Location = new System.Drawing.Point(3, 127);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(70, 25);
-			this.button5.TabIndex = 5;
-			this.button5.Text = "子属性事";
-			this.button5.UseVisualStyleBackColor = true;
-			// 
-			// button6
-			// 
-			this.button6.Location = new System.Drawing.Point(3, 158);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(70, 25);
-			this.button6.TabIndex = 6;
-			this.button6.Text = "子属性事";
-			this.button6.UseVisualStyleBackColor = true;
-			// 
-			// button7
-			// 
-			this.button7.Location = new System.Drawing.Point(3, 189);
-			this.button7.Name = "button7";
-			this.button7.Size = new System.Drawing.Size(70, 25);
-			this.button7.TabIndex = 7;
-			this.button7.Text = "子属性事";
-			this.button7.UseVisualStyleBackColor = true;
-			// 
-			// button8
-			// 
-			this.button8.Location = new System.Drawing.Point(3, 220);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(70, 25);
-			this.button8.TabIndex = 8;
-			this.button8.Text = "子属性事";
-			this.button8.UseVisualStyleBackColor = true;
-			// 
-			// button9
-			// 
-			this.button9.Location = new System.Drawing.Point(3, 251);
-			this.button9.Name = "button9";
-			this.button9.Size = new System.Drawing.Size(70, 25);
-			this.button9.TabIndex = 9;
-			this.button9.Text = "子属性事";
-			this.button9.UseVisualStyleBackColor = true;
-			// 
-			// button10
-			// 
-			this.button10.Location = new System.Drawing.Point(3, 282);
-			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(70, 25);
-			this.button10.TabIndex = 10;
-			this.button10.Text = "子属性事";
-			this.button10.UseVisualStyleBackColor = true;
-			// 
-			// button11
-			// 
-			this.button11.Location = new System.Drawing.Point(3, 313);
-			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(70, 25);
-			this.button11.TabIndex = 11;
-			this.button11.Text = "子属性事";
-			this.button11.UseVisualStyleBackColor = true;
-			this.button11.Visible = false;
 			// 
 			// tdPanel
 			// 
@@ -1367,6 +1263,7 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.multiPasteButton);
 			this.stepPanel.Controls.Add(this.insertButton);
 			this.stepPanel.Controls.Add(this.nextStepButton);
+			this.stepPanel.Controls.Add(this.actionButton);
 			this.stepPanel.Controls.Add(this.useMaterialButton);
 			this.stepPanel.Controls.Add(this.deleteStepButton);
 			this.stepPanel.Controls.Add(this.multiplexButton);
@@ -1375,16 +1272,16 @@ namespace LightController.MyForm
 			this.stepPanel.Enabled = false;
 			this.stepPanel.Location = new System.Drawing.Point(84, 0);
 			this.stepPanel.Name = "stepPanel";
-			this.stepPanel.Size = new System.Drawing.Size(1004, 83);
+			this.stepPanel.Size = new System.Drawing.Size(1035, 83);
 			this.stepPanel.TabIndex = 65;
 			this.stepPanel.Tag = "";
 			// 
 			// chooseStepButton
 			// 
 			this.chooseStepButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.chooseStepButton.Location = new System.Drawing.Point(546, 48);
+			this.chooseStepButton.Location = new System.Drawing.Point(593, 16);
 			this.chooseStepButton.Name = "chooseStepButton";
-			this.chooseStepButton.Size = new System.Drawing.Size(75, 23);
+			this.chooseStepButton.Size = new System.Drawing.Size(28, 23);
 			this.chooseStepButton.TabIndex = 54;
 			this.chooseStepButton.Text = "->";
 			this.chooseStepButton.UseVisualStyleBackColor = true;
@@ -1451,7 +1348,7 @@ namespace LightController.MyForm
 			// 
 			this.chooseStepNumericUpDown.Location = new System.Drawing.Point(546, 17);
 			this.chooseStepNumericUpDown.Name = "chooseStepNumericUpDown";
-			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(75, 21);
+			this.chooseStepNumericUpDown.Size = new System.Drawing.Size(47, 21);
 			this.chooseStepNumericUpDown.TabIndex = 52;
 			this.chooseStepNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -1540,6 +1437,16 @@ namespace LightController.MyForm
 			this.nextStepButton.UseVisualStyleBackColor = true;
 			this.nextStepButton.Click += new System.EventHandler(this.nextStepButton_Click);
 			this.nextStepButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.nextStepButton_MouseDown);
+			// 
+			// actionButton
+			// 
+			this.actionButton.Location = new System.Drawing.Point(546, 48);
+			this.actionButton.Name = "actionButton";
+			this.actionButton.Size = new System.Drawing.Size(75, 23);
+			this.actionButton.TabIndex = 49;
+			this.actionButton.Text = "内置动作";
+			this.actionButton.UseVisualStyleBackColor = true;
+			this.actionButton.Click += new System.EventHandler(this.actionButton_Click);
 			// 
 			// useMaterialButton
 			// 
@@ -1715,10 +1622,10 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).EndInit();
+			this.flowLayoutPanel1.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
-			this.flowLayoutPanel1.ResumeLayout(false);
 			this.tdPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
 			this.groupFlowLayoutPanel.ResumeLayout(false);
@@ -1748,19 +1655,9 @@ namespace LightController.MyForm
 		private System.Windows.Forms.ToolStripMenuItem hardwareSetNewToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hardwareSetOpenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hardwareUpdateToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem QDControllerToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem CenterControllerToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem KeyPressToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem lightListToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem globalSetToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem ymToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem projectUpdateToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.Panel playPanel;
 		private System.Windows.Forms.Button deviceRefreshButton;
 		private System.Windows.Forms.ComboBox deviceComboBox;
@@ -1812,7 +1709,6 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button addStepButton;
 		private System.Windows.Forms.Button pasteStepButton;
 		private System.Windows.Forms.Panel topPanel;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 
 		
 		private Panel tdPanel1;
@@ -1864,16 +1760,17 @@ namespace LightController.MyForm
 		private ToolStripMenuItem 使用说明ToolStripMenuItem;
 		private ToolStripMenuItem 更新日志ToolStripMenuItem;
 		private FlowLayoutPanel flowLayoutPanel1;
-		private Button button1;
-		private Button button2;
-		private Button button3;
-		private Button button4;
-		private Button button5;
-		private Button button6;
-		private Button button7;
 		private Button button8;
 		private Button button9;
 		private Button button10;
 		private Button button11;
+		private Label label1;
+		private ToolStripMenuItem toolStripMenuItem1;
+		private ToolStripMenuItem lightListToolStripMenuItem;
+		private ToolStripMenuItem globalSetToolStripMenuItem;
+		private ToolStripMenuItem ymSetToolStripMenuItem;
+		private ToolStripMenuItem projectUpdateToolStripMenuItem;
+		private ToolStripMenuItem toolStripMenuItem2;
+		private Button actionButton;
 	}
 }

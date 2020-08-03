@@ -86,12 +86,13 @@ namespace LightController.MyForm
         protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
         protected bool isEncrypt = false; //是否加密				
         public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
-        public decimal eachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
+        public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
         protected string groupIniPath; // 存放编组文件存放路径
         protected IList<GroupAst> groupList; // 存放编组	
-		protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
+		//protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
 		protected SAUseForm sauForm; //存储一个全局的sauForm，当用户点击《通道名》时弹出
 		//protected IList<SAUseForm> saFormList;
+		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
 
         //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
         protected bool[] frameSaveArray;
@@ -127,13 +128,14 @@ namespace LightController.MyForm
         protected int currentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
 
         protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
+		protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
         // 调试变量
         protected BaseCommunication myConnect;  // 与设备的连接（串口、网口）
         protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
         protected bool isConnectCom = true; //默认情况下，用串口连接设备。
         protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
-        protected bool isConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
+        public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
         protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
         protected bool isPreviewing = false; // 是否预览状态中		
         protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
@@ -146,7 +148,7 @@ namespace LightController.MyForm
         protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
         protected virtual void setBusy(bool buzy) { } //设置是否忙时
         protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中		
-		protected virtual void showSaPanel(int lightIndex) { } // 实时生成并显示相应的子属性面板
+		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板
 		protected virtual void enableStepPanel(bool enable) { } //是否使能步数面板
         protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据
         protected virtual void hideAllTDPanels() { } //隐藏所有通道
@@ -165,7 +167,7 @@ namespace LightController.MyForm
 		public virtual void EnableConnectedButtons(bool connected,bool previewing) {
 			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
 			// 是否连接,是否预览中
-			isConnected = connected;
+			IsConnected = connected;
 			isPreviewing = previewing;		
 		} //设置《连接按钮组》是否可用	
 
@@ -251,7 +253,7 @@ namespace LightController.MyForm
 		public void ChangeEachStepTime(int eachStepTime)
 		{
 			this.eachStepTime = eachStepTime;
-			this.eachStepTime2 = eachStepTime / 1000m;
+			this.EachStepTime2 = eachStepTime / 1000m;
 			RefreshStep();
 		}
 
@@ -307,8 +309,8 @@ namespace LightController.MyForm
 			lightDictionary = new Dictionary<int, int>();
 
 			//MARK 0629 子属性Panel 0.2：ReBuildLightList内先调clearSaPanelArray，再初始化saPanelArray
-			clearSaPanelArray();
-			saPanelArray = new FlowLayoutPanel[lightAstList.Count];
+			//clearSaPanelArray();
+			//saPanelArray = new FlowLayoutPanel[lightAstList.Count];
 
 			for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
 			{
@@ -906,7 +908,7 @@ namespace LightController.MyForm
 		protected virtual void oneStepWork()
 		{
 			// 未连接的情况下，无法发送数据。 
-			if (!isConnected )
+			if (!IsConnected )
 			{
 				MessageBox.Show("请先连接设备。");
 				return;
@@ -1002,7 +1004,7 @@ namespace LightController.MyForm
 			}
 
 			// 是否实时单灯单步
-			if (isConnected && !isPreviewing)
+			if (IsConnected && !isPreviewing)
 			{
 				oneStepWork();
 			}
@@ -1610,7 +1612,7 @@ namespace LightController.MyForm
 			//1.2 读取时间因子
 			IniFileHelper iniAst = new IniFileHelper(GlobalIniPath);
 			eachStepTime = iniAst.ReadInt("Set", "EachStepTime", 30);
-			eachStepTime2 = eachStepTime / 1000m;
+			EachStepTime2 = eachStepTime / 1000m;
 			initStNumericUpDowns();  //更改了时间因子后，需要处理相关的stepTimeNumericUpDown，包括tdPanel内的及unifyPanel内的
 
 			// 1.3 加载groupList : 初始化时检查文件是否存在，不存在，则直接把默认文件拷贝过去；加载到内存后，通过相应的groupList刷新按钮
@@ -1681,7 +1683,7 @@ namespace LightController.MyForm
 			arrangeIniPath = null;
 			groupIniPath = null ;
 
-			clearSaPanelArray();
+			//clearSaPanelArray();
 
 			//MARK 只开单场景：03.0 clearAllData()内清空frameSaveArray、frameLoadArray
 			frameSaveArray = null;
@@ -1726,19 +1728,20 @@ namespace LightController.MyForm
 		/// 清空子属性Panel
 		/// </summary>
 		protected void clearSaPanelArray() {
-			
-			if (saPanelArray != null)
-			{
-				for (int pIndex = 0; pIndex < saPanelArray.Length; pIndex++)
-				{
-					if (saPanelArray[pIndex] != null)
-					{
-						saPanelArray[pIndex].Dispose();
-						saPanelArray[pIndex] = null;
-					}
-				}
-			}
-			saPanelArray = null;
+
+			// TODO 暂时隐藏clearSaPanelArray()
+			//if (saPanelArray != null)
+			//{
+			//	for (int pIndex = 0; pIndex < saPanelArray.Length; pIndex++)
+			//	{
+			//		if (saPanelArray[pIndex] != null)
+			//		{
+			//			saPanelArray[pIndex].Dispose();
+			//			saPanelArray[pIndex] = null;
+			//		}
+			//	}
+			//}
+			//saPanelArray = null;
 		}
 
 		/// <summary>
@@ -1802,7 +1805,7 @@ namespace LightController.MyForm
 				lightDictionary = new Dictionary<int, int>();
 
 				//MARK 0629 子属性Panel 0.1：初始化saPanelArray				
-				saPanelArray = new FlowLayoutPanel[dbLightList.Count];
+				//saPanelArray = new FlowLayoutPanel[dbLightList.Count];
 
 				try
 				{
@@ -2701,7 +2704,7 @@ namespace LightController.MyForm
 					}
 				}
 			}
-
+						
 			RefreshStep();
 		}
 
@@ -2872,6 +2875,66 @@ namespace LightController.MyForm
 			catch (Exception ex)
 			{
 				return ex.Message;
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《内置动作》
+		/// </summary>
+		protected void actionButtonClick()
+		{
+			//检查是否有X、Y轴；
+			if (!checkXY())
+			{
+				MessageBox.Show("检测到当前灯具无X/Y轴，无法使用内置动作功能。");
+				return;
+			}
+			// 检查当前模式（音频模式很少用到动作，更多的是亮灭，故暂时不给音频模式做动作）
+			if (currentMode != 0) {
+				MessageBox.Show("检测到当前模式不是常规模式，无法使用内置动作。");
+				return;
+			}
+			
+			// 若正在预览，则先停止预览
+			if (isPreviewing)
+			{
+				previewButtonClick();
+			}
+
+			if (actionForm == null) {
+				actionForm = new ActionForm(this);
+			}
+			actionForm.ShowDialog();
+		}
+
+		/// <summary>
+		/// 辅助方法：监测当前灯具是否存在X、Y轴
+		/// </summary>
+		/// <returns></returns>
+		protected bool checkXY()
+		{
+			try
+			{
+				bool existX = false;
+				bool existY = false;
+				IList<TongdaoWrapper> tongdaoList = lightWrapperList[selectedIndex].StepTemplate.TongdaoList;
+				foreach (TongdaoWrapper td in tongdaoList)
+				{
+					if (td.TongdaoName == "X轴")
+					{
+						existX = true;
+					}
+					else if (td.TongdaoName == "Y轴")
+					{
+						existY = true;
+					}
+				}
+				return existX && existY;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("监测灯具是否有XY轴时出现异常：\n" + ex.Message);
+				return false;
 			}
 		}
 
@@ -3066,11 +3129,8 @@ namespace LightController.MyForm
 			LightAst lightAst = lightAstList[selectedIndex];
 			// 1.在右侧灯具信息内显示选中灯具相关信息，并生成子属性Panel
 			editLightInfo(lightAst);
-			//showSaPanel(selectedIndex);
-			// 用其他方式取代showSaPanel(int) 
-
-
-
+			generateSaPanels();
+		
 			//2.判断是不是已经有stepTemplate了
 			// ①若无，则生成数据，并hideAllTongdao 并设stepLabel为“0/0” --> 因为刚创建，肯定没有步数	
 			// ②若有，还需判断该LightData的LightStepWrapperList[frame,mode]是不是为null
@@ -3098,7 +3158,9 @@ namespace LightController.MyForm
 			if (stepNum == 0)
 			{
 				showTDPanels(null, 0);
-				showStepLabel(0, 0);						
+				showStepLabel(0, 0);
+				from0on = true;
+				//Console.WriteLine("from0on = true");
 			}
 			else
 			{				
@@ -3124,9 +3186,11 @@ namespace LightController.MyForm
 
 				showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
 				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
+				from0on = false;
+				//Console.WriteLine("from0on = false");
 			}
 			
-			if (isConnected && !isPreviewing )
+			if (IsConnected && !isPreviewing )
 			{
 				oneStepWork();
 			}
@@ -3505,7 +3569,7 @@ namespace LightController.MyForm
 		protected void connectButtonClick(string deviceName , int deviceSelectedIndex)
 		{		
 			// 如果已连接（按钮显示为“连接设备”)，则关闭连接
-			if ( isConnected)
+			if ( IsConnected)
 			{
 				disConnect(); //connectButtonClick
 			}
@@ -3553,7 +3617,7 @@ namespace LightController.MyForm
 		/// 辅助方法：断开连接
 		/// </summary>
 		protected void disConnect() {
-			if (isConnected) {
+			if (IsConnected) {
 				playTools = PlayTools.GetInstance();
 				playTools.ResetDebugDataToEmpty();				
 				playTools.StopSend();
@@ -3593,7 +3657,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void previewButtonClick()
 		{			
-			if (!isConnected)
+			if (!IsConnected)
 			{
 				MessageBox.Show("尚未连接设备，无法预览效果（或停止预览）。");
 				EnableConnectedButtons(false, false);

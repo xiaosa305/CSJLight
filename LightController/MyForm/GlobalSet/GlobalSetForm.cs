@@ -389,8 +389,8 @@ namespace LightController.MyForm
 		private void skStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{					
 			NumericUpDown nud = (NumericUpDown)sender;
-			int stepTime = Decimal.ToInt32(nud.Value / mainForm.eachStepTime2);
-			nud.Value = stepTime * mainForm.eachStepTime2;
+			int stepTime = Decimal.ToInt32(nud.Value / mainForm.EachStepTime2);
+			nud.Value = stepTime * mainForm.EachStepTime2;
 		}
 
 		/// <summary>

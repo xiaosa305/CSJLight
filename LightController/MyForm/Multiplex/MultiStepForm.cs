@@ -88,8 +88,8 @@ namespace LightController.MyForm
 				this.unifyCmComboBox.SelectedIndex = 0;
 
 				this.unifyStNumericUpDown.MouseWheel += new MouseEventHandler(this.unifyStepTimeNumericUpDown_MouseWheel);
-				this.unifyStNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.eachStepTime2;
-				this.unifyStNumericUpDown.Increment = mainForm.eachStepTime2;				
+				this.unifyStNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime2;
+				this.unifyStNumericUpDown.Increment = mainForm.EachStepTime2;				
 			}
 			else {
 				modeLabel.Text = "当前模式：音频模式";
@@ -182,7 +182,7 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				int unifyStepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
+				int unifyStepTime = decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.EachStepTime2);
 				mainForm.SetMultiStepValues(MainFormBase.WHERE.STEP_TIME, tdIndexList, startStep, endStep, unifyStepTime);
 			}
 		}
@@ -292,8 +292,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void unifyStNumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int stepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.eachStepTime2);
-			unifyStNumericUpDown.Value = stepTime * mainForm.eachStepTime2;
+			int stepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.EachStepTime2);
+			unifyStNumericUpDown.Value = stepTime * mainForm.EachStepTime2;
 		}
 
 	}

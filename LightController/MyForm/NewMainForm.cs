@@ -72,71 +72,71 @@ namespace LightController.MyForm
 
 			//动态添加32个tdPanel的内容及其监听事件 
 			// 动态添加32个saPanel 
-			for (int i = 0; i < 32; i++)
+			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
 			{
-				tdPanels[i] = new Panel();
-				tdNoLabels[i] = new Label();
-				tdNameLabels[i] = new Label();
-				tdTrackBars[i] = new TrackBar();
-				tdValueNumericUpDowns[i] = new NumericUpDown();
-				tdCmComboBoxes[i] = new ComboBox();
-				tdStNumericUpDowns[i] = new NumericUpDown();
+				tdPanels[tdIndex] = new Panel();
+				tdNoLabels[tdIndex] = new Label();
+				tdNameLabels[tdIndex] = new Label();
+				tdTrackBars[tdIndex] = new TrackBar();
+				tdValueNumericUpDowns[tdIndex] = new NumericUpDown();
+				tdCmComboBoxes[tdIndex] = new ComboBox();
+				tdStNumericUpDowns[tdIndex] = new NumericUpDown();
 				// 
 				// tdNoLabel
 				// 
-				this.tdNoLabels[i].AutoSize = true;
-				this.tdNoLabels[i].Location = new System.Drawing.Point(15, 18);
-				this.tdNoLabels[i].Name = "tdNoLabel" + (i + 1);
-				this.tdNoLabels[i].Size = new System.Drawing.Size(47, 12);
-				this.tdNoLabels[i].TabIndex = 3;
-				this.tdNoLabels[i].Text = "通道" + (i + 1);
+				this.tdNoLabels[tdIndex].AutoSize = true;
+				this.tdNoLabels[tdIndex].Location = new System.Drawing.Point(15, 18);
+				this.tdNoLabels[tdIndex].Name = "tdNoLabel" + (tdIndex + 1);
+				this.tdNoLabels[tdIndex].Size = new System.Drawing.Size(47, 12);
+				this.tdNoLabels[tdIndex].TabIndex = 3;
+				this.tdNoLabels[tdIndex].Text = "通道" + (tdIndex + 1);
 				// 
 				// tdTrackBar
 				// 
-				this.tdTrackBars[i].AutoSize = false;
-				this.tdTrackBars[i].BackColor = unifyColor2;
-				this.tdTrackBars[i].Location = new System.Drawing.Point(32, 35);
-				this.tdTrackBars[i].Maximum = 255;
-				this.tdTrackBars[i].Name = "tdTrackBar" + (i + 1);
-				this.tdTrackBars[i].Orientation = System.Windows.Forms.Orientation.Vertical;
-				this.tdTrackBars[i].Size = new System.Drawing.Size(35, 188);
-				this.tdTrackBars[i].TabIndex = 0;
-				this.tdTrackBars[i].TickFrequency = 0;
-				this.tdTrackBars[i].TickStyle = System.Windows.Forms.TickStyle.None;
+				this.tdTrackBars[tdIndex].AutoSize = false;
+				this.tdTrackBars[tdIndex].BackColor = unifyColor2;
+				this.tdTrackBars[tdIndex].Location = new System.Drawing.Point(32, 35);
+				this.tdTrackBars[tdIndex].Maximum = 255;
+				this.tdTrackBars[tdIndex].Name = "tdTrackBar" + (tdIndex + 1);
+				this.tdTrackBars[tdIndex].Orientation = System.Windows.Forms.Orientation.Vertical;
+				this.tdTrackBars[tdIndex].Size = new System.Drawing.Size(35, 188);
+				this.tdTrackBars[tdIndex].TabIndex = 0;
+				this.tdTrackBars[tdIndex].TickFrequency = 0;
+				this.tdTrackBars[tdIndex].TickStyle = System.Windows.Forms.TickStyle.None;
 				// 
 				// tdNameLabel
 				// 
-				this.tdNameLabels[i].Font = new System.Drawing.Font("宋体", 8F);
-				this.tdNameLabels[i].Location = new System.Drawing.Point(17, 47);
-				this.tdNameLabels[i].Name = "tdNameLabel" + (i + 1);
-				this.tdNameLabels[i].Size = new System.Drawing.Size(14, 153);
-				this.tdNameLabels[i].TabIndex = 23;
-				this.tdNameLabels[i].Text = "x/y轴转速" + (i + 1);
-				this.tdNameLabels[i].TextAlign = System.Drawing.ContentAlignment.TopCenter;
+				this.tdNameLabels[tdIndex].Font = new System.Drawing.Font("宋体", 8F);
+				this.tdNameLabels[tdIndex].Location = new System.Drawing.Point(17, 47);
+				this.tdNameLabels[tdIndex].Name = "tdNameLabel" + (tdIndex + 1);
+				this.tdNameLabels[tdIndex].Size = new System.Drawing.Size(14, 153);
+				this.tdNameLabels[tdIndex].TabIndex = 23;
+				this.tdNameLabels[tdIndex].Text = "x/y轴转速" + (tdIndex + 1);
+				this.tdNameLabels[tdIndex].TextAlign = System.Drawing.ContentAlignment.TopCenter;
 				// 
 				// tdValueNumericUpDown
 				// 
-				this.tdValueNumericUpDowns[i].Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-				this.tdValueNumericUpDowns[i].Location = new System.Drawing.Point(17, 223);
-				this.tdValueNumericUpDowns[i].Maximum = new decimal(new int[] {
+				this.tdValueNumericUpDowns[tdIndex].Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+				this.tdValueNumericUpDowns[tdIndex].Location = new System.Drawing.Point(17, 223);
+				this.tdValueNumericUpDowns[tdIndex].Maximum = new decimal(new int[] {
 			255,
 			0,
 			0,
 			0});
-				this.tdValueNumericUpDowns[i].Name = "tdValueNumericUpDown" + (i + 1);
-				this.tdValueNumericUpDowns[i].Size = new System.Drawing.Size(50, 20);
-				this.tdValueNumericUpDowns[i].TabIndex = 1;
-				this.tdValueNumericUpDowns[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+				this.tdValueNumericUpDowns[tdIndex].Name = "tdValueNumericUpDown" + (tdIndex + 1);
+				this.tdValueNumericUpDowns[tdIndex].Size = new System.Drawing.Size(50, 20);
+				this.tdValueNumericUpDowns[tdIndex].TabIndex = 1;
+				this.tdValueNumericUpDowns[tdIndex].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 
 				// 
 				// tdCmComboBox
 				// 
-				this.tdCmComboBoxes[i].FormattingEnabled = true;
-				this.tdCmComboBoxes[i].Location = new System.Drawing.Point(17, 247);
-				this.tdCmComboBoxes[i].Name = "tdCmComboBox" + (i + 1);
-				this.tdCmComboBoxes[i].Size = new System.Drawing.Size(50, 20);
-				this.tdCmComboBoxes[i].TabIndex = 2;
-				this.tdCmComboBoxes[i].Items.AddRange(new object[] {
+				this.tdCmComboBoxes[tdIndex].FormattingEnabled = true;
+				this.tdCmComboBoxes[tdIndex].Location = new System.Drawing.Point(17, 247);
+				this.tdCmComboBoxes[tdIndex].Name = "tdCmComboBox" + (tdIndex + 1);
+				this.tdCmComboBoxes[tdIndex].Size = new System.Drawing.Size(50, 20);
+				this.tdCmComboBoxes[tdIndex].TabIndex = 2;
+				this.tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
 			"跳变",
 			"渐变",
 			"屏蔽"});
@@ -144,57 +144,57 @@ namespace LightController.MyForm
 				// 
 				// tdStNumericUpDown
 				// 
-				this.tdStNumericUpDowns[i].Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-				this.tdStNumericUpDowns[i].Location = new System.Drawing.Point(17, 271);
-				this.tdStNumericUpDowns[i].Name = "tdStNumericUpDown" + (i + 1);
-				this.tdStNumericUpDowns[i].Size = new System.Drawing.Size(50, 20);
-				this.tdStNumericUpDowns[i].TabIndex = 1;
-				this.tdStNumericUpDowns[i].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-				this.tdStNumericUpDowns[i].DecimalPlaces = 2;
+				this.tdStNumericUpDowns[tdIndex].Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+				this.tdStNumericUpDowns[tdIndex].Location = new System.Drawing.Point(17, 271);
+				this.tdStNumericUpDowns[tdIndex].Name = "tdStNumericUpDown" + (tdIndex + 1);
+				this.tdStNumericUpDowns[tdIndex].Size = new System.Drawing.Size(50, 20);
+				this.tdStNumericUpDowns[tdIndex].TabIndex = 1;
+				this.tdStNumericUpDowns[tdIndex].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+				this.tdStNumericUpDowns[tdIndex].DecimalPlaces = 2;
 
 				// 
 				// tdPanel
 				// 
-				this.tdPanels[i].Controls.Add(this.tdNameLabels[i]);
-				this.tdPanels[i].Controls.Add(this.tdNoLabels[i]);
-				this.tdPanels[i].Controls.Add(this.tdCmComboBoxes[i]);
-				this.tdPanels[i].Controls.Add(this.tdStNumericUpDowns[i]);
-				this.tdPanels[i].Controls.Add(this.tdValueNumericUpDowns[i]);
-				this.tdPanels[i].Controls.Add(this.tdTrackBars[i]);
-				this.tdPanels[i].Location = new System.Drawing.Point(3, 3);
-				this.tdPanels[i].Name = "tdPanel" + (i + 1);
-				this.tdPanels[i].Size = new System.Drawing.Size(84, 297);
-				this.tdPanels[i].TabIndex = 24;
+				this.tdPanels[tdIndex].Controls.Add(this.tdNameLabels[tdIndex]);
+				this.tdPanels[tdIndex].Controls.Add(this.tdNoLabels[tdIndex]);
+				this.tdPanels[tdIndex].Controls.Add(this.tdCmComboBoxes[tdIndex]);
+				this.tdPanels[tdIndex].Controls.Add(this.tdStNumericUpDowns[tdIndex]);
+				this.tdPanels[tdIndex].Controls.Add(this.tdValueNumericUpDowns[tdIndex]);
+				this.tdPanels[tdIndex].Controls.Add(this.tdTrackBars[tdIndex]);
+				this.tdPanels[tdIndex].Location = new System.Drawing.Point(3, 3);
+				this.tdPanels[tdIndex].Name = "tdPanel" + (tdIndex + 1);
+				this.tdPanels[tdIndex].Size = new System.Drawing.Size(84, 297);
+				this.tdPanels[tdIndex].TabIndex = 24;
 
-				this.tdPanels[i].Visible = false;
-				this.tdPanels[i].Tag = 9999;
+				this.tdPanels[tdIndex].Visible = false;
+				this.tdPanels[tdIndex].Tag = 9999;
 
-				tdTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
-				tdTrackBars[i].MouseWheel += new MouseEventHandler(this.tdTrackBars_MouseWheel);
-				tdTrackBars[i].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
+				tdTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
+				tdTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdTrackBars_MouseWheel);
+				tdTrackBars[tdIndex].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
 
-				tdValueNumericUpDowns[i].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
-				tdValueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
-				tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+				tdValueNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
+				tdValueNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
+				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
 
-				tdCmComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+				tdCmComboBoxes[tdIndex].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
 
-				tdStNumericUpDowns[i].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
-				tdStNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
-				tdStNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+				tdStNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
+				tdStNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
+				tdStNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
-				tdNameLabels[i].Click += new EventHandler(this.tdNameLabels_Click);
+				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameLabels_Click);
 
-				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[i]);
+				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[tdIndex]);
 
-				saPanels[i] = new Panel
+				saPanels[tdIndex] = new Panel
 				{
 					Location = new System.Drawing.Point(3, 3),
-					Name = "saPanel" + (i + 1),
+					Name = "saPanel" + (tdIndex + 1),
 					Size = new System.Drawing.Size(95, 297),
 					Visible = false,										
 				};
-				this.tdFlowLayoutPanel.Controls.Add(saPanels[i]);
+				this.tdFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
 			}
 
 			// 场景选项框		
@@ -992,10 +992,8 @@ namespace LightController.MyForm
 				}
 
 				if (from0on) {
-					//Console.WriteLine("while from0on -> generateSaPanels() || " + selectedIndex );
 					generateSaPanels();
 				}
-
 			}
 		}
 
@@ -2191,17 +2189,31 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiButton_Click(object sender, EventArgs e)
+		private void multiButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			multiButtonClick();
+ 			if (e.Button == MouseButtons.Left)
+			{
+				multiButtonClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				soundMultiButtonClick();				
+			}
 		}
 
-        /// <summary>
-        /// 事件：点击《音频链表》
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void soundListButton_Click(object sender, EventArgs e)
+		/// <summary>
+		/// 事件：点击《音频链表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void soundListButton_Click(object sender, EventArgs e)
         {
             new SKForm(this, currentFrame, frameComboBox.Text).ShowDialog();
         }

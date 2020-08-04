@@ -257,6 +257,12 @@
     <Compile Include="MyForm\Multiplex\MultiplexForm.Designer.cs">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\SoundMultiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\SoundMultiForm.Designer.cs">
+      <DependentUpon>SoundMultiForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -509,6 +515,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\SoundMultiForm.resx">
+      <DependentUpon>SoundMultiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewMainForm.resx">
       <DependentUpon>NewMainForm.cs</DependentUpon>

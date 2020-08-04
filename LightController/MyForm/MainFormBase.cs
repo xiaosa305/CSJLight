@@ -2889,6 +2889,7 @@ namespace LightController.MyForm
 				MessageBox.Show("检测到当前灯具无X/Y轴，无法使用内置动作功能。");
 				return;
 			}
+
 			// 检查当前模式（音频模式很少用到动作，更多的是亮灭，故暂时不给音频模式做动作）
 			if (currentMode != 0) {
 				MessageBox.Show("检测到当前模式不是常规模式，无法使用内置动作。");
@@ -3160,7 +3161,6 @@ namespace LightController.MyForm
 				showTDPanels(null, 0);
 				showStepLabel(0, 0);
 				from0on = true;
-				//Console.WriteLine("from0on = true");
 			}
 			else
 			{				
@@ -3187,7 +3187,6 @@ namespace LightController.MyForm
 				showTDPanels(stepWrapper.TongdaoList, stepWrapper.StartNum);
 				showStepLabel(lightStepWrapper.CurrentStep, lightStepWrapper.TotalStep);
 				from0on = false;
-				//Console.WriteLine("from0on = false");
 			}
 			
 			if (IsConnected && !isPreviewing )
@@ -3342,6 +3341,26 @@ namespace LightController.MyForm
 			}
 
 			new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), currentMode).ShowDialog();
+		}
+
+
+		/// <summary>
+		/// 辅助方法：右键《多步调节》进入多步联调
+		/// </summary>
+		protected void soundMultiButtonClick()
+		{
+			if (currentMode != 1)
+			{
+				SetNotice("非音频模式，无法使用多步联调");
+				return;
+			}
+
+			if (!isSyncMode) {
+				SetNotice("非同步模式，无法使用多步联调");
+				return;
+			}
+
+			new SoundMultiForm(this).ShowDialog();
 		}
 
 		/// <summary>

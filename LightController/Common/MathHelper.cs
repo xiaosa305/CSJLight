@@ -36,8 +36,8 @@ namespace LightController.Common
 		/// <param name="addNum">取出来的index需要加的数字，比如 label1 = labels[0] 则addNum = -1</param>
 		public static int GetIndexNum(String senderName,int addNum)
 		{
-			string labelIndexStr = System.Text.RegularExpressions.Regex.Replace(senderName, @"[^0-9]+", "");
-			int numIndex = int.Parse(labelIndexStr) + (addNum) ;
+			string indexStr = System.Text.RegularExpressions.Regex.Replace(senderName, @"[^0-9]+", "");
+			int numIndex = int.Parse(indexStr) + (addNum) ;
 			return numIndex;
 		}
 

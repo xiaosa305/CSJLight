@@ -26,8 +26,15 @@ using LightController.MyForm.Multiplex;
 namespace LightController.MyForm
 {
 	public partial class SkinMainForm : MainFormBase
-	{
-		private bool isPainting = false;
+	{	
+		private Panel[] tdPanels = new Panel[32];
+		private SkinLabel[] tdNoLabels = new SkinLabel[32];
+		private Label[] tdNameLabels = new Label[32];
+		private SkinTrackBar[] tdSkinTrackBars = new SkinTrackBar[32];
+		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
+		private SkinComboBox[] tdChangeModeSkinComboBoxes = new SkinComboBox[32];
+		private NumericUpDown[] tdStepTimeNumericUpDowns = new NumericUpDown[32];	
+
 		private Panel[] saPanels = new Panel[32];
 
 		public SkinMainForm()
@@ -44,256 +51,126 @@ namespace LightController.MyForm
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;			
 
-			#region 初始化各种辅助数组
-
-			tdPanels[0] = tdPanel1;
-			tdPanels[1] = tdPanel2;
-			tdPanels[2] = tdPanel3;
-			tdPanels[3] = tdPanel4;
-			tdPanels[4] = tdPanel5;
-			tdPanels[5] = tdPanel6;
-			tdPanels[6] = tdPanel7;
-			tdPanels[7] = tdPanel8;
-			tdPanels[8] = tdPanel9;
-			tdPanels[9] = tdPanel10;
-			tdPanels[10] = tdPanel11;
-			tdPanels[11] = tdPanel12;
-			tdPanels[12] = tdPanel13;
-			tdPanels[13] = tdPanel14;
-			tdPanels[14] = tdPanel15;
-			tdPanels[15] = tdPanel16;
-			tdPanels[16] = tdPanel17;
-			tdPanels[17] = tdPanel18;
-			tdPanels[18] = tdPanel19;
-			tdPanels[19] = tdPanel20;
-			tdPanels[20] = tdPanel21;
-			tdPanels[21] = tdPanel22;
-			tdPanels[22] = tdPanel23;
-			tdPanels[23] = tdPanel24;
-			tdPanels[24] = tdPanel25;
-			tdPanels[25] = tdPanel26;
-			tdPanels[26] = tdPanel27;
-			tdPanels[27] = tdPanel28;
-			tdPanels[28] = tdPanel29;
-			tdPanels[29] = tdPanel30;
-			tdPanels[30] = tdPanel31;
-			tdPanels[31] = tdPanel32;
-
-			tdNoLabels[0] = tdNoLabel1;
-			tdNoLabels[1] = tdNoLabel2;
-			tdNoLabels[2] = tdNoLabel3;
-			tdNoLabels[3] = tdNoLabel4;
-			tdNoLabels[4] = tdNoLabel5;
-			tdNoLabels[5] = tdNoLabel6;
-			tdNoLabels[6] = tdNoLabel7;
-			tdNoLabels[7] = tdNoLabel8;
-			tdNoLabels[8] = tdNoLabel9;
-			tdNoLabels[9] = tdNoLabel10;
-			tdNoLabels[10] = tdNoLabel11;
-			tdNoLabels[11] = tdNoLabel12;
-			tdNoLabels[12] = tdNoLabel13;
-			tdNoLabels[13] = tdNoLabel14;
-			tdNoLabels[14] = tdNoLabel15;
-			tdNoLabels[15] = tdNoLabel16;
-			tdNoLabels[16] = tdNoLabel17;
-			tdNoLabels[17] = tdNoLabel18;
-			tdNoLabels[18] = tdNoLabel19;
-			tdNoLabels[19] = tdNoLabel20;
-			tdNoLabels[20] = tdNoLabel21;
-			tdNoLabels[21] = tdNoLabel22;
-			tdNoLabels[22] = tdNoLabel23;
-			tdNoLabels[23] = tdNoLabel24;
-			tdNoLabels[24] = tdNoLabel25;
-			tdNoLabels[25] = tdNoLabel26;
-			tdNoLabels[26] = tdNoLabel27;
-			tdNoLabels[27] = tdNoLabel28;
-			tdNoLabels[28] = tdNoLabel29;
-			tdNoLabels[29] = tdNoLabel30;
-			tdNoLabels[30] = tdNoLabel31;
-			tdNoLabels[31] = tdNoLabel32;
-
-			tdNameLabels[0] = tdNameLabel1;
-			tdNameLabels[1] = tdNameLabel2;
-			tdNameLabels[2] = tdNameLabel3;
-			tdNameLabels[3] = tdNameLabel4;
-			tdNameLabels[4] = tdNameLabel5;
-			tdNameLabels[5] = tdNameLabel6;
-			tdNameLabels[6] = tdNameLabel7;
-			tdNameLabels[7] = tdNameLabel8;
-			tdNameLabels[8] = tdNameLabel9;
-			tdNameLabels[9] = tdNameLabel10;
-			tdNameLabels[10] = tdNameLabel11;
-			tdNameLabels[11] = tdNameLabel12;
-			tdNameLabels[12] = tdNameLabel13;
-			tdNameLabels[13] = tdNameLabel14;
-			tdNameLabels[14] = tdNameLabel15;
-			tdNameLabels[15] = tdNameLabel16;
-			tdNameLabels[16] = tdNameLabel17;
-			tdNameLabels[17] = tdNameLabel18;
-			tdNameLabels[18] = tdNameLabel19;
-			tdNameLabels[19] = tdNameLabel20;
-			tdNameLabels[20] = tdNameLabel21;
-			tdNameLabels[21] = tdNameLabel22;
-			tdNameLabels[22] = tdNameLabel23;
-			tdNameLabels[23] = tdNameLabel24;
-			tdNameLabels[24] = tdNameLabel25;
-			tdNameLabels[25] = tdNameLabel26;
-			tdNameLabels[26] = tdNameLabel27;
-			tdNameLabels[27] = tdNameLabel28;
-			tdNameLabels[28] = tdNameLabel29;
-			tdNameLabels[29] = tdNameLabel30;
-			tdNameLabels[30] = tdNameLabel31;
-			tdNameLabels[31] = tdNameLabel32;
-
-			tdSkinTrackBars[0] = tdSkinTrackBar1;
-			tdSkinTrackBars[1] = tdSkinTrackBar2;
-			tdSkinTrackBars[2] = tdSkinTrackBar3;
-			tdSkinTrackBars[3] = tdSkinTrackBar4;
-			tdSkinTrackBars[4] = tdSkinTrackBar5;
-			tdSkinTrackBars[5] = tdSkinTrackBar6;
-			tdSkinTrackBars[6] = tdSkinTrackBar7;
-			tdSkinTrackBars[7] = tdSkinTrackBar8;
-			tdSkinTrackBars[8] = tdSkinTrackBar9;
-			tdSkinTrackBars[9] = tdSkinTrackBar10;
-			tdSkinTrackBars[10] = tdSkinTrackBar11;
-			tdSkinTrackBars[11] = tdSkinTrackBar12;
-			tdSkinTrackBars[12] = tdSkinTrackBar13;
-			tdSkinTrackBars[13] = tdSkinTrackBar14;
-			tdSkinTrackBars[14] = tdSkinTrackBar15;
-			tdSkinTrackBars[15] = tdSkinTrackBar16;
-			tdSkinTrackBars[16] = tdSkinTrackBar17;
-			tdSkinTrackBars[17] = tdSkinTrackBar18;
-			tdSkinTrackBars[18] = tdSkinTrackBar19;
-			tdSkinTrackBars[19] = tdSkinTrackBar20;
-			tdSkinTrackBars[20] = tdSkinTrackBar21;
-			tdSkinTrackBars[21] = tdSkinTrackBar22;
-			tdSkinTrackBars[22] = tdSkinTrackBar23;
-			tdSkinTrackBars[23] = tdSkinTrackBar24;
-			tdSkinTrackBars[24] = tdSkinTrackBar25;
-			tdSkinTrackBars[25] = tdSkinTrackBar26;
-			tdSkinTrackBars[26] = tdSkinTrackBar27;
-			tdSkinTrackBars[27] = tdSkinTrackBar28;
-			tdSkinTrackBars[28] = tdSkinTrackBar29;
-			tdSkinTrackBars[29] = tdSkinTrackBar30;
-			tdSkinTrackBars[30] = tdSkinTrackBar31;
-			tdSkinTrackBars[31] = tdSkinTrackBar32;
-
-			tdValueNumericUpDowns[0] = tdValueNumericUpDown1;
-			tdValueNumericUpDowns[1] = tdValueNumericUpDown2;
-			tdValueNumericUpDowns[2] = tdValueNumericUpDown3;
-			tdValueNumericUpDowns[3] = tdValueNumericUpDown4;
-			tdValueNumericUpDowns[4] = tdValueNumericUpDown5;
-			tdValueNumericUpDowns[5] = tdValueNumericUpDown6;
-			tdValueNumericUpDowns[6] = tdValueNumericUpDown7;
-			tdValueNumericUpDowns[7] = tdValueNumericUpDown8;
-			tdValueNumericUpDowns[8] = tdValueNumericUpDown9;
-			tdValueNumericUpDowns[9] = tdValueNumericUpDown10;
-			tdValueNumericUpDowns[10] = tdValueNumericUpDown11;
-			tdValueNumericUpDowns[11] = tdValueNumericUpDown12;
-			tdValueNumericUpDowns[12] = tdValueNumericUpDown13;
-			tdValueNumericUpDowns[13] = tdValueNumericUpDown14;
-			tdValueNumericUpDowns[14] = tdValueNumericUpDown15;
-			tdValueNumericUpDowns[15] = tdValueNumericUpDown16;
-			tdValueNumericUpDowns[16] = tdValueNumericUpDown17;
-			tdValueNumericUpDowns[17] = tdValueNumericUpDown18;
-			tdValueNumericUpDowns[18] = tdValueNumericUpDown19;
-			tdValueNumericUpDowns[19] = tdValueNumericUpDown20;
-			tdValueNumericUpDowns[20] = tdValueNumericUpDown21;
-			tdValueNumericUpDowns[21] = tdValueNumericUpDown22;
-			tdValueNumericUpDowns[22] = tdValueNumericUpDown23;
-			tdValueNumericUpDowns[23] = tdValueNumericUpDown24;
-			tdValueNumericUpDowns[24] = tdValueNumericUpDown25;
-			tdValueNumericUpDowns[25] = tdValueNumericUpDown26;
-			tdValueNumericUpDowns[26] = tdValueNumericUpDown27;
-			tdValueNumericUpDowns[27] = tdValueNumericUpDown28;
-			tdValueNumericUpDowns[28] = tdValueNumericUpDown29;
-			tdValueNumericUpDowns[29] = tdValueNumericUpDown30;
-			tdValueNumericUpDowns[30] = tdValueNumericUpDown31;
-			tdValueNumericUpDowns[31] = tdValueNumericUpDown32;
-
-			tdChangeModeSkinComboBoxes[0] = tdChangeModeSkinComboBox1;
-			tdChangeModeSkinComboBoxes[1] = tdChangeModeSkinComboBox2;
-			tdChangeModeSkinComboBoxes[2] = tdChangeModeSkinComboBox3;
-			tdChangeModeSkinComboBoxes[3] = tdChangeModeSkinComboBox4;
-			tdChangeModeSkinComboBoxes[4] = tdChangeModeSkinComboBox5;
-			tdChangeModeSkinComboBoxes[5] = tdChangeModeSkinComboBox6;
-			tdChangeModeSkinComboBoxes[6] = tdChangeModeSkinComboBox7;
-			tdChangeModeSkinComboBoxes[7] = tdChangeModeSkinComboBox8;
-			tdChangeModeSkinComboBoxes[8] = tdChangeModeSkinComboBox9;
-			tdChangeModeSkinComboBoxes[9] = tdChangeModeSkinComboBox10;
-			tdChangeModeSkinComboBoxes[10] = tdChangeModeSkinComboBox11;
-			tdChangeModeSkinComboBoxes[11] = tdChangeModeSkinComboBox12;
-			tdChangeModeSkinComboBoxes[12] = tdChangeModeSkinComboBox13;
-			tdChangeModeSkinComboBoxes[13] = tdChangeModeSkinComboBox14;
-			tdChangeModeSkinComboBoxes[14] = tdChangeModeSkinComboBox15;
-			tdChangeModeSkinComboBoxes[15] = tdChangeModeSkinComboBox16;
-			tdChangeModeSkinComboBoxes[16] = tdChangeModeSkinComboBox17;
-			tdChangeModeSkinComboBoxes[17] = tdChangeModeSkinComboBox18;
-			tdChangeModeSkinComboBoxes[18] = tdChangeModeSkinComboBox19;
-			tdChangeModeSkinComboBoxes[19] = tdChangeModeSkinComboBox20;
-			tdChangeModeSkinComboBoxes[20] = tdChangeModeSkinComboBox21;
-			tdChangeModeSkinComboBoxes[21] = tdChangeModeSkinComboBox22;
-			tdChangeModeSkinComboBoxes[22] = tdChangeModeSkinComboBox23;
-			tdChangeModeSkinComboBoxes[23] = tdChangeModeSkinComboBox24;
-			tdChangeModeSkinComboBoxes[24] = tdChangeModeSkinComboBox25;
-			tdChangeModeSkinComboBoxes[25] = tdChangeModeSkinComboBox26;
-			tdChangeModeSkinComboBoxes[26] = tdChangeModeSkinComboBox27;
-			tdChangeModeSkinComboBoxes[27] = tdChangeModeSkinComboBox28;
-			tdChangeModeSkinComboBoxes[28] = tdChangeModeSkinComboBox29;
-			tdChangeModeSkinComboBoxes[29] = tdChangeModeSkinComboBox30;
-			tdChangeModeSkinComboBoxes[30] = tdChangeModeSkinComboBox31;
-			tdChangeModeSkinComboBoxes[31] = tdChangeModeSkinComboBox32;
-
-			tdStepTimeNumericUpDowns[0] = tdStepTimeNumericUpDown1;
-			tdStepTimeNumericUpDowns[1] = tdStepTimeNumericUpDown2;
-			tdStepTimeNumericUpDowns[2] = tdStepTimeNumericUpDown3;
-			tdStepTimeNumericUpDowns[3] = tdStepTimeNumericUpDown4;
-			tdStepTimeNumericUpDowns[4] = tdStepTimeNumericUpDown5;
-			tdStepTimeNumericUpDowns[5] = tdStepTimeNumericUpDown6;
-			tdStepTimeNumericUpDowns[6] = tdStepTimeNumericUpDown7;
-			tdStepTimeNumericUpDowns[7] = tdStepTimeNumericUpDown8;
-			tdStepTimeNumericUpDowns[8] = tdStepTimeNumericUpDown9;
-			tdStepTimeNumericUpDowns[9] = tdStepTimeNumericUpDown10;
-			tdStepTimeNumericUpDowns[10] = tdStepTimeNumericUpDown11;
-			tdStepTimeNumericUpDowns[11] = tdStepTimeNumericUpDown12;
-			tdStepTimeNumericUpDowns[12] = tdStepTimeNumericUpDown13;
-			tdStepTimeNumericUpDowns[13] = tdStepTimeNumericUpDown14;
-			tdStepTimeNumericUpDowns[14] = tdStepTimeNumericUpDown15;
-			tdStepTimeNumericUpDowns[15] = tdStepTimeNumericUpDown16;
-			tdStepTimeNumericUpDowns[16] = tdStepTimeNumericUpDown17;
-			tdStepTimeNumericUpDowns[17] = tdStepTimeNumericUpDown18;
-			tdStepTimeNumericUpDowns[18] = tdStepTimeNumericUpDown19;
-			tdStepTimeNumericUpDowns[19] = tdStepTimeNumericUpDown20;
-			tdStepTimeNumericUpDowns[20] = tdStepTimeNumericUpDown21;
-			tdStepTimeNumericUpDowns[21] = tdStepTimeNumericUpDown22;
-			tdStepTimeNumericUpDowns[22] = tdStepTimeNumericUpDown23;
-			tdStepTimeNumericUpDowns[23] = tdStepTimeNumericUpDown24;
-			tdStepTimeNumericUpDowns[24] = tdStepTimeNumericUpDown25;
-			tdStepTimeNumericUpDowns[25] = tdStepTimeNumericUpDown26;
-			tdStepTimeNumericUpDowns[26] = tdStepTimeNumericUpDown27;
-			tdStepTimeNumericUpDowns[27] = tdStepTimeNumericUpDown28;
-			tdStepTimeNumericUpDowns[28] = tdStepTimeNumericUpDown29;
-			tdStepTimeNumericUpDowns[29] = tdStepTimeNumericUpDown30;
-			tdStepTimeNumericUpDowns[30] = tdStepTimeNumericUpDown31;
-			tdStepTimeNumericUpDowns[31] = tdStepTimeNumericUpDown32;
-
+			#region 初始化各通道控件
 			
 			for (int tdIndex = 0; tdIndex<32;tdIndex++) {
+
+				tdPanels[tdIndex] = new Panel
+				{
+					Size = new Size(80, 275),
+					Visible = false,
+					Name = "tdPanel"+tdIndex
+				};
+
+				tdNoLabels[tdIndex] = new SkinLabel
+				{
+					AutoSize = true,
+					BackColor = System.Drawing.Color.Transparent,
+					BorderColor = System.Drawing.Color.White,
+					Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
+					Location = new System.Drawing.Point(14, 11),					
+					Size = new System.Drawing.Size(53, 17),
+					Name = "tdNoLabel" + tdIndex
+				};
+
+				tdNameLabels[tdIndex] = new Label
+				{
+					Font = new System.Drawing.Font("宋体", 8F),
+					Location = new System.Drawing.Point(16, 42),
+					Size = new System.Drawing.Size(14,143),					
+					Name = "tdNameLabel" + tdIndex,
+					TextAlign = System.Drawing.ContentAlignment.TopCenter
+				};					
+
+				tdSkinTrackBars[tdIndex] = new SkinTrackBar
+				{
+					AutoSize = false,
+					BackColor = System.Drawing.Color.Transparent,
+					Bar = null,
+					BarStyle = HSLTrackBarStyle.Opacity,
+					BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122))))),
+					Location = new System.Drawing.Point(19, 31),
+					Maximum = 255,					
+					Orientation = System.Windows.Forms.Orientation.Vertical,
+					Size = new System.Drawing.Size(44, 170),					
+					TickStyle = System.Windows.Forms.TickStyle.Both,
+					Track = null,
+					Name = "tdTrackBar" + tdIndex
+				};
+
+				tdValueNumericUpDowns[tdIndex] = new NumericUpDown
+				{
+					Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
+					TextAlign = HorizontalAlignment.Center,
+					Size = new System.Drawing.Size(56, 21),
+					Location = new System.Drawing.Point(15, 206),
+					Maximum = new decimal(255),
+					Name ="tdValueNUD" + tdIndex
+				};
+
+				tdChangeModeSkinComboBoxes[tdIndex] = new SkinComboBox
+				{
+					ArrowColor = System.Drawing.Color.White,
+					BaseColor = System.Drawing.Color.Gray,
+					BorderColor = System.Drawing.Color.Gray,
+					DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed,
+					FormattingEnabled = true,
+					ItemBorderColor = System.Drawing.Color.LightSlateGray,					
+					Location = new System.Drawing.Point(15, 229),
+					Size = new System.Drawing.Size(56, 22),
+					Name = "tdChangeModeSkinComboBox" + tdIndex 
+				};
+				tdChangeModeSkinComboBoxes[tdIndex].Items.AddRange(new object[] {"跳变","渐变","屏蔽"});
+
+				tdStepTimeNumericUpDowns[tdIndex] = new NumericUpDown
+				{
+					Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
+					TextAlign = System.Windows.Forms.HorizontalAlignment.Center,
+					Size = new System.Drawing.Size(56, 21),
+					Location = new System.Drawing.Point(15, 253),
+					DecimalPlaces = 2,
+					Maximum = new decimal(new int[] {255,0,	0,0}),
+					Name = "tdStNUD" + tdIndex
+				};
+
+				tdPanels[tdIndex].Controls.Add(tdNameLabels[tdIndex]); //插入的先后顺序很重要；如果先插入，会造成label文字被遮挡
+				tdPanels[tdIndex].Controls.Add(tdNoLabels[tdIndex]);				
+				tdPanels[tdIndex].Controls.Add(tdSkinTrackBars[tdIndex]);			
+				tdPanels[tdIndex].Controls.Add(tdValueNumericUpDowns[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdChangeModeSkinComboBoxes[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(tdStepTimeNumericUpDowns[tdIndex]);				
+
+				tdSkinFlowLayoutPanel.Controls.Add(tdPanels[tdIndex]);
+
+				#region 各监听器
+
 				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameLabels_Click);
 
-				tdStepTimeNumericUpDowns[tdIndex].DecimalPlaces = 2;
+				tdSkinTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
+				tdSkinTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
+				tdSkinTrackBars[tdIndex].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
 
-				tdValueNumericUpDowns[tdIndex].Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-				tdValueNumericUpDowns[tdIndex].TextAlign = HorizontalAlignment.Center;
-				tdValueNumericUpDowns[tdIndex].Size = new System.Drawing.Size(56, 21);
-				tdValueNumericUpDowns[tdIndex].Location = new System.Drawing.Point(15, 206);
+				tdValueNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);
+				tdValueNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
+				tdValueNumericUpDowns[tdIndex].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
 
-				tdStepTimeNumericUpDowns[tdIndex].Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-				tdStepTimeNumericUpDowns[tdIndex].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-				tdStepTimeNumericUpDowns[tdIndex].Size = new System.Drawing.Size(56, 21);
-				tdStepTimeNumericUpDowns[tdIndex].Location = new System.Drawing.Point(15, 254);
+				tdChangeModeSkinComboBoxes[tdIndex].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
+
+				tdStepTimeNumericUpDowns[tdIndex].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
+				tdStepTimeNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
+				tdStepTimeNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
+
+				#endregion
+
+				saPanels[tdIndex] = new Panel
+				{
+					Location = new System.Drawing.Point(3, 3),
+					Name = "saPanel" + (tdIndex + 1),
+					Size = new System.Drawing.Size(95, 275),
+					Visible = false,
+				};
+				tdSkinFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
 			}
-
 
 			#endregion
 
@@ -317,30 +194,6 @@ namespace LightController.MyForm
 			modeSkinComboBox.Items.AddRange(new object[] { "常规模式", "音频模式" });
 			modeSkinComboBox.SelectedIndex = 0;
 						
-			#endregion
-
-			#region 各类监听器
-			// MARK：SkinMainForm 各种td监听器
-			for (int i = 0; i < 32; i++) {
-
-				tdSkinTrackBars[i].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
-				tdSkinTrackBars[i].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
-				tdSkinTrackBars[i].ValueChanged += new System.EventHandler(this.tdSkinTrackBars_ValueChanged);
-				
-				tdValueNumericUpDowns[i].MouseEnter += new EventHandler(this.tdValueNumericUpDowns_MouseEnter);				
-				tdValueNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdValueNumericUpDowns_MouseWheel);
-				tdValueNumericUpDowns[i].ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-
-				tdChangeModeSkinComboBoxes[i].SelectedIndexChanged += new System.EventHandler(tdChangeModeSkinComboBoxes_SelectedIndexChanged);
-
-				tdStepTimeNumericUpDowns[i].MouseEnter += new EventHandler(this.tdStepTimeNumericUpDowns_MouseEnter);
-				tdStepTimeNumericUpDowns[i].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
-				tdStepTimeNumericUpDowns[i].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
-								
-			}
-			// 防止人为滚动左侧的labelPanels，用这个监听事件来处理
-			labelFlowLayoutPanel.MouseWheel += new MouseEventHandler(this.labelFlowLayoutPanel_MouseWheel);
-
 			#endregion
 
 			// 几个按钮添加提示
@@ -755,6 +608,8 @@ namespace LightController.MyForm
 		/// <param name="lightIndex"></param>
 		protected override void generateSaPanels()
 		{
+			#region 老方法（弃用）
+
 			//MARK 0629 子属性Panel 2.1：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
 			//if (saPanelArray[lightIndex] == null)
 			//{
@@ -809,7 +664,73 @@ namespace LightController.MyForm
 			//	}
 			//}
 
+			#endregion
 
+			#region 新方法：
+			//①存储一个所有灯具的子属性按钮列表； 
+			//② 如果是首次点击，则生成之，否则就用旧的； 
+			//③使用列表，实时渲染到调节界面中（按通道来进行存放）
+
+			LightAst la = lightAstList[selectedIndex];
+			// 若已经存在saPanelDict，则不再重复生成了
+			if (la.saPanelDict == null)
+			{
+				la.saPanelDict = new Dictionary<int, FlowLayoutPanel>();
+				for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
+				{
+					// 只有尚未生成Panel 且 子属性的数量大于0时 才需要生成子属性FlowLayoutPanel
+					if (la.SawList[tdIndex].SaList.Count > 0)
+					{
+						la.saPanelDict.Add(tdIndex, new FlowLayoutPanel()
+						{
+							Size = new Size(95, 297),
+							Dock = DockStyle.Fill,
+							AutoScroll = true,
+							//BorderStyle = BorderStyle.Fixed3D
+						});
+
+						la.saPanelDict[tdIndex].Controls.Add(new Label
+						{
+							Size = new Size(70, 36),
+							TextAlign = ContentAlignment.MiddleCenter,
+							Text = "<-"
+						});
+						for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+						{
+							SA sa = la.SawList[tdIndex].SaList[saIndex];
+							Button saButton = new Button
+							{
+								Text = sa.SAName,
+								Size = new Size(68, 20),
+								Tag = tdIndex + "*" + sa.StartValue,
+								UseVisualStyleBackColor = true
+							};
+							saButton.Click += new EventHandler(saButton_Click);
+							saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
+							la.saPanelDict[tdIndex].Controls.Add(saButton);
+						}
+						Console.WriteLine("灯具【" + selectedIndex + "】生成了一个saPanel，tdIndex = " + tdIndex + " ,其子属性数量 = " + la.SawList[tdIndex].SaList.Count);
+					}
+				}
+
+				#endregion
+
+			}
+
+			// 显示Keys中有的saPanel
+			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+			{
+				if (la.saPanelDict.ContainsKey(tdIndex))
+				{
+					saPanels[tdIndex].Controls.Clear();
+					saPanels[tdIndex].Controls.Add(la.saPanelDict[tdIndex]);
+					saPanels[tdIndex].Show();
+				}
+				else
+				{
+					saPanels[tdIndex].Hide();
+				}
+			}
 		}
 
 		/// <summary>
@@ -862,13 +783,13 @@ namespace LightController.MyForm
 			// 1.判断tongdaoList，为null或数量为0时：①隐藏所有通道；②退出此方法
 			if (tongdaoList == null || tongdaoList.Count == 0)
 			{
-				hideAllTDPanels();				
+				hideAllTDPanels();
+				labelPanel.Hide();
 			}
 			//2.将dataWrappers的内容渲染到起VScrollBar中
 			else
-			{
-				isPainting = true;
-
+			{				
+				labelPanel.Show();
 				for (int i = 0; i < tongdaoList.Count; i++)
 				{
 					tdSkinTrackBars[i].ValueChanged -= new System.EventHandler(tdSkinTrackBars_ValueChanged);
@@ -897,7 +818,11 @@ namespace LightController.MyForm
 				{
 					tdPanels[i].Hide();
 				}
-				isPainting = false;
+
+				if (from0on)
+				{
+					generateSaPanels();
+				}
 			}
 		}
 
@@ -906,14 +831,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected override void hideAllTDPanels()
 		{
-			isPainting = true;
-
-			for (int i = 0; i < 32; i++)
+			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
 			{
-				tdPanels[i].Hide();
+				tdPanels[tdIndex].Hide();
+				saPanels[tdIndex].Hide();
 			}			
-
-			isPainting = false;
 		}
 
 		/// <summary>
@@ -1338,9 +1260,9 @@ namespace LightController.MyForm
 					this.tdStepTimeNumericUpDowns[i].Hide();
 				}			
 
-				thirdLabel1.Hide();
-				thirdLabel2.Hide();
-				thirdLabel3.Hide();
+				//thirdLabel1.Hide();
+				//thirdLabel2.Hide();
+				//thirdLabel3.Hide();
 			}
 			else //mode=0，常规模式
 			{
@@ -1351,9 +1273,9 @@ namespace LightController.MyForm
 					this.tdStepTimeNumericUpDowns[i].Show();
 				}
 				
-				thirdLabel1.Show();
-				thirdLabel2.Show();
-				thirdLabel3.Show();                
+				//thirdLabel1.Show();
+				//thirdLabel2.Show();
+				//thirdLabel3.Show();                
             }
 
 			changeFrameMode();
@@ -1585,7 +1507,6 @@ namespace LightController.MyForm
 			}
 		}
 
-
 		/// <summary>
 		/// 事件：点击《内置动作》
 		/// </summary>
@@ -1595,7 +1516,6 @@ namespace LightController.MyForm
 		{
 			actionButtonClick();
 		}
-
 
 		/// <summary>		
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
@@ -1780,7 +1700,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, 0);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1792,7 +1712,7 @@ namespace LightController.MyForm
 		private void tdSkinTrackBars_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdSkinTrackBars_MouseWheel");
-			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, 0);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1831,7 +1751,7 @@ namespace LightController.MyForm
         {
             //Console.WriteLine("tdSkinTrackBars_ValueChanged");
             // 1.先找出对应tdSkinTrackBars的index 
-            int tongdaoIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
+            int tongdaoIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, 0);
             int tdValue = tdSkinTrackBars[tongdaoIndex].Value;
 
             //2.把滚动条的值赋给tdValueNumericUpDowns
@@ -1853,7 +1773,7 @@ namespace LightController.MyForm
         {
             //Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
             // 1. 找出对应的index
-            int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+            int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
             int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
             // 2.调整相应的vScrollBar的数值；
@@ -1875,7 +1795,7 @@ namespace LightController.MyForm
         private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1887,7 +1807,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1924,7 +1844,7 @@ namespace LightController.MyForm
 		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int tdIndex = MathHelper.GetIndexNum(((ComboBox)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((ComboBox)sender).Name, 0);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1945,7 +1865,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
 			tdStepTimeNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1956,7 +1876,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name,0);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1988,7 +1908,7 @@ namespace LightController.MyForm
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -2012,7 +1932,7 @@ namespace LightController.MyForm
 		private void tdNameLabels_Click(object sender, EventArgs e)
 		{
 			//MARK 0701 通道子属性 1.2：SkinMainForm内调用tdNameLabelClick
-			tdNameLabelClick(sender);
+			//tdNameLabelClick(sender);
 		}		
 
 		/// <summary>
@@ -2041,84 +1961,7 @@ namespace LightController.MyForm
 			//}
 		}
 
-		#region  因为使用滚动方法，故需要这些方法，NewMainForm中因为使用从左到右排序tdPanels，可以不用这些方法
-
-		/// <summary>
-		///   事件：tdSkinFlowLayoutPanel的paint事件
-		///  </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void tdSkinFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
-		{
-			if (!isPainting)
-			{
-				repaintTDPanels();
-			}
-		}
-
-		/// <summary>
-		///  辅助方法：重绘tdPanels
-		/// </summary>
-		private void repaintTDPanels()
-		{
-			// 1. j是tdPanels中在第一列的panel的数量，
-			int j = 0;
-			foreach (var tdPanel in tdPanels)
-			{
-				if (tdPanel.Visible && tdPanel.Location.X == 3)
-				{
-					j++;
-				}
-			}
-			showLabelPanels(j);
-
-			// 2. 设置滚动条的位置
-			labelFlowLayoutPanel.AutoScrollPosition = new Point(0, -tdSkinFlowLayoutPanel.AutoScrollPosition.Y);
-		}
-
-		/// <summary>
-		///  辅助方法：通过实时计算tdPanels占用的行数，来显示相同行数的labelPanels
-		/// </summary>
-		/// <param name="j"></param>
-		private void showLabelPanels(int j)
-		{
-			switch (j)
-			{
-				case 0:
-					labelPanel1.Hide();
-					labelPanel2.Hide();
-					labelPanel3.Hide();
-					break;
-				case 1:
-					labelPanel1.Show();
-					labelPanel2.Hide();
-					labelPanel3.Hide();
-					break;
-				case 2:
-					labelPanel1.Show();
-					labelPanel2.Show();
-					labelPanel3.Hide();
-					break;
-				case 3:
-					labelPanel1.Show();
-					labelPanel2.Show();
-					labelPanel3.Show();
-					break;
-			}
-		}
-
-		/// <summary>
-		///  事件：拦截labelFlowLayoutPanel的鼠标滚动。
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void labelFlowLayoutPanel_MouseWheel(object sender, MouseEventArgs e)
-		{
-			Point oldPoint = labelFlowLayoutPanel.AutoScrollPosition;
-			labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
-		}
-
-		#endregion
+		
 
 		#endregion
 
@@ -2168,17 +2011,32 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiSkinButton_Click(object sender, EventArgs e)
-		{
-			multiButtonClick();
-		}
+		private void multiSkinButton_Click(object sender, EventArgs e){  }
 
-        /// <summary>
-        /// 事件：点击《音频链表》
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void soundListButton_Click(object sender, EventArgs e)
+		/// <summary>
+		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void multiSkinButton_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				multiButtonClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				soundMultiButtonClick();
+			}
+		}
+		
+
+		/// <summary>
+		/// 事件：点击《音频链表》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void soundListButton_Click(object sender, EventArgs e)
         {
            new SKForm(this, currentFrame, frameSkinComboBox.Text).ShowDialog();  
         }
@@ -2671,12 +2529,86 @@ namespace LightController.MyForm
 		//	SetNotice("已退出实时调试。");
 		//}
 		//}
+				
+		/// <summary>
+		///   事件：tdSkinFlowLayoutPanel的paint事件
+		///  </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		//private void tdSkinFlowLayoutPanel_Paint(object sender, PaintEventArgs e)
+		//{
+		//	if (!isPainting)
+		//	{
+		//		repaintTDPanels();
+		//	}
+		//}
 
+		///// <summary>
+		/////  辅助方法：重绘tdPanels
+		///// </summary>
+		//private void repaintTDPanels()
+		//{
+		//	// 1. j是tdPanels中在第一列的panel的数量，
+		//	int j = 0;
+		//	foreach (var tdPanel in tdPanels)
+		//	{
+		//		if (tdPanel.Visible && tdPanel.Location.X == 3)
+		//		{
+		//			j++;
+		//		}
+		//	}
+		//	showLabelPanels(j);
+
+		//	// 2. 设置滚动条的位置
+		//	labelFlowLayoutPanel.AutoScrollPosition = new Point(0, -tdSkinFlowLayoutPanel.AutoScrollPosition.Y);
+		//}
+
+		///// <summary>
+		/////  辅助方法：通过实时计算tdPanels占用的行数，来显示相同行数的labelPanels
+		///// </summary>
+		///// <param name="j"></param>
+		//private void showLabelPanels(int j)
+		//{
+		//	switch (j)
+		//	{
+		//		case 0:
+		//			labelPanel1.Hide();
+		//			labelPanel2.Hide();
+		//			labelPanel3.Hide();
+		//			break;
+		//		case 1:
+		//			labelPanel1.Show();
+		//			labelPanel2.Hide();
+		//			labelPanel3.Hide();
+		//			break;
+		//		case 2:
+		//			labelPanel1.Show();
+		//			labelPanel2.Show();
+		//			labelPanel3.Hide();
+		//			break;
+		//		case 3:
+		//			labelPanel1.Show();
+		//			labelPanel2.Show();
+		//			labelPanel3.Show();
+		//			break;
+		//	}
+		//}
+
+		///// <summary>
+		/////  事件：拦截labelFlowLayoutPanel的鼠标滚动。
+		///// </summary>
+		///// <param name="sender"></param>
+		///// <param name="e"></param>
+		//private void labelFlowLayoutPanel_MouseWheel(object sender, MouseEventArgs e)
+		//{
+		//	Point oldPoint = labelFlowLayoutPanel.AutoScrollPosition;
+		//	labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
+		//}
 
 		#endregion
 
-		
-		
+
+
 	}
 
 

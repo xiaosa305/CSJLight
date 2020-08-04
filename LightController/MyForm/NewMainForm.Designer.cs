@@ -968,6 +968,7 @@ namespace LightController.MyForm
 			this.multiButton.Text = "多步调节";
 			this.multiButton.UseVisualStyleBackColor = false;
 			this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
+			this.multiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.multiButton_MouseDown);
 			// 
 			// initButton
 			// 

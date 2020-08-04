@@ -3351,12 +3351,17 @@ namespace LightController.MyForm
 		{
 			if (currentMode != 1)
 			{
-				SetNotice("非音频模式，无法使用多步联调");
+				SetNotice("非音频模式，无法使用多步联调。");
 				return;
 			}
 
 			if (!isSyncMode) {
-				SetNotice("非同步模式，无法使用多步联调");
+				SetNotice("非同步模式，无法使用多步联调。");
+				return;
+			}
+
+			if (getTotalStep() == 0) {
+				SetNotice("没有步数，无法使用多步联调。");
 				return;
 			}
 

@@ -608,68 +608,15 @@ namespace LightController.MyForm
 		/// <param name="lightIndex"></param>
 		protected override void generateSaPanels()
 		{
-			#region 老方法（弃用）
+			// 无步数时，直接跳过生成或显示saPanels的步骤
+			if (getCurrentStep() == 0)
+			{
+				return;
+			}
 
-			//MARK 0629 子属性Panel 2.1：NewMainForm.SelectedChanged事件内，若不存在的组内Panel，则进行添加
-			//if (saPanelArray[lightIndex] == null)
-			//{
-			//	saPanelArray[lightIndex] = new FlowLayoutPanel
-			//	{
-			//		AutoScroll = true,					
-			//		Location = new System.Drawing.Point(0, 242),
-			//		Size = new System.Drawing.Size(246,240)
-			//	};
-			//	unifyPanel.Controls.Add(saPanelArray[lightIndex]);
-
-			//	try
-			//	{
-			//		LightAst la = lightAstList[lightIndex];
-			//		if (la.SawList != null)
-			//		{
-			//			for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)
-			//			{
-			//				for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-			//				{
-			//					SA sa = la.SawList[tdIndex].SaList[saIndex];
-			//					SkinButton saButton = new SkinButton
-			//					{
-			//						BackColor = System.Drawing.Color.Transparent,
-			//						BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224))))),
-			//						BorderColor = System.Drawing.Color.Silver,
-			//						ForeColor = System.Drawing.Color.Black,
-			//						Text = sa.SAName,
-			//						Size = new Size(68, 20),
-			//						Tag = tdIndex + "*" + sa.StartValue
-			//					};
-			//					saButton.Click += new EventHandler(saButton_Click);
-			//					saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
-
-			//					saPanelArray[lightIndex].Controls.Add(saButton);
-			//				}
-			//			}
-			//		}
-			//	}
-			//	catch (Exception ex)
-			//	{
-			//		MessageBox.Show("添加子属性按键出现异常:\n" + ex.Message);
-			//	}
-			//}
-
-			////MARK 0629 子属性Panel 2.2：NewMainForm.SelectedChanged事件内，对非选中灯的Panel进行隐藏，只显示选中灯
-			//for (int panelIndex = 0; panelIndex < saPanelArray.Length; panelIndex++)
-			//{
-			//	if (saPanelArray[panelIndex] != null)
-			//	{
-			//		saPanelArray[panelIndex].Visible = lightIndex == panelIndex;
-			//	}
-			//}
-
-			#endregion
-
-			#region 新方法：
-			//①存储一个所有灯具的子属性按钮列表； 
-			//② 如果是首次点击，则生成之，否则就用旧的； 
-			//③使用列表，实时渲染到调节界面中（按通道来进行存放）
+			//0. 每个灯具存储一个自身的saPanelDict,记录每个通道拥有的子属性（有的才加入到字典中）
+			//1. 若还未生成saPanelDict，则在选择灯具后进行生成；
+			//2. 不论是新生成还是已经存在的数据，按是否存在进行显示；
 
 			LightAst la = lightAstList[selectedIndex];
 			// 若已经存在saPanelDict，则不再重复生成了
@@ -712,9 +659,6 @@ namespace LightController.MyForm
 						Console.WriteLine("灯具【" + selectedIndex + "】生成了一个saPanel，tdIndex = " + tdIndex + " ,其子属性数量 = " + la.SawList[tdIndex].SaList.Count);
 					}
 				}
-
-				#endregion
-
 			}
 
 			// 显示Keys中有的saPanel

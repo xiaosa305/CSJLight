@@ -66,7 +66,7 @@ namespace LightController.MyForm
         public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
         public static int FrameCount = 0;  //场景数量
         public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
-        public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取
+        public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
 
         // 辅助的bool变量：	
         protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -2940,6 +2940,19 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 辅助方法：点击《复制步》(右键《复制多步》)
+		/// </summary>
+		protected void copyStepClick()
+		{
+			if (getCurrentStepWrapper() == null)
+			{
+				MessageBox.Show("当前步数据为空，无法复制");
+				return;
+			}
+			tempStep = getCurrentStepWrapper();
+		}
+
+		/// <summary>
 		/// 辅助方法：点击《粘贴步》
 		/// </summary>
 		protected void pasteStepClick()
@@ -3110,6 +3123,11 @@ namespace LightController.MyForm
 
 			//最后都要用上RefreshStep()
 			RefreshStep();
+
+			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath, currentMode==0?"maxStep":"maxStepSound");
+			if (MAX_STEP == 0) {
+				MAX_STEP = currentMode == 0 ? 100 : 300;			
+			}
 		}
 
 		/// <summary>
@@ -3349,23 +3367,25 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void soundMultiButtonClick()
 		{
-			if (currentMode != 1)
-			{
-				SetNotice("非音频模式，无法使用多步联调。");
-				return;
-			}
 
-			if (!isSyncMode) {
-				SetNotice("非同步模式，无法使用多步联调。");
-				return;
-			}
 
-			if (getTotalStep() == 0) {
-				SetNotice("没有步数，无法使用多步联调。");
-				return;
-			}
+			//if (currentMode != 1)
+			//{
+			//	SetNotice("非音频模式，无法使用多步联调。");
+			//	return;
+			//}
 
-			new SoundMultiForm(this).ShowDialog();
+			//if (!isSyncMode) {
+			//	SetNotice("非同步模式，无法使用多步联调。");
+			//	return;
+			//}
+
+			//if (getTotalStep() == 0) {
+			//	SetNotice("没有步数，无法使用多步联调。");
+			//	return;
+			//}
+
+			//new SoundMultiForm(this).ShowDialog();
 		}
 
 		/// <summary>
@@ -3803,6 +3823,7 @@ namespace LightController.MyForm
 			IsLinkOldTools = IniFileHelper.GetIsLink(Application.StartupPath, "oldTools");
 			MAX_StTimes = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStTimes");
 			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStep");
+
 		}
 			   
 		private void InitializeComponent()

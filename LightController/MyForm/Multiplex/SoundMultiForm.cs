@@ -27,7 +27,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void SoundMultiForm_Load(object sender, EventArgs e)
 		{
-			Location = MousePosition;
+			Location = new Point( mainForm.Location.X + 100 , mainForm.Location.Y+100 );
 		}
 	}
 }

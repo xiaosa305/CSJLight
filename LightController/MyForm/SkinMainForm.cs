@@ -1203,10 +1203,6 @@ namespace LightController.MyForm
 					this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "屏蔽", "跳变" });
 					this.tdStepTimeNumericUpDowns[i].Hide();
 				}			
-
-				//thirdLabel1.Hide();
-				//thirdLabel2.Hide();
-				//thirdLabel3.Hide();
 			}
 			else //mode=0，常规模式
 			{
@@ -1216,10 +1212,6 @@ namespace LightController.MyForm
 					this.tdChangeModeSkinComboBoxes[i].Items.AddRange(new object[] { "跳变", "渐变", "屏蔽" });
 					this.tdStepTimeNumericUpDowns[i].Show();
 				}
-				
-				//thirdLabel1.Show();
-				//thirdLabel2.Show();
-				//thirdLabel3.Show();                
             }
 
 			changeFrameMode();
@@ -1461,6 +1453,36 @@ namespace LightController.MyForm
 			actionButtonClick();
 		}
 
+		/// <summary>
+		/// 事件：点击《复制步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void copyStepSkinButton_Click(object sender, EventArgs e)
+		{
+
+			if (getCurrentStepWrapper() == null)
+			{
+				MessageBox.Show("当前步数据为空，无法复制");
+			}
+			else
+			{
+				tempStep = getCurrentStepWrapper();
+				pasteStepSkinButton.Enabled = true;
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《粘贴步》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void pasteStepSkinButton_Click(object sender, EventArgs e)
+		{
+			pasteStepClick();
+		}
+
+
 		/// <summary>		
 		///  事件：点击《复制多步》：弹出类似于保存素材的form
 		/// </summary>
@@ -1605,6 +1627,9 @@ namespace LightController.MyForm
 			nextStepSkinButton.Enabled = totalStep > 1;
 
 			//3 设定《复制(多)步、保存素材》、《多步复用》等是否可用
+			copyStepSkinButton.Enabled = currentStep > 0;
+			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
+
 			multiCopySkinButton.Enabled = currentStep > 0;
 			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
 
@@ -2431,6 +2456,8 @@ namespace LightController.MyForm
 		}
 
 
+
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2473,7 +2500,7 @@ namespace LightController.MyForm
 		//	SetNotice("已退出实时调试。");
 		//}
 		//}
-				
+
 		/// <summary>
 		///   事件：tdSkinFlowLayoutPanel的paint事件
 		///  </summary>
@@ -2551,12 +2578,7 @@ namespace LightController.MyForm
 
 		#endregion
 
-
-
+	
 	}
-
-
-
-
-
+	   
 }

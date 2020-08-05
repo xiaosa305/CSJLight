@@ -1655,7 +1655,7 @@ namespace LightController.MyForm
 				pasteStepButton.Enabled = true;
 			}
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《粘贴步》
 		/// </summary>
@@ -1671,21 +1671,17 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiCopyButton_Click(object sender, EventArgs e)
-		{
-			multiCopyClick();
-		}
-
+		private void multiCopyButton_Click(object sender, EventArgs e)	{ multiCopyClick(); }
+		
 		/// <summary>
 		/// 事件：点击《粘贴多步》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiPasteButton_Click(object sender, EventArgs e)
-		{
+		private void multiPasteButton_Click(object sender, EventArgs e) {
 			multiPasteClick();
 		}
-
+		
 		/// <summary>
 		/// 事件：点击《保存素材》
 		/// </summary>
@@ -1804,8 +1800,8 @@ namespace LightController.MyForm
 			nextStepButton.Enabled = totalStep > 1;
 
 			// 3. 设定《复制(多)步》是否可用
-			//copyStepButton.Enabled = currentStep > 0;
-			//pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
+			copyStepButton.Enabled = currentStep > 0;
+			pasteStepButton.Enabled = currentStep > 0 && tempStep != null;
 
 			multiCopyButton.Enabled = currentStep > 0;
 			multiPasteButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;

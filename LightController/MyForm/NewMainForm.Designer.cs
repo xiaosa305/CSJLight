@@ -733,8 +733,6 @@ namespace LightController.MyForm
 			this.panel1.Controls.Add(this.unifyChangeModeComboBox);
 			this.panel1.Controls.Add(this.unifyStepTimeButton);
 			this.panel1.Controls.Add(this.unifyValueNumericUpDown);
-			this.panel1.Controls.Add(this.copyStepButton);
-			this.panel1.Controls.Add(this.pasteStepButton);
 			this.panel1.Location = new System.Drawing.Point(188, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(185, 297);
@@ -840,7 +838,7 @@ namespace LightController.MyForm
 			// 
 			// copyStepButton
 			// 
-			this.copyStepButton.Location = new System.Drawing.Point(16, 13);
+			this.copyStepButton.Location = new System.Drawing.Point(678, 16);
 			this.copyStepButton.Name = "copyStepButton";
 			this.copyStepButton.Size = new System.Drawing.Size(75, 23);
 			this.copyStepButton.TabIndex = 49;
@@ -850,7 +848,7 @@ namespace LightController.MyForm
 			// 
 			// pasteStepButton
 			// 
-			this.pasteStepButton.Location = new System.Drawing.Point(97, 13);
+			this.pasteStepButton.Location = new System.Drawing.Point(678, 47);
 			this.pasteStepButton.Name = "pasteStepButton";
 			this.pasteStepButton.Size = new System.Drawing.Size(75, 23);
 			this.pasteStepButton.TabIndex = 49;
@@ -1257,6 +1255,8 @@ namespace LightController.MyForm
 			this.stepPanel.Controls.Add(this.stepLabel);
 			this.stepPanel.Controls.Add(this.frameChooseLabel);
 			this.stepPanel.Controls.Add(this.chooseStepNumericUpDown);
+			this.stepPanel.Controls.Add(this.pasteStepButton);
+			this.stepPanel.Controls.Add(this.copyStepButton);
 			this.stepPanel.Controls.Add(this.modeChooseLabel);
 			this.stepPanel.Controls.Add(this.syncButton);
 			this.stepPanel.Controls.Add(this.multiLightButton);
@@ -1290,7 +1290,7 @@ namespace LightController.MyForm
 			// 
 			// saveMaterialButton
 			// 
-			this.saveMaterialButton.Location = new System.Drawing.Point(748, 16);
+			this.saveMaterialButton.Location = new System.Drawing.Point(849, 16);
 			this.saveMaterialButton.Name = "saveMaterialButton";
 			this.saveMaterialButton.Size = new System.Drawing.Size(75, 23);
 			this.saveMaterialButton.TabIndex = 49;
@@ -1373,7 +1373,7 @@ namespace LightController.MyForm
 			this.syncButton.FlatAppearance.BorderSize = 0;
 			this.syncButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.syncButton.ImageKey = "复制步.png";
-			this.syncButton.Location = new System.Drawing.Point(833, 16);
+			this.syncButton.Location = new System.Drawing.Point(934, 16);
 			this.syncButton.Name = "syncButton";
 			this.syncButton.Size = new System.Drawing.Size(75, 23);
 			this.syncButton.TabIndex = 49;
@@ -1409,7 +1409,7 @@ namespace LightController.MyForm
 			// 
 			// multiPasteButton
 			// 
-			this.multiPasteButton.Location = new System.Drawing.Point(662, 48);
+			this.multiPasteButton.Location = new System.Drawing.Point(763, 48);
 			this.multiPasteButton.Name = "multiPasteButton";
 			this.multiPasteButton.Size = new System.Drawing.Size(75, 23);
 			this.multiPasteButton.TabIndex = 49;
@@ -1451,7 +1451,7 @@ namespace LightController.MyForm
 			// 
 			// useMaterialButton
 			// 
-			this.useMaterialButton.Location = new System.Drawing.Point(748, 48);
+			this.useMaterialButton.Location = new System.Drawing.Point(849, 48);
 			this.useMaterialButton.Name = "useMaterialButton";
 			this.useMaterialButton.Size = new System.Drawing.Size(75, 23);
 			this.useMaterialButton.TabIndex = 49;
@@ -1473,7 +1473,7 @@ namespace LightController.MyForm
 			// multiplexButton
 			// 
 			this.multiplexButton.Enabled = false;
-			this.multiplexButton.Location = new System.Drawing.Point(833, 48);
+			this.multiplexButton.Location = new System.Drawing.Point(934, 48);
 			this.multiplexButton.Name = "multiplexButton";
 			this.multiplexButton.Size = new System.Drawing.Size(75, 23);
 			this.multiplexButton.TabIndex = 49;
@@ -1483,7 +1483,7 @@ namespace LightController.MyForm
 			// 
 			// multiCopyButton
 			// 
-			this.multiCopyButton.Location = new System.Drawing.Point(663, 16);
+			this.multiCopyButton.Location = new System.Drawing.Point(763, 16);
 			this.multiCopyButton.Name = "multiCopyButton";
 			this.multiCopyButton.Size = new System.Drawing.Size(75, 23);
 			this.multiCopyButton.TabIndex = 49;

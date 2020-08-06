@@ -120,7 +120,9 @@ namespace LightController.MyForm
 			this.nextStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.useMaterialSkinButton = new CCWin.SkinControl.SkinButton();
 			this.saveMaterialSkinButton = new CCWin.SkinControl.SkinButton();
+			this.copyStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiCopySkinButton = new CCWin.SkinControl.SkinButton();
+			this.pasteStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiplexSkinButton = new CCWin.SkinControl.SkinButton();
 			this.multiPasteSkinButton = new CCWin.SkinControl.SkinButton();
 			this.actionButton = new CCWin.SkinControl.SkinButton();
@@ -155,8 +157,6 @@ namespace LightController.MyForm
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.pasteStepSkinButton = new CCWin.SkinControl.SkinButton();
-			this.copyStepSkinButton = new CCWin.SkinControl.SkinButton();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -1846,6 +1846,37 @@ namespace LightController.MyForm
 			this.saveMaterialSkinButton.UseVisualStyleBackColor = false;
 			this.saveMaterialSkinButton.Click += new System.EventHandler(this.saveMaterialSkinButton_Click);
 			// 
+			// copyStepSkinButton
+			// 
+			this.copyStepSkinButton.AutoSize = true;
+			this.copyStepSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.copyStepSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.copyStepSkinButton.BorderColor = System.Drawing.Color.Transparent;
+			this.copyStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.copyStepSkinButton.DownBack = null;
+			this.copyStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.copyStepSkinButton.Enabled = false;
+			this.copyStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.copyStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.copyStepSkinButton.ForeColorSuit = true;
+			this.copyStepSkinButton.Image = global::LightController.Properties.Resources.复制步;
+			this.copyStepSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.copyStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.copyStepSkinButton.InheritColor = true;
+			this.copyStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
+			this.copyStepSkinButton.Location = new System.Drawing.Point(690, 6);
+			this.copyStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
+			this.copyStepSkinButton.MouseBack = null;
+			this.copyStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.copyStepSkinButton.Name = "copyStepSkinButton";
+			this.copyStepSkinButton.NormlBack = null;
+			this.copyStepSkinButton.Size = new System.Drawing.Size(76, 45);
+			this.copyStepSkinButton.TabIndex = 4;
+			this.copyStepSkinButton.Text = "复制步";
+			this.copyStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.copyStepSkinButton.UseVisualStyleBackColor = false;
+			this.copyStepSkinButton.Click += new System.EventHandler(this.copyStepSkinButton_Click);
+			// 
 			// multiCopySkinButton
 			// 
 			this.multiCopySkinButton.AutoSize = true;
@@ -1875,6 +1906,36 @@ namespace LightController.MyForm
 			this.multiCopySkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.multiCopySkinButton.UseVisualStyleBackColor = false;
 			this.multiCopySkinButton.Click += new System.EventHandler(this.multiCopySkinButton_Click);
+			// 
+			// pasteStepSkinButton
+			// 
+			this.pasteStepSkinButton.BackColor = System.Drawing.Color.Transparent;
+			this.pasteStepSkinButton.BaseColor = System.Drawing.Color.Transparent;
+			this.pasteStepSkinButton.BorderColor = System.Drawing.Color.Transparent;
+			this.pasteStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.pasteStepSkinButton.DownBack = null;
+			this.pasteStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
+			this.pasteStepSkinButton.Enabled = false;
+			this.pasteStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.pasteStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
+			this.pasteStepSkinButton.ForeColorSuit = true;
+			this.pasteStepSkinButton.Image = global::LightController.Properties.Resources.粘贴步;
+			this.pasteStepSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.pasteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
+			this.pasteStepSkinButton.InheritColor = true;
+			this.pasteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
+			this.pasteStepSkinButton.Location = new System.Drawing.Point(690, 51);
+			this.pasteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
+			this.pasteStepSkinButton.MouseBack = null;
+			this.pasteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.pasteStepSkinButton.Name = "pasteStepSkinButton";
+			this.pasteStepSkinButton.NormlBack = null;
+			this.pasteStepSkinButton.Size = new System.Drawing.Size(76, 45);
+			this.pasteStepSkinButton.TabIndex = 4;
+			this.pasteStepSkinButton.Text = "粘贴步";
+			this.pasteStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.pasteStepSkinButton.UseVisualStyleBackColor = false;
+			this.pasteStepSkinButton.Click += new System.EventHandler(this.pasteStepSkinButton_Click);
 			// 
 			// multiplexSkinButton
 			// 
@@ -1961,6 +2022,7 @@ namespace LightController.MyForm
 			this.actionButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.actionButton.UseVisualStyleBackColor = false;
 			this.actionButton.Click += new System.EventHandler(this.actionButton_Click);
+			this.actionButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.actionButton_MouseDown);
 			// 
 			// deleteStepSkinButton
 			// 
@@ -2386,67 +2448,6 @@ namespace LightController.MyForm
 			this.bgWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorker_DoWork);
 			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
 			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
-			// 
-			// pasteStepSkinButton
-			// 
-			this.pasteStepSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.pasteStepSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.pasteStepSkinButton.BorderColor = System.Drawing.Color.Transparent;
-			this.pasteStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.pasteStepSkinButton.DownBack = null;
-			this.pasteStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.pasteStepSkinButton.Enabled = false;
-			this.pasteStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.pasteStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.pasteStepSkinButton.ForeColorSuit = true;
-			this.pasteStepSkinButton.Image = global::LightController.Properties.Resources.粘贴步;
-			this.pasteStepSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.pasteStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
-			this.pasteStepSkinButton.InheritColor = true;
-			this.pasteStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.pasteStepSkinButton.Location = new System.Drawing.Point(690, 51);
-			this.pasteStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
-			this.pasteStepSkinButton.MouseBack = null;
-			this.pasteStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.pasteStepSkinButton.Name = "pasteStepSkinButton";
-			this.pasteStepSkinButton.NormlBack = null;
-			this.pasteStepSkinButton.Size = new System.Drawing.Size(76, 45);
-			this.pasteStepSkinButton.TabIndex = 4;
-			this.pasteStepSkinButton.Text = "粘贴步";
-			this.pasteStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.pasteStepSkinButton.UseVisualStyleBackColor = false;
-			this.pasteStepSkinButton.Click += new System.EventHandler(this.pasteStepSkinButton_Click);
-			// 
-			// copyStepSkinButton
-			// 
-			this.copyStepSkinButton.AutoSize = true;
-			this.copyStepSkinButton.BackColor = System.Drawing.Color.Transparent;
-			this.copyStepSkinButton.BaseColor = System.Drawing.Color.Transparent;
-			this.copyStepSkinButton.BorderColor = System.Drawing.Color.Transparent;
-			this.copyStepSkinButton.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.copyStepSkinButton.DownBack = null;
-			this.copyStepSkinButton.DrawType = CCWin.SkinControl.DrawStyle.None;
-			this.copyStepSkinButton.Enabled = false;
-			this.copyStepSkinButton.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.copyStepSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(134)))), ((int)(((byte)(134)))), ((int)(((byte)(134)))));
-			this.copyStepSkinButton.ForeColorSuit = true;
-			this.copyStepSkinButton.Image = global::LightController.Properties.Resources.复制步;
-			this.copyStepSkinButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.copyStepSkinButton.ImageSize = new System.Drawing.Size(20, 20);
-			this.copyStepSkinButton.InheritColor = true;
-			this.copyStepSkinButton.InnerBorderColor = System.Drawing.Color.SeaGreen;
-			this.copyStepSkinButton.Location = new System.Drawing.Point(690, 6);
-			this.copyStepSkinButton.Margin = new System.Windows.Forms.Padding(0);
-			this.copyStepSkinButton.MouseBack = null;
-			this.copyStepSkinButton.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.copyStepSkinButton.Name = "copyStepSkinButton";
-			this.copyStepSkinButton.NormlBack = null;
-			this.copyStepSkinButton.Size = new System.Drawing.Size(76, 45);
-			this.copyStepSkinButton.TabIndex = 4;
-			this.copyStepSkinButton.Text = "复制步";
-			this.copyStepSkinButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.copyStepSkinButton.UseVisualStyleBackColor = false;
-			this.copyStepSkinButton.Click += new System.EventHandler(this.copyStepSkinButton_Click);
 			// 
 			// SkinMainForm
 			// 

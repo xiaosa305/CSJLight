@@ -1448,9 +1448,21 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void actionButton_Click(object sender, EventArgs e)
-		{
-			actionButtonClick();
+		private void actionButton_Click(object sender, EventArgs e)	{}
+
+		/// <summary>
+		/// 事件：左右键点击《内置动作》（右键为《RGB调光》）
+		/// </summary>
+		private void actionButton_MouseDown(object sender, MouseEventArgs e) {
+
+			if (e.Button == MouseButtons.Left)
+			{
+				actionButtonClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				
+			}
 		}
 
 		/// <summary>

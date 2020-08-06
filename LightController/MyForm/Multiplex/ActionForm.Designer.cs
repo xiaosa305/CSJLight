@@ -38,6 +38,8 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.circlePhaseNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label16 = new System.Windows.Forms.Label();
 			this.circleXNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.circleYNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
@@ -59,6 +61,10 @@
 			this.label12 = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
+			this.eightPhaseNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.eightYNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label14 = new System.Windows.Forms.Label();
+			this.label15 = new System.Windows.Forms.Label();
 			this.StNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.label4 = new System.Windows.Forms.Label();
 			this.enterButton = new System.Windows.Forms.Button();
@@ -66,14 +72,17 @@
 			this.sqLiteCommandBuilder1 = new System.Data.SQLite.SQLiteCommandBuilder();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.eightYNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.label15 = new System.Windows.Forms.Label();
+			this.linePhaseNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label17 = new System.Windows.Forms.Label();
+			this.semicirclePhaseNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.label18 = new System.Windows.Forms.Label();
 			this.actionTabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.lineY2NumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lineY1NumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lineXNumericUpDown)).BeginInit();
 			this.tabPage2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.circlePhaseNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).BeginInit();
 			this.tabPage3.SuspendLayout();
@@ -86,9 +95,12 @@
 			((System.ComponentModel.ISupportInitialize)(this.waveX1NumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.waveX2NumericUpDown)).BeginInit();
 			this.tabPage5.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.eightPhaseNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.eightYNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.StNumericUpDown)).BeginInit();
 			this.statusStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.eightYNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.linePhaseNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.semicirclePhaseNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// previewButton
@@ -122,6 +134,8 @@
 			// tabPage1
 			// 
 			this.tabPage1.BackColor = System.Drawing.Color.MintCream;
+			this.tabPage1.Controls.Add(this.linePhaseNumericUpDown);
+			this.tabPage1.Controls.Add(this.label17);
 			this.tabPage1.Controls.Add(this.lineY2NumericUpDown);
 			this.tabPage1.Controls.Add(this.lineY1NumericUpDown);
 			this.tabPage1.Controls.Add(this.lineXNumericUpDown);
@@ -137,7 +151,7 @@
 			// 
 			// lineY2NumericUpDown
 			// 
-			this.lineY2NumericUpDown.Location = new System.Drawing.Point(248, 160);
+			this.lineY2NumericUpDown.Location = new System.Drawing.Point(244, 133);
 			this.lineY2NumericUpDown.Maximum = new decimal(new int[] {
             127,
             0,
@@ -155,7 +169,7 @@
 			// 
 			// lineY1NumericUpDown
 			// 
-			this.lineY1NumericUpDown.Location = new System.Drawing.Point(248, 120);
+			this.lineY1NumericUpDown.Location = new System.Drawing.Point(244, 91);
 			this.lineY1NumericUpDown.Maximum = new decimal(new int[] {
             127,
             0,
@@ -174,7 +188,7 @@
 			// 
 			// lineXNumericUpDown
 			// 
-			this.lineXNumericUpDown.Location = new System.Drawing.Point(247, 79);
+			this.lineXNumericUpDown.Location = new System.Drawing.Point(244, 49);
 			this.lineXNumericUpDown.Maximum = new decimal(new int[] {
             255,
             0,
@@ -188,7 +202,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(70, 164);
+			this.label5.Location = new System.Drawing.Point(70, 137);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(119, 12);
 			this.label5.TabIndex = 0;
@@ -197,7 +211,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(70, 124);
+			this.label2.Location = new System.Drawing.Point(70, 95);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(59, 12);
 			this.label2.TabIndex = 0;
@@ -206,7 +220,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(70, 83);
+			this.label1.Location = new System.Drawing.Point(70, 53);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(95, 12);
 			this.label1.TabIndex = 0;
@@ -215,6 +229,8 @@
 			// tabPage2
 			// 
 			this.tabPage2.BackColor = System.Drawing.Color.MintCream;
+			this.tabPage2.Controls.Add(this.circlePhaseNumericUpDown);
+			this.tabPage2.Controls.Add(this.label16);
 			this.tabPage2.Controls.Add(this.circleXNumericUpDown);
 			this.tabPage2.Controls.Add(this.circleYNumericUpDown);
 			this.tabPage2.Controls.Add(this.label6);
@@ -225,6 +241,38 @@
 			this.tabPage2.Size = new System.Drawing.Size(376, 251);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "圆形";
+			// 
+			// circlePhaseNumericUpDown
+			// 
+			this.circlePhaseNumericUpDown.Location = new System.Drawing.Point(243, 166);
+			this.circlePhaseNumericUpDown.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+			this.circlePhaseNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.circlePhaseNumericUpDown.Name = "circlePhaseNumericUpDown";
+			this.circlePhaseNumericUpDown.Size = new System.Drawing.Size(66, 21);
+			this.circlePhaseNumericUpDown.TabIndex = 19;
+			this.circlePhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.circlePhaseNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
+			// label16
+			// 
+			this.label16.AutoSize = true;
+			this.label16.Location = new System.Drawing.Point(70, 170);
+			this.label16.Name = "label16";
+			this.label16.Size = new System.Drawing.Size(89, 12);
+			this.label16.TabIndex = 18;
+			this.label16.Text = "起始步(相位)：";
 			// 
 			// circleXNumericUpDown
 			// 
@@ -251,7 +299,7 @@
 			// 
 			// circleYNumericUpDown
 			// 
-			this.circleYNumericUpDown.Location = new System.Drawing.Point(243, 120);
+			this.circleYNumericUpDown.Location = new System.Drawing.Point(243, 121);
 			this.circleYNumericUpDown.Maximum = new decimal(new int[] {
             127,
             0,
@@ -279,7 +327,7 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(70, 124);
+			this.label7.Location = new System.Drawing.Point(70, 125);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(161, 12);
 			this.label7.TabIndex = 5;
@@ -288,6 +336,8 @@
 			// tabPage3
 			// 
 			this.tabPage3.BackColor = System.Drawing.Color.MintCream;
+			this.tabPage3.Controls.Add(this.semicirclePhaseNumericUpDown);
+			this.tabPage3.Controls.Add(this.label18);
 			this.tabPage3.Controls.Add(this.scXNumericUpDown);
 			this.tabPage3.Controls.Add(this.scYNumericUpDown);
 			this.tabPage3.Controls.Add(this.label3);
@@ -318,7 +368,7 @@
 			// 
 			// scYNumericUpDown
 			// 
-			this.scYNumericUpDown.Location = new System.Drawing.Point(243, 120);
+			this.scYNumericUpDown.Location = new System.Drawing.Point(243, 121);
 			this.scYNumericUpDown.Maximum = new decimal(new int[] {
             127,
             0,
@@ -346,7 +396,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(70, 124);
+			this.label8.Location = new System.Drawing.Point(70, 125);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(161, 12);
 			this.label8.TabIndex = 10;
@@ -511,13 +561,74 @@
 			// tabPage5
 			// 
 			this.tabPage5.BackColor = System.Drawing.Color.MintCream;
+			this.tabPage5.Controls.Add(this.eightPhaseNumericUpDown);
 			this.tabPage5.Controls.Add(this.eightYNumericUpDown);
+			this.tabPage5.Controls.Add(this.label14);
 			this.tabPage5.Controls.Add(this.label15);
 			this.tabPage5.Location = new System.Drawing.Point(4, 34);
 			this.tabPage5.Name = "tabPage5";
 			this.tabPage5.Size = new System.Drawing.Size(376, 251);
 			this.tabPage5.TabIndex = 4;
 			this.tabPage5.Text = "8字";
+			// 
+			// eightPhaseNumericUpDown
+			// 
+			this.eightPhaseNumericUpDown.Location = new System.Drawing.Point(241, 130);
+			this.eightPhaseNumericUpDown.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+			this.eightPhaseNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.eightPhaseNumericUpDown.Name = "eightPhaseNumericUpDown";
+			this.eightPhaseNumericUpDown.Size = new System.Drawing.Size(66, 21);
+			this.eightPhaseNumericUpDown.TabIndex = 17;
+			this.eightPhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.eightPhaseNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
+			// eightYNumericUpDown
+			// 
+			this.eightYNumericUpDown.Location = new System.Drawing.Point(241, 82);
+			this.eightYNumericUpDown.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+			this.eightYNumericUpDown.Name = "eightYNumericUpDown";
+			this.eightYNumericUpDown.Size = new System.Drawing.Size(66, 21);
+			this.eightYNumericUpDown.TabIndex = 17;
+			this.eightYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.eightYNumericUpDown.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(70, 134);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(89, 12);
+			this.label14.TabIndex = 10;
+			this.label14.Text = "起始步(相位)：";
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Location = new System.Drawing.Point(70, 86);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(149, 12);
+			this.label15.TabIndex = 10;
+			this.label15.Text = "Y轴幅度(值越小8字越大)：";
 			// 
 			// StNumericUpDown
 			// 
@@ -590,32 +701,69 @@
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// eightYNumericUpDown
+			// linePhaseNumericUpDown
 			// 
-			this.eightYNumericUpDown.Location = new System.Drawing.Point(241, 106);
-			this.eightYNumericUpDown.Maximum = new decimal(new int[] {
-            127,
+			this.linePhaseNumericUpDown.Location = new System.Drawing.Point(244, 175);
+			this.linePhaseNumericUpDown.Maximum = new decimal(new int[] {
+            4,
             0,
             0,
             0});
-			this.eightYNumericUpDown.Name = "eightYNumericUpDown";
-			this.eightYNumericUpDown.Size = new System.Drawing.Size(66, 21);
-			this.eightYNumericUpDown.TabIndex = 17;
-			this.eightYNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.eightYNumericUpDown.Value = new decimal(new int[] {
-            50,
+			this.linePhaseNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.linePhaseNumericUpDown.Name = "linePhaseNumericUpDown";
+			this.linePhaseNumericUpDown.Size = new System.Drawing.Size(66, 21);
+			this.linePhaseNumericUpDown.TabIndex = 21;
+			this.linePhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.linePhaseNumericUpDown.Value = new decimal(new int[] {
+            1,
             0,
             0,
             0});
 			// 
-			// label15
+			// label17
 			// 
-			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(70, 110);
-			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(149, 12);
-			this.label15.TabIndex = 10;
-			this.label15.Text = "Y轴幅度(值越小8字越大)：";
+			this.label17.AutoSize = true;
+			this.label17.Location = new System.Drawing.Point(70, 179);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(89, 12);
+			this.label17.TabIndex = 20;
+			this.label17.Text = "起始步(相位)：";
+			// 
+			// semicirclePhaseNumericUpDown
+			// 
+			this.semicirclePhaseNumericUpDown.Location = new System.Drawing.Point(243, 166);
+			this.semicirclePhaseNumericUpDown.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+			this.semicirclePhaseNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.semicirclePhaseNumericUpDown.Name = "semicirclePhaseNumericUpDown";
+			this.semicirclePhaseNumericUpDown.Size = new System.Drawing.Size(66, 21);
+			this.semicirclePhaseNumericUpDown.TabIndex = 21;
+			this.semicirclePhaseNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.semicirclePhaseNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
+			// label18
+			// 
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(70, 170);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(89, 12);
+			this.label18.TabIndex = 20;
+			this.label18.Text = "起始步(相位)：";
 			// 
 			// ActionForm
 			// 
@@ -644,6 +792,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.lineXNumericUpDown)).EndInit();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.circlePhaseNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleXNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.circleYNumericUpDown)).EndInit();
 			this.tabPage3.ResumeLayout(false);
@@ -659,10 +808,13 @@
 			((System.ComponentModel.ISupportInitialize)(this.waveX2NumericUpDown)).EndInit();
 			this.tabPage5.ResumeLayout(false);
 			this.tabPage5.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.eightPhaseNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.eightYNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.StNumericUpDown)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.eightYNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.linePhaseNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.semicirclePhaseNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -710,5 +862,13 @@
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.NumericUpDown eightYNumericUpDown;
 		private System.Windows.Forms.Label label15;
+		private System.Windows.Forms.NumericUpDown eightPhaseNumericUpDown;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.NumericUpDown circlePhaseNumericUpDown;
+		private System.Windows.Forms.Label label16;
+		private System.Windows.Forms.NumericUpDown linePhaseNumericUpDown;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.NumericUpDown semicirclePhaseNumericUpDown;
+		private System.Windows.Forms.Label label18;
 	}
 }

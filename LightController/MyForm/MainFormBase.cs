@@ -2555,8 +2555,8 @@ namespace LightController.MyForm
 					System.Diagnostics.Process.Start(Application.StartupPath + @"\LightEditor.exe");
 				}
 				catch (Exception ex)
-				{
-					MessageBox.Show(ex.Message);
+				{					
+					new LightEditor.LightEditorForm(this).ShowDialog();
 				}
 			}
 			else

@@ -192,6 +192,12 @@
     <Compile Include="Ast\Entity\DB_FineTune.cs" />
     <Compile Include="Ast\Entity\CCEntity.cs" />
     <Compile Include="Ast\Entity\KeyEntity.cs" />
+    <Compile Include="MyForm\LightEditor\NewLightEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightEditor\NewLightEditorForm.Designer.cs">
+      <DependentUpon>NewLightEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -485,6 +491,9 @@
     </Content>
     <EmbeddedResource Include="MyForm\LightEditor\LightEditorForm.resx">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightEditor\NewLightEditorForm.resx">
+      <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightEditor\SAForm.resx">
       <DependentUpon>SAForm.cs</DependentUpon>

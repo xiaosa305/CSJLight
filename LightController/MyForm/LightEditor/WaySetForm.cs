@@ -14,7 +14,6 @@ using System.Windows.Forms;
 
 namespace LightEditor
 {
-
 	public partial class WaySetForm : Form
 	{
 		private LightEditorForm lightEditorForm;

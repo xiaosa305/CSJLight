@@ -2562,7 +2562,7 @@ namespace LightController.MyForm
 			else
 			{
 				// 若使用下列语句，则直接把《灯库编辑软件》集成在本Form中
-				new LightEditorForm(this).ShowDialog();
+				new LightEditor.LightEditorForm(this).ShowDialog();
 
 				//new LightEditor.NewLightEditorForm().ShowDialog();
 			}

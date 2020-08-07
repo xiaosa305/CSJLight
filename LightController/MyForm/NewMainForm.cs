@@ -348,9 +348,7 @@ namespace LightController.MyForm
 				setDeepStyle(true);
 				return;
 			}
-
-
-
+			
 			this.skinEngine1.Active = true;
 			this.skinEngine1.SkinFile = Application.StartupPath + "\\irisSkins\\" + sskName + ".ssk";
 			//额外加一句其他的句子(需要与SkniFile相关又不影响效果)，可以解决有些控件无法被渲染的问题

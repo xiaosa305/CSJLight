@@ -158,7 +158,6 @@ namespace LightEditor
 			this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
 			this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.skinEngine2 = new Sunisoft.IrisSkin.SkinEngine();
 			this.editGroupBox = new System.Windows.Forms.GroupBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.setCurrentToInitButton = new System.Windows.Forms.Button();
@@ -1740,15 +1739,6 @@ namespace LightEditor
 			this.openFileDialog.Filter = "配置文件(*.ini)|*.ini";
 			this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
 			// 
-			// skinEngine2
-			// 
-			this.skinEngine2.@__DrawButtonFocusRectangle = true;
-			this.skinEngine2.DisabledButtonTextColor = System.Drawing.Color.Gray;
-			this.skinEngine2.DisabledMenuFontColor = System.Drawing.SystemColors.GrayText;
-			this.skinEngine2.InactiveCaptionColor = System.Drawing.SystemColors.InactiveCaptionText;
-			this.skinEngine2.SerialNumber = "";
-			this.skinEngine2.SkinFile = null;
-			// 
 			// editGroupBox
 			// 
 			this.editGroupBox.AutoSize = true;
@@ -2086,7 +2076,6 @@ namespace LightEditor
 
 
 		private OpenFileDialog openFileDialog;		
-		private Sunisoft.IrisSkin.SkinEngine skinEngine2;
 		private Button setInitButton;
 		private GroupBox editGroupBox;
 		private FlowLayoutPanel flowLayoutPanel1;

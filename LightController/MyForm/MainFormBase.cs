@@ -2556,7 +2556,7 @@ namespace LightController.MyForm
 				}
 				catch (Exception)
 				{					
-					new LightEditor.LightEditorForm(this).ShowDialog();
+					//new LightEditor.LightEditorForm(this).ShowDialog();
 				}
 			}
 			else

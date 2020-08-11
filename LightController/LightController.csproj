@@ -198,6 +198,12 @@
     <Compile Include="MyForm\LightEditor\NewLightEditorForm.Designer.cs">
       <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\LightEditor\NewSAForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\LightEditor\NewSAForm.Designer.cs">
+      <DependentUpon>NewSAForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,23 +220,23 @@
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
     <Compile Include="MyForm\LightEditor\Ast\TongdaoWrapper.cs" />
-    <Compile Include="MyForm\LightEditor\LightEditorForm.cs">
+    <Compile Include="MyForm\LightEditor\old\LightEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightEditor\LightEditorForm.designer.cs">
+    <Compile Include="MyForm\LightEditor\old\LightEditorForm.designer.cs">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\LightEditor\SAForm.cs">
+    <Compile Include="MyForm\LightEditor\old\SAForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightEditor\SAForm.Designer.cs">
+    <Compile Include="MyForm\LightEditor\old\SAForm.Designer.cs">
       <DependentUpon>SAForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\LightEditor\Tools\OneLightOneStep.cs" />
-    <Compile Include="MyForm\LightEditor\WaySetForm.cs">
+    <Compile Include="MyForm\LightEditor\old\WaySetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\LightEditor\WaySetForm.Designer.cs">
+    <Compile Include="MyForm\LightEditor\old\WaySetForm.Designer.cs">
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Multiplex\ActionForm.cs">
@@ -489,16 +495,19 @@
     <Content Include="更新日志\更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="MyForm\LightEditor\LightEditorForm.resx">
+    <EmbeddedResource Include="MyForm\LightEditor\NewSAForm.resx">
+      <DependentUpon>NewSAForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\LightEditor\old\LightEditorForm.resx">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightEditor\NewLightEditorForm.resx">
       <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightEditor\SAForm.resx">
+    <EmbeddedResource Include="MyForm\LightEditor\old\SAForm.resx">
       <DependentUpon>SAForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\LightEditor\WaySetForm.resx">
+    <EmbeddedResource Include="MyForm\LightEditor\old\WaySetForm.resx">
       <DependentUpon>WaySetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormAst\LightRemarkForm.resx">

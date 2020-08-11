@@ -34,19 +34,7 @@
 			this.saveLightButton = new System.Windows.Forms.Button();
 			this.openLightButton = new System.Windows.Forms.Button();
 			this.newLightButton = new System.Windows.Forms.Button();
-			this.firstTDNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.setFirstTDButton = new System.Windows.Forms.Button();
-			this.refreshButton = new System.Windows.Forms.Button();
-			this.comComboBox = new System.Windows.Forms.ComboBox();
-			this.connectButton = new System.Windows.Forms.Button();
-			this.playGroupBox = new System.Windows.Forms.GroupBox();
-			this.setCurrentToInitButton = new System.Windows.Forms.Button();
-			this.setInitButton = new System.Windows.Forms.Button();
-			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.zeroButton = new System.Windows.Forms.Button();
-			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.generateButton = new System.Windows.Forms.Button();
-			this.openPictureBox = new System.Windows.Forms.PictureBox();
 			this.picTextBox = new System.Windows.Forms.TextBox();
 			this.typeTextBox = new System.Windows.Forms.TextBox();
 			this.nameTextBox = new System.Windows.Forms.TextBox();
@@ -60,15 +48,18 @@
 			this.noticePanel = new System.Windows.Forms.Panel();
 			this.noticeLabel = new System.Windows.Forms.Label();
 			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.saPanelDemo = new System.Windows.Forms.Panel();
+			this.saTextBoxDemo = new System.Windows.Forms.TextBox();
+			this.saNUDDemo1 = new System.Windows.Forms.NumericUpDown();
+			this.saNUDDemo2 = new System.Windows.Forms.NumericUpDown();
+			this.saDelButtonDemo = new System.Windows.Forms.Button();
+			this.saTitlePanel = new System.Windows.Forms.Panel();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.tdNumLabel = new System.Windows.Forms.Label();
 			this.saAddButton = new System.Windows.Forms.Button();
 			this.saClearButton = new System.Windows.Forms.Button();
-			this.saPanel = new System.Windows.Forms.Panel();
-			this.endValueLabel = new System.Windows.Forms.Label();
-			this.lineLabel = new System.Windows.Forms.Label();
-			this.startValueLabel = new System.Windows.Forms.Label();
-			this.saNameLabel = new System.Windows.Forms.Label();
-			this.saDeleteButton = new System.Windows.Forms.Button();
 			this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.tdPanelDemo = new System.Windows.Forms.Panel();
 			this.tdTrackBarDemo = new System.Windows.Forms.TrackBar();
@@ -76,32 +67,55 @@
 			this.tdNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.tdLabelDemo = new System.Windows.Forms.Label();
 			this.lightGroupBox = new System.Windows.Forms.GroupBox();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.openPictureBox = new System.Windows.Forms.PictureBox();
+			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
-			this.playGroupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
+			this.saBigPanel = new System.Windows.Forms.Panel();
+			this.unifyValueButton = new System.Windows.Forms.Button();
+			this.connectButton = new System.Windows.Forms.Button();
+			this.comComboBox = new System.Windows.Forms.ComboBox();
+			this.zeroButton = new System.Windows.Forms.Button();
+			this.refreshButton = new System.Windows.Forms.Button();
+			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.setFirstTDButton = new System.Windows.Forms.Button();
+			this.firstTDNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.setInitButton = new System.Windows.Forms.Button();
+			this.setCurrentToInitButton = new System.Windows.Forms.Button();
+			this.playGroupBox = new System.Windows.Forms.GroupBox();
+			this.mainPanel = new System.Windows.Forms.Panel();
+			this.saSmallPanel = new System.Windows.Forms.Panel();
+			this.saTitlePanel2 = new System.Windows.Forms.Panel();
 			this.tdNamePanel.SuspendLayout();
 			this.noticePanel.SuspendLayout();
 			this.saFlowLayoutPanel.SuspendLayout();
-			this.saPanel.SuspendLayout();
+			this.saPanelDemo.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo2)).BeginInit();
+			this.saTitlePanel.SuspendLayout();
 			this.tdFlowLayoutPanel.SuspendLayout();
 			this.tdPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).BeginInit();
 			this.lightGroupBox.SuspendLayout();
-			this.statusStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
+			this.myStatusStrip.SuspendLayout();
+			this.saBigPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
+			this.playGroupBox.SuspendLayout();
+			this.mainPanel.SuspendLayout();
+			this.saSmallPanel.SuspendLayout();
+			this.saTitlePanel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// renameButton
 			// 
 			this.renameButton.BackColor = System.Drawing.SystemColors.MenuText;
 			this.renameButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.renameButton.Location = new System.Drawing.Point(374, 27);
+			this.renameButton.Location = new System.Drawing.Point(367, 24);
 			this.renameButton.Name = "renameButton";
 			this.renameButton.Size = new System.Drawing.Size(99, 46);
 			this.renameButton.TabIndex = 12;
@@ -113,7 +127,7 @@
 			// 
 			this.saveLightButton.BackColor = System.Drawing.SystemColors.MenuText;
 			this.saveLightButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.saveLightButton.Location = new System.Drawing.Point(253, 27);
+			this.saveLightButton.Location = new System.Drawing.Point(249, 24);
 			this.saveLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveLightButton.Name = "saveLightButton";
 			this.saveLightButton.Size = new System.Drawing.Size(99, 46);
@@ -126,7 +140,7 @@
 			// 
 			this.openLightButton.BackColor = System.Drawing.SystemColors.MenuText;
 			this.openLightButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.openLightButton.Location = new System.Drawing.Point(132, 27);
+			this.openLightButton.Location = new System.Drawing.Point(131, 24);
 			this.openLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.openLightButton.Name = "openLightButton";
 			this.openLightButton.Size = new System.Drawing.Size(99, 46);
@@ -139,7 +153,7 @@
 			// 
 			this.newLightButton.BackColor = System.Drawing.SystemColors.MenuText;
 			this.newLightButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.newLightButton.Location = new System.Drawing.Point(11, 27);
+			this.newLightButton.Location = new System.Drawing.Point(13, 24);
 			this.newLightButton.Margin = new System.Windows.Forms.Padding(2);
 			this.newLightButton.Name = "newLightButton";
 			this.newLightButton.Size = new System.Drawing.Size(99, 46);
@@ -148,165 +162,10 @@
 			this.newLightButton.UseVisualStyleBackColor = false;
 			this.newLightButton.Click += new System.EventHandler(this.newLightButton_Click);
 			// 
-			// firstTDNumericUpDown
-			// 
-			this.firstTDNumericUpDown.Location = new System.Drawing.Point(44, 74);
-			this.firstTDNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.firstTDNumericUpDown.Maximum = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-			this.firstTDNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.firstTDNumericUpDown.Name = "firstTDNumericUpDown";
-			this.firstTDNumericUpDown.Size = new System.Drawing.Size(71, 21);
-			this.firstTDNumericUpDown.TabIndex = 9;
-			this.firstTDNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.firstTDNumericUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			// 
-			// setFirstTDButton
-			// 
-			this.setFirstTDButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.setFirstTDButton.Location = new System.Drawing.Point(140, 73);
-			this.setFirstTDButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.setFirstTDButton.Name = "setFirstTDButton";
-			this.setFirstTDButton.Size = new System.Drawing.Size(152, 23);
-			this.setFirstTDButton.TabIndex = 8;
-			this.setFirstTDButton.Text = "设初始通道地址";
-			this.setFirstTDButton.UseVisualStyleBackColor = true;
-			this.setFirstTDButton.Click += new System.EventHandler(this.setFirstTDButton_Click);
-			// 
-			// refreshButton
-			// 
-			this.refreshButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.refreshButton.Location = new System.Drawing.Point(140, 31);
-			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(73, 23);
-			this.refreshButton.TabIndex = 5;
-			this.refreshButton.Text = "刷新串口";
-			this.refreshButton.UseVisualStyleBackColor = true;
-			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
-			// 
-			// comComboBox
-			// 
-			this.comComboBox.Enabled = false;
-			this.comComboBox.FormattingEnabled = true;
-			this.comComboBox.Location = new System.Drawing.Point(44, 31);
-			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
-			this.comComboBox.Name = "comComboBox";
-			this.comComboBox.Size = new System.Drawing.Size(71, 20);
-			this.comComboBox.TabIndex = 0;
-			// 
-			// connectButton
-			// 
-			this.connectButton.Enabled = false;
-			this.connectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.connectButton.Location = new System.Drawing.Point(219, 31);
-			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
-			this.connectButton.Name = "connectButton";
-			this.connectButton.Size = new System.Drawing.Size(73, 23);
-			this.connectButton.TabIndex = 4;
-			this.connectButton.Text = "连接设备";
-			this.connectButton.UseVisualStyleBackColor = true;
-			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
-			// 
-			// playGroupBox
-			// 
-			this.playGroupBox.Controls.Add(this.setCurrentToInitButton);
-			this.playGroupBox.Controls.Add(this.setInitButton);
-			this.playGroupBox.Controls.Add(this.firstTDNumericUpDown);
-			this.playGroupBox.Controls.Add(this.setFirstTDButton);
-			this.playGroupBox.Controls.Add(this.unifyValueNumericUpDown);
-			this.playGroupBox.Controls.Add(this.refreshButton);
-			this.playGroupBox.Controls.Add(this.zeroButton);
-			this.playGroupBox.Controls.Add(this.comComboBox);
-			this.playGroupBox.Controls.Add(this.connectButton);
-			this.playGroupBox.Controls.Add(this.unifyValueButton);
-			this.playGroupBox.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.playGroupBox.Location = new System.Drawing.Point(494, 14);
-			this.playGroupBox.Margin = new System.Windows.Forms.Padding(2);
-			this.playGroupBox.Name = "playGroupBox";
-			this.playGroupBox.Padding = new System.Windows.Forms.Padding(2);
-			this.playGroupBox.Size = new System.Drawing.Size(330, 205);
-			this.playGroupBox.TabIndex = 23;
-			this.playGroupBox.TabStop = false;
-			this.playGroupBox.Text = "调试";
-			this.playGroupBox.Visible = false;
-			// 
-			// setCurrentToInitButton
-			// 
-			this.setCurrentToInitButton.ForeColor = System.Drawing.Color.Black;
-			this.setCurrentToInitButton.Location = new System.Drawing.Point(140, 163);
-			this.setCurrentToInitButton.Margin = new System.Windows.Forms.Padding(2);
-			this.setCurrentToInitButton.Name = "setCurrentToInitButton";
-			this.setCurrentToInitButton.Size = new System.Drawing.Size(152, 23);
-			this.setCurrentToInitButton.TabIndex = 12;
-			this.setCurrentToInitButton.Text = "设当前通道值为初始值";
-			this.setCurrentToInitButton.UseVisualStyleBackColor = true;
-			this.setCurrentToInitButton.Click += new System.EventHandler(this.setCurrentToInitButton_Click);
-			// 
-			// setInitButton
-			// 
-			this.setInitButton.ForeColor = System.Drawing.Color.Black;
-			this.setInitButton.Location = new System.Drawing.Point(44, 163);
-			this.setInitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.setInitButton.Name = "setInitButton";
-			this.setInitButton.Size = new System.Drawing.Size(71, 23);
-			this.setInitButton.TabIndex = 11;
-			this.setInitButton.Text = "全设初值";
-			this.setInitButton.UseVisualStyleBackColor = true;
-			this.setInitButton.Click += new System.EventHandler(this.setInitButton_Click);
-			// 
-			// unifyValueNumericUpDown
-			// 
-			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(44, 118);
-			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
-			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.unifyValueNumericUpDown.Name = "unifyValueNumericUpDown";
-			this.unifyValueNumericUpDown.Size = new System.Drawing.Size(71, 21);
-			this.unifyValueNumericUpDown.TabIndex = 1;
-			this.unifyValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// zeroButton
-			// 
-			this.zeroButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.zeroButton.Location = new System.Drawing.Point(219, 117);
-			this.zeroButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.zeroButton.Name = "zeroButton";
-			this.zeroButton.Size = new System.Drawing.Size(73, 23);
-			this.zeroButton.TabIndex = 0;
-			this.zeroButton.Text = "全部归零";
-			this.zeroButton.UseVisualStyleBackColor = true;
-			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
-			// 
-			// unifyValueButton
-			// 
-			this.unifyValueButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.unifyValueButton.Location = new System.Drawing.Point(140, 117);
-			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.unifyValueButton.Name = "unifyValueButton";
-			this.unifyValueButton.Size = new System.Drawing.Size(73, 23);
-			this.unifyValueButton.TabIndex = 0;
-			this.unifyValueButton.Text = "统一通道值";
-			this.unifyValueButton.UseVisualStyleBackColor = true;
-			this.unifyValueButton.Click += new System.EventHandler(this.unifyValueButton_Click);
-			// 
 			// generateButton
 			// 
 			this.generateButton.Enabled = false;
-			this.generateButton.Location = new System.Drawing.Point(382, 95);
+			this.generateButton.Location = new System.Drawing.Point(377, 94);
 			this.generateButton.Margin = new System.Windows.Forms.Padding(2);
 			this.generateButton.Name = "generateButton";
 			this.generateButton.Size = new System.Drawing.Size(52, 22);
@@ -315,23 +174,9 @@
 			this.generateButton.UseVisualStyleBackColor = true;
 			this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
 			// 
-			// openPictureBox
-			// 
-			this.openPictureBox.BackColor = System.Drawing.SystemColors.MenuBar;
-			this.openPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.openPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("openPictureBox.Image")));
-			this.openPictureBox.Location = new System.Drawing.Point(247, 21);
-			this.openPictureBox.Margin = new System.Windows.Forms.Padding(2);
-			this.openPictureBox.Name = "openPictureBox";
-			this.openPictureBox.Size = new System.Drawing.Size(93, 98);
-			this.openPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.openPictureBox.TabIndex = 15;
-			this.openPictureBox.TabStop = false;
-			this.openPictureBox.Click += new System.EventHandler(this.openPictureBox_Click);
-			// 
 			// picTextBox
 			// 
-			this.picTextBox.Location = new System.Drawing.Point(100, 102);
+			this.picTextBox.Location = new System.Drawing.Point(95, 101);
 			this.picTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.picTextBox.Name = "picTextBox";
 			this.picTextBox.ReadOnly = true;
@@ -340,7 +185,7 @@
 			// 
 			// typeTextBox
 			// 
-			this.typeTextBox.Location = new System.Drawing.Point(100, 64);
+			this.typeTextBox.Location = new System.Drawing.Point(95, 63);
 			this.typeTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.typeTextBox.Name = "typeTextBox";
 			this.typeTextBox.Size = new System.Drawing.Size(128, 21);
@@ -348,7 +193,7 @@
 			// 
 			// nameTextBox
 			// 
-			this.nameTextBox.Location = new System.Drawing.Point(100, 26);
+			this.nameTextBox.Location = new System.Drawing.Point(95, 25);
 			this.nameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameTextBox.Name = "nameTextBox";
 			this.nameTextBox.Size = new System.Drawing.Size(128, 21);
@@ -359,7 +204,7 @@
 			this.tongdaoCountLabel.AutoSize = true;
 			this.tongdaoCountLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tongdaoCountLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tongdaoCountLabel.Location = new System.Drawing.Point(377, 26);
+			this.tongdaoCountLabel.Location = new System.Drawing.Point(372, 25);
 			this.tongdaoCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.tongdaoCountLabel.Name = "tongdaoCountLabel";
 			this.tongdaoCountLabel.Size = new System.Drawing.Size(63, 14);
@@ -371,7 +216,7 @@
 			this.picLabel.AutoSize = true;
 			this.picLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.picLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.picLabel.Location = new System.Drawing.Point(29, 104);
+			this.picLabel.Location = new System.Drawing.Point(24, 103);
 			this.picLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.picLabel.Name = "picLabel";
 			this.picLabel.Size = new System.Drawing.Size(63, 14);
@@ -383,7 +228,7 @@
 			this.typeLabel.AutoSize = true;
 			this.typeLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.typeLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.typeLabel.Location = new System.Drawing.Point(29, 67);
+			this.typeLabel.Location = new System.Drawing.Point(24, 66);
 			this.typeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.typeLabel.Name = "typeLabel";
 			this.typeLabel.Size = new System.Drawing.Size(63, 14);
@@ -395,7 +240,7 @@
 			this.countComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.countComboBox.Font = new System.Drawing.Font("宋体", 10F);
 			this.countComboBox.FormattingEnabled = true;
-			this.countComboBox.Location = new System.Drawing.Point(382, 55);
+			this.countComboBox.Location = new System.Drawing.Point(377, 54);
 			this.countComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.countComboBox.Name = "countComboBox";
 			this.countComboBox.Size = new System.Drawing.Size(52, 21);
@@ -407,7 +252,7 @@
 			this.nameLabel.AutoSize = true;
 			this.nameLabel.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.nameLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.nameLabel.Location = new System.Drawing.Point(29, 30);
+			this.nameLabel.Location = new System.Drawing.Point(24, 29);
 			this.nameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.nameLabel.Name = "nameLabel";
 			this.nameLabel.Size = new System.Drawing.Size(63, 14);
@@ -420,11 +265,11 @@
 			this.tdNamePanel.Controls.Add(this.nameListBox);
 			this.tdNamePanel.Controls.Add(this.noticePanel);
 			this.tdNamePanel.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tdNamePanel.Location = new System.Drawing.Point(848, 0);
+			this.tdNamePanel.Enabled = false;
+			this.tdNamePanel.Location = new System.Drawing.Point(791, 0);
 			this.tdNamePanel.Name = "tdNamePanel";
-			this.tdNamePanel.Size = new System.Drawing.Size(168, 659);
+			this.tdNamePanel.Size = new System.Drawing.Size(168, 669);
 			this.tdNamePanel.TabIndex = 25;
-			this.tdNamePanel.Visible = false;
 			// 
 			// nameListBox
 			// 
@@ -437,7 +282,7 @@
 			this.nameListBox.Location = new System.Drawing.Point(0, 48);
 			this.nameListBox.Margin = new System.Windows.Forms.Padding(2);
 			this.nameListBox.Name = "nameListBox";
-			this.nameListBox.Size = new System.Drawing.Size(164, 607);
+			this.nameListBox.Size = new System.Drawing.Size(164, 617);
 			this.nameListBox.TabIndex = 0;
 			this.nameListBox.DoubleClick += new System.EventHandler(this.nameListBox_DoubleClick);
 			// 
@@ -465,24 +310,119 @@
 			this.saFlowLayoutPanel.AutoScroll = true;
 			this.saFlowLayoutPanel.BackColor = System.Drawing.Color.Gray;
 			this.saFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.saFlowLayoutPanel.Controls.Add(this.tdNumLabel);
-			this.saFlowLayoutPanel.Controls.Add(this.saAddButton);
-			this.saFlowLayoutPanel.Controls.Add(this.saClearButton);
-			this.saFlowLayoutPanel.Controls.Add(this.saPanel);
-			this.saFlowLayoutPanel.Controls.Add(this.saDeleteButton);
-			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.saFlowLayoutPanel.Controls.Add(this.saPanelDemo);
+			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.saFlowLayoutPanel.Enabled = false;
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(1016, 0);
+			this.saFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(218, 659);
+			this.saFlowLayoutPanel.Size = new System.Drawing.Size(225, 560);
 			this.saFlowLayoutPanel.TabIndex = 24;
-			this.saFlowLayoutPanel.Visible = false;
+			// 
+			// saPanelDemo
+			// 
+			this.saPanelDemo.Controls.Add(this.saTextBoxDemo);
+			this.saPanelDemo.Controls.Add(this.saNUDDemo1);
+			this.saPanelDemo.Controls.Add(this.saNUDDemo2);
+			this.saPanelDemo.Controls.Add(this.saDelButtonDemo);
+			this.saPanelDemo.Location = new System.Drawing.Point(3, 3);
+			this.saPanelDemo.Name = "saPanelDemo";
+			this.saPanelDemo.Size = new System.Drawing.Size(195, 32);
+			this.saPanelDemo.TabIndex = 4;
+			// 
+			// saTextBoxDemo
+			// 
+			this.saTextBoxDemo.Location = new System.Drawing.Point(2, 5);
+			this.saTextBoxDemo.Margin = new System.Windows.Forms.Padding(2);
+			this.saTextBoxDemo.Name = "saTextBoxDemo";
+			this.saTextBoxDemo.Size = new System.Drawing.Size(81, 21);
+			this.saTextBoxDemo.TabIndex = 16;
+			this.saTextBoxDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// saNUDDemo1
+			// 
+			this.saNUDDemo1.Location = new System.Drawing.Point(125, 5);
+			this.saNUDDemo1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.saNUDDemo1.Name = "saNUDDemo1";
+			this.saNUDDemo1.Size = new System.Drawing.Size(40, 21);
+			this.saNUDDemo1.TabIndex = 17;
+			this.saNUDDemo1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.saNUDDemo1.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			// 
+			// saNUDDemo2
+			// 
+			this.saNUDDemo2.Location = new System.Drawing.Point(84, 5);
+			this.saNUDDemo2.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.saNUDDemo2.Name = "saNUDDemo2";
+			this.saNUDDemo2.Size = new System.Drawing.Size(40, 21);
+			this.saNUDDemo2.TabIndex = 17;
+			this.saNUDDemo2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// saDelButtonDemo
+			// 
+			this.saDelButtonDemo.Location = new System.Drawing.Point(168, 1);
+			this.saDelButtonDemo.Name = "saDelButtonDemo";
+			this.saDelButtonDemo.Size = new System.Drawing.Size(24, 30);
+			this.saDelButtonDemo.TabIndex = 1;
+			this.saDelButtonDemo.Text = "-";
+			this.saDelButtonDemo.UseVisualStyleBackColor = true;
+			// 
+			// saTitlePanel
+			// 
+			this.saTitlePanel.Controls.Add(this.saTitlePanel2);
+			this.saTitlePanel.Controls.Add(this.tdNumLabel);
+			this.saTitlePanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.saTitlePanel.Location = new System.Drawing.Point(0, 0);
+			this.saTitlePanel.Name = "saTitlePanel";
+			this.saTitlePanel.Size = new System.Drawing.Size(225, 109);
+			this.saTitlePanel.TabIndex = 3;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.label3.Location = new System.Drawing.Point(129, 45);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(41, 12);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "截止值";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.label2.Location = new System.Drawing.Point(87, 45);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(41, 12);
+			this.label2.TabIndex = 3;
+			this.label2.Text = "起始值";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.label1.Location = new System.Drawing.Point(7, 45);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(65, 12);
+			this.label1.TabIndex = 3;
+			this.label1.Text = "子属性名  ";
 			// 
 			// tdNumLabel
 			// 
 			this.tdNumLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tdNumLabel.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.tdNumLabel.Location = new System.Drawing.Point(3, 0);
+			this.tdNumLabel.Location = new System.Drawing.Point(2, 6);
 			this.tdNumLabel.Name = "tdNumLabel";
 			this.tdNumLabel.Size = new System.Drawing.Size(192, 30);
 			this.tdNumLabel.TabIndex = 2;
@@ -491,98 +431,33 @@
 			// 
 			// saAddButton
 			// 
-			this.saAddButton.Location = new System.Drawing.Point(3, 33);
+			this.saAddButton.Location = new System.Drawing.Point(4, 7);
 			this.saAddButton.Name = "saAddButton";
-			this.saAddButton.Size = new System.Drawing.Size(93, 33);
+			this.saAddButton.Size = new System.Drawing.Size(93, 27);
 			this.saAddButton.TabIndex = 0;
 			this.saAddButton.Text = "添加子属性";
 			this.saAddButton.UseVisualStyleBackColor = true;
+			this.saAddButton.Click += new System.EventHandler(this.saAddButton_Click);
 			// 
 			// saClearButton
 			// 
-			this.saClearButton.Location = new System.Drawing.Point(102, 33);
+			this.saClearButton.Location = new System.Drawing.Point(103, 7);
 			this.saClearButton.Name = "saClearButton";
-			this.saClearButton.Size = new System.Drawing.Size(93, 33);
+			this.saClearButton.Size = new System.Drawing.Size(93, 27);
 			this.saClearButton.TabIndex = 0;
 			this.saClearButton.Text = "清空子属性";
 			this.saClearButton.UseVisualStyleBackColor = true;
 			// 
-			// saPanel
-			// 
-			this.saPanel.BackColor = System.Drawing.Color.Transparent;
-			this.saPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.saPanel.Controls.Add(this.endValueLabel);
-			this.saPanel.Controls.Add(this.lineLabel);
-			this.saPanel.Controls.Add(this.startValueLabel);
-			this.saPanel.Controls.Add(this.saNameLabel);
-			this.saPanel.Location = new System.Drawing.Point(3, 72);
-			this.saPanel.Name = "saPanel";
-			this.saPanel.Size = new System.Drawing.Size(168, 33);
-			this.saPanel.TabIndex = 1;
-			this.saPanel.Visible = false;
-			// 
-			// endValueLabel
-			// 
-			this.endValueLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.endValueLabel.Location = new System.Drawing.Point(143, 9);
-			this.endValueLabel.Name = "endValueLabel";
-			this.endValueLabel.Size = new System.Drawing.Size(23, 12);
-			this.endValueLabel.TabIndex = 4;
-			this.endValueLabel.Tag = "-1";
-			this.endValueLabel.Text = "255";
-			this.endValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// lineLabel
-			// 
-			this.lineLabel.AutoSize = true;
-			this.lineLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.lineLabel.Location = new System.Drawing.Point(128, 9);
-			this.lineLabel.Name = "lineLabel";
-			this.lineLabel.Size = new System.Drawing.Size(11, 12);
-			this.lineLabel.TabIndex = 3;
-			this.lineLabel.Tag = "-1";
-			this.lineLabel.Text = "-";
-			// 
-			// startValueLabel
-			// 
-			this.startValueLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.startValueLabel.Location = new System.Drawing.Point(101, 9);
-			this.startValueLabel.Name = "startValueLabel";
-			this.startValueLabel.Size = new System.Drawing.Size(23, 12);
-			this.startValueLabel.TabIndex = 2;
-			this.startValueLabel.Tag = "-1";
-			this.startValueLabel.Text = "255";
-			this.startValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// saNameLabel
-			// 
-			this.saNameLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-			this.saNameLabel.Location = new System.Drawing.Point(4, 9);
-			this.saNameLabel.Name = "saNameLabel";
-			this.saNameLabel.Size = new System.Drawing.Size(90, 12);
-			this.saNameLabel.TabIndex = 0;
-			this.saNameLabel.Tag = "-1";
-			this.saNameLabel.Text = "假如这个文字有八";
-			// 
-			// saDeleteButton
-			// 
-			this.saDeleteButton.Location = new System.Drawing.Point(177, 72);
-			this.saDeleteButton.Name = "saDeleteButton";
-			this.saDeleteButton.Size = new System.Drawing.Size(19, 33);
-			this.saDeleteButton.TabIndex = 1;
-			this.saDeleteButton.Text = "-";
-			this.saDeleteButton.UseVisualStyleBackColor = true;
-			this.saDeleteButton.Visible = false;
-			// 
 			// tdFlowLayoutPanel
 			// 
 			this.tdFlowLayoutPanel.AutoScroll = true;
+			this.tdFlowLayoutPanel.AutoSize = true;
 			this.tdFlowLayoutPanel.BackColor = System.Drawing.Color.PowderBlue;
 			this.tdFlowLayoutPanel.Controls.Add(this.tdPanelDemo);
-			this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tdFlowLayoutPanel.Location = new System.Drawing.Point(0, 224);
+			this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tdFlowLayoutPanel.Location = new System.Drawing.Point(0, 234);
 			this.tdFlowLayoutPanel.Name = "tdFlowLayoutPanel";
-			this.tdFlowLayoutPanel.Size = new System.Drawing.Size(848, 435);
+			this.tdFlowLayoutPanel.Size = new System.Drawing.Size(791, 435);
 			this.tdFlowLayoutPanel.TabIndex = 26;
 			this.tdFlowLayoutPanel.Visible = false;
 			// 
@@ -659,29 +534,43 @@
 			this.lightGroupBox.Controls.Add(this.generateButton);
 			this.lightGroupBox.Controls.Add(this.picTextBox);
 			this.lightGroupBox.Controls.Add(this.openPictureBox);
-			this.lightGroupBox.Location = new System.Drawing.Point(11, 84);
+			this.lightGroupBox.Location = new System.Drawing.Point(12, 91);
 			this.lightGroupBox.Name = "lightGroupBox";
-			this.lightGroupBox.Size = new System.Drawing.Size(462, 135);
+			this.lightGroupBox.Size = new System.Drawing.Size(456, 135);
 			this.lightGroupBox.TabIndex = 27;
 			this.lightGroupBox.TabStop = false;
 			this.lightGroupBox.Visible = false;
 			// 
-			// statusStrip1
+			// openPictureBox
 			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.openPictureBox.BackColor = System.Drawing.SystemColors.MenuBar;
+			this.openPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.openPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("openPictureBox.Image")));
+			this.openPictureBox.Location = new System.Drawing.Point(242, 20);
+			this.openPictureBox.Margin = new System.Windows.Forms.Padding(2);
+			this.openPictureBox.Name = "openPictureBox";
+			this.openPictureBox.Size = new System.Drawing.Size(93, 98);
+			this.openPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.openPictureBox.TabIndex = 15;
+			this.openPictureBox.TabStop = false;
+			this.openPictureBox.Click += new System.EventHandler(this.openPictureBox_Click);
+			// 
+			// myStatusStrip
+			// 
+			this.myStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myStatusLabel});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 659);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1234, 22);
-			this.statusStrip1.SizingGrip = false;
-			this.statusStrip1.TabIndex = 1;
-			this.statusStrip1.Text = "statusStrip1";
+			this.myStatusStrip.Location = new System.Drawing.Point(0, 669);
+			this.myStatusStrip.Name = "myStatusStrip";
+			this.myStatusStrip.Size = new System.Drawing.Size(1184, 22);
+			this.myStatusStrip.SizingGrip = false;
+			this.myStatusStrip.TabIndex = 1;
+			this.myStatusStrip.Text = "statusStrip1";
 			// 
 			// myStatusLabel
 			// 
 			this.myStatusLabel.BackColor = System.Drawing.Color.Transparent;
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(1219, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(1169, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.Text = "  ";
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -698,37 +587,233 @@
     "(*.jpg;*.jpeg)|*.jpg;*jpeg|图标文件(*.ico)|*.ico";
 			this.openImageDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openImageDialog_FileOk);
 			// 
+			// saBigPanel
+			// 
+			this.saBigPanel.Controls.Add(this.saSmallPanel);
+			this.saBigPanel.Controls.Add(this.saTitlePanel);
+			this.saBigPanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.saBigPanel.Enabled = false;
+			this.saBigPanel.Location = new System.Drawing.Point(959, 0);
+			this.saBigPanel.Name = "saBigPanel";
+			this.saBigPanel.Size = new System.Drawing.Size(225, 669);
+			this.saBigPanel.TabIndex = 29;
+			// 
+			// unifyValueButton
+			// 
+			this.unifyValueButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.unifyValueButton.Location = new System.Drawing.Point(122, 117);
+			this.unifyValueButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.unifyValueButton.Name = "unifyValueButton";
+			this.unifyValueButton.Size = new System.Drawing.Size(73, 23);
+			this.unifyValueButton.TabIndex = 0;
+			this.unifyValueButton.Text = "统一通道值";
+			this.unifyValueButton.UseVisualStyleBackColor = true;
+			this.unifyValueButton.Click += new System.EventHandler(this.unifyValueButton_Click);
+			// 
+			// connectButton
+			// 
+			this.connectButton.Enabled = false;
+			this.connectButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.connectButton.Location = new System.Drawing.Point(201, 31);
+			this.connectButton.Margin = new System.Windows.Forms.Padding(2);
+			this.connectButton.Name = "connectButton";
+			this.connectButton.Size = new System.Drawing.Size(73, 23);
+			this.connectButton.TabIndex = 4;
+			this.connectButton.Text = "连接设备";
+			this.connectButton.UseVisualStyleBackColor = true;
+			this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+			// 
+			// comComboBox
+			// 
+			this.comComboBox.Enabled = false;
+			this.comComboBox.FormattingEnabled = true;
+			this.comComboBox.Location = new System.Drawing.Point(26, 31);
+			this.comComboBox.Margin = new System.Windows.Forms.Padding(2);
+			this.comComboBox.Name = "comComboBox";
+			this.comComboBox.Size = new System.Drawing.Size(71, 20);
+			this.comComboBox.TabIndex = 0;
+			// 
+			// zeroButton
+			// 
+			this.zeroButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.zeroButton.Location = new System.Drawing.Point(201, 117);
+			this.zeroButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.zeroButton.Name = "zeroButton";
+			this.zeroButton.Size = new System.Drawing.Size(73, 23);
+			this.zeroButton.TabIndex = 0;
+			this.zeroButton.Text = "全部归零";
+			this.zeroButton.UseVisualStyleBackColor = true;
+			this.zeroButton.Click += new System.EventHandler(this.zeroButton_Click);
+			// 
+			// refreshButton
+			// 
+			this.refreshButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.refreshButton.Location = new System.Drawing.Point(122, 31);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(73, 23);
+			this.refreshButton.TabIndex = 5;
+			this.refreshButton.Text = "刷新串口";
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			// 
+			// unifyValueNumericUpDown
+			// 
+			this.unifyValueNumericUpDown.Location = new System.Drawing.Point(26, 118);
+			this.unifyValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.unifyValueNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.unifyValueNumericUpDown.Name = "unifyValueNumericUpDown";
+			this.unifyValueNumericUpDown.Size = new System.Drawing.Size(71, 21);
+			this.unifyValueNumericUpDown.TabIndex = 1;
+			this.unifyValueNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// setFirstTDButton
+			// 
+			this.setFirstTDButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.setFirstTDButton.Location = new System.Drawing.Point(122, 73);
+			this.setFirstTDButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.setFirstTDButton.Name = "setFirstTDButton";
+			this.setFirstTDButton.Size = new System.Drawing.Size(152, 23);
+			this.setFirstTDButton.TabIndex = 8;
+			this.setFirstTDButton.Text = "设初始通道地址";
+			this.setFirstTDButton.UseVisualStyleBackColor = true;
+			this.setFirstTDButton.Click += new System.EventHandler(this.setFirstTDButton_Click);
+			// 
+			// firstTDNumericUpDown
+			// 
+			this.firstTDNumericUpDown.Location = new System.Drawing.Point(26, 74);
+			this.firstTDNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
+			this.firstTDNumericUpDown.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+			this.firstTDNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.firstTDNumericUpDown.Name = "firstTDNumericUpDown";
+			this.firstTDNumericUpDown.Size = new System.Drawing.Size(71, 21);
+			this.firstTDNumericUpDown.TabIndex = 9;
+			this.firstTDNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.firstTDNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			// 
+			// setInitButton
+			// 
+			this.setInitButton.ForeColor = System.Drawing.Color.Black;
+			this.setInitButton.Location = new System.Drawing.Point(26, 163);
+			this.setInitButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.setInitButton.Name = "setInitButton";
+			this.setInitButton.Size = new System.Drawing.Size(71, 23);
+			this.setInitButton.TabIndex = 11;
+			this.setInitButton.Text = "全设初值";
+			this.setInitButton.UseVisualStyleBackColor = true;
+			this.setInitButton.Click += new System.EventHandler(this.setInitButton_Click);
+			// 
+			// setCurrentToInitButton
+			// 
+			this.setCurrentToInitButton.ForeColor = System.Drawing.Color.Black;
+			this.setCurrentToInitButton.Location = new System.Drawing.Point(122, 163);
+			this.setCurrentToInitButton.Margin = new System.Windows.Forms.Padding(2);
+			this.setCurrentToInitButton.Name = "setCurrentToInitButton";
+			this.setCurrentToInitButton.Size = new System.Drawing.Size(152, 23);
+			this.setCurrentToInitButton.TabIndex = 12;
+			this.setCurrentToInitButton.Text = "设当前通道值为初始值";
+			this.setCurrentToInitButton.UseVisualStyleBackColor = true;
+			this.setCurrentToInitButton.Click += new System.EventHandler(this.setCurrentToInitButton_Click);
+			// 
+			// playGroupBox
+			// 
+			this.playGroupBox.Controls.Add(this.setCurrentToInitButton);
+			this.playGroupBox.Controls.Add(this.setInitButton);
+			this.playGroupBox.Controls.Add(this.firstTDNumericUpDown);
+			this.playGroupBox.Controls.Add(this.setFirstTDButton);
+			this.playGroupBox.Controls.Add(this.unifyValueNumericUpDown);
+			this.playGroupBox.Controls.Add(this.refreshButton);
+			this.playGroupBox.Controls.Add(this.zeroButton);
+			this.playGroupBox.Controls.Add(this.comComboBox);
+			this.playGroupBox.Controls.Add(this.connectButton);
+			this.playGroupBox.Controls.Add(this.unifyValueButton);
+			this.playGroupBox.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+			this.playGroupBox.Location = new System.Drawing.Point(484, 20);
+			this.playGroupBox.Margin = new System.Windows.Forms.Padding(2);
+			this.playGroupBox.Name = "playGroupBox";
+			this.playGroupBox.Padding = new System.Windows.Forms.Padding(2);
+			this.playGroupBox.Size = new System.Drawing.Size(299, 205);
+			this.playGroupBox.TabIndex = 23;
+			this.playGroupBox.TabStop = false;
+			this.playGroupBox.Text = "调试";
+			this.playGroupBox.Visible = false;
+			// 
+			// mainPanel
+			// 
+			this.mainPanel.Controls.Add(this.playGroupBox);
+			this.mainPanel.Controls.Add(this.lightGroupBox);
+			this.mainPanel.Controls.Add(this.newLightButton);
+			this.mainPanel.Controls.Add(this.openLightButton);
+			this.mainPanel.Controls.Add(this.renameButton);
+			this.mainPanel.Controls.Add(this.saveLightButton);
+			this.mainPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.mainPanel.Location = new System.Drawing.Point(0, 0);
+			this.mainPanel.Name = "mainPanel";
+			this.mainPanel.Size = new System.Drawing.Size(791, 234);
+			this.mainPanel.TabIndex = 30;
+			// 
+			// saSmallPanel
+			// 
+			this.saSmallPanel.Controls.Add(this.saFlowLayoutPanel);
+			this.saSmallPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.saSmallPanel.Location = new System.Drawing.Point(0, 109);
+			this.saSmallPanel.Name = "saSmallPanel";
+			this.saSmallPanel.Size = new System.Drawing.Size(225, 560);
+			this.saSmallPanel.TabIndex = 4;
+			// 
+			// saTitlePanel2
+			// 
+			this.saTitlePanel2.Controls.Add(this.saAddButton);
+			this.saTitlePanel2.Controls.Add(this.label3);
+			this.saTitlePanel2.Controls.Add(this.saClearButton);
+			this.saTitlePanel2.Controls.Add(this.label2);
+			this.saTitlePanel2.Controls.Add(this.label1);
+			this.saTitlePanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.saTitlePanel2.Location = new System.Drawing.Point(0, 46);
+			this.saTitlePanel2.Name = "saTitlePanel2";
+			this.saTitlePanel2.Size = new System.Drawing.Size(225, 63);
+			this.saTitlePanel2.TabIndex = 4;
+			this.saTitlePanel2.Visible = false;
+			// 
 			// NewLightEditorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gray;
-			this.ClientSize = new System.Drawing.Size(1234, 681);
+			this.ClientSize = new System.Drawing.Size(1184, 691);
 			this.Controls.Add(this.tdFlowLayoutPanel);
+			this.Controls.Add(this.mainPanel);
 			this.Controls.Add(this.tdNamePanel);
-			this.Controls.Add(this.saFlowLayoutPanel);
-			this.Controls.Add(this.playGroupBox);
-			this.Controls.Add(this.lightGroupBox);
-			this.Controls.Add(this.renameButton);
-			this.Controls.Add(this.saveLightButton);
-			this.Controls.Add(this.openLightButton);
-			this.Controls.Add(this.newLightButton);
-			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.saBigPanel);
+			this.Controls.Add(this.myStatusStrip);
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(1250, 720);
 			this.Name = "NewLightEditorForm";
-			this.Text = "灯库编辑";
+			this.Text = " ";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewLightEditorForm_FormClosed);
 			this.Load += new System.EventHandler(this.NewLightEditorForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).EndInit();
-			this.playGroupBox.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).EndInit();
 			this.tdNamePanel.ResumeLayout(false);
 			this.noticePanel.ResumeLayout(false);
 			this.saFlowLayoutPanel.ResumeLayout(false);
-			this.saPanel.ResumeLayout(false);
-			this.saPanel.PerformLayout();
+			this.saPanelDemo.ResumeLayout(false);
+			this.saPanelDemo.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo2)).EndInit();
+			this.saTitlePanel.ResumeLayout(false);
 			this.tdFlowLayoutPanel.ResumeLayout(false);
 			this.tdPanelDemo.ResumeLayout(false);
 			this.tdPanelDemo.PerformLayout();
@@ -736,8 +821,17 @@
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).EndInit();
 			this.lightGroupBox.ResumeLayout(false);
 			this.lightGroupBox.PerformLayout();
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).EndInit();
+			this.myStatusStrip.ResumeLayout(false);
+			this.myStatusStrip.PerformLayout();
+			this.saBigPanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).EndInit();
+			this.playGroupBox.ResumeLayout(false);
+			this.mainPanel.ResumeLayout(false);
+			this.saSmallPanel.ResumeLayout(false);
+			this.saTitlePanel2.ResumeLayout(false);
+			this.saTitlePanel2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -749,15 +843,6 @@
 		private System.Windows.Forms.Button saveLightButton;
 		private System.Windows.Forms.Button openLightButton;
 		private System.Windows.Forms.Button newLightButton;
-		private System.Windows.Forms.Button refreshButton;
-		private System.Windows.Forms.ComboBox comComboBox;
-		private System.Windows.Forms.Button connectButton;
-		private System.Windows.Forms.NumericUpDown firstTDNumericUpDown;
-		private System.Windows.Forms.Button setFirstTDButton;
-		private System.Windows.Forms.GroupBox playGroupBox;
-		private System.Windows.Forms.NumericUpDown unifyValueNumericUpDown;
-		private System.Windows.Forms.Button zeroButton;
-		private System.Windows.Forms.Button unifyValueButton;
 		private System.Windows.Forms.Button generateButton;
 		private System.Windows.Forms.PictureBox openPictureBox;
 		private System.Windows.Forms.TextBox picTextBox;
@@ -775,26 +860,42 @@
 		private System.Windows.Forms.Label tdNumLabel;
 		private System.Windows.Forms.Button saAddButton;
 		private System.Windows.Forms.Button saClearButton;
-		private System.Windows.Forms.Panel saPanel;
-		private System.Windows.Forms.Label endValueLabel;
-		private System.Windows.Forms.Label lineLabel;
-		private System.Windows.Forms.Label startValueLabel;
-		private System.Windows.Forms.Label saNameLabel;
-		private System.Windows.Forms.Button saDeleteButton;
 		private System.Windows.Forms.FlowLayoutPanel tdFlowLayoutPanel;
 		private System.Windows.Forms.GroupBox lightGroupBox;
 		private System.Windows.Forms.Panel tdPanelDemo;
-		private System.Windows.Forms.StatusStrip statusStrip1;
+		private System.Windows.Forms.StatusStrip myStatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.TextBox tdTextBoxDemo;
 		private System.Windows.Forms.NumericUpDown tdNUDDemo;
 		public System.Windows.Forms.Label tdLabelDemo;
-		private System.Windows.Forms.Button setCurrentToInitButton;
-		private System.Windows.Forms.Button setInitButton;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.OpenFileDialog openImageDialog;
 		private System.Windows.Forms.ToolTip myToolTip;
 		private System.Windows.Forms.TrackBar tdTrackBarDemo;
 		private System.Windows.Forms.Panel noticePanel;
+		private System.Windows.Forms.Panel saTitlePanel;
+		private System.Windows.Forms.Panel saPanelDemo;
+		private System.Windows.Forms.Button saDelButtonDemo;
+		private System.Windows.Forms.Panel saBigPanel;
+		private System.Windows.Forms.NumericUpDown saNUDDemo1;
+		private System.Windows.Forms.NumericUpDown saNUDDemo2;
+		private System.Windows.Forms.TextBox saTextBoxDemo;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Button unifyValueButton;
+		private System.Windows.Forms.Button connectButton;
+		private System.Windows.Forms.ComboBox comComboBox;
+		private System.Windows.Forms.Button zeroButton;
+		private System.Windows.Forms.Button refreshButton;
+		private System.Windows.Forms.NumericUpDown unifyValueNumericUpDown;
+		private System.Windows.Forms.Button setFirstTDButton;
+		private System.Windows.Forms.NumericUpDown firstTDNumericUpDown;
+		private System.Windows.Forms.Button setInitButton;
+		private System.Windows.Forms.Button setCurrentToInitButton;
+		private System.Windows.Forms.GroupBox playGroupBox;
+		private System.Windows.Forms.Panel mainPanel;
+		private System.Windows.Forms.Panel saSmallPanel;
+		private System.Windows.Forms.Panel saTitlePanel2;
 	}
 }

@@ -90,6 +90,8 @@
     <Compile Include="multidevice\impl\TransactionManager.cs" />
     <Compile Include="multidevice\impl\VirtualClient.cs" />
     <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
+    <Compile Include="multidevice\newmultidevice\NewVirtualClient.cs" />
+    <Compile Include="multidevice\newmultidevice\NewVirtualDevice.cs" />
     <Compile Include="multidevice\XiaosaTestFrom.cs">
       <SubType>Form</SubType>
     </Compile>

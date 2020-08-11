@@ -1,5 +1,6 @@
 ﻿using MultiLedController.entity;
 using MultiLedController.multidevice.impl;
+using MultiLedController.multidevice.newmultidevice;
 using MultiLedController.utils;
 using MultiLedController.utils.impl;
 using System;
@@ -83,6 +84,34 @@ namespace MultiLedController.multidevice
         private void TestBtn8_Click(object sender, EventArgs e)
         {
             TransactionManager.GetTransactionManager().StopAllDeviceDebug();
+        }
+
+        NewVirtualDevice virtualDevice;
+        private void TestBtn_Click(object sender, EventArgs e)
+        {
+            List<string> ips = new List<string>();
+            ips.Add("192.168.31.201");
+            ips.Add("192.168.31.202");
+            ips.Add("192.168.31.203");
+            ips.Add("192.168.31.204");
+            ips.Add("192.168.31.205");
+            ips.Add("192.168.31.206");
+            ips.Add("192.168.31.207");
+            ips.Add("192.168.31.208");
+            //ips.Add("192.168.31.209");
+            //ips.Add("192.168.31.210");
+            //ips.Add("192.168.31.211");
+            //ips.Add("192.168.31.212");
+            //NewVirtualDevice virtualDevice = new NewVirtualDevice(8, ips, 6, 1, "192.168.31.135", "192.168.31.200");
+            //virtualDevice = new NewVirtualDevice(8, ips, 4, 1, "192.168.31.135", "192.168.31.200");
+            virtualDevice = new NewVirtualDevice(8, ips, 4, 1, "192.168.31.200", "192.168.31.200");
+
+            virtualDevice.Test();
+        }
+
+        private void stoprecord_Click(object sender, EventArgs e)
+        {
+            virtualDevice.StopRecord();
         }
     }
 }

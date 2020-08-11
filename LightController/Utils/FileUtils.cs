@@ -8,6 +8,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using static LightController.Utils.DataGenerationProgram;
 
 namespace LightController.Utils
 {
@@ -268,6 +269,11 @@ namespace LightController.Utils
                                 seek = seek + 8;
                                 //TODO 2.0版本
                                 //seek = seek + 10;
+
+                                if (sceneNo == 6 && intChannelNo == 1)
+                                {
+                                    Console.WriteLine();
+                                }
                                 byte[] channelDataHead = new byte[]
                                 {
                                       Convert.ToByte(intChannelNo & 0xFF),
@@ -336,6 +342,124 @@ namespace LightController.Utils
                 DataConvertUtils.Flag = true;
             }
         }
+
+        public static void MergeFile(int sceneNo, int mode, bool isMakeFile, bool isCompleted,Complet complet_Event, Error error_Event)
+        {
+            string projectFilePath = (isMakeFile ? ProjectDataFilePath : PreviewDataFilePath) + (mode == Constant.MODE_C ? @"\C" : @"\M") + (sceneNo + 1) + ".bin";
+            FileInfo projectFileInfo = new FileInfo(projectFilePath);
+            string projectCacheFilePath = (isMakeFile ? DataCacheFilePath : PreviewDataCachePath);
+            long seek = projectFileInfo.Length;
+            byte[] readBuff = new byte[1024 * 20];
+            FileStream readStream = null;
+            int readSize = -1;
+            int fileCount = 0;
+            try
+            {
+                if (Directory.Exists(projectCacheFilePath))
+                {
+                    foreach (string filePath in Directory.GetFileSystemEntries(projectCacheFilePath))
+                    {
+                        long channelDatasSize = 0;
+                        string projectFileNPath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+                        if (mode == Constant.MODE_C)
+                        {
+                            if (!projectFileNPath[0].Equals('C'))
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            if (!projectFileNPath[0].Equals('M'))
+                            {
+                                continue;
+                            }
+                        }
+                        string[] strArray = projectFileNPath.Split('.');
+                        string name = strArray[0];
+                        string strChannel = name.Split('-')[1];
+                        string strScene = name.Split('-')[0].Substring(1);
+                        int.TryParse(strScene, out int intScneNo);
+                        int.TryParse(strChannel, out int intChannelNo);
+
+                        if (intScneNo == (sceneNo + 1))
+                        {
+                            fileCount++;
+                            using (readStream = new FileStream(filePath, FileMode.Open))
+                            {
+                                channelDatasSize = readStream.Length;
+                                seek = seek + 8;
+                                //TODO 2.0版本
+                                //seek = seek + 10;
+                                byte[] channelDataHead = new byte[]
+                                {
+                                      Convert.ToByte(intChannelNo & 0xFF),
+                            Convert.ToByte((intChannelNo >> 8) & 0xFF),
+                            Convert.ToByte(channelDatasSize & 0xFF),
+                            Convert.ToByte((channelDatasSize >> 8) & 0xFF),
+
+                            //TODO 2.0版本
+                            //Convert.ToByte((channelDatasSize >> 16) & 0xFF),
+                            //Convert.ToByte((channelDatasSize >> 24) & 0xFF),
+
+                            Convert.ToByte(seek & 0xFF),
+                            Convert.ToByte((seek >> 8) & 0xFF),
+                            Convert.ToByte((seek >> 16) & 0xFF),
+                            Convert.ToByte((seek >> 24) & 0xFF),
+                                };
+                                Write(channelDataHead, channelDataHead.Length, projectFileInfo.Name, isMakeFile, false, false);
+                                while ((readSize = readStream.Read(readBuff, 0, readBuff.Length)) != 0)
+                                {
+                                    Write(readBuff, readSize, projectFileInfo.Name, isMakeFile, false, false);
+                                }
+                                seek = seek + channelDatasSize;
+                                //readStream.Close();
+                            }
+                        }
+                    }
+                    FileInfo fileInfo = new FileInfo(projectFilePath);
+                    byte[] fileSize = new byte[]
+                    {
+                            Convert.ToByte(fileInfo.Length & 0xFF),
+                            Convert.ToByte((fileInfo.Length >> 8) & 0xFF),
+                            Convert.ToByte((fileInfo.Length >> 16) & 0xFF),
+                            Convert.ToByte((fileInfo.Length >> 24) & 0xFF),
+                    };
+                    if (fileCount == 0)
+                    {
+                        File.Delete(projectFilePath);
+                    }
+                    else
+                    {
+                        Write(fileSize, fileSize.Length, 0, fileInfo.Name, isMakeFile, false, false);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                if (readStream != null)
+                {
+                    readStream.Close();
+                }
+                error_Event();
+                Console.WriteLine(ex.Message);
+                throw ex;
+            }
+            finally
+            {
+                if (isCompleted)
+                {
+                    if (isMakeFile)
+                    {
+                        CreateGradientData();
+                    }
+                    complet_Event();
+                }
+                DataConvertUtils.Flag = true;
+            }
+        }
+
         public static bool CopyFileToDownloadDir(string dirPath)
         {
             bool result = false;

@@ -430,7 +430,7 @@ namespace LightController.Utils
                 {
                     foreach (DB_FineTune fineTune in wrapper.fineTuneList)
                     {
-
+                       
                         if (cSJ_ChannelData.ChannelNo == fineTune.FineTuneIndex)
                         {
                             flag = 2;

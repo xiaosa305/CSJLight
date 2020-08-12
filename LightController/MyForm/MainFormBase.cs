@@ -3272,23 +3272,29 @@ namespace LightController.MyForm
 		/// 辅助方法：点击通道名，弹出相应的子属性窗口
 		/// </summary>
 		/// <param name="sender"></param>
-		protected void tdNameLabelClick(object sender)
-		{			
-			disposeSauForm();
+		protected void tdNameNumLabelClick(object sender)
+		{
+			//Dickov:200812 之前的版本，点击通道名时，会弹出该通道的子属性辅助框；但现在的方式（直接全部显示出来）则没有必要了
+			//disposeSauForm();
+			//LightAst la = lightAstList[selectedIndex];
+			//int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
+			//string tdName = ((Label)sender).Text;
+			//if (la.SawList[tdIndex] == null || la.SawList[tdIndex].SaList == null || la.SawList[tdIndex].SaList.Count == 0)
+			//{
+			//	SetNotice("通道【" + tdName + "】无可用子属性。");
+			//	return;
+			//}
+			//sauForm = new SAUseForm(this, la, tdIndex, tdName);
+			//sauForm.Show();
+			//SetNotice("已打开通道【" + tdName + "】的子属性小窗口。");
+
+			// Dickov:200812 新的功能：点击通道名，则弹出该通道的多步联调界面（作为所有灯+通道的试验版本）
 
 			LightAst la = lightAstList[selectedIndex];
 			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			string tdName = ((Label)sender).Text;
+			Console.WriteLine("选中的通道是" + tdIndex );
 
-			if (la.SawList[tdIndex] == null || la.SawList[tdIndex].SaList == null || la.SawList[tdIndex].SaList.Count == 0)
-			{
-				SetNotice("通道【" + tdName + "】无可用子属性。");
-				return;
-			}
 
-			sauForm = new SAUseForm(this, la, tdIndex, tdName);
-			sauForm.Show();
-			SetNotice("已打开通道【" + tdName + "】的子属性小窗口。");
 		}
 
 		#endregion

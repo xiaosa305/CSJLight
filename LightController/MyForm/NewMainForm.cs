@@ -183,7 +183,8 @@ namespace LightController.MyForm
 				tdStNumericUpDowns[tdIndex].MouseWheel += new MouseEventHandler(this.tdStepTimeNumericUpDowns_MouseWheel);
 				tdStNumericUpDowns[tdIndex].ValueChanged += new EventHandler(this.tdStepTimeNumericUpDowns_ValueChanged);
 
-				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameLabels_Click);
+				tdNoLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
+				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
 
 				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[tdIndex]);
 
@@ -2078,10 +2079,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tdNameLabels_Click(object sender, EventArgs e)
-		{
-			//MARK 0701 通道子属性 2.2：NewMainForm内调用tdNameLabelClick
-			//tdNameLabelClick(sender);
+		private void tdNameNumLabels_Click(object sender, EventArgs e)
+		{			
+			tdNameNumLabelClick(sender);
 		}		
 
 		#endregion

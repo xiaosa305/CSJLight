@@ -602,7 +602,7 @@ namespace LightController.MyForm
 			this.tdNameLabel1.TabIndex = 23;
 			this.tdNameLabel1.Text = "x/y轴转速";
 			this.tdNameLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.tdNameLabel1.Click += new System.EventHandler(this.tdNameLabels_Click);
+			this.tdNameLabel1.Click += new System.EventHandler(this.tdNameNumLabels_Click);
 			// 
 			// tdNoLabel1
 			// 

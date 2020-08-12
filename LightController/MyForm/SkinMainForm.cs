@@ -59,7 +59,7 @@ namespace LightController.MyForm
 				{
 					Size = new Size(80, 275),
 					Visible = false,
-					Name = "tdPanel"+tdIndex
+					Name = "tdPanel"+ (tdIndex + 1)
 				};
 
 				tdNoLabels[tdIndex] = new SkinLabel
@@ -70,7 +70,7 @@ namespace LightController.MyForm
 					Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))),
 					Location = new System.Drawing.Point(14, 11),					
 					Size = new System.Drawing.Size(53, 17),
-					Name = "tdNoLabel" + tdIndex
+					Name = "tdNoLabel" + (tdIndex + 1)
 				};
 
 				tdNameLabels[tdIndex] = new Label
@@ -78,7 +78,7 @@ namespace LightController.MyForm
 					Font = new System.Drawing.Font("宋体", 8F),
 					Location = new System.Drawing.Point(16, 42),
 					Size = new System.Drawing.Size(14,143),					
-					Name = "tdNameLabel" + tdIndex,
+					Name = "tdNameLabel" + (tdIndex + 1),
 					TextAlign = System.Drawing.ContentAlignment.TopCenter
 				};					
 
@@ -95,7 +95,7 @@ namespace LightController.MyForm
 					Size = new System.Drawing.Size(44, 170),					
 					TickStyle = System.Windows.Forms.TickStyle.Both,
 					Track = null,
-					Name = "tdTrackBar" + tdIndex
+					Name = "tdTrackBar" + (tdIndex + 1)
 				};
 
 				tdValueNumericUpDowns[tdIndex] = new NumericUpDown
@@ -105,7 +105,7 @@ namespace LightController.MyForm
 					Size = new System.Drawing.Size(56, 21),
 					Location = new System.Drawing.Point(15, 206),
 					Maximum = new decimal(255),
-					Name ="tdValueNUD" + tdIndex
+					Name ="tdValueNUD" + (tdIndex + 1)
 				};
 
 				tdChangeModeSkinComboBoxes[tdIndex] = new SkinComboBox
@@ -118,7 +118,7 @@ namespace LightController.MyForm
 					ItemBorderColor = System.Drawing.Color.LightSlateGray,					
 					Location = new System.Drawing.Point(15, 229),
 					Size = new System.Drawing.Size(56, 22),
-					Name = "tdChangeModeSkinComboBox" + tdIndex 
+					Name = "tdChangeModeSkinComboBox" + (tdIndex + 1)
 				};
 				tdChangeModeSkinComboBoxes[tdIndex].Items.AddRange(new object[] {"跳变","渐变","屏蔽"});
 
@@ -130,7 +130,7 @@ namespace LightController.MyForm
 					Location = new System.Drawing.Point(15, 253),
 					DecimalPlaces = 2,
 					Maximum = new decimal(new int[] {255,0,	0,0}),
-					Name = "tdStNUD" + tdIndex
+					Name = "tdStNUD" + (tdIndex + 1)
 				};
 
 				tdPanels[tdIndex].Controls.Add(tdNameLabels[tdIndex]); //插入的先后顺序很重要；如果先插入，会造成label文字被遮挡
@@ -144,7 +144,8 @@ namespace LightController.MyForm
 
 				#region 各监听器
 
-				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameLabels_Click);
+				tdNoLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
+				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
 
 				tdSkinTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdSkinTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdSkinTrackBars_MouseWheel);
@@ -1681,7 +1682,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, 0);
+			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1693,7 +1694,7 @@ namespace LightController.MyForm
 		private void tdSkinTrackBars_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdSkinTrackBars_MouseWheel");
-			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, 0);
+			int tdIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1732,7 +1733,7 @@ namespace LightController.MyForm
         {
             //Console.WriteLine("tdSkinTrackBars_ValueChanged");
             // 1.先找出对应tdSkinTrackBars的index 
-            int tongdaoIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, 0);
+            int tongdaoIndex = MathHelper.GetIndexNum(((SkinTrackBar)sender).Name, -1);
             int tdValue = tdSkinTrackBars[tongdaoIndex].Value;
 
             //2.把滚动条的值赋给tdValueNumericUpDowns
@@ -1754,7 +1755,7 @@ namespace LightController.MyForm
         {
             //Console.WriteLine("tdValueNumericUpDowns_ValueChanged");
             // 1. 找出对应的index
-            int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
+            int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
             int tdValue = Decimal.ToInt32(tdValueNumericUpDowns[tongdaoIndex].Value);
 
             // 2.调整相应的vScrollBar的数值；
@@ -1776,7 +1777,7 @@ namespace LightController.MyForm
         private void tdValueNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseEnter");
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdValueNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1788,7 +1789,7 @@ namespace LightController.MyForm
 		private void tdValueNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
 			//Console.WriteLine("tdValueNumericUpDowns_MouseWheel");
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1825,7 +1826,7 @@ namespace LightController.MyForm
 		private void tdChangeModeSkinComboBoxes_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应changeModeComboBoxes的index
-			int tdIndex = MathHelper.GetIndexNum(((ComboBox)sender).Name, 0);
+			int tdIndex = MathHelper.GetIndexNum(((ComboBox)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1846,7 +1847,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseEnter(object sender, EventArgs e)
 		{
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 			tdStepTimeNumericUpDowns[tdIndex].Select();
 		}
 
@@ -1857,7 +1858,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void tdStepTimeNumericUpDowns_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name,0);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name,-1);
 			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
 			if (hme != null)
 			{
@@ -1889,7 +1890,7 @@ namespace LightController.MyForm
 		private void tdStepTimeNumericUpDowns_ValueChanged(object sender, EventArgs e)
 		{
 			// 1.先找出对应stepNumericUpDowns的index（这个比较麻烦，因为其NumericUpDown的序号是从33开始的 即： name33 = names[0] =>addNum = -33）
-			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, 0);
+			int tdIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
@@ -1910,40 +1911,11 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tdNameLabels_Click(object sender, EventArgs e)
+		private void tdNameNumLabels_Click(object sender, EventArgs e)
 		{
-			//MARK 0701 通道子属性 1.2：SkinMainForm内调用tdNameLabelClick
-			//tdNameLabelClick(sender);
+			tdNameNumLabelClick(sender);
 		}		
-
-		/// <summary>
-		/// 辅助方法：抽象出添加通道相关的saButtons，供《切换灯具》及点击《通道名label》时使用
-		/// </summary>
-		/// <param name="la"></param>
-		/// <param name="tdIndex"></param>
-		private void addTdSaButtons(LightAst la, int tdIndex)
-		{
-			//for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
-			//{
-			//	SA sa = la.SawList[tdIndex].SaList[saIndex];
-			//	SkinButton saButton = new SkinButton
-			//	{
-			//		BackColor = System.Drawing.Color.Transparent,
-			//		BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224))))),
-			//		BorderColor = System.Drawing.Color.Silver,
-			//		ForeColor = System.Drawing.Color.Black,
-			//		Text = sa.SAName,
-			//		Size = new Size(68, 20),
-			//		Tag = tdIndex + "*" + sa.StartValue					
-			//	};
-			//	saButton.Click += new EventHandler(saButton_Click);
-			//	saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);
-			//	saFlowLayoutPanel.Controls.Add(saButton);
-			//}
-		}
-
 		
-
 		#endregion
 
 		//MARK：SkinMainForm统一调整框各事件处理
@@ -2450,7 +2422,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void newTestButton_Click(object sender, EventArgs e)
 		{
-			int buttonIndex = MathHelper.GetIndexNum(((Button)sender).Name, 0);
+			int buttonIndex = MathHelper.GetIndexNum(((Button)sender).Name, -1);
 			Console.WriteLine(buttonIndex);
 			Tools.Test test = new Tools.Test(GetDBWrapper(true), this, GlobalIniPath);
 			//Test test = new Test(GetDBWrapper(true) );

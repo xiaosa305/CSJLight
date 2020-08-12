@@ -2229,7 +2229,7 @@ namespace LightController.MyForm
 			this.tdNameLabel1.TabIndex = 22;
 			this.tdNameLabel1.Text = "x/y轴转速";
 			this.tdNameLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.tdNameLabel1.Click += new System.EventHandler(this.tdNameLabels_Click);
+			this.tdNameLabel1.Click += new System.EventHandler(this.tdNameNumLabels_Click);
 			// 
 			// tdNoLabel1
 			// 
@@ -2242,6 +2242,7 @@ namespace LightController.MyForm
 			this.tdNoLabel1.Size = new System.Drawing.Size(53, 17);
 			this.tdNoLabel1.TabIndex = 23;
 			this.tdNoLabel1.Text = "通道512";
+			this.tdNoLabel1.Click += new System.EventHandler(this.tdNameNumLabels_Click);
 			// 
 			// tdStepTimeNumericUpDown1
 			// 
@@ -2272,6 +2273,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar1.TabIndex = 1;
 			this.tdSkinTrackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
 			this.tdSkinTrackBar1.Track = null;
+			this.tdSkinTrackBar1.ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
 			// 
 			// tdValueNumericUpDown1
 			// 

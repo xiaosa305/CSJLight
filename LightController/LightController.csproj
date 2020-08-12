@@ -198,12 +198,6 @@
     <Compile Include="MyForm\LightEditor\NewLightEditorForm.Designer.cs">
       <DependentUpon>NewLightEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\LightEditor\NewSAForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\LightEditor\NewSAForm.Designer.cs">
-      <DependentUpon>NewSAForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\MainFormAst\LightRemarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -495,9 +489,6 @@
     <Content Include="更新日志\更新日志.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="MyForm\LightEditor\NewSAForm.resx">
-      <DependentUpon>NewSAForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\LightEditor\old\LightEditorForm.resx">
       <DependentUpon>LightEditorForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -31,29 +31,23 @@ namespace LightEditor
 		private List<TongdaoWrapper> TongdaoList;
 		private int TongdaoCount = 0;
 		private SAWrapper[] sawArray;
-		private Dictionary<int, FlowLayoutPanel> saDict; 
+		private Dictionary<int, FlowLayoutPanel> saDict;
 
-		//调试相关变量，最无关紧要
-		private OneLightOneStep player; // 灯具测试的实例
-		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
-		private bool isConnect = false; // 辅助变量：是否连接设备
-				
+		// 各通道值存储的数组
 		private Panel[] tdPanels = new Panel[32];
 		private TextBox[] tdTextBoxes = new TextBox[32];
 		private Label[] tdLabels = new Label[32];
 		private TrackBar[] tdTrackBars = new TrackBar[32];
-		private NumericUpDown[] tdNUDs = new NumericUpDown[32];	
+		private NumericUpDown[] tdNUDs = new NumericUpDown[32];
 
+		//调试相关变量
+		private OneLightOneStep player; // 灯具测试的实例
+		private int firstTDValue = 1;  // 初始通道地址值：最小为1,最大为512		
+		private bool isConnect = false; // 辅助变量：是否连接设备
+				
 		// 原WaySetForm辅助变量
 		private TextBox selectedTextBox = null; //辅助变量，用来记录鼠标选择的textBox
 		private int selectedTdIndex = -1 ;
-
-		//子属性相关				
-		private NewSAForm saForm; // 存一个全局的saForm，避免改成不可用的内容
-		private IList<Panel> saPanels = new List<Panel>();
-		private IList<Button> saButtons = new List<Button>();
-		private IList<Button> saDeleteButtons = new List<Button>();		
-
 
 		public NewLightEditorForm(MainFormBase mainForm)
 		{
@@ -126,15 +120,13 @@ namespace LightEditor
 					Minimum = tdNUDDemo.Minimum,
 					Increment = tdNUDDemo.Increment
 				};
-
+				
 				tdFlowLayoutPanel.Controls.Add( tdPanels[tdIndex] );
 				tdPanels[tdIndex].Controls.Add(tdTextBoxes[tdIndex]);
 				tdPanels[tdIndex].Controls.Add(tdLabels[tdIndex]);
 				tdPanels[tdIndex].Controls.Add(tdTrackBars[tdIndex]);
-				tdPanels[tdIndex].Controls.Add(tdNUDs[tdIndex]);				
-
-				countComboBox.Items.Add(tdIndex + 1);
-
+				tdPanels[tdIndex].Controls.Add(tdNUDs[tdIndex]);	
+				
 				tdTextBoxes[tdIndex].MouseClick += tdTextBoxes_MouseClick;
 				tdLabels[tdIndex].MouseEnter += tdLabels_MouseEnter;
 				tdLabels[tdIndex].Click += tdLabels_Click;
@@ -142,7 +134,9 @@ namespace LightEditor
 				tdTrackBars[tdIndex].MouseWheel += tdTrackBars_MouseWheel;
 				tdTrackBars[tdIndex].ValueChanged += tdTrackBars_ValueChanged;
 				tdNUDs[tdIndex].MouseWheel += someNUD_MouseWheel;
-				tdNUDs[tdIndex].ValueChanged += tdNUDs_ValueChanged;
+				tdNUDs[tdIndex].ValueChanged += tdNUDs_ValueChanged;	
+
+				countComboBox.Items.Add(tdIndex + 1);
 			}
 
 			countComboBox.SelectedIndex = 0;
@@ -172,7 +166,7 @@ namespace LightEditor
 			Dispose();
 			mainForm.Activate();
 		}
-
+		
 		/// <summary>
 		///  事件：点击《新建灯具》
 		/// </summary>
@@ -199,8 +193,9 @@ namespace LightEditor
 				firstTDNumericUpDown.Value = 1;
 
 				showTds();
-				showAllPanels();
-				enableRename(true);				
+				showAllPanels();				
+				enableRename(true);
+				checkGenerateEnable();
 			}
 		}
 		
@@ -284,36 +279,39 @@ namespace LightEditor
 			}
 
 			showTds();
-			handleTongdaoCount(); // 每次可能改动通道数量的操作后，要对初始的通道值进行限制（避免超过512）
+			
+			handleTongdaoCount(); 
+			saDict = new Dictionary<int, FlowLayoutPanel>() ;
+			checkGenerateEnable();
+
 			showAllPanels();
 			enableRename(false);				
 		}
 
 		/// <summary>
-		/// 辅助方法：每次可能改动通道数量的操作后，要对初始的通道值进行限制（避免超过512）
+		/// 辅助方法：验证《生成》按键是否可用（内存里的TongdaoCount和下拉框的数据是否相同）
 		/// </summary>
-		private void handleTongdaoCount()
-		{
-			firstTDNumericUpDown.Maximum = 513 - TongdaoCount ;
+		private void checkGenerateEnable()
+		{			
+			generateButton.Enabled = int.Parse(countComboBox.Text) != TongdaoCount;
 		}
 
 		/// <summary>
-		/// 事件：点击《保存灯具》
+		/// 辅助方法：每次可能改动通道数量的操作后，要对初始的通道值进行限制（避免超过512）
+		/// 主要使用情况为：1.更改通道数量（点击生成、及新建灯具）；2.更换《打开的灯具》
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void saveLightButton_Click(object sender, EventArgs e)
+		private void handleTongdaoCount() 
 		{
-			saveLight();
+			firstTDNumericUpDown.Maximum = 513 - TongdaoCount ;
 		}
-
+		
 		/// <summary>
 		/// 辅助方法：不管什么情况（打开或新建灯具），都把隐藏的界面打开
 		/// </summary>
 		private void showAllPanels() {
 			lightGroupBox.Show();
 			playGroupBox.Show();			
-			saFlowLayoutPanel.Show();
+			saFLPDemo.Show();
 		}
 
 		/// <summary>
@@ -389,11 +387,33 @@ namespace LightEditor
 			}
 			else
 			{
-				setNotice("未找到图片", true);
+				setNotice("未找到图片，可点击灯具图片框重新选择灯具图片。", true);
 			}
 		}
 
 		#endregion
+
+		#region 保存灯具
+
+		/// <summary>
+		/// 事件：点击《保存灯具》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saveLightButton_Click(object sender, EventArgs e)
+		{
+			saveLight();
+		}
+
+		/// <summary>
+		/// 事件：点击《允许改名另存》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void renameButton_Click(object sender, EventArgs e)
+		{
+			enableRename(true);
+		}
 
 		/// <summary>
 		/// 辅助方法：请求保存
@@ -403,7 +423,7 @@ namespace LightEditor
 		private bool RequestSaveLight(string msg)
 		{
 			// 若下面的灯具不可见，说明还没有打开或新建灯具，则直接返回true，无需进行保存。
-			if ( ! lightGroupBox.Visible )
+			if (!lightGroupBox.Visible)
 			{
 				return true;
 			}
@@ -433,7 +453,9 @@ namespace LightEditor
 		/// <summary>
 		/// 辅助方法：保存当前灯具
 		/// </summary>
-		private void saveLight() {
+		private void saveLight()
+		{
+
 			// 记住一个大原则，保存灯具时不对Form内任何内容进行改动，只读取！
 			// 若修改了通道数后，未点击《生成》，则无法保存(不再有冗余的isGenerated属性，而直接由按键是否可用来判断是否已经生成过TongdaoList)
 			if (generateButton.Enabled)
@@ -524,22 +546,12 @@ namespace LightEditor
 					{
 						iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saName=" + sawArray[tdIndex].SaList[saIndex].SAName);
 						iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saStart=" + sawArray[tdIndex].SaList[saIndex].StartValue);
-						iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saEnd=" +sawArray[tdIndex].SaList[saIndex].EndValue);
+						iniWriter.WriteLine(tdIndex + "_" + saIndex + "_saEnd=" + sawArray[tdIndex].SaList[saIndex].EndValue);
 					}
 				}
 			}
 			enableRename(false);
 			MessageBox.Show("已成功保存灯具。");
-		}
-		
-		/// <summary>
-		/// 事件：点击《改名另存》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void renameButton_Click(object sender, EventArgs e)
-		{
-			enableRename(true);
 		}
 
 		/// <summary>
@@ -553,6 +565,8 @@ namespace LightEditor
 			typeTextBox.Enabled = enable;
 		}
 
+		#endregion
+
 		/// <summary>
 		///  事件：更改《通道数下拉框》选中项：若与当前值不同则生成按钮可用；		
 		/// </summary>
@@ -560,9 +574,7 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void countComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int tempSelectedCount = int.Parse(countComboBox.SelectedItem.ToString());
-			// 两者不同的话，则生成按钮可用
-			generateButton.Enabled = tempSelectedCount != TongdaoCount;
+			checkGenerateEnable();
 		}
 
 		/// <summary>
@@ -573,7 +585,7 @@ namespace LightEditor
 		private void generateButton_Click(object sender, EventArgs e)
 		{
 			generateTongdaoList();
-			generateButton.Enabled = false;
+			checkGenerateEnable();
 			showTds();
 			handleTongdaoCount();
 		}
@@ -639,19 +651,6 @@ namespace LightEditor
 			tdFlowLayoutPanel.Refresh();
 		}
 		
-		/// <summary>
-		/// 辅助方法：显示提示
-		/// </summary>
-		/// <param name="msgBoxShow"></param>
-		private void setNotice(string msg, bool msgBoxShow)
-		{
-			myStatusLabel.Text = msg;
-			if (msgBoxShow)
-			{
-				MessageBox.Show(msg);
-			}
-		}
-
 		#region 调试
 						
 		/// <summary>
@@ -707,8 +706,11 @@ namespace LightEditor
 					comComboBox.Enabled = false;
 					refreshButton.Enabled = false;
 					connectButton.Text = "断开连接";
-					isConnect = true;
+					isConnect = true;					
 					setNotice("成功打开串口(" + comComboBox.Text+")，并进入调试模式。" ,false);
+					if (isConnect) {
+						oneLightOneStep();
+					}
 				}
 				else
 				{
@@ -754,13 +756,18 @@ namespace LightEditor
 			for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
 			{
 				tdLabels[tdIndex].Text = "通道" + (firstTDValue + tdIndex);
-				tdTextBoxSelected();
+				if (selectedTextBox != null) {
+					tdTextBoxSelected();
+				}
+				if (isConnect) {
+					oneLightOneStep();
+				}
 			}
 		}
 
 		#endregion
 
-		#region 设值
+		#region 统一设通道值
 
 		/// <summary>
 		/// 事件：点击《统一通道值》
@@ -789,7 +796,6 @@ namespace LightEditor
 		/// <param name="unifyValue"></param>
 		private void setUnifyValue(int unifyValue)
 		{
-
 			for (int i = 0; i < TongdaoList.Count; i++)
 			{
 				tdTrackBars[i].Value = unifyValue;
@@ -835,41 +841,8 @@ namespace LightEditor
 
 		#endregion
 
-		#region 通道值
-
-		/// <summary>
-		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
-		{
-			NumericUpDown nud = sender as NumericUpDown;
-			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
-			if (hme != null)
-			{
-				hme.Handled = true;
-			}
-			// 向上滚
-			if (e.Delta > 0)
-			{
-				decimal dd = nud.Value + nud.Increment;
-				if (dd <= nud.Maximum)
-				{
-					nud.Value = decimal.ToInt32(dd);
-				}
-			}
-			// 向下滚
-			else if (e.Delta < 0)
-			{
-				decimal dd = nud.Value - nud.Increment;
-				if (dd >= nud.Minimum)
-				{
-					nud.Value = decimal.ToInt32(dd);
-				}
-			}
-		}
-
+		#region 单独设通道值
+		
 		/// <summary>
 		/// 事件：鼠标点击tdTextBox后，更改selectedTextBox（并刷新子属性按钮组）
 		/// </summary>
@@ -1007,8 +980,7 @@ namespace LightEditor
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void tdNUDs_ValueChanged(object sender, EventArgs e)
-		{
-			
+		{			
 			// 1. 找出对应的index
 			int tongdaoIndex = MathHelper.GetIndexNum(((NumericUpDown)sender).Name, -1);
 
@@ -1025,6 +997,7 @@ namespace LightEditor
 		/// <param name="tongdaoIndex"></param>
 		private void changeCurrentValue(int tongdaoIndex, int tdValue)
 		{
+			Console.WriteLine("changeCurrentValue");
 			// 1.设tongdaoWrapper的值
 			TongdaoList[tongdaoIndex].CurrentValue = tdValue;
 
@@ -1041,14 +1014,14 @@ namespace LightEditor
 			if (selectedTextBox == null)
 			{							
 				clearTdRelated(true);
-				setNotice("尚未选择通道。",true);
+				setNotice("尚未选择通道（selectedTextBox == null）。", true);
 				return;
 			}
 			selectedTdIndex = MathHelper.GetIndexNum(selectedTextBox.Name, -1);
 			if (selectedTdIndex == -1)
 			{				
 				clearTdRelated(true);
-				setNotice("尚未选择通道。", true);
+				setNotice("尚未选择通道（selectedTDIndex==-1）。", true);
 				return;	
 			}
 
@@ -1065,21 +1038,25 @@ namespace LightEditor
 			{
 				FlowLayoutPanel saFLP = new FlowLayoutPanel
 				{
-					AutoScroll = true,
-					BackColor = System.Drawing.Color.Gray,
-					BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle,
-					Dock = System.Windows.Forms.DockStyle.Fill,
-					Location = new System.Drawing.Point(0, 103),
-					Size = new System.Drawing.Size(225, 556),
+					AutoScroll = saFLPDemo.AutoScroll,
+					BackColor = saFLPDemo.BackColor,
+					BorderStyle = saFLPDemo.BorderStyle,
+					Dock = saFLPDemo.Dock,
+					Location = saFLPDemo.Location,
+					Size = saFLPDemo.Size,
 				};
 
-				saFLP.Controls.Add(this.saPanelDemo);
+				for(int saIndex =0; saIndex < sawArray[selectedTdIndex].SaList.Count; saIndex++) {
+					saFLP.Controls.Add(  generateSaPanel(false,selectedTdIndex, saIndex ,0) );
+				}
+				
 				saDict.Add(selectedTdIndex, saFLP);
 			}
 
 			// 此时一定存在相应的saFlowLayoutPanel,把它加入到界面中
-			clearTdRelated(false);
-			saSmallPanel.Controls.Add(saDict[selectedTdIndex]);		
+			clearTdRelated(false);			
+			saSmallPanel.Controls.Add( saDict[selectedTdIndex] );	
+
 		}
 
 		#endregion
@@ -1119,9 +1096,9 @@ namespace LightEditor
 			saTitlePanel2.Visible= !clear;
 			if ( clear ) {				
 				noticeLabel.Text = "请选择通道";
-			}			
+			}
 		}
-
+			   
 		/// <summary>
 		///事件：点击《添加子属性》
 		/// </summary>
@@ -1129,167 +1106,226 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void saAddButton_Click(object sender, EventArgs e)
 		{
-			//int startEndValue = getCurMaxSAValue();
-			//new NewSAForm(this, -1, "", startEndValue, startEndValue).ShowDialog();			
-
-			tdFlowLayoutPanel.Refresh();
+			saDict[selectedTdIndex].Controls.Add(
+				generateSaPanel(
+					true,
+					selectedTdIndex,
+					sawArray[selectedTdIndex].SaList.Count + 1,
+					decimal.ToInt32(tdNUDs[selectedTdIndex].Value)
+				)
+			);			
 		}
+
+		/// <summary>
+		///  事件：点击《清空子属性》:需要删除两个地方(saDict、sawArray)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saClearButton_Click(object sender, EventArgs e) {
+
+			if (selectedTdIndex == -1 || !saDict.ContainsKey(selectedTdIndex))
+			{
+				setNotice("未选中通道或saDict内没有该通道的FLP数据。", true);
+				return;
+			}
+			saDict[selectedTdIndex].Controls.Clear();
+			sawArray[selectedTdIndex].SaList.Clear();		
+		}
+		
+		/// <summary>
+		/// 辅助方法：由内存里的sawList 和 传入的tdIndex及saIndex，实时生成saPanel
+		/// </summary>
+		private Panel generateSaPanel(bool newSa , int tdIndex, int saIndex , int startEndValue)
+		{
+			Panel saPanelTemp = new Panel
+			{			
+				Location = saPanelDemo.Location,
+				Size = saPanelDemo.Size
+			};
+
+			TextBox saTextBoxTemp = new TextBox
+			{
+				Location = saTextBoxDemo.Location,
+				Margin = saTextBoxDemo.Margin,
+				Size = saTextBoxDemo.Size,
+				TextAlign = saTextBoxDemo.TextAlign,
+				MaxLength = saTextBoxDemo.MaxLength,
+				Text = newSa?  "子属性"+saIndex : sawArray[tdIndex].SaList[saIndex].SAName
+			};
+
+			NumericUpDown saStartNUDTemp = new NumericUpDown
+			{
+				Name = "saStartNUD",
+				Location = saNUDDemo1.Location,
+				Size = saNUDDemo1.Size,
+				TextAlign = saNUDDemo1.TextAlign,
+				Maximum = saNUDDemo1.Maximum,
+				Value = newSa ?  startEndValue : sawArray[tdIndex].SaList[saIndex].StartValue
+			};
+
+			NumericUpDown saEndNUDTemp = new NumericUpDown
+			{
+				Name = "saEndNUD",
+				Location = saNUDDemo2.Location,
+				Size = saNUDDemo2.Size,
+				TextAlign = saNUDDemo2.TextAlign,
+				Maximum = saNUDDemo2.Maximum,
+				Minimum = newSa ? startEndValue : sawArray[tdIndex].SaList[saIndex].StartValue,
+				Value = newSa ? startEndValue : sawArray[tdIndex].SaList[saIndex].EndValue
+			};
+
+			Button saDelButtonTemp = new Button
+			{
+				Location = saDelButtonDemo.Location,
+				Size = saDelButtonDemo.Size,
+				Text = "-",
+				UseVisualStyleBackColor = true
+			};
+
+			saTextBoxTemp.LostFocus += saTextBox_LostFocus;
+			saTextBoxTemp.MouseDoubleClick += saTextBoxes_MouseDoubleClick; // 双击则把通道值设备本子属性的值
+			saStartNUDTemp.MouseWheel += someNUD_MouseWheel; // 通用鼠标滚动方法即可
+			saEndNUDTemp.MouseWheel += someNUD_MouseWheel; 
+			saStartNUDTemp.ValueChanged += SaNUD_ValueChanged;  // 起始都可以共用一个方法：用Name进行位置判断			
+			saEndNUDTemp.ValueChanged += SaNUD_ValueChanged;
+			saDelButtonTemp.Click += saDelButton_Click;
+
+			saPanelTemp.Controls.Add(saTextBoxTemp);
+			saPanelTemp.Controls.Add(saStartNUDTemp);
+			saPanelTemp.Controls.Add(saEndNUDTemp);
+			saPanelTemp.Controls.Add(saDelButtonTemp);
+
+			// 当是新添加的Panel时，给内存数据也添加相同的内容（若是旧数据无需此操作，因为旧数据时，saPanel就是由该数据生成的）
+			if (newSa) {
+				sawArray[selectedTdIndex].SaList.Add(new SA
+				{
+					SAName = "子属性" + saIndex,
+					StartValue = startEndValue,
+					EndValue = startEndValue,
+				});
+			}
+
+			return saPanelTemp;
+		}
+		
+		/// <summary>
+		/// 事件：saTextBox失去焦点时，把相应的数据更新到sawArray中
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saTextBox_LostFocus(object sender, EventArgs e)
+		{
+			TextBox tb = sender as TextBox;			
+			int saIndex = saDict[selectedTdIndex].Controls.IndexOf(tb.Parent);
+			if (tb.Text.Trim() == "")
+			{
+				setNotice("请输入子属性名，否则系统将自动为您生成名称。", true);
+				tb.Text = "子属性" + (saIndex + 1); 
+			}
+			sawArray[selectedTdIndex].SaList[saIndex].SAName = tb.Text.Trim();
+		}
+
+		/// <summary>
+		/// 事件：双击《子属性名称TextBox》，可将该通道值设为子属性值
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void saTextBoxes_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			TextBox tb = sender as TextBox;
+			int saIndex = saDict[selectedTdIndex].Controls.IndexOf(tb.Parent);
+			tdNUDs[selectedTdIndex].Value = sawArray[selectedTdIndex].SaList[saIndex].StartValue;
+		}
+
+		/// <summary>
+		/// 事件：当NUD值改变时，需要把sawArray内数据进行更新(通过控件的Name来判断起、始)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SaNUD_ValueChanged(object sender, EventArgs e)
+		{
+			NumericUpDown nud = sender as NumericUpDown;
+			int saIndex = saDict[selectedTdIndex].Controls.IndexOf(nud.Parent);
+			//Console.WriteLine("现在ValueChanged的是" + selectedTdIndex + " -- " + saIndex + " ++ " + nud.Name);
+
+			if (nud.Name == "saStartNUD")
+			{
+				(saDict[selectedTdIndex].Controls[saIndex].Controls[2] as NumericUpDown).Minimum = nud.Value;
+				sawArray[selectedTdIndex].SaList[saIndex].StartValue = decimal.ToInt32(nud.Value);			
+			}
+			else {
+				sawArray[selectedTdIndex].SaList[saIndex].EndValue = decimal.ToInt32(nud.Value);				
+			}
+		}		
 
 		/// <summary>
 		/// 事件：点击《-（删除子属性）》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saDeleteButton_Click(object sender, EventArgs e)
+		private void saDelButton_Click(object sender, EventArgs e)
 		{
-			int saIndex = saDeleteButtons.IndexOf((Button)sender);
-			if (saIndex == -1)
-			{
-				MessageBox.Show("这个按键不属于saDeleteButtons");
-				return;
-			}
+			Button btn = sender as Button;
+			int saIndex = saDict[selectedTdIndex].Controls.IndexOf(btn.Parent);
+			//Console.WriteLine("现在删除的是" + selectedTdIndex + " -- " + saDict[selectedTdIndex].Controls.IndexOf(btn.Parent) );
 
-			//saFlowLayoutPanel.Controls.Remove(saPanels[saIndex]);
-			//saFlowLayoutPanel.Controls.Remove(saDeleteButtons[saIndex]);
-			//saPanels.RemoveAt(saIndex);
-			
-			//saDeleteButtons.RemoveAt(saIndex);
-
-			//sawArray[selectedTdIndex].SaList.RemoveAt(saIndex);
+			// 两个地方都要删除：控件 及 sawArray
+			saDict[selectedTdIndex].Controls.RemoveAt(saIndex);
+			sawArray[selectedTdIndex].SaList.RemoveAt(saIndex);
 		}
+			   
+		#endregion
+
+		#region 通用
 
 		/// <summary>
-		/// 辅助方法：获取当前通道最大的子属性值(遍历EndValue内选)
-		/// </summary>
-		/// <returns></returns>
-		private int getCurMaxSAValue()
-		{
-			if (selectedTdIndex == -1 || sawArray[selectedTdIndex].SaList == null || sawArray[selectedTdIndex].SaList.Count == 0)
-			{
-				return 0;
-			}
-			else
-			{
-				List<int> endValueList = new List<int>();
-				foreach (SA sa in sawArray[selectedTdIndex].SaList)
-				{
-					endValueList.Add(sa.EndValue);
-				}
-				endValueList.Sort();//升序排序;注意：IList没有Sort方法
-				int result = endValueList[endValueList.Count - 1] + 1;
-				if (result > 255)
-				{ //若超过255，则只返回255
-					result = 255;
-				}
-				return result;
-			}
-		}		
-
-	
-
-		/// <summary>
-		/// 辅助方法：添加saPanel，主要供SAForm回调使用
-		/// </summary>
-		public void AddSAPanel(SA sa)
-		{
-			AddSAPanel(sa.SAName, sa.StartValue, sa.EndValue);
-		}
-
-		/// <summary>
-		/// 辅助方法：添加SA到当前选中的通道的saList中，供SAForm回调使用
-		/// </summary>
-		public void AddSA(SA sa)
-		{
-			sawArray[selectedTdIndex].SaList.Add(sa);
-		}
-
-		/// <summary>
-		/// 辅助方法：添加saPanel，主要供SAForm回调使用
-		/// </summary>
-		public void AddSAPanel(string saName, int startValue, int endValue)
-		{
-			Panel saPanelTemp = new Panel();
-			Button saButtonTemp = new Button();
-			Button saDeleteButtonTemp = new Button();
-
-			saPanels.Add(saPanelTemp);
-						
-			saDeleteButtons.Add(saDeleteButtonTemp);
-
-			this.saFlowLayoutPanel.Controls.Add(saPanelTemp);
-			this.saFlowLayoutPanel.Controls.Add(saDeleteButtonTemp);
-			// 
-			// saPanel
-			// 
-			saPanelTemp.BackColor = SystemColors.Window;
-			saPanelTemp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			saPanelTemp.Location = new System.Drawing.Point(3, 42);
-			saPanelTemp.Name = "saPanel";
-			saPanelTemp.Size = new System.Drawing.Size(168, 33);
-			saPanelTemp.TabIndex = 1;
-			saPanelTemp.Click += new EventHandler(saPanel_Click);
-
-
-			// 
-			// saDeleteButton
-			// 
-			//saDeleteButtonTemp.Location = new System.Drawing.Point(170, 4);
-			saDeleteButtonTemp.Name = "saDeleteButton";
-			saDeleteButtonTemp.Size = new System.Drawing.Size(19, 33);
-			saDeleteButtonTemp.TabIndex = 1;
-			saDeleteButtonTemp.Text = "-";
-			saDeleteButtonTemp.UseVisualStyleBackColor = true;
-			saDeleteButtonTemp.Click += new System.EventHandler(this.saDeleteButton_Click);
-		}
-
-		/// <summary>
-		/// 辅助方法：修改子属性，主要供SAForm回调使用
-		/// </summary>
-		public void EditSA(int saIndex, string saName, int startValue, int endValue)
-		{
-			//saNameLabels[saIndex].Text = saName;
-			//startValueLabels[saIndex].Text = startValue.ToString();
-			//endValueLabels[saIndex].Text = endValue.ToString();
-
-			//sawArray2[selectedTdIndex].SaList[saIndex].SAName = saName;
-			//sawArray2[selectedTdIndex].SaList[saIndex].StartValue = startValue;
-			//sawArray2[selectedTdIndex].SaList[saIndex].EndValue = endValue;
-		}
-		
-	
-
-		/// <summary>
-		/// 辅助方法：在saPanels内点击任意区域，皆可弹出子属性修改栏
-		/// </summary>
-		/// <param name="saIndex"></param>
-		private void saPanelsClick(int saIndex)
-		{
-			if (saIndex == -1)
-			{
-				MessageBox.Show("所点击区域不属于saPanels");
-				return;
-			}
-
-			//new NewSAForm(this, saIndex,
-			//		saNameLabels[saIndex].Text,
-			//	int.Parse(startValueLabels[saIndex].Text),
-			//	int.Parse(endValueLabels[saIndex].Text)
-			//).ShowDialog();
-
-		}
-
-		/// <summary>
-		/// 事件：点击《saPanel内的剩余空白区域》
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void saPanel_Click(object sender, EventArgs e)
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
 		{
-			int saIndex = saPanels.IndexOf((Panel)sender);
-			saPanelsClick(saIndex);
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
+			}
 		}
-		
+
+		/// <summary>
+		/// 辅助方法：显示提示
+		/// </summary>
+		/// <param name="msgBoxShow"></param>
+		private void setNotice(string msg, bool msgBoxShow)
+		{
+			myStatusLabel.Text = msg;
+			if (msgBoxShow)
+			{
+				MessageBox.Show(msg);
+			}
+		}
+			   
 		#endregion
 
+		
 	}
 }

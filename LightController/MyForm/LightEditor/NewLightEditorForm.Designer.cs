@@ -47,19 +47,20 @@
 			this.nameListBox = new System.Windows.Forms.ListBox();
 			this.noticePanel = new System.Windows.Forms.Panel();
 			this.noticeLabel = new System.Windows.Forms.Label();
-			this.saFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.saFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
 			this.saPanelDemo = new System.Windows.Forms.Panel();
 			this.saTextBoxDemo = new System.Windows.Forms.TextBox();
-			this.saNUDDemo1 = new System.Windows.Forms.NumericUpDown();
 			this.saNUDDemo2 = new System.Windows.Forms.NumericUpDown();
+			this.saNUDDemo1 = new System.Windows.Forms.NumericUpDown();
 			this.saDelButtonDemo = new System.Windows.Forms.Button();
 			this.saTitlePanel = new System.Windows.Forms.Panel();
+			this.saTitlePanel2 = new System.Windows.Forms.Panel();
+			this.saAddButton = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
+			this.saClearButton = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tdNumLabel = new System.Windows.Forms.Label();
-			this.saAddButton = new System.Windows.Forms.Button();
-			this.saClearButton = new System.Windows.Forms.Button();
 			this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.tdPanelDemo = new System.Windows.Forms.Panel();
 			this.tdTrackBarDemo = new System.Windows.Forms.TrackBar();
@@ -74,6 +75,7 @@
 			this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
 			this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saBigPanel = new System.Windows.Forms.Panel();
+			this.saSmallPanel = new System.Windows.Forms.Panel();
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.connectButton = new System.Windows.Forms.Button();
 			this.comComboBox = new System.Windows.Forms.ComboBox();
@@ -86,15 +88,14 @@
 			this.setCurrentToInitButton = new System.Windows.Forms.Button();
 			this.playGroupBox = new System.Windows.Forms.GroupBox();
 			this.mainPanel = new System.Windows.Forms.Panel();
-			this.saSmallPanel = new System.Windows.Forms.Panel();
-			this.saTitlePanel2 = new System.Windows.Forms.Panel();
 			this.tdNamePanel.SuspendLayout();
 			this.noticePanel.SuspendLayout();
-			this.saFlowLayoutPanel.SuspendLayout();
+			this.saFLPDemo.SuspendLayout();
 			this.saPanelDemo.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo1)).BeginInit();
 			this.saTitlePanel.SuspendLayout();
+			this.saTitlePanel2.SuspendLayout();
 			this.tdFlowLayoutPanel.SuspendLayout();
 			this.tdPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).BeginInit();
@@ -103,12 +104,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.openPictureBox)).BeginInit();
 			this.myStatusStrip.SuspendLayout();
 			this.saBigPanel.SuspendLayout();
+			this.saSmallPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).BeginInit();
 			this.playGroupBox.SuspendLayout();
 			this.mainPanel.SuspendLayout();
-			this.saSmallPanel.SuspendLayout();
-			this.saTitlePanel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// renameButton
@@ -305,60 +305,48 @@
 			this.noticeLabel.TabIndex = 1;
 			this.noticeLabel.Text = "双击可将选中项填入左侧当前通道名称的文本框中";
 			// 
-			// saFlowLayoutPanel
+			// saFLPDemo
 			// 
-			this.saFlowLayoutPanel.AutoScroll = true;
-			this.saFlowLayoutPanel.BackColor = System.Drawing.Color.Gray;
-			this.saFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.saFlowLayoutPanel.Controls.Add(this.saPanelDemo);
-			this.saFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.saFlowLayoutPanel.Enabled = false;
-			this.saFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
-			this.saFlowLayoutPanel.Name = "saFlowLayoutPanel";
-			this.saFlowLayoutPanel.Size = new System.Drawing.Size(225, 560);
-			this.saFlowLayoutPanel.TabIndex = 24;
+			this.saFLPDemo.AutoScroll = true;
+			this.saFLPDemo.BackColor = System.Drawing.Color.Gray;
+			this.saFLPDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.saFLPDemo.Controls.Add(this.saPanelDemo);
+			this.saFLPDemo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.saFLPDemo.Enabled = false;
+			this.saFLPDemo.Location = new System.Drawing.Point(0, 0);
+			this.saFLPDemo.Name = "saFLPDemo";
+			this.saFLPDemo.Size = new System.Drawing.Size(225, 560);
+			this.saFLPDemo.TabIndex = 24;
+			this.saFLPDemo.Visible = false;
 			// 
 			// saPanelDemo
 			// 
 			this.saPanelDemo.Controls.Add(this.saTextBoxDemo);
-			this.saPanelDemo.Controls.Add(this.saNUDDemo1);
 			this.saPanelDemo.Controls.Add(this.saNUDDemo2);
+			this.saPanelDemo.Controls.Add(this.saNUDDemo1);
 			this.saPanelDemo.Controls.Add(this.saDelButtonDemo);
 			this.saPanelDemo.Location = new System.Drawing.Point(3, 3);
 			this.saPanelDemo.Name = "saPanelDemo";
-			this.saPanelDemo.Size = new System.Drawing.Size(195, 32);
+			this.saPanelDemo.Size = new System.Drawing.Size(195, 28);
 			this.saPanelDemo.TabIndex = 4;
 			// 
 			// saTextBoxDemo
 			// 
-			this.saTextBoxDemo.Location = new System.Drawing.Point(2, 5);
+			this.saTextBoxDemo.Location = new System.Drawing.Point(2, 3);
 			this.saTextBoxDemo.Margin = new System.Windows.Forms.Padding(2);
+			this.saTextBoxDemo.MaxLength = 8;
 			this.saTextBoxDemo.Name = "saTextBoxDemo";
 			this.saTextBoxDemo.Size = new System.Drawing.Size(81, 21);
 			this.saTextBoxDemo.TabIndex = 16;
+			this.saTextBoxDemo.Text = "请输入名称";
 			this.saTextBoxDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
-			// saNUDDemo1
-			// 
-			this.saNUDDemo1.Location = new System.Drawing.Point(125, 5);
-			this.saNUDDemo1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.saNUDDemo1.Name = "saNUDDemo1";
-			this.saNUDDemo1.Size = new System.Drawing.Size(40, 21);
-			this.saNUDDemo1.TabIndex = 17;
-			this.saNUDDemo1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.saNUDDemo1.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
+			this.myToolTip.SetToolTip(this.saTextBoxDemo, "双击此输入框，可将通道值\r\n设为此子属性的初始值。");
+			this.saTextBoxDemo.Visible = false;
+			this.saTextBoxDemo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.saTextBoxes_MouseDoubleClick);
 			// 
 			// saNUDDemo2
 			// 
-			this.saNUDDemo2.Location = new System.Drawing.Point(84, 5);
+			this.saNUDDemo2.Location = new System.Drawing.Point(125, 3);
 			this.saNUDDemo2.Maximum = new decimal(new int[] {
             255,
             0,
@@ -368,15 +356,39 @@
 			this.saNUDDemo2.Size = new System.Drawing.Size(40, 21);
 			this.saNUDDemo2.TabIndex = 17;
 			this.saNUDDemo2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.saNUDDemo2.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.saNUDDemo2.Visible = false;
+			this.saNUDDemo2.ValueChanged += new System.EventHandler(this.SaNUD_ValueChanged);
+			// 
+			// saNUDDemo1
+			// 
+			this.saNUDDemo1.Location = new System.Drawing.Point(84, 3);
+			this.saNUDDemo1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.saNUDDemo1.Name = "saNUDDemo1";
+			this.saNUDDemo1.Size = new System.Drawing.Size(40, 21);
+			this.saNUDDemo1.TabIndex = 17;
+			this.saNUDDemo1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.saNUDDemo1.Visible = false;
+			this.saNUDDemo1.ValueChanged += new System.EventHandler(this.SaNUD_ValueChanged);
 			// 
 			// saDelButtonDemo
 			// 
 			this.saDelButtonDemo.Location = new System.Drawing.Point(168, 1);
 			this.saDelButtonDemo.Name = "saDelButtonDemo";
-			this.saDelButtonDemo.Size = new System.Drawing.Size(24, 30);
+			this.saDelButtonDemo.Size = new System.Drawing.Size(24, 26);
 			this.saDelButtonDemo.TabIndex = 1;
 			this.saDelButtonDemo.Text = "-";
 			this.saDelButtonDemo.UseVisualStyleBackColor = true;
+			this.saDelButtonDemo.Visible = false;
+			this.saDelButtonDemo.Click += new System.EventHandler(this.saDelButton_Click);
 			// 
 			// saTitlePanel
 			// 
@@ -388,6 +400,30 @@
 			this.saTitlePanel.Size = new System.Drawing.Size(225, 109);
 			this.saTitlePanel.TabIndex = 3;
 			// 
+			// saTitlePanel2
+			// 
+			this.saTitlePanel2.Controls.Add(this.saAddButton);
+			this.saTitlePanel2.Controls.Add(this.label3);
+			this.saTitlePanel2.Controls.Add(this.saClearButton);
+			this.saTitlePanel2.Controls.Add(this.label2);
+			this.saTitlePanel2.Controls.Add(this.label1);
+			this.saTitlePanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.saTitlePanel2.Location = new System.Drawing.Point(0, 46);
+			this.saTitlePanel2.Name = "saTitlePanel2";
+			this.saTitlePanel2.Size = new System.Drawing.Size(225, 63);
+			this.saTitlePanel2.TabIndex = 4;
+			this.saTitlePanel2.Visible = false;
+			// 
+			// saAddButton
+			// 
+			this.saAddButton.Location = new System.Drawing.Point(4, 7);
+			this.saAddButton.Name = "saAddButton";
+			this.saAddButton.Size = new System.Drawing.Size(93, 27);
+			this.saAddButton.TabIndex = 0;
+			this.saAddButton.Text = "添加子属性";
+			this.saAddButton.UseVisualStyleBackColor = true;
+			this.saAddButton.Click += new System.EventHandler(this.saAddButton_Click);
+			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
@@ -397,6 +433,16 @@
 			this.label3.Size = new System.Drawing.Size(41, 12);
 			this.label3.TabIndex = 3;
 			this.label3.Text = "截止值";
+			// 
+			// saClearButton
+			// 
+			this.saClearButton.Location = new System.Drawing.Point(103, 7);
+			this.saClearButton.Name = "saClearButton";
+			this.saClearButton.Size = new System.Drawing.Size(93, 27);
+			this.saClearButton.TabIndex = 0;
+			this.saClearButton.Text = "清空子属性";
+			this.saClearButton.UseVisualStyleBackColor = true;
+			this.saClearButton.Click += new System.EventHandler(this.saClearButton_Click);
 			// 
 			// label2
 			// 
@@ -428,25 +474,6 @@
 			this.tdNumLabel.TabIndex = 2;
 			this.tdNumLabel.Text = " 请选择通道：";
 			this.tdNumLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// saAddButton
-			// 
-			this.saAddButton.Location = new System.Drawing.Point(4, 7);
-			this.saAddButton.Name = "saAddButton";
-			this.saAddButton.Size = new System.Drawing.Size(93, 27);
-			this.saAddButton.TabIndex = 0;
-			this.saAddButton.Text = "添加子属性";
-			this.saAddButton.UseVisualStyleBackColor = true;
-			this.saAddButton.Click += new System.EventHandler(this.saAddButton_Click);
-			// 
-			// saClearButton
-			// 
-			this.saClearButton.Location = new System.Drawing.Point(103, 7);
-			this.saClearButton.Name = "saClearButton";
-			this.saClearButton.Size = new System.Drawing.Size(93, 27);
-			this.saClearButton.TabIndex = 0;
-			this.saClearButton.Text = "清空子属性";
-			this.saClearButton.UseVisualStyleBackColor = true;
 			// 
 			// tdFlowLayoutPanel
 			// 
@@ -498,7 +525,7 @@
 			// 
 			// tdNUDDemo
 			// 
-			this.tdNUDDemo.Location = new System.Drawing.Point(18, 177);
+			this.tdNUDDemo.Location = new System.Drawing.Point(17, 177);
 			this.tdNUDDemo.Margin = new System.Windows.Forms.Padding(2);
 			this.tdNUDDemo.Maximum = new decimal(new int[] {
             255,
@@ -509,10 +536,11 @@
 			this.tdNUDDemo.Size = new System.Drawing.Size(52, 21);
 			this.tdNUDDemo.TabIndex = 14;
 			this.tdNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdNUDDemo.ValueChanged += new System.EventHandler(this.tdNUDs_ValueChanged);
 			// 
 			// tdLabelDemo
 			// 
-			this.tdLabelDemo.Font = new System.Drawing.Font("宋体", 9F);
+			this.tdLabelDemo.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tdLabelDemo.ForeColor = System.Drawing.Color.Black;
 			this.tdLabelDemo.Location = new System.Drawing.Point(16, 41);
 			this.tdLabelDemo.Name = "tdLabelDemo";
@@ -597,6 +625,15 @@
 			this.saBigPanel.Name = "saBigPanel";
 			this.saBigPanel.Size = new System.Drawing.Size(225, 669);
 			this.saBigPanel.TabIndex = 29;
+			// 
+			// saSmallPanel
+			// 
+			this.saSmallPanel.Controls.Add(this.saFLPDemo);
+			this.saSmallPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.saSmallPanel.Location = new System.Drawing.Point(0, 109);
+			this.saSmallPanel.Name = "saSmallPanel";
+			this.saSmallPanel.Size = new System.Drawing.Size(225, 560);
+			this.saSmallPanel.TabIndex = 4;
 			// 
 			// unifyValueButton
 			// 
@@ -767,29 +804,6 @@
 			this.mainPanel.Size = new System.Drawing.Size(791, 234);
 			this.mainPanel.TabIndex = 30;
 			// 
-			// saSmallPanel
-			// 
-			this.saSmallPanel.Controls.Add(this.saFlowLayoutPanel);
-			this.saSmallPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.saSmallPanel.Location = new System.Drawing.Point(0, 109);
-			this.saSmallPanel.Name = "saSmallPanel";
-			this.saSmallPanel.Size = new System.Drawing.Size(225, 560);
-			this.saSmallPanel.TabIndex = 4;
-			// 
-			// saTitlePanel2
-			// 
-			this.saTitlePanel2.Controls.Add(this.saAddButton);
-			this.saTitlePanel2.Controls.Add(this.label3);
-			this.saTitlePanel2.Controls.Add(this.saClearButton);
-			this.saTitlePanel2.Controls.Add(this.label2);
-			this.saTitlePanel2.Controls.Add(this.label1);
-			this.saTitlePanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.saTitlePanel2.Location = new System.Drawing.Point(0, 46);
-			this.saTitlePanel2.Name = "saTitlePanel2";
-			this.saTitlePanel2.Size = new System.Drawing.Size(225, 63);
-			this.saTitlePanel2.TabIndex = 4;
-			this.saTitlePanel2.Visible = false;
-			// 
 			// NewLightEditorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -808,12 +822,14 @@
 			this.Load += new System.EventHandler(this.NewLightEditorForm_Load);
 			this.tdNamePanel.ResumeLayout(false);
 			this.noticePanel.ResumeLayout(false);
-			this.saFlowLayoutPanel.ResumeLayout(false);
+			this.saFLPDemo.ResumeLayout(false);
 			this.saPanelDemo.ResumeLayout(false);
 			this.saPanelDemo.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.saNUDDemo1)).EndInit();
 			this.saTitlePanel.ResumeLayout(false);
+			this.saTitlePanel2.ResumeLayout(false);
+			this.saTitlePanel2.PerformLayout();
 			this.tdFlowLayoutPanel.ResumeLayout(false);
 			this.tdPanelDemo.ResumeLayout(false);
 			this.tdPanelDemo.PerformLayout();
@@ -825,13 +841,11 @@
 			this.myStatusStrip.ResumeLayout(false);
 			this.myStatusStrip.PerformLayout();
 			this.saBigPanel.ResumeLayout(false);
+			this.saSmallPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.firstTDNumericUpDown)).EndInit();
 			this.playGroupBox.ResumeLayout(false);
 			this.mainPanel.ResumeLayout(false);
-			this.saSmallPanel.ResumeLayout(false);
-			this.saTitlePanel2.ResumeLayout(false);
-			this.saTitlePanel2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -856,29 +870,24 @@
 		private System.Windows.Forms.Panel tdNamePanel;
 		private System.Windows.Forms.Label noticeLabel;
 		private System.Windows.Forms.ListBox nameListBox;
-		private System.Windows.Forms.FlowLayoutPanel saFlowLayoutPanel;
+		private System.Windows.Forms.FlowLayoutPanel saFLPDemo;
 		private System.Windows.Forms.Label tdNumLabel;
 		private System.Windows.Forms.Button saAddButton;
 		private System.Windows.Forms.Button saClearButton;
 		private System.Windows.Forms.FlowLayoutPanel tdFlowLayoutPanel;
 		private System.Windows.Forms.GroupBox lightGroupBox;
-		private System.Windows.Forms.Panel tdPanelDemo;
 		private System.Windows.Forms.StatusStrip myStatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
-		private System.Windows.Forms.TextBox tdTextBoxDemo;
-		private System.Windows.Forms.NumericUpDown tdNUDDemo;
-		public System.Windows.Forms.Label tdLabelDemo;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.OpenFileDialog openImageDialog;
 		private System.Windows.Forms.ToolTip myToolTip;
-		private System.Windows.Forms.TrackBar tdTrackBarDemo;
 		private System.Windows.Forms.Panel noticePanel;
 		private System.Windows.Forms.Panel saTitlePanel;
 		private System.Windows.Forms.Panel saPanelDemo;
 		private System.Windows.Forms.Button saDelButtonDemo;
 		private System.Windows.Forms.Panel saBigPanel;
-		private System.Windows.Forms.NumericUpDown saNUDDemo1;
 		private System.Windows.Forms.NumericUpDown saNUDDemo2;
+		private System.Windows.Forms.NumericUpDown saNUDDemo1;
 		private System.Windows.Forms.TextBox saTextBoxDemo;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
@@ -897,5 +906,10 @@
 		private System.Windows.Forms.Panel mainPanel;
 		private System.Windows.Forms.Panel saSmallPanel;
 		private System.Windows.Forms.Panel saTitlePanel2;
+		private System.Windows.Forms.Panel tdPanelDemo;
+		private System.Windows.Forms.TrackBar tdTrackBarDemo;
+		private System.Windows.Forms.TextBox tdTextBoxDemo;
+		private System.Windows.Forms.NumericUpDown tdNUDDemo;
+		public System.Windows.Forms.Label tdLabelDemo;
 	}
 }

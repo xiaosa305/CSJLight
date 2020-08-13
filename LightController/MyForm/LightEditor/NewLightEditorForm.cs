@@ -402,7 +402,7 @@ namespace LightEditor
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveLightButton_Click(object sender, EventArgs e)
-		{			
+		{
 			saveLight();
 		}
 
@@ -456,7 +456,6 @@ namespace LightEditor
 		/// </summary>
 		private void saveLight()
 		{
-
 			// 记住一个大原则，保存灯具时不对Form内任何内容进行改动，只读取！
 			// 若修改了通道数后，未点击《生成》，则无法保存(不再有冗余的isGenerated属性，而直接由按键是否可用来判断是否已经生成过TongdaoList)
 			if (generateButton.Enabled)
@@ -533,8 +532,9 @@ namespace LightEditor
 				{
 					// 未满10的前面加0
 					string index = (tdIndex < 9) ? ("0" + (tdIndex + 1)) : ("" + (tdIndex + 1));
-					//iniWriter.WriteLine(index + "A=" + tongdaoList[tdIndex].TongdaoName); 
-					iniWriter.WriteLine(index + "A=" + tdTextBoxes[tdIndex].Text.Trim());
+					//iniWriter.WriteLine(index + "A=" + tongdaoList[tdIndex].TongdaoName);
+					//用下行代码比较保险，因为用TongdaoName，会出现某些情况因考虑不周导致的未改变内存中的通道名（比如双击右侧nameLis【非lostFocus】）
+					iniWriter.WriteLine(index + "A=" + tdTextBoxes[tdIndex].Text.Trim());  					
 					iniWriter.WriteLine(index + "B=" + tongdaoList[tdIndex].InitValue);
 					iniWriter.WriteLine(index + "C=" + tongdaoList[tdIndex].Address);
 				}
@@ -871,7 +871,8 @@ namespace LightEditor
 				setNotice("请输入通道名，否则系统将自动为您生成名称。", true);
 				tb.Text = "通道" + (tdIndex+1)  ;
 			}
-			tongdaoList[tdIndex].TongdaoName = tb.Text.Trim(); //更改为最新的名称			
+			
+			tongdaoList[tdIndex].TongdaoName = tb.Text.Trim(); //更改为最新的名称					
 		}
 
 		/// <summary>
@@ -1016,8 +1017,7 @@ namespace LightEditor
 		/// </summary>
 		/// <param name="tongdaoIndex"></param>
 		private void changeCurrentValue(int tongdaoIndex, int tdValue)
-		{
-			Console.WriteLine("changeCurrentValue");
+		{			
 			// 1.设tongdaoWrapper的值
 			tongdaoList[tongdaoIndex].CurrentValue = tdValue;
 

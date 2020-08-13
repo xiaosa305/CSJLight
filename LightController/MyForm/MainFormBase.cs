@@ -3295,8 +3295,9 @@ namespace LightController.MyForm
 			string lightType = la.LightType;
 			string tdName = lw.StepTemplate.TongdaoList[tdIndex].TongdaoName;
 
-			//SetNotice("已打开【" + lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")】的单通道多步联调功能。", false);
-			
+			SetNotice("正在打开【" + lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")】的单通道多步联调窗口。", false);
+
+			new SoundMultiForm(this , selectedIndex , tdIndex , lightType + "\n"+tdName +""  , lw.LightStepWrapperList[currentFrame,currentMode].StepWrapperList  ) . ShowDialog();
 		}
 
 		#endregion

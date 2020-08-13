@@ -3291,8 +3291,16 @@ namespace LightController.MyForm
 			// Dickov:200812 新的功能：点击通道名，则弹出该通道的多步联调界面（作为所有灯+通道的试验版本）
 
 			LightAst la = lightAstList[selectedIndex];
+			LightWrapper lw = lightWrapperList[selectedIndex];
+
 			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
-			Console.WriteLine("选中的通道是" + tdIndex );
+
+			string lightName = la.LightName;
+			string lightType = la.LightType;
+			string tdName = lw.StepTemplate.TongdaoList[tdIndex].TongdaoName;
+
+			Console.WriteLine( lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")");
+			
 
 
 		}

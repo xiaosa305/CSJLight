@@ -612,6 +612,7 @@ namespace LightController.MyForm
 			this.tdNoLabel1.Size = new System.Drawing.Size(47, 12);
 			this.tdNoLabel1.TabIndex = 3;
 			this.tdNoLabel1.Text = "通道555";
+			this.tdNoLabel1.Click += new System.EventHandler(this.tdNameNumLabels_Click);
 			// 
 			// tdCmComboBox1
 			// 

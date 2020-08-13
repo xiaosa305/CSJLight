@@ -28,8 +28,8 @@ namespace LightEditor
 		private bool isNew = true;  //是否新建
 
 		// 与当前灯具相关的变量，最后会进行存储		
-		private List<TongdaoWrapper> TongdaoList;
-		private int TongdaoCount = 0;
+		private List<TongdaoWrapper> tongdaoList;
+		private int tongdaoCount = 0;
 		private SAWrapper[] sawArray;
 		private Dictionary<int, FlowLayoutPanel> saDict;
 
@@ -128,6 +128,7 @@ namespace LightEditor
 				tdPanels[tdIndex].Controls.Add(tdNUDs[tdIndex]);	
 				
 				tdTextBoxes[tdIndex].MouseClick += tdTextBoxes_MouseClick;
+				tdTextBoxes[tdIndex].LostFocus += tdTextBoxes_LostFocus;
 				tdLabels[tdIndex].MouseEnter += tdLabels_MouseEnter;
 				tdLabels[tdIndex].Click += tdLabels_Click;
 				tdTrackBars[tdIndex].MouseEnter += tdTrackBars_MouseEnter;
@@ -143,7 +144,7 @@ namespace LightEditor
 			firstTDNumericUpDown.MouseWheel += someNUD_MouseWheel ;
 			unifyValueNumericUpDown.MouseWheel += someNUD_MouseWheel;
 			refreshComList();
-		}
+		}	
 
 		private void NewLightEditorForm_Load(object sender, EventArgs e)
 		{
@@ -177,8 +178,8 @@ namespace LightEditor
 			if (RequestSaveLight("新建灯具前，是否保存当前灯具？"))
 			{
 				countComboBox.SelectedIndex = 0;
-				TongdaoCount = 0;				
-				TongdaoList = null;
+				tongdaoCount = 0;				
+				tongdaoList = null;
 
 				//子属性相关的先清理
 				sawArray = null;
@@ -248,17 +249,17 @@ namespace LightEditor
 					this.setImage(picDirectory + "\\" + imagePath);
 				}
 
-				TongdaoCount = int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取			
+				tongdaoCount = int.Parse(lineList[3].ToString().Substring(6));//第七个字符开始截取			
 
-				countComboBox.SelectedIndex = TongdaoCount - 1;   // 此处请注意：并不是用SelectedText，而是直接设Text			
+				countComboBox.SelectedIndex = tongdaoCount - 1;   // 此处请注意：并不是用SelectedText，而是直接设Text			
 
-				TongdaoList = new List<TongdaoWrapper>();
-				for (int i = 0; i < TongdaoCount; i++)
+				tongdaoList = new List<TongdaoWrapper>();
+				for (int i = 0; i < tongdaoCount; i++)
 				{
 					string tongdaoName = lineList[3 * i + 6].ToString().Substring(4);
 					int initValue = int.Parse(lineList[3 * i + 7].ToString().Substring(4));
 					int address = int.Parse(lineList[3 * i + 8].ToString().Substring(4));
-					TongdaoList.Add(new TongdaoWrapper()
+					tongdaoList.Add(new TongdaoWrapper()
 					{
 						TongdaoName = tongdaoName,
 						InitValue = initValue,
@@ -293,7 +294,7 @@ namespace LightEditor
 		/// </summary>
 		private void checkGenerateEnable()
 		{			
-			generateButton.Enabled = int.Parse(countComboBox.Text) != TongdaoCount;
+			generateButton.Enabled = int.Parse(countComboBox.Text) != tongdaoCount;
 		}
 
 		/// <summary>
@@ -302,7 +303,7 @@ namespace LightEditor
 		/// </summary>
 		private void handleTongdaoCount() 
 		{
-			firstTDNumericUpDown.Maximum = 513 - TongdaoCount ;
+			firstTDNumericUpDown.Maximum = 513 - tongdaoCount ;
 		}
 		
 		/// <summary>
@@ -325,14 +326,14 @@ namespace LightEditor
 			tdFlowLayoutPanel.Show();
 
 			// 1.tongdaoList的数据渲染进各个通道显示项(label+valueLabel+vScrollBar)中, 并显示有数据的通道
-			for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
+			for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 			{
-				tdTextBoxes[tdIndex].Text =  TongdaoList[tdIndex].TongdaoName;
+				tdTextBoxes[tdIndex].Text =  tongdaoList[tdIndex].TongdaoName;
 				tdLabels[tdIndex].Text = "通道" + (tdIndex + 1);
-				tdTrackBars[tdIndex].Value = TongdaoList[tdIndex].CurrentValue;				
-				tdNUDs[tdIndex].Value = TongdaoList[tdIndex].CurrentValue;
+				tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].CurrentValue;				
+				tdNUDs[tdIndex].Value = tongdaoList[tdIndex].CurrentValue;
 
-				string tdRemark = TongdaoList[tdIndex].TongdaoName;
+				string tdRemark = tongdaoList[tdIndex].TongdaoName;
 				foreach (SA sa in sawArray[tdIndex].SaList)
 				{
 					tdRemark += "\n" + sa.SAName + "：" + sa.StartValue + " - " + sa.EndValue;
@@ -342,7 +343,7 @@ namespace LightEditor
 			}
 
 			// 2.隐藏其余通道
-			for (int tdIndex = TongdaoCount; tdIndex < 32; tdIndex++)
+			for (int tdIndex = tongdaoCount; tdIndex < 32; tdIndex++)
 			{
 				tdPanels[tdIndex].Hide();
 			}
@@ -401,7 +402,7 @@ namespace LightEditor
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void saveLightButton_Click(object sender, EventArgs e)
-		{
+		{			
 			saveLight();
 		}
 
@@ -523,23 +524,24 @@ namespace LightEditor
 				iniWriter.WriteLine("[set]");
 				iniWriter.WriteLine("type=" + type);
 				iniWriter.WriteLine("pic=" + picTextBox.Text);
-				iniWriter.WriteLine("count=" + TongdaoCount);
+				iniWriter.WriteLine("count=" + tongdaoCount);
 				iniWriter.WriteLine("name=" + name);
 
 				//写[Data]数据
 				iniWriter.WriteLine("[Data]");
-				for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
+				for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 				{
 					// 未满10的前面加0
 					string index = (tdIndex < 9) ? ("0" + (tdIndex + 1)) : ("" + (tdIndex + 1));
-					iniWriter.WriteLine(index + "A=" + TongdaoList[tdIndex].TongdaoName);
-					iniWriter.WriteLine(index + "B=" + TongdaoList[tdIndex].InitValue);
-					iniWriter.WriteLine(index + "C=" + TongdaoList[tdIndex].Address);
+					//iniWriter.WriteLine(index + "A=" + tongdaoList[tdIndex].TongdaoName); 
+					iniWriter.WriteLine(index + "A=" + tdTextBoxes[tdIndex].Text.Trim());
+					iniWriter.WriteLine(index + "B=" + tongdaoList[tdIndex].InitValue);
+					iniWriter.WriteLine(index + "C=" + tongdaoList[tdIndex].Address);
 				}
 
 				//写[sa]数据
 				iniWriter.WriteLine("[sa]");
-				for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
+				for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 				{
 					iniWriter.WriteLine(tdIndex + "_saCount=" + sawArray[tdIndex].SaList.Count);
 					for (int saIndex = 0; saIndex < sawArray[tdIndex].SaList.Count; saIndex++)
@@ -600,18 +602,18 @@ namespace LightEditor
 		private void generateTongdaoList()
 		{
 			//0330 点击《生成》时，需要真的设置TongdaoCount了--》之前的版本只要改了《CountComboBox》就会更改TongdaoCount，显然有问题，但并未触发而已
-			TongdaoCount = int.Parse(countComboBox.Text);
+			tongdaoCount = int.Parse(countComboBox.Text);
 
 			// 新建的情况
-			if (TongdaoList == null || TongdaoList.Count == 0)  
+			if (tongdaoList == null || tongdaoList.Count == 0)  
 			{
-				TongdaoList = new List<TongdaoWrapper>();
-				sawArray = new SAWrapper[TongdaoCount];
+				tongdaoList = new List<TongdaoWrapper>();
+				sawArray = new SAWrapper[tongdaoCount];
 				saDict = new Dictionary<int, FlowLayoutPanel>();
 
-				for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
+				for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 				{
-					TongdaoList.Add(new TongdaoWrapper()
+					tongdaoList.Add(new TongdaoWrapper()
 					{
 						TongdaoName = "通道" + (tdIndex + 1),
 						Address = tdIndex + 1,
@@ -623,20 +625,20 @@ namespace LightEditor
 			}
 			else
 			{
-				if (TongdaoCount > TongdaoList.Count)
+				if (tongdaoCount > tongdaoList.Count)
 				{
 					//先把旧数据存起来
 					SAWrapper[] sawArrayTemp = SAWrapper.DeepCopy(sawArray);
-					sawArray = new SAWrapper[TongdaoCount];
+					sawArray = new SAWrapper[tongdaoCount];
 					// 小于等于新通道数量的数据，用旧数据填充
 					for (int tdIndex = 0; tdIndex < sawArrayTemp.Length; tdIndex++)
 					{
 						sawArray[tdIndex] = sawArrayTemp[tdIndex];
 					}
 
-					for (int tdIndex = TongdaoList.Count; tdIndex < TongdaoCount; tdIndex++)
+					for (int tdIndex = tongdaoList.Count; tdIndex < tongdaoCount; tdIndex++)
 					{
-						TongdaoList.Add(new TongdaoWrapper()
+						tongdaoList.Add(new TongdaoWrapper()
 						{
 							TongdaoName = "通道" + (tdIndex + 1),
 							Address = tdIndex + 1,
@@ -735,7 +737,7 @@ namespace LightEditor
 		private void oneLightOneStep()
 		{
 			byte[] stepBytes = new byte[512];
-			foreach (TongdaoWrapper td in TongdaoList)
+			foreach (TongdaoWrapper td in tongdaoList)
 			{
 				// firstTDValue 从1开始； td.Address也从1开始； 故如果初始地址为1，Address也是1，而512通道的第一个index应该是0
 				// --> tongdaoIndex  = 1 + 1 -2；
@@ -753,7 +755,7 @@ namespace LightEditor
 		private void setFirstTDButton_Click(object sender, EventArgs e)
 		{
 			firstTDValue = decimal.ToInt32(firstTDNumericUpDown.Value);
-			for (int tdIndex = 0; tdIndex < TongdaoCount; tdIndex++)
+			for (int tdIndex = 0; tdIndex < tongdaoCount; tdIndex++)
 			{
 				tdLabels[tdIndex].Text = "通道" + (firstTDValue + tdIndex);
 				if (selectedTextBox != null) {
@@ -796,11 +798,11 @@ namespace LightEditor
 		/// <param name="unifyValue"></param>
 		private void setUnifyValue(int unifyValue)
 		{
-			for (int i = 0; i < TongdaoList.Count; i++)
+			for (int i = 0; i < tongdaoList.Count; i++)
 			{
 				tdTrackBars[i].Value = unifyValue;
 				tdNUDs[i].Value = unifyValue;
-				TongdaoList[i].CurrentValue = unifyValue;
+				tongdaoList[i].CurrentValue = unifyValue;
 			}
 		}
 
@@ -811,11 +813,11 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void setInitButton_Click(object sender, EventArgs e)
 		{
-			for (int tdIndex = 0; tdIndex < TongdaoList.Count; tdIndex++)
+			for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
 			{
-				tdTrackBars[tdIndex].Value = TongdaoList[tdIndex].InitValue;
-				tdNUDs[tdIndex].Value = TongdaoList[tdIndex].InitValue;
-				TongdaoList[tdIndex].CurrentValue = TongdaoList[tdIndex].InitValue;
+				tdTrackBars[tdIndex].Value = tongdaoList[tdIndex].InitValue;
+				tdNUDs[tdIndex].Value = tongdaoList[tdIndex].InitValue;
+				tongdaoList[tdIndex].CurrentValue = tongdaoList[tdIndex].InitValue;
 			}
 		}
 
@@ -832,9 +834,9 @@ namespace LightEditor
 				MessageBoxIcon.Question);
 			if (dr == DialogResult.OK)
 			{
-				for (int tdIndex = 0; tdIndex < TongdaoList.Count; tdIndex++)
+				for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
 				{
-					TongdaoList[tdIndex].InitValue = TongdaoList[tdIndex].CurrentValue;
+					tongdaoList[tdIndex].InitValue = tongdaoList[tdIndex].CurrentValue;
 				}
 			}
 		}
@@ -852,6 +854,24 @@ namespace LightEditor
 		{
 			selectedTextBox = sender as TextBox;
 			tdTextBoxSelected();
+		}
+
+		/// <summary>
+		/// 事件：tdTextBoxes失去焦点时，进行是否空字符串的判断
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tdTextBoxes_LostFocus(object sender, EventArgs e)
+		{			
+			TextBox tb = sender as TextBox;
+			int tdIndex = MathHelper.GetIndexNum(tb.Name, -1);
+
+			if (tb.Text.Trim() == "")
+			{
+				setNotice("请输入通道名，否则系统将自动为您生成名称。", true);
+				tb.Text = "通道" + (tdIndex+1)  ;
+			}
+			tongdaoList[tdIndex].TongdaoName = tb.Text.Trim(); //更改为最新的名称			
 		}
 
 		/// <summary>
@@ -999,7 +1019,7 @@ namespace LightEditor
 		{
 			Console.WriteLine("changeCurrentValue");
 			// 1.设tongdaoWrapper的值
-			TongdaoList[tongdaoIndex].CurrentValue = tdValue;
+			tongdaoList[tongdaoIndex].CurrentValue = tdValue;
 
 			if (isConnect) { 
 				oneLightOneStep();

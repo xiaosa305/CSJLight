@@ -468,6 +468,7 @@
     <Compile Include="Utils\ICommunicatorCallBack.cs" />
     <Compile Include="Utils\IPreviewPrepareDataCallBack.cs" />
     <Compile Include="Utils\ISaveProjectCallBack.cs" />
+    <Compile Include="Utils\Ver2\GlobalBean.cs" />
     <Content Include="安装说明.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

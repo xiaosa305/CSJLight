@@ -111,7 +111,18 @@ namespace MultiLedController.multidevice
 
         private void stoprecord_Click(object sender, EventArgs e)
         {
-            virtualDevice.StopRecord();
+            if (virtualDevice.IsRunning())
+            {
+                virtualDevice.StopRecord();
+            }
+        }
+
+        private void StopDeviceBtn_Click(object sender, EventArgs e)
+        {
+            if (virtualDevice.IsRunning())
+            {
+                virtualDevice.Close();
+            }
         }
     }
 }

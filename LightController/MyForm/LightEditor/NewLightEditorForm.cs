@@ -533,8 +533,8 @@ namespace LightEditor
 					// 未满10的前面加0
 					string index = (tdIndex < 9) ? ("0" + (tdIndex + 1)) : ("" + (tdIndex + 1));
 					//iniWriter.WriteLine(index + "A=" + tongdaoList[tdIndex].TongdaoName);
-					//用下行代码比较保险，因为用TongdaoName，会出现某些情况因考虑不周导致的未改变内存中的通道名（比如双击右侧nameLis【非lostFocus】）
-					iniWriter.WriteLine(index + "A=" + tdTextBoxes[tdIndex].Text.Trim());  					
+					//用下行代码比较保险，因为用TongdaoName，会出现某些情况因考虑不周导致的未改变内存中的通道名（比如双击右侧nameLis【非lostFocus】）;这样就能所见即所得了
+					iniWriter.WriteLine(index + "A=" + tdTextBoxes[tdIndex].Text.Trim());
 					iniWriter.WriteLine(index + "B=" + tongdaoList[tdIndex].InitValue);
 					iniWriter.WriteLine(index + "C=" + tongdaoList[tdIndex].Address);
 				}
@@ -1093,6 +1093,9 @@ namespace LightEditor
 			if (selectedTextBox != null)
 			{
 				selectedTextBox.Text = (nameListBox.Text);
+				if (selectedTdIndex != -1) {
+					tongdaoList[selectedTdIndex].TongdaoName = selectedTextBox.Text.Trim();
+				}
 			}
 			else
 			{

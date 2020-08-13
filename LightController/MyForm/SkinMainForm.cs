@@ -212,7 +212,7 @@ namespace LightController.MyForm
 		{
 			// 启动时刷新可用串口列表;
 			deviceRefresh(); //SkinMainForm_Load
-			SetNotice("");
+			SetNotice("", false);
 			
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
 			this.lightsSkinListView.HideSelection = true;
@@ -1147,7 +1147,7 @@ namespace LightController.MyForm
 			}
 
 			setBusy(true);
-			SetNotice("正在切换场景,请稍候...");			
+			SetNotice("正在切换场景,请稍候...", false);			
 
 			// 只要更改了场景，直接结束预览
 			endview();
@@ -1174,7 +1174,7 @@ namespace LightController.MyForm
 
 			changeFrameMode();
 			setBusy(false);
-			SetNotice("成功切换为场景(" + AllFrameList[currentFrame] + ")");
+			SetNotice("成功切换为场景(" + AllFrameList[currentFrame] + ")", false);
 		}
 
 		/// <summary>
@@ -1216,7 +1216,7 @@ namespace LightController.MyForm
             }
 
 			changeFrameMode();
-			SetNotice("成功切换模式");
+			SetNotice("成功切换模式", false);
 		}
 
 		/// <summary>
@@ -2117,11 +2117,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodSkinButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式,请稍候...");
+			SetNotice("正在切换连接模式,请稍候...", false);
 			isConnectCom = !isConnectCom;
 			changeConnectMethodSkinButton.Text = isConnectCom ? "以网络连接" : "以串口连接";
 			deviceRefreshSkinButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
-			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"));
+			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false);
 
 			deviceRefresh(); //changeConnectMethodSkinButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
 		}
@@ -2142,7 +2142,7 @@ namespace LightController.MyForm
 		private void deviceRefresh() {
 
 			//	 刷新前，先清空按键等
-			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...");
+			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
 			deviceSkinComboBox.Items.Clear();
 			deviceSkinComboBox.Text = "";
 			deviceSkinComboBox.SelectedIndex = -1;
@@ -2199,11 +2199,11 @@ namespace LightController.MyForm
 				deviceSkinComboBox.SelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
 				deviceConnectSkinButton.Enabled = true;
-				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试");
+				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
 			}
 			else
 			{
-				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。");
+				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false);
 			}
 		}
 
@@ -2347,11 +2347,14 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：设置提醒 - 实现基类的纯虚函数
 		/// </summary>
-		/// <param name="noticeText"></param>
-		public override void SetNotice(string noticeText)
+		/// <param name="notice"></param>
+		public override void SetNotice(string notice, bool msgBoxShow)
 		{
-			noticeLabel.Text = noticeText;
+			noticeLabel.Text = notice;
 			noticeStatusStrip.Refresh();
+			if (msgBoxShow) {
+				MessageBox.Show(notice);
+			}
 		}
 
 		/// <summary>

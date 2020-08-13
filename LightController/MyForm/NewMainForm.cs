@@ -270,7 +270,7 @@ namespace LightController.MyForm
 		{
 			//启动时刷新可用串口列表，但把显示给删除
 			deviceRefresh();    //NewMainForm_Load
-			SetNotice("");
+			SetNotice("", false);
 		}
 
 		/// <summary>
@@ -1310,7 +1310,7 @@ namespace LightController.MyForm
 				return;
 			}
 			setBusy(true);
-			SetNotice("正在切换场景,请稍候...");
+			SetNotice("正在切换场景,请稍候...",false);
 
 			// 只要更改了场景，直接结束预览
 			endview();
@@ -1337,7 +1337,7 @@ namespace LightController.MyForm
 
 			changeFrameMode();
 			setBusy(false);
-			SetNotice("成功切换为场景(" + AllFrameList[currentFrame] + ")");
+			SetNotice("成功切换为场景(" + AllFrameList[currentFrame] + ")" ,false);
 		}
 
 		/// <summary>
@@ -1353,7 +1353,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			SetNotice("正在切换模式");
+			SetNotice("正在切换模式", false);
 			currentMode = modeComboBox.SelectedIndex;
 			// 若模式为声控模式mode=1
 			// 1.改变几个label的Text; 
@@ -1402,7 +1402,7 @@ namespace LightController.MyForm
 			}
 
 			changeFrameMode();
-			SetNotice("成功切换模式");
+			SetNotice("成功切换模式", false);
 		}
 
 		/// <summary>
@@ -2325,8 +2325,7 @@ namespace LightController.MyForm
 			StepWrapper currentStep = getCurrentStepWrapper();
 			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
 			{
-				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-				SetNotice("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！",true);
 				return;
 			}
 
@@ -2353,8 +2352,7 @@ namespace LightController.MyForm
 			StepWrapper currentStep = getCurrentStepWrapper();
 			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
 			{
-				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-				SetNotice("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！",true);
 				return;
 			}
 
@@ -2425,8 +2423,7 @@ namespace LightController.MyForm
 				StepWrapper currentStep = getCurrentStepWrapper();
 				if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
 				{
-					MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-					SetNotice("请先选中任意步数，才能进行统一调整！");
+					SetNotice("请先选中任意步数，才能进行统一调整！",true);
 					return;
 				}
 
@@ -2463,11 +2460,11 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void changeConnectMethodButton_Click(object sender, EventArgs e)
 		{
-			SetNotice("正在切换连接模式,请稍候...");		
+			SetNotice("正在切换连接模式,请稍候...", false);		
 			isConnectCom = !isConnectCom;
 			changeConnectMethodButton.Text = isConnectCom ? "切换为\n网络连接" : "切换为\n串口连接";
 			deviceRefreshButton.Text = isConnectCom ? "刷新串口" : "刷新网络";
-			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接") );
+			SetNotice("成功切换为" + (isConnectCom ? "串口连接" : "网络连接"), false);
 
 			deviceRefresh();  //changeConnectMethodButton_Click : 切换连接后，手动帮用户搜索相应的设备列表。
 		}
@@ -2488,7 +2485,7 @@ namespace LightController.MyForm
 		private void deviceRefresh() {
 
 			//	 刷新前，先清空按键等
-			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...");
+			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
 			deviceComboBox.Items.Clear();
 			deviceComboBox.SelectedIndex = -1;
 			deviceComboBox.Text = "";
@@ -2545,11 +2542,11 @@ namespace LightController.MyForm
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
 				deviceConnectButton.Enabled = true;
-				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试");
+				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
 			}
 			else
 			{
-				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。");
+				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false);
 			}
 
 		}
@@ -2657,10 +2654,13 @@ namespace LightController.MyForm
 		/// 设置提示信息
 		/// </summary>
 		/// <param name="notice"></param>
-		public override void SetNotice(string notice)
+		public override void SetNotice(string notice,bool msgBoxShow)
 		{
 			myStatusLabel.Text = notice;
 			myStatusStrip.Refresh();
+			if (msgBoxShow) {
+				MessageBox.Show(notice);
+			}
 		}
 
 		/// <summary>

@@ -163,7 +163,7 @@ namespace LightController.MyForm
         public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
-		public virtual void SetNotice(string notice) { } //设置提示信息
+		public virtual void SetNotice(string notice,bool msgBoxShow) { } //设置提示信息
 		public virtual void EnableConnectedButtons(bool connected,bool previewing) {
 			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
 			// 是否连接,是否预览中
@@ -946,7 +946,7 @@ namespace LightController.MyForm
 					int currentStep = getCurrentStep();
 					if (currentStep == 0)
 					{
-						SetNotice("当前多灯编组未选中可用步，无法播放。");
+						SetNotice("当前多灯编组未选中可用步，无法播放。",false);
 						return;
 					}
 					foreach (int lightIndex in selectedIndices)
@@ -969,7 +969,7 @@ namespace LightController.MyForm
 					StepWrapper stepWrapper = getCurrentStepWrapper();
 					if (stepWrapper == null)
 					{
-                        SetNotice("当前灯具未选中可用步，无法播放。");
+                        SetNotice("当前灯具未选中可用步，无法播放。",false);
                         return;
 					}
 					else
@@ -985,7 +985,7 @@ namespace LightController.MyForm
 			}
 
 			playTools.OLOSView(stepBytes);
-			SetNotice("正在实时调试("+(selectedIndex+1)+")当前步...");
+			SetNotice("正在实时调试("+(selectedIndex+1)+")当前步...",false);
 		}
 
 		/// <summary>
@@ -1767,7 +1767,7 @@ namespace LightController.MyForm
 		/// <param name="directoryPath"></param>
 		public void OpenProject(string projectName, int frameIndex)
 		{
-			SetNotice("正在打开工程，请稍候...");
+			SetNotice("正在打开工程，请稍候...",false);
 			setBusy(true);
 
 			DateTime beforeDT = System.DateTime.Now;
@@ -1787,7 +1787,7 @@ namespace LightController.MyForm
 					"",
 					MessageBoxButtons.OKCancel,
 					MessageBoxIcon.Question);
-				SetNotice("成功打开空工程(" + projectName + ")");
+				SetNotice("成功打开空工程(" + projectName + ")",false);
 				if (dr == DialogResult.OK)
 				{
 					new LightsForm(this, null).ShowDialog();
@@ -1838,9 +1838,8 @@ namespace LightController.MyForm
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
-
-				MessageBox.Show("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
-				SetNotice("成功打开工程(" + projectName + ")");
+								
+				SetNotice("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",true);
 			}
 			setBusy(false);
 		}
@@ -1955,7 +1954,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void saveFrameClick() {
 
-			SetNotice("正在保存场景,请稍候...");
+			SetNotice("正在保存场景,请稍候...",false);
 			setBusy(true);
 
 			// 1.先判断是否有灯具数据；若无，则清空所有表数据
@@ -1979,9 +1978,8 @@ namespace LightController.MyForm
 					MessageBox.Show("保存编组数据出错：\n" + ex.Message);
 				}
 			}
-
-			MessageBox.Show("成功保存当前场景数据。");
-			SetNotice("成功保存场景(" + AllFrameList[currentFrame] + ")");
+						
+			SetNotice("成功保存场景(" + AllFrameList[currentFrame] + ")",true);
 			setBusy(false);
 		}
 
@@ -1990,7 +1988,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void saveProjectClick() {
 						
-			SetNotice("正在保存工程,请稍候...");
+			SetNotice("正在保存工程,请稍候...",false);
 			setBusy(true);
 
 			DateTime beforeDT = System.DateTime.Now;
@@ -2017,9 +2015,8 @@ namespace LightController.MyForm
 			DateTime afterDT = System.DateTime.Now;
 			TimeSpan ts = afterDT.Subtract(beforeDT);
 
-			MessageBox.Show("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s");
 			setBusy(false);
-			SetNotice("成功保存工程");
+			SetNotice("成功保存工程:" + currentProjectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" , true);
 		}
 
 		/// <summary>
@@ -2053,10 +2050,10 @@ namespace LightController.MyForm
 			{
 				DateTime beforeDT = System.DateTime.Now;
 
-				SetNotice("正在压缩源文件,请稍候...");
+				SetNotice("正在压缩源文件,请稍候..." ,false);
 				string dirPath = SavePath + @"\Source";
 				ZipHelper.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
-				SetNotice("已成功压缩源文件(Source.zip)。");
+				SetNotice("已成功压缩源文件(Source.zip)。", false);
 
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
@@ -2069,11 +2066,11 @@ namespace LightController.MyForm
 					System.Diagnostics.Process.Start(exportPath);
 				}
 				setBusy(false);
-				SetNotice("成功导出工程源文件");
+				SetNotice("成功导出工程源文件", false);
 			}
 			else {
 				setBusy(false);
-				SetNotice("导出工程源文件失败。");				
+				SetNotice("导出工程源文件失败。", false);				
 			}			
 		}
 
@@ -2115,9 +2112,8 @@ namespace LightController.MyForm
 					return;
 				}
 			}
-
-			Console.WriteLine("导出起始时间：" + DateTime.Now.ToLocalTime().ToString());
-			SetNotice("正在导出工程，请稍候...");
+						
+			SetNotice("正在导出工程，请稍候...", false);
 			setBusy(true);
 
 			DataConvertUtils.SaveProjectFile(GetDBWrapper(false), this, GlobalIniPath, new ExportProjectCallBack(this, exportPath));
@@ -2164,7 +2160,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...");
+			SetNotice("正在重新生成已导出工程的当前场景工程文件，请稍候...", false);
 			setBusy(true);
 
 			exportFrame(exportPath);
@@ -2200,7 +2196,7 @@ namespace LightController.MyForm
 				{
 					//若点击取消，则直接把忙时设为false，因为不会再往下走了，没有机会进行更改操作了。
 					setBusy(false);
-					SetNotice("因发生异常，已取消导出工程(只修改当前场景数据)的操作。");
+					SetNotice("因发生异常，已取消导出工程(只修改当前场景数据)的操作。", false);
 				}
 				return; //只要出现异常，就一定要退出本方法；
 			}
@@ -2221,8 +2217,7 @@ namespace LightController.MyForm
 
 			string tempProjectName = currentProjectName;
 			clearAllData();
-			SetNotice("成功关闭工程(" + tempProjectName + ")。");
-			MessageBox.Show("成功关闭工程(" + tempProjectName + ")。");
+			SetNotice("成功关闭工程(" + tempProjectName + ")。", true);
 		}
 
 		/// <summary>
@@ -2258,11 +2253,11 @@ namespace LightController.MyForm
 				// 先生成Source文件夹到工作目录，再把该文件夹压缩到导出文件夹中
 				if (GenerateSourceProject())
 				{
-					SetNotice("正在压缩源文件,请稍候...");
+					SetNotice("正在压缩源文件,请稍候...",false);
 					string dirPath = SavePath + @"\Source";
 					string zipPath = exportPath + @"\Source.zip";
 					ZipHelper.CompressAllToZip(dirPath, zipPath, 9, null, SavePath + @"\");
-					SetNotice("已成功压缩源文件(Source.zip)。");
+					SetNotice("已成功压缩源文件(Source.zip)。", false);
 				}
 
 				DialogResult dr = MessageBox.Show("导出工程成功,是否打开导出文件夹?",
@@ -2280,7 +2275,7 @@ namespace LightController.MyForm
 			}
 
 			setBusy(false);
-			SetNotice("导出工程" + (success ? "成功" : "出错"));
+			SetNotice("导出工程" + (success ? "成功" : "出错"), false);
 		}
 
 		/// <summary>
@@ -3288,6 +3283,7 @@ namespace LightController.MyForm
 			//sauForm.Show();
 			//SetNotice("已打开通道【" + tdName + "】的子属性小窗口。");
 
+
 			// Dickov:200812 新的功能：点击通道名，则弹出该通道的多步联调界面（作为所有灯+通道的试验版本）
 
 			LightAst la = lightAstList[selectedIndex];
@@ -3299,7 +3295,7 @@ namespace LightController.MyForm
 			string lightType = la.LightType;
 			string tdName = lw.StepTemplate.TongdaoList[tdIndex].TongdaoName;
 
-			Console.WriteLine( lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")");
+			SetNotice("已打开" + lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")的单通道多步联调功能。", false);
 			
 
 
@@ -3316,9 +3312,8 @@ namespace LightController.MyForm
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
 			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
-			{
-				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-				SetNotice("请先选中任意步数，才能进行统一调整！");
+			{				
+				SetNotice("请先选中任意步数，才能进行统一调整！", true);
 				return;
 			}
 
@@ -3342,8 +3337,8 @@ namespace LightController.MyForm
 		{
 			StepWrapper currentStep = getCurrentStepWrapper();
 			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0) {
-				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-				SetNotice("请先选中任意步数，才能进行统一调整！");
+			
+				SetNotice("请先选中任意步数，才能进行统一调整！", true);
 				return;
 			}
 
@@ -3368,8 +3363,7 @@ namespace LightController.MyForm
 			StepWrapper currentStep = getCurrentStepWrapper();
 			if (currentStep == null || currentStep.TongdaoList == null || currentStep.TongdaoList.Count == 0)
 			{
-				MessageBox.Show("请先选中任意步数，才能进行统一调整！");
-				SetNotice("请先选中任意步数，才能进行统一调整！");
+				SetNotice("请先选中任意步数，才能进行统一调整！", true);
 				return;
 			}
 
@@ -3590,7 +3584,7 @@ namespace LightController.MyForm
 		{
 			if (getCurrentStepWrapper() == null)
 			{
-				SetNotice("当前无选中步，不可点击子属性按钮");
+				SetNotice("当前无选中步，不可点击子属性按钮", false);
 				return;
 			}
 
@@ -3638,23 +3632,23 @@ namespace LightController.MyForm
 				{
 					if (String.IsNullOrEmpty(deviceName))
 					{
-						MessageBox.Show("未选中可用串口，请选中后再点击连接。。");
+						SetNotice("未选中可用串口，请选中后再点击连接。",true);
 						return;
 					}
 					if (playTools.ConnectDevice(deviceName))
 					{
-						SetNotice("设备(以串口方式)连接成功,并进入调试模式。");
+						SetNotice("设备(以串口方式)连接成功,并进入调试模式。",false);
 						EnableConnectedButtons(true, false);
 					}
 					else {
-						MessageBox.Show("设备连接失败，请刷新串口列表后重试。");
+						SetNotice("设备连接失败，请刷新串口列表后重试。",true);
 					}
 				}
 				else
 				{
 					if ( deviceSelectedIndex < 0)
 					{
-						MessageBox.Show("未选中可用网络连接，请选中后再点击连接。");
+						SetNotice("未选中可用网络连接，请选中后再点击连接。",true);
 						return;
 					}
 					
@@ -3662,11 +3656,11 @@ namespace LightController.MyForm
 					if (myConnect.Connect(networkDeviceList[deviceSelectedIndex]))
 					{
 						playTools.StartInternetPreview( myConnect, ConnectCompleted, ConnectAndDisconnectError, eachStepTime);						
-						SetNotice("设备(以网络方式)连接成功,并进入调试模式。");						
+						SetNotice("设备(以网络方式)连接成功,并进入调试模式。",false);						
 					}
 					else
 					{
-						MessageBox.Show("设备连接失败，请刷新网络设备列表后重试。");
+						SetNotice("设备连接失败，请刷新网络设备列表后重试。",true);
 					}
 				}
 			}			
@@ -3689,7 +3683,7 @@ namespace LightController.MyForm
 				{
 					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
 				}				
-				SetNotice("已断开连接");
+				SetNotice("已断开连接",false);
 			}
 		}
 
@@ -3698,7 +3692,7 @@ namespace LightController.MyForm
 		/// </summary>
 		internal void Preview()
 		{			
-			SetNotice("预览数据生成成功,即将开始预览。");
+			SetNotice("预览数据生成成功,即将开始预览。",false);
 			EnableConnectedButtons(true,true);
 			playTools.PreView(GetDBWrapper(false), GlobalIniPath, currentFrame);			
 		}
@@ -3728,21 +3722,21 @@ namespace LightController.MyForm
 			{
 				endview();
 				EnableConnectedButtons(true, false);	
-				SetNotice("已结束预览,并恢复到实时调试模式。");
+				SetNotice("已结束预览,并恢复到实时调试模式。",false);
 			}
 			// 开始预览
 			else
 			{
 				if (lightAstList == null || lightAstList.Count == 0)
 				{
-					MessageBox.Show("当前工程还未添加灯具，无法预览。");
+					SetNotice("当前工程还未添加灯具，无法预览。",true);
 					SetPreview(false);
 					return;
 				}
 
 				setBusy(true);
 				SetPreview(true);
-				SetNotice("正在生成预览数据，请稍候...");
+				SetNotice("正在生成预览数据，请稍候...",false);
 				try
 				{
 					DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, currentFrame, new PreviewCallBack(this));
@@ -3922,8 +3916,7 @@ namespace LightController.MyForm
 		{
 			Invoke((EventHandler)delegate
 			{
-				MessageBox.Show(msg);
-				SetNotice(msg);
+				SetNotice(msg,true);
 			});
 		}
 
@@ -4163,7 +4156,7 @@ namespace LightController.MyForm
 
 		public void Error(string deviceTag, string errorMessage)
 		{
-			mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。");
+			mainForm.SetNotice("设备(" + deviceTag + ")启动网络调试模式失败。",false);
 		}
 
 		public void GetParam(CSJ_Hardware hardware)
@@ -4214,12 +4207,11 @@ namespace LightController.MyForm
 		public void Error(string msg)
 		{
             mainForm.SetPreview(false);
-            mainForm.SetNotice(msg+",无法预览,。");
-            MessageBox.Show("预览数据生成出错,无法预览,。\n错误原因为：" + msg);
+            mainForm.SetNotice("预览数据生成出错,无法预览,。\n错误原因为：" + msg , true);            
 		}
 		public void UpdateProgress(string name)
 		{
-			mainForm.SetNotice("预览数据生成中(" + name + ")");
+			mainForm.SetNotice("预览数据生成中(" + name + ")" , false);
 		}
 	}
 
@@ -4242,7 +4234,7 @@ namespace LightController.MyForm
 		}
 		public void UpdateProgress(string name)
 		{
-			mainForm.SetNotice("正在生成工程文件("+name+")");
+			mainForm.SetNotice("正在生成工程文件("+name+")" ,false);
 		}
 	}	
 

@@ -163,7 +163,7 @@ namespace LightController.MyForm
         public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
-		public virtual void SetNotice(string notice,bool msgBoxShow) { } //设置提示信息
+		public virtual void SetNotice(string notice,bool msgBoxShow) { } //设置提示信息（有些重要提示，则需弹窗）
 		public virtual void EnableConnectedButtons(bool connected,bool previewing) {
 			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
 			// 是否连接,是否预览中
@@ -394,7 +394,7 @@ namespace LightController.MyForm
 							{
 								TongdaoName = tongdaoName,
 								ScrollValue = initNum,
-								StepTime = 66,
+								StepTime = 50,
 								ChangeMode = -1,
 								Address = lightAst.StartNum + (address - 1),
 								//MARK 200325 生成模板数据时，加入备注（显示各个子属性数值）
@@ -3295,10 +3295,8 @@ namespace LightController.MyForm
 			string lightType = la.LightType;
 			string tdName = lw.StepTemplate.TongdaoList[tdIndex].TongdaoName;
 
-			SetNotice("已打开" + lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")的单通道多步联调功能。", false);
+			//SetNotice("已打开【" + lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")】的单通道多步联调功能。", false);
 			
-
-
 		}
 
 		#endregion

@@ -84,9 +84,6 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.button8 = new System.Windows.Forms.Button();
-			this.button9 = new System.Windows.Forms.Button();
-			this.button10 = new System.Windows.Forms.Button();
-			this.button11 = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
@@ -669,9 +666,6 @@ namespace LightController.MyForm
 			this.flowLayoutPanel1.AutoScroll = true;
 			this.flowLayoutPanel1.Controls.Add(this.label1);
 			this.flowLayoutPanel1.Controls.Add(this.button8);
-			this.flowLayoutPanel1.Controls.Add(this.button9);
-			this.flowLayoutPanel1.Controls.Add(this.button10);
-			this.flowLayoutPanel1.Controls.Add(this.button11);
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(91, 1);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -696,34 +690,6 @@ namespace LightController.MyForm
 			this.button8.TabIndex = 8;
 			this.button8.Text = "子属性事";
 			this.button8.UseVisualStyleBackColor = true;
-			// 
-			// button9
-			// 
-			this.button9.Location = new System.Drawing.Point(3, 70);
-			this.button9.Name = "button9";
-			this.button9.Size = new System.Drawing.Size(70, 25);
-			this.button9.TabIndex = 9;
-			this.button9.Text = "子属性事";
-			this.button9.UseVisualStyleBackColor = true;
-			// 
-			// button10
-			// 
-			this.button10.Location = new System.Drawing.Point(3, 101);
-			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(70, 25);
-			this.button10.TabIndex = 10;
-			this.button10.Text = "子属性事";
-			this.button10.UseVisualStyleBackColor = true;
-			// 
-			// button11
-			// 
-			this.button11.Location = new System.Drawing.Point(3, 132);
-			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(70, 25);
-			this.button11.TabIndex = 11;
-			this.button11.Text = "子属性事";
-			this.button11.UseVisualStyleBackColor = true;
-			this.button11.Visible = false;
 			// 
 			// panel1
 			// 
@@ -1763,9 +1729,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem 更新日志ToolStripMenuItem;
 		private FlowLayoutPanel flowLayoutPanel1;
 		private Button button8;
-		private Button button9;
-		private Button button10;
-		private Button button11;
 		private Label label1;
 		private ToolStripMenuItem toolStripMenuItem1;
 		private ToolStripMenuItem lightListToolStripMenuItem;

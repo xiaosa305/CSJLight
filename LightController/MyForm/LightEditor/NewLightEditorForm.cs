@@ -736,6 +736,10 @@ namespace LightEditor
 		/// </summary>
 		private void oneLightOneStep()
 		{
+			if (!isConnect) {
+				return;
+			}
+
 			byte[] stepBytes = new byte[512];
 			foreach (TongdaoWrapper td in tongdaoList)
 			{
@@ -798,12 +802,22 @@ namespace LightEditor
 		/// <param name="unifyValue"></param>
 		private void setUnifyValue(int unifyValue)
 		{
-			for (int i = 0; i < tongdaoList.Count; i++)
+			for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
 			{
-				tdTrackBars[i].Value = unifyValue;
-				tdNUDs[i].Value = unifyValue;
-				tongdaoList[i].CurrentValue = unifyValue;
+				// 统一调节时，不进行切换选中通道的操作;
+				tdTrackBars[tdIndex].ValueChanged -= tdTrackBars_ValueChanged;
+				tdNUDs[tdIndex].ValueChanged -= tdNUDs_ValueChanged;
+
+				tdTrackBars[tdIndex].Value = unifyValue;
+				tdNUDs[tdIndex].Value = unifyValue;
+				tongdaoList[tdIndex].CurrentValue = unifyValue;
+
+				tdTrackBars[tdIndex].ValueChanged += tdTrackBars_ValueChanged;
+				tdNUDs[tdIndex].ValueChanged += tdNUDs_ValueChanged;
 			}
+
+			oneLightOneStep();
+
 		}
 
 		/// <summary>
@@ -906,8 +920,8 @@ namespace LightEditor
 		/// <param name="e"></param>
 		private void tdTrackBars_MouseEnter(object sender, EventArgs e)
 		{
-			int labelIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
-			tdNUDs[labelIndex].Select();
+			int tdIndex = MathHelper.GetIndexNum(((TrackBar)sender).Name, -1);
+			tdNUDs[tdIndex].Select();
 		}
 
 		/// <summary>
@@ -1017,9 +1031,9 @@ namespace LightEditor
 		/// </summary>
 		/// <param name="tongdaoIndex"></param>
 		private void changeCurrentValue(int tongdaoIndex, int tdValue)
-		{			
-			// 1.设tongdaoWrapper的值
-			tongdaoList[tongdaoIndex].CurrentValue = tdValue;
+		{		
+			// 设tongdaoWrapper的值
+			tongdaoList[tongdaoIndex].CurrentValue = tdValue;		
 
 			if (isConnect) { 
 				oneLightOneStep();

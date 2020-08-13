@@ -512,6 +512,7 @@
 			this.tdTrackBarDemo.TabIndex = 2;
 			this.tdTrackBarDemo.TickFrequency = 0;
 			this.tdTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.tdTrackBarDemo.ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
 			// 
 			// tdTextBoxDemo
 			// 

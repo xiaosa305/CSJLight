@@ -69,6 +69,7 @@
 			this.unifyStNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.modeLabel = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.sLabel = new System.Windows.Forms.Label();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.unifyStButton = new System.Windows.Forms.Button();
@@ -130,7 +131,7 @@
 			this.tongdaoPanel.Location = new System.Drawing.Point(2, 55);
 			this.tongdaoPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoPanel.Name = "tongdaoPanel";
-			this.tongdaoPanel.Size = new System.Drawing.Size(319, 303);
+			this.tongdaoPanel.Size = new System.Drawing.Size(319, 351);
 			this.tongdaoPanel.TabIndex = 5;
 			// 
 			// checkBox32
@@ -614,6 +615,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.panel1.Controls.Add(this.detailMultiButton);
 			this.panel1.Controls.Add(this.sLabel);
 			this.panel1.Controls.Add(this.zeroButton);
 			this.panel1.Controls.Add(this.unifyStButton);
@@ -632,8 +634,18 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.panel1.Location = new System.Drawing.Point(326, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(245, 358);
+			this.panel1.Size = new System.Drawing.Size(245, 410);
 			this.panel1.TabIndex = 31;
+			// 
+			// detailMultiButton
+			// 
+			this.detailMultiButton.Location = new System.Drawing.Point(30, 360);
+			this.detailMultiButton.Name = "detailMultiButton";
+			this.detailMultiButton.Size = new System.Drawing.Size(195, 28);
+			this.detailMultiButton.TabIndex = 36;
+			this.detailMultiButton.Text = "使用选中通道多步联调";
+			this.detailMultiButton.UseVisualStyleBackColor = true;
+			this.detailMultiButton.Click += new System.EventHandler(this.detailMultiButton_Click);
 			// 
 			// sLabel
 			// 
@@ -755,14 +767,14 @@
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(326, 358);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(326, 410);
 			this.flowLayoutPanel1.TabIndex = 32;
 			// 
 			// MultiStepForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(571, 358);
+			this.ClientSize = new System.Drawing.Size(571, 410);
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -843,5 +855,6 @@
 		private System.Windows.Forms.Button unifyCmButton;
 		private System.Windows.Forms.Button unifyStButton;
 		private System.Windows.Forms.Label sLabel;
+		private System.Windows.Forms.Button detailMultiButton;
 	}
 }

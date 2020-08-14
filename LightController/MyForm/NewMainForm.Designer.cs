@@ -81,6 +81,7 @@ namespace LightController.MyForm
 			this.tdStNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.tdTrackBar1 = new System.Windows.Forms.TrackBar();
+			this.saPanelDemo = new System.Windows.Forms.Panel();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.button8 = new System.Windows.Forms.Button();
@@ -160,6 +161,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).BeginInit();
+			this.saPanelDemo.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).BeginInit();
@@ -566,7 +568,7 @@ namespace LightController.MyForm
 			this.tdFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
 			this.tdFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.tdFlowLayoutPanel.Controls.Add(this.tdPanel1);
-			this.tdFlowLayoutPanel.Controls.Add(this.flowLayoutPanel1);
+			this.tdFlowLayoutPanel.Controls.Add(this.saPanelDemo);
 			this.tdFlowLayoutPanel.Controls.Add(this.panel1);
 			this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tdFlowLayoutPanel.Location = new System.Drawing.Point(95, 0);
@@ -661,15 +663,24 @@ namespace LightController.MyForm
 			this.tdTrackBar1.TickFrequency = 0;
 			this.tdTrackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
+			// saPanelDemo
+			// 
+			this.saPanelDemo.Controls.Add(this.flowLayoutPanel1);
+			this.saPanelDemo.Location = new System.Drawing.Point(93, 3);
+			this.saPanelDemo.Name = "saPanelDemo";
+			this.saPanelDemo.Size = new System.Drawing.Size(97, 297);
+			this.saPanelDemo.TabIndex = 64;
+			this.saPanelDemo.Visible = false;
+			// 
 			// flowLayoutPanel1
 			// 
 			this.flowLayoutPanel1.AutoScroll = true;
 			this.flowLayoutPanel1.Controls.Add(this.label1);
 			this.flowLayoutPanel1.Controls.Add(this.button8);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(91, 1);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 6);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(93, 299);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(93, 290);
 			this.flowLayoutPanel1.TabIndex = 63;
 			this.flowLayoutPanel1.Visible = false;
 			// 
@@ -677,7 +688,7 @@ namespace LightController.MyForm
 			// 
 			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(70, 36);
+			this.label1.Size = new System.Drawing.Size(71, 36);
 			this.label1.TabIndex = 12;
 			this.label1.Text = "<-  ";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -700,7 +711,7 @@ namespace LightController.MyForm
 			this.panel1.Controls.Add(this.unifyChangeModeComboBox);
 			this.panel1.Controls.Add(this.unifyStepTimeButton);
 			this.panel1.Controls.Add(this.unifyValueNumericUpDown);
-			this.panel1.Location = new System.Drawing.Point(188, 3);
+			this.panel1.Location = new System.Drawing.Point(196, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(185, 297);
 			this.panel1.TabIndex = 25;
@@ -1590,6 +1601,7 @@ namespace LightController.MyForm
 			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).EndInit();
+			this.saPanelDemo.ResumeLayout(false);
 			this.flowLayoutPanel1.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).EndInit();
@@ -1737,5 +1749,6 @@ namespace LightController.MyForm
 		private ToolStripMenuItem projectUpdateToolStripMenuItem;
 		private ToolStripMenuItem toolStripMenuItem2;
 		private Button actionButton;
+		private Panel saPanelDemo;
 	}
 }

@@ -168,7 +168,7 @@ namespace LightController.MyForm
 					Location = new System.Drawing.Point(3, 3),
 					Name = "saPanel" + (tdIndex + 1),
 					Size = new System.Drawing.Size(95, 275),
-					Visible = false,
+					Visible = true,
 				};
 				tdSkinFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
 			}
@@ -215,7 +215,13 @@ namespace LightController.MyForm
 			SetNotice("", false);
 			
 			// 额外处理 lightsSkinListView 会被VS吞掉的问题
-			this.lightsSkinListView.HideSelection = true;
+			lightsSkinListView.HideSelection = true;
+
+			// 用以处理大工程时，子属性列表会连在一起的bug；
+			foreach (Panel panel in saPanels)
+			{
+				panel.Hide();
+			}
 		}
 
 		/// <summary>

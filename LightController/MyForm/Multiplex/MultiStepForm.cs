@@ -1,4 +1,5 @@
 ﻿using LightController.Ast;
+using LightController.MyForm.Multiplex;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,17 +20,24 @@ namespace LightController.MyForm
 		private int mode;
 		private int startStep = 1, endStep =1;
 		private IList<int> tdIndexList = new List<int>();
-		
-		public MultiStepForm(MainFormBase mainForm, int currentStep,int totalStep,StepWrapper stepTemplate, int mode)
+
+		private string lightInfo;
+		private IList<StepWrapper> stepWrapperList;
+
+		public MultiStepForm(MainFormBase mainForm, int currentStep,int totalStep,StepWrapper stepTemplate, int mode, string lightInfo, IList<StepWrapper> stepWrapperList)
 		{
 			this.mainForm = mainForm;
 			this.currentStep = currentStep;
 			this.totalStep = totalStep;
 			this.stepTemplate = stepTemplate;			
-			this.mode = mode;			
+			this.mode = mode;
+
+			this.lightInfo = lightInfo;
+			this.stepWrapperList = stepWrapperList;
 
 			InitializeComponent();
-			
+			Text += "【" + lightInfo + "】";
+
 			#region 初始化自定义数组等
 
 			tdCheckBoxes[0] = checkBox1;
@@ -103,6 +111,8 @@ namespace LightController.MyForm
 				unifyStButton.Hide();
                 sLabel.Visible = false;
 			}
+
+
 		}
 
 		private void MultiStepForm_Load(object sender, EventArgs e)
@@ -110,8 +120,30 @@ namespace LightController.MyForm
 			this.Location = new Point(mainForm.Location.X + 200, mainForm.Location.Y + 200);
 			//Location = MousePosition;
 		}
-
-		#region 各种事件
+		
+		/// <summary>
+		/// 事件：点击《右上角关闭(X)》按钮
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MultiStepForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			this.Dispose();
+			mainForm.Activate();
+		}
+		
+		/// <summary>
+		/// 事件：勾选《（通道）全选》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void selectAllCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			for (int i = 0; i < stepTemplate.TongdaoList.Count; i++)
+			{
+				tdCheckBoxes[i].Checked = selectAllCheckBox.Checked;
+			}
+		}
 
 		/// <summary>
 		/// 事件：点击《全部屏蔽》;
@@ -160,6 +192,7 @@ namespace LightController.MyForm
 			}
 		}
 
+		/// <summary>
 		/// 事件：点击《统一跳渐变|统一声控》
 		/// </summary>
 		/// <param name="sender"></param>
@@ -188,37 +221,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 事件：勾选《全选》
+		/// 事件：点击《（右侧步数）全选》按钮
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void selectAllCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			for (int i = 0; i < stepTemplate.TongdaoList.Count; i++)
-			{
-				tdCheckBoxes[i].Checked = selectAllCheckBox.Checked;
-			}
-		}
-
-		/// <summary>
-		/// 事件：点击《右上角关闭(X)》按钮
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void MultiStepForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			this.Dispose();
-			mainForm.Activate();
-		}
-
-		// 事件：点击《（右侧步数）全选》按钮
 		private void allStepSkinButton_Click(object sender, EventArgs e)
 		{
 			startNumericUpDown.Value = 1;
 			endNumericUpDown.Value = endNumericUpDown.Maximum;
 		}
-
-		#endregion
 
 		/// <summary>
 		/// 辅助方法：
@@ -227,8 +238,8 @@ namespace LightController.MyForm
 		/// </summary>
 		private bool checkStepAndTds()
 		{
-			startStep = Decimal.ToInt32(startNumericUpDown.Value);
-			endStep = Decimal.ToInt32(endNumericUpDown.Value);
+			startStep = decimal.ToInt32(startNumericUpDown.Value);
+			endStep = decimal.ToInt32(endNumericUpDown.Value);
 
 			if (endStep < startStep)
 			{
@@ -284,7 +295,7 @@ namespace LightController.MyForm
 				}
 			}
 		}
-
+			
 		/// <summary>
 		/// 事件：《统一设置步时间numericUpDown》值被用户主动变化时，需要验证，并主动设置值
 		/// </summary>
@@ -294,6 +305,21 @@ namespace LightController.MyForm
 		{
 			int stepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.EachStepTime2);
 			unifyStNumericUpDown.Value = stepTime * mainForm.EachStepTime2;
+		}
+		
+		/// <summary>
+		/// 事件：点击《多步联调》(以勾选的通道进行多步联调)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void detailMultiButton_Click(object sender, EventArgs e)
+		{
+			checkStepAndTds();
+			Dispose();
+			mainForm.Activate();
+
+			new DetailMultiForm(mainForm, lightInfo, tdIndexList, stepWrapperList).ShowDialog();
+			
 		}
 
 	}

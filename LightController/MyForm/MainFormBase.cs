@@ -101,8 +101,10 @@ namespace LightController.MyForm
         //MARK 只开单场景：14.0 为处理灯具列表变动，必须有一个存储[保留的旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
         protected IList<int> retainLightIndices;
 
-        // 数据库DAO(data access object：数据访问对象）
-        protected LightDAO lightDAO;
+		
+
+		// 数据库DAO(data access object：数据访问对象）
+		protected LightDAO lightDAO;
         protected StepCountDAO stepCountDAO;
         protected ValueDAO valueDAO;
         protected FineTuneDAO fineTuneDAO;
@@ -1312,6 +1314,29 @@ namespace LightController.MyForm
 				{
 					lightStepWrapper.StepWrapperList[stepIndex].MultiChangeValue(where, tdIndexList, commonValue);
 				}
+			}
+			// 刷新当前tdPanels数据。
+			RefreshStep();
+		}
+
+		/// <summary>
+		///  辅助方法：供《多步联调》内修改部分步数值时使用；
+		/// </summary>
+		/// <param name="tdIndex"></param>
+		/// <param name="stepIndex"></param>
+		public void SetTdStepValue(int tdIndex, int stepIndex, int stepValue)
+		{
+			// 多灯模式，将值赋给每个编组的灯具中
+			if (isMultiMode)
+			{
+				foreach (int lightIndex in selectedIndices)
+				{
+					getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;				
+				}
+			} // 单灯模式，则只需更改当前灯具的数据即可。
+			else
+			{
+				getSelectedLightStepWrapper(selectedIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
 			}
 			// 刷新当前tdPanels数据。
 			RefreshStep();
@@ -3289,15 +3314,21 @@ namespace LightController.MyForm
 			LightAst la = lightAstList[selectedIndex];
 			LightWrapper lw = lightWrapperList[selectedIndex];
 
-			int tdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
+			int selectedTdIndex = MathHelper.GetIndexNum(((Label)sender).Name, -1);
 
 			string lightName = la.LightName;
 			string lightType = la.LightType;
-			string tdName = lw.StepTemplate.TongdaoList[tdIndex].TongdaoName;
+			string lightAddr = la.LightAddr;
+			string tdName = lw.StepTemplate.TongdaoList[selectedTdIndex].TongdaoName;
 
-			SetNotice("正在打开【" + lightType+"("+selectedIndex+")" + "("+tdIndex + ":"+tdName+")】的单通道多步联调窗口。", false);
+			SetNotice("打开【" + lightType+"("+selectedIndex+")" + "("+ selectedTdIndex + ":"+tdName+")】的单通道多步联调窗口。", false);
 
-			new SoundMultiForm(this , selectedIndex , tdIndex , lightType + "\n"+tdName +""  , lw.LightStepWrapperList[currentFrame,currentMode].StepWrapperList  ) . ShowDialog();
+			new DetailMultiForm(
+				this, 				
+				lightType + "(" + lightAddr + ")",
+				new List<int> { selectedTdIndex },
+				lw.LightStepWrapperList[currentFrame,currentMode].StepWrapperList 
+			) . ShowDialog();
 		}
 
 		#endregion
@@ -3365,35 +3396,52 @@ namespace LightController.MyForm
 				SetNotice("请先选中任意步数，才能进行统一调整！", true);
 				return;
 			}
+						
+			LightAst la = lightAstList[selectedIndex];
+			LightWrapper lw = lightWrapperList[selectedIndex];			
 
-			new MultiStepForm(this, getCurrentStep(), getTotalStep(), getCurrentStepWrapper(), currentMode).ShowDialog();
+			new MultiStepForm(this,
+				getCurrentStep(),
+				getTotalStep(),
+				getCurrentStepWrapper(),
+				currentMode ,
+				la.LightType + "(" + la.LightAddr + ")",	
+				lw.LightStepWrapperList[currentFrame, currentMode].StepWrapperList
+			).ShowDialog();
 		}
-
-
+		
 		/// <summary>
 		/// 辅助方法：右键《多步调节》进入多步联调
 		/// </summary>
 		protected void soundMultiButtonClick()
 		{
-
-
 			//if (currentMode != 1)
 			//{
 			//	SetNotice("非音频模式，无法使用多步联调。");
 			//	return;
 			//}
 
-			//if (!isSyncMode) {
+			//if (!isSyncMode)
+			//{
 			//	SetNotice("非同步模式，无法使用多步联调。");
 			//	return;
 			//}
 
-			//if (getTotalStep() == 0) {
-			//	SetNotice("没有步数，无法使用多步联调。");
-			//	return;
-			//}
+			if (getTotalStep() == 0)
+			{
+				SetNotice("当前灯具没有步数，无法使用多步联调。" ,true);
+				return;
+			}
 
-			//new SoundMultiForm(this).ShowDialog();
+			LightAst la = lightAstList[selectedIndex];
+			LightWrapper lw = lightWrapperList[selectedIndex];
+
+			new DetailMultiForm(
+				this,
+				la.LightType + "(" + la.LightAddr + ")",
+				null,
+				lw.LightStepWrapperList[currentFrame, currentMode].StepWrapperList
+			).ShowDialog();			
 		}
 
 		/// <summary>

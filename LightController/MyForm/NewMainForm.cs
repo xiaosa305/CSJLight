@@ -186,16 +186,16 @@ namespace LightController.MyForm
 				tdNoLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
 				tdNameLabels[tdIndex].Click += new EventHandler(this.tdNameNumLabels_Click);
 
-				this.tdFlowLayoutPanel.Controls.Add(this.tdPanels[tdIndex]);
+				tdFlowLayoutPanel.Controls.Add(tdPanels[tdIndex]);
 
 				saPanels[tdIndex] = new Panel
 				{
-					Location = new System.Drawing.Point(3, 3),
 					Name = "saPanel" + (tdIndex + 1),
-					Size = new System.Drawing.Size(95, 297),
-					Visible = false,										
+					Location = saPanelDemo.Location,					
+					Size = saPanelDemo.Size,
+					Visible = true,										
 				};
-				this.tdFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
+				tdFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
 			}
 
 			// 场景选项框		
@@ -271,6 +271,12 @@ namespace LightController.MyForm
 			//启动时刷新可用串口列表，但把显示给删除
 			deviceRefresh();    //NewMainForm_Load
 			SetNotice("", false);
+
+			// 用以处理大工程时，子属性列表会连在一起的bug；
+			foreach (Panel panel in saPanels)
+			{
+				panel.Hide();
+			}
 		}
 
 		/// <summary>
@@ -840,7 +846,7 @@ namespace LightController.MyForm
 			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
 			{				
 				if (la.saPanelDict.ContainsKey(tdIndex))
-				{
+				{					
 					saPanels[tdIndex].Controls.Clear();
 					saPanels[tdIndex].Controls.Add(la.saPanelDict[tdIndex]);
 					saPanels[tdIndex].Show();

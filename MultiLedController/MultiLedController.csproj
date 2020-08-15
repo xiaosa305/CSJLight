@@ -98,23 +98,29 @@
     <Compile Include="multidevice\XiaosaTestFrom.Designer.cs">
       <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainForm.cs">
+    <Compile Include="MyForm\MainForm2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainForm2.Designer.cs">
+      <DependentUpon>MainForm2.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\NewMainForm.cs">
+    <Compile Include="MyForm\MainForm3.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\NewMainForm.Designer.cs">
-      <DependentUpon>NewMainForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainForm3.Designer.cs">
+      <DependentUpon>MainForm3.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\NewNetworkForm.cs">
+    <Compile Include="MyForm\MainForm1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\NewNetworkForm.Designer.cs">
-      <DependentUpon>NewNetworkForm.cs</DependentUpon>
+    <Compile Include="MyForm\MainForm1.Designer.cs">
+      <DependentUpon>MainForm1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\NetworkForm1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\NetworkForm1.Designer.cs">
+      <DependentUpon>NetworkForm1.cs</DependentUpon>
     </Compile>
     <Compile Include="utils\GetMacUtils.cs" />
     <Compile Include="utils\IArt_Net_Client.cs" />
@@ -156,8 +162,11 @@
     <EmbeddedResource Include="multidevice\XiaosaTestFrom.resx">
       <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainForm2.resx">
+      <DependentUpon>MainForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\MainForm3.resx">
+      <DependentUpon>MainForm3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\old\OldMainForm.resx">
       <DependentUpon>OldMainForm.cs</DependentUpon>
@@ -165,11 +174,11 @@
     <EmbeddedResource Include="MyForm\old\OldNetworkForm.resx">
       <DependentUpon>OldNetworkForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\NewMainForm.resx">
-      <DependentUpon>NewMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\MainForm1.resx">
+      <DependentUpon>MainForm1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\NewNetworkForm.resx">
-      <DependentUpon>NewNetworkForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\NetworkForm1.resx">
+      <DependentUpon>NetworkForm1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

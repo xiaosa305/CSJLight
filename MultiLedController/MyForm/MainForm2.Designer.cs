@@ -1,6 +1,6 @@
 ﻿namespace MultiLedController.MyForm
 {
-	partial class MainForm
+	partial class MainForm2
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm2));
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.delAllButton = new System.Windows.Forms.Button();
 			this.delButton = new System.Windows.Forms.Button();

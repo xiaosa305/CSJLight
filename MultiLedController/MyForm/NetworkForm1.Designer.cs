@@ -1,6 +1,6 @@
 ﻿namespace MultiLedController.MyForm
 {
-	partial class NewNetworkForm
+	partial class NetworkForm1
 	{
 		/// <summary>
 		/// Required designer variable.

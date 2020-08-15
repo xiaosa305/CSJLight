@@ -13,14 +13,14 @@ using System.Windows.Forms;
 
 namespace MultiLedController.MyForm
 {
-	public partial class NewNetworkForm : Form
+	public partial class NetworkForm1 : Form
 	{
-		private NewMainForm mainForm; //主窗体，主要作用：1.提供窗体位置；2.提供SetChanged值供改变
+		private MainForm1 mainForm; //主窗体，主要作用：1.提供窗体位置；2.提供SetChanged值供改变
 		private IList<ManagementObject> moList; 
 		private int netcardIndex = -1;
 		private IPAst tempIpAst;
 
-		public NewNetworkForm(NewMainForm mainForm)
+		public NetworkForm1(MainForm1 mainForm)
 		{
 			InitializeComponent();			
 			this.mainForm = mainForm;

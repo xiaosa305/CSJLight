@@ -20,7 +20,7 @@ using System.Windows.Forms;
 
 namespace MultiLedController.MyForm
 {
-	public partial class NewMainForm : Form
+	public partial class MainForm1 : Form
 	{
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新	
 		private ManagementObject mo; //存放当前网卡的mo对象
@@ -39,7 +39,7 @@ namespace MultiLedController.MyForm
 
 		private bool networkChanged = false; //是否由《NewNetworkForm》更改网络设置：点过《多ip设置》《DHCP》《恢复设置》这三个按钮后需要设为true
 
-		public NewMainForm()
+		public MainForm1()
 		{
 			InitializeComponent();
 
@@ -76,7 +76,7 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void networkButton_Click(object sender, EventArgs e)
 		{
-			new NewNetworkForm(this).ShowDialog();
+			new NetworkForm1(this).ShowDialog();
 
 			if (networkChanged) {
 				// 网络设置后，应该提醒用户刷新

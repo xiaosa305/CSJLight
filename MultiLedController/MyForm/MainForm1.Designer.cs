@@ -1,6 +1,6 @@
 ﻿namespace MultiLedController.MyForm
 {
-	partial class NewMainForm
+	partial class MainForm1
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewMainForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm1));
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.myStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();

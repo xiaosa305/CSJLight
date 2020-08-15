@@ -20,7 +20,7 @@ using System.Windows.Forms;
 
 namespace MultiLedController.MyForm
 {
-	public partial class MainForm : Form
+	public partial class MainForm2 : Form
 	{
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新	
 
@@ -39,7 +39,7 @@ namespace MultiLedController.MyForm
 		private string recordPath = "C:\\Temp\\CSJ_SC"; //录制文件存储路径
 		private int recordIndex = 0; //录制文件序号
 
-		public MainForm()
+		public MainForm2()
 		{
 			InitializeComponent();
 

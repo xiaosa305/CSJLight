@@ -20,6 +20,8 @@ namespace MultiLedController.multidevice.impl
         [DllImport("winmm.dll")] internal static extern uint timeBeginPeriod(uint period);
         [DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
 
+
+        private int LightLength { get; set; }
         private const int VIRTUAL_CLIENT_PORT = 6454;
         private const int THREAD_SLEEP_TIME = 1;
         private readonly Object SYNCHROLOCK_KEY = new object();//同步资源锁
@@ -37,8 +39,8 @@ namespace MultiLedController.multidevice.impl
         private long LastFrameResponseTime { get; set; }//帧间隔时间
         private int LastFramePacketSequence { get; set; }//包序
 
-        private Dictionary<int,List<byte>> VirtualClientDmxDatas { get; set; }//虚拟客户端DMX数据缓存池
-        private Dictionary<int,bool> VirtualClientDmxDataResponseStatus { get; set; }//虚拟客户端DMX数据接收状态标记池
+        private Dictionary<int, List<byte>> VirtualClientDmxDatas { get; set; }//虚拟客户端DMX数据缓存池
+        private Dictionary<int, bool> VirtualClientDmxDataResponseStatus { get; set; }//虚拟客户端DMX数据接收状态标记池
 
         private DebugDmxDataQueue DebugDmxDataQueue { get; set; }//实时调试队列
         private RecodeDmxDataQueue RecordDmxDataQueue { get; set; }//录制数据队列
@@ -66,7 +68,7 @@ namespace MultiLedController.multidevice.impl
         private RecordFrameCountResponse RecordFrameCountResponse_Event { get; set; }
         private DebugFrameCountResponse DebugFrameCountResponse_Event { get; set; }
 
-        public VirtualControlDevice(int index, int startLedSpace, ControlDevice device, List<string> ips,string serverIp)
+        public VirtualControlDevice(int index, int startLedSpace, ControlDevice device, List<string> ips, string serverIp)
         {
             this.VirtualDeviceIndex = index;
             this.StartLedSpace = startLedSpace;
@@ -178,7 +180,7 @@ namespace MultiLedController.multidevice.impl
         /// <param name="device"></param>
         /// <param name="ips"></param>
         /// <param name="serverIp"></param>
-        private void CreateVirtualClient(int startLedSpace, ControlDevice device,List<string> ips)
+        private void CreateVirtualClient(int startLedSpace, ControlDevice device, List<string> ips)
         {
             for (int virtualClientIndex = 0; virtualClientIndex < device.Led_interface_num; virtualClientIndex++)
             {
@@ -200,7 +202,7 @@ namespace MultiLedController.multidevice.impl
         /// </summary>
         /// <param name="ledSpaceNumber"></param>
         /// <param name="data"></param>
-        private void DmxDataResponse(int ledSpaceNumber,List<byte> data)
+        private void DmxDataResponse(int ledSpaceNumber, List<byte> data)
         {
             lock (this.SYNCHROLOCK_KEY)
             {
@@ -285,8 +287,8 @@ namespace MultiLedController.multidevice.impl
                     if (Encoding.Default.GetString(receiveData).Equals(Constant.RECEIVE_START_DEBUF_MODE))
                     {
                         this.DebugFrameCount = 0;
-                        this.IsDebugStatus = true; 
-                        Console.WriteLine(this.ControlDevice.IP +"启动调试成功");
+                        this.IsDebugStatus = true;
+                        Console.WriteLine(this.ControlDevice.IP + "启动调试成功");
                     }
                     Thread.Sleep(THREAD_SLEEP_TIME);
                 }
@@ -345,7 +347,7 @@ namespace MultiLedController.multidevice.impl
                 }
                 else
                 {
-                    
+
                     timeBeginPeriod(1);
                     Thread.Sleep(THREAD_SLEEP_TIME);
                     timeEndPeriod(1);
@@ -419,7 +421,7 @@ namespace MultiLedController.multidevice.impl
                         recodeDnxData = this.RecordDmxDataQueue.Dequeue();
                     }
                     if (recodeDnxData != null)
-                        {
+                    {
                         List<byte> head = new List<byte>
                             {
                                 Convert.ToByte(recodeDnxData.ControlDevice.Led_interface_num),
@@ -545,7 +547,7 @@ namespace MultiLedController.multidevice.impl
             this.DebugFrameCount++;
             this.DebugFrameCountResponse_Event?.Invoke(this.DebugFrameCount);
         }
-       
+
 
         /// <summary>
         /// 功能：启动接收DMX数据
@@ -568,7 +570,7 @@ namespace MultiLedController.multidevice.impl
         /// <returns></returns>
         public bool IsThisDevice(string ip)
         {
-            if (ip != null )
+            if (ip != null)
             {
                 if (ip.Equals(this.ControlDevice.IP))
                 {
@@ -592,6 +594,25 @@ namespace MultiLedController.multidevice.impl
         public void SetDebugFrameCountResponse(DebugFrameCountResponse debugFrameCountResponse)
         {
             this.DebugFrameCountResponse_Event = debugFrameCountResponse;
+        }
+
+
+        private void Test(DebugDmxData debugDmxData)
+        {
+            this.LightLength = 1024;
+            int Ceiling_Value =(int)Math.Ceiling(LightLength / 170.0);
+            int Floor_Value = (int)Math.Floor(LightLength / 170.0);
+            Dictionary<int,List<byte>> dmxData =  debugDmxData.VirtualControlDeviceDmxDatas;
+            List<byte> dataBuff = new List<byte>();
+            List<byte> paramDataBuff = new List<byte>();
+            dataBuff.AddRange(paramDataBuff);
+            byte[] packageHead = new byte[] { 0x00, 0x01, 0x88, 0x77, 0x00, 0x00, 0xF8, 0x03 };
+            dataBuff.AddRange(packageHead);
+            for (int index = 0; index < dmxData.Keys.Count; index++)
+            {
+               
+            }
+            byte[] packageEnd = new byte[] { 0x00,0x00,0x78,0x78};
         }
     }
 }

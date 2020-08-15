@@ -1,5 +1,6 @@
 ﻿using MultiLedController.entity;
 using MultiLedController.entity.dto;
+using MultiLedController.multidevice.newmultidevice;
 using MultiLedController.utils;
 using MultiLedController.utils.impl;
 using System;

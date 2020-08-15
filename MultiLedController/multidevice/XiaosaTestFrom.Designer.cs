@@ -36,6 +36,9 @@
             this.TestBtn6 = new System.Windows.Forms.Button();
             this.TestBtn7 = new System.Windows.Forms.Button();
             this.TestBtn8 = new System.Windows.Forms.Button();
+            this.TestBtn = new System.Windows.Forms.Button();
+            this.stoprecord = new System.Windows.Forms.Button();
+            this.StopDeviceBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // TestBtn1
@@ -90,7 +93,7 @@
             // 
             // TestBtn6
             // 
-            this.TestBtn6.Location = new System.Drawing.Point(214, 157);
+            this.TestBtn6.Location = new System.Drawing.Point(62, 315);
             this.TestBtn6.Name = "TestBtn6";
             this.TestBtn6.Size = new System.Drawing.Size(133, 23);
             this.TestBtn6.TabIndex = 5;
@@ -118,11 +121,44 @@
             this.TestBtn8.UseVisualStyleBackColor = true;
             this.TestBtn8.Click += new System.EventHandler(this.TestBtn8_Click);
             // 
+            // TestBtn
+            // 
+            this.TestBtn.Location = new System.Drawing.Point(581, 70);
+            this.TestBtn.Name = "TestBtn";
+            this.TestBtn.Size = new System.Drawing.Size(75, 23);
+            this.TestBtn.TabIndex = 8;
+            this.TestBtn.Text = "Test";
+            this.TestBtn.UseVisualStyleBackColor = true;
+            this.TestBtn.Click += new System.EventHandler(this.TestBtn_Click);
+            // 
+            // stoprecord
+            // 
+            this.stoprecord.Location = new System.Drawing.Point(581, 132);
+            this.stoprecord.Name = "stoprecord";
+            this.stoprecord.Size = new System.Drawing.Size(75, 23);
+            this.stoprecord.TabIndex = 9;
+            this.stoprecord.Text = "停止录制";
+            this.stoprecord.UseVisualStyleBackColor = true;
+            this.stoprecord.Click += new System.EventHandler(this.stoprecord_Click);
+            // 
+            // StopDeviceBtn
+            // 
+            this.StopDeviceBtn.Location = new System.Drawing.Point(581, 196);
+            this.StopDeviceBtn.Name = "StopDeviceBtn";
+            this.StopDeviceBtn.Size = new System.Drawing.Size(75, 23);
+            this.StopDeviceBtn.TabIndex = 10;
+            this.StopDeviceBtn.Text = "停止";
+            this.StopDeviceBtn.UseVisualStyleBackColor = true;
+            this.StopDeviceBtn.Click += new System.EventHandler(this.StopDeviceBtn_Click);
+            // 
             // XiaosaTestFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.StopDeviceBtn);
+            this.Controls.Add(this.stoprecord);
+            this.Controls.Add(this.TestBtn);
             this.Controls.Add(this.TestBtn8);
             this.Controls.Add(this.TestBtn7);
             this.Controls.Add(this.TestBtn6);
@@ -147,5 +183,8 @@
         private System.Windows.Forms.Button TestBtn6;
         private System.Windows.Forms.Button TestBtn7;
         private System.Windows.Forms.Button TestBtn8;
+        private System.Windows.Forms.Button TestBtn;
+        private System.Windows.Forms.Button stoprecord;
+        private System.Windows.Forms.Button StopDeviceBtn;
     }
 }

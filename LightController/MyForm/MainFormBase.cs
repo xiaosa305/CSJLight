@@ -26,18 +26,18 @@ using LightController.MyForm.MainFormAst;
 
 namespace LightController.MyForm
 {
-    public class MainFormBase : System.Windows.Forms.Form, MainFormInterface
-    {
-        /// <summary>
-        /// 枚举类型：《多步(多通道)调节》参数的一种
-        /// </summary>
-        public enum WHERE
-        {
-            SCROLL_VALUE,
-            CHANGE_MODE,
-            STEP_TIME,
+	public class MainFormBase : System.Windows.Forms.Form, MainFormInterface
+	{
+		/// <summary>
+		/// 枚举类型：《多步(多通道)调节》参数的一种
+		/// </summary>
+		public enum WHERE
+		{
+			SCROLL_VALUE,
+			CHANGE_MODE,
+			STEP_TIME,
 			ALL
-        }
+		}
 
 		//各类提示
 		protected string useFrameNotice = "使用本功能，将以选中的场景数据替换当前的场景数据。";
@@ -49,118 +49,118 @@ namespace LightController.MyForm
 
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
-        public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
-        public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
-		
+		public string SoftwareName;  //动态载入软件名（前半部分）后半部分需自行封装
+		public string SavePath; // 动态载入相关的存储目录（开发时放在C:\Temp中；发布时放在应用所在文件夹）	
+
 		public bool IsShowTestButton = false;
-        public bool IsShowHardwareUpdate = false;
-        public bool IsLinkLightEditor = false;
-        public bool IsLinkOldTools = false;
+		public bool IsShowHardwareUpdate = false;
+		public bool IsLinkLightEditor = false;
+		public bool IsLinkOldTools = false;
 
-        // 几个全局的辅助控件（导出文件、toolTip提示等）
-        protected FolderBrowserDialog exportFolderBrowserDialog;
-        protected System.ComponentModel.IContainer components;
-        protected ToolTip myToolTip;
+		// 几个全局的辅助控件（导出文件、toolTip提示等）
+		protected FolderBrowserDialog exportFolderBrowserDialog;
+		protected System.ComponentModel.IContainer components;
+		protected ToolTip myToolTip;
 
-        // 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）
-        public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
-        public static int FrameCount = 0;  //场景数量
-        public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
-        public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
+		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）
+		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
+		public static int FrameCount = 0;  //场景数量
+		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
+		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
 
-        // 辅助的bool变量：	
-        protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
-        public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
+		// 辅助的bool变量：	
+		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
+		public bool IsCreateSuccess = false;  ///点击新建后，用这个变量决定是否打开灯具编辑列表
 		public MaterialAst TempMaterialAst = null;  // 辅助（复制多步、素材）变量 ， 《复制、粘贴多步》时使用
 
-        // 程序运行后，动态变化的变量
-        protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
-        protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
-        protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
-        protected string tempProjectPath = null; //此处记录《工程更新》时，选过的文件夹路径。		
+		// 程序运行后，动态变化的变量
+		protected string arrangeIniPath = null;  // 打开工程时 顺便把相关的位置保存ini(arrange.ini) 也读取出来（若有的话）
+		protected bool isAutoArrange = true; // 默认情况下，此值为true，代表右键菜单“自动排列”默认情况下是打开的。
+		protected string binPath = null; // 此处记录《硬件更新》时，选过的xbin文件路径。
+		protected string tempProjectPath = null; //此处记录《工程更新》时，选过的文件夹路径。		
 
-        // 工程相关的变量（只在工程载入后才用到的变量）
-        protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
-        protected string projectPath; //存放当前工程所在目录
-        public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
-        protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
-        protected bool isEncrypt = false; //是否加密				
-        public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
-        public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
-        protected string groupIniPath; // 存放编组文件存放路径
-        protected IList<GroupAst> groupList; // 存放编组	
-		//protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
+		// 工程相关的变量（只在工程载入后才用到的变量）
+		protected string currentProjectName;  //存放当前工程名，主要作用是防止当前工程被删除（openForm中）
+		protected string projectPath; //存放当前工程所在目录
+		public string GlobalIniPath;  // 存放当前工程《全局配置》、《摇麦设置》的配置文件的路径
+		protected string dbFilePath; // 数据库地址：每个工程都有自己的db，所以需要一个可以改变的dbFile字符串，存放数据库连接相关信息		
+		protected bool isEncrypt = false; //是否加密				
+		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
+		public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
+		protected string groupIniPath; // 存放编组文件存放路径
+		protected IList<GroupAst> groupList; // 存放编组	
+											 //protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
 		protected SAUseForm sauForm; //存储一个全局的sauForm，当用户点击《通道名》时弹出
-		//protected IList<SAUseForm> saFormList;
+									 //protected IList<SAUseForm> saFormList;
 		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
 
-        //MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
-        protected bool[] frameSaveArray;
-        //MARK 只开单场景：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了
-        protected bool[] frameLoadArray;
-        //MARK 只开单场景：14.0 为处理灯具列表变动，必须有一个存储[保留的旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
-        protected IList<int> retainLightIndices;
+		//MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
+		protected bool[] frameSaveArray;
+		//MARK 只开单场景：00.3 ①必须有一个存储所有场景数据是否已经由DB载入的bool[];②若为true，则说明不用再从数据库内取数据了
+		protected bool[] frameLoadArray;
+		//MARK 只开单场景：14.0 为处理灯具列表变动，必须有一个存储[保留的旧灯具index]的列表，若非列表内的灯具，则应清除相关的DB数据（包括StepCount表及Value表）
+		protected IList<int> retainLightIndices;
 
-		
+
 
 		// 数据库DAO(data access object：数据访问对象）
 		protected LightDAO lightDAO;
-        protected StepCountDAO stepCountDAO;
-        protected ValueDAO valueDAO;
-        protected FineTuneDAO fineTuneDAO;
+		protected StepCountDAO stepCountDAO;
+		protected ValueDAO valueDAO;
+		protected FineTuneDAO fineTuneDAO;
 
-        // 这几个IList ，存放着所有数据库数据		
-        protected IList<DB_Light> dbLightList;
-        protected IList<DB_FineTune> dbFineTuneList;
-        protected IList<DB_StepCount> dbStepCountList;
+		// 这几个IList ，存放着所有数据库数据		
+		protected IList<DB_Light> dbLightList;
+		protected IList<DB_FineTune> dbFineTuneList;
+		protected IList<DB_StepCount> dbStepCountList;
 
-        protected IList<LightAst> lightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用
-        protected IList<LightWrapper> lightWrapperList;// 灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
-        protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
+		protected IList<LightAst> lightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用
+		protected IList<LightWrapper> lightWrapperList;// 灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
+		protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
-        // 通道数据操作时的变量		
-        protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
-        protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
-        protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
+		// 通道数据操作时的变量		
+		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
+		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
+		protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
-        protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
-        protected IList<int> selectedIndices; //选择的灯具的index列表（多选情况下）
+		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
+		protected IList<int> selectedIndices; //选择的灯具的index列表（多选情况下）
 
-        protected int currentFrame = 0; // 表示场景编号(selectedIndex )
-        protected int currentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
+		protected int currentFrame = 0; // 表示场景编号(selectedIndex )
+		protected int currentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
 
-        protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
+		protected StepWrapper tempStep = null; //// 辅助步变量：复制及粘贴步时用到		
 		protected bool from0on = false; // 辅助变量，避免重复渲染子属性按钮组
 
-        // 调试变量
-        protected BaseCommunication myConnect;  // 与设备的连接（串口、网口）
-        protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
-        protected bool isConnectCom = true; //默认情况下，用串口连接设备。
-        protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
-        public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
-        protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
-        protected bool isPreviewing = false; // 是否预览状态中		
-        protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
+		// 调试变量
+		protected BaseCommunication myConnect;  // 与设备的连接（串口、网口）
+		protected PlayTools playTools = PlayTools.GetInstance(); //DMX512灯具操控对象的实例：（20200515）只做预览
+		protected bool isConnectCom = true; //默认情况下，用串口连接设备。
+		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
+		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
+		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
+		protected bool isPreviewing = false; // 是否预览状态中		
+		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
 
-        #region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
+		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
-        protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
-        protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
-        protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
-        protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
-        protected virtual void setBusy(bool buzy) { } //设置是否忙时
-        protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中		
+		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
+		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
+		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
+		protected virtual void enableRefreshPic(bool enable) { } // 是否使能《重新加载灯具图片》
+		protected virtual void setBusy(bool buzy) { } //设置是否忙时
+		protected virtual void editLightInfo(LightAst la) { }  //显示灯具详情到面板中		
 		protected virtual void generateSaPanels() { } // 实时生成并显示相应的子属性面板
 		protected virtual void enableStepPanel(bool enable) { } //是否使能步数面板
-        protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据
-        protected virtual void hideAllTDPanels() { } //隐藏所有通道
-        protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
-        protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
-        protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 只开单场景：02.0 改变当前Frame
-        protected virtual void RefreshMultiModeButtons(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（设置各个按键的可用性）
-        protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
-        protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
-        protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons
+		protected virtual void showTDPanels(IList<TongdaoWrapper> tongdaoList, int startNum) { } //通过传来的数值，生成通道列表的数据
+		protected virtual void hideAllTDPanels() { } //隐藏所有通道
+		protected virtual void showStepLabel(int currentStep, int totalStep) { } //显示步数标签，并判断stepPanel按钮组是否可用		
+		protected virtual void initStNumericUpDowns() { }  // 初始化工程时，需要初始化其中的步时间控件的参数值		
+		protected virtual void changeCurrentFrame(int frameIndex) { } //MARK 只开单场景：02.0 改变当前Frame
+		protected virtual void RefreshMultiModeButtons(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（设置各个按键的可用性）
+		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
+		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
+		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons		
 
         public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
@@ -319,17 +319,23 @@ namespace LightController.MyForm
 				lightDictionary.Add(lightAstList[lightIndex].StartNum, lightIndex);
 			}
 
-			//MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！
-			selectedIndex = -1;
-			selectedIndices = new List<int>();
 			//disposeSauForm();
+			selectedIndex = -1;
+			selectedIndices = new List<int>();		
 
-			RefreshStep();
-
+			//MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
 			EnterSyncMode(false); // 修改了灯具后，一定要退出同步模式
 			enableProjectRelative(true);    //ReBuildLightAst内设置
 			autosetEnabledPlayAndRefreshPic();
 			reBuildLightListView();
+
+			//出现了个Bug：选中灯具后，在灯具列表内删除该灯具（或其他？），则内存内选中的灯和点击追加步之类的灯具可能会不同，故直接帮着选中第一个灯具好了
+			if (lightAstList != null && lightAstList.Count > 0)
+			{
+				selectedIndex = 0;
+			}
+			generateLightData();
+
 		}
 
 		/// <summary>
@@ -1867,6 +1873,13 @@ namespace LightController.MyForm
 				SetNotice("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",true);
 			}
 			setBusy(false);
+
+			// 打开工程后，主动帮用户选择第一个灯具
+			if (lightAstList != null && lightAstList.Count > 0)
+			{
+				selectedIndex = 0;
+			}
+			generateLightData();
 		}
 
 		/// <summary>
@@ -2669,6 +2682,12 @@ namespace LightController.MyForm
 			// 若当前步 <= 总步数，则可以插入，并将之后的步数往后移动
 			// 否则报错
 			LightStepWrapper lsWrapper = getCurrentLightStepWrapper();
+			if (lsWrapper == null)
+			{
+				SetNotice("尚未选中灯具，无法插入步。", true);
+				return;
+			}
+
 			if (lsWrapper.CurrentStep > lsWrapper.TotalStep)
 			{
 				MessageBox.Show("Dickov:当前步大于总步数");
@@ -2734,6 +2753,12 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void addStepClick()
 		{
+			if (getCurrentLightStepWrapper() == null)
+			{
+				SetNotice("尚未选中灯具，无法追加步。", true);
+				return;
+			}
+
 			addStep();
 			RefreshStep();
 		}
@@ -2743,6 +2768,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void addSomeStepClick()
 		{
+			if (getCurrentLightStepWrapper() == null)
+			{
+				SetNotice("尚未选中灯具，无法追加步。", true);
+				return;
+			}
 			new AddStepsForm(this, MAX_STEP - getTotalStep() ).ShowDialog();
 		}
 
@@ -2771,12 +2801,12 @@ namespace LightController.MyForm
 		/// 辅助方法：追加步（供追加一步或追加多步使用）
 		/// </summary>
 		protected void addStep() {
-
+			
 			//1.若当前灯具在本F/M下总步数为0 ，则使用stepTemplate数据，
 			//2.否则使用本灯当前最大步的数据			 
 			bool addTemplate = getTotalStep() == 0;
-			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), currentMode);
-			getCurrentLightStepWrapper().AddStep(newStep);
+			StepWrapper newStep = StepWrapper.GenerateNewStep(addTemplate ? getCurrentStepTemplate() : getCurrentLightLastStepWrapper(), currentMode);			
+			getCurrentLightStepWrapper().AddStep(newStep);				
 
 			if (isSyncMode)
 			{
@@ -2806,7 +2836,13 @@ namespace LightController.MyForm
 		/// 辅助方法：左键点击《删除步》
 		/// </summary>
 		protected void deleteStepClick()
-		{			
+		{
+			if (getCurrentLightStepWrapper() == null)
+			{
+				SetNotice("尚未选中灯具，无法删除步。", true);
+				return;
+			}
+
 			// 调用包装类内部的方法:删除某一步
 			try
 			{
@@ -2847,8 +2883,14 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void deleteSomeStepClick()
 		{
+			if (getCurrentLightStepWrapper() == null)
+			{
+				SetNotice("尚未选中灯具，无法追加步。", true);
+				return;
+			}
+
 			if (getTotalStep() == 0) {
-				MessageBox.Show("当前灯具没有步数，无法删除步。");
+				SetNotice("当前灯具没有步数，无法删除步。",true);
 				return;
 			}
 			new DeleteStepsForm(this, getCurrentStep() , getTotalStep() ) .ShowDialog();
@@ -3162,7 +3204,9 @@ namespace LightController.MyForm
 		{
 			if (selectedIndex < 0 || lightAstList == null || lightAstList.Count == 0)
 			{
-				MessageBox.Show("generateLightData()出错。");
+				SetNotice("尚未选择灯具。", false);
+				editLightInfo(null);
+				RefreshStep();
 				return;
 			}
 
@@ -3202,7 +3246,13 @@ namespace LightController.MyForm
 				from0on = true;
 			}
 			else
-			{				
+			{
+				if (getCurrentLightStepWrapper() == null)
+				{
+					SetNotice("尚未选中灯具，无法选步。", true);
+					return;
+				}
+
 				LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
 				lightStepWrapper.CurrentStep = stepNum;

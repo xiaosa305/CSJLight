@@ -2278,7 +2278,7 @@ namespace LightController.MyForm
 				lightsListView.Items[lightIndex].Selected = true;
 			}
 		}
-
+		
 		#region 弃用的快捷设置按钮组
 
 		/// <summary>

@@ -34,6 +34,7 @@ namespace MultiLedController.multidevice.newmultidevice
         private string ServerIP { get; set; }
         private string LocalIP { get; set; }
         private string FilePath { get; set; }
+        private string ConfigPath { get; set; }
 
         private List<string> IPs { get; set; }
         private List<NewVirtualClient> Clients { get; set; }
@@ -65,7 +66,7 @@ namespace MultiLedController.multidevice.newmultidevice
         {
             this.IsResponseDMXDatasStatus = true;
             //this.StartDebug();
-            this.StartRecord(@"C:\Users\99729\Desktop\Test\Test\RecordTest.bin");
+            this.StartRecord(@"C:\Users\99729\Desktop\Test\Test\RecordTest.bin", @"C:\Users\99729\Desktop\Test\Test\Config.bin");
 
         }
 
@@ -227,12 +228,18 @@ namespace MultiLedController.multidevice.newmultidevice
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public NewVirtualDevice StartRecord(string filePath)
+        public NewVirtualDevice StartRecord(string filePath,string config)
         {
             this.FilePath = filePath;
+            this.ConfigPath = config;
             this.IsFirstFrameByRecord = true;
             this.IsRecordDMXData = true;
             DirectoryInfo paraentDir = Directory.GetParent(this.FilePath);
+            if (!paraentDir.Exists)
+            {
+                paraentDir.Create();
+            }
+            paraentDir = Directory.GetParent(this.ConfigPath);
             if (!paraentDir.Exists)
             {
                 paraentDir.Create();
@@ -711,12 +718,11 @@ namespace MultiLedController.multidevice.newmultidevice
             buff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4).ToArray());
             buff.AddRange(Enumerable.Repeat(Convert.ToByte(0xFF), 64).ToArray());
             buff.Add(Convert.ToByte(this.LedInterfaceNumber));
-            string filePath = @"C:\Users\99729\Desktop\Test\Test\Config.bin";
-            if (File.Exists(filePath))
+            if (File.Exists(this.ConfigPath))
             {
-                File.Delete(filePath);
+                File.Delete(this.ConfigPath);
             }
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+            using (FileStream fileStream = new FileStream(this.ConfigPath, FileMode.Create))
             {
                 fileStream.Write(buff.ToArray(), 0, buff.Count);
             }

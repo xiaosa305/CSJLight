@@ -517,7 +517,7 @@
 			this.recordPathLabel.Name = "recordPathLabel";
 			this.recordPathLabel.Size = new System.Drawing.Size(249, 30);
 			this.recordPathLabel.TabIndex = 67;
-			this.recordPathLabel.Text = "请选择工程存放目录，程序会自动为您创建子文件夹，用以区分不同的控制器。";
+			this.recordPathLabel.Text = "请选择工程存放目录，若最后一级目录非CSJ_SC，程序将自动为您添加此字段。";
 			this.recordPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// setFilePathButton
@@ -620,7 +620,7 @@
 			this.testButton.Visible = false;
 			this.testButton.Click += new System.EventHandler(this.testButton_Click);
 			// 
-			// MainForm
+			// MainForm2
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -633,7 +633,7 @@
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(765, 780);
 			this.MinimumSize = new System.Drawing.Size(765, 780);
-			this.Name = "MainForm";
+			this.Name = "MainForm2";
 			this.Text = "幻彩灯带控制器(多设备版)";
 			this.Activated += new System.EventHandler(this.MainForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);

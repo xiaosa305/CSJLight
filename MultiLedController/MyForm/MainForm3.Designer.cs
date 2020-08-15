@@ -47,7 +47,7 @@
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.simulatePanel = new System.Windows.Forms.Panel();
+			this.bottomPanel = new System.Windows.Forms.Panel();
 			this.recordButton = new System.Windows.Forms.Button();
 			this.debugButton = new System.Windows.Forms.Button();
 			this.setFilePathButton = new System.Windows.Forms.Button();
@@ -69,13 +69,14 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.panel2 = new System.Windows.Forms.Panel();
+			this.topPanel = new System.Windows.Forms.Panel();
+			this.recordFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.netcardInfoGroupBox.SuspendLayout();
-			this.simulatePanel.SuspendLayout();
+			this.bottomPanel.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.controllerCountNUD)).BeginInit();
-			this.panel2.SuspendLayout();
+			this.topPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// netcardComboBox
@@ -131,6 +132,7 @@
 			this.clearVIPButton.TabIndex = 60;
 			this.clearVIPButton.Text = "清空虚拟IP";
 			this.clearVIPButton.UseVisualStyleBackColor = true;
+			this.clearVIPButton.Click += new System.EventHandler(this.clearVIPButton_Click);
 			// 
 			// dhcpButton
 			// 
@@ -141,6 +143,7 @@
 			this.dhcpButton.TabIndex = 27;
 			this.dhcpButton.Text = "启用DHCP";
 			this.dhcpButton.UseVisualStyleBackColor = true;
+			this.dhcpButton.Click += new System.EventHandler(this.dhcpButton_Click);
 			// 
 			// dnsLabel2
 			// 
@@ -181,6 +184,7 @@
 			this.refreshNetcardInfoButton.TabIndex = 27;
 			this.refreshNetcardInfoButton.Text = "刷新网卡信息";
 			this.refreshNetcardInfoButton.UseVisualStyleBackColor = true;
+			this.refreshNetcardInfoButton.Click += new System.EventHandler(this.refreshNetcardInfoButton_Click);
 			// 
 			// gatewayLabel
 			// 
@@ -263,39 +267,40 @@
 			// 
 			// columnHeader5
 			// 
-			this.columnHeader5.Text = "关联路数";
+			this.columnHeader5.Text = "是否关联";
 			this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.columnHeader5.Width = 79;
 			// 
-			// simulatePanel
+			// bottomPanel
 			// 
-			this.simulatePanel.Controls.Add(this.recordButton);
-			this.simulatePanel.Controls.Add(this.debugButton);
-			this.simulatePanel.Controls.Add(this.setFilePathButton);
-			this.simulatePanel.Controls.Add(this.startButton);
-			this.simulatePanel.Controls.Add(this.recordPathLabel);
-			this.simulatePanel.Controls.Add(this.minusButton);
-			this.simulatePanel.Controls.Add(this.nameLabel);
-			this.simulatePanel.Controls.Add(this.plusButton);
-			this.simulatePanel.Controls.Add(this.binLabel);
-			this.simulatePanel.Controls.Add(this.recordTextBox);
-			this.simulatePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.simulatePanel.Location = new System.Drawing.Point(0, 445);
-			this.simulatePanel.Name = "simulatePanel";
-			this.simulatePanel.Size = new System.Drawing.Size(715, 109);
-			this.simulatePanel.TabIndex = 76;
+			this.bottomPanel.Controls.Add(this.recordButton);
+			this.bottomPanel.Controls.Add(this.debugButton);
+			this.bottomPanel.Controls.Add(this.setFilePathButton);
+			this.bottomPanel.Controls.Add(this.startButton);
+			this.bottomPanel.Controls.Add(this.recordPathLabel);
+			this.bottomPanel.Controls.Add(this.minusButton);
+			this.bottomPanel.Controls.Add(this.nameLabel);
+			this.bottomPanel.Controls.Add(this.plusButton);
+			this.bottomPanel.Controls.Add(this.binLabel);
+			this.bottomPanel.Controls.Add(this.recordTextBox);
+			this.bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.bottomPanel.Location = new System.Drawing.Point(0, 445);
+			this.bottomPanel.Name = "bottomPanel";
+			this.bottomPanel.Size = new System.Drawing.Size(715, 109);
+			this.bottomPanel.TabIndex = 76;
 			// 
 			// recordButton
 			// 
 			this.recordButton.BackColor = System.Drawing.Color.Transparent;
 			this.recordButton.Enabled = false;
 			this.recordButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.recordButton.Location = new System.Drawing.Point(632, 19);
+			this.recordButton.Location = new System.Drawing.Point(627, 19);
 			this.recordButton.Name = "recordButton";
 			this.recordButton.Size = new System.Drawing.Size(76, 72);
 			this.recordButton.TabIndex = 65;
 			this.recordButton.Text = "录制数据";
 			this.recordButton.UseVisualStyleBackColor = false;
+			this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
 			// 
 			// debugButton
 			// 
@@ -307,6 +312,7 @@
 			this.debugButton.TabIndex = 73;
 			this.debugButton.Text = "开始调试";
 			this.debugButton.UseVisualStyleBackColor = true;
+			this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
 			// 
 			// setFilePathButton
 			// 
@@ -317,13 +323,13 @@
 			this.setFilePathButton.TabIndex = 66;
 			this.setFilePathButton.Text = "选择存放目录";
 			this.setFilePathButton.UseVisualStyleBackColor = true;
+			this.setFilePathButton.Click += new System.EventHandler(this.setFilePathButton_Click);
 			// 
 			// startButton
 			// 
 			this.startButton.BackColor = System.Drawing.Color.Coral;
-			this.startButton.Enabled = false;
 			this.startButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.startButton.Location = new System.Drawing.Point(18, 19);
+			this.startButton.Location = new System.Drawing.Point(14, 19);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(76, 72);
 			this.startButton.TabIndex = 74;
@@ -434,7 +440,7 @@
 			// 
 			this.controllerCountNUD.Location = new System.Drawing.Point(187, 113);
 			this.controllerCountNUD.Maximum = new decimal(new int[] {
-            21,
+            10,
             0,
             0,
             0});
@@ -444,7 +450,7 @@
             0,
             0});
 			this.controllerCountNUD.Name = "controllerCountNUD";
-			this.controllerCountNUD.Size = new System.Drawing.Size(61, 21);
+			this.controllerCountNUD.Size = new System.Drawing.Size(60, 21);
 			this.controllerCountNUD.TabIndex = 4;
 			this.controllerCountNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.controllerCountNUD.Value = new decimal(new int[] {
@@ -464,7 +470,7 @@
             "520"});
 			this.spaceCountComboBox.Location = new System.Drawing.Point(187, 68);
 			this.spaceCountComboBox.Name = "spaceCountComboBox";
-			this.spaceCountComboBox.Size = new System.Drawing.Size(61, 20);
+			this.spaceCountComboBox.Size = new System.Drawing.Size(60, 20);
 			this.spaceCountComboBox.TabIndex = 3;
 			this.spaceCountComboBox.SelectedIndexChanged += new System.EventHandler(this.countComboBox_SelectedIndexChanged);
 			// 
@@ -477,7 +483,7 @@
             "8"});
 			this.interfaceCountComboBox.Location = new System.Drawing.Point(187, 23);
 			this.interfaceCountComboBox.Name = "interfaceCountComboBox";
-			this.interfaceCountComboBox.Size = new System.Drawing.Size(61, 20);
+			this.interfaceCountComboBox.Size = new System.Drawing.Size(60, 20);
 			this.interfaceCountComboBox.TabIndex = 3;
 			this.interfaceCountComboBox.SelectedIndexChanged += new System.EventHandler(this.countComboBox_SelectedIndexChanged);
 			// 
@@ -486,9 +492,9 @@
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(55, 71);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 12);
+			this.label3.Size = new System.Drawing.Size(65, 12);
 			this.label3.TabIndex = 0;
-			this.label3.Text = "每一路占用空间数：";
+			this.label3.Text = "每路点数：";
 			// 
 			// label2
 			// 
@@ -508,18 +514,23 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "分控路数：";
 			// 
-			// panel2
+			// topPanel
 			// 
-			this.panel2.Controls.Add(this.virtualIPListView);
-			this.panel2.Controls.Add(this.netcardComboBox);
-			this.panel2.Controls.Add(this.panel1);
-			this.panel2.Controls.Add(this.netcardInfoGroupBox);
-			this.panel2.Controls.Add(this.refreshNetcardButton);
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel2.Location = new System.Drawing.Point(0, 0);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(715, 445);
-			this.panel2.TabIndex = 79;
+			this.topPanel.Controls.Add(this.virtualIPListView);
+			this.topPanel.Controls.Add(this.netcardComboBox);
+			this.topPanel.Controls.Add(this.panel1);
+			this.topPanel.Controls.Add(this.netcardInfoGroupBox);
+			this.topPanel.Controls.Add(this.refreshNetcardButton);
+			this.topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.topPanel.Location = new System.Drawing.Point(0, 0);
+			this.topPanel.Name = "topPanel";
+			this.topPanel.Size = new System.Drawing.Size(715, 445);
+			this.topPanel.TabIndex = 79;
+			// 
+			// recordFolderBrowserDialog
+			// 
+			this.recordFolderBrowserDialog.Description = "请选择录制文件存放目录，本程序将会在点击《录制》按钮之后，将录制文件保存在该目录下。";
+			this.recordFolderBrowserDialog.SelectedPath = "C:\\Temp\\CSJ_SC";
 			// 
 			// MainForm3
 			// 
@@ -527,8 +538,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(715, 580);
-			this.Controls.Add(this.panel2);
-			this.Controls.Add(this.simulatePanel);
+			this.Controls.Add(this.topPanel);
+			this.Controls.Add(this.bottomPanel);
 			this.Controls.Add(this.statusStrip);
 			this.Name = "MainForm3";
 			this.Text = "幻彩灯带控制器(广播版）";
@@ -536,14 +547,14 @@
 			this.Load += new System.EventHandler(this.MainForm3_Load);
 			this.netcardInfoGroupBox.ResumeLayout(false);
 			this.netcardInfoGroupBox.PerformLayout();
-			this.simulatePanel.ResumeLayout(false);
-			this.simulatePanel.PerformLayout();
+			this.bottomPanel.ResumeLayout(false);
+			this.bottomPanel.PerformLayout();
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.controllerCountNUD)).EndInit();
-			this.panel2.ResumeLayout(false);
+			this.topPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -569,7 +580,7 @@
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ColumnHeader columnHeader4;
 		private System.Windows.Forms.ColumnHeader columnHeader5;
-		private System.Windows.Forms.Panel simulatePanel;
+		private System.Windows.Forms.Panel bottomPanel;
 		private System.Windows.Forms.Button recordButton;
 		private System.Windows.Forms.Button debugButton;
 		private System.Windows.Forms.Button setFilePathButton;
@@ -588,9 +599,10 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Panel topPanel;
 		private System.Windows.Forms.ComboBox spaceCountComboBox;
 		private System.Windows.Forms.ComboBox interfaceCountComboBox;
 		private System.Windows.Forms.NumericUpDown controllerCountNUD;
+		private System.Windows.Forms.FolderBrowserDialog recordFolderBrowserDialog;
 	}
 }

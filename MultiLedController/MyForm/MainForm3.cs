@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Management;
 using MultiLedController.Common;
 using MultiLedController.Ast;
+using System.Threading;
+using MultiLedController.multidevice.newmultidevice;
 
 namespace MultiLedController.MyForm
 {
@@ -20,14 +22,16 @@ namespace MultiLedController.MyForm
 		private ManagementObject mo; //存放当前网卡的mo对象
 		private string mainIP;  //当前网卡的主IP(第一个设的IP，mo对象取回来时在最后面)
 		private string mainMask; // 当前网卡的主掩码
-		private IList<string> vipList; //当前网卡的虚拟IP列表（不包含主ip）
+		private List<string> vipList; //当前网卡的虚拟IP列表（不包含主ip）
 
 		private bool isStart = false; //是否启动模拟
 		private bool isDebuging = false;  //是否正在调试
 		private bool isRecording = false; // 是否正在录制
 		private string recordPath = "C:\\Temp\\CSJ_SC"; //录制文件存储路径
 		private int recordIndex = 0; //录制文件序号
-				
+
+		private NewVirtualDevice simulator;
+
 		public MainForm3()
 		{
 			InitializeComponent();			
@@ -38,8 +42,7 @@ namespace MultiLedController.MyForm
 			// 设两个可调节ComboBox的默认值
 			interfaceCountComboBox.SelectedIndex = 0;
 			spaceCountComboBox.SelectedIndex = 0;
-
-		
+			
 		}
 
 		private void MainForm3_Load(object sender, EventArgs e)
@@ -84,7 +87,17 @@ namespace MultiLedController.MyForm
 		{
 			refreshNetcardList();
 		}
-			   
+
+		/// <summary>
+		/// 事件：点击《刷新网卡信息》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void refreshNetcardInfoButton_Click(object sender, EventArgs e)
+		{
+			refreshNetcardInfo();
+		}
+
 		/// <summary>
 		/// 辅助方法：刷新网卡列表
 		/// </summary>
@@ -134,25 +147,19 @@ namespace MultiLedController.MyForm
 		/// </summary>
 		private void clearNetcardInfo()
 		{
-			//mo = null;
+			mo = null;
 
-			//mainIP = null;
-			//mainMask = null;
-			//ipLabel2.Text = "";
-			//submaskLabel2.Text = "";
-			//gatewayLabel2.Text = "";
-			//dnsLabel2.Text = "";
+			mainIP = null;
+			mainMask = null;
+			ipLabel2.Text = "";
+			submaskLabel2.Text = "";
+			gatewayLabel2.Text = "";
+			dnsLabel2.Text = "";
 
-			//vipList = null;
-			//virtualIPListView.Items.Clear();
-
-			//deviceList = null;
-			//deviceListView.Items.Clear();
-			//choosenIndexList = null;
-			//choosenListView.Items.Clear();
-
-			//searchButton.Enabled = false;
-			startButton.Enabled = false;
+			vipList = null;
+			virtualIPListView.Items.Clear();
+					
+			//startButton.Enabled = false;
 			debugButton.Enabled = false;
 			recordButton.Enabled = false;
 		}
@@ -191,11 +198,78 @@ namespace MultiLedController.MyForm
 						dnsLabel2.Text = ipAst.DnsArray[0];
 					}
 
+					int tempIndex = 1;
+					for (int vipIndex = ipAst.IpArray.Length - 2; vipIndex >= 0; vipIndex--)
+					{
+						virtualIPListView.Items.Add(new ListViewItem(new string[] {
+							 tempIndex++ +"",
+							 ipAst.IpArray[vipIndex],							 
+							 ""
+						}));
+						vipList.Add(ipAst.IpArray[vipIndex]);
+					}
+
 					setNotice(1, "已刷新当前网卡信息。", false);
 				}
 			}
 		}
+		
+		/// <summary>
+		/// 事件：点击《启用DHCP》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void dhcpButton_Click(object sender, EventArgs e)
+		{
+			if (netcardComboBox.SelectedIndex == -1)
+			{
+				setNotice(1, "未选中可用网卡，请刷新后重试", true);
+				return;
+			}
+			mo.InvokeMethod("SetDNSServerSearchOrder", null);
+			mo.InvokeMethod("EnableDHCP", null);
+			setNotice(1, "正在启用DHCP，请稍候...", false);
+			Refresh();
 
+			Thread.Sleep(1000);
+			refreshNetcardInfo();
+		}
+
+		/// <summary>
+		/// 事件：点击《清空虚拟IP》（作用和启用DHCP相似，但主要是为了在无DHCP环境下，主动只保留当前主IP的设定）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void clearVIPButton_Click(object sender, EventArgs e)
+		{
+			if (netcardComboBox.SelectedIndex == -1)
+			{
+				setNotice(1, "未选中可用网卡，请刷新后重试", true);
+				return;
+			}
+
+			setBusy(true);
+
+			if (vipList != null && vipList.Count > 0)
+			{
+				IPAst ipAst = new IPAst(mo)
+				{
+					IpArray = new string[] { mainIP },
+					SubmaskArray = new string[] { mainMask },
+				};
+
+				setNotice(1, "正在为您清空虚拟IP,清空后将刷新当前网卡信息，请稍候...", false);
+				IPHelper.SetIPAddress(mo, ipAst);
+				refreshNetcardInfo(); // 无论设置成功与否，都主动刷新网卡信息			
+			}
+			else
+			{
+				setNotice(1, "检测到当前网卡并无虚拟IP，无需清空。", true);
+			}
+
+			setBusy(false);
+		}
+		
 		#region 设置路数 及 启动模拟等
 
 		/// <summary>
@@ -226,15 +300,314 @@ namespace MultiLedController.MyForm
 			//避免更改路数之后，虚拟IP显示错误，先清空所有的《关联路数》Text ( 不论是启动还是关闭模拟，都先清空关联 )
 			foreach (ListViewItem item in virtualIPListView.Items)
 			{
-				item.SubItems[2].Text = "";
-				item.SubItems[3].Text = "";
+				item.SubItems[2].Text = "";				
 			}
 			Refresh();
+
+			// 启动模拟
+			if (!isStart)
+			{
+				DateTime beforeDT = System.DateTime.Now;
+				setBusy(true);
+
+				int interfaceCount = int.Parse(interfaceCountComboBox.Text);
+				int spaceCount = int.Parse(spaceCountComboBox.Text) / 170;
+				int controllerCount = decimal.ToInt32(controllerCountNUD.Value);
+				int totalSpaceCount = interfaceCount * spaceCount * controllerCount; 
+
+				int addVIPCount = (int)(Math.Ceiling(interfaceCount * spaceCount * controllerCount / 4.0)) - vipList.Count;
+
+				if (addVIPCount > 0)
+				{
+					setNotice(1, "即将为您添加相应路数数量的虚拟IP,请稍候...", false);
+					string firstIP;
+					if (vipList == null || vipList.Count == 0)
+					{
+						firstIP = mainIP;
+					}
+					else
+					{
+						firstIP = vipList[0];
+					}
+					string ipTop3Str = firstIP.Substring(0, firstIP.LastIndexOf('.') + 1);
+					int ipLastStr = int.Parse(firstIP.Substring(firstIP.LastIndexOf('.') + 1)) + 1;
+
+					SortedSet<int> addVIPSet = new SortedSet<int>();
+					generateAvailableIPListMultiThread(ref addVIPSet, ref addVIPCount, ipTop3Str, ipLastStr, 253);
+
+					//若仍未完成，则必须提示用户无可用ip并中断操作
+					if (addVIPCount > 0)
+					{
+						MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
+						setNotice(1, "检测到当前网段无足够可用的IP地址，已中断操作。", true);
+						setBusy(false);
+						return;
+					}
+
+					//以新IP及掩码列表， 改造IPAst；并将（mainIP及新的ipList）设置到系统中
+					foreach (int tempIP in addVIPSet)
+					{
+						vipList.Add(ipTop3Str + tempIP);
+					}
+
+					List<string> newIPList = new List<string>();
+					List<string> newMaskList = new List<string>();
+					newIPList.Add(mainIP);
+					newMaskList.Add(mainMask);
+
+					foreach (string tempIP in vipList)
+					{
+						newIPList.Add(tempIP);
+						newMaskList.Add(mainMask);
+					}
+
+					IPAst ipAst = new IPAst(mo)
+					{
+						IpArray = newIPList.ToArray(),
+						SubmaskArray = newMaskList.ToArray()
+					};
+
+					setNotice(1, "正在为您设置虚拟IP，请稍候...", false);
+
+					if (IPHelper.SetIPAddress(mo, ipAst))
+					{
+						refreshVirtualIPListView(newIPList);
+					}
+					else
+					{
+						MessageBox.Show("虚拟IP设置失败，已恢复初始设置。");
+						setNotice(1, "启动模拟失败(虚拟IP设置失败，已恢复初始设置)。", true);
+						setBusy(false);
+						return;
+					}
+				}			
+				
+				Refresh();
+
+				if (simulator != null ) {
+					simulator.Close();
+				}
+				simulator =  new NewVirtualDevice(interfaceCount, vipList, spaceCount, controllerCount, mainIP, mainIP);
+				simulator.StartResponseDMXData();
+
+				DateTime afterDT = System.DateTime.Now;
+				TimeSpan ts = afterDT.Subtract(beforeDT);
+
+				enableStartButtons(true);
+				setNotice(1, "已启动模拟,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s", false);
+				setBusy(false);
+
+				/// 启动模拟后，主动点击《开始调试》
+				if (!isDebuging)
+				{
+					debugButton_Click(null, null);
+				}
+			}
+			// 关闭模拟			
+			else
+			{
+				setBusy(true);
+				setNotice(1, "正在关闭模拟，请稍候...", false);
+
+				if (isDebuging)
+				{
+					debugButton_Click(null, null);
+				}
+
+				if (simulator != null) {
+					simulator.Close();
+					simulator = null;
+				}
+
+				enableStartButtons(false);
+				setNotice(1, "已关闭模拟。", false);
+				setBusy(false);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《开始调试 | 停止调试》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void debugButton_Click(object sender, EventArgs e)
+		{
+			isDebuging = !isDebuging;
+			debugButton.Text = isDebuging ? "停止调试" : "开始调试";
+			if (isDebuging)
+			{
+				simulator.StartDebug();
+			}
+			else
+			{
+				simulator.StopDebug();
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：采用多线程方式，检测一些IP是否未被占用
+		/// </summary>
+		private void generateAvailableIPListMultiThread(ref SortedSet<int> addVIPSet, ref int addVIPCount, string top3IPStr, int lastIPStr, int retainIPCount)
+		{
+			Console.WriteLine("retainIPCount = " + retainIPCount + " | addVIPCount = " + addVIPCount);
+			// 当剩余次数小于1时，退出本方法
+			if (retainIPCount < 1)
+			{
+				Console.WriteLine("当剩余次数小于1时，退出本方法。");
+				return;
+			}
+
+			if (addVIPCount > 254)
+			{
+				Console.WriteLine("虚拟IP数量不得超过254个。");
+				return;
+			}
+
+			SortedSet<int> addVIPSetTemp = new SortedSet<int>();
+			retainIPCount -= addVIPCount; //一旦开始执行此方法，则可以直接处理retianIPCount
+
+			//从这里分割：
+			int firstCount = 255 - lastIPStr;
+			int overCount = 0;
+			int lastStr2 = 0;
+			if (firstCount > addVIPCount)
+			{
+				firstCount = addVIPCount;
+				lastStr2 = lastIPStr + firstCount;
+			}
+			else
+			{
+				overCount = addVIPCount - firstCount;
+				lastStr2 = 2 + overCount;
+			}
+
+			Thread[] threadArray = new Thread[addVIPCount];
+
+			for (int addIndex = 0; addIndex < firstCount; addIndex++)
+			{
+				int tempAddIndex = addIndex;
+				threadArray[tempAddIndex] = new Thread(delegate ()
+				{
+					int addIP = lastIPStr + tempAddIndex;
+					Console.WriteLine("正在(多线程ThreadIndex:" + tempAddIndex + ")检测" + top3IPStr + addIP + "是否可用...");
+
+					if (IPHelper.CheckIPAvailableARPOnly(mainIP, top3IPStr + addIP))
+					{
+						lock (addVIPSetTemp)
+						{
+							addVIPSetTemp.Add(addIP);
+						}
+					}
+				});
+				threadArray[tempAddIndex].Start();
+			}
+
+			for (int addIndex = 0; addIndex < overCount; addIndex++)
+			{
+				int tempAddIndex = addIndex;
+				threadArray[tempAddIndex + firstCount] = new Thread(delegate ()
+				{
+					int addIP = 2 + tempAddIndex;
+					Console.WriteLine("正在(多线程ThreadIndex:" + tempAddIndex + firstCount + ")检测" + top3IPStr + addIP + "是否可用...");
+					if (IPHelper.CheckIPAvailableARPOnly(mainIP, top3IPStr + addIP))
+					{
+						lock (addVIPSetTemp)
+						{
+							addVIPSetTemp.Add(addIP);
+						}
+					}
+				});
+				threadArray[tempAddIndex + firstCount].Start();
+			}
+
+			// 下列代码，用以监视所有线程是否已经结束运行。每隔0.1s，去计算尚存活的线程数量，若数量为0，则说明所有线程已经结束了。
+			while (true)
+			{
+				int unFinishedCount = 0;
+				foreach (Thread thread in threadArray)
+				{
+					unFinishedCount += thread.IsAlive ? 1 : 0;
+				}
+				if (unFinishedCount == 0)
+				{
+					break;
+				}
+				else
+				{
+					Thread.Sleep(100);
+				}
+			}
+
+			foreach (int item in addVIPSetTemp)
+			{
+				// 若添加成功，则返回true，否则不处理addVIPCount
+				if (addVIPSet.Add(item))
+				{
+					addVIPCount--;
+				}
+			}
+
+			// 若①数量仍然不够；②且剩下未监测的IP数量大于addVIPCount, 才继续递归本方法；除此以外，则无意义（因为再也没有相应数量的IP可供使用了）
+			if (addVIPCount > 0 && addVIPCount <= retainIPCount)
+			{
+				generateAvailableIPListMultiThread(ref addVIPSet, ref addVIPCount, top3IPStr, lastStr2, retainIPCount);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：通过ipList主动刷新右侧列表
+		/// </summary>
+		private void refreshVirtualIPListView(IList<string> newIPList)
+		{
+			virtualIPListView.Items.Clear();
+
+			for (int tempIndex = 1; tempIndex < newIPList.Count; tempIndex++)
+			{
+				ListViewItem item = new ListViewItem(new string[] {
+					 tempIndex +"",
+					 newIPList[tempIndex],					 
+					 ""
+				});
+				virtualIPListView.Items.Add(item);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：根据入参bool，设置当前《启动》相关的按键的可用性
+		/// </summary>
+		/// <param name="enable">true为按键可用</param>
+		private void enableStartButtons(bool enable)
+		{
+			topPanel.Enabled = !enable;
+			startButton.Text = enable ? "关闭模拟" : "启动模拟";
+			debugButton.Enabled = enable;
+			recordButton.Enabled = enable;
+			isStart = enable;
 		}
 
 		#endregion
 
 		#region 录制相关
+
+		/// <summary>
+		/// 事件：点击《选择存放目录》并更改存储路径
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void setFilePathButton_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = recordFolderBrowserDialog.ShowDialog();
+			if (dr == DialogResult.OK)
+			{
+				recordPath = recordFolderBrowserDialog.SelectedPath;
+				if (!recordPath.EndsWith(@"\CSJ_SC")) {
+					recordPath += @"\CSJ_SC";
+				}
+
+				setRecordPathLabel();
+				setNotice(2, "已设置存放目录为：" + recordPath, false);
+			}
+		}
 
 		/// <summary>
 		/// 事件：《recordTextBox》失去焦点，把文字做相关的转换
@@ -262,9 +635,9 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void plusButton_Click(object sender, EventArgs e)
 		{
-			if (recordIndex >= 999)
+			if (recordIndex >= 255)
 			{
-				setNotice(2, "录制文件序号不得大于999。", true);
+				setNotice(2, "录制文件序号不得大于255。", true);
 				return;
 			}
 			recordTextBox.Text = transformRecordIndex(++recordIndex);
@@ -286,6 +659,37 @@ namespace MultiLedController.MyForm
 			recordTextBox.Text = transformRecordIndex(--recordIndex);
 			setNotice(2, "已设置录制文件名为：SC" + recordTextBox.Text + ".bin", false);
 		}
+
+		/// <summary>
+		/// 事件：点击《录制数据 | 停止录制》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void recordButton_Click(object sender, EventArgs e)
+		{
+			//停止录制
+			if (isRecording)
+			{
+				simulator.StopRecord();
+				enableRecordButtons(false);
+				plusButton_Click(null, null);
+				setNotice(2, "已停止录制,并把录制序号加1。", false);
+				recordButton.Text = "录制数据";
+			}
+			// 开始录制
+			else
+			{				
+				setNotice(2, "正在录制文件...", false);
+
+				string binPath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
+				string configPath = recordPath + @"\csj.scu" ;
+				simulator.StartRecord( binPath , configPath   );
+
+				enableRecordButtons(true);
+				recordButton.Text = "停止录制";
+			}
+		}
+
 
 		/// <summary>
 		/// 辅助方法：根据当前的recordPath，设置label及toolTip
@@ -326,6 +730,19 @@ namespace MultiLedController.MyForm
 			}
 		}
 
+		/// <summary>
+		/// 辅助方法：设置录制相关控件是否可用
+		/// </summary>
+		/// <param name="recording"></param>
+		private void enableRecordButtons(bool recording)
+		{
+			isRecording = recording;
+			setFilePathButton.Enabled = !recording;
+			recordTextBox.Enabled = !recording;
+			plusButton.Enabled = !recording;
+			minusButton.Enabled = !recording;
+		}
+
 		#endregion
 
 		#region 全局方法
@@ -362,7 +779,11 @@ namespace MultiLedController.MyForm
 			Enabled = !busy;
 		}
 
+
+
+
 		#endregion
-			
+
+	
 	}
 }

@@ -45,6 +45,7 @@
 			this.bigFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.saComboBoxDemo = new System.Windows.Forms.ComboBox();
 			this.stepFLPDemo.SuspendLayout();
 			this.stepPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stepNUDDemo)).BeginInit();
@@ -137,6 +138,7 @@
 			// 
 			this.tdSmallPanelDemo.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.tdSmallPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tdSmallPanelDemo.Controls.Add(this.saComboBoxDemo);
 			this.tdSmallPanelDemo.Controls.Add(this.unifyComboBoxDemo);
 			this.tdSmallPanelDemo.Controls.Add(this.unifyTopButtonDemo);
 			this.tdSmallPanelDemo.Controls.Add(this.unifyNUDDemo);
@@ -157,14 +159,14 @@
             "全步",
             "单步",
             "双步"});
-			this.unifyComboBoxDemo.Location = new System.Drawing.Point(6, 31);
+			this.unifyComboBoxDemo.Location = new System.Drawing.Point(6, 30);
 			this.unifyComboBoxDemo.Name = "unifyComboBoxDemo";
 			this.unifyComboBoxDemo.Size = new System.Drawing.Size(48, 20);
 			this.unifyComboBoxDemo.TabIndex = 4;
 			// 
 			// unifyTopButtonDemo
 			// 
-			this.unifyTopButtonDemo.Location = new System.Drawing.Point(63, 30);
+			this.unifyTopButtonDemo.Location = new System.Drawing.Point(63, 29);
 			this.unifyTopButtonDemo.Name = "unifyTopButtonDemo";
 			this.unifyTopButtonDemo.Size = new System.Drawing.Size(22, 23);
 			this.unifyTopButtonDemo.TabIndex = 3;
@@ -175,7 +177,7 @@
 			// 
 			// unifyNUDDemo
 			// 
-			this.unifyNUDDemo.Location = new System.Drawing.Point(6, 60);
+			this.unifyNUDDemo.Location = new System.Drawing.Point(6, 56);
 			this.unifyNUDDemo.Maximum = new decimal(new int[] {
             255,
             0,
@@ -193,7 +195,7 @@
 			// 
 			// unifyValueButtonDemo
 			// 
-			this.unifyValueButtonDemo.Location = new System.Drawing.Point(62, 59);
+			this.unifyValueButtonDemo.Location = new System.Drawing.Point(62, 55);
 			this.unifyValueButtonDemo.Name = "unifyValueButtonDemo";
 			this.unifyValueButtonDemo.Size = new System.Drawing.Size(50, 23);
 			this.unifyValueButtonDemo.TabIndex = 2;
@@ -203,7 +205,7 @@
 			// 
 			// unifyBottomButtonDemo
 			// 
-			this.unifyBottomButtonDemo.Location = new System.Drawing.Point(90, 30);
+			this.unifyBottomButtonDemo.Location = new System.Drawing.Point(90, 29);
 			this.unifyBottomButtonDemo.Name = "unifyBottomButtonDemo";
 			this.unifyBottomButtonDemo.Size = new System.Drawing.Size(22, 23);
 			this.unifyBottomButtonDemo.TabIndex = 2;
@@ -214,7 +216,7 @@
 			// 
 			// tdLabelDemo
 			// 
-			this.tdLabelDemo.Location = new System.Drawing.Point(6, 6);
+			this.tdLabelDemo.Location = new System.Drawing.Point(6, 5);
 			this.tdLabelDemo.Name = "tdLabelDemo";
 			this.tdLabelDemo.Size = new System.Drawing.Size(110, 19);
 			this.tdLabelDemo.TabIndex = 0;
@@ -248,6 +250,16 @@
 			this.myStatusLabel.Size = new System.Drawing.Size(1169, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// saComboBoxDemo
+			// 
+			this.saComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.saComboBoxDemo.FormattingEnabled = true;
+			this.saComboBoxDemo.Location = new System.Drawing.Point(6, 83);
+			this.saComboBoxDemo.Name = "saComboBoxDemo";
+			this.saComboBoxDemo.Size = new System.Drawing.Size(106, 20);
+			this.saComboBoxDemo.TabIndex = 5;
+			this.saComboBoxDemo.Visible = false;
 			// 
 			// DetailMultiForm
 			// 
@@ -292,5 +304,6 @@
 		private System.Windows.Forms.ComboBox unifyComboBoxDemo;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
+		private System.Windows.Forms.ComboBox saComboBoxDemo;
 	}
 }

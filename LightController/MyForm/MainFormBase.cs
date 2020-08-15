@@ -1337,7 +1337,7 @@ namespace LightController.MyForm
 			{
 				foreach (int lightIndex in selectedIndices)
 				{
-					getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;				
+					getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;	
 				}
 			} // 单灯模式，则只需更改当前灯具的数据即可。
 			else

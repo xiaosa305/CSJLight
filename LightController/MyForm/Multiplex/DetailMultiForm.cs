@@ -293,10 +293,8 @@ namespace LightController.MyForm.Multiplex
 		    int tdIndex = MathHelper.GetIndexNum((nud.Parent.Parent as FlowLayoutPanel).Name, -1);
 			int stepIndex = MathHelper.GetIndexNum(nud.Name, -1);
 			int stepValue = decimal.ToInt32( nud.Value );
-
-			Console.WriteLine( tdIndex + " +++ " +  stepIndex +"  --- "+ stepValue);
-			
-			//mainForm.SetTdStepValue(  tdIndex, stepIndex , stepValue);
+			//Console.WriteLine( tdIndex + " +++ " +  stepIndex +"  --- "+ stepValue);			
+			mainForm.SetTdStepValue(  tdIndex, stepIndex , stepValue);
 		}
 
 		/// <summary>

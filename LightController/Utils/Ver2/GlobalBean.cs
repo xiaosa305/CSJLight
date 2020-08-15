@@ -40,9 +40,11 @@ namespace LightController.Utils.Ver2
                 int.TryParse(strValue.Split('=')[1], out iValue);
                 this.FrameIntervalTime = iValue;
 
+
                 strValue = reader.ReadLine();
                 int.TryParse(strValue.Split('=')[1], out iValue);
                 this.SequencerMode = iValue;
+              
 
                 strValue = reader.ReadLine();
                 if (strValue.Equals("[Multiple]"))

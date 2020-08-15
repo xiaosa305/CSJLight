@@ -30,6 +30,8 @@ namespace MultiLedController.multidevice.newmultidevice
         private int LedSpaceNumber { get; set; }
         private int ControlNumber { get; set; }
         private int LastFramePacketSequence { get; set; }
+        private int DebugFramCount { get; set; }
+        private int RecordFramCount { get; set; }
 
         private string ServerIP { get; set; }
         private string LocalIP { get; set; }
@@ -62,11 +64,17 @@ namespace MultiLedController.multidevice.newmultidevice
         private Socket Send { get; set; }
         private UdpClient Client { get; set; }
 
+        public delegate void GetDebugFramCount(int framCount);
+        public delegate void GetRecordFramCount(int framCount);
+
+        private GetDebugFramCount GetDebugFramCount_Event { get; set; }
+        private GetRecordFramCount GetRecordFramCount_Event { get; set; }
+
         public void Test()
         {
-            this.IsResponseDMXDatasStatus = true;
+            //this.IsResponseDMXDatasStatus = true;
             //this.StartDebug();
-            this.StartRecord(@"C:\Users\99729\Desktop\Test\Test\RecordTest.bin", @"C:\Users\99729\Desktop\Test\Test\Config.bin");
+            //this.StartRecord(@"C:\Users\99729\Desktop\Test\Test\RecordTest.bin", @"C:\Users\99729\Desktop\Test\Test\Config.bin");
 
         }
 
@@ -149,6 +157,8 @@ namespace MultiLedController.multidevice.newmultidevice
             this.Clients = new List<NewVirtualClient>();
             this.LastFrameResponseTime = -1;
             this.LastFramePacketSequence = 0;
+            this.DebugFramCount = 0;
+            this.RecordFramCount = 0;
             this.SYNCHROLOCK_KEY = new object();
             this.IsResponseDMXDatasStatus = false;
             this.DebugDMXTaskStatus = false;
@@ -211,15 +221,18 @@ namespace MultiLedController.multidevice.newmultidevice
             return this;
         }
 
-        public NewVirtualDevice StartDebug()
+        public NewVirtualDevice StartDebug(GetDebugFramCount getDebugFramCount)
         {
             this.IsDebugDMXData = true;
+            this.DebugFramCount = 0;
+            this.GetDebugFramCount_Event = getDebugFramCount;
             return this;
         }
 
         public NewVirtualDevice StopDebug()
         {
             this.IsDebugDMXData = false;
+            this.GetDebugFramCount_Event = null;
             return this;
         }
 
@@ -228,8 +241,10 @@ namespace MultiLedController.multidevice.newmultidevice
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public NewVirtualDevice StartRecord(string filePath,string config)
+        public NewVirtualDevice StartRecord(string filePath,string config, GetRecordFramCount getRecordFramCount)
         {
+            this.RecordFramCount = 0;
+            this.GetRecordFramCount_Event = getRecordFramCount;
             this.FilePath = filePath;
             this.ConfigPath = config;
             this.IsFirstFrameByRecord = true;
@@ -250,6 +265,7 @@ namespace MultiLedController.multidevice.newmultidevice
         public NewVirtualDevice StopRecord()
         {
             this.IsRecordDMXData = false;
+            this.GetRecordFramCount_Event = null;
             return this;
         }
 
@@ -422,7 +438,7 @@ namespace MultiLedController.multidevice.newmultidevice
             Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
             Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
             Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
-
+            #region 数据整理
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
@@ -472,6 +488,8 @@ namespace MultiLedController.multidevice.newmultidevice
                     }
                 }
             }
+            #endregion
+            #region 数据分包
             int packageSize = 1024;
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
@@ -503,7 +521,8 @@ namespace MultiLedController.multidevice.newmultidevice
                 packageData.AddRange(new byte[] {0xFF,0xFF,0xFF,0xFF });
                 dataBuff[controlNo].Enqueue(packageData);
             }
-            //发包
+            #endregion
+            #region 发包
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
@@ -513,24 +532,27 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
             }
             this.Send.SendTo(PACKAGE_END.ToArray(), iPEnd);
+            #endregion
+            #region 调试模式帧数计数
+            this.DebugFramCount++;
+            if (this.GetDebugFramCount_Event != null)
+            {
+                GetDebugFramCount_Event(this.DebugFramCount);
+            }
+            #endregion
         }
 
         private void RecordDMXDataEvent(Dictionary<int, List<byte>> dmxData)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
             Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
             Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
-            //Dictionary<int, Dictionary<int, int>> ledInterfaceDataSize = new Dictionary<int, Dictionary<int, int>>();
-
+            #region 数据整理
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
                 int ledInterfaceNo = 1;
                 dmxDataBuff.Add(controlNo, new Dictionary<int, List<byte>>());
-                //ledInterfaceDataSize.Add(controlNo, new Dictionary<int, int>());
                 for (int spaceIndex = 0; spaceIndex < this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex += this.LedSpaceNumber)
                 {
                     dmxDataBuff[controlNo].Add(ledInterfaceNo, new List<byte>());
@@ -542,7 +564,6 @@ namespace MultiLedController.multidevice.newmultidevice
                             Console.WriteLine("超过510");
                         }
                     }
-                    //ledInterfaceDataSize[controlNo].Add(ledInterfaceNo, dmxDataBuff[controlNo][ledInterfaceNo].Count);
                     ledInterfaceNo++;
                 }
             }
@@ -601,14 +622,15 @@ namespace MultiLedController.multidevice.newmultidevice
                     }
                 }
             }
-            //写参数包
+            #endregion
+            #region 写参数包
             FileStream stream;
             int frameDataLength = 0;
             if (this.IsFirstFrameByRecord)
             {
                 this.IsFirstFrameByRecord = false;
                 this.CreateConfigFile(dmxData);
-                byte[] paramPackage = Enumerable.Repeat(Convert.ToByte(0x00),512).ToArray();
+                byte[] paramPackage = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 if (File.Exists(this.FilePath))
                 {
                     File.Delete(this.FilePath);
@@ -619,17 +641,11 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
                 Console.WriteLine("创建文件");
             }
-            //写分控数据包
+            #endregion
+            #region 写分控数据包
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
-                //int maxSize = 0;
-
-                //foreach (int key in ledInterfaceDataSize[controlNo].Keys)
-                //{
-                //    int value = ledInterfaceDataSize[controlNo][key];
-                //    maxSize = maxSize > value ? maxSize : value;
-                //}
                 List<byte> buff = new List<byte>();
                 if (ledInterfaceDMXDatas[controlNo].Count % 24 != 0)
                 {
@@ -645,28 +661,24 @@ namespace MultiLedController.multidevice.newmultidevice
                 {
                     stream.Write(buff.ToArray(), 0, buff.Count);
                 }
-                if (buff.Count % 24 != 0)
-                {
-                    Console.WriteLine("controlNo：" + controlNo + "------------dataLength：" + (buff.Count % 24 == 0));
-                }
             }
             if (frameDataLength % 512 != 0)
             {
                 byte[] emptyData = Enumerable.Repeat(Convert.ToByte(0x00), (512 - (frameDataLength % 512))).ToArray();
-
-                if ((frameDataLength + emptyData.Length) % 512 != 0)
-                {
-                    Console.WriteLine("帧数据不是512倍数：" + frameDataLength + "---" + emptyData.Length);
-                }
-
                 using (stream = new FileStream(FilePath, FileMode.Append))
                 {
                     stream.Write(emptyData.ToArray(), 0, emptyData.Length);
                 }
             }
-            //Console.WriteLine("记录一帧数据");
+            #endregion
+            #region 录制模式帧数计数
+            this.RecordFramCount++;
+            if (this.GetRecordFramCount_Event == null)
+            {
+                this.GetRecordFramCount_Event(this.RecordFramCount);
+            }
+            #endregion
         }
-
         private void CreateConfigFile(Dictionary<int, List<byte>> dmxData)
         {
             List<byte> buff = new List<byte>();

@@ -438,7 +438,7 @@ namespace MultiLedController.multidevice.newmultidevice
             Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
             Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
             Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
-
+            #region 数据整理
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
@@ -488,6 +488,8 @@ namespace MultiLedController.multidevice.newmultidevice
                     }
                 }
             }
+            #endregion
+            #region 数据分包
             int packageSize = 1024;
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
@@ -519,7 +521,8 @@ namespace MultiLedController.multidevice.newmultidevice
                 packageData.AddRange(new byte[] {0xFF,0xFF,0xFF,0xFF });
                 dataBuff[controlNo].Enqueue(packageData);
             }
-            //发包
+            #endregion
+            #region 发包
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
@@ -529,19 +532,22 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
             }
             this.Send.SendTo(PACKAGE_END.ToArray(), iPEnd);
+            #endregion
+            #region 调试模式帧数计数
             this.DebugFramCount++;
-            this.GetDebugFramCount_Event(this.DebugFramCount);
+            if (this.GetDebugFramCount_Event != null)
+            {
+                GetDebugFramCount_Event(this.DebugFramCount);
+            }
+            #endregion
         }
 
         private void RecordDMXDataEvent(Dictionary<int, List<byte>> dmxData)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
             Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
             Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
-
+            #region 数据整理
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
@@ -616,14 +622,15 @@ namespace MultiLedController.multidevice.newmultidevice
                     }
                 }
             }
-            //写参数包
+            #endregion
+            #region 写参数包
             FileStream stream;
             int frameDataLength = 0;
             if (this.IsFirstFrameByRecord)
             {
                 this.IsFirstFrameByRecord = false;
                 this.CreateConfigFile(dmxData);
-                byte[] paramPackage = Enumerable.Repeat(Convert.ToByte(0x00),512).ToArray();
+                byte[] paramPackage = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
                 if (File.Exists(this.FilePath))
                 {
                     File.Delete(this.FilePath);
@@ -634,7 +641,8 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
                 Console.WriteLine("创建文件");
             }
-            //写分控数据包
+            #endregion
+            #region 写分控数据包
             for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
             {
                 int controlNo = controlIndex + 1;
@@ -662,10 +670,15 @@ namespace MultiLedController.multidevice.newmultidevice
                     stream.Write(emptyData.ToArray(), 0, emptyData.Length);
                 }
             }
+            #endregion
+            #region 录制模式帧数计数
             this.RecordFramCount++;
-            this.GetRecordFramCount_Event(this.RecordFramCount);
+            if (this.GetRecordFramCount_Event == null)
+            {
+                this.GetRecordFramCount_Event(this.RecordFramCount);
+            }
+            #endregion
         }
-
         private void CreateConfigFile(Dictionary<int, List<byte>> dmxData)
         {
             List<byte> buff = new List<byte>();

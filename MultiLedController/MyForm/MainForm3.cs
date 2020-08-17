@@ -17,6 +17,7 @@ namespace MultiLedController.MyForm
 {
 	public partial class MainForm3 : Form
 	{
+		private string version = "3.0.1.817";
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新			
 
 		private ManagementObject mo; //存放当前网卡的mo对象
@@ -34,9 +35,7 @@ namespace MultiLedController.MyForm
 
 		public MainForm3()
 		{
-			InitializeComponent();			
-
-			string version = "3.0.0.815"; 
+			InitializeComponent();						
 			Text += " v" + version + " beta";
 
 			// 设两个可调节ComboBox的默认值
@@ -52,6 +51,7 @@ namespace MultiLedController.MyForm
 
 			//为recordTextBox添加失去焦点的监听事件（没有在VS中）
 			recordTextBox.LostFocus += new EventHandler(recordTextBox_LostFocus);
+			controllerCountNUD.MouseWheel += someNUD_MouseWheel;
 		}
 
 		/// <summary>
@@ -313,9 +313,10 @@ namespace MultiLedController.MyForm
 				int interfaceCount = int.Parse(interfaceCountComboBox.Text);
 				int spaceCount = int.Parse(spaceCountComboBox.Text) / 170;
 				int controllerCount = decimal.ToInt32(controllerCountNUD.Value);
-				int totalSpaceCount = interfaceCount * spaceCount * controllerCount; 
+				int totalSpaceCount = interfaceCount * spaceCount * controllerCount;
 
-				int addVIPCount = (int)(Math.Ceiling(interfaceCount * spaceCount * controllerCount / 4.0)) - vipList.Count;
+				int neededVipCount = (int)(Math.Ceiling(interfaceCount * spaceCount * controllerCount / 4.0));
+				int addVIPCount = neededVipCount - vipList.Count;
 
 				if (addVIPCount > 0)
 				{
@@ -337,8 +338,7 @@ namespace MultiLedController.MyForm
 
 					//若仍未完成，则必须提示用户无可用ip并中断操作
 					if (addVIPCount > 0)
-					{
-						MessageBox.Show("检测到当前网段无足够可用的IP地址，无法继续操作。");
+					{						
 						setNotice(1, "检测到当前网段无足够可用的IP地址，已中断操作。", true);
 						setBusy(false);
 						return;
@@ -375,7 +375,6 @@ namespace MultiLedController.MyForm
 					}
 					else
 					{
-						MessageBox.Show("虚拟IP设置失败，已恢复初始设置。");
 						setNotice(1, "启动模拟失败(虚拟IP设置失败，已恢复初始设置)。", true);
 						setBusy(false);
 						return;
@@ -384,10 +383,18 @@ namespace MultiLedController.MyForm
 				
 				Refresh();
 
+				List<string> neededVipList = new List<string>();
+				for (int vipIndex =0; vipIndex < neededVipCount; vipIndex++)
+				{
+					neededVipList.Add(vipList[vipIndex]);
+					virtualIPListView.Items[vipIndex].SubItems[2].Text = "是";
+				}
+
+				
 				if (simulator != null ) {
 					simulator.Close();
 				}
-				simulator =  new NewVirtualDevice(interfaceCount, vipList, spaceCount, controllerCount, mainIP, mainIP);
+				simulator =  new NewVirtualDevice(interfaceCount, neededVipList, spaceCount, controllerCount, mainIP, mainIP);
 				simulator.StartResponseDMXData();
 
 				DateTime afterDT = System.DateTime.Now;
@@ -436,7 +443,7 @@ namespace MultiLedController.MyForm
 			debugButton.Text = isDebuging ? "停止调试" : "开始调试";
 			if (isDebuging)
 			{
-				simulator.StartDebug();
+				simulator.StartDebug( showDebugFrame );
 			}
 			else
 			{
@@ -566,7 +573,7 @@ namespace MultiLedController.MyForm
 				ListViewItem item = new ListViewItem(new string[] {
 					 tempIndex +"",
 					 newIPList[tempIndex],					 
-					 ""
+					 "是"
 				});
 				virtualIPListView.Items.Add(item);
 			}
@@ -683,14 +690,13 @@ namespace MultiLedController.MyForm
 
 				string binPath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
 				string configPath = recordPath + @"\csj.scu" ;
-				simulator.StartRecord( binPath , configPath   );
+				simulator.StartRecord( binPath , configPath , showRecordFrame);
 
 				enableRecordButtons(true);
 				recordButton.Text = "停止录制";
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 辅助方法：根据当前的recordPath，设置label及toolTip
 		/// </summary>
@@ -779,11 +785,59 @@ namespace MultiLedController.MyForm
 			Enabled = !busy;
 		}
 
+		/// <summary>
+		/// 辅助方法：实现展示调试帧数的委托
+		/// </summary>
+		/// <param name="count"></param>
+		private void showDebugFrame(int count)
+		{
+			setNotice(1, "当前调试帧数：" + count, false);
+		}
 
+		/// <summary>
+		/// 辅助方法：实现展示录制帧数的委托
+		/// </summary>
+		/// <param name="count"></param>
+		private void showRecordFrame(int count)
+		{
+			setNotice(2, "当前录制帧数：" + count, false);
+		}
 
+		/// <summary>
+		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void someNUD_MouseWheel(object sender, MouseEventArgs e)
+		{
+			NumericUpDown nud = sender as NumericUpDown;
+			HandledMouseEventArgs hme = e as HandledMouseEventArgs;
+			if (hme != null)
+			{
+				hme.Handled = true;
+			}
+			// 向上滚
+			if (e.Delta > 0)
+			{
+				decimal dd = nud.Value + nud.Increment;
+				if (dd <= nud.Maximum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
+			}
+			// 向下滚
+			else if (e.Delta < 0)
+			{
+				decimal dd = nud.Value - nud.Increment;
+				if (dd >= nud.Minimum)
+				{
+					nud.Value = decimal.ToInt32(dd);
+				}
+			}
+		}
 
 		#endregion
 
-	
+
 	}
 }

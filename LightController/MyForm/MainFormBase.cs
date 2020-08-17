@@ -303,7 +303,7 @@ namespace LightController.MyForm
 						if (j < lightWrapperList.Count
 							&& lightAstList2[i].Equals(lightAstList[j])
 							&& lightWrapperList[j] != null)
-						{
+						{							
 							lightWrapperList2.Add(lightWrapperList[j]);
 							addOld = true;
 							//MARK 只开单场景：14.2 ReBuildLightList()方法体内，为retainLightIndices添加旧灯具的数据
@@ -353,6 +353,7 @@ namespace LightController.MyForm
 
 		/// <summary>
 		/// 辅助方法：生成模板Step --》 之后每新建一步，都复制模板step的数据。
+		/// --这个方法内集成了生成模板步、子属性列表等数据；
 		/// </summary>
 		/// <param name="lightAst"></param>
 		/// <param name="lightIndex"></param>

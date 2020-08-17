@@ -802,7 +802,11 @@ namespace LightController.MyForm
 			//2. 不论是新生成还是已经存在的数据，按是否存在进行显示；
 
 			LightAst la = lightAstList[selectedIndex];
-			
+			if (la.SawList == null)
+			{
+				generateStepTemplate(la);
+			}
+
 			if (la.saPanelDict == null) {
 				la.saPanelDict = new Dictionary<int, FlowLayoutPanel>();
 				for (int tdIndex = 0; tdIndex < la.SawList.Count; tdIndex++)

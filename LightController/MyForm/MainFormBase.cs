@@ -114,7 +114,7 @@ namespace LightController.MyForm
 		protected IList<DB_FineTune> dbFineTuneList;
 		protected IList<DB_StepCount> dbStepCountList;
 
-		protected IList<LightAst> lightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用
+		protected IList<LightAst> lightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
 		protected IList<LightWrapper> lightWrapperList;// 灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
 		protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
@@ -195,6 +195,19 @@ namespace LightController.MyForm
 		/// <param name="binPath"></param>
 		internal void SetProjectPath(string projectPath) {
 			tempProjectPath = projectPath;
+		}
+
+		/// <summary>
+		/// 辅助方法：（供DetailMultiForm等调用）返回当前灯具某个通道的封装类；
+		/// </summary>
+		/// <returns></returns>
+		internal SAWrapper GetCurrentLightTdSaw( int tdIndex) {
+
+			if (lightAstList ==null || lightAstList.Count == 0 || selectedIndex == -1) {				
+				return null;
+			}
+			
+			return lightAstList[selectedIndex].SawList[tdIndex] ;
 		}
 
 		#endregion

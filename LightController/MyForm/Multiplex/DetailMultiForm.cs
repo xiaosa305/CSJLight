@@ -8,13 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using LightController.Ast;
 using LightController.Common;
+using LightEditor.Ast;
 
 namespace LightController.MyForm.Multiplex
 {
 	public partial class DetailMultiForm : Form
 	{
 		private MainFormBase mainForm;		
-		private IList<int> tdIndices;		
+		private IList<int> tdIndices;	
 		
 		public DetailMultiForm(MainFormBase mainForm, string lightInfo,  IList<int> tdIndices,  IList<StepWrapper> stepWrapperList)
 		{
@@ -45,6 +46,16 @@ namespace LightController.MyForm.Multiplex
 					addTdPanel(stepWrapperList, tdIndex);
 				}				
 			}
+		}
+		
+		/// <summary>
+		///  Load方法内设定窗口位置
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SoundMultiForm_Load(object sender, EventArgs e)
+		{
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
 
 		/// <summary>
@@ -154,6 +165,27 @@ namespace LightController.MyForm.Multiplex
 			tdSmallPanel.Controls.Add(unifyBottomButton);
 			tdSmallPanel.Controls.Add(unifyNUD);
 			tdSmallPanel.Controls.Add(unifyValueButton);
+
+			// 满足多个条件，才会添加子属性的comboBox
+			SAWrapper saw = mainForm.GetCurrentLightTdSaw(tdIndex);
+			if (saw != null && saw.SaList != null && saw.SaList.Count != 0) {
+				ComboBox saComboBox = new ComboBox
+				{
+					Name = "saComboBox" + (tdIndex + 1),
+					DropDownStyle = saComboBoxDemo.DropDownStyle,
+					FormattingEnabled = true,
+					Location = saComboBoxDemo.Location,
+					Size = saComboBoxDemo.Size
+				};
+				foreach (SA sa in saw.SaList)
+				{
+					saComboBox.Items.Add(sa.SAName + "("+sa.StartValue+")") ;
+				}
+				saComboBox.SelectedIndexChanged += saComboBox_SelectedIndexChanged;
+
+				tdSmallPanel.Controls.Add(saComboBox);				
+			}
+		
 			
 			for (int stepIndex = 0; stepIndex < stepWrapperList.Count; stepIndex++)
 			{
@@ -218,16 +250,64 @@ namespace LightController.MyForm.Multiplex
 				stepNUD.ValueChanged += StepNUD_ValueChanged;
 			}
 		}
-		
+
+		#region 统一设值
+
 		/// <summary>
-		///  Load方法内设定窗口位置
+		/// 事件：更改saComboBox内的选中项，并将unifyStepNUD内的数字设为这个子属性对应的值（起始值）
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SoundMultiForm_Load(object sender, EventArgs e)
+		private void saComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);		
+			ComboBox cb = sender as ComboBox;
+			int tdIndex = MathHelper.GetIndexNum(cb.Name, -1);
+			int saIndex = cb.SelectedIndex;
+			int saValue = mainForm.GetCurrentLightTdSaw(tdIndex).SaList[saIndex].StartValue;
+
+			(cb.Parent.Controls[4] as NumericUpDown).Value = saValue;
 		}
+		
+		/// <summary>
+		/// 事件：点击《(统一)设值 + ↑ + ↓》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyValueButton_Click(object sender, EventArgs e)
+		{
+			// 本按键对应的tdIndex; 
+			Button btn = sender as Button;
+			int tdIndex = MathHelper.GetIndexNum(btn.Name, -1);
+
+			// 统一调整的位置
+			int unifyPos = ((btn.Parent as Panel).Controls[1] as ComboBox).SelectedIndex;
+
+			// 统一调整的数值
+			int unifyValue = decimal.ToInt32(((btn.Parent as Panel).Controls[4] as NumericUpDown).Value);
+			if (btn.Text == "↑")
+			{
+				unifyValue = 255;
+			}
+			else if (btn.Text == "↓")
+			{
+				unifyValue = 0;
+			}
+
+			// 好几个if else 语句，合成这个for语句（只有双步时，从第二步开始调整；只有“全部”时，每次步进的数量为1）
+			for (int stepIndex = (unifyPos == 2 ? 1 : 0);
+				stepIndex < btn.Parent.Parent.Controls[0].Controls.Count;
+				stepIndex += (unifyPos == 0 ? 1 : 2))
+			{
+				NumericUpDown stepNUD = btn.Parent.Parent.Controls[0].Controls[stepIndex].Controls[3] as NumericUpDown;
+				stepNUD.Value = unifyValue;
+			}
+
+			// Console.WriteLine( tdIndex + " - "+unifyPos + " : " + unifyValue );
+		}
+
+		#endregion
+
+		#region 单独设值
 
 		/// <summary>
 		/// 验证：对某些NumericUpDown进行鼠标滚轮的验证，避免一次性滚动过多
@@ -282,6 +362,10 @@ namespace LightController.MyForm.Multiplex
 			((sender as Button).Parent.Controls[3] as NumericUpDown).Value = 0;
 		}
 
+		#endregion
+
+		#region 通用方法
+
 		/// <summary>
 		/// 事件：stepNUD的值发生变化，则更改mainForm内相应数据的值
 		/// </summary>
@@ -296,46 +380,7 @@ namespace LightController.MyForm.Multiplex
 			//Console.WriteLine( tdIndex + " +++ " +  stepIndex +"  --- "+ stepValue);			
 			mainForm.SetTdStepValue(  tdIndex, stepIndex , stepValue);
 		}
-
-		/// <summary>
-		/// 事件：点击《(统一)设值 + ↑ + ↓》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void unifyValueButton_Click(object sender, EventArgs e)
-		{
-			// 本按键对应的tdIndex; 
-			Button btn = sender as Button;
-			int tdIndex = MathHelper.GetIndexNum(btn.Name, -1);
-
-			// 统一调整的位置
-			int unifyPos = ((btn.Parent as Panel).Controls[1] as ComboBox).SelectedIndex;
-
-			// 统一调整的数值
-			int unifyValue =decimal.ToInt32( (  (btn.Parent as Panel).Controls[4] as NumericUpDown) . Value );
-			if (btn.Text == "↑")
-			{
-				unifyValue = 255;
-			}
-			else if (btn.Text == "↓")
-			{
-				unifyValue = 0;
-			}
-					
-
-			// 好几个if else 语句，合成这个for语句（只有双步时，从第二步开始调整；只有“全部”时，每次步进的数量为1）
-			for (int stepIndex =( unifyPos == 2 ? 1 : 0) ; 
-				stepIndex < btn.Parent.Parent.Controls[0].Controls.Count; 
-				stepIndex +=( unifyPos == 0 ? 1 : 2) )
-			{
-				Console.WriteLine( "--------------------"	);
-				NumericUpDown stepNUD = btn.Parent.Parent.Controls[0].Controls[stepIndex].Controls[3] as NumericUpDown; 				
-				stepNUD.Value = unifyValue;
-			}
-
-			// Console.WriteLine( tdIndex + " - "+unifyPos + " : " + unifyValue );
-		}
-
+		
 		/// <summary>
 		/// 辅助方法：设置提醒
 		/// </summary>
@@ -346,7 +391,10 @@ namespace LightController.MyForm.Multiplex
 			if (msgBoxShow) {
 				MessageBox.Show(msg);
 			}
-		}		
+		}
+
+		#endregion
+
 	}
 }
  

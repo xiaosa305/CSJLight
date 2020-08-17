@@ -36,6 +36,7 @@
 			this.stepNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.tdPanelDemo = new System.Windows.Forms.Panel();
 			this.tdSmallPanelDemo = new System.Windows.Forms.Panel();
+			this.saComboBoxDemo = new System.Windows.Forms.ComboBox();
 			this.unifyComboBoxDemo = new System.Windows.Forms.ComboBox();
 			this.unifyTopButtonDemo = new System.Windows.Forms.Button();
 			this.unifyNUDDemo = new System.Windows.Forms.NumericUpDown();
@@ -45,7 +46,6 @@
 			this.bigFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.saComboBoxDemo = new System.Windows.Forms.ComboBox();
 			this.stepFLPDemo.SuspendLayout();
 			this.stepPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stepNUDDemo)).BeginInit();
@@ -151,6 +151,17 @@
 			this.tdSmallPanelDemo.Size = new System.Drawing.Size(123, 108);
 			this.tdSmallPanelDemo.TabIndex = 0;
 			// 
+			// saComboBoxDemo
+			// 
+			this.saComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.saComboBoxDemo.FormattingEnabled = true;
+			this.saComboBoxDemo.Location = new System.Drawing.Point(6, 83);
+			this.saComboBoxDemo.Name = "saComboBoxDemo";
+			this.saComboBoxDemo.Size = new System.Drawing.Size(106, 20);
+			this.saComboBoxDemo.TabIndex = 5;
+			this.saComboBoxDemo.Visible = false;
+			this.saComboBoxDemo.SelectedIndexChanged += new System.EventHandler(this.saComboBox_SelectedIndexChanged);
+			// 
 			// unifyComboBoxDemo
 			// 
 			this.unifyComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -250,16 +261,6 @@
 			this.myStatusLabel.Size = new System.Drawing.Size(1169, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// saComboBoxDemo
-			// 
-			this.saComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.saComboBoxDemo.FormattingEnabled = true;
-			this.saComboBoxDemo.Location = new System.Drawing.Point(6, 83);
-			this.saComboBoxDemo.Name = "saComboBoxDemo";
-			this.saComboBoxDemo.Size = new System.Drawing.Size(106, 20);
-			this.saComboBoxDemo.TabIndex = 5;
-			this.saComboBoxDemo.Visible = false;
 			// 
 			// DetailMultiForm
 			// 

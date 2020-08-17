@@ -1640,10 +1640,29 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void actionButton_Click(object sender, EventArgs e)
+		private void actionButton_Click(object sender, EventArgs e)	{	}
+
+		/// <summary>
+		/// 事件：鼠标（左|右键）按下《内置动作》
+		///  1.获取当前步，当前步对应的stepIndex
+		///  2.通过stepIndex，DeleteStep(index);
+		///  3.获取新步(step删除后会自动生成新的)，并重新渲染stepLabel和vScrollBars
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void actionButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			actionButtonClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				actionButtonClick();
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				rgbButtonClick();
+			}
 		}
+
+	
 
 		/// <summary>
 		/// 事件：点击《复制步》

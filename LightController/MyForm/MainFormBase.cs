@@ -3017,7 +3017,15 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《复制步》(右键《复制多步》)
+		/// 辅助方法：右键点击《内置动作》时，进入RGB调整界面
+		/// </summary>
+		protected void rgbButtonClick()
+		{
+			
+		}
+
+		/// <summary>
+		/// 辅助方法：点击《复制步》
 		/// </summary>
 		protected void copyStepClick()
 		{

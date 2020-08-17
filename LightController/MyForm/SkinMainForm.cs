@@ -1473,7 +1473,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				
+				rgbButtonClick();
 			}
 		}
 

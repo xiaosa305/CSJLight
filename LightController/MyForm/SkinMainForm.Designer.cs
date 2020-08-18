@@ -2260,7 +2260,7 @@ namespace LightController.MyForm
 			this.tdNoLabelDemo.BackColor = System.Drawing.Color.Transparent;
 			this.tdNoLabelDemo.BorderColor = System.Drawing.Color.White;
 			this.tdNoLabelDemo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdNoLabelDemo.Location = new System.Drawing.Point(6, 11);
+			this.tdNoLabelDemo.Location = new System.Drawing.Point(4, 11);
 			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
 			this.tdNoLabelDemo.Size = new System.Drawing.Size(53, 17);
 			this.tdNoLabelDemo.TabIndex = 23;

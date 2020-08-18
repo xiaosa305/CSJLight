@@ -561,7 +561,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 int controlNo = controlIndex + 1;
                 int ledInterfaceNo = 1;
                 dmxDataBuff.Add(controlNo, new Dictionary<int, List<byte>>());
-                for (int spaceIndex = 0; spaceIndex < this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex += this.LedSpaceNumber)
+                for (int spaceIndex = controlIndex * this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex < controlIndex * this.LedInterfaceNumber * this.LedSpaceNumber + this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex += this.LedSpaceNumber)
                 {
                     dmxDataBuff[controlNo].Add(ledInterfaceNo, new List<byte>());
                     for (int index = 0; index < this.LedSpaceNumber; index++)

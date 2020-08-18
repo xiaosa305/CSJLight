@@ -59,7 +59,8 @@ namespace LightController.MyForm
 				{
 					Size = new Size(80, 275),
 					Visible = false,
-					Name = "tdPanel"+ (tdIndex + 1)
+					Name = "tdPanel"+ (tdIndex + 1)，
+					Margin= 
 				};
 
 				tdNoLabels[tdIndex] = new SkinLabel
@@ -168,6 +169,7 @@ namespace LightController.MyForm
 					Location = new System.Drawing.Point(3, 3),
 					Name = "saPanel" + (tdIndex + 1),
 					Size = new System.Drawing.Size(95, 275),
+					Margin = 
 					Visible = true,
 				};
 				tdSkinFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);

@@ -3499,15 +3499,9 @@ namespace LightController.MyForm
 				return;
 			}
 
-			LightAst la = lightAstList[selectedIndex];
-			LightWrapper lw = lightWrapperList[selectedIndex];
+			//new 
+			
 
-			new DetailMultiForm(
-				this,
-				la.LightType + "(" + la.LightAddr + ")",
-				null,
-				lw.LightStepWrapperList[currentFrame, currentMode].StepWrapperList
-			).ShowDialog();			
 		}
 
 		/// <summary>

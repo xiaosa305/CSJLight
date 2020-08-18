@@ -2214,16 +2214,17 @@ namespace LightController.MyForm
 			this.tdPanel1.Controls.Add(this.tdSkinTrackBar1);
 			this.tdPanel1.Controls.Add(this.tdValueNumericUpDown1);
 			this.tdPanel1.Controls.Add(this.tdChangeModeSkinComboBox1);
-			this.tdPanel1.Location = new System.Drawing.Point(3, 3);
+			this.tdPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tdPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tdPanel1.Name = "tdPanel1";
-			this.tdPanel1.Size = new System.Drawing.Size(80, 275);
+			this.tdPanel1.Size = new System.Drawing.Size(62, 275);
 			this.tdPanel1.TabIndex = 26;
 			this.tdPanel1.Visible = false;
 			// 
 			// tdNameLabelDemo
 			// 
 			this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
-			this.tdNameLabelDemo.Location = new System.Drawing.Point(16, 42);
+			this.tdNameLabelDemo.Location = new System.Drawing.Point(5, 42);
 			this.tdNameLabelDemo.Name = "tdNameLabelDemo";
 			this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 143);
 			this.tdNameLabelDemo.TabIndex = 22;
@@ -2237,7 +2238,7 @@ namespace LightController.MyForm
 			this.tdNoLabelDemo.BackColor = System.Drawing.Color.Transparent;
 			this.tdNoLabelDemo.BorderColor = System.Drawing.Color.White;
 			this.tdNoLabelDemo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdNoLabelDemo.Location = new System.Drawing.Point(14, 11);
+			this.tdNoLabelDemo.Location = new System.Drawing.Point(3, 11);
 			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
 			this.tdNoLabelDemo.Size = new System.Drawing.Size(53, 17);
 			this.tdNoLabelDemo.TabIndex = 23;
@@ -2247,7 +2248,7 @@ namespace LightController.MyForm
 			// tdStepTimeNumericUpDown1
 			// 
 			this.tdStepTimeNumericUpDown1.Font = new System.Drawing.Font("新宋体", 9F);
-			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(15, 253);
+			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(4, 253);
 			this.tdStepTimeNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.tdStepTimeNumericUpDown1.Maximum = new decimal(new int[] {
             255,
@@ -2265,7 +2266,7 @@ namespace LightController.MyForm
 			this.tdSkinTrackBar1.Bar = null;
 			this.tdSkinTrackBar1.BarStyle = CCWin.SkinControl.HSLTrackBarStyle.Opacity;
 			this.tdSkinTrackBar1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122)))));
-			this.tdSkinTrackBar1.Location = new System.Drawing.Point(19, 31);
+			this.tdSkinTrackBar1.Location = new System.Drawing.Point(8, 31);
 			this.tdSkinTrackBar1.Maximum = 255;
 			this.tdSkinTrackBar1.Name = "tdSkinTrackBar1";
 			this.tdSkinTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -2278,7 +2279,7 @@ namespace LightController.MyForm
 			// tdValueNumericUpDown1
 			// 
 			this.tdValueNumericUpDown1.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(15, 206);
+			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(4, 206);
 			this.tdValueNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.tdValueNumericUpDown1.Maximum = new decimal(new int[] {
             255,
@@ -2301,7 +2302,7 @@ namespace LightController.MyForm
             "跳变",
             "渐变",
             "屏蔽"});
-			this.tdChangeModeSkinComboBox1.Location = new System.Drawing.Point(15, 229);
+			this.tdChangeModeSkinComboBox1.Location = new System.Drawing.Point(4, 229);
 			this.tdChangeModeSkinComboBox1.Name = "tdChangeModeSkinComboBox1";
 			this.tdChangeModeSkinComboBox1.Size = new System.Drawing.Size(56, 22);
 			this.tdChangeModeSkinComboBox1.TabIndex = 19;

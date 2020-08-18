@@ -17,7 +17,7 @@ namespace MultiLedController.MyForm
 {
 	public partial class MainForm3 : Form
 	{
-		private string version = "3.0.1.817";
+		private string version = "3.0.2.818";
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新			
 
 		private ManagementObject mo; //存放当前网卡的mo对象

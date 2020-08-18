@@ -326,7 +326,7 @@ namespace MultiLedController.multidevice.newmultidevice
                         }
                         if (nowPacketSequence == this.LastFramePacketSequence)
                         {
-                            if (this.IsDebugDMXData)
+                                if (this.IsDebugDMXData)
                             {
                                 lock (this.DebugDMXDataQueue)
                                 {
@@ -438,108 +438,116 @@ namespace MultiLedController.multidevice.newmultidevice
             Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
             Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
             Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
-            #region 数据整理
-            for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+            try
             {
-                int controlNo = controlIndex + 1;
-                int ledInterfaceNo = 1;
-                dmxDataBuff.Add(controlNo, new Dictionary<int, List<byte>>());
-                for (int spaceIndex = 0; spaceIndex < this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex += this.LedSpaceNumber)
+                #region 数据整理
+                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
                 {
-                    dmxDataBuff[controlNo].Add(ledInterfaceNo, new List<byte>());
-                    for (int index = 0; index < this.LedSpaceNumber; index++)
+                    int controlNo = controlIndex + 1;
+                    int ledInterfaceNo = 1;
+                    dmxDataBuff.Add(controlNo, new Dictionary<int, List<byte>>());
+                    for (int spaceIndex = controlIndex * this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex < controlIndex * this.LedInterfaceNumber * this.LedSpaceNumber + this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex += this.LedSpaceNumber)
                     {
-                        dmxDataBuff[controlNo][ledInterfaceNo].AddRange(dmxData[spaceIndex + index]);
-                        if (dmxData[spaceIndex + index].Count < 510)
+                        dmxDataBuff[controlNo].Add(ledInterfaceNo, new List<byte>());
+                        for (int index = 0; index < this.LedSpaceNumber; index++)
                         {
-                            dmxDataBuff[controlNo][ledInterfaceNo].AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 510 - dmxData[spaceIndex + index].Count).ToArray());
+                            dmxDataBuff[controlNo][ledInterfaceNo].AddRange(dmxData[spaceIndex + index]);
+                            if (dmxData[spaceIndex + index].Count < 510)
+                            {
+                                dmxDataBuff[controlNo][ledInterfaceNo].AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 510 - dmxData[spaceIndex + index].Count).ToArray());
+                            }
                         }
-                    }
-                    if (dmxDataBuff[controlNo][ledInterfaceNo].Count < (512 * 6))
-                    {
-                        dmxDataBuff[controlNo][ledInterfaceNo].AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 6) - dmxDataBuff[controlNo][ledInterfaceNo].Count).ToArray());
-                    }
-                    ledInterfaceNo++;
-                }
-            }
-            for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
-            {
-                int controlNo = controlIndex + 1;
-                ledInterfaceDMXDatas.Add(controlNo, new Stack<byte>());
-                for (int dataIndex = 0; dataIndex < dmxDataBuff[controlNo][1].Count; dataIndex += 3)
-                {
-                    //R
-                    for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
-                    {
-                        byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex];
-                        ledInterfaceDMXDatas[controlNo].Push(value);
-                    }
-                    //G
-                    for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
-                    {
-                        byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 1];
-                        ledInterfaceDMXDatas[controlNo].Push(value);
-                    }
-                    //B
-                    for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
-                    {
-                        byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
-                        ledInterfaceDMXDatas[controlNo].Push(value);
+                        if (dmxDataBuff[controlNo][ledInterfaceNo].Count < (512 * 6))
+                        {
+                            dmxDataBuff[controlNo][ledInterfaceNo].AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (512 * 6) - dmxDataBuff[controlNo][ledInterfaceNo].Count).ToArray());
+                        }
+                        ledInterfaceNo++;
                     }
                 }
-            }
-            #endregion
-            #region 数据分包
-            int packageSize = 1024;
-            for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
-            {
-                int controlNo = controlIndex + 1;
-                int packageIndex = 1;
-                dataBuff.Add(controlNo, new Queue<List<byte>>());
-                List<byte> packageData = new List<byte>();
-                int seek = 0;
-                packageData.AddRange(new byte[] { 0x00, Convert.ToByte(controlNo), 0x88, 0x77, Convert.ToByte(seek & 0xFF), Convert.ToByte((seek >> 8) & 0xFF), 0xF8, 0x03 });
-                while (ledInterfaceDMXDatas[controlNo].Count > 0)
+                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
                 {
-                    packageData.Add(ledInterfaceDMXDatas[controlNo].Pop());
-                    if (packageData.Count == packageSize)
+                    int controlNo = controlIndex + 1;
+                    ledInterfaceDMXDatas.Add(controlNo, new Stack<byte>());
+                    for (int dataIndex = 0; dataIndex < this.LedSpaceNumber * 512; dataIndex += 3)
                     {
-                        dataBuff[controlNo].Enqueue(packageData);
-                        packageIndex++;
-                        seek = (packageIndex - 1) * 1016;
-                        packageData = new List<byte>();
-                        if (ledInterfaceDMXDatas[controlNo].Count >= packageSize)
+                        //R
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
                         {
-                            packageData.AddRange(new byte[] { 0x00, Convert.ToByte(controlNo), 0x88, 0x77, Convert.ToByte(seek & 0xFF), Convert.ToByte((seek >> 8) & 0xFF), 0xF8, 0x03 });
+                            byte value  = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex];
+                            ledInterfaceDMXDatas[controlNo].Push(value);
                         }
-                        else
+                        //G
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
                         {
-                            packageData.AddRange(new byte[] { 0x00, Convert.ToByte(controlNo), 0x88, 0x77, Convert.ToByte(seek & 0xFF), Convert.ToByte((seek >> 8) & 0xFF), Convert.ToByte(ledInterfaceDMXDatas[controlNo].Count & 0xFF), Convert.ToByte((ledInterfaceDMXDatas[controlNo].Count >> 8) & 0xFF) });
+                            byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 1];
+                            ledInterfaceDMXDatas[controlNo].Push(value);
+                        }
+                        //B
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                        {
+                            byte value  = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
+                            ledInterfaceDMXDatas[controlNo].Push(value);
                         }
                     }
                 }
-                packageData.AddRange(new byte[] {0xFF,0xFF,0xFF,0xFF });
-                dataBuff[controlNo].Enqueue(packageData);
-            }
-            #endregion
-            #region 发包
-            for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
-            {
-                int controlNo = controlIndex + 1;
-                while (dataBuff[controlNo].Count > 0)
+                #endregion
+                #region 数据分包
+                int packageSize = 1024;
+                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
                 {
-                    this.Send.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
+                    int controlNo = controlIndex + 1;
+                    int packageIndex = 1;
+                    dataBuff.Add(controlNo, new Queue<List<byte>>());
+                    List<byte> packageData = new List<byte>();
+                    int seek = 0;
+                    packageData.AddRange(new byte[] { 0x00, Convert.ToByte(controlNo), 0x88, 0x77, Convert.ToByte(seek & 0xFF), Convert.ToByte((seek >> 8) & 0xFF), 0xF8, 0x03 });
+                    while (ledInterfaceDMXDatas[controlNo].Count > 0)
+                    {
+                        packageData.Add(ledInterfaceDMXDatas[controlNo].Pop());
+                        if (packageData.Count == packageSize)
+                        {
+                            dataBuff[controlNo].Enqueue(packageData);
+                            packageIndex++;
+                            seek = (packageIndex - 1) * 1016;
+                            packageData = new List<byte>();
+                            if (ledInterfaceDMXDatas[controlNo].Count >= packageSize)
+                            {
+                                packageData.AddRange(new byte[] { 0x00, Convert.ToByte(controlNo), 0x88, 0x77, Convert.ToByte(seek & 0xFF), Convert.ToByte((seek >> 8) & 0xFF), 0xF8, 0x03 });
+                            }
+                            else
+                            {
+                                packageData.AddRange(new byte[] { 0x00, Convert.ToByte(controlNo), 0x88, 0x77, Convert.ToByte(seek & 0xFF), Convert.ToByte((seek >> 8) & 0xFF), Convert.ToByte(ledInterfaceDMXDatas[controlNo].Count & 0xFF), Convert.ToByte((ledInterfaceDMXDatas[controlNo].Count >> 8) & 0xFF) });
+                            }
+                        }
+                    }
+                    packageData.AddRange(new byte[] { 0xFF, 0xFF, 0xFF, 0xFF });
+                    dataBuff[controlNo].Enqueue(packageData);
                 }
+                #endregion
+                #region 发包
+                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                {
+                    int controlNo = controlIndex + 1;
+                    while (dataBuff[controlNo].Count > 0)
+                    {
+                        this.Send.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
+                    }
+                }
+                this.Send.SendTo(PACKAGE_END.ToArray(), iPEnd);
+                #endregion
+                #region 调试模式帧数计数
+                this.DebugFramCount++;
+                if (this.GetDebugFramCount_Event != null)
+                {
+                    GetDebugFramCount_Event(this.DebugFramCount);
+                }
+                #endregion
             }
-            this.Send.SendTo(PACKAGE_END.ToArray(), iPEnd);
-            #endregion
-            #region 调试模式帧数计数
-            this.DebugFramCount++;
-            if (this.GetDebugFramCount_Event != null)
+            catch (Exception ex)
             {
-                GetDebugFramCount_Event(this.DebugFramCount);
+                Console.WriteLine(ex.Message);
             }
-            #endregion
+           
         }
 
         private void RecordDMXDataEvent(Dictionary<int, List<byte>> dmxData)
@@ -679,6 +687,7 @@ namespace MultiLedController.multidevice.newmultidevice
             }
             #endregion
         }
+
         private void CreateConfigFile(Dictionary<int, List<byte>> dmxData)
         {
             List<byte> buff = new List<byte>();

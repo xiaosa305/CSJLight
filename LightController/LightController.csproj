@@ -251,6 +251,12 @@
     <Compile Include="MyForm\Multiplex\DeleteStepsForm.Designer.cs">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiAstForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiAstForm.Designer.cs">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Multiplex\GroupForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -522,6 +528,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiAstForm.resx">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
       <DependentUpon>GroupForm.cs</DependentUpon>

@@ -3487,17 +3487,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void soundMultiButtonClick()
 		{
-			//if (currentMode != 1)
-			//{
-			//	SetNotice("非音频模式，无法使用多步联调。");
-			//	return;
-			//}
-
-			//if (!isSyncMode)
-			//{
-			//	SetNotice("非同步模式，无法使用多步联调。");
-			//	return;
-			//}
+			if (!isSyncMode)
+			{
+				SetNotice("非同步模式，无法使用多步联调。",true);
+				return;
+			}
 
 			if (getTotalStep() == 0)
 			{
@@ -3505,15 +3499,9 @@ namespace LightController.MyForm
 				return;
 			}
 
-			LightAst la = lightAstList[selectedIndex];
-			LightWrapper lw = lightWrapperList[selectedIndex];
+			//new 
+			
 
-			new DetailMultiForm(
-				this,
-				la.LightType + "(" + la.LightAddr + ")",
-				null,
-				lw.LightStepWrapperList[currentFrame, currentMode].StepWrapperList
-			).ShowDialog();			
 		}
 
 		/// <summary>

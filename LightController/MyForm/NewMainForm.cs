@@ -1648,9 +1648,7 @@ namespace LightController.MyForm
 			{
 				rgbButtonClick();
 			}
-		}
-
-	
+		}	
 
 		/// <summary>
 		/// 事件：点击《复制步》

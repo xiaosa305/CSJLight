@@ -1431,6 +1431,7 @@ namespace LightController.MyForm
 			this.actionButton.Text = "内置动作";
 			this.actionButton.UseVisualStyleBackColor = true;
 			this.actionButton.Click += new System.EventHandler(this.actionButton_Click);
+			this.actionButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.actionButton_MouseDown);
 			// 
 			// useMaterialButton
 			// 

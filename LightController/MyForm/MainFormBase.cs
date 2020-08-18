@@ -2963,13 +2963,13 @@ namespace LightController.MyForm
 			//检查是否有X、Y轴；
 			if (!checkXY())
 			{
-				MessageBox.Show("检测到当前灯具无X/Y轴，无法使用内置动作功能。");
+				SetNotice("检测到当前灯具无X/Y轴，无法使用内置动作功能。",true);
 				return;
 			}
 
 			// 检查当前模式（音频模式很少用到动作，更多的是亮灭，故暂时不给音频模式做动作）
 			if (currentMode != 0) {
-				MessageBox.Show("检测到当前模式不是常规模式，无法使用内置动作。");
+				SetNotice("检测到当前模式不是常规模式，无法使用内置动作。",true);
 				return;
 			}
 			

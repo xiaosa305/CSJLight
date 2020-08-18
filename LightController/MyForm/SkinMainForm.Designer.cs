@@ -133,15 +133,19 @@ namespace LightController.MyForm
 			this.frameSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.stepLabel = new CCWin.SkinControl.SkinLabel();
 			this.frameLabel = new CCWin.SkinControl.SkinLabel();
+			this.tdTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.tdSkinFlowLayoutPanel = new CCWin.SkinControl.SkinFlowLayoutPanel();
-			this.tdPanel1 = new System.Windows.Forms.Panel();
+			this.tdPanelDemo = new System.Windows.Forms.Panel();
 			this.tdNameLabelDemo = new System.Windows.Forms.Label();
 			this.tdNoLabelDemo = new CCWin.SkinControl.SkinLabel();
-			this.tdStepTimeNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.tdSkinTrackBar1 = new CCWin.SkinControl.SkinTrackBar();
-			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.tdChangeModeSkinComboBox1 = new CCWin.SkinControl.SkinComboBox();
-			this.tdTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.tdStepTimeNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.tdTrackBarDemo = new CCWin.SkinControl.SkinTrackBar();
+			this.tdValueNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.tdChangeModeComboBoxDemo = new CCWin.SkinControl.SkinComboBox();
+			this.saPanelDemo = new System.Windows.Forms.Panel();
+			this.saFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
+			this.saLabelDemo = new System.Windows.Forms.Label();
+			this.saButtonDemo = new System.Windows.Forms.Button();
 			this.labelAstPanel = new System.Windows.Forms.Panel();
 			this.labelFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.labelPanel = new System.Windows.Forms.Panel();
@@ -177,12 +181,14 @@ namespace LightController.MyForm
 			this.noticeStatusStrip.SuspendLayout();
 			this.stepSkinPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
-			this.tdSkinFlowLayoutPanel.SuspendLayout();
-			this.tdPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
 			this.tdTableLayoutPanel.SuspendLayout();
+			this.tdSkinFlowLayoutPanel.SuspendLayout();
+			this.tdPanelDemo.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNUDDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNUDDemo)).BeginInit();
+			this.saPanelDemo.SuspendLayout();
+			this.saFLPDemo.SuspendLayout();
 			this.labelAstPanel.SuspendLayout();
 			this.labelFlowLayoutPanel.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -2189,124 +2195,6 @@ namespace LightController.MyForm
 			this.frameLabel.TabIndex = 0;
 			this.frameLabel.Text = "场景：";
 			// 
-			// tdSkinFlowLayoutPanel
-			// 
-			this.tdSkinFlowLayoutPanel.AutoScroll = true;
-			this.tdSkinFlowLayoutPanel.AutoSize = true;
-			this.tdSkinFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
-			this.tdSkinFlowLayoutPanel.Controls.Add(this.tdPanel1);
-			this.tdSkinFlowLayoutPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.tdSkinFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tdSkinFlowLayoutPanel.DownBack = null;
-			this.tdSkinFlowLayoutPanel.Location = new System.Drawing.Point(83, 3);
-			this.tdSkinFlowLayoutPanel.MouseBack = null;
-			this.tdSkinFlowLayoutPanel.Name = "tdSkinFlowLayoutPanel";
-			this.tdSkinFlowLayoutPanel.NormlBack = null;
-			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(963, 298);
-			this.tdSkinFlowLayoutPanel.TabIndex = 27;
-			this.tdSkinFlowLayoutPanel.WrapContents = false;
-			// 
-			// tdPanel1
-			// 
-			this.tdPanel1.Controls.Add(this.tdNameLabelDemo);
-			this.tdPanel1.Controls.Add(this.tdNoLabelDemo);
-			this.tdPanel1.Controls.Add(this.tdStepTimeNumericUpDown1);
-			this.tdPanel1.Controls.Add(this.tdSkinTrackBar1);
-			this.tdPanel1.Controls.Add(this.tdValueNumericUpDown1);
-			this.tdPanel1.Controls.Add(this.tdChangeModeSkinComboBox1);
-			this.tdPanel1.Location = new System.Drawing.Point(3, 3);
-			this.tdPanel1.Name = "tdPanel1";
-			this.tdPanel1.Size = new System.Drawing.Size(80, 275);
-			this.tdPanel1.TabIndex = 26;
-			this.tdPanel1.Visible = false;
-			// 
-			// tdNameLabelDemo
-			// 
-			this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
-			this.tdNameLabelDemo.Location = new System.Drawing.Point(16, 42);
-			this.tdNameLabelDemo.Name = "tdNameLabelDemo";
-			this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 143);
-			this.tdNameLabelDemo.TabIndex = 22;
-			this.tdNameLabelDemo.Text = "x/y轴转速";
-			this.tdNameLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.tdNameLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
-			// 
-			// tdNoLabelDemo
-			// 
-			this.tdNoLabelDemo.AutoSize = true;
-			this.tdNoLabelDemo.BackColor = System.Drawing.Color.Transparent;
-			this.tdNoLabelDemo.BorderColor = System.Drawing.Color.White;
-			this.tdNoLabelDemo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdNoLabelDemo.Location = new System.Drawing.Point(14, 11);
-			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
-			this.tdNoLabelDemo.Size = new System.Drawing.Size(53, 17);
-			this.tdNoLabelDemo.TabIndex = 23;
-			this.tdNoLabelDemo.Text = "通道512";
-			this.tdNoLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
-			// 
-			// tdStepTimeNumericUpDown1
-			// 
-			this.tdStepTimeNumericUpDown1.Font = new System.Drawing.Font("新宋体", 9F);
-			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(15, 253);
-			this.tdStepTimeNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
-			this.tdStepTimeNumericUpDown1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.tdStepTimeNumericUpDown1.Name = "tdStepTimeNumericUpDown1";
-			this.tdStepTimeNumericUpDown1.Size = new System.Drawing.Size(56, 21);
-			this.tdStepTimeNumericUpDown1.TabIndex = 24;
-			// 
-			// tdSkinTrackBar1
-			// 
-			this.tdSkinTrackBar1.AutoSize = false;
-			this.tdSkinTrackBar1.BackColor = System.Drawing.Color.Transparent;
-			this.tdSkinTrackBar1.Bar = null;
-			this.tdSkinTrackBar1.BarStyle = CCWin.SkinControl.HSLTrackBarStyle.Opacity;
-			this.tdSkinTrackBar1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122)))));
-			this.tdSkinTrackBar1.Location = new System.Drawing.Point(19, 31);
-			this.tdSkinTrackBar1.Maximum = 255;
-			this.tdSkinTrackBar1.Name = "tdSkinTrackBar1";
-			this.tdSkinTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar1.Size = new System.Drawing.Size(44, 170);
-			this.tdSkinTrackBar1.TabIndex = 1;
-			this.tdSkinTrackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.tdSkinTrackBar1.Track = null;
-			this.tdSkinTrackBar1.ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-			// 
-			// tdValueNumericUpDown1
-			// 
-			this.tdValueNumericUpDown1.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(15, 206);
-			this.tdValueNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
-			this.tdValueNumericUpDown1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.tdValueNumericUpDown1.Name = "tdValueNumericUpDown1";
-			this.tdValueNumericUpDown1.Size = new System.Drawing.Size(56, 21);
-			this.tdValueNumericUpDown1.TabIndex = 25;
-			// 
-			// tdChangeModeSkinComboBox1
-			// 
-			this.tdChangeModeSkinComboBox1.ArrowColor = System.Drawing.Color.White;
-			this.tdChangeModeSkinComboBox1.BaseColor = System.Drawing.Color.Gray;
-			this.tdChangeModeSkinComboBox1.BorderColor = System.Drawing.Color.Gray;
-			this.tdChangeModeSkinComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.tdChangeModeSkinComboBox1.FormattingEnabled = true;
-			this.tdChangeModeSkinComboBox1.ItemBorderColor = System.Drawing.Color.LightSlateGray;
-			this.tdChangeModeSkinComboBox1.Items.AddRange(new object[] {
-            "跳变",
-            "渐变",
-            "屏蔽"});
-			this.tdChangeModeSkinComboBox1.Location = new System.Drawing.Point(15, 229);
-			this.tdChangeModeSkinComboBox1.Name = "tdChangeModeSkinComboBox1";
-			this.tdChangeModeSkinComboBox1.Size = new System.Drawing.Size(56, 22);
-			this.tdChangeModeSkinComboBox1.TabIndex = 19;
-			this.tdChangeModeSkinComboBox1.WaterText = "";
-			// 
 			// tdTableLayoutPanel
 			// 
 			this.tdTableLayoutPanel.ColumnCount = 2;
@@ -2321,6 +2209,171 @@ namespace LightController.MyForm
 			this.tdTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tdTableLayoutPanel.Size = new System.Drawing.Size(1049, 304);
 			this.tdTableLayoutPanel.TabIndex = 28;
+			// 
+			// tdSkinFlowLayoutPanel
+			// 
+			this.tdSkinFlowLayoutPanel.AutoScroll = true;
+			this.tdSkinFlowLayoutPanel.AutoSize = true;
+			this.tdSkinFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
+			this.tdSkinFlowLayoutPanel.Controls.Add(this.tdPanelDemo);
+			this.tdSkinFlowLayoutPanel.Controls.Add(this.saPanelDemo);
+			this.tdSkinFlowLayoutPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.tdSkinFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tdSkinFlowLayoutPanel.DownBack = null;
+			this.tdSkinFlowLayoutPanel.Location = new System.Drawing.Point(83, 3);
+			this.tdSkinFlowLayoutPanel.MouseBack = null;
+			this.tdSkinFlowLayoutPanel.Name = "tdSkinFlowLayoutPanel";
+			this.tdSkinFlowLayoutPanel.NormlBack = null;
+			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(963, 298);
+			this.tdSkinFlowLayoutPanel.TabIndex = 27;
+			this.tdSkinFlowLayoutPanel.WrapContents = false;
+			// 
+			// tdPanelDemo
+			// 
+			this.tdPanelDemo.Controls.Add(this.tdNameLabelDemo);
+			this.tdPanelDemo.Controls.Add(this.tdNoLabelDemo);
+			this.tdPanelDemo.Controls.Add(this.tdStepTimeNUDDemo);
+			this.tdPanelDemo.Controls.Add(this.tdTrackBarDemo);
+			this.tdPanelDemo.Controls.Add(this.tdValueNUDDemo);
+			this.tdPanelDemo.Controls.Add(this.tdChangeModeComboBoxDemo);
+			this.tdPanelDemo.Location = new System.Drawing.Point(1, 1);
+			this.tdPanelDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.tdPanelDemo.Name = "tdPanelDemo";
+			this.tdPanelDemo.Size = new System.Drawing.Size(60, 275);
+			this.tdPanelDemo.TabIndex = 26;
+			this.tdPanelDemo.Visible = false;
+			// 
+			// tdNameLabelDemo
+			// 
+			this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
+			this.tdNameLabelDemo.Location = new System.Drawing.Point(8, 42);
+			this.tdNameLabelDemo.Name = "tdNameLabelDemo";
+			this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 143);
+			this.tdNameLabelDemo.TabIndex = 22;
+			this.tdNameLabelDemo.Text = "x/y轴转速";
+			this.tdNameLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.tdNameLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
+			// 
+			// tdNoLabelDemo
+			// 
+			this.tdNoLabelDemo.AutoSize = true;
+			this.tdNoLabelDemo.BackColor = System.Drawing.Color.Transparent;
+			this.tdNoLabelDemo.BorderColor = System.Drawing.Color.White;
+			this.tdNoLabelDemo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdNoLabelDemo.Location = new System.Drawing.Point(6, 11);
+			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
+			this.tdNoLabelDemo.Size = new System.Drawing.Size(53, 17);
+			this.tdNoLabelDemo.TabIndex = 23;
+			this.tdNoLabelDemo.Text = "通道512";
+			this.tdNoLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
+			// 
+			// tdStepTimeNUDDemo
+			// 
+			this.tdStepTimeNUDDemo.Font = new System.Drawing.Font("新宋体", 9F);
+			this.tdStepTimeNUDDemo.Location = new System.Drawing.Point(1, 253);
+			this.tdStepTimeNUDDemo.Margin = new System.Windows.Forms.Padding(2);
+			this.tdStepTimeNUDDemo.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.tdStepTimeNUDDemo.Name = "tdStepTimeNUDDemo";
+			this.tdStepTimeNUDDemo.Size = new System.Drawing.Size(56, 21);
+			this.tdStepTimeNUDDemo.TabIndex = 24;
+			this.tdStepTimeNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// tdTrackBarDemo
+			// 
+			this.tdTrackBarDemo.AutoSize = false;
+			this.tdTrackBarDemo.BackColor = System.Drawing.Color.Transparent;
+			this.tdTrackBarDemo.Bar = null;
+			this.tdTrackBarDemo.BarStyle = CCWin.SkinControl.HSLTrackBarStyle.Opacity;
+			this.tdTrackBarDemo.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122)))));
+			this.tdTrackBarDemo.Location = new System.Drawing.Point(11, 31);
+			this.tdTrackBarDemo.Maximum = 255;
+			this.tdTrackBarDemo.Name = "tdTrackBarDemo";
+			this.tdTrackBarDemo.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.tdTrackBarDemo.Size = new System.Drawing.Size(44, 170);
+			this.tdTrackBarDemo.TabIndex = 1;
+			this.tdTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.tdTrackBarDemo.Track = null;
+			this.tdTrackBarDemo.ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+			// 
+			// tdValueNUDDemo
+			// 
+			this.tdValueNUDDemo.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdValueNUDDemo.Location = new System.Drawing.Point(1, 206);
+			this.tdValueNUDDemo.Margin = new System.Windows.Forms.Padding(2);
+			this.tdValueNUDDemo.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.tdValueNUDDemo.Name = "tdValueNUDDemo";
+			this.tdValueNUDDemo.Size = new System.Drawing.Size(56, 21);
+			this.tdValueNUDDemo.TabIndex = 25;
+			this.tdValueNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// tdChangeModeComboBoxDemo
+			// 
+			this.tdChangeModeComboBoxDemo.ArrowColor = System.Drawing.Color.White;
+			this.tdChangeModeComboBoxDemo.BaseColor = System.Drawing.Color.Gray;
+			this.tdChangeModeComboBoxDemo.BorderColor = System.Drawing.Color.Gray;
+			this.tdChangeModeComboBoxDemo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.tdChangeModeComboBoxDemo.FormattingEnabled = true;
+			this.tdChangeModeComboBoxDemo.ItemBorderColor = System.Drawing.Color.LightSlateGray;
+			this.tdChangeModeComboBoxDemo.Items.AddRange(new object[] {
+            "跳变",
+            "渐变",
+            "屏蔽"});
+			this.tdChangeModeComboBoxDemo.Location = new System.Drawing.Point(1, 229);
+			this.tdChangeModeComboBoxDemo.Name = "tdChangeModeComboBoxDemo";
+			this.tdChangeModeComboBoxDemo.Size = new System.Drawing.Size(56, 22);
+			this.tdChangeModeComboBoxDemo.TabIndex = 19;
+			this.tdChangeModeComboBoxDemo.WaterText = "";
+			// 
+			// saPanelDemo
+			// 
+			this.saPanelDemo.Controls.Add(this.saFLPDemo);
+			this.saPanelDemo.Location = new System.Drawing.Point(62, 1);
+			this.saPanelDemo.Margin = new System.Windows.Forms.Padding(0, 1, 10, 1);
+			this.saPanelDemo.Name = "saPanelDemo";
+			this.saPanelDemo.Size = new System.Drawing.Size(90, 275);
+			this.saPanelDemo.TabIndex = 27;
+			this.saPanelDemo.Visible = false;
+			// 
+			// saFLPDemo
+			// 
+			this.saFLPDemo.AutoScroll = true;
+			this.saFLPDemo.Controls.Add(this.saLabelDemo);
+			this.saFLPDemo.Controls.Add(this.saButtonDemo);
+			this.saFLPDemo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.saFLPDemo.Location = new System.Drawing.Point(0, 0);
+			this.saFLPDemo.Name = "saFLPDemo";
+			this.saFLPDemo.Size = new System.Drawing.Size(90, 275);
+			this.saFLPDemo.TabIndex = 0;
+			// 
+			// saLabelDemo
+			// 
+			this.saLabelDemo.Location = new System.Drawing.Point(1, 1);
+			this.saLabelDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.saLabelDemo.Name = "saLabelDemo";
+			this.saLabelDemo.Size = new System.Drawing.Size(68, 30);
+			this.saLabelDemo.TabIndex = 1;
+			this.saLabelDemo.Text = "<-";
+			this.saLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// saButtonDemo
+			// 
+			this.saButtonDemo.Location = new System.Drawing.Point(1, 33);
+			this.saButtonDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.saButtonDemo.Name = "saButtonDemo";
+			this.saButtonDemo.Padding = new System.Windows.Forms.Padding(1);
+			this.saButtonDemo.Size = new System.Drawing.Size(68, 23);
+			this.saButtonDemo.TabIndex = 0;
+			this.saButtonDemo.Text = "四个汉字";
+			this.saButtonDemo.UseVisualStyleBackColor = true;
+			this.saButtonDemo.Click += new System.EventHandler(this.saButton_Click);
 			// 
 			// labelAstPanel
 			// 
@@ -2356,7 +2409,7 @@ namespace LightController.MyForm
 			// thirdLabel1
 			// 
 			this.thirdLabel1.AutoSize = true;
-			this.thirdLabel1.Location = new System.Drawing.Point(19, 257);
+			this.thirdLabel1.Location = new System.Drawing.Point(19, 255);
 			this.thirdLabel1.Name = "thirdLabel1";
 			this.thirdLabel1.Size = new System.Drawing.Size(41, 12);
 			this.thirdLabel1.TabIndex = 0;
@@ -2365,7 +2418,7 @@ namespace LightController.MyForm
 			// secondLabel1
 			// 
 			this.secondLabel1.AutoSize = true;
-			this.secondLabel1.Location = new System.Drawing.Point(19, 234);
+			this.secondLabel1.Location = new System.Drawing.Point(19, 232);
 			this.secondLabel1.Name = "secondLabel1";
 			this.secondLabel1.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel1.TabIndex = 0;
@@ -2374,7 +2427,7 @@ namespace LightController.MyForm
 			// firstLabel1
 			// 
 			this.firstLabel1.AutoSize = true;
-			this.firstLabel1.Location = new System.Drawing.Point(19, 210);
+			this.firstLabel1.Location = new System.Drawing.Point(19, 208);
 			this.firstLabel1.Name = "firstLabel1";
 			this.firstLabel1.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel1.TabIndex = 0;
@@ -2502,14 +2555,16 @@ namespace LightController.MyForm
 			this.stepSkinPanel.ResumeLayout(false);
 			this.stepSkinPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).EndInit();
-			this.tdSkinFlowLayoutPanel.ResumeLayout(false);
-			this.tdPanel1.ResumeLayout(false);
-			this.tdPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
 			this.tdTableLayoutPanel.ResumeLayout(false);
 			this.tdTableLayoutPanel.PerformLayout();
+			this.tdSkinFlowLayoutPanel.ResumeLayout(false);
+			this.tdPanelDemo.ResumeLayout(false);
+			this.tdPanelDemo.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNUDDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNUDDemo)).EndInit();
+			this.saPanelDemo.ResumeLayout(false);
+			this.saFLPDemo.ResumeLayout(false);
 			this.labelAstPanel.ResumeLayout(false);
 			this.labelFlowLayoutPanel.ResumeLayout(false);
 			this.labelPanel.ResumeLayout(false);
@@ -2560,16 +2615,6 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinPanel currentLightSkinPanel;
 		private Label tytzLabel;
 		private Label dqdjLabel;
-
-		
-
-		private SkinFlowLayoutPanel tdSkinFlowLayoutPanel;
-		private Panel tdPanel1;
-		public Label tdNameLabelDemo;
-		private SkinLabel tdNoLabelDemo;
-		private NumericUpDown tdStepTimeNumericUpDown1;
-		private NumericUpDown tdValueNumericUpDown1;
-		private SkinComboBox tdChangeModeSkinComboBox1;
 		private TableLayoutPanel tdTableLayoutPanel;
 		private Panel labelAstPanel;
 		private FlowLayoutPanel labelFlowLayoutPanel;
@@ -2580,7 +2625,6 @@ namespace LightController.MyForm
 		private Panel unifyPanel;
 		private Panel playPanel;
 		private SkinButton exportSkinButton;
-		private SkinTrackBar tdSkinTrackBar1;
 		private FlowLayoutPanel flowLayoutPanel1;
 		private GroupBox testGroupBox;
 		private Button test4Button;
@@ -2652,5 +2696,17 @@ namespace LightController.MyForm
 		private SkinButton actionButton;
 		private SkinButton copyStepSkinButton;
 		private SkinButton pasteStepSkinButton;
+		private SkinFlowLayoutPanel tdSkinFlowLayoutPanel;
+		private Panel tdPanelDemo;
+		public Label tdNameLabelDemo;
+		private SkinLabel tdNoLabelDemo;
+		private NumericUpDown tdStepTimeNUDDemo;
+		private SkinTrackBar tdTrackBarDemo;
+		private NumericUpDown tdValueNUDDemo;
+		private SkinComboBox tdChangeModeComboBoxDemo;
+		private Panel saPanelDemo;
+		private FlowLayoutPanel saFLPDemo;
+		private Button saButtonDemo;
+		private Label saLabelDemo;
 	}
 }

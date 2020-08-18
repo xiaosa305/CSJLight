@@ -74,100 +74,85 @@ namespace LightController.MyForm
 			// 动态添加32个saPanel 
 			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
 			{
-				tdPanels[tdIndex] = new Panel();
-				tdNoLabels[tdIndex] = new Label();
-				tdNameLabels[tdIndex] = new Label();
-				tdTrackBars[tdIndex] = new TrackBar();
-				tdValueNumericUpDowns[tdIndex] = new NumericUpDown();
-				tdCmComboBoxes[tdIndex] = new ComboBox();
-				tdStNumericUpDowns[tdIndex] = new NumericUpDown();
-				// 
-				// tdNoLabel
-				// 
-				this.tdNoLabels[tdIndex].AutoSize = true;
-				this.tdNoLabels[tdIndex].Location = new System.Drawing.Point(15, 18);
-				this.tdNoLabels[tdIndex].Name = "tdNoLabel" + (tdIndex + 1);
-				this.tdNoLabels[tdIndex].Size = new System.Drawing.Size(47, 12);
-				this.tdNoLabels[tdIndex].TabIndex = 3;
-				this.tdNoLabels[tdIndex].Text = "通道" + (tdIndex + 1);
-				// 
-				// tdTrackBar
-				// 
-				this.tdTrackBars[tdIndex].AutoSize = false;
-				this.tdTrackBars[tdIndex].BackColor = unifyColor2;
-				this.tdTrackBars[tdIndex].Location = new System.Drawing.Point(32, 35);
-				this.tdTrackBars[tdIndex].Maximum = 255;
-				this.tdTrackBars[tdIndex].Name = "tdTrackBar" + (tdIndex + 1);
-				this.tdTrackBars[tdIndex].Orientation = System.Windows.Forms.Orientation.Vertical;
-				this.tdTrackBars[tdIndex].Size = new System.Drawing.Size(35, 188);
-				this.tdTrackBars[tdIndex].TabIndex = 0;
-				this.tdTrackBars[tdIndex].TickFrequency = 0;
-				this.tdTrackBars[tdIndex].TickStyle = System.Windows.Forms.TickStyle.None;
-				// 
-				// tdNameLabel
-				// 
-				this.tdNameLabels[tdIndex].Font = new System.Drawing.Font("宋体", 8F);
-				this.tdNameLabels[tdIndex].Location = new System.Drawing.Point(17, 47);
-				this.tdNameLabels[tdIndex].Name = "tdNameLabel" + (tdIndex + 1);
-				this.tdNameLabels[tdIndex].Size = new System.Drawing.Size(14, 153);
-				this.tdNameLabels[tdIndex].TabIndex = 23;
-				this.tdNameLabels[tdIndex].Text = "x/y轴转速" + (tdIndex + 1);
-				this.tdNameLabels[tdIndex].TextAlign = System.Drawing.ContentAlignment.TopCenter;
-				// 
-				// tdValueNumericUpDown
-				// 
-				this.tdValueNumericUpDowns[tdIndex].Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-				this.tdValueNumericUpDowns[tdIndex].Location = new System.Drawing.Point(17, 223);
-				this.tdValueNumericUpDowns[tdIndex].Maximum = new decimal(new int[] {
-			255,
-			0,
-			0,
-			0});
-				this.tdValueNumericUpDowns[tdIndex].Name = "tdValueNumericUpDown" + (tdIndex + 1);
-				this.tdValueNumericUpDowns[tdIndex].Size = new System.Drawing.Size(50, 20);
-				this.tdValueNumericUpDowns[tdIndex].TabIndex = 1;
-				this.tdValueNumericUpDowns[tdIndex].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+				tdPanels[tdIndex] = new Panel
+				{
+					Name = "tdPanel" + (tdIndex + 1),
+					Location = tdPanelDemo.	Location,
+					Size = tdPanelDemo.Size,
+					Visible = tdPanelDemo.Visible
+				};
 
-				// 
-				// tdCmComboBox
-				// 
-				this.tdCmComboBoxes[tdIndex].FormattingEnabled = true;
-				this.tdCmComboBoxes[tdIndex].Location = new System.Drawing.Point(17, 247);
-				this.tdCmComboBoxes[tdIndex].Name = "tdCmComboBox" + (tdIndex + 1);
-				this.tdCmComboBoxes[tdIndex].Size = new System.Drawing.Size(50, 20);
-				this.tdCmComboBoxes[tdIndex].TabIndex = 2;
-				this.tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
-			"跳变",
-			"渐变",
-			"屏蔽"});
+				tdNoLabels[tdIndex] = new Label
+				{
+					Name = "tdNoLabel" + (tdIndex + 1),					
+					AutoSize = tdNoLabelDemo.AutoSize,
+					Location = tdNoLabelDemo.Location,
+					Size = tdNoLabelDemo.Size,							
+				};
 
-				// 
-				// tdStNumericUpDown
-				// 
-				this.tdStNumericUpDowns[tdIndex].Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-				this.tdStNumericUpDowns[tdIndex].Location = new System.Drawing.Point(17, 271);
-				this.tdStNumericUpDowns[tdIndex].Name = "tdStNumericUpDown" + (tdIndex + 1);
-				this.tdStNumericUpDowns[tdIndex].Size = new System.Drawing.Size(50, 20);
-				this.tdStNumericUpDowns[tdIndex].TabIndex = 1;
-				this.tdStNumericUpDowns[tdIndex].TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-				this.tdStNumericUpDowns[tdIndex].DecimalPlaces = 2;
+				tdNameLabels[tdIndex] = new Label
+				{
+					Name = "tdNameLabel" + (tdIndex + 1),
+					Font = tdNameLabelDemo.Font,
+					Location = tdNameLabelDemo.Location,
+					Size = tdNameLabelDemo.Size,					
+					TextAlign = tdNameLabelDemo.TextAlign
+				};
 
-				// 
-				// tdPanel
-				// 
-				this.tdPanels[tdIndex].Controls.Add(this.tdNameLabels[tdIndex]);
-				this.tdPanels[tdIndex].Controls.Add(this.tdNoLabels[tdIndex]);
-				this.tdPanels[tdIndex].Controls.Add(this.tdCmComboBoxes[tdIndex]);
-				this.tdPanels[tdIndex].Controls.Add(this.tdStNumericUpDowns[tdIndex]);
-				this.tdPanels[tdIndex].Controls.Add(this.tdValueNumericUpDowns[tdIndex]);
-				this.tdPanels[tdIndex].Controls.Add(this.tdTrackBars[tdIndex]);
-				this.tdPanels[tdIndex].Location = new System.Drawing.Point(3, 3);
-				this.tdPanels[tdIndex].Name = "tdPanel" + (tdIndex + 1);
-				this.tdPanels[tdIndex].Size = new System.Drawing.Size(84, 297);
-				this.tdPanels[tdIndex].TabIndex = 24;
 
-				this.tdPanels[tdIndex].Visible = false;
-				this.tdPanels[tdIndex].Tag = 9999;
+				tdTrackBars[tdIndex] = new TrackBar
+				{
+					Name = "tdTrackBar" + (tdIndex + 1),
+					AutoSize = tdTrackBarDemo.AutoSize,
+					BackColor = tdTrackBarDemo.BackColor,
+					Location = tdTrackBarDemo.Location,
+					Maximum = tdTrackBarDemo.Maximum,
+					Orientation = tdTrackBarDemo.Orientation,
+					Size = tdTrackBarDemo.Size,					
+					TickFrequency = tdTrackBarDemo.TickFrequency,
+					TickStyle = tdTrackBarDemo.TickStyle
+				};
+
+				tdValueNumericUpDowns[tdIndex] = new NumericUpDown
+				{
+					Name = "tdValueNUD" + (tdIndex + 1),
+					Font = tdValueNUDDemo.Font,
+					Location = tdValueNUDDemo.Location,
+					Maximum = tdValueNUDDemo.Maximum,
+					Size = tdValueNUDDemo.Size,					
+					TextAlign = tdValueNUDDemo.TextAlign
+				};
+
+
+				tdCmComboBoxes[tdIndex] = new ComboBox
+				{
+					Name = "tdCmComboBox" + (tdIndex + 1),
+					FormattingEnabled = tdCmComboBoxDemo.FormattingEnabled,
+					Location = tdCmComboBoxDemo.Location,
+					Size = tdCmComboBoxDemo.Size,				
+				};
+				tdCmComboBoxes[tdIndex].Items.AddRange(new object[] {
+					"跳变",
+					"渐变",
+					"屏蔽"});
+
+				tdStNumericUpDowns[tdIndex] = new NumericUpDown
+				{
+					Name = "tdStNUD" + (tdIndex + 1),
+					Font = tdStNUDDemo.Font,
+					Location = tdStNUDDemo.Location,
+					Size = tdStNUDDemo.Size,			
+					TextAlign = tdStNUDDemo.TextAlign,
+					DecimalPlaces = tdStNUDDemo.DecimalPlaces
+				};
+
+				tdPanels[tdIndex].Controls.Add(this.tdNameLabels[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(this.tdNoLabels[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(this.tdTrackBars[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(this.tdValueNumericUpDowns[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(this.tdCmComboBoxes[tdIndex]);
+				tdPanels[tdIndex].Controls.Add(this.tdStNumericUpDowns[tdIndex]);	
+
 
 				tdTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdTrackBars_MouseWheel);
@@ -193,6 +178,7 @@ namespace LightController.MyForm
 					Name = "saPanel" + (tdIndex + 1),
 					Location = saPanelDemo.Location,					
 					Size = saPanelDemo.Size,
+					Margin =saPanelDemo.Margin,
 					Visible = true,										
 				};
 				tdFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
@@ -816,26 +802,28 @@ namespace LightController.MyForm
 					{
 						la.saPanelDict.Add(tdIndex, new FlowLayoutPanel()
 						{
-							Size = new Size(95, 297),
-							Dock = DockStyle.Fill,
-							AutoScroll = true,
+							Size = saFLPDemo.Size,
+							Dock = saFLPDemo.Dock,
+							AutoScroll = saFLPDemo.AutoScroll,
 							//BorderStyle = BorderStyle.Fixed3D
 						});
 
 						la.saPanelDict[tdIndex].Controls.Add(new Label {
-							Size = new Size(70,36),
-							TextAlign = ContentAlignment.MiddleCenter,
-							Text = "<-"
+							Size = saLabelDemo.Size,
+							TextAlign = saLabelDemo.TextAlign,
+							Text = saLabelDemo.Text,
+							Margin = saLabelDemo.Margin,
 						});
 						for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
 						{
 							SA sa = la.SawList[tdIndex].SaList[saIndex];
 							Button saButton = new Button
-							{
+							{								
 								Text = sa.SAName,
-								Size = new Size(68, 20),
+								Size = saButtonDemo.Size,
 								Tag = tdIndex + "*" + sa.StartValue,
-								UseVisualStyleBackColor = true
+								UseVisualStyleBackColor = saButtonDemo.UseVisualStyleBackColor,
+								Margin = saButtonDemo.Margin,								
 							};
 							saButton.Click += new EventHandler(saButton_Click);
 							saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);

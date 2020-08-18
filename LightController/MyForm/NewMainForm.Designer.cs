@@ -74,17 +74,17 @@ namespace LightController.MyForm
 			this.secondLabel = new System.Windows.Forms.Label();
 			this.thirdLabel = new System.Windows.Forms.Label();
 			this.tdFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.tdPanel1 = new System.Windows.Forms.Panel();
-			this.tdNameLabel1 = new System.Windows.Forms.Label();
-			this.tdNoLabel1 = new System.Windows.Forms.Label();
-			this.tdCmComboBox1 = new System.Windows.Forms.ComboBox();
-			this.tdStNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.tdTrackBar1 = new System.Windows.Forms.TrackBar();
+			this.tdPanelDemo = new System.Windows.Forms.Panel();
+			this.tdNameLabelDemo = new System.Windows.Forms.Label();
+			this.tdNoLabelDemo = new System.Windows.Forms.Label();
+			this.tdCmComboBoxDemo = new System.Windows.Forms.ComboBox();
+			this.tdStNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.tdValueNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.tdTrackBarDemo = new System.Windows.Forms.TrackBar();
 			this.saPanelDemo = new System.Windows.Forms.Panel();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.button8 = new System.Windows.Forms.Button();
+			this.saFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
+			this.saLabelDemo = new System.Windows.Forms.Label();
+			this.saButtonDemo = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.zeroButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
@@ -157,12 +157,12 @@ namespace LightController.MyForm
 			this.myContextMenuStrip.SuspendLayout();
 			this.labelPanel.SuspendLayout();
 			this.tdFlowLayoutPanel.SuspendLayout();
-			this.tdPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).BeginInit();
+			this.tdPanelDemo.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStNUDDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNUDDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).BeginInit();
 			this.saPanelDemo.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
+			this.saFLPDemo.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).BeginInit();
@@ -567,7 +567,7 @@ namespace LightController.MyForm
 			this.tdFlowLayoutPanel.AutoScroll = true;
 			this.tdFlowLayoutPanel.BackColor = System.Drawing.SystemColors.Window;
 			this.tdFlowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.tdFlowLayoutPanel.Controls.Add(this.tdPanel1);
+			this.tdFlowLayoutPanel.Controls.Add(this.tdPanelDemo);
 			this.tdFlowLayoutPanel.Controls.Add(this.saPanelDemo);
 			this.tdFlowLayoutPanel.Controls.Add(this.panel1);
 			this.tdFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -578,129 +578,134 @@ namespace LightController.MyForm
 			this.tdFlowLayoutPanel.Tag = "9999";
 			this.tdFlowLayoutPanel.WrapContents = false;
 			// 
-			// tdPanel1
+			// tdPanelDemo
 			// 
-			this.tdPanel1.Controls.Add(this.tdNameLabel1);
-			this.tdPanel1.Controls.Add(this.tdNoLabel1);
-			this.tdPanel1.Controls.Add(this.tdCmComboBox1);
-			this.tdPanel1.Controls.Add(this.tdStNumericUpDown1);
-			this.tdPanel1.Controls.Add(this.tdValueNumericUpDown1);
-			this.tdPanel1.Controls.Add(this.tdTrackBar1);
-			this.tdPanel1.Location = new System.Drawing.Point(3, 3);
-			this.tdPanel1.Name = "tdPanel1";
-			this.tdPanel1.Size = new System.Drawing.Size(84, 297);
-			this.tdPanel1.TabIndex = 24;
-			this.tdPanel1.Visible = false;
+			this.tdPanelDemo.Controls.Add(this.tdNameLabelDemo);
+			this.tdPanelDemo.Controls.Add(this.tdNoLabelDemo);
+			this.tdPanelDemo.Controls.Add(this.tdCmComboBoxDemo);
+			this.tdPanelDemo.Controls.Add(this.tdStNUDDemo);
+			this.tdPanelDemo.Controls.Add(this.tdValueNUDDemo);
+			this.tdPanelDemo.Controls.Add(this.tdTrackBarDemo);
+			this.tdPanelDemo.Location = new System.Drawing.Point(1, 1);
+			this.tdPanelDemo.Margin = new System.Windows.Forms.Padding(1, 1, 1, 4);
+			this.tdPanelDemo.Name = "tdPanelDemo";
+			this.tdPanelDemo.Size = new System.Drawing.Size(60, 297);
+			this.tdPanelDemo.TabIndex = 24;
+			this.tdPanelDemo.Visible = false;
 			// 
-			// tdNameLabel1
+			// tdNameLabelDemo
 			// 
-			this.tdNameLabel1.Font = new System.Drawing.Font("宋体", 8F);
-			this.tdNameLabel1.Location = new System.Drawing.Point(17, 47);
-			this.tdNameLabel1.Name = "tdNameLabel1";
-			this.tdNameLabel1.Size = new System.Drawing.Size(14, 153);
-			this.tdNameLabel1.TabIndex = 23;
-			this.tdNameLabel1.Text = "x/y轴转速";
-			this.tdNameLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.tdNameLabel1.Click += new System.EventHandler(this.tdNameNumLabels_Click);
+			this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
+			this.tdNameLabelDemo.Location = new System.Drawing.Point(4, 47);
+			this.tdNameLabelDemo.Name = "tdNameLabelDemo";
+			this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 153);
+			this.tdNameLabelDemo.TabIndex = 23;
+			this.tdNameLabelDemo.Text = "x/y轴转速";
+			this.tdNameLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.tdNameLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
 			// 
-			// tdNoLabel1
+			// tdNoLabelDemo
 			// 
-			this.tdNoLabel1.AutoSize = true;
-			this.tdNoLabel1.Location = new System.Drawing.Point(15, 18);
-			this.tdNoLabel1.Name = "tdNoLabel1";
-			this.tdNoLabel1.Size = new System.Drawing.Size(47, 12);
-			this.tdNoLabel1.TabIndex = 3;
-			this.tdNoLabel1.Text = "通道555";
-			this.tdNoLabel1.Click += new System.EventHandler(this.tdNameNumLabels_Click);
+			this.tdNoLabelDemo.AutoSize = true;
+			this.tdNoLabelDemo.Location = new System.Drawing.Point(5, 18);
+			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
+			this.tdNoLabelDemo.Size = new System.Drawing.Size(47, 12);
+			this.tdNoLabelDemo.TabIndex = 3;
+			this.tdNoLabelDemo.Text = "通道555";
+			this.tdNoLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
 			// 
-			// tdCmComboBox1
+			// tdCmComboBoxDemo
 			// 
-			this.tdCmComboBox1.FormattingEnabled = true;
-			this.tdCmComboBox1.Location = new System.Drawing.Point(17, 247);
-			this.tdCmComboBox1.Name = "tdCmComboBox1";
-			this.tdCmComboBox1.Size = new System.Drawing.Size(51, 20);
-			this.tdCmComboBox1.TabIndex = 2;
+			this.tdCmComboBoxDemo.FormattingEnabled = true;
+			this.tdCmComboBoxDemo.Location = new System.Drawing.Point(5, 247);
+			this.tdCmComboBoxDemo.Name = "tdCmComboBoxDemo";
+			this.tdCmComboBoxDemo.Size = new System.Drawing.Size(50, 20);
+			this.tdCmComboBoxDemo.TabIndex = 2;
 			// 
-			// tdStNumericUpDown1
+			// tdStNUDDemo
 			// 
-			this.tdStNumericUpDown1.DecimalPlaces = 2;
-			this.tdStNumericUpDown1.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdStNumericUpDown1.Increment = new decimal(new int[] {
+			this.tdStNUDDemo.DecimalPlaces = 2;
+			this.tdStNUDDemo.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdStNUDDemo.Increment = new decimal(new int[] {
             3,
             0,
             0,
             131072});
-			this.tdStNumericUpDown1.Location = new System.Drawing.Point(17, 271);
-			this.tdStNumericUpDown1.Name = "tdStNumericUpDown1";
-			this.tdStNumericUpDown1.Size = new System.Drawing.Size(51, 20);
-			this.tdStNumericUpDown1.TabIndex = 1;
-			this.tdStNumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdStNUDDemo.Location = new System.Drawing.Point(5, 271);
+			this.tdStNUDDemo.Name = "tdStNUDDemo";
+			this.tdStNUDDemo.Size = new System.Drawing.Size(50, 20);
+			this.tdStNUDDemo.TabIndex = 1;
+			this.tdStNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// tdValueNumericUpDown1
+			// tdValueNUDDemo
 			// 
-			this.tdValueNumericUpDown1.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(17, 223);
-			this.tdValueNumericUpDown1.Maximum = new decimal(new int[] {
+			this.tdValueNUDDemo.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdValueNUDDemo.Location = new System.Drawing.Point(5, 223);
+			this.tdValueNUDDemo.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-			this.tdValueNumericUpDown1.Name = "tdValueNumericUpDown1";
-			this.tdValueNumericUpDown1.Size = new System.Drawing.Size(50, 20);
-			this.tdValueNumericUpDown1.TabIndex = 1;
-			this.tdValueNumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdValueNUDDemo.Name = "tdValueNUDDemo";
+			this.tdValueNUDDemo.Size = new System.Drawing.Size(50, 20);
+			this.tdValueNUDDemo.TabIndex = 1;
+			this.tdValueNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
-			// tdTrackBar1
+			// tdTrackBarDemo
 			// 
-			this.tdTrackBar1.AutoSize = false;
-			this.tdTrackBar1.BackColor = System.Drawing.SystemColors.Window;
-			this.tdTrackBar1.Location = new System.Drawing.Point(33, 33);
-			this.tdTrackBar1.Maximum = 255;
-			this.tdTrackBar1.Name = "tdTrackBar1";
-			this.tdTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdTrackBar1.Size = new System.Drawing.Size(35, 184);
-			this.tdTrackBar1.TabIndex = 0;
-			this.tdTrackBar1.TickFrequency = 0;
-			this.tdTrackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.tdTrackBarDemo.AutoSize = false;
+			this.tdTrackBarDemo.BackColor = System.Drawing.SystemColors.Window;
+			this.tdTrackBarDemo.Location = new System.Drawing.Point(20, 33);
+			this.tdTrackBarDemo.Maximum = 255;
+			this.tdTrackBarDemo.Name = "tdTrackBarDemo";
+			this.tdTrackBarDemo.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.tdTrackBarDemo.Size = new System.Drawing.Size(35, 184);
+			this.tdTrackBarDemo.TabIndex = 0;
+			this.tdTrackBarDemo.TickFrequency = 0;
+			this.tdTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.None;
 			// 
 			// saPanelDemo
 			// 
-			this.saPanelDemo.Controls.Add(this.flowLayoutPanel1);
-			this.saPanelDemo.Location = new System.Drawing.Point(93, 3);
+			this.saPanelDemo.Controls.Add(this.saFLPDemo);
+			this.saPanelDemo.Location = new System.Drawing.Point(63, 1);
+			this.saPanelDemo.Margin = new System.Windows.Forms.Padding(1, 1, 1, 4);
 			this.saPanelDemo.Name = "saPanelDemo";
-			this.saPanelDemo.Size = new System.Drawing.Size(97, 297);
+			this.saPanelDemo.Size = new System.Drawing.Size(90, 297);
 			this.saPanelDemo.TabIndex = 64;
 			this.saPanelDemo.Visible = false;
 			// 
-			// flowLayoutPanel1
+			// saFLPDemo
 			// 
-			this.flowLayoutPanel1.AutoScroll = true;
-			this.flowLayoutPanel1.Controls.Add(this.label1);
-			this.flowLayoutPanel1.Controls.Add(this.button8);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 6);
-			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(93, 290);
-			this.flowLayoutPanel1.TabIndex = 63;
-			this.flowLayoutPanel1.Visible = false;
+			this.saFLPDemo.AutoScroll = true;
+			this.saFLPDemo.Controls.Add(this.saLabelDemo);
+			this.saFLPDemo.Controls.Add(this.saButtonDemo);
+			this.saFLPDemo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.saFLPDemo.Location = new System.Drawing.Point(0, 0);
+			this.saFLPDemo.Margin = new System.Windows.Forms.Padding(0, 1, 1, 1);
+			this.saFLPDemo.Name = "saFLPDemo";
+			this.saFLPDemo.Size = new System.Drawing.Size(90, 297);
+			this.saFLPDemo.TabIndex = 63;
+			this.saFLPDemo.Visible = false;
 			// 
-			// label1
+			// saLabelDemo
 			// 
-			this.label1.Location = new System.Drawing.Point(3, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(71, 36);
-			this.label1.TabIndex = 12;
-			this.label1.Text = "<-  ";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.saLabelDemo.Location = new System.Drawing.Point(1, 1);
+			this.saLabelDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.saLabelDemo.Name = "saLabelDemo";
+			this.saLabelDemo.Size = new System.Drawing.Size(66, 36);
+			this.saLabelDemo.TabIndex = 12;
+			this.saLabelDemo.Text = "<-  ";
+			this.saLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// button8
+			// saButtonDemo
 			// 
-			this.button8.Location = new System.Drawing.Point(3, 39);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(70, 25);
-			this.button8.TabIndex = 8;
-			this.button8.Text = "子属性事";
-			this.button8.UseVisualStyleBackColor = true;
+			this.saButtonDemo.Location = new System.Drawing.Point(1, 39);
+			this.saButtonDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.saButtonDemo.Name = "saButtonDemo";
+			this.saButtonDemo.Size = new System.Drawing.Size(66, 25);
+			this.saButtonDemo.TabIndex = 8;
+			this.saButtonDemo.Text = "子属性事";
+			this.saButtonDemo.UseVisualStyleBackColor = true;
 			// 
 			// panel1
 			// 
@@ -711,7 +716,7 @@ namespace LightController.MyForm
 			this.panel1.Controls.Add(this.unifyChangeModeComboBox);
 			this.panel1.Controls.Add(this.unifyStepTimeButton);
 			this.panel1.Controls.Add(this.unifyValueNumericUpDown);
-			this.panel1.Location = new System.Drawing.Point(196, 3);
+			this.panel1.Location = new System.Drawing.Point(157, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(185, 297);
 			this.panel1.TabIndex = 25;
@@ -1596,13 +1601,13 @@ namespace LightController.MyForm
 			this.labelPanel.ResumeLayout(false);
 			this.labelPanel.PerformLayout();
 			this.tdFlowLayoutPanel.ResumeLayout(false);
-			this.tdPanel1.ResumeLayout(false);
-			this.tdPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdStNumericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdTrackBar1)).EndInit();
+			this.tdPanelDemo.ResumeLayout(false);
+			this.tdPanelDemo.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStNUDDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNUDDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).EndInit();
 			this.saPanelDemo.ResumeLayout(false);
-			this.flowLayoutPanel1.ResumeLayout(false);
+			this.saFLPDemo.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.unifyStepTimeNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyValueNumericUpDown)).EndInit();
@@ -1691,13 +1696,13 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Panel topPanel;
 
 		
-		private Panel tdPanel1;
-		private Label tdNameLabel1;
-		private Label tdNoLabel1;
-		private ComboBox tdCmComboBox1;
-		private NumericUpDown tdStNumericUpDown1;
-		private NumericUpDown tdValueNumericUpDown1;
-		private TrackBar tdTrackBar1;
+		private Panel tdPanelDemo;
+		private Label tdNameLabelDemo;
+		private Label tdNoLabelDemo;
+		private ComboBox tdCmComboBoxDemo;
+		private NumericUpDown tdStNUDDemo;
+		private NumericUpDown tdValueNUDDemo;
+		private TrackBar tdTrackBarDemo;
 		private Button chooseStepButton;
 		private Button keepButton;
 		private StatusStrip myStatusStrip;
@@ -1739,9 +1744,9 @@ namespace LightController.MyForm
 		private Button saButton;
 		private ToolStripMenuItem 使用说明ToolStripMenuItem;
 		private ToolStripMenuItem 更新日志ToolStripMenuItem;
-		private FlowLayoutPanel flowLayoutPanel1;
-		private Button button8;
-		private Label label1;
+		private FlowLayoutPanel saFLPDemo;
+		private Button saButtonDemo;
+		private Label saLabelDemo;
 		private ToolStripMenuItem toolStripMenuItem1;
 		private ToolStripMenuItem lightListToolStripMenuItem;
 		private ToolStripMenuItem globalSetToolStripMenuItem;

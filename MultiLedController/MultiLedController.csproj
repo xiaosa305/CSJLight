@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\IPAst.cs" />
+    <Compile Include="Common\IniFileHelper.cs" />
     <Compile Include="Common\IPHelper.cs" />
     <Compile Include="entity\dto\ControlDeviceDTO.cs" />
     <Compile Include="multidevice\impl\DebugDmxData.cs" />
@@ -190,6 +191,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Content Include="CommonSet.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

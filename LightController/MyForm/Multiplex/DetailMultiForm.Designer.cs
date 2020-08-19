@@ -69,6 +69,7 @@
 			// 
 			// stepPanelDemo
 			// 
+			this.stepPanelDemo.BackColor = System.Drawing.Color.IndianRed;
 			this.stepPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.stepPanelDemo.Controls.Add(this.stepLabelDemo);
 			this.stepPanelDemo.Controls.Add(this.topButtonDemo);
@@ -271,7 +272,7 @@
 			this.Controls.Add(this.statusStrip1);
 			this.Name = "DetailMultiForm";
 			this.Text = "多步联调";
-			this.Load += new System.EventHandler(this.SoundMultiForm_Load);
+			this.Load += new System.EventHandler(this.DetailMultiForm_Load);
 			this.stepFLPDemo.ResumeLayout(false);
 			this.stepPanelDemo.ResumeLayout(false);
 			this.stepPanelDemo.PerformLayout();

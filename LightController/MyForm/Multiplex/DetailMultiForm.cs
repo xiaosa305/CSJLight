@@ -14,16 +14,23 @@ namespace LightController.MyForm.Multiplex
 {
 	public partial class DetailMultiForm : Form
 	{
-		private MainFormBase mainForm;		
-		private IList<int> tdIndices;	
-		
-		public DetailMultiForm(MainFormBase mainForm, string lightInfo,  IList<int> tdIndices,  IList<StepWrapper> stepWrapperList)
+		private MainFormBase mainForm;
+		private bool isMultiLight ; 
+
+		/// <summary>
+		/// 此构造方法：适用于单个灯具的多步联调 
+		/// </summary>
+		/// <param name="mainForm"></param>
+		/// <param name="lightInfo"></param>
+		/// <param name="tdIndices"></param>
+		/// <param name="stepWrapperList"></param>		
+		public DetailMultiForm(MainFormBase mainForm,int lightIndex, IList<int> tdIndices,  IList<StepWrapper> stepWrapperList)
 		{
-			this.mainForm = mainForm;			
-			this.tdIndices = tdIndices;
+			this.mainForm = mainForm;
+			isMultiLight = false;
 
 			InitializeComponent();			
-			Text += "【"+lightInfo+ "】"; 
+			Text = "单灯具多步联调(" + mainForm.LightAstList[lightIndex].LightType + ":" + mainForm.LightAstList[lightIndex].LightAddr+ ")"; 
 
 			// 验证有否步数
 			if (stepWrapperList == null || stepWrapperList.Count == 0)
@@ -37,23 +44,52 @@ namespace LightController.MyForm.Multiplex
 			{
 				for (int tdIndex = 0; tdIndex < stepWrapperList[0].TongdaoList.Count; tdIndex++)
 				{
-					addTdPanel(stepWrapperList, tdIndex);
+					addTdPanel(stepWrapperList, lightIndex,tdIndex);
 				}
 			}
 			else {
 				foreach (int tdIndex in tdIndices)
 				{
-					addTdPanel(stepWrapperList, tdIndex);
+					addTdPanel(stepWrapperList,lightIndex, tdIndex);
 				}				
 			}
 		}
 		
 		/// <summary>
+		/// 此构造方法：适用于多个灯具的多步联调
+		/// </summary>
+		/// <param name="mainForm"></param>
+		/// <param name="tdDict"></param>
+		public DetailMultiForm(MainFormBase mainForm, Dictionary<int,List<int>> tdDict) {
+
+			this.mainForm = mainForm;
+			isMultiLight = true;
+
+			InitializeComponent();
+			Text =  "多个灯具的多步联调";
+
+			IList<LightWrapper> lwList = mainForm.LightWrapperList;
+
+			foreach (int lightIndex in tdDict.Keys)
+			{
+				LightWrapper lw = lwList[lightIndex];				
+				IList<StepWrapper> stepWrapperList = lw.LightStepWrapperList[mainForm.CurrentFrame  , mainForm.CurrentMode].StepWrapperList;
+
+				foreach (int tdIndex in tdDict[lightIndex] )
+				{
+					Console.WriteLine(lightIndex + "   -   "  + tdIndex); 
+					addTdPanel(stepWrapperList, lightIndex,tdIndex);
+				}
+			}
+		}
+
+
+		/// <summary>
 		///  Load方法内设定窗口位置
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SoundMultiForm_Load(object sender, EventArgs e)
+		private void DetailMultiForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
@@ -63,7 +99,7 @@ namespace LightController.MyForm.Multiplex
 		/// </summary>
 		/// <param name="stepWrapperList"></param>
 		/// <param name="tdIndex"></param>
-		private void addTdPanel(IList<StepWrapper> stepWrapperList , int tdIndex)
+		private void addTdPanel(IList<StepWrapper> stepWrapperList , int lightIndex , int tdIndex)
 		{
 			Panel tdPanel = new Panel
 			{
@@ -71,6 +107,7 @@ namespace LightController.MyForm.Multiplex
 				Location = tdPanelDemo.Location,
 				Size = tdPanelDemo.Size,
 				BorderStyle = tdPanelDemo.BorderStyle,
+				Tag = lightIndex
 			};
 
 			Panel tdSmallPanel = new Panel
@@ -80,7 +117,8 @@ namespace LightController.MyForm.Multiplex
 				Dock = tdSmallPanelDemo.Dock,
 				Location = tdSmallPanelDemo.Location,
 				Size = tdSmallPanelDemo.Size,
-				BorderStyle = tdSmallPanelDemo.BorderStyle				
+				BorderStyle = tdSmallPanelDemo.BorderStyle,
+				Tag = lightIndex
 			};
 
 			FlowLayoutPanel stepFLP = new FlowLayoutPanel
@@ -92,6 +130,7 @@ namespace LightController.MyForm.Multiplex
 				Size = stepFLPDemo.Size,
 				WrapContents = false,
 				BackColor = stepFLPDemo.BackColor,
+				Tag = lightIndex
 			};
 
 			bigFLP.Controls.Add(tdPanel);			
@@ -103,7 +142,8 @@ namespace LightController.MyForm.Multiplex
 				Name = "tdLabel" + (tdIndex + 1),
 				Location = tdLabelDemo.Location,
 				Size = tdLabelDemo.Size,
-				Text = stepWrapperList[0].TongdaoList[tdIndex].Address +" - "+  stepWrapperList[0].TongdaoList[tdIndex].TongdaoName
+				Text = stepWrapperList[0].TongdaoList[tdIndex].Address +" - "+  stepWrapperList[0].TongdaoList[tdIndex].TongdaoName,
+				Tag = lightIndex
 			};
 
 			ComboBox unifyComboBox = new ComboBox
@@ -111,7 +151,8 @@ namespace LightController.MyForm.Multiplex
 				Name = "unifyComboBox" + (tdIndex + 1),
 				DropDownStyle = unifyComboBoxDemo.DropDownStyle,
 				Location = unifyComboBoxDemo.Location,
-				Size = unifyComboBoxDemo.Size
+				Size = unifyComboBoxDemo.Size,
+				Tag = lightIndex
 			};
 			unifyComboBox.Items.AddRange(new object[] { "全步", "单步", "双步" });
 			unifyComboBox.SelectedIndex = 0;
@@ -121,9 +162,9 @@ namespace LightController.MyForm.Multiplex
 				Name = "unifyTopButton" + (tdIndex + 1),
 				Location = unifyTopButtonDemo.Location,
 				Size = unifyTopButtonDemo.Size,
-				Tag = unifyTopButtonDemo.Tag,
 				Text = unifyTopButtonDemo.Text,
-				UseVisualStyleBackColor = unifyTopButtonDemo.UseVisualStyleBackColor
+				UseVisualStyleBackColor = unifyTopButtonDemo.UseVisualStyleBackColor,
+				Tag = lightIndex
 			};
 			unifyTopButton.Click += unifyValueButton_Click;
 
@@ -132,9 +173,9 @@ namespace LightController.MyForm.Multiplex
 				Name = "unifyBottomButton" + (tdIndex + 1),
 				Location = unifyBottomButtonDemo.Location,
 				Size = unifyBottomButtonDemo.Size,
-				Tag = unifyBottomButtonDemo.Tag,
 				Text = unifyBottomButtonDemo.Text,
-				UseVisualStyleBackColor = unifyBottomButtonDemo.UseVisualStyleBackColor
+				UseVisualStyleBackColor = unifyBottomButtonDemo.UseVisualStyleBackColor,
+				Tag = lightIndex
 			};
 			unifyBottomButton.Click += unifyValueButton_Click;
 
@@ -145,7 +186,8 @@ namespace LightController.MyForm.Multiplex
 				Size = unifyNUDDemo.Size,
 				TextAlign = unifyNUDDemo.TextAlign,
 				Maximum = unifyNUDDemo.Maximum,
-				Value = unifyNUDDemo.Value
+				Value = unifyNUDDemo.Value,
+				Tag = lightIndex
 			};
 			unifyNUD.MouseWheel += someNUD_MouseWheel;
 
@@ -155,7 +197,8 @@ namespace LightController.MyForm.Multiplex
 				Location = unifyValueButtonDemo.Location,
 				Size = unifyValueButtonDemo.Size,
 				Text = unifyValueButtonDemo.Text,
-				UseVisualStyleBackColor = unifyValueButtonDemo.UseVisualStyleBackColor
+				UseVisualStyleBackColor = unifyValueButtonDemo.UseVisualStyleBackColor,
+				Tag = lightIndex
 			};
 			unifyValueButton.Click += new System.EventHandler(this.unifyValueButton_Click);
 
@@ -167,7 +210,7 @@ namespace LightController.MyForm.Multiplex
 			tdSmallPanel.Controls.Add(unifyValueButton);
 
 			// 满足多个条件，才会添加子属性的comboBox
-			SAWrapper saw = mainForm.GetCurrentLightTdSaw(tdIndex);
+			SAWrapper saw = mainForm.GetSeletecdLightTdSaw(lightIndex,tdIndex);
 			if (saw != null && saw.SaList != null && saw.SaList.Count != 0) {
 				ComboBox saComboBox = new ComboBox
 				{
@@ -175,7 +218,8 @@ namespace LightController.MyForm.Multiplex
 					DropDownStyle = saComboBoxDemo.DropDownStyle,
 					FormattingEnabled = true,
 					Location = saComboBoxDemo.Location,
-					Size = saComboBoxDemo.Size
+					Size = saComboBoxDemo.Size,
+					Tag = lightIndex
 				};
 				foreach (SA sa in saw.SaList)
 				{
@@ -183,17 +227,19 @@ namespace LightController.MyForm.Multiplex
 				}
 				saComboBox.SelectedIndexChanged += saComboBox_SelectedIndexChanged;
 
-				tdSmallPanel.Controls.Add(saComboBox);				
+				tdSmallPanel.Controls.Add(saComboBox);
 			}
 		
 			
 			for (int stepIndex = 0; stepIndex < stepWrapperList.Count; stepIndex++)
-			{
+			{				
 				Panel stepPanel = new Panel
 				{
 					Name = "stepPanel" + (stepIndex + 1),
 					BorderStyle = stepPanelDemo.BorderStyle,
-					Size = stepPanelDemo.Size
+					Size = stepPanelDemo.Size,
+					BackColor = getBackColor(stepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue),
+					Tag = lightIndex,					
 				};
 
 				Label stepLabel = new Label
@@ -203,7 +249,8 @@ namespace LightController.MyForm.Multiplex
 					AutoSize = stepLabelDemo.AutoSize,
 					ForeColor = stepLabelDemo.ForeColor,
 					Location = stepLabelDemo.Location,
-					Size = stepLabelDemo.Size
+					Size = stepLabelDemo.Size,
+					Tag = lightIndex
 				};
 
 				Button topButton = new Button
@@ -212,8 +259,8 @@ namespace LightController.MyForm.Multiplex
 					Location = topButtonDemo.Location,
 					Size = topButtonDemo.Size,
 					UseVisualStyleBackColor = true,
-					Text = "↑",
-					Tag = 255
+					Text = "↑" ,
+					Tag = lightIndex
 				};
 
 				Button bottomButton = new Button
@@ -223,7 +270,7 @@ namespace LightController.MyForm.Multiplex
 					Size = bottomButtonDemo.Size,
 					UseVisualStyleBackColor = true,
 					Text = "↓",
-					Tag = 0
+					Tag = lightIndex
 				};
 
 				NumericUpDown stepNUD = new NumericUpDown
@@ -235,6 +282,7 @@ namespace LightController.MyForm.Multiplex
 					Increment = stepNUDDemo.Increment,
 					Maximum = stepNUDDemo.Maximum,
 					Value = stepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue,
+					Tag = lightIndex
 				};
 
 				stepPanel.Controls.Add(stepLabel);
@@ -261,9 +309,11 @@ namespace LightController.MyForm.Multiplex
 		private void saComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox cb = sender as ComboBox;
+			int lightIndex = (int)cb.Tag;
 			int tdIndex = MathHelper.GetIndexNum(cb.Name, -1);
 			int saIndex = cb.SelectedIndex;
-			int saValue = mainForm.GetCurrentLightTdSaw(tdIndex).SaList[saIndex].StartValue;
+			
+			int saValue = mainForm.GetSeletecdLightTdSaw(lightIndex,tdIndex).SaList[saIndex].StartValue;
 
 			(cb.Parent.Controls[4] as NumericUpDown).Value = saValue;
 		}
@@ -301,7 +351,6 @@ namespace LightController.MyForm.Multiplex
 				NumericUpDown stepNUD = btn.Parent.Parent.Controls[0].Controls[stepIndex].Controls[3] as NumericUpDown;
 				stepNUD.Value = unifyValue;
 			}
-
 			// Console.WriteLine( tdIndex + " - "+unifyPos + " : " + unifyValue );
 		}
 
@@ -377,8 +426,11 @@ namespace LightController.MyForm.Multiplex
 		    int tdIndex = MathHelper.GetIndexNum((nud.Parent.Parent as FlowLayoutPanel).Name, -1);
 			int stepIndex = MathHelper.GetIndexNum(nud.Name, -1);
 			int stepValue = decimal.ToInt32( nud.Value );
-			//Console.WriteLine( tdIndex + " +++ " +  stepIndex +"  --- "+ stepValue);			
-			mainForm.SetTdStepValue(  tdIndex, stepIndex , stepValue);
+			(nud.Parent as Panel).BackColor = getBackColor(stepValue);
+			int lightIndex = (int)(nud.Tag);
+			//Console.WriteLine( lightIndex + " : " + tdIndex + " +++ " +  stepIndex +"  --- "+ stepValue);		
+
+			mainForm.SetTdStepValue(isMultiLight, lightIndex, tdIndex, stepIndex , stepValue);
 		}
 		
 		/// <summary>
@@ -390,6 +442,25 @@ namespace LightController.MyForm.Multiplex
 			myStatusLabel.Text = msg;
 			if (msgBoxShow) {
 				MessageBox.Show(msg);
+			}
+		}
+
+		/// <summary>
+		/// 辅助方法：由输入的通道值，设置背景颜色
+		/// </summary>
+		/// <param name="stepValue"></param>
+		/// <returns></returns>
+		private Color getBackColor(int stepValue) {
+
+			if (stepValue == 0) {
+				return Color.Gray;
+			}
+			else if (stepValue > 0 && stepValue < 255)
+			{
+				return Color.SteelBlue;				
+			}
+			else {
+				return Color.IndianRed;
 			}
 		}
 

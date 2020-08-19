@@ -21,10 +21,10 @@ namespace LightController.MyForm
 		private int startStep = 1, endStep =1;
 		private IList<int> tdIndexList = new List<int>();
 
-		private string lightInfo;
+		private int lightIndex;
 		private IList<StepWrapper> stepWrapperList;
 
-		public MultiStepForm(MainFormBase mainForm, int currentStep,int totalStep,StepWrapper stepTemplate, int mode, string lightInfo, IList<StepWrapper> stepWrapperList)
+		public MultiStepForm(MainFormBase mainForm, int currentStep,int totalStep,StepWrapper stepTemplate, int mode, int lightIndex, IList<StepWrapper> stepWrapperList)
 		{
 			this.mainForm = mainForm;
 			this.currentStep = currentStep;
@@ -32,11 +32,11 @@ namespace LightController.MyForm
 			this.stepTemplate = stepTemplate;			
 			this.mode = mode;
 
-			this.lightInfo = lightInfo;
+			this.lightIndex = lightIndex;
 			this.stepWrapperList = stepWrapperList;
 
 			InitializeComponent();
-			Text += "【" + lightInfo + "】";
+			Text += "【" + mainForm.LightAstList[lightIndex].LightType + ":" + mainForm.LightAstList[lightIndex].LightAddr  + "】";
 
 			#region 初始化自定义数组等
 
@@ -318,8 +318,7 @@ namespace LightController.MyForm
 			Dispose();
 			mainForm.Activate();
 
-			new DetailMultiForm(mainForm, lightInfo, tdIndexList, stepWrapperList).ShowDialog();
-			
+			new DetailMultiForm(mainForm, lightIndex, tdIndexList, stepWrapperList).ShowDialog();			
 		}
 
 	}

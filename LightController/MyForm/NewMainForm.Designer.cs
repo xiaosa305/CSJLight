@@ -587,7 +587,7 @@ namespace LightController.MyForm
 			this.tdPanelDemo.Controls.Add(this.tdValueNUDDemo);
 			this.tdPanelDemo.Controls.Add(this.tdTrackBarDemo);
 			this.tdPanelDemo.Location = new System.Drawing.Point(1, 1);
-			this.tdPanelDemo.Margin = new System.Windows.Forms.Padding(1, 1, 1, 4);
+			this.tdPanelDemo.Margin = new System.Windows.Forms.Padding(1);
 			this.tdPanelDemo.Name = "tdPanelDemo";
 			this.tdPanelDemo.Size = new System.Drawing.Size(60, 297);
 			this.tdPanelDemo.TabIndex = 24;
@@ -596,7 +596,7 @@ namespace LightController.MyForm
 			// tdNameLabelDemo
 			// 
 			this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
-			this.tdNameLabelDemo.Location = new System.Drawing.Point(4, 47);
+			this.tdNameLabelDemo.Location = new System.Drawing.Point(11, 47);
 			this.tdNameLabelDemo.Name = "tdNameLabelDemo";
 			this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 153);
 			this.tdNameLabelDemo.TabIndex = 23;
@@ -607,7 +607,7 @@ namespace LightController.MyForm
 			// tdNoLabelDemo
 			// 
 			this.tdNoLabelDemo.AutoSize = true;
-			this.tdNoLabelDemo.Location = new System.Drawing.Point(5, 18);
+			this.tdNoLabelDemo.Location = new System.Drawing.Point(8, 18);
 			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
 			this.tdNoLabelDemo.Size = new System.Drawing.Size(47, 12);
 			this.tdNoLabelDemo.TabIndex = 3;
@@ -617,7 +617,7 @@ namespace LightController.MyForm
 			// tdCmComboBoxDemo
 			// 
 			this.tdCmComboBoxDemo.FormattingEnabled = true;
-			this.tdCmComboBoxDemo.Location = new System.Drawing.Point(5, 247);
+			this.tdCmComboBoxDemo.Location = new System.Drawing.Point(8, 247);
 			this.tdCmComboBoxDemo.Name = "tdCmComboBoxDemo";
 			this.tdCmComboBoxDemo.Size = new System.Drawing.Size(50, 20);
 			this.tdCmComboBoxDemo.TabIndex = 2;
@@ -631,7 +631,7 @@ namespace LightController.MyForm
             0,
             0,
             131072});
-			this.tdStNUDDemo.Location = new System.Drawing.Point(5, 271);
+			this.tdStNUDDemo.Location = new System.Drawing.Point(8, 271);
 			this.tdStNUDDemo.Name = "tdStNUDDemo";
 			this.tdStNUDDemo.Size = new System.Drawing.Size(50, 20);
 			this.tdStNUDDemo.TabIndex = 1;
@@ -640,7 +640,7 @@ namespace LightController.MyForm
 			// tdValueNUDDemo
 			// 
 			this.tdValueNUDDemo.Font = new System.Drawing.Font("宋体", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNUDDemo.Location = new System.Drawing.Point(5, 223);
+			this.tdValueNUDDemo.Location = new System.Drawing.Point(8, 223);
 			this.tdValueNUDDemo.Maximum = new decimal(new int[] {
             255,
             0,
@@ -655,7 +655,7 @@ namespace LightController.MyForm
 			// 
 			this.tdTrackBarDemo.AutoSize = false;
 			this.tdTrackBarDemo.BackColor = System.Drawing.SystemColors.Window;
-			this.tdTrackBarDemo.Location = new System.Drawing.Point(20, 33);
+			this.tdTrackBarDemo.Location = new System.Drawing.Point(23, 33);
 			this.tdTrackBarDemo.Maximum = 255;
 			this.tdTrackBarDemo.Name = "tdTrackBarDemo";
 			this.tdTrackBarDemo.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -668,7 +668,7 @@ namespace LightController.MyForm
 			// 
 			this.saPanelDemo.Controls.Add(this.saFLPDemo);
 			this.saPanelDemo.Location = new System.Drawing.Point(63, 1);
-			this.saPanelDemo.Margin = new System.Windows.Forms.Padding(1, 1, 1, 4);
+			this.saPanelDemo.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
 			this.saPanelDemo.Name = "saPanelDemo";
 			this.saPanelDemo.Size = new System.Drawing.Size(90, 297);
 			this.saPanelDemo.TabIndex = 64;
@@ -681,7 +681,7 @@ namespace LightController.MyForm
 			this.saFLPDemo.Controls.Add(this.saButtonDemo);
 			this.saFLPDemo.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.saFLPDemo.Location = new System.Drawing.Point(0, 0);
-			this.saFLPDemo.Margin = new System.Windows.Forms.Padding(0, 1, 1, 1);
+			this.saFLPDemo.Margin = new System.Windows.Forms.Padding(0);
 			this.saFLPDemo.Name = "saFLPDemo";
 			this.saFLPDemo.Size = new System.Drawing.Size(90, 297);
 			this.saFLPDemo.TabIndex = 63;
@@ -716,7 +716,7 @@ namespace LightController.MyForm
 			this.panel1.Controls.Add(this.unifyChangeModeComboBox);
 			this.panel1.Controls.Add(this.unifyStepTimeButton);
 			this.panel1.Controls.Add(this.unifyValueNumericUpDown);
-			this.panel1.Location = new System.Drawing.Point(157, 3);
+			this.panel1.Location = new System.Drawing.Point(160, 3);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(185, 297);
 			this.panel1.TabIndex = 25;

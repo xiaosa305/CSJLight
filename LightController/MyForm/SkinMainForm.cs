@@ -486,12 +486,12 @@ namespace LightController.MyForm
 		{
 			//常规的四个按钮
 			saveSkinButton.Enabled = enable;
-			exportSkinButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
+			exportSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
 			frameSaveSkinButton.Enabled = enable;
 			closeSkinButton.Enabled = enable;
 
 			// 不同MainForm在不同位置的按钮
-			useFrameSkinButton.Enabled = enable && lightAstList != null && lightAstList.Count > 0;
+			useFrameSkinButton.Enabled = enable && LightAstList != null && LightAstList.Count > 0;
 
 			// 菜单栏相关按钮
 			lightListSkinButton.Enabled = enable;
@@ -520,17 +520,17 @@ namespace LightController.MyForm
 		protected override void reBuildLightListView()
 		{			
 			lightsSkinListView.Items.Clear();
-			for (int i = 0; i < lightAstList.Count; i++)
+			for (int i = 0; i < LightAstList.Count; i++)
 			{
 				// 添加灯具数据到LightsListView中
 				lightsSkinListView.Items.Add(new ListViewItem(
-						lightAstList[i].LightType +"\n(" 
-						+ lightAstList[i].LightAddr +")"
-						+ lightAstList[i].Remark
+						LightAstList[i].LightType +"\n(" 
+						+ LightAstList[i].LightAddr +")"
+						+ LightAstList[i].Remark
 						,
-					lightLargeImageList.Images.ContainsKey(lightAstList[i].LightPic) ? lightAstList[i].LightPic : "灯光图.png"
+					lightLargeImageList.Images.ContainsKey(LightAstList[i].LightPic) ? LightAstList[i].LightPic : "灯光图.png"
 				)
-				{ Tag = lightAstList[i].LightName + ":" + lightAstList[i].LightType }
+				{ Tag = LightAstList[i].LightName + ":" + LightAstList[i].LightType }
 				);
 			}
 			Refresh(); 
@@ -560,9 +560,9 @@ namespace LightController.MyForm
 		//MARK 只开单场景：02.0.2 (SkinMainForm)改变当前Frame
 		protected override void changeCurrentFrame(int frameIndex)
 		{
-			currentFrame = frameIndex;
+			CurrentFrame = frameIndex;
 			frameSkinComboBox.SelectedIndexChanged -= new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
-			frameSkinComboBox.SelectedIndex = currentFrame;
+			frameSkinComboBox.SelectedIndex = CurrentFrame;
 			frameSkinComboBox.SelectedIndexChanged += new System.EventHandler(this.frameSkinComboBox_SelectedIndexChanged);
 		}
 
@@ -629,7 +629,7 @@ namespace LightController.MyForm
 			//1. 若还未生成saPanelDict，则在选择灯具后进行生成；
 			//2. 不论是新生成还是已经存在的数据，按是否存在进行显示；
 
-			LightAst la = lightAstList[selectedIndex];
+			LightAst la = LightAstList[selectedIndex];
 			if (la.SawList == null)
 			{
 				generateStepTemplate(la);
@@ -850,9 +850,9 @@ namespace LightController.MyForm
 			base.EditLightRemark(lightIndex, remark);
 			// 界面的Items[lightIndex]也要改动相应的值；			
 			lightsSkinListView.Items[lightIndex].SubItems[0].Text =
-				lightAstList[lightIndex].LightType + "\n("
-				+ lightAstList[lightIndex].LightAddr + ")"
-				+ lightAstList[lightIndex].Remark;
+				LightAstList[lightIndex].LightType + "\n("
+				+ LightAstList[lightIndex].LightAddr + ")"
+				+ LightAstList[lightIndex].Remark;
 			lightsSkinListView.Refresh();
 		}
 
@@ -871,7 +871,7 @@ namespace LightController.MyForm
 		private void refreshPicToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			HashSet<string> lightPathHashSet = new HashSet<string>();
-			foreach (LightAst la in lightAstList)
+			foreach (LightAst la in LightAstList)
 			{
 				lightPathHashSet.Add(la.LightPath);
 			}
@@ -887,10 +887,10 @@ namespace LightController.MyForm
 				lightDict.Add(lightPath, picStr);
 			}
 
-			for (int lightIndex = 0; lightIndex < lightAstList.Count; lightIndex++)
+			for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
 			{
-				string tempPicStr = lightDict[lightAstList[lightIndex].LightPath];
-				lightAstList[lightIndex].LightPic = tempPicStr;
+				string tempPicStr = lightDict[LightAstList[lightIndex].LightPath];
+				LightAstList[lightIndex].LightPic = tempPicStr;
 				lightsSkinListView.Items[lightIndex].ImageKey = tempPicStr;
 			}
 
@@ -1023,7 +1023,7 @@ namespace LightController.MyForm
 			}
 
 			// 3.判断灯具数量是否为空
-			if (lightAstList == null || lightAstList.Count == 0)
+			if (LightAstList == null || LightAstList.Count == 0)
 			{
 				MessageBox.Show("当前工程尚无灯具，无法保存灯具位置，请添加灯具后重新保存。");
 				return;
@@ -1159,7 +1159,7 @@ namespace LightController.MyForm
 
 			//若选中项与当前项相同，则不再往下执行
 			int tempFrame = frameSkinComboBox.SelectedIndex;
-			if (tempFrame == currentFrame) {
+			if (tempFrame == CurrentFrame) {
 				return;
 			}
 
@@ -1169,7 +1169,7 @@ namespace LightController.MyForm
 			// 只要更改了场景，直接结束预览
 			endview();
 
-			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[currentFrame] + ")？",
+			DialogResult dr = MessageBox.Show("切换场景前，是否保存之前场景(" + AllFrameList[CurrentFrame] + ")？",
 				"保存场景?",
 				MessageBoxButtons.YesNo,
 				MessageBoxIcon.Question);
@@ -1177,21 +1177,21 @@ namespace LightController.MyForm
 			{
 				saveFrameClick();
 				//MARK 只开单场景：06.0.2 切换场景时，若选择保存之前场景，则frameSaveArray设为false，意味着以后不需要再保存了。
-				frameSaveArray[currentFrame] = false;				
+				frameSaveArray[CurrentFrame] = false;				
 			}
 
-			currentFrame = frameSkinComboBox.SelectedIndex;
+			CurrentFrame = frameSkinComboBox.SelectedIndex;
 			//MARK 只开单场景：06.1.2 更改场景时，只有frameLoadArray为false，才需要从DB中加载相关数据（调用generateFrameData）；若为true，则说明已经加载因而无需重复读取。
-			if (!frameLoadArray[currentFrame])
+			if (!frameLoadArray[CurrentFrame])
 			{
-				generateFrameData(currentFrame);
+				generateFrameData(CurrentFrame);
 			}
 			//MARK 只开单场景：06.2.2 更改场景后，需要将frameSaveArray设为true，表示当前场景需要保存
-			frameSaveArray[currentFrame] = true;
+			frameSaveArray[CurrentFrame] = true;
 
 			changeFrameMode();
 			setBusy(false);
-			SetNotice("成功切换为场景(" + AllFrameList[currentFrame] + ")", false);
+			SetNotice("成功切换为场景(" + AllFrameList[CurrentFrame] + ")", false);
 		}
 
 		/// <summary>
@@ -1201,7 +1201,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void modeSkinComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			currentMode = modeSkinComboBox.SelectedIndex;
+			CurrentMode = modeSkinComboBox.SelectedIndex;
 
 			//11.13 若未初始化，直接return；
 			if (!isInit)
@@ -1213,7 +1213,7 @@ namespace LightController.MyForm
 			// 1.改变几个label的Text; 
 			// 2.改变跳变渐变-->是否声控；
 			// 3.所有步时间值的调节，改为enabled=false						
-			if (currentMode == 1)
+			if (CurrentMode == 1)
 			{
 				for (int i = 0; i < FrameCount; i++)
 				{
@@ -1283,7 +1283,7 @@ namespace LightController.MyForm
 			{
 				selectedIndices.Add(item);
 			}
-			new MultiLightForm(this, isCopyAll, lightAstList, selectedIndices).ShowDialog();
+			new MultiLightForm(this, isCopyAll, LightAstList, selectedIndices).ShowDialog();
 		}
 
 		/// <summary>
@@ -1593,12 +1593,12 @@ namespace LightController.MyForm
 			{
 				if (lightIndex == selectedIndex)
 				{
-					lightsAddrLabel.Text += "(" + lightAstList[lightIndex].LightAddr + ") ";
+					lightsAddrLabel.Text += "(" + LightAstList[lightIndex].LightAddr + ") ";
 					lightsSkinListView.Items[lightIndex].BackColor = Color.LightSkyBlue;
 				}
 				else
 				{
-					lightsAddrLabel.Text += lightAstList[lightIndex].LightAddr + " ";
+					lightsAddrLabel.Text += LightAstList[lightIndex].LightAddr + " ";
 					lightsSkinListView.Items[lightIndex].BackColor = Color.SkyBlue;
 				}
 			}
@@ -1619,7 +1619,7 @@ namespace LightController.MyForm
 			frameSkinComboBox.Enabled = !isMultiMode;
 			modeSkinComboBox.Enabled = !isMultiMode;
 			useFrameSkinButton.Enabled = !isMultiMode;
-			groupFlowLayoutPanel.Enabled = lightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
+			groupFlowLayoutPanel.Enabled = LightAstList != null;   // 只要当前工程有灯具，就可以进入编组（再由按钮点击事件进行进一步确认）
 
 			multiLightSkinButton.Text = !isMultiMode ? "多灯模式" : "单灯模式";
 		}
@@ -1661,16 +1661,16 @@ namespace LightController.MyForm
 			pasteStepSkinButton.Enabled = currentStep > 0 && tempStep != null;
 
 			multiCopySkinButton.Enabled = currentStep > 0;
-			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == currentMode;
+			multiPasteSkinButton.Enabled = TempMaterialAst != null && TempMaterialAst.Mode == CurrentMode;
 
 			multiplexSkinButton.Enabled = currentStep > 0;
 
 			// 4.设定统一调整区是否可用
-			groupButton.Enabled = lightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击
-			groupFlowLayoutPanel.Enabled = lightAstList != null ; 
+			groupButton.Enabled = LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击
+			groupFlowLayoutPanel.Enabled = LightAstList != null ; 
 			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
-            soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && currentMode == 1 ;
+            soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1 ;
 
             // 5. 处理选择步数的框及按钮
             chooseStepNumericUpDown.Enabled = totalStep != 0;			
@@ -1962,7 +1962,7 @@ namespace LightController.MyForm
 			{
 				selectedIndices.Add(item);
 			}
-			new GroupForm(this, lightAstList, selectedIndices).ShowDialog();
+			new GroupForm(this, LightAstList, selectedIndices).ShowDialog();
 		}
 
 		/// <summary>
@@ -1996,7 +1996,7 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				soundMultiButtonClick();
+				detailMultiButtonClick();
 			}
 		}
 		
@@ -2008,7 +2008,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void soundListButton_Click(object sender, EventArgs e)
         {
-           new SKForm(this, currentFrame, frameSkinComboBox.Text).ShowDialog();  
+           new SKForm(this, CurrentFrame, frameSkinComboBox.Text).ShowDialog();  
         }
 
         /// <summary>

@@ -15,7 +15,6 @@ namespace LightController.MyForm.Multiplex
 	public partial class DetailMultiForm : Form
 	{
 		private MainFormBase mainForm;
-		private bool isMultiLight ; 
 
 		/// <summary>
 		/// 此构造方法：适用于单个灯具的多步联调 
@@ -27,8 +26,7 @@ namespace LightController.MyForm.Multiplex
 		public DetailMultiForm(MainFormBase mainForm,int lightIndex, IList<int> tdIndices,  IList<StepWrapper> stepWrapperList)
 		{
 			this.mainForm = mainForm;
-			isMultiLight = false;
-
+		
 			InitializeComponent();			
 			Text = "单灯具多步联调(" + mainForm.LightAstList[lightIndex].LightType + ":" + mainForm.LightAstList[lightIndex].LightAddr+ ")"; 
 
@@ -63,7 +61,6 @@ namespace LightController.MyForm.Multiplex
 		public DetailMultiForm(MainFormBase mainForm, Dictionary<int,List<int>> tdDict) {
 
 			this.mainForm = mainForm;
-			isMultiLight = true;
 
 			InitializeComponent();
 			Text =  "多个灯具的多步联调";
@@ -430,7 +427,11 @@ namespace LightController.MyForm.Multiplex
 			int lightIndex = (int)(nud.Tag);
 			//Console.WriteLine( lightIndex + " : " + tdIndex + " +++ " +  stepIndex +"  --- "+ stepValue);		
 
-			mainForm.SetTdStepValue(isMultiLight, lightIndex, tdIndex, stepIndex , stepValue);
+			mainForm.SetTdStepValue( lightIndex , tdIndex , stepIndex , stepValue);
+
+			// 如果这里是多灯模式，就把相关的通道的值设一下（遍历所有通道，找到tdIndex一样的（且都在selectedIndices中的数））
+
+
 		}
 		
 		/// <summary>

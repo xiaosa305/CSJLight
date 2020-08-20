@@ -1419,7 +1419,7 @@ namespace LightController.MyForm
 		private void multiLightButton_Click(object sender, EventArgs e)
 		{
 			// 进入多灯模式
-			if (!isMultiMode)
+			if (!IsMultiMode)
 			{
 				enterMultiMode();
 			}
@@ -1771,7 +1771,7 @@ namespace LightController.MyForm
 		/// <param name="exit"></param>
 		protected override void RefreshMultiModeButtons(bool isMultiMode)
 		{
-			this.isMultiMode = isMultiMode;		
+			this.IsMultiMode = isMultiMode;		
 
 			//MARK 只开单场景：15.1 《灯具列表》是否可用，由单灯模式决定
 			lightListToolStripMenuItem.Enabled = !isMultiMode;
@@ -2016,7 +2016,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].ChangeMode = tdCmComboBoxes[tdIndex].SelectedIndex;
 
 			//3.多灯模式下，需要把调整复制到各个灯具去
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				copyValueToAll(tdIndex, WHERE.CHANGE_MODE, changeMode);
 			}
@@ -2083,7 +2083,7 @@ namespace LightController.MyForm
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
 
-			if (isMultiMode) {
+			if (IsMultiMode) {
 				copyValueToAll(tdIndex, WHERE.STEP_TIME, stepTime);
 			}
 		}
@@ -2350,7 +2350,7 @@ namespace LightController.MyForm
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = commonValue;
 			}
 
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, commonValue);
 			}
@@ -2377,7 +2377,7 @@ namespace LightController.MyForm
 			{
 				getCurrentStepWrapper().TongdaoList[i].ChangeMode = commonChangeMode;
 			}
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				copyUnifyValueToAll(getCurrentStep(), WHERE.CHANGE_MODE, commonChangeMode);
 			}
@@ -2448,7 +2448,7 @@ namespace LightController.MyForm
 				{
 					getCurrentStepWrapper().TongdaoList[i].StepTime = unifyStepTimeParsed;
 				}
-				if (isMultiMode)
+				if (IsMultiMode)
 				{
 					copyUnifyValueToAll(getCurrentStep(), WHERE.STEP_TIME, unifyStepTimeParsed);
 				}

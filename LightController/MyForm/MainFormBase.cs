@@ -89,9 +89,9 @@ namespace LightController.MyForm
 		public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
 		protected string groupIniPath; // 存放编组文件存放路径
 		protected IList<GroupAst> groupList; // 存放编组	
-											 //protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
+		//protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
 		protected SAUseForm sauForm; //存储一个全局的sauForm，当用户点击《通道名》时弹出
-									 //protected IList<SAUseForm> saFormList;
+		//protected IList<SAUseForm> saFormList;
 		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
 		protected DetailMultiAstForm dmsForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
 
@@ -114,12 +114,12 @@ namespace LightController.MyForm
 		protected IList<DB_StepCount> dbStepCountList;
 
 		public IList<LightAst> LightAstList;  //与《灯具编辑》通信用的变量；同时也可以供一些辅助form读取相关灯具的简约信息时使用 --> 这张表需要给多步联调使用（sawList）
-		public IList<LightWrapper> LightWrapperList;// 灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
+		public IList<LightWrapper> LightWrapperList;   //灯具变量：记录所有灯具（lightWrapper）的（所有场景和模式）的 每一步（通道列表）
 		protected Dictionary<int, int> lightDictionary;   //辅助灯具字典，用于通过pk，取出相关灯具的index（供维佳生成数据调用）
 
 		// 通道数据操作时的变量		
 		protected bool isSyncMode = false;  // 同步模式为true；异步模式为false(默认）	
-		protected bool isMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
+		public bool IsMultiMode = false; //默认情况下是单灯模式；若进入多灯模式，此变量改成true；
 		protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
@@ -762,7 +762,7 @@ namespace LightController.MyForm
 					lsWrapper.InsertStep(lsWrapper.CurrentStep - 1, newStep, false);
 				}
 
-				if (isMultiMode)
+				if (IsMultiMode)
 				{
 					foreach (int lightIndex in selectedIndices)
 					{
@@ -843,7 +843,7 @@ namespace LightController.MyForm
 					//newStep = lsWrapper.StepWrapperList[stepIndex];
 				}
 
-				if (isMultiMode)
+				if (IsMultiMode)
 				{
 					foreach (int lightIndex in selectedIndices)
 					{
@@ -971,7 +971,7 @@ namespace LightController.MyForm
 			}
 			else {
 				// 多灯单步				
-				if (isMultiMode)
+				if (IsMultiMode)
 				{
 					int currentStep = getCurrentStep();
 					if (currentStep == 0)
@@ -1029,7 +1029,7 @@ namespace LightController.MyForm
 			StepWrapper step = getCurrentStepWrapper();
 			step.TongdaoList[tdIndex].ScrollValue = tdValue;
 
-			if (isMultiMode) {
+			if (IsMultiMode) {
 				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
 			}
 
@@ -1325,7 +1325,7 @@ namespace LightController.MyForm
 		public void SetMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int commonValue) {
 
 			// 多灯模式，将值赋给每个编组的灯具中
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				foreach (int lightIndex in selectedIndices)
 				{
@@ -1352,26 +1352,21 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tdIndex"></param>
 		/// <param name="stepIndex"></param>
-		public void SetTdStepValue(bool isMultiLight, int selectedLightIndex, int tdIndex, int stepIndex, int stepValue)
+		public void SetTdStepValue(int selectedLightIndex, int tdIndex, int stepIndex, int stepValue)
 		{
-			if (isMultiLight)
+			// 多灯模式 且 所选灯具在当前的多灯组内，将值赋给每个编组的灯具中
+			if (IsMultiMode && selectedIndices.Contains(selectedLightIndex) )
 			{
-				getSelectedLightStepWrapper(selectedLightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
-			}
-			else {
-				// 多灯模式，将值赋给每个编组的灯具中
-				if (isMultiMode)
+				foreach (int lightIndex in selectedIndices)
 				{
-					foreach (int lightIndex in selectedIndices)
-					{
-						getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
-					}
-				} // 单灯模式，则只需更改当前灯具的数据即可。
-				else
-				{
-					getSelectedLightStepWrapper(selectedIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
+					getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
 				}
-			}
+			} 
+			// 单灯模式，则只需更改当前灯具的数据即可。
+			else
+			{
+				getSelectedLightStepWrapper(selectedIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
+			}			
 
 			// 刷新当前tdPanels数据。
 			RefreshStep();
@@ -1544,7 +1539,7 @@ namespace LightController.MyForm
 			IList<int> allIndices = new List<int>();
 			for (int lightIndex = 0; lightIndex < LightWrapperList.Count; lightIndex++)
 			{
-				if (isMultiMode)
+				if (IsMultiMode)
 				{
 					if (!selectedIndices.Contains(lightIndex))
 						allIndices.Add(lightIndex);
@@ -2756,7 +2751,7 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			else if (isMultiMode)
+			else if (IsMultiMode)
 			{
 				foreach (int lightIndex in selectedIndices)
 				{
@@ -2849,7 +2844,7 @@ namespace LightController.MyForm
 					}
 				}
 			}
-			else if (isMultiMode)
+			else if (IsMultiMode)
 			{
 				foreach (int lightIndex in selectedIndices)
 				{
@@ -2888,7 +2883,7 @@ namespace LightController.MyForm
 						}
 					}
 				}
-				else if (isMultiMode)
+				else if (IsMultiMode)
 				{
 					foreach (int lightIndex in selectedIndices)
 					{
@@ -2951,7 +2946,7 @@ namespace LightController.MyForm
 							}
 						}
 					}
-					else if (isMultiMode)
+					else if (IsMultiMode)
 					{
 						foreach (int lightIndex in selectedIndices)
 						{
@@ -3086,7 +3081,7 @@ namespace LightController.MyForm
 
 
 			//3.如果是多灯模式，则需要在复制步之后处理下每个灯具的信息
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				copyStepToAll(getCurrentStep(), WHERE.ALL);
 			}
@@ -3195,7 +3190,7 @@ namespace LightController.MyForm
 			// selectedIndices2 只用在非同步状态时，故可以在同步状态下传入null
 			IList<int> selectedIndices2 = null;
 			if ( !isSyncMode) {
-				if (! isMultiMode)
+				if (! IsMultiMode)
 				{
 					selectedIndices2 = new List<int>() { selectedIndex };
 				}
@@ -3295,7 +3290,7 @@ namespace LightController.MyForm
 				StepWrapper stepWrapper = lightStepWrapper.StepWrapperList[stepNum - 1];
 				lightStepWrapper.CurrentStep = stepNum;
 
-				if (isMultiMode)
+				if (IsMultiMode)
 				{
 					foreach (int lightIndex in selectedIndices)
 					{
@@ -3440,7 +3435,7 @@ namespace LightController.MyForm
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = 0;
 			}
 
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				copyUnifyValueToAll(getCurrentStep(), WHERE.SCROLL_VALUE, 0);
 			}
@@ -3465,7 +3460,7 @@ namespace LightController.MyForm
 			{
 				getCurrentStepWrapper().TongdaoList[i].ScrollValue = stepMode.TongdaoList[i].ScrollValue;
 			}
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				// 全部设为初值（只改变scrollValue，初值里不包括StepTime和ChangeMode）
 				copyStepToAll(getCurrentStep(), WHERE.SCROLL_VALUE);
@@ -3509,10 +3504,10 @@ namespace LightController.MyForm
 				return;
 			}
 
-			if (isMultiMode) {
-				SetNotice("多灯模式，无法使用多灯多步联调。", true);
-				return;
-			}
+			//if (isMultiMode) {
+			//	SetNotice("多灯模式，无法使用多灯多步联调。", true);
+			//	return;
+			//}
 
 			if (getTotalStep() == 0)
 			{
@@ -3724,7 +3719,7 @@ namespace LightController.MyForm
 			int tdValue = int.Parse(btnTagArr[1]);
 
 			getCurrentStepWrapper().TongdaoList[tdIndex].ScrollValue = tdValue;
-			if (isMultiMode)
+			if (IsMultiMode)
 			{
 				copyValueToAll(tdIndex, WHERE.SCROLL_VALUE, tdValue);
 			}

@@ -142,7 +142,7 @@ namespace LightController.MyForm.Multiplex
 				Name = "tdLabel" + (tdIndex + 1),
 				Location = tdLabelDemo.Location,
 				Size = tdLabelDemo.Size,
-				Text = stepWrapperList[0].TongdaoList[tdIndex].Address +" - "+  stepWrapperList[0].TongdaoList[tdIndex].TongdaoName,
+				Text =	stepWrapperList[0].TongdaoList[tdIndex].Address +" - "+  stepWrapperList[0].TongdaoList[tdIndex].TongdaoName + "\n" + mainForm.LightAstList[lightIndex].LightType ,
 				Tag = lightIndex
 			};
 
@@ -421,7 +421,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void StepNUD_ValueChanged(object sender, EventArgs e)
-		{
+		{			
 			NumericUpDown nud = sender as NumericUpDown;
 		    int tdIndex = MathHelper.GetIndexNum((nud.Parent.Parent as FlowLayoutPanel).Name, -1);
 			int stepIndex = MathHelper.GetIndexNum(nud.Name, -1);

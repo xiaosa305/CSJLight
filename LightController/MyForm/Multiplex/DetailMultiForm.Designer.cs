@@ -156,7 +156,7 @@
 			// 
 			this.saComboBoxDemo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.saComboBoxDemo.FormattingEnabled = true;
-			this.saComboBoxDemo.Location = new System.Drawing.Point(6, 83);
+			this.saComboBoxDemo.Location = new System.Drawing.Point(6, 81);
 			this.saComboBoxDemo.Name = "saComboBoxDemo";
 			this.saComboBoxDemo.Size = new System.Drawing.Size(106, 20);
 			this.saComboBoxDemo.TabIndex = 5;
@@ -189,7 +189,7 @@
 			// 
 			// unifyNUDDemo
 			// 
-			this.unifyNUDDemo.Location = new System.Drawing.Point(6, 56);
+			this.unifyNUDDemo.Location = new System.Drawing.Point(6, 55);
 			this.unifyNUDDemo.Maximum = new decimal(new int[] {
             255,
             0,
@@ -207,7 +207,7 @@
 			// 
 			// unifyValueButtonDemo
 			// 
-			this.unifyValueButtonDemo.Location = new System.Drawing.Point(62, 55);
+			this.unifyValueButtonDemo.Location = new System.Drawing.Point(62, 54);
 			this.unifyValueButtonDemo.Name = "unifyValueButtonDemo";
 			this.unifyValueButtonDemo.Size = new System.Drawing.Size(50, 23);
 			this.unifyValueButtonDemo.TabIndex = 2;
@@ -228,11 +228,11 @@
 			// 
 			// tdLabelDemo
 			// 
-			this.tdLabelDemo.Location = new System.Drawing.Point(6, 5);
+			this.tdLabelDemo.Location = new System.Drawing.Point(6, 2);
 			this.tdLabelDemo.Name = "tdLabelDemo";
-			this.tdLabelDemo.Size = new System.Drawing.Size(110, 19);
+			this.tdLabelDemo.Size = new System.Drawing.Size(110, 24);
 			this.tdLabelDemo.TabIndex = 0;
-			this.tdLabelDemo.Text = "通道：\r\n\r\n";
+			this.tdLabelDemo.Text = "15通道摇头染色灯\r\n红色\r\n";
 			// 
 			// bigFLP
 			// 

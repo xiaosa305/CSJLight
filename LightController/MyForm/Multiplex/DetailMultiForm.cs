@@ -138,7 +138,7 @@ namespace LightController.MyForm.Multiplex
 				Name = "tdLabel" + (tdIndex + 1),
 				Location = tdLabelDemo.Location,
 				Size = tdLabelDemo.Size,
-				Text = stepWrapperList[0].TongdaoList[tdIndex].Address + " - " + stepWrapperList[0].TongdaoList[tdIndex].TongdaoName + "\n" + mainForm.LightAstList[lightIndex].LightType,
+				Text = mainForm.LightAstList[lightIndex].LightType   + "\n" +stepWrapperList[0].TongdaoList[tdIndex].Address + " - " + stepWrapperList[0].TongdaoList[tdIndex].TongdaoName ,
 				Tag = lightIndex
 			};
 
@@ -292,6 +292,7 @@ namespace LightController.MyForm.Multiplex
 				bottomButton.Click += bottomButton_Click;
 				stepNUD.MouseWheel += someNUD_MouseWheel;
 				stepNUD.ValueChanged += StepNUD_ValueChanged;
+				stepNUD.MouseDoubleClick += stepNUD_MouseDoubleClick ;
 			}
 		}
 
@@ -407,6 +408,17 @@ namespace LightController.MyForm.Multiplex
 			((sender as Button).Parent.Controls[3] as NumericUpDown).Value = 0;
 		}
 
+		/// <summary>
+		/// 事件：双击通道值时，将当前通道值设为左侧的统一通道值；
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void stepNUD_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			NumericUpDown nud = sender as NumericUpDown ;
+			nud.Value = (nud.Parent.Parent.Parent.Controls[1].Controls[4] as NumericUpDown).Value;
+		}
+
 		#endregion
 
 		#region 通用方法
@@ -492,6 +504,8 @@ namespace LightController.MyForm.Multiplex
 
 		#endregion
 
+
+		
 	}
 }
  

@@ -124,6 +124,7 @@
 			this.stepNUDDemo.TabIndex = 1;
 			this.stepNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.stepNUDDemo.ValueChanged += new System.EventHandler(this.StepNUD_ValueChanged);
+			this.stepNUDDemo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.stepNUD_MouseDoubleClick);
 			// 
 			// tdPanelDemo
 			// 

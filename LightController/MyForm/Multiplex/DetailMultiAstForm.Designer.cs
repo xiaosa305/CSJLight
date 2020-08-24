@@ -103,11 +103,12 @@
 			this.lightLabelDemo.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lightLabelDemo.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightLabelDemo.Location = new System.Drawing.Point(0, 0);
+			this.lightLabelDemo.Margin = new System.Windows.Forms.Padding(3);
 			this.lightLabelDemo.Name = "lightLabelDemo";
 			this.lightLabelDemo.Size = new System.Drawing.Size(110, 50);
 			this.lightLabelDemo.TabIndex = 0;
 			this.lightLabelDemo.Text = "15激光染色摇头灯(100-130)";
-			this.lightLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.lightLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// enterButton
 			// 

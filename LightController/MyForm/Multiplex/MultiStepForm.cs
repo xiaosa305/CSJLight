@@ -314,11 +314,13 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void detailMultiButton_Click(object sender, EventArgs e)
 		{
-			checkStepAndTds();
-			Dispose();
-			mainForm.Activate();
+			if( checkStepAndTds()){
 
-			new DetailMultiForm(mainForm, lightIndex, tdIndexList, stepWrapperList).ShowDialog();			
+				Dispose();
+				mainForm.Activate();
+
+				new DetailMultiForm(mainForm, lightIndex, tdIndexList, stepWrapperList).ShowDialog();
+			}
 		}
 
 	}

@@ -326,14 +326,23 @@ namespace MultiLedController.multidevice.newmultidevice
                         }
                         if (nowPacketSequence == this.LastFramePacketSequence)
                         {
-                                if (this.IsDebugDMXData)
+                            bool flag = true;
+                            var keyList = this.SpaceDMXDatas.Keys;
+                            foreach (int key in keyList)
+                            {
+                                if (this.SpaceDMXDatas[key].Count > 510)
+                                {
+                                    flag = false;
+                                }
+                            }
+                            if (this.IsDebugDMXData && flag)
                             {
                                 lock (this.DebugDMXDataQueue)
                                 {
                                     this.DebugDMXDataQueue.Enqueue(this.SpaceDMXDatas);
                                 }
                             }
-                            if (this.IsRecordDMXData)
+                            if (this.IsRecordDMXData && flag)
                             {
                                 lock (this.RecordDMXDataQueue)
                                 {

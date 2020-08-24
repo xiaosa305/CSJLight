@@ -1445,12 +1445,12 @@ namespace LightController.MyForm
 				MessageBox.Show("选中的灯具并非都是同一类型的，无法进行编组；请再次选择后重试。");
 				return;
 			}
-			selectedIndices = new List<int>();
+			SelectedIndices = new List<int>();
 			foreach (int item in lightsListView.SelectedIndices)
 			{
-				selectedIndices.Add(item);
+				SelectedIndices.Add(item);
 			}
-			new MultiLightForm(this, isCopyAll, LightAstList, selectedIndices).ShowDialog();
+			new MultiLightForm(this, isCopyAll, LightAstList, SelectedIndices).ShowDialog();
 		}
 
 		/// <summary>
@@ -1751,7 +1751,7 @@ namespace LightController.MyForm
 				item.BackColor = Color.White;
 			}
 			lightsAddrLabel.Text = "灯具地址列表：";
-			foreach (int lightIndex in selectedIndices)
+			foreach (int lightIndex in SelectedIndices)
 			{
 				if (lightIndex == selectedIndex)
 				{
@@ -2123,12 +2123,12 @@ namespace LightController.MyForm
 				return;
 			}
 
-			selectedIndices = new List<int>();
+			SelectedIndices = new List<int>();
 			foreach (int item in lightsListView.SelectedIndices)
 			{
-				selectedIndices.Add(item);
+				SelectedIndices.Add(item);
 			}
-			new GroupForm(this, LightAstList, selectedIndices).ShowDialog();
+			new GroupForm(this, LightAstList, SelectedIndices).ShowDialog();
 		}
 
 		/// <summary>
@@ -2279,11 +2279,11 @@ namespace LightController.MyForm
 			{
 				item.Selected = false;
 			}
-			for (int i = 0; i < selectedIndices.Count; i++) {
-				if (i == selectedIndices.Count - 1) {
+			for (int i = 0; i < SelectedIndices.Count; i++) {
+				if (i == SelectedIndices.Count - 1) {
 					generateNow = true;
 				}
-				int lightIndex = selectedIndices[i];
+				int lightIndex = SelectedIndices[i];
 				lightsListView.Items[lightIndex].Selected = true;
 			}
 		}

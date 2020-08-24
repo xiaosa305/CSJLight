@@ -123,7 +123,7 @@ namespace LightController.MyForm
 		protected bool isCopyAll = false;   // 11.20 新功能：多灯模式仍需要一个变量 ，用以设置是否直接用组长的数据替代组员。（默认情况下应该设为false，可以避免误删步数信息）
 
 		protected int selectedIndex = -1; //选择的灯具的index，默认为-1，如有选中灯具，则改成该灯具的index（在lightAstList、lightWrapperList中）
-		protected IList<int> selectedIndices; //选择的灯具的index列表（多选情况下）
+		public IList<int> SelectedIndices; //选择的灯具的index列表（多选情况下）
 
 		public int CurrentFrame = 0; // 表示场景编号(selectedIndex )
 		public int CurrentMode = 0;  // 表示模式编号（selectedIndex)；0.常规模式； 1.音频模式
@@ -334,7 +334,7 @@ namespace LightController.MyForm
 
 			//disposeSauForm();
 			selectedIndex = -1;
-			selectedIndices = new List<int>();		
+			SelectedIndices = new List<int>();		
 
 			//MARK 只开单场景：15.0 BuildLightList时，一定要清空selectedIndex及selectedIndices,否则若删除了该灯具，则一定会出问题！		
 			EnterSyncMode(false); // 修改了灯具后，一定要退出同步模式
@@ -764,7 +764,7 @@ namespace LightController.MyForm
 
 				if (IsMultiMode)
 				{
-					foreach (int lightIndex in selectedIndices)
+					foreach (int lightIndex in SelectedIndices)
 					{
 						if (lightIndex != selectedIndex)
 						{
@@ -845,7 +845,7 @@ namespace LightController.MyForm
 
 				if (IsMultiMode)
 				{
-					foreach (int lightIndex in selectedIndices)
+					foreach (int lightIndex in SelectedIndices)
 					{
 						if (lightIndex != selectedIndex)
 						{
@@ -979,7 +979,7 @@ namespace LightController.MyForm
 						SetNotice("当前多灯编组未选中可用步，无法播放。",false);
 						return;
 					}
-					foreach (int lightIndex in selectedIndices)
+					foreach (int lightIndex in SelectedIndices)
 					{
 						// 取出所有编组灯具的当前步数据。
 						StepWrapper stepWrapper = getSelectedLightStepWrapper(lightIndex).StepWrapperList[currentStep - 1];
@@ -1327,7 +1327,7 @@ namespace LightController.MyForm
 			// 多灯模式，将值赋给每个编组的灯具中
 			if (IsMultiMode)
 			{
-				foreach (int lightIndex in selectedIndices)
+				foreach (int lightIndex in SelectedIndices)
 				{
 					LightStepWrapper lsWrapper = getSelectedLightStepWrapper(lightIndex);
 					for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)
@@ -1355,9 +1355,9 @@ namespace LightController.MyForm
 		public void SetTdStepValue(int selectedLightIndex, int tdIndex, int stepIndex, int stepValue)
 		{
 			// 多灯模式 且 所选灯具在当前的多灯组内，将值赋给每个编组的灯具中
-			if (IsMultiMode && selectedIndices.Contains(selectedLightIndex) )
+			if (IsMultiMode && SelectedIndices.Contains(selectedLightIndex) )
 			{
-				foreach (int lightIndex in selectedIndices)
+				foreach (int lightIndex in SelectedIndices)
 				{
 					getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
 				}
@@ -1365,7 +1365,7 @@ namespace LightController.MyForm
 			// 单灯模式，则只需更改当前灯具的数据即可。
 			else
 			{
-				getSelectedLightStepWrapper(selectedIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
+				getSelectedLightStepWrapper(selectedLightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
 			}			
 
 			// 刷新当前tdPanels数据。
@@ -1390,11 +1390,11 @@ namespace LightController.MyForm
 		{
 			this.isCopyAll = isCopyAll;
 			// captainIndex 是组长在selectedIndices中的序号，可用之取出组长在[所有灯具]列表中的位置
-			selectedIndex = selectedIndices[captainIndex];
+			selectedIndex = SelectedIndices[captainIndex];
 			if (isCopyAll)
 			{
 				LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
-				foreach (int index in selectedIndices)
+				foreach (int index in SelectedIndices)
 				{
 					//通过组长生成相关的数据
 					StepWrapper currentStepTemplate = LightWrapperList[index].StepTemplate;
@@ -1412,7 +1412,7 @@ namespace LightController.MyForm
 		{
 			LightStepWrapper mainLSWrapper = getCurrentLightStepWrapper(); //取出组长
 			int currentStep = getCurrentStep();     // 取出组长的当前步
-			foreach (int index in selectedIndices)
+			foreach (int index in SelectedIndices)
 			{
 				if (getSelectedLightStepWrapper(index).StepWrapperList[currentStep - 1] != null) {
 					switch (where)
@@ -1438,7 +1438,7 @@ namespace LightController.MyForm
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长			
 			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
 
-			foreach (int index in selectedIndices)
+			foreach (int index in SelectedIndices)
 			{
 				if (getSelectedLightStepWrapper(index).StepWrapperList[stepNum - 1] != null)
 				{
@@ -1466,7 +1466,7 @@ namespace LightController.MyForm
 			LightStepWrapper mainLSWrapper = getSelectedLightStepWrapper(selectedIndex); //取出组长
 			int tdCount = getCurrentLightWrapper().StepTemplate.TongdaoList.Count;
 
-			foreach (int lightIndex in selectedIndices)
+			foreach (int lightIndex in SelectedIndices)
 			{
 				if (getSelectedLightStepWrapper(lightIndex).StepWrapperList[stepNum - 1] != null)
 				{
@@ -1496,9 +1496,9 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <returns></returns>
 		public bool CheckSameStepCounts() {
-			int firstIndex = selectedIndices[0];
+			int firstIndex = SelectedIndices[0];
 			int firstStepCounts = getSelectedLightStepCounts(firstIndex);
-			foreach (int index in selectedIndices)
+			foreach (int index in SelectedIndices)
 			{
 				int tempStepCounts = getSelectedLightStepCounts(index);
 				if (tempStepCounts != firstStepCounts) {
@@ -1541,7 +1541,7 @@ namespace LightController.MyForm
 			{
 				if (IsMultiMode)
 				{
-					if (!selectedIndices.Contains(lightIndex))
+					if (!SelectedIndices.Contains(lightIndex))
 						allIndices.Add(lightIndex);
 				}
 				else {
@@ -1728,7 +1728,7 @@ namespace LightController.MyForm
 			lightDictionary = null;
 
 			selectedIndex = -1;
-			selectedIndices = new List<int>();
+			SelectedIndices = new List<int>();
 			//MARK 0701 通道子属性 0.1：clearAllData()内调用disposeSauForm()
 			//disposeSauForm();
 			disposeDmsForm();
@@ -2753,7 +2753,7 @@ namespace LightController.MyForm
 			}
 			else if (IsMultiMode)
 			{
-				foreach (int lightIndex in selectedIndices)
+				foreach (int lightIndex in SelectedIndices)
 				{
 					if (lightIndex != selectedIndex)
 					{
@@ -2846,7 +2846,7 @@ namespace LightController.MyForm
 			}
 			else if (IsMultiMode)
 			{
-				foreach (int lightIndex in selectedIndices)
+				foreach (int lightIndex in SelectedIndices)
 				{
 					if (lightIndex != selectedIndex)
 					{
@@ -2885,7 +2885,7 @@ namespace LightController.MyForm
 				}
 				else if (IsMultiMode)
 				{
-					foreach (int lightIndex in selectedIndices)
+					foreach (int lightIndex in SelectedIndices)
 					{
 						if (lightIndex != selectedIndex)
 						{
@@ -2948,7 +2948,7 @@ namespace LightController.MyForm
 					}
 					else if (IsMultiMode)
 					{
-						foreach (int lightIndex in selectedIndices)
+						foreach (int lightIndex in SelectedIndices)
 						{
 							if (lightIndex != selectedIndex)
 							{
@@ -3196,7 +3196,7 @@ namespace LightController.MyForm
 				}
 				else
 				{
-					selectedIndices2 = selectedIndices;
+					selectedIndices2 = SelectedIndices;
 				}
 			}			
 
@@ -3292,7 +3292,7 @@ namespace LightController.MyForm
 
 				if (IsMultiMode)
 				{
-					foreach (int lightIndex in selectedIndices)
+					foreach (int lightIndex in SelectedIndices)
 					{
 						getSelectedLightStepWrapper(lightIndex).CurrentStep = stepNum;
 					}
@@ -3542,7 +3542,7 @@ namespace LightController.MyForm
 			groupList.Add(new GroupAst()
 			{
 				GroupName = groupName,
-				LightIndexList = selectedIndices,
+				LightIndexList = SelectedIndices,
 				CaptainIndex = captainIndex
 			});
 
@@ -3597,7 +3597,7 @@ namespace LightController.MyForm
 				return;
 			}	
 
-			selectedIndices = group.LightIndexList;
+			SelectedIndices = group.LightIndexList;
 			selectLights();
 
 			// 如果灯数超过1，则进入多灯模式

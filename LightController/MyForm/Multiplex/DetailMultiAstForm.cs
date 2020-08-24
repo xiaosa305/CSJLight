@@ -24,6 +24,11 @@ namespace LightController.MyForm.Multiplex
 			initAllPanels();
 		}
 
+		private void DetailMultiAstForm_Load(object sender, EventArgs e)
+		{
+			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 200);
+		}
+		
 		private void initAllPanels()
 		{
 			for(int lightIndex = 0; lightIndex<mainForm.LightAstList.Count; lightIndex++) 
@@ -93,11 +98,20 @@ namespace LightController.MyForm.Multiplex
 				bigFlowLayoutPanel.Controls.Add(lightPanel);				
 			}
 		}
-
-
-		private void DetailMultiAstForm_Load(object sender, EventArgs e)
+	
+		/// <summary>
+		/// 事件：勾选或去掉勾选allCheckBox复选框
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void allCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			Location = new Point( mainForm.Location.X +100, mainForm.Location.Y + 200) ;	
+			CheckBox acb = sender as CheckBox;
+			bool checkAll = acb.Checked;
+			foreach (CheckBox cb in (acb.Parent.Controls[2] as FlowLayoutPanel).Controls)
+			{
+				cb.Checked = checkAll;
+			}
 		}
 
 		/// <summary>
@@ -131,11 +145,10 @@ namespace LightController.MyForm.Multiplex
 			}
 
 			Hide();
+			mainForm.Activate();
 			new DetailMultiForm(mainForm, tdDict).ShowDialog();
-
 		}
-
-
+		
 		/// <summary>
 		///  事件：点击《取消》
 		/// </summary>
@@ -146,22 +159,6 @@ namespace LightController.MyForm.Multiplex
 			Hide();
 			mainForm.Activate();
 		}
-
-
-		/// <summary>
-		/// 事件：勾选或去掉勾选allCheckBox复选框
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void allCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			CheckBox acb = sender as CheckBox;
-			bool checkAll = acb.Checked;
-			foreach(CheckBox  cb in (acb.Parent.Controls[2] as FlowLayoutPanel).Controls)
-			{
-				cb.Checked = checkAll;
-			}
-
-		}
+			   	
 	}
 }

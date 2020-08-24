@@ -133,6 +133,7 @@
 			this.tdPanelDemo.Name = "tdPanelDemo";
 			this.tdPanelDemo.Size = new System.Drawing.Size(1160, 108);
 			this.tdPanelDemo.TabIndex = 2;
+			this.tdPanelDemo.Tag = "9999";
 			this.tdPanelDemo.Visible = false;
 			// 
 			// tdSmallPanelDemo

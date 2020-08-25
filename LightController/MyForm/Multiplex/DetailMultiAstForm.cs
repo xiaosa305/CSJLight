@@ -32,70 +32,76 @@ namespace LightController.MyForm.Multiplex
 		private void initAllPanels()
 		{
 			for(int lightIndex = 0; lightIndex<mainForm.LightAstList.Count; lightIndex++) 
-			{
-				LightAst la = mainForm.LightAstList[lightIndex];
-				StepWrapper lightTemplate = mainForm.LightWrapperList[lightIndex].StepTemplate;
-				IList<TongdaoWrapper> tongdaoList = lightTemplate.TongdaoList;
+			{				
+				LightStepWrapper lsWrapper = mainForm.LightWrapperList[lightIndex].LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode];
 
-				Panel lightPanel = new Panel
+				//如果存在部分灯具步数为空，则不执行之后的代码了
+				if (lsWrapper != null && lsWrapper.StepWrapperList !=null && lsWrapper.StepWrapperList.Count>0)
 				{
-					Name = "lightPanel" + (lightIndex + 1),
-					Location = lightPanelDemo.Location,
-					Size = lightPanelDemo.Size,
-					BackColor = lightPanelDemo.BackColor
-				};
+					LightAst la = mainForm.LightAstList[lightIndex];
+					StepWrapper lightTemplate = mainForm.LightWrapperList[lightIndex].StepTemplate;
+					IList<TongdaoWrapper> tongdaoList = lightTemplate.TongdaoList;
 
-				Label lightLabel = new Label
-				{
-					Name = "lightLabel" + (lightIndex + 1),
-					Text = la.LightType + "\n(" + la.LightAddr + ")",
-					Dock = lightLabelDemo.Dock,
-					Location = lightLabelDemo.Location,
-					Size = lightLabelDemo.Size,
-					TextAlign = lightLabelDemo.TextAlign,
-					Font = lightLabelDemo.Font,
-				};
-
-				CheckBox allCheckBox = new CheckBox
-				{
-					Name = "allCheckBox" + (lightIndex + 1),
-					AutoSize = allCheckBoxDemo.AutoSize,
-					Font = allCheckBoxDemo.Font,
-					Location = allCheckBoxDemo.Location,
-					Size = allCheckBoxDemo.Size,
-					Text = allCheckBoxDemo.Text,
-					UseVisualStyleBackColor = allCheckBoxDemo.UseVisualStyleBackColor
-				};
-				allCheckBox.CheckedChanged += allCheckBox_CheckedChanged;
-
-				FlowLayoutPanel lightFLP = new FlowLayoutPanel
-				{
-					Name = "lightFLP" + (lightIndex+1),
-					AutoScroll = lightFLPDemo.AutoScroll,					
-					Location = lightFLPDemo.Location,
-					Margin = lightFLPDemo.Margin,
-					Size = lightFLPDemo.Size
-				};
-
-				for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
-				{
-					CheckBox tdCheckBox = new CheckBox
+					Panel lightPanel = new Panel
 					{
-						Name = "tdCheckBox" + (tdIndex + 1),
-						Text = tongdaoList[tdIndex].TongdaoName,
-						AutoSize = tdCheckBoxDemo.AutoSize,
-						Location = tdCheckBoxDemo.Location,
-						Size = tdCheckBoxDemo.Size,
-						UseVisualStyleBackColor = tdCheckBoxDemo.UseVisualStyleBackColor
+						Name = "lightPanel" + (lightIndex + 1),
+						Location = lightPanelDemo.Location,
+						Size = lightPanelDemo.Size,
+						BackColor = lightPanelDemo.BackColor
 					};
-					lightFLP.Controls.Add(tdCheckBox);
+
+					Label lightLabel = new Label
+					{
+						Name = "lightLabel" + (lightIndex + 1),
+						Text = la.LightType + "\n(" + la.LightAddr + ")",
+						Dock = lightLabelDemo.Dock,
+						Location = lightLabelDemo.Location,
+						Size = lightLabelDemo.Size,
+						TextAlign = lightLabelDemo.TextAlign,
+						Font = lightLabelDemo.Font,
+					};
+
+					CheckBox allCheckBox = new CheckBox
+					{
+						Name = "allCheckBox" + (lightIndex + 1),
+						AutoSize = allCheckBoxDemo.AutoSize,
+						Font = allCheckBoxDemo.Font,
+						Location = allCheckBoxDemo.Location,
+						Size = allCheckBoxDemo.Size,
+						Text = allCheckBoxDemo.Text,
+						UseVisualStyleBackColor = allCheckBoxDemo.UseVisualStyleBackColor
+					};
+					allCheckBox.CheckedChanged += allCheckBox_CheckedChanged;
+
+					FlowLayoutPanel lightFLP = new FlowLayoutPanel
+					{
+						Name = "lightFLP" + (lightIndex + 1),
+						AutoScroll = lightFLPDemo.AutoScroll,
+						Location = lightFLPDemo.Location,
+						Margin = lightFLPDemo.Margin,
+						Size = lightFLPDemo.Size
+					};
+
+					for (int tdIndex = 0; tdIndex < tongdaoList.Count; tdIndex++)
+					{
+						CheckBox tdCheckBox = new CheckBox
+						{
+							Name = "tdCheckBox" + (tdIndex + 1),
+							Text = tongdaoList[tdIndex].TongdaoName,
+							AutoSize = tdCheckBoxDemo.AutoSize,
+							Location = tdCheckBoxDemo.Location,
+							Size = tdCheckBoxDemo.Size,
+							UseVisualStyleBackColor = tdCheckBoxDemo.UseVisualStyleBackColor
+						};
+						lightFLP.Controls.Add(tdCheckBox);
+					}
+
+					lightPanel.Controls.Add(lightLabel);
+					lightPanel.Controls.Add(allCheckBox);
+					lightPanel.Controls.Add(lightFLP);
+
+					bigFlowLayoutPanel.Controls.Add(lightPanel);
 				}
-
-				lightPanel.Controls.Add(lightLabel);
-				lightPanel.Controls.Add(allCheckBox);
-				lightPanel.Controls.Add(lightFLP);
-
-				bigFlowLayoutPanel.Controls.Add(lightPanel);				
 			}
 		}
 	

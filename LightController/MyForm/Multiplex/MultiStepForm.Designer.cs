@@ -520,7 +520,7 @@
 			// 
 			// startNumericUpDown
 			// 
-			this.startNumericUpDown.Location = new System.Drawing.Point(37, 122);
+			this.startNumericUpDown.Location = new System.Drawing.Point(37, 113);
 			this.startNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -538,7 +538,7 @@
 			// 
 			// endNumericUpDown
 			// 
-			this.endNumericUpDown.Location = new System.Drawing.Point(159, 122);
+			this.endNumericUpDown.Location = new System.Drawing.Point(159, 113);
 			this.endNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -557,7 +557,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(122, 126);
+			this.label1.Location = new System.Drawing.Point(122, 117);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(11, 12);
 			this.label1.TabIndex = 7;
@@ -566,7 +566,7 @@
 			// unifyCmComboBox
 			// 
 			this.unifyCmComboBox.FormattingEnabled = true;
-			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 277);
+			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 259);
 			this.unifyCmComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyCmComboBox.Name = "unifyCmComboBox";
 			this.unifyCmComboBox.Size = new System.Drawing.Size(68, 20);
@@ -574,7 +574,7 @@
 			// 
 			// commonValueNumericUpDown
 			// 
-			this.commonValueNumericUpDown.Location = new System.Drawing.Point(30, 238);
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(30, 220);
 			this.commonValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -589,7 +589,7 @@
 			// unifyStNumericUpDown
 			// 
 			this.unifyStNumericUpDown.DecimalPlaces = 2;
-			this.unifyStNumericUpDown.Location = new System.Drawing.Point(30, 315);
+			this.unifyStNumericUpDown.Location = new System.Drawing.Point(30, 297);
 			this.unifyStNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStNumericUpDown.Maximum = new decimal(new int[] {
             300,
@@ -651,7 +651,7 @@
 			// 
 			this.sLabel.AutoSize = true;
 			this.sLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.sLabel.Location = new System.Drawing.Point(102, 317);
+			this.sLabel.Location = new System.Drawing.Point(102, 299);
 			this.sLabel.Name = "sLabel";
 			this.sLabel.Size = new System.Drawing.Size(16, 16);
 			this.sLabel.TabIndex = 35;
@@ -659,7 +659,7 @@
 			// 
 			// zeroButton
 			// 
-			this.zeroButton.Location = new System.Drawing.Point(138, 191);
+			this.zeroButton.Location = new System.Drawing.Point(138, 173);
 			this.zeroButton.Name = "zeroButton";
 			this.zeroButton.Size = new System.Drawing.Size(87, 25);
 			this.zeroButton.TabIndex = 34;
@@ -669,7 +669,7 @@
 			// 
 			// unifyStButton
 			// 
-			this.unifyStButton.Location = new System.Drawing.Point(138, 313);
+			this.unifyStButton.Location = new System.Drawing.Point(138, 295);
 			this.unifyStButton.Name = "unifyStButton";
 			this.unifyStButton.Size = new System.Drawing.Size(87, 25);
 			this.unifyStButton.TabIndex = 34;
@@ -679,7 +679,7 @@
 			// 
 			// ignoreButton
 			// 
-			this.ignoreButton.Location = new System.Drawing.Point(30, 191);
+			this.ignoreButton.Location = new System.Drawing.Point(30, 173);
 			this.ignoreButton.Name = "ignoreButton";
 			this.ignoreButton.Size = new System.Drawing.Size(87, 25);
 			this.ignoreButton.TabIndex = 34;
@@ -689,7 +689,7 @@
 			// 
 			// unifyCmButton
 			// 
-			this.unifyCmButton.Location = new System.Drawing.Point(138, 275);
+			this.unifyCmButton.Location = new System.Drawing.Point(138, 257);
 			this.unifyCmButton.Name = "unifyCmButton";
 			this.unifyCmButton.Size = new System.Drawing.Size(87, 25);
 			this.unifyCmButton.TabIndex = 34;
@@ -699,7 +699,7 @@
 			// 
 			// allStepButton
 			// 
-			this.allStepButton.Location = new System.Drawing.Point(158, 88);
+			this.allStepButton.Location = new System.Drawing.Point(158, 79);
 			this.allStepButton.Name = "allStepButton";
 			this.allStepButton.Size = new System.Drawing.Size(67, 22);
 			this.allStepButton.TabIndex = 33;
@@ -709,7 +709,7 @@
 			// 
 			// unifyValueButton
 			// 
-			this.unifyValueButton.Location = new System.Drawing.Point(138, 236);
+			this.unifyValueButton.Location = new System.Drawing.Point(138, 218);
 			this.unifyValueButton.Name = "unifyValueButton";
 			this.unifyValueButton.Size = new System.Drawing.Size(87, 25);
 			this.unifyValueButton.TabIndex = 34;
@@ -720,7 +720,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(30, 93);
+			this.label4.Location = new System.Drawing.Point(30, 84);
 			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(125, 12);

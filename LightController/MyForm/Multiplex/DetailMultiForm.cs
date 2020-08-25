@@ -70,13 +70,17 @@ namespace LightController.MyForm.Multiplex
 			foreach (int lightIndex in tdDict.Keys)
 			{
 				LightWrapper lw = lwList[lightIndex];
-				IList<StepWrapper> stepWrapperList = lw.LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode].StepWrapperList;
+				LightStepWrapper lsWrapper = lw.LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode];
 
-				foreach (int tdIndex in tdDict[lightIndex])
-				{
-					Console.WriteLine(lightIndex + "   -   " + tdIndex);
-					addTdPanel(stepWrapperList, lightIndex, tdIndex);
-				}
+				//如果存在部分灯具步数为空，则不执行之后的代码了
+				if (lsWrapper != null) {
+					IList<StepWrapper> stepWrapperList =lsWrapper.StepWrapperList;
+					foreach (int tdIndex in tdDict[lightIndex])
+					{
+						Console.WriteLine(lightIndex + "   -   " + tdIndex);
+						addTdPanel(stepWrapperList, lightIndex, tdIndex);
+					}
+				}			
 			}
 		}
 
@@ -97,6 +101,10 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="tdIndex"></param>
 		private void addTdPanel(IList<StepWrapper> stepWrapperList, int lightIndex, int tdIndex)
 		{
+			if (stepWrapperList == null || stepWrapperList.Count == 0) {
+				return;
+			}
+
 			Panel tdPanel = new Panel
 			{
 				Name = "tdPanel" + (tdIndex + 1),

@@ -112,7 +112,7 @@
 			// 
 			// enterButton
 			// 
-			this.enterButton.BackColor = System.Drawing.Color.PowderBlue;
+			this.enterButton.BackColor = System.Drawing.Color.Transparent;
 			this.enterButton.Location = new System.Drawing.Point(834, 533);
 			this.enterButton.Name = "enterButton";
 			this.enterButton.Size = new System.Drawing.Size(86, 39);
@@ -134,12 +134,13 @@
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(23, 546);
+			this.label1.Location = new System.Drawing.Point(23, 533);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(413, 12);
+			this.label1.Size = new System.Drawing.Size(526, 39);
 			this.label1.TabIndex = 2;
-			this.label1.Text = "提示：请不要一次性选择过多通道，否则多步联调界面可能出现卡顿的情况。";
+			this.label1.Text = "提示：\r\n①请不要一次性选择过多通道，否则多步联调界面可能出现卡顿的情况；\r\n②若当前是多灯模式状态，可只选择多灯内的其中一个灯具，更改操作会作用于组内的每个灯具" +
+    "。";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// DetailMultiAstForm
 			// 
@@ -161,7 +162,6 @@
 			this.lightPanelDemo.PerformLayout();
 			this.lightFLPDemo.ResumeLayout(false);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 

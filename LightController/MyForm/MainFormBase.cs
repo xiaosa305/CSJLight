@@ -3498,11 +3498,11 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void detailMultiButtonClick()
 		{
-			if (!isSyncMode)
-			{
-				SetNotice("非同步模式，无法使用多步联调。", true);
-				return;
-			}
+			//if (!isSyncMode)
+			//{
+			//	SetNotice("非同步模式，无法使用多步联调。", true);
+			//	return;
+			//}
 
 			//if (isMultiMode) {
 			//	SetNotice("多灯模式，无法使用多灯多步联调。", true);

@@ -1112,9 +1112,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="FTD2XX_NET.XML" />
-    <Content Include="更新日志\ReadMe.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="更新日志\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

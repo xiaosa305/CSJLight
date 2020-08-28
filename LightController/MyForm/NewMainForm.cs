@@ -2730,8 +2730,7 @@ namespace LightController.MyForm
 			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			MessageBox.Show(serverFileVersion);
 		}
-
-
+		
 		#region 弃用方法
 
 		///// <summary>
@@ -2822,8 +2821,6 @@ namespace LightController.MyForm
 		//}
 
 		#endregion
-
-		
-	
+			
 	}
 }

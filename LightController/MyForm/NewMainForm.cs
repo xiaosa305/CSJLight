@@ -243,9 +243,12 @@ namespace LightController.MyForm
 				{
 					MessageBox.Show(ex.Message);
 				}
-			}						
+			}
 
 			#endregion
+
+			// 添加子属性按键组是否显示的菜单
+			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
 
 			isInit = true;
 		}

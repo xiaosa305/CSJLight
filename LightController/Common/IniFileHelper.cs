@@ -180,10 +180,10 @@ namespace LightController.Common
 		/// 辅助方法：取出是否显示按钮
 		/// </summary>
 		/// <returns></returns>
-		public static bool GetControlShow(string appPathStr, string buttonName)
+		public static bool GetControlShow(string appPathStr, string controlName)
 		{
 			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			string isShow = iniFileAst.ReadString("Show", buttonName, "false");
+			string isShow = iniFileAst.ReadString("Show", controlName, "false");
 			if (isShow.Trim().ToLower().Equals("true")){
 				return true;
 			}

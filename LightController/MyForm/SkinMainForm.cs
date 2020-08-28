@@ -209,6 +209,9 @@ namespace LightController.MyForm
 			myToolTip.SetToolTip(backStepSkinButton, backStepNotice);
 			myToolTip.SetToolTip(nextStepSkinButton, nextStepNotice);
 
+			// 添加子属性按键组是否显示的菜单
+			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
+
 			isInit = true;
 		}
 		
@@ -619,6 +622,15 @@ namespace LightController.MyForm
 		/// <param name="lightIndex"></param>
 		protected override void generateSaPanels()
 		{
+			if (!IsShowSaPanels)
+			{
+				for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+				{
+					saPanels[tdIndex].Hide();
+				}
+				return;
+			}
+
 			// 无步数时，直接跳过生成或显示saPanels的步骤
 			if (getCurrentStep() == 0)
 			{
@@ -682,7 +694,7 @@ namespace LightController.MyForm
 			// 显示Keys中有的saPanel
 			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
 			{
-				if (la.saPanelDict.ContainsKey(tdIndex))
+				if (la.saPanelDict.ContainsKey(tdIndex) && IsShowSaPanels )
 				{
 					saPanels[tdIndex].Controls.Clear();
 					saPanels[tdIndex].Controls.Add(la.saPanelDict[tdIndex]);
@@ -1137,6 +1149,13 @@ namespace LightController.MyForm
 			playPanel.Visible = !playPanel.Visible;
 			hidePlayPanelToolStripMenuItem.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
 			hidePlayPanelToolStripMenuItem2.Text = playPanel.Visible ? "隐藏调试面板" : "显示调试面板";
+		}
+
+		private void showSaPanelsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			IsShowSaPanels = !IsShowSaPanels;
+			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
+			generateSaPanels();
 		}
 
 		#endregion
@@ -2462,6 +2481,7 @@ namespace LightController.MyForm
 
 
 
+
 		/// <summary>
 		///  辅助方法:根据当前《 变动方式》选项 是否屏蔽，处理相关通道是否可设置
 		///  --9.4禁用此功能，即无论是否屏蔽，
@@ -2580,9 +2600,7 @@ namespace LightController.MyForm
 		//	labelFlowLayoutPanel.AutoScrollPosition = oldPoint;
 		//}
 
-		#endregion
-
-	
+		#endregion		
 	}
 	   
 }

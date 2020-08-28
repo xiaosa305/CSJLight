@@ -69,6 +69,8 @@ namespace LightController.MyForm
 			this.hideProjectPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideUnifyPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.labelPanel = new System.Windows.Forms.Panel();
 			this.firstLabel = new System.Windows.Forms.Label();
 			this.secondLabel = new System.Windows.Forms.Label();
@@ -152,8 +154,6 @@ namespace LightController.MyForm
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.隐藏子属性按键组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -481,50 +481,62 @@ namespace LightController.MyForm
             this.hideUnifyPanelToolStripMenuItem,
             this.hidePlayPanelToolStripMenuItem,
             this.toolStripSeparator1,
-            this.隐藏子属性按键组ToolStripMenuItem});
+            this.showSaPanelsToolStripMenuItem});
 			this.myContextMenuStrip.Name = "myContextMenuStrip";
-			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 148);
+			this.myContextMenuStrip.Size = new System.Drawing.Size(181, 170);
 			// 
 			// refreshPicToolStripMenuItem
 			// 
 			this.refreshPicToolStripMenuItem.Enabled = false;
 			this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
-			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
 			this.refreshPicToolStripMenuItem.Click += new System.EventHandler(this.refreshPicToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
 			// 
 			// hideMenuStriplToolStripMenuItem
 			// 
 			this.hideMenuStriplToolStripMenuItem.Name = "hideMenuStriplToolStripMenuItem";
-			this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.hideMenuStriplToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hideMenuStriplToolStripMenuItem.Text = "隐藏主菜单面板";
 			this.hideMenuStriplToolStripMenuItem.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
 			// 
 			// hideProjectPanelToolStripMenuItem
 			// 
 			this.hideProjectPanelToolStripMenuItem.Name = "hideProjectPanelToolStripMenuItem";
-			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.hideProjectPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hideProjectPanelToolStripMenuItem.Text = "隐藏工程面板";
 			this.hideProjectPanelToolStripMenuItem.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
 			// 
 			// hideUnifyPanelToolStripMenuItem
 			// 
 			this.hideUnifyPanelToolStripMenuItem.Name = "hideUnifyPanelToolStripMenuItem";
-			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.hideUnifyPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hideUnifyPanelToolStripMenuItem.Text = "隐藏辅助面板";
 			this.hideUnifyPanelToolStripMenuItem.Click += new System.EventHandler(this.hideUnifyPanelToolStripMenuItem_Click);
 			// 
 			// hidePlayPanelToolStripMenuItem
 			// 
 			this.hidePlayPanelToolStripMenuItem.Name = "hidePlayPanelToolStripMenuItem";
-			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.hidePlayPanelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.hidePlayPanelToolStripMenuItem.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			// 
+			// showSaPanelsToolStripMenuItem
+			// 
+			this.showSaPanelsToolStripMenuItem.Name = "showSaPanelsToolStripMenuItem";
+			this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
+			this.showSaPanelsToolStripMenuItem.Click += new System.EventHandler(this.showSaPanelsToolStripMenuItem_Click);
 			// 
 			// labelPanel
 			// 
@@ -1582,17 +1594,6 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(39, "S60--60W三棱镜图案灯.png");
 			this.lightLargeImageList.Images.SetKeyName(40, "T90-90W八凌镜光束灯.png");
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
-			// 
-			// 隐藏子属性按键组ToolStripMenuItem
-			// 
-			this.隐藏子属性按键组ToolStripMenuItem.Name = "隐藏子属性按键组ToolStripMenuItem";
-			this.隐藏子属性按键组ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.隐藏子属性按键组ToolStripMenuItem.Text = "隐藏子属性按键组";
-			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1772,6 +1773,6 @@ namespace LightController.MyForm
 		private Button actionButton;
 		private Panel saPanelDemo;
 		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripMenuItem 隐藏子属性按键组ToolStripMenuItem;
+		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
 	}
 }

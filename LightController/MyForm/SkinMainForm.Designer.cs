@@ -85,6 +85,8 @@ namespace LightController.MyForm
 			this.hideProjectPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideAstPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.middleImageList = new System.Windows.Forms.ImageList(this.components);
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.astSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -1102,11 +1104,13 @@ namespace LightController.MyForm
             this.hideMenuPanelToolStripMenuItem2,
             this.hideProjectPanelToolStripMenuItem2,
             this.hideAstPanelToolStripMenuItem2,
-            this.hidePlayPanelToolStripMenuItem2});
+            this.hidePlayPanelToolStripMenuItem2,
+            this.toolStripSeparator1,
+            this.showSaPanelsToolStripMenuItem});
 			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
 			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
 			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 214);
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(181, 264);
 			this.mySkinContextMenuStrip.SkinAllColor = true;
 			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
 			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -1120,7 +1124,7 @@ namespace LightController.MyForm
 			this.autoArrangeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.autoArrangeToolStripMenuItem.Name = "autoArrangeToolStripMenuItem";
 			this.autoArrangeToolStripMenuItem.ShowShortcutKeys = false;
-			this.autoArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.autoArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.autoArrangeToolStripMenuItem.Text = "自动排列";
 			this.autoArrangeToolStripMenuItem.Click += new System.EventHandler(this.autoArrangeToolStripMenuItem_Click);
 			// 
@@ -1128,7 +1132,7 @@ namespace LightController.MyForm
 			// 
 			this.arrangeToolStripMenuItem.Name = "arrangeToolStripMenuItem";
 			this.arrangeToolStripMenuItem.ShowShortcutKeys = false;
-			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.arrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.arrangeToolStripMenuItem.Text = "重新排列";
 			this.arrangeToolStripMenuItem.Click += new System.EventHandler(this.arrangeToolStripMenuItem_Click);
 			// 
@@ -1136,7 +1140,7 @@ namespace LightController.MyForm
 			// 
 			this.saveArrangeToolStripMenuItem.Enabled = false;
 			this.saveArrangeToolStripMenuItem.Name = "saveArrangeToolStripMenuItem";
-			this.saveArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.saveArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.saveArrangeToolStripMenuItem.Text = "保存灯具位置";
 			this.saveArrangeToolStripMenuItem.Click += new System.EventHandler(this.saveArrangeToolStripMenuItem_Click);
 			// 
@@ -1144,55 +1148,67 @@ namespace LightController.MyForm
 			// 
 			this.loadArrangeToolStripMenuItem.Enabled = false;
 			this.loadArrangeToolStripMenuItem.Name = "loadArrangeToolStripMenuItem";
-			this.loadArrangeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.loadArrangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.loadArrangeToolStripMenuItem.Text = "读取灯具位置";
 			this.loadArrangeToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
 			// 
 			// refreshPicToolStripMenuItem
 			// 
 			this.refreshPicToolStripMenuItem.Enabled = false;
 			this.refreshPicToolStripMenuItem.Name = "refreshPicToolStripMenuItem";
-			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.refreshPicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.refreshPicToolStripMenuItem.Text = "重新加载灯具图片";
 			this.refreshPicToolStripMenuItem.Click += new System.EventHandler(this.refreshPicToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
 			// 
 			// hideMenuPanelToolStripMenuItem2
 			// 
 			this.hideMenuPanelToolStripMenuItem2.Name = "hideMenuPanelToolStripMenuItem2";
-			this.hideMenuPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideMenuPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideMenuPanelToolStripMenuItem2.Text = "隐藏主菜单面板";
 			this.hideMenuPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideMenuPanelToolStripMenuItem_Click);
 			// 
 			// hideProjectPanelToolStripMenuItem2
 			// 
 			this.hideProjectPanelToolStripMenuItem2.Name = "hideProjectPanelToolStripMenuItem2";
-			this.hideProjectPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideProjectPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideProjectPanelToolStripMenuItem2.Text = "隐藏工程面板";
 			this.hideProjectPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideProjectPanelToolStripMenuItem_Click);
 			// 
 			// hideAstPanelToolStripMenuItem2
 			// 
 			this.hideAstPanelToolStripMenuItem2.Name = "hideAstPanelToolStripMenuItem2";
-			this.hideAstPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hideAstPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hideAstPanelToolStripMenuItem2.Text = "隐藏辅助面板";
 			this.hideAstPanelToolStripMenuItem2.Click += new System.EventHandler(this.hideAstPanelToolStripMenuItem_Click);
 			// 
 			// hidePlayPanelToolStripMenuItem2
 			// 
 			this.hidePlayPanelToolStripMenuItem2.Name = "hidePlayPanelToolStripMenuItem2";
-			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
+			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.hidePlayPanelToolStripMenuItem2.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem2.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			// 
+			// showSaPanelsToolStripMenuItem
+			// 
+			this.showSaPanelsToolStripMenuItem.Name = "showSaPanelsToolStripMenuItem";
+			this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
+			this.showSaPanelsToolStripMenuItem.Click += new System.EventHandler(this.showSaPanelsToolStripMenuItem_Click);
 			// 
 			// middleImageList
 			// 
@@ -2708,5 +2724,7 @@ namespace LightController.MyForm
 		private FlowLayoutPanel saFLPDemo;
 		private Button saButtonDemo;
 		private Label saLabelDemo;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
 	}
 }

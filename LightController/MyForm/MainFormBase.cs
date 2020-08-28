@@ -62,11 +62,12 @@ namespace LightController.MyForm
 		protected System.ComponentModel.IContainer components;
 		protected ToolTip myToolTip;
 
-		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）
+		// 打开程序时，即需导入的变量（全局静态变量，其他form可随时使用）		
 		public static IList<string> AllFrameList; // 将所有场景名称写在此处,并供所有类使用（动态导入场景到此静态变量中）
 		public static int FrameCount = 0;  //场景数量
 		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
 		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
+		protected static bool IsShowSaPanels = true; // 是否显示 子属性 面板（两个地方可以决定这个设置）
 
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -3957,7 +3958,7 @@ namespace LightController.MyForm
 			IsLinkOldTools = IniFileHelper.GetIsLink(Application.StartupPath, "oldTools");
 			MAX_StTimes = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStTimes");
 			MAX_STEP = IniFileHelper.GetSystemCount(Application.StartupPath, "maxStep");
-
+			IsShowSaPanels = IniFileHelper.GetControlShow(Application.StartupPath, "saPanels");
 		}
 			   
 		private void InitializeComponent()

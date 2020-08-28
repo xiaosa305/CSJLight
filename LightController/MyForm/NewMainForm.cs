@@ -99,7 +99,6 @@ namespace LightController.MyForm
 					TextAlign = tdNameLabelDemo.TextAlign
 				};
 
-
 				tdTrackBars[tdIndex] = new TrackBar
 				{
 					Name = "tdTrackBar" + (tdIndex + 1),
@@ -152,7 +151,6 @@ namespace LightController.MyForm
 				tdPanels[tdIndex].Controls.Add(this.tdValueNumericUpDowns[tdIndex]);
 				tdPanels[tdIndex].Controls.Add(this.tdCmComboBoxes[tdIndex]);
 				tdPanels[tdIndex].Controls.Add(this.tdStNumericUpDowns[tdIndex]);	
-
 
 				tdTrackBars[tdIndex].MouseEnter += new EventHandler(tdTrackBars_MouseEnter);
 				tdTrackBars[tdIndex].MouseWheel += new MouseEventHandler(this.tdTrackBars_MouseWheel);
@@ -245,7 +243,7 @@ namespace LightController.MyForm
 				{
 					MessageBox.Show(ex.Message);
 				}
-			}
+			}						
 
 			#endregion
 
@@ -777,7 +775,16 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="lightIndex"></param>
 		protected override void generateSaPanels()
-		{
+		{			
+			if ( ! IsShowSaPanels) {
+
+				for (int tdIndex = 0; tdIndex < 32; tdIndex++)
+				{
+					saPanels[tdIndex].Hide();
+				}
+				return;
+			}
+
 			// 无步数时，直接跳过生成或显示saPanels的步骤
 			if (getCurrentStep() == 0) {
 				return;
@@ -1248,7 +1255,7 @@ namespace LightController.MyForm
 		#region 几个显示或隐藏面板的菜单项
 
 		/// <summary>
-		/// 辅助方法：点击《隐藏|显示主菜单面板》菜单项
+		/// 事件：点击《隐藏|显示主菜单面板》菜单项
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1259,7 +1266,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《隐藏|显示工程面板》菜单项
+		/// 事件：点击《隐藏|显示工程面板》菜单项
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1270,7 +1277,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《隐藏|显示辅助面板》菜单项
+		/// 事件：点击《隐藏|显示辅助面板》菜单项
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1281,7 +1288,7 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// 辅助方法：点击《隐藏|显示调试面板》菜单项
+		/// 事件：点击《隐藏|显示调试面板》菜单项
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -1289,6 +1296,19 @@ namespace LightController.MyForm
 		{
 			playBasePanel.Visible = !playBasePanel.Visible;
 			hidePlayPanelToolStripMenuItem.Text = playBasePanel.Visible ? "隐藏调试面板" : "显示调试面板";
+		}
+
+		/// <summary>
+		/// 事件：点击《隐藏|显示子属性面板》菜单项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void showSaPanelsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			IsShowSaPanels = !IsShowSaPanels;
+			showSaPanelsToolStripMenuItem.Text = IsShowSaPanels ? "隐藏子属性面板" : "显示子属性面板";
+
+			generateSaPanels();
 		}
 
 		#endregion
@@ -2730,7 +2750,7 @@ namespace LightController.MyForm
 			String serverFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
 			MessageBox.Show(serverFileVersion);
 		}
-		
+
 		#region 弃用方法
 
 		///// <summary>
@@ -2821,6 +2841,7 @@ namespace LightController.MyForm
 		//}
 
 		#endregion
-			
+
+		
 	}
 }

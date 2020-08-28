@@ -152,6 +152,8 @@ namespace LightController.MyForm
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.隐藏子属性按键组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -477,9 +479,11 @@ namespace LightController.MyForm
             this.hideMenuStriplToolStripMenuItem,
             this.hideProjectPanelToolStripMenuItem,
             this.hideUnifyPanelToolStripMenuItem,
-            this.hidePlayPanelToolStripMenuItem});
+            this.hidePlayPanelToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.隐藏子属性按键组ToolStripMenuItem});
 			this.myContextMenuStrip.Name = "myContextMenuStrip";
-			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 120);
+			this.myContextMenuStrip.Size = new System.Drawing.Size(173, 148);
 			// 
 			// refreshPicToolStripMenuItem
 			// 
@@ -1578,6 +1582,17 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(39, "S60--60W三棱镜图案灯.png");
 			this.lightLargeImageList.Images.SetKeyName(40, "T90-90W八凌镜光束灯.png");
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+			// 
+			// 隐藏子属性按键组ToolStripMenuItem
+			// 
+			this.隐藏子属性按键组ToolStripMenuItem.Name = "隐藏子属性按键组ToolStripMenuItem";
+			this.隐藏子属性按键组ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.隐藏子属性按键组ToolStripMenuItem.Text = "隐藏子属性按键组";
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1756,5 +1771,7 @@ namespace LightController.MyForm
 		private ToolStripMenuItem toolStripMenuItem2;
 		private Button actionButton;
 		private Panel saPanelDemo;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripMenuItem 隐藏子属性按键组ToolStripMenuItem;
 	}
 }

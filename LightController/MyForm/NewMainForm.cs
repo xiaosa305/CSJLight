@@ -260,7 +260,7 @@ namespace LightController.MyForm
 
 			// 用以处理大工程时，子属性列表会连在一起的bug；
 			foreach (Panel panel in saPanels)
-			{
+			{			
 				panel.Hide();
 			}
 		}

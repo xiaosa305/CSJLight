@@ -169,10 +169,10 @@ namespace LightController.MyForm
 				saPanels[tdIndex] = new Panel
 				{
 					Name = "saPanel" + (tdIndex + 1),
-					Location = saPanelDemo.Location,					
-					Size = saPanelDemo.Size,
-					Visible = saPanelDemo.Visible,
+					Location = saPanelDemo.Location,
+					Size = saPanelDemo.Size,					
 					Margin = saPanelDemo.Margin,
+					Visible = true,
 				};
 				tdSkinFlowLayoutPanel.Controls.Add(saPanels[tdIndex]);
 			}

@@ -3421,10 +3421,10 @@ namespace LightController.MyForm
 
 			SetNotice("打开【" + lightType+"("+selectedIndex+")" + "("+ selectedTdIndex + ":"+tdName+")】的单通道多步联调窗口。", false);
 
-			new DetailMultiForm(
+			new DetailSingleForm(
 				this, 				
 				selectedIndex,
-				new List<int> { selectedTdIndex },
+				selectedTdIndex,
 				lw.LightStepWrapperList[CurrentFrame,CurrentMode].StepWrapperList 
 			) . ShowDialog();
 		}

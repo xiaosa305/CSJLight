@@ -257,11 +257,17 @@
     <Compile Include="MyForm\Multiplex\DetailMultiAstForm.Designer.cs">
       <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm2.cs">
+    <Compile Include="MyForm\Multiplex\DetailMultiForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm2.Designer.cs">
-      <DependentUpon>DetailMultiForm2.cs</DependentUpon>
+    <Compile Include="MyForm\Multiplex\DetailMultiForm.Designer.cs">
+      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailSingleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailSingleForm.Designer.cs">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\Multiplex\GroupForm.cs">
       <SubType>Form</SubType>
@@ -275,11 +281,11 @@
     <Compile Include="MyForm\Multiplex\MultiplexForm.Designer.cs">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.cs">
+    <Compile Include="MyForm\Multiplex\OldDetailMultiForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.Designer.cs">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    <Compile Include="MyForm\Multiplex\OldDetailMultiForm.Designer.cs">
+      <DependentUpon>OldDetailMultiForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
@@ -538,8 +544,11 @@
     <EmbeddedResource Include="MyForm\Multiplex\DetailMultiAstForm.resx">
       <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiForm2.resx">
-      <DependentUpon>DetailMultiForm2.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiForm.resx">
+      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\DetailSingleForm.resx">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
       <DependentUpon>GroupForm.cs</DependentUpon>
@@ -547,8 +556,8 @@
     <EmbeddedResource Include="MyForm\Multiplex\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiForm.resx">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\Multiplex\OldDetailMultiForm.resx">
+      <DependentUpon>OldDetailMultiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewMainForm.resx">
       <DependentUpon>NewMainForm.cs</DependentUpon>

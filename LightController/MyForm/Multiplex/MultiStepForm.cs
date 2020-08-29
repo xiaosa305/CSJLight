@@ -19,7 +19,7 @@ namespace LightController.MyForm
 		private StepWrapper stepTemplate; //传入模板步，用以提取通道名列表
 		private int mode; 
 		private int startStep = 1, endStep =1;
-		private IList<int> tdIndexList = new List<int>();
+		private List<int> tdIndexList = new List<int>();
 		private int stepPos = 0; // 0：区间内全部； 1区间内的单数步； 2：区间内的偶（双）数步
 
 		private int lightIndex;
@@ -339,7 +339,10 @@ namespace LightController.MyForm
 				Dispose();
 				mainForm.Activate();
 
-				new DetailMultiForm(mainForm, lightIndex, tdIndexList, stepWrapperList).ShowDialog();
+				Dictionary<int, List<int>> tdDict = new Dictionary<int, List<int>>();
+				tdDict.Add(lightIndex, tdIndexList);
+
+				new DetailMultiForm(mainForm, tdDict ).ShowDialog(); 
 			}
 		}
 

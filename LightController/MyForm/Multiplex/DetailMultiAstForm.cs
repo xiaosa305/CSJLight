@@ -159,7 +159,7 @@ namespace LightController.MyForm.Multiplex
 
 			Hide();
 			mainForm.Activate();
-			new DetailMultiForm(mainForm, tdDict).ShowDialog();
+			new DetailMultiForm2(mainForm, tdDict).ShowDialog();
 		}
 		
 		/// <summary>

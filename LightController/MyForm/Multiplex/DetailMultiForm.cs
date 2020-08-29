@@ -425,6 +425,7 @@ namespace LightController.MyForm.Multiplex
 		{
 			NumericUpDown nud = sender as NumericUpDown ;
 			nud.Value = (nud.Parent.Parent.Parent.Controls[1].Controls[4] as NumericUpDown).Value;
+
 		}
 
 		#endregion

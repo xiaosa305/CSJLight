@@ -504,10 +504,10 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <returns></returns>
 		public DBWrapper GetDBWrapper(bool isFromDB)
-		{
+		{			
 			// 从数据库直接读取的情况
 			if (isFromDB)
-			{
+			{				
 				DBGetter dbGetter = new DBGetter(dbFilePath, isEncrypt);				
 				DBWrapper allData = dbGetter.getAll();
 				return allData;
@@ -515,6 +515,8 @@ namespace LightController.MyForm
 			// 由内存几个List实时生成
 			else
 			{
+				long time = DateTime.Now.Ticks;
+				
 				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 				generateDBLightList();
 				generateDBFineTuneList();
@@ -523,6 +525,10 @@ namespace LightController.MyForm
 				IList<DB_Value> dbValueListTemp = generateDBValueList(CurrentFrame);
 
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
+
+				long useTime = (DateTime.Now.Ticks - time) / 10000 ;
+				Console.WriteLine( "useTime : " +useTime );
+
 				return allData;
 			}
 		}
@@ -1322,9 +1328,9 @@ namespace LightController.MyForm
 		/// <param name="startStep"></param>
 		/// <param name="endStep"></param>
 		/// <param name="where"></param>
-		/// <param name="commonValue"></param>
-		public void SetMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int commonValue) {
-
+		/// <param name="unifyValue"></param>
+		public void SetMultiStepValues(WHERE where, IList<int> tdIndexList, int startStep, int endStep, int stepPos, int unifyValue) {
+					   
 			// 多灯模式，将值赋给每个编组的灯具中
 			if (IsMultiMode)
 			{
@@ -1333,18 +1339,26 @@ namespace LightController.MyForm
 					LightStepWrapper lsWrapper = getSelectedLightStepWrapper(lightIndex);
 					for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)
 					{
-						lsWrapper.StepWrapperList[stepIndex].MultiChangeValue(where, tdIndexList, commonValue);
+						if (stepPos == 0 || (stepPos == 1 && stepIndex % 2 == 0) || (stepPos == 2 && stepIndex % 2 != 0 ) )
+						{
+							lsWrapper.StepWrapperList[stepIndex].MultiChangeValue(where, tdIndexList, unifyValue);
+						}			
 					}
 				}
-			} // 单灯模式，则只需更改当前灯具的数据即可。
+			}
+			// 单灯模式，则只需更改当前灯具的数据即可。
 			else {
 				LightStepWrapper lightStepWrapper = getCurrentLightStepWrapper();
 				for (int stepIndex = startStep - 1; stepIndex < endStep; stepIndex++)
 				{
-					lightStepWrapper.StepWrapperList[stepIndex].MultiChangeValue(where, tdIndexList, commonValue);
+					if (stepPos == 0 || (stepPos == 1 && stepIndex % 2 == 0) || (stepPos == 2 && stepIndex % 2 != 0))
+					{
+						lightStepWrapper.StepWrapperList[stepIndex].MultiChangeValue(where, tdIndexList, unifyValue);
+					}
 				}
 			}
-			// 刷新当前tdPanels数据。
+			
+			// 改完数值后再刷新步
 			RefreshStep();
 		}
 
@@ -3499,6 +3513,7 @@ namespace LightController.MyForm
 		/// </summary>
 		protected void detailMultiButtonClick()
 		{
+			#region 废弃掉的验证
 			//if (!isSyncMode)
 			//{
 			//	SetNotice("非同步模式，无法使用多步联调。", true);
@@ -3510,17 +3525,19 @@ namespace LightController.MyForm
 			//	return;
 			//}
 
+			#endregion
+
 			if (getTotalStep() == 0)
 			{
 				SetNotice("当前灯具没有步数，无法使用多步联调。", true);
 				return;
 			}
 
-			if (dmsForm == null || dmsForm.IsDisposed )
+			if (dmsForm == null || dmsForm.IsDisposed)
 			{
 				dmsForm = new DetailMultiAstForm(this);
 			}
-			dmsForm.ShowDialog();					   
+			dmsForm.ShowDialog();
 		}
 
 		/// <summary>

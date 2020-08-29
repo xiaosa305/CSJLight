@@ -17,9 +17,10 @@ namespace LightController.MyForm
 		private int currentStep; // 当前步
 		private int totalStep ;  // 最大步数
 		private StepWrapper stepTemplate; //传入模板步，用以提取通道名列表
-		private int mode;
+		private int mode; 
 		private int startStep = 1, endStep =1;
 		private IList<int> tdIndexList = new List<int>();
+		private int stepPos = 0; // 0：区间内全部； 1区间内的单数步； 2：区间内的偶（双）数步
 
 		private int lightIndex;
 		private IList<StepWrapper> stepWrapperList;
@@ -111,8 +112,6 @@ namespace LightController.MyForm
 				unifyStButton.Hide();
                 sLabel.Visible = false;
 			}
-
-
 		}
 
 		private void MultiStepForm_Load(object sender, EventArgs e)
@@ -157,10 +156,10 @@ namespace LightController.MyForm
 			{
 				if (mode == 0)
 				{
-					mainForm.SetMultiStepValues(MainFormBase.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 2);
+					mainForm.SetMultiStepValues(MainFormBase.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, 2);
 				}
 				else {
-					mainForm.SetMultiStepValues(MainFormBase.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, 0);
+					mainForm.SetMultiStepValues(MainFormBase.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, 0);
 				}				
 			}
 		}
@@ -174,7 +173,7 @@ namespace LightController.MyForm
 		{
 			if (checkStepAndTds())
 			{
-				mainForm.SetMultiStepValues(MainFormBase.WHERE.SCROLL_VALUE, tdIndexList, startStep, endStep, 0);
+				mainForm.SetMultiStepValues(MainFormBase.WHERE.SCROLL_VALUE, tdIndexList, startStep, endStep, stepPos, 0);
 			}
 		}
 
@@ -188,7 +187,7 @@ namespace LightController.MyForm
 			//通过了验证，才能继续运行核心代码
 			if (checkStepAndTds()) {
 				int commonValue = Decimal.ToInt32(commonValueNumericUpDown.Value);
-				mainForm.SetMultiStepValues(MainFormBase.WHERE.SCROLL_VALUE,  tdIndexList, startStep,  endStep,  commonValue);
+				mainForm.SetMultiStepValues(MainFormBase.WHERE.SCROLL_VALUE,  tdIndexList, startStep,  endStep, stepPos, commonValue);
 			}
 		}
 
@@ -202,7 +201,7 @@ namespace LightController.MyForm
 			if (checkStepAndTds())
 			{
 				int  commonChangeModeSelectedIndex = unifyCmComboBox.SelectedIndex;
-				mainForm.SetMultiStepValues(MainFormBase.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, commonChangeModeSelectedIndex);
+				mainForm.SetMultiStepValues(MainFormBase.WHERE.CHANGE_MODE, tdIndexList, startStep, endStep, stepPos, commonChangeModeSelectedIndex);
 			}
 		}
 
@@ -216,7 +215,7 @@ namespace LightController.MyForm
 			if (checkStepAndTds())
 			{
 				int unifyStepTime = decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.EachStepTime2);
-				mainForm.SetMultiStepValues(MainFormBase.WHERE.STEP_TIME, tdIndexList, startStep, endStep, unifyStepTime);
+				mainForm.SetMultiStepValues(MainFormBase.WHERE.STEP_TIME, tdIndexList, startStep, endStep, stepPos ,unifyStepTime);
 			}
 		}
 
@@ -306,7 +305,28 @@ namespace LightController.MyForm
 			int stepTime = Decimal.ToInt32(unifyStNumericUpDown.Value / mainForm.EachStepTime2);
 			unifyStNumericUpDown.Value = stepTime * mainForm.EachStepTime2;
 		}
-		
+
+		/// <summary>
+		/// 事件：选中全、单、双步的单选框
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void stepRadioButton_CheckedChanged(object sender, EventArgs e)
+		{
+			RadioButton rb = sender as RadioButton;
+			if (rb.Name == "allRadioButton")
+			{
+				stepPos = 0;
+			}
+			else if (rb.Name == "singleRadioButton")
+			{
+				stepPos = 1;
+			}
+			else {
+				stepPos = 2;
+			}
+		}
+
 		/// <summary>
 		/// 事件：点击《多步联调》(以勾选的通道进行多步联调)
 		/// </summary>

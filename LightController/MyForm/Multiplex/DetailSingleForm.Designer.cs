@@ -29,6 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.tdSmallPanel = new System.Windows.Forms.Panel();
+			this.stepPanelDemo = new System.Windows.Forms.Panel();
+			this.topBottomButtonDemo = new System.Windows.Forms.Button();
+			this.stepLabelDemo = new System.Windows.Forms.Label();
+			this.stepNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.saComboBox = new System.Windows.Forms.ComboBox();
 			this.unifyComboBox = new System.Windows.Forms.ComboBox();
 			this.unifyTopButton = new System.Windows.Forms.Button();
@@ -36,16 +40,12 @@
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.unifyBottomButton = new System.Windows.Forms.Button();
 			this.stepFLP = new System.Windows.Forms.FlowLayoutPanel();
-			this.stepPanelDemo = new System.Windows.Forms.Panel();
-			this.stepLabelDemo = new System.Windows.Forms.Label();
-			this.stepNUDDemo = new System.Windows.Forms.NumericUpDown();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.topBottomButtonDemo = new System.Windows.Forms.Button();
 			this.tdSmallPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.unifyNUD)).BeginInit();
 			this.stepPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stepNUDDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyNUD)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -65,6 +65,53 @@
 			this.tdSmallPanel.Name = "tdSmallPanel";
 			this.tdSmallPanel.Size = new System.Drawing.Size(123, 641);
 			this.tdSmallPanel.TabIndex = 1;
+			// 
+			// stepPanelDemo
+			// 
+			this.stepPanelDemo.BackColor = System.Drawing.Color.IndianRed;
+			this.stepPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.stepPanelDemo.Controls.Add(this.topBottomButtonDemo);
+			this.stepPanelDemo.Controls.Add(this.stepLabelDemo);
+			this.stepPanelDemo.Controls.Add(this.stepNUDDemo);
+			this.stepPanelDemo.Location = new System.Drawing.Point(33, 177);
+			this.stepPanelDemo.Name = "stepPanelDemo";
+			this.stepPanelDemo.Size = new System.Drawing.Size(52, 85);
+			this.stepPanelDemo.TabIndex = 0;
+			this.stepPanelDemo.Visible = false;
+			// 
+			// topBottomButtonDemo
+			// 
+			this.topBottomButtonDemo.Location = new System.Drawing.Point(4, 30);
+			this.topBottomButtonDemo.Name = "topBottomButtonDemo";
+			this.topBottomButtonDemo.Size = new System.Drawing.Size(40, 20);
+			this.topBottomButtonDemo.TabIndex = 3;
+			this.topBottomButtonDemo.Text = "↑↓";
+			this.topBottomButtonDemo.UseVisualStyleBackColor = true;
+			this.topBottomButtonDemo.Click += new System.EventHandler(this.topBottomButton_Click);
+			// 
+			// stepLabelDemo
+			// 
+			this.stepLabelDemo.AutoSize = true;
+			this.stepLabelDemo.ForeColor = System.Drawing.Color.White;
+			this.stepLabelDemo.Location = new System.Drawing.Point(3, 9);
+			this.stepLabelDemo.Name = "stepLabelDemo";
+			this.stepLabelDemo.Size = new System.Drawing.Size(47, 12);
+			this.stepLabelDemo.TabIndex = 2;
+			this.stepLabelDemo.Text = "第100步";
+			// 
+			// stepNUDDemo
+			// 
+			this.stepNUDDemo.Location = new System.Drawing.Point(4, 56);
+			this.stepNUDDemo.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.stepNUDDemo.Name = "stepNUDDemo";
+			this.stepNUDDemo.Size = new System.Drawing.Size(40, 21);
+			this.stepNUDDemo.TabIndex = 1;
+			this.stepNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stepNUDDemo.ValueChanged += new System.EventHandler(this.StepNUD_ValueChanged);
 			// 
 			// saComboBox
 			// 
@@ -149,42 +196,6 @@
 			this.stepFLP.Size = new System.Drawing.Size(893, 641);
 			this.stepFLP.TabIndex = 2;
 			// 
-			// stepPanelDemo
-			// 
-			this.stepPanelDemo.BackColor = System.Drawing.Color.IndianRed;
-			this.stepPanelDemo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.stepPanelDemo.Controls.Add(this.topBottomButtonDemo);
-			this.stepPanelDemo.Controls.Add(this.stepLabelDemo);
-			this.stepPanelDemo.Controls.Add(this.stepNUDDemo);
-			this.stepPanelDemo.Location = new System.Drawing.Point(33, 177);
-			this.stepPanelDemo.Name = "stepPanelDemo";
-			this.stepPanelDemo.Size = new System.Drawing.Size(52, 85);
-			this.stepPanelDemo.TabIndex = 0;
-			this.stepPanelDemo.Visible = false;
-			// 
-			// stepLabelDemo
-			// 
-			this.stepLabelDemo.AutoSize = true;
-			this.stepLabelDemo.ForeColor = System.Drawing.Color.White;
-			this.stepLabelDemo.Location = new System.Drawing.Point(3, 9);
-			this.stepLabelDemo.Name = "stepLabelDemo";
-			this.stepLabelDemo.Size = new System.Drawing.Size(47, 12);
-			this.stepLabelDemo.TabIndex = 2;
-			this.stepLabelDemo.Text = "第100步";
-			// 
-			// stepNUDDemo
-			// 
-			this.stepNUDDemo.Location = new System.Drawing.Point(4, 56);
-			this.stepNUDDemo.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.stepNUDDemo.Name = "stepNUDDemo";
-			this.stepNUDDemo.Size = new System.Drawing.Size(40, 21);
-			this.stepNUDDemo.TabIndex = 1;
-			this.stepNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -202,16 +213,6 @@
 			this.myStatusLabel.Size = new System.Drawing.Size(1001, 17);
 			this.myStatusLabel.Spring = true;
 			// 
-			// topBottomButtonDemo
-			// 
-			this.topBottomButtonDemo.Location = new System.Drawing.Point(4, 30);
-			this.topBottomButtonDemo.Name = "topBottomButtonDemo";
-			this.topBottomButtonDemo.Size = new System.Drawing.Size(40, 20);
-			this.topBottomButtonDemo.TabIndex = 3;
-			this.topBottomButtonDemo.Text = "↑↓";
-			this.topBottomButtonDemo.UseVisualStyleBackColor = true;
-			this.topBottomButtonDemo.Click += new System.EventHandler(this.topBottomButton_Click);
-			// 
 			// DetailSingleForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -225,10 +226,10 @@
 			this.Text = "单通道多步联调";
 			this.Load += new System.EventHandler(this.DetailSingleForm_Load);
 			this.tdSmallPanel.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.unifyNUD)).EndInit();
 			this.stepPanelDemo.ResumeLayout(false);
 			this.stepPanelDemo.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.stepNUDDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.unifyNUD)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);

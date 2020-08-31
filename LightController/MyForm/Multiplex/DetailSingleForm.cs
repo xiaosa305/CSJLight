@@ -184,7 +184,7 @@ namespace LightController.MyForm.Multiplex
 			int stepValue = decimal.ToInt32(nud.Value);
 			(nud.Parent as Panel).BackColor = getBackColor(stepValue);			
 
-			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue);		
+			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue );
 		}
 
 		#endregion
@@ -199,13 +199,10 @@ namespace LightController.MyForm.Multiplex
 		private void saComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox cb = sender as ComboBox;
-			int lightIndex = (int)cb.Tag;
-			int tdIndex = MathHelper.GetIndexNum(cb.Name, -1);
 			int saIndex = cb.SelectedIndex;
-
 			int saValue = mainForm.GetSeletecdLightTdSaw(lightIndex, tdIndex).SaList[saIndex].StartValue;
 
-			(cb.Parent.Controls[4] as NumericUpDown).Value = saValue;
+			unifyNUD.Value = saValue;
 		}
 
 		/// <summary>

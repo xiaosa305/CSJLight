@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Ast;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -37,6 +38,16 @@ namespace LightController.Utils.Ver2
             ;
         }
 
+        public void Test(DBWrapper wrapper,string configPath,int sceneNo)
+        {
+
+        }
+
+        /// <summary>
+        /// 生成工程通道文件入口
+        /// </summary>
+        /// <param name="dataBean"></param>
+        /// <param name="dirPath"></param>
         public void CreateSceneChannelFile(ChannelDataBean dataBean,string dirPath)
         {
             this.DirctoryPath = dirPath;
@@ -51,6 +62,11 @@ namespace LightController.Utils.Ver2
             }
         }
 
+        /// <summary>
+        /// 生成预览通道文件入口
+        /// </summary>
+        /// <param name="dataBean"></param>
+        /// <param name="dirPath"></param>
         public void CreatePreviewSceneChannelFile(ChannelDataBean dataBean,string dirPath)
         {
             this.DirctoryPath = dirPath;

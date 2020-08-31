@@ -9,6 +9,7 @@ using System.Threading;
 using System.Linq;
 using System.Diagnostics;
 using LightController.MyForm;
+using LightController.Utils.Ver2;
 
 namespace LightController.Utils
 {
@@ -843,8 +844,8 @@ namespace LightController.Utils
         /// </summary>
         public static void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo,ISaveProjectCallBack callBack)
         {
-			try
-			{
+            try
+            {
 				CallBack = callBack;
 				FileUtils.ClearPreviewCacheData();
 				FileUtils.ClearPreviewProjectData();

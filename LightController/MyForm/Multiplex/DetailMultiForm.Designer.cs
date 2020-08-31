@@ -315,6 +315,7 @@
 			this.tdPanelDemo.Name = "tdPanelDemo";
 			this.tdPanelDemo.Size = new System.Drawing.Size(1202, 58);
 			this.tdPanelDemo.TabIndex = 17;
+			this.tdPanelDemo.Tag = "-1";
 			this.tdPanelDemo.Visible = false;
 			// 
 			// statusStrip1

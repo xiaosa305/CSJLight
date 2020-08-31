@@ -28,8 +28,9 @@ namespace LightController.MyForm.Multiplex
 			InitializeComponent();
 			Text +=  "【"
 				+ mainForm.LightAstList[lightIndex].LightType 				
-				+"("+ mainForm.LightAstList[lightIndex].LightAddr+")"
-				+":" + stepWrapperList[0].TongdaoList[ tdIndex].TongdaoName +  "】";
+				+ "("+ mainForm.LightAstList[lightIndex].LightAddr + ")"
+				+ ":" + stepWrapperList[0].TongdaoList[ tdIndex].TongdaoName 
+				+  "】";
 			unifyComboBox.SelectedIndex = 0;
 
 			// 验证有否步数
@@ -186,7 +187,7 @@ namespace LightController.MyForm.Multiplex
 
 			int stepIndex = MathHelper.GetIndexNum(nud.Name, -1);
 			int stepValue = decimal.ToInt32(nud.Value);
-			(nud.Parent as Panel).BackColor = getBackColor(stepValue);			
+			(nud.Parent as Panel).BackColor = getBackColor(stepValue);
 
 			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue, isJumpStep);
 		}

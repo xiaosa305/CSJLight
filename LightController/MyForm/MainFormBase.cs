@@ -160,7 +160,7 @@ namespace LightController.MyForm
 		protected virtual void RefreshMultiModeButtons(bool isMultiMode) { }  //进入或退出多灯模式后的相关操作（设置各个按键的可用性）
 		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
-		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons		
+		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons			
 
         public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
@@ -1383,13 +1383,16 @@ namespace LightController.MyForm
 				getSelectedLightStepWrapper(selectedLightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
 			}
 
-			// 需要跳步的话，就先把步数调整过去，再selectLight
+			// 不跳步的话，只需刷新当前步数
 			if (isJumpStep) {
-				
-
-			}
-
-			// 刷新当前tdPanels数据。
+				getSelectedLightStepWrapper(selectedLightIndex).CurrentStep = stepIndex + 1;
+				if (!IsMultiMode && selectedIndex != selectedLightIndex)
+				{
+					selectedIndex = selectedLightIndex;
+					generateLightData();
+					return ; //generateLightData()代码中已包含RefreshStep，故如果运行后可直接return；不return的则由最后的RefreshStep()来收尾
+				}				
+			}					
 			RefreshStep();
 		}
 

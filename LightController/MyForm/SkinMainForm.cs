@@ -587,7 +587,7 @@ namespace LightController.MyForm
 				//disposeSauForm();
 				if (generateNow)
 				{					
-					generateLightData();					
+					generateLightData();	
 				}
 			}
 		}
@@ -2141,7 +2141,7 @@ namespace LightController.MyForm
 				lightsSkinListView.Items[lightIndex].Selected = true;
 			}
 		}
-
+			   	
 		#endregion
 
 		//MARK：SkinMainForm：playPanel相关点击事件及辅助方法	

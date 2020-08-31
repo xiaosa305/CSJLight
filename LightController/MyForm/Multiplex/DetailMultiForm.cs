@@ -302,14 +302,13 @@ namespace LightController.MyForm.Multiplex
 			{
 				foreach (Panel panel in bigFLP.Controls)
 				{
-					int lightIndexTemp = Convert.ToInt32(panel.Tag);
-					if (mainForm.SelectedIndices.Contains(lightIndexTemp) && lightIndexTemp != lightIndex)
+					int lightIndexTemp = Convert.ToInt32(panel.Tag); //tdPanelDemo的Tag设为-1，可避免把tdPanelDemo也给算进去；
+					if(mainForm.SelectedIndices.Contains(lightIndexTemp) && lightIndexTemp != lightIndex)
 					{
 						int tdIndexTemp = MathHelper.GetIndexNum(panel.Name, -1);
 						if (tdIndexTemp == tdIndex)
 						{
-
-							NumericUpDown nudTemp = panel.Controls[0].Controls[stepIndex].Controls[3] as NumericUpDown;
+							NumericUpDown nudTemp = panel.Controls[1].Controls[stepIndex].Controls[1] as NumericUpDown;
 							nudTemp.ValueChanged -= StepNUD_ValueChanged;
 							nudTemp.Value = stepValue;
 							nudTemp.Parent.BackColor = getBackColor(stepValue);

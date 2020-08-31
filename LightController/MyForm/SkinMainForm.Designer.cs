@@ -107,7 +107,6 @@ namespace LightController.MyForm
 			this.commonButtonPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
 			this.soundListButton = new System.Windows.Forms.Button();
-			this.initButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -163,6 +162,7 @@ namespace LightController.MyForm
 			this.bgWorker = new System.ComponentModel.BackgroundWorker();
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.menuSkinPanel.SuspendLayout();
 			this.testGroupBox.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
@@ -1486,7 +1486,7 @@ namespace LightController.MyForm
 			// 
 			this.commonButtonPanel.Controls.Add(this.groupButton);
 			this.commonButtonPanel.Controls.Add(this.soundListButton);
-			this.commonButtonPanel.Controls.Add(this.initButton);
+			this.commonButtonPanel.Controls.Add(this.detailMultiButton);
 			this.commonButtonPanel.Controls.Add(this.multiButton);
 			this.commonButtonPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.commonButtonPanel.Location = new System.Drawing.Point(0, 0);
@@ -1514,27 +1514,13 @@ namespace LightController.MyForm
 			this.soundListButton.Enabled = false;
 			this.soundListButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.soundListButton.ForeColor = System.Drawing.Color.Black;
-			this.soundListButton.Location = new System.Drawing.Point(130, 45);
+			this.soundListButton.Location = new System.Drawing.Point(24, 49);
 			this.soundListButton.Name = "soundListButton";
 			this.soundListButton.Size = new System.Drawing.Size(94, 25);
 			this.soundListButton.TabIndex = 30;
 			this.soundListButton.Text = "音频链表";
 			this.soundListButton.UseVisualStyleBackColor = false;
 			this.soundListButton.Click += new System.EventHandler(this.soundListButton_Click);
-			// 
-			// initButton
-			// 
-			this.initButton.BackColor = System.Drawing.Color.Transparent;
-			this.initButton.Enabled = false;
-			this.initButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.initButton.ForeColor = System.Drawing.Color.Black;
-			this.initButton.Location = new System.Drawing.Point(24, 45);
-			this.initButton.Name = "initButton";
-			this.initButton.Size = new System.Drawing.Size(94, 25);
-			this.initButton.TabIndex = 30;
-			this.initButton.Text = "设为初值";
-			this.initButton.UseVisualStyleBackColor = false;
-			this.initButton.Click += new System.EventHandler(this.initSkinButton_Click);
 			// 
 			// multiButton
 			// 
@@ -1548,8 +1534,8 @@ namespace LightController.MyForm
 			this.multiButton.TabIndex = 30;
 			this.multiButton.Text = "多步调节";
 			this.multiButton.UseVisualStyleBackColor = false;
-			this.multiButton.Click += new System.EventHandler(this.multiSkinButton_Click);
-			this.multiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.multiSkinButton_MouseDown);
+			this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
+			this.multiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.multiButton_MouseDown);
 			// 
 			// noticeStatusStrip
 			// 
@@ -2520,6 +2506,19 @@ namespace LightController.MyForm
 			this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgWorker_ProgessChanged);
 			this.bgWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorker_WorkerCompleted);
 			// 
+			// detailMultiButton
+			// 
+			this.detailMultiButton.BackColor = System.Drawing.Color.Transparent;
+			this.detailMultiButton.Enabled = false;
+			this.detailMultiButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.detailMultiButton.ForeColor = System.Drawing.Color.Black;
+			this.detailMultiButton.Location = new System.Drawing.Point(130, 49);
+			this.detailMultiButton.Name = "detailMultiButton";
+			this.detailMultiButton.Size = new System.Drawing.Size(94, 25);
+			this.detailMultiButton.TabIndex = 30;
+			this.detailMultiButton.Text = "多步联调";
+			this.detailMultiButton.UseVisualStyleBackColor = false;
+			// 
 			// SkinMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2707,7 +2706,6 @@ namespace LightController.MyForm
         private Button multiButton;
         private Button groupButton;
         private Button soundListButton;
-        private Button initButton;
 		private Panel commonButtonPanel;
 		private SkinButton actionButton;
 		private SkinButton copyStepSkinButton;
@@ -2726,5 +2724,6 @@ namespace LightController.MyForm
 		private Label saLabelDemo;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
+		private Button detailMultiButton;
 	}
 }

@@ -1852,10 +1852,11 @@ namespace LightController.MyForm
 			// 4.设定统一调整区是否可用						
 			groupButton.Enabled = LightAstList != null && lightsListView.SelectedIndices.Count > 0; // 只有工程非空（有灯具列表）且选择项不为空才可点击
 			groupFlowLayoutPanel.Enabled = LightAstList != null;
-			initButton.Enabled = totalStep != 0;
 			multiButton.Enabled = totalStep != 0;
+			detailMultiButton.Enabled = totalStep != 0;
 			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1;
 
+			//initButton.Enabled = totalStep != 0;
 			//zeroButton.Enabled = totalStep != 0;
 			//unifyValueButton.Enabled = totalStep != 0;
 			//unifyChangeModeButton.Enabled = totalStep != 0;
@@ -2158,15 +2159,18 @@ namespace LightController.MyForm
 			new GroupForm(this, LightAstList, SelectedIndices).ShowDialog();
 		}
 
+	
+
 		/// <summary>
-		/// 事件：点击《设为初值》
+		/// 事件：点击《音频链表》
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void initButton_Click(object sender, EventArgs e)
+		private void soundListButton_Click(object sender, EventArgs e)
 		{
-			initButtonClick();
+			new SKForm(this, CurrentFrame, frameComboBox.Text).ShowDialog();
 		}
+
 
 		/// <summary>
 		/// 事件：点击《多步调节》
@@ -2188,20 +2192,16 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				detailMultiButtonClick();
+				
 			}
 		}
 
-		/// <summary>
-		/// 事件：点击《音频链表》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void soundListButton_Click(object sender, EventArgs e)
-        {
-            new SKForm(this, CurrentFrame, frameComboBox.Text).ShowDialog();
-        }
+		private void detailMultiButton_Click(object sender, EventArgs e)
+		{
+			detailMultiButtonClick();
+		}
 
+		
         /// <summary>
         /// 事件：点击《groupInButtons(进入编组)》
         /// </summary>
@@ -2758,6 +2758,7 @@ namespace LightController.MyForm
 			MessageBox.Show(serverFileVersion);
 		}
 
+
 		#region 弃用方法
 
 		///// <summary>
@@ -2847,8 +2848,18 @@ namespace LightController.MyForm
 		//	Console.WriteLine( saPanelArray[selectedIndex] );
 		//}
 
+		/// <summary>
+		/// 事件：点击《设为初值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void initButton_Click(object sender, EventArgs e)
+		{
+			initButtonClick();
+		}
+
 		#endregion
 
-		
+
 	}
 }

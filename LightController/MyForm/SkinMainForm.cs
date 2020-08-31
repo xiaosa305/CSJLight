@@ -1689,10 +1689,10 @@ namespace LightController.MyForm
 
 			// 4.设定统一调整区是否可用
 			groupButton.Enabled = LightAstList != null && lightsSkinListView.SelectedIndices.Count > 0; //只有工程非空（有灯具列表）且选择项不为空 才可点击
-			groupFlowLayoutPanel.Enabled = LightAstList != null ; 
-			initButton.Enabled = totalStep != 0;
+			groupFlowLayoutPanel.Enabled = LightAstList != null ; 			
 			multiButton.Enabled = totalStep != 0;
-            soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1 ;
+			detailMultiButton.Enabled = totalStep != 0;
+			soundListButton.Enabled = !string.IsNullOrEmpty(currentProjectName) && CurrentMode == 1 ;
 
             // 5. 处理选择步数的框及按钮
             chooseStepNumericUpDown.Enabled = totalStep != 0;			
@@ -1988,29 +1988,19 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		///  事件：点击《设为初值》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void initSkinButton_Click(object sender, EventArgs e)
-		{
-			initButtonClick();
-		}
-
-		/// <summary>
 		/// 事件：点击《多步调节》按钮
 		/// 多步调整，传入当前灯的LightWrapper，在里面回调setMultiStepValues以调节相关的步数的值
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiSkinButton_Click(object sender, EventArgs e){  }
+		private void multiButton_Click(object sender, EventArgs e){  }
 
 		/// <summary>
 		/// 事件：左右键点击《多步调节》：右键是多步联调
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void multiSkinButton_MouseDown(object sender, MouseEventArgs e)
+		private void multiButton_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
@@ -2018,10 +2008,20 @@ namespace LightController.MyForm
 			}
 			else if (e.Button == MouseButtons.Right)
 			{
-				detailMultiButtonClick();
+
 			}
 		}
-		
+
+		/// <summary>
+		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void detailMultiButton_Click(object sender, EventArgs e)
+		{
+			detailMultiButtonClick();		
+		}
+
 
 		/// <summary>
 		/// 事件：点击《音频链表》

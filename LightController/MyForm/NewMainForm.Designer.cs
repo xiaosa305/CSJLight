@@ -154,6 +154,7 @@ namespace LightController.MyForm
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -729,6 +730,7 @@ namespace LightController.MyForm
 			this.panel1.Controls.Add(this.unifyChangeModeButton);
 			this.panel1.Controls.Add(this.unifyValueButton);
 			this.panel1.Controls.Add(this.unifyStepTimeNumericUpDown);
+			this.panel1.Controls.Add(this.initButton);
 			this.panel1.Controls.Add(this.unifyChangeModeComboBox);
 			this.panel1.Controls.Add(this.unifyStepTimeButton);
 			this.panel1.Controls.Add(this.unifyValueNumericUpDown);
@@ -741,7 +743,7 @@ namespace LightController.MyForm
 			// zeroButton
 			// 
 			this.zeroButton.Enabled = false;
-			this.zeroButton.Location = new System.Drawing.Point(88, 169);
+			this.zeroButton.Location = new System.Drawing.Point(88, 172);
 			this.zeroButton.Margin = new System.Windows.Forms.Padding(2);
 			this.zeroButton.Name = "zeroButton";
 			this.zeroButton.Size = new System.Drawing.Size(84, 23);
@@ -873,8 +875,8 @@ namespace LightController.MyForm
 			this.unifyPanel.Controls.Add(this.groupButton);
 			this.unifyPanel.Controls.Add(this.groupFlowLayoutPanel);
 			this.unifyPanel.Controls.Add(this.soundListButton);
+			this.unifyPanel.Controls.Add(this.detailMultiButton);
 			this.unifyPanel.Controls.Add(this.multiButton);
-			this.unifyPanel.Controls.Add(this.initButton);
 			this.unifyPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.unifyPanel.Location = new System.Drawing.Point(1089, 0);
 			this.unifyPanel.Name = "unifyPanel";
@@ -943,7 +945,7 @@ namespace LightController.MyForm
 			this.soundListButton.BackColor = System.Drawing.Color.Transparent;
 			this.soundListButton.Enabled = false;
 			this.soundListButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.soundListButton.Location = new System.Drawing.Point(91, 34);
+			this.soundListButton.Location = new System.Drawing.Point(7, 36);
 			this.soundListButton.Margin = new System.Windows.Forms.Padding(2);
 			this.soundListButton.Name = "soundListButton";
 			this.soundListButton.Size = new System.Drawing.Size(75, 24);
@@ -970,10 +972,10 @@ namespace LightController.MyForm
 			// initButton
 			// 
 			this.initButton.Enabled = false;
-			this.initButton.Location = new System.Drawing.Point(7, 36);
+			this.initButton.Location = new System.Drawing.Point(88, 140);
 			this.initButton.Margin = new System.Windows.Forms.Padding(2);
 			this.initButton.Name = "initButton";
-			this.initButton.Size = new System.Drawing.Size(75, 23);
+			this.initButton.Size = new System.Drawing.Size(84, 23);
 			this.initButton.TabIndex = 55;
 			this.initButton.Text = "设为初值";
 			this.initButton.UseVisualStyleBackColor = true;
@@ -1594,6 +1596,20 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(39, "S60--60W三棱镜图案灯.png");
 			this.lightLargeImageList.Images.SetKeyName(40, "T90-90W八凌镜光束灯.png");
 			// 
+			// detailMultiButton
+			// 
+			this.detailMultiButton.BackColor = System.Drawing.Color.Transparent;
+			this.detailMultiButton.Enabled = false;
+			this.detailMultiButton.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.detailMultiButton.Location = new System.Drawing.Point(91, 36);
+			this.detailMultiButton.Margin = new System.Windows.Forms.Padding(2);
+			this.detailMultiButton.Name = "detailMultiButton";
+			this.detailMultiButton.Size = new System.Drawing.Size(75, 24);
+			this.detailMultiButton.TabIndex = 55;
+			this.detailMultiButton.Text = "多步联调";
+			this.detailMultiButton.UseVisualStyleBackColor = false;
+			this.detailMultiButton.Click += new System.EventHandler(this.detailMultiButton_Click);
+			// 
 			// NewMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1774,5 +1790,6 @@ namespace LightController.MyForm
 		private Panel saPanelDemo;
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
+		private Button detailMultiButton;
 	}
 }

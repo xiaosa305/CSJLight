@@ -1367,7 +1367,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <param name="tdIndex"></param>
 		/// <param name="stepIndex"></param>
-		public void SetTdStepValue(int selectedLightIndex, int tdIndex, int stepIndex, int stepValue)
+		public void SetTdStepValue(int selectedLightIndex, int tdIndex, int stepIndex, int stepValue ,bool isJumpStep)
 		{
 			// 多灯模式 且 所选灯具在当前的多灯组内，将值赋给每个编组的灯具中
 			if (IsMultiMode && SelectedIndices.Contains(selectedLightIndex) )
@@ -1381,7 +1381,13 @@ namespace LightController.MyForm
 			else
 			{
 				getSelectedLightStepWrapper(selectedLightIndex).StepWrapperList[stepIndex].TongdaoList[tdIndex].ScrollValue = stepValue;
-			}			
+			}
+
+			// 需要跳步的话，就先把步数调整过去，再selectLight
+			if (isJumpStep) {
+				
+
+			}
 
 			// 刷新当前tdPanels数据。
 			RefreshStep();

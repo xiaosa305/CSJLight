@@ -261,6 +261,7 @@
             0,
             0,
             0});
+			this.stepNUDDemo.ValueChanged += new System.EventHandler(this.StepNUD_ValueChanged);
 			this.stepNUDDemo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.stepNUD_MouseDoubleClick);
 			// 
 			// tdSmallPanelDemo
@@ -357,7 +358,7 @@
 			this.Name = "DetailMultiForm";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "多通道多步联调";
-			this.Load += new System.EventHandler(this.DetailMultiForm2_Load);
+			this.Load += new System.EventHandler(this.DetailMultiForm_Load);
 			this.stepBigPanel.ResumeLayout(false);
 			this.unifyPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.unifyNUD)).EndInit();

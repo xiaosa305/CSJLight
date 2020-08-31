@@ -17,6 +17,7 @@ namespace LightController.MyForm.Multiplex
 		private MainFormBase mainForm;
 		private int lightIndex;
 		private int tdIndex;
+		private bool isJumpStep = true ;
 
 		public DetailSingleForm(MainFormBase mainForm, int lightIndex, int tdIndex, IList<StepWrapper> stepWrapperList)
 		{
@@ -184,7 +185,7 @@ namespace LightController.MyForm.Multiplex
 			int stepValue = decimal.ToInt32(nud.Value);
 			(nud.Parent as Panel).BackColor = getBackColor(stepValue);			
 
-			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue );
+			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue, isJumpStep);
 		}
 
 		#endregion
@@ -229,6 +230,8 @@ namespace LightController.MyForm.Multiplex
 				unifyValue = 0;
 			}
 
+			isJumpStep = false; // 如果是统一设值，则不要跳转步（因为没有一个具体的步可跳转）
+
 			// 好几个if else 语句，合成这个for语句（只有双步时，从第二步开始调整；只有“全部”时，每次步进的数量为1）
 			for (int stepIndex = (unifyPos == 2 ? 1 : 0);
 				stepIndex < stepFLP.Controls.Count;
@@ -237,6 +240,8 @@ namespace LightController.MyForm.Multiplex
 				NumericUpDown stepNUD = stepFLP.Controls[stepIndex].Controls[2] as NumericUpDown;
 				stepNUD.Value = unifyValue;
 			}
+
+			isJumpStep = true; // 都设好之后记得要调整回来
 		}
 
 		/// <summary>

@@ -830,10 +830,12 @@ namespace LightController.MyForm
 							Button saButton = new Button
 							{								
 								Text = sa.SAName,
+								TextAlign = saButtonDemo.TextAlign,
 								Size = saButtonDemo.Size,
 								Tag = tdIndex + "*" + sa.StartValue,
 								UseVisualStyleBackColor = saButtonDemo.UseVisualStyleBackColor,
-								Margin = saButtonDemo.Margin,								
+								Margin = saButtonDemo.Margin,			
+								
 							};
 							saButton.Click += new EventHandler(saButton_Click);
 							saToolTip.SetToolTip(saButton, sa.SAName + "\n" + sa.StartValue + " - " + sa.EndValue);

@@ -15,9 +15,10 @@ namespace LightController.MyForm.Multiplex
 	public partial class DetailMultiForm : Form
 	{
 		private MainFormBase mainForm;
+		private bool isJumpStep = true;
 		int maxWidth = 1084;
 		int defaultWidth = 1084;
-		int maxStep = 0;
+		int maxStep = 0;		
 
 		/// <summary>
 		/// 此构造方法：适用于多个灯具的多步联调
@@ -92,7 +93,7 @@ namespace LightController.MyForm.Multiplex
 			}
 		}
 
-		private void DetailMultiForm2_Load(object sender, EventArgs e)
+		private void DetailMultiForm_Load(object sender, EventArgs e)
 		{
 			Location = new Point(mainForm.Location.X + 100, mainForm.Location.Y + 100);
 		}
@@ -294,7 +295,7 @@ namespace LightController.MyForm.Multiplex
 			(nud.Parent as Panel).BackColor = getBackColor(stepValue);
 			int lightIndex = (int)(nud.Tag);
 
-			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue);
+			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue, isJumpStep);
 
 			// 如果这里是多灯模式，就把相关的通道的值设一下（遍历所有通道，找到tdIndex一样的（且都在selectedIndices中的数））
 			if (mainForm.IsMultiMode && mainForm.SelectedIndices.Contains(lightIndex))
@@ -438,6 +439,7 @@ namespace LightController.MyForm.Multiplex
 				unifyValue = 0;
 			}
 
+			isJumpStep = false ; 
 			// 遍历checkBox列表，确定需要调整的步数
 			for (int stepIndex = 0; stepIndex < maxStep; stepIndex++)
 			{
@@ -452,6 +454,8 @@ namespace LightController.MyForm.Multiplex
 					}
 				}
 			}
+
+			isJumpStep = true;
 		}
 
 		#endregion

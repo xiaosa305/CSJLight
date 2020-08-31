@@ -15,6 +15,7 @@ namespace LightController.MyForm.Multiplex
 	public partial class OldDetailMultiForm : Form
 	{
 		private MainFormBase mainForm;
+		private bool isJumpStep = true;
 
 		/// <summary>
 		/// 此构造方法：适用于单个灯具的多步联调 
@@ -348,6 +349,7 @@ namespace LightController.MyForm.Multiplex
 				unifyValue = 0;
 			}
 
+			isJumpStep = false;
 			// 好几个if else 语句，合成这个for语句（只有双步时，从第二步开始调整；只有“全部”时，每次步进的数量为1）
 			for (int stepIndex = (unifyPos == 2 ? 1 : 0);
 				stepIndex < btn.Parent.Parent.Controls[0].Controls.Count;
@@ -356,7 +358,7 @@ namespace LightController.MyForm.Multiplex
 				NumericUpDown stepNUD = btn.Parent.Parent.Controls[0].Controls[stepIndex].Controls[3] as NumericUpDown;
 				stepNUD.Value = unifyValue;
 			}
-			// Console.WriteLine( tdIndex + " - "+unifyPos + " : " + unifyValue );
+			isJumpStep = true;
 		}
 
 		#endregion
@@ -446,7 +448,7 @@ namespace LightController.MyForm.Multiplex
 			(nud.Parent as Panel).BackColor = getBackColor(stepValue);
 			int lightIndex = (int)(nud.Tag);
 			
-			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue);
+			mainForm.SetTdStepValue(lightIndex, tdIndex, stepIndex, stepValue, isJumpStep);
 
 			// 如果这里是多灯模式，就把相关的通道的值设一下（遍历所有通道，找到tdIndex一样的（且都在selectedIndices中的数））
 			if (mainForm.IsMultiMode && mainForm.SelectedIndices.Contains(lightIndex))
@@ -512,9 +514,7 @@ namespace LightController.MyForm.Multiplex
 		}
 
 		#endregion
-
-
-
+			   
 	}
 }
  

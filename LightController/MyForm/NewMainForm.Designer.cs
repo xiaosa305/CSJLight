@@ -695,11 +695,11 @@ namespace LightController.MyForm
 			this.saFLPDemo.AutoScroll = true;
 			this.saFLPDemo.Controls.Add(this.saLabelDemo);
 			this.saFLPDemo.Controls.Add(this.saButtonDemo);
-			this.saFLPDemo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.saFLPDemo.Dock = System.Windows.Forms.DockStyle.Left;
 			this.saFLPDemo.Location = new System.Drawing.Point(0, 0);
 			this.saFLPDemo.Margin = new System.Windows.Forms.Padding(0);
 			this.saFLPDemo.Name = "saFLPDemo";
-			this.saFLPDemo.Size = new System.Drawing.Size(63, 297);
+			this.saFLPDemo.Size = new System.Drawing.Size(85, 297);
 			this.saFLPDemo.TabIndex = 63;
 			this.saFLPDemo.Visible = false;
 			// 

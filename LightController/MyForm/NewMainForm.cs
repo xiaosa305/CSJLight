@@ -824,7 +824,9 @@ namespace LightController.MyForm
 							Text = saLabelDemo.Text,
 							Margin = saLabelDemo.Margin,
 						});
-						for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)
+
+						//for (int saIndex = 0; saIndex < la.SawList[tdIndex].SaList.Count; saIndex++)  // 此代码为正序显示子属性
+						for (int saIndex = la.SawList[tdIndex].SaList.Count - 1; saIndex >= 0; saIndex--)  //此代码为倒序显示子属性						
 						{
 							SA sa = la.SawList[tdIndex].SaList[saIndex];
 							Button saButton = new Button

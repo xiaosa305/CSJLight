@@ -26,7 +26,10 @@ namespace LightController.MyForm.Multiplex
 			this.tdIndex = tdIndex;
 
 			InitializeComponent();
-			Text +=  mainForm.LightAstList[lightIndex].LightType + ":" + mainForm.LightAstList[lightIndex].LightAddr + ")";
+			Text +=  "【"
+				+ mainForm.LightAstList[lightIndex].LightType 				
+				+"("+ mainForm.LightAstList[lightIndex].LightAddr+")"
+				+":" + stepWrapperList[0].TongdaoList[ tdIndex].TongdaoName +  "】";
 			unifyComboBox.SelectedIndex = 0;
 
 			// 验证有否步数

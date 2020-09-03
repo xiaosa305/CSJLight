@@ -59,7 +59,6 @@ namespace LightController.MyForm
 			this.deviceConnectButton = new System.Windows.Forms.Button();
 			this.makeSoundButton = new System.Windows.Forms.Button();
 			this.previewButton = new System.Windows.Forms.Button();
-			this.lightsAddrLabel = new System.Windows.Forms.Label();
 			this.lightTypeLabel = new System.Windows.Forms.Label();
 			this.lightNameLabel = new System.Windows.Forms.Label();
 			this.myContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -92,6 +91,7 @@ namespace LightController.MyForm
 			this.unifyChangeModeButton = new System.Windows.Forms.Button();
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.unifyStepTimeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.initButton = new System.Windows.Forms.Button();
 			this.unifyChangeModeComboBox = new System.Windows.Forms.ComboBox();
 			this.unifyStepTimeButton = new System.Windows.Forms.Button();
 			this.unifyValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -105,8 +105,8 @@ namespace LightController.MyForm
 			this.groupDelButtonDemo = new System.Windows.Forms.Button();
 			this.saButton = new System.Windows.Forms.Button();
 			this.soundListButton = new System.Windows.Forms.Button();
+			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
-			this.initButton = new System.Windows.Forms.Button();
 			this.playBasePanel = new System.Windows.Forms.Panel();
 			this.wjTestButton = new System.Windows.Forms.Button();
 			this.testButton2 = new System.Windows.Forms.Button();
@@ -149,12 +149,12 @@ namespace LightController.MyForm
 			this.addStepButton = new System.Windows.Forms.Button();
 			this.topPanel = new System.Windows.Forms.Panel();
 			this.lightInfoPanel = new System.Windows.Forms.Panel();
+			this.lightsAddrLabel = new System.Windows.Forms.Label();
 			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.lightRemarkLabel = new System.Windows.Forms.Label();
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.groupToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.saToolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.mainMenuStrip.SuspendLayout();
 			this.playPanel.SuspendLayout();
 			this.myContextMenuStrip.SuspendLayout();
@@ -441,23 +441,13 @@ namespace LightController.MyForm
 			this.previewButton.UseVisualStyleBackColor = true;
 			this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
 			// 
-			// lightsAddrLabel
-			// 
-			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightsAddrLabel.Location = new System.Drawing.Point(4, 210);
-			this.lightsAddrLabel.Name = "lightsAddrLabel";
-			this.lightsAddrLabel.Size = new System.Drawing.Size(165, 83);
-			this.lightsAddrLabel.TabIndex = 5;
-			this.lightsAddrLabel.Text = " ";
-			// 
 			// lightTypeLabel
 			// 
 			this.lightTypeLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightTypeLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightTypeLabel.Location = new System.Drawing.Point(4, 156);
+			this.lightTypeLabel.Location = new System.Drawing.Point(4, 153);
 			this.lightTypeLabel.Name = "lightTypeLabel";
-			this.lightTypeLabel.Size = new System.Drawing.Size(166, 18);
+			this.lightTypeLabel.Size = new System.Drawing.Size(144, 18);
 			this.lightTypeLabel.TabIndex = 7;
 			this.lightTypeLabel.Text = " ";
 			// 
@@ -468,7 +458,7 @@ namespace LightController.MyForm
 			this.lightNameLabel.ForeColor = System.Drawing.Color.Black;
 			this.lightNameLabel.Location = new System.Drawing.Point(4, 129);
 			this.lightNameLabel.Name = "lightNameLabel";
-			this.lightNameLabel.Size = new System.Drawing.Size(166, 18);
+			this.lightNameLabel.Size = new System.Drawing.Size(144, 18);
 			this.lightNameLabel.TabIndex = 8;
 			this.lightNameLabel.Text = " ";
 			// 
@@ -795,6 +785,18 @@ namespace LightController.MyForm
 			this.unifyStepTimeNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.unifyStepTimeNumericUpDown.ValueChanged += new System.EventHandler(this.unifyStepTimeNumericUpDown_ValueChanged);
 			// 
+			// initButton
+			// 
+			this.initButton.Enabled = false;
+			this.initButton.Location = new System.Drawing.Point(88, 140);
+			this.initButton.Margin = new System.Windows.Forms.Padding(2);
+			this.initButton.Name = "initButton";
+			this.initButton.Size = new System.Drawing.Size(84, 23);
+			this.initButton.TabIndex = 55;
+			this.initButton.Text = "设为初值";
+			this.initButton.UseVisualStyleBackColor = true;
+			this.initButton.Click += new System.EventHandler(this.initButton_Click);
+			// 
 			// unifyChangeModeComboBox
 			// 
 			this.unifyChangeModeComboBox.Enabled = false;
@@ -954,6 +956,20 @@ namespace LightController.MyForm
 			this.soundListButton.UseVisualStyleBackColor = false;
 			this.soundListButton.Click += new System.EventHandler(this.soundListButton_Click);
 			// 
+			// detailMultiButton
+			// 
+			this.detailMultiButton.BackColor = System.Drawing.Color.Transparent;
+			this.detailMultiButton.Enabled = false;
+			this.detailMultiButton.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.detailMultiButton.Location = new System.Drawing.Point(91, 36);
+			this.detailMultiButton.Margin = new System.Windows.Forms.Padding(2);
+			this.detailMultiButton.Name = "detailMultiButton";
+			this.detailMultiButton.Size = new System.Drawing.Size(75, 24);
+			this.detailMultiButton.TabIndex = 55;
+			this.detailMultiButton.Text = "多步联调";
+			this.detailMultiButton.UseVisualStyleBackColor = false;
+			this.detailMultiButton.Click += new System.EventHandler(this.detailMultiButton_Click);
+			// 
 			// multiButton
 			// 
 			this.multiButton.BackColor = System.Drawing.Color.Transparent;
@@ -968,18 +984,6 @@ namespace LightController.MyForm
 			this.multiButton.UseVisualStyleBackColor = false;
 			this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
 			this.multiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.multiButton_MouseDown);
-			// 
-			// initButton
-			// 
-			this.initButton.Enabled = false;
-			this.initButton.Location = new System.Drawing.Point(88, 140);
-			this.initButton.Margin = new System.Windows.Forms.Padding(2);
-			this.initButton.Name = "initButton";
-			this.initButton.Size = new System.Drawing.Size(84, 23);
-			this.initButton.TabIndex = 55;
-			this.initButton.Text = "设为初值";
-			this.initButton.UseVisualStyleBackColor = true;
-			this.initButton.Click += new System.EventHandler(this.initButton_Click);
 			// 
 			// playBasePanel
 			// 
@@ -1061,6 +1065,7 @@ namespace LightController.MyForm
 			// 
 			// projectPanel
 			// 
+			this.projectPanel.AutoScroll = true;
 			this.projectPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.projectPanel.Controls.Add(this.newProjectButton);
 			this.projectPanel.Controls.Add(this.exportButton);
@@ -1518,9 +1523,10 @@ namespace LightController.MyForm
 			// 
 			// lightInfoPanel
 			// 
+			this.lightInfoPanel.AutoScroll = true;
 			this.lightInfoPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lightInfoPanel.Controls.Add(this.currentLightPictureBox);
 			this.lightInfoPanel.Controls.Add(this.lightsAddrLabel);
+			this.lightInfoPanel.Controls.Add(this.currentLightPictureBox);
 			this.lightInfoPanel.Controls.Add(this.lightRemarkLabel);
 			this.lightInfoPanel.Controls.Add(this.lightTypeLabel);
 			this.lightInfoPanel.Controls.Add(this.lightNameLabel);
@@ -1529,6 +1535,16 @@ namespace LightController.MyForm
 			this.lightInfoPanel.Name = "lightInfoPanel";
 			this.lightInfoPanel.Size = new System.Drawing.Size(175, 296);
 			this.lightInfoPanel.TabIndex = 9;
+			// 
+			// lightsAddrLabel
+			// 
+			this.lightsAddrLabel.AutoEllipsis = true;
+			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
+			this.lightsAddrLabel.Location = new System.Drawing.Point(4, 201);
+			this.lightsAddrLabel.Name = "lightsAddrLabel";
+			this.lightsAddrLabel.Size = new System.Drawing.Size(144, 90);
+			this.lightsAddrLabel.TabIndex = 5;
 			// 
 			// currentLightPictureBox
 			// 
@@ -1544,9 +1560,9 @@ namespace LightController.MyForm
 			// 
 			this.lightRemarkLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.lightRemarkLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightRemarkLabel.Location = new System.Drawing.Point(4, 183);
+			this.lightRemarkLabel.Location = new System.Drawing.Point(4, 177);
 			this.lightRemarkLabel.Name = "lightRemarkLabel";
-			this.lightRemarkLabel.Size = new System.Drawing.Size(166, 18);
+			this.lightRemarkLabel.Size = new System.Drawing.Size(144, 18);
 			this.lightRemarkLabel.TabIndex = 7;
 			this.lightRemarkLabel.Text = " ";
 			// 
@@ -1595,20 +1611,6 @@ namespace LightController.MyForm
 			this.lightLargeImageList.Images.SetKeyName(38, "P05--调焦染色灯.png");
 			this.lightLargeImageList.Images.SetKeyName(39, "S60--60W三棱镜图案灯.png");
 			this.lightLargeImageList.Images.SetKeyName(40, "T90-90W八凌镜光束灯.png");
-			// 
-			// detailMultiButton
-			// 
-			this.detailMultiButton.BackColor = System.Drawing.Color.Transparent;
-			this.detailMultiButton.Enabled = false;
-			this.detailMultiButton.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.detailMultiButton.Location = new System.Drawing.Point(91, 36);
-			this.detailMultiButton.Margin = new System.Windows.Forms.Padding(2);
-			this.detailMultiButton.Name = "detailMultiButton";
-			this.detailMultiButton.Size = new System.Drawing.Size(75, 24);
-			this.detailMultiButton.TabIndex = 55;
-			this.detailMultiButton.Text = "多步联调";
-			this.detailMultiButton.UseVisualStyleBackColor = false;
-			this.detailMultiButton.Click += new System.EventHandler(this.detailMultiButton_Click);
 			// 
 			// NewMainForm
 			// 
@@ -1683,7 +1685,6 @@ namespace LightController.MyForm
 		private System.Windows.Forms.Button previewButton;
 		private System.Windows.Forms.Button makeSoundButton;
 		private System.Windows.Forms.Button changeConnectMethodButton;
-		private System.Windows.Forms.Label lightsAddrLabel;
 		private System.Windows.Forms.Label lightTypeLabel;
 		private System.Windows.Forms.Label lightNameLabel;
 		private System.Windows.Forms.PictureBox currentLightPictureBox;
@@ -1791,5 +1792,6 @@ namespace LightController.MyForm
 		private ToolStripSeparator toolStripSeparator1;
 		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
 		private Button detailMultiButton;
+		private Label lightsAddrLabel;
 	}
 }

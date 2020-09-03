@@ -70,8 +70,7 @@ namespace LightController.MyForm
 			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
 			CheckForIllegalCrossThreadCalls = false;
 
-			//动态添加32个tdPanel的内容及其监听事件 
-			// 动态添加32个saPanel 
+			//动态添加32个tdPanel的内容及其监听事件; 动态添加32个saPanel 
 			for (int tdIndex = 0; tdIndex < 32; tdIndex++)
 			{
 				tdPanels[tdIndex] = new Panel
@@ -2239,11 +2238,11 @@ namespace LightController.MyForm
 		{
 			groupFlowLayoutPanel.Controls.Clear();
 			groupToolTip.RemoveAll();
-			if (groupList != null && groupList.Count > 0)
+			if (GroupList != null && GroupList.Count > 0)
 			{
-				for (int groupIndex = 0; groupIndex < groupList.Count; groupIndex++)
+				for (int groupIndex = 0; groupIndex < GroupList.Count; groupIndex++)
 				{
-					addGroupPanel(groupIndex, groupList[groupIndex]);
+					addGroupPanel(groupIndex, GroupList[groupIndex]);
 				}
 			}
 		}

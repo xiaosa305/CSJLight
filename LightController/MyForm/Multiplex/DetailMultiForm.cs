@@ -118,7 +118,6 @@ namespace LightController.MyForm.Multiplex
 				BorderStyle = tdPanelDemo.BorderStyle,
 				Margin = tdPanelDemo.Margin,
 				Tag = lightIndex,
-
 			};
 
 			Panel tdSmallPanel = new Panel

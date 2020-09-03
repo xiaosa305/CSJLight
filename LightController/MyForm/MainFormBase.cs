@@ -46,6 +46,7 @@ namespace LightController.MyForm
 		protected string insertNotice = "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。";
 		protected string backStepNotice = "右击可跳转至第一步";
 		protected string nextStepNotice = "右击可跳转至最后一步";
+		
 
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
@@ -89,7 +90,7 @@ namespace LightController.MyForm
 		public int eachStepTime = 30; // 默认情况下，步时间默认值为30ms
 		public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
 		protected string groupIniPath; // 存放编组文件存放路径
-		protected IList<GroupAst> groupList; // 存放编组	
+		public IList<GroupAst> GroupList; // 存放编组	
 		//protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
 		protected SAUseForm sauForm; //存储一个全局的sauForm，当用户点击《通道名》时弹出
 		//protected IList<SAUseForm> saFormList;
@@ -110,6 +111,7 @@ namespace LightController.MyForm
 		protected FineTuneDAO fineTuneDAO;
 
 		// 这几个IList ，存放着所有数据库数据		
+		protected DBWrapper dbWrapperTemp;
 		protected IList<DB_Light> dbLightList;
 		protected IList<DB_FineTune> dbFineTuneList;
 		protected IList<DB_StepCount> dbStepCountList;
@@ -369,7 +371,7 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		protected StepWrapper generateStepTemplate(LightAst lightAst)
 		{
-			Console.WriteLine("Dickov :为 " + lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")生成模板文件(StepTemplate)：");
+			//Console.WriteLine("Dickov :为 " + lightAst.LightName + ":" + lightAst.LightType + "(" + lightAst.LightAddr + ")生成模板文件(StepTemplate)：");
 			try {
 				using (FileStream file = new FileStream(lightAst.LightPath, FileMode.Open))
 				{
@@ -504,7 +506,7 @@ namespace LightController.MyForm
 		/// </summary>
 		/// <returns></returns>
 		public DBWrapper GetDBWrapper(bool isFromDB)
-		{			
+		{
 			// 从数据库直接读取的情况
 			if (isFromDB)
 			{				
@@ -1699,7 +1701,7 @@ namespace LightController.MyForm
 			if (!File.Exists(groupIniPath)) {
 				File.Copy(Application.StartupPath + @"\groupList.ini", groupIniPath);
 			}
-			groupList = GroupAst.GenerateGroupList(groupIniPath);
+			GroupList = GroupAst.GenerateGroupList(groupIniPath);
 			refreshGroupPanels();
 
 			// 2.创建数据库:（10.15修改）
@@ -1745,7 +1747,7 @@ namespace LightController.MyForm
 			dbLightList = null;
 			dbFineTuneList = null;
 			dbStepCountList = null;
-			groupList = null;
+			GroupList = null;
 
 			LightAstList = null;
 			LightWrapperList = null;
@@ -1919,7 +1921,7 @@ namespace LightController.MyForm
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
 								
-				SetNotice("成功打开工程：" + projectName + ",耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",true);
+				SetNotice("成功打开工程：【" + projectName + "】，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",true);
 			}
 			setBusy(false);
 
@@ -2058,7 +2060,7 @@ namespace LightController.MyForm
 				saveFrameSCAndValue(CurrentFrame);
 				try
 				{
-					GroupAst.SaveGroupIni(groupIniPath, groupList);
+					GroupAst.SaveGroupIni(groupIniPath, GroupList);
 				}
 				catch (Exception ex)
 				{
@@ -2092,7 +2094,7 @@ namespace LightController.MyForm
 				saveAllSCAndValues();
 				try
 				{
-					GroupAst.SaveGroupIni(groupIniPath, groupList);
+					GroupAst.SaveGroupIni(groupIniPath, GroupList);
 				}
 				catch (Exception ex) {
 					MessageBox.Show("保存编组数据出错：\n" + ex.Message);
@@ -3557,16 +3559,16 @@ namespace LightController.MyForm
 		/// <returns></returns>
 		public string CreateGroup(string groupName, int captainIndex)
 		{
-			if (groupList == null)
+			if (GroupList == null)
 			{
 				return "尚未生成编组列表，请先创建列表后重试。";
 			}
-			if (!GroupAst.CheckGroupName(groupList, groupName))
+			if (!GroupAst.CheckGroupName(GroupList, groupName))
 			{
 				return "编组名称已被使用，请使用其他名称。";
 			}
 
-			groupList.Add(new GroupAst()
+			GroupList.Add(new GroupAst()
 			{
 				GroupName = groupName,
 				LightIndexList = SelectedIndices,
@@ -3595,17 +3597,17 @@ namespace LightController.MyForm
 				return;
 			}
 
-			if (groupList == null || groupList.Count == 0)
+			if (GroupList == null || GroupList.Count == 0)
 			{
 				MessageBox.Show("当前工程groupList为空，无法使用编组。");
 				return;
 			}
-			if (groupIndex >= groupList.Count)
+			if (groupIndex >= GroupList.Count)
 			{
 				MessageBox.Show("groupIndex大于groupList的大小，无法使用编组。");
 				return;
 			}
-			GroupAst group = groupList[groupIndex];
+			GroupAst group = GroupList[groupIndex];
 			if (group.LightIndexList == null || group.LightIndexList.Count < 1)
 			{
 				MessageBox.Show("选中编组的组员数量小于1，无法使用编组。");
@@ -3700,7 +3702,7 @@ namespace LightController.MyForm
 			}
 
 			if (DialogResult.Cancel == MessageBox.Show(
-				"确定要删除编组【" + groupList[groupIndex].GroupName + "】吗？",
+				"确定要删除编组【" + GroupList[groupIndex].GroupName + "】吗？",
 				"删除编组?",
 				MessageBoxButtons.OKCancel,
 				MessageBoxIcon.Warning))
@@ -3708,7 +3710,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			groupList.RemoveAt(groupIndex);
+			GroupList.RemoveAt(groupIndex);
 			refreshGroupPanels();
 		}
 
@@ -3846,7 +3848,8 @@ namespace LightController.MyForm
 		{			
 			SetNotice("预览数据生成成功,即将开始预览。",false);
 			EnableConnectedButtons(true,true);
-			playTools.PreView(GetDBWrapper(false), GlobalIniPath, CurrentFrame);			
+
+			playTools.PreView(dbWrapperTemp, GlobalIniPath, CurrentFrame);			
 		}
 		
 		/// <summary>
@@ -3861,7 +3864,7 @@ namespace LightController.MyForm
 		/// 辅助方法：预览效果|停止预览
 		/// </summary>
 		protected void previewButtonClick()
-		{			
+		{
 			if (!IsConnected)
 			{
 				MessageBox.Show("尚未连接设备，无法预览效果（或停止预览）。");
@@ -3891,7 +3894,8 @@ namespace LightController.MyForm
 				SetNotice("正在生成预览数据，请稍候...",false);
 				try
 				{
-					DataConvertUtils.SaveProjectFileByPreviewData(GetDBWrapper(false), GlobalIniPath, CurrentFrame, new PreviewCallBack(this));
+					dbWrapperTemp = GetDBWrapper(false);
+					DataConvertUtils.SaveProjectFileByPreviewData( dbWrapperTemp , GlobalIniPath, CurrentFrame, new PreviewCallBack(this));
 				}
 				catch (Exception ex)
 				{

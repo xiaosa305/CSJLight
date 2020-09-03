@@ -171,9 +171,14 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void stepNUD_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			NumericUpDown nud = sender as NumericUpDown;
-			nud.Value = (nud.Parent.Parent.Parent.Controls[1].Controls[4] as NumericUpDown).Value;
+			if (!saComboBox.Visible || saComboBox.SelectedIndex != 0) {
+				setNotice("没有或未选中子属性，双击无效。",false);
+				return;
+			}
 
+			NumericUpDown nud = sender as NumericUpDown;			
+			nud.Value = StringHelper.GetInnerValue(saComboBox.Text);
+			setNotice("已设为子属性值。", false);
 		}
 		
 		/// <summary>

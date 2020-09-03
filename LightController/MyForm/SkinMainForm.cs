@@ -2070,11 +2070,11 @@ namespace LightController.MyForm
 		{
 			groupFlowLayoutPanel.Controls.Clear();
 			groupToolTip.RemoveAll();
-			if (groupList != null && groupList.Count > 0)
+			if (GroupList != null && GroupList.Count > 0)
 			{
-				for (int groupIndex = 0; groupIndex < groupList.Count; groupIndex++)
+				for (int groupIndex = 0; groupIndex < GroupList.Count; groupIndex++)
 				{
-					addGroupPanel(groupIndex, groupList[groupIndex]);
+					addGroupPanel(groupIndex, GroupList[groupIndex]);
 				}
 			}
 		}

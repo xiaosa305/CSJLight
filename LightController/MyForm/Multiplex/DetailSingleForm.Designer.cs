@@ -210,8 +210,9 @@
 			// myStatusLabel
 			// 
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(1001, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(970, 17);
 			this.myStatusLabel.Spring = true;
+			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// DetailSingleForm
 			// 

@@ -104,7 +104,7 @@ namespace LightController.MyForm.Multiplex
 				LightStepWrapper lsWrapper = mainForm.LightWrapperList[lightIndex].LightStepWrapperList[mainForm.CurrentFrame, mainForm.CurrentMode];
 				if (lsWrapper != null && lsWrapper.StepWrapperList != null && lsWrapper.StepWrapperList.Count > 0)
 				{
-					bigFlowLayoutPanel.Controls[lightIndex + 1].Show();
+					bigFlowLayoutPanel.Controls[lightIndex + 1].Show(); 
 				}
 				else {
 					bigFlowLayoutPanel.Controls[lightIndex + 1].Hide() ; 
@@ -159,7 +159,9 @@ namespace LightController.MyForm.Multiplex
 
 			Hide();
 			mainForm.Activate();
-			new DetailMultiForm(mainForm, tdDict).ShowDialog();
+			//new DetailMultiForm(mainForm, tdDict).ShowDialog();
+
+			new DetailMultiPageForm(mainForm, tdDict).ShowDialog();   
 		}
 		
 		/// <summary>

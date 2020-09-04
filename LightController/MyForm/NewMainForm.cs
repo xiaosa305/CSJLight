@@ -2195,18 +2195,33 @@ namespace LightController.MyForm
 			}
 		}
 
-		private void detailMultiButton_Click(object sender, EventArgs e)
+		//为方便定位的空方法
+		private void detailMultiButton_Click(object sender, EventArgs e) { }
+
+		/// <summary>
+		/// 事件：左右键点击《多步调节》：右键是多步联调
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void detailMultiButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			detailMultiButtonClick();
+			if (e.Button == MouseButtons.Left)
+			{
+				DetailMultiButtonClick(false);
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				DetailMultiButtonClick(true);
+			}
 		}
 
-		
-        /// <summary>
-        /// 事件：点击《groupInButtons(进入编组)》
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void groupInButton_Click(object sender, EventArgs e)
+
+		/// <summary>
+		/// 事件：点击《groupInButtons(进入编组)》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void groupInButton_Click(object sender, EventArgs e)
 		{
 			groupInButtonClick(sender);
 		}

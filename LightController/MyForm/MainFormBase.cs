@@ -45,8 +45,7 @@ namespace LightController.MyForm
 		protected string keepNotice = "点击此按钮后，当前未选中的其它灯具将会保持它们最后调整时的状态，方便调试。";
 		protected string insertNotice = "左键点击此按钮为后插步(即在当前步之后添加新步)，\n右键点击此按钮为前插步(即在当前步之前添加新步)。";
 		protected string backStepNotice = "右击可跳转至第一步";
-		protected string nextStepNotice = "右击可跳转至最后一步";
-		
+		protected string nextStepNotice = "右击可跳转至最后一步";		
 
 		// 全局配置及数据库连接		
 		public static int NETWORK_WAITTIME = 1000; //网络搜索时的通用暂停时间
@@ -68,7 +67,7 @@ namespace LightController.MyForm
 		public static int FrameCount = 0;  //场景数量
 		public static int MAX_StTimes = 250;  //每步 时间因子可乘的 最大倍数 如 0.04s*250= 10s ; 应设为常量	-》200331确认为15s=0.03*500	
 		public static int MAX_STEP = 100;  //每个场景的最大步数，动态由配置文件在打开软件时读取（换成音频场景时也要发生变化，因为音频模式的步数上限不同）
-		protected static bool IsShowSaPanels = true; // 是否显示 子属性 面板（两个地方可以决定这个设置）
+		public bool IsShowSaPanels = true; // 是否显示 子属性面板
 
 		// 辅助的bool变量：	
 		protected bool isInit = false;// form都初始化后，才将此变量设为true;为防止某些监听器提前进行监听
@@ -95,7 +94,8 @@ namespace LightController.MyForm
 		protected SAUseForm sauForm; //存储一个全局的sauForm，当用户点击《通道名》时弹出
 		//protected IList<SAUseForm> saFormList;
 		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
-		protected DetailMultiAstForm dmsForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
+		public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
+		public Dictionary<int, List<int>> tdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
 
 		//MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
 		protected bool[] frameSaveArray;
@@ -356,9 +356,9 @@ namespace LightController.MyForm
 
 		private void disposeDmsForm()
 		{
-			if (dmsForm != null) {
-				dmsForm.Dispose();
-				dmsForm = null;
+			if (DmaForm != null) {
+				DmaForm.Dispose();
+				DmaForm = null;
 			}
 		}
 
@@ -1371,6 +1371,12 @@ namespace LightController.MyForm
 		/// <param name="stepIndex"></param>
 		public void SetTdStepValue(int selectedLightIndex, int tdIndex, int stepIndex, int stepValue ,bool isJumpStep)
 		{
+			//判断传入的 stepIndex是否在范围内，超过的话，直接return( tdIndex 不需验证：因为是mainForm传过去的)
+			LightStepWrapper lsWrapper = getSelectedLightStepWrapper(selectedLightIndex);
+			if ( stepIndex >= lsWrapper.TotalStep  )  {
+				return;
+			}
+
 			// 多灯模式 且 所选灯具在当前的多灯组内，将值赋给每个编组的灯具中
 			if (IsMultiMode && SelectedIndices.Contains(selectedLightIndex) )
 			{
@@ -3522,33 +3528,26 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：右键《多步调节》进入多步联调
 		/// </summary>
-		protected void detailMultiButtonClick()
+		public void DetailMultiButtonClick(bool isOpenDMF)
 		{
-			#region 废弃掉的验证
-			//if (!isSyncMode)
-			//{
-			//	SetNotice("非同步模式，无法使用多步联调。", true);
-			//	return;
-			//}
-
-			//if (isMultiMode) {
-			//	SetNotice("多灯模式，无法使用多灯多步联调。", true);
-			//	return;
-			//}
-
-			#endregion
-
 			if (getTotalStep() == 0)
 			{
 				SetNotice("当前灯具没有步数，无法使用多步联调。", true);
 				return;
 			}
 
-			if (dmsForm == null || dmsForm.IsDisposed)
-			{
-				dmsForm = new DetailMultiAstForm(this);
+			// 若tdDict不为空（意味着从DmaForm中被回传了），且是右键点击；则直接打开多步联调
+			if (tdDict != null && isOpenDMF) {
+				new DetailMultiPageForm(this, tdDict).ShowDialog();
+				return;
 			}
-			dmsForm.ShowDialog();
+
+
+			if (DmaForm == null || DmaForm.IsDisposed)
+			{
+				DmaForm = new DetailMultiAstForm(this);
+			}
+			DmaForm.ShowDialog();
 		}
 
 		/// <summary>

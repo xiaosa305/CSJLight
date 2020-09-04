@@ -34,7 +34,6 @@ namespace LightController.MyForm
 		private NumericUpDown[] tdValueNumericUpDowns = new NumericUpDown[32];
 		private SkinComboBox[] tdChangeModeComboBoxes = new SkinComboBox[32];
 		private NumericUpDown[] tdStepTimeNumericUpDowns = new NumericUpDown[32];	
-
 		private Panel[] saPanels = new Panel[32];
 
 		public SkinMainForm()
@@ -2013,13 +2012,27 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：为方便定位detailMultiButton_MouseDown
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void detailMultiButton_Click(object sender, EventArgs e) { }
+
+		/// <summary>
 		/// 事件：左右键点击《多步调节》：右键是多步联调
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void detailMultiButton_Click(object sender, EventArgs e)
+		private void detailMultiButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			detailMultiButtonClick();		
+			if (e.Button == MouseButtons.Left)
+			{
+				DetailMultiButtonClick(false);
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				DetailMultiButtonClick(true);
+			}
 		}
 
 

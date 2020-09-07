@@ -2,7 +2,6 @@
 using ICSharpCode.SharpZipLib.Zip;
 using LightController.Ast;
 using LightController.Common;
-using LightController.MyForm.MainFormAst;
 using LightController.MyForm.Multiplex;
 using LightController.MyForm.Test;
 using LightController.PeripheralDevice;
@@ -733,8 +732,7 @@ namespace LightController.MyForm
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void lightsListView_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			//MARK 0701 通道子属性 2.3：NewMainForm.lightsSkinListView_SelectedIndexChanged()			
+		{	
 			if (lightsListView.SelectedIndices.Count > 0)
 			{
 				selectedIndex = lightsListView.SelectedIndices[0];
@@ -979,7 +977,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// MARK 修改备注：EditLightRemark()子类实现（NewMainForm）
 		/// 辅助方法：添加或修改备注
 		/// </summary>
 		/// <param name="lightIndex"></param>
@@ -1870,13 +1867,7 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepButton.Enabled = totalStep != 0;
 
-			// 6.判断子属性按钮组是否可用
-			//MARK 0629 子属性Panel 1.3：NewMainForm.showStepLabel()中，显示或使能saPanelArray
-			//if (selectedIndex != -1 && saPanelArray[selectedIndex] !=null) {
-			//	saPanelArray[selectedIndex].Enabled = totalStep != 0;				
-			//}					
-
-			// 7. 《内置动作》是否可用
+			// 6. 《内置动作》是否可用
 			actionButton.Enabled = CurrentMode == 0;
 		}
 
@@ -2115,7 +2106,6 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK 0629 子属性Panel 1.4：点击tdNameLabels怎么实现该通道的子属性（待完成）
 		/// <summary>
 		/// 事件：点击《tdNameLabels》时，右侧的子属性按钮组，会显示当前通道相关的子属性，其他通道的子属性，则隐藏掉
 		/// </summary>

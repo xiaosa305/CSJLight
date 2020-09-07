@@ -22,7 +22,6 @@ using LightController.MyForm.LightList;
 using System.Diagnostics;
 using LightController.MyForm.Multiplex;
 using LightController.PeripheralDevice;
-using LightController.MyForm.MainFormAst;
 
 namespace LightController.MyForm
 {
@@ -90,9 +89,6 @@ namespace LightController.MyForm
 		public decimal EachStepTime2 = 0.03m; //默认情况下，步时间默认值为0.03s（=30ms）
 		protected string groupIniPath; // 存放编组文件存放路径
 		public IList<GroupAst> GroupList; // 存放编组	
-		//protected FlowLayoutPanel[] saPanelArray;  // 存储一个子属性FlowLayoutPanel的数组，每个灯具为一个数组元素
-		protected SAUseForm sauForm; //存储一个全局的sauForm，当用户点击《通道名》时弹出
-		//protected IList<SAUseForm> saFormList;
 		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
 		public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
 		public Dictionary<int, List<int>> TdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
@@ -330,10 +326,6 @@ namespace LightController.MyForm
 			lightDictionary = new Dictionary<int, int>();
 			disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化
 
-			//MARK 0629 子属性Panel 0.2：ReBuildLightList内先调clearSaPanelArray，再初始化saPanelArray
-			//clearSaPanelArray();
-			//saPanelArray = new FlowLayoutPanel[lightAstList.Count];
-
 			for (int lightIndex = 0; lightIndex < LightAstList.Count; lightIndex++)
 			{
 				lightDictionary.Add(LightAstList[lightIndex].StartNum, lightIndex);
@@ -444,9 +436,8 @@ namespace LightController.MyForm
 						{
 							string tongdaoName = lineList[3 * tdIndex + 6].ToString().Substring(4);
 							int initNum = int.Parse(lineList[3 * tdIndex + 7].ToString().Substring(4));
-							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));
-
-							//MARK 200325 生成模板数据时，取出子属性的列表（显示各个子属性数值）					
+							int address = int.Parse(lineList[3 * tdIndex + 8].ToString().Substring(4));			
+							// 备注中加入各子属性的数值							
 							string remark = tongdaoName + "\n";
 							IList<SA> saList = new List<SA>();
 							for (int saIndex = 0; saIndex < iniAst.ReadInt("sa", tdIndex + "_saCount", 0); saIndex++)
@@ -466,7 +457,6 @@ namespace LightController.MyForm
 								StepTime = 50,
 								ChangeMode = -1,
 								Address = lightAst.StartNum + (address - 1),
-								//MARK 200325 生成模板数据时，加入备注（显示各个子属性数值）
 								Remark = remark
 							});
 						}
@@ -1797,8 +1787,7 @@ namespace LightController.MyForm
 
 			selectedIndex = -1;
 			SelectedIndices = new List<int>();
-			//MARK 0701 通道子属性 0.1：clearAllData()内调用disposeSauForm()
-			//disposeSauForm();
+
 			disposeDmaForm();
 
 			tempStep = null;
@@ -1845,27 +1834,6 @@ namespace LightController.MyForm
 				stepCountDAO.DeleteRedundantData(retainLightIndices);
 				valueDAO.DeleteRedundantData(retainLightIndices);
 			}
-		}
-
-		//MARK 0629 子属性Panel 0.0：清空子属性Panel( clearAllData、重置lightAstList等方法中调用 )
-		/// <summary>
-		/// 清空子属性Panel
-		/// </summary>
-		protected void clearSaPanelArray() {
-
-			// TODO 暂时隐藏clearSaPanelArray()
-			//if (saPanelArray != null)
-			//{
-			//	for (int pIndex = 0; pIndex < saPanelArray.Length; pIndex++)
-			//	{
-			//		if (saPanelArray[pIndex] != null)
-			//		{
-			//			saPanelArray[pIndex].Dispose();
-			//			saPanelArray[pIndex] = null;
-			//		}
-			//	}
-			//}
-			//saPanelArray = null;
 		}
 
 		/// <summary>
@@ -1927,9 +1895,6 @@ namespace LightController.MyForm
 				//MARK 重构BuildLightList：原来OpenProject内用BuildLightList() --> 现把相关代码都放在方法块内
 				LightWrapperList = new List<LightWrapper>();
 				lightDictionary = new Dictionary<int, int>();
-
-				//MARK 0629 子属性Panel 0.1：初始化saPanelArray				
-				//saPanelArray = new FlowLayoutPanel[dbLightList.Count];
 
 				try
 				{
@@ -3438,7 +3403,6 @@ namespace LightController.MyForm
 			return null;
 		}
 
-		//MARK 0701 通道子属性 0.2：抽象tdNameLabelClick()到MainFormBase中
 		/// <summary>
 		/// 辅助方法：点击通道名，弹出相应的子属性窗口
 		/// </summary>
@@ -3748,23 +3712,7 @@ namespace LightController.MyForm
 			GroupList.RemoveAt(groupIndex);
 			refreshGroupPanels(); //groupDelButtonClick()
 		}
-
-		//MARK 0701 通道子属性 0.3.1 供外部使用的SaButtonClick(sender,lightAddr)
-		/// <summary>
-		/// 辅助方法：点击《子属性》
-		/// </summary>
-		/// <param name="sender"></param>
-		public void SaButtonClick(object sender, string lightAddr)
-		{
-			if (selectedIndex == -1 || !LightAstList[selectedIndex].LightAddr.Equals(lightAddr)) {
-				MessageBox.Show("点击的子属性非当前灯具所有，无法调用。");
-				//disposeSauForm();
-				return;
-			}
-			SaButtonClick(sender);
-		}
-
-		//MARK 0701 通道子属性 0.3.2 供内部使用的SaButtonClick(sender)
+		
 		/// <summary>
 		/// 辅助方法：点击《子属性》
 		/// </summary>
@@ -3789,18 +3737,7 @@ namespace LightController.MyForm
 			}
 			RefreshStep();
 		}
-
-		/// <summary>
-		/// 辅助方法：销毁sauForm
-		/// </summary>
-		protected void disposeSauForm() {
-			if(sauForm != null)
-			{
-				sauForm.Dispose();
-				sauForm = null;
-			}
-		}
-
+			
 		#endregion
 
 		#region playPanel相关
@@ -3973,7 +3910,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// MARK 修改备注：EditLightRemark()基类实现
 		/// 辅助方法：添加或修改备注
 		/// </summary>
 		/// <param name="lightIndex"></param>

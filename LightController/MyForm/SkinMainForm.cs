@@ -579,7 +579,6 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void lightsSkinListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			//MARK 0701 通道子属性 1.3：SkinMainForm.lightsSkinListView_SelectedIndexChanged()			
 			if (lightsSkinListView.SelectedIndices.Count > 0)
 			{
 				selectedIndex = lightsSkinListView.SelectedIndices[0];
@@ -854,7 +853,6 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
-		/// MARK 修改备注：EditLightRemark()子类实现（SkinMainForm）
 		/// 辅助方法：添加或修改备注
 		/// </summary>
 		/// <param name="lightIndex"></param>
@@ -1698,14 +1696,7 @@ namespace LightController.MyForm
 			chooseStepNumericUpDown.Minimum = totalStep != 0 ? 1 : 0;
 			chooseStepNumericUpDown.Maximum = totalStep;
 			chooseStepSkinButton.Enabled = totalStep != 0;
-
-			// 6.子属性按钮组是否可用(及可见（当步数为空时，设为不可见）:因只有切换灯具，才会生成，故无需担心会多次生成按钮组)						
-			//MARK 0629 子属性Panel 2.3：NewMainForm.showStepLabel()中，显示或使能saPanelArray
-			//if (selectedIndex != -1 && saPanelArray[selectedIndex] != null)
-			//{
-			//	saPanelArray[selectedIndex].Enabled = totalStep != 0;
-			//}
-
+			
 		}
 
 		#endregion
@@ -1943,7 +1934,6 @@ namespace LightController.MyForm
 			}
 		}
 
-		//MARK 0629 子属性Panel 2.4：点击tdNameLabels怎么实现该通道的子属性（待完成）
 		/// <summary>
 		/// 事件：点击《tdNameLabels》时，右侧的子属性按钮组，会显示当前通道相关的子属性，其他通道的子属性，则隐藏掉
 		/// </summary>

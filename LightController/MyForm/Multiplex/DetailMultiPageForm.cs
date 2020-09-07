@@ -571,7 +571,7 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void StepNUD_ValueChanged(object sender, EventArgs e)
 		{
-			Console.WriteLine("StepNUD_ValueChanged");
+			//Console.WriteLine("StepNUD_ValueChanged");
 
 			NumericUpDown nud = sender as NumericUpDown;
 			int lightIndex = (int)(nud.Tag);

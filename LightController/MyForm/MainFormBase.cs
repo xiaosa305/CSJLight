@@ -293,23 +293,27 @@ namespace LightController.MyForm
 		{
 			List<LightWrapper> lightWrapperList2 = new List<LightWrapper>();
 
+			// 0907 保留下来的灯具的旧索引（左Key）及新索引（右Value）；
+			Dictionary<int, int> retainDict = new Dictionary<int, int>();
+
 			//MARK 只开单场景：14.1 ReBuildLightList()方法体内，对retainLightIndices进行初始化
 			retainLightIndices = new List<int>();
-			for (int i = 0; i < lightAstList2.Count; i++) {
+			for (int newIndex = 0; newIndex < lightAstList2.Count; newIndex++) {
 				// 如果addOld改成true，则说明lighatWrapperList2已添加了旧数据，否则就要新建一个空LightWrapper。
 				bool addOld = false;
 				if (LightWrapperList != null && LightWrapperList.Count > 0)
 				{
-					for (int j = 0; j < LightAstList.Count; j++)
+					for (int oldIndex = 0; oldIndex < LightAstList.Count; oldIndex++)
 					{
-						if (j < LightWrapperList.Count
-							&& lightAstList2[i].Equals(LightAstList[j])
-							&& LightWrapperList[j] != null)
+						if ( oldIndex < LightWrapperList.Count
+							&&  lightAstList2[newIndex].Equals(LightAstList[oldIndex])
+							&& LightWrapperList[oldIndex] != null)
 						{							
-							lightWrapperList2.Add(LightWrapperList[j]);
+							lightWrapperList2.Add(LightWrapperList[oldIndex]);
 							addOld = true;
 							//MARK 只开单场景：14.2 ReBuildLightList()方法体内，为retainLightIndices添加旧灯具的数据
-							retainLightIndices.Add(lightAstList2[i].StartNum);
+							retainLightIndices.Add(lightAstList2[newIndex].StartNum);
+							retainDict.Add(oldIndex, newIndex);
 							break;
 						}
 					}
@@ -317,14 +321,14 @@ namespace LightController.MyForm
 				if (!addOld)
 				{
 					//Console.WriteLine("Dickov : 添加了一个全新的LightWrapper["  + lightAstList2[i].LightName + ":" + lightAstList2[i].LightType + "(" + lightAstList2[i].LightAddr+ ")]，但还没有生成StepTemplate。");
-					lightWrapperList2.Add(new LightWrapper() { StepTemplate = generateStepTemplate(lightAstList2[i]) });
+					lightWrapperList2.Add(new LightWrapper() { StepTemplate = generateStepTemplate(lightAstList2[newIndex]) });
 				}
 			}
 
 			LightAstList = new List<LightAst>(lightAstList2);
 			LightWrapperList = new List<LightWrapper>(lightWrapperList2);
 			lightDictionary = new Dictionary<int, int>();
-			disposeDmaForm();
+			disposeDmaForm();  // 需要把DmaForm重置，因为灯具列表(可能)发生了变化
 
 			//MARK 0629 子属性Panel 0.2：ReBuildLightList内先调clearSaPanelArray，再初始化saPanelArray
 			//clearSaPanelArray();
@@ -351,7 +355,37 @@ namespace LightController.MyForm
 				selectedIndex = 0;
 			}
 			generateLightData();
-
+			
+			// 处理编组列表
+			IList<GroupAst> newGroupList = new List<GroupAst>();
+			//取出每个编组，并分别进行处理
+			foreach (GroupAst group in GroupList)
+			{
+				// 处理组员,直接用一个新的List来进行存储；
+				IList<int> newIndexList = new List<int>();
+				foreach ( int oldIndex in group.LightIndexList) {									
+					if (retainDict.ContainsKey(oldIndex))
+					{
+						newIndexList.Add( retainDict[oldIndex]);	
+					}
+				}
+				if (newIndexList.Count != 0) {
+					// 处理组长
+					if (retainDict.ContainsKey(group.CaptainIndex))
+					{
+						group.CaptainIndex = retainDict[group.CaptainIndex];
+					}
+					else
+					{
+						group.CaptainIndex = retainDict[0];  // 如果组长已经被删了，则直接设为保留下来的第一个灯具
+					}
+					group.LightIndexList = newIndexList;
+					newGroupList.Add(group);
+				}				
+			}
+			// 最后刷新界面显示
+			GroupList = newGroupList;
+			refreshGroupPanels(); // ReBuildLightList()
 		}
 
 		//辅助方法：摧毁DmaForm，同时也将TdDict置为null
@@ -1710,7 +1744,7 @@ namespace LightController.MyForm
 				File.Copy(Application.StartupPath + @"\groupList.ini", groupIniPath);
 			}
 			GroupList = GroupAst.GenerateGroupList(groupIniPath);
-			refreshGroupPanels();
+			refreshGroupPanels(); //InitProject()
 
 			// 2.创建数据库:（10.15修改）
 			// 因为是初始化，所以让所有的DAO指向new xxDAO，避免连接到错误的数据库(已打开过旧的工程的情况下)；
@@ -1786,7 +1820,7 @@ namespace LightController.MyForm
 			autoEnableSLArrange();  // 《保存|读取灯具位置》不可用
 			enableProjectRelative(false);  // clearAllData()内：工程相关的所有按钮，设为不可用
 			autosetEnabledPlayAndRefreshPic();  //是否可以显示 playPanel及 刷新图片
-			refreshGroupPanels(); //刷新编组按钮组
+			refreshGroupPanels(); //clearAllData()
 
 			hideAllTDPanels();
 			showStepLabel(0, 0);
@@ -1920,7 +1954,7 @@ namespace LightController.MyForm
 								
 				EnterSyncMode(false); //需要退出同步模式
 				enableProjectRelative(true);    //OpenProject内设置
-				autosetEnabledPlayAndRefreshPic();
+				autosetEnabledPlayAndRefreshPic(); 
 				reBuildLightListView();
 
 				//MARK 只开单场景：07.0 generateFrameData():在OpenProject内调用
@@ -3576,7 +3610,7 @@ namespace LightController.MyForm
 				CaptainIndex = captainIndex
 			});
 
-			refreshGroupPanels();
+			refreshGroupPanels(); // CreateGroup()
 
 			return null;
 		}
@@ -3712,7 +3746,7 @@ namespace LightController.MyForm
 			}
 
 			GroupList.RemoveAt(groupIndex);
-			refreshGroupPanels();
+			refreshGroupPanels(); //groupDelButtonClick()
 		}
 
 		//MARK 0701 通道子属性 0.3.1 供外部使用的SaButtonClick(sender,lightAddr)

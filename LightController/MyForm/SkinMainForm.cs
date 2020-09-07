@@ -779,7 +779,7 @@ namespace LightController.MyForm
 					tdValueNumericUpDowns[i].Text = tongdaoList[i].ScrollValue.ToString();
 					tdChangeModeComboBoxes[i].SelectedIndex = tongdaoList[i].ChangeMode;
 
-					//MARK 步时间改动 SkinMainForm：主动 乘以时间因子 后 再展示
+					//MARK 步时间 SkinMainForm：主动 乘以时间因子 后 再展示
 					tdStepTimeNumericUpDowns[i].Text = (tongdaoList[i].StepTime * EachStepTime2).ToString();
 
 					tdTrackBars[i].ValueChanged += new System.EventHandler(tdSkinTrackBars_ValueChanged);
@@ -1924,7 +1924,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			//MARK 步时间改动 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			//MARK 步时间 SkinMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
 			int stepTime = Decimal.ToInt32(tdStepTimeNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStepTimeNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值

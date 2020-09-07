@@ -932,7 +932,7 @@ namespace LightController.MyForm
 					tdValueNumericUpDowns[tdIndex].Text = tongdaoList[tdIndex].ScrollValue.ToString();
 					tdCmComboBoxes[tdIndex].SelectedIndex = tongdaoList[tdIndex].ChangeMode;
 
-					//MARK 步时间改动 NewMainForm：主动 乘以时间因子 后 再展示
+					//MARK 步时间 NewMainForm：主动 乘以时间因子 后 再展示
 					tdStNumericUpDowns[tdIndex].Text = (tongdaoList[tdIndex].StepTime * EachStepTime2).ToString();
 
 					tdTrackBars[tdIndex].ValueChanged += new System.EventHandler(this.tdTrackBars_ValueChanged);
@@ -2096,7 +2096,7 @@ namespace LightController.MyForm
 			//2.取出recentStep，这样就能取出一个步数，使用取出的index，给stepWrapper.TongdaoList[index]赋值
 			StepWrapper step = getCurrentStepWrapper();
 
-			// MARK 步时间改动 NewMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
+			// MARK 步时间 NewMainForm：处理为数据库所需数值：将 (显示的步时间* 时间因子)后再放入内存
 			int stepTime = Decimal.ToInt32(tdStNumericUpDowns[tdIndex].Value / EachStepTime2); // 取得的值自动向下取整（即舍去多余的小数位）
 			step.TongdaoList[tdIndex].StepTime = stepTime;
 			tdStNumericUpDowns[tdIndex].Value = stepTime * EachStepTime2; //若与所见到的值有所区别，则将界面控件的值设为处理过的值
@@ -2473,7 +2473,7 @@ namespace LightController.MyForm
 					return;
 				}
 
-				//MARK 步时间改动 NewMainForm：点击《统一步时间》的处理
+				//MARK 步时间 NewMainForm：点击《统一步时间》的处理
 				int unifyStepTimeParsed = Decimal.ToInt32(unifyStepTimeNumericUpDown.Value / EachStepTime2);
 				for (int i = 0; i < currentStep.TongdaoList.Count; i++)
 				{

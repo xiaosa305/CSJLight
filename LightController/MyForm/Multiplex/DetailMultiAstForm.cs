@@ -234,8 +234,9 @@ namespace LightController.MyForm.Multiplex
 				setNotice("因操作系统限制，无法添加超过50个通道，请取消选择部分通道后重试。", true);
 				return;
 			}
-
+			
 			Hide();
+			mainForm.TdDict = tdDict;
 			mainForm.Activate();
 			//new DetailMultiForm(mainForm, tdDict).ShowDialog();
 			new DetailMultiPageForm(mainForm, tdDict).ShowDialog();   

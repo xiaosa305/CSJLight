@@ -376,7 +376,14 @@ namespace LightController.MyForm.Multiplex
 		private void returnButton_Click(object sender, EventArgs e)
 		{
 			Dispose();
-			mainForm.DmaForm.Show();
+			mainForm.Activate();
+			try
+			{
+				mainForm.DmaForm.ShowDialog();
+			}
+			catch (Exception) {
+				mainForm.DmaForm.Show();
+			}			
 
 			#region 当作测试键使用时的功能
 

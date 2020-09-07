@@ -95,7 +95,7 @@ namespace LightController.MyForm
 		//protected IList<SAUseForm> saFormList;
 		protected ActionForm actionForm; //存储一个全局的actionForm（这样可以记录之前使用过的材料）
 		public DetailMultiAstForm DmaForm; //存储一个全局的DetailMultiAstForm，用以记录之前用户选过的将进行多步联调的通道
-		public Dictionary<int, List<int>> tdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
+		public Dictionary<int, List<int>> TdDict; // 存储一个字典，在DmaForm中点击确认后，修改这个数据
 
 		//MARK 只开单场景：00.2 ①必须有一个存储所有场景是否需要保存的bool[];②若为true，则说明需要保存
 		protected bool[] frameSaveArray;
@@ -324,7 +324,7 @@ namespace LightController.MyForm
 			LightAstList = new List<LightAst>(lightAstList2);
 			LightWrapperList = new List<LightWrapper>(lightWrapperList2);
 			lightDictionary = new Dictionary<int, int>();
-			disposeDmsForm();
+			disposeDmaForm();
 
 			//MARK 0629 子属性Panel 0.2：ReBuildLightList内先调clearSaPanelArray，再初始化saPanelArray
 			//clearSaPanelArray();
@@ -354,11 +354,13 @@ namespace LightController.MyForm
 
 		}
 
-		private void disposeDmsForm()
+		//辅助方法：摧毁DmaForm，同时也将TdDict置为null
+		private void disposeDmaForm()
 		{
 			if (DmaForm != null) {
-				DmaForm.Dispose();
+				DmaForm.Dispose();			
 				DmaForm = null;
+				TdDict = null; 
 			}
 		}
 
@@ -1763,7 +1765,7 @@ namespace LightController.MyForm
 			SelectedIndices = new List<int>();
 			//MARK 0701 通道子属性 0.1：clearAllData()内调用disposeSauForm()
 			//disposeSauForm();
-			disposeDmsForm();
+			disposeDmaForm();
 
 			tempStep = null;
 			TempMaterialAst = null;
@@ -3537,8 +3539,8 @@ namespace LightController.MyForm
 			}
 
 			// 若tdDict不为空（意味着从DmaForm中被回传了），且是右键点击；则直接打开多步联调
-			if (tdDict != null && isOpenDMF) {
-				new DetailMultiPageForm(this, tdDict).ShowDialog();
+			if (TdDict != null && isOpenDMF) {
+				new DetailMultiPageForm(this, TdDict).ShowDialog();
 				return;
 			}
 

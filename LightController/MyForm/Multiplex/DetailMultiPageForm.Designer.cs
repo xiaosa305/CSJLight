@@ -39,14 +39,14 @@
 			this.saComboBoxDemo = new System.Windows.Forms.ComboBox();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.nextPageButton = new System.Windows.Forms.Button();
-			this.returnButton = new System.Windows.Forms.Button();
 			this.backPageButton = new System.Windows.Forms.Button();
 			this.stepShowFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.stepCheckBoxDemo = new System.Windows.Forms.CheckBox();
 			this.unifySmallPanel = new System.Windows.Forms.Panel();
-			this.tdComboBox = new System.Windows.Forms.ComboBox();
 			this.groupComboBox = new System.Windows.Forms.ComboBox();
 			this.stepComboBox = new System.Windows.Forms.ComboBox();
+			this.returnButton = new System.Windows.Forms.Button();
+			this.tdComboBox = new System.Windows.Forms.ComboBox();
 			this.myStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.bigFLP.SuspendLayout();
@@ -189,16 +189,6 @@
 			this.nextPageButton.UseVisualStyleBackColor = true;
 			this.nextPageButton.Click += new System.EventHandler(this.pageButton_Click);
 			// 
-			// returnButton
-			// 
-			this.returnButton.Location = new System.Drawing.Point(114, 6);
-			this.returnButton.Name = "returnButton";
-			this.returnButton.Size = new System.Drawing.Size(68, 21);
-			this.returnButton.TabIndex = 2;
-			this.returnButton.Text = "重选通道";
-			this.returnButton.UseVisualStyleBackColor = true;
-			this.returnButton.Click += new System.EventHandler(this.returnButton_Click);
-			// 
 			// backPageButton
 			// 
 			this.backPageButton.Location = new System.Drawing.Point(1077, 4);
@@ -249,18 +239,6 @@
 			this.unifySmallPanel.Size = new System.Drawing.Size(187, 57);
 			this.unifySmallPanel.TabIndex = 0;
 			// 
-			// tdComboBox
-			// 
-			this.tdComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tdComboBox.FormattingEnabled = true;
-			this.tdComboBox.Items.AddRange(new object[] {
-            "请选择通道"});
-			this.tdComboBox.Location = new System.Drawing.Point(6, 32);
-			this.tdComboBox.Name = "tdComboBox";
-			this.tdComboBox.Size = new System.Drawing.Size(97, 20);
-			this.tdComboBox.TabIndex = 1;
-			this.tdComboBox.SelectedIndexChanged += new System.EventHandler(this.tdComboBox_SelectedIndexChanged);
-			// 
 			// groupComboBox
 			// 
 			this.groupComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -280,13 +258,35 @@
 			this.stepComboBox.Items.AddRange(new object[] {
             "请选步",
             "全步",
-            "单步",
-            "双步"});
+            "奇数步",
+            "偶数步"});
 			this.stepComboBox.Location = new System.Drawing.Point(114, 33);
 			this.stepComboBox.Name = "stepComboBox";
 			this.stepComboBox.Size = new System.Drawing.Size(68, 20);
 			this.stepComboBox.TabIndex = 1;
 			this.stepComboBox.SelectedIndexChanged += new System.EventHandler(this.unifyComboBox_SelectedIndexChanged);
+			// 
+			// returnButton
+			// 
+			this.returnButton.Location = new System.Drawing.Point(114, 6);
+			this.returnButton.Name = "returnButton";
+			this.returnButton.Size = new System.Drawing.Size(68, 21);
+			this.returnButton.TabIndex = 2;
+			this.returnButton.Text = "重选通道";
+			this.returnButton.UseVisualStyleBackColor = true;
+			this.returnButton.Click += new System.EventHandler(this.returnButton_Click);
+			// 
+			// tdComboBox
+			// 
+			this.tdComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.tdComboBox.FormattingEnabled = true;
+			this.tdComboBox.Items.AddRange(new object[] {
+            "请选择通道"});
+			this.tdComboBox.Location = new System.Drawing.Point(6, 32);
+			this.tdComboBox.Name = "tdComboBox";
+			this.tdComboBox.Size = new System.Drawing.Size(97, 20);
+			this.tdComboBox.TabIndex = 1;
+			this.tdComboBox.SelectedIndexChanged += new System.EventHandler(this.tdComboBox_SelectedIndexChanged);
 			// 
 			// myStatusStrip
 			// 

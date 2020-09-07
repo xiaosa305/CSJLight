@@ -646,22 +646,22 @@
 			// doubleRadioButton
 			// 
 			this.doubleRadioButton.AutoSize = true;
-			this.doubleRadioButton.Location = new System.Drawing.Point(174, 135);
+			this.doubleRadioButton.Location = new System.Drawing.Point(165, 135);
 			this.doubleRadioButton.Name = "doubleRadioButton";
-			this.doubleRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.doubleRadioButton.Size = new System.Drawing.Size(59, 16);
 			this.doubleRadioButton.TabIndex = 37;
-			this.doubleRadioButton.Text = "双步";
+			this.doubleRadioButton.Text = "偶数步";
 			this.doubleRadioButton.UseVisualStyleBackColor = true;
 			this.doubleRadioButton.CheckedChanged += new System.EventHandler(this.stepRadioButton_CheckedChanged);
 			// 
 			// singleRadioButton
 			// 
 			this.singleRadioButton.AutoSize = true;
-			this.singleRadioButton.Location = new System.Drawing.Point(105, 135);
+			this.singleRadioButton.Location = new System.Drawing.Point(99, 135);
 			this.singleRadioButton.Name = "singleRadioButton";
-			this.singleRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.singleRadioButton.Size = new System.Drawing.Size(59, 16);
 			this.singleRadioButton.TabIndex = 37;
-			this.singleRadioButton.Text = "单步";
+			this.singleRadioButton.Text = "奇数步";
 			this.singleRadioButton.UseVisualStyleBackColor = true;
 			this.singleRadioButton.CheckedChanged += new System.EventHandler(this.stepRadioButton_CheckedChanged);
 			// 

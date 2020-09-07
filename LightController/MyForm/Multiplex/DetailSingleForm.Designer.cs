@@ -129,16 +129,16 @@
 			this.unifyComboBox.FormattingEnabled = true;
 			this.unifyComboBox.Items.AddRange(new object[] {
             "全步",
-            "单步",
-            "双步"});
+            "奇数步",
+            "偶数步"});
 			this.unifyComboBox.Location = new System.Drawing.Point(6, 14);
 			this.unifyComboBox.Name = "unifyComboBox";
-			this.unifyComboBox.Size = new System.Drawing.Size(48, 20);
+			this.unifyComboBox.Size = new System.Drawing.Size(57, 20);
 			this.unifyComboBox.TabIndex = 4;
 			// 
 			// unifyTopButton
 			// 
-			this.unifyTopButton.Location = new System.Drawing.Point(63, 13);
+			this.unifyTopButton.Location = new System.Drawing.Point(66, 13);
 			this.unifyTopButton.Name = "unifyTopButton";
 			this.unifyTopButton.Size = new System.Drawing.Size(22, 23);
 			this.unifyTopButton.TabIndex = 3;
@@ -210,7 +210,7 @@
 			// myStatusLabel
 			// 
 			this.myStatusLabel.Name = "myStatusLabel";
-			this.myStatusLabel.Size = new System.Drawing.Size(970, 17);
+			this.myStatusLabel.Size = new System.Drawing.Size(1001, 17);
 			this.myStatusLabel.Spring = true;
 			this.myStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 

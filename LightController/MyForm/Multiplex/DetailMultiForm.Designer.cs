@@ -99,8 +99,8 @@
 			this.unifyComboBox.FormattingEnabled = true;
 			this.unifyComboBox.Items.AddRange(new object[] {
             "全步",
-            "单步",
-            "双步",
+            "奇数步",
+            "偶数步",
             "清空"});
 			this.unifyComboBox.Location = new System.Drawing.Point(4, 6);
 			this.unifyComboBox.Name = "unifyComboBox";

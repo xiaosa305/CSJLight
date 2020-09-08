@@ -555,7 +555,7 @@ namespace LightController.MyForm
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
 
 				long useTime = (DateTime.Now.Ticks - time) / 10000 ;
-				Console.WriteLine( "useTime : " +useTime );
+				Console.WriteLine("GetDBWrapper(false) useTime : " + useTime );
 
 				return allData;
 			}
@@ -633,6 +633,9 @@ namespace LightController.MyForm
 				return;
 			}
 
+			//MARK 200908 优化generateDBStepCountList()的速度
+			dbStepCountList = stepCountDAO.GetAllWithList(frameLoadArray);
+
 			// 取出每个灯具的所有【非null】stepCount,填入stepCountList中
 			foreach (LightWrapper lightTemp in LightWrapperList)
 			{
@@ -666,8 +669,8 @@ namespace LightController.MyForm
 								};
 								dbStepCountList.Add(stepCount);
 							}
+							#region 弃用（之前有这段代码，是维佳那边若此处为空，程序有个地方出现了Bug，故需进行处理）
 							//MARK 只开单场景：12.2.2 (弃用)generateDBStepCountLit()重写：若加载过的场景，此灯具并未被选中过，则其lsTemp为空,需要主动封装一个stepCount=0的DB_StepCount实例并加到dbStepCountList中去
-							//（之前有这段代码，是维佳那边若此处为空，程序有个地方出现了Bug，故需进行处理）
 							//else {
 							//	DB_StepCount stepCount = new DB_StepCount()
 							//	{
@@ -675,17 +678,18 @@ namespace LightController.MyForm
 							//		PK = stepCountPK
 							//	};
 							//	dbStepCountList.Add(stepCount);
-							//}									
+							//}				
+							#endregion
 						}
-						//MARK 只开单场景：12.3 generateDBStepCountLit()重写：未加载过的场景用DB数据
-						else
-						{
-							DB_StepCount sc = stepCountDAO.GetStepCountByPK(stepCountPK);
-							if (sc != null)
-							{
-								dbStepCountList.Add(sc);
-							}
-						}
+						////MARK 只开单场景：12.3 generateDBStepCountLit()重写：未加载过的场景用DB数据
+						//else
+						//{
+						//	DB_StepCount sc = stepCountDAO.GetStepCountByPK(stepCountPK);
+						//	if (sc != null)
+						//	{
+						//		dbStepCountList.Add(sc);
+						//	}
+						//}
 					}
 				}
 			}

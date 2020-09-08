@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LightController.Utils.Ver2
 {
-     class GlobalBean
+    public class GlobalBean
     {
         private const int SCENECOUNTMAX = 32;
         public int ChannelCount { get; set; }//DMX通道总数
@@ -199,7 +199,7 @@ namespace LightController.Utils.Ver2
             #endregion
         }
     }
-    class Multiple
+    public class Multiple
     {
         public bool IsOpen { get; set; }//开关状态
         public int Repetitions { get; set; }//重复次数
@@ -214,21 +214,21 @@ namespace LightController.Utils.Ver2
         public int DeputyScenario4 { get; set; }//组合场景4
         public int DeputyScenarioPlayTime4 { get; set; }//组合场景4播放时间
     }
-    class MusicSceneSet
+    public class MusicSceneSet
     {
         public int SceneNo { get; set; }
         public List<int> MusicStepList { get; set; }
         public int MusicStepTime { get; set; }
         public int MusicIntervalTime { get; set; }
     }
-    class ShakeMic
+    public class ShakeMic
     {
         public int SceneNo { get; set; }
         public bool IsOpen { get; set; }
         public int IntervalTime { get; set; }
         public int RunTime { get; set; }
     }
-    class LightInfo
+    public class LightInfo
     {
         public int LightNumber { get; set; }
         public int StartAddress { get; set; }

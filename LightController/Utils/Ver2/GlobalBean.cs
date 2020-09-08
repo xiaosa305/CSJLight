@@ -1,4 +1,5 @@
-﻿using NHibernate.Mapping;
+﻿using DMX512;
+using NHibernate.Mapping;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace LightController.Utils.Ver2
 {
-    class GlobalBean
+     class GlobalBean
     {
         private const int SCENECOUNTMAX = 32;
         public int ChannelCount { get; set; }//DMX通道总数
@@ -17,20 +18,38 @@ namespace LightController.Utils.Ver2
         public List<Multiple> Multiples { get; set; }//组合场景数据
         public List<MusicSceneSet> MusicSceneSets { get; set; }//音频步数数据
         public List<ShakeMic> ShakeMics { get; set; }//摇麦数据
-        public GlobalBean(string configPath)
+        public List<LightInfo> LightInfos { get; set; }//灯具数据
+
+        public GlobalBean(string configPath,IList<DB_Light> dB_Lights)
         {
             string strValue = string.Empty;
             int iValue = 0;
             this.Multiples = new List<Multiple>();
             this.MusicSceneSets = new List<MusicSceneSet>();
             this.ShakeMics = new List<ShakeMic>();
+            this.LightInfos = new List<LightInfo>();
+            #region 读取配置文件
             using (StreamReader reader = new StreamReader(configPath))
             {
                 strValue = reader.ReadLine();
 
                 strValue = reader.ReadLine();
                 int.TryParse(strValue.Split('=')[1], out  iValue);
-                this.ChannelCount = iValue;
+                switch (iValue)
+                {
+                    case 1:
+                        this.ChannelCount = 384;
+                        break;
+                    case 2:
+                        this.ChannelCount = 256;
+                        break;
+                    case 3:this.ChannelCount = 128;
+                        break;
+                    case 0:
+                    default:
+                        this.ChannelCount = 512;
+                        break;
+                }
 
                 strValue = reader.ReadLine();
                 int.TryParse(strValue.Split('=')[1], out  iValue);
@@ -162,6 +181,22 @@ namespace LightController.Utils.Ver2
                     }
                 }
             }
+            #endregion
+            #region 读取灯具数据
+            foreach (DB_Light item in dB_Lights)
+            {
+                LightInfo light = new LightInfo()
+                {
+                    LightNumber = item.LightNo,
+                    StartAddress = item.StartID,
+                    ChannelCount = item.Count
+                };
+                this.LightInfos.Add(light);
+            }
+            #endregion
+            #region 写入文件
+            ;
+            #endregion
         }
     }
     class Multiple
@@ -192,5 +227,11 @@ namespace LightController.Utils.Ver2
         public bool IsOpen { get; set; }
         public int IntervalTime { get; set; }
         public int RunTime { get; set; }
+    }
+    class LightInfo
+    {
+        public int LightNumber { get; set; }
+        public int StartAddress { get; set; }
+        public int ChannelCount { get; set; }
     }
 }

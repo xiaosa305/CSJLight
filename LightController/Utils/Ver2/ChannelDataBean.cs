@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightController.Utils.Ver2
 {
-    public class ChannelDataBean
+    class ChannelDataBean
     {
         public const int MODE_C = 0;
         public const int MODE_M = 1;
@@ -24,10 +24,5 @@ namespace LightController.Utils.Ver2
         public List<int> StepValues { get; set; }
         public List<int> StepTime { get; set; }
         public List<int> StepMode { get; set; }
-
-        public ChannelDataBean()
-        {
-
-        }
     }
 }

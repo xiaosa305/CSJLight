@@ -1,21 +1,40 @@
-﻿using LightController.Ast;
+﻿using DMX512;
+using LightController.Ast;
+using NPOI.SS.Formula.Functions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LightController.Utils.Ver2
 {
     public class ChannelDataGeneratior
     {
-        private static readonly string PROJECT_DIRECTORY_PATH = @"\DataCache\Project\CSJ";
-        private static readonly string PROJECT_CHANNEL_CACHE_DIRECTORY_PATH = @"\DataCache\Project\Cache";
-        private static readonly string PREVIEW_DIRECTORY_PATH = @"\DataCache\Preview\CSJ";
-        private static readonly string PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH = @"\DataCache\Preview\Cache";
+        private  readonly string PROJECT_DIRECTORY_PATH = @"\DataCache\Project\CSJ";
+        private  readonly string PROJECT_CHANNEL_CACHE_DIRECTORY_PATH = @"\DataCache\Project\Cache";
+        private  readonly string PREVIEW_DIRECTORY_PATH = @"\DataCache\Preview\CSJ";
+        private  readonly string PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH = @"\DataCache\Preview\Cache";
         private static ChannelDataGeneratior Instance { get; set; }
-        private string DirctoryPath { get; set; }
+        private  string DirctoryPath { get; set; }
+
+        private  Dictionary<int, bool> BasicTaskStatus { get; set; }
+        private  Dictionary<int, bool> MusicTaskStatus { get; set; }
+
+        private bool BasicStatus { get; set; }
+        private bool MusicStatus { get; set; }
+
+
+        private Completed Completed_Event { get; set; }
+        private Error Error_Event { get; set; }
+
+
+        //Test
+        private Stopwatch Stopwatch { get; set; }
 
 
         private ChannelDataGeneratior()
@@ -35,12 +54,104 @@ namespace LightController.Utils.Ver2
         /// </summary>
         private void InitParam()
         {
-            ;
+            this.BasicTaskStatus = new Dictionary<int, bool>();
+            this.MusicTaskStatus = new Dictionary<int, bool>();
+            this.Completed_Event = null;
+            this.Error_Event = null;
+            this.DirctoryPath = string.Empty;
+            this.BasicStatus = false;
+            this.MusicStatus = false;
         }
 
-        public void Test(DBWrapper wrapper,string configPath,int sceneNo)
+        public void Test(DBWrapper wrapper,string configPath,int sceneNo,Completed completed)
         {
+            //配置文件测试
+            Console.WriteLine("--------------------------------------------开始");
+            this.Stopwatch = new Stopwatch();
+            this.Stopwatch.Start();
+            if (false)
+            {
+                GlobalBean globalBean = new GlobalBean(configPath, wrapper.lightList);
+                Console.WriteLine("配置文件测试结束");
+            }
+            if (true)
+            {
+                this.InitParam();
+                this.Completed_Event = completed;
+                //判断有效数据通道编号
+                Dictionary<int, List<DB_Value>> cValues = new Dictionary<int, List<DB_Value>>();
+                Dictionary<int, List<DB_Value>> mValues = new Dictionary<int, List<DB_Value>>();
+                for (int valueIndex = 0; valueIndex < wrapper.valueList.Count; valueIndex++)
+                {
+                    if (wrapper.valueList[valueIndex].PK.Frame == sceneNo)
+                    {
+                        switch (wrapper.valueList[valueIndex].PK.Mode)
+                        {
+                            case ChannelDataBean.MODE_C:
+                                if (wrapper.valueList[valueIndex].ChangeMode != ChannelDataBean.MODE_C_HIDDEN)
+                                {
+                                    if (!cValues.ContainsKey(wrapper.valueList[valueIndex].PK.LightID))
+                                    {
+                                        cValues.Add(wrapper.valueList[valueIndex].PK.LightID, new List<DB_Value>());
+                                    }
+                                    cValues[wrapper.valueList[valueIndex].PK.LightID].Add(wrapper.valueList[valueIndex]);
+                                }
+                                break;
+                            case ChannelDataBean.MODE_M:
+                                if (wrapper.valueList[valueIndex].ChangeMode != ChannelDataBean.MODE_M_HIDDEN)
+                                {
+                                    if (!mValues.ContainsKey(wrapper.valueList[valueIndex].PK.LightID))
+                                    {
+                                        mValues.Add(wrapper.valueList[valueIndex].PK.LightID, new List<DB_Value>());
+                                    }
+                                    mValues[wrapper.valueList[valueIndex].PK.LightID].Add(wrapper.valueList[valueIndex]);
+                                }
+                                break;
+                        }
+                    }
+                }
+                GlobalBean global =  new GlobalBean(configPath, wrapper.lightList);
+                foreach (KeyValuePair<int, List<DB_Value>> item in cValues)
+                {
+                    lock (this.BasicTaskStatus)
+                    {
+                        this.BasicTaskStatus.Add(item.Key + 0, false);
+                    }
+                    Console.WriteLine("添加基础场景通道" + item.Key + "任务");
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item, 0 + sceneNo, Mode.Basics, global));
+                }
+                foreach (KeyValuePair<int, List<DB_Value>> item in mValues)
+                {
+                    lock (this.MusicTaskStatus)
+                    {
+                        this.MusicTaskStatus.Add(item.Key + 0, false);
+                    }
+                    Console.WriteLine("添加音频场景通道" + item.Key + "任务");
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(DBToBean), new WaitCallbackObject(item, 0 + sceneNo, Mode.Music, global));
+                }
+            }
+        }
 
+        private  void DBToBean(Object obj)
+        {
+            Console.WriteLine("开始通道" + (obj as WaitCallbackObject).KeyValuePair.Key + "任务");
+            ChannelDataBean dataBean = new ChannelDataBean()
+            {
+                ChannelNo = (obj as WaitCallbackObject).KeyValuePair.Key,
+                StepCount = (obj as WaitCallbackObject).KeyValuePair.Value.Count,
+                SceneNo = (obj as WaitCallbackObject).SceneNo,
+                Mode = (obj as WaitCallbackObject).Mode,
+                StepValues = new List<int>(),
+                StepMode = new List<int>(),
+                StepTime = new List<int>()
+            };
+            foreach (DB_Value value in (obj as WaitCallbackObject).KeyValuePair.Value.OrderBy(m => m.PK.Step).ToList())
+            {
+                dataBean.StepValues.Add(value.ScrollValue);
+                dataBean.StepMode.Add(value.ChangeMode);
+                dataBean.StepTime.Add(value.StepTime);
+            }
+            this.CreatePreviewSceneChannelFile(dataBean, (obj as WaitCallbackObject).GlobalBean, Application.StartupPath);
         }
 
         /// <summary>
@@ -48,16 +159,16 @@ namespace LightController.Utils.Ver2
         /// </summary>
         /// <param name="dataBean"></param>
         /// <param name="dirPath"></param>
-        public void CreateSceneChannelFile(ChannelDataBean dataBean,string dirPath)
+        private  void CreateSceneChannelFile(ChannelDataBean dataBean,GlobalBean global,string dirPath)
         {
-            this.DirctoryPath = dirPath;
+            DirctoryPath = dirPath;
             switch (dataBean.Mode)
             {
                 case Mode.Basics:
-                    this.CreateProjectBasicSceneCacheFile(dataBean);
+                    CreateProjectBasicSceneCacheFile(dataBean,global);
                     break;
                 case Mode.Music:
-                    this.CreateProjectMusicSceneCacheFile(dataBean);
+                    CreateProjectMusicSceneCacheFile(dataBean,global);
                     break;
             }
         }
@@ -67,16 +178,16 @@ namespace LightController.Utils.Ver2
         /// </summary>
         /// <param name="dataBean"></param>
         /// <param name="dirPath"></param>
-        public void CreatePreviewSceneChannelFile(ChannelDataBean dataBean,string dirPath)
+        private  void CreatePreviewSceneChannelFile(ChannelDataBean dataBean, GlobalBean global, string dirPath)
         {
-            this.DirctoryPath = dirPath;
+            DirctoryPath = dirPath;
             switch (dataBean.Mode)
             {
                 case Mode.Basics:
-                    this.CreatePreviewBasicSceneCacheFile(dataBean);
+                    CreatePreviewBasicSceneCacheFile(dataBean,global);
                     break;
                 case Mode.Music:
-                    this.CreatePreviewMusicSceneCacheFile(dataBean);
+                    CreatePreviewMusicSceneCacheFile(dataBean,global);
                     break;
             }
         }
@@ -84,9 +195,9 @@ namespace LightController.Utils.Ver2
         /// <summary>
         /// 创建工程基础场景通道碎片文件
         /// </summary>
-        private void CreateProjectBasicSceneCacheFile(ChannelDataBean dataBean)
+        private  void CreateProjectBasicSceneCacheFile(ChannelDataBean dataBean, GlobalBean global)
         {
-            string filePath = this.DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH + @"\C" + dataBean.SceneNo + "-" + dataBean.ChannelNo + ".bin";
+            string filePath = DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH + @"\C" + dataBean.SceneNo + "-" + dataBean.ChannelNo + ".bin";
             float inc;
             int stepValue;
             int stepMode;
@@ -95,9 +206,9 @@ namespace LightController.Utils.Ver2
             float fValue;
             int iValue;
             List<byte> buff = new List<byte>();
-            if (!Directory.Exists(this.DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH))
+            if (!Directory.Exists(DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH);
             }
             if (File.Exists(filePath))
             {
@@ -153,19 +264,30 @@ namespace LightController.Utils.Ver2
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
                 stream.Write(buff.ToArray(), 0, buff.Count);
+            }
+            lock (this.BasicTaskStatus)
+            {
+                if (this.BasicTaskStatus.ContainsKey(dataBean.ChannelNo))
+                {
+                    this.BasicTaskStatus[dataBean.ChannelNo] = true;
+                }
+                if (!this.BasicTaskStatus.ContainsValue(false))
+                {
+                    this.BasicProjectFileSynthesising(dataBean.SceneNo);
+                }
             }
         }
 
         /// <summary>
         /// 创建工程音频场景通道碎片文件
         /// </summary>
-        private void CreateProjectMusicSceneCacheFile(ChannelDataBean dataBean)
+        private  void CreateProjectMusicSceneCacheFile(ChannelDataBean dataBean, GlobalBean global)
         {
-            string filePath = this.DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH + @"\M" + dataBean.SceneNo + "-" + dataBean.ChannelNo + ".bin";
+            string filePath = DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH + @"\M" + dataBean.SceneNo + "-" + dataBean.ChannelNo + ".bin";
             List<byte> buff = new List<byte>();
-            if (!Directory.Exists(this.DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH))
+            if (!Directory.Exists(DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PROJECT_CHANNEL_CACHE_DIRECTORY_PATH);
             }
             if (File.Exists(filePath))
             {
@@ -182,14 +304,25 @@ namespace LightController.Utils.Ver2
             {
                 stream.Write(buff.ToArray(), 0, buff.Count);
             }
+            lock (this.MusicTaskStatus)
+            {
+                if (this.MusicTaskStatus.ContainsKey(dataBean.ChannelNo))
+                {
+                    this.MusicTaskStatus[dataBean.ChannelNo] = true;
+                }
+                if (!this.MusicTaskStatus.ContainsValue(false))
+                {
+                    this.MusicProjectFileSynthesising(dataBean.SceneNo);
+                }
+            }
         }
 
         /// <summary>
         /// 创建预览基础场景通道碎片文件
         /// </summary>
-        private void CreatePreviewBasicSceneCacheFile(ChannelDataBean dataBean)
+        private  void CreatePreviewBasicSceneCacheFile(ChannelDataBean dataBean, GlobalBean global)
         {
-            string filePath = this.DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH + @"\C1" + "-" + dataBean.ChannelNo + ".bin";
+            string filePath = DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH + @"\C1" + "-" + dataBean.ChannelNo + ".bin";
             float inc;
             int stepValue;
             int stepMode;
@@ -198,9 +331,9 @@ namespace LightController.Utils.Ver2
             float fValue;
             int iValue;
             List<byte> buff = new List<byte>();
-            if (!Directory.Exists(this.DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH))
+            if (!Directory.Exists(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH);
             }
             if (File.Exists(filePath))
             {
@@ -256,18 +389,30 @@ namespace LightController.Utils.Ver2
             {
                 stream.Write(buff.ToArray(), 0, buff.Count);
             }
+            Console.WriteLine("基础场景通道" + dataBean.ChannelNo + "任务完成");
+            lock (this.BasicTaskStatus)
+            {
+                if (this.BasicTaskStatus.ContainsKey(dataBean.ChannelNo))
+                {
+                    this.BasicTaskStatus[dataBean.ChannelNo] = true;
+                }
+                if (!this.BasicTaskStatus.ContainsValue(false))
+                {
+                    this.BasicPreviewFileSynthesising(global);
+                }
+            }
         }
 
         /// <summary>
         /// 创建预览音频场景通道碎片文件
         /// </summary>
-        private void CreatePreviewMusicSceneCacheFile(ChannelDataBean dataBean)
+        private  void CreatePreviewMusicSceneCacheFile(ChannelDataBean dataBean,GlobalBean global)
         {
-            string filePath = this.DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH + @"\M1" + "-" + dataBean.ChannelNo + ".bin";
+            string filePath = DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH + @"\M1" + "-" + dataBean.ChannelNo + ".bin";
             List<byte> buff = new List<byte>();
-            if (!Directory.Exists(this.DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH))
+            if (!Directory.Exists(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH);
             }
             if (File.Exists(filePath))
             {
@@ -284,12 +429,24 @@ namespace LightController.Utils.Ver2
             {
                 stream.Write(buff.ToArray(), 0, buff.Count);
             }
+            Console.WriteLine("音频场景通道" + dataBean.ChannelNo + "任务完成");
+            lock (this.MusicTaskStatus)
+            {
+                if (this.MusicTaskStatus.ContainsKey(dataBean.ChannelNo))
+                {
+                    this.MusicTaskStatus[dataBean.ChannelNo] = true;
+                }
+                if (!this.MusicTaskStatus.ContainsValue(false))
+                {
+                    this.MusicPreviewFileSynthesising(global);
+                }
+            }
         }
 
         /// <summary>
         /// 合成工程场景文件
         /// </summary>
-        public void ProjectFileSynthesising(int sceneNo)
+        private void ProjectFileSynthesising(int sceneNo)
         {
             BasicProjectFileSynthesising(sceneNo);
             MusicProjectFileSynthesising(sceneNo);
@@ -298,68 +455,182 @@ namespace LightController.Utils.Ver2
         /// <summary>
         /// 合成预览场景文件
         /// </summary>
-        public void PreviewFileSynthesising()
+        private void PreviewFileSynthesising( GlobalBean global)
         {
-            BasicPreviewFileSynthesising();
-            MusicPreviewFileSynthesising();
+            BasicPreviewFileSynthesising(global);
+            MusicPreviewFileSynthesising(global);
         }
 
         /// <summary>
         /// 生成工程基础场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private void BasicProjectFileSynthesising(int sceneNo)
+        private  void BasicProjectFileSynthesising(int sceneNo)
         {
-            if (!Directory.Exists(this.DirctoryPath + PROJECT_DIRECTORY_PATH))
+            if (!Directory.Exists(DirctoryPath + PROJECT_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PROJECT_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PROJECT_DIRECTORY_PATH);
             }
+            Console.WriteLine("合成基础完成");
         }
 
         /// <summary>
         /// 生成工程音频场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private void MusicProjectFileSynthesising(int sceneNo)
+        private  void MusicProjectFileSynthesising(int sceneNo)
         {
-            if (!Directory.Exists(this.DirctoryPath + PROJECT_DIRECTORY_PATH))
+            if (!Directory.Exists(DirctoryPath + PROJECT_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PROJECT_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PROJECT_DIRECTORY_PATH);
             }
+            Console.WriteLine("合成音频完成");
         }
 
         /// <summary>
         /// 生成预览基础场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private void BasicPreviewFileSynthesising()
+        private  void BasicPreviewFileSynthesising(GlobalBean global)
         {
-            if (!Directory.Exists(this.DirctoryPath + PREVIEW_DIRECTORY_PATH))
+            List<byte> dataBuff = new List<byte>();
+            if (!Directory.Exists(DirctoryPath + PREVIEW_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PREVIEW_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PREVIEW_DIRECTORY_PATH);
             }
+            if (File.Exists(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\C1.bin"))
+            {
+                File.Delete(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\C1.bin");
+            }
+            if (Directory.Exists(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH))
+            {
+                File.Create(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\C1.bin").Dispose();
+                #region 包头
+                long seek = 0;
+                dataBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4).ToArray());
+                dataBuff.Add(Convert.ToByte(global.ShakeMics[0].IsOpen ? 0x01 : 0x00));
+                dataBuff.Add(Convert.ToByte((global.ShakeMics[0].IntervalTime * 60) & 0xFF));
+                dataBuff.Add(Convert.ToByte(((global.ShakeMics[0].IntervalTime * 60) >> 8) & 0xFF));
+                dataBuff.Add(Convert.ToByte((global.ShakeMics[0].RunTime * 60) & 0xFF));
+                dataBuff.Add(Convert.ToByte(((global.ShakeMics[0].RunTime * 60) >> 8) & 0xFF));
+                dataBuff.Add(Convert.ToByte(this.MusicTaskStatus.Count & 0xFF));
+                dataBuff.Add(Convert.ToByte((this.MusicTaskStatus.Count >> 8) & 0xFF));
+                seek += dataBuff.Count;
+                #endregion
+                #region 包体
+                foreach (string filePath in Directory.GetFileSystemEntries(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH))
+                {
+                    long dataSize = 0;
+                    string projectFilePath = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+                    if (!projectFilePath[0].Equals('C'))
+                    {
+                        continue;
+                    }
+                    string strChannel = projectFilePath.Split('.')[0].Split('-')[1];
+                    string strScene = projectFilePath.Split('.')[0].Split('-')[0].Substring(1);
+                    int.TryParse(strScene, out int sceneNo);
+                    int.TryParse(strChannel, out int channelNo);
+                    if (sceneNo == 1)
+                    {
+                        using (FileStream stream = new FileStream(filePath, FileMode.Open))
+                        {
+                            dataSize = stream.Length;
+                            seek += 8;
+                            dataBuff.Add(Convert.ToByte(channelNo & 0xFF));
+                            dataBuff.Add(Convert.ToByte((channelNo >> 8) & 0xFF));
+                            dataBuff.Add(Convert.ToByte(dataSize & 0xFF));
+                            dataBuff.Add(Convert.ToByte((dataSize >> 8) & 0xFF));
+                            dataBuff.Add(Convert.ToByte(seek & 0xFF));
+                            dataBuff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                            dataBuff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                            dataBuff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                            byte[] buff = new byte[1024 * 26];
+                            while (stream.Read(buff, 0, buff.Length) != 0)
+                            {
+                                dataBuff.AddRange(buff);
+                            }
+                        }
+                        using (FileStream stream = new FileStream(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\C1.bin", FileMode.Append))
+                        {
+                            stream.Write(dataBuff.ToArray(), 0, dataBuff.Count());
+                        }
+                        seek += dataSize;
+                        dataBuff.Clear();
+                    }
+                }
+                dataBuff.Clear();
+                dataBuff.Add(Convert.ToByte(seek & 0xFF));
+                dataBuff.Add(Convert.ToByte((seek >> 8) & 0xFF));
+                dataBuff.Add(Convert.ToByte((seek >> 16) & 0xFF));
+                dataBuff.Add(Convert.ToByte((seek >> 24) & 0xFF));
+                using (FileStream stream = new FileStream(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\C1.bin", FileMode.Open))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    stream.Write(dataBuff.ToArray(), 0, dataBuff.Count);
+                }
+                #endregion
+                if (seek < 19)
+                {
+                    File.Delete(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\C1.bin");
+                }
+            }
+            this.BasicStatus = true;
+            Console.WriteLine("--------------------------------------------合成预览基础完成时间" + this.Stopwatch.ElapsedMilliseconds);
         }
 
         /// <summary>
         /// 生成预览音频场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private void MusicPreviewFileSynthesising()
+        private  void MusicPreviewFileSynthesising(GlobalBean global)
         {
-            if (!Directory.Exists(this.DirctoryPath + PREVIEW_DIRECTORY_PATH))
+            if (!Directory.Exists(DirctoryPath + PREVIEW_DIRECTORY_PATH))
             {
-                Directory.CreateDirectory(this.DirctoryPath + PREVIEW_DIRECTORY_PATH);
+                Directory.CreateDirectory(DirctoryPath + PREVIEW_DIRECTORY_PATH);
+            }
+            if (File.Exists(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\M1.bin"))
+            {
+                File.Delete(DirctoryPath + PREVIEW_DIRECTORY_PATH + @"\M1.bin");
+            }
+
+            this.MusicStatus = true;
+            Console.WriteLine("--------------------------------------------合成预览音频完成时间" + this.Stopwatch.ElapsedMilliseconds);
+        }
+
+        private void CompletedCheck_Task()
+        {
+            if (this.BasicStatus && this.MusicStatus)
+            {
+                this.Completed_Event("完成");
             }
         }
     }
 
-    public enum Mode
+    public delegate void Completed(string msg);
+    public delegate void Error(string msg);
+
+    enum Mode
     {
         Basics,Music
     }
 
-    public enum ChannelFlag
+    enum ChannelFlag
     {
         MainTune,FineTune,Null
+    }
+
+    class WaitCallbackObject
+    {
+        public KeyValuePair<int, List<DB_Value>> KeyValuePair { get; set; }
+        public int SceneNo { get; set; }
+        public Mode Mode { get; set; }
+        public GlobalBean GlobalBean { get; set; }
+        public WaitCallbackObject(KeyValuePair<int, List<DB_Value>> keyValuePair, int sceneNo,Mode mode,GlobalBean global)
+        {
+            this.KeyValuePair = keyValuePair;
+            this.SceneNo = sceneNo;
+            this.Mode = mode;
+            this.GlobalBean = global;
+        }
     }
 }

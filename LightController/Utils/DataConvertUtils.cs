@@ -352,6 +352,7 @@ namespace LightController.Utils
                     break;
             }
         }
+
         /// <summary>
         /// 基础场景数据处理
         /// </summary>
@@ -548,6 +549,7 @@ namespace LightController.Utils
                 
             }
         }
+
         /// <summary>
         /// 音频场景数据处理
         /// </summary>
@@ -844,31 +846,49 @@ namespace LightController.Utils
         /// </summary>
         public static void SaveProjectFileByPreviewData(DBWrapper wrapper, string configPath,int sceneNo,ISaveProjectCallBack callBack)
         {
+            
             try
             {
-				CallBack = callBack;
-				FileUtils.ClearPreviewCacheData();
-				FileUtils.ClearPreviewProjectData();
-				BuildMode = MODE_PREVIEW;
-				C_PreviewDataState = new Dictionary<int, bool>();
-				M_PreviewDataState = new Dictionary<int, bool>();
-				C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-				C_DMXSceneState = new Dictionary<int, bool>();
-				M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
-				M_DMXSceneState = new Dictionary<int, bool>();
-				C_PreviewSceneData = null;
-				M_PreviewSceneData = null;
-				//TODO 测试同步语句效率-整理预览数据
-				GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
-				//ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
-			}
+                CallBack = callBack;
+
+
+                ////TODO 待删除
+                //ChannelDataGeneratior.GetInstance().Test(wrapper, configPath, sceneNo, TestCompleted);
+
+                if (true)
+                {
+                    FileUtils.ClearPreviewCacheData();
+                    FileUtils.ClearPreviewProjectData();
+                    BuildMode = MODE_PREVIEW;
+                    C_PreviewDataState = new Dictionary<int, bool>();
+                    M_PreviewDataState = new Dictionary<int, bool>();
+                    C_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+                    C_DMXSceneState = new Dictionary<int, bool>();
+                    M_DMXSceneChannelData = new Dictionary<int, Dictionary<int, bool>>();
+                    M_DMXSceneState = new Dictionary<int, bool>();
+                    C_PreviewSceneData = null;
+                    M_PreviewSceneData = null;
+                    //TODO 测试同步语句效率-整理预览数据
+                    GeneratedPreviewSceneData(new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+                    //ThreadPool.QueueUserWorkItem(new WaitCallback(GeneratedPreviewSceneData), new PreviewData(wrapper, configPath, Constant.GetNumber(sceneNo)));
+                }
+            }
 			catch (Exception ex)
 			{
 				LogTools.Error(Constant.TAG_XIAOSA, "预览数据生成出错", ex, true, "预览数据生成出错");
 			}
-            
-
         }
+
+        private static void TestCompleted(string msg)
+        {
+            Console.WriteLine(msg);
+            CallBack.Completed();
+        }
+
+
+
+
+
         /// <summary>
         /// 整理生成预览场景数据
         /// </summary>

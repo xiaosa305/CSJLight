@@ -853,8 +853,8 @@ namespace LightController.Utils
 
 
                 ////TODO 待删除
-                //ChannelDataGeneratior.GetInstance().Test(wrapper, configPath, sceneNo, TestCompleted);
-
+                //ChannelDataGeneratior.GetInstance().PreviewFileBuild(wrapper, new GlobalBean(configPath,wrapper.lightList), sceneNo, TestCompleted,TestError);
+                //Thread.Sleep(1000);
                 if (true)
                 {
                     FileUtils.ClearPreviewCacheData();
@@ -885,7 +885,11 @@ namespace LightController.Utils
             CallBack.Completed();
         }
 
-
+        private static void TestError(string msg)
+        {
+            Console.WriteLine(msg);
+            CallBack.Completed();
+        }
 
 
 

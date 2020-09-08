@@ -19,6 +19,7 @@ namespace LightController.Utils.Ver2
         private  readonly string PROJECT_CHANNEL_CACHE_DIRECTORY_PATH = @"\DataCache\Project\Cache";
         private  readonly string PREVIEW_DIRECTORY_PATH = @"\DataCache\Preview\CSJ";
         private  readonly string PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH = @"\DataCache\Preview\Cache";
+        private  readonly Object KEY = new object();
         private static ChannelDataGeneratior Instance { get; set; }
         private  string DirctoryPath { get; set; }
 
@@ -27,6 +28,7 @@ namespace LightController.Utils.Ver2
 
         private bool BasicStatus { get; set; }
         private bool MusicStatus { get; set; }
+        private bool TaskStatus { get; set; }
 
 
         private Completed Completed_Event { get; set; }
@@ -61,6 +63,7 @@ namespace LightController.Utils.Ver2
             this.DirctoryPath = string.Empty;
             this.BasicStatus = false;
             this.MusicStatus = false;
+            this.TaskStatus = false;
         }
 
         public void Test(DBWrapper wrapper,string configPath,int sceneNo,Completed completed)
@@ -597,11 +600,25 @@ namespace LightController.Utils.Ver2
             Console.WriteLine("--------------------------------------------合成预览音频完成时间" + this.Stopwatch.ElapsedMilliseconds);
         }
 
-        private void CompletedCheck_Task()
+        private void Complected()
         {
-            if (this.BasicStatus && this.MusicStatus)
+            lock (KEY)
             {
-                this.Completed_Event("完成");
+                if (this.TaskStatus)
+                {
+
+                }
+            }
+        }
+
+        private void Error()
+        {
+            lock (KEY)
+            {
+                if (this.TaskStatus)
+                {
+
+                }
             }
         }
     }

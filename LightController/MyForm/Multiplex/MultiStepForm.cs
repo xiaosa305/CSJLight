@@ -342,7 +342,7 @@ namespace LightController.MyForm
 				Dictionary<int, List<int>> tdDict = new Dictionary<int, List<int>>();
 				tdDict.Add(lightIndex, tdIndexList);
 
-				new DetailMultiForm(mainForm, tdDict ).ShowDialog(); 
+				new DetailMultiPageForm(mainForm, tdDict ).ShowDialog(); 
 			}
 		}
 

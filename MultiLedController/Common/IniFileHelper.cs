@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace LightController.Common
+namespace MultiLedController.Common
 {
 	public class IniFileHelper
 	{
@@ -180,10 +180,10 @@ namespace LightController.Common
 		/// 辅助方法：取出是否显示按钮
 		/// </summary>
 		/// <returns></returns>
-		public static bool GetControlShow(string appPathStr, string controlName)
+		public static bool GetControlShow(string appPathStr, string buttonName)
 		{
 			IniFileHelper iniFileAst = new IniFileHelper(appPathStr + @"\GlobalSet.ini");
-			string isShow = iniFileAst.ReadString("Show", controlName, "false");
+			string isShow = iniFileAst.ReadString("Show", buttonName, "false");
 			if (isShow.Trim().ToLower().Equals("true")){
 				return true;
 			}

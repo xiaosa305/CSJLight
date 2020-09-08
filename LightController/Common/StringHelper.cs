@@ -52,7 +52,6 @@ namespace LightController.Common
 			return DecimalStringToHex(s).PadLeft(bitNum, '0');
 		}
 
-
 		/// <summary>
 		/// 将十六进制字符串转成十进制字符串
 		/// </summary>
@@ -75,8 +74,7 @@ namespace LightController.Common
 			Array.Reverse(strArray);			
 			return new string(strArray);
 		}
-
-
+		
 		/// <summary>
 		/// 把IList<int>转化为字符串，并用英文符号","隔开
 		/// </summary>
@@ -99,5 +97,23 @@ namespace LightController.Common
 			}
 			return result.Substring(0, result.Length - 1);
 		}
+
+		/// <summary>
+		/// 获取text括号内的字符串，并转化为数字
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public static int GetInnerValue(string text) {
+			try
+			{
+				string valueStr = System.Text.RegularExpressions.Regex.Replace(text, @"(.*\()(.*)(\).*)", "$2");
+				int value = int.Parse(valueStr);
+				return value;
+			}
+			catch (Exception) {
+				return 0;
+			}
+		}
+
 	}
 }

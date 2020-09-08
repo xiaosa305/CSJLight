@@ -49,7 +49,6 @@ namespace LightController.Ast
 					StepTime = value.StepTime,
 					ChangeMode = value.ChangeMode,
 					ScrollValue = value.ScrollValue,
-					//MARK 200325 以模板数据生成每个通道备注（显示各个子属性数值）
 					Remark = stepTemplate.TongdaoList[tdIndex].Remark
 				};
 				tongdaoList.Add(td);

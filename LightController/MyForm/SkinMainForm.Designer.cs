@@ -85,19 +85,11 @@ namespace LightController.MyForm
 			this.hideProjectPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hideAstPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.hidePlayPanelToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.showSaPanelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.middleImageList = new System.Windows.Forms.ImageList(this.components);
 			this.lightLargeImageList = new System.Windows.Forms.ImageList(this.components);
 			this.astSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.tdCommonLabelSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.tytzLabel = new System.Windows.Forms.Label();
-			this.lightInfoSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.lightsAddrLabel = new System.Windows.Forms.Label();
-			this.lightRemarkLabel = new System.Windows.Forms.Label();
-			this.lightTypeLabel = new System.Windows.Forms.Label();
-			this.lightNameLabel = new System.Windows.Forms.Label();
-			this.currentLightSkinPanel = new CCWin.SkinControl.SkinPanel();
-			this.dqdjLabel = new System.Windows.Forms.Label();
-			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
 			this.unifyPanel = new System.Windows.Forms.Panel();
 			this.groupFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.groupInBtnDemo = new System.Windows.Forms.Button();
@@ -105,8 +97,18 @@ namespace LightController.MyForm
 			this.commonButtonPanel = new System.Windows.Forms.Panel();
 			this.groupButton = new System.Windows.Forms.Button();
 			this.soundListButton = new System.Windows.Forms.Button();
-			this.initButton = new System.Windows.Forms.Button();
+			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.multiButton = new System.Windows.Forms.Button();
+			this.unifyLabelPanel = new CCWin.SkinControl.SkinPanel();
+			this.tytzLabel = new System.Windows.Forms.Label();
+			this.lightInfoSkinPanel = new CCWin.SkinControl.SkinPanel();
+			this.lightRemarkLabel = new System.Windows.Forms.Label();
+			this.lightTypeLabel = new System.Windows.Forms.Label();
+			this.lightNameLabel = new System.Windows.Forms.Label();
+			this.currentLightSkinPanel = new CCWin.SkinControl.SkinPanel();
+			this.dqdjLabel = new System.Windows.Forms.Label();
+			this.currentLightPictureBox = new System.Windows.Forms.PictureBox();
+			this.lightsAddrLabel = new System.Windows.Forms.Label();
 			this.noticeStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.noticeLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.stepSkinPanel = new CCWin.SkinControl.SkinPanel();
@@ -133,15 +135,19 @@ namespace LightController.MyForm
 			this.frameSkinComboBox = new CCWin.SkinControl.SkinComboBox();
 			this.stepLabel = new CCWin.SkinControl.SkinLabel();
 			this.frameLabel = new CCWin.SkinControl.SkinLabel();
+			this.tdTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.tdSkinFlowLayoutPanel = new CCWin.SkinControl.SkinFlowLayoutPanel();
-			this.tdPanel1 = new System.Windows.Forms.Panel();
+			this.tdPanelDemo = new System.Windows.Forms.Panel();
 			this.tdNameLabelDemo = new System.Windows.Forms.Label();
 			this.tdNoLabelDemo = new CCWin.SkinControl.SkinLabel();
-			this.tdStepTimeNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.tdSkinTrackBar1 = new CCWin.SkinControl.SkinTrackBar();
-			this.tdValueNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.tdChangeModeSkinComboBox1 = new CCWin.SkinControl.SkinComboBox();
-			this.tdTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.tdStepTimeNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.tdTrackBarDemo = new CCWin.SkinControl.SkinTrackBar();
+			this.tdValueNUDDemo = new System.Windows.Forms.NumericUpDown();
+			this.tdChangeModeComboBoxDemo = new CCWin.SkinControl.SkinComboBox();
+			this.saPanelDemo = new System.Windows.Forms.Panel();
+			this.saFLPDemo = new System.Windows.Forms.FlowLayoutPanel();
+			this.saLabelDemo = new System.Windows.Forms.Label();
+			this.saButtonDemo = new System.Windows.Forms.Button();
 			this.labelAstPanel = new System.Windows.Forms.Panel();
 			this.labelFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.labelPanel = new System.Windows.Forms.Panel();
@@ -167,22 +173,24 @@ namespace LightController.MyForm
 			this.comPanel.SuspendLayout();
 			this.mySkinContextMenuStrip.SuspendLayout();
 			this.astSkinPanel.SuspendLayout();
-			this.tdCommonLabelSkinPanel.SuspendLayout();
-			this.lightInfoSkinPanel.SuspendLayout();
-			this.currentLightSkinPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.unifyPanel.SuspendLayout();
 			this.groupFlowLayoutPanel.SuspendLayout();
 			this.commonButtonPanel.SuspendLayout();
+			this.unifyLabelPanel.SuspendLayout();
+			this.lightInfoSkinPanel.SuspendLayout();
+			this.currentLightSkinPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).BeginInit();
 			this.noticeStatusStrip.SuspendLayout();
 			this.stepSkinPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).BeginInit();
-			this.tdSkinFlowLayoutPanel.SuspendLayout();
-			this.tdPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).BeginInit();
 			this.tdTableLayoutPanel.SuspendLayout();
+			this.tdSkinFlowLayoutPanel.SuspendLayout();
+			this.tdPanelDemo.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNUDDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNUDDemo)).BeginInit();
+			this.saPanelDemo.SuspendLayout();
+			this.saFLPDemo.SuspendLayout();
 			this.labelAstPanel.SuspendLayout();
 			this.labelFlowLayoutPanel.SuspendLayout();
 			this.labelPanel.SuspendLayout();
@@ -1096,11 +1104,13 @@ namespace LightController.MyForm
             this.hideMenuPanelToolStripMenuItem2,
             this.hideProjectPanelToolStripMenuItem2,
             this.hideAstPanelToolStripMenuItem2,
-            this.hidePlayPanelToolStripMenuItem2});
+            this.hidePlayPanelToolStripMenuItem2,
+            this.toolStripSeparator1,
+            this.showSaPanelsToolStripMenuItem});
 			this.mySkinContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
 			this.mySkinContextMenuStrip.Name = "mySkinContextMenuStrip";
 			this.mySkinContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 214);
+			this.mySkinContextMenuStrip.Size = new System.Drawing.Size(173, 242);
 			this.mySkinContextMenuStrip.SkinAllColor = true;
 			this.mySkinContextMenuStrip.TitleAnamorphosis = true;
 			this.mySkinContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -1187,6 +1197,18 @@ namespace LightController.MyForm
 			this.hidePlayPanelToolStripMenuItem2.Size = new System.Drawing.Size(172, 22);
 			this.hidePlayPanelToolStripMenuItem2.Text = "隐藏调试面板";
 			this.hidePlayPanelToolStripMenuItem2.Click += new System.EventHandler(this.hidePlayPanelToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+			// 
+			// showSaPanelsToolStripMenuItem
+			// 
+			this.showSaPanelsToolStripMenuItem.Name = "showSaPanelsToolStripMenuItem";
+			this.showSaPanelsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.showSaPanelsToolStripMenuItem.Text = "隐藏子属性面板";
+			this.showSaPanelsToolStripMenuItem.Click += new System.EventHandler(this.showSaPanelsToolStripMenuItem_Click);
 			// 
 			// middleImageList
 			// 
@@ -1286,9 +1308,8 @@ namespace LightController.MyForm
 			// 
 			this.astSkinPanel.BackColor = System.Drawing.Color.Transparent;
 			this.astSkinPanel.BorderColor = System.Drawing.Color.LightGray;
-			this.astSkinPanel.Controls.Add(this.tdCommonLabelSkinPanel);
-			this.astSkinPanel.Controls.Add(this.lightInfoSkinPanel);
 			this.astSkinPanel.Controls.Add(this.unifyPanel);
+			this.astSkinPanel.Controls.Add(this.lightInfoSkinPanel);
 			this.astSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.astSkinPanel.Dock = System.Windows.Forms.DockStyle.Right;
 			this.astSkinPanel.DownBack = null;
@@ -1300,19 +1321,137 @@ namespace LightController.MyForm
 			this.astSkinPanel.Size = new System.Drawing.Size(246, 819);
 			this.astSkinPanel.TabIndex = 10;
 			// 
-			// tdCommonLabelSkinPanel
+			// unifyPanel
 			// 
-			this.tdCommonLabelSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(139)))), ((int)(((byte)(139)))), ((int)(((byte)(139)))));
-			this.tdCommonLabelSkinPanel.Controls.Add(this.tytzLabel);
-			this.tdCommonLabelSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.tdCommonLabelSkinPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.tdCommonLabelSkinPanel.DownBack = null;
-			this.tdCommonLabelSkinPanel.Location = new System.Drawing.Point(0, 296);
-			this.tdCommonLabelSkinPanel.MouseBack = null;
-			this.tdCommonLabelSkinPanel.Name = "tdCommonLabelSkinPanel";
-			this.tdCommonLabelSkinPanel.NormlBack = null;
-			this.tdCommonLabelSkinPanel.Size = new System.Drawing.Size(246, 24);
-			this.tdCommonLabelSkinPanel.TabIndex = 2;
+			this.unifyPanel.AutoScroll = true;
+			this.unifyPanel.Controls.Add(this.groupFlowLayoutPanel);
+			this.unifyPanel.Controls.Add(this.commonButtonPanel);
+			this.unifyPanel.Controls.Add(this.unifyLabelPanel);
+			this.unifyPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.unifyPanel.Location = new System.Drawing.Point(0, 293);
+			this.unifyPanel.Name = "unifyPanel";
+			this.unifyPanel.Size = new System.Drawing.Size(246, 526);
+			this.unifyPanel.TabIndex = 29;
+			// 
+			// groupFlowLayoutPanel
+			// 
+			this.groupFlowLayoutPanel.AutoScroll = true;
+			this.groupFlowLayoutPanel.Controls.Add(this.groupInBtnDemo);
+			this.groupFlowLayoutPanel.Controls.Add(this.groupDelButtonDemo);
+			this.groupFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(0, 111);
+			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
+			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(246, 415);
+			this.groupFlowLayoutPanel.TabIndex = 29;
+			// 
+			// groupInBtnDemo
+			// 
+			this.groupInBtnDemo.ForeColor = System.Drawing.Color.Black;
+			this.groupInBtnDemo.Location = new System.Drawing.Point(3, 3);
+			this.groupInBtnDemo.Name = "groupInBtnDemo";
+			this.groupInBtnDemo.Size = new System.Drawing.Size(79, 23);
+			this.groupInBtnDemo.TabIndex = 0;
+			this.groupInBtnDemo.Text = "groupInButtonDemo";
+			this.groupInBtnDemo.UseVisualStyleBackColor = true;
+			this.groupInBtnDemo.Visible = false;
+			this.groupInBtnDemo.Click += new System.EventHandler(this.groupInButton_Click);
+			// 
+			// groupDelButtonDemo
+			// 
+			this.groupDelButtonDemo.ForeColor = System.Drawing.Color.Black;
+			this.groupDelButtonDemo.Location = new System.Drawing.Point(88, 3);
+			this.groupDelButtonDemo.Name = "groupDelButtonDemo";
+			this.groupDelButtonDemo.Size = new System.Drawing.Size(30, 23);
+			this.groupDelButtonDemo.TabIndex = 0;
+			this.groupDelButtonDemo.Text = "-";
+			this.groupDelButtonDemo.UseVisualStyleBackColor = true;
+			this.groupDelButtonDemo.Visible = false;
+			this.groupDelButtonDemo.Click += new System.EventHandler(this.groupDelButton_Click);
+			// 
+			// commonButtonPanel
+			// 
+			this.commonButtonPanel.Controls.Add(this.groupButton);
+			this.commonButtonPanel.Controls.Add(this.soundListButton);
+			this.commonButtonPanel.Controls.Add(this.detailMultiButton);
+			this.commonButtonPanel.Controls.Add(this.multiButton);
+			this.commonButtonPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.commonButtonPanel.Location = new System.Drawing.Point(0, 24);
+			this.commonButtonPanel.Name = "commonButtonPanel";
+			this.commonButtonPanel.Size = new System.Drawing.Size(246, 87);
+			this.commonButtonPanel.TabIndex = 30;
+			// 
+			// groupButton
+			// 
+			this.groupButton.BackColor = System.Drawing.Color.Transparent;
+			this.groupButton.Enabled = false;
+			this.groupButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.groupButton.ForeColor = System.Drawing.Color.Black;
+			this.groupButton.Location = new System.Drawing.Point(24, 14);
+			this.groupButton.Name = "groupButton";
+			this.groupButton.Size = new System.Drawing.Size(94, 25);
+			this.groupButton.TabIndex = 30;
+			this.groupButton.Text = "灯具编组";
+			this.groupButton.UseVisualStyleBackColor = false;
+			this.groupButton.Click += new System.EventHandler(this.groupSkinButton_Click);
+			// 
+			// soundListButton
+			// 
+			this.soundListButton.BackColor = System.Drawing.Color.Transparent;
+			this.soundListButton.Enabled = false;
+			this.soundListButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.soundListButton.ForeColor = System.Drawing.Color.Black;
+			this.soundListButton.Location = new System.Drawing.Point(24, 49);
+			this.soundListButton.Name = "soundListButton";
+			this.soundListButton.Size = new System.Drawing.Size(94, 25);
+			this.soundListButton.TabIndex = 30;
+			this.soundListButton.Text = "音频链表";
+			this.soundListButton.UseVisualStyleBackColor = false;
+			this.soundListButton.Click += new System.EventHandler(this.soundListButton_Click);
+			// 
+			// detailMultiButton
+			// 
+			this.detailMultiButton.BackColor = System.Drawing.Color.Transparent;
+			this.detailMultiButton.Enabled = false;
+			this.detailMultiButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.detailMultiButton.ForeColor = System.Drawing.Color.Black;
+			this.detailMultiButton.Location = new System.Drawing.Point(130, 49);
+			this.detailMultiButton.Name = "detailMultiButton";
+			this.detailMultiButton.Size = new System.Drawing.Size(94, 25);
+			this.detailMultiButton.TabIndex = 30;
+			this.detailMultiButton.Text = "多步联调";
+			this.detailMultiButton.UseVisualStyleBackColor = false;
+			this.detailMultiButton.Click += new System.EventHandler(this.detailMultiButton_Click);
+			this.detailMultiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.detailMultiButton_MouseDown);
+			// 
+			// multiButton
+			// 
+			this.multiButton.BackColor = System.Drawing.Color.Transparent;
+			this.multiButton.Enabled = false;
+			this.multiButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.multiButton.ForeColor = System.Drawing.Color.Black;
+			this.multiButton.Location = new System.Drawing.Point(130, 14);
+			this.multiButton.Name = "multiButton";
+			this.multiButton.Size = new System.Drawing.Size(94, 25);
+			this.multiButton.TabIndex = 30;
+			this.multiButton.Text = "多步调节";
+			this.multiButton.UseVisualStyleBackColor = false;
+			this.multiButton.Click += new System.EventHandler(this.multiButton_Click);
+			this.multiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.multiButton_MouseDown);
+			// 
+			// unifyLabelPanel
+			// 
+			this.unifyLabelPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(139)))), ((int)(((byte)(139)))), ((int)(((byte)(139)))));
+			this.unifyLabelPanel.Controls.Add(this.tytzLabel);
+			this.unifyLabelPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.unifyLabelPanel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.unifyLabelPanel.DownBack = null;
+			this.unifyLabelPanel.Location = new System.Drawing.Point(0, 0);
+			this.unifyLabelPanel.MouseBack = null;
+			this.unifyLabelPanel.Name = "unifyLabelPanel";
+			this.unifyLabelPanel.NormlBack = null;
+			this.unifyLabelPanel.Size = new System.Drawing.Size(246, 24);
+			this.unifyLabelPanel.TabIndex = 2;
 			// 
 			// tytzLabel
 			// 
@@ -1325,13 +1464,14 @@ namespace LightController.MyForm
 			// 
 			// lightInfoSkinPanel
 			// 
+			this.lightInfoSkinPanel.AutoScroll = true;
 			this.lightInfoSkinPanel.BackColor = System.Drawing.Color.Transparent;
-			this.lightInfoSkinPanel.Controls.Add(this.lightsAddrLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.lightRemarkLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.lightTypeLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.lightNameLabel);
 			this.lightInfoSkinPanel.Controls.Add(this.currentLightSkinPanel);
 			this.lightInfoSkinPanel.Controls.Add(this.currentLightPictureBox);
+			this.lightInfoSkinPanel.Controls.Add(this.lightsAddrLabel);
 			this.lightInfoSkinPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
 			this.lightInfoSkinPanel.Dock = System.Windows.Forms.DockStyle.Top;
 			this.lightInfoSkinPanel.DownBack = null;
@@ -1339,17 +1479,8 @@ namespace LightController.MyForm
 			this.lightInfoSkinPanel.MouseBack = null;
 			this.lightInfoSkinPanel.Name = "lightInfoSkinPanel";
 			this.lightInfoSkinPanel.NormlBack = null;
-			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 314);
+			this.lightInfoSkinPanel.Size = new System.Drawing.Size(246, 293);
 			this.lightInfoSkinPanel.TabIndex = 0;
-			// 
-			// lightsAddrLabel
-			// 
-			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
-			this.lightsAddrLabel.Location = new System.Drawing.Point(24, 242);
-			this.lightsAddrLabel.Name = "lightsAddrLabel";
-			this.lightsAddrLabel.Size = new System.Drawing.Size(210, 74);
-			this.lightsAddrLabel.TabIndex = 0;
 			// 
 			// lightRemarkLabel
 			// 
@@ -1414,120 +1545,16 @@ namespace LightController.MyForm
 			this.currentLightPictureBox.TabIndex = 0;
 			this.currentLightPictureBox.TabStop = false;
 			// 
-			// unifyPanel
+			// lightsAddrLabel
 			// 
-			this.unifyPanel.AutoScroll = true;
-			this.unifyPanel.Controls.Add(this.groupFlowLayoutPanel);
-			this.unifyPanel.Controls.Add(this.commonButtonPanel);
-			this.unifyPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.unifyPanel.Location = new System.Drawing.Point(0, 320);
-			this.unifyPanel.Name = "unifyPanel";
-			this.unifyPanel.Size = new System.Drawing.Size(246, 499);
-			this.unifyPanel.TabIndex = 29;
-			// 
-			// groupFlowLayoutPanel
-			// 
-			this.groupFlowLayoutPanel.AutoScroll = true;
-			this.groupFlowLayoutPanel.Controls.Add(this.groupInBtnDemo);
-			this.groupFlowLayoutPanel.Controls.Add(this.groupDelButtonDemo);
-			this.groupFlowLayoutPanel.Location = new System.Drawing.Point(0, 82);
-			this.groupFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-			this.groupFlowLayoutPanel.Name = "groupFlowLayoutPanel";
-			this.groupFlowLayoutPanel.Size = new System.Drawing.Size(246, 414);
-			this.groupFlowLayoutPanel.TabIndex = 29;
-			// 
-			// groupInBtnDemo
-			// 
-			this.groupInBtnDemo.ForeColor = System.Drawing.Color.Black;
-			this.groupInBtnDemo.Location = new System.Drawing.Point(3, 3);
-			this.groupInBtnDemo.Name = "groupInBtnDemo";
-			this.groupInBtnDemo.Size = new System.Drawing.Size(79, 23);
-			this.groupInBtnDemo.TabIndex = 0;
-			this.groupInBtnDemo.Text = "groupInButtonDemo";
-			this.groupInBtnDemo.UseVisualStyleBackColor = true;
-			this.groupInBtnDemo.Visible = false;
-			this.groupInBtnDemo.Click += new System.EventHandler(this.groupInButton_Click);
-			// 
-			// groupDelButtonDemo
-			// 
-			this.groupDelButtonDemo.ForeColor = System.Drawing.Color.Black;
-			this.groupDelButtonDemo.Location = new System.Drawing.Point(88, 3);
-			this.groupDelButtonDemo.Name = "groupDelButtonDemo";
-			this.groupDelButtonDemo.Size = new System.Drawing.Size(30, 23);
-			this.groupDelButtonDemo.TabIndex = 0;
-			this.groupDelButtonDemo.Text = "-";
-			this.groupDelButtonDemo.UseVisualStyleBackColor = true;
-			this.groupDelButtonDemo.Visible = false;
-			this.groupDelButtonDemo.Click += new System.EventHandler(this.groupDelButton_Click);
-			// 
-			// commonButtonPanel
-			// 
-			this.commonButtonPanel.Controls.Add(this.groupButton);
-			this.commonButtonPanel.Controls.Add(this.soundListButton);
-			this.commonButtonPanel.Controls.Add(this.initButton);
-			this.commonButtonPanel.Controls.Add(this.multiButton);
-			this.commonButtonPanel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.commonButtonPanel.Location = new System.Drawing.Point(0, 0);
-			this.commonButtonPanel.Name = "commonButtonPanel";
-			this.commonButtonPanel.Size = new System.Drawing.Size(246, 87);
-			this.commonButtonPanel.TabIndex = 30;
-			// 
-			// groupButton
-			// 
-			this.groupButton.BackColor = System.Drawing.Color.Transparent;
-			this.groupButton.Enabled = false;
-			this.groupButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.groupButton.ForeColor = System.Drawing.Color.Black;
-			this.groupButton.Location = new System.Drawing.Point(24, 14);
-			this.groupButton.Name = "groupButton";
-			this.groupButton.Size = new System.Drawing.Size(94, 25);
-			this.groupButton.TabIndex = 30;
-			this.groupButton.Text = "灯具编组";
-			this.groupButton.UseVisualStyleBackColor = false;
-			this.groupButton.Click += new System.EventHandler(this.groupSkinButton_Click);
-			// 
-			// soundListButton
-			// 
-			this.soundListButton.BackColor = System.Drawing.Color.Transparent;
-			this.soundListButton.Enabled = false;
-			this.soundListButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.soundListButton.ForeColor = System.Drawing.Color.Black;
-			this.soundListButton.Location = new System.Drawing.Point(130, 45);
-			this.soundListButton.Name = "soundListButton";
-			this.soundListButton.Size = new System.Drawing.Size(94, 25);
-			this.soundListButton.TabIndex = 30;
-			this.soundListButton.Text = "音频链表";
-			this.soundListButton.UseVisualStyleBackColor = false;
-			this.soundListButton.Click += new System.EventHandler(this.soundListButton_Click);
-			// 
-			// initButton
-			// 
-			this.initButton.BackColor = System.Drawing.Color.Transparent;
-			this.initButton.Enabled = false;
-			this.initButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.initButton.ForeColor = System.Drawing.Color.Black;
-			this.initButton.Location = new System.Drawing.Point(24, 45);
-			this.initButton.Name = "initButton";
-			this.initButton.Size = new System.Drawing.Size(94, 25);
-			this.initButton.TabIndex = 30;
-			this.initButton.Text = "设为初值";
-			this.initButton.UseVisualStyleBackColor = false;
-			this.initButton.Click += new System.EventHandler(this.initSkinButton_Click);
-			// 
-			// multiButton
-			// 
-			this.multiButton.BackColor = System.Drawing.Color.Transparent;
-			this.multiButton.Enabled = false;
-			this.multiButton.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.multiButton.ForeColor = System.Drawing.Color.Black;
-			this.multiButton.Location = new System.Drawing.Point(130, 14);
-			this.multiButton.Name = "multiButton";
-			this.multiButton.Size = new System.Drawing.Size(94, 25);
-			this.multiButton.TabIndex = 30;
-			this.multiButton.Text = "多步调节";
-			this.multiButton.UseVisualStyleBackColor = false;
-			this.multiButton.Click += new System.EventHandler(this.multiSkinButton_Click);
-			this.multiButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.multiSkinButton_MouseDown);
+			this.lightsAddrLabel.AutoEllipsis = true;
+			this.lightsAddrLabel.BackColor = System.Drawing.Color.Transparent;
+			this.lightsAddrLabel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lightsAddrLabel.ForeColor = System.Drawing.Color.Black;
+			this.lightsAddrLabel.Location = new System.Drawing.Point(24, 242);
+			this.lightsAddrLabel.Name = "lightsAddrLabel";
+			this.lightsAddrLabel.Size = new System.Drawing.Size(200, 48);
+			this.lightsAddrLabel.TabIndex = 0;
 			// 
 			// noticeStatusStrip
 			// 
@@ -1551,6 +1578,7 @@ namespace LightController.MyForm
 			// 
 			// stepSkinPanel
 			// 
+			this.stepSkinPanel.AutoScroll = true;
 			this.stepSkinPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
 			this.stepSkinPanel.Controls.Add(this.syncSkinButton);
 			this.stepSkinPanel.Controls.Add(this.chooseStepSkinButton);
@@ -2189,124 +2217,6 @@ namespace LightController.MyForm
 			this.frameLabel.TabIndex = 0;
 			this.frameLabel.Text = "场景：";
 			// 
-			// tdSkinFlowLayoutPanel
-			// 
-			this.tdSkinFlowLayoutPanel.AutoScroll = true;
-			this.tdSkinFlowLayoutPanel.AutoSize = true;
-			this.tdSkinFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
-			this.tdSkinFlowLayoutPanel.Controls.Add(this.tdPanel1);
-			this.tdSkinFlowLayoutPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
-			this.tdSkinFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tdSkinFlowLayoutPanel.DownBack = null;
-			this.tdSkinFlowLayoutPanel.Location = new System.Drawing.Point(83, 3);
-			this.tdSkinFlowLayoutPanel.MouseBack = null;
-			this.tdSkinFlowLayoutPanel.Name = "tdSkinFlowLayoutPanel";
-			this.tdSkinFlowLayoutPanel.NormlBack = null;
-			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(963, 298);
-			this.tdSkinFlowLayoutPanel.TabIndex = 27;
-			this.tdSkinFlowLayoutPanel.WrapContents = false;
-			// 
-			// tdPanel1
-			// 
-			this.tdPanel1.Controls.Add(this.tdNameLabelDemo);
-			this.tdPanel1.Controls.Add(this.tdNoLabelDemo);
-			this.tdPanel1.Controls.Add(this.tdStepTimeNumericUpDown1);
-			this.tdPanel1.Controls.Add(this.tdSkinTrackBar1);
-			this.tdPanel1.Controls.Add(this.tdValueNumericUpDown1);
-			this.tdPanel1.Controls.Add(this.tdChangeModeSkinComboBox1);
-			this.tdPanel1.Location = new System.Drawing.Point(3, 3);
-			this.tdPanel1.Name = "tdPanel1";
-			this.tdPanel1.Size = new System.Drawing.Size(80, 275);
-			this.tdPanel1.TabIndex = 26;
-			this.tdPanel1.Visible = false;
-			// 
-			// tdNameLabelDemo
-			// 
-			this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
-			this.tdNameLabelDemo.Location = new System.Drawing.Point(16, 42);
-			this.tdNameLabelDemo.Name = "tdNameLabelDemo";
-			this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 143);
-			this.tdNameLabelDemo.TabIndex = 22;
-			this.tdNameLabelDemo.Text = "x/y轴转速";
-			this.tdNameLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.tdNameLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
-			// 
-			// tdNoLabelDemo
-			// 
-			this.tdNoLabelDemo.AutoSize = true;
-			this.tdNoLabelDemo.BackColor = System.Drawing.Color.Transparent;
-			this.tdNoLabelDemo.BorderColor = System.Drawing.Color.White;
-			this.tdNoLabelDemo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdNoLabelDemo.Location = new System.Drawing.Point(14, 11);
-			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
-			this.tdNoLabelDemo.Size = new System.Drawing.Size(53, 17);
-			this.tdNoLabelDemo.TabIndex = 23;
-			this.tdNoLabelDemo.Text = "通道512";
-			this.tdNoLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
-			// 
-			// tdStepTimeNumericUpDown1
-			// 
-			this.tdStepTimeNumericUpDown1.Font = new System.Drawing.Font("新宋体", 9F);
-			this.tdStepTimeNumericUpDown1.Location = new System.Drawing.Point(15, 253);
-			this.tdStepTimeNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
-			this.tdStepTimeNumericUpDown1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.tdStepTimeNumericUpDown1.Name = "tdStepTimeNumericUpDown1";
-			this.tdStepTimeNumericUpDown1.Size = new System.Drawing.Size(56, 21);
-			this.tdStepTimeNumericUpDown1.TabIndex = 24;
-			// 
-			// tdSkinTrackBar1
-			// 
-			this.tdSkinTrackBar1.AutoSize = false;
-			this.tdSkinTrackBar1.BackColor = System.Drawing.Color.Transparent;
-			this.tdSkinTrackBar1.Bar = null;
-			this.tdSkinTrackBar1.BarStyle = CCWin.SkinControl.HSLTrackBarStyle.Opacity;
-			this.tdSkinTrackBar1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122)))));
-			this.tdSkinTrackBar1.Location = new System.Drawing.Point(19, 31);
-			this.tdSkinTrackBar1.Maximum = 255;
-			this.tdSkinTrackBar1.Name = "tdSkinTrackBar1";
-			this.tdSkinTrackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.tdSkinTrackBar1.Size = new System.Drawing.Size(44, 170);
-			this.tdSkinTrackBar1.TabIndex = 1;
-			this.tdSkinTrackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-			this.tdSkinTrackBar1.Track = null;
-			this.tdSkinTrackBar1.ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
-			// 
-			// tdValueNumericUpDown1
-			// 
-			this.tdValueNumericUpDown1.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.tdValueNumericUpDown1.Location = new System.Drawing.Point(15, 206);
-			this.tdValueNumericUpDown1.Margin = new System.Windows.Forms.Padding(2);
-			this.tdValueNumericUpDown1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-			this.tdValueNumericUpDown1.Name = "tdValueNumericUpDown1";
-			this.tdValueNumericUpDown1.Size = new System.Drawing.Size(56, 21);
-			this.tdValueNumericUpDown1.TabIndex = 25;
-			// 
-			// tdChangeModeSkinComboBox1
-			// 
-			this.tdChangeModeSkinComboBox1.ArrowColor = System.Drawing.Color.White;
-			this.tdChangeModeSkinComboBox1.BaseColor = System.Drawing.Color.Gray;
-			this.tdChangeModeSkinComboBox1.BorderColor = System.Drawing.Color.Gray;
-			this.tdChangeModeSkinComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.tdChangeModeSkinComboBox1.FormattingEnabled = true;
-			this.tdChangeModeSkinComboBox1.ItemBorderColor = System.Drawing.Color.LightSlateGray;
-			this.tdChangeModeSkinComboBox1.Items.AddRange(new object[] {
-            "跳变",
-            "渐变",
-            "屏蔽"});
-			this.tdChangeModeSkinComboBox1.Location = new System.Drawing.Point(15, 229);
-			this.tdChangeModeSkinComboBox1.Name = "tdChangeModeSkinComboBox1";
-			this.tdChangeModeSkinComboBox1.Size = new System.Drawing.Size(56, 22);
-			this.tdChangeModeSkinComboBox1.TabIndex = 19;
-			this.tdChangeModeSkinComboBox1.WaterText = "";
-			// 
 			// tdTableLayoutPanel
 			// 
 			this.tdTableLayoutPanel.ColumnCount = 2;
@@ -2321,6 +2231,171 @@ namespace LightController.MyForm
 			this.tdTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tdTableLayoutPanel.Size = new System.Drawing.Size(1049, 304);
 			this.tdTableLayoutPanel.TabIndex = 28;
+			// 
+			// tdSkinFlowLayoutPanel
+			// 
+			this.tdSkinFlowLayoutPanel.AutoScroll = true;
+			this.tdSkinFlowLayoutPanel.AutoSize = true;
+			this.tdSkinFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
+			this.tdSkinFlowLayoutPanel.Controls.Add(this.tdPanelDemo);
+			this.tdSkinFlowLayoutPanel.Controls.Add(this.saPanelDemo);
+			this.tdSkinFlowLayoutPanel.ControlState = CCWin.SkinClass.ControlState.Normal;
+			this.tdSkinFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tdSkinFlowLayoutPanel.DownBack = null;
+			this.tdSkinFlowLayoutPanel.Location = new System.Drawing.Point(83, 3);
+			this.tdSkinFlowLayoutPanel.MouseBack = null;
+			this.tdSkinFlowLayoutPanel.Name = "tdSkinFlowLayoutPanel";
+			this.tdSkinFlowLayoutPanel.NormlBack = null;
+			this.tdSkinFlowLayoutPanel.Size = new System.Drawing.Size(963, 298);
+			this.tdSkinFlowLayoutPanel.TabIndex = 27;
+			this.tdSkinFlowLayoutPanel.WrapContents = false;
+			// 
+			// tdPanelDemo
+			// 
+			this.tdPanelDemo.Controls.Add(this.tdNameLabelDemo);
+			this.tdPanelDemo.Controls.Add(this.tdNoLabelDemo);
+			this.tdPanelDemo.Controls.Add(this.tdStepTimeNUDDemo);
+			this.tdPanelDemo.Controls.Add(this.tdTrackBarDemo);
+			this.tdPanelDemo.Controls.Add(this.tdValueNUDDemo);
+			this.tdPanelDemo.Controls.Add(this.tdChangeModeComboBoxDemo);
+			this.tdPanelDemo.Location = new System.Drawing.Point(1, 1);
+			this.tdPanelDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.tdPanelDemo.Name = "tdPanelDemo";
+			this.tdPanelDemo.Size = new System.Drawing.Size(60, 275);
+			this.tdPanelDemo.TabIndex = 26;
+			this.tdPanelDemo.Visible = false;
+			// 
+			// tdNameLabelDemo
+			// 
+			this.tdNameLabelDemo.Font = new System.Drawing.Font("宋体", 8F);
+			this.tdNameLabelDemo.Location = new System.Drawing.Point(8, 42);
+			this.tdNameLabelDemo.Name = "tdNameLabelDemo";
+			this.tdNameLabelDemo.Size = new System.Drawing.Size(14, 143);
+			this.tdNameLabelDemo.TabIndex = 22;
+			this.tdNameLabelDemo.Text = "x/y轴转速";
+			this.tdNameLabelDemo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.tdNameLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
+			// 
+			// tdNoLabelDemo
+			// 
+			this.tdNoLabelDemo.AutoSize = true;
+			this.tdNoLabelDemo.BackColor = System.Drawing.Color.Transparent;
+			this.tdNoLabelDemo.BorderColor = System.Drawing.Color.White;
+			this.tdNoLabelDemo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdNoLabelDemo.Location = new System.Drawing.Point(4, 11);
+			this.tdNoLabelDemo.Name = "tdNoLabelDemo";
+			this.tdNoLabelDemo.Size = new System.Drawing.Size(53, 17);
+			this.tdNoLabelDemo.TabIndex = 23;
+			this.tdNoLabelDemo.Text = "通道512";
+			this.tdNoLabelDemo.Click += new System.EventHandler(this.tdNameNumLabels_Click);
+			// 
+			// tdStepTimeNUDDemo
+			// 
+			this.tdStepTimeNUDDemo.Font = new System.Drawing.Font("新宋体", 9F);
+			this.tdStepTimeNUDDemo.Location = new System.Drawing.Point(1, 253);
+			this.tdStepTimeNUDDemo.Margin = new System.Windows.Forms.Padding(2);
+			this.tdStepTimeNUDDemo.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.tdStepTimeNUDDemo.Name = "tdStepTimeNUDDemo";
+			this.tdStepTimeNUDDemo.Size = new System.Drawing.Size(56, 21);
+			this.tdStepTimeNUDDemo.TabIndex = 24;
+			this.tdStepTimeNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// tdTrackBarDemo
+			// 
+			this.tdTrackBarDemo.AutoSize = false;
+			this.tdTrackBarDemo.BackColor = System.Drawing.Color.Transparent;
+			this.tdTrackBarDemo.Bar = null;
+			this.tdTrackBarDemo.BarStyle = CCWin.SkinControl.HSLTrackBarStyle.Opacity;
+			this.tdTrackBarDemo.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(112)))), ((int)(((byte)(122)))));
+			this.tdTrackBarDemo.Location = new System.Drawing.Point(11, 31);
+			this.tdTrackBarDemo.Maximum = 255;
+			this.tdTrackBarDemo.Name = "tdTrackBarDemo";
+			this.tdTrackBarDemo.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.tdTrackBarDemo.Size = new System.Drawing.Size(44, 170);
+			this.tdTrackBarDemo.TabIndex = 1;
+			this.tdTrackBarDemo.TickStyle = System.Windows.Forms.TickStyle.Both;
+			this.tdTrackBarDemo.Track = null;
+			this.tdTrackBarDemo.ValueChanged += new System.EventHandler(this.tdValueNumericUpDowns_ValueChanged);
+			// 
+			// tdValueNUDDemo
+			// 
+			this.tdValueNUDDemo.Font = new System.Drawing.Font("新宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.tdValueNUDDemo.Location = new System.Drawing.Point(1, 206);
+			this.tdValueNUDDemo.Margin = new System.Windows.Forms.Padding(2);
+			this.tdValueNUDDemo.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+			this.tdValueNUDDemo.Name = "tdValueNUDDemo";
+			this.tdValueNUDDemo.Size = new System.Drawing.Size(56, 21);
+			this.tdValueNUDDemo.TabIndex = 25;
+			this.tdValueNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// tdChangeModeComboBoxDemo
+			// 
+			this.tdChangeModeComboBoxDemo.ArrowColor = System.Drawing.Color.White;
+			this.tdChangeModeComboBoxDemo.BaseColor = System.Drawing.Color.Gray;
+			this.tdChangeModeComboBoxDemo.BorderColor = System.Drawing.Color.Gray;
+			this.tdChangeModeComboBoxDemo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.tdChangeModeComboBoxDemo.FormattingEnabled = true;
+			this.tdChangeModeComboBoxDemo.ItemBorderColor = System.Drawing.Color.LightSlateGray;
+			this.tdChangeModeComboBoxDemo.Items.AddRange(new object[] {
+            "跳变",
+            "渐变",
+            "屏蔽"});
+			this.tdChangeModeComboBoxDemo.Location = new System.Drawing.Point(1, 229);
+			this.tdChangeModeComboBoxDemo.Name = "tdChangeModeComboBoxDemo";
+			this.tdChangeModeComboBoxDemo.Size = new System.Drawing.Size(56, 22);
+			this.tdChangeModeComboBoxDemo.TabIndex = 19;
+			this.tdChangeModeComboBoxDemo.WaterText = "";
+			// 
+			// saPanelDemo
+			// 
+			this.saPanelDemo.Controls.Add(this.saFLPDemo);
+			this.saPanelDemo.Location = new System.Drawing.Point(62, 1);
+			this.saPanelDemo.Margin = new System.Windows.Forms.Padding(0, 1, 10, 1);
+			this.saPanelDemo.Name = "saPanelDemo";
+			this.saPanelDemo.Size = new System.Drawing.Size(63, 275);
+			this.saPanelDemo.TabIndex = 27;
+			this.saPanelDemo.Visible = false;
+			// 
+			// saFLPDemo
+			// 
+			this.saFLPDemo.AutoScroll = true;
+			this.saFLPDemo.Controls.Add(this.saLabelDemo);
+			this.saFLPDemo.Controls.Add(this.saButtonDemo);
+			this.saFLPDemo.Dock = System.Windows.Forms.DockStyle.Left;
+			this.saFLPDemo.Location = new System.Drawing.Point(0, 0);
+			this.saFLPDemo.Margin = new System.Windows.Forms.Padding(0);
+			this.saFLPDemo.Name = "saFLPDemo";
+			this.saFLPDemo.Size = new System.Drawing.Size(81, 275);
+			this.saFLPDemo.TabIndex = 0;
+			// 
+			// saLabelDemo
+			// 
+			this.saLabelDemo.Location = new System.Drawing.Point(1, 1);
+			this.saLabelDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.saLabelDemo.Name = "saLabelDemo";
+			this.saLabelDemo.Size = new System.Drawing.Size(61, 30);
+			this.saLabelDemo.TabIndex = 1;
+			this.saLabelDemo.Text = "<-";
+			this.saLabelDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// saButtonDemo
+			// 
+			this.saButtonDemo.Location = new System.Drawing.Point(1, 33);
+			this.saButtonDemo.Margin = new System.Windows.Forms.Padding(1);
+			this.saButtonDemo.Name = "saButtonDemo";
+			this.saButtonDemo.Size = new System.Drawing.Size(61, 23);
+			this.saButtonDemo.TabIndex = 0;
+			this.saButtonDemo.Text = "四个汉字";
+			this.saButtonDemo.UseVisualStyleBackColor = true;
+			this.saButtonDemo.Click += new System.EventHandler(this.saButton_Click);
 			// 
 			// labelAstPanel
 			// 
@@ -2356,7 +2431,7 @@ namespace LightController.MyForm
 			// thirdLabel1
 			// 
 			this.thirdLabel1.AutoSize = true;
-			this.thirdLabel1.Location = new System.Drawing.Point(19, 257);
+			this.thirdLabel1.Location = new System.Drawing.Point(19, 255);
 			this.thirdLabel1.Name = "thirdLabel1";
 			this.thirdLabel1.Size = new System.Drawing.Size(41, 12);
 			this.thirdLabel1.TabIndex = 0;
@@ -2365,7 +2440,7 @@ namespace LightController.MyForm
 			// secondLabel1
 			// 
 			this.secondLabel1.AutoSize = true;
-			this.secondLabel1.Location = new System.Drawing.Point(19, 234);
+			this.secondLabel1.Location = new System.Drawing.Point(19, 232);
 			this.secondLabel1.Name = "secondLabel1";
 			this.secondLabel1.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel1.TabIndex = 0;
@@ -2374,7 +2449,7 @@ namespace LightController.MyForm
 			// firstLabel1
 			// 
 			this.firstLabel1.AutoSize = true;
-			this.firstLabel1.Location = new System.Drawing.Point(19, 210);
+			this.firstLabel1.Location = new System.Drawing.Point(19, 208);
 			this.firstLabel1.Name = "firstLabel1";
 			this.firstLabel1.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel1.TabIndex = 0;
@@ -2487,29 +2562,31 @@ namespace LightController.MyForm
 			this.comPanel.ResumeLayout(false);
 			this.mySkinContextMenuStrip.ResumeLayout(false);
 			this.astSkinPanel.ResumeLayout(false);
-			this.tdCommonLabelSkinPanel.ResumeLayout(false);
-			this.tdCommonLabelSkinPanel.PerformLayout();
+			this.unifyPanel.ResumeLayout(false);
+			this.groupFlowLayoutPanel.ResumeLayout(false);
+			this.commonButtonPanel.ResumeLayout(false);
+			this.unifyLabelPanel.ResumeLayout(false);
+			this.unifyLabelPanel.PerformLayout();
 			this.lightInfoSkinPanel.ResumeLayout(false);
 			this.lightInfoSkinPanel.PerformLayout();
 			this.currentLightSkinPanel.ResumeLayout(false);
 			this.currentLightSkinPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.currentLightPictureBox)).EndInit();
-			this.unifyPanel.ResumeLayout(false);
-			this.groupFlowLayoutPanel.ResumeLayout(false);
-			this.commonButtonPanel.ResumeLayout(false);
 			this.noticeStatusStrip.ResumeLayout(false);
 			this.noticeStatusStrip.PerformLayout();
 			this.stepSkinPanel.ResumeLayout(false);
 			this.stepSkinPanel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chooseStepNumericUpDown)).EndInit();
-			this.tdSkinFlowLayoutPanel.ResumeLayout(false);
-			this.tdPanel1.ResumeLayout(false);
-			this.tdPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNumericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdSkinTrackBar1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.tdValueNumericUpDown1)).EndInit();
 			this.tdTableLayoutPanel.ResumeLayout(false);
 			this.tdTableLayoutPanel.PerformLayout();
+			this.tdSkinFlowLayoutPanel.ResumeLayout(false);
+			this.tdPanelDemo.ResumeLayout(false);
+			this.tdPanelDemo.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tdStepTimeNUDDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdTrackBarDemo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.tdValueNUDDemo)).EndInit();
+			this.saPanelDemo.ResumeLayout(false);
+			this.saFLPDemo.ResumeLayout(false);
 			this.labelAstPanel.ResumeLayout(false);
 			this.labelFlowLayoutPanel.ResumeLayout(false);
 			this.labelPanel.ResumeLayout(false);
@@ -2556,20 +2633,10 @@ namespace LightController.MyForm
 		private CCWin.SkinControl.SkinButton previewSkinButton;
 		private CCWin.SkinControl.SkinPanel lightInfoSkinPanel;
 		private PictureBox currentLightPictureBox;
-		private CCWin.SkinControl.SkinPanel tdCommonLabelSkinPanel;
+		private CCWin.SkinControl.SkinPanel unifyLabelPanel;
 		private CCWin.SkinControl.SkinPanel currentLightSkinPanel;
 		private Label tytzLabel;
 		private Label dqdjLabel;
-
-		
-
-		private SkinFlowLayoutPanel tdSkinFlowLayoutPanel;
-		private Panel tdPanel1;
-		public Label tdNameLabelDemo;
-		private SkinLabel tdNoLabelDemo;
-		private NumericUpDown tdStepTimeNumericUpDown1;
-		private NumericUpDown tdValueNumericUpDown1;
-		private SkinComboBox tdChangeModeSkinComboBox1;
 		private TableLayoutPanel tdTableLayoutPanel;
 		private Panel labelAstPanel;
 		private FlowLayoutPanel labelFlowLayoutPanel;
@@ -2580,7 +2647,6 @@ namespace LightController.MyForm
 		private Panel unifyPanel;
 		private Panel playPanel;
 		private SkinButton exportSkinButton;
-		private SkinTrackBar tdSkinTrackBar1;
 		private FlowLayoutPanel flowLayoutPanel1;
 		private GroupBox testGroupBox;
 		private Button test4Button;
@@ -2647,10 +2713,24 @@ namespace LightController.MyForm
         private Button multiButton;
         private Button groupButton;
         private Button soundListButton;
-        private Button initButton;
 		private Panel commonButtonPanel;
 		private SkinButton actionButton;
 		private SkinButton copyStepSkinButton;
 		private SkinButton pasteStepSkinButton;
+		private SkinFlowLayoutPanel tdSkinFlowLayoutPanel;
+		private Panel tdPanelDemo;
+		public Label tdNameLabelDemo;
+		private SkinLabel tdNoLabelDemo;
+		private NumericUpDown tdStepTimeNUDDemo;
+		private SkinTrackBar tdTrackBarDemo;
+		private NumericUpDown tdValueNUDDemo;
+		private SkinComboBox tdChangeModeComboBoxDemo;
+		private Panel saPanelDemo;
+		private FlowLayoutPanel saFLPDemo;
+		private Button saButtonDemo;
+		private Label saLabelDemo;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripMenuItem showSaPanelsToolStripMenuItem;
+		private Button detailMultiButton;
 	}
 }

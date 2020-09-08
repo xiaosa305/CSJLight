@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DMX512;
+using LightController.MyForm;
 
 namespace LightController.Ast
 {
@@ -71,6 +72,33 @@ namespace LightController.Ast
 					.SetInt32("mode",pk.Mode)
 					.UniqueResult();
 				return sc;
+			}
+		}
+
+		/// <summary>
+		/// 传入frameLoadArray,算出已加载到内存的Index列表，把这些数据排除，查找剩余的数据（DB）
+		/// </summary>
+		/// <param name="frameLoadArray"></param>
+		/// <returns></returns>
+		internal IList<DB_StepCount> GetAllWithList(bool[] frameLoadArray)
+		{
+			//先找出不查找的Index列表
+			List<int> notList = new List<int>();
+			for(int frameIndex=0;frameIndex< frameLoadArray.Length;frameIndex++)
+			{
+				if (frameLoadArray[frameIndex]) {
+					notList.Add(frameIndex);
+				}
+			}
+
+			using (var session = sessionFactory.OpenSession())
+			{
+				IList<DB_StepCount> scList = (IList<DB_StepCount>)session
+					.CreateQuery("FROM DB_StepCount sc WHERE " +							
+							"sc.PK.Frame not in (:notList)")
+					.SetParameterList("notList",notList)
+					.List<DB_StepCount>();
+				return scList;
 			}
 		}
 	}		

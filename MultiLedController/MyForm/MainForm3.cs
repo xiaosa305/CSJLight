@@ -13,11 +13,12 @@ using MultiLedController.Ast;
 using System.Threading;
 using MultiLedController.multidevice.newmultidevice;
 
+
 namespace MultiLedController.MyForm
 {
 	public partial class MainForm3 : Form
 	{
-		private string version = "3.0.1.817";
+		private IniFileHelper iniHelper;		
 		private bool isFirstTime = true; //只用一次的方法，避免每次激活都跑一次刷新			
 
 		private ManagementObject mo; //存放当前网卡的mo对象
@@ -35,13 +36,16 @@ namespace MultiLedController.MyForm
 
 		public MainForm3()
 		{
-			InitializeComponent();						
-			Text += " v" + version + " beta";
+			InitializeComponent();
 
-			// 设两个可调节ComboBox的默认值
-			interfaceCountComboBox.SelectedIndex = 0;
-			spaceCountComboBox.SelectedIndex = 0;
-			
+			// 动态从ini文件内读取相应的数据
+			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
+			string version = iniHelper.ReadString("CommonSet", "version", "3");
+			Text += " v" + version + " beta";			
+			interfaceCountComboBox.SelectedIndex = iniHelper.ReadInt( "CommonSet", "interfaceCount",0);
+			spaceCountComboBox.SelectedIndex = iniHelper.ReadInt("CommonSet", "spaceCount", 0);
+			controllerCountNUD.Value = iniHelper.ReadInt("CommonSet", "controllerCount", 1);
+			autosetControllerCountNUDMaxinum();
 		}
 
 		private void MainForm3_Load(object sender, EventArgs e)
@@ -282,14 +286,16 @@ namespace MultiLedController.MyForm
 			if (isFirstTime) {
 				return;
 			}
-
-			int interfaceCount = int.Parse( interfaceCountComboBox.Text );
-			int spaceCount = int.Parse(spaceCountComboBox.Text) / 170;
-			int maxControllerCount = 256 / interfaceCount / spaceCount;
-			controllerCountNUD.Maximum = maxControllerCount;			
-		
+			autosetControllerCountNUDMaxinum();
 		}
-		
+
+		private void autosetControllerCountNUDMaxinum()
+		{
+			int interfaceCount = int.Parse(interfaceCountComboBox.Text);
+			int spaceCount = int.Parse(spaceCountComboBox.Text) / 170;
+			controllerCountNUD.Maximum = 256 / interfaceCount / spaceCount;
+		}
+
 		/// <summary>
 		/// 事件：点击《启动（停止）模拟》
 		/// </summary>
@@ -402,6 +408,7 @@ namespace MultiLedController.MyForm
 
 				enableStartButtons(true);
 				setNotice(1, "已启动模拟,共耗时: " + ts.TotalSeconds.ToString("#0.00") + " s", false);
+				saveLastSet();
 				setBusy(false);
 
 				/// 启动模拟后，主动点击《开始调试》
@@ -430,6 +437,17 @@ namespace MultiLedController.MyForm
 				setNotice(1, "已关闭模拟。", false);
 				setBusy(false);
 			}
+		}
+
+		/// <summary>
+		///辅助方法：保存启动模拟时的配置（下次打开软件时可直接使用此配置）
+		/// </summary>
+		private void saveLastSet()
+		{
+			iniHelper.WriteInt("CommonSet", "interfaceCount", interfaceCountComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet", "spaceCount", spaceCountComboBox.SelectedIndex);
+			iniHelper.WriteInt("CommonSet", "controllerCount", controllerCountNUD.Value);
+			setNotice(2, "成功保存当前配置", false);
 		}
 
 		/// <summary>

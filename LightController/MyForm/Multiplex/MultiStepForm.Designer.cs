@@ -68,7 +68,10 @@
 			this.commonValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.unifyStNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.modeLabel = new System.Windows.Forms.Label();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.valuePanel = new System.Windows.Forms.Panel();
+			this.doubleRadioButton = new System.Windows.Forms.RadioButton();
+			this.singleRadioButton = new System.Windows.Forms.RadioButton();
+			this.allRadioButton = new System.Windows.Forms.RadioButton();
 			this.detailMultiButton = new System.Windows.Forms.Button();
 			this.sLabel = new System.Windows.Forms.Label();
 			this.zeroButton = new System.Windows.Forms.Button();
@@ -78,18 +81,18 @@
 			this.allStepButton = new System.Windows.Forms.Button();
 			this.unifyValueButton = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
-			this.panel3 = new System.Windows.Forms.Panel();
+			this.allPanel = new System.Windows.Forms.Panel();
 			this.selectAllCheckBox = new System.Windows.Forms.CheckBox();
 			this.noticeLabel = new System.Windows.Forms.Label();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.tdFLP = new System.Windows.Forms.FlowLayoutPanel();
 			this.tongdaoPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.startNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStNumericUpDown)).BeginInit();
-			this.panel1.SuspendLayout();
-			this.panel3.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
+			this.valuePanel.SuspendLayout();
+			this.allPanel.SuspendLayout();
+			this.tdFLP.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tongdaoPanel
@@ -131,7 +134,7 @@
 			this.tongdaoPanel.Location = new System.Drawing.Point(2, 55);
 			this.tongdaoPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.tongdaoPanel.Name = "tongdaoPanel";
-			this.tongdaoPanel.Size = new System.Drawing.Size(319, 351);
+			this.tongdaoPanel.Size = new System.Drawing.Size(319, 387);
 			this.tongdaoPanel.TabIndex = 5;
 			// 
 			// checkBox32
@@ -520,7 +523,7 @@
 			// 
 			// startNumericUpDown
 			// 
-			this.startNumericUpDown.Location = new System.Drawing.Point(37, 122);
+			this.startNumericUpDown.Location = new System.Drawing.Point(38, 96);
 			this.startNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -538,7 +541,7 @@
 			// 
 			// endNumericUpDown
 			// 
-			this.endNumericUpDown.Location = new System.Drawing.Point(159, 122);
+			this.endNumericUpDown.Location = new System.Drawing.Point(160, 96);
 			this.endNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
@@ -557,7 +560,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(122, 126);
+			this.label1.Location = new System.Drawing.Point(123, 100);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(11, 12);
 			this.label1.TabIndex = 7;
@@ -566,7 +569,7 @@
 			// unifyCmComboBox
 			// 
 			this.unifyCmComboBox.FormattingEnabled = true;
-			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 277);
+			this.unifyCmComboBox.Location = new System.Drawing.Point(30, 275);
 			this.unifyCmComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyCmComboBox.Name = "unifyCmComboBox";
 			this.unifyCmComboBox.Size = new System.Drawing.Size(68, 20);
@@ -574,7 +577,7 @@
 			// 
 			// commonValueNumericUpDown
 			// 
-			this.commonValueNumericUpDown.Location = new System.Drawing.Point(30, 238);
+			this.commonValueNumericUpDown.Location = new System.Drawing.Point(30, 236);
 			this.commonValueNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.commonValueNumericUpDown.Maximum = new decimal(new int[] {
             255,
@@ -589,7 +592,7 @@
 			// unifyStNumericUpDown
 			// 
 			this.unifyStNumericUpDown.DecimalPlaces = 2;
-			this.unifyStNumericUpDown.Location = new System.Drawing.Point(30, 315);
+			this.unifyStNumericUpDown.Location = new System.Drawing.Point(30, 313);
 			this.unifyStNumericUpDown.Margin = new System.Windows.Forms.Padding(2);
 			this.unifyStNumericUpDown.Maximum = new decimal(new int[] {
             300,
@@ -612,34 +615,72 @@
 			this.modeLabel.TabIndex = 30;
 			this.modeLabel.Text = "当前模式";
 			// 
-			// panel1
+			// valuePanel
 			// 
-			this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.panel1.Controls.Add(this.detailMultiButton);
-			this.panel1.Controls.Add(this.sLabel);
-			this.panel1.Controls.Add(this.zeroButton);
-			this.panel1.Controls.Add(this.unifyStButton);
-			this.panel1.Controls.Add(this.ignoreButton);
-			this.panel1.Controls.Add(this.unifyCmButton);
-			this.panel1.Controls.Add(this.allStepButton);
-			this.panel1.Controls.Add(this.unifyValueButton);
-			this.panel1.Controls.Add(this.label4);
-			this.panel1.Controls.Add(this.modeLabel);
-			this.panel1.Controls.Add(this.startNumericUpDown);
-			this.panel1.Controls.Add(this.endNumericUpDown);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.unifyStNumericUpDown);
-			this.panel1.Controls.Add(this.commonValueNumericUpDown);
-			this.panel1.Controls.Add(this.unifyCmComboBox);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(326, 0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(245, 410);
-			this.panel1.TabIndex = 31;
+			this.valuePanel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.valuePanel.Controls.Add(this.doubleRadioButton);
+			this.valuePanel.Controls.Add(this.singleRadioButton);
+			this.valuePanel.Controls.Add(this.allRadioButton);
+			this.valuePanel.Controls.Add(this.detailMultiButton);
+			this.valuePanel.Controls.Add(this.sLabel);
+			this.valuePanel.Controls.Add(this.zeroButton);
+			this.valuePanel.Controls.Add(this.unifyStButton);
+			this.valuePanel.Controls.Add(this.ignoreButton);
+			this.valuePanel.Controls.Add(this.unifyCmButton);
+			this.valuePanel.Controls.Add(this.allStepButton);
+			this.valuePanel.Controls.Add(this.unifyValueButton);
+			this.valuePanel.Controls.Add(this.label4);
+			this.valuePanel.Controls.Add(this.modeLabel);
+			this.valuePanel.Controls.Add(this.startNumericUpDown);
+			this.valuePanel.Controls.Add(this.endNumericUpDown);
+			this.valuePanel.Controls.Add(this.label1);
+			this.valuePanel.Controls.Add(this.unifyStNumericUpDown);
+			this.valuePanel.Controls.Add(this.commonValueNumericUpDown);
+			this.valuePanel.Controls.Add(this.unifyCmComboBox);
+			this.valuePanel.Dock = System.Windows.Forms.DockStyle.Right;
+			this.valuePanel.Location = new System.Drawing.Point(326, 0);
+			this.valuePanel.Name = "valuePanel";
+			this.valuePanel.Size = new System.Drawing.Size(245, 446);
+			this.valuePanel.TabIndex = 31;
+			// 
+			// doubleRadioButton
+			// 
+			this.doubleRadioButton.AutoSize = true;
+			this.doubleRadioButton.Location = new System.Drawing.Point(165, 135);
+			this.doubleRadioButton.Name = "doubleRadioButton";
+			this.doubleRadioButton.Size = new System.Drawing.Size(59, 16);
+			this.doubleRadioButton.TabIndex = 37;
+			this.doubleRadioButton.Text = "偶数步";
+			this.doubleRadioButton.UseVisualStyleBackColor = true;
+			this.doubleRadioButton.CheckedChanged += new System.EventHandler(this.stepRadioButton_CheckedChanged);
+			// 
+			// singleRadioButton
+			// 
+			this.singleRadioButton.AutoSize = true;
+			this.singleRadioButton.Location = new System.Drawing.Point(99, 135);
+			this.singleRadioButton.Name = "singleRadioButton";
+			this.singleRadioButton.Size = new System.Drawing.Size(59, 16);
+			this.singleRadioButton.TabIndex = 37;
+			this.singleRadioButton.Text = "奇数步";
+			this.singleRadioButton.UseVisualStyleBackColor = true;
+			this.singleRadioButton.CheckedChanged += new System.EventHandler(this.stepRadioButton_CheckedChanged);
+			// 
+			// allRadioButton
+			// 
+			this.allRadioButton.AutoSize = true;
+			this.allRadioButton.Checked = true;
+			this.allRadioButton.Location = new System.Drawing.Point(39, 135);
+			this.allRadioButton.Name = "allRadioButton";
+			this.allRadioButton.Size = new System.Drawing.Size(47, 16);
+			this.allRadioButton.TabIndex = 37;
+			this.allRadioButton.TabStop = true;
+			this.allRadioButton.Text = "全步";
+			this.allRadioButton.UseVisualStyleBackColor = true;
+			this.allRadioButton.CheckedChanged += new System.EventHandler(this.stepRadioButton_CheckedChanged);
 			// 
 			// detailMultiButton
 			// 
-			this.detailMultiButton.Location = new System.Drawing.Point(30, 360);
+			this.detailMultiButton.Location = new System.Drawing.Point(33, 388);
 			this.detailMultiButton.Name = "detailMultiButton";
 			this.detailMultiButton.Size = new System.Drawing.Size(195, 28);
 			this.detailMultiButton.TabIndex = 36;
@@ -651,7 +692,7 @@
 			// 
 			this.sLabel.AutoSize = true;
 			this.sLabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.sLabel.Location = new System.Drawing.Point(102, 317);
+			this.sLabel.Location = new System.Drawing.Point(102, 315);
 			this.sLabel.Name = "sLabel";
 			this.sLabel.Size = new System.Drawing.Size(16, 16);
 			this.sLabel.TabIndex = 35;
@@ -659,7 +700,7 @@
 			// 
 			// zeroButton
 			// 
-			this.zeroButton.Location = new System.Drawing.Point(138, 191);
+			this.zeroButton.Location = new System.Drawing.Point(138, 189);
 			this.zeroButton.Name = "zeroButton";
 			this.zeroButton.Size = new System.Drawing.Size(87, 25);
 			this.zeroButton.TabIndex = 34;
@@ -669,7 +710,7 @@
 			// 
 			// unifyStButton
 			// 
-			this.unifyStButton.Location = new System.Drawing.Point(138, 313);
+			this.unifyStButton.Location = new System.Drawing.Point(138, 311);
 			this.unifyStButton.Name = "unifyStButton";
 			this.unifyStButton.Size = new System.Drawing.Size(87, 25);
 			this.unifyStButton.TabIndex = 34;
@@ -679,7 +720,7 @@
 			// 
 			// ignoreButton
 			// 
-			this.ignoreButton.Location = new System.Drawing.Point(30, 191);
+			this.ignoreButton.Location = new System.Drawing.Point(30, 189);
 			this.ignoreButton.Name = "ignoreButton";
 			this.ignoreButton.Size = new System.Drawing.Size(87, 25);
 			this.ignoreButton.TabIndex = 34;
@@ -689,7 +730,7 @@
 			// 
 			// unifyCmButton
 			// 
-			this.unifyCmButton.Location = new System.Drawing.Point(138, 275);
+			this.unifyCmButton.Location = new System.Drawing.Point(138, 273);
 			this.unifyCmButton.Name = "unifyCmButton";
 			this.unifyCmButton.Size = new System.Drawing.Size(87, 25);
 			this.unifyCmButton.TabIndex = 34;
@@ -699,7 +740,7 @@
 			// 
 			// allStepButton
 			// 
-			this.allStepButton.Location = new System.Drawing.Point(158, 88);
+			this.allStepButton.Location = new System.Drawing.Point(159, 62);
 			this.allStepButton.Name = "allStepButton";
 			this.allStepButton.Size = new System.Drawing.Size(67, 22);
 			this.allStepButton.TabIndex = 33;
@@ -709,7 +750,7 @@
 			// 
 			// unifyValueButton
 			// 
-			this.unifyValueButton.Location = new System.Drawing.Point(138, 236);
+			this.unifyValueButton.Location = new System.Drawing.Point(138, 234);
 			this.unifyValueButton.Name = "unifyValueButton";
 			this.unifyValueButton.Size = new System.Drawing.Size(87, 25);
 			this.unifyValueButton.TabIndex = 34;
@@ -720,22 +761,22 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(30, 93);
+			this.label4.Location = new System.Drawing.Point(31, 67);
 			this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(125, 12);
 			this.label4.TabIndex = 32;
 			this.label4.Text = "请选择要调节的步数：";
 			// 
-			// panel3
+			// allPanel
 			// 
-			this.panel3.BackColor = System.Drawing.SystemColors.Window;
-			this.panel3.Controls.Add(this.selectAllCheckBox);
-			this.panel3.Controls.Add(this.noticeLabel);
-			this.panel3.Location = new System.Drawing.Point(3, 3);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(323, 47);
-			this.panel3.TabIndex = 6;
+			this.allPanel.BackColor = System.Drawing.SystemColors.Window;
+			this.allPanel.Controls.Add(this.selectAllCheckBox);
+			this.allPanel.Controls.Add(this.noticeLabel);
+			this.allPanel.Location = new System.Drawing.Point(3, 3);
+			this.allPanel.Name = "allPanel";
+			this.allPanel.Size = new System.Drawing.Size(323, 47);
+			this.allPanel.TabIndex = 6;
 			// 
 			// selectAllCheckBox
 			// 
@@ -760,23 +801,23 @@
 			this.noticeLabel.TabIndex = 3;
 			this.noticeLabel.Text = "请勾选要统一调节的通道";
 			// 
-			// flowLayoutPanel1
+			// tdFLP
 			// 
-			this.flowLayoutPanel1.Controls.Add(this.panel3);
-			this.flowLayoutPanel1.Controls.Add(this.tongdaoPanel);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(326, 410);
-			this.flowLayoutPanel1.TabIndex = 32;
+			this.tdFLP.Controls.Add(this.allPanel);
+			this.tdFLP.Controls.Add(this.tongdaoPanel);
+			this.tdFLP.Dock = System.Windows.Forms.DockStyle.Left;
+			this.tdFLP.Location = new System.Drawing.Point(0, 0);
+			this.tdFLP.Name = "tdFLP";
+			this.tdFLP.Size = new System.Drawing.Size(326, 446);
+			this.tdFLP.TabIndex = 32;
 			// 
 			// MultiStepForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(571, 410);
-			this.Controls.Add(this.flowLayoutPanel1);
-			this.Controls.Add(this.panel1);
+			this.ClientSize = new System.Drawing.Size(571, 446);
+			this.Controls.Add(this.tdFLP);
+			this.Controls.Add(this.valuePanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -790,11 +831,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.endNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.commonValueNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.unifyStNumericUpDown)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
-			this.panel3.ResumeLayout(false);
-			this.panel3.PerformLayout();
-			this.flowLayoutPanel1.ResumeLayout(false);
+			this.valuePanel.ResumeLayout(false);
+			this.valuePanel.PerformLayout();
+			this.allPanel.ResumeLayout(false);
+			this.allPanel.PerformLayout();
+			this.tdFLP.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -842,11 +883,11 @@
 		private System.Windows.Forms.NumericUpDown commonValueNumericUpDown;
 		private System.Windows.Forms.NumericUpDown unifyStNumericUpDown;
 		private System.Windows.Forms.Label modeLabel;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.Panel valuePanel;
+		private System.Windows.Forms.Panel allPanel;
 		private System.Windows.Forms.CheckBox selectAllCheckBox;
 		private System.Windows.Forms.Label noticeLabel;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.FlowLayoutPanel tdFLP;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button allStepButton;
 		private System.Windows.Forms.Button zeroButton;
@@ -856,5 +897,8 @@
 		private System.Windows.Forms.Button unifyStButton;
 		private System.Windows.Forms.Label sLabel;
 		private System.Windows.Forms.Button detailMultiButton;
+		private System.Windows.Forms.RadioButton doubleRadioButton;
+		private System.Windows.Forms.RadioButton singleRadioButton;
+		private System.Windows.Forms.RadioButton allRadioButton;
 	}
 }

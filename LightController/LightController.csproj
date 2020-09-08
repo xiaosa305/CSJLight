@@ -204,12 +204,6 @@
     <Compile Include="MyForm\MainFormAst\LightRemarkForm.Designer.cs">
       <DependentUpon>LightRemarkForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\MainFormAst\SAUseForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MyForm\MainFormAst\SAUseForm.Designer.cs">
-      <DependentUpon>SAUseForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\MainFormInterface.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SA.cs" />
     <Compile Include="MyForm\LightEditor\Ast\SAWrapper.cs" />
@@ -251,6 +245,30 @@
     <Compile Include="MyForm\Multiplex\DeleteStepsForm.Designer.cs">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiAstForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiAstForm.Designer.cs">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiForm.Designer.cs">
+      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiPageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailMultiPageForm.Designer.cs">
+      <DependentUpon>DetailMultiPageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailSingleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\Multiplex\DetailSingleForm.Designer.cs">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyForm\Multiplex\GroupForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,11 +281,11 @@
     <Compile Include="MyForm\Multiplex\MultiplexForm.Designer.cs">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.cs">
+    <Compile Include="MyForm\Multiplex\OldDetailMultiForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyForm\Multiplex\DetailMultiForm.Designer.cs">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    <Compile Include="MyForm\Multiplex\OldDetailMultiForm.Designer.cs">
+      <DependentUpon>OldDetailMultiForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyForm\NewMainForm.cs">
       <SubType>Form</SubType>
@@ -508,9 +526,6 @@
     <EmbeddedResource Include="MyForm\MainFormAst\LightRemarkForm.resx">
       <DependentUpon>LightRemarkForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\MainFormAst\SAUseForm.resx">
-      <DependentUpon>SAUseForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainFormBase.resx">
       <DependentUpon>MainFormBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -523,14 +538,26 @@
     <EmbeddedResource Include="MyForm\Multiplex\DeleteStepsForm.resx">
       <DependentUpon>DeleteStepsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiAstForm.resx">
+      <DependentUpon>DetailMultiAstForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiForm.resx">
+      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiPageForm.resx">
+      <DependentUpon>DetailMultiPageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\Multiplex\DetailSingleForm.resx">
+      <DependentUpon>DetailSingleForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\GroupForm.resx">
       <DependentUpon>GroupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\Multiplex\MultiplexForm.resx">
       <DependentUpon>MultiplexForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm\Multiplex\DetailMultiForm.resx">
-      <DependentUpon>DetailMultiForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyForm\Multiplex\OldDetailMultiForm.resx">
+      <DependentUpon>OldDetailMultiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NewMainForm.resx">
       <DependentUpon>NewMainForm.cs</DependentUpon>
@@ -1103,9 +1130,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="FTD2XX_NET.XML" />
-    <Content Include="更新日志\ReadMe.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="更新日志\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

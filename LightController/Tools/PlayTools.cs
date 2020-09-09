@@ -427,7 +427,7 @@ namespace LightController.Tools
                 {
                     buff.AddRange(this.PlayData);
                 }
-                //Console.WriteLine("X轴：" + buff[321] + "------------------" + "X轴微调：" + buff[322] + "Y轴：" + buff[323] + "------------------" + "Y轴微调：" + buff[324]);
+                //Console.WriteLine("X轴：" + buff[1] + "------------------" + "X轴微调：" + buff[2] + "红色：" + buff[8] + "------------------" + "绿色" + buff[9] + "------------------" +"蓝色" + buff[10] + "------------------" + "白色" + buff[11] + "------------------12:" + buff[12] + "------------------13:" + buff[13]);
                 if (this.IsTest)
                 {
                     this.SendTestData(buff.ToArray());

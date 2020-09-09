@@ -21,7 +21,7 @@ namespace LightController.Utils.Ver2
         private  readonly string PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH = @"\DataCache\Preview\Cache";
         private  readonly Object KEY = new object();
         private static ChannelDataGeneratior Instance { get; set; }
-        private  string DirctoryPath { get; set; }
+        private readonly string DirctoryPath = Application.StartupPath;
 
         private  Dictionary<int, bool> BasicTaskStatus { get; set; }
         private  Dictionary<int, bool> MusicTaskStatus { get; set; }
@@ -60,10 +60,25 @@ namespace LightController.Utils.Ver2
             this.MusicTaskStatus = new Dictionary<int, bool>();
             this.Completed_Event = null;
             this.Error_Event = null;
-            this.DirctoryPath = string.Empty;
             this.BasicStatus = false;
             this.MusicStatus = false;
             this.TaskStatus = false;
+        }
+
+        private void ClearPreviewCacheDir()
+        {
+            if (Directory.Exists(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH))
+            {
+                Directory.Delete(DirctoryPath + PREVIEW_CHANNEL_CACHE_DIRECTORY_PATH, true);
+            }
+        }
+
+        private void ClearPreviewDir()
+        {
+            if (Directory.Exists(DirctoryPath + PREVIEW_DIRECTORY_PATH))
+            {
+                Directory.Delete(DirctoryPath + PREVIEW_DIRECTORY_PATH, true);
+            }
         }
 
         public void PreviewFileBuild(DBWrapper wrapper,string configPath,int sceneNo,Completed completed,Error error)
@@ -76,6 +91,8 @@ namespace LightController.Utils.Ver2
                     this.Stopwatch.Start();
                     GlobalBean global = new GlobalBean(configPath, wrapper.lightList);
                     this.InitParam();
+                    this.ClearPreviewCacheDir();
+                    this.ClearPreviewDir();
                     this.TaskStatus = true;
                     this.Completed_Event = completed;
                     this.Error_Event = error;
@@ -159,6 +176,8 @@ namespace LightController.Utils.Ver2
                     this.Stopwatch = new Stopwatch();
                     this.Stopwatch.Start();
                     this.InitParam();
+                    this.ClearPreviewCacheDir();
+                    this.ClearPreviewDir();
                     this.TaskStatus = true;
                     this.Completed_Event = completed;
                     this.Error_Event = error;
@@ -253,7 +272,7 @@ namespace LightController.Utils.Ver2
                     dataBean.StepMode.Add(value.ChangeMode + 0);
                     dataBean.StepTime.Add(value.StepTime + 0);
                 }
-                this.CreatePreviewSceneChannelFile(dataBean, (obj as WaitCallbackObject).GlobalBean, Application.StartupPath);
+                this.CreatePreviewSceneChannelFile(dataBean, (obj as WaitCallbackObject).GlobalBean);
             }
             catch (Exception ex)
             {
@@ -266,9 +285,8 @@ namespace LightController.Utils.Ver2
         /// </summary>
         /// <param name="dataBean"></param>
         /// <param name="dirPath"></param>
-        private  void CreateSceneChannelFile(ChannelDataBean dataBean,GlobalBean global,string dirPath)
+        private  void CreateSceneChannelFile(ChannelDataBean dataBean,GlobalBean global)
         {
-            DirctoryPath = dirPath;
             switch (dataBean.Mode)
             {
                 case Mode.Basics:
@@ -285,9 +303,8 @@ namespace LightController.Utils.Ver2
         /// </summary>
         /// <param name="dataBean"></param>
         /// <param name="dirPath"></param>
-        private  void CreatePreviewSceneChannelFile(ChannelDataBean dataBean, GlobalBean global, string dirPath)
+        private  void CreatePreviewSceneChannelFile(ChannelDataBean dataBean, GlobalBean global)
         {
-            DirctoryPath = dirPath;
             switch (dataBean.Mode)
             {
                 case Mode.Basics:
@@ -382,7 +399,7 @@ namespace LightController.Utils.Ver2
                     }
                     if (!this.BasicTaskStatus.ContainsValue(false))
                     {
-                        this.BasicProjectFileSynthesising(dataBean.SceneNo);
+                        this.BasicProjectFileSynthesising(dataBean.SceneNo + 0,global);
                     }
                 }
             }
@@ -428,7 +445,7 @@ namespace LightController.Utils.Ver2
                     }
                     if (!this.MusicTaskStatus.ContainsValue(false))
                     {
-                        this.MusicProjectFileSynthesising(dataBean.SceneNo);
+                        this.MusicProjectFileSynthesising(dataBean.SceneNo + 0,global);
                     }
                 }
             }
@@ -463,7 +480,7 @@ namespace LightController.Utils.Ver2
                     File.Delete(filePath);
                 }
                 buff.Add(Convert.ToByte(dataBean.ChannelFlag == ChannelFlag.FineTune ? 0 : dataBean.StepValues[0]));
-                for (int stepIndex = 0; stepIndex < dataBean.StepValues.Count + 1; stepIndex++)
+                for (int stepIndex = 1; stepIndex < dataBean.StepValues.Count + 1; stepIndex++)
                 {
                     int index = stepIndex == dataBean.StepCount ? 0 : stepIndex;
                     stepValue = dataBean.StepValues[index];
@@ -507,6 +524,7 @@ namespace LightController.Utils.Ver2
                             }
                         }
                     }
+                    startValue = stepValue;
                 }
                 if (this.TaskStatus)
                 {
@@ -585,10 +603,10 @@ namespace LightController.Utils.Ver2
         /// <summary>
         /// 合成工程场景文件
         /// </summary>
-        private void ProjectFileSynthesising(int sceneNo)
+        private void ProjectFileSynthesising(int sceneNo,GlobalBean global)
         {
-            BasicProjectFileSynthesising(sceneNo);
-            MusicProjectFileSynthesising(sceneNo);
+            BasicProjectFileSynthesising(sceneNo,global);
+            MusicProjectFileSynthesising(sceneNo,global);
         }
 
         /// <summary>
@@ -604,7 +622,7 @@ namespace LightController.Utils.Ver2
         /// TODO 生成工程基础场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private  void BasicProjectFileSynthesising(int sceneNo)
+        private  void BasicProjectFileSynthesising(int sceneNo,GlobalBean global)
         {
             try
             {
@@ -625,7 +643,7 @@ namespace LightController.Utils.Ver2
         /// TODO 生成工程音频场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private  void MusicProjectFileSynthesising(int sceneNo)
+        private  void MusicProjectFileSynthesising(int sceneNo,GlobalBean global)
         {
             try
             {
@@ -684,6 +702,7 @@ namespace LightController.Utils.Ver2
                             continue;
                         }
                         string strChannel = projectFilePath.Split('.')[0].Split('-')[1];
+                        Console.WriteLine("合并数据：" + strChannel + "通道");
                         string strScene = projectFilePath.Split('.')[0].Split('-')[0].Substring(1);
                         int.TryParse(strScene, out int sceneNo);
                         int.TryParse(strChannel, out int channelNo);

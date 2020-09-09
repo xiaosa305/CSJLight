@@ -31,8 +31,10 @@ namespace LightController.Utils.Ver2
             #region 读取配置文件
             using (StreamReader reader = new StreamReader(configPath))
             {
-                strValue = reader.ReadLine();
-
+                while (!reader.ReadLine().Equals("[Set]"))
+                {
+                    continue;
+                }
                 strValue = reader.ReadLine();
                 int.TryParse(strValue.Split('=')[1], out  iValue);
                 switch (iValue)

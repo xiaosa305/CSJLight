@@ -702,7 +702,6 @@ namespace LightController.Utils.Ver2
                             continue;
                         }
                         string strChannel = projectFilePath.Split('.')[0].Split('-')[1];
-                        Console.WriteLine("合并数据：" + strChannel + "通道");
                         string strScene = projectFilePath.Split('.')[0].Split('-')[0].Substring(1);
                         int.TryParse(strScene, out int sceneNo);
                         int.TryParse(strChannel, out int channelNo);

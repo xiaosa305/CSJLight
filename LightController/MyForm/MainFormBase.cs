@@ -3876,7 +3876,7 @@ namespace LightController.MyForm
 				catch (Exception ex)
 				{
 					SetPreview(false);
-					MessageBox.Show("生成预览数据时异常：\n" + ex.Message);
+					MessageBox.Show("生成预览数据时异常：" + ex.Message);
 				}
 				finally
 				{
@@ -4338,7 +4338,7 @@ namespace LightController.MyForm
 		public void Error(string msg)
 		{
             mainForm.SetPreview(false);
-            mainForm.SetNotice("预览数据生成出错,无法预览,。\n错误原因为：" + msg , true);            
+            mainForm.SetNotice("预览数据生成出错,无法预览,。错误原因为：" + msg , true);            
 		}
 		public void UpdateProgress(string name)
 		{

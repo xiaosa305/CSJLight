@@ -784,7 +784,7 @@ namespace LightController.Utils.Ver2
                     dataBuff.Add(Convert.ToByte(global.MusicSceneSets[0].MusicStepTime & 0xFF));
                     dataBuff.Add(Convert.ToByte(global.MusicSceneSets[0].MusicIntervalTime & 0xFF));
                     dataBuff.Add(Convert.ToByte((global.MusicSceneSets[0].MusicIntervalTime >> 8) & 0xFF));
-                    dataBuff.Add(Convert.ToByte((global.MusicSceneSets[0].MusicStepList.Count >> 8) & 0xFF));
+                    dataBuff.Add(Convert.ToByte((global.MusicSceneSets[0].MusicStepList.Count) & 0xFF));
                     for (int index = 0; index < global.MusicSceneSets[0].MusicStepList.Count; index++)
                     {
                         dataBuff.Add(Convert.ToByte(global.MusicSceneSets[0].MusicStepList[index] & 0xFF));

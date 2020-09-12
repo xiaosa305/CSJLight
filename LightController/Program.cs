@@ -1,5 +1,6 @@
 ﻿using LightController.Common;
 using LightController.MyForm;
+using LightController.MyForm.OtherTools;
 using OtherTools;
 using System;
 using System.Windows.Forms;
@@ -18,14 +19,16 @@ namespace LightController
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
-			{
-				Application.Run(new NewMainForm());
-			}
-			else
-			{
-				Application.Run(new SkinMainForm());
-			}
+			Application.Run(new RecordSetForm());
+
+			//if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
+			//{
+			//	Application.Run(new NewMainForm());
+			//}
+			//else
+			//{
+			//	Application.Run(new SkinMainForm());
+			//}
 		}
 	}
 }

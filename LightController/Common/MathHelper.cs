@@ -74,5 +74,18 @@ namespace LightController.Common
 			return result;
 		}
 
+		/// <summary>
+		/// 辅助方法：传入两个int，将其相除后的小数向上取整并返回
+		/// </summary>
+		/// <param name="numA"></param>
+		/// <param name="numB"></param>
+		/// <returns></returns>
+		public static int GetDividionCelling(int numA, int numB) {
+			decimal r1 = (decimal)numA / numB; //先相除，得到精确的decimal
+			decimal r2 = Math.Ceiling(r1); //向上取整
+			int r3 = decimal.ToInt32(r2); //转为int
+			return r3;
+		}
+
 	}
 }

@@ -540,7 +540,7 @@ namespace LightController.Utils.Ver2
                         }
                         if (!this.BasicTaskStatus.ContainsValue(false))
                         {
-                            this.BasicPreviewFileSynthesising(global);
+                            this.BasicPreviewFileSynthesising(global,dataBean.SceneNo);
                         }
                     }
                 }
@@ -589,7 +589,7 @@ namespace LightController.Utils.Ver2
                         }
                         if (!this.MusicTaskStatus.ContainsValue(false))
                         {
-                            this.MusicPreviewFileSynthesising(global);
+                            this.MusicPreviewFileSynthesising(global,dataBean.SceneNo);
                         }
                     }
                 }
@@ -612,10 +612,10 @@ namespace LightController.Utils.Ver2
         /// <summary>
         /// 合成预览场景文件
         /// </summary>
-        private void PreviewFileSynthesising( GlobalBean global)
+        private void PreviewFileSynthesising( GlobalBean global,int sceneNo)
         {
-            BasicPreviewFileSynthesising(global);
-            MusicPreviewFileSynthesising(global);
+            BasicPreviewFileSynthesising(global,sceneNo);
+            MusicPreviewFileSynthesising(global,sceneNo);
         }
 
         /// <summary>
@@ -664,7 +664,7 @@ namespace LightController.Utils.Ver2
         /// 生成预览基础场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private  void BasicPreviewFileSynthesising(GlobalBean global)
+        private  void BasicPreviewFileSynthesising(GlobalBean global,int frameNo)
         {
             try
             {
@@ -683,11 +683,11 @@ namespace LightController.Utils.Ver2
                     #region 包头
                     long seek = 0;
                     dataBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4).ToArray());
-                    dataBuff.Add(Convert.ToByte(global.ShakeMics[0].IsOpen ? 0x01 : 0x00));
-                    dataBuff.Add(Convert.ToByte((global.ShakeMics[0].IntervalTime * 60) & 0xFF));
-                    dataBuff.Add(Convert.ToByte(((global.ShakeMics[0].IntervalTime * 60) >> 8) & 0xFF));
-                    dataBuff.Add(Convert.ToByte((global.ShakeMics[0].RunTime * 60) & 0xFF));
-                    dataBuff.Add(Convert.ToByte(((global.ShakeMics[0].RunTime * 60) >> 8) & 0xFF));
+                    dataBuff.Add(Convert.ToByte(global.ShakeMics[frameNo].IsOpen ? 0x01 : 0x00));
+                    dataBuff.Add(Convert.ToByte((global.ShakeMics[frameNo].IntervalTime * 60) & 0xFF));
+                    dataBuff.Add(Convert.ToByte(((global.ShakeMics[frameNo].IntervalTime * 60) >> 8) & 0xFF));
+                    dataBuff.Add(Convert.ToByte((global.ShakeMics[frameNo].RunTime * 60) & 0xFF));
+                    dataBuff.Add(Convert.ToByte(((global.ShakeMics[frameNo].RunTime * 60) >> 8) & 0xFF));
                     dataBuff.Add(Convert.ToByte(this.BasicTaskStatus.Count & 0xFF));
                     dataBuff.Add(Convert.ToByte((this.BasicTaskStatus.Count >> 8) & 0xFF));
                     seek += dataBuff.Count;
@@ -762,7 +762,7 @@ namespace LightController.Utils.Ver2
         /// 生成预览音频场景文件
         /// </summary>
         /// <param name="sceneNo"></param>
-        private  void MusicPreviewFileSynthesising(GlobalBean global)
+        private  void MusicPreviewFileSynthesising(GlobalBean global,int frameNo)
         {
             try
             {
@@ -781,15 +781,15 @@ namespace LightController.Utils.Ver2
                     #region 包头
                     long seek = 0;
                     dataBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4).ToArray());
-                    dataBuff.Add(Convert.ToByte(global.MusicSceneSets[0].MusicStepTime & 0xFF));
-                    dataBuff.Add(Convert.ToByte(global.MusicSceneSets[0].MusicIntervalTime & 0xFF));
-                    dataBuff.Add(Convert.ToByte((global.MusicSceneSets[0].MusicIntervalTime >> 8) & 0xFF));
-                    dataBuff.Add(Convert.ToByte((global.MusicSceneSets[0].MusicStepList.Count) & 0xFF));
-                    for (int index = 0; index < global.MusicSceneSets[0].MusicStepList.Count; index++)
+                    dataBuff.Add(Convert.ToByte(global.MusicSceneSets[frameNo].MusicStepTime & 0xFF));
+                    dataBuff.Add(Convert.ToByte(global.MusicSceneSets[frameNo].MusicIntervalTime & 0xFF));
+                    dataBuff.Add(Convert.ToByte((global.MusicSceneSets[frameNo].MusicIntervalTime >> 8) & 0xFF));
+                    dataBuff.Add(Convert.ToByte((global.MusicSceneSets[frameNo].MusicStepList.Count) & 0xFF));
+                    for (int index = 0; index < global.MusicSceneSets[frameNo].MusicStepList.Count; index++)
                     {
-                        dataBuff.Add(Convert.ToByte(global.MusicSceneSets[0].MusicStepList[index] & 0xFF));
+                        dataBuff.Add(Convert.ToByte(global.MusicSceneSets[frameNo].MusicStepList[index] & 0xFF));
                     }
-                    for (int index = global.MusicSceneSets[0].MusicStepList.Count; index < 20; index++)
+                    for (int index = global.MusicSceneSets[frameNo].MusicStepList.Count; index < 20; index++)
                     {
                         dataBuff.Add(0x00);
                     }

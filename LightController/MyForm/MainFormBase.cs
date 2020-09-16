@@ -1932,7 +1932,9 @@ namespace LightController.MyForm
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
 								
-				SetNotice("成功打开工程：【" + projectName + "】，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",true);
+				SetNotice("成功打开工程：【" + projectName + "】" +
+					"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" +
+					"。", true);
 			}
 			setBusy(false);
 

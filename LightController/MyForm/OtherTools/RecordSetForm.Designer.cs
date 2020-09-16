@@ -70,7 +70,7 @@
 			// 
 			// bigFLP
 			// 
-			this.bigFLP.BackColor = System.Drawing.SystemColors.InactiveCaption;
+			this.bigFLP.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
 			this.bigFLP.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.bigFLP.Location = new System.Drawing.Point(0, 66);
 			this.bigFLP.Name = "bigFLP";
@@ -79,7 +79,7 @@
 			// 
 			// checkBoxDemo
 			// 
-			this.checkBoxDemo.Location = new System.Drawing.Point(512, 13);
+			this.checkBoxDemo.Location = new System.Drawing.Point(512, 18);
 			this.checkBoxDemo.Name = "checkBoxDemo";
 			this.checkBoxDemo.Size = new System.Drawing.Size(72, 24);
 			this.checkBoxDemo.TabIndex = 0;
@@ -90,7 +90,7 @@
 			// 
 			// previousButton
 			// 
-			this.previousButton.Location = new System.Drawing.Point(593, 13);
+			this.previousButton.Location = new System.Drawing.Point(593, 18);
 			this.previousButton.Name = "previousButton";
 			this.previousButton.Size = new System.Drawing.Size(61, 23);
 			this.previousButton.TabIndex = 37;
@@ -100,7 +100,7 @@
 			// 
 			// nextButton
 			// 
-			this.nextButton.Location = new System.Drawing.Point(711, 13);
+			this.nextButton.Location = new System.Drawing.Point(711, 18);
 			this.nextButton.Name = "nextButton";
 			this.nextButton.Size = new System.Drawing.Size(61, 23);
 			this.nextButton.TabIndex = 37;
@@ -113,11 +113,11 @@
 			this.pageLabel.AutoSize = true;
 			this.pageLabel.BackColor = System.Drawing.Color.Transparent;
 			this.pageLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.pageLabel.Location = new System.Drawing.Point(660, 18);
+			this.pageLabel.Location = new System.Drawing.Point(671, 23);
 			this.pageLabel.Name = "pageLabel";
-			this.pageLabel.Size = new System.Drawing.Size(47, 12);
+			this.pageLabel.Size = new System.Drawing.Size(23, 12);
 			this.pageLabel.TabIndex = 38;
-			this.pageLabel.Text = "512/512";
+			this.pageLabel.Text = "1/6";
 			// 
 			// saveButton
 			// 
@@ -131,7 +131,7 @@
 			// 
 			// loadNewButton
 			// 
-			this.loadNewButton.Location = new System.Drawing.Point(94, 14);
+			this.loadNewButton.Location = new System.Drawing.Point(95, 14);
 			this.loadNewButton.Name = "loadNewButton";
 			this.loadNewButton.Size = new System.Drawing.Size(75, 37);
 			this.loadNewButton.TabIndex = 35;

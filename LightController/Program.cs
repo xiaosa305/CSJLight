@@ -19,16 +19,16 @@ namespace LightController
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			Application.Run(new RecordSetForm());
+			//Application.Run(new RecordSetForm());
 
-			//if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
-			//{
-			//	Application.Run(new NewMainForm());
-			//}
-			//else
-			//{
-			//	Application.Run(new SkinMainForm());
-			//}
+			if (IniFileHelper.GetControlShow(Application.StartupPath, "newMainForm"))
+			{
+				Application.Run(new NewMainForm());
+			}
+			else
+			{
+				Application.Run(new SkinMainForm());
+			}
 		}
 	}
 }

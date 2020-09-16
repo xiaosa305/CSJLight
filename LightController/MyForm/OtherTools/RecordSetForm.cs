@@ -12,7 +12,7 @@ namespace LightController.MyForm.OtherTools
 {
 	public partial class RecordSetForm : Form
 	{
-		// 以下变量，为分页显示内容项必须的变量 
+		// 以下变量，为《分页显示》功能必须的变量 
 		private int currentPage = 1;　  
 		private int pageCount ;
 		private int eachCount = 100;    // 如果此项大于tdCount,则应设为tdCount的值

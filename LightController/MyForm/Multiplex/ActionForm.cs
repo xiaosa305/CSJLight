@@ -119,11 +119,11 @@ namespace LightController.MyForm.Multiplex
 			tongdaoList[1, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
 			tongdaoList[2, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
 			tongdaoList[3, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
-
+						
 			tongdaoList[(0+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value, commonStepTime);
-			tongdaoList[(1+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", 127, commonStepTime);
+			tongdaoList[(1+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value / 2, commonStepTime);
 			tongdaoList[(2+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value, commonStepTime);
-			tongdaoList[(3+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", 127, commonStepTime);
+			tongdaoList[(3+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value / 2, commonStepTime);
 
 			material = new MaterialAst
 			{

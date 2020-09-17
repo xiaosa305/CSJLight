@@ -4052,13 +4052,10 @@ namespace LightController.MyForm
 				SetNotice(msg,true);
 			});
 		}
-
-
+		
 		#endregion
 
 		#region 弃用方法区
-
-
 
 		//SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
 		/// <summary>

@@ -2431,16 +2431,16 @@ namespace LightController.MyForm
 			// thirdLabel1
 			// 
 			this.thirdLabel1.AutoSize = true;
-			this.thirdLabel1.Location = new System.Drawing.Point(19, 255);
+			this.thirdLabel1.Location = new System.Drawing.Point(12, 255);
 			this.thirdLabel1.Name = "thirdLabel1";
-			this.thirdLabel1.Size = new System.Drawing.Size(41, 12);
+			this.thirdLabel1.Size = new System.Drawing.Size(59, 12);
 			this.thirdLabel1.TabIndex = 0;
-			this.thirdLabel1.Text = "步时间";
+			this.thirdLabel1.Text = "步时间(S)";
 			// 
 			// secondLabel1
 			// 
 			this.secondLabel1.AutoSize = true;
-			this.secondLabel1.Location = new System.Drawing.Point(19, 232);
+			this.secondLabel1.Location = new System.Drawing.Point(12, 232);
 			this.secondLabel1.Name = "secondLabel1";
 			this.secondLabel1.Size = new System.Drawing.Size(41, 12);
 			this.secondLabel1.TabIndex = 0;
@@ -2449,7 +2449,7 @@ namespace LightController.MyForm
 			// firstLabel1
 			// 
 			this.firstLabel1.AutoSize = true;
-			this.firstLabel1.Location = new System.Drawing.Point(19, 208);
+			this.firstLabel1.Location = new System.Drawing.Point(12, 208);
 			this.firstLabel1.Name = "firstLabel1";
 			this.firstLabel1.Size = new System.Drawing.Size(41, 12);
 			this.firstLabel1.TabIndex = 0;

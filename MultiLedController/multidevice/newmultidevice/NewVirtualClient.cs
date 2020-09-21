@@ -97,10 +97,6 @@ namespace MultiLedController.multidevice.newmultidevice
                         Array.Copy(receiveBuff, 18, DMXDataBuff, 0, dataLength);
                         if (receiveBuff.Length == (18 + dataLength))
                         {
-                            if (port == 0)
-                            {
-                                Console.WriteLine(DMXDataBuff[0] + "-" + DMXDataBuff[1] + "-" + DMXDataBuff[2]);
-                            }
                             this.Response(port, new List<byte>(DMXDataBuff));
                         }
                         else

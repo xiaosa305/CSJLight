@@ -2529,14 +2529,15 @@ namespace LightController.MyForm
 		/// 辅助方法：刷新设备
 		/// </summary>
 		private void deviceRefresh() {
-			
+
+			deviceRefreshButton.Enabled = false;
+
 			//	 刷新前，先清空按键等
 			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
 			deviceComboBox.Items.Clear();
 			deviceComboBox.SelectedIndex = -1;
 			deviceComboBox.Text = "";
-			deviceComboBox.Enabled = false;
-			deviceRefreshButton.Enabled = false;
+			deviceComboBox.Enabled = false;			
 			deviceConnectButton.Enabled = false;
 			Refresh();
 
@@ -2587,8 +2588,7 @@ namespace LightController.MyForm
 			if (deviceComboBox.Items.Count > 0)
 			{
 				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;
-				deviceRefreshButton.Enabled = true;
+				deviceComboBox.Enabled = true;				
 				deviceConnectButton.Enabled = true;
 				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
 			}
@@ -2596,7 +2596,7 @@ namespace LightController.MyForm
 			{
 				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false);
 			}
-
+			deviceRefreshButton.Enabled = true;
 		}
 
 		/// <summary>

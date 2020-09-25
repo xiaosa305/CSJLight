@@ -2189,6 +2189,7 @@ namespace LightController.MyForm
 			deviceSkinComboBox.Text = "";
 			deviceSkinComboBox.SelectedIndex = -1;
 			deviceSkinComboBox.Enabled = false;
+			deviceRefreshSkinButton.Enabled = false;
 			deviceConnectSkinButton.Enabled = false;
 			Refresh();
 
@@ -2240,7 +2241,8 @@ namespace LightController.MyForm
 			{
 				deviceSkinComboBox.SelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
-				deviceConnectSkinButton.Enabled = true;
+				deviceRefreshSkinButton.Enabled = true;
+				deviceConnectSkinButton.Enabled = true;				
 				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
 			}
 			else

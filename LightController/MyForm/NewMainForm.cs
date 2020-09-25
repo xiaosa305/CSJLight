@@ -2529,13 +2529,14 @@ namespace LightController.MyForm
 		/// 辅助方法：刷新设备
 		/// </summary>
 		private void deviceRefresh() {
-
+			
 			//	 刷新前，先清空按键等
 			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
 			deviceComboBox.Items.Clear();
 			deviceComboBox.SelectedIndex = -1;
 			deviceComboBox.Text = "";
 			deviceComboBox.Enabled = false;
+			deviceRefreshButton.Enabled = false;
 			deviceConnectButton.Enabled = false;
 			Refresh();
 
@@ -2587,6 +2588,7 @@ namespace LightController.MyForm
 			{
 				deviceComboBox.SelectedIndex = 0;
 				deviceComboBox.Enabled = true;
+				deviceRefreshButton.Enabled = true;
 				deviceConnectButton.Enabled = true;
 				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
 			}

@@ -163,6 +163,9 @@ namespace OtherTools
 
 			//直接刷新串口列表
 			refreshDeviceComboBox(); //NewToolsForm_Load
+
+			// 帮着点击一次加载协议
+			loadProtocolButton_Click(null, null);
 		}
 		
 		/// <summary>
@@ -1292,7 +1295,7 @@ namespace OtherTools
 				setAllStatusLabel1("已搜到可用设备列表。");						
 			}
 			else {
-				MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
+				//MessageBox.Show("未找到可用设备，请检查设备连接后重试。");
 				setAllStatusLabel1("未找到可用设备，请检查设备连接后重试。");				
 			}
 			// 无论在何种情况下，只要刷新了列表，说明连接已经断开（先断开），此时应该设置为未连接状态
@@ -2230,6 +2233,17 @@ namespace OtherTools
 		private void zwjTestButton_Click(object sender, EventArgs e)
 		{
 			ccEntity.GetData();
+		}
+
+		/// <summary>
+		///  事件：切换不同的Tab
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			//Console.WriteLine(tabControl1.SelectedIndex);
+
 		}
 	}
 }

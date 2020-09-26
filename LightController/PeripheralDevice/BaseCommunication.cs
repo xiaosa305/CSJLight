@@ -119,11 +119,14 @@ namespace LightController.PeripheralDevice
         /// <param name="e"></param>
         private void SendTimeOut(object sender, ElapsedEventArgs e)
         {
-            this.IsStopThread = true;
-            this.IsSending = false;
-            LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
-            this.Error_Event("通信超时");
-            this.CloseTransactionTimer();
+            if (!(this.SecondOrder == Order.STOP_INTENT_PREVIEW))
+            {
+                this.IsStopThread = true;
+                this.IsSending = false;
+                LogTools.Debug(Constant.TAG_XIAOSA, "操作命令超时,主命令：" + this.MainOrder + ",副命令：" + this.SecondOrder);
+                this.Error_Event("通信超时");
+                this.CloseTransactionTimer();
+            }
         }
         /// <summary>
         /// 启动定时器计时
@@ -941,7 +944,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void LightControlConnect(Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
 				this.IsSending = true;
 				this.IsStopThread = false;
@@ -976,9 +979,9 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void LightControlRead(Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
-                this.StartTimeOut();
+                //this.StartTimeOut();
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
@@ -1011,7 +1014,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void LightControlDownload(LightControlData data,Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1079,7 +1082,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void LightControlDebug(byte[] data ,Completed completed , Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1120,7 +1123,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void CenterControlConnect(Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1155,7 +1158,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void CenterControlStartCopy(Completed completed,Error error,CopyListener copyListener)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1194,7 +1197,7 @@ namespace LightController.PeripheralDevice
         public void CenterControlStopCopy(Completed completed,Error error)
         {
             //TODO XIAOSA:添加测试
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1232,7 +1235,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void CenterControlDownload(CCEntity entity,Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1311,7 +1314,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void PassThroughKeyPressConnect(Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1348,7 +1351,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void PassThroughKeyPressRead(Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1386,7 +1389,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void PassThroughKeyPressDownload(KeyEntity entity,Completed completed,Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1472,7 +1475,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void PassThroughLightControlConnect(Completed completed, Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1507,9 +1510,9 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void PassThroughLightControlRead(Completed completed, Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
-                this.StartTimeOut();
+                //this.StartTimeOut();
                 this.IsSending = true;
                 this.IsStopThread = false;
                 this.Completed_Event = completed;
@@ -1542,7 +1545,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void PassThroughLightControlDownload(LightControlData data, Completed completed, Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1609,7 +1612,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void PassThroughLightControlDebug(byte[] data,Completed completed, Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1650,7 +1653,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void PassThroughCenterControlConnect(Completed completed, Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1685,7 +1688,7 @@ namespace LightController.PeripheralDevice
         /// </summary>
         public void PassThroughCenterControlStartCopy(Completed completed, Error error, CopyListener copyListener)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1723,7 +1726,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void PassThroughCenterControlStopCopy(Completed completed, Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1761,7 +1764,7 @@ namespace LightController.PeripheralDevice
         /// <param name="error"></param>
         public void PassThroughCenterControlDownload(CCEntity entity, Completed completed, Error error)
         {
-            if (!this.IsSending)
+            if ((!this.IsSending) && this.IsConnected())
             {
                 this.IsSending = true;
                 this.IsStopThread = false;
@@ -1900,7 +1903,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                if (!this.IsSending)
+                if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
@@ -2031,7 +2034,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                if (!this.IsSending)
+                if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
@@ -2090,7 +2093,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                if (!this.IsSending)
+                if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
@@ -2143,7 +2146,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                if (!this.IsSending)
+                if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
@@ -2211,7 +2214,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                if (!this.IsSending)
+                if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
@@ -2264,7 +2267,7 @@ namespace LightController.PeripheralDevice
         {
             try
             {
-                if (!this.IsSending)
+                if ((!this.IsSending) && this.IsConnected())
                 {
                     this.IsSending = true;
                     this.Completed_Event = completed;
@@ -2297,6 +2300,8 @@ namespace LightController.PeripheralDevice
             {
                 this.SecondOrder = Order.STOP_INTENT_PREVIEW;
                 this.SendOrder(null, Constant.ORDER_END_DEBUG, null);
+                this.StopTimeOut();
+                this.Completed_Event(null,"关闭网络调试");
             }
             catch (Exception ex)
             {

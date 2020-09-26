@@ -34,6 +34,7 @@ namespace LightController.PeripheralDevice
         {
             if (this.Socket != null)
             {
+                Console.WriteLine(this.Socket.Connected);
                 return this.Socket.Connected;
             }
             else
@@ -278,8 +279,6 @@ namespace LightController.PeripheralDevice
         {
             DeviceInfos.Clear();
         }
-
-
         /// <summary>
         /// 串口专属，网络模块不操作
         /// </summary>

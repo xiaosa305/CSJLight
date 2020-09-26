@@ -91,16 +91,11 @@ namespace MultiLedController.multidevice.newmultidevice
                     if (receiveBuff.Length > 18 && receiveBuff[8] == 0x00 && receiveBuff[9] == 0x50)
                     {
                         int port = (int)(receiveBuff[14] & 0xFF) | ((receiveBuff[15] & 0xFF) << 8);
-                      
                         int dataLength = (int)(receiveBuff[17] & 0xFF) | ((receiveBuff[16] & 0xFF) << 8);
                         byte[] DMXDataBuff = new byte[dataLength];
                         Array.Copy(receiveBuff, 18, DMXDataBuff, 0, dataLength);
                         if (receiveBuff.Length == (18 + dataLength))
                         {
-                            if (port == 0)
-                            {
-                                Console.WriteLine(DMXDataBuff[0] + "-" + DMXDataBuff[1] + "-" + DMXDataBuff[2]);
-                            }
                             this.Response(port, new List<byte>(DMXDataBuff));
                         }
                         else
@@ -115,6 +110,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
                 catch (Exception)
                 {
+                    Console.WriteLine("XIAOSA：" + this.VirtualClientIP + "关闭接收");
                 }
             }
         }

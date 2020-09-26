@@ -236,11 +236,6 @@ namespace MultiLedController.multidevice.newmultidevice
             return this;
         }
 
-        /// <summary>
-        /// 需要调整
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
         public NewVirtualDevice StartRecord(string filePath,string config, GetRecordFramCount getRecordFramCount)
         {
             this.RecordFramCount = 0;
@@ -576,10 +571,10 @@ namespace MultiLedController.multidevice.newmultidevice
                     for (int index = 0; index < this.LedSpaceNumber; index++)
                     {
                         dmxDataBuff[controlNo][ledInterfaceNo].AddRange(dmxData[spaceIndex + index]);
-                        if (dmxData[spaceIndex + index].Count > 510)
-                        {
-                            Console.WriteLine("超过510");
-                        }
+                        //if (dmxData[spaceIndex + index].Count > 510)
+                        //{
+                        //    Console.WriteLine("超过510");
+                        //}
                     }
                     ledInterfaceNo++;
                 }
@@ -656,7 +651,6 @@ namespace MultiLedController.multidevice.newmultidevice
                 {
                     stream.Write(paramPackage, 0, paramPackage.Length);
                 }
-                Console.WriteLine("创建文件");
             }
             #endregion
             #region 写分控数据包
@@ -690,7 +684,7 @@ namespace MultiLedController.multidevice.newmultidevice
             #endregion
             #region 录制模式帧数计数
             this.RecordFramCount++;
-            if (this.GetRecordFramCount_Event == null)
+            if (this.GetRecordFramCount_Event != null)
             {
                 this.GetRecordFramCount_Event(this.RecordFramCount);
             }

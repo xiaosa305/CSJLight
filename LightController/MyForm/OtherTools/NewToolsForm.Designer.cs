@@ -175,6 +175,7 @@ namespace OtherTools
 			this.lightButton24 = new CCWin.SkinControl.SkinButton();
 			this.keepLightOnCheckBox = new System.Windows.Forms.CheckBox();
 			this.centerTabPage = new System.Windows.Forms.TabPage();
+			this.editCodeButton = new System.Windows.Forms.Button();
 			this.ccStatusStrip = new System.Windows.Forms.StatusStrip();
 			this.ccToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.ccToolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -2307,6 +2308,7 @@ namespace OtherTools
 			// centerTabPage
 			// 
 			this.centerTabPage.BackColor = System.Drawing.Color.PowderBlue;
+			this.centerTabPage.Controls.Add(this.editCodeButton);
 			this.centerTabPage.Controls.Add(this.ccStatusStrip);
 			this.centerTabPage.Controls.Add(this.loadProtocolButton);
 			this.centerTabPage.Controls.Add(this.ccSearchTextBox);
@@ -2347,6 +2349,17 @@ namespace OtherTools
 			this.centerTabPage.Size = new System.Drawing.Size(1196, 660);
 			this.centerTabPage.TabIndex = 0;
 			this.centerTabPage.Text = "中控配置";
+			// 
+			// editCodeButton
+			// 
+			this.editCodeButton.Location = new System.Drawing.Point(1052, 603);
+			this.editCodeButton.Name = "editCodeButton";
+			this.editCodeButton.Size = new System.Drawing.Size(75, 23);
+			this.editCodeButton.TabIndex = 17;
+			this.editCodeButton.Text = "修改码值";
+			this.editCodeButton.UseVisualStyleBackColor = true;
+			this.editCodeButton.Visible = false;
+			this.editCodeButton.Click += new System.EventHandler(this.editCodeButton_Click);
 			// 
 			// ccStatusStrip
 			// 
@@ -2406,7 +2419,7 @@ namespace OtherTools
 			// ps2DownTextBox
 			// 
 			this.ps2DownTextBox.Enabled = false;
-			this.ps2DownTextBox.Location = new System.Drawing.Point(965, 590);
+			this.ps2DownTextBox.Location = new System.Drawing.Point(965, 569);
 			this.ps2DownTextBox.Name = "ps2DownTextBox";
 			this.ps2DownTextBox.Size = new System.Drawing.Size(162, 21);
 			this.ps2DownTextBox.TabIndex = 4;
@@ -2414,7 +2427,7 @@ namespace OtherTools
 			// infraredReceiveTextBox
 			// 
 			this.infraredReceiveTextBox.Enabled = false;
-			this.infraredReceiveTextBox.Location = new System.Drawing.Point(965, 546);
+			this.infraredReceiveTextBox.Location = new System.Drawing.Point(965, 528);
 			this.infraredReceiveTextBox.Name = "infraredReceiveTextBox";
 			this.infraredReceiveTextBox.Size = new System.Drawing.Size(162, 21);
 			this.infraredReceiveTextBox.TabIndex = 4;
@@ -2422,7 +2435,7 @@ namespace OtherTools
 			// com1DownTextBox
 			// 
 			this.com1DownTextBox.Enabled = false;
-			this.com1DownTextBox.Location = new System.Drawing.Point(965, 502);
+			this.com1DownTextBox.Location = new System.Drawing.Point(965, 487);
 			this.com1DownTextBox.Name = "com1DownTextBox";
 			this.com1DownTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com1DownTextBox.TabIndex = 4;
@@ -2430,7 +2443,7 @@ namespace OtherTools
 			// com0DownTextBox
 			// 
 			this.com0DownTextBox.Enabled = false;
-			this.com0DownTextBox.Location = new System.Drawing.Point(965, 458);
+			this.com0DownTextBox.Location = new System.Drawing.Point(965, 446);
 			this.com0DownTextBox.Name = "com0DownTextBox";
 			this.com0DownTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com0DownTextBox.TabIndex = 4;
@@ -2438,7 +2451,7 @@ namespace OtherTools
 			// ps2UpTextBox
 			// 
 			this.ps2UpTextBox.Enabled = false;
-			this.ps2UpTextBox.Location = new System.Drawing.Point(676, 590);
+			this.ps2UpTextBox.Location = new System.Drawing.Point(676, 567);
 			this.ps2UpTextBox.Name = "ps2UpTextBox";
 			this.ps2UpTextBox.Size = new System.Drawing.Size(162, 21);
 			this.ps2UpTextBox.TabIndex = 4;
@@ -2446,7 +2459,7 @@ namespace OtherTools
 			// infraredSendTextBox
 			// 
 			this.infraredSendTextBox.Enabled = false;
-			this.infraredSendTextBox.Location = new System.Drawing.Point(676, 546);
+			this.infraredSendTextBox.Location = new System.Drawing.Point(676, 526);
 			this.infraredSendTextBox.Name = "infraredSendTextBox";
 			this.infraredSendTextBox.Size = new System.Drawing.Size(162, 21);
 			this.infraredSendTextBox.TabIndex = 4;
@@ -2454,7 +2467,7 @@ namespace OtherTools
 			// com1UpTextBox
 			// 
 			this.com1UpTextBox.Enabled = false;
-			this.com1UpTextBox.Location = new System.Drawing.Point(676, 502);
+			this.com1UpTextBox.Location = new System.Drawing.Point(676, 485);
 			this.com1UpTextBox.Name = "com1UpTextBox";
 			this.com1UpTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com1UpTextBox.TabIndex = 4;
@@ -2462,7 +2475,7 @@ namespace OtherTools
 			// com0UpTextBox
 			// 
 			this.com0UpTextBox.Enabled = false;
-			this.com0UpTextBox.Location = new System.Drawing.Point(676, 458);
+			this.com0UpTextBox.Location = new System.Drawing.Point(676, 444);
 			this.com0UpTextBox.Name = "com0UpTextBox";
 			this.com0UpTextBox.Size = new System.Drawing.Size(162, 21);
 			this.com0UpTextBox.TabIndex = 4;
@@ -2470,7 +2483,7 @@ namespace OtherTools
 			// functionTextBox
 			// 
 			this.functionTextBox.Enabled = false;
-			this.functionTextBox.Location = new System.Drawing.Point(965, 414);
+			this.functionTextBox.Location = new System.Drawing.Point(965, 405);
 			this.functionTextBox.Name = "functionTextBox";
 			this.functionTextBox.Size = new System.Drawing.Size(162, 21);
 			this.functionTextBox.TabIndex = 2;
@@ -2577,7 +2590,7 @@ namespace OtherTools
 			// protocolComboBox
 			// 
 			this.protocolComboBox.FormattingEnabled = true;
-			this.protocolComboBox.Location = new System.Drawing.Point(676, 413);
+			this.protocolComboBox.Location = new System.Drawing.Point(676, 404);
 			this.protocolComboBox.Name = "protocolComboBox";
 			this.protocolComboBox.Size = new System.Drawing.Size(162, 20);
 			this.protocolComboBox.TabIndex = 10;
@@ -2586,7 +2599,7 @@ namespace OtherTools
 			// label22
 			// 
 			this.label22.AutoSize = true;
-			this.label22.Location = new System.Drawing.Point(889, 594);
+			this.label22.Location = new System.Drawing.Point(889, 573);
 			this.label22.Name = "label22";
 			this.label22.Size = new System.Drawing.Size(47, 12);
 			this.label22.TabIndex = 3;
@@ -2595,7 +2608,7 @@ namespace OtherTools
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(603, 594);
+			this.label17.Location = new System.Drawing.Point(603, 572);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(47, 12);
 			this.label17.TabIndex = 3;
@@ -2604,7 +2617,7 @@ namespace OtherTools
 			// label21
 			// 
 			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(886, 550);
+			this.label21.Location = new System.Drawing.Point(886, 532);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(53, 12);
 			this.label21.TabIndex = 3;
@@ -2613,7 +2626,7 @@ namespace OtherTools
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(600, 550);
+			this.label9.Location = new System.Drawing.Point(600, 531);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(53, 12);
 			this.label9.TabIndex = 3;
@@ -2622,7 +2635,7 @@ namespace OtherTools
 			// label20
 			// 
 			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(883, 506);
+			this.label20.Location = new System.Drawing.Point(883, 491);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(59, 12);
 			this.label20.TabIndex = 3;
@@ -2631,7 +2644,7 @@ namespace OtherTools
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(597, 506);
+			this.label4.Location = new System.Drawing.Point(597, 490);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(59, 12);
 			this.label4.TabIndex = 3;
@@ -2640,7 +2653,7 @@ namespace OtherTools
 			// label19
 			// 
 			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(883, 462);
+			this.label19.Location = new System.Drawing.Point(883, 450);
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(59, 12);
 			this.label19.TabIndex = 3;
@@ -2649,7 +2662,7 @@ namespace OtherTools
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(597, 462);
+			this.label3.Location = new System.Drawing.Point(597, 449);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(59, 12);
 			this.label3.TabIndex = 3;
@@ -2658,7 +2671,7 @@ namespace OtherTools
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(600, 417);
+			this.label18.Location = new System.Drawing.Point(600, 408);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(53, 12);
 			this.label18.TabIndex = 1;
@@ -2667,7 +2680,7 @@ namespace OtherTools
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(886, 418);
+			this.label2.Location = new System.Drawing.Point(886, 409);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(53, 12);
 			this.label2.TabIndex = 1;
@@ -3067,6 +3080,7 @@ namespace OtherTools
 		private ToolStripStatusLabel ccToolStripStatusLabel1;
 		private ToolStripStatusLabel ccToolStripStatusLabel2;
 		private CheckBox tcCheckBox;
+		private Button editCodeButton;
 	}
 }
 

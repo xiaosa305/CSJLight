@@ -2528,7 +2528,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：刷新设备
 		/// </summary>
-		private void deviceRefresh() {
+		protected override void deviceRefresh() {
 
 			deviceRefreshButton.Enabled = false;
 

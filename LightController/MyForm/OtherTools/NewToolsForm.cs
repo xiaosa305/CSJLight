@@ -82,6 +82,7 @@ namespace OtherTools
 
 		private MainFormBase mainForm; 
 		private System.Timers.Timer kpTimer; //墙板定时刷新的定时器（因为透传模式，若太久（10s）没有连接，则会自动退出透传模式）
+		private int ccSelectedIndex = -1 ;
 
 		public NewToolsForm(MainFormBase mainForm)
 		{
@@ -915,6 +916,8 @@ namespace OtherTools
 			// 必须判断这个字段(Count)，否则会报异常
 			if (protocolListView.SelectedIndices.Count > 0)
 			{
+				ccSelectedIndex = protocolListView.SelectedIndices[0];
+
 				ListViewItem item = protocolListView.SelectedItems[0];
 				functionTextBox.Text = item.SubItems[1].Text;
 				com0UpTextBox.Text = item.SubItems[3].Text;
@@ -925,7 +928,9 @@ namespace OtherTools
 				infraredReceiveTextBox.Text = item.SubItems[8].Text;
 				ps2UpTextBox.Text = item.SubItems[9].Text;
 				ps2DownTextBox.Text = item.SubItems[10].Text;
+
 			}
+						
 		}
 
 		/// <summary>
@@ -2243,6 +2248,19 @@ namespace OtherTools
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			//Console.WriteLine(tabControl1.SelectedIndex);
+
+		}
+
+		/// <summary>
+		/// 事件：点击《修改码值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void editCodeButton_Click(object sender, EventArgs e)
+		{
+
+
+
 
 		}
 	}

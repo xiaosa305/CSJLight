@@ -142,6 +142,7 @@ namespace LightController.MyForm
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
+		
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
 		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
 		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
@@ -159,8 +160,9 @@ namespace LightController.MyForm
 		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
 		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons			
+		protected virtual void deviceRefresh() { } //	刷新设备列表
 
-        public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
+		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice,bool msgBoxShow) { } //设置提示信息（有些重要提示，则需弹窗）
@@ -3808,14 +3810,14 @@ namespace LightController.MyForm
 				playTools.StopSend();
 				if (isConnectCom)
 				{
-					playTools.CloseDevice();
+					playTools.CloseDevice();					
 					EnableConnectedButtons(false,false);
 				}
 				else
 				{
 					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
-				}				
-				SetNotice("已断开连接",false);
+				}
+				SetNotice("已断开连接。",false);
 			}
 		}
 
@@ -4047,8 +4049,7 @@ namespace LightController.MyForm
 		/// <param name="obj"></param>
 		public void ConnectAndDisconnectError(string msg)
 		{
-			Invoke((EventHandler)delegate
-			{
+			Invoke((EventHandler)delegate	{
 				SetNotice(msg,true);
 			});
 		}

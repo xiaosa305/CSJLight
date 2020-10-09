@@ -76,7 +76,6 @@ namespace LightController.MyForm.Multiplex
 					Size = stepLabelDemo.Size,
 					Tag = lightIndex
 				};
-
 				
 				Button topBottomButton = new Button
 				{

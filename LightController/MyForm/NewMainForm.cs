@@ -2655,7 +2655,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			previewButtonClick();
+			PreviewButtonClick(null);
 		}
 		
 		/// <summary>
@@ -2681,15 +2681,15 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = !IsConnected;
 			deviceRefreshButton.Enabled = !IsConnected;
 
-			keepButton.Enabled = IsConnected && !isPreviewing; 
+			keepButton.Enabled = IsConnected && !IsPreviewing; 
 			previewButton.Enabled = IsConnected ;
-			makeSoundButton.Enabled = IsConnected && isPreviewing;		
+			makeSoundButton.Enabled = IsConnected && IsPreviewing;		
 
 			deviceConnectButton.Text = IsConnected ? "断开连接":"连接设备";
-			previewButton.Text = isPreviewing ? "停止预览" : "预览效果";
+			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
 
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsConnected && !isPreviewing) {
+			if (IsConnected && !IsPreviewing) {
 				RefreshStep();
 			}						
 		}

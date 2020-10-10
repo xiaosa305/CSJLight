@@ -137,7 +137,7 @@ namespace LightController.MyForm
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
-		protected bool isPreviewing = false; // 是否预览状态中		
+		public bool IsPreviewing = false; // 是否预览状态中
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
@@ -170,7 +170,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
 			// 是否连接,是否预览中
 			IsConnected = connected;
-			isPreviewing = previewing;		
+			IsPreviewing = previewing;		
 		} //设置《连接按钮组》是否可用	
 
 		protected virtual void enterMultiMode() { }
@@ -545,7 +545,7 @@ namespace LightController.MyForm
 			// 由内存几个List实时生成
 			else
 			{
-				long time = DateTime.Now.Ticks;
+				//long time = DateTime.Now.Ticks;
 				
 				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 				generateDBLightList();
@@ -556,8 +556,8 @@ namespace LightController.MyForm
 
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
 
-				long useTime = (DateTime.Now.Ticks - time) / 10000 ;
-				Console.WriteLine("GetDBWrapper(false) useTime : " + useTime );
+				//long useTime = (DateTime.Now.Ticks - time) / 10000 ;
+				//Console.WriteLine("GetDBWrapper(false) useTime : " + useTime );
 
 				return allData;
 			}
@@ -952,6 +952,8 @@ namespace LightController.MyForm
 			return sameTDIndexList;
 		}
 
+
+
 		/// <summary>
 		/// 辅助方法：用传进来的素材数据，重新包装StepWrapper
 		/// </summary>
@@ -985,7 +987,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			if (isPreviewing) {
+			if (IsPreviewing) {
 				MessageBox.Show("正在预览中，无法实时调试。");
 				return;
 			}
@@ -1075,7 +1077,7 @@ namespace LightController.MyForm
 			}
 
 			// 是否实时单灯单步
-			if (IsConnected && !isPreviewing)
+			if (IsConnected && !IsPreviewing)
 			{
 				oneStepWork();
 			}
@@ -3026,9 +3028,9 @@ namespace LightController.MyForm
 			}
 			
 			// 若正在预览，则先停止预览
-			if (isPreviewing)
+			if (IsPreviewing)
 			{
-				previewButtonClick();
+				PreviewButtonClick(null);
 			}
 
 			if (actionForm == null) {
@@ -3352,7 +3354,7 @@ namespace LightController.MyForm
 				from0on = false;
 			}
 			
-			if (IsConnected && !isPreviewing )
+			if (IsConnected && !IsPreviewing )
 			{
 				oneStepWork();
 			}
@@ -3843,7 +3845,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：预览效果|停止预览
 		/// </summary>
-		protected void previewButtonClick()
+		public void PreviewButtonClick(MaterialAst material)
 		{
 			if (!IsConnected)
 			{
@@ -3853,7 +3855,7 @@ namespace LightController.MyForm
 			}
 
 			// 停止预览
-			if (isPreviewing)
+			if (IsPreviewing)
 			{
 				endview();
 				EnableConnectedButtons(true, false);	
@@ -3874,7 +3876,49 @@ namespace LightController.MyForm
 				SetNotice("正在生成预览数据，请稍候...",false);
 				try
 				{
-					dbWrapperTemp = GetDBWrapper(false);
+					// 给使用动作预览的方法
+					if ( material != null) 
+					{
+						generateDBLightList();
+						generateDBFineTuneList();
+
+						IList<DB_Value> valueList = new List<DB_Value>();
+
+						int lightId = dbLightList[selectedIndex].StartID;			
+						StepWrapper stepTemplate = getCurrentStepTemplate();
+						IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList( material.TdNameList ,  stepTemplate.TongdaoList);						
+
+						for (int stepIndex = 0; stepIndex < material.StepCount ; stepIndex++)
+						{
+							for (int tdIndex = 0; tdIndex < sameTDIndexList.Count; tdIndex++)
+							{
+								int materialTdIndex = sameTDIndexList[tdIndex].MaterialTDIndex;
+								int trueTdIndex = sameTDIndexList[tdIndex].CurrentTDIndex + lightId;
+
+								TongdaoWrapper td = material.TongdaoList[stepIndex, materialTdIndex];
+
+								DB_Value value = new DB_Value()
+								{
+									PK = new DB_ValuePK(){
+										 Frame = CurrentFrame,
+										 LightIndex = lightId,
+										 LightID = trueTdIndex ,
+										 Mode = 0,
+										 Step = stepIndex+1,
+									},
+									ScrollValue = td.ScrollValue,
+									StepTime = td.StepTime,
+									ChangeMode = td.ChangeMode,
+								};
+
+								valueList.Add(value);
+							}
+						}						
+						dbWrapperTemp = new DBWrapper(dbLightList,  null, valueList , dbFineTuneList );
+					}
+					else {
+						dbWrapperTemp = GetDBWrapper(false);
+					}
 					DataConvertUtils.SaveProjectFileByPreviewData( dbWrapperTemp , GlobalIniPath, CurrentFrame, new PreviewCallBack(this));
 				}
 				catch (Exception ex)

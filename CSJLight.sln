@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightDog", "LightDog\LightD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightDogWPF", "LightDogWPF\LightDogWPF.csproj", "{720C9F19-5EF7-4175-AA8E-96365696EB26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialTools", "SpecialTools\SpecialTools.csproj", "{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Release|x64.Build.0 = Release|x64
 		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Release|x86.ActiveCfg = Release|Any CPU
 		{720C9F19-5EF7-4175-AA8E-96365696EB26}.Release|x86.Build.0 = Release|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Debug|x64.Build.0 = Debug|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Debug|x86.Build.0 = Debug|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|x64.ActiveCfg = Release|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|x64.Build.0 = Release|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|x86.ActiveCfg = Release|Any CPU
+		{15C006B3-B6BD-4E8B-AAB0-538AE11CBB4E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

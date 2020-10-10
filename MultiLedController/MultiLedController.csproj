@@ -111,12 +111,6 @@
     <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
     <Compile Include="multidevice\newmultidevice\NewVirtualClient.cs" />
     <Compile Include="multidevice\newmultidevice\NewVirtualDevice.cs" />
-    <Compile Include="multidevice\XiaosaTestFrom.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="multidevice\XiaosaTestFrom.Designer.cs">
-      <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
-    </Compile>
     <Compile Include="MyForm\MainForm2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,9 +172,6 @@
     <Compile Include="utils\impl\LogTools.cs" />
     <Compile Include="utils\StringHelper.cs" />
     <Compile Include="utils\XiaosaTest.cs" />
-    <EmbeddedResource Include="multidevice\XiaosaTestFrom.resx">
-      <DependentUpon>XiaosaTestFrom.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyForm\MainForm2.resx">
       <DependentUpon>MainForm2.cs</DependentUpon>
     </EmbeddedResource>

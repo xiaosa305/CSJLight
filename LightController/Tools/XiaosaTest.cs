@@ -3,6 +3,7 @@ using LightController.Ast;
 using LightController.Entity;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
+using LightController.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,7 +36,6 @@ namespace LightController.Tools
         public void NewConnectTest(DBWrapper wrapper,string configPath)
         {
         }
-
         public void OpenSerialPort()
         {
           
@@ -44,7 +44,6 @@ namespace LightController.Tools
         {
             
         }
-
         public void BigDataTest(IList<DB_Value> values)
         {
             Dictionary<int, Dictionary<int, Dictionary<int, DB_Value>>> C_SceneData = new Dictionary<int, Dictionary<int, Dictionary<int, DB_Value>>>();
@@ -84,6 +83,34 @@ namespace LightController.Tools
             }
             Console.WriteLine("完成,耗时：" + stopwatch.ElapsedMilliseconds + "毫秒");
             stopwatch.Stop();
+        }
+        bool flag;
+        public void Old2NewTest()
+        {
+            flag = true;
+            BasicSceneConfig config = new BasicSceneConfig(false, 300, 10);
+            OldFileToNewFileUtils.GetInstance().ReadOldFile(@"C:\Users\99729\Desktop\test\传世界原512控制器 （视易系统）\传世界原512控制器 （视易系统）\1.BIN", @"C:\Users\99729\Desktop\result", @"C1", config, FileKind.Record_Basic, this.Completed1, this.Error);
+         
+        }
+        private void Completed1()
+        {
+            MusicSceneConfig musicconfig = new MusicSceneConfig(@"C:\Users\99729\Desktop\test\传世界原512控制器 （视易系统）\传世界原512控制器 （视易系统）\1.BIN");
+            musicconfig.MusicIntervalTime = 300;
+            musicconfig.MusicStepTime = 30;
+            musicconfig.MusitStepList = new int[] { 2, 1, 3 };
+            OldFileToNewFileUtils.GetInstance().ReadOldFile(@"C:\Users\99729\Desktop\test\传世界原512控制器 （视易系统）\传世界原512控制器 （视易系统）\M1.BIN", @"C:\Users\99729\Desktop\result", @"M1", musicconfig, FileKind.Record_Music, this.Completed2, this.Error);
+        }
+
+        private void Completed2()
+        {
+            Console.WriteLine("转换完成");
+            flag = false;
+        }
+
+        private void Error(string msg)
+        {
+            Console.WriteLine("转换失败：" + msg);
+            flag = false;
         }
     }
 }

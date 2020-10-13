@@ -2205,7 +2205,8 @@ namespace LightController.MyForm
 			if (dr == DialogResult.Cancel)
 			{
 				return;
-			} string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
+			}
+			string exportPath = exportFolderBrowserDialog.SelectedPath + @"\CSJ";
 			DirectoryInfo di = new DirectoryInfo(exportPath);
 			if (di.Exists && (di.GetFiles().Length + di.GetDirectories().Length != 0))
 			{

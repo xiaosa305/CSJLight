@@ -27,6 +27,8 @@ namespace SpecialTools
 		public SpecialTDForm()
 		{
 			InitializeComponent();
+
+			stepIncNUD.MouseWheel += StepIncNUD_MouseWheel;
 					   
 			// 初始化场景选择
 			frameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
@@ -90,7 +92,12 @@ namespace SpecialTools
 				tdFLP.Controls.Add(tdPanels[tdIndex]);
 			}
 		}
-		
+
+		private void StepIncNUD_MouseWheel(object sender, MouseEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
+
 		/// <summary>
 		/// 事件：加载界面时执行代码
 		/// </summary>
@@ -146,6 +153,7 @@ namespace SpecialTools
 		private void generateEmptyLCB() {
 
 			lcb = new LightConfigBean();
+			
 			lcb.SceneConfigs = new SceneConfigBean[32];
 			for (int scIndex = 0; scIndex < lcb.SceneConfigs.Length; scIndex++)
 			{
@@ -200,7 +208,19 @@ namespace SpecialTools
 				setNotice( "尚未生成lcb对象，无法导出文件。" ,  true);
 				return;
 			}
-			LightConfigBean.WriteToFile(@"C:\lightConfig.bin", lcb);
+
+			DialogResult dr = exportFolderBrowserDialog.ShowDialog();			
+			if (dr == DialogResult.Cancel)
+			{
+				return;
+			}
+			string exportPath = exportFolderBrowserDialog.SelectedPath;					   			 		  
+
+			//只在确认导出时，才填入StepInc;
+			lcb.StepInc = decimal.ToInt32(stepIncNUD.Value);
+			LightConfigBean.WriteToFile(exportPath, lcb);
+			setNotice("已成功导出文件", false);
+			dr = MessageBox.Show("已成功导出文件，是否打开导出目录", "打开目录？", MessageBoxButtons.OKCancel,  );
 		}
 
 		/// <summary>
@@ -222,7 +242,14 @@ namespace SpecialTools
 		/// <param name="e"></param>
 		private void tdCB_CheckedChanged(object sender, EventArgs e)
 		{
+			if (lcb != null)
+			{
+				CheckBox cb = sender as CheckBox;
+				int tdIndex = MathHelper.GetIndexNum(cb.Name, -1);
+				int frameIndex = frameComboBox.SelectedIndex;
 
+				lcb.SceneConfigs[frameIndex].ChannelConfigs[tdIndex].IsOpen = cb.Checked;
+			}
 		}
 
 		/// <summary>
@@ -237,7 +264,7 @@ namespace SpecialTools
 				int tdIndex = MathHelper.GetIndexNum(nud.Name, -1);
 				int frameIndex = frameComboBox.SelectedIndex;
 
-				//lcb.SceneConfigs[frameIndex].ChannelConfigs[tdIndex]
+				lcb.SceneConfigs[frameIndex].ChannelConfigs[tdIndex].DefaultValue = decimal.ToInt32(nud.Value);
 			}
 		}
 

@@ -445,6 +445,13 @@ namespace LightController.MyForm
 		}
 
 		/// <summary>
+		/// 事件：点击《导出工程》（空方法：主要作用是方便查找鼠标下压方法）
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void exportSkinButton_Click(object sender, EventArgs e){	}
+
+		/// <summary>
 		/// 事件：《导出工程》鼠标下压事件（判断是左键还是右键）
 		/// </summary>
 		/// <param name="sender"></param>
@@ -460,17 +467,7 @@ namespace LightController.MyForm
 				exportFrameClick();
 			}			
 		}
-
-		/// <summary>
-		/// 事件：点击《导出工程》（空方法：主要作用是方便查找鼠标下压方法）
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void exportSkinButton_Click(object sender, EventArgs e)
-		{
-
-		}
-
+		
 		/// <summary>
 		/// 事件：点击《关闭工程》
 		/// </summary>

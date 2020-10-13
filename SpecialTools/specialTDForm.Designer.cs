@@ -31,7 +31,7 @@
 			this.tdTextBox = new System.Windows.Forms.TextBox();
 			this.generateButton = new System.Windows.Forms.Button();
 			this.frameComboBox = new System.Windows.Forms.ComboBox();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.stepIncNUD = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tdPanelDemo = new System.Windows.Forms.Panel();
 			this.tdNUDDemo = new System.Windows.Forms.NumericUpDown();
@@ -44,7 +44,8 @@
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.exportButton = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			((System.ComponentModel.ISupportInitialize)(this.stepIncNUD)).BeginInit();
 			this.tdPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).BeginInit();
 			this.statusStrip1.SuspendLayout();
@@ -79,18 +80,33 @@
 			this.frameComboBox.TabIndex = 3;
 			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 			// 
-			// numericUpDown1
+			// stepIncNUD
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(215, 19);
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(62, 21);
-			this.numericUpDown1.TabIndex = 5;
-			this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stepIncNUD.Location = new System.Drawing.Point(230, 19);
+			this.stepIncNUD.Maximum = new decimal(new int[] {
+            51,
+            0,
+            0,
+            0});
+			this.stepIncNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.stepIncNUD.Name = "stepIncNUD";
+			this.stepIncNUD.Size = new System.Drawing.Size(47, 21);
+			this.stepIncNUD.TabIndex = 5;
+			this.stepIncNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stepIncNUD.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(170, 23);
+			this.label1.Location = new System.Drawing.Point(183, 22);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(41, 12);
 			this.label1.TabIndex = 6;
@@ -172,7 +188,7 @@
 			this.panel1.Controls.Add(this.checkBox1);
 			this.panel1.Controls.Add(this.exportButton);
 			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.numericUpDown1);
+			this.panel1.Controls.Add(this.stepIncNUD);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panel1.Location = new System.Drawing.Point(0, 242);
 			this.panel1.Name = "panel1";
@@ -210,6 +226,10 @@
 			this.label3.TabIndex = 6;
 			this.label3.Text = "请选择场景";
 			// 
+			// exportFolderBrowserDialog
+			// 
+			this.exportFolderBrowserDialog.Description = "请选择导出文件的目录，并在导出成功后，将文件拷贝tf卡的CSJ文件夹中（也可直接导出到该文件夹）。";
+			// 
 			// SpecialTDForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -227,7 +247,7 @@
 			this.Name = "SpecialTDForm";
 			this.Text = "特定DMX512灯光工具";
 			this.Load += new System.EventHandler(this.specialTDForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.stepIncNUD)).EndInit();
 			this.tdPanelDemo.ResumeLayout(false);
 			this.tdPanelDemo.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).EndInit();
@@ -245,7 +265,7 @@
 		private System.Windows.Forms.TextBox tdTextBox;
 		private System.Windows.Forms.Button generateButton;
 		private System.Windows.Forms.ComboBox frameComboBox;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown stepIncNUD;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Panel tdPanelDemo;
 		private System.Windows.Forms.NumericUpDown tdNUDDemo;
@@ -258,6 +278,7 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button exportButton;
 		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.FolderBrowserDialog exportFolderBrowserDialog;
 	}
 }
 

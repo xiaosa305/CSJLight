@@ -4,6 +4,7 @@ using LightController.Entity;
 using LightController.PeripheralDevice;
 using LightController.Tools.CSJ.IMPL;
 using LightController.Utils;
+using LightController.Utils.LightConfig;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -87,9 +88,10 @@ namespace LightController.Tools
         bool flag;
         public void Old2NewTest()
         {
-            flag = true;
-            BasicSceneConfig config = new BasicSceneConfig(false, 300, 10);
-            OldFileToNewFileUtils.GetInstance().ReadOldFile(@"C:\Users\99729\Desktop\test\传世界原512控制器 （视易系统）\传世界原512控制器 （视易系统）\1.BIN", @"C:\Users\99729\Desktop\result", @"C1", config, FileKind.Record_Basic, this.Completed1, this.Error);
+            LightConfigBean.WriteToFile(@"C:\Users\99729\Documents\协议文档\LightConfig.bin", LightConfigBean.GetTestData());
+            //flag = true;
+            //BasicSceneConfig config = new BasicSceneConfig(false, 300, 10);
+            //OldFileToNewFileUtils.GetInstance().ReadOldFile(@"C:\Users\99729\Desktop\test\传世界原512控制器 （视易系统）\传世界原512控制器 （视易系统）\1.BIN", @"C:\Users\99729\Desktop\result", @"C1", config, FileKind.Record_Basic, this.Completed1, this.Error);
          
         }
         private void Completed1()

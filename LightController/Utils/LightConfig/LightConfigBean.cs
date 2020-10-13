@@ -20,10 +20,10 @@ namespace LightController.Utils.LightConfig
             {
                 for (int channelNo = 0; channelNo < lightConfig.SceneConfigs[sceneNo].ChannelConfigs.Length; channelNo++)
                 {
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].ChannelNo) & 0xFF));
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].ChannelNo >> 8) & 0xFF));
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].IsOpen ? 1 : 0) & 0xFF));
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].DefaultValue) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].ChannelNo) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].ChannelNo >> 8) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].IsOpen ? 1 : 0) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].DefaultValue) & 0xFF));
                 }
             }
             if (File.Exists(path))

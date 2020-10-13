@@ -65,18 +65,28 @@ namespace MultiLedController.multidevice.newmultidevice
 
         private void InitParam()
         {
-            this.VirtualClientLedSpaceNumbers = new int[SPACE_MAX_COUNT];
-            for (int index = 0; index < SPACE_MAX_COUNT; index++)
+            try
             {
-                if (index >= this.SpaceNumber)
+                this.VirtualClientLedSpaceNumbers = new int[SPACE_MAX_COUNT];
+                for (int index = 0; index < SPACE_MAX_COUNT; index++)
                 {
-                    this.VirtualClientLedSpaceNumbers[index] = this.VirtualClientLedSpaceNumbers[index - 1];
-                }
-                else
-                {
-                    this.VirtualClientLedSpaceNumbers[index] = this.StartLedSpace + index;
+                    if (index >= this.SpaceNumber)
+                    {
+                        this.VirtualClientLedSpaceNumbers[index] = this.VirtualClientLedSpaceNumbers[index - 1];
+                    }
+                    else
+                    {
+                        this.VirtualClientLedSpaceNumbers[index] = this.StartLedSpace + index;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Client：Error");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
+           
         }
 
         private void ReceiveEvent(Object obj)

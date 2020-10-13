@@ -38,6 +38,9 @@ namespace MultiLedController.MyForm
 		{
 			InitializeComponent();
 
+			//MARK：添加这一句，会去掉其他线程使用本UI控件时弹出异常的问题(权宜之计，并非长久方案)。
+			CheckForIllegalCrossThreadCalls = false;
+
 			// 动态从ini文件内读取相应的数据
 			iniHelper = new IniFileHelper(Application.StartupPath + @"\CommonSet.ini");
 			string version = iniHelper.ReadString("CommonSet", "version", "3");
@@ -710,12 +713,19 @@ namespace MultiLedController.MyForm
 			}
 			// 开始录制
 			else
-			{				
+			{
 				setNotice(2, "正在录制文件...", false);
 
 				string binPath = recordPath + @"\SC" + recordTextBox.Text + ".bin";
 				string configPath = recordPath + @"\csj.scu" ;
-				simulator.StartRecord( binPath , configPath , showRecordFrame);
+
+				try
+				{
+					simulator.StartRecord(binPath, configPath, showRecordFrame);
+				}
+				catch (Exception ex){
+					Console.WriteLine(ex.Message);
+				}
 
 				enableRecordButtons(true);
 				recordButton.Text = "停止录制";

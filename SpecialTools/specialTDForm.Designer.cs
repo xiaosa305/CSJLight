@@ -1,6 +1,6 @@
 ﻿namespace SpecialTools
 {
-	partial class specialTDForm
+	partial class SpecialTDForm
 	{
 		/// <summary>
 		/// 必需的设计器变量。
@@ -30,8 +30,8 @@
 		{
 			this.tdTextBox = new System.Windows.Forms.TextBox();
 			this.generateButton = new System.Windows.Forms.Button();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.frameComboBox = new System.Windows.Forms.ComboBox();
+			this.stepIncNUD = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tdPanelDemo = new System.Windows.Forms.Panel();
 			this.tdNUDDemo = new System.Windows.Forms.NumericUpDown();
@@ -41,10 +41,11 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.myStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.saveButton = new System.Windows.Forms.Button();
-			this.label3 = new System.Windows.Forms.Label();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.exportButton = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
+			this.exportFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			((System.ComponentModel.ISupportInitialize)(this.stepIncNUD)).BeginInit();
 			this.tdPanelDemo.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).BeginInit();
 			this.statusStrip1.SuspendLayout();
@@ -70,26 +71,42 @@
 			this.generateButton.UseVisualStyleBackColor = false;
 			this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
 			// 
-			// comboBox1
+			// frameComboBox
 			// 
-			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Location = new System.Drawing.Point(83, 48);
-			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(69, 20);
-			this.comboBox1.TabIndex = 3;
+			this.frameComboBox.FormattingEnabled = true;
+			this.frameComboBox.Location = new System.Drawing.Point(83, 48);
+			this.frameComboBox.Name = "frameComboBox";
+			this.frameComboBox.Size = new System.Drawing.Size(69, 20);
+			this.frameComboBox.TabIndex = 3;
+			this.frameComboBox.SelectedIndexChanged += new System.EventHandler(this.frameComboBox_SelectedIndexChanged);
 			// 
-			// numericUpDown1
+			// stepIncNUD
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(215, 19);
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(62, 21);
-			this.numericUpDown1.TabIndex = 5;
-			this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stepIncNUD.Location = new System.Drawing.Point(230, 19);
+			this.stepIncNUD.Maximum = new decimal(new int[] {
+            51,
+            0,
+            0,
+            0});
+			this.stepIncNUD.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.stepIncNUD.Name = "stepIncNUD";
+			this.stepIncNUD.Size = new System.Drawing.Size(47, 21);
+			this.stepIncNUD.TabIndex = 5;
+			this.stepIncNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.stepIncNUD.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(170, 23);
+			this.label1.Location = new System.Drawing.Point(183, 22);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(41, 12);
 			this.label1.TabIndex = 6;
@@ -110,10 +127,16 @@
 			// tdNUDDemo
 			// 
 			this.tdNUDDemo.Location = new System.Drawing.Point(120, 1);
+			this.tdNUDDemo.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
 			this.tdNUDDemo.Name = "tdNUDDemo";
 			this.tdNUDDemo.Size = new System.Drawing.Size(47, 21);
 			this.tdNUDDemo.TabIndex = 2;
 			this.tdNUDDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.tdNUDDemo.ValueChanged += new System.EventHandler(this.tdNUD_ValueChanged);
 			// 
 			// tdCBDemo
 			// 
@@ -124,6 +147,7 @@
 			this.tdCBDemo.TabIndex = 1;
 			this.tdCBDemo.Text = "启用";
 			this.tdCBDemo.UseVisualStyleBackColor = true;
+			this.tdCBDemo.CheckedChanged += new System.EventHandler(this.tdCB_CheckedChanged);
 			// 
 			// tdLabelDemo
 			// 
@@ -162,35 +186,14 @@
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.checkBox1);
-			this.panel1.Controls.Add(this.saveButton);
+			this.panel1.Controls.Add(this.exportButton);
 			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.numericUpDown1);
+			this.panel1.Controls.Add(this.stepIncNUD);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panel1.Location = new System.Drawing.Point(0, 242);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(375, 58);
 			this.panel1.TabIndex = 9;
-			// 
-			// saveButton
-			// 
-			this.saveButton.BackColor = System.Drawing.Color.Salmon;
-			this.saveButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.saveButton.Location = new System.Drawing.Point(293, 12);
-			this.saveButton.Name = "saveButton";
-			this.saveButton.Size = new System.Drawing.Size(75, 35);
-			this.saveButton.TabIndex = 7;
-			this.saveButton.Text = "导出文件";
-			this.saveButton.UseVisualStyleBackColor = false;
-			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(9, 52);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(65, 12);
-			this.label3.TabIndex = 6;
-			this.label3.Text = "请选择场景";
 			// 
 			// checkBox1
 			// 
@@ -202,7 +205,32 @@
 			this.checkBox1.Text = "常亮模式";
 			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
-			// specialTDForm
+			// exportButton
+			// 
+			this.exportButton.BackColor = System.Drawing.Color.Salmon;
+			this.exportButton.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.exportButton.Location = new System.Drawing.Point(293, 12);
+			this.exportButton.Name = "exportButton";
+			this.exportButton.Size = new System.Drawing.Size(75, 35);
+			this.exportButton.TabIndex = 7;
+			this.exportButton.Text = "导出文件";
+			this.exportButton.UseVisualStyleBackColor = false;
+			this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(9, 52);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(65, 12);
+			this.label3.TabIndex = 6;
+			this.label3.Text = "请选择场景";
+			// 
+			// exportFolderBrowserDialog
+			// 
+			this.exportFolderBrowserDialog.Description = "请选择导出文件的目录，并在导出成功后，将文件拷贝tf卡的CSJ文件夹中（也可直接导出到该文件夹）。";
+			// 
+			// SpecialTDForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -213,12 +241,13 @@
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.label3);
-			this.Controls.Add(this.comboBox1);
+			this.Controls.Add(this.frameComboBox);
 			this.Controls.Add(this.generateButton);
 			this.Controls.Add(this.tdTextBox);
-			this.Name = "specialTDForm";
+			this.Name = "SpecialTDForm";
 			this.Text = "特定DMX512灯光工具";
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			this.Load += new System.EventHandler(this.specialTDForm_Load);
+			((System.ComponentModel.ISupportInitialize)(this.stepIncNUD)).EndInit();
 			this.tdPanelDemo.ResumeLayout(false);
 			this.tdPanelDemo.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tdNUDDemo)).EndInit();
@@ -235,8 +264,8 @@
 
 		private System.Windows.Forms.TextBox tdTextBox;
 		private System.Windows.Forms.Button generateButton;
-		private System.Windows.Forms.ComboBox comboBox1;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.ComboBox frameComboBox;
+		private System.Windows.Forms.NumericUpDown stepIncNUD;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Panel tdPanelDemo;
 		private System.Windows.Forms.NumericUpDown tdNUDDemo;
@@ -247,8 +276,9 @@
 		private System.Windows.Forms.ToolStripStatusLabel myStatusLabel;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Button saveButton;
+		private System.Windows.Forms.Button exportButton;
 		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.FolderBrowserDialog exportFolderBrowserDialog;
 	}
 }
 

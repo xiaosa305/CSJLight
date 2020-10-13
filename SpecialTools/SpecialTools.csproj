@@ -45,16 +45,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utils\LightConfigBean.cs" />
-    <Compile Include="specialTDForm.cs">
+    <Compile Include="SpecialTDForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="specialTDForm.Designer.cs">
-      <DependentUpon>specialTDForm.cs</DependentUpon>
+    <Compile Include="SpecialTDForm.Designer.cs">
+      <DependentUpon>SpecialTDForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="specialTDForm.resx">
-      <DependentUpon>specialTDForm.cs</DependentUpon>
+    <Compile Include="Utils\MathHelper.cs" />
+    <Compile Include="Utils\TextHelper.cs" />
+    <EmbeddedResource Include="SpecialTDForm.resx">
+      <DependentUpon>SpecialTDForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -127,7 +127,7 @@ namespace LightController.PeripheralDevice
                 this.Error_Event("通信超时");
                 this.CloseTransactionTimer();
             }
-        }
+        } 
         /// <summary>
         /// 启动定时器计时
         /// </summary>

@@ -12,7 +12,7 @@ namespace LightController.Utils
     public class OldFileToNewFileUtils
     {
         private readonly string TransitionCacheFilePath = Application.StartupPath + @"\TransitionCacheFile";
-        public static OldFileToNewFileUtils Instance { get; set; }
+        private static OldFileToNewFileUtils Instance { get; set; }
         public delegate void Completed();
         public delegate void Error(string msg);
         private bool IsLeisure { get; set; }
@@ -47,6 +47,10 @@ namespace LightController.Utils
         private void InitParam()
         {
             this.IsLeisure = true;
+            if (!Directory.Exists(TransitionCacheFilePath))
+            {
+                Directory.CreateDirectory(TransitionCacheFilePath);
+            }
         }
 
         private void StartWorking()
@@ -56,9 +60,9 @@ namespace LightController.Utils
 
         private void StopWorking(string msg)
         {
-            this.WorkTimer.Stop();
             this.Error_Event(msg);
             this.InitParam();
+            this.WorkTimer.Stop();
         }
 
 
@@ -68,6 +72,7 @@ namespace LightController.Utils
             {
                 if (this.IsLeisure)
                 {
+                    this.IsLeisure = false;
                     this.Completed_Event = completed;
                     this.Error_Event = error;
                     this.SouceFilePath = souceFilePath;
@@ -94,7 +99,7 @@ namespace LightController.Utils
                     this.ReadOldBasicFile();
                     break;
                 case FileKind.Project_Music:
-                    this.ReadOldMusicFule();
+                    this.ReadOldMusicFile();
                     break;
                 case FileKind.Record_Basic:
                     this.ReadOldRecordBasicFile();
@@ -105,31 +110,34 @@ namespace LightController.Utils
             }
         }
 
-        public void ReadOldBasicFile()
+        private void ReadOldBasicFile()
         {
+            //清楚缓存文件
+            for (int channelNo = 1; channelNo < 513; channelNo++)
+            {
+                string cacheFileName = TransitionCacheFilePath + @"\C-" + channelNo + @".bin";
+                if (File.Exists(cacheFileName))
+                {
+                    File.Delete(cacheFileName);
+                }
+            }
+            //读取旧文件数据
             using (FileStream stream = new FileStream(this.SouceFilePath,FileMode.Open))
             {
-                bool[] musicControlStatus = new bool[512];
-                int isOpenMusic;
-                int musicSetpMode;
-                int isOpenMic;
-                int micFrequentness;
-                int micRunTime;
-                int isRelay;
-                int relayTime;
-                int relayNextScene;
                 Dictionary<int, List<byte>> framDatas = new Dictionary<int, List<byte>>();
-                if (stream.Length > 520)
+                if (stream.Length >= 1040)
                 {
-                    bool isConfig = true;
                     byte[] buff = new byte[520];
-                    List<byte> writeBuff = new List<byte>();
                     stream.Seek(520, SeekOrigin.Begin);
                     while (stream.Read(buff, 0, buff.Length) == 520)
                     {
                         if (framDatas[1].Count > 1024 * 4)
                         {
                             //写缓存数据
+                            for (int channelIndex = 0; channelIndex < 513; channelIndex++)
+                            {
+                                this.WriteBasicCacheDataToFile(channelIndex + 0, framDatas[channelIndex]);
+                            }
                             //清空缓存
                             framDatas = new Dictionary<int, List<byte>>();
                         }
@@ -147,39 +155,313 @@ namespace LightController.Utils
                     }
                 }
             }
-        }
-
-        public void ReadOldMusicFule()
-        {
-            //using (FileStream stream = new FileStream())
-            //{
-
-            //}
-        }
-
-        public void ReadOldRecordBasicFile()
-        {
-            //写场景头
-
-            //循环写dmx数据
-        }
-
-        public void ReadOldRecordMusicFile()
-        {
-            using (FileStream writeStream = new FileStream(this.DirPath + @"\" + this.FileName + @".bin",FileMode.OpenOrCreate))
+            //缓存写入完成，整合缓存文件
+            string filePath = this.DirPath + @"\" + this.FileName + @".bin";
+            if (File.Exists(filePath))
             {
-                //写音频头
+                File.Delete(filePath);
+            }
+            bool flag = false;
+            File.Create(filePath).Dispose();
+            using (FileStream writeStream = new FileStream(filePath,FileMode.Append))
+            {
+                List<byte> writeBuff = new List<byte>();
+                long dataSize = 0;
+                #region 写新文件的文件头
+                writeBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00),4));
+                writeBuff.AddRange(Config.GetHeadData());
+                dataSize += writeBuff.Count;
+                #endregion
+                #region 读取缓存文件数据写到新文件中
+                for (int channelNo = 1; channelNo < 513; channelNo++)
+                {
+                    string cacheFileName = TransitionCacheFilePath + @"\C-" + channelNo + @".bin";
+                    if (File.Exists(cacheFileName))
+                    {
+                        using (FileStream readStream = new FileStream(cacheFileName,FileMode.Open))
+                        {
+                            flag = true;
+                            long fileSize = readStream.Length;
+                            byte[] readBuff = new byte[fileSize];
+                            readStream.Read(readBuff, 0, readBuff.Length);
+                            writeBuff.Add(Convert.ToByte((channelNo) & 0xFF));
+                            writeBuff.Add(Convert.ToByte((channelNo >> 8) & 0xFF));
+                            writeBuff.Add(Convert.ToByte((fileSize) & 0xFF));
+                            writeBuff.Add(Convert.ToByte((fileSize >> 8) & 0xFF));
+                            writeBuff.Add(Convert.ToByte((dataSize + 8) & 0xFF));
+                            writeBuff.Add(Convert.ToByte(((dataSize + 8) >> 8) & 0xFF));
+                            writeBuff.Add(Convert.ToByte(((dataSize + 8) >> 16) & 0xFF));
+                            writeBuff.Add(Convert.ToByte(((dataSize + 8) >> 24) & 0xFF));
+                            dataSize += fileSize + 8;
+                            writeBuff.AddRange(readBuff);
+                        }
+                    }
+                    writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                    writeBuff.Clear();
+                }
+                #endregion
+                #region 写文件大小
+                writeBuff.Clear();
+                writeBuff.Add(Convert.ToByte((dataSize) & 0xFF));
+                writeBuff.Add(Convert.ToByte((dataSize >> 8) & 0xFF));
+                writeBuff.Add(Convert.ToByte((dataSize >> 16) & 0xFF));
+                writeBuff.Add(Convert.ToByte((dataSize >> 24) & 0xFF));
+                writeStream.Seek(0, SeekOrigin.Begin);
+                writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                #endregion
+            }
+            if (!flag)
+            {
+                File.Delete(filePath);
+                this.WorkError("没有调光数据");
+            }
+            this.WorkCompleted();
+        }
 
-                //循环写dmx数据
+        private void ReadOldMusicFile()
+        {
+            //清楚缓存文件
+            for (int channelNo = 1; channelNo < 513; channelNo++)
+            {
+                string cacheFileName = TransitionCacheFilePath + @"\M-" + channelNo + @".bin";
+                if (File.Exists(cacheFileName))
+                {
+                    File.Delete(cacheFileName);
+                }
+            }
+            //读取旧文件数据
+            using (FileStream stream = new FileStream(this.SouceFilePath, FileMode.Open))
+            {
+                Dictionary<int, List<byte>> framDatas = new Dictionary<int, List<byte>>();
+                if (stream.Length > 520)
+                {
+                    byte[] buff = new byte[520];
+                    stream.Seek(520, SeekOrigin.Begin);
+                    while (stream.Read(buff, 0, buff.Length) == 520)
+                    {
+                        if (framDatas[1].Count > 1024 * 4)
+                        {
+                            //写缓存数据
+                            for (int channelIndex = 0; channelIndex < 513; channelIndex++)
+                            {
+                                this.WriteMusicCacheDataToFile(channelIndex + 0, framDatas[channelIndex]);
+                            }
+                            //清空缓存
+                            framDatas = new Dictionary<int, List<byte>>();
+                        }
+                        for (int index = 2; index < 514; index++)
+                        {
+                            if (!framDatas.ContainsKey(index))
+                            {
+                                framDatas.Add(index - 1, new List<byte>());
+                            }
+                            else
+                            {
+                                framDatas[index - 1].Add(buff[index]);
+                            }
+                        }
+                    }
+                }
+            }
+            //缓存写入完成，整合缓存文件
+            string filePath = this.DirPath + @"\" + this.FileName + @".bin";
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+            bool flag = false;
+            File.Create(filePath).Dispose();
+            using (FileStream writeStream = new FileStream(filePath, FileMode.Append))
+            {
+                List<byte> writeBuff = new List<byte>();
+                long dataSize = 0;
+                #region 写新文件的文件头
+                writeBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4));
+                writeBuff.AddRange(Config.GetHeadData());
+                dataSize += writeBuff.Count;
+                #endregion
+                #region 读取缓存文件数据写到新文件中
+                for (int channelNo = 1; channelNo < 513; channelNo++)
+                {
+                    if (((MusicSceneConfig)this.Config).MusicChannelStatus[channelNo - 1])
+                    {
+                        string cacheFileName = TransitionCacheFilePath + @"\M-" + channelNo + @".bin";
+                        if (File.Exists(cacheFileName))
+                        {
+                            using (FileStream readStream = new FileStream(cacheFileName, FileMode.Open))
+                            {
+                                flag = true;
+                                long fileSize = readStream.Length;
+                                byte[] readBuff = new byte[fileSize];
+                                readStream.Read(readBuff, 0, readBuff.Length);
+                                writeBuff.Add(Convert.ToByte((channelNo) & 0xFF));
+                                writeBuff.Add(Convert.ToByte((channelNo >> 8) & 0xFF));
+                                writeBuff.Add(Convert.ToByte((fileSize) & 0xFF));
+                                writeBuff.Add(Convert.ToByte((fileSize >> 8) & 0xFF));
+                                writeBuff.Add(Convert.ToByte((dataSize + 8) & 0xFF));
+                                writeBuff.Add(Convert.ToByte(((dataSize + 8) >> 8) & 0xFF));
+                                writeBuff.Add(Convert.ToByte(((dataSize + 8) >> 16) & 0xFF));
+                                writeBuff.Add(Convert.ToByte(((dataSize + 8) >> 24) & 0xFF));
+                                dataSize += fileSize + 8;
+                                writeBuff.AddRange(readBuff);
+                            }
+                        }
+                        writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                        writeBuff.Clear();
+                    }
+                }
+                #endregion
+                #region 写文件大小
+                writeBuff.Clear();
+                writeBuff.Add(Convert.ToByte((dataSize) & 0xFF));
+                writeBuff.Add(Convert.ToByte((dataSize >> 8) & 0xFF));
+                writeBuff.Add(Convert.ToByte((dataSize >> 16) & 0xFF));
+                writeBuff.Add(Convert.ToByte((dataSize >> 24) & 0xFF));
+                writeStream.Seek(0, SeekOrigin.Begin);
+                writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                #endregion
+            }
+            if (!flag)
+            {
+                File.Delete(filePath);
+                this.WorkError("没有调光数据");
+            }
+            this.WorkCompleted();
+        }
+
+        private void ReadOldRecordBasicFile()
+        {
+            bool flag = false;
+            if (File.Exists(this.DirPath + @"\" + this.FileName + @".bin"))
+            {
+                File.Delete(this.DirPath + @"\" + this.FileName + @".bin");
+            }
+            File.Create(this.DirPath + @"\" + this.FileName + @".bin").Dispose();
+            using (FileStream writeStream = new FileStream(this.DirPath + @"\" + this.FileName + @".bin",FileMode.Append))
+            {
+                using (FileStream readStream = new FileStream(this.SouceFilePath, FileMode.Open))
+                {
+                    if (readStream.Length >= 1040)
+                    {
+                        flag = true;
+                        long dataSize = 0;
+                        List<byte> writeBuff = new List<byte>();
+                        writeBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4));
+                        writeBuff.AddRange(this.Config.GetHeadData());
+                        //for (int index = 0; index < 512; index++)
+                        //{
+                        //    if ((this.Config as MusicSceneConfig).MusicChannelStatus[index])
+                        //    {
+                        //        writeBuff.Add(Convert.ToByte((index + 1) & 0xFF));
+                        //        writeBuff.Add(Convert.ToByte((index + 1 >> 8) & 0xFF));
+                        //        writeBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 6));
+                        //    }
+                        //}
+                        dataSize += writeBuff.Count;
+                        writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                        writeBuff.Clear();
+                        byte[] readBuff = new byte[520];
+                        readStream.Seek(520, SeekOrigin.Begin);
+                        while (readStream.Read(readBuff, 0, readBuff.Length) == 520)
+                        {
+                            dataSize += readBuff.Length;
+                            writeStream.Write(readBuff, 0, readBuff.Length);
+                        }
+                        writeStream.Seek(0, SeekOrigin.Begin);
+                        writeBuff.Add(Convert.ToByte((dataSize) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(((dataSize) >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(((dataSize) >> 16) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(((dataSize) >> 24) & 0xFF));
+                    }
+                }
+            }
+            if (!flag)
+            {
+                File.Delete(this.DirPath + @"\" + this.FileName + @".bin");
+                this.WorkError("没有调光数据");
+            }
+            this.WorkCompleted();
+        }
+        private void ReadOldRecordMusicFile()
+        {
+            bool flag = false;
+            if (File.Exists(this.DirPath + @"\" + this.FileName + @".bin"))
+            {
+                File.Delete(this.DirPath + @"\" + this.FileName + @".bin");
+            }
+            File.Create(this.DirPath + @"\" + this.FileName + @".bin").Dispose();
+            using (FileStream writeStream = new FileStream(this.DirPath + @"\" + this.FileName + @".bin", FileMode.Append))
+            {
+                using (FileStream readStream = new FileStream(this.SouceFilePath, FileMode.Open))
+                {
+                    if (readStream.Length >= 1040)
+                    {
+                        flag = true;
+                        long dataSize = 0;
+                        List<byte> writeBuff = new List<byte>();
+                        writeBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4));
+                        writeBuff.AddRange((this.Config).GetHeadData());
+                        for (int index = 0; index < 512; index++)
+                        {
+                            if ((this.Config as MusicSceneConfig).MusicChannelStatus[index])
+                            {
+                                writeBuff.Add(Convert.ToByte((index + 1) & 0xFF));
+                                writeBuff.Add(Convert.ToByte((index + 1 >> 8) & 0xFF));
+                                writeBuff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 6));
+                            }
+                        }
+                        dataSize += writeBuff.Count;
+                        writeStream.Write(writeBuff.ToArray(), 0, writeBuff.Count);
+                        writeBuff.Clear();
+                        byte[] readBuff = new byte[520];
+                        readStream.Seek(520, SeekOrigin.Begin);
+                        while (readStream.Read(readBuff, 0, readBuff.Length) == 520)
+                        {
+                            dataSize += readBuff.Length;
+                            writeStream.Write(readBuff, 0, readBuff.Length);
+                        }
+                        writeStream.Seek(0, SeekOrigin.Begin);
+                        writeBuff.Add(Convert.ToByte((dataSize) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(((dataSize) >> 8) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(((dataSize) >> 16) & 0xFF));
+                        writeBuff.Add(Convert.ToByte(((dataSize) >> 24) & 0xFF));
+                    }
+                }
+            }
+            if (!flag)
+            {
+                File.Delete(this.DirPath + @"\" + this.FileName + @".bin");
+                this.WorkError("没有调光数据");
+            }
+            this.WorkCompleted();
+        }
+
+        private void WorkCompleted()
+        {
+            this.InitParam();
+            this.Completed_Event();
+        }
+
+        private void WorkError(string msg)
+        {
+            this.StopWorking(msg);
+        }
+
+        private void WriteBasicCacheDataToFile(int channelNo,List<byte> datas)
+        {
+            string cacheFileName = TransitionCacheFilePath + @"\C-" + channelNo + @".bin";
+            using (FileStream stream = new FileStream(cacheFileName, FileMode.OpenOrCreate))
+            {
+                stream.Write(datas.ToArray(), 1, datas.Count);
             }
         }
 
-        private void WriteCacheDataToFile(int channelNo,List<byte> datas)
+        private void WriteMusicCacheDataToFile(int channelNo, List<byte> datas)
         {
-            string cacheFileName = TransitionCacheFilePath + @"\" + channelNo + @".bin";
+            string cacheFileName = TransitionCacheFilePath + @"\M-" + channelNo + @".bin";
             using (FileStream stream = new FileStream(cacheFileName, FileMode.OpenOrCreate))
             {
-                stream.Write(datas.ToArray(), 0, datas.Count);
+                stream.Write(datas.ToArray(), 1, datas.Count);
             }
         }
     }
@@ -197,10 +479,17 @@ namespace LightController.Utils
             this.YMRunTime = ymRunTime;
             this.BasicChannelCount = 512;
         }
-
         public byte[] GetHeadData()
         {
-            throw new NotImplementedException();
+            List<byte> dataBuff = new List<byte>();
+            dataBuff.Add(Convert.ToByte(YMOpenStatus ? 1 : 0));
+            dataBuff.Add(Convert.ToByte(YMIntervalTime & 0xFF));
+            dataBuff.Add(Convert.ToByte((YMIntervalTime >> 8) & 0xFF));
+            dataBuff.Add(Convert.ToByte(YMRunTime & 0xFF));
+            dataBuff.Add(Convert.ToByte((YMRunTime >> 8) & 0xFF));
+            dataBuff.Add(Convert.ToByte(BasicChannelCount & 0xFF));
+            dataBuff.Add(Convert.ToByte((BasicChannelCount >> 8) & 0xFF));
+            return dataBuff.ToArray();
         }
     }
 
@@ -229,9 +518,46 @@ namespace LightController.Utils
             }
         }
 
+        public MusicSceneConfig(string basicPath)
+        {
+            this.MusicChannelStatus = Enumerable.Repeat(false, 512).ToArray();
+            Console.WriteLine("文件是否存在：" + File.Exists(basicPath));
+            using (FileStream stream = new FileStream(basicPath,FileMode.Open))
+            {
+                byte[] readBuff = new byte[520];
+                stream.Read(readBuff, 0, readBuff.Length);
+                for (int index = 1; index < 65; index++)
+                {
+                    string bitStr = StringHelper.DecimalStringToBitBinary(readBuff[index].ToString(), 8);
+                    for (int bitIndex = 0; bitIndex < 8; bitIndex++)
+                    {
+                        this.MusicChannelStatus[(index - 1) * 8 + bitIndex] = bitStr[bitIndex].Equals("1");
+                    }
+                }
+            }
+        }
+
         public byte[] GetHeadData()
         {
-            throw new NotImplementedException();
+            List<byte> dataBuff = new List<byte>();
+            dataBuff.Add(Convert.ToByte(MusicStepTime & 0xFF));
+            dataBuff.Add(Convert.ToByte((MusicIntervalTime) & 0xFF));
+            dataBuff.Add(Convert.ToByte((MusicIntervalTime >> 8) & 0xFF));
+            dataBuff.Add(Convert.ToByte((MusicSteoListCount) & 0xFF));
+            for (int index = 0; index < 20; index++)
+            {
+                if (index + 1 >= MusicSteoListCount)
+                {
+                    dataBuff.Add(Convert.ToByte(0 & 0xFF));
+                }
+                else
+                {
+                    dataBuff.Add(Convert.ToByte(MusitStepList[index] & 0xFF));
+                }
+            }
+            dataBuff.Add(Convert.ToByte((MusicChannelCount) & 0xFF));
+            dataBuff.Add(Convert.ToByte((MusicChannelCount >> 8) & 0xFF));
+            return dataBuff.ToArray();
         }
     }
 

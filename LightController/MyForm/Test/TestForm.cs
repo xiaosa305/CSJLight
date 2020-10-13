@@ -116,5 +116,10 @@ namespace LightController.MyForm.Test
         {
             XiaosaTest.GetInstance().NewConnectTest(Wrapper,ConfigPath);
         }
+
+        private void Old2NewTestBtn_Click(object sender, EventArgs e)
+        {
+            XiaosaTest.GetInstance().Old2NewTest();
+        }
     }
 }

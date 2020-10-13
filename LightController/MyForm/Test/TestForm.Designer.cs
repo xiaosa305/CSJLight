@@ -35,6 +35,7 @@
             this.StartDrawPicture = new System.Windows.Forms.Button();
             this.ClearPictureBox = new System.Windows.Forms.Button();
             this.NewConnectedTestBtn = new System.Windows.Forms.Button();
+            this.Old2NewTestBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,11 +105,22 @@
             this.NewConnectedTestBtn.UseVisualStyleBackColor = true;
             this.NewConnectedTestBtn.Click += new System.EventHandler(this.NewConnectedTestBtn_Click);
             // 
+            // Old2NewTestBtn
+            // 
+            this.Old2NewTestBtn.Location = new System.Drawing.Point(650, 71);
+            this.Old2NewTestBtn.Name = "Old2NewTestBtn";
+            this.Old2NewTestBtn.Size = new System.Drawing.Size(75, 23);
+            this.Old2NewTestBtn.TabIndex = 8;
+            this.Old2NewTestBtn.Text = "旧换新测试";
+            this.Old2NewTestBtn.UseVisualStyleBackColor = true;
+            this.Old2NewTestBtn.Click += new System.EventHandler(this.Old2NewTestBtn_Click);
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Old2NewTestBtn);
             this.Controls.Add(this.NewConnectedTestBtn);
             this.Controls.Add(this.ClearPictureBox);
             this.Controls.Add(this.StartDrawPicture);
@@ -133,5 +145,6 @@
         private System.Windows.Forms.Button StartDrawPicture;
         private System.Windows.Forms.Button ClearPictureBox;
         private System.Windows.Forms.Button NewConnectedTestBtn;
+        private System.Windows.Forms.Button Old2NewTestBtn;
     }
 }

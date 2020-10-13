@@ -11,24 +11,24 @@ namespace LightController.Utils.LightConfig
 
         public static void WriteToFile(string path,LightConfigBean lightConfig)
         {
+            string filePath = path + @"\LightConfig.bin";
             List<byte> buff = new List<byte>();
             buff.Add(Convert.ToByte(lightConfig.StepInc));
             for (int sceneNo = 0; sceneNo < lightConfig.SceneConfigs.Length; sceneNo++)
             {
                 for (int channelNo = 0; channelNo < lightConfig.SceneConfigs[sceneNo].ChannelConfigs.Length; channelNo++)
                 {
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].ChannelNo) & 0xFF));
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].ChannelNo >> 8) & 0xFF));
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].IsOpen ? 1 : 0) & 0xFF));
-                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo + 1].DefaultValue) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].ChannelNo) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].ChannelNo >> 8) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].IsOpen ? 1 : 0) & 0xFF));
+                    buff.Add(Convert.ToByte((lightConfig.SceneConfigs[sceneNo].ChannelConfigs[channelNo].DefaultValue) & 0xFF));
                 }
             }
-            if (File.Exists(path))
+            if (File.Exists(filePath))
             {
-                File.Delete(path);
+                File.Delete(filePath);
             }
-            File.Create(path).Dispose();
-            using (FileStream stream = new FileStream(path,FileMode.Create))
+            using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
                 stream.Write(buff.ToArray(), 0, buff.Count);
             }

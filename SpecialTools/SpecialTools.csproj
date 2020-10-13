@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\LightConfigBean.cs" />
     <Compile Include="specialTDForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="更新日志.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FrameList.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

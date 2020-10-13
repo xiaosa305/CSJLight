@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightController.Utils.LightConfig;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -51,50 +52,69 @@ namespace SpecialTools
 		/// </summary>
 		private void generateFLP()
 		{
-			tdFLP.Controls.Clear();//先清空
-			for (int tdIndex = 0; tdIndex < 10; tdIndex++)
+			LightConfigBean lcb = new LightConfigBean();
+			lcb.SceneConfigs = new SceneConfigBean[32];
+			for (int scIndex= 0;   scIndex<lcb.SceneConfigs.Length; scIndex++)
 			{
-				Panel tdPanel = new Panel
+				lcb.SceneConfigs[scIndex] = new SceneConfigBean();
+				lcb.SceneConfigs[scIndex].ChannelConfigs = new ChannelConfigBean[10];
+				for (int ccIndex = 0; ccIndex < 10; ccIndex++)
 				{
-					Name = "tdPanel" +(tdIndex+1),
-					Size = tdPanelDemo.Size,
-					BorderStyle = tdPanelDemo.BorderStyle,
-					Visible = true
-				};
-
-				Label tdLabel = new Label
-				{
-					Name = "tdLabel" + (tdIndex + 1),
-					Text = "通道" + tdArray[tdIndex] ,
-					AutoSize = tdLabelDemo.AutoSize,
-					Location = tdLabelDemo.Location,					
-					Size = tdLabelDemo.Size,
-				};
-
-				CheckBox tdCB = new CheckBox
-				{
-					Name = "tdCB" + (tdIndex + 1),
-					Text = tdCBDemo.Text ,
-					AutoSize = tdCBDemo.AutoSize,
-					Location = tdCBDemo.Location,
-					Size = tdCBDemo.Size,					
-					UseVisualStyleBackColor = tdCBDemo.UseVisualStyleBackColor,
-				};			
-
-				NumericUpDown tdNUD = new NumericUpDown
-				{
-					Name = "tdNUD" + (tdIndex + 1),
-					Location = tdNUDDemo.Location,
-					Size = tdNUDDemo.Size,
-					TextAlign = tdNUDDemo.TextAlign,
-				};
-
-				tdPanel.Controls.Add( tdLabel );
-				tdPanel.Controls.Add( tdCB );
-				tdPanel.Controls.Add( tdNUD );
-
-				tdFLP.Controls.Add(tdPanel);
+					lcb.SceneConfigs[scIndex].ChannelConfigs[ccIndex] = new ChannelConfigBean()
+					{
+						IsOpen = true,
+						ChannelNo = tdArray[ccIndex],
+						DefaultValue = 0,
+					};
+				}
 			}
+
+			LightConfigBean.WriteToFile(  @"C:\lightConfig.bin" , lcb);
+
+			//tdFLP.Controls.Clear();//先清空
+			//for (int tdIndex = 0; tdIndex < 10; tdIndex++)
+			//{
+			//	Panel tdPanel = new Panel
+			//	{
+			//		Name = "tdPanel" +(tdIndex+1),
+			//		Size = tdPanelDemo.Size,
+			//		BorderStyle = tdPanelDemo.BorderStyle,
+			//		Visible = true
+			//	};
+
+			//	Label tdLabel = new Label
+			//	{
+			//		Name = "tdLabel" + (tdIndex + 1),
+			//		Text = "通道" + tdArray[tdIndex] ,
+			//		AutoSize = tdLabelDemo.AutoSize,
+			//		Location = tdLabelDemo.Location,					
+			//		Size = tdLabelDemo.Size,
+			//	};
+
+			//	CheckBox tdCB = new CheckBox
+			//	{
+			//		Name = "tdCB" + (tdIndex + 1),
+			//		Text = tdCBDemo.Text ,
+			//		AutoSize = tdCBDemo.AutoSize,
+			//		Location = tdCBDemo.Location,
+			//		Size = tdCBDemo.Size,					
+			//		UseVisualStyleBackColor = tdCBDemo.UseVisualStyleBackColor,
+			//	};			
+
+			//	NumericUpDown tdNUD = new NumericUpDown
+			//	{
+			//		Name = "tdNUD" + (tdIndex + 1),
+			//		Location = tdNUDDemo.Location,
+			//		Size = tdNUDDemo.Size,
+			//		TextAlign = tdNUDDemo.TextAlign,
+			//	};
+
+			//	tdPanel.Controls.Add( tdLabel );
+			//	tdPanel.Controls.Add( tdCB );
+			//	tdPanel.Controls.Add( tdNUD );
+
+			//	tdFLP.Controls.Add(tdPanel);
+			//}
 		}
 
 		private void saveButton_Click(object sender, EventArgs e)

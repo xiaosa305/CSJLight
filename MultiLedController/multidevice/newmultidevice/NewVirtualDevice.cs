@@ -270,8 +270,17 @@ namespace MultiLedController.multidevice.newmultidevice
 
         public NewVirtualDevice StopDebug()
         {
-            this.IsDebugDMXData = false;
-            this.GetDebugFramCount_Event = null;
+            try
+            {
+                this.IsDebugDMXData = false;
+                this.GetDebugFramCount_Event = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("关闭调试报错");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
             return this;
         }
 
@@ -308,8 +317,17 @@ namespace MultiLedController.multidevice.newmultidevice
 
         public NewVirtualDevice StopRecord()
         {
-            this.IsRecordDMXData = false;
-            this.GetRecordFramCount_Event = null;
+            try
+            {
+                this.IsRecordDMXData = false;
+                this.GetRecordFramCount_Event = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("关闭录制报错");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
             return this;
         }
 

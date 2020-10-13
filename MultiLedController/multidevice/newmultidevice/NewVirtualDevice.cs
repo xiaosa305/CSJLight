@@ -413,6 +413,7 @@ namespace MultiLedController.multidevice.newmultidevice
             }
             catch (Exception ex)
             {
+                Console.WriteLine("接收DMX数据报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
@@ -441,7 +442,9 @@ namespace MultiLedController.multidevice.newmultidevice
                                 }
                                 catch (Exception ex)
                                 {
+                                    Console.WriteLine("实时调试报错1");
                                     Console.WriteLine(ex.Message);
+                                    Console.WriteLine(ex.StackTrace);
                                 }
                             }
                         }
@@ -461,6 +464,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("实时调试报错2");
                     Console.WriteLine(ex.Message);
                     Console.WriteLine(ex.StackTrace);
                 }
@@ -623,6 +627,7 @@ namespace MultiLedController.multidevice.newmultidevice
             }
             catch (Exception ex)
             {
+                Console.WriteLine("实时调试发送报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
@@ -768,6 +773,7 @@ namespace MultiLedController.multidevice.newmultidevice
             }
             catch (Exception ex)
             {
+                Console.WriteLine("录制文件报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
@@ -837,6 +843,7 @@ namespace MultiLedController.multidevice.newmultidevice
             }
             catch (Exception ex)
             {
+                Console.WriteLine("生成配置文件报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }

@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SpecialTools
@@ -17,6 +19,7 @@ namespace SpecialTools
 		private int[] tdArray;
 		private LightConfigBean lcb;
 		private int frameCount = 32;
+		private int frameIndex = -1;
 		private int tdCount = 10;
 
 		private Panel[] tdPanels;
@@ -28,7 +31,14 @@ namespace SpecialTools
 		{
 			InitializeComponent();
 
-			stepIncNUD.MouseWheel += StepIncNUD_MouseWheel;
+			string loadexeName = Application.ExecutablePath;
+			FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(loadexeName);
+			string appFileVersion = string.Format("{0}.{1}.{2}.{3}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart, fileVersionInfo.FileBuildPart, fileVersionInfo.FilePrivatePart);
+			Text += " v" + appFileVersion;
+
+			//处理几个NUD的鼠标滚动事件
+			unifyNUD.MouseWheel += someNUD_MouseWheel;
+			stepIncNUD.MouseWheel += someNUD_MouseWheel ;
 					   
 			// 初始化场景选择
 			frameList = TextHelper.Read(Application.StartupPath + @"\FrameList.txt");
@@ -38,8 +48,8 @@ namespace SpecialTools
 			}
 			frameComboBox.SelectedIndexChanged -= frameComboBox_SelectedIndexChanged;
 			frameComboBox.SelectedIndex = 0;
+			frameIndex = 0;
 			frameComboBox.SelectedIndexChanged += frameComboBox_SelectedIndexChanged;
-
 
 			// 渲染FLP
 			tdPanels = new Panel[tdCount];
@@ -91,12 +101,7 @@ namespace SpecialTools
 
 				tdFLP.Controls.Add(tdPanels[tdIndex]);
 			}
-		}
-
-		private void StepIncNUD_MouseWheel(object sender, MouseEventArgs e)
-		{
-			throw new NotImplementedException();
-		}
+		}		
 
 		/// <summary>
 		/// 事件：加载界面时执行代码
@@ -114,7 +119,8 @@ namespace SpecialTools
 		/// <param name="e"></param>
 		private void frameComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			generateFLP();
+			frameIndex = frameComboBox.SelectedIndex;
+			refreshFLP();
 		}
 
 		/// <summary>
@@ -144,7 +150,9 @@ namespace SpecialTools
 			}
 
 			generateEmptyLCB(); 
-			generateFLP();
+			refreshFLP();
+
+			unifyPanel.Show();
 		}
 
 		/// <summary>
@@ -169,30 +177,31 @@ namespace SpecialTools
 					};
 				}
 			}
+			
+			exportButton.Enabled = lcb != null;			
 		}
 			   
 		/// <summary>
 		/// 根据通道列表，生成相应的面板；
 		/// </summary>
-		private void generateFLP()
+		private void refreshFLP()
 		{
 			if (lcb == null) {
 				setNotice("尚未生成lcb，无法渲染FLP", true);
 				return;
 			}
-
-			int frame = frameComboBox.SelectedIndex;
+			
 			for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
 			{
 				tdPanels[tdIndex].Visible = true ;
-				tdLabels[tdIndex].Text = "通道" + lcb.SceneConfigs[frame].ChannelConfigs[tdIndex].ChannelNo;
+				tdLabels[tdIndex].Text = "通道" + lcb.SceneConfigs[frameIndex].ChannelConfigs[tdIndex].ChannelNo;
 
 				tdCBs[tdIndex].CheckedChanged -= tdCB_CheckedChanged;
-				tdCBs[tdIndex].Checked = lcb.SceneConfigs[frame].ChannelConfigs[tdIndex].IsOpen;
+				tdCBs[tdIndex].Checked = lcb.SceneConfigs[frameIndex].ChannelConfigs[tdIndex].IsOpen;
 				tdCBs[tdIndex].CheckedChanged += tdCB_CheckedChanged;
 
 				tdNUDs[tdIndex].ValueChanged -= tdNUD_ValueChanged;
-				tdNUDs[tdIndex].Value = lcb.SceneConfigs[frame].ChannelConfigs[tdIndex].DefaultValue;
+				tdNUDs[tdIndex].Value = lcb.SceneConfigs[frameIndex].ChannelConfigs[tdIndex].DefaultValue;
 				tdNUDs[tdIndex].ValueChanged += tdNUD_ValueChanged;
 			}
 		}
@@ -204,23 +213,32 @@ namespace SpecialTools
 		/// <param name="e"></param>
 		private void exportButton_Click(object sender, EventArgs e)
 		{
-			if (lcb == null) {
-				setNotice( "尚未生成lcb对象，无法导出文件。" ,  true);
+			if (lcb == null)
+			{
+				setNotice("尚未生成lcb对象，无法导出文件。", true);
 				return;
 			}
 
-			DialogResult dr = exportFolderBrowserDialog.ShowDialog();			
+			DialogResult dr = exportFolderBrowserDialog.ShowDialog();
 			if (dr == DialogResult.Cancel)
 			{
 				return;
 			}
-			string exportPath = exportFolderBrowserDialog.SelectedPath;					   			 		  
+			string exportPath = exportFolderBrowserDialog.SelectedPath;
 
 			//只在确认导出时，才填入StepInc;
 			lcb.StepInc = decimal.ToInt32(stepIncNUD.Value);
 			LightConfigBean.WriteToFile(exportPath, lcb);
-			setNotice("已成功导出文件", false);
-			dr = MessageBox.Show("已成功导出文件，是否打开导出目录", "打开目录？", MessageBoxButtons.OKCancel,  );
+			setNotice("已成功导出文件(" + exportPath + "LightConfig.bin)。", false);
+			dr = MessageBox.Show("已成功导出文件，是否打开导出目录？",
+				"打开导出目录？",
+				MessageBoxButtons.OKCancel,
+				MessageBoxIcon.Question);
+			if (dr == DialogResult.OK)
+			{
+				Process.Start(exportPath);
+			}
+
 		}
 
 		/// <summary>
@@ -229,6 +247,7 @@ namespace SpecialTools
 		/// <param name="msg"></param>
 		/// <param name="mbShow"></param>
 		private void setNotice(string msg, bool mbShow) {
+			Thread.Sleep(1000) ;
 			myStatusLabel.Text = msg;
 			if (mbShow) {
 				MessageBox.Show(msg);
@@ -301,6 +320,34 @@ namespace SpecialTools
 			}
 		}
 
+		/// <summary>
+		/// 事件：勾选或去除勾选 全部启用
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void allCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (lcb != null) {				
+				for (int tdIndex = 0; tdIndex < tdCount; tdIndex++) {
+					tdCBs[tdIndex].Checked = allCheckBox.Checked;
+				}
+			}
+		}
 
+		/// <summary>
+		/// 事件：点击《统一值》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void unifyButton_Click(object sender, EventArgs e)
+		{
+			if (lcb != null)
+			{				
+				for (int tdIndex = 0; tdIndex < tdCount; tdIndex++)
+				{
+					tdNUDs[tdIndex].Value = unifyNUD.Value;
+				}
+			}
+		}
 	}
 }

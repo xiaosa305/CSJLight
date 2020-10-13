@@ -13,7 +13,6 @@ using MultiLedController.Ast;
 using System.Threading;
 using MultiLedController.multidevice.newmultidevice;
 
-
 namespace MultiLedController.MyForm
 {
 	public partial class MainForm3 : Form

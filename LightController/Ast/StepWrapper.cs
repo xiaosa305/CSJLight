@@ -45,8 +45,9 @@ namespace LightController.Ast
 				TongdaoWrapper td = new TongdaoWrapper()
 				{
 					TongdaoName = stepTemplate.TongdaoList[tdIndex].TongdaoName,
-					Address = stepTemplate.TongdaoList[tdIndex].Address,
-					StepTime = value.StepTime,
+					Address = stepTemplate.TongdaoList[tdIndex].Address,					
+					// 添加处理，若是数据库内步时间大于上限，则设为上限值
+					StepTime = value.StepTime>MAX_StTimes ? MAX_StTimes : value.StepTime,
 					ChangeMode = value.ChangeMode,
 					ScrollValue = value.ScrollValue,
 					Remark = stepTemplate.TongdaoList[tdIndex].Remark

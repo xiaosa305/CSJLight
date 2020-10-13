@@ -49,6 +49,7 @@ namespace LightController.MyForm.Multiplex
 				{
 					saComboBox.Items.Add(sa.SAName + "(" + sa.StartValue + ")");
 				}
+				saComboBox.SelectedIndex = 0;
 				saComboBox.Show();
 				saComboBox.SelectedIndexChanged += saComboBox_SelectedIndexChanged;
 				tdSmallPanel.Controls.Add(saComboBox);
@@ -75,7 +76,6 @@ namespace LightController.MyForm.Multiplex
 					Size = stepLabelDemo.Size,
 					Tag = lightIndex
 				};
-
 				
 				Button topBottomButton = new Button
 				{
@@ -171,8 +171,8 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void stepNUD_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			if (!saComboBox.Visible || saComboBox.SelectedIndex != 0) {
-				setNotice("没有或未选中子属性，双击无效。",false);
+			if (!saComboBox.Visible) {
+				setNotice("没有子属性，双击无效。",false);
 				return;
 			}
 

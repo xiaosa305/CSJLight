@@ -2181,7 +2181,9 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：刷新设备
 		/// </summary>
-		private void deviceRefresh() {
+		protected override void deviceRefresh() {
+
+			deviceRefreshSkinButton.Enabled = false;
 
 			//	 刷新前，先清空按键等
 			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
@@ -2240,13 +2242,15 @@ namespace LightController.MyForm
 			{
 				deviceSkinComboBox.SelectedIndex = 0;
 				deviceSkinComboBox.Enabled = true;
-				deviceConnectSkinButton.Enabled = true;
+				deviceConnectSkinButton.Enabled = true;				
 				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
 			}
 			else
 			{
 				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false);
 			}
+
+			deviceRefreshSkinButton.Enabled = true;
 		}
 
 		/// <summary>
@@ -2307,8 +2311,8 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void previewSkinButton_Click(object sender, EventArgs e)
 		{
-			previewButtonClick();
-		}		
+			PreviewButtonClick(null);
+		}
 		
         /// <summary>
         ///  事件：点击《触发音频》
@@ -2331,9 +2335,9 @@ namespace LightController.MyForm
 			// 左上角的《串口列表》《刷新串口列表》可用与否，与下面《各调试按钮》是否可用刚刚互斥
 			comPanel.Enabled = !IsConnected;				
 			
-			keepSkinButton.Enabled = IsConnected && !isPreviewing;			
+			keepSkinButton.Enabled = IsConnected && !IsPreviewing;			
 			previewSkinButton.Enabled = IsConnected;
-			makeSoundSkinButton.Enabled = IsConnected && isPreviewing;			
+			makeSoundSkinButton.Enabled = IsConnected && IsPreviewing;			
 
 			if (IsConnected)
 			{
@@ -2345,10 +2349,10 @@ namespace LightController.MyForm
                 deviceConnectSkinButton.Image = global::LightController.Properties.Resources.连接;
 				deviceConnectSkinButton.Text = "连接设备";
 			}
-			SetPreview(isPreviewing);
+			SetPreview(IsPreviewing);
 
 			//721：进入连接但非调试模式时，刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsConnected && !isPreviewing)
+			if (IsConnected && !IsPreviewing)
 			{
 				RefreshStep();
 			}

@@ -575,10 +575,10 @@
 			this.openPictureBox.BackColor = System.Drawing.SystemColors.MenuBar;
 			this.openPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.openPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("openPictureBox.Image")));
-			this.openPictureBox.Location = new System.Drawing.Point(242, 20);
+			this.openPictureBox.Location = new System.Drawing.Point(242, 25);
 			this.openPictureBox.Margin = new System.Windows.Forms.Padding(2);
 			this.openPictureBox.Name = "openPictureBox";
-			this.openPictureBox.Size = new System.Drawing.Size(93, 98);
+			this.openPictureBox.Size = new System.Drawing.Size(94, 93);
 			this.openPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.openPictureBox.TabIndex = 15;
 			this.openPictureBox.TabStop = false;

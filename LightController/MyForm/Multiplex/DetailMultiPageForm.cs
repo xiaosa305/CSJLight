@@ -22,12 +22,15 @@ namespace LightController.MyForm.Multiplex
 		private List<int> tdList = new List<int>(); // 记录选中的通道		
 		private int pageCount; //  总页数
 		private int currentPage = 1;  // 从0开始计算页数		
+		private bool isShowSa ;
 
 		public DetailMultiPageForm(MainFormBase mainForm, Dictionary<int, List<int>> tdDict)
 		{
 			this.mainForm = mainForm;
 			InitializeComponent();
 
+			//isShowSa = mainForm.IsShowSaPanels;
+			isShowSa = true;
 			stepComboBox.SelectedIndex = 0;
 			groupComboBox.SelectedIndex = 0;
 			tdComboBox.SelectedIndex = 0 ;
@@ -178,7 +181,7 @@ namespace LightController.MyForm.Multiplex
 			tdSmallPanel.Controls.Add( tdCheckBox );
 
 			// 满足多个条件，才会添加子属性的comboBox
-			if (mainForm.IsShowSaPanels) {
+			if (isShowSa) {
 				SAWrapper saw = mainForm.GetSeletecdLightTdSaw(lightIndex, tdIndex);
 				if (saw != null && saw.SaList != null && saw.SaList.Count != 0)
 				{
@@ -245,7 +248,7 @@ namespace LightController.MyForm.Multiplex
 				topBottomButton.Click += topBottomButton_Click;
 				stepNUD.MouseWheel += someNUD_MouseWheel;
 				stepNUD.ValueChanged += StepNUD_ValueChanged;
-				if (mainForm.IsShowSaPanels) {
+				if ( isShowSa) {
 					stepNUD.MouseDoubleClick += stepNUD_MouseDoubleClick;
 				}
 			}			

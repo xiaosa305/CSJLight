@@ -2528,14 +2528,16 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：刷新设备
 		/// </summary>
-		private void deviceRefresh() {
+		protected override void deviceRefresh() {
+
+			deviceRefreshButton.Enabled = false;
 
 			//	 刷新前，先清空按键等
 			SetNotice("正在" + (isConnectCom ? "刷新串口列表" : "搜索网络设备") + "，请稍候...", false);
 			deviceComboBox.Items.Clear();
 			deviceComboBox.SelectedIndex = -1;
 			deviceComboBox.Text = "";
-			deviceComboBox.Enabled = false;
+			deviceComboBox.Enabled = false;			
 			deviceConnectButton.Enabled = false;
 			Refresh();
 
@@ -2586,7 +2588,7 @@ namespace LightController.MyForm
 			if (deviceComboBox.Items.Count > 0)
 			{
 				deviceComboBox.SelectedIndex = 0;
-				deviceComboBox.Enabled = true;
+				deviceComboBox.Enabled = true;				
 				deviceConnectButton.Enabled = true;
 				SetNotice("已刷新" + (isConnectCom ? "串口" : "网络") + "列表，可选择并连接设备进行调试", false);
 			}
@@ -2594,7 +2596,7 @@ namespace LightController.MyForm
 			{
 				SetNotice("未找到可用的" + (isConnectCom ? "串口" : "网络") + "设备，请确认后重试。", false);
 			}
-
+			deviceRefreshButton.Enabled = true;
 		}
 
 		/// <summary>
@@ -2653,7 +2655,7 @@ namespace LightController.MyForm
 		/// <param name="e"></param>
 		private void previewButton_Click(object sender, EventArgs e)
 		{
-			previewButtonClick();
+			PreviewButtonClick(null);
 		}
 		
 		/// <summary>
@@ -2679,15 +2681,15 @@ namespace LightController.MyForm
 			deviceComboBox.Enabled = !IsConnected;
 			deviceRefreshButton.Enabled = !IsConnected;
 
-			keepButton.Enabled = IsConnected && !isPreviewing; 
+			keepButton.Enabled = IsConnected && !IsPreviewing; 
 			previewButton.Enabled = IsConnected ;
-			makeSoundButton.Enabled = IsConnected && isPreviewing;		
+			makeSoundButton.Enabled = IsConnected && IsPreviewing;		
 
 			deviceConnectButton.Text = IsConnected ? "断开连接":"连接设备";
-			previewButton.Text = isPreviewing ? "停止预览" : "预览效果";
+			previewButton.Text = IsPreviewing ? "停止预览" : "预览效果";
 
 			//721：刷新当前步(因为有些操作是异步的，可能造成即时的刷新步数，无法进入单灯单步)
-			if (IsConnected && !isPreviewing) {
+			if (IsConnected && !IsPreviewing) {
 				RefreshStep();
 			}						
 		}

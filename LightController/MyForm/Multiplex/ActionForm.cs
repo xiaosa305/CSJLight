@@ -14,15 +14,14 @@ namespace LightController.MyForm.Multiplex
 	{
 		private MainFormBase mainForm;
 		private MaterialAst material;
-		private int commonStepTime = 50;	
+		private int commonStepTime = 50;
 		IList<string> tdNameList = new List<string> { "X轴", "Y轴" }; // 为tdNameList赋值；此列表是固定的
 
 		public ActionForm(MainFormBase mainForm)
 		{
 			this.mainForm = mainForm;
 
-			InitializeComponent();
-			//previewButton.Visible = mainForm.IsConnected;			
+			InitializeComponent();			
 		}
 
 		/// <summary>
@@ -34,17 +33,48 @@ namespace LightController.MyForm.Multiplex
 		{
 			Location = MousePosition;
 		}
-				
+
 		/// <summary>
-		/// 每次激活后，需要重新刷新步时间（避免主界面更改了时间因子造成的显示问题）
+		/// 每次激活后，需要重新刷新步时间（避免主界面更改了时间因子造成的显示问题）；也必须重新隐藏或显示预览的按键
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void ActionForm_Activated(object sender, EventArgs e)
 		{
+			previewButton.Visible = mainForm.IsConnected; 
+
 			StNumericUpDown.Maximum = MainFormBase.MAX_StTimes * mainForm.EachStepTime2;
 			StNumericUpDown.Increment = mainForm.EachStepTime2;
 			StNumericUpDown.Value = mainForm.EachStepTime2 * commonStepTime;
+		}
+
+		/// <summary>
+		/// 事件：关闭窗体时，如果正在预览，则停止预览
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ActionForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (mainForm.IsPreviewing)
+			{
+				mainForm.PreviewButtonClick(null);
+			}
+		}
+
+		/// <summary>
+		/// 事件：点击《预览 | 停止预览》
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void previewButton_Click(object sender, EventArgs e)
+		{
+			previewButton.Text = mainForm.IsPreviewing ? "预览" : "停止预览";
+
+			//TODO 需要判断 预览还是停止预览
+			if (generateAction())
+			{
+				mainForm.PreviewButtonClick(material);				
+			}
 		}
 
 		/// <summary>
@@ -54,25 +84,33 @@ namespace LightController.MyForm.Multiplex
 		/// <param name="e"></param>
 		private void enterButton_Click(object sender, EventArgs e)
 		{
+			if ( generateAction() ) {
+				mainForm.InsertOrCoverMaterial(material, InsertMethod.INSERT);
+				Hide();
+				mainForm.Activate();
+			}				
+		}
+
+		/// <summary>
+		/// 辅助方法：生成动作的素材（供预览和使用动作）
+		/// </summary>
+		private bool generateAction()
+		{
 			int tabIndex = actionTabControl.SelectedIndex;
-			
-			switch(  tabIndex){
-				case 0:drawLine();break;
-				case 1:drawCircle();break;
-				case 2:drawSemicircle();break;
-				case 3:drawWave();break;
+			switch (tabIndex)
+			{
+				case 0: drawLine(); break;
+				case 1: drawCircle(); break;
+				case 2: drawSemicircle(); break;
+				case 3: drawWave(); break;
 				case 4: draw8(); break;
 			}
-
-			if (material == null) {
+			if (material == null)
+			{
 				setNotice("生成动作数据出错，请重试", true);
-				return;
+				return false;
 			}
-
-			mainForm.InsertOrCoverMaterial(material, InsertMethod.INSERT);
-
-			Hide();
-			mainForm.Activate();
+			return true;
 		}
 		
 		/// <summary>
@@ -85,17 +123,7 @@ namespace LightController.MyForm.Multiplex
 			Hide();
 			mainForm.Activate();
 		}
-
-		/// <summary>
-		/// 事件：点击《预览 | 停止预览》
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void previewButton_Click(object sender, EventArgs e)
-		{
-
-		}
-
+		
 		#region 画直线相关的方法：包括验证，生成数据等；
 
 		/// <summary>
@@ -119,11 +147,11 @@ namespace LightController.MyForm.Multiplex
 			tongdaoList[1, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
 			tongdaoList[2, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
 			tongdaoList[3, 0] = new TongdaoWrapper("X轴", xValue, commonStepTime);
-
+						
 			tongdaoList[(0+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value, commonStepTime);
-			tongdaoList[(1+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", 127, commonStepTime);
+			tongdaoList[(1+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value / 2, commonStepTime);
 			tongdaoList[(2+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value, commonStepTime);
-			tongdaoList[(3+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", 127, commonStepTime);
+			tongdaoList[(3+phase) % stepCount , 1] = new TongdaoWrapper("Y轴", y1Value + y2Value / 2, commonStepTime);
 
 			material = new MaterialAst
 			{
@@ -345,6 +373,6 @@ namespace LightController.MyForm.Multiplex
 				MessageBox.Show(msg);
 			}
 		}
-		
+			
 	}
 }

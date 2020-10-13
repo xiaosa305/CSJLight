@@ -137,11 +137,12 @@ namespace LightController.MyForm
 		protected IList<NetworkDeviceInfo> networkDeviceList; //记录所有的device列表(包括连接的本地IP和设备信息，故如有多个同网段IP，则同一个设备可能有多个列表值)
 		public bool IsConnected = false; // 辅助bool值，当选择《连接设备》后，设为true；反之为false
 		protected bool isKeepOtherLights = false;  // 辅助bool值，当选择《（非调灯具)保持状态》时，设为true；反之为false
-		protected bool isPreviewing = false; // 是否预览状态中		
+		public bool IsPreviewing = false; // 是否预览状态中
 		protected bool generateNow = true; // 是否立即处理（indexSelectedChanged）
 
 		#region 几个纯虚（virtual修饰）方法：主要供各种基类方法向子类回调使用		
 
+		
 		protected virtual void enableProjectRelative(bool enable) { } // 是否显示《保存工程》等
 		protected virtual void autoEnableSLArrange() { } //自动显示《 存、取 灯具位置》		
 		protected virtual void showPlayPanel(bool visible) { }// 是否显示PlayFlowLayoutPanel
@@ -159,8 +160,9 @@ namespace LightController.MyForm
 		protected virtual void reBuildLightListView() { } //根据现有的lightAstList，重新渲染listView
 		protected virtual void refreshGroupPanels() { } // 从groupList重新生成相关的编组列表的panels
 		protected virtual void selectLights() { } // 选中列表中的灯具；且必须在这个方法内，跑一次generateLightData或generateSAButtons			
+		protected virtual void deviceRefresh() { } //	刷新设备列表
 
-        public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
+		public virtual void SetPreview(bool preview) { }  // 主要供预览失败或成功使用，各子Form更改相应的显示
 		protected virtual void setMakeSound(bool makeSound) { } // 点击触发音频后，各子Form更改相应的显示
 		public virtual void EnterSyncMode(bool isSyncMode) { } // 设置是否 同步模式
 		public virtual void SetNotice(string notice,bool msgBoxShow) { } //设置提示信息（有些重要提示，则需弹窗）
@@ -168,7 +170,7 @@ namespace LightController.MyForm
 			//Console.WriteLine("EnableConnectedButtons("+connected+","+previewing+")");
 			// 是否连接,是否预览中
 			IsConnected = connected;
-			isPreviewing = previewing;		
+			IsPreviewing = previewing;		
 		} //设置《连接按钮组》是否可用	
 
 		protected virtual void enterMultiMode() { }
@@ -543,7 +545,7 @@ namespace LightController.MyForm
 			// 由内存几个List实时生成
 			else
 			{
-				long time = DateTime.Now.Ticks;
+				//long time = DateTime.Now.Ticks;
 				
 				// 先生成最新的 dbLightList,dbStepCountList, dbValueList 数据
 				generateDBLightList();
@@ -554,8 +556,8 @@ namespace LightController.MyForm
 
 				DBWrapper allData = new DBWrapper(dbLightList, dbStepCountList, dbValueListTemp, dbFineTuneList);
 
-				long useTime = (DateTime.Now.Ticks - time) / 10000 ;
-				Console.WriteLine("GetDBWrapper(false) useTime : " + useTime );
+				//long useTime = (DateTime.Now.Ticks - time) / 10000 ;
+				//Console.WriteLine("GetDBWrapper(false) useTime : " + useTime );
 
 				return allData;
 			}
@@ -950,6 +952,8 @@ namespace LightController.MyForm
 			return sameTDIndexList;
 		}
 
+
+
 		/// <summary>
 		/// 辅助方法：用传进来的素材数据，重新包装StepWrapper
 		/// </summary>
@@ -983,7 +987,7 @@ namespace LightController.MyForm
 				return;
 			}
 
-			if (isPreviewing) {
+			if (IsPreviewing) {
 				MessageBox.Show("正在预览中，无法实时调试。");
 				return;
 			}
@@ -1073,7 +1077,7 @@ namespace LightController.MyForm
 			}
 
 			// 是否实时单灯单步
-			if (IsConnected && !isPreviewing)
+			if (IsConnected && !IsPreviewing)
 			{
 				oneStepWork();
 			}
@@ -1932,7 +1936,9 @@ namespace LightController.MyForm
 				DateTime afterDT = System.DateTime.Now;
 				TimeSpan ts = afterDT.Subtract(beforeDT);
 								
-				SetNotice("成功打开工程：【" + projectName + "】，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s",true);
+				SetNotice("成功打开工程：【" + projectName + "】" +
+					"，耗时: " + ts.TotalSeconds.ToString("#0.00") + " s" +
+					"。", true);
 			}
 			setBusy(false);
 
@@ -3022,9 +3028,9 @@ namespace LightController.MyForm
 			}
 			
 			// 若正在预览，则先停止预览
-			if (isPreviewing)
+			if (IsPreviewing)
 			{
-				previewButtonClick();
+				PreviewButtonClick(null);
 			}
 
 			if (actionForm == null) {
@@ -3348,7 +3354,7 @@ namespace LightController.MyForm
 				from0on = false;
 			}
 			
-			if (IsConnected && !isPreviewing )
+			if (IsConnected && !IsPreviewing )
 			{
 				oneStepWork();
 			}
@@ -3806,14 +3812,14 @@ namespace LightController.MyForm
 				playTools.StopSend();
 				if (isConnectCom)
 				{
-					playTools.CloseDevice();
+					playTools.CloseDevice();					
 					EnableConnectedButtons(false,false);
 				}
 				else
 				{
 					playTools.StopInternetPreview(DisconnectCompleted, ConnectAndDisconnectError);
-				}				
-				SetNotice("已断开连接",false);
+				}
+				SetNotice("已断开连接。",false);
 			}
 		}
 
@@ -3839,7 +3845,7 @@ namespace LightController.MyForm
 		/// <summary>
 		/// 辅助方法：预览效果|停止预览
 		/// </summary>
-		protected void previewButtonClick()
+		public void PreviewButtonClick(MaterialAst material)
 		{
 			if (!IsConnected)
 			{
@@ -3849,7 +3855,7 @@ namespace LightController.MyForm
 			}
 
 			// 停止预览
-			if (isPreviewing)
+			if (IsPreviewing)
 			{
 				endview();
 				EnableConnectedButtons(true, false);	
@@ -3870,13 +3876,55 @@ namespace LightController.MyForm
 				SetNotice("正在生成预览数据，请稍候...",false);
 				try
 				{
-					dbWrapperTemp = GetDBWrapper(false);
+					// 给使用动作预览的方法
+					if ( material != null) 
+					{
+						generateDBLightList();
+						generateDBFineTuneList();
+
+						IList<DB_Value> valueList = new List<DB_Value>();
+
+						int lightId = dbLightList[selectedIndex].StartID;			
+						StepWrapper stepTemplate = getCurrentStepTemplate();
+						IList<MaterialIndexAst> sameTDIndexList = getSameTDIndexList( material.TdNameList ,  stepTemplate.TongdaoList);						
+
+						for (int stepIndex = 0; stepIndex < material.StepCount ; stepIndex++)
+						{
+							for (int tdIndex = 0; tdIndex < sameTDIndexList.Count; tdIndex++)
+							{
+								int materialTdIndex = sameTDIndexList[tdIndex].MaterialTDIndex;
+								int trueTdIndex = sameTDIndexList[tdIndex].CurrentTDIndex + lightId;
+
+								TongdaoWrapper td = material.TongdaoList[stepIndex, materialTdIndex];
+
+								DB_Value value = new DB_Value()
+								{
+									PK = new DB_ValuePK(){
+										 Frame = CurrentFrame,
+										 LightIndex = lightId,
+										 LightID = trueTdIndex ,
+										 Mode = 0,
+										 Step = stepIndex+1,
+									},
+									ScrollValue = td.ScrollValue,
+									StepTime = td.StepTime,
+									ChangeMode = td.ChangeMode,
+								};
+
+								valueList.Add(value);
+							}
+						}						
+						dbWrapperTemp = new DBWrapper(dbLightList,  null, valueList , dbFineTuneList );
+					}
+					else {
+						dbWrapperTemp = GetDBWrapper(false);
+					}
 					DataConvertUtils.SaveProjectFileByPreviewData( dbWrapperTemp , GlobalIniPath, CurrentFrame, new PreviewCallBack(this));
 				}
 				catch (Exception ex)
 				{
 					SetPreview(false);
-					MessageBox.Show("生成预览数据时异常：\n" + ex.Message);
+					MessageBox.Show("生成预览数据时异常：" + ex.Message);
 				}
 				finally
 				{
@@ -4045,18 +4093,14 @@ namespace LightController.MyForm
 		/// <param name="obj"></param>
 		public void ConnectAndDisconnectError(string msg)
 		{
-			Invoke((EventHandler)delegate
-			{
+			Invoke((EventHandler)delegate	{
 				SetNotice(msg,true);
 			});
 		}
-
-
+		
 		#endregion
 
 		#region 弃用方法区
-
-
 
 		//SkinMainForm.MakeFrameData() ， 实时填充某一场景的所有数据（可能在某些操作里需要用到）
 		/// <summary>
@@ -4338,7 +4382,7 @@ namespace LightController.MyForm
 		public void Error(string msg)
 		{
             mainForm.SetPreview(false);
-            mainForm.SetNotice("预览数据生成出错,无法预览,。\n错误原因为：" + msg , true);            
+            mainForm.SetNotice("预览数据生成出错,无法预览,。错误原因为：" + msg , true);            
 		}
 		public void UpdateProgress(string name)
 		{

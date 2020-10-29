@@ -102,6 +102,15 @@
     <Compile Include="Common\IniFileHelper.cs" />
     <Compile Include="Common\IPHelper.cs" />
     <Compile Include="entity\dto\ControlDeviceDTO.cs" />
+    <Compile Include="multidevice\impl\DebugDmxData.cs" />
+    <Compile Include="multidevice\impl\DebugDmxDataQueue.cs" />
+    <Compile Include="multidevice\impl\RecodeDmxData.cs" />
+    <Compile Include="multidevice\impl\RecodeDmxDataQueue.cs" />
+    <Compile Include="multidevice\impl\TransactionManager.cs" />
+    <Compile Include="multidevice\impl\VirtualClient.cs" />
+    <Compile Include="multidevice\impl\VirtualControlDevice.cs" />
+    <Compile Include="multidevice\multidevicepromax\VirtualProClient.cs" />
+    <Compile Include="multidevice\multidevicepromax\VirtualProClientsManager.cs" />
     <Compile Include="multidevice\newmultidevice\NewVirtualClient.cs" />
     <Compile Include="multidevice\newmultidevice\NewVirtualDevice.cs" />
     <Compile Include="MyForm\MainForm2.cs">
@@ -209,7 +218,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="multidevice\impl\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>

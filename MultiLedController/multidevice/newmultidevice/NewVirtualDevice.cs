@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiLedController.multidevice.multidevicepromax;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Timers;
 
 namespace MultiLedController.multidevice.newmultidevice
 {
@@ -21,6 +23,7 @@ namespace MultiLedController.multidevice.newmultidevice
 
         private const int THREAD_SLEEP_TIME = 1;
         private const int PORT = 4115;
+        private const int SHOW_FRAME_COUNT_INTERVALTIME = 100;
 
         private static byte[] PACKAGE_END = new byte[] { 0x00, 0x00, 0x78, 0x78 };
 
@@ -64,6 +67,8 @@ namespace MultiLedController.multidevice.newmultidevice
         private Socket Send { get; set; }
         private UdpClient Client { get; set; }
 
+        private System.Timers.Timer ShowFrameCountTask { get; set; }
+
         public delegate void GetDebugFramCount(int framCount);
         public delegate void GetRecordFramCount(int framCount);
 
@@ -97,6 +102,22 @@ namespace MultiLedController.multidevice.newmultidevice
             this.InitParam();
             this.InitSocket();
             this.SetVirtualClients();
+            this.ShowFrameCountTask = new System.Timers.Timer(SHOW_FRAME_COUNT_INTERVALTIME)
+            {
+                AutoReset = true,
+            };
+            this.ShowFrameCountTask.Elapsed += this.ShowFrameCount;
+            this.StartShowFrameCountTask();
+        }
+
+        private void StartShowFrameCountTask()
+        {
+            this.ShowFrameCountTask.Start();
+        }
+
+        private void StopShowFrameCountTask()
+        {
+            this.ShowFrameCountTask.Stop();
         }
 
         private void InitSocket()
@@ -140,6 +161,9 @@ namespace MultiLedController.multidevice.newmultidevice
                             this.SpaceDMXDataResponseStatus[startSpaceNumber + spaceIndex] = false;
                         }
                         startSpaceNumber += spaceNumber;
+
+                        client.index = this.Clients.Count + 1;
+
                         this.Clients.Add(client);
                     }
                     else
@@ -151,6 +175,9 @@ namespace MultiLedController.multidevice.newmultidevice
                             this.SpaceDMXDataResponseStatus[startSpaceNumber + spaceIndex] = false;
                         }
                         startSpaceNumber += 4;
+
+                        client.index = this.Clients.Count + 1;
+
                         this.Clients.Add(client);
                     }
                 }
@@ -214,6 +241,7 @@ namespace MultiLedController.multidevice.newmultidevice
         {
             try
             {
+                this.StopShowFrameCountTask();
                 this.IsResponseDMXDatasStatus = false;
                 this.ReceiveStatus = false;
                 this.IsDebugDMXData = false;
@@ -265,6 +293,7 @@ namespace MultiLedController.multidevice.newmultidevice
             this.IsDebugDMXData = true;
             this.DebugFramCount = 0;
             this.GetDebugFramCount_Event = getDebugFramCount;
+            //VirtualProClientsManager.Test();
             return this;
         }
 
@@ -392,13 +421,13 @@ namespace MultiLedController.multidevice.newmultidevice
                             {
                                 bool flag = true;
                                 var keyList = this.SpaceDMXDatas.Keys;
-                                foreach (int key in keyList)
-                                {
-                                    if (this.SpaceDMXDatas[key].Count > 510)
-                                    {
-                                        flag = false;
-                                    }
-                                }
+                                //foreach (int key in keyList)
+                                //{
+                                //    if (this.SpaceDMXDatas[key].Count > 510)
+                                //    {
+                                //        flag = false;
+                                //    }
+                                //}
                                 if (this.IsDebugDMXData && flag)
                                 {
                                     lock (this.DebugDMXDataQueue)
@@ -635,13 +664,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
                 this.Send.SendTo(PACKAGE_END.ToArray(), iPEnd);
                 #endregion
-                #region 调试模式帧数计数
                 this.DebugFramCount++;
-                if (this.GetDebugFramCount_Event != null)
-                {
-                    GetDebugFramCount_Event(this.DebugFramCount);
-                }
-                #endregion
             }
             catch (Exception ex)
             {
@@ -687,7 +710,8 @@ namespace MultiLedController.multidevice.newmultidevice
                     {
                         maxLength = maxLength > dmxDataBuff[controlNo][index + 1].Count ? maxLength : dmxDataBuff[controlNo][index + 1].Count;
                     }
-                    for (int dataIndex = 0; dataIndex < maxLength; dataIndex += 3)
+                    int count = maxLength % 3 == 0 ? 3 : 4;
+                    for (int dataIndex = 0; dataIndex < maxLength; dataIndex += count)
                     {
                         //R
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
@@ -706,22 +730,31 @@ namespace MultiLedController.multidevice.newmultidevice
                         //G
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
                         {
-                            byte value;
-                            if (dataIndex < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                            try
                             {
-                                value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 1];
+                                byte value;
+                                if (dataIndex + 1 < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                                {
+                                    value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 1];
+                                }
+                                else
+                                {
+                                    value = 0x00;
+                                }
+                                ledInterfaceDMXDatas[controlNo].Push(value);
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                value = 0x00;
+                                Console.WriteLine(ex.Message);
+                                Console.WriteLine(ex.StackTrace);
                             }
-                            ledInterfaceDMXDatas[controlNo].Push(value);
+                           
                         }
                         //B
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
                         {
                             byte value;
-                            if (dataIndex < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                            if (dataIndex + 2 < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
                             {
                                 value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
                             }
@@ -730,6 +763,23 @@ namespace MultiLedController.multidevice.newmultidevice
                                 value = 0x00;
                             }
                             ledInterfaceDMXDatas[controlNo].Push(value);
+                        }
+                        if (count == 4)
+                        {
+                            //W
+                            for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                            {
+                                byte value;
+                                if (dataIndex + 3 < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                                {
+                                    value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 3];
+                                }
+                                else
+                                {
+                                    value = 0x00;
+                                }
+                                ledInterfaceDMXDatas[controlNo].Push(value);
+                            }
                         }
                     }
                 }
@@ -759,7 +809,7 @@ namespace MultiLedController.multidevice.newmultidevice
                     List<byte> buff = new List<byte>();
                     if (ledInterfaceDMXDatas[controlNo].Count % 24 != 0)
                     {
-                        buff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (ledInterfaceDMXDatas[controlNo].Count % 24)).ToArray());
+                        buff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (24 - (ledInterfaceDMXDatas[controlNo].Count % 24))).ToArray());
                     }
                     int dataSize = ledInterfaceDMXDatas[controlNo].Count;
                     for (int index = 0; index < dataSize; index++)
@@ -781,13 +831,7 @@ namespace MultiLedController.multidevice.newmultidevice
                     }
                 }
                 #endregion
-                #region 录制模式帧数计数
                 this.RecordFramCount++;
-                if (this.GetRecordFramCount_Event != null)
-                {
-                    this.GetRecordFramCount_Event(this.RecordFramCount);
-                }
-                #endregion
             }
             catch (Exception ex)
             {
@@ -834,13 +878,14 @@ namespace MultiLedController.multidevice.newmultidevice
                         int spaceNo = ledInterfaceIndex * this.LedSpaceNumber + spaceIndex;
                         ledInterfaceBuff.AddRange(dmxData[spaceNo]);
                     }
-                    buff.AddRange(new byte[] {  Convert.ToByte((ledInterfaceBuff.Count / 3) & 0xFF),
-                                        Convert.ToByte(((ledInterfaceBuff.Count / 3)>> 8 ) & 0xFF),
-                                        Convert.ToByte(((ledInterfaceBuff.Count / 3) >> 16) & 0xFF),
-                                        Convert.ToByte(((ledInterfaceBuff.Count / 3) >> 24) & 0xFF) });
+                    int ledInterfaceDataLength = ledInterfaceBuff.Count % 3 == 0 ? ledInterfaceBuff.Count / 3 : ledInterfaceBuff.Count / 4;
+                    buff.AddRange(new byte[] {  Convert.ToByte(ledInterfaceDataLength & 0xFF),
+                                        Convert.ToByte((ledInterfaceDataLength>> 8 ) & 0xFF),
+                                        Convert.ToByte((ledInterfaceDataLength >> 16) & 0xFF),
+                                        Convert.ToByte((ledInterfaceDataLength >> 24) & 0xFF) });
                     if (ledInterfaceBuff.Count > 0)
                     {
-                        for (int index = 0; index < ledInterfaceBuff.Count / 3; index++)
+                        for (int index = 0; index < ledInterfaceDataLength; index++)
                         {
                             buff.Add(Convert.ToByte(index & 0xFF));
                             buff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 3).ToArray());
@@ -864,6 +909,24 @@ namespace MultiLedController.multidevice.newmultidevice
                 Console.WriteLine("生成配置文件报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
+            }
+        }
+
+        private void ShowFrameCount(object sender, ElapsedEventArgs e)
+        {
+            if (this.IsRecordDMXData)
+            {
+                if (this.GetRecordFramCount_Event != null)
+                {
+                    this.GetRecordFramCount_Event(this.RecordFramCount);
+                }
+            }
+            if (this.IsDebugDMXData)
+            {
+                if (this.GetDebugFramCount_Event != null)
+                {
+                    this.GetDebugFramCount_Event(this.DebugFramCount);
+                }
             }
         }
     }

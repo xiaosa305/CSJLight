@@ -76,13 +76,13 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.localIP = localIP;
             this.ArtNetServerIP = artnetServerIP;
             this.VirtualIPS = virtualIP;
-            this.LedSpaceNumber = LedSpaceNumber;
+            this.LedSpaceNumber = ledSpaceNumber;
             this.LedInterfaceNumber = ledInterfaceNumber;
-            this.LedControlNumber = LedControlNumber;
+            this.LedControlNumber = ledControlNumber;
             this.Init();
             this.InitLedServer();
             //createVirtualClient
-            int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + (this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber % 256 == 0 ? 0 : 1);
+            int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
             for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
             {
                 int portCount = 0;
@@ -96,6 +96,11 @@ namespace MultiLedController.multidevice.multidevicepromax
                 }
                 this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager));
             }
+            for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
+            {
+                this.SpaceDmxData.TryAdd(i, new List<byte>());
+                this.SpaceDmxDataReceiveStatus.TryAdd(i, false);
+            }
         }
 
         private void Init()
@@ -104,6 +109,7 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
             this.DebugDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
             this.RecordDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
+            this.VirtualClients = new List<VirtualProClient>();
             this.SYNCHROLOCK_KEY = new object();
             this.DebugFrameCount = 0;
             this.RecordFrameCount = 0;
@@ -121,10 +127,8 @@ namespace MultiLedController.multidevice.multidevicepromax
             this.ReceiveStatus = true;
             this.DebugDmxTask = new Thread(Debug) { IsBackground = true };
             this.RecordDmxTask = new Thread(Record) { IsBackground = true };
-            this.LedServerReceive = new Thread(LedServerReceiveListen) { IsBackground = true };
             this.DebugDmxTask.Start();
             this.RecordDmxTask.Start();
-            this.LedServerReceive.Start(this.DebugServerReceiveClient);
             this.ShowFrameCountTask.Start();
         }
 
@@ -139,6 +143,7 @@ namespace MultiLedController.multidevice.multidevicepromax
                 this.LedServerReceive = new Thread(this.LedServerReceiveListen) { IsBackground = true };
                 this.ReceiveStatus = true;
                 this.LedServerReceive.Start(this.DebugServerReceiveClient);
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {

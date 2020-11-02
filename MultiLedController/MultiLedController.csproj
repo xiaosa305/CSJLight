@@ -137,6 +137,12 @@
     <Compile Include="MyForm\NetworkForm1.Designer.cs">
       <DependentUpon>NetworkForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyForm\XiaosaTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyForm\XiaosaTestForm.Designer.cs">
+      <DependentUpon>XiaosaTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="utils\GetMacUtils.cs" />
     <Compile Include="utils\IArt_Net_Client.cs" />
     <Compile Include="utils\ICalMD5Value.cs" />
@@ -191,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm\NetworkForm1.resx">
       <DependentUpon>NetworkForm1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm\XiaosaTestForm.resx">
+      <DependentUpon>XiaosaTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

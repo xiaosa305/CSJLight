@@ -26,6 +26,13 @@ namespace MultiLedController.multidevice.newmultidevice
         private int[] VirtualClientLedSpaceNumbers { get; set; }
         private DMXDataResponse Response { get; set; }
 
+
+
+        //test
+        public int index { get; set; }
+
+
+
         public NewVirtualClient(string serverIP,string virtualClientIP,int startLedSpace,int spaceNumber,DMXDataResponse response)
         {
             this.ServerIP = serverIP;
@@ -117,6 +124,10 @@ namespace MultiLedController.multidevice.newmultidevice
                     {
                         this.ReponseSearch();
                     }
+                    else
+                    {
+                        Console.WriteLine();
+                    }
                 }
                 catch (Exception)
                 {
@@ -136,6 +147,18 @@ namespace MultiLedController.multidevice.newmultidevice
             data[11] = Convert.ToByte(Convert.ToInt16(iPAddress[1]));
             data[12] = Convert.ToByte(Convert.ToInt16(iPAddress[2]));
             data[13] = Convert.ToByte(Convert.ToInt16(iPAddress[3]));
+
+            //data[10] = 0xC0;
+            //data[11] = 0xA8;
+            //data[12] = 0x32;
+            //data[13] = 0x29;
+
+            //Test
+            data[18] = 0x00;
+            data[19] = 0x00;
+
+
+
             //修改空间编号
             data[190] = data[186] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[0]);
             data[191] = data[187] = Convert.ToByte(this.VirtualClientLedSpaceNumbers[1]);
@@ -149,6 +172,11 @@ namespace MultiLedController.multidevice.newmultidevice
             data[204] = Convert.ToByte(macAddress[3], 16);
             data[205] = Convert.ToByte(macAddress[4], 16);
             data[206] = Convert.ToByte(macAddress[5], 16);
+
+
+            //data[211] = Convert.ToByte(61 + index);
+
+
             this.Send.SendTo(data, new IPEndPoint(IPAddress.Broadcast, SERVER_PORT));
         }
     }

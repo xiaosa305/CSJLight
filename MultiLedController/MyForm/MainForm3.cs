@@ -67,11 +67,18 @@ namespace MultiLedController.MyForm
 		/// <param name="e"></param>
 		private void MainForm3_Activated(object sender, EventArgs e)
 		{
-			if (isFirstTime)
-			{
-				refreshNetcardList();
-				isFirstTime = false;
+            try
+            {
+				if (isFirstTime)
+				{
+					refreshNetcardList();
+					isFirstTime = false;
+				}
 			}
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
 		}
 
 		/// <summary>
@@ -787,19 +794,28 @@ namespace MultiLedController.MyForm
 		/// <param name="msg"></param>
 		private void setNotice(int place, string msg, bool msgShow)
 		{
-			if (place == 1)
-			{
-				myStatusLabel1.Text = msg;
-			}
-			if (place == 2)
-			{
-				myStatusLabel2.Text = msg;
-			}			
+            try
+            {
+				if (place == 1)
+				{
+					myStatusLabel1.Text = msg;
+				}
+				if (place == 2)
+				{
+					myStatusLabel2.Text = msg;
+				}
 
-			if (msgShow)
-			{
-				MessageBox.Show(msg);
+				if (msgShow)
+				{
+					MessageBox.Show(msg);
+				}
 			}
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
+			
 		}
 
 		/// <summary>
@@ -827,7 +843,15 @@ namespace MultiLedController.MyForm
 		/// <param name="count"></param>
 		private void showRecordFrame(int count)
 		{
-			setNotice(2, "当前录制帧数：" + count, false);
+            try
+            {
+				setNotice(2, "当前录制帧数：" + count, false);
+			}
+			catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
 		}
 
 		/// <summary>

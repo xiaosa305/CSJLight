@@ -1,22 +1,18 @@
-﻿using MultiLedController.multidevice.multidevicepromax;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Timers;
 
-namespace MultiLedController.multidevice.newmultidevice
+namespace MultiLedController.multidevice.multidevicepromax
 {
-    //分控数1-5，用户自主选择
-    //路数可选，1、2、4、8 四种选项
-    //点数可选（512/170）= 3 、(1024/70) = 6  两种
-
-    public class NewVirtualDevice
+    public class VirtualProClientsManager
     {
         [DllImport("winmm.dll")] internal static extern uint timeBeginPeriod(uint period);
         [DllImport("winmm.dll")] internal static extern uint timeEndPeriod(uint period);
@@ -27,302 +23,219 @@ namespace MultiLedController.multidevice.newmultidevice
 
         private static byte[] PACKAGE_END = new byte[] { 0x00, 0x00, 0x78, 0x78 };
 
-        private Object SYNCHROLOCK_KEY;
+        private Object SYNCHROLOCK_KEY { get; set; }
 
         private int LedInterfaceNumber { get; set; }
         private int LedSpaceNumber { get; set; }
-        private int ControlNumber { get; set; }
+        private int LedControlNumber { get; set; }
         private int LastFramePacketSequence { get; set; }
-        private int DebugFramCount { get; set; }
-        private int RecordFramCount { get; set; }
+        private int DebugFrameCount { get; set; }
+        private int RecordFrameCount { get; set; }
 
-        private string ServerIP { get; set; }
-        private string LocalIP { get; set; }
+        private string ArtNetServerIP { get; set; }
+        private string localIP { get; set; }
         private string FilePath { get; set; }
         private string ConfigPath { get; set; }
+        private List<string> VirtualIPS { get; set; }
+        private List<VirtualProClient> VirtualClients { get; set; }
 
-        private List<string> IPs { get; set; }
-        private List<NewVirtualClient> Clients { get; set; }
 
-        private Dictionary<int,List<byte>> SpaceDMXDatas { get; set; }
-        private Dictionary<int,bool> SpaceDMXDataResponseStatus { get; set; }
+        private ConcurrentDictionary<int, List<byte>> SpaceDmxData { get; set; }
+        private ConcurrentDictionary<int, bool> SpaceDmxDataReceiveStatus { get; set; }
 
-        private Thread DebugDMXTask { get; set; }
-        private Thread RecordDMXTask { get; set; }
-        private Thread Receive { get; set; }
-        private bool DebugDMXTaskStatus { get; set; }
-        private bool RecordDMXTaskStatus { get; set; }
-        private bool IsDebugDMXData { get; set; }
-        private bool IsRecordDMXData { get; set; }
-        private bool IsResponseDMXDatasStatus { get;set; }
+        private Thread DebugDmxTask { get; set; }
+        private Thread RecordDmxTask { get; set; }
+        private Thread LedServerReceive { get; set; }
+
+        private bool DebugDmxTaskStatus { get; set; }
+        private bool RecordDmxTaskStatus { get; set; }
+        private bool IsDebugDmxData { get; set; }
+        private bool IsRecordDmxData { get; set; }
         private bool IsFirstFrame { get; set; }
         private bool ReceiveStatus { get; set; }
         private bool IsFirstFrameByRecord { get; set; }
+        private bool IsStartReceiveDmxDataStatus { get; set; }
 
-        private Queue<Dictionary<int, List<byte>>> DebugDMXDataQueue { get; set; }
-        private Queue<Dictionary<int, List<byte>>> RecordDMXDataQueue { get; set; }
+        private ConcurrentQueue<ConcurrentDictionary<int, List<byte>>> DebugDmxDataQueue { get; set; }
+        private ConcurrentQueue<ConcurrentDictionary<int, List<byte>>> RecordDmxDataQueue { get; set; }
 
-        private long LastFrameResponseTime { get; set; }
-
-        private Socket Send { get; set; }
-        private UdpClient Client { get; set; }
+        private long LastFrameReceiveTime { get; set; }
+        private Socket DebugServer { get; set; }
+        private UdpClient DebugServerReceiveClient { get; set; }
 
         private System.Timers.Timer ShowFrameCountTask { get; set; }
 
-        public delegate void GetDebugFramCount(int framCount);
-        public delegate void GetRecordFramCount(int framCount);
+        public delegate void GetDebugFrameCount(int frameCount);
+        public delegate void GetRecordFrameCount(int frameCount);
 
-        private GetDebugFramCount GetDebugFramCount_Event { get; set; }
-        private GetRecordFramCount GetRecordFramCount_Event { get; set; }
+        private GetDebugFrameCount GetDebugFrameCount_Event { get; set; }
+        private GetRecordFrameCount GetRecordFrameCount_Event { get; set; }
 
-        public void Test()
+        public VirtualProClientsManager(string localIP, string artnetServerIP,List<String> virtualIP,int ledSpaceNumber,int ledInterfaceNumber,int ledControlNumber)
         {
-            //this.IsResponseDMXDatasStatus = true;
-            //this.StartDebug();
-            //this.StartRecord(@"C:\Users\99729\Desktop\Test\Test\RecordTest.bin", @"C:\Users\99729\Desktop\Test\Test\Config.bin");
-
-        }
-
-        /// <summary>
-        /// 数据接收以及发送
-        /// </summary>
-        /// <param name="ledInterfaceNumber">分控路数</param>
-        /// <param name="virtualIPs">虚拟IP集</param>
-        /// <param name="ledSpaceNumber">每一路占用空间数</param>
-        /// <param name="controlNumber">分控数</param>
-        /// <param name="serverIP">服务器IP</param>
-        public NewVirtualDevice(int ledInterfaceNumber,List<string> virtualIPs,int ledSpaceNumber,int controlNumber,string serverIP,string localIP)
-        {
-            this.LedInterfaceNumber = ledInterfaceNumber;
-            this.IPs = virtualIPs;
+            this.localIP = localIP;
+            this.ArtNetServerIP = artnetServerIP;
+            this.VirtualIPS = virtualIP;
             this.LedSpaceNumber = ledSpaceNumber;
-            this.ControlNumber = controlNumber;
-            this.ServerIP = serverIP;
-            this.LocalIP = localIP;
-            this.InitParam();
-            this.InitSocket();
-            this.SetVirtualClients();
-            this.ShowFrameCountTask = new System.Timers.Timer(SHOW_FRAME_COUNT_INTERVALTIME)
+            this.LedInterfaceNumber = ledInterfaceNumber;
+            this.LedControlNumber = ledControlNumber;
+            this.Init();
+            this.InitLedServer();
+            //createVirtualClient
+            int clientCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber / 256 + ((this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber) % 256 == 0 ? 0 : 1);
+            for (int clientIndex = 0; clientIndex < clientCount; clientIndex++)
             {
-                AutoReset = true,
-            };
-            this.ShowFrameCountTask.Elapsed += this.ShowFrameCount;
-            this.StartShowFrameCountTask();
+                int portCount = 0;
+                if (clientIndex == clientCount - 1)
+                {
+                    portCount = this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber - clientIndex * 256;
+                }
+                else
+                {
+                    portCount = 256;
+                }
+                this.VirtualClients.Add(VirtualProClient.Build(clientIndex, this.VirtualIPS[clientIndex], this.ArtNetServerIP, portCount, this.Manager));
+            }
+            for (int i = 0; i < this.LedControlNumber * this.LedInterfaceNumber * this.LedSpaceNumber; i++)
+            {
+                this.SpaceDmxData.TryAdd(i, new List<byte>());
+                this.SpaceDmxDataReceiveStatus.TryAdd(i, false);
+            }
         }
 
-        private void StartShowFrameCountTask()
+        private void Init()
         {
+            this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
+            this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
+            this.DebugDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
+            this.RecordDmxDataQueue = new ConcurrentQueue<ConcurrentDictionary<int, List<byte>>>();
+            this.VirtualClients = new List<VirtualProClient>();
+            this.SYNCHROLOCK_KEY = new object();
+            this.DebugFrameCount = 0;
+            this.RecordFrameCount = 0;
+            this.LastFramePacketSequence = 0;
+            this.LastFrameReceiveTime = -1;
+            this.IsStartReceiveDmxDataStatus = false;
+            this.IsDebugDmxData = false;
+            this.IsRecordDmxData = false;
+            this.IsFirstFrame = true;
+            this.ShowFrameCountTask = new System.Timers.Timer(SHOW_FRAME_COUNT_INTERVALTIME) { AutoReset = true };
+            this.ShowFrameCountTask.Elapsed += this.ShowFrameCountListen;
+            this.IsFirstFrameByRecord = true;
+            this.DebugDmxTaskStatus = true;
+            this.RecordDmxTaskStatus = true;
+            this.ReceiveStatus = true;
+            this.DebugDmxTask = new Thread(Debug) { IsBackground = true };
+            this.RecordDmxTask = new Thread(Record) { IsBackground = true };
+            this.DebugDmxTask.Start();
+            this.RecordDmxTask.Start();
             this.ShowFrameCountTask.Start();
         }
 
-        private void StopShowFrameCountTask()
-        {
-            this.ShowFrameCountTask.Stop();
-        }
-
-        private void InitSocket()
+        private void InitLedServer()
         {
             try
             {
-                this.Send = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                this.Send.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, true);
-                this.Send.Bind(new IPEndPoint(IPAddress.Parse(this.LocalIP), PORT));
-                this.Client = new UdpClient() { Client = this.Send };
-                this.Receive = new Thread(this.ReceiveEvent) { IsBackground = true };
+                this.DebugServer = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                this.DebugServer.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, true);
+                this.DebugServer.Bind(new IPEndPoint(IPAddress.Parse(this.localIP), PORT));
+                this.DebugServerReceiveClient = new UdpClient() { Client = this.DebugServer };
+                this.LedServerReceive = new Thread(this.LedServerReceiveListen) { IsBackground = true };
                 this.ReceiveStatus = true;
-                this.Receive.Start(this.Client);
+                this.LedServerReceive.Start(this.DebugServerReceiveClient);
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("虚拟服务器初始化网络报错");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
-            
-        }
-
-        /// <summary>
-        /// 配置虚拟客户端
-        /// </summary>
-        private void SetVirtualClients()
-        {
-            try
-            {
-                int startSpaceNumber = 0;
-                for (int index = 0; index < this.IPs.Count; index++)
-                {
-                    if (this.ControlNumber * LedSpaceNumber * LedInterfaceNumber - startSpaceNumber < 4)
-                    {
-                        int spaceNumber = this.ControlNumber * LedSpaceNumber * LedInterfaceNumber - startSpaceNumber;
-                        NewVirtualClient client = new NewVirtualClient(this.ServerIP, this.IPs[index], startSpaceNumber, spaceNumber, this.VirtualClentsDMXResponse);
-                        for (int spaceIndex = 0; spaceIndex < spaceNumber; spaceIndex++)
-                        {
-                            this.SpaceDMXDatas[startSpaceNumber + spaceIndex] = new List<byte>();
-                            this.SpaceDMXDataResponseStatus[startSpaceNumber + spaceIndex] = false;
-                        }
-                        startSpaceNumber += spaceNumber;
-
-                        client.index = this.Clients.Count + 1;
-
-                        this.Clients.Add(client);
-                    }
-                    else
-                    {
-                        NewVirtualClient client = new NewVirtualClient(this.ServerIP, this.IPs[index], startSpaceNumber, 4, this.VirtualClentsDMXResponse);
-                        for (int spaceIndex = 0; spaceIndex < 4; spaceIndex++)
-                        {
-                            this.SpaceDMXDatas[startSpaceNumber + spaceIndex] = new List<byte>();
-                            this.SpaceDMXDataResponseStatus[startSpaceNumber + spaceIndex] = false;
-                        }
-                        startSpaceNumber += 4;
-
-                        client.index = this.Clients.Count + 1;
-
-                        this.Clients.Add(client);
-                    }
-                }
-                Console.WriteLine("设备添加成功，添加设备数量：" + this.Clients.Count);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("虚拟服务器报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
         }
 
-        /// <summary>
-        /// 配置初始化参数
-        /// </summary>
-        private void InitParam()
-        {
-            try
-            {
-                this.SpaceDMXDatas = new Dictionary<int, List<byte>>();
-                this.SpaceDMXDataResponseStatus = new Dictionary<int, bool>();
-                this.DebugDMXDataQueue = new Queue<Dictionary<int, List<byte>>>();
-                this.RecordDMXDataQueue = new Queue<Dictionary<int, List<byte>>>();
-                this.Clients = new List<NewVirtualClient>();
-                this.LastFrameResponseTime = -1;
-                this.LastFramePacketSequence = 0;
-                this.DebugFramCount = 0;
-                this.RecordFramCount = 0;
-                this.SYNCHROLOCK_KEY = new object();
-                this.IsResponseDMXDatasStatus = false;
-                this.DebugDMXTaskStatus = false;
-                this.RecordDMXTaskStatus = false;
-                this.ReceiveStatus = false;
-                this.IsDebugDMXData = false;
-                this.IsRecordDMXData = false;
-                this.IsFirstFrameByRecord = true;
-                this.IsFirstFrame = true;
-                this.DebugDMXTask = new Thread(this.DebugDMXDataTask) { IsBackground = true };
-                this.RecordDMXTask = new Thread(this.RecordDMXDataTask) { IsBackground = true };
-                this.DebugDMXTaskStatus = true;
-                this.RecordDMXTaskStatus = true;
-                this.DebugDMXTask.Start();
-                this.RecordDMXTask.Start();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("虚拟服务器初始化参数报错");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
-          
-        }
 
-        public bool IsRunning()
+        public static void Test()
         {
-            return this.Send != null;
+            //VirtualProClient.Build("192.168.50.44","192.168.50.43", 256, Manager);
+            //VirtualProClient.Build("192.168.50.45", "192.168.50.43", 256, Manager);
         }
 
         public void Close()
         {
             try
             {
-                this.StopShowFrameCountTask();
-                this.IsResponseDMXDatasStatus = false;
+                this.ShowFrameCountTask.Stop();
+                this.IsStartReceiveDmxDataStatus = false;
                 this.ReceiveStatus = false;
-                this.IsDebugDMXData = false;
-                this.IsRecordDMXData = false;
-                this.DebugDMXTaskStatus = false;
-                this.RecordDMXTaskStatus = false;
+                this.IsDebugDmxData = false;
+                this.IsRecordDmxData = false;
+                this.DebugDmxTaskStatus = false;
+                this.RecordDmxTaskStatus = false;
                 Thread.Sleep(100);
                 this.IsFirstFrame = true;
                 this.IsFirstFrameByRecord = true;
-                foreach (NewVirtualClient client in this.Clients)
+                foreach (VirtualProClient client in this.VirtualClients)
                 {
                     client.Close();
                 }
-
-                if (this.Send != null)
+                if (this.DebugServer != null)
                 {
-                    if (this.Client != null)
+                    if (this.DebugServerReceiveClient != null)
                     {
-                        this.Client.Close();
-                        this.Client = null;
+                        this.DebugServerReceiveClient.Close();
+                        this.DebugServerReceiveClient = null;
                     }
-                    this.Send.Close();
-                    this.Send = null;
+                    this.DebugServer.Close();
+                    this.DebugServer = null;
                 }
+                this.SpaceDmxData = null;
+                this.SpaceDmxDataReceiveStatus = null;
+                this.DebugDmxDataQueue = null;
+                this.RecordDmxDataQueue = null;
+                this.VirtualClients = null;
+                this.VirtualIPS = null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("关闭虚拟服务器报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
-            
         }
 
-        public NewVirtualDevice StartResponseDMXData()
+        public VirtualProClientsManager Start()
         {
-            this.IsResponseDMXDatasStatus = true;
+            this.IsStartReceiveDmxDataStatus = true;
             return this;
         }
 
-        public NewVirtualDevice StopResponseDMXData()
+        public VirtualProClientsManager Stop()
         {
-            this.IsResponseDMXDatasStatus = false;
+            this.IsStartReceiveDmxDataStatus = false;
             return this;
         }
 
-        public NewVirtualDevice StartDebug(GetDebugFramCount getDebugFramCount)
+        public VirtualProClientsManager StartDebug(GetDebugFrameCount getDebugFrameCount)
         {
-            this.IsDebugDMXData = true;
-            this.DebugFramCount = 0;
-            this.GetDebugFramCount_Event = getDebugFramCount;
-            //VirtualProClientsManager.Test();
+            this.DebugFrameCount = 0;
+            this.IsDebugDmxData = true;
+            this.GetDebugFrameCount_Event = getDebugFrameCount;
             return this;
         }
 
-        public NewVirtualDevice StopDebug()
+        public VirtualProClientsManager StopDebug()
+        {
+            this.IsDebugDmxData = false;
+            this.GetDebugFrameCount_Event = null;
+            this.DebugFrameCount = 0;
+            return this;
+        }
+
+        public VirtualProClientsManager StartRecord(String filePath,String config, GetRecordFrameCount getRecordFrameCount)
         {
             try
             {
-                this.IsDebugDMXData = false;
-                this.GetDebugFramCount_Event = null;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("关闭调试报错");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
-            return this;
-        }
-
-        public NewVirtualDevice StartRecord(string filePath,string config, GetRecordFramCount getRecordFramCount)
-        {
-            try
-            {
-                this.RecordFramCount = 0;
-                this.GetRecordFramCount_Event = getRecordFramCount;
                 this.FilePath = filePath;
                 this.ConfigPath = config;
-                this.IsFirstFrameByRecord = true;
-                this.IsRecordDMXData = true;
+
                 DirectoryInfo paraentDir = Directory.GetParent(this.FilePath);
                 if (!paraentDir.Exists)
                 {
@@ -333,34 +246,119 @@ namespace MultiLedController.multidevice.newmultidevice
                 {
                     paraentDir.Create();
                 }
+                this.RecordFrameCount = 0;
+                this.IsFirstFrameByRecord = true;
+                this.IsRecordDmxData = true;
+                this.GetRecordFrameCount_Event = getRecordFrameCount;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("启动录制报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
-           
             return this;
         }
 
-        public NewVirtualDevice StopRecord()
+        public VirtualProClientsManager StopRecord()
         {
+            this.IsRecordDmxData = false;
+            this.GetRecordFrameCount_Event = null;
+            this.RecordFrameCount = 0;
+            return this;
+        }
+
+        private void Manager(int clientIndex,int space,List<byte> dmxData)
+        {
+            int port = clientIndex * 256 + space;
             try
             {
-                this.IsRecordDMXData = false;
-                this.GetRecordFramCount_Event = null;
+                lock (this.SYNCHROLOCK_KEY)
+                {
+                    if (this.IsStartReceiveDmxDataStatus)
+                    {
+                        long frameIntervalTIme = 0;
+                        if (-1 == this.LastFrameReceiveTime)
+                        {
+                            this.LastFrameReceiveTime = DateTime.Now.Ticks;
+                        }
+                        else
+                        {
+                            long nowTime = DateTime.Now.Ticks;
+                            frameIntervalTIme = (nowTime - this.LastFrameReceiveTime) / 10000;
+                            this.LastFrameReceiveTime = nowTime;
+                        }
+                        if (frameIntervalTIme > 5 && this.IsFirstFrame)
+                        {
+                            this.IsFirstFrame = false;
+                            foreach (int spaceIndex in this.SpaceDmxDataReceiveStatus.Keys)
+                            {
+                                if (this.SpaceDmxDataReceiveStatus[spaceIndex])
+                                {
+                                    this.LastFramePacketSequence += spaceIndex;
+                                }
+                            }
+                        }
+                        else if (frameIntervalTIme > 5 && ! this.IsFirstFrame)
+                        {
+                            int nowPacketSequence = 0;
+                            foreach (int  spaceIndex in this.SpaceDmxDataReceiveStatus.Keys)
+                            {
+                                if (this.SpaceDmxDataReceiveStatus[spaceIndex])
+                                {
+                                    nowPacketSequence += spaceIndex;
+                                }
+                            }
+                            if (nowPacketSequence == this.LastFramePacketSequence)
+                            {
+                                bool flag = true;
+                                var keyList = this.SpaceDmxData.Keys;
+                                /*
+                                foreach (int spaceIndex in this.SpaceDmxData.Keys)
+                                {
+                                    if (this.SpaceDmxData[spaceIndex].Count > 510)
+                                    {
+                                        flag = false;
+                                    }
+                                }
+                                */
+                                if (this.IsDebugDmxData && flag)
+                                {
+                                    lock (this.DebugDmxDataQueue)
+                                    {
+                                        this.DebugDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                    }
+                                }
+                                if (this.IsRecordDmxData)
+                                {
+                                    lock (this.RecordDmxDataQueue)
+                                    {
+                                        this.RecordDmxDataQueue.Enqueue(this.SpaceDmxData);
+                                    }
+                                }
+                                List<int> keys = this.SpaceDmxData.Keys.ToList();
+                                this.SpaceDmxData = new ConcurrentDictionary<int, List<byte>>();
+                                this.SpaceDmxDataReceiveStatus = new ConcurrentDictionary<int, bool>();
+                                foreach (int spaceIndex in keys)
+                                {
+                                    this.SpaceDmxData.TryAdd(spaceIndex, new List<byte>());
+                                    this.SpaceDmxDataReceiveStatus.TryAdd(spaceIndex, false);
+                                }
+                            }
+                            this.LastFramePacketSequence = nowPacketSequence;
+                        }
+                        this.SpaceDmxData[port] = dmxData;
+                        this.SpaceDmxDataReceiveStatus[port] = true;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("关闭录制报错");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
-            return this;
         }
 
-        private void ReceiveEvent(Object obj)
+        private void LedServerReceiveListen(Object obj)
         {
             UdpClient client = obj as UdpClient;
             IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, PORT);
@@ -370,207 +368,72 @@ namespace MultiLedController.multidevice.newmultidevice
                 {
                     byte[] receiveBuff = client.Receive(ref iPEndPoint);
                 }
-                catch (Exception)
-                {
-                    Console.WriteLine("关闭Socket");
-                }
-            }
-        }
-
-        private void VirtualClentsDMXResponse(int spaceNumber,List<byte> dmxData)
-        {
-            try
-            {
-                lock (this.SYNCHROLOCK_KEY)
-                {
-                    if (this.IsResponseDMXDatasStatus)
-                    {
-                        long frameIntervalTime = 0;
-                        if (-1 == this.LastFrameResponseTime)
-                        {
-                            this.LastFrameResponseTime = DateTime.Now.Ticks;
-                        }
-                        else
-                        {
-                            long nowTime = DateTime.Now.Ticks;
-                            frameIntervalTime = (nowTime - this.LastFrameResponseTime) / 10000;
-                            this.LastFrameResponseTime = nowTime;
-                        }
-                        if (frameIntervalTime > 5 && this.IsFirstFrame)
-                        {
-                            this.IsFirstFrame = false;
-                            foreach (int key in this.SpaceDMXDataResponseStatus.Keys)
-                            {
-                                if (this.SpaceDMXDataResponseStatus[key])
-                                {
-                                    this.LastFramePacketSequence += key;
-                                }
-                            }
-                        }
-                        else if (frameIntervalTime > 5 && !this.IsFirstFrame)
-                        {
-                            int nowPacketSequence = 0;
-                            foreach (int key in this.SpaceDMXDataResponseStatus.Keys)
-                            {
-                                if (this.SpaceDMXDataResponseStatus[key])
-                                {
-                                    nowPacketSequence += key;
-                                }
-                            }
-                            if (nowPacketSequence == this.LastFramePacketSequence)
-                            {
-                                bool flag = true;
-                                var keyList = this.SpaceDMXDatas.Keys;
-                                //foreach (int key in keyList)
-                                //{
-                                //    if (this.SpaceDMXDatas[key].Count > 510)
-                                //    {
-                                //        flag = false;
-                                //    }
-                                //}
-                                if (this.IsDebugDMXData && flag)
-                                {
-                                    lock (this.DebugDMXDataQueue)
-                                    {
-                                        this.DebugDMXDataQueue.Enqueue(this.SpaceDMXDatas);
-                                    }
-                                }
-                                if (this.IsRecordDMXData && flag)
-                                {
-                                    lock (this.RecordDMXDataQueue)
-                                    {
-                                        this.RecordDMXDataQueue.Enqueue(this.SpaceDMXDatas);
-                                    }
-                                }
-                                List<int> keys = this.SpaceDMXDatas.Keys.ToList();
-                                this.SpaceDMXDatas = new Dictionary<int, List<byte>>();
-                                this.SpaceDMXDataResponseStatus = new Dictionary<int, bool>();
-                                foreach (int key in keys)
-                                {
-                                    this.SpaceDMXDatas.Add(key, new List<byte>());
-                                    this.SpaceDMXDataResponseStatus.Add(key, false);
-                                }
-                            }
-                            this.LastFramePacketSequence = nowPacketSequence;
-                        }
-                        this.SpaceDMXDatas[spaceNumber] = dmxData;
-                        this.SpaceDMXDataResponseStatus[spaceNumber] = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("接收DMX数据报错");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
-        }
-
-        private void DebugDMXDataTask(Object obj)
-        {
-            while (this.DebugDMXTaskStatus)
-            {
-                try
-                {
-                    if (this.IsDebugDMXData)
-                    {
-                        int queueCount = 0;
-                        lock (this.DebugDMXDataQueue)
-                        {
-                            queueCount = this.DebugDMXDataQueue.Count;
-                        }
-                        if (queueCount > 0)
-                        {
-                            lock (this.DebugDMXDataQueue)
-                            {
-                                try
-                                {
-                                    this.DebugDMXDataEvent(this.DebugDMXDataQueue.Dequeue());
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine("实时调试报错1");
-                                    Console.WriteLine(ex.Message);
-                                    Console.WriteLine(ex.StackTrace);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            timeBeginPeriod(1);
-                            Thread.Sleep(THREAD_SLEEP_TIME);
-                            timeEndPeriod(1);
-                        }
-                    }
-                    else
-                    {
-                        timeBeginPeriod(1);
-                        Thread.Sleep(THREAD_SLEEP_TIME);
-                        timeEndPeriod(1);
-                    }
-                }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("实时调试报错2");
                     Console.WriteLine(ex.Message);
                     Console.WriteLine(ex.StackTrace);
                 }
             }
         }
 
-        private void RecordDMXDataTask(Object obj)
+        private void Debug(Object obj)
         {
-            while (this.RecordDMXTaskStatus)
+            while (this.DebugDmxTaskStatus)
             {
                 try
                 {
-                    if (this.IsRecordDMXData)
+                    if (this.IsDebugDmxData)
                     {
                         int queueCount = 0;
-                        lock (this.RecordDMXDataQueue)
+                        lock (this.DebugDmxDataQueue)
                         {
-                            queueCount = this.RecordDMXDataQueue.Count;
+                            queueCount = this.DebugDmxDataQueue.Count;
                         }
                         if (queueCount > 0)
                         {
-                            lock (this.RecordDMXDataQueue)
+                            lock (this.DebugDmxDataQueue)
                             {
-                                this.RecordDMXDataEvent(this.RecordDMXDataQueue.Dequeue());
+                                ConcurrentDictionary<int, List<byte>> dmxData = new ConcurrentDictionary<int, List<byte>>();
+                                this.DebugDmxDataQueue.TryDequeue(out dmxData);
+                                if (dmxData.Count > 0)
+                                {
+                                    this.DebugTask(dmxData);
+                                }
+                                else
+                                {
+                                    this.ThreadSleepOneSe();
+                                }
                             }
                         }
                         else
                         {
-                            timeBeginPeriod(1);
-                            Thread.Sleep(THREAD_SLEEP_TIME);
-                            timeEndPeriod(1);
+                            this.ThreadSleepOneSe();
                         }
                     }
                     else
                     {
-                        timeBeginPeriod(1);
-                        Thread.Sleep(THREAD_SLEEP_TIME);
-                        timeEndPeriod(1);
+                        this.ThreadSleepOneSe();
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("录制任务执行报错");
                     Console.WriteLine(ex.Message);
                     Console.WriteLine(ex.StackTrace);
                 }
             }
         }
 
-        private void DebugDMXDataEvent(Dictionary<int, List<byte>> dmxData)
+        private void DebugTask(ConcurrentDictionary<int,List<byte>> dmxData)
         {
             IPEndPoint iPEnd = new IPEndPoint(IPAddress.Broadcast, PORT);
+
             Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
             Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
             Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
             try
             {
                 #region 数据整理
-                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
                     int ledInterfaceNo = 1;
@@ -593,7 +456,7 @@ namespace MultiLedController.multidevice.newmultidevice
                         ledInterfaceNo++;
                     }
                 }
-                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
                     ledInterfaceDMXDatas.Add(controlNo, new Stack<byte>());
@@ -602,7 +465,7 @@ namespace MultiLedController.multidevice.newmultidevice
                         //R
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
                         {
-                            byte value  = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex];
+                            byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex];
                             ledInterfaceDMXDatas[controlNo].Push(value);
                         }
                         //G
@@ -614,7 +477,7 @@ namespace MultiLedController.multidevice.newmultidevice
                         //B
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
                         {
-                            byte value  = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
+                            byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
                             ledInterfaceDMXDatas[controlNo].Push(value);
                         }
                     }
@@ -622,7 +485,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 #endregion
                 #region 数据分包
                 int packageSize = 1024;
-                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
                     int packageIndex = 1;
@@ -654,21 +517,21 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
                 #endregion
                 #region 发包
-                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
                     while (dataBuff[controlNo].Count > 0)
                     {
-                        this.Send.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
+                        this.DebugServer.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
                         for (int i = 0; i < 5000; i++)
                         {
                             ;
                         }
                     }
                 }
-                this.Send.SendTo(PACKAGE_END.ToArray(), iPEnd);
+                this.DebugServer.SendTo(PACKAGE_END.ToArray(), iPEnd);
                 #endregion
-                this.DebugFramCount++;
+                this.DebugFrameCount++;
             }
             catch (Exception ex)
             {
@@ -678,7 +541,54 @@ namespace MultiLedController.multidevice.newmultidevice
             }
         }
 
-        private void RecordDMXDataEvent(Dictionary<int, List<byte>> dmxData)
+        private void Record(Object obj)
+        {
+            while (this.RecordDmxTaskStatus)
+            {
+                try
+                {
+                    if (this.IsRecordDmxData)
+                    {
+                        int queueCount = 0;
+                        lock (this.RecordDmxDataQueue)
+                        {
+                            queueCount = this.RecordDmxDataQueue.Count;
+                        }
+                        if (queueCount > 0)
+                        {
+                            lock (this.RecordDmxDataQueue)
+                            {
+                                ConcurrentDictionary<int, List<byte>> dmxData = new ConcurrentDictionary<int, List<byte>>();
+                                this.RecordDmxDataQueue.TryDequeue(out dmxData);
+                                if (dmxData.Count > 0)
+                                {
+                                    this.RecordTask(dmxData);
+                                }
+                                else
+                                {
+                                    this.ThreadSleepOneSe();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            this.ThreadSleepOneSe();
+                        }
+                    }
+                    else
+                    {
+                        this.ThreadSleepOneSe();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }
+        }
+
+        private void RecordTask(ConcurrentDictionary<int, List<byte>> dmxData)
         {
             try
             {
@@ -686,7 +596,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
                 Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
                 #region 数据整理
-                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
                     int ledInterfaceNo = 1;
@@ -705,7 +615,7 @@ namespace MultiLedController.multidevice.newmultidevice
                         ledInterfaceNo++;
                     }
                 }
-                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
                     ledInterfaceDMXDatas.Add(controlNo, new Stack<byte>());
@@ -752,7 +662,7 @@ namespace MultiLedController.multidevice.newmultidevice
                                 Console.WriteLine(ex.Message);
                                 Console.WriteLine(ex.StackTrace);
                             }
-                           
+
                         }
                         //B
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
@@ -807,7 +717,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 }
                 #endregion
                 #region 写分控数据包
-                for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
                     List<byte> buff = new List<byte>();
@@ -835,7 +745,7 @@ namespace MultiLedController.multidevice.newmultidevice
                     }
                 }
                 #endregion
-                this.RecordFramCount++;
+                this.RecordFrameCount++;
             }
             catch (Exception ex)
             {
@@ -845,7 +755,7 @@ namespace MultiLedController.multidevice.newmultidevice
             }
         }
 
-        private void CreateConfigFile(Dictionary<int, List<byte>> dmxData)
+        private void CreateConfigFile(ConcurrentDictionary<int, List<byte>> dmxData)
         {
             try
             {
@@ -854,7 +764,7 @@ namespace MultiLedController.multidevice.newmultidevice
                 buff.AddRange(new byte[] { 0x53, 0x54, 0x55, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                 buff.AddRange(new byte[] { 0x06, 0x00, 0x08, 0x00 });
                 buff.AddRange(new byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00 });
-                for (int ledInterfaceIndex = 0; ledInterfaceIndex < this.ControlNumber * this.LedInterfaceNumber; ledInterfaceIndex++)
+                for (int ledInterfaceIndex = 0; ledInterfaceIndex < this.LedControlNumber * this.LedInterfaceNumber; ledInterfaceIndex++)
                 {
                     int ledInterfaceDataSize = 0;
                     for (int spaceIndex = 0; spaceIndex < this.LedSpaceNumber; spaceIndex++)
@@ -870,7 +780,7 @@ namespace MultiLedController.multidevice.newmultidevice
                                         Convert.ToByte(((ledInterfaceCount)>> 8 ) & 0xFF),
                                         Convert.ToByte(((ledInterfaceCount) >> 16) & 0xFF),
                                         Convert.ToByte(((ledInterfaceCount) >> 24) & 0xFF) });
-                for (int ledInterfaceIndex = 0; ledInterfaceIndex < this.ControlNumber * this.LedInterfaceNumber; ledInterfaceIndex++)
+                for (int ledInterfaceIndex = 0; ledInterfaceIndex < this.LedControlNumber * this.LedInterfaceNumber; ledInterfaceIndex++)
                 {
                     if (ledInterfaceIndex == ledInterfaceCount)
                     {
@@ -916,22 +826,29 @@ namespace MultiLedController.multidevice.newmultidevice
             }
         }
 
-        private void ShowFrameCount(object sender, ElapsedEventArgs e)
+        private void ShowFrameCountListen(object sender, ElapsedEventArgs e)
         {
-            if (this.IsRecordDMXData)
+            if (this.IsRecordDmxData)
             {
-                if (this.GetRecordFramCount_Event != null)
+                if (this.GetRecordFrameCount_Event != null)
                 {
-                    this.GetRecordFramCount_Event(this.RecordFramCount);
+                    this.GetRecordFrameCount_Event(this.RecordFrameCount);
                 }
             }
-            if (this.IsDebugDMXData)
+            if (this.IsDebugDmxData)
             {
-                if (this.GetDebugFramCount_Event != null)
+                if (this.GetDebugFrameCount_Event != null)
                 {
-                    this.GetDebugFramCount_Event(this.DebugFramCount);
+                    this.GetDebugFrameCount_Event(this.DebugFrameCount);
                 }
             }
+        }
+
+        private void ThreadSleepOneSe()
+        {
+            timeBeginPeriod(1);
+            Thread.Sleep(THREAD_SLEEP_TIME);
+            timeEndPeriod(1);
         }
     }
 }

@@ -660,6 +660,10 @@ namespace MultiLedController.multidevice.newmultidevice
                     while (dataBuff[controlNo].Count > 0)
                     {
                         this.Send.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
+                        for (int i = 0; i < 5000; i++)
+                        {
+                            ;
+                        }
                     }
                 }
                 this.Send.SendTo(PACKAGE_END.ToArray(), iPEnd);

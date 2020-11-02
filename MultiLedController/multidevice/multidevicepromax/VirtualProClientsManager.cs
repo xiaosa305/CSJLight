@@ -455,11 +455,24 @@ namespace MultiLedController.multidevice.multidevicepromax
                 {
                     int controlNo = controlIndex + 1;
                     ledInterfaceDMXDatas.Add(controlNo, new Stack<byte>());
-                    for (int dataIndex = 0; dataIndex < this.LedSpaceNumber * 512; dataIndex ++)
+                    for (int dataIndex = 0; dataIndex < this.LedSpaceNumber * 512; dataIndex += 3)
                     {
+                        //R
                         for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
                         {
                             byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex];
+                            ledInterfaceDMXDatas[controlNo].Push(value);
+                        }
+                        //G
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                        {
+                            byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 1];
+                            ledInterfaceDMXDatas[controlNo].Push(value);
+                        }
+                        //B
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                        {
+                            byte value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
                             ledInterfaceDMXDatas[controlNo].Push(value);
                         }
                     }
@@ -505,6 +518,10 @@ namespace MultiLedController.multidevice.multidevicepromax
                     while (dataBuff[controlNo].Count > 0)
                     {
                         this.DebugServer.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
+                        for (int i = 0; i < 5000; i++)
+                        {
+                            ;
+                        }
                     }
                 }
                 this.DebugServer.SendTo(PACKAGE_END.ToArray(), iPEnd);
@@ -566,9 +583,242 @@ namespace MultiLedController.multidevice.multidevicepromax
             }
         }
 
-        private void RecordTask(ConcurrentDictionary<int, List<byte>> dmxDat)
+        private void RecordTask(ConcurrentDictionary<int, List<byte>> dmxData)
         {
+            try
+            {
+                Dictionary<int, Queue<List<byte>>> dataBuff = new Dictionary<int, Queue<List<byte>>>();
+                Dictionary<int, Dictionary<int, List<byte>>> dmxDataBuff = new Dictionary<int, Dictionary<int, List<byte>>>();
+                Dictionary<int, Stack<byte>> ledInterfaceDMXDatas = new Dictionary<int, Stack<byte>>();
+                #region 数据整理
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
+                {
+                    int controlNo = controlIndex + 1;
+                    int ledInterfaceNo = 1;
+                    dmxDataBuff.Add(controlNo, new Dictionary<int, List<byte>>());
+                    for (int spaceIndex = controlIndex * this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex < controlIndex * this.LedInterfaceNumber * this.LedSpaceNumber + this.LedInterfaceNumber * this.LedSpaceNumber; spaceIndex += this.LedSpaceNumber)
+                    {
+                        dmxDataBuff[controlNo].Add(ledInterfaceNo, new List<byte>());
+                        for (int index = 0; index < this.LedSpaceNumber; index++)
+                        {
+                            dmxDataBuff[controlNo][ledInterfaceNo].AddRange(dmxData[spaceIndex + index]);
+                            //if (dmxData[spaceIndex + index].Count > 510)
+                            //{
+                            //    Console.WriteLine("超过510");
+                            //}
+                        }
+                        ledInterfaceNo++;
+                    }
+                }
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
+                {
+                    int controlNo = controlIndex + 1;
+                    ledInterfaceDMXDatas.Add(controlNo, new Stack<byte>());
+                    int maxLength = 0;
+                    for (int index = 0; index < this.LedInterfaceNumber; index++)
+                    {
+                        maxLength = maxLength > dmxDataBuff[controlNo][index + 1].Count ? maxLength : dmxDataBuff[controlNo][index + 1].Count;
+                    }
+                    int count = maxLength % 3 == 0 ? 3 : 4;
+                    for (int dataIndex = 0; dataIndex < maxLength; dataIndex += count)
+                    {
+                        //R
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                        {
+                            byte value;
+                            if (dataIndex < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                            {
+                                value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex];
+                            }
+                            else
+                            {
+                                value = 0x00;
+                            }
+                            ledInterfaceDMXDatas[controlNo].Push(value);
+                        }
+                        //G
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                        {
+                            try
+                            {
+                                byte value;
+                                if (dataIndex + 1 < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                                {
+                                    value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 1];
+                                }
+                                else
+                                {
+                                    value = 0x00;
+                                }
+                                ledInterfaceDMXDatas[controlNo].Push(value);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                Console.WriteLine(ex.StackTrace);
+                            }
 
+                        }
+                        //B
+                        for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                        {
+                            byte value;
+                            if (dataIndex + 2 < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                            {
+                                value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 2];
+                            }
+                            else
+                            {
+                                value = 0x00;
+                            }
+                            ledInterfaceDMXDatas[controlNo].Push(value);
+                        }
+                        if (count == 4)
+                        {
+                            //W
+                            for (int intefaceIndex = 0; intefaceIndex < this.LedInterfaceNumber; intefaceIndex++)
+                            {
+                                byte value;
+                                if (dataIndex + 3 < dmxDataBuff[controlNo][intefaceIndex + 1].Count)
+                                {
+                                    value = dmxDataBuff[controlNo][intefaceIndex + 1][dataIndex + 3];
+                                }
+                                else
+                                {
+                                    value = 0x00;
+                                }
+                                ledInterfaceDMXDatas[controlNo].Push(value);
+                            }
+                        }
+                    }
+                }
+                #endregion
+                #region 写参数包
+                FileStream stream;
+                int frameDataLength = 0;
+                if (this.IsFirstFrameByRecord)
+                {
+                    this.IsFirstFrameByRecord = false;
+                    this.CreateConfigFile(dmxData);
+                    byte[] paramPackage = Enumerable.Repeat(Convert.ToByte(0x00), 512).ToArray();
+                    if (File.Exists(this.FilePath))
+                    {
+                        File.Delete(this.FilePath);
+                    }
+                    using (stream = new FileStream(FilePath, FileMode.CreateNew))
+                    {
+                        stream.Write(paramPackage, 0, paramPackage.Length);
+                    }
+                }
+                #endregion
+                #region 写分控数据包
+                for (int controlIndex = 0; controlIndex < this.LedControlNumber; controlIndex++)
+                {
+                    int controlNo = controlIndex + 1;
+                    List<byte> buff = new List<byte>();
+                    if (ledInterfaceDMXDatas[controlNo].Count % 24 != 0)
+                    {
+                        buff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), (24 - (ledInterfaceDMXDatas[controlNo].Count % 24))).ToArray());
+                    }
+                    int dataSize = ledInterfaceDMXDatas[controlNo].Count;
+                    for (int index = 0; index < dataSize; index++)
+                    {
+                        buff.Add(ledInterfaceDMXDatas[controlNo].Pop());
+                    }
+                    frameDataLength += buff.Count;
+                    using (stream = new FileStream(FilePath, FileMode.Append))
+                    {
+                        stream.Write(buff.ToArray(), 0, buff.Count);
+                    }
+                }
+                if (frameDataLength % 512 != 0)
+                {
+                    byte[] emptyData = Enumerable.Repeat(Convert.ToByte(0x00), (512 - (frameDataLength % 512))).ToArray();
+                    using (stream = new FileStream(FilePath, FileMode.Append))
+                    {
+                        stream.Write(emptyData.ToArray(), 0, emptyData.Length);
+                    }
+                }
+                #endregion
+                this.RecordFrameCount++;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("录制文件报错");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
+        }
+
+        private void CreateConfigFile(ConcurrentDictionary<int, List<byte>> dmxData)
+        {
+            try
+            {
+                List<byte> buff = new List<byte>();
+                int ledInterfaceCount = 0;
+                buff.AddRange(new byte[] { 0x53, 0x54, 0x55, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                buff.AddRange(new byte[] { 0x06, 0x00, 0x08, 0x00 });
+                buff.AddRange(new byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                for (int ledInterfaceIndex = 0; ledInterfaceIndex < this.LedControlNumber * this.LedInterfaceNumber; ledInterfaceIndex++)
+                {
+                    int ledInterfaceDataSize = 0;
+                    for (int spaceIndex = 0; spaceIndex < this.LedSpaceNumber; spaceIndex++)
+                    {
+                        ledInterfaceDataSize += dmxData[ledInterfaceIndex * this.LedSpaceNumber + spaceIndex].Count;
+                    }
+                    if (ledInterfaceDataSize > 0)
+                    {
+                        ledInterfaceCount = ledInterfaceIndex + 1;
+                    }
+                }
+                buff.AddRange(new byte[] {  Convert.ToByte((ledInterfaceCount) & 0xFF),
+                                        Convert.ToByte(((ledInterfaceCount)>> 8 ) & 0xFF),
+                                        Convert.ToByte(((ledInterfaceCount) >> 16) & 0xFF),
+                                        Convert.ToByte(((ledInterfaceCount) >> 24) & 0xFF) });
+                for (int ledInterfaceIndex = 0; ledInterfaceIndex < this.LedControlNumber * this.LedInterfaceNumber; ledInterfaceIndex++)
+                {
+                    if (ledInterfaceIndex == ledInterfaceCount)
+                    {
+                        break;
+                    }
+                    List<byte> ledInterfaceBuff = new List<byte>();
+                    for (int spaceIndex = 0; spaceIndex < this.LedSpaceNumber; spaceIndex++)
+                    {
+                        int spaceNo = ledInterfaceIndex * this.LedSpaceNumber + spaceIndex;
+                        ledInterfaceBuff.AddRange(dmxData[spaceNo]);
+                    }
+                    int ledInterfaceDataLength = ledInterfaceBuff.Count % 3 == 0 ? ledInterfaceBuff.Count / 3 : ledInterfaceBuff.Count / 4;
+                    buff.AddRange(new byte[] {  Convert.ToByte(ledInterfaceDataLength & 0xFF),
+                                        Convert.ToByte((ledInterfaceDataLength>> 8 ) & 0xFF),
+                                        Convert.ToByte((ledInterfaceDataLength >> 16) & 0xFF),
+                                        Convert.ToByte((ledInterfaceDataLength >> 24) & 0xFF) });
+                    if (ledInterfaceBuff.Count > 0)
+                    {
+                        for (int index = 0; index < ledInterfaceDataLength; index++)
+                        {
+                            buff.Add(Convert.ToByte(index & 0xFF));
+                            buff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 3).ToArray());
+                        }
+                    }
+                }
+                buff.AddRange(Enumerable.Repeat(Convert.ToByte(0x00), 4).ToArray());
+                buff.AddRange(Enumerable.Repeat(Convert.ToByte(0xFF), 64).ToArray());
+                buff.Add(Convert.ToByte(this.LedInterfaceNumber));
+                if (File.Exists(this.ConfigPath))
+                {
+                    File.Delete(this.ConfigPath);
+                }
+                using (FileStream fileStream = new FileStream(this.ConfigPath, FileMode.Create))
+                {
+                    fileStream.Write(buff.ToArray(), 0, buff.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("生成配置文件报错");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
         }
 
         private void ShowFrameCountListen(object sender, ElapsedEventArgs e)

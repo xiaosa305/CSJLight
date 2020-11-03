@@ -22,9 +22,8 @@ namespace MultiLedController
             //Application.Run(new MainForm2());
             try
             {
-                Application.Run(new XiaosaTestForm());
-                //Application.Run(new MainForm3());
-
+                //Application.Run(new XiaosaTestForm());
+                Application.Run(new MainForm4());
             }
             catch (Exception ex)
             {

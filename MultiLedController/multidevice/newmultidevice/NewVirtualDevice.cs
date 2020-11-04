@@ -657,6 +657,8 @@ namespace MultiLedController.multidevice.newmultidevice
                 for (int controlIndex = 0; controlIndex < this.ControlNumber; controlIndex++)
                 {
                     int controlNo = controlIndex + 1;
+                    byte[] head = new byte[] { Convert.ToByte((controlNo >> 8) & 0xFF), Convert.ToByte(controlNo & 0xFF), 0x33, 0x44 };
+                    this.Send.SendTo(head, iPEnd);
                     while (dataBuff[controlNo].Count > 0)
                     {
                         this.Send.SendTo(dataBuff[controlNo].Dequeue().ToArray(), iPEnd);
